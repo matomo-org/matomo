@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\SEO;
 
+use Piwik\Cache;
 use Piwik\DataTable;
 use Piwik\Piwik;
 
@@ -34,49 +35,80 @@ class API extends \Piwik\Plugin\API
     public function getRank($url)
     {
         Piwik::checkUserHasSomeViewAccess();
+
+        $data = $this->getCachedRanks($url);
+
+        $translated = array();
+        if (!empty($data)) {
+            foreach ($data as $title => $rank) {
+                $translated[Piwik::translate($title)] = $rank;
+            }
+        }
+
+        return DataTable::makeFromIndexedArray($translated);
+    }
+
+    private function getCachedRanks($url)
+    {
+        $cacheId = 'SEO_getRank_' . md5($url);
+
+        $cache = Cache::getLazyCache();
+        $data  = $cache->fetch($cacheId);
+
+        if (empty($data)) {
+            $data = $this->getRanks($url);
+
+            $cache->save($cacheId, $data, 60 * 60 * 6);
+        }
+
+        return $data;
+    }
+
+    private function getRanks($url)
+    {
         $rank = new RankChecker($url);
 
         $linkToMajestic = MajesticClient::getLinkForUrl($url);
 
         $data = array(
-            'Google PageRank'                          => array(
+            'Google PageRank' => array(
                 'rank' => $rank->getPageRank(),
                 'logo' => \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://google.com'),
                 'id'   => 'pagerank'
             ),
-            Piwik::translate('SEO_Google_IndexedPages') => array(
+            'SEO_Google_IndexedPages' => array(
                 'rank' => $rank->getIndexedPagesGoogle(),
                 'logo' => \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://google.com'),
                 'id'   => 'google-index',
             ),
-            Piwik::translate('SEO_Bing_IndexedPages')   => array(
+            'SEO_Bing_IndexedPages' => array(
                 'rank' => $rank->getIndexedPagesBing(),
                 'logo' => \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://bing.com'),
                 'id'   => 'bing-index',
             ),
-            Piwik::translate('SEO_AlexaRank')           => array(
-                'rank' => $rank->getAlexaRank(),
+            'SEO_AlexaRank' => array(
+                'rank' => $rank->getAlexaRank() . '',
                 'logo' => \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://alexa.com'),
                 'id'   => 'alexa',
             ),
-            Piwik::translate('SEO_DomainAge')           => array(
+            'SEO_DomainAge' => array(
                 'rank' => $rank->getAge(),
                 'logo' => 'plugins/SEO/images/whois.png',
                 'id'   => 'domain-age',
             ),
-            Piwik::translate('SEO_ExternalBacklinks')   => array(
-                'rank'         => $rank->getExternalBacklinkCount(),
-                'logo'         => 'plugins/SEO/images/majesticseo.png',
-                'logo_link'    => $linkToMajestic,
+            'SEO_ExternalBacklinks' => array(
+                'rank' => $rank->getExternalBacklinkCount(),
+                'logo' => 'plugins/SEO/images/majesticseo.png',
+                'logo_link' => $linkToMajestic,
                 'logo_tooltip' => Piwik::translate('SEO_ViewBacklinksOnMajesticSEO'),
-                'id'           => 'external-backlinks',
+                'id' => 'external-backlinks',
             ),
-            Piwik::translate('SEO_ReferrerDomains')     => array(
-                'rank'         => $rank->getReferrerDomainCount(),
-                'logo'         => 'plugins/SEO/images/majesticseo.png',
-                'logo_link'    => $linkToMajestic,
+            'SEO_ReferrerDomains' => array(
+                'rank' => $rank->getReferrerDomainCount(),
+                'logo' => 'plugins/SEO/images/majesticseo.png',
+                'logo_link' => $linkToMajestic,
                 'logo_tooltip' => Piwik::translate('SEO_ViewBacklinksOnMajesticSEO'),
-                'id'           => 'referrer-domains',
+                'id' => 'referrer-domains',
             ),
         );
 
@@ -86,10 +118,11 @@ class API extends \Piwik\Plugin\API
             'logo' => \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://dmoz.org'),
             'id'   => 'dmoz',
         );
+
         if ($dmozRank['rank'] > 0) {
-            $data[Piwik::translate('SEO_Dmoz')] = $dmozRank;
+            $data['SEO_Dmoz'] = $dmozRank;
         }
 
-        return DataTable::makeFromIndexedArray($data);
+        return $data;
     }
 }
