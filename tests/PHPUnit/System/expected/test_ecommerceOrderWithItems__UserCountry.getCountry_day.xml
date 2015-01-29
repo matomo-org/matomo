@@ -33,6 +33,7 @@
 		<logo>plugins/UserCountry/images/flags/pl.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==pl</segmentFilter>
 	</row>
 	<row>
 		<label>France</label>
@@ -56,5 +57,6 @@
 		<logo>plugins/UserCountry/images/flags/fr.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==fr</segmentFilter>
 	</row>
 </result>

@@ -11,6 +11,7 @@
         "CarBrowser": "Car browser",
         "ColumnBrowser": "Browser",
         "ColumnOperatingSystem": "Operating system",
+        "ColumnOperatingSystemVersion": "Operating system version",
         "Console": "Console",
         "dataTableLabelBrands": "Brand",
         "dataTableLabelModels": "Model",

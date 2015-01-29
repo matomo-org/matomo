@@ -140,6 +140,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         return !!$('#dashboardWidgetsArea').length;
     },
 
+    getReportMetadata: function () {
+        return JSON.parse(this.$element.attr('data-report-metadata') || '{}');
+    },
+
     //Reset DataTable filters (used before a reload or view change)
     resetAllFilters: function () {
         var self = this;

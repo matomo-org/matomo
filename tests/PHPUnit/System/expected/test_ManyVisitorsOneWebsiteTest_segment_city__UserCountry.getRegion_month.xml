@@ -23,6 +23,7 @@
 		<revenue>30</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>regionCode==P3;countryCode==gb</segmentFilter>
 		<region>P3</region>
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>

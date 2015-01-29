@@ -27,6 +27,7 @@
 		<logo>plugins/UserCountry/images/flags/gb.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==gb</segmentFilter>
 	</row>
 	<row>
 		<label>Canada</label>
@@ -55,6 +56,7 @@
 		<logo>plugins/UserCountry/images/flags/ca.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==ca</segmentFilter>
 	</row>
 	<row>
 		<label>Russian Federation</label>
@@ -83,6 +85,7 @@
 		<logo>plugins/UserCountry/images/flags/ru.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==ru</segmentFilter>
 	</row>
 	<row>
 		<label>United States</label>
@@ -111,6 +114,7 @@
 		<logo>plugins/UserCountry/images/flags/us.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==us</segmentFilter>
 	</row>
 	<row>
 		<label>France</label>
@@ -139,6 +143,7 @@
 		<logo>plugins/UserCountry/images/flags/fr.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==fr</segmentFilter>
 	</row>
 	<row>
 		<label>Indonesia</label>
@@ -167,6 +172,7 @@
 		<logo>plugins/UserCountry/images/flags/id.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==id</segmentFilter>
 	</row>
 	<row>
 		<label>Italy</label>
@@ -195,6 +201,7 @@
 		<logo>plugins/UserCountry/images/flags/it.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==it</segmentFilter>
 	</row>
 	<row>
 		<label>Macedonia, the Former Yugoslav Republic of</label>
@@ -223,6 +230,7 @@
 		<logo>plugins/UserCountry/images/flags/mk.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==mk</segmentFilter>
 	</row>
 	<row>
 		<label>Tibet</label>
@@ -251,6 +259,7 @@
 		<logo>plugins/UserCountry/images/flags/ti.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==ti</segmentFilter>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -279,5 +288,6 @@
 		<logo>plugins/UserCountry/images/flags/xx.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==xx</segmentFilter>
 	</row>
 </result>

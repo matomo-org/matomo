@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segmentFilter>operatingSystemCode==LIN;operatingSystemVersion==</segmentFilter>
 		<logo>plugins/DevicesDetection/images/os/LIN.gif</logo>
 	</row>
 	<row>
@@ -22,6 +23,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segmentFilter>operatingSystemCode==AND;operatingSystemVersion==4.0</segmentFilter>
 		<logo>plugins/DevicesDetection/images/os/AND.gif</logo>
 	</row>
 	<row>

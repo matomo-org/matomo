@@ -25,6 +25,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>124.456</lat>
 		<long>22.231</long>
+		<segmentFilter>city==Stratford-upon-Avon;regionCode==P3;countryCode==gb</segmentFilter>
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>P3</region>
 		<country>gb</country>

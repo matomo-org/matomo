@@ -19,6 +19,7 @@ use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\API\API as ApiApi;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
@@ -207,6 +208,7 @@ class Visualization extends ViewDataTable
         $view->visualization         = $this;
         $view->visualizationTemplate = static::TEMPLATE_FILE;
         $view->visualizationCssClass = $this->getDefaultDataTableCssClass();
+        $view->reportMetdadata = $this->getReportMetadata();
 
         if (null === $this->dataTable) {
             $view->dataTable = null;
@@ -229,6 +231,22 @@ class Visualization extends ViewDataTable
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
 
         return $view;
+    }
+
+    private function getReportMetadata()
+    {
+        $request = $this->request->getRequestArray() + $_GET + $_POST;
+
+        $idSite  = Common::getRequestVar('idSite', null, 'string', $request);
+        $module  = $this->requestConfig->getApiModuleToRequest();
+        $action  = $this->requestConfig->getApiMethodToRequest();
+        $metadata = ApiApi::getInstance()->getMetadata($idSite, $module, $action);
+
+        if (!empty($metadata)) {
+            return array_shift($metadata);
+        }
+
+        return false;
     }
 
     private function overrideSomeConfigPropertiesIfNeeded()

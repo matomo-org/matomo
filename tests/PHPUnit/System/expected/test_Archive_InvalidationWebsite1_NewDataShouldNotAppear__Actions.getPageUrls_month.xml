@@ -64,6 +64,7 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<url>http://example.org/Contact</url>
+			<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2FContact</segmentFilter>
 		</row>
 		<row>
 			<label>/Home</label>
@@ -75,6 +76,7 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<url>http://example.org/Home</url>
+			<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2FHome</segmentFilter>
 		</row>
 		<row>
 			<label>Contact</label>

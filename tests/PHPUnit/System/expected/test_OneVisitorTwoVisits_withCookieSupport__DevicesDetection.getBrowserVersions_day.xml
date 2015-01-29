@@ -10,6 +10,7 @@
 		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
+		<segmentFilter>browserCode==FF;browserVersion==3.6</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/FF.gif</logo>
 	</row>
 </result>

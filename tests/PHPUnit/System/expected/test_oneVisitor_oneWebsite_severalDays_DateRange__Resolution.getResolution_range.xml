@@ -10,5 +10,6 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>resolution==1024x768</segmentFilter>
 	</row>
 </result>

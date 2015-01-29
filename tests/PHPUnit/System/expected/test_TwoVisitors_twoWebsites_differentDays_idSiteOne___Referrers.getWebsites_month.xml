@@ -11,6 +11,7 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segmentFilter>referrerName==referrer.com</segmentFilter>
 			<subtable>
 				<row>
 					<label>http://referrer.com/Other_Page.htm</label>

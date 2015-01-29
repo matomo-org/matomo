@@ -109,11 +109,13 @@
 	<reportMetadata>
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
+				<segmentFilter>referrerName==referrer.com</segmentFilter>
 				
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010">
 			<row>
+				<segmentFilter>referrerName==referrer.com</segmentFilter>
 				
 			</row>
 		</result>
@@ -122,11 +124,13 @@
 		<result prettyDate="Thursday 7 January 2010" />
 		<result prettyDate="Friday 8 January 2010">
 			<row>
+				<segmentFilter>referrerName==referrer.com</segmentFilter>
 				
 			</row>
 		</result>
 		<result prettyDate="Saturday 9 January 2010">
 			<row>
+				<segmentFilter>referrerName==referrer.com</segmentFilter>
 				
 			</row>
 		</result>

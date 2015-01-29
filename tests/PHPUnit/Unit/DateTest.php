@@ -89,6 +89,27 @@ class DateTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function test_getHourInUTC()
+    {
+        $date = Date::factory('today', 'UTC');
+        $hour = $date->getHourInUTC();
+        $this->assertSame('0', $hour); // hour is already in UTC
+
+        $date = Date::factory('today', 'UTC+10');
+        $hour = $date->getHourInUTC();
+        $this->assertSame('10', $hour);
+
+        $date = Date::factory('today');
+        $date = $date->setTime('14:00:00')->setTimezone('UTC+10'); // 14-10 = 4
+        $hour = $date->getHourInUTC();
+        $this->assertSame('4', $hour);
+
+        $date = Date::factory('today');
+        $date = $date->setTime('14:00:00')->setTimezone('UTC-5'); // 14+5 = 19
+        $hour = $date->getHourInUTC();
+        $this->assertSame('19', $hour);
+    }
+
     /**
      * @group Core
      */

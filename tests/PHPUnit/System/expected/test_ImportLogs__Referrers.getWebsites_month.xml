@@ -18,6 +18,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segmentFilter>referrerName==example.com</segmentFilter>
 		<subtable>
 			<row>
 				<label>http://example.com/Search/SearchResults.pg?informationRecipient.languageCode.c=en</label>
@@ -50,6 +51,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>referrerName==piwik.org</segmentFilter>
 		<subtable>
 			<row>
 				<label>http://piwik.org/contribute%</label>
@@ -82,6 +84,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>referrerName==sn110w.snt110.mail.live.com</segmentFilter>
 		<subtable>
 			<row>
 				<label>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</label>
@@ -114,6 +117,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>referrerName==www.test.nl</segmentFilter>
 		<subtable>
 			<row>
 				<label>https://www.test.nl/</label>

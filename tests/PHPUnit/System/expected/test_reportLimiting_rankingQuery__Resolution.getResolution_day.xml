@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segmentFilter>resolution==1920x1080</segmentFilter>
 	</row>
 	<row>
 		<label>1280x1024</label>
@@ -21,6 +22,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segmentFilter>resolution==1280x1024</segmentFilter>
 	</row>
 	<row>
 		<label>Others</label>

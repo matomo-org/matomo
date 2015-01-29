@@ -27,5 +27,6 @@
 		<logo>plugins/UserCountry/images/flags/gb.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==gb</segmentFilter>
 	</row>
 </result>

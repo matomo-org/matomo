@@ -47,6 +47,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>39.044</lat>
 		<long>-77.488</long>
+		<segmentFilter>city==Ashburn;regionCode==VA;countryCode==us</segmentFilter>
 		<city_name>Ashburn</city_name>
 		<region>VA</region>
 		<country>us</country>
@@ -74,6 +75,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>69.4</lat>
 		<long>-81.8</long>
+		<segmentFilter>city==Igloolik;regionCode==NU;countryCode==ca</segmentFilter>
 		<city_name>Igloolik</city_name>
 		<region>NU</region>
 		<country>ca</country>

@@ -223,9 +223,11 @@
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
+				<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segmentFilter>
 			</row>
 			<row>
 				<url>http://example.org/products</url>
+				<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Fproducts</segmentFilter>
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010">
@@ -236,9 +238,11 @@
 		<result prettyDate="Tuesday 5 January 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
+				<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segmentFilter>
 			</row>
 			<row>
 				<url>http://example.org/thankyou</url>
+				<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segmentFilter>
 			</row>
 			<row>
 				<url />
@@ -247,9 +251,11 @@
 		<result prettyDate="Wednesday 6 January 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
+				<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segmentFilter>
 			</row>
 			<row>
 				<url>http://example.org/thankyou</url>
+				<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segmentFilter>
 			</row>
 			<row>
 				<url />
@@ -258,9 +264,11 @@
 		<result prettyDate="Thursday 7 January 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
+				<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segmentFilter>
 			</row>
 			<row>
 				<url>http://example.org/thankyou</url>
+				<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segmentFilter>
 			</row>
 			<row>
 				<url />
@@ -269,9 +277,11 @@
 		<result prettyDate="Friday 8 January 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
+				<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segmentFilter>
 			</row>
 			<row>
 				<url>http://example.org/thankyou</url>
+				<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segmentFilter>
 			</row>
 			<row>
 				<url />
@@ -280,9 +290,11 @@
 		<result prettyDate="Saturday 9 January 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
+				<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segmentFilter>
 			</row>
 			<row>
 				<url>http://example.org/thankyou</url>
+				<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segmentFilter>
 			</row>
 			<row>
 				<url />

@@ -25,6 +25,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>49.25</lat>
 		<long>-123.133</long>
+		<segmentFilter>city==Vancouver;regionCode==BC;countryCode==ca</segmentFilter>
 		<city_name>Vancouver</city_name>
 		<region>BC</region>
 		<country>ca</country>

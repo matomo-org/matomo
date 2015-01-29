@@ -13,6 +13,7 @@ use Piwik\Metrics;
 
 class Archiver extends \Piwik\Plugin\Archiver
 {
+    const BROWSER_SEPARATOR = ';';
     const DEVICE_TYPE_RECORD_NAME = 'DevicesDetection_types';
     const DEVICE_BRAND_RECORD_NAME = 'DevicesDetection_brands';
     const DEVICE_MODEL_RECORD_NAME = 'DevicesDetection_models';

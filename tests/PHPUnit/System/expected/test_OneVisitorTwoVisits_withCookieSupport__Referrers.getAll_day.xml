@@ -18,6 +18,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>42</revenue>
+		<segmentFilter>referrerName==referrer.com</segmentFilter>
 		<referer_type>3</referer_type>
 	</row>
 	<row>
