@@ -64,7 +64,7 @@ log_writers[] = screen
 
 ; log level, everything logged w/ this level or one of greater severity
 ; will be logged. everything else will be ignored. possible values are:
-; NONE, ERROR, WARN, INFO, DEBUG, VERBOSE
+; ERROR, WARN, INFO, DEBUG
 log_level = WARN
 
 ; if configured to log in a file, log entries will be made to this file
