@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome\Commands;
 use Piwik\Common;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreAdminHome\Utility\DuplicateActionRemover;
+use Piwik\Timer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -28,13 +29,16 @@ class FixDuplicateLogActions extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $timer = new Timer();
+
         $resolver = new DuplicateActionRemover();
         $numberRemoved = $resolver->removeDuplicateActionsFromDb();
 
         $table = Common::prefixTable('log_action');
         $this->writeSuccessMessage($output, array(
             "Found and deleted $numberRemoved duplicate action entries in the $table table.",
-            "References in log_link_visit_action, log_conversion and log_conversion_item"
+            "References in log_link_visit_action, log_conversion and log_conversion_item were corrected.",
+            $timer->__toString()
         ));
     }
 }

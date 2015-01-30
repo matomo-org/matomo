@@ -54,25 +54,30 @@ class DuplicateActionRemover
             'duplicates' => $dupeCount
         ));
 
-        foreach ($duplicateActions as $index => $dupeInfo) {
-            $name = $dupeInfo['name'];
-            $idactions = $dupeInfo['idactions'];
+        if ($dupeCount != 0) {
+            foreach ($duplicateActions as $index => $dupeInfo) {
+                $name = $dupeInfo['name'];
+                $idactions = $dupeInfo['idactions'];
 
-            $this->logger->info("<info>[$index / $dupeCount]</info>Fixing duplicates for '{name}'", array(
-                'name' => $name
-            ));
-            $this->logger->debug("  idactions = [ {idactions} ]", array('idactions' => $idactions));
+                $this->logger->info("<info>[$index / $dupeCount]</info> Fixing duplicates for '{name}'", array(
+                    'name' => $name
+                ));
+                $this->logger->debug("  idactions = [ {idactions} ]", array('idactions' => $idactions));
 
-            $this->fixDuplicateActions($name, $idactions);
+                $this->fixDuplicateActions($idactions);
+            }
+
+            $this->deleteDuplicatesFromLogAction($duplicateActions);
         }
 
-        $this->deleteDuplicatesFromLogAction($duplicateActions);
+        return $dupeCount;
     }
 
     private function getDuplicateIdActions()
     {
-        $sql = "SELECT name, COUNT(*) AS count, GROUP_CONCAT(idaction ORDER BY idaction ASC SEPARATOR ',') as idactions
-              GROUP BY name HAVING count > 1";
+        $sql = "SELECT name, hash, type, COUNT(*) AS count, GROUP_CONCAT(idaction ORDER BY idaction ASC SEPARATOR ',') as idactions
+                  FROM " . Common::prefixTable('log_action') . "
+              GROUP BY name, hash, type HAVING count > 1";
         return Db::fetchAll($sql);
     }
 
@@ -127,7 +132,7 @@ class DuplicateActionRemover
 
     private function logTableFixFinished($table, $elapsed)
     {
-        $this->logger->info("  Fixed duplicates in {table} in <comment>{elapsed}s</comment>.", array(
+        $this->logger->info("\tFixed duplicates in {table} in <comment>{elapsed}s</comment>.", array(
             'table' => Common::prefixTable($table),
             'elapsed' => $elapsed
         ));
@@ -155,15 +160,18 @@ class DuplicateActionRemover
      */
     private function getSqlToFixDuplicates($table, $toIdAction, $fromIdActions)
     {
-        $idactionColumns = $this->idactionColumns[$table];
+        $idactionColumns = array_values($this->idactionColumns[$table]);
         $table = Common::prefixTable($table);
 
         $inFromIdsExpression = "%1\$s IN (" . implode(',', $fromIdActions) . ")";
-        $setExpression = "SET %1\$s = IF($inFromIdsExpression, $toIdAction, %1\$s)";
+        $setExpression = "%1\$s = IF(($inFromIdsExpression), $toIdAction, %1\$s)";
 
-        $sql = "UPDATE $table\n";
-        foreach ($idactionColumns as $column) {
-            $sql .= sprintf($setExpression, array($column)) . "\n";
+        $sql = "UPDATE $table SET\n";
+        foreach ($idactionColumns as $index => $column) {
+            if ($index != 0) {
+                $sql .= ",\n";
+            }
+            $sql .= sprintf($setExpression, $column);
         }
         $sql .= "WHERE ";
         foreach ($idactionColumns as $index => $column) {
@@ -171,7 +179,7 @@ class DuplicateActionRemover
                 $sql .= "OR ";
             }
 
-            $sql .= sprintf($inFromIdsExpression, array($column)) . " ";
+            $sql .= sprintf($inFromIdsExpression, $column) . " ";
         }
 
         return $sql;
