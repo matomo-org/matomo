@@ -73,6 +73,34 @@ class DuplicateActionRemover
         return $dupeCount;
     }
 
+    /**
+     * TODO
+     */
+    public function getSqlToRemoveDuplicateActions()
+    {
+        $this->getIdActionTableColumnsFromMetadata();
+
+        $duplicateActions = $this->getDuplicateIdActions();
+
+        $sqlQueries = array();
+        if (!empty($duplicateActions)) {
+            foreach ($duplicateActions as $index => $dupeInfo) {
+                $idactions = $dupeInfo['idactions'];
+
+                list($toIdAction, $fromIdActions) = $this->getIdActionToRenameToAndFrom($idactions);
+
+                foreach (self::$tablesWithIdActionColumns as $table) {
+                    $sql = $this->getSqlToFixDuplicates($table, $toIdAction, $fromIdActions);
+                    $sqlQueries[$sql] = false;
+                }
+            }
+
+            $deleteActionsSql = $this->getSqlToDeleteDuplicateLogActionRows($duplicateActions);
+            $sqlQueries[$deleteActionsSql] = false;
+        }
+        return $sqlQueries;
+    }
+
     private function getDuplicateIdActions()
     {
         $sql = "SELECT name, hash, type, COUNT(*) AS count, GROUP_CONCAT(idaction ORDER BY idaction ASC SEPARATOR ',') as idactions
@@ -83,14 +111,21 @@ class DuplicateActionRemover
 
     private function fixDuplicateActions($idactions)
     {
+        list($toIdAction, $fromIdActions) = $this->getIdActionToRenameToAndFrom($idactions);
+
+        foreach (self::$tablesWithIdActionColumns as $table) {
+            $this->fixDuplicateActionsInTable($table, $toIdAction, $fromIdActions);
+        }
+    }
+
+    private function getIdActionToRenameToAndFrom($idactions)
+    {
         $idactions = explode(',', $idactions);
 
         $toIdAction = array_shift($idactions);
         $fromIdActions = $idactions;
 
-        foreach (self::$tablesWithIdActionColumns as $table) {
-            $this->fixDuplicateActionsInTable($table, $toIdAction, $fromIdActions);
-        }
+        return array($toIdAction, $fromIdActions);
     }
 
     private function fixDuplicateActionsInTable($table, $toIdAction, $fromIdActions)
@@ -115,6 +150,14 @@ class DuplicateActionRemover
             'table' => $table
         ));
 
+        $sql = $this->getSqlToDeleteDuplicateLogActionRows($duplicateActions);
+        Db::query($sql);
+    }
+
+    private function getSqlToDeleteDuplicateLogActionRows($duplicateActions)
+    {
+        $table = Common::prefixTable('log_action');
+
         $sql = "DELETE FROM $table WHERE idaction IN (";
         foreach ($duplicateActions as $index => $dupeInfos) {
             if ($index != 0) {
@@ -127,7 +170,7 @@ class DuplicateActionRemover
         }
         $sql .= ")";
 
-        Db::query($sql);
+        return $sql;
     }
 
     private function logTableFixFinished($table, $elapsed)
