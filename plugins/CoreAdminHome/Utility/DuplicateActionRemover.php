@@ -13,12 +13,25 @@ use Piwik\Db;
 use Psr\Log\LoggerInterface;
 
 /**
- * TODO
+ * Finds duplicate actions rows in log_action and removes them. Fixes references to duplicate
+ * actions in the log_link_visit_action table, log_conversion table, and log_conversion_item
+ * table.
+ *
+ * Prior to version 2.11, there was a race condition in the tracker where it was possible for
+ * two or more actions with the same name and type to be inserted simultaneously. This resulted
+ * in inaccurate data. A Piwik database with this problem can be fixed using this class.
+ *
+ * With version 2.11 and above, it is still possible for duplicate actions to be inserted, but
+ * ONLY if the tracker's PHP process fails suddenly right after inserting an action. This is
+ * very rare, and even if it does happen, report data will not be affected, but the extra
+ * actions can be deleted w/ this class.
  */
 class DuplicateActionRemover
 {
     /**
-     * TODO
+     * The tables that contain idaction reference columns.
+     *
+     * @var string[]
      */
     private static $tablesWithIdActionColumns = array(
         'log_link_visit_action',
@@ -27,14 +40,17 @@ class DuplicateActionRemover
     );
 
     /**
-     * TODO
+     * The logger. Used to log status updates.
      *
      * @var LoggerInterface
      */
     private $logger;
 
     /**
-     * TODO
+     * List of idaction columns in each table in $tablesWithIdActionColumns. idaction
+     * columns are table columns with the string `"idaction"` in them.
+     *
+     * @var string[]
      */
     private $idactionColumns;
 
@@ -43,6 +59,11 @@ class DuplicateActionRemover
         $this->logger = StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
+    /**
+     * Performs the duplicate row removal & reference fixing.
+     *
+     * @return int The number of duplicates removed.
+     */
     public function removeDuplicateActionsFromDb()
     {
         $this->getIdActionTableColumnsFromMetadata();
@@ -74,7 +95,12 @@ class DuplicateActionRemover
     }
 
     /**
-     * TODO
+     * Returns a list of SQL statements that can be used to remove duplicate actions. Executing
+     * the statements in order will have the same effect as calling removeDuplicateActionsFromDb().
+     *
+     * Note: this method is used by the Update class that removes duplicate log actions.
+     *
+     * @return string[]
      */
     public function getSqlToRemoveDuplicateActions()
     {
@@ -191,15 +217,16 @@ class DuplicateActionRemover
     }
 
     /**
-     * TODO: docs
-     * convert 2,3,4 => 5
-     *         6,7,8 => 9
+     * Creates SQL that sets multiple columns in a table to a single value, if those
+     * columns are set to certain values.
      *
-     * UPDATE log_link_visit_action
-     *    SET a = IF(a IN ..., 5, a)
-     *    SET b = IF(b IN ..., 5, b)
-     *    ...
-     *  WHERE a IN (...) OR b IN ...
+     * The SQL will look like:
+     *
+     *     UPDATE $table SET
+     *         col1 = IF((col1 IN ($fromIdActions)), $toIdAction, col1),
+     *         col2 = IF((col2 IN ($fromIdActions)), $toIdAction, col2),
+     *         ...
+     *      WHERE col1 IN ($fromIdActions) OR col2 IN ($fromIdActions) OR ...
      */
     private function getSqlToFixDuplicates($table, $toIdAction, $fromIdActions)
     {
@@ -228,9 +255,6 @@ class DuplicateActionRemover
         return $sql;
     }
 
-    /**
-     * TODO
-     */
     private function getIdActionTableColumnsFromMetadata()
     {
         foreach (self::$tablesWithIdActionColumns as $table) {

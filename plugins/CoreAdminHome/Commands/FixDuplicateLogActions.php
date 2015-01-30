@@ -16,7 +16,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * TODO
+ * Removes duplicate log_action rows and fixes references to these duplicate rows
+ * in
  */
 class FixDuplicateLogActions extends ConsoleCommand
 {
