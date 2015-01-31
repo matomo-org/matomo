@@ -208,6 +208,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Baidu
         'www.baidu.com'                  => array('Baidu', array('wd', 'word', 'kw'), 's?wd={k}', array('UTF-8', 'gb2312')),
         'www1.baidu.com'                 => array('Baidu'),
+        'm.baidu.com'                    => array('Baidu'),
         'zhidao.baidu.com'               => array('Baidu'),
         'tieba.baidu.com'                => array('Baidu'),
         'news.baidu.com'                 => array('Baidu'),
