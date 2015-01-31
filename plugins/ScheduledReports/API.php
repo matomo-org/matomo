@@ -243,6 +243,10 @@ class API extends \Piwik\Plugin\API
 
             // decode report list
             $report['reports'] = json_decode($report['reports'], true);
+
+            if (!empty($report['parameters']['additionalEmails']) && is_array($report['parameters']['additionalEmails'])) {
+                $report['parameters']['additionalEmails'] = array_values($report['parameters']['additionalEmails']);
+            }
         }
 
         // static cache

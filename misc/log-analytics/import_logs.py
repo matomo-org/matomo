@@ -1457,13 +1457,20 @@ class Recorder(object):
                 'token_auth': config.options.piwik_token_auth,
                 'requests': [self._get_hit_args(hit) for hit in hits]
             }
-            piwik.call(
+            result = piwik.call(
                 '/piwik.php', args={},
                 expected_content=None,
                 headers={'Content-type': 'application/json'},
                 data=data,
                 on_failure=self._on_tracking_failure
             )
+
+            # make sure the request succeeded and returned valid json
+            try:
+                result = json.loads(result)
+            except ValueError, e:
+                fatal_error("Incorrect response from tracking API: '%s'\nIs the BulkTracking plugin disabled?" % result)
+
         stats.count_lines_recorded.advance(len(hits))
 
     def _on_tracking_failure(self, response, data):
