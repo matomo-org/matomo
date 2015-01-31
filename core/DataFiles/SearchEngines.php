@@ -1084,5 +1084,8 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Zoznam
         'www.zoznam.sk'                  => array('Zoznam', 's', 'hladaj.fcgi?s={k}&co=svet'),
+
+        // Zxuso
+        'www.zxuso.com'                  => array('Zxuso', 'wd', 'ri/?wd={k}'),
     );
 }
