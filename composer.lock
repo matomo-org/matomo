@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "17e350aee20978e54e56eda6052737ad",
+    "hash": "01f7386402708d6090fd0b87d9d408ce",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -584,16 +584,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "dev-master",
+            "version": "3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "dc2e1cb8afaa27fede27479bc46a694f698c17b0"
+                "reference": "a5f58033107262f5067b9cdfb3751816a5d3dc87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/dc2e1cb8afaa27fede27479bc46a694f698c17b0",
-                "reference": "dc2e1cb8afaa27fede27479bc46a694f698c17b0",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/a5f58033107262f5067b9cdfb3751816a5d3dc87",
+                "reference": "a5f58033107262f5067b9cdfb3751816a5d3dc87",
                 "shasum": ""
             },
             "require": {
@@ -630,7 +630,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2015-01-24 22:53:25"
+            "time": "2015-01-31 20:48:03"
         },
         {
             "name": "piwik/ini",
@@ -2148,7 +2148,6 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "piwik/device-detector": 20,
         "mnapoli/php-di": 20,
         "doctrine/cache": 20,
         "facebook/xhprof": 20
