@@ -524,6 +524,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Gule Sider
         'www.gulesider.no'               => array('Gule Sider', 'q'),
 
+        // Haosou
+        'www.haosou.com'                 => array('Haosou', 'q', 's?q={k}'),
+
         // HighBeam
         'www.highbeam.com'               => array('HighBeam', 'q', 'Search.aspx?q={k}'),
 
