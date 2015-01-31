@@ -832,6 +832,10 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Skynet
         'www.skynet.be'                  => array('Skynet', 'q', 'services/recherche/google?q={k}'),
 
+        // sm.cn
+        'm.sm.cn'                        => array('sm.cn', 'q', 's?q={k}'),
+        'm.sp.sm.cn'                     => array('sm.cn'),
+
         // SmartAdressbar
         'search.smartaddressbar.com'     => array('SmartAddressbar', 's', '?s={k}'),
 
