@@ -24,7 +24,7 @@ class GenerateTest extends GeneratePluginBase
             ->setDescription('Adds a test to an existing plugin')
             ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin')
             ->addOption('testname', null, InputOption::VALUE_REQUIRED, 'The name of the test to create')
-            ->addOption('testtype', null, InputOption::VALUE_REQUIRED, 'Whether you want to create a "unit", "integration" or "system" test');
+            ->addOption('testtype', null, InputOption::VALUE_REQUIRED, 'Whether you want to create a "unit", "integration", "system", or "ui" test');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -37,7 +37,9 @@ class GenerateTest extends GeneratePluginBase
         $replace       = array(
             'ExamplePlugin'    => $pluginName,
             'SimpleTest'       => $testName,
-            'SimpleSystemTest' => $testName
+            'SimpleSystemTest' => $testName,
+            'SimpleUITest_spec.js' => $testName . '_spec.js',
+            'SimpleUITest'     => $testName,
          );
 
         $whitelistFiles = $this->getTestFilesWhitelist($testType);
@@ -108,7 +110,7 @@ class GenerateTest extends GeneratePluginBase
 
     public function getValidTypes()
     {
-        return array('unit', 'integration', 'system');
+        return array('unit', 'integration', 'system', 'ui');
     }
 
     /**
@@ -145,6 +147,17 @@ class GenerateTest extends GeneratePluginBase
      */
     protected function getTestFilesWhitelist($testType)
     {
+        if ('Ui' == $testType) {
+            return array(
+                '/tests',
+                '/tests/UI',
+                '/tests/UI/.gitignore',
+                '/tests/UI/expected-ui-screenshots',
+                '/tests/UI/expected-ui-screenshots/.gitkeep',
+                '/tests/UI/SimpleUITest_spec.js',
+            );
+        }
+
         if ('System' == $testType) {
             return array(
                 '/.gitignore',

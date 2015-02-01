@@ -20,7 +20,10 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The following classes have been deprecated:
   * `Piwik\TaskScheduler`: use `Piwik\Scheduler\Scheduler` instead
   * `Piwik\ScheduledTask`: use `Piwik\Scheduler\Task` instead
-  
+ 
+### New features
+* You can now generate UI / screenshot tests using the command `generate:test`
+
 ### Library updates
 * Updated AngularJS from 1.2.26 to 1.2.28
 
