@@ -23,6 +23,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The API method `UserSettings.getLanguage` is deprecated and will be removed from May 1st 2015. Use `UserLanguage.getLanguage` instead
 * The API method `UserSettings.getLanguageCode` is deprecated and will be removed from May 1st 2015. Use `UserLanguage.getLanguageCode` instead
   
+### New features
+* You can now generate UI / screenshot tests using the command `generate:test`
+
 ### Library updates
 * Updated AngularJS from 1.2.26 to 1.2.28
 

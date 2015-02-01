@@ -64,7 +64,7 @@ log_writers[] = screen
 
 ; log level, everything logged w/ this level or one of greater severity
 ; will be logged. everything else will be ignored. possible values are:
-; NONE, ERROR, WARN, INFO, DEBUG, VERBOSE
+; ERROR, WARN, INFO, DEBUG
 log_level = WARN
 
 ; if configured to log in a file, log entries will be made to this file
@@ -265,6 +265,11 @@ enable_browser_archiving_triggering = 1
 ; If your Piwik tracks millions of pages, the OPTIMIZE TABLE queries might run for hours (seen in "SHOW FULL PROCESSLIST \g")
 ; so you can disable these special queries here:
 enable_sql_optimize_queries = 1
+
+; By default Piwik is purging complete date range archives to free spaces after deleting some data.
+; If you are pre-processing custom ranges using CLI task to make them easily available in UI,
+; you can prevent this action from happening by setting this parameter to value bigger than 1
+purge_date_range_archives_after_X_days = 1
 
 ; MySQL minimum required version
 ; note: timezone support added in 4.1.3
@@ -651,7 +656,7 @@ tracking_requests_require_authentication = 1
 ; for which all reports should be Archived during the cron execution
 ; All segment values MUST be URL encoded.
 ;Segments[]="visitorType==new"
-;Segments[]="visitorType==returning"
+;Segments[]="visitorType==returning,visitorType==returningCustomer"
 
 ; If you define Custom Variables for your visitor, for example set the visit type
 ;Segments[]="customVariableName1==VisitType;customVariableValue1==Customer"

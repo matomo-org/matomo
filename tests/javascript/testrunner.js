@@ -64,10 +64,6 @@ page.onResourceReceived = function() {
                 errorMessage += " \nSource: " + obj.source + "\n\n";
 
                 console.log(errorMessage);
-            } else {
-                if (obj && obj.message) {
-                    console.log(obj.message);
-                }
             }
         });
     });

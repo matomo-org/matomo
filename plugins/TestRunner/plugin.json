@@ -4,7 +4,7 @@
     "description": "Let's you run Piwik tests. Only needed in development.",
     "theme": false,
     "require": {
-        "piwik": ">=2.10.0-rc1"
+        "piwik": ">=2.9.0"
     },
     "authors": [
         {
