@@ -9,10 +9,12 @@
 namespace Piwik\Plugins\CoreAdminHome\Commands;
 
 use Piwik\Common;
+use Piwik\DataAccess\ArchiveInvalidator;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreAdminHome\Utility\DuplicateActionRemover;
 use Piwik\Timer;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -24,16 +26,29 @@ class FixDuplicateLogActions extends ConsoleCommand
     protected function configure()
     {
         $this->setName('core:fix-duplicate-log-actions');
+        $this->addOption('invalidate-archives', null, InputOption::VALUE_NONE, "If supplied, archives for logs that use duplicate actions will be invalidated."
+            . " On the next cron archive run, the reports for those dates will be re-processed.");
         $this->setDescription('Removes duplicates in the log action table and fixes references to the duplicates in '
                             . 'related tables. NOTE: This action can take a long time to run!');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $invalidateArchives = $input->getOption('invalidate-archives');
+
         $timer = new Timer();
 
-        $resolver = new DuplicateActionRemover();
-        $numberRemoved = $resolver->removeDuplicateActionsFromDb();
+        $archiveInvalidator = $invalidateArchives ? new ArchiveInvalidator() : null;
+        $resolver = new DuplicateActionRemover($archiveInvalidator);
+
+        list($numberRemoved, $archivesAffected) = $resolver->removeDuplicateActionsFromDb();
+
+        if (!$invalidateArchives) {
+            $output->writeln("The following archives used duplicate actions and should be invalidated if you want correct reports:");
+            foreach ($archivesAffected as $archiveInfo) {
+                $output->writeln("\t[ idSite = {$archiveInfo['idsite']}, date = {$archiveInfo['server_time']} ]");
+            }
+        }
 
         $table = Common::prefixTable('log_action');
         $this->writeSuccessMessage($output, array(

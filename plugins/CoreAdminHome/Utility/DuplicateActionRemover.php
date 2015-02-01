@@ -9,6 +9,7 @@ namespace Piwik\Plugins\CoreAdminHome\Utility;
 
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\ArchiveInvalidator;
 use Piwik\Db;
 use Psr\Log\LoggerInterface;
 
@@ -54,9 +55,22 @@ class DuplicateActionRemover
      */
     private $idactionColumns;
 
-    public function __construct()
+    /**
+     * Used to invalidate archives. Only used if $shouldInvalidateArchives is true.
+     *
+     * @var ArchiveInvalidator
+     */
+    private $archiveInvalidator;
+
+    /**
+     * Constructor.
+     *
+     * @param ArchiveInvalidator|null $archiveInvalidator If null, archives are not invalidated.
+     */
+    public function __construct(ArchiveInvalidator $archiveInvalidator = null)
     {
         $this->logger = StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->archiveInvalidator = $archiveInvalidator;
     }
 
     /**
@@ -69,13 +83,15 @@ class DuplicateActionRemover
         $this->getIdActionTableColumnsFromMetadata();
 
         $duplicateActions = $this->getDuplicateIdActions();
-        $dupeCount = count($duplicateActions);
 
-        $this->logger->info("<info>Found {duplicates} duplicate actions.</info>", array(
-            'duplicates' => $dupeCount
+        $this->logger->info("<info>Found {count} actions with duplicates.</info>", array(
+            'count' => count($duplicateActions)
         ));
 
-        if ($dupeCount != 0) {
+        $dupeCount = 0;
+
+        $archivesAffected = array();
+        if (!empty($duplicateActions)) {
             foreach ($duplicateActions as $index => $dupeInfo) {
                 $name = $dupeInfo['name'];
                 $idactions = $dupeInfo['idactions'];
@@ -85,46 +101,22 @@ class DuplicateActionRemover
                 ));
                 $this->logger->debug("  idactions = [ {idactions} ]", array('idactions' => $idactions));
 
-                $this->fixDuplicateActions($idactions);
+                $idactions = explode(',', $idactions);
+
+                $dupeCount += count($idactions) - 1; // -1, because the first idaction is the one that isn't removed
+
+                $this->fixDuplicateActions($idactions, $archivesAffected);
             }
 
             $this->deleteDuplicatesFromLogAction($duplicateActions);
-        }
 
-        return $dupeCount;
-    }
-
-    /**
-     * Returns a list of SQL statements that can be used to remove duplicate actions. Executing
-     * the statements in order will have the same effect as calling removeDuplicateActionsFromDb().
-     *
-     * Note: this method is used by the Update class that removes duplicate log actions.
-     *
-     * @return string[]
-     */
-    public function getSqlToRemoveDuplicateActions()
-    {
-        $this->getIdActionTableColumnsFromMetadata();
-
-        $duplicateActions = $this->getDuplicateIdActions();
-
-        $sqlQueries = array();
-        if (!empty($duplicateActions)) {
-            foreach ($duplicateActions as $index => $dupeInfo) {
-                $idactions = $dupeInfo['idactions'];
-
-                list($toIdAction, $fromIdActions) = $this->getIdActionToRenameToAndFrom($idactions);
-
-                foreach (self::$tablesWithIdActionColumns as $table) {
-                    $sql = $this->getSqlToFixDuplicates($table, $toIdAction, $fromIdActions);
-                    $sqlQueries[$sql] = false;
-                }
+            $archivesAffected = array_values(array_unique($archivesAffected, SORT_REGULAR));
+            if (!empty($this->archiveInvalidator)) {
+                $this->invalidateArchivesUsingActionDuplicates($archivesAffected);
             }
-
-            $deleteActionsSql = $this->getSqlToDeleteDuplicateLogActionRows($duplicateActions);
-            $sqlQueries[$deleteActionsSql] = false;
         }
-        return $sqlQueries;
+
+        return array($dupeCount, $archivesAffected);
     }
 
     private function getDuplicateIdActions()
@@ -135,30 +127,34 @@ class DuplicateActionRemover
         return Db::fetchAll($sql);
     }
 
-    private function fixDuplicateActions($idactions)
+    private function fixDuplicateActions($idactions, &$archivesAffected)
     {
         list($toIdAction, $fromIdActions) = $this->getIdActionToRenameToAndFrom($idactions);
 
         foreach (self::$tablesWithIdActionColumns as $table) {
-            $this->fixDuplicateActionsInTable($table, $toIdAction, $fromIdActions);
+            $this->fixDuplicateActionsInTable($table, $toIdAction, $fromIdActions, $archivesAffected);
         }
     }
 
     private function getIdActionToRenameToAndFrom($idactions)
     {
-        $idactions = explode(',', $idactions);
-
         $toIdAction = array_shift($idactions);
         $fromIdActions = $idactions;
 
         return array($toIdAction, $fromIdActions);
     }
 
-    private function fixDuplicateActionsInTable($table, $toIdAction, $fromIdActions)
+    private function fixDuplicateActionsInTable($table, $toIdAction, $fromIdActions, &$archivesAffected)
     {
-        $sql = $this->getSqlToFixDuplicates($table, $toIdAction, $fromIdActions);
-
         $startTime = microtime(true);
+
+        $sql = $this->getSitesAndDatesOfRowsUsingDuplicates($table, $fromIdActions);
+
+        foreach (Db::fetchAll($sql) as $row) {
+            $archivesAffected[] = $row;
+        }
+
+        $sql = $this->getSqlToFixDuplicates($table, $toIdAction, $fromIdActions);
 
         Db::query($sql);
 
@@ -233,7 +229,7 @@ class DuplicateActionRemover
         $idactionColumns = array_values($this->idactionColumns[$table]);
         $table = Common::prefixTable($table);
 
-        $inFromIdsExpression = "%1\$s IN (" . implode(',', $fromIdActions) . ")";
+        $inFromIdsExpression = $this->getInFromIdsExpression($fromIdActions);
         $setExpression = "%1\$s = IF(($inFromIdsExpression), $toIdAction, %1\$s)";
 
         $sql = "UPDATE $table SET\n";
@@ -243,15 +239,18 @@ class DuplicateActionRemover
             }
             $sql .= sprintf($setExpression, $column);
         }
-        $sql .= "WHERE ";
-        foreach ($idactionColumns as $index => $column) {
-            if ($index != 0) {
-                $sql .= "OR ";
-            }
+        $sql .= $this->getWhereToGetRowsUsingDuplicateActions($idactionColumns, $fromIdActions);
 
-            $sql .= sprintf($inFromIdsExpression, $column) . " ";
-        }
+        return $sql;
+    }
 
+    private function getSitesAndDatesOfRowsUsingDuplicates($table, $fromIdActions)
+    {
+        $idactionColumns = array_values($this->idactionColumns[$table]);
+        $table = Common::prefixTable($table);
+
+        $sql = "SELECT idsite, DATE(server_time) as server_time FROM $table ";
+        $sql .= $this->getWhereToGetRowsUsingDuplicateActions($idactionColumns, $fromIdActions);
         return $sql;
     }
 
@@ -273,5 +272,33 @@ class DuplicateActionRemover
 
             $this->idactionColumns[$table] = $columns;
         }
+    }
+
+    private function getWhereToGetRowsUsingDuplicateActions($idactionColumns, $fromIdActions)
+    {
+        $sql = "WHERE ";
+        foreach ($idactionColumns as $index => $column) {
+            if ($index != 0) {
+                $sql .= "OR ";
+            }
+
+            $sql .= sprintf($this->getInFromIdsExpression($fromIdActions), $column) . " ";
+        }
+        return $sql;
+    }
+
+    private function getInFromIdsExpression($fromIdActions)
+    {
+        return "%1\$s IN (" . implode(',', $fromIdActions) . ")";
+    }
+
+    private function invalidateArchivesUsingActionDuplicates($archivesAffected)
+    {
+        $this->logger->info("Invalidating archives affected by duplicates fixed...");
+        foreach ($archivesAffected as $archiveInfo) {
+            $this->archiveInvalidator->markArchivesAsInvalidated(
+                array($archiveInfo['idsite']), $archiveInfo['server_time'], $period = false);
+        }
+        $this->logger->info("...Done.");
     }
 }

@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 
 use Piwik\Common;
+use Piwik\DataAccess\ArchiveInvalidator;
 use Piwik\Db;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreAdminHome\Utility\DuplicateActionRemover;
@@ -59,7 +60,7 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
                 'idsite' => 2,
                 'idvisitor' => self::DUMMY_IDVISITOR,
                 'idvisit' => 2,
-                'server_time' => '2012-01-01 00:00:00',
+                'server_time' => '2013-01-01 00:00:00',
                 'time_spent_ref_action' => 120,
                 'idaction_url_ref' => 2,
                 'idaction_name_ref' => 3,
@@ -78,7 +79,7 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
                 'idvisit' => 1,
                 'idsite' => 1,
                 'idvisitor' => self::DUMMY_IDVISITOR,
-                'server_time' => '2012-01-01 00:00:00',
+                'server_time' => '2012-02-01 00:00:00',
                 'idgoal' => 1,
                 'buster' => 1,
                 'url' => 'http://example.com/',
@@ -93,7 +94,7 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
                 'idvisit' => 2,
                 'idsite' => 2,
                 'idvisitor' => self::DUMMY_IDVISITOR,
-                'server_time' => '2012-01-01 00:00:00',
+                'server_time' => '2012-03-01 00:00:00',
                 'idgoal' => 2,
                 'buster' => 2,
                 'url' => 'http://example.com/',
@@ -108,7 +109,7 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
             array(
                 'idsite' => 1,
                 'idvisitor' => self::DUMMY_IDVISITOR,
-                'server_time' => '2012-01-01 00:00:00',
+                'server_time' => '2012-02-01 00:00:00',
                 'idvisit' => 1,
                 'idorder' => 1,
                 'price' => 10,
@@ -125,7 +126,7 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
             array(
                 'idsite' => 2,
                 'idvisitor' => self::DUMMY_IDVISITOR,
-                'server_time' => '2012-01-01 00:00:00',
+                'server_time' => '2012-01-09 00:00:00',
                 'idvisit' => 2,
                 'idorder' => 2,
                 'price' => 10,
@@ -155,17 +156,29 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
             self::insertRowData($table, $rows);
         }
 
-        $this->remover = new DuplicateActionRemover();
+        $archiveInvalidator = new ArchiveInvalidator();
+        $this->remover = new DuplicateActionRemover($archiveInvalidator);
     }
 
     public function test_DuplicateActionRemover_CorrectlyRemovesDuplicates_AndFixesReferencesInOtherTables()
     {
-        $this->remover->removeDuplicateActionsFromDb();
+        list($duplicatesCount, $affectedArchives) = $this->remover->removeDuplicateActionsFromDb();
 
         $this->assertDuplicateActionsRemovedFromLogActionTable();
         $this->assertDuplicatesFixedInLogLinkVisitActionTable();
         $this->assertDuplicatesFixedInLogConversionTable();
         $this->assertDuplicatesFixedInLogConversionItemTable();
+
+        $this->assertEquals(7, $duplicatesCount);
+
+        $expectedAffectedArchives = array(
+            array('idsite' => '1', 'server_time' => '2012-01-01'),
+            array('idsite' => '2', 'server_time' => '2013-01-01'),
+            array('idsite' => '1', 'server_time' => '2012-02-01'),
+            array('idsite' => '2', 'server_time' => '2012-01-09'),
+            array('idsite' => '2', 'server_time' => '2012-03-01'),
+        );
+        $this->assertEquals($expectedAffectedArchives, $affectedArchives);
     }
 
     private static function insertRowData($unprefixedTable, $rows)
