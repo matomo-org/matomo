@@ -119,7 +119,13 @@ $(document).ready(function () {
         uploadFrame.load(function (data) {
             setTimeout(function () {
                 refreshCustomLogo();
-                uploadFrame.remove();
+
+                var frameContent = $(uploadFrame.contents()).find('body').html();
+                frameContent = $.trim(frameContent);
+
+                if ('1' === frameContent || '0' === frameContent) {
+                    uploadFrame.remove();
+                }
             }, 1000);
         });
         $("body:first").append(uploadFrame);
