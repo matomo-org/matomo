@@ -6,14 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\Log\Processor;
+namespace Piwik\Plugins\Monolog\Test\Unit\Processor;
 
-use Piwik\Log\Processor\ClassNameProcessor;
+use Piwik\Plugins\Monolog\Processor\ClassNameProcessor;
 
 /**
- * @group Core
  * @group Log
- * @covers \Piwik\Log\Processor\ClassNameProcessor
+ * @covers \Piwik\Plugins\Monolog\Processor\ClassNameProcessor
  */
 class ClassNameProcessorTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +32,7 @@ class ClassNameProcessorTest extends \PHPUnit_Framework_TestCase
         $expected = array(
             'extra' => array(
                 'foo' => 'bar',
-                'class' => __CLASS__,
+                'class' => 'Monolog',
             ),
         );
 

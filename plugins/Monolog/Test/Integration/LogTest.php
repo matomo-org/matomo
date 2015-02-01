@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Integration\Log;
+namespace Piwik\Plugins\Monolog\Test\Integration;
 
 use Exception;
 use Piwik\Common;
@@ -15,8 +15,8 @@ use Piwik\Container\ContainerFactory;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Log;
+use Piwik\Plugins\Monolog\Test\Integration\Fixture\LoggerWrapper;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Tests\Integration\Log\Fixture\LoggerWrapper;
 
 /**
  * @group Core
@@ -28,10 +28,10 @@ class LogTest extends IntegrationTestCase
     const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
     const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] %s";
 
-    public static $expectedExceptionOutput = '[Piwik\Tests\Integration\Log\LogTest] LogTest.php(120): dummy error message
+    public static $expectedExceptionOutput = '[Monolog] LogTest.php(120): dummy error message
   dummy backtrace';
 
-    public static $expectedErrorOutput = '[Piwik\Tests\Integration\Log\LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
+    public static $expectedErrorOutput = '[Monolog] dummyerrorfile.php(145): Unknown error (102) - dummy error string
   dummy backtrace';
 
     public function setUp()
@@ -82,7 +82,7 @@ class LogTest extends IntegrationTestCase
 
         Log::warning(self::TESTMESSAGE);
 
-        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = __CLASS__);
+        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = 'Monolog');
     }
 
     /**
@@ -94,7 +94,7 @@ class LogTest extends IntegrationTestCase
 
         Log::warning(self::TESTMESSAGE, " subst ");
 
-        $this->checkBackend($backend, sprintf(self::TESTMESSAGE, " subst "), $formatMessage = true, $tag = __CLASS__);
+        $this->checkBackend($backend, sprintf(self::TESTMESSAGE, " subst "), $formatMessage = true, $tag = 'Monolog');
     }
 
     /**
@@ -107,7 +107,7 @@ class LogTest extends IntegrationTestCase
         $error = new \ErrorException("dummy error string", 0, 102, "dummyerrorfile.php", 145);
         Log::error($error);
 
-        $this->checkBackend($backend, self::$expectedErrorOutput, $formatMessage = false, $tag = __CLASS__);
+        $this->checkBackend($backend, self::$expectedErrorOutput, $formatMessage = false, $tag = 'Monolog');
     }
 
     /**
@@ -120,7 +120,7 @@ class LogTest extends IntegrationTestCase
         $exception = new Exception("dummy error message");
         Log::error($exception);
 
-        $this->checkBackend($backend, self::$expectedExceptionOutput, $formatMessage = false, $tag = __CLASS__);
+        $this->checkBackend($backend, self::$expectedExceptionOutput, $formatMessage = false, $tag = 'Monolog');
     }
 
     /**
@@ -132,9 +132,7 @@ class LogTest extends IntegrationTestCase
 
         LoggerWrapper::doLog(self::TESTMESSAGE);
 
-        $tag = 'Piwik\Tests\Integration\Log\Fixture\LoggerWrapper';
-
-        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag);
+        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, 'Monolog');
     }
 
     /**
@@ -159,9 +157,7 @@ class LogTest extends IntegrationTestCase
 
         LoggerWrapper::doLog(" \n   ".self::TESTMESSAGE."\n\n\n   \n");
 
-        $tag = 'Piwik\Tests\Integration\Log\Fixture\LoggerWrapper';
-
-        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag);
+        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, 'Monolog');
     }
 
     /**
@@ -176,7 +172,7 @@ class LogTest extends IntegrationTestCase
 
         Log::info(self::TESTMESSAGE);
 
-        $this->checkBackend('database', self::TESTMESSAGE, $formatMessage = true, $tag = __CLASS__);
+        $this->checkBackend('database', self::TESTMESSAGE, $formatMessage = true, $tag = 'Monolog');
     }
 
     private function checkBackend($backend, $expectedMessage, $formatMessage = false, $tag = false)

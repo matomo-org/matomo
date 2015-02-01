@@ -6,15 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\Log\Processor;
+namespace Piwik\Plugins\Monolog\Test\Unit\Processor;
 
 use Piwik\Log;
-use Piwik\Log\Processor\ExceptionToTextProcessor;
+use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 
 /**
- * @group Core
  * @group Log
- * @covers \Piwik\Log\Processor\ExceptionToTextProcessor
+ * @covers \Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor
  */
 class ExceptionToTextProcessorTest extends \PHPUnit_Framework_TestCase
 {
@@ -48,7 +47,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit_Framework_TestCase
         $result = $processor($record);
 
         $expected = array(
-            'message' => __FILE__ . "(41): Hello world\n[stack trace]",
+            'message' => __FILE__ . "(40): Hello world\n[stack trace]",
             'context' => array(
                 'exception' => $exception,
             ),
