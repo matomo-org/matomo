@@ -28,7 +28,7 @@ class DeviceDetectorCache implements \DeviceDetector\Cache\Cache
     public function __construct($ttl = 300)
     {
         $this->ttl   = (int) $ttl;
-        $this->cache = PiwikCache::getLazyCache();
+        $this->cache = PiwikCache::getEagerCache();
     }
 
     /**
@@ -45,6 +45,10 @@ class DeviceDetectorCache implements \DeviceDetector\Cache\Cache
 
         if (array_key_exists($id, self::$staticCache)) {
             return self::$staticCache[$id];
+        }
+
+        if (!$this->cache->contains($id)) {
+            return false;
         }
 
         return $this->cache->fetch($id);
