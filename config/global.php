@@ -10,7 +10,7 @@ return array(
 
     'path.root' => PIWIK_USER_PATH,
 
-    'path.tmp' => DI\factory(function (ContainerInterface $c) {
+    'path.tmp' => function (ContainerInterface $c) {
         $root = $c->get('path.root');
 
         // TODO remove that special case and instead have plugins override 'path.tmp' to add the instance id
@@ -22,15 +22,15 @@ return array(
         }
 
         return $root . '/tmp' . $instanceId;
-    }),
+    },
 
-    'path.cache' => DI\factory(function (ContainerInterface $c) {
+    'path.cache' => function (ContainerInterface $c) {
         $root = $c->get('path.tmp');
 
         return $root . '/cache/tracker/';
-    }),
+    },
 
-    'cache.backend' => DI\factory(function (ContainerInterface $c) {
+    'cache.backend' => function (ContainerInterface $c) {
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) { // todo replace this with isTest() instead of isCli()
             $backend = 'file';
         } elseif (\Piwik\Development::isEnabled()) {
@@ -40,10 +40,10 @@ return array(
         }
 
         return $backend;
-    }),
+    },
     'Piwik\Cache\Lazy' => DI\object(),
     'Piwik\Cache\Transient' => DI\object(),
-    'Piwik\Cache\Eager' => DI\factory(function (ContainerInterface $c) {
+    'Piwik\Cache\Eager' => function (ContainerInterface $c) {
 
         $backend = $c->get('Piwik\Cache\Backend');
 
@@ -67,14 +67,14 @@ return array(
         });
 
         return $cache;
-    }),
-    'Piwik\Cache\Backend' => DI\factory(function (ContainerInterface $c) {
+    },
+    'Piwik\Cache\Backend' => function (ContainerInterface $c) {
 
         $type    = $c->get('cache.backend');
         $backend = \Piwik\Cache::buildBackend($type);
 
         return $backend;
-    }),
+    },
 
     // Log
     'Psr\Log\LoggerInterface' => DI\object('Monolog\Logger')
