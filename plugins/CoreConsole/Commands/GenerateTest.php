@@ -30,8 +30,8 @@ class GenerateTest extends GeneratePluginBase
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pluginName = $this->getPluginName($input, $output);
-        $testName   = $this->getTestName($input, $output);
         $testType   = $this->getTestType($input, $output);
+        $testName   = $this->getTestName($input, $output, $testType);
 
         $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
         $replace       = array(
@@ -60,7 +60,7 @@ class GenerateTest extends GeneratePluginBase
         }
 
         $messages[] = 'Enjoy!';
-        
+
         $this->writeSuccessMessage($output, $messages);
     }
 
@@ -70,7 +70,7 @@ class GenerateTest extends GeneratePluginBase
      * @return string
      * @throws \RuntimeException
      */
-    private function getTestName(InputInterface $input, OutputInterface $output)
+    private function getTestName(InputInterface $input, OutputInterface $output, $testType)
     {
         $testname = $input->getOption('testname');
 
@@ -89,7 +89,7 @@ class GenerateTest extends GeneratePluginBase
             $validate($testname);
         }
 
-        if (!Common::stringEndsWith(strtolower($testname), 'test')) {
+        if (strtolower($testType) !== 'ui' && !Common::stringEndsWith(strtolower($testname), 'test')) {
             $testname = $testname . 'Test';
         }
 
