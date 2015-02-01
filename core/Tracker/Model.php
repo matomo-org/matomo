@@ -146,7 +146,7 @@ class Model
      *
      * @param string $name
      * @param int $type
-     * @param string $urlPrefix
+     * @param int $urlPrefix
      * @return int The ID of the action (can be for an existing action or new action).
      */
     public function createNewIdAction($name, $type, $urlPrefix)
@@ -230,7 +230,7 @@ class Model
             $i++;
         }
 
-        $sql .= " GROUP BY type, name";
+        $sql .= " GROUP BY type, hash, name";
 
         // Case URL & Title are empty
         if (empty($bind)) {
