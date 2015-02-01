@@ -45,19 +45,23 @@ class GenerateTest extends GeneratePluginBase
         $whitelistFiles = $this->getTestFilesWhitelist($testType);
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
-        $this->writeSuccessMessage($output, array(
-             sprintf('Test %s for plugin %s generated.', $testName, $pluginName),
-             'You can now start writing beautiful tests!',
+        $messages = array(
+            sprintf('Test %s for plugin %s generated.', $testName, $pluginName),
+        );
 
-        ));
+        if (strtolower($testType) === 'ui') {
+            $messages[] = 'To run this test execute the command: ';
+            $messages[] = sprintf('./console tests:run-ui %s', $testName);
+        } else {
+            $messages[] = 'To run all your plugin tests, execute the command: ';
+            $messages[] = sprintf('./console tests:run %s', $pluginName);
+            $messages[] = 'To run only this test: ';
+            $messages[] = sprintf('./console tests:run %s', $testName);
+        }
 
-        $this->writeSuccessMessage($output, array(
-             'To run all your plugin tests, execute the command: ',
-             sprintf('./console tests:run %s', $pluginName),
-             'To run only this test: ',
-             sprintf('./console tests:run %s', $testName),
-             'Enjoy!'
-        ));
+        $messages[] = 'Enjoy!';
+        
+        $this->writeSuccessMessage($output, $messages);
     }
 
     /**
