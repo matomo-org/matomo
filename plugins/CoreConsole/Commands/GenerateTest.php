@@ -51,12 +51,12 @@ class GenerateTest extends GeneratePluginBase
 
         if (strtolower($testType) === 'ui') {
             $messages[] = 'To run this test execute the command: ';
-            $messages[] = sprintf('./console tests:run-ui %s', $testName);
+            $messages[] = '<comment>' . sprintf('./console tests:run-ui %s', $testName) . '</comment>';
         } else {
             $messages[] = 'To run all your plugin tests, execute the command: ';
-            $messages[] = sprintf('./console tests:run %s', $pluginName);
+            $messages[] = '<comment>' . sprintf('./console tests:run %s', $pluginName) . '</comment>';
             $messages[] = 'To run only this test: ';
-            $messages[] = sprintf('./console tests:run %s', $testName);
+            $messages[] = '<comment>' . sprintf('./console tests:run %s', $testName) . '</comment>';
         }
 
         $messages[] = 'Enjoy!';
