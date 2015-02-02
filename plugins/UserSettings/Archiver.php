@@ -10,9 +10,10 @@
 namespace Piwik\Plugins\UserSettings;
 
 use Piwik\Common;
-use Piwik\DataAccess\LogAggregator;
+use Piwik\Container\StaticContainer;
 use Piwik\DataArray;
 use Piwik\DataTable;
+use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Metrics;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
@@ -50,8 +51,11 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function aggregateByLanguage()
     {
+        /** @var RegionDataProvider $regionDataProvider */
+        $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+
         $query = $this->getLogAggregator()->queryVisitsByDimension(array("label" => self::LANGUAGE_DIMENSION));
-        $countryCodes = Common::getCountriesList($includeInternalCodes = true);
+        $countryCodes = $regionDataProvider->getCountryList($includeInternalCodes = true);
         $metricsByLanguage = new DataArray();
 
         while ($row = $query->fetch()) {

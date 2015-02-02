@@ -23,6 +23,7 @@ use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
 use Piwik\Plugins\Dashboard\DashboardManagerControl;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Site;
+use Piwik\Translation\Translator;
 use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
@@ -31,7 +32,19 @@ use Piwik\Plugin\Widgets as PluginWidgets;
 
 class Controller extends \Piwik\Plugin\Controller
 {
-    function getDefaultAction()
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+
+        parent::__construct();
+    }
+    
+    public function getDefaultAction()
     {
         return 'redirectToCoreHomeIndex';
     }
@@ -44,7 +57,7 @@ class Controller extends \Piwik\Plugin\Controller
         $report = Report::factory($reportModule, $reportAction);
 
         if (empty($report)) {
-            throw new Exception(Piwik::translate('General_ExceptionReportNotFound'));
+            throw new Exception($this->translator->translate('General_ExceptionReportNotFound'));
         }
 
         $report->checkIsEnabled();
@@ -55,7 +68,7 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('This report is not supposed to be displayed in the menu, please define a $menuTitle in your report.');
         }
 
-        $menuTitle = Piwik::translate($menuTitle);
+        $menuTitle = $this->translator->translate($menuTitle);
         $content   = $this->renderReportWidget($reportModule, $reportAction);
 
         return View::singleReport($menuTitle, $content);
@@ -69,7 +82,7 @@ class Controller extends \Piwik\Plugin\Controller
         $report = Report::factory($reportModule, $reportAction);
 
         if (empty($report)) {
-            throw new Exception(Piwik::translate('General_ExceptionReportNotFound'));
+            throw new Exception($this->translator->translate('General_ExceptionReportNotFound'));
         }
 
         $report->checkIsEnabled();
@@ -87,7 +100,7 @@ class Controller extends \Piwik\Plugin\Controller
             return $widget->$widgetAction();
         }
 
-        throw new Exception(Piwik::translate('General_ExceptionWidgetNotFound'));
+        throw new Exception($this->translator->translate('General_ExceptionWidgetNotFound'));
     }
 
     function redirectToCoreHomeIndex()

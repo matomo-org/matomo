@@ -11,7 +11,9 @@ namespace Piwik\Tests\Unit;
 use Exception;
 use PHPUnit_Framework_TestCase;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
+use Piwik\Intl\Data\Provider\RegionDataProvider;
 
 /**
  * @backupGlobals enabled
@@ -336,6 +338,8 @@ class CommonTest extends PHPUnit_Framework_TestCase
      */
     public function getCountryCodeTestData()
     {
+        /** @var RegionDataProvider $regionDataProvider */
+        $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
 
         return array( // browser language, valid countries, expected result
             array("", array(), "xx"),
@@ -347,7 +351,7 @@ class CommonTest extends PHPUnit_Framework_TestCase
             array("fr-fr,fr-ca", array("us" => 'amn', "ca" => 'amn'), "ca"),
             array("fr-fr;q=1.0,fr-ca;q=0.9", array("us" => 'amn', "ca" => 'amn'), "ca"),
             array("fr-ca,fr;q=0.1", array("us" => 'amn', "ca" => 'amn'), "ca"),
-            array("en-us,en;q=0.5", Common::getCountriesList(), "us"),
+            array("en-us,en;q=0.5", $regionDataProvider->getCountryList(), "us"),
             array("fr-ca,fr;q=0.1", array("fr" => 'eur', "us" => 'amn', "ca" => 'amn'), "ca"),
             array("fr-fr,fr-ca", array("fr" => 'eur', "us" => 'amn', "ca" => 'amn'), "fr")
         );

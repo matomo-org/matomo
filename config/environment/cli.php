@@ -12,7 +12,7 @@ return array(
     'log.handlers' => array(
         DI\link('Symfony\Bridge\Monolog\Handler\ConsoleHandler'),
     ),
-    'Symfony\Bridge\Monolog\Handler\ConsoleHandler' => DI\factory(function (ContainerInterface $c) {
+    'Symfony\Bridge\Monolog\Handler\ConsoleHandler' => function (ContainerInterface $c) {
         // Override the default verbosity map to make it more verbose by default
         $verbosityMap = array(
             OutputInterface::VERBOSITY_NORMAL => Logger::INFO,
@@ -23,7 +23,7 @@ return array(
         $handler = new ConsoleHandler(null, true, $verbosityMap);
         $handler->setFormatter(new ConsoleFormatter($c->get('log.console.format'), null, true, true));
         return $handler;
-    }),
+    },
     'log.console.format' => '%start_tag%%level_name% %extra.class%[%datetime%]%end_tag% %message%' . PHP_EOL,
 
 );

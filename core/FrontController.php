@@ -310,8 +310,6 @@ class FrontController extends Singleton
         }
         $initialized = true;
 
-        Registry::set('timer', new Timer);
-
         $exceptionToThrow = self::createConfigObject();
 
         $tmpPath = StaticContainer::get('path.tmp');

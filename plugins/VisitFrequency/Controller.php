@@ -11,14 +11,24 @@ namespace Piwik\Plugins\VisitFrequency;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
-/**
- *
- */
 class Controller extends \Piwik\Plugin\Controller
 {
-    function index()
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+
+        parent::__construct();
+    }
+
+    public function index()
     {
         $view = new View('@VisitFrequency/index');
         $this->setGeneralVariablesView($view);
@@ -45,9 +55,9 @@ class Controller extends \Piwik\Plugin\Controller
             }
         }
 
-        $documentation = Piwik::translate('VisitFrequency_ReturningVisitsDocumentation') . '<br />'
-            . Piwik::translate('General_BrokenDownReportDocumentation') . '<br />'
-            . Piwik::translate('VisitFrequency_ReturningVisitDocumentation');
+        $documentation = $this->translator->translate('VisitFrequency_ReturningVisitsDocumentation') . '<br />'
+            . $this->translator->translate('General_BrokenDownReportDocumentation') . '<br />'
+            . $this->translator->translate('VisitFrequency_ReturningVisitDocumentation');
 
         // Note: if you edit this array, maybe edit the code below as well
         $selectableColumns = array(
