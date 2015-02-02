@@ -5,7 +5,7 @@ If a captured screenshot does not match its expected screenshot, the build will 
 
 Read on to learn how to run, manage and create screenshot tests.
 
-## Fixing a broken build
+## Fixing a broken build 
 
 Changes made to Piwik that affect the UI (such as changes to CSS, JavaScript, Twig templates or even PHP code) may
 break the UI tests build. This is an opportunity to review your code and as a Piwik developer you should ensure that
@@ -42,7 +42,7 @@ To fix a broken build, follow these steps:
 
 _Note: the **development:sync-ui-test-screenshots** console command can be used to speed up the process. Run **./console help development:sync-ui-test-screenshots** to learn more._
 
-## Setup screenshots tests on your dev box
+## <a name="setup"></a>Setup screenshots tests on your dev box
 
 These tests are in another repository but are included in Piwik as a submodule. To get the tests, run the following commands:
 
@@ -79,7 +79,7 @@ exports.phpServer = {
 
 ```
 
-## Running Tests
+## <a name="run-tests"></a>Running Tests
 
 You can test the UI by running the following command in the root piwik directory:
 
@@ -165,7 +165,7 @@ If you want to compare a screenshot against an already existing expected screens
         }, done);
     });
 
-### Manipulating Pages Before Capture
+### <a name="manipulating-pages"></a>Manipulating Pages Before Capture
 
 The callback supplied to the `capture()` function accepts one argument: the page renderer. You can use this object to queue events to be sent to the page before taking a screenshot. For example:
 

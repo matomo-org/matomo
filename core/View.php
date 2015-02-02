@@ -237,13 +237,6 @@ class View implements ViewInterface
             // can fail, for example at installation (no plugin loaded yet)
         }
 
-        try {
-            $this->totalTimeGeneration = Registry::get('timer')->getTime();
-            $this->totalNumberOfQueries = Profiler::getQueryCount();
-        } catch (Exception $e) {
-            $this->totalNumberOfQueries = 0;
-        }
-
         ProxyHttp::overrideCacheControlHeaders('no-store');
 
         Common::sendHeader('Content-Type: ' . $this->contentType);

@@ -21,6 +21,7 @@ use Piwik\Plugins\Referrers\Reports\GetSearchEngines;
 use Piwik\Plugins\Referrers\Reports\GetSocials;
 use Piwik\Plugins\Referrers\Reports\GetWebsites;
 use Piwik\SettingsPiwik;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
 /**
@@ -28,6 +29,18 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+
+        parent::__construct();
+    }
+
     public function index()
     {
         $view = new View('@Referrers/index');
@@ -217,7 +230,7 @@ class Controller extends \Piwik\Plugin\Controller
                 $typeReferrer = Common::getRequestVar('typeReferrer', false);
             }
             $label = self::getTranslatedReferrerTypeLabel($typeReferrer);
-            $total = Piwik::translate('General_Total');
+            $total = $this->translator->translate('General_Total');
 
             if (!empty($view->config->rows_to_display)) {
                 $visibleRows = $view->config->rows_to_display;
@@ -230,10 +243,10 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->row_picker_match_rows_by = 'label';
         $view->config->rows_to_display = $visibleRows;
 
-        $view->config->documentation = Piwik::translate('Referrers_EvolutionDocumentation') . '<br />'
-            . Piwik::translate('General_BrokenDownReportDocumentation') . '<br />'
-            . Piwik::translate('Referrers_EvolutionDocumentationMoreInfo', '&quot;'
-                . Piwik::translate('Referrers_ReferrerTypes') . '&quot;');
+        $view->config->documentation = $this->translator->translate('Referrers_EvolutionDocumentation') . '<br />'
+            . $this->translator->translate('General_BrokenDownReportDocumentation') . '<br />'
+            . $this->translator->translate('Referrers_EvolutionDocumentationMoreInfo', '&quot;'
+                . $this->translator->translate('Referrers_ReferrerTypes') . '&quot;');
 
         return $this->renderView($view);
     }
@@ -241,7 +254,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function getLastDistinctSearchEnginesGraph()
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctSearchEngines");
-        $view->config->translations['Referrers_distinctSearchEngines'] = ucfirst(Piwik::translate('Referrers_DistinctSearchEngines'));
+        $view->config->translations['Referrers_distinctSearchEngines'] = ucfirst($this->translator->translate('Referrers_DistinctSearchEngines'));
         $view->config->columns_to_display = array('Referrers_distinctSearchEngines');
         return $this->renderView($view);
     }
@@ -249,7 +262,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function getLastDistinctKeywordsGraph()
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctKeywords");
-        $view->config->translations['Referrers_distinctKeywords'] = ucfirst(Piwik::translate('Referrers_DistinctKeywords'));
+        $view->config->translations['Referrers_distinctKeywords'] = ucfirst($this->translator->translate('Referrers_DistinctKeywords'));
         $view->config->columns_to_display = array('Referrers_distinctKeywords');
         return $this->renderView($view);
     }
@@ -257,7 +270,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function getLastDistinctWebsitesGraph()
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctWebsites");
-        $view->config->translations['Referrers_distinctWebsites'] = ucfirst(Piwik::translate('Referrers_DistinctWebsites'));
+        $view->config->translations['Referrers_distinctWebsites'] = ucfirst($this->translator->translate('Referrers_DistinctWebsites'));
         $view->config->columns_to_display = array('Referrers_distinctWebsites');
         return $this->renderView($view);
     }
@@ -265,7 +278,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function getLastDistinctCampaignsGraph()
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctCampaigns");
-        $view->config->translations['Referrers_distinctCampaigns'] = ucfirst(Piwik::translate('Referrers_DistinctCampaigns'));
+        $view->config->translations['Referrers_distinctCampaigns'] = ucfirst($this->translator->translate('Referrers_DistinctCampaigns'));
         $view->config->columns_to_display = array('Referrers_distinctCampaigns');
         return $this->renderView($view);
     }
@@ -409,7 +422,7 @@ function DisplayTopKeywords($url = "")
      */
     private function getReferrerUrlSparkline($referrerType)
     {
-        $totalRow = Piwik::translate('General_Total');
+        $totalRow = $this->translator->translate('General_Total');
         return $this->getUrlSparkline(
             'getEvolutionGraph',
             array('columns'      => array('nb_visits'),

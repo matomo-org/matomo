@@ -22,8 +22,8 @@ describe("SimpleUITest", function () {
     });
 
     it('should load a simple page by its module and action and take a full screenshot', function (done) {
-        var screenshotName = 'simple_page';
-        // will take a screenshot and store it in "processed-ui-screenshots/SimpleUITest_simple_page.png"
+        var screenshotName = 'simplePage';
+        // will take a screenshot and store it in "processed-ui-screenshots/SimpleUITest_simplePage.png"
         var urlToTest = "?" + generalParams + "&module=ExamplePlugin&action=index";
 
         expect.screenshot(screenshotName).to.be.capture(function (page) {
@@ -32,8 +32,8 @@ describe("SimpleUITest", function () {
     });
 
     it('should load a simple page by its module and action and take a partial screenshot', function (done) {
-        var screenshotName  = 'simple_page_partial';
-        // will take a screenshot and store it in "processed-ui-screenshots/SimpleUITest_simple_page_partial.png"
+        var screenshotName  = 'simplePagePartial';
+        // will take a screenshot and store it in "processed-ui-screenshots/SimpleUITest_simplePagePartial.png"
         var contentSelector = '#root,.expandDataTableFooterDrawer';
         // take a screenshot only of the content of this CSS/jQuery selector
         var urlToTest       = "?" + generalParams + "&module=ExamplePlugin&action=index";

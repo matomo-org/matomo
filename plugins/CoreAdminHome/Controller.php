@@ -18,6 +18,7 @@ use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 use Piwik\Nonce;
 use Piwik\Piwik;
+use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
@@ -29,15 +30,25 @@ use Piwik\Settings\SystemSetting;
 use Piwik\Settings\UserSetting;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
+use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\View;
 
-/**
- *
- */
-class Controller extends \Piwik\Plugin\ControllerAdmin
+class Controller extends ControllerAdmin
 {
     const SET_PLUGIN_SETTINGS_NONCE = 'CoreAdminHome.setPluginSettings';
+
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+
+        parent::__construct();
+    }
 
     public function index()
     {
@@ -172,7 +183,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (!Nonce::verifyNonce(static::SET_PLUGIN_SETTINGS_NONCE, $nonce)) {
             return json_encode(array(
                 'result' => 'error',
-                'message' => Piwik::translate('General_ExceptionNonceMismatch')
+                'message' => $this->translator->translate('General_ExceptionNonceMismatch')
             ));
         }
 
@@ -209,7 +220,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         } catch (Exception $e) {
             return json_encode(array(
                 'result' => 'error',
-                'message' => Piwik::translate('CoreAdminHome_PluginSettingsSaveFailed'))
+                'message' => $this->translator->translate('CoreAdminHome_PluginSettingsSaveFailed'))
             );
         }
 

@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\LanguagesManager\Test\Integration;
 
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Plugins\LanguagesManager\API;
@@ -173,9 +172,12 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
      *
      * @group Plugins
      */
-    function testGetLanguagesList()
+    public function testGetLanguagesList()
     {
-        $languages = Common::getLanguagesList();
+        /** @var LanguageDataProvider $languageDataProvider */
+        $languageDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
+
+        $languages = $languageDataProvider->getLanguageList();
         $this->assertTrue(count($languages) > 0);
         foreach ($languages as $langCode => $langs) {
             $this->assertTrue(strlen($langCode) == 2, "$langCode length = 2");
