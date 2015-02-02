@@ -9,6 +9,7 @@
 namespace Piwik\Period;
 
 use Exception;
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Period;
@@ -33,6 +34,11 @@ class Range extends Period
     protected $today;
 
     /**
+     * @var null|Date
+     */
+    protected $defaultEndDate;
+
+    /**
      * Constructor.
      *
      * @param string $strPeriod The type of period each subperiod is. Either `'day'`, `'week'`,
@@ -54,6 +60,41 @@ class Range extends Period
         }
 
         $this->today = $today;
+    }
+
+    private function getCache()
+    {
+        return Cache::getTransientCache();
+    }
+
+    private function getCacheId()
+    {
+        $end = '';
+        if ($this->defaultEndDate) {
+            $end = $this->defaultEndDate->getTimestamp();
+        }
+
+        $today = $this->today->getTimestamp();
+
+        return 'range' . $this->strPeriod . $this->strDate . $this->timezone . $end . $today;
+    }
+
+    private function loadAllFromCache()
+    {
+        $range = $this->getCache()->fetch($this->getCacheId());
+
+        if (!empty($range)) {
+            foreach ($range as $key => $val) {
+                $this->$key = $val;
+            }
+        }
+    }
+
+    private function cacheAll()
+    {
+        $props = get_object_vars($this);
+
+        $this->getCache()->save($this->getCacheId(), $props);
     }
 
     /**
@@ -156,6 +197,12 @@ class Range extends Period
             return;
         }
 
+        $this->loadAllFromCache();
+
+        if ($this->subperiodsProcessed) {
+            return;
+        }
+
         parent::generate();
 
         if (preg_match('/(last|previous)([0-9]*)/', $this->strDate, $regs)) {
@@ -214,6 +261,7 @@ class Range extends Period
 
         if ($this->strPeriod != 'range') {
             $this->fillArraySubPeriods($startDate, $endDate, $this->strPeriod);
+            $this->cacheAll();
             return;
         }
 
@@ -221,6 +269,7 @@ class Range extends Period
         // When period=range, we want End Date to be the actual specified end date,
         // rather than the end of the month / week / whatever is used for processing this range
         $this->endDate = $endDate;
+        $this->cacheAll();
     }
 
     /**
@@ -461,5 +510,18 @@ class Range extends Period
                 && $endDate->isLater($this->today)));
 
         return $isEndOfWeekLaterThanEndDate;
+    }
+
+    /**
+     * Returns the date range string comprising two dates
+     *
+     * @return string eg, `'2012-01-01,2012-01-31'`.
+     */
+    public function getRangeString()
+    {
+        $dateStart = $this->getDateStart();
+        $dateEnd   = $this->getDateEnd();
+
+        return $dateStart->toString("Y-m-d") . "," . $dateEnd->toString("Y-m-d");
     }
 }
