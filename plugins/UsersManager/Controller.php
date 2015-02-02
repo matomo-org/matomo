@@ -13,6 +13,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
+use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Login\SessionInitializer;
@@ -21,14 +22,24 @@ use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
+use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\View;
 
-/**
- *
- */
-class Controller extends \Piwik\Plugin\ControllerAdmin
+class Controller extends ControllerAdmin
 {
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+
+        parent::__construct();
+    }
+
     static function orderByName($a, $b)
     {
         return strcmp($a['name'], $b['name']);
@@ -53,7 +64,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         if ($idSiteSelected === 'all') {
             $usersAccessByWebsite = array();
-            $defaultReportSiteName = Piwik::translate('UsersManager_ApplyToAllWebsites');
+            $defaultReportSiteName = $this->translator->translate('UsersManager_ApplyToAllWebsites');
         } else {
             $usersAccessByWebsite = APIUsersManager::getInstance()->getUsersAccessFromSite($idSiteSelected);
             $defaultReportSiteName = Site::getNameFor($idSiteSelected);
@@ -158,15 +169,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     protected function getDefaultDates()
     {
         $dates = array(
-            'today'      => Piwik::translate('General_Today'),
-            'yesterday'  => Piwik::translate('General_Yesterday'),
-            'previous7'  => Piwik::translate('General_PreviousDays', 7),
-            'previous30' => Piwik::translate('General_PreviousDays', 30),
-            'last7'      => Piwik::translate('General_LastDays', 7),
-            'last30'     => Piwik::translate('General_LastDays', 30),
-            'week'       => Piwik::translate('General_CurrentWeek'),
-            'month'      => Piwik::translate('General_CurrentMonth'),
-            'year'       => Piwik::translate('General_CurrentYear'),
+            'today'      => $this->translator->translate('General_Today'),
+            'yesterday'  => $this->translator->translate('General_Yesterday'),
+            'previous7'  => $this->translator->translate('General_PreviousDays', 7),
+            'previous30' => $this->translator->translate('General_PreviousDays', 30),
+            'last7'      => $this->translator->translate('General_LastDays', 7),
+            'last30'     => $this->translator->translate('General_LastDays', 30),
+            'week'       => $this->translator->translate('General_CurrentWeek'),
+            'month'      => $this->translator->translate('General_CurrentMonth'),
+            'year'       => $this->translator->translate('General_CurrentYear'),
         );
 
         $mappingDatesToPeriods = array(
@@ -394,7 +405,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             || !empty($passwordBis)
         ) {
             if ($password != $passwordBis) {
-                throw new Exception(Piwik::translate('Login_PasswordsDoNotMatch'));
+                throw new Exception($this->translator->translate('Login_PasswordsDoNotMatch'));
             }
             $newPassword = $password;
         }

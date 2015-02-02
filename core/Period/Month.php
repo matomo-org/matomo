@@ -25,7 +25,7 @@ class Month extends Period
     public function getLocalizedShortString()
     {
         //"Aug 09"
-        $out = $this->getDateStart()->getLocalized(Piwik::translate('CoreHome_ShortMonthFormat'));
+        $out = $this->getDateStart()->getLocalized($this->translator->translate('CoreHome_ShortMonthFormat'));
         return $out;
     }
 
@@ -37,7 +37,7 @@ class Month extends Period
     public function getLocalizedLongString()
     {
         //"August 2009"
-        $out = $this->getDateStart()->getLocalized(Piwik::translate('CoreHome_LongMonthFormat'));
+        $out = $this->getDateStart()->getLocalized($this->translator->translate('CoreHome_LongMonthFormat'));
         return $out;
     }
 
