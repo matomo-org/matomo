@@ -10,6 +10,7 @@ namespace Piwik\Period;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -54,6 +55,8 @@ class Range extends Period
         }
 
         $this->today = $today;
+
+        $this->translator = StaticContainer::get('Piwik\Translation\Translator');
     }
 
     /**
