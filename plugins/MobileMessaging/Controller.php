@@ -12,17 +12,28 @@ namespace Piwik\Plugins\MobileMessaging;
 use Piwik\Common;
 use Piwik\IP;
 use Piwik\Piwik;
+use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
-/**
- *
- */
-class Controller extends \Piwik\Plugin\ControllerAdmin
+class Controller extends ControllerAdmin
 {
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+
+        parent::__construct();
+    }
+
     /*
      * Mobile Messaging Settings tab :
      *  - set delegated management
@@ -65,7 +76,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->delegatedManagement = $mobileMessagingAPI->getDelegatedManagement();
         $view->credentialSupplied = $mobileMessagingAPI->areSMSAPICredentialProvided();
         $view->accountManagedByCurrentUser = $view->isSuperUser || $view->delegatedManagement;
-        $view->strHelpAddPhone = Piwik::translate('MobileMessaging_Settings_PhoneNumbers_HelpAdd', array(Piwik::translate('General_Settings'), Piwik::translate('MobileMessaging_SettingsMenu')));
+        $view->strHelpAddPhone = $this->translator->translate('MobileMessaging_Settings_PhoneNumbers_HelpAdd', array(
+            $this->translator->translate('General_Settings'),
+            $this->translator->translate('MobileMessaging_SettingsMenu')
+        ));
         $view->creditLeft = 0;
         $view->provider = '';
         if ($view->credentialSupplied && $view->accountManagedByCurrentUser) {

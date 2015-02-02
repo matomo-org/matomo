@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
 /**
@@ -22,9 +23,20 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-
     // By default plot up to the last 30 days of visitors on the map, for low traffic sites
     const REAL_TIME_WINDOW = 'last30';
+    
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+
+        parent::__construct();
+    }
 
     public function visitorMap($fetch = false, $segmentOverride = false)
     {
@@ -64,18 +76,18 @@ class Controller extends \Piwik\Plugin\Controller
 
         // some translations
         $view->localeJSON = json_encode(array(
-                                                     'nb_visits'            => Piwik::translate('General_NVisits'),
-                                                     'one_visit'            => Piwik::translate('General_OneVisit'),
-                                                     'no_visit'             => Piwik::translate('UserCountryMap_NoVisit'),
-                                                     'nb_actions'           => Piwik::translate('VisitsSummary_NbActionsDescription'),
-                                                     'nb_actions_per_visit' => Piwik::translate('VisitsSummary_NbActionsPerVisit'),
-                                                     'bounce_rate'          => Piwik::translate('VisitsSummary_NbVisitsBounced'),
-                                                     'avg_time_on_site'     => Piwik::translate('VisitsSummary_AverageVisitDuration'),
-                                                     'and_n_others'         => Piwik::translate('UserCountryMap_AndNOthers'),
-                                                     'no_data'              => Piwik::translate('CoreHome_ThereIsNoDataForThisReport'),
-                                                     'nb_uniq_visitors'     => Piwik::translate('VisitsSummary_NbUniqueVisitors'),
-                                                     'nb_users'             => Piwik::translate('VisitsSummary_NbUsers'),
-                                                ));
+             'nb_visits'            => $this->translator->translate('General_NVisits'),
+             'one_visit'            => $this->translator->translate('General_OneVisit'),
+             'no_visit'             => $this->translator->translate('UserCountryMap_NoVisit'),
+             'nb_actions'           => $this->translator->translate('VisitsSummary_NbActionsDescription'),
+             'nb_actions_per_visit' => $this->translator->translate('VisitsSummary_NbActionsPerVisit'),
+             'bounce_rate'          => $this->translator->translate('VisitsSummary_NbVisitsBounced'),
+             'avg_time_on_site'     => $this->translator->translate('VisitsSummary_AverageVisitDuration'),
+             'and_n_others'         => $this->translator->translate('UserCountryMap_AndNOthers'),
+             'no_data'              => $this->translator->translate('CoreHome_ThereIsNoDataForThisReport'),
+             'nb_uniq_visitors'     => $this->translator->translate('VisitsSummary_NbUniqueVisitors'),
+             'nb_users'             => $this->translator->translate('VisitsSummary_NbUsers'),
+        ));
 
         $view->reqParamsJSON = $this->getEnrichedRequest($params = array(
             'period'                      => $period,
@@ -136,19 +148,19 @@ class Controller extends \Piwik\Plugin\Controller
 
         // some translations
         $locale = array(
-            'nb_actions'       => Piwik::translate('VisitsSummary_NbActionsDescription'),
-            'local_time'       => Piwik::translate('VisitTime_ColumnLocalTime'),
-            'from'             => Piwik::translate('General_FromReferrer'),
-            'seconds'          => Piwik::translate('UserCountryMap_Seconds'),
-            'seconds_ago'      => Piwik::translate('UserCountryMap_SecondsAgo'),
-            'minutes'          => Piwik::translate('UserCountryMap_Minutes'),
-            'minutes_ago'      => Piwik::translate('UserCountryMap_MinutesAgo'),
-            'hours'            => Piwik::translate('UserCountryMap_Hours'),
-            'hours_ago'        => Piwik::translate('UserCountryMap_HoursAgo'),
-            'days_ago'         => Piwik::translate('UserCountryMap_DaysAgo'),
-            'actions'          => Piwik::translate('VisitsSummary_NbPageviewsDescription'),
-            'searches'         => Piwik::translate('UserCountryMap_Searches'),
-            'goal_conversions' => Piwik::translate('UserCountryMap_GoalConversions'),
+            'nb_actions'       => $this->translator->translate('VisitsSummary_NbActionsDescription'),
+            'local_time'       => $this->translator->translate('VisitTime_ColumnLocalTime'),
+            'from'             => $this->translator->translate('General_FromReferrer'),
+            'seconds'          => $this->translator->translate('UserCountryMap_Seconds'),
+            'seconds_ago'      => $this->translator->translate('UserCountryMap_SecondsAgo'),
+            'minutes'          => $this->translator->translate('UserCountryMap_Minutes'),
+            'minutes_ago'      => $this->translator->translate('UserCountryMap_MinutesAgo'),
+            'hours'            => $this->translator->translate('UserCountryMap_Hours'),
+            'hours_ago'        => $this->translator->translate('UserCountryMap_HoursAgo'),
+            'days_ago'         => $this->translator->translate('UserCountryMap_DaysAgo'),
+            'actions'          => $this->translator->translate('VisitsSummary_NbPageviewsDescription'),
+            'searches'         => $this->translator->translate('UserCountryMap_Searches'),
+            'goal_conversions' => $this->translator->translate('UserCountryMap_GoalConversions'),
         );
 
         $segment = $segmentOverride ? : Request::getRawSegmentFromRequest() ? : '';
@@ -206,7 +218,7 @@ class Controller extends \Piwik\Plugin\Controller
     private function checkUserCountryPluginEnabled()
     {
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('UserCountry')) {
-            throw new Exception(Piwik::translate('General_Required', 'Plugin UserCountry'));
+            throw new Exception($this->translator->translate('General_Required', 'Plugin UserCountry'));
         }
     }
 

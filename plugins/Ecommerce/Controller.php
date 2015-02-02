@@ -9,14 +9,26 @@
 namespace Piwik\Plugins\Ecommerce;
 
 use Exception;
-use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugins\Goals\Controller
 {
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+
+        parent::__construct($translator);
+    }
+
     public function ecommerceReport()
     {
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('CustomVariables')) {
@@ -25,7 +37,8 @@ class Controller extends \Piwik\Plugins\Goals\Controller
 
         $view = $this->getGoalReportView($idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
         $view->displayFullReport = false;
-        $view->headline = Piwik::translate('General_EvolutionOverPeriod');
+        $view->headline = $this->translator->translate('General_EvolutionOverPeriod');
+
         return $view->render();
     }
 

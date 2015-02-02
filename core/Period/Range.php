@@ -66,7 +66,7 @@ class Range extends Period
         //"30 Dec 08 - 26 Feb 09"
         $dateStart = $this->getDateStart();
         $dateEnd   = $this->getDateEnd();
-        $template  = Piwik::translate('CoreHome_ShortDateFormatWithYear');
+        $template  = $this->translator->translate('CoreHome_ShortDateFormatWithYear');
 
         $shortDateStart = $dateStart->getLocalized($template);
         $shortDateEnd   = $dateEnd->getLocalized($template);
@@ -109,7 +109,7 @@ class Range extends Period
      */
     public function getPrettyString()
     {
-        $out = Piwik::translate('General_DateRangeFromTo', array($this->getDateStart()->toString(), $this->getDateEnd()->toString()));
+        $out = $this->translator->translate('General_DateRangeFromTo', array($this->getDateStart()->toString(), $this->getDateEnd()->toString()));
         return $out;
     }
 
@@ -209,7 +209,7 @@ class Range extends Period
             }
             $endDate = Date::factory($strDateEnd, $timezone);
         } else {
-            throw new Exception(Piwik::translate('General_ExceptionInvalidDateRange', array($this->strDate, ' \'lastN\', \'previousN\', \'YYYY-MM-DD,YYYY-MM-DD\'')));
+            throw new Exception($this->translator->translate('General_ExceptionInvalidDateRange', array($this->strDate, ' \'lastN\', \'previousN\', \'YYYY-MM-DD,YYYY-MM-DD\'')));
         }
 
         if ($this->strPeriod != 'range') {
