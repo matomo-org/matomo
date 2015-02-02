@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugins\LanguagesManager\TranslationWriter\Validate;
 
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 
 class CoreTranslations extends ValidateAbstract
@@ -75,10 +75,12 @@ class CoreTranslations extends ValidateAbstract
             return false;
         }
 
+        /** @var LanguageDataProvider $languageDataProvider */
+        $languageDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
         /** @var RegionDataProvider $regionDataProvider */
         $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
 
-        $allLanguages = Common::getLanguagesList();
+        $allLanguages = $languageDataProvider->getLanguageList();
         $allCountries = $regionDataProvider->getCountryList();
 
         if (!preg_match('/^([a-z]{2})_([A-Z]{2})\.UTF-8$/', $translations['General']['Locale'], $matches)) {

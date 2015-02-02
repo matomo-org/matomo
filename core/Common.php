@@ -752,7 +752,7 @@ class Common
      *
      * @see core/DataFiles/Countries.php
      *
-     * @return array  Array of 3 letter continent codes
+     * @return array Array of 3 letter continent codes
      *
      * @deprecated Use Piwik\Intl\Data\Provider\RegionDataProvider instead.
      * @see \Piwik\Intl\Data\Provider\RegionDataProvider::getContinentList()
@@ -770,7 +770,7 @@ class Common
      * @see core/DataFiles/Countries.php
      *
      * @param bool $includeInternalCodes
-     * @return array  Array of (2 letter ISO codes => 3 letter continent code)
+     * @return array Array of (2 letter ISO codes => 3 letter continent code)
      *
      * @deprecated Use Piwik\Intl\Data\Provider\RegionDataProvider instead.
      * @see \Piwik\Intl\Data\Provider\RegionDataProvider::getCountryList()
@@ -1275,8 +1275,11 @@ class Common
      */
     protected static function checkValidLanguagesIsSet($validLanguages)
     {
+        /** @var LanguageDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
+
         if (empty($validLanguages)) {
-            $validLanguages = array_keys(Common::getLanguagesList());
+            $validLanguages = array_keys($dataProvider->getLanguageList());
             return $validLanguages;
         }
         return $validLanguages;
