@@ -10,6 +10,8 @@ namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
@@ -92,7 +94,10 @@ class Country extends Base
             $hostnameDomain = 'gb';
         }
 
-        if (array_key_exists($hostnameDomain, Common::getCountriesList())) {
+        /** @var RegionDataProvider $regionDataProvider */
+        $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+
+        if (array_key_exists($hostnameDomain, $regionDataProvider->getCountryList())) {
             return $hostnameDomain;
         }
 

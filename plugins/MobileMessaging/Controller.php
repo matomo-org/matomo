@@ -10,20 +10,31 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Piwik\Common;
+use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\IP;
 use Piwik\Piwik;
+use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
 use Piwik\View;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
-/**
- *
- */
-class Controller extends \Piwik\Plugin\ControllerAdmin
+class Controller extends ControllerAdmin
 {
-    /*
+    /**
+     * @var RegionDataProvider
+     */
+    private $regionDataProvider;
+
+    public function __construct(RegionDataProvider $regionDataProvider)
+    {
+        $this->regionDataProvider = $regionDataProvider;
+
+        parent::__construct();
+    }
+
+    /**
      * Mobile Messaging Settings tab :
      *  - set delegated management
      *  - provide & validate SMS API credential
@@ -40,7 +51,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view->render();
     }
 
-    /*
+    /**
      * Mobile Messaging Settings tab :
      *  - set delegated management
      *  - provide & validate SMS API credential
@@ -77,13 +88,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         // construct the list of countries from the lang files
         $countries = array();
-        foreach (Common::getCountriesList() as $countryCode => $continentCode) {
+        foreach ($this->regionDataProvider->getCountryList() as $countryCode => $continentCode) {
             if (isset(CountryCallingCodes::$countryCallingCodes[$countryCode])) {
-                $countries[$countryCode] =
-                    array(
-                        'countryName'        => \Piwik\Plugins\UserCountry\countryTranslate($countryCode),
-                        'countryCallingCode' => CountryCallingCodes::$countryCallingCodes[$countryCode],
-                    );
+                $countries[$countryCode] = array(
+                    'countryName'        => \Piwik\Plugins\UserCountry\countryTranslate($countryCode),
+                    'countryCallingCode' => CountryCallingCodes::$countryCallingCodes[$countryCode],
+                );
             }
         }
         $view->countries = $countries;

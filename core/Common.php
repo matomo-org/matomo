@@ -959,7 +959,11 @@ class Common
             return self::LANGUAGE_CODE_INVALID;
         }
 
-        $validCountries = self::getCountriesList();
+        /** @var RegionDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+
+        $validCountries = $dataProvider->getCountryList();
+
         return self::extractCountryCodeFromBrowserLanguage($lang, $validCountries, $enableLanguageToCountryGuess);
     }
 
@@ -1070,11 +1074,12 @@ class Common
      */
     public static function getContinent($country)
     {
-        $countryList = self::getCountriesList();
-        if (isset($countryList[$country])) {
-            return $countryList[$country];
-        }
-        return 'unk';
+        /** @var RegionDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+
+        $countryList = $dataProvider->getCountryList();
+
+        return isset($countryList[$country]) ? $countryList[$country] : 'unk';
     }
 
     /*
