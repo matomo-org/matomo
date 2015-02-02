@@ -977,7 +977,10 @@ class Common
      */
     public static function extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess)
     {
-        $langToCountry = self::getLanguageToCountryList();
+        /** @var LanguageDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
+
+        $langToCountry = $dataProvider->getLanguageToCountryList();
 
         if ($enableLanguageToCountryGuess) {
             if (preg_match('/^([a-z]{2,3})(?:,|;|$)/', $browserLanguage, $matches)) {
