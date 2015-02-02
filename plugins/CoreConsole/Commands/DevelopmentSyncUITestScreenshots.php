@@ -99,15 +99,15 @@ class DevelopmentSyncUITestScreenshots extends ConsoleCommand
         $output->writeln('');
         $output->writeln("If all downloaded screenshots are valid you may push them with these commands:");
         $output->writeln('');
-        $commands = "cd tests/PHPUnit/UI/
+        $commands = "cd tests/PHPUnit/UI/expected-ui-screenshots
 git pull
-git add expected-ui-screenshots/
-git commit -m'' # WRITE A COMMIT MESSAGE
+git add .
+git commit -m '' # WRITE A COMMIT MESSAGE
 git push
 cd ..
 git pull
-git add UI
-git commit -m'' #WRITE A COMMIT MESSAGE
+git add expected-ui-screenshots
+git commit -m '' #WRITE A COMMIT MESSAGE
 git push";
         $output->writeln($commands);
     }
