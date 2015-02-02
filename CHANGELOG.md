@@ -7,6 +7,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Breaking Changes
 * The event `User.getLanguage` has been removed.
 * The following deprecated event has been removed: `TaskScheduler.getScheduledTasks`
+* The `Piwik\Registry` class has been removed in favor of using the container:
+  * `Registry::get('auth')` is replaced by `StaticContainer::get('Piwik\Auth')`
+  * `Registry::set('auth', $auth)` is replaced by `StaticContainer::getContainer()->set('Piwik\Auth', $auth)`
 
 ### Deprecations
 * The following methods have been deprecated in favor of the new `Piwik\Intl` component:
