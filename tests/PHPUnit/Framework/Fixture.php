@@ -34,7 +34,6 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\UsersManager;
-use Piwik\Registry;
 use Piwik\ReportRenderer;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -307,7 +306,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         Config::getInstance()->clear();
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
-        Registry::unsetInstance();
         EventDispatcher::getInstance()->clearAllObservers();
 
         $_GET = $_REQUEST = array();

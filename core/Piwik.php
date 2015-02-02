@@ -489,7 +489,7 @@ class Piwik
      */
     public static function getLoginPluginName()
     {
-        return Registry::get('auth')->getName();
+        return StaticContainer::get('Piwik\Auth')->getName();
     }
 
     /**

@@ -16,7 +16,7 @@ use Exception;
  *
  * Plugins that provide Auth implementations must provide a class that implements
  * this interface. Additionally, an instance of that class must be set in the
- * {@link \Piwik\Registry} class with the 'auth' key during the
+ * container with the 'Piwik\Auth' key during the
  * [Request.initAuthenticationObject](http://developer.piwik.org/api-reference/events#requestinitauthenticationobject)
  * event.
  *
@@ -34,13 +34,13 @@ use Exception;
  * **How an Auth implementation will be used**
  *
  *     // authenticating by password
- *     $auth = \Piwik\Registry::get('auth');
+ *     $auth = StaticContainer::get('Piwik\Auth');
  *     $auth->setLogin('user');
  *     $auth->setPassword('password');
  *     $result = $auth->authenticate();
  *
  *     // authenticating by token auth
- *     $auth = \Piwik\Registry::get('auth');
+ *     $auth = StaticContainer::get('Piwik\Auth');
  *     $auth->setLogin('user');
  *     $auth->setTokenAuth('...');
  *     $result = $auth->authenticate();
