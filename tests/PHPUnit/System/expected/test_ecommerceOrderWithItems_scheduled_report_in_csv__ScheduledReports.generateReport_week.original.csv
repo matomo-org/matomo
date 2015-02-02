@@ -90,7 +90,7 @@ Windowsmedia,0,0%
 
 Visitor Configuration
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Windows XP / Firefox / 1024x768,5,16,80%,3.2,00:22:49,20%
+Windows / Firefox / 1024x768,5,16,80%,3.2,00:22:49,20%
 
 Browser language
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate

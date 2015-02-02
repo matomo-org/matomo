@@ -172,7 +172,16 @@ PageRenderer.prototype._load = function (url, callback) {
     }
 
     this._recreateWebPage(); // calling open a second time never calls the callback
-    this.webpage.open(url, callback);
+    this.webpage.open(url, function (status) {
+        this.evaluate(function () {
+            var $ = window.jQuery;
+            $('html').addClass('uiTest');
+        });
+
+        if (callback) {
+            callback(status);
+        }
+    });
 };
 
 PageRenderer.prototype._evaluate = function (impl, callback) {

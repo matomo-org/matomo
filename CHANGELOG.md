@@ -7,6 +7,8 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Breaking Changes
 * The event `User.getLanguage` has been removed.
 * The following deprecated event has been removed: `TaskScheduler.getScheduledTasks`
+* Special handling for operating system `Windows` has been removed. Like other operating systems all versions will now only be reported as `Windows` with versions like `XP`, `7`, `8`, etc.
+* Reporting for operating systems has been adjusted to report information according to browser information. Visitor details now contain: `operatingSystemName`, `operatingSystemIcon`, `operatingSystemCode` and `operatingSystemVersion`
 * The `Piwik\Registry` class has been removed in favor of using the container:
   * `Registry::get('auth')` is replaced by `StaticContainer::get('Piwik\Auth')`
   * `Registry::set('auth', $auth)` is replaced by `StaticContainer::getContainer()->set('Piwik\Auth', $auth)`
@@ -29,6 +31,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Library updates
 * Updated AngularJS from 1.2.26 to 1.2.28
+* Updated piwik/device-detector from 2.8 to 3.0
 
 ## Piwik 2.10.0
 
