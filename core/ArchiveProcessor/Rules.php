@@ -229,8 +229,12 @@ class Rules
 
     public static function isArchivingDisabledFor(array $idSites, Segment $segment, $periodLabel)
     {
+        $generalConfig = Config::getInstance()->General;
+
         if ($periodLabel == 'range') {
-            if (StaticContainer::get('archiving.range.force_on_browser_request') !== false) {
+            if (empty($generalConfig['archiving_range_force_on_browser_request'])
+                || $generalConfig['archiving_range_force_on_browser_request'] !== false
+            ) {
                 return false;
             } else {
                 Log::verbose("Not forcing archiving for range period.");
@@ -246,7 +250,7 @@ class Rules
             // When there is a segment, we disable archiving when browser_archiving_disabled_enforce applies
             if (!$segment->isEmpty()
                 && $isArchivingDisabled
-                && Config::getInstance()->General['browser_archiving_disabled_enforce']
+                && $generalConfig['browser_archiving_disabled_enforce']
                 && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
             ) {
                 Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");

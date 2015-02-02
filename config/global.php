@@ -161,5 +161,4 @@ return array(
     'Piwik\Translation\Loader\LoaderInterface' => DI\object('Piwik\Translation\Loader\LoaderCache')
         ->constructor(DI\link('Piwik\Translation\Loader\JsonFileLoader')),
 
-    'archiving.range.force_on_browser_request' => true
 );
