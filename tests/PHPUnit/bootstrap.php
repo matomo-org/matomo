@@ -49,7 +49,7 @@ StaticContainer::setEnvironment('test');
 
 // require test fixtures
 $fixturesToLoad = array(
-    '/tests/PHPUnit/UI/Fixtures/*.php',
+    '/tests/UI/Fixtures/*.php',
     '/plugins/*/tests/Fixtures/*.php',
     '/plugins/*/Test/Fixtures/*.php',
 );

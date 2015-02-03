@@ -14,10 +14,6 @@
     path = plugins/VisitorGenerator
     url = https://github.com/piwik/plugin-VisitorGenerator.git
     branch = master
-[submodule "tests/PHPUnit/UI"]
-    path = tests/PHPUnit/UI
-    url = https://github.com/piwik/piwik-ui-tests.git
-    branch = master
 [submodule "plugins/CustomAlerts"]
     path = plugins/CustomAlerts
     url = https://github.com/piwik/plugin-CustomAlerts.git
@@ -34,6 +30,9 @@
     path = plugins/QueuedTracking
     url = https://github.com/piwik/plugin-QueuedTracking.git
     branch = master
+[submodule "tests/UI/expected-ui-screenshots"]
+	path = tests/UI/expected-ui-screenshots
+	url = https://github.com/piwik/piwik-ui-tests.git
 
 # Note: when you add a submodule that SHOULD be left in the packaged release such as the few submodules below,
 #       then you MUST add these submodules names in the SUBMODULES_PACKAGED_WITH_CORE variable in:

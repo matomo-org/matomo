@@ -42,7 +42,7 @@ var isCorePlugin = function (pathToPlugin) {
 var Application = function () {
     this.runner = null;
 
-    var diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/PHPUnit/UI', config.screenshotDiffDir);
+    var diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', config.screenshotDiffDir);
     this.diffViewerGenerator = new DiffViewerGenerator(diffviewerDir);
 };
 
@@ -79,7 +79,7 @@ Application.prototype.init = function () {
         var suite = oldDescribe.apply(null, arguments);
         suite.baseDirectory = app.currentModulePath.match(/\/plugins\//) ? path.dirname(app.currentModulePath) : uiTestsDir;
         if (options['assume-artifacts']) {
-            suite.diffDir = path.join(PIWIK_INCLUDE_PATH, 'tests/PHPUnit/UI', config.screenshotDiffDir);
+            suite.diffDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', config.screenshotDiffDir);
         } else {
             suite.diffDir = path.join(suite.baseDirectory, config.screenshotDiffDir);
         }
@@ -210,7 +210,7 @@ Application.prototype.doRunTests = function () {
             var symlinks = ['libs', 'plugins', 'tests', 'piwik.js'];
 
             symlinks.forEach(function (item) {
-                var file = path.join(uiTestsDir, '..', 'proxy', item);
+                var file = path.join(uiTestsDir, '..', 'PHPUnit', 'proxy', item);
                 if (fs.exists(file)) {
                     fs.remove(file);
                 }
