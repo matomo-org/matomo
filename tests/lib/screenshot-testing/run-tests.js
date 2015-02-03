@@ -9,6 +9,13 @@
 
 // required modules
 var config = require("./config");
+var localConfig = require("./../../UI/config.local");
+
+for (var prop in localConfig) {
+    if (localConfig.hasOwnProperty(prop)) {
+        config[prop] = localConfig[prop];
+    }
+}
 
 // assume the URI points to a folder and make sure Piwik won't cut off the last path segment
 if (config.phpServer.REQUEST_URI.slice(-1) != '/') {

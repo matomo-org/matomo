@@ -17,7 +17,7 @@ var DiffViewerGenerator = function (diffDir) {
 };
 
 DiffViewerGenerator.prototype.getDiffPath = function (testInfo) {
-    var baseDir = path.join(PIWIK_INCLUDE_PATH, 'tests/PHPUnit/UI');
+    var baseDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI');
     return path.resolve(path.join(baseDir, config.screenshotDiffDir, testInfo.name + '.png'));
 };
 

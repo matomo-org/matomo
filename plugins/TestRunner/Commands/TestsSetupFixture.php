@@ -238,7 +238,7 @@ class TestsSetupFixture extends ConsoleCommand
 
         $fixturesToLoad = array(
             '/tests/PHPUnit/Fixtures/*.php',
-            '/tests/PHPUnit/UI/Fixtures/*.php',
+            '/tests/UI/Fixtures/*.php',
             '/plugins/*/tests/Fixtures/*.php',
             '/plugins/*/Test/Fixtures/*.php',
         );

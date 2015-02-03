@@ -32,7 +32,7 @@ To fix a broken build, follow these steps:
      * If a change is not wanted, revert or fix your commit.
      * If a change is correct, then you can set the new screenshot as the expected screenshot.
        To do so, in the diffviewer.html page click on the "Processed" link for this screenshot.
-       Then "Save this file as" and save it in the piwik/tests/PHPUnit/UI/expected-ui-screenshots/ directory.
+       Then "Save this file as" and save it in the piwik/tests/UI/expected-ui-screenshots/ directory.
        (If the screenshot test is for a plugin and not Piwik Core, the expected screenshot should be added to the
        plugin's expected screenshot directory. For example: piwik/plugins/DBStats/tests/UI/expected-ui-screenshots.)
 
@@ -64,7 +64,7 @@ Removing this font may be useful if your generated screenshots' fonts do not mat
 
 ### Configuring screenshot testing library
 
-The screenshot testing library's configuration resides in the tests/lib/screenshot-testing/config.js file.
+The screenshot testing library's configuration resides in the tests/UI/config.local.js file.
 If your development environment's PHP executable isn't named `php`
 or your dev Piwik install isn't at `http://localhost/` you may need to edit the contents of this file.
 
