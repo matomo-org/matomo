@@ -24,34 +24,11 @@ return array(
         return $root . '/tmp' . $instanceId;
     },
 
-    'path.cache' => function (ContainerInterface $c) {
-        $root = $c->get('path.tmp');
+    'path.cache' => DI\string('{path.tmp}/cache/tracker/'),
 
-        return $root . '/cache/tracker/';
-    },
-
-    'cache.backend' => function (ContainerInterface $c) {
-        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) { // todo replace this with isTest() instead of isCli()
-            $backend = 'file';
-        } elseif (\Piwik\Development::isEnabled()) {
-            $backend = 'array';
-        } else {
-            $backend = $c->get('ini.Cache.backend');
-        }
-
-        return $backend;
-    },
-    'Piwik\Cache\Lazy' => DI\object(),
-    'Piwik\Cache\Transient' => DI\object(),
     'Piwik\Cache\Eager' => function (ContainerInterface $c) {
-
         $backend = $c->get('Piwik\Cache\Backend');
-
-        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
-            $cacheId = 'eagercache-test-';
-        } else {
-            $cacheId = 'eagercache-' . str_replace(array('.', '-'), '', \Piwik\Version::VERSION) . '-';
-        }
+        $cacheId = $c->get('cache.eager.cache_id');
 
         if (SettingsServer::isTrackerApiRequest()) {
             $eventToPersist = 'Tracker.end';
@@ -69,11 +46,10 @@ return array(
         return $cache;
     },
     'Piwik\Cache\Backend' => function (ContainerInterface $c) {
-
-        $type    = $c->get('cache.backend');
-        $backend = \Piwik\Cache::buildBackend($type);
-
-        return $backend;
+        return \Piwik\Cache::buildBackend($c->get('ini.Cache.backend'));
+    },
+    'cache.eager.cache_id' => function () {
+        return 'eagercache-' . str_replace(array('.', '-'), '', \Piwik\Version::VERSION) . '-';
     },
 
     // Log

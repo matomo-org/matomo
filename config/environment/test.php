@@ -5,8 +5,11 @@ return array(
     // Disable logging
     'Psr\Log\LoggerInterface' => DI\object('Psr\Log\NullLogger'),
 
-    // Disable translation cache
-    'Piwik\Translation\Loader\LoaderInterface' => DI\object('Piwik\Translation\Loader\JsonFileLoader'),
+    'Piwik\Cache\Backend' => function () {
+        return \Piwik\Cache::buildBackend('file');
+    },
+    'cache.eager.cache_id' => 'eagercache-test-',
+
     // Disable loading core translations
     'Piwik\Translation\Translator' => DI\object()
         ->constructorParameter('directories', array()),
