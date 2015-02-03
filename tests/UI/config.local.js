@@ -16,13 +16,13 @@
 /**
  * Data for the $_SERVER variable in the setup/teardown PHP scripts. Should be the same as
  * the values in your phpunit.xml file.
- */
- exports.phpServer = {
-    HTTP_HOST: 'apache.piwik',
+ *
+ * exports.phpServer = {
+    HTTP_HOST: 'localhost',
     REQUEST_URI: '/',
-    REMOTE_ADDR: '192.168.33.10'
+    REMOTE_ADDR: '127.0.0.1'
 };
-
+ */
 
 /**
  * The path to the PHP executable to execute when setting up & tearing down the database.
