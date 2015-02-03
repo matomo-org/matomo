@@ -18,7 +18,7 @@ then you should update the expected screenshots accordingly.
 
 To fix a broken build, follow these steps:
 
- * Go to the UI tests travis build: [https://travis-ci.org/piwik/piwik-ui-tests](https://travis-ci.org/piwik/piwik-ui-tests)
+ * Go to the Tests travis build: [https://travis-ci.org/piwik/piwik](https://travis-ci.org/piwik/piwik) and select the build containing `TEST_SUITE=UITests`
  * Find the build you are interested in. The UI tests build will be run for each commit in each branch, so if you're
    looking to resolve a specific failure, you'll have to find the build for the commit you've made.
  * In the build output, at the beginning of the test output, there will be a link to a image diff viewer. It will look something
@@ -38,7 +38,7 @@ To fix a broken build, follow these steps:
 
      _Note: When determining whether a screenshot is correct, the data displayed is not important. Report data correctness is verified through System and other PHP tests. The UI tests should only test UI behavior._
  * Push the changes (to your code and/or to the expected-ui-screenshots directory.
- * Wait for next UI Tests build [on travis](https://travis-ci.org/piwik/piwik-ui-tests). Hopefully, the build should be green!
+ * Wait for next Test build [on travis](https://travis-ci.org/piwik/piwik). Hopefully, the build should be green!
 
 _Note: the **development:sync-ui-test-screenshots** console command can be used to speed up the process. Run **./console help development:sync-ui-test-screenshots** to learn more._
 
@@ -110,7 +110,7 @@ The following options may be useful if you plan on running the UI tests locally 
 
 UI screenshot tests are run directly by phantomjs and are written using [mocha](http://visionmedia.github.io/mocha/) and [chai](http://chaijs.com).
 
-To create a new test, first decide whether it will belong to Piwik Core or a plugin. If it will belong to Piwik Core, the test should be placed within the [piwik-ui-tests](https://github.com/piwik/piwik-ui-tests) repository. Otherwise, it should be placed within tests/UI sub-directory of your plugin.
+To create a new test, first decide whether it will belong to Piwik Core or a plugin. If it will belong to Piwik Core, the test should be placed within the `/tests/UI` directory. Otherwise, it should be placed within `tests/UI sub-directory of your plugin.
 
 All test files should have \_spec.js file name suffixes (for example, **ActionsDataTable\_spec.js**).
 
@@ -230,9 +230,9 @@ _Note: the Piwik environment is not initialized when the **TestingEnvironment.ad
 
 The following are examples of test environment manipulation:
 
- * [Overlay_spec.js](https://github.com/piwik/piwik-ui-tests/blob/master/specs/Overlay_spec.js)
- * [Dashboard_spec.js](https://github.com/piwik/piwik-ui-tests/blob/master/specs/Dashboard_spec.js)
- * [Login_spec.js](https://github.com/piwik/piwik-ui-tests/blob/master/specs/Login_spec.js)
+ * [Overlay_spec.js](https://github.com/piwik/piwik/blob/master/tests/UI/specs/Overlay_spec.js)
+ * [Dashboard_spec.js](https://github.com/piwik/piwik/blob/master/tests/UI/specs/Dashboard_spec.js)
+ * [Login_spec.js](https://github.com/piwik/piwik/blob/master/tests/UI/specs/Login_spec.js)
 
 ## Learn more
 

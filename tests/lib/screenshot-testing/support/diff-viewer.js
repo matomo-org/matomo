@@ -21,7 +21,7 @@ DiffViewerGenerator.prototype.getDiffPath = function (testInfo) {
     return path.resolve(path.join(baseDir, config.screenshotDiffDir, testInfo.name + '.png'));
 };
 
-// TODO: diff output path shouldn't be stored in piwik-ui-tests repo
+// TODO: diff output path shouldn't be stored in piwik repo
 DiffViewerGenerator.prototype.getUrlForPath = function (path) {
     return fs.relpath(path, this.diffDir);
 };

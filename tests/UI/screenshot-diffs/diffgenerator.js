@@ -34,7 +34,7 @@ function compareImages(expected, expectedGithub, processed)
 
     $('.processed').attr('src', encodeURI(processed));
     $('.expected').attr('src', encodeURI(expected));
-    $('.expectedGithub').attr('src', 'https://raw.githubusercontent.com/piwik/piwik-ui-tests/master/expected-ui-screenshots/' + encodeURI(expectedGithub));
+    $('.expectedGithub').attr('src', 'https://raw.githubusercontent.com/piwik/piwik-ui-tests/master/' + encodeURI(expectedGithub));
 }
 
 function getUrlQueryParam(sParam) {
