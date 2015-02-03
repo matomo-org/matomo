@@ -175,7 +175,9 @@ PageRenderer.prototype._load = function (url, callback) {
     this.webpage.open(url, function (status) {
         this.evaluate(function () {
             var $ = window.jQuery;
-            $('html').addClass('uiTest');
+            if ($) {
+                $('html').addClass('uiTest');
+            }
         });
 
         if (callback) {

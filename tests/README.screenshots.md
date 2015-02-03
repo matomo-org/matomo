@@ -64,7 +64,7 @@ Removing this font may be useful if your generated screenshots' fonts do not mat
 
 ### Configuring screenshot testing library
 
-The screenshot testing library's configuration resides in the tests/lib/screenshot-testing/config.js file.
+The screenshot testing library's configuration resides in the tests/PHPUnit/UI/config.local.js file.
 If your development environment's PHP executable isn't named `php`
 or your dev Piwik install isn't at `http://localhost/` you may need to edit the contents of this file.
 

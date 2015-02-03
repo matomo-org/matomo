@@ -14,10 +14,6 @@
     path = plugins/VisitorGenerator
     url = https://github.com/piwik/plugin-VisitorGenerator.git
     branch = master
-[submodule "tests/PHPUnit/UI"]
-    path = tests/PHPUnit/UI
-    url = https://github.com/piwik/piwik-ui-tests.git
-    branch = master
 [submodule "plugins/CustomAlerts"]
     path = plugins/CustomAlerts
     url = https://github.com/piwik/plugin-CustomAlerts.git
@@ -44,3 +40,6 @@
     path = libs/PiwikTracker
     url = https://github.com/piwik/piwik-php-tracker.git
     branch = master
+[submodule "tests/PHPUnit/UI/expected-ui-screenshots"]
+	path = tests/PHPUnit/UI/expected-ui-screenshots
+	url = https://github.com/piwik/piwik-ui-tests.git
