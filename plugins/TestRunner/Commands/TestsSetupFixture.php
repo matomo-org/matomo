@@ -111,20 +111,21 @@ class TestsSetupFixture extends ConsoleCommand
             }
         }
 
+        if ($input->getOption('set-phantomjs-symlinks')) {
+            $this->createSymbolicLinksForUITests();
+        }
+
         $fixture = $this->createFixture($input, $allowSave = !empty($configDomainToSave));
 
         $this->setupDatabaseOverrides($input, $fixture);
 
         // perform setup and/or teardown
         if ($input->getOption('teardown')) {
+            exit;
             $fixture->getTestEnvironment()->save();
             $fixture->performTearDown();
         } else {
             $fixture->performSetUp();
-        }
-
-        if ($input->getOption('set-phantomjs-symlinks')) {
-            $this->createSymbolicLinksForUITests();
         }
 
         $this->writeSuccessMessage($output, array("Fixture successfully setup!"));
