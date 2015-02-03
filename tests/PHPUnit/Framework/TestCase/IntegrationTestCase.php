@@ -56,6 +56,7 @@ abstract class IntegrationTestCase extends SystemTestCase
     {
         static::configureFixture(static::$fixture);
         parent::setUpBeforeClass();
+        static::beforeTableDataCached();
 
         self::$tableData = self::getDbTablesWithData();
     }
@@ -97,6 +98,11 @@ abstract class IntegrationTestCase extends SystemTestCase
         $fixture->loadTranslations    = false;
         $fixture->createSuperUser     = false;
         $fixture->configureComponents = false;
+    }
+
+    protected static function beforeTableDataCached()
+    {
+        // empty
     }
 }
 
