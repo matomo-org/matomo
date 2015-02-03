@@ -232,12 +232,12 @@ class Rules
         $generalConfig = Config::getInstance()->General;
 
         if ($periodLabel == 'range') {
-            if (empty($generalConfig['archiving_range_force_on_browser_request'])
-                || $generalConfig['archiving_range_force_on_browser_request'] !== false
+            if (!isset($generalConfig['archiving_range_force_on_browser_request'])
+                || $generalConfig['archiving_range_force_on_browser_request'] != false
             ) {
                 return false;
             } else {
-                Log::verbose("Not forcing archiving for range period.");
+                Log::debug("Not forcing archiving for range period.");
             }
         }
 
