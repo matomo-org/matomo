@@ -9,9 +9,6 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The following deprecated event has been removed: `TaskScheduler.getScheduledTasks`
 * Special handling for operating system `Windows` has been removed. Like other operating systems all versions will now only be reported as `Windows` with versions like `XP`, `7`, `8`, etc.
 * Reporting for operating systems has been adjusted to report information according to browser information. Visitor details now contain: `operatingSystemName`, `operatingSystemIcon`, `operatingSystemCode` and `operatingSystemVersion`
-* The `Piwik\Registry` class has been removed in favor of using the container:
-  * `Registry::get('auth')` is replaced by `StaticContainer::get('Piwik\Auth')`
-  * `Registry::set('auth', $auth)` is replaced by `StaticContainer::getContainer()->set('Piwik\Auth', $auth)`
 
 ### Deprecations
 * The following methods have been deprecated in favor of the new `Piwik\Intl` component:
@@ -25,6 +22,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The following classes have been deprecated:
   * `Piwik\TaskScheduler`: use `Piwik\Scheduler\Scheduler` instead
   * `Piwik\ScheduledTask`: use `Piwik\Scheduler\Task` instead
+* The `Piwik\Registry` class has been removed in favor of using the container:
+  * `Registry::get('auth')` should be replaced with `StaticContainer::get('Piwik\Auth')`
+  * `Registry::set('auth', $auth)` should be replaced with `StaticContainer::getContainer()->set('Piwik\Auth', $auth)`
  
 ### New features
 * You can now generate UI / screenshot tests using the command `generate:test`
