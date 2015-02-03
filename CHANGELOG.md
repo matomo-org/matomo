@@ -31,6 +31,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * Updated AngularJS from 1.2.26 to 1.2.28
 * Updated piwik/device-detector from 2.8 to 3.0
 
+### Internal change
+* UI specs were moved from `tests/PHPUnit/UI` to `tests/UI`. We also moved the UI specs directly into the Piwik repository meaning the [piwik-ui-tests](https://github.com/piwik/piwik-ui-tests) repository contains only the expected screenshots from now on.
+
 ## Piwik 2.10.0
 
 ### Breaking Changes
