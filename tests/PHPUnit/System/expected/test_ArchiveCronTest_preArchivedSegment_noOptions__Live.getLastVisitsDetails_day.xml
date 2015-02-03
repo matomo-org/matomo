@@ -63,9 +63,11 @@
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
-		<operatingSystem>Mac</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystem>Mac 10.8</operatingSystem>
+		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemVersion>10.8</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Chrome 19.0</browser>
@@ -164,8 +166,10 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
-		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemName>GNU/Linux</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemVersion />
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 6.0</browser>
@@ -264,8 +268,10 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
-		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemName>GNU/Linux</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Chrome 19.0</browser>
@@ -364,8 +370,10 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
-		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemName>GNU/Linux</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Epiphany 2.30</browser>
@@ -464,8 +472,10 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>Windows 7</operatingSystem>
-		<operatingSystemCode>WI7</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WI7.gif</operatingSystemIcon>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>7</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 9.0</browser>
@@ -564,8 +574,10 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
-		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemName>GNU/Linux</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemVersion />
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 6.0</browser>
@@ -664,8 +676,10 @@
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
 		<operatingSystem>GNU/Linux</operatingSystem>
-		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemName>GNU/Linux</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemCode>LIN</operatingSystemCode>
+		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Epiphany 2.30</browser>
@@ -763,9 +777,11 @@
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
 		<deviceType>Smartphone</deviceType>
-		<operatingSystem>Android</operatingSystem>
-		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystem>Android 2.3</operatingSystem>
+		<operatingSystemName>Android</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystemVersion>2.3</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Android Browser</browser>
@@ -863,9 +879,11 @@
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
 		<deviceType>Desktop</deviceType>
-		<operatingSystem>Mac</operatingSystem>
-		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystem>Mac 10.6</operatingSystem>
+		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>

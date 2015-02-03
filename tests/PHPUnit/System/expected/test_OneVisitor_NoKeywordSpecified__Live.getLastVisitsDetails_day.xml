@@ -49,8 +49,10 @@
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<deviceType>Inconnu</deviceType>
 		<operatingSystem>Bot</operatingSystem>
-		<operatingSystemCode>BOT</operatingSystemCode>
+		<operatingSystemName>Bot</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemCode>BOT</operatingSystemCode>
+		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<browser>Inconnu</browser>
@@ -156,8 +158,10 @@
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<deviceType>Inconnu</deviceType>
 		<operatingSystem>Bot</operatingSystem>
-		<operatingSystemCode>BOT</operatingSystemCode>
+		<operatingSystemName>Bot</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemCode>BOT</operatingSystemCode>
+		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<browser>Inconnu</browser>
