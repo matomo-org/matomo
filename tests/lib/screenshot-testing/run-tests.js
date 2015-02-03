@@ -8,12 +8,18 @@
  */
 
 // required modules
-var config = require("./config");
-var localConfig = require("./../../UI/config.local");
+var config = require("./../../UI/config.dist");
+try {
+    var localConfig = require("./../../UI/config");
+} catch (e) {
+    localConfig = null;
+}
 
-for (var prop in localConfig) {
-    if (localConfig.hasOwnProperty(prop)) {
-        config[prop] = localConfig[prop];
+if (localConfig) {
+    for (var prop in localConfig) {
+        if (localConfig.hasOwnProperty(prop)) {
+            config[prop] = localConfig[prop];
+        }
     }
 }
 

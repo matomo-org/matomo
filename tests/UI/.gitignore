@@ -7,4 +7,4 @@ screenshot-diffs/jquery.js
 screenshot-diffs/resemble.js
 .idea/*
 php_errors.log
-config.local.js
+config.js
