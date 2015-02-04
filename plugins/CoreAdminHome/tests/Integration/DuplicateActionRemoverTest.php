@@ -189,6 +189,10 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
                 $row['hash'] = crc32($row['name']);
             }
 
+            if (isset($row['idvisitor'])) {
+                $row['idvisitor'] = pack("H*", $row['idvisitor']);
+            }
+
             $placeholders = array_map(function () { return "?"; }, $row);
             $sql = "INSERT INTO $table (" . implode(',', array_keys($row)) . ") VALUES (" . implode(',', $placeholders) . ")";
             Db::query($sql, array_values($row));
