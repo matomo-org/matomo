@@ -129,19 +129,12 @@ class DuplicateActionRemover
 
     private function fixDuplicateActions($idactions, &$archivesAffected)
     {
-        list($toIdAction, $fromIdActions) = $this->getIdActionToRenameToAndFrom($idactions);
+        $toIdAction = array_shift($idactions);
+        $fromIdActions = $idactions;
 
         foreach (self::$tablesWithIdActionColumns as $table) {
             $this->fixDuplicateActionsInTable($table, $toIdAction, $fromIdActions, $archivesAffected);
         }
-    }
-
-    private function getIdActionToRenameToAndFrom($idactions)
-    {
-        $toIdAction = array_shift($idactions);
-        $fromIdActions = $idactions;
-
-        return array($toIdAction, $fromIdActions);
     }
 
     private function fixDuplicateActionsInTable($table, $toIdAction, $fromIdActions, &$archivesAffected)
@@ -161,7 +154,10 @@ class DuplicateActionRemover
         $endTime = microtime(true);
         $elapsed = $endTime - $startTime;
 
-        $this->logTableFixFinished($table, $elapsed);
+        $this->logger->info("\tFixed duplicates in {table} in <comment>{elapsed}s</comment>.", array(
+            'table' => Common::prefixTable($table),
+            'elapsed' => $elapsed
+        ));
     }
 
     private function deleteDuplicatesFromLogAction($duplicateActions)
@@ -172,44 +168,24 @@ class DuplicateActionRemover
             'table' => $table
         ));
 
-        $sql = $this->getSqlToDeleteDuplicateLogActionRows($duplicateActions);
-        Db::query($sql);
-    }
-
-    private function getSqlToDeleteDuplicateLogActionRows($duplicateActions)
-    {
-        $table = Common::prefixTable('log_action');
-
         $sql = "DELETE FROM $table WHERE idaction IN (";
         foreach ($duplicateActions as $index => $dupeInfos) {
             if ($index != 0) {
                 $sql .= ",";
             }
 
-            $restIdActions = $this->getDuplicateIdActionsFromAll($dupeInfos['idactions']);
+            $restIdActions = $dupeInfos['idactions'];
+
+            $commaPos = strpos($restIdActions, ',');
+            if ($commaPos !== false) {
+                $restIdActions = substr($restIdActions, $commaPos + 1);
+            }
 
             $sql .= $restIdActions;
         }
         $sql .= ")";
 
-        return $sql;
-    }
-
-    private function logTableFixFinished($table, $elapsed)
-    {
-        $this->logger->info("\tFixed duplicates in {table} in <comment>{elapsed}s</comment>.", array(
-            'table' => Common::prefixTable($table),
-            'elapsed' => $elapsed
-        ));
-    }
-
-    private function getDuplicateIdActionsFromAll($idactions)
-    {
-        $commaPos = strpos($idactions, ',');
-        if ($commaPos !== false) {
-            $idactions = substr($idactions, $commaPos + 1);
-        }
-        return $idactions;
+        Db::query($sql);
     }
 
     /**
