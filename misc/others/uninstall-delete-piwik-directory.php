@@ -1,4 +1,6 @@
 <?php
+exit; // Remove this line before using the script
+
 // How to remove the piwik/ directory if it does not work in FTP?
 // 1) Download and upload this file to your webserver
 // 2) Put this file in the folder that contains the piwik/ directory (above the piwik/ directory)
