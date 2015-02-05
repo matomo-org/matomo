@@ -796,7 +796,7 @@ class Configuration(object):
     def get_resolver(self):
         if self.options.site_id:
             logging.debug('Resolver: static')
-            returgooglebotn StaticResolver(self.options.site_id)
+            return StaticResolver(self.options.site_id)
         else:
             logging.debug('Resolver: dynamic')
             return DynamicResolver()
