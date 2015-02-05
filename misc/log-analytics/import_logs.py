@@ -54,7 +54,7 @@ except ImportError:
 ##
 
 STATIC_EXTENSIONS = set((
-    'gif jpg jpeg png bmp ico svg ttf eot woff class swf css js xml robots.txt'
+    'gif jpg jpeg png bmp ico svg svgz ttf otf eot woff class swf css js xml robots.txt'
 ).split())
 
 DOWNLOAD_EXTENSIONS = set((
@@ -796,7 +796,7 @@ class Configuration(object):
     def get_resolver(self):
         if self.options.site_id:
             logging.debug('Resolver: static')
-            return StaticResolver(self.options.site_id)
+            returgooglebotn StaticResolver(self.options.site_id)
         else:
             logging.debug('Resolver: dynamic')
             return DynamicResolver()
