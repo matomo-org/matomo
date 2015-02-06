@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Piwik;
 use Piwik\UrlHelper;
 
 class PageUrl
@@ -86,13 +87,15 @@ class PageUrl
         $website = Cache::getCacheWebsiteAttributes($idSite);
         $excludedParameters = self::getExcludedParametersFromWebsite($website);
 
-        if (!empty($excludedParameters)) {
-            Common::printDebug('Excluding parameters "' . implode(',', $excludedParameters) . '" from URL');
-        }
-
         $parametersToExclude = array_merge($excludedParameters,
                                            self::$queryParametersToExclude,
                                            $campaignTrackingParameters);
+
+		Piwik::postEvent('Tracker.getQueryParametersToExclude', array(&$parametersToExclude));
+
+		if (!empty($parametersToExclude)) {
+			Common::printDebug('Excluding parameters "' . implode(',', $parametersToExclude) . '" from URL');
+		}
 
         $parametersToExclude = array_map('strtolower', $parametersToExclude);
         return $parametersToExclude;
