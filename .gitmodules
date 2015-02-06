@@ -1,7 +1,3 @@
-[submodule "plugins/PleineLune"]
-    path = plugins/PleineLune
-    url = https://github.com/piwik/theme-PleineLune.git
-    branch = master
 [submodule "plugins/SecurityInfo"]
     path = plugins/SecurityInfo
     url = https://github.com/piwik/plugin-SecurityInfo.git
