@@ -32,6 +32,7 @@ class ManySitesImportedLogs extends Fixture
     public $includeCloudfront = false;
     public $includeCloudfrontRtmp = false;
     public $includeNginxJson = false;
+    public $includeApiCustomVarMapping = false;
 
     public static function createAccessInstance()
     {
@@ -135,6 +136,10 @@ class ManySitesImportedLogs extends Fixture
 
         if ($this->includeNginxJson) {
             $this->logNginxJsonLog();
+        }
+
+        if ($this->includeApiCustomVarMapping) {
+            $this->logIisWithCustomFormat($mapToCustom = true);
         }
     }
 
@@ -255,7 +260,7 @@ class ManySitesImportedLogs extends Fixture
         self::executeLogImporter($logFile, $opts);
     }
 
-    private function logIisWithCustomFormat()
+    private function logIisWithCustomFormat($mapToCustom = false)
     {
         $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_custom_iis.log';
 
@@ -264,6 +269,11 @@ class ManySitesImportedLogs extends Fixture
                       '--w3c-map-field'    => array('date-local=date', 'time-local=time', 'cs(Host)=cs-host', 'TimeTakenMS=time-taken'),
                       '--enable-http-errors'        => false,
                       '--enable-http-redirects'     => false);
+
+        if ($mapToCustom) {
+            $opts['--api-arg-to-visit-cvar'] = 'uid=User Name';
+            $opts['--api-arg-to-page-cvar'] = 'gt_ms=Generation Time';
+        }
 
         self::executeLogImporter($logFile, $opts);
     }

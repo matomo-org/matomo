@@ -114,3 +114,4 @@ ImportLogsTest::$fixture->includeNetscaler = true;
 ImportLogsTest::$fixture->includeCloudfront = true;
 ImportLogsTest::$fixture->includeCloudfrontRtmp = true;
 ImportLogsTest::$fixture->includeNginxJson = true;
+ImportLogsTest::$fixture->includeApiCustomVarMapping = true;

@@ -36,6 +36,7 @@ import urllib
 import urllib2
 import urlparse
 import subprocess
+import functools
 
 try:
     import json
@@ -580,7 +581,7 @@ class Configuration(object):
             help="By default Piwik tracks as Downloads the most popular file extensions. If you set this parameter (format: pdf,doc,...) then files with an extension found in the list will be imported as Downloads, other file extensions downloads will be skipped."
         )
         option_parser.add_option(
-            '--w3c-map-field', action='callback', callback=self._set_w3c_field_map, type='string',
+            '--w3c-map-field', action='callback', callback=functools.partial(self._set_option_map, 'custom_w3c_fields'), type='string',
             help="Map a custom log entry field in your W3C log to a default one. Use this option to load custom log "
                  "files that use the W3C extended log format such as those from the Advanced Logging W3C module. Used "
                  "as, eg, --w3c-map-field my-date=date. Recognized default fields include: %s\n\n"
@@ -612,20 +613,40 @@ class Configuration(object):
                  "in newer versions of the script in older versions of the script. The output regex can be used with "
                  "the --log-format-regex option."
         )
+        option_parser.add_option(
+            '--api-arg-to-visit-cvar', action='callback', callback=functools.partial(self._set_option_map, 'api_args_to_visit_cvars_map'), type='string',
+            help="Track an attribute through a custom variable with visit scope instead of through Piwik's normal "
+                 "approach. For example, to track usernames as a custom variable instead of through the uid tracking "
+                 "parameter, supply --api-arg-to-visit-cvar=\"uid=User Name\". This will track usernames in a "
+                 "custom variable named 'User Name'."
+        )
+        option_parser.add_option(
+            '--api-arg-to-page-cvar', action='callback', callback=functools.partial(self._set_option_map, 'api_args_to_page_cvars_map'), type='string',
+            help="Track an attribute through a custom variable with page scope instead of through Piwik's normal "
+                 "approach. For example, to track usernames as a custom variable instead of through the uid tracking "
+                 "parameter, supply --api-arg-to-page-cvar=\"uid=User Name\". This will track usernames in a "
+                 "custom variable named 'User Name'."
+        )
         return option_parser
 
-    def _set_w3c_field_map(self, option, opt_str, value, parser):
+    def _set_option_map(self, option_attr_name, option, opt_str, value, parser):
+        """
+        Sets a key-value mapping in a dict that is built from command line options. Options that map
+        string keys to string values (like --w3c-map-field) can set the callback to a bound partial
+        of this method to handle the option.
+        """
+
         parts = value.split('=')
 
         if len(parts) != 2:
-            fatal_error("Invalid --w3c-map-field option: '%s'" % value)
+            fatal_error("Invalid %s option: '%s'" % (opt_str, value))
 
-        custom_name, default_name = parts
+        key, value = parts
 
-        if not hasattr(parser.values, 'custom_w3c_fields'):
-            parser.values.custom_w3c_fields = {}
+        if not hasattr(parser.values, option_attr_name):
+            setattr(parser.values, option_attr_name, {})
 
-        parser.values.custom_w3c_fields[custom_name] = default_name
+        getattr(parser.values, option_attr_name)[key] = value
 
     def _parse_args(self, option_parser):
         """
@@ -685,6 +706,12 @@ class Configuration(object):
                 if default_name not in type(format).fields:
                     fatal_error("custom W3C field mapping error: don't know how to parse and use the '%' field" % default_name)
                     return
+
+        if not hasattr(self.options, 'api_args_to_visit_cvars_map'):
+            self.options.api_args_to_visit_cvars_map = {}
+
+        if not hasattr(self.options, 'api_args_to_page_cvars_map'):
+            self.options.api_args_to_page_cvars_map = {}
 
         if not self.options.piwik_url:
             fatal_error('no URL given for Piwik')
@@ -1414,13 +1441,13 @@ class Recorder(object):
         if config.options.enable_bots:
             args['bots'] = '1'
             if hit.is_robot:
-                args['_cvar'] = '{"1":["Bot","%s"]}' % hit.user_agent
+                args['_cvar'] = {"1": ["Bot", hit.user_agent]}
             else:
-                args['_cvar'] = '{"1":["Not-Bot","%s"]}' % hit.user_agent
+                args['_cvar'] = {"1": ["Not-Bot", hit.user_agent]}
 
         # do not overwrite custom variables if it's already set (eg. when replaying ecommerce logs)
         if 'cvar' not in args:
-            args['cvar'] = '{"1":["HTTP-code","%s"]}' % hit.status
+            args['cvar'] = {"1": ["HTTP-code", hit.status]}
 
         if hit.is_error or hit.is_redirect:
 			args['action_name'] = '%s%sURL = %s%s' % (
@@ -1446,7 +1473,39 @@ class Recorder(object):
         if hit.length:
             args['bw_bytes'] = hit.length
 
+        if config.options.api_args_to_page_cvars_map:
+            args['cvar'] = self._get_api_args_custom_variables(
+                args.get('cvar', {}), config.options.api_args_to_page_cvars_map, args)
+
+        if config.options.api_args_to_visit_cvars_map:
+            args['_cvar'] = self._get_api_args_custom_variables(
+                args.get('_cvar', {}), config.options.api_args_to_visit_cvars_map, args)
+
+        # convert custom variable args to JSON
+        if 'cvar' in args and not isinstance(args['cvar'], basestring):
+            args['cvar'] = json.dumps(args['cvar'])
+
+        if '_cvar' in args and not isinstance(args['_cvar'], basestring):
+            args['_cvar'] = json.dumps(args['_cvar'])
+
         return args
+
+    def _get_api_args_custom_variables(self, custom_vars, api_args_to_cvars_map, request_args):
+        """
+        Handles the --api-arg-to-...-cvar options by moving API request query parameters to
+        a custom variables data structure. The data structure is returned and can be used in
+        the cvar and _cvar query parameters.
+        """
+        # TODO: test not overwriting existing 'cvars'...
+        for api_arg_name, cvar_key in api_args_to_cvars_map.iteritems():
+            if api_arg_name in request_args:
+                custom_var_num = len(custom_vars) + 1
+                custom_vars[custom_var_num] = [cvar_key, request_args[api_arg_name]]
+
+                del request_args[api_arg_name]
+            else:
+                pass
+        return custom_vars
 
     def _record_hits(self, hits):
         """
