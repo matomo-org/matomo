@@ -38,6 +38,8 @@
         "PrivView": "Widok",
         "ReportDateToLoadByDefault": "Data raportu jako domyślna do wczytania, dotyczy",
         "ReportToLoadByDefault": "Raport jako domyślny do wczytania",
+        "SuperUserAccessManagement": "Zarządzaj dostępem Super Użytkowników",
+        "SuperUserAccessManagementMainDescription": "Super Użytkownicy mają najwyższe uprawnienia w systemie. Mogą zarządzać wszystkimi zadaniami jak: dodawanie strony do monitoringu, użytkowników, aktywowaći deaktywować wtyczki, zmieniać uprawnienia innym użytkownikom, a także instalować nowe wtyczki z Marketu.",
         "TheLoginScreen": "Ekran logowania",
         "ThereAreCurrentlyNRegisteredUsers": "Obecnie znajduje się %s zarejestrowanych użytkowników.",
         "TypeYourPasswordAgain": "Wpisz nowe hasło ponownie.",

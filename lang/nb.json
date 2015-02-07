@@ -315,6 +315,7 @@
         "VisitDuration": "Gj. besøksvarighet (i sekunder)",
         "VisitorIP": "IP for besøkende",
         "Visitors": "Besøkende",
+        "VisitorSettings": "Besøkendes innstillinger",
         "VisitType": "Type besøkende",
         "Warning": "Advarsel",
         "WarningFileIntegrityNoManifest": "Klarte ikke utføre integritetskontroll av filer fordi manifest.inc.php mangler.",

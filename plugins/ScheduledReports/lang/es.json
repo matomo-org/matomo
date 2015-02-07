@@ -17,7 +17,6 @@
         "EmailSchedule": "Programe el envío del Email",
         "EvolutionGraph": "Mostrar Gráficas Históricas para los %s valores más altos",
         "FrontPage": "Página Incial",
-        "ManageEmailReports": "Administrar los Reportes por Email",
         "MonthlyScheduleHelp": "Envío mensual: los reportes serán enviados el primer día de cada mes.",
         "MustBeLoggedIn": "Usted debe haber iniciado sesión para crear y programar reportes personalizados.",
         "NoRecipients": "Este reporte no tiene destinatarios",

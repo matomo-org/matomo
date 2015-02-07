@@ -418,6 +418,7 @@
         "VisitorID": "ID posetioca",
         "VisitorIP": "IP adresa posetioca",
         "Visitors": "Posetioci",
+        "VisitorSettings": "Parametri posetilaca",
         "VisitsWith": "Posete sa %s",
         "VisitType": "Tip posetioca",
         "VisitTypeExample": "Na primer, kako biste obeležili sve posetioce koji su se vratili na sajt, uključujući i one koji su već nešto kupili, API zahtev bi sadržao %s",

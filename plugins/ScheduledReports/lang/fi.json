@@ -17,7 +17,6 @@
         "EmailSchedule": "Sähköpostiaikataulu",
         "EvolutionGraph": "Näytä historiakuvaajat top-%s arvolle",
         "FrontPage": "Etusivu",
-        "ManageEmailReports": "Hallitse sähköpostiraportteja",
         "MonthlyScheduleHelp": "Kuukausittainen aikataulu: raportti lähetetään kuun ensimmäisenä päivänä.",
         "MustBeLoggedIn": "Sinun täytyy olla kirjautuneena sisään ennen kustomoitujen raporttien luomista ja ajastamista.",
         "NoRecipients": "Tällä raportilla ei ole vastaanottajia",
