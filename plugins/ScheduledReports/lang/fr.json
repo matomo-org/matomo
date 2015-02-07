@@ -17,7 +17,6 @@
         "EmailSchedule": "Planification courriel",
         "EvolutionGraph": "Afficher les graphiques historiques pour les plus hautes %s valeurs",
         "FrontPage": "Première page",
-        "ManageEmailReports": "Gérer les rapports par e-mail",
         "MonthlyScheduleHelp": "Planification mensuelle : le rapport sera envoyé le premier jour de chaque mois.",
         "MustBeLoggedIn": "Vous devez être connecté pour créer et planifier des rapports personnalisés.",
         "NoRecipients": "Ce rapport n'a aucun destinataire",

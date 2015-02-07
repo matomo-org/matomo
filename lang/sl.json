@@ -342,6 +342,7 @@
         "VisitorID": "ID Obiskovalca",
         "VisitorIP": "Obiskovalčev IP",
         "Visitors": "Obiskovalci",
+        "VisitorSettings": "Nastavitve obiskovalcev",
         "VisitsWith": "Obiski z\/s %s",
         "VisitType": "Vrsta obiskovalca",
         "VisitTypeExample": "Na primer, če želite zbrati vse obiskovalce, ki so se vrnili na spletno stran, vključno s tistimi, ki so v prejšnjih obiskih kaj kupili, bi API zahteva vsebovala %s",

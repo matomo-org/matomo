@@ -4,6 +4,7 @@
         "CheckForUpdates": "Nach Aktualisierungen suchen",
         "CheckPiwikOut": "Sieh dir Piwik an!",
         "ClickRowToExpandOrContract": "Klicken Sie auf diese Zeile um die Untertabelle anzuzeigen oder zu verbergen.",
+        "ClickToEditX": "Klicken Sie um %s zu bearbeiten",
         "CloseWidgetDirections": "Sie können das Widget schließen, indem Sie auf das 'X' oben im Widget klicken.",
         "DataForThisReportHasBeenPurged": "Die Daten für diesen Bericht sind älter als %s Monate und wurden gelöscht",
         "DataTableExcludeAggregateRows": "Aggregierte Zeilen werden angezeigt %s Ausschließen",

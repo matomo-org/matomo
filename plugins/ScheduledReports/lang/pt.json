@@ -14,7 +14,6 @@
         "EmailReports": "Relatórios Email",
         "EmailSchedule": "Agenda de Email",
         "FrontPage": "Primeira Página",
-        "ManageEmailReports": "Gerir relatórios de email",
         "MonthlyScheduleHelp": "Agenda mensal: o relatório será enviado no primeiro dia de cada mês.",
         "MustBeLoggedIn": "Deve estar autenticado para criar e agendar relatórios personalizados.",
         "Pagination": "Página %s de %s",

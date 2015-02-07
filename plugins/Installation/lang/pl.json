@@ -44,6 +44,7 @@
         "SetupWebSiteName": "nazwa portalu",
         "SetupWebsiteSetupSuccess": "Serwis %s utworzono pomyślnie!",
         "SetupWebSiteURL": "adres URL portalu",
+        "SiteSetup": "Proszę utworzyć pierwszą stronę, która miała by być anmalizowana prze Piwik'a:",
         "SiteSetupFootnote": "UWAGA: Nowe strony do śledzenia będzie mozna dodawać dopiero po zakończeniu instalacji Piwik'a",
         "SuperUser": "Super Użytkownik",
         "SuperUserLogin": "login super użytkownika",
