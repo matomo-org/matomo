@@ -80,7 +80,7 @@ class Factory
      *                                 If nothing is configured for the report and `null` is supplied for this
      *                                 argument, **table** is used.
      * @param bool|false|string $apiAction The API method for the report that will be displayed, eg,
-     *                               `'UserSettings.getBrowser'`.
+     *                               `'DevicesDetection.getBrowsers'`.
      * @param bool|false|string $controllerAction The controller name and action dedicated to displaying the report. This
      *                                       action is used when reloading reports or changing the report visualization.
      *                                       Defaulted to `$apiAction` if `false` is supplied.
