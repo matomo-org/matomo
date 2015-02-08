@@ -36,16 +36,17 @@ function formSetEditReport(idReport) {
     $('#report_hour').val(report.hour);
     $('[name=report_format].' + report.type + ' option[value=' + report.format + ']').prop('selected', 'selected');
 
-    var selectorReportFormat = 'select[name=report_format].' + $('#report_type').val();
-    $(selectorReportFormat).change( toggleDisplayOptionsByFormat );
+    $('select[name=report_type]').change( toggleDisplayOptionsByFormat );
+    $('select[name=report_format]').change( toggleDisplayOptionsByFormat );
 
     // When CSV is selected, hide "Display options"
     toggleDisplayOptionsByFormat();
 
     function toggleDisplayOptionsByFormat() {
+        var selectorReportFormat = 'select[name=report_format].' + $('#report_type').val();
         var format = $(selectorReportFormat).val();
         var displayOptionsSelector = $('#row_report_display_options');
-        if (format == 'csv') {
+        if (format == 'csv' || format == 'sms') {
             displayOptionsSelector.hide();
         } else {
             displayOptionsSelector.show();
