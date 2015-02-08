@@ -18,6 +18,7 @@ use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\SitesManager\Model as ModelSitesManager;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Site;
 
@@ -112,10 +113,10 @@ class API extends \Piwik\Plugin\API
      */
     private function getSitesIdFromPattern($pattern, $_restrictSitesToLogin)
     {
-        if (empty($pattern)) {
+        // First clear cache
+        Site::clearCache();
 
-            // First clear cache
-            Site::clearCache();
+        if (empty($pattern)) {
 
             /** @var Scheduler $scheduler */
             $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
@@ -130,17 +131,30 @@ class API extends \Piwik\Plugin\API
             } else {
                 APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin);
             }
-            // Both calls above have called Site::setSitesFromArray. We now get these sites:
-            $sitesToProblablyAdd = Site::getSites();
-        } else {
-            $sitesToProblablyAdd = Request::processRequest('SitesManager.getPatternMatchSites',
-                array('pattern'   => $pattern,
-                    // added because caller could overwrite these
-                      'serialize' => 0,
-                      'format'    => 'original'));
 
-            Site::setSitesFromArray($sitesToProblablyAdd);
+        } else {
+            $sites = Request::processRequest('SitesManager.getPatternMatchSites',
+                array('pattern'   => $pattern,
+                      // added because caller could overwrite these
+                      'showColumns' => '',
+                      'hideColumns' => '',
+                      'serialize'   => 0,
+                      'format'      => 'original'));
+
+            if (!empty($sites)) {
+                $idSites = array();
+                foreach ($sites as $site) {
+                    $idSites[] = $site['idsite'];
+                }
+
+                $model = new ModelSitesManager();
+                $sites = $model->getSitesFromIds($idSites); // getPatternMatchSites does not return all sites information...
+                Site::setSitesFromArray($sites);
+            }
         }
+
+        // Both calls above have called Site::setSitesFromArray. We now get these sites:
+        $sitesToProblablyAdd = Site::getSites();
 
         return $sitesToProblablyAdd;
     }
@@ -162,7 +176,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $sites = $this->getIdSite($idSite);
+        $sites = $this->getSiteFromId($idSite);
 
         return $this->buildDataTable(
             $sites,
@@ -175,7 +189,7 @@ class API extends \Piwik\Plugin\API
         );
     }
 
-    private function getIdSite($idSite)
+    private function getSiteFromId($idSite)
     {
         $idSite = (int) $idSite;
         $sites = array(APISitesManager::getInstance()->getSiteFromId($idSite));
