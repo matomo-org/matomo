@@ -16,7 +16,7 @@ use Piwik\Tests\Framework\Fixture;
  */
 class DuplicateActions extends Fixture
 {
-    const DUMMY_IDVISITOR = '1234567890123456';
+    const DUMMY_IDVISITOR = 'c1d2a36653fd88e2';
 
     private static $dataToInsert = array(
         'log_action' => array(
@@ -155,6 +155,10 @@ class DuplicateActions extends Fixture
         foreach ($rows as $row) {
             if ($unprefixedTable == 'log_action') {
                 $row['hash'] = crc32($row['name']);
+            }
+
+            if (isset($row['idvisitor'])) {
+                $row['idvisitor'] = pack("H*", $row['idvisitor']);
             }
 
             $placeholders = array_map(function () { return "?"; }, $row);
