@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\DataAccess\TableMetadata;
 use Piwik\Db\Adapter;
 use Piwik\Tracker;
 
@@ -387,17 +388,12 @@ class Db
      *
      * @param string|array $table The name of the table you want to get the columns definition for.
      * @return \Zend_Db_Statement
+     * @deprecated since 2.11.0
      */
     public static function getColumnNamesFromTable($table)
     {
-        $columns = self::fetchAll("SHOW COLUMNS FROM `" . $table . "`");
-
-        $columnNames = array();
-        foreach ($columns as $column) {
-            $columnNames[] = $column['Field'];
-        }
-
-        return $columnNames;
+        $tableMetadataAccess = new TableMetadata();
+        return $tableMetadataAccess->getColumns($table);
     }
 
     /**
