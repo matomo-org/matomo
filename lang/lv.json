@@ -291,6 +291,7 @@
         "VisitorID": "Apmeklētāja ID",
         "VisitorIP": "Apmeklētāja IP",
         "Visitors": "Apmeklētāji",
+        "VisitorSettings": "Apmeklētāju iestatījumi",
         "VisitsWith": "Apmeklējumi ar %s",
         "VisitType": "Apmeklētāja tips",
         "VisitTypeExample": "Piemēram, lai izvēlētos visus apmeklētājus, kas atgriezušies vietnē (ieskaitot tos, kas veikuši pasūtījumu kādā no iepriekšējiem apmeklējumiem), API pieprasījumam būtu jāsatur %s",

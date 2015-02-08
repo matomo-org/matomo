@@ -17,7 +17,6 @@
         "EmailSchedule": "Schemalagd e-post",
         "EvolutionGraph": "Visa historiska grafer för dom topp %s värdena",
         "FrontPage": "Startsida",
-        "ManageEmailReports": "Hantera e-postrapporter",
         "MonthlyScheduleHelp": "Månatligt schema: Rapporten kommer att skickas ut den första dagen i varje månad.",
         "MustBeLoggedIn": "Du måste vara inloggad för att skapa och schemalägga anpassade rapporter.",
         "NoRecipients": "Rapporten har ingen mottagare",

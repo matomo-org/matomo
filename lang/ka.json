@@ -214,6 +214,7 @@
         "View": "დათვალიერება",
         "VisitDuration": "ვიზიტის საშუალო ხანგრძლივობა (წამებში)",
         "Visitors": "ვიზიტორები",
+        "VisitorSettings": "ვიზიტორის პარამეტრები",
         "Warning": "გაფრთხილება",
         "WarningFileIntegrityNoManifest": "ფაილის მთლიანობის შემოწმება ვერ განხორციელდება, რადგან manifest.inc.php ფაილი არ არსებობს.",
         "WarningFileIntegrityNoMd5file": "ფაილის მთლიანობის შემოწმება ვერ დასრულდება, რადგან md5_file() ფუნქცია არ არსებობს.",

@@ -7,7 +7,6 @@
         "EmailReports": "E-postrapporter",
         "EmailSchedule": "E-postplan",
         "FrontPage": "Forside",
-        "ManageEmailReports": "Administrer e-postrapporter",
         "MonthlyScheduleHelp": "Månedsplan: Rapportene blir sendt første dag i hver måned.",
         "NoRecipients": "Denne rapporten har ingen mottakere",
         "Pagination": "Side %s av %s",

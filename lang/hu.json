@@ -292,6 +292,7 @@
         "VisitorID": "Látogatóazonosító",
         "VisitorIP": "Látogató IP-címe",
         "Visitors": "Látogatók",
+        "VisitorSettings": "Látogatók adatai",
         "VisitsWith": "Látogatások ezzel: %s",
         "VisitType": "Látogató típusa",
         "VisitTypeExample": "Például azoknak a látogatóknak a kiválasztására, akik visszatértek a weboldalra, köztük azok, akik vásároltak valamit a korábbi látogatásaik során, az API lekérés ezt tartalmazná: %s",

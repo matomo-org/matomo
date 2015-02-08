@@ -345,6 +345,7 @@
         "VisitorID": "Külastaja ID",
         "VisitorIP": "Külastaja IP",
         "Visitors": "Külastajad",
+        "VisitorSettings": "Külastajate seaded",
         "VisitsWith": "Külastused koos %s",
         "VisitType": "Külalise tüüp",
         "Warning": "Hoiatus",

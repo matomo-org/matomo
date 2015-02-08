@@ -415,6 +415,7 @@
         "VisitorID": "Besöks-id",
         "VisitorIP": "Besökarens IP",
         "Visitors": "Besökare",
+        "VisitorSettings": "Besökarinställningar",
         "VisitsWith": "Besök med %s",
         "VisitType": "Besökstyp",
         "VisitTypeExample": "Till exempel, för att markera alla besökare som har återvänt till webbplatsen, inklusive de som har köpt något i sina tidigare besök, så skulle API-begäran innehålla %s",

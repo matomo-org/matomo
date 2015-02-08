@@ -17,7 +17,6 @@
         "EmailSchedule": "Lịch email",
         "EvolutionGraph": "Hiển thị đồ thị lịch sử cho các giá trị %s đứng đầu",
         "FrontPage": "Trang đầu",
-        "ManageEmailReports": "Quản lý các báo cáo email",
         "MonthlyScheduleHelp": "Lịch trình hàng tháng: báo cáo sẽ được gửi vào ngày đầu tiên của mỗi tháng.",
         "MustBeLoggedIn": "Bạn phải đăng nhập để tạo và lập lịch các báo cáo tùy chỉnh.",
         "NoRecipients": "Báo cáo này không có người nhận",

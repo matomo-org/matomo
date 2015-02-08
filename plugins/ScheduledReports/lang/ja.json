@@ -17,7 +17,6 @@
         "EmailSchedule": "メールのスケジュール",
         "EvolutionGraph": "トップの %s 値の履歴グラフを表示",
         "FrontPage": "表紙",
-        "ManageEmailReports": "メールリポートの管理",
         "MonthlyScheduleHelp": "月間スケジュール： リポートは毎月1日に送信されます。",
         "MustBeLoggedIn": "カスタムリポートの作成とスケジュールにはログインする必要があります。",
         "NoRecipients": "このレポートは、受取人がいません",

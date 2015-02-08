@@ -33,7 +33,7 @@
         "JSTracking_EnableDoNotTrack": "Schakel Client side DoNotTrack detectie in.",
         "JSTracking_EnableDoNotTrack_AlreadyEnabled": "Opmerking: Server side DoNotTrack ondersteuning is ingeschakeld, deze optie heeft dus geen effect.",
         "JSTracking_EnableDoNotTrackDesc": "Tracking verzoeken zullen niet worden verzonden indien de bezoeker niet wenst gevolgd te worden.",
-        "JSTracking_GroupPageTitlesByDomain": "Plaats het site domein voor de pagina titel tijdens het traceren.",
+        "JSTracking_GroupPageTitlesByDomain": "Plaats het sitedomein voor de paginatitel tijdens het traceren.",
         "JSTracking_GroupPageTitlesByDomainDesc1": "Als iemand de 'over mij' bezoekt op blog.%1$s wordt het bewaard als 'blog \/ over mij'. Dit is de gemakkelijkste manier om een overzicht volgens subdomein te krijgen op je verkeer.",
         "JSTracking_MergeAliases": "In het \"Uitgaande links\" rapport, verberg kliks naar bekende aliassen van",
         "JSTracking_MergeAliasesDesc": "zo zullen kliks op links naar Ailias URL's (bijv. %s) zullen niet worden geteld worden als \"Uitgaande Link\"",

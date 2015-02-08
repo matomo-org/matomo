@@ -22,7 +22,7 @@ var exports = require('piwik/UI'),
  * method, and this class instance is stored using the jQuery $.data function
  * with the 'uiControlObject' key.
  *
- * To find a datatable element by report (ie, 'UserSettings.getBrowser'),
+ * To find a datatable element by report (ie, 'DevicesDetection.getBrowsers'),
  * use piwik.DataTable.getDataTableByReport.
  *
  * To get the dataTable JS instance (an instance of this class) for a
@@ -67,7 +67,7 @@ DataTable.registerFooterIconHandler = function (id, handler) {
 /**
  * Returns the first datatable div displaying a specific report.
  *
- * @param {string} report  The report, eg, UserSettings.getLanguage
+ * @param {string} report  The report, eg, UserLanguage.getLanguage
  * @return {Element} The datatable div displaying the report, or undefined if
  *                   it cannot be found.
  */

@@ -274,6 +274,7 @@
         "VisitorID": "Oznaka posjetitelja",
         "VisitorIP": "IP adresa posjetitelja",
         "Visitors": "Posjetitelji",
+        "VisitorSettings": "Postavke posjetitelja",
         "VisitsWith": "Posjete sa %s",
         "VisitType": "Vrsta posjetitelja",
         "VisitTypeExample": "Na primjer, za biranje svih posjetitelja koji su se vratili na stranicu, uključujući i one koji su pri prošloj posjeti nešto i kupili, API zahtjev treba sadržavati %s",

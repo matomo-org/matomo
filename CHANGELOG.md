@@ -22,7 +22,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The following classes have been deprecated:
   * `Piwik\TaskScheduler`: use `Piwik\Scheduler\Scheduler` instead
   * `Piwik\ScheduledTask`: use `Piwik\Scheduler\Task` instead
- 
+* The API method `UserSettings.getLanguage` is deprecated and will be removed from May 1st 2015. Use `UserLanguage.getLanguage` instead
+* The API method `UserSettings.getLanguageCode` is deprecated and will be removed from May 1st 2015. Use `UserLanguage.getLanguageCode` instead
+  
 ### New features
 * You can now generate UI / screenshot tests using the command `generate:test`
 * During UI tests we do now add a CSS class to the HTML element called `uiTest`. This allows you do hide content when screenshots are captured.

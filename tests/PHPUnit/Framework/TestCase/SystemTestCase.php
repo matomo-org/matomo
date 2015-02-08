@@ -399,7 +399,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
      * Assert that the response of an API method call is the same as the contents in an
      * expected file.
      *
-     * @param string $api ie, `"UserSettings.getBrowser"`
+     * @param string $api ie, `"DevicesDetection.getBrowsers"`
      * @param array $queryParams Query parameters to send to the API.
      */
     public function assertApiResponseEqualsExpected($apiMethod, $queryParams)

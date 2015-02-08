@@ -4,6 +4,7 @@
         "CheckForUpdates": "Søg efter opdateringer",
         "CheckPiwikOut": "Tjek Piwik!",
         "ClickRowToExpandOrContract": "Klik på rækken for at udvide eller sammentrække undertabelen.",
+        "ClickToEditX": "Klik for at redigere %s",
         "CloseWidgetDirections": "Luk modulet ved at klikke på 'X' ikonet øverst.",
         "DataForThisReportHasBeenPurged": "Data til rapporten er er mere end %s måneder gamle og er blevet ryddet op.",
         "DataTableExcludeAggregateRows": "Samlede rækker vises %s Skjul dem",

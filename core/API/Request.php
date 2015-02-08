@@ -46,7 +46,7 @@ use Piwik\Log;
  *
  * **Basic Usage**
  *
- *     $request = new Request('method=UserSettings.getLanguage&idSite=1&date=yesterday&period=week'
+ *     $request = new Request('method=UserLanguage.getLanguage&idSite=1&date=yesterday&period=week'
  *                          . '&format=xml&filter_limit=5&filter_offset=0')
  *     $result = $request->process();
  *     echo $result;
@@ -54,7 +54,7 @@ use Piwik\Log;
  * **Getting a unrendered DataTable**
  *
  *     // use the convenience method 'processRequest'
- *     $dataTable = Request::processRequest('UserSettings.getLanguage', array(
+ *     $dataTable = Request::processRequest('UserLanguage.getLanguage', array(
  *         'idSite' => 1,
  *         'date' => 'yesterday',
  *         'period' => 'week',
@@ -78,7 +78,7 @@ class Request
      * forwarded to request array before it is returned.
      *
      * @param string|array $request The base request string or array, eg,
-     *                              `'module=UserSettings&action=getLanguage'`.
+     *                              `'module=UserLanguage&action=getLanguage'`.
      * @param array $defaultRequest Default query parameters. If a query parameter is absent in `$request`, it will be loaded
      *                              from this. Defaults to `$_GET + $_POST`.
      * @return array
@@ -125,7 +125,7 @@ class Request
      * Constructor.
      *
      * @param string|array $request Query string that defines the API call (must at least contain a **method** parameter),
-     *                              eg, `'method=UserSettings.getLanguage&idSite=1&date=yesterday&period=week&format=xml'`
+     *                              eg, `'method=UserLanguage.getLanguage&idSite=1&date=yesterday&period=week&format=xml'`
      *                              If a request is not provided, then we use the values in the `$_GET` and `$_POST`
      *                              superglobals.
      * @param array $defaultRequest Default query parameters. If a query parameter is absent in `$request`, it will be loaded

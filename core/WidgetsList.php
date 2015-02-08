@@ -138,7 +138,7 @@ class WidgetsList extends Singleton
             'VisitsSummary_VisitsSummary',
             'Live!',
             'General_Visitors',
-            'UserSettings_VisitorSettings',
+            'General_VisitorSettings',
             'DevicesDetection_DevicesDetection',
             'General_Actions',
             'Events_Events',
