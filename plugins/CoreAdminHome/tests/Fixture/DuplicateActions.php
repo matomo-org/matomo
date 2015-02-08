@@ -84,6 +84,7 @@ class DuplicateActions extends Fixture
                 'visitor_count_visits' => 1,
                 'visitor_returning' => 1,
                 'visitor_days_since_order' => 1,
+                'visitor_days_since_first' => 1,
                 'idaction_url' => 4,
             ),
 
@@ -99,6 +100,7 @@ class DuplicateActions extends Fixture
                 'visitor_count_visits' => 1,
                 'visitor_returning' => 1,
                 'visitor_days_since_order' => 1,
+                'visitor_days_since_first' => 1,
                 'idaction_url' => 7,
             )
         ),

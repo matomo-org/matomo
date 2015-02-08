@@ -82,7 +82,7 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
     {
         $row = array(
             'idsite' => 3,
-            'idvisitor' => DuplicateActions::DUMMY_IDVISITOR,
+            'idvisitor' => pack("H*", DuplicateActions::DUMMY_IDVISITOR),
             'server_time' => '2012-02-13 00:00:00',
             'idvisit' => 5,
             'idorder' => 6,
