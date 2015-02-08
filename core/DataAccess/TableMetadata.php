@@ -7,16 +7,19 @@
  */
 namespace Piwik\DataAccess;
 
-use Piwik\Common;
 use Piwik\Db;
 
 /**
- * TODO
+ * Data Access Object that can be used to get metadata information about
+ * the MySQL tables Piwik uses.
  */
 class TableMetadata
 {
     /**
-     * TODO
+     * Returns the list of column names for a table.
+     *
+     * @param string $table Prefixed table name.
+     * @return string[] List of column names..
      */
     public function getColumns($table)
     {
@@ -33,7 +36,12 @@ class TableMetadata
     }
 
     /**
-     * TODO
+     * Returns the list of idaction columns in a table. A column is
+     * assumed to be an idaction reference if it has `"idaction"` in its
+     * name (eg, `"idaction_url"` or `"idaction_content_name"`.
+     *
+     * @param string $table Prefixed table name.
+     * @return string[]
      */
     public function getIdActionColumnNames($table)
     {
