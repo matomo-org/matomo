@@ -23,7 +23,6 @@ class UserSettings extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'Request.getRenamedModuleAndAction'    => 'renameDeprecatedModuleAndAction',
         );
     }
@@ -63,14 +62,4 @@ class UserSettings extends \Piwik\Plugin
             $module = 'DevicePlugins';
         }
     }
-
-    public function addMetricTranslations(&$translations)
-    {
-        $metrics = array(
-            'nb_visits_percentage' => Piwik::translate('General_ColumnPercentageVisits')
-        );
-
-        $translations = array_merge($translations, $metrics);
-    }
-
 }
