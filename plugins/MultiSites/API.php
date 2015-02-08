@@ -138,6 +138,8 @@ class API extends \Piwik\Plugin\API
                     // added because caller could overwrite these
                       'serialize' => 0,
                       'format'    => 'original'));
+
+            Site::setSitesFromArray($sitesToProblablyAdd);
         }
 
         return $sitesToProblablyAdd;
@@ -185,7 +187,6 @@ class API extends \Piwik\Plugin\API
     {
         $idSites = array();
         if (!empty($sitesToProblablyAdd)) {
-            Site::setSitesFromArray($sitesToProblablyAdd);
             foreach ($sitesToProblablyAdd as $site) {
                 $idSites[] = $site['idsite'];
             }
