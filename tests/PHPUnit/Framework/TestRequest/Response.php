@@ -117,6 +117,7 @@ class Response
         $apiResponse = $this->normalizeDecimalFields($apiResponse);
         $apiResponse = $this->normalizeEncodingPhp533($apiResponse);
         $apiResponse = $this->normalizeSpaces($apiResponse);
+        $apiResponse = $this->removeZeroMetrics($apiResponse);
 
         return $apiResponse;
     }
@@ -262,5 +263,21 @@ class Response
         }
 
         return $apiResponse;
+    }
+
+    /**
+     * Based on the Piwik version, API output will sometimes contain columns whose value is 0,
+     * and sometimes it won't. Both are considered correct w/ regards to API output value, so
+     * in system tests, we remove these 0 value columns to avoid unnecessary test failures.
+     */
+    private function removeZeroMetrics($apiResponse)
+    {
+        return preg_replace_callback("/<([^>]+)>0+<\\/[^>]+>/", function ($matches) {
+            if ($matches[1] == 'result') { // do not remove <result>0</result> since that will result in invalid XML
+                return $matches[0];
+            } else {
+                return "";
+            }
+        }, $apiResponse);
     }
 }
