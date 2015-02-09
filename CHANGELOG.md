@@ -32,6 +32,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * You can now generate UI / screenshot tests using the command `generate:test`
 * During UI tests we do now add a CSS class to the HTML element called `uiTest`. This allows you do hide content when screenshots are captured.
 
+### New commands
+* A new command (core:fix-duplicate-log-actions) has been added which can be used to remove duplicate actions and correct references to them in other tables. Duplicates were caused by this bug: https://github.com/piwik/piwik/issues/6436
+
 ### Library updates
 * Updated AngularJS from 1.2.26 to 1.2.28
 * Updated piwik/device-detector from 2.8 to 3.0
