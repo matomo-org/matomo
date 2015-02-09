@@ -55,7 +55,6 @@
 		<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 		<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 		<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
-		<nb_visits_percentage>% Visits</nb_visits_percentage>
 		<orders>Ecommerce Orders</orders>
 		<ecommerce_revenue>Product Revenue</ecommerce_revenue>
 		<revenue_per_visit>Revenue per Visit</revenue_per_visit>
@@ -83,5 +82,6 @@
 		<nb_impressions>Impressions</nb_impressions>
 		<nb_interactions>Interactions</nb_interactions>
 		<interaction_rate>Interaction Rate</interaction_rate>
+		<nb_visits_percentage>% Visits</nb_visits_percentage>
 	</row>
 </result>
