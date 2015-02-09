@@ -10,6 +10,7 @@ namespace Piwik\ArchiveProcessor;
 
 use Exception;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Log;
@@ -228,18 +229,28 @@ class Rules
 
     public static function isArchivingDisabledFor(array $idSites, Segment $segment, $periodLabel)
     {
+        $generalConfig = Config::getInstance()->General;
+
         if ($periodLabel == 'range') {
-            return false;
+            if (!isset($generalConfig['archiving_range_force_on_browser_request'])
+                || $generalConfig['archiving_range_force_on_browser_request'] != false
+            ) {
+                return false;
+            } else {
+                Log::debug("Not forcing archiving for range period.");
+            }
         }
+
         $processOneReportOnly = !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel);
         $isArchivingDisabled = !self::isRequestAuthorizedToArchive() || self::$archivingDisabledByTests;
 
-        if ($processOneReportOnly) {
-
+        if ($processOneReportOnly
+            && $periodLabel != 'range'
+        ) {
             // When there is a segment, we disable archiving when browser_archiving_disabled_enforce applies
             if (!$segment->isEmpty()
                 && $isArchivingDisabled
-                && Config::getInstance()->General['browser_archiving_disabled_enforce']
+                && $generalConfig['browser_archiving_disabled_enforce']
                 && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
             ) {
                 Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");

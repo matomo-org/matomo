@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Piwik;
 use Piwik\UrlHelper;
 
 class PageUrl
@@ -86,13 +87,21 @@ class PageUrl
         $website = Cache::getCacheWebsiteAttributes($idSite);
         $excludedParameters = self::getExcludedParametersFromWebsite($website);
 
-        if (!empty($excludedParameters)) {
-            Common::printDebug('Excluding parameters "' . implode(',', $excludedParameters) . '" from URL');
-        }
-
         $parametersToExclude = array_merge($excludedParameters,
                                            self::$queryParametersToExclude,
                                            $campaignTrackingParameters);
+
+        /**
+         * Triggered before setting the action url in Piwik\Tracker\Action so plugins can register
+         * parameters to be excluded from the tracking URL (e.g. campaign parameters).
+         *
+         * @param array &$parametersToExclude An array of parameters to exclude from the tracking url.
+         */
+		Piwik::postEvent('Tracker.PageUrl.getQueryParametersToExclude', array(&$parametersToExclude));
+
+		if (!empty($parametersToExclude)) {
+			Common::printDebug('Excluding parameters "' . implode(',', $parametersToExclude) . '" from URL');
+		}
 
         $parametersToExclude = array_map('strtolower', $parametersToExclude);
         return $parametersToExclude;

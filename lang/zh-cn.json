@@ -405,6 +405,7 @@
         "VisitorID": "访客 ID",
         "VisitorIP": "访客 IP",
         "Visitors": "访客分析",
+        "VisitorSettings": "访客设置",
         "VisitsWith": "有%s的访客",
         "VisitType": "访客类型",
         "VisitTypeExample": "例如，要选择所有回头访客，包括那些以前购买过产品的，API 请求需要包含 %s",

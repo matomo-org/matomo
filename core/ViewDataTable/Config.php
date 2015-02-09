@@ -586,7 +586,7 @@ class Config
      * references the one that is currently being displayed, it will not be added to the related
      * report list.
      *
-     * @param string $relatedReport The plugin and method of the report, eg, `'UserSettings.getBrowser'`.
+     * @param string $relatedReport The plugin and method of the report, eg, `'DevicesDetection.getBrowsers'`.
      * @param string $title The report's display name, eg, `'Browsers'`.
      * @param array $queryParams Any extra query parameters to set in releated report's URL, eg,
      *                           `array('idGoal' => 'ecommerceOrder')`.
@@ -620,8 +620,8 @@ class Config
      *                              titles, eg,
      *                              ```
      *                              array(
-     *                                  'UserSettings.getBrowser' => 'Browsers',
-     *                                  'UserSettings.getConfiguration' => 'Configurations'
+     *                                  'DevicesDetection.getBrowsers' => 'Browsers',
+     *                                  'Resolution.getConfiguration' => 'Configurations'
      *                              )
      *                              ```
      */

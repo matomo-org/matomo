@@ -2,7 +2,6 @@
     "Provider": {
         "ColumnProvider": "مزود الخدمة",
         "PluginDescription": "يعرض تقارير عن مزود الخدمة للزوار.",
-        "SubmenuLocationsProvider": "المكان ومزود الخدمة",
         "WidgetProviders": "مزودو الخدمة"
     }
 }

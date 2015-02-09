@@ -30,6 +30,7 @@ env:
     # All tests after another
     - TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
+    - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL
   global:
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR
     - secure: "AMhZmPZx4SUcuZRBzGHlQPxzM4D8FvFB3UThDa52gbi9KIBrwcumzV2VGi6B\n5fgjwtB4XTE1In7qhY2HMikPWBmWYYOQ5QcMPJsqqHt4iMmahx8WKzne6NOk\nNpqAuje/fulNGeP2LJZi0nrub3Fh4VwXaOvpNloKNQN/2JuqPtM="
@@ -58,6 +59,9 @@ matrix:
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
+    # run UI tests on PHP 5.3.3 only
+    - php: 5.6
+      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL
     # run all tests not on PHP 5.6 and run MySQLI tests only on 5.6
     - php: 5.6
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
@@ -117,9 +121,6 @@ before_script:
   - mysql -e "SELECT @@sql_mode;"
   # - mysql -e "SHOW GLOBAL VARIABLES;"
 
-
-  # Start UI tests
-  - ./tests/travis/initiate_ui_tests.sh
   # travis now complains about this failing 9 times out of 10, so removing it. hopefully the random failures it prevented won't come back
   # - travis_retry composer self-update
 

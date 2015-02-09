@@ -419,6 +419,7 @@
         "VisitorID": "Kävijän ID",
         "VisitorIP": "Kävijän IP",
         "Visitors": "Kävijät",
+        "VisitorSettings": "Kävijöiden asetukset",
         "VisitsWith": "Käynnit %s:n kanssa",
         "VisitType": "Kävijän tyyppi",
         "VisitTypeExample": "Voit esimerkiksi valita kaikki kävijät jotka palasivat sivulle ja ostivat edellisellä käynnillä. Esimerkki pyynnöstä on %s",

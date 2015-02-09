@@ -429,6 +429,7 @@
         "VisitorID": "ID des Besuchers",
         "VisitorIP": "IP des Besuchers",
         "Visitors": "Besucher",
+        "VisitorSettings": "Besuchereinstellungen",
         "VisitsWith": "Besuche mit %s",
         "VisitType": "Art des Besuchers",
         "VisitTypeExample": "Um beispielsweise alle wiederkehrenden Besucher abzufragen, die Bestellungen getätigt haben, muss der API Aufruf folgendes enthalten: %s",

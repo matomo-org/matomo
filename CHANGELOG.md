@@ -22,16 +22,22 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The following classes have been deprecated:
   * `Piwik\TaskScheduler`: use `Piwik\Scheduler\Scheduler` instead
   * `Piwik\ScheduledTask`: use `Piwik\Scheduler\Task` instead
+* The API method `UserSettings.getLanguage` is deprecated and will be removed from May 1st 2015. Use `UserLanguage.getLanguage` instead
+* The API method `UserSettings.getLanguageCode` is deprecated and will be removed from May 1st 2015. Use `UserLanguage.getLanguageCode` instead
 * The `Piwik\Registry` class has been removed in favor of using the container:
   * `Registry::get('auth')` should be replaced with `StaticContainer::get('Piwik\Auth')`
   * `Registry::set('auth', $auth)` should be replaced with `StaticContainer::getContainer()->set('Piwik\Auth', $auth)`
  
 ### New features
 * You can now generate UI / screenshot tests using the command `generate:test`
+* During UI tests we do now add a CSS class to the HTML element called `uiTest`. This allows you do hide content when screenshots are captured.
 
 ### Library updates
 * Updated AngularJS from 1.2.26 to 1.2.28
 * Updated piwik/device-detector from 2.8 to 3.0
+
+### Internal change
+* UI specs were moved from `tests/PHPUnit/UI` to `tests/UI`. We also moved the UI specs directly into the Piwik repository meaning the [piwik-ui-tests](https://github.com/piwik/piwik-ui-tests) repository contains only the expected screenshots from now on.
 
 ## Piwik 2.10.0
 

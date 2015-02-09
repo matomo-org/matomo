@@ -406,8 +406,8 @@ class ApiTest extends IntegrationTestCase
     public function getGetReportSubjectAndReportTitleTestCases()
     {
         return array(
-            array('<Piwik.org>', '<Piwik.org>', '<Piwik.org>', array('UserSettings_getBrowserType')),
-            array('Piwik.org', 'Piwik.org', 'Piwik.org', array('MultiSites_getAll', 'UserSettings_getBrowserType')),
+            array('<Piwik.org>', '<Piwik.org>', '<Piwik.org>', array('DevicesDetection_getBrowserEngines')),
+            array('Piwik.org', 'Piwik.org', 'Piwik.org', array('MultiSites_getAll', 'DevicesDetection_getBrowserEngines')),
             array('General_MultiSitesSummary', 'General_MultiSitesSummary', 'Piwik.org', array('MultiSites_getAll')),
         );
     }

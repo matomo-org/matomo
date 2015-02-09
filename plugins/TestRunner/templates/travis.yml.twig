@@ -151,12 +151,6 @@ before_script:
   - mysql -e "SELECT @@sql_mode;"
   # - mysql -e "SHOW GLOBAL VARIABLES;"
 
-{% if generationMode == 'core' %}
-
-  # Start UI tests
-  - ./tests/travis/initiate_ui_tests.sh
-{%- endif %}
-
   # travis now complains about this failing 9 times out of 10, so removing it. hopefully the random failures it prevented won't come back
   # - travis_retry composer self-update
 

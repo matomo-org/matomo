@@ -416,6 +416,7 @@ class UrlHelper
                             || strpos($query, sprintf('?%s=', $variableName)) !== false
 
                             // search engines with no keyword
+                            || $searchEngineName == 'Ixquick'
                             || $searchEngineName == 'Google Images'
                             || $searchEngineName == 'DuckDuckGo')
                     ) {

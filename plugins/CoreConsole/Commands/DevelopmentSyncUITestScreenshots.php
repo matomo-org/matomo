@@ -29,7 +29,7 @@ class DevelopmentSyncUITestScreenshots extends ConsoleCommand
     {
         $this->setName('development:sync-ui-test-screenshots');
         $this->setDescription('For Piwik core devs. Copies screenshots '
-                            . 'from travis artifacts to tests/PHPUnit/UI/expected-ui-screenshots/');
+                            . 'from travis artifacts to tests/UI/expected-ui-screenshots/');
         $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync.');
         $this->addArgument('screenshotsRegex', InputArgument::OPTIONAL,
             'A regex to use when selecting screenshots to copy. If not supplied all screenshots are copied.', '.*');
@@ -74,7 +74,7 @@ class DevelopmentSyncUITestScreenshots extends ConsoleCommand
                 && preg_match("/" . $screenshotsRegex . "/", $file)
             ) {
                 if ($testPlugin == null) {
-                    $downloadTo = "tests/PHPUnit/UI/expected-ui-screenshots/$file";
+                    $downloadTo = "tests/UI/expected-ui-screenshots/$file";
                 } else {
                     $downloadTo = "plugins/$testPlugin/tests/UI/expected-ui-screenshots/$file";
                 }
@@ -99,15 +99,15 @@ class DevelopmentSyncUITestScreenshots extends ConsoleCommand
         $output->writeln('');
         $output->writeln("If all downloaded screenshots are valid you may push them with these commands:");
         $output->writeln('');
-        $commands = "cd tests/PHPUnit/UI/
+        $commands = "cd tests/UI/expected-ui-screenshots
 git pull
-git add expected-ui-screenshots/
-git commit -m'' # WRITE A COMMIT MESSAGE
+git add .
+git commit -m '' # WRITE A COMMIT MESSAGE
 git push
 cd ..
 git pull
-git add UI
-git commit -m'' #WRITE A COMMIT MESSAGE
+git add expected-ui-screenshots
+git commit -m '' #WRITE A COMMIT MESSAGE
 git push";
         $output->writeln($commands);
     }

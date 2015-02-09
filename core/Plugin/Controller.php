@@ -580,43 +580,55 @@ abstract class Controller
      */
     protected function setGeneralVariablesView($view)
     {
-        $view->date = $this->strDate;
-
         $view->idSite = $this->idSite;
         $this->checkSitePermission();
         $this->setPeriodVariablesView($view);
 
-        $rawDate = Common::getRequestVar('date');
-        $periodStr = Common::getRequestVar('period');
-        if ($periodStr != 'range') {
-            $date = Date::factory($this->strDate);
-            $period = Period\Factory::build($periodStr, $date);
-        } else {
-            $period = new Range($periodStr, $rawDate, $this->site->getTimezone());
-        }
-        $view->rawDate = $rawDate;
-        $view->prettyDate = self::getCalendarPrettyDate($period);
-
         $view->siteName = $this->site->getName();
         $view->siteMainUrl = $this->site->getMainUrl();
 
+        $siteTimezone = $this->site->getTimezone();
+
         $datetimeMinDate = $this->site->getCreationDate()->getDatetime();
-        $minDate = Date::factory($datetimeMinDate, $this->site->getTimezone());
+        $minDate = Date::factory($datetimeMinDate, $siteTimezone);
         $this->setMinDateView($minDate, $view);
 
-        $maxDate = Date::factory('now', $this->site->getTimezone());
+        $maxDate = Date::factory('now', $siteTimezone);
         $this->setMaxDateView($maxDate, $view);
+
+        $rawDate   = Common::getRequestVar('date');
+        $periodStr = Common::getRequestVar('period');
+
+        if ($periodStr != 'range') {
+            $date      = Date::factory($this->strDate);
+            $validDate = $this->getValidDate($date, $minDate, $maxDate);
+            $period    = Period\Factory::build($periodStr, $validDate);
+
+            if ($date->toString() !== $validDate->toString()) {
+                // we to not always change date since it could convert a strDate "today" to "YYYY-MM-DD"
+                // only change $this->strDate if it was not valid before
+                $this->setDate($validDate);
+            }
+        } else {
+            $period = new Range($periodStr, $rawDate, $siteTimezone);
+        }
 
         // Setting current period start & end dates, for pre-setting the calendar when "Date Range" is selected
         $dateStart = $period->getDateStart();
-        if ($dateStart->isEarlier($minDate)) {
-            $dateStart = $minDate;
-        }
-        $dateEnd = $period->getDateEnd();
-        if ($dateEnd->isLater($maxDate)) {
-            $dateEnd = $maxDate;
+        $dateStart = $this->getValidDate($dateStart, $minDate, $maxDate);
+
+        $dateEnd   = $period->getDateEnd();
+        $dateEnd   = $this->getValidDate($dateEnd, $minDate, $maxDate);
+
+        if ($periodStr == 'range') {
+            // make sure we actually display the correct calendar pretty date
+            $newRawDate = $dateStart->toString() . ',' . $dateEnd->toString();
+            $period = new Range($periodStr, $newRawDate, $siteTimezone);
         }
 
+        $view->date = $this->strDate;
+        $view->prettyDate = self::getCalendarPrettyDate($period);
+        $view->rawDate = $rawDate;
         $view->startDate = $dateStart;
         $view->endDate = $dateEnd;
 
@@ -633,6 +645,19 @@ abstract class Controller
             $view->notifications = NotificationManager::getAllNotificationsToDisplay();
             NotificationManager::cancelAllNonPersistent();
         }
+    }
+
+    private function getValidDate(Date $date, Date $minDate, Date $maxDate)
+    {
+        if ($date->isEarlier($minDate)) {
+            $date = $minDate;
+        }
+
+        if ($date->isLater($maxDate)) {
+            $date = $maxDate;
+        }
+
+        return $date;
     }
 
     /**

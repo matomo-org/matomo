@@ -414,6 +414,7 @@
         "VisitorID": "ID vizitator",
         "VisitorIP": "IP vizitator",
         "Visitors": "Vizitatori",
+        "VisitorSettings": "Setări vizitatori",
         "VisitsWith": "Vizite cu %s",
         "VisitType": "Tip vizitator",
         "VisitTypeExample": "De exemplu, pentru a selecta toti vizitatorii care s-au intors pe site, inclusiv cei care au cumparat in trecut, cererea catre API ar include %s",

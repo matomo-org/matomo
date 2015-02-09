@@ -76,7 +76,7 @@ class TravisYmlView extends View
     /**
      * Sets the name of plugin the generated .travis.yml file is for.
      *
-     * @param string $pluginName ie, ExamplePlugin, UserSettings, etc.
+     * @param string $pluginName ie, ExamplePlugin, UserLanguage, etc.
      */
     public function setPlugin($pluginName)
     {
