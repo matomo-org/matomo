@@ -48,7 +48,7 @@ class DuplicateActionRemover
      *
      * @var string[]
      */
-    private $idactionColumns;
+    private $idactionColumns = null;
 
     /**
      * Constructor.
@@ -67,8 +67,6 @@ class DuplicateActionRemover
             $logger = StaticContainer::get('Psr\Log\LoggerInterface');
         }
         $this->logger = $logger;
-
-        $this->idactionColumns = $this->getIdActionTableColumnsFromMetadata();
     }
 
     /**
@@ -120,7 +118,8 @@ class DuplicateActionRemover
      */
     public function fixDuplicateActionsInTable($table, $realIdAction, $duplicateIdActions)
     {
-        $idactionColumns = array_values($this->idactionColumns[$table]);
+        $idactionColumns = $this->getIdActionTableColumnsFromMetadata();
+        $idactionColumns = array_values($idactionColumns[$table]);
         $table = Common::prefixTable($table);
 
         $inFromIdsExpression = $this->getInFromIdsExpression($duplicateIdActions);
@@ -149,7 +148,8 @@ class DuplicateActionRemover
      */
     public function getSitesAndDatesOfRowsUsingDuplicates($table, $duplicateIdActions)
     {
-        $idactionColumns = array_values($this->idactionColumns[$table]);
+        $idactionColumns = $this->getIdActionTableColumnsFromMetadata();
+        $idactionColumns = array_values($idactionColumns[$table]);
         $table = Common::prefixTable($table);
 
         $sql = "SELECT idsite, DATE(server_time) as server_time FROM $table ";
@@ -159,18 +159,20 @@ class DuplicateActionRemover
 
     private function getIdActionTableColumnsFromMetadata()
     {
-        $result = array();
-        foreach (self::$tablesWithIdActionColumns as $table) {
-            $columns = $this->tableMetadataAccess->getIdActionColumnNames(Common::prefixTable($table));
+        if ($this->idactionColumns === null) {
+            $this->idactionColumns = array();
+            foreach (self::$tablesWithIdActionColumns as $table) {
+                $columns = $this->tableMetadataAccess->getIdActionColumnNames(Common::prefixTable($table));
 
-            $this->logger->debug("Found following idactions in {table}: {columns}", array(
-                'table' => $table,
-                'columns' => implode(',', $columns)
-            ));
+                $this->logger->debug("Found following idactions in {table}: {columns}", array(
+                    'table' => $table,
+                    'columns' => implode(',', $columns)
+                ));
 
-            $result[$table] = $columns;
+                $this->idactionColumns[$table] = $columns;
+            }
         }
-        return $result;
+        return $this->idactionColumns;
     }
 
     private function getWhereToGetRowsUsingDuplicateActions($idactionColumns, $fromIdActions)
