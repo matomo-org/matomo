@@ -92,12 +92,17 @@ class UserId extends VisitDimension
     {
         $result = VisitsSummaryApi::getInstance()->get($idSite, $period, $date, false, 'nb_users');
 
-        if (!$result->getRowsCount()) {
-            return false;
-        }
+        return $this->hasDataTableUsers($result);
+    }
 
+    public function hasDataTableUsers(DataTable $result)
+    {
         if ($result instanceof Map) {
             $result = $result->mergeChildren();
+        }
+
+        if (!$result->getRowsCount()) {
+            return false;
         }
 
         $numUsers = $result->getColumn('nb_users');

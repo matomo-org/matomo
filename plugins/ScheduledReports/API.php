@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -357,11 +358,17 @@ class API extends \Piwik\Plugin\API
                 }
             }
 
-            $processedReport = \Piwik\Plugins\API\API::getInstance()->getProcessedReport(
-                $idSite, $period, $date, $apiModule, $apiAction,
-                $segment != null ? urlencode($segment['definition']) : false,
-                $apiParameters, $idGoal = false, $language
-            );
+            $processedReport = Request::processRequest('API.getProcessedReport', array(
+                'idSite' => $idSite,
+                'period' => $period,
+                'date'   => $date,
+                'apiModule' => $apiModule,
+                'apiAction' => $apiAction,
+                'segment' => $segment != null ? urlencode($segment['definition']) : false,
+                'apiParameters' => $apiParameters,
+                'idGoal' => false,
+                'langauge' => $language
+            ));
 
             $processedReport['segment'] = $segment;
 
