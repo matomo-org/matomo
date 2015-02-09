@@ -200,11 +200,6 @@ class Range extends Period
             $strDateEnd = $dateRange[2];
             $startDate = Date::factory($strDateStart);
 
-            if ($strDateEnd == 'today') {
-                $strDateEnd = 'now';
-            } elseif ($strDateEnd == 'yesterday') {
-                $strDateEnd = 'yesterdaySameTime';
-            }
             // we set the timezone in the Date object only if the date is relative eg. 'today', 'yesterday', 'now'
             $timezone = null;
             if (strpos($strDateEnd, '-') === false) {
