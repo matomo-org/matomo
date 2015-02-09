@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
@@ -18,7 +19,6 @@ use Piwik\IP;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
-use Piwik\Registry;
 use Piwik\Tracker;
 
 /**
@@ -138,7 +138,7 @@ class Request
         Piwik::postEvent('Request.initAuthenticationObject');
 
         /** @var \Piwik\Auth $auth */
-        $auth = Registry::get('auth');
+        $auth = StaticContainer::get('Piwik\Auth');
         $auth->setTokenAuth($tokenAuth);
         $auth->setLogin(null);
         $access = $auth->authenticate();

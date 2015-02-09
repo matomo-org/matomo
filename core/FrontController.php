@@ -264,7 +264,7 @@ class FrontController extends Singleton
     }
 
     /**
-     * Loads the config file and assign to the global registry
+     * Loads the config file
      * This is overridden in tests to ensure test config file is used
      *
      * @return Exception
@@ -415,14 +415,14 @@ class FrontController extends Singleton
          * **Example**
          *
          *     Piwik::addAction('Request.initAuthenticationObject', function() {
-         *         Piwik\Registry::set('auth', new MyAuthImplementation());
+         *         StaticContainer::getContainer()->set('Piwik\Auth', new MyAuthImplementation());
          *     });
          */
         Piwik::postEvent('Request.initAuthenticationObject');
         try {
-            $authAdapter = Registry::get('auth');
+            $authAdapter = StaticContainer::get('Piwik\Auth');
         } catch (Exception $e) {
-            $message = "Authentication object cannot be found in the Registry. Maybe the Login plugin is not activated?
+            $message = "Authentication object cannot be found in the container. Maybe the Login plugin is not activated?
                         <br />You can activate the plugin by adding:<br />
                         <code>Plugins[] = Login</code><br />
                         under the <code>[Plugins]</code> section in your config/config.ini.php";
