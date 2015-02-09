@@ -1048,6 +1048,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             .attr('href', function () {
                 var format = $(this).attr('format');
                 var method = $(this).attr('methodToCall');
+                var params = $(this).attr('requestParams');
+
+                if (params) {
+                    params = JSON.parse(params)
+                } else {
+                    params = {};
+                }
+
                 var segment = self.param.segment;
                 var label = self.param.label;
                 var idGoal = self.param.idGoal;
@@ -1072,6 +1080,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     && self.param.viewDataTable == "graphEvolution") {
                     period = 'day';
                 }
+
                 var str = 'index.php?module=API'
                     + '&method=' + method
                     + '&format=' + format
@@ -1080,6 +1089,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     + '&date=' + param_date
                     + ( typeof self.param.filter_pattern != "undefined" ? '&filter_pattern=' + self.param.filter_pattern : '')
                     + ( typeof self.param.filter_pattern_recursive != "undefined" ? '&filter_pattern_recursive=' + self.param.filter_pattern_recursive : '');
+
+                if ($.isPlainObject(params)) {
+                    $.each(params, function (index, param) {
+                        str += '&' + index + '=' + encodeURIComponent(param);
+                    });
+                }
 
                 if (typeof self.param.flat != "undefined") {
                     str += '&flat=' + (self.param.flat == 0 ? '0' : '1');
