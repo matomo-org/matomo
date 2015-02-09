@@ -75,25 +75,10 @@ class FixDuplicateLogActions extends ConsoleCommand
     {
         parent::__construct();
 
-        if ($invalidator === null) {
-            $invalidator = new ArchiveInvalidator();
-        }
-        $this->archiveInvalidator = $invalidator;
-
-        if ($duplicateActionRemover === null) {
-            $duplicateActionRemover = new DuplicateActionRemover();
-        }
-        $this->duplicateActionRemover = $duplicateActionRemover;
-
-        if ($actionsAccess === null) {
-            $actionsAccess = new Actions();
-        }
-        $this->actionsAccess = $actionsAccess;
-
-        if ($logger === null) {
-            $logger = StaticContainer::get('Psr\Log\LoggerInterface');
-        }
-        $this->logger = $logger;
+        $this->archiveInvalidator = $invalidator ?: new ArchiveInvalidator();
+        $this->duplicateActionRemover = $duplicateActionRemover ?: new DuplicateActionRemover();
+        $this->actionsAccess = $actionsAccess ?: new Actions();
+        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
     protected function configure()

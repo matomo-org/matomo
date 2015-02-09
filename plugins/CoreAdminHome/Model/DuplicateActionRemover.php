@@ -58,15 +58,8 @@ class DuplicateActionRemover
      */
     public function __construct($tableMetadataAccess = null, $logger = null)
     {
-        if ($tableMetadataAccess === null) {
-            $tableMetadataAccess = new TableMetadata();
-        }
-        $this->tableMetadataAccess = $tableMetadataAccess;
-
-        if ($logger === null) {
-            $logger = StaticContainer::get('Psr\Log\LoggerInterface');
-        }
-        $this->logger = $logger;
+        $this->tableMetadataAccess = $tableMetadataAccess ?: new TableMetadata();
+        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
     /**
