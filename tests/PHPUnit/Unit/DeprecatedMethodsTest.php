@@ -20,7 +20,7 @@ use ReflectionClass;
  */
 class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
 {
-    public function test_version2_0_4()
+    public function test_deprecations()
     {
         $validTill = '2015-02-25';
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Period', 'factory', $validTill);

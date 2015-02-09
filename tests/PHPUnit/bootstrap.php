@@ -34,10 +34,7 @@ if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
 
 require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/DatabaseTestCase.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BenchmarkTestCase.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
+require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
 
 if (getenv('PIWIK_USE_XHPROF') == 1) {
