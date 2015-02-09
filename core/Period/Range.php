@@ -353,6 +353,9 @@ class Range extends Period
      */
     protected function fillArraySubPeriods($startDate, $endDate, $period)
     {
+        $startDate = $startDate->setTime('00:00:00');
+        $endDate   = $endDate->setTime('00:00:00');
+
         $arrayPeriods = array();
         $endSubperiod = Period\Factory::build($period, $endDate);
         $arrayPeriods[] = $endSubperiod;
