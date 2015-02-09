@@ -612,3 +612,5 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     }
 
 }
+
+SystemTestCase::$fixture = new \Piwik\Tests\Framework\Fixture();
