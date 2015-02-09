@@ -88,8 +88,8 @@
                 <span class="truncated-text-line">{{ action.siteSearchKeyword }}</span>
             {% endif %}
             {% if action.eventCategory|default(false) is not empty %}
-                <img src='{{ action.icon }}' title='{{ 'Events_Event'|translate }}' class="action-list-action-icon">
-                <span class="truncated-text-line">{{ action.eventCategory|rawSafeDecoded }} - {{ action.eventAction|rawSafeDecoded }} {% if action.eventName is defined %}- {{ action.eventName|rawSafeDecoded }}{% endif %} {% if action.eventValue is defined %}[{{ action.eventValue }}]{% endif %}</span>
+                <img src='{{ action.icon }}' title='{{ 'Events_Event'|translate }}' class="action-list-action-icon event">
+                <span class="truncated-text-line event">{{ action.eventCategory|rawSafeDecoded }} - {{ action.eventAction|rawSafeDecoded }} {% if action.eventName is defined %}- {{ action.eventName|rawSafeDecoded }}{% endif %} {% if action.eventValue is defined %}[{{ action.eventValue }}]{% endif %}</span>
             {% endif %}
             {% if action.url is not empty %}
                 {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}<p>{% endif %}
