@@ -8,6 +8,7 @@
  */
 namespace Piwik\ViewDataTable;
 
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -63,6 +64,14 @@ class Manager
      */
     public static function getAvailableViewDataTables()
     {
+        $cache = Cache::getTransientCache();
+        $cacheId = 'ViewDataTable.getAvailableViewDataTables';
+        $dataTables = $cache->fetch($cacheId);
+
+        if (!empty($dataTables)) {
+            return $dataTables;
+        }
+
         $klassToExtend = '\\Piwik\\Plugin\\ViewDataTable';
 
         /** @var string[] $visualizations */
@@ -106,6 +115,8 @@ class Manager
 
             $result[$vizId] = $viz;
         }
+
+        $cache->save($cacheId, $result);
 
         return $result;
     }
