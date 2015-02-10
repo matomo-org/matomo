@@ -4,22 +4,54 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
-namespace Piwik\Plugins\SEO;
 
-use Piwik\Common;
+namespace Piwik\Plugins\SEO\Metric;
+
 use Piwik\Http;
+use Psr\Log\LoggerInterface;
 
 /**
  * Client for Majestic SEO's HTTP API.
- *
- * Hides the HTTP request sending logic.
  */
-class MajesticClient
+class Majestic implements MetricsProvider
 {
     const API_BASE = 'http://simpleapi.majesticseo.com/sapi/';
     const API_KEY = 'ETHPYY'; // please only use this key within Piwik
+    const LOGO = 'plugins/SEO/images/majesticseo.png';
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    public function getMetrics($domain)
+    {
+        try {
+            $stats = $this->getBacklinkStats($domain);
+            $backlinks = $stats['backlink_count'];
+            $referrers = $stats['referrer_domains_count'];
+        } catch (\Exception $e) {
+            $this->logger->warning('Error while getting Majestic SEO stats: {message}', array('message' => $e->getMessage()));
+            $backlinks = null;
+            $referrers = null;
+        }
+
+        $link = $this->getLinkForUrl($domain);
+
+        return array(
+            new Metric('external-backlinks', 'SEO_ExternalBacklinks', $backlinks, self::LOGO, $link, 'SEO_ViewBacklinksOnMajesticSEO'),
+            new Metric('referrer-domains', 'SEO_ReferrerDomains', $referrers, self::LOGO, $link, 'SEO_ViewBacklinksOnMajesticSEO'),
+        );
+    }
 
     /**
      * Returns a URL that can be used to view all SEO data for a particular website.
@@ -28,7 +60,7 @@ class MajesticClient
      *                              accessible for.
      * @return string
      */
-    public static function getLinkForUrl($targetSiteUrl)
+    private function getLinkForUrl($targetSiteUrl)
     {
         $domain = @parse_url($targetSiteUrl, PHP_URL_HOST);
         return "http://www.majesticseo.com/reports/site-explorer/summary/$domain?IndexDataSource=F";
@@ -52,7 +84,7 @@ class MajesticClient
      *               If either stat is false, either the API returned an
      *               error, or the IP was blocked for this request.
      */
-    public function getBacklinkStats($siteDomain, $timeout = 300)
+    private function getBacklinkStats($siteDomain, $timeout = 300)
     {
         $apiUrl = $this->getApiUrl($method = 'GetBacklinkStats', $args = array(
             'items' => '1',
