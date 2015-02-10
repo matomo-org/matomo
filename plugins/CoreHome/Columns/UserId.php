@@ -95,7 +95,7 @@ class UserId extends VisitDimension
         return $this->hasDataTableUsers($result);
     }
 
-    public function hasDataTableUsers(DataTable $result)
+    public function hasDataTableUsers(DataTable\DataTableInterface $result)
     {
         if ($result instanceof Map) {
             $result = $result->mergeChildren();

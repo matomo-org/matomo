@@ -131,6 +131,74 @@ class UserIdTest extends IntegrationTestCase
         $this->assertNotUsedInAtLeastOneSite($idSites = array(1), 'range', '2014-04-01,2014-04-03');
     }
 
+    public function test_hasDataTableUsers_shouldReturnFalse_IfEmptyTablesAreGiven()
+    {
+        $this->assertNotDataTableHasUsers(new DataTable\Map());
+        $this->assertNotDataTableHasUsers(new DataTable());
+    }
+
+    public function test_hasDataTableUsers_shouldHandleADataTableMap()
+    {
+        $map = new DataTable\Map();
+        $map->addTable(new DataTable(), 'label1');
+        $map->addTable(new DataTable(), 'label2');
+        $map->addTable($this->getDataTableWithoutUsersColumn(), 'label3');
+
+        $this->assertNotDataTableHasUsers($map);
+
+        $map->addTable($this->getDataTableWithZeroUsers(), 'label4');
+        $map->addTable(new DataTable(), 'label5');
+
+        $this->assertNotDataTableHasUsers($map);
+
+        $map->addTable($this->getDataTableWithUsers(), 'label6');
+
+        $this->assertDataTableHasUsers($map);
+    }
+
+    public function test_hasDataTableUsers_shouldHandleADataTable()
+    {
+        $this->assertNotDataTableHasUsers($this->getDataTableWithoutUsersColumn());
+        $this->assertNotDataTableHasUsers($this->getDataTableWithZeroUsers());
+        $this->assertDataTableHasUsers($this->getDataTableWithUsers());
+    }
+
+    private function getDataTableWithoutUsersColumn()
+    {
+        $tableWithoutUsers = new DataTable();
+        $tableWithoutUsers->addRowFromSimpleArray(array('label' => 'test', 'nb_visits' => 0));
+
+        return $tableWithoutUsers;
+    }
+
+    private function getDataTableWithZeroUsers()
+    {
+        $tableWithZeroUsers = new DataTable();
+        $tableWithZeroUsers->addRowFromSimpleArray(array('label' => 'test', 'nb_users' => 0));
+
+        return $tableWithZeroUsers;
+    }
+
+    private function getDataTableWithUsers()
+    {
+        $tableWithUsers = new DataTable();
+        $tableWithUsers->addRowFromSimpleArray(array('label' => 'test', 'nb_users' => 10));
+
+        return $tableWithUsers;
+    }
+
+    private function assertNotDataTableHasUsers($table)
+    {
+        $has = $this->userId->hasDataTableUsers($table);
+        $this->assertFalse($has);
+    }
+
+    private function assertDataTableHasUsers($table)
+    {
+        $has = $this->userId->hasDataTableUsers($table);
+        $this->assertTrue($has);
+    }
+
     private function assertUsedInAtLeastOneSite($idSites, $period, $date)
     {
         $result = $this->userId->isUsedInAtLeastOneSite($idSites, $period, $date);
