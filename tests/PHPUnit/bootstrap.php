@@ -115,8 +115,8 @@ Try again.";
         || strpos($response, 'Table &#039;piwik_tests.option&#039; doesn&#039;t exist') !== false
         || strpos($response, 'Table &#039;piwik_tests.piwiktests_option&#039; doesn&#039;t exist') !== false
         || strpos($response, 'Unknown database &#039;piwik_tests&#039;') !== false
+        || strpos($response, '<title>Piwik &rsaquo; Update</title>') !== false
     ) {
-
         return;
     }
 
