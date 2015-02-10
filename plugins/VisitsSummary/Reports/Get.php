@@ -76,7 +76,7 @@ class Get extends \Piwik\Plugin\Report
 
         if (!empty($response['reportData'])) {
             $dataTable = $response['reportData'];
-            $dataTable->deleteColumn($this->usersColumn);
+            $dataTable->deleteColumn($this->usersColumn, true);
         }
     }
 

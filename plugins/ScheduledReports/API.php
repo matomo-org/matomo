@@ -358,18 +358,26 @@ class API extends \Piwik\Plugin\API
                 }
             }
 
-            $processedReport = Request::processRequest('API.getProcessedReport', array(
+            $params = array(
                 'idSite' => $idSite,
                 'period' => $period,
                 'date'   => $date,
                 'apiModule' => $apiModule,
                 'apiAction' => $apiAction,
-                'segment' => $segment != null ? urlencode($segment['definition']) : false,
                 'apiParameters' => $apiParameters,
                 'idGoal' => false,
-                'langauge' => $language
-            ));
+                'langauge' => $language,
+                'serialize' => 0,
+                'format' => 'original'
+            );
 
+            if ($segment != null) {
+                $params['segment'] = urlencode($segment['definition']);
+            } else {
+                $paras['segment'] = false;
+            }
+
+            $processedReport = Request::processRequest('API.getProcessedReport', $params);
             $processedReport['segment'] = $segment;
 
             // TODO add static method getPrettyDate($period, $date) in Period

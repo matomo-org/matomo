@@ -41,7 +41,6 @@ class VisitsSummaryTest extends IntegrationTestCase
 
         Fixture::createSuperUser();
         Fixture::createWebsite('2014-01-01 00:00:00');
-        Fixture::createWebsite('2014-01-01 00:00:00');
     }
 
     public function tearDown()
@@ -60,7 +59,7 @@ class VisitsSummaryTest extends IntegrationTestCase
 
         $response = $this->requestProcessedGetReport();
 
-        $this->assertUsersNotRemovedFromProcessedReport($response, $expectedUsers = 2);
+        $this->assertUsersNotRemovedFromProcessedReport($response, $expectedUsers = 2.0);
     }
 
     public function test_enrichProcessedReportIfVisitsSummaryGet_shouldNotRemoveUsers_IfNoneWereTrackedThatDay_ButThatMonth()
@@ -88,7 +87,7 @@ class VisitsSummaryTest extends IntegrationTestCase
     private function assertUsersNotRemovedFromProcessedReport($response, $numUsers)
     {
         $table = $response['reportData'];
-        $this->assertEquals(array($numUsers), $table->getColumn($this->column));
+        $this->assertSame(array($numUsers), $table->getColumn($this->column));
         $this->assertEquals(array(3), $table->getColumn('nb_visits'));
         $this->assertNotEmpty($response['metadata']['metrics'][$this->column]);
         $this->assertNotEmpty($response['metadata']['metricsDocumentation'][$this->column]);

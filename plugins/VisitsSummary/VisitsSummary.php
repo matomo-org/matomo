@@ -49,19 +49,19 @@ class VisitsSummary extends \Piwik\Plugin
         $module  = $params[3];
         $method  = $params[4];
 
-        /** @var DataTable|DataTable\Map $dataTable */
-        $dataTable = $response['reportData'];
-
         if (!$this->isRequestingVisitsSummaryGet($module, $method)) {
             return;
         }
 
         $userId = new UserId();
 
+        /** @var DataTable|DataTable\Map $dataTable */
+        $dataTable = $response['reportData'];
+
         if (!$userId->hasDataTableUsers($dataTable) &&
             !$userId->isUsedInAtLeastOneSite($idSites, $period, $date)) {
             $report = new Get();
-            $report->removeUsersFromProcessedReport($response, $dataTable);
+            $report->removeUsersFromProcessedReport($response);
         }
     }
 
