@@ -104,7 +104,10 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
              // the Action.getPageTitles test fails for unknown reason, so skipping it
              // eg. https://travis-ci.org/piwik/piwik/jobs/24449365
-            'Action.getPageTitles'
+            'Action.getPageTitles',
+
+             // the label column is not the first column here
+            'MultiSites.getAll'
         );
 
         return array(
@@ -127,7 +130,12 @@ class BackwardsCompatibility1XTest extends SystemTestCase
                                               'periods' => array('range'), 'disableArchiving' => true)),
 
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-03,2012-12-12', 'periods' => array('month'),
-                                              'testSuffix' => '_multipleOldNew', 'disableArchiving' => true))
+                                              'testSuffix' => '_multipleOldNew', 'disableArchiving' => true)),
+            array('MultiSites.getAll', array('idSite' => $idSite, 'date' => $dateTime,
+                                             'disableArchiving' => true,
+                                             'otherRequestParameters' => array(
+                                                 'hideColumns' => 'nb_users',
+                                             ))),
         );
     }
 }
