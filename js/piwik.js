@@ -2811,7 +2811,7 @@ if (typeof Piwik !== 'object') {
                 }
 
                 newVisitor = id[0];
-                uuid = id[1];
+                uuid = asyncTracker.getVisitorId();
                 createTs = id[2];
                 visitCount = id[3];
                 currentVisitTs = id[4];
@@ -4082,7 +4082,7 @@ if (typeof Piwik !== 'object') {
                  * @return string Visitor ID in hexits (or null, if not yet known)
                  */
                 getVisitorId: function () {
-                    return (loadVisitorIdCookie())[1];
+                    return configUserId ? sha1(configUserId).substr(0, 16) : (loadVisitorIdCookie())[1];
                 },
 
                 /**
