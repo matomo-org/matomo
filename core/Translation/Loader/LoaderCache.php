@@ -25,11 +25,10 @@ class LoaderCache implements LoaderInterface
      */
     private $cache;
 
-    public function __construct(LoaderInterface $loader, Cache\Lazy $cache = null)
+    public function __construct(LoaderInterface $loader, Cache\Lazy $cache)
     {
         $this->loader = $loader;
-        // TODO DI
-        $this->cache = $cache ?: Cache::getLazyCache();
+        $this->cache = $cache;
     }
 
     /**
