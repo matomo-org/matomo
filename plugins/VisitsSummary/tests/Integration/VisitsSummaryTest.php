@@ -99,7 +99,10 @@ class VisitsSummaryTest extends IntegrationTestCase
             $this->assertGreaterThanOrEqual($minNumUsers, $user);
         }
 
-        $this->assertEquals(array(3), $table->getColumn('nb_visits'));
+        $numVisits = $table->getColumn('nb_visits');
+        $numVisits = array_shift($numVisits);
+        $this->assertGreaterThanOrEqual(2, $numVisits);
+
         $this->assertNotEmpty($response['metadata']['metrics'][$this->column]);
         $this->assertNotEmpty($response['metadata']['metricsDocumentation'][$this->column]);
         $this->assertNotEmpty($response['columns'][$this->column]);
@@ -109,7 +112,11 @@ class VisitsSummaryTest extends IntegrationTestCase
     {
         $table = $response['reportData'];
         $this->assertEquals(array(false), $table->getColumn($this->column));
-        $this->assertEquals(array(3), $table->getColumn('nb_visits'));
+        
+        $numVisits = $table->getColumn('nb_visits');
+        $numVisits = array_shift($numVisits);
+        $this->assertGreaterThanOrEqual(2, $numVisits);
+
         $this->assertArrayNotHasKey($this->column, $response['metadata']['metrics']);
         $this->assertArrayNotHasKey($this->column, $response['metadata']['metricsDocumentation']);
         $this->assertArrayNotHasKey($this->column, $response['columns']);
