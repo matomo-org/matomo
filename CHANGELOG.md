@@ -41,6 +41,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Internal change
 * UI specs were moved from `tests/PHPUnit/UI` to `tests/UI`. We also moved the UI specs directly into the Piwik repository meaning the [piwik-ui-tests](https://github.com/piwik/piwik-ui-tests) repository contains only the expected screenshots from now on.
+* There is a new command `development:sync-system-test-processed` for core developers that allows you to copy processed test results from travis to your local dev environment.
 
 ## Piwik 2.10.0
 
