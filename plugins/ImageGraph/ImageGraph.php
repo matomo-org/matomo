@@ -116,6 +116,15 @@ class ImageGraph extends \Piwik\Plugin
 
         $token_auth = Common::getRequestVar('token_auth', false);
 
+        $segment = Request::getRawSegmentFromRequest();
+
+        /** @var Scheduler $scheduler */
+        $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
+        $isRunningTask = $scheduler->isRunningTask();
+
+        // add the idSubtable if it exists
+        $idSubtable = Common::getRequestVar('idSubtable', false);
+
         $urlPrefix = "index.php?";
         foreach ($reports as &$report) {
             $reportModule = $report['module'];
@@ -144,20 +153,14 @@ class ImageGraph extends \Piwik\Plugin
                 $parameters['date'] = $dateForSinglePeriodGraph;
             }
 
-            // add the idSubtable if it exists
-            $idSubtable = Common::getRequestVar('idSubtable', false);
             if ($idSubtable !== false) {
                 $parameters['idSubtable'] = $idSubtable;
             }
 
-            /** @var Scheduler $scheduler */
-            $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
-
-            if (!empty($_GET['_restrictSitesToLogin']) && $scheduler->isRunningTask()) {
+            if (!empty($_GET['_restrictSitesToLogin']) && $isRunningTask) {
                 $parameters['_restrictSitesToLogin'] = $_GET['_restrictSitesToLogin'];
             }
 
-            $segment = Request::getRawSegmentFromRequest();
             if (!empty($segment)) {
                 $parameters['segment'] = $segment;
             }
