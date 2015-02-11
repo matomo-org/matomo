@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "01f7386402708d6090fd0b87d9d408ce",
+    "hash": "f398efcaf61f403082014eef9def2c7c",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -103,11 +103,17 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "dev-filecache-race-condition-fix",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/piwik/cache.git",
-                "reference": "c5a6d2ade84241128fcf95eca386e07b11ffa347"
+                "url": "https://github.com/doctrine/cache.git",
+                "reference": "2346085d2b027b233ae1d5de59b07440b9f288c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/2346085d2b027b233ae1d5de59b07440b9f288c8",
+                "reference": "2346085d2b027b233ae1d5de59b07440b9f288c8",
+                "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2"
@@ -131,14 +137,11 @@
                     "Doctrine\\Common\\Cache\\": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
-                },
                 {
                     "name": "Roman Borschel",
                     "email": "roman@code-factory.org"
@@ -146,6 +149,10 @@
                 {
                     "name": "Benjamin Eberlei",
                     "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
                 },
                 {
                     "name": "Jonathan Wage",
@@ -162,7 +169,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2014-12-28 23:29:42"
+            "time": "2015-01-15 20:38:55"
         },
         {
             "name": "doctrine/lexer",
@@ -516,20 +523,20 @@
         },
         {
             "name": "piwik/cache",
-            "version": "0.2.4",
+            "version": "0.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/component-cache.git",
-                "reference": "ec118c1d8b20197607052b8adb22f3a7709cb816"
+                "reference": "e97ed763c6e710734194664099edd5ee7a41d6b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-cache/zipball/ec118c1d8b20197607052b8adb22f3a7709cb816",
-                "reference": "ec118c1d8b20197607052b8adb22f3a7709cb816",
+                "url": "https://api.github.com/repos/piwik/component-cache/zipball/e97ed763c6e710734194664099edd5ee7a41d6b0",
+                "reference": "e97ed763c6e710734194664099edd5ee7a41d6b0",
                 "shasum": ""
             },
             "require": {
-                "doctrine/cache": "dev-filecache-race-condition-fix as 1.3.1",
+                "doctrine/cache": "~1.4",
                 "php": ">=5.3.2"
             },
             "require-dev": {
@@ -559,7 +566,7 @@
                 "file",
                 "redis"
             ],
-            "time": "2015-01-05 04:44:36"
+            "time": "2015-02-11 22:35:22"
         },
         {
             "name": "piwik/decompress",
@@ -2204,21 +2211,14 @@
             "time": "2015-01-03 15:33:07"
         }
     ],
-    "aliases": [
-        {
-            "alias": "1.3.1",
-            "alias_normalized": "1.3.1.0",
-            "version": "dev-filecache-race-condition-fix",
-            "package": "doctrine/cache"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "mnapoli/php-di": 20,
-        "doctrine/cache": 20,
         "facebook/xhprof": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.3"
     },
