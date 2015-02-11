@@ -271,8 +271,9 @@ class ManySitesImportedLogs extends Fixture
                       '--enable-http-redirects'     => false);
 
         if ($mapToCustom) {
-            $opts['--api-arg-to-visit-cvar'] = 'uid=User Name';
-            $opts['--api-arg-to-page-cvar'] = 'gt_ms=Generation Time';
+            $opts['--regex-group-to-visit-cvar'] = 'userid=User Name';
+            $opts['--regex-group-to-page-cvar'] = 'generation_time_milli=Generation Time';
+            $opts['--ignore-groups'] = 'userid';
         }
 
         self::executeLogImporter($logFile, $opts);

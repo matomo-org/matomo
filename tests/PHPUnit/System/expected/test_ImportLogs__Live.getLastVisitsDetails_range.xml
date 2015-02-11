@@ -2108,14 +2108,15 @@
 				<pageId>71</pageId>
 				<customVariables>
 					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
+						<customVariablePageName1>Generation Time</customVariablePageName1>
+						<customVariablePageValue1>359</customVariablePageValue1>
 					</row>
 					<row>
-						<customVariablePageName2>Generation Time</customVariablePageName2>
-						<customVariablePageValue2>359</customVariablePageValue2>
+						<customVariablePageName2>HTTP-code</customVariablePageName2>
+						<customVariablePageValue2>200</customVariablePageValue2>
 					</row>
 				</customVariables>
+				<generationTime>0.36s</generationTime>
 				<icon />
 				
 			</row>
@@ -2259,14 +2260,15 @@
 				<pageId>68</pageId>
 				<customVariables>
 					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
+						<customVariablePageName1>Generation Time</customVariablePageName1>
+						<customVariablePageValue1>109</customVariablePageValue1>
 					</row>
 					<row>
-						<customVariablePageName2>Generation Time</customVariablePageName2>
-						<customVariablePageValue2>109</customVariablePageValue2>
+						<customVariablePageName2>HTTP-code</customVariablePageName2>
+						<customVariablePageValue2>200</customVariablePageValue2>
 					</row>
 				</customVariables>
+				<generationTime>0.11s</generationTime>
 				<icon />
 				
 			</row>
@@ -2469,14 +2471,15 @@
 				<pageId>70</pageId>
 				<customVariables>
 					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>404</customVariablePageValue1>
+						<customVariablePageName1>Generation Time</customVariablePageName1>
+						<customVariablePageValue1>359</customVariablePageValue1>
 					</row>
 					<row>
-						<customVariablePageName2>Generation Time</customVariablePageName2>
-						<customVariablePageValue2>359</customVariablePageValue2>
+						<customVariablePageName2>HTTP-code</customVariablePageName2>
+						<customVariablePageValue2>404</customVariablePageValue2>
 					</row>
 				</customVariables>
+				<generationTime>0.36s</generationTime>
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<icon />
@@ -2573,6 +2576,10 @@
 		<providerName>Unknown</providerName>
 		<providerUrl />
 		<customVariables>
+			<row>
+				<customVariableName1>User Name</customVariableName1>
+				<customVariableValue1>-</customVariableValue1>
+			</row>
 		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
@@ -2609,8 +2616,12 @@
 				<pageId>69</pageId>
 				<customVariables>
 					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>301</customVariablePageValue1>
+						<customVariablePageName1>Generation Time</customVariablePageName1>
+						<customVariablePageValue1>0</customVariablePageValue1>
+					</row>
+					<row>
+						<customVariablePageName2>HTTP-code</customVariablePageName2>
+						<customVariablePageValue2>301</customVariablePageValue2>
 					</row>
 				</customVariables>
 				<icon />

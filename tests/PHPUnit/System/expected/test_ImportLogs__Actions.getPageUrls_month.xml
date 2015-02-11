@@ -387,7 +387,7 @@
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
+		<nb_hits_with_time_generation>4</nb_hits_with_time_generation>
 		<min_time_generation>0.359</min_time_generation>
 		<max_time_generation>0.359</max_time_generation>
 		<entry_nb_visits>3</entry_nb_visits>
@@ -405,7 +405,7 @@
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
-				<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+				<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 				<min_time_generation>0.359</min_time_generation>
 				<max_time_generation>0.359</max_time_generation>
 				<entry_nb_visits>2</entry_nb_visits>
@@ -423,7 +423,7 @@
 						<nb_visits>2</nb_visits>
 						<nb_hits>2</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
-						<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+						<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 						<min_time_generation>0.359</min_time_generation>
 						<max_time_generation>0.359</max_time_generation>
 						<entry_nb_visits>2</entry_nb_visits>
@@ -441,7 +441,7 @@
 								<nb_visits>2</nb_visits>
 								<nb_hits>2</nb_hits>
 								<sum_time_spent>0</sum_time_spent>
-								<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+								<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 								<min_time_generation>0.359</min_time_generation>
 								<max_time_generation>0.359</max_time_generation>
 								<entry_nb_visits>2</entry_nb_visits>
@@ -459,7 +459,7 @@
 										<nb_visits>2</nb_visits>
 										<nb_hits>2</nb_hits>
 										<sum_time_spent>0</sum_time_spent>
-										<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+										<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 										<min_time_generation>0.359</min_time_generation>
 										<max_time_generation>0.359</max_time_generation>
 										<entry_nb_visits>2</entry_nb_visits>
@@ -487,7 +487,7 @@
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
-				<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+				<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 				<min_time_generation>0.359</min_time_generation>
 				<max_time_generation>0.359</max_time_generation>
 				<entry_nb_visits>1</entry_nb_visits>
@@ -505,7 +505,7 @@
 						<nb_visits>2</nb_visits>
 						<nb_hits>2</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
-						<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+						<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 						<min_time_generation>0.359</min_time_generation>
 						<max_time_generation>0.359</max_time_generation>
 						<entry_nb_visits>1</entry_nb_visits>
@@ -959,7 +959,7 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<min_time_generation>0.109</min_time_generation>
 		<max_time_generation>0.109</max_time_generation>
 		<entry_nb_visits>1</entry_nb_visits>
@@ -977,7 +977,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
-				<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+				<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 				<min_time_generation>0.109</min_time_generation>
 				<max_time_generation>0.109</max_time_generation>
 				<entry_nb_visits>1</entry_nb_visits>

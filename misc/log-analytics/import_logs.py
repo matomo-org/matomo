@@ -162,6 +162,10 @@ class JsonFormat(BaseFormat):
     def get_all(self,):
         return self.json
 
+    def remove_ignored_groups(self, groups):
+        for group in groups:
+            del self.json[group]
+
 class RegexFormat(BaseFormat):
 
     def __init__(self, name, regex, date_format=None):
@@ -176,17 +180,25 @@ class RegexFormat(BaseFormat):
         return self.match(line)
 
     def match(self,line):
-        self.matched = self.regex.match(line)
-        return self.matched
+        match_result = self.regex.match(line)
+        if match_result:
+            self.matched = match_result.groupdict()
+        else:
+            self.matched = None
+        return match_result
 
     def get(self, key):
         try:
-            return self.matched.group(key)
-        except IndexError:
+            return self.matched[key]
+        except KeyError:
             raise BaseFormatException()
 
     def get_all(self,):
-        return self.matched.groupdict()
+        return self.matched
+
+    def remove_ignored_groups(self, groups):
+        for group in groups:
+            del self.matched[group]
 
 class W3cExtendedFormat(RegexFormat):
 
@@ -316,9 +328,9 @@ class AmazonCloudFrontFormat(W3cExtendedFormat):
         self.name = 'amazon_cloudfront'
 
     def get(self, key):
-        if key == 'event_category' and 'event_category' not in self.matched.groupdict():
+        if key == 'event_category' and 'event_category' not in self.matched:
             return 'cloudfront_rtmp'
-        elif key == 'status' and 'status' not in self.matched.groupdict():
+        elif key == 'status' and 'status' not in self.matched:
             return '200'
         else:
             return super(AmazonCloudFrontFormat, self).get(key)
@@ -381,6 +393,7 @@ class Configuration(object):
                    "              Found a bug? Please create a ticket in http://dev.piwik.org/ "
                    "              Please send your suggestions or successful user story to hello@piwik.org "
         )
+
         option_parser.add_option(
             '--debug', '-d', dest='debug', action='count', default=0,
             help="Enable debug output (specify multiple times for more verbose)",
@@ -516,10 +529,14 @@ class Configuration(object):
                   "When not specified, the log format will be autodetected by trying all supported log formats."
                   % ', '.join(sorted(FORMATS.iterkeys())))
         )
+        available_regex_groups = ['date', 'path', 'query_string', 'ip', 'user_agent', 'referrer', 'status',
+                                  'length', 'host', 'userid', 'generation_time_milli', 'event_action',
+                                  'event_name', 'timezone', 'session_time']
         option_parser.add_option(
             '--log-format-regex', dest='log_format_regex', default=None,
-            help="Access log regular expression. For an example of a supported Regex, see the source code of this file. "
-                 "Overrides --log-format-name"
+            help="Regular expression used to parse log entries. Regexes must contain named groups for different log fields. "
+                 "Recognized fields include: %s. For an example of a supported Regex, see the source code of this file. "
+                 "Overrides --log-format-name." % (', '.join(available_regex_groups))
         )
         option_parser.add_option(
             '--log-hostname', dest='log_hostname', default=None,
@@ -613,19 +630,29 @@ class Configuration(object):
                  "in newer versions of the script in older versions of the script. The output regex can be used with "
                  "the --log-format-regex option."
         )
+
         option_parser.add_option(
-            '--api-arg-to-visit-cvar', action='callback', callback=functools.partial(self._set_option_map, 'api_args_to_visit_cvars_map'), type='string',
+            '--ignore-groups', dest='regex_groups_to_ignore', default=None,
+            help="Comma separated list of regex groups to ignore when parsing log lines. Can be used to, for example, "
+                 "disable normal user id tracking. See documentation for --log-format-regex for list of available "
+                 "regex groups."
+        )
+
+        option_parser.add_option(
+            '--regex-group-to-visit-cvar', action='callback', callback=functools.partial(self._set_option_map, 'regex_group_to_visit_cvars_map'), type='string',
             help="Track an attribute through a custom variable with visit scope instead of through Piwik's normal "
                  "approach. For example, to track usernames as a custom variable instead of through the uid tracking "
-                 "parameter, supply --api-arg-to-visit-cvar=\"uid=User Name\". This will track usernames in a "
-                 "custom variable named 'User Name'."
+                 "parameter, supply --regex-group-to-visit-cvar=\"userid=User Name\". This will track usernames in a "
+                 "custom variable named 'User Name'. See documentation for --log-format-regex for list of available "
+                 "regex groups."
         )
         option_parser.add_option(
-            '--api-arg-to-page-cvar', action='callback', callback=functools.partial(self._set_option_map, 'api_args_to_page_cvars_map'), type='string',
+            '--regex-group-to-page-cvar', action='callback', callback=functools.partial(self._set_option_map, 'regex_group_to_page_cvars_map'), type='string',
             help="Track an attribute through a custom variable with page scope instead of through Piwik's normal "
                  "approach. For example, to track usernames as a custom variable instead of through the uid tracking "
-                 "parameter, supply --api-arg-to-page-cvar=\"uid=User Name\". This will track usernames in a "
-                 "custom variable named 'User Name'."
+                 "parameter, supply --regex-group-to-page-cvar=\"userid=User Name\". This will track usernames in a "
+                 "custom variable named 'User Name'. See documentation for --log-format-regex for list of available "
+                 "regex groups."
         )
         return option_parser
 
@@ -707,11 +734,11 @@ class Configuration(object):
                     fatal_error("custom W3C field mapping error: don't know how to parse and use the '%' field" % default_name)
                     return
 
-        if not hasattr(self.options, 'api_args_to_visit_cvars_map'):
-            self.options.api_args_to_visit_cvars_map = {}
+        if not hasattr(self.options, 'regex_group_to_visit_cvars_map'):
+            self.options.regex_group_to_visit_cvars_map = {}
 
-        if not hasattr(self.options, 'api_args_to_page_cvars_map'):
-            self.options.api_args_to_page_cvars_map = {}
+        if not hasattr(self.options, 'regex_group_to_page_cvars_map'):
+            self.options.regex_group_to_page_cvars_map = {}
 
         if not self.options.piwik_url:
             fatal_error('no URL given for Piwik')
@@ -734,6 +761,9 @@ class Configuration(object):
             self.options.download_extensions = set(self.options.download_extensions.split(','))
         else:
             self.options.download_extensions = DOWNLOAD_EXTENSIONS
+
+        if self.options.regex_groups_to_ignore:
+            self.options.regex_groups_to_ignore = set(self.options.regex_groups_to_ignore.split())
 
     def __init__(self):
         self._parse_args(self._create_parser())
@@ -1417,6 +1447,15 @@ class Recorder(object):
         # only prepend main url if it's a path
         url = (main_url if path.startswith('/') else '') + path[:1024]
 
+        # handle custom variables before generating args dict
+        if config.options.enable_bots:
+            if hit.is_robot:
+                hit.add_visit_custom_var("Bot", hit.user_agent)
+            else:
+                hit.add_visit_custom_var("Not-Bot", hit.user_agent)
+
+        hit.add_page_custom_var("HTTP-code", hit.status)
+
         args = {
             'rec': '1',
             'apiv': '1',
@@ -1440,14 +1479,6 @@ class Recorder(object):
 
         if config.options.enable_bots:
             args['bots'] = '1'
-            if hit.is_robot:
-                args['_cvar'] = {"1": ["Bot", hit.user_agent]}
-            else:
-                args['_cvar'] = {"1": ["Not-Bot", hit.user_agent]}
-
-        # do not overwrite custom variables if it's already set (eg. when replaying ecommerce logs)
-        if 'cvar' not in args:
-            args['cvar'] = {"1": ["HTTP-code", hit.status]}
 
         if hit.is_error or hit.is_redirect:
 			args['action_name'] = '%s%sURL = %s%s' % (
@@ -1473,14 +1504,6 @@ class Recorder(object):
         if hit.length:
             args['bw_bytes'] = hit.length
 
-        if config.options.api_args_to_page_cvars_map:
-            args['cvar'] = self._get_api_args_custom_variables(
-                args.get('cvar', {}), config.options.api_args_to_page_cvars_map, args)
-
-        if config.options.api_args_to_visit_cvars_map:
-            args['_cvar'] = self._get_api_args_custom_variables(
-                args.get('_cvar', {}), config.options.api_args_to_visit_cvars_map, args)
-
         # convert custom variable args to JSON
         if 'cvar' in args and not isinstance(args['cvar'], basestring):
             args['cvar'] = json.dumps(args['cvar'])
@@ -1489,23 +1512,6 @@ class Recorder(object):
             args['_cvar'] = json.dumps(args['_cvar'])
 
         return args
-
-    def _get_api_args_custom_variables(self, custom_vars, api_args_to_cvars_map, request_args):
-        """
-        Handles the --api-arg-to-...-cvar options by moving API request query parameters to
-        a custom variables data structure. The data structure is returned and can be used in
-        the cvar and _cvar query parameters.
-        """
-        # TODO: test not overwriting existing 'cvars'...
-        for api_arg_name, cvar_key in api_args_to_cvars_map.iteritems():
-            if api_arg_name in request_args:
-                custom_var_num = len(custom_vars) + 1
-                custom_vars[custom_var_num] = [cvar_key, request_args[api_arg_name]]
-
-                del request_args[api_arg_name]
-            else:
-                pass
-        return custom_vars
 
     def _record_hits(self, hits):
         """
@@ -1572,6 +1578,29 @@ class Hit(object):
                     break
 
         return abs(hash(visitor_id))
+
+    def add_page_custom_var(self, key, value):
+        """
+        Adds a page custom variable to this Hit.
+        """
+        self._add_custom_var(key, value, 'cvar')
+
+    def add_visit_custom_var(self, key, value):
+        """
+        Adds a visit custom variable to this Hit.
+        """
+        self._add_custom_var(key, value, '_cvar')
+
+    def _add_custom_var(self, key, value, api_arg_name):
+        if api_arg_name not in self.args:
+            self.args[api_arg_name] = {}
+
+        if isinstance(self.args[api_arg_name], basestring):
+            logging.debug("Ignoring custom %s variable addition [ %s = %s ], custom var already set to string." % (api_arg_name, key, value))
+            return
+
+        index = len(self.args[api_arg_name]) + 1
+        self.args[api_arg_name][index] = [key, value]
 
 class Parser(object):
     """
@@ -1842,6 +1871,15 @@ class Parser(object):
                 args={},
             )
 
+            if config.options.regex_group_to_page_cvars_map:
+                self._add_custom_vars_from_regex_groups(hit, format, config.options.regex_group_to_page_cvars_map, True)
+
+            if config.options.regex_group_to_visit_cvars_map:
+                self._add_custom_vars_from_regex_groups(hit, format, config.options.regex_group_to_visit_cvars_map, False)
+
+            if config.options.regex_groups_to_ignore:
+                format.remove_ignored_groups(config.options.regex_groups_to_ignore)
+
             try:
                 hit.query_string = format.get('query_string')
                 hit.path = hit.full_path
@@ -1979,6 +2017,14 @@ class Parser(object):
         # add last chunk of hits
         if len(hits) > 0:
             Recorder.add_hits(hits)
+
+    def _add_custom_vars_from_regex_groups(self, hit, format, groups, is_page_var):
+        for group_name, custom_var_name in groups.iteritems():
+            if group_name in format.get_all():
+                if is_page_var:
+                    hit.add_page_custom_var(custom_var_name, format.get(group_name))
+                else:
+                    hit.add_visit_custom_var(custom_var_name, format.get(group_name))
 
 def main():
     """

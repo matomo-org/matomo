@@ -5,14 +5,14 @@
 		<nb_visits>27</nb_visits>
 		<nb_hits>37</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>14</nb_hits_with_time_generation>
+		<nb_hits_with_time_generation>16</nb_hits_with_time_generation>
 		<min_time_generation>0.001</min_time_generation>
 		<max_time_generation>1.324</max_time_generation>
 		<sum_daily_nb_uniq_visitors>26</sum_daily_nb_uniq_visitors>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<avg_time_generation>0.31</avg_time_generation>
+		<avg_time_generation>0.3</avg_time_generation>
 	</row>
 	<row>
 		<label> Liberate Web Analytics - Analytics - Piwik</label>
@@ -92,7 +92,7 @@
 		<nb_visits>3</nb_visits>
 		<nb_hits>3</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<min_time_generation>0.359</min_time_generation>
 		<max_time_generation>0.359</max_time_generation>
 		<entry_nb_visits>2</entry_nb_visits>
@@ -110,7 +110,7 @@
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
-				<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+				<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 				<min_time_generation>0.359</min_time_generation>
 				<max_time_generation>0.359</max_time_generation>
 				<entry_nb_visits>1</entry_nb_visits>
