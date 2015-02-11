@@ -73,7 +73,7 @@ if (isset($_SERVER['argv']) && Piwik\Console::isSupported()) {
         /** @var \Monolog\Logger $logger */
         $logger = StaticContainer::get('Psr\Log\LoggerInterface');
         $handler = new StreamHandler('php://output', Logger::INFO);
-        $handler->setFormatter(StaticContainer::get('Piwik\Log\Formatter\LineMessageFormatter'));
+        $handler->setFormatter(StaticContainer::get('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter'));
         $logger->pushHandler($handler);
     }
 

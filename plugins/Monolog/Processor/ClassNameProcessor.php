@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Log\Processor;
+namespace Piwik\Plugins\Monolog\Processor;
 
 use Piwik\Plugin;
 
@@ -52,7 +52,7 @@ class ClassNameProcessor
     private function getClassNameThatIsLogging($backtrace)
     {
         foreach ($backtrace as $line) {
-            if (isset($line['class']) && !in_array($line['class'], $this->skippedClasses)) {
+            if (isset($line['class'])) {
                 return $line['class'];
             }
         }
@@ -63,9 +63,19 @@ class ClassNameProcessor
     private function getBacktrace()
     {
         if (version_compare(phpversion(), '5.3.6', '>=')) {
-            return debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT);
+            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT);
+        } else {
+            $backtrace = debug_backtrace();
         }
 
-        return debug_backtrace();
+        $skippedClasses = $this->skippedClasses;
+        $backtrace = array_filter($backtrace, function ($item) use ($skippedClasses) {
+            if (isset($item['class'])) {
+                return !in_array($item['class'], $skippedClasses);
+            }
+            return true;
+        });
+
+        return $backtrace;
     }
 }

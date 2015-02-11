@@ -1,0 +1,99 @@
+<?php
+
+use Interop\Container\ContainerInterface;
+use Monolog\Logger;
+use Piwik\Log;
+
+return array(
+
+    'Psr\Log\LoggerInterface' => DI\object('Monolog\Logger')
+        ->constructor('piwik', DI\link('log.handlers'), DI\link('log.processors')),
+
+    'log.handlers' => DI\factory(function (ContainerInterface $c) {
+        if ($c->has('ini.log.log_writers')) {
+            $writerNames = $c->get('ini.log.log_writers');
+        } else {
+            return array();
+        }
+        $classes = array(
+            'file'     => 'Piwik\Plugins\Monolog\Handler\FileHandler',
+            'screen'   => 'Piwik\Plugins\Monolog\Handler\WebNotificationHandler',
+            'database' => 'Piwik\Plugins\Monolog\Handler\DatabaseHandler',
+        );
+        $writerNames = array_map('trim', $writerNames);
+        $writers = array();
+        foreach ($writerNames as $writerName) {
+            if (isset($classes[$writerName])) {
+                $writers[$writerName] = $c->get($classes[$writerName]);
+            }
+        }
+        return array_values($writers);
+    }),
+
+    'log.processors' => array(
+        DI\link('Piwik\Plugins\Monolog\Processor\ClassNameProcessor'),
+        DI\link('Piwik\Plugins\Monolog\Processor\RequestIdProcessor'),
+        DI\link('Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor'),
+        DI\link('Piwik\Plugins\Monolog\Processor\SprintfProcessor'),
+        DI\link('Monolog\Processor\PsrLogMessageProcessor'),
+    ),
+
+    'Piwik\Plugins\Monolog\Handler\FileHandler' => DI\object()
+        ->constructor(DI\link('log.file.filename'), DI\link('log.level'))
+        ->method('setFormatter', DI\link('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')),
+
+    'Piwik\Plugins\Monolog\Handler\DatabaseHandler' => DI\object()
+        ->constructor(DI\link('log.level'))
+        ->method('setFormatter', DI\link('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')),
+
+    'Piwik\Plugins\Monolog\Handler\WebNotificationHandler' => DI\object()
+        ->constructor(DI\link('log.level'))
+        ->method('setFormatter', DI\link('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')),
+
+    'log.level' => DI\factory(function (ContainerInterface $c) {
+        if ($c->has('ini.log.log_level')) {
+            $level = strtoupper($c->get('ini.log.log_level'));
+            if (!empty($level) && defined('Piwik\Log::'.strtoupper($level))) {
+                return Log::getMonologLevel(constant('Piwik\Log::'.strtoupper($level)));
+            }
+        }
+        return Logger::WARNING;
+    }),
+
+    'log.file.filename' => DI\factory(function (ContainerInterface $c) {
+        $logPath = $c->get('ini.log.logger_file_path');
+
+        // Absolute path
+        if (strpos($logPath, '/') === 0) {
+            return $logPath;
+        }
+
+        // Remove 'tmp/' at the beginning
+        if (strpos($logPath, 'tmp/') === 0) {
+            $logPath = substr($logPath, strlen('tmp'));
+        }
+
+        if (empty($logPath)) {
+            // Default log file
+            $logPath = '/logs/piwik.log';
+        }
+
+        $logPath = $c->get('path.tmp') . $logPath;
+        if (is_dir($logPath)) {
+            $logPath .= '/piwik.log';
+        }
+
+        return $logPath;
+    }),
+
+    'Piwik\Plugins\Monolog\Formatter\LineMessageFormatter' => DI\object()
+        ->constructor(DI\link('log.format')),
+
+    'log.format' => DI\factory(function (ContainerInterface $c) {
+        if ($c->has('ini.log.string_message_format')) {
+            return $c->get('ini.log.string_message_format');
+        }
+        return '%level% %tag%[%datetime%] %message%';
+    }),
+
+);
