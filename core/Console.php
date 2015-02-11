@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Piwik\Console\CommandProxy;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
@@ -63,10 +64,17 @@ class Console extends Application
     {
         if (!class_exists($command)) {
             Log::warning(sprintf('Cannot add command %s, class does not exist', $command));
-        } elseif (!is_subclass_of($command, 'Piwik\Plugin\ConsoleCommand')) {
-            Log::warning(sprintf('Cannot add command %s, class does not extend Piwik\Plugin\ConsoleCommand', $command));
-        } else {
+            return;
+        }
+
+        if (is_subclass_of($command, 'Piwik\Plugin\ConsoleCommand')) {
             $this->add(new $command);
+        } elseif (is_subclass_of($command, 'Piwik\Console\Command')) {
+            $commandProxy = new CommandProxy($command, StaticContainer::getContainer());
+
+            $this->add($commandProxy);
+        } else {
+            Log::warning(sprintf('Cannot add command %s, class does not extend Piwik\Plugin\ConsoleCommand or Piwik\Console\Command', $command));
         }
     }
 
@@ -77,10 +85,13 @@ class Console extends Application
      */
     private function getAvailableCommands()
     {
-        $commands = $this->getDefaultPiwikCommands();
-        $detected = PluginManager::getInstance()->findMultipleComponents('Commands', 'Piwik\\Plugin\\ConsoleCommand');
+        $pluginManager = PluginManager::getInstance();
 
-        $commands = array_merge($commands, $detected);
+        $commands = array_merge(
+            $this->getDefaultPiwikCommands(),
+            $pluginManager->findMultipleComponents('Commands', 'Piwik\Plugin\ConsoleCommand'),
+            $pluginManager->findMultipleComponents('Commands', 'Piwik\Console\Command')
+        );
 
         /**
          * Triggered to filter / restrict console commands. Plugins that want to restrict commands

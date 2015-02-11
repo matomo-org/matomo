@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @api
  */
-class ConsoleCommand extends SymfonyCommand
+abstract class ConsoleCommand extends SymfonyCommand
 {
     public function writeSuccessMessage(OutputInterface $output, $messages)
     {
