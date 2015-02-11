@@ -394,6 +394,7 @@
         "VisitorID": "ID pengunjung",
         "VisitorIP": "IP pengujung",
         "Visitors": "Pengunjung",
+        "VisitorSettings": "Pengaturan Pengunjung",
         "VisitsWith": "Kunjungan dengan %s",
         "VisitType": "Jenis pengunjung",
         "VisitTypeExample": "Sebagai contoh, untuk memilih semua pengunjung yang telah kembali ke situs, termasuk yang telah membeli sesuatu saat kunjungan sebelumnya, permintaan API akan mengandung %s",

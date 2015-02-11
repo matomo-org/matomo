@@ -418,6 +418,7 @@
         "VisitorID": "Bezoekers ID",
         "VisitorIP": "Bezoekers IP",
         "Visitors": "Bezoekers",
+        "VisitorSettings": "Bezoekers Instellingen",
         "VisitsWith": "Bezoeken met %s",
         "VisitType": "Type bezoeker",
         "VisitTypeExample": "Om bijvoorbeeld het aantal terugkerende bezoekers (inclusief die bezoekers die iets gekocht hebben) te selecteren moet de API %s bevatten",

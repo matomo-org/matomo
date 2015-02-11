@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -54,7 +55,7 @@ class API extends \Piwik\Plugin\API
      * Example of how you would overwrite the UsersManager_API with your own class:
      * Call the following in your plugin __construct() for example:
      *
-     * Registry::set('UsersManager_API', \Piwik\Plugins\MyCustomUsersManager\API::getInstance());
+     * StaticContainer::getContainer()->set('UsersManager_API', \Piwik\Plugins\MyCustomUsersManager\API::getInstance());
      *
      * @throws Exception
      * @return \Piwik\Plugins\UsersManager\API
@@ -62,7 +63,7 @@ class API extends \Piwik\Plugin\API
     public static function getInstance()
     {
         try {
-            $instance = \Piwik\Registry::get('UsersManager_API');
+            $instance = StaticContainer::get('UsersManager_API');
             if (!($instance instanceof API)) {
                 // Exception is caught below and corrected
                 throw new Exception('UsersManager_API must inherit API');
@@ -71,7 +72,7 @@ class API extends \Piwik\Plugin\API
             
         } catch (Exception $e) {
             self::$instance = new self;
-            \Piwik\Registry::set('UsersManager_API', self::$instance);
+            StaticContainer::getContainer()->set('UsersManager_API', self::$instance);
         }
 
         return self::$instance;

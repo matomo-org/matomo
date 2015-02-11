@@ -15,7 +15,7 @@ abstract class Base extends \Piwik\Plugin\Report
 {
     protected function init()
     {
-        $this->category = 'UserSettings_VisitorSettings';
+        $this->category = 'General_VisitorSettings';
     }
 
     protected function getBasicDevicePluginsDisplayProperties(ViewDataTable $view)

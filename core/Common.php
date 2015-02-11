@@ -829,11 +829,20 @@ class Common
      */
     public static function getSearchEngineUrls()
     {
-        require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
+        $cacheId = 'Common.getSearchEngineUrls';
+        $cache = Cache::getTransientCache();
+        $searchEngines = $cache->fetch($cacheId);
 
-        $searchEngines = $GLOBALS['Piwik_SearchEngines'];
+        if (empty($searchEngines)) {
 
-        Piwik::postEvent('Referrer.addSearchEngineUrls', array(&$searchEngines));
+            require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
+
+            $searchEngines = $GLOBALS['Piwik_SearchEngines'];
+
+            Piwik::postEvent('Referrer.addSearchEngineUrls', array(&$searchEngines));
+
+            $cache->save($cacheId, $searchEngines);
+        }
 
         return $searchEngines;
     }
@@ -847,13 +856,21 @@ class Common
      */
     public static function getSearchEngineNames()
     {
-        $searchEngines = self::getSearchEngineUrls();
+        $cacheId = 'Common.getSearchEngineNames';
+        $cache = Cache::getTransientCache();
+        $nameToUrl = $cache->fetch($cacheId);
 
-        $nameToUrl = array();
-        foreach ($searchEngines as $url => $info) {
-            if (!isset($nameToUrl[$info[0]])) {
-                $nameToUrl[$info[0]] = $url;
+        if (empty($nameToUrl)) {
+
+            $searchEngines = self::getSearchEngineUrls();
+
+            $nameToUrl = array();
+            foreach ($searchEngines as $url => $info) {
+                if (!isset($nameToUrl[$info[0]])) {
+                    $nameToUrl[$info[0]] = $url;
+                }
             }
+            $cache->save($cacheId, $nameToUrl);
         }
 
         return $nameToUrl;
@@ -868,11 +885,20 @@ class Common
      */
     public static function getSocialUrls()
     {
-        require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
+        $cacheId = 'Common.getSocialUrls';
+        $cache = Cache::getTransientCache();
+        $socialUrls = $cache->fetch($cacheId);
 
-        $socialUrls = $GLOBALS['Piwik_socialUrl'];
+        if (empty($socialUrls)) {
 
-        Piwik::postEvent('Referrer.addSocialUrls', array(&$socialUrls));
+            require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
+
+            $socialUrls = $GLOBALS['Piwik_socialUrl'];
+
+            Piwik::postEvent('Referrer.addSocialUrls', array(&$socialUrls));
+
+            $cache->save($cacheId, $socialUrls);
+        }
 
         return $socialUrls;
     }

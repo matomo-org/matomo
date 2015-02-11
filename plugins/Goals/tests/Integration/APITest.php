@@ -12,6 +12,7 @@ use Piwik\Access;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -224,10 +225,10 @@ class APITest extends IntegrationTestCase
 
     protected function setNonAdminUser()
     {
-        $pseudoMockAccess = new \FakeAccess;
-        \FakeAccess::setSuperUserAccess(false);
-        \FakeAccess::$idSitesView = array(99);
-        \FakeAccess::$identity = 'aUser';
+        $pseudoMockAccess = new FakeAccess;
+        FakeAccess::setSuperUserAccess(false);
+        FakeAccess::$idSitesView = array(99);
+        FakeAccess::$identity = 'aUser';
         Access::setSingletonInstance($pseudoMockAccess);
     }
 

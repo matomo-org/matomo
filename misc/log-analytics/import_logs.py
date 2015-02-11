@@ -55,7 +55,7 @@ except ImportError:
 ##
 
 STATIC_EXTENSIONS = set((
-    'gif jpg jpeg png bmp ico svg ttf eot woff class swf css js xml robots.txt'
+    'gif jpg jpeg png bmp ico svg svgz ttf otf eot woff class swf css js xml robots.txt'
 ).split())
 
 DOWNLOAD_EXTENSIONS = set((

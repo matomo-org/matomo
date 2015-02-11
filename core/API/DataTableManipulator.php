@@ -124,7 +124,7 @@ abstract class DataTableManipulator
             }
         }
 
-        $method = $this->getApiMethodForSubtable();
+        $method = $this->getApiMethodForSubtable($request);
         return $this->callApiAndReturnDataTable($this->apiModule, $method, $request);
     }
 
@@ -144,10 +144,16 @@ abstract class DataTableManipulator
      * @throws Exception
      * @return string
      */
-    private function getApiMethodForSubtable()
+    private function getApiMethodForSubtable($request)
     {
         if (!$this->apiMethodForSubtable) {
-            $meta = API::getInstance()->getMetadata('all', $this->apiModule, $this->apiMethod);
+            if (!empty($request['idSite'])) {
+                $idSite = $request['idSite'];
+            } else {
+                $idSite = 'all';
+            }
+
+            $meta = API::getInstance()->getMetadata($idSite, $this->apiModule, $this->apiMethod);
 
             if (empty($meta)) {
                 throw new Exception(sprintf(

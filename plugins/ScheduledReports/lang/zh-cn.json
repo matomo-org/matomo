@@ -17,7 +17,6 @@
         "EmailSchedule": "邮件计划",
         "EvolutionGraph": "显示前 %s 个的历史图形",
         "FrontPage": "首页",
-        "ManageEmailReports": "管理报表邮件",
         "MonthlyScheduleHelp": "每月计划: 报表将会在每月的第一天寄出。",
         "MustBeLoggedIn": "登录后才能创建和自定义报表。",
         "NoRecipients": "这个报表没有收件人",

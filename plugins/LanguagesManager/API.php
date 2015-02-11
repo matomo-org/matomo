@@ -10,10 +10,12 @@
 namespace Piwik\Plugins\LanguagesManager;
 
 use Piwik\Db;
+use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Translation\Loader\DevelopmentLoader;
 
 /**
  * The LanguagesManager API lets you access existing Piwik translations, and change Users languages preferences.
@@ -65,6 +67,8 @@ class API extends \Piwik\Plugin\API
                 $languages[] = substr($language, $pathLength, -strlen('.json'));
             }
         }
+
+        $this->enableDevelopmentLanguageInDevEnvironment($languages);
 
         /**
          * Hook called after loading available language files.
@@ -294,5 +298,15 @@ class API extends \Piwik\Plugin\API
         }
 
         $this->availableLanguageNames = $languagesInfo;
+    }
+
+    private function enableDevelopmentLanguageInDevEnvironment(&$languages)
+    {
+        if (!Development::isEnabled()) {
+            $key = array_search(DevelopmentLoader::LANGUAGE_ID, $languages);
+            if ($key) {
+                unset($languages[$key]);
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@ use Piwik\Cache;
 use Piwik\DataAccess\ArchiveInvalidator;
 use Piwik\Date;
 use Piwik\Plugins\SitesManager\SitesManager;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 

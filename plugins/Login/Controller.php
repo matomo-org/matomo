@@ -13,6 +13,7 @@ use Piwik\Access;
 use Piwik\Auth as AuthInterface;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
 use Piwik\Log;
 use Piwik\Nonce;
@@ -60,7 +61,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->passwordResetter = $passwordResetter;
 
         if (empty($auth)) {
-            $auth = \Piwik\Registry::get('auth');
+            $auth = StaticContainer::get('Piwik\Auth');
         }
         $this->auth = $auth;
 

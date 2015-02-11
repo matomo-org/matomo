@@ -196,7 +196,7 @@ class Report
         'Goals_Goals',
         'General_Visitors',
         'DevicesDetection_DevicesDetection',
-        'UserSettings_VisitorSettings',
+        'General_VisitorSettings',
         'API'
     );
 

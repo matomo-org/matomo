@@ -717,6 +717,7 @@ Plugins[] = Dashboard
 Plugins[] = MultiSites
 Plugins[] = Referrers
 Plugins[] = UserSettings
+Plugins[] = UserLanguage
 Plugins[] = DevicesDetection
 Plugins[] = Goals
 Plugins[] = Ecommerce

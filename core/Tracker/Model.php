@@ -9,10 +9,8 @@
 namespace Piwik\Tracker;
 
 use Exception;
-use PDOStatement;
 use Piwik\Common;
 use Piwik\Tracker;
-use Piwik\Tracker\Db\DbException;
 
 class Model
 {
@@ -142,7 +140,31 @@ class Model
         Common::printDebug($bind);
     }
 
+    /**
+     * Inserts a new action into the log_action table. If there is an existing action that was inserted
+     * due to another request pre-empting this one, the newly inserted action is deleted.
+     *
+     * @param string $name
+     * @param int $type
+     * @param int $urlPrefix
+     * @return int The ID of the action (can be for an existing action or new action).
+     */
     public function createNewIdAction($name, $type, $urlPrefix)
+    {
+        $newActionId = $this->insertNewAction($name, $type, $urlPrefix);
+
+        $realFirstActionId = $this->getIdActionMatchingNameAndType($name, $type);
+
+        // if the inserted action ID is not the same as the queried action ID, then that means we inserted
+        // a duplicate, so remove it now
+        if ($realFirstActionId != $newActionId) {
+            $this->deleteDuplicateAction($newActionId);
+        }
+
+        return $realFirstActionId;
+    }
+
+    private function insertNewAction($name, $type, $urlPrefix)
     {
         $table = Common::prefixTable('log_action');
         $sql   = "INSERT INTO $table (name, hash, type, url_prefix) VALUES (?,CRC32(?),?,?)";
@@ -157,8 +179,11 @@ class Model
 
     private function getSqlSelectActionId()
     {
+        // it is possible for multiple actions to exist in the DB (due to rare concurrency issues), so the ORDER BY and
+        // LIMIT are important
         $sql = "SELECT idaction, type, name FROM " . Common::prefixTable('log_action')
-            . "  WHERE ( hash = CRC32(?) AND name = ? AND type = ? ) ";
+            . "  WHERE " . $this->getSqlConditionToMatchSingleAction() . " "
+            . "ORDER BY idaction ASC LIMIT 1";
 
         return $sql;
     }
@@ -173,9 +198,16 @@ class Model
         return $idAction;
     }
 
+    /**
+     * Returns the IDs for multiple actions based on name + type values.
+     *
+     * @param array $actionsNameAndType Array like `array( array('name' => '...', 'type' => 1), ... )`
+     * @return array|false Array of DB rows w/ columns: **idaction**, **type**, **name**.
+     */
     public function getIdsAction($actionsNameAndType)
     {
-        $sql  = $this->getSqlSelectActionId();
+        $sql = "SELECT MIN(idaction) as idaction, type, name FROM " . Common::prefixTable('log_action')
+             . " WHERE";
         $bind = array();
 
         $i = 0;
@@ -187,14 +219,18 @@ class Model
             }
 
             if ($i > 0) {
-                $sql .= " OR ( hash = CRC32(?) AND name = ? AND type = ? ) ";
+                $sql .= " OR";
             }
+
+            $sql .= " " . $this->getSqlConditionToMatchSingleAction() . " ";
 
             $bind[] = $name;
             $bind[] = $name;
             $bind[] = $actionNameType['type'];
             $i++;
         }
+
+        $sql .= " GROUP BY type, hash, name";
 
         // Case URL & Title are empty
         if (empty($bind)) {
@@ -375,9 +411,21 @@ class Model
         return array($updateParts, $sqlBind);
     }
 
+    private function deleteDuplicateAction($newActionId)
+    {
+        $sql = "DELETE FROM " . Common::prefixTable('log_action') . " WHERE idaction = ?";
+
+        $db = $this->getDb();
+        $db->query($sql, array($newActionId));
+    }
+
     private function getDb()
     {
         return Tracker::getDatabase();
     }
 
+    private function getSqlConditionToMatchSingleAction()
+    {
+        return "( hash = CRC32(?) AND name = ? AND type = ? )";
+    }
 }

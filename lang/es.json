@@ -417,6 +417,7 @@
         "VisitorID": "ID del visitante",
         "VisitorIP": "IP del visitante",
         "Visitors": "Visitantes",
+        "VisitorSettings": "Configuración de visitantes",
         "VisitsWith": "Visitas con %s",
         "VisitType": "Tipo de visitante",
         "VisitTypeExample": "Por ejemplo, para seleccionar todos los visitantes que han vuelto al sitio web, incluyendo a aquellos que han comprado algo en sus anteriores visitas, la solicitud de la API debe contener %s",

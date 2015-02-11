@@ -11,6 +11,7 @@ namespace Piwik\Plugins\UsersManager;
 use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
@@ -425,7 +426,7 @@ class Controller extends ControllerAdmin
         // logs the user in with the new password
         if ($newPassword !== false) {
             $sessionInitializer = new SessionInitializer();
-            $auth = \Piwik\Registry::get('auth');
+            $auth = StaticContainer::get('Piwik\Auth');
             $auth->setLogin($userLogin);
             $auth->setPassword($password);
             $sessionInitializer->initSession($auth, $rememberMe = false);

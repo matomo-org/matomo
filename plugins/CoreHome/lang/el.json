@@ -4,6 +4,7 @@
         "CheckForUpdates": "Έλεγχος για ενημερώσεις",
         "CheckPiwikOut": "Δοκιμάστε το Piwik!",
         "ClickRowToExpandOrContract": "Πατήστε στη γραμμή για να επεκταθεί ή να κρυφτεί ο υποπίνακας.",
+        "ClickToEditX": "Κάντε κλικ για να επεξεργαστείτε το %s",
         "CloseWidgetDirections": "Μπορείτε να κλείσετε αυτή τη λειτουργία κάνοντας κλικ στο εικονίδιο 'X' στην κορυφή του widget.",
         "DataForThisReportHasBeenPurged": "Τα δεδομένα για αυτή την αναφορά είναι περισσότερα από %s μήνες και κόπηκαν.",
         "DataTableExcludeAggregateRows": "Συγκεντρωτικές εγγραφές είναι ορατές %s Απόκρυωη",

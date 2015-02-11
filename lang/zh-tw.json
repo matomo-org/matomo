@@ -235,6 +235,7 @@
         "View": "檢視",
         "VisitDuration": "平均訪問時間（以秒為單位）",
         "Visitors": "訪客",
+        "VisitorSettings": "造訪者設定值",
         "Warning": "警告",
         "WarningFileIntegrityNoManifest": "缺少 manifest.inc.php 所以檔案完整性檢查無法執行。",
         "WarningFileIntegrityNoMd5file": "缺少 md5_file() 函式所以檔案完整性檢查無法玩成。",

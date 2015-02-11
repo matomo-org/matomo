@@ -17,7 +17,6 @@
         "EmailSchedule": "E-Mail-Zeitplan",
         "EvolutionGraph": "Zeige historischen Graph für die Top %s Werte",
         "FrontPage": "Titelseite",
-        "ManageEmailReports": "E-Mail-Berichte verwalten",
         "MonthlyScheduleHelp": "Monatlich: Bericht wird immer am ersten Tag des Monats verschickt.",
         "MustBeLoggedIn": "Sie müssen angemeldet sein, um Berichte anlegen und versenden zu können.",
         "NoRecipients": "Dieser Bericht hat keine Empfänger.",
