@@ -270,8 +270,12 @@ class W3cExtendedFormat(RegexFormat):
             expected_fields['time-taken'] = '(?P<generation_time_milli>[\d.]+)'
 
         for mapped_field_name, field_name in config.options.custom_w3c_fields.iteritems():
-            expected_fields[mapped_field_name] = type(self).fields[field_name]
+            expected_fields[mapped_field_name] = expected_fields[field_name]
             del expected_fields[field_name]
+
+        # add custom field regexes supplied through --w3c-field-regex option
+        for field_name, field_regex in config.options.w3c_field_regexes.iteritems():
+            expected_fields[field_name] = field_regex
 
         # Skip the 'Fields: ' prefix.
         fields_line = fields_line[9:]
@@ -619,6 +623,14 @@ class Configuration(object):
                  "Example: --w3c-fields='#Fields: date time c-ip ...'"
         )
         option_parser.add_option(
+            '--w3c-field-regex', action='callback', callback=functools.partial(self._set_option_map, 'w3c_field_regexes'), type='string',
+            help="Specify a regex for a field in your W3C extended log file. You can use this option to parse fields the "
+                 "importer does not natively recognize and then use one of the --regex-group-to-XXX-cvar options to track "
+                 "the field in a custom variable. For example, specifying --w3c-field-regex=sc-win32-status=(?P<win32_status>\\S+) "
+                 "--regex-group-to-page-cvar=\"win32_status=Windows Status Code\" will track the sc-win32-status IIS field "
+                 "in the 'Windows Status Code' custom variable. Regexes must contain a named group."
+        )
+        option_parser.add_option(
             '--title-category-delimiter', dest='title_category_delimiter', default='/',
             help="If --enable-http-errors is used, errors are shown in the page titles report. If you have "
             "changed General.action_title_category_delimiter in your Piwik configuration, you need to set this "
@@ -739,6 +751,15 @@ class Configuration(object):
 
         if not hasattr(self.options, 'regex_group_to_page_cvars_map'):
             self.options.regex_group_to_page_cvars_map = {}
+
+        if not hasattr(self.options, 'w3c_field_regexes'):
+            self.options.w3c_field_regexes = {}
+        else:
+            # make sure each custom w3c field regex has a named group
+            for field_name, field_regex in self.options.w3c_field_regexes.iteritems():
+                if '(?P<' not in field_regex:
+                    fatal_error("cannot find named group in custom w3c field regex '%s' for field '%s'" % (field_regex, field_name))
+                    return
 
         if not self.options.piwik_url:
             fatal_error('no URL given for Piwik')

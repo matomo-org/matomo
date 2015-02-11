@@ -2112,8 +2112,12 @@
 						<customVariablePageValue1>359</customVariablePageValue1>
 					</row>
 					<row>
-						<customVariablePageName2>HTTP-code</customVariablePageName2>
-						<customVariablePageValue2>200</customVariablePageValue2>
+						<customVariablePageName2>Windows Status Code</customVariablePageName2>
+						<customVariablePageValue2>96</customVariablePageValue2>
+					</row>
+					<row>
+						<customVariablePageName3>HTTP-code</customVariablePageName3>
+						<customVariablePageValue3>200</customVariablePageValue3>
 					</row>
 				</customVariables>
 				<generationTime>0.36s</generationTime>
@@ -2264,8 +2268,12 @@
 						<customVariablePageValue1>109</customVariablePageValue1>
 					</row>
 					<row>
-						<customVariablePageName2>HTTP-code</customVariablePageName2>
-						<customVariablePageValue2>200</customVariablePageValue2>
+						<customVariablePageName2>Windows Status Code</customVariablePageName2>
+						<customVariablePageValue2>32</customVariablePageValue2>
+					</row>
+					<row>
+						<customVariablePageName3>HTTP-code</customVariablePageName3>
+						<customVariablePageValue3>200</customVariablePageValue3>
 					</row>
 				</customVariables>
 				<generationTime>0.11s</generationTime>
@@ -2475,8 +2483,12 @@
 						<customVariablePageValue1>359</customVariablePageValue1>
 					</row>
 					<row>
-						<customVariablePageName2>HTTP-code</customVariablePageName2>
-						<customVariablePageValue2>404</customVariablePageValue2>
+						<customVariablePageName2>Windows Status Code</customVariablePageName2>
+						<customVariablePageValue2>24</customVariablePageValue2>
+					</row>
+					<row>
+						<customVariablePageName3>HTTP-code</customVariablePageName3>
+						<customVariablePageValue3>404</customVariablePageValue3>
 					</row>
 				</customVariables>
 				<generationTime>0.36s</generationTime>
@@ -2620,8 +2632,12 @@
 						<customVariablePageValue1>0</customVariablePageValue1>
 					</row>
 					<row>
-						<customVariablePageName2>HTTP-code</customVariablePageName2>
-						<customVariablePageValue2>301</customVariablePageValue2>
+						<customVariablePageName2>Windows Status Code</customVariablePageName2>
+						<customVariablePageValue2>42</customVariablePageValue2>
+					</row>
+					<row>
+						<customVariablePageName3>HTTP-code</customVariablePageName3>
+						<customVariablePageValue3>301</customVariablePageValue3>
 					</row>
 				</customVariables>
 				<icon />
