@@ -781,9 +781,7 @@ class Manager extends Singleton
     {
         $plugins = Config::getInstance()->Plugins['Plugins'];
 
-        $plugins = $this->sortPluginsSameOrderAsGlobalConfig($plugins);
-
-        return $plugins;
+        return $this->makePluginsToLoad($plugins);
     }
 
     /**
