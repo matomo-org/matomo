@@ -101,7 +101,6 @@ class Piwik_TestingEnvironment
         $disabledPlugins = PluginManager::getInstance()->getCorePluginsDisabledByDefault();
         $disabledPlugins[] = 'LoginHttpAuth';
         $disabledPlugins[] = 'ExampleVisualization';
-        $disabledPlugins[] = 'PleineLune';
 
         $disabledPlugins = array_diff($disabledPlugins, array(
             'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin'
