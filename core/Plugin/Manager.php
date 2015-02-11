@@ -24,7 +24,6 @@ use Piwik\Plugin;
 use Piwik\Singleton;
 use Piwik\Theme;
 use Piwik\Tracker;
-use Piwik\Translate;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
 use Piwik\Plugin\Dimension\ActionDimension;
@@ -98,7 +97,7 @@ class Manager extends Singleton
      */
     public function loadActivatedPlugins()
     {
-        $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
+        $pluginsToLoad = $this->getActivatedPluginsFromConfig();
         $this->loadPlugins($pluginsToLoad);
     }
 
@@ -776,6 +775,15 @@ class Manager extends Singleton
     public function getActivatedPlugins()
     {
         return $this->pluginsToLoad;
+    }
+
+    public function getActivatedPluginsFromConfig()
+    {
+        $plugins = Config::getInstance()->Plugins['Plugins'];
+
+        $plugins = $this->sortPluginsSameOrderAsGlobalConfig($plugins);
+
+        return $plugins;
     }
 
     /**
