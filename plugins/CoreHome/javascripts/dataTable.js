@@ -1098,7 +1098,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                 if (typeof self.param.flat != "undefined") {
                     str += '&flat=' + (self.param.flat == 0 ? '0' : '1');
-                    if (typeof self.param.include_aggregate_rows != "undefined" && self.param.include_aggregate_rows) {
+                    if (typeof self.param.include_aggregate_rows != "undefined" && self.param.include_aggregate_rows == '1') {
                         str += '&include_aggregate_rows=1';
                     }
                     if (!self.param.flat
