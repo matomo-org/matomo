@@ -95,7 +95,13 @@ class Options(object):
     enable_http_errors = False
     download_extensions = 'doc,pdf'
     custom_w3c_fields = {}
+    dump_log_regex = False
     w3c_time_taken_in_millisecs = False
+    w3c_fields = None
+    w3c_field_regexes = {}
+    regex_group_to_visit_cvars_map = {}
+    regex_group_to_page_cvars_map = {}
+    regex_groups_to_ignore = None
 
 class Config(object):
     """Mock configuration."""
@@ -460,8 +466,6 @@ def test_amazon_cloudfront_web_parsing():
 
     hits = [hit.__dict__ for hit in Recorder.recorders]
 
-    import_logs.logging.debug(hits)
-
     assert hits[0]['status'] == u'200'
     assert hits[0]['userid'] == None
     assert hits[0]['is_error'] == False
@@ -501,8 +505,6 @@ def test_amazon_cloudfront_rtmp_parsing():
     import_logs.parser.parse(file_)
 
     hits = [hit.__dict__ for hit in Recorder.recorders]
-
-    import_logs.logging.debug(hits)
 
     assert hits[0]['is_download'] == False
     assert hits[0]['ip'] == u'192.0.2.147'
@@ -552,3 +554,95 @@ def test_amazon_cloudfront_rtmp_parsing():
     assert hits[1]['full_path'] == u'/shqshne4jdp4b6.cloudfront.net/cfx/st\u200b'
 
     assert len(hits) == 2
+
+def test_ignore_groups_option_removes_groups():
+    """Test that the --ignore-groups option removes groups so they do not appear in hits."""
+
+    file_ = 'logs/iis.log'
+
+    # have to override previous globals override for this test
+    import_logs.config.options.custom_w3c_fields = {}
+    Recorder.recorders = []
+    import_logs.parser = import_logs.Parser()
+    import_logs.config.format = None
+    import_logs.config.options.enable_http_redirects = True
+    import_logs.config.options.enable_http_errors = True
+    import_logs.config.options.replay_tracking = False
+    import_logs.config.options.w3c_time_taken_in_millisecs = True
+    import_logs.config.options.regex_groups_to_ignore = set(['userid','generation_time_milli'])
+    import_logs.parser.parse(file_)
+
+    hits = [hit.__dict__ for hit in Recorder.recorders]
+
+    assert hits[0]['userid'] == None
+    assert hits[0]['generation_time_milli'] == 0
+
+def test_regex_group_to_custom_var_options():
+    """Test that the --regex-group-to-visit-cvar and --regex-group-to-page-cvar track regex groups to custom vars."""
+
+    file_ = 'logs/iis.log'
+
+    # have to override previous globals override for this test
+    import_logs.config.options.custom_w3c_fields = {}
+    Recorder.recorders = []
+    import_logs.parser = import_logs.Parser()
+    import_logs.config.format = None
+    import_logs.config.options.enable_http_redirects = True
+    import_logs.config.options.enable_http_errors = True
+    import_logs.config.options.replay_tracking = False
+    import_logs.config.options.w3c_time_taken_in_millisecs = True
+    import_logs.config.options.regex_groups_to_ignore = set()
+    import_logs.config.options.regex_group_to_visit_cvars_map = {
+        'userid': "User Name",
+        'date': "The Date"
+    }
+    import_logs.config.options.regex_group_to_page_cvars_map = {
+        'generation_time_milli': 'Geneartion Time',
+        'referrer': 'The Referrer'
+    }
+    import_logs.parser.parse(file_)
+
+    hits = [hit.__dict__ for hit in Recorder.recorders]
+
+    assert hits[0]['args']['_cvar'] == {1: ['The Date', '2012-04-01 00:00:13'], 2: ['User Name', 'theuser']} # check visit custom vars
+    assert hits[0]['args']['cvar'] == {1: ['Geneartion Time', '1687']} # check page custom vars
+
+    assert hits[0]['userid'] == 'theuser'
+    assert hits[0]['date'] == datetime.datetime(2012, 4, 1, 0, 0, 13)
+    assert hits[0]['generation_time_milli'] == 1687
+    assert hits[0]['referrer'] == ''
+
+def test_w3c_custom_field_regex_option():
+    """Test that --w3c-field-regex can be used to match custom W3C log fields."""
+
+    file_ = 'logs/iis.log'
+
+    # have to override previous globals override for this test
+    import_logs.config.options.custom_w3c_fields = {}
+    Recorder.recorders = []
+    import_logs.parser = import_logs.Parser()
+    import_logs.config.format = None
+    import_logs.config.options.enable_http_redirects = True
+    import_logs.config.options.enable_http_errors = True
+    import_logs.config.options.replay_tracking = False
+    import_logs.config.options.w3c_time_taken_in_millisecs = True
+    import_logs.config.options.w3c_field_regexes = {
+        'sc-substatus': '(?P<substatus>\S+)',
+        'sc-win32-status': '(?P<win32_status>\S+)'
+    }
+
+    format = import_logs.W3cExtendedFormat()
+
+    file_handle = open(file_)
+    format.check_format(file_handle)
+    match = None
+    while not match:
+        line = file_handle.readline()
+        if not line:
+            break
+        match = format.match(line)
+    file_handle.close()
+
+    assert match is not None
+    assert format.get('substatus') == '654'
+    assert format.get('win32_status') == '456'

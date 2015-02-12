@@ -784,7 +784,7 @@ class Configuration(object):
             self.options.download_extensions = DOWNLOAD_EXTENSIONS
 
         if self.options.regex_groups_to_ignore:
-            self.options.regex_groups_to_ignore = set(self.options.regex_groups_to_ignore.split())
+            self.options.regex_groups_to_ignore = set(self.options.regex_groups_to_ignore.split(','))
 
     def __init__(self):
         self._parse_args(self._create_parser())
@@ -1969,7 +1969,7 @@ class Parser(object):
 
                 userid = format.get('userid')
                 if userid != '-':
-                    hit.args['uid'] = userid
+                    hit.args['uid'] = hit.userid = userid
             except:
                 pass
 
@@ -2042,10 +2042,16 @@ class Parser(object):
     def _add_custom_vars_from_regex_groups(self, hit, format, groups, is_page_var):
         for group_name, custom_var_name in groups.iteritems():
             if group_name in format.get_all():
+                value = format.get(group_name)
+
+                # don't track the '-' empty placeholder value
+                if value == '-':
+                    continue
+
                 if is_page_var:
-                    hit.add_page_custom_var(custom_var_name, format.get(group_name))
+                    hit.add_page_custom_var(custom_var_name, value)
                 else:
-                    hit.add_visit_custom_var(custom_var_name, format.get(group_name))
+                    hit.add_visit_custom_var(custom_var_name, value)
 
 def main():
     """
