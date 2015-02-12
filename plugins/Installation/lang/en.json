@@ -43,7 +43,6 @@
         "PasswordRepeat": "password (repeat)",
         "PercentDone": "%s %% Done",
         "PleaseFixTheFollowingErrors": "Please fix the following errors",
-        "PluginDescription": "Installation process of Piwik. The Installation is usually done once only. If the configuration file config\/config.inc.php is deleted, the installation will start again.",
         "DefaultSettings": "Default Piwik settings",
         "DefaultSettingsHelp": "Piwik comes with default settings. You can customize them now or do so later in the admin screen.",
         "Requirements": "Piwik Requirements",

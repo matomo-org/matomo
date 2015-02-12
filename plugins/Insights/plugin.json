@@ -1,7 +1,7 @@
 {
  "name": "Insights",
  "version": "0.1.0",
- "description": "Get insights",
+ "description": "Provides Insights about your traffic. Insights are available as dashboard widgets as well as a new icon in reports to let you see most important trends in your data.",
  "theme": false,
  "license": "GPL v3+",
  "homepage": "http://piwik.org",

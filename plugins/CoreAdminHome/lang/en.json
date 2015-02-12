@@ -64,7 +64,6 @@
         "OptOutForYourVisitors": "Piwik opt-out for your visitors",
         "PiwikIsInstalledAt": "Piwik is installed at",
         "PersonalPluginSettings": "Personal Plugin Settings",
-        "PluginDescription": "Administration area of Piwik.",
         "PluginSettingChangeNotAllowed": "You are not allowed to change the value of the setting \"%s\" in plugin \"%s\"",
         "PluginSettingReadNotAllowed": "You are not allowed to read the value of the setting \"%s\" in plugin \"%s\"",
         "PluginSettings": "Plugin settings",

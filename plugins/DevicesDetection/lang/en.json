@@ -27,7 +27,7 @@
         "OperatingSystemFamily": "Operating system family",
         "OperatingSystems": "Operating systems",
         "OperatingSystemVersions": "Operating System versions",
-        "PluginDescription": "This plugin provides extended information about mobile devices, such as Brand (manufacturer), Model (device version), better Device type detection (tv, consoles, smart phones, desktop, etc) and more. This plugin adds a new report in 'Visitors > Devices'.",
+        "PluginDescription": "Provides extended information about user devices, such as Brand (manufacturer), Model (device version), device type (tv, consoles, smart phones, desktop, etc) and more.",
         "SmartDisplay": "Smart display",
         "Smartphone": "Smartphone",
         "PortableMediaPlayer": "Portable media player",

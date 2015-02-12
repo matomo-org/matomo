@@ -47,7 +47,7 @@
         "LeastMonthsInput": "Please specify a number of months greater than %s.",
         "MenuPrivacySettings": "Privacy",
         "NextDelete": "Next scheduled deletion in",
-        "PluginDescription": "Customize Piwik to make it privacy compliant with existing legislations.",
+        "PluginDescription": "Increase Privacy for your users and make your Piwik instance privacy compliant with your local legislation.  ",
         "PurgeNow": "Purge DB Now",
         "PurgeNowConfirm": "You are about to permanently delete data from your database. Are you sure you want to continue?",
         "PurgingData": "Purging data...",

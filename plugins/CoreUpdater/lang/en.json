@@ -36,7 +36,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik has been successfully updated!",
         "PiwikUpdatedSuccessfully": "Piwik updated successfully!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik database will be upgraded from version %1$s to the new version %2$s.",
-        "PluginDescription": "Piwik updating mechanism",
         "ReadyToGo": "Ready to go?",
         "TheFollowingPluginsWillBeUpgradedX": "The following plugins will be updated: %s.",
         "TheFollowingDimensionsWillBeUpgradedX": "The following dimensions will be updated: %s.",

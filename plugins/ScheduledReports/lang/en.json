@@ -26,7 +26,7 @@
         "PiwikReports": "Piwik Reports",
         "PleaseFindAttachedFile": "Please find in attached file your %1$s report for %2$s.",
         "PleaseFindBelow": "Please find below your %1$s report for %2$s.",
-        "PluginDescription": "Create and download your custom reports, and have them emailed daily, weekly or monthly.",
+        "PluginDescription": "Create custom reports and schedule them to be emailed daily, weekly or monthly to one or several people. Several report formats are supported (html, pdf, csv, images).",
         "ReportFormat": "Report Format",
         "ReportHour": "Send report at",
         "ReportIncludeNWebsites": "The report will include main metrics for all websites that have at least one visit (from the %s websites currently available).",
