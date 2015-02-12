@@ -80,7 +80,9 @@ class Settings
     }
 
     /**
-     * Returns a 64-bit hash of all the configuration settings
+     * Returns a 64-bit hash that attemps to identify a user.
+     * Maintaining some privacy by default, eg. prevents the merging of several Piwik serve together for matching across instances..
+     *
      * @param $os
      * @param $browserName
      * @param $browserVersion
