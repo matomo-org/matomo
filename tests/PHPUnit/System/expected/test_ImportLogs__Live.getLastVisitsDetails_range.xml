@@ -2588,10 +2588,6 @@
 		<providerName>Unknown</providerName>
 		<providerUrl />
 		<customVariables>
-			<row>
-				<customVariableName1>User Name</customVariableName1>
-				<customVariableValue1>-</customVariableValue1>
-			</row>
 		</customVariables>
 		<resolution>unknown</resolution>
 		<plugins />
