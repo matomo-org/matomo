@@ -466,7 +466,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->deleteUnusedColumnsFromKeywordsDataTable($dataTable);
         $this->insertTable($dataTable, self::SITE_SEARCH_RECORD_NAME);
 
-        $this->getProcessor()->insertNumericRecord(self::METRIC_SEARCHES_RECORD_NAME, array_sum($dataTable->getColumn(PiwikMetrics::INDEX_NB_VISITS)));
+        $this->getProcessor()->insertNumericRecord(self::METRIC_SEARCHES_RECORD_NAME, array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS)));
         $this->getProcessor()->insertNumericRecord(self::METRIC_KEYWORDS_RECORD_NAME, $dataTable->getRowsCount());
     }
 
