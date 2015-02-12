@@ -17,7 +17,6 @@
         "MenuManage": "Upravljaj",
         "OptOutExplanation": "Piwik želi zagotoviti zasebnost na internetu. Če želite svojim obiskovalcem omogočiti 'opt-out' iz Piwik spletne analitike, potem lahko dodate naslednjo HTML kodo na vašo spletno stran, npr. na stran 'Varovanje zasebnosti'.",
         "OptOutForYourVisitors": "'Opt-out' za vaše obiskovalce",
-        "PluginDescription": "Administrativno okolje Piwik.",
         "UseCustomLogo": "Uporabi poseben logo",
         "YouAreOptedIn": "Trenutno ste pridruženi.",
         "YouAreOptedOut": "Trenutno niste pridruženi."

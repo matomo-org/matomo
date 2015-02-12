@@ -41,7 +41,6 @@
         "Origin": "Herkomst",
         "OriginCore": "Kern",
         "OriginThirdParty": "Derden",
-        "PluginDescription": "Plugin admin interface",
         "PluginHomepage": "Plugins",
         "PluginKeywords": "Sleutelwoorden",
         "PluginNotCompatibleWith": "%1$s plugin is niet compatibel met %2$s.",

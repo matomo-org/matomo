@@ -27,7 +27,6 @@
         "PasswordRepeat": "jelszó (ismét)",
         "PercentDone": "%s %% kész",
         "PleaseFixTheFollowingErrors": "Kérjük, javítsd a következő hibákat",
-        "PluginDescription": "Piwik telepítése. Általában csak egyszer fut le, ha azonban a config\/config.inc.php konfigurációs fájl hiányzik, akkor a telepítés újból fog kezdődni.",
         "Requirements": "Piwik Rendszerkövetelmények",
         "SetupWebsite": "Weboldal beállítása",
         "SetupWebsiteError": "Hiba a weboldal hozzáadása közben!",

@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Игнориране на посещенията с X-Do-Not-Track или заглавие DNT."
-    },
     "General": {
         "AbandonedCarts": "Отказани колички",
         "AboutPiwikX": "За Piwik %s",

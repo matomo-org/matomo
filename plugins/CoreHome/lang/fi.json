@@ -42,7 +42,6 @@
         "PeriodYear": "Vuosi",
         "PeriodYears": "vuodet",
         "PivotBySubtable": "Tämä raportti ei ole käännetty %s:n mukaan. Käännetty %s:llä.",
-        "PluginDescription": "Verkkoanalyysin raporttien sisältö",
         "ReportGeneratedOn": "Raportti luotu %s",
         "ReportGeneratedXAgo": "Raportti luotu %s sitten",
         "SharePiwikLong": "Hei! Löysin juuri mahtavan avoimen lähdekoodin ohjelmiston: Piwik!\n\nPiwikin avulla voit seurata verkkosivusi kävijöitä ilmaiseksi. Kannattaa ehdottomasti tutustua!",

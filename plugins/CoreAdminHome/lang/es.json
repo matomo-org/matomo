@@ -63,7 +63,6 @@
         "OptOutExplanationBis": "Este código mostrará un iFrame que contendrá un link para que sus visitantes dejen de ser seguidos por Piwik configurando una cookie opt-out en sus navegadores. %s Haga clic aquí%s para ver el contenido que será mostrado por el iFrame.",
         "OptOutForYourVisitors": "Opción de no seguimiento de Piwik para sus visitantes",
         "PiwikIsInstalledAt": "Piwik está instalado en",
-        "PluginDescription": "Área de Administración de Piwik",
         "PluginSettingChangeNotAllowed": "No está permitido cambiar el valor de configuración \"%s\" en el plugin \"%s\"",
         "PluginSettingReadNotAllowed": "No está permitido que leas el valor de la opción \"%s\" en el plugin \"%s\"",
         "PluginSettings": "Configuración del plugin",

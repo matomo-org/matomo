@@ -34,7 +34,6 @@
         "Origin": "原始",
         "OriginCore": "核心",
         "OriginThirdParty": "第三方",
-        "PluginDescription": "插件管理界面。",
         "PluginHomepage": "插件首页",
         "PluginKeywords": "关键字",
         "PluginNotCompatibleWith": "插件 %1$s 与 %2$s 不兼容。",

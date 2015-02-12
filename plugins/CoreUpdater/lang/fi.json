@@ -36,7 +36,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik on päivitetty onnistuneesti!",
         "PiwikUpdatedSuccessfully": "Piwik päivitettiin onnistuneesti!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwikin tietokanta päivitetään versiosta %1$s versioon %2$s.",
-        "PluginDescription": "Piwikin päivitysjärjestelmä",
         "ReadyToGo": "Valmis jatkamaan?",
         "TheFollowingDimensionsWillBeUpgradedX": "Seuraavat asiat päivitetään: %s.",
         "TheFollowingPluginsWillBeUpgradedX": "Seuraavat lisäosat päivitetään: %s.",

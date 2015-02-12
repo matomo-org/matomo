@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Ignoruje návštěvy s hlavičkamy X-Do-Not-Track nebo DNT."
-    },
     "General": {
         "AbandonedCarts": "Neobjednané košíky",
         "AboutPiwikX": "O Piwiku %s",

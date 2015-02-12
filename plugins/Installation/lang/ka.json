@@ -27,7 +27,6 @@
         "PasswordRepeat": "პაროლი (განმეორებით)",
         "PercentDone": "%s %% შესრულდა",
         "PleaseFixTheFollowingErrors": "გთხოვთ, შეასწოროთ შემდეგი შეცდომები",
-        "PluginDescription": "Piwik–ის დაინსტალირება. ინსტალირება ჩვეულებრივ ხდება მხოლოდ ერთხელ. თუ კონფიგურაციის ფაილი config\/config.inc.php წაიშლება, ინსტალირება თავიდან დაიწყება.",
         "Requirements": "Piwik მოთხოვნები",
         "SetupWebsite": "ვებ საიტის მოწყობა",
         "SetupWebsiteError": "ვებ საიტის დამატების დროს მოხდა შეცდომა",

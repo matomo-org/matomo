@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "X-Do-Not-Track または DNT ヘッダーでの訪問を無視します。"
-    },
     "General": {
         "AbandonedCarts": "放棄された買い物かご",
         "AboutPiwikX": "Piwik %s について",

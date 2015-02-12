@@ -50,7 +50,6 @@
         "Origin": "Origine",
         "OriginCore": "Baza",
         "OriginThirdParty": "Parti terte",
-        "PluginDescription": "Interfaţa de administrare plugin-uri.",
         "PluginHomepage": "Pagina Pluginurilor",
         "PluginKeywords": "Cuvinte cheie",
         "PluginNotCompatibleWith": "%1$s pluginul nu este compatibil cu %2$s.",

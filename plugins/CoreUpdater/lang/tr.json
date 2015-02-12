@@ -22,7 +22,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik başarıyla güncellendi!",
         "PiwikUpdatedSuccessfully": "Piwik başarıyla güncellendi!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik veritabanı %1$s versiyonundan %2$s versiyonuna güncellenecektir.",
-        "PluginDescription": "Piwik güncelleme mekanizması",
         "ReadyToGo": "Hazır mısınız?",
         "TheFollowingPluginsWillBeUpgradedX": "Aşağıdaki eklentiler güncellenecektir: %s.",
         "ThereIsNewPluginVersionAvailableForUpdate": "Kullandığınız ve pazaryerinde yer alıp güncellenmiş bazı eklentiler:",

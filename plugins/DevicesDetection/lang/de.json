@@ -2,7 +2,7 @@
     "DevicesDetection": {
         "BrowserEngine": "Browser",
         "BrowserEngineDocumentation": "Dieser Graph zeit Ihnen die Browser Ihrer Besucher aufgeteilt nach Browserfamilien. %s Die wichtigste Information für Webentwickler ist, welche Rendering Engine Besucher verwenden. Die Beschriftungen enthalten den Namen der Engine und in Klammern den Namen des bekanntesten Browsers, der diese verwendet.",
-        "BrowserEngines": "Browser",
+        "BrowserEngines": "Browser-Engines",
         "BrowserFamily": "Browserfamilie",
         "Browsers": "Browser",
         "BrowserVersion": "Browserversion",
@@ -28,6 +28,7 @@
         "OperatingSystems": "Betriebssysteme",
         "OperatingSystemVersions": "Betriebssystem Versionen",
         "PluginDescription": "Dieses Plugin stellt erweiterte Informationen über mobile Geräte, wie Marke (Hersteller), Modell (Geräteversion), bessere Gerätetyperkennung (TV, Konsolen, Smartphones, Desktop, etc) und mehr bereit. Dieses Plugin fügt einen neuen Bericht unter 'Besucher > Geräte' hinzu.",
+        "PortableMediaPlayer": "Portable Mediengeräte",
         "SmartDisplay": "Smart Display",
         "Smartphone": "Smartphone",
         "submenu": "Geräte",

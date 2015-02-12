@@ -44,7 +44,6 @@
         "PasswordRepeat": "contraseña (repetir)",
         "PercentDone": "%s %% Hecho",
         "PleaseFixTheFollowingErrors": "Por favor solucione los siguientes errores",
-        "PluginDescription": "Proceso de instalación de Piwik. La Instalación es usualmente hecha solo una vez. Si el archivo de configuración config\/config.ini.php se elimina, la instalación comenzará de nuevo.",
         "Requirements": "Requisitos de Piwik",
         "RestartWebServer": "Luego de realizar este cambio renicia tu servidor web.",
         "ReusingTables": "Reutilizando las tablas",

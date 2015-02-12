@@ -40,6 +40,7 @@
         "MainDescription": "Decidi quali utenti possono accedere alle statistiche Piwik dei siti web. Puoi anche impostare i permessi di tutti i siti in una volta sola.",
         "ManageAccess": "Amministra l'accesso",
         "MenuAnonymousUserSettings": "Impostazioni utente anonimo",
+        "MenuPersonal": "Personale",
         "MenuUsers": "Utenti",
         "MenuUserSettings": "Impostazioni utente",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Nota: Non puoi cambiare le impostazioni in questa sezione perché nessun sito è accessibile dagli utenti anonimi.",

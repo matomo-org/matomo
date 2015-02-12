@@ -47,7 +47,6 @@
         "PiwikOrgNewsletter": "私に Piwik コミュニティの最新情報をメールで送る",
         "PiwikProNewsletter": "%sPiwik PRO%s サービス( 月1回以下のメール受信 ) に興味があります。",
         "PleaseFixTheFollowingErrors": "次のエラーを修正してください",
-        "PluginDescription": "Piwik のインストール処理を行います。 インストールは通常1回のみですが、設定ファイル（config\/config.inc.php）が削除された場合は、インストールが再度開始されます。",
         "Requirements": "Piwik の動作環境",
         "RestartWebServer": "この変更を行った後、ウェブサーバーを再起動してください。",
         "ReusingTables": "表の再利用",

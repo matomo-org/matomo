@@ -35,7 +35,6 @@
         "PasswordRepeat": "Torneu a escriure la contrasenya",
         "PercentDone": "%s%% fet",
         "PleaseFixTheFollowingErrors": "Siusplau corregiu els següents errors",
-        "PluginDescription": "Procès d'instal·lació del Piwik. El procès d'instal·lació només es dur a temre una vegada. Si el fitxer de configuració config\/config.inc.php s'esborrà es tornarà a iniciar la instal·lació.",
         "Requirements": "Requeriments del Piwik",
         "RestartWebServer": "Desprès de fer aquest canvi, reinicieu el vostre servidor web.",
         "SeeBelowForMoreInfo": "Llegiu a continuació per més informació.",

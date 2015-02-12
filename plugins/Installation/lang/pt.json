@@ -27,7 +27,6 @@
         "PasswordRepeat": "palavra passe (repetir)",
         "PercentDone": "%s %% Completado",
         "PleaseFixTheFollowingErrors": "Por favor corrija os seguintes erros",
-        "PluginDescription": "Processo de instalação de Piwik. A Instalação é executada só uma vez. Se o ficheiro de configuração config\/config.inc.php for eliminado, a instalação recomeça.",
         "Requirements": "Requisitos do Piwik",
         "SetupWebsite": "Configurar um Website",
         "SetupWebsiteError": "Ocorreu um erro ao tentar adicionar o website",

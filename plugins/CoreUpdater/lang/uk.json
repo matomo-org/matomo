@@ -26,7 +26,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik успішно поновлено!",
         "PiwikUpdatedSuccessfully": "Piwik успішно поновлено!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "База даних Piwik буде поновлена з версії %1$s до нової версії %2$s.",
-        "PluginDescription": "Механізм поновлення Piwik",
         "ReadyToGo": "Готові розпочати?",
         "TheFollowingPluginsWillBeUpgradedX": "Наступні плагіни буде поновлено: %s.",
         "ThereIsNewVersionAvailableForUpdate": "Є нова версія Piwik доступна до поновлення",

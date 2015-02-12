@@ -36,7 +36,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik blev opdateret!",
         "PiwikUpdatedSuccessfully": "Piwik er opdateret!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik vil blive opgraderet fra version %1$s til den nye version %2$s.",
-        "PluginDescription": "Piwik ajourføringsmekanisme",
         "ReadyToGo": "Klar, parat, start?",
         "TheFollowingDimensionsWillBeUpgradedX": "Følgende mål vil blive opdateret: %s.",
         "TheFollowingPluginsWillBeUpgradedX": "Følgende udvidelsesmoduler vil blive opgraderet: %s.",

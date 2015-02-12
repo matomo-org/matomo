@@ -47,7 +47,6 @@
         "PiwikOrgNewsletter": "pošalji mi mejl kada dođe do značajne Piwik izmene",
         "PiwikProNewsletter": "Zainteresovan sam za %sPiwik PRO%s usluge (ne više od jednog mejla mesečno)",
         "PleaseFixTheFollowingErrors": "Molimo vas da ispravite sledeće greške",
-        "PluginDescription": "Proces instalacije Piwik-a. Instalacija se obično vrši samo jednom. Ukoliko datoteku sa podešavanjima config\/config.inc.php obrišete, instalacija će početi ispočetka.",
         "Requirements": "Piwik zahtevi",
         "RestartWebServer": "Nakon ovih izmena restartujte vaš web server",
         "ReusingTables": "Ponovna upotreba tabela",

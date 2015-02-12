@@ -26,7 +26,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik-u u përmirësua me sukses!",
         "PiwikUpdatedSuccessfully": "Piwik-u u përditësua me sukses!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Baza e të dhënave për Piwik-un do të përmirësohet prej versionit %1$s te versioni i ri %2$s.",
-        "PluginDescription": "Mekanizmi i përditësimit të Piwik-ut",
         "ReadyToGo": "Gati për t'ia filluar?",
         "TheFollowingPluginsWillBeUpgradedX": "Shtojcat vijuese do të përditësohen: %s.",
         "ThereIsNewVersionAvailableForUpdate": "Mund të kihet një version i ri, i përmirësuar, i Piwik-ut",

@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Ignorera besök med X-Do-Not-Track eller DNT-huvud."
-    },
     "General": {
         "AbandonedCarts": "Övergivna varukorgar",
         "AboutPiwikX": "Om Piwik %s",
@@ -32,6 +29,7 @@
         "ChooseLanguage": "Välj språk",
         "ChoosePeriod": "Välj period",
         "ChooseWebsite": "Välj webbplats",
+        "Clear": "Rensa",
         "ClickHere": "Klicka här för mer information.",
         "ClickToChangePeriod": "Klicka igen för att byta period.",
         "Close": "Stäng",
@@ -65,6 +63,7 @@
         "ColumnNbActionsDocumentation": "Antalet händelser som utförts av besökarna. Händelser kan vara sidvisningar, webbplatssökningar, nedladdningar eller utlänkar.",
         "ColumnNbUniqVisitors": "Unika besökare",
         "ColumnNbUniqVisitorsDocumentation": "Antalet unika besökare som kommer till din webbplats. Varje användare räknas endast en gång, även om han besöker webbplatsen flera gånger om dagen.",
+        "ColumnNbUsers": "Användare",
         "ColumnNbVisits": "Besök",
         "ColumnNbVisitsDocumentation": "Om en besökare kommer till din webbplats för första gången eller om han besöker en sida efter mer än 30 minuter från den senaste sidvisningen, så kommer detta att registreras som ett nytt besök.",
         "ColumnPageBounceRateDocumentation": "Andelen besök som startade på denna sida och lämnade webbplatsen direkt.",

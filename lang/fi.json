@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Jätä huomiotta käynnit ylätunnisteilla X-Do-Not-Track tai DNT."
-    },
     "General": {
         "AbandonedCarts": "Hylätyt ostoskorit",
         "AboutPiwikX": "Tietoja Piwikistä %s",

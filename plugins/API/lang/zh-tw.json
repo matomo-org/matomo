@@ -4,7 +4,6 @@
         "KeepTokenSecret": "token_auth 如你的帳號和密碼般重要，%s請不要公開它%s！",
         "LoadedAPIs": "已成功載入 %s 個 APIs",
         "MoreInformation": "取得更多關於 Piwik APIs 的資訊，請前往 %sPiwik API 指引%s 與 %s Piwik API 參考資料%s。",
-        "PluginDescription": "所有在 Piwik 的資料都能使用簡單的 APIs 取得。這個外掛是網頁服務的切入點，讓你可以以 xml, json, php, csv 及其他格式取得網站分析資料。",
         "QuickDocumentationTitle": "API 快速說明文件",
         "TopLinkTooltip": "透過API可以取得網站流量統計分析json與xml格式的數據。",
         "UserAuthentication": "使用者驗證",

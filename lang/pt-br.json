@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Ignorar visitas com X-Do-Not-Track ou cabeçalho DNT."
-    },
     "General": {
         "AbandonedCarts": "Compras abandonadas",
         "AboutPiwikX": "Sobre o Piwik %s",

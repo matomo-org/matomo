@@ -50,7 +50,6 @@
         "Origin": "開発元",
         "OriginCore": "コア",
         "OriginThirdParty": "サードパーティ",
-        "PluginDescription": "プラグイン管理のインターフェースです。",
         "PluginHomepage": "プラグインのホームページ",
         "PluginKeywords": "キーワード",
         "PluginNotCompatibleWith": "%1$s plugin is not compatible with %2$s.",

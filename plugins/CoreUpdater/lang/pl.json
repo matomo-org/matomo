@@ -36,7 +36,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Statystyki Piwik zostały zaktualizowane pomyślnie!",
         "PiwikUpdatedSuccessfully": "Oprogramowanie Piwik zostało zaktualizowane pomyślnie!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Baza danych statystyk Piwik zostanie zaktualizowana z wersji %1$s do nowej wersji %2$s.",
-        "PluginDescription": "Mechanizm aktualizacji Piwik",
         "ReadyToGo": "Gotowy do dalszego działania?",
         "TheFollowingDimensionsWillBeUpgradedX": "Następujące rozmiary zostaną zaaktualizowane: %s.",
         "TheFollowingPluginsWillBeUpgradedX": "Następujące wtyczki zostaną zaktualizowane: %s.",

@@ -7,6 +7,7 @@
         "ColumnBounceRateForReturningVisits": "Для отскочивих среди повторных посетителей",
         "ColumnMaxActionsInReturningVisit": "Максимум действий за одно вернувшееся посещение",
         "ColumnNbReturningVisitsConverted": "Число конверсии вернувшихся посетителей",
+        "ColumnReturningUsers": "Вернувшиеся пользователи",
         "ColumnReturningVisits": "Повторные посещения",
         "ColumnSumVisitLengthReturning": "Общее время, проведенное вернувшимися посетителями (в секундах)",
         "ColumnUniqueReturningVisitors": "Уникальные вернувшиеся посетители",

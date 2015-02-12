@@ -25,6 +25,7 @@
         "ReferrerName": "Henvisningsnavn",
         "Referrers": "Henvisninger",
         "ReferrersOverview": "Henvisningsoversigt",
+        "ReferrerTypes": "Henvisende typer",
         "SearchEngines": "Søgemaskiner",
         "SearchEnginesDocumentation": "Besøgende blev henvist til hjemmesiden fra en søgemaskine. %s Se rapporten %s for yderligere oplysninger.",
         "SearchEnginesReportDocumentation": "Rapporten viser hvilke søgemaskiner, der henviser brugere til hjemmesiden. %s Klik på en række i tabellen for at se, hvad brugerne søgte efter ved brug af en bestemt søgemaskine.",

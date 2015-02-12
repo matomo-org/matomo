@@ -45,7 +45,6 @@
         "PiwikOrgNewsletter": "maila mig vid större Piwik community uppdateringar",
         "PiwikProNewsletter": "Jag är intresserad av %sPiwik PRO%s tjänster (inte mer än ett mail per månad)",
         "PleaseFixTheFollowingErrors": "Vänligen fixa följande fel",
-        "PluginDescription": "Installationsprocessen av Piwik. Installationen görs vanligtvis endast en gång. Om konfigurationsfilen config\/config.inc.php tas bort, kommer installationen börja om igen.",
         "Requirements": "Piwik Krav",
         "RestartWebServer": "När du har gjort den här ändringen, starta om din webbserver.",
         "ReusingTables": "Återanvänder tabellerna",

@@ -27,7 +27,6 @@
         "PasswordRepeat": "pakartoti slaptažodį",
         "PercentDone": "%s %% Atlikta",
         "PleaseFixTheFollowingErrors": "Prašome ištaisyti šias klaidas",
-        "PluginDescription": "Piwik diegimo procesas. Diegimas paprastai atliekamas vieną kartą. Jei konfigūracijos failas config\/config.inc.php ištrinamas, bus paleistas papildomas diegimas.",
         "Requirements": "Piwik reikalavimai sistemai",
         "SetupWebsite": "Svetainės nustatymai",
         "SetupWebsiteError": "Rasta klaidų pridedant svetainę",

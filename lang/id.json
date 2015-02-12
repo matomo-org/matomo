@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Abaikan kunjungan dengan kepala Jangan-Lacak \"X-Do-Not-Track\" atau \"DNT\"."
-    },
     "General": {
         "AbandonedCarts": "Keranjang Terabaikan",
         "AboutPiwikX": "Tentang Piwik %s",

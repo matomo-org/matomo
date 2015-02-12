@@ -26,7 +26,6 @@
         "PasswordRepeat": "密碼 （再輸入一次確認）",
         "PercentDone": "%s %% 已完成",
         "PleaseFixTheFollowingErrors": "請修復以下錯誤",
-        "PluginDescription": "Piwik 的安裝程式。通常只需要安裝一次。如果設定檔 config\/config.inc.php 被刪除，那麼將會重新安裝。",
         "Requirements": "Piwik 需求",
         "SetupWebsite": "設定一個網站",
         "SetupWebsiteError": "當增加此網站時發生了一個錯誤",

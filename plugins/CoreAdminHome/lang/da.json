@@ -63,7 +63,6 @@
         "OptOutExplanationBis": "Koden vil vise en Iframe, der indeholder et link til dine besøgende til at framelde Piwik ved at sætte en opt out-cookie i browseren. %sKlik her%s for at få vist indholdet af iFramen.",
         "OptOutForYourVisitors": "Piwik opt-out for dine besøgende",
         "PiwikIsInstalledAt": "Piwik er installeret på",
-        "PluginDescription": "Piwik administration.",
         "PluginSettingChangeNotAllowed": "Du må ikke ændre værdien \"%s\" i udvidelse \"%s\"",
         "PluginSettingReadNotAllowed": "Du har ikke tilladelse til at læse værdien af ​​indstillingen \"%s\" i udvidelsen \"%s\"",
         "PluginSettings": "Programudvidelses indstilinger",

@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Huwag pansinin ang mga pagbisita sa X-Do-Hindi-Track o DNT header."
-    },
     "General": {
         "AbandonedCarts": "inabandunang Cart",
         "AboutPiwikX": "ungkol sa Piwik %s",

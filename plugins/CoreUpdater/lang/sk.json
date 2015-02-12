@@ -16,7 +16,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik bol úspešne zaktualizovaný!",
         "PiwikUpdatedSuccessfully": "Piwik bol úspešne zaktualizovaný!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik bude zaktualizovaný z verzie %1$s na verziu %2$s.",
-        "PluginDescription": "Piwik aktualizácia mechanizmu",
         "ReadyToGo": "Pripravený?",
         "TheFollowingPluginsWillBeUpgradedX": "Nasledujúce moduly budú zaktualizované: %s.",
         "ThereIsNewVersionAvailableForUpdate": "Je dostupná nová verzia Piwik na aktualizáciu",

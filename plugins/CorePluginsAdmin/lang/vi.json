@@ -39,7 +39,6 @@
         "Origin": "Nguồn gốc",
         "OriginCore": "Lõi",
         "OriginThirdParty": "Bên thứ ba",
-        "PluginDescription": "Giao diện quản trị plugin.",
         "PluginHomepage": "Trang chủ Plugin.",
         "PluginKeywords": "Từ khóa",
         "PluginNotCompatibleWith": "%1$s plugin là không tương thích với %2$s.",

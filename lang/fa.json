@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "اشتباه است با X-Do-Not-Track با DNT در هدر."
-    },
     "General": {
         "AbandonedCarts": "رها چرخ دستی",
         "AboutPiwikX": "درباره ی Piwik %s",

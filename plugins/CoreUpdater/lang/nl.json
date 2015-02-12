@@ -34,7 +34,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik upgrade was succesvol!",
         "PiwikUpdatedSuccessfully": "Piwik is succesvol geüpdatet!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik Database zal ge-upgrade worden van versie %1$s naar de nieuwe versie %2$s",
-        "PluginDescription": "Piwik updating mechanisme",
         "ReadyToGo": "Klaar om te starten?",
         "TheFollowingDimensionsWillBeUpgradedX": "De volgende onderdelen zullen worden geupdate: %s.",
         "TheFollowingPluginsWillBeUpgradedX": "De volgende plugins zullen ge-upgrade worden: %s.",

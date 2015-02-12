@@ -63,7 +63,6 @@
         "OptOutExplanationBis": "Deze code zal een I-frame tonen met daarin een link naar de opt-out van Piwik door een opt-out cookie te plaatsen in hun browser. %s Klik hier%s om de tekst te bekijken die in het I-frame getoond zal worden.",
         "OptOutForYourVisitors": "Piwik opt-out voor uw bezoekers",
         "PiwikIsInstalledAt": "Piwik is geïnstalleerd in",
-        "PluginDescription": "Beheeromgeving van Piwik",
         "PluginSettingChangeNotAllowed": "U bent niet gemachtigd om de waarde aan te passen van de instelling \"%s\" in plugin \"%s\"",
         "PluginSettings": "Plugin instellingen",
         "PluginSettingsIntro": "Hier kunt u instellingen aanpassen voor de volgende plugins van derden:",

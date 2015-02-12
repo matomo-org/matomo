@@ -52,7 +52,6 @@
         "OptOutExplanation": "Bu yazılım kendini internette gizlilik sağlamaya adamıştır. Ekteki html kodunu sitenize ekleyerek ziyaretçilerinize izlenmeme (opsiyonel olarak) seçeneği sunabilirsiniz. Örnek olarak bunu Gizlilik Politikanız sayfasında sunabilirsiniz.",
         "OptOutForYourVisitors": "ziyaretciniz için Piwiki devre dışı bırakmak",
         "PiwikIsInstalledAt": "Piwikde yüklenir",
-        "PluginDescription": "Piwik yönetici arenasi.",
         "PluginSettingChangeNotAllowed": "Bu ayarların \"%s\" değerlerini değiştirmek için \"%s\" eklentisinde gerekli izniniz yok.",
         "PluginSettings": "Eklenti ayarları",
         "PluginSettingsIntro": "Buradan aşağıdaki 3. parti eklentiler için ayarları değiştirebilirsiniz:",

@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Besuche mit X-Do-Not-Track oder DNT Header ignorieren."
-    },
     "General": {
         "AbandonedCarts": "Verlassene Warenkörbe",
         "AboutPiwikX": "Über Piwik %s",
@@ -445,6 +442,7 @@
         "WeeklyReport": "wöchentlich",
         "WeeklyReports": "Wöchentliche Berichte",
         "WellDone": "Gut gemacht!",
+        "Widget": "Widget",
         "Widgets": "Widgets",
         "XComparedToY": "%1$s verglichen mit %2$s",
         "XFromY": "%1$s von %2$s",

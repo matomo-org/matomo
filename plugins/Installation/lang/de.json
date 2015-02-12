@@ -50,7 +50,6 @@
         "PiwikOrgNewsletter": "Wichtige Piwik Community Updates per Mail zukommen lassen",
         "PiwikProNewsletter": "Ich interessiere mich für den %sPiwik PRO%s Service (nicht mehr als 1 E-Mail pro Monat)",
         "PleaseFixTheFollowingErrors": "Bitte beheben Sie die folgenden Fehler",
-        "PluginDescription": "Installationsprozess. Die Installation wird einmalig durchgeführt. Wenn die Konfigurationsdatei (config\/config.php) gelöscht wird, startet die Installation erneut.",
         "Requirements": "Anforderungen für die Piwik-Installation",
         "RestartWebServer": "Nach dieser Änderung müssen Sie den Webserver neu starten.",
         "ReusingTables": "Tabellen werden wiederverwendet",

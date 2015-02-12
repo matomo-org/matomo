@@ -63,7 +63,6 @@
         "OptOutExplanationBis": "Tämä koodi näyttää iframen, jossa on linkki Piwikin poistamiseen käytöstä vierailijan selaimesta. Linkin klikkaaminen ei vaikuta muihin käyttäjiin mitenkään. %sKlikkaa tästä%s, jos haluat nähdä, mitä iframessa näytetään.",
         "OptOutForYourVisitors": "Piwikin poistaminen käytöstä kävijöillesi (opt-out)",
         "PiwikIsInstalledAt": "Piwik on asennettu kohteeseen",
-        "PluginDescription": "Piwikin ylläpito.",
         "PluginSettingChangeNotAllowed": "Arvojen muuttaminen \"%s\" liitännäisessä \"%s\" -asetuksissa ei ole sallittua",
         "PluginSettingReadNotAllowed": "Et voi lukea asetusta \"%s\" lisäosasta \"%s\"",
         "PluginSettings": "Lisäosan asetukset",

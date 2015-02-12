@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Ignora vizitele cu headerul X-Do-Not-Track sau DNT."
-    },
     "General": {
         "AbandonedCarts": "Cosuri abandonate",
         "AboutPiwikX": "Despre Piwik %s",

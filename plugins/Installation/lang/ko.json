@@ -35,7 +35,6 @@
         "PasswordRepeat": "비밀번호 (반복)",
         "PercentDone": "%s %% 완료",
         "PleaseFixTheFollowingErrors": "다음 오류를 수정하세요",
-        "PluginDescription": "Piwik 설치 작업을 수행합니다. 설치는 보통 한 번 하지만 설정 파일 (config\/config.inc.php)이 삭제된 경우 설치가 다시 시작됩니다.",
         "Requirements": "Piwik 요구 사항",
         "RestartWebServer": "변경한 후 웹서버를 다시 시작하세요.",
         "SeeBelowForMoreInfo": "자세한 내용은 아래를 참조하세요.",

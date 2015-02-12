@@ -24,6 +24,7 @@
         "ReferrerName": "Имя источника",
         "Referrers": "Источники трафика",
         "ReferrersOverview": "Обзор источников",
+        "ReferrerTypes": "Типы источника",
         "SearchEngines": "Поисковые движки",
         "SearchEnginesDocumentation": "Посетитель перешел на ваш сайт с поисковой системы. %s Детальная информация в отчете %s.",
         "SearchEnginesReportDocumentation": "Этот отчет показывает, с каких поисковых систем пришли посетители. %s Кликнув на конкретный ряд таблицы, вы увидите, что посетитель искал в поисковой систем и что привело его на ваш сайт.",
@@ -46,6 +47,7 @@
         "WidgetExternalWebsites": "Внешние сайты",
         "WidgetGetAll": "Все источники трафика",
         "WidgetSocials": "Список социальных сетей",
-        "WidgetTopKeywordsForPages": "Топ ключевых слов для страницы URL"
+        "WidgetTopKeywordsForPages": "Топ ключевых слов для страницы URL",
+        "XPercentOfVisits": "%s%% посещений"
     }
 }
