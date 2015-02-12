@@ -25,6 +25,7 @@
         "ReferrerName": "Name des Verweises",
         "Referrers": "Verweise",
         "ReferrersOverview": "Übersicht Verweise",
+        "ReferrerTypes": "Verweistypen",
         "SearchEngines": "Suchmaschinen",
         "SearchEnginesDocumentation": "Ein Besucher kam durch eine Suchmaschine auf die Webseite. %s Der %s Bericht enthält weitere Details.",
         "SearchEnginesReportDocumentation": "Dieser Bericht zeigt Ihnen, welche Suchmaschinen Besucher auf die Webseite geführt haben. %s Wenn Sie auf eine Zeile der Tabelle klicken, werden die Suchbegriffe angezeigt, nach denen die Besucher gesucht haben.",

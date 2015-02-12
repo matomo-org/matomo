@@ -25,7 +25,6 @@
         "PasswordRepeat": "passord (gjenteken)",
         "PercentDone": "%s %% Ferdig",
         "PleaseFixTheFollowingErrors": "Rett på følgjande feil",
-        "PluginDescription": "Installasjonsprosessen til Piwik. Installasjonen er vanlegvis utførd berre ein gong. Viss konfigurasjonsfila config\/config.inc.php er sletta, vil installasjonen starta på nytt.",
         "Requirements": "Piwik-krav",
         "RestartWebServer": "Etter denne endringa, start vevtenaren din på nytt.",
         "SetupWebsite": "Sett opp ein nettstad",

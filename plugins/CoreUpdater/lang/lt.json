@@ -26,7 +26,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik sėkmingai atnaujinta!",
         "PiwikUpdatedSuccessfully": "Piwik sėkmingai atnaujinta!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik duombazė bus atnaujinta iš %1$s į %2$s versiją.",
-        "PluginDescription": "Piwik naujinimo įranga",
         "ReadyToGo": "Pasiruošę pradėti?",
         "TheFollowingPluginsWillBeUpgradedX": "Bus atnaujinti šie papildiniai: %s.",
         "ThereIsNewVersionAvailableForUpdate": "Pasirodė nauja Piwik versija",

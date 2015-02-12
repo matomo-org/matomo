@@ -39,7 +39,6 @@
         "PasswordRepeat": "парола (повторно)",
         "PercentDone": "%s %% развитие",
         "PleaseFixTheFollowingErrors": "Моля, поправете следните грешки",
-        "PluginDescription": "Инсталационния процес на Piwik. Инсталацията обикновено се прави само веднъж. Ако конфигурационния файл config\/ config.inc.php е изтрит, инсталацията ще започне отново.",
         "Requirements": "Piwik Изисквания",
         "RestartWebServer": "След като направите промените, рестартирайте уеб сървара.",
         "SeeBelowForMoreInfo": "Вижте по-долу за повече информация.",

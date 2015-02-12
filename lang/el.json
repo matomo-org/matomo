@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Αγνοήστε τις επισκέψεις με X-Do-Not-Track ή DNT κεφαλίδα."
-    },
     "General": {
         "AbandonedCarts": "Εγκαταλειμμένα Καλάθια Αγορών",
         "AboutPiwikX": "Σχετικά με το Piwik %s",
@@ -445,6 +442,7 @@
         "WeeklyReport": "εβδομαδιαία",
         "WeeklyReports": "Εβδομαδιαίες αναφορές",
         "WellDone": "Συγχαρητήρια!",
+        "Widget": "Γραφικό Συστατικό",
         "Widgets": "Μικροεφαρμογές",
         "XComparedToY": "Το %1$s σε σύγκριση με το %2$s",
         "XFromY": "%1$s από %2$s",

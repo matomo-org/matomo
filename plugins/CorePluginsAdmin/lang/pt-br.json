@@ -44,7 +44,6 @@
         "OncePluginIsInstalledYouMayActivateHere": "Uma vez que um plugin for instalado, você pode ativá-lo ou desativá-lo aqui.",
         "Origin": "Origem",
         "OriginCore": "Core",
-        "PluginDescription": "Interface de Administração de Plugins",
         "PluginHomepage": "Página do Plugin",
         "PluginKeywords": "Palavras-chave",
         "PluginNotCompatibleWith": "O plugin %1$s não é compatível com %2$s.",

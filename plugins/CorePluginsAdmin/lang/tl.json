@@ -50,7 +50,6 @@
         "Origin": "Pinagmulan",
         "OriginCore": "Core",
         "OriginThirdParty": "Third-Party",
-        "PluginDescription": "Administration Interface ng mga Plugin",
         "PluginHomepage": "Homepage ng Plugin",
         "PluginKeywords": "Mga Keyword",
         "PluginNotCompatibleWith": "%1$s ang plugin na to ay hindi compatible sa %2$s.",

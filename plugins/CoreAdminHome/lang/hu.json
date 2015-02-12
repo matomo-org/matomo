@@ -62,7 +62,6 @@
         "OptOutExplanationBis": "Az alábbi kód egy Iframet tartalmazó link, ahol a látogatók ki tudják kapcsolni a követést. Ehhez a Piwik egy követést letiltő sütit helyez el a böngészőben. %s Kattintson ide%s az iFrame tartalmának megtekintéséhez.",
         "OptOutForYourVisitors": "Piwik követés letiltása látogatók által",
         "PiwikIsInstalledAt": "Piwik telepítve itt:",
-        "PluginDescription": "Piwik adminisztrációs felület",
         "PluginSettingChangeNotAllowed": "Önnek nincs jogosultsága a(z) \"%s\" beállítás módosításához a(z) \"%s\" bővítményben",
         "PluginSettingReadNotAllowed": "Önnek nincs jogosultséga a(z) \"%s\" beállítás megtekintéséhez a(z) \"%s\" bővítményben",
         "PluginSettings": "Bővítmény beállítások",

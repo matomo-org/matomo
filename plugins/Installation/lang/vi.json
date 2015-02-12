@@ -39,7 +39,6 @@
         "PasswordRepeat": "Mật khẩu (lặp lại)",
         "PercentDone": "%s %% thực hiện",
         "PleaseFixTheFollowingErrors": "Hãy sửa các lỗi sau đây",
-        "PluginDescription": "Quá trình cài đặt của Piwik. Cài đặt thường được thực hiện một lần duy nhất. Nếu các tập tin cấu hình config\/config.inc.php bị xóa, việc cài đặt sẽ bắt đầu lại.",
         "Requirements": "Piwik yêu cầu",
         "RestartWebServer": "Sau khi tạo ra sự thay đổi này, khởi động lại máy chủ web của bạn",
         "SeeBelowForMoreInfo": "Xêm thêm thông tin ở dưới đây",

@@ -50,7 +50,6 @@
         "Origin": "Произход",
         "OriginCore": "Ядро",
         "OriginThirdParty": "Трета страна",
-        "PluginDescription": "Интерфейс за администрация на добавките.",
         "PluginHomepage": "Сайт на добавката",
         "PluginKeywords": "Ключови думи",
         "PluginNotCompatibleWith": "%1$s добавка не е съвместима с %2$s.",

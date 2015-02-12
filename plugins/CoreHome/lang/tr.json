@@ -35,7 +35,6 @@
         "PeriodWeeks": "hafta",
         "PeriodYear": "Yıl",
         "PeriodYears": "yıl",
-        "PluginDescription": "Web istatistik rapor yapısı.",
         "ReportGeneratedOn": "%s tarihinde oluşturulan Rapor",
         "ReportGeneratedXAgo": "%s kadar önce oluşturulan Rapor",
         "SharePiwikShort": "Piwik! Ücretsiz web takibi ve analizi. Kendi verilerinizle.",

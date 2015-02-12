@@ -59,7 +59,6 @@
         "OptOutExplanationBis": "Acest cod va afisa un Iframe ce va contine un link pentru ca vizitatorii tai sa se poata dezabona de la Piwik setand un cookie de dezabonare in browserele lor. %s Click aici%s pentru a vedea continutul care va fi afisat de iFrame.",
         "OptOutForYourVisitors": "Dezabonare Piwik pentru vizitatorii tai",
         "PiwikIsInstalledAt": "Piwik este instalat în",
-        "PluginDescription": "Zona de administrare Piwik.",
         "PluginSettingChangeNotAllowed": "Nu iti este permis sa schimbi valoarea setarii \"%s\" in plugin \"%s\"",
         "PluginSettingReadNotAllowed": "Nu se poate citi valoare setării \"%s\" din modulul \"%s\"",
         "PluginSettings": "Setarile pluginului",

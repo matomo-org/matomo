@@ -26,7 +26,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik שודרגה בהצלחה!",
         "PiwikUpdatedSuccessfully": "שדרוג Piwik הושלם בהצלחה!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "מסד הנתונים של Piwik ישודרג מגירסה %1$s לגירסה %2$s.",
-        "PluginDescription": "מנגנון השדרוג של Piwik",
         "ReadyToGo": "שנתחיל?",
         "TheFollowingPluginsWillBeUpgradedX": "התוספים הבאים ישודרגו: %s.",
         "ThereIsNewVersionAvailableForUpdate": "ישנה גירסה חדשה של Piwik זמינה עבורך",

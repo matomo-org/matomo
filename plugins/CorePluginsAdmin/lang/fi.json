@@ -49,7 +49,6 @@
         "Origin": "Lähde",
         "OriginCore": "Ydin",
         "OriginThirdParty": "Kolmas osapuoli",
-        "PluginDescription": "Lisäosien hallinta.",
         "PluginHomepage": "Lisäosan kotisivu",
         "PluginKeywords": "Avainsanat",
         "PluginNotCompatibleWith": "%1$s liitännäinen ei sovi yhteen %2$s:n kanssa.",

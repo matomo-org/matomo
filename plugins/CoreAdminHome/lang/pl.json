@@ -63,7 +63,6 @@
         "OptOutExplanationBis": "Ten kod wyświetli ramkę Iframe zawierającą link dla odwiedzających do wyłączenia śledzenia przez ustawienie ciasteczka cookie dla ich przeglądarek. %s Kliknij tutaj%s, by zapoznać się z treścią wyświetlaną przez ramkę iFrame.",
         "OptOutForYourVisitors": "Wyłączenie działania Piwik dla twoich odwiedzających",
         "PiwikIsInstalledAt": "Piwik jest zainstalowany w",
-        "PluginDescription": "Strefa administratora statystyk Piwik.",
         "PluginSettingChangeNotAllowed": "Nie masz uprawnień do zmiany wartości parametru\"%s\" w pluginie \"%s\"",
         "PluginSettingReadNotAllowed": "Nie masz uprawnień do odczytu wartości ustawienia \"%s\" w pluginie \"%s\"",
         "PluginSettings": "Ustawienia pluginów",

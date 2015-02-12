@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Negeer bezoeken met X-Do-Not-Track of DNT header."
-    },
     "General": {
         "AbandonedCarts": "Niet afgeronde bestellingen",
         "AboutPiwikX": "Over Piwik %s",

@@ -29,7 +29,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik 升级成功！",
         "PiwikUpdatedSuccessfully": "Piwik 升级成功！",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik 数据库将从版本 %1$s 升级到新版本 %2$s。",
-        "PluginDescription": "Piwik 更新机制",
         "ReadyToGo": "准备好了吗？",
         "TheFollowingPluginsWillBeUpgradedX": "以下插件将被升级: %s！",
         "ThereIsNewVersionAvailableForUpdate": "已经有新的Piwik版本可以升级",

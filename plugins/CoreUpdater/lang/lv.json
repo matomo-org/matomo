@@ -14,7 +14,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik tika veiksmīgi atjaunināts",
         "PiwikUpdatedSuccessfully": "Piwik atjaunināts veiksmīgi!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik datubāze tiks atjaunināta no %1$s līdz %2$s versijai.",
-        "PluginDescription": "Piwik atjaunināšanas mehānisms",
         "ReadyToGo": "Esat gatavi?",
         "TheFollowingPluginsWillBeUpgradedX": "Sekojošie spraudņi tiks atjaunināti: %s.",
         "ThereIsNewVersionAvailableForUpdate": "Ir pieejama atjaunināšanai jauna Piwik versija",

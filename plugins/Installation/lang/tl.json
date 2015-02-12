@@ -44,7 +44,6 @@
         "PiwikOrgNewsletter": "I-email sa akin ang mga pangunahing update sa komunidad ng Piwik",
         "PiwikProNewsletter": "Interesado ako sa mga %s Piwik PRO %s na serbisyo (hindi hihigit sa 1 email sa isang buwan)",
         "PleaseFixTheFollowingErrors": "Mangyaring ayusin ang mga sumusunod na error",
-        "PluginDescription": "Ang pag proseso sa piwik installation. Ang installation ay kadalasang ginawa isang beses lamang. Kung ang configuration file config\/config.inc.php ay binura",
         "Requirements": "Mga kailangan ng Piwik",
         "RestartWebServer": "Pagkatapos gawin ang pagbabagong ito i-restart ang iyong web browser",
         "ReusingTables": "Muling pag-gamit sa mga table",

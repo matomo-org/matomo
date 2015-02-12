@@ -38,7 +38,6 @@
         "PasswordRepeat": "sandi (ulangi)",
         "PercentDone": "%s%% Selesai",
         "PleaseFixTheFollowingErrors": "Silakan perbaiki galat berikut ini",
-        "PluginDescription": "Proses Instalasi Piwik. Instalasi ini biasanya dilakukan hanya sekali. Bila berkas konfigurasi di config\/config.inc.php terhapus, instalasi akan diulangi.",
         "Requirements": "Persyaratan Piwik",
         "RestartWebServer": "Setelah membuat perubahan tersebut, muat ulang peladen web Anda.",
         "SeeBelowForMoreInfo": "Lihat di bawah untuk informasi selengkapnya.",

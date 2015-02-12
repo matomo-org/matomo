@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Bỏ qua việc thăm với X-Do-Not-Track hay tiêu đề DNT"
-    },
     "General": {
         "AbandonedCarts": "giỏ hàng bị bỏ quên",
         "AboutPiwikX": "Về Piwik %s",

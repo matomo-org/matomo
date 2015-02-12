@@ -27,7 +27,6 @@
         "PasswordRepeat": "كلمة المرور (تأكيد)",
         "PercentDone": "تم تنفيذ %s %%",
         "PleaseFixTheFollowingErrors": "الرجاء إصلاح الأخطاء التالية",
-        "PluginDescription": "عملية تثبيت Piwik. عملية التثبيت تتم مرة واحدة عادة. إذا تم حذف ملف الإعدادات config\/config.inc.php فستبدأ عملية التثبيت مرة أخرى.",
         "Requirements": "متطلبات Piwik",
         "SetupWebsite": "إعداد موقع ويب",
         "SetupWebsiteError": "حدث خطأ ما أثناء إضافة الموقع",

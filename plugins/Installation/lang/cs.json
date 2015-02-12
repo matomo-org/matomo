@@ -50,7 +50,6 @@
         "PiwikOrgNewsletter": "odesílat e-maily s důležitými událostmi v komunitě Piwiku",
         "PiwikProNewsletter": "Zajímají mě %spro Piwik%s služby (nejvíše jeden e-mail měsíčně)",
         "PleaseFixTheFollowingErrors": "Prosím opravte následující chyby",
-        "PluginDescription": "Instalační proces Piwiku. Instalace se obvykle používá jednou. V případě vymazání konfiguračního souboru config\/config.inc.php se instalace zahájí znovu",
         "Requirements": "Požadavky Piwiku",
         "RestartWebServer": "Po uložení změn restartujte Vás web server.",
         "ReusingTables": "Použití existujících tabulek",

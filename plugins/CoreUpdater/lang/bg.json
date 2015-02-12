@@ -33,7 +33,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik успешно е обновен!",
         "PiwikUpdatedSuccessfully": "Обновлението на Piwik завърши успешно!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik базата от данни (БД) ще бъде обновена от %1$s версия към %2$s.",
-        "PluginDescription": "Механизъм за актуализиране на Piwik",
         "ReadyToGo": "Готови ли сте?",
         "TheFollowingPluginsWillBeUpgradedX": "Следните добавки ще бъдат обновени: %s.",
         "ThereIsNewPluginVersionAvailableForUpdate": "Някои от добавките, които използвате, са обновени в магазина:",

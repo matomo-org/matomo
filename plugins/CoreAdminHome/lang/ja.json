@@ -63,7 +63,6 @@
         "OptOutExplanationBis": "HTML コードは、ビジターのブラウザにオプトアウト Cookie を設定する、Piwik オプトアウトリンクを含む iFrame を表示します。 iFrame で表示される内容を表示するには、%sここをクリック%sします。",
         "OptOutForYourVisitors": "ビジターの Piwik オプトアウト",
         "PiwikIsInstalledAt": "Piwikがインストールされているのは",
-        "PluginDescription": "Piwik の管理エリアです。",
         "PluginSettingChangeNotAllowed": "\"%s\" プラグインで \"%s\" 設定されている値変更は許可されていません。",
         "PluginSettingReadNotAllowed": "\"%s\" プラグインで \"%s\" 設定されている値の読み取りは許可されていません。",
         "PluginSettings": "プラグインの設定",

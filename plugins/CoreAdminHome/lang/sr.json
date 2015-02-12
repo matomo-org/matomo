@@ -61,7 +61,6 @@
         "OptOutExplanationBis": "Ovaj tag će prikazati iframe element koji sadrži link za vaše posetioce koji žele da budu izuzeti iz Piwik analize tako što će imati specijalan opt-out kolačić u svom brauzeru. %s Kliknite ovde%s kako biste videli sadržaj iframe elementa.",
         "OptOutForYourVisitors": "Piwik opt-out za vaše posetioce",
         "PiwikIsInstalledAt": "Piwik je instaliran",
-        "PluginDescription": "Piwik administracija",
         "PluginSettingChangeNotAllowed": "Nije vam dozvoljeno da promenite vrednost podešavanja \"%s\" u dodatku \"%s\"",
         "PluginSettingReadNotAllowed": "Nije vam dozvoljeno da vidite vrednost podešavanja \"%s\" u dodatku \"%s\"",
         "PluginSettings": "Podešavanja dodatka",

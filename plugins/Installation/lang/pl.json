@@ -34,7 +34,6 @@
         "PercentDone": "%s %% wykonano",
         "PiwikOrgNewsletter": "Wyślij mi wiadomość email z głównymi aktualizacjami społeczności Piwik",
         "PleaseFixTheFollowingErrors": "Prosimy naprawić następujące błędy",
-        "PluginDescription": "Proces instalacji statystyk Piwik. Instalację wykonuje się zazwyczaj tylko raz. Jeżeli plik konfiguracyjny znajdujący się w config\/config.inc.php zostaje skasowany, proces instalacji rozpocznie się od nowa.",
         "Requirements": "Wymagania systemu Piwik",
         "RestartWebServer": "Po dokonaniu tych zmian, zrestartuj swój serwer.",
         "ReusingTables": "Ponowne użycie Tabel",

@@ -25,6 +25,7 @@
         "ReferrerName": "Nome Referente",
         "Referrers": "Referenti",
         "ReferrersOverview": "Panoramica Referenti",
+        "ReferrerTypes": "Tipi di Referer",
         "SearchEngines": "Motori di ricerca",
         "SearchEnginesDocumentation": "Un visitatore è stato portato sul tuo sito da un motore di ricerca. %s Vedi il %s report per maggiori dettagli.",
         "SearchEnginesReportDocumentation": "Questo report mostra quali motori di ricerca dhanno portato gli utenti sull tuo sito web. %s Cliccando su una riga della tabella è possibile vedere ciò che gli utenti stavano cercando utilizzando un determinato motore di ricerca.",

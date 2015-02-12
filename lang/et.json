@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Ignoreeri külastusi, millel on brauseris seatud X-Do-Not-Track või DNT parameeter."
-    },
     "General": {
         "AbandonedCarts": "Hüljatud ostukorvid",
         "AboutPiwikX": "Lisainfo Piwik %s",

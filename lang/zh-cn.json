@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "忽略带 X-Do-Not-Track 或者 DNT 头的访问。"
-    },
     "General": {
         "AbandonedCarts": "丢弃的购物车",
         "AboutPiwikX": "关于 Piwik %s",

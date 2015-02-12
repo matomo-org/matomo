@@ -22,7 +22,6 @@
         "PeriodWeeks": "veker",
         "PeriodYear": "År",
         "PeriodYears": "år",
-        "PluginDescription": "Rapportstruktur for nettstatistikk",
         "ReportGeneratedOn": "Rapport generert den %s",
         "ReportGeneratedXAgo": "Rapport generert %s sidan",
         "ShortDateFormat": "%shortDay%. %day% %shortMonth%.",

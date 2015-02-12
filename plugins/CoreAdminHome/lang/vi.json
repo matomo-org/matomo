@@ -57,7 +57,6 @@
         "OptOutExplanationBis": "Đoạn mã này sẽ hiển thị một Iframe chứa đường dẫn cho người ghé thăm trang web của bạn chặn Piwik bằng cách thiết lập một cookie opt-out trong trình duyệt của họ. %sNhấn vào đây%s để xem nội dung sẽ được hiển thị bởi iFrame.",
         "OptOutForYourVisitors": "Piwik không tham gia truy cập của bạn",
         "PiwikIsInstalledAt": "Piwik được cài đặt tại",
-        "PluginDescription": "vùng quản trị của Piwik.",
         "PluginSettingChangeNotAllowed": "Bạn không được phép thay đổi giá trị của các thiết lập \"%s\" trong plugin \"%s\"",
         "PluginSettings": "Cài đặt tiện ích",
         "PluginSettingsIntro": "Ở đây bạn có thể thay đổi các thiết lập cho các plugin của bên thứ 3 như sau:",

@@ -29,7 +29,6 @@
         "PasswordRepeat": "รหัสผ่าน(อีกครั้ง)",
         "PercentDone": "ติดตั้งเสร็จไปแล้ว %s %%",
         "PleaseFixTheFollowingErrors": "กรุณาแก้ไขข้อผิดพลาดต่อไปนี้",
-        "PluginDescription": "กระบวนการติดตั้งของ Piwik ที่การติดตั้งมักจะทำเพียงครั้งเดียวเท่านั้น ถ้า config\/config.inc.php ไฟล์การตั้งค่าคอนฟิกจะถูกลบออก การติดตั้งจะเริ่มทำงานอีกครั้ง",
         "Requirements": "ความต้องการของ Piwik",
         "SeeBelowForMoreInfo": "ดูด้านล่างสำหรับรายละเอียดเพิ่มเติม",
         "SetupWebsite": "ติดตั้งเว็บไซต์",

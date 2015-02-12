@@ -36,7 +36,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik は正常にアップグレードされました！",
         "PiwikUpdatedSuccessfully": "Piwik は正常にアップデートされました！",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik データベースが %1$s から新バージョン %2$s にアップグレードされます。",
-        "PluginDescription": "Piwik アップデートメカニズム",
         "ReadyToGo": "実行してもよろしいですか？",
         "TheFollowingDimensionsWillBeUpgradedX": "以下の範囲をアップデートします: %s",
         "TheFollowingPluginsWillBeUpgradedX": "次のプラグインはアップグレードされます： %s",

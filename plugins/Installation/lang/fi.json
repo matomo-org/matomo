@@ -45,7 +45,6 @@
         "PercentDone": "%s %% valmiina",
         "PiwikOrgNewsletter": "lähetä minulle sähköpostia isoista Piwikin yhteisön päivityksistä",
         "PleaseFixTheFollowingErrors": "Korjaa seuraavat virheet",
-        "PluginDescription": "Piwikin asennusprosessi. Tämä asennusprosessi suoritetaan yleensä vain kerran. Jos asetustiedosto config\/config.inc.php löytyy, asennus aloitetaan uudelleen.",
         "Requirements": "Piwikin vaatimukset",
         "RestartWebServer": "Käynnistä web-palvelimesi uudelleen näiden muutosten jälkeen.",
         "ReusingTables": "Taulukoiden uudelleenkäyttö",

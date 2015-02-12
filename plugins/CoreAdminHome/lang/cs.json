@@ -63,7 +63,6 @@
         "OptOutExplanationBis": "Tento kód zobrazí iframe s odkazem, který nastaví u návštěvníka vynechávací cookie. %s Klikněte zde%s pro zobrazení obsahu iframe.",
         "OptOutForYourVisitors": "Piwik vyloučení pro Vaše návštěvníky",
         "PiwikIsInstalledAt": "Piwik je nainstalován na",
-        "PluginDescription": "Administrační část Piwiku",
         "PluginSettingChangeNotAllowed": "Nemůžete změnit hodnotu volby %s zásuvného modulu \"%s\"",
         "PluginSettingReadNotAllowed": "Nemůžete číst hodnotu volby %s zásuvného modulu \"%s\"",
         "PluginSettings": "Nastavení zásuvného modulu",

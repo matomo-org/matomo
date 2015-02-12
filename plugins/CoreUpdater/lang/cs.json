@@ -36,7 +36,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik byl úspěšně aktualizován!",
         "PiwikUpdatedSuccessfully": "Piwik úspěšně aktualizován!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Databáze Piwiku bude aktualizována z verze %1$s na novou verzi %2$s.",
-        "PluginDescription": "Mechanismus aktualizace Piwiku",
         "ReadyToGo": "Připraven pokračovat?",
         "TheFollowingDimensionsWillBeUpgradedX": "Následující dimenze budou aktualizovány: %s.e",
         "TheFollowingPluginsWillBeUpgradedX": "Následující zásuvné moduly budou aktualizovány: %s.",

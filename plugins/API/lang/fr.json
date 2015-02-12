@@ -4,7 +4,6 @@
         "KeepTokenSecret": "Cette clef partagée (tocken_auth) est aussi secrète que votre login et mot de passe, %s ne la partagez pas%s !",
         "LoadedAPIs": "%s API chargées avec succès",
         "MoreInformation": "Pour plus d'informations à propos de l'API de Piwik, merci de visiter %s l'introduction à Piwik %s et %s la référence de l'API Piwik %s.",
-        "PluginDescription": "Toutes les données de Piwik sont disponibles au travers de simples APIs. Ce plugin est le point d'entrée du web service, ainsi vous pouvez obtenir vos données Statistiques Web en xml, json, php, csv, etc.",
         "QuickDocumentationTitle": "Documentation rapide de l'API.",
         "TopLinkTooltip": "Accédez à vos données de statistiques web depuis votre code via une API simple en JSON, XML, Etc.",
         "UserAuthentication": "Authentification de l'utilisateur",

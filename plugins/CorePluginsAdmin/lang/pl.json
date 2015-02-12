@@ -50,7 +50,6 @@
         "Origin": "Pochodzenie",
         "OriginCore": "Jądro",
         "OriginThirdParty": "osoba trzecia",
-        "PluginDescription": "Interfejs zarządzania wtyczkami.",
         "PluginHomepage": "Strona główna Wtyczki",
         "PluginKeywords": "Słowa kluczowe",
         "PluginNotCompatibleWith": "%1$s jest niekompatybilny z %2$s.",

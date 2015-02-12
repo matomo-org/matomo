@@ -39,7 +39,6 @@
         "PasswordRepeat": "पासवर्ड (दोहराने)",
         "PercentDone": "%s %% समाप्त",
         "PleaseFixTheFollowingErrors": "निम्न त्रुटियों को ठीक करें",
-        "PluginDescription": "Piwik की स्थापना की प्रक्रिया. स्थापना आमतौर पर केवल एक बार किया जाता है. विन्यास फाइल विन्यास \/ config.inc.php नष्ट कर दिया जाता है, तो स्थापना फिर से शुरू होगा.",
         "Requirements": "Piwik आवश्यकताएँ",
         "RestartWebServer": "यह परिवर्तन करने के बाद, अपने वेब सर्वर को पुनरारंभ करें.",
         "SeeBelowForMoreInfo": "अधिक जानकारी के लिए नीचे देखें.",

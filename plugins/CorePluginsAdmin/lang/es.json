@@ -50,7 +50,6 @@
         "Origin": "Origen",
         "OriginCore": "Core",
         "OriginThirdParty": "Tercero",
-        "PluginDescription": "Interfaz de Administración de Plugins",
         "PluginHomepage": "Página del Plugin",
         "PluginKeywords": "Palabras claves",
         "PluginNotCompatibleWith": "%1$s complemento no es compatible con %2$s.",

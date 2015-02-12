@@ -1,6 +1,6 @@
 {
     "Feedback": {
-        "ContactThePiwikTeam": "Связаться с командой Piwik!",
+        "ContactThePiwikTeam": "Свяжитесь с командой Piwik!",
         "DoYouHaveBugReportOrFeatureRequest": "У вас есть багрепорт, или предложение по улучшению функционала?",
         "GetInTouch": "Мы ценим ваше мнение и всегда читаем все сообщения. Может быть, вы бы хотели нанять консультанта Piwik, рассказать нам историю успеха или просто сказать привет!",
         "IWantTo": "Я хочу:",
@@ -12,12 +12,12 @@
         "RateFeatureLeaveMessageLike": "Пожалуйста, дайте нам знать, что вам нравится больше всего, или хотите в дальнейшем улучшить.",
         "RateFeatureSendFeedbackInformation": "Ваша система Piwik отправит нам(команде Piwik) email (содержащий ваш email адрес) так что мы сможем связаться с вами, если у вас возникли вопросы.",
         "RateFeatureThankYouTitle": "Спасибо за оценку '%s'!",
-        "RateFeatureTitle": "Вам нравится эта '%s' фича? Пожалуйста оцените и оставьте комментарий",
+        "RateFeatureTitle": "Вам нравится эта возможность: «%s»? Пожалуйста, оцените и оставьте комментарий",
         "SendFeedback": "Отправить отзыв",
         "SpecialRequest": "У вас есть особая просьба или предложение команде Piwik?",
         "ThankYou": "Спасибо за помощь в развитии Piwik!",
         "TopLinkTooltip": "Расскажите о своей проблеме с Piwik или запросите профессиональную помощь.",
-        "ViewAnswersToFAQ": "Посмотреть ответы на %sFrequently Asked Questions%s",
+        "ViewAnswersToFAQ": "Посмотреть ответы на %sЧасто Задаваемые Вопросы%s",
         "VisitTheForums": "Посетить %s Форумы%s",
         "WantToThankConsiderDonating": "Вы думаете Piwik потрясающий и хотите поблагодарить нас?"
     }

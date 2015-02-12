@@ -25,6 +25,7 @@
         "ReferrerName": "Jméno referreru",
         "Referrers": "Odkazující stránky",
         "ReferrersOverview": "Přehled referrerů",
+        "ReferrerTypes": "Typy referrerů",
         "SearchEngines": "Vyhledávacích strojů",
         "SearchEnginesDocumentation": "Návštěvník byl na vaše stránky odkázán vyhledávačem. %s Pro více informací si prohlédněte hlášení %s.",
         "SearchEnginesReportDocumentation": "Toto hlášení zobrazuje, které vyhledávače odkázali návštěvníky na vaše stránky. %s Kliknutím na řádek v tabulce zobrazíte, co uživatelé na daném vyhledávači hledali.",

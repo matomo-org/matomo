@@ -42,7 +42,6 @@
         "PasswordRepeat": "senha (repetir)",
         "PercentDone": "%s %% Completo",
         "PleaseFixTheFollowingErrors": "Por favor, corrija os seguintes erros",
-        "PluginDescription": "Processo de instalação do Piwik. A instalação normalmente é feita apenas uma vez. Se o arquivo de configuração config\/config.inc.php é deletado, a instalação começará novamente.",
         "Requirements": "Requerimentos do Piwik",
         "RestartWebServer": "Depois de fazer essa alteração, reinicie o seu servidor web.",
         "SeeBelowForMoreInfo": "Veja abaixo para mais informações.",

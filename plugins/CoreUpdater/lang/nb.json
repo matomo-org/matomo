@@ -28,7 +28,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik ble korrekt oppdatert!",
         "PiwikUpdatedSuccessfully": "Piwik ble vellykket oppdatert!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik-databasen blir oppgradert fra versjon %1$s til versjon %2$s .",
-        "PluginDescription": "Piwik-oppdateringsmekanisme",
         "ReadyToGo": "Klar til å starte?",
         "TheFollowingPluginsWillBeUpgradedX": "Følgende tillegg vil nå bli oppdatert: %s.",
         "ThereIsNewVersionAvailableForUpdate": "Du kan oppdatere til en ny versjon av Piwik.",

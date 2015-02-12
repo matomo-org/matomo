@@ -2,7 +2,6 @@
     "DevicesDetection": {
         "BrowserEngine": "Browser",
         "BrowserEngineDocumentation": "Diagrammet viser de besøgendes browsere opdelt i grupper. %s De vigtigste oplysninger for web-udviklere er, hvilken slags rendering motor de besøgende bruger. Etiketterne indeholder navnene på motorerne, efterfulgt af de mest almindelige browsere, der benytter motoren i parentes.",
-        "BrowserEngines": "Browser",
         "BrowserFamily": "Browsertype",
         "Browsers": "Browsere",
         "BrowserVersion": "Browserversion",

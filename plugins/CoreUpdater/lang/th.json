@@ -26,7 +26,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik ได้รับการอัพเดตเรียบร้อยแล้ว",
         "PiwikUpdatedSuccessfully": "Piwik อัพเดตสมบูรณ์แล้ว",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik จะถูกอัพเกรดจากเวอร์ชั่น %1$s เพื่อให้เป็นเวอร์ชั่นใหม่ %2$s",
-        "PluginDescription": "Piwik กำลังอัพเดตปลั๊กอิน",
         "ReadyToGo": "พร้อมที่จะไปได้อย่างไร",
         "TheFollowingPluginsWillBeUpgradedX": "จะถูกอัพเดตปลั๊กอินต่อไปนี้: %s",
         "ThereIsNewVersionAvailableForUpdate": "มีเวอร์ชั่นของ Piwik ใหม่ รอให้คุณอัพเดต",

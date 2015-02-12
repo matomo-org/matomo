@@ -27,7 +27,6 @@
         "PasswordRepeat": "пароль (яшчэ раз)",
         "PercentDone": "%s %% Завершана",
         "PleaseFixTheFollowingErrors": "Калі ласка, выпраўце наступныя памылкі",
-        "PluginDescription": "Працэс усталёўкі Piwik. Усталёўка звычайна адбывацца толькі адзін раз. Калі канфігурацыйны файл config\/config.inc.php выдалены, ўстаноўка пачнецца зноў.",
         "Requirements": "Патрабаванні Piwik",
         "SetupWebsite": "Дадаць сайт",
         "SetupWebsiteError": "Паўстала памылка пры даданні сайта",

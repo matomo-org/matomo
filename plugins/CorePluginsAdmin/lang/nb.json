@@ -25,7 +25,6 @@
         "OncePluginIsInstalledYouMayActivateHere": "Når et tillegg har blitt installert, kan du slå det av eller på her.",
         "OriginCore": "Kjerne",
         "OriginThirdParty": "Tredjepart",
-        "PluginDescription": "Grensesnitt for administrasjon av tillegg",
         "PluginHomepage": "Hjemmeside for tillegg",
         "PluginKeywords": "Nøkkelord",
         "PluginRequirement": "%1$s krever %2$s.",

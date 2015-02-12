@@ -45,7 +45,6 @@
         "PiwikOrgNewsletter": "trimite-mi email-uri cu noutăți importante legate de comunitatea Piwik",
         "PiwikProNewsletter": "Sunt interesat(ă) de serviciile %sPiwik PRO%s (nu mai mult de 1 email pe lună)",
         "PleaseFixTheFollowingErrors": "Vă rugăm să reparati următoarele erori",
-        "PluginDescription": "Procesul de instalare a Piwik.Instalarea se face de obicei o singură dată. În cazul în care fișierul de configurare de configurare\/config.inc.php este șters, instalarea va începe din nou.",
         "Requirements": "Piwik Cerințe",
         "RestartWebServer": "Dupa ce faci aceasta schimbare, reporniți serverul de web.",
         "ReusingTables": "Reutilizare Tabele",

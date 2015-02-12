@@ -1,6 +1,7 @@
 {
     "Live": {
         "AveragePageGenerationTime": "В среднем требовалось %1$s у этого посетителя для полной загрузки страницы.",
+        "ClickToViewMoreAboutVisit": "Посмотреть более подробную информацию об этом визите",
         "ConvertedNGoals": "Целей достигнуто: %s",
         "FirstVisit": "Первое посещение",
         "GoalType": "Тип",

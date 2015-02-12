@@ -49,7 +49,6 @@
         "PiwikOrgNewsletter": "Envoyez moi des courriels pour les mises à jour importantes de Piwik",
         "PiwikProNewsletter": "Je suis intéressé par les services %sPiwik PRO%s (pas plus d'un courriel par mois)",
         "PleaseFixTheFollowingErrors": "Merci de corriger les erreurs suivantes",
-        "PluginDescription": "Procédé d'installation de Piwik. L'installation est effectuée une unique fois. Si le fichier de configuration config\/config.inc.php est supprimé, l'installation recommencera.",
         "Requirements": "Pré requis Piwik",
         "RestartWebServer": "Après avoir effectué ces modifications, redémarrez votre serveur web.",
         "ReusingTables": "Réutilisation des Tables",

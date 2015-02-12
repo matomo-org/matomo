@@ -26,7 +26,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik 已成功更新！",
         "PiwikUpdatedSuccessfully": "Piwik 已成功更新！",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik 資料庫將從版本 %1$s 升級至新版本 %2$s 。",
-        "PluginDescription": "Piwik 更新機制",
         "ReadyToGo": "準備好了嗎？",
         "TheFollowingPluginsWillBeUpgradedX": "以下外掛將被更新：%s 。",
         "ThereIsNewVersionAvailableForUpdate": "已有一個新版的 Piwik 可供更新",
