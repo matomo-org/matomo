@@ -674,8 +674,9 @@ class ProcessedReport
                     // if we handle MultiSites.getAll we do not always have the same idSite but different ones for
                     // each site, see https://github.com/piwik/piwik/issues/5006
                     $idSiteForRow = $idSite;
-                    if ($row->getMetadata('idsite') && is_numeric($row->getMetadata('idsite'))) {
-                        $idSiteForRow = (int) $row->getMetadata('idsite');
+                    $idSiteMetadata = $row->getMetadata('idsite');
+                    if ($idSiteMetadata && is_numeric($idSiteMetadata)) {
+                        $idSiteForRow = (int) $idSiteMetadata;
                     }
 
                     $prettyValue = self::getPrettyValue($formatter, $idSiteForRow, $columnName, $columnValue, $htmlAllowed = false);

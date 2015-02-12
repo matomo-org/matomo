@@ -6,15 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\Log\Formatter;
+namespace Piwik\Plugins\Monolog\Test\Unit\Formatter;
 
 use DateTime;
-use Piwik\Log\Formatter\LineMessageFormatter;
+use Piwik\Plugins\Monolog\Formatter\LineMessageFormatter;
 
 /**
- * @group Core
  * @group Log
- * @covers \Piwik\Log\Formatter\LineMessageFormatter
+ * @covers \Piwik\Plugins\Monolog\Formatter\LineMessageFormatter
  */
 class LineMessageFormatterTest extends \PHPUnit_Framework_TestCase
 {

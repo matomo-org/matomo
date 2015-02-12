@@ -356,7 +356,7 @@
         "PeclGeoIPNoDBDir": "The PECL module is looking for databases in %1$s, but this directory does not exist. Please create it and add the GeoIP databases to it. Alternatively, you can set %2$s to the correct directory in your php.ini file.",
         "PeclGeoLiteError": "Your GeoIP database in %1$s is named %2$s. Unfortunately, the PECL module will not recognize it with this name. Please rename it to %3$s.",
         "PiwikNotManagingGeoIPDBs": "Piwik is not currently managing any GeoIP databases.",
-        "PluginDescription": "Reports information regarding visitor location, including country, region, city and geographic coordinates (latitude\/longitude).",
+        "PluginDescription": "Reports the location of your visitors: country, region, city and geographic coordinates (latitude\/longitude).",
         "Region": "Region",
         "SetupAutomaticUpdatesOfGeoIP": "Setup automatic updates of GeoIP databases",
         "SubmenuLocations": "Locations",

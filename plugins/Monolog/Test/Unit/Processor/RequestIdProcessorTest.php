@@ -6,15 +6,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\Log\Processor;
+namespace Piwik\Plugins\Monolog\Test\Unit\Processor;
 
+use PHPUnit_Framework_TestCase;
 use Piwik\Common;
-use Piwik\Log\Processor\RequestIdProcessor;
+use Piwik\Plugins\Monolog\Processor\RequestIdProcessor;
 
 /**
- * @group Core
  * @group Log
- * @covers \Piwik\Log\Processor\RequestIdProcessor
+ * @covers \Piwik\Plugins\Monolog\Processor\RequestIdProcessor
  */
 class RequestIdProcessorTest extends \PHPUnit_Framework_TestCase
 {

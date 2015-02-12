@@ -1,6 +1,6 @@
 {
     "name": "ExampleUI",
-    "description": "Example Plugin: This plugin showcases the Piwik User Interface framework, how to easily display custom data tables, graphs, and more.",
+    "description": "Piwik Platform showcase: how to display data tables, graphs, and the UI framework.",
     "version": "1.0.1",
     "keywords": ["example", "framework", "platform", "ui", "visualization"],
     "homepage": "http://piwik.org",

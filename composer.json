@@ -45,10 +45,9 @@
         "piwik/device-detector": "~3.0",
         "piwik/decompress": "~0.1.1",
         "piwik/network": "~0.1.0",
-        "piwik/cache": "~0.2",
+        "piwik/cache": "~0.2.5",
         "piwik/ini": "~1.0",
         "mnapoli/php-di": "5.0.x-dev",
-        "doctrine/cache": "dev-filecache-race-condition-fix as 1.3.1",
         "psr/log": "~1.0",
         "monolog/monolog": "~1.11",
         "symfony/monolog-bridge": "~2.6",
@@ -87,10 +86,6 @@
                     "reference": "master"
                 }
             }
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/piwik/cache.git"
         }
     ],
     "scripts": {

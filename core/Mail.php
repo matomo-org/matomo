@@ -110,7 +110,8 @@ class Mail extends Zend_Mail
             $smtpConfig['ssl'] = $mailConfig['encryption'];
         }
 
-        $tr = new \Zend_Mail_Transport_Smtp($mailConfig['host'], $smtpConfig);
+        $host = trim($mailConfig['host']);
+        $tr = new \Zend_Mail_Transport_Smtp($host, $smtpConfig);
         Mail::setDefaultTransport($tr);
         @ini_set("smtp_port", $mailConfig['port']);
     }

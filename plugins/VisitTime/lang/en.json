@@ -5,7 +5,7 @@
         "DayOfWeek": "Day of the week",
         "LocalTime": "Visits per local time",
         "NHour": "%sh",
-        "PluginDescription": "Reports the Local and Server time. Server time information can be useful to schedule a maintenance on the Website.",
+        "PluginDescription": "Reports the local time and the server time when your visitors view your website or app. ",
         "ServerTime": "Visits per server time",
         "SubmenuTimes": "Times",
         "VisitsByDayOfWeek": "Visits by Day of Week",

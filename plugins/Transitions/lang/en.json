@@ -16,7 +16,7 @@
         "NoDataForAction": "There's no data for %s",
         "NoDataForActionDetails": "Either the action had no pageviews during the period %s or it is invalid.",
         "OutgoingTraffic": "Outgoing traffic",
-        "PluginDescription": "Reports about previous and following actions for each page URL.",
+        "PluginDescription": "Reports previous and following actions for each page URL in a new Transitions report, available in the Actions reports via a new icon.",
         "ShareOfAllPageviews": "This page had %s pageviews (%s of all pageviews)",
         "ToFollowingPages": "To Internal Pages",
         "ToFollowingPagesInline": "%s to internal pages",

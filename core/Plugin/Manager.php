@@ -24,7 +24,6 @@ use Piwik\Plugin;
 use Piwik\Singleton;
 use Piwik\Theme;
 use Piwik\Tracker;
-use Piwik\Translate;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
 use Piwik\Plugin\Dimension\ActionDimension;
@@ -98,7 +97,7 @@ class Manager extends Singleton
      */
     public function loadActivatedPlugins()
     {
-        $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
+        $pluginsToLoad = $this->getActivatedPluginsFromConfig();
         $this->loadPlugins($pluginsToLoad);
     }
 
@@ -778,6 +777,13 @@ class Manager extends Singleton
         return $this->pluginsToLoad;
     }
 
+    public function getActivatedPluginsFromConfig()
+    {
+        $plugins = Config::getInstance()->Plugins['Plugins'];
+
+        return $this->makePluginsToLoad($plugins);
+    }
+
     /**
      * Returns a Plugin object by name.
      *
@@ -1303,19 +1309,5 @@ class Manager extends Singleton
         foreach ($this->getAllPluginsNames() as $pluginName) {
             $translator->addDirectory(self::getPluginsDirectory() . $pluginName . '/lang');
         }
-    }
-}
-
-/**
- */
-class PluginException extends \Exception
-{
-    function __construct($pluginName, $message)
-    {
-        parent::__construct("There was a problem installing the plugin " . $pluginName . ": " . $message . "
-				If this plugin has already been installed, and if you want to hide this message</b>, you must add the following line under the
-				[PluginsInstalled]
-				entry in your config/config.ini.php file:
-				PluginsInstalled[] = $pluginName");
     }
 }

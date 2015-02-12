@@ -6,14 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\Log\Processor;
+namespace Piwik\Plugins\Monolog\Test\Unit\Processor;
 
-use Piwik\Log\Processor\SprintfProcessor;
+use Piwik\Plugins\Monolog\Processor\SprintfProcessor;
 
 /**
- * @group Core
  * @group Log
- * @covers \Piwik\Log\Processor\SprintfProcessor
+ * @covers \Piwik\Plugins\Monolog\Processor\SprintfProcessor
  */
 class SprintfProcessorTest extends \PHPUnit_Framework_TestCase
 {

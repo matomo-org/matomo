@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Log\Formatter;
+namespace Piwik\Plugins\Monolog\Formatter;
 
 use Monolog\Formatter\FormatterInterface;
 
