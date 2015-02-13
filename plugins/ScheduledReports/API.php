@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -357,12 +358,26 @@ class API extends \Piwik\Plugin\API
                 }
             }
 
-            $processedReport = \Piwik\Plugins\API\API::getInstance()->getProcessedReport(
-                $idSite, $period, $date, $apiModule, $apiAction,
-                $segment != null ? urlencode($segment['definition']) : false,
-                $apiParameters, $idGoal = false, $language
+            $params = array(
+                'idSite' => $idSite,
+                'period' => $period,
+                'date'   => $date,
+                'apiModule' => $apiModule,
+                'apiAction' => $apiAction,
+                'apiParameters' => $apiParameters,
+                'idGoal' => false,
+                'language' => $language,
+                'serialize' => 0,
+                'format' => 'original'
             );
 
+            if ($segment != null) {
+                $params['segment'] = urlencode($segment['definition']);
+            } else {
+                $params['segment'] = false;
+            }
+
+            $processedReport = Request::processRequest('API.getProcessedReport', $params);
             $processedReport['segment'] = $segment;
 
             // TODO add static method getPrettyDate($period, $date) in Period
