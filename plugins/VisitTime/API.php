@@ -54,8 +54,11 @@ class API extends \Piwik\Plugin\API
         $timezone = Site::getTimezoneFor($idSite);
 
         $range = Range::parseDateRange($date);
+
         if (!empty($range[2])) {
             $endDate = Date::factory($range[2]);
+        } else if (!empty($range[1])) {
+            $endDate = Date::factory($range[1]);
         } else {
             $endDate = Date::factory($date);
         }
