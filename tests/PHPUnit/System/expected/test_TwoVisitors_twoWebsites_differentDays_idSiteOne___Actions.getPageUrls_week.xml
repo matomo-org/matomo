@@ -22,7 +22,7 @@
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.123</avg_time_generation>
 			<url>http://example.org/index.htm</url>
-			<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segmentFilter>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 		</row>
 		<row>
 			<label>/products</label>
@@ -45,7 +45,7 @@
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.153</avg_time_generation>
 			<url>http://example.org/products</url>
-			<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Fproducts</segmentFilter>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Fproducts</segment>
 		</row>
 	</result>
 	<result date="From 2010-01-04 to 2010-01-10">
@@ -83,7 +83,7 @@
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.323</avg_time_generation>
 			<url>http://example.org/index.htm</url>
-			<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segmentFilter>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 		</row>
 		<row>
 			<label>/thankyou</label>
@@ -101,7 +101,7 @@
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.313</avg_time_generation>
 			<url>http://example.org/thankyou</url>
-			<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segmentFilter>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segment>
 		</row>
 	</result>
 	<result date="From 2010-01-11 to 2010-01-17">
@@ -124,7 +124,7 @@
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.323</avg_time_generation>
 			<url>http://example.org/index.htm</url>
-			<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segmentFilter>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 		</row>
 		<row>
 			<label>/thankyou</label>
@@ -142,7 +142,7 @@
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.313</avg_time_generation>
 			<url>http://example.org/thankyou</url>
-			<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segmentFilter>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segment>
 		</row>
 		<row>
 			<label>Page URL not defined</label>

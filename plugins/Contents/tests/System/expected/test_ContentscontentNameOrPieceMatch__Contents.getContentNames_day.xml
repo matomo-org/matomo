@@ -8,7 +8,7 @@
 		<nb_interactions>2</nb_interactions>
 		<interaction_rate>25%</interaction_rate>
 		<contentTarget>http://www.example.com</contentTarget>
-		<segmentFilter>contentName==ImageAd</segmentFilter>
+		<segment>contentName==ImageAd</segment>
 	</row>
 	<row>
 		<label>Text Ad</label>
@@ -18,6 +18,6 @@
 		<nb_interactions>2</nb_interactions>
 		<interaction_rate>50%</interaction_rate>
 		<contentTarget>http://piwik.org/download</contentTarget>
-		<segmentFilter>contentName==Text+Ad</segmentFilter>
+		<segment>contentName==Text+Ad</segment>
 	</row>
 </result>

@@ -8,7 +8,7 @@
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<interaction_rate>25%</interaction_rate>
 		<contentTarget>http://www.example.com</contentTarget>
-		<segmentFilter>contentName==ImageAd</segmentFilter>
+		<segment>contentName==ImageAd</segment>
 	</row>
 	<row>
 		<label>Text Ad</label>
@@ -18,7 +18,7 @@
 		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 		<interaction_rate>66.67%</interaction_rate>
 		<contentTarget>http://piwik.org/</contentTarget>
-		<segmentFilter>contentName==Text+Ad</segmentFilter>
+		<segment>contentName==Text+Ad</segment>
 	</row>
 	<row>
 		<label>Video Ad</label>
@@ -28,6 +28,6 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<interaction_rate>0%</interaction_rate>
 		<contentTarget />
-		<segmentFilter>contentName==Video+Ad</segmentFilter>
+		<segment>contentName==Video+Ad</segment>
 	</row>
 </result>

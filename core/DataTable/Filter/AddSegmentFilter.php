@@ -75,7 +75,7 @@ class AddSegmentFilter extends BaseFilter
                     $label = $row->getColumn('label');
 
                     if (!empty($label)) {
-                        $row->setMetadata('segmentFilter', $segment . '==' . urlencode($label));
+                        $row->setMetadata('segment', $segment . '==' . urlencode($label));
                     }
                 }
             });
@@ -100,7 +100,7 @@ class AddSegmentFilter extends BaseFilter
                                     $filter[] = $segment . '==' . urlencode($parts[$index]);
                                 }
                             }
-                            $row->setMetadata('segmentFilter', implode($conditionAnd, $filter));
+                            $row->setMetadata('segment', implode($conditionAnd, $filter));
                         }
                     }
                 }

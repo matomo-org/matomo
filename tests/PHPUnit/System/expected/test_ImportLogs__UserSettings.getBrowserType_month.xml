@@ -10,7 +10,7 @@
 		<nb_visits_converted>16</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>17</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>browserEngine==WebKit</segmentFilter>
+		<segment>browserEngine==WebKit</segment>
 	</row>
 	<row>
 		<label>Trident (IE)</label>
@@ -22,7 +22,7 @@
 		<nb_visits_converted>7</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>browserEngine==Trident</segmentFilter>
+		<segment>browserEngine==Trident</segment>
 	</row>
 	<row>
 		<label>Blink (Chrome, Opera)</label>
@@ -34,7 +34,7 @@
 		<nb_visits_converted>6</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
-		<segmentFilter>browserEngine==Blink</segmentFilter>
+		<segment>browserEngine==Blink</segment>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -46,7 +46,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>browserEngine==</segmentFilter>
+		<segment>browserEngine==</segment>
 	</row>
 	<row>
 		<label>Gecko (Firefox)</label>
@@ -58,6 +58,6 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>browserEngine==Gecko</segmentFilter>
+		<segment>browserEngine==Gecko</segment>
 	</row>
 </result>

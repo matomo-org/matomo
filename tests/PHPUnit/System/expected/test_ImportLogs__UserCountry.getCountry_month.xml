@@ -22,7 +22,7 @@
 		<logo>plugins/UserCountry/images/flags/jp.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
-		<segmentFilter>countryCode==jp</segmentFilter>
+		<segment>countryCode==jp</segment>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -47,7 +47,7 @@
 		<logo>plugins/UserCountry/images/flags/xx.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
-		<segmentFilter>countryCode==xx</segmentFilter>
+		<segment>countryCode==xx</segment>
 	</row>
 	<row>
 		<label>United States</label>
@@ -71,7 +71,7 @@
 		<logo>plugins/UserCountry/images/flags/us.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
-		<segmentFilter>countryCode==us</segmentFilter>
+		<segment>countryCode==us</segment>
 	</row>
 	<row>
 		<label>Brazil</label>
@@ -95,7 +95,7 @@
 		<logo>plugins/UserCountry/images/flags/br.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
-		<segmentFilter>countryCode==br</segmentFilter>
+		<segment>countryCode==br</segment>
 	</row>
 	<row>
 		<label>Australia</label>
@@ -111,7 +111,7 @@
 		<logo>plugins/UserCountry/images/flags/au.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
-		<segmentFilter>countryCode==au</segmentFilter>
+		<segment>countryCode==au</segment>
 	</row>
 	<row>
 		<label>Canada</label>
@@ -135,6 +135,6 @@
 		<logo>plugins/UserCountry/images/flags/ca.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
-		<segmentFilter>countryCode==ca</segmentFilter>
+		<segment>countryCode==ca</segment>
 	</row>
 </result>

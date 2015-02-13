@@ -29,6 +29,6 @@ class PrependSegmentFilter extends PrependValueToMetadata
      */
     public function __construct($table, $prependSegmentFilter = '')
     {
-        parent::__construct($table, 'segmentFilter', $prependSegmentFilter);
+        parent::__construct($table, 'segment', $prependSegmentFilter);
     }
 }

@@ -80,15 +80,15 @@
 	<reportMetadata>
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
-				<segmentFilter>eventCategory==Movie</segmentFilter>
+				<segment>eventCategory==Movie</segment>
 				
 			</row>
 			<row>
-				<segmentFilter>eventCategory==Music</segmentFilter>
+				<segment>eventCategory==Music</segment>
 				
 			</row>
 			<row>
-				<segmentFilter>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segmentFilter>
+				<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
 				
 			</row>
 		</result>

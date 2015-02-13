@@ -128,7 +128,7 @@ class DataTablePostProcessor
             $pivotByColumnLimit = Common::getRequestVar('pivotByColumnLimit', false, 'int', $this->request);
 
             $dataTable->filter('ColumnCallbackDeleteMetadata', array('segmentValue'));
-            $dataTable->filter('ColumnCallbackDeleteMetadata', array('segmentFilter'));
+            $dataTable->filter('ColumnCallbackDeleteMetadata', array('segment'));
             $dataTable->filter('PivotByDimension', array($reportId, $pivotBy, $pivotByColumn, $pivotByColumnLimit,
                 PivotByDimension::isSegmentFetchingEnabledInConfig()));
         }

@@ -77,15 +77,15 @@
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
-				<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segmentFilter>
+				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 			</row>
 			<row>
 				<url>http://example.org/index.htm?gkwd=SHOULD be a PageView, NOT a search</url>
-				<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Fgkwd%3DSHOULD+be+a+PageView%2C+NOT+a+search</segmentFilter>
+				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Fgkwd%3DSHOULD+be+a+PageView%2C+NOT+a+search</segment>
 			</row>
 			<row>
 				<url>http://example.org/index.htm?random=PAGEVIEW, NOT SEARCH&amp;mykwd=&amp;IS_FOLLOWING_SEARCH ONCE</url>
-				<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Frandom%3DPAGEVIEW%2C+NOT+SEARCH%26mykwd%3D%26IS_FOLLOWING_SEARCH+ONCE</segmentFilter>
+				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Frandom%3DPAGEVIEW%2C+NOT+SEARCH%26mykwd%3D%26IS_FOLLOWING_SEARCH+ONCE</segment>
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010" />

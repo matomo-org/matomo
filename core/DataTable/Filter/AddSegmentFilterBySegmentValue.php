@@ -68,10 +68,10 @@ class AddSegmentFilterBySegmentValue extends BaseFilter
 
         foreach ($table->getRows() as $row) {
             $value  = $row->getMetadata('segmentValue');
-            $filter = $row->getMetadata('segmentFilter');
+            $filter = $row->getMetadata('segment');
 
             if ($value !== false && $filter === false) {
-                $row->setMetadata('segmentFilter', sprintf('%s==%s', $segmentName, urlencode($value)));
+                $row->setMetadata('segment', sprintf('%s==%s', $segmentName, urlencode($value)));
             }
         }
     }

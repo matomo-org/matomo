@@ -10,7 +10,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
-		<segmentFilter>eventAction==playTrailer</segmentFilter>
+		<segment>eventAction==playTrailer</segment>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -35,7 +35,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
-		<segmentFilter>eventAction==Search</segmentFilter>
+		<segment>eventAction==Search</segment>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -60,7 +60,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
-		<segmentFilter>eventAction==play25%25</segmentFilter>
+		<segment>eventAction==play25%25</segment>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -96,7 +96,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
-		<segmentFilter>eventAction==play50%25</segmentFilter>
+		<segment>eventAction==play50%25</segment>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -132,7 +132,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
-		<segmentFilter>eventAction==play75%25</segmentFilter>
+		<segment>eventAction==play75%25</segment>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -168,7 +168,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
-		<segmentFilter>eventAction==playEnd</segmentFilter>
+		<segment>eventAction==playEnd</segment>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -204,7 +204,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>10</max_event_value>
 		<avg_event_value>9.55</avg_event_value>
-		<segmentFilter>eventAction==rating</segmentFilter>
+		<segment>eventAction==rating</segment>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -240,7 +240,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
-		<segmentFilter>eventAction==clickBuyNow</segmentFilter>
+		<segment>eventAction==clickBuyNow</segment>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -265,7 +265,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>9.66</max_event_value>
 		<avg_event_value>9.66</avg_event_value>
-		<segmentFilter>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segmentFilter>
+		<segment>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
 		<subtable>
 			<row>
 				<label>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
@@ -290,7 +290,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
-		<segmentFilter>eventAction==play</segmentFilter>
+		<segment>eventAction==play</segment>
 		<subtable>
 			<row>
 				<label>Music</label>
@@ -315,7 +315,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
-		<segmentFilter>eventAction==playStart</segmentFilter>
+		<segment>eventAction==playStart</segment>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -340,7 +340,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
-		<segmentFilter>eventAction==Purchase</segmentFilter>
+		<segment>eventAction==Purchase</segment>
 		<subtable>
 			<row>
 				<label>Movie</label>

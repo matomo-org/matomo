@@ -12,7 +12,7 @@
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
-				<segmentFilter>referrerKeyword==this+keyword+should+be+ranked</segmentFilter>
+				<segment>referrerKeyword==this+keyword+should+be+ranked</segment>
 				<subtable>
 					<row>
 						<label>Google</label>
@@ -44,7 +44,7 @@
 				<nb_conversions>2</nb_conversions>
 				<revenue>0</revenue>
 				<nb_visits>0</nb_visits>
-				<segmentFilter>referrerKeyword==piwik</segmentFilter>
+				<segment>referrerKeyword==piwik</segment>
 			</row>
 		</result>
 		<result date="From 2010-01-04 to 2010-01-10" />

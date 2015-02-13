@@ -9,7 +9,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==0</segmentFilter>
+		<segment>visitLocalHour==0</segment>
 	</row>
 	<row>
 		<label>1h</label>
@@ -20,7 +20,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==1</segmentFilter>
+		<segment>visitLocalHour==1</segment>
 	</row>
 	<row>
 		<label>2h</label>
@@ -31,7 +31,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==2</segmentFilter>
+		<segment>visitLocalHour==2</segment>
 	</row>
 	<row>
 		<label>3h</label>
@@ -42,7 +42,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==3</segmentFilter>
+		<segment>visitLocalHour==3</segment>
 	</row>
 	<row>
 		<label>4h</label>
@@ -53,7 +53,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==4</segmentFilter>
+		<segment>visitLocalHour==4</segment>
 	</row>
 	<row>
 		<label>5h</label>
@@ -64,7 +64,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==5</segmentFilter>
+		<segment>visitLocalHour==5</segment>
 	</row>
 	<row>
 		<label>6h</label>
@@ -75,7 +75,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==6</segmentFilter>
+		<segment>visitLocalHour==6</segment>
 	</row>
 	<row>
 		<label>7h</label>
@@ -86,7 +86,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==7</segmentFilter>
+		<segment>visitLocalHour==7</segment>
 	</row>
 	<row>
 		<label>8h</label>
@@ -97,7 +97,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==8</segmentFilter>
+		<segment>visitLocalHour==8</segment>
 	</row>
 	<row>
 		<label>9h</label>
@@ -108,7 +108,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==9</segmentFilter>
+		<segment>visitLocalHour==9</segment>
 	</row>
 	<row>
 		<label>10h</label>
@@ -119,7 +119,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==10</segmentFilter>
+		<segment>visitLocalHour==10</segment>
 	</row>
 	<row>
 		<label>11h</label>
@@ -130,7 +130,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==11</segmentFilter>
+		<segment>visitLocalHour==11</segment>
 	</row>
 	<row>
 		<label>12h</label>
@@ -141,7 +141,7 @@
 		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
-		<segmentFilter>visitLocalHour==12</segmentFilter>
+		<segment>visitLocalHour==12</segment>
 	</row>
 	<row>
 		<label>13h</label>
@@ -152,7 +152,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==13</segmentFilter>
+		<segment>visitLocalHour==13</segment>
 	</row>
 	<row>
 		<label>14h</label>
@@ -163,7 +163,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==14</segmentFilter>
+		<segment>visitLocalHour==14</segment>
 	</row>
 	<row>
 		<label>15h</label>
@@ -174,7 +174,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==15</segmentFilter>
+		<segment>visitLocalHour==15</segment>
 	</row>
 	<row>
 		<label>16h</label>
@@ -185,7 +185,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==16</segmentFilter>
+		<segment>visitLocalHour==16</segment>
 	</row>
 	<row>
 		<label>17h</label>
@@ -196,7 +196,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==17</segmentFilter>
+		<segment>visitLocalHour==17</segment>
 	</row>
 	<row>
 		<label>18h</label>
@@ -207,7 +207,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==18</segmentFilter>
+		<segment>visitLocalHour==18</segment>
 	</row>
 	<row>
 		<label>19h</label>
@@ -218,7 +218,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==19</segmentFilter>
+		<segment>visitLocalHour==19</segment>
 	</row>
 	<row>
 		<label>20h</label>
@@ -229,7 +229,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==20</segmentFilter>
+		<segment>visitLocalHour==20</segment>
 	</row>
 	<row>
 		<label>21h</label>
@@ -240,7 +240,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==21</segmentFilter>
+		<segment>visitLocalHour==21</segment>
 	</row>
 	<row>
 		<label>22h</label>
@@ -251,7 +251,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==22</segmentFilter>
+		<segment>visitLocalHour==22</segment>
 	</row>
 	<row>
 		<label>23h</label>
@@ -262,6 +262,6 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>visitLocalHour==23</segmentFilter>
+		<segment>visitLocalHour==23</segment>
 	</row>
 </result>

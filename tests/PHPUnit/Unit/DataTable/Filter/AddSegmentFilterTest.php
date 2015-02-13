@@ -57,7 +57,7 @@ class AddSegmentFilterTest extends UnitTestCase
         $segmentStart = $segmentName . '==';
         $this->table->filter($this->filter, array($segmentName));
 
-        $segmentValues = $this->table->getRowsMetadata('segmentFilter');
+        $segmentValues = $this->table->getRowsMetadata('segment');
         $expected = array(
             $segmentStart . 'http%3A%2F%2Fpiwik.org%2Ftest',
             false, // empty label we do not generate for this currently
@@ -77,7 +77,7 @@ class AddSegmentFilterTest extends UnitTestCase
 
         $this->table->filter($this->filter, array('mysegment'));
 
-        $this->assertFalse($summaryRow->getMetadata('segmentFilter'));
+        $this->assertFalse($summaryRow->getMetadata('segment'));
     }
 
     public function test_filter_IfTwoSegmentsAreGiven_ShouldOnlyGenerateAFilterForLabelsHavingThatManyExplodedParts()
@@ -85,7 +85,7 @@ class AddSegmentFilterTest extends UnitTestCase
         // must result in 2 exploded parts for city and region
         $this->table->filter($this->filter, array(array('city', 'region'), $delimiter = ' '));
 
-        $segmentValues = $this->table->getRowsMetadata('segmentFilter');
+        $segmentValues = $this->table->getRowsMetadata('segment');
         $expected = array(
             false,
             false,
@@ -103,7 +103,7 @@ class AddSegmentFilterTest extends UnitTestCase
         // must result in 3 exploded parts city, region and country
         $this->table->filter($this->filter, array(array('city', 'region', 'country'), $delimiter = ' '));
 
-        $segmentValues = $this->table->getRowsMetadata('segmentFilter');
+        $segmentValues = $this->table->getRowsMetadata('segment');
         $expected = array(
             false,
             false,
@@ -121,7 +121,7 @@ class AddSegmentFilterTest extends UnitTestCase
         // must result in 3 exploded parts city, region and country
         $this->table->filter($this->filter, array(array('city', '', 'country'), $delimiter = ' '));
 
-        $segmentValues = $this->table->getRowsMetadata('segmentFilter');
+        $segmentValues = $this->table->getRowsMetadata('segment');
         $expected = array(
             false,
             false,
@@ -141,7 +141,7 @@ class AddSegmentFilterTest extends UnitTestCase
 
         $this->table->filter($this->filter, array(array('seg1', 'seg2'), $delimiter = ' '));
 
-        $this->assertFalse($summaryRow->getMetadata('segmentFilter'));
+        $this->assertFalse($summaryRow->getMetadata('segment'));
     }
 
 }

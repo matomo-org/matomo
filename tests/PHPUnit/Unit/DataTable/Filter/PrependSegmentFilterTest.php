@@ -32,10 +32,10 @@ class PrependSegmentFilterTest extends UnitTestCase
     {
         $this->table = new DataTable();
         $this->addRowWithMetadata(array('test' => '1'));
-        $this->addRowWithMetadata(array('test' => '2', 'segmentFilter' => 'country=NZ'));
+        $this->addRowWithMetadata(array('test' => '2', 'segment' => 'country=NZ'));
         $this->addRowWithMetadata(array('test' => '3'));
-        $this->addRowWithMetadata(array('test' => '1', 'segmentFilter' => 'country=AU'));
-        $this->addRowWithMetadata(array('test' => '4', 'segmentFilter' => ''));
+        $this->addRowWithMetadata(array('test' => '1', 'segment' => 'country=AU'));
+        $this->addRowWithMetadata(array('test' => '4', 'segment' => ''));
     }
 
     private function addRowWithMetadata($metadata)
@@ -52,7 +52,7 @@ class PrependSegmentFilterTest extends UnitTestCase
         $prepend = 'city=test;';
         $this->table->filter($this->filter, array($prepend));
 
-        $metadata = $this->table->getRowsMetadata('segmentFilter');
+        $metadata = $this->table->getRowsMetadata('segment');
         $this->assertSame(array(
             false,
             $prepend . 'country=NZ',

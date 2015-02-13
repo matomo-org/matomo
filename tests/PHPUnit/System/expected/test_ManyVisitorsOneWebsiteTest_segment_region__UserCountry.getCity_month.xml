@@ -25,7 +25,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>124.456</lat>
 		<long>22.231</long>
-		<segmentFilter>city==Stratford-upon-Avon;regionCode==P3;countryCode==gb</segmentFilter>
+		<segment>city==Stratford-upon-Avon;regionCode==P3;countryCode==gb</segment>
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>P3</region>
 		<country>gb</country>
@@ -56,7 +56,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>city==Nuneaton+and+Bedworth;regionCode==P3;countryCode==gb</segmentFilter>
+		<segment>city==Nuneaton+and+Bedworth;regionCode==P3;countryCode==gb</segment>
 		<city_name>Nuneaton and Bedworth</city_name>
 		<region>P3</region>
 		<country>gb</country>

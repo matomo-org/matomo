@@ -56,7 +56,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>49.25</lat>
 		<long>-123.133</long>
-		<segmentFilter>city==Vancouver;regionCode==BC;countryCode==ca</segmentFilter>
+		<segment>city==Vancouver;regionCode==BC;countryCode==ca</segment>
 		<city_name>Vancouver</city_name>
 		<region>BC</region>
 		<country>ca</country>
@@ -89,7 +89,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>124.456</lat>
 		<long>22.231</long>
-		<segmentFilter>city==Stratford-upon-Avon;regionCode==P3;countryCode==gb</segmentFilter>
+		<segment>city==Stratford-upon-Avon;regionCode==P3;countryCode==gb</segment>
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>P3</region>
 		<country>gb</country>
@@ -122,7 +122,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>47.249</lat>
 		<long>6.018</long>
-		<segmentFilter>city==Besan%C3%A7on;regionCode==A6;countryCode==fr</segmentFilter>
+		<segment>city==Besan%C3%A7on;regionCode==A6;countryCode==fr</segment>
 		<city_name>Besançon</city_name>
 		<region>A6</region>
 		<country>fr</country>
@@ -153,7 +153,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>city==Hlubok%C3%A1+nad+Vltavou;regionCode==66;countryCode==ru</segmentFilter>
+		<segment>city==Hlubok%C3%A1+nad+Vltavou;regionCode==66;countryCode==ru</segment>
 		<city_name>Hluboká nad Vltavou</city_name>
 		<region>66</region>
 		<country>ru</country>
@@ -186,7 +186,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>29.65</lat>
 		<long>91.1</long>
-		<segmentFilter>city==Lhasa;regionCode==1;countryCode==ti</segmentFilter>
+		<segment>city==Lhasa;regionCode==1;countryCode==ti</segment>
 		<city_name>Lhasa</city_name>
 		<region>1</region>
 		<country>ti</country>
@@ -217,7 +217,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>city==London;regionCode==H9;countryCode==gb</segmentFilter>
+		<segment>city==London;regionCode==H9;countryCode==gb</segment>
 		<city_name>London</city_name>
 		<region>H9</region>
 		<country>gb</country>
@@ -248,7 +248,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>city==Nuneaton+and+Bedworth;regionCode==P3;countryCode==gb</segmentFilter>
+		<segment>city==Nuneaton+and+Bedworth;regionCode==P3;countryCode==gb</segment>
 		<city_name>Nuneaton and Bedworth</city_name>
 		<region>P3</region>
 		<country>gb</country>
@@ -279,7 +279,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>city==Stratford-upon-Avon;regionCode==66;countryCode==mk</segmentFilter>
+		<segment>city==Stratford-upon-Avon;regionCode==66;countryCode==mk</segment>
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>66</region>
 		<country>mk</country>
@@ -310,7 +310,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>city==Stratford-upon-Avon;regionCode==66;countryCode==ru</segmentFilter>
+		<segment>city==Stratford-upon-Avon;regionCode==66;countryCode==ru</segment>
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>66</region>
 		<country>ru</country>
@@ -341,7 +341,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>city==Stratford-upon-Avon;regionCode==G5;countryCode==gb</segmentFilter>
+		<segment>city==Stratford-upon-Avon;regionCode==G5;countryCode==gb</segment>
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>G5</region>
 		<country>gb</country>
@@ -369,7 +369,7 @@
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<lat>1</lat>
 		<long>2</long>
-		<segmentFilter>city==not+a+city;regionCode==CA;countryCode==us</segmentFilter>
+		<segment>city==not+a+city;regionCode==CA;countryCode==us</segment>
 		<city_name>not a city</city_name>
 		<region>CA</region>
 		<country>us</country>

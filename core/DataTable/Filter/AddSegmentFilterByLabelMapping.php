@@ -60,7 +60,7 @@ class AddSegmentFilterByLabelMapping extends BaseFilter
 
                 if (!empty($mapping[$label])) {
                     $label = $mapping[$label];
-                    $row->setMetadata('segmentFilter', $segment . '==' . urlencode($label));
+                    $row->setMetadata('segment', $segment . '==' . urlencode($label));
                 }
             }
         });

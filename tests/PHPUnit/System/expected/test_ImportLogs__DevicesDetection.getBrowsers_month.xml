@@ -11,7 +11,7 @@
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
-		<segmentFilter>browserCode==CH</segmentFilter>
+		<segment>browserCode==CH</segment>
 	</row>
 	<row>
 		<label>Internet Explorer</label>
@@ -24,7 +24,7 @@
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
-		<segmentFilter>browserCode==IE</segmentFilter>
+		<segment>browserCode==IE</segment>
 	</row>
 	<row>
 		<label>Epiphany</label>
@@ -37,7 +37,7 @@
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/EP.gif</logo>
-		<segmentFilter>browserCode==EP</segmentFilter>
+		<segment>browserCode==EP</segment>
 	</row>
 	<row>
 		<label>RockMelt</label>
@@ -50,7 +50,7 @@
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
-		<segmentFilter>browserCode==RM</segmentFilter>
+		<segment>browserCode==RM</segment>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -63,7 +63,7 @@
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/UNK.gif</logo>
-		<segmentFilter>browserCode==UNK</segmentFilter>
+		<segment>browserCode==UNK</segment>
 	</row>
 	<row>
 		<label>Android Browser</label>
@@ -76,7 +76,7 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/AN.gif</logo>
-		<segmentFilter>browserCode==AN</segmentFilter>
+		<segment>browserCode==AN</segment>
 	</row>
 	<row>
 		<label>Firefox</label>
@@ -89,7 +89,7 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/FF.gif</logo>
-		<segmentFilter>browserCode==FF</segmentFilter>
+		<segment>browserCode==FF</segment>
 	</row>
 	<row>
 		<label>Chrome Mobile</label>
@@ -102,6 +102,6 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/CM.gif</logo>
-		<segmentFilter>browserCode==CM</segmentFilter>
+		<segment>browserCode==CM</segment>
 	</row>
 </result>

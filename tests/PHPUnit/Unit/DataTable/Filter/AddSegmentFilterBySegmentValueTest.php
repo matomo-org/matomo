@@ -40,7 +40,7 @@ class AddSegmentFilterBySegmentValueTest extends UnitTestCase
         $this->table = new DataTable();
         $this->addRowWithMetadata(array('test' => '1'));
         $this->addRowWithMetadata(array('test' => '2', 'segmentValue' => 'teeest'));
-        $this->addRowWithMetadata(array('test' => '3', 'segmentValue' => 'existing', 'segmentFilter' => 'city==mytest'));
+        $this->addRowWithMetadata(array('test' => '3', 'segmentValue' => 'existing', 'segment' => 'city==mytest'));
         $this->addRowWithMetadata(array('test' => '1', 'segmentValue' => 'test/test2.r'));
         $this->addRowWithMetadata(array('test' => '4'));
     }
@@ -72,7 +72,7 @@ class AddSegmentFilterBySegmentValueTest extends UnitTestCase
 
     public function test_filter_shouldNotOverwriteAnExistingSegmentValue()
     {
-        $row = $this->addRowWithMetadata(array('segmentValue' => 'existing', 'segmentFilter' => 'city==mytest'));
+        $row = $this->addRowWithMetadata(array('segmentValue' => 'existing', 'segment' => 'city==mytest'));
 
         $this->table->filter($this->filter, array($this->report));
 
@@ -127,7 +127,7 @@ class AddSegmentFilterBySegmentValueTest extends UnitTestCase
 
     private function assertSegmentFilter($expected, Row $row)
     {
-        $segmentFilter = $row->getMetadata('segmentFilter');
+        $segmentFilter = $row->getMetadata('segment');
         $this->assertSame($expected, $segmentFilter);
     }
 

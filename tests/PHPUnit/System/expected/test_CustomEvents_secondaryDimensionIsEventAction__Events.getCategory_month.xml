@@ -10,7 +10,7 @@
 		<max_event_value>9.66</max_event_value>
 		<sum_daily_nb_uniq_visitors>26</sum_daily_nb_uniq_visitors>
 		<avg_event_value>9.66</avg_event_value>
-		<segmentFilter>eventCategory==Movie</segmentFilter>
+		<segment>eventCategory==Movie</segment>
 		<subtable>
 			<row>
 				<label>playTrailer</label>
@@ -134,7 +134,7 @@
 		<max_event_value>10</max_event_value>
 		<sum_daily_nb_uniq_visitors>12</sum_daily_nb_uniq_visitors>
 		<avg_event_value>9.5</avg_event_value>
-		<segmentFilter>eventCategory==Music</segmentFilter>
+		<segment>eventCategory==Music</segment>
 		<subtable>
 			<row>
 				<label>play</label>
@@ -214,7 +214,7 @@
 		<max_event_value>9.66</max_event_value>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<avg_event_value>9.66</avg_event_value>
-		<segmentFilter>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segmentFilter>
+		<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
 		<subtable>
 			<row>
 				<label>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>

@@ -67,7 +67,7 @@ class AddSegmentFilterByLabelMappingTest extends UnitTestCase
     {
         $this->table->filter($this->filter, array('segmentName', $this->getEmptyMapping()));
 
-        $metadata = $this->table->getRowsMetadata('segmentFilter');
+        $metadata = $this->table->getRowsMetadata('segment');
         $this->assertSame(array(false, false, false, false, false, false), $metadata);
     }
 
@@ -75,7 +75,7 @@ class AddSegmentFilterByLabelMappingTest extends UnitTestCase
     {
         $this->table->filter($this->filter, array('segmentName', $this->getMapping()));
 
-        $metadata = $this->table->getRowsMetadata('segmentFilter');
+        $metadata = $this->table->getRowsMetadata('segment');
         $expected = array('segmentName==Core', false, 'segmentName==pluginstests', false, false, false);
         $this->assertSame($expected, $metadata);
     }
@@ -88,7 +88,7 @@ class AddSegmentFilterByLabelMappingTest extends UnitTestCase
         );
         $this->table->filter($this->filter, array('segmentName', $mapping));
 
-        $metadata = $this->table->getRowsMetadata('segmentFilter');
+        $metadata = $this->table->getRowsMetadata('segment');
         $expected = array('segmentName==Core+tests', false, 'segmentName==plugins+t%C3%A4sts', false, false, false);
         $this->assertSame($expected, $metadata);
     }
