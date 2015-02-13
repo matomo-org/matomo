@@ -2829,7 +2829,7 @@ if ($sqlite) {
 
         // Visitor ID is not yet the User id
         notEqual(tracker.hook.test._sha1(userIdString).substr(0, 16), tracker3.getVisitorId());
-        notEqual("s", tracker3.getVisitorId());
+        notEqual("", tracker3.getVisitorId());
         ok( tracker3.getVisitorId().length === 16, "Visitor ID is 16 chars string");
 
         // Set User ID and verify it was set
