@@ -2,13 +2,13 @@
 <result>
 	<row>
 		<label>Desktop</label>
-		<nb_visits>28</nb_visits>
-		<nb_actions>32</nb_actions>
+		<nb_visits>30</nb_visits>
+		<nb_actions>35</nb_actions>
 		<max_actions>3</max_actions>
-		<sum_visit_length>548</sum_visit_length>
-		<bounce_count>25</bounce_count>
-		<nb_visits_converted>27</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>27</sum_daily_nb_uniq_visitors>
+		<sum_visit_length>549</sum_visit_length>
+		<bounce_count>26</bounce_count>
+		<nb_visits_converted>29</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>28</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/screens/normal.gif</logo>
 	</row>
@@ -27,8 +27,8 @@
 	<row>
 		<label>Smartphone</label>
 		<nb_visits>3</nb_visits>
-		<nb_actions>4</nb_actions>
-		<max_actions>2</max_actions>
+		<nb_actions>5</nb_actions>
+		<max_actions>3</max_actions>
 		<sum_visit_length>2</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>3</nb_visits_converted>
