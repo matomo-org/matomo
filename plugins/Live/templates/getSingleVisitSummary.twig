@@ -25,7 +25,7 @@
         </li>
         <li>
             {% if visitData.browserName is defined %}
-            <div class="visitor-profile-browser" title="{% if visitData.plugins is defined %}{{ 'DevicePlugins_BrowserWithPluginsEnabled'|translate(visitData.browserName, visitData.plugins) }}{% else %}{{ 'DevicePlugins_BrowserWithNoPluginsEnabled'|translate(visitData.browserName) }}{% endif %}">
+            <div class="visitor-profile-browser" title="{% if visitData.plugins is not defined %}{{ visitData.browser }}{% elseif visitData.plugins %}{{ 'DevicePlugins_BrowserWithPluginsEnabled'|translate(visitData.browser, visitData.plugins) }}{% else %}{{ 'DevicePlugins_BrowserWithNoPluginsEnabled'|translate(visitData.browser) }}{% endif %}">
                 {% if visitData.browserIcon is defined %}<img src="{{ visitData.browserIcon }}"/>{% endif %}<span>{{ visitData.browserName|split(' ')[0] }}</span>
             </div>
             {% endif %}
