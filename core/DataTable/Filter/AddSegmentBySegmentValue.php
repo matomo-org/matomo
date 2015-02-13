@@ -12,16 +12,16 @@ use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
 
 /**
- * Converts for each row of a {@link DataTable} a segmentValue to a segmentFilter. The name of the segment
+ * Converts for each row of a {@link DataTable} a segmentValue to a segment (expression). The name of the segment
  * is automatically detected based on the given report.
  *
  * **Basic usage example**
  *
- *     $dataTable->filter('AddSegmentFilterBySegmentValue', array($reportInstance));
+ *     $dataTable->filter('AddSegmentBySegmentValue', array($reportInstance));
  *
  * @api
  */
-class AddSegmentFilterBySegmentValue extends BaseFilter
+class AddSegmentBySegmentValue extends BaseFilter
 {
     /**
      * @var \Piwik\Plugin\Report
@@ -39,7 +39,7 @@ class AddSegmentFilterBySegmentValue extends BaseFilter
     }
 
     /**
-     * See {@link AddSegmentFilterBySegmentValue}.
+     * See {@link AddSegmentBySegmentValue}.
      *
      * @param DataTable $table
      * @return int The number of deleted rows.

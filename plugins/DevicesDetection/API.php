@@ -55,7 +55,7 @@ class API extends \Piwik\Plugin\API
         $this->ensureDefaultRowsInTable($dataTable);
 
         $mapping = DeviceParserAbstract::getAvailableDeviceTypeNames();
-        $dataTable->filter('AddSegmentFilterByLabelMapping', array('deviceType', $mapping));
+        $dataTable->filter('AddSegmentByLabelMapping', array('deviceType', $mapping));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getDeviceTypeLogo'));
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getDeviceTypeLabel'));
         return $dataTable;
@@ -198,7 +198,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable('DevicesDetection_osVersions', $idSite, $period, $date, $segment);
 
         $segments = array('operatingSystemCode', 'operatingSystemVersion');
-        $dataTable->filter('AddSegmentFilter', array($segments, Archiver::BROWSER_SEPARATOR));
+        $dataTable->filter('AddSegmentByLabel', array($segments, Archiver::BROWSER_SEPARATOR));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getOsLogo'));
         // use GroupBy filter to avoid duplicate rows if old (UserSettings) and new (DevicesDetection) reports were combined
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getOsFullName'));
@@ -257,7 +257,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable('DevicesDetection_browserVersions', $idSite, $period, $date, $segment);
 
         $segments = array('browserCode', 'browserVersion');
-        $dataTable->filter('AddSegmentFilter', array($segments, Archiver::BROWSER_SEPARATOR));
+        $dataTable->filter('AddSegmentByLabel', array($segments, Archiver::BROWSER_SEPARATOR));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrowserLogo'));
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getBrowserNameWithVersion'));
         return $dataTable;

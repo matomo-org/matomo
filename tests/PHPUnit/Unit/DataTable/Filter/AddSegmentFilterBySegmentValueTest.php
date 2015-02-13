@@ -17,15 +17,15 @@ use Piwik\Plugins\VisitsSummary\Reports\Get;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
- * @group AddSegmentFilterBySegmentValueTest
+ * @group AddSegmentBySegmentValueTest
  * @group DataTable
  * @group Filter
  * @group Unit
  * @group Core
  */
-class AddSegmentFilterBySegmentValueTest extends UnitTestCase
+class AddSegmentBySegmentValueTest extends UnitTestCase
 {
-    private $filter = 'AddSegmentFilterBySegmentValue';
+    private $filter = 'AddSegmentBySegmentValue';
 
     /**
      * @var DataTable
@@ -56,18 +56,18 @@ class AddSegmentFilterBySegmentValueTest extends UnitTestCase
         return $row;
     }
 
-    public function test_filter_shouldGenerateASegmentFilterIfSegmentValueIsPresent()
+    public function test_filter_shouldGenerateASegmentIfSegmentValueIsPresent()
     {
         $segmentValue = 'existing';
-        $expectedSegmentFilter = 'city==existing';
-        $this->assertSegmentFilterForSegmentValueAndReport($this->report, $segmentValue, $expectedSegmentFilter);
+        $expectedSegment = 'city==existing';
+        $this->assertSegmentForSegmentValueAndReport($this->report, $segmentValue, $expectedSegment);
     }
 
     public function test_filter_shouldUrlEncodeTheValue()
     {
         $segmentValue = 'existing täs/ts';
-        $expectedSegmentFilter = 'city==existing+t%C3%A4s%2Fts';
-        $this->assertSegmentFilterForSegmentValueAndReport($this->report, $segmentValue, $expectedSegmentFilter);
+        $expectedSegment = 'city==existing+t%C3%A4s%2Fts';
+        $this->assertSegmentForSegmentValueAndReport($this->report, $segmentValue, $expectedSegment);
     }
 
     public function test_filter_shouldNotOverwriteAnExistingSegmentValue()
@@ -76,7 +76,7 @@ class AddSegmentFilterBySegmentValueTest extends UnitTestCase
 
         $this->table->filter($this->filter, array($this->report));
 
-        $this->assertSegmentFilter('city==mytest', $row);
+        $this->assertSegment('city==mytest', $row);
     }
 
     public function test_filter_shouldUseTheFirstSegment_IfAReportHasMultiple()
@@ -84,29 +84,29 @@ class AddSegmentFilterBySegmentValueTest extends UnitTestCase
         $report = new GetCountry();
         $this->assertCount(2, $report->getDimension()->getSegments());
 
-        $this->assertSegmentFilterForSegmentValueAndReport($report, $segmentValue = 'existing', 'countryCode==existing');
+        $this->assertSegmentForSegmentValueAndReport($report, $segmentValue = 'existing', 'countryCode==existing');
     }
 
-    public function test_filter_shouldNotGenerateASegmentFilter_IfReportHasNoDimension()
+    public function test_filter_shouldNotGenerateASegment_IfReportHasNoDimension()
     {
         $report = new Get(); // VisitsSummary.get has no dimension
         $this->assertNull($report->getDimension());
 
-        $this->assertSegmentFilterForSegmentValueAndReport($report, $segmentValue = 'existing', false);
+        $this->assertSegmentForSegmentValueAndReport($report, $segmentValue = 'existing', false);
     }
 
-    public function test_filter_shouldNotGenerateASegmentFilter_IfDimensionHasNoSegmentFilter()
+    public function test_filter_shouldNotGenerateASegment_IfDimensionHasNoSegmentFilter()
     {
         // outlinks currently has a dimensions but no segments, we have to use another report once it has segments
         $report = new GetOutlinks();
         $this->assertEmpty($report->getDimension()->getSegments());
 
-        $this->assertSegmentFilterForSegmentValueAndReport($report, $segmentValue = 'existing', false);
+        $this->assertSegmentForSegmentValueAndReport($report, $segmentValue = 'existing', false);
     }
 
     public function test_filter_shouldNotFail_IfNoReportGiven()
     {
-        $this->assertSegmentFilterForSegmentValueAndReport($report = null, $segmentValue = 'existing', false);
+        $this->assertSegmentForSegmentValueAndReport($report = null, $segmentValue = 'existing', false);
     }
 
     public function test_filter_shouldNotFail_IfDataTableHasNoRows()
@@ -116,19 +116,19 @@ class AddSegmentFilterBySegmentValueTest extends UnitTestCase
         $this->assertSame(0, $table->getRowsCount());
     }
 
-    private function assertSegmentFilterForSegmentValueAndReport($report, $segmentValue, $expectedSegmentFilter)
+    private function assertSegmentForSegmentValueAndReport($report, $segmentValue, $expectedSegment)
     {
         $row = $this->addRowWithMetadata(array('segmentValue' => $segmentValue));
 
         $this->table->filter($this->filter, array($report));
 
-        $this->assertSegmentFilter($expectedSegmentFilter, $row);
+        $this->assertSegment($expectedSegment, $row);
     }
 
-    private function assertSegmentFilter($expected, Row $row)
+    private function assertSegment($expected, Row $row)
     {
-        $segmentFilter = $row->getMetadata('segment');
-        $this->assertSame($expected, $segmentFilter);
+        $segment = $row->getMetadata('segment');
+        $this->assertSame($expected, $segment);
     }
 
 }

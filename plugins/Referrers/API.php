@@ -235,8 +235,8 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::SEARCH_ENGINES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
 
-        $dataTable->filter('AddSegmentFilter', array('referrerName'));
-        $dataTable->queueFilter('PrependSegmentFilter', array('referrerType==search;'));
+        $dataTable->filter('AddSegmentByLabel', array('referrerName'));
+        $dataTable->queueFilter('PrependSegment', array('referrerType==search;'));
         $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\getSearchEngineUrlFromName'));
         $dataTable->queueFilter('MetadataCallbackAddMetadata', array('url', 'logo', __NAMESPACE__ . '\getSearchEngineLogoFromUrl'));
         return $dataTable;
@@ -277,8 +277,8 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGNS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
 
-        $dataTable->filter('AddSegmentFilter', array('referrerName'));
-        $dataTable->queueFilter('PrependSegmentFilter', array('referrerType==campaign;'));
+        $dataTable->filter('AddSegmentByLabel', array('referrerName'));
+        $dataTable->queueFilter('PrependSegment', array('referrerType==campaign;'));
 
         return $dataTable;
     }
@@ -292,7 +292,7 @@ class API extends \Piwik\Plugin\API
     public function getWebsites($idSite, $period, $date, $segment = false, $expanded = false)
     {
         $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
-        $dataTable->filter('AddSegmentFilter', array('referrerName'));
+        $dataTable->filter('AddSegmentByLabel', array('referrerName'));
         return $dataTable;
     }
 

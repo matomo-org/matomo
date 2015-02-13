@@ -17,12 +17,12 @@ use Piwik\Development;
  *
  * **Basic usage example**
  *
- *     $dataTable->filter('AddSegmentFilter', array('segmentName'));
- *     $dataTable->filter('AddSegmentFilter', array(array('segmentName1', 'segment2'), ';');
+ *     $dataTable->filter('AddSegmentByLabel', array('segmentName'));
+ *     $dataTable->filter('AddSegmentByLabel', array(array('segmentName1', 'segment2'), ';');
  *
  * @api
  */
-class AddSegmentFilter extends BaseFilter
+class AddSegmentByLabel extends BaseFilter
 {
     private $segments;
     private $delimiter;
@@ -48,7 +48,7 @@ class AddSegmentFilter extends BaseFilter
     }
 
     /**
-     * See {@link AddSegmentFilter}.
+     * See {@link AddSegmentByLabel}.
      *
      * @param DataTable $table
      */
@@ -58,7 +58,7 @@ class AddSegmentFilter extends BaseFilter
         $segments  = $this->segments;
 
         if (empty($segments)) {
-            $msg = 'AddSegmentFilter is called without having any segments defined';
+            $msg = 'AddSegmentByLabel is called without having any segments defined';
             Development::error($msg);
             return;
         }

@@ -100,14 +100,14 @@ class DataTablePostProcessor
         $dataTable = $this->applyLabelFilter($dataTable);
 
         $dataTable = $this->applyMetricsFormatting($dataTable);
-        $dataTable = $this->convertSegmentValueToSegmentFilter($dataTable);
+        $dataTable = $this->convertSegmentValueToSegment($dataTable);
 
         return $dataTable;
     }
 
-    public function convertSegmentValueToSegmentFilter(DataTableInterface $dataTable)
+    public function convertSegmentValueToSegment(DataTableInterface $dataTable)
     {
-        $dataTable->filter('AddSegmentFilterBySegmentValue', array($this->report));
+        $dataTable->filter('AddSegmentBySegmentValue', array($this->report));
         $dataTable->filter('ColumnCallbackDeleteMetadata', array('segmentValue'));
 
         return $dataTable;

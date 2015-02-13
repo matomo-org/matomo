@@ -13,15 +13,15 @@ use Piwik\DataTable\Row;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
- * @group PrependSegmentFilterTest
+ * @group PrependSegmentTest
  * @group DataTable
  * @group Filter
  * @group Unit
  * @group Core
  */
-class PrependSegmentFilterTest extends UnitTestCase
+class PrependSegmentTest extends UnitTestCase
 {
-    private $filter = 'PrependSegmentFilter';
+    private $filter = 'PrependSegment';
 
     /**
      * @var DataTable

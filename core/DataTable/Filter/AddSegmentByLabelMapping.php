@@ -18,11 +18,11 @@ use Piwik\DataTable\BaseFilter;
  *
  * **Basic usage example**
  *
- *     $dataTable->filter('AddSegmentFilterByLabelMapping', array('segmentName', array('1' => 'smartphone, '2' => 'desktop')));
+ *     $dataTable->filter('AddSegmentByLabelMapping', array('segmentName', array('1' => 'smartphone, '2' => 'desktop')));
  *
  * @api
  */
-class AddSegmentFilterByLabelMapping extends BaseFilter
+class AddSegmentByLabelMapping extends BaseFilter
 {
     private $segment;
     private $mapping;
@@ -41,7 +41,7 @@ class AddSegmentFilterByLabelMapping extends BaseFilter
     }
 
     /**
-     * See {@link AddSegmentFilterByLabelMapping}.
+     * See {@link AddSegmentByLabelMapping}.
      *
      * @param DataTable $table
      */

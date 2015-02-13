@@ -103,7 +103,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             // the label column is not the first column here
             'MultiSites.getAll',
 
-            // those reports generate a different segmentFilter as a different raw value was stored that time
+            // those reports generate a different segment as a different raw value was stored that time
             'DevicesDetection.getOsVersions',
             'UserSettings.getOS',
             'UserSettings.getBrowserType'
