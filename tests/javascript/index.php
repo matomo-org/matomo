@@ -2586,7 +2586,7 @@ if ($sqlite) {
     });
 
     test("tracking", function() {
-        expect(103);
+        expect(106);
 
         /*
          * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -2826,8 +2826,14 @@ if ($sqlite) {
 
         // User ID
         var userIdString = 'userid@mydomain.org';
-        tracker3.setUserId(userIdString);
 
+        // Visitor ID is not yet the User id
+        notEqual(tracker.hook.test._sha1(userIdString).substr(0, 16), tracker3.getVisitorId());
+        notEqual("s", tracker3.getVisitorId());
+        ok( tracker3.getVisitorId().length === 16, "Visitor ID is 16 chars string");
+
+        // Set User ID and verify it was set
+        tracker3.setUserId(userIdString);
         equal(userIdString, tracker3.getUserId());
         equal(tracker.hook.test._sha1(userIdString).substr(0, 16), tracker3.getVisitorId());
 

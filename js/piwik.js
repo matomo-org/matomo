@@ -4082,7 +4082,7 @@ if (typeof Piwik !== 'object') {
                  * @return string Visitor ID in hexits (or null, if not yet known)
                  */
                 getVisitorId: function () {
-                    return configUserId ? sha1(configUserId).substr(0, 16) : (loadVisitorIdCookie())[1];
+                    return configUserId.length ? sha1(configUserId).substr(0, 16) : (loadVisitorIdCookie())[1];
                 },
 
                 /**
