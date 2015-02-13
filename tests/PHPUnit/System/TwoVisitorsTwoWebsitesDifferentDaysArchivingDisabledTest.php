@@ -26,6 +26,9 @@ class TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest extends SystemTes
      */
     public function testApi($api, $params)
     {
+        if (self::isPhpVersion53() && self::isTravisCI()) {
+            $this->markTestSkipped("Skipping this test as it often fails on travis)");
+        }
         $this->runApiTests($api, $params);
     }
 
