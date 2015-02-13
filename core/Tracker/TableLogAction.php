@@ -61,10 +61,7 @@ class TableLogAction
     {
         // now, we handle the cases =@ (contains) and !@ (does not contain)
         // build the expression based on the match type
-        $sql = 'SELECT MIN(idaction) AS idaction FROM ' . Common::prefixTable('log_action') . ' WHERE %s AND type = ' . $actionType . ' )'
-             . ' GROUP BY name, hash, type'; // group by is to avoid possible case of duplicates in log_action table
-                                             // (duplicates can exist if php tracker fails right after inserting a duplicate in
-                                             //  Tracker\Model::insertNewAction())
+        $sql = 'SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE %s AND type = ' . $actionType . ' )';
 
         switch ($matchType) {
             case '=@':
