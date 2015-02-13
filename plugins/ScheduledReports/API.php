@@ -366,7 +366,7 @@ class API extends \Piwik\Plugin\API
                 'apiAction' => $apiAction,
                 'apiParameters' => $apiParameters,
                 'idGoal' => false,
-                'langauge' => $language,
+                'language' => $language,
                 'serialize' => 0,
                 'format' => 'original'
             );
@@ -374,7 +374,7 @@ class API extends \Piwik\Plugin\API
             if ($segment != null) {
                 $params['segment'] = urlencode($segment['definition']);
             } else {
-                $paras['segment'] = false;
+                $params['segment'] = false;
             }
 
             $processedReport = Request::processRequest('API.getProcessedReport', $params);
