@@ -12,6 +12,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ActionsPerVisit;
 use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;
 use Piwik\Plugins\CoreHome\Columns\Metrics\BounceRate;
+use Piwik\Plugins\CoreHome\Columns\UserId;
 
 class Get extends \Piwik\Plugin\Report
 {
@@ -39,11 +40,31 @@ class Get extends \Piwik\Plugin\Report
         $this->order = 1;
     }
 
+    public function configureReportMetadata(&$availableReports, $infos)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+
+        $usersKey = array_search('nb_users', $this->metrics);
+        if ($usersKey !== false && !empty($infos['idSites']) && !empty($infos['period']) && !empty($infos['date'])) {
+            $userId = new UserId();
+            $isUserIdUsed = $userId->isUsedInAtLeastOneSite($infos['idSites'], $infos['period'], $infos['date']);
+
+            if (!$isUserIdUsed) {
+                unset($this->metrics[$usersKey]);
+                $this->metrics = array_values($this->metrics);
+            }
+        }
+
+        parent::configureReportMetadata($availableReports, $infos);
+    }
+
     public function getMetrics()
     {
         $metrics = parent::getMetrics();
 
-        $metrics['max_actions']      = Piwik::translate('General_ColumnMaxActions');
+        $metrics['max_actions'] = Piwik::translate('General_ColumnMaxActions');
 
         return $metrics;
     }
