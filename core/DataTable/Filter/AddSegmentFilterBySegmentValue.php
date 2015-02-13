@@ -46,7 +46,7 @@ class AddSegmentFilterBySegmentValue extends BaseFilter
      */
     public function filter($table)
     {
-        if (empty($this->report) || empty($table) || !$table->getRowsCount()) {
+        if (empty($this->report) || !$table->getRowsCount()) {
             return;
         }
 
