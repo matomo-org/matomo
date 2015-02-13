@@ -68,7 +68,7 @@
         "SystemCheckAutoUpdateHelp": "Note : La mise à jour de Piwik en un clic requiert une permission en écriture sur le dossier de Piwik et son contenu.",
         "SystemCheckCreateFunctionHelp": "Piwik utilise des fonctions anonymes pour les callbacks.",
         "SystemCheckCronArchiveProcess": "Tâche Cron d'archivage",
-        "SystemCheckCronArchiveProcessCLI": "Gestion des processus la via ligne de commande",
+        "SystemCheckCronArchiveProcessCLI": "Gestion des processus via la ligne de commande",
         "SystemCheckDatabaseHelp": "Piwik requiert ou l'extension mysqli ou les extensions pdo et pdo_mysql.",
         "SystemCheckDebugBacktraceHelp": "View::factory ne pourra pas créer des vues pour le module appelé.",
         "SystemCheckError": "Une erreur s'est produite — elle doit être corrigée avant de pouvoir continuer",
