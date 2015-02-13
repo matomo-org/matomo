@@ -14,6 +14,7 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Period;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Site;
 
@@ -31,6 +32,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($name);
+
         $dataTable->filter('Sort', array('label', 'asc', true));
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getTimeLabel'));
         $dataTable->queueFilter('ReplaceColumnNames');
@@ -39,12 +41,38 @@ class API extends \Piwik\Plugin\API
 
     public function getVisitInformationPerLocalTime($idSite, $period, $date, $segment = false)
     {
-        return $this->getDataTable(Archiver::LOCAL_TIME_RECORD_NAME, $idSite, $period, $date, $segment);
+        $table = $this->getDataTable(Archiver::LOCAL_TIME_RECORD_NAME, $idSite, $period, $date, $segment);
+        $table->filter('AddSegmentValue');
+
+        return $table;
     }
 
     public function getVisitInformationPerServerTime($idSite, $period, $date, $segment = false, $hideFutureHoursWhenToday = false)
     {
         $table = $this->getDataTable(Archiver::SERVER_TIME_RECORD_NAME, $idSite, $period, $date, $segment);
+
+        $timezone = Site::getTimezoneFor($idSite);
+
+        $range = Range::parseDateRange($date);
+
+        if (!empty($range[2])) {
+            $endDate = Date::factory($range[2]);
+        } else if (!empty($range[1])) {
+            $endDate = Date::factory($range[1]);
+        } else {
+            $endDate = Date::factory($date);
+        }
+
+        $table->filter('AddSegmentValue', array(function ($label) use ($timezone, $endDate) {
+            $hour = str_pad($label, 2, 0, STR_PAD_LEFT);
+            $time = $hour . ':00:00';
+
+            $dateInTimezone = $endDate->setTime($time)->setTimezone($timezone);
+            $hourInTz = $dateInTimezone->getHourInUTC();
+
+            return $hourInTz;
+        }));
+
         if ($hideFutureHoursWhenToday) {
             $table = $this->removeHoursInFuture($table, $idSite, $period, $date);
         }

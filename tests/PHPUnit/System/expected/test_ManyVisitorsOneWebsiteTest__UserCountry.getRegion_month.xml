@@ -52,6 +52,7 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>regionCode==BC;countryCode==ca</segmentFilter>
 		<region>BC</region>
 		<country>ca</country>
 		<country_name>Canada</country_name>
@@ -81,6 +82,7 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>regionCode==P3;countryCode==gb</segmentFilter>
 		<region>P3</region>
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
@@ -110,6 +112,7 @@
 		<revenue>30</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>regionCode==66;countryCode==ru</segmentFilter>
 		<region>66</region>
 		<country>ru</country>
 		<country_name>Russian Federation</country_name>
@@ -139,6 +142,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>regionCode==1;countryCode==ti</segmentFilter>
 		<region>1</region>
 		<country>ti</country>
 		<country_name>Tibet</country_name>
@@ -168,6 +172,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>regionCode==66;countryCode==mk</segmentFilter>
 		<region>66</region>
 		<country>mk</country>
 		<country_name>Macedonia, the Former Yugoslav Republic of</country_name>
@@ -197,6 +202,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>regionCode==A6;countryCode==fr</segmentFilter>
 		<region>A6</region>
 		<country>fr</country>
 		<country_name>France</country_name>
@@ -226,6 +232,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>regionCode==G5;countryCode==gb</segmentFilter>
 		<region>G5</region>
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
@@ -255,6 +262,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>regionCode==H9;countryCode==gb</segmentFilter>
 		<region>H9</region>
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
@@ -279,6 +287,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segmentFilter>regionCode==CA;countryCode==us</segmentFilter>
 		<region>CA</region>
 		<country>us</country>
 		<country_name>United States</country_name>

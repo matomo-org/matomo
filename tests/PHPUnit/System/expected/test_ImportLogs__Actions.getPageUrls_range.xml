@@ -363,6 +363,7 @@
 		<exit_rate>71%</exit_rate>
 		<avg_time_generation>0.133</avg_time_generation>
 		<url>http://piwik.net/</url>
+		<segmentFilter>pageUrl==http%3A%2F%2Fpiwik.net%2F</segmentFilter>
 	</row>
 	<row>
 		<label>docs</label>
@@ -1061,6 +1062,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://example.org/index.htm</url>
+		<segmentFilter>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segmentFilter>
 	</row>
 	<row>
 		<label>/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</label>
@@ -1083,6 +1085,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.413</avg_time_generation>
 		<url>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</url>
+		<segmentFilter>pageUrl==http%3A%2F%2Fdemo.piwik.org%2Findex.php%3Fmodule%3DCoreHome%26action%3Dindex%26date%3Dyesterday%26period%3Dday%26idSite%3D7</segmentFilter>
 	</row>
 	<row>
 		<label>/moved-permanently</label>
@@ -1103,6 +1106,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/moved-permanently</url>
+		<segmentFilter>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segmentFilter>
 	</row>
 	<row>
 		<label>/register.php?0,approve=9a94a02145599</label>
@@ -1125,6 +1129,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
+		<segmentFilter>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segmentFilter>
 	</row>
 	<row>
 		<label>/temp-redirect</label>
@@ -1142,6 +1147,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/temp-redirect</url>
+		<segmentFilter>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segmentFilter>
 	</row>
 	<row>
 		<label>/to-an-error</label>
@@ -1164,6 +1170,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/to-an-error</url>
+		<segmentFilter>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segmentFilter>
 	</row>
 	<row>
 		<label>changelog</label>

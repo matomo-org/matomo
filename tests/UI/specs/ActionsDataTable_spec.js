@@ -63,8 +63,24 @@ describe("ActionsDataTable", function () {
         }, done);
     });
 
+    it("should generate a proper title for the visitor log segmented by the current row", function (done) {
+        expect.screenshot('segmented_visitor_log_hover').to.be.capture(function (page) {
+            var row = 'tr:eq(2) ';
+            page.mouseMove(row + 'td.column:first');
+            page.mouseMove(row + 'td.label .actionSegmentVisitorLog');
+        }, done);
+    });
+
+    it("should open the visitor log segmented by the current row", function (done) {
+        expect.screenshot('segmented_visitor_log').to.be.capture(function (page) {
+            page.click('tr:eq(2) td.label .actionSegmentVisitorLog');
+        }, done);
+    });
+
     it("should display unique pageview percentages when hovering over unique pageviews column", function (done) {
         expect.screenshot('unique_pageview_percentages').to.be.capture(function (page) {
+            page.click('.ui-widget .ui-dialog-titlebar-close');
+
             page.mouseMove('tr:eq(2) td.column:eq(1)');
         }, done);
     });

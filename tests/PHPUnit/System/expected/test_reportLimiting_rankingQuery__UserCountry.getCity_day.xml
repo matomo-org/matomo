@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segmentFilter>city==Melbourne;regionCode==07;countryCode==au</segmentFilter>
 		<city_name>Melbourne</city_name>
 		<region>07</region>
 		<country>au</country>
@@ -27,6 +28,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segmentFilter>city==Nice;regionCode==B8;countryCode==fr</segmentFilter>
 		<city_name>Nice</city_name>
 		<region>B8</region>
 		<country>fr</country>

@@ -43,6 +43,7 @@
 		<revenue>25</revenue>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>regionCode==VA;countryCode==us</segmentFilter>
 		<region>VA</region>
 		<country>us</country>
 		<country_name>United States</country_name>
@@ -67,6 +68,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>regionCode==NU;countryCode==ca</segmentFilter>
 		<region>NU</region>
 		<country>ca</country>
 		<country_name>Canada</country_name>

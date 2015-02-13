@@ -32,6 +32,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>3</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<segmentValue>this search term</segmentValue>
 			</row>
 			<row>
 				<label>search term 2</label>
@@ -43,6 +44,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>2</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<segmentValue>search term 2</segmentValue>
 			</row>
 			<row>
 				<label>Others</label>
@@ -78,6 +80,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>4</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<segmentFilter>referrerName==whatever0.com</segmentFilter>
 			</row>
 			<row>
 				<label>whatever1.com</label>
@@ -89,6 +92,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>2</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<segmentFilter>referrerName==whatever1.com</segmentFilter>
 			</row>
 			<row>
 				<label>Others</label>

@@ -453,6 +453,14 @@ class API extends \Piwik\Plugin\API
         // (in the transition period between pre 1.2 and post 1.2 datatable structure)
         $dataTable->filter('ReplaceColumnNames');
         $dataTable->filter('Sort', array('nb_visits', 'desc', $naturalSort = false, $expanded));
+        $dataTable->queueFilter(function (DataTable $dataTable) {
+            foreach ($dataTable->getRows() as $row) {
+                $url = $row->getMetadata('url');
+                if ($url) {
+                    $row->setMetadata('segmentValue', urldecode($url));
+                }
+            }
+        });
 
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
     }

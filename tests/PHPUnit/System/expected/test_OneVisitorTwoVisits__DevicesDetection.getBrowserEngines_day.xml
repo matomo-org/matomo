@@ -9,5 +9,6 @@
 		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
+		<segmentFilter>browserEngine==Gecko</segmentFilter>
 	</row>
 </result>

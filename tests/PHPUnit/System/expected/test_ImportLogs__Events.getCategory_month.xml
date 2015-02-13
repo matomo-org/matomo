@@ -10,6 +10,7 @@
 		<max_event_value>0</max_event_value>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<avg_event_value>0</avg_event_value>
+		<segmentFilter>eventCategory==cloudfront_rtmp</segmentFilter>
 		<subtable>
 			<row>
 				<label>connect</label>

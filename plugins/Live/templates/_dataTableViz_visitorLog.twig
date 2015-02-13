@@ -181,7 +181,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
 
             <td class="column {% if visitor.getColumn('visitConverted') and not isWidget %}highlightField{% endif %}">
                 <div class="visitor-log-page-list">
-                    {% if visitor.getColumn('visitorId') is not empty %}
+                    {% if visitor.getColumn('visitorId') is not empty and not clientSideParameters.hideProfileLink %}
                     <a class="visitor-log-visitor-profile-link" title="{{ 'Live_ViewVisitorProfile'|translate }}" data-visitor-id="{{ visitor.getColumn("visitorId") }}">
                         <img src="plugins/Live/images/visitorProfileLaunch.png"/> <span>{{ 'Live_ViewVisitorProfile'|translate }}
                             {%- if visitor.getColumn('userId') is not empty %}: {{ visitor.getColumn('userId')|raw }}{% endif %}</span>

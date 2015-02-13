@@ -10,6 +10,7 @@
 		<max_event_value>9.66</max_event_value>
 		<sum_daily_nb_uniq_visitors>26</sum_daily_nb_uniq_visitors>
 		<avg_event_value>9.66</avg_event_value>
+		<segmentFilter>eventCategory==Movie</segmentFilter>
 		<subtable>
 			<row>
 				<label>Spirited Away (千と千尋の神隠し)</label>
@@ -67,6 +68,7 @@
 		<max_event_value>10</max_event_value>
 		<sum_daily_nb_uniq_visitors>12</sum_daily_nb_uniq_visitors>
 		<avg_event_value>9.5</avg_event_value>
+		<segmentFilter>eventCategory==Music</segmentFilter>
 		<subtable>
 			<row>
 				<label>La fiancée de l&amp;#039;eau</label>
@@ -91,6 +93,7 @@
 		<max_event_value>9.66</max_event_value>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<avg_event_value>9.66</avg_event_value>
+		<segmentFilter>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segmentFilter>
 		<subtable>
 			<row>
 				<label>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>

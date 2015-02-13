@@ -8,5 +8,6 @@
 		<nb_interactions>2</nb_interactions>
 		<interaction_rate>50%</interaction_rate>
 		<contentTarget>http://www.example.com</contentTarget>
+		<segmentFilter>contentName==ImageAd</segmentFilter>
 	</row>
 </result>

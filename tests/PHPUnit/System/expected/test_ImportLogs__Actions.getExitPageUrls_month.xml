@@ -547,6 +547,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.001</avg_time_generation>
 		<url>http://piwik.net/</url>
+		<segmentFilter>exitPageUrl==http%3A%2F%2Fpiwik.net%2F</segmentFilter>
 	</row>
 	<row>
 		<label>Citrix</label>
@@ -688,6 +689,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://example.org/index.htm</url>
+		<segmentFilter>exitPageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segmentFilter>
 	</row>
 	<row>
 		<label>/register.php?0,approve=9a94a02145599</label>
@@ -710,6 +712,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
+		<segmentFilter>exitPageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segmentFilter>
 	</row>
 	<row>
 		<label>/temp-redirect</label>
@@ -727,6 +730,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/temp-redirect</url>
+		<segmentFilter>exitPageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segmentFilter>
 	</row>
 	<row>
 		<label>/to-an-error</label>
@@ -749,6 +753,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/to-an-error</url>
+		<segmentFilter>exitPageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segmentFilter>
 	</row>
 	<row>
 		<label>download</label>

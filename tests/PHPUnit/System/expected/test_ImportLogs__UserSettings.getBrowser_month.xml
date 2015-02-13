@@ -11,6 +11,7 @@
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
+		<segmentFilter>browserCode==CH</segmentFilter>
 	</row>
 	<row>
 		<label>Internet Explorer</label>
@@ -23,6 +24,7 @@
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
+		<segmentFilter>browserCode==IE</segmentFilter>
 	</row>
 	<row>
 		<label>Epiphany</label>
@@ -35,6 +37,7 @@
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/EP.gif</logo>
+		<segmentFilter>browserCode==EP</segmentFilter>
 	</row>
 	<row>
 		<label>RockMelt</label>
@@ -47,6 +50,7 @@
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
+		<segmentFilter>browserCode==RM</segmentFilter>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -59,6 +63,7 @@
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/UNK.gif</logo>
+		<segmentFilter>browserCode==UNK</segmentFilter>
 	</row>
 	<row>
 		<label>Android Browser</label>
@@ -71,6 +76,7 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/AN.gif</logo>
+		<segmentFilter>browserCode==AN</segmentFilter>
 	</row>
 	<row>
 		<label>Firefox</label>
@@ -83,6 +89,7 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/FF.gif</logo>
+		<segmentFilter>browserCode==FF</segmentFilter>
 	</row>
 	<row>
 		<label>Chrome Mobile</label>
@@ -95,5 +102,6 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/CM.gif</logo>
+		<segmentFilter>browserCode==CM</segmentFilter>
 	</row>
 </result>

@@ -9,51 +9,61 @@
 		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
+		<segmentFilter>deviceType==desktop</segmentFilter>
 		<logo>plugins/DevicesDetection/images/screens/normal.gif</logo>
 	</row>
 	<row>
 		<label>Smartphone</label>
 		<nb_visits>0</nb_visits>
+		<segmentFilter>deviceType==smartphone</segmentFilter>
 		<logo>plugins/DevicesDetection/images/screens/smartphone.png</logo>
 	</row>
 	<row>
 		<label>Tablet</label>
 		<nb_visits>0</nb_visits>
+		<segmentFilter>deviceType==tablet</segmentFilter>
 		<logo>plugins/DevicesDetection/images/screens/tablet.png</logo>
 	</row>
 	<row>
 		<label>Feature phone</label>
 		<nb_visits>0</nb_visits>
+		<segmentFilter>deviceType==feature+phone</segmentFilter>
 		<logo>plugins/DevicesDetection/images/screens/mobile.gif</logo>
 	</row>
 	<row>
 		<label>Console</label>
 		<nb_visits>0</nb_visits>
+		<segmentFilter>deviceType==console</segmentFilter>
 		<logo>plugins/DevicesDetection/images/screens/console.gif</logo>
 	</row>
 	<row>
 		<label>Tv</label>
 		<nb_visits>0</nb_visits>
+		<segmentFilter>deviceType==tv</segmentFilter>
 		<logo>plugins/DevicesDetection/images/screens/tv.png</logo>
 	</row>
 	<row>
 		<label>Car browser</label>
 		<nb_visits>0</nb_visits>
+		<segmentFilter>deviceType==car+browser</segmentFilter>
 		<logo>plugins/DevicesDetection/images/screens/carbrowser.png</logo>
 	</row>
 	<row>
 		<label>Smart display</label>
 		<nb_visits>0</nb_visits>
+		<segmentFilter>deviceType==smart+display</segmentFilter>
 		<logo>plugins/DevicesDetection/images/screens/unknown.gif</logo>
 	</row>
 	<row>
 		<label>Camera</label>
 		<nb_visits>0</nb_visits>
+		<segmentFilter>deviceType==camera</segmentFilter>
 		<logo>plugins/DevicesDetection/images/screens/camera.png</logo>
 	</row>
 	<row>
 		<label>Portable media player</label>
 		<nb_visits>0</nb_visits>
+		<segmentFilter>deviceType==portable+media+player</segmentFilter>
 		<logo>plugins/DevicesDetection/images/screens/unknown.gif</logo>
 	</row>
 </result>

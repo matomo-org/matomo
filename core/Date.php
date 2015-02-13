@@ -627,6 +627,14 @@ class Date
         return $out;
     }
 
+    public function getHourInUTC()
+    {
+        $dateTime = $this->getDatetime();
+        $hourInTz = Date::factory($dateTime, 'UTC')->toString('G');
+
+        return $hourInTz;
+    }
+
     /**
      * Adds `$n` days to `$this` date and returns the result in a new Date.
      * instance.

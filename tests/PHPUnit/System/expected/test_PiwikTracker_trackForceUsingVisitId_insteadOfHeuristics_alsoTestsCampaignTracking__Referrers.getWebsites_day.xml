@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segmentFilter>referrerName==mutantregistration.com</segmentFilter>
 		<subtable>
 			<row>
 				<label>http://mutantregistration.com</label>
@@ -34,6 +35,7 @@
 		<sum_visit_length>361</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segmentFilter>referrerName==myotherreferrerwebsite.com</segmentFilter>
 		<subtable>
 			<row>
 				<label>http://myotherreferrerwebsite.com</label>
@@ -58,6 +60,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segmentFilter>referrerName==myreferrerwebsite.com</segmentFilter>
 		<subtable>
 			<row>
 				<label>http://myreferrerwebsite.com</label>

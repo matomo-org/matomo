@@ -27,6 +27,7 @@
 		<logo>plugins/UserCountry/images/flags/gb.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==gb</segmentFilter>
 	</row>
 	<row>
 		<label>Russian Federation</label>
@@ -55,6 +56,7 @@
 		<logo>plugins/UserCountry/images/flags/ru.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==ru</segmentFilter>
 	</row>
 	<row>
 		<label>France</label>
@@ -83,6 +85,7 @@
 		<logo>plugins/UserCountry/images/flags/fr.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==fr</segmentFilter>
 	</row>
 	<row>
 		<label>Italy</label>
@@ -111,6 +114,7 @@
 		<logo>plugins/UserCountry/images/flags/it.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==it</segmentFilter>
 	</row>
 	<row>
 		<label>Macedonia, the Former Yugoslav Republic of</label>
@@ -139,5 +143,6 @@
 		<logo>plugins/UserCountry/images/flags/mk.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
+		<segmentFilter>countryCode==mk</segmentFilter>
 	</row>
 </result>

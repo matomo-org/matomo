@@ -48,6 +48,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
                            'VisitTime.getVisitInformationPerServerTime');
 
         // 2 segments: ALL and another way of expressing ALL but triggering the Segment code path
+        // 2 segments: ALL and another way of expressing ALL but triggering the Segment code path
         $segments = array(
             false,
             'countryCode!=aa',

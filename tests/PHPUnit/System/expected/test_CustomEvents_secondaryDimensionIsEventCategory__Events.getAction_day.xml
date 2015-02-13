@@ -10,6 +10,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
+		<segmentFilter>eventAction==playTrailer</segmentFilter>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -34,6 +35,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
+		<segmentFilter>eventAction==Search</segmentFilter>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -58,6 +60,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
+		<segmentFilter>eventAction==play25%25</segmentFilter>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -93,6 +96,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
+		<segmentFilter>eventAction==play50%25</segmentFilter>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -128,6 +132,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
+		<segmentFilter>eventAction==play75%25</segmentFilter>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -163,6 +168,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
+		<segmentFilter>eventAction==playEnd</segmentFilter>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -198,6 +204,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>10</max_event_value>
 		<avg_event_value>9.55</avg_event_value>
+		<segmentFilter>eventAction==rating</segmentFilter>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -233,6 +240,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
+		<segmentFilter>eventAction==clickBuyNow</segmentFilter>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -257,6 +265,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>9.66</max_event_value>
 		<avg_event_value>9.66</avg_event_value>
+		<segmentFilter>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segmentFilter>
 		<subtable>
 			<row>
 				<label>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
@@ -281,6 +290,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
+		<segmentFilter>eventAction==play</segmentFilter>
 		<subtable>
 			<row>
 				<label>Music</label>
@@ -305,6 +315,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
+		<segmentFilter>eventAction==playStart</segmentFilter>
 		<subtable>
 			<row>
 				<label>Movie</label>
@@ -329,6 +340,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
+		<segmentFilter>eventAction==Purchase</segmentFilter>
 		<subtable>
 			<row>
 				<label>Movie</label>

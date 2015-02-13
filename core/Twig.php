@@ -21,6 +21,7 @@ use Twig_Loader_Chain;
 use Twig_Loader_Filesystem;
 use Twig_SimpleFilter;
 use Twig_SimpleFunction;
+use Twig_SimpleTest;
 
 /**
  * Twig class
@@ -97,6 +98,19 @@ class Twig
         $this->addFunction_getJavascriptTranslations();
 
         $this->twig->addTokenParser(new RenderTokenParser());
+
+        $this->addTest_false();
+    }
+
+    private function addTest_false()
+    {
+        $test = new Twig_SimpleTest(
+            'false',
+            function ($value) {
+                return false === $value;
+            }
+        );
+        $this->twig->addTest($test);
     }
 
     protected function addFunction_getJavascriptTranslations()

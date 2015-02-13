@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segmentFilter>browserCode==FF;browserVersion==6.0</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/FF.gif</logo>
 	</row>
 	<row>
@@ -22,6 +23,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segmentFilter>browserCode==IE;browserVersion==9.0</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
 	</row>
 	<row>

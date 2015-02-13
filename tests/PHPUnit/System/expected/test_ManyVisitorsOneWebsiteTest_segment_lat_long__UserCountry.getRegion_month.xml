@@ -23,6 +23,7 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>regionCode==BC;countryCode==ca</segmentFilter>
 		<region>BC</region>
 		<country>ca</country>
 		<country_name>Canada</country_name>

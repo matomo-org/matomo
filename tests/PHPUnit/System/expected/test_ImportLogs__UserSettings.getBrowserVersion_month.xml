@@ -10,6 +10,7 @@
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>browserCode==EP;browserVersion==2.30</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/EP.gif</logo>
 	</row>
 	<row>
@@ -22,6 +23,7 @@
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>browserCode==IE;browserVersion==9.0</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
 	</row>
 	<row>
@@ -34,6 +36,7 @@
 		<nb_visits_converted>4</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>browserCode==RM;browserVersion==0.9</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
 	<row>
@@ -46,6 +49,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>browserCode==UNK;browserVersion==</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/UNK.gif</logo>
 	</row>
 	<row>
@@ -58,6 +62,7 @@
 		<nb_visits_converted>3</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segmentFilter>browserCode==CH;browserVersion==37.0</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
 	<row>
@@ -70,6 +75,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>browserCode==AN;browserVersion==</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/AN.gif</logo>
 	</row>
 	<row>
@@ -82,6 +88,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>browserCode==CH;browserVersion==19.0</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
 	<row>
@@ -94,6 +101,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>browserCode==CH;browserVersion==20.0</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
 	<row>
@@ -106,6 +114,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>browserCode==FF;browserVersion==6.0</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/FF.gif</logo>
 	</row>
 	<row>
@@ -118,6 +127,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>browserCode==CH;browserVersion==11.0</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
 	<row>
@@ -130,6 +140,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>browserCode==CH;browserVersion==39.0</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
 	<row>
@@ -142,6 +153,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>browserCode==CH;browserVersion==41.0</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
 	<row>
@@ -154,6 +166,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segmentFilter>browserCode==CM;browserVersion==39.0</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/CM.gif</logo>
 	</row>
 	<row>
@@ -166,6 +179,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>browserCode==IE;browserVersion==6.0</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
 	</row>
 	<row>
@@ -178,6 +192,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segmentFilter>browserCode==IE;browserVersion==8.0</segmentFilter>
 		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
 	</row>
 </result>

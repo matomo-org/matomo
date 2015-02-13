@@ -37,6 +37,17 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $recordName = Dimensions::getRecordNameForAction($name);
         $dataTable  = Archive::getDataTableFromArchive($recordName, $idSite, $period, $date, $segment, $expanded, $idSubtable);
+
+        if (empty($idSubtable)) {
+            $dataTable->filter('AddSegmentValue', array(function ($label) {
+                if ($label === Archiver::CONTENT_PIECE_NOT_SET) {
+                    return false;
+                }
+
+                return $label;
+            }));
+        }
+
         $this->filterDataTable($dataTable);
         return $dataTable;
     }

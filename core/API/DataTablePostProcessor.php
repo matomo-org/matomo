@@ -100,6 +100,15 @@ class DataTablePostProcessor
         $dataTable = $this->applyLabelFilter($dataTable);
 
         $dataTable = $this->applyMetricsFormatting($dataTable);
+        $dataTable = $this->convertSegmentValueToSegmentFilter($dataTable);
+
+        return $dataTable;
+    }
+
+    public function convertSegmentValueToSegmentFilter(DataTableInterface $dataTable)
+    {
+        $dataTable->filter('AddSegmentFilterBySegmentValue', array($this->report));
+        $dataTable->filter('ColumnCallbackDeleteMetadata', array('segmentValue'));
 
         return $dataTable;
     }
@@ -118,6 +127,8 @@ class DataTablePostProcessor
             $pivotByColumn = Common::getRequestVar('pivotByColumn', false, 'string', $this->request);
             $pivotByColumnLimit = Common::getRequestVar('pivotByColumnLimit', false, 'int', $this->request);
 
+            $dataTable->filter('ColumnCallbackDeleteMetadata', array('segmentValue'));
+            $dataTable->filter('ColumnCallbackDeleteMetadata', array('segmentFilter'));
             $dataTable->filter('PivotByDimension', array($reportId, $pivotBy, $pivotByColumn, $pivotByColumnLimit,
                 PivotByDimension::isSegmentFetchingEnabledInConfig()));
         }

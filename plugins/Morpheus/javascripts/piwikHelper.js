@@ -82,6 +82,13 @@ var piwikHelper = {
         return value;
     },
 
+    escape: function (value)
+    {
+        var escape = angular.element(document).injector().get('$sanitize');
+
+        return escape(value);
+    },
+
 	/**
 	 * Add break points to a string so that it can be displayed more compactly
 	 */

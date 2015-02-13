@@ -153,6 +153,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
+		<name>Operating system version</name>
+		<segment>operatingSystemVersion</segment>
+		<acceptedValues>XP, 7, 2.3, 5.1, ...</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
 		<name>Resolution</name>
 		<segment>resolution</segment>
 		<acceptedValues>1280x1024, 800x600, etc.</acceptedValues>

@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segmentFilter>regionCode==07;countryCode==au</segmentFilter>
 		<region>07</region>
 		<country>au</country>
 		<country_name>Australia</country_name>
@@ -26,6 +27,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segmentFilter>regionCode==B8;countryCode==fr</segmentFilter>
 		<region>B8</region>
 		<country>fr</country>
 		<country_name>France</country_name>

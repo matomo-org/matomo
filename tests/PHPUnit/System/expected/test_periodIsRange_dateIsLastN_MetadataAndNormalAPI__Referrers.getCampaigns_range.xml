@@ -12,6 +12,7 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>1000</revenue>
 		<nb_visits>0</nb_visits>
+		<segmentFilter>referrerType==campaign;referrerName==campaign+name+-+yeah%21</segmentFilter>
 		<subtable>
 			<row>
 				<label>campaign keyword - right...</label>

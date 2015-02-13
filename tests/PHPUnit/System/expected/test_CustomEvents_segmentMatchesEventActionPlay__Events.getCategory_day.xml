@@ -10,6 +10,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
+		<segmentFilter>eventCategory==Movie</segmentFilter>
 		<subtable>
 			<row>
 				<label>playTrailer</label>
@@ -89,6 +90,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
+		<segmentFilter>eventCategory==Music</segmentFilter>
 		<subtable>
 			<row>
 				<label>play</label>
