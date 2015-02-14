@@ -471,7 +471,7 @@ class FrontController extends Singleton
             $isAllWebsitesReferer = !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'module=MultiSites&action=index') !== false;
 
             if ($isDashboardReferer
-                && !empty($POST['token_auth'])
+                && !empty($_POST['token_auth'])
                 && Common::getRequestVar('widget', 0, 'int') === 1) {
                 Session::close();
             }
