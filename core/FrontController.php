@@ -466,6 +466,18 @@ class FrontController extends Singleton
             && ($module !== 'API' || ($action && $action !== 'index'))
         ) {
             Session::start();
+
+            if (!empty($_SERVER['HTTP_REFERER'])
+                && !empty($POST['token_auth'])
+                && strpos($_SERVER['HTTP_REFERER'], 'module=CoreHome&action=index') !== false
+                && Common::getRequestVar('widget', 0, 'int') === 1) {
+                Session::close();
+            }
+
+            if (!empty($_SERVER['HTTP_REFERER'])
+                && Common::getRequestVar('viewDataTable', '', 'string') === 'sparkline') {
+                Session::close();
+            }
         }
 
         if (is_null($parameters)) {
