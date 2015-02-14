@@ -467,14 +467,16 @@ class FrontController extends Singleton
         ) {
             Session::start();
 
-            if (!empty($_SERVER['HTTP_REFERER'])
+            $isDashboardReferer   = !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'module=CoreHome&action=index') !== false;
+            $isAllWebsitesReferer = !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'module=MultiSites&action=index') !== false;
+
+            if ($isDashboardReferer
                 && !empty($POST['token_auth'])
-                && strpos($_SERVER['HTTP_REFERER'], 'module=CoreHome&action=index') !== false
                 && Common::getRequestVar('widget', 0, 'int') === 1) {
                 Session::close();
             }
 
-            if (!empty($_SERVER['HTTP_REFERER'])
+            if (($isDashboardReferer || $isAllWebsitesReferer)
                 && Common::getRequestVar('viewDataTable', '', 'string') === 'sparkline') {
                 Session::close();
             }
