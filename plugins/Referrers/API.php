@@ -135,7 +135,14 @@ class API extends \Piwik\Plugin\API
     public function getKeywords($idSite, $period, $date, $segment = false, $expanded = false)
     {
         $dataTable = $this->getDataTable(Archiver::KEYWORDS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
-        $dataTable->filter('AddSegmentValue');
+        $dataTable->filter('AddSegmentValue', array(function ($label) {
+            if ($label === false) {
+                return false;
+            }
+
+            return $label . ';referrerType==search';
+        }));
+
         $dataTable = $this->handleKeywordNotDefined($dataTable);
         return $dataTable;
     }
