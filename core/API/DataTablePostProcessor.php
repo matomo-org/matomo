@@ -95,17 +95,16 @@ class DataTablePostProcessor
         // we automatically safe decode all datatable labels (against xss)
         $dataTable->queueFilter('SafeDecodeLabel');
 
+        $dataTable = $this->convertSegmentValueToSegment($dataTable);
         $dataTable = $this->applyQueuedFilters($dataTable);
         $dataTable = $this->applyRequestedColumnDeletion($dataTable);
         $dataTable = $this->applyLabelFilter($dataTable);
-
         $dataTable = $this->applyMetricsFormatting($dataTable);
-        $dataTable = $this->convertSegmentValueToSegment($dataTable);
 
         return $dataTable;
     }
 
-    public function convertSegmentValueToSegment(DataTableInterface $dataTable)
+    private function convertSegmentValueToSegment(DataTableInterface $dataTable)
     {
         $dataTable->filter('AddSegmentBySegmentValue', array($this->report));
         $dataTable->filter('ColumnCallbackDeleteMetadata', array('segmentValue'));
