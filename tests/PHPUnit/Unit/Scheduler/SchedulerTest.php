@@ -13,6 +13,7 @@ use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
 use Piwik\Tests\Framework\Mock\PiwikOption;
+use Psr\Log\NullLogger;
 use ReflectionProperty;
 
 /**
@@ -50,7 +51,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         self::stubPiwikOption($timetable);
 
         $taskLoader = $this->getMock('Piwik\Scheduler\TaskLoader');
-        $scheduler = new Scheduler($taskLoader);
+        $scheduler = new Scheduler($taskLoader, new NullLogger());
 
         $this->assertEquals($expectedTime, $scheduler->getScheduledTimeForMethod($className, $methodName, $methodParameter));
 
@@ -159,7 +160,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         // stub the piwik option object to control the returned option value
         self::stubPiwikOption(serialize($timetableBeforeTaskExecution));
 
-        $scheduler = new Scheduler($taskLoader);
+        $scheduler = new Scheduler($taskLoader, new NullLogger());
 
         // execute tasks
         $executionResults = $scheduler->run();

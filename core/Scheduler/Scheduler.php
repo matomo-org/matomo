@@ -10,6 +10,7 @@ namespace Piwik\Scheduler;
 
 use Exception;
 use Piwik\Timer;
+use Psr\Log\LoggerInterface;
 
 /**
  * Schedules task execution.
@@ -62,10 +63,16 @@ class Scheduler
      */
     private $loader;
 
-    public function __construct(TaskLoader $loader)
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(TaskLoader $loader, LoggerInterface $logger)
     {
         $this->timetable = new Timetable();
         $this->loader = $loader;
+        $this->logger = $logger;
     }
 
     /**
@@ -84,6 +91,8 @@ class Scheduler
     public function run()
     {
         $tasks = $this->loader->loadTasks();
+
+        $this->logger->debug('{count} scheduled tasks loaded', array('count' => count($tasks)));
 
         // remove from timetable tasks that are not active anymore
         $this->timetable->removeInactiveTasks($tasks);
@@ -131,6 +140,8 @@ class Scheduler
      */
     public function rescheduleTask(Task $task)
     {
+        $this->logger->debug('Rescheduling task {task}', array('task' => $task->getName()));
+
         $this->timetable->rescheduleTask($task);
     }
 
@@ -166,6 +177,8 @@ class Scheduler
      */
     private function executeTask($task)
     {
+        $this->logger->debug('Running task {task}', array('task' => $task->getName()));
+
         try {
             $timer = new Timer();
             call_user_func(array($task->getObjectInstance(), $task->getMethodName()), $task->getMethodParameter());
