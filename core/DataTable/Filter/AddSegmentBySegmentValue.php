@@ -73,6 +73,8 @@ class AddSegmentBySegmentValue extends BaseFilter
             if ($value !== false && $filter === false) {
                 $row->setMetadata('segment', sprintf('%s==%s', $segmentName, urlencode($value)));
             }
+
+            $this->filterSubTable($row);
         }
     }
 }

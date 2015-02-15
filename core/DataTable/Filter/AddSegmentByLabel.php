@@ -54,59 +54,54 @@ class AddSegmentByLabel extends BaseFilter
      */
     public function filter($table)
     {
-        $delimiter = $this->delimiter;
-        $segments  = $this->segments;
-
-        if (empty($segments)) {
+        if (empty($this->segments)) {
             $msg = 'AddSegmentByLabel is called without having any segments defined';
             Development::error($msg);
             return;
         }
 
-        if (count($segments) === 1) {
-            $table->filter(function (DataTable $dataTable) use ($segments) {
-                $segment = array_shift($segments);
+        if (count($this->segments) === 1) {
+            $segment = reset($this->segments);
 
-                foreach ($dataTable->getRows() as $key => $row) {
-                    if ($key == DataTable::ID_SUMMARY_ROW) {
-                        continue;
-                    }
-
-                    $label = $row->getColumn('label');
-
-                    if (!empty($label)) {
-                        $row->setMetadata('segment', $segment . '==' . urlencode($label));
-                    }
+            foreach ($table->getRows() as $key => $row) {
+                if ($key == DataTable::ID_SUMMARY_ROW) {
+                    continue;
                 }
-            });
-        } else if (!empty($delimiter)) {
-            $table->filter(function (DataTable $dataTable) use ($segments, $delimiter) {
-                $numSegments  = count($segments);
-                $conditionAnd = ';';
 
-                foreach ($dataTable->getRows() as $key => $row) {
-                    if ($key == DataTable::ID_SUMMARY_ROW) {
-                        continue;
-                    }
+                $label = $row->getColumn('label');
 
-                    $label = $row->getColumn('label');
-                    if (!empty($label)) {
-                        $parts = explode($delimiter, $label);
+                if (!empty($label)) {
+                    $row->setMetadata('segment', $segment . '==' . urlencode($label));
+                }
 
-                        if (count($parts) === $numSegments) {
-                            $filter = array();
-                            foreach ($segments as $index => $segment) {
-                                if (!empty($segment)) {
-                                    $filter[] = $segment . '==' . urlencode($parts[$index]);
-                                }
+                $this->filterSubTable($row);
+            }
+        } else if (!empty($this->delimiter)) {
+            $numSegments  = count($this->segments);
+            $conditionAnd = ';';
+
+            foreach ($table->getRows() as $key => $row) {
+                if ($key == DataTable::ID_SUMMARY_ROW) {
+                    continue;
+                }
+
+                $label = $row->getColumn('label');
+                if (!empty($label)) {
+                    $parts = explode($this->delimiter, $label);
+
+                    if (count($parts) === $numSegments) {
+                        $filter = array();
+                        foreach ($this->segments as $index => $segment) {
+                            if (!empty($segment)) {
+                                $filter[] = $segment . '==' . urlencode($parts[$index]);
                             }
-                            $row->setMetadata('segment', implode($conditionAnd, $filter));
                         }
+                        $row->setMetadata('segment', implode($conditionAnd, $filter));
                     }
                 }
-            });
+            }
         } else {
-            $names = implode(', ', $segments);
+            $names = implode(', ', $this->segments);
             $msg   = 'Multiple segments are given but no delimiter defined. Segments: ' . $names;
             Development::error($msg);
         }

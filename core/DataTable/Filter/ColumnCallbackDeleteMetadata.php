@@ -44,8 +44,12 @@ class ColumnCallbackDeleteMetadata extends BaseFilter
      */
     public function filter($table)
     {
+        $this->enableRecursive(true);
+
         foreach ($table->getRows() as $row) {
             $row->deleteMetadata($this->metadataToRemove);
+
+            $this->filterSubTable($row);
         }
     }
 }

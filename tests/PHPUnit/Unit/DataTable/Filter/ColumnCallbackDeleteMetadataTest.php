@@ -38,13 +38,21 @@ class ColumnCallbackDeleteMetadataTest extends UnitTestCase
         $this->addRowWithMetadata(array('test' => '4'));
     }
 
-    private function addRowWithMetadata($metadata)
+    private function buildRowWithMetadata($metadata)
     {
         $row = new Row(array(Row::COLUMNS => array('label' => 'val1')));
         foreach ($metadata as $name => $value) {
             $row->setMetadata($name, $value);
         }
+        return $row;
+    }
+
+    private function addRowWithMetadata($metadata)
+    {
+        $row = $this->buildRowWithMetadata($metadata);
         $this->table->addRow($row);
+
+        return $row;
     }
 
     public function test_filter_shouldRemoveAllMetadataEntriesHavingTheGivenName()
@@ -69,5 +77,22 @@ class ColumnCallbackDeleteMetadataTest extends UnitTestCase
         $metadata = $this->table->getRowsMetadata('test');
         $expected = array('1', '2', '3', '1', '4');
         $this->assertSame($expected, $metadata);
+    }
+
+    public function test_filter_shouldRemoveTheMetadataFromSubtables_IfOneIsSet()
+    {
+        $row   = $this->addRowWithMetadata(array('test' => '5', 'other' => 'value2'));
+        $table = new DataTable();
+        $table->addRow($this->buildRowWithMetadata(array('other' => 'value3')));
+        $table->addRow($this->buildRowWithMetadata(array('test' => '6')));
+        $table->addRow($this->buildRowWithMetadata(array('test' => '7', 'other' => 'value4')));
+        $row->setSubtable($table);
+
+        $this->table->filter($this->filter, array('other'));
+
+        $this->assertFalse($row->getMetadata('other'));
+
+        $metadata = $table->getRowsMetadata('other');
+        $this->assertSame(array(false, false, false), $metadata);
     }
 }

@@ -47,22 +47,19 @@ class AddSegmentByLabelMapping extends BaseFilter
      */
     public function filter($table)
     {
-        $mapping = $this->mapping;
-        $segment = $this->segment;
-
-        if (empty($segment) || empty($mapping)) {
+        if (empty($this->segment) || empty($this->mapping)) {
             return;
         }
 
-        $table->filter(function (DataTable $dataTable) use ($segment, $mapping) {
-            foreach ($dataTable->getRows() as $row) {
-                $label = $row->getColumn('label');
+        foreach ($table->getRows() as $row) {
+            $label = $row->getColumn('label');
 
-                if (!empty($mapping[$label])) {
-                    $label = $mapping[$label];
-                    $row->setMetadata('segment', $segment . '==' . urlencode($label));
-                }
+            if (!empty($this->mapping[$label])) {
+                $label = $this->mapping[$label];
+                $row->setMetadata('segment', $this->segment . '==' . urlencode($label));
             }
-        });
+
+            $this->filterSubTable($row);
+        }
     }
 }
