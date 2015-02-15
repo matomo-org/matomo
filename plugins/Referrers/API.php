@@ -68,8 +68,8 @@ class API extends \Piwik\Plugin\API
      * @param bool $expanded Whether to get report w/ subtables loaded or not.
      * @return DataTable
      */
-    public function  getReferrerType($idSite, $period, $date, $segment = false, $typeReferrer = false,
-                                     $idSubtable = false, $expanded = false)
+    public function getReferrerType($idSite, $period, $date, $segment = false, $typeReferrer = false,
+                                    $idSubtable = false, $expanded = false)
     {
         // if idSubtable is supplied, interpret idSubtable as referrer type and return correct report
         if ($idSubtable !== false) {
@@ -89,6 +89,9 @@ class API extends \Piwik\Plugin\API
             }
 
             if ($result) {
+                $result->filter('ColumnCallbackDeleteMetadata', array('segment'));
+                $result->filter('ColumnCallbackDeleteMetadata', array('segmentValue'));
+
                 return $this->removeSubtableIds($result); // this report won't return subtables of individual reports
             }
         }
@@ -106,6 +109,8 @@ class API extends \Piwik\Plugin\API
         if (!($dataTable instanceof DataTable\Map)) {
             $this->setGetReferrerTypeSubtables($dataTable, $idSite, $period, $date, $segment, $expanded);
         }
+
+        $manager = DataTable\Manager::getInstance();
 
         // set referrer type column to readable value
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getReferrerTypeLabel'));
