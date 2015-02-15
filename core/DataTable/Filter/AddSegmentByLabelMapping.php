@@ -58,8 +58,6 @@ class AddSegmentByLabelMapping extends BaseFilter
                 $label = $this->mapping[$label];
                 $row->setMetadata('segment', $this->segment . '==' . urlencode($label));
             }
-
-            $this->filterSubTable($row);
         }
     }
 }

@@ -73,8 +73,6 @@ class AddSegmentByLabel extends BaseFilter
                 if (!empty($label)) {
                     $row->setMetadata('segment', $segment . '==' . urlencode($label));
                 }
-
-                $this->filterSubTable($row);
             }
         } else if (!empty($this->delimiter)) {
             $numSegments  = count($this->segments);
