@@ -25,9 +25,9 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>gb</code>
 		<logo>plugins/UserCountry/images/flags/gb.png</logo>
+		<segment>countryCode==gb</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
-		<segment>countryCode==gb</segment>
 	</row>
 	<row>
 		<label>Russian Federation</label>
@@ -54,9 +54,9 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>ru</code>
 		<logo>plugins/UserCountry/images/flags/ru.png</logo>
+		<segment>countryCode==ru</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
-		<segment>countryCode==ru</segment>
 	</row>
 	<row>
 		<label>France</label>
@@ -83,9 +83,9 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>fr</code>
 		<logo>plugins/UserCountry/images/flags/fr.png</logo>
+		<segment>countryCode==fr</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
-		<segment>countryCode==fr</segment>
 	</row>
 	<row>
 		<label>Italy</label>
@@ -112,9 +112,9 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>it</code>
 		<logo>plugins/UserCountry/images/flags/it.png</logo>
+		<segment>countryCode==it</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
-		<segment>countryCode==it</segment>
 	</row>
 	<row>
 		<label>Macedonia, the Former Yugoslav Republic of</label>
@@ -141,8 +141,8 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>mk</code>
 		<logo>plugins/UserCountry/images/flags/mk.png</logo>
+		<segment>countryCode==mk</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
-		<segment>countryCode==mk</segment>
 	</row>
 </result>

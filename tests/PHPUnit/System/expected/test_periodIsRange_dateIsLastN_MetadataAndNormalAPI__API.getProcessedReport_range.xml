@@ -58,9 +58,9 @@
 		<row>
 			<code>fr</code>
 			<logo>plugins/UserCountry/images/flags/fr.png</logo>
+			<segment>countryCode==fr</segment>
 			<logoWidth>16</logoWidth>
 			<logoHeight>11</logoHeight>
-			<segment>countryCode==fr</segment>
 		</row>
 	</reportMetadata>
 	<reportTotal>

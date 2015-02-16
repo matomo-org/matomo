@@ -10,7 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>5</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>referrerKeyword==kia+ora</segment>
+		<segment>referrerType==search;referrerKeyword==kia+ora</segment>
 		<subtable>
 			<row>
 				<label>Google</label>
@@ -57,7 +57,7 @@
 		<sum_visit_length>1</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>referrerKeyword==hello+world</segment>
+		<segment>referrerType==search;referrerKeyword==hello+world</segment>
 		<subtable>
 			<row>
 				<label>Bing</label>
@@ -82,7 +82,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>referrerKeyword==salut</segment>
+		<segment>referrerType==search;referrerKeyword==salut</segment>
 		<subtable>
 			<row>
 				<label>Google</label>

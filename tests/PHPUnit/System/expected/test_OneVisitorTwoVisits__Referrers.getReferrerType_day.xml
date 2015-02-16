@@ -35,7 +35,6 @@
 				</goals>
 				<nb_conversions>1</nb_conversions>
 				<revenue>1</revenue>
-				<segmentValue>purchase</segmentValue>
 			</row>
 		</subtable>
 	</row>
@@ -74,7 +73,6 @@
 				</goals>
 				<nb_conversions>1</nb_conversions>
 				<revenue>42</revenue>
-				<segment>referrerName==referrer.com</segment>
 			</row>
 		</subtable>
 	</row>
