@@ -328,7 +328,7 @@ class Plugin
             $classname = $this->cache->fetch($cacheId);
 
             if (empty($classname)) {
-                return; // might by "false" in case has no menu, widget, ...
+                return null; // might by "false" in case has no menu, widget, ...
             }
 
             if (file_exists($componentFile)) {
@@ -339,7 +339,7 @@ class Plugin
             $this->cache->save($cacheId, false); // prevent from trying to load over and over again for instance if there is no Menu for a plugin
 
             if (!file_exists($componentFile)) {
-                return;
+                return null;
             }
 
             require_once $componentFile;
@@ -347,13 +347,13 @@ class Plugin
             $classname = sprintf('Piwik\\Plugins\\%s\\%s', $this->pluginName, $componentName);
 
             if (!class_exists($classname)) {
-                return;
+                return null;
             }
 
             if (!empty($expectedSubclass) && !is_subclass_of($classname, $expectedSubclass)) {
                 Log::warning(sprintf('Cannot use component %s for plugin %s, class %s does not extend %s',
                     $componentName, $this->pluginName, $classname, $expectedSubclass));
-                return;
+                return null;
             }
 
             $this->cache->save($cacheId, $classname);
