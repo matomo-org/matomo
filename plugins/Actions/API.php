@@ -462,6 +462,10 @@ class API extends \Piwik\Plugin\API
             }
         });
 
+        $dataTable->filter('GroupBy', array('label', function ($label) {
+            return urldecode($label);
+        }));
+
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
     }
 
