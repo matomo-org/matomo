@@ -2131,8 +2131,8 @@ if (typeof Piwik !== 'object') {
                 // Current URL and Referrer URL
                 locationArray = urlFixup(documentAlias.domain, windowAlias.location.href, getReferrer()),
                 domainAlias = domainFixup(locationArray[0]),
-                locationHrefAlias = locationArray[1],
-                configReferrerUrl = locationArray[2],
+                locationHrefAlias = decodeWrapper(locationArray[1]),
+                configReferrerUrl = decodeWrapper(locationArray[2]),
 
                 enableJSErrorTracking = false,
 
