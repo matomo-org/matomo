@@ -281,7 +281,7 @@ class Config extends Singleton
      */
     public function forceUsageOfLocalHostnameConfig($hostname)
     {
-        $hostConfig = static::getLocalConfigInfoForHostname($hostname);
+        $hostConfig = self::getLocalConfigInfoForHostname($hostname);
 
         if (!Filesystem::isValidFilename($hostConfig['file'])) {
             throw new Exception('Hostname is not valid');
