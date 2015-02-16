@@ -325,9 +325,9 @@ class Plugin
         $componentFile = sprintf('%s/plugins/%s/%s.php', PIWIK_INCLUDE_PATH, $this->pluginName, $componentName);
 
         if ($this->cache->contains($cacheId)) {
-            $klassName = $this->cache->fetch($cacheId);
+            $classname = $this->cache->fetch($cacheId);
 
-            if (empty($klassName)) {
+            if (empty($classname)) {
                 return; // might by "false" in case has no menu, widget, ...
             }
 
@@ -344,22 +344,22 @@ class Plugin
 
             require_once $componentFile;
 
-            $klassName = sprintf('Piwik\\Plugins\\%s\\%s', $this->pluginName, $componentName);
+            $classname = sprintf('Piwik\\Plugins\\%s\\%s', $this->pluginName, $componentName);
 
-            if (!class_exists($klassName)) {
+            if (!class_exists($classname)) {
                 return;
             }
 
-            if (!empty($expectedSubclass) && !is_subclass_of($klassName, $expectedSubclass)) {
+            if (!empty($expectedSubclass) && !is_subclass_of($classname, $expectedSubclass)) {
                 Log::warning(sprintf('Cannot use component %s for plugin %s, class %s does not extend %s',
-                    $componentName, $this->pluginName, $klassName, $expectedSubclass));
+                    $componentName, $this->pluginName, $classname, $expectedSubclass));
                 return;
             }
 
-            $this->cache->save($cacheId, $klassName);
+            $this->cache->save($cacheId, $classname);
         }
 
-        return new $klassName;
+        return new $classname;
     }
 
     public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
