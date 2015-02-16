@@ -450,6 +450,9 @@ class API extends \Piwik\Plugin\API
         $description = str_replace(array("\r", "\n"), ' ', $report['description']);
 
         list($reportSubject, $reportTitle) = self::getReportSubjectAndReportTitle(Site::getNameFor($idSite), $report['reports']);
+        
+        if(is_array($segment) && strlen($segment['name'])) $reportTitle .= " - ".$segment['name'];
+        
         $filename = "$reportTitle - $prettyDate - $description";
 
         $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment);
