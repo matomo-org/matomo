@@ -82,27 +82,27 @@
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
 				<contentTarget>http://piwik.org/download</contentTarget>
-				<segmentFilter>contentPiece==Click+to+download+Piwik+now</segmentFilter>
+				<segment>contentPiece==Click+to+download+Piwik+now</segment>
 				
 			</row>
 			<row>
 				<contentTarget>http://www.example.com</contentTarget>
-				<segmentFilter>contentPiece==%2Fpath%2Fad.jpg</segmentFilter>
+				<segment>contentPiece==%2Fpath%2Fad.jpg</segment>
 				
 			</row>
 			<row>
 				<contentTarget>http://www.example.com</contentTarget>
-				<segmentFilter>contentPiece==%2Fpath%2Fad2.jpg</segmentFilter>
+				<segment>contentPiece==%2Fpath%2Fad2.jpg</segment>
 				
 			</row>
 			<row>
 				<contentTarget>http://piwik.org/</contentTarget>
-				<segmentFilter>contentPiece==Click+NOW</segmentFilter>
+				<segment>contentPiece==Click+NOW</segment>
 				
 			</row>
 			<row>
 				<contentTarget />
-				<segmentFilter>contentPiece==movie.mov</segmentFilter>
+				<segment>contentPiece==movie.mov</segment>
 				
 			</row>
 			<row>
@@ -111,7 +111,7 @@
 			</row>
 			<row>
 				<contentTarget />
-				<segmentFilter>contentPiece==Unknown</segmentFilter>
+				<segment>contentPiece==Unknown</segment>
 				
 			</row>
 		</result>

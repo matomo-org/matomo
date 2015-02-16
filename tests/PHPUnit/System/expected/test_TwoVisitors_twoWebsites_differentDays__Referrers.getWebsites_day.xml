@@ -12,7 +12,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
-				<segmentFilter>referrerName==referrer.com</segmentFilter>
+				<segment>referrerName==referrer.com</segment>
 				<subtable>
 					<row>
 						<label>http://referrer.com/page.htm?param=valuewith some spaces</label>
@@ -39,7 +39,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
-				<segmentFilter>referrerName==referrer.com</segmentFilter>
+				<segment>referrerName==referrer.com</segment>
 				<subtable>
 					<row>
 						<label>http://referrer.com/page.htm?param=valuewith some spaces</label>
@@ -69,7 +69,7 @@
 				<sum_visit_length>901</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
-				<segmentFilter>referrerName==referrer.com</segmentFilter>
+				<segment>referrerName==referrer.com</segment>
 				<subtable>
 					<row>
 						<label>http://referrer.com/Other_Page.htm</label>
@@ -96,7 +96,7 @@
 				<sum_visit_length>901</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
-				<segmentFilter>referrerName==referrer.com</segmentFilter>
+				<segment>referrerName==referrer.com</segment>
 				<subtable>
 					<row>
 						<label>http://referrer.com/Other_Page.htm</label>
@@ -126,7 +126,7 @@
 				<sum_visit_length>1</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
-				<segmentFilter>referrerName==only-homepage-referrer.com</segmentFilter>
+				<segment>referrerName==only-homepage-referrer.com</segment>
 				<subtable>
 					<row>
 						<label>http://only-homepage-referrer.com/</label>

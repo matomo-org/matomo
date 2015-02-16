@@ -12,16 +12,16 @@ use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
 
 /**
- * Converts for each row of a {@link DataTable} a segmentValue to a segmentFilter. The name of the segment
+ * Converts for each row of a {@link DataTable} a segmentValue to a segment (expression). The name of the segment
  * is automatically detected based on the given report.
  *
  * **Basic usage example**
  *
- *     $dataTable->filter('AddSegmentFilterBySegmentValue', array($reportInstance));
+ *     $dataTable->filter('AddSegmentBySegmentValue', array($reportInstance));
  *
  * @api
  */
-class AddSegmentFilterBySegmentValue extends BaseFilter
+class AddSegmentBySegmentValue extends BaseFilter
 {
     /**
      * @var \Piwik\Plugin\Report
@@ -39,7 +39,7 @@ class AddSegmentFilterBySegmentValue extends BaseFilter
     }
 
     /**
-     * See {@link AddSegmentFilterBySegmentValue}.
+     * See {@link AddSegmentBySegmentValue}.
      *
      * @param DataTable $table
      * @return int The number of deleted rows.
@@ -63,15 +63,15 @@ class AddSegmentFilterBySegmentValue extends BaseFilter
         }
 
         /** @var \Piwik\Plugin\Segment $segment */
-        $segment     = array_shift($segments);
+        $segment     = reset($segments);
         $segmentName = $segment->getSegment();
 
         foreach ($table->getRows() as $row) {
             $value  = $row->getMetadata('segmentValue');
-            $filter = $row->getMetadata('segmentFilter');
+            $filter = $row->getMetadata('segment');
 
             if ($value !== false && $filter === false) {
-                $row->setMetadata('segmentFilter', sprintf('%s==%s', $segmentName, urlencode($value)));
+                $row->setMetadata('segment', sprintf('%s==%s', $segmentName, urlencode($value)));
             }
         }
     }

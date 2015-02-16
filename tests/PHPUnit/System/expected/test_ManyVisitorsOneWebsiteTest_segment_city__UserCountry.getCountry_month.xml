@@ -25,8 +25,8 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>gb</code>
 		<logo>plugins/UserCountry/images/flags/gb.png</logo>
+		<segment>countryCode==gb</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
-		<segmentFilter>countryCode==gb</segmentFilter>
 	</row>
 </result>

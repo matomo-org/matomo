@@ -10,7 +10,7 @@
 		<max_event_value>0</max_event_value>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_event_value>0</avg_event_value>
-		<segmentFilter>eventAction==connect</segmentFilter>
+		<segment>eventAction==connect</segment>
 	</row>
 	<row>
 		<label>play</label>
@@ -22,7 +22,7 @@
 		<max_event_value>0</max_event_value>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_event_value>0</avg_event_value>
-		<segmentFilter>eventAction==play</segmentFilter>
+		<segment>eventAction==play</segment>
 		<subtable>
 			<row>
 				<label>myvideo</label>

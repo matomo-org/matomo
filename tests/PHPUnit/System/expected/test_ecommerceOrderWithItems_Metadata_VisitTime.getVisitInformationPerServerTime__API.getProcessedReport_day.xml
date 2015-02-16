@@ -316,76 +316,76 @@
 	</reportData>
 	<reportMetadata>
 		<row>
-			<segmentFilter>visitServerHour==0</segmentFilter>
+			<segment>visitServerHour==0</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==1</segmentFilter>
+			<segment>visitServerHour==1</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==2</segmentFilter>
+			<segment>visitServerHour==2</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==3</segmentFilter>
+			<segment>visitServerHour==3</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==4</segmentFilter>
+			<segment>visitServerHour==4</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==5</segmentFilter>
+			<segment>visitServerHour==5</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==6</segmentFilter>
+			<segment>visitServerHour==6</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==7</segmentFilter>
+			<segment>visitServerHour==7</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==8</segmentFilter>
+			<segment>visitServerHour==8</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==9</segmentFilter>
+			<segment>visitServerHour==9</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==10</segmentFilter>
+			<segment>visitServerHour==10</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==11</segmentFilter>
+			<segment>visitServerHour==11</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==12</segmentFilter>
+			<segment>visitServerHour==12</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==13</segmentFilter>
+			<segment>visitServerHour==13</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==14</segmentFilter>
+			<segment>visitServerHour==14</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==15</segmentFilter>
+			<segment>visitServerHour==15</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==16</segmentFilter>
+			<segment>visitServerHour==16</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==17</segmentFilter>
+			<segment>visitServerHour==17</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==18</segmentFilter>
+			<segment>visitServerHour==18</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==19</segmentFilter>
+			<segment>visitServerHour==19</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==20</segmentFilter>
+			<segment>visitServerHour==20</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==21</segmentFilter>
+			<segment>visitServerHour==21</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==22</segmentFilter>
+			<segment>visitServerHour==22</segment>
 		</row>
 		<row>
-			<segmentFilter>visitServerHour==23</segmentFilter>
+			<segment>visitServerHour==23</segment>
 		</row>
 	</reportMetadata>
 	<reportTotal>

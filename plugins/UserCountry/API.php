@@ -70,7 +70,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable(Archiver::REGION_RECORD_NAME, $idSite, $period, $date, $segment);
 
         $segments = array('regionCode', 'countryCode');
-        $dataTable->filter('AddSegmentFilter', array($segments, Archiver::LOCATION_SEPARATOR));
+        $dataTable->filter('AddSegmentByLabel', array($segments, Archiver::LOCATION_SEPARATOR));
 
         $separator = Archiver::LOCATION_SEPARATOR;
         $unk = Visit::UNKNOWN_CODE;
@@ -115,7 +115,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable(Archiver::CITY_RECORD_NAME, $idSite, $period, $date, $segment);
 
         $segments = array('city', 'regionCode', 'countryCode');
-        $dataTable->filter('AddSegmentFilter', array($segments, Archiver::LOCATION_SEPARATOR));
+        $dataTable->filter('AddSegmentByLabel', array($segments, Archiver::LOCATION_SEPARATOR));
 
         $separator = Archiver::LOCATION_SEPARATOR;
         $unk = Visit::UNKNOWN_CODE;

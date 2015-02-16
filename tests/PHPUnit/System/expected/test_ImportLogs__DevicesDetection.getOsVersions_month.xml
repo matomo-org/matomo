@@ -10,7 +10,7 @@
 		<nb_visits_converted>8</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>operatingSystemCode==LIN;operatingSystemVersion==</segmentFilter>
+		<segment>operatingSystemCode==LIN;operatingSystemVersion==</segment>
 		<logo>plugins/DevicesDetection/images/os/LIN.gif</logo>
 	</row>
 	<row>
@@ -23,7 +23,7 @@
 		<nb_visits_converted>7</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>operatingSystemCode==WIN;operatingSystemVersion==7</segmentFilter>
+		<segment>operatingSystemCode==WIN;operatingSystemVersion==7</segment>
 		<logo>plugins/DevicesDetection/images/os/WIN.gif</logo>
 	</row>
 	<row>
@@ -36,7 +36,7 @@
 		<nb_visits_converted>4</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>operatingSystemCode==MAC;operatingSystemVersion==10.6</segmentFilter>
+		<segment>operatingSystemCode==MAC;operatingSystemVersion==10.6</segment>
 		<logo>plugins/DevicesDetection/images/os/MAC.gif</logo>
 	</row>
 	<row>
@@ -49,7 +49,7 @@
 		<nb_visits_converted>4</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segmentFilter>operatingSystemCode==MAC;operatingSystemVersion==10.10</segmentFilter>
+		<segment>operatingSystemCode==MAC;operatingSystemVersion==10.10</segment>
 		<logo>plugins/DevicesDetection/images/os/MAC.gif</logo>
 	</row>
 	<row>
@@ -62,7 +62,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>operatingSystemCode==UNK;operatingSystemVersion==UNK</segmentFilter>
+		<segment>operatingSystemCode==UNK;operatingSystemVersion==UNK</segment>
 		<logo>plugins/DevicesDetection/images/os/UNK.gif</logo>
 	</row>
 	<row>
@@ -75,7 +75,7 @@
 		<nb_visits_converted>3</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>operatingSystemCode==WIN;operatingSystemVersion==XP</segmentFilter>
+		<segment>operatingSystemCode==WIN;operatingSystemVersion==XP</segment>
 		<logo>plugins/DevicesDetection/images/os/WIN.gif</logo>
 	</row>
 	<row>
@@ -88,7 +88,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>operatingSystemCode==AND;operatingSystemVersion==2.3</segmentFilter>
+		<segment>operatingSystemCode==AND;operatingSystemVersion==2.3</segment>
 		<logo>plugins/DevicesDetection/images/os/AND.gif</logo>
 	</row>
 	<row>
@@ -101,7 +101,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segmentFilter>operatingSystemCode==AND;operatingSystemVersion==4.4</segmentFilter>
+		<segment>operatingSystemCode==AND;operatingSystemVersion==4.4</segment>
 		<logo>plugins/DevicesDetection/images/os/AND.gif</logo>
 	</row>
 	<row>
@@ -114,7 +114,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>operatingSystemCode==BOT;operatingSystemVersion==UNK</segmentFilter>
+		<segment>operatingSystemCode==BOT;operatingSystemVersion==UNK</segment>
 		<logo>plugins/DevicesDetection/images/os/UNK.gif</logo>
 	</row>
 	<row>
@@ -127,7 +127,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>operatingSystemCode==MAC;operatingSystemVersion==</segmentFilter>
+		<segment>operatingSystemCode==MAC;operatingSystemVersion==</segment>
 		<logo>plugins/DevicesDetection/images/os/MAC.gif</logo>
 	</row>
 	<row>
@@ -140,7 +140,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>operatingSystemCode==MAC;operatingSystemVersion==10.8</segmentFilter>
+		<segment>operatingSystemCode==MAC;operatingSystemVersion==10.8</segment>
 		<logo>plugins/DevicesDetection/images/os/MAC.gif</logo>
 	</row>
 	<row>
@@ -153,7 +153,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segmentFilter>operatingSystemCode==WIN;operatingSystemVersion==</segmentFilter>
+		<segment>operatingSystemCode==WIN;operatingSystemVersion==</segment>
 		<logo>plugins/DevicesDetection/images/os/WIN.gif</logo>
 	</row>
 </result>

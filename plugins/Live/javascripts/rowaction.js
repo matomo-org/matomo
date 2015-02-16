@@ -154,6 +154,8 @@
             segmentName  = piwikHelper.htmlEntities(segmentName);
             segmentValue = piwikHelper.escape(segmentValue);
             segmentValue = piwikHelper.htmlEntities(segmentValue);
+            segmentName  = segmentName.replace(/(&amp;)(#[0-9]{2,5};)/g, '&$2')
+            segmentValue = segmentValue.replace(/(&amp;)(#[0-9]{2,5};)/g, '&$2')
 
             var title = _pk_translate('Live_SegmentedVisitorLogTitle', [segmentName, segmentValue]);
 

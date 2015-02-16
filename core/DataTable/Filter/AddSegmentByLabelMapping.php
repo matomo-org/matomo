@@ -18,11 +18,11 @@ use Piwik\DataTable\BaseFilter;
  *
  * **Basic usage example**
  *
- *     $dataTable->filter('AddSegmentFilterByLabelMapping', array('segmentName', array('1' => 'smartphone, '2' => 'desktop')));
+ *     $dataTable->filter('AddSegmentByLabelMapping', array('segmentName', array('1' => 'smartphone, '2' => 'desktop')));
  *
  * @api
  */
-class AddSegmentFilterByLabelMapping extends BaseFilter
+class AddSegmentByLabelMapping extends BaseFilter
 {
     private $segment;
     private $mapping;
@@ -41,28 +41,23 @@ class AddSegmentFilterByLabelMapping extends BaseFilter
     }
 
     /**
-     * See {@link AddSegmentFilterByLabelMapping}.
+     * See {@link AddSegmentByLabelMapping}.
      *
      * @param DataTable $table
      */
     public function filter($table)
     {
-        $mapping = $this->mapping;
-        $segment = $this->segment;
-
-        if (empty($segment) || empty($mapping)) {
+        if (empty($this->segment) || empty($this->mapping)) {
             return;
         }
 
-        $table->filter(function (DataTable $dataTable) use ($segment, $mapping) {
-            foreach ($dataTable->getRows() as $row) {
-                $label = $row->getColumn('label');
+        foreach ($table->getRows() as $row) {
+            $label = $row->getColumn('label');
 
-                if (!empty($mapping[$label])) {
-                    $label = $mapping[$label];
-                    $row->setMetadata('segmentFilter', $segment . '==' . urlencode($label));
-                }
+            if (!empty($this->mapping[$label])) {
+                $label = $this->mapping[$label];
+                $row->setMetadata('segment', $this->segment . '==' . urlencode($label));
             }
-        });
+        }
     }
 }

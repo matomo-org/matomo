@@ -17,7 +17,7 @@ use Piwik\DataTable\BaseFilter;
  *
  * **Basic usage example**
  *
- *     $dataTable->filter('PrependValueToMetadata', array('segmentFilter', 'segmentName==segmentValue'));
+ *     $dataTable->filter('PrependValueToMetadata', array('segment', 'segmentName==segmentValue'));
  *
  * @api
  */

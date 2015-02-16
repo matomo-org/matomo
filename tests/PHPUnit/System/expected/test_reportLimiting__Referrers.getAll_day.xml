@@ -10,7 +10,6 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>referrerName==whatever1.com</segmentFilter>
 		<referer_type>3</referer_type>
 	</row>
 	<row>
@@ -23,7 +22,6 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>4</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>referrerName==whatever0.com</segmentFilter>
 		<referer_type>3</referer_type>
 	</row>
 	<row>

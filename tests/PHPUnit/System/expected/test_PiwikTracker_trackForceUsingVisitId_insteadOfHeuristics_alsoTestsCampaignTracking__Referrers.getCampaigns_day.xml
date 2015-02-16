@@ -18,7 +18,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>42.26</revenue>
-		<segmentFilter>referrerType==campaign;referrerName==ga+campaign</segmentFilter>
+		<segment>referrerType==campaign;referrerName==ga+campaign</segment>
 		<subtable>
 			<row>
 				<label>piwik kwd</label>
@@ -73,7 +73,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>referrerType==campaign;referrerName==adwords+campaign</segmentFilter>
+		<segment>referrerType==campaign;referrerName==adwords+campaign</segment>
 		<subtable>
 			<row>
 				<label>(adwords) www.adwords-publisher-website.org</label>
@@ -109,7 +109,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>referrerType==campaign;referrerName==adwords+%28text%29</segmentFilter>
+		<segment>referrerType==campaign;referrerName==adwords+%28text%29</segment>
 		<subtable>
 			<row>
 				<label>(adwords) www.example.com</label>
@@ -134,7 +134,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segmentFilter>referrerType==campaign;referrerName==adwords+%28text_image%29</segmentFilter>
+		<segment>referrerType==campaign;referrerName==adwords+%28text_image%29</segment>
 		<subtable>
 			<row>
 				<label>(adwords) example.com</label>
@@ -167,7 +167,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>24</revenue>
-		<segmentFilter>referrerType==campaign;referrerName==credited+to+another+goal</segmentFilter>
+		<segment>referrerType==campaign;referrerName==credited+to+another+goal</segment>
 		<subtable>
 			<row>
 				<label>example.org</label>
@@ -208,7 +208,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>42</revenue>
-		<segmentFilter>referrerType==campaign;referrerName==credited+to+goal+please</segmentFilter>
+		<segment>referrerType==campaign;referrerName==credited+to+goal+please</segment>
 		<subtable>
 			<row>
 				<label>example.org</label>

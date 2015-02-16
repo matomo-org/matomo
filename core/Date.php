@@ -154,6 +154,19 @@ class Date
     }
 
     /**
+     * Returns the current hour in UTC timezone.
+     * @return string
+     * @throws Exception
+     */
+    public function getHourUTC()
+    {
+        $dateTime = $this->getDatetime();
+        $hourInTz = Date::factory($dateTime, 'UTC')->toString('G');
+
+        return $hourInTz;
+    }
+
+    /**
      * Returns the start of the day of the current timestamp in UTC. For example,
      * if the current timestamp is `'2007-07-24 14:04:24'` in UTC, the result will
      * be `'2007-07-24'`.
@@ -625,14 +638,6 @@ class Date
         );
         $out = str_replace(array_keys($patternToValue), array_values($patternToValue), $template);
         return $out;
-    }
-
-    public function getHourInUTC()
-    {
-        $dateTime = $this->getDatetime();
-        $hourInTz = Date::factory($dateTime, 'UTC')->toString('G');
-
-        return $hourInTz;
     }
 
     /**
