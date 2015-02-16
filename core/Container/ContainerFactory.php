@@ -23,7 +23,7 @@ class ContainerFactory
     /**
      * Optional environment config to load.
      *
-     * @var bool
+     * @var string|null
      */
     private $environment;
 

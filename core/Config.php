@@ -48,9 +48,7 @@ class Config extends Singleton
     const DEFAULT_GLOBAL_CONFIG_PATH = '/config/global.ini.php';
 
     /**
-     * Contains configuration files values
-     *
-     * @var array
+     * @var boolean
      */
     protected $initialized = false;
     protected $configGlobal = array();

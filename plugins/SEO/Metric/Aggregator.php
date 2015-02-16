@@ -38,6 +38,9 @@ class Aggregator implements MetricsProvider
         return $metrics;
     }
 
+    /**
+     * @return MetricsProvider[]
+     */
     private function getProviders()
     {
         $container = StaticContainer::getContainer();

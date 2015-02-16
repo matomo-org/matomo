@@ -25,7 +25,7 @@ class CliMulti {
     public $supportsAsync = null;
 
     /**
-     * @var \Piwik\CliMulti\Process[]
+     * @var Process[]
      */
     private $processes = array();
 
@@ -36,7 +36,7 @@ class CliMulti {
     private $concurrentProcessesLimit = null;
 
     /**
-     * @var \Piwik\CliMulti\Output[]
+     * @var Output[]
      */
     private $outputs = array();
 

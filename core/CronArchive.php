@@ -1039,6 +1039,9 @@ class CronArchive
         return in_array($token_auth, $this->validTokenAuths);
     }
 
+    /**
+     * @param string|bool $piwikUrl
+     */
     protected function initPiwikHost($piwikUrl = false)
     {
         // If core:archive command run as a web cron, we use the current hostname+path

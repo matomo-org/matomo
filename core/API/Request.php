@@ -77,8 +77,8 @@ class Request
      * mappings. The current query parameters (everything in `$_GET` and `$_POST`) are
      * forwarded to request array before it is returned.
      *
-     * @param string|array $request The base request string or array, eg,
-     *                              `'module=UserLanguage&action=getLanguage'`.
+     * @param string|array|null $request The base request string or array, eg,
+     *                                   `'module=UserLanguage&action=getLanguage'`.
      * @param array $defaultRequest Default query parameters. If a query parameter is absent in `$request`, it will be loaded
      *                              from this. Defaults to `$_GET + $_POST`.
      * @return array
