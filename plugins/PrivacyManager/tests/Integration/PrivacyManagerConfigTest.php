@@ -31,15 +31,15 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
     public function test_useAnonymizedIpForVisitEnrichment()
     {
-        $this->assertTrue($this->config->useAnonymizedIpForVisitEnrichment);
-
-        $this->config->useAnonymizedIpForVisitEnrichment = false;
-
         $this->assertFalse($this->config->useAnonymizedIpForVisitEnrichment);
 
         $this->config->useAnonymizedIpForVisitEnrichment = true;
 
         $this->assertTrue($this->config->useAnonymizedIpForVisitEnrichment);
+
+        $this->config->useAnonymizedIpForVisitEnrichment = false;
+
+        $this->assertFalse($this->config->useAnonymizedIpForVisitEnrichment);
     }
 
     public function test_doNotTrackEnabled()
@@ -82,7 +82,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
             'PrivacyManager.ipAddressMaskLength' => 2,
             'PrivacyManager.ipAnonymizerEnabled' => true,
             'PrivacyManager.doNotTrackEnabled'   => true,
-            'PrivacyManager.useAnonymizedIpForVisitEnrichment' => true,
+            'PrivacyManager.useAnonymizedIpForVisitEnrichment' => false,
         );
 
         $this->assertEquals($expected, $content);
