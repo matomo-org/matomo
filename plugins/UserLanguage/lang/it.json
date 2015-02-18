@@ -186,6 +186,6 @@
         "Language_zh": "cinese",
         "Language_zu": "zulu",
         "LanguageCode": "Codice della lingua",
-        "PluginDescription": "Reports sulle impostazioni della lingua degli utenti."
+        "PluginDescription": "Restituisce la lingua utilizzata dai browser dei tuoi visitatori."
     }
 }

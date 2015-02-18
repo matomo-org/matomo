@@ -50,6 +50,7 @@
         "UpgradeComplete": "Aktualizace je kompletní!",
         "UpgradePiwik": "Aktualizovat Piwik",
         "VerifyingUnpackedFiles": "Ověřuji rozbalené soubory",
+        "ViewVersionChangelog": "Zobrazit protokol změn této verze:",
         "WarningMessages": "Hlášky upozornění:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Automaticky jsme zakázali následující zásuvné moduly: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Můžete aktualizovat na verzi %s automaticky, nebo si stáhněte balíček a nainstalujte jej manuálně:",

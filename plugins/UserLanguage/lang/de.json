@@ -186,6 +186,6 @@
         "Language_zh": "Chinesisch",
         "Language_zu": "IsiZulu",
         "LanguageCode": "Sprach-Code",
-        "PluginDescription": "Berichte über die Spracheinstellungen ihrer Benutzer."
+        "PluginDescription": "Bericht darüber, welche Sprache die Besucher im Browser eingestellt haben."
     }
 }

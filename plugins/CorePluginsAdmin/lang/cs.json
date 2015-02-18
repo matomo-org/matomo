@@ -16,6 +16,7 @@
         "BeCarefulUsingThemes": "Šablony které nejsou tvořeny týmem Piwiku musí být používány opatrně: nekontrolovali jsme je.",
         "ByXDevelopers": "Od %s vývojářů",
         "Changelog": "Protokol změn",
+        "ChangeLookByManageThemes": "Vzhled Piwiku můžete změnit %sve správě motivů%s.",
         "ChangeSettingsPossible": "Pro tento zásuvný modul můžete změnit %snastavení%s.",
         "CorePluginTooltip": "Jaderné zásuvné moduly nemají verzi, protože jsou distribuovány s Piwikem.",
         "Deactivate": "Zakázat",

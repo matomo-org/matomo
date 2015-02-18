@@ -3,7 +3,7 @@
         "Evolution": "Entwicklung",
         "LoadingWebsites": "Lade Webseiten",
         "Pagination": "%s - %s von %s",
-        "PluginDescription": "Zeigt eine Zusammenfassung über die Statistiken aller Webseiten. Wird derzeit als ein Piwik Core Plugin verwaltet",
+        "PluginDescription": "Zeige und vergleiche alle Webseiten und Apps im hilfreichen 'Alle Websiten' Dashboard.",
         "TopLinkTooltip": "Vergleichen Sie Webanalytikstatistiken für alle Ihre Webseiten."
     }
 }

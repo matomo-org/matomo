@@ -11,7 +11,7 @@
         "ColumnReturningVisits": "Visite ricorrenti",
         "ColumnSumVisitLengthReturning": "Tempo complessivo speso dai visitatori di ritorno (in secondi)",
         "ColumnUniqueReturningVisitors": "Visitatori unici di ritorno",
-        "PluginDescription": "Riporta varie statistiche riguardo i Visitatori che Ritornano controntati con i Nuovi Visitatori.",
+        "PluginDescription": "Restituisce le metriche riguardanti i nuovi visitatori e quelli di ritorno.",
         "ReturnActions": "%s pagine visualizzate dalle visite ricorrenti",
         "ReturnAverageVisitDuration": "%s durata visita per visitatori di ritorno",
         "ReturnAvgActions": "%s azioni per visita di ritorno",

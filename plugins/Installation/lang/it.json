@@ -47,7 +47,7 @@
         "PasswordRepeat": "Password (ripeti)",
         "PercentDone": "%s %% Fatto",
         "PiwikOrgNewsletter": "Inviami per email gli aggiornamenti importanti della comunità di Piwik",
-        "PiwikProNewsletter": "Sono interessato ai servizi di %sPiwik PRO%s (non più di 1 email al mese)",
+        "PiwikProNewsletter": "inviami informazioni su servizi e offerte di %sPiwik PRO%s",
         "PleaseFixTheFollowingErrors": "Per favore, risolvi i seguenti errori",
         "Requirements": "Requisiti di Piwik",
         "RestartWebServer": "Dopo aver fatto questa modifica, riavviare il server web.",

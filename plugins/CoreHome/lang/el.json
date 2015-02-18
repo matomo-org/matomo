@@ -7,7 +7,7 @@
         "ClickToEditX": "Κάντε κλικ για να επεξεργαστείτε το %s",
         "CloseWidgetDirections": "Μπορείτε να κλείσετε αυτή τη λειτουργία κάνοντας κλικ στο εικονίδιο 'X' στην κορυφή του widget.",
         "DataForThisReportHasBeenPurged": "Τα δεδομένα για αυτή την αναφορά είναι περισσότερα από %s μήνες και κόπηκαν.",
-        "DataTableExcludeAggregateRows": "Συγκεντρωτικές εγγραφές είναι ορατές %s Απόκρυωη",
+        "DataTableExcludeAggregateRows": "Οι συγκεντρωτικές εγγραφές είναι ορατές %s Απόκρυψη",
         "DataTableIncludeAggregateRows": "Συγκεντρωτικές εγγραφές είναι κρυφές %s Προβολή",
         "DateFormat": "%longDay% %day% %longMonth% %longYear%",
         "Default": "προεπιλογή",

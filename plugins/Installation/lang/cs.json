@@ -48,7 +48,7 @@
         "PasswordRepeat": "heslo (opakování)",
         "PercentDone": "%s %% hotovo",
         "PiwikOrgNewsletter": "odesílat e-maily s důležitými událostmi v komunitě Piwiku",
-        "PiwikProNewsletter": "Zajímají mě %spro Piwik%s služby (nejvíše jeden e-mail měsíčně)",
+        "PiwikProNewsletter": "Zasílejte mi informace o službách a nabídkách %sPiwik pro%s",
         "PleaseFixTheFollowingErrors": "Prosím opravte následující chyby",
         "Requirements": "Požadavky Piwiku",
         "RestartWebServer": "Po uložení změn restartujte Vás web server.",

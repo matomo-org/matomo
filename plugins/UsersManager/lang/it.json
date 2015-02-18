@@ -46,7 +46,7 @@
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Nota: Non puoi cambiare le impostazioni in questa sezione perché nessun sito è accessibile dagli utenti anonimi.",
         "NoUsersExist": "Non ci sono ancora utenti.",
         "PersonalSettings": "Impostazioni personali",
-        "PluginDescription": "Gestione degli utenti in Piwik: agginta nuovi utenti, modifica di esistenti, aggiornamento dei permessi. Tutte le azioni sono anche disponibili tramite API.",
+        "PluginDescription": "La Gestione Utenti ti permette di aggiungere nuovi utenti, modificare quelli esistenti e assegnare loro i permessi per vedere o amministrare i siti web.",
         "PrivAdmin": "Amministra Piwik",
         "PrivNone": "Nessun privilegio",
         "PrivView": "Visualizza statistiche",

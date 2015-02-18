@@ -26,7 +26,7 @@
         "PiwikReports": "Piwik-Berichte",
         "PleaseFindAttachedFile": "Sie finden in der angehängten Datei Ihren Bericht (Intervall: %1$s) für %2$s.",
         "PleaseFindBelow": "Unterhalb befindet sich der Bericht (Intervall: %1$s) für %2$s.",
-        "PluginDescription": "Berichte erstellen, herunterladen und täglich, wöchentlich oder monatlich per E-Mail versenden.",
+        "PluginDescription": "Erstellen Sie eigene Berichte und planen Sie deren täglichen, wöchentlichen oder monatlichen Versand an einen oder mehrere Empfänger. Diverse Berichtsformate werden unterstützt (HTML, PDF, CSV, Bilder).",
         "ReportFormat": "Berichtsformat",
         "ReportHour": "Bericht senden um",
         "ReportIncludeNWebsites": "Dieser Bericht wird die Hauptmetriken für alle Webseiten enthalten, die mindestens einen Besuch haben (von den %s derzeit verfügbaren Webseiten).",

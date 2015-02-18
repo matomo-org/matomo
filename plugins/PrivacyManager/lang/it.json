@@ -47,7 +47,7 @@
         "LeastMonthsInput": "Specifica un numero di mesi superiore a %s",
         "MenuPrivacySettings": "Privacy",
         "NextDelete": "Prossima cancellazione programmata per il",
-        "PluginDescription": "Personalizza Piwik per renderlo conforme alle norme della privacy del tuo paese.",
+        "PluginDescription": "Aumenta la privacy per i tuoi utenti e rende la privacy della tua istanza di Piwik conforme con le leggi locali.",
         "PurgeNow": "Pulisci il DB Ora",
         "PurgeNowConfirm": "Stai per cancellare definitivamente dei dati dal tuo database. Sei sicuro di voler continuare?",
         "PurgingData": "Eliminazione dei dati...",

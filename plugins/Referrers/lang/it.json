@@ -20,7 +20,7 @@
         "EvolutionDocumentationMoreInfo": "Per ulteriori informazioni sui diversi tipi referenti, consulta la documentazione della%s tabella.",
         "Keywords": "Parole chiave",
         "KeywordsReportDocumentation": "Questo report mostra le parole chiave che gli utenti hanno ricercato prima prima di venire indirizzati sul tuo sito web. %s Cliccando su una riga della tabella, è possibile vedere la distribuzione dei motori di ricerca che sono stati interrogati per la parola chiave.",
-        "PluginDescription": "Riporta i dati dei referer: Motori di ricerca, Parole chiave, siti web, tracciamento campagne, entrate dirette.",
+        "PluginDescription": "Restituisce i dati dei Referrer: Motori di Ricerca, Keywords, Siti, Campagne, Social media, Ingressi diretti.",
         "Referrer": "Referente",
         "ReferrerName": "Nome Referente",
         "Referrers": "Referenti",

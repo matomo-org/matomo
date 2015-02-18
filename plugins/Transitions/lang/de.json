@@ -16,7 +16,7 @@
         "NoDataForAction": "Es sind keine Daten für %s verfügbar",
         "NoDataForActionDetails": "Entweder hatte diese Aktion während des Zeitraums %s keine Seitenansichten oder sie ist ungültig.",
         "OutgoingTraffic": "Ausgehender Verkehr",
-        "PluginDescription": "Berichte über vorherige und nachfolgende Aktionen einer Seiten URL.",
+        "PluginDescription": "Berichte über vergangene und zukünftige Aktionen für jede Seiten-URL in einem neuen Transitions-Bericht, aufrufbar im Aktionen-Bericht über ein neues Icon.",
         "ShareOfAllPageviews": "Diese Seite wurde %s mal angesehen (%s aller Seitenansichten)",
         "ToFollowingPages": "Zu internen Seiten",
         "ToFollowingPagesInline": "%s zu internen Seiten",

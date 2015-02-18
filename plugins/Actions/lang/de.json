@@ -39,7 +39,7 @@
         "PagesReportDocumentation": "Dieser Bericht enthält Informationen über die URLs der besuchten Seiten. %s Die Tabelle ist hierarchisch strukturiert, die URLs werden als Ordnerstruktur angezeigt.",
         "PageTitlesReportDocumentation": "Dieser Bericht enthält Informationen über die Seitentitel der besuchten Seiten. %s Der Seitentitel ist der HTML %s Tag, der von den meisten Browsern in ihrer Titelleiste angezeigt wird.",
         "PageUrls": "Seiten URL",
-        "PluginDescription": "Zusammenfassung über die Anzahl der betrachteten Seiten, ausgehenden Verweise und Downloads. Ausgehende Verweise und Downloads werden automatisch getrackt.",
+        "PluginDescription": "Berichte über die Seitenansichten und Seitentitel. Lässt Sie die internen Suchmaschinen Ihrer Webseiten erfassen. Trackt Klicks auf externe Links und Dateidownloads automatisch.",
         "SiteSearchCategories1": "Dieser Bericht zeigt die Kategorien, welche bei der internen Suche ausgewählt wurden.",
         "SiteSearchCategories2": "Onlineshops haben beispielsweise meist eine Kategorieauswahl, mit der Besucher ihre Suche auf eine bestimmte Produktkategorie einschränken können.",
         "SiteSearchFollowingPagesDoc": "Wenn Besucher die interne Suche verwenden, suchen sie meist nach einer bestimmten Seite, bzw. einem bestimmen Inhalt. In diesem Bericht wird angezeigt, welche Seiten am häufigsten von den Suchergebnissen aus besucht wurden. In anderen Worten sind dies die Seiten, nach denen Besucher am häufigsten gesucht haben, nachdem sie sich bereits auf der Webseite befanden.",

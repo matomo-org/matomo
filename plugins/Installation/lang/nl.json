@@ -16,6 +16,7 @@
         "DatabaseSetupLogin": "login",
         "DatabaseSetupServer": "database server",
         "DatabaseSetupTablePrefix": "tabel voorvoegsel",
+        "DefaultSettings": "Standaard Piwik instellingen",
         "Email": "email",
         "Extension": "extensie",
         "Filesystem": "Bestandsssysteem",

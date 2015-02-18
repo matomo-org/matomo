@@ -16,7 +16,7 @@
         "PasswordChanged": "Das Passwort wurde geändert.",
         "PasswordRepeat": "Passwort (wiederholen)",
         "PasswordsDoNotMatch": "Die Passwörter stimmen nicht überein.",
-        "PluginDescription": "Anmelde-Authentifizierungs-Plugin, welches die Anmeldedaten aus der config\/config.ini.php-Datei ausliest, um einen initialen Hauptadministrator zu erstellen und aus der Datebank, um andere Nutzer zu erstellen. Kann problemlos ausgetauscht werden, um einen neuen Authentifizierungsmechanismus (OpenID, htaccess, custom Auth, etc.) zu nutzen.",
+        "PluginDescription": "Unterstützt Authentifizierung via Benutzername und Passwort sowie Password Reset Funktionalität. Die Authentifizierungsmethode kann durch ein anderes Login Plugin wie LoginLdap (verfügbar im Marketplace) geändert werden.",
         "RememberMe": "Angemeldet bleiben",
         "ResetPasswordInstructions": "Geben Sie ein neues Passwort für Ihren Account ein."
     }

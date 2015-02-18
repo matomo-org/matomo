@@ -46,7 +46,7 @@
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Hinweis: Sie können die Einstellungen in diesem Bereich nicht ändern, weil Sie keine Webseite eingerichtet haben, die vom anonymen Benutzer angezeigt werden kann.",
         "NoUsersExist": "Bisher keine Benutzer vorhanden.",
         "PersonalSettings": "Persönliche Einstellungen",
-        "PluginDescription": "Benutzerverwaltung in Piwik: Einen neuen Benutzer hinzufügen, einen existierenden Benutzer bearbeiten, Berechtigungen ändern. Alle Aktionen sind auch über die API möglich.",
+        "PluginDescription": "Benutzermanagement lässt Sie neue Benutzer hinzufügen, bestehende ändern und die Rechte für die Ansicht oder die Administration von Webseiten definieren.",
         "PrivAdmin": "Administrator",
         "PrivNone": "Kein Zugriff",
         "PrivView": "Ansicht",

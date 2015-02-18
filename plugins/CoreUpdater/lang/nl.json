@@ -48,6 +48,7 @@
         "UpgradeComplete": "Upgrade voltooid!",
         "UpgradePiwik": "Upgrade Piwik",
         "VerifyingUnpackedFiles": "Bezig met verifiëren van de uitgepakte bestanden",
+        "ViewVersionChangelog": "Bekijk het wijzigingslogboek voor versie:",
         "WarningMessages": "Waarschuwings bericht:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "We hebben de volgende plugins gedeactiveerd: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "U kunt automatisch updaten naar versie %s of het pakket downloaden en handmatig installeren.",
