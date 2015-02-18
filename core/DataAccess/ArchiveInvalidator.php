@@ -174,7 +174,12 @@ class ArchiveInvalidator {
 
         // In each table, invalidate day/week/month/year containing this date
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
-        foreach ($archiveTables as $table) {
+
+        $archiveNumericTables = array_filter($archiveTables, function($name) {
+            return ArchiveTableCreator::getTypeFromTableName($name) == ArchiveTableCreator::NUMERIC_TABLE;
+        });
+
+        foreach ($archiveNumericTables as $table) {
             // Extract Y_m from table name
             $suffix = ArchiveTableCreator::getDateFromTableName($table);
             if (!isset($datesByMonth[$suffix])) {
