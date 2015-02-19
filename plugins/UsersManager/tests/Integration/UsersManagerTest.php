@@ -122,7 +122,7 @@ class UsersManagerTest extends IntegrationTestCase
     public function getAddUserInvalidLoginData()
     {
         return array(
-            array(12, "password", "email@email.com", "alias"), // wrong login / integer => exception
+            array(9, "password", "email@email.com", "alias"), // wrong login / integer => exception
             array("gegag'ggea'", "password", "email@email.com", "alias"), // wrong login / too short => exception
             array("gegag11gge&", "password", "email@email.com", "alias"), // wrong login / too long => exception
             array("geg'ag11gge@", "password", "email@email.com", "alias"), // wrong login / bad characters => exception
