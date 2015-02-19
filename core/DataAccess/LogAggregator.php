@@ -446,8 +446,14 @@ class LogAggregator
 
     protected function isMetricRequested($metricId, $metricsRequested)
     {
-        return $metricsRequested === false
-            || in_array($metricId, $metricsRequested);
+        // do not process INDEX_NB_UNIQ_FINGERPRINTS unless specifically asked for
+        if($metricsRequested === false) {
+            if($metricId == Metrics::INDEX_NB_UNIQ_FINGERPRINTS) {
+                return false;
+            }
+            return true;
+        }
+        return in_array($metricId, $metricsRequested);
     }
 
     protected function getWhereStatement($tableName, $datetimeField, $extraWhere = false)
