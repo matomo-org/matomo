@@ -389,19 +389,38 @@ class ArchiveProcessor
         ) {
             return;
         }
-        if ($row->getColumn('nb_uniq_visitors') !== false
-            || $row->getColumn('nb_users') !== false
+
+        if ($row->getColumn('nb_uniq_visitors') === false
+            && $row->getColumn('nb_users') === false
         ) {
-            if (SettingsPiwik::isUniqueVisitorsEnabled($this->getParams()->getPeriod()->getLabel())) {
-                $metrics = array(Metrics::INDEX_NB_UNIQ_VISITORS, Metrics::INDEX_NB_USERS);
-                $uniques = $this->computeNbUniques( $metrics );
-                $row->setColumn('nb_uniq_visitors', $uniques[Metrics::INDEX_NB_UNIQ_VISITORS]);
-                $row->setColumn('nb_users', $uniques[Metrics::INDEX_NB_USERS]);
-            } else {
-                $row->deleteColumn('nb_uniq_visitors');
-                $row->deleteColumn('nb_users');
-            }
+            return;
         }
+
+        if (!SettingsPiwik::isUniqueVisitorsEnabled($this->getParams()->getPeriod()->getLabel())) {
+            $row->deleteColumn('nb_uniq_visitors');
+            $row->deleteColumn('nb_users');
+            return;
+        }
+
+        $metrics = array(
+            Metrics::INDEX_NB_USERS
+        );
+
+        if($this->getParams()->isSingleSite()) {
+            $uniqueVisitorsMetric = Metrics::INDEX_NB_UNIQ_VISITORS;
+        } else {
+            if(!SettingsPiwik::isSameFingerprintAcrossWebsites()) {
+                throw new Exception("Processing unique visitors across websites is enabled for this instance,
+                            but to process this metric you must first set enable_fingerprinting_across_websites=1
+                            in the config file, under the [Tracker] section.");
+            }
+            $uniqueVisitorsMetric = Metrics::INDEX_NB_UNIQ_FINGERPRINTS;
+        }
+        $metrics[] = $uniqueVisitorsMetric;
+
+        $uniques = $this->computeNbUniques( $metrics );
+        $row->setColumn('nb_uniq_visitors', $uniques[$uniqueVisitorsMetric]);
+        $row->setColumn('nb_users', $uniques[Metrics::INDEX_NB_USERS]);
     }
 
     protected function guessOperationForColumn($column)

@@ -86,6 +86,9 @@ class Metrics
     const INDEX_CONTENT_NB_IMPRESSIONS = 41;
     const INDEX_CONTENT_NB_INTERACTIONS = 42;
 
+    // Unique visitors fingerprints (useful to process unique visitors across websites)
+    const INDEX_NB_UNIQ_FINGERPRINTS = 43;
+
     // Goal reports
     const INDEX_GOAL_NB_CONVERSIONS = 1;
     const INDEX_GOAL_REVENUE = 2;
@@ -98,6 +101,7 @@ class Metrics
 
     public static $mappingFromIdToName = array(
         Metrics::INDEX_NB_UNIQ_VISITORS                      => 'nb_uniq_visitors',
+        Metrics::INDEX_NB_UNIQ_FINGERPRINTS                  => 'nb_uniq_fingerprints',
         Metrics::INDEX_NB_VISITS                             => 'nb_visits',
         Metrics::INDEX_NB_ACTIONS                            => 'nb_actions',
         Metrics::INDEX_NB_USERS                              => 'nb_users',

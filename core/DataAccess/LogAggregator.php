@@ -158,14 +158,15 @@ class LogAggregator
     protected function getVisitsMetricFields()
     {
         return array(
-            Metrics::INDEX_NB_UNIQ_VISITORS    => "count(distinct " . self::LOG_VISIT_TABLE . ".idvisitor)",
-            Metrics::INDEX_NB_VISITS           => "count(*)",
-            Metrics::INDEX_NB_ACTIONS          => "sum(" . self::LOG_VISIT_TABLE . ".visit_total_actions)",
-            Metrics::INDEX_MAX_ACTIONS         => "max(" . self::LOG_VISIT_TABLE . ".visit_total_actions)",
-            Metrics::INDEX_SUM_VISIT_LENGTH    => "sum(" . self::LOG_VISIT_TABLE . ".visit_total_time)",
-            Metrics::INDEX_BOUNCE_COUNT        => "sum(case " . self::LOG_VISIT_TABLE . ".visit_total_actions when 1 then 1 when 0 then 1 else 0 end)",
-            Metrics::INDEX_NB_VISITS_CONVERTED => "sum(case " . self::LOG_VISIT_TABLE . ".visit_goal_converted when 1 then 1 else 0 end)",
-            Metrics::INDEX_NB_USERS            => "count(distinct " . self::LOG_VISIT_TABLE . ".user_id)",
+            Metrics::INDEX_NB_UNIQ_VISITORS               => "count(distinct " . self::LOG_VISIT_TABLE . ".idvisitor)",
+            Metrics::INDEX_NB_UNIQ_FINGERPRINTS           => "count(distinct " . self::LOG_VISIT_TABLE . ".config_id)",
+            Metrics::INDEX_NB_VISITS                      => "count(*)",
+            Metrics::INDEX_NB_ACTIONS                     => "sum(" . self::LOG_VISIT_TABLE . ".visit_total_actions)",
+            Metrics::INDEX_MAX_ACTIONS                    => "max(" . self::LOG_VISIT_TABLE . ".visit_total_actions)",
+            Metrics::INDEX_SUM_VISIT_LENGTH               => "sum(" . self::LOG_VISIT_TABLE . ".visit_total_time)",
+            Metrics::INDEX_BOUNCE_COUNT                   => "sum(case " . self::LOG_VISIT_TABLE . ".visit_total_actions when 1 then 1 when 0 then 1 else 0 end)",
+            Metrics::INDEX_NB_VISITS_CONVERTED            => "sum(case " . self::LOG_VISIT_TABLE . ".visit_goal_converted when 1 then 1 else 0 end)",
+            Metrics::INDEX_NB_USERS                       => "count(distinct " . self::LOG_VISIT_TABLE . ".user_id)",
         );
     }
 
@@ -445,8 +446,14 @@ class LogAggregator
 
     protected function isMetricRequested($metricId, $metricsRequested)
     {
-        return $metricsRequested === false
-            || in_array($metricId, $metricsRequested);
+        // do not process INDEX_NB_UNIQ_FINGERPRINTS unless specifically asked for
+        if($metricsRequested === false) {
+            if($metricId == Metrics::INDEX_NB_UNIQ_FINGERPRINTS) {
+                return false;
+            }
+            return true;
+        }
+        return in_array($metricId, $metricsRequested);
     }
 
     protected function getWhereStatement($tableName, $datetimeField, $extraWhere = false)

@@ -80,7 +80,8 @@ class MetricsTest extends \PHPUnit_Framework_TestCase
             'max_event_value' => 37,
             'nb_events_with_value' => 38,
             'nb_impressions' => 41,
-            'nb_interactions' => 42
+            'nb_interactions' => 42,
+            'nb_uniq_fingerprints' => 43,
         );
         $this->assertEquals($expectedMapping, $mapping);
     }

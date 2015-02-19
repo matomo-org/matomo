@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Container\StaticContainer;
 use Piwik\Cache as PiwikCache;
 
 /**
@@ -442,6 +441,16 @@ class SettingsPiwik
     public static function isHttpsForced()
     {
         return Config::getInstance()->General['force_ssl'] == 1;
+    }
+
+    /**
+     * Note: this config settig is also checked in the InterSites plugin
+     *
+     * @return bool
+     */
+    public static function isSameFingerprintAcrossWebsites()
+    {
+        return (bool)Config::getInstance()->Tracker['enable_fingerprinting_across_websites'];
     }
 
 }
