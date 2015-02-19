@@ -467,19 +467,7 @@ class FrontController extends Singleton
         ) {
             Session::start();
 
-            $isDashboardReferer   = !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'module=CoreHome&action=index') !== false;
-            $isAllWebsitesReferer = !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'module=MultiSites&action=index') !== false;
-
-            if ($isDashboardReferer
-                && !empty($_POST['token_auth'])
-                && Common::getRequestVar('widget', 0, 'int') === 1) {
-                Session::close();
-            }
-
-            if (($isDashboardReferer || $isAllWebsitesReferer)
-                && Common::getRequestVar('viewDataTable', '', 'string') === 'sparkline') {
-                Session::close();
-            }
+            $this->closeSessionEarlyForFasterUI();
         }
 
         if (is_null($parameters)) {
@@ -547,6 +535,25 @@ class FrontController extends Singleton
             return;
         }
         Url::redirectToHttps();
+    }
+
+    private function closeSessionEarlyForFasterUI()
+    {
+        $isDashboardReferrer = !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'module=CoreHome&action=index') !== false;
+        $isAllWebsitesReferrer = !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'module=MultiSites&action=index') !== false;
+
+        if ($isDashboardReferrer
+            && !empty($_POST['token_auth'])
+            && Common::getRequestVar('widget', 0, 'int') === 1
+        ) {
+            Session::close();
+        }
+
+        if (($isDashboardReferrer || $isAllWebsitesReferrer)
+            && Common::getRequestVar('viewDataTable', '', 'string') === 'sparkline'
+        ) {
+            Session::close();
+        }
     }
 
     private function handleProfiler()
@@ -622,4 +629,5 @@ class FrontController extends Singleton
         Piwik::postEvent('Request.dispatch.end', array(&$result, $module, $action, $parameters));
         return $result;
     }
+
 }
