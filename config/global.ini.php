@@ -29,7 +29,7 @@ schema = Mysql
 
 [database_tests]
 host = localhost
-username = root
+username = "@USERNAME@"
 password =
 dbname = piwik_tests
 tables_prefix = piwiktests_
