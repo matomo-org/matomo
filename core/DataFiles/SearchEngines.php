@@ -913,8 +913,14 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Toolbarhome
         'www.toolbarhome.com'            => array('Toolbarhome', 'q', 'search.aspx?q={k}'),
-
         'vshare.toolbarhome.com'         => array('Toolbarhome'),
+
+        // Toppreise.ch
+        'www.toppreise.ch'     => array('Toppreise.ch', 'search', 'index.php?search={k}', 'ISO-8859-1'),
+        'toppreise.ch'         => array('Toppreise.ch', null, null, 'ISO-8859-1'),
+        'fr.toppreise.ch'      => array('Toppreise.ch', null, null, 'ISO-8859-1'),
+        'de.toppreise.ch'      => array('Toppreise.ch', null, null, 'ISO-8859-1'),
+        'en.toppreise.ch'      => array('Toppreise.ch', null, null, 'ISO-8859-1'),
 
         // Trouvez.com
         'www.trouvez.com'                => array('Trouvez.com', 'query'),
