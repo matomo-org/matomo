@@ -189,18 +189,16 @@ class BatchInsert
 
                 return true;
             } catch (Exception $e) {
-//				echo $sql . ' ---- ' .  $e->getMessage();
                 $code = $e->getCode();
                 $message = $e->getMessage() . ($code ? "[$code]" : '');
-                if (!Db::get()->isErrNo($e, '1148')) {
-                    Log::info("LOAD DATA INFILE failed... Error was: %s", $message);
-                }
                 $exceptions[] = "\n  Try #" . (count($exceptions) + 1) . ': ' . $queryStart . ": " . $message;
             }
         }
 
         if (count($exceptions)) {
-            throw new Exception(implode(",", $exceptions));
+            $message = "LOAD DATA INFILE failed... Error was: " . implode(",", $exceptions);
+            Log::info($message);
+            throw new Exception($message);
         }
 
         return false;
