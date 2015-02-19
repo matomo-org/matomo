@@ -593,7 +593,7 @@ class Piwik
         ) {
             return;
         }
-        $loginMinimumLength = 3;
+        $loginMinimumLength = 2;
         $loginMaximumLength = 100;
         $l = strlen($userLogin);
         if (!($l >= $loginMinimumLength
