@@ -21,6 +21,8 @@
 
         var initModel = function() {
 
+            $scope.period = piwik.broadcast.getValueFromUrl('period');
+            $scope.date = piwik.broadcast.getValueFromUrl('date');
             $scope.sites = [];
             $scope.hasSuperUserAccess = piwik.hasSuperUserAccess;
             $scope.redirectParams = {showaddsite: false};
