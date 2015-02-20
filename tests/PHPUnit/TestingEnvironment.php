@@ -136,6 +136,10 @@ class Piwik_TestingEnvironment
             }
         }
 
+        if ($testingEnvironment->hostOverride) {
+            \Piwik\Url::setHost($testingEnvironment->hostOverride);
+        }
+
         if ($testingEnvironment->useXhprof) {
             \Piwik\Profiler::setupProfilerXHProf($mainRun = false, $setupDuringTracking = true);
         }
