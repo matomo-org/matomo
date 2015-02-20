@@ -779,7 +779,7 @@ class Manager extends Singleton
 
     public function getActivatedPluginsFromConfig()
     {
-        $plugins = Config::getInstance()->Plugins['Plugins'];
+        $plugins = @Config::getInstance()->Plugins['Plugins'];
 
         return $this->makePluginsToLoad($plugins);
     }
