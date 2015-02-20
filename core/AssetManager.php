@@ -225,7 +225,6 @@ class AssetManager extends Singleton
 
             if ($this->pluginContainsJScriptAssets($pluginName)) {
 
-                PiwikConfig::getInstance()->init();
                 if (Manager::getInstance()->isPluginBundledWithCore($pluginName)) {
 
                     $assetsToRemove[] = $this->getMergedCoreJSAsset();
