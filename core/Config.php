@@ -62,7 +62,7 @@ class Config extends Singleton
     /**
      * @var boolean
      */
-    protected $isTest = false;
+    protected $doNotWriteConfigInTests = false;
 
     /**
      * @var IniReader
@@ -123,7 +123,7 @@ class Config extends Singleton
     public function setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null, $allowSaving = false)
     {
         if (!$allowSaving) {
-            $this->isTest = true;
+            $this->doNotWriteConfigInTests = true;
         }
 
         $this->pathLocal = $pathLocal ?: Config::getLocalConfigPath();
@@ -132,8 +132,6 @@ class Config extends Singleton
 
         $this->init();
 
-        // this proxy will not record any data in the production database.
-        // this provides security for Piwik installs and tests were setup.
         if (isset($this->configGlobal['database_tests'])
             || isset($this->configLocal['database_tests'])
         ) {
@@ -653,7 +651,7 @@ class Config extends Singleton
      */
     protected function writeConfig($configLocal, $configGlobal, $configCommon, $configCache, $pathLocal, $clear = true)
     {
-        if ($this->isTest) {
+        if ($this->doNotWriteConfigInTests) {
             return;
         }
 
