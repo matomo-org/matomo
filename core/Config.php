@@ -126,8 +126,6 @@ class Config extends Singleton
             $this->isTest = true;
         }
 
-        $this->clear();
-
         $this->pathLocal = $pathLocal ?: Config::getLocalConfigPath();
         $this->pathGlobal = $pathGlobal ?: Config::getGlobalConfigPath();
         $this->pathCommon = $pathCommon ?: Config::getCommonConfigPath();
@@ -281,8 +279,9 @@ class Config extends Singleton
     {
         $hostConfig = self::getLocalConfigInfoForHostname($hostname);
 
-        if (!Filesystem::isValidFilename($hostConfig['file'])) {
-            throw new Exception('Hostname is not valid');
+        $filename = $hostConfig['file'];
+        if (!Filesystem::isValidFilename($filename)) {
+            throw new Exception('Piwik domain is not a valid looking hostname (' . $filename . ').');
         }
 
         $this->pathLocal   = $hostConfig['path'];
@@ -308,6 +307,7 @@ class Config extends Singleton
     {
         $this->configGlobal = array();
         $this->configLocal = array();
+        $this->configCommon = array();
         $this->configCache = array();
         $this->initialized = false;
     }
@@ -319,6 +319,7 @@ class Config extends Singleton
      */
     public function init()
     {
+        $this->clear();
         $this->initialized = true;
         $reportError = SettingsServer::isTrackerApiRequest();
 
