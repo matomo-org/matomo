@@ -44,6 +44,8 @@ if (getenv('PIWIK_USE_XHPROF') == 1) {
 // setup container for tests
 StaticContainer::setEnvironment('test');
 
+\Piwik\Config::getInstance()->setTestEnvironment();
+
 // require test fixtures
 $fixturesToLoad = array(
     '/tests/UI/Fixtures/*.php',
@@ -60,7 +62,6 @@ Locale::setDefaultLocale();
 
 function prepareServerVariables()
 {
-    \Piwik\Config::getInstance()->init();
     $testConfig = \Piwik\Config::getInstance()->tests;
 
     if ('@REQUEST_URI@' === $testConfig['request_uri']) {
