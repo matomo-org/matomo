@@ -56,7 +56,6 @@ abstract class Updates
     static function enableMaintenanceMode()
     {
         $config = Config::getInstance();
-        $config->init();
 
         $tracker = $config->Tracker;
         $tracker['record_statistics'] = 0;
@@ -75,7 +74,6 @@ abstract class Updates
     static function disableMaintenanceMode()
     {
         $config = Config::getInstance();
-        $config->init();
 
         $tracker = $config->Tracker;
         $tracker['record_statistics'] = 1;
@@ -91,7 +89,6 @@ abstract class Updates
     public static function deletePluginFromConfigFile($pluginToDelete)
     {
         $config = Config::getInstance();
-        $config->init();
         if (isset($config->Plugins['Plugins'])) {
             $plugins = $config->Plugins['Plugins'];
             if (($key = array_search($pluginToDelete, $plugins)) !== false) {
