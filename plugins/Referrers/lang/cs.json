@@ -20,7 +20,7 @@
         "EvolutionDocumentationMoreInfo": "Pro více informací o rozdílných typech referrerů nahlédněte do dokumentace tabulky %s.",
         "Keywords": "Klíčových slov",
         "KeywordsReportDocumentation": "Toto hlášení zobrazuje klíčová slova, která uživatelé hledali, než byli odkázáni na vaše stránky. %s Kliknutím na řádek tabulky zobrazíte distribuci vyhledávačů, které byly použity k hledání tohoto klíčového slova.",
-        "PluginDescription": "Zobrazí data refererů: vyhledávací stroje, klíčová slova, weby, správu kampaní, přímé vstupy",
+        "PluginDescription": "Hlásí data referreru: vyhledávače, klíčová slova, stránky, kampaně, sociální média, přímý vstup.",
         "Referrer": "Referrer",
         "ReferrerName": "Jméno referreru",
         "Referrers": "Odkazující stránky",

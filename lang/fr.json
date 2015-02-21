@@ -140,7 +140,7 @@
         "EncryptedSmtpTransport": "Entrez la couche de chiffrement requise par votre serveur SMTP.",
         "EnglishLanguageName": "French",
         "Error": "Erreur",
-        "ErrorRequest": "Oups... Il y a eu un problème pendant le traitement de la requête. Peut être que le serveur a eu un soucis temporaire, ou peut être que vous avez demandé un rapport avec trop de données. Veuillez réssayer. Si cette erreur se répète veuillez %scontacter voter administrateur Piwik%s pour obtenir de l'aide.",
+        "ErrorRequest": "Oups... Il y a eu un problème pendant le traitement de la requête. Peut être que le serveur a eu un soucis temporaire, ou peut être que vous avez demandé un rapport avec trop de données. Veuillez réssayer. Si cette erreur se répète veuillez %scontacter votre administrateur Piwik%s pour obtenir de l'aide.",
         "EvolutionOverPeriod": "Évolution sur la période",
         "EvolutionSummaryGeneric": "%1$s en %2$s comparé à %3$s en %4$s. Evolution: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "L'utilisateur doit être un Super Utilisateur ou l'utilisateur \"%s\" lui-même.",

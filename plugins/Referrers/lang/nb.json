@@ -27,6 +27,7 @@
         "UsingNDistinctUrls": "(bruker %s forskjellige URL-er)",
         "Websites": "Nettsteder",
         "WidgetExternalWebsites": "Liste over eksterne nettsteder",
-        "WidgetSocials": "Liste over sosiale nettverk"
+        "WidgetSocials": "Liste over sosiale nettverk",
+        "XPercentOfVisits": "%s%% av besøk"
     }
 }

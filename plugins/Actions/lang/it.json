@@ -39,7 +39,7 @@
         "PagesReportDocumentation": "Questo report contiene informazioni riguardo gli URL delle pagine che sono state viste. %s La tabella è organizzata gerarchicamente, gli URL vengono visualizzati come una struttura di cartelle.",
         "PageTitlesReportDocumentation": "Questo report contiene informazioni sui titoli delle pagine che sono state visitate. %s Il titolo della pagina è il tag HTML %s che la maggior parte dei browser mostrano nel titolo della loro finestra.",
         "PageUrls": "URL delle pagine",
-        "PluginDescription": "Rapporto sulle pagine viste, i link in uscita e i downloads. Il tracciamento dei Link in uscita e dei Download è automatico! Puoi anche tracciare il Motore di Ricerca interno al sito.",
+        "PluginDescription": "Riporta le viste e i titoli pagina. Ti consente di misurare il motore di ricerca interno al tuo sito. Traccia in automatico i click sui link esterni e i download dei files.",
         "SiteSearchCategories1": "Questo report elenca le Categorie che i visitatori hanno selezionato nel fare una ricerca sul vostro sito.",
         "SiteSearchCategories2": "Per esempio, i siti di Ecommerce hanno tipicamente un selettore di \"Categoria\", così che i visitatori possano restringere le ricerche ai prodotti in una Categoria specifica.",
         "SiteSearchFollowingPagesDoc": "Quando i visitatori fanno ricerche sul vostro sito, stanno cercando una determinata pagina, contenuto, prodotto e servizio. Questo report elenca le pagine più cliccate dopo una ricerca interna. In altre parole, è l'elenco delle pagine più ricercate dai visitatori sul vostro sito.",

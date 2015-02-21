@@ -288,6 +288,7 @@
         "CurrentLocationIntro": "Ifølge denne leverandøren, er din nåværende posisjon",
         "DistinctCountries": "%s bestemte land",
         "DownloadingDb": "Laster ned %s",
+        "DownloadNewDatabasesEvery": "Oppdater databasene hver",
         "FoundApacheModules": "Piwik fant følgende Apache-moduler",
         "GeoIPDatabases": "GeoIP-databaser",
         "GeoIPNoServerVars": "Piwik kan ikke finne noen GeoIP %s variabler.",

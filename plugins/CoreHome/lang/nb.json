@@ -12,6 +12,7 @@
         "LongMonthFormat": "%longYear%, %longMonth%",
         "LongWeekFormat": "%dayFrom% %longMonthFrom% - %dayTo% %longMonthTo% %longYearTo%",
         "MakeADifference": "Gjør en forskjell: %1$sDoner nå%2$s for å finansiere Piwik 2.0!",
+        "Menu": "Meny",
         "PageOf": "%1$s av %2$s",
         "PeriodDay": "Dag",
         "PeriodDays": "dager",

@@ -20,6 +20,7 @@
         "Marketplace": "Markedsplass",
         "MenuPlatform": "Platform",
         "NoPluginsFound": "Ingen tillegg funnet",
+        "NoZipFileSelected": "Vennligst velg en ZIP-fil.",
         "NumDownloadsLatestVersion": "Siste versjon: %s nedlastinger",
         "NumUpdatesAvailable": "%s oppdatering(er) tilgjengelig",
         "OncePluginIsInstalledYouMayActivateHere": "Når et tillegg har blitt installert, kan du slå det av eller på her.",

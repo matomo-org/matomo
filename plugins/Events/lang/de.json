@@ -20,7 +20,7 @@
         "MinValue": "Minimaler Wert",
         "MinValueDocumentation": "Minimaler Wert für dieses Ereignis",
         "SecondaryDimension": "Die sekundäre Dimension ist %s.",
-        "SwitchToSecondaryDimension": "Zu %s wechseln",
+        "SwitchToSecondaryDimension": "Wechseln zu %s",
         "TopEvents": "Häufigste Ereignisse",
         "TotalEvents": "Gesamtzahl an Ereignissen",
         "TotalEventsDocumentation": "Gesamtanzahl der Ereignisse",

@@ -3,6 +3,7 @@
         "CategoryNoData": "Geen data in deze categorie. Probeer \"Toon alle data\".",
         "CheckForUpdates": "Controleer op updates",
         "CheckPiwikOut": "Kijk eens naar Piwik!",
+        "ClickRowToExpandOrContract": "Klik deze regel om de tabel te openen of te sluiten.",
         "ClickToEditX": "Klik om %s te bewerken",
         "CloseWidgetDirections": "Je kunt deze widget sluiten door op het 'X' icoon bovenaan de widget te klikken.",
         "DataForThisReportHasBeenPurged": "De data voor dit rapport was meer dan %s maanden oud en is reeds opgeschoond.",

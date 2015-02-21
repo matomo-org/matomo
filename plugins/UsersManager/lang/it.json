@@ -4,7 +4,7 @@
         "Alias": "Alias",
         "AllWebsites": "Tutti i siti",
         "AnonymousUser": "Utente anonimo",
-        "AnonymousUserHasViewAccess": "Nota: l'utente %1$s ha %2$s accesso a questo sito.",
+        "AnonymousUserHasViewAccess": "Nota: l'utente %1$s ha un accesso %2$s a questo sito.",
         "AnonymousUserHasViewAccess2": "I tuoi report statistici e le informazioni sui tuoi visitatori sono visibili pubblicamente.",
         "ApplyToAllWebsites": "Applica a tutti i siti",
         "ChangeAllConfirm": "Sei sicuro di voler cambiare i permessi di '%s' in tutti i siti?",

@@ -11,7 +11,7 @@
         "ColumnReturningVisits": "Wiederkehrende Besuche",
         "ColumnSumVisitLengthReturning": "Gesamte Aufenthaltszeit bei wiederkehrenden Besuchen (in Sekunden)",
         "ColumnUniqueReturningVisitors": "Eindeutige wiederkehrende Besucher",
-        "PluginDescription": "Zeigt verschiedene Statistiken über erstmalige und wiederkehrende Besucher.",
+        "PluginDescription": "Liefert Metriken über erstmalige und wiederkehrende Besucher.",
         "ReturnActions": "%s Aktionen von wiederkehrenden Besuchen",
         "ReturnAverageVisitDuration": "%s durchschnittliche Aufenthaltszeit bei wiederkehrenden Besuchen",
         "ReturnAvgActions": "%s Aktionen pro wiederkehrendem Besuch",

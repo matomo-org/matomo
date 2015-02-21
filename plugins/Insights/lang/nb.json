@@ -4,6 +4,7 @@
         "DayComparedToPreviousWeek": "samme dag i forrige uke",
         "DayComparedToPreviousYear": "samme dag i foregående år",
         "MonthComparedToPreviousMonth": "forrige måned",
+        "TitleRowChangeDetails": "'%1$s' endret fra %2$s (%3$s) til %4$s (%5$s) %6$s.",
         "WeekComparedToPreviousWeek": "forrige uke",
         "YearComparedToPreviousYear": "forrige år"
     }
