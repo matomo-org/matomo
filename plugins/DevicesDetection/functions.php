@@ -49,7 +49,7 @@ function getBrowserNameWithVersion($label)
     $short = substr($label, 0, 2);
     $ver = substr($label, 3, 10);
     $browsers = BrowserParser::getAvailableBrowsers();
-    if (array_key_exists($short, $browsers)) {
+    if ($short && array_key_exists($short, $browsers)) {
         return trim(ucfirst($browsers[$short]) . ' ' . $ver);
     } else {
         return Piwik::translate('General_Unknown');
@@ -60,7 +60,7 @@ function getBrowserName($label)
 {
     $short = substr($label, 0, 2);
     $browsers = BrowserParser::getAvailableBrowsers();
-    if (array_key_exists($short, $browsers)) {
+    if ($short && array_key_exists($short, $browsers)) {
         return trim(ucfirst($browsers[$short]));
     } else {
         return Piwik::translate('General_Unknown');
