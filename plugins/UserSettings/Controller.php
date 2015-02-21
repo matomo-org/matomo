@@ -35,9 +35,6 @@ class Controller extends \Piwik\Plugin\Controller
             $view->dataTableConfiguration = $this->renderReport(new GetConfiguration());
         }
 
-        if (PluginManager::getInstance()->isPluginActivated('UserLanguage')) {
-            $view->dataTableBrowserLanguage = $this->renderReport(new GetLanguage());
-        }
         return $view->render();
     }
 }

@@ -3,11 +3,6 @@
     <h2 piwik-enriched-headline>{{ 'General_Plugins'|translate }}</h2>
     {{ dataTablePlugin|raw }}
     {% endif %}
-
-    {% if dataTableBrowserLanguage|default is not empty %}
-    <h2 piwik-enriched-headline>{{ 'UserLanguage_BrowserLanguage'|translate }}</h2>
-    {{ dataTableBrowserLanguage|raw }}
-    {% endif %}
 </div>
 
 <div id='rightcolumn'>
