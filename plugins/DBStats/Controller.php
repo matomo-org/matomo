@@ -42,7 +42,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         list($siteCount, $userCount, $totalSpaceUsed) = API::getInstance()->getGeneralInformation();
 
-        $formatter = new Formatter();
+        $formatter = new Formatter\Api();
         $view->siteCount      = $formatter->getPrettyNumber($siteCount);
         $view->userCount      = $formatter->getPrettyNumber($userCount);
         $view->totalSpaceUsed = $formatter->getPrettySizeFromBytes($totalSpaceUsed);

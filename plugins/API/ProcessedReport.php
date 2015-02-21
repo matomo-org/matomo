@@ -650,7 +650,7 @@ class ProcessedReport
             $enhancedDataTable = new Simple();
         }
 
-        $formatter = new Formatter();
+        $formatter = new Formatter\Api();
 
         foreach ($simpleDataTable->getRows() as $row) {
             $rowMetrics = $row->getColumns();

@@ -19,7 +19,7 @@ class Visitor
     public function __construct($details)
     {
         $this->details = $details;
-        $this->metricsFormatter = new Formatter();
+        $this->metricsFormatter = new Formatter\Api();
     }
 
     function getTimestampFirstAction()

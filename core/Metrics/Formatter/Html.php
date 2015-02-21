@@ -7,13 +7,11 @@
  */
 namespace Piwik\Metrics\Formatter;
 
-use Piwik\Metrics\Formatter;
-
 /**
  * Metrics formatter that formats for HTML output. Uses non-breaking spaces in formatted values
  * so text will stay unbroken in HTML views.
  */
-class Html extends Formatter
+class Html extends Api
 {
     public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = true, $round = false)
     {

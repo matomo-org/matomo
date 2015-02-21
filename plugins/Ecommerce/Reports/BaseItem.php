@@ -72,7 +72,7 @@ abstract class BaseItem extends Base
 
         if (!($view instanceof Evolution)) {
             $moneyColumns = array('revenue');
-            $formatter    = array(new Formatter(), 'getPrettyMoney');
+            $formatter    = array(new Formatter\Api(), 'getPrettyMoney');
             $view->config->filters[] = array('ColumnCallbackReplace', array($moneyColumns, $formatter, array($idSite)));
         }
 

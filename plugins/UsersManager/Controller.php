@@ -95,7 +95,7 @@ class Controller extends ControllerAdmin
         $superUsers        = array();
         $usersAliasByLogin = array();
 
-        $formatter = new Formatter();
+        $formatter = new Formatter\Api();
 
         if (Piwik::isUserHasSomeAdminAccess()) {
             $view->showLastSeen = true;

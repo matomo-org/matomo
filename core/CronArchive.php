@@ -220,7 +220,7 @@ class CronArchive
      */
     public function __construct($piwikUrl = false)
     {
-        $this->formatter = new Formatter();
+        $this->formatter = new Formatter\Api();
 
         $this->initPiwikHost($piwikUrl);
         $this->initCore();

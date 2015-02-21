@@ -69,7 +69,7 @@ class VisitorProfile
         $this->handleSiteSearches();
         $this->handleAveragePageGenerationTime();
 
-        $formatter = new Formatter();
+        $formatter = new Formatter\Api();
         $this->profile['totalVisitDurationPretty'] = $formatter->getPrettyTimeFromSeconds($this->profile['totalVisitDuration'], true);
 
         $this->handleVisitsSummary($visits);

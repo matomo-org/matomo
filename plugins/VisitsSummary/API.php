@@ -123,7 +123,7 @@ class API extends \Piwik\Plugin\API
 
     public function getSumVisitsLengthPretty($idSite, $period, $date, $segment = false)
     {
-        $formatter = new Formatter();
+        $formatter = new Formatter\Api();
 
         $table = $this->getSumVisitsLength($idSite, $period, $date, $segment);
         if (is_object($table)) {

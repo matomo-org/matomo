@@ -32,7 +32,7 @@ class GetSimpleLastVisitCount extends Base
 
         $lastNData = Request::processRequest('Live.getCounters', array('lastMinutes' => $lastMinutes));
 
-        $formatter = new Formatter();
+        $formatter = new Formatter\Api();
 
         $view = new View('@Live/getSimpleLastVisitCount');
         $view->lastMinutes = $lastMinutes;

@@ -1158,7 +1158,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getCurrencyList()
     {
-        $currencies = Formatter::getCurrencyList();
+        $currencies = Formatter\Api::getCurrencyList();
         return array_map(function ($a) {
             return $a[1] . " (" . $a[0] . ")";
         }, $currencies);
@@ -1171,7 +1171,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getCurrencySymbols()
     {
-        $currencies = Formatter::getCurrencyList();
+        $currencies = Formatter\Api::getCurrencyList();
         return array_map(function ($a) {
             return $a[0];
         }, $currencies);

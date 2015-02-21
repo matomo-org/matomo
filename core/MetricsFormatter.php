@@ -24,7 +24,7 @@ class MetricsFormatter
     {
         if ($isHtml) {
             if (self::$formatter === null) {
-                self::$formatter = new Formatter();
+                self::$formatter = new Formatter\Api();
             }
             return self::$formatter;
         } else {
@@ -62,11 +62,11 @@ class MetricsFormatter
 
     public static function getCurrencySymbol($idSite)
     {
-        return Formatter::getCurrencySymbol($idSite);
+        return Formatter\Api::getCurrencySymbol($idSite);
     }
 
     public static function getCurrencyList()
     {
-        return Formatter::getCurrencyList();
+        return Formatter\Api::getCurrencyList();
     }
 }

@@ -119,7 +119,7 @@ abstract class Base extends \Piwik\Plugin\Report
             $view->config->selectable_rows = array();
         }
 
-        $formatter = new Formatter();
+        $formatter = new Formatter\Api();
 
         $getPrettySize = array($formatter, 'getPrettySizeFromBytes');
         $params        = !isset($fixedMemoryUnit) ? array() : array($fixedMemoryUnit);

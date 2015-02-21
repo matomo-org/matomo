@@ -12,7 +12,6 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Metrics\Formatter;
-use Piwik\Translate;
 use Piwik\View\RenderTokenParser;
 use Piwik\Visualization\Sparkline;
 use Twig_Environment;
@@ -49,7 +48,7 @@ class Twig
 		$theme   = $manager->getThemeEnabled();
 		$loaders = array();
 
-        $this->formatter = new Formatter();
+        $this->formatter = new Formatter\Api();
 
 		//create loader for custom theme to overwrite twig templates
 		if ($theme && $theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME) {
