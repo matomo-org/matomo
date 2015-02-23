@@ -238,7 +238,7 @@ class Metrics
     {
         $nameToUnit = array(
             '_rate'   => '%',
-            'revenue' => Formatter\Api::getCurrencySymbol($idSite),
+            'revenue' => Formatter::getCurrencySymbol($idSite),
             '_time_'  => 's'
         );
 

@@ -198,7 +198,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $totalBytes += $status['Data_length'] + $status['Index_length'];
         }
 
-        $formatter = new Formatter\Api();
+        $formatter = new Formatter();
         $result = array(
             'currentSize' => $formatter->getPrettySizeFromBytes($totalBytes)
         );
@@ -292,7 +292,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        $formatter = new Formatter\Api();
+        $formatter = new Formatter();
 
         $deleteDataInfos["nextRunPretty"] = $formatter->getPrettyTimeFromSeconds($deleteDataInfos["nextScheduleTime"] - time());
 

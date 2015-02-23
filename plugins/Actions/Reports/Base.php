@@ -61,7 +61,7 @@ abstract class Base extends \Piwik\Plugin\Report
             'nb_visits'           => Piwik::translate('General_ColumnUniquePageviews')
         ));
 
-        $formatter = new Formatter\Api();
+        $formatter = new Formatter();
 
         // add avg_generation_time tooltip
         $tooltipCallback = function ($hits, $min, $max) use ($formatter) {

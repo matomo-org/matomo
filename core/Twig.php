@@ -48,7 +48,7 @@ class Twig
 		$theme   = $manager->getThemeEnabled();
 		$loaders = array();
 
-        $this->formatter = new Formatter\Api();
+        $this->formatter = new Formatter();
 
 		//create loader for custom theme to overwrite twig templates
 		if ($theme && $theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME) {

@@ -23,7 +23,7 @@ class Timer
      */
     public function __construct()
     {
-        $this->formatter = new Formatter\Api();
+        $this->formatter = new Formatter();
 
         $this->init();
     }

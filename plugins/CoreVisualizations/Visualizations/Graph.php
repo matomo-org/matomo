@@ -10,7 +10,7 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Metrics\Formatter\Numeric;
+use Piwik\Plugins\CoreVisualizations\Metrics\Formatter\Numeric;
 use Piwik\Piwik;
 use Piwik\Plugin\Visualization;
 
