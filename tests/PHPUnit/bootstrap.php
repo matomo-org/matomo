@@ -2,8 +2,9 @@
 
 use Piwik\Container\StaticContainer;
 use Piwik\Http;
-use Piwik\Tests\Framework\Fixture;
 use Piwik\Intl\Locale;
+use Piwik\Config;
+use Piwik\SettingsPiwik;
 
 define('PIWIK_TEST_MODE', true);
 define('PIWIK_PRINT_ERROR_BACKTRACE', false);
@@ -60,9 +61,9 @@ foreach($fixturesToLoad as $fixturePath) {
 
 Locale::setDefaultLocale();
 
-function prepareServerVariables()
+function prepareServerVariables(Config $config)
 {
-    $testConfig = \Piwik\Config::getInstance()->tests;
+    $testConfig = $config->tests;
 
     if ('@REQUEST_URI@' === $testConfig['request_uri']) {
         // config not done yet, if Piwik is installed we can automatically configure request_uri and http_host
@@ -72,8 +73,8 @@ function prepareServerVariables()
             $parsedUrl = parse_url($url);
             $testConfig['request_uri'] = $parsedUrl['path'];
             $testConfig['http_host']   = $parsedUrl['host'];
-            \Piwik\Config::getInstance()->tests = $testConfig;
-            \Piwik\Config::getInstance()->forceSave();
+            $config->tests = $testConfig;
+            $config->forceSave();
         }
     }
 
@@ -82,12 +83,40 @@ function prepareServerVariables()
     $_SERVER['REMOTE_ADDR'] = $testConfig['remote_addr'];
 }
 
-prepareServerVariables();
+function prepareTestDatabaseConfig(Config $config)
+{
+    $testDb = $config->database_tests;
 
-// General requirement checks & help: a webserver must be running for tests to work if not running UnitTests!
-if (empty($_SERVER['argv']) || !in_array('UnitTests', $_SERVER['argv'])) {
-    checkPiwikSetupForTests();
+    if ('@USERNAME@' !== $testDb['username']) {
+        return; // testDb is already configured, we do not want to overwrite any existing settings.
+    }
+
+    $db = $config->database;
+    $testDb['username'] = $db['username'];
+
+    if (empty($testDb['password'])) {
+        $testDb['password'] = $db['password'];
+    }
+
+    if (empty($testDb['host'])) {
+        $testDb['host'] = $db['host'];
+    }
+
+    $testDb['tables_prefix'] = ''; // tables_prefix has to be empty for UI tests
+
+    $config->database_tests = $testDb;
+    $config->forceSave();
 }
+
+if (!SettingsPiwik::isPiwikInstalled()) {
+    throw new Exception('Piwik needs to be installed in order to run the tests');
+}
+
+$config = Config::getInstance();
+$config->init();
+prepareServerVariables($config);
+prepareTestDatabaseConfig($config);
+checkPiwikSetupForTests();
 
 function checkPiwikSetupForTests()
 {
@@ -108,22 +137,4 @@ Try again.";
         exit(1);
     }
 
-    $url = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=TestRunner&action=check';
-    $response = Http::sendHttpRequestBy('curl', $url, 5);
-
-    if ($response === 'OK'
-        // The SQL error is for Travis...
-        || strpos($response, 'Table &#039;piwik_tests.option&#039; doesn&#039;t exist') !== false
-        || strpos($response, 'Table &#039;piwik_tests.piwiktests_option&#039; doesn&#039;t exist') !== false
-        || strpos($response, 'Unknown database &#039;piwik_tests&#039;') !== false
-        || strpos($response, '<title>Piwik &rsaquo; Update</title>') !== false
-    ) {
-        return;
-    }
-
-    throw new Exception(sprintf(
-        "Piwik should be running at %s but this URL returned an unexpected response: '%s'",
-        $url,
-        $response
-    ));
 }
