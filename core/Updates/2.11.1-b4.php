@@ -13,7 +13,7 @@ use Piwik\Config;
 use Piwik\Development;
 use Piwik\Updates;
 
-class Updates_2_11_1_b3 extends Updates
+class Updates_2_11_1_b4 extends Updates
 {
     /**
      * Here you can define any action that should be performed during the update. For instance executing SQL statements,
