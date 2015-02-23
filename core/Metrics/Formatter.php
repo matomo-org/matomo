@@ -21,8 +21,6 @@ use Piwik\Tracker\GoalManager;
 /**
  * Contains methods to format metric values. Passed to the {@link \Piwik\Plugin\Metric::format()}
  * method when formatting Metrics.
- *
- * @api
  */
 class Formatter
 {
@@ -38,6 +36,7 @@ class Formatter
      *
      * @param number $value
      * @return string
+     * @api
      */
     public function getPrettyNumber($value, $precision = 0)
     {
@@ -58,6 +57,7 @@ class Formatter
      * @param bool $displayTimeAsSentence If set to true, will output `"5min 17s"`, if false `"00:05:17"`.
      * @param bool $round Whether to round to the nearest second or not.
      * @return string
+     * @api
      */
     public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = false, $round = false)
     {
@@ -126,6 +126,7 @@ class Formatter
      * @param string $unit The specific unit to use, if any. If null, the unit is determined by $size.
      * @param int $precision The precision to use when rounding.
      * @return string eg, `'128 M'` or `'256 K'`.
+     * @api
      */
     public function getPrettySizeFromBytes($size, $unit = null, $precision = 1)
     {
@@ -133,23 +134,8 @@ class Formatter
             return '0 M';
         }
 
-        $units = array('B', 'K', 'M', 'G', 'T');
-        $numUnits = count($units) - 1;
-
-        $currentUnit = null;
-        foreach ($units as $idx => $currentUnit) {
-            if ($unit && $unit !== $currentUnit) {
-                $size = $size / 1024;
-            } elseif ($unit && $unit === $currentUnit) {
-                break;
-            } elseif ($size >= 1024 && $idx != $numUnits) {
-                $size = $size / 1024;
-            } else {
-                break;
-            }
-        }
-
-        return round($size, $precision) . " " . $currentUnit;
+        list($size, $sizeUnit) = $this->getPrettySizeFromBytesWithUnit($size, $unit, $precision);
+        return $size . " " . $sizeUnit;
     }
 
     /**
@@ -158,6 +144,7 @@ class Formatter
      * @param int|string $value The monetary value to format.
      * @param int $idSite The ID of the site whose currency will be used.
      * @return string
+     * @api
      */
     public function getPrettyMoney($value, $idSite)
     {
@@ -199,6 +186,7 @@ class Formatter
      *
      * @param float $value
      * @return string
+     * @api
      */
     public function getPrettyPercentFromQuotient($value)
     {
@@ -211,6 +199,7 @@ class Formatter
      *
      * @param int $idSite The ID of the site to return the currency symbol for.
      * @return string eg, `'$'`.
+     * @api
      */
     public static function getCurrencySymbol($idSite)
     {
@@ -232,6 +221,7 @@ class Formatter
      *
      * @deprecated Use Piwik\Intl\Data\Provider\CurrencyDataProvider instead.
      * @see \Piwik\Intl\Data\Provider\CurrencyDataProvider::getCurrencyList()
+     * @api
      */
     public static function getCurrencyList()
     {
@@ -247,6 +237,7 @@ class Formatter
      * @param DataTable $dataTable The table to format metrics for.
      * @param Report|null $report The report the table belongs to.
      * @param string[]|null $metricsToFormat Whitelist of names of metrics to format.
+     * @api
      */
     public function formatMetrics(DataTable $dataTable, Report $report = null, $metricsToFormat = null)
     {
@@ -283,6 +274,29 @@ class Formatter
                 }
             }
         }
+    }
+
+    protected function getPrettySizeFromBytesWithUnit($size, $unit = null, $precision = 1)
+    {
+        $units = array('B', 'K', 'M', 'G', 'T');
+        $numUnits = count($units) - 1;
+
+        $currentUnit = null;
+        foreach ($units as $idx => $currentUnit) {
+            if ($unit && $unit !== $currentUnit) {
+                $size = $size / 1024;
+            } elseif ($unit && $unit === $currentUnit) {
+                break;
+            } elseif ($size >= 1024 && $idx != $numUnits) {
+                $size = $size / 1024;
+            } else {
+                break;
+            }
+        }
+
+        $size = round($size, $precision);
+
+        return array($size, $currentUnit);
     }
 
     private function makeRegexToMatchMetrics($metricsToFormat)
