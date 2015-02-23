@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\CoreVisualizations\Metrics\Formatter;
 
+use Piwik\Common;
 use Piwik\Metrics\Formatter;
 
 /**
@@ -23,7 +24,7 @@ class Numeric extends Formatter
 
     public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = false, $round = false)
     {
-        return $round ? (int)$numberOfSeconds : (float)$numberOfSeconds;
+        return $round ? (int)$numberOfSeconds : (float) Common::forceDotAsSeparatorForDecimalPoint($numberOfSeconds);
     }
 
     public function getPrettySizeFromBytes($size, $unit = null, $precision = 1)
