@@ -33,4 +33,10 @@ class GetConfiguration extends Base
         $view->requestConfig->filter_limit = 3;
     }
 
+    public function getRelatedReports()
+    {
+        return array(
+            new GetResolution()
+        );
+    }
 }
