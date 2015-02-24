@@ -23,7 +23,7 @@ class Updates_2_12_0_b1 extends Updates
         return array(
             'DROP INDEX index_idsite_config_datetime ON `' . $logVisitTable . '`' => 1091,
             'DROP INDEX index_idsite_datetime ON `' . $logVisitTable . '`' => 1091,
-            'CREATE INDEX index_idsite_config_datetime ON `' . $logVisitTable . '`(idsite, visit_last_action_time, config_id)' => 1061,
+            'CREATE INDEX index_idsite_configid_datetime ON `' . $logVisitTable . '`(idsite, visit_last_action_time, config_id)' => 1061,
         );
     }
 
