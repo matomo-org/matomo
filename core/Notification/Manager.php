@@ -9,6 +9,7 @@
 namespace Piwik\Notification;
 
 use Piwik\Notification;
+use Piwik\Session;
 use Piwik\Session\SessionNamespace;
 
 /**
@@ -103,6 +104,10 @@ class Manager
 
     private static function addNotification($id, Notification $notification)
     {
+        if (!Session::isWritable()) {
+            return;
+        }
+
         $session = static::getSession();
         $session->notifications[$id] = $notification;
     }
@@ -116,6 +121,10 @@ class Manager
 
     private static function removeNotification($id)
     {
+        if (!Session::isWritable()) {
+            return;
+        }
+
         $session = static::getSession();
         if (array_key_exists($id, $session->notifications)) {
             unset($session->notifications[$id]);
