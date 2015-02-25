@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik;
+
 use Piwik\Columns\Updater as ColumnUpdater;
 use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 
@@ -19,41 +20,36 @@ class Updater
     const INDEX_CURRENT_VERSION = 0;
     const INDEX_NEW_VERSION = 1;
 
-    public $pathUpdateFileCore;
-    public $pathUpdateFilePlugins;
-    private $componentsToCheck = array();
+    private $pathUpdateFileCore;
+    private $pathUpdateFilePlugins;
     private $hasMajorDbUpdate = false;
     private $updatedClasses = array();
+    private $componentsWithNewVersion = array();
+    private $componentsWithUpdateFile = array();
+
+    /**
+     * TODO
+     */
+    private static $activeInstance;
 
     /**
      * Constructor
+     * TODO
+     * @param string|null $pathUpdateFileCore
+     * @param string|null $pathUpdateFilePlugins
      */
-    public function __construct()
+    public function __construct($pathUpdateFileCore = null, $pathUpdateFilePlugins = null)
     {
-        $this->pathUpdateFileCore = PIWIK_INCLUDE_PATH . '/core/Updates/';
-        $this->pathUpdateFilePlugins = PIWIK_INCLUDE_PATH . '/plugins/%s/Updates/';
+        $this->pathUpdateFileCore = $pathUpdateFileCore ?: PIWIK_INCLUDE_PATH . '/core/Updates/';
+        $this->pathUpdateFilePlugins = $pathUpdateFilePlugins ?: PIWIK_INCLUDE_PATH . '/plugins/%s/Updates/';
 
-        ColumnUpdater::setUpdater($this);
+        self::$activeInstance = $this;
     }
 
     /**
-     * Add component to check
-     *
-     * @param string $name
-     * @param string $version
+     * TODO
      */
-    public function addComponentToCheck($name, $version)
-    {
-        $this->componentsToCheck[$name] = $version;
-    }
-
-    /**
-     * Record version of successfully completed component update
-     *
-     * @param string $name
-     * @param string $version
-     */
-    public static function recordComponentSuccessfullyUpdated($name, $version)
+    public function markComponentSuccessfullyUpdated($name, $version)
     {
         try {
             Option::set(self::getNameInOptionTable($name), $version, $autoLoad = 1);
@@ -63,12 +59,9 @@ class Updater
     }
 
     /**
-     * Retrieve the current version of a recorded component
-     * @param string $name
-     * @return false|string
-     * @throws \Exception
+     * TODO
      */
-    public static function getCurrentRecordedComponentVersion($name)
+    public function getCurrentComponentVersion($name)
     {
         try {
             $currentVersion = Option::get(self::getNameInOptionTable($name));
@@ -87,22 +80,11 @@ class Updater
     }
 
     /**
-     * Returns the flag name to use in the option table to record current schema version
-     * @param string $name
-     * @return string
-     */
-    private static function getNameInOptionTable($name)
-    {
-        return 'version_' . $name;
-    }
-
-
-    /**
      * This method ensures that Piwik Platform cannot be running when using a NEWER database
      */
-    public static function throwIfPiwikVersionIsOlderThanDBSchema()
+    public function throwIfPiwikVersionIsOlderThanDBSchema()
     {
-        $dbSchemaVersion = self::getCurrentRecordedComponentVersion('core');
+        $dbSchemaVersion = $this->getCurrentRecordedComponentVersion('core');
         $current = Version::VERSION;
         if(-1 === version_compare($current, $dbSchemaVersion)) {
             $messages = array(
@@ -119,11 +101,13 @@ class Updater
     /**
      * Returns a list of components (core | plugin) that need to run through the upgrade process.
      *
+     * TODO: modify
+     *
      * @return array( componentName => array( file1 => version1, [...]), [...])
      */
-    public function getComponentsWithUpdateFile()
+    public function getComponentsWithUpdateFile($componentsToCheck)
     {
-        $this->componentsWithNewVersion = $this->getComponentsWithNewVersion();
+        $this->componentsWithNewVersion = $this->getComponentsWithNewVersion($componentsToCheck);
         $this->componentsWithUpdateFile = $this->loadComponentsWithUpdateFile();
         return $this->componentsWithUpdateFile;
     }
@@ -136,8 +120,7 @@ class Updater
      */
     public function hasNewVersion($componentName)
     {
-        return isset($this->componentsWithNewVersion) &&
-        isset($this->componentsWithNewVersion[$componentName]);
+        return isset($this->componentsWithNewVersion[$componentName]);
     }
 
     /**
@@ -177,7 +160,7 @@ class Updater
 
                 $classNames[] = $className;
 
-                $queriesForComponent = call_user_func(array($className, 'getSql'));
+                $queriesForComponent = call_user_func(array($className, 'getSql'), $this);
                 foreach ($queriesForComponent as $query => $error) {
                     $queries[] = $query . ';';
                 }
@@ -221,7 +204,7 @@ class Updater
                 $className = $this->getUpdateClassName($componentName, $fileVersion);
                 if (!in_array($className, $this->updatedClasses) && class_exists($className, false)) {
                     // update()
-                    call_user_func(array($className, 'update'));
+                    call_user_func(array($className, 'update'), $this);
                     // makes sure to call Piwik\Columns\Updater only once as one call updates all dimensions at the same
                     // time for better performance
                     $this->updatedClasses[] = $className;
@@ -294,28 +277,30 @@ class Updater
     /**
      * Construct list of outdated components
      *
+     * TODO modify
+     *
      * @throws \Exception
      * @return array array( componentName => array( oldVersion, newVersion), [...])
      */
-    public function getComponentsWithNewVersion()
+    public function getComponentsWithNewVersion($componentsToCheck)
     {
         $componentsToUpdate = array();
 
         // we make sure core updates are processed before any plugin updates
-        if (isset($this->componentsToCheck['core'])) {
-            $coreVersions = $this->componentsToCheck['core'];
-            unset($this->componentsToCheck['core']);
-            $this->componentsToCheck = array_merge(array('core' => $coreVersions), $this->componentsToCheck);
+        if (isset($componentsToCheck['core'])) {
+            $coreVersions = $componentsToCheck['core'];
+            unset($componentsToCheck['core']);
+            $componentsToCheck = array_merge(array('core' => $coreVersions), $componentsToCheck);
         }
 
         $recordedCoreVersion = self::getCurrentRecordedComponentVersion('core');
-        if ($recordedCoreVersion === false) {
+        if (empty($recordedCoreVersion)) {
             // This should not happen
             $recordedCoreVersion = Version::VERSION;
             self::recordComponentSuccessfullyUpdated('core', $recordedCoreVersion);
         }
 
-        foreach ($this->componentsToCheck as $name => $version) {
+        foreach ($componentsToCheck as $name => $version) {
             $currentVersion = self::getCurrentRecordedComponentVersion($name);
 
             if (ColumnUpdater::isDimensionComponent($name)) {
@@ -332,7 +317,140 @@ class Updater
                 );
             }
         }
+
         return $componentsToUpdate;
+    }
+
+    /**
+     * TODO
+     *
+     * @param $componentsWithUpdateFile
+     * @return array
+     */
+    public function updateComponents($componentsWithUpdateFile)
+    {
+        $warnings = array();
+        $errors   = array();
+        $deactivatedPlugins = array();
+        $coreError = false;
+
+        if (!empty($componentsWithUpdateFile)) {
+            $currentAccess      = Access::getInstance();
+            $hasSuperUserAccess = $currentAccess->hasSuperUserAccess();
+
+            if (!$hasSuperUserAccess) {
+                $currentAccess->setSuperUserAccess(true);
+            }
+
+            // if error in any core update, show message + help message + EXIT
+            // if errors in any plugins updates, show them on screen, disable plugins that errored + CONTINUE
+            // if warning in any core update or in any plugins update, show message + CONTINUE
+            // if no error or warning, success message + CONTINUE
+            foreach ($componentsWithUpdateFile as $name => $filenames) {
+                try {
+                    $warnings = array_merge($warnings, $this->update($name));
+                } catch (UpdaterErrorException $e) {
+                    $errors[] = $e->getMessage();
+                    if ($name == 'core') {
+                        $coreError = true;
+                        break;
+                    } elseif (\Piwik\Plugin\Manager::getInstance()->isPluginActivated($name)) {
+                        \Piwik\Plugin\Manager::getInstance()->deactivatePlugin($name);
+                        $deactivatedPlugins[] = $name;
+                    }
+                }
+            }
+
+            if (!$hasSuperUserAccess) {
+                $currentAccess->setSuperUserAccess(false);
+            }
+        }
+
+        Filesystem::deleteAllCacheOnUpdate();
+
+        $result = array(
+            'warnings'  => $warnings,
+            'errors'    => $errors,
+            'coreError' => $coreError,
+            'deactivatedPlugins' => $deactivatedPlugins
+        );
+
+        /**
+         * Triggered after Piwik has been updated.
+         */
+        Piwik::postEvent('CoreUpdater.update.end');
+
+        return $result;
+    }
+
+    /**
+     * TODO
+     */
+    public function getComponentUpdates()
+    {
+        $componentsToCheck = array(
+            'core' => Version::VERSION
+        );
+
+        $manager = \Piwik\Plugin\Manager::getInstance();
+        $plugins = $manager->getLoadedPlugins();
+        foreach ($plugins as $pluginName => $plugin) {
+            if ($manager->isPluginInstalled($pluginName)) {
+                $componentsToCheck[$pluginName] = $plugin->getVersion();
+            }
+        }
+
+        $columnsVersions = ColumnUpdater::getAllVersions();
+        foreach ($columnsVersions as $component => $version) {
+            $componentsToCheck[$component] = $version;
+        }
+
+        $componentsWithUpdateFile = $this->getComponentsWithUpdateFile($componentsToCheck);
+
+        if (count($componentsWithUpdateFile) == 0) {
+            ColumnUpdater::onNoUpdateAvailable($columnsVersions);
+
+            if (!$this->hasNewVersion('core')) {
+                return null;
+            }
+        }
+
+        return $componentsWithUpdateFile;
+    }
+
+    /**
+     * TODO
+     */
+    public function executeMigrationQueries($file, $migrationQueries)
+    {
+        foreach ($migrationQueries as $update => $ignoreError) {
+            self::$activeInstance->executeSingleMigrationQuery($update, $ignoreError, $file);
+        }
+    }
+
+    /**
+     * TODO
+     */
+    public function executeSingleMigrationQuery($migrationQuerySql, $errorToIgnore, $file)
+    {
+        try {
+            Db::exec($migrationQuerySql);
+        } catch (\Exception $e) {
+            $this->handleUpdateQueryError($e, $migrationQuerySql, $errorToIgnore, $file);
+        }
+    }
+
+    /**
+     * TODO
+     */
+    public function handleUpdateQueryError(\Exception $e, $updateSql, $errorToIgnore, $file)
+    {
+        if (($errorToIgnore === false)
+            || !self::isDbErrorOneOf($e, $errorToIgnore)
+        ) {
+            $message = $file . ":\nError trying to execute the query '" . $updateSql . "'.\nThe error was: " . $e->getMessage();
+            throw new UpdaterErrorException($message);
+        }
     }
 
     /**
@@ -344,9 +462,7 @@ class Updater
      */
     static function updateDatabase($file, $sqlarray)
     {
-        foreach ($sqlarray as $update => $ignoreError) {
-            self::executeMigrationQuery($update, $ignoreError, $file);
-        }
+        self::$activeInstance->executeMigrationQueries($file, $sqlarray);
     }
 
     /**
@@ -358,11 +474,7 @@ class Updater
      */
     public static function executeMigrationQuery($updateSql, $errorToIgnore, $file)
     {
-        try {
-            Db::exec($updateSql);
-        } catch (\Exception $e) {
-            self::handleQueryError($e, $updateSql, $errorToIgnore, $file);
-        }
+        self::$activeInstance->executeSingleMigrationQuery($updateSql, $errorToIgnore, $file);
     }
 
     /**
@@ -376,12 +488,7 @@ class Updater
      */
     public static function handleQueryError($e, $updateSql, $errorToIgnore, $file)
     {
-        if (($errorToIgnore === false)
-            || !self::isDbErrorOneOf($e, $errorToIgnore)
-        ) {
-            $message = $file . ":\nError trying to execute the query '" . $updateSql . "'.\nThe error was: " . $e->getMessage();
-            throw new UpdaterErrorException($message);
-        }
+        self::$activeInstance->handleQueryError($e, $updateSql, $errorToIgnore, $file);
     }
 
     /**
@@ -400,6 +507,40 @@ class Updater
             }
         }
         return false;
+    }
+
+    /**
+     * Record version of successfully completed component update
+     *
+     * TODO: deprecate this and other static functions? need to pass an Updater to Updates.php descendants
+     *
+     * @param string $name
+     * @param string $version
+     */
+    public static function recordComponentSuccessfullyUpdated($name, $version)
+    {
+        self::$activeInstance->markComponentSuccessfullyUpdated($name, $version);
+    }
+
+    /**
+     * Retrieve the current version of a recorded component
+     * @param string $name
+     * @return false|string
+     * @throws \Exception
+     */
+    public static function getCurrentRecordedComponentVersion($name)
+    {
+        return self::$activeInstance->getCurrentComponentVersion($name);
+    }
+
+    /**
+     * Returns the flag name to use in the option table to record current schema version
+     * @param string $name
+     * @return string
+     */
+    private static function getNameInOptionTable($name)
+    {
+        return 'version_' . $name;
     }
 }
 

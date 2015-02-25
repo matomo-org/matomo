@@ -298,7 +298,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function runUpdaterAndExit($doDryRun = null)
     {
         $updater = new Updater();
-        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
+        $componentsWithUpdateFile = $updater->getComponentUpdates();
         if (empty($componentsWithUpdateFile)) {
             throw new NoUpdatesFoundException("Everything is already up to date.");
         }
@@ -407,9 +407,9 @@ class Controller extends \Piwik\Plugin\Controller
         $view->coreToUpdate = $coreToUpdate;
     }
 
-    private function doExecuteUpdates($view, $updater, $componentsWithUpdateFile)
+    private function doExecuteUpdates($view, Updater $updater, $componentsWithUpdateFile)
     {
-        $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
+        $result = $updater->updateComponents($componentsWithUpdateFile);
 
         $this->coreError       = $result['coreError'];
         $this->warningMessages = $result['warnings'];

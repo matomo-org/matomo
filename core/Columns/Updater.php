@@ -25,11 +25,6 @@ class Updater extends \Piwik\Updates
     private static $cacheId = 'AllDimensionModifyTime';
 
     /**
-     * @var Updater
-     */
-    private static $updater;
-
-    /**
      * Return SQL to be executed in this update
      *
      * @return array(
@@ -38,11 +33,11 @@ class Updater extends \Piwik\Updates
      *                                       // and user will have to manually run the query
      *         )
      */
-    public static function getSql()
+    public static function getSql(PiwikUpdater $updater)
     {
         $sqls = array();
 
-        $changingColumns = self::getUpdates();
+        $changingColumns = self::getUpdates($updater);
 
         foreach ($changingColumns as $table => $columns) {
             if (empty($columns) || !is_array($columns)) {
@@ -58,30 +53,20 @@ class Updater extends \Piwik\Updates
     /**
      * Incremental version update
      */
-    public static function update()
+    public static function update(PiwikUpdater $updater)
     {
-        foreach (self::getSql() as $sql => $errorCode) {
+        foreach (self::getSql($updater) as $sql => $errorCode) {
             try {
                 Db::exec($sql);
             } catch (\Exception $e) {
                 if (!Db::get()->isErrNo($e, '1091') && !Db::get()->isErrNo($e, '1060')) {
-                    PiwikUpdater::handleQueryError($e, $sql, false, __FILE__);
+                    $updater->handleUpdateQueryError($e, $sql, false, __FILE__);
                 }
             }
         }
     }
 
-    public static function setUpdater($updater)
-    {
-        self::$updater = $updater;
-    }
-
-    private static function hasComponentNewVersion($component)
-    {
-        return empty(self::$updater) || self::$updater->hasNewVersion($component);
-    }
-
-    private static function getUpdates()
+    private static function getUpdates(PiwikUpdater $updater)
     {
         $visitColumns      = DbHelper::getTableColumns(Common::prefixTable('log_visit'));
         $actionColumns     = DbHelper::getTableColumns(Common::prefixTable('log_link_visit_action'));
@@ -90,17 +75,17 @@ class Updater extends \Piwik\Updates
         $changingColumns = array();
 
         foreach (self::getVisitDimensions() as $dimension) {
-            $updates         = self::getUpdatesForDimension($dimension, 'log_visit.', $visitColumns, $conversionColumns);
+            $updates         = self::getUpdatesForDimension($updater, $dimension, 'log_visit.', $visitColumns, $conversionColumns);
             $changingColumns = self::mixinUpdates($changingColumns, $updates);
         }
 
         foreach (self::getActionDimensions() as $dimension) {
-            $updates         = self::getUpdatesForDimension($dimension, 'log_link_visit_action.', $actionColumns);
+            $updates         = self::getUpdatesForDimension($updater, $dimension, 'log_link_visit_action.', $actionColumns);
             $changingColumns = self::mixinUpdates($changingColumns, $updates);
         }
 
         foreach (self::getConversionDimensions() as $dimension) {
-            $updates         = self::getUpdatesForDimension($dimension, 'log_conversion.', $conversionColumns);
+            $updates         = self::getUpdatesForDimension($updater, $dimension, 'log_conversion.', $conversionColumns);
             $changingColumns = self::mixinUpdates($changingColumns, $updates);
         }
 
@@ -114,12 +99,12 @@ class Updater extends \Piwik\Updates
      * @param array $conversionColumns
      * @return array
      */
-    private static function getUpdatesForDimension($dimension, $componentPrefix, $existingColumnsInDb, $conversionColumns = array())
+    private static function getUpdatesForDimension(PiwikUpdater $updater, $dimension, $componentPrefix, $existingColumnsInDb, $conversionColumns = array())
     {
         $column = $dimension->getColumnName();
         $componentName = $componentPrefix . $column;
 
-        if (!self::hasComponentNewVersion($componentName)) {
+        if (!$updater->hasNewVersion($componentName)) {
             return array();
         }
 

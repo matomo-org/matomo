@@ -396,7 +396,8 @@ class FrontController extends Singleton
          */
         Piwik::postEvent('Request.dispatchCoreAndPluginUpdatesScreen');
 
-        Updater::throwIfPiwikVersionIsOlderThanDBSchema();
+        $updater = new Updater();
+        $updater->throwIfPiwikVersionIsOlderThanDBSchema(); // TODO: really should have a method like this
 
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
 

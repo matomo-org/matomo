@@ -24,7 +24,7 @@ abstract class Updates
      *                                       // and user will have to manually run the query
      *         )
      */
-    static function getSql()
+    static function getSql(Updater $updater)
     {
         return array();
     }
@@ -32,7 +32,7 @@ abstract class Updates
     /**
      * Incremental version update
      */
-    static function update()
+    static function update(Updater $updater)
     {
     }
 
