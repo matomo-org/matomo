@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Columns\Updater as ColumnUpdater;
 use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
+use Piwik\Updater\UpdateListener;
 
 /**
  * Load and execute all relevant, incremental update scripts for Piwik core and plugins, and bump the component version numbers for completed updates.
@@ -26,6 +27,11 @@ class Updater
     private $updatedClasses = array();
     private $componentsWithNewVersion = array();
     private $componentsWithUpdateFile = array();
+
+    /**
+     * @var UpdateListener[]
+     */
+    private $updateListeners = array();
 
     /**
      * @var Columns\Updater
@@ -55,6 +61,16 @@ class Updater
         $this->columnsUpdater = $columnsUpdater ?: new Columns\Updater();
 
         self::$activeInstance = $this;
+    }
+
+    /**
+     * Adds an UpdateListener to the internal list of listeners.
+     *
+     * @param UpdateListener $listener
+     */
+    public function addUpdateListener(UpdateListener $listener)
+    {
+        $this->updateListeners[] = $listener;
     }
 
     /**
@@ -221,14 +237,22 @@ class Updater
     {
         $warningMessages = array();
 
+        $this->executeListenerHook('onComponentUpdateStarting', array($componentName));
+
         foreach ($this->componentsWithUpdateFile[$componentName] as $file => $fileVersion) {
             try {
                 require_once $file; // prefixed by PIWIK_INCLUDE_PATH
 
                 $className = $this->getUpdateClassName($componentName, $fileVersion);
-                if (!in_array($className, $this->updatedClasses) && class_exists($className, false)) {
-                    // update()
+                if (!in_array($className, $this->updatedClasses)
+                    && class_exists($className, false)
+                ) {
+                    $this->executeListenerHook('onComponentUpdateFileStarting', $componentName, $file, $className, $fileVersion);
+
                     call_user_func(array($className, 'update'), $this);
+
+                    $this->executeListenerHook('onComponentUpdateFileFinished', $componentName, $file, $className, $fileVersion);
+
                     // makes sure to call Piwik\Columns\Updater only once as one call updates all dimensions at the same
                     // time for better performance
                     $this->updatedClasses[] = $className;
@@ -236,14 +260,22 @@ class Updater
 
                 $this->markComponentSuccessfullyUpdated($componentName, $fileVersion);
             } catch (UpdaterErrorException $e) {
+                $this->executeListenerHook('onError', $componentName, $fileVersion, $e);
+
                 throw $e;
             } catch (\Exception $e) {
                 $warningMessages[] = $e->getMessage();
+
+                $this->executeListenerHook('onWarning', $componentName, $fileVersion, $e);
             }
         }
 
-        // to debug, create core/Updates/X.php, update the core/Version.php, throw an Exception in the try, and comment the following line
-        $this->markComponentSuccessfullyUpdated($componentName, $this->componentsWithNewVersion[$componentName][self::INDEX_NEW_VERSION]);
+        // to debug, create core/Updates/X.php, update the core/Version.php, throw an Exception in the try, and comment the following lines
+        $updatedVersion = $this->componentsWithNewVersion[$componentName][self::INDEX_NEW_VERSION];
+        $this->markComponentSuccessfullyUpdated($componentName, $updatedVersion);
+
+        $this->executeListenerHook('onComponentUpdateFinished', array($componentName, $updatedVersion, $warningMessages));
+
         return $warningMessages;
     }
 
@@ -464,7 +496,7 @@ class Updater
     public function executeMigrationQueries($file, $migrationQueries)
     {
         foreach ($migrationQueries as $update => $ignoreError) {
-            self::$activeInstance->executeSingleMigrationQuery($update, $ignoreError, $file);
+            $this->executeSingleMigrationQuery($update, $ignoreError, $file);
         }
     }
 
@@ -478,7 +510,11 @@ class Updater
     public function executeSingleMigrationQuery($migrationQuerySql, $errorToIgnore, $file)
     {
         try {
+            $this->executeListenerHook('onStartExecutingMigrationQuery', array($file, $migrationQuerySql));
+
             Db::exec($migrationQuerySql);
+
+            $this->executeListenerHook('onFinishedExecutingMigrationQuery', array($file, $migrationQuerySql));
         } catch (\Exception $e) {
             $this->handleUpdateQueryError($e, $migrationQuerySql, $errorToIgnore, $file);
         }
@@ -500,6 +536,13 @@ class Updater
         ) {
             $message = $file . ":\nError trying to execute the query '" . $updateSql . "'.\nThe error was: " . $e->getMessage();
             throw new UpdaterErrorException($message);
+        }
+    }
+
+    private function executeListenerHook($hookName, $arguments)
+    {
+        foreach ($this->updateListeners as $listener) {
+            call_user_func_array(array($listener, $hookName), $arguments);
         }
     }
 
