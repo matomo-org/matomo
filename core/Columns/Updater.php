@@ -33,7 +33,7 @@ class Updater extends \Piwik\Updates
      *                                       // and user will have to manually run the query
      *         )
      */
-    public static function getSql(PiwikUpdater $updater)
+    public static function getMigrationQueries(PiwikUpdater $updater)
     {
         $sqls = array();
 
@@ -53,9 +53,9 @@ class Updater extends \Piwik\Updates
     /**
      * Incremental version update
      */
-    public static function update(PiwikUpdater $updater)
+    public static function doUpdate(PiwikUpdater $updater)
     {
-        foreach (self::getSql($updater) as $sql => $errorCode) {
+        foreach (self::getMigrationQueries($updater) as $sql => $errorCode) {
             try {
                 Db::exec($sql);
             } catch (\Exception $e) {

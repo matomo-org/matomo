@@ -37,16 +37,24 @@ use Symfony\Component\Console\Tester\ApplicationTester;
  */
 class ConsoleCommandTestCase extends SystemTestCase
 {
+    /**
+     * @var ApplicationTester
+     */
     protected $applicationTester = null;
+
+    /**
+     * @var Console
+     */
+    protected $application;
 
     public function setUp()
     {
         parent::setUp();
 
-        $application = new Console();
-        $application->setAutoExit(false);
+        $this->application = new Console();
+        $this->application->setAutoExit(false);
 
-        $this->applicationTester = new ApplicationTester($application);
+        $this->applicationTester = new ApplicationTester($this->application);
 
         Config::unsetInstance();
     }
@@ -54,5 +62,14 @@ class ConsoleCommandTestCase extends SystemTestCase
     protected function getCommandDisplayOutputErrorMessage()
     {
         return "Command did not behave as expected. Command output: " . $this->applicationTester->getDisplay();
+    }
+
+    protected function getInputStream($input)
+    {
+        $stream = fopen('php://memory', 'r+', false);
+        fputs($stream, $input);
+        rewind($stream);
+
+        return $stream;
     }
 }

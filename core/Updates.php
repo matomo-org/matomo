@@ -16,6 +16,21 @@ namespace Piwik;
 abstract class Updates
 {
     /**
+     * @deprecated since v2.12.0
+     */
+    static function getSql()
+    {
+        return array();
+    }
+
+    /**
+     * @deprecated since v2.12.0
+     */
+    static function update()
+    {
+    }
+
+    /**
      * Return SQL to be executed in this update
      *
      * @return array(
@@ -24,16 +39,17 @@ abstract class Updates
      *                                       // and user will have to manually run the query
      *         )
      */
-    static function getSql(Updater $updater)
+    public static function getMigrationQueries(Updater $updater)
     {
-        return array();
+        return static::getSql();
     }
 
     /**
      * Incremental version update
      */
-    static function update(Updater $updater)
+    public static function doUpdate(Updater $updater)
     {
+        static::update();
     }
 
     /**

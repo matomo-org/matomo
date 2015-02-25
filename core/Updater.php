@@ -200,7 +200,7 @@ class Updater
 
                 $classNames[] = $className;
 
-                $queriesForComponent = call_user_func(array($className, 'getSql'), $this);
+                $queriesForComponent = call_user_func(array($className, 'getMigrationQueries'), $this);
                 foreach ($queriesForComponent as $query => $error) {
                     $queries[] = $query . ';';
                 }
@@ -249,7 +249,7 @@ class Updater
                 ) {
                     $this->executeListenerHook('onComponentUpdateFileStarting', $componentName, $file, $className, $fileVersion);
 
-                    call_user_func(array($className, 'update'), $this);
+                    call_user_func(array($className, 'doUpdate'), $this);
 
                     $this->executeListenerHook('onComponentUpdateFileFinished', $componentName, $file, $className, $fileVersion);
 
