@@ -30,6 +30,8 @@ def add_multiple_spaces_to_file(path):
     contents = '"'.join(contents)
     import_logs.logging.debug(contents)
 
+    assert "  " in contents # sanity check
+
     file = open('tmp.log', 'w')
     file.write(contents)
     file.close()
