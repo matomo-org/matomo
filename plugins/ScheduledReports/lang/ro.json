@@ -25,7 +25,6 @@
         "PiwikReports": "Rapoarte Piwik",
         "PleaseFindAttachedFile": "Vă rugăm să găsiți în fișierul tau atașat %1$s raportul pentru %2$s.",
         "PleaseFindBelow": "Va rugam sa gasiti mai jos raport ul tau de %1$s pentru %2$s.",
-        "PluginDescription": "Creaza si descărca rapoartele tale personalizate, și le poti trimite prin e-mail zilnic, săptămânal sau lunar.",
         "ReportFormat": "Formatul raportului",
         "ReportHour": "Expediază raportul la",
         "ReportIncludeNWebsites": "Raportul va include principalii indicatori pentru toate site-urile care au cel puțin o vizită (de la %s site-uri disponibile în prezent ).",

@@ -5,7 +5,6 @@
         "DayOfWeek": "Dag i ugen",
         "LocalTime": "Besøg pr. lokaltid",
         "NHour": "%s",
-        "PluginDescription": "Rapporter lokal- og servertid. Servertiden kan være nyttigt ved planlægning af vedligeholdelse på hjemmesiden.",
         "ServerTime": "Besøg pr. servertid",
         "SubmenuTimes": "Tider",
         "VisitsByDayOfWeek": "Besøg efter ugedag",

@@ -43,7 +43,6 @@
         "MenuUserSettings": "Användarinställningar",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Notera: Eftersom att inga webbplaster tillåter anonym åtkomst till analysdata, så kan inga ändringar göras i den här sektionen.",
         "NoUsersExist": "Det finns inga användare än.",
-        "PluginDescription": "Hantering av användare i Piwik: lägg till en ny användare, ändra en befintlig, uppdatera behörigheterna. Alla åtgärder finns också tillgängliga via API.",
         "PrivAdmin": "Administratör",
         "PrivNone": "Inga rättigheter",
         "PrivView": "Visa",

@@ -20,7 +20,6 @@
         "EvolutionDocumentationMoreInfo": "다른 참조 유형에 대한 자세한 내용은 %s 테이블의 문서를 참조하세요.",
         "Keywords": "검색어",
         "KeywordsReportDocumentation": "이 보고서는 사용자가 웹사이트를 방문하는 데 사용하는 검색어를 나타냅니다. %s 테이블의 행을 클릭하면 검색어에 조회된 검색 엔진의 분포를 볼 수 있습니다.",
-        "PluginDescription": "검색 엔진, 검색어, 웹사이트, 캠페인 추적, 직접 액세스 소스 데이터를 보고합니다.",
         "Referrer": "리퍼러",
         "ReferrerName": "리퍼러 이름",
         "Referrers": "참조",

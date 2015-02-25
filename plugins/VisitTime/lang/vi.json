@@ -5,7 +5,6 @@
         "DayOfWeek": "Ngày trong tuần",
         "LocalTime": "Lượt truy cập mỗi giờ địa phương",
         "NHour": "%sh",
-        "PluginDescription": "Báo cáo thời gian Local và Server. Thông tin thời gian Server có thể có ích cho một lịch bảo trì trên trang web.",
         "ServerTime": "Các lượt truy cập theo mỗi thời gian máy chủ",
         "SubmenuTimes": "Số lần",
         "VisitsByDayOfWeek": "Các lượt truy cập theo ngày trong tuần",

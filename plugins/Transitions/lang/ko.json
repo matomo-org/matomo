@@ -16,7 +16,6 @@
         "NoDataForAction": "%s 데이터 없음",
         "NoDataForActionDetails": "특정 동작은 %s을 하는 기간 동안 페이지뷰가 일어나지 않거나 유효하지 않습니다.",
         "OutgoingTraffic": "나가는 트래픽",
-        "PluginDescription": "각 페이지 URL에 대한 이전 및 다음 작업에 대한 보고서입니다.",
         "ShareOfAllPageviews": "이 페이지의 페이지뷰 %s (전체 페이지뷰 수 %s)",
         "ToFollowingPages": "내부 페이지로",
         "ToFollowingPagesInline": "%s 내부 페이지",

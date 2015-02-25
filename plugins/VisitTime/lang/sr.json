@@ -5,7 +5,6 @@
         "DayOfWeek": "Dan u nedelji",
         "LocalTime": "Broj poseta po lokalnom vremenu",
         "NHour": "%s",
-        "PluginDescription": "Lokalno i vreme na serveru. Znati vreme na serveru može biti korisno u slučaju zakazivanja održavanja sajta.",
         "ServerTime": "Broj poseta po serverskom vremenu",
         "SubmenuTimes": "Vreme",
         "VisitsByDayOfWeek": "Posete po danu u nedelji",

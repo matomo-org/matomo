@@ -16,7 +16,6 @@
         "NoDataForAction": "Der er ingen data for %s",
         "NoDataForActionDetails": "Enten havde handlingen ingen sidevisninger i perioden %s eller den er ugyldig.",
         "OutgoingTraffic": "Udgående trafik",
-        "PluginDescription": "Rapporter om tidligere og følgende handlinger for hver side URL.",
         "ShareOfAllPageviews": "Denne side havde %s sidevisninger (%s af alle sidevisninger)",
         "ToFollowingPages": "Til interne sider",
         "ToFollowingPagesInline": "%s til interne sider",

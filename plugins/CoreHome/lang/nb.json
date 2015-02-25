@@ -3,6 +3,7 @@
         "CategoryNoData": "Ingen data i denne kategorien. Prøv å velge \"Inkluder hele populasjon\".",
         "CheckForUpdates": "Se etter oppdateringer",
         "CheckPiwikOut": "Sjekk ut Piwik!",
+        "ClickToEditX": "Klikk for å redigere %s",
         "DateFormat": "%longDay% %day% %longMonth% %longYear%",
         "Default": "standard",
         "ExternalHelp": "Hjelp (åpnes i ny fane)",

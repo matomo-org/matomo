@@ -3,7 +3,6 @@
         "Evolution": "Évolution",
         "LoadingWebsites": "Chargement des sites",
         "Pagination": "%s - %s de %s",
-        "PluginDescription": "Affiche le sommaire\/les statistiques multi-site. Actuellement maintenu comme un plugin Piwik cœur.",
         "TopLinkTooltip": "Comparez les statistiques pour tous vos sites web."
     }
 }

@@ -13,7 +13,6 @@
         "LeastDaysInput": "Por favor, especifique um número de dias maior que %s.",
         "MenuPrivacySettings": "Privacidade",
         "NextDelete": "Próxima eliminação agendada em",
-        "PluginDescription": "Customize Piwik para torná-lo compatível com as legislações de privacidade existentes.",
         "TeaserHeadline": "Definições de Privacidade",
         "UseAnonymizeIp": "Tornar anónimos os endereços IP dos visitantes",
         "UseDeleteLog": "Apagar logs de antigos visitantes da base de dados regularmente."

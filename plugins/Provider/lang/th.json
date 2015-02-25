@@ -1,7 +1,6 @@
 {
     "Provider": {
         "ColumnProvider": "ผู้ให้บริการ",
-        "PluginDescription": "รายงานผู้ให้บริการของผู้เข้าชม",
         "WidgetProviders": "ผู้ให้บริการ"
     }
 }

@@ -25,7 +25,6 @@
         "PiwikReports": "Piwik 报表",
         "PleaseFindAttachedFile": "您的 %2$s 的 %1$s 报表在附件中。",
         "PleaseFindBelow": "下面是您的 %2$s 的 %1$s 报表。",
-        "PluginDescription": "生成和下载您的自定义报表，可以选择日发送，周发送或者月发送。",
         "ReportFormat": "报表格式",
         "ReportHour": "发送报表时间",
         "ReportIncludeNWebsites": "本报表包括至少有一次访问(来自当前的 %s 个网站)的所有网站的主要指标。",

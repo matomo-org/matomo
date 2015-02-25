@@ -15,7 +15,6 @@
         "NbUniquePageviewsDescription": "%s unike sidevisninger",
         "NbUniqueVisitors": "%s unike besøkende",
         "NbVisitsBounced": "%s besøk har sprettet (forlatt nettstedet etter en side)",
-        "PluginDescription": "Rapporterer generell statistikk: Besøk, unike besøkende, antall handlinger, sprettfrekvens, osv.",
         "VisitsSummary": "Besøksammendrag",
         "WidgetLastVisits": "Graf over siste besøk",
         "WidgetOverviewGraph": "Oversikt med grafikk",

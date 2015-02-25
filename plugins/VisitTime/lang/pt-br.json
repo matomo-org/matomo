@@ -5,7 +5,6 @@
         "DayOfWeek": "Dia da semana",
         "LocalTime": "Visitas pelo horário local",
         "NHour": "%sh",
-        "PluginDescription": "Relata a hora local e a hora do servidor. Informação de hora do servidor pode ser útil para relacionar a manutenção do website.",
         "ServerTime": "Visitas pelo horário do servidor",
         "SubmenuTimes": "Horários",
         "VisitsByDayOfWeek": "Visitas por dia da semana",

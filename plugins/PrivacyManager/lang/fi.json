@@ -46,7 +46,6 @@
         "LeastMonthsInput": "Kuukausien lukumäärän täytyy olla suurempi kuin %s.",
         "MenuPrivacySettings": "Yksityisyys",
         "NextDelete": "Seuraava poistaminen on",
-        "PluginDescription": "Kustomoi Piwikiä, jotta seurantasi noudattaa voimassaolevia lakeja ja säännöksiä.",
         "PurgeNow": "Siivoa tietokanta nyt",
         "PurgeNowConfirm": "Olet poistamassa tietoja lopullisesti. Haluatko varmasti jatkaa?",
         "PurgingData": "Siivotaan tietoja...",

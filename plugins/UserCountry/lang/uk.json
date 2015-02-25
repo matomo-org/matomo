@@ -283,7 +283,6 @@
         "country_zw": "Зімбабве",
         "DistinctCountries": "%s унікальних країн",
         "Location": "Місцезнаходження",
-        "PluginDescription": "Повідомляє країну відвідувачів.",
         "SubmenuLocations": "Місцезнаходження"
     }
 }

@@ -16,7 +16,6 @@
         "NoDataForAction": "No hi ha informació per %s",
         "NoDataForActionDetails": "O l'acció no ha estat vista cap vegada durant el període %s o és invàlida.",
         "OutgoingTraffic": "Tràfic surtint",
-        "PluginDescription": "Mostra informació sobra les accions anteriors i següents a una URL.",
         "ShareOfAllPageviews": "Aquesta pàgina ha tingut %s visites (%s de totes les visites)",
         "ToFollowingPages": "A pàgines internes",
         "ToFollowingPagesInline": "%s a pàgines internes",

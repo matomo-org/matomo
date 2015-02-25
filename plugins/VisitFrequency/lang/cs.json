@@ -11,7 +11,7 @@
         "ColumnReturningVisits": "Opětovných návštěv",
         "ColumnSumVisitLengthReturning": "Celkový čas strávený vracejícími se návštěvníky (v sekundách)",
         "ColumnUniqueReturningVisitors": "Unikátní vracející se návštěvníci",
-        "PluginDescription": "Hlásí různé statistiky o navracejících se versus nových návštěvnících",
+        "PluginDescription": "Hlásí měření prvního času pro nové a vracející se návštěvníky.",
         "ReturnActions": "%s akcí za opakovanou návštěvu",
         "ReturnAverageVisitDuration": "%s průměrná dělka návštěvy pro navracející se návštěvníky",
         "ReturnAvgActions": "%s akcí na navracejících se návštěvníka",

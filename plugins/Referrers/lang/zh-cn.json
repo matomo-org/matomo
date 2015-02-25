@@ -20,7 +20,6 @@
         "EvolutionDocumentationMoreInfo": "不同的来源分类详情请看 %s 表的文档.",
         "Keywords": "关键词",
         "KeywordsReportDocumentation": "本报表显示访客搜索哪些关键字后来到了您的网站。%s 点击表中的一行，可查看用于搜索该关键字的搜索引擎列表。",
-        "PluginDescription": "来源数据报表: 搜索引擎、关键词、网站、广告活动跟踪及直接访问。",
         "Referrer": "来源分析",
         "ReferrerName": "来源名称",
         "Referrers": "来源分析",

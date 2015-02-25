@@ -43,7 +43,6 @@
         "MenuUserSettings": "ユーザーの設定",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "注) 匿名ユーザーがアクセスできるウェブサイトをお持ちでないため、このセクションでは設定の変更ができません。",
         "NoUsersExist": "まだユーザーがいません。",
-        "PluginDescription": "Piwik でのユーザー管理は、新規ユーザーの追加、既存ユーザーの編集、パーミッションの更新を行うことができます。 また、すべての動作は API を通じて利用することができます。",
         "PrivAdmin": "管理",
         "PrivNone": "権限なし",
         "PrivView": "表示",

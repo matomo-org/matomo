@@ -351,7 +351,6 @@
         "PeclGeoIPNoDBDir": "El mòdul de PECL està cercant la base de dades a %1$s, però aquest directori no existeix. Sisplau, creu-lo i afegiu bases de dades de Geolocalització allí. Alternativament, podeu modificar el paràmetre %2$s del vostre fitxer php.ini per utilizar el directori correcte.",
         "PeclGeoLiteError": "La vostra base de dades de Geocalització es troba a %1$s amb el nom %2$s. Desafortunadament, el mòdul PECL no la pot reconèixer amb aquest nom. Sisuaplau, renombreu-la a %3$s.",
         "PiwikNotManagingGeoIPDBs": "El Piwik actualment no gestiona cap base de dades de Geolocalització",
-        "PluginDescription": "El informes que contenen informació sobra la localització (pais, regió, ciutat i coordenades geogràfiques (latitud\/longitud)",
         "Region": "Regió",
         "SetupAutomaticUpdatesOfGeoIP": "Configureu les actualitzacions automàtiques de les bases de Dades de Geolocalització.",
         "SubmenuLocations": "Localització",

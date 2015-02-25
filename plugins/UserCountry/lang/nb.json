@@ -300,7 +300,6 @@
         "Location": "Lokasjon",
         "Longitude": "Lengdegrad",
         "Organization": "Organisasjon",
-        "PluginDescription": "Rapporterer landet for de besøkende.",
         "Region": "Region",
         "SubmenuLocations": "Lokasjoner"
     }

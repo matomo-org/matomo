@@ -34,7 +34,6 @@
         "MenuUsers": "用户管理",
         "MenuUserSettings": "用户参数",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "说明: 不能在这里修改设置，因为没有任何公开的网站。",
-        "PluginDescription": "Piwik 用户管理: 添加用户、修改用户或修改权限，所有操作也可以通过API进行。",
         "PrivAdmin": "管理员权限",
         "PrivNone": "无查看权限",
         "PrivView": "有查看权限",

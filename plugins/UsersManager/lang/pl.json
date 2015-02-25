@@ -32,7 +32,6 @@
         "MenuUserSettings": "Konfiguracja użytkownika",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Uwaga: Nie możesz zmienić konfiguracji tej sekcji ponieważ nie posiadasz żadnych stron, do których osoba anonimowa miałąby dostęp.",
         "NoUsersExist": "Nie ma jeszcze żadnych użytkowników.",
-        "PluginDescription": "Administracja użytkownikami w Piwik: dodanie nowego użytkownika, edycja istniejącego, aktualizacja uprawnień. Wszystkie działania są również dostępne poprzez interfejs API.",
         "PrivAdmin": "Admin",
         "PrivNone": "Brak dostępu",
         "PrivView": "Widok",

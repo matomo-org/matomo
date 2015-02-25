@@ -8,7 +8,6 @@
         "NbActionsPerVisit": "%s aðgerðir á heimsókn",
         "NbUniqueVisitors": "%s einstakir gestir",
         "NbVisitsBounced": "%s heimsóknir hafa skoppað (yfirgefið vefinn eftir eina síðu)",
-        "PluginDescription": "Gefur skýrslu um almennar greiningartölur: heimsóknir, einstakir gestir, fjöldi aðgerða, skopptíðni, o.s.frv.",
         "VisitsSummary": "Samantekt heimsókna",
         "WidgetLastVisits": "Línurit yfir síðustu heimsóknir",
         "WidgetOverviewGraph": "Yfirlit með línuriti",

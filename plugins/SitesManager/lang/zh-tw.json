@@ -31,7 +31,6 @@
         "NotFound": "找不到網站",
         "NoWebsites": "你沒有任何網站可以管理。",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik 將會自動排除常見的會話參數 (%s)。",
-        "PluginDescription": "Piwik 網站管理：新增一個新網站、編輯一個已存在的網站、顯示插入你網頁的 JavaScript 原始碼。所有動作都可以透過 API 使用。",
         "SelectACity": "選擇一個城市",
         "SelectDefaultCurrency": "你可以為新的網站選擇預設的貨幣。",
         "SelectDefaultTimezone": "你可以為新的網站選擇預設的時區。",

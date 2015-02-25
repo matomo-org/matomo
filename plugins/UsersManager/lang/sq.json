@@ -29,7 +29,6 @@
         "MenuAnonymousUserSettings": "Rregullime përdoruesi anonim",
         "MenuUsers": "Përdorues",
         "MenuUserSettings": "Rregullime përdoruesi",
-        "PluginDescription": "Administrimi i Përdoruesve në Piwik: shtoni një Përdorues të ri, përpunoni një ekzistues, përditësoni lejet për ta. Krejt veprimet mundet të kryhen edhe përmes API-t.",
         "PrivAdmin": "Admin",
         "PrivNone": "Pa hyrje",
         "PrivView": "Parje",

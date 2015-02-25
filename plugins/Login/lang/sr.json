@@ -16,7 +16,6 @@
         "PasswordChanged": "Vaša lozinka je promenjena.",
         "PasswordRepeat": "Lozinka (ponovo)",
         "PasswordsDoNotMatch": "Lozinka se ne poklapa",
-        "PluginDescription": "Dodatak za autentifikaciju prijave na sistem, služi za čitanje podataka za prijavu na sistem iz datoteke config\/config.ini.php kao i iz baze. Može lako biti zamenjen novim mehanizmom autentifikacije (OpenID, htaccess itd.).",
         "RememberMe": "Zapamti me",
         "ResetPasswordInstructions": "Upišite novu lozinku za vaš nalog."
     }

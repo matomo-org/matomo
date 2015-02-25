@@ -15,7 +15,6 @@
         "PasswordChanged": "Ang iyong password ay nabago na.",
         "PasswordRepeat": "Password (ulitin)",
         "PasswordsDoNotMatch": "Ang mga password ay hindi tugma.",
-        "PluginDescription": "Login Authentication plugin binabasa ang credentials mula sa config\/config.ini php file para sa initial na Super User at mula sa Database para sa iba pang mga user. Ito ay madaling mapapalitan upang maipapakilala sa isang bagong Authentication mechanism (OpenID htaccess custom Auth atbp.",
         "RememberMe": "Tandaan Ako",
         "ResetPasswordInstructions": "Magpasok ng isang bagong password para sa iyong account."
     }

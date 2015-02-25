@@ -10,7 +10,6 @@
         "ColumnReturningVisits": "Върнали се посетители",
         "ColumnSumVisitLengthReturning": "Време прекарано по време на повторните посещения (в секунди)",
         "ColumnUniqueReturningVisitors": "Уникални повторни посетители",
-        "PluginDescription": "Статистики на Завърналите се посетители срещу уникалните посетители.",
         "ReturnActions": "%s действия от върнали се посетители",
         "ReturnAverageVisitDuration": "%s средна продължителност на посещенията от върналите се посетители",
         "ReturnAvgActions": "%s дейности на върналите се посетители",

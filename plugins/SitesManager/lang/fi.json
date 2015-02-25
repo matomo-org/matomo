@@ -49,7 +49,6 @@
         "OnlyOneSiteAtTime": "Voit muokata vain yhtä verkkosivua kerrallaan. Tallenna tai peru muutoksesi sivuun %s.",
         "PiwikOffersEcommerceAnalytics": "Piwikillä voi seurata verkkokauppaa tarkasti. Lue lisää %s verkkokauppa-analytiikasta%s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik jättää automaattisesti huomiotta yleiset istuntoparametrit (%s).",
-        "PluginDescription": "Verkkosivujen hallinta Piwikissä: lisää uusi sivu, muokkaa sivua, näytä sivuille lisättävä Javascript. Kaikkia toimintoja voi käyttää myös API:lla.",
         "SearchCategoryDesc": "Piwik voi myös seurata haun kategoriaa jokaiselle sivun sisäiselle hakusanalle.",
         "SearchCategoryLabel": "Kategoriaparametri",
         "SearchCategoryParametersDesc": "Voit ilmoittaa pilkuilla erotellun listan parametreistä, jotka määrittelevät haun kategorian.",

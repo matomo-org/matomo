@@ -185,7 +185,6 @@
         "Language_za": "Zhuang",
         "Language_zh": "Kinesisk",
         "Language_zu": "Zulu",
-        "LanguageCode": "Sprogkode",
-        "PluginDescription": "Rapporter om sprogindstillinger for dine brugere."
+        "LanguageCode": "Sprogkode"
     }
 }

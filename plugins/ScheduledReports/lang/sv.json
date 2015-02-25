@@ -25,7 +25,6 @@
         "PiwikReports": "Piwik Rapporter",
         "PleaseFindAttachedFile": "Du finner din rapport %1$s i den bifogade filen för %2$s.",
         "PleaseFindBelow": "Nedan hittar du din %1$s rapport för %2$s.",
-        "PluginDescription": "Skapa och ladda ner dina anpassade rapporter, och få dem e-postade dagligen, veckovis eller månadsvis.",
         "ReportFormat": "Rapportformat",
         "ReportHour": "Skicka rapporten vid",
         "ReportIncludeNWebsites": "Rapporten kommer att innehålla viktiga mättal för alla webbplatser som har minst ett besök (från %s webbsidorna som för tillfället är tillgängliga).",

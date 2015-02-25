@@ -29,7 +29,6 @@
         "MenuAnonymousUserSettings": "Definições de utilizadores anónimos",
         "MenuUsers": "Utilizadores",
         "MenuUserSettings": "Definições de utilizadores",
-        "PluginDescription": "Gestor de Utilizadores no Piwik: adicionar um novo Utilizador, editar um existente, actualizar as permissões. Todas estas acções também estão disponívels pelo API.",
         "PrivAdmin": "Admin",
         "PrivNone": "Sem acesso",
         "PrivView": "Ver",

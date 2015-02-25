@@ -17,7 +17,6 @@
         "NbUniquePageviewsDescription": "%s ביקורי עמודים ייחודיים",
         "NbUniqueVisitors": "%s מבקרים יחודיים",
         "NbVisitsBounced": "%s ביקורים ננטשו (עזבו את האתר אחרי עמוד אחד)",
-        "PluginDescription": "מדווח על ניתוח המספרים הכללי: ביקורים, מבקרים יחודיים, מספר פעולות, שיעור נטישה וכו'",
         "VisitsSummary": "תקציר ביקורים",
         "VisitsSummaryDocumentation": "זו סקירה של התפתחות הביקור.",
         "WidgetLastVisits": "גרף ביקורים אחרונים",

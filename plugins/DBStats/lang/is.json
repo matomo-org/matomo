@@ -4,7 +4,6 @@
         "DataSize": "Gagnastærð",
         "IndexSize": "stærð vísitöflu",
         "MainDescription": "Piwik vistar öll vefgreiningagögn inn í MySQL gagnagrunn. Núna eru Piwik töflurnar að nota %s.",
-        "PluginDescription": "Þessi íbót birtir MySQL gagnagrunnsnotkun á töflum Piwik.",
         "RowCount": "Fjöldi raða",
         "Table": "Tafla",
         "TotalSize": "Heildarstærð"

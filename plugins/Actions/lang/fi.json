@@ -39,7 +39,6 @@
         "PagesReportDocumentation": "Tämä raportti sisältää tietoa sivuista, joilla on käyty. %s Taulukko on organisoitu hierarkisesti, URL:t näytetään puurakenteena.",
         "PageTitlesReportDocumentation": "Tämä raportti sisältää tietoa käytyjen sivujen otsikoista. %s Sivun otsikko on HTML:n %s-tagi, jonka useimmat selaimet näyttävät ikkunan otsikossa.",
         "PageUrls": "Sivujen URL:t",
-        "PluginDescription": "Raportit sivukatseluista, lähtölinkeistä ja latauksista. Lähtölinkkien ja latausten seuraaminen tapahtuu automaattisesti!",
         "SiteSearchCategories1": "Tämä raportti listaa kategoriat jotka kävijät valitsivat.",
         "SiteSearchCategories2": "Esimerkiksi e-kauppojen sivuilla on tyypillisesti \"Kategoria\"-valitsin, jolla käyttäjät voivat rajoittaa hakutuloksia.",
         "SiteSearchFollowingPagesDoc": "Kun kävijät hakevat sivuiltasi, he etsivät tiettyä sivua, sisältöä, tuotetta tai palvelua. Tämä raportti listaa sivut joita klikattiin useiten haun jälkeen.",

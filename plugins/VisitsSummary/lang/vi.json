@@ -17,7 +17,6 @@
         "NbUniquePageviewsDescription": "%s lượt xem trang duy nhất",
         "NbUniqueVisitors": "%s khách truy cập duy nhất",
         "NbVisitsBounced": "%s lượt truy cập đã bị thải hồi (rời khỏi trang web sau mỗi lượt truy cập trang)",
-        "PluginDescription": "Báo cáo các con số của các phân tích chung: thăm, khách truy cập duy nhất, số lượng các hành động, Tỷ lệ thoát, vv.",
         "VisitsSummary": "Lịch sử các lượt truy cập",
         "VisitsSummaryDocumentation": "Đây là một tổng quan của sự mở rộng truy cập.",
         "WidgetLastVisits": "Các lượt truy cập theo thời gian",

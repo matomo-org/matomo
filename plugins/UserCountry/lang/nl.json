@@ -330,7 +330,6 @@
         "Organization": "Organisatie",
         "OrgDatabase": "Organisatie Database",
         "PiwikNotManagingGeoIPDBs": "Piwik beheert momenteel geen GeoIP databases.",
-        "PluginDescription": "Rapporteert het land van de bezoekers.",
         "Region": "Regio",
         "SetupAutomaticUpdatesOfGeoIP": "Stel automatische updates van GeoIP databases in",
         "SubmenuLocations": "Locaties",

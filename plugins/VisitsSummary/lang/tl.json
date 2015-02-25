@@ -17,7 +17,6 @@
         "NbUniquePageviewsDescription": "%s natatanging mga pageview",
         "NbUniqueVisitors": "mga natatanging bisita %s",
         "NbVisitsBounced": "%s na pagbisita ay bumalik (umalis sa website pagkatapos ng isang pahina)",
-        "PluginDescription": "Mga bilang na may Ulat ng pangkalahatang ng Analytics: pagbisita mga natatanging bisita bilang ng mga aksyon rate ng biglaang pag-alis atbp.",
         "VisitsSummary": "Buod ng mga Pagbisita",
         "VisitsSummaryDocumentation": "Ito ay isang pangkalahatang-ideya sa ebolusyon ng pagbisita",
         "WidgetLastVisits": "Mga pagbisita sa paglipas ng panahon",

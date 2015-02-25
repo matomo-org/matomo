@@ -16,7 +16,6 @@
         "NoDataForAction": "没有 %s 数据",
         "NoDataForActionDetails": "本活动在 %s 期间没有被访问过或者不正确。",
         "OutgoingTraffic": "出口流量",
-        "PluginDescription": "本报表显示每个页面网址之前和之后的活动。",
         "ShareOfAllPageviews": "本页面被访问 %s 次 (总访问量的 %s)",
         "ToFollowingPages": "转向站内页面",
         "ToFollowingPagesInline": "%s 次转向站内页面",

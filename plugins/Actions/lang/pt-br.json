@@ -39,7 +39,6 @@
         "PagesReportDocumentation": "Este relatório contém informações sobre URL de páginas as quais foram visitadas. %s A tabela está organizada hierarquicamente, as URLs estão apresentadas como estrutura de pastas",
         "PageTitlesReportDocumentation": "Este relatório contém informações sobre títulos de páginas as quais foram visitadas. %s O título da página é um HTML %s Tag a qual é mais visualizada nos títulos do browser.",
         "PageUrls": "URLs de Página(s)",
-        "PluginDescription": "Relatórios sobre exibições de página, links externos e downaloads. Rastramentos de links externos e downloads é automático!",
         "SiteSearchCategories1": "Este relatório lista as categorias que os visitantes selecionaram, quando eles fizeram uma pesquisa em seu site.",
         "SiteSearchCategories2": "Por exemplo: os sites de comércio eletrônico têm tipicamente uma \"Categoria\" seletora de modo que os visitantes podem restringir suas pesquisas a todos os produtos de uma categoria específica.",
         "SiteSearchFollowingPagesDoc": "Quando os visitantes pesquisam em seu site, eles estão à procura de uma determinada página, conteúdo, produto ou serviço. Este relatório lista as páginas que foram mais clicadas depois de uma procura interna. Em outras palavras, a lista de páginas mais procuradas pelos visitantes já no seu site.",

@@ -43,7 +43,6 @@
         "MenuUserSettings": "Tekući korisnik",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Ne možete menjati podešavanja u ovoj sekciji zato što nemate nijedan sajt kojem se može pristupiti kao anonimni korisnik.",
         "NoUsersExist": "Još uvek nema korisnika.",
-        "PluginDescription": "Rad sa korisnicima Piwik-a: dodavanje novih korisnika, izmena postojećih, rad na privilegijama. Sve akcije su dostupne i preko API-ja.",
         "PrivAdmin": "Administracija",
         "PrivNone": "Nema pristup",
         "PrivView": "Prikaz",

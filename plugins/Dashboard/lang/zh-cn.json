@@ -18,7 +18,6 @@
         "Maximise": "最大化",
         "Minimise": "最小化",
         "NotUndo": "此操作不可撤消。",
-        "PluginDescription": "您的网站分析面板。您可以定制报表面板: 增加新的小工具、修改小工具排序。每位用户都可以使用他们自定义的报表面板。",
         "RemoveDashboard": "删除面板",
         "RemoveDashboardConfirm": "确认要删除面板\"%s\"吗?",
         "RenameDashboard": "重命名面板",

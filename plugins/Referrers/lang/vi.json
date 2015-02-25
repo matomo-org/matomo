@@ -20,7 +20,6 @@
         "EvolutionDocumentationMoreInfo": "Để biết thêm thông tin về các kiểu giới thiệu khác nhau, xem tài liệu của bảng %s.",
         "Keywords": "Từ khóa",
         "KeywordsReportDocumentation": "Báo cáo này cho thấy những từ khóa các người dùng đã tìm kiếm trước khi họ được giới thiệu đến website của bạn. %s bằng cách click trên một hàng trong bảng, bạn có thể thấy sự phân bố của công cụ tìm kiếm đã được truy vấn cho từ khoá.",
-        "PluginDescription": "Báo cáo dữ liệu các giới thiệu(referrer): Công cụ tìm kiếm, từ khoá, trang web, theo dõi Chiến dịch, nhập trực tiếp.",
         "Referrer": "Người được giới thiệu",
         "ReferrerName": "Tên người được giới thiệu",
         "Referrers": "Các người được giới thiệu",

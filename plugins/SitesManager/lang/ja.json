@@ -49,7 +49,6 @@
         "OnlyOneSiteAtTime": "一度にウェブサイトは一つだけ編集できます。ウェブサイト %s への変更を保存するか、キャンセルしてください。",
         "PiwikOffersEcommerceAnalytics": "Piwikは、高度なeコマース分析、トラッキング＆リポーティング、が可能になります。%s eコマース分析 %s について詳しく知る。",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "一般的なセッションパラメータ(%s)は、Piwik が自動的に除外します。",
-        "PluginDescription": "Piwik でのウェブサイト管理は、新規ウェブサイトの追加、既存ウェブサイトの編集、ページに挿入する JavaScript コードの表示を行うことができます。 また、すべての動作は API を通じて利用することができます。",
         "SearchCategoryDesc": "Piwik は、各内部サイト内検索キーワードに対する検索カテゴリを追跡することもできます。",
         "SearchCategoryLabel": "カテゴリーパラメーター",
         "SearchCategoryParametersDesc": "検索カテゴリを指定するクエリパラメーターリストを、コンマ区切りで入力できます。",

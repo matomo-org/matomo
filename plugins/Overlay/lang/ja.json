@@ -13,7 +13,6 @@
         "OneClick": "1 クリック",
         "OpenFullScreen": "フルスクリーンへ (サイドバーなし)",
         "Overlay": "ページオーバーレイ",
-        "PluginDescription": "実際のウェブサイトで、オーバーレイとして分析データを参照してください。",
         "RedirectUrlError": "URL \"%s\" に対するページオーバーレイを開こうとしています。%s Piwik 設定のドメインが、すべてリンクに一致しません。",
         "RedirectUrlErrorUser": "管理者に、任意のドメインを追加 URL として追加するよう管理者に依頼してください。"
     }

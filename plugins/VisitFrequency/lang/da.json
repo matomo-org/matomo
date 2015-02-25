@@ -11,7 +11,6 @@
         "ColumnReturningVisits": "Tilbagevendende besøg",
         "ColumnSumVisitLengthReturning": "Samlet tidsforbrug for tilbagevendende besøgende (i sekunder)",
         "ColumnUniqueReturningVisitors": "Unikke tilbagevendende besøgende",
-        "PluginDescription": "Rapporter forskellige statistikker om tilbagevendende besøgende kontra førstegangs besøgende..",
         "ReturnActions": "%s handlinger af tilbagevendende besøg",
         "ReturnAverageVisitDuration": "%s gns. Besøgsvarighed for tilbagevendende besøgende",
         "ReturnAvgActions": "%s gns. handlinger pr. tilbagevendende besøg",

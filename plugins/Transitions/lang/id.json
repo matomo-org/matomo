@@ -16,7 +16,6 @@
         "NoDataForAction": "Tidak tersedia data untuk %s",
         "NoDataForActionDetails": "Tidak ada tindakan memiliki tampilan halaman selama periode %s atau ini tidak sahih.",
         "OutgoingTraffic": "Lalu lintas keluar",
-        "PluginDescription": "Laporan tentang tindakan sebelumnya dan berikutnya untuk setiap URL halaman.",
         "ShareOfAllPageviews": "Halaman ini memiliki %s tampilan halaman (%s dari semua tampilan halaman)",
         "ToFollowingPages": "Menuju Halaman Dalam",
         "ToFollowingPagesInline": "%s menuju halaman dalam",

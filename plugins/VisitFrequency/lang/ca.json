@@ -10,7 +10,6 @@
         "ColumnReturningVisits": "Visitants que retornen (antics)",
         "ColumnSumVisitLengthReturning": "Temps total dels visitants que retornen (en segons)",
         "ColumnUniqueReturningVisitors": "Visitants únics que retornen",
-        "PluginDescription": "Mostra informació sobre els visitants que retornen comparat amb els visitants per primera vegada.",
         "ReturnActions": "Els visitants que han tornat han fet %s accions",
         "ReturnAverageVisitDuration": "%s duració mitja de la vistia dels usuaris que retornen.",
         "ReturnAvgActions": "%s accions per visitant que retorna",

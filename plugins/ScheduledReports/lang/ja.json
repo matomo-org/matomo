@@ -25,7 +25,6 @@
         "PiwikReports": "Piwik リポート",
         "PleaseFindAttachedFile": "%2$s の %1$s のリポートを添付しています。",
         "PleaseFindBelow": "%2$s の %1$s のリポートをお届けします。",
-        "PluginDescription": "カスタムリポートを作成してダウンロードします。それらを、毎日、毎週または毎月メールで送信します。",
         "ReportFormat": "リポートのフォーマット",
         "ReportHour": "でレポートを送信",
         "ReportIncludeNWebsites": "このレポートは、現在利用可能な %s ウェブサイトから、少なくとも 1 訪問以上ある全ウェブサイトの主なメトリクスを含みます。",

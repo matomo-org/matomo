@@ -10,7 +10,6 @@
         "ColumnReturningVisits": "Återkommande besök",
         "ColumnSumVisitLengthReturning": "Total tid som återkommande besökare spenderade (i sekunder)",
         "ColumnUniqueReturningVisitors": "Unika återkommande besökare",
-        "PluginDescription": "Rapporterar olika statistik om Återkommande besökare jämfört med förstagångs-besökare.",
         "ReturnActions": "%s händelser av de återkommande besöken",
         "ReturnAverageVisitDuration": "%s genomsnittlig besökstid för återkommande besökare",
         "ReturnAvgActions": "%s händelser per återkommande besök",

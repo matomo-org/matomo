@@ -29,7 +29,6 @@
         "PagesReportDocumentation": "Ez a jelentés a megtekintett URL-ekről tartalmaz információkat. %s A tábla hierarchigusan van szervezve, az URL-ek mappaként jelennek meg.",
         "PageTitlesReportDocumentation": "Ez a jelentés a megtekintett oldalak címéről tartalmaz információkat. %s Az oldal címe a %s HTML Tag, amit a legtöbb bönkésző az ablak címsorában mutat.",
         "PageUrls": "Oldal hivatkozások",
-        "PluginDescription": "Jelentések a lapmegtekintésekről, kimenő linkekről és fájlletöltésekről.",
         "SiteSearchKeyword": "Kulcsszó (Oldal keresés)",
         "SubmenuPagesEntry": "Belépési lapok",
         "SubmenuPagesExit": "Kilépési lapok",

@@ -47,7 +47,6 @@
         "PasswordRepeat": "Mot de passe (à nouveau)",
         "PercentDone": "%s %% complété",
         "PiwikOrgNewsletter": "Envoyez moi des courriels pour les mises à jour importantes de Piwik",
-        "PiwikProNewsletter": "Je suis intéressé par les services %sPiwik PRO%s (pas plus d'un courriel par mois)",
         "PleaseFixTheFollowingErrors": "Merci de corriger les erreurs suivantes",
         "Requirements": "Pré requis Piwik",
         "RestartWebServer": "Après avoir effectué ces modifications, redémarrez votre serveur web.",

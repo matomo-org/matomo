@@ -16,7 +16,6 @@
         "PasswordChanged": "Parola ta a fost schimbată",
         "PasswordRepeat": "Parolă (repetă)",
         "PasswordsDoNotMatch": "Parolele nu se potrivesc.",
-        "PluginDescription": "Logare Autentificare plugin, citind scrisorile de acreditare de la fișierul de configurare \/ config.ini.php pentru Super utilizator, și baza de date pentru alți utilizatori. Poate fi înlocuit cu ușurință pentru a introduce un nou mecanism de autentificare (OpenID, htaccess, personalizate Auth, etc).",
         "RememberMe": "Ţine-mă minte",
         "ResetPasswordInstructions": "Introduce o parolă nouă pentru contul tău."
     }
