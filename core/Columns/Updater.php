@@ -136,7 +136,7 @@ class Updater extends \Piwik\Updates
         return $changingColumns;
     }
 
-    public static function getAllVersions()
+    public function getAllVersions(PiwikUpdater $updater)
     {
         // to avoid having to load all dimensions on each request we check if there were any changes on the file system
         // can easily save > 100ms for each request
@@ -155,15 +155,15 @@ class Updater extends \Piwik\Updates
         $conversionColumns = DbHelper::getTableColumns(Common::prefixTable('log_conversion'));
 
         foreach (self::getVisitDimensions() as $dimension) {
-            $versions = self::mixinVersions($dimension, 'log_visit.', $visitColumns, $versions);
+            $versions = $this->mixinVersions($updater, $dimension, 'log_visit.', $visitColumns, $versions);
         }
 
         foreach (self::getActionDimensions() as $dimension) {
-            $versions = self::mixinVersions($dimension, 'log_link_visit_action.', $actionColumns, $versions);
+            $versions = $this->mixinVersions($updater, $dimension, 'log_link_visit_action.', $actionColumns, $versions);
         }
 
         foreach (self::getConversionDimensions() as $dimension) {
-            $versions = self::mixinVersions($dimension, 'log_conversion.', $conversionColumns, $versions);
+            $versions = $this->mixinVersions($updater, $dimension, 'log_conversion.', $conversionColumns, $versions);
         }
 
         return $versions;
@@ -176,7 +176,7 @@ class Updater extends \Piwik\Updates
      * @param array $versions
      * @return array The modified versions array
      */
-    private static function mixinVersions($dimension, $componentPrefix, $columns, $versions)
+    private function mixinVersions(PiwikUpdater $updater, $dimension, $componentPrefix, $columns, $versions)
     {
         $columnName = $dimension->getColumnName();
 
@@ -188,9 +188,10 @@ class Updater extends \Piwik\Updates
         $version   = $dimension->getVersion();
 
         if (array_key_exists($columnName, $columns)
-            && false === PiwikUpdater::getCurrentRecordedComponentVersion($component)
-            && self::wasDimensionMovedFromCoreToPlugin($component, $version)) {
-            PiwikUpdater::recordComponentSuccessfullyUpdated($component, $version);
+            && false === $updater->getCurrentComponentVersion($component)
+            && self::wasDimensionMovedFromCoreToPlugin($component, $version)
+        ) {
+            $updater->markComponentSuccessfullyUpdated($component, $version);
             return $versions;
         }
 
@@ -277,7 +278,7 @@ class Updater extends \Piwik\Updates
         return strtolower($dimensions[$name]) === strtolower($version);
     }
 
-    public static function onNoUpdateAvailable($versionsThatWereChecked)
+    public function onNoUpdateAvailable($versionsThatWereChecked)
     {
         if (!empty($versionsThatWereChecked)) {
             // invalidate cache only if there were actually file changes before, otherwise we write the cache on each
