@@ -41,6 +41,7 @@ class WebNotificationHandler extends AbstractProcessingHandler
 
         $notification = new Notification($message);
         $notification->context = $context;
+        $notification->flags = 0;
         try {
             Manager::notify(Common::getRandomString(), $notification);
         } catch (Zend_Session_Exception $e) {
