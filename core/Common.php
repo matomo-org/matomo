@@ -1288,11 +1288,11 @@ class Common
                 $info = Common::sanitizeInputValues($info);
                 $out = var_export($info, true);
                 foreach (explode("\n", $out) as $line) {
-                    Log::debug($line);
+                    echo $line;
                 }
             } else {
                 foreach (explode("\n", $info) as $line) {
-                    Log::debug(htmlspecialchars($line, ENT_QUOTES));
+                    echo htmlspecialchars($line, ENT_QUOTES);
                 }
             }
         }
