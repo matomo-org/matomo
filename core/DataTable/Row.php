@@ -209,16 +209,6 @@ class Row implements \ArrayAccess, \IteratorAggregate
             return false;
         }
 
-        if ($this->isColumnValueCallable($this->c[self::COLUMNS][$name])) {
-            $value = $this->resolveCallableColumn($name);
-
-            if (!isset($value)) {
-                return false;
-            }
-
-            return $value;
-        }
-
         return $this->c[self::COLUMNS][$name];
     }
 
@@ -287,16 +277,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
      */
     public function getColumns()
     {
-        $values = array();
-        foreach ($this->c[self::COLUMNS] as $columnName => $val) {
-            if ($this->isColumnValueCallable($val)) {
-                $values[$columnName] = $this->resolveCallableColumn($columnName);
-            } else {
-                $values[$columnName] = $val;
-            }
-        }
-
-        return $values;
+        return $this->c[self::COLUMNS];
     }
 
     /**
@@ -514,11 +495,6 @@ class Row implements \ArrayAccess, \IteratorAggregate
     {
         foreach ($rowToSum->getColumnsRaw() as $columnToSumName => $columnToSumValue) {
             if (!$this->isSummableColumn($columnToSumName)) {
-                continue;
-            }
-
-            if ($this->isColumnValueCallable($columnToSumValue)) {
-                $this->setColumn($columnToSumName, $columnToSumValue);
                 continue;
             }
 
