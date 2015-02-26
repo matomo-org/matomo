@@ -142,6 +142,11 @@ class Rules
      */
     public static function shouldPurgeOutdatedArchives(Date $date)
     {
+        if (! self::isRequestAuthorizedToArchive()){
+            Log::info("Purging temporary archives: skipped (no authorization)");
+            return false;
+        }
+
         $key = self::FLAG_TABLE_PURGED . "blob_" . $date->toString('Y_m');
         $timestamp = Option::get($key);
 
@@ -151,29 +156,25 @@ class Rules
         $temporaryArchivingTimeout = self::getTodayArchiveTimeToLive();
         $hoursBetweenPurge = 6;
         $purgeEveryNSeconds = max($temporaryArchivingTimeout, $hoursBetweenPurge * 3600);
-
+        
         // we only delete archives if we are able to process them, otherwise, the browser might process reports
         // when &segment= is specified (or custom date range) and would below, delete temporary archives that the
         // browser is not able to process until next cron run (which could be more than 1 hour away)
-        if (self::isRequestAuthorizedToArchive()
-            && (!$timestamp
-                || $timestamp < time() - $purgeEveryNSeconds)
-        ) {
-            Option::set($key, time());
-
-            if (self::isBrowserTriggerEnabled()) {
-                // If Browser Archiving is enabled, it is likely there are many more temporary archives
-                // We delete more often which is safe, since reports are re-processed on demand
-                $purgeArchivesOlderThan = Date::factory(time() - 2 * $temporaryArchivingTimeout)->getDateTime();
-            } else {
-                // If cron core:archive command is building the reports, we should keep all temporary reports from today
-                $purgeArchivesOlderThan = Date::factory('yesterday')->getDateTime();
-            }
-            return $purgeArchivesOlderThan;
+        if ($timestamp !== false && $timestamp >= time() - $purgeEveryNSeconds) {
+            Log::info("Purging temporary archives: skipped (6h wait timeout)");
+            return false;
         }
 
-        Log::info("Purging temporary archives: skipped.");
-        return false;
+        Option::set($key, time());
+
+        if (self::isBrowserTriggerEnabled()) {
+            // If Browser Archiving is enabled, it is likely there are many more temporary archives
+            // We delete more often which is safe, since reports are re-processed on demand
+            return Date::factory(time() - 2 * $temporaryArchivingTimeout)->getDateTime();
+        } 
+
+        // If cron core:archive command is building the reports, we should keep all temporary reports from today
+        return Date::factory('yesterday')->getDateTime();
     }
 
     public static function getMinTimeProcessedForTemporaryArchive(
