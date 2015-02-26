@@ -88,10 +88,15 @@ class API extends \Piwik\Plugin\API
      * @return DataTable|DataTable\Map
      */
     public function getPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false,
-                                $depth = false)
+                                $depth = false, $flat= false)
     {
+        if ($flat && !$idSubtable) {
+            $expanded = true;
+        }
+
         $dataTable = $this->getDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $idSubtable, $depth);
         $this->filterActionsDataTable($dataTable, $expanded);
+
         return $dataTable;
     }
 
