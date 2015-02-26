@@ -114,14 +114,6 @@ abstract class DataTableManipulator
             return null;
         }
 
-        if ($row->getMetadata('idsubdatatable_in_db')) {
-            $manager = DataTable\Manager::getInstance();
-            $table = $manager->getTable($idSubTable);
-            if ($table) {
-                return $table;
-            }
-        }
-
         $request['idSubtable'] = $idSubTable;
         if ($dataTable) {
             $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);

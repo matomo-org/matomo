@@ -21,7 +21,8 @@ use Piwik\Metrics;
  *
  * @api
  */
-class Sort extends BaseFilter
+class
+Sort extends BaseFilter
 {
     protected $columnToSort;
     protected $order;
@@ -71,34 +72,21 @@ class Sort extends BaseFilter
      * @param Row $b
      * @return int
      */
-    public function numberSort($a, $b)
+    public function numberSort($rowA, $rowB)
     {
-        $valA = $this->getColumnValue($a);
-        $valB = $this->getColumnValue($b);
+        if (isset($rowA[0]) && isset($rowB[0])) {
+            if ($rowA[0] != $rowB[0] || !isset($rowA[1])) {
+                return $this->sign * ($rowA[0] < $rowB[0] ? -1 : 1);
+            } else {
+                return -1 * $this->sign * strnatcasecmp($rowA[1], $rowB[1]);
+            }
+        } elseif (!isset($rowB[0])) {
+            return -1;
+        } elseif (!isset($rowA[0])) {
+            return 1;
+        }
 
-        return !isset($valA)
-        && !isset($valB)
-            ? 0
-            : (
-            !isset($valA)
-                ? 1
-                : (
-            !isset($valB)
-                ? -1
-                : (($valA != $valB
-                || !isset($a->c[Row::COLUMNS]['label']))
-                ? ($this->sign * (
-                    $valA
-                    < $valB
-                        ? -1
-                        : 1)
-                )
-                : -1 * $this->sign * strnatcasecmp(
-                    $a->c[Row::COLUMNS]['label'],
-                    $b->c[Row::COLUMNS]['label'])
-            )
-            )
-            );
+        return 0;
     }
 
     /**
@@ -108,10 +96,10 @@ class Sort extends BaseFilter
      * @param mixed $b
      * @return int
      */
-    function naturalSort($a, $b)
+    function naturalSort($rowA, $rowB)
     {
-        $valA = $this->getColumnValue($a);
-        $valB = $this->getColumnValue($b);
+        $valA = $rowA[0];
+        $valB = $rowB[0];
 
         return !isset($valA)
         && !isset($valB)
@@ -135,10 +123,10 @@ class Sort extends BaseFilter
      * @param mixed $b
      * @return int
      */
-    function sortString($a, $b)
+    function sortString($rowA, $rowB)
     {
-        $valA = $this->getColumnValue($a);
-        $valB = $this->getColumnValue($b);
+        $valA = $rowA[0];
+        $valB = $rowB[0];
 
         return !isset($valA)
         && !isset($valB)
@@ -243,6 +231,51 @@ class Sort extends BaseFilter
             }
         }
 
-        $table->sort(array($this, $methodToUse), $this->columnToSort);
+        $this->sort($table, $methodToUse);
     }
+
+    /**
+     * Sorts the DataTable rows using the supplied callback function.
+     *
+     * @param string $functionCallback A comparison callback compatible with {@link usort}.
+     * @param string $columnSortedBy The column name `$functionCallback` sorts by. This is stored
+     *                               so we can determine how the DataTable was sorted in the future.
+     */
+    private function sort(DataTable $table, $functionCallback)
+    {
+        $table->setTableSortedBy($this->columnToSort);
+
+        $rows = $table->getRowsWithoutSummaryRow();
+
+        // get column value and label only once for performance tweak
+        $values = array();
+        foreach ($rows as $key => $row) {
+            $values[$key] = array($this->getColumnValue($row), $row->getColumn('label'));
+        }
+
+        uasort($values, array($this, $functionCallback));
+
+        $sortedRows = array();
+        foreach ($values as $key => $value) {
+            $sortedRows[$key] = $rows[$key];
+        }
+
+        $table->setRows(array_values($sortedRows));
+
+        unset($rows);
+        unset($sortedRows);
+
+        if ($table->isSortRecursiveEnabled()) {
+            foreach ($table->getRows() as $row) {
+
+                $subTable = $row->getSubtable();
+                if ($subTable) {
+                    $subTable->enableRecursiveSort();
+                    $this->sort($subTable, $functionCallback);
+                }
+            }
+        }
+
+    }
+
 }

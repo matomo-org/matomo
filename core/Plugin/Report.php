@@ -182,6 +182,13 @@ class Report
     protected $order = 1;
 
     /**
+     * Separator for building recursive labels (or paths)
+     * @var string
+     * @api
+     */
+    protected $recursiveLabelSeparator = ' - ';
+
+    /**
      * @var array
      * @ignore
      */
@@ -354,6 +361,15 @@ class Report
                                $this->order);
             }
         }
+    }
+
+    /**
+     * @ignore
+     * @see $recursiveLabelSeparator
+     */
+    public function getRecursiveLabelSeparator()
+    {
+        return $this->recursiveLabelSeparator;
     }
 
     /**

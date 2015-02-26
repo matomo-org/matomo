@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Actions;
 
 use Exception;
-use Piwik\API\Request;
 use Piwik\Archive;
 use Piwik\Common;
 use Piwik\DataTable;
@@ -84,18 +83,16 @@ class API extends \Piwik\Plugin\API
      * @param bool $expanded
      * @param bool|int $idSubtable
      * @param bool|int $depth
+     * @param bool|int $flat
      *
      * @return DataTable|DataTable\Map
      */
     public function getPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false,
-                                $depth = false, $flat= false)
+                                $depth = false, $flat = false)
     {
-        if ($flat && !$idSubtable) {
-            $expanded = true;
-        }
+        $dataTable = Archive::createDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable, $depth);
 
-        $dataTable = $this->getDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $idSubtable, $depth);
-        $this->filterActionsDataTable($dataTable, $expanded);
+        $this->filterActionsDataTable($dataTable);
 
         return $dataTable;
     }
@@ -172,17 +169,19 @@ class API extends \Piwik\Plugin\API
 
     public function getPageUrl($pageUrl, $idSite, $period, $date, $segment = false)
     {
-        $callBackParameters = array('Actions_actions_url', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false);
+        $callBackParameters = array('Actions_actions_url', $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable = null);
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageUrl, Action::TYPE_PAGE_URL);
         $this->addPageProcessedMetrics($dataTable);
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
     }
 
-    public function getPageTitles($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
+    public function getPageTitles($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
     {
-        $dataTable = $this->getDataTableFromArchive('Actions_actions', $idSite, $period, $date, $segment, $expanded, $idSubtable);
-        $this->filterActionsDataTable($dataTable, $expanded);
+        $dataTable = Archive::createDataTableFromArchive('Actions_actions', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
+
+        $this->filterActionsDataTable($dataTable);
+
         return $dataTable;
     }
 
@@ -212,38 +211,38 @@ class API extends \Piwik\Plugin\API
 
     public function getPageTitle($pageName, $idSite, $period, $date, $segment = false)
     {
-        $callBackParameters = array('Actions_actions', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false);
+        $callBackParameters = array('Actions_actions', $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable = null);
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageName, Action::TYPE_PAGE_TITLE);
         $this->addPageProcessedMetrics($dataTable);
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
     }
 
-    public function getDownloads($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
+    public function getDownloads($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
     {
-        $dataTable = $this->getDataTableFromArchive('Actions_downloads', $idSite, $period, $date, $segment, $expanded, $idSubtable);
+        $dataTable = Archive::createDataTableFromArchive('Actions_downloads', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
         $this->filterActionsDataTable($dataTable, $expanded);
         return $dataTable;
     }
 
     public function getDownload($downloadUrl, $idSite, $period, $date, $segment = false)
     {
-        $callBackParameters = array('Actions_downloads', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false);
+        $callBackParameters = array('Actions_downloads', $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable = null);
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $downloadUrl, Action::TYPE_DOWNLOAD);
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
     }
 
-    public function getOutlinks($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
+    public function getOutlinks($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
     {
-        $dataTable = $this->getDataTableFromArchive('Actions_outlink', $idSite, $period, $date, $segment, $expanded, $idSubtable);
+        $dataTable = Archive::createDataTableFromArchive('Actions_outlink', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
         $this->filterActionsDataTable($dataTable, $expanded);
         return $dataTable;
     }
 
     public function getOutlink($outlinkUrl, $idSite, $period, $date, $segment = false)
     {
-        $callBackParameters = array('Actions_outlink', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false);
+        $callBackParameters = array('Actions_outlink', $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable = null);
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $outlinkUrl, Action::TYPE_OUTLINK);
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
@@ -254,6 +253,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getSiteSearchKeywordsRaw($idSite, $period, $date, $segment);
         $dataTable->deleteColumn(PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
         $this->filterActionsDataTable($dataTable);
+        $dataTable->filter('ReplaceColumnNames');
         $this->addPagesPerSearchColumn($dataTable);
         return $dataTable;
     }
@@ -271,7 +271,7 @@ class API extends \Piwik\Plugin\API
 
     protected function getSiteSearchKeywordsRaw($idSite, $period, $date, $segment)
     {
-        $dataTable = $this->getDataTableFromArchive('Actions_sitesearch', $idSite, $period, $date, $segment, $expanded = false);
+        $dataTable = Archive::createDataTableFromArchive('Actions_sitesearch', $idSite, $period, $date, $segment, $expanded = false);
         return $dataTable;
     }
 
@@ -289,6 +289,7 @@ class API extends \Piwik\Plugin\API
         $dataTable->deleteRow(DataTable::ID_SUMMARY_ROW);
         $dataTable->deleteColumn(PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
         $this->filterActionsDataTable($dataTable);
+        $dataTable->filter('ReplaceColumnNames');
         $this->addPagesPerSearchColumn($dataTable);
         return $dataTable;
     }
@@ -337,6 +338,7 @@ class API extends \Piwik\Plugin\API
             }
         }
         $this->filterActionsDataTable($dataTable);
+        $dataTable->filter('ReplaceColumnNames');
         $this->addPagesPerSearchColumn($dataTable, $columnToRead = 'nb_actions');
         return $dataTable;
     }
@@ -366,7 +368,7 @@ class API extends \Piwik\Plugin\API
 
         if ($table === false) {
             // fetch the data table
-            $table = call_user_func_array(array($this, 'getDataTableFromArchive'), $callBackParameters);
+            $table = call_user_func_array('\Piwik\Archive::createDataTableFromArchive', $callBackParameters);
 
             if ($table instanceof DataTable\Map) {
                 // search an array of tables, e.g. when using date=last30
@@ -429,7 +431,7 @@ class API extends \Piwik\Plugin\API
 
             // match found on this level and more levels remaining: go deeper
             $idSubTable = $row->getIdSubDataTable();
-            $callBackParameters[6] = $idSubTable;
+            $callBackParameters[7] = $idSubTable;
 
             /**
              * @var \Piwik\Period $period
@@ -439,7 +441,7 @@ class API extends \Piwik\Plugin\API
                 $callBackParameters[3] = $period->getDateStart() . ',' . $period->getDateEnd();
             }
 
-            $table = call_user_func_array(array($this, 'getDataTableFromArchive'), $callBackParameters);
+            $table = call_user_func_array('\Piwik\Archive::createDataTableFromArchive', $callBackParameters);
             return $this->doFilterPageDatatableSearch($callBackParameters, $table, $searchTree);
         }
 
@@ -450,28 +452,15 @@ class API extends \Piwik\Plugin\API
      * Common filters for all Actions API
      *
      * @param DataTable|DataTable\Simple|DataTable\Map $dataTable
-     * @param bool $expanded
      */
-    protected function filterActionsDataTable($dataTable, $expanded = false)
+    private function filterActionsDataTable($dataTable)
     {
         // Must be applied before Sort in this case, since the DataTable can contain both int and strings indexes
         // (in the transition period between pre 1.2 and post 1.2 datatable structure)
-        $dataTable->filter('ReplaceColumnNames');
-        $dataTable->filter('Sort', array('nb_visits', 'desc', $naturalSort = false, $expanded));
-        $dataTable->filter(function (DataTable $dataTable) {
-            foreach ($dataTable->getRows() as $row) {
-                $url = $row->getMetadata('url');
-                if ($url) {
-                    $row->setMetadata('segmentValue', urldecode($url));
-                }
-            }
-        });
 
-        $dataTable->filter('GroupBy', array('label', function ($label) {
-            return urldecode($label);
-        }));
+        $dataTable->filter('Piwik\Plugins\Actions\DataTable\Filter\Actions');
 
-        $dataTable->queueFilter('ReplaceSummaryRowLabel');
+        return $dataTable;
     }
 
     /**
@@ -503,11 +492,6 @@ class API extends \Piwik\Plugin\API
                       return !strlen($visits);
                   })
         );
-    }
-
-    protected function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null, $depth = null)
-    {
-        return Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable, $depth);
     }
 
     private function addPageProcessedMetrics(DataTable\DataTableInterface $dataTable)
