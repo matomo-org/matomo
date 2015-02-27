@@ -760,6 +760,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // PeoplePC
         'search.peoplepc.com'            => array('PeoplePC', 'q', 'search?q={k}'),
 
+	// PeopleCheck
+        'extern.peoplecheck.de'            => array('PeopleCheck', 'q', 'link.php?q={k}'),
+	
         // Picsearch
         'www.picsearch.com'              => array('Picsearch', 'q', 'index.cgi?q={k}'),
 
