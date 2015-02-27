@@ -1039,7 +1039,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'ys.mirostart.com'               => array('Yahoo!', 'q'),
 
         // Yahoo! Directory
-        'search.yahoo.com/search/dir'    => array('Yahoo! Directory', 'p', '?p={k}',)
+        'search.yahoo.com/search/dir'    => array('Yahoo! Directory', 'p', '?p={k}'),
 //		'{}.dir.yahoo.com'			=> array('Yahoo! Directory'),
 
         // Yahoo! Images
