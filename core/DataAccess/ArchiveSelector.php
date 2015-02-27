@@ -60,10 +60,9 @@ class ArchiveSelector
 
         $requestedPlugin = $params->getRequestedPlugin();
         $segment         = $params->getSegment();
-        $isSkipAggregationOfSubTables = $params->isSkipAggregationOfSubTables();
         $plugins = array("VisitsSummary", $requestedPlugin);
 
-        $doneFlags      = Rules::getDoneFlags($plugins, $segment, $isSkipAggregationOfSubTables);
+        $doneFlags      = Rules::getDoneFlags($plugins, $segment);
         $doneFlagValues = Rules::getSelectableDoneFlagValues();
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues);
@@ -72,8 +71,9 @@ class ArchiveSelector
             return false;
         }
 
-        $idArchive = self::getMostRecentIdArchiveFromResults($segment, $requestedPlugin, $isSkipAggregationOfSubTables, $results);
-        $idArchiveVisitsSummary = self::getMostRecentIdArchiveFromResults($segment, "VisitsSummary", $isSkipAggregationOfSubTables, $results);
+        $idArchive = self::getMostRecentIdArchiveFromResults($segment, $requestedPlugin, $results);
+
+        $idArchiveVisitsSummary = self::getMostRecentIdArchiveFromResults($segment, "VisitsSummary", $results);
 
         list($visits, $visitsConverted) = self::getVisitsMetricsFromResults($idArchive, $idArchiveVisitsSummary, $results);
 
@@ -113,10 +113,10 @@ class ArchiveSelector
         return array($visits, $visitsConverted);
     }
 
-    protected static function getMostRecentIdArchiveFromResults(Segment $segment, $requestedPlugin, $isSkipAggregationOfSubTables, $results)
+    protected static function getMostRecentIdArchiveFromResults(Segment $segment, $requestedPlugin, $results)
     {
         $idArchive = false;
-        $namesRequestedPlugin = Rules::getDoneFlags(array($requestedPlugin), $segment, $isSkipAggregationOfSubTables);
+        $namesRequestedPlugin = Rules::getDoneFlags(array($requestedPlugin), $segment);
 
         foreach ($results as $result) {
             if ($idArchive === false
@@ -137,7 +137,6 @@ class ArchiveSelector
      * @param array $periods
      * @param Segment $segment
      * @param array $plugins List of plugin names for which data is being requested.
-     * @param bool $isSkipAggregationOfSubTables Whether we are selecting an archive that may be partial (no sub-tables)
      * @return array Archive IDs are grouped by archive name and period range, ie,
      *               array(
      *                   'VisitsSummary.done' => array(
@@ -146,7 +145,7 @@ class ArchiveSelector
      *               )
      * @throws
      */
-    public static function getArchiveIds($siteIds, $periods, $segment, $plugins, $isSkipAggregationOfSubTables = false)
+    public static function getArchiveIds($siteIds, $periods, $segment, $plugins)
     {
         if (empty($siteIds)) {
             throw new \Exception("Website IDs could not be read from the request, ie. idSite=");
@@ -155,7 +154,7 @@ class ArchiveSelector
         $getArchiveIdsSql = "SELECT idsite, name, date1, date2, MAX(idarchive) as idarchive
                                FROM %s
                               WHERE idsite IN (" . Common::getSqlStringFieldsArray($siteIds) . ")
-                                AND " . self::getNameCondition($plugins, $segment, $isSkipAggregationOfSubTables) . "
+                                AND " . self::getNameCondition($plugins, $segment) . "
                                 AND %s
                            GROUP BY idsite, date1, date2";
 
@@ -282,14 +281,13 @@ class ArchiveSelector
      *
      * @param array $plugins
      * @param Segment $segment
-     * @param bool $isSkipAggregationOfSubTables
      * @return string
      */
-    private static function getNameCondition(array $plugins, Segment $segment, $isSkipAggregationOfSubTables)
+    private static function getNameCondition(array $plugins, Segment $segment)
     {
         // the flags used to tell how the archiving process for a specific archive was completed,
         // if it was completed
-        $doneFlags    = Rules::getDoneFlags($plugins, $segment, $isSkipAggregationOfSubTables);
+        $doneFlags    = Rules::getDoneFlags($plugins, $segment);
         $allDoneFlags = "'" . implode("','", $doneFlags) . "'";
 
         $possibleValues = Rules::getSelectableDoneFlagValues();

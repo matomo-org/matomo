@@ -477,10 +477,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * metadata can be used to specify a different type of operation.
      *
      * @param \Piwik\DataTable $tableToSum
-     * @param bool $doAggregateSubTables
      * @throws Exception
      */
-    public function addDataTable(DataTable $tableToSum, $doAggregateSubTables = true)
+    public function addDataTable(DataTable $tableToSum)
     {
         if ($tableToSum instanceof Simple) {
             if ($tableToSum->getRowsCount() > 1) {
@@ -490,7 +489,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $this->aggregateRowFromSimpleTable($row);
         } else {
             foreach ($tableToSum->getRows() as $row) {
-                $this->aggregateRowWithLabel($row, $doAggregateSubTables);
+                $this->aggregateRowWithLabel($row);
             }
         }
     }
@@ -902,16 +901,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @param string $oldName Old column name.
      * @param string $newName New column name.
      */
-    public function renameColumn($oldName, $newName, $doRenameColumnsOfSubTables = true)
+    public function renameColumn($oldName, $newName)
     {
         foreach ($this->getRows() as $row) {
             $row->renameColumn($oldName, $newName);
 
-            if ($doRenameColumnsOfSubTables) {
-                $subTable = $row->getSubtable();
-                if ($subTable) {
-                    $subTable->renameColumn($oldName, $newName);
-                }
+            $subTable = $row->getSubtable();
+            if ($subTable) {
+                $subTable->renameColumn($oldName, $newName);
             }
         }
         if (!is_null($this->summaryRow)) {
@@ -1591,7 +1588,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @param $row
      * @throws \Exception
      */
-    protected function aggregateRowWithLabel(Row $row, $doAggregateSubTables = true)
+    protected function aggregateRowWithLabel(Row $row)
     {
         $labelToLookFor = $row->getColumn('label');
         if ($labelToLookFor === false) {
@@ -1607,17 +1604,15 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         } else {
             $rowFound->sumRow($row, $copyMeta = true, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));
 
-            if ($doAggregateSubTables) {
-                // if the row to add has a subtable whereas the current row doesn't
-                // we simply add it (cloning the subtable)
-                // if the row has the subtable already
-                // then we have to recursively sum the subtables
-                $subTable = $row->getSubtable();
-                if ($subTable) {
-                    $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME]
-                        = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
-                    $rowFound->sumSubtable($subTable);
-                }
+            // if the row to add has a subtable whereas the current row doesn't
+            // we simply add it (cloning the subtable)
+            // if the row has the subtable already
+            // then we have to recursively sum the subtables
+            $subTable = $row->getSubtable();
+            if ($subTable) {
+                $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME]
+                    = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+                $rowFound->sumSubtable($subTable);
             }
         }
     }
