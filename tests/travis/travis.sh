@@ -43,10 +43,15 @@ then
         echo ""
         echo "http://builds-artifacts.piwik.org/$artifacts_folder/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
         echo ""
-        echo "If the new screenshots are valid, then you can copy them over to tests/UI/expected-ui-screenshots/ with command:"
-        echo ""
-        echo "./console development:sync-ui-test-screenshots $TRAVIS_JOB_NUMBER"
-        echo ""
+        echo "If the new screenshots are valid, then you can copy them over to tests/UI/expected-ui-screenshots/"
+
+        if [ -n "$PLUGIN_NAME" ]
+        then
+            echo " with command:"
+            echo ""
+            echo "./console development:sync-ui-test-screenshots $TRAVIS_JOB_NUMBER"
+            echo ""
+        fi
 
         if [ -n "$PLUGIN_NAME" ]
         then
