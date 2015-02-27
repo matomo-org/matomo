@@ -1280,6 +1280,11 @@ class Common
     {
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
 
+            if(!headers_sent()) {
+                // prevent XSS in tracker debug output
+                header('Content-type: text/plain');
+            }
+
             if (is_object($info)) {
                 $info = var_export($info, true);
             }
@@ -1292,7 +1297,7 @@ class Common
                 }
             } else {
                 foreach (explode("\n", $info) as $line) {
-                    echo htmlspecialchars($line, ENT_QUOTES) . "\n";
+                    echo $line . "\n";
                 }
             }
         }
