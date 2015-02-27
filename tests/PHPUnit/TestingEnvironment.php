@@ -144,9 +144,11 @@ class Piwik_TestingEnvironment
             \Piwik\Profiler::setupProfilerXHProf($mainRun = false, $setupDuringTracking = true);
         }
 
-        Config::setSingletonInstance(new Config(
-            $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
-        ));
+        if ($testingEnvironment->dontUseTestConfig) {
+            Config::setSingletonInstance(new Config(
+                $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
+            ));
+        }
 
         \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
 
@@ -157,7 +159,7 @@ class Piwik_TestingEnvironment
             }
         });
         if (!$testingEnvironment->dontUseTestConfig) {
-            Piwik::addAction('Config.createConfigSingleton', function(Config $config, &$cache, &$local) use ($testingEnvironment) {
+            Piwik::addAction('Config.createConfigSingleton', function(Config $config, &$cache) use ($testingEnvironment) {
                 $config->setTestEnvironment($testingEnvironment->configFileLocal, $testingEnvironment->configFileGlobal, $testingEnvironment->configFileCommon);
 
                 if ($testingEnvironment->configFileLocal) {
@@ -172,19 +174,19 @@ class Piwik_TestingEnvironment
 
                 sort($pluginsToLoad);
 
-                $local['Plugins'] = array('Plugins' => $pluginsToLoad);
+                $config->Plugins = array('Plugins' => $pluginsToLoad);
 
-                $local['log']['log_writers'] = array('file');
+                $config->log['log_writers'] = array('file');
 
                 $manager->unloadPlugins();
 
                 // TODO: replace this and below w/ configOverride use
                 if ($testingEnvironment->tablesPrefix) {
-                    $cache['database']['tables_prefix'] = $testingEnvironment->tablesPrefix;
+                    $config->database['tables_prefix'] = $testingEnvironment->tablesPrefix;
                 }
 
                 if ($testingEnvironment->dbName) {
-                    $cache['database']['dbname'] = $testingEnvironment->dbName;
+                    $config->database['dbname'] = $testingEnvironment->dbName;
                 }
 
                 if ($testingEnvironment->configOverride) {
