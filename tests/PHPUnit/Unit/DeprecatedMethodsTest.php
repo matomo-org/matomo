@@ -31,15 +31,6 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuTop', 'removeEntry', $validTill);
 
         $validTill = '2015-03-10';
-        $this->assertDeprecatedClassIsRemoved('\IntegrationTestCase', $validTill);
-        $this->assertDeprecatedClassIsRemoved('\DatabaseTestCase', $validTill);
-        $this->assertDeprecatedClassIsRemoved('\BenchmarkTestCase', $validTill);
-        $this->assertDeprecatedClassIsRemoved('\FakeAccess', $validTill);
-        $this->assertDeprecatedClassIsRemoved('\Piwik\Tests\ConsoleCommandTestCase', $validTill);
-        $this->assertDeprecatedClassIsRemoved('\Piwik\Tests\Fixture', $validTill);
-        $this->assertDeprecatedClassIsRemoved('\Piwik\Tests\OverrideLogin', $validTill);
-
-        $validTill = '2015-03-10';
         $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'sanitizeIp', $validTill);
         $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'sanitizeIpRange', $validTill);
         $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'P2N', $validTill);
