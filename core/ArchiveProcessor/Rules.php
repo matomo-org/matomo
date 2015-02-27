@@ -161,7 +161,7 @@ class Rules
         // when &segment= is specified (or custom date range) and would below, delete temporary archives that the
         // browser is not able to process until next cron run (which could be more than 1 hour away)
         if ($timestamp !== false && $timestamp >= time() - $purgeEveryNSeconds) {
-            Log::info("Purging temporary archives: skipped (6h wait timeout)");
+            Log::info("Purging temporary archives: skipped (purging every " . $hoursBetweenPurge . "hours)");
             return false;
         }
 
