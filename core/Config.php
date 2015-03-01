@@ -72,7 +72,6 @@ class Config extends Singleton
         $this->pathLocal = $pathLocal ?: self::getLocalConfigPath();
 
         $this->settings = new IniFileChain();
-        $this->reload(array($this->pathGlobal, $this->pathCommon), $this->pathLocal);
     }
 
     /**
@@ -314,7 +313,6 @@ class Config extends Singleton
      *
      * @throws \Exception if the global config file is not found and this is a tracker request, or
      *                    if the local config file is not found and this is NOT a tracker request.
-     * @api
      */
     public function reload()
     {
@@ -340,6 +338,8 @@ class Config extends Singleton
 
         // decode section datas
         $this->decodeValues($this->settings->getAll());
+
+        $this->initialized = true;
     }
 
     public function existsLocalConfig()
@@ -412,7 +412,7 @@ class Config extends Singleton
     public function &__get($name)
     {
         if (!$this->initialized) {
-            $this->initialized = true;
+            $this->reload(array($this->pathGlobal, $this->pathCommon), $this->pathLocal);
 
             // must be called here, not in init(), since setTestEnvironment() calls init(). (this avoids
             // infinite recursion)
