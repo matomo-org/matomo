@@ -15,6 +15,16 @@ use Piwik\Db;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
+    /**
+     * @var ArchivePurger
+     */
+    private $archivePurger;
+
+    public function __construct(ArchivePurger $archivePurger = null)
+    {
+        $this->archivePurger = $archivePurger ?: new ArchivePurger();
+    }
+
     public function schedule()
     {
         // general data purge on older archive tables, executed daily
@@ -36,14 +46,14 @@ class Tasks extends \Piwik\Plugin\Tasks
 
             // Somehow we may have archive tables created with older dates, prevent exception from being thrown
             if ($year > 1990) {
-                ArchivePurger::purgeOutdatedArchives(Date::factory("$year-$month-15"));
+                $this->archivePurger->purgeOutdatedArchives(Date::factory("$year-$month-15"));
             }
         }
     }
 
     public function purgeInvalidatedArchives()
     {
-        ArchivePurger::purgeInvalidatedArchives();
+        $this->archivePurger->purgeInvalidatedArchives();
     }
 
     public function optimizeArchiveTable()
