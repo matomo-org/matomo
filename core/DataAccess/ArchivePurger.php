@@ -58,23 +58,6 @@ class ArchivePurger
             return false;
         }
 
-        $key = Rules::FLAG_TABLE_PURGED . "blob_" . $date->toString('Y_m');
-        $timestamp = Option::get($key);
-
-        // we shall purge temporary archives after their timeout is finished, plus an extra 6 hours
-        // in case archiving is disabled or run once a day, we give it this extra time to run
-        // and re-process more recent records...
-        $temporaryArchivingTimeout = Rules::getTodayArchiveTimeToLive();
-        $hoursBetweenPurge = 6;
-        $purgeEveryNSeconds = max($temporaryArchivingTimeout, $hoursBetweenPurge * 3600);
-
-        if ($timestamp !== false && $timestamp >= time() - $purgeEveryNSeconds) {
-            Log::info("Purging temporary archives: skipped (purging every " . $hoursBetweenPurge . "hours)");
-            return false;
-        }
-
-        Option::set($key, time());
-
         $temporaryArchivingTimeout = Rules::getTodayArchiveTimeToLive();
         if (Rules::isBrowserTriggerEnabled()) {
             // If Browser Archiving is enabled, it is likely there are many more temporary archives
