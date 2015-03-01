@@ -316,16 +316,13 @@ class Config extends Singleton
      */
     public function reload()
     {
+        $this->initialized = true;
+
         $inTrackerRequest = SettingsServer::isTrackerApiRequest();
 
         // read defaults from global.ini.php
         if (!is_readable($this->pathGlobal) && $inTrackerRequest) {
             throw new Exception(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathGlobal)));
-        }
-
-        // Check config.ini.php last
-        if (!$inTrackerRequest) {
-            $this->checkLocalConfigFound();
         }
 
         try {
@@ -339,7 +336,10 @@ class Config extends Singleton
         // decode section datas
         $this->decodeValues($this->settings->getAll());
 
-        $this->initialized = true;
+        // Check config.ini.php last
+        if (!$inTrackerRequest) {
+            $this->checkLocalConfigFound();
+        }
     }
 
     public function existsLocalConfig()
