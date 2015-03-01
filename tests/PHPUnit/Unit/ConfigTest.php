@@ -11,23 +11,36 @@ namespace Piwik\Tests\Unit;
 use PHPUnit_Framework_TestCase;
 use Piwik\Config;
 
+class DumpConfigTestMockIniFileChain extends Config\IniFileChain
+{
+    public function __construct($settingsChain, $mergedSettings)
+    {
+        parent::__construct();
+
+        $this->settingsChain = $settingsChain;
+        $this->mergedSettings = $mergedSettings;
+    }
+}
+
 class DumpConfigTestMockConfig extends Config
 {
     public function __construct($configLocal, $configGlobal, $configCommon, $configCache)
     {
         parent::__construct();
 
-        $this->settingsChain[$this->pathLocal] = $configLocal;
-        $this->settingsChain[$this->pathGlobal] = $configGlobal;
-        $this->settingsChain[$this->pathCommon] = $configCommon;
-        $this->mergedSettings = $configCache;
+        $this->settings = new DumpConfigTestMockIniFileChain(
+            array(
+                $this->pathGlobal => $configGlobal,
+                $this->pathCommon => $configCommon,
+                $this->pathLocal => $configLocal,
+            ),
+            $configCache
+        );
     }
 }
 
 /**
  * @group Core
- *
- * TODO: need to revise Config tests for new method logic
  */
 class ConfigTest extends PHPUnit_Framework_TestCase
 {
@@ -128,113 +141,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedArray, $array['my_array']);
 
         Config::getInstance()->clear();
-    }
-
-    /**
-     * Dateprovider for testCompareElements
-     */
-    public function getCompareElementsData()
-    {
-        return array(
-            array('string = string', array(
-                'a', 'a', 0,
-            )),
-            array('string > string', array(
-                'b', 'a', 1,
-            )),
-            array('string < string', array(
-                'a', 'b', -1,
-            )),
-            array('string vs array', array(
-                'a', array('a'), -1,
-            )),
-            array('array vs string', array(
-                array('a'), 'a', 1,
-            )),
-            array('array = array', array(
-                array('a'), array('a'), 0,
-            )),
-            array('array > array', array(
-                array('b'), array('a'), 1,
-            )),
-            array('array < array', array(
-                array('a'), array('b'), -1,
-            )),
-        );
-    }
-
-    /**
-     * @dataProvider getCompareElementsData
-     */
-    public function testCompareElements($description, $test)
-    {
-        list($a, $b, $expected) = $test;
-
-        $result = Config::compareElements($a, $b);
-        $this->assertEquals($expected, $result, $description);
-    }
-
-    /**
-     * Dataprovider for testArrayUnmerge
-     * @return array
-     */
-    public function getArrayUnmergeData()
-    {
-        return array(
-            array('description of test', array(
-                array(),
-                array(),
-            )),
-            array('override with empty', array(
-                array('login' => 'root', 'password' => 'b33r'),
-                array('password' => ''),
-            )),
-            array('override with non-empty', array(
-                array('login' => 'root', 'password' => ''),
-                array('password' => 'b33r'),
-            )),
-            array('add element', array(
-                array('login' => 'root', 'password' => ''),
-                array('auth' => 'Login'),
-            )),
-            array('override with empty array', array(
-                array('headers' => ''),
-                array('headers' => array()),
-            )),
-            array('override with array', array(
-                array('headers' => ''),
-                array('headers' => array('Content-Length', 'Content-Type')),
-            )),
-            array('override an array', array(
-                array('headers' => array()),
-                array('headers' => array('Content-Length', 'Content-Type')),
-            )),
-            array('override similar arrays', array(
-                array('headers' => array('Content-Length', 'Set-Cookie')),
-                array('headers' => array('Content-Length', 'Content-Type')),
-            )),
-            array('override dyslexic arrays', array(
-                array('headers' => array('Content-Type', 'Content-Length')),
-                array('headers' => array('Content-Length', 'Content-Type')),
-            )),
-        );
-    }
-
-    /**
-     * @dataProvider getArrayUnmergeData
-     */
-    public function testArrayUnmerge($description, $test)
-    {
-        $configWriter = Config::getInstance();
-
-        list($a, $b) = $test;
-
-        $combined = array_merge($a, $b);
-
-        $diff = $configWriter->array_unmerge($a, $combined);
-
-        // expect $b == $diff
-        $this->assertEquals(serialize($b), serialize($diff), $description);
     }
 
     /**
@@ -464,9 +370,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
         $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
 
-        $config = Config::getInstance();
-        $config->setTestEnvironment($userFile, $globalFile, $commonFile);
-        $config->init();
+        $config = new Config($globalFile, $userFile, $commonFile);
 
         $this->assertEquals('${@piwik(crash))}', $config->Category['key3']);
     }

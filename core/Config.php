@@ -37,32 +37,11 @@ use Piwik\Ini\IniReadingException;
  *
  *     Config::getInstance()->MySection = array('myoption' => 1);
  *     Config::getInstance()->forceSave();
+ *
+ * @method static Config getInstance()
  */
-class Config extends IniFileChain
+class Config extends Singleton
 {
-    private static $instance;
-
-    /**
-     * @return Config
-     */
-    public static function getInstance()
-    {
-        if (self::$instance === null) {
-            self::$instance = new Config();
-        }
-        return self::$instance;
-    }
-
-    public static function unsetInstance()
-    {
-        self::$instance = null;
-    }
-
-    public static function setSingletonInstance(Config $instance = null)
-    {
-        self::$instance = $instance;
-    }
-
     const DEFAULT_LOCAL_CONFIG_PATH = '/config/config.ini.php';
     const DEFAULT_COMMON_CONFIG_PATH = '/config/common.config.ini.php';
     const DEFAULT_GLOBAL_CONFIG_PATH = '/config/global.ini.php';
@@ -79,6 +58,11 @@ class Config extends IniFileChain
      */
     protected $doNotWriteConfigInTests = false;
 
+    /**
+     * @var IniFileChain
+     */
+    protected $settings;
+
     private $initialized = false;
 
     public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null)
@@ -87,9 +71,8 @@ class Config extends IniFileChain
         $this->pathCommon = $pathCommon ?: self::getCommonConfigPath();
         $this->pathLocal = $pathLocal ?: self::getLocalConfigPath();
 
-        parent::__construct(array($this->pathGlobal, $this->pathCommon), $this->pathLocal);
-
-        $this->reload();
+        $this->settings = new IniFileChain();
+        $this->reload(array($this->pathGlobal, $this->pathCommon), $this->pathLocal);
     }
 
     /**
@@ -139,35 +122,28 @@ class Config extends IniFileChain
         $this->pathGlobal = $pathGlobal ?: Config::getGlobalConfigPath();
         $this->pathCommon = $pathCommon ?: Config::getCommonConfigPath();
 
-        $this->settingsChain = array();
-        $this->settingsChain[$this->pathGlobal] = null;
-        $this->settingsChain[$this->pathCommon] = null;
-        $this->settingsChain[$this->pathLocal] = null;
         $this->reload();
 
-        if (isset($this->settingsChain[$this->pathGlobal]['database_tests'])
-            || isset($this->settingsChain[$this->pathLocal]['database_tests'])
-        ) {
-            $this->mergedSettings['database'] = $this->mergedSettings['database_tests'];
+        $databaseTestsSettings = $this->database_tests;
+        if (!empty($databaseTestsSettings)) {
+            $this->database = $databaseTestsSettings;
         }
 
         // Ensure local mods do not affect tests
         if (empty($pathGlobal)) {
-            $configGlobal =& $this->settingsChain[$this->pathGlobal];
-
-            $this->mergedSettings['Debug'] = $configGlobal['Debug'];
-            $this->mergedSettings['mail'] = $configGlobal['mail'];
-            $this->mergedSettings['General'] = $configGlobal['General'];
-            $this->mergedSettings['Segments'] = $configGlobal['Segments'];
-            $this->mergedSettings['Tracker'] = $configGlobal['Tracker'];
-            $this->mergedSettings['Deletelogs'] = $configGlobal['Deletelogs'];
-            $this->mergedSettings['Deletereports'] = $configGlobal['Deletereports'];
-            $this->mergedSettings['Development'] = $configGlobal['Development'];
+            $this->Debug = $this->settings->getFrom($this->pathGlobal, 'Debug');
+            $this->mail = $this->settings->getFrom($this->pathGlobal, 'mail');
+            $this->General = $this->settings->getFrom($this->pathGlobal, 'General');
+            $this->Segments = $this->settings->getFrom($this->pathGlobal, 'Segments');
+            $this->Tracker = $this->settings->getFrom($this->pathGlobal, 'Tracker');
+            $this->Deletelogs = $this->settings->getFrom($this->pathGlobal, 'Deletelogs');
+            $this->Deletereports = $this->settings->getFrom($this->pathGlobal, 'Deletereports');
+            $this->Development = $this->settings->getFrom($this->pathGlobal, 'Development');
         }
 
         // for unit tests, we set that no plugin is installed. This will force
         // the test initialization to create the plugins tables, execute ALTER queries, etc.
-        $this->mergedSettings['PluginsInstalled'] = array('PluginsInstalled' => array());
+        $this->PluginsInstalled = array('PluginsInstalled' => array());
     }
 
     /**
@@ -318,6 +294,7 @@ class Config extends IniFileChain
      */
     public function clear()
     {
+        $this->initialized = false;
         $this->reload();
     }
 
@@ -335,7 +312,8 @@ class Config extends IniFileChain
     /**
      * Reloads config data from disk.
      *
-     * @throws \Exception if the global or
+     * @throws \Exception if the global config file is not found and this is a tracker request, or
+     *                    if the local config file is not found and this is NOT a tracker request.
      * @api
      */
     public function reload()
@@ -353,7 +331,7 @@ class Config extends IniFileChain
         }
 
         try {
-            parent::reload();
+            $this->settings->reload(array($this->pathGlobal, $this->pathCommon), $this->pathLocal);
         } catch (IniReadingException $e) {
             if ($inTrackerRequest) {
                 throw new Exception(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($e->getIniFile(), "parse_ini_file()")));
@@ -361,7 +339,7 @@ class Config extends IniFileChain
         }
 
         // decode section datas
-        $this->mergedSettings = $this->decodeValues($this->mergedSettings);
+        $this->decodeValues($this->settings->getAll());
     }
 
     public function existsLocalConfig()
@@ -388,7 +366,7 @@ class Config extends IniFileChain
      * @param mixed $values
      * @return mixed
      */
-    protected function decodeValues($values)
+    protected function decodeValues(&$values)
     {
         if (is_array($values)) {
             foreach ($values as &$value) {
@@ -407,7 +385,7 @@ class Config extends IniFileChain
      * @param mixed $values
      * @return mixed
      */
-    protected function encodeValues($values)
+    protected function encodeValues(&$values)
     {
         if (is_array($values)) {
             foreach ($values as &$value) {
@@ -438,11 +416,12 @@ class Config extends IniFileChain
 
             // must be called here, not in init(), since setTestEnvironment() calls init(). (this avoids
             // infinite recursion)
-            Piwik::postTestEvent('Config.createConfigSingleton',
-                array($this, &$this->mergedSettings, &$this->settingsChain[$this->pathLocal]));
+            // TODO: Removed last argument, must check it's ok
+            $allSettings =& $this->settings->getAll();
+            Piwik::postTestEvent('Config.createConfigSingleton', array($this, &$allSettings));
         }
 
-        $section =& $this->get($name);
+        $section =& $this->settings->get($name);
 
         if ($section === null && $name == 'superuser') {
             return $this->getConfigSuperUserForBackwardCompatibility();
@@ -477,12 +456,12 @@ class Config extends IniFileChain
 
     public function getFromGlobalConfig($name)
     {
-        return @$this->settingsChain[$this->pathGlobal][$name];
+        return $this->settings->getFrom($this->pathGlobal, $name);
     }
 
     public function getFromCommonConfig($name)
     {
-        return @$this->settingsChain[$this->pathCommon][$name];
+        return $this->settings->getFrom($this->pathCommon, $name);
     }
 
     /**
@@ -494,7 +473,7 @@ class Config extends IniFileChain
      */
     public function __set($name, $value)
     {
-        $this->set($name, $value);
+        $this->settings->set($name, $value);
     }
 
     /**
@@ -505,16 +484,16 @@ class Config extends IniFileChain
      */
     public function dumpConfig()
     {
-        $this->mergedSettings = $this->encodeValues($this->mergedSettings);
+        $this->encodeValues($this->settings->getAll());
 
         try {
             $header = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
             $header .= "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
-            $dumpedString = $this->dumpChanges($header);
+            $dumpedString = $this->settings->dumpChanges($header);
 
-            $this->mergedSettings = $this->decodeValues($this->mergedSettings);
+            $this->decodeValues($this->settings->getAll());
         } catch (Exception $ex) {
-            $this->mergedSettings = $this->decodeValues($this->mergedSettings);
+            $this->decodeValues($this->settings->getAll());
 
             throw $ex;
         }

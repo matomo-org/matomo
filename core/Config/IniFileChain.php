@@ -46,20 +46,15 @@ class IniFileChain
      * Constructor.
      *
      * @param string[] $defaultSettingsFiles The list of paths to INI files w/ the default setting values.
-     * @param string $userSettingsFile The path to the user settings file.
+     * @param string|null $userSettingsFile The path to the user settings file.
      */
-    public function __construct($defaultSettingsFiles, $userSettingsFile)
+    public function __construct($defaultSettingsFiles = array(), $userSettingsFile = null)
     {
-        foreach ($defaultSettingsFiles as $file) {
-            $this->settingsChain[$file] = null;
-        }
-        $this->settingsChain[$userSettingsFile] = null;
-
-        $this->reload();
+        $this->reload($defaultSettingsFiles, $userSettingsFile);
     }
 
     /**
-     * Return setting value by reference.
+     * Return setting section by reference.
      *
      * @param string $name
      * @return mixed
@@ -74,6 +69,17 @@ class IniFileChain
     }
 
     /**
+     * Return setting section from a specific file, rather than the current merged settings.
+     *
+     * @param string $file The path of the file. Should be the path used in construction or reload().
+     * @param string $name The name of the section to access.
+     */
+    public function getFrom($file, $name)
+    {
+        return @$this->settingsChain[$file][$name];
+    }
+
+    /**
      * Sets a setting value.
      *
      * @param string $name
@@ -85,15 +91,26 @@ class IniFileChain
     }
 
     /**
-     * Saves the current in-memory setting values to the specified file.
+     * Returns all settings. Changes made to the array result will be reflected in the
+     * IniFileChain instance.
      *
-     * @param string $toPath The path to save the contents to.
-     * @param string $header The header of the output INI file.
+     * @return array
      */
-    public function dump($toPath, $header = '')
+    public function &getAll()
+    {
+        return $this->mergedSettings;
+    }
+
+    /**
+     * Dumps the current in-memory setting values to a string in INI format and returns it.
+     *
+     * @param string $header The header of the output INI file.
+     * @return string The dumped INI contents.
+     */
+    public function dump($header = '')
     {
         $writer = new IniWriter();
-        $writer->writeToFile($toPath, $this->mergedSettings, $header);
+        return $writer->writeToString($this->mergedSettings, $header);
     }
 
     /**
@@ -121,8 +138,8 @@ class IniFileChain
 
             // remove default values from both (they should not get written to local)
             if (isset($defaultSettings[$sectionName])) {
-                $changedSection = $this->array_unmerge($defaultSettings[$sectionName], $changedSection);
-                $existingMutableSection = $this->array_unmerge($defaultSettings[$sectionName], $existingMutableSection);
+                $changedSection = $this->arrayUnmerge($defaultSettings[$sectionName], $changedSection);
+                $existingMutableSection = $this->arrayUnmerge($defaultSettings[$sectionName], $existingMutableSection);
             }
 
             // if either local/config have non-default values and the other doesn't,
@@ -151,8 +168,24 @@ class IniFileChain
     /**
      * Reloads settings from disk.
      */
-    public function reload()
+    public function reload($defaultSettingsFiles = array(), $userSettingsFile = null)
     {
+        if (!empty($defaultSettingsFiles)
+            || !empty($userSettingsFile)
+        ) {
+            $this->settingsChain = null;
+
+            if (!empty($defaultSettingsFiles)) {
+                foreach ($defaultSettingsFiles as $file) {
+                    $this->settingsChain[$file] = null;
+                }
+            }
+
+            if (!empty($userSettingsFile)) {
+                $this->settingsChain[$userSettingsFile] = null;
+            }
+        }
+
         $reader = new IniReader();
 
         foreach ($this->settingsChain as $file => $ignore) {
@@ -249,7 +282,7 @@ class IniFileChain
      * @param array $modified modified array
      * @return array differences between original and modified
      */
-    public function array_unmerge($original, $modified)
+    public function arrayUnmerge($original, $modified)
     {
         // return key/value pairs for keys in $modified but not in $original
         // return key/value pairs for keys in both $modified and $original, but values differ
