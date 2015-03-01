@@ -161,6 +161,18 @@ class LogTest extends IntegrationTestCase
     }
 
     /**
+     * @dataProvider getBackendsToTest
+     */
+    public function testTokenAuthIsRemoved($backend)
+    {
+        Config::getInstance()->log['log_writers'] = array($backend);
+
+        Log::error('token_auth=9b1cefc915ff6180071fb7dcd13ec5a4');
+
+        $this->checkBackend($backend, 'token_auth=removed', $formatMessage = true, $tag = 'Monolog');
+    }
+
+    /**
      * The database logs requests at DEBUG level, so we check that there is no recursive
      * loop (logger insert in databases, which logs the query, ...)
      * @link https://github.com/piwik/piwik/issues/7017
