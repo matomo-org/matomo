@@ -115,7 +115,7 @@ class CustomEventsTest extends SystemTestCase
             $result[] = array(
                 'API.getProcessedReport', array('idSite'       => $idSite1,
                                                 'date'         => $dateTime,
-                                                'piteriods'      => $dayPeriod,
+                                                'periods'      => $dayPeriod,
                                                 'setDateLastN' => true,
                                                 'apiModule'    => $apiModule,
                                                 'apiAction'    => $apiAction,
