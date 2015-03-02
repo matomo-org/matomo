@@ -2353,6 +2353,69 @@ function PiwikTest() {
         tracker.setTrackerUrl(trackerUrl);
     });
 
+    function getVisitorIdFromCookie(tracker) {
+        visitorCookieName = tracker.hook.test._getCookieName('id');
+        visitorCookieValue = tracker.hook.test._getCookie(visitorCookieName);
+        return visitorCookieValue.split('.')[0];
+    }
+
+    test("User ID and Visitor UUID", function() {
+        expect(16);
+        deleteCookies();
+
+        var userIdString = 'userid@mydomain.org';
+
+        var tracker = Piwik.getTracker();
+
+        // Force the cookie to be created....
+        var visitorId = tracker.getVisitorId();
+        tracker.trackPageView();
+
+        // Check cookie was created
+        ok(getVisitorIdFromCookie(tracker).length == 16, "Visitor ID from cookie should be 16 chars, got: " + getVisitorIdFromCookie(tracker));
+        equal(getVisitorIdFromCookie(tracker), visitorId, "Visitor ID from cookie is the same as Visitor ID in object");
+        equal(tracker.getVisitorId(), visitorId, "After tracking an action and updating the ID cookie, the visitor ID is still the same.");
+
+        // Visitor ID is by default set to a UUID fingerprint
+        var hashUserId = tracker.hook.test._sha1(userIdString).substr(0, 16);
+        notEqual(hashUserId, tracker.getVisitorId(), "Visitor ID " + tracker.getVisitorId() + " is not yet the hash of User ID " + hashUserId);
+        notEqual("", tracker.getVisitorId(), "Visitor ID is not empty");
+        ok( tracker.getVisitorId().length === 16, "Visitor ID is 16 chars string");
+
+        // Check that Visitor ID is the same when requested multiple times
+        var visitorId = tracker.getVisitorId();
+        equal(visitorId, tracker.getVisitorId(), "Visitor ID is the same when called multiple times");
+
+        // Building another 'tracker2' object so we can compare behavior to 'tracker'
+        var tracker2 = Piwik.getTracker();
+        equal(tracker.getVisitorId(), tracker2.getVisitorId(), "Visitor ID " + tracker.getVisitorId() + " is the same as Visitor ID 2 " + tracker2.getVisitorId());
+        notEqual("", tracker2.getVisitorId(), "Visitor ID 2 is not empty");
+        tracker2.setCookieNamePrefix("differentNamespace");
+        notEqual("", tracker2.getVisitorId(), "Visitor ID 2 is not empty");
+        notEqual(tracker.getVisitorId(), tracker2.getVisitorId(), "Setting a new namespace forces Visitor ID " + tracker.getVisitorId() + " to be different from Visitor ID 2 " + tracker2.getVisitorId());
+
+
+
+        // Set User ID and verify it was set
+        tracker.setUserId(userIdString);
+        equal(userIdString, tracker.getUserId(), "getUserId() returns User Id");
+        equal(tracker.hook.test._sha1(userIdString).substr(0, 16), tracker.getVisitorId(), "Visitor ID is the sha1 of User ID");
+
+        // Check that calling trackPageView does not change the visitor ID
+        var visitorId = tracker.getVisitorId();
+        tracker.trackPageView();
+        equal(getVisitorIdFromCookie(tracker), visitorId, "Visitor ID from cookie is the same as Visitor ID in object ("+ visitorId +"), but got: " + getVisitorIdFromCookie(tracker));
+
+        // Verify that Visitor ID is tied to User ID
+        notEqual(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting a User ID, Visitor ID " + tracker.getVisitorId() + " is now different from Visitor ID2 " + tracker2.getVisitorId());
+
+        // Verify that setting the same user ID on two objects results in the same Visitor ID
+        tracker2.setUserId(userIdString);
+        equal(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting the same User ID, Visitor ID are the same");
+
+
+    });
+
     test("utf8_encode(), sha1()", function() {
         expect(6);
 
@@ -2586,7 +2649,7 @@ if ($sqlite) {
     });
 
     test("tracking", function() {
-        expect(106);
+        expect(101);
 
         /*
          * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -2826,16 +2889,7 @@ if ($sqlite) {
 
         // User ID
         var userIdString = 'userid@mydomain.org';
-
-        // Visitor ID is not yet the User id
-        notEqual(tracker.hook.test._sha1(userIdString).substr(0, 16), tracker3.getVisitorId());
-        notEqual("", tracker3.getVisitorId());
-        ok( tracker3.getVisitorId().length === 16, "Visitor ID is 16 chars string");
-
-        // Set User ID and verify it was set
         tracker3.setUserId(userIdString);
-        equal(userIdString, tracker3.getUserId());
-        equal(tracker.hook.test._sha1(userIdString).substr(0, 16), tracker3.getVisitorId());
 
         // Append tracking url parameter
         tracker3.appendToTrackingUrl("appended=1&appended2=value");
