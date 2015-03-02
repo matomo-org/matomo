@@ -67,7 +67,7 @@ class ArchiveWriter
         $this->period    = $params->getPeriod();
 
         $idSites = array($this->idSite);
-        $this->doneFlag = Rules::getDoneStringFlagFor($idSites, $this->segment, $this->period->getLabel(), $params->getRequestedPlugin(), $params->isSkipAggregationOfSubTables());
+        $this->doneFlag = Rules::getDoneStringFlagFor($idSites, $this->segment, $this->period->getLabel(), $params->getRequestedPlugin());
         $this->isArchiveTemporary = $isArchiveTemporary;
 
         $this->dateStart = $this->period->getDateStart();
