@@ -128,7 +128,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage curl_exec: SSL certificate problem: Invalid certificate chain.
+     * @expectedExceptionMessage curl_exec: SSL certificate
      */
     public function testCurlHttpsFailsWithInvalidCertificate()
     {
