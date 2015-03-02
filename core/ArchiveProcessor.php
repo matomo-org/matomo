@@ -430,7 +430,7 @@ class ArchiveProcessor
      * since unique visitors cannot be summed like other metrics.
      *
      * @param array Metrics Ids for which to aggregates count of values
-     * @return int
+     * @return array of metrics, where the key is metricid and the value is the metric value
      */
     protected function computeNbUniques($metrics)
     {
