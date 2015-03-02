@@ -4,7 +4,6 @@
         "ColumnServerTime": "Kohë shërbyesi",
         "LocalTime": "Vizita sipas kohës vendore",
         "NHour": "%sh",
-        "PluginDescription": "Paraqet kohën Vendore dhe të Shërbyesit. Të dhëna mbi kohën e shërbyesit mund të jenë të dobishme për planifikimin e mirëmbajtjes në site-in web.",
         "ServerTime": "Vizita sipas kohës së shërbyesit",
         "SubmenuTimes": "Kohë",
         "WidgetLocalTime": "Vizita sipas kohës vendore",

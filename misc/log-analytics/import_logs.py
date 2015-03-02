@@ -567,6 +567,11 @@ class Configuration(object):
             help="Replay piwik.php requests found in custom logs (only piwik.php requests expected). \nSee http://piwik.org/faq/how-to/faq_17033/"
         )
         option_parser.add_option(
+            '--replay-tracking-expected-tracker-file', dest='replay_tracking_expected_tracker_file', default='piwik.php',
+            help="The expected suffix for tracking request paths. Only logs whose paths end with this will be imported. Defaults "
+            "to 'piwik.php' so only requests to the piwik.php file will be imported."
+        )
+        option_parser.add_option(
             '--output', dest='output',
             help="Redirect output (stdout and stderr) to the specified file"
         )
@@ -2014,7 +2019,7 @@ class Parser(object):
 
             if config.options.replay_tracking:
                 # we need a query string and we only consider requests with piwik.php
-                if not hit.query_string or not hit.path.lower().endswith('piwik.php'):
+                if not hit.query_string or not hit.path.lower().endswith(config.options.replay_tracking_expected_tracker_file):
                     invalid_line(line, 'no query string, or ' + hit.path.lower() + ' does not end with piwik.php')
                     continue
 

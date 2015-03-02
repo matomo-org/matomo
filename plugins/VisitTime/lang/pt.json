@@ -4,7 +4,6 @@
         "ColumnServerTime": "Hora do servidor",
         "LocalTime": "Visitas por hora local",
         "NHour": "%sh",
-        "PluginDescription": "Relata a hora Local e do Servidor. Informação da hora do servidor pode ser útil para agendar uma manutenção do Website.",
         "ServerTime": "Vistas por hora do servidor",
         "SubmenuTimes": "Horas",
         "WidgetLocalTime": "Visitas pela hora local",

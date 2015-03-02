@@ -16,7 +16,6 @@
         "NbUniquePageviewsDescription": "%s 고유 페이지뷰",
         "NbUniqueVisitors": "%s 고유 방문자",
         "NbVisitsBounced": "%s 반송률 (첫 페이지에서 이탈)",
-        "PluginDescription": "전반적인 분석수 (방문수, 고유 방문자수, 활동수, 반송비율 등)를 보고합니다.",
         "VisitsSummary": "방문 개요",
         "VisitsSummaryDocumentation": "방문 추이 개요입니다.",
         "WidgetLastVisits": "최근 방문 그래프",

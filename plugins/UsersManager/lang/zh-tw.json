@@ -27,7 +27,6 @@
         "MenuAnonymousUserSettings": "匿名用戶設定",
         "MenuUsers": "使用者",
         "MenuUserSettings": "使用者設定",
-        "PluginDescription": "Piwik 使用者管理：新增一個新使用者、編輯已存在的使用者或更新權限。所有動作也可以透過 API 進行。",
         "PrivAdmin": "管理員",
         "PrivNone": "無存取權限",
         "PrivView": "檢視",

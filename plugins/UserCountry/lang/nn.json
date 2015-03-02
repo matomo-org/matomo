@@ -285,7 +285,6 @@
         "country_zw": "Zimbabwe",
         "DistinctCountries": "%s distinkte land",
         "Location": "Plass",
-        "PluginDescription": "Rapporterer landet til vitjarane",
         "SubmenuLocations": "Plassar"
     }
 }

@@ -20,7 +20,6 @@
         "EvolutionDocumentationMoreInfo": "Mer information om de olika hänvisningsadressernas typer finns i dokumentationen för %s tabell.",
         "Keywords": "Sökord",
         "KeywordsReportDocumentation": "Rapporten visar vilka sökord som användarna sökte efter innan de hänvisades till din webbplats. %s Genom att klicka på en rad i tabellen kan du se fördelningen av sökmotorer som användes för sökordet.",
-        "PluginDescription": "Rapporterar hänvisningsdata: Sökmotorer, sökord, webbplatser, kampanjspårning och direkttrafik.",
         "Referrer": "Hänvisningar",
         "ReferrerName": "Hänvisningsadress Namn",
         "Referrers": "Trafikkällor",

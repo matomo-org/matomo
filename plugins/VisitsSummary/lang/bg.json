@@ -17,7 +17,6 @@
         "NbUniquePageviewsDescription": "%s уникални преглеждания на страница",
         "NbUniqueVisitors": "%s уникални посетителя",
         "NbVisitsBounced": "%s посещения са отскочили (напуснали още след първата разгледана страница)",
-        "PluginDescription": "Доклад за генералния анализ по номера: посещения, уникални посещения, поредица от действия, Bounce Rate и други",
         "VisitsSummary": "Резюме на посещенията",
         "VisitsSummaryDocumentation": "Това е преглед на еволюцията на посещенията.",
         "WidgetLastVisits": "Последни посетители",

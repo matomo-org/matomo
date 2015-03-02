@@ -49,7 +49,6 @@
         "OnlyOneSiteAtTime": "Du kan kun redigere en hjemmesider ad gangen. Gem eller Annullér de aktuelle ændringer på hjemmesiden %s.",
         "PiwikOffersEcommerceAnalytics": "Piwik giver mulighed for avancerede e-handel analysesporing og rapportering. Lær mere om %s E-handel analyse%s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": " Piwik vil automatisk udelukke den fælles session parametre (%s).",
-        "PluginDescription": "Hjemmeside styring i Piwik: Tilføj en ny hjemmeside, rediger et eksisterende, vis JavaScript-koden til at inkludere på dine sider. Alle handlinger er også tilgængelige via API.",
         "SearchCategoryDesc": "Piwik kan også spore søgekategori for hver interne hjemmeside søgeord.",
         "SearchCategoryLabel": "Kategoriparameter",
         "SearchCategoryParametersDesc": "Du kan indtaste en kommasepareret liste af søgeparametre, der angiver søgekategorien.",

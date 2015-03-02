@@ -17,7 +17,6 @@
         "NbUniquePageviewsDescription": "%s unikatnih ogledov",
         "NbUniqueVisitors": "%s unikatnih obiskovalcev",
         "NbVisitsBounced": "%s ogledov je bilo odbojev (so zapustili stran po ogledu ene strani)",
-        "PluginDescription": "Prikaže splošne statistike glede obiska na spletni strani: obiske, unikatne obiske, število akcij, odbojno stopnjo, itd.",
         "VisitsSummary": "Povzetek obiskov",
         "VisitsSummaryDocumentation": "To je pregled obiskov v zadnjem času.",
         "WidgetLastVisits": "Graf zadnjih obiskov",

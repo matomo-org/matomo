@@ -10,7 +10,6 @@
         "ColumnReturningVisits": "Kunjungan Kembali",
         "ColumnSumVisitLengthReturning": "Jumlah waktu digunakan oleh pengunjung kembali (dalam detik)",
         "ColumnUniqueReturningVisitors": "Pengnjung kembali unik",
-        "PluginDescription": "Laporan statistik tentang Pengunjung Kembali dan Pengunjung Pertama kali kunjung.",
         "ReturnActions": "%s tindakan tiap kunjungan kembali",
         "ReturnAverageVisitDuration": "%s rerata waktu kunjungan pengunjung kembali",
         "ReturnAvgActions": "%s tindakan tiap kunjungan kembali",

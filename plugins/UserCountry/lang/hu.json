@@ -284,7 +284,6 @@
         "country_zw": "Zimbabwe",
         "DistinctCountries": "%s különböző ország",
         "Location": "Hely",
-        "PluginDescription": "A látogatók származási országáról készít jelentéseket.",
         "SubmenuLocations": "Helyek"
     }
 }

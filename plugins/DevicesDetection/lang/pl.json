@@ -26,7 +26,6 @@
         "OperatingSystemFamily": "Rodzina systemu operacyjnego",
         "OperatingSystems": "Systemy operacyjne",
         "OperatingSystemVersions": "Wersja systemu operacyjnego",
-        "PluginDescription": "Wtyczka zapewnia rozszerzone informacje na temat urządzeń mobilnych , takich jak marki (producenta ) , model (wersja urządzenia), lepsze wykrywanie typu urządzenia (TV, konsole , smartfony, pulpit , etc) i więcej . Wtyczka dodaje nowy raport 'Goście > Urządzenia \" .",
         "SmartDisplay": "Inteligentny wyświetlacz",
         "Smartphone": "Smartfon",
         "submenu": "Urządzenia",

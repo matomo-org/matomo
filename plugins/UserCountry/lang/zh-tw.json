@@ -277,7 +277,6 @@
         "country_zw": "辛巴威",
         "DistinctCountries": "%s 個不同的國家",
         "Location": "位置",
-        "PluginDescription": "訪客的來源\/國家報表。",
         "SubmenuLocations": "所在地",
         "WidgetLocation": "訪客所在地點"
     }

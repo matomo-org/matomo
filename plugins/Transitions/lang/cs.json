@@ -16,7 +16,7 @@
         "NoDataForAction": "Pro %s nejsou žádná data",
         "NoDataForActionDetails": "Buď akce neměla za období %s žádné zobrazení stránky, nebo je neplatná.",
         "OutgoingTraffic": "Odchozí provoz",
-        "PluginDescription": "Hlášení o předchozích a následujících akcích pro každou URL stránky.",
+        "PluginDescription": "V novém hlášení přechodů hlásí předchozí a následující akci pro každou URL, je dostupný přes novou ikonu v hlášení akcí.",
         "ShareOfAllPageviews": "Tato stránka měla %s zobrazení (%s všech zobrazení)",
         "ToFollowingPages": "Na interní stránky",
         "ToFollowingPagesInline": "%s na interní stránky",

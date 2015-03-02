@@ -42,7 +42,6 @@
         "MenuUserSettings": "Mga setting ng user",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Tandaan: Hindi mo maaring baguhin ang mga setting sa seksyo na ito dahil wala kang anumang website na maaaring ma-access sa pamamagitan ng anonymous user",
         "NoUsersExist": "Walang pang mga gumagamit.",
-        "PluginDescription": "Pamamahala ng user sa Piwik: magdagdag ng bagong User mag-edit ng user kung meron na i-update ang permiso. Ang lahat ng ginawa na may kinalaman sa Piwik ay makikita sa pamamagitan ng API",
         "PrivAdmin": "Admin",
         "PrivNone": "Walang access",
         "PrivView": "Tingnan",

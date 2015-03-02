@@ -37,7 +37,6 @@
         "PagesReportDocumentation": "Ky raport përmban të dhëna rreth URL faqesh që janë vizituar. %s Tabela është e sistemuar në mënyrë hierarkike, URL-të tregohen si strukturë dosjeje.",
         "PageTitlesReportDocumentation": "Ky raport përmban të dhëna rreth titujve të faqeve që janë vizituar. %s Titulli i faqes është Etiketa HTML %s që shfaqin shumica e shfletuesve te titulli i dritares.",
         "PageUrls": "URL faqesh",
-        "PluginDescription": "Raporton rreth shikimit të faqeve, lidhjeve nga jashtë dhe shkarkimeve. Ndjekja e Lidhjeve nga Jashtë dhe e Shkarkimeve bëhet automatikisht!",
         "SiteSearchCategories1": "Ky raport paraqet kategoritë që vizitorët kanë përzgjedhur kur bënë një Kërkim te site-i juaj web.",
         "SiteSearchCategories2": "Për shembull, site-et web për e-tregti kanë zakonisht një përzgjedhës \"Kategorish\" që kështu vizitorët të mund t'i ngushtojnë kërkimet e tyre nga krejt produktet te një Kategori specifike.",
         "SiteSearchFollowingPagesDoc": "Kur vizitorët kërkojnë te site-i juaj web, ata shohin për një faqe, lëndë, produkt ose shërbim të veçantë. Ky raport paraqet faqet që qenë klikuar më shumë pas një kërkimi të brendshëm. Me fjalë të tjera, listën e faqeve më të kërkuara nga vizitorët tashmë brenda site-it tuaj web.",

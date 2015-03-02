@@ -1,7 +1,6 @@
 {
     "Provider": {
         "ColumnProvider": "Провайдер",
-        "PluginDescription": "Звітує про провейдера відвідувачів",
         "WidgetProviders": "Провайдери"
     }
 }

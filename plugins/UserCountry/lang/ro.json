@@ -356,7 +356,6 @@
         "PeclGeoIPNoDBDir": "Modulul PECL este în căutarea de baze de date în%1$s, dar acest director nu există. Vă rugăm să-l creeze și să adăugați bazele de date GeoIP . Alternativ, puteți seta %2$s la directorul corect în fișierul dvs. php.ini.",
         "PeclGeoLiteError": "Baza de date GeoIP în %1$s este numita %2$s. Din păcate, modulul de PECL nu-l va recunoaște cu acest nume. Vă rugăm să-l redenumiți la %3$s.",
         "PiwikNotManagingGeoIPDBs": "Piwik nu gestionează în prezent nici o baza de date GeoIP.",
-        "PluginDescription": "Rapoarte de informații cu privire la locația vizitatorilor, inclusiv țară, regiune, oraș și coordonatele geografice (latitudine \/ longitudine).",
         "Region": "Regiune",
         "SetupAutomaticUpdatesOfGeoIP": "Configurare automata aactualizărilor bazelor de date GeoIP",
         "SubmenuLocations": "Locații",

@@ -1,6 +1,5 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "La columna '%s' no se encontró en este reporte. Intenta alguno de %s",
-        "PluginDescription": "Genera bonitas imágenes estáticas PNG de cualquier reporte Piwik."
+        "ColumnOrdinateMissing": "La columna '%s' no se encontró en este reporte. Intenta alguno de %s"
     }
 }

@@ -1,7 +1,6 @@
 {
     "Provider": {
         "ColumnProvider": "IP tiekėjas",
-        "PluginDescription": "Nurodo lankytojų interneto paslaugų tiekėją.",
         "WidgetProviders": "IP tiekėjai"
     }
 }

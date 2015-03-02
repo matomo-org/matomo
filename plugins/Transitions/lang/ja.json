@@ -16,7 +16,6 @@
         "NoDataForAction": "%s に対するデータはありません。",
         "NoDataForActionDetails": "アクションが %s の期間ページビューが無かったか、無効です。",
         "OutgoingTraffic": "送信トラフィック",
-        "PluginDescription": "各ページ URL の前後のアクションについてレポートします。",
         "ShareOfAllPageviews": "このページは、%s ページビューでした ( 全ページビューの %s )",
         "ToFollowingPages": "内部ページへ",
         "ToFollowingPagesInline": "内部ページへの %s",

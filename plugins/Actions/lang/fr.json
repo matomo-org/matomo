@@ -39,7 +39,6 @@
         "PagesReportDocumentation": "Ce rapport contient des informations à propos des URLs qui ont été visitées. %s Le tableau est organisé hiérarchiquement, les URLs sont affichées en structure de dossier.",
         "PageTitlesReportDocumentation": "Ce rapport contient des informations à propos des titres des pages qui ont été visitées. %s Le titre de la page est le tag HTML %s que la plupart des navigateurs affichent dans le titre de la fenêtre.",
         "PageUrls": "URL de la page",
-        "PluginDescription": "Effectue des rapports sur les affichages de pages, les liens sortants et les téléchargements. Le suivi des liens sortants et des téléchargements est automatique!",
         "SiteSearchCategories1": "Ce rapport liste les catégories que les visiteurs ont sélectionnées lorsqu'ils ont effectué une recherche sur votre site web.",
         "SiteSearchCategories2": "Par exemple, les sites d'e-commerce ont généralement une sélection de la catégorie afin que les visiteurs puissent affiner leurs recherches aux produits d'une catégories définie.",
         "SiteSearchFollowingPagesDoc": "Quand les visiteurs recherchent sur votre site web, ils sont à la recherche d'une page, d'un produit, d'un contenu ou service en particulier. Ce rapport liste les pages qui ont été le plus cliquées après une recherche interne. En d'autres termes, la liste des pages les plus recherchées par des visiteurs déjà sur votre site.",

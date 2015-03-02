@@ -331,7 +331,6 @@
         "Organization": "Organizacja",
         "OrgDatabase": "Baza Danych Organizacji",
         "PiwikNotManagingGeoIPDBs": "Piwik nie zarządza obecnie żadną baza danych GeoIP.",
-        "PluginDescription": "Raporty o krajach pochodzenia odwiedzających.",
         "Region": "Region",
         "SetupAutomaticUpdatesOfGeoIP": "Ustaw automatyczne aktualizacje dla bazy danych GeoIP",
         "SubmenuLocations": "Położenia",

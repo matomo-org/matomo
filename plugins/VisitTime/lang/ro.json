@@ -5,7 +5,6 @@
         "DayOfWeek": "Zi a săptămânii",
         "LocalTime": "Vizite pe timpul local",
         "NHour": "%sh",
-        "PluginDescription": "Afişează ora locală şi cea a serverului. Timpul serverului poate fi folositor pentru a programa mentenanţa Websiteului.",
         "ServerTime": "Vizite pe timpul serverului",
         "SubmenuTimes": "Timp",
         "VisitsByDayOfWeek": "Vizite ordonate după ziua săptămânii",

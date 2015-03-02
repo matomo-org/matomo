@@ -42,7 +42,6 @@
         "LeastMonthsInput": "Geef het aantal maanden op, groter dan %s.",
         "MenuPrivacySettings": "Privacy",
         "NextDelete": "Volgende geprogrammeerde verwijdering in",
-        "PluginDescription": "Stel Piwik in zodat het voldoet aan de lokale wetgeving.",
         "PurgeNow": "Purge Database nu",
         "PurgeNowConfirm": "Je staat op het punt om data permanent van je database te verwijderen. Weet je zeker dat je wilt doorgaan?",
         "PurgingData": "Data opschonen",

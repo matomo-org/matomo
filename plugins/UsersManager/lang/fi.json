@@ -43,7 +43,6 @@
         "MenuUserSettings": "Käyttäjäasetukset",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Huom. et voi vaihtaa tämän osion asetuksia, koska sinulla ei ole yhtäkään sivustoa, jonka tietoja anonyymit käyttäjät pääsevät katsomaan.",
         "NoUsersExist": "Yhtään käyttäjää ei ole vielä olemassa.",
-        "PluginDescription": "Käyttäjien hallinta Piwikissä: lisää uusi käyttäjä, muokkaa käyttäjiä, päivitä oikeuksia. Kaikkia toimintoja voi käyttää myös API:sta.",
         "PrivAdmin": "Hallinnointioikeus",
         "PrivNone": "Ei käyttöoikeutta",
         "PrivView": "Katsomisoikeus",

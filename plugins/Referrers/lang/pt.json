@@ -18,7 +18,6 @@
         "EvolutionDocumentationMoreInfo": "Para mais informações sobre diferentes tipos de referentes, veja a documentação da %s tabela.",
         "Keywords": "Palavras Chave",
         "KeywordsReportDocumentation": "Este relatório mostra quais as palavras-chave que o visitantes pesquisaram antes de ser referenciados para o seu website. %s Ao clicar numa linha da tabela pode ver a distribuição de motores de pesquisa que foram utilizados na pesquisa pela palavra-chave.",
-        "PluginDescription": "Relata os dados dos Referentes: Motores de Busca, Palavras-Chave, Websites, Campanhas, Entrada Directa.",
         "ReferrerName": "Nome do referente",
         "Referrers": "Referentes",
         "SearchEngines": "Motores de Busca",

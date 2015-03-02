@@ -284,7 +284,6 @@
         "country_zw": "Zimbabwe",
         "DistinctCountries": "%s atskirti šalis",
         "Location": "Vietovė",
-        "PluginDescription": "Nurodo lankytojų šalis.",
         "SubmenuLocations": "Vietovės"
     }
 }

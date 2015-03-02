@@ -25,7 +25,6 @@
         "PiwikReports": "Piwik izveštaji",
         "PleaseFindAttachedFile": "u prilogu se nalazi vaš %1$s izveštaj za %2$s.",
         "PleaseFindBelow": "u nastavku je vaš %1$s izveštaj za %2$s.",
-        "PluginDescription": "Napravite i preuzmite izveštaje putem elektronske pošte dnevno, nedeljno ili mesečno.",
         "ReportFormat": "Format izveštaja",
         "ReportHour": "Pošalji izveštaj u",
         "ReportIncludeNWebsites": "Izveštaj će obuhvatiti glavne metrike za sve sajtove koji imaju barem jednu posetu (od ukupno %s sajtova koliko je trenutno dostupno).",

@@ -23,7 +23,6 @@
         "PiwikReports": "Informes Piwik",
         "PleaseFindAttachedFile": "Podeu trobar al fitxer adjunt el vostre informe %1$s per a %2$s.",
         "PleaseFindBelow": "A continuació podeu trobar el vostre informe %1$s per a %2$s.",
-        "PluginDescription": "Creeu i descarregeu els vostres informes personalitats. Envieu-vos els per correu electronic diariament, semanalment o mensualment.",
         "ReportFormat": "Format de l'informe",
         "ReportIncludeNWebsites": "L'informe incloura les mètriques més importants de tots els llocs webs que tinguin almenys una visita (dels %s llocs web actualment disponibles)",
         "ReportsIncluded": "Estadístiques incloses",

@@ -49,7 +49,6 @@
         "OnlyOneSiteAtTime": "Você pode editar um website por vez. Por favor salve ou cancele as modificações do website atual %s.",
         "PiwikOffersEcommerceAnalytics": "Piwik permite análises avançadas de rastreamento e relatórios de comércio eletrônico. Saiba mais sobre %s Análise de E-comerce%s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik excluirá automaticamente a sessão comum de parâmetros (%s).",
-        "PluginDescription": "Gerenciamento de websites no Piwik: adiciona um novo website, edita um existente, mostra código JavaScript para incluir em suas páginas. Todas as ações também estão disponíveis através da API.",
         "SearchCategoryDesc": "Piwik também pode acompanhar a categoria de busca para cada palavra-chave de busca interna no site.",
         "SearchCategoryLabel": "Parâmetro categoria",
         "SearchCategoryParametersDesc": "Você pode inserir uma lista separada por vírgulas de parâmetros de consulta especificando a categoria de pesquisa.",

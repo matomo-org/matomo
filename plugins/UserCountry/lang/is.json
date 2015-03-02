@@ -281,7 +281,6 @@
         "country_zw": "Simbabve",
         "DistinctCountries": "%s mismunandi lönd",
         "Location": "Staðsetning",
-        "PluginDescription": "Greinir frá hvaða landi gestirnir koma",
         "SubmenuLocations": "Staðsetningar"
     }
 }

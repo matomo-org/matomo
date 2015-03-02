@@ -25,7 +25,6 @@
         "PiwikReports": "Piwikin raportit",
         "PleaseFindAttachedFile": "Liitteenä on raporttisi %1$s sivulle %2$s.",
         "PleaseFindBelow": "Alla on raporttisi %1$s sivulle %2$s.",
-        "PluginDescription": "Luo ja lataa kustomoituja raportejasi. Lisäksi voit ajastaa sähköpostituksen päivittäin, viikottain tai kuukausittain.",
         "ReportFormat": "Raportin muoto",
         "ReportHour": "Lähetä raportti",
         "ReportIncludeNWebsites": "Tämä raportti sisältää tärkeimmät metriikat kaikilta sivuilta, joilla oli vähintään yksi käynti (%s sivusta)",

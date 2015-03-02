@@ -10,7 +10,6 @@
         "MetricDataByYear": "年次のメトリック表",
         "MetricTables": "メトリック表",
         "OtherTables": "その他の表",
-        "PluginDescription": "Piwik テーブルによる MySQL データベースの使用量をリポートします。",
         "ReportDataByYear": "年次のリポート表",
         "ReportTables": "リポート表",
         "RowCount": "行数",

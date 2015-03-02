@@ -37,10 +37,11 @@ class WebNotificationHandler extends AbstractProcessingHandler
                 break;
         }
 
-        $message = htmlentities($record['formatted']);
+        $message = $record['level_name'] . ': ' . htmlentities($record['message']);
 
         $notification = new Notification($message);
         $notification->context = $context;
+        $notification->flags = 0;
         try {
             Manager::notify(Common::getRandomString(), $notification);
         } catch (Zend_Session_Exception $e) {

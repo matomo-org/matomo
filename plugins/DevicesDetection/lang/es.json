@@ -25,7 +25,6 @@
         "OperatingSystemFamily": "Familia de sistema operativo",
         "OperatingSystems": "Sistemas operativos",
         "OperatingSystemVersions": "Versiones de sistema operativo",
-        "PluginDescription": "Este plugin ofrece amplia información sobre dispositivos móviles, como Marca (fabricación), Modelo (versión de dispositivo), una mejor detección de Dispositivo (televisión, consola, smartphone, escritorio, etc.) y más. Este plugin agrega un nuevo informe en la sección ´Visitantes > Dispositivos´.",
         "SmartDisplay": "Pantalla inteligente",
         "Smartphone": "Smartphone",
         "submenu": "Dispositivos",

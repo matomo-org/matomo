@@ -355,7 +355,6 @@
         "PeclGeoIPNoDBDir": "PECL モジュールは、%1$s でデータベースを探していますが、このディレクトリーは存在しません。ディレクトリーを作成し GeoIP データベースをそれに追加してください。または、お使いの php.ini ファイルの正しいディレクトリーに %2$s を設定できます。",
         "PeclGeoLiteError": "あなたの %1$s GeoIP データベースは、%2$s と名付けられています。残念ながら、PECL モジュールはこの名前のまま認識することができません。名前を %3$s に変更してください。",
         "PiwikNotManagingGeoIPDBs": "GeoIP データベースは、現在 Piwik により管理されていません。",
-        "PluginDescription": "ビジターの国をリポートします。",
         "Region": "地域",
         "SetupAutomaticUpdatesOfGeoIP": "GeoIP データベースの自動アップデートをセットアップしてください。",
         "SubmenuLocations": "場所",

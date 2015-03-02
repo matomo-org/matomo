@@ -18,7 +18,6 @@
         "Maximise": "Maximiser",
         "Minimise": "Minimiser",
         "NotUndo": "Vous ne pourrez pas annuler cette action.",
-        "PluginDescription": "Votre tableau de bord de statistiques web. Vous pouvez personnaliser votre tableau de bord: ajoutez de nouveaux widgets, changez l'ordre de vos widgets. Chaque utilisateur peut accéder à son propre tableau de bord.",
         "RemoveDashboard": "Supprimer le tableau de bord",
         "RemoveDashboardConfirm": "Êtes vous sûr(e) de vouloir supprimer le tableau de bord \"%s\" ?",
         "RenameDashboard": "Renommer le tableau de bord",

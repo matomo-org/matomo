@@ -18,7 +18,6 @@
         "Maximise": "Maximizar",
         "Minimise": "Minimizar",
         "NotUndo": "No podrás deshacer esta operación.",
-        "PluginDescription": "Tu Panel de Análisis Web. Puedes personalizar su Panel: agregar nuevos widgets, cambiar el orden de tus widgets. Cada usuario puede acceder a su propio Panel personalizado.",
         "RemoveDashboard": "Elimina el tablero",
         "RemoveDashboardConfirm": "¿Estás seguro que deseas eliminar el tablero \"%s\"?",
         "RenameDashboard": "Renombrar el tablero",

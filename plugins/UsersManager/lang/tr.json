@@ -19,7 +19,6 @@
         "MenuAnonymousUserSettings": "İsimsiz kullanıcı ayarlari",
         "MenuUsers": "Kullanıcılar",
         "MenuUserSettings": "Kullanıcı ayarlari",
-        "PluginDescription": "Piwik Kullanıcılar Yönetimi: yeni kullanıcı ekle, izinlerini güncelleştirmek, varolan bir düzenleme. Tüm eylemler API üzerinden de mevcuttur.",
         "PrivAdmin": "Yönetici",
         "PrivNone": "Erişim Yok",
         "PrivView": "Göster",

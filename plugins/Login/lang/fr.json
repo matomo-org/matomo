@@ -16,7 +16,6 @@
         "PasswordChanged": "Votre mot de passe a été modifié",
         "PasswordRepeat": "Mot de passe (répétez)",
         "PasswordsDoNotMatch": "Les mots de passe ne correspondent pas.",
-        "PluginDescription": "Composant d'authentification, qui se sert des identifiants contenu dans config\/config.ini.php pour le super utilisateur initial et depuis la base de donnés pour les autres utilisateurs. Peut être facilement remplacé pour incorporer d'autres méthodes d'authentification (OpenID, htaccess, authentification personnalisée, etc.).",
         "RememberMe": "Se souvenir de moi",
         "ResetPasswordInstructions": "Entrez un nouveau mot de passe pour votre compte."
     }

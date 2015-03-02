@@ -24,7 +24,6 @@
         "PiwikReports": "Piwik 보고서",
         "PleaseFindAttachedFile": "%2$s의 %1$s의 보고서를 첨부합니다.",
         "PleaseFindBelow": "%2$s의 %1$s 보고서를 제공합니다.",
-        "PluginDescription": "사용자정의 보고서를 작성하고 다운로드합니다. 매일, 매주 또는 매월 이메일로 전송합니다.",
         "ReportFormat": "보고서 형식",
         "ReportHour": "다음으로 보고서 보내기",
         "ReportIncludeNWebsites": "이 보고서는 하나 이상의 방문있는 모든 웹사이트에 대한 주요 통계를 포함합니다(현재 %s 웹사이트에서 가능).",

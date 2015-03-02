@@ -8,7 +8,6 @@
         "NbActionsPerVisit": "%s veiksmų per apsilankymą",
         "NbUniqueVisitors": "%s unikalūs lankytojai",
         "NbVisitsBounced": "%s atsitiktiniai apsilankymai (paliko svetainę po pirmojo puslapio)",
-        "PluginDescription": "Parodo pagrindinius analizatoriaus duomenis: apsilankymus, unikalius lankytojus, veiksmų kiekį, šoklumo koeficientą ir t.t.",
         "VisitsSummary": "Apsilankymų suvestinė",
         "WidgetLastVisits": "Paskutinių apsilankymų diagrama",
         "WidgetOverviewGraph": "Peržiūra su diagrama",

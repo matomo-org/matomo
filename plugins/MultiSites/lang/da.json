@@ -3,7 +3,6 @@
         "Evolution": "Udvikling",
         "LoadingWebsites": "Loading websites",
         "Pagination": "%s - %s af %s",
-        "PluginDescription": "Viser multi-websted resumé\/statistik. Vedligeholdes som et Piwik-kerne udvidelsesmodul.",
         "TopLinkTooltip": "Sammenlign analyse statistik for alle hjemmesider."
     }
 }

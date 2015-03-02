@@ -49,7 +49,6 @@
         "OnlyOneSiteAtTime": "U jednom trenutku možete raditi samo sa jednim sajtom. Molimo vas da snimite ili poništite izmene vezane za sajt %s.",
         "PiwikOffersEcommerceAnalytics": "Piwik omogućuje napredno praćenje i izveštavanje u pogledu elektronskih porudžbina. Saznajte više na %s Ecommerce Analytics%s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik će automatski izuzeti uobičajene parametre sesije (%s)",
-        "PluginDescription": "Upravljanje sajtovima: dodajte novi sajt, izmenite postojeći, pogledajte JavaScript kod koji treba ubaciti na stranice sajta. Sve akcije su dostupne i preko API-ja.",
         "SearchCategoryDesc": "Piwik takođe može i da prati kategorije pretrage za svaku ključnu reč.",
         "SearchCategoryLabel": "Parametar kategorije",
         "SearchCategoryParametersDesc": "Možete upisati spisak parametara razdvojen zarezima kako biste naveli kategoriju pretrage.",

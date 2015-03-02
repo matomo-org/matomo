@@ -5,7 +5,6 @@
         "ColumnAvgActionsPerReturningVisit": "每個重返造訪的平均活動數",
         "ColumnBounceRateForReturningVisits": "回訪客的跳出率",
         "ColumnReturningVisits": "重返造訪",
-        "PluginDescription": "關於回訪者與一般訪客的報表。",
         "ReturnActions": "%s 個活動數由重返造訪所產生",
         "ReturnAverageVisitDuration": "%s 重返造訪的平均訪問時間",
         "ReturnAvgActions": "%s 個活動數每個重返造訪",

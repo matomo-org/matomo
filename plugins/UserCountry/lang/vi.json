@@ -355,7 +355,6 @@
         "PeclGeoIPNoDBDir": "Module PECL đang tìm kiếm cơ sở dữ liệu trong %1$s, nhưng thư mục này không tồn tại. Hãy tạo ra nó và thêm cơ sở dữ liệu Geoip vào đó. Ngoài ra, bạn có thể thiết lập %2$s vào đúng thư mục trong tập tin php.ini của bạn.",
         "PeclGeoLiteError": "Cơ sở dữ liệu geoip của bạn trong %1$s được đặt tên %2$s. Thật không may, module PECL sẽ không nhận ra nó với tên này. Xin đổi tên nó thành %3$s.",
         "PiwikNotManagingGeoIPDBs": "Hiện tại Piwik không quản lý bất kỳ cơ sở dữ liệu Geoip nào.",
-        "PluginDescription": "Thông tin báo cáo liên quan đến vị trí của khách truy cập, bao gồm quốc gia, vùng, thành phố và tọa độ địa lý (vĩ độ\/kinh độ).",
         "Region": "Vùng",
         "SetupAutomaticUpdatesOfGeoIP": "Thiết lập tự động cập nhật cơ sở dữ liệu GeoIP",
         "SubmenuLocations": "Các vị trí",

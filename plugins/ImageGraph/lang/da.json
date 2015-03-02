@@ -1,6 +1,5 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "Kolonnen '%s' blev ikke fundet i denne rapport. Prøv en af %s",
-        "PluginDescription": "Generere flotte statiske PNG diagrammer til Piwik rapporter."
+        "ColumnOrdinateMissing": "Kolonnen '%s' blev ikke fundet i denne rapport. Prøv en af %s"
     }
 }
