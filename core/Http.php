@@ -179,7 +179,7 @@ class Http
                 throw new Exception('Malformed URL: ' . $aUrl);
             }
 
-            if ($url['scheme'] != 'http') {
+            if ($url['scheme'] != 'http' && $url['scheme'] != 'https') {
                 throw new Exception('Invalid protocol/scheme: ' . $url['scheme']);
             }
             $host = $url['host'];
@@ -405,7 +405,11 @@ class Http
                 }
                 fclose($handle);
             } else {
-                $response = file_get_contents($aUrl, 0, $ctx);
+                $response = @file_get_contents($aUrl, 0, $ctx);
+                if ($response === false) {
+                    $error = error_get_last();
+                    throw new \Exception($error['message']);
+                }
                 $fileLength = strlen($response);
             }
 

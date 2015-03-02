@@ -116,9 +116,12 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(in_array($result['headers']['Content-Type'], array('application/zip', 'application/x-zip-compressed')));
     }
 
-    public function testHttpsWorksWithValidCertificate()
+    /**
+     * @dataProvider getMethodsToTest
+     */
+    public function testHttpsWorksWithValidCertificate($method)
     {
-        $result = Http::sendHttpRequestBy('curl', 'https://builds.piwik.org/LATEST', 10);
+        $result = Http::sendHttpRequestBy($method, 'https://builds.piwik.org/LATEST', 10);
 
         $this->assertStringMatchesFormat('%d.%d.%d', $result);
     }
@@ -127,8 +130,26 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Exception
      * @expectedExceptionMessage curl_exec: SSL certificate problem: Invalid certificate chain.
      */
-    public function testHttpsFailsWithInvalidCertificate()
+    public function testCurlHttpsFailsWithInvalidCertificate()
     {
         Http::sendHttpRequestBy('curl', 'https://divezone.net', 10);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Peer certificate CN=`*.piwik.org' did not match expected
+     */
+    public function testFopenHttpsFailsWithInvalidCertificate()
+    {
+        Http::sendHttpRequestBy('fopen', 'https://divezone.net', 10);
+    }
+
+    /**
+     * We check that HTTPS is not supported with the "socket" method
+     */
+    public function testSocketHttpsWorksEvenWithInvalidCertificate()
+    {
+        $result = Http::sendHttpRequestBy('socket', 'https://divezone.net', 10);
+        $this->assertNotEmpty($result);
     }
 }
