@@ -37,6 +37,8 @@ use Piwik\View;
 class Controller extends \Piwik\Plugin\Controller
 {
     const PATH_TO_EXTRACT_LATEST_VERSION = '/latest/';
+    const LATEST_VERSION_URL = '://builds.piwik.org/piwik.zip';
+    const LATEST_BETA_VERSION_URL = '://builds.piwik.org/piwik-%s.zip';
 
     private $coreError = false;
     private $warningMessages = array();
@@ -48,10 +50,18 @@ class Controller extends \Piwik\Plugin\Controller
     protected static function getLatestZipUrl($newVersion)
     {
         if (@Config::getInstance()->Debug['allow_upgrades_to_beta']) {
-            $url = Config::getInstance()->General['latest_beta_version_url'];
-            return sprintf($url, $newVersion);
+            $url = sprintf(self::LATEST_BETA_VERSION_URL, $newVersion);
+        } else {
+            $url = self::LATEST_VERSION_URL;
         }
-        return Config::getInstance()->General['latest_version_url'];
+
+        if (self::isUpdatingOverHttps()) {
+            $url = 'https' . $url;
+        } else {
+            $url = 'http' . $url;
+        }
+
+        return $url;
     }
 
     public function newVersionAvailable()
@@ -429,10 +439,9 @@ class Controller extends \Piwik\Plugin\Controller
 
     public static function isUpdatingOverHttps()
     {
-        if (strpos(self::getLatestZipUrl(''), 'https') === false) {
-            return false;
-        }
+        $openSslEnabled = extension_loaded('openssl');
+        $usingMethodSupportingHttps = (Http::getTransportMethod() !== 'socket');
 
-        return Http::getTransportMethod() !== 'socket';
+        return $openSslEnabled && $usingMethodSupportingHttps;
     }
 }
