@@ -115,4 +115,15 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_numeric($result['headers']['Content-Length']), "Content-Length header not numeric!");
         $this->assertTrue(in_array($result['headers']['Content-Type'], array('application/zip', 'application/x-zip-compressed')));
     }
+
+    public function testHttps()
+    {
+        $result = Http::sendHttpRequestBy(
+            'curl',
+            'https://builds.piwik.org/LATEST',
+            10
+        );
+
+        $this->assertStringMatchesFormat('%d.%d.%d', $result);
+    }
 }
