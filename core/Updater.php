@@ -10,7 +10,7 @@ namespace Piwik;
 
 use Piwik\Columns\Updater as ColumnUpdater;
 use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
-use Piwik\Updater\UpdateListener;
+use Piwik\Updater\UpdateObserver;
 
 /**
  * Load and execute all relevant, incremental update scripts for Piwik core and plugins, and bump the component version numbers for completed updates.
@@ -29,9 +29,9 @@ class Updater
     private $componentsWithUpdateFile = array();
 
     /**
-     * @var UpdateListener[]
+     * @var UpdateObserver[]
      */
-    private $updateListeners = array();
+    private $updateObservers = array();
 
     /**
      * @var Columns\Updater
@@ -64,13 +64,13 @@ class Updater
     }
 
     /**
-     * Adds an UpdateListener to the internal list of listeners.
+     * Adds an UpdateObserver to the internal list of listeners.
      *
-     * @param UpdateListener $listener
+     * @param UpdateObserver $listener
      */
-    public function addUpdateListener(UpdateListener $listener)
+    public function addUpdateObserver(UpdateObserver $listener)
     {
-        $this->updateListeners[] = $listener;
+        $this->updateObservers[] = $listener;
     }
 
     /**
@@ -247,11 +247,11 @@ class Updater
                 if (!in_array($className, $this->updatedClasses)
                     && class_exists($className, false)
                 ) {
-                    $this->executeListenerHook('onComponentUpdateFileStarting', $componentName, $file, $className, $fileVersion);
+                    $this->executeListenerHook('onComponentUpdateFileStarting', array($componentName, $file, $className, $fileVersion));
 
                     call_user_func(array($className, 'doUpdate'), $this);
 
-                    $this->executeListenerHook('onComponentUpdateFileFinished', $componentName, $file, $className, $fileVersion);
+                    $this->executeListenerHook('onComponentUpdateFileFinished', array($componentName, $file, $className, $fileVersion));
 
                     // makes sure to call Piwik\Columns\Updater only once as one call updates all dimensions at the same
                     // time for better performance
@@ -260,13 +260,13 @@ class Updater
 
                 $this->markComponentSuccessfullyUpdated($componentName, $fileVersion);
             } catch (UpdaterErrorException $e) {
-                $this->executeListenerHook('onError', $componentName, $fileVersion, $e);
+                $this->executeListenerHook('onError', array($componentName, $fileVersion, $e));
 
                 throw $e;
             } catch (\Exception $e) {
                 $warningMessages[] = $e->getMessage();
 
-                $this->executeListenerHook('onWarning', $componentName, $fileVersion, $e);
+                $this->executeListenerHook('onWarning', array($componentName, $fileVersion, $e));
             }
         }
 
@@ -513,11 +513,11 @@ class Updater
             $this->executeListenerHook('onStartExecutingMigrationQuery', array($file, $migrationQuerySql));
 
             Db::exec($migrationQuerySql);
-
-            $this->executeListenerHook('onFinishedExecutingMigrationQuery', array($file, $migrationQuerySql));
         } catch (\Exception $e) {
             $this->handleUpdateQueryError($e, $migrationQuerySql, $errorToIgnore, $file);
         }
+
+        $this->executeListenerHook('onFinishedExecutingMigrationQuery', array($file, $migrationQuerySql));
     }
 
     /**
@@ -541,7 +541,7 @@ class Updater
 
     private function executeListenerHook($hookName, $arguments)
     {
-        foreach ($this->updateListeners as $listener) {
+        foreach ($this->updateObservers as $listener) {
             call_user_func_array(array($listener, $hookName), $arguments);
         }
     }

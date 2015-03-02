@@ -14,6 +14,7 @@ use Piwik\DbHelper;
 use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Plugins\CoreUpdater\Commands\Update\CliUpdateObserver;
 use Piwik\Plugins\CoreUpdater\NoUpdatesFoundException;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Updater;
@@ -23,10 +24,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
- * @package CloudAdmin
+ * @package CoreUpdater
  */
 class Update extends ConsoleCommand
 {
+    /**
+     * @var string[]
+     */
+    private $migrationQueries;
+
     protected function configure()
     {
         $this->setName('core:update');
@@ -89,7 +95,8 @@ class Update extends ConsoleCommand
     {
         $this->checkAllRequiredOptionsAreNotEmpty($input);
 
-        $updater = new Updater();
+        $updater = $this->makeUpdaterInstance($output);
+
         $componentsWithUpdateFile = $updater->getComponentUpdates();
         if (empty($componentsWithUpdateFile)) {
             throw new NoUpdatesFoundException("Everything is already up to date.");
@@ -148,7 +155,7 @@ class Update extends ConsoleCommand
 
     private function doDryRun(Updater $updater, OutputInterface $output)
     {
-        $migrationQueries = $updater->getSqlQueriesToExecute();
+        $migrationQueries = $this->getMigrationQueriesToExecute($updater);
 
         $output->writeln(array("    *** Note: this is a Dry Run ***", ""));
 
@@ -161,7 +168,7 @@ class Update extends ConsoleCommand
 
     private function doRealUpdate(Updater $updater, $componentsWithUpdateFile, OutputInterface $output)
     {
-        $output->writeln("    " . Piwik::translate('CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'));
+        $output->writeln(array("    " . Piwik::translate('CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'), ""));
 
         $updaterResult = $updater->updateComponents($componentsWithUpdateFile);
 
@@ -302,5 +309,23 @@ class Update extends ConsoleCommand
             }
         }
         return $dimensions;
+    }
+
+    private function getMigrationQueriesToExecute(Updater $updater)
+    {
+        if (empty($this->migrationQueries)) {
+            $this->migrationQueries = $updater->getSqlQueriesToExecute();
+        }
+        return $this->migrationQueries;
+    }
+
+    private function makeUpdaterInstance(OutputInterface $output)
+    {
+        $updater = new Updater();
+
+        $migrationQueryCount = count($this->getMigrationQueriesToExecute($updater));
+        $updater->addUpdateObserver(new CliUpdateObserver($output, $migrationQueryCount));
+
+        return $updater;
     }
 }

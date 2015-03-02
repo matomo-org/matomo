@@ -8,12 +8,12 @@
 namespace Piwik\Updater;
 
 /**
- * UpdateListeners can be used to inject logic into the component updating process. Derive
+ * UpdateObservers can be used to inject logic into the component updating process. Derive
  * from this base class and add an instance of the derived class to a Updater instance. When
  * Updater::update() is called, the methods in the added UpdateListeners will be executed
  * accordingly.
  */
-abstract class UpdateListener
+abstract class UpdateObserver
 {
     /**
      * Executed when a component is about to be updated. At this point, no SQL queries or other

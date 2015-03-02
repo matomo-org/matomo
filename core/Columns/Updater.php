@@ -56,13 +56,7 @@ class Updater extends \Piwik\Updates
     public static function doUpdate(PiwikUpdater $updater)
     {
         foreach (self::getMigrationQueries($updater) as $sql => $errorCode) {
-            try {
-                Db::exec($sql);
-            } catch (\Exception $e) {
-                if (!Db::get()->isErrNo($e, '1091') && !Db::get()->isErrNo($e, '1060')) {
-                    $updater->handleUpdateQueryError($e, $sql, false, __FILE__);
-                }
-            }
+            $updater->executeMigrationQuery($sql, $errorsToIgnore = array('1091', '1060'), __FILE__);
         }
     }
 
