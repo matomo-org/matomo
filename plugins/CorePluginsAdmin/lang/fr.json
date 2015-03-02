@@ -29,6 +29,7 @@
         "InfoPluginUpdateIsRecommended": "Mettez à jour vos composants pour bénéficier des dernières améliorations.",
         "InfoThemeIsUsedByOtherUsersAsWell": "Note : %1$s autres utilisateurs utilisant ce Piwik utilisent aussi le thème %2$s.",
         "InfoThemeUpdateIsRecommended": "Mettez à jour vos thèmes pour profiter de la dernière version.",
+        "InstallingNewPluginViaMarketplaceOrUpload": "Vous pouvez installer automatiquement un plugin à partir du Marketplace ou %supload a plugin%s au format .zip.",
         "InstallingPlugin": "Installation de %s",
         "InstallNewPlugins": "Installer les nouveaux composants",
         "InstallNewThemes": "Installer les nouveaux thèmes",
