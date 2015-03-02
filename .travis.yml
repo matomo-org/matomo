@@ -42,7 +42,7 @@ matrix:
   allow_failures:
     - php: hhvm
     - php: 5.3
-      env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
+      env: TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
   exclude:
     # Run test suites separately only on PHP 5.4 with PDO
     - php: 5.3
