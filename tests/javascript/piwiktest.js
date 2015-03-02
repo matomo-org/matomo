@@ -23,6 +23,7 @@ Piwik.addPlugin('testPlugin', {
 				'_getClassesRegExp : getClassesRegExp,' +
 				'_hasCookies : hasCookies,' +
 				'_getCookie : getCookie,' +
+				'_getCookieName : getCookieName,' +
 				'_setCookie : setCookie,' +
 				'_encode : encodeWrapper,' +
 				'_decode : decodeWrapper,' +
