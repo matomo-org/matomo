@@ -2116,7 +2116,7 @@ if (typeof Piwik !== 'object') {
          *
          * See: Tracker.setTrackerUrl() and Tracker.setSiteId()
          */
-        function Tracker(trackerUrl, siteId, uuid) {
+        function Tracker(trackerUrl, siteId) {
 
             /************************************************************
              * Private members
@@ -2164,7 +2164,7 @@ if (typeof Piwik !== 'object') {
                 configUserId = '',
 
                 // Visitor UUID
-                visitorUUID = uuid || '',
+                visitorUUID = '',
 
                 // Document URL
                 configCustomUrl,
@@ -2647,7 +2647,7 @@ if (typeof Piwik !== 'object') {
 
                 // uuid - generate a pseudo-unique ID to fingerprint this user;
                 // note: this isn't a RFC4122-compliant UUID
-                if (!visitorUUID) {
+                if (!visitorUUID.length) {
                     visitorUUID = hash(
                         (navigatorAlias.userAgent || '') +
                         (navigatorAlias.platform || '') +
@@ -2916,6 +2916,7 @@ if (typeof Piwik !== 'object') {
                         setCookie(refname, JSON2.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain);
                     }
                 }
+
                 // build out the rest of the request
                 request += '&idsite=' + configTrackerSiteId +
                     '&rec=1' +
@@ -5209,7 +5210,7 @@ if (typeof Piwik !== 'object') {
              * @return Tracker
              */
             getTracker: function (piwikUrl, siteId) {
-                return new Tracker(piwikUrl, siteId, asyncTracker.getVisitorId());
+                return new Tracker(piwikUrl, siteId);
             },
 
             /**

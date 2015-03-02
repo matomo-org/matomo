@@ -2360,7 +2360,8 @@ function PiwikTest() {
     }
 
     test("User ID and Visitor UUID", function() {
-        expect(14);
+        expect(16);
+        deleteCookies();
 
         var userIdString = 'userid@mydomain.org';
 
@@ -2376,7 +2377,8 @@ function PiwikTest() {
         equal(tracker.getVisitorId(), visitorId, "After tracking an action and updating the ID cookie, the visitor ID is still the same.");
 
         // Visitor ID is by default set to a UUID fingerprint
-        notEqual(tracker.hook.test._sha1(userIdString).substr(0, 16), tracker.getVisitorId(), "Visitor ID is not yet the hash of User ID");
+        var hashUserId = tracker.hook.test._sha1(userIdString).substr(0, 16);
+        notEqual(hashUserId, tracker.getVisitorId(), "Visitor ID " + tracker.getVisitorId() + " is not yet the hash of User ID " + hashUserId);
         notEqual("", tracker.getVisitorId(), "Visitor ID is not empty");
         ok( tracker.getVisitorId().length === 16, "Visitor ID is 16 chars string");
 
@@ -2386,9 +2388,12 @@ function PiwikTest() {
 
         // Building another 'tracker2' object so we can compare behavior to 'tracker'
         var tracker2 = Piwik.getTracker();
-        tracker2.setCookieNamePrefix("differentNamespace");
         equal(tracker.getVisitorId(), tracker2.getVisitorId(), "Visitor ID " + tracker.getVisitorId() + " is the same as Visitor ID 2 " + tracker2.getVisitorId());
         notEqual("", tracker2.getVisitorId(), "Visitor ID 2 is not empty");
+        tracker2.setCookieNamePrefix("differentNamespace");
+        notEqual("", tracker2.getVisitorId(), "Visitor ID 2 is not empty");
+        notEqual(tracker.getVisitorId(), tracker2.getVisitorId(), "Setting a new namespace forces Visitor ID " + tracker.getVisitorId() + " to be different from Visitor ID 2 " + tracker2.getVisitorId());
+
 
 
         // Set User ID and verify it was set
