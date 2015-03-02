@@ -116,14 +116,19 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(in_array($result['headers']['Content-Type'], array('application/zip', 'application/x-zip-compressed')));
     }
 
-    public function testHttps()
+    public function testHttpsWorksWithValidCertificate()
     {
-        $result = Http::sendHttpRequestBy(
-            'curl',
-            'https://builds.piwik.org/LATEST',
-            10
-        );
+        $result = Http::sendHttpRequestBy('curl', 'https://builds.piwik.org/LATEST', 10);
 
         $this->assertStringMatchesFormat('%d.%d.%d', $result);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage curl_exec: SSL certificate problem: Invalid certificate chain.
+     */
+    public function testHttpsFailsWithInvalidCertificate()
+    {
+        Http::sendHttpRequestBy('curl', 'https://divezone.net', 10);
     }
 }
