@@ -433,6 +433,6 @@ class Controller extends \Piwik\Plugin\Controller
             return false;
         }
 
-        return Http::getTransportMethod() === 'curl';
+        return Http::getTransportMethod() !== 'socket';
     }
 }
