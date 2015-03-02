@@ -1280,6 +1280,11 @@ class Common
     {
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
 
+            if(!headers_sent()) {
+                // prevent XSS in tracker debug output
+                header('Content-type: text/plain');
+            }
+
             if (is_object($info)) {
                 $info = var_export($info, true);
             }
@@ -1288,11 +1293,11 @@ class Common
                 $info = Common::sanitizeInputValues($info);
                 $out = var_export($info, true);
                 foreach (explode("\n", $out) as $line) {
-                    Log::debug($line);
+                    echo $line . "\n";
                 }
             } else {
                 foreach (explode("\n", $info) as $line) {
-                    Log::debug(htmlspecialchars($line, ENT_QUOTES));
+                    echo $line . "\n";
                 }
             }
         }

@@ -16,7 +16,6 @@
         "NoDataForAction": "Nu este nici o data pentru %s",
         "NoDataForActionDetails": "Fie acțiunea nu a avut nici o afișări de pagină în timpul perioadei%s sau este invalida.",
         "OutgoingTraffic": "traficul de ieșire",
-        "PluginDescription": "Rapoarte cu privire la acțiunile anterioare și următoarele pentru fiecare adresă URL pagină.",
         "ShareOfAllPageviews": "Această pagină a avut vizualizări de %s pagini (%s din toate vizualizări de pagini)",
         "ToFollowingPages": "Catre paginile interne",
         "ToFollowingPagesInline": "%s la pagini interne",

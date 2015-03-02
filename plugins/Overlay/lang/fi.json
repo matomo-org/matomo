@@ -13,7 +13,6 @@
         "OneClick": "1 klikkaus",
         "OpenFullScreen": "Siirry koko näytön tilaan (ei sivupalkkia)",
         "Overlay": "Sivun leijuke",
-        "PluginDescription": "Näe analyysidata leijukekerroksena tämänhetkisellä verkkosivullasi.",
         "RedirectUrlError": "Yrität avata sivun leijuketta URL:lle \"%s\". %s mikän Piwikin asetuksien domain ei vastaa linkkiä.",
         "RedirectUrlErrorAdmin": "Voit lisätä domainin ylimääräisenä URL:nä %sasetuksissa%s.",
         "RedirectUrlErrorUser": "Pyydä ylläpitää lisäämään domain ylimääräisenä verkkosivuna."

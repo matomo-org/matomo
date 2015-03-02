@@ -1,7 +1,6 @@
 {
     "Provider": {
         "ColumnProvider": "პროვაიდერი",
-        "PluginDescription": "აკეტებს ანგარიშს ვიზიტორების პროვაიდერების შესახებ.",
         "WidgetProviders": "პროვაიდერები"
     }
 }

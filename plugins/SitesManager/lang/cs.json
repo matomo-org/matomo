@@ -49,7 +49,7 @@
         "OnlyOneSiteAtTime": "Můžete upravit zároveň pouze jednu stránku. Uložte nebo zrušte současné úpravy stránky %s.",
         "PiwikOffersEcommerceAnalytics": "Piwik povolen pro rozšířenou analytiku a měření stránek typu Obchod. Číst o %s analytice %s více.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik automaticky vynechá běžné parametry sezení (%s)",
-        "PluginDescription": "Správa sídel v Piwiku: Přidat nový web, Upravit existující, Zobrazit JavaScriptový kód při umístění na stránky. Všechny akce jsou k dispozici také přes API.",
+        "PluginDescription": "Správa webových stránek vám umožňuje přidat novou webovou stránku a upravit již existující.",
         "SearchCategoryDesc": "Piwik může také sledovat kategorii vyhledávánípro každé klíčové slovo interního vyhledávání.",
         "SearchCategoryLabel": "Parametr kategorie",
         "SearchCategoryParametersDesc": "Můžete zadat seznam parametrů dotazu oddělených čárkou, které určují kategorii.",

@@ -5,7 +5,6 @@
         "IndexSize": "Tamanho do índice",
         "LearnMore": "Para aprender mais sobre como o Piwik processa dados e como optimizar o Piwik para websites de tráfego médio ou elevado, veja a documentação %s.",
         "MainDescription": "Piwik está a armazenar todos os seus dados de analíticas da web na base de dados MySQL. Actualmente, tabelas Piwik estão a utilizar %s.",
-        "PluginDescription": "Este plugin relata o uso da base de dados MySQL pelas tabelas Piwik.",
         "RowCount": "Número de linhas",
         "Table": "Tabela",
         "TotalSize": "Tamanho total"

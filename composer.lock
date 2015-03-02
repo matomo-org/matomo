@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f398efcaf61f403082014eef9def2c7c",
+    "hash": "f9914d40211d9207a141d003cddb89ff",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -655,16 +655,16 @@
         },
         {
             "name": "piwik/ini",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/component-ini.git",
-                "reference": "2230c365f1cf09bb97f451fb3053092be32da5ad"
+                "reference": "2a2179e56e6e906364e7e978305a2b75b7b34eb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-ini/zipball/2230c365f1cf09bb97f451fb3053092be32da5ad",
-                "reference": "2230c365f1cf09bb97f451fb3053092be32da5ad",
+                "url": "https://api.github.com/repos/piwik/component-ini/zipball/2a2179e56e6e906364e7e978305a2b75b7b34eb0",
+                "reference": "2a2179e56e6e906364e7e978305a2b75b7b34eb0",
                 "shasum": ""
             },
             "require": {
@@ -683,7 +683,7 @@
             "license": [
                 "LGPL-3.0"
             ],
-            "time": "2015-01-08 04:07:36"
+            "time": "2015-02-25 21:48:57"
         },
         {
             "name": "piwik/network",
@@ -2218,6 +2218,7 @@
         "facebook/xhprof": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.3"
     },

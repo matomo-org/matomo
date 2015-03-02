@@ -49,7 +49,6 @@
         "OnlyOneSiteAtTime": "Puteți edita un singur site-ul la un moment dat. Vă rugăm să salvați sau anulati modificările dvs. curente de pe site-ul %s.",
         "PiwikOffersEcommerceAnalytics": "Piwik permite pentru comerț electronic analiza de urmărire și de raportare. Aflați mai multe despre %s comerț electronic %s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik va exclude în mod automat parametrii comuni de sesiune (%s).",
-        "PluginDescription": "Managementul site-uri web în Piwik: Adauga un nou site web, editaza unul deja existent, Arata codul JavaScript pentru il include pe paginile dvs.. Toate acțiunile sunt, de asemenea, disponibile prin intermediul API.",
         "SearchCategoryDesc": "Piwik poate urmări, de asemenea, categoria de căutare pentru fiecare website cuvânt cheie din cautarea interna.",
         "SearchCategoryLabel": "Parametru categorie",
         "SearchCategoryParametersDesc": "Puteți introduce o lista separata prin virgula de parametri de interogare care specifică categoria de căutare.",

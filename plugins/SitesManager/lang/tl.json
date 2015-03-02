@@ -48,7 +48,6 @@
         "OnlyOneSiteAtTime": "Maaari mo lamang i-edit ang isang website ng isang beses. Mangyaring I-save o Kanselahin iyong kasalukuyang mga pagbabago sa website %s.",
         "PiwikOffersEcommerceAnalytics": "Ang Piwik ay mayroon rin para sa advanced na Ecommerce Analytics tracking & pag-uulat. Matuto nang higit pa tungkol sa %s Ecommerce Analytics%s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Awtomatikong ibubukod ng Piwik ang mga karaniwang mga session parameter (%s).",
-        "PluginDescription": "Websites Management ng Piwik: Mag-dagdag ng isang bagong website I-edit ang isang umiiral Ipakita ang JavaScript code upang isama sa iyong mga pahina. Ang lahat ng actions ay makukuha sa pamamagaitan ng API.",
         "SearchCategoryDesc": "Ang Piwik ay maaari ring masubaybayan ang mga kategorya ng Paghahanap para sa bawat keyword sa loob na paghahanap sa site.",
         "SearchCategoryLabel": "Kategorya ng parameter",
         "SearchCategoryParametersDesc": "Maari kang maglagay ng query na pinaghiwa-hiwalay ng kuwit upang matukoy ang hinahanap na kategorya.",

@@ -364,9 +364,11 @@ class View implements ViewInterface
      * @ignore
      */
     public static function clearCompiledTemplates()
-    {
+    {        
         $twig = new Twig();
-        $twig->getTwigEnvironment()->clearTemplateCache();
+        $environment = $twig->getTwigEnvironment();
+        $environment->clearTemplateCache();
+        $environment->clearCacheFiles();
     }
 
     /**

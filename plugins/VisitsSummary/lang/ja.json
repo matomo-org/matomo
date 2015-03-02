@@ -17,7 +17,6 @@
         "NbUniquePageviewsDescription": "%s ユニークページビュー数",
         "NbUniqueVisitors": "%s ユニークビジター数",
         "NbVisitsBounced": "%s 直帰率（1ページを表示後にウェブサイトを離れた）",
-        "PluginDescription": "全体的な解析数（ビジット、ユニークビジター数、アクション数、バウンス率等）をリポートします。",
         "VisitsSummary": "ビジットの概要",
         "VisitsSummaryDocumentation": "ビジット推移の概観です",
         "WidgetLastVisits": "最終ビジットのグラフ",

@@ -16,7 +16,6 @@
         "PasswordChanged": "Tu contraseña ha sido modificada.",
         "PasswordRepeat": "Contraseña (repetir)",
         "PasswordsDoNotMatch": "Las contraseñas no coinciden.",
-        "PluginDescription": "El plugin de Autenticación lee las credenciales del archivo config\/config.ini.php para el Super User inicial, y de la base de datos para otros usuarios. Puede fácilmente ser sustituido para introducir un mecanismo nuevo de autenticación (OpenID, htaccess, custom Auth, etc.).",
         "RememberMe": "Recuerdeme",
         "ResetPasswordInstructions": "Ingresa una nueva contraseña para tu cuenta."
     }

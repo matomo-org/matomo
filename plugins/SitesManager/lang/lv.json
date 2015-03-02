@@ -27,7 +27,6 @@
         "NotFound": "Nav atrastas vietnes priekš",
         "NoWebsites": "Jums nav nevienas vietnes ko administrēt.",
         "OnlyOneSiteAtTime": "Jūs varat vienlaicīgi labot tikai vienas vietnes iestatījumus. Lūdzu saglabājiet vai atceļiet savas pašlaik veiktās izmaiņas vietnei %s.",
-        "PluginDescription": "Piwik vietņu pārvaldība: pievienojiet jaunu vietni, labojiet esošās, apskatiet ievietošanai lapās paredzēto kodu. Visas darbības ir pieejamas arī izmantojot API.",
         "SelectACity": "Izvēlieties pilsētu",
         "ShowTrackingTag": "Apskatīt izsekošanas kodu",
         "Sites": "Vietnes",

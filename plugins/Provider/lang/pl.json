@@ -1,7 +1,6 @@
 {
     "Provider": {
         "ColumnProvider": "Dostawca",
-        "PluginDescription": "Raporty dostawców o odwiedzających.",
         "WidgetProviders": "Dostawcy"
     }
 }

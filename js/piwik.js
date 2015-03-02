@@ -8,6 +8,8 @@
  * @license http://piwik.org/free-software/bsd/ BSD-3 Clause (also in js/LICENSE.txt)
  * @license magnet:?xt=urn:btih:c80d50af7d3db9be66a4d0a86db0286e4fd33292&dn=bsd-3-clause.txt BSD-3-Clause
  */
+// NOTE: if you change this above Piwik comment block, you must also change `$byteStart` in js/tracker.php
+
 // Refer to README.md for build instructions when minifying this file for distribution.
 
 /*
@@ -2114,7 +2116,7 @@ if (typeof Piwik !== 'object') {
          *
          * See: Tracker.setTrackerUrl() and Tracker.setSiteId()
          */
-        function Tracker(trackerUrl, siteId, uuid) {
+        function Tracker(trackerUrl, siteId) {
 
             /************************************************************
              * Private members
@@ -2160,6 +2162,9 @@ if (typeof Piwik !== 'object') {
 
                 // User ID
                 configUserId = '',
+
+                // Visitor UUID
+                visitorUUID = '',
 
                 // Document URL
                 configCustomUrl,
@@ -2291,10 +2296,7 @@ if (typeof Piwik !== 'object') {
                 hash = sha1,
 
                 // Domain hash value
-                domainHash,
-
-                // Visitor UUID
-                visitorUUID = uuid;
+                domainHash;
 
             /*
              * Set cookie value
@@ -2627,53 +2629,58 @@ if (typeof Piwik !== 'object') {
             function loadVisitorIdCookie() {
                 var now = new Date(),
                     nowTs = Math.round(now.getTime() / 1000),
-                    id = getCookie(getCookieName('id')),
-                    tmpContainer;
+                    visitorIdCookieName = getCookieName('id'),
+                    id = getCookie(visitorIdCookieName),
+                    cookieValue;
 
                 if (id) {
-                    tmpContainer = id.split('.');
+                    cookieValue = id.split('.');
 
                     // returning visitor flag
-                    tmpContainer.unshift('0');
+                    cookieValue.unshift('0');
 
-                } else {
-                    // uuid - generate a pseudo-unique ID to fingerprint this user;
-                    // note: this isn't a RFC4122-compliant UUID
-                    if (!visitorUUID) {
-                        visitorUUID = hash(
-                            (navigatorAlias.userAgent || '') +
-                            (navigatorAlias.platform || '') +
-                            JSON2.stringify(browserFeatures) +
-                            now.getTime() +
-                            Math.random()
-                        ).slice(0, 16); // 16 hexits = 64 bits
+                    if(visitorUUID.length) {
+                        cookieValue[1] = visitorUUID;
                     }
-
-                    tmpContainer = [
-                        // new visitor
-                        '1',
-
-                        // uuid
-                        visitorUUID,
-
-                        // creation timestamp - seconds since Unix epoch
-                        nowTs,
-
-                        // visitCount - 0 = no previous visit
-                        0,
-
-                        // current visit timestamp
-                        nowTs,
-
-                        // last visit timestamp - blank = no previous visit
-                        '',
-
-                        // last ecommerce order timestamp
-                        ''
-                    ];
+                    return cookieValue;
                 }
 
-                return tmpContainer;
+                // uuid - generate a pseudo-unique ID to fingerprint this user;
+                // note: this isn't a RFC4122-compliant UUID
+                if (!visitorUUID.length) {
+                    visitorUUID = hash(
+                        (navigatorAlias.userAgent || '') +
+                        (navigatorAlias.platform || '') +
+                        JSON2.stringify(browserFeatures) +
+                        now.getTime() +
+                        Math.random()
+                    ).slice(0, 16); // 16 hexits = 64 bits
+                }
+
+                cookieValue = [
+                    // new visitor
+                    '1',
+
+                    // uuid
+                    visitorUUID,
+
+                    // creation timestamp - seconds since Unix epoch
+                    nowTs,
+
+                    // visitCount - 0 = no previous visit
+                    0,
+
+                    // current visit timestamp
+                    nowTs,
+
+                    // last visit timestamp - blank = no previous visit
+                    '',
+
+                    // last ecommerce order timestamp
+                    ''
+                ];
+
+                return cookieValue;
             }
 
             function getRemainingVisitorCookieTimeout() {
@@ -2811,7 +2818,7 @@ if (typeof Piwik !== 'object') {
                 }
 
                 newVisitor = id[0];
-                uuid = asyncTracker.getVisitorId();
+                uuid = id[1];
                 createTs = id[2];
                 visitCount = id[3];
                 currentVisitTs = id[4];
@@ -2909,6 +2916,7 @@ if (typeof Piwik !== 'object') {
                         setCookie(refname, JSON2.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain);
                     }
                 }
+
                 // build out the rest of the request
                 request += '&idsite=' + configTrackerSiteId +
                     '&rec=1' +
@@ -4082,7 +4090,7 @@ if (typeof Piwik !== 'object') {
                  * @return string Visitor ID in hexits (or null, if not yet known)
                  */
                 getVisitorId: function () {
-                    return configUserId.length ? sha1(configUserId).substr(0, 16) : (loadVisitorIdCookie())[1];
+                    return (loadVisitorIdCookie())[1];
                 },
 
                 /**
@@ -4171,6 +4179,7 @@ if (typeof Piwik !== 'object') {
                  */
                 setUserId: function (userId) {
                     configUserId = userId;
+                    visitorUUID = hash(configUserId).substr(0, 16);
                 },
 
                 /**
@@ -5201,7 +5210,7 @@ if (typeof Piwik !== 'object') {
              * @return Tracker
              */
             getTracker: function (piwikUrl, siteId) {
-                return new Tracker(piwikUrl, siteId, asyncTracker.getVisitorId());
+                return new Tracker(piwikUrl, siteId);
             },
 
             /**

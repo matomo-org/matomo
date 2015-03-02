@@ -25,7 +25,6 @@
         "PiwikReports": "Relatórios Piwik",
         "PleaseFindAttachedFile": "Por favor, encontrar no arquivo anexo o relatório %1$s para %2$s.",
         "PleaseFindBelow": "Veja abaixo o seu relatório %1$s para %2$s.",
-        "PluginDescription": "Criar e baixar seus relatórios personalizados, e tê-los enviado por email diária, semanal ou mensalmente.",
         "ReportFormat": "Formato do relatório",
         "ReportHour": "Envia relatório em",
         "ReportIncludeNWebsites": "O relatório incluirá as principais métricas para todos os sites que têm pelo menos uma visita (a partir de sites %s atualmente disponível).",

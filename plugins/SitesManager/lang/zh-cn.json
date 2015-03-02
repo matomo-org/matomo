@@ -49,7 +49,6 @@
         "OnlyOneSiteAtTime": "每次只能修改一个网站，请保持或取消当前对网站 %s 的修改。",
         "PiwikOffersEcommerceAnalytics": "Piwik 可以使用高级电商分析和报表，了解更多的 %s 电商分析%s。",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik 会自动排除常见的会话参数(%s)",
-        "PluginDescription": "Piwik 网站管理: 新增网站、修改网站、显示加入您的网页的 JavaScript 代码。所有操作都可以通过 API 调用。",
         "SearchCategoryDesc": "Piwik 也可以统计每个站内搜索关键字的搜索分类。",
         "SearchCategoryLabel": "分类参数",
         "SearchCategoryParametersDesc": "输入用逗号分开的搜索参数列表来指定搜索分类。",

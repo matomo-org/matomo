@@ -49,7 +49,6 @@
         "OnlyOneSiteAtTime": "Du kan endast redigera en webbplats åt gången. Vänligen spara eller avbryt dina ändringar för denna webbplats (%s).",
         "PiwikOffersEcommerceAnalytics": "Piwik möjliggör för avancerad e-handelsspårning och rapportering. Läs mer om %s E-handelsspårning%s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik kommer automatiskt att exkludera de vanligaste sessions parametrarna (%s).",
-        "PluginDescription": "Hantering av Webbplatser i Piwik: Lägg till en ny hemsida, ändra en befintlig, visa JavaScript-koden att inkludera på dina sidor. Alla åtgärder finns också tillgängliga via API.",
         "SearchCategoryDesc": "Piwik kan även spåra kategorierna för varje sökord i webbplatssökningar.",
         "SearchCategoryLabel": "Kategoriparameter",
         "SearchCategoryParametersDesc": "Du kan ange en kommaseparerad lista med frågeparametrar som specificerar sökningens kategori.",

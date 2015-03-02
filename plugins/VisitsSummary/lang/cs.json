@@ -17,7 +17,7 @@
         "NbUniquePageviewsDescription": "%s unikátních zobrazení",
         "NbUniqueVisitors": "%s unikátních návštěvníků",
         "NbVisitsBounced": "%s návštěvníků odešlo (opustilo web po jedné stránce)",
-        "PluginDescription": "Hlásí základní analytická čísla: návštěv, unikátních návštěvníků, počet akcí, poměr návratů",
+        "PluginDescription": "Hlásí základní analytická měření: počet návštěv a unikátních návštěvníků, počet akcí, frekvenci odrazu atd.",
         "VisitsSummary": "Shrnutí návštěv",
         "VisitsSummaryDocumentation": "Toto je přehled vývoje návštěv.",
         "WidgetLastVisits": "Graf posledních návštěv",

@@ -502,15 +502,7 @@ class API extends \Piwik\Plugin\API
 
     protected function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null, $depth = null)
     {
-        $skipAggregationOfSubTables = false;
-        if ($period == 'range'
-            && empty($idSubtable)
-            && empty($expanded)
-            && !Request::shouldLoadFlatten()
-        ) {
-            $skipAggregationOfSubTables = false;
-        }
-        return Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable, $skipAggregationOfSubTables, $depth);
+        return Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable, $depth);
     }
 
     private function addPageProcessedMetrics(DataTable\DataTableInterface $dataTable)

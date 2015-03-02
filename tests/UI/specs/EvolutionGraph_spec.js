@@ -26,7 +26,7 @@ describe("EvolutionGraph", function () {
 
     it("should show percent metrics like bounce rate correctly", function (done) {
         expect.screenshot('bounce_rate').to.be.capture(function (page) {
-            page.load(url + "&columns=nb_visits,bounce_rate&filter_add_columns_when_show_all_columns=0");
+            page.load(url + "&columns=nb_visits,bounce_rate,avg_time_on_site&filter_add_columns_when_show_all_columns=0");
         }, done);
     });
 

@@ -25,7 +25,6 @@
         "PiwikReports": "Piwik rapporter",
         "PleaseFindAttachedFile": "Vedlagt i vedhæftede fil din %1$s rapport for %2$s.",
         "PleaseFindBelow": "Find rapporten nedenfor %1$s for %2$s.",
-        "PluginDescription": "Opret og hent brugerdefinerede rapporter, og få dem sendt dagligt, ugentligt eller månedligt.",
         "ReportFormat": "Rapport format",
         "ReportHour": "Send rapport",
         "ReportIncludeNWebsites": "Rapporten indeholder de vigtigste nøgletal for alle hjemmesider, der har mindst ét ​​besøg (fra %s hjemmesider der pt er tilgængelige).",

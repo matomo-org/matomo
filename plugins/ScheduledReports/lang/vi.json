@@ -25,7 +25,6 @@
         "PiwikReports": "Các báo cáo Piwik",
         "PleaseFindAttachedFile": "Hãy tìm trong tập tin đính kèm %1$s báo cáo của bạn cho %2$s.",
         "PleaseFindBelow": "Hãy tìm dưới đây %1$s báo cáo của bạn cho %2$s.",
-        "PluginDescription": "Tạo và tải về các báo cáo tuỳ chỉnh của bạn, và họ đã gửi qua email hàng ngày, hàng tuần hoặc hàng tháng.",
         "ReportFormat": "Định dạng báo cáo",
         "ReportHour": "Gửi báo cáo tại",
         "ReportIncludeNWebsites": "Báo cáo này sẽ bao gồm các số liệu chính cho tất cả các trang web có ít nhất một lần truy cập( từ trang web %s hiện đang có sẵn).",

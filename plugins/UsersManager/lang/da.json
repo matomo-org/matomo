@@ -45,7 +45,6 @@
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Bemærk: Indstillingerne kan ikke ændres i denne del, fordi der ikke er en hjemmeside, der kan tilgås af den anonyme bruger.",
         "NoUsersExist": "Der er endnu ingen brugere.",
         "PersonalSettings": "Personlige indstillinger",
-        "PluginDescription": "Brugere styring i Piwik: tilføje en ny bruger, redigere en eksisterende, opdatere tilladelserne. Alle handlinger er også tilgængelige via API.",
         "PrivAdmin": "Administration",
         "PrivNone": "Ingen adgang",
         "PrivView": "Vis",

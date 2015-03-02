@@ -10,7 +10,6 @@
         "MetricDataByYear": "Таблицы показателей за год",
         "MetricTables": "Таблицы показателей",
         "OtherTables": "Другие таблицы",
-        "PluginDescription": "Этот плагин показывает использование MySQL базы данных таблицами Piwik.",
         "ReportDataByYear": "Таблицы отчетов за год",
         "ReportTables": "Таблицы отчетов",
         "RowCount": "Количество записей",

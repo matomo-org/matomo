@@ -12,7 +12,6 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Metrics\Formatter;
-use Piwik\Translate;
 use Piwik\View\RenderTokenParser;
 use Piwik\Visualization\Sparkline;
 use Twig_Environment;

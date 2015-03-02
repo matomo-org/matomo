@@ -46,7 +46,6 @@
         "LeastMonthsInput": "Ange ett antal månader mer än %s.",
         "MenuPrivacySettings": "Integritet",
         "NextDelete": "Nästa schemalagda borttagning",
-        "PluginDescription": "Anpassa Piwik så att den personliga integriteten uppfyller existerande lagstiftning.",
         "PurgeNow": "Rensa databasen nu",
         "PurgeNowConfirm": "Du är på väg att permanent radera data från din databas. Är du säker på att du vill fortsätta?",
         "PurgingData": "Rensar data...",

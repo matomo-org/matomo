@@ -43,7 +43,6 @@
         "PasswordRepeat": "lösenord (bekräfta)",
         "PercentDone": "%s %% Klar",
         "PiwikOrgNewsletter": "maila mig vid större Piwik community uppdateringar",
-        "PiwikProNewsletter": "Jag är intresserad av %sPiwik PRO%s tjänster (inte mer än ett mail per månad)",
         "PleaseFixTheFollowingErrors": "Vänligen fixa följande fel",
         "Requirements": "Piwik Krav",
         "RestartWebServer": "När du har gjort den här ändringen, starta om din webbserver.",

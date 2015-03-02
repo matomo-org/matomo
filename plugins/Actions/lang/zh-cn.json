@@ -39,7 +39,6 @@
         "PagesReportDocumentation": "本报表显示被访问的网页地址。%s 表格分级归类，网址按照目录结构显示。",
         "PageTitlesReportDocumentation": "本报表显示被访问页面的标题。%s 网页标题为 HTML %s 标签，多数浏览器显示为窗口的标题。",
         "PageUrls": "页面地址",
-        "PluginDescription": "报表显示页面浏览量、离站链接和下载次数。离站链接及下载跟踪是自动的！您也可以统计站内搜索。",
         "SiteSearchCategories1": "本报表显示访客使用站内搜索时选择的分类。",
         "SiteSearchCategories2": "例如，购物网站通常有个\"分类\"选项，访客可以限制在某个分类中搜索产品。",
         "SiteSearchFollowingPagesDoc": "当访客在网站上搜索时，他们是在寻找特定的页面、内容、产品或者服务，本报表显示站内搜索后点击最多的页面。也就是说，显示了已有访客搜索最多的页面。",

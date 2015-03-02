@@ -203,7 +203,7 @@ class Process
         $command = 'shell_exec';
         $disabled = explode(',', ini_get('disable_functions'));
         $disabled = array_map('trim', $disabled);
-        return in_array($command, $disabled);
+        return in_array($command, $disabled)  || !function_exists($command);
     }
 
     private static function returnsSuccessCode($command)

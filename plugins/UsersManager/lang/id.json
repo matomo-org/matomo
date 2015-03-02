@@ -34,7 +34,6 @@
         "MenuUsers": "Pengguna",
         "MenuUserSettings": "Pengaturan pengguna",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Catatan: Anda tidak dapat mengubah pengaturan ini, sebab Anda tidak memiliki situs apaun yang dapat diakses oleh pengguna Anonim.",
-        "PluginDescription": "Pengatur Pengguna di Piwik: menmbah Pengguna, menyunting yang telah ada, memperbarui perizinan. Seluruh tindakan juga tersedia melalui API.",
         "PrivAdmin": "Pengelola",
         "PrivNone": "Tak ada akses",
         "PrivView": "Tampilan",

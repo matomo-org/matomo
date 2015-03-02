@@ -24,7 +24,6 @@
         "MenuAnonymousUserSettings": "Innstillingar for anonyme brukarar",
         "MenuUsers": "Brukarar",
         "MenuUserSettings": "Brukarinnstillingar",
-        "PluginDescription": "Piwiks brukarhehandling: Opprett ein ny brukar, endre ein eksisterande brukar eller oppdater tilgangar. Desse handlingane kan også nyttast gjennom APIet.",
         "PrivAdmin": "Administrator",
         "PrivNone": "Inga tilgang",
         "PrivView": "Les",

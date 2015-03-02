@@ -25,7 +25,6 @@
         "PiwikReports": "Rapports Piwik",
         "PleaseFindAttachedFile": "Veuillez trouver en pièce jointe votre rapport %1$s pour %2$s.",
         "PleaseFindBelow": "Veuillez trouver ci-dessous votre %1$s rapport pour %2$s.",
-        "PluginDescription": "Créez et téléchargez vos rapports personnalisés, et recevez les par e-mail quotidiennement, chaque semaine ou mensuellement.",
         "ReportFormat": "Format du rapport",
         "ReportHour": "Envoyer le rapport à",
         "ReportIncludeNWebsites": "Le rapport incluera les métriques principales pour tous les sites web qui ont au moins une visite (depuis les %s sites web actuellement disponibles)",

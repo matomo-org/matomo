@@ -31,7 +31,6 @@
         "NotFound": "Ilyen weboldal nincs",
         "NoWebsites": "Nem került még létrehozásra egyetlen weboldal sem.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "A Piwik automatikusan kiszűri az általánosan használt session paramétereket (%s).",
-        "PluginDescription": "Weboldalak kezelése a Piwik rendszerében: Új weboldal hozzáadása, meglévő weboldal szerkesztése, a weblapokba beillesztendő JavaScript követőkódok megjelenítése. Az összes funkció elérhető az API-n keresztül is.",
         "SelectACity": "Válassz egy várost",
         "SelectDefaultCurrency": "Kiválaszthatod, melyik legyen az alapértelmezett pénznem új weboldalak létrehozása esetén.",
         "SelectDefaultTimezone": "Kiválaszthatod, melyik legyen az alapértelmezett időzóna új weboldalak létrehozása esetén.",

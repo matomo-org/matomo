@@ -14,7 +14,6 @@
         "NbUniquePageviewsDescription": "%s visualização única de páginas",
         "NbUniqueVisitors": "%s visitantes únicos",
         "NbVisitsBounced": "%s visitas ressaltaram (saíram do website depois de uma página)",
-        "PluginDescription": "Relata os números gerais das Analíticas: visitas, visitantes únicos, número de acções, Taxa de Ressalto, etc.",
         "VisitsSummary": "Resumo das Visitas",
         "VisitsSummaryDocumentation": "Isto é uma visualização global da evolução das visitas.",
         "WidgetLastVisits": "Gráfico das últimas visitas",

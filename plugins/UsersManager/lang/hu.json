@@ -27,7 +27,6 @@
         "MenuAnonymousUserSettings": "Névtelen felhasználók beállításai",
         "MenuUsers": "Felhasználók",
         "MenuUserSettings": "Felhasználói beállítások",
-        "PluginDescription": "A Piwik felhasználóinak kezelése: új felhasználó felvétele, meglévő felhasználók adatainak szerkesztése, jogosultságok megváltoztatása. Az összes funkció elérhető az API-n keresztül is.",
         "PrivAdmin": "Adminisztráció",
         "PrivNone": "Nincs hozzáférés",
         "PrivView": "Megtekintés",

@@ -355,7 +355,6 @@
         "PeclGeoIPNoDBDir": "O módulo PECL está à procura de bancos de dados em %1$s mas este diretório não existe. Por favor, crie-o e adicione as bases de dados GeoIP a ele. Como alternativa, você pode definir %2$s para o diretório correto em seu arquivo php.ini.",
         "PeclGeoLiteError": "Seu banco de dados GeoIP em %1$s é nomeado %2$s. Infelizmente, o módulo PECL não irá reconhecê-lo com este nome. Por favor, mude o nome para %3$s.",
         "PiwikNotManagingGeoIPDBs": "Piwik atualmente não gerencia nenhuma base de dados GeoIP.",
-        "PluginDescription": "Relata o país dos visitantes",
         "Region": "Região",
         "SetupAutomaticUpdatesOfGeoIP": "Configurar as atualizações automáticas de bancos de dados GeoIP",
         "SubmenuLocations": "Locais",

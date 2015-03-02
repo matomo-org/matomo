@@ -18,7 +18,6 @@
         "EvolutionDocumentationMoreInfo": "Për më tepër të dhëna rreth llojeve të ndryshëm të sjellësve, shihni dokumentimin mbi tabelën %s.",
         "Keywords": "Fjalëkyça",
         "KeywordsReportDocumentation": "Ky raport tregon cilët fjalëkyça janë përdorur nga përdoruesit përpara se të silleshin te site-i juaj web. %s Duke klikuar mbi një rresht të tabelës, mund të shihni shpërndarjen sipas motorëve të kërkimit te të cilët u kërkua rreth fjalëkyçit.",
-        "PluginDescription": "Raporton të dhëna Referuesish: Motorë Kërkimesh, Fjalëkyça, site-e web, Gjurmim Fushatash, Zëra të Drejtpërdrejtë.",
         "ReferrerName": "Emër Referuesi",
         "Referrers": "Referuesa",
         "SearchEngines": "Motorë Kërkimesh",

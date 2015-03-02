@@ -16,7 +16,6 @@
         "NoDataForAction": "%s:lle ei ole tietoja",
         "NoDataForActionDetails": "Joko toiminnolle ei ole tietoja aikavälille %s tai toiminto on virheellinen.",
         "OutgoingTraffic": "Lähtevä liikenne",
-        "PluginDescription": "Raportoi edellisen ja seuraavan toiminnon jokaiselle osoitteelle.",
         "ShareOfAllPageviews": "Tällä sivulla on %s sivunavausta (%s kaikista)",
         "ToFollowingPages": "Sisäisille sivuille",
         "ToFollowingPagesInline": "%s sisäisille sivuille",

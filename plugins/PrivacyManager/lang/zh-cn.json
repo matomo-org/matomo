@@ -46,7 +46,6 @@
         "LeastMonthsInput": "请设置月份大于 %s。",
         "MenuPrivacySettings": "隐私设置",
         "NextDelete": "下次删除的时间是",
-        "PluginDescription": "设置 Piwik 遵循保护隐私条例的法规。",
         "PurgeNow": "立刻清理数据库",
         "PurgeNowConfirm": "准备从数据库里永久删除数据，您确定要继续吗?",
         "PurgingData": "清理数据...",

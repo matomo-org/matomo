@@ -5,7 +5,6 @@
         "IndexSize": "Indekso dydis",
         "LearnMore": "Norint geriau susipažinti su Piwik duomenų apdorojimu bei kaip priversti Piwik veikti geriau vidutinės ir didelės apkrovos svetainėse, siūlome pastudijuoti dokumentaciją %s.",
         "MainDescription": "Piwik saugo visus Jūsų duomenis MySQL duombazėje. Šiuo metu Piwik lentelės naudoja %s.",
-        "PluginDescription": "Šis papildinys informuoja apie MySQL duombazės užimtumą.",
         "RowCount": "Eilučių kiekis",
         "Table": "Lentelė",
         "TotalSize": "Bendras dydis"

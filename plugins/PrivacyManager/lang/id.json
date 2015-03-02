@@ -46,7 +46,6 @@
         "LeastMonthsInput": "Harap memasukkan jumlah bulan lebih besar dari %s.",
         "MenuPrivacySettings": "Privasi",
         "NextDelete": "Jadwal penghapusan selanjutnya di",
-        "PluginDescription": "Sesuaikan Piwik untuk membuatnya sesuai dengan peraturan perundang-undangan privasi yang ada.",
         "PurgeNow": "Membersihkan Basisdata Sekarang",
         "PurgeNowConfirm": "Anda berkeinginan menghapus permanen data dari basisdata Anda. Apakah Anda yakin melanjutkannya?",
         "PurgingData": "Membersihkan data...",

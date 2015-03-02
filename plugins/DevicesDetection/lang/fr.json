@@ -27,7 +27,6 @@
         "OperatingSystemFamily": "Famille de systèmes d'exploitations",
         "OperatingSystems": "Système d'exploitation",
         "OperatingSystemVersions": "Versions de système d'exploitation",
-        "PluginDescription": "Ce composant additionnel fournit des informations détaillées à propos des périphériques mobiles, telles que la marque (constructeur), le modèle (version du périphérique), une meilleure détection du type de périphérique (tv, consoles, smart phones, pc, etc) et autres. Ce composant additionnel ajoute un nouveau rapport dans Visiteur > Périphériques.",
         "SmartDisplay": "Affichage intelligent",
         "Smartphone": "Téléphone intelligent (smartphone)",
         "submenu": "Périphériques",

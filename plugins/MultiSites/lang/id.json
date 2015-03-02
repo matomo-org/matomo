@@ -1,7 +1,6 @@
 {
     "MultiSites": {
         "Evolution": "Perkembangan",
-        "PluginDescription": "Menampilkan ringkasan eksekutif\/statistik banyak-situs. Saat ini dikelola sebagai pengaya inti Piwik.",
         "TopLinkTooltip": "Bandingkan statistik Analisis Ramatraya untuk seluruh Situs Anda."
     }
 }

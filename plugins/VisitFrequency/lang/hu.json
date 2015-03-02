@@ -5,7 +5,6 @@
         "ColumnAvgActionsPerReturningVisit": "Akciók átlagos gyakorisága ismétlődő látogatások esetén",
         "ColumnBounceRateForReturningVisits": "Visszafordulások aránya ismétlődő látogatások esetén",
         "ColumnReturningVisits": "Ismétlődő látogatások",
-        "PluginDescription": "Különböző statisztikákat állít elő az új látogatók és a visszatérő látogatók viszonylatában.",
         "ReturnActions": "%s akció ismétlődő látogatások során",
         "ReturnAverageVisitDuration": "%s a látogatás átlagos időtartama a visszatérő látogatók esetén",
         "ReturnAvgActions": "%s akció ismétlődő látogatás során",

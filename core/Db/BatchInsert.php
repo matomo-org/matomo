@@ -92,7 +92,6 @@ class BatchInsert
                     return true;
                 }
             } catch (Exception $e) {
-                Log::info("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was: %s", $e->getMessage());
 
                 if ($throwException) {
                     throw $e;

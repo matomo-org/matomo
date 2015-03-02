@@ -5,7 +5,6 @@
         "DayOfWeek": "Araw ng linggo",
         "LocalTime": "Mga pagbisita sa bawat lokal na oras",
         "NHour": "%sh",
-        "PluginDescription": "Ulat sa oras ng iyong local server. Ang impormasyon sa oras ng iyong server ay malaking tulong upang ma e-schedule ang maintenance ng website.",
         "ServerTime": "Mga pagbisita sa bawat oras mula sa server",
         "SubmenuTimes": "Times",
         "VisitsByDayOfWeek": "Mga pagbisita araw-araw",

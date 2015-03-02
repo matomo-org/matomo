@@ -37,6 +37,7 @@ import urllib2
 import urlparse
 import subprocess
 import functools
+import traceback
 
 try:
     import json
@@ -180,6 +181,8 @@ class RegexFormat(BaseFormat):
         return self.match(line)
 
     def match(self,line):
+        if not self.regex:
+            return None
         match_result = self.regex.match(line)
         if match_result:
             self.matched = match_result.groupdict()
@@ -339,21 +342,21 @@ class AmazonCloudFrontFormat(W3cExtendedFormat):
         else:
             return super(AmazonCloudFrontFormat, self).get(key)
 
-_HOST_PREFIX = '(?P<host>[\w\-\.]*)(?::\d+)? '
+_HOST_PREFIX = '(?P<host>[\w\-\.]*)(?::\d+)?\s+'
 _COMMON_LOG_FORMAT = (
-    '(?P<ip>\S+) \S+ \S+ \[(?P<date>.*?) (?P<timezone>.*?)\] '
-    '"\S+ (?P<path>.*?) \S+" (?P<status>\S+) (?P<length>\S+)'
+    '(?P<ip>\S+)\s+\S+\s+\S+\s+\[(?P<date>.*?)\s+(?P<timezone>.*?)\]\s+'
+    '"\S+\s+(?P<path>.*?)\s+\S+"\s+(?P<status>\S+)\s+(?P<length>\S+)'
 )
 _NCSA_EXTENDED_LOG_FORMAT = (_COMMON_LOG_FORMAT +
-    ' "(?P<referrer>.*?)" "(?P<user_agent>.*?)"'
+    '\s+"(?P<referrer>.*?)"\s+"(?P<user_agent>.*?)"'
 )
 _S3_LOG_FORMAT = (
-    '\S+ (?P<host>\S+) \[(?P<date>.*?) (?P<timezone>.*?)\] (?P<ip>\S+) '
-    '\S+ \S+ \S+ \S+ "\S+ (?P<path>.*?) \S+" (?P<status>\S+) \S+ (?P<length>\S+) '
-    '\S+ \S+ \S+ "(?P<referrer>.*?)" "(?P<user_agent>.*?)"'
+    '\S+\s+(?P<host>\S+)\s+\[(?P<date>.*?)\s+(?P<timezone>.*?)\]\s+(?P<ip>\S+)\s+'
+    '\S+\s+\S+\s+\S+\s+\S+\s+"\S+\s+(?P<path>.*?)\s+\S+"\s+(?P<status>\S+)\s+\S+\s+(?P<length>\S+)\s+'
+    '\S+\s+\S+\s+\S+\s+"(?P<referrer>.*?)"\s+"(?P<user_agent>.*?)"'
 )
 _ICECAST2_LOG_FORMAT = ( _NCSA_EXTENDED_LOG_FORMAT +
-    ' (?P<session_time>\S+)'
+    '\s+(?P<session_time>\S+)'
 )
 
 FORMATS = {
@@ -565,6 +568,11 @@ class Configuration(object):
             '--replay-tracking', dest='replay_tracking',
             action='store_true', default=False,
             help="Replay piwik.php requests found in custom logs (only piwik.php requests expected). \nSee http://piwik.org/faq/how-to/faq_17033/"
+        )
+        option_parser.add_option(
+            '--replay-tracking-expected-tracker-file', dest='replay_tracking_expected_tracker_file', default='piwik.php',
+            help="The expected suffix for tracking request paths. Only logs whose paths end with this will be imported. Defaults "
+            "to 'piwik.php' so only requests to the piwik.php file will be imported."
         )
         option_parser.add_option(
             '--output', dest='output',
@@ -1731,7 +1739,7 @@ class Parser(object):
                 else:
                     match = candidate_format.check_format(lineOrFile)
             except Exception, e:
-                logging.debug('Error in format checking: %s', str(e))
+                logging.debug('Error in format checking: %s', traceback.format_exc())
                 pass
 
             if match:
@@ -2014,7 +2022,7 @@ class Parser(object):
 
             if config.options.replay_tracking:
                 # we need a query string and we only consider requests with piwik.php
-                if not hit.query_string or not hit.path.lower().endswith('piwik.php'):
+                if not hit.query_string or not hit.path.lower().endswith(config.options.replay_tracking_expected_tracker_file):
                     invalid_line(line, 'no query string, or ' + hit.path.lower() + ' does not end with piwik.php')
                     continue
 

@@ -8,7 +8,6 @@
         "NbActionsPerVisit": "%s akcia za návštevu",
         "NbUniqueVisitors": "Počet unikátnych návštevníkov: %s",
         "NbVisitsBounced": "%s návštev odskočilo (odišli po zobrazení jednej stránky)",
-        "PluginDescription": "Všeobecný analytický report: návštevy, jedinečné návštevy, počet akcií, Bounce Rate, atď",
         "VisitsSummary": "Všetky návštevy",
         "WidgetLastVisits": "Graf posledných návštev",
         "WidgetOverviewGraph": "Prehľad s grafom",

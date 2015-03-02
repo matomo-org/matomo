@@ -172,7 +172,7 @@ class Controller extends \Piwik\Plugin\Controller
         // we catch exceptions in the caller (i.e., oneClickUpdate)
         $url = self::getLatestZipUrl($this->newVersion) . '?cb=' . $this->newVersion;
 
-        Http::fetchRemoteFile($url, $this->pathPiwikZip);
+        Http::fetchRemoteFile($url, $this->pathPiwikZip, 0, 120);
     }
 
     private function oneClick_Unpack()

@@ -278,7 +278,6 @@
         "country_zw": "Zimbabwe",
         "DistinctCountries": "Počet rôznych krajín: %s",
         "Location": "Miesto",
-        "PluginDescription": "Report návštevníkov podľa krajiny",
         "SubmenuLocations": "Umiestnenie"
     }
 }

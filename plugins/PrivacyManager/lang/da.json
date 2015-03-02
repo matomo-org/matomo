@@ -47,7 +47,6 @@
         "LeastMonthsInput": "Angiv et antal måneder større end %s.",
         "MenuPrivacySettings": "Privatliv",
         "NextDelete": "Næste planlagt sletning på",
-        "PluginDescription": "Tilpas Piwik til beskyttelse af personlige oplysninger i overensstemmelse med gældende lovgivning.",
         "PurgeNow": "Ryd op i databasen nu",
         "PurgeNowConfirm": "Permanent sletning af data fra databasen. Bekræft for at fortsætte?",
         "PurgingData": "Rydder op i data...",

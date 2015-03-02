@@ -36,7 +36,6 @@
         "OnlyOneSiteAtTime": "Mund të përpunoni vetëm një site web në një herë. Ju lutem, Ruani ose Anuloni ndryshimet tuaja të tanishme te site-i web %s.",
         "PiwikOffersEcommerceAnalytics": "Piwik-u ju mundëson ndjekje & raportim të thelluar Analizash E-tregtie. Mësoni më tepër rreth %s Analizash E-tregtie%s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik-u do t'i përjashtojë vetvetiu parametrat e zakonshëm të sesioneve (%s).",
-        "PluginDescription": "Administrim site-esh web në Piwik: Shtoni një site web të ri, Përpunoni një ekzistues, Shfaqni kod JavaScript për t'u përfshirë te faqet tuaja. Krejt veprimet mund të kryhen edhe përmes API-t.",
         "SelectACity": "Përzgjidhni një qytet",
         "SelectDefaultCurrency": "Mund të përzgjidhni monedhën parazgjedhje për site-et e rinj web.",
         "SelectDefaultTimezone": "Mund të përzgjidhni zonën kohore parazgjedhje për site-et e rinj web.",

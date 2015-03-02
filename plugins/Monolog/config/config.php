@@ -36,6 +36,7 @@ return array(
         DI\link('Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor'),
         DI\link('Piwik\Plugins\Monolog\Processor\SprintfProcessor'),
         DI\link('Monolog\Processor\PsrLogMessageProcessor'),
+        DI\link('Piwik\Plugins\Monolog\Processor\TokenProcessor'),
     ),
 
     'Piwik\Plugins\Monolog\Handler\FileHandler' => DI\object()

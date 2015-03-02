@@ -1,7 +1,6 @@
 {
     "Provider": {
         "ColumnProvider": "ارائه دهنده خدمات",
-        "PluginDescription": "ارائه دهنده خدمات بازدیدکنندگان را گزارش کن.",
         "WidgetProviders": "ارائه دهندگان"
     }
 }

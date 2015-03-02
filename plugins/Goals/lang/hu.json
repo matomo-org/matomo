@@ -37,7 +37,6 @@
         "OverallConversionRate": "%s az összesített konverziós arány (látogatások, melyek során teljesült a cél)",
         "OverallRevenue": "%s összesített bevétel",
         "Pattern": "Egyezési minta",
-        "PluginDescription": "Hozz létre célokat és hogy részlete jelentésekkel rendelkezz a célkonverziókról: tendenciákat, az egy látogatásra jutó bevételt, a hivatkozó források vagy kulcsszavak szerinti konverziókat, stb.",
         "ReturningVisitorsConversionRateIs": "A visszatérő látogatók konverziós aránya %s",
         "UpdateGoal": "Cél frissítése",
         "URL": "URL",

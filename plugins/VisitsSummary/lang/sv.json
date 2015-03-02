@@ -17,7 +17,6 @@
         "NbUniquePageviewsDescription": "%s unika sidvisningar",
         "NbUniqueVisitors": "%s unika besökare",
         "NbVisitsBounced": "%s besökare som har studsat (lämnat sidan efter en sidvisning)",
-        "PluginDescription": "Rapporterar allmänna analyssiffror: besök, unika besökare, antal händelser, avvisningsfrekvens, etc.",
         "VisitsSummary": "Besökssummering",
         "VisitsSummaryDocumentation": "Detta är en översikt av besöksutvecklingen.",
         "WidgetLastVisits": "Besöksgraf",

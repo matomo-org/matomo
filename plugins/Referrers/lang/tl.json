@@ -20,7 +20,6 @@
         "EvolutionDocumentationMoreInfo": "Para sa karagdagang impormasyon tungkol sa iba't ibang mga uri ng referrer tingnan ang dokumentasyon ng table %s.",
         "Keywords": "Mga Keyword",
         "KeywordsReportDocumentation": "Ang report na ito ay nagpapakita kung anong ano ang mga keywords na ginagamit ng mga users sa pag sesearch bago sila ma-refer sa iyong website. %s Sa pamamagitan ng pag-click sa isang helira sa table maari mong makita ang distribution ng bawat search engines na may query para sa mga keyword.",
-        "PluginDescription": "Mga Ulat ng mga Referrer data: Search Engine mga keyword websites Campaign Tracking Direktan Entry.",
         "Referrer": "Referrer",
         "ReferrerName": "Pangalan ng Referrer",
         "Referrers": "Mga Referrer",

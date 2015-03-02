@@ -46,7 +46,6 @@
         "LeastMonthsInput": "Hãy xác định số tháng lớn hơn %s.",
         "MenuPrivacySettings": "Riêng tư",
         "NextDelete": "Xóa lịch trình tiếp theo trong",
-        "PluginDescription": "Tùy chỉnh Piwik để làm nó riêng tư phù hợp với luật hiện hành.",
         "PurgeNow": "Loại bỏ DB ngay",
         "PurgeNowConfirm": "Bạn muốn xóa vĩnh viễn dữ liệu từ cơ sở dữ liệu của bạn. Bạn có chắc muốn tiếp tục?",
         "PurgingData": "Đang loại bỏ dữ liệu...",
