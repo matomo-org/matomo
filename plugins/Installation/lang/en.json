@@ -115,6 +115,8 @@
         "SystemCheckCronArchiveProcess": "Archive Cron",
         "SystemCheckCronArchiveProcessCLI": "Managing processes via CLI",
         "SystemCheckPhpSetting": "To prevent some critical issue, you must set the following in your php.ini file: %s",
+        "SystemCheckUpdateHttps": "Update over HTTPS",
+        "SystemCheckUpdateHttpsNotSupported": "Piwik will update without using HTTPS which is insecure. Check that CURL is installed.",
         "NotSupported": "not supported",
         "Tables": "Creating the Tables",
         "TablesCreatedSuccess": "Tables created with success!",

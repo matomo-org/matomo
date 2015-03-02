@@ -48,7 +48,8 @@ class Controller extends \Piwik\Plugin\Controller
     protected static function getLatestZipUrl($newVersion)
     {
         if (@Config::getInstance()->Debug['allow_upgrades_to_beta']) {
-            return 'http://builds.piwik.org/piwik-' . $newVersion . '.zip';
+            $url = Config::getInstance()->General['latest_beta_version_url'];
+            return sprintf($url, $newVersion);
         }
         return Config::getInstance()->General['latest_version_url'];
     }
@@ -426,4 +427,12 @@ class Controller extends \Piwik\Plugin\Controller
         return PluginManager::getInstance()->getIncompatiblePlugins($piwikVersion);
     }
 
+    public static function isUpdatingOverHttps()
+    {
+        if (strpos(self::getLatestZipUrl(''), 'https') === false) {
+            return false;
+        }
+
+        return Http::getTransportMethod() === 'curl';
+    }
 }
