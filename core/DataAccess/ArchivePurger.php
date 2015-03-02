@@ -50,14 +50,6 @@ class ArchivePurger
      */
     public static function shouldPurgeOutdatedArchives(Date $date)
     {
-        // we only delete archives if we are able to process them, otherwise, the browser might process reports
-        // when &segment= is specified (or custom date range) and would below, delete temporary archives that the
-        // browser is not able to process until next cron run (which could be more than 1 hour away)
-        if (!Rules::isRequestAuthorizedToArchive()) {
-            Log::info("Purging temporary archives: skipped (request not allowed to initiate archiving)");
-            return false;
-        }
-
         $temporaryArchivingTimeout = Rules::getTodayArchiveTimeToLive();
         if (Rules::isBrowserTriggerEnabled()) {
             // If Browser Archiving is enabled, it is likely there are many more temporary archives
