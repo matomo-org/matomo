@@ -137,7 +137,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage Peer certificate CN=`*.piwik.org' did not match expected
+     * @expectedExceptionMessage failed to open stream: operation failed
      */
     public function testFopenHttpsFailsWithInvalidCertificate()
     {
