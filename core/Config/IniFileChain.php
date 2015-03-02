@@ -8,7 +8,9 @@
 namespace Piwik\Config;
 
 use Piwik\Ini\IniReader;
+use Piwik\Ini\IniReadingException;
 use Piwik\Ini\IniWriter;
+use Piwik\Piwik;
 
 /**
  * Manages a list of INI files where the settings in each INI file merge with or override the
@@ -173,28 +175,37 @@ class IniFileChain
         if (!empty($defaultSettingsFiles)
             || !empty($userSettingsFile)
         ) {
-            $this->settingsChain = null;
-
-            if (!empty($defaultSettingsFiles)) {
-                foreach ($defaultSettingsFiles as $file) {
-                    $this->settingsChain[$file] = null;
-                }
-            }
-
-            if (!empty($userSettingsFile)) {
-                $this->settingsChain[$userSettingsFile] = null;
-            }
+            $this->resetSettingsChain($defaultSettingsFiles, $userSettingsFile);
         }
 
         $reader = new IniReader();
-
         foreach ($this->settingsChain as $file => $ignore) {
             if (is_readable($file)) {
-                $this->settingsChain[$file] = $reader->readFile($file);
+                try {
+                    $this->settingsChain[$file] = $reader->readFile($file);
+                } catch (IniReadingException $ex) {
+                    $message = Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($file, "parse_ini_file()"));
+                    throw new IniReadingException($message, $code = 0, $ex);
+                }
             }
         }
 
         $this->mergedSettings = $this->mergeFileSettings();
+    }
+
+    private function resetSettingsChain($defaultSettingsFiles, $userSettingsFile)
+    {
+        $this->settingsChain = array();
+
+        if (!empty($defaultSettingsFiles)) {
+            foreach ($defaultSettingsFiles as $file) {
+                $this->settingsChain[$file] = null;
+            }
+        }
+
+        if (!empty($userSettingsFile)) {
+            $this->settingsChain[$userSettingsFile] = null;
+        }
     }
 
     protected function mergeFileSettings()

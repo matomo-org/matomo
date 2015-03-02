@@ -329,7 +329,7 @@ class Config extends Singleton
             $this->settings->reload(array($this->pathGlobal, $this->pathCommon), $this->pathLocal);
         } catch (IniReadingException $e) {
             if ($inTrackerRequest) {
-                throw new Exception(Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($e->getIniFile(), "parse_ini_file()")));
+                throw $e;
             }
         }
 
