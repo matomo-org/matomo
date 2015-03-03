@@ -410,7 +410,7 @@ if (typeof JSON2 !== 'object') {
     exec,
     res, width, height, devicePixelRatio,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    hook, getHook, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, setTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
+    hook, getHook, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
@@ -426,7 +426,7 @@ if (typeof JSON2 !== 'object') {
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout,
     setConversionAttributionFirstReferrer,
     disablePerformanceTracking, setGenerationTimeMs,
-    doNotTrack, setDoNotTrack, msDoNotTrack,
+    doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
     setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackSiteSearch, trackEvent,
@@ -457,7 +457,9 @@ if (typeof JSON2 !== 'object') {
     trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body,
-    getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout
+    getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout,
+    newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs
+
  */
 /*global _paq:true */
 /*members push */
@@ -2686,6 +2688,38 @@ if (typeof Piwik !== 'object') {
                 return cookieValue;
             }
 
+
+            /**
+             * Loads the Visitor ID cookie and returns a named array of values
+             */
+            function getValuesFromVisitorIdCookie() {
+                var cookieVisitorIdValue = loadVisitorIdCookie(),
+                    newVisitor = cookieVisitorIdValue[0],
+                    uuid = cookieVisitorIdValue[1],
+                    createTs = cookieVisitorIdValue[2],
+                    visitCount = cookieVisitorIdValue[3],
+                    currentVisitTs = cookieVisitorIdValue[4],
+                    lastVisitTs = cookieVisitorIdValue[5];
+
+                // case migrating from pre-1.5 cookies
+                if (!isDefined(cookieVisitorIdValue[6])) {
+                    cookieVisitorIdValue[6] = "";
+                }
+
+                var lastEcommerceOrderTs = cookieVisitorIdValue[6];
+
+                return {
+                    newVisitor: newVisitor,
+                    uuid: uuid,
+                    createTs: createTs,
+                    visitCount: visitCount,
+                    currentVisitTs: currentVisitTs,
+                    lastVisitTs: lastVisitTs,
+                    lastEcommerceOrderTs: lastEcommerceOrderTs
+                };
+            }
+
+
             function getRemainingVisitorCookieTimeout() {
                 var now = new Date(),
                     nowTs = now.getTime(),
@@ -2806,36 +2840,6 @@ if (typeof Piwik !== 'object') {
              */
             function setSessionCookie() {
                 setCookie(getCookieName('ses'), '*', configSessionCookieTimeout, configCookiePath, configCookieDomain);
-            }
-
-            /**
-             * Loads the Visitor ID cookie and returns a named array of values
-             */
-            function getValuesFromVisitorIdCookie() {
-                var cookieVisitorIdValue = loadVisitorIdCookie();
-                var newVisitor = cookieVisitorIdValue[0];
-                var uuid = cookieVisitorIdValue[1];
-                var createTs = cookieVisitorIdValue[2];
-                var visitCount = cookieVisitorIdValue[3]; // Updated below
-                var currentVisitTs = cookieVisitorIdValue[4];
-                var lastVisitTs = cookieVisitorIdValue[5]; // Updated below
-
-                // case migrating from pre-1.5 cookies
-                if (!isDefined(cookieVisitorIdValue[6])) {
-                    cookieVisitorIdValue[6] = "";
-                }
-
-                var lastEcommerceOrderTs = cookieVisitorIdValue[6];
-
-                return {
-                    newVisitor: newVisitor,
-                    uuid: uuid,
-                    createTs: createTs,
-                    visitCount: visitCount,
-                    currentVisitTs: currentVisitTs,
-                    lastVisitTs: lastVisitTs,
-                    lastEcommerceOrderTs: lastEcommerceOrderTs
-                };
             }
 
             /**
@@ -4141,7 +4145,8 @@ if (typeof Piwik !== 'object') {
                  * @return array
                  */
                 getVisitorInfo: function () {
-                    // @todo: in a new method, we could return also return getValuesFromVisitorIdCookie() which has named parameters rather than returning int indexed array
+                    // Note: in a new method, we could return also return getValuesFromVisitorIdCookie()
+                    //       which returns named parameters rather than returning integer indexed array
                     return loadVisitorIdCookie();
                 },
 

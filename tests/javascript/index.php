@@ -1559,7 +1559,9 @@ function PiwikTest() {
             }
 
             strictEqual(actual.indexOf(expectedStartsWith), 0, message +  actual + ' should start with ' + expectedStartsWith);
-            strictEqual(actual.indexOf('&idsite=&rec=1'), expectedStartsWith.length);
+
+            var expectedString = '&idsite=1&rec=1';
+            strictEqual(actual.indexOf(expectedString), expectedStartsWith.length, 'did not find ' + expectedString + ' in ' + actual);
             // make sure it contains all those other tracking stuff directly afterwards so we can assume it did append
             // the other request stuff and we also make sure to compare the whole custom string as we check from
             // expectedStartsWith.length
@@ -1615,13 +1617,15 @@ function PiwikTest() {
         strictEqual(actual, undefined, 'nothing set');
 
         actual = tracker.buildContentInteractionTrackingRedirectUrl('/path?a=b');
-        assertTrackingRequest(actual, '?redirecturl=' + encodeWrapper(origin + '/path?a=b') + '&c_t=%2Fpath%3Fa%3Db', 'should build redirect url including domain when absolute path. Target should also fallback to passed url if not set');
+        assertTrackingRequest(actual, 'piwik.php?redirecturl=' + encodeWrapper(origin + '/path?a=b') + '&c_t=%2Fpath%3Fa%3Db',
+            'should build redirect url including domain when absolute path. Target should also fallback to passed url if not set');
 
         actual = tracker.buildContentInteractionTrackingRedirectUrl('path?a=b');
-        assertTrackingRequest(actual, '?redirecturl=' + toEncodedAbsoluteUrl('path?a=b') + '&c_t=path%3Fa%3Db', 'should build redirect url including domain when relative path. Target should also fallback to passed url if not set');
+        assertTrackingRequest(actual, 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('path?a=b') + '&c_t=path%3Fa%3Db',
+            'should build redirect url including domain when relative path. Target should also fallback to passed url if not set');
 
         actual = tracker.buildContentInteractionTrackingRedirectUrl('#test', 'click', 'name', 'piece', 'target');
-        assertTrackingRequest(actual, '?redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'all params set');
+        assertTrackingRequest(actual, 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'all params set');
 
         trackerUrl = tracker.getTrackerUrl();
         tracker.setTrackerUrl('piwik.php?test=1');
@@ -1729,7 +1733,7 @@ function PiwikTest() {
         strictEqual($(_s('#ex111')).attr('href'), 'piwik.php?xyz=makesnosense', 'trackContentImpressionClickInteraction, a tracking link should not be changed');
 
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex112')))({target: _s('#ex112')});
-        assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=' + originEncoded + '%2Ftests%2Fjavascript%2F%23example', 'trackContentImpressionClickInteraction, a link that is an anchor should be tracked as XHR and no redirect');
+        assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=' + toEncodedAbsoluteUrl('#example'), 'trackContentImpressionClickInteraction, a link that is an anchor should be tracked as XHR and no redirect');
 
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex113_target')))({target: _s('#ex113_target')});
         assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg', 'trackContentImpressionClickInteraction, if element is not A or AREA it should always use xhr');
