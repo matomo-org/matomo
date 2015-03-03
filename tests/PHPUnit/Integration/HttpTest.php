@@ -128,7 +128,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage curl_exec: SSL certificate
+     * @expectedExceptionMessage curl_exec: SSL
      */
     public function testCurlHttpsFailsWithInvalidCertificate()
     {
