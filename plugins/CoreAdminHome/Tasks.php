@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\DataAccess\ArchivePurger;
+use Piwik\Archive\Purger;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
@@ -18,13 +18,13 @@ use Piwik\Log;
 class Tasks extends \Piwik\Plugin\Tasks
 {
     /**
-     * @var ArchivePurger
+     * @var Purger
      */
     private $archivePurger;
 
-    public function __construct(ArchivePurger $archivePurger = null)
+    public function __construct(Purger $archivePurger = null)
     {
-        $this->archivePurger = $archivePurger ?: new ArchivePurger();
+        $this->archivePurger = $archivePurger ?: new Purger();
     }
 
     public function schedule()

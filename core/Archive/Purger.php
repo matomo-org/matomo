@@ -6,14 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\DataAccess;
+namespace Piwik\Archive;
 
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\InvalidatedReports;
+use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
-use Piwik\Option;
 use Piwik\Piwik;
 
 /**
@@ -24,10 +26,8 @@ use Piwik\Piwik;
  *
  * (2) Deletes outdated archives (the temporary or errored archives)
  *
- *
- * @package Piwik\DataAccess
  */
-class ArchivePurger
+class Purger
 {
     /**
      * @var Model
@@ -39,30 +39,9 @@ class ArchivePurger
         $this->model = $model ?: new Model();
     }
 
-    /**
-     * Returns false if we should not purge data for this month,
-     * or returns a timestamp indicating outdated archives older than this timestamp (processed before) can be purged.
-     *
-     * Note: when calling this function it is assumed that the callee will purge the outdated archives afterwards.
-     *
-     * @param \Piwik\Date $date
-     * @return int|bool  Outdated archives older than this timestamp should be purged
-     */
-    public static function shouldPurgeOutdatedArchives(Date $date)
-    {
-        $temporaryArchivingTimeout = Rules::getTodayArchiveTimeToLive();
-        if (Rules::isBrowserTriggerEnabled()) {
-            // If Browser Archiving is enabled, it is likely there are many more temporary archives
-            // We delete more often which is safe, since reports are re-processed on demand
-            return Date::factory(time() - 2 * $temporaryArchivingTimeout)->getDateTime();
-        }
-
-        // If cron core:archive command is building the reports, we should keep all temporary reports from today
-        return Date::factory('yesterday')->getDateTime();
-    }
-
     public function purgeInvalidatedArchives()
     {
+        // TODO: why does it only look in specified sites to purge instead of all sites?
         $store = new InvalidatedReports();
         $idSitesByYearMonth = $store->getSitesByYearMonthArchiveToPurge();
         foreach ($idSitesByYearMonth as $yearMonth => $idSites) {
@@ -92,14 +71,12 @@ class ArchivePurger
      */
     public function purgeOutdatedArchives(Date $dateStart)
     {
-        $purgeArchivesOlderThan = self::shouldPurgeOutdatedArchives($dateStart);
-
+        $purgeArchivesOlderThan = self::getOldestTemporaryArchiveToKeepThreshold();
         if (!$purgeArchivesOlderThan) {
             return;
         }
 
         $idArchivesToDelete = $this->getOutdatedArchiveIds($dateStart, $purgeArchivesOlderThan);
-
         if (!empty($idArchivesToDelete)) {
             $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
         }
@@ -161,5 +138,23 @@ class ArchivePurger
         foreach ($batches as $idsToDelete) {
             $this->model->deleteArchiveIds($numericTable, $blobTable, $idsToDelete);
         }
+    }
+
+    /**
+     * Returns a timestamp indicating outdated archives older than this timestamp (processed before) can be purged.
+     *
+     * @return int|bool  Outdated archives older than this timestamp should be purged
+     */
+    private static function getOldestTemporaryArchiveToKeepThreshold()
+    {
+        $temporaryArchivingTimeout = Rules::getTodayArchiveTimeToLive();
+        if (Rules::isBrowserTriggerEnabled()) {
+            // If Browser Archiving is enabled, it is likely there are many more temporary archives
+            // We delete more often which is safe, since reports are re-processed on demand
+            return Date::factory(time() - 2 * $temporaryArchivingTimeout)->getDateTime();
+        }
+
+        // If cron core:archive command is building the reports, we should keep all temporary reports from today
+        return Date::factory('yesterday')->getDateTime();
     }
 }

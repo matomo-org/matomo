@@ -23,7 +23,7 @@ use Piwik\Site;
  *
  * Invalidated archives can still be selected and displayed in UI and API (until they are reprocessed by core:archive)
  *
- * The invalidated archives will be deleted by ArchivePurger
+ * The invalidated archives will be deleted by Purger
  *
  * @package Piwik\DataAccess
  */
