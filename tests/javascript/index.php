@@ -407,6 +407,10 @@ function PiwikTest() {
 
     module('externals');
 
+
+    // Delete cookies to prevent cookie store from impacting tests
+    deleteCookies();
+
     test("JSLint", function() {
         expect(1);
         var src = '<?php
@@ -1555,7 +1559,9 @@ function PiwikTest() {
             }
 
             strictEqual(actual.indexOf(expectedStartsWith), 0, message +  actual + ' should start with ' + expectedStartsWith);
-            strictEqual(actual.indexOf('&idsite=&rec=1'), expectedStartsWith.length);
+
+            var expectedString = '&idsite=1&rec=1';
+            strictEqual(actual.indexOf(expectedString), expectedStartsWith.length, 'did not find ' + expectedString + ' in ' + actual);
             // make sure it contains all those other tracking stuff directly afterwards so we can assume it did append
             // the other request stuff and we also make sure to compare the whole custom string as we check from
             // expectedStartsWith.length
@@ -1611,13 +1617,15 @@ function PiwikTest() {
         strictEqual(actual, undefined, 'nothing set');
 
         actual = tracker.buildContentInteractionTrackingRedirectUrl('/path?a=b');
-        assertTrackingRequest(actual, '?redirecturl=' + encodeWrapper(origin + '/path?a=b') + '&c_t=%2Fpath%3Fa%3Db', 'should build redirect url including domain when absolute path. Target should also fallback to passed url if not set');
+        assertTrackingRequest(actual, 'piwik.php?redirecturl=' + encodeWrapper(origin + '/path?a=b') + '&c_t=%2Fpath%3Fa%3Db',
+            'should build redirect url including domain when absolute path. Target should also fallback to passed url if not set');
 
         actual = tracker.buildContentInteractionTrackingRedirectUrl('path?a=b');
-        assertTrackingRequest(actual, '?redirecturl=' + toEncodedAbsoluteUrl('path?a=b') + '&c_t=path%3Fa%3Db', 'should build redirect url including domain when relative path. Target should also fallback to passed url if not set');
+        assertTrackingRequest(actual, 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('path?a=b') + '&c_t=path%3Fa%3Db',
+            'should build redirect url including domain when relative path. Target should also fallback to passed url if not set');
 
         actual = tracker.buildContentInteractionTrackingRedirectUrl('#test', 'click', 'name', 'piece', 'target');
-        assertTrackingRequest(actual, '?redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'all params set');
+        assertTrackingRequest(actual, 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'all params set');
 
         trackerUrl = tracker.getTrackerUrl();
         tracker.setTrackerUrl('piwik.php?test=1');
@@ -1725,7 +1733,7 @@ function PiwikTest() {
         strictEqual($(_s('#ex111')).attr('href'), 'piwik.php?xyz=makesnosense', 'trackContentImpressionClickInteraction, a tracking link should not be changed');
 
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex112')))({target: _s('#ex112')});
-        assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=' + originEncoded + '%2Ftests%2Fjavascript%2F%23example', 'trackContentImpressionClickInteraction, a link that is an anchor should be tracked as XHR and no redirect');
+        assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=' + toEncodedAbsoluteUrl('#example'), 'trackContentImpressionClickInteraction, a link that is an anchor should be tracked as XHR and no redirect');
 
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex113_target')))({target: _s('#ex113_target')});
         assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg', 'trackContentImpressionClickInteraction, if element is not A or AREA it should always use xhr');
@@ -2007,29 +2015,31 @@ function PiwikTest() {
     });
     
     test("Default visitorId should be equal across Trackers", function() {
-        expect(4);
+        expect(5);
 
         deleteCookies();
 
         var asyncTracker = Piwik.getAsyncTracker();
-        var asyncVistorId = asyncTracker.getVisitorId();
-        equal(Piwik.getAsyncTracker().getVisitorId(), asyncVistorId, 'asyncVistorId');
-        
-        wait(2000);
+        var asyncVisitorId = asyncTracker.getVisitorId();
+        equal(Piwik.getAsyncTracker().getSiteId(), asyncTracker.getSiteId(), 'async same site id');
+        equal(Piwik.getAsyncTracker().getTrackerUrl(), asyncTracker.getTrackerUrl(), 'async same getTrackerUrl()');
 
+        wait(2000);
         var delayedTracker = Piwik.getTracker();
         var delayedVisitorId = delayedTracker.getVisitorId();
-        equal(Piwik.getAsyncTracker().getVisitorId(), delayedVisitorId, 'delayedVisitorId');
+        equal(Piwik.getAsyncTracker().getVisitorId(), delayedVisitorId, 'delayedVisitorId ' + delayedVisitorId + ' should be the same as ' + Piwik.getAsyncTracker().getVisitorId());
 
         var prefixTracker = Piwik.getTracker();
         prefixTracker.setCookieNamePrefix('_test_cookie_prefix');
 
         var prefixVisitorId = prefixTracker.getVisitorId();
-        equal(Piwik.getAsyncTracker().getVisitorId(), prefixVisitorId, 'prefixVisitorId');
+        notEqual(Piwik.getAsyncTracker().getVisitorId(), prefixVisitorId, 'Visitor ID are different when using a different cookie prefix');
 
         var customTracker = Piwik.getTracker('customTrackerUrl', '71');
         var customVisitorId = customTracker.getVisitorId();
-        equal(Piwik.getAsyncTracker().getVisitorId(), customVisitorId, 'customVisitorId');
+        notEqual(Piwik.getAsyncTracker().getVisitorId(), customVisitorId, 'Visitor ID are different on different websites');
+
+
     });
 
     test("AnalyticsTracker alias", function() {
@@ -2433,10 +2443,11 @@ function PiwikTest() {
     test("getRequest()", function() {
         expect(2);
 
-        var tracker = Piwik.getTracker();
+        var tracker = Piwik.getTracker('hostname', 4);
 
         tracker.setCustomData("key is X", "value is Y");
-        equal( tracker.getRequest('hello=world').indexOf('hello=world&idsite=&rec=1&r='), 0);
+        var requestString = tracker.getRequest('hello=world');
+        equal( requestString.indexOf('hello=world&idsite=4&rec=1&r='), 0, "Request string " + requestString);
 
         ok( -1 !== tracker.getRequest('hello=world').indexOf('send_image=0'), 'should disable sending image response');
     });
@@ -2774,7 +2785,7 @@ if ($sqlite) {
             visitorId1 = Piwik.getAsyncTracker().getVisitorId();
         }]);
         visitorId2 = tracker.getVisitorId();
-        ok( visitorId1 && visitorId1 != "" && visitorId2 && visitorId2 != "" && (visitorId1 == visitorId2), "getVisitorId()" );
+        ok( visitorId1 && visitorId1 != "" && visitorId2 && visitorId2 != "" && (visitorId1 == visitorId2), "getVisitorId()" + visitorId1 + " VS " + visitorId2 );
 
         var visitorInfo1, visitorInfo2;
 
@@ -2786,7 +2797,7 @@ if ($sqlite) {
             referrer1 = Piwik.getAsyncTracker().getAttributionReferrerUrl();
         }]);
         visitorInfo2 = tracker.getVisitorInfo();
-        ok( visitorInfo1 && visitorInfo2 && visitorInfo1.length == visitorInfo2.length, "getVisitorInfo()" );
+        ok( visitorInfo1 && visitorInfo2 && visitorInfo1.length == visitorInfo2.length, "getVisitorInfo() " );
         for (var i = 0; i < 6; i++) {
             ok( visitorInfo1[i] == visitorInfo2[i], "(loadVisitorId())["+i+"]" );
         }
