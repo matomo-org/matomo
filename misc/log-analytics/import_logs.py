@@ -1388,7 +1388,7 @@ class Recorder(object):
         # Organize hits so that one client IP will always use the same queue.
         # We have to do this so visits from the same IP will be added in the right order.
         hits_by_client = [[] for r in cls.recorders]
-        for hit in all_hits:
+        for hit in sorted(all_hits, key=lambda hit: hit.ip):
             hits_by_client[hit.get_visitor_id_hash() % len(cls.recorders)].append(hit)
 
         for i, recorder in enumerate(cls.recorders):
