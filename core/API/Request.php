@@ -218,12 +218,12 @@ class Request
 
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
 
-            list($module, $method) = $this->getRenamedModuleAndAction($module, $method);
+            list($module, $method) = self::getRenamedModuleAndAction($module, $method);
 
             if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated($module)) {
                 throw new PluginDeactivatedException($module);
             }
-            $apiClassName = $this->getClassNameAPI($module);
+            $apiClassName = self::getClassNameAPI($module);
 
             self::reloadAuthUsingTokenAuth($this->request);
 
