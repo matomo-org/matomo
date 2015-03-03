@@ -184,6 +184,62 @@ class PurgerTest extends IntegrationTestCase
             'period' => 1,
             'ts_archived' => '2015-02-28 12:12:12'
         ),
+
+        array(
+            'idarchive' => 15,
+            'idsite' => 1,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_INVALIDATED,
+            'date1' => '2015-02-27',
+            'date2' => '2015-02-27',
+            'period' => 1,
+            'ts_archived' => '2015-02-28 12:12:12'
+        ),
+
+        // reprocessed invalidated
+        array(
+            'idarchive' => 16,
+            'idsite' => 1,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-10',
+            'date2' => '2015-02-10',
+            'period' => 1,
+            'ts_archived' => '2015-02-11 12:13:14'
+        ),
+
+        array(
+            'idarchive' => 17,
+            'idsite' => 2,
+            'name' => 'doneDUMMYHASHSTR',
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-08',
+            'date2' => '2015-02-14',
+            'period' => 2,
+            'ts_archived' => '2015-02-16 00:00:00'
+        ),
+
+        array(
+            'idarchive' => 18,
+            'idsite' => 3,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-01',
+            'date2' => '2015-02-28',
+            'period' => 3,
+            'ts_archived' => '2015-02-28 13:13:13'
+        ),
+
+        array(
+            'idarchive' => 19,
+            'idsite' => 1,
+            'name' => 'doneDUMMYHASHSTR',
+            'value' => ArchiveWriter::DONE_OK_TEMPORARY,
+            'date1' => '2015-02-28',
+            'date2' => '2015-02-28',
+            'period' => 1,
+            'ts_archived' => '2015-02-28 16:12:12' // must be late so it doesn't screw up the purgeOutdatedArchives test
+        ),
     );
 
     /**
@@ -250,10 +306,10 @@ class PurgerTest extends IntegrationTestCase
         $this->archivePurger->purgeInvalidatedArchives();
 
         // check invalidated archives for idsite = 1, idsite = 3 are purged
-        $expectedPurgedArchives = array(11, 13);
+        $expectedPurgedArchives = array(11, 13, 14);
         $this->assertArchivesDoNotExist($expectedPurgedArchives, $this->february);
 
-        $expectedPresentArchives = array(12, 14);
+        $expectedPresentArchives = array(12);
         $this->assertArchivesExist($expectedPresentArchives, $this->february);
 
         $this->assertJanuaryInvalidatedArchivesNotPurged();
@@ -263,13 +319,13 @@ class PurgerTest extends IntegrationTestCase
     {
         $this->setUpInvalidatedReportsDistributedList($dates = array($this->february), $sites = array(1, 2, 3));
 
-        $this->archivePurger->purgeInvalidatedArchivesFrom("2015_01", array(1,2));
+        $this->archivePurger->purgeInvalidatedArchivesFrom("2015_02", array(1,2));
 
         // check invalidated archives for idsite = 1, idsite = 2 are purged
-        $expectedPurgedArchives = array(11, 13, 14);
+        $expectedPurgedArchives = array(11, 12, 14);
         $this->assertArchivesDoNotExist($expectedPurgedArchives, $this->february);
 
-        $expectedPresentArchives = array(12);
+        $expectedPresentArchives = array(13);
         $this->assertArchivesExist($expectedPresentArchives, $this->february);
 
         $this->assertJanuaryInvalidatedArchivesNotPurged();
@@ -278,9 +334,8 @@ class PurgerTest extends IntegrationTestCase
         $invalidatedReports = new InvalidatedReports();
         $sitesByYearMonth = $invalidatedReports->getSitesByYearMonthArchiveToPurge();
 
-        $this->assertEquals(array(
-            '2015_02' => array(3)
-        ), $sitesByYearMonth);
+        $this->assertArrayHasKey('2015_02', $sitesByYearMonth);
+        $this->assertEquals(array(3), array_values($sitesByYearMonth['2015_02']));
     }
 
     private function configureCustomRangePurging()
@@ -370,9 +425,9 @@ class PurgerTest extends IntegrationTestCase
     private function assertFebruaryTemporaryArchivesPurged($isBrowserTriggeredArchivingEnabled)
     {
         if ($isBrowserTriggeredArchivingEnabled) {
-            $expectedPurgedArchives = array(1,2,3,4,6,7);
+            $expectedPurgedArchives = array(1,2,3,4,6,7); // only archives from 2 hours before "now" are purged
         } else {
-            $expectedPurgedArchives = array(1,2,3,4,5,6,7);
+            $expectedPurgedArchives = array(1,2,3,4,7); // only archives before start of "yesterday" are purged
         }
 
         $this->assertArchivesDoNotExist($expectedPurgedArchives, $this->february);
