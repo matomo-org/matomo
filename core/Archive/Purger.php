@@ -34,33 +34,85 @@ class Purger
      */
     private $model;
 
-    public function __construct(Model $model = null)
+    /**
+     * TODO: what does this class even do?
+     *
+     * @var InvalidatedReports
+     */
+    private $invalidatedReports;
+
+    /**
+     * TODO
+     *
+     * @var Date
+     */
+    private $purgeCustomRangesOlderThan;
+
+    /**
+     * TODO
+     *
+     * @var Date
+     */
+    private $yesterday;
+
+    /**
+     * TODO
+     *
+     * @var $today
+     */
+    private $today;
+
+    /**
+     * TODO
+     *
+     * @var int
+     */
+    private $now;
+
+    public function __construct(Model $model = null, Date $purgeCustomRangesOlderThan = null)
     {
         $this->model = $model ?: new Model();
+        $this->invalidatedReports = new InvalidatedReports();
+
+        $this->purgeCustomRangesOlderThan = $purgeCustomRangesOlderThan ?: self::getDefaultCustomRangeToPurgeAgeThreshold();
+
+        $this->yesterday = Date::factory('yesterday');
+        $this->today = Date::factory('today');
+        $this->now = time();
     }
 
+    /**
+     * TODO
+     */
     public function purgeInvalidatedArchives()
     {
         // TODO: why does it only look in specified sites to purge instead of all sites?
-        $store = new InvalidatedReports();
-        $idSitesByYearMonth = $store->getSitesByYearMonthArchiveToPurge();
+        $idSitesByYearMonth = $this->invalidatedReports->getSitesByYearMonthArchiveToPurge();
         foreach ($idSitesByYearMonth as $yearMonth => $idSites) {
-            if(empty($idSites)) {
-                continue;
-            }
-
-            $date = Date::factory(str_replace('_', '-', $yearMonth) . '-01');
-            $numericTable = ArchiveTableCreator::getNumericTable($date);
-
-            $archiveIds = $this->model->getInvalidatedArchiveIdsSafeToDelete($numericTable, $idSites);
-
-            if (count($archiveIds) == 0) {
-                continue;
-            }
-            $this->deleteArchiveIds($date, $archiveIds);
-
-            $store->markSiteIdsHaveBeenPurged($idSites, $yearMonth);
+            $this->purgeInvalidatedArchivesFrom($yearMonth, $idSites);
         }
+    }
+
+    /**
+     * TODO
+     */
+    public function purgeInvalidatedArchivesFrom($yearMonth, $idSites)
+    {
+        if (empty($idSites)) {
+            return;
+        }
+
+        $date = Date::factory(str_replace('_', '-', $yearMonth) . '-01');
+        $numericTable = ArchiveTableCreator::getNumericTable($date);
+
+        $archiveIds = $this->model->getInvalidatedArchiveIdsSafeToDelete($numericTable, $idSites);
+        if (count($archiveIds) == 0) {
+            return;
+        }
+
+        $this->deleteArchiveIds($date, $archiveIds);
+
+        $this->invalidatedReports->markSiteIdsHaveBeenPurged($idSites, $yearMonth);
     }
 
     /**
@@ -71,17 +123,14 @@ class Purger
      */
     public function purgeOutdatedArchives(Date $dateStart)
     {
-        $purgeArchivesOlderThan = self::getOldestTemporaryArchiveToKeepThreshold();
-        if (!$purgeArchivesOlderThan) {
-            return;
-        }
+        $purgeArchivesOlderThan = $this->getOldestTemporaryArchiveToKeepThreshold();
 
         $idArchivesToDelete = $this->getOutdatedArchiveIds($dateStart, $purgeArchivesOlderThan);
         if (!empty($idArchivesToDelete)) {
             $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
         }
 
-        $this->deleteArchivesWithPeriodRange($dateStart);
+        $this->deleteArchivesWithPeriodRange($dateStart); // TODO: this is unrelated to outdated archive purging, should be in its own method
 
         Log::debug("Purging temporary archives: done [ purged archives older than %s in %s ] [Deleted IDs: %s]",
                    $purgeArchivesOlderThan,
@@ -114,13 +163,11 @@ class Purger
     {
         $numericTable = ArchiveTableCreator::getNumericTable($date);
         $blobTable    = ArchiveTableCreator::getBlobTable($date);
-        $daysRangesValid = Config::getInstance()->General['purge_date_range_archives_after_X_days'];
-        $pastDate    = Date::factory('today')->subDay($daysRangesValid)->getDateTime();
 
-        $this->model->deleteArchivesWithPeriod($numericTable, $blobTable, Piwik::$idPeriods['range'], $pastDate);
+        $this->model->deleteArchivesWithPeriod($numericTable, $blobTable, Piwik::$idPeriods['range'], $this->purgeCustomRangesOlderThan);
 
         Log::debug("Purging Custom Range archives: done [ purged archives older than %s from %s / blob ]",
-            $pastDate, $numericTable);
+            $this->purgeCustomRangesOlderThan, $numericTable);
     }
 
     /**
@@ -145,16 +192,52 @@ class Purger
      *
      * @return int|bool  Outdated archives older than this timestamp should be purged
      */
-    private static function getOldestTemporaryArchiveToKeepThreshold()
+    protected function getOldestTemporaryArchiveToKeepThreshold()
     {
         $temporaryArchivingTimeout = Rules::getTodayArchiveTimeToLive();
         if (Rules::isBrowserTriggerEnabled()) {
             // If Browser Archiving is enabled, it is likely there are many more temporary archives
             // We delete more often which is safe, since reports are re-processed on demand
-            return Date::factory(time() - 2 * $temporaryArchivingTimeout)->getDateTime();
+            return Date::factory($this->now - 2 * $temporaryArchivingTimeout)->getDateTime();
         }
 
         // If cron core:archive command is building the reports, we should keep all temporary reports from today
-        return Date::factory('yesterday')->getDateTime();
+        return $this->yesterday->getDateTime();
+    }
+
+    private static function getDefaultCustomRangeToPurgeAgeThreshold()
+    {
+        $daysRangesValid = Config::getInstance()->General['purge_date_range_archives_after_X_days'];
+        return Date::factory('today')->subDay($daysRangesValid)->getDateTime();
+    }
+
+    /**
+     * For tests.
+     *
+     * @param Date $yesterday
+     */
+    public function setYesterdayDate(Date $yesterday)
+    {
+        $this->yesterday = $yesterday;
+    }
+
+    /**
+     * For tests.
+     *
+     * @param Date $today
+     */
+    public function setTodayDate(Date $today)
+    {
+        $this->today = $today;
+    }
+
+    /**
+     * For tests.
+     *
+     * @param int $now
+     */
+    public function setNow($now)
+    {
+        $this->now = $now;
     }
 }
