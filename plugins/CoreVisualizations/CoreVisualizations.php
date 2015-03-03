@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreVisualizations;
 
+use Piwik\Common;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator.php';
@@ -28,13 +29,29 @@ class CoreVisualizations extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'UsersManager.deleteUser'                => 'deleteUser'
+            'UsersManager.deleteUser'                => 'deleteUser',
+            'ViewDataTable.addViewDataTable'         => 'addViewDataTable'
         );
     }
 
     public function deleteUser($userLogin)
     {
         ViewDataTableManager::clearUserViewDataTableParameters($userLogin);
+    }
+
+    public function addViewDataTable(&$viewDataTable)
+    {
+        if (Common::getRequestVar('pivotBy', '')) {
+            $tableToRemove = 'Visualizations\HtmlTable';
+        } else {
+            $tableToRemove = 'HtmlTable\PivotBy';
+        }
+
+        foreach ($viewDataTable as $index => $table) {
+            if (Common::stringEndsWith($table, $tableToRemove)) {
+                unset($viewDataTable[$index]);
+            }
+        }
     }
 
     public function getStylesheetFiles(&$stylesheets)

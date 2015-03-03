@@ -314,35 +314,6 @@ class RequestConfig
         $this->filter_sort_order = 'desc';
     }
 
-    /**
-     * Returns `true` if queued filters have been disabled, `false` if otherwise.
-     *
-     * @return bool
-     */
-    public function areQueuedFiltersDisabled()
-    {
-        return isset($this->disable_queued_filters) && $this->disable_queued_filters;
-    }
-
-    /**
-     * Returns `true` if generic filters have been disabled, `false` if otherwise.
-     *
-     * @return bool
-     */
-    public function areGenericFiltersDisabled()
-    {
-        // if disable_generic_filters query param is set to '1', generic filters are disabled
-        if (Common::getRequestVar('disable_generic_filters', '0', 'string') == 1) {
-            return true;
-        }
-
-        if (isset($this->disable_generic_filters) && true === $this->disable_generic_filters) {
-            return true;
-        }
-
-        return false;
-    }
-
     public function getApiModuleToRequest()
     {
         list($module, $method) = explode('.', $this->apiMethodToRequestDataTable);
@@ -355,10 +326,5 @@ class RequestConfig
         list($module, $method) = explode('.', $this->apiMethodToRequestDataTable);
 
         return $method;
-    }
-
-    public function shouldFormatMetrics()
-    {
-        return Common::getRequestVar('format_metrics', '1', 'string', $this->request_parameters_to_modify) != 0;
     }
 }

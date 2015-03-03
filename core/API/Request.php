@@ -18,6 +18,7 @@ use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\Log;
+use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * Dispatches API requests to the appropriate API method.
@@ -219,11 +220,10 @@ class Request
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
 
             list($module, $method) = self::getRenamedModuleAndAction($module, $method);
+            
+            PluginManager::getInstance()->checkIsPluginActivated($module);
 
-            if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated($module)) {
-                throw new PluginDeactivatedException($module);
-            }
-            $apiClassName = self::getClassNameAPI($module);
+            $apiClassName = $this->getClassNameAPI($module);
 
             self::reloadAuthUsingTokenAuth($this->request);
 

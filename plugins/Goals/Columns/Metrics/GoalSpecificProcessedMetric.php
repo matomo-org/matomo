@@ -9,9 +9,11 @@ namespace Piwik\Plugins\Goals\Columns\Metrics;
 
 use Piwik\Common;
 use Piwik\DataTable\Row;
+use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugins\Goals\API as GoalsAPI;
+use Piwik\Tracker\GoalManager;
 
 /**
  * Base class for processed metrics that are calculated using metrics that are
@@ -60,6 +62,16 @@ abstract class GoalSpecificProcessedMetric extends ProcessedMetric
             $alternateKey = 'idgoal=' . $this->idGoal;
             if (isset($allGoalMetrics[$alternateKey])) {
                 return $allGoalMetrics[$alternateKey];
+            } elseif ($this->idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+                $alternateKey = GoalManager::IDGOAL_ORDER;
+                if (isset($allGoalMetrics[$alternateKey])) {
+                    return $allGoalMetrics[$alternateKey];
+                }
+            } elseif ($this->idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+                $alternateKey = GoalManager::IDGOAL_CART;
+                if (isset($allGoalMetrics[$alternateKey])) {
+                    return $allGoalMetrics[$alternateKey];
+                }
             } else {
                 return array();
             }
