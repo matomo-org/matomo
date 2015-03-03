@@ -407,6 +407,10 @@ function PiwikTest() {
 
     module('externals');
 
+
+    // Delete cookies to prevent cookie store from impacting tests
+    deleteCookies();
+
     test("JSLint", function() {
         expect(1);
         var src = '<?php
@@ -2007,29 +2011,31 @@ function PiwikTest() {
     });
     
     test("Default visitorId should be equal across Trackers", function() {
-        expect(4);
+        expect(5);
 
         deleteCookies();
 
         var asyncTracker = Piwik.getAsyncTracker();
-        var asyncVistorId = asyncTracker.getVisitorId();
-        equal(Piwik.getAsyncTracker().getVisitorId(), asyncVistorId, 'asyncVistorId');
-        
-        wait(2000);
+        var asyncVisitorId = asyncTracker.getVisitorId();
+        equal(Piwik.getAsyncTracker().getSiteId(), asyncTracker.getSiteId(), 'async same site id');
+        equal(Piwik.getAsyncTracker().getTrackerUrl(), asyncTracker.getTrackerUrl(), 'async same getTrackerUrl()');
 
+        wait(2000);
         var delayedTracker = Piwik.getTracker();
         var delayedVisitorId = delayedTracker.getVisitorId();
-        equal(Piwik.getAsyncTracker().getVisitorId(), delayedVisitorId, 'delayedVisitorId');
+        equal(Piwik.getAsyncTracker().getVisitorId(), delayedVisitorId, 'delayedVisitorId ' + delayedVisitorId + ' should be the same as ' + Piwik.getAsyncTracker().getVisitorId());
 
         var prefixTracker = Piwik.getTracker();
         prefixTracker.setCookieNamePrefix('_test_cookie_prefix');
 
         var prefixVisitorId = prefixTracker.getVisitorId();
-        equal(Piwik.getAsyncTracker().getVisitorId(), prefixVisitorId, 'prefixVisitorId');
+        notEqual(Piwik.getAsyncTracker().getVisitorId(), prefixVisitorId, 'Visitor ID are different when using a different cookie prefix');
 
         var customTracker = Piwik.getTracker('customTrackerUrl', '71');
         var customVisitorId = customTracker.getVisitorId();
-        equal(Piwik.getAsyncTracker().getVisitorId(), customVisitorId, 'customVisitorId');
+        notEqual(Piwik.getAsyncTracker().getVisitorId(), customVisitorId, 'Visitor ID are different on different websites');
+
+
     });
 
     test("AnalyticsTracker alias", function() {
@@ -2433,10 +2439,11 @@ function PiwikTest() {
     test("getRequest()", function() {
         expect(2);
 
-        var tracker = Piwik.getTracker();
+        var tracker = Piwik.getTracker('hostname', 4);
 
         tracker.setCustomData("key is X", "value is Y");
-        equal( tracker.getRequest('hello=world').indexOf('hello=world&idsite=&rec=1&r='), 0);
+        var requestString = tracker.getRequest('hello=world');
+        equal( requestString.indexOf('hello=world&idsite=4&rec=1&r='), 0, "Request string " + requestString);
 
         ok( -1 !== tracker.getRequest('hello=world').indexOf('send_image=0'), 'should disable sending image response');
     });
@@ -2774,7 +2781,7 @@ if ($sqlite) {
             visitorId1 = Piwik.getAsyncTracker().getVisitorId();
         }]);
         visitorId2 = tracker.getVisitorId();
-        ok( visitorId1 && visitorId1 != "" && visitorId2 && visitorId2 != "" && (visitorId1 == visitorId2), "getVisitorId()" );
+        ok( visitorId1 && visitorId1 != "" && visitorId2 && visitorId2 != "" && (visitorId1 == visitorId2), "getVisitorId()" + visitorId1 + " VS " + visitorId2 );
 
         var visitorInfo1, visitorInfo2;
 
@@ -2786,7 +2793,7 @@ if ($sqlite) {
             referrer1 = Piwik.getAsyncTracker().getAttributionReferrerUrl();
         }]);
         visitorInfo2 = tracker.getVisitorInfo();
-        ok( visitorInfo1 && visitorInfo2 && visitorInfo1.length == visitorInfo2.length, "getVisitorInfo()" );
+        ok( visitorInfo1 && visitorInfo2 && visitorInfo1.length == visitorInfo2.length, "getVisitorInfo() " );
         for (var i = 0; i < 6; i++) {
             ok( visitorInfo1[i] == visitorInfo2[i], "(loadVisitorId())["+i+"]" );
         }
