@@ -49,16 +49,10 @@ class Controller extends \Piwik\Plugin\Controller
         return 'redirectToCoreHomeIndex';
     }
 
-    public function renderReportMenu($reportModule = null, $reportAction = null)
+    public function renderReportMenu(Report $report)
     {
         Piwik::checkUserHasSomeViewAccess();
         $this->checkSitePermission();
-
-        $report = Report::factory($reportModule, $reportAction);
-
-        if (empty($report)) {
-            throw new Exception($this->translator->translate('General_ExceptionReportNotFound'));
-        }
 
         $report->checkIsEnabled();
 

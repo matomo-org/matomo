@@ -113,14 +113,13 @@ class ControllerResolver
         $action = lcfirst(substr($action, 4)); // menuGetPageUrls => getPageUrls
         $report = Report::factory($module, $action);
 
-        if ($report) {
-            $parameters['reportModule'] = $module;
-            $parameters['reportAction'] = $action;
-
-            return array($this->abstractFactory->make('Piwik\Plugins\CoreHome\Controller'), 'renderReportMenu');
+        if (!$report) {
+            return null;
         }
 
-        return null;
+        $parameters['report'] = $report;
+
+        return array($this->abstractFactory->make('Piwik\Plugins\CoreHome\Controller'), 'renderReportMenu');
     }
 
     private function isReportMenuAction($action)
