@@ -82,7 +82,6 @@ class Filesystem
     public static function mkdir($path)
     {
         if (!is_dir($path)) {
-            // the mode in mkdir is modified by the current umask
             @mkdir($path, self::getChmodForPath($path), $recursive = true);
         }
 
@@ -443,7 +442,7 @@ class Filesystem
         $pathIsTmp = StaticContainer::get('path.tmp');
         if (strpos($path, $pathIsTmp) === 0) {
             // tmp/* folder
-            return 0750;
+            return 0770;
         }
         // plugins/* and all others
         return 0755;
