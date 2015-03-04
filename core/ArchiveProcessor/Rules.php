@@ -124,30 +124,15 @@ class Rules
      */
     public static function shouldPurgeOutdatedArchives(Date $date)
     {
+        // we only delete archives if we are able to process them, otherwise, the browser might process reports
+        // when &segment= is specified (or custom date range) and would below, delete temporary archives that the
+        // browser is not able to process until next cron run (which could be more than 1 hour away)
         if (! self::isRequestAuthorizedToArchive()){
             Log::info("Purging temporary archives: skipped (no authorization)");
             return false;
         }
 
-        $key = self::FLAG_TABLE_PURGED . "blob_" . $date->toString('Y_m');
-        $timestamp = Option::get($key);
-
-        // we shall purge temporary archives after their timeout is finished, plus an extra 6 hours
-        // in case archiving is disabled or run once a day, we give it this extra time to run
-        // and re-process more recent records...
         $temporaryArchivingTimeout = self::getTodayArchiveTimeToLive();
-        $hoursBetweenPurge = 6;
-        $purgeEveryNSeconds = max($temporaryArchivingTimeout, $hoursBetweenPurge * 3600);
-        
-        // we only delete archives if we are able to process them, otherwise, the browser might process reports
-        // when &segment= is specified (or custom date range) and would below, delete temporary archives that the
-        // browser is not able to process until next cron run (which could be more than 1 hour away)
-        if ($timestamp !== false && $timestamp >= time() - $purgeEveryNSeconds) {
-            Log::info("Purging temporary archives: skipped (purging every " . $hoursBetweenPurge . "hours)");
-            return false;
-        }
-
-        Option::set($key, time());
 
         if (self::isBrowserTriggerEnabled()) {
             // If Browser Archiving is enabled, it is likely there are many more temporary archives
