@@ -306,27 +306,21 @@ class PurgerTest extends IntegrationTestCase
         $this->archivePurger->purgeInvalidatedArchives();
 
         // check invalidated archives for idsite = 1, idsite = 3 are purged
-        $expectedPurgedArchives = array(11, 13, 14);
+        $expectedPurgedArchives = array(11, 12, 13, 14);
         $this->assertArchivesDoNotExist($expectedPurgedArchives, $this->february);
-
-        $expectedPresentArchives = array(12);
-        $this->assertArchivesExist($expectedPresentArchives, $this->february);
 
         $this->assertJanuaryInvalidatedArchivesNotPurged();
     }
 
-    public function test_purgeInvalidatedArchivesFrom_PurgesCorrectInvalidatedArchives_AndMarksDatesAndSitesAsInvalidated()
+    public function test_purgeInvalidatedArchivesFrom_PurgesAllInvalidatedArchives_AndMarksDatesAndSitesAsInvalidated()
     {
-        $this->setUpInvalidatedReportsDistributedList($dates = array($this->february), $sites = array(1, 2, 3));
+        $this->setUpInvalidatedReportsDistributedList($dates = array($this->january, $this->february), $sites = array(1, 2, 3));
 
         $this->archivePurger->purgeInvalidatedArchivesFrom("2015_02", array(1,2));
 
         // check invalidated archives for idsite = 1, idsite = 2 are purged
-        $expectedPurgedArchives = array(11, 12, 14);
+        $expectedPurgedArchives = array(11, 12, 13, 14);
         $this->assertArchivesDoNotExist($expectedPurgedArchives, $this->february);
-
-        $expectedPresentArchives = array(13);
-        $this->assertArchivesExist($expectedPresentArchives, $this->february);
 
         $this->assertJanuaryInvalidatedArchivesNotPurged();
 
@@ -334,8 +328,8 @@ class PurgerTest extends IntegrationTestCase
         $invalidatedReports = new InvalidatedReports();
         $sitesByYearMonth = $invalidatedReports->getSitesByYearMonthArchiveToPurge();
 
-        $this->assertArrayHasKey('2015_02', $sitesByYearMonth);
-        $this->assertEquals(array(3), array_values($sitesByYearMonth['2015_02']));
+        $this->assertArrayNotHasKey('2015_02', $sitesByYearMonth);
+        $this->assertArrayHasKey('2015_01', $sitesByYearMonth);
     }
 
     private function configureCustomRangePurging()

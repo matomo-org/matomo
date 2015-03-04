@@ -238,6 +238,24 @@ class Model
     }
 
     /**
+     * TODO
+     * TODO: tests? there doesn't seem to be tests for other methods here.
+     *
+     * @param string $numericTable
+     * @return int[]
+     */
+    public function getSitesWithInvalidatedArchive($numericTable)
+    {
+        $rows = Db::fetchAll("SELECT DISTINCT idsite FROM `$numericTable` WHERE name LIKE 'done%' AND value = " . ArchiveWriter::DONE_INVALIDATED);
+
+        $result = array();
+        foreach ($rows as $row) {
+            $result[] = $row['idsite'];
+        }
+        return $result;
+    }
+
+    /**
      * Returns the SQL condition used to find successfully completed archives that
      * this instance is querying for.
      */

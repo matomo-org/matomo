@@ -86,24 +86,24 @@ class Purger
      */
     public function purgeInvalidatedArchives()
     {
-        // TODO: why does it only look in specified sites to purge instead of all sites?
         $idSitesByYearMonth = $this->invalidatedReports->getSitesByYearMonthArchiveToPurge();
-        foreach ($idSitesByYearMonth as $yearMonth => $idSites) {
-            $this->purgeInvalidatedArchivesFrom($yearMonth, $idSites);
+        foreach ($idSitesByYearMonth as $yearMonth => $idSites) { // TODO: change the option to store $yearMonths as values? perhaps not necessary right now
+            $this->purgeInvalidatedArchivesFrom($yearMonth);
         }
     }
 
     /**
      * TODO
      */
-    public function purgeInvalidatedArchivesFrom($yearMonth, $idSites)
+    public function purgeInvalidatedArchivesFrom($yearMonth)
     {
-        if (empty($idSites)) {
-            return;
-        }
-
         $date = Date::factory(str_replace('_', '-', $yearMonth) . '-01');
         $numericTable = ArchiveTableCreator::getNumericTable($date);
+
+        // we don't want to do an INNER JOIN on every row in a archive table that can potentially have tens to hundreds of thousands of rows,
+        // so we first look for sites w/ invalidated archives, and use this as a constraint in getInvalidatedArchiveIdsSafeToDelete() below.
+        // the constraint will hit an INDEX and speed things up.
+        $idSites = $this->model->getSitesWithInvalidatedArchive($numericTable);
 
         $archiveIds = $this->model->getInvalidatedArchiveIdsSafeToDelete($numericTable, $idSites);
         if (count($archiveIds) == 0) {
