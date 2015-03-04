@@ -51,9 +51,10 @@ class ControllerResolver
         }
 
         // Widget action
+        /** @var Widgets|null $widget */
         $widget = Widgets::factory($module, $action);
         if ($widget) {
-            return $this->createWidgetController($module, $action, $parameters);
+            return $this->createWidgetController($widget, $action, $parameters);
         }
 
         // Report action
@@ -92,10 +93,10 @@ class ControllerResolver
         return array($controller, $action);
     }
 
-    private function createWidgetController($module, $action, array &$parameters)
+    private function createWidgetController(Widgets $widget, $action, array &$parameters)
     {
-        $parameters['widgetModule'] = $module;
-        $parameters['widgetMethod'] = $action;
+        $parameters['widget'] = $widget;
+        $parameters['method'] = $action;
 
         return array($this->abstractFactory->make('Piwik\Plugins\CoreHome\Controller'), 'renderWidget');
     }

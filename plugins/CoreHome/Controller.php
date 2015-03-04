@@ -90,17 +90,11 @@ class Controller extends \Piwik\Plugin\Controller
         return $report->render();
     }
 
-    public function renderWidget($widgetModule = null, $widgetAction = null)
+    public function renderWidget(PluginWidgets $widget, $method)
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $widget = PluginWidgets::factory($widgetModule, $widgetAction);
-
-        if (!empty($widget)) {
-            return $widget->$widgetAction();
-        }
-
-        throw new Exception($this->translator->translate('General_ExceptionWidgetNotFound'));
+        return $widget->$method();
     }
 
     function redirectToCoreHomeIndex()
