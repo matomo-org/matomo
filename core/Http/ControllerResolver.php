@@ -60,7 +60,7 @@ class ControllerResolver
         // Report action
         $report = Report::factory($module, $action);
         if ($report) {
-            return $this->createReportController($module, $action, $parameters);
+            return $this->createReportController($report, $parameters);
         }
 
         // Report menu action
@@ -101,10 +101,9 @@ class ControllerResolver
         return array($this->abstractFactory->make('Piwik\Plugins\CoreHome\Controller'), 'renderWidget');
     }
 
-    private function createReportController($module, $action, array &$parameters)
+    private function createReportController(Report $report, array &$parameters)
     {
-        $parameters['reportModule'] = $module;
-        $parameters['reportAction'] = $action;
+        $parameters['report'] = $report;
 
         return array($this->abstractFactory->make('Piwik\Plugins\CoreHome\Controller'), 'renderReportWidget');
     }

@@ -69,21 +69,15 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $menuTitle = $this->translator->translate($menuTitle);
-        $content   = $this->renderReportWidget($reportModule, $reportAction);
+        $content   = $this->renderReportWidget($report);
 
         return View::singleReport($menuTitle, $content);
     }
 
-    public function renderReportWidget($reportModule = null, $reportAction = null)
+    public function renderReportWidget(Report $report)
     {
         Piwik::checkUserHasSomeViewAccess();
         $this->checkSitePermission();
-
-        $report = Report::factory($reportModule, $reportAction);
-
-        if (empty($report)) {
-            throw new Exception($this->translator->translate('General_ExceptionReportNotFound'));
-        }
 
         $report->checkIsEnabled();
 
