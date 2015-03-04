@@ -41,46 +41,36 @@ class ControllerResolver
      */
     public function getController($module, $action, array &$parameters)
     {
-        // Controller action
-        $controllerClass = $this->getControllerClass($module);
-        if (class_exists($controllerClass)) {
-            $controller = $this->createPluginController($controllerClass, $action);
-            if ($controller) {
-                return $controller;
-            }
+        $controller = $this->createPluginController($module, $action);
+        if ($controller) {
+            return $controller;
         }
 
-        // Widget action
-        /** @var Widgets|null $widget */
-        $widget = Widgets::factory($module, $action);
-        if ($widget) {
-            return $this->createWidgetController($widget, $action, $parameters);
+        $controller = $this->createWidgetController($module, $action, $parameters);
+        if ($controller) {
+            return $controller;
         }
 
-        // Report action
-        $report = Report::factory($module, $action);
-        if ($report) {
-            return $this->createReportController($report, $parameters);
+        $controller = $this->createReportController($module, $action, $parameters);
+        if ($controller) {
+            return $controller;
         }
 
-        // Report menu action
-        if ($this->isReportMenuAction($action)) {
-            $controller = $this->createReportMenuController($module, $action, $parameters);
-            if ($controller) {
-                return $controller;
-            }
+        $controller = $this->createReportMenuController($module, $action, $parameters);
+        if ($controller) {
+            return $controller;
         }
 
         throw new Exception(sprintf("Action '%s' not found in the module '%s'", $action, $module));
     }
 
-    private function getControllerClass($module)
+    private function createPluginController($module, $action)
     {
-        return "Piwik\\Plugins\\$module\\Controller";
-    }
+        $controllerClass = "Piwik\\Plugins\\$module\\Controller";
+        if (!class_exists($controllerClass)) {
+            return null;
+        }
 
-    private function createPluginController($controllerClass, $action)
-    {
         /** @var $controller Controller */
         $controller = $this->abstractFactory->make($controllerClass);
 
@@ -93,23 +83,39 @@ class ControllerResolver
         return array($controller, $action);
     }
 
-    private function createWidgetController(Widgets $widget, $action, array &$parameters)
+    private function createWidgetController($module, $action, array &$parameters)
     {
+        $widget = Widgets::factory($module, $action);
+
+        if (!$widget) {
+            return null;
+        }
+
         $parameters['widget'] = $widget;
         $parameters['method'] = $action;
 
-        return array($this->abstractFactory->make('Piwik\Plugins\CoreHome\Controller'), 'renderWidget');
+        return array($this->createCoreHomeController(), 'renderWidget');
     }
 
-    private function createReportController(Report $report, array &$parameters)
+    private function createReportController($module, $action, array &$parameters)
     {
+        $report = Report::factory($module, $action);
+
+        if (!$report) {
+            return null;
+        }
+
         $parameters['report'] = $report;
 
-        return array($this->abstractFactory->make('Piwik\Plugins\CoreHome\Controller'), 'renderReportWidget');
+        return array($this->createCoreHomeController(), 'renderReportWidget');
     }
 
     private function createReportMenuController($module, $action, array &$parameters)
     {
+        if (!$this->isReportMenuAction($action)) {
+            return null;
+        }
+
         $action = lcfirst(substr($action, 4)); // menuGetPageUrls => getPageUrls
         $report = Report::factory($module, $action);
 
@@ -119,7 +125,7 @@ class ControllerResolver
 
         $parameters['report'] = $report;
 
-        return array($this->abstractFactory->make('Piwik\Plugins\CoreHome\Controller'), 'renderReportMenu');
+        return array($this->createCoreHomeController(), 'renderReportMenu');
     }
 
     private function isReportMenuAction($action)
@@ -127,5 +133,10 @@ class ControllerResolver
         $startsWithMenu = (Report::PREFIX_ACTION_IN_MENU === substr($action, 0, strlen(Report::PREFIX_ACTION_IN_MENU)));
 
         return !empty($action) && $startsWithMenu;
+    }
+
+    private function createCoreHomeController()
+    {
+        return $this->abstractFactory->make('Piwik\Plugins\CoreHome\Controller');
     }
 }
