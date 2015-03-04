@@ -1356,6 +1356,7 @@ class Recorder(object):
     """
 
     recorders = []
+    hits_by_client = []
 
     def __init__(self):
         self.queue = Queue.Queue(maxsize=2)
@@ -1370,6 +1371,7 @@ class Recorder(object):
         Launch a bunch of Recorder objects in a separate thread.
         """
         for i in xrange(recorder_count):
+            cls.hits_by_client.append([])
             recorder = Recorder()
             cls.recorders.append(recorder)
 
@@ -1387,18 +1389,24 @@ class Recorder(object):
         """
         # Organize hits so that one client IP will always use the same queue.
         # We have to do this so visits from the same IP will be added in the right order.
-        hits_by_client = [[] for r in cls.recorders]
-        for hit in sorted(all_hits, key=lambda hit: hit.ip):
-            hits_by_client[hit.get_visitor_id_hash() % len(cls.recorders)].append(hit)
+        for hit in all_hits:
+            id = hit.get_visitor_id_hash() % len(cls.recorders)
+            cls.hits_by_client[id].append(hit)
 
-        for i, recorder in enumerate(cls.recorders):
-            recorder.queue.put(hits_by_client[i])
+            if( len(cls.hits_by_client[id]) >= config.options.recorder_max_payload_size ):
+                cls.recorders[id].queue.put(sorted(cls.hits_by_client[id], key=lambda hit: (hit.ip,hit.date)))
+                cls.hits_by_client[id] = []
+
 
     @classmethod
     def wait_empty(cls):
         """
         Wait until all recorders have an empty queue.
         """
+        for i, recorder in enumerate(cls.recorders):
+           recorder.queue.put(sorted(cls.hits_by_client[i], key=lambda hit: (hit.ip,hit.date)))
+           cls.hits_by_client[i] = []
+
         for recorder in cls.recorders:
             recorder._wait_empty()
 
@@ -1590,7 +1598,7 @@ class Hit(object):
             self.full_path = self.full_path.lower()
 
     def get_visitor_id_hash(self):
-        visitor_id = self.ip
+        visitor_id = self.user_agent
 
         if config.options.replay_tracking:
             for param_name_to_use in ['uid', 'cid', '_id', 'cip']:
@@ -2031,7 +2039,7 @@ class Parser(object):
 
             hits.append(hit)
 
-            if len(hits) >= config.options.recorder_max_payload_size * len(Recorder.recorders):
+            if len(hits) >= config.options.recorder_max_payload_size:
                 Recorder.add_hits(hits)
                 hits = []
 
