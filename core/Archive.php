@@ -10,7 +10,7 @@ namespace Piwik;
 
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Archive\Invalidator;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Period\Factory as PeriodFactory;
 
@@ -524,7 +524,7 @@ class Archive
             return; // all requested site ids were already handled
         }
 
-        $invalidator  = new ArchiveInvalidator();
+        $invalidator  = new Invalidator();
         $sitesPerDays = $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
         foreach ($sitesPerDays as $date => $siteIds) {

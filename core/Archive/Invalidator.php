@@ -7,9 +7,11 @@
  *
  */
 
-namespace Piwik\DataAccess;
+namespace Piwik\Archive;
 
 use Piwik\CronArchive\SitesToReprocessDistributedList;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
@@ -27,9 +29,9 @@ use Piwik\Site;
  *
  * The invalidated archives will be deleted by Purger
  *
- * @package Piwik\DataAccess
+ * TODO: modify
  */
-class ArchiveInvalidator
+class Invalidator
 {
     private $warningDates = array();
     private $processedDates = array();

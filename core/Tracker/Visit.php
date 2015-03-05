@@ -11,7 +11,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Archive\Invalidator;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Network\IPUtils;
@@ -682,7 +682,7 @@ class Visit implements VisitInterface
         $date = Date::factory((int) $time, $timezone);
 
         if (!$date->isToday()) { // we don't have to handle in case date is in future as it is not allowed by tracker
-            $invalidReport = new ArchiveInvalidator();
+            $invalidReport = new Invalidator();
             $invalidReport->rememberToInvalidateArchivedReportsLater($idSite, $date);
         }
     }

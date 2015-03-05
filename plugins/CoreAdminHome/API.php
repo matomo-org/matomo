@@ -10,7 +10,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
 use Piwik\Container\StaticContainer;
-use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Archive\Invalidator;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Scheduler\Scheduler;
@@ -69,7 +69,7 @@ class API extends \Piwik\Plugin\API
 
         Piwik::checkUserHasAdminAccess($idSites);
 
-        $invalidator = new ArchiveInvalidator();
+        $invalidator = new Invalidator();
         $output = $invalidator->markArchivesAsInvalidated($idSites, $dates, $period);
 
         Site::clearCache();

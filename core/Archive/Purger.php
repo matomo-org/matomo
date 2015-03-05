@@ -23,7 +23,7 @@ use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
  *
  * This class purges two types of archives:
  *
- * (1) Deletes invalidated archives (from ArchiveInvalidator)
+ * (1) Deletes invalidated archives (from Invalidator)
  *
  * (2) Deletes outdated archives (the temporary or errored archives)
  *

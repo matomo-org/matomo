@@ -11,17 +11,17 @@ namespace Piwik\Tests\Integration\DataAccess;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Archive\Invalidator;
 
 /**
  * @group Archiver
- * @group ArchiveInvalidator
+ * @group Invalidator
  * @group DataAccess
  */
 class ArchiveInvalidatorTest extends IntegrationTestCase
 {
     /**
-     * @var ArchiveInvalidator
+     * @var Invalidator
      */
     private $invalidator;
 
@@ -29,7 +29,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->invalidator = new ArchiveInvalidator();
+        $this->invalidator = new Invalidator();
     }
 
     public function test_rememberToInvalidateArchivedReportsLater_shouldCreateAnEntryInCaseThereIsNoneYet()

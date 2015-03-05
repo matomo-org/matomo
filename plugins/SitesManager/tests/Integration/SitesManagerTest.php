@@ -10,7 +10,7 @@ namespace Piwik\Plugins\SitesManager\tests\Integration;
 
 use Piwik\Access;
 use Piwik\Cache;
-use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Archive\Invalidator;
 use Piwik\Date;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
@@ -56,7 +56,7 @@ class SitesManagerTest extends IntegrationTestCase
 
     public function test_onSiteDeleted_shouldRemoveRememberedArchiveReports()
     {
-        $archive = new ArchiveInvalidator();
+        $archive = new Invalidator();
         $archive->rememberToInvalidateArchivedReportsLater($this->siteId, Date::factory('2014-04-05'));
         $archive->rememberToInvalidateArchivedReportsLater($this->siteId, Date::factory('2014-04-06'));
         $archive->rememberToInvalidateArchivedReportsLater(4949, Date::factory('2014-04-05'));

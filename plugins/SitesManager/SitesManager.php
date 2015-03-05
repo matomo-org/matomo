@@ -7,7 +7,7 @@
  *
  */
 namespace Piwik\Plugins\SitesManager;
-use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Archive\Invalidator;
 use Piwik\Tracker\Cache;
 
 /**
@@ -38,7 +38,7 @@ class SitesManager extends \Piwik\Plugin
         // we do not delete logs here on purpose (you can run these queries on the log_ tables to delete all data)
         Cache::deleteCacheWebsiteAttributes($idSite);
 
-        $archiveInvalidator = new ArchiveInvalidator();
+        $archiveInvalidator = new Invalidator();
         $archiveInvalidator->forgetRememberedArchivedReportsToInvalidateForSite($idSite);
     }
 
