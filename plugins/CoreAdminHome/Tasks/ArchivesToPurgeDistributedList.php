@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\CoreAdminHome\Tasks;
 
 use Piwik\Concurrency\DistributedList;
+use Piwik\Date;
 
 /**
  * Distributed list that holds a list of year-month archive table identifiers (eg, 2015_01 or 2014_11). Each item in the
@@ -41,5 +42,26 @@ class ArchivesToPurgeDistributedList extends DistributedList
     {
         $yearMonths = array_unique($yearMonths);
         parent::setAll($yearMonths);
+    }
+
+    public function getAllAsDates()
+    {
+        $dates = array();
+        foreach ($this->getAll() as $yearMonth) {
+            try {
+                $date = Date::factory(str_replace('_', '-', $yearMonth) . '-01');
+            } catch (\Exception $ex) {
+                continue; // invalid year month in distributed list
+            }
+
+            $dates[] = $date;
+        }
+        return $dates;
+    }
+
+    public function removeDate(Date $date)
+    {
+        $yearMonth = $date->toString('Y_m');
+        $this->remove($yearMonth);
     }
 }

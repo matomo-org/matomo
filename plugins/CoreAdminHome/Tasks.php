@@ -14,7 +14,9 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
+use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 
+// TODO: tests for Tasks
 class Tasks extends \Piwik\Plugin\Tasks
 {
     /**
@@ -64,7 +66,12 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function purgeInvalidatedArchives()
     {
-        $this->archivePurger->purgeInvalidatedArchives();
+        $archivesToPurge = new ArchivesToPurgeDistributedList();
+        foreach ($archivesToPurge->getAllAsDates() as $date) {
+            $this->archivePurger->purgeInvalidatedArchivesFrom($date);
+
+            $archivesToPurge->removeDate($date);
+        }
     }
 
     public function optimizeArchiveTable()

@@ -77,27 +77,6 @@ class Purger
     }
 
     /**
-     * TODO
-     */
-    public function purgeInvalidatedArchives()
-    {
-        $archivesToPurge = new ArchivesToPurgeDistributedList();
-
-        $yearMonths = $archivesToPurge->getAll();
-        foreach ($yearMonths as $yearMonth) {
-            try {
-                $date = Date::factory(str_replace('_', '-', $yearMonth) . '-01');
-            } catch (\Exception $ex) {
-                continue; // invalid year month in distributed list
-            }
-
-            $this->purgeInvalidatedArchivesFrom($date);
-
-            $archivesToPurge->remove($yearMonth);
-        }
-    }
-
-    /**
      * Purge all invalidate archives for whom there are newer, valid archives from the archive
      * table that stores data for `$date`.
      *
