@@ -11,15 +11,12 @@ namespace Piwik\CronArchive;
 use Piwik\Concurrency\DistributedList;
 
 /**
- * Keeps track of which reports were invalidated via CoreAdminHome.invalidateArchivedReports API.
+ * Distributed list that stores the list of IDs of sites whose archives should be reprocessed.
  *
- * This is used by:
+ * CronArchive will read this list of sites when archiving is being run, and make sure the sites
+ * are re-archived.
  *
- * 1. core:archive command to know which websites should be reprocessed
- *
- * 2. scheduled task purgeInvalidatedArchives to know which websites/months should be purged
- *
- * TODO: modify
+ * Any class/API method/command/etc. is allowed to add site IDs to this list.
  */
 class SitesToReprocessDistributedList extends DistributedList
 {

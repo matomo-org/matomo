@@ -246,10 +246,9 @@ class Model
     }
 
     /**
-     * TODO
-     * TODO: tests? there doesn't seem to be tests for other methods here.
+     * Returns the site IDs for invalidated archives in an archive table.
      *
-     * @param string $numericTable
+     * @param string $numericTable The numeric table to search through.
      * @return int[]
      */
     public function getSitesWithInvalidatedArchive($numericTable)

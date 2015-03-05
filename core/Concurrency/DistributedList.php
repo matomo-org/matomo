@@ -10,21 +10,27 @@ namespace Piwik\Concurrency;
 use Piwik\Option;
 
 /**
- * TODO
+ * Manages a simple distributed list stored in an Option. No locking occurs, so the list
+ * is not thread safe, and should only be used for use cases where atomicity is not
+ * important.
  *
- * TODO: tests
+ * The list of items is serialized and stored in an Option. Items are converted to string
+ * before being persisted, so it is not expected to unserialize objects.
+ * TODO: light integration tests
  */
 class DistributedList
 {
     /**
-     * TODO
+     * The name of the option to store the list in.
      *
      * @var string
      */
     private $optionName;
 
     /**
-     * TODO
+     * Constructor.
+     *
+     * @param string $optionName
      */
     public function __construct($optionName)
     {
@@ -32,7 +38,7 @@ class DistributedList
     }
 
     /**
-     * TODO
+     * Queries the option table and returns all items in this list.
      *
      * @return array
      */
@@ -51,7 +57,7 @@ class DistributedList
     }
 
     /**
-     * TODO
+     * Sets the contents of the list in the option table.
      *
      * @param string[] $items
      */
@@ -65,7 +71,7 @@ class DistributedList
     }
 
     /**
-     * TODO
+     * Adds one or more items to the list in the option table.
      *
      * @param string|array $item
      */
@@ -82,8 +88,7 @@ class DistributedList
     }
 
     /**
-     * TODO
-     * TODO: support removing multiple
+     * Removes one or more items by value from the list in the optiontable.
      *
      * @param string|array $items
      */

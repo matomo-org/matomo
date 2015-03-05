@@ -21,7 +21,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * TODO
+ * Command that allows users to force purge old or invalid archive data. In the event of a failure
+ * in the archive purging scheduled task, this command can be used to manually delete old/invalid archives.
  * TODO: command tests
  */
 class PurgeOldArchiveData extends ConsoleCommand

@@ -11,7 +11,6 @@ namespace Piwik\Archive;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
-use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;
@@ -20,13 +19,15 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 
 /**
+ * Service that purges temporary, error-ed, invalid and custom range archives from archive tables.
  *
- * This class purges two types of archives:
+ * Temporary archives are purged if they were archived before a specific time. The time is dependent
+ * on whether browser triggered archiving is enabled or not.
  *
- * (1) Deletes invalidated archives (from Invalidator)
+ * Error-ed archives are purged w/o constraint.
  *
- * (2) Deletes outdated archives (the temporary or errored archives)
- *
+ * Invalid archives are purged if a new, valid, archive exists w/ the same site, date, period combination.
+ * Archives are marked as invalid via Piwik\Archive\Invalidator.
  */
 class Purger
 {
@@ -36,28 +37,29 @@ class Purger
     private $model;
 
     /**
-     * TODO
+     * Date threshold for purging custom range archives. Archives that are older than this date
+     * are purged unconditionally from the requested archive table.
      *
      * @var Date
      */
     private $purgeCustomRangesOlderThan;
 
     /**
-     * TODO
+     * Date to use for 'yesterday'. Exists so tests can override this value.
      *
      * @var Date
      */
     private $yesterday;
 
     /**
-     * TODO
+     * Date to use for 'today'. Exists so tests can override this value.
      *
      * @var $today
      */
     private $today;
 
     /**
-     * TODO
+     * Date to use for 'now'. Exists so tests can override this value.
      *
      * @var int
      */
@@ -96,7 +98,10 @@ class Purger
     }
 
     /**
-     * TODO
+     * Purge all invalidate archives for whom there are newer, valid archives from the archive
+     * table that stores data for `$date`.
+     *
+     * @param Date $date The date identifying the archive table.
      */
     public function purgeInvalidatedArchivesFrom(Date $date)
     {
