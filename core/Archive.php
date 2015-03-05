@@ -588,27 +588,26 @@ class Archive
      */
     private function get($archiveNames, $archiveDataType, $idSubtable = null)
     {
-
         if (!is_array($archiveNames)) {
             $archiveNames = array($archiveNames);
         }
+
+        $subtables = array();
 
         // apply idSubtable
         if ($idSubtable !== null
             && $idSubtable != self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
         ) {
-            $subtables = array();
             foreach ($archiveNames as &$name) {
                 $subtables[] = $this->appendIdSubtable($name, 'subtables');
                 $name = $this->appendIdsubtable($name, $idSubtable);
             }
-
-            $archiveNames = array_merge($archiveNames, $subtables);
         }
 
         $result = new Archive\DataCollection(
             $archiveNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $defaultRow = null);
 
+        $archiveNames = array_merge($archiveNames, $subtables);
         $archiveIds = $this->getArchiveIds($archiveNames);
 
         if (empty($archiveIds)) {
