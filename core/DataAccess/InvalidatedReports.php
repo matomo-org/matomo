@@ -29,52 +29,36 @@ class InvalidatedReports
     /**
      * Mark the sites IDs and Dates as being invalidated, so we can purge them later on.
      *
-     * @param array $idSites
      * @param array $yearMonths
      */
-    public function addSitesToPurgeForYearMonths(array $idSites, $yearMonths)
+    public function addArchiveTablesToPurge($yearMonths)
     {
-        $idSitesByYearMonth = $this->getSitesByYearMonthToPurge();
+        $yearMonthsToPurge = $this->getYearMonthArchivesToPurge();
+        $yearMonthsToPurge = array_merge($yearMonthsToPurge, $yearMonths);
+        $yearMonthsToPurge = array_unique($yearMonthsToPurge);
 
-        foreach($yearMonths as $yearMonthToPurge) {
-
-            if(isset($idSitesByYearMonth[$yearMonthToPurge])) {
-                $existingIdSitesToPurge = $idSitesByYearMonth[$yearMonthToPurge];
-                $idSites = array_merge($existingIdSitesToPurge, $idSites);
-                $idSites = array_unique($idSites);
-            }
-            $idSitesByYearMonth[$yearMonthToPurge] = $idSites;
-        }
-        $this->persistSitesByYearMonthToPurge($idSitesByYearMonth);
+        $this->persistYearMonthArchivesToPurge($yearMonthsToPurge);
     }
 
     /**
      * Returns the list of websites IDs for which invalidated archives can be purged.
      */
-    public function getSitesByYearMonthArchiveToPurge()
+    public function getYearMonthArchivesToPurge()
     {
-        $idSitesByYearMonth = $this->getSitesByYearMonthToPurge();
-
-        // From this list we remove the websites that are not yet re-processed
-        // so we don't purge them before they were re-processed
-        $idSitesNotYetReprocessed = $this->getSitesToReprocess();
-
-        foreach($idSitesByYearMonth as $yearMonth => &$idSites) {
-            $idSites = array_diff($idSites, $idSitesNotYetReprocessed);
-        }
-        return $idSitesByYearMonth;
+        return $this->getArrayValueFromOptionName(self::OPTION_INVALIDATED_DATES_SITES_TO_PURGE);
     }
 
-    public function markSiteIdsHaveBeenPurged(array $idSites, $yearMonth)
+    public function markArchiveTablePurged($yearMonth)
     {
-        $idSitesByYearMonth = $this->getSitesByYearMonthToPurge();
+        $yearMonthsToPurge = $this->getYearMonthArchivesToPurge();
 
-        if(!isset($idSitesByYearMonth[$yearMonth])) {
+        $existingIndex = array_search($yearMonth, $yearMonthsToPurge);
+        if ($existingIndex === false) {
             return;
         }
 
-        $idSitesByYearMonth[$yearMonth] = array_diff($idSitesByYearMonth[$yearMonth], $idSites);
-        $this->persistSitesByYearMonthToPurge($idSitesByYearMonth);
+        unset($yearMonthsToPurge[$existingIndex]);
+        $this->persistYearMonthArchivesToPurge($yearMonthsToPurge);
     }
 
     /**
@@ -117,14 +101,6 @@ class InvalidatedReports
     }
 
     /**
-     * @return array|false|mixed|string
-     */
-    private function getSitesByYearMonthToPurge()
-    {
-        return $this->getArrayValueFromOptionName(self::OPTION_INVALIDATED_DATES_SITES_TO_PURGE);
-    }
-
-    /**
      * @param $websiteIdsInvalidated
      */
     private function setSitesToReprocess($websiteIdsInvalidated)
@@ -155,14 +131,11 @@ class InvalidatedReports
     /**
      * @param $idSitesByYearMonth
      */
-    private function persistSitesByYearMonthToPurge($idSitesByYearMonth)
+    private function persistYearMonthArchivesToPurge($idSitesByYearMonth)
     {
         // remove dates for which there are no sites to purge
         $idSitesByYearMonth = array_filter($idSitesByYearMonth);
 
         Option::set(self::OPTION_INVALIDATED_DATES_SITES_TO_PURGE, serialize($idSitesByYearMonth));
     }
-
-
-
 }

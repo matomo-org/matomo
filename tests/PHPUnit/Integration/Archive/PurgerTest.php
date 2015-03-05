@@ -301,35 +301,26 @@ class PurgerTest extends IntegrationTestCase
 
     public function test_purgeInvalidatedArchives_PurgesCorrectInvalidatedArchives_AndOnlyPurgesDataForDatesAndSites_InInvalidatedReportsDistributedList()
     {
-        $this->setUpInvalidatedReportsDistributedList($dates = array($this->february), $sites = array(1, 3));
+        $this->setUpInvalidatedReportsDistributedList($dates = array($this->february));
 
         $this->archivePurger->purgeInvalidatedArchives();
 
-        // check invalidated archives for idsite = 1, idsite = 3 are purged
-        $expectedPurgedArchives = array(11, 12, 13, 14);
-        $this->assertArchivesDoNotExist($expectedPurgedArchives, $this->february);
-
-        $this->assertJanuaryInvalidatedArchivesNotPurged();
-    }
-
-    public function test_purgeInvalidatedArchivesFrom_PurgesAllInvalidatedArchives_AndMarksDatesAndSitesAsInvalidated()
-    {
-        $this->setUpInvalidatedReportsDistributedList($dates = array($this->january, $this->february), $sites = array(1, 2, 3));
-
-        $this->archivePurger->purgeInvalidatedArchivesFrom("2015_02", array(1,2));
-
-        // check invalidated archives for idsite = 1, idsite = 2 are purged
-        $expectedPurgedArchives = array(11, 12, 13, 14);
-        $this->assertArchivesDoNotExist($expectedPurgedArchives, $this->february);
-
+        $this->assertFebruaryInvalidatedArchivesPurged();
         $this->assertJanuaryInvalidatedArchivesNotPurged();
 
         // assert invalidated reports distributed list has changed
         $invalidatedReports = new InvalidatedReports();
-        $sitesByYearMonth = $invalidatedReports->getSitesByYearMonthArchiveToPurge();
+        $yearMonths = $invalidatedReports->getYearMonthArchivesToPurge();
 
-        $this->assertArrayNotHasKey('2015_02', $sitesByYearMonth);
-        $this->assertArrayHasKey('2015_01', $sitesByYearMonth);
+        $this->assertEmpty($yearMonths);
+    }
+
+    public function test_purgeInvalidatedArchivesFrom_PurgesAllInvalidatedArchives_AndMarksDatesAndSitesAsInvalidated()
+    {
+        $this->archivePurger->purgeInvalidatedArchivesFrom($this->february);
+
+        $this->assertFebruaryInvalidatedArchivesPurged();
+        $this->assertJanuaryInvalidatedArchivesNotPurged();
     }
 
     private function configureCustomRangePurging()
@@ -351,7 +342,7 @@ class PurgerTest extends IntegrationTestCase
      * @param Date[] $dates
      * @param int[] $sites
      */
-    private function setUpInvalidatedReportsDistributedList($dates, $sites)
+    private function setUpInvalidatedReportsDistributedList($dates)
     {
         $yearMonths = array();
         foreach ($dates as $date) {
@@ -359,7 +350,7 @@ class PurgerTest extends IntegrationTestCase
         }
 
         $invalidatedReports = new InvalidatedReports();
-        $invalidatedReports->addSitesToPurgeForYearMonths($sites, $yearMonths);
+        $invalidatedReports->addArchiveTablesToPurge($yearMonths);
     }
 
     private function insertOutdatedArchives(Date $archiveDate)
@@ -474,5 +465,16 @@ class PurgerTest extends IntegrationTestCase
     private function getArchiveRowCountWithId($table, $archiveIds)
     {
         return Db::fetchOne("SELECT COUNT(*) FROM $table WHERE idarchive IN (".implode(',', $archiveIds).")");
+    }
+
+    private function assertFebruaryInvalidatedArchivesPurged()
+    {
+        // check invalidated archives for all sites are purged
+        $expectedPurgedArchives = array(11, 12, 13, 14);
+        $this->assertArchivesDoNotExist($expectedPurgedArchives, $this->february);
+
+        // check archive 15 is not purged since it doesn't have newer DONE_OK/DONE_TEMPORARY archive
+        $expectedExistingArchives = array(15);
+        $this->assertArchivesExist($expectedExistingArchives, $this->february);
     }
 }

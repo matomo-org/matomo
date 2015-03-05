@@ -58,7 +58,7 @@ class PurgeOldArchiveData extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $self = $this;
+        $archivePurger = $this->archivePurger;
 
         $dates = $this->getDatesToPurgeFor($input);
 
@@ -68,8 +68,8 @@ class PurgeOldArchiveData extends ConsoleCommand
         } else {
             foreach ($dates as $date) {
                 $message = sprintf("Purging outdated archives for %s...", $date->toString('Y_m'));
-                $this->performTimedPurging($output, $message, function () use ($date, $self) {
-                    $self->archivePurger->purgeOutdatedArchives($date);
+                $this->performTimedPurging($output, $message, function () use ($date, $archivePurger) {
+                    $archivePurger->purgeOutdatedArchives($date);
                 });
             }
         }
@@ -78,9 +78,12 @@ class PurgeOldArchiveData extends ConsoleCommand
         if ($excludeInvalidated) {
             $output->writeln("Skipping purge invalidated archive data.");
         } else {
-            $this->performTimedPurging($output, "Purging invalidated archives...", function () use ($self) {
-                $self->archivePurger->purgeInvalidatedArchives();
-            });
+            foreach ($dates as $date) {
+                $message = sprintf("Purging invalidated archives for %s...", $date->toString('Y_m'));
+                $this->performTimedPurging($output, $message, function () use ($archivePurger, $date) {
+                    $archivePurger->purgeInvalidatedArchivesFrom($date);
+                });
+            }
         }
 
         $skipOptimizeTables = $input->getOption('skip-optimize-tables');

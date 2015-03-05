@@ -80,20 +80,25 @@ class Purger
     {
         $invalidatedReports = new InvalidatedReports();
 
-        $idSitesByYearMonth = $invalidatedReports->getSitesByYearMonthArchiveToPurge();
-        foreach ($idSitesByYearMonth as $yearMonth => $idSites) { // TODO: change the option to store $yearMonths as values? perhaps not necessary right now
-            $this->purgeInvalidatedArchivesFrom($yearMonth);
+        $idSitesByYearMonth = $invalidatedReports->getYearMonthArchivesToPurge();
+        foreach ($idSitesByYearMonth as $yearMonth) {
+            try {
+                $date = Date::factory(str_replace('_', '-', $yearMonth) . '-01');
+            } catch (\Exception $ex) {
+                continue; // invalid year month in distributed list
+            }
 
-            $invalidatedReports->markSiteIdsHaveBeenPurged($idSites, $yearMonth);
+            $this->purgeInvalidatedArchivesFrom($date);
+
+            $invalidatedReports->markArchiveTablePurged($yearMonth);
         }
     }
 
     /**
      * TODO
      */
-    public function purgeInvalidatedArchivesFrom($yearMonth)
+    public function purgeInvalidatedArchivesFrom(Date $date)
     {
-        $date = Date::factory(str_replace('_', '-', $yearMonth) . '-01');
         $numericTable = ArchiveTableCreator::getNumericTable($date);
 
         // we don't want to do an INNER JOIN on every row in a archive table that can potentially have tens to hundreds of thousands of rows,

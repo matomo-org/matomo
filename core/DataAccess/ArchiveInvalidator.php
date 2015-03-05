@@ -319,7 +319,7 @@ class ArchiveInvalidator {
 
         $store = new InvalidatedReports();
         $store->addInvalidatedSitesToReprocess($idSites);
-        $store->addSitesToPurgeForYearMonths($idSites, $yearMonths);
+        $store->addArchiveTablesToPurge($yearMonths);
     }
 
     private static function getModel()
