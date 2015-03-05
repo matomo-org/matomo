@@ -11,7 +11,7 @@ namespace Piwik\Archive;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
-use Piwik\DataAccess\InvalidatedReports;
+use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;

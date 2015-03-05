@@ -9,6 +9,7 @@
 
 namespace Piwik\DataAccess;
 
+use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
@@ -28,8 +29,8 @@ use Piwik\Site;
  *
  * @package Piwik\DataAccess
  */
-class ArchiveInvalidator {
-
+class ArchiveInvalidator
+{
     private $warningDates = array();
     private $processedDates = array();
     private $minimumDateWithLogs = false;
@@ -318,8 +319,8 @@ class ArchiveInvalidator {
         $yearMonths = array_keys($datesByMonth);
         $yearMonths = array_unique($yearMonths);
 
-        $store = new InvalidatedReports();
-        $store->addInvalidatedSitesToReprocess($idSites);
+        $store = new SitesToReprocessDistributedList();
+        $store->add($idSites);
 
         $archivesToPurge = new ArchivesToPurgeDistributedList();
         $archivesToPurge->add($yearMonths);

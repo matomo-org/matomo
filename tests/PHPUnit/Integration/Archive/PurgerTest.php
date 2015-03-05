@@ -11,7 +11,7 @@ use Piwik\Archive\Purger;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
-use Piwik\DataAccess\InvalidatedReports;
+use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;

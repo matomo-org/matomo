@@ -8,7 +8,6 @@
 namespace Piwik\Plugins\CoreAdminHome\Tasks;
 
 use Piwik\Concurrency\DistributedList;
-use Piwik\Option;
 
 /**
  * TODO
