@@ -105,11 +105,11 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
         $expectedActionsBlobs = 5;
 
         // When flat=1, Actions plugin will process 5 + 3 extra blobs (URL = 'http://example.org/sub1/sub2/sub3/news')
-        $expectedActionsBlobsWhenFlattened = $expectedActionsBlobs + 3;
+        $expectedActionsBlobsWhenFlattened = $expectedActionsBlobs + 1;
 
         $tests = array(
             // TODO Implement fix, then remove the +3 below
-            'archive_blob_2010_12'    => ( ($expectedActionsBlobs+3) /*Actions*/
+            'archive_blob_2010_12'    => ( ($expectedActionsBlobs+1) /*Actions*/
                                             + 2 /* Resolution */
                                             + 2 /* VisitTime */) * 3,
 
@@ -159,6 +159,35 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
                 $this->printDebugWhenTestFails($table);
             }
             $this->assertEquals($expectedRows, $countBlobs, "$table expected $expectedRows, got $countBlobs");
+        }
+    }
+
+    /**
+     *  Check that requesting period "Range" means only processing
+     *  the requested Plugin blob (Actions in this case), not all Plugins blobs
+     *
+     * @depends      testApi
+     */
+    public function test_checkArchiveRecords_shouldMergeSubtablesIntoOneRow()
+    {
+        $tests = array(
+            'archive_blob_2010_12' => 3,
+
+            /**
+             * In the January date range,
+             * we archive only Actions plugins.
+             * It is flattened so all 3 sub-tables should be archived.
+             */
+            'archive_blob_2011_01'    => 3,
+        );
+        foreach ($tests as $table => $expectedNumSubtables) {
+            $sql = "SELECT value FROM " . Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'] . " and `name` ='Actions_actions_url_subtables'";
+            $blob = Db::get()->fetchOne($sql);
+            $blob = gzuncompress($blob);
+            $blob = unserialize($blob);
+            $countSubtables = count($blob);
+
+            $this->assertEquals($expectedNumSubtables, $countSubtables, "Actions_actions_url_subtables in $table expected to contain $expectedNumSubtables subtables, got $countSubtables");
         }
     }
 
