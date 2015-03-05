@@ -1,0 +1,19 @@
+{% extends "dashboard.twig" %}
+
+{% block notification %}{% endblock %}
+
+{% block content %}
+
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+
+    <div class="site-without-data">
+
+        <h2>{{ 'SitesManager_SiteWithoutDataTitle'|translate }}</h2>
+
+        <p>{{ 'SitesManager_SiteWithoutDataHelp'|translate }}</p>
+
+        {{ trackingHelp|raw }}
+
+    </div>
+
+{% endblock %}
