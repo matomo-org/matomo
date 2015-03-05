@@ -111,6 +111,19 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+    public function test_isSiteEmpty()
+    {
+        $this->assertTrue($this->model->isSiteEmpty(1));
+
+        $visit = array(
+            'idsite' => 1,
+        );
+
+        $this->model->createVisit($visit);
+
+        $this->assertFalse($this->model->isSiteEmpty(1));
+    }
+
     private function assertLogActionTableContainsTestAction($idaction)
     {
         $expectedRows = array(
