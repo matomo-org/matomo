@@ -233,9 +233,7 @@ class ArchiveSelector
             // select blobs w/ name like "$name_[0-9]+" w/o using RLIKE
             $nameEnd = strlen($name) + 2;
             $whereNameIs = "(name = ?
-                            OR (name LIKE ?
-                                 AND SUBSTRING(name, $nameEnd, 1) >= '0'
-                                 AND SUBSTRING(name, $nameEnd, 1) <= '9') )";
+                            OR (name LIKE ?) )";
             $bind = array($name, $name . '%');
         } else {
             $whereNameIs = "name IN ($inNames)";
