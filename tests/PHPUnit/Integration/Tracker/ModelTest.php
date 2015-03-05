@@ -9,6 +9,7 @@ namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Model;
 
@@ -115,15 +116,8 @@ class ModelTest extends IntegrationTestCase
     {
         $this->assertTrue($this->model->isSiteEmpty(1));
 
-        $visit = array(
-            'idsite' => 1,
-            'idvisitor' => '1',
-            'visit_last_action_time' => '',
-            'config_id' => '1',
-            'location_ip' => '',
-        );
-
-        $this->model->createVisit($visit);
+        $fixture = new OneVisitorTwoVisits();
+        $fixture->setUp();
 
         $this->assertFalse($this->model->isSiteEmpty(1));
     }
