@@ -111,6 +111,7 @@ class Archive
     const REQUEST_ALL_WEBSITES_FLAG = 'all';
     const ARCHIVE_ALL_PLUGINS_FLAG = 'all';
     const ID_SUBTABLE_LOAD_ALL_SUBTABLES = 'all';
+    const ARCHIVE_APPENDIX_SUBTABLES = 'subtables';
 
     /**
      * List of archive IDs for the site, periods and segment we are querying with.
@@ -599,7 +600,7 @@ class Archive
             && $idSubtable != self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
         ) {
             foreach ($archiveNames as &$name) {
-                $subtables[] = $this->appendIdSubtable($name, 'subtables');
+                $subtables[] = $this->appendIdSubtable($name, self::ARCHIVE_APPENDIX_SUBTABLES);
                 $name = $this->appendIdsubtable($name, $idSubtable);
             }
         }
@@ -630,9 +631,9 @@ class Archive
 
             $resultRow = & $result->get($idSite, $periodStr);
 
-            if (Common::stringEndsWith($row['name'], '_subtables')) {
+            if (Common::stringEndsWith($row['name'], '_' . self::ARCHIVE_APPENDIX_SUBTABLES)) {
                 $value = unserialize($value);
-                $rawName = substr($row['name'], 0, -1 * strlen('subtables'));
+                $rawName = substr($row['name'], 0, -1 * strlen(self::ARCHIVE_APPENDIX_SUBTABLES));
 
                 if ($idSubtable === self::ID_SUBTABLE_LOAD_ALL_SUBTABLES) {
                     foreach ($value as $key => $val) {

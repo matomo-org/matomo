@@ -9,6 +9,7 @@
 namespace Piwik\DataAccess;
 
 use Exception;
+use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
@@ -237,7 +238,7 @@ class ArchiveSelector
                             OR (name LIKE ?
                                  AND SUBSTRING(name, $nameEnd, 1) >= '0'
                                  AND SUBSTRING(name, $nameEnd, 1) <= '9') )";
-            $bind = array($name, $name . '_subtables', $name . '%');
+            $bind = array($name, $name . '_' . Archive::ARCHIVE_APPENDIX_SUBTABLES, $name . '%');
         } else {
             $whereNameIs = "name IN ($inNames)";
             $bind = array_values($recordNames);

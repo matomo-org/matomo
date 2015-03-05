@@ -333,15 +333,16 @@ class ArchiveProcessor
      */
     public function insertBlobRecord($name, $values)
     {
+       // $this->archiveWriter->insertBlobRecord($name, $values);return;
         $newInsert = array();
 
-        if ($values[0]) {
+        if (!empty($values[0])) {
             $newInsert[0] = $values[0];
             unset($values[0]);
         }
 
         if (!empty($values)) {
-            $newInsert['subtables'] = serialize($values);
+            $newInsert[Archive::ARCHIVE_APPENDIX_SUBTABLES] = serialize($values);
         }
 
         $this->archiveWriter->insertBlobRecord($name, $newInsert);
