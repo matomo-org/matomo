@@ -399,13 +399,11 @@ class Model
      */
     public function isSiteEmpty($siteId)
     {
-        $sql = "SELECT COUNT(*)
-                FROM " . Common::prefixTable('log_visit') . "
-                WHERE idsite = ?";
+        $sql = sprintf('SELECT idsite FROM %s WHERE idsite = ? limit 1', Common::prefixTable('log_visit'));
 
-        $count = \Piwik\Db::fetchOne($sql, array($siteId));
+        $result = \Piwik\Db::fetchOne($sql, array($siteId));
 
-        return $count == 0;
+        return $result == null;
     }
 
     private function visitFieldsToQuery($valuesToUpdate)
