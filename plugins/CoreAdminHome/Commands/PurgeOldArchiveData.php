@@ -22,6 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * TODO
+ * TODO: command tests
  */
 class PurgeOldArchiveData extends ConsoleCommand
 {
@@ -48,6 +49,7 @@ class PurgeOldArchiveData extends ConsoleCommand
             array(Date::today()->toString()));
         $this->addOption('exclude-outdated', null, InputOption::VALUE_NONE, "Do not purge outdated archive data.");
         $this->addOption('exclude-invalidated', null, InputOption::VALUE_NONE, "Do not purge invalidated archive data.");
+        $this->addOption('skip-optimize-tables', null, InputOption::VALUE_NONE, "Do not run OPTIMIZE TABLES query on affected archive tables.");
         $this->setHelp("By default old and invalidated archives are purged. Custom ranges are also purged with outdated archives.\n\n"
                      . "Note: archive purging is done during scheduled task execution, so under normal circumstances, you should not need to "
                      . "run this command manually.");
@@ -79,6 +81,13 @@ class PurgeOldArchiveData extends ConsoleCommand
             $this->performTimedPurging($output, "Purging invalidated archives...", function () use ($self) {
                 $self->archivePurger->purgeInvalidatedArchives();
             });
+        }
+
+        $skipOptimizeTables = $input->getOption('skip-optimize-tables');
+        if ($skipOptimizeTables) {
+            $output->writeln("Skipping OPTIMIZE TABLES.");
+        } else {
+            $this->optimizeArchiveTables($output, $dates);
         }
     }
 
@@ -119,5 +128,25 @@ class PurgeOldArchiveData extends ConsoleCommand
         $callback();
 
         $output->writeln("Done. <comment>[" . $timer->__toString() . "]</comment>");
+    }
+
+    /**
+     * @param Date[] $dates
+     */
+    private function optimizeArchiveTables(OutputInterface $output, $dates)
+    {
+        $output->writeln("Optimizing archive tables...");
+
+        foreach ($dates as $date) {
+            $numericTable = ArchiveTableCreator::getNumericTable($date);
+            $this->performTimedPurging($output, "Optimizing table $numericTable...", function () use ($numericTable) {
+                Db::optimizeTables($numericTable);
+            });
+
+            $blobTable = ArchiveTableCreator::getBlobTable($date);
+            $this->performTimedPurging($output, "Optimizing table $blobTable...", function () use ($blobTable) {
+                Db::optimizeTables($blobTable);
+            });
+        }
     }
 }
