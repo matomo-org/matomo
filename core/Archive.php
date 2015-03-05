@@ -600,6 +600,7 @@ class Archive
             && $idSubtable != self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
         ) {
             foreach ($archiveNames as &$name) {
+                // to be backwards compatibe we need to look for the exact idSubtable blob and for the blob that stores all subtables combined
                 $subtables[] = $this->appendIdSubtable($name, self::ARCHIVE_APPENDIX_SUBTABLES);
                 $name = $this->appendIdsubtable($name, $idSubtable);
             }
@@ -608,12 +609,13 @@ class Archive
         $result = new Archive\DataCollection(
             $archiveNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $defaultRow = null);
 
-        $archiveNames = array_merge($archiveNames, $subtables);
         $archiveIds = $this->getArchiveIds($archiveNames);
 
         if (empty($archiveIds)) {
             return $result;
         }
+
+        $archiveNames = array_merge($archiveNames, $subtables);
 
         $loadAllSubtables = $idSubtable == self::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
         $archiveData = ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $loadAllSubtables);
@@ -632,21 +634,24 @@ class Archive
             $resultRow = & $result->get($idSite, $periodStr);
 
             if (Common::stringEndsWith($row['name'], '_' . self::ARCHIVE_APPENDIX_SUBTABLES)) {
-                $value = unserialize($value);
+                // one combined blob for all subtables
+                $value   = unserialize($value);
                 $rawName = substr($row['name'], 0, -1 * strlen(self::ARCHIVE_APPENDIX_SUBTABLES));
+                // $rawName = eg PluginName_ArchiveName_
 
-                if ($idSubtable === self::ID_SUBTABLE_LOAD_ALL_SUBTABLES) {
-                    foreach ($value as $key => $val) {
-                        if (array_key_exists($key, $value)) {
-                            $resultRow[$rawName . $key] = $value[$key];
+                if ($idSubtable === self::ID_SUBTABLE_LOAD_ALL_SUBTABLES && is_array($value)) {
+                    foreach ($value as $subtableId => $val) {
+                        if (array_key_exists($subtableId, $value)) {
+                            $resultRow[$rawName . $subtableId] = $value[$subtableId];
                         }
                     }
-                } else {
+                } elseif (is_array($value)) {
                     if (array_key_exists($idSubtable, $value)) {
                         $resultRow[$rawName . $idSubtable] = $value[$idSubtable];
                     }
                 }
             } else {
+                // one blob per datatable or subtable
                 $resultRow[$row['name']] = $value;
             }
 

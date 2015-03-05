@@ -333,7 +333,6 @@ class ArchiveProcessor
      */
     public function insertBlobRecord($name, $values)
     {
-       // $this->archiveWriter->insertBlobRecord($name, $values);return;
         $newInsert = array();
 
         if (!empty($values[0])) {
