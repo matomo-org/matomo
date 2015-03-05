@@ -14,6 +14,7 @@ use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\InvalidatedReports;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -309,8 +310,8 @@ class PurgerTest extends IntegrationTestCase
         $this->assertJanuaryInvalidatedArchivesNotPurged();
 
         // assert invalidated reports distributed list has changed
-        $invalidatedReports = new InvalidatedReports();
-        $yearMonths = $invalidatedReports->getYearMonthArchivesToPurge();
+        $archivesToPurgeDistributedList = new ArchivesToPurgeDistributedList();
+        $yearMonths = $archivesToPurgeDistributedList->getAll();
 
         $this->assertEmpty($yearMonths);
     }
@@ -340,7 +341,6 @@ class PurgerTest extends IntegrationTestCase
 
     /**
      * @param Date[] $dates
-     * @param int[] $sites
      */
     private function setUpInvalidatedReportsDistributedList($dates)
     {
@@ -349,8 +349,8 @@ class PurgerTest extends IntegrationTestCase
             $yearMonths[] = $date->toString('Y_m');
         }
 
-        $invalidatedReports = new InvalidatedReports();
-        $invalidatedReports->addArchiveTablesToPurge($yearMonths);
+        $archivesToPurgeDistributedList = new ArchivesToPurgeDistributedList();
+        $archivesToPurgeDistributedList->add($yearMonths);
     }
 
     private function insertOutdatedArchives(Date $archiveDate)

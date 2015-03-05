@@ -17,6 +17,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 
 /**
  *
@@ -78,10 +79,10 @@ class Purger
      */
     public function purgeInvalidatedArchives()
     {
-        $invalidatedReports = new InvalidatedReports();
+        $archivesToPurge = new ArchivesToPurgeDistributedList();
 
-        $idSitesByYearMonth = $invalidatedReports->getYearMonthArchivesToPurge();
-        foreach ($idSitesByYearMonth as $yearMonth) {
+        $yearMonths = $archivesToPurge->getAll();
+        foreach ($yearMonths as $yearMonth) {
             try {
                 $date = Date::factory(str_replace('_', '-', $yearMonth) . '-01');
             } catch (\Exception $ex) {
@@ -90,7 +91,7 @@ class Purger
 
             $this->purgeInvalidatedArchivesFrom($date);
 
-            $invalidatedReports->markArchiveTablePurged($yearMonth);
+            $archivesToPurge->remove($yearMonth);
         }
     }
 

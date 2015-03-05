@@ -12,6 +12,7 @@ namespace Piwik\DataAccess;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
+use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
 use Piwik\Period\Week;
@@ -319,7 +320,9 @@ class ArchiveInvalidator {
 
         $store = new InvalidatedReports();
         $store->addInvalidatedSitesToReprocess($idSites);
-        $store->addArchiveTablesToPurge($yearMonths);
+
+        $archivesToPurge = new ArchivesToPurgeDistributedList();
+        $archivesToPurge->add($yearMonths);
     }
 
     private static function getModel()

@@ -24,42 +24,6 @@ use Piwik\Option;
 class InvalidatedReports
 {
     const OPTION_INVALIDATED_IDSITES_TO_REPROCESS = 'InvalidatedOldReports_WebsiteIds';
-    const OPTION_INVALIDATED_DATES_SITES_TO_PURGE = 'InvalidatedOldReports_DatesWebsiteIds';
-
-    /**
-     * Mark the sites IDs and Dates as being invalidated, so we can purge them later on.
-     *
-     * @param array $yearMonths
-     */
-    public function addArchiveTablesToPurge($yearMonths)
-    {
-        $yearMonthsToPurge = $this->getYearMonthArchivesToPurge();
-        $yearMonthsToPurge = array_merge($yearMonthsToPurge, $yearMonths);
-        $yearMonthsToPurge = array_unique($yearMonthsToPurge);
-
-        $this->persistYearMonthArchivesToPurge($yearMonthsToPurge);
-    }
-
-    /**
-     * Returns the list of websites IDs for which invalidated archives can be purged.
-     */
-    public function getYearMonthArchivesToPurge()
-    {
-        return $this->getArrayValueFromOptionName(self::OPTION_INVALIDATED_DATES_SITES_TO_PURGE);
-    }
-
-    public function markArchiveTablePurged($yearMonth)
-    {
-        $yearMonthsToPurge = $this->getYearMonthArchivesToPurge();
-
-        $existingIndex = array_search($yearMonth, $yearMonthsToPurge);
-        if ($existingIndex === false) {
-            return;
-        }
-
-        unset($yearMonthsToPurge[$existingIndex]);
-        $this->persistYearMonthArchivesToPurge($yearMonthsToPurge);
-    }
 
     /**
      * Record those website IDs as having been invalidated
@@ -126,16 +90,5 @@ class InvalidatedReports
             return $array;
         }
         return array();
-    }
-
-    /**
-     * @param $idSitesByYearMonth
-     */
-    private function persistYearMonthArchivesToPurge($idSitesByYearMonth)
-    {
-        // remove dates for which there are no sites to purge
-        $idSitesByYearMonth = array_filter($idSitesByYearMonth);
-
-        Option::set(self::OPTION_INVALIDATED_DATES_SITES_TO_PURGE, serialize($idSitesByYearMonth));
     }
 }
