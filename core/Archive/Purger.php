@@ -35,13 +35,6 @@ class Purger
     private $model;
 
     /**
-     * TODO: what does this class even do?
-     *
-     * @var InvalidatedReports
-     */
-    private $invalidatedReports;
-
-    /**
      * TODO
      *
      * @var Date
@@ -72,7 +65,6 @@ class Purger
     public function __construct(Model $model = null, Date $purgeCustomRangesOlderThan = null)
     {
         $this->model = $model ?: new Model();
-        $this->invalidatedReports = new InvalidatedReports();
 
         $this->purgeCustomRangesOlderThan = $purgeCustomRangesOlderThan ?: self::getDefaultCustomRangeToPurgeAgeThreshold();
 
@@ -86,9 +78,13 @@ class Purger
      */
     public function purgeInvalidatedArchives()
     {
-        $idSitesByYearMonth = $this->invalidatedReports->getSitesByYearMonthArchiveToPurge();
+        $invalidatedReports = new InvalidatedReports();
+
+        $idSitesByYearMonth = $invalidatedReports->getSitesByYearMonthArchiveToPurge();
         foreach ($idSitesByYearMonth as $yearMonth => $idSites) { // TODO: change the option to store $yearMonths as values? perhaps not necessary right now
             $this->purgeInvalidatedArchivesFrom($yearMonth);
+
+            $invalidatedReports->markSiteIdsHaveBeenPurged($idSites, $yearMonth);
         }
     }
 
@@ -102,17 +98,18 @@ class Purger
 
         // we don't want to do an INNER JOIN on every row in a archive table that can potentially have tens to hundreds of thousands of rows,
         // so we first look for sites w/ invalidated archives, and use this as a constraint in getInvalidatedArchiveIdsSafeToDelete() below.
-        // the constraint will hit an INDEX and speed things up.
+        // the constraint will hit an INDEX and speed up the inner join that happens in getInvalidatedArchiveIdsSafeToDelete().
         $idSites = $this->model->getSitesWithInvalidatedArchive($numericTable);
+        if (empty($idSites)) {
+            return;
+        }
 
         $archiveIds = $this->model->getInvalidatedArchiveIdsSafeToDelete($numericTable, $idSites);
-        if (count($archiveIds) == 0) {
+        if (empty($archiveIds)) {
             return;
         }
 
         $this->deleteArchiveIds($date, $archiveIds);
-
-        $this->invalidatedReports->markSiteIdsHaveBeenPurged($idSites, $yearMonth);
     }
 
     /**
