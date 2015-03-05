@@ -16,7 +16,6 @@ use Piwik\Db;
 use Piwik\Log;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 
-// TODO: tests for Tasks
 class Tasks extends \Piwik\Plugin\Tasks
 {
     /**
