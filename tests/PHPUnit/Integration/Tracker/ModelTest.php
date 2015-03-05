@@ -117,6 +117,10 @@ class ModelTest extends IntegrationTestCase
 
         $visit = array(
             'idsite' => 1,
+            'idvisitor' => '1',
+            'visit_last_action_time' => '',
+            'config_id' => '1',
+            'location_ip' => '',
         );
 
         $this->model->createVisit($visit);
