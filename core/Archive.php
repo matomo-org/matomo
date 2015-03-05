@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Piwik\Archive\Chunk;
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchiveInvalidator;
@@ -196,7 +197,7 @@ class Archive
      *                             or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD').
      * @param bool|false|string $segment Segment definition or false if no segment should be used. {@link Piwik\Segment}
      * @param bool|false|string $_restrictSitesToLogin Used only when running as a scheduled task.
-     * @return Archive
+     * @return static
      */
     public static function build($idSites, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
     {
@@ -219,7 +220,7 @@ class Archive
         $idSiteIsAll    = $idSites == self::REQUEST_ALL_WEBSITES_FLAG;
         $isMultipleDate = Period::isMultiplePeriod($strDate, $period);
 
-        return Archive::factory($segment, $allPeriods, $websiteIds, $idSiteIsAll, $isMultipleDate);
+        return static::factory($segment, $allPeriods, $websiteIds, $idSiteIsAll, $isMultipleDate);
     }
 
     /**
@@ -259,7 +260,7 @@ class Archive
 
         $params = new Parameters($idSites, $periods, $segment);
 
-        return new Archive($params, $forceIndexedBySite, $forceIndexedByDate);
+        return new static($params, $forceIndexedBySite, $forceIndexedByDate);
     }
 
     /**
@@ -319,6 +320,8 @@ class Archive
      *                                to the subtable ID to return. If set to 'all', all subtables
      *                                of each requested report are returned.
      * @return array An array of appropriately indexed blob data.
+     *
+     * @deprecated since Piwik 2.12. Use one of the getDatable* methods instead.
      */
     public function getBlob($names, $idSubtable = null)
     {
@@ -586,18 +589,24 @@ class Archive
      * @param null|int $idSubtable
      * @return Archive\DataCollection
      */
-    private function get($archiveNames, $archiveDataType, $idSubtable = null)
+    protected function get($archiveNames, $archiveDataType, $idSubtable = null)
     {
-
         if (!is_array($archiveNames)) {
             $archiveNames = array($archiveNames);
         }
+
+        $chunk = new Chunk();
+
+        $chunks = array();
 
         // apply idSubtable
         if ($idSubtable !== null
             && $idSubtable != self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
         ) {
             foreach ($archiveNames as &$name) {
+                // to be backwards compatibe we need to look for the exact idSubtable blob and for the chunk
+                // that stores the subtables (a chunk stores many blobs in one blob)
+                $chunks[] = $this->appendIdSubtable($name, $chunk->getBlobIdForTable($idSubtable));
                 $name = $this->appendIdsubtable($name, $idSubtable);
             }
         }
@@ -611,11 +620,18 @@ class Archive
             return $result;
         }
 
+        if (!empty($chunks)) {
+            // we cannot merge them to $archiveNames further up when generating the chunk names as the DataCollection
+            // would think that eg "chunk_0" is a subtable.
+            $archiveNames = array_merge($archiveNames, $chunks);
+        }
+
         $loadAllSubtables = $idSubtable == self::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
         $archiveData = ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $loadAllSubtables);
+
         foreach ($archiveData as $row) {
             // values are grouped by idsite (site ID), date1-date2 (date range), then name (field name)
-            $idSite = $row['idsite'];
+            $idSite    = $row['idsite'];
             $periodStr = $row['date1'] . "," . $row['date2'];
 
             if ($archiveDataType == 'numeric') {
@@ -626,10 +642,49 @@ class Archive
             }
 
             $resultRow = & $result->get($idSite, $periodStr);
-            $resultRow[$row['name']] = $value;
+
+            if ($chunk->isRecordNameAChunk($row['name'])) {
+                // one combined blob for all subtables
+                $value = unserialize($value);
+
+                if (is_array($value)) {
+                    $rawName = $chunk->getRecordNameWithoutChunkAppendix($row['name']); // eg PluginName_ArchiveName
+
+                    if ($loadAllSubtables) {
+                        $this->moveAllBlobsWithinChunkToResultRow($resultRow, $rawName, $value);
+                    } else {
+                        $this->moveNeededBlobWithinChunkToResultRow($resultRow, $rawName, $idSubtable, $value);
+                    }
+                }
+
+            } else {
+                // one blob per datatable or subtable
+                $resultRow[$row['name']] = $value;
+            }
+
         }
 
         return $result;
+    }
+
+    private function moveNeededBlobWithinChunkToResultRow(&$resultRow, $recordName, $idSubtable, $chunk)
+    {
+        $subtableRecordName = $this->appendIdSubtable($recordName, $idSubtable);
+
+        if (array_key_exists($idSubtable, $chunk)) {
+            $resultRow[$subtableRecordName] = $chunk[$idSubtable];
+        } else {
+            $resultRow[$subtableRecordName] = 0;
+            unset($resultRow['_metadata']);
+        }
+    }
+
+    private function moveAllBlobsWithinChunkToResultRow(&$resultRow, $recordName, $chunk)
+    {
+        foreach ($chunk as $subtableId => $val) {
+            $subtableRecordName = $this->appendIdSubtable($recordName, $subtableId);
+            $resultRow[$subtableRecordName] = $val;
+        }
     }
 
     /**

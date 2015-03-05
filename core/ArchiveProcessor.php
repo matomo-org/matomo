@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Archive\Chunk;
 use Piwik\Archive\DataTableFactory;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
@@ -326,14 +327,37 @@ class ArchiveProcessor
      * @param string $name The name of the record, eg, 'Referrers_type'.
      * @param string|array $values A blob string or an array of blob strings. If an array
      *                             is used, the first element in the array will be inserted
-     *                             with the `$name` name. The others will be inserted with
-     *                             `$name . '_' . $index` as the record name (where $index is
-     *                             the index of the blob record in `$values`).
+     *                             with the `$name` name. The others will be splitted into chunks of 100 and inserted
+     *                             with `$name . 'chunk_' . $index` as the record name (where $index is
+     *                             the index of the chunk). All subtables within one chunk will be serialized as an
+     *                             array where the index is the subtableId.
      * @api
      */
     public function insertBlobRecord($name, $values)
     {
-        $this->archiveWriter->insertBlobRecord($name, $values);
+        $newInsert = array();
+
+        if (is_array($values)) {
+            if (isset($values[0])) {
+                // we always store the root table in a single blob for fast access
+                $newInsert[0] = $values[0];
+                unset($values[0]);
+            }
+
+            if (!empty($values)) {
+                // we move all subtables into chunks
+                $chunk  = new Chunk();
+                $chunks = $chunk->moveArchiveBlobsIntoChunks($values);
+                foreach ($chunks as $index => $subtables) {
+                    $newInsert[$index] = serialize($subtables);
+                }
+            }
+        } else {
+            $newInsert = $values;
+        }
+
+
+        $this->archiveWriter->insertBlobRecord($name, $newInsert);
     }
 
     /**

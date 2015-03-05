@@ -9,6 +9,8 @@
 namespace Piwik\DataAccess;
 
 use Exception;
+use Piwik\Archive;
+use Piwik\Archive\Chunk;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
 use Piwik\Db;
@@ -80,13 +82,15 @@ class ArchiveWriter
     public function insertBlobRecord($name, $values)
     {
         if (is_array($values)) {
+            $chunk = new Chunk();
+
             $clean = array();
             foreach ($values as $id => $value) {
                 // for the parent Table we keep the name
                 // for example for the Table of searchEngines we keep the name 'referrer_search_engine'
                 // but for the child table of 'Google' which has the ID = 9 the name would be 'referrer_search_engine_9'
                 $newName = $name;
-                if ($id != 0) {
+                if ($id != 0 || $chunk->isBlobIdAChunk($id)) {
                     //FIXMEA: refactor
                     $newName = $name . '_' . $id;
                 }
@@ -127,7 +131,7 @@ class ArchiveWriter
         $this->logArchiveStatusAsFinal();
     }
 
-    protected static function compress($data)
+    protected function compress($data)
     {
         if (Db::get()->hasBlobDataType()) {
             return gzcompress($data);

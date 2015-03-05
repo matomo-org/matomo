@@ -17,13 +17,13 @@ use Piwik\DataTable\Renderer\Html;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\DataTable\Simple;
-use Piwik\DataTable\TableNotFoundException;
 use ReflectionClass;
 
 /**
  * @see Common::destroy()
  */
 require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
+require_once PIWIK_INCLUDE_PATH . "/core/DataTable/Bridges.php";
 
 /**
  * The primary data structure used to store analytics data in Piwik.
@@ -335,13 +335,23 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             foreach ($this->rows as $row) {
                 Common::destroy($row);
             }
-            if (!is_null($this->summaryRow)) {
+            if (isset($this->summaryRow)) {
                 Common::destroy($this->summaryRow);
             }
             unset($this->rows);
-            Manager::getInstance()->setTableDeleted($this->getId());
+            Manager::getInstance()->setTableDeleted($this->currentId);
             $depth--;
         }
+    }
+
+    /**
+     * Clone. Called when cloning the datatable. We need to make sure to create a new datatableId.
+     * If we do not increase tableId it can result in segmentation faults when destructing a datatable.
+     */
+    public function __clone()
+    {
+        // registers this instance to the manager
+        $this->currentId = Manager::getInstance()->addTable($this);
     }
 
     public function setLabelsHaveChanged()
@@ -670,6 +680,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 $this->rowsIndexByLabel[$label] = $id;
             }
         }
+
         if ($this->summaryRow) {
             $label = $this->summaryRow->getColumn('label');
             if ($label !== false) {
@@ -1200,9 +1211,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                                   $columnToSortByBeforeTruncation = null)
     {
         static $depth = 0;
+        // make sure subtableIds are consecutive from 1 to N
+        static $subtableId = 0;
 
         if ($depth > self::$maximumDepthLevelAllowed) {
             $depth = 0;
+            $subtableId = 0;
             throw new Exception("Maximum recursion level of " . self::$maximumDepthLevelAllowed . " reached. Maybe you have set a DataTable\Row with an associated DataTable belonging already to one of its parent tables?");
         }
         if (!is_null($maximumRowsInDataTable)) {
@@ -1214,13 +1228,17 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             );
         }
 
+        $consecutiveSubtableIds = array();
+        $forcedId = $subtableId;
+
         // For each row, get the serialized row
         // If it is associated to a sub table, get the serialized table recursively ;
         // but returns all serialized tables and subtable in an array of 1 dimension
         $aSerializedDataTable = array();
-        foreach ($this->rows as $row) {
+        foreach ($this->rows as $id => $row) {
             $subTable = $row->getSubtable();
             if ($subTable) {
+                $consecutiveSubtableIds[$id] = ++$subtableId;
                 $depth++;
                 $aSerializedDataTable = $aSerializedDataTable + $subTable->getSerialized($maximumRowsInSubDataTable, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
                 $depth--;
@@ -1228,21 +1246,32 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 $row->removeSubtable();
             }
         }
-        // we load the current Id of the DataTable
-        $forcedId = $this->getId();
 
         // if the datatable is the parent we force the Id at 0 (this is part of the specification)
         if ($depth == 0) {
             $forcedId = 0;
+            $subtableId = 0;
         }
 
         // we then serialize the rows and store them in the serialized dataTable
-        $addToRows = array(self::ID_SUMMARY_ROW => $this->summaryRow);
-
-        $aSerializedDataTable[$forcedId] = serialize($this->rows + $addToRows);
-        foreach ($this->rows as &$row) {
-            $row->cleanPostSerialize();
+        $rows = array();
+        foreach ($this->rows as $id => $row) {
+            if (array_key_exists($id, $consecutiveSubtableIds)) {
+                $backup = $row->subtableId;
+                $row->subtableId = $consecutiveSubtableIds[$id];
+                $rows[$id] = $row->export();
+                $row->subtableId = $backup;
+            } else {
+                $rows[$id] = $row->export();
+            }
         }
+
+        if (isset($this->summaryRow)) {
+            $rows[self::ID_SUMMARY_ROW] = $this->summaryRow->export();
+        }
+
+        $aSerializedDataTable[$forcedId] = serialize($rows);
+        unset($rows);
 
         return $aSerializedDataTable;
     }
@@ -1254,19 +1283,19 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * _Note: This function will successfully load DataTables serialized by Piwik 1.X._
      *
-     * @param string $stringSerialized A string with the format of a string in the array returned by
+     * @param string $serialized A string with the format of a string in the array returned by
      *                                 {@link serialize()}.
-     * @throws Exception if `$stringSerialized` is invalid.
+     * @throws Exception if `$serialized` is invalid.
      */
-    public function addRowsFromSerializedArray($stringSerialized)
+    public function addRowsFromSerializedArray($serialized)
     {
-        require_once PIWIK_INCLUDE_PATH . "/core/DataTable/Bridges.php";
+        $rows = unserialize($serialized);
 
-        $serialized = unserialize($stringSerialized);
-        if ($serialized === false) {
+        if ($rows === false) {
             throw new Exception("The unserialization has failed!");
         }
-        $this->addRowsFromArray($serialized);
+
+        $this->addRowsFromArray($rows);
     }
 
     /**
@@ -1292,6 +1321,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             if (is_array($row)) {
                 $row = new Row($row);
             }
+
             if ($id == self::ID_SUMMARY_ROW) {
                 $this->summaryRow = $row;
             } else {

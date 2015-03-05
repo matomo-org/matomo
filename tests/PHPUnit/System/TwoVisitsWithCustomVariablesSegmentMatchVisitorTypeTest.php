@@ -7,10 +7,12 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Archive\Chunk;
 use Piwik\Common;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\Db;
+use Piwik\Piwik;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 
@@ -74,9 +76,9 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTest
             // 1) CHECK 'day' archive stored in January
             // We expect 2 segments
             //   * (1 custom variable name + 2 ref metrics
-            //      + 6 subtable for the custom var values + 5 Referrers blob
+            //      + 1 subtable for the custom var values + 5 Referrers blob (2 of them subtables)
             //   )
-            'archive_blob_2010_01'    => 28,
+            'archive_blob_2010_01'    => 18,
             // This contains all 'last N' weeks & days,
             // (2 metrics
             //  + 2 referrer metrics
@@ -86,8 +88,8 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTest
             'archive_numeric_2010_01' => 138,
 
             // 2) CHECK 'week' archive stored in December (week starts the month before)
-            // We expect 2 segments * (1 custom variable name + 2 ref metrics + 5 subtable for the values of the name + 5 referrers blob)
-            'archive_blob_2009_12'    => 28,
+            // We expect 2 segments * (1 custom variable name + 2 ref metrics + 1 subtable for the values of the name + 5 referrers blob (2 of them subtables))
+            'archive_blob_2009_12'    => 18,
             // 7 metrics,
             // 2 Referrer metrics (Referrers_distinctSearchEngines/Referrers_distinctKeywords),
             // 6 done flag (referrers, CustomVar, VisitsSummary), 3 for period = 1 and 3 for period = 2
@@ -105,6 +107,51 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTest
             }
             $this->assertEquals($expectedRows, $countBlobs, "$table: %s");
         }
+    }
+
+    /**
+     *  Check that it merges all subtables into one blob entry
+     *
+     * @depends      testApi
+     */
+    public function test_checkArchiveRecords_shouldMergeSubtablesIntoOneRow()
+    {
+        $chunk = new Chunk();
+        $chunkBlobId = $chunk->getBlobIdForTable(0);
+
+        $tests = array(
+            'archive_blob_2010_01' => array(
+                'CustomVariables_valueByName_' . $chunkBlobId => 6,
+                'Referrers_keywordBySearchEngine_' . $chunkBlobId => 1,
+                'Referrers_searchEngineByKeyword_' . $chunkBlobId => 1,
+            ),
+            'archive_blob_2009_12' => array(
+                'CustomVariables_valueByName_' . $chunkBlobId => 6,
+                'Referrers_keywordBySearchEngine_' . $chunkBlobId => 1,
+                'Referrers_searchEngineByKeyword_' . $chunkBlobId => 1,
+            )
+        );
+        $numTests = 0;
+        foreach ($tests as $table => $expectedSubtables) {
+            foreach ($expectedSubtables as $name => $expectedNumSubtables) {
+                $sql = "SELECT `value` FROM " . Common::prefixTable($table) . " WHERE `name` ='$name'";
+                $blobs = Db::get()->fetchAll($sql);
+
+                foreach ($blobs as $blob) {
+                    $numTests++;
+                    $blob = $blob['value'];
+                    $blob = gzuncompress($blob);
+                    $blob = unserialize($blob);
+
+                    $countSubtables = count($blob);
+
+                    $this->assertEquals($expectedNumSubtables, $countSubtables, "$name in $table expected to contain $expectedNumSubtables subtables, got $countSubtables");
+                }
+            }
+        }
+
+        // 6 _subtables entries + 6 _subtables entries for the segment
+        $this->assertEquals(12, $numTests, "$numTests were executed but expected 12");
     }
 
     public static function getOutputPrefix()

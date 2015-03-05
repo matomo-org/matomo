@@ -33,7 +33,7 @@ class DataTable_Filter_TruncateTest extends \PHPUnit_Framework_TestCase
         // from the database is in conflict with one of the Manager managed table identifiers.
         // This is a rare but legitimate case as identifiers are not thoroughly synchronized
         // when the expanded parameter is false.
-        $rowBeingFiltered->c[Row::DATATABLE_ASSOCIATED] = $mockedDataTable->getId();
+        $rowBeingFiltered->subtableId = $mockedDataTable->getId();
 
         $filter = new Truncate($dataTableBeingFiltered, 1);
         $filter->filter($dataTableBeingFiltered);
@@ -55,7 +55,7 @@ class DataTable_Filter_TruncateTest extends \PHPUnit_Framework_TestCase
         // enclosing DataTable.
         // This can happen because identifiers are not thoroughly synchronized when the expanded parameter
         // is false.
-        $rowBeingFiltered->c[Row::DATATABLE_ASSOCIATED] = $dataTableBeingFiltered->getId();
+        $rowBeingFiltered->subtableId = $dataTableBeingFiltered->getId();
 
         $filter = new Truncate($dataTableBeingFiltered, 1);
         $filter->filter($dataTableBeingFiltered);

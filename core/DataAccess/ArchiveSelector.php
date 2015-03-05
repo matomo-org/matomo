@@ -9,6 +9,7 @@
 namespace Piwik\DataAccess;
 
 use Exception;
+use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
@@ -217,7 +218,8 @@ class ArchiveSelector
      * Queries and returns archive data using a set of archive IDs.
      *
      * @param array $archiveIds The IDs of the archives to get data from.
-     * @param array $recordNames The names of the data to retrieve (ie, nb_visits, nb_actions, etc.)
+     * @param array $recordNames The names of the data to retrieve (ie, nb_visits, nb_actions, etc.).
+     *                           Note: You CANNOT pass multiple recordnames if $loadAllSubtables=true.
      * @param string $archiveDataType The archive data type (either, 'blob' or 'numeric').
      * @param bool $loadAllSubtables Whether to pre-load all subtables
      * @throws Exception
@@ -231,11 +233,17 @@ class ArchiveSelector
             $name = reset($recordNames);
 
             // select blobs w/ name like "$name_[0-9]+" w/o using RLIKE
-            $nameEnd = strlen($name) + 2;
-            $whereNameIs = "(name = ?
-                            OR (name LIKE ?
-                                 AND SUBSTRING(name, $nameEnd, 1) >= '0'
-                                 AND SUBSTRING(name, $nameEnd, 1) <= '9') )";
+            $nameEnd = strlen($name) + 1;
+            $nameEndAppendix = $nameEnd + 1;
+            $chunk = new Archive\Chunk();
+            $appendix = $chunk->getAppendix();
+            $lenAppendix = strlen($appendix);
+
+            $checkForChunkBlob  = "SUBSTRING(name, $nameEnd, $lenAppendix) = '$appendix'";
+            $checkForSubtableId = "(SUBSTRING(name, $nameEndAppendix, 1) >= '0'
+                                    AND SUBSTRING(name, $nameEndAppendix, 1) <= '9')";
+
+            $whereNameIs = "(name = ? OR (name LIKE ? AND ( $checkForChunkBlob OR $checkForSubtableId ) ))";
             $bind = array($name, $name . '%');
         } else {
             $whereNameIs = "name IN ($inNames)";

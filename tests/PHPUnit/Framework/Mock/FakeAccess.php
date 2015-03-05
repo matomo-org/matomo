@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Framework\Mock;
 
 use Piwik\Plugins\SitesManager\API;
-use Piwik\Site;
+use Piwik\Site as PiwikSite;
 use Exception;
 
 /**
@@ -77,7 +77,7 @@ class FakeAccess
             $websitesAccess = API::getInstance()->getAllSitesId();
         }
 
-        $idSites = Site::getIdSitesFromIdSitesString($idSites);
+        $idSites = PiwikSite::getIdSitesFromIdSitesString($idSites);
 
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $websitesAccess)) {
