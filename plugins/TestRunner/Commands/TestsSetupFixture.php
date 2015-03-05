@@ -93,6 +93,9 @@ class TestsSetupFixture extends ConsoleCommand
             $_SERVER = json_decode($serverGlobal, true);
         }
 
+        if(Config::getInstance()->database_tests['tables_prefix'] !== '') {
+            throw new \Exception("To generate OmniFixture for the UI tests, you must set an empty tables_prefix in [database_tests]");
+        }
         $this->requireFixtureFiles($input);
         $this->setIncludePathAsInTestBootstrap();
 
@@ -176,7 +179,8 @@ class TestsSetupFixture extends ConsoleCommand
             'dbname' => $fixture->getDbName(),
             'host' => $input->getOption('db-host'),
             'username' => $input->getOption('db-user'),
-            'password' => $input->getOption('db-pass')
+            'password' => $input->getOption('db-pass'),
+            'tables_prefix' => '',
         );
         foreach ($optionsToOverride as $configOption => $value) {
             if ($value) {

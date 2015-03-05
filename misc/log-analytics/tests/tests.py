@@ -2,6 +2,7 @@
 import functools
 import os
 import datetime
+import re
 
 import import_logs
 
@@ -13,6 +14,26 @@ def add_junk_to_file(path):
 
     file = open('tmp.log', 'w')
     file.write(contents + ' junk')
+    file.close()
+
+    return 'tmp.log'
+
+def add_multiple_spaces_to_file(path):
+    file = open(path)
+    contents = file.read()
+    file.close()
+
+    # replace spaces that aren't between " quotes
+    contents = contents.split('"')
+    for i in xrange(0, len(contents), 2):
+        contents[i] = re.sub(' ', "  ", contents[i])
+    contents = '"'.join(contents)
+    import_logs.logging.debug(contents)
+
+    assert "  " in contents # sanity check
+
+    file = open('tmp.log', 'w')
+    file.write(contents)
     file.close()
 
     return 'tmp.log'
@@ -44,6 +65,18 @@ def test_format_detection():
         assert(format is not None)
         assert(format.name == format_name)
 
+    def _test_multiple_spaces(format_name, log_file = None):
+        if log_file is None:
+            log_file = 'logs/%s.log' % format_name
+
+        tmp_path = add_multiple_spaces_to_file(log_file) # TODO
+
+        file = open(tmp_path)
+        import_logs.config = Config()
+        format = import_logs.Parser.detect_format(file)
+        assert(format is not None)
+        assert(format.name == format_name)
+
     for format_name in import_logs.FORMATS.iterkeys():
         # w3c extended tested by iis and netscaler log files; amazon cloudfront tested later
         if format_name == 'w3c_extended' or format_name == 'amazon_cloudfront':
@@ -57,6 +90,10 @@ def test_format_detection():
         f.description = 'Testing autodetection of format ' + format_name + ' w/ garbage at end of line'
         yield f
 
+        f = functools.partial(_test_multiple_spaces, format_name)
+        f.description = 'Testing autodetection of format ' + format_name + ' when multiple spaces separate fields'
+        yield f
+
     # add tests for amazon cloudfront (normal web + rtmp)
     f = functools.partial(_test, 'w3c_extended', 'logs/amazon_cloudfront_web.log')
     f.description = 'Testing autodetection of amazon cloudfront (web) logs.'
@@ -66,12 +103,20 @@ def test_format_detection():
     f.description = 'Testing autodetection of amazon cloudfront (web) logs w/ garbage at end of line'
     yield f
 
+    f = functools.partial(_test_multiple_spaces, 'w3c_extended', 'logs/amazon_cloudfront_web.log')
+    f.description = 'Testing autodetection of format amazon cloudfront (web) logs when multiple spaces separate fields'
+    yield f
+
     f = functools.partial(_test, 'amazon_cloudfront', 'logs/amazon_cloudfront_rtmp.log')
     f.description = 'Testing autodetection of amazon cloudfront (rtmp) logs.'
     yield f
 
     f = functools.partial(_test_junk, 'amazon_cloudfront', 'logs/amazon_cloudfront_rtmp.log')
     f.description = 'Testing autodetection of amazon cloudfront (rtmp) logs w/ garbage at end of line.'
+    yield f
+
+    f = functools.partial(_test_multiple_spaces, 'amazon_cloudfront', 'logs/amazon_cloudfront_rtmp.log')
+    f.description = 'Testing autodetection of format amazon cloudfront (rtmp) logs when multiple spaces separate fields'
     yield f
 
 class Options(object):

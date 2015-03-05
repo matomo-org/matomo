@@ -70,7 +70,7 @@ function logRequest($sqlite, $uri, $data) {
 }
 
 if (isset($_GET['requests'])) {
-	$token = get_magic_quotes_gpc() ? stripslashes($_GET['requests']) : $_GET['requests'];
+	$token = htmlentities($_GET['requests']);
 	$ua = $_SERVER['HTTP_USER_AGENT'];
 
 	echo "<html><head><title>$token</title></head><body>\n";

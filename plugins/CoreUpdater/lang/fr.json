@@ -50,6 +50,7 @@
         "UpgradeComplete": "Mise à jour complète !",
         "UpgradePiwik": "Mettez Piwik à jour",
         "VerifyingUnpackedFiles": "Vérification des fichiers décompressés",
+        "ViewVersionChangelog": "Voir les logs de changement pour cette version :",
         "WarningMessages": "Messages d'avertissement :",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Nous avons automatiquement désactivé les plugins suivants : %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Vous pouvez mettre à jour vers la version %s automatiquement ou télécharger l'archive et l'installer manuellement:",

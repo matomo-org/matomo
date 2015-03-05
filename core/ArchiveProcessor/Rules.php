@@ -10,7 +10,6 @@ namespace Piwik\ArchiveProcessor;
 
 use Exception;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Log;
@@ -46,13 +45,12 @@ class Rules
      * @param Segment $segment
      * @param string $periodLabel
      * @param string $plugin
-     * @param bool $isSkipAggregationOfSubTables
      * @return string
      */
-    public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin, $isSkipAggregationOfSubTables)
+    public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin)
     {
         if (!self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel)) {
-            return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin, $isSkipAggregationOfSubTables);
+            return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
         }
         return self::getDoneFlagArchiveContainsAllPlugins($segment);
     }
@@ -83,31 +81,14 @@ class Rules
         return $segmentsToProcess;
     }
 
-    public static function getDoneFlagArchiveContainsOnePlugin(Segment $segment, $plugin, $isSkipAggregationOfSubTables = false)
+    public static function getDoneFlagArchiveContainsOnePlugin(Segment $segment, $plugin)
     {
-        $partial = self::isFlagArchivePartial($plugin, $isSkipAggregationOfSubTables);
-        return 'done' . $segment->getHash() . '.' . $plugin . $partial ;
+        return 'done' . $segment->getHash() . '.' . $plugin ;
     }
 
     private static function getDoneFlagArchiveContainsAllPlugins(Segment $segment)
     {
         return 'done' . $segment->getHash();
-    }
-
-    /**
-     * @param $plugin
-     * @param $isSkipAggregationOfSubTables
-     * @return string
-     */
-    private static function isFlagArchivePartial($plugin, $isSkipAggregationOfSubTables)
-    {
-        $partialArchive = '';
-        if ($plugin != "VisitsSummary" // VisitsSummary is always called when segmenting and should not have its own .partial archive
-            && $isSkipAggregationOfSubTables
-        ) {
-            $partialArchive = '.partial';
-        }
-        return $partialArchive;
     }
 
     /**
@@ -117,7 +98,7 @@ class Rules
      * @param $segment
      * @return array
      */
-    public static function getDoneFlags(array $plugins, Segment $segment, $isSkipAggregationOfSubTables)
+    public static function getDoneFlags(array $plugins, Segment $segment)
     {
         $doneFlags = array();
         $doneAllPlugins = self::getDoneFlagArchiveContainsAllPlugins($segment);
@@ -125,12 +106,11 @@ class Rules
 
         $plugins = array_unique($plugins);
         foreach ($plugins as $plugin) {
-            $doneOnePlugin = self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin, $isSkipAggregationOfSubTables);
+            $doneOnePlugin = self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
             $doneFlags[$plugin] = $doneOnePlugin;
         }
         return $doneFlags;
     }
-
 
     public static function getMinTimeProcessedForTemporaryArchive(
         Date $dateStart, \Piwik\Period $period, Segment $segment, Site $site)
@@ -297,5 +277,4 @@ class Rules
 
         return $possibleValues;
     }
-
 }

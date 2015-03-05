@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f9914d40211d9207a141d003cddb89ff",
+    "hash": "ad2f11fd442b91f4ac1e6a131d664f96",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -655,16 +655,16 @@
         },
         {
             "name": "piwik/ini",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/component-ini.git",
-                "reference": "2a2179e56e6e906364e7e978305a2b75b7b34eb0"
+                "reference": "5863e8a006d490c2eb50e32ef08c1c684dff0ed0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-ini/zipball/2a2179e56e6e906364e7e978305a2b75b7b34eb0",
-                "reference": "2a2179e56e6e906364e7e978305a2b75b7b34eb0",
+                "url": "https://api.github.com/repos/piwik/component-ini/zipball/5863e8a006d490c2eb50e32ef08c1c684dff0ed0",
+                "reference": "5863e8a006d490c2eb50e32ef08c1c684dff0ed0",
                 "shasum": ""
             },
             "require": {
@@ -683,7 +683,7 @@
             "license": [
                 "LGPL-3.0"
             ],
-            "time": "2015-02-25 21:48:57"
+            "time": "2015-03-03 22:19:39"
         },
         {
             "name": "piwik/network",

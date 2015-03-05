@@ -10,7 +10,7 @@
 
         <td>
             {% if infos.phpVersion_ok %}
-                {{ ok }}
+                {{ ok }} {{ infos.phpVersion }}
             {% else %}
                 {{ error }} <span class="err">{{ 'General_Error'|translate }}: {{ 'General_Required'|translate(MinPHP)|raw }}</span>
             {% endif %}
