@@ -8,16 +8,20 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Archive;
+use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Segment;
+use Piwik\Site;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
-use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Period\Factory as PeriodFactory;
 
 /**
  * @group Core
@@ -101,6 +105,101 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertArchiveTablesAreNotEmpty('2010_03');
     }
 
+    public function test_ArchiveBlob_ShouldBeAbleToLoadFirstLevelDataArrays()
+    {
+        $this->createManyDifferentArchiveBlobs();
+
+        $archive = $this->getArchive('day', '2013-01-01,2013-01-05');
+        $dataArrays = $archive->getBlob(array('Actions_Actionsurl'));
+
+        $this->assertArchiveBlob($dataArrays, '2013-01-01', array('Actions_Actionsurl' => 'test01'));
+        $this->assertArchiveBlob($dataArrays, '2013-01-02', array('Actions_Actionsurl' => 'test02'));
+        $this->assertArchiveBlob($dataArrays, '2013-01-03', array('Actions_Actionsurl' => 'test03'));
+        $this->assertArchiveBlob($dataArrays, '2013-01-04', array('Actions_Actionsurl' => 'test04'));
+        $this->assertArchiveBlob($dataArrays, '2013-01-05', array());
+    }
+
+    public function test_ArchiveBlob_ShouldBeAbleToLoadOneSubtable_NoMatterWhetherTheyAreStoredSeparatelyOrInACombinedSubtableEntry()
+    {
+        $this->createManyDifferentArchiveBlobs();
+
+        $archive = $this->getArchive('day', '2013-01-01,2013-01-05');
+        $dataArrays = $archive->getBlob(array('Actions_Actionsurl'), 2);
+
+        $this->assertArchiveBlob($dataArrays, '2013-01-01', array());
+        $this->assertArchiveBlob($dataArrays, '2013-01-02', array('Actions_Actionsurl_2' => 'test2'));
+        $this->assertArchiveBlob($dataArrays, '2013-01-03', array('Actions_Actionsurl_2' => 'subtable2'));
+        $this->assertArchiveBlob($dataArrays, '2013-01-04', array());
+        $this->assertArchiveBlob($dataArrays, '2013-01-05', array());
+
+        // test another one
+        $dataArrays = $archive->getBlob(array('Actions_Actionsurl'), 5);
+
+        $this->assertArchiveBlob($dataArrays, '2013-01-01', array());
+        $this->assertArchiveBlob($dataArrays, '2013-01-02', array());
+        $this->assertArchiveBlob($dataArrays, '2013-01-03', array('Actions_Actionsurl_5' => 'subtable5'));
+        $this->assertArchiveBlob($dataArrays, '2013-01-04', array('Actions_Actionsurl_5' => 'subtable45'));
+        $this->assertArchiveBlob($dataArrays, '2013-01-05', array());
+
+        // test one that does not exist
+        $dataArrays = $archive->getBlob(array('Actions_Actionsurl'), 999);
+
+        $this->assertArchiveBlob($dataArrays, '2013-01-01', array());
+        $this->assertArchiveBlob($dataArrays, '2013-01-02', array());
+        $this->assertArchiveBlob($dataArrays, '2013-01-03', array());
+        $this->assertArchiveBlob($dataArrays, '2013-01-04', array());
+        $this->assertArchiveBlob($dataArrays, '2013-01-05', array());
+    }
+
+    public function test_ArchiveBlob_ShouldBeAbleToLoadAllSubtables_NoMatterWhetherTheyAreStoredSeparatelyOrInACombinedSubtableEntry()
+    {
+        $this->createManyDifferentArchiveBlobs();
+
+        $archive = $this->getArchive('day', '2013-01-01,2013-01-06');
+        $dataArrays = $archive->getBlob(array('Actions_Actionsurl'), Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES);
+
+        $this->assertArchiveBlob($dataArrays, '2013-01-01', array('Actions_Actionsurl' => 'test01'));
+        $this->assertArchiveBlob($dataArrays, '2013-01-02', array('Actions_Actionsurl' => 'test02', 'Actions_Actionsurl_1' => 'test1', 'Actions_Actionsurl_2' => 'test2'));
+        $this->assertArchiveBlob($dataArrays, '2013-01-03', array('Actions_Actionsurl' => 'test03', 'Actions_Actionsurl_1' => 'subtable1', 'Actions_Actionsurl_2' => 'subtable2', 'Actions_Actionsurl_5' => 'subtable5'));
+        $this->assertArchiveBlob($dataArrays, '2013-01-04', array('Actions_Actionsurl' => 'test04', 'Actions_Actionsurl_5' => 'subtable45', 'Actions_Actionsurl_6' => 'subtable6'));
+        $this->assertArchiveBlob($dataArrays, '2013-01-05', array());
+        $this->assertArchiveBlob($dataArrays, '2013-01-06', array('Actions_Actionsurl' => 'test06'));
+    }
+
+    private function createManyDifferentArchiveBlobs()
+    {
+        $this->createArchiveBlobEntry('Actions_Actionsurl', '2013-01-01', array(0 => 'test01'));
+        $this->createArchiveBlobEntry('Actions_Actionsurl', '2013-01-02', array(0 => 'test02', 1 => 'test1', 2 => 'test2'));
+        $this->createArchiveBlobEntry('Actions_Actionsurl', '2013-01-03', array(0 => 'test03', 'subtables' => serialize(array(1 => 'subtable1', 2 => 'subtable2', 5 => 'subtable5'))));
+        $this->createArchiveBlobEntry('Actions_Actionsurl', '2013-01-04', array(0 => 'test04', 5 => 'subtable45', 6 => 'subtable6'));
+        $this->createArchiveBlobEntry('Actions_Actionsurl', '2013-01-06', array(0 => 'test06', 'subtables' => serialize(array())));
+    }
+
+    private function assertArchiveBlob($dataArrays, $date, $expectedBlob)
+    {
+        $dateIndex = $date . ',' . $date;
+
+        if (!empty($expectedBlob)) {
+            $this->assertNotEmpty($dataArrays[$dateIndex]['_metadata']['ts_archived']);
+            $dataArrays[$dateIndex]['_metadata']['ts_archived'] = true;
+            unset($dataArrays[$dateIndex]['_metadata']);
+        }
+
+        $this->assertEquals($expectedBlob, $dataArrays[$dateIndex]);
+    }
+
+    private function createArchiveBlobEntry($name, $date, $blob)
+    {
+        $oPeriod = PeriodFactory::makePeriodFromQueryParams('UTC', 'day', $date);
+
+        $segment = new Segment(false, array(1));
+        $params  = new Parameters(new Site(1), $oPeriod, $segment);
+        $writer  = new ArchiveWriter($params, false);
+        $writer->initNewArchive();
+        $writer->insertBlobRecord($name, $blob);
+        $writer->finalizeArchive();
+    }
+
     private function assertArchiveTablesAreNotEmpty($tableMonth)
     {
         $this->assertNotEquals(0, $this->getRangeArchiveTableCount('archive_numeric', $tableMonth));
@@ -120,14 +219,19 @@ class ArchiveTest extends IntegrationTestCase
 
     private function initiateArchivingForRange()
     {
-        $archive = Archive::build(self::$fixture->idSite, 'range', '2010-03-04,2010-03-07');
+        $archive = $this->getArchive('range');
         return $archive->getNumeric('nb_visits');
     }
 
     private function archiveDataForIndividualDays()
     {
-        $archive = Archive::build(self::$fixture->idSite, 'day', '2010-03-04,2010-03-07');
+        $archive = $this->getArchive('day');
         return $archive->getNumeric('nb_visits');
+    }
+
+    private function getArchive($period, $day = '2010-03-04,2010-03-07')
+    {
+        return Archive::build(self::$fixture->idSite, $period, $day);
     }
 }
 

@@ -648,8 +648,12 @@ class Archive
                 } elseif (is_array($value)) {
                     if (array_key_exists($idSubtable, $value)) {
                         $resultRow[$rawName . $idSubtable] = $value[$idSubtable];
+                    } else {
+                        unset($resultRow[$rawName . $idSubtable]);
+                        unset($resultRow['_metadata']);
                     }
                 }
+
             } else {
                 // one blob per datatable or subtable
                 $resultRow[$row['name']] = $value;
