@@ -56,6 +56,7 @@ class PurgeOldArchiveData extends ConsoleCommand
             array(self::getToday()->toString()));
         $this->addOption('exclude-outdated', null, InputOption::VALUE_NONE, "Do not purge outdated archive data.");
         $this->addOption('exclude-invalidated', null, InputOption::VALUE_NONE, "Do not purge invalidated archive data.");
+        $this->addOption('exclude-ranges', null, InputOption::VALUE_NONE, "Do not purge custom ranges.");
         $this->addOption('skip-optimize-tables', null, InputOption::VALUE_NONE, "Do not run OPTIMIZE TABLES query on affected archive tables.");
         $this->setHelp("By default old and invalidated archives are purged. Custom ranges are also purged with outdated archives.\n\n"
                      . "Note: archive purging is done during scheduled task execution, so under normal circumstances, you should not need to "
@@ -89,6 +90,18 @@ class PurgeOldArchiveData extends ConsoleCommand
                 $message = sprintf("Purging invalidated archives for %s...", $date->toString('Y_m'));
                 $this->performTimedPurging($output, $message, function () use ($archivePurger, $date) {
                     $archivePurger->purgeInvalidatedArchivesFrom($date);
+                });
+            }
+        }
+
+        $excludeCustomRanges = $input->getOption('exclude-ranges');
+        if ($excludeCustomRanges) {
+            $output->writeln("Skipping purge custom range archives.");
+        } else {
+            foreach ($dates as $date) {
+                $message = sprintf("Purging custom range archives for %s...", $date->toString('Y_m'));
+                $this->performTimedPurging($output, $message, function () use ($date, $archivePurger) {
+                    $archivePurger->purgeArchivesWithPeriodRange($date);
                 });
             }
         }

@@ -58,27 +58,27 @@ class PurgerTest extends IntegrationTestCase
         $this->configureCustomRangePurging();
     }
 
-    public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_AndRangeArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringEnabled()
+    public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringEnabled()
     {
         $this->enableBrowserTriggeredArchiving();
 
         $this->archivePurger->purgeOutdatedArchives($this->february);
 
         self::$fixture->assertTemporaryArchivesPurged($browserTriggeringEnabled = true, $this->february);
-        self::$fixture->assertCustomRangesPurged($this->february);
 
+        self::$fixture->assertCustomRangesNotPurged($this->february, $includeTemporary = false);
         self::$fixture->assertTemporaryArchivesNotPurged($this->january);
     }
 
-    public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_AndRangeArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringDisabled()
+    public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringDisabled()
     {
         $this->disableBrowserTriggeredArchiving();
 
         $this->archivePurger->purgeOutdatedArchives($this->february);
 
         self::$fixture->assertTemporaryArchivesPurged($browserTriggeringEnabled = false, $this->february);
-        self::$fixture->assertCustomRangesPurged($this->february);
 
+        self::$fixture->assertCustomRangesNotPurged($this->february);
         self::$fixture->assertTemporaryArchivesNotPurged($this->january);
     }
 
@@ -88,6 +88,14 @@ class PurgerTest extends IntegrationTestCase
 
         self::$fixture->assertInvalidatedArchivesPurged($this->february);
         self::$fixture->assertInvalidatedArchivesNotPurged($this->january);
+    }
+
+    public function test_purgeArchivesWithPeriodRange_PurgesAllRangeArchives()
+    {
+        $this->archivePurger->purgeArchivesWithPeriodRange($this->february);
+
+        self::$fixture->assertCustomRangesPurged($this->february);
+        self::$fixture->assertCustomRangesNotPurged($this->january);
     }
 
     private function configureCustomRangePurging()

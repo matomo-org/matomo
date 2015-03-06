@@ -117,8 +117,6 @@ class Purger
             $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
         }
 
-        $this->deleteArchivesWithPeriodRange($dateStart); // TODO: this is unrelated to outdated archive purging, should be in its own method
-
         Log::debug("Purging temporary archives: done [ purged archives older than %s in %s ] [Deleted IDs: %s]",
                    $purgeArchivesOlderThan,
                    $dateStart->toString("Y-m"),
@@ -146,7 +144,7 @@ class Purger
      *
      * @param $date Date
      */
-    protected  function deleteArchivesWithPeriodRange(Date $date)
+    public function purgeArchivesWithPeriodRange(Date $date)
     {
         $numericTable = ArchiveTableCreator::getNumericTable($date);
         $blobTable    = ArchiveTableCreator::getBlobTable($date);

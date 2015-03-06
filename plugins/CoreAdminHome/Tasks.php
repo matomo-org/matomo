@@ -58,7 +58,10 @@ class Tasks extends \Piwik\Plugin\Tasks
 
             // Somehow we may have archive tables created with older dates, prevent exception from being thrown
             if ($year > 1990) {
-                $this->archivePurger->purgeOutdatedArchives(Date::factory("$year-$month-15"));
+                $dateObj = Date::factory("$year-$month-15");
+
+                $this->archivePurger->purgeOutdatedArchives($dateObj);
+                $this->archivePurger->purgeArchivesWithPeriodRange($dateObj);
             }
         }
     }

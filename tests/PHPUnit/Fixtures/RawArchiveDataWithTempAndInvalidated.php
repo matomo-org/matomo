@@ -343,9 +343,12 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         $this->assertArchivesExist($expectedPresentArchives, $date);
     }
 
-    public function assertCustomRangesNotPurged(Date $date)
+    public function assertCustomRangesNotPurged(Date $date, $includeTemporary = true)
     {
-        $expectedPresentArchives = array(8, 9, 10);
+        $expectedPresentArchives = array(8, 9);
+        if ($includeTemporary) {
+            $expectedPresentArchives[] = 10;
+        }
         $this->assertArchivesExist($expectedPresentArchives, $date);
     }
 
