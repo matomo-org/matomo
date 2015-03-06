@@ -14,10 +14,19 @@ body {
     font-family: @theme-fontFamily-base;
 }
 
-.pageWrap {
-    padding-left: 10px;
-    padding-right: 10px;
-    border: 0px;
+h2 {
+    border-bottom: 1px solid @color-gray;
+    margin: 15px -15px 20px 0;
+    font-size: 24px;
+    width: 100%;
+}
+h3 {
+    color: @theme-color-text;
+    .font-default(18px, 24px);
+    font-weight: normal;
+}
+a:hover {
+    text-decoration:underline;
 }
 
 #content {
@@ -55,7 +64,7 @@ table.entityTable tr td a:hover {
 }
 
 #root {
-    margin: 0;
+    margin: 0 0 100px 0;
     padding: 0;
 
     #header {
@@ -164,6 +173,7 @@ table.entityTable tr td a:hover {
     .widgetize {
         width: auto;
     }
+
 }
 
 .dashboardSettings {
