@@ -15,6 +15,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
+use Piwik\SettingsServer;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
@@ -42,12 +43,15 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function purgeOutdatedArchives()
     {
-        // TODO: is this correct? wouldn't segment archives create DONE archives, not DONE_TEMPORARY? should try to replicate in tests
-        // we only delete archives if we are able to process them, otherwise, the browser might process reports
-        // when &segment= is specified (or custom date range) and would below, delete temporary archives that the
-        // browser is not able to process until next cron run (which could be more than 1 hour away)
-        if (!Rules::isRequestAuthorizedToArchive()) {
-            Log::info("Purging temporary archives: skipped (request not allowed to initiate archiving)");
+        // we should only purge outdated & custom range archives if we know cron archiving has just run,
+        // or if browser triggered archiving is enabled. if cron archiving has run, then we know the latest
+        // archives are in the database, and we can remove temporary ones. if browser triggered archiving is
+        // enabled, then we know any archives that are wrongly purged, can be re-archived on demand.
+        // this prevents some situations where "no data" is displayed for reports that should have data.
+        if (!Rules::isBrowserTriggerEnabled()
+            && !SettingsServer::isArchivePhpTriggered()
+        ) {
+            Log::info("Purging temporary archives: skipped (browser triggered archiving not enabled & not running after core:archive)");
             return false;
         }
 

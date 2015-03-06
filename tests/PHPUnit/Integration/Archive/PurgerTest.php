@@ -19,10 +19,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class PurgerTest extends IntegrationTestCase
 {
-    /* TODO: things to test
-     * - that archive purging is done daily (when called through cron archiving and through API request for scheduled task running) [SYSTEM TESTS]
-     */
-
     /**
      * @var RawArchiveDataWithTempAndInvalidated
      */
