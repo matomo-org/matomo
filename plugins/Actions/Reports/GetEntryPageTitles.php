@@ -24,7 +24,7 @@ class GetEntryPageTitles extends Base
 
         $this->dimension     = new EntryPageTitle();
         $this->name          = Piwik::translate('Actions_EntryPageTitles');
-        $this->documentation = Piwik::translate('Actions_ExitPageTitlesReportDocumentation', '<br />')
+        $this->documentation = Piwik::translate('Actions_EntryPageTitlesReportDocumentation', '<br />')
                              . ' ' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
         $this->metrics = array('entry_nb_visits', 'entry_bounce_count');
         $this->processedMetrics = array(
