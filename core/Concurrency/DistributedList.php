@@ -16,7 +16,6 @@ use Piwik\Option;
  *
  * The list of items is serialized and stored in an Option. Items are converted to string
  * before being persisted, so it is not expected to unserialize objects.
- * TODO: light integration tests
  */
 class DistributedList
 {
@@ -88,7 +87,9 @@ class DistributedList
     }
 
     /**
-     * Removes one or more items by value from the list in the optiontable.
+     * Removes one or more items by value from the list in the option table.
+     *
+     * Does not preserve array keys.
      *
      * @param string|array $items
      */
@@ -109,6 +110,29 @@ class DistributedList
             unset($allItems[$existingIndex]);
         }
 
-        $this->setAll($allItems);
+        $this->setAll(array_values($allItems));
+    }
+
+    /**
+     * Removes one or more items by index from the list in the option table.
+     *
+     * Does not preserve array keys.
+     *
+     * @param int[]|int $indices
+     */
+    public function removeByIndex($indices)
+    {
+        if (!is_array($indices)) {
+            $indices = array($indices);
+        }
+
+        $indices = array_unique($indices);
+
+        $allItems = $this->getAll();
+        foreach ($indices as $index) {
+            unset($allItems[$index]);
+        }
+
+        $this->setAll(array_values($allItems));
     }
 }
