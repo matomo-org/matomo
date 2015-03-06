@@ -156,17 +156,6 @@ class BackwardsCompatibility1XTest extends SystemTestCase
                                                'testSuffix' => '_flat',
                                                'periods' => array('range'), 'disableArchiving' => true)),
 
-            array('API.getProcessedReport', array('idSite' => $idSite, 'date' => '2012-03-06',
-                'apiModule' => 'Actions', 'apiAction' => 'getPageUrls',
-                                               'otherRequestParameters' => array(),
-                                               'testSuffix' => '_proc',
-                                               'periods' => array('day'), 'disableArchiving' => true)),
-
-            array('Actions.getPageUrls', array('idSite' => $idSite, 'date' => '2012-03-06',
-                                               'otherRequestParameters' => array('depth' => '1'),
-                                               'testSuffix' => '_subtable',
-                                               'periods' => array('day'), 'disableArchiving' => true)),
-
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-03,2012-12-12', 'periods' => array('month'),
                                               'testSuffix' => '_multipleOldNew', 'disableArchiving' => true)),
             array($reportsToCompareSeparately, $defaultOptions),
