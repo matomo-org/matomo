@@ -12,6 +12,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -63,10 +64,14 @@ class Console extends Application
     {
         if (!class_exists($command)) {
             Log::warning(sprintf('Cannot add command %s, class does not exist', $command));
-        } elseif (!is_subclass_of($command, 'Piwik\Plugin\ConsoleCommand')) {
+        } else if (!is_subclass_of($command, 'Piwik\Plugin\ConsoleCommand')) {
             Log::warning(sprintf('Cannot add command %s, class does not extend Piwik\Plugin\ConsoleCommand', $command));
         } else {
-            $this->add(new $command);
+            /** @var Command $commandInstance */
+            $commandInstance = new $command;
+            if (!$this->has($commandInstance->getName())) {
+                $this->add($commandInstance);
+            }
         }
     }
 
