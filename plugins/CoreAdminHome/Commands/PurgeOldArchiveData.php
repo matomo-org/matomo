@@ -23,7 +23,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Command that allows users to force purge old or invalid archive data. In the event of a failure
  * in the archive purging scheduled task, this command can be used to manually delete old/invalid archives.
- * TODO: command tests
  */
 class PurgeOldArchiveData extends ConsoleCommand
 {
@@ -33,6 +32,13 @@ class PurgeOldArchiveData extends ConsoleCommand
      * @var Purger
      */
     private $archivePurger;
+
+    /**
+     * For tests.
+     *
+     * @var Date
+     */
+    public static $todayOverride = null;
 
     public function __construct(Purger $archivePurger = null)
     {
@@ -47,7 +53,7 @@ class PurgeOldArchiveData extends ConsoleCommand
         $this->setDescription('Purges old and invalid archive data from archive tables.');
         $this->addArgument("dates", InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
             "The months of the archive tables to purge data from. By default, only deletes from the current month. Use '" . self::ALL_DATES_STRING. "' for all dates.",
-            array(Date::today()->toString()));
+            array(self::getToday()->toString()));
         $this->addOption('exclude-outdated', null, InputOption::VALUE_NONE, "Do not purge outdated archive data.");
         $this->addOption('exclude-invalidated', null, InputOption::VALUE_NONE, "Do not purge invalidated archive data.");
         $this->addOption('skip-optimize-tables', null, InputOption::VALUE_NONE, "Do not run OPTIMIZE TABLES query on affected archive tables.");
@@ -152,5 +158,10 @@ class PurgeOldArchiveData extends ConsoleCommand
                 Db::optimizeTables($blobTable);
             });
         }
+    }
+
+    private static function getToday()
+    {
+        return self::$todayOverride ?: Date::today();
     }
 }

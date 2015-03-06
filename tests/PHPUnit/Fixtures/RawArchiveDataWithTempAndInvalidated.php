@@ -314,7 +314,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         return $archiveDate->toString('Y-m') . '-' . Date::factory($dateString)->toString('d');
     }
 
-    public function assertFebruaryTemporaryArchivesPurged($isBrowserTriggeredArchivingEnabled)
+    public function assertTemporaryArchivesPurged($isBrowserTriggeredArchivingEnabled, Date $date)
     {
         if ($isBrowserTriggeredArchivingEnabled) {
             $expectedPurgedArchives = array(1,2,3,4,6,7); // only archives from 2 hours before "now" are purged
@@ -322,25 +322,31 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             $expectedPurgedArchives = array(1,2,3,4,7); // only archives before start of "yesterday" are purged
         }
 
-        $this->assertArchivesDoNotExist($expectedPurgedArchives, $this->february);
+        $this->assertArchivesDoNotExist($expectedPurgedArchives, $date);
     }
 
-    public function assertFebruaryCustomRangesPurged()
+    public function assertCustomRangesPurged(Date $date)
     {
         $expectedPurgedArchives = array(8,9,10);
-        $this->assertArchivesDoNotExist($expectedPurgedArchives, $this->february);
+        $this->assertArchivesDoNotExist($expectedPurgedArchives, $date);
     }
 
-    public function assertJanuaryTemporaryArchivesNotPurged()
+    public function assertTemporaryArchivesNotPurged(Date $date)
     {
         $expectedPresentArchives = array(1,2,3,4,5,6,7);
-        $this->assertArchivesExist($expectedPresentArchives, $this->january);
+        $this->assertArchivesExist($expectedPresentArchives, $date);
     }
 
-    public function assertJanuaryInvalidatedArchivesNotPurged()
+    public function assertInvalidatedArchivesNotPurged(Date $date)
     {
         $expectedPresentArchives = array(11, 12, 13, 14);
-        $this->assertArchivesExist($expectedPresentArchives, $this->january);
+        $this->assertArchivesExist($expectedPresentArchives, $date);
+    }
+
+    public function assertCustomRangesNotPurged(Date $date)
+    {
+        $expectedPresentArchives = array(8, 9, 10);
+        $this->assertArchivesExist($expectedPresentArchives, $date);
     }
 
     public function assertArchivesDoNotExist($expectedPurgedArchiveIds, $archiveDate)
@@ -374,14 +380,14 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         return Db::fetchOne("SELECT COUNT(*) FROM $table WHERE idarchive IN (".implode(',', $archiveIds).")");
     }
 
-    public function assertFebruaryInvalidatedArchivesPurged()
+    public function assertInvalidatedArchivesPurged(Date $date)
     {
         // check invalidated archives for all sites are purged
         $expectedPurgedArchives = array(11, 12, 13, 14);
-        $this->assertArchivesDoNotExist($expectedPurgedArchives, $this->february);
+        $this->assertArchivesDoNotExist($expectedPurgedArchives, $date);
 
         // check archive 15 is not purged since it doesn't have newer DONE_OK/DONE_TEMPORARY archive
         $expectedExistingArchives = array(15);
-        $this->assertArchivesExist($expectedExistingArchives, $this->february);
+        $this->assertArchivesExist($expectedExistingArchives, $date);
     }
 }

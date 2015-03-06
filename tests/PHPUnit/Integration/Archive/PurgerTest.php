@@ -9,7 +9,6 @@ namespace Piwik\Tests\Integration\Archive;
 
 use Piwik\Archive\Purger;
 use Piwik\Config;
-use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Tests\Fixtures\RawArchiveDataWithTempAndInvalidated;
@@ -65,10 +64,10 @@ class PurgerTest extends IntegrationTestCase
 
         $this->archivePurger->purgeOutdatedArchives($this->february);
 
-        self::$fixture->assertFebruaryTemporaryArchivesPurged($browserTriggeringEnabled = true);
-        self::$fixture->assertFebruaryCustomRangesPurged();
+        self::$fixture->assertTemporaryArchivesPurged($browserTriggeringEnabled = true, $this->february);
+        self::$fixture->assertCustomRangesPurged($this->february);
 
-        self::$fixture->assertJanuaryTemporaryArchivesNotPurged();
+        self::$fixture->assertTemporaryArchivesNotPurged($this->january);
     }
 
     public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_AndRangeArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringDisabled()
@@ -77,18 +76,18 @@ class PurgerTest extends IntegrationTestCase
 
         $this->archivePurger->purgeOutdatedArchives($this->february);
 
-        self::$fixture->assertFebruaryTemporaryArchivesPurged($browserTriggeringEnabled = false);
-        self::$fixture->assertFebruaryCustomRangesPurged();
+        self::$fixture->assertTemporaryArchivesPurged($browserTriggeringEnabled = false, $this->february);
+        self::$fixture->assertCustomRangesPurged($this->february);
 
-        self::$fixture->assertJanuaryTemporaryArchivesNotPurged();
+        self::$fixture->assertTemporaryArchivesNotPurged($this->january);
     }
 
     public function test_purgeInvalidatedArchivesFrom_PurgesAllInvalidatedArchives_AndMarksDatesAndSitesAsInvalidated()
     {
         $this->archivePurger->purgeInvalidatedArchivesFrom($this->february);
 
-        self::$fixture->assertFebruaryInvalidatedArchivesPurged();
-        self::$fixture->assertJanuaryInvalidatedArchivesNotPurged();
+        self::$fixture->assertInvalidatedArchivesPurged($this->february);
+        self::$fixture->assertInvalidatedArchivesNotPurged($this->january);
     }
 
     private function configureCustomRangePurging()

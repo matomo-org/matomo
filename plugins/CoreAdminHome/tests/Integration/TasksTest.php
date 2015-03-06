@@ -60,8 +60,8 @@ class TasksTest extends IntegrationTestCase
 
         $this->tasks->purgeInvalidatedArchives();
 
-        self::$fixture->assertFebruaryInvalidatedArchivesPurged();
-        self::$fixture->assertJanuaryInvalidatedArchivesNotPurged();
+        self::$fixture->assertInvalidatedArchivesPurged($this->february);
+        self::$fixture->assertInvalidatedArchivesNotPurged($this->january);
 
         // assert invalidated reports distributed list has changed
         $archivesToPurgeDistributedList = new ArchivesToPurgeDistributedList();
