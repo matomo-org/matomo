@@ -62,7 +62,7 @@ class VisitorGeolocator
     public function __construct(LocationProvider $provider = null, LocationProvider $backupProvider = null, Cache $locationCache = null)
     {
         if ($provider === null) {
-            // note: Common::getCurrentLocationProviderId() uses the tracker cache, so this should be used here instead
+            // note: Common::getCurrentLocationProviderId() uses the tracker cache, which is why it's used here instead
             // of accessing the option table
             $provider = LocationProvider::getProviderById(Common::getCurrentLocationProviderId());
 

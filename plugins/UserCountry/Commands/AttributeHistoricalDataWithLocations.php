@@ -247,24 +247,23 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
      */
     protected function parseRowIntoValues(array $row, $ip)
     {
+        $location = $this->locationFetcher->getLocation(array('ip' => $ip));
+
         $values = array();
-
-        $location = $this->locationFetcher->getLocation(
-            array(
-                'ip' => $ip
-            )
-        );
-
         foreach ($this->logVisitFieldsToUpdate as $column => $locationKey) {
-            if (!empty($location[$locationKey])) {
-                if ($locationKey === LocationProvider::COUNTRY_CODE_KEY) {
-                    if (strtolower($location[$locationKey]) != strtolower($row[$column])) {
-                        $values[$column] = strtolower($location[$locationKey]);
-                    }
-                } else {
-                    if ($location[$locationKey] != $row[$column]) {
-                        $values[$column] = $location[$locationKey];
-                    }
+            if (empty($location[$locationKey])) {
+                continue;
+            }
+
+            $locationAttribute = $location[$locationKey];
+
+            if ($locationKey === LocationProvider::COUNTRY_CODE_KEY) {
+                if (strtolower($locationAttribute) != strtolower($row[$column])) {
+                    $values[$column] = strtolower($locationAttribute);
+                }
+            } else {
+                if ($locationAttribute != $row[$column]) {
+                    $values[$column] = $locationAttribute;
                 }
             }
         }
