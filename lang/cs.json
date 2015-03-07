@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Ignoruje návštěvy s hlavičkamy X-Do-Not-Track nebo DNT."
-    },
     "General": {
         "AbandonedCarts": "Neobjednané košíky",
         "AboutPiwikX": "O Piwiku %s",
@@ -148,7 +145,10 @@
         "EvolutionSummaryGeneric": "%1$s v %2$s srovnáno s %3$s v %4$s. Vývin: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "Uživatel musí být super uživatel nebo uživatel %s.",
         "ExceptionConfigurationFileNotFound": "Konfigurační soubor {%s} nebyl nalezen",
+        "ExceptionContactSupportGeneric": "Pokud problém přetrvá, %skontaktujte pro pomoc vašeho Piwik administrátora%s.",
         "ExceptionDatabaseVersion": "Vaše %1$s verze je %2$s ale Piwik vyžaduje minimálně %3$s.",
+        "ExceptionDatabaseVersionNewerThanCodebase": "Kód Piwiku je z verze %1$s, ale bylo zjištěno, že databáze byla již aktualizována na verzi %2$s.",
+        "ExceptionDatabaseVersionNewerThanCodebaseWait": "Vaši administrátoři možná pracují na aktualizaci. Zkuste to, prosím, za pár minut.",
         "ExceptionFileIntegrity": "Test integrity selhal: %s",
         "ExceptionFilesizeMismatch": "Nesouhlasí velikost souboru: %1$s (očekávaná délka: %2$s, nalezeno: %3$s)",
         "ExceptionIncompatibleClientServerVersions": "Vaše %1$s verze klienta je %2$s tato je ale nekompatibilní se serverem %3$s.",
@@ -185,8 +185,8 @@
         "ForExampleShort": "např.",
         "Forums": "Fóra",
         "FromReferrer": "z",
+        "General": "Obecné",
         "GeneralInformation": "Obecné informace",
-        "GeneralSettings": "Obecná nastavení",
         "GetStarted": "Začít",
         "GiveUsYourFeedback": "Dejte nám zpětnou vazbu!",
         "Goal": "Cíl",
@@ -426,6 +426,7 @@
         "VisitorID": "ID návštěvníka",
         "VisitorIP": "IP návštěvníka",
         "Visitors": "Návštěvníci",
+        "VisitorSettings": "Nastavení návštěvníků",
         "VisitsWith": "Návštěv s %s",
         "VisitType": "Typ návštěvníka",
         "VisitTypeExample": "Například pro výběr všech návštěvníků, kteří se vrátili na stránky včetně těch, co si v předcchozích návštěvách něco koupili, by API požadavek obsahoval %s",
@@ -441,6 +442,7 @@
         "WeeklyReport": "Týdně",
         "WeeklyReports": "Tydenní hlášení",
         "WellDone": "Výborně!",
+        "Widget": "Widget",
         "Widgets": "Widgety",
         "XComparedToY": "%1$s ve srovnání s %2$s",
         "XFromY": "%1$s z %2$s",

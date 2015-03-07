@@ -23,12 +23,12 @@ class ArchiverTests extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        Translate::reloadLanguage('en');
+        Translate::loadAllTranslations();
     }
 
     public function tearDown()
     {
-        Translate::unloadEnglishTranslation();
+        Translate::reset();
     }
 
     public function getActionNameTestData()

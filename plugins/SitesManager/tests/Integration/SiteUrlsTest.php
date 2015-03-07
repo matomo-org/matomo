@@ -7,7 +7,7 @@
  */
 
 namespace Piwik\Plugins\SitesManager\tests\Integration;
-use Piwik\CacheFile;
+use Piwik\Cache;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\SiteUrls;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -111,8 +111,8 @@ class SiteUrlsTest extends IntegrationTestCase
     public function testGetAllCachedSiteUrls_ShouldReadFromTheCacheFile()
     {
         $urlsToFake = array(1 => 'Whatever');
-        $cache      = new CacheFile('tracker', 600);
-        $cache->set('allSiteUrlsPerSite', $urlsToFake);
+        $cache      = $this->buildCache();
+        $cache->save('allSiteUrlsPerSite', $urlsToFake, 600);
 
         $actual = $this->siteUrls->getAllCachedSiteUrls();
 
@@ -138,9 +138,14 @@ class SiteUrlsTest extends IntegrationTestCase
 
     private function assertValueInCache($value)
     {
-        $cache    = new CacheFile('tracker', 600);
-        $siteUrls = $cache->get('allSiteUrlsPerSite');
+        $cache    = $this->buildCache();
+        $siteUrls = $cache->fetch('allSiteUrlsPerSite');
 
         $this->assertEquals($value, $siteUrls);
+    }
+
+    private function buildCache()
+    {
+        return Cache::getLazyCache();
     }
 }

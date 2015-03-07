@@ -1,0 +1,4 @@
+{
+ "name": "BulkTracking",
+ "description": "Provides ability to send several Tracking API requests in one bulk request. Makes importing a lot of data in Piwik faster."
+}

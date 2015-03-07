@@ -112,6 +112,16 @@ class CustomEventsTest extends SystemTestCase
                                                 'apiAction'    => $apiAction,
                                                 'testSuffix'   => '_' . $api . '_lastN')
             );
+            $result[] = array(
+                'API.getProcessedReport', array('idSite'       => $idSite1,
+                                                'date'         => $dateTime,
+                                                'periods'      => $dayPeriod,
+                                                'setDateLastN' => true,
+                                                'apiModule'    => $apiModule,
+                                                'apiAction'    => $apiAction,
+                                                'otherRequestParameters' => array('flat' => '1'),
+                                                'testSuffix'   => '_' . $api . '_flat')
+            );
         }
 
         // Test secondary dimensions

@@ -1,0 +1,33 @@
+{% macro manageSmsApi(credentialSupplied, creditLeft, smsProviders, provider) %}
+    {% if credentialSupplied %}
+        {{ 'MobileMessaging_Settings_CredentialProvided'|translate(provider) }}
+        {{ creditLeft }}
+        <br/>
+        {{ 'MobileMessaging_Settings_UpdateOrDeleteAccount'|translate("<a id='displayAccountForm'>","</a>","<a id='deleteAccount'>","</a>")|raw }}
+    {% else %}
+        {{ 'MobileMessaging_Settings_PleaseSignUp'|translate }}
+    {% endif %}
+    <div id='accountForm' {% if credentialSupplied %}style='display: none;'{% endif %}>
+        <br/>
+        {{ 'MobileMessaging_Settings_SMSProvider'|translate }}
+        <select id='smsProviders'>
+            {% for smsProvider, description in smsProviders %}
+                <option value='{{ smsProvider }}'>
+                    {{ smsProvider }}
+                </option>
+            {% endfor %}
+        </select>
+
+        {{ 'MobileMessaging_Settings_APIKey'|translate }}
+        <input size='25' id='apiKey'/>
+
+        <input type='submit' value='{{ 'General_Save'|translate }}' id='apiAccountSubmit' class='submit'/>
+
+        {% for smsProvider, description in smsProviders %}
+            <div class='providerDescription' id='{{ smsProvider }}'>
+                {{ description|raw }}
+            </div>
+        {% endfor %}
+
+    </div>
+{% endmacro %}

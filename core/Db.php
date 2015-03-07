@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\DataAccess\TableMetadata;
 use Piwik\Db\Adapter;
 use Piwik\Tracker;
 
@@ -34,6 +35,8 @@ use Piwik\Tracker;
 class Db
 {
     private static $connection = null;
+
+    private static $logQueries = true;
 
     /**
      * Returns the database connection and creates it if it hasn't been already.
@@ -385,17 +388,12 @@ class Db
      *
      * @param string|array $table The name of the table you want to get the columns definition for.
      * @return \Zend_Db_Statement
+     * @deprecated since 2.11.0
      */
     public static function getColumnNamesFromTable($table)
     {
-        $columns = self::fetchAll("SHOW COLUMNS FROM `" . $table . "`");
-
-        $columnNames = array();
-        foreach ($columns as $column) {
-            $columnNames[] = $column['Field'];
-        }
-
-        return $columnNames;
+        $tableMetadataAccess = new TableMetadata();
+        return $tableMetadataAccess->getColumns($table);
     }
 
     /**
@@ -710,7 +708,27 @@ class Db
 
     private static function logSql($functionName, $sql, $parameters = array())
     {
-        // NOTE: at the moment we dont log bind in order to avoid sensitive information leaks
-        Log::verbose("Db::%s() executing SQL:\n%s", $functionName, $sql);
+        if (self::$logQueries === false) {
+            return;
+        }
+
+        // NOTE: at the moment we don't log parameters in order to avoid sensitive information leaks
+        Log::debug("Db::%s() executing SQL: %s", $functionName, $sql);
+    }
+
+    /**
+     * @param bool $enable
+     */
+    public static function enableQueryLog($enable)
+    {
+        self::$logQueries = $enable;
+    }
+
+    /**
+     * @return boolean
+     */
+    public static function isQueryLogEnabled()
+    {
+        return self::$logQueries;
     }
 }

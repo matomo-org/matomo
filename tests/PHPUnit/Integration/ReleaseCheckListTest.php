@@ -11,7 +11,9 @@ namespace Piwik\Tests\Integration;
 use Exception;
 use Piwik\Config;
 use Piwik\Filesystem;
+use Piwik\Ini\IniReader;
 use Piwik\Plugin\Manager;
+use Piwik\Tracker;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -25,7 +27,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->globalConfig = _parse_ini_file(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
+        $iniReader = new IniReader();
+        $this->globalConfig = $iniReader->readFile(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php');
 
         parent::setUp();
     }
@@ -77,8 +80,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $this->_checkEqual(array('Tracker' => 'record_statistics'), '1');
         $this->_checkEqual(array('Tracker' => 'visit_standard_length'), '1800');
         $this->_checkEqual(array('Tracker' => 'trust_visitors_cookies'), '0');
-        // logging messages are disabled
-        $this->_checkEqual(array('log' => 'log_level'), 'ERROR');
+        $this->_checkEqual(array('log' => 'log_level'), 'WARN');
         $this->_checkEqual(array('log' => 'log_writers'), array('screen'));
         $this->_checkEqual(array('log' => 'logger_api_call'), null);
 
@@ -142,6 +144,9 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue(!isset($GLOBALS['PIWIK_TRACKER_DEBUG']));
         $this->assertEquals(0, $this->globalConfig['Tracker']['debug']);
+
+        $tracker = new Tracker();
+        $this->assertFalse($tracker->isDebugModeEnabled());
     }
 
     /**
@@ -153,6 +158,11 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.php');
 
         foreach($files as $file) {
+            // skip files in these folders
+            if (strpos($file, '/libs/') !== false) {
+                continue;
+            }
+
             $handle = fopen($file, "r");
             $expectedStart = "<?php";
 
@@ -247,7 +257,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
                 strpos($file, '/tests/') !== false ||
                 strpos($file, '/lang/') !== false ||
                 strpos($file, 'yuicompressor') !== false ||
-                strpos($file, '/libs/bower_components') !== false ||
+                strpos($file, '/libs/') !== false ||
                 (strpos($file, '/vendor') !== false && strpos($file, '/vendor/piwik') === false) ||
                 strpos($file, '/tmp/') !== false
             ) {
@@ -255,7 +265,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             }
 
             // skip files with these file extensions
-            if (preg_match('/\.(bmp|fdf|gif|deb|deflate|exe|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps|phar|pyc|gzip)$/', $file)) {
+            if (preg_match('/\.(bmp|fdf|gif|deb|deflate|exe|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps|phar|pyc|gzip|eot|woff|svg)$/', $file)) {
                 continue;
             }
 
@@ -308,6 +318,11 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     {
         $errors = array();
         foreach ($files as $file) {
+            // skip files in these folders
+            if (strpos($file, '/libs/') !== false) {
+                continue;
+            }
+
             $function = "imagecreatefrom" . $format;
             if (!function_exists($function)) {
                 throw new \Exception("Unexpected error: $function function does not exist!");

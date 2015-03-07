@@ -25,7 +25,7 @@ class CliMulti {
     public $supportsAsync = null;
 
     /**
-     * @var \Piwik\CliMulti\Process[]
+     * @var Process[]
      */
     private $processes = array();
 
@@ -36,7 +36,7 @@ class CliMulti {
     private $concurrentProcessesLimit = null;
 
     /**
-     * @var \Piwik\CliMulti\Output[]
+     * @var Output[]
      */
     private $outputs = array();
 
@@ -118,7 +118,7 @@ class CliMulti {
     {
         $bin = $this->findPhpBinary();
 
-        return sprintf('%s %s/console climulti:request --piwik-domain=%s %s > %s 2>&1 &',
+        return sprintf('%s %s/console climulti:request -q --piwik-domain=%s %s > %s 2>&1 &',
                        $bin, PIWIK_INCLUDE_PATH, escapeshellarg($hostname), escapeshellarg($query), $outputFile);
     }
 
@@ -229,7 +229,7 @@ class CliMulti {
 
     public static function getTmpPath()
     {
-        return StaticContainer::getContainer()->get('path.tmp') . '/climulti';
+        return StaticContainer::get('path.tmp') . '/climulti';
     }
 
     private function executeAsyncCli($url, Output $output, $cmdId)

@@ -11,6 +11,7 @@ namespace Piwik\Plugins\SEO;
 use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\Site;
+use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\View;
 
@@ -41,7 +42,7 @@ class Widgets extends \Piwik\Plugin\Widgets
         $dataTable = API::getInstance()->getRank($url);
 
         $view = new View('@SEO/getRank');
-        $view->urlToRank = RankChecker::extractDomainFromUrl($url);
+        $view->urlToRank = Url::getHostFromUrl($url);
 
         /** @var \Piwik\DataTable\Renderer\Php $renderer */
         $renderer = Renderer::factory('php');

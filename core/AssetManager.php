@@ -225,7 +225,6 @@ class AssetManager extends Singleton
 
             if ($this->pluginContainsJScriptAssets($pluginName)) {
 
-                PiwikConfig::getInstance()->init();
                 if (Manager::getInstance()->isPluginBundledWithCore($pluginName)) {
 
                     $assetsToRemove[] = $this->getMergedCoreJSAsset();
@@ -253,7 +252,7 @@ class AssetManager extends Singleton
      */
     public function getAssetDirectory()
     {
-        $mergedFileDirectory = StaticContainer::getContainer()->get('path.tmp') . '/assets';
+        $mergedFileDirectory = StaticContainer::get('path.tmp') . '/assets';
 
         if (!is_dir($mergedFileDirectory)) {
             Filesystem::mkdir($mergedFileDirectory);

@@ -276,7 +276,7 @@ class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
 
         // Tests deflate compression has been used
         $deflateFileLocation = $this->getCompressedFileLocation() . ".deflate";
-        $this->assertTrue(file_exists($deflateFileLocation));
+        $this->assertFileExists($deflateFileLocation);
 
         // Tests gzdeflate has been used for IE compatibility
         $this->assertEquals(gzinflate(file_get_contents($deflateFileLocation)), file_get_contents(TEST_FILE_LOCATION));
@@ -310,7 +310,7 @@ class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
 
         // Tests gzip compression has been used
         $gzipFileLocation = $this->getCompressedFileLocation() . ".gz";
-        $this->assertTrue(file_exists($gzipFileLocation));
+        $this->assertFileExists($gzipFileLocation);
 
         $this->removeCompressedFiles();
     }
@@ -446,8 +446,8 @@ class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
         clearstatcache();
 
         // check the correct compressed file is created
-        $this->assertTrue(file_exists($this->getCompressedFileLocation() . '.' . PARTIAL_BYTE_START . '.' . PARTIAL_BYTE_END . ".deflate"));
-        $this->assertFalse(file_exists($this->getCompressedFileLocation() . ".gz"));
+        $this->assertFileExists($this->getCompressedFileLocation() . '.' . PARTIAL_BYTE_START . '.' . PARTIAL_BYTE_END . ".deflate");
+        $this->assertFileNotExists($this->getCompressedFileLocation() . ".gz");
 
         // check $partialResponse
         $expectedPartialContents = substr(file_get_contents(TEST_FILE_LOCATION), PARTIAL_BYTE_START,
@@ -475,8 +475,8 @@ class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
         clearstatcache();
 
         // check the correct compressed file is created
-        $this->assertTrue(file_exists($this->getCompressedFileLocation() . ".deflate"));
-        $this->assertFalse(file_exists($this->getCompressedFileLocation() . ".gz"));
+        $this->assertFileExists($this->getCompressedFileLocation() . ".deflate");
+        $this->assertFileNotExists($this->getCompressedFileLocation() . ".gz");
 
         // check $fullResponse
         $this->assertEquals(file_get_contents(TEST_FILE_LOCATION), $fullResponse);

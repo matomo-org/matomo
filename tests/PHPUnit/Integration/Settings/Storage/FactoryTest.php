@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration\Settings\Storage;
 
 use Piwik\Settings\Storage;
 use Piwik\Settings\Storage\Factory;
+use Piwik\SettingsServer;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\SettingsStorage;
 
@@ -51,11 +52,11 @@ class FactoryTest extends IntegrationTestCase
 
     private function makeTrackerInstance()
     {
-        $GLOBALS['PIWIK_TRACKER_MODE'] = true;
+        SettingsServer::setIsTrackerApiRequest();
 
         $storage = Factory::make('PluginName');
 
-        unset($GLOBALS['PIWIK_TRACKER_MODE']);
+        SettingsServer::setIsNotTrackerApiRequest();
 
         return $storage;
     }

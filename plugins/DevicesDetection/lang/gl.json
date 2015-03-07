@@ -1,0 +1,7 @@
+{
+    "DevicesDetection": {
+        "Browsers": "Navegadores",
+        "OperatingSystems": "Sistemas Operativos",
+        "WidgetBrowsers": "Navegadores dos visitantes"
+    }
+}

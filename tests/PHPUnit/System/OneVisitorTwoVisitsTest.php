@@ -29,7 +29,7 @@ use Exception;
 class OneVisitorTwoVisitsTest extends SystemTestCase
 {
     /**
-     * @var Test_Piwik_Fixture_OneVisitorTwoVisits
+     * @var OneVisitorTwoVisits
      */
     public static $fixture = null; // initialized below class
 

@@ -112,8 +112,6 @@ class ArchiveProcessor
      */
     private $skipUniqueVisitorsCalculationForMultipleSites = true;
 
-    const SKIP_UNIQUE_VISITORS_FOR_MULTIPLE_SITES = 'enable_processing_unique_visitors_multiple_sites';
-
     public function __construct(Parameters $params, ArchiveWriter $archiveWriter)
     {
         $this->params = $params;
@@ -216,14 +214,9 @@ class ArchiveProcessor
 
             $table = $this->aggregateDataTableRecord($recordName, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
 
-            $rowsCount = $table->getRowsCount();
-            $nameToCount[$recordName]['level0'] = $rowsCount;
+            $nameToCount[$recordName]['level0'] = $table->getRowsCount();
 
-            $rowsCountRecursive = $rowsCount;
-            if ($this->isAggregateSubTables()) {
-                $rowsCountRecursive = $table->getRowsCountRecursive();
-            }
-            $nameToCount[$recordName]['recursive'] = $rowsCountRecursive;
+            $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
 
             $blob = $table->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
             Common::destroy($table);
@@ -348,14 +341,8 @@ class ArchiveProcessor
      */
     protected function aggregateDataTableRecord($name, $columnsAggregationOperation = null, $columnsToRenameAfterAggregation = null)
     {
-        if ($this->isAggregateSubTables()) {
-            // By default we shall aggregate all sub-tables.
-            $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
-        } else {
-            // In some cases (eg. Actions plugin when period=range),
-            // for better performance we will only aggregate the parent table
-            $dataTable = $this->getArchive()->getDataTable($name, $idSubTable = null);
-        }
+        // By default we shall aggregate all sub-tables.
+        $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
 
         if ($dataTable instanceof Map) {
             // see https://github.com/piwik/piwik/issues/4377
@@ -391,19 +378,38 @@ class ArchiveProcessor
         ) {
             return;
         }
-        if ($row->getColumn('nb_uniq_visitors') !== false
-            || $row->getColumn('nb_users') !== false
+
+        if ($row->getColumn('nb_uniq_visitors') === false
+            && $row->getColumn('nb_users') === false
         ) {
-            if (SettingsPiwik::isUniqueVisitorsEnabled($this->getParams()->getPeriod()->getLabel())) {
-                $metrics = array(Metrics::INDEX_NB_UNIQ_VISITORS, Metrics::INDEX_NB_USERS);
-                $uniques = $this->computeNbUniques( $metrics );
-                $row->setColumn('nb_uniq_visitors', $uniques[Metrics::INDEX_NB_UNIQ_VISITORS]);
-                $row->setColumn('nb_users', $uniques[Metrics::INDEX_NB_USERS]);
-            } else {
-                $row->deleteColumn('nb_uniq_visitors');
-                $row->deleteColumn('nb_users');
-            }
+            return;
         }
+
+        if (!SettingsPiwik::isUniqueVisitorsEnabled($this->getParams()->getPeriod()->getLabel())) {
+            $row->deleteColumn('nb_uniq_visitors');
+            $row->deleteColumn('nb_users');
+            return;
+        }
+
+        $metrics = array(
+            Metrics::INDEX_NB_USERS
+        );
+
+        if($this->getParams()->isSingleSite()) {
+            $uniqueVisitorsMetric = Metrics::INDEX_NB_UNIQ_VISITORS;
+        } else {
+            if(!SettingsPiwik::isSameFingerprintAcrossWebsites()) {
+                throw new Exception("Processing unique visitors across websites is enabled for this instance,
+                            but to process this metric you must first set enable_fingerprinting_across_websites=1
+                            in the config file, under the [Tracker] section.");
+            }
+            $uniqueVisitorsMetric = Metrics::INDEX_NB_UNIQ_FINGERPRINTS;
+        }
+        $metrics[] = $uniqueVisitorsMetric;
+
+        $uniques = $this->computeNbUniques( $metrics );
+        $row->setColumn('nb_uniq_visitors', $uniques[$uniqueVisitorsMetric]);
+        $row->setColumn('nb_users', $uniques[Metrics::INDEX_NB_USERS]);
     }
 
     protected function guessOperationForColumn($column)
@@ -424,7 +430,7 @@ class ArchiveProcessor
      * since unique visitors cannot be summed like other metrics.
      *
      * @param array Metrics Ids for which to aggregates count of values
-     * @return int
+     * @return array of metrics, where the key is metricid and the value is the metric value
      */
     protected function computeNbUniques($metrics)
     {
@@ -454,7 +460,7 @@ class ArchiveProcessor
             // as $date => $tableToSum
             $this->aggregatedDataTableMapsAsOne($data, $table);
         } else {
-            $table->addDataTable($data, $this->isAggregateSubTables());
+            $table->addDataTable($data);
         }
 
         return $table;
@@ -471,7 +477,7 @@ class ArchiveProcessor
             if ($tableToAggregate instanceof Map) {
                 $this->aggregatedDataTableMapsAsOne($tableToAggregate, $aggregated);
             } else {
-                $aggregated->addDataTable($tableToAggregate, $this->isAggregateSubTables());
+                $aggregated->addDataTable($tableToAggregate);
             }
         }
     }
@@ -487,7 +493,7 @@ class ArchiveProcessor
         }
 
         foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
-            $table->renameColumn($oldName, $newName, $this->isAggregateSubTables());
+            $table->renameColumn($oldName, $newName);
         }
     }
 
@@ -522,13 +528,5 @@ class ArchiveProcessor
         }
 
         return $metrics;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isAggregateSubTables()
-    {
-        return !$this->getParams()->isSkipAggregationOfSubTables();
     }
 }

@@ -280,9 +280,7 @@ class RowEvolution
         // note: some reports should not be filtered with AddColumnProcessedMetrics
         // specifically, reports without the Metrics::INDEX_NB_VISITS metric such as Goals.getVisitsUntilConversion & Goal.getDaysToConversion
         // this is because the AddColumnProcessedMetrics filter removes all datable rows lacking this metric
-        if (isset($metadata['metrics']['nb_visits'])
-            && !empty($label)
-        ) {
+        if (isset($metadata['metrics']['nb_visits'])) {
             $parameters['filter_add_columns_when_show_all_columns'] = '0';
         }
 

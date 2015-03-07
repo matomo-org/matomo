@@ -20,9 +20,9 @@ use ReflectionClass;
  */
 class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
 {
-    public function test_version2_0_4()
+    public function test_deprecations()
     {
-        $validTill = '2015-02-25';
+        $validTill = '2015-03-10';
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Period', 'factory', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Config', 'getConfigSuperUserForBackwardCompatibility', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuAdmin', 'addEntry', $validTill);
@@ -30,16 +30,7 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuTop', 'addEntry', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuTop', 'removeEntry', $validTill);
 
-        $validTill = '2015-02-06';
-        $this->assertDeprecatedClassIsRemoved('\IntegrationTestCase', $validTill);
-        $this->assertDeprecatedClassIsRemoved('\DatabaseTestCase', $validTill);
-        $this->assertDeprecatedClassIsRemoved('\BenchmarkTestCase', $validTill);
-        $this->assertDeprecatedClassIsRemoved('\FakeAccess', $validTill);
-        $this->assertDeprecatedClassIsRemoved('\Piwik\Tests\ConsoleCommandTestCase', $validTill);
-        $this->assertDeprecatedClassIsRemoved('\Piwik\Tests\Fixture', $validTill);
-        $this->assertDeprecatedClassIsRemoved('\Piwik\Tests\OverrideLogin', $validTill);
-
-        $validTill = '2015-03-01';
+        $validTill = '2015-03-10';
         $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'sanitizeIp', $validTill);
         $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'sanitizeIpRange', $validTill);
         $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'P2N', $validTill);
@@ -62,7 +53,12 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getOSFamily', $validTill);
         $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getBrowserType', $validTill);
         $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getMobileVsDesktop', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\UserSettings', 'mapDeprecatedActions', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getResolution', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getConfiguration', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getPlugin', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getLanguage', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getLanguageCode', $validTill);
+        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\UserSettings', 'renameDeprecatedModuleAndAction', $validTill);
 
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Menu\MenuAbstract', 'add');
     }

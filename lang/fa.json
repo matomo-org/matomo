@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "اشتباه است با X-Do-Not-Track با DNT در هدر."
-    },
     "General": {
         "AbandonedCarts": "رها چرخ دستی",
         "AboutPiwikX": "درباره ی Piwik %s",
@@ -168,7 +165,6 @@
         "Forums": "فرم ها",
         "FromReferrer": "از",
         "GeneralInformation": "اطلاعات اصلی",
-        "GeneralSettings": "تنضیمات اصلی",
         "GetStarted": "شروع کنید",
         "GiveUsYourFeedback": "ارسال بازخورد به ما",
         "Goal": "هدف",
@@ -398,6 +394,7 @@
         "VisitorID": "آی دی بازدید کننده",
         "VisitorIP": "آی پی بازدید کننده",
         "Visitors": "بازدید کننده ها",
+        "VisitorSettings": "تنظیمات بازدید کننده",
         "VisitsWith": "بازدید ها با %s",
         "VisitType": "نوع بازدید کننده",
         "VisitTypeExample": "به عنوان مثال، برای انتخاب تمام بازدید کنندگان که به وب سایت،از جمله کسانی که چیزی در بازدیدکننده داشته است گذشته خود را خریداری بازگردانده، درخواست API حاوی %s",

@@ -10,7 +10,8 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Container\StaticContainer;
-use Piwik\Tracker\Cache;
+use Piwik\Tracker\Cache as TrackerCache;
+use Piwik\Cache as PiwikCache;
 
 /**
  * Contains helper functions that deal with the filesystem.
@@ -26,7 +27,8 @@ class Filesystem
     {
         AssetManager::getInstance()->removeMergedAssets($pluginName);
         View::clearCompiledTemplates();
-        Cache::deleteTrackerCache();
+        TrackerCache::deleteTrackerCache();
+        PiwikCache::flushAll();
         self::clearPhpCaches();
     }
 
@@ -409,12 +411,36 @@ class Filesystem
     }
 
     /**
+     * Remove a file.
+     *
+     * @param string $file
+     * @param bool $silenceErrors If true, no exception will be thrown in case removing fails.
+     */
+    public static function remove($file, $silenceErrors = false)
+    {
+        if (!file_exists($file)) {
+            return;
+        }
+
+        $result = @unlink($file);
+
+        // Testing if the file still exist avoids race conditions
+        if (!$result && file_exists($file)) {
+            if ($silenceErrors) {
+                Log::warning('Failed to delete file ' . $file);
+            } else {
+                throw new \RuntimeException('Unable to delete file ' . $file);
+            }
+        }
+    }
+
+    /**
      * @param $path
      * @return int
      */
     private static function getChmodForPath($path)
     {
-        $pathIsTmp = StaticContainer::getContainer()->get('path.tmp');
+        $pathIsTmp = StaticContainer::get('path.tmp');
         if (strpos($path, $pathIsTmp) === 0) {
             // tmp/* folder
             return 0750;

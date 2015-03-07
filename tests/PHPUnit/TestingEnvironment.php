@@ -89,7 +89,7 @@ class Piwik_TestingEnvironment
             if (isset($_SERVER['QUERY_STRING'])
                 && !$this->dontUseTestConfig
             ) {
-                @\Piwik\Log::verbose("Test Environment Variables for (%s):\n%s", $_SERVER['QUERY_STRING'], print_r($this->behaviorOverrideProperties, true));
+                @\Piwik\Log::debug("Test Environment Variables for (%s):\n%s", $_SERVER['QUERY_STRING'], print_r($this->behaviorOverrideProperties, true));
             }
         } catch (Exception $ex) {
             // ignore
@@ -101,7 +101,6 @@ class Piwik_TestingEnvironment
         $disabledPlugins = PluginManager::getInstance()->getCorePluginsDisabledByDefault();
         $disabledPlugins[] = 'LoginHttpAuth';
         $disabledPlugins[] = 'ExampleVisualization';
-        $disabledPlugins[] = 'PleineLune';
 
         $disabledPlugins = array_diff($disabledPlugins, array(
             'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin'
@@ -137,6 +136,10 @@ class Piwik_TestingEnvironment
             }
         }
 
+        if ($testingEnvironment->hostOverride) {
+            \Piwik\Url::setHost($testingEnvironment->hostOverride);
+        }
+
         if ($testingEnvironment->useXhprof) {
             \Piwik\Profiler::setupProfilerXHProf($mainRun = false, $setupDuringTracking = true);
         }
@@ -145,7 +148,7 @@ class Piwik_TestingEnvironment
             $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
         ));
 
-        \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
+        \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
 
         Piwik::addAction('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
             if (!$testingEnvironment->testUseRegularAuth) {

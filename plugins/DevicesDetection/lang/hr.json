@@ -1,5 +1,8 @@
 {
     "DevicesDetection": {
-        "BrowserVersion": "Verzija pretraživača"
+        "Browsers": "Pretraživači",
+        "BrowserVersion": "Verzija pretraživača",
+        "ColumnOperatingSystem": "Operativni sustav",
+        "WidgetBrowsers": "Pretraživać posjetitelja"
     }
 }

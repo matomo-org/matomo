@@ -351,7 +351,6 @@
         "PeclGeoIPNoDBDir": "Modul PECL sedang mencari basisdata di %1$s, tapi direktori ini tidak tersedia. Harap memperbaiki ini dan menambah basisdata GeoIP di dalamnya. Atau Anda dapat mengatur %2$s ke direktori yang sesuai dalam berkas php.ini Anda.",
         "PeclGeoLiteError": "Basisdata GeoIP Anda di %1$s dengan nama %2$s. Sayangnya, modul PECL tidak akan mengenali ini dengan nama ini. Harap nama diganti menjadi %3$s.",
         "PiwikNotManagingGeoIPDBs": "Piwik saat ini tidak mengelola basisdata GeoIP apapun.",
-        "PluginDescription": "Laporan Negara pengunjung.",
         "Region": "Wilayah",
         "SetupAutomaticUpdatesOfGeoIP": "Pengaturan pembaruan otomatis basisdata GeoIP",
         "SubmenuLocations": "Lokasi",

@@ -30,7 +30,6 @@
         "PeriodWeeks": "setmanes",
         "PeriodYear": "Any",
         "PeriodYears": "anys",
-        "PluginDescription": "Estructura dels informes de Anàlisis web.",
         "ReportGeneratedOn": "Informe generat el %s",
         "ReportGeneratedXAgo": "Informe generat fa %s",
         "ShortDateFormat": "%shortDay%, %day% de %shortMonth%",

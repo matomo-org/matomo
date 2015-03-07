@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>3</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==search;referrerName==Google</segment>
 		<url>http://google.com</url>
 		<logo>plugins/Referrers/images/searchEngines/google.com.png</logo>
 		<subtable>
@@ -47,6 +48,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>3</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==search;referrerName==Yahoo%21</segment>
 		<url>http://search.yahoo.com</url>
 		<logo>plugins/Referrers/images/searchEngines/search.yahoo.com.png</logo>
 		<subtable>

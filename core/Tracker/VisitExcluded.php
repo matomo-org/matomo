@@ -167,8 +167,17 @@ class VisitExcluded
     {
         return array(
             // Google
-            '66.249.0.0/16',
-            '64.233.172.0/24',
+            '216.239.32.0/19',
+            '64.233.160.0/19',
+            '66.249.80.0/20',
+            '72.14.192.0/18',
+            '209.85.128.0/17',
+            '66.102.0.0/20',
+            '74.125.0.0/16',
+            '64.18.0.0/20',
+            '207.126.144.0/20',
+            '173.194.0.0/16',
+
             // Live/Bing/MSN
             '64.4.0.0/18',
             '65.52.0.0/14',
@@ -180,6 +189,7 @@ class VisitExcluded
             '207.68.192.0/20',
             '131.253.26.0/20',
             '131.253.24.0/20',
+
             // Yahoo
             '72.30.198.0/20',
             '72.30.196.0/20',
@@ -261,6 +271,7 @@ class VisitExcluded
         $referrerUrl = $this->request->getParam('urlref');
 
         foreach($spamHosts as $spamHost) {
+            $spamHost = trim($spamHost);
             if ( strpos($referrerUrl, $spamHost) !== false) {
                 Common::printDebug('Referrer URL is a known spam: ' . $spamHost);
                 return true;

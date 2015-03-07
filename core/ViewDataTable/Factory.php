@@ -80,7 +80,7 @@ class Factory
      *                                 If nothing is configured for the report and `null` is supplied for this
      *                                 argument, **table** is used.
      * @param bool|false|string $apiAction The API method for the report that will be displayed, eg,
-     *                               `'UserSettings.getBrowser'`.
+     *                               `'DevicesDetection.getBrowsers'`.
      * @param bool|false|string $controllerAction The controller name and action dedicated to displaying the report. This
      *                                       action is used when reloading reports or changing the report visualization.
      *                                       Defaulted to `$apiAction` if `false` is supplied.
@@ -95,11 +95,9 @@ class Factory
             $controllerAction = $apiAction;
         }
 
-        $defaultViewType = self::getDefaultViewTypeForReport($apiAction);
+        $report = self::getReport($apiAction);
 
-        if (!$forceDefault && !empty($defaultViewType)) {
-            $defaultType = $defaultViewType;
-        }
+        $defaultViewType = self::getDefaultViewTypeForReport($report, $apiAction);
 
         $isWidget = Common::getRequestVar('widget', '0', 'string');
 
@@ -110,18 +108,34 @@ class Factory
             $params = Manager::getViewDataTableParameters($login, $controllerAction);
         }
 
-        $savedViewDataTable = false;
-        if (!empty($params['viewDataTable'])) {
-            $savedViewDataTable = $params['viewDataTable'];
+        if (!self::isDefaultViewTypeForReportFixed($report)) {
+            $savedViewDataTable = false;
+            if (!empty($params['viewDataTable'])) {
+                $savedViewDataTable = $params['viewDataTable'];
+            }
+
+            // order of default viewDataTables' priority is: function specified default, saved default, configured default for report
+            //   function specified default is preferred
+            // -> force default == true : defaultType ?: saved ?: defaultView
+            // -> force default == false : saved ?: defaultType ?: defaultView
+            if ($forceDefault) {
+                $defaultType = $defaultType ?: $savedViewDataTable ?: $defaultViewType;
+            } else {
+                $defaultType = $savedViewDataTable ?: $defaultType ?: $defaultViewType;
+            }
+
+            $type = Common::getRequestVar('viewDataTable', $defaultType, 'string');
+
+            // Common::getRequestVar removes backslashes from the defaultValue in case magic quotes are enabled.
+            // therefore do not pass this as a default value to getRequestVar()
+            if ('' === $type) {
+                $type = $defaultType ?: HtmlTable::ID;
+            }
+        } else {
+            $type = $defaultViewType;
         }
 
-        $type = Common::getRequestVar('viewDataTable', $savedViewDataTable, 'string');
-
-        // Common::getRequestVar removes backslashes from the defaultValue in case magic quotes are enabled.
-        // therefore do not pass this as a default value to getRequestVar()
-        if ('' === $type) {
-            $type = $defaultType ? : HtmlTable::ID;
-        }
+        $params['viewDataTable'] = $type;
 
         $visualizations = Manager::getAvailableViewDataTables();
 
@@ -145,19 +159,48 @@ class Factory
     }
 
     /**
-     * Returns the default viewDataTable ID to use when determining which visualization to use.
+     * Return the report object for the given apiAction
+     * @param $apiAction
+     * @return null|Report
      */
-    private static function getDefaultViewTypeForReport($apiAction)
+    private static function getReport($apiAction)
     {
         list($module, $action) = explode('.', $apiAction);
         $report = Report::factory($module, $action);
+        return $report;
+    }
 
+    /**
+     * Returns the default viewDataTable ID to use when determining which visualization to use.
+     *
+     * @param Report $report
+     * @param string $apiAction
+     *
+     * @return bool|string
+     */
+    private static function getDefaultViewTypeForReport($report, $apiAction)
+    {
         if (!empty($report) && $report->isEnabled()) {
             return $report->getDefaultTypeViewDataTable();
         }
 
         $defaultViewTypes = self::getDefaultTypeViewDataTable();
         return isset($defaultViewTypes[$apiAction]) ? $defaultViewTypes[$apiAction] : false;
+    }
+
+    /**
+     * Returns if the default viewDataTable ID to use is fixed.
+     *
+     * @param Report $report
+     * @return bool
+     */
+    private static function isDefaultViewTypeForReportFixed($report)
+    {
+        if (!empty($report) && $report->isEnabled()) {
+            return $report->alwaysUseDefaultViewDataTable();
+        }
+
+        return false;
     }
 
     /**

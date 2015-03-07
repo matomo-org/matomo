@@ -161,6 +161,7 @@ class Response
             'goalTimePretty',
             'serverTimePretty',
             'visitServerHour',
+            'timestamp',
             'date',
             'prettyDate',
             'serverDateTimePrettyFirstAction'

@@ -7,8 +7,9 @@
         "Deactivate": "Kikapcsol",
         "Inactive": "Kikapcsolt",
         "LicenseHomepage": "Licencinformációk",
-        "PluginDescription": "Bővítmény-adminisztrációs felület",
+        "OncePluginIsInstalledYouMayActivateHere": "A már telepített bővítményeket itt kapcsolhatod ki vagy be.",
         "PluginHomepage": "Bővítmény honlapja",
+        "PluginsExtendPiwik": "A bővítmények kiterjesztik a Piwik alapfunkcióit.",
         "PluginsManagement": "Bővítménykezelés",
         "Status": "Állapot",
         "Version": "Verzió"

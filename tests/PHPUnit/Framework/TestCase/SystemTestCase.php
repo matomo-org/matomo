@@ -12,7 +12,7 @@ use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\ReportRenderer;
@@ -24,6 +24,7 @@ use Piwik\Translate;
 use Piwik\Log;
 use PHPUnit_Framework_TestCase;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Translation\Translator;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -46,6 +47,9 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     protected $missingExpectedFiles = array();
     protected $comparisonFailures = array();
 
+    /**
+     * @var Fixture
+     */
     public static $fixture;
 
     public static function setUpBeforeClass()
@@ -395,7 +399,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
      * Assert that the response of an API method call is the same as the contents in an
      * expected file.
      *
-     * @param string $api ie, `"UserSettings.getBrowser"`
+     * @param string $api ie, `"DevicesDetection.getBrowsers"`
      * @param array $queryParams Query parameters to send to the API.
      */
     public function assertApiResponseEqualsExpected($apiMethod, $queryParams)
@@ -489,8 +493,9 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     {
         if ($this->lastLanguage != $langId) {
             $_GET['language'] = $langId;
-            Translate::reset();
-            Translate::reloadLanguage($langId);
+            /** @var Translator $translator */
+            $translator = StaticContainer::get('Piwik\Translation\Translator');
+            $translator->setCurrentLanguage($langId);
         }
 
         $this->lastLanguage = $langId;
@@ -528,6 +533,11 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
      */
     protected static function restoreDbTables($tables)
     {
+        $db = Db::fetchOne("SELECT DATABASE()");
+        if (empty($db)) {
+            Db::exec("USE " . Config::getInstance()->database_tests['dbname']);
+        }
+
         DbHelper::truncateAllTables();
 
         // insert data
@@ -602,3 +612,5 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     }
 
 }
+
+SystemTestCase::$fixture = new \Piwik\Tests\Framework\Fixture();

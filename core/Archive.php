@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\DataAccess\ArchiveInvalidator;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Period\Factory as PeriodFactory;
 
@@ -161,6 +162,11 @@ class Archive
     private $params;
 
     /**
+     * @var \Piwik\Cache\Cache
+     */
+    private static $cache;
+
+    /**
      * @param Parameters $params
      * @param bool $forceIndexedBySite Whether to force index the result of a query by site ID.
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
@@ -190,10 +196,9 @@ class Archive
      *                             or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD').
      * @param bool|false|string $segment Segment definition or false if no segment should be used. {@link Piwik\Segment}
      * @param bool|false|string $_restrictSitesToLogin Used only when running as a scheduled task.
-     * @param bool $skipAggregationOfSubTables Whether the archive, when it is processed, should also aggregate all sub-tables
      * @return Archive
      */
-    public static function build($idSites, $period, $strDate, $segment = false, $_restrictSitesToLogin = false, $skipAggregationOfSubTables = false)
+    public static function build($idSites, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
     {
         $websiteIds = Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
 
@@ -214,7 +219,7 @@ class Archive
         $idSiteIsAll    = $idSites == self::REQUEST_ALL_WEBSITES_FLAG;
         $isMultipleDate = Period::isMultiplePeriod($strDate, $period);
 
-        return Archive::factory($segment, $allPeriods, $websiteIds, $idSiteIsAll, $isMultipleDate, $skipAggregationOfSubTables);
+        return Archive::factory($segment, $allPeriods, $websiteIds, $idSiteIsAll, $isMultipleDate);
     }
 
     /**
@@ -236,11 +241,10 @@ class Archive
      * @param bool $isMultipleDate Whether multiple dates are being queried or not. If true, then
      *                             the result of querying functions will be indexed by period,
      *                             regardless of whether `count($periods) == 1`.
-     * @param bool $skipAggregationOfSubTables Whether the archive should skip aggregation of all sub-tables
      *
      * @return Archive
      */
-    public static function factory(Segment $segment, array $periods, array $idSites, $idSiteIsAll = false, $isMultipleDate = false, $skipAggregationOfSubTables = false)
+    public static function factory(Segment $segment, array $periods, array $idSites, $idSiteIsAll = false, $isMultipleDate = false)
     {
         $forceIndexedBySite = false;
         $forceIndexedByDate = false;
@@ -253,7 +257,7 @@ class Archive
             $forceIndexedByDate = true;
         }
 
-        $params = new Parameters($idSites, $periods, $segment, $skipAggregationOfSubTables);
+        $params = new Parameters($idSites, $periods, $segment);
 
         return new Archive($params, $forceIndexedBySite, $forceIndexedByDate);
     }
@@ -443,7 +447,6 @@ class Archive
      * @param string $segment @see {@link build()}
      * @param bool $expanded If true, loads all subtables. See {@link getDataTableExpanded()}
      * @param int|null $idSubtable See {@link getDataTableExpanded()}
-     * @param bool $skipAggregationOfSubTables Whether or not we should skip the aggregation of all sub-tables and only aggregate parent DataTable.
      * @param int|null $depth See {@link getDataTableExpanded()}
      * @throws \Exception
      * @return DataTable|DataTable\Map See {@link getDataTable()} and
@@ -451,15 +454,11 @@ class Archive
      *                                 information
      */
     public static function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded,
-                                                   $idSubtable = null, $skipAggregationOfSubTables = false, $depth = null)
+                                                   $idSubtable = null, $depth = null)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        if ($skipAggregationOfSubTables && ($expanded || $idSubtable)) {
-            throw new \Exception("Not expected to skipAggregationOfSubTables when expanded=1 or idSubtable is set.");
-        }
-
-        $archive = Archive::build($idSite, $period, $date, $segment, $_restrictSitesToLogin = false, $skipAggregationOfSubTables);
+        $archive = Archive::build($idSite, $period, $date, $segment, $_restrictSitesToLogin = false);
         if ($idSubtable === false) {
             $idSubtable = null;
         }
@@ -480,6 +479,69 @@ class Archive
         return $recordName . "_" . $id;
     }
 
+    private function getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet()
+    {
+        if (is_null(self::$cache)) {
+            self::$cache = Cache::getTransientCache();
+        }
+
+        $id = 'Archive.SiteIdsOfRememberedReportsInvalidated';
+
+        if (!self::$cache->contains($id)) {
+            self::$cache->save($id, array());
+        }
+
+        $siteIdsAlreadyHandled = self::$cache->fetch($id);
+        $siteIdsRequested      = $this->params->getIdSites();
+
+        foreach ($siteIdsRequested as $index => $siteIdRequested) {
+            $siteIdRequested = (int) $siteIdRequested;
+
+            if (in_array($siteIdRequested, $siteIdsAlreadyHandled)) {
+                unset($siteIdsRequested[$index]); // was already handled previously, do not do it again
+            } else {
+                $siteIdsAlreadyHandled[] = $siteIdRequested; // we will handle this id this time
+            }
+        }
+
+        self::$cache->save($id, $siteIdsAlreadyHandled);
+
+        return $siteIdsRequested;
+    }
+
+    private function invalidatedReportsIfNeeded()
+    {
+        $siteIdsRequested = $this->getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet();
+
+        if (empty($siteIdsRequested)) {
+            return; // all requested site ids were already handled
+        }
+
+        $invalidator  = new ArchiveInvalidator();
+        $sitesPerDays = $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
+
+        foreach ($sitesPerDays as $date => $siteIds) {
+            if (empty($siteIds)) {
+                continue;
+            }
+
+            $siteIdsToActuallyInvalidate = array_intersect($siteIds, $siteIdsRequested);
+
+            if (empty($siteIdsToActuallyInvalidate)) {
+                continue; // all site ids that should be handled are already handled
+            }
+
+            try {
+                $invalidator->markArchivesAsInvalidated($siteIdsToActuallyInvalidate, $date, false);
+            } catch (\Exception $e) {
+                Site::clearCache();
+                throw $e;
+            }
+        }
+
+        Site::clearCache();
+    }
+
     /**
      * Queries archive tables for data and returns the result.
      * @param array|string $archiveNames
@@ -489,6 +551,7 @@ class Archive
      */
     private function get($archiveNames, $archiveDataType, $idSubtable = null)
     {
+
         if (!is_array($archiveNames)) {
             $archiveNames = array($archiveNames);
         }
@@ -537,6 +600,9 @@ class Archive
      * queried. This function will use the idarchive cache if it has the right data,
      * query archive tables for IDs w/o launching archiving, or launch archiving and
      * get the idarchive from ArchiveProcessor instances.
+     *
+     * @param string $archiveNames
+     * @return array
      */
     private function getArchiveIds($archiveNames)
     {
@@ -586,6 +652,8 @@ class Archive
      */
     private function cacheArchiveIdsAfterLaunching($archiveGroups, $plugins)
     {
+        $this->invalidatedReportsIfNeeded();
+
         $today = Date::today();
 
         foreach ($this->params->getPeriods() as $period) {
@@ -599,14 +667,14 @@ class Archive
                 // we already know there are no stats for this period
                 // we add one day to make sure we don't miss the day of the website creation
                 if ($twoDaysAfterPeriod->isEarlier($site->getCreationDate())) {
-                    Log::verbose("Archive site %s, %s (%s) skipped, archive is before the website was created.",
+                    Log::debug("Archive site %s, %s (%s) skipped, archive is before the website was created.",
                         $idSite, $period->getLabel(), $period->getPrettyString());
                     continue;
                 }
 
                 // if the starting date is in the future we know there is no visiidsite = ?t
                 if ($twoDaysBeforePeriod->isLater($today)) {
-                    Log::verbose("Archive site %s, %s (%s) skipped, archive is after today.",
+                    Log::debug("Archive site %s, %s (%s) skipped, archive is after today.",
                         $idSite, $period->getLabel(), $period->getPrettyString());
                     continue;
                 }
@@ -626,7 +694,7 @@ class Archive
     private function cacheArchiveIdsWithoutLaunching($plugins)
     {
         $idarchivesByReport = ArchiveSelector::getArchiveIds(
-            $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $plugins, $this->params->isSkipAggregationOfSubTables());
+            $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $plugins);
 
         // initialize archive ID cache for each report
         foreach ($plugins as $plugin) {
@@ -654,8 +722,7 @@ class Archive
                     $this->params->getIdSites(),
                     $this->params->getSegment(),
                     $this->getPeriodLabel(),
-                    $plugin,
-                    $this->params->isSkipAggregationOfSubTables()
+                    $plugin
         );
     }
 
@@ -722,6 +789,8 @@ class Archive
      * If this  function is not called, then periods with no visits will not add
      * entries to the cache. If the archive is used again, SQL will be executed to
      * try and find the archive IDs even though we know there are none.
+     *
+     * @param string $doneFlag
      */
     private function initializeArchiveIdCache($doneFlag)
     {
@@ -757,7 +826,7 @@ class Archive
     /**
      * Returns the name of the plugin that archives a given report.
      *
-     * @param string $report Archive data name, eg, `'nb_visits'`, `'UserSettings_...'`, etc.
+     * @param string $report Archive data name, eg, `'nb_visits'`, `'DevicesDetection_...'`, etc.
      * @return string Plugin name.
      * @throws \Exception If a plugin cannot be found or if the plugin for the report isn't
      *                    activated.
@@ -791,7 +860,7 @@ class Archive
      */
     private function prepareArchive(array $archiveGroups, Site $site, Period $period)
     {
-        $parameters = new ArchiveProcessor\Parameters($site, $period, $this->params->getSegment(), $this->params->isSkipAggregationOfSubTables());
+        $parameters = new ArchiveProcessor\Parameters($site, $period, $this->params->getSegment());
         $archiveLoader = new ArchiveProcessor\Loader($parameters);
 
         $periodString = $period->getRangeString();

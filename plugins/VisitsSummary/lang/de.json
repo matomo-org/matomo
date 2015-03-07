@@ -17,7 +17,7 @@
         "NbUniquePageviewsDescription": "%s einmalige Seitenansichten",
         "NbUniqueVisitors": "%s eindeutige Besucher",
         "NbVisitsBounced": "%s Besucher sind abgesprungen (haben die Webseite nach einer Seite verlassen)",
-        "PluginDescription": "Berichte über allgemeine Informationen: Besuche, eindeutige Besucher, Anzahl der Aktionen, Absprungrate etc.",
+        "PluginDescription": "Berichte mit generellen analytischen Metriken: Besuche, eindeutige Besucher, Anzahl Aktionen, Absprungsrate, usw.",
         "VisitsSummary": "Besucherüberblick",
         "VisitsSummaryDocumentation": "Dies ist eine Übersicht über die Entwicklung der Besuche.",
         "WidgetLastVisits": "Graph der letzten Besuche",

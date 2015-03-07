@@ -123,6 +123,7 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<url>http://example.org/Contact</url>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2FContact</segment>
 		</row>
 		<row>
 			<label>/Home</label>
@@ -134,6 +135,7 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<url>http://example.org/Home</url>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2FHome</segment>
 		</row>
 		<row>
 			<label>Contact</label>

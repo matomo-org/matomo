@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Игнориране на посещенията с X-Do-Not-Track или заглавие DNT."
-    },
     "General": {
         "AbandonedCarts": "Отказани колички",
         "AboutPiwikX": "За Piwik %s",
@@ -178,7 +175,6 @@
         "Forums": "Форуми",
         "FromReferrer": "от",
         "GeneralInformation": "Обща информация",
-        "GeneralSettings": "Основни настройки",
         "GetStarted": "Как да започнем",
         "GiveUsYourFeedback": "Обратна връзка",
         "Goal": "Цел",
@@ -408,6 +404,7 @@
         "VisitorID": "ID на посетител",
         "VisitorIP": "IP на посетител",
         "Visitors": "Посетители",
+        "VisitorSettings": "Настройки на посетителя",
         "VisitsWith": "Посещения с %s",
         "VisitType": "Тип на посетител",
         "VisitTypeExample": "Например, ако изберете всички посетители, които са се завърнали на сайта, включително тези, които са купили нещо при предишните посещения, API заявката ще съдържа %s",

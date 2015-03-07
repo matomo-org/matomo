@@ -1,8 +1,17 @@
-cd #!/bin/bash
+#!/bin/bash
 
-if [ "$PLUGIN_NAME" != "" ]; then
-    cd $PIWIK_ROOT_DIR/plugins/$PLUGIN_NAME
+if [ "$REPO_ROOT_DIR" == "" ]; then
+    if [ "$PLUGIN_NAME" != "" ]; then
+        REPO_ROOT_DIR="$PIWIK_ROOT_DIR/plugins/$PLUGIN_NAME"
+    else
+        REPO_ROOT_DIR="$PIWIK_ROOT_DIR"
+    fi
 fi
+
+# remove the command from CoreConsole if it exists
+rm $PIWIK_ROOT_DIR/plugins/CoreConsole/Commands/GenerateTravisYmlFile.php || true
+
+cd $REPO_ROOT_DIR
 
 LATEST_COMMIT_HASH=`git rev-parse $TRAVIS_BRANCH`
 CURRENT_COMMIT_HASH=`git rev-parse HEAD`
@@ -19,9 +28,15 @@ if [ "$LATEST_COMMIT_HASH" != "$CURRENT_COMMIT_HASH" ]; then
     exit;
 fi
 
+# if the generate:travis-yml command doesn't exist for some reason, abort auto-update w/o failing build
+if ! bash -c "$PIWIK_ROOT_DIR/console help generate:travis-yml" > /dev/null; then
+    echo "The generate:travis-yml command does not exist in this Piwik, aborting auto-update."
+    exit;
+fi
+
 # check if .travis.yml is out of date. if github token is supplied we will try to auto-update,
 # otherwise we just print a message and exit.
-if ! bash -c "$GENERATE_TRAVIS_YML_COMMAND --dump=./generated.travis.yml"; then
+if ! bash -c "$GENERATE_TRAVIS_YML_COMMAND -v --dump=./generated.travis.yml"; then
     echo "generate:travis-yml failed!"
 
     # if building for 'latest_stable' ignore the error and continue build
@@ -33,9 +48,7 @@ if ! bash -c "$GENERATE_TRAVIS_YML_COMMAND --dump=./generated.travis.yml"; then
     exit 1
 fi
 
-if [ "$PLUGIN_NAME" != "" ]; then
-    cd $PIWIK_ROOT_DIR/plugins/$PLUGIN_NAME
-fi
+cd $REPO_ROOT_DIR
 
 echo "Diffing generated with existing (located at `pwd`/.travis.yml)..."
 
@@ -53,7 +66,11 @@ if [ "$DIFF_RESULT" -eq "1" ]; then
         grep ".travis.yml file is out of date" <<< "$LAST_COMMIT_MESSAGE" > /dev/null
         LAST_COMMIT_IS_NOT_UPDATE=$?
 
-        if [ "$LAST_COMMIT_MESSAGE" == "" ] || [ "$LAST_COMMIT_IS_NOT_UPDATE" -eq "0" ]; then
+        LAST_COMMIT_TIMESTAMP=$(git log -1 HEAD --pretty=format:%ct)
+        LAST_COMMIT_TIME_FROM_NOW=$(expr $(date +%s) - $LAST_COMMIT_TIMESTAMP)
+        LAST_COMMIT_WITHIN_HOUR=$(expr $LAST_COMMIT_TIME_FROM_NOW '<=' 3600)
+
+        if [ "$LAST_COMMIT_MESSAGE" == "" ] || [[ "$LAST_COMMIT_IS_NOT_UPDATE" -eq "0" && "$LAST_COMMIT_WITHIN_HOUR" -ne "0" ]]; then
             echo "Last commit message was '$LAST_COMMIT_MESSAGE', possible recursion or error in auto-update, aborting."
         else
 

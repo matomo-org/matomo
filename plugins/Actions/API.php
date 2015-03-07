@@ -14,7 +14,7 @@ use Piwik\Archive;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
-use Piwik\Metrics;
+use Piwik\Metrics as PiwikMetrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
@@ -247,7 +247,7 @@ class API extends \Piwik\Plugin\API
     public function getSiteSearchKeywords($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getSiteSearchKeywordsRaw($idSite, $period, $date, $segment);
-        $dataTable->deleteColumn(Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
+        $dataTable->deleteColumn(PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
         $this->filterActionsDataTable($dataTable);
         $this->addPagesPerSearchColumn($dataTable);
         return $dataTable;
@@ -276,13 +276,13 @@ class API extends \Piwik\Plugin\API
         // Delete all rows that have some results
         $dataTable->filter('ColumnCallbackDeleteRow',
             array(
-                Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT,
+                PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT,
                 function ($value) {
                     return $value < 1;
                 }
             ));
         $dataTable->deleteRow(DataTable::ID_SUMMARY_ROW);
-        $dataTable->deleteColumn(Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
+        $dataTable->deleteColumn(PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
         $this->filterActionsDataTable($dataTable);
         $this->addPagesPerSearchColumn($dataTable);
         return $dataTable;
@@ -453,6 +453,18 @@ class API extends \Piwik\Plugin\API
         // (in the transition period between pre 1.2 and post 1.2 datatable structure)
         $dataTable->filter('ReplaceColumnNames');
         $dataTable->filter('Sort', array('nb_visits', 'desc', $naturalSort = false, $expanded));
+        $dataTable->filter(function (DataTable $dataTable) {
+            foreach ($dataTable->getRows() as $row) {
+                $url = $row->getMetadata('url');
+                if ($url) {
+                    $row->setMetadata('segmentValue', urldecode($url));
+                }
+            }
+        });
+
+        $dataTable->filter('GroupBy', array('label', function ($label) {
+            return urldecode($label);
+        }));
 
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
     }
@@ -490,15 +502,7 @@ class API extends \Piwik\Plugin\API
 
     protected function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null, $depth = null)
     {
-        $skipAggregationOfSubTables = false;
-        if ($period == 'range'
-            && empty($idSubtable)
-            && empty($expanded)
-            && !Request::shouldLoadFlatten()
-        ) {
-            $skipAggregationOfSubTables = false;
-        }
-        return Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable, $skipAggregationOfSubTables, $depth);
+        return Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable, $depth);
     }
 
     private function addPageProcessedMetrics(DataTable\DataTableInterface $dataTable)

@@ -91,8 +91,6 @@ class Installation extends \Piwik\Plugin
             $message = '';
         }
 
-        Translate::reloadLanguage();
-
         $action = Common::getRequestVar('action', 'welcome', 'string');
 
         if ($this->isAllowedAction($action)) {

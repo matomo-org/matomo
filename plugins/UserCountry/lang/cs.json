@@ -356,7 +356,7 @@
         "PeclGeoIPNoDBDir": "PECl modul hledá geoIP databáze v adresáři %1$s, ale ten neexistuje. Vytvořte ho a umístěte do něho databáze, nebo nastavte php.ini možnost %2$s na správný adresář.",
         "PeclGeoLiteError": "Vaše GeoIP databáze v adresáři %1$s je pojmenována %2$s. Bohužel, PECl modul ji pod tímto názvem nenajde. Přejmenujte ji na %3$s.",
         "PiwikNotManagingGeoIPDBs": "Piwik aktuálně nespravuje žádné GeoIP databáze.",
-        "PluginDescription": "Zobrazí státy návštěvníků",
+        "PluginDescription": "Hlásí umístění vašich návštěvníků: zemi, oblast, město a geografické koordináty (šířku\/délku).",
         "Region": "Region",
         "SetupAutomaticUpdatesOfGeoIP": "Nastavit automatické aktualizace GeoIP databází",
         "SubmenuLocations": "Umístění",

@@ -9,12 +9,15 @@
 namespace Piwik\CliMulti;
 
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Db;
+use Piwik\Log;
+use Piwik\Option;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Url;
 use Piwik\UrlHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -26,19 +29,25 @@ class RequestCommand extends ConsoleCommand
     {
         $this->setName('climulti:request');
         $this->setDescription('Parses and executes the given query. See Piwik\CliMulti. Intended only for system usage.');
-        $this->addArgument('url-query', null, InputOption::VALUE_REQUIRED, 'Piwik URL query string, for instance: "module=API&method=API.getPiwikVersion&token_auth=123456789"');
+        $this->addArgument('url-query', InputArgument::REQUIRED, 'Piwik URL query string, for instance: "module=API&method=API.getPiwikVersion&token_auth=123456789"');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->recreateContainerWithWebEnvironment();
+
         $this->initHostAndQueryString($input);
 
         if ($this->isTestModeEnabled()) {
             Config::getInstance()->setTestEnvironment();
-            $indexFile = '/tests/PHPUnit/proxy/index.php';
+            $indexFile = '/tests/PHPUnit/proxy/';
+
+            $this->resetDatabase();
         } else {
-            $indexFile = '/index.php';
+            $indexFile = '/';
         }
+
+        $indexFile .= 'index.php';
 
         if (!empty($_GET['pid'])) {
             $process = new Process($_GET['pid']);
@@ -79,4 +88,22 @@ class RequestCommand extends ConsoleCommand
         }
     }
 
+    /**
+     * We will be simulating an HTTP request here (by including index.php).
+     *
+     * To avoid weird side-effects (e.g. the logging output messing up the HTTP response on the CLI output)
+     * we need to recreate the container with the default environment instead of the CLI environment.
+     */
+    private function recreateContainerWithWebEnvironment()
+    {
+        StaticContainer::setEnvironment(null);
+        StaticContainer::clearContainer();
+        Log::unsetInstance();
+    }
+
+    private function resetDatabase()
+    {
+        Option::clearCache();
+        Db::destroyDatabaseObject();
+    }
 }

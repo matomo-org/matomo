@@ -65,8 +65,7 @@ class Provider extends \Piwik\Plugin
 
     public static function footerUserCountry(&$out)
     {
-        $out = '<div>
-			<h2>' . Piwik::translate('Provider_WidgetProviders') . '</h2>';
+        $out .= '<div><h2>' . Piwik::translate('Provider_WidgetProviders') . '</h2>';
         $out .= FrontController::getInstance()->fetchDispatch('Provider', 'getProvider');
         $out .= '</div>';
     }

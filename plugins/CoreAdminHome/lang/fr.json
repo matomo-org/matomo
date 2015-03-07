@@ -62,7 +62,6 @@
         "OptOutExplanationBis": "Ce code va afficher un iFrame contenant un lien permettant à vos visiteurs de ne pas être suivi par Piwik en installant un cookie de neutralisation dans leur navigateur. %s Cliquez ici %s pour visualiser le contenu qui sera affiché par l'iFrame.",
         "OptOutForYourVisitors": "Exclusion de Piwik pour vos visiteurs",
         "PiwikIsInstalledAt": "Piwik est installé à l'adresse",
-        "PluginDescription": "Zone d'administration de Piwik.",
         "PluginSettingChangeNotAllowed": "Vous n'êtes pas autorisé(e) à modifier la valeur du paramètre \"%s\" du plugin \"%s\"",
         "PluginSettingReadNotAllowed": "Vous n'êtes pas autorisé(e) à voir la valeur du paramètre \"%s\" dans le plugin \"%s\"",
         "PluginSettings": "Paramètres du composant",

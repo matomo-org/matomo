@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Ignoreeri külastusi, millel on brauseris seatud X-Do-Not-Track või DNT parameeter."
-    },
     "General": {
         "AbandonedCarts": "Hüljatud ostukorvid",
         "AboutPiwikX": "Lisainfo Piwik %s",
@@ -125,7 +122,6 @@
         "Forums": "Foorumid",
         "FromReferrer": "tuli",
         "GeneralInformation": "Üldine info",
-        "GeneralSettings": "Üldised seaded",
         "GetStarted": "Alusta kasutamist",
         "GiveUsYourFeedback": "Tagasiside!",
         "Goal": "Eesmärk",
@@ -346,6 +342,7 @@
         "VisitorID": "Külastaja ID",
         "VisitorIP": "Külastaja IP",
         "Visitors": "Külastajad",
+        "VisitorSettings": "Külastajate seaded",
         "VisitsWith": "Külastused koos %s",
         "VisitType": "Külalise tüüp",
         "Warning": "Hoiatus",

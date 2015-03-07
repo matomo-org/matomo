@@ -10,7 +10,7 @@
         "MetricDataByYear": "Metriktabellen pro Jahr",
         "MetricTables": "Metriktabellen",
         "OtherTables": "Andere Tabellen",
-        "PluginDescription": "Dieses Plugin berichtet über die Nutzung und Auslastung der Piwik-Tabellen in der MySQL Datenbank.",
+        "PluginDescription": "Unterstützt detaillierte MySQL Datenbank Auslastungsberichte. Verfügbar für Administratoren unter Diagnose.",
         "ReportDataByYear": "Berichtstabellen pro Jahr",
         "ReportTables": "Berichtstabellen",
         "RowCount": "Zeilenanzahl",

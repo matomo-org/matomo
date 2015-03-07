@@ -2,12 +2,16 @@
     "DevicesDetection": {
         "BrowserEngine": "Browser",
         "BrowserEngineDocumentation": "Dieser Graph zeit Ihnen die Browser Ihrer Besucher aufgeteilt nach Browserfamilien. %s Die wichtigste Information für Webentwickler ist, welche Rendering Engine Besucher verwenden. Die Beschriftungen enthalten den Namen der Engine und in Klammern den Namen des bekanntesten Browsers, der diese verwendet.",
-        "BrowserEngines": "Browser",
+        "BrowserEngines": "Browser-Engines",
         "BrowserFamily": "Browserfamilie",
+        "Browsers": "Browser",
         "BrowserVersion": "Browserversion",
         "BrowserVersions": "Browser Versionen",
         "Camera": "Digitalcamera",
         "CarBrowser": "PKW-Browser",
+        "ColumnBrowser": "Browser",
+        "ColumnOperatingSystem": "Betriebssystem",
+        "ColumnOperatingSystemVersion": "Betriebssystem-Version",
         "Console": "Konsole",
         "dataTableLabelBrands": "Marke",
         "dataTableLabelModels": "Modell",
@@ -21,13 +25,18 @@
         "DeviceType": "Gerätetyp",
         "FeaturePhone": "Feature-Phone",
         "OperatingSystemFamilies": "Betriebssystem Familien",
+        "OperatingSystemFamily": "Betriebssystem-Familie",
+        "OperatingSystems": "Betriebssysteme",
         "OperatingSystemVersions": "Betriebssystem Versionen",
-        "PluginDescription": "Dieses Plugin stellt erweiterte Informationen über mobile Geräte, wie Marke (Hersteller), Modell (Geräteversion), bessere Gerätetyperkennung (TV, Konsolen, Smartphones, Desktop, etc) und mehr bereit. Dieses Plugin fügt einen neuen Bericht unter 'Besucher > Geräte' hinzu.",
+        "PluginDescription": "Unterstützt erweiterte Informationen über Benutzergeräte, wie Marke (Hersteller), Modell (Geräteversion), Gerätetyp (Fernseher, Konsolen, Smartphones, Desktops, usw.) und mehr.",
+        "PortableMediaPlayer": "Portable Mediengeräte",
         "SmartDisplay": "Smart Display",
         "Smartphone": "Smartphone",
         "submenu": "Geräte",
         "Tablet": "Tablet",
         "TV": "TV",
-        "UserAgent": "User-Agent"
+        "UserAgent": "User-Agent",
+        "WidgetBrowsers": "Besucher-Browser",
+        "WidgetBrowsersDocumentation": "Dieser Bericht enthält Informationen über die Browser Ihrer Besucher. Jede Version eines Browsers wird separat aufgelistet."
     }
 }

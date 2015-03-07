@@ -37,7 +37,6 @@
         "PasswordRepeat": "کلمه عبور مجدد",
         "PercentDone": "%s %% انجام شده",
         "PleaseFixTheFollowingErrors": "لطفا خطاهای زیر را تعمیر کنید",
-        "PluginDescription": "روند نصب و راه اندازی Piwik. نصب و راه اندازی شده است معمولا فقط یک بار انجام می شود. اگر تنظیمات پیکربندی فایل \/ config.inc.php حذف شده، نصب و راه اندازی دوباره شروع خواهد شد.",
         "Requirements": "نیازمندی های پیویک",
         "RestartWebServer": "پس از این تغییر، وب سرورتان را دوباره راه اندازی (restart)کنید",
         "SeeBelowForMoreInfo": "برای اطلاعات بیشتر پایین را ببینید.",

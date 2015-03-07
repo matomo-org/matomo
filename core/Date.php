@@ -10,6 +10,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 
 /**
  * Utility class that wraps date/time related PHP functions. Using this class can
@@ -104,7 +105,6 @@ class Date
      */
     public static function factory($dateString, $timezone = null)
     {
-        $invalidDateException = new Exception(Piwik::translate('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")) . ": $dateString");
         if ($dateString instanceof self) {
             $dateString = $dateString->toString();
         }
@@ -125,7 +125,7 @@ class Date
                 ($dateString = strtotime($dateString)) === false
             )
         ) {
-            throw $invalidDateException;
+            throw self::getInvalidDateFormatException($dateString);
         } else {
             $date = new Date($dateString);
         }
@@ -133,7 +133,7 @@ class Date
         // can't be doing web analytics before the 1st website
         // Tue, 06 Aug 1991 00:00:00 GMT
         if ($timestamp < 681436800) {
-            throw $invalidDateException;
+            throw self::getInvalidDateFormatException($dateString);
         }
         if (empty($timezone)) {
             return $date;
@@ -151,6 +151,19 @@ class Date
     public function getDatetime()
     {
         return $this->toString(self::DATE_TIME_FORMAT);
+    }
+
+    /**
+     * Returns the current hour in UTC timezone.
+     * @return string
+     * @throws Exception
+     */
+    public function getHourUTC()
+    {
+        $dateTime = $this->getDatetime();
+        $hourInTz = Date::factory($dateTime, 'UTC')->toString('G');
+
+        return $hourInTz;
     }
 
     /**
@@ -240,6 +253,17 @@ class Date
         date_default_timezone_set('UTC');
 
         return strtotime($datetime);
+    }
+
+    /**
+     * Returns the date in the "Y-m-d H:i:s" PHP format
+     *
+     * @param int $timestamp
+     * @return string
+     */
+    public static function getDatetimeFromTimestamp($timestamp)
+    {
+        return date("Y-m-d H:i:s", $timestamp);
     }
 
     /**
@@ -598,15 +622,16 @@ class Date
      */
     public function getLocalized($template)
     {
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
         $day = $this->toString('j');
         $dayOfWeek = $this->toString('N');
         $monthOfYear = $this->toString('n');
         $patternToValue = array(
             "%day%"        => $day,
-            "%shortMonth%" => Piwik::translate('General_ShortMonth_' . $monthOfYear),
-            "%longMonth%"  => Piwik::translate('General_LongMonth_' . $monthOfYear),
-            "%shortDay%"   => Piwik::translate('General_ShortDay_' . $dayOfWeek),
-            "%longDay%"    => Piwik::translate('General_LongDay_' . $dayOfWeek),
+            "%shortMonth%" => $translator->translate('General_ShortMonth_' . $monthOfYear),
+            "%longMonth%"  => $translator->translate('General_LongMonth_' . $monthOfYear),
+            "%shortDay%"   => $translator->translate('General_ShortDay_' . $dayOfWeek),
+            "%longDay%"    => $translator->translate('General_LongDay_' . $dayOfWeek),
             "%longYear%"   => $this->toString('Y'),
             "%shortYear%"  => $this->toString('y'),
             "%time%"       => $this->toString('H:i:s')
@@ -750,5 +775,11 @@ class Date
     public static function secondsToDays($secs)
     {
         return $secs / self::NUM_SECONDS_IN_DAY;
+    }
+
+    private static function getInvalidDateFormatException($dateString)
+    {
+        $message = Piwik::translate('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime"));
+        return new Exception($message . ": $dateString");
     }
 }

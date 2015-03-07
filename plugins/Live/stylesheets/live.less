@@ -18,7 +18,7 @@
 }
 
 #visitsLive .country {
-    background: #FFF url(plugins/CoreHome/images/bullet1.gif) no-repeat scroll 0 0;
+    background: @theme-color-background-base url(plugins/CoreHome/images/bullet1.gif) no-repeat scroll 0 0;
 }
 
 #visitsLive .referrer {
@@ -35,7 +35,7 @@
 }
 
 #visitsLive .settings {
-    background: #FFF none repeat scroll 0 0;
+    background: @theme-color-background-base none repeat scroll 0 0;
 }
 
 #visitsLive .settings a {
@@ -56,6 +56,17 @@
 
 .dataTableVizVisitorLog table img {
     margin: 0 3px 0 0;
+}
+
+.ui-dialog.ui-widget {
+  .dataTableVizVisitorLog {
+    .dataTableFeatures {
+      border-bottom: 0px;
+    }
+    .expandDataTableFooterDrawer {
+      display: none;
+    }
+  }
 }
 
 .visitsLiveFooter a.rightLink {
@@ -82,6 +93,11 @@ ol.visitorLog {
     display:inline-block;
     max-width:90%;
     overflow: -moz-hidden-unscrollable;
+
+    &.event {
+      margin-top: 1px;
+      margin-right: 15px;
+    }
 }
 
 ol.visitorLog li {
@@ -207,7 +223,7 @@ a.visitor-log-visitor-profile-link {
 .visitorLog,.visitor-profile-actions {
     > li > div {
         display:inline-block;
-        width:85%;
+        width:90%;
         vertical-align:top;
     }
 }
@@ -215,6 +231,10 @@ a.visitor-log-visitor-profile-link {
 .action-list-action-icon {
     float:left;
     margin-top:6px;
+
+    &.event {
+      margin-top: 1px;
+    }
 }
 
 .action-list-url {

@@ -36,6 +36,8 @@ import urllib
 import urllib2
 import urlparse
 import subprocess
+import functools
+import traceback
 
 try:
     import json
@@ -54,7 +56,7 @@ except ImportError:
 ##
 
 STATIC_EXTENSIONS = set((
-    'gif jpg jpeg png bmp ico svg ttf eot woff class swf css js xml robots.txt'
+    'gif jpg jpeg png bmp ico svg svgz ttf otf eot woff class swf css js xml robots.txt'
 ).split())
 
 DOWNLOAD_EXTENSIONS = set((
@@ -161,6 +163,10 @@ class JsonFormat(BaseFormat):
     def get_all(self,):
         return self.json
 
+    def remove_ignored_groups(self, groups):
+        for group in groups:
+            del self.json[group]
+
 class RegexFormat(BaseFormat):
 
     def __init__(self, name, regex, date_format=None):
@@ -175,76 +181,182 @@ class RegexFormat(BaseFormat):
         return self.match(line)
 
     def match(self,line):
-        self.matched = self.regex.match(line)
-        return self.matched
+        if not self.regex:
+            return None
+        match_result = self.regex.match(line)
+        if match_result:
+            self.matched = match_result.groupdict()
+        else:
+            self.matched = None
+        return match_result
 
     def get(self, key):
         try:
-            return self.matched.group(key)
-        except IndexError:
+            return self.matched[key]
+        except KeyError:
             raise BaseFormatException()
 
     def get_all(self,):
-        return self.matched.groupdict()
+        return self.matched
 
-class IisFormat(RegexFormat):
+    def remove_ignored_groups(self, groups):
+        for group in groups:
+            del self.matched[group]
+
+class W3cExtendedFormat(RegexFormat):
+
+    FIELDS_LINE_PREFIX = '#Fields: '
+
+    fields = {
+        'date': '(?P<date>^\d+[-\d+]+',
+        'time': '[\d+:]+)[.\d]*?', # TODO should not assume date & time will be together not sure how to fix ATM.
+        'cs-uri-stem': '(?P<path>/\S*)',
+        'cs-uri-query': '(?P<query_string>\S*)',
+        'c-ip': '"?(?P<ip>[\d*.]*)"?',
+        'cs(User-Agent)': '(?P<user_agent>".*?"|\S+)',
+        'cs(Referer)': '(?P<referrer>\S+)',
+        'sc-status': '(?P<status>\d+)',
+        'sc-bytes': '(?P<length>\S+)',
+        'cs-host': '(?P<host>\S+)',
+        'cs-username': '(?P<userid>\S+)',
+        'time-taken': '(?P<generation_time_secs>[.\d]+)'
+    }
 
     def __init__(self):
-        super(IisFormat, self).__init__('iis', None, '%Y-%m-%d %H:%M:%S')
+        super(W3cExtendedFormat, self).__init__('w3c_extended', None, '%Y-%m-%d %H:%M:%S')
 
     def check_format(self, file):
-        line = file.readline()
-        if not line.startswith('#Software: Microsoft Internet Information Services '):
+        self.create_regex(file)
+
+        # if we couldn't create a regex, this file does not follow the W3C extended log file format
+        if not self.regex:
             file.seek(0)
             return
-        # Skip the next 2 lines.
-        for i in xrange(2):
-            file.readline()
-        # Parse the 4th line (regex)
+
+        first_line = file.readline()
+
+        file.seek(0)
+        return self.check_format_line(first_line)
+
+    def create_regex(self, file):
+        fields_line = None
+        if config.options.w3c_fields:
+            fields_line = config.options.w3c_fields
+
+        # collect all header lines up until the Fields: line
+        # if we're reading from stdin, we can't seek, so don't read any more than the Fields line
+        header_lines = []
+        while fields_line is None:
+            line = file.readline()
+
+            if not line.startswith('#'):
+                break
+
+            if line.startswith(W3cExtendedFormat.FIELDS_LINE_PREFIX):
+                fields_line = line
+            else:
+                header_lines.append(line)
+
+        if not fields_line:
+            return
+
+        # store the header lines for a later check for IIS
+        self.header_lines = header_lines
+
+        # Parse the 'Fields: ' line to create the regex to use
         full_regex = []
-        line = file.readline()
-        fields = {
-            'date': '(?P<date>^\d+[-\d+]+',
-            'time': '[\d+:]+)',
-            'cs-uri-stem': '(?P<path>/\S*)',
-            'cs-uri-query': '(?P<query_string>\S*)',
-            'c-ip': '(?P<ip>[\d*.]*)',
-            'cs(User-Agent)': '(?P<user_agent>\S+)',
-            'cs(Referer)': '(?P<referrer>\S+)',
-            'sc-status': '(?P<status>\d+)',
-            'sc-bytes': '(?P<length>\S+)',
-            'cs-host': '(?P<host>\S+)',
-        }
+
+        expected_fields = type(self).fields.copy() # turn custom field mapping into field => regex mapping
+
+        # if the --w3c-time-taken-millisecs option is used, make sure the time-taken field is interpreted as milliseconds
+        if config.options.w3c_time_taken_in_millisecs:
+            expected_fields['time-taken'] = '(?P<generation_time_milli>[\d.]+)'
+
+        for mapped_field_name, field_name in config.options.custom_w3c_fields.iteritems():
+            expected_fields[mapped_field_name] = expected_fields[field_name]
+            del expected_fields[field_name]
+
+        # add custom field regexes supplied through --w3c-field-regex option
+        for field_name, field_regex in config.options.w3c_field_regexes.iteritems():
+            expected_fields[field_name] = field_regex
+
         # Skip the 'Fields: ' prefix.
-        line = line[9:]
-        for field in line.split():
+        fields_line = fields_line[9:]
+        for field in fields_line.split():
             try:
-                regex = fields[field]
+                regex = expected_fields[field]
             except KeyError:
                 regex = '\S+'
             full_regex.append(regex)
-        self.regex = re.compile(' '.join(full_regex))
+        full_regex = '\s+'.join(full_regex)
+        self.regex = re.compile(full_regex)
 
-        start_pos = file.tell()
-        nextline = file.readline()
-        file.seek(start_pos)
-        return self.check_format_line(nextline)
+    def check_for_iis_option(self):
+        if not config.options.w3c_time_taken_in_millisecs and self._is_time_taken_milli() and self._is_iis():
+            logging.info("WARNING: IIS log file being parsed without --w3c-time-taken-milli option. IIS"
+                         " stores millisecond values in the time-taken field. If your logfile does this, the aforementioned"
+                         " option must be used in order to get accurate generation times.")
 
-_HOST_PREFIX = '(?P<host>[\w\-\.]*)(?::\d+)? '
+    def _is_iis(self):
+        return len([line for line in self.header_lines if 'internet information services' in line.lower() or 'iis' in line.lower()]) > 0
+
+    def _is_time_taken_milli(self):
+        return 'generation_time_milli' not in self.regex.pattern
+
+class IisFormat(W3cExtendedFormat):
+
+    fields = W3cExtendedFormat.fields.copy()
+    fields.update({
+        'time-taken': '(?P<generation_time_milli>[.\d]+)',
+        'sc-win32-status': '(?P<__win32_status>\S+)' # this group is useless for log importing, but capturing it
+                                                     # will ensure we always select IIS for the format instead of
+                                                     # W3C logs when detecting the format. This way there will be
+                                                     # less accidental importing of IIS logs w/o --w3c-time-taken-milli.
+    })
+
+    def __init__(self):
+        super(IisFormat, self).__init__()
+
+        self.name = 'iis'
+
+class AmazonCloudFrontFormat(W3cExtendedFormat):
+
+    fields = W3cExtendedFormat.fields.copy()
+    fields.update({
+        'x-event': '(?P<event_action>\S+)',
+        'x-sname': '(?P<event_name>\S+)',
+        'cs-uri-stem': '(?:rtmp:/)?(?P<path>/\S*)',
+        'c-user-agent': '(?P<user_agent>".*?"|\S+)'
+    })
+
+    def __init__(self):
+        super(AmazonCloudFrontFormat, self).__init__()
+
+        self.name = 'amazon_cloudfront'
+
+    def get(self, key):
+        if key == 'event_category' and 'event_category' not in self.matched:
+            return 'cloudfront_rtmp'
+        elif key == 'status' and 'status' not in self.matched:
+            return '200'
+        else:
+            return super(AmazonCloudFrontFormat, self).get(key)
+
+_HOST_PREFIX = '(?P<host>[\w\-\.]*)(?::\d+)?\s+'
 _COMMON_LOG_FORMAT = (
-    '(?P<ip>\S+) \S+ \S+ \[(?P<date>.*?) (?P<timezone>.*?)\] '
-    '"\S+ (?P<path>.*?) \S+" (?P<status>\S+) (?P<length>\S+)'
+    '(?P<ip>\S+)\s+\S+\s+\S+\s+\[(?P<date>.*?)\s+(?P<timezone>.*?)\]\s+'
+    '"\S+\s+(?P<path>.*?)\s+\S+"\s+(?P<status>\S+)\s+(?P<length>\S+)'
 )
 _NCSA_EXTENDED_LOG_FORMAT = (_COMMON_LOG_FORMAT +
-    ' "(?P<referrer>.*?)" "(?P<user_agent>.*?)"'
+    '\s+"(?P<referrer>.*?)"\s+"(?P<user_agent>.*?)"'
 )
 _S3_LOG_FORMAT = (
-    '\S+ (?P<host>\S+) \[(?P<date>.*?) (?P<timezone>.*?)\] (?P<ip>\S+) '
-    '\S+ \S+ \S+ \S+ "\S+ (?P<path>.*?) \S+" (?P<status>\S+) \S+ (?P<length>\S+) '
-    '\S+ \S+ \S+ "(?P<referrer>.*?)" "(?P<user_agent>.*?)"'
+    '\S+\s+(?P<host>\S+)\s+\[(?P<date>.*?)\s+(?P<timezone>.*?)\]\s+(?P<ip>\S+)\s+'
+    '\S+\s+\S+\s+\S+\s+\S+\s+"\S+\s+(?P<path>.*?)\s+\S+"\s+(?P<status>\S+)\s+\S+\s+(?P<length>\S+)\s+'
+    '\S+\s+\S+\s+\S+\s+"(?P<referrer>.*?)"\s+"(?P<user_agent>.*?)"'
 )
 _ICECAST2_LOG_FORMAT = ( _NCSA_EXTENDED_LOG_FORMAT +
-    ' (?P<session_time>\S+)'
+    '\s+(?P<session_time>\S+)'
 )
 
 FORMATS = {
@@ -252,6 +364,8 @@ FORMATS = {
     'common_vhost': RegexFormat('common_vhost', _HOST_PREFIX + _COMMON_LOG_FORMAT),
     'ncsa_extended': RegexFormat('ncsa_extended', _NCSA_EXTENDED_LOG_FORMAT),
     'common_complete': RegexFormat('common_complete', _HOST_PREFIX + _NCSA_EXTENDED_LOG_FORMAT),
+    'w3c_extended': W3cExtendedFormat(),
+    'amazon_cloudfront': AmazonCloudFrontFormat(),
     'iis': IisFormat(),
     's3': RegexFormat('s3', _S3_LOG_FORMAT),
     'icecast2': RegexFormat('icecast2', _ICECAST2_LOG_FORMAT),
@@ -286,13 +400,14 @@ class Configuration(object):
                    "              Found a bug? Please create a ticket in http://dev.piwik.org/ "
                    "              Please send your suggestions or successful user story to hello@piwik.org "
         )
+
         option_parser.add_option(
             '--debug', '-d', dest='debug', action='count', default=0,
             help="Enable debug output (specify multiple times for more verbose)",
         )
         option_parser.add_option(
             '--url', dest='piwik_url',
-            help="REQUIRED Piwik base URL, eg. http://example.com/piwik/ or http://analytics.example.net",
+            help="REQUIRED Your Piwik server URL, eg. http://example.com/piwik/ or http://analytics.example.net",
         )
         option_parser.add_option(
             '--dry-run', dest='dry_run',
@@ -421,10 +536,14 @@ class Configuration(object):
                   "When not specified, the log format will be autodetected by trying all supported log formats."
                   % ', '.join(sorted(FORMATS.iterkeys())))
         )
+        available_regex_groups = ['date', 'path', 'query_string', 'ip', 'user_agent', 'referrer', 'status',
+                                  'length', 'host', 'userid', 'generation_time_milli', 'event_action',
+                                  'event_name', 'timezone', 'session_time']
         option_parser.add_option(
             '--log-format-regex', dest='log_format_regex', default=None,
-            help="Access log regular expression. For an example of a supported Regex, see the source code of this file. "
-                 "Overrides --log-format-name"
+            help="Regular expression used to parse log entries. Regexes must contain named groups for different log fields. "
+                 "Recognized fields include: %s. For an example of a supported Regex, see the source code of this file. "
+                 "Overrides --log-format-name." % (', '.join(available_regex_groups))
         )
         option_parser.add_option(
             '--log-hostname', dest='log_hostname', default=None,
@@ -449,6 +568,11 @@ class Configuration(object):
             '--replay-tracking', dest='replay_tracking',
             action='store_true', default=False,
             help="Replay piwik.php requests found in custom logs (only piwik.php requests expected). \nSee http://piwik.org/faq/how-to/faq_17033/"
+        )
+        option_parser.add_option(
+            '--replay-tracking-expected-tracker-file', dest='replay_tracking_expected_tracker_file', default='piwik.php',
+            help="The expected suffix for tracking request paths. Only logs whose paths end with this will be imported. Defaults "
+            "to 'piwik.php' so only requests to the piwik.php file will be imported."
         )
         option_parser.add_option(
             '--output', dest='output',
@@ -485,7 +609,91 @@ class Configuration(object):
             '--download-extensions', dest='download_extensions', default=None,
             help="By default Piwik tracks as Downloads the most popular file extensions. If you set this parameter (format: pdf,doc,...) then files with an extension found in the list will be imported as Downloads, other file extensions downloads will be skipped."
         )
+        option_parser.add_option(
+            '--w3c-map-field', action='callback', callback=functools.partial(self._set_option_map, 'custom_w3c_fields'), type='string',
+            help="Map a custom log entry field in your W3C log to a default one. Use this option to load custom log "
+                 "files that use the W3C extended log format such as those from the Advanced Logging W3C module. Used "
+                 "as, eg, --w3c-map-field my-date=date. Recognized default fields include: %s\n\n"
+                 "Formats that extend the W3C extended log format (like the cloudfront RTMP log format) may define more "
+                 "fields that can be mapped."
+                     % (', '.join(W3cExtendedFormat.fields.keys()))
+        )
+        option_parser.add_option(
+            '--w3c-time-taken-millisecs', action='store_true', default=False, dest='w3c_time_taken_in_millisecs',
+            help="If set, interprets the time-taken W3C log field as a number of milliseconds. This must be set for importing"
+                 " IIS logs."
+        )
+        option_parser.add_option(
+            '--w3c-fields', dest='w3c_fields', default=None,
+            help="Specify the '#Fields:' line for a log file in the W3C Extended log file format. Use this option if "
+                 "your log file doesn't contain the '#Fields:' line which is required for parsing. This option must be used "
+                 "in conjuction with --log-format-name=w3c_extended.\n"
+                 "Example: --w3c-fields='#Fields: date time c-ip ...'"
+        )
+        option_parser.add_option(
+            '--w3c-field-regex', action='callback', callback=functools.partial(self._set_option_map, 'w3c_field_regexes'), type='string',
+            help="Specify a regex for a field in your W3C extended log file. You can use this option to parse fields the "
+                 "importer does not natively recognize and then use one of the --regex-group-to-XXX-cvar options to track "
+                 "the field in a custom variable. For example, specifying --w3c-field-regex=sc-win32-status=(?P<win32_status>\\S+) "
+                 "--regex-group-to-page-cvar=\"win32_status=Windows Status Code\" will track the sc-win32-status IIS field "
+                 "in the 'Windows Status Code' custom variable. Regexes must contain a named group."
+        )
+        option_parser.add_option(
+            '--title-category-delimiter', dest='title_category_delimiter', default='/',
+            help="If --enable-http-errors is used, errors are shown in the page titles report. If you have "
+            "changed General.action_title_category_delimiter in your Piwik configuration, you need to set this "
+            "option to the same value in order to get a pretty page titles report."
+        )
+        option_parser.add_option(
+            '--dump-log-regex', dest='dump_log_regex', action='store_true', default=False,
+            help="Prints out the regex string used to parse log lines and exists. Can be useful for using formats "
+                 "in newer versions of the script in older versions of the script. The output regex can be used with "
+                 "the --log-format-regex option."
+        )
+
+        option_parser.add_option(
+            '--ignore-groups', dest='regex_groups_to_ignore', default=None,
+            help="Comma separated list of regex groups to ignore when parsing log lines. Can be used to, for example, "
+                 "disable normal user id tracking. See documentation for --log-format-regex for list of available "
+                 "regex groups."
+        )
+
+        option_parser.add_option(
+            '--regex-group-to-visit-cvar', action='callback', callback=functools.partial(self._set_option_map, 'regex_group_to_visit_cvars_map'), type='string',
+            help="Track an attribute through a custom variable with visit scope instead of through Piwik's normal "
+                 "approach. For example, to track usernames as a custom variable instead of through the uid tracking "
+                 "parameter, supply --regex-group-to-visit-cvar=\"userid=User Name\". This will track usernames in a "
+                 "custom variable named 'User Name'. See documentation for --log-format-regex for list of available "
+                 "regex groups."
+        )
+        option_parser.add_option(
+            '--regex-group-to-page-cvar', action='callback', callback=functools.partial(self._set_option_map, 'regex_group_to_page_cvars_map'), type='string',
+            help="Track an attribute through a custom variable with page scope instead of through Piwik's normal "
+                 "approach. For example, to track usernames as a custom variable instead of through the uid tracking "
+                 "parameter, supply --regex-group-to-page-cvar=\"userid=User Name\". This will track usernames in a "
+                 "custom variable named 'User Name'. See documentation for --log-format-regex for list of available "
+                 "regex groups."
+        )
         return option_parser
+
+    def _set_option_map(self, option_attr_name, option, opt_str, value, parser):
+        """
+        Sets a key-value mapping in a dict that is built from command line options. Options that map
+        string keys to string values (like --w3c-map-field) can set the callback to a bound partial
+        of this method to handle the option.
+        """
+
+        parts = value.split('=')
+
+        if len(parts) != 2:
+            fatal_error("Invalid %s option: '%s'" % (opt_str, value))
+
+        key, value = parts
+
+        if not hasattr(parser.values, option_attr_name):
+            setattr(parser.values, option_attr_name, {})
+
+        getattr(parser.values, option_attr_name)[key] = value
 
     def _parse_args(self, option_parser):
         """
@@ -537,6 +745,30 @@ class Configuration(object):
         else:
             self.format = None
 
+        if not hasattr(self.options, 'custom_w3c_fields'):
+            self.options.custom_w3c_fields = {}
+        elif self.format is not None:
+            # validate custom field mappings
+            for custom_name, default_name in self.options.custom_w3c_fields.iteritems():
+                if default_name not in type(format).fields:
+                    fatal_error("custom W3C field mapping error: don't know how to parse and use the '%' field" % default_name)
+                    return
+
+        if not hasattr(self.options, 'regex_group_to_visit_cvars_map'):
+            self.options.regex_group_to_visit_cvars_map = {}
+
+        if not hasattr(self.options, 'regex_group_to_page_cvars_map'):
+            self.options.regex_group_to_page_cvars_map = {}
+
+        if not hasattr(self.options, 'w3c_field_regexes'):
+            self.options.w3c_field_regexes = {}
+        else:
+            # make sure each custom w3c field regex has a named group
+            for field_name, field_regex in self.options.w3c_field_regexes.iteritems():
+                if '(?P<' not in field_regex:
+                    fatal_error("cannot find named group in custom w3c field regex '%s' for field '%s'" % (field_regex, field_name))
+                    return
+
         if not self.options.piwik_url:
             fatal_error('no URL given for Piwik')
 
@@ -558,6 +790,9 @@ class Configuration(object):
             self.options.download_extensions = set(self.options.download_extensions.split(','))
         else:
             self.options.download_extensions = DOWNLOAD_EXTENSIONS
+
+        if self.options.regex_groups_to_ignore:
+            self.options.regex_groups_to_ignore = set(self.options.regex_groups_to_ignore.split(','))
 
     def __init__(self):
         self._parse_args(self._create_parser())
@@ -1116,7 +1351,7 @@ class DynamicResolver(object):
     def check_format(self, format):
         if config.options.replay_tracking:
             pass
-        elif 'host' not in format.regex.groupindex and not config.options.log_hostname:
+        elif format.regex is not None and 'host' not in format.regex.groupindex and not config.options.log_hostname:
             fatal_error(
                 "the selected log format doesn't include the hostname: you must "
                 "specify the Piwik site ID with the --idsite argument"
@@ -1241,6 +1476,15 @@ class Recorder(object):
         # only prepend main url if it's a path
         url = (main_url if path.startswith('/') else '') + path[:1024]
 
+        # handle custom variables before generating args dict
+        if config.options.enable_bots:
+            if hit.is_robot:
+                hit.add_visit_custom_var("Bot", hit.user_agent)
+            else:
+                hit.add_visit_custom_var("Not-Bot", hit.user_agent)
+
+        hit.add_page_custom_var("HTTP-code", hit.status)
+
         args = {
             'rec': '1',
             'apiv': '1',
@@ -1250,8 +1494,9 @@ class Recorder(object):
             'cdt': self.date_to_piwik(hit.date),
             'idsite': site_id,
             'dp': '0' if config.options.reverse_dns else '1',
-            'ua': hit.user_agent.encode('utf8'),
+            'ua': hit.user_agent.encode('utf8')
         }
+
         if config.options.replay_tracking:
             # prevent request to be force recorded when option replay-tracking
             args['rec'] = '0'
@@ -1263,24 +1508,38 @@ class Recorder(object):
 
         if config.options.enable_bots:
             args['bots'] = '1'
-            if hit.is_robot:
-                args['_cvar'] = '{"1":["Bot","%s"]}' % hit.user_agent
-            else:
-                args['_cvar'] = '{"1":["Not-Bot","%s"]}' % hit.user_agent
-
-        # do not overwrite custom variables if it's already set (eg. when replaying ecommerce logs)
-        if 'cvar' not in args:
-            args['cvar'] = '{"1":["HTTP-code","%s"]}' % hit.status
 
         if hit.is_error or hit.is_redirect:
-			args['action_name'] = '%s/URL = %s%s' % (
+			args['action_name'] = '%s%sURL = %s%s' % (
 				hit.status,
+				config.options.title_category_delimiter,
 				urllib.quote(args['url'], ''),
-				("/From = %s" % urllib.quote(args['urlref'], '') if args['urlref'] != ''  else '')
+				("%sFrom = %s" % ( 
+					config.options.title_category_delimiter,
+					urllib.quote(args['urlref'], '')
+				) if args['urlref'] != ''  else '')
 			)
 
         if hit.generation_time_milli > 0:
-            args['gt_ms'] = hit.generation_time_milli
+            args['gt_ms'] = int(hit.generation_time_milli)
+
+        if hit.event_category and hit.event_action:
+            args['e_c'] = hit.event_category
+            args['e_a'] = hit.event_action
+
+            if hit.event_name:
+                args['e_n'] = hit.event_name
+
+        if hit.length:
+            args['bw_bytes'] = hit.length
+
+        # convert custom variable args to JSON
+        if 'cvar' in args and not isinstance(args['cvar'], basestring):
+            args['cvar'] = json.dumps(args['cvar'])
+
+        if '_cvar' in args and not isinstance(args['_cvar'], basestring):
+            args['_cvar'] = json.dumps(args['_cvar'])
+
         return args
 
     def _record_hits(self, hits):
@@ -1292,13 +1551,20 @@ class Recorder(object):
                 'token_auth': config.options.piwik_token_auth,
                 'requests': [self._get_hit_args(hit) for hit in hits]
             }
-            piwik.call(
+            result = piwik.call(
                 '/piwik.php', args={},
                 expected_content=None,
                 headers={'Content-type': 'application/json'},
                 data=data,
                 on_failure=self._on_tracking_failure
             )
+
+            # make sure the request succeeded and returned valid json
+            try:
+                result = json.loads(result)
+            except ValueError, e:
+                fatal_error("Incorrect response from tracking API: '%s'\nIs the BulkTracking plugin disabled?" % result)
+
         stats.count_lines_recorded.advance(len(hits))
 
     def _on_tracking_failure(self, response, data):
@@ -1318,26 +1584,6 @@ class Recorder(object):
         data['requests'] = data['requests'][tracked:]
 
         return response['message']
-
-    @staticmethod
-    def invalidate_reports():
-        if config.options.dry_run or not stats.dates_recorded:
-            return
-
-        if config.options.invalidate_dates is not None:
-            dates = [date for date in config.options.invalidate_dates.split(',') if date]
-        else:
-            dates = [date.strftime('%Y-%m-%d') for date in stats.dates_recorded]
-        if dates:
-            print '\nPurging Piwik archives for dates: ' + ' '.join(dates)
-            result = piwik.call_api(
-                'CoreAdminHome.invalidateArchivedReports',
-                dates=','.join(dates),
-                idSites=','.join(str(site_id) for site_id in stats.piwik_sites),
-            )
-            print('\nTo re-process these reports with your newly imported data, execute the following command: \n'
-                  '$ /path/to/piwik/console core:archive --url=http://example/piwik --force-all-websites --force-all-periods=315576000 --force-date-last-n=1000'
-                  '\nReference: http://piwik.org/docs/setup-auto-archiving/ ')
 
 class Hit(object):
     """
@@ -1361,6 +1607,29 @@ class Hit(object):
                     break
 
         return abs(hash(visitor_id))
+
+    def add_page_custom_var(self, key, value):
+        """
+        Adds a page custom variable to this Hit.
+        """
+        self._add_custom_var(key, value, 'cvar')
+
+    def add_visit_custom_var(self, key, value):
+        """
+        Adds a visit custom variable to this Hit.
+        """
+        self._add_custom_var(key, value, '_cvar')
+
+    def _add_custom_var(self, key, value, api_arg_name):
+        if api_arg_name not in self.args:
+            self.args[api_arg_name] = {}
+
+        if isinstance(self.args[api_arg_name], basestring):
+            logging.debug("Ignoring custom %s variable addition [ %s = %s ], custom var already set to string." % (api_arg_name, key, value))
+            return
+
+        index = len(self.args[api_arg_name]) + 1
+        self.args[api_arg_name][index] = [key, value]
 
 class Parser(object):
     """
@@ -1469,7 +1738,8 @@ class Parser(object):
                     match = candidate_format.check_format_line(lineOrFile)
                 else:
                     match = candidate_format.check_format(lineOrFile)
-            except:
+            except Exception, e:
+                logging.debug('Error in format checking: %s', traceback.format_exc())
                 pass
 
             if match:
@@ -1488,6 +1758,11 @@ class Parser(object):
             else:
                 logging.debug('Format %s does not match', name)
 
+        # if the format is W3cExtendedFormat, check if the logs are from IIS and if so, issue a warning if the
+        # --w3c-time-taken-milli option isn't set
+        if isinstance(format, W3cExtendedFormat):
+            format.check_for_iis_option()
+
         return format
 
     @staticmethod
@@ -1499,7 +1774,7 @@ class Parser(object):
 
         format = False
 
-        # check the format using the file (for formats like the IIS one)
+        # check the format using the file (for formats like the W3cExtendedFormat one)
         format = Parser.check_format(file)
 
         # check the format using the first N lines (to avoid irregular ones)
@@ -1507,6 +1782,9 @@ class Parser(object):
         limit = 100000
         while not format and lineno < limit:
             line = file.readline()
+            if not line: # if at eof, don't keep looping
+                break
+
             lineno = lineno + 1
 
             logging.debug("Detecting format against line %i" % lineno)
@@ -1539,7 +1817,7 @@ class Parser(object):
             file = sys.stdin
         else:
             if not os.path.exists(filename):
-                print >> sys.stderr, 'File %s does not exist' % filename
+                print >> sys.stderr, "\n=====> Warning: File %s does not exist <=====" % filename
                 return
             else:
                 if filename.endswith('.bz2'):
@@ -1556,6 +1834,15 @@ class Parser(object):
         if config.format:
             # The format was explicitely specified.
             format = config.format
+
+            if isinstance(format, W3cExtendedFormat):
+                format.create_regex(file)
+
+                if format.regex is None:
+                    return fatal_error(
+                        "File is not in the correct format, is there a '#Fields:' line? "
+                        "If not, use the --w3c-fields option."
+                    )
         else:
             # If the file is empty, don't bother.
             data = file.read(100)
@@ -1574,6 +1861,15 @@ class Parser(object):
                 )
         # Make sure the format is compatible with the resolver.
         resolver.check_format(format)
+
+        if config.options.dump_log_regex:
+            logging.info("Using format '%s'." % format.name)
+            if format.regex:
+                logging.info("Regex being used: %s" % format.regex.pattern)
+            else:
+                logging.info("Format %s does not use a regex to parse log lines." % format.name)
+            logging.info("--dump-log-regex option used, aborting log import.")
+            os._exit(0)
 
         hits = []
         for lineno, line in enumerate(file):
@@ -1604,13 +1900,22 @@ class Parser(object):
                 args={},
             )
 
+            if config.options.regex_group_to_page_cvars_map:
+                self._add_custom_vars_from_regex_groups(hit, format, config.options.regex_group_to_page_cvars_map, True)
+
+            if config.options.regex_group_to_visit_cvars_map:
+                self._add_custom_vars_from_regex_groups(hit, format, config.options.regex_group_to_visit_cvars_map, False)
+
+            if config.options.regex_groups_to_ignore:
+                format.remove_ignored_groups(config.options.regex_groups_to_ignore)
+
             try:
                 hit.query_string = format.get('query_string')
                 hit.path = hit.full_path
             except BaseFormatException:
                 hit.path, _, hit.query_string = hit.full_path.partition(config.options.query_string_delimiter)
 
-            # IIS detaults to - when there is no query string, but we want empty string
+            # W3cExtendedFormat detaults to - when there is no query string, but we want empty string
             if hit.query_string == '-':
                 hit.query_string = ''
 
@@ -1618,6 +1923,9 @@ class Parser(object):
 
             try:
                 hit.referrer = format.get('referrer')
+
+                if hit.referrer.startswith('"'):
+                    hit.referrer = hit.referrer[1:-1]
             except BaseFormatException:
                 hit.referrer = ''
             if hit.referrer == '-':
@@ -1625,6 +1933,11 @@ class Parser(object):
 
             try:
                 hit.user_agent = format.get('user_agent')
+
+                # in case a format parser included enclosing quotes, remove them so they are not
+                # sent to Piwik
+                if hit.user_agent.startswith('"'):
+                    hit.user_agent = hit.user_agent[1:-1]
             except BaseFormatException:
                 hit.user_agent = ''
 
@@ -1632,25 +1945,54 @@ class Parser(object):
             try:
                 hit.length = int(format.get('length'))
             except (ValueError, BaseFormatException):
-                # Some lines or formats don't have a length (e.g. 304 redirects, IIS logs)
+                # Some lines or formats don't have a length (e.g. 304 redirects, W3C logs)
                 hit.length = 0
 
             try:
-                hit.generation_time_milli = int(format.get('generation_time_milli'))
+                hit.generation_time_milli = float(format.get('generation_time_milli'))
             except BaseFormatException:
                 try:
-                    hit.generation_time_milli = int(format.get('generation_time_micro')) / 1000
+                    hit.generation_time_milli = float(format.get('generation_time_micro')) / 1000
                 except BaseFormatException:
-                    hit.generation_time_milli = 0
+                    try:
+                        hit.generation_time_milli = float(format.get('generation_time_secs')) * 1000
+                    except BaseFormatException:
+                        hit.generation_time_milli = 0
 
             if config.options.log_hostname:
                 hit.host = config.options.log_hostname
             else:
                 try:
                     hit.host = format.get('host').lower().strip('.')
+
+                    if hit.host.startswith('"'):
+                        hit.host = hit.host[1:-1]
                 except BaseFormatException:
                     # Some formats have no host.
                     pass
+
+            # Add userid
+            try:
+                hit.userid = None
+
+                userid = format.get('userid')
+                if userid != '-':
+                    hit.args['uid'] = hit.userid = userid
+            except:
+                pass
+
+            # add event info
+            try:
+                hit.event_category = hit.event_action = hit.event_name = None
+
+                hit.event_category = format.get('event_category')
+                hit.event_action = format.get('event_action')
+
+                hit.event_name = format.get('event_name')
+                if hit.event_name == '-':
+                    hit.event_name = None
+            except:
+                pass
 
             # Check if the hit must be excluded.
             if not all((method(hit) for method in self.check_methods)):
@@ -1680,7 +2022,7 @@ class Parser(object):
 
             if config.options.replay_tracking:
                 # we need a query string and we only consider requests with piwik.php
-                if not hit.query_string or not hit.path.lower().endswith('piwik.php'):
+                if not hit.query_string or not hit.path.lower().endswith(config.options.replay_tracking_expected_tracker_file):
                     invalid_line(line, 'no query string, or ' + hit.path.lower() + ' does not end with piwik.php')
                     continue
 
@@ -1704,6 +2046,20 @@ class Parser(object):
         # add last chunk of hits
         if len(hits) > 0:
             Recorder.add_hits(hits)
+
+    def _add_custom_vars_from_regex_groups(self, hit, format, groups, is_page_var):
+        for group_name, custom_var_name in groups.iteritems():
+            if group_name in format.get_all():
+                value = format.get(group_name)
+
+                # don't track the '-' empty placeholder value
+                if value == '-':
+                    continue
+
+                if is_page_var:
+                    hit.add_page_custom_var(custom_var_name, value)
+                else:
+                    hit.add_visit_custom_var(custom_var_name, value)
 
 def main():
     """
@@ -1729,10 +2085,6 @@ def main():
     if config.options.show_progress:
         stats.stop_monitor()
 
-    try:
-        Recorder.invalidate_reports()
-    except Piwik.Error, e:
-        pass
     stats.print_summary()
 
 def fatal_error(error, filename=None, lineno=None):

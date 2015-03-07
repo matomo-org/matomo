@@ -31,7 +31,6 @@
         "MenuUsers": "Usuaris",
         "MenuUserSettings": "Preferències d'usuari",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Nota: No podeu canviar la configuració en aquest secció, perquè no teniu cap lloc web que pot ser visitat per usuaris anònims.",
-        "PluginDescription": "Gestió dels usuaris a Piwik: Afegiu un nou Usuari, Editeu-n'hi un d'existent o actualitzeu els permisos. Totes aquestes accions també estan disponibles a traves de l'API.",
         "PrivAdmin": "Administració",
         "PrivNone": "Sense accés",
         "PrivView": "Vista",

@@ -38,7 +38,6 @@
         "PagesReportDocumentation": "Aquest informe conté les URL de les pàgines que s'han visitat. %s La taula s'organitza jerarquicament, i les URL es mostren amb estructura de directoris.",
         "PageTitlesReportDocumentation": "Aquest informe conté informació sobre els títols de les pàgines que s'han visitat. %s El títol de la pàgina es el tag HTML: %s, que es mostra al títol de la finestra en la majoría de navegadors.",
         "PageUrls": "URLs de les pàgines",
-        "PluginDescription": "Informe sobre les pàgines vistes, les enllaços de sortida i descarregues. Els enllaços de sortida i el seguiment de les descàrregues és automàtic.",
         "SiteSearchCategories1": "Aquest informe mostra les categoríes que han seleccionat els visitants quan han fet una cerca al vostre lloc web",
         "SiteSearchCategories2": "Per exemple, els llocs de Ecommers normalment tenen un selector de categoria que permet als visitants restringir les seves cerces als productes d'una Categoría concreta.",
         "SiteSearchFollowingPagesDoc": "Quan els visitants cerquen al teu lloc web, estan buscant una pàgina, un contingut, un producte o un servei en particular. Aquest informe mostra les pàgines que han estat clicades més vegades desprès d'una cerca interna. En altres paraules, la llista de pàgines que han estat més cercades pels visitants que ja están al vostre lloc web.",

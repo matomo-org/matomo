@@ -1,0 +1,11 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Configuration",
+        "ColumnResolution": "Resolusyon",
+        "Configurations": "Configurations",
+        "Resolutions": "Mga Resolution",
+        "WidgetGlobalVisitors": "Configuration ng bisita",
+        "WidgetGlobalVisitorsDocumentation": "Ang ulat na ito ay nagpapakita ng karaniwang pangkalahatang configuration na meron ang iyong bisita. Ang configuration ay binubuo ng operating system uri ng mga browser at screen resolution.",
+        "WidgetResolutions": "Screen Resolution"
+    }
+}

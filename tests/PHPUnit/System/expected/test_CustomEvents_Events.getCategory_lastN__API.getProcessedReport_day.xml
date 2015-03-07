@@ -80,12 +80,15 @@
 	<reportMetadata>
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
+				<segment>eventCategory==Movie</segment>
 				
 			</row>
 			<row>
+				<segment>eventCategory==Music</segment>
 				
 			</row>
 			<row>
+				<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
 				
 			</row>
 		</result>

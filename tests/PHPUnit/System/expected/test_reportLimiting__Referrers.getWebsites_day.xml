@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>4</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerName==whatever0.com</segment>
 		<subtable>
 			<row>
 				<label>http://whatever0.com/0</label>
@@ -45,6 +46,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerName==whatever1.com</segment>
 		<subtable>
 			<row>
 				<label>http://whatever1.com/0</label>

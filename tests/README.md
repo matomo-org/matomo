@@ -50,8 +50,8 @@ To execute the tests:
 
 3. 	Run the tests
 
-	$ cd /path/to/piwik
-	$ ./console tests:run --testsuite unit
+    $ cd /path/to/piwik
+    $ ./console tests:run --testsuite unit
     $ ./console tests:run --testsuite integration
     $ ./console tests:run --testsuite system
 
@@ -76,7 +76,7 @@ it tests only a single method or class. Sometimes two or three classes can still
  you have to pass a dummy class or something similar but it should actually only test one class or method.
   If it has a dependency to the filesystem, web, config, database or to other plugins it is not a unit test but an
   integration test. If the test is slow it is most likely not a unit test but an integration test as well.
-  "Slow" is of course very objective and also depends on the server but if your test does not have any dependencies
+  "Slow" is of course very subjective and also depends on the server but if your test does not have any dependencies
 your test will be really fast.
 
 It is an integration test if you have any dependency to a loaded plugin, to the filesystem, web, config, database or something
@@ -89,7 +89,7 @@ It is a system test if you - for instance - make a call to Piwik itself via HTTP
 Because they fail for different reasons and the duration of the test execution is different. This allows us to execute
 all unit tests and get a result very quick. Unit tests should not fail on different systems and just run everywhere for
  example no matter whether you are using NFS or not. Once the unit tests are green one would usually execute all integration
- tests to see whether the next stage works. They take a bit longer as they have depenencies to the database and filesystem.
+ tests to see whether the next stage works. They take a bit longer as they have dependencies to the database and filesystem.
  The system and ui tests take the most time to run as they always run through the whole code.
 
 Another advantage of running the tests separately is that we are getting a more accurate code coverage. For instance when
@@ -125,10 +125,14 @@ We also have an OmniFixture that includes all other Fixtures. OmniFixture is use
 
 #### Keep OmniFixture up to date
 
-Remember to update the [Omnifixture SQL dump](https://github.com/piwik/piwik/blob/master/tests/resources/OmniFixture-dump.sql.gz) whenever you make any change to any fixture. For instance use:
-    ./console tests:setup-fixture OmniFixture --sqldump=OmniFixture-dump.sql` and then gzip. 
+Remember to update the [Omnifixture SQL dump](https://github.com/piwik/piwik/blob/master/tests/resources/OmniFixture-dump.sql.gz) whenever you make any change to any fixture. You can use:
 
-Keeping the OmniFixture up to date makes it easier to see which tests fail after each small fixture change. If we don't update the OmniFixture then we end up with many failed screenshots tests which makes it hard to see whether those changes are expected or not.
+    ./console tests:setup-fixture OmniFixture --sqldump=OmniFixture-dump.sql
+    cat OmniFixture-dump.sql | gzip > tests/resources/OmniFixture-dump.sql.gz
+
+Keeping the OmniFixture up to date makes it easier to see which tests fail after each small fixture change. 
+
+If we don't update the OmniFixture then we end up with many failed screenshots tests which makes it hard to see whether those changes are expected or not.
 
 ### Scheduled Reports Tests
 

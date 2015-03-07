@@ -8,10 +8,8 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
-use Piwik\Option;
+use Piwik\Cache as PiwikCache;
 use Piwik\Settings\Storage;
-use Piwik\Settings\Setting;
-use Piwik\Tests\Integration\Settings\IntegrationTestCase;
 use Piwik\Tests\Integration\Settings\StorageTest;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\SettingsStorage;
@@ -44,11 +42,16 @@ class SettingsStorageTest extends StorageTest
     {
         $this->setSettingValueInCache('my0815RandomName');
 
-        $this->assertArrayHasKey('settingsStorage', Cache::getCacheGeneral());
+        $this->assertTrue($this->hasCache());
 
         SettingsStorage::clearCache();
 
-        $this->assertArrayNotHasKey('settingsStorage', Cache::getCacheGeneral());
+        $this->assertFalse($this->hasCache());
+    }
+
+    private function hasCache()
+    {
+        return $this->getCache()->contains($this->storage->getOptionKey());
     }
 
     public function test_storageShouldNotCastAnyCachedValue()
@@ -63,10 +66,12 @@ class SettingsStorageTest extends StorageTest
         $this->storage->setValue($this->setting, 5);
         $this->storage->save();
 
+        $this->assertFalse($this->hasCache());
         $this->assertNotFalse($this->getValueFromOptionTable()); // make sure saved in db
 
         $storage = $this->buildStorage();
         $this->assertEquals(5, $storage->getValue($this->setting));
+        $this->assertTrue($this->hasCache());
     }
 
     public function test_storageCreateACacheEntryIfNoCacheExistsYet()
@@ -76,38 +81,11 @@ class SettingsStorageTest extends StorageTest
 
         $this->setSettingValueAndMakeSureCacheGetsCreated('myVal');
 
-        $cache = Cache::getCacheGeneral();
+        $cache = $this->getCache()->fetch($this->storage->getOptionKey());
 
         $this->assertEquals(array(
-            $this->storage->getOptionKey() => array(
-                $this->setting->getKey() => 'myVal'
-            )
-        ), $cache['settingsStorage']);
-    }
-
-    public function test_shouldAddACacheEntryToAnotherCacheEntryAndNotOverwriteAll()
-    {
-        $dummyCacheEntry = array(
-            'Plugin_PluginNameOther_Settings' => array(
-                'anything' => 'anyval',
-                'any' => 'other'
-            )
-        );
-        Cache::setCacheGeneral(array(
-            'settingsStorage' => $dummyCacheEntry
-        ));
-
-        Option::set($this->storage->getOptionKey(), serialize(array('mykey' => 'myVal')));
-
-        $this->buildStorage()->getValue($this->setting); // force adding new cache entry
-
-        $cache = Cache::getCacheGeneral();
-
-        $dummyCacheEntry[$this->storage->getOptionKey()] = array(
-            'mykey' => 'myVal'
-        );
-
-        $this->assertEquals($dummyCacheEntry, $cache['settingsStorage']);
+            $this->setting->getKey() => 'myVal'
+        ), $cache);
     }
 
     protected function buildStorage()
@@ -115,14 +93,16 @@ class SettingsStorageTest extends StorageTest
         return new SettingsStorage('PluginName');
     }
 
+    private function getCache()
+    {
+        return PiwikCache::getEagerCache();
+    }
+
     private function setSettingValueInCache($value)
     {
-        Cache::setCacheGeneral(array(
-            'settingsStorage' => array(
-                $this->storage->getOptionKey() => array(
-                    $this->setting->getKey() => $value
-                )
-            )
+        $cache = $this->getCache();
+        $cache->save($this->storage->getOptionKey(), array(
+            $this->setting->getKey() => $value
         ));
     }
 

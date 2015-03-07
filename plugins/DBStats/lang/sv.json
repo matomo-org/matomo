@@ -10,7 +10,6 @@
         "MetricDataByYear": "Variabler per år",
         "MetricTables": "Variabeltabeller",
         "OtherTables": "Övriga tabeller",
-        "PluginDescription": "Denna plugin rapporterar Piwik's användning av tabeller i MySQL databasen.",
         "ReportDataByYear": "Raporttabeller per år",
         "ReportTables": "Rapporttabeller",
         "RowCount": "Radantal",

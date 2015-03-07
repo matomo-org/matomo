@@ -23,9 +23,7 @@ class UserSettings extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
-            'Live.getAllVisitorDetails'            => 'extendVisitorDetails',
-            'Request.dispatch'                     => 'mapDeprecatedActions'
+            'Request.getRenamedModuleAndAction'    => 'renameDeprecatedModuleAndAction',
         );
     }
 
@@ -35,9 +33,8 @@ class UserSettings extends \Piwik\Plugin
      * @deprecated since 2.10.0 and will be removed from May 1st 2015
      * @param $module
      * @param $action
-     * @param $parameters
      */
-    public function mapDeprecatedActions(&$module, &$action, &$parameters)
+    public function renameDeprecatedModuleAndAction(&$module, &$action)
     {
         $movedMethods = array(
             'getBrowser' => 'getBrowsers',
@@ -45,31 +42,24 @@ class UserSettings extends \Piwik\Plugin
             'getMobileVsDesktop' => 'getType',
             'getOS' => 'getOsVersions',
             'getOSFamily' => 'getOsFamilies',
-            'getBrowserType' => 'getBrowserEngines'
+            'getBrowserType' => 'getBrowserEngines',
         );
 
         if ($module == 'UserSettings' && array_key_exists($action, $movedMethods)) {
             $module = 'DevicesDetection';
             $action = $movedMethods[$action];
         }
+
+        if ($module == 'UserSettings' && ($action == 'getResolution' || $action == 'getConfiguration')) {
+            $module = 'Resolution';
+        }
+
+        if ($module == 'UserSettings' && ($action == 'getLanguage' || $action == 'getLanguageCode')) {
+            $module = 'UserLanguage';
+        }
+
+        if ($module == 'UserSettings' && $action == 'getPlugin') {
+            $module = 'DevicePlugins';
+        }
     }
-
-    public function extendVisitorDetails(&$visitor, $details)
-    {
-        $instance = new Visitor($details);
-
-        $visitor['resolution']               = $instance->getResolution();
-        $visitor['plugins']                  = $instance->getPlugins();
-        $visitor['pluginsIcons']             = $instance->getPluginIcons();
-    }
-
-    public function addMetricTranslations(&$translations)
-    {
-        $metrics = array(
-            'nb_visits_percentage' => Piwik::translate('General_ColumnPercentageVisits')
-        );
-
-        $translations = array_merge($translations, $metrics);
-    }
-
 }

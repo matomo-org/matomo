@@ -1,5 +1,10 @@
 {
     "DevicesDetection": {
-        "BrowserFamily": "Vafrafjölskylda"
+        "BrowserFamily": "Vafrafjölskylda",
+        "Browsers": "Vafrar",
+        "ColumnBrowser": "Vafri",
+        "ColumnOperatingSystem": "Stýrikerfi",
+        "OperatingSystems": "Stýrikerfi",
+        "WidgetBrowsers": "Vafrar gesta"
     }
 }

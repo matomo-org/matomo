@@ -9,14 +9,14 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveInvalidator;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Scheduler\Scheduler;
 use Piwik\Site;
-use Piwik\TaskScheduler;
 
 /**
- * @hideExceptForSuperUser
  * @method static \Piwik\Plugins\CoreAdminHome\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -25,23 +25,16 @@ class API extends \Piwik\Plugin\API
      * Will run all scheduled tasks due to run at this time.
      *
      * @return array
+     * @hideExceptForSuperUser
      */
     public function runScheduledTasks()
     {
         Piwik::checkUserHasSuperUserAccess();
-        return TaskScheduler::runTasks();
-    }
 
-    /**
-     * Return true if plugin is activated, false otherwise
-     *
-     * @param string $pluginName
-     * @return bool
-     */
-    public function isPluginActivated($pluginName)
-    {
-        Piwik::checkUserHasSomeViewAccess();
-        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated($pluginName);
+        /** @var Scheduler $scheduler */
+        $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
+
+        return $scheduler->run();
     }
 
     /**
@@ -59,11 +52,12 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $idSites Comma separated list of idSite that have had data imported for the specified dates
      * @param string $dates Comma separated list of dates to invalidate for all these websites
-     * @param string $period If specified (one of day, week, month, year, range) it will only delete archives for this period.
+     * @param string $period If specified (one of day, week, month, year, range) it will only invalidates archives for this period.
      *                      Note: because week, month, year, range reports aggregate day reports then you need to specifically invalidate day reports to see
      *                      other periods reports processed..
      * @throws Exception
      * @return array
+     * @hideExceptForSuperUser
      */
     public function invalidateArchivedReports($idSites, $dates, $period = false)
     {

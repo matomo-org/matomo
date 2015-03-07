@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Login;
 
 use Exception;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
 use Piwik\FrontController;
 use Piwik\Option;
@@ -31,7 +32,8 @@ class Login extends \Piwik\Plugin
             'Request.initAuthenticationObject' => 'initAuthenticationObject',
             'User.isNotAuthorized'             => 'noAccess',
             'API.Request.authenticate'         => 'ApiRequestAuthenticate',
-            'AssetManager.getJavaScriptFiles'  => 'getJsFiles'
+            'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles'
         );
         return $hooks;
     }
@@ -39,6 +41,12 @@ class Login extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/Login/javascripts/login.js";
+    }
+
+   public function getStylesheetFiles(&$stylesheetFiles)
+    {
+        $stylesheetFiles[] = "plugins/Login/stylesheets/login.less";
+        $stylesheetFiles[] = "plugins/Login/stylesheets/variables.less";
     }
 
     /**
@@ -58,8 +66,10 @@ class Login extends \Piwik\Plugin
      */
     public function ApiRequestAuthenticate($tokenAuth)
     {
-        \Piwik\Registry::get('auth')->setLogin($login = null);
-        \Piwik\Registry::get('auth')->setTokenAuth($tokenAuth);
+        /** @var \Piwik\Auth $auth */
+        $auth = StaticContainer::get('Piwik\Auth');
+        $auth->setLogin($login = null);
+        $auth->setTokenAuth($tokenAuth);
     }
 
     protected static function isModuleIsAPI()
@@ -75,7 +85,7 @@ class Login extends \Piwik\Plugin
     function initAuthenticationObject($activateCookieAuth = false)
     {
         $auth = new Auth();
-        \Piwik\Registry::set('auth', $auth);
+        StaticContainer::getContainer()->set('Piwik\Auth', $auth);
 
         $this->initAuthenticationFromCookie($auth, $activateCookieAuth);
     }

@@ -12,14 +12,15 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Archive;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\SitesManager\Model as ModelSitesManager;
+use Piwik\Scheduler\Scheduler;
 use Piwik\Site;
-use Piwik\TaskScheduler;
 
 /**
  * The MultiSites API lets you request the key metrics (visits, page views, revenue) for all Websites in Piwik.
@@ -86,13 +87,14 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $idSites = $this->getSitesIdFromPattern($pattern);
+        $sites = $this->getSitesIdFromPattern($pattern, $_restrictSitesToLogin);
 
-        if (empty($idSites)) {
+        if (empty($sites)) {
             return new DataTable();
         }
+
         return $this->buildDataTable(
-            $idSites,
+            $sites,
             $period,
             $date,
             $segment,
@@ -105,27 +107,56 @@ class API extends \Piwik\Plugin\API
     /**
      * Fetches the list of sites which names match the string pattern
      *
-     * @param $pattern
+     * @param string $pattern
+     * @param bool   $_restrictSitesToLogin
      * @return array|string
      */
-    private function getSitesIdFromPattern($pattern)
+    private function getSitesIdFromPattern($pattern, $_restrictSitesToLogin)
     {
-        $idSites = 'all';
+        // First clear cache
+        Site::clearCache();
+
         if (empty($pattern)) {
-            return $idSites;
-        }
-        $idSites = array();
-        $sites = Request::processRequest('SitesManager.getPatternMatchSites',
-            array('pattern'   => $pattern,
-                  // added because caller could overwrite these
-                  'serialize' => 0,
-                  'format'    => 'original'));
-        if (!empty($sites)) {
-            foreach ($sites as $site) {
-                $idSites[] = $site['idsite'];
+
+            /** @var Scheduler $scheduler */
+            $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
+            // Then, warm the cache with only the data we should have access to
+            if (Piwik::hasUserSuperUserAccess()
+                // Hack: when this API function is called as a Scheduled Task, Super User status is enforced.
+                // This means this function would return ALL websites in all cases.
+                // Instead, we make sure that only the right set of data is returned
+                && !$scheduler->isRunningTask()
+            ) {
+                APISitesManager::getInstance()->getAllSites();
+            } else {
+                APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin);
+            }
+
+        } else {
+            $sites = Request::processRequest('SitesManager.getPatternMatchSites',
+                array('pattern'   => $pattern,
+                      // added because caller could overwrite these
+                      'showColumns' => '',
+                      'hideColumns' => '',
+                      'serialize'   => 0,
+                      'format'      => 'original'));
+
+            if (!empty($sites)) {
+                $idSites = array();
+                foreach ($sites as $site) {
+                    $idSites[] = $site['idsite'];
+                }
+
+                $model = new ModelSitesManager();
+                $sites = $model->getSitesFromIds($idSites); // getPatternMatchSites does not return all sites information...
+                Site::setSitesFromArray($sites);
             }
         }
-        return $idSites;
+
+        // Both calls above have called Site::setSitesFromArray. We now get these sites:
+        $sitesToProblablyAdd = Site::getSites();
+
+        return $sitesToProblablyAdd;
     }
 
     /**
@@ -144,8 +175,11 @@ class API extends \Piwik\Plugin\API
     public function getOne($idSite, $period, $date, $segment = false, $_restrictSitesToLogin = false, $enhanced = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
+
+        $sites = $this->getSiteFromId($idSite);
+
         return $this->buildDataTable(
-            $idSite,
+            $sites,
             $period,
             $date,
             $segment,
@@ -155,35 +189,26 @@ class API extends \Piwik\Plugin\API
         );
     }
 
-    private function buildDataTable($idSitesOrIdSite, $period, $date, $segment, $_restrictSitesToLogin, $enhanced, $multipleWebsitesRequested)
+    private function getSiteFromId($idSite)
     {
-        $allWebsitesRequested = ($idSitesOrIdSite == 'all');
-        if ($allWebsitesRequested) {
-            // First clear cache
-            Site::clearCache();
-            // Then, warm the cache with only the data we should have access to
-            if (Piwik::hasUserSuperUserAccess()
-                // Hack: when this API function is called as a Scheduled Task, Super User status is enforced.
-                // This means this function would return ALL websites in all cases.
-                // Instead, we make sure that only the right set of data is returned
-                && !TaskScheduler::isTaskBeingExecuted()
-            ) {
-                APISitesManager::getInstance()->getAllSites();
-            } else {
-                APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin);
+        $idSite = (int) $idSite;
+        $sites = array(APISitesManager::getInstance()->getSiteFromId($idSite));
+
+        return $sites;
+    }
+
+    private function buildDataTable($sitesToProblablyAdd, $period, $date, $segment, $_restrictSitesToLogin, $enhanced, $multipleWebsitesRequested)
+    {
+        $idSites = array();
+        if (!empty($sitesToProblablyAdd)) {
+            foreach ($sitesToProblablyAdd as $site) {
+                $idSites[] = $site['idsite'];
             }
-            // Both calls above have called Site::setSitesFromArray. We now get these sites:
-            $sitesToProblablyAdd = Site::getSites();
-        } else if (is_array($idSitesOrIdSite)) {
-            $model = new ModelSitesManager();
-            $sitesToProblablyAdd = $model->getSitesFromIds($idSitesOrIdSite);
-        } else {
-            $sitesToProblablyAdd = array(APISitesManager::getInstance()->getSiteFromId($idSitesOrIdSite));
         }
 
         // build the archive type used to query archive data
         $archive = Archive::build(
-            $idSitesOrIdSite,
+            $idSites,
             $period,
             $date,
             $segment,
@@ -208,7 +233,10 @@ class API extends \Piwik\Plugin\API
         // $dataTable instanceOf Set
         $dataTable = $archive->getDataTableFromNumeric($fieldsToGet);
 
-        $dataTable = $this->mergeDataTableMapAndPopulateLabel($idSitesOrIdSite, $multipleWebsitesRequested, $dataTable);
+        if ($multipleWebsitesRequested && count($idSites) === 1 && Range::isMultiplePeriod($date, $period)) {
+        } else {
+            $dataTable = $this->mergeDataTableMapAndPopulateLabel($idSites, $multipleWebsitesRequested, $dataTable);
+        }
 
         if ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getDataTables() as $table) {
@@ -234,11 +262,15 @@ class API extends \Piwik\Plugin\API
                 $dataTable->setMetadata(self::getLastPeriodMetadataName('date'), $lastPeriod);
             }
 
-            $pastArchive = Archive::build($idSitesOrIdSite, $period, $strLastDate, $segment, $_restrictSitesToLogin);
+            $pastArchive = Archive::build($idSites, $period, $strLastDate, $segment, $_restrictSitesToLogin);
 
             $pastData = $pastArchive->getDataTableFromNumeric($fieldsToGet);
 
-            $pastData = $this->mergeDataTableMapAndPopulateLabel($idSitesOrIdSite, $multipleWebsitesRequested, $pastData);
+            if ($multipleWebsitesRequested && count($idSites) === 1 && Range::isMultiplePeriod($date, $period)) {
+
+            } else {
+                $pastData = $this->mergeDataTableMapAndPopulateLabel($idSites, $multipleWebsitesRequested, $pastData);
+            }
 
             // use past data to calculate evolution percentages
             $this->calculateEvolutionPercentages($dataTable, $pastData, $apiMetrics);
@@ -256,13 +288,8 @@ class API extends \Piwik\Plugin\API
             $dataTable->queueFilter('ColumnDelete', array('label'));
         }
 
-        Site::clearCache();
-
         // replace record names with user friendly metric names
         $dataTable->queueFilter('ReplaceColumnNames', array($columnNameRewrites));
-
-        // Ensures data set sorted, for Metadata output
-        $dataTable->filter('Sort', array(self::NB_VISITS_METRIC, 'desc', $naturalSort = false));
 
         // filter rows without visits
         // note: if only one website is queried and there are no visits, we can not remove the row otherwise

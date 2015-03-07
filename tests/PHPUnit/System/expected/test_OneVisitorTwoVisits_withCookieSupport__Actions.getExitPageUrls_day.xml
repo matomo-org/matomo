@@ -17,6 +17,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.024</avg_time_generation>
 		<url>http://example.org/index.htm</url>
+		<segment>exitPageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 	</row>
 	<row>
 		<label>store</label>

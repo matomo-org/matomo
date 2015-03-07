@@ -33,7 +33,6 @@
         "NotFound": "Nerasta svetainių",
         "NoWebsites": "Neturite jokių svetainių administravimui.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik automatiškai neįtrauks paplitusių sesijos parametrų (%s).",
-        "PluginDescription": "Svetainių administravimas: Pridėkite naujas svetaines, redaguokite esamas, gaukite Javascript kodą įkėlimui į savo svetainę. Visi šie veiksmai taip pat pasiekiami per API sąsają.",
         "SelectACity": "Pasirinkite miestą",
         "SelectDefaultCurrency": "Galite pasirinkti numatytąją valiutą naujoms svetainėms.",
         "SelectDefaultTimezone": "Galite pasirinkti numatytąją laiko juostą naujoms svetainėms.",

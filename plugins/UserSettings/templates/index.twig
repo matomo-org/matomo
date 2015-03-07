@@ -1,16 +1,18 @@
 <div id='leftcolumn'>
+    {% if dataTablePlugin|default is not empty %}
     <h2 piwik-enriched-headline>{{ 'General_Plugins'|translate }}</h2>
     {{ dataTablePlugin|raw }}
-
-    <h2 piwik-enriched-headline>{{ 'UserSettings_BrowserLanguage'|translate }}</h2>
-    {{ dataTableBrowserLanguage|raw }}
+    {% endif %}
 </div>
 
 <div id='rightcolumn'>
-
-    <h2 piwik-enriched-headline>{{ 'UserSettings_Resolutions'|translate }}</h2>
+    {% if dataTableResolution|default is not empty %}
+    <h2 piwik-enriched-headline>{{ 'Resolution_Resolutions'|translate }}</h2>
     {{ dataTableResolution|raw }}
+    {% endif %}
 
-    <h2 piwik-enriched-headline>{{ 'UserSettings_Configurations'|translate }}</h2>
+    {% if dataTableConfiguration|default is not empty %}
+    <h2 piwik-enriched-headline>{{ 'Resolution_Configurations'|translate }}</h2>
     {{ dataTableConfiguration|raw }}
+    {% endif %}
 </div>

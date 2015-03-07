@@ -5,7 +5,7 @@
         "DayOfWeek": "Wochentag",
         "LocalTime": "Besuche nach lokaler Zeit",
         "NHour": "%sh",
-        "PluginDescription": "Berichte über die lokale Zeit des Besuchers und Serverzeit. Diese Informationen können hilfreich sein, um Wartungszeiträume für die Webseite zu planen.",
+        "PluginDescription": "Liefert die lokale Zeit und die Serverzeit, an der Ihre Besucher Ihre Webseite oder App besucht hatten.",
         "ServerTime": "Besuche nach Server-Zeit",
         "SubmenuTimes": "Zeiten",
         "VisitsByDayOfWeek": "Besuche nach Wochentagen",

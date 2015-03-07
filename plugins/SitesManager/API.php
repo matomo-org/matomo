@@ -11,6 +11,7 @@ namespace Piwik\Plugins\SitesManager;
 use Exception;
 use Piwik\Access;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Metrics\Formatter;
@@ -18,10 +19,10 @@ use Piwik\Network\IPUtils;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
+use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
-use Piwik\TaskScheduler;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
 use Piwik\Url;
@@ -182,6 +183,7 @@ class API extends \Piwik\Plugin\API
         $site = $this->getModel()->getSiteFromId($idSite);
 
         Site::setSitesFromArray(array($site));
+
         return $site;
     }
 
@@ -350,7 +352,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin = false)
     {
-        if (Piwik::hasUserSuperUserAccess() && !TaskScheduler::isTaskBeingExecuted()) {
+        /** @var Scheduler $scheduler */
+        $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
+
+        if (Piwik::hasUserSuperUserAccess() && !$scheduler->isRunningTask()) {
             return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
         }
 
@@ -359,7 +364,7 @@ class API extends \Piwik\Plugin\API
             // but during scheduled task execution, we sometimes want to restrict sites to
             // a different login than the superuser.
             && (Piwik::hasUserSuperUserAccessOrIsTheUser($_restrictSitesToLogin)
-                || TaskScheduler::isTaskBeingExecuted())
+                || $scheduler->isRunningTask())
         ) {
 
             if (Piwik::hasTheUserSuperUserAccess($_restrictSitesToLogin)) {
@@ -598,9 +603,6 @@ class API extends \Piwik\Plugin\API
         }
 
         $this->getModel()->deleteSite($idSite);
-
-        // we do not delete logs here on purpose (you can run these queries on the log_ tables to delete all data)
-        Cache::deleteCacheWebsiteAttributes($idSite);
 
         /**
          * Triggered after a site has been deleted.

@@ -1,14 +1,22 @@
 {
     "DevicesDetection": {
         "BrowserFamily": "Nettleserfamilie",
+        "Browsers": "Nettlesere",
         "BrowserVersion": "Nettleserversjon",
         "BrowserVersions": "Nettleser-versjoner",
         "Camera": "Kamera",
+        "CarBrowser": "Nettleser i bil",
+        "ColumnBrowser": "Nettleser",
+        "ColumnOperatingSystem": "Operativsystem",
+        "Console": "Konsoll",
         "dataTableLabelModels": "Modell",
+        "dataTableLabelTypes": "Type",
         "Device": "Enhet",
+        "OperatingSystems": "Operativsystem",
         "Smartphone": "Smarttelefon",
         "submenu": "Enheter",
         "Tablet": "Nettbrett",
-        "TV": "TV"
+        "TV": "TV",
+        "WidgetBrowsers": "Besøkendes nettlesere"
     }
 }

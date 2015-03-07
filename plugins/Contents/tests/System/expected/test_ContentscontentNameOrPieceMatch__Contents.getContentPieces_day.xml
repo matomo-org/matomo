@@ -8,6 +8,7 @@
 		<nb_interactions>2</nb_interactions>
 		<interaction_rate>50%</interaction_rate>
 		<contentTarget>http://piwik.org/download</contentTarget>
+		<segment>contentPiece==Click+to+download+Piwik+now</segment>
 	</row>
 	<row>
 		<label>/path/ad.jpg</label>
@@ -17,6 +18,7 @@
 		<nb_interactions>2</nb_interactions>
 		<interaction_rate>100%</interaction_rate>
 		<contentTarget>http://www.example.com</contentTarget>
+		<segment>contentPiece==%2Fpath%2Fad.jpg</segment>
 	</row>
 	<row>
 		<label>/path/ad2.jpg</label>
@@ -26,6 +28,7 @@
 		<nb_interactions>0</nb_interactions>
 		<interaction_rate>0%</interaction_rate>
 		<contentTarget>http://www.example.com</contentTarget>
+		<segment>contentPiece==%2Fpath%2Fad2.jpg</segment>
 	</row>
 	<row>
 		<label>Content Piece not defined</label>
@@ -44,5 +47,6 @@
 		<nb_interactions>0</nb_interactions>
 		<interaction_rate>0%</interaction_rate>
 		<contentTarget />
+		<segment>contentPiece==Unknown</segment>
 	</row>
 </result>

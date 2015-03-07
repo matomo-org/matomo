@@ -10,7 +10,6 @@
         "ColumnReturningVisits": "Vizita Rikthim",
         "ColumnSumVisitLengthReturning": "Kohë e shpenzuar nga vizitorë të rikthyer (në sekonda) gjithsej",
         "ColumnUniqueReturningVisitors": "Vizitorë të rikthyer unikë",
-        "PluginDescription": "Raporton statistika të ndryshme rreth Vizitorë të Rikthyer kundrejt vizitorëve që vijnë për herë të Parë.",
         "ReturnActions": "%s veprime nga vizita rikthim",
         "ReturnAverageVisitDuration": "%s mesatare zgjatjeje vizite për vizitorë të rikthyer",
         "ReturnAvgActions": "%s veprime për vizitë të rikthyer",

@@ -1,5 +1,11 @@
 <?php
 
+use Piwik\Container\StaticContainer;
+use Piwik\Http;
+use Piwik\Intl\Locale;
+use Piwik\Config;
+use Piwik\SettingsPiwik;
+
 define('PIWIK_TEST_MODE', true);
 define('PIWIK_PRINT_ERROR_BACKTRACE', false);
 
@@ -15,6 +21,7 @@ if (!defined('PIWIK_USER_PATH')) {
 if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', PIWIK_PATH_TEST_TO_ROOT);
 }
+
 if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
     define('PIWIK_INCLUDE_SEARCH_PATH', get_include_path()
         . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/vendor/bin'
@@ -25,28 +32,24 @@ if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
 @ini_set('include_path', PIWIK_INCLUDE_SEARCH_PATH);
 @set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
 @ini_set('memory_limit', -1);
-error_reporting(E_ALL | E_NOTICE);
-@date_default_timezone_set('UTC');
 
-require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
+require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 
-\Piwik\Loader::init();
-
-require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
-require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/DatabaseTestCase.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BenchmarkTestCase.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
+require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
 
 if (getenv('PIWIK_USE_XHPROF') == 1) {
     \Piwik\Profiler::setupProfilerXHProf();
 }
 
+// setup container for tests
+StaticContainer::setEnvironment('test');
+
+\Piwik\Config::getInstance()->setTestEnvironment();
+
 // require test fixtures
 $fixturesToLoad = array(
-    '/tests/PHPUnit/UI/Fixtures/*.php',
+    '/tests/UI/Fixtures/*.php',
     '/plugins/*/tests/Fixtures/*.php',
     '/plugins/*/Test/Fixtures/*.php',
 );
@@ -56,10 +59,11 @@ foreach($fixturesToLoad as $fixturePath) {
     }
 }
 
-function prepareServerVariables()
+Locale::setDefaultLocale();
+
+function prepareServerVariables(Config $config)
 {
-    \Piwik\Config::getInstance()->init();
-    $testConfig = \Piwik\Config::getInstance()->tests;
+    $testConfig = $config->tests;
 
     if ('@REQUEST_URI@' === $testConfig['request_uri']) {
         // config not done yet, if Piwik is installed we can automatically configure request_uri and http_host
@@ -69,8 +73,8 @@ function prepareServerVariables()
             $parsedUrl = parse_url($url);
             $testConfig['request_uri'] = $parsedUrl['path'];
             $testConfig['http_host']   = $parsedUrl['host'];
-            \Piwik\Config::getInstance()->tests = $testConfig;
-            \Piwik\Config::getInstance()->forceSave();
+            $config->tests = $testConfig;
+            $config->forceSave();
         }
     }
 
@@ -79,12 +83,40 @@ function prepareServerVariables()
     $_SERVER['REMOTE_ADDR'] = $testConfig['remote_addr'];
 }
 
-prepareServerVariables();
+function prepareTestDatabaseConfig(Config $config)
+{
+    $testDb = $config->database_tests;
 
-// General requirement checks & help: a webserver must be running for tests to work if not running UnitTests!
-if (empty($_SERVER['argv']) || !in_array('UnitTests', $_SERVER['argv'])) {
-    checkPiwikSetupForTests();
+    if ('@USERNAME@' !== $testDb['username']) {
+        return; // testDb is already configured, we do not want to overwrite any existing settings.
+    }
+
+    $db = $config->database;
+    $testDb['username'] = $db['username'];
+
+    if (empty($testDb['password'])) {
+        $testDb['password'] = $db['password'];
+    }
+
+    if (empty($testDb['host'])) {
+        $testDb['host'] = $db['host'];
+    }
+
+    $testDb['tables_prefix'] = ''; // tables_prefix has to be empty for UI tests
+
+    $config->database_tests = $testDb;
+    $config->forceSave();
 }
+
+if (!SettingsPiwik::isPiwikInstalled()) {
+    throw new Exception('Piwik needs to be installed in order to run the tests');
+}
+
+$config = Config::getInstance();
+$config->init();
+prepareServerVariables($config);
+prepareTestDatabaseConfig($config);
+checkPiwikSetupForTests();
 
 function checkPiwikSetupForTests()
 {
@@ -104,7 +136,5 @@ remote_addr = \"127.0.0.1\"
 Try again.";
         exit(1);
     }
-    $baseUrl = \Piwik\Tests\Framework\Fixture::getRootUrl();
 
-    \Piwik\SettingsPiwik::checkPiwikServerWorking($baseUrl, $acceptInvalidSSLCertificates = true);
 }

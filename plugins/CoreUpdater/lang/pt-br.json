@@ -29,7 +29,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik foi atualizado com sucesso!",
         "PiwikUpdatedSuccessfully": "Piwik atualizado com sucesso!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "O banco de dados do Piwik será atualizado da versão %1$s para a nova versão %2$s.",
-        "PluginDescription": "Mecanismo de update Piwik",
         "ReadyToGo": "Pronto(a) para ir?",
         "TheFollowingPluginsWillBeUpgradedX": "Os seguintes plugins serão atualizados: %s.",
         "ThereIsNewVersionAvailableForUpdate": "Há uma nova versão do Piwik disponível para atualização",

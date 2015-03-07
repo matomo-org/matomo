@@ -46,7 +46,7 @@ use Piwik\Log;
  *
  * **Basic Usage**
  *
- *     $request = new Request('method=UserSettings.getLanguage&idSite=1&date=yesterday&period=week'
+ *     $request = new Request('method=UserLanguage.getLanguage&idSite=1&date=yesterday&period=week'
  *                          . '&format=xml&filter_limit=5&filter_offset=0')
  *     $result = $request->process();
  *     echo $result;
@@ -54,7 +54,7 @@ use Piwik\Log;
  * **Getting a unrendered DataTable**
  *
  *     // use the convenience method 'processRequest'
- *     $dataTable = Request::processRequest('UserSettings.getLanguage', array(
+ *     $dataTable = Request::processRequest('UserLanguage.getLanguage', array(
  *         'idSite' => 1,
  *         'date' => 'yesterday',
  *         'period' => 'week',
@@ -77,8 +77,8 @@ class Request
      * mappings. The current query parameters (everything in `$_GET` and `$_POST`) are
      * forwarded to request array before it is returned.
      *
-     * @param string|array $request The base request string or array, eg,
-     *                              `'module=UserSettings&action=getLanguage'`.
+     * @param string|array|null $request The base request string or array, eg,
+     *                                   `'module=UserLanguage&action=getLanguage'`.
      * @param array $defaultRequest Default query parameters. If a query parameter is absent in `$request`, it will be loaded
      *                              from this. Defaults to `$_GET + $_POST`.
      * @return array
@@ -125,7 +125,7 @@ class Request
      * Constructor.
      *
      * @param string|array $request Query string that defines the API call (must at least contain a **method** parameter),
-     *                              eg, `'method=UserSettings.getLanguage&idSite=1&date=yesterday&period=week&format=xml'`
+     *                              eg, `'method=UserLanguage.getLanguage&idSite=1&date=yesterday&period=week&format=xml'`
      *                              If a request is not provided, then we use the values in the `$_GET` and `$_POST`
      *                              superglobals.
      * @param array $defaultRequest Default query parameters. If a query parameter is absent in `$request`, it will be loaded
@@ -135,6 +135,7 @@ class Request
     {
         $this->request = self::getRequestArrayFromString($request, $defaultRequest);
         $this->sanitizeRequest();
+        $this->renameModuleAndActionInRequest();
     }
 
     /**
@@ -142,19 +143,23 @@ class Request
      * we rewrite to correct renamed plugin: Referrers
      *
      * @param $module
-     * @return string
+     * @param $action
+     * @return array( $module, $action )
      * @ignore
      */
-    public static function renameModule($module)
+    public static function getRenamedModuleAndAction($module, $action)
     {
-        $moduleToRedirect = array(
-            'Referers'   => 'Referrers',
-            'PDFReports' => 'ScheduledReports',
-        );
-        if (isset($moduleToRedirect[$module])) {
-            return $moduleToRedirect[$module];
-        }
-        return $module;
+        /**
+         * This event is posted in the Request dispatcher and can be used
+         * to overwrite the Module and Action to dispatch.
+         * This is useful when some Controller methods or API methods have been renamed or moved to another plugin.
+         *
+         * @param $module string
+         * @param $action string
+         */
+        Piwik::postEvent('Request.getRenamedModuleAndAction', array(&$module, &$action));
+
+        return array($module, $action);
     }
 
     /**
@@ -213,12 +218,12 @@ class Request
 
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
 
-            $module = $this->renameModule($module);
+            list($module, $method) = self::getRenamedModuleAndAction($module, $method);
 
             if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated($module)) {
                 throw new PluginDeactivatedException($module);
             }
-            $apiClassName = $this->getClassNameAPI($module);
+            $apiClassName = self::getClassNameAPI($module);
 
             self::reloadAuthUsingTokenAuth($this->request);
 
@@ -265,7 +270,7 @@ class Request
              * query parameter is found in the request.
              *
              * Plugins that provide authentication capabilities should subscribe to this event
-             * and make sure the global authentication object (the object returned by `Registry::get('auth')`)
+             * and make sure the global authentication object (the object returned by `StaticContainer::get('Piwik\Auth')`)
              * is setup to use `$token_auth` when its `authenticate()` method is executed.
              *
              * @param string $token_auth The value of the **token_auth** query parameter.
@@ -411,5 +416,16 @@ class Request
             }
         }
         return $segmentRaw;
+    }
+
+    private function renameModuleAndActionInRequest()
+    {
+        if (empty($this->request['apiModule'])) {
+            return;
+        }
+        if (empty($this->request['apiAction'])) {
+            $this->request['apiAction'] = null;
+        }
+        list($this->request['apiModule'], $this->request['apiAction']) = $this->getRenamedModuleAndAction($this->request['apiModule'], $this->request['apiAction']);
     }
 }

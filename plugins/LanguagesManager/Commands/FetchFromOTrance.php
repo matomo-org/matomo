@@ -11,6 +11,8 @@ namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Unzip;
+use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\ProgressHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,7 +25,7 @@ class FetchFromOTrance extends TranslationBase
 
     protected function configure()
     {
-        $path = StaticContainer::getContainer()->get('path.tmp') . self::DOWNLOAD_PATH;
+        $path = StaticContainer::get('path.tmp') . self::DOWNLOAD_PATH;
 
         $this->setName('translations:fetch')
              ->setDescription('Fetches translations files from oTrance to ' . $path)
@@ -36,6 +38,7 @@ class FetchFromOTrance extends TranslationBase
     {
         $output->writeln("Starting to fetch latest language pack");
 
+        /** @var DialogHelper $dialog */
         $dialog = $this->getHelperSet()->get('dialog');
 
         $cookieFile = self::getDownloadPath() . DIRECTORY_SEPARATOR . 'cookie.txt';
@@ -139,6 +142,7 @@ class FetchFromOTrance extends TranslationBase
 
         $output->writeln("Converting downloaded php files to json");
 
+        /** @var ProgressHelper $progress */
         $progress = $this->getHelperSet()->get('progress');
 
         $progress->start($output, count($filesToConvert));
@@ -167,7 +171,7 @@ class FetchFromOTrance extends TranslationBase
 
     public static function getDownloadPath()
     {
-        $path = StaticContainer::getContainer()->get('path.tmp') . self::DOWNLOAD_PATH;
+        $path = StaticContainer::get('path.tmp') . self::DOWNLOAD_PATH;
 
         if (!is_dir($path)) {
             mkdir($path);

@@ -9,13 +9,21 @@
 namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Access;
+use Piwik\Cache;
+use Piwik\CacheId;
+use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Date;
 use Piwik\Network\IPUtils;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
+use Piwik\Tracker\ActionPageview;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visit;
 use Piwik\Tracker\VisitExcluded;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Visitor;
 
 /**
  * @group Core
@@ -31,7 +39,8 @@ class VisitTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
 
-        Manager::getInstance()->loadPlugins(array('SitesManager'));
+        Manager::getInstance()->loadTrackerPlugins();
+        Manager::getInstance()->loadPlugin('SitesManager');
     }
 
     /**
@@ -151,8 +160,13 @@ class VisitTest extends IntegrationTestCase
             'http://semalt.com' => true,
             'http://semalt.com/random/sub/page' => true,
             'http://semalt.com/out/of/here?mate' => true,
+            'http://buttons-for-website.com/out/of/here?mate' => true,
+            'https://buttons-for-website.com' => true,
+            'https://make-money-online.7makemoneyonline.com' => true,
+            'https://7makemoneyonline.com' => true,
             'http://valid.domain/' => false,
             'http://valid.domain/page' => false,
+            'https://valid.domain/page' => false,
         );
         API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
 
@@ -181,6 +195,10 @@ class VisitTest extends IntegrationTestCase
             '66.249.85.36' => true,
             '66.249.91.150' => true,
             '64.233.172.1' => true,
+            '64.233.172.200' => true,
+            '66.249.88.216' => true,
+            '66.249.83.204' => true,
+            '64.233.172.6' => true,
 
             // ddos bot
             '1.202.218.8' => true,
@@ -188,6 +206,9 @@ class VisitTest extends IntegrationTestCase
             // Not bots
             '66.248.91.150' => false,
             '66.250.91.150' => false,
+            // almost google range but not google
+            '66.249.2.1' => false,
+            '66.249.60.1' => false,
         );
 
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
@@ -248,6 +269,187 @@ class VisitTest extends IntegrationTestCase
 
             $this->assertSame($isBot, $excluded->public_isNonHumanBot(), $userAgent);
         }
+    }
+
+    public function test_isVisitNew_ReturnsFalse_IfLastActionTimestampIsWithinVisitTimeLength_AndNoDimensionForcesVisit_AndVisitorKnown()
+    {
+        $this->setDimensionsWithOnNewVisit(array(false, false, false));
+
+        /** @var Visit $visit */
+        list($visit, $visitor, $action) = $this->makeVisitorAndAction(
+            $lastActionTime = '2012-01-02 08:08:34', $thisActionTime = '2012-01-02 08:12:45', $isVisitorKnown = true);
+
+        $result = $visit->isVisitNew($visitor, $action);
+
+        $this->assertFalse($result);
+    }
+
+    public function test_isVisitNew_ReturnsTrue_IfLastActionTimestampWasYesterday()
+    {
+        $this->setDimensionsWithOnNewVisit(array(false, false, false));
+
+        // test same day
+        /** @var Visit $visit */
+        list($visit, $visitor, $action) = $this->makeVisitorAndAction(
+            $lastActionTime = '2012-01-01 23:59:58', $thisActionTime = '2012-01-01 23:59:59', $isVisitorKnown = true);
+        $result = $visit->isVisitNew($visitor, $action);
+        $this->assertFalse($result);
+
+        // test different day
+        list($visit, $visitor, $action) = $this->makeVisitorAndAction(
+        $lastActionTime = '2012-01-01 23:59:58', $thisActionTime = '2012-01-02 00:00:01', $isVisitorKnown = true);
+        $result = $visit->isVisitNew($visitor, $action);
+        $this->assertTrue($result);
+    }
+
+    public function test_markArchivedReportsAsInvalidIfArchiveAlreadyFinished_ShouldRemember_IfRequestWasDoneLongAgo()
+    {
+        $currentActionTime = '2012-01-02 08:12:45';
+        $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
+
+        $expectedRemembered = array('2012-01-02' => array($idsite));
+
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime, $expectedRemembered);
+    }
+
+    public function test_markArchivedReportsAsInvalidIfArchiveAlreadyFinished_ShouldNotRemember_IfRequestWasDoneJustAtStartOfTheDay()
+    {
+        $currentActionTime = Date::today()->getDatetime();
+        $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
+
+        $expectedRemembered = array();
+
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime, $expectedRemembered);
+    }
+
+    public function test_markArchivedReportsAsInvalidIfArchiveAlreadyFinished_ShouldRemember_IfRequestWasDoneAt11PMTheDayBefore()
+    {
+        $currentActionTime = Date::today()->subHour(1)->getDatetime();
+        $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
+
+        $expectedRemembered = array(
+            substr($currentActionTime, 0, 10) => array($idsite)
+        );
+
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime, $expectedRemembered);
+    }
+
+    public function test_markArchivedReportsAsInvalidIfArchiveAlreadyFinished_shouldConsiderWebsitesTimezone()
+    {
+        $timezone1 = 'UTC+4';
+        $timezone2 = 'UTC+6';
+
+        $currentActionTime1 = Date::today()->setTimezone($timezone1)->getDatetime();
+        $currentActionTime2 = Date::today()->setTimezone($timezone2)->getDatetime();
+        $idsite = API::getInstance()->addSite('name', 'http://piwik.net/', $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParameters = null,
+            $timezone = 'UTC+5');
+
+        $expectedRemembered = array(
+            substr($currentActionTime1, 0, 10) => array($idsite)
+        );
+
+        // if website timezone was von considered both would be today (expected = array())
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime1, array());
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime2, $expectedRemembered);
+    }
+
+    private function assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $requestDate, $expectedRemeberedArchivedReports)
+    {
+        /** @var Visit $visit */
+        list($visit) = $this->prepareVisitWithRequest(array(
+            'idsite' => $idsite,
+            'rec' => 1,
+            'cip' => '156.146.156.146',
+            'token_auth' => Fixture::getTokenAuth()
+        ), $requestDate);
+
+        $visit->handle();
+
+        $archive = new ArchiveInvalidator();
+        $remembered = $archive->getRememberedArchivedReportsThatShouldBeInvalidated();
+
+        $this->assertSame($expectedRemeberedArchivedReports, $remembered);
+    }
+
+    private function prepareVisitWithRequest($requestParams, $requestDate)
+    {
+        $request = new Request($requestParams);
+        $request->setCurrentTimestamp(Date::factory($requestDate)->getTimestamp());
+
+        $visit = new Visit();
+        $visit->setRequest($request);
+
+        $visit->handle();
+
+        return array($visit, $request);
+    }
+
+    public function test_isVisitNew_ReturnsTrue_IfLastActionTimestampIsNotWithinVisitTimeLength_AndNoDimensionForcesVisit_AndVisitorNotKnown()
+    {
+        $this->setDimensionsWithOnNewVisit(array(false, false, false));
+
+        /** @var Visit $visit */
+        list($visit, $visitor, $action) = $this->makeVisitorAndAction($lastActionTime = '2012-01-02 08:08:34', $thisActionTime = '2012-01-02 09:12:45');
+
+        $result = $visit->isVisitNew($visitor, $action);
+
+        $this->assertTrue($result);
+    }
+
+    public function test_isVisitNew_ReturnsTrue_IfLastActionTimestampIsWithinVisitTimeLength_AndDimensionForcesVisit()
+    {
+        $this->setDimensionsWithOnNewVisit(array(false, false, true));
+
+        /** @var Visit $visit */
+        list($visit, $visitor, $action) = $this->makeVisitorAndAction($lastActionTime = '2012-01-02 08:08:34', $thisActionTime = '2012-01-02 08:12:45');
+
+        $result = $visit->isVisitNew($visitor, $action);
+
+        $this->assertTrue($result);
+    }
+
+    public function test_isVisitNew_ReturnsTrue_IfDimensionForcesVisit_AndVisitorKnown()
+    {
+        $this->setDimensionsWithOnNewVisit(array(false, false, true));
+
+        /** @var Visit $visit */
+        list($visit, $visitor, $action) = $this->makeVisitorAndAction($lastActionTime = '2012-01-02 08:08:34', $thisActionTime = '2012-01-02 08:12:45');
+
+        $result = $visit->isVisitNew($visitor, $action);
+
+        $this->assertTrue($result);
+    }
+
+    private function makeVisitorAndAction($lastActionTimestamp, $currentActionTime, $isVisitorKnown = false)
+    {
+        $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
+
+        list($visit, $request) = $this->prepareVisitWithRequest(array('idsite' => $idsite), $currentActionTime);
+
+        $visitor = new Visitor($request, 'configid', array('visit_last_action_time' => Date::factory($lastActionTimestamp)->getTimestamp()));
+        $visitor->setIsVisitorKnown($isVisitorKnown);
+
+        $action = new ActionPageview($request);
+
+        return array($visit, $visitor, $action);
+    }
+
+    private function setDimensionsWithOnNewVisit($dimensionOnNewVisitResults)
+    {
+        $dimensions = array();
+        foreach ($dimensionOnNewVisitResults as $onNewVisitResult) {
+            $dim = $this->getMock('Piwik\\Plugin\\Dimension', array('shouldForceNewVisit', 'getColumnName'));
+            $dim->expects($this->any())->method('shouldForceNewVisit')->will($this->returnValue($onNewVisitResult));
+            $dimensions[] = $dim;
+        }
+
+        $cache = Cache::getTransientCache();
+        $cache->save(CacheId::pluginAware('VisitDimensions'), $dimensions);
     }
 }
 

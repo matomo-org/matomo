@@ -1,0 +1,7 @@
+{
+    "DevicePlugins": {
+        "PluginDetectionDoesNotWorkInIE": "Shënim: Zbulimi i shtojcave nuk funksionon nën Internet Explorer. Ky raport mund të kihet vetëm nën shfletuesa jo-IE.",
+        "WidgetPlugins": "Listë e Shtojcave",
+        "WidgetPluginsDocumentation": "Ky raport tregon se cilat shtojca shfletuesi kanë të aktivizuara vizitorët tuaj. Ky informacion mund të jetë i vlefshëm për zgjedhjen e mënyrës më të përshtatshme për ofrimin e lëndës suaj."
+    }
+}

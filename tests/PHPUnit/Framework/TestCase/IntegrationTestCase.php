@@ -8,10 +8,10 @@
 
 namespace Piwik\Tests\Framework\TestCase;
 
-use Piwik\Cache\StaticCache;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Cache as PiwikCache;
 
 /**
  * Tests extending IntegrationTestCase are much slower to run: the setUp will
@@ -56,6 +56,7 @@ abstract class IntegrationTestCase extends SystemTestCase
     {
         static::configureFixture(static::$fixture);
         parent::setUpBeforeClass();
+        static::beforeTableDataCached();
 
         self::$tableData = self::getDbTablesWithData();
     }
@@ -78,7 +79,8 @@ abstract class IntegrationTestCase extends SystemTestCase
             self::restoreDbTables(self::$tableData);
         }
 
-        StaticCache::clearAll();
+        PiwikCache::getEagerCache()->flushAll();
+        PiwikCache::getTransientCache()->flushAll();
     }
 
     /**
@@ -86,9 +88,7 @@ abstract class IntegrationTestCase extends SystemTestCase
      */
     public function tearDown()
     {
-        StaticCache::clearAll();
-
-        self::$fixture->clearInMemoryCaches();
+        static::$fixture->clearInMemoryCaches();
 
         parent::tearDown();
     }
@@ -98,6 +98,11 @@ abstract class IntegrationTestCase extends SystemTestCase
         $fixture->loadTranslations    = false;
         $fixture->createSuperUser     = false;
         $fixture->configureComponents = false;
+    }
+
+    protected static function beforeTableDataCached()
+    {
+        // empty
     }
 }
 

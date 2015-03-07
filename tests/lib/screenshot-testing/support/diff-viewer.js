@@ -17,11 +17,11 @@ var DiffViewerGenerator = function (diffDir) {
 };
 
 DiffViewerGenerator.prototype.getDiffPath = function (testInfo) {
-    var baseDir = path.join(PIWIK_INCLUDE_PATH, 'tests/PHPUnit/UI');
+    var baseDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI');
     return path.resolve(path.join(baseDir, config.screenshotDiffDir, testInfo.name + '.png'));
 };
 
-// TODO: diff output path shouldn't be stored in piwik-ui-tests repo
+// TODO: diff output path shouldn't be stored in piwik repo
 DiffViewerGenerator.prototype.getUrlForPath = function (path) {
     return fs.relpath(path, this.diffDir);
 };

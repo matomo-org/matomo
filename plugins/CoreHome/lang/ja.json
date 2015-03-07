@@ -42,7 +42,6 @@
         "PeriodYear": "年",
         "PeriodYears": "年",
         "PivotBySubtable": "このレポートは、%s が %s ピボット を旋回していません。",
-        "PluginDescription": "ウェブ解析リポートのストラクチャーです。",
         "ReportGeneratedOn": "%s に生成されたリポート",
         "ReportGeneratedXAgo": "%s 前に生成されたリポート",
         "SharePiwikLong": "素晴らしい無償ソフトウェアが見つかりました ! : Piwik です! Piwik はあなたのウェブサイト訪問者を無料で追跡します。要チェック !",

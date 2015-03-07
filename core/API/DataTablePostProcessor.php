@@ -95,11 +95,19 @@ class DataTablePostProcessor
         // we automatically safe decode all datatable labels (against xss)
         $dataTable->queueFilter('SafeDecodeLabel');
 
+        $dataTable = $this->convertSegmentValueToSegment($dataTable);
         $dataTable = $this->applyQueuedFilters($dataTable);
         $dataTable = $this->applyRequestedColumnDeletion($dataTable);
         $dataTable = $this->applyLabelFilter($dataTable);
-
         $dataTable = $this->applyMetricsFormatting($dataTable);
+
+        return $dataTable;
+    }
+
+    private function convertSegmentValueToSegment(DataTableInterface $dataTable)
+    {
+        $dataTable->filter('AddSegmentBySegmentValue', array($this->report));
+        $dataTable->filter('ColumnCallbackDeleteMetadata', array('segmentValue'));
 
         return $dataTable;
     }
@@ -118,6 +126,8 @@ class DataTablePostProcessor
             $pivotByColumn = Common::getRequestVar('pivotByColumn', false, 'string', $this->request);
             $pivotByColumnLimit = Common::getRequestVar('pivotByColumnLimit', false, 'int', $this->request);
 
+            $dataTable->filter('ColumnCallbackDeleteMetadata', array('segmentValue'));
+            $dataTable->filter('ColumnCallbackDeleteMetadata', array('segment'));
             $dataTable->filter('PivotByDimension', array($reportId, $pivotBy, $pivotByColumn, $pivotByColumnLimit,
                 PivotByDimension::isSegmentFetchingEnabledInConfig()));
         }

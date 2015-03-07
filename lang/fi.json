@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Jätä huomiotta käynnit ylätunnisteilla X-Do-Not-Track tai DNT."
-    },
     "General": {
         "AbandonedCarts": "Hylätyt ostoskorit",
         "AboutPiwikX": "Tietoja Piwikistä %s",
@@ -183,7 +180,6 @@
         "Forums": "Foorumit",
         "FromReferrer": "mistä",
         "GeneralInformation": "Yleistä tietoa",
-        "GeneralSettings": "Yleiset asetukset",
         "GetStarted": "Aloita",
         "GiveUsYourFeedback": "Anna palautetta!",
         "Goal": "Tavoite",
@@ -420,6 +416,7 @@
         "VisitorID": "Kävijän ID",
         "VisitorIP": "Kävijän IP",
         "Visitors": "Kävijät",
+        "VisitorSettings": "Kävijöiden asetukset",
         "VisitsWith": "Käynnit %s:n kanssa",
         "VisitType": "Kävijän tyyppi",
         "VisitTypeExample": "Voit esimerkiksi valita kaikki kävijät jotka palasivat sivulle ja ostivat edellisellä käynnillä. Esimerkki pyynnöstä on %s",

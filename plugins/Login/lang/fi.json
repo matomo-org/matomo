@@ -16,7 +16,6 @@
         "PasswordChanged": "Salasana on vaihdettu.",
         "PasswordRepeat": "Salasana (uudelleen)",
         "PasswordsDoNotMatch": "Salasanat eivät täsmää.",
-        "PluginDescription": "Login todennus -liitännäinen, lukee suositukset config\/config.ini.php tiedostosta alkuperäiselle Superkäyttäjälle ja tietokannasta muille käyttäjille. Voidaan vaihtaa helposti esittelemällä uusi todennusmekanismi (OpenID, htaccess, custom Auth, jne).",
         "RememberMe": "Muista minut",
         "ResetPasswordInstructions": "Anna uusi salasana."
     }

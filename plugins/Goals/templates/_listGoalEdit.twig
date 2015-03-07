@@ -1,4 +1,4 @@
-<div id='entityEditContainer' style="display:none;">
+<div id='entityEditContainer' class="managegoals" style="display:none;">
     <table class="dataTable entityTable">
         <thead>
         <tr>
@@ -10,32 +10,50 @@
             <th>{{ 'General_Delete'|translate }}</th>
         </tr>
         </thead>
-        {% for goal in goals %}
+        {% if goals is empty %}
             <tr>
-                <td class="first">{{ goal.idgoal }}</td>
-                <td>{{ goal.name|raw }}</td>{# NOTE: goal names are escaped in the DB #}
-                <td><span class='matchAttribute'>{{ goal.match_attribute }}</span>
-                    {% if goal.pattern_type is defined %}
-                        <br/>
-                        {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern|raw }}
-                    {% endif %}
-                </td>
-                <td>{% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}</td>
-                <td>
-                    <a href='#' name="linkEditGoal" id="{{ goal.idgoal }}" class="link_but">
-                        <img src='plugins/Morpheus/images/ico_edit.png' border="0"/>
-                        {{ 'General_Edit'|translate }}
-                    </a>
-                </td>
-                <td>
-                    <a href='#' name="linkDeleteGoal" id="{{ goal.idgoal }}" class="link_but">
-                        <img src='plugins/Morpheus/images/ico_delete.png' border="0"/>
-                        {{ 'General_Delete'|translate }}
-                    </a>
+                <td colspan='7'>
+                    <br/>
+                    {{ 'Goals_ThereIsNoGoalToManage'|translate(siteName)|raw }}.
+                    <br/><br/>
                 </td>
             </tr>
-        {% endfor %}
+        {% else %}
+            {% for goal in goals %}
+                <tr>
+                    <td class="first">{{ goal.idgoal }}</td>
+                    <td>{{ goal.name|raw }}</td>{# NOTE: goal names are escaped in the DB #}
+                    <td><span class='matchAttribute'>{{ goal.match_attribute }}</span>
+                        {% if goal.pattern_type is defined %}
+                            <br/>
+                            {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern|raw }}
+                        {% endif %}
+                    </td>
+                    <td>{% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}</td>
+                    <td>
+                        <a href='#' name="linkEditGoal" id="{{ goal.idgoal }}" class="link_but withIcon">
+                            <img src='plugins/Morpheus/images/ico_edit.png' border="0"/>
+                            {{ 'General_Edit'|translate }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href='#' name="linkDeleteGoal" id="{{ goal.idgoal }}" class="link_but withIcon">
+                            <img src='plugins/Morpheus/images/ico_delete.png' border="0"/>
+                            {{ 'General_Delete'|translate }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
     </table>
+
+    {% if onlyShowAddNewGoal is not defined %}
+        <br/>
+        <div name="linkAddNewGoal" class="addrow"><img src='plugins/Morpheus/images/add.png'/> {{ 'Goals_CreateNewGOal'|translate }}</div>
+        <br/>
+        <br/>
+
+    {% endif %}
 </div>
 
 <div class="ui-confirm" id="confirm">

@@ -18,7 +18,6 @@
         "Maximise": "Suurenna",
         "Minimise": "Pienennä",
         "NotUndo": "Et voi peruuttaa tätä operaatiota.",
-        "PluginDescription": "Piwikin työpöytä. Voit muokata työpöytääsi: lisätä uusia raportteja, poistaa raportteja ja muuttaa raporttien järjestystä. Jokainen käyttäjä voi käyttää omaa työpöytäänsä.",
         "RemoveDashboard": "Poista näkymä",
         "RemoveDashboardConfirm": "Haluatko varmasti poistaa työpöydän \"%s\"?",
         "RenameDashboard": "Uudelleenimeä näkymä",

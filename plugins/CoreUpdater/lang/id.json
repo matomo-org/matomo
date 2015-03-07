@@ -28,7 +28,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik berhasil diperbarui!",
         "PiwikUpdatedSuccessfully": "Pembaruan Piwik berhasil!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "BasisData Piwik akan diperbarui dari versi %1$s ke versi %2$s.",
-        "PluginDescription": "Cara pembaruan Piwik",
         "ReadyToGo": "Sudah siap?",
         "TheFollowingPluginsWillBeUpgradedX": "Pengaya berikut akan diperbarui: %s.",
         "ThereIsNewVersionAvailableForUpdate": "Terdapat versi baru Piwik yang tersedia",

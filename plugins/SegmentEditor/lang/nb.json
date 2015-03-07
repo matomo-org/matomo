@@ -2,8 +2,11 @@
     "SegmentEditor": {
         "AddNewSegment": "Legg til nytt segment",
         "ChooseASegment": "Velg et segment",
+        "DefaultAllVisits": "Alle besøk",
         "OperatorAND": "OG",
         "OperatorOR": "ELLER",
+        "SegmentDisplayedAllWebsites": "alle nettsteder",
+        "SegmentDisplayedThisWebsiteOnly": "kun denne nettsiden",
         "SegmentIsDisplayedForWebsite": "og vises for",
         "ThisSegmentIsVisibleTo": "Dette segmentet er synlig for:",
         "VisibleToAllUsers": "alle brukere",

@@ -67,22 +67,14 @@ class Sort extends BaseFilter
     /**
      * Sorting method used for sorting numbers
      *
-     * @param number $a
-     * @param number $b
+     * @param Row $a
+     * @param Row $b
      * @return int
      */
     public function numberSort($a, $b)
     {
-        $valA = $a->getColumn($this->columnToSort);
-        $valB = $b->getColumn($this->columnToSort);
-
-        if ($valA === false) {
-            $valA = null;
-        }
-
-        if ($valB === false) {
-            $valB = null;
-        }
+        $valA = $this->getColumnValue($a);
+        $valB = $this->getColumnValue($b);
 
         return !isset($valA)
         && !isset($valB)
@@ -118,16 +110,8 @@ class Sort extends BaseFilter
      */
     function naturalSort($a, $b)
     {
-        $valA = $a->getColumn($this->columnToSort);
-        $valB = $b->getColumn($this->columnToSort);
-
-        if ($valA === false) {
-            $valA = null;
-        }
-
-        if ($valB === false) {
-            $valB = null;
-        }
+        $valA = $this->getColumnValue($a);
+        $valB = $this->getColumnValue($b);
 
         return !isset($valA)
         && !isset($valB)
@@ -153,16 +137,8 @@ class Sort extends BaseFilter
      */
     function sortString($a, $b)
     {
-        $valA = $a->getColumn($this->columnToSort);
-        $valB = $b->getColumn($this->columnToSort);
-
-        if ($valA === false) {
-            $valA = null;
-        }
-
-        if ($valB === false) {
-            $valB = null;
-        }
+        $valA = $this->getColumnValue($a);
+        $valB = $this->getColumnValue($b);
 
         return !isset($valA)
         && !isset($valB)
@@ -177,6 +153,18 @@ class Sort extends BaseFilter
                     )
                 )
             );
+    }
+
+    protected function getColumnValue(Row $table )
+    {
+        $value = $table->getColumn($this->columnToSort);
+
+        if ($value === false
+            || is_array($value)
+        ) {
+            return null;
+        }
+        return $value;
     }
 
     /**

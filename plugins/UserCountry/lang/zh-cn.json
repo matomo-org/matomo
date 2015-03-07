@@ -355,7 +355,6 @@
         "PeclGeoIPNoDBDir": "PECL 模块在 %1$s 中查找数据库，但这个目录不存在，请改正并把 GeoIP 数据库加入。另外，您也可以在 php.ini 文件中设置 %2$s 为正确的目录。",
         "PeclGeoLiteError": "您在 %1$s 中的GeoIP 数据库名称为 %2$s。但是 PECL 模块无法识别这个名称，请改名为 %3$s。",
         "PiwikNotManagingGeoIPDBs": "Piwik 目前没有任何 GeoIP 数据库。",
-        "PluginDescription": "访客的来源\/国家报表。",
         "Region": "地区",
         "SetupAutomaticUpdatesOfGeoIP": "设置自动更新 GeoIP 数据库",
         "SubmenuLocations": "所在地",

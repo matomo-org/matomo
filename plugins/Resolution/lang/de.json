@@ -1,0 +1,12 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Konfiguration",
+        "ColumnResolution": "Auflösung",
+        "Configurations": "Konfigurationen",
+        "PluginDescription": "Berichte über Bildschirmauflösungen Ihrer Besucher.",
+        "Resolutions": "Auflösungen",
+        "WidgetGlobalVisitors": "Globale Besucherkonfiguration",
+        "WidgetGlobalVisitorsDocumentation": "Dieser Bericht zeigt Ihnen die häufigsten Gesamtkonfigurationen der Besucher. Eine Konfiguration ist die Kombination aus Betriebssystem, Browsertyp und Bildschirmauflösung.",
+        "WidgetResolutions": "Bildschirmauflösungen"
+    }
+}

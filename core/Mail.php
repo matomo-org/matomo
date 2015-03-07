@@ -8,7 +8,9 @@
  */
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
+use Piwik\Translation\Translator;
 use Zend_Mail;
 
 /**
@@ -35,10 +37,13 @@ class Mail extends Zend_Mail
     {
         $customLogo = new CustomLogo();
 
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+
         if ($customLogo->isEnabled()) {
-            $fromEmailName = Piwik::translate('CoreHome_WebAnalyticsReports');
+            $fromEmailName = $translator->translate('CoreHome_WebAnalyticsReports');
         } else {
-            $fromEmailName = Piwik::translate('ScheduledReports_PiwikReports');
+            $fromEmailName = $translator->translate('ScheduledReports_PiwikReports');
         }
 
         $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
@@ -105,7 +110,8 @@ class Mail extends Zend_Mail
             $smtpConfig['ssl'] = $mailConfig['encryption'];
         }
 
-        $tr = new \Zend_Mail_Transport_Smtp($mailConfig['host'], $smtpConfig);
+        $host = trim($mailConfig['host']);
+        $tr = new \Zend_Mail_Transport_Smtp($host, $smtpConfig);
         Mail::setDefaultTransport($tr);
         @ini_set("smtp_port", $mailConfig['port']);
     }

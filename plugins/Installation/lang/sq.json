@@ -27,7 +27,6 @@
         "PasswordRepeat": "fjalëkalim (rijepeni)",
         "PercentDone": "Plotësuar %s %%",
         "PleaseFixTheFollowingErrors": "Ju lutem, ndreqni gabimet vijuese",
-        "PluginDescription": "Procesi i instalimit të Piwik-ut. Instalimi zakonisht bëhet vetëm një herë. Po u fshi kartela e formësimit config\/config.inc.php, instalimi duhet nisur nga e para.",
         "Requirements": "Të domosdoshme për Piwik-un",
         "SetupWebsite": "Caktoni një \"site\" web",
         "SetupWebsiteError": "Pati një gabim gjatë shtimit të një \"site\"-i web",

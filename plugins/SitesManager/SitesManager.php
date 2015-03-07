@@ -7,6 +7,8 @@
  *
  */
 namespace Piwik\Plugins\SitesManager;
+use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Tracker\Cache;
 
 /**
  *
@@ -27,7 +29,17 @@ class SitesManager extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Tracker.Cache.getSiteAttributes'        => 'recordWebsiteDataInCache',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'SitesManager.deleteSite.end'            => 'onSiteDeleted'
         );
+    }
+
+    public function onSiteDeleted($idSite)
+    {
+        // we do not delete logs here on purpose (you can run these queries on the log_ tables to delete all data)
+        Cache::deleteCacheWebsiteAttributes($idSite);
+
+        $archiveInvalidator = new ArchiveInvalidator();
+        $archiveInvalidator->forgetRememberedArchivedReportsToInvalidateForSite($idSite);
     }
 
     /**
@@ -47,7 +59,6 @@ class SitesManager extends \Piwik\Plugin
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-helper.service.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-site.service.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-core.service.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-coreadmin.service.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/multiline-field.directive.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/edit-trigger.directive.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/scroll.directive.js";
@@ -65,7 +76,7 @@ class SitesManager extends \Piwik\Plugin
      */
     public function recordWebsiteDataInCache(&$array, $idSite)
     {
-        $idSite = (int)$idSite;
+        $idSite = (int) $idSite;
 
         // add the 'hosts' entry in the website array
         $array['hosts'] = $this->getTrackerHosts($idSite);
@@ -78,6 +89,20 @@ class SitesManager extends \Piwik\Plugin
         $array['sitesearch'] = $website['sitesearch'];
         $array['sitesearch_keyword_parameters'] = $this->getTrackerSearchKeywordParameters($website);
         $array['sitesearch_category_parameters'] = $this->getTrackerSearchCategoryParameters($website);
+        $array['timezone'] = $this->getTimezoneFromWebsite($website);
+    }
+
+    /**
+     * Returns whether we should keep URL fragments for a specific site.
+     *
+     * @param array $site DB data for the site.
+     * @return bool
+     */
+    private static function getTimezoneFromWebsite($site)
+    {
+        if (!empty($site['timezone'])) {
+            return $site['timezone'];
+        }
     }
 
     /**

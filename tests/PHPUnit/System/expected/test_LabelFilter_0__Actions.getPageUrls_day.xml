@@ -16,5 +16,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.635</avg_time_generation>
 		<url>http://example.org/0</url>
+		<segment>pageUrl==http%3A%2F%2Fexample.org%2F0</segment>
 	</row>
 </result>

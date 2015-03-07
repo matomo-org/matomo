@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -32,6 +33,8 @@ use Piwik\Tracker\Cache;
  */
 class API extends \Piwik\Plugin\API
 {
+    const OPTION_NAME_PREFERENCE_SEPARATOR = '_';
+
     /**
      * @var Model
      */
@@ -52,7 +55,7 @@ class API extends \Piwik\Plugin\API
      * Example of how you would overwrite the UsersManager_API with your own class:
      * Call the following in your plugin __construct() for example:
      *
-     * Registry::set('UsersManager_API', \Piwik\Plugins\MyCustomUsersManager\API::getInstance());
+     * StaticContainer::getContainer()->set('UsersManager_API', \Piwik\Plugins\MyCustomUsersManager\API::getInstance());
      *
      * @throws Exception
      * @return \Piwik\Plugins\UsersManager\API
@@ -60,7 +63,7 @@ class API extends \Piwik\Plugin\API
     public static function getInstance()
     {
         try {
-            $instance = \Piwik\Registry::get('UsersManager_API');
+            $instance = StaticContainer::get('UsersManager_API');
             if (!($instance instanceof API)) {
                 // Exception is caught below and corrected
                 throw new Exception('UsersManager_API must inherit API');
@@ -69,7 +72,7 @@ class API extends \Piwik\Plugin\API
             
         } catch (Exception $e) {
             self::$instance = new self;
-            \Piwik\Registry::set('UsersManager_API', self::$instance);
+            StaticContainer::getContainer()->set('UsersManager_API', self::$instance);
         }
 
         return self::$instance;
@@ -107,9 +110,37 @@ class API extends \Piwik\Plugin\API
         return $this->getDefaultUserPreference($preferenceName, $userLogin);
     }
 
+    /**
+     * Returns an array of Preferences
+     * @param $preferenceNames array of preference names
+     * @return array
+     * @ignore
+     */
+    public function getAllUsersPreferences(array $preferenceNames)
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $userPreferences = array();
+        foreach($preferenceNames as $preferenceName) {
+            $optionNameMatchAllUsers = $this->getPreferenceId('%', $preferenceName);
+            $preferences = Option::getLike($optionNameMatchAllUsers);
+
+            foreach($preferences as $optionName => $optionValue) {
+                $lastUnderscore = strrpos($optionName, self::OPTION_NAME_PREFERENCE_SEPARATOR);
+                $userName = substr($optionName, 0, $lastUnderscore);
+                $preference = substr($optionName, $lastUnderscore + 1);
+                $userPreferences[$userName][$preference] = $optionValue;
+            }
+        }
+        return $userPreferences;
+    }
+
     private function getPreferenceId($login, $preference)
     {
-        return $login . '_' . $preference;
+        if(false !== strpos($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
+            throw new Exception("Preference name cannot contain underscores.");
+        }
+        return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
     }
 
     private function getDefaultUserPreference($preferenceName, $login)

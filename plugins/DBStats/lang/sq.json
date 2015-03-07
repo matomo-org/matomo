@@ -5,7 +5,6 @@
         "IndexSize": "Madhësi treguesi",
         "LearnMore": "Për të mësuar më tepër rreth se si i përpunon të dhënat Piwik-u dhe se si ta bëni Piwik-un të punojë mirë me site-e web me trafik mesatar ose të madh, kontrolloni dokumentimin %s.",
         "MainDescription": "Piwik-u po i depoziton krejt të dhënat tuaja për analizë web te baza e të dhënave MySQL. Tani për tani, tabelat e Piwik-ut po përdorin %s.",
-        "PluginDescription": "Kjo shtojcë raporton përdorimin e bazës së të dhënave MySQL nga tabelat e Piwik-ut.",
         "RowCount": "Numërim rreshtash",
         "Table": "Tabelë",
         "TotalSize": "Madhësi gjithsej"

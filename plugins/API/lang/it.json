@@ -4,7 +4,7 @@
         "KeepTokenSecret": "Questo token_auth è segreto come il tuo login e la tua password, %s non condividerlo %s!",
         "LoadedAPIs": "Sono state caricate con successo %s API",
         "MoreInformation": "Per ulteriori informazioni sulle API di Piwik, si prega di dare un'occhiata all' introduzione delle API di Pwik %s e a %s %s Piwik API di riferimento API %s.",
-        "PluginDescription": "Tutti i dati in Piwik sono disponibili tramite semplici API. Questo plugin è il punto di accesso web service che puoi chiamare per avere le tue statistiche in xml, json, php, csv, ecc...",
+        "PluginDescription": "Tutti i dati di Piwik sono disponibili tramite semplici API. Questo plugin è la porta d'accesso al servizio web che puoi utilizzare per avere i dati delle tue statistiche web in xml, json, php, csv, ecc.",
         "QuickDocumentationTitle": "Documentazione rapida sulle API",
         "TopLinkTooltip": "Accedi ai tuoi dati di Web Analytics tramite le semplici API in JSON, XML, ecc",
         "UserAuthentication": "Autenticazione utente",

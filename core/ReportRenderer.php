@@ -23,13 +23,15 @@ use Piwik\BaseFactory;
  */
 abstract class ReportRenderer extends BaseFactory
 {
-    const DEFAULT_REPORT_FONT = 'dejavusans';
-    const REPORT_TEXT_COLOR = "68,68,68";
-    const REPORT_TITLE_TEXT_COLOR = "126,115,99";
-    const TABLE_HEADER_BG_COLOR = "228,226,215";
-    const TABLE_HEADER_TEXT_COLOR = "37,87,146";
-    const TABLE_CELL_BORDER_COLOR = "231,231,231";
-    const TABLE_BG_COLOR = "249,250,250";
+    const DEFAULT_REPORT_FONT_FAMILY = 'dejavusans';
+    const REPORT_TEXT_COLOR = "13,13,13";
+    const REPORT_TITLE_TEXT_COLOR = "13,13,13";
+    const TABLE_HEADER_BG_COLOR = "255,255,255";
+    const TABLE_HEADER_TEXT_COLOR = "13,13,13";
+    const TABLE_HEADER_TEXT_TRANSFORM = "uppercase";
+    const TABLE_HEADER_TEXT_WEIGHT = "normal";
+    const TABLE_CELL_BORDER_COLOR = "217,217,217";
+    const TABLE_BG_COLOR = "242,242,242";
 
     const HTML_FORMAT = 'html';
     const PDF_FORMAT = 'pdf';
@@ -145,7 +147,7 @@ abstract class ReportRenderer extends BaseFactory
      */
     protected static function getOutputPath($filename)
     {
-        $outputFilename = StaticContainer::getContainer()->get('path.tmp') . '/assets/' . $filename;
+        $outputFilename = StaticContainer::get('path.tmp') . '/assets/' . $filename;
 
         @chmod($outputFilename, 0600);
         @unlink($outputFilename);

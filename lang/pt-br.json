@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Ignorar visitas com X-Do-Not-Track ou cabeçalho DNT."
-    },
     "General": {
         "AbandonedCarts": "Compras abandonadas",
         "AboutPiwikX": "Sobre o Piwik %s",
@@ -177,7 +174,6 @@
         "Forums": "Fórum",
         "FromReferrer": "origem",
         "GeneralInformation": "Informações Gerais",
-        "GeneralSettings": "Configurações Gerais",
         "GetStarted": "Começar",
         "GiveUsYourFeedback": "Dê o seu feedback!",
         "Goal": "Objetivo",
@@ -406,6 +402,7 @@
         "VisitorID": "Visitante ID",
         "VisitorIP": "IP do Visitante",
         "Visitors": "Visitantes",
+        "VisitorSettings": "Configurações dos visitantes",
         "VisitsWith": "Visitas com %s",
         "VisitType": "Tipo do Visitante",
         "VisitTypeExample": "Por exemplo, para selecionar todos os visitantes que voltaram para o site, incluindo aqueles que compraram algo em suas visitas anteriores, a requisição a API deve conter %s",

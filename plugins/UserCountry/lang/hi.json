@@ -347,7 +347,6 @@
         "Organization": "संगठन",
         "OrgDatabase": "संगठन डाटाबेस",
         "PiwikNotManagingGeoIPDBs": "Piwik वर्तमान में किसी भी GeoIP डेटाबेस के प्रबंध नहीं है.",
-        "PluginDescription": "देश, क्षेत्र, शहर के और भौगोलिक निर्देशांक (अक्षांश \/ देशांतर) सहित आगंतुक स्थान के बारे में रिपोर्टें जानकारी,.",
         "Region": "क्षेत्र",
         "SetupAutomaticUpdatesOfGeoIP": "GeoIP डेटाबेस के स्वचालित अपडेट सेटअप",
         "SubmenuLocations": "स्थान",

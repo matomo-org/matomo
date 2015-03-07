@@ -17,7 +17,6 @@
         "OptOutExplanationBis": "Ky kod do të shfaqë një Iframe që përmban një lidhje me të cilën vizitorët të mund të zgjedhin \"opt-out\" për Piwik-un, duke depozituar një \"opt-out cookie\" në shfletuesin e tyre. %s Klikoni këtu%s që të shihni lëndën që do të shfaqet nga iFrame-i.",
         "OptOutForYourVisitors": "\"Opt-out\" i Piwik-ut për vizitorët tuaj",
         "PiwikIsInstalledAt": "Piwik-u është instaluar te",
-        "PluginDescription": "Zona e administrimit të Piwik-ut.",
         "TrustedHostConfirm": "Jeni i sigurt se doni të ndryshoni emërstrehën e besuar të Piwik-ut?",
         "TrustedHostSettings": "Strehëemër e Besuar Piwik",
         "UseCustomLogo": "Përdorni një logo të përshtatur",

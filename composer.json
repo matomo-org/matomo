@@ -15,7 +15,7 @@
     "support": {
         "forum": "http://forum.piwik.org/",
         "issues": "https://github.com/piwik/piwik/issues",
-        "wiki": "http://dev.piwik.org/",
+        "wiki": "https://github.com/piwik/piwik/wiki",
         "source": "https://github.com/piwik/piwik"
     },
     "autoload": {
@@ -39,19 +39,26 @@
         "php": ">=5.3.3",
         "twig/twig": "~1.0",
         "leafo/lessphp": "~0.4.0",
-        "symfony/console": "~2.3",
+        "symfony/console": "~2.6",
         "tedivm/jshrink": "~0.5.1",
         "mustangostang/spyc": "~0.5.0",
-        "piwik/device-detector": "~2.0",
+        "piwik/device-detector": "~3.0",
         "piwik/decompress": "~0.1.1",
         "piwik/network": "~0.1.0",
-        "mnapoli/php-di": "5.0.x-dev"
+        "piwik/cache": "~0.2.5",
+        "piwik/ini": "~1.0,>=1.0.3",
+        "mnapoli/php-di": "5.0.x-dev",
+        "psr/log": "~1.0",
+        "monolog/monolog": "~1.11",
+        "symfony/monolog-bridge": "~2.6",
+        "symfony/event-dispatcher": "~2.6"
     },
     "require-dev": {
         "aws/aws-sdk-php": "2.7.1",
         "phpunit/phpunit": "~4.1",
         "facebook/xhprof": "dev-master",
-        "phpseclib/phpseclib": "~0.3.8"
+        "phpseclib/phpseclib": "~0.3.8",
+        "symfony/var-dumper": "~2.6"
     },
     "repositories": [
         {

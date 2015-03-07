@@ -20,7 +20,12 @@ else
         if [ -n "$PLUGIN_NAME" ];
         then
             branch_name="$branch_name.$PLUGIN_NAME"
-            url_base="$url_base&protected=1"
+
+            if [ "$UNPROTECTED_ARTIFACTS" = "" ];
+            then
+                url_base="$url_base&protected=1"
+                using_protected=1
+            fi
         fi
 
         url_base="$url_base&branch=$branch_name"
@@ -36,7 +41,7 @@ else
                 cd "./plugins/$PLUGIN_NAME/tests/UI"
             fi
         else
-            cd ./tests/PHPUnit/UI
+            cd ./tests/UI
         fi
 
         # upload processed tarball
@@ -44,7 +49,7 @@ else
         curl -X POST --data-binary @processed-ui-screenshots.tar.bz2 "$url_base&artifact_name=processed-ui-screenshots"
 
         # upload diff tarball if it exists
-        cd $base_dir/tests/PHPUnit/UI
+        cd $base_dir/tests/UI
         if [ -d "./screenshot-diffs" ];
         then
             echo "Uploading artifcats..."
@@ -61,11 +66,17 @@ else
             tar -cjf screenshot-diffs.tar.bz2 screenshot-diffs
             curl -X POST --data-binary @screenshot-diffs.tar.bz2 "$url_base&artifact_name=screenshot-diffs"
 
+            url_base="http://builds-artifacts.piwik.org"
+            if [ -n "$using_protected" ];
+            then
+                url_base="$url_base/protected"
+            fi
+
             if [ -n "$PLUGIN_NAME" ];
             then
-                diffviewer_url="http://builds-artifacts.piwik.org/protected/$branch_name/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
+                diffviewer_url="$url_base/protected/$branch_name/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
             else
-                diffviewer_url="http://builds-artifacts.piwik.org/$branch_name/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
+                diffviewer_url="$url_base/$branch_name/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
             fi
 
             echo =e "View UI failures (if any) here: \n$diffviewer_url\n"

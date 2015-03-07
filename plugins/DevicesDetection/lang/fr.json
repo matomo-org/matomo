@@ -4,10 +4,14 @@
         "BrowserEngineDocumentation": "Ce tableau affiche les navigateurs de vos visiteurs regroupés par famille. %s L'information la plus importante pour les développeurs est quel type de moteur de rendu utilisent leurs visiteurs. Les labels contiennent les noms des moteurs suivis par les principaux navigateurs les utilisant entre parenthèses.",
         "BrowserEngines": "Moteurs de rendu HTML",
         "BrowserFamily": "Famille de navigateurs",
+        "Browsers": "Navigateurs",
         "BrowserVersion": "Version du navigateur",
         "BrowserVersions": "Versions du navigateur",
         "Camera": "Caméra",
         "CarBrowser": "Navigateur de voiture",
+        "ColumnBrowser": "Navigateur",
+        "ColumnOperatingSystem": "Système d'exploitation",
+        "ColumnOperatingSystemVersion": "Version du système d'exploitation",
         "Console": "Console",
         "dataTableLabelBrands": "Marque",
         "dataTableLabelModels": "Modèle",
@@ -21,13 +25,16 @@
         "DeviceType": "Type du périphérique",
         "FeaturePhone": "Fonctionnalité téléphone",
         "OperatingSystemFamilies": "Familles de systèmes d'exploitations",
+        "OperatingSystemFamily": "Famille de systèmes d'exploitations",
+        "OperatingSystems": "Système d'exploitation",
         "OperatingSystemVersions": "Versions de système d'exploitation",
-        "PluginDescription": "Ce composant additionnel fournit des informations détaillées à propos des périphériques mobiles, telles que la marque (constructeur), le modèle (version du périphérique), une meilleure détection du type de périphérique (tv, consoles, smart phones, pc, etc) et autres. Ce composant additionnel ajoute un nouveau rapport dans Visiteur > Périphériques.",
         "SmartDisplay": "Affichage intelligent",
         "Smartphone": "Téléphone intelligent (smartphone)",
         "submenu": "Périphériques",
         "Tablet": "Tablette",
         "TV": "TV",
-        "UserAgent": "Agent Utilisateur (User-Agent)"
+        "UserAgent": "Agent Utilisateur (User-Agent)",
+        "WidgetBrowsers": "Navigateurs du visiteur",
+        "WidgetBrowsersDocumentation": "Ce rapport contient des informations à propos de quel type de navigateur vos visiteurs utilisent. Chaque version du navigateur est listée séparément."
     }
 }

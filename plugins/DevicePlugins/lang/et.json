@@ -1,0 +1,6 @@
+{
+    "DevicePlugins": {
+        "PluginDetectionDoesNotWorkInIE": "Märge: Lisatarkvara tuvastamine ei tööta Internet Exploreriga külastajatel. See raport kuvab andmeid mitte-IE veebisirvikute kohta.",
+        "WidgetPlugins": "Sirviku lisatarkvarad"
+    }
+}

@@ -16,7 +16,6 @@
         "PasswordChanged": "パスワードが変更されました。",
         "PasswordRepeat": "パスワード（再入力）",
         "PasswordsDoNotMatch": "パスワードが一致しません。",
-        "PluginDescription": "初期スーパーユーザーのための config\/config.ini.php ファイルと、他のユーザーのためのデータベースから認証情報を読み、認証プラグインにログインしてください。新しい認証メカニズム(オープン ID 、htaccess 、カスタム Auth 等)の導入が簡単に行うことができます。",
         "RememberMe": "次回の入力を省略",
         "ResetPasswordInstructions": "あなたのアカウントの新しいパスワードを入力してください。"
     }

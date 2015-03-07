@@ -17,5 +17,5 @@ Phpstorm can also be configured to apply the style automatically before commit.
 
 You are now writing code that respects Piwik coding standards. Enjoy!
 
-Reference: http://piwik.org/participate/coding-standards/
+Reference: [Piwik Coding standards](http://developer.piwik.org/guides/contributing-to-piwik-core#piwik-core-code-standards)
 

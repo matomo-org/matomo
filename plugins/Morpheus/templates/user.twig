@@ -1,0 +1,45 @@
+{% extends 'layout.twig' %}
+
+{% block pageTitle %}{% if not isCustomLogo %}Piwik &rsaquo; {% endif %}{{ 'CoreAdminHome_Administration'|translate }}{% endblock %}
+
+{% set bodyClass = postEvent('Template.bodyClass', 'admin') %}
+
+{% block body %}
+    {% if userIsAnonymous %}
+        {% set topMenuModule = 'Feedback' %}
+        {% set topMenuAction = 'index' %}
+    {% else %}
+        {% set topMenuModule = 'UsersManager' %}
+        {% set topMenuAction = 'userSettings' %}
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
+
+{% block root %}
+    {% include "@CoreHome/_topScreen.twig" %}
+
+    {% import 'ajaxMacros.twig' as ajax %}
+    {{ ajax.requestErrorDiv(emailSuperUser|default('')) }}
+    {{ postEvent("Template.beforeContent", "user", currentModule) }}
+
+    <div id="container">
+
+        {% if showMenu is not defined or showMenu %}
+            {% include "@CoreHome/_userMenu.twig" %}
+        {% endif %}
+
+        <div id="content" class="admin user">
+
+            {% include "@CoreHome/_notifications.twig" %}
+
+            <div class="ui-confirm" id="alert">
+                <h2></h2>
+                <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
+            </div>
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+    </div>
+{% endblock %}

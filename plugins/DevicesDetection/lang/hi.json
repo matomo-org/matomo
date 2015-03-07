@@ -1,6 +1,12 @@
 {
     "DevicesDetection": {
         "BrowserFamily": "ब्राउज़र परिवार",
-        "BrowserVersion": "ब्राउज़र संस्करण"
+        "Browsers": "ब्राउज़र्स",
+        "BrowserVersion": "ब्राउज़र संस्करण",
+        "ColumnBrowser": "ब्राउज़र",
+        "ColumnOperatingSystem": "आपरेटिंग सिस्टम",
+        "OperatingSystemFamily": "आपरेटिंग सिस्टम परिवार",
+        "OperatingSystems": "आपरेटिंग सिस्टम",
+        "WidgetBrowsers": "आगंतुक ब्राउज़र"
     }
 }

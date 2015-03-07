@@ -7,8 +7,9 @@
         "Deactivate": "Дэактываваць",
         "Inactive": "Неактыўныя",
         "LicenseHomepage": "Хатняя старонка ліцэнзіі",
-        "PluginDescription": "Інтэрфейс адміністравання плагінаў",
+        "OncePluginIsInstalledYouMayActivateHere": "Пасля ўсталёўкі плагіна Вы можаце актываваць ці дэактываваць яго тут.",
         "PluginHomepage": "Хатняя старонка плагіна",
+        "PluginsExtendPiwik": "Плагіны пашыраюць функцыянальнасць Piwik.",
         "PluginsManagement": "Кіраванне плагінамі",
         "Status": "Статус",
         "Version": "Версія"

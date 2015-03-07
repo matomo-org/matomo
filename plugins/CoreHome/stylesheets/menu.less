@@ -45,7 +45,7 @@
 }
 
 .Menu--dashboard > .Menu-tabList ul {
-    background: #fff; /*IE6 needs this*/
+    background: @theme-color-background-base; /*IE6 needs this*/
     float: left;
     position: relative;
 }
@@ -76,7 +76,7 @@
 /* LEVEL1 HOVER */
 .Menu--dashboard > .Menu-tabList > li:hover,
 .Menu--dashboard > .Menu-tabList > li.sfHover {
-    background: #fff;
+    background: @theme-color-background-base;
 }
 
 .Menu--dashboard > .Menu-tabList > li:hover > a,
@@ -135,6 +135,16 @@
   -o-transition: opacity 300ms ease-out 10ms;
   transition: opacity 300ms ease-out 10ms;
 }
+
+/* for screen readers */
+.Menu--dashboard a span.hidden {
+  height: 1px;
+  width: 1px;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+}
+
 
 .Menu--dashboard > .Menu-tabList > li li:hover > a,
 .Menu--dashboard > .Menu-tabList > li li.sfHover > a {

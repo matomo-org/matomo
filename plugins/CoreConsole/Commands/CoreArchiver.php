@@ -35,11 +35,7 @@ class CoreArchiver extends ConsoleCommand
             throw new \InvalidArgumentException('No valid URL given. If you have specified a valid URL try --piwik-domain instead of --url');
         }
 
-        if ($input->getOption('verbose')) {
-            Log::getInstance()->setLogLevel(Log::VERBOSE);
-        }
-
-        $archiver = $this->makeArchiver($url, $input);
+        $archiver = self::makeArchiver($url, $input);
 
         try {
             $archiver->main();

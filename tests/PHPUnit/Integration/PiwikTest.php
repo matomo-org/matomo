@@ -86,7 +86,6 @@ class PiwikTest extends IntegrationTestCase
             '',
             '   ',
             'a',
-            'aa',
             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             'alpha/beta',
             'alpha:beta',
@@ -117,6 +116,7 @@ class PiwikTest extends IntegrationTestCase
     public function getValidLoginStringData()
     {
         $valid = array(
+            'aa',
             'aaa',
             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             'shoot_puck@the-goal.com',

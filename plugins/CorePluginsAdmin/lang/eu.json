@@ -5,7 +5,9 @@
         "Active": "Gaituta",
         "Deactivate": "Ezgaitu",
         "Inactive": "Ezgaituta",
+        "OncePluginIsInstalledYouMayActivateHere": "Plugin bat instalatu ondoren, hemendik gaitu edo ezgaitu dezakezu.",
         "PluginHomepage": "Pluginaren hasiera-orria",
+        "PluginsExtendPiwik": "Piwik-en funtzionaltasunak hedatu eta zabaltzen dituzte pluginek.",
         "PluginsManagement": "Pluginen kudeaketa",
         "Status": "Egoera",
         "Version": "Bertsioa"

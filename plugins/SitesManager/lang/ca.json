@@ -45,7 +45,6 @@
         "OnlyOneSiteAtTime": "Només podeu editar un lloc web a la vegada. Sisplau, Guardeu o Canceleu les modificacions al lloc web %s.",
         "PiwikOffersEcommerceAnalytics": "EL Piwik permet analítiques avançades per a Eccomerce. Sabeu més de les %s Analítiques per a Ecommerce %s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik exclourà automàticament els paràmetres de sessió comuns (%s).",
-        "PluginDescription": "Gestió de Llocs Web al Piwik: Afegiu un nou lloc Web, Editeu un d'existent, mostreu el codi Javascript per incloure a les vostres pàgines. Totes les accions están disponibles a través de la API.",
         "SearchCategoryDesc": "El Piwik també pot gestionar la categoria de Cerca per cada una de les paraules clau de la carca interna.",
         "SearchCategoryLabel": "Paràmetre de la categoria",
         "SearchCategoryParametersDesc": "Podeu introduir una llista separada per comes de paràmetres que especifíquen la categoria de cerca.",

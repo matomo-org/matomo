@@ -1,5 +1,10 @@
 {
     "DevicesDetection": {
-        "BrowserFamily": "Родина веб-оглядача"
+        "BrowserFamily": "Родина веб-оглядача",
+        "Browsers": "Веб-оглядачі",
+        "ColumnBrowser": "Веб-оглядач",
+        "ColumnOperatingSystem": "Операційна система",
+        "OperatingSystems": "Операційні системи",
+        "WidgetBrowsers": "Веб-оглядачі відвідувачів"
     }
 }

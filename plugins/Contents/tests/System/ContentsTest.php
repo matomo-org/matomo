@@ -47,12 +47,13 @@ class ContentsTest extends SystemTestCase
     protected function setup()
     {
         parent::setup();
-        Translate::reloadLanguage('en');
+        Translate::loadAllTranslations();
     }
 
     protected function tearDown()
     {
         parent::tearDown();
+        Translate::reset();
     }
 
     public function getApiForTesting()

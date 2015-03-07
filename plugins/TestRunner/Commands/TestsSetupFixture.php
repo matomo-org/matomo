@@ -93,6 +93,9 @@ class TestsSetupFixture extends ConsoleCommand
             $_SERVER = json_decode($serverGlobal, true);
         }
 
+        if(Config::getInstance()->database_tests['tables_prefix'] !== '') {
+            throw new \Exception("To generate OmniFixture for the UI tests, you must set an empty tables_prefix in [database_tests]");
+        }
         $this->requireFixtureFiles($input);
         $this->setIncludePathAsInTestBootstrap();
 
@@ -111,20 +114,21 @@ class TestsSetupFixture extends ConsoleCommand
             }
         }
 
+        if ($input->getOption('set-phantomjs-symlinks')) {
+            $this->createSymbolicLinksForUITests();
+        }
+
         $fixture = $this->createFixture($input, $allowSave = !empty($configDomainToSave));
 
         $this->setupDatabaseOverrides($input, $fixture);
 
         // perform setup and/or teardown
         if ($input->getOption('teardown')) {
+            exit;
             $fixture->getTestEnvironment()->save();
             $fixture->performTearDown();
         } else {
             $fixture->performSetUp();
-        }
-
-        if ($input->getOption('set-phantomjs-symlinks')) {
-            $this->createSymbolicLinksForUITests();
         }
 
         $this->writeSuccessMessage($output, array("Fixture successfully setup!"));
@@ -175,7 +179,8 @@ class TestsSetupFixture extends ConsoleCommand
             'dbname' => $fixture->getDbName(),
             'host' => $input->getOption('db-host'),
             'username' => $input->getOption('db-user'),
-            'password' => $input->getOption('db-pass')
+            'password' => $input->getOption('db-pass'),
+            'tables_prefix' => '',
         );
         foreach ($optionsToOverride as $configOption => $value) {
             if ($value) {
@@ -232,13 +237,11 @@ class TestsSetupFixture extends ConsoleCommand
     private function requireFixtureFiles(InputInterface $input)
     {
         require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
-        require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
         require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
-        require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
 
         $fixturesToLoad = array(
             '/tests/PHPUnit/Fixtures/*.php',
-            '/tests/PHPUnit/UI/Fixtures/*.php',
+            '/tests/UI/Fixtures/*.php',
             '/plugins/*/tests/Fixtures/*.php',
             '/plugins/*/Test/Fixtures/*.php',
         );

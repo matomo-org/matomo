@@ -19,5 +19,6 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.523</avg_time_generation>
 		<url>http://example.org/%C3%A9%C3%A9%C3%A9%22%27...%20%3Cthis%20is%20cool%3E!</url>
+		<segment>pageUrl==http%3A%2F%2Fexample.org%2F%C3%A9%C3%A9%C3%A9%22%27...+%3Cthis+is+cool%3E%21</segment>
 	</row>
 </result>

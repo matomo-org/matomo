@@ -5,8 +5,9 @@
         "Active": "Aktyvus",
         "Deactivate": "Pasyvinti",
         "Inactive": "Pasyvus",
-        "PluginDescription": "Papildinių administravimo sąsaja.",
+        "OncePluginIsInstalledYouMayActivateHere": "Įdiegę papildinį, čia galite jį aktyvinti arba pasyvinti",
         "PluginHomepage": "Papildinio svetainė",
+        "PluginsExtendPiwik": "Papildiniai suteikia Piwik papildomų galimybių.",
         "PluginsManagement": "Papildinių valdymas",
         "Status": "Būsena",
         "Version": "Versija"

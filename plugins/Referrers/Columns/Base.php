@@ -127,6 +127,14 @@ abstract class Base extends VisitDimension
         return $referrerInformation;
     }
 
+    protected function getReferrerInformationFromRequest(Request $request)
+    {
+        $referrerUrl = $request->getParam('urlref');
+        $currentUrl  = $request->getParam('url');
+
+        return $this->getReferrerInformation($referrerUrl, $currentUrl, $request->getIdSite());
+    }
+
     /**
      * Search engine detection
      * @return bool
@@ -228,8 +236,8 @@ abstract class Base extends VisitDimension
         if (!empty($this->referrerHost)) {
             // is the referrer host the current host?
             if (isset($this->currentUrlParse['host'])) {
-                $currentHost = mb_strtolower($this->currentUrlParse['host'], 'UTF-8');
-                if ($currentHost == mb_strtolower($this->referrerHost, 'UTF-8')) {
+                $currentHost = Common::mb_strtolower($this->currentUrlParse['host'], 'UTF-8');
+                if ($currentHost == Common::mb_strtolower($this->referrerHost, 'UTF-8')) {
                     $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
                     return true;
                 }
@@ -399,4 +407,23 @@ abstract class Base extends VisitDimension
         }
     }
 
+    protected function isReferrerInformationNew(Visitor $visitor, $information)
+    {
+        foreach (array('referer_keyword', 'referer_name', 'referer_type') as $infoName) {
+            if ($this->hasReferrerColumnChanged($visitor, $information, $infoName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
+    {
+        return Common::mb_strtolower($visitor->getVisitorColumn($infoName)) != $information[$infoName];
+    }
+
+    protected function doesLastActionHaveSameReferrer(Visitor $visitor, $referrerType)
+    {
+        return $visitor->getVisitorColumn('referer_type') == $referrerType;
+    }
 }

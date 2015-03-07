@@ -12,7 +12,6 @@
         "KeepDataFor": "เก็บข้อมูลทั้งหมดไว้:",
         "LastDelete": "ลบครั้งสุดท้ายเมื่อ",
         "MenuPrivacySettings": "ความเป็นส่วนตัว",
-        "PluginDescription": "กำหนด Piwik เพื่อให้สอดคล้องกับความเป็นส่วนตัวของกฎหมายที่มีอยู่",
         "PurgeNow": "ล้างข้อมูลในฐานข้อมูลตอนนี้เลย",
         "PurgingData": "กำลังล้างข้อมูล...",
         "ReportsDataSavedEstimate": "ขนาดฐานข้อมูล",

@@ -26,7 +26,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "A Piwik sikeresen frissült!",
         "PiwikUpdatedSuccessfully": "A Piwik frissítése sikeresen megtörtént!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik adatbázisa frissülni fog %1$s verzióról az új %2$s verzióra.",
-        "PluginDescription": "Piwik frissítésére szolgáló alkalmazás",
         "ReadyToGo": "Készen áll az indulásra?",
         "TheFollowingPluginsWillBeUpgradedX": "A következő bővítmények kerülnek frissítésre: %s.",
         "ThereIsNewVersionAvailableForUpdate": "Új Piwik verzió áll rendelkezésre a frissítéshez",

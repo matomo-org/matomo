@@ -16,7 +16,7 @@
         "PasswordChanged": "Vaše heslo bylo změněno.",
         "PasswordRepeat": "Heslo (pro kontrolu)",
         "PasswordsDoNotMatch": "Hesla si neodpovídají",
-        "PluginDescription": "Zásuvný modul přihlašování, který pro prvotního super uživatele čte údaje ze souboru config\/config.ini.php a pro další uživatele z databáze. Může být jednoduše nahrazen jinou metodou autentizace (OpenId, htaccess atd.).",
+        "PluginDescription": "Poskytuje autentizaci jménem a heslem a funkcionalitu obnovy hesla. Metodu přihlašování můžete změnit pomocí zásuvného modulu přihlašování, kterým je například LoginLdap dostupný z obchodu.",
         "RememberMe": "Zapamatovat si",
         "ResetPasswordInstructions": "Zadejte nové heslo k Vašemu účtu."
     }

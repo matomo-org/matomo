@@ -8,6 +8,7 @@
 		<nb_interactions>2</nb_interactions>
 		<interaction_rate>100%</interaction_rate>
 		<contentTarget>http://www.example.com</contentTarget>
+		<segment>contentPiece==%2Fpath%2Fad.jpg</segment>
 	</row>
 	<row>
 		<label>/path/ad2.jpg</label>
@@ -17,5 +18,6 @@
 		<nb_interactions>0</nb_interactions>
 		<interaction_rate>0%</interaction_rate>
 		<contentTarget>http://www.example.com</contentTarget>
+		<segment>contentPiece==%2Fpath%2Fad2.jpg</segment>
 	</row>
 </result>

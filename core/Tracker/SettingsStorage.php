@@ -11,33 +11,24 @@ namespace Piwik\Tracker;
 
 use Piwik\Settings\Storage;
 use Piwik\Tracker;
+use Piwik\Cache as PiwikCache;
 
 /**
  * Loads settings from tracker cache instead of database. If not yet present in tracker cache will cache it.
  */
 class SettingsStorage extends Storage
 {
-
     protected function loadSettings()
     {
-        $trackerCache = Cache::getCacheGeneral();
-        $settings = null;
+        $cacheId = $this->getOptionKey();
+        $cache = $this->getCache();
 
-        if (array_key_exists('settingsStorage', $trackerCache)) {
-            $allSettings = $trackerCache['settingsStorage'];
-
-            if (is_array($allSettings) && array_key_exists($this->getOptionKey(), $allSettings)) {
-                $settings = $allSettings[$this->getOptionKey()];
-            }
+        if ($cache->contains($cacheId)) {
+            $settings = $cache->fetch($cacheId);
         } else {
-            $trackerCache['settingsStorage'] = array();
-        }
-
-        if (is_null($settings)) {
             $settings = parent::loadSettings();
 
-            $trackerCache['settingsStorage'][$this->getOptionKey()] = $settings;
-            Cache::setCacheGeneral($trackerCache);
+            $cache->save($cacheId, $settings);
         }
 
         return $settings;
@@ -49,9 +40,20 @@ class SettingsStorage extends Storage
         self::clearCache();
     }
 
+    private function getCache()
+    {
+        return self::buildCache($this->getOptionKey());
+    }
+
     public static function clearCache()
     {
-        Cache::clearCacheGeneral();
+        Cache::deleteTrackerCache();
+        self::buildCache()->flushAll();
+    }
+
+    private static function buildCache()
+    {
+        return PiwikCache::getEagerCache();
     }
 
 }

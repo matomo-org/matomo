@@ -1,21 +1,82 @@
 # Piwik Platform Changelog
 
-This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here. 
+This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
+
+## Piwik 2.11.0
+
+### Breaking Changes
+* The event `User.getLanguage` has been removed.
+* The following deprecated event has been removed: `TaskScheduler.getScheduledTasks`
+* Special handling for operating system `Windows` has been removed. Like other operating systems all versions will now only be reported as `Windows` with versions like `XP`, `7`, `8`, etc.
+* Reporting for operating systems has been adjusted to report information according to browser information. Visitor details now contain: `operatingSystemName`, `operatingSystemIcon`, `operatingSystemCode` and `operatingSystemVersion`
+
+### Deprecations
+* The following methods have been deprecated in favor of the new `Piwik\Intl` component:
+  * `Piwik\Common::getContinentsList()`: use `RegionDataProvider::getContinentList()` instead
+  * `Piwik\Common::getCountriesList()`: use `RegionDataProvider::getCountryList()` instead
+  * `Piwik\Common::getLanguagesList()`: use `LanguageDataProvider::getLanguageList()` instead
+  * `Piwik\Common::getLanguageToCountryList()`: use `LanguageDataProvider::getLanguageToCountryList()` instead
+  * `Piwik\Metrics\Formatter::getCurrencyList()`: use `CurrencyDataProvider::getCurrencyList()` instead
+* The `Piwik\Translate` class has been deprecated in favor of `Piwik\Translation\Translator`.
+* The `core:plugin` console has been deprecated in favor of the new `plugin:list`, `plugin:activate` and `plugin:deactivate` commands
+* The following classes have been deprecated:
+  * `Piwik\TaskScheduler`: use `Piwik\Scheduler\Scheduler` instead
+  * `Piwik\ScheduledTask`: use `Piwik\Scheduler\Task` instead
+* The API method `UserSettings.getLanguage` is deprecated and will be removed from May 1st 2015. Use `UserLanguage.getLanguage` instead
+* The API method `UserSettings.getLanguageCode` is deprecated and will be removed from May 1st 2015. Use `UserLanguage.getLanguageCode` instead
+* The `Piwik\Registry` class has been deprecated in favor of using the container:
+  * `Registry::get('auth')` should be replaced with `StaticContainer::get('Piwik\Auth')`
+  * `Registry::set('auth', $auth)` should be replaced with `StaticContainer::getContainer()->set('Piwik\Auth', $auth)`
+ 
+### New features
+* You can now generate UI / screenshot tests using the command `generate:test`
+* During UI tests we do now add a CSS class to the HTML element called `uiTest`. This allows you do hide content when screenshots are captured.
+
+### New commands
+* A new command (core:fix-duplicate-log-actions) has been added which can be used to remove duplicate actions and correct references to them in other tables. Duplicates were caused by this bug: https://github.com/piwik/piwik/issues/6436
+
+### Library updates
+* Updated AngularJS from 1.2.26 to 1.2.28
+* Updated piwik/device-detector from 2.8 to 3.0
+
+### Internal change
+* UI specs were moved from `tests/PHPUnit/UI` to `tests/UI`. We also moved the UI specs directly into the Piwik repository meaning the [piwik-ui-tests](https://github.com/piwik/piwik-ui-tests) repository contains only the expected screenshots from now on.
+* There is a new command `development:sync-system-test-processed` for core developers that allows you to copy processed test results from travis to your local dev environment.
 
 ## Piwik 2.10.0
 
 ### Breaking Changes
-* Some duplicate reports from UserSettings plugin have been removed. Widget URLs for those reports will still work till May 1st 2015. Please update those to the new reports of DevicesDetection plugin.
-* API responses containing visitor information will now longer contain the fields `screenType` and `screenTypeIcon` as those reports have been completely removed
+* API responses containing visitor information will no longer contain the fields `screenType` and `screenTypeIcon` as those reports have been completely removed
+* os, browser and browser plugin icons are now located in the DevicesDetection and DevicePlugins plugin. If you are not using the Reporting or Metadata API to get the icon locations please update your paths.
+* The deprecated method `Piwik\SettingsPiwik::rewriteTmpPathWithHostname()` has been removed.
+* The following events have been removed:
+  * `Log.formatFileMessage`
+  * `Log.formatDatabaseMessage`
+  * `Log.formatScreenMessage`
+  * These events have been removed as Piwik now uses the Monolog logging library. [Learn more.](http://developer.piwik.org/guides/logging)
+* The event `Log.getAvailableWriters` has been removed: to add custom log backends, you now need to configure Monolog handlers
+* The INI options `log_only_when_cli` and `log_only_when_debug_parameter` have been removed
+
+### Library updates
+* We added the `symfony/var-dumper` library allowing you to better print any arbitrary PHP variable via `dump($var1, $var2, ...)`.
+* Piwik now uses [Monolog](https://github.com/Seldaek/monolog) as a logger.
+* The tracker proxy (previously in `misc/proxy-hide-piwik-url/`) has been moved to a separate repository: [https://github.com/piwik/tracker-proxy](https://github.com/piwik/tracker-proxy).
 
 ### Deprecations
+* Some duplicate reports from UserSettings plugin have been removed. Widget URLs for those reports will still work till May 1st 2015. Please update those to the new reports of DevicesDetection plugin.
 * The API method `UserSettings.getBrowserVersion` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowserVersions` instead
 * The API method `UserSettings.getBrowser` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowsers` instead
 * The API method `UserSettings.getOSFamily` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getOsFamilies` instead
 * The API method `UserSettings.getOS` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getOsVersions` instead
 * The API method `UserSettings.getMobileVsDesktop` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getType` instead
 * The API method `UserSettings.getBrowserType` is deprecated and will be removed from May 1st 2015. Use `DevicesDetection.getBrowserEngines` instead
-* The API method `UserSettings.getWideScreen` has been removed
+* The API method `UserSettings.getResolution` is deprecated and will be removed from May 1st 2015. Use `Resolution.getResolution` instead
+* The API method `UserSettings.getConfiguration` is deprecated and will be removed from May 1st 2015. Use `Resolution.getConfiguration` instead
+* The API method `UserSettings.getPlugin` is deprecated and will be removed from May 1st 2015. Use `DevicePlugins.getPlugin` instead
+* The API method `UserSettings.getWideScreen` has been removed. Use `UserSettings.getScreenType` instead.
+* `Piwik\SettingsPiwik::rewriteTmpPathWithInstanceId()` has been deprecated. Instead of hardcoding the `tmp/` path everywhere in the codebase and then calling `rewriteTmpPathWithInstanceId()`, developers should get the `path.tmp` configuration value from the DI container (e.g. `StaticContainer::getContainer()->get('path.tmp')`).
+* The method `Piwik\Log::setLogLevel()` has been deprecated
+* The method `Piwik\Log::getLogLevel()` has been deprecated
 
 ## Piwik 2.9.1
 
@@ -27,14 +88,6 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### New commands
 * `core:plugin list` lists all plugins currently activated in Piwik.
-
-## Piwik 2.10.0
-
-### Breaking Changes
-* The deprecated method `Piwik\SettingsPiwik::rewriteTmpPathWithHostname()` has been removed.
-
-### Deprecations
-* `Piwik\SettingsPiwik::rewriteTmpPathWithInstanceId()` has been deprecated. Instead of hardcoding the `tmp/` path everywhere in the codebase and then calling `rewriteTmpPathWithInstanceId()`, developers should get the `path.tmp` configuration value from the DI container (e.g. `StaticContainer::getContainer()->get('path.tmp')`).
 
 ## Piwik 2.9.0
 

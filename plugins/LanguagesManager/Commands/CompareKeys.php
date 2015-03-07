@@ -9,7 +9,8 @@
 
 namespace Piwik\Plugins\LanguagesManager\Commands;
 
-use Piwik\Translate;
+use Piwik\Container\StaticContainer;
+use Piwik\Translation\Translator;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -49,8 +50,10 @@ class CompareKeys extends TranslationBase
 
         $englishFromOTrance = json_decode(file_get_contents($englishFromOTrance), true);
 
-        Translate::reloadLanguage('en');
-        $availableTranslations = $GLOBALS['Piwik_translations'];
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        $translator->setCurrentLanguage('en');
+        $availableTranslations = $translator->getAllTranslations();
 
         $categories = array_unique(array_merge(array_keys($englishFromOTrance), array_keys($availableTranslations)));
         sort($categories);

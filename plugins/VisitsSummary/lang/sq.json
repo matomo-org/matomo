@@ -14,7 +14,6 @@
         "NbUniquePageviewsDescription": "%s parje unike faqesh",
         "NbUniqueVisitors": "%s vizitorë unikë",
         "NbVisitsBounced": "%s vizita të kthyera mbrapsht (e lanë \"site\"-in web pas një faqeje)",
-        "PluginDescription": "Raporton numrat e përgjithshëm të Analizës: vizita, vizitorë unikë, numër veprimesh, Shkallë Kthimesh, etj.",
         "VisitsSummary": "Përmbledhje Vizitash",
         "VisitsSummaryDocumentation": "Kjo është një përmbledhje e evolucionit të vizitave",
         "WidgetLastVisits": "Grafik për vizitat e fundit",

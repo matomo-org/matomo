@@ -10,8 +10,9 @@
         "Deactivate": "Desactiva",
         "Inactive": "Inactiu",
         "LicenseHomepage": "Pàgina de la llicència",
-        "PluginDescription": "Interfíce d'administració d'extensions.",
+        "OncePluginIsInstalledYouMayActivateHere": "Un cop hi ha un connector instal·lat, podeu activar-lo i desactivar-lo aquí.",
         "PluginHomepage": "Pàgina web",
+        "PluginsExtendPiwik": "Els connectors augmenten la funcionalitat del Piwik.",
         "PluginsManagement": "Gestiona els connectors",
         "Status": "Estat",
         "Version": "Versió"

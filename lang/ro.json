@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Ignora vizitele cu headerul X-Do-Not-Track sau DNT."
-    },
     "General": {
         "AbandonedCarts": "Cosuri abandonate",
         "AboutPiwikX": "Despre Piwik %s",
@@ -179,7 +176,6 @@
         "Forums": "Forumuri",
         "FromReferrer": "de la",
         "GeneralInformation": "Informaţii Generale",
-        "GeneralSettings": "Setări generale",
         "GetStarted": "Incepe",
         "GiveUsYourFeedback": "Trimite sesizarii!",
         "Goal": "Ţintă",
@@ -415,6 +411,7 @@
         "VisitorID": "ID vizitator",
         "VisitorIP": "IP vizitator",
         "Visitors": "Vizitatori",
+        "VisitorSettings": "Setări vizitatori",
         "VisitsWith": "Vizite cu %s",
         "VisitType": "Tip vizitator",
         "VisitTypeExample": "De exemplu, pentru a selecta toti vizitatorii care s-au intors pe site, inclusiv cei care au cumparat in trecut, cererea catre API ar include %s",

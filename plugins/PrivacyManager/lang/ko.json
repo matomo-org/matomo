@@ -46,7 +46,6 @@
         "LeastMonthsInput": "달은 %s보다 커야합니다.",
         "MenuPrivacySettings": "개인 정보 보호",
         "NextDelete": "다음 제거까지",
-        "PluginDescription": "기존의 법률에 따라, Piwik이 개인 정보 보호를 준수하도록 지정합니다.",
         "PurgeNow": "지금 DB 삭제",
         "PurgeNowConfirm": "영구적으로 데이터베이스의 데이터를 삭제하려고합니다. 계속 하시겠습니까?",
         "PurgingData": "데이터를 삭제합니다...",

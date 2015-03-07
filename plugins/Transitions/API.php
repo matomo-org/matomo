@@ -24,7 +24,7 @@ use Piwik\Plugins\Actions\Actions;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\RankingQuery;
 use Piwik\Segment;
-use Piwik\SegmentExpression;
+use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
@@ -523,8 +523,8 @@ class API extends \Piwik\Plugin\API
             if ($visits) {
                 // load details (i.e. subtables)
                 $details = array();
-                if ($idSubTable = $row->getIdSubDataTable()) {
-                    $subTable = Manager::getInstance()->getTable($idSubTable);
+                $subTable = $row->getSubtable();
+                if ($subTable) {
                     foreach ($subTable->getRows() as $subRow) {
                         $details[] = array(
                             'label'     => $subRow->getColumn('label'),

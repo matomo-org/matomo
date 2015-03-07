@@ -18,7 +18,6 @@
         "Maximise": "I-maximise",
         "Minimise": "I-minimise",
         "NotUndo": "Hindi mo magagawang i-undo ang operasyon na ito.",
-        "PluginDescription": "Ang iyong Web Analytics Dashboard. Maaari mong i-customize ang iyong Dashboard: magdagdag ng mga bagong widget baguhin ang ayos ng iyong widget. Bawat user ay maaring i-access ang kanyang sariling custom Dashboard.",
         "RemoveDashboard": "Alisin dashboard",
         "RemoveDashboardConfirm": "Sigurado ko bang gusto mong tanggalin ang dashboard \"%s\"?",
         "RenameDashboard": "Palitan ang pangalan ng dashboard",

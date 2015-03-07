@@ -11,7 +11,6 @@ use Piwik\DataTable\Manager;
 use Piwik\Option;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Site;
-use Piwik\Tracker\Cache;
 use Piwik\Tracker;
 
 require realpath(dirname(__FILE__)) . "/includes.php";
@@ -35,4 +34,7 @@ try {
     echo "Unexpected error during tracking: " . $ex->getMessage() . "\n" . $ex->getTraceAsString() . "\n";
 }
 
-ob_end_flush();
+if (ob_get_level() > 1) {
+    ob_end_flush();
+}
+

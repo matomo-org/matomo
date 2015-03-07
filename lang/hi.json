@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "\"Do Not Track or DNT\" शीर्षक के साथ यात्राओं पर ध्यान न दें."
-    },
     "General": {
         "AbandonedCarts": "परित्यक्त गाड़ियां",
         "AboutPiwikX": "%s Piwik के बारे में",
@@ -176,7 +173,6 @@
         "Forums": "फ़ड़",
         "FromReferrer": "से",
         "GeneralInformation": "सामान्य सूचना",
-        "GeneralSettings": "सामान्य व्यवस्था",
         "GetStarted": "शुरू हो जाओ",
         "GiveUsYourFeedback": "हमें प्रतिक्रिया दे!",
         "Goal": "लक्ष्य",
@@ -402,6 +398,7 @@
         "VisitorID": "आगंतुक आईडी",
         "VisitorIP": "आगंतुक आईपी",
         "Visitors": "आगंतुकों",
+        "VisitorSettings": "आगंतुक सेटिंग्स",
         "VisitsWith": "%s साथ दौरा",
         "VisitType": "आगंतुक के प्रकार",
         "VisitTypeExample": "उदाहरण के लिए, अपने पिछले दौरों में कुछ खरीदा है जो उन सहित, वेबसाइट पर लौट आए हैं, जो सभी आगंतुकों का चयन करने के लिए, एपीआई अनुरोध %s शामिल होगा",

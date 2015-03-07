@@ -154,6 +154,17 @@ class API extends \Piwik\Plugin\API
         $this->checkSecondaryDimension($name, $secondaryDimension);
         $recordName = $this->getRecordNameForAction($name, $secondaryDimension);
         $dataTable = Archive::getDataTableFromArchive($recordName, $idSite, $period, $date, $segment, $expanded, $idSubtable);
+
+        if (empty($idSubtable)) {
+            $dataTable->filter('AddSegmentValue', array(function ($label) {
+                if ($label === Archiver::EVENT_NAME_NOT_SET) {
+                    return false;
+                }
+
+                return $label;
+            }));
+        }
+
         $this->filterDataTable($dataTable);
         return $dataTable;
     }

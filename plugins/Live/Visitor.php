@@ -246,44 +246,11 @@ class Visitor implements VisitorInterface
     {
         $idVisit = $visitorDetailsArray['idVisit'];
 
-        $maxCustomVariables = CustomVariables::getMaxCustomVariables();
-
-        $sqlCustomVariables = '';
-        for ($i = 1; $i <= $maxCustomVariables; $i++) {
-            $sqlCustomVariables .= ', custom_var_k' . $i . ', custom_var_v' . $i;
-        }
-        // The second join is a LEFT join to allow returning records that don't have a matching page title
-        // eg. Downloads, Outlinks. For these, idaction_name is set to 0
-        $sql = "
-				SELECT
-					COALESCE(log_action_event_category.type, log_action.type, log_action_title.type) AS type,
-					log_action.name AS url,
-					log_action.url_prefix,
-					log_action_title.name AS pageTitle,
-					log_action.idaction AS pageIdAction,
-					log_link_visit_action.server_time as serverTimePretty,
-					log_link_visit_action.time_spent_ref_action as timeSpentRef,
-					log_link_visit_action.idlink_va AS pageId,
-					log_link_visit_action.custom_float
-					". $sqlCustomVariables . ",
-					log_action_event_category.name AS eventCategory,
-					log_action_event_action.name as eventAction
-				FROM " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action
-					ON  log_link_visit_action.idaction_url = log_action.idaction
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_title
-					ON  log_link_visit_action.idaction_name = log_action_title.idaction
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_event_category
-					ON  log_link_visit_action.idaction_event_category = log_action_event_category.idaction
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_event_action
-					ON  log_link_visit_action.idaction_event_action = log_action_event_action.idaction
-				WHERE log_link_visit_action.idvisit = ?
-				ORDER BY server_time ASC
-				LIMIT 0, $actionsLimit
-				 ";
-        $actionDetails = Db::fetchAll($sql, array($idVisit));
+        $model = new Model();
+        $actionDetails = $model->queryActionsForVisit($idVisit, $actionsLimit);
 
         $formatter = new Formatter();
+        $maxCustomVariables = CustomVariables::getMaxCustomVariables();
 
         foreach ($actionDetails as $actionIdx => &$actionDetail) {
             $actionDetail =& $actionDetails[$actionIdx];
@@ -353,46 +320,9 @@ class Visitor implements VisitorInterface
         }
 
         // If the visitor converted a goal, we shall select all Goals
-        $sql = "
-				SELECT
-						'goal' as type,
-						goal.name as goalName,
-						goal.idgoal as goalId,
-						goal.revenue as revenue,
-						log_conversion.idlink_va as goalPageId,
-						log_conversion.server_time as serverTimePretty,
-						log_conversion.url as url
-				FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
-				LEFT JOIN " . Common::prefixTable('goal') . " AS goal
-					ON (goal.idsite = log_conversion.idsite
-						AND
-						goal.idgoal = log_conversion.idgoal)
-					AND goal.deleted = 0
-				WHERE log_conversion.idvisit = ?
-					AND log_conversion.idgoal > 0
-                ORDER BY server_time ASC
-				LIMIT 0, $actionsLimit
-			";
-        $goalDetails = Db::fetchAll($sql, array($idVisit));
+        $goalDetails = $model->queryGoalConversionsForVisit($idVisit, $actionsLimit);
 
-        $sql = "SELECT
-						case idgoal when " . GoalManager::IDGOAL_CART . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
-						idorder as orderId,
-						" . LogAggregator::getSqlRevenue('revenue') . " as revenue,
-						" . LogAggregator::getSqlRevenue('revenue_subtotal') . " as revenueSubTotal,
-						" . LogAggregator::getSqlRevenue('revenue_tax') . " as revenueTax,
-						" . LogAggregator::getSqlRevenue('revenue_shipping') . " as revenueShipping,
-						" . LogAggregator::getSqlRevenue('revenue_discount') . " as revenueDiscount,
-						items as items,
-
-						log_conversion.server_time as serverTimePretty
-					FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
-					WHERE idvisit = ?
-						AND idgoal <= " . GoalManager::IDGOAL_ORDER . "
-					ORDER BY server_time ASC
-					LIMIT 0, $actionsLimit";
-        $ecommerceDetails = Db::fetchAll($sql, array($idVisit));
-
+        $ecommerceDetails = $model->queryEcommerceConversionsForVisit($idVisit, $actionsLimit);
         foreach ($ecommerceDetails as &$ecommerceDetail) {
             if ($ecommerceDetail['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
                 unset($ecommerceDetail['orderId']);
@@ -415,30 +345,9 @@ class Visitor implements VisitorInterface
         // Enrich ecommerce carts/orders with the list of products
         usort($ecommerceDetails, array('static', 'sortByServerTime'));
         foreach ($ecommerceDetails as &$ecommerceConversion) {
-            $sql = "SELECT
-							log_action_sku.name as itemSKU,
-							log_action_name.name as itemName,
-							log_action_category.name as itemCategory,
-							" . LogAggregator::getSqlRevenue('price') . " as price,
-							quantity as quantity
-						FROM " . Common::prefixTable('log_conversion_item') . "
-							INNER JOIN " . Common::prefixTable('log_action') . " AS log_action_sku
-							ON  idaction_sku = log_action_sku.idaction
-							LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_name
-							ON  idaction_name = log_action_name.idaction
-							LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_category
-							ON idaction_category = log_action_category.idaction
-						WHERE idvisit = ?
-							AND idorder = ?
-							AND deleted = 0
-						LIMIT 0, $actionsLimit
-				";
-            $bind = array($idVisit, isset($ecommerceConversion['orderId'])
-                ? $ecommerceConversion['orderId']
-                : GoalManager::ITEM_IDORDER_ABANDONED_CART
-            );
+            $idOrder = isset($ecommerceConversion['orderId']) ? $ecommerceConversion['orderId'] : GoalManager::ITEM_IDORDER_ABANDONED_CART;
 
-            $itemsDetails = Db::fetchAll($sql, $bind);
+            $itemsDetails = $model->queryEcommerceItemsForOrder($idVisit, $idOrder, $actionsLimit);
             foreach ($itemsDetails as &$detail) {
                 if ($detail['price'] == round($detail['price'])) {
                     $detail['price'] = round($detail['price']);
@@ -450,6 +359,10 @@ class Visitor implements VisitorInterface
         $actions = array_merge($actionDetails, $goalDetails, $ecommerceDetails);
 
         usort($actions, array('static', 'sortByServerTime'));
+
+        foreach ($actions as &$action) {
+            unset($action['idlink_va']);
+        }
 
         $visitorDetailsArray['actionDetails'] = $actions;
         foreach ($visitorDetailsArray['actionDetails'] as &$details) {
@@ -485,6 +398,7 @@ class Visitor implements VisitorInterface
             // Convert datetimes to the site timezone
             $dateTimeVisit = Date::factory($details['serverTimePretty'], $timezone);
             $details['serverTimePretty'] = $dateTimeVisit->getLocalized(Piwik::translate('CoreHome_ShortDateFormat') . ' %time%');
+            $details['timestamp'] = $dateTimeVisit->getTimestamp();
         }
         $visitorDetailsArray['goalConversions'] = count($goalDetails);
         return $visitorDetailsArray;
@@ -506,10 +420,19 @@ class Visitor implements VisitorInterface
     {
         $ta = strtotime($a['serverTimePretty']);
         $tb = strtotime($b['serverTimePretty']);
-        return $ta < $tb
-            ? -1
-            : ($ta == $tb
-                ? 0
-                : 1);
+
+        if ($ta < $tb) {
+            return -1;
+        }
+
+        if ($ta == $tb) {
+            if ($a['idlink_va'] > $b['idlink_va']) {
+               return 1;
+            }
+
+            return -1;
+        }
+
+        return 1;
     }
 }

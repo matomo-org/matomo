@@ -17,7 +17,7 @@
         "NbUniquePageviewsDescription": "%s visualizzazioni pagina uniche",
         "NbUniqueVisitors": "%s visitatori unici",
         "NbVisitsBounced": "Il %s dei visitatori hanno visto 1 sola pagina",
-        "PluginDescription": "Riporta i dati generali di Web Analytics: visite, visite uniche, numero di azioni, percentuale dei rimbalzi, ecc.",
+        "PluginDescription": "Riporta le comuni metriche delle statistiche: visite, visitatori unici, numero di azioni, percentuale rimbalzi, ecc.",
         "VisitsSummary": "Sommario delle visite",
         "VisitsSummaryDocumentation": "Questa è una panoramica dell'evoluzione delle visite.",
         "WidgetLastVisits": "Grafico ultime visite",

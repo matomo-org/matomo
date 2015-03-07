@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
 use Piwik\Db;
@@ -16,6 +17,7 @@ use Piwik\Plugin;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Session;
 use Piwik\Tracker;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
 /**
@@ -299,8 +301,10 @@ class Piwik
     public static function hasUserSuperUserAccess()
     {
         try {
-            self::checkUserHasSuperUserAccess();
-            return true;
+            $hasAccess = Access::getInstance()->hasSuperUserAccess();
+
+            return $hasAccess;
+
         } catch (Exception $e) {
             return false;
         }
@@ -485,7 +489,7 @@ class Piwik
      */
     public static function getLoginPluginName()
     {
-        return Registry::get('auth')->getName();
+        return StaticContainer::get('Piwik\Auth')->getName();
     }
 
     /**
@@ -499,7 +503,7 @@ class Piwik
     }
 
     /**
-     * Returns the current module read from the URL (eg. 'API', 'UserSettings', etc.)
+     * Returns the current module read from the URL (eg. 'API', 'DevicesDetection', etc.)
      *
      * @return string
      */
@@ -589,7 +593,7 @@ class Piwik
         ) {
             return;
         }
-        $loginMinimumLength = 3;
+        $loginMinimumLength = 2;
         $loginMaximumLength = 100;
         $l = strlen($userLogin);
         if (!($l >= $loginMinimumLength
@@ -731,25 +735,16 @@ class Piwik
      * @param string $translationId Translation ID, eg, `'General_Date'`.
      * @param array|string|int $args `sprintf` arguments to be applied to the internationalized
      *                               string.
+     * @param string|null $language Optionally force the language.
      * @return string The translated string or `$translationId`.
      * @api
      */
-    public static function translate($translationId, $args = array())
+    public static function translate($translationId, $args = array(), $language = null)
     {
-        if (!is_array($args)) {
-            $args = array($args);
-        }
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
 
-        if (strpos($translationId, "_") !== false) {
-            list($plugin, $key) = explode("_", $translationId, 2);
-            if (isset($GLOBALS['Piwik_translations'][$plugin]) && isset($GLOBALS['Piwik_translations'][$plugin][$key])) {
-                $translationId = $GLOBALS['Piwik_translations'][$plugin][$key];
-            }
-        }
-        if (count($args) == 0) {
-            return $translationId;
-        }
-        return vsprintf($translationId, $args);
+        return $translator->translate($translationId, $args, $language);
     }
 
     /**

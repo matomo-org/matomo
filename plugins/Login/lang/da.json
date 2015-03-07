@@ -16,7 +16,6 @@
         "PasswordChanged": "Din adgangskode er blevet ændret.",
         "PasswordRepeat": "Adgangskode (gentag)",
         "PasswordsDoNotMatch": "Adgangskoder er ikke ens.",
-        "PluginDescription": "Udvidelsen Login-godkendelse , læser legitimationsoplysningerne fra filen config\/config.ini.php for den oprindelige superbruger, og fra databasen for andre brugere. Kan let udskiftes for at indføre en ny godkendelses metode (OpenID, htaccess, brugerdefinerede Auth, osv.).",
         "RememberMe": "Husk mig",
         "ResetPasswordInstructions": "Indtast en ny adgangskode til din konto."
     }

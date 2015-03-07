@@ -6,6 +6,7 @@
         "LoginOrEmail": "Brukernavn eller e-post",
         "LoginPasswordNotCorrect": "Brukernavn og passord er ikke korrekt",
         "LostYourPassword": "Glemt passord?",
+        "MailTopicPasswordChange": "Bekreft passordendring",
         "PasswordChanged": "Passordet er endret.",
         "PasswordRepeat": "Passord (gjenta)",
         "PasswordsDoNotMatch": "Passordene stemmer ikke overens.",

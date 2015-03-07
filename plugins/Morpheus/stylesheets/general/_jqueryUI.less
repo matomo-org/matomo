@@ -152,7 +152,7 @@ div.ui-state-highlight {
 .ui-state-default {
   border: 1px solid #f2f6f9 !important;
   border-right: 0 !important;
-  background: #fff !important;
+  background: @theme-color-background-base !important;
   color: #000 !important;
   text-align: center !important;
 }
@@ -190,6 +190,12 @@ td.ui-datepicker-other-month.ui-state-hover.ui-datepicker-current-period {
   background: #978c7c !important;
 }
 
+.ui-datepicker select.ui-datepicker-month {
+  width: 46%;
+}
+.ui-datepicker select.ui-datepicker-year {
+  width: 54%;
+}
 .ui-datepicker-month:disabled {
   border-color: #ccc !important;
   background: #f5f3f0 !important;

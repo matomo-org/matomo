@@ -42,6 +42,7 @@ class Live extends \Piwik\Plugin
         $jsFiles[] = "plugins/Live/javascripts/live.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorProfile.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorLog.js";
+        $jsFiles[] = "plugins/Live/javascripts/rowaction.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -51,5 +52,9 @@ class Live extends \Piwik\Plugin
         $translationKeys[] = "Live_ShowMap";
         $translationKeys[] = "Live_HideMap";
         $translationKeys[] = "Live_PageRefreshed";
+        $translationKeys[] = "Live_RowActionTooltipTitle";
+        $translationKeys[] = "Live_RowActionTooltipDefault";
+        $translationKeys[] = "Live_RowActionTooltipWithDimension";
+        $translationKeys[] = "Live_SegmentedVisitorLogTitle";
     }
 }

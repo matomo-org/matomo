@@ -8,7 +8,8 @@
  */
 namespace Piwik\Plugin\Dimension;
 
-use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\CacheId;
+use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Segment;
@@ -212,9 +213,10 @@ abstract class ActionDimension extends Dimension
      */
     public static function getAllDimensions()
     {
-        $cache = new PluginAwareStaticCache('ActionDimensions');
+        $cacheId = CacheId::pluginAware('ActionDimensions');
+        $cache   = PiwikCache::getTransientCache();
 
-        if (!$cache->has()) {
+        if (!$cache->contains($cacheId)) {
 
             $plugins   = PluginManager::getInstance()->getPluginsLoadedAndActivated();
             $instances = array();
@@ -225,10 +227,10 @@ abstract class ActionDimension extends Dimension
                 }
             }
 
-            $cache->set($instances);
+            $cache->save($cacheId, $instances);
         }
 
-        return $cache->get();
+        return $cache->fetch($cacheId);
     }
 
     /**

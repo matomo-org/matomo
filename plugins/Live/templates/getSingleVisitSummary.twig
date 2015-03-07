@@ -25,7 +25,7 @@
         </li>
         <li>
             {% if visitData.browserName is defined %}
-            <div class="visitor-profile-browser" title="{% if visitData.plugins is defined %}{{ 'UserSettings_BrowserWithPluginsEnabled'|translate(visitData.browserName, visitData.plugins) }}{% else %}{{ 'UserSettings_BrowserWithNoPluginsEnabled'|translate(visitData.browserName) }}{% endif %}">
+            <div class="visitor-profile-browser" title="{% if visitData.plugins is not defined %}{{ visitData.browser }}{% elseif visitData.plugins %}{{ 'DevicePlugins_BrowserWithPluginsEnabled'|translate(visitData.browser, visitData.plugins) }}{% else %}{{ 'DevicePlugins_BrowserWithNoPluginsEnabled'|translate(visitData.browser) }}{% endif %}">
                 {% if visitData.browserIcon is defined %}<img src="{{ visitData.browserIcon }}"/>{% endif %}<span>{{ visitData.browserName|split(' ')[0] }}</span>
             </div>
             {% endif %}
@@ -34,7 +34,7 @@
                 {% if visitData.operatingSystemIcon is defined %}<img src="{{ visitData.operatingSystemIcon }}"/>{% endif %}{% if visitData.operatingSystem is defined %}<span>{{ visitData.operatingSystem }}</span>{% endif %}
             </div>
         </li>
-        {% if visitData.resolution is defined %}<li><span>{{ 'UserSettings_ColumnResolution'|translate }}</span><strong>{{ visitData.resolution }}</strong></li>{% endif %}
+        {% if visitData.resolution is defined %}<li><span>{{ 'Resolution_ColumnResolution'|translate }}</span><strong>{{ visitData.resolution }}</strong></li>{% endif %}
         {% if visitData.userId is not empty %}<li><span>{{ 'General_UserId'|translate }}</span><strong>{{ visitData.userId|raw }}</strong></li>{% endif %}
         {% if visitReferralSummary is defined %}
         {%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}

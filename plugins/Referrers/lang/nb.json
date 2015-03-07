@@ -6,7 +6,6 @@
         "ColumnSocial": "Sosiale nettverk",
         "ColumnWebsite": "Nettsted",
         "ColumnWebsitePage": "Nettside",
-        "DetailsByReferrerType": "Detaljer etter henvisningstype",
         "DirectEntry": "Direkte treff",
         "Distinct": "Ulike henvisere etter henvisningstype",
         "DistinctCampaigns": "ulike kampanjer",
@@ -14,7 +13,6 @@
         "DistinctSearchEngines": "ulike søkemotorer",
         "DistinctWebsites": "ulike nettsteder",
         "Keywords": "Nøkkelord",
-        "PluginDescription": "Rapporterer henviserdata: Søkemotorer, nøkkelord, nettsteder, kampanjesporing, direkte inngang.",
         "Referrers": "Henvisere",
         "SearchEngines": "Søkemotorer",
         "Socials": "Sosiale nettverk",
@@ -28,6 +26,7 @@
         "UsingNDistinctUrls": "(bruker %s forskjellige URL-er)",
         "Websites": "Nettsteder",
         "WidgetExternalWebsites": "Liste over eksterne nettsteder",
-        "WidgetSocials": "Liste over sosiale nettverk"
+        "WidgetSocials": "Liste over sosiale nettverk",
+        "XPercentOfVisits": "%s%% av besøk"
     }
 }

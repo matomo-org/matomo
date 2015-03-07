@@ -71,7 +71,8 @@ class Json extends Renderer
         };
         array_walk_recursive($array, $callback);
 
-        $str = json_encode($array);
+        // silence "Warning: json_encode(): Invalid UTF-8 sequence in argument"
+        $str = @json_encode($array);
 
         return $str;
     }

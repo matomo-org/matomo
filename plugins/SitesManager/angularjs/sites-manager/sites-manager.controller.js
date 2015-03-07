@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('SitesManagerController', SitesManagerController);
 
-    SitesManagerController.$inject = ['$scope', '$filter', 'coreAPI', 'coreAdminAPI', 'sitesManagerAPI', 'piwik', 'sitesManagerApiHelper'];
+    SitesManagerController.$inject = ['$scope', '$filter', 'coreAPI', 'sitesManagerAPI', 'piwik', 'sitesManagerApiHelper'];
 
-    function SitesManagerController($scope, $filter, coreAPI, coreAdminAPI, sitesManagerAPI, piwik, sitesManagerApiHelper) {
+    function SitesManagerController($scope, $filter, coreAPI, sitesManagerAPI, piwik, sitesManagerApiHelper) {
 
         var translate = $filter('translate');
 
@@ -21,6 +21,8 @@
 
         var initModel = function() {
 
+            $scope.period = piwik.broadcast.getValueFromUrl('period');
+            $scope.date = piwik.broadcast.getValueFromUrl('date');
             $scope.sites = [];
             $scope.hasSuperUserAccess = piwik.hasSuperUserAccess;
             $scope.redirectParams = {showaddsite: false};
@@ -139,7 +141,7 @@
 
         var initCustomVariablesActivated = function() {
 
-            coreAdminAPI.isPluginActivated(
+            coreAPI.isPluginActivated(
 
                 function (customVariablesActivated) {
                     $scope.customVariablesActivated = customVariablesActivated;

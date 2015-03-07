@@ -238,135 +238,135 @@ class ConfigTest extends PHPUnit_Framework_TestCase
             //   CACHE
             //   --> EXPECTED <--
             array('global only, not cached', array(
-                array(),                                    // local
-                array('General' => array('debug' => '1')),  // global
-                array(),                                    // common
+                array(),                                  // local
+                array('General' => array('debug' => 1)),  // global
+                array(),                                  // common
                 array(),
                 false,
             )),
 
             array('global only, cached get', array(
-                array(),                                    // local
-                array('General' => array('debug' => '1')),  // global
-                array(),                                    // common
-                array('General' => array('debug' => '1')),
+                array(),                                  // local
+                array('General' => array('debug' => 1)),  // global
+                array(),                                  // common
+                array('General' => array('debug' => 1)),
                 false,
             )),
 
             array('global only, cached set', array(
-                array(),                                    // local
-                array('General' => array('debug' => '1')),  // global
-                array(),                                    // common
-                array('General' => array('debug' => '2')),
+                array(),                                  // local
+                array('General' => array('debug' => 1)),  // global
+                array(),                                  // common
+                array('General' => array('debug' => 2)),
                 $header . "[General]\ndebug = 2\n\n",
             )),
 
             array('local copy (same), not cached', array(
-                array('General' => array('debug' => '1')),  // local
-                array('General' => array('debug' => '1')),  // global
-                array(),                                    // common
+                array('General' => array('debug' => 1)),  // local
+                array('General' => array('debug' => 1)),  // global
+                array(),                                  // common
                 array(),
                 false,
             )),
 
             array('local copy (same), cached get', array(
-                array('General' => array('debug' => '1')),  // local
-                array('General' => array('debug' => '1')),  // global
-                array(),                                    // common
-                array('General' => array('debug' => '1')),
+                array('General' => array('debug' => 1)),  // local
+                array('General' => array('debug' => 1)),  // global
+                array(),                                  // common
+                array('General' => array('debug' => 1)),
                 false,
             )),
 
             array('local copy (same), cached set', array(
-                array('General' => array('debug' => '1')),  // local
-                array('General' => array('debug' => '1')),  // global
+                array('General' => array('debug' => 1)),  // local
+                array('General' => array('debug' => 1)),  // global
                 array(),                                    // common
-                array('General' => array('debug' => '2')),
+                array('General' => array('debug' => 2)),
                 $header . "[General]\ndebug = 2\n\n",
             )),
 
             array('local copy (different), not cached', array(
-                array('General' => array('debug' => '2')),  // local
-                array('General' => array('debug' => '1')),  // global
-                array(),                                    // common
+                array('General' => array('debug' => 2)),  // local
+                array('General' => array('debug' => 1)),  // global
+                array(),                                  // common
                 array(),
                 false,
             )),
 
             array('local copy (different), cached get', array(
-                array('General' => array('debug' => '2')),  // local
-                array('General' => array('debug' => '1')),  // global
-                array(),                                    // common
-                array('General' => array('debug' => '2')),
+                array('General' => array('debug' => 2)),  // local
+                array('General' => array('debug' => 1)),  // global
+                array(),                                  // common
+                array('General' => array('debug' => 2)),
                 false,
             )),
 
             array('local copy (different), cached set', array(
-                array('General' => array('debug' => '2')),  // local
-                array('General' => array('debug' => '1')),  // global
-                array(),                                    // common
-                array('General' => array('debug' => '3')),
+                array('General' => array('debug' => 2)),  // local
+                array('General' => array('debug' => 1)),  // global
+                array(),                                  // common
+                array('General' => array('debug' => 3)),
                 $header . "[General]\ndebug = 3\n\n",
             )),
 
             array('local copy, not cached, new section', array(
-                array('Tracker' => array('anonymize' => '1')),  // local
-                array('General' => array('debug' => '1')),      // global
-                array(),                                        // common
+                array('Tracker' => array('anonymize' => 1)),  // local
+                array('General' => array('debug' => 1)),      // global
+                array(),                                      // common
                 array(),
                 false,
             )),
 
             array('local copy, cached get, new section', array(
-                array('Tracker' => array('anonymize' => '1')),  // local
-                array('General' => array('debug' => '1')),      // global
-                array(),                                        // common
-                array('Tracker' => array('anonymize' => '1')),
+                array('Tracker' => array('anonymize' => 1)),  // local
+                array('General' => array('debug' => 1)),      // global
+                array(),                                      // common
+                array('Tracker' => array('anonymize' => 1)),
                 false,
             )),
 
             array('local copy, cached set local, new section', array(
-                array('Tracker' => array('anonymize' => '1')),  // local
-                array('General' => array('debug' => '1')),      // global
-                array(),                                        // common
-                array('Tracker' => array('anonymize' => '2')),
+                array('Tracker' => array('anonymize' => 1)),  // local
+                array('General' => array('debug' => 1)),      // global
+                array(),                                      // common
+                array('Tracker' => array('anonymize' => 2)),
                 $header . "[Tracker]\nanonymize = 2\n\n",
             )),
 
             array('local copy, cached set global, new section', array(
-                array('Tracker' => array('anonymize' => '1')),  // local
-                array('General' => array('debug' => '1')),      // global
-                array(),                                        // common
-                array('General' => array('debug' => '2')),
+                array('Tracker' => array('anonymize' => 1)),  // local
+                array('General' => array('debug' => 1)),      // global
+                array(),                                      // common
+                array('General' => array('debug' => 2)),
                 $header . "[General]\ndebug = 2\n\n[Tracker]\nanonymize = 1\n\n",
             )),
 
             array('sort, common sections', array(
-                array('Tracker' => array('anonymize' => '1'),   // local
-                      'General' => array('debug' => '1')),
-                array('General' => array('debug' => '0'),       // global
-                      'Tracker' => array('anonymize' => '0')),
-                array(),                                        // common
-                array('Tracker' => array('anonymize' => '2')),
+                array('Tracker' => array('anonymize' => 1),   // local
+                      'General' => array('debug' => 1)),
+                array('General' => array('debug' => 0),       // global
+                      'Tracker' => array('anonymize' => 0)),
+                array(),                                      // common
+                array('Tracker' => array('anonymize' => 2)),
                 $header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 2\n\n",
             )),
 
             array('sort, common sections before new section', array(
-                array('Tracker' => array('anonymize' => '1'),   // local
-                      'General' => array('debug' => '1')),
-                array('General' => array('debug' => '0'),       // global
-                      'Tracker' => array('anonymize' => '0')),
-                array(),                                        // common
+                array('Tracker' => array('anonymize' => 1),   // local
+                      'General' => array('debug' => 1)),
+                array('General' => array('debug' => 0),       // global
+                      'Tracker' => array('anonymize' => 0)),
+                array(),                                      // common
                 array('Segment' => array('dimension' => 'foo')),
                 $header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 1\n\n[Segment]\ndimension = \"foo\"\n\n",
             )),
 
             array('change back to default', array(
-                array('Tracker' => array('anonymize' => '1')),  // local
-                array('Tracker' => array('anonymize' => '0'),   // global
-                      'General' => array('debug' => '1')),
+                array('Tracker' => array('anonymize' => 1)),  // local
+                array('Tracker' => array('anonymize' => 0),   // global
+                      'General' => array('debug' => 1)),
                 array(),                                        // common
-                array('Tracker' => array('anonymize' => '0')),
+                array('Tracker' => array('anonymize' => 0)),
                 $header
             )),
 

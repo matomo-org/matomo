@@ -189,6 +189,8 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'searchqu.com'                   => array('Ask'),
         'search.tb.ask.com'              => array('Ask'),
         'nortonsafe.search.ask.com'      => array('Ask'),
+        'safesearch.avira.com'           => array('Ask'),
+        'avira.search.ask.com'           => array('Ask'),        
 
         // Atlas
         'searchatlas.centrum.cz'         => array('Atlas', 'q', '?q={k}'),
@@ -208,6 +210,8 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Baidu
         'www.baidu.com'                  => array('Baidu', array('wd', 'word', 'kw'), 's?wd={k}', array('UTF-8', 'gb2312')),
         'www1.baidu.com'                 => array('Baidu'),
+        'm.baidu.com'                    => array('Baidu'),
+        'www.baidu.co.th'                => array('Baidu'),
         'zhidao.baidu.com'               => array('Baidu'),
         'tieba.baidu.com'                => array('Baidu'),
         'news.baidu.com'                 => array('Baidu'),
@@ -281,6 +285,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // DasOertliche
         'www.dasoertliche.de'            => array('DasOertliche', 'kw'),
+        'www2.dasoertliche.de'            => array('DasOertliche', array('ph', 'kw')),        
 
         // DasTelefonbuch
         'www1.dastelefonbuch.de'         => array('DasTelefonbuch', 'kw'),
@@ -451,6 +456,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'suche.gmx.net'                  => array('Google', 'q', 'web?q={k}'),
         'search.incredibar.com'          => array('Google', 'q', 'search.php?q={k}'),
         'www.delta-search.com'           => array('Google', 'q'),
+        'www1.delta-search.com'          => array('Google', 'q'),        
         'search.1und1.de'                => array('Google', 'q', 'web?q={k}'),
         'search.zonealarm.com'           => array('Google'),
         'start.lenovo.com'               => array('Google', 'q', 'search/index.php?q={k}'),
@@ -462,11 +468,8 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'search.smt.docomo.ne.jp'        => array('Google', 'MT'),
         'image.search.smt.docomo.ne.jp'  => array('Google', 'MT'),
         'gfsoso.com'                     => array('Google', 'q'),
-
-        // Google Earth
-        // - 2010-09-13: are these redirects now?
-        'www.googleearth.de'             => array('Google'),
-        'www.googleearth.fr'             => array('Google'),
+        'searches.safehomepage.com'      => array('Google', 'q'),
+        'searches.f-secure.com'          => array('Google', 'query', 'search?query={k}'),
 
         // Google Cache
         'webcache.googleusercontent.com' => array('Google', '/\/search\?q=cache:[A-Za-z0-9]+:[^+]+([^&]+)/', 'search?q={k}'),
@@ -522,6 +525,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Gule Sider
         'www.gulesider.no'               => array('Gule Sider', 'q'),
+
+        // Haosou
+        'www.haosou.com'                 => array('Haosou', 'q', 's?q={k}'),
 
         // HighBeam
         'www.highbeam.com'               => array('HighBeam', 'q', 'Search.aspx?q={k}'),
@@ -614,6 +620,8 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'eu.ixquick.com'                 => array('Ixquick'),
         's8-eu.ixquick.com'              => array('Ixquick'),
         's1-eu.ixquick.de'               => array('Ixquick'),
+        's2-eu4.ixquick.com'             => array('Ixquick'),
+        's5-eu4.ixquick.com'             => array('Ixquick'),        
 
         // Jyxo
         'jyxo.1188.cz'                   => array('Jyxo', 'q', 's?q={k}'),
@@ -675,6 +683,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Metager
         'meta.rrzn.uni-hannover.de'      => array('Metager', 'eingabe', 'meta/cgi-bin/meta.ger1?eingabe={k}'),
         'www.metager.de'                 => array('Metager'),
+        'metager.de'                     => array('Metager'),        
 
         // Metager2
         'metager2.de'                    => array('Metager2', 'q', 'search/index.php?q={k}'),
@@ -751,6 +760,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // PeoplePC
         'search.peoplepc.com'            => array('PeoplePC', 'q', 'search?q={k}'),
 
+	// PeopleCheck
+        'extern.peoplecheck.de'            => array('PeopleCheck', 'q', 'link.php?q={k}'),
+	
         // Picsearch
         'www.picsearch.com'              => array('Picsearch', 'q', 'index.cgi?q={k}'),
 
@@ -772,6 +784,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'www.qualigo.de'                 => array('Qualigo'),
         'www.qualigo.nl'                 => array('Qualigo'),
 
+	    // Qwant
+        'www.qwant.com'                 => array('Qwant', 'q'),
+        
         // Rakuten
         'websearch.rakuten.co.jp'        => array('Rakuten', 'qt', 'WebIS?qt={k}'),
 
@@ -828,6 +843,13 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Skynet
         'www.skynet.be'                  => array('Skynet', 'q', 'services/recherche/google?q={k}'),
 
+        // sm.cn
+        'm.sm.cn'                        => array('sm.cn', 'q', 's?q={k}'),
+        'm.sp.sm.cn'                     => array('sm.cn'),
+
+        // sm.de
+        'www.sm.de'                      => array('sm.de', 'q', '?q={k}'),
+
         // SmartAdressbar
         'search.smartaddressbar.com'     => array('SmartAddressbar', 's', '?s={k}'),
 
@@ -843,6 +865,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Sogou
         'www.sogou.com'                  => array('Sogou', 'query', 'web?query={k}', 'gb2312'),
+        'm.sogou.com'                    => array('Sogou', 'keyword'),
 
         // Softonic
         'search.softonic.com'            => array('Softonic', 'q', 'default/default?q={k}'),
@@ -903,8 +926,14 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Toolbarhome
         'www.toolbarhome.com'            => array('Toolbarhome', 'q', 'search.aspx?q={k}'),
-
         'vshare.toolbarhome.com'         => array('Toolbarhome'),
+
+        // Toppreise.ch
+        'www.toppreise.ch'     => array('Toppreise.ch', 'search', 'index.php?search={k}', 'ISO-8859-1'),
+        'toppreise.ch'         => array('Toppreise.ch', null, null, 'ISO-8859-1'),
+        'fr.toppreise.ch'      => array('Toppreise.ch', null, null, 'ISO-8859-1'),
+        'de.toppreise.ch'      => array('Toppreise.ch', null, null, 'ISO-8859-1'),
+        'en.toppreise.ch'      => array('Toppreise.ch', null, null, 'ISO-8859-1'),
 
         // Trouvez.com
         'www.trouvez.com'                => array('Trouvez.com', 'query'),
@@ -1017,7 +1046,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 //		'{}.dir.yahoo.com'			=> array('Yahoo! Directory'),
 
         // Yahoo! Images
-        'images.search.yahoo.com'        => array('Yahoo! Images', 'p', 'search/images?p={k}'),
+        'images.search.yahoo.com'        => array('Yahoo! Images', array('p', 'va'), 'search/images?p={k}'),
 //		'*.images.search.yahoo.com'=> array('Yahoo! Images'), // see built-in helper in Common.php
         '{}.images.yahoo.com'            => array('Yahoo! Images'),
         'cade.images.yahoo.com'          => array('Yahoo! Images'),
@@ -1082,5 +1111,8 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Zoznam
         'www.zoznam.sk'                  => array('Zoznam', 's', 'hladaj.fcgi?s={k}&co=svet'),
+
+        // Zxuso
+        'www.zxuso.com'                  => array('Zxuso', 'wd', 'ri/?wd={k}'),
     );
 }

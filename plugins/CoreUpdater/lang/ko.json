@@ -28,7 +28,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik 이 성공적으로 업데이트되었습니다!",
         "PiwikUpdatedSuccessfully": "Piwik 업데이트가 성공적으로 완료되었습니다!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik 데이터베이스가 %1$s 버전에서 %2$s 새 버전으로 업그레이드됩니다.",
-        "PluginDescription": "Piwik 업데이트 메커니즘",
         "ReadyToGo": "실행 하시겠습니까?",
         "TheFollowingPluginsWillBeUpgradedX": "다음의 플러그인들이 업데이트됩니다: %s.",
         "ThereIsNewVersionAvailableForUpdate": "Piwik의 새 버전으로 업데이트 할 수 있습니다.",

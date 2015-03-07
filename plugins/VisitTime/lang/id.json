@@ -5,7 +5,6 @@
         "DayOfWeek": "Hari dalam Sepekan",
         "LocalTime": "Kunjungan tiap waktu lokal",
         "NHour": "%sj",
-        "PluginDescription": "Laporan waktu Lokal dan waktu Peladen. Informasi server waktu dapat berguna untuk menjadwalkan pemeliharaan pada Situs.",
         "ServerTime": "Kunjungan tiap waktu peladen",
         "SubmenuTimes": "Waktu",
         "VisitsByDayOfWeek": "Kunjungan berdasar Hari dalam Sepekan",

@@ -8,19 +8,7 @@
  */
 namespace Piwik\Plugins\UserSettings;
 
-use Piwik\Archive;
-use Piwik\DataTable;
-use Piwik\Metrics;
-use Piwik\Piwik;
-use Piwik\Plugins\DevicesDetection\Archiver AS DDArchiver;
-use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
-
-/**
- * @see plugins/UserSettings/functions.php
- */
-require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
-
-/**
+/*
  * The UserSettings API lets you access reports about some of your Visitors technical settings:
  * plugins supported in their browser, Screen resolution and Screen types (normal, widescreen, dual screen or mobile).
  *
@@ -28,28 +16,20 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
  */
 class API extends \Piwik\Plugin\API
 {
-    protected function getDataTable($name, $idSite, $period, $date, $segment)
-    {
-        Piwik::checkUserHasViewAccess($idSite);
-        $archive = Archive::build($idSite, $period, $date, $segment);
-        $dataTable = $archive->getDataTable($name);
-        $dataTable->filter('Sort', array(Metrics::INDEX_NB_VISITS));
-        $dataTable->queueFilter('ReplaceColumnNames');
-        $dataTable->queueFilter('ReplaceSummaryRowLabel');
-        return $dataTable;
-    }
-
+    /**
+     * @deprecated since 2.10.0   See {@link Piwik\Plugins\Resolution\API} for new implementation.
+     */
     public function getResolution($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getDataTable(Archiver::RESOLUTION_RECORD_NAME, $idSite, $period, $date, $segment);
-        return $dataTable;
+        return \Piwik\Plugins\Resolution\API::getInstance()->getResolution($idSite, $period, $date, $segment);
     }
 
+    /**
+     * @deprecated since 2.10.0   See {@link Piwik\Plugins\Resolution\API} for new implementation.
+     */
     public function getConfiguration($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getDataTable(Archiver::CONFIGURATION_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getConfigurationLabel'));
-        return $dataTable;
+        return \Piwik\Plugins\Resolution\API::getInstance()->getConfiguration($idSite, $period, $date, $segment);
     }
 
     protected function getDevicesDetectorApi()
@@ -74,7 +54,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Gets a DataTable displaying number of visits by device type.
      * @deprecated since 2.10.0   See {@link Piwik\Plugins\DevicesDetector\API} for new implementation.
      */
     public function getMobileVsDesktop($idSite, $period, $date, $segment = false)
@@ -106,70 +85,27 @@ class API extends \Piwik\Plugin\API
         return $this->getDevicesDetectorApi()->getBrowserEngines($idSite, $period, $date, $segment);
     }
 
+    /**
+     * @deprecated since 2.10.0   See {@link Piwik\Plugins\DevicePlugins\API} for new implementation.
+     */
     public function getPlugin($idSite, $period, $date, $segment = false)
     {
-        // fetch all archive data required
-        $dataTable = $this->getDataTable(Archiver::PLUGIN_RECORD_NAME, $idSite, $period, $date, $segment);
-        $browserTypes = $this->getDataTable(DDArchiver::BROWSER_ENGINE_RECORD_NAME, $idSite, $period, $date, $segment);
-        $archive = Archive::build($idSite, $period, $date, $segment);
-        $visitsSums = $archive->getDataTableFromNumeric('nb_visits');
-
-        // check whether given tables are arrays
-        if ($dataTable instanceof DataTable\Map) {
-            $dataTableMap = $dataTable->getDataTables();
-            $browserTypesArray = $browserTypes->getDataTables();
-            $visitSumsArray = $visitsSums->getDataTables();
-        } else {
-            $dataTableMap = array($dataTable);
-            $browserTypesArray = array($browserTypes);
-            $visitSumsArray = array($visitsSums);
-        }
-
-        // walk through the results and calculate the percentage
-        foreach ($dataTableMap as $key => $table) {
-            // Calculate percentage, but ignore IE users because plugin detection doesn't work on IE
-            $ieVisits = 0;
-
-            $ieStats = $browserTypesArray[$key]->getRowFromLabel('Trident');
-            if ($ieStats !== false) {
-                $ieVisits = $ieStats->getColumn(Metrics::INDEX_NB_VISITS);
-            }
-
-            // get according visitsSum
-            $visits = $visitSumsArray[$key];
-            if ($visits->getRowsCount() == 0) {
-                $visitsSumTotal = 0;
-            } else {
-                $visitsSumTotal = (float) $visits->getFirstRow()->getColumn('nb_visits');
-            }
-
-            $visitsSum = $visitsSumTotal - $ieVisits;
-
-            $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
-            $extraProcessedMetrics[] = new VisitsPercent($visitsSum);
-            $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
-        }
-
-        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getPluginsLogo'));
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'ucfirst'));
-
-        return $dataTable;
+        return \Piwik\Plugins\DevicePlugins\API::getInstance()->getPlugin($idSite, $period, $date, $segment);
     }
 
+    /**
+     * @deprecated since 2.11.0   See {@link Piwik\Plugins\UserLanguage\API} for new implementation.
+     */
     public function getLanguage($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getDataTable(Archiver::LANGUAGE_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\groupByLangCallback'));
-        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\languageTranslate'));
-
-        return $dataTable;
+        return \Piwik\Plugins\UserLanguage\API::getInstance()->getLanguage($idSite, $period, $date, $segment);
     }
 
+    /**
+     * @deprecated since 2.11.0   See {@link Piwik\Plugins\UserLanguage\API} for new implementation.
+     */
     public function getLanguageCode($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getDataTable(Archiver::LANGUAGE_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\languageTranslateWithCode'));
-
-        return $dataTable;
+        return \Piwik\Plugins\UserLanguage\API::getInstance()->getLanguageCode($idSite, $period, $date, $segment);
     }
 }

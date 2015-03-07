@@ -9,8 +9,6 @@
 namespace Piwik\Plugins\Goals;
 
 use Piwik\Common;
-use Piwik\Site;
-use Piwik\Piwik;
 
 class Widgets extends \Piwik\Plugin\Widgets
 {
@@ -30,12 +28,6 @@ class Widgets extends \Piwik\Plugin\Widgets
 
                 $this->addWidget($name, 'widgetGoalReport', $params);
             }
-        }
-
-        $site = new Site($idSite);
-        if ($site->isEcommerceEnabled()) {
-            $this->addWidgetWithCustomCategory('Goals_Ecommerce', 'Goals_EcommerceOverview', 'widgetGoalReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
-            $this->addWidgetWithCustomCategory('Goals_Ecommerce', 'Goals_EcommerceLog', 'getEcommerceLog');
         }
     }
 

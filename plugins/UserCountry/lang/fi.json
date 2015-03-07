@@ -356,7 +356,6 @@
         "PeclGeoIPNoDBDir": "PECL-moduuli etsii tietokantoja %1$s:ssa, mutta tätä hakemistoa ei ole olemassa. Luo se ja lisää GeoIP tietokannat siihen. Vaihtoehtoisesti voit asentaa %2$s:n oikeaan hakemistoon php.ini tiedostossasi.",
         "PeclGeoLiteError": "%1$s:ssa sijaitsevan GeoIP tietokantasi nimi on %2$s. Valitettavasti PECL-moduuli ei tunnista sitä tällä nimellä. Ole hyvä ja anna sille nimi %3$s.",
         "PiwikNotManagingGeoIPDBs": "Piwik ei käytä tällä hetkellä mitään GeoIP tietokantoja.",
-        "PluginDescription": "Raportoi käyttäjien maat.",
         "Region": "Alue",
         "SetupAutomaticUpdatesOfGeoIP": "Asenna automaattiset GeoIP tietokantojen päivitykset",
         "SubmenuLocations": "Sijainnit",

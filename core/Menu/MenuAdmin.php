@@ -117,7 +117,7 @@ class MenuAdmin extends MenuAbstract
      */
     public function addManageItem($menuName, $url, $order = 50, $tooltip = false)
     {
-        $this->addItem('CoreAdminHome_MenuManage', $menuName, $url, $order, $tooltip);
+        $this->addItem('CoreAdminHome_Administration', $menuName, $url, $order, $tooltip);
     }
 
     /**
@@ -141,29 +141,6 @@ class MenuAdmin extends MenuAbstract
         }
 
         return parent::getMenu();
-    }
-
-    /**
-     * Returns the current AdminMenu name
-     *
-     * @return boolean
-     */
-    public function getCurrentAdminMenuName()
-    {
-        $menu = MenuAdmin::getInstance()->getMenu();
-        $currentModule = Piwik::getModule();
-        $currentAction = Piwik::getAction();
-        foreach ($menu as $submenu) {
-            foreach ($submenu as $subMenuName => $parameters) {
-                if (strpos($subMenuName, '_') !== 0 &&
-                    $parameters['_url']['module'] == $currentModule
-                    && $parameters['_url']['action'] == $currentAction
-                ) {
-                    return $subMenuName;
-                }
-            }
-        }
-        return false;
     }
 
     /**

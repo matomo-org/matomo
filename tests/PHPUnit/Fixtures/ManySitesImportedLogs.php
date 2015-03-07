@@ -27,6 +27,12 @@ class ManySitesImportedLogs extends Fixture
     public $segments = null; // should be array mapping segment name => segment definition
 
     public $addSegments = false;
+    public $includeIisWithCustom = false;
+    public $includeNetscaler = false;
+    public $includeCloudfront = false;
+    public $includeCloudfrontRtmp = false;
+    public $includeNginxJson = false;
+    public $includeApiCustomVarMapping = false;
 
     public static function createAccessInstance()
     {
@@ -87,15 +93,15 @@ class ManySitesImportedLogs extends Fixture
                                             'autoArchive'     => false,
                                             'enabledAllUsers' => true),
 
-//            'segmentPreArchived' => array('definition'=> self::SEGMENT_PRE_ARCHIVED,
-//                                                  'idSite'          => 1,
-//                                                  'autoArchive'     => true,
-//                                                  'enabledAllUsers' => true),
-//
-//            'segmentPreArchivedWithUrlEncoding' => array('definition'=> self::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED,
-//                                                  'idSite'          => 1,
-//                                                  'autoArchive'     => true,
-//                                                  'enabledAllUsers' => true)
+            'segmentPreArchived' => array('definition'=> self::SEGMENT_PRE_ARCHIVED,
+                                                  'idSite'          => 1,
+                                                  'autoArchive'     => true,
+                                                  'enabledAllUsers' => true),
+
+            'segmentPreArchivedWithUrlEncoding' => array('definition'=> self::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED,
+                                                  'idSite'          => 1,
+                                                  'autoArchive'     => true,
+                                                  'enabledAllUsers' => true)
 
             // fails randomly and I really could not find why.
 //            'segmentOnlySuperuser' => array('definition'      => 'actions>1;customVariablePageName1=='.urlencode('HTTP-code'),
@@ -111,6 +117,30 @@ class ManySitesImportedLogs extends Fixture
         $this->logVisitsWithAllEnabled();
         $this->replayLogFile();
         $this->logCustomFormat();
+
+        if ($this->includeIisWithCustom) {
+            $this->logIisWithCustomFormat();
+        }
+
+        if ($this->includeNetscaler) {
+            $this->logNetscaler();
+        }
+
+        if ($this->includeCloudfront) {
+            $this->logCloudfront();
+        }
+
+        if ($this->includeCloudfrontRtmp) {
+            $this->logCloudfrontRtmp();
+        }
+
+        if ($this->includeNginxJson) {
+            $this->logNginxJsonLog();
+        }
+
+        if ($this->includeApiCustomVarMapping) {
+            $this->logIisWithCustomFormat($mapToCustom = true);
+        }
     }
 
     private function setupSegments()
@@ -228,5 +258,70 @@ class ManySitesImportedLogs extends Fixture
                           . '\"\S+ (?P<path>.*?) \S+\" (?P<generation_time_micro>\S+)');
 
         self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logIisWithCustomFormat($mapToCustom = false)
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_custom_iis.log';
+
+        $opts = array('--idsite'           => $this->idSite,
+                      '--token-auth'       => self::getTokenAuth(),
+                      '--w3c-map-field'    => array('date-local=date', 'time-local=time', 'cs(Host)=cs-host', 'TimeTakenMS=time-taken'),
+                      '--enable-http-errors'        => false,
+                      '--enable-http-redirects'     => false);
+
+        if ($mapToCustom) {
+            $opts['--regex-group-to-visit-cvar'] = 'userid=User Name';
+            $opts['--regex-group-to-page-cvar'] = array(
+                'generation_time_milli=Generation Time',
+                'win32_status=Windows Status Code'
+            );
+            $opts['--ignore-groups'] = 'userid';
+            $opts['--w3c-field-regex'] = 'sc-win32-status=(?P<win32_status>\S+)';
+            $opts['--w3c-time-taken-milli'] = false;
+        }
+
+        self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logNetscaler()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_netscaler.log';
+
+        $opts = array('--idsite'                    => $this->idSite,
+                      '--token-auth'                => self::getTokenAuth(),
+                      '--w3c-map-field'             => array(),
+                      '--enable-http-redirects'     => false);
+
+        return self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logCloudfront()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_cloudfront.log';
+
+        $opts = array('--idsite'                    => $this->idSite,
+                      '--token-auth'                => self::getTokenAuth());
+
+        return self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logCloudfrontRtmp()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_cloudfront_rtmp.log';
+
+        $opts = array('--idsite'                    => $this->idSite,
+                      '--token-auth'                => self::getTokenAuth());
+
+        return self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logNginxJsonLog()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_nginx_json.log';
+
+        $opts = array('--token-auth' => self::getTokenAuth());
+
+        return self::executeLogImporter($logFile, $opts);
     }
 }

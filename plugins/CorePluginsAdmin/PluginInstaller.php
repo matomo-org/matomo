@@ -32,7 +32,7 @@ class PluginInstaller
 
     public function installOrUpdatePluginFromMarketplace()
     {
-        $tmpPluginPath = StaticContainer::getContainer()->get('path.tmp') . '/latest/plugins/';
+        $tmpPluginPath = StaticContainer::get('path.tmp') . '/latest/plugins/';
 
         $tmpPluginZip = $tmpPluginPath . $this->pluginName . '.zip';
         $tmpPluginFolder = $tmpPluginPath . $this->pluginName;
@@ -63,7 +63,7 @@ class PluginInstaller
 
     public function installOrUpdatePluginFromFile($pathToZip)
     {
-        $tmpPluginFolder = StaticContainer::getContainer()->get('path.tmp') . self::PATH_TO_DOWNLOAD . $this->pluginName;
+        $tmpPluginFolder = StaticContainer::get('path.tmp') . self::PATH_TO_DOWNLOAD . $this->pluginName;
 
         try {
             $this->makeSureFoldersAreWritable();
@@ -97,7 +97,7 @@ class PluginInstaller
     private function makeSureFoldersAreWritable()
     {
         Filechecks::dieIfDirectoriesNotWritable(array(
-            StaticContainer::getContainer()->get('path.tmp') . self::PATH_TO_DOWNLOAD,
+            StaticContainer::get('path.tmp') . self::PATH_TO_DOWNLOAD,
             self::PATH_TO_EXTRACT
         ));
     }

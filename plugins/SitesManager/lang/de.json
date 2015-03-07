@@ -49,7 +49,7 @@
         "OnlyOneSiteAtTime": "Sie können immer nur eine Webseite zur gleichen Zeit bearbeiten. Zunächst müssen Sie die aktuellen Änderungen an der Webseite %s speichern oder verwerfen.",
         "PiwikOffersEcommerceAnalytics": "Mit Piwik können Sie Ihre Ecommerce Webseite tracken und erhalten spezielle Ecommerce Berichte. Weitere Informationen %sfinden Sie hier%s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik wird automatisch typische Session-Parameter ignorieren (%s).",
-        "PluginDescription": "Webseitenverwaltung in Piwik: Eine neue Webseite hinzufügen, eine existierende Webseite editieren, den JavaScript-Code zum Einfügen in die Webseite anzeigen. Alle Aktionen sind auch über die API steuerbar.",
+        "PluginDescription": "Websites management lässt Sie eine neue Webseite hinzufügen und bestehende Webseiten ändern.",
         "SearchCategoryDesc": "Piwik kann auch die Kategorie auswerten, die in der internen Suche gewählt wird.",
         "SearchCategoryLabel": "Kategorie Parameter",
         "SearchCategoryParametersDesc": "Sie können eine durch Komma getrennte Liste der URL-Parameter eingeben, welche die Suchkategorie enthalten.",

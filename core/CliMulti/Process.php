@@ -177,7 +177,7 @@ class Process
             return false;
         }
 
-        if (static::commandExists('ps') && self::returnsSuccessCode('ps') && self::commandExists('awk')) {
+        if (self::commandExists('ps') && self::returnsSuccessCode('ps') && self::commandExists('awk')) {
             return true;
         }
 
@@ -203,7 +203,7 @@ class Process
         $command = 'shell_exec';
         $disabled = explode(',', ini_get('disable_functions'));
         $disabled = array_map('trim', $disabled);
-        return in_array($command, $disabled);
+        return in_array($command, $disabled)  || !function_exists($command);
     }
 
     private static function returnsSuccessCode($command)

@@ -134,7 +134,7 @@
 		<category>Visit</category>
 		<name>Device type</name>
 		<segment>deviceType</segment>
-		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser, smart display, camera</acceptedValues>
+		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser, smart display, camera, portable media player</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -148,7 +148,14 @@
 		<category>Visit</category>
 		<name>Operating system</name>
 		<segment>operatingSystemCode</segment>
-		<acceptedValues>WXP, WI7, MAC, LIN, AND, IPD, etc.</acceptedValues>
+		<acceptedValues>WIN, MAC, LIN, AND, IPD, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
+		<name>Operating system version</name>
+		<segment>operatingSystemVersion</segment>
+		<acceptedValues>XP, 7, 2.3, 5.1, ...</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

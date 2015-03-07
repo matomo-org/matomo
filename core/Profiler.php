@@ -338,6 +338,6 @@ class Profiler
      */
     private static function getPathToXHProfRunIds()
     {
-        return StaticContainer::getContainer()->get('path.tmp') . '/cache/tests-xhprof-runs';
+        return StaticContainer::get('path.tmp') . '/cache/tests-xhprof-runs';
     }
 }

@@ -57,7 +57,6 @@
         "OptOutExplanationBis": "本代码将显示一个包含链接的 Iframe，供访客在浏览器中设置主动退出的 cookie 来退出 Piwik 的统计。%s 点这里%s 查看将在 iFrame 里显示的内容。",
         "OptOutForYourVisitors": "访客主动退出 Piwik",
         "PiwikIsInstalledAt": "Piwik 安装在",
-        "PluginDescription": "Piwik 插件管理",
         "PluginSettingChangeNotAllowed": "不允许更改插件＂%s＂中配置＂%s＂的值",
         "PluginSettings": "插件设置",
         "PluginSettingsIntro": "这里，你可以更改下列第三方插件的配置：",

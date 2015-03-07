@@ -32,7 +32,7 @@ blockquote, q {
 }
 
 code {
-  background-color:#F6F9F9;
+  background-color:@theme-color-background-base;
   border: 1px dashed;
   border-left: 5px solid  #4B4BD5;
   direction:ltr;
@@ -51,7 +51,7 @@ pre.code-pre {
 
 /* remember to define focus styles! */
 :focus {
-    outline: 0;
+    outline: auto;
 }
 
 /* remember to highlight inserts somehow! */
@@ -75,7 +75,7 @@ textarea {
 input, select, textarea {
   border-radius: 4px;
   border: 1px solid #d4d4d4;
-  background: #fff url(plugins/Morpheus/images/inp_bg.png) repeat-x 0 0;
+  background: @theme-color-background-base url(plugins/Morpheus/images/inp_bg.png) repeat-x 0 0;
   padding: 3px 10px;
   color: #255792;
   margin-bottom: 3px;

@@ -351,7 +351,6 @@
         "OrgDatabase": "Organisasyon ng Database",
         "PeclGeoIPNoDBDir": "Ang PECL module ay naghahanap ng databases sa %1$s Pero ang directory na ito ay wala. Mangyaring gawin ito at e-dagdag ang GeopIP databases dito. Bukod dito maari kang magtakda ng %2$s sa tamang directory sa iyong php.ini file",
         "PiwikNotManagingGeoIPDBs": "Ang Piwik ay kasalukuyang di namamahala ng anumang GeoIP database",
-        "PluginDescription": "Mga ulat impormasyon tungkol sa lokasyon ng bisita kabilang ang mga bansa rehiyon lungsod at mga geographic coordinates (latitued \/ longtitude).",
         "Region": "Rehiyon",
         "SetupAutomaticUpdatesOfGeoIP": "I-set-up ang awtomatikong update ng mga database ng GeoIP",
         "SubmenuLocations": "Mga Lokasyon",

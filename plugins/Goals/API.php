@@ -10,7 +10,8 @@ namespace Piwik\Plugins\Goals;
 
 use Exception;
 use Piwik\Archive;
-use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\CacheId;
+use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Db;
@@ -55,8 +56,9 @@ class API extends \Piwik\Plugin\API
      */
     public function getGoals($idSite)
     {
-        $cache = $this->getGoalsInfoStaticCache($idSite);
-        if (!$cache->has()) {
+        $cacheId = self::getCacheId($idSite);
+        $cache = $this->getGoalsInfoStaticCache();
+        if (!$cache->contains($cacheId)) {
             $idSite = Site::getIdSitesFromIdSitesString($idSite);
 
             if (empty($idSite)) {
@@ -77,9 +79,10 @@ class API extends \Piwik\Plugin\API
                 $cleanedGoals[$goal['idgoal']] = $goal;
             }
 
-            $cache->set($cleanedGoals);
+            $cache->save($cacheId, $cleanedGoals);
         }
-        return $cache->get();
+
+        return $cache->fetch($cacheId);
     }
 
     /**
@@ -119,7 +122,7 @@ class API extends \Piwik\Plugin\API
 
         $idGoal = $this->getModel()->createGoalForSite($idSite, $goal);
 
-        $this->getGoalsInfoStaticCache($idSite)->clear();
+        $this->getGoalsInfoStaticCache()->delete(self::getCacheId($idSite));
 
         Cache::regenerateCacheWebsiteAttributes($idSite);
         return $idGoal;
@@ -166,7 +169,7 @@ class API extends \Piwik\Plugin\API
             'revenue'         => $revenue,
         ));
 
-        $this->getGoalsInfoStaticCache($idSite)->clear();
+        $this->getGoalsInfoStaticCache()->delete(self::getCacheId($idSite));
 
         Cache::regenerateCacheWebsiteAttributes($idSite);
     }
@@ -206,7 +209,7 @@ class API extends \Piwik\Plugin\API
         $this->getModel()->deleteGoal($idSite, $idGoal);
         $this->getModel()->deleteGoalConversions($idSite, $idGoal);
 
-        $this->getGoalsInfoStaticCache($idSite)->clear();
+        $this->getGoalsInfoStaticCache()->delete(self::getCacheId($idSite));
 
         Cache::regenerateCacheWebsiteAttributes($idSite);
     }
@@ -357,7 +360,11 @@ class API extends \Piwik\Plugin\API
         }, $columnsToGet);
         $dataTable = $archive->getDataTableFromNumeric($inDbMetricNames);
 
-        $newNameMapping = array_combine($inDbMetricNames, $columnsToGet);
+        if (count($columnsToGet) > 0) {
+            $newNameMapping = array_combine($inDbMetricNames, $columnsToGet);
+        } else {
+            $newNameMapping = array();
+        }
         $dataTable->filter('ReplaceColumnNames', array($newNameMapping));
 
         // TODO: this should be in Goals/Get.php but it depends on idGoal parameter which isn't always in _GET (ie,
@@ -567,8 +574,14 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    private function getGoalsInfoStaticCache($idSite)
+
+    private function getCacheId($idSite)
     {
-        return new PluginAwareStaticCache("Goals.getGoals.$idSite");
+        return CacheId::pluginAware('Goals.getGoals.' . $idSite);
+    }
+
+    private function getGoalsInfoStaticCache()
+    {
+        return PiwikCache::getTransientCache();
     }
 }

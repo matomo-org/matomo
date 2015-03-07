@@ -28,7 +28,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "El Piwik s'ha actualitzat amb èxit!",
         "PiwikUpdatedSuccessfully": "El Piwik s'ha actualitzat correctament!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "La base de dades s'actualitzarà de la versió %1$s a la nova %2$s.",
-        "PluginDescription": "Mecanísme d'actualització del Piwik",
         "ReadyToGo": "Preparat?",
         "TheFollowingPluginsWillBeUpgradedX": "Aquests connectors s'actualitzaran: %s.",
         "ThereIsNewVersionAvailableForUpdate": "Hi ha una nova versió del Piwik disponible.",

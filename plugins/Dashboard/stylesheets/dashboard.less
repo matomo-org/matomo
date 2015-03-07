@@ -72,7 +72,7 @@
 }
 
 .widget {
-  background: #fff;
+  background: @theme-color-background-base;
   border: 1px solid #bbb6ad;
   margin: 10px 7px;
   border-radius: 4px;
@@ -96,17 +96,13 @@
 .widgetContent.hidden {
   position: absolute;
   top: -5000px;
+  height: 1000px;
+  overflow: hidden;
 }
 
 .widgetContent.loading {
   opacity: 0.5;
   background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat top right;
-}
-
-.widget h2 {
-  font-size: 1.2em;
-  margin-left: 10px;
-  font-weight: bold;
 }
 
 .widget p {
@@ -116,25 +112,32 @@
 .widgetTop {
   cursor: move;
   font-size: 10pt;
-  font-weight: bold;
+  font-weight: normal;
   padding-bottom: 4px;
 }
 
 .widgetTopHover {
 }
 
-.widgetName {
-  font-size: 18px;
-  padding: 2px 0 0 10px;
+h3.widgetName {
+  font-size: 15px;
+  padding: 0px;
+  margin: 0px;
   font-weight: normal;
-  color: #fff;
-  text-shadow: 1px 1px 2px #7e7363;
+  color: #0D0D0D;
+  text-shadow: none;
+}
+
+.widgetNameOffScreen {
+  overflow: hidden;
+  width:1px;
+  height:1px;
 }
 
 // Overriding some dataTable css for better dashboard display
 .widget .dataTableWrapper {
   width: 100% !important;
-}
+  }
 
 .widgetTop .button {
   cursor: pointer;
@@ -145,7 +148,7 @@
 .ui-confirm {
   display: none;
   width: 630px;
-  background: #fff;
+  background: @theme-color-background-base;
   color: @theme-color-text-light;
   cursor: default;
   font-size: 12px !important;

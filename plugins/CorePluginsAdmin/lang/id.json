@@ -7,8 +7,9 @@
         "Deactivate": "Dimatikan",
         "Inactive": "Tak Aktif",
         "LicenseHomepage": "Alamat Lisensi",
-        "PluginDescription": "Antarmuka Pengaturan Pengaya.",
+        "OncePluginIsInstalledYouMayActivateHere": "Sekali pengaya terinstal, Anda dapat mengaktifkan dan mematikan di sini.",
         "PluginHomepage": "Alamat Pengaya",
+        "PluginsExtendPiwik": "Pengaya menambah dan memperluas kegunaan dari Piwik.",
         "PluginsManagement": "Pengatur Pengaya",
         "Status": "Status",
         "Version": "Versi"

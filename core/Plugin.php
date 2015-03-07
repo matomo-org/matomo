@@ -8,7 +8,6 @@
  */
 namespace Piwik;
 
-use Piwik\Cache\PersistentCache;
 use Piwik\Plugin\Dependency;
 use Piwik\Plugin\MetadataLoader;
 
@@ -108,10 +107,10 @@ class Plugin
 
     /**
      * As the cache is used quite often we avoid having to create instances all the time. We reuse it which is not
-     * perfect but efficient. If the cache is used we need to make sure to call setCacheKey() before usage as there
+     * perfect but efficient. If the cache is used we need to make sure to call setId() before usage as there
      * is maybe a different key set since last usage.
      *
-     * @var PersistentCache
+     * @var \Piwik\Cache\Eager
      */
     private $cache;
 
@@ -131,14 +130,28 @@ class Plugin
         }
         $this->pluginName = $pluginName;
 
-        $metadataLoader = new MetadataLoader($pluginName);
-        $this->pluginInformation = $metadataLoader->load();
+        $cacheId = 'Plugin' . $pluginName . 'Metadata';
+        $cache = Cache::getEagerCache();
 
-        if ($this->hasDefinedPluginInformationInPluginClass() && $metadataLoader->hasPluginJson()) {
-            throw new \Exception('Plugin ' . $pluginName . ' has defined the method getInformation() and as well as having a plugin.json file. Please delete the getInformation() method from the plugin class. Alternatively, you may delete the plugin directory from plugins/' . $pluginName);
+        if ($cache->contains($cacheId)) {
+            $this->pluginInformation = $cache->fetch($cacheId);
+        } else {
+            $metadataLoader = new MetadataLoader($pluginName);
+            $this->pluginInformation = $metadataLoader->load();
+
+            if ($this->hasDefinedPluginInformationInPluginClass() && $metadataLoader->hasPluginJson()) {
+                throw new \Exception('Plugin ' . $pluginName . ' has defined the method getInformation() and as well as having a plugin.json file. Please delete the getInformation() method from the plugin class. Alternatively, you may delete the plugin directory from plugins/' . $pluginName);
+            }
+
+            $cache->save($cacheId, $this->pluginInformation);
         }
+    }
 
-        $this->cache = new PersistentCache('Plugin' . $pluginName);
+    private function createCacheIfNeeded()
+    {
+        if (is_null($this->cache)) {
+            $this->cache = Cache::getEagerCache();
+        }
     }
 
     private function hasDefinedPluginInformationInPluginClass()
@@ -305,15 +318,17 @@ class Plugin
      */
     public function findComponent($componentName, $expectedSubclass)
     {
-        $this->cache->setCacheKey('Plugin' . $this->pluginName . $componentName . $expectedSubclass);
+        $this->createCacheIfNeeded();
+
+        $cacheId = 'Plugin' . $this->pluginName . $componentName . $expectedSubclass;
 
         $componentFile = sprintf('%s/plugins/%s/%s.php', PIWIK_INCLUDE_PATH, $this->pluginName, $componentName);
 
-        if ($this->cache->has()) {
-            $klassName = $this->cache->get();
+        if ($this->cache->contains($cacheId)) {
+            $classname = $this->cache->fetch($cacheId);
 
-            if (empty($klassName)) {
-                return; // might by "false" in case has no menu, widget, ...
+            if (empty($classname)) {
+                return null; // might by "false" in case has no menu, widget, ...
             }
 
             if (file_exists($componentFile)) {
@@ -321,38 +336,40 @@ class Plugin
             }
 
         } else {
-            $this->cache->set(false); // prevent from trying to load over and over again for instance if there is no Menu for a plugin
+            $this->cache->save($cacheId, false); // prevent from trying to load over and over again for instance if there is no Menu for a plugin
 
             if (!file_exists($componentFile)) {
-                return;
+                return null;
             }
 
             require_once $componentFile;
 
-            $klassName = sprintf('Piwik\\Plugins\\%s\\%s', $this->pluginName, $componentName);
+            $classname = sprintf('Piwik\\Plugins\\%s\\%s', $this->pluginName, $componentName);
 
-            if (!class_exists($klassName)) {
-                return;
+            if (!class_exists($classname)) {
+                return null;
             }
 
-            if (!empty($expectedSubclass) && !is_subclass_of($klassName, $expectedSubclass)) {
+            if (!empty($expectedSubclass) && !is_subclass_of($classname, $expectedSubclass)) {
                 Log::warning(sprintf('Cannot use component %s for plugin %s, class %s does not extend %s',
-                    $componentName, $this->pluginName, $klassName, $expectedSubclass));
-                return;
+                    $componentName, $this->pluginName, $classname, $expectedSubclass));
+                return null;
             }
 
-            $this->cache->set($klassName);
+            $this->cache->save($cacheId, $classname);
         }
 
-        return new $klassName;
+        return new $classname;
     }
 
     public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
     {
-        $this->cache->setCacheKey('Plugin' . $this->pluginName . $directoryWithinPlugin . $expectedSubclass);
+        $this->createCacheIfNeeded();
 
-        if ($this->cache->has()) {
-            $components = $this->cache->get();
+        $cacheId = 'Plugin' . $this->pluginName . $directoryWithinPlugin . $expectedSubclass;
+
+        if ($this->cache->contains($cacheId)) {
+            $components = $this->cache->fetch($cacheId);
 
             if ($this->includeComponents($components)) {
                 return $components;
@@ -363,7 +380,7 @@ class Plugin
 
         $components = $this->doFindMultipleComponents($directoryWithinPlugin, $expectedSubclass);
 
-        $this->cache->set($components);
+        $this->cache->save($cacheId, $components);
 
         return $components;
     }

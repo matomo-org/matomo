@@ -34,7 +34,6 @@
         "PasswordRepeat": "salasõna kordus",
         "PercentDone": "%s %% Tehtud",
         "PleaseFixTheFollowingErrors": "Palun paranda järgnevad vead",
-        "PluginDescription": "Piwiku paigaldusprotsess. Paigaldust tehakse tavaliselt ainult üks kord. Kui konfiguratsioonifail config\/config.ini.php kustutatakse, siis algab paigaldus uuesti.",
         "Requirements": "Piwiku nõuded",
         "RestartWebServer": "Peale selle muudatuse teostamist, palun taaskäivita oma veebiserver.",
         "SeeBelowForMoreInfo": "Vaata allapoole täpsema info jaoks.",

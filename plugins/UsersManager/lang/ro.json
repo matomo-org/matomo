@@ -43,7 +43,6 @@
         "MenuUserSettings": "Setări utilizator",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Notă: Nu puteți schimba setările din această secțiune, pentru că nu aveți nici un site web care poate fi accesat de către un utilizator anonim.",
         "NoUsersExist": "Nu există încă utilizatori.",
-        "PluginDescription": "Managementul utilizatorilor în Piwik: adăuga un nou utilizator, editaza o înregistrare existentă, actualizați permisiunile. Toate acțiunile sunt, de asemenea, disponibile prin intermediul API.",
         "PrivAdmin": "Admin",
         "PrivNone": "Fără acces",
         "PrivView": "Vezi",

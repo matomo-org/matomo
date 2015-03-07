@@ -16,6 +16,7 @@ use Piwik\DataTable\Manager;
 use Piwik\Metrics;
 use Piwik\Plugin\Archiver;
 use Piwik\Log;
+use Piwik\Timer;
 
 /**
  * This class creates the Archiver objects found in plugins and will trigger aggregation,
@@ -96,11 +97,12 @@ class PluginsArchiver
             $archiver = new $archiverClass($this->archiveProcessor);
 
             if (!$archiver->isEnabled()) {
-                Log::verbose("PluginsArchiver::%s: Skipping archiving for plugin '%s'.", __FUNCTION__, $pluginName);
+                Log::debug("PluginsArchiver::%s: Skipping archiving for plugin '%s'.", __FUNCTION__, $pluginName);
                 continue;
             }
 
             if ($this->shouldProcessReportsForPlugin($pluginName)) {
+                $timer = new Timer();
                 if ($this->isSingleSiteDayArchive) {
                     Log::debug("PluginsArchiver::%s: Archiving day reports for plugin '%s'.", __FUNCTION__, $pluginName);
 
@@ -110,8 +112,15 @@ class PluginsArchiver
 
                     $archiver->aggregateMultipleReports();
                 }
+
+                Log::debug("PluginsArchiver::%s: %s while archiving %s reports for plugin '%s'.",
+                    __FUNCTION__,
+                    $timer->getMemoryLeak(),
+                    $this->params->getPeriod()->getLabel(),
+                    $pluginName
+                );
             } else {
-                Log::verbose("PluginsArchiver::%s: Not archiving reports for plugin '%s'.", __FUNCTION__, $pluginName);
+                Log::debug("PluginsArchiver::%s: Not archiving reports for plugin '%s'.", __FUNCTION__, $pluginName);
             }
 
             Manager::getInstance()->deleteAll($latestUsedTableId);

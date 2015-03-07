@@ -19,7 +19,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 /**
  * @group Core
  */
-class Core_WidgetsListTest extends IntegrationTestCase
+class WidgetsListTest extends IntegrationTestCase
 {
     public function testGet()
     {
@@ -41,11 +41,11 @@ class Core_WidgetsListTest extends IntegrationTestCase
             'VisitsSummary_VisitsSummary'  => 6,
             'Live!'                        => 4,
             'General_Visitors'             => 12,
-            'UserSettings_VisitorSettings' => 5,
+            'General_VisitorSettings'      => 5,
             'General_Actions'              => 10,
             'Events_Events'                => 3,
             'Actions_SubmenuSitesearch'    => 5,
-            'Referrers_Referrers'            => 7,
+            'Referrers_Referrers'          => 7,
             'Goals_Goals'                  => 1,
             'SEO'                          => 2,
             'Example Widgets'              => 4,
@@ -164,7 +164,7 @@ class Core_WidgetsListTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
 
-        Translate::loadEnglishTranslation();
+        Translate::loadAllTranslations();
 
         Fixture::createWebsite('2009-01-04 00:11:42', true);
 
@@ -175,5 +175,7 @@ class Core_WidgetsListTest extends IntegrationTestCase
 
         $this->assertTrue(WidgetsList::isDefined('Actions', 'getPageUrls'));
         $this->assertFalse(WidgetsList::isDefined('Actions', 'inValiD'));
+
+        Translate::reset();
     }
 }

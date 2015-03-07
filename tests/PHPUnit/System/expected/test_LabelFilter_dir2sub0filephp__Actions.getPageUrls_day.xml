@@ -10,5 +10,6 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<url>http://example.org/dir2/sub/0/file.php</url>
+		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir2%2Fsub%2F0%2Ffile.php</segment>
 	</row>
 </result>

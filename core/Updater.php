@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 use Piwik\Columns\Updater as ColumnUpdater;
+use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 
 /**
  * Load and execute all relevant, incremental update scripts for Piwik core and plugins, and bump the component version numbers for completed updates.
@@ -94,6 +95,26 @@ class Updater
     {
         return 'version_' . $name;
     }
+
+
+    /**
+     * This method ensures that Piwik Platform cannot be running when using a NEWER database
+     */
+    public static function throwIfPiwikVersionIsOlderThanDBSchema()
+    {
+        $dbSchemaVersion = self::getCurrentRecordedComponentVersion('core');
+        $current = Version::VERSION;
+        if(-1 === version_compare($current, $dbSchemaVersion)) {
+            $messages = array(
+                Piwik::translate('General_ExceptionDatabaseVersionNewerThanCodebase', array($current, $dbSchemaVersion)),
+                Piwik::translate('General_ExceptionDatabaseVersionNewerThanCodebaseWait'),
+                // we cannot fill in the Super User emails as we are failing before Authentication was ready
+                Piwik::translate('General_ExceptionContactSupportGeneric', array('', ''))
+            );
+            throw new DatabaseSchemaIsNewerThanCodebaseException(implode(" ", $messages));
+        }
+    }
+
 
     /**
      * Returns a list of components (core | plugin) that need to run through the upgrade process.

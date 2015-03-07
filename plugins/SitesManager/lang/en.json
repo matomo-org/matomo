@@ -49,7 +49,7 @@
         "OnlyOneSiteAtTime": "You can only edit one website at a time. Please Save or Cancel your current modifications to the website %s.",
         "PiwikOffersEcommerceAnalytics": "Piwik allows for advanced Ecommerce Analytics tracking & reporting. Learn more about %s Ecommerce Analytics%s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik will automatically exclude the common session parameters (%s).",
-        "PluginDescription": "Websites Management in Piwik: Add a new Website, Edit an existing one, Show the JavaScript code to include on your pages. All the actions are also available through the API.",
+        "PluginDescription": "Websites management lets you add a new website and edit existing websites. ",
         "SearchCategoryDesc": "Piwik can also track the Search category for each internal site search keyword.",
         "SearchCategoryLabel": "Category parameter",
         "SearchCategoryParametersDesc": "You may enter a comma-separated list of query parameters specifying the search category.",

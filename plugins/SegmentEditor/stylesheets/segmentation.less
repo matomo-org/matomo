@@ -204,7 +204,7 @@ div.scrollable {
 .segment-element .segment-content .segment-rows {
   padding: 4px;
   margin: 0 3px 0 0;
-  background: #fff;
+  background: @theme-color-background-base;
   border: 1px solid #a9a399;
   border-radius: 3px 3px 3px 3px;
   position: relative;
@@ -214,7 +214,7 @@ div.scrollable {
 .segment-element .segment-content .segment-add-row,
 .segment-element .segment-content .segment-add-or {
   font: bold 14px Arial;
-  background: #fff;
+  background: @theme-color-background-base;
   color: #b9b9b9;
   text-align: center;
   position: relative;
@@ -303,7 +303,7 @@ div.scrollable {
 .segment-element .segment-content .segment-or:after {
   content: '';
   position: absolute;
-  background: #fff;
+  background: @theme-color-background-base;
   border: 1px solid #efefeb;
   width: 10px;
   top: -1px;
@@ -327,7 +327,7 @@ div.scrollable {
   margin: -1px 0 -1px 6%;
   z-index: 1;
   position: relative;
-  background: #fff;
+  background: @theme-color-background-base;
   padding: 5px 35px;
   color: #4f4f4f;
   font: bold 14px Arial;
@@ -653,11 +653,6 @@ a.metric_category {
   content: ".";
 }
 
-.available_segments a.dropdown {
-  background: url("plugins/Morpheus/images/sort_subtable_desc.png") no-repeat scroll 100% -2px transparent !important;
-  padding: 0 17px 0 0 !important;
-}
-
 .notification {
   float: left;
 }
@@ -679,7 +674,7 @@ a.metric_category {
   margin: 8px;
 }
 
-.segmentSelected, .segmentSelected:hover {
+.segmentSelected, .segmentSelected:hover, .segmentEditorPanel .segmentationContainer .submenu li .segmentSelected {
   font-weight: bold;
 }
 
@@ -739,13 +734,44 @@ a.metric_category {
   width: 160px;
 }
 
-.available_segments a.dropdown,
+.segmentationTitle,
+.segment-element .segment-nav a.dropdown,
+.segname {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.segmentationTitle,
+.segment-element .segment-nav a.dropdown {
+  max-width: 160px;
+}
+
+.segname {
+  max-width: 145px;
+}
+
+.segmentEditorPanel.visible .segmentationTitle {
+  max-width: 180px;
+  overflow: visible; /* restore default */
+  white-space: normal; /* restore default */
+}
+
+.segment-element .segment-nav a.dropdown,
+.segname {
+	display: inline-block;
+}
+
+.segment-element .segment-nav a.dropdown,
 .segment-element .segment-top a.dropdown {
   padding: 0 17px 0 0;
   background: none !important;
 }
 
-.available_segments a.dropdown:after,
+.segment-element .segment-nav a.dropdown {
+  background: url("plugins/Morpheus/images/sort_subtable_desc.png") no-repeat scroll 100% -2px transparent !important;
+}
+
 .segment-element .segment-top a.dropdown:after {
   content: " \25BC";
   font-size: 0px;

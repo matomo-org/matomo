@@ -61,7 +61,6 @@
         "OptOutExplanationBis": "Ang code na ito ay magpapakita ng isang Iframe na naglalaman ng isang link para makapag-opt-out ang iyong mga bisita sa Piwik sa pamamagitan ng pagtatakda ng isang opt-out na cookie sa kanilang mga browser. %s I-click dito%s upang tingnan ang nilalaman na ipapakita sa iFrame.",
         "OptOutForYourVisitors": "Piwik opt-out para sa iyong mga bisita",
         "PiwikIsInstalledAt": "Ang Piwik ay naka-install sa",
-        "PluginDescription": "Lugar ng Pangangasiwa ng Piwik",
         "PluginSettingChangeNotAllowed": "Hindi ka pinapahintulutang baguhin ang halaga ng setting \"%s\" sa plugin \"%s\"",
         "PluginSettingReadNotAllowed": "Hindi ka pinapahintulutang basahin ang halaga ng setting \"%s\" sa plugin \"%s\"",
         "PluginSettings": "Mga setting ng plugin",

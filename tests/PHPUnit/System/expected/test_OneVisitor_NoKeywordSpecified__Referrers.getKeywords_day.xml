@@ -18,6 +18,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>42</revenue>
+		<segment>referrerType==search;referrerKeyword==</segment>
 		<subtable>
 			<row>
 				<label>Google</label>
@@ -42,6 +43,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==search;referrerKeyword==%3C%3E%26%5C%22the+pdo+extension+is+required+for+this+adapter+but+the+extension+is+not+loaded</segment>
 		<subtable>
 			<row>
 				<label>Google</label>

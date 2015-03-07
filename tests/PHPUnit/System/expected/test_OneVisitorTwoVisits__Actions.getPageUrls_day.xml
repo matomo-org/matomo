@@ -15,6 +15,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.224</avg_time_generation>
 		<url>http://example.org/</url>
+		<segment>pageUrl==http%3A%2F%2Fexample.org%2F</segment>
 	</row>
 	<row>
 		<label>/index.htm</label>
@@ -33,6 +34,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.023</avg_time_generation>
 		<url>http://example.org/index.htm</url>
+		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 	</row>
 	<row>
 		<label>/index.htm?parameter=Should display</label>
@@ -54,6 +56,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.234</avg_time_generation>
 		<url>http://example.org/index.htm?parameter=Should display</url>
+		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Fparameter%3DShould+display</segment>
 	</row>
 	<row>
 		<label>store</label>

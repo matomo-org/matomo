@@ -70,7 +70,7 @@ class FormSuperUser extends QuickForm2
         // default values
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
             'subscribe_newsletter_piwikorg' => 1,
-            'subscribe_newsletter_piwikpro' => 0,
+            'subscribe_newsletter_piwikpro' => 1,
         )));
     }
 }

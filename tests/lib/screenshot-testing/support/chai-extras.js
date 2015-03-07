@@ -40,7 +40,19 @@ function getPageLogsString(pageLogs, indent) {
 }
 
 // add capture assertion
-var pageRenderer = new PageRenderer(path.join(config.piwikUrl, "tests", "PHPUnit", "proxy"));
+var pageRenderer = new PageRenderer(config.piwikUrl + path.join("tests", "PHPUnit", "proxy"));
+
+function getProcessedScreenshotPath(screenName) {
+    var screenshotFileName = screenName + '.png',
+        dirsBase = app.runner.suite.baseDirectory,
+        processedScreenshotDir = path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.processedScreenshotsDir);
+
+    if (!fs.isDirectory(processedScreenshotDir)) {
+        fs.makeTree(processedScreenshotDir);
+    }
+
+    return path.join(processedScreenshotDir, screenshotFileName);
+}
 
 function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
 
@@ -54,14 +66,9 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
         expectedScreenshotDir = path.join(dirsBase, config.expectedScreenshotsDir),
         expectedScreenshotPath = path.join(expectedScreenshotDir, compareAgainst + '.png'),
 
-        processedScreenshotDir = path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.processedScreenshotsDir),
-        processedScreenshotPath = path.join(processedScreenshotDir, screenshotFileName),
+        processedScreenshotPath = getProcessedScreenshotPath(screenName);
 
         screenshotDiffDir = path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.screenshotDiffDir);
-
-    if (!fs.isDirectory(processedScreenshotDir)) {
-        fs.makeTree(processedScreenshotDir);
-    }
 
     if (!fs.isDirectory(screenshotDiffDir)) {
         fs.makeTree(screenshotDiffDir);
@@ -190,13 +197,24 @@ chai.Assertion.addChainableMethod('capture', function () {
 // add `contains` assertion
 chai.Assertion.addChainableMethod('contains', function () {
     var self = this,
-        url = this.__flags['object'],
-        elementSelector = arguments[0],
-        pageSetupFn = arguments[1],
-        done = arguments[2];
+        url = this.__flags['object']
+        ;
 
-    if (url
-        && pageRenderer.getCurrentUrl() != url
+    if (arguments.length == 3) {
+        var elementSelector = arguments[0],
+            pageSetupFn = arguments[1],
+            screenName = null,
+            done = arguments[2];
+    } else {
+        var elementSelector = arguments[0],
+            screenName = app.runner.suite.title + "_" + arguments[1],
+            pageSetupFn = arguments[2],
+            done = arguments[3];
+    }
+
+    if (url !== null
+        && url !== undefined
+        && pageRenderer.getCurrentUrl() !== url
     ) {
         pageRenderer.load(url);
     }
@@ -207,9 +225,10 @@ chai.Assertion.addChainableMethod('contains', function () {
         throw new Error("No 'done' callback specified in 'contains' assertion.");
     }
 
-    pageRenderer.capture(null, function (err) {
-        var obj = self._obj,
-            indent = "     ";
+    var capturePath = screenName ? getProcessedScreenshotPath(screenName) : null;
+
+    pageRenderer.capture(capturePath, function (err) {
+        var indent = "     ";
 
         if (err) {
             err.stack = err.message + "\n" + indent + getPageLogsString(pageRenderer.pageLogs, indent);
@@ -226,8 +245,20 @@ chai.Assertion.addChainableMethod('contains', function () {
             );
 
             done();
-        } catch (error) {
-            error.stack = getPageLogsString(pageRenderer.pageLogs, indent);
+        } catch (originalError) {
+            var stack = originalError.message + "\n\n";
+            if (capturePath) {
+                stack += indent + "View the captured screenshot at '" + capturePath + "'.";
+            } else {
+                stack += indent + "NOTE: No screenshot name was supplied to this '.contains(' assertion. If the second argument is a screenshot name, "
+                      + "the screenshot will be saved so you can debug this failure.";
+            }
+
+            stack += getPageLogsString(pageRenderer.pageLogs, indent);
+
+            var error = new AssertionError(originalError.message);
+            error.stack = stack;
+
             done(error);
         }
     });

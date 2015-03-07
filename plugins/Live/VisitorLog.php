@@ -74,6 +74,7 @@ class VisitorLog extends Visualization
         // set a very high row count so that the next link in the footer of the data table is always shown
         $this->config->custom_parameters['totalRows'] = 10000000;
         $this->config->custom_parameters['smallWidth'] = (1 == Common::getRequestVar('small', 0, 'int'));
+        $this->config->custom_parameters['hideProfileLink'] = (1 == Common::getRequestVar('hideProfileLink', 0, 'int'));
         $this->config->custom_parameters['pageUrlNotDefined'] = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
 
         $this->config->footer_icons = array(

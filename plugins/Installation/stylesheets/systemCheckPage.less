@@ -1,6 +1,5 @@
 #systemCheckOptional,
 #systemCheckRequired {
-    border: 1px solid #dadada;
     width: 100%;
     max-width: 900px;
 }
@@ -13,18 +12,13 @@
 #systemCheckRequired td {
     padding: 1em .5em 1em 2em;
     vertical-align: middle;
-    font-size: 1.2em;
     margin: 0;
+    min-width: 200px;
 }
 
-#systemCheckOptional tr:nth-child(even),
-#systemCheckRequired tr:nth-child(even) {
-    background-color: #EFEEEC;
-}
-
-#systemCheckOptional tr:nth-child(odd),
-#systemCheckRequired tr:nth-child(odd) {
-    background-color: #F6F5F3;
+#systemCheckOptional tr,
+#systemCheckRequired tr {
+    background-color: #f2f2f2;
 }
 
 .error {

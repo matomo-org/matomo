@@ -89,6 +89,26 @@ class BackwardsCompatibility1XTest extends SystemTestCase
         $idSite = 1;
         $dateTime = '2012-03-06 11:22:33';
 
+        $defaultOptions = array(
+            'idSite' => $idSite,
+            'date'   => $dateTime,
+            'disableArchiving' => true,
+            'otherRequestParameters' => array(
+                'hideColumns' => 'nb_users',
+            )
+        );
+
+        $reportsToCompareSeparately = array(
+
+            // the label column is not the first column here
+            'MultiSites.getAll',
+
+            // those reports generate a different segment as a different raw value was stored that time
+            'DevicesDetection.getOsVersions',
+            'UserSettings.getOS',
+            'UserSettings.getBrowserType'
+        );
+
         $apiNotToCall = array(
             // in the SQL dump, a referrer is named referer.com, but now in OneVisitorTwoVisits it is referrer.com
             'Referrers',
@@ -104,17 +124,17 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
              // the Action.getPageTitles test fails for unknown reason, so skipping it
              // eg. https://travis-ci.org/piwik/piwik/jobs/24449365
-            'Action.getPageTitles'
+            'Action.getPageTitles',
         );
 
+        $apiNotToCall = array_merge($apiNotToCall, $reportsToCompareSeparately);
+
+        $allReportsOptions = $defaultOptions;
+        $allReportsOptions['compareAgainst'] = 'OneVisitorTwoVisits';
+        $allReportsOptions['apiNotToCall']   = $apiNotToCall;
+
         return array(
-            array('all', array('idSite' => $idSite, 'date' => $dateTime,
-                               'compareAgainst' => 'OneVisitorTwoVisits',
-                               'disableArchiving' => true,
-                               'apiNotToCall' => $apiNotToCall,
-                               'otherRequestParameters' => array(
-                                   'hideColumns' => 'nb_users',
-                               ))),
+            array('all', $allReportsOptions),
 
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-03', 'setDateLastN' => true,
                                               'disableArchiving' => true, 'testSuffix' => '_multipleDates')),
@@ -127,7 +147,8 @@ class BackwardsCompatibility1XTest extends SystemTestCase
                                               'periods' => array('range'), 'disableArchiving' => true)),
 
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-03,2012-12-12', 'periods' => array('month'),
-                                              'testSuffix' => '_multipleOldNew', 'disableArchiving' => true))
+                                              'testSuffix' => '_multipleOldNew', 'disableArchiving' => true)),
+            array($reportsToCompareSeparately, $defaultOptions),
         );
     }
 }

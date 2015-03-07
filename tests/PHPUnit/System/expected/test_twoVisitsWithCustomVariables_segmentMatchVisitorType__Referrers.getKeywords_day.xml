@@ -12,6 +12,7 @@
 				<sum_visit_length>364</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>1</nb_visits_converted>
+				<segment>referrerType==search;referrerKeyword==this+keyword+should+be+ranked</segment>
 				<subtable>
 					<row>
 						<label>Google</label>
@@ -43,6 +44,7 @@
 				<nb_conversions>2</nb_conversions>
 				<revenue>0</revenue>
 				<nb_visits>0</nb_visits>
+				<segment>referrerType==search;referrerKeyword==piwik</segment>
 			</row>
 		</result>
 		<result date="2010-01-04" />

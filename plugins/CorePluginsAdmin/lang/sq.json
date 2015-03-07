@@ -7,8 +7,9 @@
         "Deactivate": "Çaktivizoje",
         "Inactive": "Jovepruese",
         "LicenseHomepage": "Faqja Hyrëse e Lejes",
-        "PluginDescription": "Ndërfaqe Administrimi Shtojcash.",
+        "OncePluginIsInstalledYouMayActivateHere": "Pasi një shtojcë të jetë instaluar, mund ta aktivizoni ose çaktivizoni prej këtu.",
         "PluginHomepage": "Faqe Hyrëse e Shtojcës",
+        "PluginsExtendPiwik": "Shtojcat zgjerojnë dhe thellojnë funksionet e Piwik-ut.",
         "PluginsManagement": "Administrim Shtojcash",
         "Status": "Gjendje",
         "Version": "Version"

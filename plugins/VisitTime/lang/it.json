@@ -5,7 +5,7 @@
         "DayOfWeek": "Giorno della settimana",
         "LocalTime": "Visite per ora locale",
         "NHour": "%sh",
-        "PluginDescription": "Mostra l'orario Locale e del Server. L'orario del server può essere utile per schedulare il mantenimento del sito.",
+        "PluginDescription": "Restituisce l'ora locale e del server di quando i visitatori hanno visto il tuo sito o l'app.",
         "ServerTime": "Visite per ora del server",
         "SubmenuTimes": "Visite per orario",
         "VisitsByDayOfWeek": "Visite per giorno della settimana",

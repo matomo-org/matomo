@@ -161,37 +161,51 @@
 	<reportMetadata>
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
+				<segment>eventAction==playTrailer</segment>
 				
 			</row>
 			<row>
+				<segment>eventAction==Search</segment>
 				
 			</row>
 			<row>
+				<segment>eventAction==play25%25</segment>
 				
 			</row>
 			<row>
+				<segment>eventAction==play50%25</segment>
 				
 			</row>
 			<row>
+				<segment>eventAction==play75%25</segment>
 				
 			</row>
 			<row>
+				<segment>eventAction==playEnd</segment>
 				
 			</row>
 			<row>
+				<segment>eventAction==rating</segment>
 				
 			</row>
 			<row>
+				<segment>eventAction==clickBuyNow</segment>
 				
 			</row>
 			<row>
+				<segment>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
 				
 			</row>
 			<row>
+				<segment>eventAction==play</segment>
 				
 			</row>
 			<row>
+				<segment>eventAction==playStart</segment>
 				
+			</row>
+			<row>
+				<segment>eventAction==Purchase</segment>
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010" />

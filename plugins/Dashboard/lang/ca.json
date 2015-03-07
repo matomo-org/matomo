@@ -18,7 +18,6 @@
         "Maximise": "Maximitza",
         "Minimise": "Minimitza",
         "NotUndo": "No podreu desfer aquesta operació",
-        "PluginDescription": "El teu tauler d'analítica web. Podeu personalitzar el vostre tauler: afegir nous ginys, canviar l'ordre dels ginys. Cada usuari pot accedir al seu propi tauler personalitzat.",
         "RemoveDashboard": "Elimina el tauler",
         "RemoveDashboardConfirm": "Esteu segurs que voleu eliminar el tauler \"%s\"?",
         "RenameDashboard": "Reanomena el tauler",

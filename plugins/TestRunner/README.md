@@ -10,13 +10,17 @@ __I want to run the tests with different parameters on AWS, is it possible?__
 
 Yes, at the time of writing this you have to edit the file `Runner/Remote.php`
 
+__Why am I getting an error "AWS was not able to validate the provided access credentials"?__
+
+It could be caused by an invalid set date. Execute `date` on the command line and make sure it is correct.
+
 __How can I change the base image (AMI) that is used for AWS tests?__
 
 * Log in to AWS
 * Select `EC2 => AMI`
 * Launch a new instance of the current AMI by selecting it and pressing `Launch`
 * Select a `c3.large` instance type
-* Press `Review and Launch` and on next page `Launch` (in theory you have to select your keypair somewhere otherwise you will not be able to log in but I couldn't find where)
+* Press `Review and Launch` and on next page `Launch` (there you have to select your keypair otherwise you can't log in)
 * Log in to the newly created instance. To get login information 
   * Go to `EC2 => Instances`
   * Select the created instance
@@ -33,7 +37,7 @@ __How can I change the base image (AMI) that is used for AWS tests?__
     or if you don't know Puppet at least add it in this shell script https://github.com/piwik/piwik-dev-environment/blob/master/puppet/files/setup.sh
     For instance if you installed a new package you can simply add a new entry here https://github.com/piwik/piwik-dev-environment/blob/master/puppet/modules/piwik/manifests/base.pp
 * In `EC2 => Instances` menu select the instance you are currently using.
-* Select `Actions => Create Image`
+* Select `Actions => Image => Create Image`
 * Define the name `Piwik Testing vX.X` and a description like `Used to run Piwik tests via Piwik console`. Make sure to increase the box version in X.X (have a look in `EC2 => AMI` for current version)
 * Press `Create Image`
 * Go to `EC2 => AMIs` menu and while waiting for the image creation to complete add the following tags
@@ -54,6 +58,7 @@ __How do I create a new EC2 key/pair for a developer?__
 1. Go to: https://console.aws.amazon.com/ec2/v2/home?region=us-east-1
 2. Click `Create Key Pair`
 3. Send PGP email
+
 ```
 Here are info for running tests on Ec2
  * Access Key ID: 

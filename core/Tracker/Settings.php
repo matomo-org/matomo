@@ -8,6 +8,7 @@
  */
 namespace Piwik\Tracker;
 
+use Piwik\Config;
 use Piwik\Tracker;
 use Piwik\DeviceDetectorFactory;
 use Piwik\SettingsPiwik;
@@ -16,10 +17,11 @@ class Settings
 {
     const OS_BOT = 'BOT';
 
-    function __construct(Request $request, $ip)
+    function __construct(Request $request, $ip, $isSameFingerprintsAcrossWebsites)
     {
         $this->request   = $request;
         $this->ipAddress = $ip;
+        $this->isSameFingerprintsAcrossWebsites = $isSameFingerprintsAcrossWebsites;
         $this->configId  = null;
     }
 
@@ -78,7 +80,9 @@ class Settings
     }
 
     /**
-     * Returns a 64-bit hash of all the configuration settings
+     * Returns a 64-bit hash that attemps to identify a user.
+     * Maintaining some privacy by default, eg. prevents the merging of several Piwik serve together for matching across instances..
+     *
      * @param $os
      * @param $browserName
      * @param $browserVersion
@@ -110,8 +114,13 @@ class Settings
             . $browserLang
             . $salt;
 
+        if(!$this->isSameFingerprintsAcrossWebsites) {
+            $configString .= $this->request->getIdSite();
+        }
+
         $hash = md5($configString, $raw_output = true);
 
         return substr($hash, 0, Tracker::LENGTH_BINARY_ID);
     }
+
 }

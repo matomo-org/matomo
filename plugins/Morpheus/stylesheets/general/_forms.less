@@ -5,7 +5,7 @@ input:not([type="checkbox"]), select, textarea {
     padding: 8px 10px;
     min-height: 30px;
     .box-sizing(border-box);
-    background: #fff;
+    background: @theme-color-background-base;
 }
 button,
 .add-trusted-host,
@@ -64,7 +64,10 @@ button[type="button"],
         min-height: 30px;
         .box-sizing(border-box);
         a {
-            color: @theme-color-text;
+          color: @theme-color-text;
+          &:hover {
+            text-decoration: none;
+          }
         }
         .custom_select_block {
             .custom_select_container{
@@ -109,7 +112,7 @@ button[type="button"],
     }
     > div {
         .border-radius(2px);
-        background-color: #fff;
+        background-color: @theme-color-background-base;
         .font-default(10px, 12px);
         background: none;
         padding: 2px 14px 2px 1px;

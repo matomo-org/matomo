@@ -1,0 +1,9 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s fără plugin-uri activate",
+        "BrowserWithPluginsEnabled": "%1$s cu plugin-uri %2$s activate",
+        "PluginDetectionDoesNotWorkInIE": "Notă: de detectare a plugin-uri nu funcționează în Internet Explorer. Acest raport se bazează doar pe browsere non-IE.",
+        "WidgetPlugins": "Lista pluginurilor",
+        "WidgetPluginsDocumentation": "Acest raport arată ce plugin-uri de browser-ul au activat vizitatorii. Aceste informație ar putea fi importanta pentru a alege modul corect de a livra conținut."
+    }
+}

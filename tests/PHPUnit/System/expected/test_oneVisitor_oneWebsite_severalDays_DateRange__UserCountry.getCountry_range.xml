@@ -12,6 +12,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>fr</code>
 		<logo>plugins/UserCountry/images/flags/fr.png</logo>
+		<segment>countryCode==fr</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>

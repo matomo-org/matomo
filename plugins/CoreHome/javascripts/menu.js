@@ -48,6 +48,7 @@ menu.prototype =
         this.menuNode = $('.Menu--dashboard');
 
         this.menuNode.find("li:has(ul),li#Searchmenu").hover(this.overMainLI, this.outMainLI);
+        this.menuNode.find("li:has(ul),li#Searchmenu").focusin(this.overMainLI);
 
         // add id to all li menu to support menu identification.
         // for all sub menu we want to have a unique id based on their module and action
@@ -100,7 +101,7 @@ menu.prototype =
     getSubmenuID: function (module, id, action) {
         var $li = '';
         // So, if module is Goals, id is present, and action is not Index, must be one of the goals
-        if (module == 'Goals' && id != '' && (action != 'index')) {
+        if ((module == 'Goals' || module == 'Ecommerce') && id != '' && (action != 'index')) {
             $li = $("#" + module + "_" + action + "_" + id);
             // if module is Dashboard and id is present, must be one of the dashboards
         } else if (module == 'Dashboard') {

@@ -8,17 +8,12 @@
  * @package Piwik
  */
 
-use Piwik\Error;
+use Piwik\ErrorHandler;
 use Piwik\ExceptionHandler;
 use Piwik\FrontController;
-use Piwik\Plugin\ControllerAdmin as PluginControllerAdmin;
-
-PluginControllerAdmin::disableEacceleratorIfEnabled();
 
 if (!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER) {
-    require_once PIWIK_INCLUDE_PATH . '/core/Error.php';
-    Error::setErrorHandler();
-    require_once PIWIK_INCLUDE_PATH . '/core/ExceptionHandler.php';
+    ErrorHandler::registerErrorHandler();
     ExceptionHandler::setUp();
 }
 
@@ -35,16 +30,10 @@ if (PIWIK_ENABLE_DISPATCH) {
         $controller->init();
         $response = $controller->dispatch();
 
-        if (is_array($response)) {
-            var_export($response);
-        } elseif (!is_null($response)) {
+        if (!is_null($response)) {
             echo $response;
         }
     } catch (Exception $ex) {
-        $response = $controller->getErrorResponse($ex);
-
-        echo $response;
-
-        exit(1);
+        ExceptionHandler::dieWithHtmlErrorPage($ex);
     }
 }

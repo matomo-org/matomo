@@ -1,0 +1,6 @@
+{
+    "DevicePlugins": {
+        "PluginDetectionDoesNotWorkInIE": "Not: Hedeflenen eklenti Internet Explorer çalışmamaktadir. Bu not\/rapor sadece IE içindir.",
+        "WidgetPlugins": "Eklenti Listesi"
+    }
+}

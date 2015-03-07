@@ -13,16 +13,21 @@ use Piwik\Config;
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
-/**
- *
- */
 class Controller extends \Piwik\Plugin\Controller
 {
-    public function __construct()
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
     {
         parent::__construct();
+
+        $this->translator = $translator;
     }
 
     public function index()
@@ -63,6 +68,8 @@ class Controller extends \Piwik\Plugin\Controller
         $view->dateSparkline = $period == 'range' ? $date : $params['date'];
 
         $this->setGeneralVariablesView($view);
+
+        $view->siteName = $this->translator->translate('General_AllWebsitesDashboard');
 
         return $view->render();
     }

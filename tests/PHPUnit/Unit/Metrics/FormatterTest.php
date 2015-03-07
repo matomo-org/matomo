@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Unit\Metrics;
 
+use Piwik\Intl\Locale;
 use Piwik\Metrics\Formatter;
 use Piwik\Translate;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
@@ -50,18 +51,14 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
 
         $this->formatter = new Formatter();
 
-        setlocale(LC_ALL, null);
-
-        Translate::loadEnglishTranslation();
+        Translate::loadAllTranslations();
         $this->setSiteManagerApiMock();
     }
 
     public function tearDown()
     {
-        Translate::unloadEnglishTranslation();
+        Translate::reset();
         $this->unsetSiteManagerApiMock();
-
-        setlocale(LC_ALL, null);
     }
 
     /**
@@ -83,6 +80,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertEquals($expected, $this->formatter->getPrettyNumber($number, 2));
+        Locale::setDefaultLocale();
     }
 
     /**
@@ -142,8 +140,9 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
             array(0.14, '0,14'),
             array(0.14567, '0,15'),
             array(100.1234, '100,12'),
-            array(1000.45, '1.000,45'),
-            array(23456789.00, '23.456.789,00')
+            // Those last two are commented because locales are platform dependent, on some platforms the separator is '' instead of '.'
+//            array(1000.45, '1.000,45'),
+//            array(23456789.00, '23.456.789,00'),
         );
     }
 

@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Huwag pansinin ang mga pagbisita sa X-Do-Hindi-Track o DNT header."
-    },
     "General": {
         "AbandonedCarts": "inabandunang Cart",
         "AboutPiwikX": "ungkol sa Piwik %s",
@@ -176,7 +173,6 @@
         "Forums": "Mga Forum",
         "FromReferrer": "mula",
         "GeneralInformation": "Pangkalahatang Impormasyon",
-        "GeneralSettings": "Pangkalahatang mga Setting",
         "GetStarted": "Magsimula",
         "GiveUsYourFeedback": "Bigyan kami ng Feedback!",
         "Goal": "Layunin",
@@ -357,6 +353,7 @@
         "TranslatorName": "<a href=\"http:\/\/levante.se\/\">Levante.se<\/a>",
         "View": "Tingnan",
         "Visitors": "Mga Bisita",
+        "VisitorSettings": "Mga Setting ng bisita",
         "Website": "Website",
         "XFromY": "%1$s mula %2$s",
         "Yesterday": "ontem"

@@ -7,6 +7,11 @@
     text-decoration: underline;
 }
 
+.admin h2 + .top_bar_sites_selector {
+  margin-top: -62px;
+  margin-right: 0px !important;
+}
+
 #content.admin {
     margin: 0 0 0 260px;
     padding: 0 0 40px;
@@ -16,17 +21,18 @@
 
 .admin #header_message {
     margin-top: 10px;
+    margin-right: 10px;
 }
 
 table.admin {
     font-size: 0.9em;
-    background-color: #fff;
+    background-color: @theme-color-background-base;
     border-collapse: collapse;
 }
 
 table.admin thead th {
-    border-right: 1px solid #fff;
-    color: #fff;
+    border-right: 1px solid @theme-color-background-base;
+    color: @theme-color-background-base;
     text-align: center;
     padding: 5px;
     text-transform: uppercase;
@@ -136,6 +142,10 @@ table.admin  tbody td:hover, table.admin  tbody th:hover {
     margin-top: 0;
     width: 100%;
     margin-left: 50px;
+}
+
+.adminTable .columnHelp .ui-inline-help {
+    margin-left: 0px;
 }
 
 /* other styles */

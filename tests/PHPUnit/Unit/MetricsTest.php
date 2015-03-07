@@ -13,7 +13,7 @@ use Piwik\Metrics;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 
-class Core_MetricsTest extends \PHPUnit_Framework_TestCase
+class MetricsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @group Core
@@ -80,7 +80,8 @@ class Core_MetricsTest extends \PHPUnit_Framework_TestCase
             'max_event_value' => 37,
             'nb_events_with_value' => 38,
             'nb_impressions' => 41,
-            'nb_interactions' => 42
+            'nb_interactions' => 42,
+            'nb_uniq_fingerprints' => 43,
         );
         $this->assertEquals($expectedMapping, $mapping);
     }

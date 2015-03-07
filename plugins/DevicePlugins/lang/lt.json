@@ -1,0 +1,6 @@
+{
+    "DevicePlugins": {
+        "PluginDetectionDoesNotWorkInIE": "Pastaba: papildinio aptikimas neveikia Internet Explorer naršyklėje. Ši ataskaita bus sugeneruota tik kitose naršyklėse.",
+        "WidgetPlugins": "Papildinių sąrašas"
+    }
+}

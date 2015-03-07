@@ -9,11 +9,13 @@
  */
 namespace Piwik\Plugins\LanguagesManager;
 
-use Piwik\Cache\PersistentCache;
 use Piwik\Db;
+use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Piwik;
+use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Translation\Loader\DevelopmentLoader;
 
 /**
  * The LanguagesManager API lets you access existing Piwik translations, and change Users languages preferences.
@@ -65,6 +67,8 @@ class API extends \Piwik\Plugin\API
                 $languages[] = substr($language, $pathLength, -strlen('.json'));
             }
         }
+
+        $this->enableDevelopmentLanguageInDevEnvironment($languages);
 
         /**
          * Hook called after loading available language files.
@@ -272,10 +276,11 @@ class API extends \Piwik\Plugin\API
             return;
         }
 
-        $cache = new PersistentCache('availableLanguages');
+        $cacheId = 'availableLanguages';
+        $cache = PiwikCache::getEagerCache();
 
-        if ($cache->has()) {
-            $languagesInfo = $cache->get();
+        if ($cache->contains($cacheId)) {
+            $languagesInfo = $cache->fetch($cacheId);
         } else {
             $filenames = $this->getAvailableLanguages();
             $languagesInfo = array();
@@ -289,9 +294,19 @@ class API extends \Piwik\Plugin\API
                 );
             }
 
-            $cache->set($languagesInfo);
+            $cache->save($cacheId, $languagesInfo);
         }
 
         $this->availableLanguageNames = $languagesInfo;
+    }
+
+    private function enableDevelopmentLanguageInDevEnvironment(&$languages)
+    {
+        if (!Development::isEnabled()) {
+            $key = array_search(DevelopmentLoader::LANGUAGE_ID, $languages);
+            if ($key) {
+                unset($languages[$key]);
+            }
+        }
     }
 }

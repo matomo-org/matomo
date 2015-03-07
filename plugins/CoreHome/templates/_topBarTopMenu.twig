@@ -1,24 +1,16 @@
 <div id="topRightBar">
-    {% for label,menu in topMenu %}
+
+    {% macro topMenuItem(label, menu, currentModule, currentAction) %}
         {% if menu._html is defined %}
             {{ menu._html|raw }}
         {% elseif (menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}
             <span class="topBarElem topBarElemActive"><strong>{{ label|translate }}</strong></span>
         {% else %}
             <span class="topBarElem" {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}>
-                <a id="topmenu-{{ menu._url.module|lower }}" href="index.php{{ menu._url|urlRewriteWithParameters }}">{{ label|translate }}</a>
-            </span>
+            <a id="topmenu-{{ menu._url.module|lower }}" href="index.php{{ menu._url|urlRewriteWithParameters }}">{{ label|translate }}</a>
+        </span>
         {% endif %}
-        |
-    {% endfor %}
-
-    {% set helloAlias %}
-    {% if userAlias is not empty %}
-        {{ userAlias|raw }}
-    {% else %}
-        {{ userLogin|raw }}
-    {% endif %}
-    {% endset %}
+    {% endmacro %}
 
     {% macro userMenuItem(label, menu, currentModule, currentAction) %}
 
@@ -30,38 +22,16 @@
 
     {% endmacro %}
 
-    <span class="topBarElem">
-        <div id="userMenu"
-             tooltip="{{ 'General_HelloUser'|translate(helloAlias|trim)|rawSafeDecoded }}"
-             menu-title="{{ helloAlias|trim }}"
-             piwik-menudropdown>
+    {% if topMenuModule is not defined %}
+        {% set topMenuModule = currentModule %}
+        {% set topMenuAction = currentAction %}
+    {% endif %}
 
-            {% for lev1UserLabel,lev1UserMenu in userMenu if lev1UserLabel|slice(0,1) != '_' %}
-                {% if not loop.first %}
-                    <hr class="item separator"/>
-                {% endif %}
-
-                {% if lev1UserMenu._hasSubmenu is defined and lev1UserMenu._hasSubmenu %}
-                    {% if lev1UserLabel %}
-                        <a class="item disabled category">{{ lev1UserLabel|translate }}</a>
-                    {% endif %}
-
-                    {% for lev2Label,lev2Menu in lev1UserMenu if lev2Label|slice(0,1) != '_' %}
-                        {{ _self.userMenuItem(lev2Label, lev2Menu, currentModule, currentAction) }}
-                    {% endfor %}
-                {% else %}
-                    {{ _self.userMenuItem(lev1UserLabel, lev1UserMenu, currentModule, currentAction) }}
-                {% endif %}
-
-            {% endfor %}
-        </div>
-    </span>
-
-    | <span class="topBarElem">
-        {% if userLogin == 'anonymous' %}
-            <a href='index.php?module={{ loginModule }}'>{{ 'Login_LogIn'|translate }}</a>
-        {% else %}
-            <a href='index.php?module={{ loginModule }}&amp;action=logout'>{{ 'General_Logout'|translate }}</a>
+    {% for label,menu in topMenu %}
+        {% if not loop.first %}
+                |
         {% endif %}
-    </span>
+        {{ _self.topMenuItem(label, menu, topMenuModule, topMenuAction) }}
+    {% endfor %}
+
 </div>

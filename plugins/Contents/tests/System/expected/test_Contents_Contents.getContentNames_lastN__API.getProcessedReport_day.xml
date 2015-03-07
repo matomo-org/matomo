@@ -58,14 +58,17 @@
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
 				<contentTarget>http://www.example.com</contentTarget>
+				<segment>contentName==ImageAd</segment>
 				
 			</row>
 			<row>
 				<contentTarget>http://piwik.org/</contentTarget>
+				<segment>contentName==Text+Ad</segment>
 				
 			</row>
 			<row>
 				<contentTarget />
+				<segment>contentName==Video+Ad</segment>
 				
 			</row>
 		</result>

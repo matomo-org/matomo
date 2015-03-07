@@ -633,8 +633,8 @@ function _readfile($filename, $byteStart, $byteEnd, $useIncludePath = false, $co
         for ($pos = $byteStart; $pos < $byteEnd && !feof($handle); $pos = ftell($handle)) {
 			echo fread($handle, min(8192, $byteEnd - $pos));
 
-			ob_flush();
-			flush();
+			@ob_flush();
+			@flush();
 		}
 
 		fclose($handle);
@@ -694,5 +694,11 @@ if (!function_exists('gzopen')
     function gzopen($filename , $mode = 'r', $use_include_path = 0 )
     {
         return gzopen64($filename , $mode, $use_include_path);
+    }
+}
+
+if (!function_exists('dump')) {
+    function dump () {
+
     }
 }

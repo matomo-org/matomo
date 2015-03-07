@@ -1,5 +1,6 @@
 {
     "Installation": {
+        "CannotConnectToDb": "Kan ikke koble til databasen",
         "ConfirmDeleteExistingTables": "Er du sikker på at du vil slette tabellene %s fra databasen din? ADVARSEL: DATA FRA DISSE TABELLENE KAN IKKE GJENOPPRETTES!",
         "Congratulations": "Gratulerer",
         "CongratulationsHelp": "<p>Gratulerer! Din Piwik installasjon er fullført.<\/p><p>Sørg for at JavaScript-koden er lagt inn på dine sider, og vent på dine første besøkende!<\/p>",
@@ -61,6 +62,7 @@
         "SystemCheckOtherExtensions": "Andre utvidelser",
         "SystemCheckOtherFunctions": "Andre funksjoner",
         "SystemCheckPackHelp": "pack()-funksjonen er nødvendig for å spore besøkende i Piwik.",
+        "SystemCheckPageSpeedDisabled": "PageSpeed deaktivert",
         "SystemCheckParseIniFileHelp": "Denne innebygde funksjonen har blitt deaktivert på verten. Piwik vil forsøke å etterligne denne funksjonen, men kan møte ytterligere sikkerhetsbegrensninger. Sporingsytelsen vil også bli påvirket.",
         "SystemCheckPhp": "PHP-versjon",
         "SystemCheckPhpPdoAndMysqli": "Mer informasjon om: %1$sPHP PDO%2$s og %3$sMYSQLI%4$s.",
@@ -79,6 +81,7 @@
         "TablesDeletedSuccess": "Eksisterende Piwik-tabeller ble vellykket slettet",
         "TablesFound": "Følgende tabeller ble funnet i databasen",
         "TablesReuse": "Bruk de eksisterende tabellene",
+        "TablesUpdatedSuccess": "Databasen er oppdatert fra %1$s til %2$s!",
         "TablesWarningHelp": "Enten velg å bruke de eksisterende tabellene eller velg en ren installasjon for å slette all eksisterende data i databasen.",
         "TablesWithSameNamesFound": "Noen %1$s tabeller i databasen din %2$s har samme navn som de tabellene Piwik prøver å opprette",
         "Timezone": "tidssone for nettsted",

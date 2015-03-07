@@ -8,6 +8,8 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Common;
+use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\DataAccess\InvalidatedReports;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
@@ -81,23 +83,25 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTest
             //  + 3 done flag )
             //  * 2 segments
             // + 1 Done flag per Plugin, for each "Last N" date
-            'archive_numeric_2010_01' => 142,
+            'archive_numeric_2010_01' => 138,
 
             // 2) CHECK 'week' archive stored in December (week starts the month before)
             // We expect 2 segments * (1 custom variable name + 2 ref metrics + 5 subtable for the values of the name + 5 referrers blob)
             'archive_blob_2009_12'    => 28,
             // 7 metrics,
             // 2 Referrer metrics (Referrers_distinctSearchEngines/Referrers_distinctKeywords),
-            // 3 done flag (referrers, CustomVar, VisitsSummary),
+            // 6 done flag (referrers, CustomVar, VisitsSummary), 3 for period = 1 and 3 for period = 2
             // X * 2 segments
-            'archive_numeric_2009_12' => (6 + 2 + 3) * 2,
+            'archive_numeric_2009_12' => (6 + 2 + 3 + 3) * 2,
         );
         foreach ($tests as $table => $expectedRows) {
             $sql = "SELECT count(*) FROM " . Common::prefixTable($table);
             $countBlobs = Db::get()->fetchOne($sql);
 
             if($expectedRows != $countBlobs) {
-                var_export(Db::get()->fetchAll("SELECT * FROM " . Common::prefixTable($table) . " ORDER BY name, idarchive ASC"));
+                $output = Db::get()->fetchAll("SELECT * FROM " . Common::prefixTable($table) . " ORDER BY name, idarchive ASC");
+                var_export('This is debug output from ' . __CLASS__ . ' in case of an error: ');
+                var_export($output);
             }
             $this->assertEquals($expectedRows, $countBlobs, "$table: %s");
         }

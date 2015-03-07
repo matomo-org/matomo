@@ -8,8 +8,8 @@
 namespace Piwik\Tests\Framework;
 
 use Piwik\Access;
-use Piwik\Cache\StaticCache;
-use Piwik\CacheFile;
+use Piwik\Cache\Backend\File;
+use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -18,6 +18,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\EventDispatcher;
+use Piwik\Ini\IniReader;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -33,7 +34,6 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\UsersManager;
-use Piwik\Registry;
 use Piwik\ReportRenderer;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -189,10 +189,6 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         include "DataFiles/SearchEngines.php";
         include "DataFiles/Socials.php";
-        include "DataFiles/Languages.php";
-        include "DataFiles/Countries.php";
-        include "DataFiles/Currencies.php";
-        include "DataFiles/LanguageToCountry.php";
         include "DataFiles/Providers.php";
 
         if (!$this->isFixtureSetUp()) {
@@ -217,14 +213,13 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         // Make sure translations are loaded to check messages in English
         if ($this->loadTranslations) {
-            Translate::reloadLanguage('en');
+            Translate::loadAllTranslations();
             APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
         }
 
         FakeAccess::$superUserLogin = 'superUserLogin';
 
-        SettingsPiwik::$cachedKnownSegmentsToArchive = null;
-        CacheFile::$invalidateOpCacheBeforeRead = true;
+        File::$invalidateOpCacheBeforeRead = true;
 
         if ($this->configureComponents) {
             IPAnonymizer::deactivate();
@@ -244,7 +239,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         $this->getTestEnvironment()->executeSetupTestEnvHook();
         Piwik_TestingEnvironment::addSendMailHook();
 
-        StaticCache::clearAll();
+        PiwikCache::getTransientCache()->flushAll();
 
         if ($this->overwriteExisting
             || !$this->isFixtureSetUp()
@@ -296,6 +291,8 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         $this->clearInMemoryCaches();
+
+        Log::unsetInstance();
     }
 
     public function clearInMemoryCaches()
@@ -304,14 +301,15 @@ class Fixture extends \PHPUnit_Framework_Assert
         Option::clearCache();
         Site::clearCache();
         Cache::deleteTrackerCache();
+        PiwikCache::getTransientCache()->flushAll();
+        PiwikCache::getEagerCache()->flushAll();
         Config::getInstance()->clear();
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
-        Registry::unsetInstance();
         EventDispatcher::getInstance()->clearAllObservers();
 
         $_GET = $_REQUEST = array();
-        Translate::unloadEnglishTranslation();
+        Translate::reset();
 
         Config::unsetInstance();
 
@@ -758,12 +756,18 @@ class Fixture extends \PHPUnit_Framework_Assert
             . '--url="' . self::getRootUrl() . 'tests/PHPUnit/proxy/" ' # proxy so that piwik uses test config files
         ;
 
-        foreach ($options as $name => $value) {
-            $cmd .= $name;
-            if ($value !== false) {
-                $cmd .= '="' . $value . '"';
+        foreach ($options as $name => $values) {
+            if (!is_array($values)) {
+                $values = array($values);
             }
-            $cmd .= ' ';
+
+            foreach ($values as $value) {
+                $cmd .= $name;
+                if ($value !== false) {
+                    $cmd .= '="' . $value . '"';
+                }
+                $cmd .= ' ';
+            }
         }
 
         $cmd .= '"' . $logFile . '" 2>&1';
@@ -817,7 +821,8 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $this->log("Dropping database '$dbName'...");
 
-        $config = _parse_ini_file(PIWIK_INCLUDE_PATH . '/config/config.ini.php', true);
+        $iniReader = new IniReader();
+        $config = $iniReader->readFile(PIWIK_INCLUDE_PATH . '/config/config.ini.php');
         $originalDbName = $config['database']['dbname'];
         if ($dbName == $originalDbName
             && $dbName != 'piwik_tests'
@@ -825,7 +830,11 @@ class Fixture extends \PHPUnit_Framework_Assert
             throw new \Exception("Trying to drop original database '$originalDbName'. Something's wrong w/ the tests.");
         }
 
-        DbHelper::dropDatabase($dbName);
+        try {
+            DbHelper::dropDatabase($dbName);
+        } catch (Exception $e) {
+            printf("Dropping database %s failed: %s\n", $dbName, $e->getMessage());
+        }
     }
 
     public function log($message)

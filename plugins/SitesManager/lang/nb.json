@@ -24,6 +24,7 @@
         "ListOfIpsToBeExcludedOnAllWebsites": "IP-adressene nedenfor blir ekskludert fra sporing på alle nettsteder.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "URL-spørreparametrene nedenfor blir ekskludert fra alle side URL-rapporter.",
         "MainDescription": "Dine analyser trenger nettsteder! Legg til, oppdater, slett websider, og vis koden som du skal legge inn på dine websider.",
+        "NotFound": "Ingen nettsteder funnet for",
         "NoWebsites": "Du har ingen nettsteder å administrere",
         "SelectACity": "Velg en by",
         "SelectDefaultCurrency": "Du kan velge standard valuta for nye nettsteder.",

@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 
 /**
@@ -30,4 +31,18 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($size);
     }
 
+    public function test_removeFile_shouldRemoveFile()
+    {
+        $tmpFile = StaticContainer::get('path.tmp') . '/filesystem-test-file';
+        touch($tmpFile);
+
+        Filesystem::remove($tmpFile);
+
+        $this->assertFileNotExists($tmpFile);
+    }
+
+    public function test_removeNonExistingFile_shouldNotThrowException()
+    {
+        Filesystem::remove('foo');
+    }
 }

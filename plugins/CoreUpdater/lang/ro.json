@@ -36,7 +36,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik a fost actualizat cu succes!",
         "PiwikUpdatedSuccessfully": "Piwik actualizat cu succes!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Baza de date Piwik va fi actualizată de la versiunea %1$s la versiunea nouă %2$s.",
-        "PluginDescription": "Mecanismul de actualizare Piwik",
         "ReadyToGo": "Eşti gata să procedezi?",
         "TheFollowingPluginsWillBeUpgradedX": "Urmatoarele pluginuri vor fi actualizate: %s.",
         "ThereIsNewPluginVersionAvailableForUpdate": "Anumite pluginuri pe care le folositi au fost updatate in Marketplace:",

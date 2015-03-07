@@ -26,7 +26,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik წარმატებით განახლდა!",
         "PiwikUpdatedSuccessfully": "Piwik წარმატებით განახლდა!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik მონაცემთა ბაზა განახლდება %1$s ვერსიიდან ახალი %2$s ვერსიამდე.",
-        "PluginDescription": "Piwik-ის განახლების მექანიზმი",
         "ReadyToGo": "მზად ხართ?",
         "TheFollowingPluginsWillBeUpgradedX": "განახლდება შემდეგი პლაგინები: %s.",
         "ThereIsNewVersionAvailableForUpdate": "Piwik–ის ახალი ვერსია გამოსულია, შესაძლებელია განახლება",

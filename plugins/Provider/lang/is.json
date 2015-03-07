@@ -1,8 +1,6 @@
 {
     "Provider": {
         "ColumnProvider": "Veitandi",
-        "PluginDescription": "Skilar gögnum um þá sem veita gestum á vefinn.",
-        "SubmenuLocationsProvider": "Staðsetningar & Veitandi",
         "WidgetProviders": "Veitendur"
     }
 }

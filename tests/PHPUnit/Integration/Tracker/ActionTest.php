@@ -40,7 +40,14 @@ class ActionTest extends IntegrationTestCase
 
         PluginManager::getInstance()->loadPlugins(array('SitesManager'));
 
-        Translate::loadEnglishTranslation();
+        Translate::loadAllTranslations();
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        Translate::reset();
     }
 
     protected function setUpRootAccess()

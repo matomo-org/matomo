@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Ignoriši posete sa zaglavljima X-Do-Not-Track i DNT."
-    },
     "General": {
         "AbandonedCarts": "Napuštene korpe",
         "AboutPiwikX": "O programu Piwik %s",
@@ -183,7 +180,6 @@
         "Forums": "Forumi",
         "FromReferrer": "od",
         "GeneralInformation": "Opšte informacije",
-        "GeneralSettings": "Opšta podešavanja",
         "GetStarted": "Da počnemo",
         "GiveUsYourFeedback": "Vaši utisci",
         "Goal": "Cilj",
@@ -419,6 +415,7 @@
         "VisitorID": "ID posetioca",
         "VisitorIP": "IP adresa posetioca",
         "Visitors": "Posetioci",
+        "VisitorSettings": "Parametri posetilaca",
         "VisitsWith": "Posete sa %s",
         "VisitType": "Tip posetioca",
         "VisitTypeExample": "Na primer, kako biste obeležili sve posetioce koji su se vratili na sajt, uključujući i one koji su već nešto kupili, API zahtev bi sadržao %s",

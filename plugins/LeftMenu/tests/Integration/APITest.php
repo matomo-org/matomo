@@ -11,7 +11,7 @@ namespace Piwik\Plugins\LeftMenu\tests\Integration;
 use Piwik\Access;
 use Piwik\Plugins\LeftMenu\API;
 use Piwik\Plugins\LeftMenu\Settings;
-use \FakeAccess;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**

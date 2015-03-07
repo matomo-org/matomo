@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Negeer bezoeken met X-Do-Not-Track of DNT header."
-    },
     "General": {
         "AbandonedCarts": "Niet afgeronde bestellingen",
         "AboutPiwikX": "Over Piwik %s",
@@ -181,8 +178,8 @@
         "ForExampleShort": "bijv.",
         "Forums": "Forums",
         "FromReferrer": "van",
+        "General": "Algemeen",
         "GeneralInformation": "Algemene informatie",
-        "GeneralSettings": "Algemene instellingen",
         "GetStarted": "Aan de slag",
         "GiveUsYourFeedback": "Geef ons commentaar",
         "Goal": "Doel",
@@ -419,6 +416,7 @@
         "VisitorID": "Bezoekers ID",
         "VisitorIP": "Bezoekers IP",
         "Visitors": "Bezoekers",
+        "VisitorSettings": "Bezoekers Instellingen",
         "VisitsWith": "Bezoeken met %s",
         "VisitType": "Type bezoeker",
         "VisitTypeExample": "Om bijvoorbeeld het aantal terugkerende bezoekers (inclusief die bezoekers die iets gekocht hebben) te selecteren moet de API %s bevatten",
@@ -467,10 +465,11 @@
         "EvolutionGraph": "Historische grafieken",
         "HelpUsToImprovePiwikMobile": "Wilt u anonieme registratie van gebruiksgegevens inschakelen in Piwik Mobile?",
         "HowtoDeleteAnAccount": "Lang drukken om een account te verwijderen.",
-        "HowtoDeleteAnAccountOniOS": "Veeg naar links naar rechts om een ​​account te verwijderen",
+        "HowtoDeleteAnAccountOniOS": "Veeg naar links om een ​​account te verwijderen",
         "HowtoLoginAnonymous": "Laat gebruikersnaam en wachtwoord leeg voor anonieme login.",
         "HttpIsNotSecureWarning": "Uw Piwik autorisatie token (token_auth) wordt verzonden in gewone tekst als u 'HTTP'. Om deze reden adviseren wij HTTPS voor een veilig transport van gegevens via het internet. Wilt u doorgaan?",
         "HttpTimeout": "HTTP-Time-out",
+        "IgnoreSslError": "SLL Fout Negeren",
         "IncompatiblePiwikVersion": "De Piwik versie die u gebruikt is incompatibel met Piwik Mobile 2. Update uw Piwik installatie en probeer opnieuw of installeer Piwik Mobile 1.",
         "LastUpdated": "Laatste update: %s",
         "LoadingReport": "Bezig met laden van %s",
@@ -509,6 +508,7 @@
         "TopVisitedWebsites": "Top bezochte websites",
         "TryIt": "Probeer het!",
         "UseSearchBarHint": "Alleen de eerste %s websites worden hier weergegeven. Gebruik de zoekbalk om uw andere websites te openen.",
+        "ValidateSslCertificate": "Valideer SSL Certificaat",
         "VerifyAccount": "verifiëren Account",
         "VerifyLoginData": "Zorg dat je gebruikersnaam en wachtwoord combinatie goed zijn.",
         "YouAreOffline": "Sorry, u bent momenteel offline"

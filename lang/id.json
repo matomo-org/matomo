@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Abaikan kunjungan dengan kepala Jangan-Lacak \"X-Do-Not-Track\" atau \"DNT\"."
-    },
     "General": {
         "AbandonedCarts": "Keranjang Terabaikan",
         "AboutPiwikX": "Tentang Piwik %s",
@@ -173,7 +170,6 @@
         "ForExampleShort": "misalnya",
         "FromReferrer": "dari",
         "GeneralInformation": "Informasi Umum",
-        "GeneralSettings": "Pengaturan Umum",
         "GetStarted": "Memulai",
         "GiveUsYourFeedback": "Beri UmpanBalik!",
         "Goal": "Tujuan",
@@ -395,6 +391,7 @@
         "VisitorID": "ID pengunjung",
         "VisitorIP": "IP pengujung",
         "Visitors": "Pengunjung",
+        "VisitorSettings": "Pengaturan Pengunjung",
         "VisitsWith": "Kunjungan dengan %s",
         "VisitType": "Jenis pengunjung",
         "VisitTypeExample": "Sebagai contoh, untuk memilih semua pengunjung yang telah kembali ke situs, termasuk yang telah membeli sesuatu saat kunjungan sebelumnya, permintaan API akan mengandung %s",

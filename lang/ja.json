@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "X-Do-Not-Track または DNT ヘッダーでの訪問を無視します。"
-    },
     "General": {
         "AbandonedCarts": "放棄された買い物かご",
         "AboutPiwikX": "Piwik %s について",
@@ -186,7 +183,6 @@
         "Forums": "フォーラム",
         "FromReferrer": "から",
         "GeneralInformation": "全般の設定",
-        "GeneralSettings": "全般の設定",
         "GetStarted": "始めましょう",
         "GiveUsYourFeedback": "フィードバックをお願いします！",
         "Goal": "目標",
@@ -426,6 +422,7 @@
         "VisitorID": "ビジターID",
         "VisitorIP": "ビジターIP",
         "Visitors": "ビジター",
+        "VisitorSettings": "ビジターの環境",
         "VisitsWith": "%s のビジット",
         "VisitType": "ビジター種類",
         "VisitTypeExample": "例えば、前回のビジットで何かを購入した訪問者を含む、全てのリピーターを選択するためのAPIリクエストは %s を含むものとなります。",

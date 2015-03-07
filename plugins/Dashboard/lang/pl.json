@@ -18,7 +18,6 @@
         "Maximise": "Maksymalizuj",
         "Minimise": "Minimalizacja",
         "NotUndo": "Nie będziesz mógł cofnąć tej operacji.",
-        "PluginDescription": "Tablica analityki. Możesz skonfigurować swoją tablicę tak jak zaplanujesz: możesz dodać nowe widżety, zmienić porządek ich wyświetlania. Każdy z uprawnionych użytkowników może posiadać własną zindywidualizowaną tablicę statystyk.",
         "RemoveDashboard": "Usuń tablicę analiz",
         "RemoveDashboardConfirm": "Czy jesteś pewny, że chcesz usunąć panel \"%s\"?",
         "RenameDashboard": "Zmień nawę tablicy analiz",

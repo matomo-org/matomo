@@ -5,13 +5,16 @@ tools:
     config:
       check_variables:
         enabled: false
+    dependency_paths:
+      - libs/
 
 filter:
+  paths:
+    - core/
+    - plugins/
   excluded_paths:
-    - 'tests/*'
-    - 'libs/*'
-    - 'misc/*'
-    - 'lang/*'
+    - '*/tests/*'
+    - '*/Test/*'
 
 build:
   environment:

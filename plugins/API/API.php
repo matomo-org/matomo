@@ -12,6 +12,7 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Columns\Dimension;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Row;
@@ -23,8 +24,9 @@ use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
-use Piwik\SegmentExpression;
+use Piwik\Segment\SegmentExpression;
 use Piwik\Translate;
+use Piwik\Translation\Translator;
 use Piwik\Version;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
@@ -158,8 +160,7 @@ class API extends \Piwik\Plugin\API
             'name'           => 'General_UserId',
             'segment'        => 'userId',
             'acceptedValues' => 'any non empty unique string identifying the user (such as an email address or a username).',
-            'sqlSegment'     => 'log_visit.idvisitor',
-            'sqlFilterValue' => array('Piwik\Common', 'convertUserIdToVisitorIdBin'),
+            'sqlSegment'     => 'log_visit.user_id',
             'sqlFilter'      => array($this, 'checkSegmentMatchTypeIsValidForUser'),
             'permission'     => $isAuthenticatedWithViewAccess,
 
@@ -321,7 +322,12 @@ class API extends \Piwik\Plugin\API
     public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false,
                                 $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
     {
-        Translate::reloadLanguage($language);
+        if ($language) {
+            /** @var Translator $translator */
+            $translator = StaticContainer::get('Piwik\Translation\Translator');
+            $translator->setCurrentLanguage($language);
+        }
+
         $reporter = new ProcessedReport();
         $metadata = $reporter->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
@@ -513,6 +519,18 @@ class API extends \Piwik\Plugin\API
             $result[] = $req->process();
         }
         return $result;
+    }
+
+    /**
+     * Return true if plugin is activated, false otherwise
+     *
+     * @param string $pluginName
+     * @return bool
+     */
+    public function isPluginActivated($pluginName)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated($pluginName);
     }
 
     /**

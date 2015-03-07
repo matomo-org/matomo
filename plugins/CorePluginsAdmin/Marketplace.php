@@ -143,8 +143,8 @@ class Marketplace
     {
         $dateFormat = Piwik::translate('CoreHome_ShortDateFormatWithYear');
 
-        $plugin['canBeUpdated'] = $this->hasPluginUpdate($plugin);
         $plugin['isInstalled']  = \Piwik\Plugin\Manager::getInstance()->isPluginLoaded($plugin['name']);
+        $plugin['canBeUpdated'] = $plugin['isInstalled'] && $this->hasPluginUpdate($plugin);
         $plugin['lastUpdated']  = Date::factory($plugin['lastUpdated'])->getLocalized($dateFormat);
 
         if ($plugin['canBeUpdated']) {

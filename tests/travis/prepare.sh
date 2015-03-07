@@ -1,16 +1,16 @@
 #!/bin/bash
 set -e
 
-sudo apt-get update
+sudo apt-get update > /dev/null
 
 # Install XMLStarlet
-sudo apt-get install -qq xmlstarlet
+sudo apt-get install -qq xmlstarlet > /dev/null
 
 # Install fonts for UI tests
 if [ "$TEST_SUITE" = "UITests" ];
 then
     sudo sh -c "echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections"
-    sudo apt-get install -qq ttf-mscorefonts-installer
+    sudo apt-get install -qq ttf-mscorefonts-installer > /dev/null
 fi
 
 # Copy Piwik configuration
@@ -20,6 +20,10 @@ sed "s/PDO\\\MYSQL/${MYSQL_ADAPTER}/g" ./tests/PHPUnit/config.ini.travis.php > .
 # Prepare phpunit.xml
 echo "Adjusting phpunit.xml"
 cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
+
+if grep "@REQUEST_URI@" ./tests/PHPUnit/phpunit.xml > /dev/null; then
+    sed -i 's/@REQUEST_URI@/\//g' ./tests/PHPUnit/phpunit.xml
+fi
 
 if [ -n "$PLUGIN_NAME" ];
 then
@@ -41,5 +45,10 @@ mkdir ./tmp/sessions
 mkdir ./tmp/templates_c
 mkdir ./tmp/tcpdf
 mkdir ./tmp/climulti
-chmod a+rw ./tests/lib/geoip-files
-chmod a+rw ./plugins/*/tests/System/processed
+chmod a+rw ./tests/lib/geoip-files || true
+chmod a+rw ./plugins/*/tests/System/processed || true
+chmod a+rw ./plugins/*/tests/Integration/processed || true
+
+# install phpredis
+echo 'extension="redis.so"' > ./tmp/redis.ini
+phpenv config-add ./tmp/redis.ini

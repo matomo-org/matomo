@@ -57,7 +57,7 @@ class BatchInsert
      */
     public static function tableInsertBatch($tableName, $fields, $values, $throwException = false)
     {
-        $filePath = StaticContainer::getContainer()->get('path.tmp') . '/assets/' . $tableName . '-' . Common::generateUniqId() . '.csv';
+        $filePath = StaticContainer::get('path.tmp') . '/assets/' . $tableName . '-' . Common::generateUniqId() . '.csv';
 
         $loadDataInfileEnabled = Config::getInstance()->General['enable_load_data_infile'];
 
@@ -92,7 +92,6 @@ class BatchInsert
                     return true;
                 }
             } catch (Exception $e) {
-                Log::info("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was: %s", $e->getMessage());
 
                 if ($throwException) {
                     throw $e;
@@ -189,18 +188,16 @@ class BatchInsert
 
                 return true;
             } catch (Exception $e) {
-//				echo $sql . ' ---- ' .  $e->getMessage();
                 $code = $e->getCode();
                 $message = $e->getMessage() . ($code ? "[$code]" : '');
-                if (!Db::get()->isErrNo($e, '1148')) {
-                    Log::info("LOAD DATA INFILE failed... Error was: %s", $message);
-                }
                 $exceptions[] = "\n  Try #" . (count($exceptions) + 1) . ': ' . $queryStart . ": " . $message;
             }
         }
 
         if (count($exceptions)) {
-            throw new Exception(implode(",", $exceptions));
+            $message = "LOAD DATA INFILE failed... Error was: " . implode(",", $exceptions);
+            Log::info($message);
+            throw new Exception($message);
         }
 
         return false;

@@ -16,7 +16,6 @@
         "NoDataForAction": "Não há dados para %s",
         "NoDataForActionDetails": "Ou a ação não tinha visualizações de página durante o período de %s ou é inválido.",
         "OutgoingTraffic": "O tráfego de saída",
-        "PluginDescription": "Relatórios sobre as ações anteriores e seguintes para cada URL da página.",
         "ShareOfAllPageviews": "Esta página teve %s exibições (%s de todos as exibições)",
         "ToFollowingPages": "Para páginas internas",
         "ToFollowingPagesInline": "%s para páginas internas",

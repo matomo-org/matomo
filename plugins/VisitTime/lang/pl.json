@@ -5,7 +5,6 @@
         "DayOfWeek": "Dzień tygodnia",
         "LocalTime": "Odwiedziny według lokalnego czasu",
         "NHour": "%sh",
-        "PluginDescription": "Raporty związane z czasem lokalnym i czasem serwera. Informacje uwzględniające czas serwera mogą być użyteczne do ustalenia czasu przerw technicznych serwisu.",
         "ServerTime": "Odwiedziny według czasu serwera",
         "SubmenuTimes": "Czas",
         "VisitsByDayOfWeek": "Odwiedziny w poszczególnych dniach tygodnia",

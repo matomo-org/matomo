@@ -49,7 +49,7 @@
         "OnlyOneSiteAtTime": "Puoi modificare solo un sito per volta. Per favore Salva o Annulla le modifiche attuali al sito %s.",
         "PiwikOffersEcommerceAnalytics": "Piwik permette statistiche Ecommerce avanzate di monitoraggio e reporting. Per saperne di più su%s Statistiche Ecommerce%s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik escluderà automaticamente i parametri di sessioni comuni (%s).",
-        "PluginDescription": "Gestione dei siti in Piwik: Aggiungi nuovi siti, modificane uno esistente, mostra il codice da includere nelle tue pagine. Tutte le azioni sono disponibili anche dalle API.",
+        "PluginDescription": "La Gestione dei Siti ti permette di aggiungere e modificare i siti web esistenti.",
         "SearchCategoryDesc": "Piwik può anche monitorare la categoria Ricerca per ogni parola chiave di ricerca interna al sito.",
         "SearchCategoryLabel": "Parametro categoria",
         "SearchCategoryParametersDesc": "Puoi immettere una lista di parametri di ricerca separati da virgola specificando la categoria di ricerca.",

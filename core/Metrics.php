@@ -8,8 +8,7 @@
  */
 namespace Piwik;
 
-use Piwik\Cache\LanguageAwareStaticCache;
-use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Cache as PiwikCache;
 use Piwik\Metrics\Formatter;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
@@ -87,6 +86,9 @@ class Metrics
     const INDEX_CONTENT_NB_IMPRESSIONS = 41;
     const INDEX_CONTENT_NB_INTERACTIONS = 42;
 
+    // Unique visitors fingerprints (useful to process unique visitors across websites)
+    const INDEX_NB_UNIQ_FINGERPRINTS = 43;
+
     // Goal reports
     const INDEX_GOAL_NB_CONVERSIONS = 1;
     const INDEX_GOAL_REVENUE = 2;
@@ -99,6 +101,7 @@ class Metrics
 
     public static $mappingFromIdToName = array(
         Metrics::INDEX_NB_UNIQ_VISITORS                      => 'nb_uniq_visitors',
+        Metrics::INDEX_NB_UNIQ_FINGERPRINTS                  => 'nb_uniq_fingerprints',
         Metrics::INDEX_NB_VISITS                             => 'nb_visits',
         Metrics::INDEX_NB_ACTIONS                            => 'nb_actions',
         Metrics::INDEX_NB_USERS                              => 'nb_users',
@@ -250,10 +253,11 @@ class Metrics
 
     public static function getDefaultMetricTranslations()
     {
-        $cache = new PluginAwareStaticCache('DefaultMetricTranslations');
+        $cacheId = CacheId::pluginAware('DefaultMetricTranslations');
+        $cache   = PiwikCache::getTransientCache();
 
-        if ($cache->has()) {
-            return $cache->get();
+        if ($cache->contains($cacheId)) {
+            return $cache->fetch($cacheId);
         }
 
         $translations = array(
@@ -302,17 +306,18 @@ class Metrics
 
         $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
 
-        $cache->set($translations);
+        $cache->save($cacheId, $translations);
 
         return $translations;
     }
 
     public static function getDefaultMetrics()
     {
-        $cache = new LanguageAwareStaticCache('DefaultMetrics');
+        $cacheId = CacheId::languageAware('DefaultMetrics');
+        $cache   = PiwikCache::getTransientCache();
 
-        if ($cache->has()) {
-            return $cache->get();
+        if ($cache->contains($cacheId)) {
+            return $cache->fetch($cacheId);
         }
 
         $translations = array(
@@ -323,17 +328,18 @@ class Metrics
         );
         $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
 
-        $cache->set($translations);
+        $cache->save($cacheId, $translations);
 
         return $translations;
     }
 
     public static function getDefaultProcessedMetrics()
     {
-        $cache = new LanguageAwareStaticCache('DefaultProcessedMetrics');
+        $cacheId = CacheId::languageAware('DefaultProcessedMetrics');
+        $cache   = PiwikCache::getTransientCache();
 
-        if ($cache->has()) {
-            return $cache->get();
+        if ($cache->contains($cacheId)) {
+            return $cache->fetch($cacheId);
         }
 
         $translations = array(
@@ -345,7 +351,7 @@ class Metrics
         );
         $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
 
-        $cache->set($translations);
+        $cache->save($cacheId, $translations);
 
         return $translations;
     }
@@ -383,10 +389,11 @@ class Metrics
 
     public static function getDefaultMetricsDocumentation()
     {
-        $cache = new PluginAwareStaticCache('DefaultMetricsDocumentation');
+        $cacheId = CacheId::pluginAware('DefaultMetricsDocumentation');
+        $cache   = PiwikCache::getTransientCache();
 
-        if ($cache->has()) {
-            return $cache->get();
+        if ($cache->contains($cacheId)) {
+            return $cache->fetch($cacheId);
         }
 
         $translations = array(
@@ -412,7 +419,7 @@ class Metrics
 
         $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
 
-        $cache->set($translations);
+        $cache->save($cacheId, $translations);
 
         return $translations;
     }

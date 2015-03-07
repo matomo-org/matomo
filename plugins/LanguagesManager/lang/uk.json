@@ -1,6 +1,5 @@
 {
     "LanguagesManager": {
-        "AboutPiwikTranslations": "Про переклади Piwik",
-        "PluginDescription": "Цей плагін показуватиме перелік наявних мов для інтерфейсу Piwik. Вибрана мова буде збережена в налаштуваннях для кожного користувача."
+        "AboutPiwikTranslations": "Про переклади Piwik"
     }
 }

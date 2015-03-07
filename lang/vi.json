@@ -1,7 +1,4 @@
 {
-    "DoNotTrack": {
-        "PluginDescription": "Bỏ qua việc thăm với X-Do-Not-Track hay tiêu đề DNT"
-    },
     "General": {
         "AbandonedCarts": "giỏ hàng bị bỏ quên",
         "AboutPiwikX": "Về Piwik %s",
@@ -177,7 +174,6 @@
         "Forums": "Các diễn đàn",
         "FromReferrer": "Mẫu",
         "GeneralInformation": "Thông tin chung",
-        "GeneralSettings": "Cài đặt chung",
         "GetStarted": "Bắt đầu",
         "GiveUsYourFeedback": "Thông tin phản hồi cho chúng tôi!",
         "Goal": "Chỉ tiêu",
@@ -405,6 +401,7 @@
         "VisitorID": "ID khách truy cập",
         "VisitorIP": "IP khách truy cập",
         "Visitors": "Các khách truy cập",
+        "VisitorSettings": "Thiết lập khách truy cập",
         "VisitsWith": "Các khách truy cập với %s",
         "VisitType": "kiểu khách truy cập",
         "VisitTypeExample": "Lấy ví dụ, để chọn tất cả những người truy cập đã quay lại website, bao gồm cả những người đã mua thứ gì đó trong những lượt truy cập trước, yêu cầu API có thể chứa %s",

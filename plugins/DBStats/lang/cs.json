@@ -10,7 +10,7 @@
         "MetricDataByYear": "Tabulky měření za rok",
         "MetricTables": "Tabulky měření",
         "OtherTables": "Ostatní tabulky",
-        "PluginDescription": "Tento zásuvný modul hlásí využití databáze MySQL tabulkami Piwiku",
+        "PluginDescription": "Poskytuje detailní hlášení o využití Mysql databáze. Dostupné pro super uživatele pod diagnostikou.",
         "ReportDataByYear": "Hlášení tabulek za rok",
         "ReportTables": "Tabulky hlášení",
         "RowCount": "Počet řádků",

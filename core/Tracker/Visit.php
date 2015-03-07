@@ -11,9 +11,13 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Date;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\SettingsPiwik;
 use Piwik\Tracker;
 
 /**
@@ -152,11 +156,7 @@ class Visit implements VisitInterface
 
         $this->visitorInfo = $visitor->getVisitorInfo();
 
-        $isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit($visitor);
-
-        if (!$isLastActionInTheSameVisit) {
-            Common::printDebug("Visitor detected, but last action was more than 30 minutes ago...");
-        }
+        $isNewVisit = $this->isVisitNew($visitor, $action);
 
         // Known visit when:
         // ( - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor
@@ -165,9 +165,7 @@ class Visit implements VisitInterface
         // )
         // AND
         // - the last page view for this visitor was less than 30 minutes ago @see isLastActionInTheSameVisit()
-        if ($visitor->isVisitorKnown()
-            && $isLastActionInTheSameVisit
-        ) {
+        if (!$isNewVisit) {
             $idReferrerActionUrl  = $this->visitorInfo['visit_exit_idaction_url'];
             $idReferrerActionName = $this->visitorInfo['visit_exit_idaction_name'];
 
@@ -203,9 +201,7 @@ class Visit implements VisitInterface
         // - the visitor has the Piwik cookie but the last action was performed more than 30 min ago @see isLastActionInTheSameVisit()
         // - the visitor doesn't have the Piwik cookie, and couldn't be matched in @see recognizeTheVisitor()
         // - the visitor does have the Piwik cookie but the idcookie and idvisit found in the cookie didn't match to any existing visit in the DB
-        if (!$visitor->isVisitorKnown()
-            || !$isLastActionInTheSameVisit
-        ) {
+        if ($isNewVisit) {
             $this->handleNewVisit($visitor, $action, $visitIsConverted);
             if (!is_null($action)) {
                 $action->record($visitor, 0, 0);
@@ -226,6 +222,8 @@ class Visit implements VisitInterface
         }
         unset($this->goalManager);
         unset($action);
+
+        $this->markArchivedReportsAsInvalidIfArchiveAlreadyFinished();
     }
 
     /**
@@ -386,7 +384,7 @@ class Visit implements VisitInterface
     protected function getSettingsObject()
     {
         if (is_null($this->userSettings)) {
-            $this->userSettings = new Settings( $this->request, $this->getVisitorIp() );
+            $this->userSettings = new Settings( $this->request, $this->getVisitorIp(), SettingsPiwik::isSameFingerprintAcrossWebsites());
         }
 
         return $this->userSettings;
@@ -403,6 +401,33 @@ class Visit implements VisitInterface
         return isset($lastActionTime)
             && false !== $lastActionTime
             && ($lastActionTime > ($this->request->getCurrentTimestamp() - Config::getInstance()->Tracker['visit_standard_length']));
+    }
+
+    /**
+     * Returns true if the last action was not today.
+     * @param Visitor $visitor
+     * @return bool
+     */
+    private function wasLastActionNotToday(Visitor $visitor)
+    {
+        $lastActionTime = $visitor->getVisitorColumn('visit_last_action_time');
+
+        if (empty($lastActionTime)) {
+            return false;
+        }
+
+        $idSite   = $this->request->getIdSite();
+        $timezone = $this->getTimezoneForSite($idSite);
+
+        if (empty($timezone)) {
+            throw new UnexpectedWebsiteFoundException('An unexpected website was found, check idSite in the request');
+        }
+
+        $date = Date::factory((int) $lastActionTime, $timezone);
+        $now  = $this->request->getCurrentTimestamp();
+        $now  = Date::factory((int) $now, $timezone);
+
+        return $date->toString() !== $now->toString();
     }
 
     // is the referrer host any of the registered URLs for this website?
@@ -427,7 +452,7 @@ class Visit implements VisitInterface
 
     private static function toCanonicalHost($host)
     {
-        $hostLower = mb_strtolower($host, 'UTF-8');
+        $hostLower = Common::mb_strtolower($host, 'UTF-8');
         return str_replace('www.', '', $hostLower);
     }
 
@@ -547,6 +572,16 @@ class Visit implements VisitInterface
         return $valuesToUpdate;
     }
 
+    private function triggerPredicateHookOnDimensions($dimensions, $hook, Visitor $visitor, Action $action = null)
+    {
+        foreach ($dimensions as $dimension) {
+            if ($dimension->$hook($this->request, $visitor, $action)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected function getAllVisitDimensions()
     {
         $dimensions = VisitDimension::getAllDimensions();
@@ -594,5 +629,74 @@ class Visit implements VisitInterface
     protected function insertNewVisit($visit)
     {
         return $this->getModel()->createVisit($visit);
+    }
+
+    /**
+     * Determines if the tracker if the current action should be treated as the start of a new visit or
+     * an action in an existing visit.
+     *
+     * @param Visitor $visitor The current visit/visitor information.
+     * @param Action|null $action The current action being tracked.
+     * @return bool
+     */
+    public function isVisitNew(Visitor $visitor, Action $action = null)
+    {
+        if (!$visitor->isVisitorKnown()) {
+            return true;
+        }
+
+        $isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit($visitor);
+
+        if (!$isLastActionInTheSameVisit) {
+            Common::printDebug("Visitor detected, but last action was more than 30 minutes ago...");
+
+            return true;
+        }
+
+        $wasLastActionYesterday = $this->wasLastActionNotToday($visitor);
+        if ($wasLastActionYesterday) {
+            Common::printDebug("Visitor detected, but last action was yesterday...");
+
+            return true;
+        }
+
+        $shouldForceNewVisit = $this->triggerPredicateHookOnDimensions($this->getAllVisitDimensions(), 'shouldForceNewVisit', $visitor, $action);
+        if ($shouldForceNewVisit) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function markArchivedReportsAsInvalidIfArchiveAlreadyFinished()
+    {
+        $idSite = (int) $this->request->getIdSite();
+        $time   = $this->request->getCurrentTimestamp();
+
+        $timezone = $this->getTimezoneForSite($idSite);
+
+        if (!isset($timezone)) {
+            return;
+        }
+
+        $date = Date::factory((int) $time, $timezone);
+
+        if (!$date->isToday()) { // we don't have to handle in case date is in future as it is not allowed by tracker
+            $invalidReport = new ArchiveInvalidator();
+            $invalidReport->rememberToInvalidateArchivedReportsLater($idSite, $date);
+        }
+    }
+
+    private function getTimezoneForSite($idSite)
+    {
+        try {
+            $site = Cache::getCacheWebsiteAttributes($idSite);
+        } catch (UnexpectedWebsiteFoundException $e) {
+            return;
+        }
+
+        if (!empty($site['timezone'])) {
+            return $site['timezone'];
+        }
     }
 }

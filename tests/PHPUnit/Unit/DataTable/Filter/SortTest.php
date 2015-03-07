@@ -12,11 +12,12 @@ use Piwik\DataTable\Filter\Sort;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
+/**
+ * @group DataTableTest
+ */
 class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @group Core
-     */
+
     public function testNormalSortDescending()
     {
         $table = new DataTable();
@@ -31,9 +32,7 @@ class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOrder, $table->getColumn('label'));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testNormalSortAscending()
     {
         $table = new DataTable();
@@ -48,9 +47,7 @@ class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOrder, $table->getColumn('label'));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testMissingColumnValuesShouldAppearLastAfterSortAsc()
     {
         $table = new DataTable();
@@ -68,9 +65,7 @@ class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOrder, $table->getColumn('label'));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testMissingColumnValuesShouldAppearLastAfterSortDesc()
     {
         $table = new DataTable();
@@ -168,5 +163,21 @@ class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
         $filter = new Sort($table, 'nb_visits', 'desc');
         $filter->filter($table);
         $this->assertTrue(DataTable::isEqual($table, $expectedtableReverse));
+    }
+
+    public function test_sortingArrayValues_doesNotError()
+    {
+        $table = new DataTable();
+        $table->addRowsFromArray(array(
+            array(Row::COLUMNS => array('label' => 'ask', 'count_array' => array(100, 1, 2) )),
+            array(Row::COLUMNS => array('label' => 'nintendo', 'count_array' => array(0, 'hello'))),
+            array(Row::COLUMNS => array('label' => 'yahoo', 'count_array' => array(10, 'test'))
+            )));
+
+        $tableOriginal = clone $table;
+
+        $filter = new Sort($table, 'count_array', 'desc');
+        $filter->filter($table);
+        $this->assertTrue(DataTable::isEqual($tableOriginal, $table));
     }
 }

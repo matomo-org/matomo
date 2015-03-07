@@ -57,7 +57,6 @@
         "OptOutExplanationBis": "Este código irá exibir um iframe contendo um link para os seus visitantes optarem por definir um cookie em seus navegadores para não utilizar o Piwik. %sClique aqui%s para visualizar o conteúdo que será exibido pelo iFrame.",
         "OptOutForYourVisitors": "Piwik opt-out para os seus visitantes",
         "PiwikIsInstalledAt": "Piwik esta instalado no",
-        "PluginDescription": "Área Administrativa do Piwik.",
         "PluginSettingChangeNotAllowed": "Você não tem permissão para alterar o valor da configuração \"%s\" no plug-in \"%s\"",
         "PluginSettings": "Configurações do plugin",
         "PluginSettingsIntro": "Aqui você pode alterar as configurações dos seguintes plugins de terceiros:",

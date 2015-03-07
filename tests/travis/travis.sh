@@ -28,7 +28,12 @@ then
     then
         if [ -n "$PLUGIN_NAME" ]
         then
-            artifacts_folder="protected/ui-tests.$TRAVIS_BRANCH.$PLUGIN_NAME"
+            artifacts_folder="ui-tests.$TRAVIS_BRANCH.$PLUGIN_NAME"
+
+            if [ "$UNPROTECTED_ARTIFACTS" = "" ];
+            then
+                artifacts_folder="protected/$artifacts_folder"
+            fi
         else
             artifacts_folder="ui-tests.$TRAVIS_BRANCH"
         fi
@@ -38,14 +43,21 @@ then
         echo ""
         echo "http://builds-artifacts.piwik.org/$artifacts_folder/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
         echo ""
-        echo "If the new screenshots are valid, then you can copy them over to tests/PHPUnit/UI/expected-ui-screenshots/."
-        echo ""
+        echo "If the new screenshots are valid, then you can copy them over to tests/UI/expected-ui-screenshots/"
+
+        if [ -n "$PLUGIN_NAME" ]
+        then
+            echo " with command:"
+            echo ""
+            echo "./console development:sync-ui-test-screenshots $TRAVIS_JOB_NUMBER"
+            echo ""
+        fi
 
         if [ -n "$PLUGIN_NAME" ]
         then
             phantomjs ../lib/screenshot-testing/run-tests.js --assume-artifacts --persist-fixture-data --screenshot-repo=$TRAVIS_REPO_SLUG --plugin=$PLUGIN_NAME
         else
-            phantomjs ../lib/screenshot-testing/run-tests.js --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts
+            phantomjs ../lib/screenshot-testing/run-tests.js --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core
         fi
     elif [ "$TEST_SUITE" = "AllTests" ]
     then
@@ -53,19 +65,19 @@ then
     else
         if [ -n "$PLUGIN_NAME" ]
         then
-            travis_wait phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME --coverage-clover $PIWIK_ROOT_DIR/build/logs/clover-$PLUGIN_NAME.xml
+            travis_wait phpunit --configuration phpunit.xml --colors --testsuite $TEST_SUITE --group $PLUGIN_NAME --coverage-clover $PIWIK_ROOT_DIR/build/logs/clover-$PLUGIN_NAME.xml $PHPUNIT_EXTRA_OPTIONS
         else
-            travis_wait phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
+            travis_wait phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors $PHPUNIT_EXTRA_OPTIONS
         fi
     fi
 else
     if [ "$COVERAGE" = "Unit" ]
     then
         echo "Executing tests in test suite UnitTests..."
-        phpunit --configuration phpunit.xml --testsuite UnitTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-unit.xml || true
+        phpunit --configuration phpunit.xml --testsuite UnitTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-unit.xml $PHPUNIT_EXTRA_OPTIONS || true
     elif [ "$COVERAGE" = "Integration" ]
     then
         echo "Executing tests in test suite IntegrationTests..."
-        phpunit --configuration phpunit.xml --testsuite IntegrationTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-integration.xml || true
+        phpunit --configuration phpunit.xml --testsuite IntegrationTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-integration.xml $PHPUNIT_EXTRA_OPTIONS || true
     fi;
 fi

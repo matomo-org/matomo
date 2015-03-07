@@ -78,26 +78,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * Installation Step 1: Welcome
      *
      * Can also display an error message when there is a failure early (eg. DB connection failed)
-     *
-     * @param string Optional error message
      */
-    function welcome($message = false)
+    function welcome()
     {
         // Delete merged js/css files to force regenerations based on updated activated plugin list
         Filesystem::deleteAllCacheOnUpdate();
 
-        if (empty($message)) {
-            $this->checkPiwikIsNotInstalled();
-        }
+        $this->checkPiwikIsNotInstalled();
         $view = new View(
             '@Installation/welcome',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
 
-        $view->newInstall = !SettingsPiwik::isPiwikInstalled();
-        $view->errorMessage = $message;
-        $view->showNextStep = $view->newInstall;
+        $view->showNextStep = true;
         return $view->render();
     }
 
@@ -563,7 +557,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         \Piwik\Plugins\Login\Controller::clearSession();
         $message = Piwik::translate('Installation_InvalidStateError',
             array('<br /><strong>',
-                  '</strong><a href=\'' . Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName()) . '\'>',
+                  // piwik-is-already-installed is checked against in checkPiwikServerWorking
+                  '</strong><a id="piwik-is-already-installed" href=\'' . Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName()) . '\'>',
                   '</a>')
         );
         Piwik::exitWithErrorMessage($message);

@@ -38,7 +38,7 @@ class Day extends Period
     {
         //"Mon 15 Aug"
         $date     = $this->getDateStart();
-        $template = Piwik::translate('CoreHome_ShortDateFormat');
+        $template = $this->translator->translate('CoreHome_ShortDateFormat');
 
         $out = $date->getLocalized($template);
         return $out;
@@ -53,7 +53,7 @@ class Day extends Period
     {
         //"Mon 15 Aug"
         $date     = $this->getDateStart();
-        $template = Piwik::translate('CoreHome_DateFormat');
+        $template = $this->translator->translate('CoreHome_DateFormat');
 
         $out = $date->getLocalized($template);
         return $out;

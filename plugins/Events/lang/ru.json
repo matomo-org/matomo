@@ -1,10 +1,28 @@
 {
     "Events": {
+        "AvgEventValue": "Среднее значение события: %s",
+        "AvgValue": "Среднее значение",
+        "AvgValueDocumentation": "Среднее всех значений для этого события",
         "Event": "Событие",
+        "EventAction": "Действие события",
+        "EventActions": "Действия событий",
+        "EventCategories": "Категории событий",
+        "EventCategory": "Категория события",
+        "EventName": "Название события",
+        "EventNames": "Названия событий",
+        "Events": "События",
+        "EventsWithValue": "События со значением",
+        "EventsWithValueDocumentation": "Количество событий, где было установлено значение для События",
+        "EventValue": "Значение события",
         "MaxValue": "Максимальное значение",
         "MaxValueDocumentation": "Максимальное значения для этого события",
         "MinValue": "Минимальное значение",
         "MinValueDocumentation": "Минимальное значения для этого события",
+        "TopEvents": "Топ событий",
+        "TotalEvents": "Всего событий",
+        "TotalEventsDocumentation": "Общее количество событий",
+        "TotalValue": "Общее значение",
+        "TotalValueDocumentation": "Сумма значений событий",
         "ViewEvents": "Просмотреть события"
     }
 }

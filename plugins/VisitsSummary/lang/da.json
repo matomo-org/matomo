@@ -17,7 +17,6 @@
         "NbUniquePageviewsDescription": "%s unikke sidevisninger",
         "NbUniqueVisitors": "%s unikke besøgende",
         "NbVisitsBounced": "%s har forladt hjemmesiden efter én sidevisning",
-        "PluginDescription": "Generelle analyserapporter: besøg, unikke besøgende, antal handlinger, afvisningsprocent osv..",
         "VisitsSummary": "Besøg resumé",
         "VisitsSummaryDocumentation": "Oversigt over besøgsudviklingen.",
         "WidgetLastVisits": "Seneste besøg",

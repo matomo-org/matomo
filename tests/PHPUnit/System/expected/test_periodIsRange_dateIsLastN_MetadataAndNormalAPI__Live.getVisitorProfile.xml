@@ -4,11 +4,12 @@
 	<totalVisitDuration>361</totalVisitDuration>
 	<totalActions>2</totalActions>
 	<totalSearches>0</totalSearches>
-	<totalPageViews>0</totalPageViews>
+	<totalPageViewsWithTiming>0</totalPageViewsWithTiming>
 	<totalGoalConversions>1</totalGoalConversions>
 	<totalConversionsByGoal>
 		<row idgoal="1">1</row>
 	</totalConversionsByGoal>
+	<hasLatLong>0</hasLatLong>
 	<searches>
 	</searches>
 	<continents>
@@ -42,6 +43,8 @@
 		<referralSummary>Direct Entry</referralSummary>
 	</lastVisit>
 	<visitsAggregated>2</visitsAggregated>
+	
+	
 	<lastVisits>
 		<row>
 			<idSite>1</idSite>
@@ -57,6 +60,7 @@
 					
 					<pageId>5</pageId>
 					<icon>plugins/Morpheus/images/link.gif</icon>
+					
 				</row>
 			</actionDetails>
 			<goalConversions>0</goalConversions>
@@ -66,8 +70,6 @@
 			
 			
 			
-			<searches>0</searches>
-			<actions>1</actions>
 			<userId />
 			<visitorType>new</visitorType>
 			<visitorTypeIcon />
@@ -81,31 +83,8 @@
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
-			<customVariables>
-				<row>
-					<customVariableName1>VisitorType</customVariableName1>
-					<customVariableValue1>LoggedOut</customVariableValue1>
-				</row>
-				<row>
-					<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
-					<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
-				</row>
-			</customVariables>
-			<deviceType>Desktop</deviceType>
-			<operatingSystem>Windows XP</operatingSystem>
-			<operatingSystemCode>WXP</operatingSystemCode>
-			<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-			<browserFamily>Gecko</browserFamily>
-			<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-			<browser>Firefox 3.0</browser>
-			<browserName>Firefox</browserName>
-			<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-			<browserCode>FF</browserCode>
-			<browserVersion>3.0</browserVersion>
-			<events>0</events>
-			<provider>Unknown</provider>
-			<providerName>Unknown</providerName>
-			<providerUrl />
+			<searches>0</searches>
+			<actions>1</actions>
 			<referrerType>direct</referrerType>
 			<referrerTypeName>Direct Entry</referrerTypeName>
 			<referrerName />
@@ -114,6 +93,20 @@
 			<referrerUrl />
 			<referrerSearchEngineUrl />
 			<referrerSearchEngineIcon />
+			<deviceType>Desktop</deviceType>
+			<operatingSystem>Windows XP</operatingSystem>
+			<operatingSystemName>Windows</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+			<operatingSystemCode>WIN</operatingSystemCode>
+			<operatingSystemVersion>XP</operatingSystemVersion>
+			<browserFamily>Gecko</browserFamily>
+			<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+			<browser>Firefox 3.0</browser>
+			<browserName>Firefox</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+			<browserCode>FF</browserCode>
+			<browserVersion>3.0</browserVersion>
+			<events>0</events>
 			<continent>Europe</continent>
 			<continentCode>eur</continentCode>
 			<country>France</country>
@@ -125,21 +118,34 @@
 			<location>France</location>
 			<latitude />
 			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<provider>Unknown</provider>
+			<providerName>Unknown</providerName>
+			<providerUrl />
+			<customVariables>
+				<row>
+					<customVariableName1>VisitorType</customVariableName1>
+					<customVariableValue1>LoggedOut</customVariableValue1>
+				</row>
+				<row>
+					<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+					<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+				</row>
+			</customVariables>
 			<resolution>1111x222</resolution>
 			<plugins>flash, java</plugins>
 			<pluginsIcons>
 				<row>
-					<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
 					<pluginName>flash</pluginName>
 				</row>
 				<row>
-					<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			<visitLocalTime>12:34:06</visitLocalTime>
-			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
 			
 			
 			
@@ -162,6 +168,7 @@
 					
 					<url>http://example.org/homepage</url>
 					<icon>plugins/Morpheus/images/goal.png</icon>
+					
 				</row>
 				<row>
 					<type>action</type>
@@ -171,6 +178,7 @@
 					
 					<pageId>4</pageId>
 					<icon />
+					
 				</row>
 			</actionDetails>
 			<goalConversions>1</goalConversions>
@@ -180,8 +188,6 @@
 			
 			
 			
-			<searches>0</searches>
-			<actions>1</actions>
 			<userId />
 			<visitorType>new</visitorType>
 			<visitorTypeIcon />
@@ -195,31 +201,8 @@
 			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 			<visitDuration>361</visitDuration>
 			<visitDurationPretty>6 min 1s</visitDurationPretty>
-			<customVariables>
-				<row>
-					<customVariableName1>VisitorType</customVariableName1>
-					<customVariableValue1>LoggedOut</customVariableValue1>
-				</row>
-				<row>
-					<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
-					<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
-				</row>
-			</customVariables>
-			<deviceType>Desktop</deviceType>
-			<operatingSystem>Windows XP</operatingSystem>
-			<operatingSystemCode>WXP</operatingSystemCode>
-			<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
-			<browserFamily>Gecko</browserFamily>
-			<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-			<browser>Firefox 3.0</browser>
-			<browserName>Firefox</browserName>
-			<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
-			<browserCode>FF</browserCode>
-			<browserVersion>3.0</browserVersion>
-			<events>0</events>
-			<provider>Unknown</provider>
-			<providerName>Unknown</providerName>
-			<providerUrl />
+			<searches>0</searches>
+			<actions>1</actions>
 			<referrerType>direct</referrerType>
 			<referrerTypeName>Direct Entry</referrerTypeName>
 			<referrerName />
@@ -228,6 +211,20 @@
 			<referrerUrl />
 			<referrerSearchEngineUrl />
 			<referrerSearchEngineIcon />
+			<deviceType>Desktop</deviceType>
+			<operatingSystem>Windows XP</operatingSystem>
+			<operatingSystemName>Windows</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+			<operatingSystemCode>WIN</operatingSystemCode>
+			<operatingSystemVersion>XP</operatingSystemVersion>
+			<browserFamily>Gecko</browserFamily>
+			<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+			<browser>Firefox 3.0</browser>
+			<browserName>Firefox</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+			<browserCode>FF</browserCode>
+			<browserVersion>3.0</browserVersion>
+			<events>0</events>
 			<continent>Europe</continent>
 			<continentCode>eur</continentCode>
 			<country>France</country>
@@ -239,21 +236,34 @@
 			<location>France</location>
 			<latitude />
 			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<provider>Unknown</provider>
+			<providerName>Unknown</providerName>
+			<providerUrl />
+			<customVariables>
+				<row>
+					<customVariableName1>VisitorType</customVariableName1>
+					<customVariableValue1>LoggedOut</customVariableValue1>
+				</row>
+				<row>
+					<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+					<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+				</row>
+			</customVariables>
 			<resolution>1111x222</resolution>
 			<plugins>flash, java</plugins>
 			<pluginsIcons>
 				<row>
-					<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
 					<pluginName>flash</pluginName>
 				</row>
 				<row>
-					<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			<visitLocalTime>12:34:06</visitLocalTime>
-			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
 			
 			
 			
@@ -263,6 +273,4 @@
 		</row>
 	</lastVisits>
 	<userId>0</userId>
-	
-	
 </result>

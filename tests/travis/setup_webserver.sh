@@ -4,8 +4,8 @@ set -e
 DIR=$(dirname "$0")
 
 echo "Installing nginx"
-sudo apt-get update -qq
-sudo apt-get install -qq nginx realpath
+sudo apt-get update -qq > /dev/null
+sudo apt-get install -qq nginx realpath > /dev/null
 
 sudo service nginx stop
 

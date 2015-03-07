@@ -15,6 +15,7 @@ use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\API as APIActions;
 use Piwik\Site;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
 /**
@@ -22,6 +23,18 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+
+        parent::__construct();
+    }
+
     public function index()
     {
         $view = new View('@VisitsSummary/index');
@@ -48,23 +61,23 @@ class Controller extends \Piwik\Plugin\Controller
             }
         }
 
-        $documentation = Piwik::translate('VisitsSummary_VisitsSummaryDocumentation') . '<br />'
-            . Piwik::translate('General_BrokenDownReportDocumentation') . '<br /><br />'
+        $documentation = $this->translator->translate('VisitsSummary_VisitsSummaryDocumentation') . '<br />'
+            . $this->translator->translate('General_BrokenDownReportDocumentation') . '<br /><br />'
 
-            . '<b>' . Piwik::translate('General_ColumnNbVisits') . ':</b> '
-            . Piwik::translate('General_ColumnNbVisitsDocumentation') . '<br />'
+            . '<b>' . $this->translator->translate('General_ColumnNbVisits') . ':</b> '
+            . $this->translator->translate('General_ColumnNbVisitsDocumentation') . '<br />'
 
-            . '<b>' . Piwik::translate('General_ColumnNbUniqVisitors') . ':</b> '
-            . Piwik::translate('General_ColumnNbUniqVisitorsDocumentation') . '<br />'
+            . '<b>' . $this->translator->translate('General_ColumnNbUniqVisitors') . ':</b> '
+            . $this->translator->translate('General_ColumnNbUniqVisitorsDocumentation') . '<br />'
 
-            . '<b>' . Piwik::translate('General_ColumnNbActions') . ':</b> '
-            . Piwik::translate('General_ColumnNbActionsDocumentation') . '<br />'
+            . '<b>' . $this->translator->translate('General_ColumnNbActions') . ':</b> '
+            . $this->translator->translate('General_ColumnNbActionsDocumentation') . '<br />'
 
-            . '<b>' . Piwik::translate('General_ColumnNbUsers') . ':</b> '
-            . Piwik::translate('General_ColumnNbUsersDocumentation') . ' (<a rel="noreferrer"  target="_blank" href="http://piwik.org/docs/user-id/">User ID</a>)<br />'
+            . '<b>' . $this->translator->translate('General_ColumnNbUsers') . ':</b> '
+            . $this->translator->translate('General_ColumnNbUsersDocumentation') . ' (<a rel="noreferrer"  target="_blank" href="http://piwik.org/docs/user-id/">User ID</a>)<br />'
 
-            . '<b>' . Piwik::translate('General_ColumnActionsPerVisit') . ':</b> '
-            . Piwik::translate('General_ColumnActionsPerVisitDocumentation');
+            . '<b>' . $this->translator->translate('General_ColumnActionsPerVisit') . ':</b> '
+            . $this->translator->translate('General_ColumnActionsPerVisitDocumentation');
 
         $selectableColumns = array(
             // columns from VisitsSummary.get

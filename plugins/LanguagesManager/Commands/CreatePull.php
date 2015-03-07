@@ -49,7 +49,7 @@ class CreatePull extends TranslationBase
         chdir(PIWIK_DOCUMENT_ROOT);
 
         shell_exec('
-            git checkout master > /dev/null 2>&1
+            git checkout -f master > /dev/null 2>&1
             git pull > /dev/null 2>&1
             git submodule init > /dev/null 2>&1
             git submodule update > /dev/null 2>&1
@@ -75,7 +75,7 @@ class CreatePull extends TranslationBase
 
         // switch to branch and update it to latest master
         shell_exec('
-            git checkout translationupdates > /dev/null 2>&1
+            git checkout -f translationupdates > /dev/null 2>&1
             git merge master > /dev/null 2>&1
             git push origin translationupdates > /dev/null 2>&1
         ');

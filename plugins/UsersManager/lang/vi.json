@@ -34,7 +34,6 @@
         "MenuUsers": "Các người dùng",
         "MenuUserSettings": "Thiết lập người dùng",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Lưu ý: Bạn không thể thay đổi các thiết lập trong phần này, bởi vì bạn không có bất kỳ trang web nào có thể truy cập bởi người dùng ẩn danh.",
-        "PluginDescription": "Quản trị người dùng trong Piwik: thêm một người dùng mới, chỉnh sửa một người dùng hiện tại, cập nhật các quyền. Tất cả các hành động cũng được cho phép thông qua các API.",
         "PrivAdmin": "Quản trị viên",
         "PrivNone": "Không có truy cập",
         "PrivView": "Xem",

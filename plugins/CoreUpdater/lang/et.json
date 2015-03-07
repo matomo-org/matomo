@@ -19,7 +19,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik edukalt uuendatud!",
         "PiwikUpdatedSuccessfully": "Piwik edukalt uuendatud!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwiku andmebaas uuendatakse versioonilt %1$s uuele versioonile %2$s.",
-        "PluginDescription": "Piwiku uuendamise mehhanism",
         "ReadyToGo": "Valmis jätkamiseks?",
         "TheFollowingPluginsWillBeUpgradedX": "Valitud lisatarkvarad uuendatakse: %s.",
         "ThereIsNewVersionAvailableForUpdate": "Uus Piwiku versioon on saadaval",

@@ -36,7 +36,6 @@
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik je uspešno nadograđen!",
         "PiwikUpdatedSuccessfully": "Piwik je uspešno nadograđen!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik baza će biti nadograđena sa verzije %1$s na %2$s.",
-        "PluginDescription": "Sistem za instaliranje novih verzija",
         "ReadyToGo": "Da li ste spremni?",
         "TheFollowingDimensionsWillBeUpgradedX": "Sledeće dimenzije će biti ažurirane: %s.",
         "TheFollowingPluginsWillBeUpgradedX": "Sledeći dodaci će biti nadograđeni: %s.",

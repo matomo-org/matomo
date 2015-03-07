@@ -28,7 +28,7 @@ class Week extends Period
         $dateStart = $this->getDateStart();
         $dateEnd   = $this->getDateEnd();
 
-        $string = Piwik::translate('CoreHome_ShortWeekFormat');
+        $string = $this->translator->translate('CoreHome_ShortWeekFormat');
         $string = self::getTranslatedRange($string, $dateStart, $dateEnd);
         return $string;
     }
@@ -40,10 +40,10 @@ class Week extends Period
      */
     public function getLocalizedLongString()
     {
-        $format = Piwik::translate('CoreHome_LongWeekFormat');
+        $format = $this->translator->translate('CoreHome_LongWeekFormat');
         $string = self::getTranslatedRange($format, $this->getDateStart(), $this->getDateEnd());
 
-        return Piwik::translate('CoreHome_PeriodWeek') . " " . $string;
+        return $this->translator->translate('CoreHome_PeriodWeek') . " " . $string;
     }
 
     /**
@@ -73,7 +73,7 @@ class Week extends Period
         $dateStart = $this->getDateStart();
         $dateEnd   = $this->getDateEnd();
 
-        $out = Piwik::translate('General_DateRangeFromTo', array($dateStart->toString(), $dateEnd->toString()));
+        $out = $this->translator->translate('General_DateRangeFromTo', array($dateStart->toString(), $dateEnd->toString()));
 
         return $out;
     }

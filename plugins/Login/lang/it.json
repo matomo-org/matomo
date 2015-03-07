@@ -16,7 +16,7 @@
         "PasswordChanged": "La tua password è stata cambiata.",
         "PasswordRepeat": "Password (ripeti)",
         "PasswordsDoNotMatch": "La password non combacia.",
-        "PluginDescription": "Plugin di Autenticazione Login, legge le creadenziali dal file config\/config.ini.php per il Super User iniziale, e dal database per gli altri utenti. Può essere sostituito con facilità per introdurre un nuovo meccanismo di autenticazione (OpenID, htaccess, custom Auth, ecc.).",
+        "PluginDescription": "Fornisce l'autenticazione tramite user name e password, e anche la funzione di reset della password. Il metodo di autenticazione può essere cambiato utilizzando un altro plugin di accesso, come LoginLdap disponibile nel Marketplace.",
         "RememberMe": "Ricordami",
         "ResetPasswordInstructions": "Immetti una nuova password per il tuo account."
     }

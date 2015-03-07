@@ -13,6 +13,7 @@ use Piwik\Access;
 use Piwik\Auth as AuthInterface;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
 use Piwik\Log;
 use Piwik\Nonce;
@@ -60,7 +61,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->passwordResetter = $passwordResetter;
 
         if (empty($auth)) {
-            $auth = \Piwik\Registry::get('auth');
+            $auth = StaticContainer::get('Piwik\Auth');
         }
         $this->auth = $auth;
 
@@ -276,13 +277,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         if (is_null($errorMessage)) { // if success, show login w/ success message
-            // have to do this as super user since redirectToIndex checks if there's a default website ID for
-            // the current user and if not, doesn't redirect to the requested action. TODO: this behavior is wrong. somehow.
-            $self = $this;
-            Access::doAsSuperUser(function () use ($self) {
-                $self->redirectToIndex(Piwik::getLoginPluginName(), 'resetPasswordSuccess');
-            });
-            return null;
+            return $this->resetPasswordSuccess();
         } else {
             // show login page w/ error. this will keep the token in the URL
             return $this->login($errorMessage);

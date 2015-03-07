@@ -43,7 +43,6 @@
         "MenuUserSettings": "Configuración de usuario",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Nota: No puede modificar la configuración en esta sección, debido a que no posee ningún sitio de internet que pueda ser contactado por un usuario anónimo.",
         "NoUsersExist": "Todavía no hay usuarios.",
-        "PluginDescription": "Administración de Usuarios en Piwik: agregar nuevo Usuario, editar uno existente, actualizar permisos. Todas las acciones están también disponibles en la API.",
         "PrivAdmin": "Admin",
         "PrivNone": "Sin acceso",
         "PrivView": "Ver",
