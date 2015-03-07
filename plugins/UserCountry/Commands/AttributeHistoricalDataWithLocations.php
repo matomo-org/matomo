@@ -11,7 +11,7 @@ namespace Piwik\Plugins\UserCountry\Commands;
 use Piwik\DataAccess\RawLogUpdater;
 use Piwik\Network\IPUtils;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Plugins\UserCountry\LocationFetcher;
+use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\DataAccess\RawLogFetcher;
 use Symfony\Component\Console\Input\InputArgument;
@@ -44,7 +44,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     protected $updater;
 
     /**
-     * @var LocationFetcher
+     * @var VisitorGeolocator
      */
     protected $locationFetcher;
 
@@ -143,7 +143,8 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
             return 1;
         }
 
-        $this->locationFetcher = new LocationFetcher($input->getArgument(self::PROVIDER_ARGUMENT));
+        $providerId = $input->getArgument(self::PROVIDER_ARGUMENT);
+        $this->locationFetcher = new VisitorGeolocator(LocationProvider::getProviderById($providerId) ?: null);
 
         $output->writeln(
             sprintf('Re-attribution for date range: %s to %s. %d visits to process with provider "%s".',

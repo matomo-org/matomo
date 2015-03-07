@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\UserCountry\tests\Unit;
 
 use PHPUnit_Framework_MockObject_MockObject;
-use Piwik\Plugins\UserCountry\LocationFetcher;
+use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tracker\Visit;
 
@@ -130,7 +130,7 @@ class LocationFetcherTest extends ProviderTest
                 }
             ));
 
-        $locationFetcher = new LocationFetcher(
+        $locationFetcher = new VisitorGeolocator(
             'CurrentProviderId', array($providerGetterMock, 'getProviderById'), 'DefaultProviderId'
         );
 
@@ -160,7 +160,7 @@ class LocationFetcherTest extends ProviderTest
                 }
             ));
 
-        $locationFetcher = new LocationFetcher(
+        $locationFetcher = new VisitorGeolocator(
             'CurrentProviderId', array($providerGetterMock, 'getProviderById')
         );
 
@@ -170,7 +170,7 @@ class LocationFetcherTest extends ProviderTest
     /**
      * @param $provider
      * @param string $currentLocationProviderId
-     * @return PHPUnit_Framework_MockObject_MockObject|LocationFetcher
+     * @return PHPUnit_Framework_MockObject_MockObject|VisitorGeolocator
      */
     protected function getLocationFetcherWithProviderMock($provider, $currentLocationProviderId = null)
     {

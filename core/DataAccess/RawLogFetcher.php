@@ -11,6 +11,9 @@ namespace Piwik\DataAccess;
 use Piwik\Common;
 use Piwik\Db;
 
+/**
+ * DAO that queries log tables.
+ */
 class RawLogFetcher
 {
     /**
@@ -23,17 +26,15 @@ class RawLogFetcher
      */
     public function getVisitsWithDatesLimit($from, $to, $fields = array(), $fromId = 0, $limit = 1000)
     {
-        $sql = array(
-            "SELECT " . implode(', ', $fields),
-            "FROM " . Common::prefixTable('log_visit'),
-            "WHERE visit_first_action_time >= ? AND visit_last_action_time < ?",
-            "AND idvisit > ?",
-            sprintf("LIMIT %d", $limit)
-        );
+        $sql = "SELECT " . implode(', ', $fields)
+             . " FROM " . Common::prefixTable('log_visit')
+             . " WHERE visit_first_action_time >= ? AND visit_last_action_time < ?"
+             . " AND idvisit > ?"
+             . sprintf(" LIMIT %d", $limit);
 
         $bind = array($from, $to, $fromId);
 
-        return Db::get()->fetchAll(implode(' ', $sql), $bind);
+        return Db::fetchAll($sql, $bind);
     }
 
     /**
@@ -43,14 +44,12 @@ class RawLogFetcher
      */
     public function countVisitsWithDatesLimit($from, $to)
     {
-        $sql = array(
-            "SELECT COUNT(*) AS num_rows",
-            "FROM " . Common::prefixTable('log_visit'),
-            "WHERE visit_first_action_time >= ? AND visit_last_action_time < ?"
-        );
+        $sql = "SELECT COUNT(*) AS num_rows"
+             . " FROM " . Common::prefixTable('log_visit')
+             . " WHERE visit_first_action_time >= ? AND visit_last_action_time < ?";
 
         $bind = array($from, $to);
 
-        return (int) Db::get()->fetchOne(implode(' ', $sql), $bind);
+        return (int) Db::fetchOne($sql, $bind);
     }
 }

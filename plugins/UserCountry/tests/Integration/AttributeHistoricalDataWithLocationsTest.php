@@ -10,7 +10,7 @@ namespace Piwik\Plugins\UserCountry\Test\Integration;
 
 use Piwik\Plugins\UserCountry\Commands\AttributeHistoricalDataWithLocations;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
-use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -20,8 +20,13 @@ use Symfony\Component\Console\Tester\CommandTester;
  *
  * @group UserCountry
  */
-class AttributeHistoricalDataWithLocationsTest extends SystemTestCase
+class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
 {
+    /**
+     * @var ManyVisitsWithGeoIP
+     */
+    public static $fixture = null;
+
     /**
      * @expectedException \RuntimeException
      * @expectedExceptionMessage  Not enough arguments
@@ -41,16 +46,13 @@ class AttributeHistoricalDataWithLocationsTest extends SystemTestCase
     public function testExecute_ShouldReturnEmptyWorkingProcessLogs_IfThereIsNoData()
     {
         $this->assertRegExp(
-            '/Re-attribution for date range: 2014-06-01 to 2014-06-06. 0 visits to process with provider "default"./',
+            '/Re-attribution for date range: 2014-06-01 to 2014-06-06. 0 visits to process with provider "geoip_php"./',
             $this->executeCommand('2014-06-01,2014-06-06')
         );
     }
 
     public function testExecute_ShouldReturnLogAfterWorkingWithSomeData_IfThereAreData()
     {
-        $fixture = new ManyVisitsWithGeoIP();
-        $fixture->setUp();
-
         $result = $this->executeCommand('2010-01-03,2010-06-03');
 
         $this->assertContains(
@@ -97,3 +99,5 @@ class AttributeHistoricalDataWithLocationsTest extends SystemTestCase
         return $stream;
     }
 } 
+
+AttributeHistoricalDataWithLocationsTest::$fixture = new ManyVisitsWithGeoIP();

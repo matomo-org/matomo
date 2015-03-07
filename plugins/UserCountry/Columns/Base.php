@@ -11,7 +11,7 @@ namespace Piwik\Plugins\UserCountry\Columns;
 use Piwik\Common;
 use Piwik\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\UserCountry\LocationFetcher;
+use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
@@ -21,7 +21,7 @@ use Piwik\Tracker\Request;
 abstract class Base extends VisitDimension
 {
     /**
-     * @var LocationFetcher
+     * @var VisitorGeolocator
      */
     private $locationFetcher;
 
@@ -61,7 +61,7 @@ abstract class Base extends VisitDimension
     protected function getLocationFetcher()
     {
         if ($this->locationFetcher === null) {
-            $this->locationFetcher = new LocationFetcher();
+            $this->locationFetcher = new VisitorGeolocator();
         }
 
         return $this->locationFetcher;
