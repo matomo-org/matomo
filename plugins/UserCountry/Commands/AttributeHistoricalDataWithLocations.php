@@ -338,4 +338,4 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
 
         return false;
     }
-} 
+}

@@ -8,6 +8,9 @@
  */
 namespace Piwik\Plugins\UserCountry\Test\Integration;
 
+use Piwik\Common;
+use Piwik\Db;
+use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\Commands\AttributeHistoricalDataWithLocations;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -26,6 +29,33 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
      * @var ManyVisitsWithGeoIP
      */
     public static $fixture = null;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $tablesToUpdate = array('log_visit', 'log_conversion');
+        $columnsToUpdate = array(
+            'location_country' => '"xx"',
+            'location_region' => 'NULL',
+            'location_city' => 'NULL',
+            'location_latitude' => 'NULL',
+            'location_longitude' => 'NULL'
+        );
+
+        foreach ($tablesToUpdate as $table) {
+            $sql = "UPDATE `" . Common::prefixTable($table) . "` SET ";
+
+            $sets = array();
+            foreach ($columnsToUpdate as $column => $defaultValue) {
+                $sets[] = $column . ' = ' . $defaultValue;
+            }
+
+            $sql .= implode(', ', $sets);
+
+            Db::query($sql);
+        }
+    }
 
     /**
      * @expectedException \RuntimeException
@@ -61,6 +91,17 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
         );
 
         $this->assertRegExp('/100% processed. \[in [(0-9)+] seconds\]/', $result);
+
+        $queryParams = array(
+            'idSite'  => self::$fixture->idSite,
+            'date'    => self::$fixture->dateTime,
+            'period'  => 'month'
+        );
+
+        $this->assertApiResponseEqualsExpected("UserCountry.getCountry", $queryParams);
+        $this->assertApiResponseEqualsExpected("UserCountry.getContinent", $queryParams);
+        $this->assertApiResponseEqualsExpected("UserCountry.getRegion", $queryParams);
+        $this->assertApiResponseEqualsExpected("UserCountry.getCity", $queryParams);
     }
 
     /**
@@ -88,6 +129,16 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
         $result = $commandTester->getDisplay();
 
         return $result;
+    }
+
+    public static function configureFixture($fixture)
+    {
+        // empty (undo IntegrationTestCase configuring)
+    }
+
+    public static function getPathToTestDirectory()
+    {
+        return __DIR__;
     }
 }
 
