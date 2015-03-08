@@ -218,7 +218,8 @@ class ArchiveSelector
      * Queries and returns archive data using a set of archive IDs.
      *
      * @param array $archiveIds The IDs of the archives to get data from.
-     * @param array $recordNames The names of the data to retrieve (ie, nb_visits, nb_actions, etc.)
+     * @param array $recordNames The names of the data to retrieve (ie, nb_visits, nb_actions, etc.).
+     *                           Note: You CANNOT pass multiple recordnames if $loadAllSubtables=true.
      * @param string $archiveDataType The archive data type (either, 'blob' or 'numeric').
      * @param bool $loadAllSubtables Whether to pre-load all subtables
      * @throws Exception
