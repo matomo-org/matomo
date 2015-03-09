@@ -12,6 +12,7 @@ charset = "utf8"
 request_uri = "/"
 
 [database_tests]
+username = "root"
 password = "secure"
 tables_prefix = ""
 
