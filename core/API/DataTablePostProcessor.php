@@ -85,8 +85,8 @@ class DataTablePostProcessor
         //       this is non-trivial since it will require, eg, to make sure processed metrics aren't added
         //       after pivotBy is handled.
         $dataTable = $this->applyPivotByFilter($dataTable);
-        $dataTable = $this->applyFlattener($dataTable);
         $dataTable = $this->applyTotalsCalculator($dataTable);
+        $dataTable = $this->applyFlattener($dataTable);
 
         $dataTable = $this->applyGenericFilters($dataTable);
 
@@ -145,7 +145,13 @@ class DataTablePostProcessor
             if (Common::getRequestVar('include_aggregate_rows', '0', 'string', $this->request) == '1') {
                 $flattener->includeAggregateRows();
             }
-            $dataTable = $flattener->flatten($dataTable);
+
+            $recursiveLabelSeparator = ' - ';
+            if ($this->report) {
+                $recursiveLabelSeparator = $this->report->getRecursiveLabelSeparator();
+            }
+
+            $dataTable = $flattener->flatten($dataTable, $recursiveLabelSeparator);
         }
         return $dataTable;
     }

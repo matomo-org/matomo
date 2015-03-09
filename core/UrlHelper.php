@@ -231,7 +231,10 @@ class UrlHelper
         $parsedUrl = parse_url($url);
         $result = '';
         if (isset($parsedUrl['path'])) {
-            $result .= substr($parsedUrl['path'], 1);
+            if (substr($parsedUrl['path'], 0, 1) == '/') {
+                $parsedUrl['path'] = substr($parsedUrl['path'], 1);
+            }
+            $result .= $parsedUrl['path'];
         }
         if (isset($parsedUrl['query'])) {
             $result .= '?' . $parsedUrl['query'];

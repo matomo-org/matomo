@@ -222,11 +222,7 @@
 		<result prettyDate="Saturday 9 January 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Sunday 3 January 2010">
-			<row>
-				<segment>eventAction==Purchase</segment>
-			</row>
-		</result>
+		<result prettyDate="Sunday 3 January 2010" />
 		<result prettyDate="Monday 4 January 2010" />
 		<result prettyDate="Tuesday 5 January 2010" />
 		<result prettyDate="Wednesday 6 January 2010" />
@@ -235,7 +231,7 @@
 		<result prettyDate="Saturday 9 January 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>38</nb_visits>
-		<nb_uniq_visitors>38</nb_uniq_visitors>
+		<nb_visits>42</nb_visits>
+		<nb_uniq_visitors>40</nb_uniq_visitors>
 	</reportTotal>
 </result>

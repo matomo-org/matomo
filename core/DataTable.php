@@ -342,6 +342,17 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * @ignore
+     * does not update the summary row!
+     */
+    public function setRows($rows)
+    {
+        unset($this->rows);
+        $this->rows = $rows;
+        $this->indexNotUpToDate = true;
+    }
+
+    /**
      * Sorts the DataTable rows using the supplied callback function.
      *
      * @param string $functionCallback A comparison callback compatible with {@link usort}.
@@ -350,11 +361,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function sort($functionCallback, $columnSortedBy)
     {
-        $this->indexNotUpToDate = true;
-        $this->tableSortedBy = $columnSortedBy;
+        $this->setTableSortedBy($columnSortedBy);
+
         usort($this->rows, $functionCallback);
 
-        if ($this->enableRecursiveSort === true) {
+        if ($this->isSortRecursiveEnabled()) {
             foreach ($this->getRows() as $row) {
 
                 $subTable = $row->getSubtable();
@@ -388,12 +399,37 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * @ignore
+     */
+    public function isSortRecursiveEnabled()
+    {
+        return $this->enableRecursiveSort === true;
+    }
+
+    /**
+     * @ignore
+     */
+    public function setTableSortedBy($column)
+    {
+        $this->indexNotUpToDate = true;
+        $this->tableSortedBy = $column;
+    }
+
+    /**
      * Enables recursive filtering. If this method is called then the {@link filter()} method
      * will apply filters to every subtable in addition to this instance.
      */
     public function enableRecursiveFilters()
     {
         $this->enableRecursiveFilters = true;
+    }
+
+    /**
+     * @ignore
+     */
+    public function disableRecursiveFilters()
+    {
+        $this->enableRecursiveFilters = false;
     }
 
     /**
@@ -431,6 +467,25 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $filter->enableRecursive($this->enableRecursiveFilters);
 
         $filter->filter($this);
+    }
+
+    /**
+     * Applies a filter to all subtables but not to this datatable.
+     *
+     * @param string|Closure $className Class name, eg. `"Sort"` or "Piwik\DataTable\Filters\Sort"`. If no
+     *                                  namespace is supplied, `Piwik\DataTable\BaseFilter` is assumed. This parameter
+     *                                  can also be a closure that takes a DataTable as its first parameter.
+     * @param array $parameters Array of extra parameters to pass to the filter.
+     */
+    public function filterSubtables($className, $parameters = array())
+    {
+        foreach ($this->getRows() as $row) {
+            $subtable = $row->getSubtable();
+            if ($subtable) {
+                $subtable->filter($className, $parameters);
+                $subtable->filterSubtables($className, $parameters);
+            }
+        }
     }
 
     /**
@@ -727,6 +782,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         } else {
             return $this->rows + array(self::ID_SUMMARY_ROW => $this->summaryRow);
         }
+    }
+
+    /**
+     * @ignore
+     */
+    public function getRowsWithoutSummaryRow()
+    {
+        return $this->rows;
     }
 
     /**
