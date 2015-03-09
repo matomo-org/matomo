@@ -12,11 +12,6 @@ describe("EmptySite", function () {
 
     var generalParams = 'idSite=4&period=day&date=2010-01-03';
 
-    before(function () {
-        testEnvironment.pluginsToLoad = ['SitesManager'];
-        testEnvironment.save();
-    });
-
     it('should show the tracking code if the website has no recorded data', function (done) {
         var urlToTest = "?" + generalParams + "&module=CoreHome&action=index";
 
