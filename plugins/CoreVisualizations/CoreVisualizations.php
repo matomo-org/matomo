@@ -41,6 +41,8 @@ class CoreVisualizations extends \Piwik\Plugin
 
     public function addViewDataTable(&$viewDataTable)
     {
+        // Both are the same HtmlTable, just the Pivot one has some extra logic in case Pivot is used. 
+        // We don't want to use the same HtmlTable twice in the UI. Therefore we always need to remove one.
         if (Common::getRequestVar('pivotBy', '')) {
             $tableToRemove = 'Visualizations\HtmlTable';
         } else {
