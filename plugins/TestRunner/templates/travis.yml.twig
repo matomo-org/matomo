@@ -102,10 +102,6 @@ install:
   - rm -rf plugins/$PLUGIN_NAME
   - mv ../$PLUGIN_NAME plugins
 
-  # copy .coveralls.yml if none exists
-  - if [ ! -f ../coveralls.yml ];
-    then cp .coveralls.yml ../coveralls.yml || true;
-    fi
 {% endif %}
 
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
@@ -125,11 +121,7 @@ before_script:
 {% endif %}
   - ./tests/travis/install_mysql_5.6.sh
 
-  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
-    then composer require satooshi/php-coveralls dev-master;
-    else
-    phpenv config-rm xdebug.ini;
-    fi
+  - phpenv config-rm xdebug.ini;
 
   # add always_populate_raw_post_data=-1 to php.ini
   - echo "always_populate_raw_post_data=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -190,10 +182,6 @@ after_script:
 {% endif %}
   # change directory back to root travis dir
   - cd $PIWIK_ROOT_DIR
-
-  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
-    then php vendor/bin/coveralls -v;
-    fi
 
   # output contents of files w/ debugging info to screen
   - cat /var/log/nginx/error.log
