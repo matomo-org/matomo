@@ -273,13 +273,6 @@ class Model
         );
     }
 
-    /**
-     * @param $idSite
-     * @param $lastMinutes
-     * @param $segment
-     * @return int
-     * @throws Exception
-     */
     private function getLastMinutesCounterForQuery($idSite, $lastMinutes, $segment, $select, $from, $where)
     {
         $lastMinutes = (int)$lastMinutes;
