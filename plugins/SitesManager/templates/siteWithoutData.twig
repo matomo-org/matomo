@@ -10,7 +10,13 @@
 
         <h2>{{ 'SitesManager_SiteWithoutDataTitle'|translate }}</h2>
 
-        <p>{{ 'SitesManager_SiteWithoutDataHelp'|translate }}</p>
+        <p>
+            {{ 'SitesManager_SiteWithoutDataDescription'|translate }}
+            {{ 'SitesManager_SiteWithoutDataSetupTracking'|translate('<a href="' ~ linkTo({
+                'module': 'CoreAdminHome',
+                'action': 'trackingCodeGenerator',
+            }) ~ '">', '</a>')|raw }}
+        </p>
 
         {{ trackingHelp|raw }}
 
