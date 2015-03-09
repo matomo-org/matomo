@@ -70,6 +70,19 @@ class APITest extends SystemTestCase
         $this->assertEquals($this->buildCounter(0, 0, 0, 0), $counters);
     }
 
+    public function test_GetCounters_ShouldHideAllColumnsIfRequested()
+    {
+        $exampleCounter = $this->buildCounter(0, 0, 0, 0);
+        $counters = $this->api->getCounters($this->idSite, 5, false, array_keys($exampleCounter[0]));
+        $this->assertEquals(array(array()), $counters);
+    }
+
+    public function test_GetCounters_ShouldHideSomeColumnsIfRequested()
+    {
+        $counters = $this->api->getCounters($this->idSite, 20, false, array('visitsConverted', 'visitors'));
+        $this->assertEquals(array(array('visits' => 24, 'actions' => 60)), $counters);
+    }
+
     private function trackSomeVisits()
     {
         $nowTimestamp = time();

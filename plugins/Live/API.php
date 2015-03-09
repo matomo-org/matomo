@@ -60,24 +60,33 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite Id Site
      * @param int $lastMinutes Number of minutes to look back at
      * @param bool|string $segment
+     * @param array $hideColumns The columns to hide / not to request. Eg 'visits', 'actions', ...
      * @return array( visits => N, actions => M, visitsConverted => P )
      */
-    public function getCounters($idSite, $lastMinutes, $segment = false)
+    public function getCounters($idSite, $lastMinutes, $segment = false, $hideColumns = array())
     {
         Piwik::checkUserHasViewAccess($idSite);
         $model = new Model();
 
-        $visits = $model->getNumVisits($idSite, $lastMinutes, $segment);
-        $actions = $model->getNumActions($idSite, $lastMinutes, $segment);
-        $visitors = $model->getNumVisitors($idSite, $lastMinutes, $segment);
-        $conversions = $model->getNumVisitsConverted($idSite, $lastMinutes, $segment);
+        $counters = array();
 
-        return array(array(
-            'visits' => $visits,
-            'actions' => $actions,
-            'visitors' => $visitors,
-            'visitsConverted' => $conversions,
-        ));
+        if (!in_array('visits', $hideColumns)) {
+            $counters['visits'] = $model->getNumVisits($idSite, $lastMinutes, $segment);
+        }
+
+        if (!in_array('actions', $hideColumns)) {
+            $counters['actions'] = $model->getNumActions($idSite, $lastMinutes, $segment);
+        }
+
+        if (!in_array('visitors', $hideColumns)) {
+            $counters['visitors'] = $model->getNumVisitors($idSite, $lastMinutes, $segment);
+        }
+
+        if (!in_array('visitsConverted', $hideColumns)) {
+            $counters['visitsConverted'] = $model->getNumVisitsConverted($idSite, $lastMinutes, $segment);
+        }
+
+        return array($counters);
     }
 
     /**
