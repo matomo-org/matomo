@@ -223,7 +223,7 @@ class Request
             
             PluginManager::getInstance()->checkIsPluginActivated($module);
 
-            $apiClassName = $this->getClassNameAPI($module);
+            $apiClassName = self::getClassNameAPI($module);
 
             self::reloadAuthUsingTokenAuth($this->request);
 
