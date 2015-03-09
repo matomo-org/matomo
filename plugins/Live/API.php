@@ -66,7 +66,18 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
         $model = new Model();
-        return $model->queryCounters($idSite, $lastMinutes, $segment);
+
+        $visits = $model->getNumVisits($idSite, $lastMinutes, $segment);
+        $actions = $model->getNumActions($idSite, $lastMinutes, $segment);
+        $visitors = $model->getNumVisitors($idSite, $lastMinutes, $segment);
+        $conversions = $model->getNumVisitsConverted($idSite, $lastMinutes, $segment);
+
+        return array(array(
+            'visits' => $visits,
+            'actions' => $actions,
+            'visitors' => $visitors,
+            'visitsConverted' => $conversions,
+        ));
     }
 
     /**

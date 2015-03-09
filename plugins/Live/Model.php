@@ -201,57 +201,125 @@ class Model
      * @param $idSite
      * @param $lastMinutes
      * @param $segment
-     * @return array
+     * @return int
      * @throws Exception
      */
-    public function queryCounters($idSite, $lastMinutes, $segment)
+    public function getNumActions($idSite, $lastMinutes, $segment)
     {
         $lastMinutes = (int)$lastMinutes;
 
-        $counters = array(
-            'visits' => 0,
-            'actions' => 0,
-            'visitors' => 0,
-            'visitsConverted' => 0,
-        );
+        if (empty($lastMinutes)) {
+            return 0;
+        }
+
+        $from = 'log_link_visit_action';
+        list($whereIdSites, $idSites) = $this->getIdSitesWhereClause($idSite, $from);
+
+        $bind   = $idSites;
+        $bind[] = Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s');
+
+        $where  = $whereIdSites . "AND log_link_visit_action.server_time >= ?";
+
+        $segment = new Segment($segment, $idSite);
+        $query   = $segment->getSelectQuery($select = "count(*)", $from, $where, $bind);
+
+        $numActions = Db::fetchOne($query['sql'], $query['bind']);
+
+        return $numActions;
+    }
+
+    /**
+     * @param $idSite
+     * @param $lastMinutes
+     * @param $segment
+     * @return int
+     * @throws Exception
+     */
+    public function getNumVisitsConverted($idSite, $lastMinutes, $segment)
+    {
+        $lastMinutes = (int) $lastMinutes;
 
         if (empty($lastMinutes)) {
-            return array($counters);
+            return 0;
+        }
+
+        $from = 'log_conversion';
+        list($whereIdSites, $idSites) = $this->getIdSitesWhereClause($idSite, $from);
+
+        $bind   = $idSites;
+        $bind[] = Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s');
+
+        $where = $whereIdSites . "AND log_conversion.server_time >= ?";
+
+        $segment = new Segment($segment, $idSite);
+        $query   = $segment->getSelectQuery($select = "count(*)", $from, $where, $bind);
+
+        $numVisitsConverted = Db::fetchOne($query['sql'], $query['bind']);
+
+        return $numVisitsConverted;
+    }
+
+    /**
+     * @param $idSite
+     * @param $lastMinutes
+     * @param $segment
+     * @return int
+     * @throws Exception
+     */
+    public function getNumVisits($idSite, $lastMinutes, $segment)
+    {
+        $lastMinutes = (int)$lastMinutes;
+
+        if (empty($lastMinutes)) {
+            return 0;
+        }
+
+        $from = 'log_visit';
+        list($whereIdSites, $idSites) = $this->getIdSitesWhereClause($idSite, $from);
+
+        $bind   = $idSites;
+        $bind[] = Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s');
+
+        $where   = $whereIdSites . "AND log_visit.visit_last_action_time >= ?";
+
+        $segment = new Segment($segment, $idSite);
+        $query   = $segment->getSelectQuery($select = "count(*)", $from, $where, $bind);
+
+        $numVisits = Db::fetchOne($query['sql'], $query['bind']);
+
+        return $numVisits;
+    }
+
+    /**
+     * @param $idSite
+     * @param $lastMinutes
+     * @param $segment
+     * @return int
+     * @throws Exception
+     */
+    public function getNumVisitors($idSite, $lastMinutes, $segment)
+    {
+        $lastMinutes = (int)$lastMinutes;
+
+        if (empty($lastMinutes)) {
+            return 0;
         }
 
         list($whereIdSites, $idSites) = $this->getIdSitesWhereClause($idSite);
 
-        $select = "count(*) as visits, COUNT(DISTINCT log_visit.idvisitor) as visitors";
-        $where = $whereIdSites . "AND log_visit.visit_last_action_time >= ?";
-        $bind = $idSites;
+        $select = "COUNT(DISTINCT log_visit.idvisitor)";
+        $bind   = $idSites;
         $bind[] = Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s');
 
+        $where = $whereIdSites . "AND log_visit.visit_last_action_time >= ?";
+
         $segment = new Segment($segment, $idSite);
-        $query = $segment->getSelectQuery($select, 'log_visit', $where, $bind);
+        $query   = $segment->getSelectQuery($select, 'log_visit', $where, $bind);
 
-        $data = Db::fetchAll($query['sql'], $query['bind']);
+        $numVisitors = Db::fetchOne($query['sql'], $query['bind']);
 
-        $counters['visits'] = $data[0]['visits'];
-        $counters['visitors'] = $data[0]['visitors'];
-
-        $select = "count(*)";
-        $from = 'log_link_visit_action';
-        list($whereIdSites) = $this->getIdSitesWhereClause($idSite, $from);
-        $where = $whereIdSites . "AND log_link_visit_action.server_time >= ?";
-        $query = $segment->getSelectQuery($select, $from, $where, $bind);
-        $counters['actions'] = Db::fetchOne($query['sql'], $query['bind']);
-
-        $select = "count(*)";
-        $from = 'log_conversion';
-        list($whereIdSites) = $this->getIdSitesWhereClause($idSite, $from);
-        $where = $whereIdSites . "AND log_conversion.server_time >= ?";
-        $query = $segment->getSelectQuery($select, $from, $where, $bind);
-        $counters['visitsConverted'] = Db::fetchOne($query['sql'], $query['bind']);
-
-        return array($counters);
+        return $numVisitors;
     }
-
-
 
     /**
      * @param $idSite
