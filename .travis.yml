@@ -93,11 +93,7 @@ install:
 before_script:
   - ./tests/travis/install_mysql_5.6.sh
 
-  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
-    then composer require satooshi/php-coveralls dev-master;
-    else
-    phpenv config-rm xdebug.ini;
-    fi
+  phpenv config-rm xdebug.ini;
 
   # add always_populate_raw_post_data=-1 to php.ini
   - echo "always_populate_raw_post_data=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -151,10 +147,6 @@ before_script:
 after_script:
   # change directory back to root travis dir
   - cd $PIWIK_ROOT_DIR
-
-  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
-    then php vendor/bin/coveralls -v;
-    fi
 
   # output contents of files w/ debugging info to screen
   - cat /var/log/nginx/error.log
