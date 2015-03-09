@@ -248,7 +248,7 @@ class Model
             $idSite,
             $lastMinutes,
             $segment,
-            'COUNT(*)',
+            'COUNT(log_visit.visit_last_action_time)',
             'log_visit',
             'log_visit.visit_last_action_time >= ?'
         );
