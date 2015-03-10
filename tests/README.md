@@ -7,7 +7,6 @@ We use Travis CI for our continuous integration server. It automatically runs ou
 after each commit to our GIT repo. More information at the links:
 
  * Piwik on Travis CI: https://travis-ci.org/piwik/piwik
- * Piwik on Coveralls.io: https://coveralls.io/r/piwik
  * QA in Piwik: http://piwik.org/qa/
 
 Each core Piwik developer is responsible to keep the build green. If a developer breaks the build, he will receive an email from Travis CI.

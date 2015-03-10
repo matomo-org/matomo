@@ -11,7 +11,7 @@ language: php
 
 php:
   - 5.6
-  - 5.3
+  - 5.3.3
 #  - hhvm
 
 services:
@@ -43,13 +43,13 @@ matrix:
     - php: hhvm
   exclude:
     # Run test suites separately only on PHP 5.6 with PDO
-    - php: 5.3
+    - php: 5.3.3
       env: TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.3
+    - php: 5.3.3
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.3
+    - php: 5.3.3
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.3
+    - php: 5.3.3
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
       env: TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
@@ -57,23 +57,23 @@ matrix:
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
-    # run UI tests on PHP 5.3 only
+    # run UI tests on PHP 5.3.3 only
     - php: 5.6
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL
     # run all tests not on PHP 5.6 and run MySQLI tests only on 5.6
     - php: 5.6
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.3
+    - php: 5.3.3
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
     - php: hhvm
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
     # Javascript tests need to run only on one PHP version
-    - php: 5.3
+    - php: 5.3.3
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
     # AngularJS tests need to run only on one PHP version
-    - php: 5.3
+    - php: 5.3.3
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
@@ -93,11 +93,7 @@ install:
 before_script:
   - ./tests/travis/install_mysql_5.6.sh
 
-  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
-    then composer require satooshi/php-coveralls dev-master;
-    else
-    phpenv config-rm xdebug.ini;
-    fi
+  - phpenv config-rm xdebug.ini;
 
   # add always_populate_raw_post_data=-1 to php.ini
   - echo "always_populate_raw_post_data=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -151,10 +147,6 @@ before_script:
 after_script:
   # change directory back to root travis dir
   - cd $PIWIK_ROOT_DIR
-
-  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
-    then php vendor/bin/coveralls -v;
-    fi
 
   # output contents of files w/ debugging info to screen
   - cat /var/log/nginx/error.log

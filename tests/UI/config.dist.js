@@ -30,7 +30,7 @@ exports.php = 'php';
 /**
  * The folder in tests/lib that holds mocha.
  */
-exports.mocha = 'mocha-1.17.1';
+exports.mocha = 'mocha-2.1.0';
 
 /**
  * The folder in tests/lib that holds chai.

@@ -64,17 +64,6 @@ class IPTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getLong2IPTestData
-     * @group Core
-     */
-    public function testLong2ip($N, $P)
-    {
-        $this->assertEquals($P, IP::long2ip($N), bin2hex($N));
-        // this is our compatibility function
-        $this->assertEquals($P, Common::long2ip($N), bin2hex($N));
-    }
-
-    /**
      * Dataprovider for ip from header tests
      */
     public function getIpFromHeaderTestData()

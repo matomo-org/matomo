@@ -90,6 +90,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns,
             $selectableColumns = array('server1', 'server2'), 'My documentation', 'ExampleUI.getTemperaturesEvolution');
         $view->requestConfig->filter_sort_column = 'label';
+        $view->requestConfig->filter_sort_order  = 'asc';
 
         if (empty($view->config->columns_to_display) && !empty($defaultColumns)) {
             $view->config->columns_to_display = $defaultColumns;

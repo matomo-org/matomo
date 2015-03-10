@@ -125,6 +125,7 @@ class Widgets
 
     /**
      * @ignore
+     * @return Widgets|null
      */
     public static function factory($module, $action)
     {

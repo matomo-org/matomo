@@ -286,13 +286,12 @@ class PivotByDimension extends BaseFilter
             return null;
         }
 
-        if ($row->isSubtableLoaded()) {
-            $subtable = $row->getSubtable();
-        } else {
+        $subtable = $row->getSubtable();
+        if (!$subtable) {
             $subtable = $this->thisReport->fetchSubtable($idSubtable, $this->getRequestParamOverride($table));
         }
 
-        if ($subtable === null) { // sanity check
+        if (!$subtable) { // sanity check
             throw new Exception("Unexpected error: could not load subtable '$idSubtable'.");
         }
 

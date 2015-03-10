@@ -12,7 +12,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
-use Piwik\IP;
+use Piwik\Network\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Provider\Provider as ProviderProvider;
@@ -107,12 +107,17 @@ class Country extends Base
     /**
      * Returns the hostname given the IP address string
      *
-     * @param string $ip IP Address
+     * @param string $ipStr IP Address
      * @return string hostname (or human-readable IP address)
      */
-    private function getHost($ip)
+    private function getHost($ipStr)
     {
-        return trim(strtolower(@IP::getHostByAddr($ip)));
+        $ip = IP::fromStringIP($ipStr);
+
+        $host = $ip->getHostname();
+        $host = ($host === null ? $ipStr : $host);
+
+        return trim(strtolower($host));
     }
 
     /**

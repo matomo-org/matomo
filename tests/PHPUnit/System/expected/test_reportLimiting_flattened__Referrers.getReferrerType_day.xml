@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Direct Entry</label>
+		<nb_uniq_visitors>15</nb_uniq_visitors>
+		<nb_visits>55</nb_visits>
+		<nb_actions>55</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>55</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+	</row>
+	<row>
+		<label>Search Engines - this search term</label>
+		<nb_uniq_visitors>3</nb_uniq_visitors>
+		<nb_visits>3</nb_visits>
+		<nb_actions>3</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>3</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+	</row>
+	<row>
+		<label>Search Engines - search term 2</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+	</row>
+	<row>
+		<label>Search Engines - Others</label>
+		<nb_uniq_visitors>7</nb_uniq_visitors>
+		<nb_visits>7</nb_visits>
+		<nb_actions>7</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>7</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+	</row>
+	<row>
+		<label>Websites - whatever0.com</label>
+		<nb_uniq_visitors>3</nb_uniq_visitors>
+		<nb_visits>4</nb_visits>
+		<nb_actions>4</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>4</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+	</row>
+	<row>
+		<label>Websites - whatever1.com</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+	</row>
+	<row>
+		<label>Websites - Others</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+	</row>
+</result>

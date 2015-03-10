@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>GNU/Linux</label>
+		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_visits>20</nb_visits>
+		<nb_actions>20</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>20</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>operatingSystemCode==LIN;operatingSystemVersion==</segment>
+		<logo>plugins/DevicesDetection/images/os/LIN.gif</logo>
+	</row>
+	<row>
+		<label>Android 4.0</label>
+		<nb_uniq_visitors>3</nb_uniq_visitors>
+		<nb_visits>15</nb_visits>
+		<nb_actions>15</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>15</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>operatingSystemCode==AND;operatingSystemVersion==4.0</segment>
+		<logo>plugins/DevicesDetection/images/os/AND.gif</logo>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_uniq_visitors>8</nb_uniq_visitors>
+		<nb_visits>40</nb_visits>
+		<nb_actions>40</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>40</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<logo>plugins/DevicesDetection/images/os/UNK.gif</logo>
+	</row>
+</result>
