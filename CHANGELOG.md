@@ -2,6 +2,11 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+## Piwik 2.12.0
+
+### Breaking Changes
+* The deprecated method `Period::factory()` has been removed. Use `Period\Factory` instead.
+
 ## Piwik 2.11.0
 
 ### Breaking Changes

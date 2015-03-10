@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Period\Range;
 use Piwik\Translation\Translator;
 
@@ -63,17 +62,6 @@ abstract class Period
         $this->date = clone $date;
 
         $this->translator = StaticContainer::get('Piwik\Translation\Translator');
-    }
-
-    /**
-     * @deprecated Use Factory::build instead
-     * @param $period
-     * @param $date
-     * @return Period
-     */
-    public static function factory($period, $date)
-    {
-        return PeriodFactory::build($period, $date);
     }
 
     /**

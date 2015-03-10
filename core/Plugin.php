@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Dependency;
 use Piwik\Plugin\MetadataLoader;
 
@@ -359,7 +360,7 @@ class Plugin
             $this->cache->save($cacheId, $classname);
         }
 
-        return new $classname;
+        return StaticContainer::get($classname);
     }
 
     public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
