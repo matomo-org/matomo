@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Common;
-use Piwik\Archive\Invalidator;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;

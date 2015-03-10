@@ -12,7 +12,7 @@ use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\SharedSiteIds;
-use Piwik\Archive\Invalidator;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory as PeriodFactory;
@@ -973,7 +973,7 @@ class CronArchive
     
     public function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain()
     {
-        $invalidator  = new Invalidator();
+        $invalidator  = new ArchiveInvalidator();
         $sitesPerDays = $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
         foreach ($sitesPerDays as $date => $siteIds) {

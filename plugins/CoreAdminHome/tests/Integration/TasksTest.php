@@ -7,7 +7,7 @@
  */
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 
-use Piwik\Archive\Purger;
+use Piwik\Archive\ArchivePurger;
 use Piwik\Date;
 use Piwik\Plugins\CoreAdminHome\Tasks;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
@@ -46,7 +46,7 @@ class TasksTest extends IntegrationTestCase
         $this->january = Date::factory('2015-01-01');
         $this->february = Date::factory('2015-02-01');
 
-        $archivePurger = new Purger();
+        $archivePurger = new ArchivePurger();
         $archivePurger->setTodayDate(Date::factory('2015-02-27'));
         $archivePurger->setYesterdayDate(Date::factory('2015-02-26'));
         $archivePurger->setNow(Date::factory('2015-02-27 08:00:00')->getTimestamp());

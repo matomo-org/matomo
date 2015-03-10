@@ -16,7 +16,6 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
 use Piwik\Piwik;
-use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 
 /**
  * Service that purges temporary, error-ed, invalid and custom range archives from archive tables.
@@ -27,9 +26,9 @@ use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
  * Error-ed archives are purged w/o constraint.
  *
  * Invalid archives are purged if a new, valid, archive exists w/ the same site, date, period combination.
- * Archives are marked as invalid via Piwik\Archive\Invalidator.
+ * Archives are marked as invalid via Piwik\Archive\ArchiveInvalidator.
  */
-class Purger
+class ArchivePurger
 {
     /**
      * @var Model

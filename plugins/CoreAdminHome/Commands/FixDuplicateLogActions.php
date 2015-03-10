@@ -11,7 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome\Commands;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\Actions;
-use Piwik\Archive\Invalidator;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreAdminHome\Model\DuplicateActionRemover;
 use Piwik\Timer;
@@ -39,7 +39,7 @@ class FixDuplicateLogActions extends ConsoleCommand
     /**
      * Used to invalidate archives. Only used if $shouldInvalidateArchives is true.
      *
-     * @var Invalidator
+     * @var ArchiveInvalidator
      */
     private $archiveInvalidator;
 
@@ -65,17 +65,17 @@ class FixDuplicateLogActions extends ConsoleCommand
     /**
      * Constructor.
      *
-     * @param Invalidator $invalidator
+     * @param ArchiveInvalidator $invalidator
      * @param DuplicateActionRemover $duplicateActionRemover
      * @param Actions $actionsAccess
      * @param LoggerInterface $logger
      */
-    public function __construct(Invalidator $invalidator = null, DuplicateActionRemover $duplicateActionRemover = null,
+    public function __construct(ArchiveInvalidator $invalidator = null, DuplicateActionRemover $duplicateActionRemover = null,
                                 Actions $actionsAccess = null, LoggerInterface $logger = null)
     {
         parent::__construct();
 
-        $this->archiveInvalidator = $invalidator ?: new Invalidator();
+        $this->archiveInvalidator = $invalidator ?: new ArchiveInvalidator();
         $this->duplicateActionRemover = $duplicateActionRemover ?: new DuplicateActionRemover();
         $this->actionsAccess = $actionsAccess ?: new Actions();
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');

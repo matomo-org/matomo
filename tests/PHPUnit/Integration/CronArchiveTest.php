@@ -9,7 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\CronArchive;
-use Piwik\Archive\Invalidator;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\CoreAdminHome\tests\Framework\Mock\API;
@@ -46,7 +46,7 @@ class CronArchiveTest extends IntegrationTestCase
 
     public function test_getColumnNamesFromTable()
     {
-        $ar = new Invalidator();
+        $ar = new ArchiveInvalidator();
         $ar->rememberToInvalidateArchivedReportsLater(1, Date::factory('2014-04-05'));
         $ar->rememberToInvalidateArchivedReportsLater(2, Date::factory('2014-04-05'));
         $ar->rememberToInvalidateArchivedReportsLater(2, Date::factory('2014-04-06'));

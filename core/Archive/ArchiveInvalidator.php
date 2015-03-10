@@ -45,7 +45,7 @@ use Piwik\Site;
  * Later, during Piwik's normal execution, the list will be read and every archive it references will
  * be invalidated.
  */
-class Invalidator
+class ArchiveInvalidator
 {
     private $warningDates = array();
     private $processedDates = array();

@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\CoreAdminHome\Commands;
 
 use Piwik\Archive;
-use Piwik\Archive\Purger;
+use Piwik\Archive\ArchivePurger;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
@@ -29,7 +29,7 @@ class PurgeOldArchiveData extends ConsoleCommand
     const ALL_DATES_STRING = 'all';
 
     /**
-     * @var Purger
+     * @var ArchivePurger
      */
     private $archivePurger;
 
@@ -40,11 +40,11 @@ class PurgeOldArchiveData extends ConsoleCommand
      */
     public static $todayOverride = null;
 
-    public function __construct(Purger $archivePurger = null)
+    public function __construct(ArchivePurger $archivePurger = null)
     {
         parent::__construct();
 
-        $this->archivePurger = $archivePurger ?: new Purger();
+        $this->archivePurger = $archivePurger ?: new ArchivePurger();
     }
 
     protected function configure()
