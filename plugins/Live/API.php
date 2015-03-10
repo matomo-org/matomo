@@ -60,33 +60,56 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite Id Site
      * @param int $lastMinutes Number of minutes to look back at
      * @param bool|string $segment
+     * @param array $showColumns The columns to show / not to request. Eg 'visits', 'actions', ...
      * @param array $hideColumns The columns to hide / not to request. Eg 'visits', 'actions', ...
      * @return array( visits => N, actions => M, visitsConverted => P )
      */
-    public function getCounters($idSite, $lastMinutes, $segment = false, $hideColumns = array())
+    public function getCounters($idSite, $lastMinutes, $segment = false, $showColumns = array(), $hideColumns = array())
     {
         Piwik::checkUserHasViewAccess($idSite);
         $model = new Model();
 
         $counters = array();
 
-        if (!in_array('visits', $hideColumns)) {
+        $hasVisits = true;
+        if ($this->shouldColumnBePresentInResponse('visits', $showColumns, $hideColumns)) {
             $counters['visits'] = $model->getNumVisits($idSite, $lastMinutes, $segment);
+            $hasVisits = !empty($counters['visits']);
         }
 
-        if (!in_array('actions', $hideColumns)) {
-            $counters['actions'] = $model->getNumActions($idSite, $lastMinutes, $segment);
+        if ($this->shouldColumnBePresentInResponse('actions', $showColumns, $hideColumns)) {
+            if ($hasVisits) {
+                $counters['actions'] = $model->getNumActions($idSite, $lastMinutes, $segment);
+            } else {
+                $counters['actions'] = 0;
+            }
         }
 
-        if (!in_array('visitors', $hideColumns)) {
-            $counters['visitors'] = $model->getNumVisitors($idSite, $lastMinutes, $segment);
+        if ($this->shouldColumnBePresentInResponse('visitors', $showColumns, $hideColumns)) {
+            if ($hasVisits) {
+                $counters['visitors'] = $model->getNumVisitors($idSite, $lastMinutes, $segment);
+            } else {
+                $counters['visitors'] = 0;
+            }
         }
 
-        if (!in_array('visitsConverted', $hideColumns)) {
-            $counters['visitsConverted'] = $model->getNumVisitsConverted($idSite, $lastMinutes, $segment);
+        if ($this->shouldColumnBePresentInResponse('visitsConverted', $showColumns, $hideColumns)) {
+            if ($hasVisits) {
+                $counters['visitsConverted'] = $model->getNumVisitsConverted($idSite, $lastMinutes, $segment);
+            } else {
+                $counters['visitsConverted'] = 0;
+            }
         }
 
         return array($counters);
+    }
+
+    private function shouldColumnBePresentInResponse($column, $showColumns, $hideColumns)
+    {
+        $show = (empty($showColumns) || in_array($column, $showColumns));
+        $hide = in_array($column, $hideColumns);
+
+        return $show && !$hide;
     }
 
     /**
