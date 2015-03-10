@@ -116,27 +116,6 @@ class Updater
     }
 
     /**
-     * This method ensures that Piwik Platform cannot be running when using a NEWER database.
-     *
-     * TODO: can I move this to FrontController & deprecate this?
-     */
-    public function throwIfPiwikVersionIsOlderThanDBSchema()
-    {
-        $dbSchemaVersion = $this->getCurrentComponentVersion('core');
-        $current = Version::VERSION;
-        if(-1 === version_compare($current, $dbSchemaVersion)) {
-            $messages = array(
-                Piwik::translate('General_ExceptionDatabaseVersionNewerThanCodebase', array($current, $dbSchemaVersion)),
-                Piwik::translate('General_ExceptionDatabaseVersionNewerThanCodebaseWait'),
-                // we cannot fill in the Super User emails as we are failing before Authentication was ready
-                Piwik::translate('General_ExceptionContactSupportGeneric', array('', ''))
-            );
-            throw new DatabaseSchemaIsNewerThanCodebaseException(implode(" ", $messages));
-        }
-    }
-
-
-    /**
      * Returns a list of components (core | plugin) that need to run through the upgrade process.
      *
      * @param string[] $componentsToCheck An array mapping component names to the latest locally available version.
