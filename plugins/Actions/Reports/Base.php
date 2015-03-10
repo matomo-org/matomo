@@ -22,6 +22,7 @@ abstract class Base extends \Piwik\Plugin\Report
     {
         $this->category = 'General_Actions';
         $this->processedMetrics = false;
+        $this->recursiveLabelSeparator = '/';
     }
 
     protected function addBaseDisplayProperties(ViewDataTable $view)

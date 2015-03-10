@@ -19,6 +19,7 @@ use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreUpdater;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\SettingsServer;
 use Piwik\Url;
@@ -102,6 +103,9 @@ class SystemCheck
         $infos['tracker_status'] = Common::getRequestVar('trackerStatus', 0, 'int');
 
         $infos['is_nfs'] = Filesystem::checkIfFileSystemIsNFS();
+
+        $infos['https_update'] = CoreUpdater\Controller::isUpdatingOverHttps();
+
         $infos = self::enrichSystemChecks($infos);
 
         return $infos;

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Google - search term 3</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<logo>plugins/Referrers/images/searchEngines/google.com.png</logo>
+	</row>
+	<row>
+		<label>Google - Others</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<logo>plugins/Referrers/images/searchEngines/google.com.png</logo>
+	</row>
+	<row>
+		<label>Yahoo! - search term 4</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<logo>plugins/Referrers/images/searchEngines/search.yahoo.com.png</logo>
+	</row>
+	<row>
+		<label>Yahoo! - Others</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<logo>plugins/Referrers/images/searchEngines/search.yahoo.com.png</logo>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_uniq_visitors>6</nb_uniq_visitors>
+		<nb_visits>6</nb_visits>
+		<nb_actions>6</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>6</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<url>URL unknown!</url>
+		<logo>plugins/Referrers/images/searchEngines/xx.png</logo>
+	</row>
+</result>

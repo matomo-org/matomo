@@ -43,7 +43,6 @@ class API extends \Piwik\Plugin\API
     protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null)
     {
         $dataTable = Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable);
-        $dataTable->filter('Sort', array(Metrics::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
         $dataTable->queueFilter('ReplaceColumnNames');
         return $dataTable;
     }
@@ -296,22 +295,24 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getWebsites($idSite, $period, $date, $segment = false, $expanded = false)
+    public function getWebsites($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
     {
-        $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
-        $dataTable->filter('AddSegmentByLabel', array('referrerName'));
+        $dataTable = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable = null);
+
+        if ($flat) {
+            $dataTable->filterSubtables('Piwik\Plugins\Referrers\DataTable\Filter\UrlsFromWebsiteId');
+        } else {
+            $dataTable->filter('AddSegmentByLabel', array('referrerName'));
+        }
+
         return $dataTable;
     }
 
     public function getUrlsFromWebsiteId($idSite, $period, $date, $idSubtable, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
-        // the htmlspecialchars_decode call is for BC for before 1.1
-        // as the Referrer URL was previously encoded in the log tables, but is now recorded raw
-        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', function ($label) {
-            return htmlspecialchars_decode($label);
-        }));
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getPathFromUrl'));
+        $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsFromWebsiteId');
+
         return $dataTable;
     }
 

@@ -557,7 +557,7 @@ class Config
     /**
      * @ignore
      */
-    public function getFiltersToRun()
+    private function getFiltersToRun()
     {
         $priorityFilters     = array();
         $presentationFilters = array();
@@ -579,6 +579,20 @@ class Config
         }
 
         return array($priorityFilters, $presentationFilters);
+    }
+
+    public function getPriorityFilters()
+    {
+        $filters = $this->getFiltersToRun();
+
+        return $filters[0];
+    }
+
+    public function getPresentationFilters()
+    {
+        $filters = $this->getFiltersToRun();
+
+        return $filters[1];
     }
 
     /**

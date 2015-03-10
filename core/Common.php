@@ -638,26 +638,6 @@ class Common
     }
 
     /**
-     * Convert IP address (in network address format) to presentation format.
-     * This is a backward compatibility function for code that only expects
-     * IPv4 addresses (i.e., doesn't support IPv6).
-     *
-     * @see IP::N2P()
-     *
-     * This function does not support the long (or its string representation)
-     * returned by the built-in ip2long() function, from Piwik 1.3 and earlier.
-     *
-     * @deprecated 1.4
-     *
-     * @param string $ip IP address in network address format
-     * @return string
-     */
-    public static function long2ip($ip)
-    {
-        return IP::long2ip($ip);
-    }
-
-    /**
      * JSON encode wrapper
      * - missing or broken in some php 5.x versions
      *

@@ -25,6 +25,7 @@ class ResponseBuilder
     private $apiRenderer  = null;
     private $request      = null;
     private $sendHeader   = true;
+    private $postProcessDataTable = true;
 
     private $apiModule = false;
     private $apiMethod = false;
@@ -43,6 +44,11 @@ class ResponseBuilder
     public function disableSendHeader()
     {
         $this->sendHeader = false;
+    }
+
+    public function disableDataTablePostProcessor()
+    {
+        $this->postProcessDataTable = false;
     }
 
     /**
@@ -164,8 +170,10 @@ class ResponseBuilder
 
     private function handleDataTable(DataTableInterface $datatable)
     {
-        $postProcessor = new DataTablePostProcessor($this->apiModule, $this->apiMethod, $this->request);
-        $datatable = $postProcessor->process($datatable);
+        if ($this->postProcessDataTable) {
+            $postProcessor = new DataTablePostProcessor($this->apiModule, $this->apiMethod, $this->request);
+            $datatable = $postProcessor->process($datatable);
+        }
 
         return $this->apiRenderer->renderDataTable($datatable);
     }

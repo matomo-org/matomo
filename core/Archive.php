@@ -452,6 +452,7 @@ class Archive
      * @return DataTable|DataTable\Map See {@link getDataTable()} and
      *                                 {@link getDataTableExpanded()} for more
      *                                 information
+     * @deprecated Since Piwik 2.12.0 Use Archive::createDataTableFromArchive() instead
      */
     public static function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded,
                                                    $idSubtable = null, $depth = null)
@@ -470,6 +471,38 @@ class Archive
         }
 
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
+
+        return $dataTable;
+    }
+
+    /**
+     * Helper function that creates an Archive instance and queries for report data using
+     * query parameter data. API methods can use this method to reduce code redundancy.
+     *
+     * @param string $recordName The name of the report to return.
+     * @param int|string|array $idSite @see {@link build()}
+     * @param string $period @see {@link build()}
+     * @param string $date @see {@link build()}
+     * @param string $segment @see {@link build()}
+     * @param bool $expanded If true, loads all subtables. See {@link getDataTableExpanded()}
+     * @param bool $flat If true, loads all subtables and disabled all recursive filters.
+     * @param int|null $idSubtable See {@link getDataTableExpanded()}
+     * @param int|null $depth See {@link getDataTableExpanded()}
+     * @return DataTable|DataTable\Map
+     */
+    public static function createDataTableFromArchive($recordName, $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable = null, $depth = null)
+    {
+        if ($flat && !$idSubtable) {
+            $expanded = true;
+        }
+
+        $dataTable = self::getDataTableFromArchive($recordName, $idSite, $period, $date, $segment, $expanded, $idSubtable, $depth);
+
+        $dataTable->filter('ReplaceColumnNames');
+
+        if ($flat) {
+            $dataTable->disableRecursiveFilters();
+        }
 
         return $dataTable;
     }

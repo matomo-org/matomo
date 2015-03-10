@@ -45,6 +45,8 @@ class Console extends Application
             self::initPlugins();
         } catch(\Exception $e) {
             // Piwik not installed yet, no config file?
+
+            Log::debug("Could not initialize plugins: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
 
         $commands = $this->getAvailableCommands();
@@ -139,7 +141,6 @@ class Console extends Application
         try {
             $config->checkLocalConfigFound();
             return $config;
-
         } catch (\Exception $e) {
             $output->writeln($e->getMessage() . "\n");
         }
@@ -163,6 +164,7 @@ class Console extends Application
     public static function initPlugins()
     {
         Plugin\Manager::getInstance()->loadActivatedPlugins();
+        Plugin\Manager::getInstance()->loadPluginTranslations();
     }
 
     private function getDefaultPiwikCommands()

@@ -110,6 +110,19 @@ class Map implements DataTableInterface
     }
 
     /**
+     * Apply a filter to all subtables contained by this instance.
+     *
+     * @param string|Closure $className Name of filter class or a Closure.
+     * @param array $parameters Parameters to pass to the filter.
+     */
+    public function filterSubtables($className, $parameters = array())
+    {
+        foreach ($this->getDataTables() as $table) {
+            $table->filterSubtables($className, $parameters);
+        }
+    }
+
+    /**
      * Returns the array of DataTables contained by this class.
      *
      * @return DataTable[]|Map[]
@@ -181,6 +194,26 @@ class Map implements DataTableInterface
     {
         foreach ($this->getDataTables() as $table) {
             $table->enableRecursiveSort();
+        }
+    }
+
+    /**
+     * @ignore
+     */
+    public function disableRecursiveFilters()
+    {
+        foreach ($this->getDataTables() as $table) {
+            $table->disableRecursiveFilters();
+        }
+    }
+
+    /**
+     * @ignore
+     */
+    public function enableRecursiveFilters()
+    {
+        foreach ($this->getDataTables() as $table) {
+            $table->enableRecursiveFilters();
         }
     }
 

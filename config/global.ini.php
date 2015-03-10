@@ -463,10 +463,6 @@ enable_trusted_host_check = 1
 ; independantly of the hostname Piwik is currently running under.
 ; instance_id = stats.example.com
 
-; The release server is an essential part of the Piwik infrastructure/ecosystem
-; to provide the latest software version.
-latest_version_url = http://builds.piwik.org/piwik.zip
-
 ; The API server is an essential part of the Piwik infrastructure/ecosystem to
 ; provide services to Piwik installations, e.g., getLatestVersion and
 ; subscribeNewsletter.
