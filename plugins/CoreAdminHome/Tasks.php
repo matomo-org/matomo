@@ -59,17 +59,24 @@ class Tasks extends \Piwik\Plugin\Tasks
 
         Log::info("Purging archives in {tableCount} archive tables.", array('tableCount' => count($archiveTables)));
 
-        // TODO: won't this execute purges twice, since this includes blobs + numeric tables, but purging should be called w/ just the date?
+        // keep track of dates we purge for, since getTablesArchivesInstalled() will return numeric & blob
+        // tables (so dates will appear two times, and we should only purge once per date)
+        $datesPurged = array();
+
         foreach ($archiveTables as $table) {
             $date = ArchiveTableCreator::getDateFromTableName($table);
             list($year, $month) = explode('_', $date);
 
             // Somehow we may have archive tables created with older dates, prevent exception from being thrown
-            if ($year > 1990) {
+            if ($year > 1990
+                && empty($datesPurged[$date])
+            ) {
                 $dateObj = Date::factory("$year-$month-15");
 
                 $this->archivePurger->purgeOutdatedArchives($dateObj);
                 $this->archivePurger->purgeArchivesWithPeriodRange($dateObj);
+
+                $datesPurged[$date] = true;
             }
         }
     }
