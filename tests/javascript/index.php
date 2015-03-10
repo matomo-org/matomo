@@ -2370,7 +2370,7 @@ function PiwikTest() {
     }
 
     test("User ID and Visitor UUID", function() {
-        expect(16);
+        expect(19);
         deleteCookies();
 
         var userIdString = 'userid@mydomain.org';
@@ -2395,6 +2395,13 @@ function PiwikTest() {
         // Check that Visitor ID is the same when requested multiple times
         var visitorId = tracker.getVisitorId();
         equal(visitorId, tracker.getVisitorId(), "Visitor ID is the same when called multiple times");
+
+        // Check that setting an empty user id will not change the visitor ID
+        var userId = '';
+        equal(userId, tracker.getUserId(), "by default user ID is set to empty string");
+        tracker.setUserId(userId);
+        equal(userId, tracker.getUserId(), "after setting to empty string, user id is still empty");
+        equal(visitorId, tracker.getVisitorId(), "visitor id was not changed after setting empty user id");
 
         // Building another 'tracker2' object so we can compare behavior to 'tracker'
         var tracker2 = Piwik.getTracker();
