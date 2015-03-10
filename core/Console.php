@@ -163,6 +163,7 @@ class Console extends Application
     public static function initPlugins()
     {
         Plugin\Manager::getInstance()->loadActivatedPlugins();
+        Plugin\Manager::getInstance()->loadPluginTranslations();
     }
 
     private function getDefaultPiwikCommands()
