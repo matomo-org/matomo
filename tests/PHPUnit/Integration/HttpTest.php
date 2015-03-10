@@ -115,4 +115,41 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_numeric($result['headers']['Content-Length']), "Content-Length header not numeric!");
         $this->assertTrue(in_array($result['headers']['Content-Type'], array('application/zip', 'application/x-zip-compressed')));
     }
+
+    /**
+     * @dataProvider getMethodsToTest
+     */
+    public function testHttpsWorksWithValidCertificate($method)
+    {
+        $result = Http::sendHttpRequestBy($method, 'https://builds.piwik.org/LATEST', 10);
+
+        $this->assertStringMatchesFormat('%d.%d.%d', $result);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage curl_exec: SSL
+     */
+    public function testCurlHttpsFailsWithInvalidCertificate()
+    {
+        Http::sendHttpRequestBy('curl', 'https://divezone.net', 10);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage failed to open stream: operation failed
+     */
+    public function testFopenHttpsFailsWithInvalidCertificate()
+    {
+        Http::sendHttpRequestBy('fopen', 'https://divezone.net', 10);
+    }
+
+    /**
+     * We check that HTTPS is not supported with the "socket" method
+     */
+    public function testSocketHttpsWorksEvenWithInvalidCertificate()
+    {
+        $result = Http::sendHttpRequestBy('socket', 'https://divezone.net', 10);
+        $this->assertNotEmpty($result);
+    }
 }

@@ -356,6 +356,17 @@
         </tr>
     {% endif %}
 
+    <tr>
+        <td class="label">{{ 'Installation_SystemCheckUpdateHttps'|translate }}</td>
+        <td>
+            {% if infos.https_update %}
+                {{ ok }}
+            {% else %}
+                {{ warning }} {{ 'Installation_SystemCheckUpdateHttpsNotSupported'|translate }}
+            {% endif %}
+        </td>
+    </tr>
+
 </table>
 
 {% include "@Installation/_integrityDetails.twig" %}
