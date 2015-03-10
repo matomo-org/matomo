@@ -16,7 +16,7 @@ namespace Piwik;
 abstract class Updates
 {
     /**
-     * @deprecated since v2.12.0
+     * @deprecated since v2.12.0 use getMigrationQueries() instead
      */
     static function getSql()
     {
@@ -24,7 +24,7 @@ abstract class Updates
     }
 
     /**
-     * @deprecated since v2.12.0
+     * @deprecated since v2.12.0 use doUpdate() instead
      */
     static function update()
     {
@@ -39,7 +39,7 @@ abstract class Updates
      *                                       // and user will have to manually run the query
      *         )
      */
-    public static function getMigrationQueries(Updater $updater)
+    public function getMigrationQueries(Updater $updater)
     {
         return static::getSql();
     }
@@ -47,7 +47,7 @@ abstract class Updates
     /**
      * Incremental version update
      */
-    public static function doUpdate(Updater $updater)
+    public function doUpdate(Updater $updater)
     {
         static::update();
     }
@@ -61,7 +61,7 @@ abstract class Updates
      *
      * @return bool
      */
-    static function isMajorUpdate()
+    public static function isMajorUpdate()
     {
         return false;
     }
@@ -69,7 +69,7 @@ abstract class Updates
     /**
      * Helper method to enable maintenance mode during large updates
      */
-    static function enableMaintenanceMode()
+    public static function enableMaintenanceMode()
     {
         $config = Config::getInstance();
 
@@ -87,7 +87,7 @@ abstract class Updates
     /**
      * Helper method to disable maintenance mode after large updates
      */
-    static function disableMaintenanceMode()
+    public static function disableMaintenanceMode()
     {
         $config = Config::getInstance();
 

@@ -166,7 +166,7 @@ class DbHelper
     /**
      * Get the SQL to create a specific Piwik table
      *
-     * @param string $tableName
+     * @param string $tableName Unprefixed table name.
      * @return string  SQL
      */
     public static function getTableCreateSql($tableName)

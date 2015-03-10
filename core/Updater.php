@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Piwik\Columns\Updater as ColumnUpdater;
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 use Piwik\Updater\UpdateObserver;
 
@@ -200,7 +201,8 @@ class Updater
 
                 $classNames[] = $className;
 
-                $queriesForComponent = call_user_func(array($className, 'getMigrationQueries'), $this);
+                $update = StaticContainer::getContainer()->make($className);
+                $queriesForComponent = call_user_func(array($update, 'getMigrationQueries'), $this);
                 foreach ($queriesForComponent as $query => $error) {
                     $queries[] = $query . ';';
                 }
@@ -249,7 +251,8 @@ class Updater
                 ) {
                     $this->executeListenerHook('onComponentUpdateFileStarting', array($componentName, $file, $className, $fileVersion));
 
-                    call_user_func(array($className, 'doUpdate'), $this);
+                    $update = StaticContainer::getContainer()->make($className);
+                    call_user_func(array($update, 'doUpdate'), $this);
 
                     $this->executeListenerHook('onComponentUpdateFileFinished', array($componentName, $file, $className, $fileVersion));
 
@@ -589,8 +592,6 @@ class Updater
      *
      * @param string $name
      * @param string $version
-     *
-     * TODO: only non-Updater pllace this is used is when installing plugins. create a Plugin\Installer class that derives from Updater for plugin installation
      */
     public static function recordComponentSuccessfullyUpdated($name, $version)
     {

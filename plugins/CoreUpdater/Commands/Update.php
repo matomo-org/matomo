@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\CoreUpdater\Commands;
 
-use Guzzle\Common\Version;
+use Piwik\Version;
 use Piwik\Config;
 use Piwik\DbHelper;
 use Piwik\Filesystem;
