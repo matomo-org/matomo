@@ -33,24 +33,6 @@ use Piwik\Piwik;
 class MenuAdmin extends MenuAbstract
 {
     /**
-     * Adds a new AdminMenu entry under the 'Settings' category.
-     *
-     * @param string $adminMenuName The name of the admin menu entry. Can be a translation token.
-     * @param string|array $url The URL the admin menu entry should link to, or an array of query parameters
-     *                          that can be used to build the URL.
-     * @param boolean $displayedForCurrentUser Whether this menu entry should be displayed for the
-     *                                         current user. If false, the entry will not be added.
-     * @param int $order The order hint.
-     * @deprecated since version 2.4.0. See {@link Piwik\Plugin\Menu} for new implementation.
-     */
-    public static function addEntry($adminMenuName, $url, $displayedForCurrentUser = true, $order = 20)
-    {
-        if ($displayedForCurrentUser) {
-            self::getInstance()->addItem('General_Settings', $adminMenuName, $url, $order);
-        }
-    }
-
-    /**
      * See {@link add()}. Adds a new menu item to the development section of the admin menu.
      * @param string $menuName
      * @param array $url
@@ -141,13 +123,5 @@ class MenuAdmin extends MenuAbstract
         }
 
         return parent::getMenu();
-    }
-
-    /**
-     * @deprecated since version 2.4.0. See {@link Piwik\Plugin\Menu} for new implementation.
-     */
-    public static function removeEntry($menuName, $subMenuName = false)
-    {
-        MenuAdmin::getInstance()->remove($menuName, $subMenuName);
     }
 }
