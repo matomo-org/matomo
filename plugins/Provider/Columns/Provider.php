@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Provider\Columns;
 
 use Piwik\Common;
-use Piwik\IP;
+use Piwik\Network\IP;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -87,12 +87,17 @@ class Provider extends VisitDimension
     /**
      * Returns the hostname given the IP address string
      *
-     * @param string $ip IP Address
+     * @param string $ipStr IP Address
      * @return string hostname (or human-readable IP address)
      */
-    private function getHost($ip)
+    private function getHost($ipStr)
     {
-        return trim(strtolower(@IP::getHostByAddr($ip)));
+        $ip = IP::fromStringIP($ipStr);
+
+        $host = $ip->getHostname();
+        $host = ($host === null ? $ipStr : $host);
+
+        return trim(strtolower($host));
     }
 
     public function getName()

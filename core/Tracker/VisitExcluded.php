@@ -11,7 +11,7 @@ namespace Piwik\Tracker;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DeviceDetectorFactory;
-use Piwik\IP;
+use Piwik\Network\IP;
 use Piwik\Piwik;
 
 /**
@@ -158,9 +158,10 @@ class VisitExcluded
 
         $deviceDetector = DeviceDetectorFactory::getInstance($this->userAgent);
 
+        $ip = IP::fromBinaryIP($this->ip);
+
         return !$allowBots
-        && ($deviceDetector->isBot()
-            || IP::isIpInRange($this->ip, $this->getBotIpRanges()));
+            && ($deviceDetector->isBot() || $ip->isInRanges($this->getBotIpRanges()));
     }
 
     protected function getBotIpRanges()
@@ -223,7 +224,7 @@ class VisitExcluded
         $websiteAttributes = Cache::getCacheWebsiteAttributes($this->idSite);
 
         if (!empty($websiteAttributes['excluded_ips'])) {
-            $ip = \Piwik\Network\IP::fromBinaryIP($this->ip);
+            $ip = IP::fromBinaryIP($this->ip);
             if ($ip->isInRanges($websiteAttributes['excluded_ips'])) {
                 Common::printDebug('Visitor IP ' . $ip->toString() . ' is excluded from being tracked');
                 return true;
