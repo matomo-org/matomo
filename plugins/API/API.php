@@ -196,7 +196,7 @@ class API extends \Piwik\Plugin\API
             'segment'        => 'visitIp',
             'acceptedValues' => '13.54.122.1. </code>Select IP ranges with notation: <code>visitIp>13.54.122.0;visitIp<13.54.122.255',
             'sqlSegment'     => 'log_visit.location_ip',
-            'sqlFilterValue' => array('Piwik\IP', 'P2N'),
+            'sqlFilterValue' => array('Piwik\Network\IPUtils', 'stringToBinaryIP'),
             'permission'     => $isAuthenticatedWithViewAccess,
         );
 
