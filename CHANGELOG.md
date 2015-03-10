@@ -9,6 +9,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The deprecated method `Config::getConfigSuperUserForBackwardCompatibility()` has been removed.
 * The deprecated methods `MenuAdmin::addEntry()` and `MenuAdmin::removeEntry()` have been removed. Use `Piwik\Plugin\Menu` instead.
 * The deprecated methods `MenuTop::addEntry()` and `MenuTop::removeEntry()` have been removed. Use `Piwik\Plugin\Menu` instead.
+* The deprecated method `SettingsPiwik::rewriteTmpPathWithInstanceId()` has been removed.
 
 ## Piwik 2.11.0
 

@@ -124,8 +124,7 @@ class Session extends Zend_Session
 			            			we recommend that you <a href='http://piwik.org/faq/how-to-install/#faq_133' rel='noreferrer' target='_blank'>enable database session storage</a>.";
             }
 
-            $pathToSessions = Filechecks::getErrorMessageMissingPermissions(Filesystem::getPathToPiwikRoot() . '/tmp/sessions/');
-            $pathToSessions = SettingsPiwik::rewriteTmpPathWithInstanceId($pathToSessions);
+            $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());
             $message = sprintf("Error: %s %s %s\n<pre>Debug: the original error was \n%s</pre>",
                 Piwik::translate('General_ExceptionUnableToStartSession'),
                 $pathToSessions,
@@ -147,8 +146,7 @@ class Session extends Zend_Session
      */
     public static function getSessionsDirectory()
     {
-        $path = PIWIK_USER_PATH . '/tmp/sessions';
-        return SettingsPiwik::rewriteTmpPathWithInstanceId($path);
+        return StaticContainer::get('path.tmp') . '/sessions';
     }
 
     public static function close()
