@@ -6,6 +6,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Breaking Changes
 * The deprecated method `Period::factory()` has been removed. Use `Period\Factory` instead.
+* The deprecated method `Config::getConfigSuperUserForBackwardCompatibility()` has been removed.
 
 ## Piwik 2.11.0
 
