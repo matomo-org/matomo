@@ -27,9 +27,6 @@ class ArchivesToPurgeDistributedList extends DistributedList
 {
     const OPTION_INVALIDATED_DATES_SITES_TO_PURGE = 'InvalidatedOldReports_DatesWebsiteIds';
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct(self::OPTION_INVALIDATED_DATES_SITES_TO_PURGE);

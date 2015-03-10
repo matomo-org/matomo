@@ -22,9 +22,6 @@ class SitesToReprocessDistributedList extends DistributedList
 {
     const OPTION_INVALIDATED_IDSITES_TO_REPROCESS = 'InvalidatedOldReports_WebsiteIds';
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct(self::OPTION_INVALIDATED_IDSITES_TO_REPROCESS);
