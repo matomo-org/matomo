@@ -25,8 +25,6 @@ class Widgets extends \Piwik\Plugin\Widgets
     public function __construct(Translator $translator)
     {
         $this->translator = $translator;
-
-        parent::__construct();
     }
 
     protected function init()
