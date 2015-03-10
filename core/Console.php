@@ -69,6 +69,8 @@ class Console extends Application
         } else {
             /** @var Command $commandInstance */
             $commandInstance = new $command;
+
+            // do not add the command if it already exists; this way we can add the command ourselves in tests
             if (!$this->has($commandInstance->getName())) {
                 $this->add($commandInstance);
             }
