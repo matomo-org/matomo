@@ -179,16 +179,19 @@ abstract class Metric
      */
     public static function getActualMetricColumn(DataTable $table, $columnName, $mappingNameToId = null)
     {
-        if (empty($mappingIdToName)) {
-            $mappingNameToId = Metrics::getMappingFromNameToId();
+        $firstRow = $table->getFirstRow();
+
+        if (!empty($firstRow) && $firstRow->hasColumn($columnName) === false) {
+
+            if (empty($mappingIdToName)) {
+                $mappingNameToId = Metrics::getMappingFromNameToId();
+            }
+
+            if (array_key_exists($columnName, $mappingNameToId)) {
+                $columnName = $mappingNameToId[$columnName];
+            }
         }
 
-        $firstRow = $table->getFirstRow();
-        if (!empty($firstRow)
-            && $firstRow->getColumn($columnName) === false
-        ) {
-            $columnName = $mappingNameToId[$columnName];
-        }
         return $columnName;
     }
 }
