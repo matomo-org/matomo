@@ -4245,6 +4245,9 @@ if (typeof Piwik !== 'object') {
                  * @param string User ID
                  */
                 setUserId: function (userId) {
+                    if(!isDefined(userId) || !userId.length) {
+                        return;
+                    }
                     configUserId = userId;
                     visitorUUID = hash(configUserId).substr(0, 16);
                 },

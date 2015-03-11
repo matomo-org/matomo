@@ -10,6 +10,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Config\ConfigNotFoundException;
 use Piwik\Ini\IniReader;
 use Piwik\Ini\IniReadingException;
 use Piwik\Ini\IniWriter;
@@ -370,7 +371,7 @@ class Config extends Singleton
     public function checkLocalConfigFound()
     {
         if (!$this->existsLocalConfig()) {
-            throw new Exception(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathLocal)));
+            throw new ConfigNotFoundException(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathLocal)));
         }
     }
 

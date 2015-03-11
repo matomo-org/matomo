@@ -30,7 +30,8 @@ class GetSimpleLastVisitCount extends Base
     {
         $lastMinutes = Config::getInstance()->General[Controller::SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY];
 
-        $lastNData = Request::processRequest('Live.getCounters', array('lastMinutes' => $lastMinutes));
+        $params    = array('lastMinutes' => $lastMinutes, 'showColumns' => array('visits', 'visitors', 'actions'));
+        $lastNData = Request::processRequest('Live.getCounters', $params);
 
         $formatter = new Formatter();
 

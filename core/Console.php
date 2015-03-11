@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Piwik\Config\ConfigNotFoundException;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
@@ -43,10 +44,9 @@ class Console extends Application
 
         try {
             self::initPlugins();
-        } catch(\Exception $e) {
+        } catch (ConfigNotFoundException $e) {
             // Piwik not installed yet, no config file?
-
-            Log::debug("Could not initialize plugins: " . $e->getMessage() . "\n" . $e->getTraceAsString());
+            Log::warning($e->getMessage());
         }
 
         $commands = $this->getAvailableCommands();
