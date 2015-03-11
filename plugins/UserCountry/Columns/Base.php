@@ -23,7 +23,7 @@ abstract class Base extends VisitDimension
     /**
      * @var VisitorGeolocator
      */
-    private $locationFetcher;
+    private $visitorGeolocator;
 
     protected function getUrlOverrideValueIfAllowed($urlParamToOverride, Request $request)
     {
@@ -46,10 +46,8 @@ abstract class Base extends VisitDimension
 
     protected function getLocationDetail($userInfo, $locationKey)
     {
-        $location = $this->getLocationFetcher()->getLocation(
-            $userInfo,
-            empty($GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING'])
-        );
+        $useLocationCache = empty($GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING']);
+        $location = $this->getVisitorGeolocator()->getLocation($userInfo, $useLocationCache);
 
         if (!isset($location[$locationKey])) {
             return false;
@@ -58,13 +56,13 @@ abstract class Base extends VisitDimension
         return $location[$locationKey];
     }
 
-    protected function getLocationFetcher()
+    protected function getVisitorGeolocator()
     {
-        if ($this->locationFetcher === null) {
-            $this->locationFetcher = new VisitorGeolocator();
+        if ($this->visitorGeolocator === null) {
+            $this->visitorGeolocator = new VisitorGeolocator();
         }
 
-        return $this->locationFetcher;
+        return $this->visitorGeolocator;
     }
 
     protected function getUserInfo(Request $request, Visitor $visitor)
