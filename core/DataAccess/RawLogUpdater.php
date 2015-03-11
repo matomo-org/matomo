@@ -19,13 +19,11 @@ class RawLogUpdater
      */
     public function updateVisits(array $values, $idVisit)
     {
-        $sql = array(
-            "UPDATE " . Common::prefixTable('log_visit'),
-            "SET " . $this->getColumnBinds(array_keys($values)),
-            "WHERE idvisit = ?"
-        );
+        $sql = "UPDATE " . Common::prefixTable('log_visit')
+             . " SET " . $this->getColumnSetExpressions(array_keys($values))
+             . "WHERE idvisit = ?";
 
-        $this->executeQuery($sql, $values, $idVisit);
+        $this->update($sql, $values, $idVisit);
     }
 
     /**
@@ -36,22 +34,22 @@ class RawLogUpdater
     {
         $sql = array(
             "UPDATE " . Common::prefixTable('log_conversion'),
-            "SET " . $this->getColumnBinds(array_keys($values)),
+            "SET " . $this->getColumnSetExpressions(array_keys($values)),
             "WHERE idvisit = ?"
         );
 
-        $this->executeQuery($sql, $values, $idVisit);
+        $this->update($sql, $values, $idVisit);
     }
 
     /**
      * @param array $columnsToSet
      * @return string
      */
-    protected function getColumnBinds(array $columnsToSet)
+    protected function getColumnSetExpressions(array $columnsToSet)
     {
         $columnsToSet = array_map(
             function ($column) {
-                return sprintf('%s = ?', $column);
+                return $column . ' = ?';
             },
             $columnsToSet
         );
@@ -66,14 +64,8 @@ class RawLogUpdater
      * @return \Zend_Db_Statement
      * @throws \Exception
      */
-    protected function executeQuery($sql, array $values, $idVisit)
+    protected function update($sql, array $values, $idVisit)
     {
-        return Db::query(
-            implode(' ', $sql),
-            array_merge(
-                array_values($values),
-                array($idVisit)
-            )
-        );
+        return Db::query($sql, array_merge(array_values($values), array($idVisit)));
     }
 }
