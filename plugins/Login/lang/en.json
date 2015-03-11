@@ -16,7 +16,7 @@
         "PasswordChanged": "Your password has been changed.",
         "PasswordRepeat": "Password (repeat)",
         "PasswordsDoNotMatch": "Passwords do not match.",
-        "PluginDescription": "Provides authentication via username and password as well as password reset functionnality. Authentication method can be changed by using another Login plugin such as LoginLdap available on the Marketplace.",
+        "PluginDescription": "Provides authentication via username and password as well as password reset functionality. Authentication method can be changed by using another Login plugin such as LoginLdap available on the Marketplace.",
         "RememberMe": "Remember Me",
         "ResetPasswordInstructions": "Enter a new password for your account."
     }
