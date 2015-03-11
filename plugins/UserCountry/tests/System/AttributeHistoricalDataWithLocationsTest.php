@@ -10,10 +10,12 @@ namespace Piwik\Plugins\UserCountry\Test\Integration;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\Commands\AttributeHistoricalDataWithLocations;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Translate;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -55,6 +57,8 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
 
             Db::query($sql);
         }
+
+        self::$fixture->setLocationProvider('GeoIPCity.dat');
     }
 
     /**
@@ -66,11 +70,13 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
         $this->executeCommand(null);
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage General_ExceptionInvalidDateFormat
+     */
     public function testExecute_ShouldReturnMessage_IfDatesAreInvalid()
     {
-        $this->assertEquals(
-            'Invalid from [1970-01-01] or to [].' . "\n", $this->executeCommand('test')
-        );
+        $this->executeCommand('test');
     }
 
     public function testExecute_ShouldReturnEmptyWorkingProcessLogs_IfThereIsNoData()
@@ -90,7 +96,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
             $result
         );
 
-        $this->assertRegExp('/100% processed. \[in [(0-9)+] seconds\]/', $result);
+        $this->assertRegExp('/100% processed. Time elapsed: [0-9.]+s/', $result);
 
         $queryParams = array(
             'idSite'  => self::$fixture->idSite,

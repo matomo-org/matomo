@@ -14,6 +14,7 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\DataAccess\RawLogFetcher;
+use Piwik\Timer;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -22,16 +23,22 @@ use Symfony\Component\Console\Output\OutputInterface;
 class AttributeHistoricalDataWithLocations extends ConsoleCommand
 {
     const DATES_RANGE_ARGUMENT = 'dates-range';
-
     const PERCENT_STEP_ARGUMENT = 'percent-step';
-
     const PERCENT_STEP_ARGUMENT_DEFAULT = 5;
-
     const PROVIDER_ARGUMENT = 'provider';
-
-    const SEGMENT_LIMIT_OPTION = 'segmentLimit';
-
+    const SEGMENT_LIMIT_OPTION = 'segment-limit';
     const SEGMENT_LIMIT_OPTION_DEFAULT = 1000;
+
+    /**
+     * @var string[]
+     */
+    private static $logVisitFieldsToUpdate = array(
+        'location_country'   => LocationProvider::COUNTRY_CODE_KEY,
+        'location_region'    => LocationProvider::REGION_CODE_KEY,
+        'location_city'      => LocationProvider::CITY_NAME_KEY,
+        'location_latitude'  => LocationProvider::LATITUDE_KEY,
+        'location_longitude' => LocationProvider::LONGITUDE_KEY
+    );
 
     /**
      * @var RawLogFetcher
@@ -46,7 +53,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     /**
      * @var VisitorGeolocator
      */
-    protected $locationFetcher;
+    protected $visitorGeolocator;
 
     /**
      * @var int
@@ -59,9 +66,9 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     private $amountOfVisits;
 
     /**
-     * @var int
+     * @var Timer
      */
-    private $start;
+    private $timer;
 
     /**
      * @var int
@@ -69,54 +76,29 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     private $percentStep;
 
     /**
-     * @var array
+     * @var int
      */
-    private $percentConfirmed = array();
+    private $processedPercent = 0;
 
-    /**
-     * @var array
-     */
-    protected $logVisitFieldsToUpdate = array(
-        'location_country'   => LocationProvider::COUNTRY_CODE_KEY,
-        'location_region'    => LocationProvider::REGION_CODE_KEY,
-        'location_city'      => LocationProvider::CITY_NAME_KEY,
-        'location_latitude'  => LocationProvider::LATITUDE_KEY,
-        'location_longitude' => LocationProvider::LONGITUDE_KEY
-    );
+    public function __construct(RawLogFetcher $fetcher = null, RawLogUpdater $updater = null)
+    {
+        parent::__construct();
+
+        $this->fetcher = $fetcher ?: new RawLogFetcher();
+        $this->updater = $updater ?: new RawLogUpdater();
+    }
 
     protected function configure()
     {
         $this->setName('usercountry:attribute');
 
-        $this->addArgument(
-            self::DATES_RANGE_ARGUMENT,
-            InputArgument::REQUIRED,
-            'Attribute visits from this dates.'
-        );
-
-        $this->addArgument(
-            self::PERCENT_STEP_ARGUMENT,
-            InputArgument::OPTIONAL,
-            'How often command should write about current state.',
-            self::PERCENT_STEP_ARGUMENT_DEFAULT
-        );
-
-        $this->addArgument(
-            self::PROVIDER_ARGUMENT,
-            InputArgument::OPTIONAL,
-            'Provider id which should be used to attribute visits. If empty then Piwik will use default provider.'
-        );
-
-        $this->addOption(
-            self::SEGMENT_LIMIT_OPTION,
-            null,
-            InputOption::VALUE_OPTIONAL,
-            'Number of segments in single iteration.',
-            self::SEGMENT_LIMIT_OPTION_DEFAULT
-        );
-
-        $this->fetcher = new RawLogFetcher();
-        $this->updater = new RawLogUpdater();
+        $this->addArgument(self::DATES_RANGE_ARGUMENT, InputArgument::REQUIRED, 'Attribute visits in this date range. Eg, 2012-01-01,2013-01-01');
+        $this->addArgument(self::PERCENT_STEP_ARGUMENT, InputArgument::OPTIONAL,
+            'How often to display the command progress. A status update will be printed after N percent of visits are processed, '
+            . 'where N is the value of this option.', self::PERCENT_STEP_ARGUMENT_DEFAULT);
+        $this->addArgument(self::PROVIDER_ARGUMENT, InputArgument::OPTIONAL, 'Provider id which should be used to attribute visits. If empty then'
+            . ' Piwik will use the currently configured provider. If no provider is configured, the default provider is used.');
+        $this->addOption(self::SEGMENT_LIMIT_OPTION, null, InputOption::VALUE_OPTIONAL, 'Number of visits to process at a time.', self::SEGMENT_LIMIT_OPTION_DEFAULT);
     }
 
     /**
@@ -126,96 +108,65 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $from = $this->getDateArgument($input, self::DATES_RANGE_ARGUMENT, 0);
-        $to = $this->getDateArgument($input, self::DATES_RANGE_ARGUMENT, 1);
-        $segmentLimit = $input->getOption(self::SEGMENT_LIMIT_OPTION);
+        list($from, $to) = $this->getDateRangeToAttribute($input);
+
+        $this->visitorGeolocator = $this->createGeolocator($input);
 
         $this->percentStep = $this->getPercentStep($input);
         $this->amountOfVisits = $this->fetcher->countVisitsWithDatesLimit($from, $to);
 
-        if (!$from || !$to) {
-            $output->writeln(
-                sprintf('Invalid from [%s] or to [%s].',
-                    $from, $to
-                )
-            );
-
-            return 1;
-        }
-
-        $providerId = $input->getArgument(self::PROVIDER_ARGUMENT);
-        $this->locationFetcher = new VisitorGeolocator(LocationProvider::getProviderById($providerId) ?: null);
-
         $output->writeln(
             sprintf('Re-attribution for date range: %s to %s. %d visits to process with provider "%s".',
-                $from, $to, $this->amountOfVisits, $this->locationFetcher->getProvider()->getId()
-            )
+                $from, $to, $this->amountOfVisits, $this->visitorGeolocator->getProvider()->getId())
         );
 
-        $this->start = time();
-        $lastId = 0;
-        $visitFields = array_merge(
-            array('idvisit', 'location_ip'),
-            array_keys($this->logVisitFieldsToUpdate)
-        );
+        $this->timer = new Timer();
 
-        do {
-            $logs = $this->fetcher->getVisitsWithDatesLimit($from, $to, $visitFields, $lastId, $segmentLimit);
-            if (!empty($logs)) {
-                $lastId = $logs[count($logs) - 1]['idvisit'];
-            }
+        $this->processSpecifiedLogsInChunks($output, $from, $to, $input->getOption(self::SEGMENT_LIMIT_OPTION));
 
-            /**
-             * @var array $row
-             */
-            foreach ($logs as $row) {
-                if (!$this->isRowComplete($output, $row)) {
-                    continue;
-                }
-
-                $idVisit = $row['idvisit'];
-                $ip = IPUtils::binaryToStringIP($row['location_ip']);
-                $values = $this->parseRowIntoValues($row, $ip);
-
-                ++$this->processed;
-                $this->trackProgress($output);
-
-                if ($this->shouldSkipAttribution($output, $values, (string) $idVisit, $ip)) {
-                    continue;
-                }
-
-                if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                    $output->writeln(
-                        sprintf('Updating visit with idvisit = %s and ip = %s.', (string) $idVisit, $ip)
-                    );
-                }
-
-                $this->updater->updateVisits($values, $idVisit);
-                $this->updater->updateConversions($values, $idVisit);
-            }
-
-        } while (count($logs) == $segmentLimit);
-
-        $output->writeln(sprintf('Completed in %d seconds.', time() - $this->start));
+        $output->writeln("Completed. <comment>" . $this->timer->__toString() . "</comment>");
 
         return 0;
     }
 
-    /**
-     * @param InputInterface $input
-     * @param string $name
-     * @param int $index
-     * @return string
-     */
-    protected function getDateArgument(InputInterface $input, $name, $index)
+    protected function processSpecifiedLogsInChunks(OutputInterface $output, $from, $to, $segmentLimit)
     {
-        $option = explode(',', $input->getArgument($name));
+        $visitFieldsToSelect = array_merge(array('idvisit', 'location_ip'), array_keys(self::$logVisitFieldsToUpdate));
 
-        if (!isset($option[$index])) {
-            return false;
+        $lastId = 0;
+        do {
+            $logs = $this->fetcher->getVisitsWithDatesLimit($from, $to, $visitFieldsToSelect, $lastId, $segmentLimit);
+            if (!empty($logs)) {
+                $lastId = $logs[count($logs) - 1]['idvisit'];
+
+                $this->reattributeVisitLogs($output, $logs);
+            }
+        } while (count($logs) == $segmentLimit);
+    }
+
+    protected function reattributeVisitLogs(OutputInterface $output, $logRows)
+    {
+        foreach ($logRows as $row) {
+            if (!$this->isRowComplete($output, $row)) {
+                continue;
+            }
+
+            $location = $this->getVisitLocation($row);
+            $valuesToUpdate = $this->getValuesToUpdate($row, $location);
+
+            $this->onVisitProcessed($output);
+
+            $idVisit = $row['idvisit'];
+
+            if (empty($valuesToUpdate)) {
+                $this->writeIfVerbose($output, 'Nothing to update for idvisit = ' . $idVisit . '. Existing location info is same as geolocated.');
+            } else {
+                $this->writeIfVerbose($output, 'Updating visit with idvisit = ' . $idVisit . '.');
+
+                $this->updater->updateVisits($valuesToUpdate, $idVisit);
+                $this->updater->updateConversions($valuesToUpdate, $idVisit);
+            }
         }
-
-        return date('Y-m-d', strtotime($option[$index]));
     }
 
     /**
@@ -239,51 +190,52 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     }
 
     /**
-     * Parse row into proper values. (only if provider found difference)
+     * Returns location log values that are different than the values currently in a log row.
      *
-     * @param array $row
-     * @param string $ip
-     * @return array
+     * @param array $row The visit row.
+     * @param array $location The location information.
+     * @return array The location properties to update.
      */
-    protected function parseRowIntoValues(array $row, $ip)
+    protected function getValuesToUpdate(array $row, $location)
     {
-        $location = $this->locationFetcher->getLocation(array('ip' => $ip));
-
-        $values = array();
-        foreach ($this->logVisitFieldsToUpdate as $column => $locationKey) {
+        $valuesToUpdate = array();
+        foreach (self::$logVisitFieldsToUpdate as $column => $locationKey) {
             if (empty($location[$locationKey])) {
                 continue;
             }
 
-            $locationAttribute = $location[$locationKey];
+            $locationPropertyValue = $location[$locationKey];
+            $existingPropertyValue = $row[$column];
 
             if ($locationKey === LocationProvider::COUNTRY_CODE_KEY) {
-                if (strtolower($locationAttribute) != strtolower($row[$column])) {
-                    $values[$column] = strtolower($locationAttribute);
+                if (strtolower($locationPropertyValue) != strtolower($existingPropertyValue)) {
+                    $valuesToUpdate[$column] = strtolower($locationPropertyValue);
                 }
             } else {
-                if ($locationAttribute != $row[$column]) {
-                    $values[$column] = $locationAttribute;
+                if ($locationPropertyValue != $existingPropertyValue) {
+                    $valuesToUpdate[$column] = $locationPropertyValue;
                 }
             }
         }
-        return $values;
+        return $valuesToUpdate;
     }
 
     /**
      * Print information about progress.
      * @param OutputInterface $output
      */
-    protected function trackProgress(OutputInterface $output)
+    protected function onVisitProcessed(OutputInterface $output)
     {
+        ++$this->processed;
+
         $percent = ceil($this->processed / $this->amountOfVisits * 100);
 
-        if (!in_array($percent, $this->percentConfirmed, true) && $percent % $this->percentStep === 0) {
-            $output->writeln(
-                sprintf('%d%% processed. [in %d seconds]', $percent, time() - $this->start)
-            );
+        if ($percent > $this->processedPercent
+            && $percent % $this->percentStep === 0
+        ) {
+            $output->writeln(sprintf('%d%% processed. <comment>%s</comment>', $percent, $this->timer->__toString()));
 
-            $this->percentConfirmed[] = $percent;
+            $this->processedPercent = $percent;
         }
     }
 
@@ -296,19 +248,13 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     protected function isRowComplete(OutputInterface $output, array $row)
     {
         if (empty($row['idvisit'])) {
-            if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                $output->writeln('Empty idvisit field. Skipping...');
-            }
+            $this->writeIfVerbose($output, 'Empty idvisit field. Skipping...');
 
             return false;
         }
 
         if (empty($row['location_ip'])) {
-            if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                $output->writeln(
-                    sprintf('Empty location_ip field for idvisit = %s. Skipping...', (string) $row['idvisit'])
-                );
-            }
+            $this->writeIfVerbose($output, sprintf('Empty location_ip field for idvisit = %s. Skipping...', (string) $row['idvisit']));
 
             return false;
         }
@@ -316,26 +262,37 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         return true;
     }
 
-    /**
-     * Check if given visit should be re attributed.
-     * @param OutputInterface $output
-     * @param array $values
-     * @param string $idVisit
-     * @param string $ip
-     * @return bool
-     */
-    protected function shouldSkipAttribution(OutputInterface $output, array $values, $idVisit, $ip)
+    private function getVisitLocation($row)
     {
-        if (empty($values)) {
-            if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                $output->writeln(
-                    sprintf('Visit with idvisit = %s and ip = %s is attributed. Skipping...', $idVisit, $ip)
-                );
-            }
+        $ip = IPUtils::binaryToStringIP($row['location_ip']);
+        $location = $this->visitorGeolocator->getLocation(array('ip' => $ip));
+        return $location;
+    }
 
-            return true;
+    private function getDateRangeToAttribute(InputInterface $input)
+    {
+        $dateRangeString = $input->getArgument(self::DATES_RANGE_ARGUMENT);
+
+        $dates = explode(',', $dateRangeString);
+        $dates = array_map(array('Piwik\Date', 'factory'), $dates);
+
+        if (count($dates) != 2) {
+            throw new \InvalidArgumentException('Invalid date range supplied: ' . $dateRangeString);
         }
 
-        return false;
+        return $dates;
+    }
+
+    private function createGeolocator(InputInterface $input)
+    {
+        $providerId = $input->getArgument(self::PROVIDER_ARGUMENT);
+        return new VisitorGeolocator(LocationProvider::getProviderById($providerId) ?: null);
+    }
+
+    private function writeIfVerbose(OutputInterface $output, $message)
+    {
+        if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+            $output->writeln($message);
+        }
     }
 }

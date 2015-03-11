@@ -21,7 +21,7 @@ class RawLogUpdater
     {
         $sql = "UPDATE " . Common::prefixTable('log_visit')
              . " SET " . $this->getColumnSetExpressions(array_keys($values))
-             . "WHERE idvisit = ?";
+             . " WHERE idvisit = ?";
 
         $this->update($sql, $values, $idVisit);
     }
@@ -32,11 +32,9 @@ class RawLogUpdater
      */
     public function updateConversions(array $values, $idVisit)
     {
-        $sql = array(
-            "UPDATE " . Common::prefixTable('log_conversion'),
-            "SET " . $this->getColumnSetExpressions(array_keys($values)),
-            "WHERE idvisit = ?"
-        );
+        $sql = "UPDATE " . Common::prefixTable('log_conversion')
+             . " SET " . $this->getColumnSetExpressions(array_keys($values))
+             . " WHERE idvisit = ?";
 
         $this->update($sql, $values, $idVisit);
     }

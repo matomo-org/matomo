@@ -22,7 +22,7 @@ class RawLogFetcher
      * @param array $fields
      * @param int $fromId
      * @param int $limit
-     * @return array
+     * @return array[]
      */
     public function getVisitsWithDatesLimit($from, $to, $fields = array(), $fromId = 0, $limit = 1000)
     {

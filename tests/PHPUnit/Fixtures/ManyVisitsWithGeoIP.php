@@ -192,7 +192,7 @@ class ManyVisitsWithGeoIP extends Fixture
         self::checkResponse($t->doTrackPageView('It\'s pitch black...'));
     }
 
-    private function setLocationProvider($file)
+    public function setLocationProvider($file)
     {
         GeoIp::$dbNames['loc'] = array($file);
         GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
