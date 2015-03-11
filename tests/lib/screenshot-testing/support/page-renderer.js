@@ -19,7 +19,7 @@ var PageRenderer = function (baseUrl) {
     this.baseUrl = baseUrl;
     this.currentFrame = null;
 
-    this.defaultWaitTime = 1000;
+    this.defaultWaitTime = 1500;
     this._isLoading = false;
 
     if (this.baseUrl.substring(-1) != '/') {
