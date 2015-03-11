@@ -8,12 +8,11 @@
  */
 namespace Piwik\Plugins\UserCountry\Commands;
 
-use Piwik\DataAccess\RawLogUpdater;
 use Piwik\Network\IPUtils;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\DataAccess\RawLogFetcher;
+use Piwik\DataAccess\RawLogDao;
 use Piwik\Timer;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,14 +40,9 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     );
 
     /**
-     * @var RawLogFetcher
+     * @var RawLogDao
      */
-    protected $fetcher;
-
-    /**
-     * @var RawLogUpdater
-     */
-    protected $updater;
+    protected $dao;
 
     /**
      * @var VisitorGeolocator
@@ -80,12 +74,11 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
      */
     private $processedPercent = 0;
 
-    public function __construct(RawLogFetcher $fetcher = null, RawLogUpdater $updater = null)
+    public function __construct(RawLogDao $dao = null)
     {
         parent::__construct();
 
-        $this->fetcher = $fetcher ?: new RawLogFetcher();
-        $this->updater = $updater ?: new RawLogUpdater();
+        $this->dao = $dao ?: new RawLogDao();
     }
 
     protected function configure()
@@ -113,7 +106,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         $this->visitorGeolocator = $this->createGeolocator($input);
 
         $this->percentStep = $this->getPercentStep($input);
-        $this->amountOfVisits = $this->fetcher->countVisitsWithDatesLimit($from, $to);
+        $this->amountOfVisits = $this->dao->countVisitsWithDatesLimit($from, $to);
 
         $output->writeln(
             sprintf('Re-attribution for date range: %s to %s. %d visits to process with provider "%s".',
@@ -135,7 +128,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
 
         $lastId = 0;
         do {
-            $logs = $this->fetcher->getVisitsWithDatesLimit($from, $to, $visitFieldsToSelect, $lastId, $segmentLimit);
+            $logs = $this->dao->getVisitsWithDatesLimit($from, $to, $visitFieldsToSelect, $lastId, $segmentLimit);
             if (!empty($logs)) {
                 $lastId = $logs[count($logs) - 1]['idvisit'];
 
@@ -163,8 +156,8 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
             } else {
                 $this->writeIfVerbose($output, 'Updating visit with idvisit = ' . $idVisit . '.');
 
-                $this->updater->updateVisits($valuesToUpdate, $idVisit);
-                $this->updater->updateConversions($valuesToUpdate, $idVisit);
+                $this->dao->updateVisits($valuesToUpdate, $idVisit);
+                $this->dao->updateConversions($valuesToUpdate, $idVisit);
             }
         }
     }

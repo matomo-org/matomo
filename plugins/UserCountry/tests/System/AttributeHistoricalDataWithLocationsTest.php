@@ -10,12 +10,9 @@ namespace Piwik\Plugins\UserCountry\Test\Integration;
 
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Network\IPUtils;
-use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\Commands\AttributeHistoricalDataWithLocations;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 

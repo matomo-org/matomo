@@ -11,7 +11,10 @@ namespace Piwik\DataAccess;
 use Piwik\Common;
 use Piwik\Db;
 
-class RawLogUpdater
+/**
+ * DAO that queries log tables.
+ */
+class RawLogDao
 {
     /**
      * @param array $values
@@ -20,8 +23,8 @@ class RawLogUpdater
     public function updateVisits(array $values, $idVisit)
     {
         $sql = "UPDATE " . Common::prefixTable('log_visit')
-             . " SET " . $this->getColumnSetExpressions(array_keys($values))
-             . " WHERE idvisit = ?";
+            . " SET " . $this->getColumnSetExpressions(array_keys($values))
+            . " WHERE idvisit = ?";
 
         $this->update($sql, $values, $idVisit);
     }
@@ -33,10 +36,47 @@ class RawLogUpdater
     public function updateConversions(array $values, $idVisit)
     {
         $sql = "UPDATE " . Common::prefixTable('log_conversion')
-             . " SET " . $this->getColumnSetExpressions(array_keys($values))
-             . " WHERE idvisit = ?";
+            . " SET " . $this->getColumnSetExpressions(array_keys($values))
+            . " WHERE idvisit = ?";
 
         $this->update($sql, $values, $idVisit);
+    }
+
+    /**
+     * @param string $from
+     * @param string $to
+     * @param array $fields
+     * @param int $fromId
+     * @param int $limit
+     * @return array[]
+     */
+    public function getVisitsWithDatesLimit($from, $to, $fields = array(), $fromId = 0, $limit = 1000)
+    {
+        $sql = "SELECT " . implode(', ', $fields)
+             . " FROM " . Common::prefixTable('log_visit')
+             . " WHERE visit_first_action_time >= ? AND visit_last_action_time < ?"
+             . " AND idvisit > ?"
+             . sprintf(" LIMIT %d", $limit);
+
+        $bind = array($from, $to, $fromId);
+
+        return Db::fetchAll($sql, $bind);
+    }
+
+    /**
+     * @param string $from
+     * @param string $to
+     * @return int
+     */
+    public function countVisitsWithDatesLimit($from, $to)
+    {
+        $sql = "SELECT COUNT(*) AS num_rows"
+             . " FROM " . Common::prefixTable('log_visit')
+             . " WHERE visit_first_action_time >= ? AND visit_last_action_time < ?";
+
+        $bind = array($from, $to);
+
+        return (int) Db::fetchOne($sql, $bind);
     }
 
     /**
