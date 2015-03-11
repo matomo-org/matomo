@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Cache;
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
@@ -89,6 +90,10 @@ class ManyVisitsWithGeoIP extends Fixture
 
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
+
+        if ($useLocal) {
+            Cache::getTransientCache()->flushAll(); // make sure dimension cache is empty between local tracking runs
+        }
 
         // use local tracker so mock location provider can be used
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useLocal);
