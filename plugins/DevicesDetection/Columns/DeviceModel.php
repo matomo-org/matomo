@@ -34,6 +34,9 @@ class DeviceModel extends Base
         $userAgent = $request->getUserAgent();
         $parser    = $this->getUAParser($userAgent);
 
-        return $parser->getModel();
+        $brand = $parser->getBrandName();
+        $brand = $brand ? $brand . ' - ' : '';
+
+        return $brand . $parser->getModel();
     }
 }
