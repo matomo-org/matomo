@@ -169,12 +169,14 @@ class SorterTest extends UnitTestCase
     /**
      * @dataProvider getLabelsForNaturalSortTest
      */
-    public function test_getBestSortFlags_shouldAlwaysPickNaturalSortCaseInsensitive($label)
+    public function test_getBestSortFlags_shouldAlwaysPickStringOrNaturalSortCaseInsensitive($label)
     {
-        $this->config->naturalSort = false; // even if natural sort is not preferred it should be still used
-
         $table = $this->createDataTable(array(array('label' => $label)));
 
+        $this->config->naturalSort = false; // even if natural sort is not preferred it should be still used
+        $this->assertSame(SORT_STRING | SORT_FLAG_CASE, $this->sorter->getBestSortFlags($table, 'label'));
+
+        $this->config->naturalSort = true;
         $this->assertSame(SORT_NATURAL | SORT_FLAG_CASE, $this->sorter->getBestSortFlags($table, 'label'));
     }
 
@@ -199,9 +201,19 @@ class SorterTest extends UnitTestCase
         $this->assertSame($expectedSortFlags, $this->sorter->getBestSortFlags($table, $columnToReadFrom));
     }
 
-    /**
-     * @dataProvider getColumnsForBestSortFlagsTest
-     */
+    public function getColumnsForBestSortFlagsTest()
+    {
+        return array(
+            array(SORT_NUMERIC, 'nb_visits'), // should find a numeric value in the first row
+            array(SORT_NUMERIC, 'nb_pageviews'), // should find a numeric value in the second row
+            array(SORT_STRING | SORT_FLAG_CASE, Metrics::INDEX_NB_VISITS_CONVERTED), // should not find any value in any row and use default value
+            array(SORT_NATURAL | SORT_FLAG_CASE, Metrics::INDEX_NB_VISITS_CONVERTED, true), // should not find any value in any row and use default value, natural preferred
+            array(SORT_STRING | SORT_FLAG_CASE, 'sum_visit_length'), // it is not numeric so should use string as natural is disabled
+            array(SORT_NATURAL | SORT_FLAG_CASE, 'sum_visit_length', true), // it is not numeric but natural is preferred so should use natural sort
+            array(SORT_NUMERIC, 'min_time_generation') // value is a string but numeric so should use numeric
+        );
+    }
+
     public function test_sort_shouldNotFailIfNoRowsAreSet()
     {
         $table = $this->createDataTable(array());
@@ -211,9 +223,6 @@ class SorterTest extends UnitTestCase
         $this->assertSame(0, $table->getRowsCount());
     }
 
-    /**
-     * @dataProvider getColumnsForBestSortFlagsTest
-     */
     public function test_sort_shouldSetTheSortedColumnNameOnTheTable()
     {
         $table = $this->createDataTable(array(array('nb_test' => 5)));
@@ -224,9 +233,6 @@ class SorterTest extends UnitTestCase
         $this->assertSame('nb_test', $table->getSortedByColumnName());
     }
 
-    /**
-     * @dataProvider getColumnsForBestSortFlagsTest
-     */
     public function test_sort_shouldKeepTheAmountOfColumns()
     {
         $table = $this->createDataTableFromValues(array(5, null));
@@ -238,9 +244,6 @@ class SorterTest extends UnitTestCase
         $this->assertSame(2, $table->getRowsCountWithoutSummaryRow());
     }
 
-    /**
-     * @dataProvider getColumnsForBestSortFlagsTest
-     */
     public function test_sort_shouldNotSortOrChangeTheSummaryRow()
     {
         $table = $this->createDataTableFromValues(array(5, null));
@@ -289,13 +292,12 @@ class SorterTest extends UnitTestCase
         $this->assertExpectedRowsOrder($expected, $table);
     }
 
-    public function test_sort_ShoudIgnoreASecondColumnSort_IfNotSortedNumeric()
+    public function test_sort_ShoudIgnoreASecondColumnSort_IfDisabled()
     {
         $table = $this->createDataTableFromValues(array('abc', 'abc', 'abc', 'abc', 'abc'));
 
         $this->config->primarySortFlags = SORT_NATURAL;
-        $this->config->secondaryColumnToSort = 'label';
-        $this->config->secondarySortOrder = SORT_ASC;
+        $this->config->isSecondaryColumnSortEnabled = false;
         $this->sorter->sort($table);
 
         // we make sure the labels order did not change neither when ASC nor DESC
@@ -374,19 +376,6 @@ class SorterTest extends UnitTestCase
         foreach ($table->getRows() as $index => $row) {
             $this->assertSame($expectedValuesOrder[$index], $row->getColumn($column));
         }
-    }
-
-    public function getColumnsForBestSortFlagsTest()
-    {
-        $defaultSortOrder = SORT_NATURAL | SORT_FLAG_CASE;
-        return array(
-            array(SORT_NUMERIC, 'nb_visits'), // should find a numeric value in the first row
-            array(SORT_NUMERIC, 'nb_pageviews'), // should find a numeric value in the second row
-            array($defaultSortOrder, Metrics::INDEX_NB_VISITS_CONVERTED), // should not find any value in any row and use default value
-            array(SORT_STRING | SORT_FLAG_CASE, 'sum_visit_length'), // it is not numeric so should use string as natural is disabled
-            array(SORT_NATURAL | SORT_FLAG_CASE, 'sum_visit_length', true), // it is not numeric but natural is preferred so should use natural sort
-            array(SORT_NUMERIC, 'min_time_generation') // value is a string but numeric so should use numeric
-        );
     }
 
     private function createDataTableFromValues($values)

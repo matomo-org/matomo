@@ -57,9 +57,7 @@ class Sorter
 
         unset($rows);
 
-        if ($this->config->primarySortFlags === SORT_NUMERIC && $this->config->secondaryColumnToSort) {
-            // secondary sort should not be needed for all other sort flags (eg string/natural sort) as label is unique and would make it slower
-
+        if ($this->config->isSecondaryColumnSortEnabled && $this->config->secondaryColumnToSort) {
             $secondaryValues = array();
             foreach ($rowsWithValues as $key => $row) {
                 $secondaryValues[$key] = $row->getColumn($this->config->secondaryColumnToSort);
@@ -67,20 +65,20 @@ class Sorter
 
             array_multisort($valuesToSort, $this->config->primarySortOrder, $this->config->primarySortFlags, $secondaryValues, $this->config->secondarySortOrder, $this->config->secondarySortFlags, $rowsWithValues);
 
-            if (!empty($rowsWithoutValues)) {
-                $secondaryValues = array();
-                foreach ($rowsWithoutValues as $key => $row) {
-                    $secondaryValues[$key] = $row->getColumn($this->config->secondaryColumnToSort);
-                }
-
-                array_multisort($secondaryValues, $this->config->secondarySortOrder, $this->config->secondarySortFlags, $rowsWithoutValues);
-            }
-
-            unset($secondaryValues);
-
         } else {
             array_multisort($valuesToSort, $this->config->primarySortOrder, $this->config->primarySortFlags, $rowsWithValues);
         }
+
+        if (!empty($rowsWithoutValues) && $this->config->secondaryColumnToSort) {
+            $secondaryValues = array();
+            foreach ($rowsWithoutValues as $key => $row) {
+                $secondaryValues[$key] = $row->getColumn($this->config->secondaryColumnToSort);
+            }
+
+            array_multisort($secondaryValues, $this->config->secondarySortOrder, $this->config->secondarySortFlags, $rowsWithoutValues);
+        }
+
+        unset($secondaryValues);
 
         foreach ($rowsWithoutValues as $row) {
             $rowsWithValues[] = $row;
@@ -203,30 +201,36 @@ class Sorter
      */
     public function getBestSortFlags(DataTable $table, $columnToSort)
     {
-        if ($columnToSort === 'label') {
-            return SORT_NATURAL | SORT_FLAG_CASE;
-        }
+        // when column is label we always to sort by string or natural
+        if ($columnToSort !== 'label') {
+            foreach ($table->getRows() as $row) {
+                $value = $row->getColumn($columnToSort);
 
-        foreach ($table->getRows() as $row) {
-            $value = $row->getColumn($columnToSort);
+                if ($value !== false && $value !== null && !is_array($value)) {
 
-            if ($value !== false && $value !== null && !is_array($value)) {
-
-                if (is_numeric($value)) {
-                    $sortFlags = SORT_NUMERIC;
-                } else {
-                    if ($this->config->naturalSort) {
-                        $sortFlags = SORT_NATURAL | SORT_FLAG_CASE;
+                    if (is_numeric($value)) {
+                        $sortFlags = SORT_NUMERIC;
                     } else {
-                        $sortFlags = SORT_STRING | SORT_FLAG_CASE;
+                        $sortFlags = $this->getStringSortFlags();
                     }
-                }
 
-                return $sortFlags;
+                    return $sortFlags;
+                }
             }
         }
 
-        return SORT_NATURAL | SORT_FLAG_CASE;
+        return $this->getStringSortFlags();
+    }
+
+    private function getStringSortFlags()
+    {
+        if ($this->config->naturalSort) {
+            $sortFlags = SORT_NATURAL | SORT_FLAG_CASE;
+        } else {
+            $sortFlags = SORT_STRING | SORT_FLAG_CASE;
+        }
+
+        return $sortFlags;
     }
 
 

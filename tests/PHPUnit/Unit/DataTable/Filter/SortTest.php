@@ -189,12 +189,12 @@ class SortTest extends \PHPUnit_Framework_TestCase
         $expectedtable        = $this->createDataTable($rows);
         $expectedtableReverse = $this->createDataTable(array_reverse($rows));
 
-        $filter = new Sort($table, 'nb_visits', 'desc');
+        $filter = new Sort($table, 'nb_visits', 'desc', $natural = true, $reverse = false, $secondaryColumn = true);
         $filter->filter($table);
 
         $this->assertTrue(DataTable::isEqual($table, $expectedtable));
 
-        $filter = new Sort($table, 'nb_visits', 'asc');
+        $filter = new Sort($table, 'nb_visits', 'asc', $natural = true, $reverse = false, $secondaryColumn = true);
         $filter->filter($table);
         $this->assertTrue(DataTable::isEqual($table, $expectedtableReverse));
     }

@@ -19,4 +19,6 @@ class Config
     public $secondarySortOrder;
     public $secondarySortFlags;
 
+    public $isSecondaryColumnSortEnabled = true;
+
 }
