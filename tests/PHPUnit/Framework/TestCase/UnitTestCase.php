@@ -18,7 +18,7 @@ use Piwik\Tests\Framework\Mock\File;
  */
 abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
 {
-    public function setup()
+    public function setUp()
     {
         parent::setUp();
         File::reset();
