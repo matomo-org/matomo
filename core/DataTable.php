@@ -489,6 +489,27 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * Adds a filter and a list of parameters to the list of queued filters of all subtables. These filters will be
+     * executed when {@link applyQueuedFilters()} is called.
+     *
+     * Filters that prettify the column values or don't need the full set of rows should be queued. This
+     * way they will be run after the table is truncated which will result in better performance.
+     *
+     * @param string|Closure $className The class name of the filter, eg. `'Limit'`.
+     * @param array $parameters The parameters to give to the filter, eg. `array($offset, $limit)` for the Limit filter.
+     */
+    public function queueFilterSubtables($className, $parameters = array())
+    {
+        foreach ($this->getRows() as $row) {
+            $subtable = $row->getSubtable();
+            if ($subtable) {
+                $subtable->queueFilter($className, $parameters);
+                $subtable->queueFilterSubtables($className, $parameters);
+            }
+        }
+    }
+
+    /**
      * Adds a filter and a list of parameters to the list of queued filters. These filters will be
      * executed when {@link applyQueuedFilters()} is called.
      *

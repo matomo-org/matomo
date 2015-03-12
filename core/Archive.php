@@ -498,7 +498,11 @@ class Archive
 
         $dataTable = self::getDataTableFromArchive($recordName, $idSite, $period, $date, $segment, $expanded, $idSubtable, $depth);
 
-        $dataTable->filter('ReplaceColumnNames');
+        $dataTable->queueFilter('ReplaceColumnNames');
+
+        if ($expanded) {
+            $dataTable->queueFilterSubtables('ReplaceColumnNames');
+        }
 
         if ($flat) {
             $dataTable->disableRecursiveFilters();
