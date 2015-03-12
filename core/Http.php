@@ -64,6 +64,9 @@ class Http
      *                              Doesn't work w/ `fopen` transport method.
      * @param bool $getExtendedInfo If true returns the status code, headers & response, if false just the response.
      * @param string $httpMethod The HTTP method to use. Defaults to `'GET'`.
+     * @param string $httpUsername HTTP Auth username
+     * @param string $httpPassword HTTP Auth password
+     *
      * @throws Exception if the response cannot be saved to `$destinationPath`, if the HTTP response cannot be sent,
      *                   if there are more than 5 redirects or if the request times out.
      * @return bool|string If `$destinationPath` is not specified the HTTP response is returned on success. `false`
@@ -78,7 +81,17 @@ class Http
      *                     `false` is still returned on failure.
      * @api
      */
-    public static function sendHttpRequest($aUrl, $timeout, $userAgent = null, $destinationPath = null, $followDepth = 0, $acceptLanguage = false, $byteRange = false, $getExtendedInfo = false, $httpMethod = 'GET')
+    public static function sendHttpRequest($aUrl,
+                                           $timeout,
+                                           $userAgent = null,
+                                           $destinationPath = null,
+                                           $followDepth = 0,
+                                           $acceptLanguage = false,
+                                           $byteRange = false,
+                                           $getExtendedInfo = false,
+                                           $httpMethod = 'GET',
+                                           $httpUsername = null,
+                                           $httpPassword = null)
     {
         // create output file
         $file = null;
@@ -91,7 +104,7 @@ class Http
         }
 
         $acceptLanguage = $acceptLanguage ? 'Accept-Language: ' . $acceptLanguage : '';
-        return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file, $followDepth, $acceptLanguage, $acceptInvalidSslCertificate = false, $byteRange, $getExtendedInfo, $httpMethod);
+        return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file, $followDepth, $acceptLanguage, $acceptInvalidSslCertificate = false, $byteRange, $getExtendedInfo, $httpMethod, $httpUsername, $httpPassword);
     }
 
     /**
@@ -110,6 +123,8 @@ class Http
      *                                                  Doesn't work w/ fopen method.
      * @param bool $getExtendedInfo True to return status code, headers & response, false if just response.
      * @param string $httpMethod The HTTP method to use. Defaults to `'GET'`.
+     * @param string $httpUsername HTTP Auth username
+     * @param string $httpPassword HTTP Auth password
      *
      * @throws Exception
      * @return bool  true (or string/array) on success; false on HTTP response error code (1xx or 4xx)
@@ -126,7 +141,9 @@ class Http
         $acceptInvalidSslCertificate = false,
         $byteRange = false,
         $getExtendedInfo = false,
-        $httpMethod = 'GET'
+        $httpMethod = 'GET',
+        $httpUsername = null,
+        $httpPassword = null
     )
     {
         if ($followDepth > 5) {
@@ -167,6 +184,11 @@ class Http
         // other result data
         $status  = null;
         $headers = array();
+
+        $httpAuthIsUsed = !empty($httpUsername) || !empty($httpPassword);
+        if($httpAuthIsUsed && $method != 'curl') {
+            throw new Exception("Specifying HTTP Username and HTTP password is only supported for CURL for now.");
+        }
 
         if ($method == 'socket') {
             if (!self::isSocketEnabled()) {
@@ -315,7 +337,9 @@ class Http
                         $acceptInvalidSslCertificate = false,
                         $byteRange,
                         $getExtendedInfo,
-                        $httpMethod
+                        $httpMethod,
+                        $httpUsername,
+                        $httpPassword
                     );
                 }
 
@@ -460,6 +484,12 @@ class Http
             @curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $httpMethod);
             if ($httpMethod == 'HEAD') {
                 @curl_setopt($ch, CURLOPT_NOBODY, true);
+            }
+
+            if(!empty($httpUsername) && !empty($httpPassword)) {
+                $curl_options += array(
+                    CURLOPT_USERPWD => $httpUsername . ':' . $httpPassword,
+                );
             }
 
             @curl_setopt_array($ch, $curl_options);

@@ -113,7 +113,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * The same functionnality can be obtained using segment=visitorId==$visitorId with getLastVisitsDetails
+     * The same functionality can be obtained using segment=visitorId==$visitorId with getLastVisitsDetails
      *
      * @deprecated
      * @ignore

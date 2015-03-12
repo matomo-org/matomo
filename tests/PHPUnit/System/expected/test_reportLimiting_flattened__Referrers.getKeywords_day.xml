@@ -10,6 +10,8 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<url>http://ask.com/web?q=this+search+term</url>
+		<logo>plugins/Referrers/images/searchEngines/ask.com.png</logo>
 	</row>
 	<row>
 		<label>this search term - Others</label>
@@ -21,6 +23,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<logo>plugins/Referrers/images/searchEngines/xx.png</logo>
 	</row>
 	<row>
 		<label>search term 2 - Alexa</label>
@@ -32,6 +35,8 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<url>http://alexa.com/search?q=search+term+2</url>
+		<logo>plugins/Referrers/images/searchEngines/alexa.com.png</logo>
 	</row>
 	<row>
 		<label>search term 2 - Babylon</label>
@@ -43,6 +48,8 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<url>http://search.babylon.com/?q=search+term+2</url>
+		<logo>plugins/Referrers/images/searchEngines/search.babylon.com.png</logo>
 	</row>
 	<row>
 		<label>Others</label>

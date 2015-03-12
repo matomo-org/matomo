@@ -143,9 +143,9 @@ Sort extends BaseFilter
             );
     }
 
-    protected function getColumnValue(Row $table )
+    protected function getColumnValue(Row $row)
     {
-        $value = $table->getColumn($this->columnToSort);
+        $value = $row->getColumn($this->columnToSort);
 
         if ($value === false
             || is_array($value)
