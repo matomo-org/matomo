@@ -9,6 +9,7 @@ namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Model;
 
@@ -109,6 +110,16 @@ class ModelTest extends IntegrationTestCase
             )
         );
         $this->assertEquals($expectedResult, $result);
+    }
+
+    public function test_isSiteEmpty()
+    {
+        $this->assertTrue($this->model->isSiteEmpty(1));
+
+        $fixture = new OneVisitorTwoVisits();
+        $fixture->setUp();
+
+        $this->assertFalse($this->model->isSiteEmpty(1));
     }
 
     private function assertLogActionTableContainsTestAction($idaction)

@@ -71,6 +71,11 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeTest extends SystemTestCase
             array('Referrers.getSocials', array('idSite'  => 'all',
                                                'date'    => '2010-12-13,2011-01-18',
                                                'periods' => array('range'))),
+            array('Referrers.getSocials', array('idSite'  => $idSite,
+                                               'date'     => '2010-12-13,2011-01-18',
+                                                'testSuffix' => '_Flattened',
+                                                'otherRequestParameters' => array('flat' => '1'),
+                                                'periods' => array('range'))),
 
             array('Referrers.getSocials', array('idSite'       => 'all',
                                                'date'         => '2010-12-10',

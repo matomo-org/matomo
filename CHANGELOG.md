@@ -2,6 +2,29 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+## Piwik 2.12.0
+
+### Breaking Changes
+* The deprecated method `Period::factory()` has been removed. Use `Period\Factory` instead.
+* The deprecated method `Config::getConfigSuperUserForBackwardCompatibility()` has been removed.
+* The deprecated methods `MenuAdmin::addEntry()` and `MenuAdmin::removeEntry()` have been removed. Use `Piwik\Plugin\Menu` instead.
+* The deprecated methods `MenuTop::addEntry()` and `MenuTop::removeEntry()` have been removed. Use `Piwik\Plugin\Menu` instead.
+* The deprecated method `SettingsPiwik::rewriteTmpPathWithInstanceId()` has been removed.
+* The following deprecated methods from the `Piwik\IP` class have been removed, use `Piwik\Network\IP` instead:
+  * `sanitizeIp()`
+  * `sanitizeIpRange()`
+  * `P2N()`
+  * `N2P()`
+  * `prettyPrint()`
+  * `isIPv4()`
+  * `long2ip()`
+  * `isIPv6()`
+  * `isMappedIPv4()`
+  * `getIPv4FromMappedIPv6()`
+  * `getIpsForRange()`
+  * `isIpInRange()`
+  * `getHostByAddr()`
+
 ## Piwik 2.11.0
 
 ### Breaking Changes

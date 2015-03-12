@@ -94,6 +94,23 @@ class BlobReportLimitingTest extends SystemTestCase
         $this->runApiTests($api, $params);
     }
 
+    /**
+     * @dataProvider getApiForTesting
+     */
+    public function testApiWithFlattening($apiToCall, $params)
+    {
+        if (empty($params['testSuffix'])) {
+            $params['testSuffix'] = '';
+        }
+        $params['testSuffix'] .= '_flattened';
+        if (empty($params['otherRequestParameters'])) {
+            $params['otherRequestParameters'] = array();
+        }
+        $params['otherRequestParameters']['flat'] = '1';
+
+        $this->runApiTests($apiToCall, $params);
+    }
+
     public function testApiWithRankingQuery()
     {
         // custom setup

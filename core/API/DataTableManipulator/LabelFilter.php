@@ -147,6 +147,8 @@ class LabelFilter extends DataTableManipulator
         }
         $variations[] = $label;
 
+        $variations = array_unique($variations);
+
         return $variations;
     }
 

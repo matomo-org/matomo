@@ -96,7 +96,7 @@ class Truncate extends BaseFilter
             return;
         }
 
-        $rows   = $table->getRows();
+        $rows   = array_values($table->getRows());
         $count  = $table->getRowsCount();
         $newRow = new Row(array(Row::COLUMNS => array('label' => DataTable::LABEL_SUMMARY_ROW)));
 

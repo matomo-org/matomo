@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\Common;
+use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
@@ -22,6 +23,7 @@ abstract class Base extends \Piwik\Plugin\Report
     {
         $this->category = 'General_Actions';
         $this->processedMetrics = false;
+        $this->recursiveLabelSeparator = '/';
     }
 
     protected function addBaseDisplayProperties(ViewDataTable $view)
@@ -90,7 +92,11 @@ abstract class Base extends \Piwik\Plugin\Report
     protected function addExcludeLowPopDisplayProperties(ViewDataTable $view)
     {
         if (Common::getRequestVar('enable_filter_excludelowpop', '0', 'string') != '0') {
-            $view->requestConfig->filter_excludelowpop = 'nb_hits';
+            if (Common::getRequestVar('flat', 0, 'int') === 1) {
+                $view->requestConfig->filter_excludelowpop = 'nb_hits';
+            } else {
+                $view->requestConfig->filter_excludelowpop = Metrics::INDEX_PAGE_NB_HITS;
+            }
             $view->requestConfig->filter_excludelowpop_value = function () {
                 // computing minimum value to exclude (2 percent of the total number of actions)
                 $visitsInfo = \Piwik\Plugins\VisitsSummary\Controller::getVisitsSummary()->getFirstRow();

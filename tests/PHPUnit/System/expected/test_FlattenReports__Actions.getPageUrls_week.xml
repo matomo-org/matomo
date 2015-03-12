@@ -179,6 +179,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://example.org/page1.html</url>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fpage1.html</segment>
 	</row>
@@ -187,6 +188,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<entry_nb_visits>1</entry_nb_visits>
 		<entry_nb_actions>2</entry_nb_actions>
 		<entry_sum_visit_length>1</entry_sum_visit_length>
@@ -196,6 +200,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://example.org/sub/dir/dir1/page1.html</url>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fsub%2Fdir%2Fdir1%2Fpage1.html</segment>
 	</row>

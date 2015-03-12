@@ -32,14 +32,10 @@ class Request
      * It builds the API request string and uses Request to call the API.
      * The requested DataTable object is stored in $this->dataTable.
      */
-    public function loadDataTableFromAPI($fixedRequestParams = array())
+    public function loadDataTableFromAPI()
     {
         // we build the request (URL) to call the API
         $requestArray = $this->getRequestArray();
-
-        foreach ($fixedRequestParams as $key => $value) {
-            $requestArray[$key] = $value;
-        }
 
         // we make the request to the API
         $request = new ApiRequest($requestArray);
@@ -102,6 +98,14 @@ class Request
             && $requestArray['filter_limit'] === 0
         ) {
             unset($requestArray['filter_limit']);
+        }
+
+        if ($this->requestConfig->disable_generic_filters) {
+            $requestArray['disable_generic_filters'] = '0';
+        }
+
+        if ($this->requestConfig->disable_queued_filters) {
+            $requestArray['disable_queued_filters'] = 0;
         }
 
         return $requestArray;

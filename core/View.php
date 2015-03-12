@@ -369,7 +369,13 @@ class View implements ViewInterface
         $twig = new Twig();
         $environment = $twig->getTwigEnvironment();
         $environment->clearTemplateCache();
-        $environment->clearCacheFiles();
+
+        $cacheDirectory = $environment->getCache();
+        if (!empty($cacheDirectory)
+            && is_dir($cacheDirectory)
+        ) {
+            $environment->clearCacheFiles();
+        }
     }
 
     /**

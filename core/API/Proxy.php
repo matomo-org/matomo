@@ -490,7 +490,7 @@ class Proxy extends Singleton
         $hideLine = trim($hideLine);
         $hideLine .= ' ';
 
-	$token = trim(strtok($hideLine, " "), "\n");
+        $token = trim(strtok($hideLine, " "), "\n");
 
         $hide = false;
 
@@ -526,18 +526,6 @@ class Proxy extends Singleton
         }
 
         return true;
-    }
-
-    /**
-     * Returns the number of required parameters (parameters without default values).
-     *
-     * @param string $class The class name
-     * @param string $name The method name
-     * @return int The number of required parameters
-     */
-    private function getNumberOfRequiredParameters($class, $name)
-    {
-        return $this->metadataArray[$class][$name]['numberOfRequiredParameters'];
     }
 
     /**
