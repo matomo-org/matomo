@@ -55,4 +55,7 @@ $(function () {
     var expected  = getUrlQueryParam('expected');
     var github    = getUrlQueryParam('github');
     compareImages(expected, github, processed);
+
+    $('#original').attr('src', expected);
+    $('#modified').attr('src', processed);
 });
