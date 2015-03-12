@@ -456,7 +456,7 @@ class Config extends Singleton
     /**
      * Dump config
      *
-     * @return string
+     * @return string|null
      * @throws \Exception
      */
     public function dumpConfig()
@@ -497,9 +497,11 @@ class Config extends Singleton
         }
 
         $output = $this->dumpConfig();
-        if ($output !== false) {
+        if ($output !== null
+            && $output !== false
+        ) {
             $success = @file_put_contents($this->pathLocal, $output);
-            if (!$success) {
+            if ($success === false) {
                 throw $this->getConfigNotWritableException();
             }
         }

@@ -374,5 +374,20 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('${@piwik(crash))}', $config->Category['key3']);
     }
+
+    public function test_forceSave_writesNothingIfThereAreNoChanges()
+    {
+        $sourceConfigFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
+        $configFile = PIWIK_INCLUDE_PATH . '/tmp/tmp.config.ini.php';
+
+        @unlink($configFile);
+        copy($sourceConfigFile, $configFile);
+
+        $config = new Config($sourceConfigFile, $configFile);
+        $config->reload();
+        $config->forceSave();
+
+        $this->assertEquals(file_get_contents($sourceConfigFile), file_get_contents($configFile));
+    }
 }
 

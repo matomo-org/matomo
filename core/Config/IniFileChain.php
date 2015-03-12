@@ -158,7 +158,7 @@ class IniFileChain
         }
 
         if ($dirty) {
-            @ksort($configToWrite);
+            @uksort($configToWrite, "strnatcasecmp");
 
             $writer = new IniWriter();
             return $writer->writeToString($configToWrite, $header);
