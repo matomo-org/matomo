@@ -14,6 +14,9 @@ use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Visit;
+use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
+
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvider.php';
 
 /**
  * @group UserCountry
@@ -116,10 +119,10 @@ class VisitorGeolocatorTest extends PHPUnit_Framework_TestCase
 
     public function test_get_shouldReturnCurrentProvider_IfCurrentProviderIsSet()
     {
-        Cache::setCacheGeneral(array('currentLocationProviderId' => LocationProvider\GeoIp\Pecl::ID));
+        Cache::setCacheGeneral(array('currentLocationProviderId' => MockLocationProvider::ID));
         $geolocator = new VisitorGeolocator();
 
-        $this->assertEquals(LocationProvider\GeoIp\Pecl::ID, $geolocator->getProvider()->getId());
+        $this->assertEquals(MockLocationProvider::ID, $geolocator->getProvider()->getId());
     }
 
     /**

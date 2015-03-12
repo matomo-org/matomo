@@ -40,6 +40,7 @@ use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Tracker;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\Url;
@@ -172,6 +173,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
             DbHelper::createDatabase($this->dbName);
             DbHelper::disconnectDatabase();
+            Tracker::disconnectCachedDbConnection();
 
             // reconnect once we're sure the database exists
             Config::getInstance()->database['dbname'] = $this->dbName;
