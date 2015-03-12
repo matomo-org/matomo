@@ -342,6 +342,17 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * @ignore
+     * does not update the summary row!
+     */
+    public function setRows($rows)
+    {
+        unset($this->rows);
+        $this->rows = $rows;
+        $this->indexNotUpToDate = true;
+    }
+
+    /**
      * Sorts the DataTable rows using the supplied callback function.
      *
      * @param string $functionCallback A comparison callback compatible with {@link usort}.
@@ -350,11 +361,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function sort($functionCallback, $columnSortedBy)
     {
-        $this->indexNotUpToDate = true;
-        $this->tableSortedBy = $columnSortedBy;
+        $this->setTableSortedBy($columnSortedBy);
+
         usort($this->rows, $functionCallback);
 
-        if ($this->enableRecursiveSort === true) {
+        if ($this->isSortRecursiveEnabled()) {
             foreach ($this->getRows() as $row) {
 
                 $subTable = $row->getSubtable();
@@ -388,12 +399,37 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * @ignore
+     */
+    public function isSortRecursiveEnabled()
+    {
+        return $this->enableRecursiveSort === true;
+    }
+
+    /**
+     * @ignore
+     */
+    public function setTableSortedBy($column)
+    {
+        $this->indexNotUpToDate = true;
+        $this->tableSortedBy = $column;
+    }
+
+    /**
      * Enables recursive filtering. If this method is called then the {@link filter()} method
      * will apply filters to every subtable in addition to this instance.
      */
     public function enableRecursiveFilters()
     {
         $this->enableRecursiveFilters = true;
+    }
+
+    /**
+     * @ignore
+     */
+    public function disableRecursiveFilters()
+    {
+        $this->enableRecursiveFilters = false;
     }
 
     /**
@@ -431,6 +467,46 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $filter->enableRecursive($this->enableRecursiveFilters);
 
         $filter->filter($this);
+    }
+
+    /**
+     * Applies a filter to all subtables but not to this datatable.
+     *
+     * @param string|Closure $className Class name, eg. `"Sort"` or "Piwik\DataTable\Filters\Sort"`. If no
+     *                                  namespace is supplied, `Piwik\DataTable\BaseFilter` is assumed. This parameter
+     *                                  can also be a closure that takes a DataTable as its first parameter.
+     * @param array $parameters Array of extra parameters to pass to the filter.
+     */
+    public function filterSubtables($className, $parameters = array())
+    {
+        foreach ($this->getRows() as $row) {
+            $subtable = $row->getSubtable();
+            if ($subtable) {
+                $subtable->filter($className, $parameters);
+                $subtable->filterSubtables($className, $parameters);
+            }
+        }
+    }
+
+    /**
+     * Adds a filter and a list of parameters to the list of queued filters of all subtables. These filters will be
+     * executed when {@link applyQueuedFilters()} is called.
+     *
+     * Filters that prettify the column values or don't need the full set of rows should be queued. This
+     * way they will be run after the table is truncated which will result in better performance.
+     *
+     * @param string|Closure $className The class name of the filter, eg. `'Limit'`.
+     * @param array $parameters The parameters to give to the filter, eg. `array($offset, $limit)` for the Limit filter.
+     */
+    public function queueFilterSubtables($className, $parameters = array())
+    {
+        foreach ($this->getRows() as $row) {
+            $subtable = $row->getSubtable();
+            if ($subtable) {
+                $subtable->queueFilter($className, $parameters);
+                $subtable->queueFilterSubtables($className, $parameters);
+            }
+        }
     }
 
     /**
@@ -477,10 +553,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * metadata can be used to specify a different type of operation.
      *
      * @param \Piwik\DataTable $tableToSum
-     * @param bool $doAggregateSubTables
      * @throws Exception
      */
-    public function addDataTable(DataTable $tableToSum, $doAggregateSubTables = true)
+    public function addDataTable(DataTable $tableToSum)
     {
         if ($tableToSum instanceof Simple) {
             if ($tableToSum->getRowsCount() > 1) {
@@ -490,7 +565,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $this->aggregateRowFromSimpleTable($row);
         } else {
             foreach ($tableToSum->getRows() as $row) {
-                $this->aggregateRowWithLabel($row, $doAggregateSubTables);
+                $this->aggregateRowWithLabel($row);
             }
         }
     }
@@ -731,6 +806,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * @ignore
+     */
+    public function getRowsWithoutSummaryRow()
+    {
+        return $this->rows;
+    }
+
+    /**
      * Returns an array containing all column values for the requested column.
      *
      * @param string $name The column name.
@@ -902,16 +985,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @param string $oldName Old column name.
      * @param string $newName New column name.
      */
-    public function renameColumn($oldName, $newName, $doRenameColumnsOfSubTables = true)
+    public function renameColumn($oldName, $newName)
     {
         foreach ($this->getRows() as $row) {
             $row->renameColumn($oldName, $newName);
 
-            if ($doRenameColumnsOfSubTables) {
-                $subTable = $row->getSubtable();
-                if ($subTable) {
-                    $subTable->renameColumn($oldName, $newName);
-                }
+            $subTable = $row->getSubtable();
+            if ($subTable) {
+                $subTable->renameColumn($oldName, $newName);
             }
         }
         if (!is_null($this->summaryRow)) {
@@ -1591,7 +1672,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @param $row
      * @throws \Exception
      */
-    protected function aggregateRowWithLabel(Row $row, $doAggregateSubTables = true)
+    protected function aggregateRowWithLabel(Row $row)
     {
         $labelToLookFor = $row->getColumn('label');
         if ($labelToLookFor === false) {
@@ -1607,17 +1688,15 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         } else {
             $rowFound->sumRow($row, $copyMeta = true, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));
 
-            if ($doAggregateSubTables) {
-                // if the row to add has a subtable whereas the current row doesn't
-                // we simply add it (cloning the subtable)
-                // if the row has the subtable already
-                // then we have to recursively sum the subtables
-                $subTable = $row->getSubtable();
-                if ($subTable) {
-                    $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME]
-                        = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
-                    $rowFound->sumSubtable($subTable);
-                }
+            // if the row to add has a subtable whereas the current row doesn't
+            // we simply add it (cloning the subtable)
+            // if the row has the subtable already
+            // then we have to recursively sum the subtables
+            $subTable = $row->getSubtable();
+            if ($subTable) {
+                $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME]
+                    = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+                $rowFound->sumSubtable($subTable);
             }
         }
     }

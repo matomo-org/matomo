@@ -214,14 +214,9 @@ class ArchiveProcessor
 
             $table = $this->aggregateDataTableRecord($recordName, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
 
-            $rowsCount = $table->getRowsCount();
-            $nameToCount[$recordName]['level0'] = $rowsCount;
+            $nameToCount[$recordName]['level0'] = $table->getRowsCount();
 
-            $rowsCountRecursive = $rowsCount;
-            if ($this->isAggregateSubTables()) {
-                $rowsCountRecursive = $table->getRowsCountRecursive();
-            }
-            $nameToCount[$recordName]['recursive'] = $rowsCountRecursive;
+            $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
 
             $blob = $table->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
             Common::destroy($table);
@@ -346,14 +341,8 @@ class ArchiveProcessor
      */
     protected function aggregateDataTableRecord($name, $columnsAggregationOperation = null, $columnsToRenameAfterAggregation = null)
     {
-        if ($this->isAggregateSubTables()) {
-            // By default we shall aggregate all sub-tables.
-            $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
-        } else {
-            // In some cases (eg. Actions plugin when period=range),
-            // for better performance we will only aggregate the parent table
-            $dataTable = $this->getArchive()->getDataTable($name, $idSubTable = null);
-        }
+        // By default we shall aggregate all sub-tables.
+        $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
 
         if ($dataTable instanceof Map) {
             // see https://github.com/piwik/piwik/issues/4377
@@ -441,7 +430,7 @@ class ArchiveProcessor
      * since unique visitors cannot be summed like other metrics.
      *
      * @param array Metrics Ids for which to aggregates count of values
-     * @return int
+     * @return array of metrics, where the key is metricid and the value is the metric value
      */
     protected function computeNbUniques($metrics)
     {
@@ -471,7 +460,7 @@ class ArchiveProcessor
             // as $date => $tableToSum
             $this->aggregatedDataTableMapsAsOne($data, $table);
         } else {
-            $table->addDataTable($data, $this->isAggregateSubTables());
+            $table->addDataTable($data);
         }
 
         return $table;
@@ -488,7 +477,7 @@ class ArchiveProcessor
             if ($tableToAggregate instanceof Map) {
                 $this->aggregatedDataTableMapsAsOne($tableToAggregate, $aggregated);
             } else {
-                $aggregated->addDataTable($tableToAggregate, $this->isAggregateSubTables());
+                $aggregated->addDataTable($tableToAggregate);
             }
         }
     }
@@ -504,7 +493,7 @@ class ArchiveProcessor
         }
 
         foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
-            $table->renameColumn($oldName, $newName, $this->isAggregateSubTables());
+            $table->renameColumn($oldName, $newName);
         }
     }
 
@@ -539,13 +528,5 @@ class ArchiveProcessor
         }
 
         return $metrics;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isAggregateSubTables()
-    {
-        return !$this->getParams()->isSkipAggregationOfSubTables();
     }
 }

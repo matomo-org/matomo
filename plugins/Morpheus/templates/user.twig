@@ -5,8 +5,13 @@
 {% set bodyClass = postEvent('Template.bodyClass', 'admin') %}
 
 {% block body %}
-    {% set topMenuModule = 'UsersManager' %}
-    {% set topMenuAction = 'userSettings' %}
+    {% if userIsAnonymous %}
+        {% set topMenuModule = 'Feedback' %}
+        {% set topMenuAction = 'index' %}
+    {% else %}
+        {% set topMenuModule = 'UsersManager' %}
+        {% set topMenuAction = 'userSettings' %}
+    {% endif %}
     {{ parent() }}
 {% endblock %}
 

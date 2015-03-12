@@ -221,6 +221,7 @@ class View implements ViewInterface
             $this->url = Common::sanitizeInputValue(Url::getCurrentUrl());
             $this->token_auth = Piwik::getCurrentUserTokenAuth();
             $this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
+            $this->userIsAnonymous = Piwik::isUserIsAnonymous();
             $this->userIsSuperUser = Piwik::hasUserSuperUserAccess();
             $this->latest_version_available = UpdateCheck::isNewestVersionAvailable();
             $this->disableLink = Common::getRequestVar('disableLink', 0, 'int');
@@ -364,9 +365,17 @@ class View implements ViewInterface
      * @ignore
      */
     public static function clearCompiledTemplates()
-    {
+    {        
         $twig = new Twig();
-        $twig->getTwigEnvironment()->clearTemplateCache();
+        $environment = $twig->getTwigEnvironment();
+        $environment->clearTemplateCache();
+
+        $cacheDirectory = $environment->getCache();
+        if (!empty($cacheDirectory)
+            && is_dir($cacheDirectory)
+        ) {
+            $environment->clearCacheFiles();
+        }
     }
 
     /**

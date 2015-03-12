@@ -10,7 +10,7 @@
 
         <td>
             {% if infos.phpVersion_ok %}
-                {{ ok }}
+                {{ ok }} {{ infos.phpVersion }}
             {% else %}
                 {{ error }} <span class="err">{{ 'General_Error'|translate }}: {{ 'General_Required'|translate(MinPHP)|raw }}</span>
             {% endif %}
@@ -355,6 +355,17 @@
             </td>
         </tr>
     {% endif %}
+
+    <tr>
+        <td class="label">{{ 'Installation_SystemCheckUpdateHttps'|translate }}</td>
+        <td>
+            {% if infos.https_update %}
+                {{ ok }}
+            {% else %}
+                {{ warning }} {{ 'Installation_SystemCheckUpdateHttpsNotSupported'|translate }}
+            {% endif %}
+        </td>
+    </tr>
 
 </table>
 

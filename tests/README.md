@@ -7,7 +7,6 @@ We use Travis CI for our continuous integration server. It automatically runs ou
 after each commit to our GIT repo. More information at the links:
 
  * Piwik on Travis CI: https://travis-ci.org/piwik/piwik
- * Piwik on Coveralls.io: https://coveralls.io/r/piwik
  * QA in Piwik: http://piwik.org/qa/
 
 Each core Piwik developer is responsible to keep the build green. If a developer breaks the build, he will receive an email from Travis CI.
@@ -125,12 +124,10 @@ We also have an OmniFixture that includes all other Fixtures. OmniFixture is use
 
 #### Keep OmniFixture up to date
 
-Remember to update the [Omnifixture SQL dump](https://github.com/piwik/piwik/blob/master/tests/resources/OmniFixture-dump.sql.gz) whenever you make any change to any fixture. 
-For instance use:
+Remember to update the [Omnifixture SQL dump](https://github.com/piwik/piwik/blob/master/tests/resources/OmniFixture-dump.sql.gz) whenever you make any change to any fixture. You can use:
 
     ./console tests:setup-fixture OmniFixture --sqldump=OmniFixture-dump.sql
-     
-and then gzip. 
+    cat OmniFixture-dump.sql | gzip > tests/resources/OmniFixture-dump.sql.gz
 
 Keeping the OmniFixture up to date makes it easier to see which tests fail after each small fixture change. 
 

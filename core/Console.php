@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Piwik\Config\ConfigNotFoundException;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
@@ -43,8 +44,9 @@ class Console extends Application
 
         try {
             self::initPlugins();
-        } catch(\Exception $e) {
+        } catch (ConfigNotFoundException $e) {
             // Piwik not installed yet, no config file?
+            Log::warning($e->getMessage());
         }
 
         $commands = $this->getAvailableCommands();
@@ -139,7 +141,6 @@ class Console extends Application
         try {
             $config->checkLocalConfigFound();
             return $config;
-
         } catch (\Exception $e) {
             $output->writeln($e->getMessage() . "\n");
         }
@@ -163,6 +164,7 @@ class Console extends Application
     public static function initPlugins()
     {
         Plugin\Manager::getInstance()->loadActivatedPlugins();
+        Plugin\Manager::getInstance()->loadPluginTranslations();
     }
 
     private function getDefaultPiwikCommands()

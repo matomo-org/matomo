@@ -825,11 +825,7 @@ class CronArchive
     public function log($m)
     {
         $this->output .= $m . "\n";
-        try {
-            Log::info($m);
-        } catch(Exception $e) {
-            print($m . "\n");
-        }
+        Log::info($m);
     }
 
     public function logError($m)

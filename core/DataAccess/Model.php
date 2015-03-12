@@ -203,7 +203,15 @@ class Model
     public function allocateNewArchiveId($numericTable)
     {
         $sequence  = new Sequence($numericTable);
-        $idarchive = $sequence->getNextId();
+
+        try {
+            $idarchive = $sequence->getNextId();
+        } catch(Exception $e) {
+            // edge case: sequence was not found, create it now
+            $sequence->create();
+
+            $idarchive = $sequence->getNextId();
+        }
 
         return $idarchive;
     }

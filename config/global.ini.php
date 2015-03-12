@@ -463,10 +463,6 @@ enable_trusted_host_check = 1
 ; independantly of the hostname Piwik is currently running under.
 ; instance_id = stats.example.com
 
-; The release server is an essential part of the Piwik infrastructure/ecosystem
-; to provide the latest software version.
-latest_version_url = http://builds.piwik.org/piwik.zip
-
 ; The API server is an essential part of the Piwik infrastructure/ecosystem to
 ; provide services to Piwik installations, e.g., getLatestVersion and
 ; subscribeNewsletter.
@@ -646,7 +642,7 @@ bulk_requests_use_transaction = 1
 ; Comma separated list of known Referrer Spammers, ie. bot visits that set a fake Referrer field.
 ; All Visits with a Referrer URL host set to one of these will be excluded.
 ; If you find new spam entries in Referrers>Websites, please report them here: https://github.com/piwik/piwik/issues/5099
-referrer_urls_spam = "semalt.com,buttons-for-website.com,7makemoneyonline.com,anticrawler.org,ranksonic.info,savetubevideo.com,kambasoft.com"
+referrer_urls_spam = "semalt.com,buttons-for-website.com,7makemoneyonline.com,anticrawler.org,ranksonic.info,savetubevideo.com,kambasoft.com,ilovevitaly.com,priceg.com,blackhatworth.com,hulfingtonpost.com,darodar.com,econom.co,o-o-6-o-o.com,bestwebsitesawards.com,darodar.com,ranksonic.org,ranksonic.info"
 
 ; DO NOT USE THIS SETTING ON PUBLICLY AVAILABLE PIWIK SERVER
 ; !!! Security risk: if set to 0, it would allow anyone to push data to Piwik with custom dates in the past/future and even with fake IPs!

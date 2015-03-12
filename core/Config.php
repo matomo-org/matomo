@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Config\IniFileChain;
+use Piwik\Config\ConfigNotFoundException;
 use Piwik\Ini\IniReadingException;
 
 /**
@@ -356,7 +357,7 @@ class Config extends Singleton
     public function checkLocalConfigFound()
     {
         if (!$this->existsLocalConfig()) {
-            throw new Exception(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathLocal)));
+            throw new ConfigNotFoundException(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathLocal)));
         }
     }
 
@@ -423,35 +424,11 @@ class Config extends Singleton
 
         $section =& $this->settings->get($name);
 
-        if ($section === null && $name == 'superuser') {
-            return $this->getConfigSuperUserForBackwardCompatibility();
-        } else if ($section === null) {
+        if ($section === null) {
             return array();
         } else {
             return $section;
         }
-    }
-
-    /**
-     * @deprecated since version 2.0.4
-     */
-    public function getConfigSuperUserForBackwardCompatibility()
-    {
-        try {
-            $db   = Db::get();
-            $user = $db->fetchRow("SELECT login, email, password
-                                FROM " . Common::prefixTable("user") . "
-                                WHERE superuser_access = 1
-                                ORDER BY date_registered ASC LIMIT 1");
-
-            if (!empty($user)) {
-                $user['bridge'] = 1;
-                return $user;
-            }
-
-        } catch (Exception $e) {}
-
-        return array();
     }
 
     public function getFromGlobalConfig($name)

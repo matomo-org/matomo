@@ -46,7 +46,7 @@
         "piwik/decompress": "~0.1.1",
         "piwik/network": "~0.1.0",
         "piwik/cache": "~0.2.5",
-        "piwik/ini": "~1.0,>=1.0.2",
+        "piwik/ini": "~1.0,>=1.0.3",
         "mnapoli/php-di": "5.0.x-dev",
         "psr/log": "~1.0",
         "monolog/monolog": "~1.11",

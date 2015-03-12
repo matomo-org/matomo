@@ -11,6 +11,7 @@
         "CarBrowser": "Navigateur de voiture",
         "ColumnBrowser": "Navigateur",
         "ColumnOperatingSystem": "Système d'exploitation",
+        "ColumnOperatingSystemVersion": "Version du système d'exploitation",
         "Console": "Console",
         "dataTableLabelBrands": "Marque",
         "dataTableLabelModels": "Modèle",

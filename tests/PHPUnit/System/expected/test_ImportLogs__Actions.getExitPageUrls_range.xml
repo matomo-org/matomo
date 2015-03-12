@@ -4,7 +4,7 @@
 		<label>blog</label>
 		<nb_visits>9</nb_visits>
 		<nb_hits>12</nb_hits>
-		<sum_time_spent>170</sum_time_spent>
+		<sum_time_spent>166</sum_time_spent>
 		<nb_hits_with_time_generation>7</nb_hits_with_time_generation>
 		<min_time_generation>0.023</min_time_generation>
 		<max_time_generation>1.324</max_time_generation>
@@ -13,7 +13,7 @@
 		<entry_sum_visit_length>54</entry_sum_visit_length>
 		<entry_bounce_count>7</entry_bounce_count>
 		<exit_nb_visits>7</exit_nb_visits>
-		<avg_time_on_page>19</avg_time_on_page>
+		<avg_time_on_page>18</avg_time_on_page>
 		<bounce_rate>88%</bounce_rate>
 		<exit_rate>78%</exit_rate>
 		<avg_time_generation>0.389</avg_time_generation>
@@ -22,7 +22,7 @@
 				<label>category</label>
 				<nb_visits>6</nb_visits>
 				<nb_hits>9</nb_hits>
-				<sum_time_spent>170</sum_time_spent>
+				<sum_time_spent>166</sum_time_spent>
 				<nb_hits_with_time_generation>5</nb_hits_with_time_generation>
 				<min_time_generation>0.023</min_time_generation>
 				<max_time_generation>1.324</max_time_generation>
@@ -40,7 +40,7 @@
 						<label>meta</label>
 						<nb_visits>4</nb_visits>
 						<nb_hits>6</nb_hits>
-						<sum_time_spent>156</sum_time_spent>
+						<sum_time_spent>151</sum_time_spent>
 						<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
 						<min_time_generation>0.023</min_time_generation>
 						<max_time_generation>0.123</max_time_generation>
@@ -49,7 +49,7 @@
 						<entry_sum_visit_length>54</entry_sum_visit_length>
 						<entry_bounce_count>3</entry_bounce_count>
 						<exit_nb_visits>3</exit_nb_visits>
-						<avg_time_on_page>39</avg_time_on_page>
+						<avg_time_on_page>38</avg_time_on_page>
 						<bounce_rate>75%</bounce_rate>
 						<exit_rate>75%</exit_rate>
 						<avg_time_generation>0.089</avg_time_generation>
@@ -58,7 +58,7 @@
 								<label>/index</label>
 								<nb_visits>4</nb_visits>
 								<nb_hits>6</nb_hits>
-								<sum_time_spent>156</sum_time_spent>
+								<sum_time_spent>151</sum_time_spent>
 								<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
 								<min_time_generation>0.023</min_time_generation>
 								<max_time_generation>0.123</max_time_generation>
@@ -70,7 +70,7 @@
 								<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 								<sum_daily_entry_nb_uniq_visitors>4</sum_daily_entry_nb_uniq_visitors>
 								<sum_daily_exit_nb_uniq_visitors>3</sum_daily_exit_nb_uniq_visitors>
-								<avg_time_on_page>39</avg_time_on_page>
+								<avg_time_on_page>38</avg_time_on_page>
 								<bounce_rate>75%</bounce_rate>
 								<exit_rate>75%</exit_rate>
 								<avg_time_generation>0.089</avg_time_generation>
@@ -82,7 +82,7 @@
 						<label>community</label>
 						<nb_visits>2</nb_visits>
 						<nb_hits>3</nb_hits>
-						<sum_time_spent>14</sum_time_spent>
+						<sum_time_spent>15</sum_time_spent>
 						<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 						<min_time_generation>0.624</min_time_generation>
 						<max_time_generation>1.324</max_time_generation>
@@ -91,7 +91,7 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<avg_time_on_page>7</avg_time_on_page>
+						<avg_time_on_page>8</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>50%</exit_rate>
 						<avg_time_generation>0.974</avg_time_generation>
@@ -100,7 +100,7 @@
 								<label>/index</label>
 								<nb_visits>2</nb_visits>
 								<nb_hits>3</nb_hits>
-								<sum_time_spent>14</sum_time_spent>
+								<sum_time_spent>15</sum_time_spent>
 								<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 								<min_time_generation>0.624</min_time_generation>
 								<max_time_generation>1.324</max_time_generation>
@@ -112,7 +112,7 @@
 								<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 								<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 								<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
-								<avg_time_on_page>7</avg_time_on_page>
+								<avg_time_on_page>8</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>50%</exit_rate>
 								<avg_time_generation>0.974</avg_time_generation>

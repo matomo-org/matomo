@@ -89,35 +89,9 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $this->assertColumnSavesValue(array(array(1 => '5')), 'testArray', array(array(1 => '5')));
     }
 
-    public function test_getColumn_shouldResolveACallable()
-    {
-        $this->assertColumnSavesValue(6, 'testClosure', function () {
-            return 6;
-        });
-
-        $this->assertColumnSavesValue(7, 'testCallable', array($this, 'callbackReturnScalar'));
-    }
-
-    public function test_getColumn_shouldPassRowToCallable()
-    {
-        $callbackRow = null;
-
-        $this->row->addColumn('testClosure', function (Row $row) use (&$callbackRow) {
-            $callbackRow = $row;
-            return $row;
-        });
-
-        $returnedRow = $this->row->getColumn('testClosure');
-        $this->assertNotEmpty($callbackRow);
-        $this->assertSame($returnedRow, $callbackRow);
-    }
-
     public function test_getColumn_shouldReturnFalseIfValueIsNull()
     {
         $this->assertColumnSavesValue(false, 'testScalar', null);
-        $this->assertColumnSavesValue(false, 'testClosure', function () {
-            return null;
-        });
     }
 
     public function test_getColumns_shouldNotCallAnyCallableForSecurity()
@@ -136,62 +110,16 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $this->row->setColumns(array(
             'nb_visits' => 4,
             'label'     => 'Test',
-            'closure'   => function () { return 5; },
-            'callable'  => array($this, 'callbackReturnScalar'),
             'goals'     => array(1 => array())
         ));
 
         $expected = array(
             'nb_visits' => 4,
             'label'     => 'Test',
-            'closure'   => 5,
-            'callable'  => 7,
             'goals'     => array(1 => array())
         );
 
         $this->assertEquals($expected, $this->row->getColumns());
-    }
-
-    public function test_getColumns_shouldNotConvertNullValuesToFalse()
-    {
-        $this->row->setColumns(array(
-            'nb_visits' => null,
-            'label'     => 'Test',
-            'closure'   => function () { return null; },
-            'boolean'   => false
-        ));
-
-        $expected = array(
-            'nb_visits' => null,
-            'label'     => 'Test',
-            'closure'   => null,
-            'boolean'   => false
-        );
-
-        $this->assertSame($expected, $this->row->getColumns());
-    }
-
-    public function callbackReturnScalar(Row $row)
-    {
-        return 7;
-    }
-
-    public function test_SumRow_shouldIgnoreCallableValues_AndNotRaiseAnyException()
-    {
-        $columns = array(
-            'nb_visits' => 5,
-            'label'     => 'Test',
-            'closure'   => function () { return 7; },
-        );
-
-        $this->row->setColumns($columns);
-
-        $secondRow = new Row(array(Row::COLUMNS => $columns));
-
-        $this->row->sumRow($secondRow);
-
-        $this->assertEquals(10, $this->row->getColumn('nb_visits'));
-        $this->assertEquals(7, $this->row->getColumn('closure'));
     }
 
     public function test_sumSubTable_whenSubTableAlreadyExists_overwriteExistingSubtable()

@@ -46,13 +46,12 @@ class Rules
      * @param Segment $segment
      * @param string $periodLabel
      * @param string $plugin
-     * @param bool $isSkipAggregationOfSubTables
      * @return string
      */
-    public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin, $isSkipAggregationOfSubTables)
+    public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin)
     {
         if (!self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel)) {
-            return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin, $isSkipAggregationOfSubTables);
+            return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
         }
         return self::getDoneFlagArchiveContainsAllPlugins($segment);
     }
@@ -83,31 +82,14 @@ class Rules
         return $segmentsToProcess;
     }
 
-    public static function getDoneFlagArchiveContainsOnePlugin(Segment $segment, $plugin, $isSkipAggregationOfSubTables = false)
+    public static function getDoneFlagArchiveContainsOnePlugin(Segment $segment, $plugin)
     {
-        $partial = self::isFlagArchivePartial($plugin, $isSkipAggregationOfSubTables);
-        return 'done' . $segment->getHash() . '.' . $plugin . $partial ;
+        return 'done' . $segment->getHash() . '.' . $plugin ;
     }
 
     private static function getDoneFlagArchiveContainsAllPlugins(Segment $segment)
     {
         return 'done' . $segment->getHash();
-    }
-
-    /**
-     * @param $plugin
-     * @param $isSkipAggregationOfSubTables
-     * @return string
-     */
-    private static function isFlagArchivePartial($plugin, $isSkipAggregationOfSubTables)
-    {
-        $partialArchive = '';
-        if ($plugin != "VisitsSummary" // VisitsSummary is always called when segmenting and should not have its own .partial archive
-            && $isSkipAggregationOfSubTables
-        ) {
-            $partialArchive = '.partial';
-        }
-        return $partialArchive;
     }
 
     /**
@@ -117,7 +99,7 @@ class Rules
      * @param $segment
      * @return array
      */
-    public static function getDoneFlags(array $plugins, Segment $segment, $isSkipAggregationOfSubTables)
+    public static function getDoneFlags(array $plugins, Segment $segment)
     {
         $doneFlags = array();
         $doneAllPlugins = self::getDoneFlagArchiveContainsAllPlugins($segment);
@@ -125,7 +107,7 @@ class Rules
 
         $plugins = array_unique($plugins);
         foreach ($plugins as $plugin) {
-            $doneOnePlugin = self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin, $isSkipAggregationOfSubTables);
+            $doneOnePlugin = self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
             $doneFlags[$plugin] = $doneOnePlugin;
         }
         return $doneFlags;
@@ -142,30 +124,15 @@ class Rules
      */
     public static function shouldPurgeOutdatedArchives(Date $date)
     {
+        // we only delete archives if we are able to process them, otherwise, the browser might process reports
+        // when &segment= is specified (or custom date range) and would below, delete temporary archives that the
+        // browser is not able to process until next cron run (which could be more than 1 hour away)
         if (! self::isRequestAuthorizedToArchive()){
             Log::info("Purging temporary archives: skipped (no authorization)");
             return false;
         }
 
-        $key = self::FLAG_TABLE_PURGED . "blob_" . $date->toString('Y_m');
-        $timestamp = Option::get($key);
-
-        // we shall purge temporary archives after their timeout is finished, plus an extra 6 hours
-        // in case archiving is disabled or run once a day, we give it this extra time to run
-        // and re-process more recent records...
         $temporaryArchivingTimeout = self::getTodayArchiveTimeToLive();
-        $hoursBetweenPurge = 6;
-        $purgeEveryNSeconds = max($temporaryArchivingTimeout, $hoursBetweenPurge * 3600);
-        
-        // we only delete archives if we are able to process them, otherwise, the browser might process reports
-        // when &segment= is specified (or custom date range) and would below, delete temporary archives that the
-        // browser is not able to process until next cron run (which could be more than 1 hour away)
-        if ($timestamp !== false && $timestamp >= time() - $purgeEveryNSeconds) {
-            Log::info("Purging temporary archives: skipped (purging every " . $hoursBetweenPurge . "hours)");
-            return false;
-        }
-
-        Option::set($key, time());
 
         if (self::isBrowserTriggerEnabled()) {
             // If Browser Archiving is enabled, it is likely there are many more temporary archives

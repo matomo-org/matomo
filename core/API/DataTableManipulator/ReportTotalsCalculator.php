@@ -66,14 +66,19 @@ class ReportTotalsCalculator extends DataTableManipulator
         $firstLevelTable    = $this->makeSureToWorkOnFirstLevelDataTable($dataTable);
         $metricsToCalculate = Metrics::getMetricIdsToProcessReportTotal();
 
+        $realMetricNames = array();
         foreach ($metricsToCalculate as $metricId) {
-            $realMetricName = $this->hasDataTableMetric($firstLevelTable, $metricId);
-            if (empty($realMetricName)) {
-                continue;
+            $metricName = Metrics::getReadableColumnName($metricId);
+            $realMetricName = $this->hasDataTableMetric($firstLevelTable, $metricId, $metricName);
+            if (!empty($realMetricName)) {
+                $realMetricNames[$metricName] = $realMetricName;
             }
+        }
 
-            foreach ($firstLevelTable->getRows() as $row) {
-                $totalValues = $this->sumColumnValueToTotal($row, $metricId, $realMetricName, $totalValues);
+        foreach ($firstLevelTable->getRows() as $row) {
+            $columns = $row->getColumns();
+            foreach ($realMetricNames as $metricName => $realMetricName) {
+                $totalValues = $this->sumColumnValueToTotal($columns, $metricName, $realMetricName, $totalValues);
             }
         }
 
@@ -82,7 +87,7 @@ class ReportTotalsCalculator extends DataTableManipulator
         return $dataTable;
     }
 
-    private function hasDataTableMetric(DataTable $dataTable, $metricId)
+    private function hasDataTableMetric(DataTable $dataTable, $metricId, $readableColumnName)
     {
         $firstRow = $dataTable->getFirstRow();
 
@@ -90,7 +95,6 @@ class ReportTotalsCalculator extends DataTableManipulator
             return false;
         }
 
-        $readableColumnName = Metrics::getReadableColumnName($metricId);
         $columnAlternatives = array(
             $metricId,
             $readableColumnName,
@@ -151,16 +155,17 @@ class ReportTotalsCalculator extends DataTableManipulator
         return $table;
     }
 
-    private function sumColumnValueToTotal(Row $row, $metricId, $realMetricId, $totalValues)
+    private function sumColumnValueToTotal($columns, $metricName, $realMetricId, $totalValues)
     {
-        $value = $row->getColumn($realMetricId);
+        $value = false;
+        if (array_key_exists($realMetricId, $columns)) {
+            $value = $columns[$realMetricId];
+        }
 
         if (false === $value) {
 
             return $totalValues;
         }
-
-        $metricName = Metrics::getReadableColumnName($metricId);
 
         if (array_key_exists($metricName, $totalValues)) {
             $totalValues[$metricName] += $value;
