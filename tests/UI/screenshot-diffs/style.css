@@ -1,7 +1,12 @@
 img {
     max-width: 100%;
     display: block;
-    margin: 0em auto;
+    margin: 0 auto;
+}
+
+#controls {
+    margin: 0 auto;
+    width: 100px;
 }
 
 .cd-image-container {
