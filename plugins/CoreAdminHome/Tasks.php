@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchivePurger;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
@@ -43,21 +44,16 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function purgeOutdatedArchives()
     {
-        // we should only purge outdated & custom range archives if we know cron archiving has just run,
-        // or if browser triggered archiving is enabled. if cron archiving has run, then we know the latest
-        // archives are in the database, and we can remove temporary ones. if browser triggered archiving is
-        // enabled, then we know any archives that are wrongly purged, can be re-archived on demand.
-        // this prevents some situations where "no data" is displayed for reports that should have data.
-        if (!Rules::isBrowserTriggerEnabled()
-            && !SettingsServer::isArchivePhpTriggered()
-        ) {
-            Log::info("Purging temporary archives: skipped (browser triggered archiving not enabled & not running after core:archive)");
+        $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+
+        if ($this->willPurgingCausePotentialProblemInUI()) {
+            $logger->info("Purging temporary archives: skipped (browser triggered archiving not enabled & not running after core:archive)");
             return false;
         }
 
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
 
-        Log::info("Purging archives in {tableCount} archive tables.", array('tableCount' => count($archiveTables)));
+        $logger->info("Purging archives in {tableCount} archive tables.", array('tableCount' => count($archiveTables)));
 
         // keep track of dates we purge for, since getTablesArchivesInstalled() will return numeric & blob
         // tables (so dates will appear two times, and we should only purge once per date)
@@ -95,5 +91,19 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
         Db::optimizeTables($archiveTables);
+    }
+
+    /**
+     * we should only purge outdated & custom range archives if we know cron archiving has just run,
+     * or if browser triggered archiving is enabled. if cron archiving has run, then we know the latest
+     * archives are in the database, and we can remove temporary ones. if browser triggered archiving is
+     * enabled, then we know any archives that are wrongly purged, can be re-archived on demand.
+     * this prevents some situations where "no data" is displayed for reports that should have data.
+     *
+     * @return bool
+     */
+    private function willPurgingCausePotentialProblemInUI()
+    {
+        return !Rules::isRequestAuthorizedToArchive();
     }
 }

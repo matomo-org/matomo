@@ -51,6 +51,10 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
         $this->application->add(new PurgeOldArchiveData($archivePurger));
 
         $this->applicationTester = new ApplicationTester($this->application);
+
+        // assert the test data was setup correctly
+        self::$fixture->assertInvalidatedArchivesNotPurged(self::$fixture->january);
+        self::$fixture->assertInvalidatedArchivesNotPurged(self::$fixture->february);
     }
 
     public function tearDown()

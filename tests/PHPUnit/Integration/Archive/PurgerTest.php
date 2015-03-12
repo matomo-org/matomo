@@ -52,6 +52,10 @@ class PurgerTest extends IntegrationTestCase
         $this->archivePurger->setNow(Date::factory('2015-02-27 08:00:00')->getTimestamp());
 
         $this->configureCustomRangePurging();
+
+        // assert test data was added correctly
+        self::$fixture->assertInvalidatedArchivesNotPurged(self::$fixture->january);
+        self::$fixture->assertInvalidatedArchivesNotPurged(self::$fixture->february);
     }
 
     public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringEnabled()
