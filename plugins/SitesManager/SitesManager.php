@@ -7,8 +7,12 @@
  *
  */
 namespace Piwik\Plugins\SitesManager;
+
+use Piwik\Common;
 use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Db;
 use Piwik\Tracker\Cache;
+use Piwik\Tracker\Model as TrackerModel;
 
 /**
  *
@@ -29,8 +33,27 @@ class SitesManager extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Tracker.Cache.getSiteAttributes'        => 'recordWebsiteDataInCache',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'SitesManager.deleteSite.end'            => 'onSiteDeleted'
+            'SitesManager.deleteSite.end'            => 'onSiteDeleted',
+            'Request.dispatch'                       => 'redirectDashboardToWelcomePage',
         );
+    }
+
+    public function redirectDashboardToWelcomePage(&$module, &$action)
+    {
+        if ($module !== 'CoreHome' || $action !== 'index') {
+            return;
+        }
+
+        $siteId = Common::getRequestVar('idSite', false, 'int');
+        if (!$siteId) {
+            return;
+        }
+
+        $trackerModel = new TrackerModel();
+        if ($trackerModel->isSiteEmpty($siteId)) {
+            $module = 'SitesManager';
+            $action = 'siteWithoutData';
+        }
     }
 
     public function onSiteDeleted($idSite)

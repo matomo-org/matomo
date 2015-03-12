@@ -1,0 +1,25 @@
+{% extends "dashboard.twig" %}
+
+{% block notification %}{% endblock %}
+
+{% block content %}
+
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+
+    <div class="site-without-data">
+
+        <h2>{{ 'SitesManager_SiteWithoutDataTitle'|translate }}</h2>
+
+        <p>
+            {{ 'SitesManager_SiteWithoutDataDescription'|translate }}
+            {{ 'SitesManager_SiteWithoutDataSetupTracking'|translate('<a href="' ~ linkTo({
+                'module': 'CoreAdminHome',
+                'action': 'trackingCodeGenerator',
+            }) ~ '">', '</a>')|raw }}
+        </p>
+
+        {{ trackingHelp|raw }}
+
+    </div>
+
+{% endblock %}
