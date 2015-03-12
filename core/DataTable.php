@@ -489,12 +489,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * Applies a filter to all subtables but not to this datatable.
+     * Adds a filter and a list of parameters to the list of queued filters of all subtables. These filters will be
+     * executed when {@link applyQueuedFilters()} is called.
      *
-     * @param string|Closure $className Class name, eg. `"Sort"` or "Piwik\DataTable\Filters\Sort"`. If no
-     *                                  namespace is supplied, `Piwik\DataTable\BaseFilter` is assumed. This parameter
-     *                                  can also be a closure that takes a DataTable as its first parameter.
-     * @param array $parameters Array of extra parameters to pass to the filter.
+     * Filters that prettify the column values or don't need the full set of rows should be queued. This
+     * way they will be run after the table is truncated which will result in better performance.
+     *
+     * @param string|Closure $className The class name of the filter, eg. `'Limit'`.
+     * @param array $parameters The parameters to give to the filter, eg. `array($offset, $limit)` for the Limit filter.
      */
     public function queueFilterSubtables($className, $parameters = array())
     {
