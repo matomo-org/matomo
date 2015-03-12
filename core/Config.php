@@ -417,7 +417,6 @@ class Config extends Singleton
 
             // must be called here, not in init(), since setTestEnvironment() calls init(). (this avoids
             // infinite recursion)
-            // TODO: Removed last argument, must check it's ok
             $allSettings =& $this->settings->getAll();
             Piwik::postTestEvent('Config.createConfigSingleton', array($this, &$allSettings));
         }
