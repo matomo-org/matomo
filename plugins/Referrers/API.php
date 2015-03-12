@@ -324,33 +324,7 @@ class API extends \Piwik\Plugin\API
         $this->removeSubtableMetadata($dataTable);
 
         if ($flat) {
-            $urlsTable = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
-            $urlsTable->filter('ColumnCallbackDeleteRow', array('label', function ($url) { return !isSocialUrl($url); }));
-            $urlsTable = $urlsTable->mergeSubtables();
-
-            foreach ($dataTable->getRows() as $row) {
-                $row->removeSubtable();
-
-                $social   = $row->getColumn('label');
-                $newTable = $urlsTable->getEmptyClone();
-
-                $rows = $urlsTable->getRows();
-                foreach ($rows as $id => $urlsTableRow) {
-                    $url = $urlsTableRow->getColumn('label');
-                    if (isSocialUrl($url, $social)) {
-                        $newTable->addRow($urlsTableRow);
-                        $urlsTable->deleteRow($id);
-                    }
-                }
-
-                if ($newTable->getRowsCount()) {
-                    $newTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial', array($expanded));
-                    $row->setSubtable($newTable);
-                }
-            }
-
-            Common::destroy($urlsTable);
-            $urlsTable = null;
+            $this->buildExpandedTableForFlattenGetSocials($idSite, $period, $date, $segment, $expanded, $dataTable);
         }
 
         $dataTable->queueFilter('MetadataCallbackAddMetadata', array('url', 'logo', __NAMESPACE__ . '\getSocialsLogoFromUrl'));
@@ -549,6 +523,47 @@ class API extends \Piwik\Plugin\API
                 }
             }
         }
+    }
+
+    /**
+     * @param int $idSite
+     * @param string $period
+     * @param string $date
+     * @param string|false $segment
+     * @param bool $expanded
+     * @param DataTable $dataTable
+     */
+    private function buildExpandedTableForFlattenGetSocials($idSite, $period, $date, $segment, $expanded, $dataTable)
+    {
+        $urlsTable = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat = true);
+        $urlsTable->filter('ColumnCallbackDeleteRow', array('label', function ($url) {
+            return !isSocialUrl($url);
+        }));
+        $urlsTable = $urlsTable->mergeSubtables();
+
+        foreach ($dataTable->getRows() as $row) {
+            $row->removeSubtable();
+
+            $social = $row->getColumn('label');
+            $newTable = $urlsTable->getEmptyClone();
+
+            $rows = $urlsTable->getRows();
+            foreach ($rows as $id => $urlsTableRow) {
+                $url = $urlsTableRow->getColumn('label');
+                if (isSocialUrl($url, $social)) {
+                    $newTable->addRow($urlsTableRow);
+                    $urlsTable->deleteRow($id);
+                }
+            }
+
+            if ($newTable->getRowsCount()) {
+                $newTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial', array($expanded));
+                $row->setSubtable($newTable);
+            }
+        }
+
+        Common::destroy($urlsTable);
+        $urlsTable = null;
     }
 
 }
