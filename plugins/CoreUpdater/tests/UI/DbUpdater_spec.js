@@ -7,10 +7,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-describe("Updater", function () {
+describe("DbUpdater", function () {
     this.timeout(0);
 
-    this.fixture = "Piwik\\Tests\\Fixtures\\UpdaterTestFixture";
+    this.fixture = "Piwik\\Plugins\\CoreUpdater\\Tests\\Fixtures\\DbUpdaterTestFixture";
 
     before(function () {
         testEnvironment.tablesPrefix = 'piwik_';
