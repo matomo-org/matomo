@@ -10,7 +10,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
 use Piwik\Container\StaticContainer;
-use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Scheduler\Scheduler;
