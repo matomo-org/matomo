@@ -32,6 +32,13 @@ class StaticContainer
     private static $environment;
 
     /**
+     * Definitions to register in the container.
+     *
+     * @var array
+     */
+    private static $definitions = array();
+
+    /**
      * @return Container
      */
     public static function getContainer()
@@ -63,7 +70,7 @@ class StaticContainer
      */
     private static function createContainer()
     {
-        $containerFactory = new ContainerFactory(self::$environment);
+        $containerFactory = new ContainerFactory(self::$environment, self::$definitions);
         return $containerFactory->create();
     }
 
@@ -75,6 +82,11 @@ class StaticContainer
     public static function setEnvironment($environment)
     {
         self::$environment = $environment;
+    }
+
+    public static function addDefinitions(array $definitions)
+    {
+        self::$definitions = $definitions;
     }
 
     /**

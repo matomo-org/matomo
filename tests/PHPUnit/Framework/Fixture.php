@@ -882,4 +882,14 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         return $result;
     }
+
+    /**
+     * Use this method to return custom container configuration that you want to apply for the tests.
+     *
+     * @return array
+     */
+    public function provideContainerConfig()
+    {
+        return array();
+    }
 }
