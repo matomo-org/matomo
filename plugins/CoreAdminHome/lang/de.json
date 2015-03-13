@@ -59,6 +59,7 @@
         "MenuManage": "Verwalten",
         "OptOutComplete": "Deaktivierung durchgeführt! Ihre Besuche auf dieser Webseite werden von der Webanalyse nicht mehr erfasst.",
         "OptOutCompleteBis": "Bitte beachten Sie, dass auch der Piwik-Deaktivierungs-Cookie dieser Webseite gelöscht wird, wenn Sie die in Ihrem Browser abgelegten Cookies entfernen. Außerdem müssen Sie, wenn Sie einen anderen Computer oder einen anderen Webbrowser verwenden, die Deaktivierungsprozedur nochmals absolvieren.",
+        "OptOutDntFound": "Das Tracking ist bei Ihnen derzeit nicht aktiv, denn Ihr Browser hat uns mitgeteilt, dass Sie kein Tracking wünschen. Hierbei handelt es sich um eine Browsereinstellung. Um das Tracking wieder zu aktivieren, müssten Sie die sogenannte \"Do Not Track\"-Einstellung in Ihren Browsereinstellungen deaktivieren.",
         "OptOutExplanation": "Piwik ist es wichtig, die Privatsphäre Ihrer Besucher zu wahren. Fügen Sie den folgenden HTML-Code auf einer Seite Ihrer Seiten (z.B der Datenschutz-Seite) ein, um den Besuchern Ihrer Webseite die Möglichkeit zu geben, sich gegen eine Erfassung ihres Besuches durch Piwik zu entscheiden.",
         "OptOutExplanationBis": "Dieser Code wird innerhalb eines Iframes angezeigt und enthält einen Link, über den ein Cookie im Browser Ihrer Besucher abgelegt wird, womit die Erfassung durch Piwik deaktiviert wird. %s Klicken Sie hier%s, um eine Vorschau auf den Text zu bekommen, der den Besuchern in dem Iframe angezeigt wird.",
         "OptOutForYourVisitors": "Piwik-Deaktivierung für Ihre Besucher",
