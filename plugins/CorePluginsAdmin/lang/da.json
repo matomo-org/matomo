@@ -16,6 +16,7 @@
         "BeCarefulUsingThemes": "Temaer, der ikke er forfattet af Piwik holdet skal anvendes med forsigtighed: vi har ikke kontrolleret dem.",
         "ByXDevelopers": "af %s udviklere",
         "Changelog": "Ændringslog",
+        "ChangeLookByManageThemes": "Skift udseendet på Piwik med %sAdministration af temaer%s.",
         "ChangeSettingsPossible": "Du kan ændre %sindstillinger%s for denne programudvidelse",
         "CorePluginTooltip": "Kerne programudvidelser har ingen version, da de distribuereter med Piwik.",
         "Deactivate": "Deaktiver",
