@@ -246,6 +246,23 @@ class Model
     }
 
     /**
+     * Returns the site IDs for invalidated archives in an archive table.
+     *
+     * @param string $numericTable The numeric table to search through.
+     * @return int[]
+     */
+    public function getSitesWithInvalidatedArchive($numericTable)
+    {
+        $rows = Db::fetchAll("SELECT DISTINCT idsite FROM `$numericTable` WHERE name LIKE 'done%' AND value = " . ArchiveWriter::DONE_INVALIDATED);
+
+        $result = array();
+        foreach ($rows as $row) {
+            $result[] = $row['idsite'];
+        }
+        return $result;
+    }
+
+    /**
      * Returns the SQL condition used to find successfully completed archives that
      * this instance is querying for.
      */

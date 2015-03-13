@@ -14,10 +14,9 @@ use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\AuthenticationFailedException;
+use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
-use Piwik\Plugin\Controller;
 use Piwik\Plugin\Report;
-use Piwik\Plugin\Widgets;
 use Piwik\Session;
 
 /**
@@ -110,83 +109,6 @@ class FrontController extends Singleton
         }
     }
 
-    protected function makeController($module, $action, &$parameters)
-    {
-        $container = StaticContainer::getContainer();
-
-        $controllerClassName = $this->getClassNameController($module);
-
-        // TRY TO FIND ACTION IN CONTROLLER
-        if (class_exists($controllerClassName)) {
-
-            $class = $this->getClassNameController($module);
-            /** @var $controller Controller */
-            $controller = $container->make($class);
-
-            $controllerAction = $action;
-            if ($controllerAction === false) {
-                $controllerAction = $controller->getDefaultAction();
-            }
-
-            if (is_callable(array($controller, $controllerAction))) {
-
-                return array($controller, $controllerAction);
-            }
-
-            if ($action === false) {
-                $this->triggerControllerActionNotFoundError($module, $controllerAction);
-            }
-
-        }
-
-        // TRY TO FIND ACTION IN WIDGET
-        $widget = Widgets::factory($module, $action);
-
-        if (!empty($widget)) {
-
-            $parameters['widgetModule'] = $module;
-            $parameters['widgetMethod'] = $action;
-
-            return array($container->make('Piwik\Plugins\CoreHome\Controller'), 'renderWidget');
-        }
-
-        // TRY TO FIND ACTION IN REPORT
-        $report = Report::factory($module, $action);
-
-        if (!empty($report)) {
-
-            $parameters['reportModule'] = $module;
-            $parameters['reportAction'] = $action;
-
-            return array($container->make('Piwik\Plugins\CoreHome\Controller'), 'renderReportWidget');
-        }
-
-        if (!empty($action) && Report::PREFIX_ACTION_IN_MENU === substr($action, 0, strlen(Report
-            ::PREFIX_ACTION_IN_MENU))) {
-            $reportAction = lcfirst(substr($action, 4)); // menuGetPageUrls => getPageUrls
-            $report       = Report::factory($module, $reportAction);
-
-            if (!empty($report)) {
-                $parameters['reportModule'] = $module;
-                $parameters['reportAction'] = $reportAction;
-
-                return array($container->make('Piwik\Plugins\CoreHome\Controller'), 'renderReportMenu');
-            }
-        }
-
-        $this->triggerControllerActionNotFoundError($module, $action);
-    }
-
-    protected function triggerControllerActionNotFoundError($module, $action)
-    {
-        throw new Exception("Action '$action' not found in the module '$module'.");
-    }
-
-    protected function getClassNameController($module)
-    {
-        return "\\Piwik\\Plugins\\$module\\Controller";
-    }
-
     /**
      * Executes the requested plugin controller method and returns the data, capturing anything the
      * method `echo`s.
@@ -195,7 +117,7 @@ class FrontController extends Singleton
      * of whatever is in the output buffer._
      *
      * @param string $module The name of the plugin whose controller to execute, eg, `'UserCountryMap'`.
-     * @param string $action The controller action name, eg, `'realtimeMap'`.
+     * @param string $actionName The controller action name, eg, `'realtimeMap'`.
      * @param array $parameters Array of parameters to pass to the controller action method.
      * @return string The `echo`'d data or the return value of the controller action.
      * @deprecated
@@ -586,7 +508,10 @@ class FrontController extends Singleton
          */
         Piwik::postEvent('Request.dispatch', array(&$module, &$action, &$parameters));
 
-        list($controller, $actionToCall) = $this->makeController($module, $action, $parameters);
+        /** @var ControllerResolver $controllerResolver */
+        $controllerResolver = StaticContainer::get('Piwik\Http\ControllerResolver');
+
+        $controller = $controllerResolver->getController($module, $action, $parameters);
 
         /**
          * Triggered directly before controller actions are dispatched.
@@ -601,7 +526,7 @@ class FrontController extends Singleton
          */
         Piwik::postEvent(sprintf('Controller.%s.%s', $module, $action), array(&$parameters));
 
-        $result = call_user_func_array(array($controller, $actionToCall), $parameters);
+        $result = call_user_func_array($controller, $parameters);
 
         /**
          * Triggered after a controller action is successfully called.
@@ -627,6 +552,7 @@ class FrontController extends Singleton
          * @param array $parameters The arguments passed to the controller action.
          */
         Piwik::postEvent('Request.dispatch.end', array(&$result, $module, $action, $parameters));
+
         return $result;
     }
 

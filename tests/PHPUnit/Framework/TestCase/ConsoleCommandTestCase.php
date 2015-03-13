@@ -8,8 +8,8 @@
 
 namespace Piwik\Tests\Framework\TestCase;
 
-use Piwik\Config;
 use Piwik\Console;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\ApplicationTester;
 
 /**
@@ -37,18 +37,24 @@ use Symfony\Component\Console\Tester\ApplicationTester;
  */
 class ConsoleCommandTestCase extends SystemTestCase
 {
+    /**
+     * @var ApplicationTester
+     */
     protected $applicationTester = null;
+
+    /**
+     * @var Console
+     */
+    protected $application;
 
     public function setUp()
     {
         parent::setUp();
 
-        $application = new Console();
-        $application->setAutoExit(false);
+        $this->application = new Console();
+        $this->application->setAutoExit(false);
 
-        $this->applicationTester = new ApplicationTester($application);
-
-        Config::unsetInstance();
+        $this->applicationTester = new ApplicationTester($this->application);
     }
 
     protected function getCommandDisplayOutputErrorMessage()

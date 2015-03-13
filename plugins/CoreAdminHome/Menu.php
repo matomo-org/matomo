@@ -57,14 +57,16 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureUserMenu(MenuUser $menu)
     {
-        $menu->addManageItem('CoreAdminHome_TrackingCode',
-            $this->urlForAction('trackingCodeGenerator'),
-            $order = 10);
+        if (!Piwik::isUserIsAnonymous()) {
+            $menu->addManageItem('CoreAdminHome_TrackingCode',
+                $this->urlForAction('trackingCodeGenerator'),
+                $order = 10);
 
-        if (SettingsManager::hasUserPluginsSettingsForCurrentUser()) {
-            $menu->addPersonalItem('CoreAdminHome_PluginSettings',
-                $this->urlForAction('userPluginSettings'),
-                $order = 15);
+            if (SettingsManager::hasUserPluginsSettingsForCurrentUser()) {
+                $menu->addPersonalItem('CoreAdminHome_PluginSettings',
+                    $this->urlForAction('userPluginSettings'),
+                    $order = 15);
+            }
         }
     }
 

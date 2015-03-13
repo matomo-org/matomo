@@ -21,6 +21,7 @@ use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\PluginDeactivatedException;
 use Piwik\Singleton;
 use Piwik\Theme;
 use Piwik\Tracker;
@@ -263,6 +264,19 @@ class Manager extends Singleton
     {
         return in_array($name, $this->pluginsToLoad)
         || ($this->doLoadAlwaysActivatedPlugins && $this->isPluginAlwaysActivated($name));
+    }
+
+    /**
+     * Checks whether the given plugin is activated, if not triggers an exception.
+     *
+     * @param  string $pluginName
+     * @throws PluginDeactivatedException
+     */
+    public function checkIsPluginActivated($pluginName)
+    {
+        if (!$this->isPluginActivated($pluginName)) {
+            throw new PluginDeactivatedException($pluginName);
+        }
     }
 
     /**

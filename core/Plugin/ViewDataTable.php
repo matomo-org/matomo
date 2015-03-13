@@ -316,7 +316,7 @@ abstract class ViewDataTable implements ViewInterface
         return new VizRequest();
     }
 
-    protected function loadDataTableFromAPI($fixedRequestParams = array())
+    protected function loadDataTableFromAPI()
     {
         if (!is_null($this->dataTable)) {
             // data table is already there
@@ -324,7 +324,7 @@ abstract class ViewDataTable implements ViewInterface
             return $this->dataTable;
         }
 
-        $this->dataTable = $this->request->loadDataTableFromAPI($fixedRequestParams);
+        $this->dataTable = $this->request->loadDataTableFromAPI();
 
         return $this->dataTable;
     }

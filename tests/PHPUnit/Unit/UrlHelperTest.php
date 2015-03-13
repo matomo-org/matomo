@@ -122,6 +122,14 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
+    public function testGetPathAndQueryFromNonUrl()
+    {
+        $this->assertEquals('Others', UrlHelper::getPathAndQueryFromUrl('Others'));
+    }
+
+    /**
+     * @group Core
+     */
     public function testGetArrayFromQueryString()
     {
         $expected = array(

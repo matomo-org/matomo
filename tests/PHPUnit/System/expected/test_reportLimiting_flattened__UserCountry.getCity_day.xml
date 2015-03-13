@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Melbourne, Victoria, Australia</label>
+		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_visits>20</nb_visits>
+		<nb_actions>20</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>20</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>city==Melbourne;regionCode==07;countryCode==au</segment>
+		<city_name>Melbourne</city_name>
+		<region>07</region>
+		<country>au</country>
+		<country_name>Australia</country_name>
+		<region_name>Victoria</region_name>
+		<logo>plugins/UserCountry/images/flags/au.png</logo>
+	</row>
+	<row>
+		<label>Nice, Provence-Alpes-Cote d&amp;#039;Azur, France</label>
+		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_visits>20</nb_visits>
+		<nb_actions>20</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>20</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>city==Nice;regionCode==B8;countryCode==fr</segment>
+		<city_name>Nice</city_name>
+		<region>B8</region>
+		<country>fr</country>
+		<country_name>France</country_name>
+		<region_name>Provence-Alpes-Cote d'Azur</region_name>
+		<logo>plugins/UserCountry/images/flags/fr.png</logo>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_uniq_visitors>7</nb_uniq_visitors>
+		<nb_visits>35</nb_visits>
+		<nb_actions>35</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>35</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<logo>plugins/UserCountry/images/flags/xx.png</logo>
+	</row>
+</result>

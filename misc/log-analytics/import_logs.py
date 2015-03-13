@@ -592,11 +592,6 @@ class Configuration(object):
             help="Debug option that will force each recorder to record one hit every N secs."
         )
         option_parser.add_option(
-            '--invalidate-dates', dest='invalidate_dates', default=None,
-            help="Invalidate reports for the specified dates (format: YYYY-MM-DD,YYYY-MM-DD,...). "
-                 "By default, all dates found in the logs will be invalidated.",
-        )
-        option_parser.add_option(
             '--force-lowercase-path', dest='force_lowercase_path', default=False, action='store_true',
             help="Make URL path lowercase so paths with the same letters but different cases are "
                  "treated the same."

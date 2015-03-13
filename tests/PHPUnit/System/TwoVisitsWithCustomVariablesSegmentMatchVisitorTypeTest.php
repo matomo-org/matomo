@@ -8,8 +8,8 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Common;
-use Piwik\DataAccess\ArchiveInvalidator;
-use Piwik\DataAccess\InvalidatedReports;
+use Piwik\Archive\ArchiveInvalidator;
+use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;

@@ -23,6 +23,8 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureUserMenu(MenuUser $menu)
     {
-        $menu->addPersonalItem('MobileMessaging_SettingsMenu', $this->urlForAction('userSettings'), $order = 12);
+        if (!Piwik::isUserIsAnonymous()) {
+            $menu->addPersonalItem('MobileMessaging_SettingsMenu', $this->urlForAction('userSettings'), $order = 12);
+        }
     }
 }

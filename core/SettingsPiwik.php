@@ -267,21 +267,6 @@ class SettingsPiwik
     }
 
     /**
-     * If Piwik uses per-domain config file, also make tmp/ folder per-domain
-     * @param $path
-     * @return string
-     * @throws \Exception
-     *
-     * @deprecated Get the 'path.tmp' config from the container instead.
-     */
-    public static function rewriteTmpPathWithInstanceId($path)
-    {
-        $tmp = '/tmp/';
-        $path = self::rewritePathAppendPiwikInstanceId($path, $tmp);
-        return $path;
-    }
-
-    /**
      * If Piwik uses per-domain config file, make sure CustomLogo is unique
      * @param $path
      * @return mixed

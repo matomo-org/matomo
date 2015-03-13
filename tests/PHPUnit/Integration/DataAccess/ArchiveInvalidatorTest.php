@@ -11,7 +11,7 @@ namespace Piwik\Tests\Integration\DataAccess;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Archive\ArchiveInvalidator;
 
 /**
  * @group Archiver

@@ -16,6 +16,7 @@
         "BeCarefulUsingThemes": "Teman som inte gjorts av Piwik bör användas med försiktighet då vi inte utvärderar dessa.",
         "ByXDevelopers": "av %s utvecklare",
         "Changelog": "Logg över förändring",
+        "ChangeLookByManageThemes": "Du kan ändra utseendet på Piwik genom %sHantera teman%s.",
         "ChangeSettingsPossible": "Du kan ändra %sinställningar%s för det här pluginet.",
         "CorePluginTooltip": "Standardplugin har ingen version eftersom de distribueras av Piwik.",
         "Deactivate": "Inaktivera",

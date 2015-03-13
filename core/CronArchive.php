@@ -12,11 +12,11 @@ use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\SharedSiteIds;
-use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory as PeriodFactory;
-use Piwik\DataAccess\InvalidatedReports;
+use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -542,8 +542,8 @@ class CronArchive
         if(!$success) {
             // cancel marking the site as reprocessed
             if($websiteInvalidatedShouldReprocess) {
-                $store = new InvalidatedReports();
-                $store->addInvalidatedSitesToReprocess(array($idSite));
+                $store = new SitesToReprocessDistributedList();
+                $store->add($idSite);
             }
         }
 
@@ -657,8 +657,8 @@ class CronArchive
         // does not archive the same idSite
         $websiteInvalidatedShouldReprocess = $this->isOldReportInvalidatedForWebsite($idSite);
         if ($websiteInvalidatedShouldReprocess) {
-            $store = new InvalidatedReports();
-            $store->storeSiteIsReprocessed($idSite);
+            $store = new SitesToReprocessDistributedList();
+            $store->remove($idSite);
         }
 
         // when some data was purged from this website
@@ -685,8 +685,8 @@ class CronArchive
 
             // cancel marking the site as reprocessed
             if($websiteInvalidatedShouldReprocess) {
-                $store = new InvalidatedReports();
-                $store->addInvalidatedSitesToReprocess(array($idSite));
+                $store = new SitesToReprocessDistributedList();
+                $store->add($idSite);
             }
 
             $this->logError("Empty or invalid response '$content' for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
@@ -825,11 +825,7 @@ class CronArchive
     public function log($m)
     {
         $this->output .= $m . "\n";
-        try {
-            Log::info($m);
-        } catch(Exception $e) {
-            print($m . "\n");
-        }
+        Log::info($m);
     }
 
     public function logError($m)
@@ -1087,8 +1083,8 @@ class CronArchive
 
     private function updateIdSitesInvalidatedOldReports()
     {
-        $store = new InvalidatedReports();
-        $this->idSitesInvalidatedOldReports = $store->getSitesToReprocess();
+        $store = new SitesToReprocessDistributedList();
+        $this->idSitesInvalidatedOldReports = $store->getAll();
     }
 
     /**

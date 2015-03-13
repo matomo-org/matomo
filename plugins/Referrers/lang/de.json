@@ -20,7 +20,7 @@
         "EvolutionDocumentationMoreInfo": "Für mehr Informationen über die verschiedenen Verweisarten, lesen Sie die Dokumentation der %s Tabelle.",
         "Keywords": "Suchbegriffe",
         "KeywordsReportDocumentation": "In diesem Bericht sehen Sie, welche Suchbegriffe Besucher in Suchmaschinen eingegeben haben, bevor Sie auf Ihre Seite geführt wurden. %s Wenn Sie auf eine Zeile der Tabelle klicken, wird die Verteilung der Suchmaschinen angezeigt, in denen nach dem Begriff gesucht wurde.",
-        "PluginDescription": "Liefert die Herkunft der Daten: Suchmaschinen, Suchwörter, Webseiten, Kampagnen, Social Media, Direkteintritte.",
+        "PluginDescription": "Liefert die Herkunft der Daten: Suchmaschinen, Suchbegriffe, Webseiten, Kampagnen, Social Media, Direkteintritte.",
         "Referrer": "Verweis",
         "ReferrerName": "Name des Verweises",
         "Referrers": "Verweise",
@@ -49,7 +49,7 @@
         "WidgetExternalWebsites": "Liste externer Webseiten",
         "WidgetGetAll": "Alle Verweise",
         "WidgetSocials": "Liste Sozialer Netzwerke",
-        "WidgetTopKeywordsForPages": "Top-Schlüsselworte für Seiten-URL",
+        "WidgetTopKeywordsForPages": "Top-Suchbegriffe für Seiten-URL",
         "XPercentOfVisits": "%s%% aller Besuche"
     }
 }

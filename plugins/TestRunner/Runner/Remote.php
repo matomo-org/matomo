@@ -26,6 +26,7 @@ class Remote
     public function updatePiwik($gitHash)
     {
         $this->ssh->exec('git reset --hard');
+        $this->ssh->exec('git submodule update --init');
         $this->ssh->exec('git submodule foreach --recursive git reset --hard');
         $this->ssh->exec('git clean -d -f');
         $this->ssh->exec('git submodule foreach git clean -f');
@@ -55,11 +56,11 @@ class Remote
         }
     }
 
-    public function runTests($host, $testSuite)
+    public function runTests($host, $testSuite, array $arguments)
     {
         $this->prepareTestRun($host);
         $this->printVersionInfo();
-        $this->doRunTests($testSuite);
+        $this->doRunTests($testSuite, $arguments);
     }
 
     private function prepareTestRun($host)
@@ -74,17 +75,19 @@ class Remote
         $this->ssh->exec('phantomjs --version');
     }
 
-    private function doRunTests($testSuite)
+    private function doRunTests($testSuite, array $arguments)
     {
+        $arguments = implode(' ', $arguments);
+
         $this->ssh->exec("ps -ef | grep \"php console tests:run\" | grep -v grep | awk '{print $2}' | xargs kill -9");
 
         if ('all' === $testSuite) {
-            $this->ssh->exec('php console tests:run --options="--colors"');
+            $this->ssh->exec('php console tests:run --options="--colors" ' . $arguments);
         } elseif ('ui' === $testSuite) {
-            $this->ssh->exec('php console tests:run-ui --persist-fixture-data --assume-artifacts');
+            $this->ssh->exec('php console tests:run-ui --persist-fixture-data --assume-artifacts ' . $arguments);
         } else {
-            $this->ssh->exec('php console tests:run --options="--colors" --testsuite="unit"');
-            $this->ssh->exec('php console tests:run --options="--colors" --testsuite="' . $testSuite . '"');
+            $this->ssh->exec('php console tests:run --options="--colors" --testsuite="unit" ' . $arguments);
+            $this->ssh->exec('php console tests:run --options="--colors" --testsuite="' . $testSuite . '" ' . $arguments);
         }
 
         if ('system' === $testSuite) {
