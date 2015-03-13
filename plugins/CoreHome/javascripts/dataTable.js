@@ -1478,6 +1478,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         // higlight all columns on hover
         $('td', domElem).hover(
             function() {
+
+                if ($(this).hasClass('label')) {
+                    return;
+                }
+
                 var table    = $(this).closest('table');
                 var nthChild = $(this).parent('tr').children().index($(this)) + 1;
                 var rows     = $('> tbody > tr', table);
@@ -1485,7 +1490,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 if (!maxWidth[nthChild]) {
                     maxWidth[nthChild] = 0;
                     rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
-                        var width    = $(element).width();
+                        var width = $(element).width();
                         if (width > maxWidth[nthChild]) {
                             maxWidth[nthChild] = width;
                         }
