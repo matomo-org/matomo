@@ -34,8 +34,9 @@
             <span class="visitorLogIconWithDetails">
                 <img src="{{ visitor.getColumn('countryFlag') }}"/>&nbsp;
                 <ul class="details">
-                    <li>{{ 'UserCountry_Location'|translate }}: {{ visitor.getColumn('location') }}</li>
-                    <li>{{ 'Provider_ColumnProvider'|translate }}: {{ visitor.getColumn('providerName') }}</li>
+                    <li>{{ 'UserCountry_Country'|translate }}: {{ visitor.getColumn('country') }}</li>
+                    {% if visitor.getColumn('region') %}<li>{{ 'UserCountry_Region'|translate }}: {{ visitor.getColumn('region') }}</li>{% endif %}
+                    {% if visitor.getColumn('city') %}<li>{{ 'UserCountry_City'|translate }}: {{ visitor.getColumn('city') }}</li>{% endif %}
                 </ul>
             </span>
         {% endif %}
