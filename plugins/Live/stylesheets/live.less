@@ -240,3 +240,40 @@ a.visitor-log-visitor-profile-link {
 .action-list-url {
     display:block;
 }
+
+span.visitorLogIcons {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 100px;
+}
+
+span.visitorLogIconWithDetails .details {
+    opacity: 0;
+    position: absolute;
+    top: 25px;
+    display: none;
+}
+
+span.visitorLogIconWithDetails:hover .details {
+    opacity: 1;
+    display: block;
+}
+
+span.visitorLogIconWithDetails:hover {
+    opacity: 1;
+}
+
+span.visitorLogIconWithDetails {
+    opacity: 0.5;
+    position: relative;
+    display: inline;
+    height: 16px;
+    -webkit-transition: all 0.5s linear;
+    -moz-transition: all 0.5s linear;
+    -o-transition: all 0.5s linear;
+    transition: all 0.5s linear;
+}
+
+span.visitorLogIconWithDetails .details li {
+    height: 20px;
+}
