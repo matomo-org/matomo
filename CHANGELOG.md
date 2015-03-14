@@ -5,6 +5,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ## Piwik 2.12.0
 
 ### Breaking Changes
+* Visitor details now additionally contain: `deviceTypeIcon`, `deviceBrand` and `deviceModel`
 * The deprecated method `Period::factory()` has been removed. Use `Period\Factory` instead.
 * The deprecated method `Config::getConfigSuperUserForBackwardCompatibility()` has been removed.
 * The deprecated methods `MenuAdmin::addEntry()` and `MenuAdmin::removeEntry()` have been removed. Use `Piwik\Plugin\Menu` instead.
