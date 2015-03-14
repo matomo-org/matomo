@@ -135,4 +135,33 @@ class APITest extends IntegrationTestCase
         $this->api->setUserPreference($user2, 'ohOH_myPreferenceName', 'valueForUser2');
     }
 
+    public function test_getSitesAccessFromUser_forSuperUser()
+    {
+        $user2 = 'userLogin2';
+        $this->api->addUser($user2, 'password', 'userlogin2@password.de');
+
+        // new user doesn't have access to anything
+        $access = $this->api->getSitesAccessFromUser($user2);
+        $this->assertEmpty($access);
+
+        $this->api->setSuperUserAccess($user2, true);
+
+        // super user has admin access for every site
+        $access = $this->api->getSitesAccessFromUser($user2);
+        $expected = array(
+            array(
+                'site' => 1,
+                'access' => 'admin'
+            ),
+            array(
+                'site' => 2,
+                'access' => 'admin'
+            ),
+            array(
+                'site' => 3,
+                'access' => 'admin'
+            ),
+        );
+        $this->assertEquals($expected, $access);
+    }
 }
