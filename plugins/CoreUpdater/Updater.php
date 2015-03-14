@@ -25,9 +25,9 @@ class Updater
 {
     const OPTION_LATEST_VERSION = 'UpdateCheck_LatestVersion';
     const PATH_TO_EXTRACT_LATEST_VERSION = '/latest/';
-
     const LATEST_VERSION_URL = '://builds.piwik.org/piwik.zip';
     const LATEST_BETA_VERSION_URL = '://builds.piwik.org/piwik-%s.zip';
+    const DOWNLOAD_TIMEOUT = 120;
 
     /**
      * @var Translator
@@ -80,8 +80,9 @@ class Updater
      *
      * @param bool $https Whether to use HTTPS if supported of not. If false, will use HTTP.
      * @return string[] Return an array of messages for the user.
-     * @throws Exception
+     * @throws ArchiveDownloadException
      * @throws UpdaterException
+     * @throws Exception
      */
     public function updatePiwik($https = true)
     {
@@ -128,7 +129,12 @@ class Updater
 
         $url .= '?cb=' . $version;
 
-        Http::fetchRemoteFile($url, $archiveFile, 0, 120);
+        try {
+            Http::fetchRemoteFile($url, $archiveFile, 0, self::DOWNLOAD_TIMEOUT);
+        } catch (Exception $e) {
+            // We throw a specific exception allowing to offer HTTP download if HTTPS failed
+            throw new ArchiveDownloadException($e);
+        }
 
         return $archiveFile;
     }

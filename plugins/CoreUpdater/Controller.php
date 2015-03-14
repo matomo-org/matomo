@@ -80,28 +80,32 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Piwik::checkUserHasSuperUserAccess();
 
+        $view = new OneClickDone(Piwik::getCurrentUserTokenAuth());
+
+        $useHttps = Common::getRequestVar('https', 1, 'int');
+
         try {
-            $messages = $this->updater->updatePiwik();
-            $errorMessage = false;
+            $messages = $this->updater->updatePiwik($useHttps);
+        } catch (ArchiveDownloadException $e) {
+            $view->httpsFail = $useHttps;
+            $view->error = $e->getMessage();
+            $messages = $e->getUpdateLogMessages();
         } catch (UpdaterException $e) {
-            $errorMessage = $e->getMessage();
+            $view->error = $e->getMessage();
             $messages = $e->getUpdateLogMessages();
         }
 
-        $view = new OneClickDone(Piwik::getCurrentUserTokenAuth());
-        $view->coreError = $errorMessage;
         $view->feedbackMessages = $messages;
-
         $this->addCustomLogoInfo($view);
-
         return $view->render();
     }
 
     public function oneClickResults()
     {
         $view = new View('@CoreUpdater/oneClickResults');
-        $view->coreError = Common::getRequestVar('error', '', 'string', $_POST);
+        $view->error = Common::getRequestVar('error', '', 'string', $_POST);
         $view->feedbackMessages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
+        $view->httpsFail = (bool) Common::getRequestVar('httpsFail', 0, 'int', $_POST);
         $this->addCustomLogoInfo($view);
         return $view->render();
     }

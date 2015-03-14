@@ -10,7 +10,7 @@
 describe("DbUpdater", function () {
     this.timeout(0);
 
-    this.fixture = "Piwik\\Plugins\\CoreUpdater\\Tests\\Fixtures\\DbUpdaterTestFixture";
+    this.fixture = "Piwik\\Plugins\\CoreUpdater\\Test\\Fixtures\\DbUpdaterTestFixture";
 
     before(function () {
         testEnvironment.tablesPrefix = 'piwik_';

@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\CoreUpdater\tests;
+namespace Piwik\Plugins\CoreUpdater\Test\Unit;
+
 use Piwik\Plugins\CoreUpdater\Model;
 
 /**

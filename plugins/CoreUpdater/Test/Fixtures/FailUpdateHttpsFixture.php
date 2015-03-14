@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\CoreUpdater\Tests\Fixtures;
+namespace Piwik\Plugins\CoreUpdater\Test\Fixtures;
 
 use Piwik\Tests\Framework\Fixture;
 
@@ -18,7 +18,7 @@ class FailUpdateHttpsFixture extends Fixture
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Plugins\CoreUpdater\Updater' => \DI\object('Piwik\Plugins\CoreUpdater\tests\Mock\UpdaterMock'),
+            'Piwik\Plugins\CoreUpdater\Updater' => \DI\object('Piwik\Plugins\CoreUpdater\Test\Mock\UpdaterMock'),
         );
     }
 }
