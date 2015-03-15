@@ -9,7 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\CronArchive;
-use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\CoreAdminHome\tests\Framework\Mock\API;

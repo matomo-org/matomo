@@ -9,7 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\Archive;
 use Piwik\Cache;
-use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Option;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Segment;

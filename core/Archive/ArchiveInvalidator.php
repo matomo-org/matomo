@@ -7,11 +7,15 @@
  *
  */
 
-namespace Piwik\DataAccess;
+namespace Piwik\Archive;
 
+use Piwik\CronArchive\SitesToReprocessDistributedList;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
+use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
 use Piwik\Period\Week;
@@ -19,16 +23,30 @@ use Piwik\Plugins\SitesManager\Model as SitesManagerModel;
 use Piwik\Site;
 
 /**
- * Marks archives as Invalidated by setting the done flag to a special value (see Model->updateArchiveAsInvalidated)
+ * Service that can be used to invalidate archives or add archive references to a list so they will
+ * be invalidated later.
  *
- * Invalidated archives can still be selected and displayed in UI and API (until they are reprocessed by core:archive)
+ * Archives are put in an "invalidated" state by setting the done flag to `ArchiveWriter::DONE_INVALIDATED`.
+ * This class also adds the archive's associated site to the a distributed list and adding the archive's year month to another
+ * distributed list.
  *
- * The invalidated archives will be deleted by ArchivePurger
+ * CronArchive will reprocess the archive data for all sites in the first list, and a scheduled task
+ * will purge the old, invalidated data in archive tables identified by the second list.
  *
- * @package Piwik\DataAccess
+ * Until CronArchive, or browser triggered archiving, re-processes data for an invalidated archive, the invalidated
+ * archive data will still be displayed in the UI and API.
+ *
+ * ### Deferred Invalidation
+ *
+ * Invalidating archives means running queries on one or more archive tables. In some situations, like during
+ * tracking, this is not desired. In such cases, archive references can be added to a list via the
+ * rememberToInvalidateArchivedReportsLater method, which will add the reference to a distributed list
+ *
+ * Later, during Piwik's normal execution, the list will be read and every archive it references will
+ * be invalidated.
  */
-class ArchiveInvalidator {
-
+class ArchiveInvalidator
+{
     private $warningDates = array();
     private $processedDates = array();
     private $minimumDateWithLogs = false;
@@ -317,9 +335,11 @@ class ArchiveInvalidator {
         $yearMonths = array_keys($datesByMonth);
         $yearMonths = array_unique($yearMonths);
 
-        $store = new InvalidatedReports();
-        $store->addInvalidatedSitesToReprocess($idSites);
-        $store->addSitesToPurgeForYearMonths($idSites, $yearMonths);
+        $store = new SitesToReprocessDistributedList();
+        $store->add($idSites);
+
+        $archivesToPurge = new ArchivesToPurgeDistributedList();
+        $archivesToPurge->add($yearMonths);
     }
 
     private static function getModel()
