@@ -11,6 +11,8 @@ namespace Piwik\Plugins\UserCountry;
 use Piwik\Cache\Cache;
 use Piwik\Cache\Transient;
 use Piwik\Common;
+use Piwik\DataAccess\RawLogDao;
+use Piwik\Network\IPUtils;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Tracker\Visit;
 
@@ -35,6 +37,17 @@ require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
 class VisitorGeolocator
 {
     /**
+     * @var string[]
+     */
+    public static $logVisitFieldsToUpdate = array(
+        'location_country'   => LocationProvider::COUNTRY_CODE_KEY,
+        'location_region'    => LocationProvider::REGION_CODE_KEY,
+        'location_city'      => LocationProvider::CITY_NAME_KEY,
+        'location_latitude'  => LocationProvider::LATITUDE_KEY,
+        'location_longitude' => LocationProvider::LONGITUDE_KEY
+    );
+
+    /**
      * @var Cache
      */
     protected static $defaultLocationCache = null;
@@ -55,11 +68,12 @@ class VisitorGeolocator
     private $locationCache;
 
     /**
-     * @param LocationProvider $provider
-     * @param LocationProvider $backupProvider
-     * @param Cache $locationCache
+     * @var RawLogDao
      */
-    public function __construct(LocationProvider $provider = null, LocationProvider $backupProvider = null, Cache $locationCache = null)
+    protected $dao;
+
+    public function __construct(LocationProvider $provider = null, LocationProvider $backupProvider = null, Cache $locationCache = null,
+                                RawLogDao $dao = null)
     {
         if ($provider === null) {
             // note: Common::getCurrentLocationProviderId() uses the tracker cache, which is why it's used here instead
@@ -76,6 +90,7 @@ class VisitorGeolocator
 
         $this->backupProvider = $backupProvider ?: $this->getDefaultProvider();
         $this->locationCache = $locationCache ?: self::getDefaultLocationCache();
+        $this->dao = $dao ?: new RawLogDao();
     }
 
     public function getLocation($userInfo, $useClassCache = true)
@@ -128,6 +143,58 @@ class VisitorGeolocator
         Common::printDebug("GEO: Found IP $ipAddress location (provider '" . $providerId . "'): " . var_export($location, true));
 
         return $location;
+    }
+
+    /**
+     * Geolcates an existing visit and then updates it if it's current attributes are different than
+     * what was geolocated. Also updates all conversions of a visit.
+     *
+     * **This method should NOT be used from within the tracker.**
+     */
+    public function attributeExistingVisit($visit, $useClassCache = true)
+    {
+        $ip = IPUtils::binaryToStringIP($visit['location_ip']);
+        $location = $this->getLocation(array('ip' => $ip), $useClassCache);
+
+        $valuesToUpdate = $this->getVisitFieldsToUpdate($visit, $location);
+
+        if (!empty($valuesToUpdate)) {
+            $idVisit = $visit['idvisit'];
+
+            $this->dao->updateVisits($valuesToUpdate, $idVisit);
+            $this->dao->updateConversions($valuesToUpdate, $idVisit);
+        }
+
+        return $valuesToUpdate;
+    }
+
+    /**
+     * Returns location log values that are different than the values currently in a log row.
+     *
+     * @param array $row The visit row.
+     * @param array $location The location information.
+     * @return array The location properties to update.
+     */
+    private function getVisitFieldsToUpdate(array $row, $location)
+    {
+        if (isset($location[LocationProvider::COUNTRY_CODE_KEY])) {
+            $location[LocationProvider::COUNTRY_CODE_KEY] = strtolower($location[LocationProvider::COUNTRY_CODE_KEY]);
+        }
+
+        $valuesToUpdate = array();
+        foreach (self::$logVisitFieldsToUpdate as $column => $locationKey) {
+            if (empty($location[$locationKey])) {
+                continue;
+            }
+
+            $locationPropertyValue = $location[$locationKey];
+            $existingPropertyValue = $row[$column];
+
+            if ($locationPropertyValue != $existingPropertyValue) {
+                $valuesToUpdate[$column] = $locationPropertyValue;
+            }
+        }
+        return $valuesToUpdate;
     }
 
     /**

@@ -9,9 +9,12 @@
 namespace Piwik\Plugins\UserCountry\tests\Unit;
 
 use PHPUnit_Framework_MockObject_MockObject;
-use PHPUnit_Framework_TestCase;
+use Piwik\Common;
+use Piwik\Db;
+use Piwik\Network\IPUtils;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Visit;
 use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
@@ -21,8 +24,10 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvide
 /**
  * @group UserCountry
  */
-class VisitorGeolocatorTest extends PHPUnit_Framework_TestCase
+class VisitorGeolocatorTest extends IntegrationTestCase // TODO: move
 {
+    const TEST_IP = '1.2.3.4';
+
     public function test_getLocation_shouldReturnLocationForProvider_IfLocationIsSetForCurrentProvider()
     {
         $location = array(
@@ -43,9 +48,6 @@ class VisitorGeolocatorTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     *
-     */
     public function test_getLocation_shouldReturnLocationForProvider_IfLocationCountryCodeIsNotSetShouldSetAsxx()
     {
         $location = array(
@@ -125,6 +127,104 @@ class VisitorGeolocatorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(MockLocationProvider::ID, $geolocator->getProvider()->getId());
     }
 
+    public function getDataForAttributeExistingVisitTests()
+    {
+        $basicTestLocation = array(
+            LocationProvider::COUNTRY_CODE_KEY => 'US',
+            LocationProvider::REGION_CODE_KEY => 'rg',
+            LocationProvider::CITY_NAME_KEY => 'the city',
+            LocationProvider::LATITUDE_KEY => '29.959698',
+            LocationProvider::LONGITUDE_KEY => '-90.064880'
+        );
+
+        $basicExpectedVisitProperties = array(
+            'location_country' => 'us',
+            'location_region' => 'rg',
+            'location_city' => 'the city',
+            'location_latitude' => '29.959698',
+            'location_longitude' => '-90.064880'
+        );
+
+        return array(
+            array( // test normal re-attribution
+                $basicTestLocation,
+
+                $basicExpectedVisitProperties
+            ),
+
+            array( // test w/ garbage in location provider result
+                array(
+                    LocationProvider::COUNTRY_CODE_KEY => 'US',
+                    'garbage' => 'field',
+                    LocationProvider::REGION_CODE_KEY => 'rg',
+                    LocationProvider::CITY_NAME_KEY => 'the city',
+                    LocationProvider::LATITUDE_KEY => '29.959698',
+                    LocationProvider::LONGITUDE_KEY => '-90.064880',
+                    'another' => 'garbage field'
+                ),
+
+                array(
+                    'location_country' => 'us',
+                    'location_region' => 'rg',
+                    'location_city' => 'the city',
+                    'location_latitude' => '29.959698',
+                    'location_longitude' => '-90.064880'
+                )
+            ),
+
+            array( // test when visit has some correct properties already
+                $basicTestLocation,
+
+                $basicExpectedVisitProperties,
+
+                array(
+                    'location_country' => 'US',
+                    'location_region' => 'rg',
+                    'location_city' => 'the city'
+                ),
+
+                array(
+                    'location_country' => 'us',
+                    'location_latitude' => '29.959698',
+                    'location_longitude' => '-90.064880'
+                )
+            ),
+
+            array( // test when visit has all correct properties already
+                $basicTestLocation,
+
+                $basicExpectedVisitProperties,
+
+                $basicExpectedVisitProperties,
+
+                array()
+            )
+        );
+    }
+
+    /**
+     * @dataProvider getDataForAttributeExistingVisitTests
+     */
+    public function test_attributeExistingVisit_CorrectlySetsLocationProperties_AndReturnsCorrectResult(
+        $mockLocation, $expectedVisitProperties, $visitProperties = array(), $expectedUpdateValues = null)
+    {
+        $mockLocationProvider = $this->getProviderMockThatGeolocates($mockLocation);
+
+        $visit = $this->insertVisit($visitProperties);
+        $this->insertTwoConversions($visit);
+
+        $geolocator = new VisitorGeolocator($mockLocationProvider);
+        $valuesUpdated = $geolocator->attributeExistingVisit($visit, $useCache = false);
+
+        $this->assertEquals($expectedVisitProperties, $this->getVisit($visit['idvisit']));
+
+        $expectedUpdateValues = $expectedUpdateValues === null ? $expectedVisitProperties : $expectedUpdateValues;
+        $this->assertEquals($expectedUpdateValues, $valuesUpdated);
+
+        $conversions = $this->getConversions($visit);
+        $this->assertEquals(array($expectedVisitProperties, $expectedVisitProperties), $conversions);
+    }
+
     /**
      * @return PHPUnit_Framework_MockObject_MockObject|LocationProvider
      */
@@ -134,5 +234,121 @@ class VisitorGeolocatorTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('getId', 'getLocation', 'isAvailable', 'isWorking', 'getSupportedLocationInfo'))
             ->disableOriginalConstructor()
             ->getMock();
+    }
+
+    private function getProviderMockThatGeolocates($locationResult)
+    {
+        $mock = $this->getProviderMock();
+        $mock->expects($this->once())->method('getLocation')->will($this->returnCallback(function ($info) use ($locationResult) {
+            if ($info['ip'] == VisitorGeolocatorTest::TEST_IP) {
+                return $locationResult;
+            } else {
+                return null;
+            }
+        }));
+        return $mock;
+    }
+
+    private function insertVisit($visit = array())
+    {
+        $defaultProperties = array(
+            'idsite' => 1,
+            'idvisitor' => hex2bin('ea95f303f2165aa0'),
+            'visit_last_action_time' => '2012-01-01 00:00:00',
+            'config_id' => hex2bin('ea95f303f2165aa0'),
+            'location_ip' => IPUtils::stringToBinaryIP(self::TEST_IP),
+            'visitor_localtime' => '2012-01-01 00:00:00',
+            'location_country' => 'xx',
+            'config_os' => 'xxx',
+            'visit_total_events' => 0,
+            'visitor_days_since_last' => 0,
+            'config_quicktime' => 0,
+            'config_pdf' => 0,
+            'config_realplayer' => 0,
+            'config_silverlight' => 0,
+            'config_windowsmedia' => 0,
+            'config_java' => 0,
+            'config_gears' => 0,
+            'config_resolution' => 0,
+            'config_resolution' => '',
+            'config_cookie' => 0,
+            'config_director' => 0,
+            'config_flash' => 0,
+            'config_browser_version' => '',
+            'visitor_count_visits' => 1,
+            'visitor_returning' => 0,
+            'visit_total_time' => 123,
+            'visit_entry_idaction_name' => 0,
+            'visit_entry_idaction_url' => 0,
+            'visitor_days_since_order' => 0,
+            'visitor_days_since_first' => 0,
+            'visit_first_action_time' => 0,
+            'visit_goal_buyer' => 0,
+            'visit_goal_converted' => 0,
+            'visit_exit_idaction_name' => 0,
+            'referer_url' => '',
+            'location_browser_lang' => 'xx',
+            'config_browser_engine' => '',
+            'config_browser_name' => '',
+            'referer_type' => 0,
+            'referer_name' => '',
+            'visit_total_actions' => 0,
+            'visit_total_searches' => 0
+        );
+
+        $visit = array_merge($defaultProperties, $visit);
+
+        $this->insertInto('log_visit', $visit);
+
+        $idVisit = Db::fetchOne("SELECT LAST_INSERT_ID()");
+        return $this->getVisit($idVisit, $allColumns = true);
+    }
+
+    private function getVisit($idVisit, $allColumns = false)
+    {
+        $columns = $allColumns ? "*" : "location_country, location_region, location_city, location_latitude, location_longitude";
+        return Db::fetchRow("SELECT $columns FROM " . Common::prefixTable('log_visit') . " WHERE idvisit = ?", array($idVisit));
+    }
+
+    private function insertTwoConversions($visit)
+    {
+        $conversionProperties = array(
+            'idvisit' => $visit['idvisit'],
+            'idsite' => $visit['idsite'],
+            'idvisitor' => $visit['idvisitor'],
+            'server_time' => '2012-01-01 00:00:00',
+            'idgoal' => 1,
+            'buster' => 1,
+            'url' => '',
+            'location_longitude' => $visit['location_longitude'],
+            'location_latitude' => $visit['location_latitude'],
+            'location_region' => $visit['location_region'],
+            'location_country' => $visit['location_country'],
+            'location_city' => $visit['location_city'],
+            'visitor_count_visits' => $visit['visitor_count_visits'],
+            'visitor_returning' => $visit['visitor_returning'],
+            'visitor_days_since_order' => 0,
+            'visitor_days_since_first' => 0
+        );
+
+        $this->insertInto('log_conversion', $conversionProperties);
+
+        $conversionProperties['buster'] = 2;
+        $this->insertInto('log_conversion', $conversionProperties);
+    }
+
+    private function insertInto($table, $row)
+    {
+        $columns = implode(', ', array_keys($row));
+        $columnsPlaceholders = Common::getSqlStringFieldsArray($row);
+        $values = array_values($row);
+
+        Db::query("INSERT INTO " . Common::prefixTable($table) . " ($columns) VALUES ($columnsPlaceholders)", $values);
+    }
+
+    private function getConversions($visit)
+    {
+        return Db::fetchAll("SELECT location_country, location_region, location_city, location_latitude, location_longitude
+                               FROM " . Common::prefixTable('log_conversion') . " WHERE idvisit = ?", array($visit['idvisit']));
     }
 }

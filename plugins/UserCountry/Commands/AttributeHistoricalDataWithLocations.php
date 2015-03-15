@@ -29,17 +29,6 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     const SEGMENT_LIMIT_OPTION_DEFAULT = 1000;
 
     /**
-     * @var string[]
-     */
-    private static $logVisitFieldsToUpdate = array(
-        'location_country'   => LocationProvider::COUNTRY_CODE_KEY,
-        'location_region'    => LocationProvider::REGION_CODE_KEY,
-        'location_city'      => LocationProvider::CITY_NAME_KEY,
-        'location_latitude'  => LocationProvider::LATITUDE_KEY,
-        'location_longitude' => LocationProvider::LONGITUDE_KEY
-    );
-
-    /**
      * @var RawLogDao
      */
     protected $dao;
@@ -124,7 +113,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
 
     protected function processSpecifiedLogsInChunks(OutputInterface $output, $from, $to, $segmentLimit)
     {
-        $visitFieldsToSelect = array_merge(array('idvisit', 'location_ip'), array_keys(self::$logVisitFieldsToUpdate));
+        $visitFieldsToSelect = array_merge(array('idvisit', 'location_ip'), array_keys(VisitorGeolocator::$logVisitFieldsToUpdate));
 
         $lastId = 0;
         do {
@@ -144,20 +133,15 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
                 continue;
             }
 
-            $location = $this->getVisitLocation($row);
-            $valuesToUpdate = $this->getValuesToUpdate($row, $location);
+            $updatedValues = $this->visitorGeolocator->attributeExistingVisit($row);
 
             $this->onVisitProcessed($output);
 
             $idVisit = $row['idvisit'];
-
-            if (empty($valuesToUpdate)) {
+            if (empty($updatedValues)) {
                 $this->writeIfVerbose($output, 'Nothing to update for idvisit = ' . $idVisit . '. Existing location info is same as geolocated.');
             } else {
                 $this->writeIfVerbose($output, 'Updating visit with idvisit = ' . $idVisit . '.');
-
-                $this->dao->updateVisits($valuesToUpdate, $idVisit);
-                $this->dao->updateConversions($valuesToUpdate, $idVisit);
             }
         }
     }
@@ -180,37 +164,6 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         }
 
         return $percentStep;
-    }
-
-    /**
-     * Returns location log values that are different than the values currently in a log row.
-     *
-     * @param array $row The visit row.
-     * @param array $location The location information.
-     * @return array The location properties to update.
-     */
-    protected function getValuesToUpdate(array $row, $location)
-    {
-        $valuesToUpdate = array();
-        foreach (self::$logVisitFieldsToUpdate as $column => $locationKey) {
-            if (empty($location[$locationKey])) {
-                continue;
-            }
-
-            $locationPropertyValue = $location[$locationKey];
-            $existingPropertyValue = $row[$column];
-
-            if ($locationKey === LocationProvider::COUNTRY_CODE_KEY) {
-                if (strtolower($locationPropertyValue) != strtolower($existingPropertyValue)) {
-                    $valuesToUpdate[$column] = strtolower($locationPropertyValue);
-                }
-            } else {
-                if ($locationPropertyValue != $existingPropertyValue) {
-                    $valuesToUpdate[$column] = $locationPropertyValue;
-                }
-            }
-        }
-        return $valuesToUpdate;
     }
 
     /**
@@ -253,13 +206,6 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         }
 
         return true;
-    }
-
-    private function getVisitLocation($row)
-    {
-        $ip = IPUtils::binaryToStringIP($row['location_ip']);
-        $location = $this->visitorGeolocator->getLocation(array('ip' => $ip));
-        return $location;
     }
 
     private function getDateRangeToAttribute(InputInterface $input)
