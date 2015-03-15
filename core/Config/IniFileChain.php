@@ -20,9 +20,10 @@ use Piwik\Piwik;
  * user settings file.
  *
  * The default setting files (for example, global.ini.php & common.ini.php) hold the default setting values.
- * The settings in these files are merged recursively, so array settings in one file will add elements to
- * the same settings in the previous file. Default settings files cannot be modified through the IniFileChain
- * class.
+ * The settings in these files are merged recursively, however, array settings in one file will still
+ * overwrite settings in the previous file.
+ *
+ * Default settings files cannot be modified through the IniFileChain class.
  *
  * The user settings file (for example, config.ini.php) holds the actual setting values. Settings in the
  * user settings files overwrite other settings. So array settings will not merge w/ previous values.

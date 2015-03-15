@@ -136,8 +136,6 @@ class IniFileChainTest extends PHPUnit_Framework_TestCase
                     'Section1' => array(
                         'var1' => 'overriddenValue1',
                         'var3' => array(
-                            'value3',
-                            'value4',
                             'overriddenValue2',
                             'overriddenValue3'
                         )
