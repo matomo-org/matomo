@@ -123,6 +123,19 @@ class Map implements DataTableInterface
     }
 
     /**
+     * Apply a queued filter to all subtables contained by this instance.
+     *
+     * @param string|Closure $className Name of filter class or a Closure.
+     * @param array $parameters Parameters to pass to the filter.
+     */
+    public function queueFilterSubtables($className, $parameters = array())
+    {
+        foreach ($this->getDataTables() as $table) {
+            $table->queueFilterSubtables($className, $parameters);
+        }
+    }
+
+    /**
      * Returns the array of DataTables contained by this class.
      *
      * @return DataTable[]|Map[]
@@ -172,6 +185,20 @@ class Map implements DataTableInterface
     public function addTable($table, $label)
     {
         $this->array[$label] = $table;
+    }
+
+    public function getRowFromIdSubDataTable($idSubtable)
+    {
+        $dataTables = $this->getDataTables();
+
+        // find first datatable containing data
+        foreach ($dataTables as $subTable) {
+            $subTableRow = $subTable->getRowFromIdSubDataTable($idSubtable);
+
+            if (!empty($subTableRow)) {
+                return $subTableRow;
+            }
+        }
     }
 
     /**

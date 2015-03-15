@@ -138,7 +138,7 @@ class API extends \Piwik\Plugin\API
     {
         // Keep only pages which are following site search
         $dataTable->filter('ColumnCallbackDeleteRow', array(
-            'nb_hits_following_search',
+            PiwikMetrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS,
             function ($value) {
                 return $value <= 0;
             }
@@ -423,7 +423,7 @@ class API extends \Piwik\Plugin\API
 
             // end of tree search reached
             if (count($searchTree) == 0) {
-                $result = new DataTable();
+                $result = $table->getEmptyClone();
                 $result->addRow($row);
                 $result->setAllTableMetadata($table->getAllTableMetadata());
                 return $result;
@@ -471,7 +471,7 @@ class API extends \Piwik\Plugin\API
     private function filterNonEntryActions($dataTable)
     {
         $dataTable->filter('ColumnCallbackDeleteRow',
-            array('entry_nb_visits',
+            array(PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS,
                   function ($visits) {
                       return !strlen($visits);
                   }
@@ -487,7 +487,7 @@ class API extends \Piwik\Plugin\API
     private function filterNonExitActions($dataTable)
     {
         $dataTable->filter('ColumnCallbackDeleteRow',
-            array('exit_nb_visits',
+            array(PiwikMetrics::INDEX_PAGE_EXIT_NB_VISITS,
                   function ($visits) {
                       return !strlen($visits);
                   })

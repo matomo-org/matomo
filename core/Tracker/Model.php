@@ -391,6 +391,21 @@ class Model
         return $visitRow;
     }
 
+    /**
+     * Returns true if the site doesn't have log data.
+     *
+     * @param int $siteId
+     * @return bool
+     */
+    public function isSiteEmpty($siteId)
+    {
+        $sql = sprintf('SELECT idsite FROM %s WHERE idsite = ? limit 1', Common::prefixTable('log_visit'));
+
+        $result = \Piwik\Db::fetchOne($sql, array($siteId));
+
+        return $result == null;
+    }
+
     private function visitFieldsToQuery($valuesToUpdate)
     {
         $updateParts = array();

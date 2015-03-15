@@ -321,7 +321,10 @@ class Controller extends ControllerAdmin
     public function optOut()
     {
         $trackVisits = !IgnoreCookie::isIgnoreCookieFound();
-
+        
+        $dntChecker = new DoNotTrackHeaderChecker();
+        $dntFound = $dntChecker->isDoNotTrackFound();
+        
         $nonce    = Common::getRequestVar('nonce', false);
         $language = Common::getRequestVar('language', '');
         if ($nonce !== false && Nonce::verifyNonce('Piwik_OptOut', $nonce)) {
@@ -329,6 +332,8 @@ class Controller extends ControllerAdmin
             IgnoreCookie::setIgnoreCookie();
             $trackVisits = !$trackVisits;
         }
+
+
 
         $lang = APILanguagesManager::getInstance()->isLanguageAvailable($language)
             ? $language
@@ -339,6 +344,7 @@ class Controller extends ControllerAdmin
         // parameter is required)
         $view = new View("@CoreAdminHome/optOut");
         $view->setXFrameOptions('allow');
+        $view->dntFound = $dntFound;
         $view->trackVisits = $trackVisits;
         $view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
         $view->language = $lang;

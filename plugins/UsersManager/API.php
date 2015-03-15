@@ -276,7 +276,21 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserExists($userLogin);
-        $this->checkUserHasNotSuperUserAccess($userLogin);
+
+        // Super users have 'admin' access for every site
+        if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
+            $return = array();
+            $siteManagerModel = new \Piwik\Plugins\SitesManager\Model();
+            $sites = $siteManagerModel->getAllSites();
+            foreach ($sites as $site) {
+                $return[] = array(
+                    'site' => $site['idsite'],
+                    'access' => 'admin'
+                );
+
+            }
+            return $return;
+        }
 
         return $this->model->getSitesAccessFromUser($userLogin);
     }

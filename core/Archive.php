@@ -10,7 +10,7 @@ namespace Piwik;
 
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Period\Factory as PeriodFactory;
 
@@ -498,7 +498,11 @@ class Archive
 
         $dataTable = self::getDataTableFromArchive($recordName, $idSite, $period, $date, $segment, $expanded, $idSubtable, $depth);
 
-        $dataTable->filter('ReplaceColumnNames');
+        $dataTable->queueFilter('ReplaceColumnNames');
+
+        if ($expanded) {
+            $dataTable->queueFilterSubtables('ReplaceColumnNames');
+        }
 
         if ($flat) {
             $dataTable->disableRecursiveFilters();

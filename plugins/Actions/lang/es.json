@@ -39,6 +39,7 @@
         "PagesReportDocumentation": "Este reporte contiene información sobre las URLs de las páginas que han sido visitadas. %s La tabla está organizada por jerarquía, las URLs han sido mostradas como una estructura de carpetas.",
         "PageTitlesReportDocumentation": "Este reporte contiene información sobre los títulos de las páginas que han sido visitadas. %s El título de la página es el Tag %s de HTML, que la gran mayoría de los navegadores muestran en el título de su ventana.",
         "PageUrls": "URLs de página",
+        "PluginDescription": "Informa sobre las vistas y títulos de página. Te permite medir el motor de búsqueda interno de tu sitio web. Monitoriza automáticamente los clicks en enlaces externos y descargas de archivos.",
         "SiteSearchCategories1": "Este reporte lista las Categorías que los visitantes eligieron cuando realizaron una búsqueda en tu sitio.",
         "SiteSearchCategories2": "Por ejemplo: los sitios de E-commerce usualmente tienen un selector de \"Categorías\" para que los visitantes puedan restringir sus búsquedas sólo a los productos de una categoría específica.",
         "SiteSearchFollowingPagesDoc": "Cuando los visitantes realizan una búsqueda en tu sitio, están buscando una página, contenido, producto o servicio en particular. Este reporte lista las páginas que más han sido clickeadas luego de una búsqueda interna. En otras palabras, la lista de páginas más buscadas por los visitantes que ya están en de tu sitio.",
