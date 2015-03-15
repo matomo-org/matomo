@@ -11,11 +11,11 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Development;
 use Piwik\Http;
-use Piwik\Log;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -24,8 +24,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DevelopmentSyncUITestScreenshots extends ConsoleCommand
 {
-    protected $urlBase;
-
     public function isEnabled()
     {
         return Development::isEnabled();
@@ -46,13 +44,25 @@ class DevelopmentSyncUITestScreenshots extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $buildNumber = $input->getArgument('buildnumber');
+        if (empty($buildNumber)) {
+            throw new \InvalidArgumentException('Missing build number.');
+        }
+
         $screenshotsRegex = $input->getArgument('screenshotsRegex');
 
-        $diffviewer = $this->getDiffviewerContent($input);
+        $plugin = $input->getOption('plugin');
+
+        $httpUser = $input->getOption('http-user');
+        $httpPassword = $input->getOption('http-password');
+
+        $urlBase = $this->getUrlBase($plugin, $buildNumber);
+        $diffviewer = $this->getDiffviewerContent($output, $urlBase, $httpUser, $httpPassword);
 
         if(empty($diffviewer)) {
             throw new \Exception("Screenshot tests artifacts were not found for this build.");
         }
+
 
         $dom = new \DOMDocument();
         $dom->loadHTML($diffviewer);
@@ -71,29 +81,28 @@ class DevelopmentSyncUITestScreenshots extends ConsoleCommand
             if ($file !== null
                 && preg_match("/" . $screenshotsRegex . "/", $file)
             ) {
-                $this->downloadProcessedScreenshot($input, $output, $file);
+                $this->downloadProcessedScreenshot($output, $urlBase, $file, $plugin, $httpUser, $httpPassword);
             }
         }
 
-        $this->displayGitInstructions($input, $output);
+        $this->displayGitInstructions($output, $plugin);
 
     }
 
-    protected function displayGitInstructions(InputInterface $input, OutputInterface $output)
+    protected function displayGitInstructions(OutputInterface $output, $plugin)
     {
         $output->writeln('');
         $output->writeln('--------------');
         $output->writeln('');
         $output->writeln("If all downloaded screenshots are valid you may push them with these commands:");
-        $downloadToPath = $this->getDownloadToPath($input);
+        $downloadToPath = $this->getDownloadToPath($plugin);
         $commands = "
 cd $downloadToPath
 git pull
 git add .
-git commit -m '' # Write a good commit message
+git commit -m '' # Write a good commit message, eg. 'Fixed UI test failure caused by change introduced in <core or plugin commit> which caused failure by <explanation of failure>'
 git push";
 
-        $plugin = $input->getOption('plugin');
         if(empty($plugin)) {
             $commands .= "
 cd ..
@@ -109,26 +118,16 @@ cd ../../../../../\n\n";
         $output->writeln($commands);
     }
 
-    protected function getUrlBase(InputInterface $input)
+    protected function getUrlBase($plugin, $buildNumber)
     {
-        $buildNumber = $input->getArgument('buildnumber');
-        if (empty($buildNumber)) {
-            throw new \InvalidArgumentException('Missing build number.');
-        }
-
-        $plugin = $input->getOption('plugin');
         if ($plugin) {
-            $urlBase = sprintf('http://builds-artifacts.piwik.org/ui-tests.master.%s/%s', $plugin, $buildNumber);
-        } else {
-            $urlBase = sprintf('http://builds-artifacts.piwik.org/ui-tests.master/%s', $buildNumber);
+            return sprintf('http://builds-artifacts.piwik.org/ui-tests.master.%s/%s', $plugin, $buildNumber);
         }
-        return $urlBase;
+        return sprintf('http://builds-artifacts.piwik.org/ui-tests.master/%s', $buildNumber);
     }
 
-    protected function getDownloadToPath(InputInterface $input)
+    protected function getDownloadToPath($plugin)
     {
-        $plugin = $input->getOption('plugin');
-
         $downloadTo = PIWIK_DOCUMENT_ROOT . "/";
         if (empty($plugin)) {
             $downloadTo .= "tests/UI/expected-ui-screenshots/";
@@ -146,34 +145,31 @@ cd ../../../../../\n\n";
         throw new \Exception("Download to path could not be found: $downloadTo");
     }
 
-    protected function getDiffviewerContent(InputInterface $input)
+    protected function getDiffviewerContent(OutputInterface $output, $urlBase, $httpUser = false, $httpPassword = false)
     {
-        $this->urlBase = $this->getUrlBase($input);
-        $diffviewerUrl = $this->getDiffviewerUrl($this->urlBase);
+        $diffviewerUrl = $this->getDiffviewerUrl($urlBase);
 
-        $diffviewer = $this->downloadDiffviewer($diffviewerUrl);
-        if($diffviewer) {
-            return $diffviewer;
+        try {
+            return $this->downloadDiffviewer($output, $diffviewerUrl);
+        } catch(\Exception $e) {
+
+            // Maybe this is a Premium Piwik PRO plugin...
+            return $this->getDiffviewContentForPrivatePlugin($output, $urlBase, $httpUser, $httpPassword);
         }
-
-        // Maybe this is a Premium Piwik PRO plugin...
-        return $this->getDiffviewContentForPrivatePlugin($input);
     }
 
-    protected function getDiffviewContentForPrivatePlugin(InputInterface $input)
+    protected function getDiffviewContentForPrivatePlugin(OutputInterface $output, $urlBase, $httpUser, $httpPassword)
     {
-        $httpUser = $input->getOption('http-user');
-        $httpPassword = $input->getOption('http-password');
         if (empty($httpUser) || empty($httpPassword)) {
-            Log::info("--http-user and --http-password was not specified, skip download of private plugins screenshots.");
+            $output->writeln("<info>--http-user and --http-password was not specified, skip download of private plugins screenshots.</info>");
             return;
         }
 
         // Attempt to download from protected/ artifacts...
-        $this->urlBase = str_replace("builds-artifacts.piwik.org/", "builds-artifacts.piwik.org/protected/", $this->urlBase);
-        $diffviewerUrl = $this->getDiffviewerUrl($this->urlBase);
+        $urlBase = str_replace("builds-artifacts.piwik.org/", "builds-artifacts.piwik.org/protected/", $urlBase);
+        $diffviewerUrl = $this->getDiffviewerUrl($urlBase);
 
-        return $this->downloadDiffviewer($diffviewerUrl, $httpUser, $httpPassword);
+        return $this->downloadDiffviewer($output, $diffviewerUrl, $httpUser, $httpPassword);
     }
 
     /**
@@ -184,7 +180,7 @@ cd ../../../../../\n\n";
         return $urlBase . "/screenshot-diffs/diffviewer.html";
     }
 
-    protected function downloadDiffviewer($urlDiffviewer, $httpUsername = false, $httpPassword = false)
+    protected function downloadDiffviewer(OutputInterface $output, $urlDiffviewer, $httpUsername = false, $httpPassword = false)
     {
         $responseExtended = Http::sendHttpRequest(
             $urlDiffviewer,
@@ -201,24 +197,24 @@ cd ../../../../../\n\n";
         );
         $httpStatus = $responseExtended['status'];
         if ($httpStatus == '200') {
+            $output->writeln("Found diffviewer at: " . $urlDiffviewer);
             $diffviewer = str_replace('&', '&amp;', $responseExtended['data']);
             return $diffviewer;
         }
 
-        Log::info("Could not download the diffviewer from $urlDiffviewer - Got HTTP status " . $httpStatus);
         if($httpStatus == '401') {
-            Log::warning("HTTP AUTH username and password are not valid.");
+            $output->writeln("<error>HTTP AUTH username and password are not valid.</error>");
         }
-        return false;
+        throw new \Exception ("Failed downloading diffviewer from $urlDiffviewer - Got HTTP status " . $httpStatus);
     }
 
 
-    protected function downloadProcessedScreenshot(InputInterface $input, OutputInterface $output, $file)
+    protected function downloadProcessedScreenshot(OutputInterface $output, $urlBase, $file, $plugin, $httpUser, $httpPassword)
     {
-        $downloadTo = $this->getDownloadToPath($input) . $file;
+        $downloadTo = $this->getDownloadToPath($plugin) . $file;
 
         $output->write("<info>Downloading $file to  $downloadTo...</info>\n");
-        $urlProcessedScreenshot = $this->urlBase . "/processed-ui-screenshots/$file";
+        $urlProcessedScreenshot = $urlBase . "/processed-ui-screenshots/$file";
 
         Http::sendHttpRequest($urlProcessedScreenshot,
             $timeout = 60,
@@ -229,8 +225,8 @@ cd ../../../../../\n\n";
             $byteRange = false,
             $getExtendedInfo = true,
             $httpMethod = 'GET',
-            $input->getOption('http-user'),
-            $input->getOption('http-password'));
+            $httpUser,
+            $httpPassword);
     }
 
 }
