@@ -1,6 +1,7 @@
 {
     "CoreAdminHome": {
         "Administration": "管理",
+        "ArchivingSettings": "归档设置",
         "BrandingSettings": "图标设置",
         "CheckReleaseGetVersion": "检查 Piwik 新版本时，总是",
         "ClickHereToOptIn": "点这里主动加入。",
@@ -60,8 +61,12 @@
         "PluginSettingChangeNotAllowed": "不允许更改插件＂%s＂中配置＂%s＂的值",
         "PluginSettings": "插件设置",
         "PluginSettingsIntro": "这里，你可以更改下列第三方插件的配置：",
+        "PluginSettingsSaveFailed": "保存插件设置失败",
         "PluginSettingsValueNotAllowed": "插件\"%s\"中的域\"%s\"的值是不被允许的",
+        "SendPluginUpdateCommunication": "有新的插件更新时给我发送邮件",
+        "SendPluginUpdateCommunicationHelp": "插件有新版本时将会给超级管理员发送邮件",
         "StableReleases": "如果Piwik对您的业务很重要，我们建议您使用最新的稳定版。如果使用最新测试版，发现了问题或有建议，请%s看这里%s。",
+        "SystemPluginSettings": "系统插件设置",
         "TrackAGoal": "跟踪目标",
         "TrackingCode": "跟踪代码",
         "TrustedHostConfirm": "您确信要修改 Piwik 主机名?",

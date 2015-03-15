@@ -26,6 +26,7 @@ class Remote
     public function updatePiwik($gitHash)
     {
         $this->ssh->exec('git reset --hard');
+        $this->ssh->exec('git submodule update --init');
         $this->ssh->exec('git submodule foreach --recursive git reset --hard');
         $this->ssh->exec('git clean -d -f');
         $this->ssh->exec('git submodule foreach git clean -f');

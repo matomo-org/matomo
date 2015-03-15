@@ -9,8 +9,7 @@
 namespace Piwik\Plugins\SitesManager;
 
 use Piwik\Common;
-use Piwik\DataAccess\ArchiveInvalidator;
-use Piwik\Db;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Model as TrackerModel;
 

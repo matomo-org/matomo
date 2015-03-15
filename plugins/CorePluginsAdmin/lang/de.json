@@ -55,7 +55,7 @@
         "OriginCore": "Core",
         "OriginThirdParty": "Dritt-Anbieter",
         "PluginHomepage": "Plugin-Webseite",
-        "PluginKeywords": "Schlüsselwörter",
+        "PluginKeywords": "Suchbegriffe",
         "PluginNotCompatibleWith": "Das Plugin %1$s ist nicht kompatibel mit %2$s.",
         "PluginNotWorkingAlternative": "Wenn Sie dieses Plugin eingesetzt haben, finden Sie möglicherweise eine neuere Version im Marketplace. Wenn nicht, sollten Sie es deinstallieren.",
         "PluginRequirement": "%1$s benötigt %2$s",

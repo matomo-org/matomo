@@ -10,7 +10,7 @@ namespace Piwik\Plugins\SitesManager\tests\Integration;
 
 use Piwik\Access;
 use Piwik\Cache;
-use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Date;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
