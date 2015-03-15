@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\UserCountry\Commands;
 
-use Piwik\Network\IPUtils;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
