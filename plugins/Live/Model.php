@@ -201,57 +201,100 @@ class Model
      * @param $idSite
      * @param $lastMinutes
      * @param $segment
-     * @return array
+     * @return int
      * @throws Exception
      */
-    public function queryCounters($idSite, $lastMinutes, $segment)
+    public function getNumActions($idSite, $lastMinutes, $segment)
+    {
+        return $this->getLastMinutesCounterForQuery(
+            $idSite,
+            $lastMinutes,
+            $segment,
+            'COUNT(*)',
+            'log_link_visit_action',
+            'log_link_visit_action.server_time >= ?'
+        );
+    }
+
+    /**
+     * @param $idSite
+     * @param $lastMinutes
+     * @param $segment
+     * @return int
+     * @throws Exception
+     */
+    public function getNumVisitsConverted($idSite, $lastMinutes, $segment)
+    {
+        return $this->getLastMinutesCounterForQuery(
+            $idSite,
+            $lastMinutes,
+            $segment,
+            'COUNT(*)',
+            'log_conversion',
+            'log_conversion.server_time >= ?'
+        );
+    }
+
+    /**
+     * @param $idSite
+     * @param $lastMinutes
+     * @param $segment
+     * @return int
+     * @throws Exception
+     */
+    public function getNumVisits($idSite, $lastMinutes, $segment)
+    {
+        return $this->getLastMinutesCounterForQuery(
+            $idSite,
+            $lastMinutes,
+            $segment,
+            'COUNT(log_visit.visit_last_action_time)',
+            'log_visit',
+            'log_visit.visit_last_action_time >= ?'
+        );
+    }
+
+    /**
+     * @param $idSite
+     * @param $lastMinutes
+     * @param $segment
+     * @return int
+     * @throws Exception
+     */
+    public function getNumVisitors($idSite, $lastMinutes, $segment)
+    {
+        return $this->getLastMinutesCounterForQuery(
+            $idSite,
+            $lastMinutes,
+            $segment,
+            'COUNT(DISTINCT log_visit.idvisitor)',
+            'log_visit',
+            'log_visit.visit_last_action_time >= ?'
+        );
+    }
+
+    private function getLastMinutesCounterForQuery($idSite, $lastMinutes, $segment, $select, $from, $where)
     {
         $lastMinutes = (int)$lastMinutes;
 
-        $counters = array(
-            'visits' => 0,
-            'actions' => 0,
-            'visitors' => 0,
-            'visitsConverted' => 0,
-        );
-
         if (empty($lastMinutes)) {
-            return array($counters);
+            return 0;
         }
 
-        list($whereIdSites, $idSites) = $this->getIdSitesWhereClause($idSite);
+        list($whereIdSites, $idSites) = $this->getIdSitesWhereClause($idSite, $from);
 
-        $select = "count(*) as visits, COUNT(DISTINCT log_visit.idvisitor) as visitors";
-        $where = $whereIdSites . "AND log_visit.visit_last_action_time >= ?";
-        $bind = $idSites;
+        $bind   = $idSites;
         $bind[] = Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s');
 
+        $where = $whereIdSites . "AND " . $where;
+
         $segment = new Segment($segment, $idSite);
-        $query = $segment->getSelectQuery($select, 'log_visit', $where, $bind);
+        $query   = $segment->getSelectQuery($select, $from, $where, $bind);
 
-        $data = Db::fetchAll($query['sql'], $query['bind']);
+        $numVisitors = Db::fetchOne($query['sql'], $query['bind']);
 
-        $counters['visits'] = $data[0]['visits'];
-        $counters['visitors'] = $data[0]['visitors'];
-
-        $select = "count(*)";
-        $from = 'log_link_visit_action';
-        list($whereIdSites) = $this->getIdSitesWhereClause($idSite, $from);
-        $where = $whereIdSites . "AND log_link_visit_action.server_time >= ?";
-        $query = $segment->getSelectQuery($select, $from, $where, $bind);
-        $counters['actions'] = Db::fetchOne($query['sql'], $query['bind']);
-
-        $select = "count(*)";
-        $from = 'log_conversion';
-        list($whereIdSites) = $this->getIdSitesWhereClause($idSite, $from);
-        $where = $whereIdSites . "AND log_conversion.server_time >= ?";
-        $query = $segment->getSelectQuery($select, $from, $where, $bind);
-        $counters['visitsConverted'] = Db::fetchOne($query['sql'], $query['bind']);
-
-        return array($counters);
+        return $numVisitors;
     }
-
-
 
     /**
      * @param $idSite

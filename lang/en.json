@@ -454,7 +454,7 @@
         "Yesterday": "Yesterday",
         "YouAreCurrentlyUsing": "You are currently using Piwik %s.",
         "YouAreViewingDemoShortMessage": "You are currently viewing the demo of Piwik",
-        "YouMustBeLoggedIn": "You must be logged in to access this functionnality.",
+        "YouMustBeLoggedIn": "You must be logged in to access this functionality.",
         "YourChangesHaveBeenSaved": "Your changes have been saved."
     },
     "Mobile": {

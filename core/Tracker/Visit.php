@@ -11,7 +11,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Network\IPUtils;

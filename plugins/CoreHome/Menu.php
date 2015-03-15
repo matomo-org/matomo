@@ -38,7 +38,7 @@ class Menu extends \Piwik\Plugin\Menu
 
         $module = $this->getLoginModule();
         if (Piwik::isUserIsAnonymous()) {
-            $menu->addItem('Login_LogIn', null, array('module' => $module), 999);
+            $menu->addItem('Login_LogIn', null, array('module' => $module, 'action' => false), 999);
         } else {
             $menu->addItem('General_Logout', null, array('module' => $module, 'action' => 'logout', 'idSite' => null), 999);
         }

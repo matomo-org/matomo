@@ -11,7 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome\Commands;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\Actions;
-use Piwik\DataAccess\ArchiveInvalidator;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreAdminHome\Model\DuplicateActionRemover;
 use Piwik\Timer;

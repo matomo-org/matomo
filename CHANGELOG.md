@@ -25,6 +25,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
   * `isIpInRange()`
   * `getHostByAddr()`
 
+### New commands
+* There is now a command `core:purge-old-archive-data` that can be used to manually purge temporary, error-ed and invalidated archives from one or more archive tables.
+
 ## Piwik 2.11.0
 
 ### Breaking Changes
