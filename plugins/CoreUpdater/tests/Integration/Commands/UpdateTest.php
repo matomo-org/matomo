@@ -7,7 +7,10 @@
  */
 namespace Piwik\Plugins\CoreUpdater\tests\Integration\Commands;
 
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
@@ -90,6 +93,21 @@ class UpdateTest extends ConsoleCommandTestCase
         // check no update occurred
         $this->assertContains("Everything is already up to date.", $this->applicationTester->getDisplay());
         $this->assertEquals(Version::VERSION, Option::get('version_core'));
+    }
+
+    public function test_UpdateCommand_ReturnsCorrectExitCode_WhenErrorOccurs()
+    {
+        // create a blob table, then drop it manually so update 2.10.0-b10 will fail
+        $tableName = ArchiveTableCreator::getBlobTable(Date::factory('2015-01-01'));
+        Db::exec("DROP TABLE $tableName");
+
+        $result = $this->applicationTester->run(array(
+            'command' => 'core:update',
+            '--yes' => true
+        ));
+
+        $this->assertEquals(1, $result);
+        $this->assertContains("Piwik could not be updated! See above for more information.", $this->applicationTester->getDisplay());
     }
 
     private function assertDryRunExecuted($output)
