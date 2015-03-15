@@ -128,20 +128,20 @@ cd ../../../../../\n\n";
 
     protected function getDownloadToPath($plugin)
     {
-        $downloadTo = PIWIK_DOCUMENT_ROOT . "/";
         if (empty($plugin)) {
-            $downloadTo .= "tests/UI/expected-ui-screenshots/";
-        } else {
-            $downloadTo .= "plugins/$plugin/tests/UI/expected-ui-screenshots/";
+            return PIWIK_DOCUMENT_ROOT . "/tests/UI/expected-ui-screenshots/";
         }
-        if(is_dir($downloadTo)) {
-            return $downloadTo;
-        }
-        $downloadTo = str_replace("tests/", "Test/", $downloadTo);
+
+        $downloadTo = PIWIK_DOCUMENT_ROOT . "/plugins/$plugin/tests/UI/expected-ui-screenshots/";
         if(is_dir($downloadTo)) {
             return $downloadTo;
         }
 
+        // Maybe the plugin is using folder "Test/" instead of "tests/"
+        $downloadTo = str_replace("tests/", "Test/", $downloadTo);
+        if(is_dir($downloadTo)) {
+            return $downloadTo;
+        }
         throw new \Exception("Download to path could not be found: $downloadTo");
     }
 
