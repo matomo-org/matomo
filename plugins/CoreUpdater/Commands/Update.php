@@ -71,10 +71,6 @@ class Update extends ConsoleCommand
         } catch(NoUpdatesFoundException $e) {
             // Do not fail if no updates were found
             $this->writeSuccessMessage($output, array($e->getMessage()));
-        } catch (\Exception $e) {
-            // Fail in case of any other error during upgrade
-            $output->writeln("<error>" . $e->getMessage() . "</error>");
-            throw $e;
         }
     }
 
@@ -203,11 +199,15 @@ class Update extends ConsoleCommand
         }
 
         $output->writeln(array(
+            "",
             "    [X] " . Piwik::translate('CoreUpdater_CriticalErrorDuringTheUpgradeProcess'),
             "",
         ));
 
         foreach ($errors as $errorMessage) {
+            $errorMessage = trim($errorMessage);
+            $errorMessage = str_replace("\n", "\n    ", $errorMessage);
+
             $output->writeln("    * $errorMessage");
         }
 
@@ -220,14 +220,18 @@ class Update extends ConsoleCommand
 
         if ($includeDiyHelp) {
             $output->writeln(array(
+                "",
                 "    " . Piwik::translate('CoreUpdater_ErrorDIYHelp'),
-                "*     " . Piwik::translate('CoreUpdater_ErrorDIYHelp_1'),
-                "*     " . Piwik::translate('CoreUpdater_ErrorDIYHelp_2'),
-                "*     " . Piwik::translate('CoreUpdater_ErrorDIYHelp_3'),
-                "*     " . Piwik::translate('CoreUpdater_ErrorDIYHelp_4'),
-                "*     " . Piwik::translate('CoreUpdater_ErrorDIYHelp_5')
+                "",
+                "    * " . Piwik::translate('CoreUpdater_ErrorDIYHelp_1'),
+                "    * " . Piwik::translate('CoreUpdater_ErrorDIYHelp_2'),
+                "    * " . Piwik::translate('CoreUpdater_ErrorDIYHelp_3'),
+                "    * " . Piwik::translate('CoreUpdater_ErrorDIYHelp_4'),
+                "    * " . Piwik::translate('CoreUpdater_ErrorDIYHelp_5')
             ));
         }
+
+        throw new \RuntimeException("Piwik could not be updated! See above for more information.");
     }
 
     private function outputUpdaterWarnings(OutputInterface $output, $warnings)
@@ -265,7 +269,7 @@ class Update extends ConsoleCommand
 
     private function getUpdateHelpMessage()
     {
-        return Piwik::translate('CoreUpdater_HelpMessageContent', array('[',']','\n\n    *'));
+        return Piwik::translate('CoreUpdater_HelpMessageContent', array('[',']',"\n    *"));
     }
 
     private function isUpdatingCore($componentsWithUpdateFile)
