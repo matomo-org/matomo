@@ -273,8 +273,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
                 $header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 2\n\n",
             )),
 
-            /*TODO: is this test needed?
-             * array('sort, common sections before new section', array(
+            array('sort, common sections before new section', array(
                 array('Tracker' => array('anonymize' => 1),   // local
                       'General' => array('debug' => 1)),
                 array('General' => array('debug' => 0),       // global
@@ -284,7 +283,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
                       'Tracker' => array('anonymize' => 1),   // local
                       'General' => array('debug' => 1)),
                 $header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 1\n\n[Segment]\ndimension = \"foo\"\n\n",
-            )),*/
+            )),
 
             array('change back to default', array(
                 array('Tracker' => array('anonymize' => 1)),  // local
@@ -333,7 +332,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
                 array('CommonCategory' => array('settingCommon2' => 'common2',
                                                 'newSetting' => 'newValue'),
                       'General' => array('key' => 'value')),
-                $header . "[CommonCategory]\nnewSetting = \"newValue\"\n\n[General]\nkey = \"value\"\n\n",
+                $header . "[General]\nkey = \"value\"\n\n[CommonCategory]\nnewSetting = \"newValue\"\n\n",
             )),
 
             array('Converts Dollar Sign To Dollar Entity', array(
@@ -345,7 +344,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
                 array('CommonCategory' => array('settingCommon2' => 'common2',
                                                 'newSetting' => 'newValue'),
                     'General' => array('key' => '$value', 'key2' => '${value}')),
-                $header . "[CommonCategory]\nnewSetting = \"newValue\"\n\n[General]\nkey = \"&#36;value\"\nkey2 = \"&#36;{value}\"\n\n",
+                $header . "[General]\nkey = \"&#36;value\"\nkey2 = \"&#36;{value}\"\n\n[CommonCategory]\nnewSetting = \"newValue\"\n\n",
             )),
         );
 

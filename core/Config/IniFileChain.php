@@ -159,7 +159,20 @@ class IniFileChain
         }
 
         if ($dirty) {
-            @uksort($configToWrite, "strnatcasecmp");
+            // sort config sections by how early they appear in the file chain
+            $self = $this;
+            uksort($configToWrite, function ($sectionNameLhs, $sectionNameRhs) use ($self) {
+                $lhsIndex = $self->findIndexOfFirstFileWithSection($sectionNameLhs);
+                $rhsIndex = $self->findIndexOfFirstFileWithSection($sectionNameRhs);
+
+                if ($lhsIndex == $rhsIndex) {
+                    return 0;
+                } else if ($lhsIndex < $rhsIndex) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            });
 
             $writer = new IniWriter();
             return $writer->writeToString($configToWrite, $header);
@@ -339,5 +352,18 @@ class IniFileChain
             }
         }
         return $merged;
+    }
+
+    public function findIndexOfFirstFileWithSection($sectionName)
+    {
+        $count = 0;
+        foreach ($this->settingsChain as $file => $settings) {
+            if (isset($settings[$sectionName])) {
+                break;
+            }
+
+            ++$count;
+        }
+        return $count;
     }
 }
