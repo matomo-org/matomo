@@ -40,20 +40,21 @@
 		<br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'click'") }} \
 		<br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'(.*)_banner'") }}"
     };
-    bindGoalForm();
+    $(document).ready(function () {
+        bindGoalForm();
 
-    {% if onlyShowAddNewGoal is not defined %}
-        piwik.goals = {{ goalsJSON|raw }};
-        bindListGoalEdit();
+        {% if onlyShowAddNewGoal is not defined %}
+            piwik.goals = {{ goalsJSON|raw }};
+            bindListGoalEdit();
 
-        {% if idGoal %}
-            editGoal({{ idGoal|e('js') }});
+            {% if idGoal %}
+                editGoal({{ idGoal|e('js') }});
+            {% else %}
+                showEditGoals();
+            {% endif %}
         {% else %}
-            showEditGoals();
+            initAndShowAddGoalForm();
         {% endif %}
-    {% else %}
-        initAndShowAddGoalForm();
-    {% endif %}
-
+    });
 
 </script>
