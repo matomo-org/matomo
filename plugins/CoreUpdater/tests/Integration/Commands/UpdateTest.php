@@ -53,7 +53,7 @@ class UpdateTest extends ConsoleCommandTestCase
             '--yes' => true
         ));
 
-        $this->assertEquals(0, $result);
+        $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
 
         $this->assertDryRunExecuted($this->applicationTester->getDisplay());
 
@@ -71,7 +71,7 @@ class UpdateTest extends ConsoleCommandTestCase
             'command' => 'core:update'
         ));
 
-        $this->assertEquals(0, $result);
+        $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
 
         $this->assertDryRunExecuted($this->applicationTester->getDisplay());
 
@@ -88,7 +88,7 @@ class UpdateTest extends ConsoleCommandTestCase
             '--yes' => true
         ));
 
-        $this->assertEquals(0, $result);
+        $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
 
         // check no update occurred
         $this->assertContains("Everything is already up to date.", $this->applicationTester->getDisplay());
