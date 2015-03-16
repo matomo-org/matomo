@@ -106,7 +106,7 @@ class UpdateTest extends ConsoleCommandTestCase
             '--yes' => true
         ));
 
-        $this->assertEquals(1, $result);
+        $this->assertEquals(1, $result, $this->getCommandDisplayOutputErrorMessage());
         $this->assertContains("Piwik could not be updated! See above for more information.", $this->applicationTester->getDisplay());
     }
 
