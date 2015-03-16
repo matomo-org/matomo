@@ -137,12 +137,14 @@ class VisitorGeolocatorTest extends IntegrationTestCase
             LocationProvider::LONGITUDE_KEY => '-90.064880'
         );
 
+        // note: floating point values should be used for expected properties so floating point comparison is done
+        // by PHPUnit
         $basicExpectedVisitProperties = array(
             'location_country' => 'us',
             'location_region' => 'rg',
             'location_city' => 'the city',
-            'location_latitude' => '29.959698',
-            'location_longitude' => '-90.064880'
+            'location_latitude' => 29.959698,
+            'location_longitude' => -90.064880
         );
 
         return array(
@@ -167,8 +169,8 @@ class VisitorGeolocatorTest extends IntegrationTestCase
                     'location_country' => 'us',
                     'location_region' => 'rg',
                     'location_city' => 'the city',
-                    'location_latitude' => '29.959698',
-                    'location_longitude' => '-90.064880'
+                    'location_latitude' => 29.959698,
+                    'location_longitude' => -90.064880
                 )
             ),
 
@@ -185,8 +187,8 @@ class VisitorGeolocatorTest extends IntegrationTestCase
 
                 array(
                     'location_country' => 'us',
-                    'location_latitude' => '29.959698',
-                    'location_longitude' => '-90.064880'
+                    'location_latitude' => 29.959698,
+                    'location_longitude' => -90.064880
                 )
             ),
 
@@ -216,13 +218,13 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         $geolocator = new VisitorGeolocator($mockLocationProvider);
         $valuesUpdated = $geolocator->attributeExistingVisit($visit, $useCache = false);
 
-        $this->assertEquals($expectedVisitProperties, $this->getVisit($visit['idvisit']));
+        $this->assertEquals($expectedVisitProperties, $this->getVisit($visit['idvisit']), $message = '', $delta = 0.001);
 
         $expectedUpdateValues = $expectedUpdateValues === null ? $expectedVisitProperties : $expectedUpdateValues;
-        $this->assertEquals($expectedUpdateValues, $valuesUpdated);
+        $this->assertEquals($expectedUpdateValues, $valuesUpdated, $message = '', $delta = 0.001);
 
         $conversions = $this->getConversions($visit);
-        $this->assertEquals(array($expectedVisitProperties, $expectedVisitProperties), $conversions);
+        $this->assertEquals(array($expectedVisitProperties, $expectedVisitProperties), $conversions, $message = '', $delta = 0.001);
     }
 
     /**
@@ -307,7 +309,9 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     private function getVisit($idVisit, $allColumns = false)
     {
         $columns = $allColumns ? "*" : "location_country, location_region, location_city, location_latitude, location_longitude";
-        return Db::fetchRow("SELECT $columns FROM " . Common::prefixTable('log_visit') . " WHERE idvisit = ?", array($idVisit));
+        $visit = Db::fetchRow("SELECT $columns FROM " . Common::prefixTable('log_visit') . " WHERE idvisit = ?", array($idVisit));
+
+        return $visit;
     }
 
     private function insertTwoConversions($visit)
