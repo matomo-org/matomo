@@ -56,6 +56,8 @@ then
                 echo " --http-user=... --http-password=..."
             fi
         fi
+        
+        echo ""
 
         if [ -n "$PLUGIN_NAME" ]
         then
