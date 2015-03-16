@@ -6,9 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Fixtures;
+namespace Piwik\Plugins\CoreUpdater\Test\Fixtures;
 
-class UpdaterTestFixture extends SqlDump
+use Piwik\Tests\Fixtures\SqlDump;
+
+class DbUpdaterTestFixture extends SqlDump
 {
     public function performSetUp($setupEnvironmentOnly = false)
     {
