@@ -344,7 +344,10 @@ class ArchiveProcessor
         // By default we shall aggregate all sub-tables.
         $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
 
+        $columnsRenamed = false;
+
         if ($dataTable instanceof Map) {
+            $columnsRenamed = true;
             // see https://github.com/piwik/piwik/issues/4377
             $self = $this;
             $dataTable->filter(function ($table) use ($self, $columnsToRenameAfterAggregation) {
@@ -353,7 +356,11 @@ class ArchiveProcessor
         }
 
         $dataTable = $this->getAggregatedDataTableMap($dataTable, $columnsAggregationOperation);
-        $this->renameColumnsAfterAggregation($dataTable, $columnsToRenameAfterAggregation);
+
+        if (!$columnsRenamed) {
+            $this->renameColumnsAfterAggregation($dataTable, $columnsToRenameAfterAggregation);
+        }
+        
         return $dataTable;
     }
 
