@@ -163,8 +163,8 @@ Sort extends BaseFilter
      */
     protected function selectColumnToSort($row)
     {
-        $value = $row->getColumn($this->columnToSort);
-        if ($value !== false) {
+        $value = $row->hasColumn($this->columnToSort);
+        if ($value) {
             return $this->columnToSort;
         }
 
@@ -172,9 +172,9 @@ Sort extends BaseFilter
         // sorting by "nb_visits" but the index is Metrics::INDEX_NB_VISITS in the table
         if (isset($columnIdToName[$this->columnToSort])) {
             $column = $columnIdToName[$this->columnToSort];
-            $value = $row->getColumn($column);
+            $value = $row->hasColumn($column);
 
-            if ($value !== false) {
+            if ($value) {
                 return $column;
             }
         }
@@ -182,8 +182,8 @@ Sort extends BaseFilter
         // eg. was previously sorted by revenue_per_visit, but this table
         // doesn't have this column; defaults with nb_visits
         $column = Metrics::INDEX_NB_VISITS;
-        $value = $row->getColumn($column);
-        if ($value !== false) {
+        $value = $row->hasColumn($column);
+        if ($value) {
             return $column;
         }
 
@@ -220,8 +220,9 @@ Sort extends BaseFilter
 
         $this->columnToSort = $this->selectColumnToSort($row);
 
-        $value = $row->getColumn($this->columnToSort);
-        if (is_numeric($value)) {
+        $value = $this->getFirstValueFromDataTable($table);
+
+        if (is_numeric($value) && $this->columnToSort !== 'label') {
             $methodToUse = "numberSort";
         } else {
             if ($this->naturalSort) {
@@ -232,6 +233,16 @@ Sort extends BaseFilter
         }
 
         $this->sort($table, $methodToUse);
+    }
+
+    private function getFirstValueFromDataTable($table)
+    {
+        foreach ($table->getRows() as $row) {
+            $value = $this->getColumnValue($row);
+            if (!is_null($value)) {
+                return $value;
+            }
+        }
     }
 
     /**
