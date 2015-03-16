@@ -4445,7 +4445,8 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Set list of file extensions to be recognized as downloads
+                 * Set list of file extensions to be recognized as downloads. Each extension has to be separated by
+                 * a '/'.
                  *
                  * @param string extensions
                  */
@@ -4454,9 +4455,10 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Specify additional file extensions to be recognized as downloads
+                 * Specify additional file extensions to be recognized as downloads. If you'd like to add multiple
+                 * extensions, separate them by a '|' character.
                  *
-                 * @param string extensions
+                 * @param string extensions  for example 'custom' or 'custom1|custom2|custom3'
                  */
                 addDownloadExtensions: function (extensions) {
                     configDownloadExtensions += '|' + extensions;
