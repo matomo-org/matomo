@@ -12,6 +12,7 @@ use Piwik\Columns\Updater as ColumnUpdater;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 use Piwik\Updater\UpdateObserver;
+use Zend_Db_Exception;
 
 /**
  * Load and execute all relevant, incremental update scripts for Piwik core and plugins, and bump the component version numbers for completed updates.
@@ -230,8 +231,7 @@ class Updater
                 ) {
                     $this->executeListenerHook('onComponentUpdateFileStarting', array($componentName, $file, $className, $fileVersion));
 
-                    $update = StaticContainer::getContainer()->make($className);
-                    call_user_func(array($update, 'doUpdate'), $this);
+                    $this->executeSingleUpdateClass($className);
 
                     $this->executeListenerHook('onComponentUpdateFileFinished', array($componentName, $file, $className, $fileVersion));
 
@@ -525,6 +525,22 @@ class Updater
     {
         foreach ($this->updateObservers as $listener) {
             call_user_func_array(array($listener, $hookName), $arguments);
+        }
+    }
+
+    private function executeSingleUpdateClass($className)
+    {
+        $update = StaticContainer::getContainer()->make($className);
+        try {
+            call_user_func(array($update, 'doUpdate'), $this);
+        } catch (\Exception $e) {
+            // if an Update file executes PHP statements directly, DB exceptions be handled by executeSingleMigrationQuery, so
+            // make sure to check for them here
+            if ($e instanceof Zend_Db_Exception) {
+                throw new UpdaterErrorException($e->getMessage(), $e->getCode(), $e);
+            } else {
+                throw $e;
+            }
         }
     }
 
