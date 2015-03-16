@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\UserCountry\tests\Unit;
+namespace Piwik\Plugins\UserCountry\tests\Integration;
 
 use PHPUnit_Framework_MockObject_MockObject;
 use Piwik\Common;
@@ -282,7 +282,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
             'visit_entry_idaction_url' => 0,
             'visitor_days_since_order' => 0,
             'visitor_days_since_first' => 0,
-            'visit_first_action_time' => 0,
+            'visit_first_action_time' => '2012-01-01 00:00:00',
             'visit_goal_buyer' => 0,
             'visit_goal_converted' => 0,
             'visit_exit_idaction_name' => 0,
