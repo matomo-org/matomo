@@ -394,5 +394,7 @@
 		<nb_actions>16</nb_actions>
 		<nb_visits_converted>0</nb_visits_converted>
 		<bounce_count>4</bounce_count>
+		<nb_conversions>12</nb_conversions>
+		<revenue>60</revenue>
 	</reportTotal>
 </result>

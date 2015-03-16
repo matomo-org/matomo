@@ -33,7 +33,7 @@ class API extends \Piwik\Plugin\API
     public function getNumberOfVisitsPerVisitDuration($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::TIME_SPENT_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->queueFilter('Sort', array('label', 'asc', true));
+        $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
         $dataTable->queueFilter('BeautifyTimeRangeLabels', array(
                                                                 Piwik::translate('VisitorInterest_BetweenXYSeconds'),
                                                                 Piwik::translate('VisitorInterest_OneMinute'),
@@ -44,7 +44,7 @@ class API extends \Piwik\Plugin\API
     public function getNumberOfVisitsPerPage($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::PAGES_VIEWED_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->queueFilter('Sort', array('label', 'asc', true));
+        $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
         $dataTable->queueFilter('BeautifyRangeLabels', array(
                                                             Piwik::translate('VisitorInterest_OnePage'),
                                                             Piwik::translate('VisitorInterest_NPages')));

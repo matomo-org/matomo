@@ -99,6 +99,11 @@ class ColumnCallbackReplace extends BaseFilter
                 $this->filterSubTable($row);
             }
         }
+
+        if (in_array('label', $this->columnsToFilter)) {
+            // we need to force rebuilding the index
+            $table->setLabelsHaveChanged();
+        }
     }
 
     /**

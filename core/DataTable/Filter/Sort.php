@@ -21,11 +21,14 @@ use Piwik\Metrics;
  *
  * @api
  */
-class
-Sort extends BaseFilter
+class Sort extends BaseFilter
 {
     protected $columnToSort;
     protected $order;
+    protected $sign;
+
+    const ORDER_DESC = 'desc';
+    const ORDER_ASC  = 'asc';
 
     /**
      * Constructor.
@@ -36,7 +39,7 @@ Sort extends BaseFilter
      * @param bool $naturalSort Whether to use a natural sort or not (see {@link http://php.net/natsort}).
      * @param bool $recursiveSort Whether to sort all subtables or not.
      */
-    public function __construct($table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = false)
+    public function __construct($table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = true)
     {
         parent::__construct($table);
 
@@ -68,8 +71,8 @@ Sort extends BaseFilter
     /**
      * Sorting method used for sorting numbers
      *
-     * @param Row $a
-     * @param Row $b
+     * @param array $rowA  array[0 => value of column to sort, 1 => label]
+     * @param array $rowB  array[0 => value of column to sort, 1 => label]
      * @return int
      */
     public function numberSort($rowA, $rowB)
@@ -80,20 +83,20 @@ Sort extends BaseFilter
             } else {
                 return -1 * $this->sign * strnatcasecmp($rowA[1], $rowB[1]);
             }
-        } elseif (!isset($rowB[0])) {
-            return -1;
+        } elseif (!isset($rowB[0]) && !isset($rowA[0])) {
+            return -1 * $this->sign * strnatcasecmp($rowA[1], $rowB[1]);
         } elseif (!isset($rowA[0])) {
             return 1;
         }
 
-        return 0;
+        return -1;
     }
 
     /**
      * Sorting method used for sorting values natural
      *
-     * @param mixed $a
-     * @param mixed $b
+     * @param array $rowA  array[0 => value of column to sort, 1 => label]
+     * @param array $rowB  array[0 => value of column to sort, 1 => label]
      * @return int
      */
     function naturalSort($rowA, $rowB)
@@ -119,8 +122,8 @@ Sort extends BaseFilter
     /**
      * Sorting method used for sorting values
      *
-     * @param mixed $a
-     * @param mixed $b
+     * @param array $rowA  array[0 => value of column to sort, 1 => label]
+     * @param array $rowB  array[0 => value of column to sort, 1 => label]
      * @return int
      */
     function sortString($rowA, $rowB)
@@ -208,12 +211,11 @@ Sort extends BaseFilter
             return;
         }
 
-        $rows = $table->getRows();
-        if (count($rows) == 0) {
+        if (!$table->getRowsCount()) {
             return;
         }
 
-        $row = current($rows);
+        $row = $table->getFirstRow();
         if ($row === false) {
             return;
         }
@@ -268,10 +270,10 @@ Sort extends BaseFilter
 
         $sortedRows = array();
         foreach ($values as $key => $value) {
-            $sortedRows[$key] = $rows[$key];
+            $sortedRows[] = $rows[$key];
         }
 
-        $table->setRows(array_values($sortedRows));
+        $table->setRows($sortedRows);
 
         unset($rows);
         unset($sortedRows);

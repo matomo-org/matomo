@@ -96,7 +96,7 @@ class DataTableGenericFilter
                   )),
             array('Sort',
                   array(
-                      'filter_sort_column' => array('string'),
+                      'filter_sort_column' => array('string', 'nb_visits'),
                       'filter_sort_order'  => array('string', 'desc'),
                   )),
             array('Truncate',
@@ -120,6 +120,14 @@ class DataTableGenericFilter
             foreach ($filters as $index => $filter) {
                 if ($filter[0] === 'Sort') {
                     $filters[$index][1]['filter_sort_column'] = array('string', $this->report->getDefaultSortColumn());
+                    $filters[$index][1]['filter_sort_order']  = array('string', $this->report->getDefaultSortOrder());
+                }
+            }
+        }  elseif ($this->report) {
+            // do not sort by anything by default if report has not specified a columns
+            foreach ($filters as $index => $filter) {
+                if ($filter[0] === 'Sort') {
+                    $filters[$index][1]['filter_sort_column'] = array('string');
                 }
             }
         }

@@ -351,7 +351,12 @@ class ArchiveProcessor
             // see https://github.com/piwik/piwik/issues/4377
             $self = $this;
             $dataTable->filter(function ($table) use ($self, $columnsToRenameAfterAggregation) {
-                $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+
+                /** @var \Piwik\Period $period */
+                $period = $table->getMetadata('period');
+                if (!$period || $period->getLabel() === 'day') {
+                    $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+                }
             });
         }
 
@@ -360,7 +365,7 @@ class ArchiveProcessor
         if (!$columnsRenamed) {
             $this->renameColumnsAfterAggregation($dataTable, $columnsToRenameAfterAggregation);
         }
-        
+
         return $dataTable;
     }
 
@@ -499,8 +504,15 @@ class ArchiveProcessor
             $columnsToRenameAfterAggregation = self::$columnsToRenameAfterAggregation;
         }
 
-        foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
-            $table->renameColumn($oldName, $newName);
+        foreach ($table->getRows() as $row) {
+            foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
+                $row->renameColumn($oldName, $newName);
+            }
+
+            $subTable = $row->getSubtable();
+            if ($subTable) {
+                $this->renameColumnsAfterAggregation($subTable, $columnsToRenameAfterAggregation);
+            }
         }
     }
 
@@ -524,7 +536,7 @@ class ArchiveProcessor
             $rowMetrics = new Row;
         }
         $this->enrichWithUniqueVisitorsMetric($rowMetrics);
-        $this->renameColumnsAfterAggregation($results);
+        $this->renameColumnsAfterAggregation($results, self::$columnsToRenameAfterAggregation);
 
         $metrics = $rowMetrics->getColumns();
 

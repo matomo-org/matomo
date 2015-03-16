@@ -83,5 +83,6 @@
 	<reportTotal>
 		<nb_visits>8</nb_visits>
 		<nb_hits>13</nb_hits>
+		<exit_nb_visits>2</exit_nb_visits>
 	</reportTotal>
 </result>

@@ -15,6 +15,8 @@ use Piwik\Plugins\Goals\Archiver;
 
 class GetVisitsUntilConversion extends Base
 {
+    protected $defaultSortColumn = '';
+
     protected function init()
     {
         parent::init();

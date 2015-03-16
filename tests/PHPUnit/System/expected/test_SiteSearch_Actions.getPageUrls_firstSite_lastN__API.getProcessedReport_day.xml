@@ -99,5 +99,7 @@
 		<nb_visits>3</nb_visits>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
 		<nb_hits>4</nb_hits>
+		<exit_nb_visits>1</exit_nb_visits>
+		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 	</reportTotal>
 </result>
