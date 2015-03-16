@@ -2,6 +2,11 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+## Piwik 2.13.0
+
+### APIs Improvements
+* Visitor details now additionally contain: `deviceTypeIcon`, `deviceBrand` and `deviceModel`
+
 ## Piwik 2.12.0
 
 ### Breaking Changes
@@ -27,9 +32,6 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### New commands
 * There is now a command `core:purge-old-archive-data` that can be used to manually purge temporary, error-ed and invalidated archives from one or more archive tables.
-
-### APIs Improvements
-* Visitor details now additionally contain: `deviceTypeIcon`, `deviceBrand` and `deviceModel`
 
 ## Piwik 2.11.0
 
