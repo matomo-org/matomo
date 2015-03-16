@@ -78,11 +78,12 @@ class Menu
      */
     protected function urlForAction($controllerAction, $additionalParams = array())
     {
-        $this->checkisValidCallable($this->getModule(), $controllerAction);
+        $module = $this->getModule();
+        $this->checkisValidCallable($module, $controllerAction);
 
         $params = (array) $additionalParams;
         $params['action'] = $controllerAction;
-        $params['module'] = $this->getModule();
+        $params['module'] = $module;
 
         return $params;
     }
