@@ -37,6 +37,8 @@ class UpdateTest extends ConsoleCommandTestCase
 
         $this->oldScriptName = $_SERVER['SCRIPT_NAME'];
         $_SERVER['SCRIPT_NAME'] = $_SERVER['SCRIPT_NAME'] . " console"; // update won't execute w/o this, see Common::isRunningConsoleCommand()
+
+        ArchiveTableCreator::clear();
     }
 
     public function tearDown()
