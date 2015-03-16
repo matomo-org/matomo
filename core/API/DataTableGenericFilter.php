@@ -88,6 +88,9 @@ class DataTableGenericFilter
                   array(
                       'filter_sort_column' => array('string'),
                       'filter_sort_order'  => array('string', 'desc'),
+                      $naturalSort = true,
+                      $recursiveSort = false,
+                      $doSortBySecondaryColumn = true
                   )),
             array('Truncate',
                   array(
@@ -133,22 +136,26 @@ class DataTableGenericFilter
             }
 
             foreach ($filterParams as $name => $info) {
-                // parameter type to cast to
-                $type = $info[0];
+                if (!is_array($info)) {
+                    $filterParameters[] = $info; // hard coded value that cannot be changed via API
+                } else {
+                    // parameter type to cast to
+                    $type = $info[0];
 
-                // default value if specified, when the parameter doesn't have a value
-                $defaultValue = null;
-                if (isset($info[1])) {
-                    $defaultValue = $info[1];
-                }
+                    // default value if specified, when the parameter doesn't have a value
+                    $defaultValue = null;
+                    if (isset($info[1])) {
+                        $defaultValue = $info[1];
+                    }
 
-                try {
-                    $value = Common::getRequestVar($name, $defaultValue, $type, $this->request);
-                    settype($value, $type);
-                    $filterParameters[] = $value;
-                } catch (Exception $e) {
-                    $exceptionRaised = true;
-                    break;
+                    try {
+                        $value = Common::getRequestVar($name, $defaultValue, $type, $this->request);
+                        settype($value, $type);
+                        $filterParameters[] = $value;
+                    } catch (Exception $e) {
+                        $exceptionRaised = true;
+                        break;
+                    }
                 }
             }
 
