@@ -36,6 +36,8 @@ require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
  */
 class VisitorGeolocator
 {
+    const LAT_LONG_COMPARE_EPSILON = 0.0001;
+
     /**
      * @var string[]
      */
@@ -190,7 +192,7 @@ class VisitorGeolocator
             $locationPropertyValue = $location[$locationKey];
             $existingPropertyValue = $row[$column];
 
-            if ($locationPropertyValue != $existingPropertyValue) {
+            if (!$this->areLocationPropertiesEqual($locationKey, $locationPropertyValue, $existingPropertyValue)) {
                 $valuesToUpdate[$column] = $locationPropertyValue;
             }
         }
@@ -211,6 +213,19 @@ class VisitorGeolocator
     public function getBackupProvider()
     {
         return $this->backupProvider;
+    }
+
+    private function areLocationPropertiesEqual($locationKey, $locationPropertyValue, $existingPropertyValue)
+    {
+        if (($locationKey == LocationProvider::LATITUDE_KEY
+             || $locationKey == LocationProvider::LONGITUDE_KEY)
+            && $existingPropertyValue != 0
+        ) {
+            // floating point comparison
+            return abs(($locationPropertyValue - $existingPropertyValue) / $existingPropertyValue) < self::LAT_LONG_COMPARE_EPSILON;
+        } else {
+            return $locationPropertyValue == $existingPropertyValue;
+        }
     }
 
     private function getDefaultProvider()
