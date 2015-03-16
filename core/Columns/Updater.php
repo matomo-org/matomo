@@ -223,7 +223,10 @@ class Updater extends \Piwik\Updates
 
     public static function wasDimensionMovedFromCoreToPlugin($name, $version)
     {
-        $dimensions = array (
+        // maps names of core dimension columns that were part of the original dimension refactor with their
+        // initial "version" strings. The '1' that is sometimes appended to the end of the string (sometimes seen as
+        // NULL1) is from individual dimension "versioning" logic (eg, see VisitDimension::getVersion())
+        $initialCoreDimensionVersions = array (
             'log_visit.config_resolution' => 'VARCHAR(9) NOT NULL',
             'log_visit.config_device_brand' => 'VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL',
             'log_visit.config_device_model' => 'VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL',
@@ -236,7 +239,7 @@ class Updater extends \Piwik\Updates
             'log_visit.config_realplayer' => 'TINYINT(1) NOT NULL',
             'log_visit.config_device_type' => 'TINYINT( 100 ) NULL DEFAULT NULL',
             'log_visit.visitor_localtime' => 'TIME NOT NULL',
-            'log_visit.location_region' => 'char(2) DEFAULT NULL1', // TODO: some of these have "NULL1", is this a bug?
+            'log_visit.location_region' => 'char(2) DEFAULT NULL1',
             'log_visit.visitor_days_since_last' => 'SMALLINT(5) UNSIGNED NOT NULL',
             'log_visit.location_longitude' => 'float(10, 6) DEFAULT NULL1',
             'log_visit.visit_total_events' => 'SMALLINT(5) UNSIGNED NOT NULL',
@@ -284,11 +287,11 @@ class Updater extends \Piwik\Updates
             'log_conversion.revenue_tax' => 'float default NULL',
         );
 
-        if (!array_key_exists($name, $dimensions)) {
+        if (!array_key_exists($name, $initialCoreDimensionVersions)) {
             return false;
         }
 
-        return strtolower($dimensions[$name]) === strtolower($version);
+        return strtolower($initialCoreDimensionVersions[$name]) === strtolower($version);
     }
 
     public function onNoUpdateAvailable($versionsThatWereChecked)
