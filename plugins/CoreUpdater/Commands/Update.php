@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreUpdater\Commands;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreUpdater\Controller;
@@ -85,7 +86,7 @@ class Update extends ConsoleCommand
     {
         $this->checkAllRequiredOptionsAreNotEmpty($input);
 
-        $updateController = new Controller();
+        $updateController = StaticContainer::get('Piwik\Plugins\CoreUpdater\Controller');
         $content = $updateController->runUpdaterAndExit($doDryRun);
 
         $output->writeln($content);
