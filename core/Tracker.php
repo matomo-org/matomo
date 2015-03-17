@@ -225,6 +225,16 @@ class Tracker
         }
     }
 
+    // for tests
+    public static function disconnectCachedDbConnection()
+    {
+        // code redundancy w/ above is on purpose; above disconnectDatabase depends on method that can potentially be overridden
+        if (!is_null(self::$db))  {
+            self::$db->disconnect();
+            self::$db = null;
+        }
+    }
+
     public static function setTestEnvironment($args = null, $requestMethod = null)
     {
         if (is_null($args)) {
