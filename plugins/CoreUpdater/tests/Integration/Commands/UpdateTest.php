@@ -12,10 +12,14 @@ use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
+use Piwik\Updates\Updates_2_10_0_b5;
 use Piwik\Version;
 use Symfony\Component\Console\Helper\QuestionHelper;
+
+require_once PIWIK_INCLUDE_PATH . '/core/Updates/2.10.0-b5.php';
 
 /**
  * @group CoreUpdater
@@ -39,6 +43,8 @@ class UpdateTest extends ConsoleCommandTestCase
         $_SERVER['SCRIPT_NAME'] = $_SERVER['SCRIPT_NAME'] . " console"; // update won't execute w/o this, see Common::isRunningConsoleCommand()
 
         ArchiveTableCreator::clear();
+        DbHelper::getTablesInstalled($forceReload = true); // force reload so internal cache in Mysql.php is refreshed
+        Updates_2_10_0_b5::$archiveBlobTables = null;
     }
 
     public function tearDown()
