@@ -564,6 +564,12 @@ class Configuration(object):
             '--recorder-max-payload-size', dest='recorder_max_payload_size', default=200, type='int',
             help="Maximum number of log entries to record in one tracking request (default: %default). "
         )
+        
+        option_parser.add_option(
+            '--recorder-cache-size', dest='recorder_cache_size', default=1, type='int',
+            help="Cache partitions to fill with userdata to trade memory for performance (default: #recorders * 5). "
+        )
+       
         option_parser.add_option(
             '--replay-tracking', dest='replay_tracking',
             action='store_true', default=False,
@@ -780,6 +786,9 @@ class Configuration(object):
 
         if self.options.recorders < 1:
             self.options.recorders = 1
+            
+        if self.options.recorder_cache_size < self.options.recorders:
+            self.options.recorder_cache_size = self.options.recorders  * 5
 
         if self.options.download_extensions:
             self.options.download_extensions = set(self.options.download_extensions.split(','))
@@ -1359,6 +1368,7 @@ class Recorder(object):
     """
 
     recorders = []
+    hits_by_client = []
 
     def __init__(self):
         self.queue = Queue.Queue(maxsize=2)
@@ -1366,6 +1376,10 @@ class Recorder(object):
         # if bulk tracking disabled, make sure we can store hits outside of the Queue
         if not config.options.use_bulk_tracking:
             self.unrecorded_hits = []
+            
+        for i in xrange(config.options.recorder_cache_size):
+            self.hits_by_client.append([])
+    
 
     @classmethod
     def launch(cls, recorder_count):
@@ -1390,18 +1404,24 @@ class Recorder(object):
         """
         # Organize hits so that one client IP will always use the same queue.
         # We have to do this so visits from the same IP will be added in the right order.
-        hits_by_client = [[] for r in cls.recorders]
         for hit in all_hits:
-            hits_by_client[hit.get_visitor_id_hash() % len(cls.recorders)].append(hit)
+            cache_id = hit.get_visitor_id_hash() % config.options.recorder_cache_size
+            cls.hits_by_client[cache_id].append(hit)
 
-        for i, recorder in enumerate(cls.recorders):
-            recorder.queue.put(hits_by_client[i])
+            if( len(cls.hits_by_client[cache_id]) >= config.options.recorder_max_payload_size ):
+                cls.recorders[hit.get_visitor_id_hash() % len(cls.recorders)].queue.put(cls.hits_by_client[cache_id])
+                cls.hits_by_client[cache_id] = []
+
 
     @classmethod
     def wait_empty(cls):
         """
         Wait until all recorders have an empty queue.
         """
+        for i, hits in enumerate(cls.hits_by_client):
+            cls.recorders[i % len(cls.recorders)].queue.put(hits)
+            cls.hits_by_client[i] = []
+
         for recorder in cls.recorders:
             recorder._wait_empty()
 
@@ -2034,7 +2054,7 @@ class Parser(object):
 
             hits.append(hit)
 
-            if len(hits) >= config.options.recorder_max_payload_size * len(Recorder.recorders):
+            if len(hits) >= config.options.recorder_max_payload_size:
                 Recorder.add_hits(hits)
                 hits = []
 
