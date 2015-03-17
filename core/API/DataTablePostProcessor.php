@@ -207,7 +207,7 @@ class DataTablePostProcessor
         if (0 == Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
             $this->applyProcessedMetricsGenericFilters($dataTable);
 
-            $genericFilter = new DataTableGenericFilter($this->request);
+            $genericFilter = new DataTableGenericFilter($this->request, $this->report);
 
             $self = $this;
             $report = $this->report;
