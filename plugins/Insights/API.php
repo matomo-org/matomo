@@ -39,11 +39,9 @@ class API extends \Piwik\Plugin\API
      */
     private $model;
 
-    protected function __construct()
+    public function __construct(Model $model)
     {
-        parent::__construct();
-
-        $this->model = new Model();
+        $this->model = $model;
     }
 
     private function getOverviewReports()
