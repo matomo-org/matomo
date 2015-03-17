@@ -26,6 +26,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     const PROVIDER_ARGUMENT = 'provider';
     const SEGMENT_LIMIT_OPTION = 'segment-limit';
     const SEGMENT_LIMIT_OPTION_DEFAULT = 1000;
+    const FORCE_OPTION = 'force';
 
     /**
      * @var RawLogDao
@@ -74,12 +75,14 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         $this->setName('usercountry:attribute');
 
         $this->addArgument(self::DATES_RANGE_ARGUMENT, InputArgument::REQUIRED, 'Attribute visits in this date range. Eg, 2012-01-01,2013-01-01');
-        $this->addArgument(self::PERCENT_STEP_ARGUMENT, InputArgument::OPTIONAL,
+        $this->addOption(self::PERCENT_STEP_ARGUMENT, null, InputArgument::OPTIONAL,
             'How often to display the command progress. A status update will be printed after N percent of visits are processed, '
             . 'where N is the value of this option.', self::PERCENT_STEP_ARGUMENT_DEFAULT);
-        $this->addArgument(self::PROVIDER_ARGUMENT, InputArgument::OPTIONAL, 'Provider id which should be used to attribute visits. If empty then'
+        $this->addOption(self::PROVIDER_ARGUMENT, null, InputOption::VALUE_REQUIRED, 'Provider id which should be used to attribute visits. If empty then'
             . ' Piwik will use the currently configured provider. If no provider is configured, the default provider is used.');
         $this->addOption(self::SEGMENT_LIMIT_OPTION, null, InputOption::VALUE_OPTIONAL, 'Number of visits to process at a time.', self::SEGMENT_LIMIT_OPTION_DEFAULT);
+        $this->addOption(self::FORCE_OPTION, null, InputOption::VALUE_NONE, "Force geolocation, even if the requested provider does not appear to work. It is not "
+                                                                          . "recommended to use this option.");
     }
 
     /**
@@ -91,7 +94,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     {
         list($from, $to) = $this->getDateRangeToAttribute($input);
 
-        $this->visitorGeolocator = $this->createGeolocator($input);
+        $this->visitorGeolocator = $this->createGeolocator($output, $input);
 
         $this->percentStep = $this->getPercentStep($input);
         $this->amountOfVisits = $this->dao->countVisitsWithDatesLimit($from, $to);
@@ -128,20 +131,9 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     protected function reattributeVisitLogs(OutputInterface $output, $logRows)
     {
         foreach ($logRows as $row) {
-            if (!$this->isRowComplete($output, $row)) {
-                continue;
-            }
-
-            $updatedValues = $this->visitorGeolocator->attributeExistingVisit($row);
+            $this->visitorGeolocator->attributeExistingVisit($row);
 
             $this->onVisitProcessed($output);
-
-            $idVisit = $row['idvisit'];
-            if (empty($updatedValues)) {
-                $this->writeIfVerbose($output, 'Nothing to update for idvisit = ' . $idVisit . '. Existing location info is same as geolocated.');
-            } else {
-                $this->writeIfVerbose($output, 'Updating visit with idvisit = ' . $idVisit . '.');
-            }
         }
     }
 
@@ -151,7 +143,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
      */
     protected function getPercentStep(InputInterface $input)
     {
-        $percentStep = $input->getArgument(self::PERCENT_STEP_ARGUMENT);
+        $percentStep = $input->getOption(self::PERCENT_STEP_ARGUMENT);
 
         if (!is_numeric($percentStep)) {
             return self::PERCENT_STEP_ARGUMENT_DEFAULT;
@@ -184,29 +176,6 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         }
     }
 
-    /**
-     * Validate if row contains required columns.
-     * @param OutputInterface $output
-     * @param array $row
-     * @return bool
-     */
-    protected function isRowComplete(OutputInterface $output, array $row)
-    {
-        if (empty($row['idvisit'])) {
-            $this->writeIfVerbose($output, 'Empty idvisit field. Skipping...');
-
-            return false;
-        }
-
-        if (empty($row['location_ip'])) {
-            $this->writeIfVerbose($output, sprintf('Empty location_ip field for idvisit = %s. Skipping...', (string) $row['idvisit']));
-
-            return false;
-        }
-
-        return true;
-    }
-
     private function getDateRangeToAttribute(InputInterface $input)
     {
         $dateRangeString = $input->getArgument(self::DATES_RANGE_ARGUMENT);
@@ -221,16 +190,29 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         return $dates;
     }
 
-    private function createGeolocator(InputInterface $input)
+    private function createGeolocator(OutputInterface $output, InputInterface $input)
     {
-        $providerId = $input->getArgument(self::PROVIDER_ARGUMENT);
-        return new VisitorGeolocator(LocationProvider::getProviderById($providerId) ?: null);
-    }
+        $providerId = $input->getOption(self::PROVIDER_ARGUMENT);
+        $geolocator = new VisitorGeolocator(LocationProvider::getProviderById($providerId) ?: null);
 
-    private function writeIfVerbose(OutputInterface $output, $message)
-    {
-        if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-            $output->writeln($message);
+        $usedProvider = $geolocator->getProvider();
+        if (!$usedProvider->isAvailable()) {
+            throw new \InvalidArgumentException("The provider '$providerId' is not currently available, please make sure it is configured correctly.");
         }
+
+        $isWorkingOrErrorMessage = $usedProvider->isWorking();
+        if ($isWorkingOrErrorMessage !== true) {
+            $errorMessage = "The provider '$providerId' does not appear to be working correctly. Details: $isWorkingOrErrorMessage";
+
+            $forceGeolocation = $input->getOption(self::FORCE_OPTION);
+            if ($forceGeolocation) {
+                $output->writeln("<error>$errorMessage</error>");
+                $output->writeln("<comment>Ignoring location provider issue, geolocating anyway due to --force option.</comment>");
+            } else {
+                throw new \InvalidArgumentException($errorMessage);
+            }
+        }
+
+        return $geolocator;
     }
 }

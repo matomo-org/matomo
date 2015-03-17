@@ -227,6 +227,26 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         $this->assertEquals(array($expectedVisitProperties, $expectedVisitProperties), $conversions, $message = '', $delta = 0.001);
     }
 
+    public function test_attributeExistingVisit_ReturnsNull_AndSkipsAttribution_IfIdVisitMissingFromInput()
+    {
+        $mockLocationProvider = $this->getProviderMock();
+        $geolocator = new VisitorGeolocator($mockLocationProvider);
+
+        $result = $geolocator->attributeExistingVisit(array());
+
+        $this->assertNull($result);
+    }
+
+    public function test_attributeExistingVisit_ReturnsNull_AndSkipsAttribution_IfIdVisitPresent_AndLocationIpMissingFromInput()
+    {
+        $mockLocationProvider = $this->getProviderMock();
+        $geolocator = new VisitorGeolocator($mockLocationProvider);
+
+        $result = $geolocator->attributeExistingVisit(array('idvisit' => 1));
+
+        $this->assertNull($result);
+    }
+
     /**
      * @return PHPUnit_Framework_MockObject_MockObject|LocationProvider
      */

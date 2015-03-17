@@ -11,10 +11,12 @@ namespace Piwik\Plugins\UserCountry;
 use Piwik\Cache\Cache;
 use Piwik\Cache\Transient;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Network\IPUtils;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Tracker\Visit;
+use Psr\Log\LoggerInterface;
 
 require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
 
@@ -74,8 +76,13 @@ class VisitorGeolocator
      */
     protected $dao;
 
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
     public function __construct(LocationProvider $provider = null, LocationProvider $backupProvider = null, Cache $locationCache = null,
-                                RawLogDao $dao = null)
+                                RawLogDao $dao = null, LoggerInterface $logger = null)
     {
         if ($provider === null) {
             // note: Common::getCurrentLocationProviderId() uses the tracker cache, which is why it's used here instead
@@ -93,6 +100,7 @@ class VisitorGeolocator
         $this->backupProvider = $backupProvider ?: $this->getDefaultProvider();
         $this->locationCache = $locationCache ?: self::getDefaultLocationCache();
         $this->dao = $dao ?: new RawLogDao();
+        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
     public function getLocation($userInfo, $useClassCache = true)
@@ -152,19 +160,45 @@ class VisitorGeolocator
      * what was geolocated. Also updates all conversions of a visit.
      *
      * **This method should NOT be used from within the tracker.**
+     *
+     * @param array $visit The visit information. Must contain an `"idvisit"` element and `"location_ip"` element.
+     * @param bool $useClassCache
+     * @return array|null The visit properties that were updated in the DB mapped to the updated values. If null,
+     *                    required information was missing from `$visit`.
      */
     public function attributeExistingVisit($visit, $useClassCache = true)
     {
+        if (empty($visit['idvisit'])) {
+            $this->logger->debug('Empty idvisit field. Skipping re-attribution..');
+            return null;
+        }
+
+        $idVisit = $visit['idvisit'];
+
+        if (empty($visit['location_ip'])) {
+            $this->logger->debug('Empty location_ip field for idvisit = %s. Skipping re-attribution.', array('idvisit' => $idVisit));
+            return null;
+        }
+
         $ip = IPUtils::binaryToStringIP($visit['location_ip']);
         $location = $this->getLocation(array('ip' => $ip), $useClassCache);
 
         $valuesToUpdate = $this->getVisitFieldsToUpdate($visit, $location);
 
         if (!empty($valuesToUpdate)) {
-            $idVisit = $visit['idvisit'];
+            $this->logger->debug('Updating visit with idvisit = {idVisit} (IP = {ip}). Changes: {changes}', array(
+                'idVisit' => $idVisit,
+                'ip' => $ip,
+                'changes' => $valuesToUpdate
+            ));
 
             $this->dao->updateVisits($valuesToUpdate, $idVisit);
             $this->dao->updateConversions($valuesToUpdate, $idVisit);
+        } else {
+            $this->logger->debug('Nothing to update for idvisit = %s (IP = {ip}). Existing location info is same as geolocated.', array(
+                'idVisit' => $idVisit,
+                'ip' => $ip
+            ));
         }
 
         return $valuesToUpdate;
