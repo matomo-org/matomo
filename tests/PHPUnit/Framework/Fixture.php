@@ -867,12 +867,12 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         $updater = new Updater();
-        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
+        $componentsWithUpdateFile = $updater->getComponentUpdates();
         if (empty($componentsWithUpdateFile)) {
             return false;
         }
 
-        $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
+        $result = $updater->updateComponents($componentsWithUpdateFile);
         if (!empty($result['coreError'])
             || !empty($result['warnings'])
             || !empty($result['errors'])

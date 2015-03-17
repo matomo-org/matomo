@@ -61,4 +61,13 @@ class ConsoleCommandTestCase extends SystemTestCase
     {
         return "Command did not behave as expected. Command output: " . $this->applicationTester->getDisplay();
     }
+
+    protected function getInputStream($input)
+    {
+        $stream = fopen('php://memory', 'r+', false);
+        fputs($stream, $input);
+        rewind($stream);
+
+        return $stream;
+    }
 }
