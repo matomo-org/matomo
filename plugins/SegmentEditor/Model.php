@@ -26,6 +26,21 @@ class Model
     }
 
     /**
+     * Returns all stored segments that haven't been deleted. Ignores the site the segments are enabled
+     * for and whether to auto archive or not.
+     *
+     * @return array
+     */
+    public function getAllSegmentsAndIgnoreVisibility()
+    {
+        $sql = "SELECT * FROM " . $this->table . " WHERE deleted = 0";
+
+        $segments = $this->getDb()->fetchAll($sql);
+
+        return $segments;
+    }
+
+    /**
      * Returns all stored segments.
      *
      * @param bool|int $idSite Whether to return stored segments for a specific idSite, or segments that are available

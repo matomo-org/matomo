@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\Archive\ArchiveInvalidator;
@@ -17,6 +18,7 @@ use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
+use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -199,6 +201,11 @@ class CronArchive
     private $formatter;
 
     /**
+     * @var SegmentArchivingRequestUrlProvider
+     */
+    private $segmentArchivingRequestUrlProvider;
+
+    /**
      * Returns the option name of the option that stores the time core:archive was last executed.
      *
      * @param int $idSite
@@ -217,14 +224,19 @@ class CronArchive
      *                               we determine it using the current request information.
      *
      *                               If invoked via the command line, $piwikUrl cannot be false.
+     * @param string|null $processNewSegmentsFrom When to archive new segments from. See [General] process_new_segments_from
+     *                                            for possible values.
      */
-    public function __construct($piwikUrl = false)
+    public function __construct($piwikUrl = false, $processNewSegmentsFrom = null)
     {
         $this->formatter = new Formatter();
 
         $this->initPiwikHost($piwikUrl);
         $this->initCore();
         $this->initTokenAuth();
+
+        $processNewSegmentsFrom = $processNewSegmentsFrom ?: StaticContainer::get('ini.General.process_new_segments_from');
+        $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($this->piwikUrl, $this->token_auth, $processNewSegmentsFrom);
     }
 
     /**
@@ -771,7 +783,9 @@ class CronArchive
         }
 
         foreach ($this->getSegmentsForSite($idSite) as $segment) {
-            $urlWithSegment = $url . '&segment=' . urlencode($segment);
+            $urlWithSegment = $this->segmentArchivingRequestUrlProvider->getUrlToArchiveSegment($idSite, $period, $date, $segment);
+            $urlWithSegment .= self::APPEND_TO_API_REQUEST;
+
             $urls[] = $urlWithSegment;
             $this->requests++;
         }
@@ -1531,5 +1545,4 @@ class CronArchive
 
         return $customDateRangesToProcessForSites;
     }
-
 }

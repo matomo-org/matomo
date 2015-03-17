@@ -220,6 +220,13 @@ adding_segment_requires_access = "view"
 ; on Piwik performance.
 allow_adding_segments_for_all_websites = 1
 
+; When archiving segments for the first time, this determines the oldest date that will be archived.
+; This option can be used to avoid archiving (for isntance) the lastN years for every new segment.
+; Valid option values include: beginning_of_time (start date of archiving will not be changed)
+;                              creation_time (start date of archiving will be the creation date of the segment)
+;                              lastN where N is an integer (start date of archiving will be N days before the creation date)
+process_new_segments_from = beginning_of_time
+
 ; this action name is used when the URL ends with a slash /
 ; it is useful to have an actual string to write in the UI
 action_default_name = index
