@@ -19,9 +19,9 @@ class API extends \Piwik\Plugin\API
 {
     private $dashboard = null;
 
-    protected function __construct()
+    public function __construct(Dashboard $dashboard)
     {
-        $this->dashboard = new Dashboard();
+        $this->dashboard = $dashboard;
     }
 
     /**

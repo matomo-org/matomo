@@ -43,7 +43,7 @@
         "tedivm/jshrink": "~0.5.1",
         "mustangostang/spyc": "~0.5.0",
         "piwik/device-detector": "~3.0",
-        "piwik/decompress": "~0.1.1",
+        "piwik/decompress": "~1.0",
         "piwik/network": "~0.1.0",
         "piwik/cache": "~0.2.5",
         "piwik/ini": "~1.0,>=1.0.3",
@@ -51,7 +51,9 @@
         "psr/log": "~1.0",
         "monolog/monolog": "~1.11",
         "symfony/monolog-bridge": "~2.6",
-        "symfony/event-dispatcher": "~2.6"
+        "symfony/event-dispatcher": "~2.6",
+        "pear/pear_exception": "~1.0.0",
+        "pear/pear-core-minimal": "~1.9.5"
     },
     "require-dev": {
         "aws/aws-sdk-php": "2.7.1",

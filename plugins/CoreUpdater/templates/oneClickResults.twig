@@ -3,13 +3,37 @@
 {% block content %}
 <br/>
 {% for message in feedbackMessages %}
-<p>&#10003; {{ message }}</p>
+    <p>&#10003; {{ message }}</p>
 {% endfor %}
 
-{% if coreError %}
+{% if httpsFail %}
     <br/>
     <br/>
-    <div class="error"><img src="plugins/Morpheus/images/error_medium.png"/> {{ coreError }}</div>
+    <div class="warning">
+        <img src="plugins/Morpheus/images/warning_medium.png"/>
+        {{ 'CoreUpdater_UpdateUsingHttpsFailed'|translate }}<br/>
+        "{{ error }}"
+    </div>
+    <p>{{ 'CoreUpdater_UpdateUsingHttpsFailedHelp'|translate }}</p>
+    <p>{{ 'CoreUpdater_UpdateUsingHttpsFailedHelpWhatToDo'|translate('CoreUpdater_UpdateAutomatically'|translate) }}</p>
+    <div class="warning">
+        {{ 'CoreUpdater_UpdateUsingHttpMessage'|translate }}
+        <form id="oneclickupdate" action="index.php">
+            <input type="hidden" name="module" value="CoreUpdater"/>
+            <input type="hidden" name="action" value="oneClickUpdate"/>
+            <input type="hidden" name="https" value="0"/>
+            <input id="updateUsingHttp" type="submit" class="submit" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>
+        </form>
+    </div>
+    <br/>
+    <br/>
+{% elseif error %}
+    <br/>
+    <br/>
+    <div class="error">
+        <img src="plugins/Morpheus/images/error_medium.png"/>
+        {{ error }}
+    </div>
     <br/>
     <br/>
     <div class="warning">

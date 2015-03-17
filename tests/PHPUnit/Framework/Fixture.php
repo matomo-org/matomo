@@ -869,12 +869,12 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         $updater = new Updater();
-        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
+        $componentsWithUpdateFile = $updater->getComponentUpdates();
         if (empty($componentsWithUpdateFile)) {
             return false;
         }
 
-        $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
+        $result = $updater->updateComponents($componentsWithUpdateFile);
         if (!empty($result['coreError'])
             || !empty($result['warnings'])
             || !empty($result['errors'])
@@ -883,5 +883,15 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         return $result;
+    }
+
+    /**
+     * Use this method to return custom container configuration that you want to apply for the tests.
+     *
+     * @return array
+     */
+    public function provideContainerConfig()
+    {
+        return array();
     }
 }

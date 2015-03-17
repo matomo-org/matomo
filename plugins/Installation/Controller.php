@@ -720,12 +720,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return Access::doAsSuperUser(function () {
             $updater = new Updater();
-            $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
+            $componentsWithUpdateFile = $updater->getComponentUpdates();
 
             if (empty($componentsWithUpdateFile)) {
                 return false;
             }
-            $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
+            $result = $updater->updateComponents($componentsWithUpdateFile);
             return $result;
         });
     }

@@ -25,16 +25,6 @@ class Widgets
     protected $category = '';
     protected $widgets  = array();
 
-    private $module = '';
-
-    /**
-     * @ignore
-     */
-    public function __construct()
-    {
-        $this->module = $this->getModule();
-    }
-
     /**
      * @ignore
      */
@@ -77,7 +67,7 @@ class Widgets
                                  'name'     => $name,
                                  'params'   => $parameters,
                                  'method'   => $method,
-                                 'module'   => $this->module);
+                                 'module'   => $this->getModule());
     }
 
     /**
@@ -182,7 +172,7 @@ class Widgets
             return;
         }
 
-        $controllerClass = '\\Piwik\\Plugins\\' . $this->module . '\\Controller';
+        $controllerClass = 'Piwik\\Plugins\\' . $this->getModule() . '\\Controller';
 
         if (!Development::methodExists($this, $method) &&
             !Development::methodExists($controllerClass, $method)) {

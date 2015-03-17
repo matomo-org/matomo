@@ -13,12 +13,6 @@ use Piwik\DataTable;
 use Piwik\Piwik;
 
 /**
- *
- * @see plugins/DBStats/MySQLMetadataProvider.php
- */
-require_once PIWIK_INCLUDE_PATH . '/plugins/DBStats/MySQLMetadataProvider.php';
-
-/**
  * DBStats API is used to request the overall status of the Mysql tables in use by Piwik.
  * @hideExceptForSuperUser
  * @method static \Piwik\Plugins\DBStats\API getInstance()
@@ -30,12 +24,9 @@ class API extends \Piwik\Plugin\API
      */
     private $metadataProvider;
 
-    /**
-     * Constructor.
-     */
-    protected function __construct()
+    public function __construct(MySQLMetadataProvider $metadataProvider)
     {
-        $this->metadataProvider = new MySQLMetadataProvider();
+        $this->metadataProvider = $metadataProvider;
     }
 
     /**

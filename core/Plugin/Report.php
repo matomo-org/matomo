@@ -189,6 +189,13 @@ class Report
     protected $recursiveLabelSeparator = ' - ';
 
     /**
+     * Default sort column. Either a column name or a column id.
+     *
+     * @var string|int
+     */
+    protected $defaultSortColumn = '';
+
+    /**
      * @var array
      * @ignore
      */
@@ -576,6 +583,14 @@ class Report
         $report['order'] = $this->order;
 
         return $report;
+    }
+
+    /**
+     * @ignore
+     */
+    public function getDefaultSortColumn()
+    {
+        return $this->defaultSortColumn;
     }
 
     /**
