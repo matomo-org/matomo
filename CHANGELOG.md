@@ -25,6 +25,12 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
   * `isIpInRange()`
   * `getHostByAddr()`
 
+### Deprecations
+* `API` classes should no longer have a protected constructor. Classes with a protected constructor will generate a notice in the logs and should expose a public constructor instead.
+
+### New features
+* `API` classes can now use dependency injection in their constructor to inject other instances.
+
 ### New commands
 * There is now a command `core:purge-old-archive-data` that can be used to manually purge temporary, error-ed and invalidated archives from one or more archive tables.
 

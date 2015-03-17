@@ -45,9 +45,9 @@ class API extends \Piwik\Plugin\API
 
     private static $instance = null;
 
-    protected function __construct()
+    public function __construct(Model $model)
     {
-        $this->model = new Model();
+        $this->model = $model;
     }
 
     /**
@@ -71,7 +71,7 @@ class API extends \Piwik\Plugin\API
             self::$instance = $instance;
             
         } catch (Exception $e) {
-            self::$instance = new self;
+            self::$instance = StaticContainer::get('Piwik\Plugins\UsersManager\API');
             StaticContainer::getContainer()->set('UsersManager_API', self::$instance);
         }
 
