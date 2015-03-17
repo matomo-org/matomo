@@ -15,7 +15,7 @@ use Piwik\Filesystem;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\UpdateCheck;
-use Piwik\Updater;
+use Piwik\Updater as PiwikCoreUpdater;
 use Piwik\UpdaterErrorException;
 use Piwik\Version;
 
@@ -38,7 +38,7 @@ class CoreUpdater extends \Piwik\Plugin
     /**
      * @deprecated
      */
-    public static function updateComponents(Updater $updater, $componentsWithUpdateFile)
+    public static function updateComponents(PiwikCoreUpdater $updater, $componentsWithUpdateFile)
     {
         return $updater->updateComponents($componentsWithUpdateFile);
     }
@@ -46,7 +46,7 @@ class CoreUpdater extends \Piwik\Plugin
     /**
      * @deprecated
      */
-    public static function getComponentUpdates(Updater $updater)
+    public static function getComponentUpdates(PiwikCoreUpdater $updater)
     {
         return $updater->getComponentUpdates();
     }
@@ -56,7 +56,7 @@ class CoreUpdater extends \Piwik\Plugin
         $module = Common::getRequestVar('module', '', 'string');
         $action = Common::getRequestVar('action', '', 'string');
 
-        $updater = new Updater();
+        $updater = new PiwikCoreUpdater();
         $updates = $updater->getComponentsWithNewVersion(array('core' => Version::VERSION));
         if (!empty($updates)) {
             Filesystem::deleteAllCacheOnUpdate();
