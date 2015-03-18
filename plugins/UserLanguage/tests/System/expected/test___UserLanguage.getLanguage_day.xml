@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<label>French</label>
+		<nb_uniq_visitors>3</nb_uniq_visitors>
+		<nb_visits>4</nb_visits>
+		<nb_actions>4</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>4</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+	</row>
+	<row>
 		<label>Polish</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>3</nb_visits>
@@ -23,18 +34,29 @@
 		<nb_visits_converted>0</nb_visits_converted>
 	</row>
 	<row>
-		<label>French</label>
-		<nb_uniq_visitors>3</nb_uniq_visitors>
-		<nb_visits>4</nb_visits>
-		<nb_actions>4</nb_actions>
+		<label>Arabic</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
 		<nb_users>0</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>4</bounce_count>
+		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 	</row>
 	<row>
-		<label>Arabic</label>
+		<label>Basque</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+	</row>
+	<row>
+		<label>Chinese</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
@@ -78,17 +100,6 @@
 		<nb_visits_converted>0</nb_visits_converted>
 	</row>
 	<row>
-		<label>Basque</label>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<nb_users>0</nb_users>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
-	</row>
-	<row>
 		<label>Serbian</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
@@ -112,17 +123,6 @@
 	</row>
 	<row>
 		<label>Unknown</label>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<nb_users>0</nb_users>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
-	</row>
-	<row>
-		<label>Chinese</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
