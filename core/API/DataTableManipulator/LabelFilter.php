@@ -67,6 +67,10 @@ class LabelFilter extends DataTableManipulator
         // search for the first part of the tree search
         $labelPart = array_shift($labelParts);
 
+        // we need to make sure to rebuild the index as some filters change the label column directly via
+        // $row->setColumn('label', '') which would not be noticed in the label index otherwise.
+        $dataTable->rebuildIndex();
+
         $row = false;
         foreach ($this->getLabelVariations($labelPart) as $labelPart) {
             $row = $dataTable->getRowFromLabel($labelPart);

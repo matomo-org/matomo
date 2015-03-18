@@ -607,7 +607,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getRowIdFromLabel($label)
     {
-        $this->rebuildIndexContinuously = true;
         if ($this->indexNotUpToDate) {
             $this->rebuildIndex();
         }
@@ -643,9 +642,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /**
      * Rebuilds the index used to lookup a row by label
+     * @internal
      */
-    private function rebuildIndex()
+    public function rebuildIndex()
     {
+        $this->rebuildIndexContinuously = true;
+
         foreach ($this->getRows() as $id => $row) {
             $label = $row->getColumn('label');
             if ($label !== false) {
