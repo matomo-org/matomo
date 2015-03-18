@@ -279,7 +279,7 @@ class Sort extends BaseFilter
         unset($sortedRows);
 
         if ($table->isSortRecursiveEnabled()) {
-            foreach ($table->getRows() as $row) {
+            foreach ($table->getRowsWithoutSummaryRow() as $row) {
 
                 $subTable = $row->getSubtable();
                 if ($subTable) {
