@@ -62,3 +62,4 @@ php_errors.log
 /config/*.config.ini.php
 /Vagrantfile
 /misc/vagrant
+/plugins/.gitignore
