@@ -25,6 +25,11 @@ class Widgets
     protected $category = '';
     protected $widgets  = array();
 
+    public function __construct()
+    {
+        // Constructor kept for BC (because called in implementations)
+    }
+
     /**
      * @ignore
      */

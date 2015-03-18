@@ -30,6 +30,11 @@ use Piwik\Plugins\UsersManager\UserPreferences;
  */
 class Menu
 {
+    public function __construct()
+    {
+        // Constructor kept for BC (because called in implementations)
+    }
+
     private function getModule()
     {
         $className = get_class($this);
