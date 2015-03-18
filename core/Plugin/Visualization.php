@@ -399,6 +399,8 @@ class Visualization extends ViewDataTable
 
         $postProcessor->setCallbackBeforeGenericFilters(function (DataTable\DataTableInterface $dataTable) use ($self, $postProcessor) {
 
+            $self->setDataTable($dataTable);
+
             // First, filters that delete rows
             foreach ($self->config->getPriorityFilters() as $filter) {
                 $dataTable->filter($filter[0], $filter[1]);
@@ -416,6 +418,8 @@ class Visualization extends ViewDataTable
         });
 
         $postProcessor->setCallbackAfterGenericFilters(function (DataTable\DataTableInterface $dataTable) use ($self) {
+
+            $self->setDataTable($dataTable);
 
             $self->afterGenericFiltersAreAppliedToLoadedDataTable();
 
