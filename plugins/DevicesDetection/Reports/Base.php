@@ -12,8 +12,6 @@ use Piwik\Metrics;
 
 abstract class Base extends \Piwik\Plugin\Report
 {
-    protected $defaultSortColumn = 'nb_visits';
-
     protected function init()
     {
         $this->category = 'DevicesDetection_DevicesDetection';

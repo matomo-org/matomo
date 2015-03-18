@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Archive\DataTableFactory;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveWriter;
@@ -351,7 +352,18 @@ class ArchiveProcessor
             // see https://github.com/piwik/piwik/issues/4377
             $self = $this;
             $dataTable->filter(function ($table) use ($self, $columnsToRenameAfterAggregation) {
-                $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+
+                if ($self->areColumnsNotAlreadyRenamed($table)) {
+                    /**
+                     * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
+                     * rename all columns of each 7 day archives. Afterwards we know the columns will be replaced in a
+                     * week archive. When generating month archives, which uses mostly week archives, we do not have
+                     * to replace those columns for the week archives again since we can be sure they were already
+                     * replaced. Same when aggregating year and range archives. This can save up 10% or more when
+                     * aggregating Month, Year and Range archives.
+                     */
+                    $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+                }
             });
         }
 
@@ -360,8 +372,21 @@ class ArchiveProcessor
         if (!$columnsRenamed) {
             $this->renameColumnsAfterAggregation($dataTable, $columnsToRenameAfterAggregation);
         }
-        
+
         return $dataTable;
+    }
+
+    /**
+     * Note: public only for use in closure in PHP 5.3.
+     *
+     * @param $table
+     * @return \Piwik\Period
+     */
+    public function areColumnsNotAlreadyRenamed($table)
+    {
+        $period = $table->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+
+        return !$period || $period->getLabel() === 'day';
     }
 
     protected function getOperationForColumns($columns, $defaultOperation)
@@ -499,8 +524,15 @@ class ArchiveProcessor
             $columnsToRenameAfterAggregation = self::$columnsToRenameAfterAggregation;
         }
 
-        foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
-            $table->renameColumn($oldName, $newName);
+        foreach ($table->getRows() as $row) {
+            foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
+                $row->renameColumn($oldName, $newName);
+            }
+
+            $subTable = $row->getSubtable();
+            if ($subTable) {
+                $this->renameColumnsAfterAggregation($subTable, $columnsToRenameAfterAggregation);
+            }
         }
     }
 
@@ -524,7 +556,7 @@ class ArchiveProcessor
             $rowMetrics = new Row;
         }
         $this->enrichWithUniqueVisitorsMetric($rowMetrics);
-        $this->renameColumnsAfterAggregation($results);
+        $this->renameColumnsAfterAggregation($results, self::$columnsToRenameAfterAggregation);
 
         $metrics = $rowMetrics->getColumns();
 

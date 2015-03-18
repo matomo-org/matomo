@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>this search term</label>
-		<Google>1</Google>
-		<Bing>0</Bing>
-	</row>
-	<row>
 		<label>search term 2</label>
 		<Google>0</Google>
 		<Bing>0</Bing>
@@ -16,6 +11,16 @@
 		<Bing>0</Bing>
 	</row>
 	<row>
+		<label>this search term</label>
+		<Google>1</Google>
+		<Bing>0</Bing>
+	</row>
+	<row>
+		<label>search term 1</label>
+		<Google>0</Google>
+		<Bing>1</Bing>
+	</row>
+	<row>
 		<label>search term 4</label>
 		<Google>0</Google>
 		<Bing>1</Bing>
@@ -24,10 +29,5 @@
 		<label>that search term</label>
 		<Google>1</Google>
 		<Bing>0</Bing>
-	</row>
-	<row>
-		<label>search term 1</label>
-		<Google>0</Google>
-		<Bing>1</Bing>
 	</row>
 </result>

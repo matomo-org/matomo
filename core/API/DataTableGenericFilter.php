@@ -11,6 +11,7 @@ namespace Piwik\API;
 use Exception;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Plugin;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 
@@ -120,6 +121,7 @@ class DataTableGenericFilter
             foreach ($filters as $index => $filter) {
                 if ($filter[0] === 'Sort') {
                     $filters[$index][1]['filter_sort_column'] = array('string', $this->report->getDefaultSortColumn());
+                    $filters[$index][1]['filter_sort_order']  = array('string', $this->report->getDefaultSortOrder());
                 }
             }
         }

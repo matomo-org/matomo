@@ -57,8 +57,6 @@ class API extends \Piwik\Plugin\API
      */
     private function filterDataTable($dataTable)
     {
-        $dataTable->filter('Sort', array(Metrics::INDEX_NB_VISITS));
-
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
         $dataTable->filter(function (DataTable $table) {
