@@ -128,7 +128,15 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::VISITS_COUNT_RECORD_NAME,
             self::DAYS_SINCE_LAST_RECORD_NAME
         );
-        $this->getProcessor()->aggregateDataTableRecords($dataTableRecords);
+        $columnsAggregationOperation = null;
+        $this->getProcessor()->aggregateDataTableRecords(
+            $dataTableRecords,
+            $maximumRowsInDataTableLevelZero = null,
+            $maximumRowsInSubDataTable = null,
+            $columnToSortByBeforeTruncation = null,
+            $columnsAggregationOperation,
+            $columnsToRenameAfterAggregation = null,
+            $countRowsRecursive = array());
     }
 
     /**
