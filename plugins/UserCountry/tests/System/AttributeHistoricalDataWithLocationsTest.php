@@ -84,7 +84,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
         );
     }
 
-    public function testExecute_ShouldReturnLogAfterWorkingWithSomeData_IfThereAreData()
+    public function testExecute_ShouldReturnLogAfterWorkingWithSomeData()
     {
         $result = $this->executeCommand('2010-01-03,2010-06-03');
 
