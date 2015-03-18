@@ -335,13 +335,15 @@ class Db
             $tables = array($tables);
         }
 
-        // filter out all InnoDB tables
-        $myisamDbTables = array();
-        foreach (self::getTableStatus() as $row) {
-            if (strtolower($row['Engine']) == 'myisam'
-                && in_array($row['Name'], $tables)
-            ) {
-                $myisamDbTables[] = $row['Name'];
+        if (!self::isOptimizeInnoDBSupported()) {
+            // filter out all InnoDB tables
+            $myisamDbTables = array();
+            foreach (self::getTableStatus() as $row) {
+                if (strtolower($row['Engine']) == 'myisam'
+                    && in_array($row['Name'], $tables)
+                ) {
+                    $myisamDbTables[] = $row['Name'];
+                }
             }
         }
 
@@ -730,5 +732,21 @@ class Db
     public static function isQueryLogEnabled()
     {
         return self::$logQueries;
+    }
+
+    public static function isOptimizeInnoDBSupported($version = null)
+    {
+        if (empty($version)) {
+            $version = Db::fetchOne("SELECT VERSION()");
+        }
+
+        $version = strtolower($version);
+
+        if (strpos($version, "mariadb") === false) {
+            return false;
+        }
+
+        $semanticVersion = strstr($version, '-', $beforeNeedle = true);
+        return version_compare($semanticVersion, '10.1.1', '>=');
     }
 }
