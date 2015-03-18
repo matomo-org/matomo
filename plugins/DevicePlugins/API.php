@@ -92,6 +92,7 @@ class API extends \Piwik\Plugin\API
 
         $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getPluginsLogo'));
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'ucfirst'));
+        $dataTable->queueFilter('RangeCheck', array('nb_visits_percentage', 0, 1));
 
         return $dataTable;
     }
