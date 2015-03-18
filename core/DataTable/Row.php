@@ -475,7 +475,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
                 continue;
             }
 
-            $thisColumnValue = &$this->getColumn($columnToSumName);
+            $thisColumnValue = $this->getColumn($columnToSumName);
 
             $operation = 'sum';
             if (is_array($aggregationOperations) && isset($aggregationOperations[$columnToSumName])) {
