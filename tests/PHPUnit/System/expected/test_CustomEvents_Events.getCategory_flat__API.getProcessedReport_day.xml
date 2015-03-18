@@ -61,6 +61,15 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
+				<label>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;--- - event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>19.32</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+			<row>
 				<label>Movie - clickBuyNow</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -185,15 +194,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>10</max_event_value>
 				<avg_event_value>9.5</avg_event_value>
-			</row>
-			<row>
-				<label>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;--- - event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
-				<nb_events>2</nb_events>
-				<nb_events_with_value>2</nb_events_with_value>
-				<sum_event_value>19.32</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>9.66</max_event_value>
-				<avg_event_value>9.66</avg_event_value>
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010" />

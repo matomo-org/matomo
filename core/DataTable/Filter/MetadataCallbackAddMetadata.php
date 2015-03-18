@@ -62,11 +62,13 @@ class MetadataCallbackAddMetadata extends BaseFilter
      */
     public function filter($table)
     {
-        foreach ($table->getRows() as $key => $row) {
-            if (!$this->applyToSummaryRow && $key == DataTable::ID_SUMMARY_ROW) {
-                continue;
-            }
+        if ($this->applyToSummaryRow) {
+            $rows = $table->getRows();
+        } else {
+            $rows = $table->getRowsWithoutSummaryRow();
+        }
 
+        foreach ($rows as $key => $row) {
             $params = array();
             foreach ($this->metadataToRead as $name) {
                 $params[] = $row->getMetadata($name);

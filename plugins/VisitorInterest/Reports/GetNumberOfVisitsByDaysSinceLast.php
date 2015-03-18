@@ -14,6 +14,8 @@ use Piwik\Plugins\VisitorInterest\Columns\VisitsByDaysSinceLastVisit;
 
 class GetNumberOfVisitsByDaysSinceLast extends Base
 {
+    protected $defaultSortColumn = '';
+
     protected function init()
     {
         parent::init();

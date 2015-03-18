@@ -90,15 +90,17 @@ class Truncate extends BaseFilter
      */
     private function addSummaryRow($table)
     {
-        $table->filter('Sort', array($this->columnToSortByBeforeTruncating, 'desc'));
-
         if ($table->getRowsCount() <= $this->truncateAfter + 1) {
             return;
         }
 
+        $table->filter('Sort', array($this->columnToSortByBeforeTruncating, 'desc', $naturalSort = true, $recursiveSort = false));
+
         $rows   = array_values($table->getRows());
         $count  = $table->getRowsCount();
         $newRow = new Row(array(Row::COLUMNS => array('label' => DataTable::LABEL_SUMMARY_ROW)));
+
+        $aggregationOps = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
 
         for ($i = $this->truncateAfter; $i < $count; $i++) {
             if (!isset($rows[$i])) {
@@ -107,10 +109,10 @@ class Truncate extends BaseFilter
 
                 //FIXME: I'm not sure why it could return false, but it was reported in: http://forum.piwik.org/read.php?2,89324,page=1#msg-89442
                 if ($summaryRow) {
-                    $newRow->sumRow($summaryRow, $enableCopyMetadata = false, $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME));
+                    $newRow->sumRow($summaryRow, $enableCopyMetadata = false, $aggregationOps);
                 }
             } else {
-                $newRow->sumRow($rows[$i], $enableCopyMetadata = false, $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME));
+                $newRow->sumRow($rows[$i], $enableCopyMetadata = false, $aggregationOps);
             }
         }
 

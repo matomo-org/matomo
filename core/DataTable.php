@@ -332,13 +332,21 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             && isset($this->rows)
         ) {
             $depth++;
-            foreach ($this->getRows() as $row) {
+            foreach ($this->rows as $row) {
                 Common::destroy($row);
+            }
+            if (!is_null($this->summaryRow)) {
+                Common::destroy($this->summaryRow);
             }
             unset($this->rows);
             Manager::getInstance()->setTableDeleted($this->getId());
             $depth--;
         }
+    }
+
+    public function setLabelsHaveChanged()
+    {
+        $this->indexNotUpToDate = true;
     }
 
     /**
@@ -564,8 +572,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $row = $tableToSum->getFirstRow();
             $this->aggregateRowFromSimpleTable($row);
         } else {
+            $columnAggregationOps = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
             foreach ($tableToSum->getRows() as $row) {
-                $this->aggregateRowWithLabel($row);
+                $this->aggregateRowWithLabel($row, $columnAggregationOps);
             }
         }
     }
@@ -607,7 +616,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getRowIdFromLabel($label)
     {
-        $this->rebuildIndexContinuously = true;
         if ($this->indexNotUpToDate) {
             $this->rebuildIndex();
         }
@@ -643,9 +651,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /**
      * Rebuilds the index used to lookup a row by label
+     * @internal
      */
-    private function rebuildIndex()
+    public function rebuildIndex()
     {
+        $this->rebuildIndexContinuously = true;
+
         foreach ($this->getRows() as $id => $row) {
             $label = $row->getColumn('label');
             if ($label !== false) {
@@ -987,7 +998,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function renameColumn($oldName, $newName)
     {
-        foreach ($this->getRows() as $row) {
+        foreach ($this->rows as $row) {
             $row->renameColumn($oldName, $newName);
 
             $subTable = $row->getSubtable();
@@ -1008,7 +1019,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function deleteColumns($names, $deleteRecursiveInSubtables = false)
     {
-        foreach ($this->getRows() as $row) {
+        foreach ($this->rows as $row) {
             foreach ($names as $name) {
                 $row->deleteColumn($name);
             }
@@ -1118,14 +1129,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public static function isEqual(DataTable $table1, DataTable $table2)
     {
-        $rows1 = $table1->getRows();
-
         $table1->rebuildIndex();
         $table2->rebuildIndex();
 
         if ($table1->getRowsCount() != $table2->getRowsCount()) {
             return false;
         }
+
+        $rows1 = $table1->getRows();
 
         foreach ($rows1 as $row1) {
             $row2 = $table2->getRowFromLabel($row1->getColumn('label'));
@@ -1670,9 +1681,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * $row must have a column "label". The $row will be summed to this table's row with the same label.
      *
      * @param $row
+     * @params null|array $columnAggregationOps
      * @throws \Exception
      */
-    protected function aggregateRowWithLabel(Row $row)
+    protected function aggregateRowWithLabel(Row $row, $columnAggregationOps)
     {
         $labelToLookFor = $row->getColumn('label');
         if ($labelToLookFor === false) {
@@ -1686,7 +1698,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 $this->addRow($row);
             }
         } else {
-            $rowFound->sumRow($row, $copyMeta = true, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));
+            $rowFound->sumRow($row, $copyMeta = true, $columnAggregationOps);
 
             // if the row to add has a subtable whereas the current row doesn't
             // we simply add it (cloning the subtable)
@@ -1694,8 +1706,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             // then we have to recursively sum the subtables
             $subTable = $row->getSubtable();
             if ($subTable) {
-                $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME]
-                    = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+                $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME] = $columnAggregationOps;
                 $rowFound->sumSubtable($subTable);
             }
         }

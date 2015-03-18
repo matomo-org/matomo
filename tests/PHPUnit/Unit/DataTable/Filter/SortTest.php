@@ -61,7 +61,7 @@ class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
                                       )));
         $filter = new Sort($table, 'count', 'asc');
         $filter->filter($table);
-        $expectedOrder = array('nintendo', 'ask', 'amazing', 'nocolumnbis', 'nocolumn', 'summary');
+        $expectedOrder = array('nintendo', 'ask', 'nocolumnbis', 'nocolumn', 'amazing', 'summary');
         $this->assertEquals($expectedOrder, $table->getColumn('label'));
     }
 

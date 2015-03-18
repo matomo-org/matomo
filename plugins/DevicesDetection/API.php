@@ -216,7 +216,11 @@ class API extends \Piwik\Plugin\API
      */
     public function getBrowserFamilies($idSite, $period, $date, $segment = false)
     {
-        return $this->getBrowsers($idSite, $period, $date, $segment);
+        $table = $this->getBrowsers($idSite, $period, $date, $segment);
+        // this one will not be sorted automatically by nb_visits since there is no Report class for it.
+        $table->filter('Sort', array(Metrics::INDEX_NB_VISITS, 'desc'));
+
+        return $table;
     }
 
     /**
