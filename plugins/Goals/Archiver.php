@@ -361,7 +361,13 @@ class Archiver extends \Piwik\Plugin\Archiver
         foreach ($this->dimensionRecord as $recordName) {
             $dataTableToSum[] = self::getItemRecordNameAbandonedCart($recordName);
         }
-        $this->getProcessor()->aggregateDataTableRecords($dataTableToSum);
+        $this->getProcessor()->aggregateDataTableRecords($dataTableToSum,
+            $maximumRowsInDataTableLevelZero = null,
+            $maximumRowsInSubDataTable = null,
+            $columnToSortByBeforeTruncation = null,
+            $columnsAggregationOperation = null,
+            $columnsToRenameAfterAggregation = null,
+            $countRowsRecursive = false);
 
         /*
          *  Archive General Goal metrics
@@ -385,14 +391,26 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         foreach ($goalIdsToSum as $goalId) {
             // sum up the visits to conversion data table & the days to conversion data table
-            $this->getProcessor()->aggregateDataTableRecords(array(
-                                                                  self::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $goalId),
-                                                                  self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $goalId)));
+            $this->getProcessor()->aggregateDataTableRecords(
+                array(self::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $goalId),
+                      self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $goalId)),
+                $maximumRowsInDataTableLevelZero = null,
+                $maximumRowsInSubDataTable = null,
+                $columnToSortByBeforeTruncation = null,
+                $columnsAggregationOperation = null,
+                $columnsToRenameAfterAggregation = null,
+                $countRowsRecursive = false);
         }
 
         // sum up goal overview reports
-        $this->getProcessor()->aggregateDataTableRecords(array(
-                                                              self::getRecordName(self::VISITS_UNTIL_RECORD_NAME),
-                                                              self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME)));
+        $this->getProcessor()->aggregateDataTableRecords(
+                array(self::getRecordName(self::VISITS_UNTIL_RECORD_NAME),
+                      self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME)),
+                $maximumRowsInDataTableLevelZero = null,
+                $maximumRowsInSubDataTable = null,
+                $columnToSortByBeforeTruncation = null,
+                $columnsAggregationOperation = null,
+                $columnsToRenameAfterAggregation = null,
+                $countRowsRecursive = false);
     }
 }

@@ -62,7 +62,15 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::CITY_RECORD_NAME,
         );
 
-        $nameToCount = $this->getProcessor()->aggregateDataTableRecords($dataTableToSum);
+        $nameToCount = $this->getProcessor()->aggregateDataTableRecords(
+            $dataTableToSum,
+            $maximumRowsInDataTableLevelZero = null,
+            $maximumRowsInSubDataTable = null,
+            $columnToSortByBeforeTruncation = null,
+            $columnsAggregationOperation = null,
+            $columnsToRenameAfterAggregation = null,
+            $countRowsRecursive = false
+        );
         $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC,
             $nameToCount[self::COUNTRY_RECORD_NAME]['level0']);
     }

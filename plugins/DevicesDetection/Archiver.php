@@ -58,7 +58,13 @@ class Archiver extends \Piwik\Plugin\Archiver
         );
         foreach ($dataTablesToSum as $dt) {
             $this->getProcessor()->aggregateDataTableRecords(
-                $dt, $this->maximumRows, $this->maximumRows, $columnToSort = "nb_visits");
+                $dt,
+                $this->maximumRows,
+                $this->maximumRows,
+                $columnToSort = 'nb_visits',
+                $columnsAggregationOperation = null,
+                $columnsToRenameAfterAggregation = null,
+                $countRowsRecursive = false);
         }
     }
 

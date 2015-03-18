@@ -46,7 +46,14 @@ class Archiver extends \Piwik\Plugin\Archiver
         $dataTableRecords = array(
             self::LANGUAGE_RECORD_NAME,
         );
-        $this->getProcessor()->aggregateDataTableRecords($dataTableRecords, $this->maximumRows);
+        $this->getProcessor()->aggregateDataTableRecords(
+            $dataTableRecords,
+            $this->maximumRows,
+            $maximumRowsInSubDataTable = null,
+            $columnToSortByBeforeTruncation = null,
+            $columnsAggregationOperation = null,
+            $columnsToRenameAfterAggregation = null,
+            $countRowsRecursive = false);
     }
 
     protected function aggregateByLanguage()
