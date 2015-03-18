@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Cache as PiwikCache;
+use Piwik\Translate;
 
 /**
  * Tests extending IntegrationTestCase are much slower to run: the setUp will

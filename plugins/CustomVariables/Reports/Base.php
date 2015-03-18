@@ -10,6 +10,8 @@ namespace Piwik\Plugins\CustomVariables\Reports;
 
 abstract class Base extends \Piwik\Plugin\Report
 {
+    protected $defaultSortColumn = 'nb_actions';
+
     protected function init()
     {
         $this->category = 'General_Visitors';

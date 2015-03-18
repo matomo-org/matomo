@@ -39,3 +39,6 @@
     path = libs/PiwikTracker
     url = https://github.com/piwik/piwik-php-tracker.git
     branch = master
+[submodule "misc/log-analytics"]
+	path = misc/log-analytics
+	url = https://github.com/piwik/piwik-log-analytics.git

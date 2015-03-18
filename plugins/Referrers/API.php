@@ -130,7 +130,6 @@ class API extends \Piwik\Plugin\API
         }
 
         $dataTable = $dataTable->mergeSubtables($labelColumn = 'referer_type', $useMetadataColumn = true);
-        $dataTable->filter('Sort', array(Metrics::INDEX_NB_VISITS, 'desc'));
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
 

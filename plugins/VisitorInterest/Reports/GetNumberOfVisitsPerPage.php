@@ -16,6 +16,8 @@ use Piwik\Plugins\VisitorInterest\Columns\PagesPerVisit;
 
 class GetNumberOfVisitsPerPage extends Base
 {
+    protected $defaultSortColumn = '';
+
     protected function init()
     {
         parent::init();

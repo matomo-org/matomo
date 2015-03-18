@@ -43,7 +43,6 @@ class UrlsForSocial extends BaseFilter
 
         // prettify the DataTable
         $table->filter('ColumnCallbackReplace', array('label', 'Piwik\Plugins\Referrers\removeUrlProtocol'));
-        $table->filter('Sort', array(Metrics::INDEX_NB_VISITS, 'desc', $naturalSort = false, $this->sortRecursive));
         $table->queueFilter('ReplaceColumnNames');
     }
 }

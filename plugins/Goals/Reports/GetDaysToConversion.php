@@ -15,6 +15,8 @@ use Piwik\Plugins\Goals\Archiver;
 
 class GetDaysToConversion extends Base
 {
+    protected $defaultSortColumn = '';
+
     protected function init()
     {
         parent::init();

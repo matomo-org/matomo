@@ -32,7 +32,6 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($name);
-        $dataTable->filter('Sort', array(Metrics::INDEX_NB_VISITS));
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
         return $dataTable;
@@ -42,18 +41,18 @@ class API extends \Piwik\Plugin\API
     {
         // fetch all archive data required
         $dataTable = $this->getDataTable(Archiver::PLUGIN_RECORD_NAME, $idSite, $period, $date, $segment);
-        $browserTypes = $this->getDataTable(DDArchiver::BROWSER_ENGINE_RECORD_NAME, $idSite, $period, $date, $segment);
+        $browserVersions = $this->getDataTable(DDArchiver::BROWSER_VERSION_RECORD_NAME, $idSite, $period, $date, $segment);
         $archive = Archive::build($idSite, $period, $date, $segment);
         $visitsSums = $archive->getDataTableFromNumeric('nb_visits');
 
         // check whether given tables are arrays
         if ($dataTable instanceof DataTable\Map) {
             $dataTableMap = $dataTable->getDataTables();
-            $browserTypesArray = $browserTypes->getDataTables();
+            $browserVersionsArray = $browserVersions->getDataTables();
             $visitSumsArray = $visitsSums->getDataTables();
         } else {
             $dataTableMap = array($dataTable);
-            $browserTypesArray = array($browserTypes);
+            $browserVersionsArray = array($browserVersions);
             $visitSumsArray = array($visitsSums);
         }
 
@@ -62,9 +61,18 @@ class API extends \Piwik\Plugin\API
             // Calculate percentage, but ignore IE users because plugin detection doesn't work on IE
             $ieVisits = 0;
 
-            $ieStats = $browserTypesArray[$key]->getRowFromLabel('Trident');
-            if ($ieStats !== false) {
-                $ieVisits = $ieStats->getColumn(Metrics::INDEX_NB_VISITS);
+            $browserVersionsToExclude = array(
+                'IE;10.0',
+                'IE;9.0',
+                'IE;8.0',
+                'IE;7.0',
+                'IE;6.0',
+            );
+            foreach ($browserVersionsToExclude as $browserVersionToExclude) {
+                $ieStats = $browserVersionsArray[$key]->getRowFromLabel($browserVersionToExclude);
+                if ($ieStats !== false) {
+                    $ieVisits += $ieStats->getColumn(Metrics::INDEX_NB_VISITS);
+                }
             }
 
             // get according visitsSum
@@ -84,6 +92,7 @@ class API extends \Piwik\Plugin\API
 
         $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getPluginsLogo'));
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'ucfirst'));
+        $dataTable->queueFilter('RangeCheck', array('nb_visits_percentage', 0, 1));
 
         return $dataTable;
     }

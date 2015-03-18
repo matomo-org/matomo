@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<label>Others</label>
+		<nb_uniq_visitors>8</nb_uniq_visitors>
+		<nb_visits>40</nb_visits>
+		<nb_actions>40</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>40</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+	</row>
+	<row>
 		<label>1920x1080</label>
 		<nb_uniq_visitors>4</nb_uniq_visitors>
 		<nb_visits>20</nb_visits>
@@ -23,16 +34,5 @@
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>resolution==1280x1024</segment>
-	</row>
-	<row>
-		<label>Others</label>
-		<nb_uniq_visitors>8</nb_uniq_visitors>
-		<nb_visits>40</nb_visits>
-		<nb_actions>40</nb_actions>
-		<nb_users>0</nb_users>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>40</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
 	</row>
 </result>

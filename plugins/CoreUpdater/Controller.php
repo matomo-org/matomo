@@ -110,7 +110,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    protected function redirectToDashboardWhenNoError($updater)
+    protected function redirectToDashboardWhenNoError(DbUpdater $updater)
     {
         if (count($updater->getSqlQueriesToExecute()) == 1
             && !$this->coreError
@@ -146,16 +146,15 @@ class Controller extends \Piwik\Plugin\Controller
     public function runUpdaterAndExit($doDryRun = null)
     {
         $updater = new DbUpdater();
-        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
+        $componentsWithUpdateFile = $updater->getComponentUpdates();
         if (empty($componentsWithUpdateFile)) {
             throw new NoUpdatesFoundException("Everything is already up to date.");
         }
 
         SettingsServer::setMaxExecutionTime(0);
 
-        $cli = Common::isPhpCliMode() ? '_cli' : '';
-        $welcomeTemplate = '@CoreUpdater/runUpdaterAndExit_welcome' . $cli;
-        $doneTemplate = '@CoreUpdater/runUpdaterAndExit_done' . $cli;
+        $welcomeTemplate = '@CoreUpdater/runUpdaterAndExit_welcome';
+        $doneTemplate = '@CoreUpdater/runUpdaterAndExit_done';
 
         $viewWelcome = new View($welcomeTemplate);
         $this->addCustomLogoInfo($viewWelcome);
@@ -174,21 +173,6 @@ class Controller extends \Piwik\Plugin\Controller
             $viewWelcome->isMajor = $updater->hasMajorDbUpdate();
             $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
             return $viewWelcome->render();
-        }
-
-        // CLI
-        if (Common::isPhpCliMode()) {
-            $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
-            $output = $viewWelcome->render();
-
-            // Proceed with upgrade in CLI only if user specifically asked for it, or if running console command
-            $isUpdateRequested = Common::isRunningConsoleCommand() || Piwik::getModule() == 'CoreUpdater';
-
-            if (!$this->coreError && $isUpdateRequested) {
-                $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
-                $output .= $viewDone->render();
-            }
-            return $output;
         }
 
         // Web
@@ -255,9 +239,9 @@ class Controller extends \Piwik\Plugin\Controller
         $view->coreToUpdate = $coreToUpdate;
     }
 
-    private function doExecuteUpdates($view, $updater, $componentsWithUpdateFile)
+    private function doExecuteUpdates($view, DbUpdater $updater, $componentsWithUpdateFile)
     {
-        $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
+        $result = $updater->updateComponents($componentsWithUpdateFile);
 
         $this->coreError       = $result['coreError'];
         $this->warningMessages = $result['warnings'];

@@ -64,6 +64,10 @@ class LabelFilter extends DataTableManipulator
      */
     private function doFilterRecursiveDescend($labelParts, $dataTable)
     {
+        // we need to make sure to rebuild the index as some filters change the label column directly via
+        // $row->setColumn('label', '') which would not be noticed in the label index otherwise.
+        $dataTable->rebuildIndex();
+
         // search for the first part of the tree search
         $labelPart = array_shift($labelParts);
 
@@ -102,6 +106,9 @@ class LabelFilter extends DataTableManipulator
     protected function manipulateSubtableRequest($request)
     {
         unset($request['label']);
+        unset($request['flat']);
+        $request['totals'] = 0;
+        $request['filter_sort_column'] = ''; // do not sort, we only want to find a matching column
 
         return $request;
     }

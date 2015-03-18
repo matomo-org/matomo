@@ -20,9 +20,15 @@ describe("CoreUpdaterCode", function () {
         }, done);
     });
 
-    it("should offer to update over http when updating over https fails", function (done) {
+    it("should offer to retry using https when updating over https fails", function (done) {
         expect.screenshot("httpsUpdateFail").to.be.capture(function (page) {
             page.click('#updateAutomatically');
+        }, done);
+    });
+
+    it("should offer to retry over http when updating over https fails", function (done) {
+        expect.screenshot("httpsUpdateFail").to.be.capture(function (page) {
+            page.click('#updateUsingHttps');
         }, done);
     });
 

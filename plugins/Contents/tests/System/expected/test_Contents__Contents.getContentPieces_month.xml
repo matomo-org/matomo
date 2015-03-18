@@ -41,6 +41,15 @@
 		<segment>contentPiece==Click+NOW</segment>
 	</row>
 	<row>
+		<label>Content Piece not defined</label>
+		<nb_visits>2</nb_visits>
+		<nb_impressions>2</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<interaction_rate>0%</interaction_rate>
+		<contentTarget />
+	</row>
+	<row>
 		<label>movie.mov</label>
 		<nb_visits>2</nb_visits>
 		<nb_impressions>2</nb_impressions>
@@ -49,15 +58,6 @@
 		<interaction_rate>0%</interaction_rate>
 		<contentTarget />
 		<segment>contentPiece==movie.mov</segment>
-	</row>
-	<row>
-		<label>Content Piece not defined</label>
-		<nb_visits>2</nb_visits>
-		<nb_impressions>2</nb_impressions>
-		<nb_interactions>0</nb_interactions>
-		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<interaction_rate>0%</interaction_rate>
-		<contentTarget />
 	</row>
 	<row>
 		<label>Unknown</label>

@@ -1,50 +1,63 @@
 {% extends '@CoreUpdater/layout.twig' %}
 
 {% block content %}
-<br/>
-{% for message in feedbackMessages %}
-    <p>&#10003; {{ message }}</p>
-{% endfor %}
 
-{% if httpsFail %}
-    <br/>
-    <br/>
-    <div class="warning">
-        <img src="plugins/Morpheus/images/warning_medium.png"/>
-        {{ 'CoreUpdater_UpdateUsingHttpsFailed'|translate }}<br/>
-        "{{ error }}"
-    </div>
-    <p>{{ 'CoreUpdater_UpdateUsingHttpsFailedHelp'|translate }}</p>
-    <p>{{ 'CoreUpdater_UpdateUsingHttpsFailedHelpWhatToDo'|translate('CoreUpdater_UpdateAutomatically'|translate) }}</p>
-    <div class="warning">
-        {{ 'CoreUpdater_UpdateUsingHttpMessage'|translate }}
-        <form id="oneclickupdate" action="index.php">
+    {% for message in feedbackMessages %}
+        <p>&#10003; {{ message }}</p>
+    {% endfor %}
+
+    {% if httpsFail %}
+        <br/>
+        <br/>
+        <div class="warning">
+            <img src="plugins/Morpheus/images/warning_medium.png"/>
+            {{ 'CoreUpdater_UpdateUsingHttpsFailed'|translate }}<br/>
+            "{{ error }}"
+        </div>
+        <p>{{ 'CoreUpdater_UpdateUsingHttpsFailedHelp'|translate }}</p>
+        <p>{{ 'CoreUpdater_UpdateUsingHttpsFailedHelpWhatToDo'|translate }}</p>
+        <form action="index.php">
+            <input type="hidden" name="module" value="CoreUpdater"/>
+            <input type="hidden" name="action" value="oneClickUpdate"/>
+            <input type="hidden" name="https" value="1"/>
+            <input id="updateUsingHttps" type="submit" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>
+            {{ 'CoreUpdater_UsingHttps'|translate }}
+        </form>
+        <br/>
+        <form action="index.php">
             <input type="hidden" name="module" value="CoreUpdater"/>
             <input type="hidden" name="action" value="oneClickUpdate"/>
             <input type="hidden" name="https" value="0"/>
-            <input id="updateUsingHttp" type="submit" class="submit" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>
+            <input id="updateUsingHttp" type="submit" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>
+            {{ 'CoreUpdater_UsingHttp'|translate }}
         </form>
-    </div>
-    <br/>
-    <br/>
-{% elseif error %}
-    <br/>
-    <br/>
-    <div class="error">
-        <img src="plugins/Morpheus/images/error_medium.png"/>
-        {{ error }}
-    </div>
-    <br/>
-    <br/>
-    <div class="warning">
-        <img src="plugins/Morpheus/images/warning_medium.png"/>
-        {{ 'CoreUpdater_UpdateHasBeenCancelledExplanation'|translate("<br /><br />","<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/update/'>","</a>")|raw }}
-    </div>
-    <br/>
-    <br/>
-{% endif %}
+        <br/>
+        <form action="index.php">
+            <input type="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>
+        </form>
+        <br/>
+    {% elseif error %}
+        <br/>
+        <br/>
+        <div class="error">
+            <img src="plugins/Morpheus/images/error_medium.png"/>
+            {{ error }}
+        </div>
+        <br/>
+        <br/>
+        <div class="warning">
+            <img src="plugins/Morpheus/images/warning_medium.png"/>
+            {{ 'CoreUpdater_UpdateHasBeenCancelledExplanation'|translate("<br /><br />","<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/update/'>","</a>")|raw }}
+        </div>
+        <br/>
+        <br/>
+        <form action="index.php">
+            <input type="submit" class="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>
+        </form>
+    {% else %}
+        <form action="index.php">
+            <input type="submit" class="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>
+        </form>
+    {% endif %}
 
-<form action="index.php">
-    <input type="submit" class="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>
-</form>
 {% endblock %}

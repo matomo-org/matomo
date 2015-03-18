@@ -53,13 +53,13 @@
 				<interaction_rate>100%</interaction_rate>
 			</row>
 			<row>
-				<label>movie.mov</label>
+				<label>Content Piece not defined</label>
 				<nb_impressions>2</nb_impressions>
 				<nb_interactions>0</nb_interactions>
 				<interaction_rate>0%</interaction_rate>
 			</row>
 			<row>
-				<label>Content Piece not defined</label>
+				<label>movie.mov</label>
 				<nb_impressions>2</nb_impressions>
 				<nb_interactions>0</nb_interactions>
 				<interaction_rate>0%</interaction_rate>
@@ -102,11 +102,11 @@
 			</row>
 			<row>
 				<contentTarget />
-				<segment>contentPiece==movie.mov</segment>
 				
 			</row>
 			<row>
 				<contentTarget />
+				<segment>contentPiece==movie.mov</segment>
 				
 			</row>
 			<row>
