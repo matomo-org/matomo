@@ -324,7 +324,7 @@ class Db
         $optimize = Config::getInstance()->General['enable_sql_optimize_queries'];
 
         if (empty($optimize)) {
-            return;
+            return false;
         }
 
         if (empty($tables)) {
@@ -345,14 +345,16 @@ class Db
                     $myisamDbTables[] = $row['Name'];
                 }
             }
+
+            $tables = $myisamDbTables;
         }
 
-        if (empty($myisamDbTables)) {
+        if (empty($tables)) {
             return false;
         }
 
         // optimize the tables
-        return self::query("OPTIMIZE TABLE " . implode(',', $myisamDbTables));
+        return self::query("OPTIMIZE TABLE " . implode(',', $tables));
     }
 
     private static function getTableStatus()
