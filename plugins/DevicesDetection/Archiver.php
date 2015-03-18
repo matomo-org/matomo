@@ -56,15 +56,18 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::BROWSER_ENGINE_RECORD_NAME,
             self::BROWSER_VERSION_RECORD_NAME
         );
+
+        $columnsAggregationOperation = null;
+
         foreach ($dataTablesToSum as $dt) {
             $this->getProcessor()->aggregateDataTableRecords(
                 $dt,
                 $this->maximumRows,
                 $this->maximumRows,
                 $columnToSort = 'nb_visits',
-                $columnsAggregationOperation = null,
+                $columnsAggregationOperation,
                 $columnsToRenameAfterAggregation = null,
-                $countRowsRecursive = false);
+                $countRowsRecursive = array());
         }
     }
 

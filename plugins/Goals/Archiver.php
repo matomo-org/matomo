@@ -361,13 +361,15 @@ class Archiver extends \Piwik\Plugin\Archiver
         foreach ($this->dimensionRecord as $recordName) {
             $dataTableToSum[] = self::getItemRecordNameAbandonedCart($recordName);
         }
+        $columnsAggregationOperation = null;
+
         $this->getProcessor()->aggregateDataTableRecords($dataTableToSum,
             $maximumRowsInDataTableLevelZero = null,
             $maximumRowsInSubDataTable = null,
             $columnToSortByBeforeTruncation = null,
-            $columnsAggregationOperation = null,
+            $columnsAggregationOperation,
             $columnsToRenameAfterAggregation = null,
-            $countRowsRecursive = false);
+            $countRowsRecursive = array());
 
         /*
          *  Archive General Goal metrics
@@ -389,6 +391,8 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
         $this->getProcessor()->aggregateNumericMetrics($fieldsToSum);
 
+        $columnsAggregationOperation = null;
+
         foreach ($goalIdsToSum as $goalId) {
             // sum up the visits to conversion data table & the days to conversion data table
             $this->getProcessor()->aggregateDataTableRecords(
@@ -397,11 +401,12 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $maximumRowsInDataTableLevelZero = null,
                 $maximumRowsInSubDataTable = null,
                 $columnToSortByBeforeTruncation = null,
-                $columnsAggregationOperation = null,
+                $columnsAggregationOperation,
                 $columnsToRenameAfterAggregation = null,
-                $countRowsRecursive = false);
+                $countRowsRecursive = array());
         }
 
+        $columnsAggregationOperation = null;
         // sum up goal overview reports
         $this->getProcessor()->aggregateDataTableRecords(
                 array(self::getRecordName(self::VISITS_UNTIL_RECORD_NAME),
@@ -409,8 +414,8 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $maximumRowsInDataTableLevelZero = null,
                 $maximumRowsInSubDataTable = null,
                 $columnToSortByBeforeTruncation = null,
-                $columnsAggregationOperation = null,
+                $columnsAggregationOperation,
                 $columnsToRenameAfterAggregation = null,
-                $countRowsRecursive = false);
+                $countRowsRecursive = array());
     }
 }

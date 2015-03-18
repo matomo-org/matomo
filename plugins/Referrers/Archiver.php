@@ -217,14 +217,15 @@ class Archiver extends \Piwik\Plugin\Archiver
     public function aggregateMultipleReports()
     {
         $dataTableToSum = $this->getRecordNames();
+        $columnsAggregationOperation = null;
         $nameToCount = $this->getProcessor()->aggregateDataTableRecords(
             $dataTableToSum,
             $this->maximumRowsInDataTableLevelZero,
             $this->maximumRowsInSubDataTable,
             $this->columnToSortByBeforeTruncation,
-            $columnsAggregationOperation = null,
+            $columnsAggregationOperation,
             $columnsToRenameAfterAggregation = null,
-            $countRowsRecursive = false
+            $countRowsRecursive = array(self::WEBSITES_RECORD_NAME)
         );
 
         $mappingFromArchiveName = array(

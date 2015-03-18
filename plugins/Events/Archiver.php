@@ -98,14 +98,16 @@ class Archiver extends \Piwik\Plugin\Archiver
     public function aggregateMultipleReports()
     {
         $dataTableToSum = $this->getRecordNames();
+        $columnsAggregationOperation = null;
+
         $this->getProcessor()->aggregateDataTableRecords(
             $dataTableToSum,
             $this->maximumRowsInDataTable,
             $this->maximumRowsInSubDataTable,
             $this->columnToSortByBeforeTruncation,
-            $columnsAggregationOperation = null,
+            $columnsAggregationOperation,
             $columnsToRenameAfterAggregation = null,
-            $countRowsRecursive = false);
+            $countRowsRecursive = array());
     }
 
     protected function getRecordNames()

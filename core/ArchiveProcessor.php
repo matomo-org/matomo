@@ -187,8 +187,9 @@ class ArchiveProcessor
      * @param array $columnsToRenameAfterAggregation Columns mapped to new names for columns that must change names
      *                                               when summed because they cannot be summed, eg,
      *                                               `array('nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors')`.
-     * @param bool $countRowsRecursive if set to false, will not calculate the recursive rows count which results in
-     *                                 faster aggregation
+     * @param bool|array $countRowsRecursive if set to true, will calculate the recursive rows count for all record names
+     *                                       which makes it slower. If you only need it for some records pass an array of
+     *                                       recordNames that defines for which ones you need a recursive row count.
      * @return array Returns the row counts of each aggregated report before truncation, eg,
      *
      *                   array(
@@ -219,7 +220,7 @@ class ArchiveProcessor
             $table = $this->aggregateDataTableRecord($recordName, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
 
             $nameToCount[$recordName]['level0'] = $table->getRowsCount();
-            if ($countRowsRecursive) {
+            if ($countRowsRecursive === true || (is_array($countRowsRecursive) && in_array($recordName, $countRowsRecursive))) {
                 $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
             }
 

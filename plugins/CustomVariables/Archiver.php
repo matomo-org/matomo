@@ -50,14 +50,16 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateMultipleReports()
     {
+        $columnsAggregationOperation = null;
+
         $this->getProcessor()->aggregateDataTableRecords(
             self::CUSTOM_VARIABLE_RECORD_NAME,
             $this->maximumRowsInDataTableLevelZero,
             $this->maximumRowsInSubDataTable,
             $columnToSort = Metrics::INDEX_NB_VISITS,
-            $columnsAggregationOperation = null,
+            $columnsAggregationOperation,
             $columnsToRenameAfterAggregation = null,
-            $countRowsRecursive = false);
+            $countRowsRecursive = array());
     }
 
     public function aggregateDayReport()
