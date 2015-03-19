@@ -13,7 +13,7 @@ use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
 /**
  * @group Core
  */
-class test extends \PHPUnit_Framework_TestCase
+class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
 {
     const TEST_NOW = '2015-03-01';
 
