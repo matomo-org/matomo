@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Unit\CronArchive;
 
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
 
@@ -21,6 +22,8 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        Config::getInstance()->General['enabled_periods_API'] = 'day,week,month,year,range';
+
         $this->mockSegmentEntries = array(
             array(
                 'ts_created' => '2014-01-01',
