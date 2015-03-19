@@ -22,7 +22,7 @@ use Piwik\Plugins\SegmentEditor\Model;
 class SegmentArchivingRequestUrlProvider
 {
     const BEGINNING_OF_TIME = 'beginning_of_time';
-    const CREATION_TIME = 'creation_time';
+    const CREATION_TIME = 'segment_creation_time';
 
     /**
      * @var Model

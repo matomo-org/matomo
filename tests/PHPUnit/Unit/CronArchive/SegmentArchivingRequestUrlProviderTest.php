@@ -98,7 +98,7 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
             ),
 
             array( // test creation_time uses creation time of segment
-                'creation_time',
+                'segment_creation_time',
                 1,
                 $dateRange,
                 'week',
@@ -106,8 +106,8 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 "2014-01-01,2015-03-01"
             ),
 
-            array( // test creation_time uses earliest time of segment if multiple match (multiple for site)
-                'creation_time',
+            array( // test segment_creation_time uses earliest time of segment if multiple match (multiple for site)
+                'segment_creation_time',
                 1,
                 $dateRange,
                 'week',
@@ -115,8 +115,8 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 '2012-01-01,2015-03-01'
             ),
 
-            array( // test creation_time uses earliest time of segment if multiple match (multiple for site + one for all)
-                'creation_time',
+            array( // test segment_creation_time uses earliest time of segment if multiple match (multiple for site + one for all)
+                'segment_creation_time',
                 2,
                 $dateRange,
                 'week',
@@ -125,7 +125,7 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
             ),
 
             array( // test 'now' is used if no site matches (testing w/o any segments)
-                'creation_time',
+                'segment_creation_time',
                 1,
                 $dateRange,
                 'week',
@@ -134,7 +134,7 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
             ),
 
             array( // test 'now' is used if no site matches (testing w/ segment for another site)
-                'creation_time',
+                'segment_creation_time',
                 3,
                 $dateRange,
                 'week',
