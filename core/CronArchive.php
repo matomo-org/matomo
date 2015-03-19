@@ -743,12 +743,18 @@ class CronArchive
         return true;
     }
 
-    private function getSegmentsForSite($idSite)
+    private function getSegmentsForSite($idSite, $period)
     {
         $segmentsAllSites = $this->segments;
         $segmentsThisSite = SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite);
         if (!empty($segmentsThisSite)) {
-            $this->log("Will pre-process the following " . count($segmentsThisSite) . " Segments for this website (id = $idSite): " . implode(", ", $segmentsThisSite));
+            $this->log(sprintf(
+                "Will pre-process for website id = %s, %s period, the following %d segments: { %s } ",
+                $idSite,
+                $period,
+                count($segmentsThisSite),
+                implode(", ", $segmentsThisSite)
+            ));
         }
         $segments = array_unique(array_merge($segmentsAllSites, $segmentsThisSite));
         return $segments;
@@ -782,7 +788,7 @@ class CronArchive
             $urls[] = $url;
         }
 
-        foreach ($this->getSegmentsForSite($idSite) as $segment) {
+        foreach ($this->getSegmentsForSite($idSite, $period) as $segment) {
             $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
 
             $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
