@@ -1,7 +1,7 @@
 {% macro submenuItem(name, url) %}
     {% if name|slice(0,1) != '_' %}
         <li>
-            <a class="item" href='#{{ url|urlRewriteWithParameters|slice(1) }}'>
+            <a class="menuItem" href='#{{ url|urlRewriteWithParameters|slice(1) }}'>
                 {{ name|translate }}
             </a>
         </li>
@@ -39,7 +39,7 @@
     <ul class="Menu-tabList">
         {% for level1,level2 in menu %}
             <li id="{% if level2._url is defined %}{{ _self.getId(level2._url) }}{% endif %}">
-                <a class="item" {% if level2._url is defined %}href="#{{ _self.getFirstUrl(level2._url) }}"{% endif %}>
+                <a class="menuItem" {% if level2._url is defined %}href="#{{ _self.getFirstUrl(level2._url) }}"{% endif %}>
                     {{ level1|translate }}
                    <span class="hidden">
                      {{ 'CoreHome_Menu'|translate }}

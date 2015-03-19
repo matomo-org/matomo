@@ -39,7 +39,7 @@ menu.prototype =
     },
 
     onItemClick: function (e) {
-        if (e.which !== 1) {
+        if (e.which === 2) {
             return;
         }
         $('.Menu--dashboard').trigger('piwikSwitchPage', this);
@@ -84,7 +84,7 @@ menu.prototype =
             }
         });
 
-        this.menuNode.find('a.item').click(this.onItemClick);
+        this.menuNode.find('a.menuItem').click(this.onItemClick);
 
         menu.prototype.adaptSubMenuHeight();
     },
