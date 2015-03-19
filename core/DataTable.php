@@ -374,7 +374,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         usort($this->rows, $functionCallback);
 
         if ($this->isSortRecursiveEnabled()) {
-            foreach ($this->getRows() as $row) {
+            foreach ($this->getRowsWithoutSummaryRow() as $row) {
 
                 $subTable = $row->getSubtable();
                 if ($subTable) {
@@ -487,7 +487,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function filterSubtables($className, $parameters = array())
     {
-        foreach ($this->getRows() as $row) {
+        foreach ($this->getRowsWithoutSummaryRow() as $row) {
             $subtable = $row->getSubtable();
             if ($subtable) {
                 $subtable->filter($className, $parameters);
@@ -508,7 +508,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function queueFilterSubtables($className, $parameters = array())
     {
-        foreach ($this->getRows() as $row) {
+        foreach ($this->getRowsWithoutSummaryRow() as $row) {
             $subtable = $row->getSubtable();
             if ($subtable) {
                 $subtable->queueFilter($className, $parameters);
@@ -1601,7 +1601,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function mergeSubtables($labelColumn = false, $useMetadataColumn = false)
     {
         $result = new DataTable();
-        foreach ($this->getRows() as $row) {
+        foreach ($this->getRowsWithoutSummaryRow() as $row) {
             $subtable = $row->getSubtable();
             if ($subtable !== false) {
                 $parentLabel = $row->getColumn('label');

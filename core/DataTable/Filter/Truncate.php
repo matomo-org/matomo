@@ -77,7 +77,7 @@ class Truncate extends BaseFilter
         $table->queueFilter('ReplaceSummaryRowLabel', array($this->labelSummaryRow));
 
         if ($this->filterRecursive) {
-            foreach ($table->getRows() as $row) {
+            foreach ($table->getRowsWithoutSummaryRow() as $row) {
                 if ($row->isSubtableLoaded()) {
                     $this->filter($row->getSubtable());
                 }
