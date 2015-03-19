@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\Archive\ArchiveInvalidator;
@@ -17,6 +18,7 @@ use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
+use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -199,6 +201,11 @@ class CronArchive
     private $formatter;
 
     /**
+     * @var SegmentArchivingRequestUrlProvider
+     */
+    private $segmentArchivingRequestUrlProvider;
+
+    /**
      * Returns the option name of the option that stores the time core:archive was last executed.
      *
      * @param int $idSite
@@ -217,14 +224,19 @@ class CronArchive
      *                               we determine it using the current request information.
      *
      *                               If invoked via the command line, $piwikUrl cannot be false.
+     * @param string|null $processNewSegmentsFrom When to archive new segments from. See [General] process_new_segments_from
+     *                                            for possible values.
      */
-    public function __construct($piwikUrl = false)
+    public function __construct($piwikUrl = false, $processNewSegmentsFrom = null)
     {
         $this->formatter = new Formatter();
 
         $this->initPiwikHost($piwikUrl);
         $this->initCore();
         $this->initTokenAuth();
+
+        $processNewSegmentsFrom = $processNewSegmentsFrom ?: StaticContainer::get('ini.General.process_new_segments_from');
+        $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom);
     }
 
     /**
@@ -617,9 +629,13 @@ class CronArchive
     /**
      * Returns base URL to process reports for the $idSite on a given $period
      */
-    private function getVisitsRequestUrl($idSite, $period, $date)
+    private function getVisitsRequestUrl($idSite, $period, $date, $segment = false)
     {
-        return "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php&token_auth=" . $this->token_auth;
+        $request = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php&token_auth=" . $this->token_auth;
+        if($segment) {
+            $request .= '&segment=' . urlencode($segment);;
+        }
+        return $request;
     }
 
     private function initSegmentsToArchive()
@@ -727,12 +743,18 @@ class CronArchive
         return true;
     }
 
-    private function getSegmentsForSite($idSite)
+    private function getSegmentsForSite($idSite, $period)
     {
         $segmentsAllSites = $this->segments;
         $segmentsThisSite = SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite);
         if (!empty($segmentsThisSite)) {
-            $this->log("Will pre-process the following " . count($segmentsThisSite) . " Segments for this website (id = $idSite): " . implode(", ", $segmentsThisSite));
+            $this->log(sprintf(
+                "Will pre-process for website id = %s, %s period, the following %d segments: { %s } ",
+                $idSite,
+                $period,
+                count($segmentsThisSite),
+                implode(", ", $segmentsThisSite)
+            ));
         }
         $segments = array_unique(array_merge($segmentsAllSites, $segmentsThisSite));
         return $segments;
@@ -752,11 +774,8 @@ class CronArchive
     {
         $timer = new Timer();
 
-        $url  = $this->piwikUrl;
-
-        $url .= $this->getVisitsRequestUrl($idSite, $period, $date);
-
-        $url .= self::APPEND_TO_API_REQUEST;
+        $url = $this->getVisitsRequestUrl($idSite, $period, $date, $segment = false);
+        $url = $this->makeRequestUrl($url);
 
         $visitsInLastPeriods = $visitsLastPeriod = 0;
         $success = true;
@@ -767,14 +786,20 @@ class CronArchive
         // already processed above for "day"
         if ($period != "day") {
             $urls[] = $url;
-            $this->requests++;
         }
 
-        foreach ($this->getSegmentsForSite($idSite) as $segment) {
-            $urlWithSegment = $url . '&segment=' . urlencode($segment);
+        foreach ($this->getSegmentsForSite($idSite, $period) as $segment) {
+            $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
+
+            $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
+            $urlWithSegment = $this->makeRequestUrl($urlWithSegment);
+
             $urls[] = $urlWithSegment;
-            $this->requests++;
         }
+
+        // in case several segment URLs for period=range had the date= rewritten to the same value, we only call API once
+        $urls = array_unique($urls);
+        $this->requests += count($urls);
 
         $cliMulti = new CliMulti();
         $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
@@ -852,11 +877,12 @@ class CronArchive
     }
 
     /**
-     * Issues a request to $url
+     * Issues a request to $url eg. "?module=API&method=API.getDefaultMetricTranslations&format=original&serialize=1"
+     *
      */
     private function request($url)
     {
-        $url = $this->piwikUrl . $url . self::APPEND_TO_API_REQUEST;
+        $url = $this->makeRequestUrl($url);
 
         if ($this->shouldStartProfiler) {
             $url .= "&xhprof=2";
@@ -1532,4 +1558,12 @@ class CronArchive
         return $customDateRangesToProcessForSites;
     }
 
+    /**
+     * @param $url
+     * @return string
+     */
+    private function makeRequestUrl($url)
+    {
+        return $this->piwikUrl . $url . self::APPEND_TO_API_REQUEST;
+    }
 }
