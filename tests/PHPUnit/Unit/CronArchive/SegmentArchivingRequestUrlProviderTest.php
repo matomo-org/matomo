@@ -13,10 +13,8 @@ use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
 /**
  * @group Core
  */
-class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
+class test extends \PHPUnit_Framework_TestCase
 {
-    const BASE_URL = 'http://base/';
-    const TOKEN_AUTH = 'tokenauth';
     const TEST_NOW = '2015-03-01';
 
     private $mockSegmentEntries;
@@ -69,13 +67,14 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
     {
         $urlProvider = $this->createUrlProviderToTest($processNewSegmentsFrom);
 
-        $actual = $urlProvider->getUrlToArchiveSegment($idSite, $period, $date, $segment);
+        $actual = $urlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
         $this->assertEquals($expected, $actual);
     }
 
     public function getUrlToArchiveSegmentTestData()
     {
         $dateRange = '2010-02-01,' . self::TEST_NOW;
+
         return array(
             array( // test beginning_of_time does not modify date
                 'beginning_of_time',
@@ -83,7 +82,7 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 $dateRange,
                 'week',
                 'browserName==FF',
-                "http://base/?module=API&method=API.get&idSite=1&period=week&date=$dateRange&format=php&token_auth=tokenauth&segment=" . urlencode('browserName==FF')
+                $dateRange
             ),
 
             array( // test garbage string does not modify date
@@ -92,7 +91,7 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 $dateRange,
                 'week',
                 'browserName==FF',
-                "http://base/?module=API&method=API.get&idSite=1&period=week&date=$dateRange&format=php&token_auth=tokenauth&segment=" . urlencode('browserName==FF')
+                $dateRange
             ),
 
             array( // test creation_time uses creation time of segment
@@ -101,7 +100,7 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 $dateRange,
                 'week',
                 'browserName==FF',
-                'http://base/?module=API&method=API.get&idSite=1&period=week&date=2014-01-01,2015-03-01&format=php&token_auth=tokenauth&segment=' . urlencode('browserName==FF')
+                "2014-01-01,2015-03-01"
             ),
 
             array( // test creation_time uses earliest time of segment if multiple match (multiple for site)
@@ -110,7 +109,7 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 $dateRange,
                 'week',
                 'countryCode==us',
-                'http://base/?module=API&method=API.get&idSite=1&period=week&date=2012-01-01,2015-03-01&format=php&token_auth=tokenauth&segment=' . urlencode('countryCode==us')
+                '2012-01-01,2015-03-01'
             ),
 
             array( // test creation_time uses earliest time of segment if multiple match (multiple for site + one for all)
@@ -119,7 +118,7 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 $dateRange,
                 'week',
                 'countryCode==ca',
-                'http://base/?module=API&method=API.get&idSite=2&period=week&date=2011-01-01,2015-03-01&format=php&token_auth=tokenauth&segment=' . urlencode('countryCode==ca')
+                '2011-01-01,2015-03-01'
             ),
 
             array( // test 'now' is used if no site matches (testing w/o any segments)
@@ -128,7 +127,7 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 $dateRange,
                 'week',
                 'pageTitle==abc',
-                'http://base/?module=API&method=API.get&idSite=1&period=week&date=2015-03-01,2015-03-01&format=php&token_auth=tokenauth&segment=' . urlencode('pageTitle==abc')
+                "2015-03-01,2015-03-01"
             ),
 
             array( // test 'now' is used if no site matches (testing w/ segment for another site)
@@ -137,7 +136,7 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 $dateRange,
                 'week',
                 'countryCode==us',
-                'http://base/?module=API&method=API.get&idSite=3&period=week&date=2015-03-01,2015-03-01&format=php&token_auth=tokenauth&segment=' . urlencode('countryCode==us')
+                "2015-03-01,2015-03-01"
             ),
 
             array( // test lastN rewinds created date by N days
@@ -146,7 +145,7 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 $dateRange,
                 'week',
                 'countryCode==us',
-                'http://base/?module=API&method=API.get&idSite=1&period=week&date=2011-12-22,2015-03-01&format=php&token_auth=tokenauth&segment=' . urlencode('countryCode==us')
+                "2011-12-22,2015-03-01"
             ),
 
             array( // test lastN rewinds now by N days (testing w/ no found segment)
@@ -155,7 +154,7 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 $dateRange,
                 'week',
                 'countryCode==us',
-                'http://base/?module=API&method=API.get&idSite=3&period=week&date=2015-02-19,2015-03-01&format=php&token_auth=tokenauth&segment=' . urlencode('countryCode==us')
+                "2015-02-19,2015-03-01"
             ),
         );
     }
@@ -165,7 +164,6 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
         $mockSegmentEditorModel = $this->getMock('Piwik\Plugins\SegmentEditor\Model', array('getAllSegmentsAndIgnoreVisibility'));
         $mockSegmentEditorModel->expects($this->any())->method('getAllSegmentsAndIgnoreVisibility')->will($this->returnValue($this->mockSegmentEntries));
 
-        return new SegmentArchivingRequestUrlProvider(self::BASE_URL, self::TOKEN_AUTH, $processNewSegmentsFrom,
-            $mockSegmentEditorModel, null, Date::factory(self::TEST_NOW));
+        return new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom, $mockSegmentEditorModel, null, Date::factory(self::TEST_NOW));
     }
 }

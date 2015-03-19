@@ -236,7 +236,7 @@ class CronArchive
         $this->initTokenAuth();
 
         $processNewSegmentsFrom = $processNewSegmentsFrom ?: StaticContainer::get('ini.General.process_new_segments_from');
-        $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($this->piwikUrl, $this->token_auth, $processNewSegmentsFrom);
+        $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom);
     }
 
     /**
@@ -629,9 +629,13 @@ class CronArchive
     /**
      * Returns base URL to process reports for the $idSite on a given $period
      */
-    private function getVisitsRequestUrl($idSite, $period, $date)
+    private function getVisitsRequestUrl($idSite, $period, $date, $segment = false)
     {
-        return "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php&token_auth=" . $this->token_auth;
+        $request = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php&token_auth=" . $this->token_auth;
+        if($segment) {
+            $request .= '&segment=' . urlencode($segment);;
+        }
+        return $request;
     }
 
     private function initSegmentsToArchive()
@@ -764,11 +768,8 @@ class CronArchive
     {
         $timer = new Timer();
 
-        $url  = $this->piwikUrl;
-
-        $url .= $this->getVisitsRequestUrl($idSite, $period, $date);
-
-        $url .= self::APPEND_TO_API_REQUEST;
+        $url = $this->getVisitsRequestUrl($idSite, $period, $date, $segment = false);
+        $url = $this->makeRequestUrl($url);
 
         $visitsInLastPeriods = $visitsLastPeriod = 0;
         $success = true;
@@ -783,8 +784,10 @@ class CronArchive
         }
 
         foreach ($this->getSegmentsForSite($idSite) as $segment) {
-            $urlWithSegment = $this->segmentArchivingRequestUrlProvider->getUrlToArchiveSegment($idSite, $period, $date, $segment);
-            $urlWithSegment .= self::APPEND_TO_API_REQUEST;
+            $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
+
+            $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
+            $urlWithSegment = $this->makeRequestUrl($urlWithSegment);
 
             $urls[] = $urlWithSegment;
             $this->requests++;
@@ -866,11 +869,12 @@ class CronArchive
     }
 
     /**
-     * Issues a request to $url
+     * Issues a request to $url eg. "?module=API&method=API.getDefaultMetricTranslations&format=original&serialize=1"
+     *
      */
     private function request($url)
     {
-        $url = $this->piwikUrl . $url . self::APPEND_TO_API_REQUEST;
+        $url = $this->makeRequestUrl($url);
 
         if ($this->shouldStartProfiler) {
             $url .= "&xhprof=2";
@@ -1544,5 +1548,14 @@ class CronArchive
         }
 
         return $customDateRangesToProcessForSites;
+    }
+
+    /**
+     * @param $url
+     * @return string
+     */
+    private function makeRequestUrl($url)
+    {
+        return $this->piwikUrl . $url . self::APPEND_TO_API_REQUEST;
     }
 }

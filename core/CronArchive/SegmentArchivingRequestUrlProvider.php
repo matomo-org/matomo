@@ -39,30 +39,17 @@ class SegmentArchivingRequestUrlProvider
      */
     private $now;
 
-    private $baseUrl;
-    private $tokenAuth;
     private $processNewSegmentsFrom;
 
-    public function __construct($baseUrl, $tokenAuth, $processNewSegmentsFrom, Model $segmentEditorModel = null, Cache $segmentListCache = null, Date $now = null)
+    public function __construct($processNewSegmentsFrom, Model $segmentEditorModel = null, Cache $segmentListCache = null, Date $now = null)
     {
-        $this->baseUrl = $baseUrl;
-        $this->tokenAuth = $tokenAuth;
         $this->processNewSegmentsFrom = $processNewSegmentsFrom;
         $this->segmentEditorModel = $segmentEditorModel ?: new Model();
         $this->segmentListCache = $segmentListCache ?: new Transient();
         $this->now = $now ?: Date::factory('now');
     }
 
-    public function getUrlToArchiveSegment($idSite, $period, $date, $segment)
-    {
-        $date = $this->getModifiedSegmentArchvingDateRange($idSite, $period, $date, $segment);
-
-        return $this->baseUrl
-            . "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php&token_auth=" . $this->tokenAuth
-            . '&segment=' . urlencode($segment);
-    }
-
-    private function getModifiedSegmentArchvingDateRange($idSite, $period, $date, $segment)
+    public function getUrlParameterDateString($idSite, $period, $date, $segment)
     {
         $segmentCreatedTime = $this->getCreatedTimeOfSegment($idSite, $segment);
         if (empty($segmentCreatedTime)) {
