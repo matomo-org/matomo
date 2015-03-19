@@ -167,7 +167,7 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
             ),
 
             array( // test when creation_time is greater than date range end date
-                'creation_time',
+                'segment_creation_time',
                 1,
                 '2010-02-01,2015-02-22',
                 'week',
