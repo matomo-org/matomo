@@ -157,15 +157,6 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 "2011-12-22,2015-03-01"
             ),
 
-            array( // test lastN rewinds created date by N = 1000 days
-                'last3000',
-                1,
-                $dateRange,
-                'week',
-                'countryCode==us',
-                "2003-10-15,2015-03-01"
-            ),
-
             array( // test lastN rewinds now by N days (testing w/ no found segment)
                 'last10',
                 3,
@@ -182,6 +173,15 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 'week',
                 'pageUrl==a',
                 '2015-02-22,2015-02-22'
+            ),
+
+            array(
+                'segment_creation_time',
+                1,
+                '2015-02-01,' . self::TEST_NOW,
+                'week',
+                'countryCode==us',
+                '2015-02-01,2015-03-01'
             ),
         );
     }
