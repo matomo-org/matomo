@@ -780,7 +780,6 @@ class CronArchive
         // already processed above for "day"
         if ($period != "day") {
             $urls[] = $url;
-            $this->requests++;
         }
 
         foreach ($this->getSegmentsForSite($idSite) as $segment) {
@@ -790,8 +789,11 @@ class CronArchive
             $urlWithSegment = $this->makeRequestUrl($urlWithSegment);
 
             $urls[] = $urlWithSegment;
-            $this->requests++;
         }
+
+        // in case several segment URLs for period=range had the date= rewritten to the same value, we only call API once
+        $urls = array_unique($urls);
+        $this->requests += count($urls);
 
         $cliMulti = new CliMulti();
         $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
