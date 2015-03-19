@@ -591,9 +591,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function getRowFromLabel($label)
     {
         $rowId = $this->getRowIdFromLabel($label);
-        if ($rowId instanceof Row) {
-            return $rowId;
-        }
         if (is_int($rowId) && isset($this->rows[$rowId])) {
             return $this->rows[$rowId];
         }
@@ -601,6 +598,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             && !empty($this->summaryRow)
         ) {
             return $this->summaryRow;
+        }
+        if ($rowId instanceof Row) {
+            return $rowId;
         }
         return false;
     }
@@ -626,7 +626,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             return self::ID_SUMMARY_ROW;
         }
 
-        $label = (string)$label;
+        $label = (string) $label;
+
         if (!isset($this->rowsIndexByLabel[$label])) {
             return false;
         }
@@ -657,12 +658,19 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $this->rebuildIndexContinuously = true;
 
-        foreach ($this->getRows() as $id => $row) {
+        foreach ($this->rows as $id => $row) {
             $label = $row->getColumn('label');
             if ($label !== false) {
                 $this->rowsIndexByLabel[$label] = $id;
             }
         }
+        if ($this->summaryRow) {
+            $label = $this->summaryRow->getColumn('label');
+            if ($label !== false) {
+                $this->rowsIndexByLabel[$label] = DataTable::ID_SUMMARY_ROW;
+            }
+        }
+
         $this->indexNotUpToDate = false;
     }
 
