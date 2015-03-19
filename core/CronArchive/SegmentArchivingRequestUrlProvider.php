@@ -64,8 +64,8 @@ class SegmentArchivingRequestUrlProvider
         // if the start date for the archiving request is before the minimum date allowed for processing this segment,
         // use the minimum allowed date as the start date
         $periodObj = PeriodFactory::build($period, $date);
+        $endDate = $periodObj->getDateEnd();
         if ($periodObj->getDateStart()->getTimestamp() < $oldestDateToProcessForNewSegment->getTimestamp()) {
-            $endDate = $periodObj->getDateEnd();
 
             // if the creation time of a segment is older than the end date of the archiving request range, we cannot
             // blindly rewrite the date string, since the resulting range would be incorrect. instead we make the
@@ -74,8 +74,8 @@ class SegmentArchivingRequestUrlProvider
                 $oldestDateToProcessForNewSegment = $endDate;
             }
 
-            $date = $oldestDateToProcessForNewSegment->toString().','.$endDate;
         }
+        $date = $oldestDateToProcessForNewSegment->toString().','.$endDate;
 
         return $date;
     }
@@ -84,11 +84,10 @@ class SegmentArchivingRequestUrlProvider
     {
         if ($this->processNewSegmentsFrom == self::CREATION_TIME) {
             return $segmentCreatedTime;
-        } else if (preg_match("/^last([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
+        } else if (preg_match("/^last([0-9]*)$/", $this->processNewSegmentsFrom, $matches)) {
             $lastN = $matches[1];
 
             list($lastDate, $lastPeriod) = Range::getDateXPeriodsAgo($lastN, $segmentCreatedTime, 'day');
-
             return Date::factory($lastDate);
         } else {
             return null;
