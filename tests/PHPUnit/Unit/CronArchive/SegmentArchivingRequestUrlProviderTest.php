@@ -59,6 +59,12 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 'ts_created' => '2011-01-01',
                 'definition' => 'countryCode==ca',
                 'enable_only_idsite' => 0
+            ),
+
+            array(
+                'ts_created' => '2015-03-01',
+                'definition' => 'pageUrl==a',
+                'enable_only_idsite' => 1
             )
         );
     }
@@ -158,6 +164,15 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 'week',
                 'countryCode==us',
                 "2015-02-19,2015-03-01"
+            ),
+
+            array( // test when creation_time is greater than date range end date
+                'creation_time',
+                1,
+                '2010-02-01,2015-02-22',
+                'week',
+                'pageUrl==a',
+                '2015-02-22,2015-02-22'
             ),
         );
     }
