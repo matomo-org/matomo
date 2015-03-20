@@ -93,6 +93,7 @@ class Controller extends \Piwik\Plugin\Controller
     function login($messageNoAccess = null, $infoMessage = false)
     {
         $form = new FormLogin();
+        $form->removeAttribute('action'); // remove action attribute, otherwise hash part will be lost
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
             if (Nonce::verifyNonce('Login.login', $nonce)) {

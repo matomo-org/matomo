@@ -153,6 +153,9 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
         self.reload();
         self.addPluginOnCmdLineToTestEnv();
 
+        self.fixtureClass = fixtureClass;
+        self.save();
+
         console.log();
 
         if (code) {

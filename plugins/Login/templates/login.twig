@@ -127,12 +127,14 @@
                 <input type="hidden" name="action" value="resetPassword"/>
             </form>
             <p id="nav">
+                {{ postEvent("Template.loginNav", "top") }}
                 <a id="login_form_nav" href="#"
                    title="{{ 'Login_LostYourPassword'|translate }}">{{ 'Login_LostYourPassword'|translate }}</a>
                 <a id="alternate_reset_nav" href="#" style="display:none;"
                    title="{{'Login_LogIn'|translate}}">{{ 'Login_LogIn'|translate }}</a>
                 <a id="reset_form_nav" href="#" style="display:none;"
                    title="{{ 'Mobile_NavigationBack'|translate }}">{{ 'General_Cancel'|translate }}</a>
+                {{ postEvent("Template.loginNav", "bottom") }}
             </p>
             {% if poweredByPiwik is defined %}
                 <p id="piwik">

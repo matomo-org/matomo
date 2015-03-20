@@ -324,7 +324,7 @@ class Db
         $optimize = Config::getInstance()->General['enable_sql_optimize_queries'];
 
         if (empty($optimize)) {
-            return;
+            return false;
         }
 
         if (empty($tables)) {
@@ -335,22 +335,26 @@ class Db
             $tables = array($tables);
         }
 
-        // filter out all InnoDB tables
-        $myisamDbTables = array();
-        foreach (self::getTableStatus() as $row) {
-            if (strtolower($row['Engine']) == 'myisam'
-                && in_array($row['Name'], $tables)
-            ) {
-                $myisamDbTables[] = $row['Name'];
+        if (!self::isOptimizeInnoDBSupported()) {
+            // filter out all InnoDB tables
+            $myisamDbTables = array();
+            foreach (self::getTableStatus() as $row) {
+                if (strtolower($row['Engine']) == 'myisam'
+                    && in_array($row['Name'], $tables)
+                ) {
+                    $myisamDbTables[] = $row['Name'];
+                }
             }
+
+            $tables = $myisamDbTables;
         }
 
-        if (empty($myisamDbTables)) {
+        if (empty($tables)) {
             return false;
         }
 
         // optimize the tables
-        return self::query("OPTIMIZE TABLE " . implode(',', $myisamDbTables));
+        return self::query("OPTIMIZE TABLE " . implode(',', $tables));
     }
 
     private static function getTableStatus()
@@ -730,5 +734,21 @@ class Db
     public static function isQueryLogEnabled()
     {
         return self::$logQueries;
+    }
+
+    public static function isOptimizeInnoDBSupported($version = null)
+    {
+        if ($version === null) {
+            $version = Db::fetchOne("SELECT VERSION()");
+        }
+
+        $version = strtolower($version);
+
+        if (strpos($version, "mariadb") === false) {
+            return false;
+        }
+
+        $semanticVersion = strstr($version, '-', $beforeNeedle = true);
+        return version_compare($semanticVersion, '10.1.1', '>=');
     }
 }

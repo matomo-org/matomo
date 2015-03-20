@@ -28,11 +28,17 @@ class ContainerFactory
     private $environment;
 
     /**
+     * @var array
+     */
+    private $definitions;
+
+    /**
      * @param string|null $environment Optional environment config to load.
      */
-    public function __construct($environment = null)
+    public function __construct($environment = null, array $definitions = array())
     {
         $this->environment = $environment;
+        $this->definitions = $definitions;
     }
 
     /**
@@ -68,6 +74,10 @@ class ContainerFactory
 
         // Environment config
         $this->addEnvironmentConfig($builder);
+
+        if (!empty($this->definitions)) {
+            $builder->addDefinitions($this->definitions);
+        }
 
         return $builder->build();
     }

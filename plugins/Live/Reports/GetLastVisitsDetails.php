@@ -15,6 +15,8 @@ use Piwik\WidgetsList;
 
 class GetLastVisitsDetails extends Base
 {
+    protected $defaultSortColumn = '';
+
     protected function init()
     {
         parent::init();

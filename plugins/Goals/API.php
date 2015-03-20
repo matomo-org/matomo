@@ -230,8 +230,6 @@ class API extends \Piwik\Plugin\API
         $archive   = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($recordNameFinal);
 
-        $dataTable->filter('Sort', array(Metrics::INDEX_ECOMMERCE_ITEM_REVENUE));
-
         $this->enrichItemsTableWithViewMetrics($dataTable, $recordName, $idSite, $period, $date, $segment);
 
         // First rename the avg_price_viewed column
@@ -241,7 +239,6 @@ class API extends \Piwik\Plugin\API
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
 
-        $ordersColumn = 'orders';
         if ($abandonedCarts) {
             $ordersColumn = 'abandoned_carts';
             $dataTable->renameColumn(Metrics::INDEX_ECOMMERCE_ORDERS, $ordersColumn);
@@ -483,7 +480,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getGoalSpecificDataTable(
             Archiver::DAYS_UNTIL_CONV_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
 
-        $dataTable->queueFilter('Sort', array('label', 'asc', true));
+        $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
         $dataTable->queueFilter(
             'BeautifyRangeLabels', array(Piwik::translate('General_OneDay'), Piwik::translate('General_NDays')));
 
@@ -507,7 +504,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getGoalSpecificDataTable(
             Archiver::VISITS_UNTIL_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
 
-        $dataTable->queueFilter('Sort', array('label', 'asc', true));
+        $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
         $dataTable->queueFilter(
             'BeautifyRangeLabels', array(Piwik::translate('General_OneVisit'), Piwik::translate('General_NVisits')));
 

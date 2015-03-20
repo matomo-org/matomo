@@ -13,6 +13,7 @@ use Piwik\Access;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\Db\Adapter;
@@ -31,6 +32,7 @@ use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerCodeGenerator;
+use Piwik\Translation\Translator;
 use Piwik\Updater;
 use Piwik\Url;
 use Piwik\Version;
@@ -547,6 +549,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $config->forceSave();
+
+        // re-save the currently viewed language (since we saved the config file, there is now a salt which makes the
+        // existing session cookie invalid)
+        $this->resetLanguageCookie();
+    }
+
+    private function resetLanguageCookie()
+    {
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        LanguagesManager::setLanguageForSession($translator->getCurrentLanguage());
     }
 
     private function checkPiwikIsNotInstalled()
@@ -675,6 +688,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $config = Config::getInstance();
         if ($config->existsLocalConfig()) {
             $config->deleteLocalConfig();
+
+            // deleting the config file removes the salt, which in turns invalidates existing cookies (including the
+            // one for selected language), so we re-save that cookie now
+            $this->resetLanguageCookie();
         }
     }
 
@@ -720,12 +737,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return Access::doAsSuperUser(function () {
             $updater = new Updater();
-            $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
+            $componentsWithUpdateFile = $updater->getComponentUpdates();
 
             if (empty($componentsWithUpdateFile)) {
                 return false;
             }
-            $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
+            $result = $updater->updateComponents($componentsWithUpdateFile);
             return $result;
         });
     }

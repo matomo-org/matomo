@@ -67,7 +67,6 @@ class Country extends Base
         $country  = $this->getLocationDetail($userInfo, LocationProvider::COUNTRY_CODE_KEY);
 
         if (!empty($country) && $country != Visit::UNKNOWN_CODE) {
-
             return strtolower($country);
         }
 

@@ -3993,6 +3993,7 @@ if (typeof Piwik !== 'object') {
                     },
                     devicePixelRatio = (new RegExp('Mac OS X.*Safari/')).test(navigatorAlias.userAgent) ? windowAlias.devicePixelRatio || 1 : 1;
 
+                // detect browser features except IE < 11 (IE 11 user agent is no longer MSIE)
                 if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
                     // general plugin detection
                     if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
@@ -4347,7 +4348,7 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Set custom variable within this visit
                  *
-                 * @param int index
+                 * @param int index Custom variable slot ID from 1-5
                  * @param string name
                  * @param string value
                  * @param string scope Scope of Custom Variable:
@@ -4386,7 +4387,7 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Get custom variable
                  *
-                 * @param int index
+                 * @param int index Custom variable slot ID from 1-5
                  * @param string scope Scope of Custom Variable: "visit" or "page" or "event"
                  */
                 getCustomVariable: function (index, scope) {
@@ -4416,7 +4417,7 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Delete custom variable
                  *
-                 * @param int index
+                 * @param int index Custom variable slot ID from 1-5
                  */
                 deleteCustomVariable: function (index, scope) {
                     // Only delete if it was there already
@@ -4445,7 +4446,8 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Set list of file extensions to be recognized as downloads
+                 * Set list of file extensions to be recognized as downloads. Each extension has to be separated by
+                 * a '/'.
                  *
                  * @param string extensions
                  */
@@ -4454,9 +4456,10 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Specify additional file extensions to be recognized as downloads
+                 * Specify additional file extensions to be recognized as downloads. If you'd like to add multiple
+                 * extensions, separate them by a '|' character.
                  *
-                 * @param string extensions
+                 * @param string extensions  for example 'custom' or 'custom1|custom2|custom3'
                  */
                 addDownloadExtensions: function (extensions) {
                     configDownloadExtensions += '|' + extensions;
