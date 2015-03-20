@@ -55,7 +55,7 @@ class SegmentArchivingRequestUrlProvider
         $this->segmentEditorModel = $segmentEditorModel ?: new Model();
         $this->segmentListCache = $segmentListCache ?: new Transient();
         $this->now = $now ?: Date::factory('now');
-        $this->logger = StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
     public function getUrlParameterDateString($idSite, $period, $date, $segment)
