@@ -30,54 +30,13 @@
     {% set visitorColumnContent %}
 
     <span class="visitorLogIcons">
-        {% if visitor.getColumn('countryFlag') %}
-            <span class="visitorLogIconWithDetails">
-                <img src="{{ visitor.getColumn('countryFlag') }}"/>&nbsp;
-                <ul class="details">
-                    <li>{{ 'UserCountry_Country'|translate }}: {{ visitor.getColumn('country') }}</li>
-                    {% if visitor.getColumn('region') %}<li>{{ 'UserCountry_Region'|translate }}: {{ visitor.getColumn('region') }}</li>{% endif %}
-                    {% if visitor.getColumn('city') %}<li>{{ 'UserCountry_City'|translate }}: {{ visitor.getColumn('city') }}</li>{% endif %}
-                </ul>
-            </span>
-        {% endif %}
-        {% if visitor.getColumn('browserIcon') %}
-            <span class="visitorLogIconWithDetails">
-                <img src="{{ visitor.getColumn('browserIcon') }}"/>&nbsp;
-                <ul class="details">
-                    <li>{{ 'DevicesDetection_ColumnBrowser'|translate }}: {{ visitor.getColumn('browser') }}</li>
-                    <li>{{ 'DevicesDetection_BrowserEngine'|translate }}: {{ visitor.getColumn('browserFamily') }}</li>
-                    {% if visitor.getColumn('pluginsIcons')|length > 0 %}<li>{{ 'General_Plugins'|translate }}:
-                        {% for pluginIcon in visitor.getColumn('pluginsIcons') %}
-                            <img src="{{ pluginIcon.pluginIcon }}" title="{{ pluginIcon.pluginName|capitalize(true) }}" alt="{{ pluginIcon.pluginName|capitalize(true) }}"/>
-                        {% endfor %}
-                    </li>{% endif %}
-                </ul>
-            </span>
-        {% endif %}
-        {% if visitor.getColumn('operatingSystemIcon') %}
-            <span class="visitorLogIconWithDetails">
-                <img src="{{ visitor.getColumn('operatingSystemIcon') }}"/>&nbsp;
-                <ul class="details">
-                    <li>{{ 'DevicesDetection_ColumnOperatingSystem'|translate }}: {{ visitor.getColumn('operatingSystem') }}</li>
-                </ul>
-            </span>
-        {% endif %}
-        {% if visitor.getColumn('deviceTypeIcon') %}
-            <span class="visitorLogIconWithDetails">
-                <img src="{{ visitor.getColumn('deviceTypeIcon') }}"/>&nbsp;
-                <ul class="details">
-                    <li>{{ 'DevicesDetection_DeviceType'|translate }}: {{ visitor.getColumn('deviceType') }}</li>
-                    {% if visitor.getColumn('deviceBrand') %}<li>{{ 'DevicesDetection_DeviceBrand'|translate }}: {{ visitor.getColumn('deviceBrand') }}</li>{% endif %}
-                    {% if visitor.getColumn('deviceModel') %}<li>{{ 'DevicesDetection_DeviceModel'|translate }}: {{ visitor.getColumn('deviceModel') }}</li>{% endif %}
-                    {% if visitor.getColumn('resolution') %}<li>{{ 'Resolution_ColumnResolution'|translate }}: {{ visitor.getColumn('resolution') }}</li>{% endif %}
-                </ul>
-            </span>
-        {% endif %}
 
+        <span class="visitorType">
         {% if visitor.getColumn('visitorTypeIcon') %}
-            {% if visitor.getColumn('visitorTypeIcon') %}&nbsp;-
-            <img src="{{ visitor.getColumn('visitorTypeIcon') }}"
-                 title="{{ 'General_ReturningVisitor'|translate }} - {{ 'General_NVisits'|translate(visitor.getColumn('visitCount')) }}"/>{% endif %}
+            <span>
+                <img src="{{ visitor.getColumn('visitorTypeIcon') }}"
+                     title="{{ 'General_ReturningVisitor'|translate }} - {{ 'General_NVisits'|translate(visitor.getColumn('visitCount')) }}"/>
+            </span>
         {% endif %}
 
         {# Goals, and/or Ecommerce activity #}
@@ -94,9 +53,55 @@
             </span>
         {# Ecommerce activity only (no goal) #}
         {% elseif visitHasEcommerceActivity %}
-            <img src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" title="{{ visitor.getColumn('visitEcommerceStatus') }}"/>
+            <span><img src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" title="{{ visitor.getColumn('visitEcommerceStatus') }}"/></span>
         {% endif %}
+        </span>
 
+        <span class="visitorDetails">
+        {% if visitor.getColumn('countryFlag') %}
+            <span class="visitorLogIconWithDetails">
+                <img src="{{ visitor.getColumn('countryFlag') }}"/>
+                <ul class="details">
+                    <li>{{ 'UserCountry_Country'|translate }}: {{ visitor.getColumn('country') }}</li>
+                    {% if visitor.getColumn('region') %}<li>{{ 'UserCountry_Region'|translate }}: {{ visitor.getColumn('region') }}</li>{% endif %}
+                    {% if visitor.getColumn('city') %}<li>{{ 'UserCountry_City'|translate }}: {{ visitor.getColumn('city') }}</li>{% endif %}
+                </ul>
+            </span>
+        {% endif %}
+        {% if visitor.getColumn('browserIcon') %}
+            <span class="visitorLogIconWithDetails">
+                <img src="{{ visitor.getColumn('browserIcon') }}"/>
+                <ul class="details">
+                    <li>{{ 'DevicesDetection_ColumnBrowser'|translate }}: {{ visitor.getColumn('browser') }}</li>
+                    <li>{{ 'DevicesDetection_BrowserEngine'|translate }}: {{ visitor.getColumn('browserFamily') }}</li>
+                    {% if visitor.getColumn('pluginsIcons')|length > 0 %}<li>{{ 'General_Plugins'|translate }}:
+                        {% for pluginIcon in visitor.getColumn('pluginsIcons') %}
+                            <img src="{{ pluginIcon.pluginIcon }}" title="{{ pluginIcon.pluginName|capitalize(true) }}" alt="{{ pluginIcon.pluginName|capitalize(true) }}"/>
+                        {% endfor %}
+                    </li>{% endif %}
+                </ul>
+            </span>
+        {% endif %}
+        {% if visitor.getColumn('operatingSystemIcon') %}
+            <span class="visitorLogIconWithDetails">
+                <img src="{{ visitor.getColumn('operatingSystemIcon') }}"/>
+                <ul class="details">
+                    <li>{{ 'DevicesDetection_ColumnOperatingSystem'|translate }}: {{ visitor.getColumn('operatingSystem') }}</li>
+                </ul>
+            </span>
+        {% endif %}
+        {% if visitor.getColumn('deviceTypeIcon') %}
+            <span class="visitorLogIconWithDetails">
+                <img src="{{ visitor.getColumn('deviceTypeIcon') }}"/>
+                <ul class="details">
+                    <li>{{ 'DevicesDetection_DeviceType'|translate }}: {{ visitor.getColumn('deviceType') }}</li>
+                    {% if visitor.getColumn('deviceBrand') %}<li>{{ 'DevicesDetection_DeviceBrand'|translate }}: {{ visitor.getColumn('deviceBrand') }}</li>{% endif %}
+                    {% if visitor.getColumn('deviceModel') %}<li>{{ 'DevicesDetection_DeviceModel'|translate }}: {{ visitor.getColumn('deviceModel') }}</li>{% endif %}
+                    {% if visitor.getColumn('resolution') %}<li>{{ 'Resolution_ColumnResolution'|translate }}: {{ visitor.getColumn('resolution') }}</li>{% endif %}
+                </ul>
+            </span>
+        {% endif %}
+        </span>
     </span>
 
     {% endset %}
