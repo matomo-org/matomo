@@ -70,7 +70,11 @@ window.initializeSparklines = function () {
                     // if this happens, we can't find the graph using $('#'+idDataTable+"Chart");
                     // instead, we just use the first evolution graph we can find.
                     if (dataTable.length == 0) {
-                        dataTable = $('div.dataTableVizEvolution');
+                        if ($(this).parents('.widget').length) {
+                            dataTable = $(this).parents('.widget').find('div.dataTableVizEvolution');
+                        } else {
+                            dataTable = $('div.dataTableVizEvolution');
+                        }
                     }
 
                     // reload the datatable w/ a new column & scroll to the graph
