@@ -34,6 +34,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### New commands
 * There is now a command `core:purge-old-archive-data` that can be used to manually purge temporary, error-ed and invalidated archives from one or more archive tables.
+* There is now a command `usercountry:attribute` that can be used to re-attribute geolocated location data to existing visits and conversions. If you have visits that were tracked before setting up GeoIP, you can use this command to add location data to them.
 
 ## Piwik 2.11.0
 
