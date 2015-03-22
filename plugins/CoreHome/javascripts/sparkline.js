@@ -60,7 +60,8 @@ window.initializeSparklines = function () {
                 }
 
                 // on click, reload the graph with the new url
-                $(this).click(function () {
+                $(this).off('click.sparkline');
+                $(this).on('click.sparkline', function () {
                     var reportId = graph.attr('data-graph-id'),
                         dataTable = $(require('piwik/UI').DataTable.getDataTableByReport(reportId));
 
