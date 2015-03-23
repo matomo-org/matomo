@@ -573,7 +573,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $this->aggregateRowFromSimpleTable($row);
         } else {
             $columnAggregationOps = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
-            foreach ($tableToSum->getRows() as $row) {
+            foreach ($tableToSum->getRowsWithoutSummaryRow() as $row) {
+                $this->aggregateRowWithLabel($row, $columnAggregationOps);
+            }
+            // we do not use getRows() as this method might get called 100k times when aggregating many datatables and
+            // this takes a lot of time.
+            $row = $tableToSum->getRowFromId(DataTable::ID_SUMMARY_ROW);
+            if ($row) {
                 $this->aggregateRowWithLabel($row, $columnAggregationOps);
             }
         }
