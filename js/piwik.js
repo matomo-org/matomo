@@ -4246,11 +4246,12 @@ if (typeof Piwik !== 'object') {
                  * @param string User ID
                  */
                 setUserId: function (userId) {
-                    if(!isDefined(userId) || !userId.length) {
-                        return;
+                    if (!userId) {
+                        configUserId = visitorUUID = ''
+                    } else {
+                        configUserId = userId;
+                        visitorUUID = hash(configUserId).substr(0, 16);
                     }
-                    configUserId = userId;
-                    visitorUUID = hash(configUserId).substr(0, 16);
                 },
 
                 /**
