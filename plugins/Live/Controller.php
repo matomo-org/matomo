@@ -151,12 +151,15 @@ class Controller extends \Piwik\Plugin\Controller
                                                                                 'date'                    => false
                                                                            ));
 
+        $idSite = Common::getRequestVar('idSite', null, 'int');
+        VisitorProfile::enrichVisitsWithFirstActionDatetime($nextVisits, $idSite);
+
         if (empty($nextVisits)) {
             return;
         }
 
         $view = new View('@Live/getVisitList.twig');
-        $view->idSite = Common::getRequestVar('idSite', null, 'int');
+        $view->idSite = $idSite;
         $view->startCounter = $startCounter + 1;
         $view->visits = $nextVisits;
         return $view->render();

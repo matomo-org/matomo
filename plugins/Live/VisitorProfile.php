@@ -78,7 +78,7 @@ class VisitorProfile
         // use N most recent visits for last_visits
         $visits->deleteRowsOffset(self::VISITOR_PROFILE_MAX_VISITS_TO_SHOW);
 
-        $this->enrichVisitsWithFirstActionDatetime($visits);
+        self::enrichVisitsWithFirstActionDatetime($visits, $this->idSite);
 
         $this->profile['lastVisits'] = $visits;
 
@@ -344,9 +344,9 @@ class VisitorProfile
      * @return DataTable\Row
      * @throws Exception
      */
-    private function enrichVisitsWithFirstActionDatetime(DataTable $visits)
+    public static function enrichVisitsWithFirstActionDatetime(DataTable $visits, $idSite)
     {
-        $timezone = Site::getTimezoneFor($this->idSite);
+        $timezone = Site::getTimezoneFor($idSite);
         foreach ($visits->getRows() as $visit) {
             $dateTimeVisitFirstAction = Date::factory($visit->getColumn('firstActionTimestamp'), $timezone);
 
@@ -358,4 +358,4 @@ class VisitorProfile
         }
     }
 
-} 
+}
