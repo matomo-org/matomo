@@ -4,7 +4,9 @@ if [ "$SKIP_INSTALL_PYTHON_26" == "1" ]; then
     exit 0;
 fi
 
-source ./travis-helper.sh
+SCRIPT_DIR=$( dirname "$0" )
+
+source "$SCRIPT_DIR/travis-helper.sh"
 
 travis_retry sudo add-apt-repository ppa:fkrull/deadsnakes -y
 travis_retry sudo apt-get update > /dev/null
