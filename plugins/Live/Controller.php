@@ -152,7 +152,6 @@ class Controller extends \Piwik\Plugin\Controller
                                                                            ));
 
         $idSite = Common::getRequestVar('idSite', null, 'int');
-        VisitorProfile::enrichVisitsWithFirstActionDatetime($nextVisits, $idSite);
 
         if (empty($nextVisits)) {
             return;

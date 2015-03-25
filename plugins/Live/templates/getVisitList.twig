@@ -8,8 +8,8 @@
             {% if visitInfo.getColumn('visitDuration') != 0 %}
                 <span>&nbsp;- ({{ visitInfo.getColumn('visitDurationPretty')|raw }})</span>
             {% endif %}
-            <span class="visitor-profile-date" title="{{ visitInfo.getColumn('serverDateTimePrettyFirstAction') }}">
-                {{ visitInfo.getColumn('serverDateTimePrettyFirstAction') }}
+            <span class="visitor-profile-date" title="{{ visitInfo.getColumn('serverDatePrettyFirstAction') }} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}">
+                {{ visitInfo.getColumn('serverDatePrettyFirstAction') }} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}
             </span>
         </div>
         <ol class="visitor-profile-actions">

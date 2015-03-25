@@ -20,7 +20,6 @@ use Piwik\Plugins\Referrers\API as APIReferrers;
 class VisitorProfile
 {
     const VISITOR_PROFILE_MAX_VISITS_TO_SHOW = 10;
-    const VISITOR_PROFILE_DATE_FORMAT = '%day% %shortMonth% %longYear%';
 
     protected $profile = array();
     private $siteSearchKeywords = array();
@@ -78,8 +77,6 @@ class VisitorProfile
         // use N most recent visits for last_visits
         $visits->deleteRowsOffset(self::VISITOR_PROFILE_MAX_VISITS_TO_SHOW);
 
-        self::enrichVisitsWithFirstActionDatetime($visits, $this->idSite);
-
         $this->profile['lastVisits'] = $visits;
 
         $this->profile['userId'] = $visit->getColumn('userId');
@@ -100,7 +97,7 @@ class VisitorProfile
         $serverDate = $visit->getColumn('firstActionTimestamp');
         return array(
             'date'            => $serverDate,
-            'prettyDate'      => Date::factory($serverDate)->getLocalized(self::VISITOR_PROFILE_DATE_FORMAT),
+            'prettyDate'      => Date::factory($serverDate)->getLocalized(Piwik::translate('CoreHome_DateFormat')),
             'daysAgo'         => (int)Date::secondsToDays($today->getTimestamp() - Date::factory($serverDate)->getTimestamp()),
             'referrerType'    => $visit->getColumn('referrerType'),
             'referralSummary' => self::getReferrerSummaryForVisit($visit),
@@ -338,24 +335,4 @@ class VisitorProfile
         $this->profile['lastVisit'] = $this->getVisitorProfileVisitSummary(reset($rows));
         $this->profile['visitsAggregated'] = count($rows);
     }
-
-    /**
-     * @param DataTable $visits
-     * @return DataTable\Row
-     * @throws Exception
-     */
-    public static function enrichVisitsWithFirstActionDatetime(DataTable $visits, $idSite)
-    {
-        $timezone = Site::getTimezoneFor($idSite);
-        foreach ($visits->getRows() as $visit) {
-            $dateTimeVisitFirstAction = Date::factory($visit->getColumn('firstActionTimestamp'), $timezone);
-
-            $datePretty = $dateTimeVisitFirstAction->getLocalized(self::VISITOR_PROFILE_DATE_FORMAT);
-            $visit->setColumn('serverDatePrettyFirstAction', $datePretty);
-
-            $dateTimePretty = $datePretty . ' ' . $visit->getColumn('serverTimePrettyFirstAction');
-            $visit->setColumn('serverDateTimePrettyFirstAction', $dateTimePretty);
-        }
-    }
-
 }
