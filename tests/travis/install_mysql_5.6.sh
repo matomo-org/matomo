@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ "$SKIP_INSTALL_MYSQL_56" == "1" ]; then
+    echo "Skipping MySQL 5.6 installation."
+    exit 0;
+fi
+
 # remove mysql 5.5
 sudo apt-get remove mysql-common mysql-server-5.5 mysql-server-core-5.5 mysql-client-5.5 mysql-client-core-5.5 > /dev/null
 sudo apt-get autoremove > /dev/null
