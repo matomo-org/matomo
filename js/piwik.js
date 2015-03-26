@@ -4247,7 +4247,7 @@ if (typeof Piwik !== 'object') {
                  */
                 setUserId: function (userId) {
                     if (!userId) {
-                        configUserId = visitorUUID = ''
+                        configUserId = visitorUUID = '';
                     } else {
                         configUserId = userId;
                         visitorUUID = hash(configUserId).substr(0, 16);
