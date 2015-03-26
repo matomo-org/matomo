@@ -2370,7 +2370,7 @@ function PiwikTest() {
     }
 
     test("User ID and Visitor UUID", function() {
-        expect(19);
+        expect(23);
         deleteCookies();
 
         var userIdString = 'userid@mydomain.org';
@@ -2401,7 +2401,11 @@ function PiwikTest() {
         equal(userId, tracker.getUserId(), "by default user ID is set to empty string");
         tracker.setUserId(userId);
         equal(userId, tracker.getUserId(), "after setting to empty string, user id is still empty");
-        equal(visitorId, tracker.getVisitorId(), "visitor id was not changed after setting empty user id");
+        equal(getVisitorIdFromCookie(tracker), tracker.getVisitorId(), "visitor id in cookie was not yet changed after setting empty user id");
+        tracker.trackPageView("Track some data to write the cookies...");
+        equal(visitorId, tracker.getVisitorId(), "visitor id was not changed after setting empty user id and tracking an action");
+        equal(getVisitorIdFromCookie(tracker), tracker.getVisitorId(), "visitor id in cookie was not changed");
+
 
         // Building another 'tracker2' object so we can compare behavior to 'tracker'
         var tracker2 = Piwik.getTracker();
@@ -2430,6 +2434,14 @@ function PiwikTest() {
         tracker2.setUserId(userIdString);
         equal(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting the same User ID, Visitor ID are the same");
 
+
+        // Verify that when resetting the User ID, it also changes the Visitor ID
+        tracker.setUserId(false);
+        ok(getVisitorIdFromCookie(tracker).length == 16, "after setting empty user id, visitor ID from cookie should still be 16 chars, got: " + getVisitorIdFromCookie(tracker));
+        equal(getVisitorIdFromCookie(tracker), visitorId, "after setting empty user id, visitor ID from cookie should be the same as previously ("+ visitorId +")");
+        tracker.trackPageView("Track some data to write the cookies...");
+        // Currently it does not work to setUserId(false)
+//        notEqual(getVisitorIdFromCookie(tracker), visitorId, "after setting empty user id, visitor ID from cookie should different ("+ visitorId +")");
 
     });
 
