@@ -1,11 +1,13 @@
 {
     "SegmentEditor": {
         "AddANDorORCondition": "Voeg %s voorwaarde toe",
+        "AddingSegmentForAllWebsitesDisabled": "Het toevoegen van segmenten voor alle websites is uitgeschakeld.",
         "AddNewSegment": "Voeg nieuw segment toe",
         "AreYouSureDeleteSegment": "Weet je zeker dat je dit segment wilt verwijderen?",
         "AutoArchivePreProcessed": "gesegmenteerde rapporten worden voor verwerkt (sneller, vereist archive.php cron)",
         "AutoArchiveRealTime": "gesegmenteerde rapporten worden realtime verwerkt",
         "ChooseASegment": "Kies een segment",
+        "DataAvailableAtLaterDate": "De gesegmenteerde analyse rapporten zullen op een later tijdstip beschikbaar komen. Excuses voor het ongemak.",
         "DefaultAllVisits": "Alle bezoeken",
         "DragDropCondition": "Sleep en verplaats voorwaarde",
         "LoadingSegmentedDataMayTakeSomeTime": "Verwerking van gesegmenteerde bezoeker gegevens kan enkele minuten duren ...",
@@ -16,11 +18,13 @@
         "SegmentDisplayedThisWebsiteOnly": "alleen deze website",
         "SegmentIsDisplayedForWebsite": "en getoond voor",
         "SegmentNotApplied": "Segment '%s' niet toegepast",
+        "SegmentNotAppliedMessage": "Je probeert data op te vragen voor aangepast segment '%s', deze Piwik omgeving is op dit moment, vanwege performance redenen, ingericht om geen rapporten in realtime te verwerken.",
         "SelectSegmentOfVisitors": "Selecteer een segment van bezoekers:",
         "ThisSegmentIsVisibleTo": "Dit segment is zichtbaar voor:",
         "VisibleToAllUsers": "alle gebruikers",
         "VisibleToMe": "mij",
         "YouDontHaveAccessToCreateSegments": "U heeft niet het benodigde toegangsniveau om segmenten te maken en bewerken.",
+        "YouMayChangeSetting": "Als alternatief kun je er voor kiezen om de instelling binnen het configuratie bestand (%s) aan te passen, of wijzig dit Segment en kies '%s'.",
         "YouMustBeLoggedInToCreateSegments": "Je moet ingelogd zijn om Bezoekers segmenten te bewerken of aan te maken."
     }
 }
