@@ -27,9 +27,9 @@ Are you looking for a new challenge? We are currently seeking a software enginee
 
 [View Job Description](https://piwik.org/blog/2015/01/piwik-expanding-seeking-talented-software-engineer-new-zealand-poland/) - [Apply online](http://piwik.org/jobs/)
 
-This is for a full time position to work on the open source Piwik platform, either Remotely or we can help the right candidate relocate to beautiful New Zealand (Wellington) or Poland (Wroclaw).
+This is for a full time position to work on the open source Piwik platform, either remotely or we can help the right candidate relocate to beautiful New Zealand (Wellington) or Poland (Wroclaw).
 
-We are grateful if you can share the Job description with your friends and wider network! 
+We are grateful if you can share the job description with your friends and wider network! 
 
 ## Requirements
 
