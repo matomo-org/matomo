@@ -70,8 +70,8 @@ window.initializeSparklines = function () {
                     // if this happens, we can't find the graph using $('#'+idDataTable+"Chart");
                     // instead, we just use the first evolution graph we can find.
                     if (dataTable.length == 0) {
-                        if ($(this).parents('.widget').length) {
-                            dataTable = $(this).parents('.widget').find('div.dataTableVizEvolution');
+                        if ($(this).closest('.widget').length) {
+                            dataTable = $(this).closest('.widget').find('div.dataTableVizEvolution');
                         } else {
                             dataTable = $('div.dataTableVizEvolution');
                         }
