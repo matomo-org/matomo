@@ -25,6 +25,8 @@
     </section>
 </div>
 
+{% block websiteAccessTable %}
+
 {% import 'ajaxMacros.twig' as ajax %}
 {{ ajax.errorDiv }}
 {{ ajax.loadingDiv }}
@@ -207,4 +209,6 @@
     </div>
 
 {% endif %}
+{% endblock %}
+
 {% endblock %}

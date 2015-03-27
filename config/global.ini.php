@@ -562,6 +562,10 @@ use_third_party_id_cookie = 0
 ; Once enabled (set to 1) messages will be logged to all loggers defined in "[log] log_writers" config.
 debug = 0
 
+; This option is an alternative to the debug option above. When set to 1, you can debug tracker request by adding
+; a debug=1 query paramater in the URL. All other HTTP requests will not have debug enabled.
+debug_on_demand = 0
+
 ; This setting is described in this FAQ: http://piwik.org/faq/how-to/faq_175/
 ; Note: generally this should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
 ; and the same IP. If left to 0 in this setting, all visitors will be counted as one single visitor.

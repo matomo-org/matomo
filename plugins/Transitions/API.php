@@ -489,7 +489,7 @@ class API extends \Piwik\Plugin\API
     }
 
     private $limitBeforeGrouping = 5;
-    private $totalTransitionsToFollowingActions = 0;
+    private $totalTransitionsToFollowingPages = 0;
 
     /**
      * Get the sum of all transitions to following actions (pages, outlinks, downloads).
@@ -497,7 +497,7 @@ class API extends \Piwik\Plugin\API
      */
     protected function getTotalTransitionsToFollowingActions()
     {
-        return $this->totalTransitionsToFollowingActions;
+        return $this->totalTransitionsToFollowingPages;
     }
 
     /**
@@ -578,7 +578,7 @@ class API extends \Piwik\Plugin\API
 
     protected function makeDataTablesFollowingActions($types, $data)
     {
-        $this->totalTransitionsToFollowingActions = 0;
+        $this->totalTransitionsToFollowingPages = 0;
         $dataTables = array();
         foreach ($types as $type => $recordName) {
             $dataTable = new DataTable;
@@ -591,11 +591,25 @@ class API extends \Piwik\Plugin\API
                                                         Metrics::INDEX_NB_ACTIONS => $actions
                                                     )
                                                )));
-                    $this->totalTransitionsToFollowingActions += $actions;
+
+                    $this->processTransitionsToFollowingPages($type, $actions);
                 }
             }
             $dataTables[$recordName] = $dataTable;
         }
         return $dataTables;
+    }
+
+    protected function processTransitionsToFollowingPages($type, $actions)
+    {
+        // Downloads and Outlinks are not included as these actions count towards a Visit Exit
+        $actionTypesNotExitActions = array(
+            Action::TYPE_SITE_SEARCH,
+            Action::TYPE_PAGE_TITLE,
+            Action::TYPE_PAGE_URL
+        );
+        if(in_array($type, $actionTypesNotExitActions)) {
+            $this->totalTransitionsToFollowingPages += $actions;
+        }
     }
 }

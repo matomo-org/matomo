@@ -90,8 +90,8 @@
 		<pluginsIcons />
 		<serverTimestamp>1365328800</serverTimestamp>
 		<serverTimePretty>10:00:00</serverTimePretty>
-		<serverDatePretty>Sun 7 Apr</serverDatePretty>
-		<serverDatePrettyFirstAction>Sun 7 Apr</serverDatePrettyFirstAction>
+		<serverDatePretty>Sunday 7 April 2013</serverDatePretty>
+		<serverDatePrettyFirstAction>Sunday 7 April 2013</serverDatePrettyFirstAction>
 		<serverTimePrettyFirstAction>10:00:00</serverTimePrettyFirstAction>
 	</row>
 	<row>
@@ -184,8 +184,8 @@
 		<pluginsIcons />
 		<serverTimestamp>1365246000</serverTimestamp>
 		<serverTimePretty>11:00:00</serverTimePretty>
-		<serverDatePretty>Sat 6 Apr</serverDatePretty>
-		<serverDatePrettyFirstAction>Sat 6 Apr</serverDatePrettyFirstAction>
+		<serverDatePretty>Saturday 6 April 2013</serverDatePretty>
+		<serverDatePrettyFirstAction>Saturday 6 April 2013</serverDatePrettyFirstAction>
 		<serverTimePrettyFirstAction>11:00:00</serverTimePrettyFirstAction>
 	</row>
 	<row>
@@ -278,8 +278,8 @@
 		<pluginsIcons />
 		<serverTimestamp>1365163200</serverTimestamp>
 		<serverTimePretty>12:00:00</serverTimePretty>
-		<serverDatePretty>Fri 5 Apr</serverDatePretty>
-		<serverDatePrettyFirstAction>Fri 5 Apr</serverDatePrettyFirstAction>
+		<serverDatePretty>Friday 5 April 2013</serverDatePretty>
+		<serverDatePrettyFirstAction>Friday 5 April 2013</serverDatePrettyFirstAction>
 		<serverTimePrettyFirstAction>12:00:00</serverTimePrettyFirstAction>
 	</row>
 </result>

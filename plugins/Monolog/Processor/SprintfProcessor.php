@@ -18,7 +18,7 @@ class SprintfProcessor
         $message = $record['message'];
         $parameters = $record['context'];
 
-        if (is_string($message) && !empty($parameters)) {
+        if (is_string($message) && !empty($parameters) && strpos($message, '%') !== false) {
             $parameters = $this->ensureParametersAreStrings($parameters);
 
             $record['message'] = vsprintf($message, $parameters);
@@ -32,6 +32,8 @@ class SprintfProcessor
         foreach ($parameters as &$param) {
             if (is_array($param)) {
                 $param = json_encode($param);
+            } elseif (is_object($param)) {
+                $param = get_class($param);
             }
         }
 

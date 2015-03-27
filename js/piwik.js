@@ -2626,6 +2626,21 @@ if (typeof Piwik !== 'object') {
             }
 
             /*
+             * Generate a pseudo-unique ID to fingerprint this user
+             * 16 hexits = 64 bits
+             * note: this isn't a RFC4122-compliant UUID
+             */
+            function generateRandomUuid() {
+                return hash(
+                    (navigatorAlias.userAgent || '') +
+                    (navigatorAlias.platform || '') +
+                    JSON2.stringify(browserFeatures) +
+                    (new Date()).getTime() +
+                    Math.random()
+                ).slice(0, 16);
+            }
+
+            /*
              * Load visitor ID cookie
              */
             function loadVisitorIdCookie() {
@@ -2636,6 +2651,7 @@ if (typeof Piwik !== 'object') {
                     cookieValue,
                     uuid;
 
+                // Visitor ID cookie found
                 if (id) {
                     cookieValue = id.split('.');
 
@@ -2648,20 +2664,13 @@ if (typeof Piwik !== 'object') {
                     return cookieValue;
                 }
 
-                // uuid - generate a pseudo-unique ID to fingerprint this user;
-                // note: this isn't a RFC4122-compliant UUID
-                if (visitorUUID.length) {
+                if(visitorUUID.length) {
                     uuid = visitorUUID;
                 } else {
-                    uuid = hash(
-                        (navigatorAlias.userAgent || '') +
-                        (navigatorAlias.platform || '') +
-                        JSON2.stringify(browserFeatures) +
-                        now.getTime() +
-                        Math.random()
-                    ).slice(0, 16); // 16 hexits = 64 bits
+                    uuid = generateRandomUuid();
                 }
 
+                // No visitor ID cookie, let's create a new one
                 cookieValue = [
                     // new visitor
                     '1',

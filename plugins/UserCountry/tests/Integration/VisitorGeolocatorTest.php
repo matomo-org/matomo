@@ -275,9 +275,9 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     {
         $defaultProperties = array(
             'idsite' => 1,
-            'idvisitor' => hex2bin('ea95f303f2165aa0'),
+            'idvisitor' => pack("H*" , 'ea95f303f2165aa0'),
             'visit_last_action_time' => '2012-01-01 00:00:00',
-            'config_id' => hex2bin('ea95f303f2165aa0'),
+            'config_id' => pack("H*" , 'ea95f303f2165aa0'),
             'location_ip' => IPUtils::stringToBinaryIP(self::TEST_IP),
             'visitor_localtime' => '2012-01-01 00:00:00',
             'location_country' => 'xx',

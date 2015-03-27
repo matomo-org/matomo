@@ -59,6 +59,7 @@
         "MenuManage": "Gestione",
         "OptOutComplete": "Opt-out completato; le tue visite a questo sito non verranno registrate dallo strumento di Web Analytics.",
         "OptOutCompleteBis": "Nota che se cancelli i tuoi cookie, cancelli il cookie di opt-out, o se cambi computer o browser web, devi fare la procedura opt-out nuovamente.",
+        "OptOutDntFound": "Non vieni tracciato poiché il tuo browser comunica che non lo desideri. Questa è un'impostazione del tuo browser, dunque non potrai effettuare l'opt-in finchè non disabiliti la funzionalità \"Non Tracciare\".",
         "OptOutExplanation": "Piwik è impegnato ad assicurare la riservatezza su Internet. Per dare ai vostri ospiti la possibilità di opt-out in Piwik Web Analytics, è possibile aggiungere il seguente codice HTML in una pagina del tuo sito web, ad esempio in una pagina sulla privacy.",
         "OptOutExplanationBis": "Questo codice serve per mostrare un iFrame contenente un link per i tuoi visitatori per opt-out per le impostazioni di Piwik, tramite un opt-out cookie nei loro browser. %s Clicca qui%s per vedere il contenuto che sarà mostrato nell'iFrame.",
         "OptOutForYourVisitors": "Piwik opt-out per i tuoi visitatori",

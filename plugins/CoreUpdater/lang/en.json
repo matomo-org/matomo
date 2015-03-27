@@ -47,6 +47,7 @@
         "UpdateAutomatically": "Update Automatically",
         "UpdateHasBeenCancelledExplanation": "Piwik One Click Update has been cancelled. If you can't fix the above error message, it is recommended that you manually update Piwik. %1$s Please check out the %2$sUpdate documentation%3$s to get started!",
         "UpdateTitle": "Update",
+        "Updating": "Updating",
         "UpdateUsingHttpsFailed": "Downloading the latest Piwik version over secure HTTPS connection did not succeed, because of the following error:",
         "UpdateUsingHttpsFailedHelp": "Why did it fail? Downloading the latest Piwik version (over secure HTTPS connection) can fail for various reasons, for example because of a network error, slow network speed or wrong system configuration. Note that it could also mean that your server is the target of a MITM attack and someone is trying to replace the update with a malicious version of Piwik.",
         "UpdateUsingHttpsFailedHelpWhatToDo": "It is recommended to retry the download using the secure HTTPS connection as it prevents MITM attacks.",
