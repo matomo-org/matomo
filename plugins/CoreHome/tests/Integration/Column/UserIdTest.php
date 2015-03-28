@@ -248,7 +248,7 @@ class UserIdTest extends IntegrationTestCase
 
     private function getTracker()
     {
-        $tracker = Fixture::getTracker(1, $this->date . ' 00:01:01', true, true);
+        $tracker = Fixture::getTracker(1, $this->date . ' 00:01:01', true);
         $tracker->setTokenAuth(Fixture::getTokenAuth());
         return $tracker;
     }

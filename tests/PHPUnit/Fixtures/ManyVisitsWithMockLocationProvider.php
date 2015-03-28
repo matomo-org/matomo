@@ -11,6 +11,7 @@ use Piwik\Date;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
+use PiwikTracker;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvider.php';
 
@@ -111,7 +112,9 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         );
 
         $visitorCounter = 0;
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true, $useLocal = true);
+        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
+
+        $t->enableBulkTracking();
 
         // track regular actions
         $this->trackActions($t, $visitorCounter, 'pageview', $userAgents, $resolutions, $referrers, $customVars);
@@ -124,9 +127,11 @@ class ManyVisitsWithMockLocationProvider extends Fixture
 
         // track ecommerce product orders
         $this->trackOrders($t);
+
+        self::checkBulkTrackingResponse($t->doBulkTrack());
     }
 
-    private function trackActions($t, &$visitorCounter, $actionType, $userAgents, $resolutions,
+    private function trackActions(PiwiKTracker $t, &$visitorCounter, $actionType, $userAgents, $resolutions,
                                   $referrers = null, $customVars = null)
     {
         for ($i = 0; $i != 5; ++$i, ++$visitorCounter) {
@@ -172,12 +177,14 @@ class ManyVisitsWithMockLocationProvider extends Fixture
                     }
                 }
 
+                $t->setUserAgent($userAgents[$visitorCounter]);
+
                 $this->trackAction($t, $actionType, $visitorCounter, $actionNum);
             }
         }
     }
 
-    private function trackOrders($t)
+    private function trackOrders(PiwikTracker $t)
     {
         $nextDay = Date::factory($this->nextDay);
         $t->setForceVisitDateTime($nextDay);
@@ -188,22 +195,22 @@ class ManyVisitsWithMockLocationProvider extends Fixture
             $t->setNewVisitorId();
             $t->setIp("155.5.4.$i");
             $t->setEcommerceView("id_book$i",  "Book$i", "Books Cat #$cat", 7.50);
-            self::checkResponse($t->doTrackPageView('bought book'));
+            self::assertTrue($t->doTrackPageView('bought book'));
         }
     }
 
-    private function trackAction($t, $actionType, $visitorCounter, $actionNum)
+    private function trackAction(PiwikTracker $t, $actionType, $visitorCounter, $actionNum)
     {
         if ($actionType == 'pageview') {
-            self::checkResponse($t->doTrackPageView(
+            self::assertTrue($t->doTrackPageView(
                 is_null($actionNum) ? "title_$visitorCounter" : "title_$visitorCounter / title_$actionNum"));
         } else if ($actionType == 'download') {
             $root = is_null($actionNum) ? "http://cloudsite$visitorCounter.com"
                 : "http://cloudsite$visitorCounter.com/$actionNum";
 
-            self::checkResponse($t->doTrackAction("$root/download", 'download'));
+            self::assertTrue($t->doTrackAction("$root/download", 'download'));
         } else if ($actionType == 'outlink') {
-            self::checkResponse($t->doTrackAction(is_null($actionNum) ? "http://othersite$visitorCounter.com/"
+            self::assertTrue($t->doTrackAction(is_null($actionNum) ? "http://othersite$visitorCounter.com/"
                 : "http://othersite$visitorCounter.com/$actionNum/", 'link'));
         }
     }
@@ -211,7 +218,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
     private function setMockLocationProvider()
     {
         LocationProvider::setCurrentProvider('mock_provider');
-        MockLocationProvider::$locations = array(
+        MockLocationProvider::setLocations(array(
             self::makeLocation('Toronto', 'ON', 'CA', $lat = null, $long = null, $isp = 'comcast.net'),
 
             self::makeLocation('Nice', 'B8', 'FR', $lat = null, $long = null, $isp = 'comcast.net'),
@@ -219,6 +226,13 @@ class ManyVisitsWithMockLocationProvider extends Fixture
             self::makeLocation('Melbourne', '07', 'AU', $lat = null, $long = null, $isp = 'awesomeisp.com'),
 
             self::makeLocation('Yokohama', '19', 'JP'),
-        );
+        ));
+    }
+
+    public function initializePlatform()
+    {
+        if (LocationProvider::getCurrentProviderId() == 'mock_provider') {
+            \Piwik\Tests\Framework\Mock\LocationProvider::setUpInTracker();
+        }
     }
 }

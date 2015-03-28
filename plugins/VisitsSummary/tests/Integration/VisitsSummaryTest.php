@@ -168,7 +168,7 @@ class VisitsSummaryTest extends IntegrationTestCase
 
         $date = sprintf('%s %d:20:01', $this->date, $hour);
 
-        $tracker = Fixture::getTracker(1, $date, true, true);
+        $tracker = Fixture::getTracker(1, $date, true);
         $tracker->setTokenAuth(Fixture::getTokenAuth());
         return $tracker;
     }

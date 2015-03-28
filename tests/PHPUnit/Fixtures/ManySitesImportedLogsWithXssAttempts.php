@@ -72,13 +72,13 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
         $dateTime = $date->addHour(-1.25)->getDatetime();
         $idSite = 2;
 
-        $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(-3)->getDatetime(), $defaultInit = true, $useLocal = true);
+        $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(-3)->getDatetime(), $defaultInit = true);
         $t->setTokenAuth(self::getTokenAuth());
         $t->setUrl('http://example.org/index1.htm');
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         if ($createSeperateVisitors) {
-            $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useLocal = true);
+            $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
         } else {
             $t->setForceVisitDateTime($dateTime);
         }
@@ -93,7 +93,7 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         if ($createSeperateVisitors) {
-            $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(0.5)->getDatetime(), $defaultInit = true, $useLocal = true);
+            $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(0.5)->getDatetime(), $defaultInit = true);
         } else {
             $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.5)->getDatetime());
         }
@@ -108,7 +108,7 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         if ($createSeperateVisitors) {
-            $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(1)->getDatetime(), $defaultInit = true, $useLocal = true);
+            $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(1)->getDatetime(), $defaultInit = true);
         } else {
             $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->getDatetime());
         }

@@ -43,15 +43,14 @@ class TwoVisitsWithCustomEvents extends Fixture
 
     public function trackVisits()
     {
-        $uselocal = false;
-        $vis = self::getTracker($this->idSite, $this->dateTime, $useDefault = true, $uselocal);
+        $vis = self::getTracker($this->idSite, $this->dateTime, $useDefault = true);
 
         $this->trackMusicPlaying($vis);
         $this->trackMusicRatings($vis);
         $this->trackMovieWatchingIncludingInterval($vis);
 
         $this->dateTime = Date::factory($this->dateTime)->addHour(0.5);
-        $vis2 = self::getTracker($this->idSite, $this->dateTime, $useDefault = true, $uselocal);
+        $vis2 = self::getTracker($this->idSite, $this->dateTime, $useDefault = true);
         $vis2->setIp('111.1.1.1');
         $vis2->setPlugins($flash = false, $java = false, $director = true);
 

@@ -264,13 +264,7 @@ class ManyVisitsWithGeoIP extends Fixture
         }
 
         if (LocationProvider::getCurrentProviderId() == 'mock_provider') {
-            $GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING'] = true;
-
-            // tracker process has no installed plugins due to Config::setTestEnvironment, however local tracking
-            // has installed plugins (specifically Provider). it must be installed in order to get correct results w/ mock
-            // location provider but w/o LocalTracker
-            \Piwik\Plugin\Manager::getInstance()->loadActivatedPlugins();
-            \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
+            MockLocationProvider::setUpInTracker();
         }
     }
 

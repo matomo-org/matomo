@@ -107,7 +107,7 @@ class APITest extends SystemTestCase
         $nowTimestamp = time();
 
         // use local tracker so mock location provider can be used
-        $t = Fixture::getTracker($this->idSite, $nowTimestamp, $defaultInit = true, $useLocal = false);
+        $t = Fixture::getTracker($this->idSite, $nowTimestamp, $defaultInit = true);
         $t->enableBulkTracking();
 
         for ($i = 0; $i != 20; ++$i) {
