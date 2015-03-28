@@ -482,6 +482,14 @@ class Config extends Singleton
         }
         return null;
     }
+    
+    public function getFromLocalConfig($name)
+    {
+        if (isset($this->configLocal[$name])) {
+            return $this->configLocal[$name];
+        }
+        return null;
+    }
 
     /**
      * Sets a configuration value or section.
