@@ -237,6 +237,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             return;
         }
 
+        $this->getTestEnvironment()->fixtureClass = get_class($this);
         $this->getTestEnvironment()->save();
         $this->getTestEnvironment()->executeSetupTestEnvHook();
         Piwik_TestingEnvironment::addSendMailHook();
@@ -259,7 +260,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     {
         if ($this->testEnvironment === null) {
             $this->testEnvironment = new Piwik_TestingEnvironment();
-            $this->testEnvironment->delete();
+            $this->testEnvironment->delete(); // TODO: should delete explicitly in fixture setup environment
 
             if (getenv('PIWIK_USE_XHPROF') == 1) {
                 $this->testEnvironment->useXhprof = true;
@@ -893,5 +894,14 @@ class Fixture extends \PHPUnit_Framework_Assert
     public function provideContainerConfig()
     {
         return array();
+    }
+
+    /**
+     * Use this method to do manual test environment setup for an individual fixture. Affects
+     * tracker processes, CliMulti processes, etc.
+     */
+    public function initializePlatform()
+    {
+        // empty
     }
 }

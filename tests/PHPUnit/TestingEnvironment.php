@@ -206,6 +206,15 @@ class Piwik_TestingEnvironment
                     $cache = $testingEnvironment->arrayMergeRecursiveDistinct($cache, $testingEnvironment->configOverride);
                 }
             });
+
+            if ($testingEnvironment->fixtureClass) {
+                $fixtureClass = $testingEnvironment->fixtureClass;
+                if (class_exists($fixtureClass)) {
+                    /** @var Fixture $fixture */
+                    $fixture = new $fixtureClass;
+                    $fixture->initializePlatform();
+                }
+            }
         }
         Piwik::addAction('Request.dispatch', function() use ($testingEnvironment) {
             if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
