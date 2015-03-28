@@ -47,7 +47,6 @@ use Piwik\Url;
 use PHPUnit_Framework_Assert;
 use Piwik_TestingEnvironment;
 use PiwikTracker;
-use Piwik_LocalTracker;
 use Piwik\Updater;
 use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Exception;
