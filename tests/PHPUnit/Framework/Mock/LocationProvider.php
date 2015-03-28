@@ -56,9 +56,6 @@ class LocationProvider extends CountryLocationProvider
             self::setOptionValue(self::IP_TO_LOCATIONS_OPTION_NAME, $this->ipToLocations);
         }
 
-        $fd = fopen('/home/runic/hello.txt', 'a');
-        fwrite($fd, "$ip - " . print_r($result, true));
-        fclose($fd);
         $this->completeLocationResult($result);
 
         return $result;
