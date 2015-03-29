@@ -62,8 +62,12 @@ class DistributedList
      */
     public function setAll($items)
     {
-        foreach ($items as &$item) {
-            $item = (string)$item;
+        foreach ($items as $key => &$item) {
+            if (is_array($item)) {
+                throw new \InvalidArgumentException("Array item encountered in DistributedList::setAll() [ key = $key ].");
+            } else {
+                $item = (string)$item;
+            }
         }
 
         Option::set($this->optionName, serialize($items));
