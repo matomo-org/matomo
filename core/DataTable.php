@@ -16,14 +16,15 @@ use Piwik\DataTable\Manager;
 use Piwik\DataTable\Renderer\Html;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Row\DataTableSummaryRow;
+use Piwik_DataTable_SerializedDataTableSummary;
 use Piwik\DataTable\Simple;
-use Piwik\DataTable\TableNotFoundException;
 use ReflectionClass;
 
 /**
  * @see Common::destroy()
  */
 require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
+require_once PIWIK_INCLUDE_PATH . "/core/DataTable/Bridges.php";
 
 /**
  * The primary data structure used to store analytics data in Piwik.
@@ -627,6 +628,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         $label = (string)$label;
+
         if (!isset($this->rowsIndexByLabel[$label])) {
             return false;
         }
@@ -663,6 +665,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 $this->rowsIndexByLabel[$label] = $id;
             }
         }
+
         $this->indexNotUpToDate = false;
     }
 
@@ -1233,6 +1236,30 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         return $aSerializedDataTable;
     }
 
+    private static $previousRowClasses = array('O:39:"Piwik\DataTable\Row\DataTableSummaryRow"', 'O:19:"Piwik\DataTable\Row"', 'O:36:"Piwik_DataTable_Row_DataTableSummary"', 'O:19:"Piwik_DataTable_Row"');
+    private static $rowClassToUseForUnserialize   = 'O:29:"Piwik_DataTable_SerializedRow"';
+
+    /**
+     * We cannot unserialize directly as it won't work to unserialize eg "Piwik\DataTable\Row" directly on
+     * PHP 5.6, 5.4.29 and 5.5.13. The Row class implements the "Serializable" interface and can therefore not be
+     * unserialized directly. This would trigger a notice and fail. Instead we use a class "Piwik_DataTable_SerializedRow"
+     * to unserialize which does not implement anything just to be able to access its "$row->c" property later.
+     * @param string $serialized
+     * @return array
+     * @throws Exception In case the unserialize fails
+     */
+    private function unserializeRows($serialized)
+    {
+        $serialized = str_replace(self::$previousRowClasses, self::$rowClassToUseForUnserialize, $serialized);
+        $rows = unserialize($serialized);
+
+        if ($rows === false) {
+            throw new Exception("The unserialization has failed!");
+        }
+
+        return $rows;
+    }
+
     /**
      * Adds a set of rows from a serialized DataTable string.
      *
@@ -1240,19 +1267,25 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * _Note: This function will successfully load DataTables serialized by Piwik 1.X._
      *
-     * @param string $stringSerialized A string with the format of a string in the array returned by
+     * @param string $serialized A string with the format of a string in the array returned by
      *                                 {@link serialize()}.
-     * @throws Exception if `$stringSerialized` is invalid.
+     * @throws Exception if `$serialized` is invalid.
      */
-    public function addRowsFromSerializedArray($stringSerialized)
+    public function addRowsFromSerializedArray($serialized)
     {
-        require_once PIWIK_INCLUDE_PATH . "/core/DataTable/Bridges.php";
+        $rows = $this->unserializeRows($serialized);
 
-        $serialized = unserialize($stringSerialized);
-        if ($serialized === false) {
-            throw new Exception("The unserialization has failed!");
+        foreach ($rows as $id => $row) {
+            if (isset($row->c)) {
+                $row = $row->c; // before Piwik 2.13
+            }
+
+            if ($id == self::ID_SUMMARY_ROW) {
+                $this->summaryRow = new Row($row);
+            } else {
+                $this->addRow(new Row($row));
+            }
         }
-        $this->addRowsFromArray($serialized);
     }
 
     /**
