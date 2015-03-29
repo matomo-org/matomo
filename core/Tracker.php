@@ -62,12 +62,7 @@ class Tracker
     public static function loadTrackerEnvironment()
     {
         SettingsServer::setIsTrackerApiRequest();
-        try {
-            $debug = (bool)TrackerConfig::getConfigValue('debug');
-        } catch(Exception $e) {
-            $debug = false;
-        }
-        $GLOBALS['PIWIK_TRACKER_DEBUG'] = $debug;
+        $GLOBALS['PIWIK_TRACKER_DEBUG'] = self::isDebugEnabled();
         PluginManager::getInstance()->loadTrackerPlugins();
     }
 
@@ -312,5 +307,23 @@ class Tracker
                 Common::sendResponseCode(500);
             }
         });
+    }
+
+    private static function isDebugEnabled()
+    {
+        try {
+            $debug = (bool) TrackerConfig::getConfigValue('debug');
+            if ($debug) {
+                return true;
+            }
+
+            $debugOnDemand = (bool) TrackerConfig::getConfigValue('debug_on_demand');
+            if ($debugOnDemand) {
+                return (bool) Common::getRequestVar('debug', false);
+            }
+        } catch(Exception $e) {
+        }
+
+        return false;
     }
 }

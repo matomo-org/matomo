@@ -81,7 +81,7 @@
 
     {% if coreToUpdate or pluginNamesToUpdate|length > 0 or dimensionsToUpdate|length > 0  %}
         <br/>
-        <form action="index.php" id="upgradeCorePluginsForm">
+        <form action="index.php" id="upgradeCorePluginsForm" data-updating="{{ 'CoreUpdater_Updating'|translate }}...">
             <input type="hidden" name="updateCorePlugins" value="1"/>
             {% if queries|length == 1 %}
                 <input type="submit" class="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>

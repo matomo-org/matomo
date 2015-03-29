@@ -1,4 +1,9 @@
 #!/bin/bash
+if [ "$SKIP_PIWIK_TEST_PREPARE" == "1" ]; then
+    echo "Skipping webserver setup."
+    exit 0;
+fi
+
 set -e
 
 DIR=$(dirname "$0")

@@ -73,7 +73,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     protected function configure()
     {
         $this->setName('usercountry:attribute');
-
+        $this->setDescription("Re-attribute existing log data (visits & conversions) with geolocated location data, using the specified or configured location provider.");
         $this->addArgument(self::DATES_RANGE_ARGUMENT, InputArgument::REQUIRED, 'Attribute visits in this date range. Eg, 2012-01-01,2013-01-01');
         $this->addOption(self::PERCENT_STEP_ARGUMENT, null, InputArgument::OPTIONAL,
             'How often to display the command progress. A status update will be printed after N percent of visits are processed, '

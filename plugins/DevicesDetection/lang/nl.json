@@ -1,6 +1,8 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "Browser engine",
         "BrowserEngineDocumentation": "Deze grafiek toont de browsers van uw bezoekers, verdeeld in browserfamilies. %s De belangrijkste informatie voor webontwikkelaars is wat voor soort renderingengine hun bezoekers gebruiken. De labels bevatten de namen van de engines, gevolgd door de meest voorkomende browsers (tussen haakjes) die deze engine gebruiken.",
+        "BrowserEngines": "Browser engines",
         "BrowserFamily": "Browser per Type",
         "Browsers": "Browser per versie",
         "BrowserVersion": "Browserversie",

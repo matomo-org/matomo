@@ -738,7 +738,7 @@ class Db
 
     public static function isOptimizeInnoDBSupported($version = null)
     {
-        if (empty($version)) {
+        if ($version === null) {
             $version = Db::fetchOne("SELECT VERSION()");
         }
 

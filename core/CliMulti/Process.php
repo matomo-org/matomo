@@ -186,7 +186,7 @@ class Process
 
     private static function isSystemNotSupported()
     {
-        $uname = @shell_exec('uname -a');
+        $uname = @shell_exec('uname -a 2> /dev/null');
 
         if (empty($uname)) {
             $uname = php_uname();

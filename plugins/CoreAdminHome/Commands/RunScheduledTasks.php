@@ -21,6 +21,7 @@ class RunScheduledTasks extends ConsoleCommand
     protected function configure()
     {
         $this->setName('core:run-scheduled-tasks');
+        $this->setAliases(array('scheduled-tasks:run'));
         $this->setDescription('Will run all scheduled tasks due to run at this time.');
         $this->addOption('force', null, InputOption::VALUE_NONE, 'If set, it will execute all tasks even the ones not due to run at this time.');
     }
