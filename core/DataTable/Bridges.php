@@ -16,6 +16,13 @@ namespace {
     use Piwik\DataTable\Row;
     use Piwik\DataTable\Row\DataTableSummaryRow;
 
+    // only used for BC to unserialize old archived Row instances. We cannot unserialize Row directly as it implements
+    // the Serializable interface and it would fail on PHP5.6+ when userializing the Row instance directly.
+    class Piwik_DataTable_SerializedRow
+    {
+        public $c;
+    }
+
     class Piwik_DataTable_Row_DataTableSummary extends DataTableSummaryRow
     {
     }
