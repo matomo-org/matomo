@@ -105,9 +105,13 @@ class Timetable
 
     public function rescheduleTask(Task $task)
     {
+        $rescheduledTime = $task->getRescheduledTime();
+
         // update the scheduled time
-        $this->timetable[$task->getName()] = $task->getRescheduledTime();
+        $this->timetable[$task->getName()] = $rescheduledTime;
         $this->save();
+
+        return Date::factory($rescheduledTime);
     }
 
     public function save()
