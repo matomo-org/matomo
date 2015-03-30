@@ -10,6 +10,7 @@ namespace Piwik\DataAccess;
 
 use Exception;
 use Piwik\Archive;
+use Piwik\Archive\Chunk;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
@@ -221,13 +222,14 @@ class ArchiveSelector
      * @param array $recordNames The names of the data to retrieve (ie, nb_visits, nb_actions, etc.).
      *                           Note: You CANNOT pass multiple recordnames if $loadAllSubtables=true.
      * @param string $archiveDataType The archive data type (either, 'blob' or 'numeric').
-     * @param int $idSubtable
+     * @param int|null|string $idSubtable  null if the root blob should be loaded, an integer if a subtable should be
+     *                                     loaded and 'all' if all subtables should be loaded.
      * @throws Exception
      * @return array
      */
     public static function getArchiveData($archiveIds, $recordNames, $archiveDataType, $idSubtable)
     {
-        $chunk = new Archive\Chunk();
+        $chunk = new Chunk();
 
         // create the SQL to select archive data
         $loadAllSubtables = $idSubtable == Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
@@ -301,37 +303,7 @@ class ArchiveSelector
                     $row['value'] = self::uncompress($row['value']);
 
                     if ($chunk->isRecordNameAChunk($row['name'])) {
-                        $blobs = unserialize($row['value']);
-
-                        if (!is_array($blobs)) {
-                            continue;
-                        }
-
-                        // $rawName = eg 'PluginName_ArchiveName'
-                        $rawName = $chunk->getRecordNameWithoutChunkAppendix($row['name']);
-
-                        if ($loadAllSubtables) {
-                            foreach ($blobs as $subtableId => $blob) {
-                                $rows[] = array(
-                                    'name'   => self::appendIdSubtable($rawName, $subtableId),
-                                    'value'  => $blob,
-                                    'idsite' => $row['idsite'],
-                                    'date1'  => $row['date1'],
-                                    'date2'  => $row['date2'],
-                                    'ts_archived' => $row['ts_archived'],
-                                );
-                            }
-                        } elseif (array_key_exists($idSubtable, $blobs)) {
-                            $rows[] = array(
-                                'name'   => self::appendIdSubtable($rawName, $idSubtable),
-                                'value'  => $blobs[$idSubtable],
-                                'idsite' => $row['idsite'],
-                                'date1'  => $row['date1'],
-                                'date2'  => $row['date2'],
-                                'ts_archived' => $row['ts_archived'],
-                            );
-                        }
-
+                        self::moveChunkRowToRows($rows, $row, $chunk, $loadAllSubtables, $idSubtable);
                     } else {
                         $rows[] = $row;
                     }
@@ -342,7 +314,32 @@ class ArchiveSelector
         return $rows;
     }
 
-    private static function appendIdSubtable($recordName, $id)
+    private static function moveChunkRowToRows(&$rows, $row, Chunk $chunk, $loadAllSubtables, $idSubtable)
+    {
+        // $blobs = array([subtableID] = [blob of subtableId])
+        $blobs = unserialize($row['value']);
+
+        if (!is_array($blobs)) {
+            return;
+        }
+
+        // $rawName = eg 'PluginName_ArchiveName'
+        $rawName = $chunk->getRecordNameWithoutChunkAppendix($row['name']);
+
+        if ($loadAllSubtables) {
+            foreach ($blobs as $subtableId => $blob) {
+                $row['value'] = $blob;
+                $row['name']  = self::appendIdSubtable($rawName, $subtableId);
+                $rows[] = $row;
+            }
+        } elseif (array_key_exists($idSubtable, $blobs)) {
+            $row['value'] = $blobs[$idSubtable];
+            $row['name'] = self::appendIdSubtable($rawName, $idSubtable);
+            $rows[] = $row;
+        }
+    }
+
+    public static function appendIdSubtable($recordName, $id)
     {
         return $recordName . "_" . $id;
     }

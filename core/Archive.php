@@ -514,11 +514,6 @@ class Archive
         return $dataTable;
     }
 
-    private function appendIdSubtable($recordName, $id)
-    {
-        return $recordName . "_" . $id;
-    }
-
     private function getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet()
     {
         if (is_null(self::$cache)) {
@@ -604,7 +599,7 @@ class Archive
             // place.
             $dataNames = array();
             foreach ($archiveNames as $name) {
-                $dataNames[] = $this->appendIdsubtable($name, $idSubtable);
+                $dataNames[] = ArchiveSelector::appendIdsubtable($name, $idSubtable);
             }
         } else {
             $dataNames = $archiveNames;
