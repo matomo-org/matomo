@@ -96,20 +96,6 @@ class Row implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
-     * We serialized the whole Row instance pre Piwik 2.13. We're staying BC this way.
-     * @ignore
-     */
-    public function __wakeup()
-    {
-        if (isset($this->c)) {
-            $this->columns    = $this->c[self::COLUMNS];
-            $this->metadata   = $this->c[self::METADATA];
-            $this->subtableId = $this->c[self::DATATABLE_ASSOCIATED];
-            unset($this->c);
-        }
-    }
-
-    /**
      * When destroyed, a row destroys its associated subtable if there is one.
      * @ignore
      */

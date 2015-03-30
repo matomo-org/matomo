@@ -288,7 +288,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider unserializeTestsDataProvider
      */
-    public function test_unserializeWorks_WithAllDataTableFormats($indexToRead, $isSummaryRow, $label, $column2, $subtable)
+    public function test_unserializeWorks_WithAllDataTableFormats($indexToRead, $label, $column2, $subtable)
     {
         $serializedDatatable = array();
         // Prior Piwik 2.13, we serialized the actual Row or DataTableSummaryRow instances, afterwards only arrays
@@ -301,7 +301,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $table = DataTable::fromSerializedArray($table);
         $row1  = $table->getFirstRow();
         $this->assertTrue($row1 instanceof \Piwik\DataTable\Row);
-        $this->assertSame($isSummaryRow, $row1 instanceof \Piwik\DataTable\Row\DataTableSummaryRow); // we convert summary rows to Row instances
+        $this->assertFalse($row1 instanceof \Piwik\DataTable\Row\DataTableSummaryRow); // we convert summary rows to Row instances
 
         $this->assertEquals($label, $row1->getColumn('label'));
         $this->assertEquals($column2, $row1->getColumn(2));
@@ -311,11 +311,11 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
     public function unserializeTestsDataProvider()
     {
         return array(
-            array($index = 0, $isSummaryRow = false, $label = 'piwik.org', $column2 = 10509, $idSubtable = 1581), // pre Piwik 2.0 (without namespaces, Piwik_DataTable_Row)
-            array($index = 1, $isSummaryRow = true, $label = 'piwikactions.org', $column2 = 10508, $idSubtable = 1581), // pre Piwik 2.0 Actions (without namespaces, Piwik_DataTable_Row_DataTableSummary)
-            array($index = 2, $isSummaryRow = true, $label = 'start', $column2 = 89, $idSubtable = 2260), // >= Piwik 2.0 < Piwik 2.13 Actions (DataTableSummaryRow)
-            array($index = 3, $isSummaryRow = false, $label = 'Ask',   $column2 = 11, $idSubtable = 3335), // >= Piwik 2.0 < Piwik 2.13 Referrers (Row)
-            array($index = 4, $isSummaryRow = false, $label = 'MyLabel Test',   $column2 = 447, $idSubtable = 1), // >= Piwik 2.0 < Piwik 2.13 Referrers (Row)
+            array($index = 0, $label = 'piwik.org', $column2 = 10509, $idSubtable = 1581), // pre Piwik 2.0 (without namespaces, Piwik_DataTable_Row)
+            array($index = 1, $label = 'piwikactions.org', $column2 = 10508, $idSubtable = 1581), // pre Piwik 2.0 Actions (without namespaces, Piwik_DataTable_Row_DataTableSummary)
+            array($index = 2, $label = 'start', $column2 = 89, $idSubtable = 2260), // >= Piwik 2.0 < Piwik 2.13 Actions (DataTableSummaryRow)
+            array($index = 3, $label = 'Ask',   $column2 = 11, $idSubtable = 3335), // >= Piwik 2.0 < Piwik 2.13 Referrers (Row)
+            array($index = 4, $label = 'MyLabel Test',   $column2 = 447, $idSubtable = 1), // >= Piwik 2.0 < Piwik 2.13 Referrers (Row)
         );
     }
 
@@ -560,6 +560,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         // make sure the rows subtableId were updated as well.
         foreach ($tables as $index => $serializedRows) {
             $rows = unserialize($serializedRows);
+            $this->assertTrue(is_array($rows));
 
             if (0 === $index) {
                 // root table, make sure correct amount of rows are in subtables
@@ -567,6 +568,8 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
             }
 
             foreach ($rows as $row) {
+                $this->assertTrue(is_array($row));
+
                 $subtableId = $row[Row::DATATABLE_ASSOCIATED];
 
                 if ($row[Row::COLUMNS]['label'] === DataTable::LABEL_SUMMARY_ROW) {

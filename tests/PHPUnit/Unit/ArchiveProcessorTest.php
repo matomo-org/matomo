@@ -43,7 +43,7 @@ class ArchiveProcessorTest extends UnitTestCase
 
         $expectedBlobs = array(
             0         => $this->getSerializedBlob('_0'),
-            'chunk_0' => serialize($this->generateBlobs(1, 44)), // does not start with zero as zero is root table
+            'chunk_0_99' => serialize($this->generateBlobs(1, 44)), // does not start with zero as zero is root table
         );
 
         $this->assertInsertBlobRecordPassesBlobsToArchiveWriter($expectedBlobs, $blobs);
@@ -55,18 +55,18 @@ class ArchiveProcessorTest extends UnitTestCase
 
         $expectedBlobs = array(
             0 => $this->getSerializedBlob('_0'),
-            'chunk_0'  => serialize($this->generateBlobs(1, Chunk::NUM_TABLES_IN_CHUNK - 1)), // does not start with zero as zero is root table
-            'chunk_1'  => serialize($this->generateBlobs(100, Chunk::NUM_TABLES_IN_CHUNK)),
-            'chunk_2'  => serialize($this->generateBlobs(200, Chunk::NUM_TABLES_IN_CHUNK)),
-            'chunk_3'  => serialize($this->generateBlobs(300, Chunk::NUM_TABLES_IN_CHUNK)),
-            'chunk_4'  => serialize($this->generateBlobs(400, Chunk::NUM_TABLES_IN_CHUNK)),
-            'chunk_5'  => serialize($this->generateBlobs(500, Chunk::NUM_TABLES_IN_CHUNK)),
-            'chunk_6'  => serialize($this->generateBlobs(600, Chunk::NUM_TABLES_IN_CHUNK)),
-            'chunk_7'  => serialize($this->generateBlobs(700, Chunk::NUM_TABLES_IN_CHUNK)),
-            'chunk_8'  => serialize($this->generateBlobs(800, Chunk::NUM_TABLES_IN_CHUNK)),
-            'chunk_9'  => serialize($this->generateBlobs(900, Chunk::NUM_TABLES_IN_CHUNK)),
-            'chunk_10' => serialize($this->generateBlobs(1000, Chunk::NUM_TABLES_IN_CHUNK)),
-            'chunk_11' => serialize($this->generateBlobs(1100, 45)),
+            'chunk_0_99'      => serialize($this->generateBlobs(1, Chunk::NUM_TABLES_IN_CHUNK - 1)), // does not start with zero as zero is root table
+            'chunk_100_199'   => serialize($this->generateBlobs(100, Chunk::NUM_TABLES_IN_CHUNK)),
+            'chunk_200_299'   => serialize($this->generateBlobs(200, Chunk::NUM_TABLES_IN_CHUNK)),
+            'chunk_300_399'   => serialize($this->generateBlobs(300, Chunk::NUM_TABLES_IN_CHUNK)),
+            'chunk_400_499'   => serialize($this->generateBlobs(400, Chunk::NUM_TABLES_IN_CHUNK)),
+            'chunk_500_599'   => serialize($this->generateBlobs(500, Chunk::NUM_TABLES_IN_CHUNK)),
+            'chunk_600_699'   => serialize($this->generateBlobs(600, Chunk::NUM_TABLES_IN_CHUNK)),
+            'chunk_700_799'   => serialize($this->generateBlobs(700, Chunk::NUM_TABLES_IN_CHUNK)),
+            'chunk_800_899'   => serialize($this->generateBlobs(800, Chunk::NUM_TABLES_IN_CHUNK)),
+            'chunk_900_999'   => serialize($this->generateBlobs(900, Chunk::NUM_TABLES_IN_CHUNK)),
+            'chunk_1000_1099' => serialize($this->generateBlobs(1000, Chunk::NUM_TABLES_IN_CHUNK)),
+            'chunk_1100_1199' => serialize($this->generateBlobs(1100, 45)),
         );
 
         $this->assertInsertBlobRecordPassesBlobsToArchiveWriter($expectedBlobs, $blobs);

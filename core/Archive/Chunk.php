@@ -32,7 +32,10 @@ class Chunk
     public function getBlobIdForTable($tableId)
     {
         $chunk = (floor($tableId / self::NUM_TABLES_IN_CHUNK));
-        return self::ARCHIVE_APPENDIX_SUBTABLES . '_' . $chunk;
+        $start = $chunk * self::NUM_TABLES_IN_CHUNK;
+        $end   = $start + self::NUM_TABLES_IN_CHUNK - 1;
+
+        return self::ARCHIVE_APPENDIX_SUBTABLES . '_' . $start . '_' . $end;
     }
 
     /**
@@ -85,7 +88,17 @@ class Chunk
             return false;
         }
 
-        return is_numeric(substr($recordName, $posAppendix));
+        // will contain "0_99" of "chunk_0_99"
+        $blobId = substr($recordName, $posAppendix);
+
+        return $this->isChunkRange($blobId);
+    }
+
+    private function isChunkRange($blobId)
+    {
+        $blobId = explode('_', $blobId);
+
+        return 2 === count($blobId) && is_numeric($blobId[0]) && is_numeric($blobId[1]);
     }
 
     /**
@@ -96,6 +109,10 @@ class Chunk
      */
     public function getRecordNameWithoutChunkAppendix($recordName)
     {
+        if (!$this->isRecordNameAChunk($recordName)) {
+            return $recordName;
+        }
+
         $posAppendix = $this->getStartPosOfChunkAppendix($recordName);
 
         if (false === $posAppendix) {

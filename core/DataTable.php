@@ -1276,6 +1276,33 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         return $aSerializedDataTable;
     }
 
+    private static $previousRowClasses = array('O:39:"Piwik\DataTable\Row\DataTableSummaryRow"', 'O:19:"Piwik\DataTable\Row"', 'O:36:"Piwik_DataTable_Row_DataTableSummary"', 'O:19:"Piwik_DataTable_Row"');
+    private static $rowClassToUseForUnserialize = 'O:29:"Piwik_DataTable_SerializedRow"';
+
+    /**
+     * It is faster to unserialize existing serialized Row instances to "Piwik_DataTable_SerializedRow" and access the
+     * `$row->c` property than implementing a "__wakeup" method in the Row instance to map the "$row->c" to $row->columns
+     * etc. We're talking here about 15% faster reports aggregation in some cases. To be concrete: We have a test where
+     * Archiving a year takes 1700 seconds with "__wakeup" and 1400 seconds with this method. Yes, it takes 300 seconds
+     * to wake up millions of rows. We should be able to remove this code here end 2015 and use the "__wakeup" way by then.
+     * Why? By then most new archives will have only arrays serialized anyway and therefore this mapping is rather an overhead.
+     *
+     * @param string $serialized
+     * @return array
+     * @throws Exception In case the unserialize fails
+     */
+    private function unserializeRows($serialized)
+    {
+        $serialized = str_replace(self::$previousRowClasses, self::$rowClassToUseForUnserialize, $serialized);
+        $rows = unserialize($serialized);
+
+        if ($rows === false) {
+            throw new Exception("The unserialization has failed!");
+        }
+
+        return $rows;
+    }
+
     /**
      * Adds a set of rows from a serialized DataTable string.
      *
@@ -1289,13 +1316,24 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function addRowsFromSerializedArray($serialized)
     {
-        $rows = unserialize($serialized);
+        $rows = $this->unserializeRows($serialized);
 
-        if ($rows === false) {
-            throw new Exception("The unserialization has failed!");
+        if (array_key_exists(self::ID_SUMMARY_ROW, $rows)) {
+            if (is_array($rows[self::ID_SUMMARY_ROW])) {
+                $this->summaryRow = new Row($rows[self::ID_SUMMARY_ROW]);
+            } elseif (isset($rows[self::ID_SUMMARY_ROW]->c)) {
+                $this->summaryRow = new Row($rows[self::ID_SUMMARY_ROW]->c);
+            }
+            unset($rows[self::ID_SUMMARY_ROW]);
         }
 
-        $this->addRowsFromArray($rows);
+        foreach ($rows as $id => $row) {
+            if (isset($row->c)) {
+                $this->addRow(new Row($row->c));
+            } else {
+                $this->addRow(new Row($row));
+            }
+        }
     }
 
     /**

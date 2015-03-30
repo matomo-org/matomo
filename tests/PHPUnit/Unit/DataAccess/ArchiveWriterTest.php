@@ -53,16 +53,16 @@ class ArchiveWriterTest extends UnitTestCase
     {
         $blobs = array(
             0 => $this->getSerializedBlob('_root'),
-            'chunk_0' => $this->getSerializedBlob('chunk0'),
-            'chunk_1' => $this->getSerializedBlob('chunk1'),
-            'chunk_2' => $this->getSerializedBlob('chunk2')
+            'chunk_0_99' => $this->getSerializedBlob('chunk0'),
+            'chunk_100_199' => $this->getSerializedBlob('chunk1'),
+            'chunk_200_299' => $this->getSerializedBlob('chunk2')
         );
 
         $expectedBlobs = array(
             array($this->recordName             , $this->getSerializedBlob('_root')),
-            array($this->recordName . '_chunk_0', $this->getSerializedBlob('chunk0')),
-            array($this->recordName . '_chunk_1', $this->getSerializedBlob('chunk1')),
-            array($this->recordName . '_chunk_2', $this->getSerializedBlob('chunk2'))
+            array($this->recordName . '_chunk_0_99', $this->getSerializedBlob('chunk0')),
+            array($this->recordName . '_chunk_100_199', $this->getSerializedBlob('chunk1')),
+            array($this->recordName . '_chunk_200_299', $this->getSerializedBlob('chunk2'))
         );
 
         $this->assertInsertBlobRecordInsertedRecordsInBulk($expectedBlobs, $blobs);

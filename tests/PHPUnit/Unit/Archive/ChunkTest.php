@@ -41,18 +41,18 @@ class ChunkTest extends UnitTestCase
     public function getBlobIdForTableDataProvider()
     {
         return array(
-            array($expectedChunk = 0, $tableId = 0),
-            array(0, 1),
-            array(0, 45),
-            array(0, 99),
-            array(1, 100),
-            array(1, 101),
-            array(1, 134),
-            array(1, 199),
-            array(2, 200),
-            array(10, 1000),
-            array(99, 9999),
-            array(100, 10000),
+            array($expectedChunk = '0_99', $tableId = 0),
+            array('0_99', 1),
+            array('0_99', 45),
+            array('0_99', 99),
+            array('100_199', 100),
+            array('100_199', 101),
+            array('100_199', 134),
+            array('100_199', 199),
+            array('200_299', 200),
+            array('1000_1099', 1000),
+            array('9900_9999', 9999),
+            array('10000_10099', 10000),
         );
     }
 
@@ -67,7 +67,10 @@ class ChunkTest extends UnitTestCase
     public function isBlobIdAChunkDataProvider()
     {
         return array(
-            array($isChunk = true, $blobId = 'chunk_0'),
+            array($isChunk = true, $blobId = 'chunk_0_99'),
+            array(true, 'chunk_100_199'),
+            // following 2 are not really a chunk but we accept it as such for simpler/faster implementation
+            array(true, 'chunk_0'),
             array(true, 'chunk_999'),
             array(false, 'chunk0'),
             array(false, 'chunk999'),
@@ -89,9 +92,12 @@ class ChunkTest extends UnitTestCase
     public function isRecordNameAChunkDataProvider()
     {
         return array(
-            array($isChunk = true, $recordName = 'Actions_ActionsUrl_chunk_0'),
-            array(true, 'Actions_ActionsUrl_chunk_9999'),
-            array(true, 'Actions_ActionsUrl_chunk_4'),
+            array($isChunk = true, $recordName = 'Actions_ActionsUrl_chunk_0_99'),
+            array(true, 'Actions_ActionsUrl_chunk_100_199'),
+            array(true, 'Actions_ActionsUrl_chunk_1000_1099'),
+            array(false, 'Actions_ActionsUrl_chunk_0'), // it is no range, should contain something after "chunk_0" eg "chunk_0_99"
+            array(false, 'Actions_ActionsUrl_chunk_9999'),
+            array(false, 'Actions_ActionsUrl_chunk_4'),
             array(false, 'Actions_ActionsUrl_chunk_ActionsTest_4'), // should end with _chunk_NUMERIC
             array(false, 'Actions_ActionsUrl_chunk_4_ActionsTest'), // should end with _chunk_NUMERIC
             array(false, 'Actions_ActionsUrl_chunk9999'),
@@ -113,9 +119,9 @@ class ChunkTest extends UnitTestCase
     {
         $array = array_fill(0, 245, 'test');
         $expected = array(
-            'chunk_0' => array_fill(0, Chunk::NUM_TABLES_IN_CHUNK, 'test'),
-            'chunk_1' => array_fill(100, Chunk::NUM_TABLES_IN_CHUNK, 'test'),
-            'chunk_2' => array_fill(200, 45, 'test'),
+            'chunk_0_99' => array_fill(0, Chunk::NUM_TABLES_IN_CHUNK, 'test'),
+            'chunk_100_199' => array_fill(100, Chunk::NUM_TABLES_IN_CHUNK, 'test'),
+            'chunk_200_299' => array_fill(200, 45, 'test'),
         );
 
         $this->assertSame($expected, $this->chunk->moveArchiveBlobsIntoChunks($array));
@@ -132,12 +138,15 @@ class ChunkTest extends UnitTestCase
     public function getRecordNameWithoutChunkAppendixDataProvider()
     {
         return array(
-            array($isChunk = 'Actions_ActionsUrl', $recordName = 'Actions_ActionsUrl_chunk_0'),
-            array('Actions_ActionsUrl', 'Actions_ActionsUrl_chunk_9999'),
-            array('Actions_ActionsUrl', 'Actions_ActionsUrl_chunk_4'),
-            array('Actions_ActionsUrl', 'Actions_ActionsUrl_chunk_ActionsTest_4'),
-            array('Actions_ActionsUrl', 'Actions_ActionsUrl_chunk_4_ActionsTest'),
+            array($isChunk = 'Actions_ActionsUrl', $recordName = 'Actions_ActionsUrl_chunk_0_99'),
+            array('Actions_ActionsUrl', 'Actions_ActionsUrl_chunk_9900_9999'),
+            array('Actions_ActionsUrl', 'Actions_ActionsUrl_chunk_400_499'),
             // the following are not chunks so we do return the full record name
+            array('Actions_ActionsUrl_chunk_0', 'Actions_ActionsUrl_chunk_0'),
+            array('Actions_ActionsUrl_chunk_9999', 'Actions_ActionsUrl_chunk_9999'),
+            array('Actions_ActionsUrl_chunk_4', 'Actions_ActionsUrl_chunk_4'),
+            array('Actions_ActionsUrl_chunk_ActionsTest_4', 'Actions_ActionsUrl_chunk_ActionsTest_4'),
+            array('Actions_ActionsUrl_chunk_4_ActionsTest', 'Actions_ActionsUrl_chunk_4_ActionsTest'),
             array('Actions_ActionsUrl_chunk9999', 'Actions_ActionsUrl_chunk9999'),
             array('Actions_ActionsUrlchunk_9999', 'Actions_ActionsUrlchunk_9999'),
             array('chunk_9999', 'chunk_9999'),

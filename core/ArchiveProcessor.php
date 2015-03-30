@@ -356,7 +356,6 @@ class ArchiveProcessor
             $newInsert = $values;
         }
 
-
         $this->archiveWriter->insertBlobRecord($name, $newInsert);
     }
 
