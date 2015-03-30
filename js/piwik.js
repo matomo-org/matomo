@@ -4002,7 +4002,7 @@ if (typeof Piwik !== 'object') {
                     },
                     devicePixelRatio = (new RegExp('Mac OS X.*Safari/')).test(navigatorAlias.userAgent) ? windowAlias.devicePixelRatio || 1 : 1;
 
-                // detect browser features except IE < 11 (IE 11 user agent is no longer MSIE)
+                // detect browser features except IE >= 11 (IE 11 user agent is no longer MSIE)
                 if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
                     // general plugin detection
                     if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
