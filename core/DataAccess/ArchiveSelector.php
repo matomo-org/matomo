@@ -221,21 +221,23 @@ class ArchiveSelector
      * @param array $recordNames The names of the data to retrieve (ie, nb_visits, nb_actions, etc.).
      *                           Note: You CANNOT pass multiple recordnames if $loadAllSubtables=true.
      * @param string $archiveDataType The archive data type (either, 'blob' or 'numeric').
-     * @param bool $loadAllSubtables Whether to pre-load all subtables
+     * @param int $idSubtable
      * @throws Exception
      * @return array
      */
-    public static function getArchiveData($archiveIds, $recordNames, $archiveDataType, $loadAllSubtables)
+    public static function getArchiveData($archiveIds, $recordNames, $archiveDataType, $idSubtable)
     {
+        $chunk = new Archive\Chunk();
+
         // create the SQL to select archive data
-        $inNames = Common::getSqlStringFieldsArray($recordNames);
+        $loadAllSubtables = $idSubtable == Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
         if ($loadAllSubtables) {
+
             $name = reset($recordNames);
 
             // select blobs w/ name like "$name_[0-9]+" w/o using RLIKE
             $nameEnd = strlen($name) + 1;
             $nameEndAppendix = $nameEnd + 1;
-            $chunk = new Archive\Chunk();
             $appendix = $chunk->getAppendix();
             $lenAppendix = strlen($appendix);
 
@@ -246,8 +248,23 @@ class ArchiveSelector
             $whereNameIs = "(name = ? OR (name LIKE ? AND ( $checkForChunkBlob OR $checkForSubtableId ) ))";
             $bind = array($name, $name . '%');
         } else {
+
+            if ($idSubtable === null) {
+                // select root table or specific record names
+                $bind = array_values($recordNames);
+            } else {
+                // select a subtable id
+                $bind = array();
+                foreach ($recordNames as $recordName) {
+                    // to be backwards compatibe we need to look for the exact idSubtable blob and for the chunk
+                    // that stores the subtables (a chunk stores many blobs in one blob)
+                    $bind[] = $chunk->getRecordNameForTableId($recordName, $idSubtable);
+                    $bind[] = self::appendIdSubtable($recordName, $idSubtable);
+                }
+            }
+
+            $inNames     = Common::getSqlStringFieldsArray($bind);
             $whereNameIs = "name IN ($inNames)";
-            $bind = array_values($recordNames);
         }
 
         $getValuesSql = "SELECT value, name, idsite, date1, date2, ts_archived
@@ -266,7 +283,8 @@ class ArchiveSelector
             // $period = "2009-01-04,2009-01-04",
             $date = Date::factory(substr($period, 0, 10));
 
-            if ($archiveDataType == 'numeric') {
+            $isNumeric = $archiveDataType == 'numeric';
+            if ($isNumeric) {
                 $table = ArchiveTableCreator::getNumericTable($date);
             } else {
                 $table = ArchiveTableCreator::getBlobTable($date);
@@ -276,11 +294,62 @@ class ArchiveSelector
             $dataRows = Db::fetchAll($sql, $bind);
 
             foreach ($dataRows as $row) {
-                $rows[] = $row;
+                if ($isNumeric) {
+                    $rows[] = $row;
+                } else {
+
+                    $row['value'] = self::uncompress($row['value']);
+
+                    if ($chunk->isRecordNameAChunk($row['name'])) {
+                        $blobs = unserialize($row['value']);
+
+                        if (!is_array($blobs)) {
+                            continue;
+                        }
+
+                        // $rawName = eg 'PluginName_ArchiveName'
+                        $rawName = $chunk->getRecordNameWithoutChunkAppendix($row['name']);
+
+                        if ($loadAllSubtables) {
+                            foreach ($blobs as $subtableId => $blob) {
+                                $rows[] = array(
+                                    'name'   => self::appendIdSubtable($rawName, $subtableId),
+                                    'value'  => $blob,
+                                    'idsite' => $row['idsite'],
+                                    'date1'  => $row['date1'],
+                                    'date2'  => $row['date2'],
+                                    'ts_archived' => $row['ts_archived'],
+                                );
+                            }
+                        } elseif (array_key_exists($idSubtable, $blobs)) {
+                            $rows[] = array(
+                                'name'   => self::appendIdSubtable($rawName, $idSubtable),
+                                'value'  => $blobs[$idSubtable],
+                                'idsite' => $row['idsite'],
+                                'date1'  => $row['date1'],
+                                'date2'  => $row['date2'],
+                                'ts_archived' => $row['ts_archived'],
+                            );
+                        }
+
+                    } else {
+                        $rows[] = $row;
+                    }
+                }
             }
         }
 
         return $rows;
+    }
+
+    private static function appendIdSubtable($recordName, $id)
+    {
+        return $recordName . "_" . $id;
+    }
+
+    private static function uncompress($data)
+    {
+        return @gzuncompress($data);
     }
 
     /**

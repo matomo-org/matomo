@@ -196,18 +196,18 @@ class ArchiveTest extends IntegrationTestCase
      */
     public function test_ArchiveBlob_ShouldBeFindBlobs_WithinDifferentChunks($idSubtable, $expectedBlob)
     {
+        $recordName = 'Actions_Actions';
+
         $chunk    = new Chunk();
-        $chunk5   = $chunk->getBlobIdForTable($subtableId = 5);
-        $chunk152 = $chunk->getBlobIdForTable($subtableId = 152);
-        $chunk399 = $chunk->getBlobIdForTable($subtableId = 399);
+        $chunk5   = $chunk->getRecordNameForTableId($recordName, $subtableId = 5);
+        $chunk152 = $chunk->getRecordNameForTableId($recordName, $subtableId = 152);
+        $chunk399 = $chunk->getRecordNameForTableId($recordName, $subtableId = 399);
 
         $this->createArchiveBlobEntry('2013-01-02', array(
-            'Actions_Actions' => array(
-                0 => 'actions_02',
-                $chunk5   => serialize(array(1 => 'actionsSubtable1', 2 => 'actionsSubtable2', 5 => 'actionsSubtable5')),
-                $chunk152 => serialize(array(151 => 'actionsSubtable151', 152 => 'actionsSubtable152')),
-                $chunk399 => serialize(array(399 => 'actionsSubtable399')),
-            )
+            $recordName => 'actions_02',
+            $chunk5     => serialize(array(1 => 'actionsSubtable1', 2 => 'actionsSubtable2', 5 => 'actionsSubtable5')),
+            $chunk152   => serialize(array(151 => 'actionsSubtable151', 152 => 'actionsSubtable152')),
+            $chunk399   => serialize(array(399 => 'actionsSubtable399'))
         ));
 
         $archive = $this->getArchive('day', '2013-01-02,2013-01-02');
@@ -231,49 +231,39 @@ class ArchiveTest extends IntegrationTestCase
 
     private function createManyDifferentArchiveBlobs()
     {
+        $recordName1 = 'Actions_Actions';
+        $recordName2 = 'Actions_Actionsurl';
+
         $chunk = new Chunk();
-        $chunk0 = $chunk->getBlobIdForTable(0);
+        $chunk0_1 = $chunk->getRecordNameForTableId($recordName1, 0);
+        $chunk0_2 = $chunk->getRecordNameForTableId($recordName2, 0);
 
         $this->createArchiveBlobEntry('2013-01-01', array(
-            'Actions_Actionsurl' => array(
-                0 => 'test01'
-            )
+            $recordName2 => 'test01'
         ));
         $this->createArchiveBlobEntry('2013-01-02', array(
-            'Actions_Actionsurl' => array(
-                0 => 'test02',
-                1 => 'test1',
-                2 => 'test2'
-            ),
-            'Actions_Actions' => array(
-                0 => 'actions_02',
-                $chunk0 => serialize(array(1 => 'actionsSubtable1', 2 => 'actionsSubtable2', 5 => 'actionsSubtable5'))
-            )
+            $recordName2        => 'test02',
+            $recordName2 . '_1' => 'test1', // testing BC where each subtable was stored seperately
+            $recordName2 . '_2' => 'test2', // testing BC
+            $recordName1        => 'actions_02',
+            $chunk0_1 => serialize(array(1 => 'actionsSubtable1', 2 => 'actionsSubtable2', 5 => 'actionsSubtable5'))
         ));
         $this->createArchiveBlobEntry('2013-01-03', array(
-            'Actions_Actionsurl' => array(
-                0 => 'test03',
-                $chunk0 => serialize(array(1 => 'subtable1', 2 => 'subtable2', 5 => 'subtable5'))
-            ),
-            'Actions_Actions' => array(
-                0 => 'actions_03',
-                1 => 'actionsTest1',
-                2 => 'actionsTest2')
-            )
-        );
+            $recordName2 => 'test03',
+            $chunk0_2 => serialize(array(1 => 'subtable1', 2 => 'subtable2', 5 => 'subtable5')),
+            $recordName1 => 'actions_03',
+            $recordName1 . '_1' => 'actionsTest1',
+            $recordName1 . '_2' => 'actionsTest2'
+        ));
         $this->createArchiveBlobEntry('2013-01-04', array(
-            'Actions_Actionsurl' => array(
-                0 => 'test04',
-                5 => 'subtable45',
-                6 => 'subtable6')
-            )
-        );
+            $recordName2 => 'test04',
+            $recordName2 . '_5' => 'subtable45',
+            $recordName2 . '_6' => 'subtable6'
+        ));
         $this->createArchiveBlobEntry('2013-01-06', array(
-            'Actions_Actionsurl' => array(
-                0 => 'test06',
-                $chunk0 => serialize(array()))
-            )
-        );
+            $recordName2 => 'test06',
+            $chunk0_2 => serialize(array())
+        ));
     }
 
     private function assertArchiveBlob(PiwikArchive\DataCollection $dataCollection, $date, $expectedBlob)

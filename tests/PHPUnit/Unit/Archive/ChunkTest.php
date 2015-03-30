@@ -24,6 +24,8 @@ class ChunkTest extends UnitTestCase
      */
     private $chunk;
 
+    private $recordName = 'Actions_ActionsUrl';
+
     public function setUp()
     {
         parent::setUp();
@@ -31,14 +33,14 @@ class ChunkTest extends UnitTestCase
     }
 
     /**
-     * @dataProvider getBlobIdForTableDataProvider
+     * @dataProvider getRecordNameForTableIdDataProvider
      */
-    public function test_getBlobIdForTable_shouldSplitChunksIntoBitsOf100($expectedChunk, $tableId)
+    public function test_getRecordNameForTableId_shouldSplitChunksIntoBitsOf100($expectedChunk, $tableId)
     {
-        $this->assertEquals('chunk_' . $expectedChunk, $this->chunk->getBlobIdForTable($tableId));
+        $this->assertEquals($this->recordName . '_chunk_' . $expectedChunk, $this->chunk->getRecordNameForTableId($this->recordName, $tableId));
     }
 
-    public function getBlobIdForTableDataProvider()
+    public function getRecordNameForTableId()
     {
         return array(
             array($expectedChunk = '0_99', $tableId = 0),
@@ -53,31 +55,6 @@ class ChunkTest extends UnitTestCase
             array('1000_1099', 1000),
             array('9900_9999', 9999),
             array('10000_10099', 10000),
-        );
-    }
-
-    /**
-     * @dataProvider isBlobIdAChunkDataProvider
-     */
-    public function test_isBlobIdAChunk($isChunk, $blobId)
-    {
-        $this->assertSame($isChunk, $this->chunk->isBlobIdAChunk($blobId));
-    }
-
-    public function isBlobIdAChunkDataProvider()
-    {
-        return array(
-            array($isChunk = true, $blobId = 'chunk_0_99'),
-            array(true, 'chunk_100_199'),
-            // following 2 are not really a chunk but we accept it as such for simpler/faster implementation
-            array(true, 'chunk_0'),
-            array(true, 'chunk_999'),
-            array(false, 'chunk0'),
-            array(false, 'chunk999'),
-            array(false, '0'),
-            array(false, '5'),
-            array(false, 5),
-            array(false, '_5'),
         );
     }
 
@@ -109,7 +86,7 @@ class ChunkTest extends UnitTestCase
 
     public function test_moveArchiveBlobsIntoChunks_NoChunksGiven()
     {
-        $this->assertSame(array(), $this->chunk->moveArchiveBlobsIntoChunks(array()));
+        $this->assertSame(array(), $this->chunk->moveArchiveBlobsIntoChunks($this->recordName, array()));
     }
 
     /**
@@ -119,12 +96,12 @@ class ChunkTest extends UnitTestCase
     {
         $array = array_fill(0, 245, 'test');
         $expected = array(
-            'chunk_0_99' => array_fill(0, Chunk::NUM_TABLES_IN_CHUNK, 'test'),
-            'chunk_100_199' => array_fill(100, Chunk::NUM_TABLES_IN_CHUNK, 'test'),
-            'chunk_200_299' => array_fill(200, 45, 'test'),
+            $this->recordName . '_chunk_0_99' => array_fill(0, Chunk::NUM_TABLES_IN_CHUNK, 'test'),
+            $this->recordName . '_chunk_100_199' => array_fill(100, Chunk::NUM_TABLES_IN_CHUNK, 'test'),
+            $this->recordName . '_chunk_200_299' => array_fill(200, 45, 'test'),
         );
 
-        $this->assertSame($expected, $this->chunk->moveArchiveBlobsIntoChunks($array));
+        $this->assertSame($expected, $this->chunk->moveArchiveBlobsIntoChunks($this->recordName, $array));
     }
 
     /**

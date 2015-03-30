@@ -595,24 +595,23 @@ class Archive
             $archiveNames = array($archiveNames);
         }
 
-        $chunk = new Chunk();
-
-        $chunks = array();
-
         // apply idSubtable
         if ($idSubtable !== null
             && $idSubtable != self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
         ) {
-            foreach ($archiveNames as &$name) {
-                // to be backwards compatibe we need to look for the exact idSubtable blob and for the chunk
-                // that stores the subtables (a chunk stores many blobs in one blob)
-                $chunks[] = $this->appendIdSubtable($name, $chunk->getBlobIdForTable($idSubtable));
-                $name = $this->appendIdsubtable($name, $idSubtable);
+            // this is also done in ArchiveSelector. It should be actually only done in ArchiveSelector but DataCollection
+            // does require to have the subtableId appended. Needs to be changed in refactoring to have it only in one
+            // place.
+            $dataNames = array();
+            foreach ($archiveNames as $name) {
+                $dataNames[] = $this->appendIdsubtable($name, $idSubtable);
             }
+        } else {
+            $dataNames = $archiveNames;
         }
 
         $result = new Archive\DataCollection(
-            $archiveNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $defaultRow = null);
+            $dataNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $defaultRow = null);
 
         $archiveIds = $this->getArchiveIds($archiveNames);
 
@@ -620,14 +619,7 @@ class Archive
             return $result;
         }
 
-        if (!empty($chunks)) {
-            // we cannot merge them to $archiveNames further up when generating the chunk names as the DataCollection
-            // would think that eg "chunk_0" is a subtable.
-            $archiveNames = array_merge($archiveNames, $chunks);
-        }
-
-        $loadAllSubtables = $idSubtable == self::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
-        $archiveData = ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $loadAllSubtables);
+        $archiveData = ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
 
         foreach ($archiveData as $row) {
             // values are grouped by idsite (site ID), date1-date2 (date range), then name (field name)
@@ -635,56 +627,18 @@ class Archive
             $periodStr = $row['date1'] . "," . $row['date2'];
 
             if ($archiveDataType == 'numeric') {
-                $value = $this->formatNumericValue($row['value']);
+                $row['value'] = $this->formatNumericValue($row['value']);
             } else {
-                $value = $this->uncompress($row['value']);
                 $result->addMetadata($idSite, $periodStr, 'ts_archived', $row['ts_archived']);
             }
 
             $resultRow = & $result->get($idSite, $periodStr);
 
-            if ($chunk->isRecordNameAChunk($row['name'])) {
-                // one combined blob for all subtables
-                $value = unserialize($value);
-
-                if (is_array($value)) {
-                    $rawName = $chunk->getRecordNameWithoutChunkAppendix($row['name']); // eg PluginName_ArchiveName
-
-                    if ($loadAllSubtables) {
-                        $this->moveAllBlobsWithinChunkToResultRow($resultRow, $rawName, $value);
-                    } else {
-                        $this->moveNeededBlobWithinChunkToResultRow($resultRow, $rawName, $idSubtable, $value);
-                    }
-                }
-
-            } else {
-                // one blob per datatable or subtable
-                $resultRow[$row['name']] = $value;
-            }
-
+            // one blob per datatable or subtable
+            $resultRow[$row['name']] = $row['value'];
         }
 
         return $result;
-    }
-
-    private function moveNeededBlobWithinChunkToResultRow(&$resultRow, $recordName, $idSubtable, $chunk)
-    {
-        $subtableRecordName = $this->appendIdSubtable($recordName, $idSubtable);
-
-        if (array_key_exists($idSubtable, $chunk)) {
-            $resultRow[$subtableRecordName] = $chunk[$idSubtable];
-        } else {
-            $resultRow[$subtableRecordName] = 0;
-            unset($resultRow['_metadata']);
-        }
-    }
-
-    private function moveAllBlobsWithinChunkToResultRow(&$resultRow, $recordName, $chunk)
-    {
-        foreach ($chunk as $subtableId => $val) {
-            $subtableRecordName = $this->appendIdSubtable($recordName, $subtableId);
-            $resultRow[$subtableRecordName] = $val;
-        }
     }
 
     /**
@@ -863,11 +817,6 @@ class Archive
         // Round up the value with 2 decimals
         // we cast the result as float because returns false when no visitors
         return round((float)$value, 2);
-    }
-
-    private function uncompress($data)
-    {
-        return @gzuncompress($data);
     }
 
     /**

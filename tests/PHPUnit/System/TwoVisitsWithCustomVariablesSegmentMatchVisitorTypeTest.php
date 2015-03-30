@@ -117,7 +117,7 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTest
     public function test_checkArchiveRecords_shouldMergeSubtablesIntoOneRow()
     {
         $chunk = new Chunk();
-        $chunkBlobId = $chunk->getBlobIdForTable(0);
+        $chunkBlobId = $chunk->getRecordNameForTableId(0);
 
         $tests = array(
             'archive_blob_2010_01' => array(

@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Unit;
 
+use Piwik\Archive\Chunk;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataTable;
 use Piwik\Segment;
@@ -30,39 +31,44 @@ class ArchiveWriterTest extends UnitTestCase
         $this->assertInsertBlobRecordInsertedRecordsInBulk(array(), array());
     }
 
-    public function test_insertBlobRecord_ShouldAppendTheRecordNameToSubtables()
+    public function test_insertBlobRecord_OnlyRootTableGiven_ShouldNotMoveRootTableIntoAChunk()
     {
-        $blobs = array(
-            0 => $this->getSerializedBlob('_root'),
-            1 => $this->getSerializedBlob('subtable1'),
-            4 => $this->getSerializedBlob('subtable4'),
-            5 => $this->getSerializedBlob('subtable5')
-        );
+        $blobs    = array(0 => $this->getSerializedBlob());
+        $expected = array(array($this->recordName, $this->getSerializedBlob()));
+
+        $this->assertInsertBlobRecordInsertedRecordsInBulk($expected, $blobs);
+    }
+
+    public function test_insertBlobRecord_RootAndSubTablesGiven_OnlyAfewSubtables()
+    {
+        $blobs = $this->generateBlobs(0, 45);
 
         $expectedBlobs = array(
-            array($this->recordName       , $this->getSerializedBlob('_root')),
-            array($this->recordName . '_1', $this->getSerializedBlob('subtable1')),
-            array($this->recordName . '_4', $this->getSerializedBlob('subtable4')),
-            array($this->recordName . '_5', $this->getSerializedBlob('subtable5'))
+            array($this->recordName, $this->getSerializedBlob('_0')),
+            array($this->recordName . '_chunk_0_99', serialize($this->generateBlobs(1, 44)))
         );
 
         $this->assertInsertBlobRecordInsertedRecordsInBulk($expectedBlobs, $blobs);
     }
 
-    public function test_insertBlobRecord_ShouldAppendTheRecordNameToChunks()
+    public function test_insertBlobRecord_RootAndSubTablesGiven_ShouldOnlySplitSubtablesIntoAChunk()
     {
-        $blobs = array(
-            0 => $this->getSerializedBlob('_root'),
-            'chunk_0_99' => $this->getSerializedBlob('chunk0'),
-            'chunk_100_199' => $this->getSerializedBlob('chunk1'),
-            'chunk_200_299' => $this->getSerializedBlob('chunk2')
-        );
+        $blobs = $this->generateBlobs(0, 1145);
 
         $expectedBlobs = array(
-            array($this->recordName             , $this->getSerializedBlob('_root')),
-            array($this->recordName . '_chunk_0_99', $this->getSerializedBlob('chunk0')),
-            array($this->recordName . '_chunk_100_199', $this->getSerializedBlob('chunk1')),
-            array($this->recordName . '_chunk_200_299', $this->getSerializedBlob('chunk2'))
+            array($this->recordName, $this->getSerializedBlob('_0')),
+            array($this->recordName . '_chunk_0_99'     , serialize($this->generateBlobs(1, Chunk::NUM_TABLES_IN_CHUNK - 1))), // does not start with zero as zero is root table
+            array($this->recordName . '_chunk_100_199'  , serialize($this->generateBlobs(100, Chunk::NUM_TABLES_IN_CHUNK))),
+            array($this->recordName . '_chunk_200_299'  , serialize($this->generateBlobs(200, Chunk::NUM_TABLES_IN_CHUNK))),
+            array($this->recordName . '_chunk_300_399'  , serialize($this->generateBlobs(300, Chunk::NUM_TABLES_IN_CHUNK))),
+            array($this->recordName . '_chunk_400_499'  , serialize($this->generateBlobs(400, Chunk::NUM_TABLES_IN_CHUNK))),
+            array($this->recordName . '_chunk_500_599'  , serialize($this->generateBlobs(500, Chunk::NUM_TABLES_IN_CHUNK))),
+            array($this->recordName . '_chunk_600_699'  , serialize($this->generateBlobs(600, Chunk::NUM_TABLES_IN_CHUNK))),
+            array($this->recordName . '_chunk_700_799'  , serialize($this->generateBlobs(700, Chunk::NUM_TABLES_IN_CHUNK))),
+            array($this->recordName . '_chunk_800_899'  , serialize($this->generateBlobs(800, Chunk::NUM_TABLES_IN_CHUNK))),
+            array($this->recordName . '_chunk_900_999'  , serialize($this->generateBlobs(900, Chunk::NUM_TABLES_IN_CHUNK))),
+            array($this->recordName . '_chunk_1000_1099', serialize($this->generateBlobs(1000, Chunk::NUM_TABLES_IN_CHUNK))),
+            array($this->recordName . '_chunk_1100_1199', serialize($this->generateBlobs(1100, 45))),
         );
 
         $this->assertInsertBlobRecordInsertedRecordsInBulk($expectedBlobs, $blobs);
@@ -75,6 +81,19 @@ class ArchiveWriterTest extends UnitTestCase
         $this->assertInsertBlobRecordInsertedASingleRecord($blob, $blob);
     }
 
+    private function generateBlobs($startIndex, $numberOfEntries)
+    {
+        $blobs = array();
+
+        for ($i = 0; $i < $numberOfEntries; $i++) {
+            $subtableId = $startIndex + $i;
+            // we need to append something to make sure it actually moves the correct blob into the correct chunk
+            $blobs[$subtableId] = $this->getSerializedBlob('_'. $subtableId);
+        }
+
+        return $blobs;
+    }
+
     private function getSerializedBlob($appendix = '')
     {
         return 'a:1:{i:0;a:3:{i:0;a:0:{}i:1;a:0:{}i:3;N;}}' . $appendix;
@@ -83,7 +102,7 @@ class ArchiveWriterTest extends UnitTestCase
     private function assertInsertBlobRecordInsertedRecordsInBulk($expectedBlobs, $blobs)
     {
         $writer = $this->getMock('Piwik\DataAccess\ArchiveWriter', array('insertBulkRecords', 'compress'), array(), '', false);
-        $writer->expects($this->exactly(count($blobs)))
+        $writer->expects($this->exactly(count($expectedBlobs)))
                ->method('compress')
                ->will($this->returnArgument(0));
         $writer->expects($this->once())

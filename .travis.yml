@@ -48,9 +48,9 @@ matrix:
     - php: 5.3.3
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
     - php: 5.3.3
-      env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.3.3
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
+    - php: 5.3.3
+      env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
       env: TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm

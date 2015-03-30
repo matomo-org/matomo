@@ -12,11 +12,11 @@ namespace Piwik\Archive;
 use Piwik\DataTable;
 
 /**
- * This class is used to hold and transform archive data for the Archive class.
+ * This class is used to split blobs of DataTables into chunks. Each blob used to be stored under one blob in the
+ * archive table. For better efficiency we do now combine multiple DataTable into one blob entry.
  *
- * Archive data is loaded into an instance of this type, can be indexed by archive
- * metadata (such as the site ID, period string, etc.), and can be transformed into
- * DataTable and Map instances.
+ * Chunks are identified by having the recordName $recordName_chunk_0_99, $recordName_chunk_100_199 (this chunk stores
+ * the subtable 100-199).
  */
 class Chunk
 {
@@ -24,58 +24,52 @@ class Chunk
     const NUM_TABLES_IN_CHUNK = 100;
 
     /**
-     * Get's the BlobId to use for a given tableId/subtableId.
+     * Get's the record name to use for a given tableId/subtableId.
      *
-     * @param int $tableId  eg '5' for tableId '5'
-     * @return string       eg 'chunk_0' as the table should be within this chunk.
+     * @param string $recordName eg 'Actions_ActionsUrl'
+     * @param int    $tableId    eg '5' for tableId '5'
+     * @return string            eg 'Actions_ActionsUrl_chunk_0_99' as the table should be stored under this blob id.
      */
-    public function getBlobIdForTable($tableId)
+    public function getRecordNameForTableId($recordName, $tableId)
     {
         $chunk = (floor($tableId / self::NUM_TABLES_IN_CHUNK));
         $start = $chunk * self::NUM_TABLES_IN_CHUNK;
         $end   = $start + self::NUM_TABLES_IN_CHUNK - 1;
 
-        return self::ARCHIVE_APPENDIX_SUBTABLES . '_' . $start . '_' . $end;
+        return $recordName . $this->getAppendix() . $start . '_' . $end;
     }
 
     /**
-     * Checks whether a BlobId belongs to a chunk or not.
-     * @param string|int $blobId   eg "1" (for subtableId "1", not a chunk) or "chunk_4" which is a blob id for a chunk
-     * @return bool  true of it starts with "chunk_"
-     */
-    public function isBlobIdAChunk($blobId)
-    {
-        return strpos($blobId, self::ARCHIVE_APPENDIX_SUBTABLES . '_') === 0;
-    }
-
-    /**
-     * Moves the given blobs into chunks and assigns a proper blobId.
+     * Moves the given blobs into chunks and assigns a proper record name containing the chunk number.
      *
-     * @param array $blobs  An array containg a mapping of tableIds to blobs. Eg array(0 => 'blob', 1 => 'subtableBlob', ...)
-     * @return array        An array where each blob is moved into a chunk, indexed by BlobId.
-     *                      eg array('chunk_0' => array(0 => 'blob', 1 => 'subtableBlob', ...), 'chunk_1' => array(...))
+     * @param string $recordName The original archive record name, eg 'Actions_ActionsUrl'
+     * @param array  $blobs  An array containg a mapping of tableIds to blobs. Eg array(0 => 'blob', 1 => 'subtableBlob', ...)
+     * @return array        An array where each blob is moved into a chunk, indexed by recordNames.
+     *                      eg array('Actions_ActionsUrl_chunk_0_99'    => array(0 => 'blob', 1 => 'subtableBlob', ...),
+     *                               'Actions_ActionsUrl_chunk_100_199' => array(...))
      */
-    public function moveArchiveBlobsIntoChunks($blobs)
+    public function moveArchiveBlobsIntoChunks($recordName, $blobs)
     {
         $chunks = array();
 
         foreach ($blobs as $tableId => $blob) {
-            $blobId = $this->getBlobIdForTable($tableId);
+            $name = $this->getRecordNameForTableId($recordName, $tableId);
 
-            if (!array_key_exists($blobId, $chunks)) {
-                $chunks[$blobId] = array();
+            if (!array_key_exists($name, $chunks)) {
+                $chunks[$name] = array();
             }
 
-            $chunks[$blobId][$tableId] = $blob;
+            $chunks[$name][$tableId] = $blob;
         }
 
         return $chunks;
     }
 
     /**
-     * Detects whether a recordName like 'Actions_ActionUrls_chunk_5' or 'Actions_ActionUrls' belongs to a chunk or not.
+     * Detects whether a recordName like 'Actions_ActionUrls_chunk_0_99' or 'Actions_ActionUrls' belongs to a
+     * chunk or not.
      *
-     * To be a valid recordName that belongs to a chunk it must end with '_chunk_NUMERIC'.
+     * To be a valid recordName that belongs to a chunk it must end with '_chunk_NUMERIC_NUMERIC'.
      *
      * @param string $recordName
      * @return bool
@@ -102,7 +96,7 @@ class Chunk
     }
 
     /**
-     * When having a record like 'Actions_ActionUrls_chunk_5" it will return the raw recordName 'Actions_ActionUrls'.
+     * When having a record like 'Actions_ActionUrls_chunk_0_99" it will return the raw recordName 'Actions_ActionUrls'.
      *
      * @param  string $recordName
      * @return string
@@ -122,6 +116,11 @@ class Chunk
         return substr($recordName, 0, $posAppendix);
     }
 
+    /**
+     * Returns the string that is appended to the original record name. This appendix identifes a record name is a
+     * chunk.
+     * @return string
+     */
     public function getAppendix()
     {
         return '_' . self::ARCHIVE_APPENDIX_SUBTABLES . '_';

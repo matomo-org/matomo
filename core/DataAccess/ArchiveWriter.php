@@ -77,27 +77,33 @@ class ArchiveWriter
 
     /**
      * @param string $name
-     * @param string[] $values
+     * @param string|string[] $values  A blob string or an array of blob strings. If an array
+     *                                 is used, the first element in the array will be inserted
+     *                                 with the `$name` name. The others will be splitted into chunks. All subtables
+     *                                 within one chunk will be serialized as an array where the index is the
+     *                                 subtableId.
      */
     public function insertBlobRecord($name, $values)
     {
         if (is_array($values)) {
-            $chunk = new Chunk();
 
             $clean = array();
-            foreach ($values as $id => $value) {
-                // for the parent Table we keep the name
-                // for example for the Table of searchEngines we keep the name 'referrer_search_engine'
-                // but for the child table of 'Google' which has the ID = 9 the name would be 'referrer_search_engine_9'
-                $newName = $name;
-                if ($id != 0 || $chunk->isBlobIdAChunk($id)) {
-                    //FIXMEA: refactor
-                    $newName = $name . '_' . $id;
-                }
 
-                $value   = $this->compress($value);
-                $clean[] = array($newName, $value);
+            if (isset($values[0])) {
+                // we always store the root table in a single blob for fast access
+                $clean[] = array($name, $this->compress($values[0]));
+                unset($values[0]);
             }
+
+            if (!empty($values)) {
+                // we move all subtables into chunks
+                $chunk  = new Chunk();
+                $chunks = $chunk->moveArchiveBlobsIntoChunks($name, $values);
+                foreach ($chunks as $index => $subtables) {
+                    $clean[] = array($index, $this->compress(serialize($subtables)));
+                }
+            }
+
             $this->insertBulkRecords($clean);
             return;
         }

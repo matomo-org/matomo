@@ -183,7 +183,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
         );
         $chunk = new Chunk();
         foreach ($tests as $table => $expectedNumSubtables) {
-            $chunkAppendix = $chunk->getBlobIdForTable(0);
+            $chunkAppendix = $chunk->getRecordNameForTableId(0);
             $sql = "SELECT value FROM " . Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'] . " and `name` ='Actions_actions_url_$chunkAppendix'";
             $blob = Db::get()->fetchOne($sql);
             $blob = gzuncompress($blob);
