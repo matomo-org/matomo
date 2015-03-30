@@ -202,6 +202,17 @@ class IniFileChainTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array('var1' => 'changed', 'var3' => array('value3', 'value4', 'newValue')), $fileChain->get('Section1'));
     }
 
+    public function test_get_ReturnsReferenceToSettingsSection_EvenIfSettingsIsEmpty()
+    {
+        $fileChain = new IniFileChain(array(__DIR__ . '/test_files/empty.ini.php'));
+
+        $data =& $fileChain->get('Section');
+        $this->assertEquals(array(), $data);
+
+        $data['var1'] = 'changed';
+        $this->assertEquals(array('var1' => 'changed'), $fileChain->get('Section'));
+    }
+
     public function test_getAll_ReturnsReferenceToAllSettings()
     {
         $fileChain = new IniFileChain();

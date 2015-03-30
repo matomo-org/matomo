@@ -51,7 +51,7 @@ class IniFileChain
      * @param string[] $defaultSettingsFiles The list of paths to INI files w/ the default setting values.
      * @param string|null $userSettingsFile The path to the user settings file.
      */
-    public function __construct($defaultSettingsFiles = array(), $userSettingsFile = null)
+    public function __construct(array $defaultSettingsFiles = array(), $userSettingsFile = null)
     {
         $this->reload($defaultSettingsFiles, $userSettingsFile);
     }
@@ -64,10 +64,11 @@ class IniFileChain
      */
     public function &get($name)
     {
-        $result = array();
-        if (isset($this->mergedSettings[$name])) {
-            $result =& $this->mergedSettings[$name];
+        if (!isset($this->mergedSettings[$name])) {
+            $this->mergedSettings[$name] = array();
         }
+
+        $result =& $this->mergedSettings[$name];
         return $result;
     }
 

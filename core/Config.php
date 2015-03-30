@@ -422,10 +422,6 @@ class Config extends Singleton
         }
 
         $section =& $this->settings->get($name);
-        if ($section === null) {
-            $section = array();
-        }
-
         return $section;
     }
 
