@@ -40,7 +40,7 @@ class ChunkTest extends UnitTestCase
         $this->assertEquals($this->recordName . '_chunk_' . $expectedChunk, $this->chunk->getRecordNameForTableId($this->recordName, $tableId));
     }
 
-    public function getRecordNameForTableId()
+    public function getRecordNameForTableIdDataProvider()
     {
         return array(
             array($expectedChunk = '0_99', $tableId = 0),

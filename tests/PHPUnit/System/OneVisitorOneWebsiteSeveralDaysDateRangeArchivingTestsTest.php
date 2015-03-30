@@ -182,15 +182,16 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
             'archive_blob_2011_01'    => 3,
         );
         $chunk = new Chunk();
+        $chunkName = $chunk->getRecordNameForTableId('Actions_actions_url', 0);
+
         foreach ($tests as $table => $expectedNumSubtables) {
-            $chunkAppendix = $chunk->getRecordNameForTableId(0);
-            $sql = "SELECT value FROM " . Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'] . " and `name` ='Actions_actions_url_$chunkAppendix'";
+            $sql = "SELECT value FROM " . Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'] . " and `name` ='$chunkName'";
             $blob = Db::get()->fetchOne($sql);
             $blob = gzuncompress($blob);
             $blob = unserialize($blob);
             $countSubtables = count($blob);
 
-            $this->assertEquals($expectedNumSubtables, $countSubtables, "Actions_actions_url_subtables in $table expected to contain $expectedNumSubtables subtables, got $countSubtables");
+            $this->assertEquals($expectedNumSubtables, $countSubtables, "Actions_actions_url_chunk_0_99 in $table expected to contain $expectedNumSubtables subtables, got $countSubtables");
         }
     }
 

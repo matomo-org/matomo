@@ -117,24 +117,23 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTest
     public function test_checkArchiveRecords_shouldMergeSubtablesIntoOneRow()
     {
         $chunk = new Chunk();
-        $chunkBlobId = $chunk->getRecordNameForTableId(0);
 
         $tests = array(
             'archive_blob_2010_01' => array(
-                'CustomVariables_valueByName_' . $chunkBlobId => 6,
-                'Referrers_keywordBySearchEngine_' . $chunkBlobId => 1,
-                'Referrers_searchEngineByKeyword_' . $chunkBlobId => 1,
+                $chunk->getRecordNameForTableId('CustomVariables_valueByName', 0) => 6,
+                $chunk->getRecordNameForTableId('Referrers_keywordBySearchEngine', 0) => 1,
+                $chunk->getRecordNameForTableId('Referrers_searchEngineByKeyword', 0) => 1
             ),
             'archive_blob_2009_12' => array(
-                'CustomVariables_valueByName_' . $chunkBlobId => 6,
-                'Referrers_keywordBySearchEngine_' . $chunkBlobId => 1,
-                'Referrers_searchEngineByKeyword_' . $chunkBlobId => 1,
+                $chunk->getRecordNameForTableId('CustomVariables_valueByName', 0) => 6,
+                $chunk->getRecordNameForTableId('Referrers_keywordBySearchEngine', 0) => 1,
+                $chunk->getRecordNameForTableId('Referrers_searchEngineByKeyword', 0) => 1,
             )
         );
         $numTests = 0;
         foreach ($tests as $table => $expectedSubtables) {
             foreach ($expectedSubtables as $name => $expectedNumSubtables) {
-                $sql = "SELECT `value` FROM " . Common::prefixTable($table) . " WHERE `name` ='$name'";
+                $sql   = "SELECT `value` FROM " . Common::prefixTable($table) . " WHERE `name` ='$name'";
                 $blobs = Db::get()->fetchAll($sql);
 
                 foreach ($blobs as $blob) {

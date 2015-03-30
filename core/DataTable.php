@@ -1322,14 +1322,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             if (is_array($rows[self::ID_SUMMARY_ROW])) {
                 $this->summaryRow = new Row($rows[self::ID_SUMMARY_ROW]);
             } elseif (isset($rows[self::ID_SUMMARY_ROW]->c)) {
-                $this->summaryRow = new Row($rows[self::ID_SUMMARY_ROW]->c);
+                $this->summaryRow = new Row($rows[self::ID_SUMMARY_ROW]->c); // Pre Piwik 2.13
             }
             unset($rows[self::ID_SUMMARY_ROW]);
         }
 
         foreach ($rows as $id => $row) {
             if (isset($row->c)) {
-                $this->addRow(new Row($row->c));
+                $this->addRow(new Row($row->c)); // Pre Piwik 2.13
             } else {
                 $this->addRow(new Row($row));
             }
