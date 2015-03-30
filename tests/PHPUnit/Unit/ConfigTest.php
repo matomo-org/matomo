@@ -387,6 +387,8 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $config->forceSave();
 
         $this->assertEquals(file_get_contents($sourceConfigFile), file_get_contents($configFile));
+
+        @unlink($configFile);
     }
 }
 
