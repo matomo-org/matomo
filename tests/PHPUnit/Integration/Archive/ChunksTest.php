@@ -49,6 +49,7 @@ class ChunksTest extends IntegrationTestCase
     public function tearDown()
     {
         Access::setSingletonInstance(null);
+        parent::tearDown();
     }
 
     public function test_subtables_willBeSplitIntoChunks()
