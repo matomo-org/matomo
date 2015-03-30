@@ -101,11 +101,11 @@ class Request
         }
 
         if ($this->requestConfig->disable_generic_filters) {
-            $requestArray['disable_generic_filters'] = '0';
+            $requestArray['disable_generic_filters'] = '1';
         }
 
         if ($this->requestConfig->disable_queued_filters) {
-            $requestArray['disable_queued_filters'] = 0;
+            $requestArray['disable_queued_filters'] = 1;
         }
 
         return $requestArray;

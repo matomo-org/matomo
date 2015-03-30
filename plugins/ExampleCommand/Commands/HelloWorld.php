@@ -4,7 +4,6 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
 
 namespace Piwik\Plugins\ExampleCommand\Commands;
@@ -23,7 +22,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class HelloWorld extends ConsoleCommand
 {
-
     /**
      * This methods allows you to configure your command. Here you can define the name and description of your command
      * as well as all options and arguments you expect when executing it.
@@ -48,7 +46,7 @@ class HelloWorld extends ConsoleCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $name    = $input->getOption('name');
+        $name = $input->getOption('name');
 
         $message = sprintf('<info>HelloWorld: %s</info>', $name);
 

@@ -34,7 +34,6 @@ class API extends \Piwik\Plugin\API
     protected function getDataTable($idSite, $period, $date, $segment, $expanded, $flat, $idSubtable)
     {
         $dataTable = Archive::createDataTableFromArchive(Archiver::CUSTOM_VARIABLE_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
-        $dataTable->filter('Sort', array(Metrics::INDEX_NB_ACTIONS, 'desc', $naturalSort = false, $expanded));
         $dataTable->queueFilter('ColumnDelete', 'nb_uniq_visitors');
 
         if ($flat) {

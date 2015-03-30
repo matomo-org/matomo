@@ -43,7 +43,7 @@ class Actions extends BaseFilter
             return urldecode($label);
         }));
 
-        foreach ($table->getRows() as $row) {
+        foreach ($table->getRowsWithoutSummaryRow() as $row) {
             $subtable = $row->getSubtable();
             if ($subtable) {
                 $this->filter($subtable);

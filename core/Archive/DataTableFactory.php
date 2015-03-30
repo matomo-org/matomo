@@ -326,7 +326,7 @@ class DataTableFactory
             && $treeLevel >= $this->maxSubtableDepth
         ) {
             // unset the subtables so DataTableManager doesn't throw
-            foreach ($dataTable->getRows() as $row) {
+            foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
                 $row->removeSubtable();
             }
 
@@ -335,7 +335,7 @@ class DataTableFactory
 
         $dataName = reset($this->dataNames);
 
-        foreach ($dataTable->getRows() as $row) {
+        foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
             $sid = $row->getIdSubDataTable();
             if ($sid === null) {
                 continue;

@@ -32,7 +32,7 @@ class SitesToReprocessDistributedList extends DistributedList
      */
     public function setAll($items)
     {
-        $items = array_unique($items);
+        $items = array_unique($items, SORT_REGULAR);
         $items = array_values($items);
 
         parent::setAll($items);

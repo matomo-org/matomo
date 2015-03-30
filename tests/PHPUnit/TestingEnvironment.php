@@ -2,10 +2,12 @@
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Option;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\DbHelper;
+use Piwik\Tests\Framework\Fixture;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Config.php";
 
@@ -148,6 +150,19 @@ class Piwik_TestingEnvironment
             Config::setSingletonInstance(new Config(
                 $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
             ));
+        }
+
+        // Apply DI config from the fixture
+        if ($testingEnvironment->fixtureClass) {
+            $fixtureClass = $testingEnvironment->fixtureClass;
+            if (class_exists($fixtureClass)) {
+                /** @var Fixture $fixture */
+                $fixture = new $fixtureClass;
+                $diConfig = $fixture->provideContainerConfig();
+                if (!empty($diConfig)) {
+                    StaticContainer::addDefinitions($diConfig);
+                }
+            }
         }
 
         \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;

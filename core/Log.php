@@ -209,8 +209,12 @@ class Log extends Singleton
             $parameters['exception'] = $message;
             $message = $message->getMessage();
         }
-        if (! is_string($message)) {
-            throw new \InvalidArgumentException('Trying to log a message that is not a string');
+
+        if (is_object($message) || is_array($message) || is_resource($message)) {
+            $this->logger->warning('Trying to log a message that is not a string', array(
+                'exception' => new \InvalidArgumentException('Trying to log a message that is not a string')
+            ));
+            return;
         }
 
         $this->logger->log($level, $message, $parameters);

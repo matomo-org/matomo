@@ -4,8 +4,8 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
+
 namespace Piwik\Plugins\ExamplePlugin;
 
 use Piwik\View;
@@ -34,8 +34,8 @@ class Widgets extends \Piwik\Plugin\Widgets
      */
     protected function init()
     {
-      // $this->addWidget('Example Widget Name', $method = 'myExampleWidget');
-      // $this->addWidget('Example Widget 2',    $method = 'myExampleWidget', $params = array('myparam' => 'myvalue'));
+        // $this->addWidget('Example Widget Name', $method = 'myExampleWidget');
+        // $this->addWidget('Example Widget 2', $method = 'myExampleWidget', $params = array('myparam' => 'myvalue'));
     }
 
     /**

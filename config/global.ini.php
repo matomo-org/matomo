@@ -220,6 +220,13 @@ adding_segment_requires_access = "view"
 ; on Piwik performance.
 allow_adding_segments_for_all_websites = 1
 
+; When archiving segments for the first time, this determines the oldest date that will be archived.
+; This option can be used to avoid archiving (for isntance) the lastN years for every new segment.
+; Valid option values include: "beginning_of_time" (start date of archiving will not be changed)
+;                              "segment_creation_time" (start date of archiving will be the creation date of the segment)
+;                              lastN where N is an integer (eg "last10" to archive for 10 days before the segment creation date)
+process_new_segments_from = "beginning_of_time"
+
 ; this action name is used when the URL ends with a slash /
 ; it is useful to have an actual string to write in the UI
 action_default_name = index
@@ -554,6 +561,10 @@ use_third_party_id_cookie = 0
 ; If tracking does not work for you or you are stuck finding an issue, you might want to enable the tracker debug mode.
 ; Once enabled (set to 1) messages will be logged to all loggers defined in "[log] log_writers" config.
 debug = 0
+
+; This option is an alternative to the debug option above. When set to 1, you can debug tracker request by adding
+; a debug=1 query paramater in the URL. All other HTTP requests will not have debug enabled.
+debug_on_demand = 0
 
 ; This setting is described in this FAQ: http://piwik.org/faq/how-to/faq_175/
 ; Note: generally this should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)

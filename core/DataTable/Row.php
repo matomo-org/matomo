@@ -229,11 +229,6 @@ class Row implements \ArrayAccess, \IteratorAggregate
         return $this->c[self::METADATA][$name];
     }
 
-    private function getColumnsRaw()
-    {
-        return $this->c[self::COLUMNS];
-    }
-
     /**
      * Returns true if a column having the given name is already registered. The value will not be evaluated, it will
      * just check whether a column exists independent of its value.
@@ -475,7 +470,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
      */
     public function sumRow(Row $rowToSum, $enableCopyMetadata = true, $aggregationOperations = false)
     {
-        foreach ($rowToSum->getColumnsRaw() as $columnToSumName => $columnToSumValue) {
+        foreach ($rowToSum->getColumns() as $columnToSumName => $columnToSumValue) {
             if (!$this->isSummableColumn($columnToSumName)) {
                 continue;
             }

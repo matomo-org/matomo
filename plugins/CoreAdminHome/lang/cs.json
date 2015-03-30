@@ -59,6 +59,7 @@
         "MenuManage": "Správa",
         "OptOutComplete": "Vyloučení hotovo. Vaše návštěvy nebudou sledovány nástrojem webové analýzy.",
         "OptOutCompleteBis": "Poznámka: pokud smažete cookie, odstraníte vylučovací cookie nebo zmměníte počítač nebo prohlížeč, budete muset provést proceduru vyloučení znovu.",
+        "OptOutDntFound": "Nejste sledováni, protože váš prohlížeč hlásí, že si to nepřejete. Jedná se o nastavení prohlížeče, takže se nebudete moct přihlásit, dokud nezakážete funkci nesledovat.",
         "OptOutExplanation": "Piwik se zaměřuje na poskytování soukromí na internetu. Pokud chcete dát svým návštěvníkům možnost, aby byli vyloučeni z webové analýzy Piwikem, můžete na nějakou stránku (třeba stránku o soukromí) umístit následující HTML kód.",
         "OptOutExplanationBis": "Tento kód zobrazí iframe s odkazem, který nastaví u návštěvníka vynechávací cookie. %s Klikněte zde%s pro zobrazení obsahu iframe.",
         "OptOutForYourVisitors": "Piwik vyloučení pro Vaše návštěvníky",

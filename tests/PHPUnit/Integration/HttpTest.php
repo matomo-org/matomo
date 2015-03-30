@@ -137,7 +137,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage failed to open stream: operation failed
+     * @expectedExceptionMessage failed to open stream
      */
     public function testFopenHttpsFailsWithInvalidCertificate()
     {

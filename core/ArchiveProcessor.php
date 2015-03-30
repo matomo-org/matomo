@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Archive\DataTableFactory;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveWriter;
@@ -186,6 +187,9 @@ class ArchiveProcessor
      * @param array $columnsToRenameAfterAggregation Columns mapped to new names for columns that must change names
      *                                               when summed because they cannot be summed, eg,
      *                                               `array('nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors')`.
+     * @param bool|array $countRowsRecursive if set to true, will calculate the recursive rows count for all record names
+     *                                       which makes it slower. If you only need it for some records pass an array of
+     *                                       recordNames that defines for which ones you need a recursive row count.
      * @return array Returns the row counts of each aggregated report before truncation, eg,
      *
      *                   array(
@@ -202,7 +206,8 @@ class ArchiveProcessor
                                               $maximumRowsInSubDataTable = null,
                                               $columnToSortByBeforeTruncation = null,
                                               &$columnsAggregationOperation = null,
-                                              $columnsToRenameAfterAggregation = null)
+                                              $columnsToRenameAfterAggregation = null,
+                                              $countRowsRecursive = true)
     {
         if (!is_array($recordNames)) {
             $recordNames = array($recordNames);
@@ -215,8 +220,9 @@ class ArchiveProcessor
             $table = $this->aggregateDataTableRecord($recordName, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
 
             $nameToCount[$recordName]['level0'] = $table->getRowsCount();
-
-            $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
+            if ($countRowsRecursive === true || (is_array($countRowsRecursive) && in_array($recordName, $countRowsRecursive))) {
+                $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
+            }
 
             $blob = $table->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
             Common::destroy($table);
@@ -344,17 +350,48 @@ class ArchiveProcessor
         // By default we shall aggregate all sub-tables.
         $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
 
+        $columnsRenamed = false;
+
         if ($dataTable instanceof Map) {
+            $columnsRenamed = true;
             // see https://github.com/piwik/piwik/issues/4377
             $self = $this;
             $dataTable->filter(function ($table) use ($self, $columnsToRenameAfterAggregation) {
-                $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+
+                if ($self->areColumnsNotAlreadyRenamed($table)) {
+                    /**
+                     * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
+                     * rename all columns of each 7 day archives. Afterwards we know the columns will be replaced in a
+                     * week archive. When generating month archives, which uses mostly week archives, we do not have
+                     * to replace those columns for the week archives again since we can be sure they were already
+                     * replaced. Same when aggregating year and range archives. This can save up 10% or more when
+                     * aggregating Month, Year and Range archives.
+                     */
+                    $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+                }
             });
         }
 
         $dataTable = $this->getAggregatedDataTableMap($dataTable, $columnsAggregationOperation);
-        $this->renameColumnsAfterAggregation($dataTable, $columnsToRenameAfterAggregation);
+
+        if (!$columnsRenamed) {
+            $this->renameColumnsAfterAggregation($dataTable, $columnsToRenameAfterAggregation);
+        }
+
         return $dataTable;
+    }
+
+    /**
+     * Note: public only for use in closure in PHP 5.3.
+     *
+     * @param $table
+     * @return \Piwik\Period
+     */
+    public function areColumnsNotAlreadyRenamed($table)
+    {
+        $period = $table->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+
+        return !$period || $period->getLabel() === 'day';
     }
 
     protected function getOperationForColumns($columns, $defaultOperation)
@@ -492,8 +529,15 @@ class ArchiveProcessor
             $columnsToRenameAfterAggregation = self::$columnsToRenameAfterAggregation;
         }
 
-        foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
-            $table->renameColumn($oldName, $newName);
+        foreach ($table->getRows() as $row) {
+            foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
+                $row->renameColumn($oldName, $newName);
+            }
+
+            $subTable = $row->getSubtable();
+            if ($subTable) {
+                $this->renameColumnsAfterAggregation($subTable, $columnsToRenameAfterAggregation);
+            }
         }
     }
 
@@ -517,7 +561,7 @@ class ArchiveProcessor
             $rowMetrics = new Row;
         }
         $this->enrichWithUniqueVisitorsMetric($rowMetrics);
-        $this->renameColumnsAfterAggregation($results);
+        $this->renameColumnsAfterAggregation($results, self::$columnsToRenameAfterAggregation);
 
         $metrics = $rowMetrics->getColumns();
 

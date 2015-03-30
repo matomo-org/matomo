@@ -497,7 +497,8 @@ class Archiver extends \Piwik\Plugin\Archiver
             ArchivingHelper::$maximumRowsInSubDataTable,
             ArchivingHelper::$columnToSortByBeforeTruncation,
             Metrics::$columnsAggregationOperation,
-            Metrics::$columnsToRenameAfterAggregation
+            Metrics::$columnsToRenameAfterAggregation,
+            $countRowsRecursive = array()
         );
 
         $dataTableToSum = array(
@@ -511,7 +512,8 @@ class Archiver extends \Piwik\Plugin\Archiver
             ArchivingHelper::$maximumRowsInSubDataTable,
             ArchivingHelper::$columnToSortByBeforeTruncation,
             $aggregation,
-            Metrics::$columnsToRenameAfterAggregation
+            Metrics::$columnsToRenameAfterAggregation,
+            $countRowsRecursive = array()
         );
 
         $this->getProcessor()->aggregateNumericMetrics($this->getMetricNames());

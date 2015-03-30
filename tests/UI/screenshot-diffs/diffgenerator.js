@@ -20,7 +20,7 @@ resemble.outputSettings({
 
 function compareImages(expected, expectedGithub, processed)
 {
-    resemble(processed).compareTo(expected).onComplete(function(data){
+    var resembleControl = resemble(processed).compareTo(expected).onComplete(function(data){
 
         var info = 'Mismatch percentage: ' + data.misMatchPercentage + '%';
 
@@ -35,6 +35,8 @@ function compareImages(expected, expectedGithub, processed)
     $('.processed').attr('src', encodeURI(processed));
     $('.expected').attr('src', encodeURI(expected));
     $('.expectedGithub').attr('src', 'https://raw.githubusercontent.com/piwik/piwik-ui-tests/master/' + encodeURI(expectedGithub));
+
+    return resembleControl;
 }
 
 function getUrlQueryParam(sParam) {
@@ -54,5 +56,12 @@ $(function () {
     var processed = getUrlQueryParam('processed');
     var expected  = getUrlQueryParam('expected');
     var github    = getUrlQueryParam('github');
-    compareImages(expected, github, processed);
+    var resembleControl = compareImages(expected, github, processed);
+
+    $('#toggleAliasing').click(function () {
+        resembleControl.ignoreAntialiasing();
+    });
+
+    $('#original').attr('src', expected);
+    $('#modified').attr('src', processed);
 });

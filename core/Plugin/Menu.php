@@ -30,14 +30,9 @@ use Piwik\Plugins\UsersManager\UserPreferences;
  */
 class Menu
 {
-    protected $module = '';
-
-    /**
-     * @ignore
-     */
     public function __construct()
     {
-        $this->module = $this->getModule();
+        // Constructor kept for BC (because called in implementations)
     }
 
     private function getModule()
@@ -69,7 +64,7 @@ class Menu
     {
         $params = (array) $additionalParams;
         $params['action'] = '';
-        $params['module'] = $this->module;
+        $params['module'] = $this->getModule();
 
         return $params;
     }
@@ -88,11 +83,12 @@ class Menu
      */
     protected function urlForAction($controllerAction, $additionalParams = array())
     {
-        $this->checkisValidCallable($this->module, $controllerAction);
+        $module = $this->getModule();
+        $this->checkisValidCallable($module, $controllerAction);
 
         $params = (array) $additionalParams;
         $params['action'] = $controllerAction;
-        $params['module'] = $this->module;
+        $params['module'] = $module;
 
         return $params;
     }

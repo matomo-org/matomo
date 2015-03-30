@@ -566,7 +566,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                     } else if (is_numeric($value)) {
                         $values[] = $value;
                     } else if (!ctype_print($value)) {
-                        $values[] = "x'" . bin2hex(substr($value, 1)) . "'";
+                        $values[] = "x'" . bin2hex($value) . "'";
                     } else {
                         $values[] = "?";
                         $bind[] = $value;

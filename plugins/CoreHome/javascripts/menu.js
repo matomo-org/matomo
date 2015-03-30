@@ -38,9 +38,12 @@ menu.prototype =
         }, 2000);
     },
 
-    onItemClick: function (item) {
-        $('.Menu--dashboard').trigger('piwikSwitchPage', item);
-        broadcast.propagateAjax( $(item).attr('href').substr(1) );
+    onItemClick: function (e) {
+        if (e.which === 2) {
+            return;
+        }
+        $('.Menu--dashboard').trigger('piwikSwitchPage', this);
+        broadcast.propagateAjax( $(this).attr('href').substr(1) );
         return false;
     },
 
@@ -80,6 +83,8 @@ menu.prototype =
                 $(this).attr({id: module + '_' + action});
             }
         });
+
+        this.menuNode.find('a.menuItem').click(this.onItemClick);
 
         menu.prototype.adaptSubMenuHeight();
     },

@@ -21,6 +21,8 @@ use Piwik\Plugins\Goals\Columns\Metrics\ProductConversionRate;
 
 abstract class BaseItem extends Base
 {
+    protected $defaultSortColumn = 'revenue';
+
     protected function init()
     {
         parent::init();
