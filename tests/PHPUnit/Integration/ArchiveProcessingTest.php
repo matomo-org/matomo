@@ -298,48 +298,6 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $this->assertTrue($archiveProcessor->public_isArchiveTemporary());
     }
 
-    public function test_t()
-    {
-        $blobs = $this->generateDataTableWithManySubtables(1053);
-        $this->assertCount(1053 + 1, $blobs); // +1 for the root table
-        $processor = $this->_createArchiveProcessor('day', '2015-01-02', 'UTC');
-
-        $writer->initNewArchive();
-        $processor->insertBlobRecord('MyPlugin_MyRecord', $blobs);
-        $writer->finalizeArchive();
-
-        $archiveNames = $this->getAllExistingArchiveBlobNames();
-        $expected = array(
-            ''
-        );
-
-        $this->assertEquals($expected, $archiveNames);
-    }
-
-    private function getAllExistingArchiveBlobNames()
-    {
-        $table = ArchiveTableCreator::getBlobTable(Date::factory($this->date));
-        $names = Db::fetchAll('SELECT name FROM ' . $table);
-
-        return $names;
-    }
-
-    private function generateDataTableWithManySubtables($numSubtables)
-    {
-        $dataTable = new DataTable();
-
-        for ($i = 1; $i <= $numSubtables; $i++) {
-            $row = new Row(array(Row::COLUMNS => array('Label Test ' . $i, 'nb_visits' => $i, 'nb_hits' => $i * 2)));
-
-            $subtable = DataTable::makeFromSimpleArray(array(array('label' => 'subtable' . $i, 'nb_visits' => $i)));
-            $row->setSubtable($subtable);
-
-            $dataTable->addRow($row);
-        }
-
-        return $dataTable->getSerialized();
-    }
-
     /**
      * Testing batch insert
      */
