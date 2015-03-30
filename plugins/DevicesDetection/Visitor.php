@@ -24,6 +24,21 @@ class Visitor
         return getDeviceTypeLabel($this->details['config_device_type']);
     }
 
+    public function getDeviceTypeIcon()
+    {
+        return getDeviceTypeLogo($this->details['config_device_type']);
+    }
+
+    public function getDeviceBrand()
+    {
+        return getDeviceBrandLabel($this->details['config_device_brand']);
+    }
+
+    public function getDeviceModel()
+    {
+        return $this->details['config_device_model'];
+    }
+
     public function getOperatingSystemCode()
     {
         return $this->details['config_os'];
