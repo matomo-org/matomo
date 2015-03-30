@@ -23,14 +23,18 @@ body#simple  {
     text-align: center;
 }
 #simple .box .header h1 {
-    font-size: 24px;
+    font-size: 25px;
     font-weight: normal;
 }
 
 #simple .box .content {
-    margin: 1em 2em;
-    text-align: center;
-    padding: 30px 50px;
+	margin: 1em 2em;
+	text-align: center;
+	padding: 30px 50px;
+	font-size: 14px;
+}
+#simple .box .content.text-left {
+	text-align: left;
 }
 #simple .box .content ul {
     text-align: left;
@@ -43,8 +47,17 @@ body#simple  {
     min-height: 0;
 }
 #simple .box .content .btn {
-    float: none;
-    margin: 0;
+	float: none;
+	margin: 0;
+}
+#simple .box .content h2 {
+	font-weight: normal;
+	font-size: 19px;
+	margin-bottom: 25px;
+	margin-top: 30px;
+}
+#simple .box .content h2:first-child {
+	margin-top: 0;
 }
 
 #simple .box .footer {

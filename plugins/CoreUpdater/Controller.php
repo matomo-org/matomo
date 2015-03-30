@@ -102,10 +102,20 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function oneClickResults()
     {
-        $view = new View('@CoreUpdater/oneClickResults');
-        $view->error = Common::getRequestVar('error', '', 'string', $_POST);
-        $view->feedbackMessages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
-        $view->httpsFail = (bool) Common::getRequestVar('httpsFail', 0, 'int', $_POST);
+        $httpsFail = (bool) Common::getRequestVar('httpsFail', 0, 'int', $_POST);
+        $error = Common::getRequestVar('error', '', 'string', $_POST);
+
+        if ($httpsFail) {
+            $view = new View('@CoreUpdater/updateHttpsError');
+            $view->error = $error;
+        } elseif ($error) {
+            $view = new View('@CoreUpdater/updateHttpError');
+            $view->error = $error;
+            $view->feedbackMessages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
+        } else {
+            $view = new View('@CoreUpdater/updateSuccess');
+        }
+
         $this->addCustomLogoInfo($view);
         return $view->render();
     }
