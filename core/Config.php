@@ -422,12 +422,11 @@ class Config extends Singleton
         }
 
         $section =& $this->settings->get($name);
-
         if ($section === null) {
-            return array();
-        } else {
-            return $section;
+            $section = array();
         }
+
+        return $section;
     }
 
     public function getFromGlobalConfig($name)
