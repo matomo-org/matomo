@@ -105,11 +105,10 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
         // so we only archived the parent table
         $expectedActionsBlobs = 5;
 
-        // When flat=1, Actions plugin will process 5 + 3 extra blobs (URL = 'http://example.org/sub1/sub2/sub3/news')
+        // When flat=1, Actions plugin will process 5 + 1 extra chunk blobs (URL = 'http://example.org/sub1/sub2/sub3/news')
         $expectedActionsBlobsWhenFlattened = $expectedActionsBlobs + 1;
 
         $tests = array(
-            // TODO Implement fix, then remove the +3 below
             'archive_blob_2010_12'    => ( ($expectedActionsBlobs+1) /*Actions*/
                                             + 2 /* Resolution */
                                             + 2 /* VisitTime */) * 3,

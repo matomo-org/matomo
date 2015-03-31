@@ -61,7 +61,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $testRow->getIdSubDataTable());
     }
 
-    public function test_desctruct_ShouldRemoveASetSubtable()
+    public function test_destruct_ShouldRemoveASetSubtable()
     {
         $testRow = $this->getTestRowWithSubDataTableLoaded();
         $this->assertTrue($testRow->isSubtableLoaded());
