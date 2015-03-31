@@ -817,6 +817,34 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         Common::destroy($rowBeingDestructed);
     }
 
+    /**
+     * @group Core
+     */
+    public function test_disableFilter_DoesActuallyDisableAFilter()
+    {
+        $dataTable = DataTable::makeFromSimpleArray(array_fill(0, 100, array()));
+        $this->assertSame(100, $dataTable->getRowsCount());
+
+        $dataTable2 = clone $dataTable;
+
+        // verify here the filter is applied
+        $dataTable->filter('Limit', array(10, 10));
+        $this->assertSame(10, $dataTable->getRowsCount());
+
+        // verify here the filter is not applied as it is disabled
+        $dataTable2->disableFilter('Limit');
+        $dataTable2->filter('Limit', array(10, 10));
+        $this->assertSame(100, $dataTable2->getRowsCount());
+
+        // passing a whole className is expected to work. This way we also make sure not all filters are disabled
+        // and it only blocks the given one
+        $dataTable2->filter('Piwik\DataTable\Filter\Limit', array(10, 10));
+        $this->assertSame(10, $dataTable2->getRowsCount());
+    }
+
+    /**
+     * @group Core
+     */
     public function testSubDataTableIsDestructed()
     {
         $mockedDataTable = $this->getMock('\Piwik\DataTable', array('__destruct'));

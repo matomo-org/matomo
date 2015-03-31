@@ -220,7 +220,7 @@ class LogQueryBuilder
      * @param string $where where clause
      * @param string $groupBy group by clause
      * @param string $orderBy order by clause
-     * @param string $limit limit by clause
+     * @param string|int $limit limit by clause eg '5' for Limit 5 Offset 0 or '10, 5' for Limit 5 Offset 10
      * @return string
      */
     private function buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit)
@@ -249,11 +249,27 @@ class LogQueryBuilder
 				$orderBy";
         }
 
-        $limit = (int)$limit;
-        if ($limit >= 1) {
-            $sql .= "
-            LIMIT
-                $limit";
+        $sql = $this->appendLimitClauseToQuery($sql, $limit);
+
+        return $sql;
+    }
+
+    private function appendLimitClauseToQuery($sql, $limit)
+    {
+        $limitParts = explode(',', (string) $limit);
+        $isLimitWithOffset = 2 === count($limitParts);
+
+        if ($isLimitWithOffset) {
+            // $limit = "10, 5". We would not have to do this but we do to prevent possible injections.
+            $offset = trim($limitParts[0]);
+            $limit  = trim($limitParts[1]);
+            $sql   .= sprintf(' LIMIT %d, %d', $offset, $limit);
+        } else {
+            // $limit = "5"
+            $limit = (int)$limit;
+            if ($limit >= 1) {
+                $sql .= " LIMIT $limit";
+            }
         }
 
         return $sql;

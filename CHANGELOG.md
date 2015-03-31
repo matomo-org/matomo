@@ -6,6 +6,10 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Deprecations
 * The method `Piwik\Archive::getBlob()` has been deprecated and will be removed from June 1st 2015. Use one of the methods `getDataTable*()` methods instead.
+* The API parameter `countVisitorsToFetch` of the API method `Live.getLastVisitsDetails` has been deprecated as `filter_offset` and `filter_limit` work correctly now.
+
+### Breaking Changes
+* The API method `Live.getLastVisitsDetails` does no longer support the API parameter `filter_sort_column` to prevent possible memory issues when `filter_offset` is large. .
 
 ### APIs Improvements
 * Visitor details now additionally contain: `deviceTypeIcon`, `deviceBrand` and `deviceModel`
