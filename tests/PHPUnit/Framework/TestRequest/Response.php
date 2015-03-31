@@ -197,8 +197,10 @@ class Response
             $fieldsToRemove = @$this->params['xmlFieldsToRemove'];
         }
 
-        $fieldsToRemove[] = 'idsubdatatable';
-
+        if (!is_array($fieldsToRemove)) {
+            $fieldsToRemove = array();
+        }
+        
         foreach ($fieldsToRemove as $xml) {
             $input = $this->removeXmlElement($input, $xml);
         }
