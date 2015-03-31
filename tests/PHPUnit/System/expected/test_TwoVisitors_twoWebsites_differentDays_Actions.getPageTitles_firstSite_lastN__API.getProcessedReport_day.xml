@@ -170,42 +170,42 @@
 		<result prettyDate="Monday 4 January 2010" />
 		<result prettyDate="Tuesday 5 January 2010">
 			<row>
-				
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
-				
+				<idsubdatatable>1</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010">
 			<row>
-				
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
-				
+				<idsubdatatable>1</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Thursday 7 January 2010">
 			<row>
-				
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
-				
+				<idsubdatatable>1</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Friday 8 January 2010">
 			<row>
-				
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
-				
+				<idsubdatatable>1</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Saturday 9 January 2010">
 			<row>
-				
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
-				
+				<idsubdatatable>1</idsubdatatable>
 			</row>
 		</result>
 	</reportMetadata>

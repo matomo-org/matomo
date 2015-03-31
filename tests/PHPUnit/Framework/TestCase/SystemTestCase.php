@@ -275,7 +275,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         return $apiCalls;
     }
 
-    protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $xmlFieldsToRemove = array(), $params = array())
+    protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $params = array())
     {
         list($processedFilePath, $expectedFilePath) =
             $this->getProcessedAndExpectedPaths($testName, $apiId, $format = null, $compareAgainst);
@@ -440,7 +440,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         $testRequests = $this->getTestRequestsCollection($api, $testConfig, $api);
 
         foreach ($testRequests->getRequestUrls() as $apiId => $requestUrl) {
-            $this->_testApiUrl($testName . $testConfig->testSuffix, $apiId, $requestUrl, $testConfig->compareAgainst, $testConfig->xmlFieldsToRemove, $params);
+            $this->_testApiUrl($testName . $testConfig->testSuffix, $apiId, $requestUrl, $testConfig->compareAgainst, $params);
         }
 
         // change the language back to en
