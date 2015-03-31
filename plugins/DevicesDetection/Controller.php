@@ -27,6 +27,11 @@ use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
 {
+    public function index()
+    {
+        return $this->devices();
+    }
+    
     public function devices()
     {
         $view = new View('@DevicesDetection/devices');
