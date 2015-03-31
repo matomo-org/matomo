@@ -4,6 +4,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ## Piwik 2.13.0
 
+### Deprecations
+* The method `Piwik\Archive::getBlob()` has been deprecated and will be removed from June 1st 2015. Use one of the methods `getDataTable*()` methods instead.
+
 ### APIs Improvements
 * Visitor details now additionally contain: `deviceTypeIcon`, `deviceBrand` and `deviceModel`
 
