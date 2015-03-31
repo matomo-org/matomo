@@ -187,6 +187,18 @@ class LogTest extends IntegrationTestCase
         $this->checkBackend('database', self::TESTMESSAGE, $formatMessage = true, $tag = 'Monolog');
     }
 
+    /**
+     * @dataProvider getBackendsToTest
+     */
+    public function testLoggingNonString($backend)
+    {
+        Config::getInstance()->log['log_writers'] = array($backend);
+
+        Log::warning(123);
+
+        $this->checkBackend($backend, '123', $formatMessage = true, $tag = 'Monolog');
+    }
+
     private function checkBackend($backend, $expectedMessage, $formatMessage = false, $tag = false)
     {
         if ($formatMessage) {
