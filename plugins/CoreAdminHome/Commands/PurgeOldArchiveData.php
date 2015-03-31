@@ -58,6 +58,8 @@ class PurgeOldArchiveData extends ConsoleCommand
         $this->addOption('exclude-invalidated', null, InputOption::VALUE_NONE, "Do not purge invalidated archive data.");
         $this->addOption('exclude-ranges', null, InputOption::VALUE_NONE, "Do not purge custom ranges.");
         $this->addOption('skip-optimize-tables', null, InputOption::VALUE_NONE, "Do not run OPTIMIZE TABLES query on affected archive tables.");
+        $this->addOption('include-year-archives', null, InputOption::VALUE_NONE, "If supplied, the command will purge archive tables that contain year archives for every supplied date.");
+        $this->addOption('force-optimize-tables', null, InputOption::VALUE_NONE, "If supplied, forces optimize table SQL to be run, even on InnoDB tables.");
         $this->setHelp("By default old and invalidated archives are purged. Custom ranges are also purged with outdated archives.\n\n"
                      . "Note: archive purging is done during scheduled task execution, so under normal circumstances, you should not need to "
                      . "run this command manually.");
@@ -110,7 +112,7 @@ class PurgeOldArchiveData extends ConsoleCommand
         if ($skipOptimizeTables) {
             $output->writeln("Skipping OPTIMIZE TABLES.");
         } else {
-            $this->optimizeArchiveTables($output, $dates);
+            $this->optimizeArchiveTables($output, $dates, $input->getOption('force-optimize-tables'));
         }
     }
 
@@ -134,9 +136,24 @@ class PurgeOldArchiveData extends ConsoleCommand
                 $dates[] = Date::factory($year . '-' . $month . '-' . '01');
             }
         } else {
+            $includeYearArchives = $input->getOption('include-year-archives');
+
             foreach ($dateSpecifier as $date) {
-                $dates[] = Date::factory($date);
+                $dateObj = Date::factory($date);
+                $yearMonth = $dateObj->toString('Y-m');
+                $dates[$yearMonth] = $dateObj;
+
+                // if --include-year-archives is supplied, add a date for the january table for this date's year
+                // so year archives will be purged
+                if ($includeYearArchives) {
+                    $janYearMonth = $dateObj->toString('Y') . '-01';
+                    if (empty($dates[$janYearMonth])) {
+                        $dates[$janYearMonth] = Date::factory($janYearMonth . '-01');
+                    }
+                }
             }
+
+            $dates = array_values($dates);
         }
 
         return $dates;
@@ -154,21 +171,23 @@ class PurgeOldArchiveData extends ConsoleCommand
     }
 
     /**
+     * @param OutputInterface $output
      * @param Date[] $dates
+     * @param bool $forceOptimzation
      */
-    private function optimizeArchiveTables(OutputInterface $output, $dates)
+    private function optimizeArchiveTables(OutputInterface $output, $dates, $forceOptimzation = false)
     {
         $output->writeln("Optimizing archive tables...");
 
         foreach ($dates as $date) {
             $numericTable = ArchiveTableCreator::getNumericTable($date);
-            $this->performTimedPurging($output, "Optimizing table $numericTable...", function () use ($numericTable) {
-                Db::optimizeTables($numericTable);
+            $this->performTimedPurging($output, "Optimizing table $numericTable...", function () use ($numericTable, $forceOptimzation) {
+                Db::optimizeTables($numericTable, $forceOptimzation);
             });
 
             $blobTable = ArchiveTableCreator::getBlobTable($date);
-            $this->performTimedPurging($output, "Optimizing table $blobTable...", function () use ($blobTable) {
-                Db::optimizeTables($blobTable);
+            $this->performTimedPurging($output, "Optimizing table $blobTable...", function () use ($blobTable, $forceOptimzation) {
+                Db::optimizeTables($blobTable, $forceOptimzation);
             });
         }
     }
