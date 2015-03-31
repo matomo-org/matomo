@@ -31,4 +31,10 @@ class GetResolution extends Base
         $view->config->addTranslation('label', $this->dimension->getName());
     }
 
+    public function getRelatedReports()
+    {
+        return array(
+            new GetConfiguration()
+        );
+    }
 }

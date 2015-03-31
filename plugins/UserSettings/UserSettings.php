@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\UserSettings;
 
-use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
