@@ -7,7 +7,9 @@
  */
 namespace Piwik\Concurrency;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Option;
+use Psr\Log\LoggerInterface;
 
 /**
  * Manages a simple distributed list stored in an Option. No locking occurs, so the list
@@ -27,13 +29,19 @@ class DistributedList
     private $optionName;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * Constructor.
      *
      * @param string $optionName
      */
-    public function __construct($optionName)
+    public function __construct($optionName, LoggerInterface $logger = null)
     {
         $this->optionName = $optionName;
+        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
     /**
@@ -43,16 +51,21 @@ class DistributedList
      */
     public function getAll()
     {
-        Option::clearCachedOption($this->optionName);
-        $array = Option::get($this->optionName);
+        $result = $this->getListOptionValue();
 
-        if ($array
-            && ($array = unserialize($array))
-            && count($array)
-        ) {
-            return $array;
+        foreach ($result as $key => $item) {
+            // remove non-array items (unexpected state, though can happen when upgrading from an old Piwik)
+            if (is_array($item)) {
+                $this->logger->info("Found array item in DistributedList option value '{name}': {data}", array(
+                    'name' => $this->optionName,
+                    'data' => var_export($result, true)
+                ));
+
+                unset($result[$key]);
+            }
         }
-        return array();
+
+        return $result;
     }
 
     /**
@@ -138,5 +151,20 @@ class DistributedList
         }
 
         $this->setAll(array_values($allItems));
+    }
+
+    protected function getListOptionValue()
+    {
+        Option::clearCachedOption($this->optionName);
+        $array = Option::get($this->optionName);
+
+        $result = array();
+        if ($array
+            && ($array = unserialize($array))
+            && count($array)
+        ) {
+            $result = $array;
+        }
+        return $result;
     }
 }
