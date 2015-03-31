@@ -9,6 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\API\Request;
 use Piwik\Config;
+use Piwik\Date;
 use Piwik\Tests\Fixtures\VisitsTwoWebsitesWithAdditionalVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -24,6 +25,9 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
  */
 class ArchiveInvalidationTest extends SystemTestCase
 {
+    /**
+     * @var VisitsTwoWebsitesWithAdditionalVisits
+     */
     public static $fixture = null; // initialized below class definition
 
     protected $suffix = '_NewDataShouldNotAppear';
@@ -46,6 +50,15 @@ class ArchiveInvalidationTest extends SystemTestCase
 
         // Build tests for the 2 websites
         return array(
+
+            array($apiToCall, array('idSite'                 => self::$fixture->idSite2,
+                                    'testSuffix'             => 'Website' . self::$fixture->idSite2 . "_NewDataShouldNotAppear_BecauseWeekWasNotInvalidated",
+                                    'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
+                                    'periods'                => 'week',
+                                    'segment'                => 'pageUrl=@category/',
+                                    'setDateLastN'           => 4, // 4months ahead
+                                    'otherRequestParameters' => array('expanded' => 1))
+            ),
             array($apiToCall, array('idSite'                 => self::$fixture->idSite1,
                                     'testSuffix'             => 'Website' . self::$fixture->idSite1 . $this->suffix,
                                     'date'                   => self::$fixture->dateTimeFirstDateWebsite1,
@@ -61,16 +74,7 @@ class ArchiveInvalidationTest extends SystemTestCase
                                     'segment'                => 'pageUrl=@category/',
                                     'setDateLastN'           => 4, // 4months ahead
                                     'otherRequestParameters' => array('expanded' => 1))
-            ),
-
-            array($apiToCall, array('idSite'                 => self::$fixture->idSite2,
-                                    'testSuffix'             => 'Website' . self::$fixture->idSite2 . "_NewDataShouldNotAppear_BecauseWeekWasNotInvalidated",
-                                    'date'                   => self::$fixture->dateTimeFirstDateWebsite2,
-                                    'periods'                => 'week',
-                                    'segment'                => 'pageUrl=@category/',
-                                    'setDateLastN'           => 4, // 4months ahead
-                                    'otherRequestParameters' => array('expanded' => 1))
-            ),
+            )
         );
     }
 
@@ -94,6 +98,11 @@ class ArchiveInvalidationTest extends SystemTestCase
      */
     public function testAnotherApi($api, $params)
     {
+        if ($params['periods'] === 'month') {
+            // we do now need to invalidate weeks as well since months are based on weeks
+            $this->invalidateTestArchive(self::$fixture->idSite2, 'week', self::$fixture->dateTimeFirstDateWebsite2);
+        }
+
         $this->setBrowserArchivingTriggering(1);
 
         $this->runApiTests($api, $params);
@@ -122,17 +131,21 @@ class ArchiveInvalidationTest extends SystemTestCase
     protected function invalidateTestArchives()
     {
         $dateToInvalidate1 = new \DateTime(self::$fixture->dateTimeFirstDateWebsite1);
-        $dateToInvalidate2 = new \DateTime(self::$fixture->dateTimeFirstDateWebsite2);
 
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . self::$fixture->idSite1 . "&dates=" . $dateToInvalidate1->format('Y-m-d'));
         $this->assertApiResponseHasNoError($r->process());
 
         // Days & Months reports only are invalidated and we test our weekly report will still show old data.
-        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&period=day&idSites=" . self::$fixture->idSite2 . "&dates=" . $dateToInvalidate2->format('Y-m-d'));
-        $this->assertApiResponseHasNoError($r->process());
-        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&period=month&idSites=" . self::$fixture->idSite2 . "&dates=" . $dateToInvalidate2->format('Y-m-d'));
-        $this->assertApiResponseHasNoError($r->process());
+        $this->invalidateTestArchive(self::$fixture->idSite2, 'day', self::$fixture->dateTimeFirstDateWebsite2);
+        $this->invalidateTestArchive(self::$fixture->idSite2, 'month', self::$fixture->dateTimeFirstDateWebsite2);
+    }
 
+    private function invalidateTestArchive($idSite, $period, $dateTime)
+    {
+        $dates = new \DateTime($dateTime);
+        $dates = $dates->format('Y-m-d');
+        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&period=$period&idSites=$idSite&dates=$dates");
+        $this->assertApiResponseHasNoError($r->process());
     }
 }
 
