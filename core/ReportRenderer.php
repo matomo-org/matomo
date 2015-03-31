@@ -133,8 +133,11 @@ abstract class ReportRenderer extends BaseFactory
      * @param  string $extension
      * @return string  filename with extension
      */
-    protected static function appendExtension($filename, $extension)
+    protected static function makeFilenameWithExtension($filename, $extension)
     {
+        // the filename can be used in HTTP headers, remove new lines to prevent HTTP header injection
+        $filename = str_replace(array("\n", "\t"), " ", $filename);
+
         return $filename . "." . $extension;
     }
 
@@ -156,7 +159,7 @@ abstract class ReportRenderer extends BaseFactory
 
     protected static function writeFile($filename, $extension, $content)
     {
-        $filename = self::appendExtension($filename, $extension);
+        $filename = self::makeFilenameWithExtension($filename, $extension);
         $outputFilename = self::getOutputPath($filename);
 
         $bytesWritten = file_put_contents($outputFilename, $content);
@@ -169,7 +172,7 @@ abstract class ReportRenderer extends BaseFactory
 
     protected static function sendToBrowser($filename, $extension, $contentType, $content)
     {
-        $filename = ReportRenderer::appendExtension($filename, $extension);
+        $filename = ReportRenderer::makeFilenameWithExtension($filename, $extension);
 
         ProxyHttp::overrideCacheControlHeaders();
         header('Content-Description: File Transfer');
