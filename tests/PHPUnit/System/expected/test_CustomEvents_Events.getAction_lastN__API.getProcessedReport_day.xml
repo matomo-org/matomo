@@ -162,47 +162,47 @@
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
 				<segment>eventAction==playTrailer</segment>
-				
+				<idsubdatatable>8</idsubdatatable>
 			</row>
 			<row>
 				<segment>eventAction==Search</segment>
-				
+				<idsubdatatable>1</idsubdatatable>
 			</row>
 			<row>
 				<segment>eventAction==play25%25</segment>
-				
+				<idsubdatatable>3</idsubdatatable>
 			</row>
 			<row>
 				<segment>eventAction==play50%25</segment>
-				
+				<idsubdatatable>4</idsubdatatable>
 			</row>
 			<row>
 				<segment>eventAction==play75%25</segment>
-				
+				<idsubdatatable>5</idsubdatatable>
 			</row>
 			<row>
 				<segment>eventAction==playEnd</segment>
-				
+				<idsubdatatable>6</idsubdatatable>
 			</row>
 			<row>
 				<segment>eventAction==rating</segment>
-				
+				<idsubdatatable>7</idsubdatatable>
 			</row>
 			<row>
 				<segment>eventAction==clickBuyNow</segment>
-				
+				<idsubdatatable>9</idsubdatatable>
 			</row>
 			<row>
 				<segment>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				
+				<idsubdatatable>11</idsubdatatable>
 			</row>
 			<row>
 				<segment>eventAction==play</segment>
-				
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<segment>eventAction==playStart</segment>
-				
+				<idsubdatatable>10</idsubdatatable>
 			</row>
 			<row>
 				<segment>eventAction==Purchase</segment>

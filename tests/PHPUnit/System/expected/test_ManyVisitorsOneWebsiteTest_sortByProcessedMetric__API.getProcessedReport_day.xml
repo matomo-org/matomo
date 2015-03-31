@@ -59,10 +59,10 @@
 	</reportData>
 	<reportMetadata>
 		<row>
-			
+			<idsubdatatable>1</idsubdatatable>
 		</row>
 		<row>
-			
+			<idsubdatatable>2</idsubdatatable>
 		</row>
 	</reportMetadata>
 	<reportTotal>
