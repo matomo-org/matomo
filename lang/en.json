@@ -305,6 +305,8 @@
         "OverlayRowActionTooltipTitle": "Open Page Overlay",
         "Overview": "Overview",
         "Pages": "Pages",
+        "Pagination": "%s - %s of %s",
+        "PaginationWithoutTotal": "%s - %s",
         "ParameterMustIntegerBetween": "Parameter %s must be an integer value between %s and %s.",
         "Password": "Password",
         "Period": "Period",

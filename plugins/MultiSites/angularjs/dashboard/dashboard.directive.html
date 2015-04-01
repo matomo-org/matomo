@@ -97,7 +97,7 @@
                 </span>
                 <span class="dataTablePages">
                     <span id="counter">
-                        {{ 'MultiSites_Pagination'|translate:model.getCurrentPagingOffsetStart():model.getCurrentPagingOffsetEnd():model.getNumberOfFilteredSites() }}
+                        {{ 'General_Pagination'|translate:model.getCurrentPagingOffsetStart():model.getCurrentPagingOffsetEnd():model.getNumberOfFilteredSites() }}
                     </span>
                 </span>
                 <span id="next" class="next" ng-hide="model.currentPage >= model.getNumberOfPages()" ng-click="model.nextPage()">

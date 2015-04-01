@@ -7,25 +7,22 @@
 (function () {
     angular.module('piwikApp').controller('SitesManagerController', SitesManagerController);
 
-    SitesManagerController.$inject = ['$scope', '$filter', 'coreAPI', 'sitesManagerAPI', 'piwik', 'sitesManagerApiHelper'];
+    SitesManagerController.$inject = ['$scope', '$filter', 'coreAPI', 'sitesManagerAPI', 'sitesManagerAdminSitesModel', 'piwik', 'sitesManagerApiHelper'];
 
-    function SitesManagerController($scope, $filter, coreAPI, sitesManagerAPI, piwik, sitesManagerApiHelper) {
+    function SitesManagerController($scope, $filter, coreAPI, sitesManagerAPI, adminSites, piwik, sitesManagerApiHelper) {
 
         var translate = $filter('translate');
 
         var init = function () {
 
-            initModel();
-            initActions();
-        };
-
-        var initModel = function() {
-
             $scope.period = piwik.broadcast.getValueFromUrl('period');
             $scope.date = piwik.broadcast.getValueFromUrl('date');
-            $scope.sites = [];
+            $scope.adminSites = adminSites;
             $scope.hasSuperUserAccess = piwik.hasSuperUserAccess;
             $scope.redirectParams = {showaddsite: false};
+            $scope.siteIsBeingEdited = false;
+            $scope.cacheBuster = piwik.cacheBuster;
+            $scope.totalNumberOfSites = '?';
 
             initSelectLists();
             initUtcTime();
@@ -33,6 +30,8 @@
             initCustomVariablesActivated();
             initIsTimezoneSupportEnabled();
             initGlobalParams();
+
+            initActions();
         };
 
         var initActions = function () {
@@ -72,9 +71,16 @@
                 $scope.globalSettings.excludedQueryParametersGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.excludedQueryParametersGlobal);
                 $scope.globalSettings.excludedUserAgentsGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.excludedUserAgentsGlobal);
 
+                hideLoading();
+
                 initKeepURLFragmentsList();
 
-                initSiteList();
+                adminSites.fetchLimitedSitesWithAdminAccess();
+                sitesManagerAPI.getSitesIdWithAdminAccess(function (siteIds) {
+                    if (siteIds && siteIds.length) {
+                        $scope.totalNumberOfSites = siteIds.length;
+                    }
+                });
 
                 triggerAddSiteIfRequested();
             });
@@ -176,7 +182,7 @@
         };
 
         var addSite = function() {
-            $scope.sites.push({});
+            $scope.adminSites.sites.push({});
         };
 
         var saveGlobalSettings = function() {
@@ -218,18 +224,6 @@
             });
 
             return sitesInEditMode[0];
-        };
-
-        var initSiteList = function () {
-
-            sitesManagerAPI.getSitesWithAdminAccess(function (sites) {
-
-                angular.forEach(sites, function(site) {
-                    $scope.sites.push(site);
-                });
-
-                hideLoading();
-            });
         };
 
         var initCurrencyList = function () {

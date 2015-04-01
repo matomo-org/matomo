@@ -14,6 +14,7 @@ use Piwik\DataTable;
 use Piwik\Plugin;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
+use Piwik\Config;
 
 class DataTableGenericFilter
 {
@@ -107,7 +108,7 @@ class DataTableGenericFilter
             array('Limit',
                   array(
                       'filter_offset'    => array('integer', '0'),
-                      'filter_limit'     => array('integer'),
+                      'filter_limit'     => array('integer', ),
                       'keep_summary_row' => array('integer', '0'),
                   ))
         );

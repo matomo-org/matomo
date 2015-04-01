@@ -67,7 +67,7 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'Actions_SubmenuSitesearch';
         $translations[] = 'MultiSites_LoadingWebsites';
         $translations[] = 'General_ErrorRequest';
-        $translations[] = 'MultiSites_Pagination';
+        $translations[] = 'General_Pagination';
     }
 
     public function getJsFiles(&$jsFiles)

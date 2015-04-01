@@ -2,6 +2,6 @@
 
 {% block content %}
 
-    <div ng-include="'plugins/SitesManager/templates/index.html'"></div>
+    <div ng-include="'plugins/SitesManager/templates/index.html?cb={{ cacheBuster }}'"></div>
 
 {% endblock %}

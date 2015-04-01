@@ -16,6 +16,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### APIs Improvements
 * Visitor details now additionally contain: `deviceTypeIcon`, `deviceBrand` and `deviceModel`
+* In 2.6.0 we added the possibility to use `filter_limit` and `filter_offset` if an API returns an indexed array. This was not working in all cases and is fixed now. 
 
 ## Piwik 2.12.0
 
