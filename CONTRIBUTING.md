@@ -9,4 +9,4 @@ Please read the recommendations on writing a good [bug report](http://developer.
 
 ## How to suggest improvements to translations?
 
-You can help improve translations in Piwik, please read [contribute to translations].
+You can help improve translations in Piwik, please read [contribute to translations](https://github.com/piwik/piwik/blob/master/lang/README.md).
