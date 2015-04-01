@@ -273,6 +273,7 @@ class DocumentationGenerator
         $aParameters['label'] = false;
         $aParameters['flat'] = false;
         $aParameters['include_aggregate_rows'] = false;
+        $aParameters['filter_offset'] = false; //@review without adding this, I can not set filter_offset in $otherRequestParameters system tests
         $aParameters['filter_limit'] = false; //@review without adding this, I can not set filter_limit in $otherRequestParameters system tests
         $aParameters['filter_sort_column'] = false; //@review without adding this, I can not set filter_sort_column in $otherRequestParameters system tests
         $aParameters['filter_sort_order'] = false; //@review without adding this, I can not set filter_sort_order in $otherRequestParameters system tests

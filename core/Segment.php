@@ -234,14 +234,20 @@ class Segment
      * @param array|string $bind (optional) Bind parameters, eg, `array($col1Value, $col2Value)`.
      * @param false|string $orderBy (optional) Order by clause, eg, `"t1.col1 ASC"`.
      * @param false|string $groupBy (optional) Group by clause, eg, `"t2.col2"`.
-     * @param int $limit Limit by clause
+     * @param int $limit Limit number of result to $limit
+     * @param int $offset Specified the offset of the first row to return
      * @param int If set to value >= 1 then the Select query (and All inner queries) will be LIMIT'ed by this value.
      *              Use only when you're not aggregating or it will sample the data.
      * @return string The entire select query.
      */
-    public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0)
+    public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0)
     {
         $segmentExpression = $this->segmentExpression;
+
+        if ($offset > 0) {
+            $limit = (int) $offset . ', ' . (int) $limit;
+        }
+
         $segmentQuery = new LogQueryBuilder($segmentExpression);
         return $segmentQuery->getSelectQueryString($select, $from, $where, $bind, $groupBy, $orderBy, $limit);
     }
