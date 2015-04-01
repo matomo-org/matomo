@@ -45,7 +45,7 @@
         "TheUpgradeProcessMayTakeAWhilePleaseBePatient": "Tietokannan päivitys vie aikaa, ole kärsivällinen.",
         "UnpackingTheUpdate": "Puretaan päivitystä",
         "UpdateAutomatically": "Päivitä automaattisesti",
-        "UpdateHasBeenCancelledExplanation": "Piwikin yhden klikkauksen päivitys on peruutettu. Jos et voi korjata alla oelvaa virhettä, on suositeltavaa päivittää Piwik manuaalisesti. %1$s Ole hyvä ja tarkista %2$sPäivitysdokumentaatio%3$s",
+        "UpdateHasBeenCancelledExplanation": "Piwikin yhden klikkauksen päivitys on peruutettu. Jos et voi korjata alla olevaa virhettä, on suositeltavaa päivittää Piwik manuaalisesti. %1$s Ole hyvä ja tarkista %2$sPäivitysdokumentaatio%3$s",
         "UpdateTitle": "Piwik › Päivitys",
         "UpgradeComplete": "Päivitys valmis!",
         "UpgradePiwik": "Päivitä Piwik",
