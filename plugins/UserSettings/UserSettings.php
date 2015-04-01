@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\UserSettings;
 
-use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
@@ -37,6 +36,7 @@ class UserSettings extends \Piwik\Plugin
     public function renameDeprecatedModuleAndAction(&$module, &$action)
     {
         $movedMethods = array(
+            'index' => 'software',
             'getBrowser' => 'getBrowsers',
             'getBrowserVersion' => 'getBrowserVersions',
             'getMobileVsDesktop' => 'getType',

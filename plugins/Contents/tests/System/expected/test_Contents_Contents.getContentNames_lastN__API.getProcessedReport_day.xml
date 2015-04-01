@@ -59,17 +59,17 @@
 			<row>
 				<contentTarget>http://www.example.com</contentTarget>
 				<segment>contentName==ImageAd</segment>
-				
+				<idsubdatatable>1</idsubdatatable>
 			</row>
 			<row>
 				<contentTarget>http://piwik.org/</contentTarget>
 				<segment>contentName==Text+Ad</segment>
-				
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				<contentTarget />
 				<segment>contentName==Video+Ad</segment>
-				
+				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010" />

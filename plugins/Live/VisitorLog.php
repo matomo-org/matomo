@@ -42,11 +42,6 @@ class VisitorLog extends Visualization
         }
 
         $this->requestConfig->disable_generic_filters = true;
-
-        $offset = Common::getRequestVar('filter_offset', 0);
-        $limit  = Common::getRequestVar('filter_limit', $this->requestConfig->filter_limit);
-
-        $this->config->filters[] = array('Limit', array($offset, $limit));
     }
 
     public function afterGenericFiltersAreAppliedToLoadedDataTable()

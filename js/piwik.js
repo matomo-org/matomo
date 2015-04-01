@@ -45,7 +45,7 @@
 // methods in a closure to avoid creating global variables.
 
 if (typeof JSON2 !== 'object') {
-    JSON2 = {};
+    JSON2 = window.JSON || {};
 }
 
 (function () {

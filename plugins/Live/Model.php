@@ -176,25 +176,18 @@ class Model
      * @param $period
      * @param $date
      * @param $segment
-     * @param $countVisitorsToFetch
+     * @param $limit
      * @param $visitorId
      * @param $minTimestamp
      * @param $filterSortOrder
      * @return array
      * @throws Exception
      */
-    public function queryLogVisits($idSite, $period, $date, $segment, $countVisitorsToFetch, $visitorId, $minTimestamp, $filterSortOrder)
+    public function queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder)
     {
-        list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $period, $date, $segment, $countVisitorsToFetch, $visitorId, $minTimestamp, $filterSortOrder);
+        list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder);
 
-        try {
-            $data = Db::fetchAll($sql, $bind);
-            return $data;
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            exit;
-        }
-        return $data;
+        return Db::fetchAll($sql, $bind);
     }
 
     /**
@@ -368,18 +361,20 @@ class Model
      * @param $period
      * @param $date
      * @param $segment
-     * @param $countVisitorsToFetch
+     * @param int $offset
+     * @param int $limit
      * @param $visitorId
      * @param $minTimestamp
      * @param $filterSortOrder
      * @return array
      * @throws Exception
      */
-    public function makeLogVisitsQueryString($idSite, $period, $date, $segment, $countVisitorsToFetch, $visitorId, $minTimestamp, $filterSortOrder)
+    public function makeLogVisitsQueryString($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder)
     {
         // If no other filter, only look at the last 24 hours of stats
         if (empty($visitorId)
-            && empty($countVisitorsToFetch)
+            && empty($limit)
+            && empty($offset)
             && empty($period)
             && empty($date)
         ) {
@@ -398,11 +393,12 @@ class Model
         $select = "log_visit.*";
         $from = "log_visit";
         $groupBy = false;
-        $limit = $countVisitorsToFetch >= 1 ? (int)$countVisitorsToFetch : 0;
+        $limit = $limit >= 1 ? (int)$limit : 0;
+        $offset = $offset >= 1 ? (int)$offset : 0;
         $orderBy = "idsite, visit_last_action_time " . $filterSortOrder;
         $orderByParent = "sub.visit_last_action_time " . $filterSortOrder;
 
-        $subQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $limit);
+        $subQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $limit, $offset);
 
         $bind = $subQuery['bind'];
         // Group by idvisit so that a visitor converting 2 goals only appears once

@@ -179,10 +179,19 @@ function getDeviceTypeLogo($label)
 
 function getModelName($label)
 {
-    if (!$label) {
-        return Piwik::translate('General_Unknown');
+    if (strpos($label, ';') !== false) {
+        list($brand, $model) = explode(';', $label, 2);
+    } else {
+        $brand = null;
+        $model = $label;
     }
-    return $label;
+    if (!$model) {
+        $model = Piwik::translate('General_Unknown');
+    }
+    if (!$brand) {
+        return $model;
+    }
+    return getDeviceBrandLabel($brand) . ' - ' . $model;
 }
 
 function getOSFamilyFullName($label)

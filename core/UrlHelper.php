@@ -101,6 +101,7 @@ class UrlHelper
      * We don't need a precise test here because the value comes from the website
      * tracked source code and the URLs may look very strange.
      *
+     * @api
      * @param string $url
      * @return bool
      */

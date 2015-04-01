@@ -13,7 +13,7 @@ use Piwik\Common;
 use Piwik\Plugins\Live\Model;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
-use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tests\Integration\SegmentTest;
 
 /**
@@ -21,10 +21,12 @@ use Piwik\Tests\Integration\SegmentTest;
  * @group ModelTest
  * @group Plugins
  */
-class ModelTest extends SystemTestCase
+class ModelTest extends IntegrationTestCase
 {
-    function setUp()
+    public function setUp()
     {
+        parent::setUp();
+
         $this->setSuperUser();
         Fixture::createWebsite('2010-01-01');
     }
@@ -37,7 +39,8 @@ class ModelTest extends SystemTestCase
                 $period = 'month',
                 $date = '2010-01-01',
                 $segment = false,
-                $countVisitorsToFetch = 100,
+                $offset = 0,
+                $limit = 100,
                 $visitorId = false,
                 $minTimestamp = false,
                 $filterSortOrder = false
@@ -64,6 +67,42 @@ class ModelTest extends SystemTestCase
         $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
     }
 
+    public function test_makeLogVisitsQueryStringWithOffset()
+    {
+        $model = new Model();
+        list($sql, $bind) = $model->makeLogVisitsQueryString(
+                $idSite = 1,
+                $period = 'month',
+                $date = '2010-01-01',
+                $segment = false,
+                $offset = 15,
+                $limit = 100,
+                $visitorId = false,
+                $minTimestamp = false,
+                $filterSortOrder = false
+        );
+        $expectedSql = ' SELECT sub.* FROM
+                (
+                    SELECT log_visit.*
+                    FROM ' . Common::prefixTable('log_visit') . ' AS log_visit
+                    WHERE log_visit.idsite in (?)
+                      AND log_visit.visit_last_action_time >= ?
+                      AND log_visit.visit_last_action_time <= ?
+                    ORDER BY idsite, visit_last_action_time DESC
+                    LIMIT 15, 100
+                 ) AS sub
+                 GROUP BY sub.idvisit
+                 ORDER BY sub.visit_last_action_time DESC
+        ';
+        $expectedBind = array(
+            '1',
+            '2010-01-01 00:00:00',
+            '2010-02-01 00:00:00',
+        );
+        $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedSql), SegmentTest::removeExtraWhiteSpaces($sql));
+        $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
+    }
+
 
     public function test_makeLogVisitsQueryString_whenSegment()
     {
@@ -73,7 +112,8 @@ class ModelTest extends SystemTestCase
             $period = 'month',
             $date = '2010-01-01',
             $segment = 'customVariablePageName1==Test',
-            $countVisitorsToFetch = 100,
+            $offset = 0,
+            $limit = 100,
             $visitorId = 'abc',
             $minTimestamp = false,
             $filterSortOrder = false
