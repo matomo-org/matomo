@@ -36,6 +36,7 @@ class UserSettings extends \Piwik\Plugin
     public function renameDeprecatedModuleAndAction(&$module, &$action)
     {
         $movedMethods = array(
+            'index' => 'software',
             'getBrowser' => 'getBrowsers',
             'getBrowserVersion' => 'getBrowserVersions',
             'getMobileVsDesktop' => 'getType',
