@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>UserCountry_continent_asi</label>
+		<label>Asia</label>
 		<nb_visits>22</nb_visits>
 		<nb_actions>38</nb_actions>
 		<max_actions>3</max_actions>
@@ -23,10 +23,10 @@
 		<revenue>165</revenue>
 		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<code>UserCountry_continent_asi</code>
+		<code>Asia</code>
 	</row>
 	<row>
-		<label>UserCountry_continent_amn</label>
+		<label>North America</label>
 		<nb_visits>8</nb_visits>
 		<nb_actions>14</nb_actions>
 		<max_actions>3</max_actions>
@@ -48,10 +48,10 @@
 		<revenue>60</revenue>
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<code>UserCountry_continent_amn</code>
+		<code>North America</code>
 	</row>
 	<row>
-		<label>UserCountry_continent_eur</label>
+		<label>Europe</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>9</nb_actions>
 		<max_actions>3</max_actions>
@@ -73,6 +73,6 @@
 		<revenue>35</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<code>UserCountry_continent_eur</code>
+		<code>Europe</code>
 	</row>
 </result>

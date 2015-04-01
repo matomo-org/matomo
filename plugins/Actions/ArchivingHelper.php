@@ -12,7 +12,6 @@ use PDOStatement;
 use Piwik\Config;
 use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\DataTable;
-use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Piwik;

@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Piwik\Archive\Chunk;
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchiveInvalidator;
@@ -196,7 +197,7 @@ class Archive
      *                             or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD').
      * @param bool|false|string $segment Segment definition or false if no segment should be used. {@link Piwik\Segment}
      * @param bool|false|string $_restrictSitesToLogin Used only when running as a scheduled task.
-     * @return Archive
+     * @return static
      */
     public static function build($idSites, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
     {
@@ -219,7 +220,7 @@ class Archive
         $idSiteIsAll    = $idSites == self::REQUEST_ALL_WEBSITES_FLAG;
         $isMultipleDate = Period::isMultiplePeriod($strDate, $period);
 
-        return Archive::factory($segment, $allPeriods, $websiteIds, $idSiteIsAll, $isMultipleDate);
+        return static::factory($segment, $allPeriods, $websiteIds, $idSiteIsAll, $isMultipleDate);
     }
 
     /**
@@ -259,7 +260,7 @@ class Archive
 
         $params = new Parameters($idSites, $periods, $segment);
 
-        return new Archive($params, $forceIndexedBySite, $forceIndexedByDate);
+        return new static($params, $forceIndexedBySite, $forceIndexedByDate);
     }
 
     /**
@@ -319,6 +320,8 @@ class Archive
      *                                to the subtable ID to return. If set to 'all', all subtables
      *                                of each requested report are returned.
      * @return array An array of appropriately indexed blob data.
+     *
+     * @deprecated since Piwik 2.12. Use one of the getDatable* methods instead.
      */
     public function getBlob($names, $idSubtable = null)
     {
@@ -511,11 +514,6 @@ class Archive
         return $dataTable;
     }
 
-    private function appendIdSubtable($recordName, $id)
-    {
-        return $recordName . "_" . $id;
-    }
-
     private function getSiteIdsThatAreRequestedInThisArchiveButWereNotInvalidatedYet()
     {
         if (is_null(self::$cache)) {
@@ -586,9 +584,8 @@ class Archive
      * @param null|int $idSubtable
      * @return Archive\DataCollection
      */
-    private function get($archiveNames, $archiveDataType, $idSubtable = null)
+    protected function get($archiveNames, $archiveDataType, $idSubtable = null)
     {
-
         if (!is_array($archiveNames)) {
             $archiveNames = array($archiveNames);
         }
@@ -597,13 +594,19 @@ class Archive
         if ($idSubtable !== null
             && $idSubtable != self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
         ) {
-            foreach ($archiveNames as &$name) {
-                $name = $this->appendIdsubtable($name, $idSubtable);
+            // this is also done in ArchiveSelector. It should be actually only done in ArchiveSelector but DataCollection
+            // does require to have the subtableId appended. Needs to be changed in refactoring to have it only in one
+            // place.
+            $dataNames = array();
+            foreach ($archiveNames as $name) {
+                $dataNames[] = ArchiveSelector::appendIdsubtable($name, $idSubtable);
             }
+        } else {
+            $dataNames = $archiveNames;
         }
 
         $result = new Archive\DataCollection(
-            $archiveNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $defaultRow = null);
+            $dataNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $defaultRow = null);
 
         $archiveIds = $this->getArchiveIds($archiveNames);
 
@@ -611,22 +614,23 @@ class Archive
             return $result;
         }
 
-        $loadAllSubtables = $idSubtable == self::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
-        $archiveData = ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $loadAllSubtables);
+        $archiveData = ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
+
         foreach ($archiveData as $row) {
             // values are grouped by idsite (site ID), date1-date2 (date range), then name (field name)
-            $idSite = $row['idsite'];
+            $idSite    = $row['idsite'];
             $periodStr = $row['date1'] . "," . $row['date2'];
 
             if ($archiveDataType == 'numeric') {
-                $value = $this->formatNumericValue($row['value']);
+                $row['value'] = $this->formatNumericValue($row['value']);
             } else {
-                $value = $this->uncompress($row['value']);
                 $result->addMetadata($idSite, $periodStr, 'ts_archived', $row['ts_archived']);
             }
 
             $resultRow = & $result->get($idSite, $periodStr);
-            $resultRow[$row['name']] = $value;
+
+            // one blob per datatable or subtable
+            $resultRow[$row['name']] = $row['value'];
         }
 
         return $result;
@@ -808,11 +812,6 @@ class Archive
         // Round up the value with 2 decimals
         // we cast the result as float because returns false when no visitors
         return round((float)$value, 2);
-    }
-
-    private function uncompress($data)
-    {
-        return @gzuncompress($data);
     }
 
     /**

@@ -95,15 +95,12 @@ class Sort extends BaseFilter
     /**
      * Sorting method used for sorting values natural
      *
-     * @param array $rowA  array[0 => value of column to sort, 1 => label]
-     * @param array $rowB  array[0 => value of column to sort, 1 => label]
+     * @param mixed $valA
+     * @param mixed $valB
      * @return int
      */
-    function naturalSort($rowA, $rowB)
+    function naturalSort($valA, $valB)
     {
-        $valA = $rowA[0];
-        $valB = $rowB[0];
-
         return !isset($valA)
         && !isset($valB)
             ? 0
@@ -122,15 +119,12 @@ class Sort extends BaseFilter
     /**
      * Sorting method used for sorting values
      *
-     * @param array $rowA  array[0 => value of column to sort, 1 => label]
-     * @param array $rowB  array[0 => value of column to sort, 1 => label]
+     * @param mixed $valA
+     * @param mixed $valB
      * @return int
      */
-    function sortString($rowA, $rowB)
+    function sortString($valA, $valB)
     {
-        $valA = $rowA[0];
-        $valB = $rowB[0];
-
         return !isset($valA)
         && !isset($valB)
             ? 0
@@ -150,11 +144,10 @@ class Sort extends BaseFilter
     {
         $value = $row->getColumn($this->columnToSort);
 
-        if ($value === false
-            || is_array($value)
-        ) {
+        if ($value === false || is_array($value)) {
             return null;
         }
+
         return $value;
     }
 
@@ -239,7 +232,7 @@ class Sort extends BaseFilter
 
     private function getFirstValueFromDataTable($table)
     {
-        foreach ($table->getRows() as $row) {
+        foreach ($table->getRowsWithoutSummaryRow() as $row) {
             $value = $this->getColumnValue($row);
             if (!is_null($value)) {
                 return $value;
@@ -262,8 +255,14 @@ class Sort extends BaseFilter
 
         // get column value and label only once for performance tweak
         $values = array();
-        foreach ($rows as $key => $row) {
-            $values[$key] = array($this->getColumnValue($row), $row->getColumn('label'));
+        if ($functionCallback === 'numberSort') {
+            foreach ($rows as $key => $row) {
+                $values[$key] = array($this->getColumnValue($row), $row->getColumn('label'));
+            }
+        } else {
+            foreach ($rows as $key => $row) {
+                $values[$key] = $this->getColumnValue($row);
+            }
         }
 
         uasort($values, array($this, $functionCallback));

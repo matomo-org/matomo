@@ -8,8 +8,8 @@
  */
 namespace Piwik\Period;
 
+use Piwik\Date;
 use Piwik\Period;
-use Piwik\Piwik;
 
 /**
  */
@@ -65,11 +65,52 @@ class Month extends Period
 
         $date = $this->date;
 
-        $startMonth = $date->setDay(1);
-        $currentDay = clone $startMonth;
-        while ($currentDay->compareMonth($startMonth) == 0) {
-            $this->addSubperiod(new Day($currentDay));
-            $currentDay = $currentDay->addDay(1);
+        $startMonth = $date->setDay(1)->setTime('00:00:00');
+        $endMonth   = $startMonth->addPeriod(1, 'month')->setDay(1)->subDay(1);
+
+        $this->processOptimalSubperiods($startMonth, $endMonth);
+    }
+
+    /**
+     * Determine which kind of period is best to use.
+     * See Range.test.php
+     *
+     * @param Date $startDate
+     * @param Date $endDate
+     */
+    protected function processOptimalSubperiods($startDate, $endDate)
+    {
+        while ($startDate->isEarlier($endDate)
+            || $startDate == $endDate) {
+
+            $week        = new Week($startDate);
+            $startOfWeek = $week->getDateStart();
+            $endOfWeek   = $week->getDateEnd();
+
+            if ($endOfWeek->isLater($endDate)) {
+                $this->fillDayPeriods($startDate, $endDate);
+            } elseif ($startOfWeek == $startDate) {
+                $this->addSubperiod($week);
+            } else {
+                $this->fillDayPeriods($startDate, $endOfWeek);
+            }
+
+            $startDate = $endOfWeek->addDay(1);
         }
     }
+
+    /**
+     * Fills the periods from startDate to endDate with days
+     *
+     * @param Date $startDate
+     * @param Date $endDate
+     */
+    private function fillDayPeriods($startDate, $endDate)
+    {
+        while (($startDate->isEarlier($endDate) || $startDate == $endDate)) {
+            $this->addSubperiod(new Day($startDate));
+            $startDate = $startDate->addDay(1);
+        }
+    }
+
 }

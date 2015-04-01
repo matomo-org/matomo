@@ -4,8 +4,8 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
+
 namespace Piwik\Plugins\ExamplePlugin;
 
 use Piwik\View;
@@ -18,12 +18,11 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-
     public function index()
     {
         // Render the Twig template templates/index.twig and assign the view variable answerToLife to the view.
         return $this->renderTemplate('index', array(
-             'answerToLife' => 42
+            'answerToLife' => 42
         ));
     }
 }

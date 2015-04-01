@@ -4,7 +4,6 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
 
 namespace Piwik\Plugins\ExamplePlugin;
@@ -20,7 +19,6 @@ namespace Piwik\Plugins\ExamplePlugin;
  *
  * For more detailed information about Archiver please visit Piwik developer guide
  * http://developer.piwik.org/api-reference/Piwik/Plugin/Archiver
- *
  */
 class Archiver extends \Piwik\Plugin\Archiver
 {
@@ -61,5 +59,4 @@ class Archiver extends \Piwik\Plugin\Archiver
          * $this->getProcessor()->aggregateDataTableRecords(self::EXAMPLEPLUGIN_ARCHIVE_RECORD);
          */
     }
-
 }
