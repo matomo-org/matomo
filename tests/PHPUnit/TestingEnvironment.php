@@ -151,10 +151,6 @@ class Piwik_TestingEnvironment
             Config::setSingletonInstance(new Config(
                 $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
             ));
-        } else {
-            Config::setSingletonInstance(new TestConfig(
-                $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
-            ));
         }
 
         // Apply DI config from the fixture
@@ -211,6 +207,10 @@ class Piwik_TestingEnvironment
                     $cache = $testingEnvironment->arrayMergeRecursiveDistinct($cache, $testingEnvironment->configOverride);
                 }
             });
+
+            Config::setSingletonInstance(new TestConfig(
+                $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
+            ));
         }
         Piwik::addAction('Request.dispatch', function() use ($testingEnvironment) {
             if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
