@@ -11,7 +11,7 @@ namespace Piwik\Container;
 use DI\Container;
 use DI\ContainerBuilder;
 use Doctrine\Common\Cache\ArrayCache;
-use Piwik\Config;
+use Piwik\Config\IniFileChainFactory;
 use Piwik\Development;
 use Piwik\Plugin\Manager;
 
@@ -54,7 +54,8 @@ class ContainerFactory
         $builder->setDefinitionCache(new ArrayCache());
 
         // INI config
-        $builder->addDefinitions(new IniConfigDefinitionSource(Config::getInstance()));
+        $iniFileChain = IniFileChainFactory::get();
+        $builder->addDefinitions(new IniConfigDefinitionSource($iniFileChain));
 
         // Global config
         $builder->addDefinitions(PIWIK_USER_PATH . '/config/global.php');

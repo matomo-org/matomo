@@ -12,6 +12,7 @@ namespace Piwik;
 use Exception;
 use Piwik\Config\IniFileChain;
 use Piwik\Config\ConfigNotFoundException;
+use Piwik\Config\IniFileChainFactory;
 use Piwik\Ini\IniReadingException;
 
 /**
@@ -72,7 +73,7 @@ class Config extends Singleton
         $this->pathCommon = $pathCommon ?: self::getCommonConfigPath();
         $this->pathLocal = $pathLocal ?: self::getLocalConfigPath();
 
-        $this->settings = new IniFileChain();
+        $this->settings = IniFileChainFactory::get();
     }
 
     /**
@@ -155,7 +156,7 @@ class Config extends Singleton
      *
      * @return string
      */
-    protected static function getGlobalConfigPath()
+    public static function getGlobalConfigPath()
     {
         return PIWIK_USER_PATH . self::DEFAULT_GLOBAL_CONFIG_PATH;
     }
@@ -334,15 +335,14 @@ class Config extends Singleton
         }
 
         try {
+            // Force a reload because maybe the files to use were overridden in the Config's constructor
             $this->settings->reload(array($this->pathGlobal, $this->pathCommon), $this->pathLocal);
         } catch (IniReadingException $e) {
+            // TODO why a different behavior here? This needs a comment
             if ($inTrackerRequest) {
                 throw $e;
             }
         }
-
-        // decode section datas
-        $this->decodeValues($this->settings->getAll());
 
         // Check config.ini.php last
         if (!$inTrackerRequest) {
@@ -374,11 +374,11 @@ class Config extends Singleton
      * @param mixed $values
      * @return mixed
      */
-    protected function decodeValues(&$values)
+    public static function decodeValues(&$values)
     {
         if (is_array($values)) {
             foreach ($values as &$value) {
-                $value = $this->decodeValues($value);
+                $value = self::decodeValues($value);
             }
             return $values;
         } elseif (is_string($values)) {

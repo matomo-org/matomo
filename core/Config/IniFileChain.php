@@ -7,6 +7,7 @@
  */
 namespace Piwik\Config;
 
+use Piwik\Config;
 use Piwik\Ini\IniReader;
 use Piwik\Ini\IniReadingException;
 use Piwik\Ini\IniWriter;
@@ -206,6 +207,10 @@ class IniFileChain
         }
 
         $this->mergedSettings = $this->mergeFileSettings();
+
+        // TODO move this method to this class
+        // decode section data
+        Config::decodeValues($this->getAll());
     }
 
     private function resetSettingsChain($defaultSettingsFiles, $userSettingsFile)
