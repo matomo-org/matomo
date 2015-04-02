@@ -9,6 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\Config;
 use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
 
@@ -162,7 +163,7 @@ class BlobReportLimitingTest extends SystemTestCase
 
     protected static function setUpConfigOptions()
     {
-        Config::getInstance()->setTestEnvironment();
+        Config::setSingletonInstance(new TestConfig());
 
         $generalConfig =& Config::getInstance()->General;
         $generalConfig['datatable_archiving_maximum_rows_referers'] = 3;

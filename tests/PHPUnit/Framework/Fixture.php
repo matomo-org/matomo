@@ -39,6 +39,7 @@ use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
+use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
@@ -143,7 +144,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     {
         try {
             if ($this->createConfig) {
-                Config::getInstance()->setTestEnvironment();
+                Config::setSingletonInstance(new TestConfig());
             }
 
             $this->dbName = $this->getDbName();
@@ -305,7 +306,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         Cache::deleteTrackerCache();
         PiwikCache::getTransientCache()->flushAll();
         PiwikCache::getEagerCache()->flushAll();
-        Config::getInstance()->clear();
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
         EventDispatcher::getInstance()->clearAllObservers();

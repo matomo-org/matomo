@@ -8,6 +8,7 @@ use Piwik\Option;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\DbHelper;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\TestConfig;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Config.php";
 
@@ -150,6 +151,10 @@ class Piwik_TestingEnvironment
             Config::setSingletonInstance(new Config(
                 $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
             ));
+        } else {
+            Config::setSingletonInstance(new TestConfig(
+                $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
+            ));
         }
 
         // Apply DI config from the fixture
@@ -175,8 +180,6 @@ class Piwik_TestingEnvironment
         });
         if (!$testingEnvironment->dontUseTestConfig) {
             Piwik::addAction('Config.createConfigSingleton', function(Config $config, &$cache) use ($testingEnvironment) {
-                $config->setTestEnvironment($testingEnvironment->configFileLocal, $testingEnvironment->configFileGlobal, $testingEnvironment->configFileCommon);
-
                 if ($testingEnvironment->configFileLocal) {
                     $config->General['session_save_handler'] = 'dbtable';
                 }

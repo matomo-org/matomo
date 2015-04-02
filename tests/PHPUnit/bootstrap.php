@@ -45,8 +45,6 @@ if (getenv('PIWIK_USE_XHPROF') == 1) {
 // setup container for tests
 StaticContainer::setEnvironment('test');
 
-\Piwik\Config::getInstance()->setTestEnvironment();
-
 // require test fixtures
 $fixturesToLoad = array(
     '/tests/UI/Fixtures/*.php',
@@ -113,7 +111,7 @@ if (!SettingsPiwik::isPiwikInstalled()) {
 }
 
 $config = Config::getInstance();
-$config->init();
+
 prepareServerVariables($config);
 prepareTestDatabaseConfig($config);
 checkPiwikSetupForTests();

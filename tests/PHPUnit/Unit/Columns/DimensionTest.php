@@ -64,10 +64,10 @@ namespace Piwik\Tests\Unit\Columns
 
         public function setUp()
         {
+            Config::unsetInstance();
+
             Manager::getInstance()->unloadPlugins();
             Manager::getInstance()->doNotLoadAlwaysActivatedPlugins();
-            Config::getInstance()->clear();
-            Config::getInstance()->init();
 
             $this->dimension = new DimensionTest();
         }

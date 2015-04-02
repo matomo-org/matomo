@@ -111,6 +111,7 @@ class Config extends Singleton
      * @param string $pathLocal
      * @param string $pathGlobal
      * @param string $pathCommon
+     * @deprecated
      */
     public function setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null, $allowSaving = false)
     {
@@ -124,7 +125,7 @@ class Config extends Singleton
 
         $this->reload();
 
-        $databaseTestsSettings = $this->database_tests;
+        $databaseTestsSettings = $this->__get('database_tests'); // has to be __get otherwise when called from TestConfig, PHP will issue a NOTICE
         if (!empty($databaseTestsSettings)) {
             $this->database = $databaseTestsSettings;
         }
@@ -144,6 +145,9 @@ class Config extends Singleton
         // for unit tests, we set that no plugin is installed. This will force
         // the test initialization to create the plugins tables, execute ALTER queries, etc.
         $this->PluginsInstalled = array('PluginsInstalled' => array());
+
+        $allSettings =& $this->settings->getAll();
+        Piwik::postTestEvent('Config.createConfigSingleton', array($this, &$allSettings));
     }
 
     /**
@@ -291,6 +295,7 @@ class Config extends Singleton
     /**
      * Clear in-memory configuration so it can be reloaded
      * @deprecated since v2.12.0
+     * TODO: remove uses of.
      */
     public function clear()
     {
@@ -303,6 +308,7 @@ class Config extends Singleton
      *
      * @throws Exception if local config file is not readable; exits for other errors
      * @deprecated since v2.12.0
+     * TODO: remove uses of
      */
     public function init()
     {
@@ -314,6 +320,7 @@ class Config extends Singleton
      *
      * @throws \Exception if the global config file is not found and this is a tracker request, or
      *                    if the local config file is not found and this is NOT a tracker request.
+     * TODO: make private
      */
     public function reload()
     {
@@ -414,11 +421,6 @@ class Config extends Singleton
     {
         if (!$this->initialized) {
             $this->reload(array($this->pathGlobal, $this->pathCommon), $this->pathLocal);
-
-            // must be called here, not in init(), since setTestEnvironment() calls init(). (this avoids
-            // infinite recursion)
-            $allSettings =& $this->settings->getAll();
-            Piwik::postTestEvent('Config.createConfigSingleton', array($this, &$allSettings));
         }
 
         $section =& $this->settings->get($name);

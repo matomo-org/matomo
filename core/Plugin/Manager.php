@@ -228,7 +228,6 @@ class Manager extends Singleton
     {
         $this->updatePluginsInstalledConfig( array() );
         PiwikConfig::getInstance()->forceSave();
-        PiwikConfig::getInstance()->init();
     }
 
     /**

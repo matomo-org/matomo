@@ -17,6 +17,7 @@ use Piwik\Config;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
 use Piwik\EventDispatcher;
+use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tests\Unit\AssetManager\PluginManagerMock;
 use Piwik\Tests\Unit\AssetManager\PluginMock;
 use Piwik\Tests\Unit\AssetManager\ThemeMock;
@@ -101,9 +102,7 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
         $userFile = PIWIK_INCLUDE_PATH . '/' . self::ASSET_MANAGER_TEST_DIR . 'configs/' . $filename;
         $globalFile = PIWIK_INCLUDE_PATH . '/' . self::ASSET_MANAGER_TEST_DIR . 'configs/plugins.ini.php';
 
-        $config = Config::getInstance();
-        $config->setTestEnvironment($userFile, $globalFile);
-        $config->init();
+        Config::setSingletonInstance(new TestConfig($globalFile, $userFile));
     }
 
     private function setUpCacheBuster()

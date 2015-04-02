@@ -14,6 +14,7 @@ use Piwik\Db;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Url;
 use Piwik\UrlHelper;
 use Symfony\Component\Console\Input\InputArgument;
@@ -39,7 +40,7 @@ class RequestCommand extends ConsoleCommand
         $this->initHostAndQueryString($input);
 
         if ($this->isTestModeEnabled()) {
-            Config::getInstance()->setTestEnvironment();
+            Config::setSingletonInstance(new TestConfig());
             $indexFile = '/tests/PHPUnit/proxy/';
 
             $this->resetDatabase();

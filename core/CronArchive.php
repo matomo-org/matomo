@@ -615,8 +615,6 @@ class CronArchive
         $parsed = parse_url($piwikUrl);
         Url::setHost($parsed['host']);
 
-        Config::getInstance()->clear();
-
         try {
             Config::getInstance()->checkLocalConfigFound();
         } catch (Exception $e) {

@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Cache as PiwikCache;
+use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Translate;
 
 /**
@@ -74,7 +75,7 @@ abstract class IntegrationTestCase extends SystemTestCase
     {
         parent::setUp();
 
-        Config::getInstance()->setTestEnvironment();
+        Config::setSingletonInstance(new TestConfig());
 
         if (!empty(self::$tableData)) {
             self::restoreDbTables(self::$tableData);

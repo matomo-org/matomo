@@ -36,7 +36,6 @@ class UpdateTest extends ConsoleCommandTestCase
     {
         parent::setUp();
 
-        Config::getInstance()->setTestEnvironment();
         Option::set('version_core', self::VERSION_TO_UPDATE_FROM);
 
         $this->oldScriptName = $_SERVER['SCRIPT_NAME'];
