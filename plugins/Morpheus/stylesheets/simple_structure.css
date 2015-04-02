@@ -26,13 +26,18 @@ body#simple  {
 #simple .box .header {
     background-color: #f0f0f0;
     border-bottom: solid 1px #ccc;
-    padding: 40px;
+	padding: 40px 80px;
     text-align: center;
 }
 #simple .box .header h1 {
-    font-size: 25px;
-    font-weight: normal;
+	font-size: 30px;
+	font-weight: normal;
 	margin: 0;
+}
+#simple .box .header p {
+	font-size: 13px;
+	margin-top: 10px;
+	padding: 0;
 }
 
 #simple .box .content {
@@ -45,10 +50,13 @@ body#simple  {
 	text-align: left;
 }
 #simple .box .content ul {
-    text-align: left;
-    list-style: disc;
-    width: 60%;
-    margin: 0 auto;
+	text-align: left;
+	list-style: disc;
+	width: 60%;
+	margin: 0 auto;
+}
+#simple .box .content.text-left ul {
+	width: 100%;
 }
 #simple .box .content form {
     margin: 10px 0;
@@ -107,11 +115,6 @@ body#simple  {
     vertical-align: bottom;
 }
 
-#titleUpdate {
-	font-size: 18px;
- 	color: #7e7363;
-	clear:both;
-}
 #subh1 a {
 	color: #444;
     text-decoration:none;
@@ -126,7 +129,7 @@ body#simple  {
 	font:42px Georgia, serif;
 }
 p, dt {
-	line-height: 120%;
+	line-height: 1.5;
 	padding-bottom: 1em;
 }
 #logo { margin-bottom: 2em; }
