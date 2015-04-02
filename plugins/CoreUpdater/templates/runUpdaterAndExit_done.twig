@@ -4,6 +4,7 @@
 {% endset %}
 
 {% block content %}
+
 {% if coreError %}
     <br/>
     <br/>
@@ -66,13 +67,19 @@
         </ul>
         </p>
     {% else %}
-        <p class="success">{{ 'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate }}</p>
-        <div id="donate-form-container">
-            {% include "@CoreHome/_donate.twig" %}
+        <div class="header">
+            <h1>{{ 'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate }}</h1>
+        </div>
+
+        <div class="content">
+            <div id="donate-form-container">
+                {% include "@CoreHome/_donate.twig" %}
+            </div>
         </div>
     {% endif %}
-    <form action="index.php">
-        <input type="submit" class="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>
-    </form>
+    <div class="footer">
+        <a href="index.php">{{ 'General_ContinueToPiwik'|translate }}</a>
+    </div>
 {% endif %}
+
 {% endblock %}

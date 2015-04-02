@@ -178,7 +178,7 @@ class Controller extends \Piwik\Plugin\Controller
             $doDryRun = !$doExecuteUpdates;
         }
 
-        if ($doDryRun) {
+        if (false) {
             $viewWelcome->queries = $updater->getSqlQueriesToExecute();
             $viewWelcome->isMajor = $updater->hasMajorDbUpdate();
             $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
@@ -186,7 +186,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         // Web
-        if ($doExecuteUpdates) {
+        if (true) {
             $this->warningMessages = array();
             $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
 
@@ -251,12 +251,12 @@ class Controller extends \Piwik\Plugin\Controller
 
     private function doExecuteUpdates($view, DbUpdater $updater, $componentsWithUpdateFile)
     {
-        $result = $updater->updateComponents($componentsWithUpdateFile);
+//        $result = $updater->updateComponents($componentsWithUpdateFile);
 
-        $this->coreError       = $result['coreError'];
-        $this->warningMessages = $result['warnings'];
-        $this->errorMessages   = $result['errors'];
-        $this->deactivatedPlugins = $result['deactivatedPlugins'];
+        $this->coreError       = null;
+        $this->warningMessages = array();
+        $this->errorMessages   = array();
+        $this->deactivatedPlugins = array('foo', 'bar');
         $view->coreError = $this->coreError;
         $view->warningMessages = $this->warningMessages;
         $view->errorMessages = $this->errorMessages;
