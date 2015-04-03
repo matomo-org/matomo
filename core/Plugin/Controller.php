@@ -829,7 +829,11 @@ abstract class Controller
         $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
         $availablePeriods = self::getEnabledPeriodsInUI();
         if (!in_array($currentPeriod, $availablePeriods)) {
-            throw new Exception("Period must be one of: " . implode(", ", $availablePeriods));
+            // Redirect to the day period
+            Url::redirectToUrl(sprintf(
+                'index.php?module=CoreHome&action=index&idSite=%d&period=day&date=yesterday',
+                Common::getRequestVar('idSite')
+            ));
         }
         $found = array_search($currentPeriod, $availablePeriods);
         unset($availablePeriods[$found]);
