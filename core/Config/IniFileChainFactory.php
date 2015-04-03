@@ -19,7 +19,7 @@ class IniFileChainFactory
      * @throws Exception
      * @throws IniReadingException
      */
-    public static function get()
+    public static function get($pathGlobal = null, $pathLocal = null, $pathCommon = null)
     {
         if (self::$instance) {
             return self::$instance;
@@ -29,9 +29,9 @@ class IniFileChainFactory
 
         $inTrackerRequest = SettingsServer::isTrackerApiRequest();
 
-        $pathGlobal = Config::getGlobalConfigPath();
-        $pathCommon = Config::getCommonConfigPath();
-        $pathLocal = Config::getLocalConfigPath();
+        $pathGlobal = $pathGlobal ?: Config::getGlobalConfigPath();
+        $pathCommon = $pathCommon ?: Config::getCommonConfigPath();
+        $pathLocal = $pathLocal ?: Config::getLocalConfigPath();
 
         // read defaults from global.ini.php
         if (!is_readable($pathGlobal) && $inTrackerRequest) {
@@ -49,5 +49,10 @@ class IniFileChainFactory
         }
 
         return self::$instance;
+    }
+
+    public static function unsetInstance()
+    {
+        self::$instance = null;
     }
 }

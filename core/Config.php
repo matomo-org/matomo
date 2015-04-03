@@ -73,7 +73,7 @@ class Config extends Singleton
         $this->pathCommon = $pathCommon ?: self::getCommonConfigPath();
         $this->pathLocal = $pathLocal ?: self::getLocalConfigPath();
 
-        $this->settings = IniFileChainFactory::get();
+        $this->settings = IniFileChainFactory::get($pathGlobal, $pathLocal, $pathCommon);
     }
 
     /**
@@ -126,27 +126,30 @@ class Config extends Singleton
 
         $this->reload();
 
-        $databaseTestsSettings = $this->__get('database_tests'); // has to be __get otherwise when called from TestConfig, PHP will issue a NOTICE
+        $databaseTestsSettings = $this->settings->get('database_tests'); // has to be __get otherwise when called from TestConfig, PHP will issue a NOTICE
         if (!empty($databaseTestsSettings)) {
-            $this->database = $databaseTestsSettings;
+            $this->settings->set('database', $databaseTestsSettings);
         }
 
         // Ensure local mods do not affect tests
         if (empty($pathGlobal)) {
-            $this->Debug = $this->settings->getFrom($this->pathGlobal, 'Debug');
-            $this->mail = $this->settings->getFrom($this->pathGlobal, 'mail');
-            $this->General = $this->settings->getFrom($this->pathGlobal, 'General');
-            $this->Segments = $this->settings->getFrom($this->pathGlobal, 'Segments');
-            $this->Tracker = $this->settings->getFrom($this->pathGlobal, 'Tracker');
-            $this->Deletelogs = $this->settings->getFrom($this->pathGlobal, 'Deletelogs');
-            $this->Deletereports = $this->settings->getFrom($this->pathGlobal, 'Deletereports');
-            $this->Development = $this->settings->getFrom($this->pathGlobal, 'Development');
+            $this->settings->set('Debug', $this->settings->getFrom($this->pathGlobal, 'Debug'));
+            $this->settings->set('mail', $this->settings->getFrom($this->pathGlobal, 'mail'));
+            $this->settings->set('General', $this->settings->getFrom($this->pathGlobal, 'General'));
+            $this->settings->set('Segments', $this->settings->getFrom($this->pathGlobal, 'Segments'));
+            $this->settings->set('Tracker', $this->settings->getFrom($this->pathGlobal, 'Tracker'));
+            $this->settings->set('Deletelogs', $this->settings->getFrom($this->pathGlobal, 'Deletelogs'));
+            $this->settings->set('Deletereports', $this->settings->getFrom($this->pathGlobal, 'Deletereports'));
+            $this->settings->set('Development', $this->settings->getFrom($this->pathGlobal, 'Development'));
         }
 
         // for unit tests, we set that no plugin is installed. This will force
         // the test initialization to create the plugins tables, execute ALTER queries, etc.
-        $this->PluginsInstalled = array('PluginsInstalled' => array());
+        $this->settings->set('PluginsInstalled', array('PluginsInstalled' => array()));
+    }
 
+    protected function postConfigTestEvent()
+    {
         $allSettings =& $this->settings->getAll();
         Piwik::postTestEvent('Config.createConfigSingleton', array($this, &$allSettings));
     }
@@ -280,6 +283,7 @@ class Config extends Singleton
         $this->pathLocal   = $hostConfig['path'];
         $this->configLocal = array();
         $this->initialized = false;
+        $this->reload();
         return $this->pathLocal;
     }
 
@@ -420,7 +424,7 @@ class Config extends Singleton
     public function &__get($name)
     {
         if (!$this->initialized) {
-            $this->reload(array($this->pathGlobal, $this->pathCommon), $this->pathLocal);
+            $this->postConfigTestEvent();
         }
 
         $section =& $this->settings->get($name);
