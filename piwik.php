@@ -48,6 +48,9 @@ require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Cache.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Request.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
 
+$environment = new \Piwik\Application\Environment(null);
+$environment->init();
+
 Tracker::loadTrackerEnvironment();
 
 $tracker    = new Tracker();

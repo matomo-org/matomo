@@ -43,7 +43,9 @@ if (getenv('PIWIK_USE_XHPROF') == 1) {
 }
 
 // setup container for tests
-StaticContainer::setEnvironment('test');
+$rootTestEnvironment = new \Piwik\Application\Environment('test');
+$rootTestEnvironment->init();
+unset($rootTestEnvironment); // so it doesn't appear in $_GLOBALS and so PHPUnit won't try to serialize it. (TODO: this is a quick hack)
 
 // require test fixtures
 $fixturesToLoad = array(

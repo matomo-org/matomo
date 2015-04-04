@@ -28,7 +28,9 @@ $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 define('PIWIK_ENABLE_DISPATCH', false);
 
 if (Piwik\Common::isPhpCliMode()) {
-    StaticContainer::setEnvironment('cli');
+    $environment = new \Piwik\Application\Environment('cli'); // TODO: what is this script for? need to test it if it's still needed.
+    $environment->init();
+
     /** @var ConsoleHandler $consoleLogHandler */
     $consoleLogHandler = StaticContainer::get('Symfony\Bridge\Monolog\Handler\ConsoleHandler');
     $consoleLogHandler->setOutput(new ConsoleOutput());

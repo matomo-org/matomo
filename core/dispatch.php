@@ -24,6 +24,9 @@ if (!defined('PIWIK_ENABLE_DISPATCH')) {
 }
 
 if (PIWIK_ENABLE_DISPATCH) {
+    $environment = new \Piwik\Application\Environment(null);
+    $environment->init();
+
     $controller = FrontController::getInstance();
 
     try {

@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
@@ -20,6 +21,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Console extends Application
 {
+    /**
+     * @var Environment
+     */
+    private $environment;
+
     public function __construct()
     {
         $this->checkCompatibility();
@@ -34,7 +40,8 @@ class Console extends Application
 
         $this->getDefinition()->addOption($option);
 
-        StaticContainer::setEnvironment('cli');
+        $this->environment = new Environment('cli');
+        $this->environment->init();
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)

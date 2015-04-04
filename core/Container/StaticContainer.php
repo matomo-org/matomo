@@ -25,13 +25,6 @@ class StaticContainer
     private static $container;
 
     /**
-     * Optional environment config to load.
-     *
-     * @var bool
-     */
-    private static $environment;
-
-    /**
      * Definitions to register in the container.
      *
      * @var array
@@ -44,7 +37,7 @@ class StaticContainer
     public static function getContainer()
     {
         if (self::$container === null) {
-            self::$container = self::createContainer();
+            throw new \Exception("The root container has not been created yet.");
         }
 
         return self::$container;
@@ -65,25 +58,6 @@ class StaticContainer
         self::$container = $container;
     }
 
-    /**
-     * @link http://php-di.org/doc/container-configuration.html
-     */
-    private static function createContainer()
-    {
-        $containerFactory = new ContainerFactory(self::$environment, self::$definitions);
-        return $containerFactory->create();
-    }
-
-    /**
-     * Set the application environment (cli, test, …) or null for the default one.
-     *
-     * @param string|null $environment
-     */
-    public static function setEnvironment($environment)
-    {
-        self::$environment = $environment;
-    }
-
     public static function addDefinitions(array $definitions)
     {
         self::$definitions = $definitions;
@@ -99,5 +73,10 @@ class StaticContainer
     public static function get($name)
     {
         return self::getContainer()->get($name);
+    }
+
+    public static function getDefinitons()
+    {
+        return self::$definitions;
     }
 }
