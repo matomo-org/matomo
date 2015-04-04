@@ -269,6 +269,7 @@ class Config extends Singleton
      * @param string $hostname eg piwik.example.com
      * @return string
      * @throws \Exception In case the domain contains not allowed characters
+     * @internal
      */
     public function forceUsageOfLocalHostnameConfig($hostname)
     {
@@ -280,9 +281,15 @@ class Config extends Singleton
         }
 
         $this->pathLocal   = $hostConfig['path'];
-        $this->configLocal = array();
         $this->initialized = false;
-        $this->reload();
+
+        try {
+            $this->reload();
+        } catch (Exception $ex) {
+            // pass (not required for local file to exist at this point)
+            // TODO: debug log
+        }
+
         return $this->pathLocal;
     }
 
