@@ -131,31 +131,26 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
                 'idSite'                 => $idSite,
                 'date'                   => $dateString,
                 'periods'                => 'month',
-                'testSuffix'             => '_Live.getLastVisitsDetails_sortByVisitCount',
-                'otherRequestParameters' => array('filter_sort_order' => 'desc', 'filter_sort_column' => 'visitCount', 'filter_limit' => 7)
-            ));
-
-            // #5950
-            $apiToTest[] = array('Live.getLastVisitsDetails', array(
-                'idSite'                 => $idSite,
-                'date'                   => $dateString,
-                'periods'                => 'month',
                 'testSuffix'             => '_Live.getLastVisitsDetails_sortByIdVisit',
                 'otherRequestParameters' => array('filter_sort_order' => 'desc', 'filter_sort_column' => 'idVisit', 'filter_limit' => 7)
             ));
 
-            // #5950
+            // #7458
             $apiToTest[] = array('Live.getLastVisitsDetails', array(
                 'idSite'                 => $idSite,
                 'date'                   => $dateString,
                 'periods'                => 'month',
-                'testSuffix'             => '_Live.getLastVisitsDetails_sortByIdVisitAsc',
-                'otherRequestParameters' => array('filter_sort_order' => 'asc',
-                                                  'filter_sort_column' => 'idVisit',
-                                                  'filter_limit' => 7,
-                                                  'hideColumns' => 'latitude,longitude' // Mysqli has troubles with lat/long rounding
-                )
+                'testSuffix'             => '_Live.getLastVisitsDetails_offsetAndLimit_1',
+                'otherRequestParameters' => array('filter_offset' => '1', 'filter_limit' => 3)
             ));
+            $apiToTest[] = array('Live.getLastVisitsDetails', array(
+                'idSite'                 => $idSite,
+                'date'                   => $dateString,
+                'periods'                => 'month',
+                'testSuffix'             => '_Live.getLastVisitsDetails_offsetAndLimit_2',
+                'otherRequestParameters' => array('filter_offset' => '4', 'filter_limit' => 3)
+            ));
+
         }
 
         // this also fails on all PHP versions, it seems randomly.

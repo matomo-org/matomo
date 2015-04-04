@@ -33,6 +33,8 @@
  ************************************************************/
 /*jslint evil: true, regexp: false, bitwise: true, white: true */
 /*global JSON2:true */
+/*global window:true */
+/*property JSON:true */
 /*members "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply,
     call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join,
@@ -45,7 +47,7 @@
 // methods in a closure to avoid creating global variables.
 
 if (typeof JSON2 !== 'object') {
-    JSON2 = {};
+    JSON2 = window.JSON || {};
 }
 
 (function () {

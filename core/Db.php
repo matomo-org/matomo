@@ -317,13 +317,16 @@ class Db
      *
      * @param string|array $tables The name of the table to optimize or an array of tables to optimize.
      *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
+     * @param bool $force If true, the `OPTIMIZE TABLE` query will be run even if InnoDB tables are being used.
      * @return \Zend_Db_Statement
      */
-    public static function optimizeTables($tables)
+    public static function optimizeTables($tables, $force = false)
     {
         $optimize = Config::getInstance()->General['enable_sql_optimize_queries'];
 
-        if (empty($optimize)) {
+        if (empty($optimize)
+            && !$force
+        ) {
             return false;
         }
 
@@ -335,7 +338,9 @@ class Db
             $tables = array($tables);
         }
 
-        if (!self::isOptimizeInnoDBSupported()) {
+        if (!self::isOptimizeInnoDBSupported()
+            && !$force
+        ) {
             // filter out all InnoDB tables
             $myisamDbTables = array();
             foreach (self::getTableStatus() as $row) {

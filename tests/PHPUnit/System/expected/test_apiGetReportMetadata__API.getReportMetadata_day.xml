@@ -714,7 +714,7 @@
 		<module>Actions</module>
 		<action>getEntryPageTitles</action>
 		<dimension>Entry Page title</dimension>
-		<documentation>This report contains information about the titles of exit pages that occurred during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
+		<documentation>This report contains information about the titles of entry pages that were used during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<entry_nb_visits>Entrances</entry_nb_visits>
 			<entry_bounce_count>Bounces</entry_bounce_count>
@@ -740,7 +740,7 @@
 		<module>Actions</module>
 		<action>getExitPageTitles</action>
 		<dimension>Exit Page Title</dimension>
-		<documentation>This report contains information about the titles of entry pages that were used during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
+		<documentation>This report contains information about the titles of exit pages that occurred during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<exit_nb_visits>Exits</exit_nb_visits>
 			<nb_visits>Unique Pageviews</nb_visits>

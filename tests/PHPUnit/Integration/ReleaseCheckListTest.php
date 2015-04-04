@@ -300,6 +300,11 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(preg_match($pattern, $contents) == 0);
     }
 
+    public function testTmpDirectoryContainsGitKeep()
+    {
+        $this->assertFileExists(PIWIK_DOCUMENT_ROOT . '/tmp/.gitkeep');
+    }
+
     private function checkFilesAreInPngFormat($files)
     {
         $this->checkFilesAreInFormat($files, "png");

@@ -113,6 +113,25 @@
 		<actions>1</actions>
 	</row>
 	<row>
+		<idVisit>6</idVisit>
+		<visitorId>5e15b4d842cc294d</visitorId>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/home</url>
+				<pageTitle>pageview - should not be tracked by our user id but in a new visit</pageTitle>
+				<pageIdAction>10</pageIdAction>
+				<serverTimePretty>Sat 6 Mar 16:28:33</serverTimePretty>
+				<pageId>10</pageId>
+				<icon />
+				<timestamp>1267892913</timestamp>
+			</row>
+		</actionDetails>
+		<lastActionDateTime>2010-03-06 16:28:33</lastActionDateTime>
+		<userId />
+		<actions>1</actions>
+	</row>
+	<row>
 		<idVisit>5</idVisit>
 		<visitorId>c9ade7a5a103b2ed</visitorId>
 		<actionDetails>
@@ -170,25 +189,6 @@
 		<lastActionDateTime>2010-03-06 16:40:33</lastActionDateTime>
 		<userId>new-email@example.com</userId>
 		<actions>2</actions>
-	</row>
-	<row>
-		<idVisit>6</idVisit>
-		<visitorId>5e15b4d842cc294d</visitorId>
-		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://example.org/home</url>
-				<pageTitle>pageview - should not be tracked by our user id but in a new visit</pageTitle>
-				<pageIdAction>10</pageIdAction>
-				<serverTimePretty>Sat 6 Mar 16:28:33</serverTimePretty>
-				<pageId>10</pageId>
-				<icon />
-				<timestamp>1267892913</timestamp>
-			</row>
-		</actionDetails>
-		<lastActionDateTime>2010-03-06 16:28:33</lastActionDateTime>
-		<userId />
-		<actions>1</actions>
 	</row>
 	<row>
 		<idVisit>7</idVisit>

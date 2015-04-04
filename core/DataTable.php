@@ -265,6 +265,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     protected $queuedFilters = array();
 
     /**
+     * List of disabled filter names eg 'Limit' or 'Sort'
+     *
+     * @var array
+     */
+    protected $disabledFilters = array();
+
+    /**
      * We keep track of the number of rows before applying the LIMIT filter that deletes some rows
      *
      * @var int
@@ -471,6 +478,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             return;
         }
 
+        if (in_array($className, $this->disabledFilters)) {
+            return;
+        }
+
         if (!class_exists($className, true)) {
             $className = 'Piwik\DataTable\Filter\\' . $className;
         }
@@ -543,6 +554,23 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $parameters = array($parameters);
         }
         $this->queuedFilters[] = array('className' => $className, 'parameters' => $parameters);
+    }
+
+    /**
+     * Disable a specific filter to run on this DataTable in case you have already applied this filter or if you will
+     * handle this filter manually by using a custom filter. Be aware if you disable a given filter, that filter won't
+     * be ever executed. Even if another filter calls this filter on the DataTable.
+     *
+     * @param string $className  eg 'Limit' or 'Sort'. Passing a `Closure` or an `array($class, $methodName)` is not
+     *                           supported yet. We check for exact match. So if you disable 'Limit' and
+     *                           call `->filter('Limit')` this filter won't be executed. If you call
+     *                           `->filter('Piwik\DataTable\Filter\Limit')` that filter will be executed. See it as a
+     *                           feature.
+     * @ignore
+     */
+    public function disableFilter($className)
+    {
+        $this->disabledFilters[] = $className;
     }
 
     /**
