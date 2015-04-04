@@ -62,8 +62,13 @@ class TestConfig extends Config
             $this->pathCommon = $pathCommon ?: Config::getCommonConfigPath();
 
             $this->reload();
+        }
+    }
 
-            $this->postConfigTestEvent();
+    public function forceSave()
+    {
+        if ($this->allowSave) {
+            parent::forceSave();
         }
     }
 }

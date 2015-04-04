@@ -2,6 +2,7 @@
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Config\IniFileChain;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Option;
@@ -175,9 +176,14 @@ class Piwik_TestingEnvironment
             }
         });
         if (!$testingEnvironment->dontUseTestConfig) {
-            Piwik::addAction('Config.createConfigSingleton', function(Config $config, &$cache) use ($testingEnvironment) {
+            Piwik::addAction('Config.createConfigSingleton', function(IniFileChain $chain) use ($testingEnvironment) {
+                $general =& $chain->get('General');
+                $plugins =& $chain->get('Plugins');
+                $log =& $chain->get('log');
+                $database =& $chain->get('database');
+
                 if ($testingEnvironment->configFileLocal) {
-                    $config->General['session_save_handler'] = 'dbtable';
+                    $general['session_save_handler'] = 'dbtable';
                 }
 
                 $manager = \Piwik\Plugin\Manager::getInstance();
@@ -188,22 +194,21 @@ class Piwik_TestingEnvironment
 
                 sort($pluginsToLoad);
 
-                $config->Plugins = array('Plugins' => $pluginsToLoad);
+                $plugins['Plugins'] = $pluginsToLoad;
 
-                $config->log['log_writers'] = array('file');
-
-                $manager->unloadPlugins();
+                $log['log_writers'] = array('file');
 
                 // TODO: replace this and below w/ configOverride use
                 if ($testingEnvironment->tablesPrefix) {
-                    $config->database['tables_prefix'] = $testingEnvironment->tablesPrefix;
+                    $database['tables_prefix'] = $testingEnvironment->tablesPrefix;
                 }
 
                 if ($testingEnvironment->dbName) {
-                    $config->database['dbname'] = $testingEnvironment->dbName;
+                    $database['dbname'] = $testingEnvironment->dbName;
                 }
 
                 if ($testingEnvironment->configOverride) {
+                    $cache =& $chain->getAll();
                     $cache = $testingEnvironment->arrayMergeRecursiveDistinct($cache, $testingEnvironment->configOverride);
                 }
             });

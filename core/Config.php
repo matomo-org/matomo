@@ -150,8 +150,7 @@ class Config extends Singleton
 
     protected function postConfigTestEvent()
     {
-        $allSettings =& $this->settings->getAll();
-        Piwik::postTestEvent('Config.createConfigSingleton', array($this, &$allSettings));
+        Piwik::postTestEvent('Config.createConfigSingleton', array($this->settings, $this)  );
     }
 
     /**
@@ -329,7 +328,7 @@ class Config extends Singleton
      */
     public function reload()
     {
-        $this->initialized = true;
+        $this->initialized = false;
 
         $inTrackerRequest = SettingsServer::isTrackerApiRequest();
 
