@@ -256,9 +256,10 @@ class Piwik_TestingEnvironment
                 DbHelper::deleteArchiveTables();
             }
         });
-
-        $testingEnvironment->logVariables();
-        $testingEnvironment->executeSetupTestEnvHook();
+        Piwik::addAction('Environment.bootstrapped', function () use ($testingEnvironment) {
+            $testingEnvironment->logVariables();
+            $testingEnvironment->executeSetupTestEnvHook();
+        });
     }
 
     public static function addSendMailHook()

@@ -213,8 +213,9 @@ class EventDispatcher extends Singleton
     private function getPluginManager()
     {
         if ($this->pluginManager === null) {
-            $this->pluginManager = Plugin\Manager::getInstance();
+            return Plugin\Manager::getInstance(); // caching the var breaks DI for now since only Plugin\Manager is in the container.
+        } else {
+            return $this->pluginManager;
         }
-        return $this->pluginManager;
     }
 }

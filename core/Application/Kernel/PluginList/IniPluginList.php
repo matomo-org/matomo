@@ -31,7 +31,7 @@ class IniPluginList implements \Piwik\Application\Kernel\PluginList
     public function getActivatedPlugins()
     {
         $section = $this->settings->getSection('Plugins');
-        return $section['Plugins'];
+        return @$section['Plugins'] ?: array();
     }
 
     /**
@@ -40,6 +40,6 @@ class IniPluginList implements \Piwik\Application\Kernel\PluginList
     public function getInstalledPlugins()
     {
         $section = $this->settings->getSection('PluginsInstalled');
-        return $section['PluginsInstalled'];
+        return @$section['PluginsInstalled'] ?: array();
     }
 }

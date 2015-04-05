@@ -24,10 +24,12 @@ try {
 
     GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 
-    Tracker::setTestEnvironment();
-    Manager::getInstance()->deleteAll();
-    Option::clearCache();
-    Site::clearCache();
+    \Piwik\Piwik::addAction('Environment.bootstrapped', function () {
+        Tracker::setTestEnvironment();
+        Manager::getInstance()->deleteAll();
+        Option::clearCache();
+        Site::clearCache();
+    });
 
     include PIWIK_INCLUDE_PATH . '/piwik.php';
 } catch (Exception $ex) {

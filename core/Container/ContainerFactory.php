@@ -80,7 +80,7 @@ class ContainerFactory
         $this->addPluginConfigs($builder);
 
         // Development config
-        if (Development::isEnabled()) {
+        if ($this->isDevelopmentModeEnabled()) {
             $builder->addDefinitions(PIWIK_USER_PATH . '/config/environment/dev.php');
         }
 
@@ -127,5 +127,11 @@ class ContainerFactory
 
             $builder->addDefinitions($file);
         }
+    }
+
+    private function isDevelopmentModeEnabled()
+    {
+        $section = $this->settings->getSection('Development');
+        return (bool) @$section['enabled']; // TODO: code redundancy w/ Development. hopefully ok for now.
     }
 }

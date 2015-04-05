@@ -15,6 +15,7 @@ use Piwik\Application\Kernel\PluginList\IniPluginList;
 use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
 use Piwik\Container\ContainerFactory;
 use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
 
 /**
  * TODO
@@ -48,6 +49,8 @@ class Environment
         $this->container = $this->createContainer();
 
         StaticContainer::set($this->container);
+
+        Piwik::postEvent('Environment.bootstrapped');
     }
 
     public function getContainer()
