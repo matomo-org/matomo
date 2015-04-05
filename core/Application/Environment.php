@@ -9,6 +9,10 @@
 namespace Piwik\Application;
 
 use DI\Container;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\Application\Kernel\PluginList;
+use Piwik\Application\Kernel\PluginList\IniPluginList;
+use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
 use Piwik\Container\ContainerFactory;
 use Piwik\Container\StaticContainer;
 
@@ -23,6 +27,16 @@ class Environment
      * @var Container
      */
     private $container;
+
+    /**
+     * @var GlobalSettingsProvider
+     */
+    private $globalSettingsProvider;
+
+    /**
+     * @var PluginList
+     */
+    private $pluginList;
 
     public function __construct($environment)
     {
@@ -51,7 +65,36 @@ class Environment
      */
     private function createContainer()
     {
-        $containerFactory = new ContainerFactory($this->environment, StaticContainer::getDefinitons());
+        $pluginList = $this->getPluginListCached();
+        $settings = $this->getGlobalSettingsCached();
+
+        $containerFactory = new ContainerFactory($pluginList, $settings, $this->environment, StaticContainer::getDefinitons());
         return $containerFactory->create();
+    }
+
+    protected function getGlobalSettingsCached()
+    {
+        if ($this->globalSettingsProvider === null) {
+            $this->globalSettingsProvider = $this->getGlobalSettings();
+        }
+        return $this->globalSettingsProvider;
+    }
+
+    protected function getPluginListCached()
+    {
+        if ($this->pluginList === null) {
+            $this->pluginList = $this->getPluginList();
+        }
+        return $this->pluginList;
+    }
+
+    protected function getGlobalSettings()
+    {
+        return new IniSettingsProvider();
+    }
+
+    protected function getPluginList()
+    {
+        return new IniPluginList($this->getGlobalSettingsCached()); // TODO: in tracker should only load tracker plugins.
     }
 }

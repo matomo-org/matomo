@@ -11,7 +11,7 @@ namespace Piwik\Container;
 use DI\Definition\Exception\DefinitionException;
 use DI\Definition\Source\ChainableDefinitionSource;
 use DI\Definition\ValueDefinition;
-use Piwik\Config\IniFileChain;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 
 /**
  * Import the old INI config into PHP-DI.
@@ -19,7 +19,7 @@ use Piwik\Config\IniFileChain;
 class IniConfigDefinitionSource extends ChainableDefinitionSource
 {
     /**
-     * @var IniFileChain
+     * @var GlobalSettingsProvider
      */
     private $config;
 
@@ -29,10 +29,10 @@ class IniConfigDefinitionSource extends ChainableDefinitionSource
     private $prefix;
 
     /**
-     * @param IniFileChain $config
+     * @param GlobalSettingsProvider $config
      * @param string $prefix Prefix for the container entries.
      */
-    public function __construct(IniFileChain $config, $prefix = 'ini.')
+    public function __construct(GlobalSettingsProvider $config, $prefix = 'ini.')
     {
         $this->config = $config;
         $this->prefix = $prefix;
@@ -74,7 +74,7 @@ class IniConfigDefinitionSource extends ChainableDefinitionSource
 
     private function getSection($sectionName)
     {
-        $section = $this->config->get($sectionName);
+        $section = $this->config->getSection($sectionName);
 
         if (!is_array($section)) {
             throw new DefinitionException(sprintf(
