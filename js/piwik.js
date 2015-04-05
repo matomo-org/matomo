@@ -418,7 +418,7 @@ if (typeof JSON2 !== 'object') {
     setCustomData, getCustomData,
     setCustomRequestProcessing,
     setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie,
-    setDownloadExtensions, addDownloadExtensions,
+    setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle,
     setDownloadClasses, setLinkClasses,
@@ -4474,10 +4474,11 @@ if (typeof Piwik !== 'object') {
                  * @param string|array extensions  for example 'custom' or ['custom1','custom2','custom3']
                  */
                 addDownloadExtensions: function (extensions) {
+                    var i;
                     if(isString(extensions)) {
                         extensions = extensions.split('|');
                     }
-                    for (var i=0; i < extensions.length; i++) {
+                    for (i=0; i < extensions.length; i++) {
                         configDownloadExtensions.push(extensions[i]);
                     }
                 },
@@ -4488,11 +4489,11 @@ if (typeof Piwik !== 'object') {
                  * @param string|array extensions  for example 'custom' or ['custom1','custom2','custom3']
                  */
                 removeDownloadExtensions: function (extensions) {
+                    var i, newExtensions = [];
                     if(isString(extensions)) {
                         extensions = extensions.split('|');
                     }
-                    var newExtensions = [];
-                    for (var i=0; i < configDownloadExtensions.length; i++) {
+                    for (i=0; i < configDownloadExtensions.length; i++) {
                         if (indexOfArray(extensions, configDownloadExtensions[i]) === -1) {
                             newExtensions.push(configDownloadExtensions[i]);
                         }
