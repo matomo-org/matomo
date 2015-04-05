@@ -301,6 +301,7 @@
         "Longitude": "Lengdegrad",
         "Organization": "Organisasjon",
         "Region": "Region",
-        "SubmenuLocations": "Lokasjoner"
+        "SubmenuLocations": "Lokasjoner",
+        "WidgetLocation": "Besøkendes lokasjon"
     }
 }
