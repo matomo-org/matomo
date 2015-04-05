@@ -22,7 +22,15 @@ use Piwik\Piwik;
  */
 class Environment
 {
+    /**
+     * @var string
+     */
     private $environment;
+
+    /**
+     * @var array
+     */
+    private $definitions;
 
     /**
      * @var Container
@@ -39,9 +47,10 @@ class Environment
      */
     private $pluginList;
 
-    public function __construct($environment)
+    public function __construct($environment, array $definitions = array())
     {
         $this->environment = $environment;
+        $this->definitions = $definitions;
     }
 
     public function init()
@@ -70,8 +79,9 @@ class Environment
     {
         $pluginList = $this->getPluginListCached();
         $settings = $this->getGlobalSettingsCached();
+        $definitions = array_merge(StaticContainer::getDefinitons(), $this->definitions);
 
-        $containerFactory = new ContainerFactory($pluginList, $settings, $this->environment, StaticContainer::getDefinitons());
+        $containerFactory = new ContainerFactory($pluginList, $settings, $this->environment, $definitions);
         return $containerFactory->create();
     }
 

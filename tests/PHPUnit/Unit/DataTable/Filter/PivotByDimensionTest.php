@@ -13,14 +13,14 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\DataTable\Row;
 use Piwik\Plugin\Manager as PluginManager;
-use PHPUnit_Framework_TestCase;
 use Exception;
 use Piwik\Tests\Framework\Mock\TestConfig;
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
  * @group DataTableTest
  */
-class PivotByDimensionTest extends PHPUnit_Framework_TestCase
+class PivotByDimensionTest extends UnitTestCase
 {
     /**
      * The number of segment tables that have been created. Used when injecting API results to make sure each
@@ -40,6 +40,8 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $self = $this;
 
         $proxyMock = $this->getMock('stdClass', array('call'));
@@ -63,8 +65,9 @@ class PivotByDimensionTest extends PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        PluginManager::unsetInstance();
         Proxy::unsetInstance();
+
+        parent::tearDown();
     }
 
     /**

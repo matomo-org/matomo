@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Test;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Plugin\Manager;
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 class FakeConversionDimension extends ConversionDimension
 {
@@ -45,7 +46,7 @@ class FakeConversionDimension extends ConversionDimension
 /**
  * @group Core
  */
-class Plugin_ConversionDimensionTest extends \PHPUnit_Framework_TestCase
+class Plugin_ConversionDimensionTest extends UnitTestCase
 {
     /**
      * @var FakeConversionDimension
@@ -54,16 +55,12 @@ class Plugin_ConversionDimensionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         Manager::getInstance()->unloadPlugins();
         Manager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 
         $this->dimension = new FakeConversionDimension();
-    }
-
-    public function tearDown()
-    {
-        Manager::unsetInstance();
-        parent::tearDown();
     }
 
     public function test_install_shouldNotReturnAnything_IfColumnTypeNotSpecified()

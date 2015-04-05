@@ -36,6 +36,8 @@ class AddSegmentBySegmentValueTest extends UnitTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->report = new GetCity();
         $this->table = new DataTable();
         $this->addRowWithMetadata(array('test' => '1'));

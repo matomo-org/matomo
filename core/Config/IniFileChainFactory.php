@@ -10,8 +10,6 @@ use Piwik\SettingsServer;
 
 class IniFileChainFactory
 {
-    static $instance = null;
-
     /**
      * TODO should not be a static eventually
      *
@@ -21,11 +19,7 @@ class IniFileChainFactory
      */
     public static function get($pathGlobal = null, $pathLocal = null, $pathCommon = null)
     {
-        if (self::$instance) {
-            return self::$instance;
-        }
-
-        self::$instance = new IniFileChain();
+        $instance = new IniFileChain();
 
         $inTrackerRequest = SettingsServer::isTrackerApiRequest();
 
@@ -40,7 +34,7 @@ class IniFileChainFactory
         }
 
         try {
-            self::$instance->reload(array($pathGlobal, $pathCommon), $pathLocal);
+            $instance->reload(array($pathGlobal, $pathCommon), $pathLocal);
         } catch (IniReadingException $e) {
             // TODO why a different behavior here? This needs a comment
             if ($inTrackerRequest) {
@@ -48,11 +42,6 @@ class IniFileChainFactory
             }
         }
 
-        return self::$instance;
-    }
-
-    public static function unsetInstance()
-    {
-        self::$instance = null;
+        return $instance;
     }
 }

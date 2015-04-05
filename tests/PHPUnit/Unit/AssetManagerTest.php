@@ -18,6 +18,7 @@ use Piwik\Plugin;
 use Piwik\Plugin\Manager;
 use Piwik\EventDispatcher;
 use Piwik\Tests\Framework\Mock\TestConfig;
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Piwik\Tests\Unit\AssetManager\PluginManagerMock;
 use Piwik\Tests\Unit\AssetManager\PluginMock;
 use Piwik\Tests\Unit\AssetManager\ThemeMock;
@@ -26,7 +27,7 @@ use Piwik\Tests\Unit\AssetManager\UIAssetCacheBusterMock;
 /**
  * @group AssetManagerTest
  */
-class AssetManagerTest extends PHPUnit_Framework_TestCase
+class AssetManagerTest extends UnitTestCase
 {
     // todo Theme->rewriteAssetPathIfOverridesFound is not tested
 
@@ -65,6 +66,8 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->activateMergedAssets();
 
         $this->setUpCacheBuster();
@@ -81,7 +84,15 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->assetManager->removeMergedAssets();
-        Manager::unsetInstance();
+
+        parent::tearDown();
+    }
+
+    protected function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Plugin\Manager' => \DI\object('Piwik\Tests\Unit\AssetManager\PluginManagerMock')
+        );
     }
 
     private function activateMergedAssets()
@@ -121,8 +132,7 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
     private function setUpPluginManager()
     {
-        $this->pluginManager = PluginManagerMock::getInstance();
-        Manager::setSingletonInstance($this->pluginManager);
+        $this->pluginManager = Manager::getInstance();
 
         EventDispatcher::unsetInstance(); // EventDispatcher stores a reference to Plugin Manager
     }

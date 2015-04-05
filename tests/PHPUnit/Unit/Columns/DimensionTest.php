@@ -51,11 +51,12 @@ namespace Piwik\Tests\Unit\Columns
     use Piwik\Plugin\Manager;
     use Piwik\Plugins\Test\Columns\DimensionTest;
     use Piwik\Plugins\Test\FakeActionDimension;
+    use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
     /**
      * @group Core
      */
-    class ColumnDimensionTest extends \PHPUnit_Framework_TestCase
+    class ColumnDimensionTest extends UnitTestCase
     {
         /**
          * @var FakeActionDimension
@@ -64,6 +65,8 @@ namespace Piwik\Tests\Unit\Columns
 
         public function setUp()
         {
+            parent::setUp();
+
             Config::unsetInstance();
 
             Manager::getInstance()->unloadPlugins();
@@ -75,7 +78,6 @@ namespace Piwik\Tests\Unit\Columns
         public function tearDown()
         {
             Config::unsetInstance();
-            Manager::unsetInstance();
             parent::tearDown();
         }
 

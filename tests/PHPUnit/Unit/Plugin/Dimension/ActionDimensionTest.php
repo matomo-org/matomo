@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Test;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Plugin\Manager;
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 class FakeActionDimension extends ActionDimension
 {
@@ -45,7 +46,7 @@ class FakeActionDimension extends ActionDimension
 /**
  * @group Core
  */
-class Plugin_ActionDimensionTest extends \PHPUnit_Framework_TestCase
+class Plugin_ActionDimensionTest extends UnitTestCase
 {
     /**
      * @var FakeActionDimension
@@ -54,16 +55,12 @@ class Plugin_ActionDimensionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         Manager::getInstance()->unloadPlugins();
         Manager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 
         $this->dimension = new FakeActionDimension();
-    }
-
-    public function tearDown()
-    {
-        Manager::unsetInstance();
-        parent::tearDown();
     }
 
     public function test_install_shouldNotReturnAnything_IfColumnTypeNotSpecified()

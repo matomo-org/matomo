@@ -30,6 +30,8 @@ class AddSegmentByLabelMappingTest extends UnitTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->table = new DataTable();
         $this->addRow(array('label' => 1));
         $this->addRow(array('label' => ''));
