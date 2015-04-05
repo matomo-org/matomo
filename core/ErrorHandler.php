@@ -95,8 +95,12 @@ class ErrorHandler
             case E_DEPRECATED:
             case E_USER_DEPRECATED:
             default:
-                // TODO: it's possible for this to execute if the StaticContainer hasn't been created yet. what do we do in this case?
-                Log::warning(self::createLogMessage($errno, $errstr, $errfile, $errline));
+                try {
+                    Log::warning(self::createLogMessage($errno, $errstr, $errfile, $errline));
+                } catch (\Exception $ex) {
+                    // ignore (it's possible for this to happen if the StaticContainer hasn't been created yet)
+                }
+
                 break;
         }
     }
