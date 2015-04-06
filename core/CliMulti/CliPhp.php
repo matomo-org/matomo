@@ -9,7 +9,6 @@ namespace Piwik\CliMulti;
 
 use Piwik\CliMulti;
 use Piwik\Common;
-use Piwik\Plugins\Installation\SystemCheck;
 
 class CliPhp
 {
@@ -67,8 +66,9 @@ class CliPhp
 
     private function isValidPhpVersion($bin)
     {
+        global $piwik_minimumPHPVersion;
         $cliVersion = $this->getPhpVersion($bin);
-        $isCliVersionValid = SystemCheck::isPhpVersionValid($cliVersion);
+        $isCliVersionValid = version_compare($piwik_minimumPHPVersion, $cliVersion) <= 0;
         return $isCliVersionValid;
     }
 

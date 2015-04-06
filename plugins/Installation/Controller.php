@@ -23,9 +23,8 @@ use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\CoreUpdater\CoreUpdater;
+use Piwik\Plugins\Diagnostics\DiagnosticService;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -112,15 +111,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             __FUNCTION__
         );
 
-        $view->duringInstall = true;
+        /** @var DiagnosticService $diagnosticService */
+        $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
+        $view->diagnosticReport = $diagnosticService->runDiagnostics();
 
-        $this->setupSystemCheckView($view);
-
-        $view->showNextStep = !$view->problemWithSomeDirectories
-            && $view->infos['phpVersion_ok']
-            && count($view->infos['adapters'])
-            && !count($view->infos['missing_extensions'])
-            && !count($view->infos['missing_functions']);
+        $view->showNextStep = !$view->diagnosticReport->hasErrors();
 
         // On the system check page, if all is green, display Next link at the top
         $view->showNextStepAtTop = $view->showNextStep;
@@ -446,15 +441,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
-     * Get system information
-     */
-    public static function getSystemInformation()
-    {
-        $systemCheck = new SystemCheck();
-        return $systemCheck->getSystemInformation();
-    }
-
-    /**
      * This controller action renders an admin tab that runs the installation
      * system check, so people can see if there are any issues w/ their running
      * Piwik installation.
@@ -472,13 +458,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         );
         $this->setBasicVariablesView($view);
 
-        $view->duringInstall = false;
-
-        $this->setupSystemCheckView($view);
-
-        $infos = $view->infos;
-        $infos['extra'] = SystemCheck::performAdminPageOnlySystemCheck();
-        $view->infos = $infos;
+        /** @var DiagnosticService $diagnosticService */
+        $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
+        $view->diagnosticReport = $diagnosticService->runDiagnostics();
 
         return $view->render();
     }
@@ -645,20 +627,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
     }
 
-    /**
-     * Utility function, sets up a view that will display system check info.
-     *
-     * @param View $view
-     */
-    private function setupSystemCheckView($view)
-    {
-        $view->infos = self::getSystemInformation();
-
-        $view->helpMessages = $this->getSystemCheckHelpMessages();
-
-        $view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
-    }
-
     private function createSuperUser($login, $password, $email)
     {
         $self = $this;
@@ -745,45 +713,5 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $result = $updater->updateComponents($componentsWithUpdateFile);
             return $result;
         });
-    }
-
-    /**
-     * @return array
-     */
-    private function getSystemCheckHelpMessages()
-    {
-        $helpMessages = array(
-            // Extensions
-            'zlib' => 'Installation_SystemCheckZlibHelp',
-            'gzopen' => 'Installation_SystemCheckZlibHelp',
-            'SPL' => 'Installation_SystemCheckSplHelp',
-            'iconv' => 'Installation_SystemCheckIconvHelp',
-            'mbstring' => 'Installation_SystemCheckMbstringHelp',
-            'Reflection' => 'Required extension that is built in PHP, see http://www.php.net/manual/en/book.reflection.php',
-            'json' => 'Installation_SystemCheckWarnJsonHelp',
-            'libxml' => 'Installation_SystemCheckWarnLibXmlHelp',
-            'dom' => 'Installation_SystemCheckWarnDomHelp',
-            'SimpleXML' => 'Installation_SystemCheckWarnSimpleXMLHelp',
-
-            // Functions
-            'set_time_limit' => 'Installation_SystemCheckTimeLimitHelp',
-            'mail' => 'Installation_SystemCheckMailHelp',
-            'parse_ini_file' => 'Installation_SystemCheckParseIniFileHelp',
-            'glob' => 'Installation_SystemCheckGlobHelp',
-            'debug_backtrace' => 'Installation_SystemCheckDebugBacktraceHelp',
-            'create_function' => 'Installation_SystemCheckCreateFunctionHelp',
-            'eval' => 'Installation_SystemCheckEvalHelp',
-            'gzcompress' => 'Installation_SystemCheckGzcompressHelp',
-            'gzuncompress' => 'Installation_SystemCheckGzuncompressHelp',
-            'pack' => 'Installation_SystemCheckPackHelp',
-            'php5-json' => 'Installation_SystemCheckJsonHelp',
-        );
-
-        // Add standard message for required PHP.ini settings
-        $requiredSettings = SystemCheck::getRequiredPhpSettings();
-        foreach($requiredSettings as $requiredSetting) {
-            $helpMessages[$requiredSetting] = Piwik::translate('Installation_SystemCheckPhpSetting', $requiredSetting);
-        }
-        return $helpMessages;
     }
 }
