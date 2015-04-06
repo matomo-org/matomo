@@ -36,17 +36,21 @@
     vertical-align: bottom;
   }
 
-  .helpIcon:hover {
+  .helpIcon:hover, .editIcon:hover {
     opacity: 0.9;
   }
 
-  .helpIcon {
+  .helpIcon, .editIcon {
     cursor: pointer;
     display:inline-block;
-    margin: 0px 0px -1px 4px;
+    margin: 0 0 -1px 4px;
     width: 16px;
     opacity: 0.3;
     height: 16px;
     background: url(plugins/CoreHome/angularjs/enrichedheadline/help.png) no-repeat;
+  }
+
+  .editIcon {
+    background: url(plugins/Morpheus/images/ico_edit.png) no-repeat;
   }
 }
