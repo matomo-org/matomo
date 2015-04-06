@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Framework\TestCase;
 
 use Piwik\Application\Environment;
+use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
 use Piwik\Container\StaticContainer;
 use Piwik\EventDispatcher;
 use Piwik\Tests\Framework\Mock\File;
@@ -23,13 +24,15 @@ abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @var Environment
      */
-    private $environment;
+    protected $environment;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->environment = new Environment('test', $this->provideContainerConfig());
+        IniSettingsProvider::unsetSingletonInstance();
+
+        $this->environment = new Environment('test', $this->provideContainerConfig(), $postBootstrappedEvent = false);
         $this->environment->init();
 
         File::reset();
@@ -40,11 +43,11 @@ abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
     {
         File::reset();
 
-        StaticContainer::clearContainer();
+        IniSettingsProvider::unsetSingletonInstance();
 
         // make sure the global container exists for the next test case that is executed (since logging can be done
         // before a test sets up an environment)
-        $nextTestEnviornment = new Environment('test');
+        $nextTestEnviornment = new Environment('test', array(), $postBootstrappedEvent = false);
         $nextTestEnviornment->init();
 
         parent::tearDown();

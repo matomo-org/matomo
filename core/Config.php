@@ -76,11 +76,7 @@ class Config extends Singleton
         $this->pathCommon = $pathCommon ?: self::getCommonConfigPath();
         $this->pathLocal = $pathLocal ?: self::getLocalConfigPath();
 
-        /** @var IniSettingsProvider $settings */
-        $settings = StaticContainer::get('Piwik\Application\Kernel\GlobalSettingsProvider');
-        $settings->reload($pathGlobal, $pathLocal, $pathCommon);
-
-        $this->settings = $settings->getIniFileChain();
+        $this->settings = IniSettingsProvider::getSingletonInstance($pathGlobal, $pathLocal, $pathCommon)->getIniFileChain();
     }
 
     /**

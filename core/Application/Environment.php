@@ -59,7 +59,7 @@ class Environment
 
         StaticContainer::set($this->container);
 
-        Piwik::postEvent('Environment.bootstrapped');
+        Piwik::postEvent('Environment.bootstrapped'); // this event should be removed eventually
     }
 
     public function getContainer()
@@ -103,7 +103,7 @@ class Environment
 
     protected function getGlobalSettings()
     {
-        return new IniSettingsProvider();
+        return IniSettingsProvider::getSingletonInstance();
     }
 
     protected function getPluginList()

@@ -13,7 +13,6 @@ use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tests\Framework\Mock\TestConfig;
-use Piwik\Translate;
 
 /**
  * Tests extending IntegrationTestCase are much slower to run: the setUp will
@@ -74,8 +73,6 @@ abstract class IntegrationTestCase extends SystemTestCase
     public function setUp()
     {
         parent::setUp();
-
-        Config::setSingletonInstance(new TestConfig());
 
         if (!empty(self::$tableData)) {
             self::restoreDbTables(self::$tableData);

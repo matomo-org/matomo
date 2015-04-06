@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Unit;
 
 use PHPUnit_Framework_TestCase;
+use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
 use Piwik\Config;
 use Piwik\Tests\Framework\Mock\TestConfig;
 
@@ -43,8 +44,15 @@ class DumpConfigTestMockConfig extends Config
 /**
  * @group Core
  */
-class ConfigTest extends PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+
+        IniSettingsProvider::unsetSingletonInstance();
+    }
+
     public function testUserConfigOverwritesSectionGlobalConfigValue()
     {
         $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
