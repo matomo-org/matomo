@@ -49,6 +49,8 @@
         "ReportsDataSavedEstimate": "Database omvang",
         "Teaser": "Op deze pagina kunt u Piwik zodanig instellen dat het voldoet aan de bestaande privacy wetgeving in uw regio. Door: %s anonimiseren van uw bezoekers IP %s,%s automatisch verwijderen oude bezoekerlogs uit de database %s en %s door een opt-out ondersteuning aan te bieden voor uw website%s.",
         "TeaserHeadline": "Privacy instellingen",
+        "UseAnonymizedIpForVisitEnrichment": "Gebruik ook de geanonimiseerde IP adressen bij het verrijken van de bezoeken.",
+        "UseAnonymizedIpForVisitEnrichmentNote": "Plugins zoals Geolocatie via IP en Provider verbeteren bezoekers metadata. Standaard maken deze plugins gebruik van de geanonimiseerde IP adressen. Als je 'Nee' selecteert, dan zal het volledige, niet geanonimiseerde IP adres gebruikt worden. Dat resulteert in minder privacy, maar een grotere nauwkeurigheid van data.",
         "UseAnonymizeIp": "Anonimiseer bezoekers IP-adressen",
         "UseDeleteLog": "Verwijder regelmatig oude bezoeker logs uit de database",
         "UseDeleteReports": "Verwijder regelmatig oude rapporten uit de database"

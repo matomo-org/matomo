@@ -12,7 +12,6 @@
         "DeviceType": "Tip naprave",
         "OperatingSystemFamilies": "Družine operacijskih sistemov",
         "OperatingSystems": "Operacijski sistemi",
-        "submenu": "Naprave",
         "WidgetBrowsers": "Brskalnik obiskovalca"
     }
 }
