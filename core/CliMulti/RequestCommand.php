@@ -8,6 +8,7 @@
 
 namespace Piwik\CliMulti;
 
+use Piwik\Application\Environment;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
@@ -26,6 +27,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class RequestCommand extends ConsoleCommand
 {
+    /**
+     * @var Environment
+     */
+    private $environment;
+
     protected function configure()
     {
         $this->setName('climulti:request');
@@ -99,6 +105,9 @@ class RequestCommand extends ConsoleCommand
     {
         StaticContainer::clearContainer();
         Log::unsetInstance();
+
+        $this->environment = new Environment(null);
+        $this->environment->init();
     }
 
     private function resetDatabase()
