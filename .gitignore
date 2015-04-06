@@ -28,7 +28,8 @@ php_errors.log
 /plugins/*/tests/UI/screenshot-diffs
 /plugins/*/Test/UI/screenshot-diffs
 /robots.txt
-/tmp/
+/tmp/*
+!/tmp/.gitkeep
 /vendor/
 /.cache
 /.externalToolBuilders

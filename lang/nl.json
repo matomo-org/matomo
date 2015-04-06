@@ -422,6 +422,7 @@
         "VisitTypeExample": "Om bijvoorbeeld het aantal terugkerende bezoekers (inclusief die bezoekers die iets gekocht hebben) te selecteren moet de API %s bevatten",
         "Warning": "Let op",
         "WarningFileIntegrityNoManifest": "Bestand integriteit controle kon niet worden uitgevoerd vanwege ontbrekend manifest.inc.php",
+        "WarningFileIntegrityNoManifestDeployingFromGit": "Als je Piwik vanuit Git deployed, dan is deze melding normaal.",
         "WarningFileIntegrityNoMd5file": "Bestand integriteit controle kon niet worden voltooid vanwege ontbrekende md5_file() functie.",
         "WarningPasswordStored": "%sWaarschuwing:%s Dit wachtwoord zal worden bewaard in het configuratie bestand, zichtbaar voor iedereen dat toegang heeft.",
         "WarningPiwikWillStopSupportingPHPVersion": "Piwik stopt de ondersteuning van deze PHP versie in %s. Upgrade je PHP versie voor het te laat is!",
