@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\EventDispatcher;
@@ -58,6 +59,9 @@ class TrackerTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
+
+        IniSettingsProvider::unsetSingletonInstance();
+        Config::unsetInstance();
 
         Fixture::createWebsite('2014-01-01 00:00:00');
 

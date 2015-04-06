@@ -11,7 +11,7 @@
 
 namespace Piwik;
 
-use Piwik\Container\StaticContainer;
+use Piwik\Application\Environment;
 
 if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
@@ -49,6 +49,9 @@ function getPiwikDomain()
     return null;
 }
 
+$environment = new Environment('cli');
+$environment->init();
+
 $piwikDomain = getPiwikDomain();
 if($piwikDomain) {
     Url::setHost($piwikDomain);
@@ -59,7 +62,7 @@ $token = Db::get()->fetchOne("SELECT token_auth
                               WHERE superuser_access = 1
                               ORDER BY date_registered ASC");
 
-$filename = StaticContainer::get('path.tmp') . '/cache/token.php';
+$filename = $environment->get('path.tmp') . '/cache/token.php';
 
 $content  = "<?php exit; //\t" . $token;
 file_put_contents($filename, $content);
