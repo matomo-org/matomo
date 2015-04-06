@@ -23,6 +23,11 @@ class IniSettingsProvider implements \Piwik\Application\Kernel\GlobalSettingsPro
 
     public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null)
     {
+        $this->reload($pathGlobal, $pathLocal, $pathCommon);
+    }
+
+    public function reload($pathGlobal = null, $pathLocal = null, $pathCommon = null)
+    {
         $this->iniFileChain = IniFileChainFactory::get($pathGlobal, $pathLocal, $pathCommon); // TODO: move IniFileChainFactory logic to here.
     }
 
@@ -35,5 +40,10 @@ class IniSettingsProvider implements \Piwik\Application\Kernel\GlobalSettingsPro
     public function setSection($name, $value)
     {
         $this->iniFileChain->set($name, $value);
+    }
+
+    public function getIniFileChain()
+    {
+        return $this->iniFileChain;
     }
 }

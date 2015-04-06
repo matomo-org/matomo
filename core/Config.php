@@ -10,9 +10,12 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
 use Piwik\Config\IniFileChain;
 use Piwik\Config\ConfigNotFoundException;
 use Piwik\Config\IniFileChainFactory;
+use Piwik\Container\StaticContainer;
 use Piwik\Ini\IniReadingException;
 
 /**
@@ -73,7 +76,11 @@ class Config extends Singleton
         $this->pathCommon = $pathCommon ?: self::getCommonConfigPath();
         $this->pathLocal = $pathLocal ?: self::getLocalConfigPath();
 
-        $this->settings = IniFileChainFactory::get($pathGlobal, $pathLocal, $pathCommon);
+        /** @var IniSettingsProvider $settings */
+        $settings = StaticContainer::get('Piwik\Application\Kernel\GlobalSettingsProvider');
+        $settings->reload($pathGlobal, $pathLocal, $pathCommon);
+
+        $this->settings = $settings->getIniFileChain();
     }
 
     /**
