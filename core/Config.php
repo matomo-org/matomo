@@ -433,6 +433,15 @@ class Config extends Singleton
     public function &__get($name)
     {
         if (!$this->initialized) {
+            $this->initialized = true;
+
+            // this is done lazily and not in __construct so Installation will properly be triggered. ideally, it should be
+            // done in __construct, but the exception that is thrown depends on Translator which depends on Config. the
+            // circular dependency causes problems.
+            if (!SettingsServer::isTrackerApiRequest()) {
+                $this->checkLocalConfigFound();
+            }
+
             $this->postConfigTestEvent();
         }
 

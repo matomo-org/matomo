@@ -12,6 +12,7 @@ class IniFileChainFactory
 {
     /**
      * TODO should not be a static eventually
+     * TODO: code redundancies w/ code in Config
      *
      * @return IniFileChain
      * @throws Exception
