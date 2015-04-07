@@ -9,17 +9,29 @@
 namespace Piwik\Application\Kernel;
 
 /**
- * Provides global
+ * Provides global settings. Global settings are organized in sections where
+ * each section contains a list of name => value pairs. Setting values can
+ * be primitive values or arrays of primitive values.
+ *
+ * By default, IniSettingsProvider is used which loads all global settings
+ * from the config.ini.php, global.ini.php files and the optional
+ * common.ini.php file.
  */
 interface GlobalSettingsProvider
 {
     /**
-     * TODO
+     * Returns a settings section.
+     *
+     * @param string $name
+     * @return array
      */
     public function &getSection($name);
 
     /**
-     * TODO
+     * Sets a settings section.
+     *
+     * @param string $name
+     * @param array $value
      */
     public function setSection($name, $value);
 }
