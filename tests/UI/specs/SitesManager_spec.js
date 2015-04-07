@@ -57,7 +57,7 @@ describe("SitesManager", function () {
     });
 
     it("should show page 1 when clicking prev", function (done) {
-        assertScreenshotEquals("page_1", done, function (page) {
+        assertScreenshotEquals("page_1_again", done, function (page) {
             loadPreviousPage(page);
         });
     });
