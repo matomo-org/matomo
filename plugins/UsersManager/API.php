@@ -107,7 +107,13 @@ class API extends \Piwik\Plugin\API
             return $optionValue;
         }
 
-        return $this->getDefaultUserPreference($preferenceName, $userLogin);
+        $defaultPreference = $this->getDefaultUserPreference($preferenceName, $userLogin);
+
+        if ($defaultPreference !== false && $preferenceName === self::PREFERENCE_DEFAULT_REPORT) {
+            $this->setUserPreference($userLogin, $preferenceName, $defaultPreference);
+        }
+
+        return $defaultPreference;
     }
 
     /**

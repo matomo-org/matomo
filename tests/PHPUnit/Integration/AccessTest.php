@@ -11,6 +11,8 @@ namespace Piwik\Tests\Integration;
 use Exception;
 use Piwik\Access;
 use Piwik\AuthResult;
+use Piwik\Db;
+use Piwik\NoAccessException;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -121,16 +123,49 @@ class AccessTest extends IntegrationTestCase
         $access->checkUserHasSomeAdminAccess();
     }
 
+    /**
+     * @expectedException \Piwik\NoAccessException
+     */
+    public function test_CheckUserHasSomeAdminAccessWithSomeAccessFails_IfUserHasPermissionsToSitesButIsNotAuthenticated()
+    {
+        $mock = $this->createAccessMockWithAccessToSitesButUnauthenticated(array(2, 9));
+        $mock->checkUserHasSomeAdminAccess();
+    }
+
+    /**
+     * @expectedException \Piwik\NoAccessException
+     */
+    public function test_checkUserHasAdminAccessFails_IfUserHasPermissionsToSitesButIsNotAuthenticated()
+    {
+        $mock = $this->createAccessMockWithAccessToSitesButUnauthenticated(array(2, 9));
+        $mock->checkUserHasAdminAccess('2');
+    }
+
+    /**
+     * @expectedException \Piwik\NoAccessException
+     */
+    public function test_checkUserHasSomeViewAccessFails_IfUserHasPermissionsToSitesButIsNotAuthenticated()
+    {
+        $mock = $this->createAccessMockWithAccessToSitesButUnauthenticated(array(2, 9));
+        $mock->checkUserHasSomeViewAccess();
+    }
+
+    /**
+     * @expectedException \Piwik\NoAccessException
+     */
+    public function test_checkUserHasViewAccessFails_IfUserHasPermissionsToSitesButIsNotAuthenticated()
+    {
+        $mock = $this->createAccessMockWithAccessToSitesButUnauthenticated(array(2, 9));
+        $mock->checkUserHasViewAccess('2');
+    }
+
     public function testCheckUserHasSomeAdminAccessWithSomeAccess()
     {
-        $mock = $this->getMock(
-            'Piwik\Access',
-            array('getSitesIdWithAdminAccess')
-        );
+        $mock = $this->createAccessMockWithAuthenticatedUser(array('getRawSitesWithSomeViewAccess'));
 
         $mock->expects($this->once())
-             ->method('getSitesIdWithAdminAccess')
-             ->will($this->returnValue(array(2, 9)));
+             ->method('getRawSitesWithSomeViewAccess')
+             ->will($this->returnValue($this->buildAdminAccessForSiteIds(array(2, 9))));
 
         $mock->checkUserHasSomeAdminAccess();
     }
@@ -153,14 +188,11 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasSomeViewAccessWithSomeAccess()
     {
-        $mock = $this->getMock(
-            'Piwik\Access',
-            array('getSitesIdWithAtLeastViewAccess')
-        );
+        $mock = $this->createAccessMockWithAuthenticatedUser(array('getRawSitesWithSomeViewAccess'));
 
         $mock->expects($this->once())
-            ->method('getSitesIdWithAtLeastViewAccess')
-            ->will($this->returnValue(array(1, 2, 3, 4)));
+            ->method('getRawSitesWithSomeViewAccess')
+            ->will($this->returnValue($this->buildViewAccessForSiteIds(array(1, 2, 3, 4))));
 
         $mock->checkUserHasSomeViewAccess();
     }
@@ -183,28 +215,24 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasViewAccessWithSomeAccessSuccessIdSitesAsString()
     {
-        $mock = $this->getMock(
-            'Piwik\Access',
-            array('getSitesIdWithAtLeastViewAccess')
-        );
+        /** @var Access $mock */
+        $mock = $this->createAccessMockWithAuthenticatedUser(array('getRawSitesWithSomeViewAccess'));
 
         $mock->expects($this->once())
-            ->method('getSitesIdWithAtLeastViewAccess')
-            ->will($this->returnValue(array(1, 2, 3, 4)));
+            ->method('getRawSitesWithSomeViewAccess')
+            ->will($this->returnValue($this->buildViewAccessForSiteIds(array(1, 2, 3, 4))));
 
         $mock->checkUserHasViewAccess('1,3');
     }
 
     public function testCheckUserHasViewAccessWithSomeAccessSuccessAllSites()
     {
-        $mock = $this->getMock(
-            'Piwik\Access',
-            array('getSitesIdWithAtLeastViewAccess')
-        );
+        /** @var Access $mock */
+        $mock = $this->createAccessMockWithAuthenticatedUser(array('getRawSitesWithSomeViewAccess'));
 
         $mock->expects($this->any())
-            ->method('getSitesIdWithAtLeastViewAccess')
-            ->will($this->returnValue(array(1, 2, 3, 4)));
+            ->method('getRawSitesWithSomeViewAccess')
+            ->will($this->returnValue($this->buildViewAccessForSiteIds(array(1, 2, 3, 4))));
 
         $mock->checkUserHasViewAccess('all');
     }
@@ -306,8 +334,7 @@ class AccessTest extends IntegrationTestCase
 
     public function testReloadAccessWithMockedAuthValid()
     {
-        $mock = $this->getMock('Piwik\\Auth', array('authenticate', 'getName', 'getTokenAuthSecret', 'getLogin', 'setTokenAuth', 'setLogin',
-                                                    'setPassword', 'setPasswordHash'));
+        $mock = $this->createPiwikAuthMockInstance();
         $mock->expects($this->once())
             ->method('authenticate')
             ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, 'login', 'token')));
@@ -317,6 +344,43 @@ class AccessTest extends IntegrationTestCase
         $access = Access::getInstance();
         $this->assertTrue($access->reloadAccess($mock));
         $this->assertFalse($access->hasSuperUserAccess());
+    }
+
+    public function test_reloadAccess_loadSitesIfNeeded_doesActuallyResetAllSiteIdsAndRequestThemAgain()
+    {
+        /** @var Access $mock */
+        $mock = $this->createAccessMockWithAuthenticatedUser(array('getRawSitesWithSomeViewAccess'));
+
+        $mock->expects($this->at(0))
+            ->method('getRawSitesWithSomeViewAccess')
+            ->will($this->returnValue($this->buildAdminAccessForSiteIds(array(1,2,3,4))));
+
+        $mock->expects($this->at(1))
+            ->method('getRawSitesWithSomeViewAccess')
+            ->will($this->returnValue($this->buildAdminAccessForSiteIds(array(1))));
+
+        // should succeed as permission to 1,2,3,4
+        $mock->checkUserHasAdminAccess('1,3');
+
+        // should clear permissions
+        $mock->reloadAccess();
+
+        try {
+            // should fail as now only permission to site 1
+            $mock->checkUserHasAdminAccess('1,3');
+            $this->fail('An expected exception has not been triggered. Permissions were not resetted');
+        } catch (NoAccessException $e) {
+
+        }
+
+        $mock->checkUserHasAdminAccess('1'); // it should have access to site "1"
+
+        $mock->setSuperUserAccess(true);
+
+        $mock->reloadAccess();
+
+        // should now have permission as it is a superuser
+        $mock->checkUserHasAdminAccess('1,3');
     }
 
     public function test_doAsSuperUser_ChangesSuperUserAccessCorrectly()
@@ -372,4 +436,65 @@ class AccessTest extends IntegrationTestCase
             AccessTest::assertTrue($access->hasSuperUserAccess());
         });
     }
+
+    private function buildAdminAccessForSiteIds($siteIds)
+    {
+        $access = array();
+
+        foreach ($siteIds as $siteId) {
+            $access[] = array('access' => 'admin', 'idsite' => $siteId);
+        }
+
+        return $access;
+    }
+
+    private function buildViewAccessForSiteIds($siteIds)
+    {
+        $access = array();
+
+        foreach ($siteIds as $siteId) {
+            $access[] = array('access' => 'admin', 'idsite' => $siteId);
+        }
+
+        return $access;
+    }
+
+    private function createPiwikAuthMockInstance()
+    {
+        return $this->getMock('Piwik\\Auth', array('authenticate', 'getName', 'getTokenAuthSecret', 'getLogin', 'setTokenAuth', 'setLogin',
+            'setPassword', 'setPasswordHash'));
+    }
+
+    private function createAccessMockWithAccessToSitesButUnauthenticated($idSites)
+    {
+        $mock = $this->getMock('Piwik\Access', array('getRawSitesWithSomeViewAccess', 'loadSitesIfNeeded'));
+
+        // this method will be actually never called as it is unauthenticated. The tests are supposed to fail if it
+        // suddenly does get called as we should not query for sites if it is not authenticated.
+        $mock->expects($this->any())
+            ->method('getRawSitesWithSomeViewAccess')
+            ->will($this->returnValue($this->buildAdminAccessForSiteIds($idSites)));
+
+        return $mock;
+    }
+
+    private function createAccessMockWithAuthenticatedUser($methodsToMock = array())
+    {
+        $methods = array('authenticate');
+
+        foreach ($methodsToMock as $methodToMock) {
+            $methods[] = $methodToMock;
+        }
+
+        $authMock = $this->createPiwikAuthMockInstance();
+        $authMock->expects($this->atLeast(1))
+            ->method('authenticate')
+            ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, 'login', 'token')));
+
+        $mock = $this->getMock('Piwik\Access', $methods);
+        $mock->reloadAccess($authMock);
+
+        return $mock;
+    }
+
 }

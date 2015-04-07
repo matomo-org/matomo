@@ -240,7 +240,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
         try {
-            return API::getInstance()->getSitesId();
+            return $this->getSitesId();
         } catch (Exception $e) {
             // can be called before Piwik tables are created so return empty
             return array();
@@ -287,7 +287,7 @@ class API extends \Piwik\Plugin\API
 
         if ($fetchAliasUrls) {
             foreach ($sites as &$site) {
-                $site['alias_urls'] = API::getInstance()->getSiteUrlsFromId($site['idsite']);
+                $site['alias_urls'] = $this->getSiteUrlsFromId($site['idsite']);
             }
         }
 
@@ -593,7 +593,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        $idSites = API::getInstance()->getSitesId();
+        $idSites = $this->getSitesId();
         if (!in_array($idSite, $idSites)) {
             throw new Exception("website id = $idSite not found");
         }
@@ -1048,7 +1048,8 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
-        $idSites = API::getInstance()->getSitesId();
+        $idSites = $this->getSitesId();
+
         if (!in_array($idSite, $idSites)) {
             throw new Exception("website id = $idSite not found");
         }
