@@ -9,6 +9,7 @@
 namespace Piwik\Application;
 
 use DI\Container;
+use Piwik\Application\Kernel\EnvironmentValidator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Application\Kernel\PluginList\IniPluginList;
@@ -83,6 +84,8 @@ class Environment
         $this->container = $this->createContainer();
 
         StaticContainer::set($this->container);
+
+        $this->validateEnvironment();
 
         Piwik::postEvent('Environment.bootstrapped'); // this event should be removed eventually
     }
@@ -160,5 +163,12 @@ class Environment
     {
         // TODO: in tracker should only load tracker plugins. can't do properly until tracker entrypoint is encapsulated.
         return new IniPluginList($this->getGlobalSettingsCached());
+    }
+
+    private function validateEnvironment()
+    {
+        /** @var EnvironmentValidator $validator */
+        $validator = $this->get('Piwik\Application\Kernel\EnvironmentValidator');
+        $validator->validate();
     }
 }

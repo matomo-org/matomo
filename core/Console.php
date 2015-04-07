@@ -39,15 +39,12 @@ class Console extends Application
         );
 
         $this->getDefinition()->addOption($option);
-
-        $this->environment = new Environment('cli');
-        $this->environment->init();
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->initPiwikHost($input);
-        $this->initConfig($output);
+        $this->initEnvironment($output);
         $this->initLoggerOutput($output);
 
         try {
@@ -148,12 +145,13 @@ class Console extends Application
         Url::setHost($piwikHostname);
     }
 
-    protected function initConfig(OutputInterface $output)
+    protected function initEnvironment(OutputInterface $output)
     {
-        $config = Config::getInstance();
-
         try {
-            $config->checkLocalConfigFound();
+            $this->environment = new Environment('cli');
+            $this->environment->init();
+
+            $config = Config::getInstance();
             return $config;
         } catch (\Exception $e) {
             $output->writeln($e->getMessage() . "\n");

@@ -149,11 +149,11 @@ class TrackerTest extends IntegrationTestCase
 
         $this->assertFalse(SettingsServer::isTrackerApiRequest());
 
-        $this->assertTrue(Config::getInstance()->existsLocalConfig());
+        $this->assertTrue(is_readable(Config::getInstance()->getLocalPath()));
 
         $this->removeConfigFile();
 
-        $this->assertFalse(Config::getInstance()->existsLocalConfig());
+        $this->assertFalse(is_readable(Config::getInstance()->getLocalPath()));
 
         Config::unsetInstance();
 

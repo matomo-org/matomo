@@ -207,6 +207,8 @@ class FrontController extends Singleton
              * This event can be used to start the installation process or to display a custom error message.
              *
              * @param Exception $exception The exception that was thrown by `Config::getInstance()`.
+             *
+             * TODO: remove?
              */
             Piwik::postEvent('Config.NoConfigurationFile', array($exception), $pending = true);
             $exceptionToThrow = $exception;

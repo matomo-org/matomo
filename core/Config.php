@@ -14,8 +14,6 @@ use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
 use Piwik\Config\IniFileChain;
 use Piwik\Config\ConfigNotFoundException;
-use Piwik\Config\IniFileChainFactory;
-use Piwik\Container\StaticContainer;
 use Piwik\Ini\IniReadingException;
 
 /**
@@ -290,7 +288,6 @@ class Config extends Singleton
             $this->reload();
         } catch (Exception $ex) {
             // pass (not required for local file to exist at this point)
-            // TODO: debug log
         }
 
         return $this->pathLocal;
@@ -337,29 +334,12 @@ class Config extends Singleton
     {
         $this->initialized = false;
 
-        $inTrackerRequest = SettingsServer::isTrackerApiRequest();
-
-        // read defaults from global.ini.php
-        if (!is_readable($this->pathGlobal) && $inTrackerRequest) {
-            throw new Exception(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathGlobal)));
-        }
-
-        try {
-            // Force a reload because maybe the files to use were overridden in the Config's constructor
-            $this->settings->reload(array($this->pathGlobal, $this->pathCommon), $this->pathLocal);
-        } catch (IniReadingException $e) {
-            // TODO why a different behavior here? This needs a comment
-            if ($inTrackerRequest) {
-                throw $e;
-            }
-        }
-
-        // Check config.ini.php last
-        if (!$inTrackerRequest) {
-            $this->checkLocalConfigFound();
-        }
+        $this->settings->reload(array($this->pathGlobal, $this->pathCommon), $this->pathLocal);
     }
 
+    /**
+     * @deprecated
+     */
     public function existsLocalConfig()
     {
         return is_readable($this->pathLocal);
@@ -371,12 +351,12 @@ class Config extends Singleton
         unlink($configLocal);
     }
 
-    public function checkLocalConfigFound()
+/*    public function checkLocalConfigFound()
     {
         if (!$this->existsLocalConfig()) {
             throw new ConfigNotFoundException(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathLocal)));
         }
-    }
+    }*/
 
     /**
      * Decode HTML entities
@@ -435,9 +415,9 @@ class Config extends Singleton
             // this is done lazily and not in __construct so Installation will properly be triggered. ideally, it should be
             // done in __construct, but the exception that is thrown depends on Translator which depends on Config. the
             // circular dependency causes problems.
-            if (!SettingsServer::isTrackerApiRequest()) {
+            /*if (!SettingsServer::isTrackerApiRequest()) {
                 $this->checkLocalConfigFound();
-            }
+            }*/
 
             $this->postConfigTestEvent();
         }
