@@ -152,13 +152,10 @@ class TrackerTest extends IntegrationTestCase
         $this->assertTrue(Config::getInstance()->existsLocalConfig());
 
         $this->removeConfigFile();
-        try {
-            Config::getInstance()->reload();
-        } catch (\Exception $ex) {
-            // ignore config file not found exception
-        }
 
         $this->assertFalse(Config::getInstance()->existsLocalConfig());
+
+        Config::unsetInstance();
 
         Tracker::loadTrackerEnvironment();
 

@@ -309,7 +309,6 @@ class Config extends Singleton
     /**
      * Clear in-memory configuration so it can be reloaded
      * @deprecated since v2.12.0
-     * TODO: remove uses of.
      */
     public function clear()
     {
@@ -322,7 +321,6 @@ class Config extends Singleton
      *
      * @throws Exception if local config file is not readable; exits for other errors
      * @deprecated since v2.12.0
-     * TODO: remove uses of
      */
     public function init()
     {
@@ -334,9 +332,8 @@ class Config extends Singleton
      *
      * @throws \Exception if the global config file is not found and this is a tracker request, or
      *                    if the local config file is not found and this is NOT a tracker request.
-     * TODO: make private
      */
-    public function reload()
+    protected function reload()
     {
         $this->initialized = false;
 

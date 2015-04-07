@@ -381,7 +381,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         copy($sourceConfigFile, $configFile);
 
         $config = new Config($sourceConfigFile, $configFile);
-        $config->reload();
         $config->forceSave();
 
         $this->assertEquals(file_get_contents($sourceConfigFile), file_get_contents($configFile));
