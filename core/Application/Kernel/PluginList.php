@@ -9,17 +9,18 @@
 namespace Piwik\Application\Kernel;
 
 /**
- * TODO
+ * Lists the currently activated plugins. Used when setting up Piwik's environment before
+ * initializing the DI container.
+ *
+ * The default implementation is the IniPluginList class.
  */
 interface PluginList
 {
     /**
+     * Returns the list of plugins that should be loaded. Used by the container factory to
+     * load plugin specific DI overrides.
+     *
      * @return string[]
      */
     public function getActivatedPlugins();
-
-    /**
-     * @return string[]
-     */
-    public function getInstalledPlugins(); // TODO: should this be here? or is it better to store in the DB?
 }

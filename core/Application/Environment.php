@@ -18,7 +18,25 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 
 /**
- * TODO
+ * Encapsulates Piwik environment setup and access.
+ *
+ * The Piwik environment consists of two main parts: the kernel and the DI container.
+ *
+ * The 'kernel' is the core part of Piwik that cannot be modified / extended through the DI container.
+ * It includes components that are required to create the DI container.
+ *
+ * Currently the only objects in the 'kernel' are a GlobalSettingsProvider object and a
+ * PluginList object. The GlobalSettingsProvider object is required for the current PluginList
+ * implementation and for checking whether Development mode is enabled. The PluginList is
+ * needed in order to determine what plugins are activated, since plugins can provide their
+ * own DI configuration.
+ *
+ * The DI container contains every other Piwik object, including the Plugin\Manager,
+ * plugin API instances, dependent services, etc. Plugins and users can override/extend
+ * the objects in this container.
+ *
+ * NOTE: DI support in Piwik is currently a work in process; not everything is currently
+ * stored in the DI container, but we are working towards this.
  */
 class Environment
 {
@@ -47,12 +65,19 @@ class Environment
      */
     private $pluginList;
 
+    /**
+     * @param string $environment
+     * @param array $definitions
+     */
     public function __construct($environment, array $definitions = array())
     {
         $this->environment = $environment;
         $this->definitions = $definitions;
     }
 
+    /**
+     * Initializes the kernel globals and DI container.
+     */
     public function init()
     {
         $this->container = $this->createContainer();
@@ -62,11 +87,24 @@ class Environment
         Piwik::postEvent('Environment.bootstrapped'); // this event should be removed eventually
     }
 
+    /**
+     * Returns the DI container. All Piwik objects for a specific Piwik instance should be stored
+     * in this container.
+     *
+     * @return Container
+     */
     public function getContainer()
     {
         return $this->container;
     }
 
+    /**
+     * Returns the Piwik object for this Environment's Piwik instance by ID.
+     *
+     * @param string $id
+     * @return mixed
+     * @throws \DI\NotFoundException
+     */
     public function get($id)
     {
         return $this->container->get($id);
@@ -101,13 +139,26 @@ class Environment
         return $this->pluginList;
     }
 
+    /**
+     * Returns the kernel global GlobalSettingsProvider object. Derived classes can override this method
+     * to provide a different implementation.
+     *
+     * @return null|GlobalSettingsProvider
+     */
     protected function getGlobalSettings()
     {
         return IniSettingsProvider::getSingletonInstance();
     }
 
+    /**
+     * Returns the kernel global PluginList object. Derived classes can override this method to
+     * provide a different implementation.
+     *
+     * @return PluginList
+     */
     protected function getPluginList()
     {
-        return new IniPluginList($this->getGlobalSettingsCached()); // TODO: in tracker should only load tracker plugins.
+        // TODO: in tracker should only load tracker plugins. can't do properly until tracker entrypoint is encapsulated.
+        return new IniPluginList($this->getGlobalSettingsCached());
     }
 }

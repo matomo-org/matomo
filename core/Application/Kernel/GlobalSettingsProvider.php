@@ -9,7 +9,7 @@
 namespace Piwik\Application\Kernel;
 
 /**
- * TODO
+ * Provides global
  */
 interface GlobalSettingsProvider
 {

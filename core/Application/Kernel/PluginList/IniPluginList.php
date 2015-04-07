@@ -9,11 +9,13 @@
 namespace Piwik\Application\Kernel\PluginList;
 
 use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\Application\Kernel\PluginList;
 
 /**
- * TODO
+ * Default implementation of the PluginList interface. Uses the [Plugins] section
+ * in Piwik's INI config to get the activated plugins.
  */
-class IniPluginList implements \Piwik\Application\Kernel\PluginList
+class IniPluginList implements PluginList
 {
     /**
      * @var GlobalSettingsProvider
@@ -32,14 +34,5 @@ class IniPluginList implements \Piwik\Application\Kernel\PluginList
     {
         $section = $this->settings->getSection('Plugins');
         return @$section['Plugins'] ?: array();
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getInstalledPlugins()
-    {
-        $section = $this->settings->getSection('PluginsInstalled');
-        return @$section['PluginsInstalled'] ?: array();
     }
 }

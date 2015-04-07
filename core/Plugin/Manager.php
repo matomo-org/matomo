@@ -23,7 +23,6 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\PluginDeactivatedException;
-use Piwik\Singleton;
 use Piwik\Theme;
 use Piwik\Tracker;
 use Piwik\Translation\Translator;
@@ -1022,7 +1021,7 @@ class Manager
      */
     public function getInstalledPluginsName()
     {
-        $pluginNames = $this->pluginList->getInstalledPlugins();
+        $pluginNames = Config::getInstance()->PluginsInstalled['PluginsInstalled'];
         return $pluginNames;
     }
 
@@ -1120,7 +1119,7 @@ class Manager
      */
     private function removePluginFromPluginsInstalledConfig($pluginName)
     {
-        $pluginsInstalled = $this->pluginList->getInstalledPlugins();
+        $pluginsInstalled = Config::getInstance()->PluginsInstalled['PluginsInstalled'];
         $key = array_search($pluginName, $pluginsInstalled);
         if ($key !== false) {
             unset($pluginsInstalled[$key]);

@@ -10,17 +10,28 @@ namespace Piwik\Application\Kernel\GlobalSettingsProvider;
 
 use Piwik\Config\IniFileChain;
 use Piwik\Config\IniFileChainFactory;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 
 /**
- * TODO
+ * Default GlobalSettingsProvider implementation. This provider uses the config.ini.php,
+ * common.ini.php and global.ini.php files to provide global settings.
+ *
+ * At the moment a singleton instance of this class is used in order to get tests to pass.
  */
-class IniSettingsProvider implements \Piwik\Application\Kernel\GlobalSettingsProvider
+class IniSettingsProvider implements GlobalSettingsProvider
 {
+    private static $instance = null;
+
     /**
      * @var IniFileChain
      */
     private $iniFileChain;
 
+    /**
+     * @param string|null $pathGlobal Path to the global.ini.php file. Or null to use the default.
+     * @param string|null $pathLocal Path to the config.ini.php file. Or null to use the default.
+     * @param string|null $pathCommon Path to the common.ini.php file. Or null to use the default.
+     */
     public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null)
     {
         $this->iniFileChain = IniFileChainFactory::get($pathGlobal, $pathLocal, $pathCommon); // TODO: move IniFileChainFactory logic to here.
@@ -41,8 +52,6 @@ class IniSettingsProvider implements \Piwik\Application\Kernel\GlobalSettingsPro
     {
         return $this->iniFileChain;
     }
-
-    private static $instance = null;
 
     public static function getSingletonInstance($pathGlobal = null, $pathLocal = null, $pathCommon = null)
     {
