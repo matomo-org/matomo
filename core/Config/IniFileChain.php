@@ -391,6 +391,10 @@ class IniFileChain
         }
 
         $settingsData = current($this->settingsChain);
+        if (empty($settingsData)) {
+            return -1;
+        }
+
         $settingsDataSectionNames = array_keys($settingsData);
 
         return array_search($sectionName, $settingsDataSectionNames);
