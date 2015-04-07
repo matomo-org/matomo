@@ -434,6 +434,11 @@ class Config extends Singleton
     {
         return $this->settings->getFrom($this->pathCommon, $name);
     }
+    
+    public function getFromLocalConfig($name)
+    {
+        return $this->settings->getFrom($this->pathLocal, $name);
+    }
 
     /**
      * Sets a configuration value or section.
