@@ -425,16 +425,25 @@ class Config extends Singleton
         return $section;
     }
 
+    /**
+     * @api
+     */
     public function getFromGlobalConfig($name)
     {
         return $this->settings->getFrom($this->pathGlobal, $name);
     }
 
+    /**
+     * @api
+     */
     public function getFromCommonConfig($name)
     {
         return $this->settings->getFrom($this->pathCommon, $name);
     }
     
+    /**
+     * @api
+     */
     public function getFromLocalConfig($name)
     {
         return $this->settings->getFrom($this->pathLocal, $name);
