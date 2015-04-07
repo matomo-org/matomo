@@ -19,8 +19,6 @@ use Exception;
  *
  * @group Core
  * @group ArchiveWebTest
- *
- * TODO: this always fails.
  */
 class ArchiveWebTest extends SystemTestCase
 {

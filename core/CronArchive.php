@@ -603,30 +603,10 @@ class CronArchive
         return $success;
     }
 
-    /**
-     * Checks the config file is found.
-     *
-     * @param $piwikUrl
-     * @throws Exception
-     */
-    protected function initConfigObject($piwikUrl)
-    {
-        // TODO: is this necessary? will the host be set elsewhere?
-        // HOST is required for the Config object
-        $parsed = parse_url($piwikUrl);
-        Url::setHost($parsed['host']);
-
-        Config::getInstance();
-
-        /* TODO: readable by current user should be in the exception message in EnvironmentValidator
-        try {
-            Config::getInstance()->checkLocalConfigFound();
-        } catch (Exception $e) {
-            throw new Exception("The configuration file for Piwik could not be found. " .
-                "Please check that config/config.ini.php is readable by the user " .
-                get_current_user());
-        }*/
-    }
+    // TODO: is this necessary? won't the host be set elsewhere?
+    // TODO: readable by current user should be in the exception message in EnvironmentValidator
+    //       (ie, "Please check that config/config.ini.php is readable by the user " . get_current_user())
+    // TODO: make sure core:archive + web archive is tested when host is for domain
 
     /**
      * Returns base URL to process reports for the $idSite on a given $period
@@ -1095,8 +1075,6 @@ class CronArchive
         if ($piwikUrl[strlen($piwikUrl) - 1] != '/' && !Common::stringEndsWith($piwikUrl, 'index.php')) {
             $piwikUrl .= '/';
         }
-
-        $this->initConfigObject($piwikUrl);
 
         if (Config::getInstance()->General['force_ssl'] == 1) {
             $piwikUrl = str_replace('http://', 'https://', $piwikUrl);
