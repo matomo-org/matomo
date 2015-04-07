@@ -10,6 +10,7 @@ namespace Piwik\Tests\Framework;
 use Piwik\Access;
 use Piwik\Application\Environment;
 use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
+use Piwik\Archive;
 use Piwik\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
@@ -311,6 +312,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function clearInMemoryCaches()
     {
+        Archive::clearStaticCache();
         DataTableManager::getInstance()->deleteAll();
         Option::clearCache();
         Site::clearCache();
