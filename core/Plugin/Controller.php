@@ -828,13 +828,19 @@ abstract class Controller
         $currentPeriod = Common::getRequestVar('period');
         $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
         $availablePeriods = self::getEnabledPeriodsInUI();
+
         if (!in_array($currentPeriod, $availablePeriods)) {
-            // Redirect to the day period
+            // Redirect to the default view
+            $defaultPeriod = Config::getInstance()->General['default_period'];
+            $defaultDay = Config::getInstance()->General['default_day'];
             Url::redirectToUrl(sprintf(
-                'index.php?module=CoreHome&action=index&idSite=%d&period=day&date=yesterday',
-                Common::getRequestVar('idSite')
+                'index.php?module=CoreHome&action=index&idSite=%d&period=%s&date=%s',
+                Common::getRequestVar('idSite'),
+                $defaultPeriod,
+                $defaultDay
             ));
         }
+
         $found = array_search($currentPeriod, $availablePeriods);
         unset($availablePeriods[$found]);
 
