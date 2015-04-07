@@ -564,6 +564,11 @@ class FrontController extends Singleton
      */
     private function throwIfPiwikVersionIsOlderThanDBSchema()
     {
+        // When developing this situation happens often when switching branches
+        if (Development::isEnabled()) {
+            return;
+        }
+
         $updater = new Updater();
 
         $dbSchemaVersion = $updater->getCurrentComponentVersion('core');
