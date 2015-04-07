@@ -402,10 +402,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $config->init();
         
         $configCategory = $config->getFromGlobalConfig('Category');
-        $configTestArray = $config->getFromGlobalConfig('TestArray');
-        
         $this->assertEquals('value1', $configCategory['key1']);
-        $this->assertCount(2, $configTestArray);
     }
     
     public function testFromCommonConfig()
@@ -419,10 +416,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $config->init();
     
         $configCategory = $config->getFromCommonConfig('Category');
-        $configTestArray = $config->getFromCommonConfig('TestArray');
-        
         $this->assertEquals('valueCommon', $configCategory['key2']);
-        $this->assertCount(1, $configTestArray);
     }
     
     public function testFromLocalConfig()
@@ -436,10 +430,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $config->init();
     
         $configCategory = $config->getFromLocalConfig('Category');
-        $configTestArray = $config->getFromLocalConfig('TestArray');
-        
         $this->assertEquals('value_overwritten', $configCategory['key1']);
-        $this->assertCount(3, $configTestArray);
     }
 }
 
