@@ -326,7 +326,8 @@ class Fixture extends \PHPUnit_Framework_Assert
         $_GET = $_REQUEST = array();
         Translate::reset();
 
-        Config::unsetInstance();
+        IniSettingsProvider::unsetSingletonInstance();
+        Config::setSingletonInstance(new TestConfig());
 
         Config::getInstance()->Plugins; // make sure Plugins exists in a config object for next tests that use Plugin\Manager
         // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object
