@@ -32,6 +32,7 @@
         "ShortMonthFormat": "%shortMonth% %longYear%",
         "ShortWeekFormat": "%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%",
         "ShowJSCode": "Vis JavaScript-koden til å sette inn på din nettside.",
+        "SkipToContent": "Hopp til innhold",
         "SupportPiwik": "Støtt Piwik!",
         "TableNoData": "Ingen data for denne tabellen.",
         "ThereIsNoDataForThisReport": "Det finnes ingen data for denne rapporten.",
