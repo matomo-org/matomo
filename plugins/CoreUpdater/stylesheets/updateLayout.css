@@ -9,8 +9,13 @@
     line-height: 1.33;
 }
 
-#donate-form-container {
-    margin: 0 0 2em 2em;
+.piwik-donate-call {
+    border: none;
+    padding: 0;
+    max-width: none;
+}
+.piwik-donate-call > .piwik-donate-message p {
+    margin-left: 0;
 }
 
 code {
