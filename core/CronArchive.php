@@ -611,17 +611,21 @@ class CronArchive
      */
     protected function initConfigObject($piwikUrl)
     {
+        // TODO: is this necessary? will the host be set elsewhere?
         // HOST is required for the Config object
         $parsed = parse_url($piwikUrl);
         Url::setHost($parsed['host']);
 
+        Config::getInstance();
+
+        /* TODO: readable by current user should be in the exception message in EnvironmentValidator
         try {
             Config::getInstance()->checkLocalConfigFound();
         } catch (Exception $e) {
             throw new Exception("The configuration file for Piwik could not be found. " .
                 "Please check that config/config.ini.php is readable by the user " .
                 get_current_user());
-        }
+        }*/
     }
 
     /**
