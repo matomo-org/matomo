@@ -42,11 +42,12 @@ class VisitorLog extends Visualization
         }
 
         $this->requestConfig->disable_generic_filters = true;
+        $this->requestConfig->filter_sort_column      = false;
     }
 
     public function afterGenericFiltersAreAppliedToLoadedDataTable()
     {
-        $this->requestConfig->filter_sort_column = 'lastActionTimestamp';
+        $this->requestConfig->filter_sort_column = false;
     }
 
     /**

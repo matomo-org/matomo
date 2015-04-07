@@ -9,10 +9,12 @@ namespace Piwik\CronArchive;
 
 use Piwik\Cache\Cache;
 use Piwik\Cache\Transient;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Period\Range;
 use Piwik\Plugins\SegmentEditor\Model;
+use Psr\Log\LoggerInterface;
 
 /**
  * Provides URLs that initiate archiving during cron archiving for segments.
@@ -41,20 +43,24 @@ class SegmentArchivingRequestUrlProvider
 
     private $processNewSegmentsFrom;
 
-    public function __construct($processNewSegmentsFrom, Model $segmentEditorModel = null, Cache $segmentListCache = null, Date $now = null)
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct($processNewSegmentsFrom, Model $segmentEditorModel = null, Cache $segmentListCache = null,
+                                Date $now = null, LoggerInterface $logger = null)
     {
         $this->processNewSegmentsFrom = $processNewSegmentsFrom;
         $this->segmentEditorModel = $segmentEditorModel ?: new Model();
         $this->segmentListCache = $segmentListCache ?: new Transient();
         $this->now = $now ?: Date::factory('now');
+        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
     public function getUrlParameterDateString($idSite, $period, $date, $segment)
     {
         $segmentCreatedTime = $this->getCreatedTimeOfSegment($idSite, $segment);
-        if (empty($segmentCreatedTime)) {
-            return $date;
-        }
 
         $oldestDateToProcessForNewSegment = $this->getOldestDateToProcessForNewSegment($segmentCreatedTime);
         if (empty($oldestDateToProcessForNewSegment)) {
@@ -65,16 +71,26 @@ class SegmentArchivingRequestUrlProvider
         // use the minimum allowed date as the start date
         $periodObj = PeriodFactory::build($period, $date);
         if ($periodObj->getDateStart()->getTimestamp() < $oldestDateToProcessForNewSegment->getTimestamp()) {
+            $this->logger->debug("Start date of archiving request period ({start}) is older than configured oldest date to process for the segment.", array(
+                'start' => $periodObj->getDateStart()
+            ));
+
             $endDate = $periodObj->getDateEnd();
 
             // if the creation time of a segment is older than the end date of the archiving request range, we cannot
             // blindly rewrite the date string, since the resulting range would be incorrect. instead we make the
             // start date equal to the end date, so less archiving occurs, and no fatal error occurs.
             if ($oldestDateToProcessForNewSegment->getTimestamp() > $endDate->getTimestamp()) {
+                $this->logger->debug("Oldest date to process is greater than end date of archiving request period ({end}), so setting oldest date to end date.", array(
+                    'end' => $endDate
+                ));
+
                 $oldestDateToProcessForNewSegment = $endDate;
             }
 
             $date = $oldestDateToProcessForNewSegment->toString().','.$endDate;
+
+            $this->logger->debug("Archiving request date range changed to {date} w/ period {period}.", array('date' => $date, 'period' => $period));
         }
 
         return $date;
@@ -83,13 +99,21 @@ class SegmentArchivingRequestUrlProvider
     private function getOldestDateToProcessForNewSegment(Date $segmentCreatedTime)
     {
         if ($this->processNewSegmentsFrom == self::CREATION_TIME) {
+            $this->logger->debug("process_new_segments_from set to segment_creation_time, oldest date to process is {time}", array('time' => $segmentCreatedTime));
+
             return $segmentCreatedTime;
         } else if (preg_match("/^last([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
             $lastN = $matches[1];
 
             list($lastDate, $lastPeriod) = Range::getDateXPeriodsAgo($lastN, $segmentCreatedTime, 'day');
-            return Date::factory($lastDate);
+            $result = Date::factory($lastDate);
+
+            $this->logger->debug("process_new_segments_from set to last{N}, oldest date to process is {time}", array('N' => $lastN, 'time' => $result));
+
+            return $result;
         } else {
+            $this->logger->debug("process_new_segments_from set to beginning_of_time or cannot recognize value");
+
             return null;
         }
     }
@@ -116,6 +140,13 @@ class SegmentArchivingRequestUrlProvider
                 }
             }
         }
+
+        $this->logger->debug("Earliest created time of segment '{segment}' w/ idSite = {idSite} is found to be {time}.", array(
+            'segment' => $segmentDefinition,
+            'idSite' => $idSite,
+            'time' => $earliestCreatedTime
+        ));
+
         return $earliestCreatedTime;
     }
 

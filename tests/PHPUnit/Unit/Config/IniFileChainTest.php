@@ -131,7 +131,7 @@ class IniFileChainTest extends PHPUnit_Framework_TestCase
                     __DIR__ . '/test_files/empty.ini.php',
                     __DIR__ . '/test_files/default_settings_2.ini.php'
                 ),
-                __DIR__ . '/tests_files/empty.ini.php', // user settings
+                __DIR__ . '/test_files/empty.ini.php', // user settings
                 array( // expected
                     'Section1' => array(
                         'var1' => 'overriddenValue1',
@@ -278,6 +278,45 @@ class IniFileChainTest extends PHPUnit_Framework_TestCase
         $defaultSettingsFiles, $userSettingsFile, $header, $expectedDump, $expectedDumpChanges)
     {
         $fileChain = new IniFileChain($defaultSettingsFiles, $userSettingsFile);
+
+        $actualOutput = $fileChain->dumpChanges($header);
+        $this->assertEquals($expectedDumpChanges, $actualOutput);
+    }
+
+    public function getTestDataForDumpSortTest()
+    {
+        return array(
+            array(
+                array( // default settings
+                    __DIR__ . '/test_files/default_settings_3.ini.php',
+                    __DIR__ . '/test_files/default_settings_2.ini.php',
+                    __DIR__ . '/test_files/default_settings_1.ini.php',
+                ),
+                __DIR__ . '/test_files/empty.ini.php',
+                array(
+                    'Custom' => array('var' => 'val'),
+                    'Settings0' => array('abc' => 'def2'),
+                    'Section1' => array('var1' => '5'),
+                    'Settings3' => array('var1' => '2'),
+                    'Section2' => array('var4' => '9')
+                ),
+                "; some header\n",
+                "; some header\n[Settings3]\nvar1 = \"2\"\n\n[Settings0]\nabc = \"def2\"\n\n[Section1]\nvar1 = \"5\"\n\n[Section2]\nvar4 = \"9\"\n\n[Custom]\nvar = \"val\"\n\n"
+            )
+        );
+    }
+
+    /**
+     * @dataProvider getTestDataForDumpSortTest
+     */
+    public function test_dumpChanges_CorrectlySortsSections_ByWhenTheyAppearInConfigFiles(
+        $defaultSettingsFiles, $userSettingsFile, $changesToApply, $header, $expectedDumpChanges)
+    {
+        $fileChain = new IniFileChain($defaultSettingsFiles, $userSettingsFile);
+
+        foreach ($changesToApply as $sectionName => $section) {
+            $fileChain->set($sectionName, $section);
+        }
 
         $actualOutput = $fileChain->dumpChanges($header);
         $this->assertEquals($expectedDumpChanges, $actualOutput);

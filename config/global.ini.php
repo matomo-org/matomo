@@ -653,7 +653,7 @@ bulk_requests_use_transaction = 1
 ; Comma separated list of known Referrer Spammers, ie. bot visits that set a fake Referrer field.
 ; All Visits with a Referrer URL host set to one of these will be excluded.
 ; If you find new spam entries in Referrers>Websites, please report them here: https://github.com/piwik/piwik/issues/5099
-referrer_urls_spam = "semalt.com,buttons-for-website.com,7makemoneyonline.com,anticrawler.org,ranksonic.info,savetubevideo.com,kambasoft.com,ilovevitaly.com,priceg.com,blackhatworth.com,hulfingtonpost.com,darodar.com,econom.co,o-o-6-o-o.com,bestwebsitesawards.com,darodar.com,ranksonic.org,ranksonic.info"
+referrer_urls_spam = "4webmasters.org,7makemoneyonline.com,anticrawler.org,best-seo-solution.com,bestwebsitesawards.com,blackhatworth.com,buttons-for-website.com,darodar.com,econom.co,hulfingtonpost.com,ilovevitaly.com,kambasoft.com,o-o-6-o-o.com,priceg.com,ranksonic.info,ranksonic.org,savetubevideo.com,semalt.com"
 
 ; DO NOT USE THIS SETTING ON PUBLICLY AVAILABLE PIWIK SERVER
 ; !!! Security risk: if set to 0, it would allow anyone to push data to Piwik with custom dates in the past/future and even with fake IPs!
