@@ -397,9 +397,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
         $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
         
-        $config = Config::getInstance();
-        $config->setTestEnvironment($userFile, $globalFile, $commonFile);
-        $config->init();
+        $config = new Config($globalFile, $userFile, $commonFile);
         
         $configCategory = $config->getFromGlobalConfig('Category');
         $this->assertEquals('value1', $configCategory['key1']);
@@ -411,9 +409,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
         $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
     
-        $config = Config::getInstance();
-        $config->setTestEnvironment($userFile, $globalFile, $commonFile);
-        $config->init();
+        $config = new Config($globalFile, $userFile, $commonFile);
     
         $configCategory = $config->getFromCommonConfig('Category');
         $this->assertEquals('valueCommon', $configCategory['key2']);
@@ -425,9 +421,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
         $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
     
-        $config = Config::getInstance();
-        $config->setTestEnvironment($userFile, $globalFile, $commonFile);
-        $config->init();
+        $config = new Config($globalFile, $userFile, $commonFile);
     
         $configCategory = $config->getFromLocalConfig('Category');
         $this->assertEquals('value_overwritten', $configCategory['key1']);
