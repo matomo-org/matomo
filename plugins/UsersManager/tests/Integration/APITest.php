@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\UsersManager\tests;
 use Piwik\Access;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Tests\Framework\Fixture;
@@ -25,6 +26,8 @@ class APITest extends IntegrationTestCase
      * @var API
      */
     private $api;
+    
+    private $login = 'userLogin';
 
     public function setUp()
     {
@@ -39,7 +42,7 @@ class APITest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
-        $this->api->addUser('userLogin', 'password', 'userlogin@password.de');
+        $this->api->addUser($this->login, 'password', 'userlogin@password.de');
     }
 
     public function test_setUserAccess_ShouldTriggerRemoveSiteAccessEvent_IfAccessToAWebsiteIsRemoved()
@@ -48,11 +51,11 @@ class APITest extends IntegrationTestCase
         $self = $this;
         Piwik::addAction('UsersManager.removeSiteAccess', function ($login, $idSites) use (&$eventTriggered, $self) {
             $eventTriggered = true;
-            $self->assertEquals('userLogin', $login);
+            $self->assertEquals($this->login, $login);
             $self->assertEquals(array(1, 2), $idSites);
         });
 
-        $this->api->setUserAccess('userLogin', 'noaccess', array(1, 2));
+        $this->api->setUserAccess($this->login, 'noaccess', array(1, 2));
 
         $this->assertTrue($eventTriggered, 'UsersManager.removeSiteAccess event was not triggered');
     }
@@ -64,7 +67,7 @@ class APITest extends IntegrationTestCase
             $eventTriggered = true;
         });
 
-        $this->api->setUserAccess('userLogin', 'admin', array(1, 2));
+        $this->api->setUserAccess($this->login, 'admin', array(1, 2));
 
         $this->assertFalse($eventTriggered, 'UsersManager.removeSiteAccess event was triggered but should not');
     }
@@ -79,6 +82,47 @@ class APITest extends IntegrationTestCase
     {
         $preferences = $this->api->getAllUsersPreferences(array('preferenceName', 'otherOne'));
         $this->assertEmpty($preferences);
+    }
+
+    public function test_getUserPreference_ShouldReturnADefaultPreference_IfNoneIsSet()
+    {
+        $siteId = $this->api->getUserPreference($this->login, API::PREFERENCE_DEFAULT_REPORT);
+        $this->assertEquals('1', $siteId);
+    }
+
+    public function test_getUserPreference_ShouldReturnASetreference_IfNoneIsSet()
+    {
+        $this->api->setUserPreference($this->login, API::PREFERENCE_DEFAULT_REPORT, 5);
+
+        $siteId = $this->api->getUserPreference($this->login, API::PREFERENCE_DEFAULT_REPORT);
+        $this->assertEquals('5', $siteId);
+    }
+
+    public function test_getUserPreference_ShouldSaveTheDefaultPreference_IfReportPreferenceIsRequested()
+    {
+        // make sure there is no value saved so it will use default preference
+        $siteId = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT));
+        $this->assertFalse($siteId);
+
+        $this->api->getUserPreference($this->login, API::PREFERENCE_DEFAULT_REPORT);
+
+        // make sure it did save the preference
+        $siteId = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT));
+        $this->assertEquals('1', $siteId);
+    }
+
+    public function test_getUserPreference_ShouldNotSaveTheDefaultPreference_IfNotAReportPreferenceIsRequested()
+    {
+        // make sure there is no value saved so it will use default preference
+        $date = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT_DATE));
+        $this->assertFalse($date);
+
+        $default = $this->api->getUserPreference($this->login, API::PREFERENCE_DEFAULT_REPORT_DATE);
+        $this->assertNotEmpty($default);
+
+        // make sure it did save the preference
+        $date = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT_DATE));
+        $this->assertFalse($date);
     }
 
     public function test_getAllUsersPreferences_shouldGetMultiplePreferences()
@@ -163,5 +207,10 @@ class APITest extends IntegrationTestCase
             ),
         );
         $this->assertEquals($expected, $access);
+    }
+
+    private function getPreferenceId($preferenceName)
+    {
+        return $this->login . '_' . $preferenceName;
     }
 }

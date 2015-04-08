@@ -109,6 +109,9 @@ class API extends \Piwik\Plugin\API
 
         $defaultPreference = $this->getDefaultUserPreference($preferenceName, $userLogin);
 
+        // A `get*` method should not set anything. But in this case we do it to improve performance as it prevents
+        // us from loading all siteIds (which can be 50k or more) the next time this preference is requested.
+        // this method can be called quite often when generating links etc (to get defaultWebsiteId).
         if ($defaultPreference !== false && $preferenceName === self::PREFERENCE_DEFAULT_REPORT) {
             $this->setUserPreference($userLogin, $preferenceName, $defaultPreference);
         }
