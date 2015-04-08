@@ -163,7 +163,7 @@ class PurgeOldArchiveData extends ConsoleCommand
     {
         $timer = new Timer();
 
-        $output->write($startMessage);
+        $output->writeln($startMessage);
 
         $callback();
 
