@@ -45,10 +45,6 @@ class ColumnCallbackAddMetadata extends BaseFilter
     {
         parent::__construct($table);
 
-        if (!is_array($columnsToRead)) {
-            $columnsToRead = array($columnsToRead);
-        }
-
         $this->columnsToRead      = $columnsToRead;
         $this->functionToApply    = $functionToApply;
         $this->functionParameters = $functionParameters;
@@ -69,23 +65,45 @@ class ColumnCallbackAddMetadata extends BaseFilter
             $rows = $table->getRowsWithoutSummaryRow();
         }
 
-        foreach ($rows as $key => $row) {
+        if (is_array($this->columnsToRead)) {
 
-            $parameters = array();
-            foreach ($this->columnsToRead as $columnsToRead) {
-                $parameters[] = $row->getColumn($columnsToRead);
-            }
+            // I know it is duplicated code, I did extract the inner part into a method but when executing this on 100k
+            // rows it actually makes a difference having this code duplicated instead of having an inner function call
+            foreach ($rows as $key => $row) {
 
-            if (!is_null($this->functionParameters)) {
-                $parameters = array_merge($parameters, $this->functionParameters);
+                $parameters = array();
+                foreach ($this->columnsToRead as $columnsToRead) {
+                    $parameters[] = $row->getColumn($columnsToRead);
+                }
+
+                if (!is_null($this->functionParameters)) {
+                    $parameters = array_merge($parameters, $this->functionParameters);
+                }
+                if (!is_null($this->functionToApply)) {
+                    $newValue = call_user_func_array($this->functionToApply, $parameters);
+                } else {
+                    $newValue = $parameters[0];
+                }
+                if ($newValue !== false) {
+                    $row->setMetadata($this->metadataToAdd, $newValue);
+                }
             }
-            if (!is_null($this->functionToApply)) {
-                $newValue = call_user_func_array($this->functionToApply, $parameters);
-            } else {
-                $newValue = $parameters[0];
-            }
-            if ($newValue !== false) {
-                $row->addMetadata($this->metadataToAdd, $newValue);
+        } else {
+            foreach ($rows as $key => $row) {
+
+                $parameters = array($row->getColumn($this->columnsToRead));
+
+                if (!is_null($this->functionParameters)) {
+                    $parameters = array_merge($parameters, $this->functionParameters);
+                }
+                if (!is_null($this->functionToApply)) {
+                    $newValue = call_user_func_array($this->functionToApply, $parameters);
+                } else {
+                    $newValue = $parameters[0];
+                }
+                if ($newValue !== false) {
+                    $row->setMetadata($this->metadataToAdd, $newValue);
+                }
             }
         }
     }

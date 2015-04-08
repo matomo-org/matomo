@@ -8,10 +8,15 @@
  */
 namespace Piwik\Plugins\MultiSites;
 
+use Piwik\API\Request;
+use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Period;
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
+use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\Piwik;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -38,6 +43,34 @@ class Controller extends \Piwik\Plugin\Controller
     public function standalone()
     {
         return $this->getSitesInfo($isWidgetized = true);
+    }
+
+    public function getAllWithGroups()
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        $period  = Common::getRequestVar('period', null, 'string');
+        $date    = Common::getRequestVar('date', null, 'string');
+        $segment = Common::getRequestVar('segment', false, 'string');
+        $pattern = Common::getRequestVar('pattern', '', 'string');
+        $limit   = Common::getRequestVar('filter_limit', 0, 'int');
+        $segment = $segment ?: false;
+        $request = $_GET + $_POST;
+
+        $dashboard = new Dashboard($period, $date, $segment);
+
+        if ($pattern !== '') {
+            $dashboard->search(strtolower($pattern));
+        }
+
+        $response = array(
+            'numSites' => $dashboard->getNumSites(),
+            'totals'   => $dashboard->getTotals(),
+            'lastDate' => $dashboard->getLastDate(),
+            'sites'    => $dashboard->getSites($request, $limit)
+        );
+
+        return json_encode($response);
     }
 
     public function getSitesInfo($isWidgetized = false)

@@ -11,9 +11,9 @@
 			<actions_evolution>100%</actions_evolution>
 			<pageviews_evolution>100%</pageviews_evolution>
 			<revenue_evolution>100%</revenue_evolution>
+			<idsite>1</idsite>
 			<group />
 			<main_url>http://piwik.net</main_url>
-			<idsite>1</idsite>
 		</row>
 		<row>
 			<label>Site 2</label>
@@ -25,9 +25,9 @@
 			<actions_evolution>100%</actions_evolution>
 			<pageviews_evolution>100%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
+			<idsite>2</idsite>
 			<group />
 			<main_url>http://piwik.net</main_url>
-			<idsite>2</idsite>
 		</row>
 	</result>
 	<result date="2011" />

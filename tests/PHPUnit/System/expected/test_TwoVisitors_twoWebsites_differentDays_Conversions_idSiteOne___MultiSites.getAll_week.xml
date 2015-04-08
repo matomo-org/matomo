@@ -11,9 +11,9 @@
 			<actions_evolution>100%</actions_evolution>
 			<pageviews_evolution>100%</pageviews_evolution>
 			<revenue_evolution>100%</revenue_evolution>
+			<idsite>1</idsite>
 			<group />
 			<main_url>http://piwik.net</main_url>
-			<idsite>1</idsite>
 		</row>
 	</result>
 	<result date="From 2010-01-04 to 2010-01-10">
@@ -27,9 +27,9 @@
 			<actions_evolution>1450%</actions_evolution>
 			<pageviews_evolution>1450%</pageviews_evolution>
 			<revenue_evolution>200%</revenue_evolution>
+			<idsite>1</idsite>
 			<group />
 			<main_url>http://piwik.net</main_url>
-			<idsite>1</idsite>
 		</row>
 		<row>
 			<label>Site 2</label>
@@ -41,9 +41,9 @@
 			<actions_evolution>100%</actions_evolution>
 			<pageviews_evolution>100%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
+			<idsite>2</idsite>
 			<group />
 			<main_url>http://piwik.net</main_url>
-			<idsite>2</idsite>
 		</row>
 	</result>
 	<result date="From 2010-01-11 to 2010-01-17">
@@ -57,9 +57,9 @@
 			<actions_evolution>-67.7%</actions_evolution>
 			<pageviews_evolution>-67.7%</pageviews_evolution>
 			<revenue_evolution>-66.7%</revenue_evolution>
+			<idsite>1</idsite>
 			<group />
 			<main_url>http://piwik.net</main_url>
-			<idsite>1</idsite>
 		</row>
 	</result>
 	<result date="From 2010-01-18 to 2010-01-24" />

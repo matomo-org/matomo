@@ -78,9 +78,33 @@ class Site
      */
     public static function setSites($sites)
     {
+        self::triggerSetSitesEvent($sites);
+
         foreach($sites as $idsite => $site) {
             self::setSite($idsite, $site);
         }
+    }
+
+    private static function triggerSetSitesEvent(&$sites)
+    {
+        /**
+         * Triggered so plugins can modify website entities without modifying the database.
+         *
+         * This event should **not** be used to add data that is expensive to compute. If you
+         * need to make HTTP requests or query the database for more information, this is not
+         * the place to do it.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Site.setSites', function (&$sites) {
+         *         foreach ($sites as &$site) {
+         *             $site['name'] .= " (original)";
+         *         }
+         *     });
+         *
+         * @param array $sites An array of website entities. [Learn more.](/guides/persistence-and-the-mysql-backend#websites-aka-sites)
+         */
+        Piwik::postEvent('Site.setSites', array(&$sites));
     }
 
     /**
@@ -99,24 +123,6 @@ class Site
             throw new UnexpectedWebsiteFoundException("An unexpected website was found, check idSite in the request.");
         }
 
-        /**
-         * Triggered so plugins can modify website entities without modifying the database.
-         *
-         * This event should **not** be used to add data that is expensive to compute. If you
-         * need to make HTTP requests or query the database for more information, this is not
-         * the place to do it.
-         *
-         * **Example**
-         *
-         *     Piwik::addAction('Site.setSite', function ($idSite, &$info) {
-         *         $info['name'] .= " (original)";
-         *     });
-         *
-         * @param int $idSite The ID of the website entity that will be modified.
-         * @param array $infoSite The website entity. [Learn more.](/guides/persistence-and-the-mysql-backend#websites-aka-sites)
-         */
-        Piwik::postEvent('Site.setSite', array($idSite, &$infoSite));
-
         self::$infoSites[$idSite] = $infoSite;
     }
 
@@ -132,6 +138,8 @@ class Site
      */
     public static function setSitesFromArray($sites)
     {
+        self::triggerSetSitesEvent($sites);
+
         foreach ($sites as $site) {
             $idSite = null;
             if (!empty($site['idsite'])) {
@@ -410,21 +418,17 @@ class Site
      * site with the specified ID.
      *
      * @param int $idsite The ID of the site whose data is being accessed.
-     * @param bool|string $field The name of the field to get.
-     * @return array|string
+     * @param string $field The name of the field to get.
+     * @return string
      */
-    protected static function getFor($idsite, $field = false)
+    protected static function getFor($idsite, $field)
     {
-        $idsite = (int)$idsite;
-
         if (!isset(self::$infoSites[$idsite])) {
             $site = API::getInstance()->getSiteFromId($idsite);
             self::setSite($idsite, $site);
         }
-        if ($field) {
-            return self::$infoSites[$idsite][$field];
-        }
-        return self::$infoSites[$idsite];
+
+        return self::$infoSites[$idsite][$field];
     }
 
     /**
@@ -440,9 +444,16 @@ class Site
     /**
      * @ignore
      */
-    public static function getSite($id)
+    public static function getSite($idsite)
     {
-        return self::getFor($id);
+        $idsite = (int)$idsite;
+
+        if (!isset(self::$infoSites[$idsite])) {
+            $site = API::getInstance()->getSiteFromId($idsite);
+            self::setSite($idsite, $site);
+        }
+
+        return self::$infoSites[$idsite];
     }
 
     /**
