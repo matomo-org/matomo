@@ -8,8 +8,8 @@
 
 namespace Piwik\Application\Kernel\GlobalSettingsProvider;
 
+use Piwik\Config;
 use Piwik\Config\IniFileChain;
-use Piwik\Config\IniFileChainFactory;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 
 /**
@@ -34,7 +34,11 @@ class IniSettingsProvider implements GlobalSettingsProvider
      */
     public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null)
     {
-        $this->iniFileChain = IniFileChainFactory::get($pathGlobal, $pathLocal, $pathCommon); // TODO: move IniFileChainFactory logic to here.
+        $pathGlobal = $pathGlobal ?: Config::getGlobalConfigPath();
+        $pathCommon = $pathCommon ?: Config::getCommonConfigPath();
+        $pathLocal = $pathLocal ?: Config::getLocalConfigPath();
+
+        $this->iniFileChain = new IniFileChain(array($pathGlobal, $pathCommon), $pathLocal);
     }
 
     public function &getSection($name)

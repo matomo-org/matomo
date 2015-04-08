@@ -75,7 +75,7 @@ class StaticContainer
         return self::getContainer()->get($name);
     }
 
-    public static function getDefinitons()
+    public static function getDefinitions()
     {
         return self::$definitions;
     }

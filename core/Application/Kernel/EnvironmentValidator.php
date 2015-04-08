@@ -15,7 +15,8 @@ use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 
 /**
- * TODO
+ * Validates the Piwik environment. This includes making sure the required config files
+ * are present, and triggering the correct behaviour if otherwise.
  */
 class EnvironmentValidator
 {
