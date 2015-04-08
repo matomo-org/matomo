@@ -15,6 +15,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Timer;
+use Psr\Log\NullLogger;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -29,23 +30,11 @@ class PurgeOldArchiveData extends ConsoleCommand
     const ALL_DATES_STRING = 'all';
 
     /**
-     * @var ArchivePurger
-     */
-    private $archivePurger;
-
-    /**
      * For tests.
      *
      * @var Date
      */
     public static $todayOverride = null;
-
-    public function __construct(ArchivePurger $archivePurger = null)
-    {
-        parent::__construct();
-
-        $this->archivePurger = $archivePurger ?: new ArchivePurger();
-    }
 
     protected function configure()
     {
@@ -68,7 +57,12 @@ class PurgeOldArchiveData extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $archivePurger = $this->archivePurger;
+        $logger = null;
+        if ($output->getVerbosity() <= OutputInterface::VERBOSITY_NORMAL) {
+            $logger = new NullLogger();
+        }
+
+        $archivePurger = new ArchivePurger($model = null, $purgeDatesOlderThan = null, $logger);
 
         $dates = $this->getDatesToPurgeFor($input);
 
@@ -163,7 +157,7 @@ class PurgeOldArchiveData extends ConsoleCommand
     {
         $timer = new Timer();
 
-        $output->writeln($startMessage);
+        $output->write($startMessage);
 
         $callback();
 
