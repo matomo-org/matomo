@@ -22,6 +22,8 @@ use Piwik\Tests\Framework\Fixture;
  */
 class RawArchiveDataWithTempAndInvalidated extends Fixture
 {
+    const ROWS_PER_ARCHIVE = 5;
+
     private static $dummyArchiveData = array(
         // outdated temporary
         array(
@@ -317,7 +319,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
     public function assertTemporaryArchivesPurged($isBrowserTriggeredArchivingEnabled, Date $date)
     {
         if ($isBrowserTriggeredArchivingEnabled) {
-            $expectedPurgedArchives = array(1,2,3,4,6,7); // only archives from 2 hours before "now" are purged
+            $expectedPurgedArchives = array(1,2,3,4,6,7,10); // only archives from 2 hours before "now" are purged
         } else {
             $expectedPurgedArchives = array(1,2,3,4,7); // only archives before start of "yesterday" are purged
         }

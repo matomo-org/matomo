@@ -87,6 +87,7 @@ class ArchivePurger
      * table that stores data for `$date`.
      *
      * @param Date $date The date identifying the archive table.
+     * @return int The total number of archive rows deleted (from both the blog & numeric tables).
      */
     public function purgeInvalidatedArchivesFrom(Date $date)
     {
@@ -98,13 +99,13 @@ class ArchivePurger
         $idSites = $this->model->getSitesWithInvalidatedArchive($numericTable);
         if (empty($idSites)) {
             $this->logger->info("No sites with invalidated archives found in {table}.", array('table' => $numericTable));
-            return;
+            return 0;
         }
 
         $archiveIds = $this->model->getInvalidatedArchiveIdsSafeToDelete($numericTable, $idSites);
         if (empty($archiveIds)) {
             $this->logger->info("No invalidated archives found in {table} with newer, valid archives.", array('table' => $numericTable));
-            return;
+            return 0;
         }
 
         $this->logger->info("Found {countArchiveIds} invalidated archives safe to delete in {table}.", array(
@@ -116,6 +117,8 @@ class ArchivePurger
         $this->logger->info("Deleted {count} rows in {table} and its associated blob table.", array(
             'table' => $numericTable, 'count' => $deletedRowCount
         ));
+
+        return $deletedRowCount;
     }
 
     /**
@@ -123,10 +126,12 @@ class ArchivePurger
      * (meaning they are marked with a done flag of ArchiveWriter::DONE_OK_TEMPORARY or ArchiveWriter::DONE_ERROR)
      *
      * @param Date $dateStart Only the month will be used
+     * @return int Returns the total number of rows deleted.
      */
     public function purgeOutdatedArchives(Date $dateStart)
     {
         $purgeArchivesOlderThan = $this->getOldestTemporaryArchiveToKeepThreshold();
+        $deletedRowCount = 0;
 
         $idArchivesToDelete = $this->getOutdatedArchiveIds($dateStart, $purgeArchivesOlderThan);
         if (!empty($idArchivesToDelete)) {
@@ -145,6 +150,8 @@ class ArchivePurger
             'yearMonth' => $dateStart->toString('Y-m'),
             'deletedIds' => implode(',', $idArchivesToDelete)
         ));
+
+        return $deletedRowCount;
     }
 
     protected function getOutdatedArchiveIds(Date $date, $purgeArchivesOlderThan)
@@ -167,6 +174,7 @@ class ArchivePurger
      * Deleting "Custom Date Range" reports after 1 day, since they can be re-processed and would take up un-necessary space.
      *
      * @param $date Date
+     * @return int The total number of rows deleted from both the numeric & blob table.
      */
     public function purgeArchivesWithPeriodRange(Date $date)
     {
@@ -183,6 +191,8 @@ class ArchivePurger
         ));
 
         $this->logger->debug("  [ purged archives older than {threshold} ]", array('threshold' => $this->purgeCustomRangesOlderThan));
+
+        return $deletedCount;
     }
 
     /**
