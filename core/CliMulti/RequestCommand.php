@@ -39,7 +39,11 @@ class RequestCommand extends ConsoleCommand
         $this->initHostAndQueryString($input);
 
         if ($this->isTestModeEnabled()) {
-            Config::getInstance()->setTestEnvironment();
+            require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
+
+            Config::unsetInstance();
+            \Piwik_TestingEnvironment::addHooks();
+
             $indexFile = '/tests/PHPUnit/proxy/';
 
             $this->resetDatabase();

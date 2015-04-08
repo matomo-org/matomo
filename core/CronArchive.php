@@ -427,15 +427,12 @@ class CronArchive
             return;
         }
 
-        $this->log("Starting Scheduled tasks... ");
-
         API\Request::processRequest("CoreAdminHome.runScheduledTasks", array(
             'token_auth' => $this->token_auth,
             'format' => 'original', // so exceptions get thrown
             'trigger' => 'archivephp'
         ));
 
-        $this->log("done");
         $this->logSection("");
     }
 
@@ -1037,7 +1034,7 @@ class CronArchive
         return array_unique($websiteIds);
     }
 
-    private function initTokenAuth()
+    public function initTokenAuth()
     {
         $tokens = array();
 
@@ -1048,6 +1045,8 @@ class CronArchive
 
         $this->validTokenAuths = $tokens;
         $this->token_auth = array_shift($tokens);
+
+        return $this->token_auth;
     }
 
     public function isTokenAuthSuperUserToken($token_auth)

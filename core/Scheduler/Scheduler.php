@@ -97,6 +97,8 @@ class Scheduler
         // remove from timetable tasks that are not active anymore
         $this->timetable->removeInactiveTasks($tasks);
 
+        $this->logger->info("Starting Scheduled tasks... ");
+
         // for every priority level, starting with the highest and concluding with the lowest
         $executionResults = array();
         for ($priority = Task::HIGHEST_PRIORITY; $priority <= Task::LOWEST_PRIORITY; ++$priority) {
@@ -135,6 +137,8 @@ class Scheduler
                 }
             }
         }
+
+        $this->logger->info("done");
 
         return $executionResults;
     }

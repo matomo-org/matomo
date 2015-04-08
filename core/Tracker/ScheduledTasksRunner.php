@@ -10,6 +10,7 @@
 namespace Piwik\Tracker;
 
 
+use Piwik\CliMulti;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\CronArchive;
@@ -17,7 +18,6 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker;
-use Piwik\Translate;
 
 class ScheduledTasksRunner
 {
@@ -78,20 +78,20 @@ class ScheduledTasksRunner
             // Scheduled tasks assume Super User is running
             Piwik::setUserHasSuperUserAccess();
 
-            ob_start();
-            CronArchive::$url = SettingsPiwik::getPiwikUrl();
             $cronArchive = new CronArchive();
-            $cronArchive->runScheduledTasksInTrackerMode();
+            $tokenAuth = $cronArchive->initTokenAuth();
 
-            $resultTasks = ob_get_contents();
-            ob_clean();
+            $invokeScheduledTasksUrl = SettingsPiwik::getPiwikUrl()
+                . "?module=API&format=csv&convertToUnicode=0&method=CoreAdminHome.runScheduledTasks&trigger=archivephp&token_auth=$tokenAuth";
+
+            $cliMulti = new CliMulti();
+            $responses = $cliMulti->request(array($invokeScheduledTasksUrl));
+            $resultTasks = reset($responses);
 
             // restore original user privilege
             Piwik::setUserHasSuperUserAccess($isSuperUser);
 
-            foreach (explode('</pre>', $resultTasks) as $resultTask) {
-                Common::printDebug(str_replace('<pre>', '', $resultTask));
-            }
+            Common::printDebug($resultTasks);
 
             Common::printDebug('Finished Scheduled Tasks.');
         } else {
