@@ -27,6 +27,7 @@ use Piwik\NoAccessException;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Period\Month;
 use Piwik\Period;
+use Piwik\Period\PeriodValidator;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
@@ -186,10 +187,8 @@ abstract class Controller
      */
     protected static function getEnabledPeriodsInUI()
     {
-        $periods = Config::getInstance()->General['enabled_periods_UI'];
-        $periods = explode(",", $periods);
-        $periods = array_map('trim', $periods);
-        return $periods;
+        $periodValidator = new PeriodValidator();
+        return $periodValidator->getPeriodsAllowedForUI();
     }
 
     /**
@@ -825,20 +824,14 @@ abstract class Controller
             return;
         }
 
+        $periodValidator = new PeriodValidator();
+
         $currentPeriod = Common::getRequestVar('period');
         $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
-        $availablePeriods = self::getEnabledPeriodsInUI();
+        $availablePeriods = $periodValidator->getPeriodsAllowedForUI();
 
-        if (!in_array($currentPeriod, $availablePeriods)) {
-            // Redirect to the default view
-            $defaultPeriod = Config::getInstance()->General['default_period'];
-            $defaultDay = Config::getInstance()->General['default_day'];
-            Url::redirectToUrl(sprintf(
-                'index.php?module=CoreHome&action=index&idSite=%d&period=%s&date=%s',
-                Common::getRequestVar('idSite'),
-                $defaultPeriod,
-                $defaultDay
-            ));
+        if (! $periodValidator->isPeriodAllowedForUI($currentPeriod)) {
+            throw new Exception("Period must be one of: " . implode(", ", $availablePeriods));
         }
 
         $found = array_search($currentPeriod, $availablePeriods);
