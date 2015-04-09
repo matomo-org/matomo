@@ -590,14 +590,15 @@ class CronArchive
             }
 
             $date = $this->getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessedPeriods);
-            $periodArchiveWasSuccessful = $this->archiveVisitsAndSegments($idSite, $period, $date);
+            $periodArchiveWasSuccessful = $this->archiveReportsFor($idSite, $period, $date, $archiveSegments = true);
             $success = $periodArchiveWasSuccessful && $success;
         }
 
         // period=range
         $customDateRangesToPreProcessForSite = $this->getCustomDateRangeToPreProcess($idSite);
         foreach ($customDateRangesToPreProcessForSite as $dateRange) {
-            $periodArchiveWasSuccessful = $this->archiveVisitsAndSegments($idSite, 'range', $dateRange);
+            $archiveSegments = false; // do not pre-process segments for period=range #7611
+            $periodArchiveWasSuccessful = $this->archiveReportsFor($idSite, 'range', $dateRange, $archiveSegments);
             $success = $periodArchiveWasSuccessful && $success;
         }
         return $success;
@@ -737,7 +738,7 @@ class CronArchive
         $this->visitsToday += $visitsToday;
         $this->websitesWithVisitsSinceLastRun++;
 
-        $this->archiveVisitsAndSegments($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince));
+        $this->archiveReportsFor($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince), $archiveSegments = true);
         $this->logArchivedWebsite($idSite, "day", $date, $visitsLastDays, $visitsToday, $timerWebsite);
 
         return true;
@@ -768,9 +769,10 @@ class CronArchive
      * @param $idSite int
      * @param $period string
      * @param $date string
+     * @param $archiveSegments bool Whether to pre-process all custom segments
      * @return bool True on success, false if some request failed
      */
-    private function archiveVisitsAndSegments($idSite, $period, $date)
+    private function archiveReportsFor($idSite, $period, $date, $archiveSegments)
     {
         $timer = new Timer();
 
@@ -788,17 +790,14 @@ class CronArchive
             $urls[] = $url;
         }
 
-        foreach ($this->getSegmentsForSite($idSite, $period) as $segment) {
-            $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
+        if($archiveSegments) {
+            $urlsWithSegment = $this->getUrlsWithSegment($idSite, $period, $date);
+            $urls = array_merge($urls, $urlsWithSegment);
 
-            $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
-            $urlWithSegment = $this->makeRequestUrl($urlWithSegment);
-
-            $urls[] = $urlWithSegment;
+            // in case several segment URLs for period=range had the date= rewritten to the same value, we only call API once
+            $urls = array_unique($urls);
         }
 
-        // in case several segment URLs for period=range had the date= rewritten to the same value, we only call API once
-        $urls = array_unique($urls);
         $this->requests += count($urls);
 
         $cliMulti = new CliMulti();
@@ -1565,5 +1564,25 @@ class CronArchive
     private function makeRequestUrl($url)
     {
         return $this->piwikUrl . $url . self::APPEND_TO_API_REQUEST;
+    }
+
+    /**
+     * @param $idSite
+     * @param $period
+     * @param $date
+     * @return array
+     */
+    private function getUrlsWithSegment($idSite, $period, $date)
+    {
+        $urlsWithSegment = array();
+        foreach ($this->getSegmentsForSite($idSite, $period) as $segment) {
+            $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
+
+            $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
+            $urlWithSegment = $this->makeRequestUrl($urlWithSegment);
+
+            $urlsWithSegment[] = $urlWithSegment;
+        }
+        return $urlsWithSegment;
     }
 }
