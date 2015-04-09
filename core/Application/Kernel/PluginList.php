@@ -13,6 +13,8 @@ namespace Piwik\Application\Kernel;
  * initializing the DI container.
  *
  * The default implementation is the IniPluginList class.
+ *
+ * TODO: parts of Plugin\Manager edit the plugin list; maybe PluginList implementations should be mutable?
  */
 interface PluginList
 {

@@ -219,8 +219,6 @@ class Manager
      * Update Plugins config
      *
      * @param array $pluginsToLoad Plugins
-     *
-     * TODO: see uses of this + updatePluginsInstalledConfig (also clearPluginsInstalledConfig)
      */
     private function updatePluginsConfig($pluginsToLoad)
     {
@@ -477,8 +475,6 @@ class Manager
      *
      * @param string $pluginName Name of plugin
      * @throws \Exception
-     *
-     * TODO: pluginList needs to be updated in this case. some of these methods need to go into PluginList.
      */
     public function activatePlugin($pluginName)
     {
