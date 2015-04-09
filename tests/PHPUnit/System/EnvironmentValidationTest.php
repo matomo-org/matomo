@@ -99,7 +99,7 @@ class EnvironmentValidationTest extends SystemTestCase
         $this->simulateBadConfigFile($configFile);
 
         $output = $this->triggerPiwikFrom($entryPoint);
-        $this->assertOutputContainsConfigFileMissingError($configFile, $output);
+        $this->assertOutputContainsBadConfigFileError($output);
     }
 
     /**
@@ -124,8 +124,8 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function assertOutputContainsBadConfigFileError($output)
     {
-        // TODO: also mention bad INI format possible
-        $this->assertRegExp("/The configuration file \\{.*\\/piwik.php\\} could not be read\\. Your host may have disabled parse_ini_file\\(\\)/", $output);
+        $this->assertRegExp("/Unable to read INI file \\{.*\\/piwik.php\\}:/", $output);
+        $this->assertRegExp("/Your host may have disabled parse_ini_file\\(\\)/", $output);
     }
 
     private function assertInstallationProcessStarted($output)

@@ -206,7 +206,11 @@ class IniFileChain
         $reader = new IniReader();
         foreach ($this->settingsChain as $file => $ignore) {
             if (is_readable($file)) {
-                $this->settingsChain[$file] = $reader->readFile($file);
+                try {
+                    $this->settingsChain[$file] = $reader->readFile($file);
+                } catch (IniReadingException $ex) {
+                    throw new IniReadingException('Unable to read INI file {' . $file . '}: ' . $ex->getMessage() . "\n Your host may have disabled parse_ini_file().");
+                }
             }
         }
 
