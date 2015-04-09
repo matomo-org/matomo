@@ -21,7 +21,8 @@ class EnvironmentValidationTest extends SystemTestCase
         return array(
             array('tracker'),
             array('web'),
-            array('console')
+            array('console'),
+            array('archive_web')
         );
     }
 
@@ -80,14 +81,17 @@ class EnvironmentValidationTest extends SystemTestCase
             array('global.ini.php', 'tracker'),
             array('global.ini.php', 'web'),
             array('global.ini.php', 'console'),
+            array('global.ini.php', 'archive_web'),
 
             array('config.ini.php', 'tracker'),
             array('config.ini.php', 'web'),
             array('config.ini.php', 'console'),
+            array('config.ini.php', 'archive_web'),
 
             array('common.config.ini.php', 'tracker'),
             array('common.config.ini.php', 'web'),
             array('common.config.ini.php', 'console'),
+            array('common.config.ini.php', 'archive_web'),
         );
     }
 
@@ -178,6 +182,8 @@ class EnvironmentValidationTest extends SystemTestCase
             return $this->sendRequestToWeb();
         } else if ($entryPoint == 'console') {
             return $this->startConsoleProcess();
+        } else if ($entryPoint == 'archive_web') {
+            return $this->sendArchiveWebRequest();
         } else {
             throw new \Exception("Don't know how to access '$entryPoint'.");
         }
@@ -191,6 +197,11 @@ class EnvironmentValidationTest extends SystemTestCase
     private function sendRequestToWeb()
     {
         return $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
+    }
+
+    private function sendArchiveWebRequest()
+    {
+        return $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/archive.php?token_auth=' . Fixture::getTokenAuth());
     }
 
     private function startConsoleProcess()

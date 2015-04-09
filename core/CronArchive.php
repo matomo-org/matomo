@@ -603,7 +603,6 @@ class CronArchive
         return $success;
     }
 
-    // TODO: is this necessary? won't the host be set elsewhere?
     // TODO: readable by current user should be in the exception message in EnvironmentValidator
     //       (ie, "Please check that config/config.ini.php is readable by the user " . get_current_user())
     // TODO: make sure core:archive + web archive is tested when host is for domain
