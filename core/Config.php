@@ -12,9 +12,6 @@ namespace Piwik;
 use Exception;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
-use Piwik\Config\IniFileChain;
-use Piwik\Config\ConfigNotFoundException;
-use Piwik\Ini\IniReadingException;
 
 /**
  * Singleton that provides read & write access to Piwik's INI configuration.
@@ -337,46 +334,6 @@ class Config extends Singleton
     }
 
     /**
-     * Decode HTML entities
-     *
-     * @param mixed $values
-     * @return mixed
-     */
-    public static function decodeValues(&$values)
-    {
-        if (is_array($values)) {
-            foreach ($values as &$value) {
-                $value = self::decodeValues($value);
-            }
-            return $values;
-        } elseif (is_string($values)) {
-            return html_entity_decode($values, ENT_COMPAT, 'UTF-8');
-        }
-        return $values;
-    }
-
-    /**
-     * Encode HTML entities
-     *
-     * @param mixed $values
-     * @return mixed
-     */
-    protected function encodeValues(&$values)
-    {
-        if (is_array($values)) {
-            foreach ($values as &$value) {
-                $value = $this->encodeValues($value);
-            }
-        } elseif (is_float($values)) {
-            $values = Common::forceDotAsSeparatorForDecimalPoint($values);
-        } elseif (is_string($values)) {
-            $values = htmlentities($values, ENT_COMPAT, 'UTF-8');
-            $values = str_replace('$', '&#36;', $values);
-        }
-        return $values;
-    }
-
-    /**
      * Returns a configuration value or section by name.
      *
      * @param string $name The value or section name.
@@ -429,21 +386,9 @@ class Config extends Singleton
     {
         $chain = $this->settings->getIniFileChain();
 
-        $this->encodeValues($chain->getAll());
-
-        try {
-            $header = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
-            $header .= "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
-            $dumpedString = $chain->dumpChanges($header);
-
-            $this->decodeValues($chain->getAll());
-        } catch (Exception $ex) {
-            $this->decodeValues($chain->getAll());
-
-            throw $ex;
-        }
-
-        return $dumpedString;
+        $header = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
+        $header .= "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
+        return $chain->dumpChanges($header);
     }
 
     /**

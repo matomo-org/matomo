@@ -141,7 +141,7 @@ class IniFileChainTest extends PHPUnit_Framework_TestCase
                         )
                     ),
                     'Section2' => array(
-                        'var4' => 'value5'
+                        'var4' => 'val$ue5'
                     )
                 )
             ),
@@ -160,7 +160,7 @@ class IniFileChainTest extends PHPUnit_Framework_TestCase
                         )
                     ),
                     'Section2' => array(
-                        'var4' => 'value5'
+                        'var4' => 'val$ue5'
                     )
                 )
             )
@@ -194,7 +194,7 @@ class IniFileChainTest extends PHPUnit_Framework_TestCase
 
         $data =& $fileChain->get('Section1');
 
-        $this->assertEquals(array('var1' => 'value2', 'var3' => array('value3', 'value4')), $data);
+        $this->assertEquals(array('var1' => 'val"ue2', 'var3' => array('value3', 'value4')), $data);
 
         $data['var1'] = 'changed';
         $data['var3'][] = 'newValue';
@@ -241,7 +241,7 @@ class IniFileChainTest extends PHPUnit_Framework_TestCase
             __DIR__ . '/test_files/default_settings_2.ini.php'
         );
 
-        $this->assertEquals(array('var1' => 'value2', 'var3' => array('value3', 'value4')), $fileChain->getFrom($defaultSettingsPath, 'Section1'));
+        $this->assertEquals(array('var1' => 'val"ue2', 'var3' => array('value3', 'value4')), $fileChain->getFrom($defaultSettingsPath, 'Section1'));
     }
 
     public function getTestDataForDumpTest()
@@ -253,7 +253,7 @@ class IniFileChainTest extends PHPUnit_Framework_TestCase
                 ),
                 __DIR__ . '/test_files/default_settings_2.ini.php', // user settings
                 "; some header\n",
-                "; some header\n[Section1]\nvar1 = \"overriddenValue1\"\nvar3[] = \"overriddenValue2\"\nvar3[] = \"overriddenValue3\"\n\n[Section2]\nvar4 = \"value5\"\n\n",
+                "; some header\n[Section1]\nvar1 = \"overriddenValue1\"\nvar3[] = \"overriddenValue2\"\nvar3[] = \"overriddenValue3\"\n\n[Section2]\nvar4 = \"val&#36;ue5\"\n\n",
                 "; some header\n[Section1]\nvar1 = \"overriddenValue1\"\nvar3[] = \"overriddenValue2\"\nvar3[] = \"overriddenValue3\"\n\n"
             )
         );
@@ -296,12 +296,12 @@ class IniFileChainTest extends PHPUnit_Framework_TestCase
                 array(
                     'Custom' => array('var' => 'val'),
                     'Settings0' => array('abc' => 'def2'),
-                    'Section1' => array('var1' => '5'),
+                    'Section1' => array('var1' => '5$'),
                     'Settings3' => array('var1' => '2'),
                     'Section2' => array('var4' => '9')
                 ),
                 "; some header\n",
-                "; some header\n[Settings3]\nvar1 = \"2\"\n\n[Settings0]\nabc = \"def2\"\n\n[Section1]\nvar1 = \"5\"\n\n[Section2]\nvar4 = \"9\"\n\n[Custom]\nvar = \"val\"\n\n"
+                "; some header\n[Settings3]\nvar1 = \"2\"\n\n[Settings0]\nabc = \"def2\"\n\n[Section1]\nvar1 = \"5&#36;\"\n\n[Section2]\nvar4 = \"9\"\n\n[Custom]\nvar = \"val\"\n\n"
             )
         );
     }

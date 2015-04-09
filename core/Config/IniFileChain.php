@@ -7,6 +7,7 @@
  */
 namespace Piwik\Config;
 
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Ini\IniReader;
 use Piwik\Ini\IniReadingException;
@@ -28,6 +29,10 @@ use Piwik\Piwik;
  *
  * The user settings file (for example, config.ini.php) holds the actual setting values. Settings in the
  * user settings files overwrite other settings. So array settings will not merge w/ previous values.
+ *
+ * HTML characters and dollar signs are stored as encoded HTML entities in INI files. This prevents
+ * several `parse_ini_file` issues, including one where parse_ini_file tries to insert a variable
+ * into a setting value if a string like `"$varname" is present.
  */
 class IniFileChain
 {
@@ -114,8 +119,7 @@ class IniFileChain
      */
     public function dump($header = '')
     {
-        $writer = new IniWriter();
-        return $writer->writeToString($this->mergedSettings, $header);
+        return $this->dumpSettingsArray($header, $this->mergedSettings);
     }
 
     /**
@@ -185,8 +189,7 @@ class IniFileChain
                 }
             });
 
-            $writer = new IniWriter();
-            return $writer->writeToString($configToWrite, $header);
+            return $this->dumpSettingsArray($header, $configToWrite);
         } else {
             return null;
         }
@@ -211,15 +214,13 @@ class IniFileChain
                 } catch (IniReadingException $ex) {
                     throw new IniReadingException('Unable to read INI file {' . $file . '}: ' . $ex->getMessage() . "\n Your host may have disabled parse_ini_file().");
                 }
+
+                $this->decodeValues($this->settingsChain[$file]);
             }
         }
 
         $this->mergedSettings = $this->mergeFileSettings();
-
-        // TODO move this method to this class
-        // decode section data
-        Config::decodeValues($this->getAll());
-    }
+   }
 
     private function resetSettingsChain($defaultSettingsFiles, $userSettingsFile)
     {
@@ -402,5 +403,55 @@ class IniFileChain
         $settingsDataSectionNames = array_keys($settingsData);
 
         return array_search($sectionName, $settingsDataSectionNames);
+    }
+
+
+    /**
+     * Decode HTML entities in setting data.
+     *
+     * @param mixed $values
+     * @return mixed
+     */
+    private function decodeValues(&$values)
+    {
+        if (is_array($values)) {
+            foreach ($values as &$value) {
+                $value = self::decodeValues($value);
+            }
+            return $values;
+        } elseif (is_string($values)) {
+            return html_entity_decode($values, ENT_COMPAT, 'UTF-8');
+        }
+        return $values;
+    }
+
+
+    /**
+     * Encode HTML entities
+     *
+     * @param mixed $values
+     * @return mixed
+     */
+    protected function encodeValues(&$values)
+    {
+        if (is_array($values)) {
+            foreach ($values as &$value) {
+                $value = $this->encodeValues($value);
+            }
+        } elseif (is_float($values)) {
+            $values = Common::forceDotAsSeparatorForDecimalPoint($values);
+        } elseif (is_string($values)) {
+            $values = htmlentities($values, ENT_COMPAT, 'UTF-8');
+            $values = str_replace('$', '&#36;', $values);
+        }
+        return $values;
+    }
+
+    private function dumpSettingsArray($header, $settings)
+    {
+        $writer = new IniWriter();
+
+        $this->encodeValues($settings);
+        return $writer->writeToString($settings, $header);
     }
 }
