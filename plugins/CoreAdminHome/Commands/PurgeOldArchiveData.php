@@ -36,6 +36,18 @@ class PurgeOldArchiveData extends ConsoleCommand
      */
     public static $todayOverride = null;
 
+    /**
+     * @var ArchivePurger
+     */
+    private $archivePurger;
+
+    public function __construct(ArchivePurger $archivePurger = null)
+    {
+        parent::__construct();
+        
+        $this->archivePurger = $archivePurger;
+    }
+
     protected function configure()
     {
         $this->setName('core:purge-old-archive-data');
@@ -62,7 +74,7 @@ class PurgeOldArchiveData extends ConsoleCommand
             $logger = new NullLogger();
         }
 
-        $archivePurger = new ArchivePurger($model = null, $purgeDatesOlderThan = null, $logger);
+        $archivePurger = $this->archivePurger ?: new ArchivePurger($model = null, $purgeDatesOlderThan = null, $logger);
 
         $dates = $this->getDatesToPurgeFor($input);
 
