@@ -60,6 +60,10 @@ class EnvironmentValidator
         Translate::loadAllTranslations();
 
         $message = $this->translator->translate('General_ExceptionConfigurationFileNotFound', array($path));
+        if (Common::isPhpCliMode()) {
+            $message .= "\n" . $this->translator->translate('General_ExceptionConfigurationFileNotFound2', array($path, get_current_user()));
+        }
+
         $exception = new \Exception($message);
 
         if ($startInstaller) {
