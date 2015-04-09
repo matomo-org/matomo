@@ -145,7 +145,7 @@
         "ExceptionContactSupportGeneric": "If you still have this issue please %scontact your Piwik administrator%s for assistance. ",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "The user has to be either a Super User or the user '%s' itself.",
         "ExceptionConfigurationFileNotFound": "The configuration file {%s} has not been found or could not be read.",
-        "ExceptionConfigurationFileNotFound2": "If the file exists, please check that %s is readable by the user '%s'."
+        "ExceptionConfigurationFileNotFound2": "If the file exists, please check that %s is readable by the user '%s'.",
         "ExceptionDatabaseVersion": "Your %1$s version is %2$s but Piwik requires at least %3$s.",
         "ExceptionDatabaseVersionNewerThanCodebase": "Your Piwik codebase is running the old version %1$s and we have detected that your Piwik Database has already been upgraded to the newer version %2$s.",
         "ExceptionDatabaseVersionNewerThanCodebaseWait": "Maybe your Piwik administrators are currently finishing the upgrade process. Please try again in a few minutes.",

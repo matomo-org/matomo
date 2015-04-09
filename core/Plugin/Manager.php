@@ -1278,7 +1278,7 @@ class Manager
      *
      * @return array
      */
-    protected function getPluginsFromGlobalIniConfigFile() // TODO: if this is only used for sorting, move to PluginList
+    protected function getPluginsFromGlobalIniConfigFile()
     {
         return $this->pluginList->getPluginsBundledWithPiwik();
     }
