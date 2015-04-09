@@ -122,7 +122,6 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function assertOutputContainsConfigFileMissingError($fileName, $output)
     {
-        // TODO: need to tweak error message displayed.
         $this->assertRegExp("/The configuration file \\{.*\\/" . preg_quote($fileName) . "\\} has not been found or could not be read\\./", $output);
     }
 
