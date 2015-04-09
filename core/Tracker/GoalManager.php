@@ -765,41 +765,15 @@ class GoalManager
         $url = Common::unsanitizeInputValue($url);
         $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
 
-        switch ($pattern_type) {
-            case 'regex':
-                $pattern = $goal['pattern'];
-                if (strpos($pattern, '/') !== false
-                    && strpos($pattern, '\\/') === false
-                ) {
-                    $pattern = str_replace('/', '\\/', $pattern);
-                }
-                $pattern = '/' . $pattern . '/';
-                if (!$goal['case_sensitive']) {
-                    $pattern .= 'i';
-                }
-                $match = (@preg_match($pattern, $url) == 1);
-                break;
-            case 'contains':
-                if ($goal['case_sensitive']) {
-                    $matched = strpos($url, $goal['pattern']);
-                } else {
-                    $matched = stripos($url, $goal['pattern']);
-                }
-                $match = ($matched !== false);
-                break;
-            case 'exact':
-                if ($goal['case_sensitive']) {
-                    $matched = strcmp($goal['pattern'], $url);
-                } else {
-                    $matched = strcasecmp($goal['pattern'], $url);
-                }
-                $match = ($matched == 0);
-                break;
-            default:
-                throw new Exception(Piwik::translate('General_ExceptionInvalidGoalPattern', array($pattern_type)));
-                break;
-        }
+        $match = $this->isGoalPatternMatchingUrl($goal, $pattern_type, $url);
 
+        if(!$match) {
+            // Users may set Goal matching URL as URL encoded
+            $goal['pattern'] = urldecode($goal['pattern']);
+
+            $match = $this->isGoalPatternMatchingUrl($goal, $pattern_type, $url);
+
+        }
         return $match;
     }
 
@@ -851,5 +825,51 @@ class GoalManager
         }
 
         return $goal;
+    }
+
+    /**
+     * @param $goal
+     * @param $pattern_type
+     * @param $url
+     * @return bool
+     * @throws Exception
+     */
+    protected function isGoalPatternMatchingUrl($goal, $pattern_type, $url)
+    {
+        switch ($pattern_type) {
+            case 'regex':
+                $pattern = $goal['pattern'];
+                if (strpos($pattern, '/') !== false
+                    && strpos($pattern, '\\/') === false
+                ) {
+                    $pattern = str_replace('/', '\\/', $pattern);
+                }
+                $pattern = '/' . $pattern . '/';
+                if (!$goal['case_sensitive']) {
+                    $pattern .= 'i';
+                }
+                $match = (@preg_match($pattern, $url) == 1);
+                break;
+            case 'contains':
+                if ($goal['case_sensitive']) {
+                    $matched = strpos($url, $goal['pattern']);
+                } else {
+                    $matched = stripos($url, $goal['pattern']);
+                }
+                $match = ($matched !== false);
+                break;
+            case 'exact':
+                if ($goal['case_sensitive']) {
+                    $matched = strcmp($goal['pattern'], $url);
+                } else {
+                    $matched = strcasecmp($goal['pattern'], $url);
+                }
+                $match = ($matched == 0);
+                break;
+            default:
+                throw new Exception(Piwik::translate('General_ExceptionInvalidGoalPattern', array($pattern_type)));
+                break;
+        }
+        return $match;
     }
 }
