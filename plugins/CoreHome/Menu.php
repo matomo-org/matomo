@@ -25,7 +25,10 @@ class Menu extends \Piwik\Plugin\Menu
         if (!empty($user['alias'])) {
             $login = $user['alias'];
         }
-        $menu->addItem('General_Help', null, array('module' => 'Feedback', 'action' => 'index'));
+
+        if (Plugin\Manager::getInstance()->isPluginActivated('Feedback')) {
+            $menu->addItem('General_Help', null, array('module' => 'Feedback', 'action' => 'index'));
+        }
 
         if (Piwik::isUserIsAnonymous()) {
             if (Plugin\Manager::getInstance()->isPluginActivated('Feedback')) {
