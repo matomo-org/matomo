@@ -54,7 +54,7 @@ abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * TODO
+     * Use this method to return custom container configuration that you want to apply for the tests.
      *
      * @return array
      */
