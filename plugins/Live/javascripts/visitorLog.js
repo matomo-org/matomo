@@ -52,7 +52,7 @@
                         if (repeat.length) {
                             repeat.html((parseInt(repeat.html()) + 1) + "x");
                         } else {
-                            prevelement.append($("<em>2x</em>").attr({'class': 'repeat', 'title': _pk_translate('Live_PageRefreshed')}));
+                            prevelement.find('>div').prepend($("<em>2x</em>").attr({'class': 'repeat', 'title': _pk_translate('Live_PageRefreshed')}));
                         }
                         $(this).hide();
                     } else {
