@@ -25,7 +25,7 @@ class IniSettingsProvider implements GlobalSettingsProvider
     /**
      * @var IniFileChain
      */
-    private $iniFileChain;
+    protected $iniFileChain;
 
     /**
      * @var string

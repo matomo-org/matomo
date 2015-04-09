@@ -24,13 +24,13 @@ class DumpConfigTestMockIniFileChain extends Config\IniFileChain
     }
 }
 
-class DumpConfigTestMockConfig extends Config
+class MockIniSettingsProvider extends IniSettingsProvider
 {
     public function __construct($configLocal, $configGlobal, $configCommon, $configCache)
     {
         parent::__construct();
 
-        $this->settings = new DumpConfigTestMockIniFileChain(
+        $this->iniFileChain = new DumpConfigTestMockIniFileChain(
             array(
                 $this->pathGlobal => $configGlobal,
                 $this->pathCommon => $configCommon,
@@ -38,6 +38,16 @@ class DumpConfigTestMockConfig extends Config
             ),
             $configCache
         );
+    }
+}
+
+class DumpConfigTestMockConfig extends Config
+{
+    public function __construct($configLocal, $configGlobal, $configCommon, $configCache)
+    {
+        parent::__construct();
+
+        $this->settings = new MockIniSettingsProvider($configLocal, $configGlobal, $configCommon, $configCache);
     }
 }
 
