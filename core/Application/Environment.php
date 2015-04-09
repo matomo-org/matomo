@@ -150,6 +150,8 @@ class Environment
      */
     protected function getGlobalSettings()
     {
+        // TODO: need to be able to set path global/local/etc. which is in DI... for now works because TestingEnvironment creates
+        //       singleton instance before this method.
         return IniSettingsProvider::getSingletonInstance();
     }
 

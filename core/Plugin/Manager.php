@@ -1280,9 +1280,7 @@ class Manager
      */
     protected function getPluginsFromGlobalIniConfigFile() // TODO: if this is only used for sorting, move to PluginList
     {
-        $pluginsBundledWithPiwik = PiwikConfig::getInstance()->getFromGlobalConfig('Plugins');
-        $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
-        return $pluginsBundledWithPiwik;
+        return $this->pluginList->getPluginsBundledWithPiwik();
     }
 
     /**
@@ -1292,7 +1290,6 @@ class Manager
     protected function isPluginEnabledByDefault($name)
     {
         $pluginsBundledWithPiwik = $this->getPluginsFromGlobalIniConfigFile();
-
         if(empty($pluginsBundledWithPiwik)) {
             return false;
         }

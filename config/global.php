@@ -1,6 +1,7 @@
 <?php
 
 use Interop\Container\ContainerInterface;
+use Interop\Container\Exception\NotFoundException;
 use Piwik\Cache\Eager;
 use Piwik\SettingsServer;
 
@@ -44,7 +45,13 @@ return array(
         return $cache;
     },
     'Piwik\Cache\Backend' => function (ContainerInterface $c) {
-        return \Piwik\Cache::buildBackend($c->get('ini.Cache.backend'));
+        try {
+            $backend = $c->get('ini.Cache.backend');
+        } catch (NotFoundException $ex) {
+            $backend = 'chained'; // happens if global.ini.php is not available
+        }
+
+        return \Piwik\Cache::buildBackend($backend);
     },
     'cache.eager.cache_id' => function () {
         return 'eagercache-' . str_replace(array('.', '-'), '', \Piwik\Version::VERSION) . '-';
@@ -54,5 +61,4 @@ return array(
 
     'Piwik\Translation\Loader\LoaderInterface' => DI\object('Piwik\Translation\Loader\LoaderCache')
         ->constructor(DI\link('Piwik\Translation\Loader\JsonFileLoader')),
-
 );

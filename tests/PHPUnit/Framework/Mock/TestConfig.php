@@ -25,16 +25,16 @@ class TestConfig extends Config
         $this->allowSave = $allowSave;
         $this->doSetTestEnvironment = $doSetTestEnvironment;
 
-        $this->reload();
+        $this->reload($pathGlobal, $pathLocal, $pathCommon);
     }
 
-    public function reload()
+    public function reload($pathLocal = null, $pathGlobal = null, $pathCommon = null)
     {
         if ($this->isSettingTestEnv) {
-            parent::reload();
+            parent::reload($pathGlobal, $pathLocal, $pathCommon);
         } else {
             $this->isSettingTestEnv = true;
-            $this->setTestEnvironment($this->getLocalPath(), $this->getGlobalPath(), $this->getCommonPath(), $this->allowSave);
+            $this->setTestEnvironment($pathLocal, $pathGlobal, $pathCommon, $this->allowSave);
             $this->isSettingTestEnv = false;
         }
     }

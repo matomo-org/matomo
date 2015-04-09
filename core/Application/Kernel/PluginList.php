@@ -23,4 +23,11 @@ interface PluginList
      * @return string[]
      */
     public function getActivatedPlugins();
+
+    /**
+     * Returns the list of plugins that are bundled with Piwik.
+     *
+     * @return string[]
+     */
+    public function getPluginsBundledWithPiwik();
 }

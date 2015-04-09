@@ -206,12 +206,7 @@ class IniFileChain
         $reader = new IniReader();
         foreach ($this->settingsChain as $file => $ignore) {
             if (is_readable($file)) {
-                try {
-                    $this->settingsChain[$file] = $reader->readFile($file);
-                } catch (IniReadingException $ex) {
-                    $message = Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($file, "parse_ini_file()"));
-                    throw new IniReadingException($message, $code = 0, $ex);
-                }
+                $this->settingsChain[$file] = $reader->readFile($file);
             }
         }
 

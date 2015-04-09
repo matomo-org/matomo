@@ -12,6 +12,7 @@ use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
+use Piwik\Translate;
 use Piwik\Translation\Translator;
 
 /**
@@ -33,6 +34,7 @@ class EnvironmentValidator
     public function __construct(GlobalSettingsProvider $settingsProvider, Translator $translator)
     {
         $this->iniSettingsProvider = $settingsProvider;
+        $this->translator = $translator;
     }
 
     public function validate()
@@ -40,22 +42,22 @@ class EnvironmentValidator
         $inTrackerRequest = SettingsServer::isTrackerApiRequest();
         $inConsole = Common::isPhpCliMode();
 
-        $this->checkConfigFileExists('global.ini.php');
-        $this->checkConfigFileExists('config.ini.php', $startInstaller = !$inTrackerRequest && !$inConsole);
+        $this->checkConfigFileExists($this->iniSettingsProvider->getPathGlobal());
+        $this->checkConfigFileExists($this->iniSettingsProvider->getPathLocal(), $startInstaller = !$inTrackerRequest && !$inConsole);
     }
 
     /**
-     * @param $filename
+     * @param $path
      * @param bool $startInstaller
      * @throws \Exception
      */
-    private function checkConfigFileExists($filename, $startInstaller = false)
+    private function checkConfigFileExists($path, $startInstaller = false)
     {
-        $path = PIWIK_INCLUDE_PATH . '/config/' . $filename;
-
         if (is_readable($path)) {
             return;
         }
+
+        Translate::loadAllTranslations();
 
         $message = $this->translator->translate('General_ExceptionConfigurationFileNotFound', array($path));
         $exception = new \Exception($message);

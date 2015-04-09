@@ -52,17 +52,10 @@ class Config extends Singleton
     /**
      * @var boolean
      */
-    protected $pathGlobal = null;
-    protected $pathCommon = null;
-    protected $pathLocal = null;
-
-    /**
-     * @var boolean
-     */
     protected $doNotWriteConfigInTests = false;
 
     /**
-     * @var IniFileChain
+     * @var IniSettingsProvider
      */
     protected $settings;
 
@@ -70,11 +63,7 @@ class Config extends Singleton
 
     public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null)
     {
-        $this->pathGlobal = $pathGlobal ?: self::getGlobalConfigPath();
-        $this->pathCommon = $pathCommon ?: self::getCommonConfigPath();
-        $this->pathLocal = $pathLocal ?: self::getLocalConfigPath();
-
-        $this->settings = IniSettingsProvider::getSingletonInstance($pathGlobal, $pathLocal, $pathCommon)->getIniFileChain();
+        $this->settings = IniSettingsProvider::getSingletonInstance($pathGlobal, $pathLocal, $pathCommon);
     }
 
     /**
@@ -84,7 +73,7 @@ class Config extends Singleton
      */
     public function getLocalPath()
     {
-        return $this->pathLocal;
+        return $this->settings->getPathLocal();
     }
 
     /**
@@ -94,7 +83,7 @@ class Config extends Singleton
      */
     public function getGlobalPath()
     {
-        return $this->pathGlobal;
+        return $this->settings->getPathGlobal();
     }
 
     /**
@@ -104,7 +93,7 @@ class Config extends Singleton
      */
     public function getCommonPath()
     {
-        return $this->pathCommon;
+        return $this->settings->getPathCommon();
     }
 
     /**
@@ -121,37 +110,35 @@ class Config extends Singleton
             $this->doNotWriteConfigInTests = true;
         }
 
-        $this->pathLocal = $pathLocal ?: Config::getLocalConfigPath();
-        $this->pathGlobal = $pathGlobal ?: Config::getGlobalConfigPath();
-        $this->pathCommon = $pathCommon ?: Config::getCommonConfigPath();
+        $this->reload($pathLocal, $pathGlobal, $pathCommon);
 
-        $this->reload();
+        $chain = $this->settings->getIniFileChain();
 
-        $databaseTestsSettings = $this->settings->get('database_tests'); // has to be __get otherwise when called from TestConfig, PHP will issue a NOTICE
+        $databaseTestsSettings = $chain->get('database_tests'); // has to be __get otherwise when called from TestConfig, PHP will issue a NOTICE
         if (!empty($databaseTestsSettings)) {
-            $this->settings->set('database', $databaseTestsSettings);
+            $chain->set('database', $databaseTestsSettings);
         }
 
         // Ensure local mods do not affect tests
         if (empty($pathGlobal)) {
-            $this->settings->set('Debug', $this->settings->getFrom($this->pathGlobal, 'Debug'));
-            $this->settings->set('mail', $this->settings->getFrom($this->pathGlobal, 'mail'));
-            $this->settings->set('General', $this->settings->getFrom($this->pathGlobal, 'General'));
-            $this->settings->set('Segments', $this->settings->getFrom($this->pathGlobal, 'Segments'));
-            $this->settings->set('Tracker', $this->settings->getFrom($this->pathGlobal, 'Tracker'));
-            $this->settings->set('Deletelogs', $this->settings->getFrom($this->pathGlobal, 'Deletelogs'));
-            $this->settings->set('Deletereports', $this->settings->getFrom($this->pathGlobal, 'Deletereports'));
-            $this->settings->set('Development', $this->settings->getFrom($this->pathGlobal, 'Development'));
+            $chain->set('Debug', $chain->getFrom($this->getGlobalPath(), 'Debug'));
+            $chain->set('mail', $chain->getFrom($this->getGlobalPath(), 'mail'));
+            $chain->set('General', $chain->getFrom($this->getGlobalPath(), 'General'));
+            $chain->set('Segments', $chain->getFrom($this->getGlobalPath(), 'Segments'));
+            $chain->set('Tracker', $chain->getFrom($this->getGlobalPath(), 'Tracker'));
+            $chain->set('Deletelogs', $chain->getFrom($this->getGlobalPath(), 'Deletelogs'));
+            $chain->set('Deletereports', $chain->getFrom($this->getGlobalPath(), 'Deletereports'));
+            $chain->set('Development', $chain->getFrom($this->getGlobalPath(), 'Development'));
         }
 
         // for unit tests, we set that no plugin is installed. This will force
         // the test initialization to create the plugins tables, execute ALTER queries, etc.
-        $this->settings->set('PluginsInstalled', array('PluginsInstalled' => array()));
+        $chain->set('PluginsInstalled', array('PluginsInstalled' => array()));
     }
 
     protected function postConfigTestEvent()
     {
-        Piwik::postTestEvent('Config.createConfigSingleton', array($this->settings, $this)  );
+        Piwik::postTestEvent('Config.createConfigSingleton', array($this->settings->getIniFileChain(), $this)  );
     }
 
     /**
@@ -230,7 +217,7 @@ class Config extends Singleton
         return $limits;
     }
 
-    protected static function getByDomainConfigPath()
+    public static function getByDomainConfigPath()
     {
         $host       = self::getHostname();
         $hostConfig = self::getLocalConfigInfoForHostname($host);
@@ -281,16 +268,15 @@ class Config extends Singleton
             throw new Exception('Piwik domain is not a valid looking hostname (' . $filename . ').');
         }
 
-        $this->pathLocal   = $hostConfig['path'];
-        $this->initialized = false;
+        $pathLocal = $hostConfig['path'];
 
         try {
-            $this->reload();
+            $this->reload($pathLocal);
         } catch (Exception $ex) {
             // pass (not required for local file to exist at this point)
         }
 
-        return $this->pathLocal;
+        return $pathLocal;
     }
 
     /**
@@ -300,7 +286,7 @@ class Config extends Singleton
      */
     public function isFileWritable()
     {
-        return is_writable($this->pathLocal);
+        return is_writable($this->settings->getPathLocal());
     }
 
     /**
@@ -330,11 +316,10 @@ class Config extends Singleton
      * @throws \Exception if the global config file is not found and this is a tracker request, or
      *                    if the local config file is not found and this is NOT a tracker request.
      */
-    protected function reload()
+    protected function reload($pathLocal = null, $pathGlobal = null, $pathCommon = null)
     {
         $this->initialized = false;
-
-        $this->settings->reload(array($this->pathGlobal, $this->pathCommon), $this->pathLocal);
+        $this->settings->reload($pathGlobal, $pathLocal, $pathCommon);
     }
 
     /**
@@ -342,7 +327,7 @@ class Config extends Singleton
      */
     public function existsLocalConfig()
     {
-        return is_readable($this->pathLocal);
+        return is_readable($this->getLocalPath());
     }
 
     public function deleteLocalConfig()
@@ -350,13 +335,6 @@ class Config extends Singleton
         $configLocal = $this->getLocalPath();
         unlink($configLocal);
     }
-
-/*    public function checkLocalConfigFound()
-    {
-        if (!$this->existsLocalConfig()) {
-            throw new ConfigNotFoundException(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathLocal)));
-        }
-    }*/
 
     /**
      * Decode HTML entities
@@ -412,28 +390,21 @@ class Config extends Singleton
         if (!$this->initialized) {
             $this->initialized = true;
 
-            // this is done lazily and not in __construct so Installation will properly be triggered. ideally, it should be
-            // done in __construct, but the exception that is thrown depends on Translator which depends on Config. the
-            // circular dependency causes problems.
-            /*if (!SettingsServer::isTrackerApiRequest()) {
-                $this->checkLocalConfigFound();
-            }*/
-
             $this->postConfigTestEvent();
         }
 
-        $section =& $this->settings->get($name);
+        $section =& $this->settings->getIniFileChain()->get($name);
         return $section;
     }
 
     public function getFromGlobalConfig($name)
     {
-        return $this->settings->getFrom($this->pathGlobal, $name);
+        return $this->settings->getIniFileChain()->getFrom($this->getGlobalPath(), $name);
     }
 
     public function getFromCommonConfig($name)
     {
-        return $this->settings->getFrom($this->pathCommon, $name);
+        return $this->settings->getIniFileChain()->getFrom($this->getCommonPath(), $name);
     }
 
     /**
@@ -445,7 +416,7 @@ class Config extends Singleton
      */
     public function __set($name, $value)
     {
-        $this->settings->set($name, $value);
+        $this->settings->getIniFileChain()->set($name, $value);
     }
 
     /**
@@ -456,16 +427,18 @@ class Config extends Singleton
      */
     public function dumpConfig()
     {
-        $this->encodeValues($this->settings->getAll());
+        $chain = $this->settings->getIniFileChain();
+
+        $this->encodeValues($chain->getAll());
 
         try {
             $header = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
             $header .= "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
-            $dumpedString = $this->settings->dumpChanges($header);
+            $dumpedString = $chain->dumpChanges($header);
 
-            $this->decodeValues($this->settings->getAll());
+            $this->decodeValues($chain->getAll());
         } catch (Exception $ex) {
-            $this->decodeValues($this->settings->getAll());
+            $this->decodeValues($chain->getAll());
 
             throw $ex;
         }
@@ -495,7 +468,7 @@ class Config extends Singleton
         if ($output !== null
             && $output !== false
         ) {
-            $success = @file_put_contents($this->pathLocal, $output);
+            $success = @file_put_contents($this->getLocalPath(), $output);
             if ($success === false) {
                 throw $this->getConfigNotWritableException();
             }
@@ -522,7 +495,7 @@ class Config extends Singleton
      */
     public function getConfigNotWritableException()
     {
-        $path = "config/" . basename($this->pathLocal);
+        $path = "config/" . basename($this->getLocalPath());
         return new Exception(Piwik::translate('General_ConfigFileIsNotWritable', array("(" . $path . ")", "")));
     }
 }

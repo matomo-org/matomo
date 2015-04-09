@@ -152,11 +152,14 @@ class Fixture extends \PHPUnit_Framework_Assert
     {
         if ($this->createConfig) {
             IniSettingsProvider::unsetSingletonInstance();
-            Config::setSingletonInstance(new TestConfig());
         }
 
         $this->piwikEnvironment = new Environment('test');
         $this->piwikEnvironment->init();
+
+        if ($this->createConfig) {
+            Config::setSingletonInstance(new TestConfig());
+        }
 
         try {
             $this->dbName = $this->getDbName();

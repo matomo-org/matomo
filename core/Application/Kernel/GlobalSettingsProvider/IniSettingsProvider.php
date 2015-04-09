@@ -28,17 +28,42 @@ class IniSettingsProvider implements GlobalSettingsProvider
     private $iniFileChain;
 
     /**
+     * @var string
+     */
+    protected $pathGlobal = null;
+
+    /**
+     * @var string
+     */
+    protected $pathCommon = null;
+
+    /**
+     * @var string
+     */
+    protected $pathLocal = null;
+
+    /**
      * @param string|null $pathGlobal Path to the global.ini.php file. Or null to use the default.
      * @param string|null $pathLocal Path to the config.ini.php file. Or null to use the default.
      * @param string|null $pathCommon Path to the common.ini.php file. Or null to use the default.
      */
     public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null)
     {
-        $pathGlobal = $pathGlobal ?: Config::getGlobalConfigPath();
-        $pathCommon = $pathCommon ?: Config::getCommonConfigPath();
-        $pathLocal = $pathLocal ?: Config::getLocalConfigPath();
+        $this->pathGlobal = $pathGlobal ?: Config::getGlobalConfigPath();
+        $this->pathCommon = $pathCommon ?: Config::getCommonConfigPath();
+        $this->pathLocal = $pathLocal ?: Config::getLocalConfigPath();
 
-        $this->iniFileChain = new IniFileChain(array($pathGlobal, $pathCommon), $pathLocal);
+        $this->iniFileChain = new IniFileChain();
+        $this->reload();
+    }
+
+    public function reload($pathGlobal = null, $pathLocal = null, $pathCommon = null)
+    {
+        $this->pathGlobal = $pathGlobal ?: $this->pathGlobal;
+        $this->pathCommon = $pathCommon ?: $this->pathCommon;
+        $this->pathLocal = $pathLocal ?: $this->pathLocal;
+
+        $this->iniFileChain->reload(array($this->pathGlobal, $this->pathCommon), $this->pathLocal);
     }
 
     public function &getSection($name)
@@ -55,6 +80,21 @@ class IniSettingsProvider implements GlobalSettingsProvider
     public function getIniFileChain()
     {
         return $this->iniFileChain;
+    }
+
+    public function getPathGlobal()
+    {
+        return $this->pathGlobal;
+    }
+
+    public function getPathLocal()
+    {
+        return $this->pathLocal;
+    }
+
+    public function getPathCommon()
+    {
+        return $this->pathCommon;
     }
 
     public static function getSingletonInstance($pathGlobal = null, $pathLocal = null, $pathCommon = null)
