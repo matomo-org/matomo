@@ -1036,12 +1036,7 @@ class CronArchive
 
     public function initTokenAuth()
     {
-        $tokens = array();
-
-        /**
-         * @ignore
-         */
-        Piwik::postEvent('CronArchive.getTokenAuth', array(&$tokens));
+        $tokens = self::getSuperUserTokenAuths();
 
         $this->validTokenAuths = $tokens;
         $this->token_auth = array_shift($tokens);
@@ -1563,5 +1558,17 @@ class CronArchive
     private function makeRequestUrl($url)
     {
         return $this->piwikUrl . $url . self::APPEND_TO_API_REQUEST;
+    }
+
+    public static function getSuperUserTokenAuths()
+    {
+        $tokens = array();
+
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('CronArchive.getTokenAuth', array(&$tokens));
+
+        return $tokens;
     }
 }

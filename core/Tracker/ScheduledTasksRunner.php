@@ -78,8 +78,8 @@ class ScheduledTasksRunner
             // Scheduled tasks assume Super User is running
             Piwik::setUserHasSuperUserAccess();
 
-            $cronArchive = new CronArchive();
-            $tokenAuth = $cronArchive->initTokenAuth();
+            $tokens = CronArchive::getSuperUserTokenAuths();
+            $tokenAuth = reset($tokens);
 
             $invokeScheduledTasksUrl = SettingsPiwik::getPiwikUrl()
                 . "?module=API&format=csv&convertToUnicode=0&method=CoreAdminHome.runScheduledTasks&trigger=archivephp&token_auth=$tokenAuth";
