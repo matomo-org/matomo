@@ -8,7 +8,6 @@
  */
 namespace Piwik\Menu;
 
-use Piwik\Common;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Singleton;
 use Piwik\Plugin\Manager as PluginManager;
@@ -218,9 +217,17 @@ abstract class MenuAbstract extends Singleton
             $newUrl         = $edit[2];
 
             if ($subMenuToEdit === null) {
-                $menuDataToEdit = @$this->menu[$mainMenuToEdit];
+                if (isset($this->menu[$mainMenuToEdit])) {
+                    $menuDataToEdit = &$this->menu[$mainMenuToEdit];
+                } else {
+                    $menuDataToEdit = null;
+                }
             } else {
-                $menuDataToEdit = @$this->menu[$mainMenuToEdit][$subMenuToEdit];
+                if (isset($this->menu[$mainMenuToEdit][$subMenuToEdit])) {
+                    $menuDataToEdit = &$this->menu[$mainMenuToEdit][$subMenuToEdit];
+                } else {
+                    $menuDataToEdit = null;
+                }
             }
 
             if (empty($menuDataToEdit)) {

@@ -189,6 +189,8 @@ var Piwik_Overlay_UrlNormalizer = (function () {
             url = url.replace(/\?&/, '?');
             url = url.replace(/\?#/, '#');
             url = url.replace(/\?$/, '');
+            url = url.replace(/%5B/gi, '[');
+            url = url.replace(/%5D/gi, ']');
 
             return url;
         }

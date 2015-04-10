@@ -167,7 +167,16 @@ class IniFileChain
                 $rhsIndex = $self->findIndexOfFirstFileWithSection($sectionNameRhs);
 
                 if ($lhsIndex == $rhsIndex) {
-                    return 0;
+                    $lhsIndexInFile = $self->getIndexOfSectionInFile($lhsIndex, $sectionNameLhs);
+                    $rhsIndexInFile = $self->getIndexOfSectionInFile($rhsIndex, $sectionNameRhs);
+
+                    if ($lhsIndexInFile == $rhsIndexInFile) {
+                        return 0;
+                    } else if ($lhsIndexInFile < $rhsIndexInFile) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
                 } else if ($lhsIndex < $rhsIndex) {
                     return -1;
                 } else {
@@ -355,6 +364,9 @@ class IniFileChain
         return $merged;
     }
 
+    /**
+     * public for use in closure.
+     */
     public function findIndexOfFirstFileWithSection($sectionName)
     {
         $count = 0;
@@ -366,5 +378,25 @@ class IniFileChain
             ++$count;
         }
         return $count;
+    }
+
+    /**
+     * public for use in closure.
+     */
+    public function getIndexOfSectionInFile($fileIndex, $sectionName)
+    {
+        reset($this->settingsChain);
+        for ($i = 0; $i != $fileIndex; ++$i) {
+            next($this->settingsChain);
+        }
+
+        $settingsData = current($this->settingsChain);
+        if (empty($settingsData)) {
+            return -1;
+        }
+
+        $settingsDataSectionNames = array_keys($settingsData);
+
+        return array_search($sectionName, $settingsDataSectionNames);
     }
 }

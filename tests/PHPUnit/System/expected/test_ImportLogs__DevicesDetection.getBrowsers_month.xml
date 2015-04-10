@@ -15,13 +15,13 @@
 	</row>
 	<row>
 		<label>Internet Explorer</label>
-		<nb_visits>7</nb_visits>
-		<nb_actions>8</nb_actions>
+		<nb_visits>8</nb_visits>
+		<nb_actions>9</nb_actions>
 		<max_actions>2</max_actions>
 		<sum_visit_length>242</sum_visit_length>
-		<bounce_count>6</bounce_count>
-		<nb_visits_converted>7</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
+		<bounce_count>7</bounce_count>
+		<nb_visits_converted>8</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
 		<segment>browserCode==IE</segment>
@@ -54,13 +54,13 @@
 	</row>
 	<row>
 		<label>Unknown</label>
-		<nb_visits>5</nb_visits>
-		<nb_actions>5</nb_actions>
+		<nb_visits>4</nb_visits>
+		<nb_actions>4</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>5</bounce_count>
-		<nb_visits_converted>2</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<bounce_count>4</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/UNK.gif</logo>
 		<segment>browserCode==UNK</segment>

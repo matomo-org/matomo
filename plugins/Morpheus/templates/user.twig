@@ -9,8 +9,10 @@
         {% set topMenuModule = 'Feedback' %}
         {% set topMenuAction = 'index' %}
     {% else %}
-        {% set topMenuModule = 'UsersManager' %}
-        {% set topMenuAction = 'userSettings' %}
+        {% if currentModule != 'Feedback' %}
+            {% set topMenuModule = 'UsersManager' %}
+            {% set topMenuAction = 'userSettings' %}
+        {% endif %}
     {% endif %}
     {{ parent() }}
 {% endblock %}

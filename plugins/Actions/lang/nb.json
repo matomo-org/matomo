@@ -29,9 +29,13 @@
         "SubmenuPagesExit": "Utgangssider",
         "SubmenuPageTitles": "Sidetitler",
         "SubmenuSitesearch": "Sidesøk",
+        "WidgetEntryPageTitles": "Inngangssiders tittel",
         "WidgetExitPageTitles": "Utgangs Side Tittler",
+        "WidgetPagesEntry": "Inngangssider",
+        "WidgetPagesExit": "Utgangssider",
         "WidgetPageTitles": "Side Tittler",
         "WidgetPageTitlesFollowingSearch": "Side Tittel fulgt av ett sidesøk",
+        "WidgetPageUrlsFollowingSearch": "Sider etter et nettstedssøk",
         "WidgetSearchCategories": "Søkekategorier",
         "WidgetSearchKeywords": "Nøkkelord for sidesøk",
         "WidgetSearchNoResultKeywords": "Nøkkelord uten resultater"

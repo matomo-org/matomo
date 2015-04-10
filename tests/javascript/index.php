@@ -1903,7 +1903,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(64);
+        expect(65);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -1938,6 +1938,7 @@ function PiwikTest() {
         equal( typeof tracker.setLinkTrackingTimer, 'function', 'setLinkTrackingTimer' );
         equal( typeof tracker.setDownloadExtensions, 'function', 'setDownloadExtensions' );
         equal( typeof tracker.addDownloadExtensions, 'function', 'addDownloadExtensions' );
+        equal( typeof tracker.removeDownloadExtensions, 'function', 'removeDownloadExtensions' );
         equal( typeof tracker.setDomains, 'function', 'setDomains' );
         equal( typeof tracker.setIgnoreClasses, 'function', 'setIgnoreClasses' );
         equal( typeof tracker.setRequestMethod, 'function', 'setRequestMethod' );
@@ -2295,7 +2296,7 @@ function PiwikTest() {
     });
 
     test("Tracker setDownloadExtensions(), addDownloadExtensions(), setDownloadClasses(), setLinkClasses(), and getLinkType()", function() {
-        expect(54);
+        expect(66);
 
         var tracker = Piwik.getTracker();
 
@@ -2325,8 +2326,18 @@ function PiwikTest() {
             equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true), 0, messagePrefix + '.txt =! download extension' );
 
             tracker.addDownloadExtensions('xyz');
+            tracker.addDownloadExtensions(['abc','zz']);
             equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', messagePrefix + '[2] .pk == download extension' );
             equal( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true), 'download', messagePrefix + '.xyz == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.abc', true), 'download', messagePrefix + '.abc == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.zz', true), 'download', messagePrefix + '.zz == download extension' );
+
+            tracker.removeDownloadExtensions(['xyz','pk']);
+            tracker.removeDownloadExtensions('zz');
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 0, messagePrefix + '[2] .pk =! download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true), 0, messagePrefix + '.xyz =! download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.abc', true), 'download', messagePrefix + '.abc == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.zz', true), 0, messagePrefix + '.zz =! download extension' );
 
             tracker.setDownloadClasses(['a', 'b']);
             equal( tracker.hook.test._getLinkType('abc piwik_download', 'piwiktest.ext', true), 'download', messagePrefix + 'download (default)' );
