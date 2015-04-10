@@ -462,7 +462,8 @@ enable_trusted_host_check = 1
 ; Examples:
 ;cors_domains[] = http://example.com
 ;cors_domains[] = http://stats.example.com
-; OR allow for all domains
+;
+; Or you may allow cross domain requests for all domains with:
 ;cors_domains[] = *
 
 ; If you use this Piwik instance over multiple hostnames, Piwik will need to know
