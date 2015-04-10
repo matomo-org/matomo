@@ -263,7 +263,9 @@ class Request
     {
         // if a token_auth is specified in the API request, we load the right permissions
         $token_auth = Common::getRequestVar('token_auth', '', 'string', $request);
-        if ($token_auth) {
+        $access = Access::getInstance();
+
+        if ($token_auth && $token_auth !== $access->getTokenAuth()) {
 
             /**
              * Triggered when authenticating an API request, but only if the **token_auth**
