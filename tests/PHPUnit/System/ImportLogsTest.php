@@ -9,6 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\Access;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 
@@ -22,6 +23,15 @@ class ImportLogsTest extends SystemTestCase
 {
     /** @var ManySitesImportedLogs */
     public static $fixture = null; // initialized below class definition
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $testingEnvironment = new \Piwik_TestingEnvironment();
+        $testingEnvironment->configOverride = null;
+        $testingEnvironment->save();
+    }
 
     /**
      * @dataProvider getApiForTesting
@@ -100,6 +110,40 @@ class ImportLogsTest extends SystemTestCase
 
         $whateverDotCom = API::getInstance()->getSitesIdFromSiteUrl('http://whatever.com');
         $this->assertEquals(1, count($whateverDotCom));
+    }
+
+    public function test_LogImporter_RetriesWhenServerFails()
+    {
+        $this->simulateTrackerFailure();
+
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_enable_all.log';
+
+        $options = array(
+            '--idsite'                    => self::$fixture->idSite,
+            '--token-auth'                => 'asldfjksd',
+            '--retry-max-attempts'        => 5,
+            '--retry-delay'               => 1
+        );
+
+        $output = Fixture::executeLogImporter($logFile, $options, $allowFailure = true);
+        $output = implode("\n", $output);
+
+        for ($i = 2; $i != 6; ++$i) {
+            $this->assertContains("Retrying request, attempt number $i", $output);
+        }
+
+        $this->assertNotContains("Retrying request, attempt number 6", $output);
+
+        $this->assertContains("Max number of attempts reached, server is unreachable!", $output);
+    }
+
+    private function simulateTrackerFailure()
+    {
+        $testingEnvironment = new \Piwik_TestingEnvironment();
+        $testingEnvironment->configOverride = array(
+            'Tracker' => array('bulk_requests_require_authentication' => 1)
+        );
+        $testingEnvironment->save();
     }
 
     public static function getOutputPrefix()
