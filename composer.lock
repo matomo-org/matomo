@@ -272,12 +272,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mnapoli/PHP-DI.git",
-                "reference": "ee5145095555c4532220eab991bf7782e9a645c6"
+                "reference": "92e2f01c7f2076649235aa50f415dda11b87e6da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mnapoli/PHP-DI/zipball/ee5145095555c4532220eab991bf7782e9a645c6",
-                "reference": "ee5145095555c4532220eab991bf7782e9a645c6",
+                "url": "https://api.github.com/repos/mnapoli/PHP-DI/zipball/92e2f01c7f2076649235aa50f415dda11b87e6da",
+                "reference": "92e2f01c7f2076649235aa50f415dda11b87e6da",
                 "shasum": ""
             },
             "require": {
@@ -289,9 +289,9 @@
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "mnapoli/phpunit-easymock": "~0.1.1",
+                "mnapoli/phpunit-easymock": "~0.1.4",
                 "ocramius/proxy-manager": "~0.5",
-                "phpunit/phpunit": "~4.4"
+                "phpunit/phpunit": "~4.5"
             },
             "suggest": {
                 "ocramius/proxy-manager": "Install it if you want to use lazy injection (version ~0.5)"
@@ -321,7 +321,7 @@
                 "dependency injection",
                 "di"
             ],
-            "time": "2015-01-29 03:02:32"
+            "time": "2015-04-12 06:13:26"
         },
         {
             "name": "mnapoli/phpdocreader",
