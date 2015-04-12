@@ -10,7 +10,7 @@ return array(
 
     // Log
     'log.handlers' => array(
-        DI\link('Symfony\Bridge\Monolog\Handler\ConsoleHandler'),
+        DI\get('Symfony\Bridge\Monolog\Handler\ConsoleHandler'),
     ),
     'Symfony\Bridge\Monolog\Handler\ConsoleHandler' => function (ContainerInterface $c) {
         // Override the default verbosity map to make it more verbose by default
