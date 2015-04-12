@@ -33,6 +33,8 @@ class Update extends TranslationBase
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $start = microtime(true);
+
         /** @var DialogHelper $dialog */
         $dialog = $this->getHelperSet()->get('dialog');
 
@@ -109,7 +111,7 @@ class Update extends TranslationBase
             $progress->finish();
         }
 
-        $output->writeln("Finished.");
+        $output->writeln("Finished in " . round(microtime(true)-$start, 3) . "s");
     }
 
     /**

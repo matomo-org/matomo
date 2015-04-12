@@ -41,11 +41,26 @@ class FetchFromTransifex extends TranslationBase
 
         $resource = 'piwik-'. ($plugin ? 'plugin-'.strtolower($plugin) : 'base');
 
-        $output->writeln("Fetching translations from Transifex for resource $resource");
-
         $transifexApi = new API($username, $password);
 
+        // remove all existing translation files in download path
+        $files = glob($this->getDownloadPath() . DIRECTORY_SEPARATOR . '*.json');
+        array_map('unlink', $files);
+
+        if (!$transifexApi->resourceExists($resource)) {
+            $output->writeln("Skipping resource $resource as it doesn't exist on Transifex");
+            return;
+        }
+
+        $output->writeln("Fetching translations from Transifex for resource $resource");
+
         $languages = $transifexApi->getAvailableLanguageCodes();
+
+        if (!empty($plugin)) {
+            $languages = array_filter($languages, function($language) {
+                return \Piwik\Plugins\LanguagesManager\API::getInstance()->isLanguageAvailable(str_replace('_', '-', strtolower($language)));
+            });
+        }
 
         /** @var ProgressHelper $progress */
         $progress = $this->getHelperSet()->get('progress');

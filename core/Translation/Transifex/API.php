@@ -13,7 +13,7 @@ use Piwik\Exception\AuthenticationFailedException;
 
 class API
 {
-    protected $apiUrl = 'https://www.transifex.com/api/2/project/piwik/';
+    protected $apiUrl = 'https://www.transifex.com/api/2/';
     protected $username = '';
     protected $password = '';
     protected $projectSlug = '';
@@ -25,21 +25,48 @@ class API
         $this->projectSlug = $project;
     }
 
-    public function getAvailableLanguageCodes()
+    public function getAvailableResources()
     {
-        $languageCodes = array();
-        $apiData = $this->getApiResults('languages');
-        foreach ($apiData as $languageData) {
-            $languageCodes[] = $languageData->language_code;
+        static $resources;
+
+        if (empty($resources)) {
+            $apiPath = 'project/' . $this->projectSlug . '/resources';
+            $resources = $this->getApiResults($apiPath);
         }
 
+        return $resources;
+    }
+
+    public function resourceExists($resource)
+    {
+        $resources = $this->getAvailableResources();
+        foreach ($resources as $res) {
+            if ($res->slug == $resource) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getAvailableLanguageCodes()
+    {
+        static $languageCodes = array();
+        if (empty($languageCodes)) {
+            $apiData = $this->getApiResults('project/' . $this->projectSlug . '/languages');
+            foreach ($apiData as $languageData) {
+                $languageCodes[] = $languageData->language_code;
+            }
+        }
         return $languageCodes;
     }
 
     public function getTranslations($resource, $language, $raw=false)
     {
-        $apiPath = 'resource/'.$resource.'/translation/'.$language.'/?mode=onlytranslated&file';
-        return $this->getApiResults($apiPath, $raw);
+        if ($this->resourceExists($resource)) {
+            $apiPath = 'project/' . $this->projectSlug . '/resource/' . $resource . '/translation/' . $language . '/?mode=onlytranslated&file';
+            return $this->getApiResults($apiPath, $raw);
+        }
+        return null;
     }
 
     protected function getApiResults($apiPath, $raw=false)
@@ -49,6 +76,7 @@ class API
         $curl = curl_init($apiUrl);
         curl_setopt($curl, CURLOPT_USERPWD, sprintf("%s:%s", $this->username, $this->password));
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($curl, CURLOPT_ENCODING, '');
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($curl);
         $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
@@ -57,7 +85,7 @@ class API
         if ($httpStatus == 401) {
             throw new AuthenticationFailedException();
         } else if ($httpStatus != 200) {
-            throw new Exception();
+            throw new Exception('Error while getting API results', $httpStatus);
         }
 
         return $raw ? $response : json_decode($response);
