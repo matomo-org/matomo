@@ -1538,6 +1538,10 @@ class CronArchive
 
         foreach ($allUsersPreferences as $userLogin => $userPreferences) {
 
+            if (!isset($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE])) {
+                continue;
+            }
+
             $defaultDate = $userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE];
             $preference = new UserPreferences();
             $period = $preference->getDefaultPeriod($defaultDate);
