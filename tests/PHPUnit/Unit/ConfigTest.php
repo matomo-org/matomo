@@ -403,6 +403,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $configCategory = $config->getFromGlobalConfig('Category');
         $this->assertEquals('value1', $configCategory['key1']);
         $this->assertEquals('value2', $configCategory['key2']);
+        $this->assertEquals(array('key1' => 'value1', 'key2' => 'value2'), $configCategory);
     }
     
     public function testFromCommonConfig()
