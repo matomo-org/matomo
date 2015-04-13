@@ -3,13 +3,13 @@
 <head>
 	<meta charset="utf-8">
 	<title>Piwik is undergoing maintenance</title>
-	<link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico" />
+	<link rel="shortcut icon" href="%faviconUrl%" />
 	<link rel="stylesheet" type="text/css" href="plugins/Morpheus/stylesheets/simple_structure.css" />
 </head>
 <body id="simple">
 
 <div class="logo">
-	<img title="Piwik" alt="Piwik" src="plugins/Morpheus/images/logo-header.png"/>
+	<img title="Piwik" alt="Piwik" src="%logoUrl%" />
 	<br/>
 	<a href='http://piwik.org/'>free/libre analytics platform</a>
 </div>
