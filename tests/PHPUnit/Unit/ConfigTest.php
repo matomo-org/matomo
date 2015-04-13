@@ -416,7 +416,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     
         $configCategory = $config->getFromCommonConfig('Category');
         $this->assertEquals('valueCommon', $configCategory['key2']);
-        $this->assertEquals('${@piwik(crash))}', $configCategory['key3']);
     }
     
     public function testFromLocalConfig()
