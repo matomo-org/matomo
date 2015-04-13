@@ -17,6 +17,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\Constraint\ResponseCode;
+use Piwik\Tests\Framework\Constraint\HttpResponseText;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
 use Piwik\Tests\Framework\TestRequest\Collection;
 use Piwik\Tests\Framework\TestRequest\Response;
@@ -594,6 +595,11 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         if(self::isPhpVersion53()) {
             $this->markTestSkipped('Sometimes fail on php 5.3');
         }
+    }
+
+    public function assertHttpResponseText($expectedResponseCode, $url, $message = '')
+    {
+        self::assertThat($url, new HttpResponseText($expectedResponseCode), $message);
     }
 
     public function assertResponseCode($expectedResponseCode, $url, $message = '')
