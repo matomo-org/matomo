@@ -74,6 +74,7 @@ class Response
             $this->outputApiResponse($tracker);
             Common::printDebug("Logging disabled, display transparent logo");
         } elseif (!$tracker->hasLoggedRequests()) {
+            Common::sendResponseCode(400);
             Common::printDebug("Empty request => Piwik page");
             echo "<a href='/'>Piwik</a> is a free/libre web <a href='http://piwik.org'>analytics</a> that lets you keep control of your data.";
         } else {
