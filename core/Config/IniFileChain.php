@@ -7,6 +7,7 @@
  */
 namespace Piwik\Config;
 
+use Piwik\Common;
 use Piwik\Ini\IniReader;
 use Piwik\Ini\IniReadingException;
 use Piwik\Ini\IniWriter;
@@ -113,8 +114,7 @@ class IniFileChain
      */
     public function dump($header = '')
     {
-        $writer = new IniWriter();
-        return $writer->writeToString($this->mergedSettings, $header);
+        return $this->dumpSettings($this->mergedSettings, $header);
     }
 
     /**
@@ -184,8 +184,7 @@ class IniFileChain
                 }
             });
 
-            $writer = new IniWriter();
-            return $writer->writeToString($configToWrite, $header);
+            return $this->dumpSettings($configToWrite, $header);
         } else {
             return null;
         }
@@ -206,7 +205,8 @@ class IniFileChain
         foreach ($this->settingsChain as $file => $ignore) {
             if (is_readable($file)) {
                 try {
-                    $this->settingsChain[$file] = $reader->readFile($file);
+                    $contents = $reader->readFile($file);
+                    $this->settingsChain[$file] = $this->decodeValues($contents);
                 } catch (IniReadingException $ex) {
                     $message = Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($file, "parse_ini_file()"));
                     throw new IniReadingException($message, $code = 0, $ex);
@@ -398,5 +398,53 @@ class IniFileChain
         $settingsDataSectionNames = array_keys($settingsData);
 
         return array_search($sectionName, $settingsDataSectionNames);
+    }
+
+    /**
+     * Encode HTML entities
+     *
+     * @param mixed $values
+     * @return mixed
+     */
+    protected function encodeValues(&$values)
+    {
+        if (is_array($values)) {
+            foreach ($values as &$value) {
+                $value = $this->encodeValues($value);
+            }
+        } elseif (is_float($values)) {
+            $values = Common::forceDotAsSeparatorForDecimalPoint($values);
+        } elseif (is_string($values)) {
+            $values = htmlentities($values, ENT_COMPAT, 'UTF-8');
+            $values = str_replace('$', '&#36;', $values);
+        }
+        return $values;
+    }
+
+    /**
+     * Decode HTML entities
+     *
+     * @param mixed $values
+     * @return mixed
+     */
+    protected function decodeValues(&$values)
+    {
+        if (is_array($values)) {
+            foreach ($values as &$value) {
+                $value = $this->decodeValues($value);
+            }
+            return $values;
+        } elseif (is_string($values)) {
+            return html_entity_decode($values, ENT_COMPAT, 'UTF-8');
+        }
+        return $values;
+    }
+
+    private function dumpSettings($values, $header)
+    {
+        $values = $this->encodeValues($values);
+
+        $writer = new IniWriter();
+        return $writer->writeToString($values, $header);
     }
 }

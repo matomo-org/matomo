@@ -145,7 +145,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     /**
      * Dataprovider for testDumpConfig
-     */
+$     */
     public function getDumpConfigData()
     {
         $header = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n" .
