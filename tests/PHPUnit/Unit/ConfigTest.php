@@ -390,5 +390,46 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
         @unlink($configFile);
     }
+    
+    public function testFromGlobalConfig()
+    {
+        $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
+        $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
+        $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
+        
+        $config = new Config($globalFile, $userFile, $commonFile);
+        $config->reload();
+        
+        $configCategory = $config->getFromGlobalConfig('Category');
+        $this->assertEquals('value1', $configCategory['key1']);
+        $this->assertEquals('value2', $configCategory['key2']);
+        $this->assertEquals(array('key1' => 'value1', 'key2' => 'value2'), $configCategory);
+    }
+    
+    public function testFromCommonConfig()
+    {
+        $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
+        $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
+        $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
+    
+        $config = new Config($globalFile, $userFile, $commonFile);
+        $config->reload();
+    
+        $configCategory = $config->getFromCommonConfig('Category');
+        $this->assertEquals('valueCommon', $configCategory['key2']);
+    }
+    
+    public function testFromLocalConfig()
+    {
+        $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
+        $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
+        $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
+    
+        $config = new Config($globalFile, $userFile, $commonFile);
+        $config->reload();
+        
+        $configCategory = $config->getFromLocalConfig('Category');
+        $this->assertEquals('value_overwritten', $configCategory['key1']);
+    }
 }
 
