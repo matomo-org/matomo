@@ -42,6 +42,8 @@ class Controller extends \Piwik\Plugin\Controller
     public function __construct(Updater $updater)
     {
         $this->updater = $updater;
+
+        parent::__construct();
     }
 
     public function newVersionAvailable()
@@ -53,6 +55,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = new View('@CoreUpdater/newVersionAvailable');
         $this->addCustomLogoInfo($view);
+        $this->setBasicVariablesView($view);
 
         $view->piwik_version = Version::VERSION;
         $view->piwik_new_version = $newVersion;
@@ -117,6 +120,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $this->addCustomLogoInfo($view);
+        $this->setBasicVariablesView($view);
         return $view->render();
     }
 
@@ -168,9 +172,11 @@ class Controller extends \Piwik\Plugin\Controller
 
         $viewWelcome = new View($welcomeTemplate);
         $this->addCustomLogoInfo($viewWelcome);
+        $this->setBasicVariablesView($viewWelcome);
 
         $viewDone = new View($doneTemplate);
         $this->addCustomLogoInfo($viewDone);
+        $this->setBasicVariablesView($viewDone);
 
         $doExecuteUpdates = Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1;
 
