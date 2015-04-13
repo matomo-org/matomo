@@ -334,9 +334,6 @@ class Config extends Singleton
             }
         }
 
-        // decode section datas
-        $this->decodeValues($this->settings->getAll());
-
         // Check config.ini.php last
         if (!$inTrackerRequest) {
             $this->checkLocalConfigFound();
@@ -359,46 +356,6 @@ class Config extends Singleton
         if (!$this->existsLocalConfig()) {
             throw new ConfigNotFoundException(Piwik::translate('General_ExceptionConfigurationFileNotFound', array($this->pathLocal)));
         }
-    }
-
-    /**
-     * Decode HTML entities
-     *
-     * @param mixed $values
-     * @return mixed
-     */
-    protected function decodeValues(&$values)
-    {
-        if (is_array($values)) {
-            foreach ($values as &$value) {
-                $value = $this->decodeValues($value);
-            }
-            return $values;
-        } elseif (is_string($values)) {
-            return html_entity_decode($values, ENT_COMPAT, 'UTF-8');
-        }
-        return $values;
-    }
-
-    /**
-     * Encode HTML entities
-     *
-     * @param mixed $values
-     * @return mixed
-     */
-    protected function encodeValues(&$values)
-    {
-        if (is_array($values)) {
-            foreach ($values as &$value) {
-                $value = $this->encodeValues($value);
-            }
-        } elseif (is_float($values)) {
-            $values = Common::forceDotAsSeparatorForDecimalPoint($values);
-        } elseif (is_string($values)) {
-            $values = htmlentities($values, ENT_COMPAT, 'UTF-8');
-            $values = str_replace('$', '&#36;', $values);
-        }
-        return $values;
     }
 
     /**
@@ -455,21 +412,9 @@ class Config extends Singleton
      */
     public function dumpConfig()
     {
-        $this->encodeValues($this->settings->getAll());
-
-        try {
-            $header = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
-            $header .= "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
-            $dumpedString = $this->settings->dumpChanges($header);
-
-            $this->decodeValues($this->settings->getAll());
-        } catch (Exception $ex) {
-            $this->decodeValues($this->settings->getAll());
-
-            throw $ex;
-        }
-
-        return $dumpedString;
+        $header = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
+        $header .= "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
+        return $this->settings->dumpChanges($header);
     }
 
     /**
