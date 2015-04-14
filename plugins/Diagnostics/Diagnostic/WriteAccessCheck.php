@@ -2,7 +2,6 @@
 
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
-use Piwik\Container\StaticContainer;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\Translation\Translator;
@@ -17,9 +16,20 @@ class WriteAccessCheck implements Diagnostic
      */
     private $translator;
 
-    public function __construct(Translator $translator)
+    /**
+     * Path to the temp directory.
+     * @var string
+     */
+    private $tmpPath;
+
+    /**
+     * @param Translator $translator
+     * @param string $tmpPath Path to the temp directory.
+     */
+    public function __construct(Translator $translator, $tmpPath)
     {
         $this->translator = $translator;
+        $this->tmpPath = $tmpPath;
     }
 
     public function execute()
@@ -62,19 +72,16 @@ class WriteAccessCheck implements Diagnostic
      */
     private function getDirectories()
     {
-        // TODO dependency injection
-        $tmpPath = StaticContainer::get('path.tmp');
-
         $directoriesToCheck = array(
-            $tmpPath,
-            $tmpPath . '/assets/',
-            $tmpPath . '/cache/',
-            $tmpPath . '/climulti/',
-            $tmpPath . '/latest/',
-            $tmpPath . '/logs/',
-            $tmpPath . '/sessions/',
-            $tmpPath . '/tcpdf/',
-            $tmpPath . '/templates_c/',
+            $this->tmpPath,
+            $this->tmpPath . '/assets/',
+            $this->tmpPath . '/cache/',
+            $this->tmpPath . '/climulti/',
+            $this->tmpPath . '/latest/',
+            $this->tmpPath . '/logs/',
+            $this->tmpPath . '/sessions/',
+            $this->tmpPath . '/tcpdf/',
+            $this->tmpPath . '/templates_c/',
         );
 
         if (! DbHelper::isInstalled()) {

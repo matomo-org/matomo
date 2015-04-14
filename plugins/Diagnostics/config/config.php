@@ -27,8 +27,11 @@ return array(
     ),
 
     'Piwik\Plugins\Diagnostics\DiagnosticService' => DI\object()
-        ->constructor(DI\link('diagnostics.required'), DI\link('diagnostics.optional')),
+        ->constructor(DI\link('diagnostics.required'), DI\get('diagnostics.optional')),
 
     'Piwik\Plugins\Diagnostics\Diagnostic\MemoryLimitCheck' => DI\object()
-        ->constructorParameter('minimumMemoryLimit', DI\link('ini.General.minimum_memory_limit')),
+        ->constructorParameter('minimumMemoryLimit', DI\get('ini.General.minimum_memory_limit')),
+
+    'Piwik\Plugins\Diagnostics\Diagnostic\WriteAccessCheck' => DI\object()
+        ->constructorParameter('tmpPath', DI\get('path.tmp')),
 );
