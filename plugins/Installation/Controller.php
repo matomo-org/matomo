@@ -111,6 +111,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             __FUNCTION__
         );
 
+        // Do not use dependency injection because this service requires a lot of sub-services across plugins
         /** @var DiagnosticService $diagnosticService */
         $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
         $view->diagnosticReport = $diagnosticService->runDiagnostics();
