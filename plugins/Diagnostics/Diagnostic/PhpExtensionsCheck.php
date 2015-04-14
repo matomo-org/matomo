@@ -27,9 +27,10 @@ class PhpExtensionsCheck implements Diagnostic
         $longErrorMessage = '';
 
         $requiredExtensions = $this->getRequiredExtensions();
+        $loadedExtensions = @get_loaded_extensions();
 
         foreach ($requiredExtensions as $extension) {
-            if (! in_array($extension, $this->getPhpExtensionsLoaded())) {
+            if (! in_array($extension, $loadedExtensions)) {
                 $status = DiagnosticResult::STATUS_ERROR;
                 $comment = $extension . ': ' . $this->translator->translate('Installation_RestartWebServer');
                 $longErrorMessage .= '<p>' . $this->getHelpMessage($extension) . '</p>';
@@ -65,11 +66,6 @@ class PhpExtensionsCheck implements Diagnostic
         }
 
         return $requiredExtensions;
-    }
-
-    private function getPhpExtensionsLoaded()
-    {
-        return @get_loaded_extensions();
     }
 
     private function getHelpMessage($missingExtension)

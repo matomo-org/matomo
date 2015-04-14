@@ -26,7 +26,7 @@ class PhpFunctionsCheck implements Diagnostic
         $result = new DiagnosticResult($label);
 
         foreach ($this->getRequiredFunctions() as $function) {
-            if (! $this->functionExists($function)) {
+            if (! self::functionExists($function)) {
                 $status = DiagnosticResult::STATUS_ERROR;
                 $comment = sprintf(
                     '%s <br/><br/><em>%s</em><br/><em>%s</em><br/>',
@@ -66,7 +66,7 @@ class PhpFunctionsCheck implements Diagnostic
      * @param string $function
      * @return bool
      */
-    private function functionExists($function)
+    public static function functionExists($function)
     {
         // eval() is a language construct
         if ($function == 'eval') {

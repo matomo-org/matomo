@@ -25,8 +25,10 @@ class RecommendedExtensionsCheck implements Diagnostic
 
         $result = new DiagnosticResult($label);
 
+        $loadedExtensions = @get_loaded_extensions();
+
         foreach ($this->getRecommendedExtensions() as $extension) {
-            if (! in_array($extension, $this->getPhpExtensionsLoaded())) {
+            if (! in_array($extension, $loadedExtensions)) {
                 $status = DiagnosticResult::STATUS_WARNING;
                 $comment = $extension . '<br/>' . $this->getHelpMessage($extension);
             } else {
@@ -63,10 +65,5 @@ class RecommendedExtensionsCheck implements Diagnostic
         );
 
         return $this->translator->translate($messages[$missingExtension]);
-    }
-
-    private function getPhpExtensionsLoaded()
-    {
-        return @get_loaded_extensions();
     }
 }

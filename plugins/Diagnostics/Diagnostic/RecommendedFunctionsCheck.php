@@ -26,7 +26,7 @@ class RecommendedFunctionsCheck implements Diagnostic
         $result = new DiagnosticResult($label);
 
         foreach ($this->getRecommendedFunctions() as $function) {
-            if (! $this->functionExists($function)) {
+            if (! PhpFunctionsCheck::functionExists($function)) {
                 $status = DiagnosticResult::STATUS_WARNING;
                 $comment = $function . '<br/>' . $this->getHelpMessage($function);
             } else {
@@ -65,35 +65,5 @@ class RecommendedFunctionsCheck implements Diagnostic
         );
 
         return $this->translator->translate($messages[$function]);
-    }
-
-    /**
-     * Tests if a function exists. Also handles the case where a function is disabled via Suhosin.
-     *
-     * @param string $function
-     * @return bool
-     */
-    private function functionExists($function)
-    {
-        // eval() is a language construct
-        if ($function == 'eval') {
-            // does not check suhosin.executor.eval.whitelist (or blacklist)
-            if (extension_loaded('suhosin')) {
-                return @ini_get("suhosin.executor.disable_eval") != "1";
-            }
-            return true;
-        }
-
-        $exists = function_exists($function);
-
-        if (extension_loaded('suhosin')) {
-            $blacklist = @ini_get("suhosin.executor.func.blacklist");
-            if (!empty($blacklist)) {
-                $blacklistFunctions = array_map('strtolower', array_map('trim', explode(',', $blacklist)));
-                return $exists && !in_array($function, $blacklistFunctions);
-            }
-        }
-
-        return $exists;
     }
 }
