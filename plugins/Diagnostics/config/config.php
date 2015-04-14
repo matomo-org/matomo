@@ -25,9 +25,11 @@ return array(
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\CronArchivingCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\LoadDataInfileCheck'),
     ),
+    // Allows other plugins to disable diagnostics that were previously registered
+    'diagnostics.disabled' => array(),
 
     'Piwik\Plugins\Diagnostics\DiagnosticService' => DI\object()
-        ->constructor(DI\get('diagnostics.required'), DI\get('diagnostics.optional')),
+        ->constructor(DI\get('diagnostics.required'), DI\get('diagnostics.optional'), DI\get('diagnostics.disabled')),
 
     'Piwik\Plugins\Diagnostics\Diagnostic\MemoryLimitCheck' => DI\object()
         ->constructorParameter('minimumMemoryLimit', DI\get('ini.General.minimum_memory_limit')),

@@ -25,11 +25,12 @@ class DiagnosticService
     /**
      * @param Diagnostic[] $mandatoryDiagnostics
      * @param Diagnostic[] $optionalDiagnostics
+     * @param Diagnostic[] $disabledDiagnostics
      */
-    public function __construct(array $mandatoryDiagnostics, array $optionalDiagnostics)
+    public function __construct(array $mandatoryDiagnostics, array $optionalDiagnostics, array $disabledDiagnostics)
     {
-        $this->mandatoryDiagnostics = $mandatoryDiagnostics;
-        $this->optionalDiagnostics = $optionalDiagnostics;
+        $this->mandatoryDiagnostics = $this->removeDisabledDiagnostics($mandatoryDiagnostics, $disabledDiagnostics);
+        $this->optionalDiagnostics = $this->removeDisabledDiagnostics($optionalDiagnostics, $disabledDiagnostics);
     }
 
     /**
@@ -56,5 +57,12 @@ class DiagnosticService
         }
 
         return $results;
+    }
+
+    private function removeDisabledDiagnostics(array $diagnostics, array $disabledDiagnostics)
+    {
+        return array_filter($diagnostics, function (Diagnostic $diagnostic) use ($disabledDiagnostics) {
+            return ! in_array($diagnostic, $disabledDiagnostics, true);
+        });
     }
 }
