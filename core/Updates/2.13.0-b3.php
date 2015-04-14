@@ -10,11 +10,12 @@
 namespace Piwik\Updates;
 
 use Piwik\Config;
+use Piwik\Updater;
 use Piwik\Updates;
 
 class Updates_2_13_0_b3 extends Updates
 {
-    public function doUpdate()
+    public function doUpdate(Updater $updater)
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
 
