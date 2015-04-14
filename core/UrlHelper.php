@@ -155,6 +155,14 @@ class UrlHelper
         if (strlen($urlQuery) == 0) {
             return array();
         }
+
+        $cache    = Cache::getTransientCache();
+        $cacheKey = 'arrayFromQuery' . $urlQuery;
+
+        if ($cache->contains($cacheKey)) {
+            return $cache->fetch($cacheKey);
+        }
+
         if ($urlQuery[0] == '?') {
             $urlQuery = substr($urlQuery, 1);
         }
@@ -200,6 +208,9 @@ class UrlHelper
                 $nameToValue[$name] = $value;
             }
         }
+
+        $cache->save($cacheKey, $nameToValue);
+
         return $nameToValue;
     }
 
@@ -214,6 +225,7 @@ class UrlHelper
     public static function getParameterFromQueryString($urlQuery, $parameter)
     {
         $nameToValue = self::getArrayFromQueryString($urlQuery);
+
         if (isset($nameToValue[$parameter])) {
             return $nameToValue[$parameter];
         }

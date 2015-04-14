@@ -20,6 +20,7 @@ use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tracker;
+use Piwik\Cache as PiwikCache;
 
 /**
  * The Request object holding the http parameters for this tracking request. Use getParam() to fetch a named parameter.
@@ -27,6 +28,10 @@ use Piwik\Tracker;
  */
 class Request
 {
+    private $cdtCache;
+    private $idSiteCache;
+    private $paramsCache = array();
+
     /**
      * @var array
      */
@@ -108,13 +113,29 @@ class Request
 
         if ($shouldAuthenticate) {
 
+            try {
+                $idSite = $this->getIdSite();
+            } catch (Exception $e) {
+                $this->isAuthenticated = false;
+                return;
+            }
+
             if (empty($tokenAuth)) {
                 $tokenAuth = Common::getRequestVar('token_auth', false, 'string', $this->params);
             }
 
+            $cache = PiwikCache::getTransientCache();
+            $cacheKey = 'tracker_request_authentication_' . $idSite . '_' . $tokenAuth;
+
+            if ($cache->contains($cacheKey)) {
+                Common::printDebug("token_auth is authenticated in cache!");
+                $this->isAuthenticated = $cache->fetch($cacheKey);
+                return;
+            }
+
             try {
-                $idSite = $this->getIdSite();
                 $this->isAuthenticated = self::authenticateSuperUserOrAdmin($tokenAuth, $idSite);
+                $cache->save($cacheKey, $this->isAuthenticated);
             } catch (Exception $e) {
                 $this->isAuthenticated = false;
             }
@@ -294,11 +315,11 @@ class Request
             // other
             'bots'         => array(0, 'int'),
             'dp'           => array(0, 'int'),
-            'rec'          => array(false, 'int'),
+            'rec'          => array(0, 'int'),
             'new_visit'    => array(0, 'int'),
 
             // Ecommerce
-            'ec_id'        => array(false, 'string'),
+            'ec_id'        => array('', 'string'),
             'ec_st'        => array(false, 'float'),
             'ec_tx'        => array(false, 'float'),
             'ec_sh'        => array(false, 'float'),
@@ -306,24 +327,24 @@ class Request
             'ec_items'     => array('', 'json'),
 
             // Events
-            'e_c'          => array(false, 'string'),
-            'e_a'          => array(false, 'string'),
-            'e_n'          => array(false, 'string'),
+            'e_c'          => array('', 'string'),
+            'e_a'          => array('', 'string'),
+            'e_n'          => array('', 'string'),
             'e_v'          => array(false, 'float'),
 
             // some visitor attributes can be overwritten
-            'cip'          => array(false, 'string'),
-            'cdt'          => array(false, 'string'),
-            'cid'          => array(false, 'string'),
-            'uid'          => array(false, 'string'),
+            'cip'          => array('', 'string'),
+            'cdt'          => array('', 'string'),
+            'cid'          => array('', 'string'),
+            'uid'          => array('', 'string'),
 
             // Actions / pages
-            'cs'           => array(false, 'string'),
+            'cs'           => array('', 'string'),
             'download'     => array('', 'string'),
             'link'         => array('', 'string'),
             'action_name'  => array('', 'string'),
             'search'       => array('', 'string'),
-            'search_cat'   => array(false, 'string'),
+            'search_cat'   => array('', 'string'),
             'search_count' => array(-1, 'int'),
             'gt_ms'        => array(-1, 'int'),
 
@@ -334,6 +355,10 @@ class Request
             'c_i'          => array('', 'string'),
         );
 
+        if (isset($this->paramsCache[$name])) {
+            return $this->paramsCache[$name];
+        }
+
         if (!isset($supportedParams[$name])) {
             throw new Exception("Requested parameter $name is not a known Tracking API Parameter.");
         }
@@ -341,9 +366,18 @@ class Request
         $paramDefaultValue = $supportedParams[$name][0];
         $paramType = $supportedParams[$name][1];
 
-        $value = Common::getRequestVar($name, $paramDefaultValue, $paramType, $this->params);
+        if ($this->hasParam($name)) {
+            $this->paramsCache[$name] = Common::getRequestVar($name, $paramDefaultValue, $paramType, $this->params);
+        } else {
+            $this->paramsCache[$name] = $paramDefaultValue;
+        }
 
-        return $value;
+        return $this->paramsCache[$name];
+    }
+
+    private function hasParam($name)
+    {
+        return isset($this->params[$name]);
     }
 
     public function getParams()
@@ -353,10 +387,12 @@ class Request
 
     public function getCurrentTimestamp()
     {
-        $cdt = $this->getCustomTimestamp();
+        if (!isset($this->cdtCache)) {
+            $this->cdtCache = $this->getCustomTimestamp();
+        }
 
-        if (!empty($cdt)) {
-            return $cdt;
+        if (!empty($this->cdtCache)) {
+            return $this->cdtCache;
         }
 
         return $this->timestamp;
@@ -369,6 +405,10 @@ class Request
 
     protected function getCustomTimestamp()
     {
+        if (!$this->hasParam('cdt')) {
+            return false;
+        }
+
         $cdt = $this->getParam('cdt');
 
         if (empty($cdt)) {
@@ -418,6 +458,10 @@ class Request
 
     public function getIdSite()
     {
+        if (isset($this->idSiteCache)) {
+            return $this->idSiteCache;
+        }
+
         $idSite = Common::getRequestVar('idsite', 0, 'int', $this->params);
 
         /**
@@ -437,6 +481,8 @@ class Request
         if ($idSite <= 0) {
             throw new UnexpectedWebsiteFoundException('Invalid idSite: \'' . $idSite . '\'');
         }
+
+        $this->idSiteCache = $idSite;
 
         return $idSite;
     }

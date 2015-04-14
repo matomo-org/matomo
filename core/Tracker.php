@@ -132,8 +132,6 @@ class Tracker
         if ($request->isEmptyRequest()) {
             Common::printDebug("The request is empty");
         } else {
-            $this->loadTrackerPlugins();
-
             Common::printDebug("Current datetime: " . date("Y-m-d H:i:s", $request->getCurrentTimestamp()));
 
             $visit = Visit\Factory::make();
@@ -168,6 +166,13 @@ class Tracker
             }
 
             PluginManager::getInstance()->loadCorePluginsDuringTracker();
+        }
+    }
+
+    public static function restoreTrackerPlugins()
+    {
+        if (SettingsServer::isTrackerApiRequest() && Tracker::$initTrackerMode) {
+            Plugin\Manager::getInstance()->loadTrackerPlugins();
         }
     }
 

@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Cache;
 use Piwik\Config;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -27,6 +28,12 @@ class BlobReportLimitingTest extends SystemTestCase
     {
         self::setUpConfigOptions();
         parent::setUpBeforeClass();
+    }
+
+    public function setUp()
+    {
+        Cache::getTransientCache()->flushAll();
+        parent::setUp();
     }
 
     public function getApiForTesting()
