@@ -5,6 +5,6 @@ return array(
         ->constructorParameter('tmpPath', DI\get('path.tmp')),
 
     'diagnostics.optional' => DI\add(array(
-        DI\link('Piwik\Plugins\CoreUpdater\Diagnostic\HttpsUpdateCheck'),
+        DI\get('Piwik\Plugins\CoreUpdater\Diagnostic\HttpsUpdateCheck'),
     )),
 );
