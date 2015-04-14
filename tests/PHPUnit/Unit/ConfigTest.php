@@ -416,7 +416,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $config->reload();
     
         $configCategory = $config->getFromCommonConfig('Category');
-        $this->assertEquals('valueCommon', $configCategory['key2']);
+        $this->assertEquals(array('key2' => 'valueCommon', 'key3' => '${@piwik(crash))}'), $configCategory);
     }
     
     public function testFromLocalConfig()
@@ -429,7 +429,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $config->reload();
         
         $configCategory = $config->getFromLocalConfig('Category');
-        $this->assertEquals('value_overwritten', $configCategory['key1']);
+        $this->assertEquals(array('key1' => 'value_overwritten'), $configCategory);
     }
 }
 
