@@ -1,6 +1,3 @@
-{% if warningMessages is not defined %}
-    {% set warningMessages=infos.integrityErrorMessages %}
-{% endif %}
 <div id="integrity-results" title="{{ 'Installation_SystemCheckFileIntegrity'|translate }}" style="display:none; font-size: 62.5%;">
     <table>
         {% for msg in warningMessages %}
