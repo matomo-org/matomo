@@ -40,6 +40,19 @@
 		<logo>plugins/Referrers/images/socials/facebook.com.png</logo>
 	</row>
 	<row>
+		<label>Flickr - www.flickr.com</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>361</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<url>http://www.flickr.com</url>
+		<logo>plugins/Referrers/images/socials/flickr.com.png</logo>
+	</row>
+	<row>
 		<label>Mixi - mixi.jp</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
@@ -103,19 +116,6 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>http://www.twitter.com/index?a=2334</url>
 		<logo>plugins/Referrers/images/socials/twitter.com.png</logo>
-	</row>
-	<row>
-		<label>Flickr - www.flickr.com</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>2</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>361</sum_visit_length>
-		<bounce_count>0</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<url>http://www.flickr.com</url>
-		<logo>plugins/Referrers/images/socials/flickr.com.png</logo>
 	</row>
 	<row>
 		<label>Xanga - xanga.com</label>

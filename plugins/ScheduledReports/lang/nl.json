@@ -26,6 +26,7 @@
         "PiwikReports": "Piwik rapporten",
         "PleaseFindAttachedFile": "In de bijlage treft u uw %1$s rapport voor %2$s.",
         "PleaseFindBelow": "Hieronder treft u uw %1$s rapport voor %2$s.",
+        "PluginDescription": "Maak aangepaste rapporten aan en plan deze in om dagelijks, wekelijks of maandelijks te mailen naar één of meerdere personen. Diverse rapportformaten worden ondersteund (html, pdf, csv, afbeeldingen).",
         "ReportFormat": "Rapportformaat",
         "ReportHour": "Verstuur rapport om",
         "ReportIncludeNWebsites": "Het rapport zal gegevens bevatten van alle websites die tenminste één bezoek hebben gehad (van de %s websites die momenteel beschikbaar zijn).",

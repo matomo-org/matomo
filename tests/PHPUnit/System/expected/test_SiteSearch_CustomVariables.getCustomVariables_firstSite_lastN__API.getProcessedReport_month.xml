@@ -76,10 +76,10 @@
 	<reportMetadata>
 		<result prettyDate="2010, January">
 			<row>
-				
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
-				
+				<idsubdatatable>1</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="2010, February" />

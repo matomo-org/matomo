@@ -2,6 +2,21 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+## Piwik 2.13.0
+
+### Deprecations
+* The method `Piwik\Archive::getBlob()` has been deprecated and will be removed from June 1st 2015. Use one of the methods `getDataTable*()` methods instead.
+* The API parameter `countVisitorsToFetch` of the API method `Live.getLastVisitsDetails` has been deprecated as `filter_offset` and `filter_limit` work correctly now.
+
+### Breaking Changes
+* The API method `Live.getLastVisitsDetails` does no longer support the API parameter `filter_sort_column` to prevent possible memory issues when `filter_offset` is large.
+
+### New commands
+* There is now a `diagnostic:run` command to run the system check from the command line.
+
+### APIs Improvements
+* Visitor details now additionally contain: `deviceTypeIcon`, `deviceBrand` and `deviceModel`
+
 ## Piwik 2.12.0
 
 ### Breaking Changes
@@ -25,8 +40,16 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
   * `isIpInRange()`
   * `getHostByAddr()`
 
+### Deprecations
+* `API` classes should no longer have a protected constructor. Classes with a protected constructor will generate a notice in the logs and should expose a public constructor instead.
+* Update classes should not declare static `getSql()` and `update()` methods anymore. It is still supported to use those, but developers should instead override the `Updates::getMigrationQueries()` and `Updates::doUpdate()` instance methods.
+
+### New features
+* `API` classes can now use dependency injection in their constructor to inject other instances.
+
 ### New commands
 * There is now a command `core:purge-old-archive-data` that can be used to manually purge temporary, error-ed and invalidated archives from one or more archive tables.
+* There is now a command `usercountry:attribute` that can be used to re-attribute geolocated location data to existing visits and conversions. If you have visits that were tracked before setting up GeoIP, you can use this command to add location data to them.
 
 ## Piwik 2.11.0
 

@@ -1048,7 +1048,8 @@ class Manager extends Singleton
             $this->executePluginInstall($plugin);
             $pluginsInstalled[] = $pluginName;
             $this->updatePluginsInstalledConfig($pluginsInstalled);
-            Updater::recordComponentSuccessfullyUpdated($plugin->getPluginName(), $plugin->getVersion());
+            $updater = new Updater();
+            $updater->markComponentSuccessfullyUpdated($plugin->getPluginName(), $plugin->getVersion());
             $saveConfig = true;
         }
 

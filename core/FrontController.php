@@ -14,6 +14,7 @@ use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\AuthenticationFailedException;
+use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
 use Piwik\Plugin\Report;
@@ -318,7 +319,7 @@ class FrontController extends Singleton
          */
         Piwik::postEvent('Request.dispatchCoreAndPluginUpdatesScreen');
 
-        Updater::throwIfPiwikVersionIsOlderThanDBSchema();
+        $this->throwIfPiwikVersionIsOlderThanDBSchema();
 
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
 
@@ -556,4 +557,28 @@ class FrontController extends Singleton
         return $result;
     }
 
+    /**
+     * This method ensures that Piwik Platform cannot be running when using a NEWER database.
+     */
+    private function throwIfPiwikVersionIsOlderThanDBSchema()
+    {
+        // When developing this situation happens often when switching branches
+        if (Development::isEnabled()) {
+            return;
+        }
+
+        $updater = new Updater();
+
+        $dbSchemaVersion = $updater->getCurrentComponentVersion('core');
+        $current = Version::VERSION;
+        if (-1 === version_compare($current, $dbSchemaVersion)) {
+            $messages = array(
+                Piwik::translate('General_ExceptionDatabaseVersionNewerThanCodebase', array($current, $dbSchemaVersion)),
+                Piwik::translate('General_ExceptionDatabaseVersionNewerThanCodebaseWait'),
+                // we cannot fill in the Super User emails as we are failing before Authentication was ready
+                Piwik::translate('General_ExceptionContactSupportGeneric', array('', ''))
+            );
+            throw new DatabaseSchemaIsNewerThanCodebaseException(implode(" ", $messages));
+        }
+    }
 }

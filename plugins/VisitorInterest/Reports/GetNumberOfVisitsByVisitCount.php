@@ -16,6 +16,8 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
 
 class GetNumberOfVisitsByVisitCount extends Base
 {
+    protected $defaultSortColumn = '';
+
     protected function init()
     {
         parent::init();

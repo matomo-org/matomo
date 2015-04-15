@@ -10,6 +10,7 @@ namespace Piwik\Plugins\SitesManager;
 
 use Piwik\Common;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Model as TrackerModel;
 
@@ -45,6 +46,12 @@ class SitesManager extends \Piwik\Plugin
 
         $siteId = Common::getRequestVar('idSite', false, 'int');
         if (!$siteId) {
+            return;
+        }
+
+        // Skip the screen if purging logs is enabled
+        $settings = PrivacyManager::getPurgeDataSettings();
+        if ($settings['delete_logs_enable'] == 1) {
             return;
         }
 
@@ -253,6 +260,7 @@ class SitesManager extends \Piwik\Plugin
     {
         $translationKeys[] = "General_Save";
         $translationKeys[] = "General_OrCancel";
+        $translationKeys[] = "General_Actions";
         $translationKeys[] = "Actions_SubmenuSitesearch";
         $translationKeys[] = "SitesManager_OnlyOneSiteAtTime";
         $translationKeys[] = "SitesManager_DeleteConfirm";

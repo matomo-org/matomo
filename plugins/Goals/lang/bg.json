@@ -60,6 +60,7 @@
         "HelpOneConversionPerVisit": "Ако страница, съпадащата с тази Цел е обновена или гледана повече от веднъж за едно посещение, Целта ще бъде проследена само първият път.",
         "IsExactly": "е точно %s",
         "LeftInCart": "%s остатък в количката",
+        "ManageGoals": "Управление на целите",
         "Manually": "ръчно",
         "ManuallyTriggeredUsingJavascriptFunction": "Целта е ръчно задействана с помощта на JavaScript API trackGoal()",
         "MatchesExpression": "съответства на изразените %s",

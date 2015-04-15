@@ -25,7 +25,7 @@
             <br/>
         </div>
 
-        <h2>{{ 'Do you need help?'|translate }}</h2>
+        <h2>{{ 'Feedback_CommunityHelp'|translate }}</h2>
 
         <div class="header_full">
             <p> &bull; {{ 'Feedback_ViewUserGuides'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/'>","</a>")|raw }}.</p>
@@ -34,10 +34,32 @@
             <br/>
         </div>
 
+        <h2>{{ 'Feedback_ProfessionalHelp'|translate }}</h2>
+
+        <div class="header_full">
+            <p>{{ 'Feedback_PiwikProIntro'|translate }}</p>
+
+            <p>{{ 'Feedback_PiwikProOfferIntro'|translate }}:</p>
+            <p> &bull; {{ 'Feedback_PiwikProReviewPiwikSetup'|translate }}</p>
+            <p> &bull; {{ 'Feedback_PiwikProOptimizationMaintenance'|translate }}</p>
+            <p> &bull; {{ 'Feedback_PiwikProPhoneEmailSupport'|translate }}</p>
+            <p> &bull; {{ 'Feedback_PiwikProTraining'|translate }}</p>
+            <p> &bull; {{ 'Feedback_PiwikProPremiumFeatures'|translate }}</p>
+            <p> &bull; {{ 'Feedback_PiwikProCustomDevelopment'|translate }}</p>
+            <p> &bull; {{ 'Feedback_PiwikProAnalystConsulting'|translate }}</p>
+            <br/>
+        </div>
+
+        <form target="_blank" action="https://piwik.pro/contact#contact-form">
+            <input type="hidden" name="pk_campaign" value="piwikui-help">
+            <input type="hidden" name="pk_source" value="selfhosted">
+            <input type="submit" value="{{ 'Feedback_ContactUs'|translate }}">
+        </form>
+
         <h2>{{ 'Feedback_DoYouHaveBugReportOrFeatureRequest'|translate }}</h2>
 
         <div class="header_full">
-            <p>{{ 'Feedback_HowToCreateTicket'|translate(
+                <p>{{ 'Feedback_HowToCreateTicket'|translate(
                 "<a target='_blank' href='?module=Proxy&action=redirect&url=http://developer.piwik.org/guides/core-team-workflow%23submitting-a-bug-report'>",
                 "</a>",
                 "<a target='_blank' href='?module=Proxy&action=redirect&url=http://developer.piwik.org/guides/core-team-workflow%23submitting-a-feature-request'>",
@@ -50,26 +72,12 @@
             <br/>
         </div>
 
-        <h2>{{ 'Feedback_SpecialRequest'|translate }}</h2>
-
-        <div class="header_full">
-            <p>{{ 'Feedback_GetInTouch'|translate }}
-                <a target='_blank' href="?module=Proxy&action=redirect&url=http://piwik.org/contact/"
-                    >{{ 'Feedback_ContactThePiwikTeam'|translate }}</a>
-            </p>
-            <br/>
-        </div>
-
-        <h2 id="donate">{{ 'Feedback_WantToThankConsiderDonating'|translate }}</h2>
-        {% include "@CoreHome/_donate.twig" with { 'msg':""} %}
-        <br/>
-
         <div class="footer">
             <hr/>
             <ul class="social">
                 <li>
-                    <a rel="noreferrer"  target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/newsletter/"><img class="icon" src="plugins/Feedback/images/newsletter.png"></a>
-                    <a rel="noreferrer"  target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/newsletter/">Newsletter</a>
+                    <a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/newsletter/"><img class="icon" src="plugins/Feedback/images/newsletter.png"></a>
+                    <a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/newsletter/">Newsletter</a>
                 </li>
                 <li>
                     <a rel="noreferrer"  target="_blank" href="http://www.facebook.com/Piwik"><img class="icon" src="plugins/Feedback/images/facebook.png"></a>
@@ -89,11 +97,11 @@
                 </li>
             </ul>
             <ul class="menu">
-                <li><a rel="noreferrer"  target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/blog/">Blog</a></li>
-                <li><a rel="noreferrer"  target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/about/sponsors/">Sponsors</a></li>
-                <li><a rel="noreferrer"  target="_blank" href="?module=Proxy&action=redirect&url=http://developer.piwik.org">Developers</a></li>
-                <li><a rel="noreferrer"  target="_blank" href="?module=Proxy&action=redirect&url=http://plugins.piwik.org">Marketplace</a></li>
-                <li><a rel="noreferrer"  target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/thank-you-all/">Credits</a></li>
+                <li><a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/blog/">Blog</a></li>
+                <li><a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/about/sponsors/">Sponsors</a></li>
+                <li><a target="_blank" href="?module=Proxy&action=redirect&url=http://developer.piwik.org">Developers</a></li>
+                <li><a target="_blank" href="?module=Proxy&action=redirect&url=http://plugins.piwik.org">Marketplace</a></li>
+                <li><a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/thank-you-all/">Credits</a></li>
             </ul>
             <p class="claim"><small>{{ 'Feedback_PrivacyClaim'|translate(
                     "<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/privacy/'>",

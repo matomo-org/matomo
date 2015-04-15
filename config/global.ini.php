@@ -220,6 +220,13 @@ adding_segment_requires_access = "view"
 ; on Piwik performance.
 allow_adding_segments_for_all_websites = 1
 
+; When archiving segments for the first time, this determines the oldest date that will be archived.
+; This option can be used to avoid archiving (for isntance) the lastN years for every new segment.
+; Valid option values include: "beginning_of_time" (start date of archiving will not be changed)
+;                              "segment_creation_time" (start date of archiving will be the creation date of the segment)
+;                              lastN where N is an integer (eg "last10" to archive for 10 days before the segment creation date)
+process_new_segments_from = "beginning_of_time"
+
 ; this action name is used when the URL ends with a slash /
 ; it is useful to have an actual string to write in the UI
 action_default_name = index
@@ -455,7 +462,8 @@ enable_trusted_host_check = 1
 ; Examples:
 ;cors_domains[] = http://example.com
 ;cors_domains[] = http://stats.example.com
-; OR allow for all domains
+;
+; Or you may allow cross domain requests for all domains with:
 ;cors_domains[] = *
 
 ; If you use this Piwik instance over multiple hostnames, Piwik will need to know
@@ -555,6 +563,10 @@ use_third_party_id_cookie = 0
 ; Once enabled (set to 1) messages will be logged to all loggers defined in "[log] log_writers" config.
 debug = 0
 
+; This option is an alternative to the debug option above. When set to 1, you can debug tracker request by adding
+; a debug=1 query paramater in the URL. All other HTTP requests will not have debug enabled.
+debug_on_demand = 0
+
 ; This setting is described in this FAQ: http://piwik.org/faq/how-to/faq_175/
 ; Note: generally this should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
 ; and the same IP. If left to 0 in this setting, all visitors will be counted as one single visitor.
@@ -642,7 +654,7 @@ bulk_requests_use_transaction = 1
 ; Comma separated list of known Referrer Spammers, ie. bot visits that set a fake Referrer field.
 ; All Visits with a Referrer URL host set to one of these will be excluded.
 ; If you find new spam entries in Referrers>Websites, please report them here: https://github.com/piwik/piwik/issues/5099
-referrer_urls_spam = "semalt.com,buttons-for-website.com,7makemoneyonline.com,anticrawler.org,ranksonic.info,savetubevideo.com,kambasoft.com,ilovevitaly.com,priceg.com,blackhatworth.com,hulfingtonpost.com,darodar.com,econom.co,o-o-6-o-o.com,bestwebsitesawards.com,darodar.com,ranksonic.org,ranksonic.info"
+referrer_urls_spam = "4webmasters.org,7makemoneyonline.com,anticrawler.org,best-seo-solution.com,bestwebsitesawards.com,blackhatworth.com,buttons-for-website.com,darodar.com,econom.co,hulfingtonpost.com,ilovevitaly.com,kambasoft.com,o-o-6-o-o.com,priceg.com,ranksonic.info,ranksonic.org,savetubevideo.com,semalt.com"
 
 ; DO NOT USE THIS SETTING ON PUBLICLY AVAILABLE PIWIK SERVER
 ; !!! Security risk: if set to 0, it would allow anyone to push data to Piwik with custom dates in the past/future and even with fake IPs!
@@ -708,6 +720,7 @@ password = ; Proxy password: optional; if specified, username is mandatory
 Plugins[] = CorePluginsAdmin
 Plugins[] = CoreAdminHome
 Plugins[] = CoreHome
+Plugins[] = Diagnostics
 Plugins[] = CoreVisualizations
 Plugins[] = Proxy
 Plugins[] = API

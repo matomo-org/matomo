@@ -16,6 +16,7 @@
         "BeCarefulUsingThemes": "Les thèmes qui ne sont pas conçus par l'équipe de Piwik doivent être utilisés avec précaution : nous les avons pas vérifiés.",
         "ByXDevelopers": "par %s développeurs",
         "Changelog": "Historique des changements",
+        "ChangeLookByManageThemes": "Vous pouvez changer l'apparence de Piwik en %sgérant les thèmes%s.",
         "ChangeSettingsPossible": "Vous pouvez modifier les %sparamètres%s de ce composant.",
         "CorePluginTooltip": "Les composants principaux n'ont pas de version puisqu'ils sont distribués avec Piwik.",
         "Deactivate": "Désactiver",

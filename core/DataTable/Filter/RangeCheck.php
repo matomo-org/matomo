@@ -47,6 +47,19 @@ class RangeCheck extends BaseFilter
     {
         foreach ($table->getRows() as $row) {
             $value = $row->getColumn($this->columnToFilter);
+
+            if ($value === false) {
+                $value = $row->getMetadata($this->columnToFilter);
+                if ($value !== false) {
+                    if ($value < (float) self::$minimumValue) {
+                        $row->setMetadata($this->columnToFilter, self::$minimumValue);
+                    } elseif ($value > (float) self::$maximumValue) {
+                        $row->setMetadata($this->columnToFilter, self::$maximumValue);
+                    }
+                }
+                continue;
+            }
+
             if ($value !== false) {
                 if ($value < (float) self::$minimumValue) {
                     $row->setColumn($this->columnToFilter, self::$minimumValue);

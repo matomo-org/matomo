@@ -19,7 +19,7 @@ use Exception;
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/UserCountry.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
-class UserCountryTest extends \PHPUnit_Framework_Testcase
+class UserCountryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @group Plugins

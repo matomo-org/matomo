@@ -6,3 +6,7 @@ http://developer.piwik.org/guides/contributing-to-piwik-core
 
 ## How to submit a bug report or suggest a feature?
 Please read the recommendations on writing a good [bug report](http://developer.piwik.org/guides/core-team-workflow#submitting-a-bug-report) or [feature request](http://developer.piwik.org/guides/core-team-workflow#submitting-a-feature-request).
+
+## How to suggest improvements to translations?
+
+You can help improve translations in Piwik, please read [contribute to translations](https://github.com/piwik/piwik/blob/master/lang/README.md).

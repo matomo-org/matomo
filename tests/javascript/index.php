@@ -1903,7 +1903,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(64);
+        expect(65);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -1938,6 +1938,7 @@ function PiwikTest() {
         equal( typeof tracker.setLinkTrackingTimer, 'function', 'setLinkTrackingTimer' );
         equal( typeof tracker.setDownloadExtensions, 'function', 'setDownloadExtensions' );
         equal( typeof tracker.addDownloadExtensions, 'function', 'addDownloadExtensions' );
+        equal( typeof tracker.removeDownloadExtensions, 'function', 'removeDownloadExtensions' );
         equal( typeof tracker.setDomains, 'function', 'setDomains' );
         equal( typeof tracker.setIgnoreClasses, 'function', 'setIgnoreClasses' );
         equal( typeof tracker.setRequestMethod, 'function', 'setRequestMethod' );
@@ -2295,7 +2296,7 @@ function PiwikTest() {
     });
 
     test("Tracker setDownloadExtensions(), addDownloadExtensions(), setDownloadClasses(), setLinkClasses(), and getLinkType()", function() {
-        expect(54);
+        expect(66);
 
         var tracker = Piwik.getTracker();
 
@@ -2325,8 +2326,18 @@ function PiwikTest() {
             equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true), 0, messagePrefix + '.txt =! download extension' );
 
             tracker.addDownloadExtensions('xyz');
+            tracker.addDownloadExtensions(['abc','zz']);
             equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', messagePrefix + '[2] .pk == download extension' );
             equal( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true), 'download', messagePrefix + '.xyz == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.abc', true), 'download', messagePrefix + '.abc == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.zz', true), 'download', messagePrefix + '.zz == download extension' );
+
+            tracker.removeDownloadExtensions(['xyz','pk']);
+            tracker.removeDownloadExtensions('zz');
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 0, messagePrefix + '[2] .pk =! download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true), 0, messagePrefix + '.xyz =! download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.abc', true), 'download', messagePrefix + '.abc == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.zz', true), 0, messagePrefix + '.zz =! download extension' );
 
             tracker.setDownloadClasses(['a', 'b']);
             equal( tracker.hook.test._getLinkType('abc piwik_download', 'piwiktest.ext', true), 'download', messagePrefix + 'download (default)' );
@@ -2370,7 +2381,7 @@ function PiwikTest() {
     }
 
     test("User ID and Visitor UUID", function() {
-        expect(19);
+        expect(23);
         deleteCookies();
 
         var userIdString = 'userid@mydomain.org';
@@ -2401,7 +2412,11 @@ function PiwikTest() {
         equal(userId, tracker.getUserId(), "by default user ID is set to empty string");
         tracker.setUserId(userId);
         equal(userId, tracker.getUserId(), "after setting to empty string, user id is still empty");
-        equal(visitorId, tracker.getVisitorId(), "visitor id was not changed after setting empty user id");
+        equal(getVisitorIdFromCookie(tracker), tracker.getVisitorId(), "visitor id in cookie was not yet changed after setting empty user id");
+        tracker.trackPageView("Track some data to write the cookies...");
+        equal(visitorId, tracker.getVisitorId(), "visitor id was not changed after setting empty user id and tracking an action");
+        equal(getVisitorIdFromCookie(tracker), tracker.getVisitorId(), "visitor id in cookie was not changed");
+
 
         // Building another 'tracker2' object so we can compare behavior to 'tracker'
         var tracker2 = Piwik.getTracker();
@@ -2430,6 +2445,14 @@ function PiwikTest() {
         tracker2.setUserId(userIdString);
         equal(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting the same User ID, Visitor ID are the same");
 
+
+        // Verify that when resetting the User ID, it also changes the Visitor ID
+        tracker.setUserId(false);
+        ok(getVisitorIdFromCookie(tracker).length == 16, "after setting empty user id, visitor ID from cookie should still be 16 chars, got: " + getVisitorIdFromCookie(tracker));
+        equal(getVisitorIdFromCookie(tracker), visitorId, "after setting empty user id, visitor ID from cookie should be the same as previously ("+ visitorId +")");
+        tracker.trackPageView("Track some data to write the cookies...");
+        // Currently it does not work to setUserId(false)
+//        notEqual(getVisitorIdFromCookie(tracker), visitorId, "after setting empty user id, visitor ID from cookie should different ("+ visitorId +")");
 
     });
 

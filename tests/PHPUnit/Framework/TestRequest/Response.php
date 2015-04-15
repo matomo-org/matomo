@@ -107,11 +107,6 @@ class Response
             $apiResponse = preg_replace($regex, 'date=', $apiResponse);
         }
 
-        // if idSubtable is in request URL, make sure idSubtable values are not in any urls
-        if (!empty($this->requestUrl['idSubtable'])) {
-            $apiResponse = $this->removeIdSubtableParamFromUrlsInResponse($apiResponse);
-        }
-
         $apiResponse = $this->normalizePdfContent($apiResponse);
         $apiResponse = $this->removeXmlFields($apiResponse);
         $apiResponse = $this->normalizeDecimalFields($apiResponse);
@@ -128,11 +123,6 @@ class Response
             return $apiResponse;
         }
         return str_replace('&amp;#039;', "'", $apiResponse);
-    }
-
-    private function removeIdSubtableParamFromUrlsInResponse($apiResponse)
-    {
-        return preg_replace("/idSubtable=[0-9]+/", 'idSubtable=', $apiResponse);
     }
 
     private function removeAllIdsFromXml($apiResponse)
@@ -197,8 +187,10 @@ class Response
             $fieldsToRemove = @$this->params['xmlFieldsToRemove'];
         }
 
-        $fieldsToRemove[] = 'idsubdatatable';
-
+        if (!is_array($fieldsToRemove)) {
+            $fieldsToRemove = array();
+        }
+        
         foreach ($fieldsToRemove as $xml) {
             $input = $this->removeXmlElement($input, $xml);
         }

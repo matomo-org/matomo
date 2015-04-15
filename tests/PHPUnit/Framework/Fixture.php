@@ -40,6 +40,7 @@ use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Tracker;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\Url;
@@ -172,6 +173,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
             DbHelper::createDatabase($this->dbName);
             DbHelper::disconnectDatabase();
+            Tracker::disconnectCachedDbConnection();
 
             // reconnect once we're sure the database exists
             Config::getInstance()->database['dbname'] = $this->dbName;
@@ -745,7 +747,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
     }
 
-    protected static function executeLogImporter($logFile, $options)
+    public static function executeLogImporter($logFile, $options, $allowFailure = false)
     {
         $python = self::getPythonBinary();
 
@@ -774,7 +776,9 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         // run the command
         exec($cmd, $output, $result);
-        if ($result !== 0) {
+        if ($result !== 0
+            && !$allowFailure
+        ) {
             throw new Exception("log importer failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
         }
 
@@ -867,12 +871,12 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         $updater = new Updater();
-        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
+        $componentsWithUpdateFile = $updater->getComponentUpdates();
         if (empty($componentsWithUpdateFile)) {
             return false;
         }
 
-        $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
+        $result = $updater->updateComponents($componentsWithUpdateFile);
         if (!empty($result['coreError'])
             || !empty($result['warnings'])
             || !empty($result['errors'])
@@ -881,5 +885,15 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         return $result;
+    }
+
+    /**
+     * Use this method to return custom container configuration that you want to apply for the tests.
+     *
+     * @return array
+     */
+    public function provideContainerConfig()
+    {
+        return array();
     }
 }

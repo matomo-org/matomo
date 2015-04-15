@@ -97,10 +97,10 @@ class TrackerResponseTest extends SystemTestCase
     public function test_response_ShouldReturnPiwikMessage_InCaseOfEmptyRequest()
     {
         $url = Fixture::getTrackerUrl();
-        $response = file_get_contents($url);
+        $this->assertResponseCode(400, $url);
 
         $expected = "<a href='/'>Piwik</a> is a free/libre web <a href='http://piwik.org'>analytics</a> that lets you keep control of your data.";
-        $this->assertEquals($expected, $response);
+        $this->assertHttpResponseText($expected, $url);
     }
 
 }

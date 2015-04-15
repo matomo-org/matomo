@@ -13,7 +13,6 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Archive;
 use Piwik\Common;
 use Piwik\DataTable\Row;
-use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
@@ -110,8 +109,6 @@ class API extends \Piwik\Plugin\API
             $this->setGetReferrerTypeSubtables($dataTable, $idSite, $period, $date, $segment, $expanded);
         }
 
-        $manager = DataTable\Manager::getInstance();
-
         // set referrer type column to readable value
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getReferrerTypeLabel'));
 
@@ -130,7 +127,6 @@ class API extends \Piwik\Plugin\API
         }
 
         $dataTable = $dataTable->mergeSubtables($labelColumn = 'referer_type', $useMetadataColumn = true);
-        $dataTable->filter('Sort', array(Metrics::INDEX_NB_VISITS, 'desc'));
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
 
@@ -452,7 +448,7 @@ class API extends \Piwik\Plugin\API
                 $i = 1; // start at one because idSubtable=0 is equivalent to idSubtable=false
                 foreach (Common::getSocialUrls() as $name) {
                     if ($name == $socialName) {
-                        $row->c[Row::DATATABLE_ASSOCIATED] = $i;
+                        $row->setNonLoadedSubtableId($i);
                         break;
                     }
 
@@ -509,7 +505,7 @@ class API extends \Piwik\Plugin\API
             if ($typeReferrer != Common::REFERRER_TYPE_DIRECT_ENTRY) {
                 if (!$expanded) // if we don't want the expanded datatable, then don't do any extra queries
                 {
-                    $row->c[Row::DATATABLE_ASSOCIATED] = $typeReferrer;
+                    $row->setNonLoadedSubtableId($typeReferrer);
                 } else // otherwise, we have to get the othe datatables
                 {
                     $subtable = $this->getReferrerType($idSite, $period, $date, $segment, $type = false,

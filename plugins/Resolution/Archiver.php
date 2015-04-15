@@ -39,7 +39,15 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::RESOLUTION_RECORD_NAME,
             self::CONFIGURATION_RECORD_NAME,
         );
-        $this->getProcessor()->aggregateDataTableRecords($dataTableRecords, $this->maximumRows);
+        $columnsAggregationOperation = null;
+        $this->getProcessor()->aggregateDataTableRecords(
+            $dataTableRecords,
+            $this->maximumRows,
+            $maximumRowsInSubDataTable = null,
+            $columnToSortByBeforeTruncation = null,
+            $columnsAggregationOperation,
+            $columnsToRenameAfterAggregation = null,
+            $countRowsRecursive = array());
     }
 
     protected function aggregateByConfiguration()

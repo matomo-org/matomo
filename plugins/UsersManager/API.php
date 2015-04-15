@@ -45,9 +45,9 @@ class API extends \Piwik\Plugin\API
 
     private static $instance = null;
 
-    protected function __construct()
+    public function __construct(Model $model)
     {
-        $this->model = new Model();
+        $this->model = $model;
     }
 
     /**
@@ -71,7 +71,7 @@ class API extends \Piwik\Plugin\API
             self::$instance = $instance;
             
         } catch (Exception $e) {
-            self::$instance = new self;
+            self::$instance = StaticContainer::get('Piwik\Plugins\UsersManager\API');
             StaticContainer::getContainer()->set('UsersManager_API', self::$instance);
         }
 
@@ -276,7 +276,21 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserExists($userLogin);
-        $this->checkUserHasNotSuperUserAccess($userLogin);
+
+        // Super users have 'admin' access for every site
+        if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
+            $return = array();
+            $siteManagerModel = new \Piwik\Plugins\SitesManager\Model();
+            $sites = $siteManagerModel->getAllSites();
+            foreach ($sites as $site) {
+                $return[] = array(
+                    'site' => $site['idsite'],
+                    'access' => 'admin'
+                );
+
+            }
+            return $return;
+        }
 
         return $this->model->getSitesAccessFromUser($userLogin);
     }

@@ -62,7 +62,6 @@ class UserIdAndVisitorIdTest extends SystemTestCase
                                                      'keepLiveDates' => true,
                                                      'otherRequestParameters' => array(
                                                          'showColumns' => 'idVisit,visitorId,userId,lastActionDateTime,actions,actionDetails',
-                                                         'filter_sort_column' => 'idVisit',
                                                          'filter_sort_order' => 'asc',
                                                      )
             )),

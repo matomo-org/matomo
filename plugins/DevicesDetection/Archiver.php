@@ -25,7 +25,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     const DEVICE_TYPE_FIELD = "config_device_type";
     const DEVICE_BRAND_FIELD = "config_device_brand";
-    const DEVICE_MODEL_FIELD = "config_device_model";
+    const DEVICE_MODEL_FIELD = "CONCAT(log_visit.config_device_brand, ';', log_visit.config_device_model)";
     const OS_FIELD = "config_os";
     const OS_VERSION_FIELD = "CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))";
     const BROWSER_FIELD = "config_browser_name";
@@ -56,9 +56,18 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::BROWSER_ENGINE_RECORD_NAME,
             self::BROWSER_VERSION_RECORD_NAME
         );
+
+        $columnsAggregationOperation = null;
+
         foreach ($dataTablesToSum as $dt) {
             $this->getProcessor()->aggregateDataTableRecords(
-                $dt, $this->maximumRows, $this->maximumRows, $columnToSort = "nb_visits");
+                $dt,
+                $this->maximumRows,
+                $this->maximumRows,
+                $columnToSort = 'nb_visits',
+                $columnsAggregationOperation,
+                $columnsToRenameAfterAggregation = null,
+                $countRowsRecursive = array());
         }
     }
 

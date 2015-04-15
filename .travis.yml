@@ -118,7 +118,7 @@ before_script:
   # travis now complains about this failing 9 times out of 10, so removing it. hopefully the random failures it prevented won't come back
   # - travis_retry composer self-update
 
-  - travis_retry composer install
+  - '[ "$SKIP_COMPOSER_INSTALL" != "1" ] && travis_retry composer install'
 
   # print out more debugging info
   - uname -a
@@ -128,13 +128,7 @@ before_script:
   - mysql -e 'create database piwik_tests;'
 
   # Make sure we use Python 2.6
-  - travis_retry sudo add-apt-repository ppa:fkrull/deadsnakes -y
-  - travis_retry sudo apt-get update > /dev/null
-  - travis_retry sudo apt-get install python2.6 python2.6-dev -y --force-yes > /dev/null
-
-  # Log Analytics works with Python 2.6 or 2.7 but we want to test on 2.6
-  - python2.6 --version
-  - python --version
+  - ./tests/travis/install_python_2.6.sh
 
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh

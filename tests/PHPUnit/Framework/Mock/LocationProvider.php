@@ -14,6 +14,8 @@ use Piwik\Plugins\UserCountry\LocationProvider as CountryLocationProvider;
  */
 class LocationProvider extends CountryLocationProvider
 {
+    const ID = 'mock_provider';
+
     public static $locations = array();
     private $currentLocation = 0;
     private $ipToLocations   = array();
@@ -38,7 +40,7 @@ class LocationProvider extends CountryLocationProvider
 
     public function getInfo()
     {
-        return array('id' => 'mock_provider', 'title' => 'mock provider', 'description' => 'mock provider');
+        return array('id' => self::ID, 'title' => 'mock provider', 'description' => 'mock provider');
     }
 
     public function isAvailable()

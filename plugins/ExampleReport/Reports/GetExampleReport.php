@@ -4,8 +4,8 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
+
 namespace Piwik\Plugins\ExampleReport\Reports;
 
 use Piwik\Piwik;
@@ -84,7 +84,7 @@ class GetExampleReport extends Base
      */
     public function getRelatedReports()
     {
-         return array(); // eg return array(new XyzReport());
+        return array(); // eg return array(new XyzReport());
     }
 
     /**

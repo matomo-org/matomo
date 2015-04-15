@@ -39,28 +39,10 @@
 		<logo>plugins/DevicesDetection/images/screens/smartphone.png</logo>
 	</row>
 	<row>
-		<label>Tablet</label>
+		<label>Camera</label>
 		<nb_visits>0</nb_visits>
-		<segment>deviceType==tablet</segment>
-		<logo>plugins/DevicesDetection/images/screens/tablet.png</logo>
-	</row>
-	<row>
-		<label>Feature phone</label>
-		<nb_visits>0</nb_visits>
-		<segment>deviceType==feature+phone</segment>
-		<logo>plugins/DevicesDetection/images/screens/mobile.gif</logo>
-	</row>
-	<row>
-		<label>Console</label>
-		<nb_visits>0</nb_visits>
-		<segment>deviceType==console</segment>
-		<logo>plugins/DevicesDetection/images/screens/console.gif</logo>
-	</row>
-	<row>
-		<label>Tv</label>
-		<nb_visits>0</nb_visits>
-		<segment>deviceType==tv</segment>
-		<logo>plugins/DevicesDetection/images/screens/tv.png</logo>
+		<segment>deviceType==camera</segment>
+		<logo>plugins/DevicesDetection/images/screens/camera.png</logo>
 	</row>
 	<row>
 		<label>Car browser</label>
@@ -69,21 +51,39 @@
 		<logo>plugins/DevicesDetection/images/screens/carbrowser.png</logo>
 	</row>
 	<row>
-		<label>Smart display</label>
+		<label>Console</label>
 		<nb_visits>0</nb_visits>
-		<segment>deviceType==smart+display</segment>
-		<logo>plugins/DevicesDetection/images/screens/unknown.gif</logo>
+		<segment>deviceType==console</segment>
+		<logo>plugins/DevicesDetection/images/screens/console.gif</logo>
 	</row>
 	<row>
-		<label>Camera</label>
+		<label>Feature phone</label>
 		<nb_visits>0</nb_visits>
-		<segment>deviceType==camera</segment>
-		<logo>plugins/DevicesDetection/images/screens/camera.png</logo>
+		<segment>deviceType==feature+phone</segment>
+		<logo>plugins/DevicesDetection/images/screens/mobile.gif</logo>
 	</row>
 	<row>
 		<label>Portable media player</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==portable+media+player</segment>
 		<logo>plugins/DevicesDetection/images/screens/unknown.gif</logo>
+	</row>
+	<row>
+		<label>Smart display</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==smart+display</segment>
+		<logo>plugins/DevicesDetection/images/screens/unknown.gif</logo>
+	</row>
+	<row>
+		<label>Tablet</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==tablet</segment>
+		<logo>plugins/DevicesDetection/images/screens/tablet.png</logo>
+	</row>
+	<row>
+		<label>Tv</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==tv</segment>
+		<logo>plugins/DevicesDetection/images/screens/tv.png</logo>
 	</row>
 </result>

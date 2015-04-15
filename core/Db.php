@@ -317,14 +317,17 @@ class Db
      *
      * @param string|array $tables The name of the table to optimize or an array of tables to optimize.
      *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
+     * @param bool $force If true, the `OPTIMIZE TABLE` query will be run even if InnoDB tables are being used.
      * @return \Zend_Db_Statement
      */
-    public static function optimizeTables($tables)
+    public static function optimizeTables($tables, $force = false)
     {
         $optimize = Config::getInstance()->General['enable_sql_optimize_queries'];
 
-        if (empty($optimize)) {
-            return;
+        if (empty($optimize)
+            && !$force
+        ) {
+            return false;
         }
 
         if (empty($tables)) {
@@ -335,22 +338,28 @@ class Db
             $tables = array($tables);
         }
 
-        // filter out all InnoDB tables
-        $myisamDbTables = array();
-        foreach (self::getTableStatus() as $row) {
-            if (strtolower($row['Engine']) == 'myisam'
-                && in_array($row['Name'], $tables)
-            ) {
-                $myisamDbTables[] = $row['Name'];
+        if (!self::isOptimizeInnoDBSupported()
+            && !$force
+        ) {
+            // filter out all InnoDB tables
+            $myisamDbTables = array();
+            foreach (self::getTableStatus() as $row) {
+                if (strtolower($row['Engine']) == 'myisam'
+                    && in_array($row['Name'], $tables)
+                ) {
+                    $myisamDbTables[] = $row['Name'];
+                }
             }
+
+            $tables = $myisamDbTables;
         }
 
-        if (empty($myisamDbTables)) {
+        if (empty($tables)) {
             return false;
         }
 
         // optimize the tables
-        return self::query("OPTIMIZE TABLE " . implode(',', $myisamDbTables));
+        return self::query("OPTIMIZE TABLE " . implode(',', $tables));
     }
 
     private static function getTableStatus()
@@ -730,5 +739,21 @@ class Db
     public static function isQueryLogEnabled()
     {
         return self::$logQueries;
+    }
+
+    public static function isOptimizeInnoDBSupported($version = null)
+    {
+        if ($version === null) {
+            $version = Db::fetchOne("SELECT VERSION()");
+        }
+
+        $version = strtolower($version);
+
+        if (strpos($version, "mariadb") === false) {
+            return false;
+        }
+
+        $semanticVersion = strstr($version, '-', $beforeNeedle = true);
+        return version_compare($semanticVersion, '10.1.1', '>=');
     }
 }

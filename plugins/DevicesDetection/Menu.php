@@ -27,6 +27,7 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->addVisitorsItem('DevicesDetection_submenu', $this->urlForAction('index'));
+        $menu->addVisitorsItem('DevicesDetection_Devices', $this->urlForAction('devices'));
+        $menu->addVisitorsItem('DevicesDetection_Software', $this->urlForAction('software'));
     }
 }
