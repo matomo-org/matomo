@@ -8,10 +8,9 @@
     </div>
 {% endif %}
 
-<div class="pageWrap" id="multisites">
+<div class="pageWrap container" id="multisites">
     <div id="main">
         <div piwik-multisites-dashboard
-             class="centerLargeDiv"
              display-revenue-column="{% if displayRevenueColumn %}true{% else %}false{%endif%}"
              page-size="{{ limit }}"
              show-sparklines="{% if show_sparklines %}true{% else %}false{%endif%}"
