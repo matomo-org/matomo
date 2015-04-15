@@ -359,7 +359,7 @@
                  */
                 function gotNewReport(report) {
                     // if the map has been destroyed, do nothing
-                    if (!self.map) {
+                    if (!self.map || !$(self.$element).closest('body').length) {
                         return;
                     }
 
