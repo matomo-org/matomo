@@ -211,7 +211,7 @@
 $(function() {
     var refreshWidget = function (element, refreshAfterXSecs) {
         // if the widget has been removed from the DOM, abort
-        if ($(element).parent().length == 0) {
+        if ($(element).closest('body').length == 0) {
             return;
         }
 
