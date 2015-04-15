@@ -277,15 +277,10 @@ class CronArchive
         $websitesIds = $this->initWebsiteIds();
         $this->filterWebsiteIds($websitesIds);
 
-        if (!empty($this->shouldArchiveSpecifiedSites)
-            || !empty($this->shouldArchiveAllSites)
-            || !SharedSiteIds::isSupported()) {
-            $this->websites = new FixedSiteIds($websitesIds);
-        } else {
-            $this->websites = new SharedSiteIds($websitesIds);
-            if ($this->websites->getInitialSiteIds() != $websitesIds) {
-                $this->log('Will ignore websites and help finish a previous started queue instead. IDs: ' . implode(', ', $this->websites->getInitialSiteIds()));
-            }
+        $this->websites = $this->createSitesToArchiveQueue($websitesIds);
+
+        if ($this->websites->getInitialSiteIds() != $websitesIds) {
+            $this->log('Will ignore websites and help finish a previous started queue instead. IDs: ' . implode(', ', $this->websites->getInitialSiteIds()));
         }
 
         if ($this->shouldStartProfiler) {
@@ -1593,5 +1588,16 @@ class CronArchive
             $urlsWithSegment[] = $urlWithSegment;
         }
         return $urlsWithSegment;
+    }
+
+    private function createSitesToArchiveQueue($websitesIds)
+    {
+        if (!empty($this->shouldArchiveAllSites) && SharedSiteIds::isSupported()) {
+            return new SharedSiteIds($websitesIds, SharedSiteIds::OPTION_ALL_WEBSITES);
+        } elseif (!empty($this->shouldArchiveSpecifiedSites) || !SharedSiteIds::isSupported()) {
+            return new FixedSiteIds($websitesIds);
+        }
+
+        return new SharedSiteIds($websitesIds);
     }
 }
