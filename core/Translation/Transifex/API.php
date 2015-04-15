@@ -25,6 +25,11 @@ class API
         $this->projectSlug = $project;
     }
 
+    /**
+     * Returns all resources available on Transifex project
+     *
+     * @return array
+     */
     public function getAvailableResources()
     {
         static $resources;
@@ -37,6 +42,12 @@ class API
         return $resources;
     }
 
+    /**
+     * Checks if the given resource exists in Transifex project
+     *
+     * @param string $resource
+     * @return bool
+     */
     public function resourceExists($resource)
     {
         $resources = $this->getAvailableResources();
@@ -48,6 +59,13 @@ class API
         return false;
     }
 
+    /**
+     * Returns all language codes the transifex project is available for
+     *
+     * @return array
+     * @throws AuthenticationFailedException
+     * @throws Exception
+     */
     public function getAvailableLanguageCodes()
     {
         static $languageCodes = array();
@@ -60,6 +78,16 @@ class API
         return $languageCodes;
     }
 
+    /**
+     * Return the translations for the given resource and language
+     *
+     * @param string $resource e.g. piwik-base, piwik-plugin-api,...
+     * @param string $language e.g. de, pt_BR, hy,...
+     * @param bool $raw if true plain response wil be returned (unparsed json)
+     * @return mixed
+     * @throws AuthenticationFailedException
+     * @throws Exception
+     */
     public function getTranslations($resource, $language, $raw=false)
     {
         if ($this->resourceExists($resource)) {
@@ -69,6 +97,15 @@ class API
         return null;
     }
 
+    /**
+     * Returns response for API request with given path
+     *
+     * @param $apiPath
+     * @param bool $raw
+     * @return mixed
+     * @throws AuthenticationFailedException
+     * @throws Exception
+     */
     protected function getApiResults($apiPath, $raw=false)
     {
         $apiUrl = $this->apiUrl . $apiPath;

@@ -27,7 +27,7 @@ class FetchFromTransifex extends TranslationBase
         $path = StaticContainer::get('path.tmp') . self::DOWNLOAD_PATH;
 
         $this->setName('translations:fetch')
-             ->setDescription('Fetches translations files from oTrance to ' . $path)
+             ->setDescription('Fetches translations files from Transifex to ' . $path)
              ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'Transifex username')
              ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'Transifex password')
              ->addOption('plugin', 'r', InputOption::VALUE_OPTIONAL, 'Plugin to update');
