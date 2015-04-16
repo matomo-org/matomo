@@ -100,6 +100,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/Morpheus/javascripts/jquery.icheck.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/morpheus.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/layout.js";
+        $jsFiles[] = "plugins/Morpheus/javascripts/idleSessionExpiry.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/require.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/uiControl.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/dataTable.js";
