@@ -55,9 +55,12 @@ class SharedSiteIdsTest extends IntegrationTestCase
         $this->assertNull($siteIds->getNextSiteId());
     }
 
-    public function test_isSupported()
+    public function test_construct_withCustomOptionName()
     {
-        $this->assertTrue(SharedSiteIds::isSupported());
+        $first = new SharedSiteIds(array(1, 2), 'SharedSiteIdsToArchive_Test');
+        $second = new SharedSiteIds(array(), 'SharedSiteIdsToArchive_Test');
+        $this->assertEquals(array(1, 2), $first->getAllSiteIdsToArchive());
+        $this->assertEquals(array(1, 2), $second->getAllSiteIdsToArchive());
     }
 
     public function test_getNumSites()
