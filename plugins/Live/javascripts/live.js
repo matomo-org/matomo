@@ -82,7 +82,7 @@
 
                 if (that.isStarted) {
                     window.clearTimeout(that.updateInterval);
-                    if ($(that.element).closest('body').length) {
+                    if (that.element.length && $.contains(document, that.element[0])) {
                         that.updateInterval = window.setTimeout(function() { that._update() }, that.currentInterval);
                     }
                 }
@@ -211,7 +211,7 @@
 $(function() {
     var refreshWidget = function (element, refreshAfterXSecs) {
         // if the widget has been removed from the DOM, abort
-        if ($(element).closest('body').length == 0) {
+        if (!element.length || !$.contains(document, element[0])) {
             return;
         }
 
