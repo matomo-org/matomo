@@ -126,8 +126,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
 
         return $this->renderTemplate('siteWithoutData', array(
-            'site'         => $this->site,
-            'idSite'       => $this->idSite,
             'siteName'     => $this->site->getName(),
             'trackingHelp' => $this->renderTemplate('_displayJavascriptCode', array(
                 'displaySiteName' => Common::unsanitizeInputValue($this->site->getName()),
