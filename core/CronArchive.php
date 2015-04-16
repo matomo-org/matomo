@@ -277,15 +277,10 @@ class CronArchive
         $websitesIds = $this->initWebsiteIds();
         $this->filterWebsiteIds($websitesIds);
 
-        if (!empty($this->shouldArchiveSpecifiedSites)
-            || !empty($this->shouldArchiveAllSites)
-            || !SharedSiteIds::isSupported()) {
-            $this->websites = new FixedSiteIds($websitesIds);
-        } else {
-            $this->websites = new SharedSiteIds($websitesIds);
-            if ($this->websites->getInitialSiteIds() != $websitesIds) {
-                $this->log('Will ignore websites and help finish a previous started queue instead. IDs: ' . implode(', ', $this->websites->getInitialSiteIds()));
-            }
+        $this->websites = $this->createSitesToArchiveQueue($websitesIds);
+
+        if ($this->websites->getInitialSiteIds() != $websitesIds) {
+            $this->log('Will ignore websites and help finish a previous started queue instead. IDs: ' . implode(', ', $this->websites->getInitialSiteIds()));
         }
 
         if ($this->shouldStartProfiler) {
@@ -586,14 +581,15 @@ class CronArchive
             }
 
             $date = $this->getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessedPeriods);
-            $periodArchiveWasSuccessful = $this->archiveVisitsAndSegments($idSite, $period, $date);
+            $periodArchiveWasSuccessful = $this->archiveReportsFor($idSite, $period, $date, $archiveSegments = true);
             $success = $periodArchiveWasSuccessful && $success;
         }
 
         // period=range
         $customDateRangesToPreProcessForSite = $this->getCustomDateRangeToPreProcess($idSite);
         foreach ($customDateRangesToPreProcessForSite as $dateRange) {
-            $periodArchiveWasSuccessful = $this->archiveVisitsAndSegments($idSite, 'range', $dateRange);
+            $archiveSegments = false; // do not pre-process segments for period=range #7611
+            $periodArchiveWasSuccessful = $this->archiveReportsFor($idSite, 'range', $dateRange, $archiveSegments);
             $success = $periodArchiveWasSuccessful && $success;
         }
         return $success;
@@ -733,7 +729,7 @@ class CronArchive
         $this->visitsToday += $visitsToday;
         $this->websitesWithVisitsSinceLastRun++;
 
-        $this->archiveVisitsAndSegments($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince));
+        $this->archiveReportsFor($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince), $archiveSegments = true);
         $this->logArchivedWebsite($idSite, "day", $date, $visitsLastDays, $visitsToday, $timerWebsite);
 
         return true;
@@ -764,9 +760,10 @@ class CronArchive
      * @param $idSite int
      * @param $period string
      * @param $date string
+     * @param $archiveSegments bool Whether to pre-process all custom segments
      * @return bool True on success, false if some request failed
      */
-    private function archiveVisitsAndSegments($idSite, $period, $date)
+    private function archiveReportsFor($idSite, $period, $date, $archiveSegments)
     {
         $timer = new Timer();
 
@@ -784,17 +781,14 @@ class CronArchive
             $urls[] = $url;
         }
 
-        foreach ($this->getSegmentsForSite($idSite, $period) as $segment) {
-            $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
+        if($archiveSegments) {
+            $urlsWithSegment = $this->getUrlsWithSegment($idSite, $period, $date);
+            $urls = array_merge($urls, $urlsWithSegment);
 
-            $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
-            $urlWithSegment = $this->makeRequestUrl($urlWithSegment);
-
-            $urls[] = $urlWithSegment;
+            // in case several segment URLs for period=range had the date= rewritten to the same value, we only call API once
+            $urls = array_unique($urls);
         }
 
-        // in case several segment URLs for period=range had the date= rewritten to the same value, we only call API once
-        $urls = array_unique($urls);
         $this->requests += count($urls);
 
         $cliMulti = new CliMulti();
@@ -1521,11 +1515,20 @@ class CronArchive
     private function loadCustomDateRangeToPreProcess()
     {
         $customDateRangesToProcessForSites = array();
+
         // For all users who have selected this website to load by default,
         // we load the default period/date that will be loaded for this user
         // and make sure it's pre-archived
-        $userPreferences = APIUsersManager::getInstance()->getAllUsersPreferences(array(APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE, APIUsersManager::PREFERENCE_DEFAULT_REPORT));
-        foreach ($userPreferences as $userLogin => $userPreferences) {
+        $allUsersPreferences = APIUsersManager::getInstance()->getAllUsersPreferences(array(
+            APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
+            APIUsersManager::PREFERENCE_DEFAULT_REPORT
+        ));
+
+        foreach ($allUsersPreferences as $userLogin => $userPreferences) {
+
+            if (!isset($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE])) {
+                continue;
+            }
 
             $defaultDate = $userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE];
             $preference = new UserPreferences();
@@ -1571,4 +1574,39 @@ class CronArchive
 
         return $tokens;
     }
+
+    /**
+     * @param $idSite
+     * @param $period
+     * @param $date
+     * @return array
+     */
+    private function getUrlsWithSegment($idSite, $period, $date)
+    {
+        $urlsWithSegment = array();
+        foreach ($this->getSegmentsForSite($idSite, $period) as $segment) {
+            $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
+
+            $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
+            $urlWithSegment = $this->makeRequestUrl($urlWithSegment);
+
+            $urlsWithSegment[] = $urlWithSegment;
+        }
+        return $urlsWithSegment;
+    }
+
+    private function createSitesToArchiveQueue($websitesIds)
+    {
+        // use synchronous, single process queue if --force-idsites is used or sharing site IDs isn't supported
+        if (!SharedSiteIds::isSupported() || !empty($this->shouldArchiveSpecifiedSites)) {
+            return new FixedSiteIds($websitesIds);
+        }
+
+        // use separate shared queue if --force-all-websites is used
+        if (!empty($this->shouldArchiveAllSites)) {
+            return new SharedSiteIds($websitesIds, SharedSiteIds::OPTION_ALL_WEBSITES);
+        }
+
+        return new SharedSiteIds($websitesIds);
+   }
 }

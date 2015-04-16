@@ -22,7 +22,7 @@ class Http
     /**
      * Returns the "best" available transport method for {@link sendHttpRequest()} calls.
      *
-     * @return string Either `'curl'`, `'fopen'` or `'socket'`.
+     * @return string|null Either curl, fopen, socket or null if no method is supported.
      * @api
      */
     public static function getTransportMethod()

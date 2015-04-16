@@ -122,7 +122,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
-		<label>Mac / Unknown / unknown</label>
+		<label>Mac / Internet Explorer / unknown</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>
