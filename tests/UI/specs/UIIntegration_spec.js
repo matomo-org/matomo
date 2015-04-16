@@ -91,7 +91,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it.only('should load the visitors > devices page correctly', function (done) {
+    it('should load the visitors > devices page correctly', function (done) {
         expect.screenshot("visitors_devices").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
             page.load("?" + urlBase + "#" + generalParams + "&module=DevicesDetection&action=index");
         }, done);
