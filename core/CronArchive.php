@@ -1592,10 +1592,14 @@ class CronArchive
 
     private function createSitesToArchiveQueue($websitesIds)
     {
-        if (!empty($this->shouldArchiveAllSites) && SharedSiteIds::isSupported()) {
-            return new SharedSiteIds($websitesIds, SharedSiteIds::OPTION_ALL_WEBSITES);
-        } elseif (!empty($this->shouldArchiveSpecifiedSites) || !SharedSiteIds::isSupported()) {
+        // use synchronous, single process queue if --force-idsites is used or sharing site IDs isn't supported
+        if (!SharedSiteIds::isSupported() || !empty($this->shouldArchiveSpecifiedSites)) {
             return new FixedSiteIds($websitesIds);
+        }
+
+        // use separate shared queue if --force-all-websites is used
+        if (!empty($this->shouldArchiveAllSites)) {
+            return new SharedSiteIds($websitesIds, SharedSiteIds::OPTION_ALL_WEBSITES);
         }
 
         return new SharedSiteIds($websitesIds);
