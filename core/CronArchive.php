@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Archiver\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\SharedSiteIds;
@@ -736,11 +737,10 @@ class CronArchive
         $segmentsThisSite = SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite);
         if (!empty($segmentsThisSite)) {
             $this->log(sprintf(
-                "Will pre-process for website id = %s, %s period, the following %d segments: { %s } ",
+                "Will pre-process for website id = %s, %s period, %d segments",
                 $idSite,
                 $period,
-                count($segmentsThisSite),
-                implode(", ", $segmentsThisSite)
+                count($segmentsThisSite)
             ));
         }
         $segments = array_unique(array_merge($segmentsAllSites, $segmentsThisSite));
@@ -1574,7 +1574,7 @@ class CronArchive
      * @param $idSite
      * @param $period
      * @param $date
-     * @return array
+     * @return Request[]
      */
     private function getUrlsWithSegment($idSite, $period, $date)
     {
@@ -1585,7 +1585,13 @@ class CronArchive
             $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
             $urlWithSegment = $this->makeRequestUrl($urlWithSegment);
 
-            $urlsWithSegment[] = $urlWithSegment;
+            $request = new Request($urlWithSegment);
+            $self = $this;
+            $request->before(function () use ($self, $segment) {
+                $self->log('- pre-processing segment ' . $segment);
+            });
+
+            $urlsWithSegment[] = $request;
         }
         return $urlsWithSegment;
     }
