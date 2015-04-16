@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\LanguagesManager\API as LanguagesManagerApi;
 use Piwik\Translation\Transifex\API;
 use Symfony\Component\Console\Helper\ProgressHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,6 +31,7 @@ class FetchFromTransifex extends TranslationBase
              ->setDescription('Fetches translations files from Transifex to ' . $path)
              ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'Transifex username')
              ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'Transifex password')
+             ->addOption('lastupdate', 'l', InputOption::VALUE_OPTIONAL, 'Last time update ran', time()-30*24*3600)
              ->addOption('plugin', 'r', InputOption::VALUE_OPTIONAL, 'Plugin to update');
     }
 
@@ -38,6 +40,7 @@ class FetchFromTransifex extends TranslationBase
         $username = $input->getOption('username');
         $password = $input->getOption('password');
         $plugin = $input->getOption('plugin');
+        $lastUpdate = $input->getOption('lastupdate');
 
         $resource = 'piwik-'. ($plugin ? 'plugin-'.strtolower($plugin) : 'base');
 
@@ -58,8 +61,15 @@ class FetchFromTransifex extends TranslationBase
 
         if (!empty($plugin)) {
             $languages = array_filter($languages, function($language) {
-                return \Piwik\Plugins\LanguagesManager\API::getInstance()->isLanguageAvailable(str_replace('_', '-', strtolower($language)));
+                return LanguagesManagerApi::getInstance()->isLanguageAvailable(str_replace('_', '-', strtolower($language)));
             });
+        }
+
+        $availableLanguages = LanguagesManagerApi::getInstance()->getAvailableLanguageNames();
+
+        $languageCodes = array();
+        foreach ($availableLanguages as $languageInfo) {
+            $languageCodes[] = $languageInfo['code'];
         }
 
         /** @var ProgressHelper $progress */
@@ -67,8 +77,19 @@ class FetchFromTransifex extends TranslationBase
 
         $progress->start($output, count($languages));
 
+        $statistics = $transifexApi->getStatistics($resource);
+
         foreach ($languages as $language) {
             try {
+                // if we have modification date given from statistics api compare it with given last update time to ignore not update resources
+                if (LanguagesManagerApi::getInstance()->isLanguageAvailable(str_replace('_', '-', strtolower($language))) && isset($statistics->$language)) {
+                    $lastupdated = strtotime($statistics->$language->last_update);
+                    if ($lastUpdate > $lastupdated) {
+                        $progress->advance();
+                        continue;
+                    }
+                }
+
                 $translations = $transifexApi->getTranslations($resource, $language, true);
                 file_put_contents($this->getDownloadPath() . DIRECTORY_SEPARATOR . str_replace('_', '-', strtolower($language)) . '.json', $translations);
             } catch (\Exception $e) {

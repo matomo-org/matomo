@@ -61,10 +61,17 @@ class Update extends TranslationBase
 
         foreach ($pluginList as $plugin) {
 
+            $output->writeln("");
+
             // fetch base or specific plugin
             $this->fetchTranslations($input, $output, $plugin);
 
             $files = _glob(FetchFromTransifex::getDownloadPath() . DIRECTORY_SEPARATOR . '*.json');
+
+            if (count($files) == 0) {
+                $output->writeln("No translation updates available! Skipped.");
+                continue;
+            }
 
             /** @var ProgressHelper $progress */
             $progress = $this->getHelperSet()->get('progress');
@@ -149,6 +156,20 @@ class Update extends TranslationBase
 
     protected function fetchTranslations($input, $output, $plugin)
     {
+        $lastModDate = 0;
+        try {
+            // try to find the language file (of given plugin) with the newest modification date in git log
+            $path = ($plugin ? 'plugins/' . $plugin . '/' : '') . 'lang';
+            $files = explode("\n", trim(shell_exec('git ls-tree -r --name-only HEAD ' . $path)));
+
+            foreach ($files as $file) {
+                $fileModDate = shell_exec('git log -1 --format="%at" -- ' . $file);
+                if (basename($file) != 'en.json' && ($lastModDate != 0 || $fileModDate > $lastModDate)) {
+                    $lastModDate = $fileModDate;
+                }
+            }
+        } catch (\Exception $e) {}
+
         $command = $this->getApplication()->find('translations:fetch');
         $arguments = array(
             'command' => 'translations:fetch',
@@ -156,6 +177,11 @@ class Update extends TranslationBase
             '--password' => $input->getOption('password'),
             '--plugin' => $plugin
         );
+
+        if ($lastModDate != 0) {
+            $arguments['--lastupdate'] = $lastModDate;
+        }
+
         $inputObject = new ArrayInput($arguments);
         $inputObject->setInteractive($input->isInteractive());
         $command->run($inputObject, $output);

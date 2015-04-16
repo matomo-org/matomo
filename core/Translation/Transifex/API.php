@@ -79,6 +79,23 @@ class API
     }
 
     /**
+     * Returns statistic data for the given resource
+     *
+     * @param string $resource e.g. piwik-base, piwik-plugin-api,...
+     * @return array
+     * @throws AuthenticationFailedException
+     * @throws Exception
+     */
+    public function getStatistics($resource)
+    {
+        static $apiData = array();
+        if (empty($languageCodes)) {
+            $apiData = $this->getApiResults('project/' . $this->projectSlug . '/resource/' . $resource . '/stats/');
+        }
+        return $apiData;
+    }
+
+    /**
      * Return the translations for the given resource and language
      *
      * @param string $resource e.g. piwik-base, piwik-plugin-api,...
