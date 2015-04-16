@@ -129,7 +129,7 @@ class Scheduler
                     $message = $this->executeTask($task);
                     $this->isRunningTask = false;
 
-                    $this->logger->info("Scheduler: finished executing task {taskName}. {timeElapsed}", array(
+                    $this->logger->info("Scheduler: finished. {timeElapsed}", array(
                         'taskName' => $taskName, 'timeElapsed' => $timer
                     ));
 
