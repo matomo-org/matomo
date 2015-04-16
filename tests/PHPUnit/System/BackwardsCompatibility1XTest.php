@@ -38,6 +38,9 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             throw new \Exception("Failed to update pre-2.0 database (nothing to update).");
         }
 
+        Fixture::createSuperUser(); // necessary since we track visits below and there is no superuser in the SQL dump
+                                    // (so the tracker will think the token auth is invalid)
+
         // truncate log tables so old data won't be re-archived
         foreach (array('log_visit', 'log_link_visit_action', 'log_conversion', 'log_conversion_item') as $table) {
             Db::query("TRUNCATE TABLE " . Common::prefixTable($table));
@@ -55,19 +58,19 @@ class BackwardsCompatibility1XTest extends SystemTestCase
      */
     private static function trackTwoVisitsOnSameDay()
     {
-        $t = Fixture::getTracker(1, '2012-12-29 01:01:30', $defaultInit = true, $useLocal = true);
+        $t = Fixture::getTracker(1, '2012-12-29 01:01:30', $defaultInit = true);
         $t->enableBulkTracking();
 
         $t->setUrl('http://site.com/index.htm');
         $t->setIp('136.5.3.2');
-        $t->doTrackPageView('incredible title!');
+        self::assertTrue($t->doTrackPageView('incredible title!'));
 
         $t->setForceVisitDateTime('2012-12-29 03:01:30');
         $t->setUrl('http://site.com/other/index.htm');
         $t->DEBUG_APPEND_URL = '&_idvc=2'; // make sure visit is marked as returning
-        $t->doTrackPageView('other incredible title!');
+        self::assertTrue($t->doTrackPageView('other incredible title!'));
 
-        $t->doBulkTrack();
+        Fixture::checkBulkTrackingResponse($t->doBulkTrack());
     }
 
     /**

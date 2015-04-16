@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Cache;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
@@ -49,7 +50,7 @@ class ManyVisitsWithGeoIP extends Fixture
         self::downloadGeoIpDbs();
 
         $this->setMockLocationProvider();
-        $this->trackVisits(9, false);
+        $this->trackVisits(9, false, $useLocal = false, $doBulk = false);
 
         $this->setLocationProvider('GeoIPCity.dat');
         $this->trackVisits(2, true, $useLocal = false);
@@ -83,7 +84,7 @@ class ManyVisitsWithGeoIP extends Fixture
         }
     }
 
-    private function trackVisits($visitorCount, $setIp = false, $useLocal = true, $doBulk = false)
+    private function trackVisits($visitorCount, $setIp = false, $useLocal = false, $doBulk = false)
     {
         static $calledCounter = 0;
         $calledCounter++;
@@ -96,7 +97,7 @@ class ManyVisitsWithGeoIP extends Fixture
         }
 
         // use local tracker so mock location provider can be used
-        $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useLocal);
+        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
         if ($doBulk) {
             $t->enableBulkTracking();
         }
@@ -199,6 +200,13 @@ class ManyVisitsWithGeoIP extends Fixture
 
     public function setLocationProvider($file)
     {
+        $testEnv = new \Piwik_TestingEnvironment();
+        $testEnv->locationProviderFile = $file;
+        $testEnv->save();
+    }
+
+    public function setLocationProviderInTracker($file)
+    {
         GeoIp::$dbNames['loc'] = array($file);
         GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         LocationProvider::$providers = null;
@@ -218,7 +226,7 @@ class ManyVisitsWithGeoIP extends Fixture
     {
         LocationProvider::$providers = null;
         LocationProvider::setCurrentProvider('mock_provider');
-        MockLocationProvider::$locations = array(
+        MockLocationProvider::setLocations(array(
             self::makeLocation('Stratford-upon-Avon', 'P3', 'gb', 123.456, 21.321), // template location
 
             // same region, different city, same country
@@ -244,8 +252,22 @@ class ManyVisitsWithGeoIP extends Fixture
 
             // unknown location
             self::makeLocation(null, null, null),
-        );
+        ));
     }
+
+    public function initializePlatform()
+    {
+        $testEnv = new \Piwik_TestingEnvironment();
+        $locationProviderFile = $testEnv->locationProviderFile;
+        if (!empty($locationProviderFile)) {
+            self::setLocationProviderInTracker($locationProviderFile);
+        }
+
+        if (LocationProvider::getCurrentProviderId() == 'mock_provider') {
+            MockLocationProvider::setUpInTracker();
+        }
+    }
+
 
     public static function unsetLocationProvider()
     {

@@ -47,7 +47,6 @@ use Piwik\Url;
 use PHPUnit_Framework_Assert;
 use Piwik_TestingEnvironment;
 use PiwikTracker;
-use Piwik_LocalTracker;
 use Piwik\Updater;
 use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Exception;
@@ -237,6 +236,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             return;
         }
 
+        $this->getTestEnvironment()->fixtureClass = get_class($this);
         $this->getTestEnvironment()->save();
         $this->getTestEnvironment()->executeSetupTestEnvHook();
         Piwik_TestingEnvironment::addSendMailHook();
@@ -259,7 +259,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     {
         if ($this->testEnvironment === null) {
             $this->testEnvironment = new Piwik_TestingEnvironment();
-            $this->testEnvironment->delete();
+            $this->testEnvironment->delete(); // TODO: should delete explicitly in fixture setup environment
 
             if (getenv('PIWIK_USE_XHPROF') == 1) {
                 $this->testEnvironment->useXhprof = true;
@@ -483,8 +483,8 @@ class Fixture extends \PHPUnit_Framework_Assert
     public static function getTracker($idSite, $dateTime, $defaultInit = true, $useLocal = false)
     {
         if ($useLocal) {
-            require_once PIWIK_INCLUDE_PATH . '/tests/LocalTracker.php';
-            $t = new Piwik_LocalTracker($idSite, self::getTrackerUrl());
+            throw new \Exception("LocalTracker no longer supported; for speeding up tests, use bulk tracking. To achieve"
+                . " more control in test environment, use Fixture::initializePlatform().");
         } else {
             $t = new PiwikTracker($idSite, self::getTrackerUrl());
         }
@@ -895,5 +895,14 @@ class Fixture extends \PHPUnit_Framework_Assert
     public function provideContainerConfig()
     {
         return array();
+    }
+
+    /**
+     * Use this method to do manual test environment setup for an individual fixture. Affects
+     * tracker processes, CliMulti processes, etc.
+     */
+    public function initializePlatform()
+    {
+        // empty
     }
 }
