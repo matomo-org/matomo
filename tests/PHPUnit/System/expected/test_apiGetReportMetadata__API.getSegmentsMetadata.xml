@@ -134,7 +134,7 @@
 		<category>Visit</category>
 		<name>Device type</name>
 		<segment>deviceType</segment>
-		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser, smart display, camera, portable media player</acceptedValues>
+		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser, smart display, camera, portable media player, phablet</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
