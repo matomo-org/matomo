@@ -786,6 +786,8 @@ class CronArchive
 
         $this->requests += count($urls);
 
+        $this->log('- pre-processing all visits');
+
         $cliMulti = new CliMulti();
         $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
         $cliMulti->setConcurrentProcessesLimit($this->getConcurrentRequestsPerWebsite());
