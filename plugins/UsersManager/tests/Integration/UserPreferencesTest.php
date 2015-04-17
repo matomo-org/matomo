@@ -102,6 +102,12 @@ class UserPreferencesTest extends IntegrationTestCase
         $this->assertEquals('day', $this->userPreferences->getDefaultPeriod());
     }
 
+    public function test_getDefaultDate()
+    {
+        $this->setDefaultDate('today');
+        $this->assertEquals('today', $this->userPreferences->getDefaultDate());
+    }
+
     public function test_getDefaultPeriod_ShouldOnlyReturnAllowedPeriods()
     {
         // Only allow for week period
@@ -109,6 +115,15 @@ class UserPreferencesTest extends IntegrationTestCase
         Config::getInstance()->General['default_period'] = 'week';
         $this->setDefaultDate('today');
         $this->assertEquals('week', $this->userPreferences->getDefaultPeriod());
+    }
+
+    public function test_getDefaultDate_ShouldOnlyReturnDateInAllowedPeriods()
+    {
+        // Only allow for week period
+        Config::getInstance()->General['enabled_periods_UI'] = 'day';
+        Config::getInstance()->General['default_period'] = 'day';
+        $this->setDefaultDate('last7');
+        $this->assertEquals('yesterday', $this->userPreferences->getDefaultDate());
     }
 
     private function setSuperUser()
