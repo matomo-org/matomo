@@ -432,6 +432,7 @@ class FrontController extends Singleton
         $page = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/maintenance.tpl');
         $page = str_replace('%logoUrl%', $logoUrl, $page);
         $page = str_replace('%faviconUrl%', $faviconUrl, $page);
+        $page = str_replace('%piwikTitle%', Piwik::getRandomTitle(), $page);
         echo $page;
         exit;
     }
