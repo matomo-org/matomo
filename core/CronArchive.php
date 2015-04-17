@@ -422,16 +422,12 @@ class CronArchive
             return;
         }
 
-        $this->log("Starting Scheduled tasks... ");
+        API\Request::processRequest("CoreAdminHome.runScheduledTasks", array(
+            'token_auth' => $this->token_auth,
+            'format' => 'original', // so exceptions get thrown
+            'trigger' => 'archivephp'
+        ));
 
-        $tasksOutput = $this->request("?module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=" . $this->token_auth);
-
-        if ($tasksOutput == \Piwik\DataTable\Renderer\Csv::NO_DATA_AVAILABLE) {
-            $tasksOutput = " No task to run";
-        }
-
-        $this->log($tasksOutput);
-        $this->log("done");
         $this->logSection("");
     }
 
@@ -1032,17 +1028,14 @@ class CronArchive
         return array_unique($websiteIds);
     }
 
-    private function initTokenAuth()
+    public function initTokenAuth()
     {
-        $tokens = array();
-
-        /**
-         * @ignore
-         */
-        Piwik::postEvent('CronArchive.getTokenAuth', array(&$tokens));
+        $tokens = self::getSuperUserTokenAuths();
 
         $this->validTokenAuths = $tokens;
         $this->token_auth = array_shift($tokens);
+
+        return $this->token_auth;
     }
 
     public function isTokenAuthSuperUserToken($token_auth)
@@ -1570,6 +1563,18 @@ class CronArchive
         return $this->piwikUrl . $url . self::APPEND_TO_API_REQUEST;
     }
 
+    public static function getSuperUserTokenAuths()
+    {
+        $tokens = array();
+
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('CronArchive.getTokenAuth', array(&$tokens));
+
+        return $tokens;
+    }
+
     /**
      * @param $idSite
      * @param $period
@@ -1603,5 +1608,5 @@ class CronArchive
         }
 
         return new SharedSiteIds($websitesIds);
-    }
+   }
 }
