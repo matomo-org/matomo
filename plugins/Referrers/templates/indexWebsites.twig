@@ -1,9 +1,13 @@
-<div id='leftcolumn'>
-    <h2 piwik-enriched-headline>{{ 'Referrers_Websites'|translate }}</h2>
-    {{ websites|raw }}
-</div>
+<div class="row">
 
-<div id='rightcolumn'>
-    <h2 piwik-enriched-headline>{{ 'Referrers_Socials'|translate }}</h2>
-    {{ socials|raw }}
+    <div class="col-md-6">
+        <h2 piwik-enriched-headline>{{ 'Referrers_Websites'|translate }}</h2>
+        {{ websites|raw }}
+    </div>
+
+    <div class="col-md-6">
+        <h2 piwik-enriched-headline>{{ 'Referrers_Socials'|translate }}</h2>
+        {{ socials|raw }}
+    </div>
+
 </div>
