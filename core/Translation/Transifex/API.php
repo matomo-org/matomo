@@ -88,11 +88,7 @@ class API
      */
     public function getStatistics($resource)
     {
-        static $apiData = array();
-        if (empty($languageCodes)) {
-            $apiData = $this->getApiResults('project/' . $this->projectSlug . '/resource/' . $resource . '/stats/');
-        }
-        return $apiData;
+        return $this->getApiResults('project/' . $this->projectSlug . '/resource/' . $resource . '/stats/');
     }
 
     /**

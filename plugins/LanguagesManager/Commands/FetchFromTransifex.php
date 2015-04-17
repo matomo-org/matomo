@@ -99,7 +99,6 @@ class FetchFromTransifex extends TranslationBase
         }
 
         $progress->finish();
-        $output->writeln("Finished fetching new language files from Transifex");
     }
 
     public static function getDownloadPath()

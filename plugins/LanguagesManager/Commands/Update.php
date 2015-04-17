@@ -26,6 +26,7 @@ class Update extends TranslationBase
     {
         $this->setName('translations:update')
             ->setDescription('Updates translation files')
+            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force update of all language files')
             ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'Transifex username')
             ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'Transifex password')
             ->addOption('plugin', 'P', InputOption::VALUE_OPTIONAL, 'optional name of plugin to update translations for');
@@ -46,8 +47,6 @@ class Update extends TranslationBase
         }
 
         $plugin = $input->getOption('plugin');
-
-        $output->writeln("Starting to import new language files");
 
         if (!$input->isInteractive()) {
             $output->writeln("(!) Non interactive mode: New languages will be skipped");
@@ -72,6 +71,8 @@ class Update extends TranslationBase
                 $output->writeln("No translation updates available! Skipped.");
                 continue;
             }
+
+            $output->writeln("Starting to import new language files");
 
             /** @var ProgressHelper $progress */
             $progress = $this->getHelperSet()->get('progress');
@@ -154,21 +155,14 @@ class Update extends TranslationBase
         return $pluginsInCore;
     }
 
-    protected function fetchTranslations($input, $output, $plugin)
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @param string $plugin
+     * @throws \Exception
+     */
+    protected function fetchTranslations(InputInterface $input, OutputInterface $output, $plugin)
     {
-        $lastModDate = 0;
-        try {
-            // try to find the language file (of given plugin) with the newest modification date in git log
-            $path = ($plugin ? 'plugins/' . $plugin . '/' : '') . 'lang';
-            $files = explode("\n", trim(shell_exec('git ls-tree -r --name-only HEAD ' . $path)));
-
-            foreach ($files as $file) {
-                $fileModDate = shell_exec('git log -1 --format="%at" -- ' . $file);
-                if (basename($file) != 'en.json' && ($lastModDate != 0 || $fileModDate > $lastModDate)) {
-                    $lastModDate = $fileModDate;
-                }
-            }
-        } catch (\Exception $e) {}
 
         $command = $this->getApplication()->find('translations:fetch');
         $arguments = array(
@@ -178,10 +172,28 @@ class Update extends TranslationBase
             '--plugin' => $plugin
         );
 
-        if ($lastModDate != 0) {
-            $arguments['--lastupdate'] = $lastModDate;
-        }
+        if ($input->getOption('force')) {
+            $arguments['--lastupdate'] = 1;
+        } else {
+            $lastModDate = strtotime('2015-01-04 00:00:00'); // date of inital transifex setup
+            try {
+                // try to find the language file (of given plugin) with the newest modification date in git log
+                $path = ($plugin ? 'plugins/' . $plugin . '/' : '') . 'lang';
+                $files = explode("\n", trim(shell_exec('git ls-tree -r --name-only HEAD ' . $path)));
 
+                foreach ($files as $file) {
+                    $fileModDate = shell_exec('git log -1 --format="%at" -- ' . $file);
+                    if (basename($file) != 'en.json' && $fileModDate > $lastModDate) {
+                        $lastModDate = $fileModDate;
+                    }
+                }
+            } catch (\Exception $e) {
+            }
+
+            if ($lastModDate != 0) {
+                $arguments['--lastupdate'] = $lastModDate;
+            }
+        }
         $inputObject = new ArrayInput($arguments);
         $inputObject->setInteractive($input->isInteractive());
         $command->run($inputObject, $output);
