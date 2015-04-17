@@ -69,6 +69,8 @@ class PurgeOldArchiveData extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // during normal command execution, we don't want the INFO level logs logged by the ArchivePurger service
+        // to display in the console, so we use a NullLogger for the service
         $logger = null;
         if ($output->getVerbosity() <= OutputInterface::VERBOSITY_NORMAL) {
             $logger = new NullLogger();
