@@ -16,7 +16,7 @@
        href="javascript:void(0)"
        class="custom_select_main_link"
        ng-class="{'loading': model.isLoading}">
-        <span ng-bind-html="selectedSiteNameHtml || model.firstSiteName">?</span>
+        <span ng-bind-html="selectedSite.name || model.firstSiteName">?</span>
     </a>
 
     <div ng-show="view.showSitesList" class="custom_select_block">
@@ -29,7 +29,8 @@
                     ng-repeat="site in model.sites"
                     ng-hide="!showSelectedSite && activeSiteId==site.idsite">
                     <a piwik-ignore-click href="{{ getUrlForSiteId(site.idsite) }}"
-                       piwik-autocomplete-matched="view.searchTerm">{{ site.name }}</a>
+                       piwik-autocomplete-matched="view.searchTerm"
+                       ng-bind-html="site.name"></a>
                 </li>
             </ul>
             <ul ng-show="!model.sites.length && view.searchTerm" class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect">

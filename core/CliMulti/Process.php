@@ -144,7 +144,7 @@ class Process
         }
 
         $lockedPID   = trim($content);
-        $runningPIDs = explode("\n", trim( `ps ex | awk '{print $1}'` ));
+        $runningPIDs = self::getRunningProcesses();
 
         return !empty($lockedPID) && in_array($lockedPID, $runningPIDs);
     }
@@ -171,6 +171,10 @@ class Process
 
         if (self::isSystemNotSupported()) {
             return false;
+        }
+
+        if (count(self::getRunningProcesses()) > 0) {
+            return true;
         }
 
         if (!self::isProcFSMounted()) {
@@ -236,4 +240,18 @@ class Process
         return strpos($type, 'proc') === 0;
     }
 
+    /**
+     * @return int[] The ids of the currently running processes
+     */
+     static function getRunningProcesses()
+    {
+        $ids = explode("\n", trim(`ps ex 2>/dev/null | awk '{print $1}' 2>/dev/null`));
+
+        $ids = array_map('intval', $ids);
+        $ids = array_filter($ids, function ($id) {
+            return $id > 0;
+        });
+
+        return $ids;
+    }
 }

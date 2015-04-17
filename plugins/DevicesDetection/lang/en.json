@@ -35,6 +35,7 @@
         "PortableMediaPlayer": "Portable media player",
         "Devices": "Devices",
         "Tablet": "Tablet",
+        "Phablet": "Phablet",
         "TV": "Tv",
         "UserAgent": "User-Agent",
         "WidgetBrowsers": "Visitor Browser",

@@ -418,7 +418,7 @@ if (typeof JSON2 !== 'object') {
     setCustomData, getCustomData,
     setCustomRequestProcessing,
     setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie,
-    setDownloadExtensions, addDownloadExtensions,
+    setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle,
     setDownloadClasses, setLinkClasses,
@@ -2177,7 +2177,7 @@ if (typeof Piwik !== 'object') {
                 configTitle = documentAlias.title,
 
                 // Extensions to be treated as download links
-                configDownloadExtensions = '7z|aac|apk|ar[cj]|as[fx]|avi|azw3|bin|csv|deb|dmg|docx?|epub|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mobi|mp(2|3|4|e?g)|mov(ie)?|ms[ip]|od[bfgpst]|og[gv]|pdf|phps|png|pptx?|qtm?|ra[mr]?|rpm|sea|sit|tar|t?bz2?|tgz|torrent|txt|wav|wm[av]|wpd||xlsx?|xml|z|zip',
+                configDownloadExtensions = ['7z','aac','apk','arc','arj','asf','asx','avi','azw3','bin','csv','deb','dmg','doc','docx','epub','exe','flv','gif','gz','gzip','hqx','jar','jpg','jpeg','js','mobi','mp2','mp3','mp4','mpg','mpeg','mov','movie','msi','msp','odb','odf','odg','ods','odt','ogg','ogv','pdf','phps','png','ppt','pptx','qt','qtm','ra','ram','rar','rpm','sea','sit','tar','tbz','tbz2','bz','bz2','tgz','torrent','txt','wav','wma','wmv','wpd','xls','xlsx','xml','z','zip'],
 
                 // Hosts or alias(es) to not treat as outlinks
                 configHostsAlias = [domainAlias],
@@ -3234,7 +3234,7 @@ if (typeof Piwik !== 'object') {
                     linkPattern = getClassesRegExp(configLinkClasses, 'link'),
 
                 // does file extension indicate that it is a download?
-                    downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions + ')([?&#]|$)', 'i');
+                    downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions.join('|') + ')([?&#]|$)', 'i');
 
                 if (linkPattern.test(className)) {
                     return 'link';
@@ -4457,23 +4457,48 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Set list of file extensions to be recognized as downloads. Each extension has to be separated by
-                 * a '/'.
+                 * Set list of file extensions to be recognized as downloads
                  *
-                 * @param string extensions
+                 * @param string|array extensions
                  */
                 setDownloadExtensions: function (extensions) {
+                    if(isString(extensions)) {
+                        extensions = extensions.split('|');
+                    }
                     configDownloadExtensions = extensions;
                 },
 
                 /**
-                 * Specify additional file extensions to be recognized as downloads. If you'd like to add multiple
-                 * extensions, separate them by a '|' character.
+                 * Specify additional file extensions to be recognized as downloads
                  *
-                 * @param string extensions  for example 'custom' or 'custom1|custom2|custom3'
+                 * @param string|array extensions  for example 'custom' or ['custom1','custom2','custom3']
                  */
                 addDownloadExtensions: function (extensions) {
-                    configDownloadExtensions += '|' + extensions;
+                    var i;
+                    if(isString(extensions)) {
+                        extensions = extensions.split('|');
+                    }
+                    for (i=0; i < extensions.length; i++) {
+                        configDownloadExtensions.push(extensions[i]);
+                    }
+                },
+
+                /**
+                 * Removes specified file extensions from the list of recognized downloads
+                 *
+                 * @param string|array extensions  for example 'custom' or ['custom1','custom2','custom3']
+                 */
+                removeDownloadExtensions: function (extensions) {
+                    var i, newExtensions = [];
+                    if(isString(extensions)) {
+                        extensions = extensions.split('|');
+                    }
+                    for (i=0; i < configDownloadExtensions.length; i++) {
+                        if (indexOfArray(extensions, configDownloadExtensions[i]) === -1) {
+                            newExtensions.push(configDownloadExtensions[i]);
+                        }
+                    }
+                    configDownloadExtensions = newExtensions;
                 },
 
                 /**

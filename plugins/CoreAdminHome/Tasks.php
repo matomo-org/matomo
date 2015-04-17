@@ -14,9 +14,8 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Log;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
-use Piwik\SettingsServer;
+use Psr\Log\LoggerInterface;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
@@ -25,9 +24,15 @@ class Tasks extends \Piwik\Plugin\Tasks
      */
     private $archivePurger;
 
-    public function __construct(ArchivePurger $archivePurger = null)
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(ArchivePurger $archivePurger, LoggerInterface $logger)
     {
-        $this->archivePurger = $archivePurger ?: new ArchivePurger();
+        $this->archivePurger = $archivePurger;
+        $this->logger = $logger;
     }
 
     public function schedule()
@@ -44,16 +49,14 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function purgeOutdatedArchives()
     {
-        $logger = StaticContainer::get('Psr\Log\LoggerInterface');
-
         if ($this->willPurgingCausePotentialProblemInUI()) {
-            $logger->info("Purging temporary archives: skipped (browser triggered archiving not enabled & not running after core:archive)");
+            $this->logger->info("Purging temporary archives: skipped (browser triggered archiving not enabled & not running after core:archive)");
             return false;
         }
 
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
 
-        $logger->info("Purging archives in {tableCount} archive tables.", array('tableCount' => count($archiveTables)));
+        $this->logger->info("Purging archives in {tableCount} archive tables.", array('tableCount' => count($archiveTables)));
 
         // keep track of dates we purge for, since getTablesArchivesInstalled() will return numeric & blob
         // tables (so dates will appear two times, and we should only purge once per date)
@@ -64,15 +67,19 @@ class Tasks extends \Piwik\Plugin\Tasks
             list($year, $month) = explode('_', $date);
 
             // Somehow we may have archive tables created with older dates, prevent exception from being thrown
-            if ($year > 1990
-                && empty($datesPurged[$date])
-            ) {
-                $dateObj = Date::factory("$year-$month-15");
+            if ($year > 1990) {
+                if (empty($datesPurged[$date])) {
+                    $dateObj = Date::factory("$year-$month-15");
 
-                $this->archivePurger->purgeOutdatedArchives($dateObj);
-                $this->archivePurger->purgeArchivesWithPeriodRange($dateObj);
+                    $this->archivePurger->purgeOutdatedArchives($dateObj);
+                    $this->archivePurger->purgeArchivesWithPeriodRange($dateObj);
 
-                $datesPurged[$date] = true;
+                    $datesPurged[$date] = true;
+                } else {
+                    $this->logger->debug("Date {date} already purged.", array('date' => $date));
+                }
+            } else {
+                $this->logger->info("Skipping purging of archive tables *_{year}_{month}, year <= 1990.", array('year' => $year, 'month' => $month));
             }
         }
     }

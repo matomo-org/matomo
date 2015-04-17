@@ -245,7 +245,9 @@ class Tracker
         }
 
         // Do not run scheduled tasks during tests
-        TrackerConfig::setConfigValue('scheduled_tasks_min_interval', 0);
+        if (!defined('DEBUG_FORCE_SCHEDULED_TASKS')) {
+            TrackerConfig::setConfigValue('scheduled_tasks_min_interval', 0);
+        }
 
         // if nothing found in _GET/_POST and we're doing a POST, assume bulk request. in which case,
         // we have to bypass authentication
