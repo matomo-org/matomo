@@ -101,7 +101,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
 
-        $optionValue = Option::get($this->getPreferenceId($userLogin, $preferenceName));
+        $optionValue = $this->getPreferenceValue($userLogin, $preferenceName);
 
         if ($optionValue !== false) {
             return $optionValue;
@@ -120,7 +120,8 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
 
-        $optionValue = Option::get($this->getPreferenceId($userLogin, $preferenceName));
+        $optionValue = $this->getPreferenceValue($userLogin, $preferenceName);
+
         if ($optionValue === false) {
             $defaultValue = $this->getDefaultUserPreference($preferenceName, $userLogin);
 
@@ -159,6 +160,11 @@ class API extends \Piwik\Plugin\API
             throw new Exception("Preference name cannot contain underscores.");
         }
         return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
+    }
+
+    private function getPreferenceValue($userLogin, $preferenceName)
+    {
+        return Option::get($this->getPreferenceId($userLogin, $preferenceName));
     }
 
     private function getDefaultUserPreference($preferenceName, $login)
