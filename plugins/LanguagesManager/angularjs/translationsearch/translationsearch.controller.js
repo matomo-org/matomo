@@ -19,6 +19,7 @@
         function fetchTranslations() {
             piwikApi.fetch({
                 method: 'LanguagesManager.getTranslationsForLanguage',
+                filter_limit: -1,
                 languageCode: 'en'
             }).then(function (response) {
                 if (response) {

@@ -10,6 +10,7 @@ namespace Piwik\Tests\Unit\API;
 
 use Exception;
 use Piwik\API\ResponseBuilder;
+use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Plugin\Manager;
 
@@ -184,91 +185,164 @@ class ResponseBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function test_getResponse_shouldApplyFilterLimitOnIndexedArray()
     {
-        $input = range(0, 100);
-
-        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_limit' => 15));
-        $response = $builder->getResponse($input);
-
-        $this->assertEquals(range(0, 14), $response);
+        $input    = range(0, 100);
+        $expected = range(0, 14);
+        $this->assertLimitedResponseEquals($expected, $input, $limit = 15, $offset = null);
     }
 
     public function test_getResponse_shouldReturnEmptyArrayOnIndexedArray_IfOffsetIsTooHigh()
     {
         $input = range(0, 100);
-
-        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_limit' => 15, 'filter_offset' => 200));
-        $response = $builder->getResponse($input);
-
-        $this->assertEquals(array(), $response);
+        $this->assertLimitedResponseEquals(array(), $input, $limit = 15, $offset = 200);
     }
 
     public function test_getResponse_shouldReturnAllOnIndexedArray_IfLimitIsTooHigh()
     {
         $input = range(0, 100);
-
-        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_limit' => 200));
-        $response = $builder->getResponse($input);
-
-        $this->assertEquals($input, $response);
+        $this->assertLimitedResponseEquals($input, $input, $limit = 200, $offset = null);
     }
 
     public function test_getResponse_shouldNotApplyFilterLimitOnIndexedArrayIfParamNotSet()
     {
         $input = range(0, 100);
+        $this->assertLimitedResponseEquals($input, $input, $limit = null, $offset = null);
+    }
 
-        $builder  = new ResponseBuilder('php', array('serialize' => 0));
+    public function test_getResponse_shouldApplyLimitOnIndexedArray_IfLimitIsDefaultFilterLimitValue()
+    {
+        $limit    = Config::getInstance()->General['API_datatable_default_limit'];
+        $input    = range(0, 2000);
+        $expected = range(0, $limit - 1);
+        $this->assertLimitedResponseEquals($expected, $input, $limit, $offset = 0);
+    }
+
+    private function assertLimitedResponseEquals($expectedResponse, $input, $limit, $offset = 0)
+    {
+        $params = array('serialize' => 0);
+
+        if (!is_null($limit)) {
+            $params['filter_limit'] = $limit;
+        }
+
+        if (!is_null($offset)) {
+            $params['filter_offset'] = $offset;
+        }
+
+        $builder  = new ResponseBuilder('php', $params);
         $response = $builder->getResponse($input);
 
-        $this->assertEquals($input, $response);
+        $this->assertEquals($expectedResponse, $response);
+    }
+
+    public function test_getResponse_shouldNotApplyLimit_IfLimitIsDefaultFilterLimitValueAndSetBySystem()
+    {
+        $input = range(0, 200);
+        $limit = Config::getInstance()->General['API_datatable_default_limit'];
+
+        $builder  = new ResponseBuilder('php', array(
+            'serialize' => 0,
+            'api_datatable_default_limit' => $limit,
+            'filter_limit' => $limit,
+            'filter_offset' => 0));
+        $response = $builder->getResponse($input);
+
+        $this->assertEquals(range(0, 200), $response);
+    }
+
+    public function test_getResponse_shouldApplyLimit_IfLimitIsSetBySystemButDifferentToDefaultLimit()
+    {
+        $input = range(0, 200);
+        $defaultLimit = Config::getInstance()->General['API_datatable_default_limit'];
+        $limit = $defaultLimit - 1;
+
+        $builder  = new ResponseBuilder('php', array(
+            'serialize' => 0,
+            'api_datatable_default_limit' => $defaultLimit,
+            'filter_limit' => $limit,
+            'filter_offset' => 0));
+        $response = $builder->getResponse($input);
+
+        $this->assertEquals(range(0, $limit - 1), $response);
     }
 
     public function test_getResponse_shouldApplyFilterOffsetOnIndexedArray_IfFilterLimitIsGiven()
     {
-        $input = range(0, 100);
-
-        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_limit' => 15, 'filter_offset' => 30));
-        $response = $builder->getResponse($input);
-
-        $this->assertEquals(range(30, 44), $response);
+        $input    = range(0, 100);
+        $expected = range(30, 44);
+        $this->assertLimitedResponseEquals($expected, $input, $limit = 15, $offset = 30);
     }
 
     public function test_getResponse_shouldNotApplyFilterOffsetOnIndexedArray_IfNoFilterLimitIsSetButOffset()
     {
         $input = range(0, 100);
-
-        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_offset' => 30));
-        $response = $builder->getResponse($input);
-
-        $this->assertEquals($input, $response);
+        $this->assertLimitedResponseEquals($input, $input, $limit = null, $offset = 30);
     }
 
     public function test_getResponse_shouldReturnEmptyArrayOnIndexedArray_IfFilterLimitIsZero()
     {
         $input = range(0, 100);
-
-        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_limit' => 0, 'filter_offset' => 30));
-        $response = $builder->getResponse($input);
-
-        $this->assertEquals(array(), $response);
+        $this->assertLimitedResponseEquals($expected = array(), $input, $limit = 0, $offset = 30);
     }
 
     public function test_getResponse_shouldIgnoreFilterOffsetOnIndexedArray_IfFilterLimitIsMinusOne()
     {
         $input = range(0, 100);
-
-        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_limit' => -1, 'filter_offset' => 30));
-        $response = $builder->getResponse($input);
-
-        $this->assertEquals($input, $response);
+        $this->assertLimitedResponseEquals($input, $input, $limit = -1, $offset = 30);
     }
 
     public function test_getResponse_shouldReturnAllOnIndexedArray_IfFilterLimitIsMinusOne()
     {
         $input = range(0, 100);
+        $this->assertLimitedResponseEquals($input, $input, $limit = -1, $offset = null);
+    }
 
-        $builder  = new ResponseBuilder('php', array('serialize' => 0, 'filter_limit' => -1));
+    public function test_getResponse_shouldApplyPattern_IfFilterColumnAndPatternIsGiven()
+    {
+        $input = array(
+            0 => array('name' => 'google', 'url' => 'www.google.com'),
+            1 => array('name' => 'ask', 'url' => 'www.ask.com'),
+            2 => array('name' => 'piwik', 'url' => 'piwik.org'),
+            3 => array('url' => 'nz.yahoo.com'),
+            4 => array('name' => 'amazon', 'url' => 'amazon.com'),
+            5 => array('url' => 'nz.piwik.org'),
+        );
+
+        $builder  = new ResponseBuilder('php', array(
+            'serialize' => 0,
+            'filter_limit' => -1,
+            'filter_column' => array('name', 'url'),
+            'filter_pattern' => 'piwik'
+        ));
         $response = $builder->getResponse($input);
 
-        $this->assertEquals($input, $response);
+        $expected = array(
+            2 => array('name' => 'piwik', 'url' => 'piwik.org'),
+            5 => array('url' => 'nz.piwik.org'),
+        );
+        $this->assertEquals($expected, $response);
+    }
+
+    public function test_getResponse_shouldBeAbleToApplyColumFilterAndLimitFilterOnIndexedAssociativeArray()
+    {
+        $input = array();
+        for ($i = 0; $i < 10; $i++) {
+            $input[] = array('test' => 'two' . $i, 'test2' => 'three');
+        }
+
+        $limit = 3;
+
+        $builder  = new ResponseBuilder('php', array(
+            'serialize' => 0,
+            'filter_limit' => $limit,
+            'filter_offset' => 3,
+            'showColumns' => 'test'
+        ));
+        $response = $builder->getResponse($input);
+
+        $this->assertEquals(array(
+            0 => array('test' => 'two3'),
+            1 => array('test' => 'two4'),
+            2 => array('test' => 'two5'),
+        ), $response);
     }
 }

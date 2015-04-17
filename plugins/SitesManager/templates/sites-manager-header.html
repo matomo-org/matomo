@@ -8,7 +8,7 @@
 <p>
     {{ 'SitesManager_MainDescription'|translate }}
 
-    <span ng-bind-html="'SitesManager_YouCurrentlyHaveAccessToNWebsites'|translate:'<strong>' + sites.length + '</strong>'"></span>
+    <span ng-bind-html="'SitesManager_YouCurrentlyHaveAccessToNWebsites'|translate:'<strong>' + totalNumberOfSites + '</strong>'"></span>
 
     <span ng-show="hasSuperUserAccess">
         <br/>

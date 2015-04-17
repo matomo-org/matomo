@@ -15,6 +15,60 @@
     text-align: justify;
 }
 
+.SitesManager {
+  .bottomButtonBar {
+    margin-top: 5px
+  }
+
+  .visible {
+    visibility: visible;
+  }
+  .hidden {
+    visibility: hidden;
+  }
+
+  .sitesButtonBar {
+    width:100%;
+    text-align: center;
+  }
+
+  .addSite {
+    float: left;
+    display: inline-block;
+
+    .addRowSite {
+      font-size: 14px;
+    }
+  }
+
+  .paging {
+    text-align: center;
+    display: inline-block;
+    min-width: 400px;
+    margin-top: 7px;
+
+    .counter {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+  }
+
+  .search {
+    display: inline-block;
+    text-align: right;
+    float: right;
+  }
+}
+
+.sitesManagerList {
+  clear:both;
+
+  .isLoading {
+    opacity: 0.5;
+  }
+}
+
 .addRowSite {
   text-decoration: none;
 }

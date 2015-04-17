@@ -88,6 +88,7 @@ class SitesManager extends \Piwik\Plugin
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-helper.service.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-site.service.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-core.service.js";
+        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager-admin-sites-model.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/multiline-field.directive.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/edit-trigger.directive.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/scroll.directive.js";
@@ -261,6 +262,9 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "General_Save";
         $translationKeys[] = "General_OrCancel";
         $translationKeys[] = "General_Actions";
+        $translationKeys[] = "General_Search";
+        $translationKeys[] = "General_Pagination";
+        $translationKeys[] = "General_PaginationWithoutTotal";
         $translationKeys[] = "Actions_SubmenuSitesearch";
         $translationKeys[] = "SitesManager_OnlyOneSiteAtTime";
         $translationKeys[] = "SitesManager_DeleteConfirm";
@@ -286,6 +290,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_EnableSiteSearch";
         $translationKeys[] = "SitesManager_DisableSiteSearch";
         $translationKeys[] = "SitesManager_SearchUseDefault";
+        $translationKeys[] = "SitesManager_Sites";
         $translationKeys[] = "SitesManager_SiteSearchUse";
         $translationKeys[] = "SitesManager_SearchKeywordLabel";
         $translationKeys[] = "SitesManager_SearchCategoryLabel";
@@ -322,5 +327,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_SelectDefaultCurrency";
         $translationKeys[] = "SitesManager_AddSite";
         $translationKeys[] = "Goals_Ecommerce";
+        $translationKeys[] = "SitesManager_NotFound";
     }
 }
