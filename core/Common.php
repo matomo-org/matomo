@@ -379,9 +379,13 @@ class Common
      */
     private static function undoMagicQuotes($value)
     {
-        if (version_compare(PHP_VERSION, '5.4', '<') &&
-            get_magic_quotes_gpc()) {
+        static $shouldUndo;
 
+        if (!isset($shouldUndo)) {
+            $shouldUndo = version_compare(PHP_VERSION, '5.4', '<') && get_magic_quotes_gpc();
+        }
+
+        if ($shouldUndo) {
             $value = stripslashes($value);
         }
 
@@ -470,7 +474,7 @@ class Common
         }
 
         $value = self::sanitizeInputValues($requestArrayToUse[$varName]);
-        if (!is_null($varType)) {
+        if (isset($varType)) {
             $ok = false;
 
             if ($varType === 'string') {

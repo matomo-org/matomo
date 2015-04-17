@@ -15,6 +15,7 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
 use Exception;
 use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
+use Piwik\Tracker\Visit;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvider.php';
 
@@ -93,6 +94,7 @@ class ManyVisitsWithGeoIP extends Fixture
 
         if ($useLocal) {
             Cache::getTransientCache()->flushAll(); // make sure dimension cache is empty between local tracking runs
+            Visit::$dimensions = null;
         }
 
         // use local tracker so mock location provider can be used
