@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    $('#showSql').click(function () {
+    $('#showSql').click(function (e) {
+        e.preventDefault();
         $('#sqlQueries').toggle();
     });
     $('#upgradeCorePluginsForm').submit(function () {

@@ -42,6 +42,8 @@ class Controller extends \Piwik\Plugin\Controller
     public function __construct(Updater $updater)
     {
         $this->updater = $updater;
+
+        parent::__construct();
     }
 
     public function newVersionAvailable()
@@ -53,6 +55,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = new View('@CoreUpdater/newVersionAvailable');
         $this->addCustomLogoInfo($view);
+        $this->setBasicVariablesView($view);
 
         $view->piwik_version = Version::VERSION;
         $view->piwik_new_version = $newVersion;
@@ -102,11 +105,22 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function oneClickResults()
     {
-        $view = new View('@CoreUpdater/oneClickResults');
-        $view->error = Common::getRequestVar('error', '', 'string', $_POST);
-        $view->feedbackMessages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
-        $view->httpsFail = (bool) Common::getRequestVar('httpsFail', 0, 'int', $_POST);
+        $httpsFail = (bool) Common::getRequestVar('httpsFail', 0, 'int', $_POST);
+        $error = Common::getRequestVar('error', '', 'string', $_POST);
+
+        if ($httpsFail) {
+            $view = new View('@CoreUpdater/updateHttpsError');
+            $view->error = $error;
+        } elseif ($error) {
+            $view = new View('@CoreUpdater/updateHttpError');
+            $view->error = $error;
+            $view->feedbackMessages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
+        } else {
+            $view = new View('@CoreUpdater/updateSuccess');
+        }
+
         $this->addCustomLogoInfo($view);
+        $this->setBasicVariablesView($view);
         return $view->render();
     }
 
@@ -158,9 +172,11 @@ class Controller extends \Piwik\Plugin\Controller
 
         $viewWelcome = new View($welcomeTemplate);
         $this->addCustomLogoInfo($viewWelcome);
+        $this->setBasicVariablesView($viewWelcome);
 
         $viewDone = new View($doneTemplate);
         $this->addCustomLogoInfo($viewDone);
+        $this->setBasicVariablesView($viewDone);
 
         $doExecuteUpdates = Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1;
 
@@ -191,7 +207,7 @@ class Controller extends \Piwik\Plugin\Controller
     private function doWelcomeUpdates($view, $componentsWithUpdateFile)
     {
         $view->new_piwik_version = Version::VERSION;
-        $view->commandUpgradePiwik = "<br /><code>php " . Filesystem::getPathToPiwikRoot() . "/console core:update </code>";
+        $view->commandUpgradePiwik = "php " . Filesystem::getPathToPiwikRoot() . "/console core:update";
         $pluginNamesToUpdate = array();
         $dimensionsToUpdate = array();
         $coreToUpdate = false;

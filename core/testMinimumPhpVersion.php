@@ -76,6 +76,12 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
     {
         $bool = (defined('PIWIK_PRINT_ERROR_BACKTRACE') && PIWIK_PRINT_ERROR_BACKTRACE)
                 || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']);
+
+        try {
+            $bool = $bool || \Piwik\Development::isEnabled();
+        } catch (Exception $e) {
+        }
+
         return $bool;
     }
 
@@ -113,7 +119,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         }
 
         if ($optionalTrace) {
-            $optionalTrace = '<span class="exception-backtrace">Backtrace:<br /><pre>' . $optionalTrace . '</pre></span>';
+            $optionalTrace = '<h2>Stack trace</h2><pre>' . $optionalTrace . '</pre></span>';
         }
 
         if ($isCli === null) {
@@ -130,7 +136,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
                             </ul>';
         }
         if ($optionalLinkBack) {
-            $optionalLinkBack = '<a href="javascript:window.history.back();">Go Back</a><br/>';
+            $optionalLinkBack = '<a href="javascript:window.history.back();">Go Back</a>';
         }
 
         $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutHeader.tpl');
@@ -141,10 +147,10 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
 
         $headerPage = str_replace('{$HTML_TITLE}', PAGE_TITLE_WHEN_ERROR, $headerPage);
 
-        $content = '<p>' . $message . '</p>
+        $content = '<h2>' . $message . '</h2>
                     <p>'
             . $optionalLinkBack
-            . '<a href="index.php">Go to Piwik</a><br/>
+            . ' | <a href="index.php">Go to Piwik</a> |
                        <a href="index.php?module=Login">Login</a>'
             . '</p>'
             . ' ' . (Piwik_ShouldPrintBackTraceWithMessage() ? $optionalTrace : '')
