@@ -147,8 +147,6 @@ abstract class Setting
 
     protected $key;
     protected $name;
-    protected $writableByCurrentUser = false;
-    protected $readableByCurrentUser = false;
 
     /**
      * @var StorageInterface
@@ -188,7 +186,7 @@ abstract class Setting
      */
     public function isWritableByCurrentUser()
     {
-        return $this->writableByCurrentUser;
+        return false;
     }
 
     /**
@@ -198,7 +196,7 @@ abstract class Setting
      */
     public function isReadableByCurrentUser()
     {
-        return $this->readableByCurrentUser;
+        return false;
     }
 
     /**
