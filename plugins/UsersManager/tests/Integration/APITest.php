@@ -98,31 +98,32 @@ class APITest extends IntegrationTestCase
         $this->assertEquals('5', $siteId);
     }
 
-    public function test_getUserPreference_ShouldSaveTheDefaultPreference_IfReportPreferenceIsRequested()
+    public function test_initUserPreferenceWithDefault_ShouldSaveTheDefaultPreference_IfPreferenceIsNotSet()
     {
         // make sure there is no value saved so it will use default preference
         $siteId = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT));
         $this->assertFalse($siteId);
 
-        $this->api->getUserPreference($this->login, API::PREFERENCE_DEFAULT_REPORT);
+        $this->api->initUserPreferenceWithDefault($this->login, API::PREFERENCE_DEFAULT_REPORT);
 
         // make sure it did save the preference
         $siteId = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT));
         $this->assertEquals('1', $siteId);
     }
 
-    public function test_getUserPreference_ShouldNotSaveTheDefaultPreference_IfNotAReportPreferenceIsRequested()
+    public function test_initUserPreferenceWithDefault_ShouldNotSaveTheDefaultPreference_IfPreferenceIsAlreadySet()
     {
-        // make sure there is no value saved so it will use default preference
-        $date = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT_DATE));
-        $this->assertFalse($date);
+        // set value so there will already be a default
+        Option::set($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT), '999');
 
-        $default = $this->api->getUserPreference($this->login, API::PREFERENCE_DEFAULT_REPORT_DATE);
-        $this->assertNotEmpty($default);
+        $siteId = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT));
+        $this->assertEquals('999', $siteId);
 
-        // make sure it did save the preference
-        $date = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT_DATE));
-        $this->assertFalse($date);
+        $this->api->initUserPreferenceWithDefault($this->login, API::PREFERENCE_DEFAULT_REPORT);
+
+        // make sure it did not save the preference
+        $siteId = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT));
+        $this->assertEquals('999', $siteId);
     }
 
     public function test_getAllUsersPreferences_shouldGetMultiplePreferences()

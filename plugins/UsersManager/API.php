@@ -107,16 +107,25 @@ class API extends \Piwik\Plugin\API
             return $optionValue;
         }
 
-        $defaultPreference = $this->getDefaultUserPreference($preferenceName, $userLogin);
+        return $this->getDefaultUserPreference($preferenceName, $userLogin);
+    }
 
-        // A `get*` method should not set anything. But in this case we do it to improve performance as it prevents
-        // us from loading all siteIds (which can be 50k or more) the next time this preference is requested.
-        // this method can be called quite often when generating links etc (to get defaultWebsiteId).
-        if ($defaultPreference !== false && $preferenceName === self::PREFERENCE_DEFAULT_REPORT) {
-            $this->setUserPreference($userLogin, $preferenceName, $defaultPreference);
+    /**
+     * Sets a user preference in the DB using the preference's default value.
+     * @param string $userLogin
+     * @param string $preferenceName
+     * @ignore
+     */
+    public function initUserPreferenceWithDefault($userLogin, $preferenceName)
+    {
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
+
+        $optionValue = Option::get($this->getPreferenceId($userLogin, $preferenceName));
+        if ($optionValue === false) {
+            $defaultValue = $this->getDefaultUserPreference($preferenceName, $userLogin);
+
+            $this->setUserPreference($userLogin, $preferenceName, $defaultValue);
         }
-
-        return $defaultPreference;
     }
 
     /**
