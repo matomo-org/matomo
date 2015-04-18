@@ -3224,7 +3224,7 @@ if (typeof Piwik !== 'object') {
             /*
              * Link or Download?
              */
-            function getLinkType(className, href, isInLink) {
+            function getLinkType(className, href, isInLink, hasDownloadAttribute) {
                 if (startsUrlWithTrackerUrl(href)) {
                     return 0;
                 }
@@ -3236,11 +3236,11 @@ if (typeof Piwik !== 'object') {
                 // does file extension indicate that it is a download?
                     downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions.join('|') + ')([?&#]|$)', 'i');
 
-                if (linkPattern.test(className)) {
+                if (!hasDownloadAttribute && linkPattern.test(className)) {
                     return 'link';
                 }
 
-                if (downloadPattern.test(className) || downloadExtensionsPattern.test(href)) {
+                if (hasDownloadAttribute || downloadPattern.test(className) || downloadExtensionsPattern.test(href)) {
                     return 'download';
                 }
 
@@ -3298,7 +3298,7 @@ if (typeof Piwik !== 'object') {
 
                 if (!scriptProtocol.test(sourceHref)) {
                     // track outlinks and all downloads
-                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
+                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName), query.hasNodeAttribute(sourceElement, 'download'));
 
                     if (linkType) {
                         return {
