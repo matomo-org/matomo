@@ -7,7 +7,7 @@ use Piwik\Log;
 return array(
 
     'Psr\Log\LoggerInterface' => DI\object('Monolog\Logger')
-        ->constructor('piwik', DI\link('log.handlers'), DI\link('log.processors')),
+        ->constructor('piwik', DI\get('log.handlers'), DI\get('log.processors')),
 
     'log.handlers' => DI\factory(function (ContainerInterface $c) {
         if ($c->has('ini.log.log_writers')) {
@@ -31,25 +31,25 @@ return array(
     }),
 
     'log.processors' => array(
-        DI\link('Piwik\Plugins\Monolog\Processor\SprintfProcessor'),
-        DI\link('Piwik\Plugins\Monolog\Processor\ClassNameProcessor'),
-        DI\link('Piwik\Plugins\Monolog\Processor\RequestIdProcessor'),
-        DI\link('Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor'),
-        DI\link('Monolog\Processor\PsrLogMessageProcessor'),
-        DI\link('Piwik\Plugins\Monolog\Processor\TokenProcessor'),
+        DI\get('Piwik\Plugins\Monolog\Processor\SprintfProcessor'),
+        DI\get('Piwik\Plugins\Monolog\Processor\ClassNameProcessor'),
+        DI\get('Piwik\Plugins\Monolog\Processor\RequestIdProcessor'),
+        DI\get('Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor'),
+        DI\get('Monolog\Processor\PsrLogMessageProcessor'),
+        DI\get('Piwik\Plugins\Monolog\Processor\TokenProcessor'),
     ),
 
     'Piwik\Plugins\Monolog\Handler\FileHandler' => DI\object()
-        ->constructor(DI\link('log.file.filename'), DI\link('log.level'))
-        ->method('setFormatter', DI\link('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')),
+        ->constructor(DI\get('log.file.filename'), DI\get('log.level'))
+        ->method('setFormatter', DI\get('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')),
 
     'Piwik\Plugins\Monolog\Handler\DatabaseHandler' => DI\object()
-        ->constructor(DI\link('log.level'))
-        ->method('setFormatter', DI\link('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')),
+        ->constructor(DI\get('log.level'))
+        ->method('setFormatter', DI\get('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')),
 
     'Piwik\Plugins\Monolog\Handler\WebNotificationHandler' => DI\object()
-        ->constructor(DI\link('log.level'))
-        ->method('setFormatter', DI\link('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')),
+        ->constructor(DI\get('log.level'))
+        ->method('setFormatter', DI\get('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')),
 
     'log.level' => DI\factory(function (ContainerInterface $c) {
         if ($c->has('ini.log.log_level')) {
@@ -88,7 +88,7 @@ return array(
     }),
 
     'Piwik\Plugins\Monolog\Formatter\LineMessageFormatter' => DI\object()
-        ->constructor(DI\link('log.format')),
+        ->constructor(DI\get('log.format')),
 
     'log.format' => DI\factory(function (ContainerInterface $c) {
         if ($c->has('ini.log.string_message_format')) {

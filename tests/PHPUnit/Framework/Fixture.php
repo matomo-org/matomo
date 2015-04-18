@@ -764,7 +764,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
     }
 
-    protected static function executeLogImporter($logFile, $options)
+    public static function executeLogImporter($logFile, $options, $allowFailure = false)
     {
         $python = self::getPythonBinary();
 
@@ -793,7 +793,9 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         // run the command
         exec($cmd, $output, $result);
-        if ($result !== 0) {
+        if ($result !== 0
+            && !$allowFailure
+        ) {
             throw new Exception("log importer failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
         }
 

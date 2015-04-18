@@ -10,12 +10,14 @@ namespace Piwik\Archive;
 
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Log;
 use Piwik\Piwik;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 /**
  * Service that purges temporary, error-ed, invalid and custom range archives from archive tables.
@@ -64,7 +66,12 @@ class ArchivePurger
      */
     private $now;
 
-    public function __construct(Model $model = null, Date $purgeCustomRangesOlderThan = null)
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(Model $model = null, Date $purgeCustomRangesOlderThan = null, LoggerInterface $logger = null)
     {
         $this->model = $model ?: new Model();
 
@@ -73,6 +80,7 @@ class ArchivePurger
         $this->yesterday = Date::factory('yesterday');
         $this->today = Date::factory('today');
         $this->now = time();
+        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
     /**
@@ -80,6 +88,7 @@ class ArchivePurger
      * table that stores data for `$date`.
      *
      * @param Date $date The date identifying the archive table.
+     * @return int The total number of archive rows deleted (from both the blog & numeric tables).
      */
     public function purgeInvalidatedArchivesFrom(Date $date)
     {
@@ -90,15 +99,27 @@ class ArchivePurger
         // the constraint will hit an INDEX and speed up the inner join that happens in getInvalidatedArchiveIdsSafeToDelete().
         $idSites = $this->model->getSitesWithInvalidatedArchive($numericTable);
         if (empty($idSites)) {
-            return;
+            $this->logger->debug("No sites with invalidated archives found in {table}.", array('table' => $numericTable));
+            return 0;
         }
 
         $archiveIds = $this->model->getInvalidatedArchiveIdsSafeToDelete($numericTable, $idSites);
         if (empty($archiveIds)) {
-            return;
+            $this->logger->debug("No invalidated archives found in {table} with newer, valid archives.", array('table' => $numericTable));
+            return 0;
         }
 
-        $this->deleteArchiveIds($date, $archiveIds);
+        $this->logger->info("Found {countArchiveIds} invalidated archives safe to delete in {table}.", array(
+            'table' => $numericTable, 'countArchiveIds' => count($archiveIds)
+        ));
+
+        $deletedRowCount = $this->deleteArchiveIds($date, $archiveIds);
+
+        $this->logger->debug("Deleted {count} rows in {table} and its associated blob table.", array(
+            'table' => $numericTable, 'count' => $deletedRowCount
+        ));
+
+        return $deletedRowCount;
     }
 
     /**
@@ -106,20 +127,32 @@ class ArchivePurger
      * (meaning they are marked with a done flag of ArchiveWriter::DONE_OK_TEMPORARY or ArchiveWriter::DONE_ERROR)
      *
      * @param Date $dateStart Only the month will be used
+     * @return int Returns the total number of rows deleted.
      */
     public function purgeOutdatedArchives(Date $dateStart)
     {
         $purgeArchivesOlderThan = $this->getOldestTemporaryArchiveToKeepThreshold();
+        $deletedRowCount = 0;
 
         $idArchivesToDelete = $this->getOutdatedArchiveIds($dateStart, $purgeArchivesOlderThan);
         if (!empty($idArchivesToDelete)) {
-            $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
+            $deletedRowCount = $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
+
+            $this->logger->info("Deleted {count} rows in archive tables (numeric + blob) for {date}.", array(
+                'count' => $deletedRowCount,
+                'date' => $dateStart
+            ));
+        } else {
+            $this->logger->debug("No outdated archives found in archive numeric table for {date}.", array('date' => $dateStart));
         }
 
-        Log::debug("Purging temporary archives: done [ purged archives older than %s in %s ] [Deleted IDs: %s]",
-                   $purgeArchivesOlderThan,
-                   $dateStart->toString("Y-m"),
-                   implode(',', $idArchivesToDelete));
+        $this->logger->debug("Purging temporary archives: done [ purged archives older than {date} in {yearMonth} ] [Deleted IDs: {deletedIds}]", array(
+            'date' => $purgeArchivesOlderThan,
+            'yearMonth' => $dateStart->toString('Y-m'),
+            'deletedIds' => implode(',', $idArchivesToDelete)
+        ));
+
+        return $deletedRowCount;
     }
 
     protected function getOutdatedArchiveIds(Date $date, $purgeArchivesOlderThan)
@@ -142,16 +175,26 @@ class ArchivePurger
      * Deleting "Custom Date Range" reports after 1 day, since they can be re-processed and would take up un-necessary space.
      *
      * @param $date Date
+     * @return int The total number of rows deleted from both the numeric & blob table.
      */
     public function purgeArchivesWithPeriodRange(Date $date)
     {
         $numericTable = ArchiveTableCreator::getNumericTable($date);
         $blobTable    = ArchiveTableCreator::getBlobTable($date);
 
-        $this->model->deleteArchivesWithPeriod($numericTable, $blobTable, Piwik::$idPeriods['range'], $this->purgeCustomRangesOlderThan);
+        $deletedCount = $this->model->deleteArchivesWithPeriod(
+            $numericTable, $blobTable, Piwik::$idPeriods['range'], $this->purgeCustomRangesOlderThan);
 
-        Log::debug("Purging Custom Range archives: done [ purged archives older than %s from %s / blob ]",
-            $this->purgeCustomRangesOlderThan, $numericTable);
+        $level = $deletedCount == 0 ? LogLevel::DEBUG : LogLevel::INFO;
+        $this->logger->log($level, "Purged {count} range archive rows from {numericTable} & {blobTable}.", array(
+            'count' => $deletedCount,
+            'numericTable' => $numericTable,
+            'blobTable' => $blobTable
+        ));
+
+        $this->logger->debug("  [ purged archives older than {threshold} ]", array('threshold' => $this->purgeCustomRangesOlderThan));
+
+        return $deletedCount;
     }
 
     /**
@@ -159,6 +202,7 @@ class ArchivePurger
      *
      * @param Date $date
      * @param $idArchivesToDelete
+     * @return int Number of rows deleted from both numeric + blob table.
      */
     protected function deleteArchiveIds(Date $date, $idArchivesToDelete)
     {
@@ -166,9 +210,11 @@ class ArchivePurger
         $numericTable = ArchiveTableCreator::getNumericTable($date);
         $blobTable    = ArchiveTableCreator::getBlobTable($date);
 
+        $deletedCount = 0;
         foreach ($batches as $idsToDelete) {
-            $this->model->deleteArchiveIds($numericTable, $blobTable, $idsToDelete);
+            $deletedCount += $this->model->deleteArchiveIds($numericTable, $blobTable, $idsToDelete);
         }
+        return $deletedCount;
     }
 
     /**

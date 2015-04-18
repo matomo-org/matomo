@@ -17,7 +17,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 /**
  * @group Core
  */
-class PurgerTest extends IntegrationTestCase
+class ArchivePurgerTest extends IntegrationTestCase
 {
     /**
      * @var RawArchiveDataWithTempAndInvalidated
@@ -62,40 +62,48 @@ class PurgerTest extends IntegrationTestCase
     {
         $this->enableBrowserTriggeredArchiving();
 
-        $this->archivePurger->purgeOutdatedArchives($this->february);
+        $deletedRowCount = $this->archivePurger->purgeOutdatedArchives($this->february);
 
         self::$fixture->assertTemporaryArchivesPurged($browserTriggeringEnabled = true, $this->february);
 
         self::$fixture->assertCustomRangesNotPurged($this->february, $includeTemporary = false);
         self::$fixture->assertTemporaryArchivesNotPurged($this->january);
+
+        $this->assertEquals(7 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
     }
 
     public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringDisabled()
     {
         $this->disableBrowserTriggeredArchiving();
 
-        $this->archivePurger->purgeOutdatedArchives($this->february);
+        $deletedRowCount = $this->archivePurger->purgeOutdatedArchives($this->february);
 
         self::$fixture->assertTemporaryArchivesPurged($browserTriggeringEnabled = false, $this->february);
 
         self::$fixture->assertCustomRangesNotPurged($this->february);
         self::$fixture->assertTemporaryArchivesNotPurged($this->january);
+
+        $this->assertEquals(5 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
     }
 
     public function test_purgeInvalidatedArchivesFrom_PurgesAllInvalidatedArchives_AndMarksDatesAndSitesAsInvalidated()
     {
-        $this->archivePurger->purgeInvalidatedArchivesFrom($this->february);
+        $deletedRowCount = $this->archivePurger->purgeInvalidatedArchivesFrom($this->february);
 
         self::$fixture->assertInvalidatedArchivesPurged($this->february);
         self::$fixture->assertInvalidatedArchivesNotPurged($this->january);
+
+        $this->assertEquals(4 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
     }
 
     public function test_purgeArchivesWithPeriodRange_PurgesAllRangeArchives()
     {
-        $this->archivePurger->purgeArchivesWithPeriodRange($this->february);
+        $deletedRowCount = $this->archivePurger->purgeArchivesWithPeriodRange($this->february);
 
         self::$fixture->assertCustomRangesPurged($this->february);
         self::$fixture->assertCustomRangesNotPurged($this->january);
+
+        $this->assertEquals(3 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
     }
 
     private function configureCustomRangePurging()
@@ -114,4 +122,4 @@ class PurgerTest extends IntegrationTestCase
     }
 }
 
-PurgerTest::$fixture = new RawArchiveDataWithTempAndInvalidated();
+ArchivePurgerTest::$fixture = new RawArchiveDataWithTempAndInvalidated();

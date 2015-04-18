@@ -8,6 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
+use Piwik\Cache;
 use Piwik\Config;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tests\Framework\Mock\TestConfig;
@@ -23,12 +24,21 @@ use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
  */
 class BlobReportLimitingTest extends SystemTestCase
 {
+    /**
+     * @var ManyVisitsWithMockLocationProvider
+     */
     public static $fixture = null; // initialized below class definition
 
     public static function setUpBeforeClass()
     {
         self::setUpConfigOptions();
         parent::setUpBeforeClass();
+    }
+
+    public function setUp()
+    {
+        Cache::getTransientCache()->flushAll();
+        parent::setUp();
     }
 
     public function getApiForTesting()

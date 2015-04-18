@@ -28,6 +28,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function index()
     {
+        Piwik::checkUserHasSomeAdminAccess();
+
         return $this->renderTemplate('index');
     }
 

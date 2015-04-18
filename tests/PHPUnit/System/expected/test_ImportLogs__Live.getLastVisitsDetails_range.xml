@@ -442,7 +442,7 @@
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
+						<customVariablePageValue1>501</customVariablePageValue1>
 					</row>
 				</customVariables>
 				<icon />
@@ -830,7 +830,7 @@
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
+						<customVariablePageValue1>404</customVariablePageValue1>
 					</row>
 				</customVariables>
 				<icon />
@@ -1203,7 +1203,7 @@
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
+						<customVariablePageValue1>403</customVariablePageValue1>
 					</row>
 				</customVariables>
 				<generationTime>0.18s</generationTime>
@@ -1233,7 +1233,7 @@
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
+						<customVariablePageValue1>500</customVariablePageValue1>
 					</row>
 				</customVariables>
 				<generationTime>0.11s</generationTime>
@@ -1964,13 +1964,13 @@
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion />
-		<browserFamily />
-		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
+		<browserFamily>Trident</browserFamily>
+		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browser>Internet Explorer 5.0</browser>
+		<browserName>Internet Explorer</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>5.0</browserVersion>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>

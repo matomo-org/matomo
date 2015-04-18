@@ -15,20 +15,21 @@
             </a>
         </h2>
 
-        <div id='leftcolumn'>
-            <div class="sparkline">{{ sparkline(goal.urlSparklineConversions) }}
-                {{ 'Goals_Conversions'|translate("<strong>"~nb_conversions~"</strong>")|raw }}
-                {% if goal.goalAllowMultipleConversionsPerVisit %}
-                    ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>") | raw }})
-                {% endif %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="sparkline">{{ sparkline(goal.urlSparklineConversions) }}
+                    {{ 'Goals_Conversions'|translate("<strong>"~nb_conversions~"</strong>")|raw }}
+                    {% if goal.goalAllowMultipleConversionsPerVisit %}
+                        ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>") | raw }})
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="sparkline">{{ sparkline(goal.urlSparklineConversionRate) }}
+                    {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate~"</strong>")|raw }}
+                </div>
             </div>
         </div>
-        <div id='rightcolumn'>
-            <div class="sparkline">{{ sparkline(goal.urlSparklineConversionRate) }}
-                {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate~"</strong>")|raw }}
-            </div>
-        </div>
-        <br class="clear"/>
     </div>
 {% endfor %}
 

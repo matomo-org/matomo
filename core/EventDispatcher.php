@@ -52,6 +52,8 @@ class EventDispatcher extends Singleton
      */
     private $pluginManager;
 
+    private $pluginHooks = array();
+
     /**
      * Constructor.
      */
@@ -78,29 +80,36 @@ class EventDispatcher extends Singleton
             $this->pendingEvents[] = array($eventName, $params);
         }
 
+        $manager = $this->getPluginManager();
+
         if (empty($plugins)) {
-            $plugins = $this->getPluginManager()->getPluginsLoadedAndActivated();
+            $plugins = $manager->getPluginsLoadedAndActivated();
         }
 
         $callbacks = array();
 
         // collect all callbacks to execute
-        foreach ($plugins as $plugin) {
-            if (is_string($plugin)) {
-                $plugin = $this->getPluginManager()->getLoadedPlugin($plugin);
+        foreach ($plugins as $pluginName) {
+            if (!is_string($pluginName)) {
+                $pluginName = $pluginName->getPluginName();
             }
 
-            if (empty($plugin)) {
-                return; // may happen in unit tests
+            if (!isset($this->pluginHooks[$pluginName])) {
+                $plugin = $manager->getLoadedPlugin($pluginName);
+                $this->pluginHooks[$pluginName] = $plugin->getListHooksRegistered();
             }
 
-
-            $hooks = $plugin->getListHooksRegistered();
+            $hooks = $this->pluginHooks[$pluginName];
 
             if (isset($hooks[$eventName])) {
                 list($pluginFunction, $callbackGroup) = $this->getCallbackFunctionAndGroupNumber($hooks[$eventName]);
 
-                $callbacks[$callbackGroup][] = is_string($pluginFunction) ? array($plugin, $pluginFunction) : $pluginFunction;
+                if (is_string($pluginFunction)) {
+                    $plugin = $manager->getLoadedPlugin($pluginName);
+                    $callbacks[$callbackGroup][] = array($plugin, $pluginFunction) ;
+                } else {
+                    $callbacks[$callbackGroup][] = $pluginFunction;
+                }
             }
         }
 

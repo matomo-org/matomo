@@ -1,17 +1,21 @@
-<div id='leftcolumn'>
-    <h2 piwik-enriched-headline>{{ 'Actions_WidgetSearchKeywords'|translate }}</h2>
-    {{ keywords|raw }}
+<div class="row">
 
-    <h2 piwik-enriched-headline>{{ 'Actions_WidgetSearchNoResultKeywords'|translate }}</h2>
-    {{ noResultKeywords|raw }}
+    <div class="col-md-6">
+        <h2 piwik-enriched-headline>{{ 'Actions_WidgetSearchKeywords'|translate }}</h2>
+        {{ keywords|raw }}
 
-    {% if categories is defined %}
-        <h2 piwik-enriched-headline>{{ 'Actions_WidgetSearchCategories'|translate }}</h2>
-        {{ categories|raw }}
-    {% endif %}
-</div>
+        <h2 piwik-enriched-headline>{{ 'Actions_WidgetSearchNoResultKeywords'|translate }}</h2>
+        {{ noResultKeywords|raw }}
 
-<div id='rightcolumn'>
-    <h2 piwik-enriched-headline>{{ 'Actions_WidgetPageUrlsFollowingSearch'|translate }}</h2>
-    {{ pagesUrlsFollowingSiteSearch|raw }}
+        {% if categories is defined %}
+            <h2 piwik-enriched-headline>{{ 'Actions_WidgetSearchCategories'|translate }}</h2>
+            {{ categories|raw }}
+        {% endif %}
+    </div>
+
+    <div class="col-md-6">
+        <h2 piwik-enriched-headline>{{ 'Actions_WidgetPageUrlsFollowingSearch'|translate }}</h2>
+        {{ pagesUrlsFollowingSiteSearch|raw }}
+    </div>
+
 </div>

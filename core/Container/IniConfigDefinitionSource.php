@@ -9,14 +9,18 @@
 namespace Piwik\Container;
 
 use DI\Definition\Exception\DefinitionException;
-use DI\Definition\Source\ChainableDefinitionSource;
+use DI\Definition\Source\DefinitionSource;
 use DI\Definition\ValueDefinition;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 
 /**
- * Import the old INI config into PHP-DI.
+ * Expose the INI config into PHP-DI.
+ *
+ * The INI config can be used by prefixing `ini.` before the setting we want to get:
+ *
+ *     $maintenanceMode = $container->get('ini.General.maintenance_mode');
  */
-class IniConfigDefinitionSource extends ChainableDefinitionSource
+class IniConfigDefinitionSource implements DefinitionSource
 {
     /**
      * @var GlobalSettingsProvider
@@ -38,7 +42,10 @@ class IniConfigDefinitionSource extends ChainableDefinitionSource
         $this->prefix = $prefix;
     }
 
-    protected function findDefinition($name)
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefinition($name)
     {
         if (strpos($name, $this->prefix) !== 0) {
             return null;

@@ -8,11 +8,9 @@
 namespace Piwik\Config;
 
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Ini\IniReader;
 use Piwik\Ini\IniReadingException;
 use Piwik\Ini\IniWriter;
-use Piwik\Piwik;
 
 /**
  * Manages a list of INI files where the settings in each INI file merge with or override the
@@ -119,7 +117,7 @@ class IniFileChain
      */
     public function dump($header = '')
     {
-        return $this->dumpSettingsArray($header, $this->mergedSettings);
+        return $this->dumpSettings($this->mergedSettings, $header);
     }
 
     /**
@@ -189,7 +187,7 @@ class IniFileChain
                 }
             });
 
-            return $this->dumpSettingsArray($header, $configToWrite);
+            return $this->dumpSettings($configToWrite, $header);
         } else {
             return null;
         }
@@ -210,7 +208,8 @@ class IniFileChain
         foreach ($this->settingsChain as $file => $ignore) {
             if (is_readable($file)) {
                 try {
-                    $this->settingsChain[$file] = $reader->readFile($file);
+                    $contents = $reader->readFile($file);
+                    $this->settingsChain[$file] = $this->decodeValues($contents);
                 } catch (IniReadingException $ex) {
                     throw new IniReadingException('Unable to read INI file {' . $file . '}: ' . $ex->getMessage() . "\n Your host may have disabled parse_ini_file().");
                 }
@@ -405,27 +404,6 @@ class IniFileChain
         return array_search($sectionName, $settingsDataSectionNames);
     }
 
-
-    /**
-     * Decode HTML entities in setting data.
-     *
-     * @param mixed $values
-     * @return mixed
-     */
-    private function decodeValues(&$values)
-    {
-        if (is_array($values)) {
-            foreach ($values as &$value) {
-                $value = self::decodeValues($value);
-            }
-            return $values;
-        } elseif (is_string($values)) {
-            return html_entity_decode($values, ENT_COMPAT, 'UTF-8');
-        }
-        return $values;
-    }
-
-
     /**
      * Encode HTML entities
      *
@@ -447,11 +425,30 @@ class IniFileChain
         return $values;
     }
 
-    private function dumpSettingsArray($header, $settings)
+    /**
+     * Decode HTML entities
+     *
+     * @param mixed $values
+     * @return mixed
+     */
+    protected function decodeValues(&$values)
     {
-        $writer = new IniWriter();
+        if (is_array($values)) {
+            foreach ($values as &$value) {
+                $value = $this->decodeValues($value);
+            }
+            return $values;
+        } elseif (is_string($values)) {
+            return html_entity_decode($values, ENT_COMPAT, 'UTF-8');
+        }
+        return $values;
+    }
 
-        $this->encodeValues($settings);
-        return $writer->writeToString($settings, $header);
+    private function dumpSettings($values, $header)
+    {
+        $values = $this->encodeValues($values);
+
+        $writer = new IniWriter();
+        return $writer->writeToString($values, $header);
     }
 }

@@ -147,9 +147,6 @@ class Piwik
             'Analytics',
             'Real Time Analytics',
             'Analytics in Real time',
-            'Free/Libre Web Analytics',
-            'Free Website Analytics',
-            'Free Web Analytics',
             'Analytics Platform',
             'Data Platform',
         );

@@ -277,15 +277,10 @@ class CronArchive
         $websitesIds = $this->initWebsiteIds();
         $this->filterWebsiteIds($websitesIds);
 
-        if (!empty($this->shouldArchiveSpecifiedSites)
-            || !empty($this->shouldArchiveAllSites)
-            || !SharedSiteIds::isSupported()) {
-            $this->websites = new FixedSiteIds($websitesIds);
-        } else {
-            $this->websites = new SharedSiteIds($websitesIds);
-            if ($this->websites->getInitialSiteIds() != $websitesIds) {
-                $this->log('Will ignore websites and help finish a previous started queue instead. IDs: ' . implode(', ', $this->websites->getInitialSiteIds()));
-            }
+        $this->websites = $this->createSitesToArchiveQueue($websitesIds);
+
+        if ($this->websites->getInitialSiteIds() != $websitesIds) {
+            $this->log('Will ignore websites and help finish a previous started queue instead. IDs: ' . implode(', ', $this->websites->getInitialSiteIds()));
         }
 
         if ($this->shouldStartProfiler) {
@@ -427,16 +422,12 @@ class CronArchive
             return;
         }
 
-        $this->log("Starting Scheduled tasks... ");
+        API\Request::processRequest("CoreAdminHome.runScheduledTasks", array(
+            'token_auth' => $this->token_auth,
+            'format' => 'original', // so exceptions get thrown
+            'trigger' => 'archivephp'
+        ));
 
-        $tasksOutput = $this->request("?module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=" . $this->token_auth);
-
-        if ($tasksOutput == \Piwik\DataTable\Renderer\Csv::NO_DATA_AVAILABLE) {
-            $tasksOutput = " No task to run";
-        }
-
-        $this->log($tasksOutput);
-        $this->log("done");
         $this->logSection("");
     }
 
@@ -1016,17 +1007,14 @@ class CronArchive
         return array_unique($websiteIds);
     }
 
-    private function initTokenAuth()
+    public function initTokenAuth()
     {
-        $tokens = array();
-
-        /**
-         * @ignore
-         */
-        Piwik::postEvent('CronArchive.getTokenAuth', array(&$tokens));
+        $tokens = self::getSuperUserTokenAuths();
 
         $this->validTokenAuths = $tokens;
         $this->token_auth = array_shift($tokens);
+
+        return $this->token_auth;
     }
 
     public function isTokenAuthSuperUserToken($token_auth)
@@ -1504,11 +1492,20 @@ class CronArchive
     private function loadCustomDateRangeToPreProcess()
     {
         $customDateRangesToProcessForSites = array();
+
         // For all users who have selected this website to load by default,
         // we load the default period/date that will be loaded for this user
         // and make sure it's pre-archived
-        $userPreferences = APIUsersManager::getInstance()->getAllUsersPreferences(array(APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE, APIUsersManager::PREFERENCE_DEFAULT_REPORT));
-        foreach ($userPreferences as $userLogin => $userPreferences) {
+        $allUsersPreferences = APIUsersManager::getInstance()->getAllUsersPreferences(array(
+            APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
+            APIUsersManager::PREFERENCE_DEFAULT_REPORT
+        ));
+
+        foreach ($allUsersPreferences as $userLogin => $userPreferences) {
+
+            if (!isset($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE])) {
+                continue;
+            }
 
             $defaultDate = $userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE];
             $preference = new UserPreferences();
@@ -1543,6 +1540,18 @@ class CronArchive
         return $this->piwikUrl . $url . self::APPEND_TO_API_REQUEST;
     }
 
+    public static function getSuperUserTokenAuths()
+    {
+        $tokens = array();
+
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('CronArchive.getTokenAuth', array(&$tokens));
+
+        return $tokens;
+    }
+
     /**
      * @param $idSite
      * @param $period
@@ -1562,4 +1571,19 @@ class CronArchive
         }
         return $urlsWithSegment;
     }
+
+    private function createSitesToArchiveQueue($websitesIds)
+    {
+        // use synchronous, single process queue if --force-idsites is used or sharing site IDs isn't supported
+        if (!SharedSiteIds::isSupported() || !empty($this->shouldArchiveSpecifiedSites)) {
+            return new FixedSiteIds($websitesIds);
+        }
+
+        // use separate shared queue if --force-all-websites is used
+        if (!empty($this->shouldArchiveAllSites)) {
+            return new SharedSiteIds($websitesIds, SharedSiteIds::OPTION_ALL_WEBSITES);
+        }
+
+        return new SharedSiteIds($websitesIds);
+   }
 }

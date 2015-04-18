@@ -244,6 +244,16 @@ class IniFileChainTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array('var1' => 'val"ue2', 'var3' => array('value3', 'value4')), $fileChain->getFrom($defaultSettingsPath, 'Section1'));
     }
 
+    public function test_getFrom_CorrectlyReturnsUnencodedValue()
+    {
+        $userSettingsPath = __DIR__ . '/test_files/special_values.ini.php';
+        $fileChain = new IniFileChain(array(), $userSettingsPath);
+
+        $this->assertEquals(array(
+            'value1' => 'a"bc', 'value2' => array('<script>', '${@piwik(crash))}'
+        )), $fileChain->getFrom($userSettingsPath, 'Section'));
+    }
+
     public function getTestDataForDumpTest()
     {
         return array(

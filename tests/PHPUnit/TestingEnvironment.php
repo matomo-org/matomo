@@ -168,6 +168,16 @@ class Piwik_TestingEnvironment
             }
         }
 
+        if ($testingEnvironment->testCaseClass) {
+            $testCaseClass = $testingEnvironment->testCaseClass;
+            if (class_exists($testCaseClass)) {
+                $testCase = new $testCaseClass();
+                if (method_exists($testCase, 'provideContainerConfig')) {
+                    $diConfig = array_merge($diConfig, $testCase->provideContainerConfig());
+                }
+            }
+        }
+
         if (!empty($diConfig)) {
             StaticContainer::addDefinitions($diConfig);
         }

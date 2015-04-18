@@ -9,10 +9,15 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The API parameter `countVisitorsToFetch` of the API method `Live.getLastVisitsDetails` has been deprecated as `filter_offset` and `filter_limit` work correctly now.
 
 ### Breaking Changes
-* The API method `Live.getLastVisitsDetails` does no longer support the API parameter `filter_sort_column` to prevent possible memory issues when `filter_offset` is large. .
+* The API method `Live.getLastVisitsDetails` does no longer support the API parameter `filter_sort_column` to prevent possible memory issues when `filter_offset` is large.
+
+### New commands
+* There is now a `diagnostic:run` command to run the system check from the command line.
 
 ### APIs Improvements
 * Visitor details now additionally contain: `deviceTypeIcon`, `deviceBrand` and `deviceModel`
+* In 2.6.0 we added the possibility to use `filter_limit` and `filter_offset` if an API returns an indexed array. This was not working in all cases and is fixed now. 
+* The API parameter `filter_pattern` and `filter_offset[]` can now be used if an API returns an indexed array.
 
 ## Piwik 2.12.0
 

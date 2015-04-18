@@ -354,14 +354,28 @@ class Config extends Singleton
         return $section;
     }
 
+    /**
+     * @api
+     */
     public function getFromGlobalConfig($name)
     {
         return $this->settings->getIniFileChain()->getFrom($this->getGlobalPath(), $name);
     }
 
+    /**
+     * @api
+     */
     public function getFromCommonConfig($name)
     {
         return $this->settings->getIniFileChain()->getFrom($this->getCommonPath(), $name);
+    }
+    
+    /**
+     * @api
+     */
+    public function getFromLocalConfig($name)
+    {
+        return $this->settings->getIniFileChain()->getFrom($this->getLocalPath(), $name);
     }
 
     /**

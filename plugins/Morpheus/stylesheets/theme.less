@@ -14,10 +14,24 @@ body {
     font-family: @theme-fontFamily-base;
 }
 
-.pageWrap {
-    padding-left: 10px;
-    padding-right: 10px;
-    border: 0px;
+h2 {
+    font-weight: normal;
+    border-bottom: 1px solid @color-gray;
+    margin: 15px -15px 20px 0;
+    font-size: 24px;
+    width: 100%;
+    a, a:hover {
+        text-decoration: none;
+        color: @color-black-piwik;
+    }
+}
+h3 {
+    color: @theme-color-text;
+    .font-default(18px, 24px);
+    font-weight: normal;
+}
+a:hover {
+    text-decoration:underline;
 }
 
 #content {
@@ -55,7 +69,7 @@ table.entityTable tr td a:hover {
 }
 
 #root {
-    margin: 0;
+    margin: 0 0 100px 0;
     padding: 0;
 
     #header {
@@ -164,6 +178,7 @@ table.entityTable tr td a:hover {
     .widgetize {
         width: auto;
     }
+
 }
 
 .dashboardSettings {
@@ -302,7 +317,7 @@ table.entityTable tr td a:hover {
       border: 1px solid @color-silver-l80;
       padding: 8px 10px 8px 10px;
       color: @theme-color-text-light;
-      height: 12px;
+      height: 30px;
       line-height:0.5em;
       .border-radius(0px);
     }
@@ -564,11 +579,9 @@ div.sparkline {
     .widgetTop {
         background: @theme-color-widget-title-background;
         border-bottom: 1px solid @color-silver-l80;
-        .widgetName {
+        h3 {
             .font-default(15px, 18px);
             color: @theme-color-widget-title-text;
-            text-shadow: none;
-            padding: 15px 15px 10px;
         }
     }
 
