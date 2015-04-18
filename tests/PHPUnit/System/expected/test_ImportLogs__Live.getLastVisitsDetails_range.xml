@@ -442,7 +442,7 @@
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
+						<customVariablePageValue1>501</customVariablePageValue1>
 					</row>
 				</customVariables>
 				<icon />
@@ -830,7 +830,7 @@
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
+						<customVariablePageValue1>404</customVariablePageValue1>
 					</row>
 				</customVariables>
 				<icon />
@@ -1203,7 +1203,7 @@
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
+						<customVariablePageValue1>403</customVariablePageValue1>
 					</row>
 				</customVariables>
 				<generationTime>0.18s</generationTime>
@@ -1233,7 +1233,7 @@
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
+						<customVariablePageValue1>500</customVariablePageValue1>
 					</row>
 				</customVariables>
 				<generationTime>0.11s</generationTime>

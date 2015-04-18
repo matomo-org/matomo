@@ -62,12 +62,12 @@
 		<segment>deviceType==feature+phone</segment>
 		<logo>plugins/DevicesDetection/images/screens/mobile.gif</logo>
 	</row>
-        <row>
-                <label>Phablet</label>
-                <nb_visits>0</nb_visits>
-                <segment>deviceType==phablet</segment>
-                <logo>plugins/DevicesDetection/images/screens/unknown.gif</logo>
-        </row>
+	<row>
+		<label>Phablet</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==phablet</segment>
+		<logo>plugins/DevicesDetection/images/screens/unknown.gif</logo>
+	</row>
 	<row>
 		<label>Portable media player</label>
 		<nb_visits>0</nb_visits>
