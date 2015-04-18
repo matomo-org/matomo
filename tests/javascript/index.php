@@ -2351,8 +2351,8 @@ function PiwikTest() {
             equal( tracker.hook.test._getLinkType('d abc', 'piwiktest.ext', true, false), 'link', messagePrefix + 'link (d)' );
 
             // links containing a download attribute are always downloads
-            equal( tracker.hook.test._getLinkType('d abc', 'index.html', false, true), 'download', 'download attribute' );
-            equal( tracker.hook.test._getLinkType('piwik_link', 'index.html', true, true), 'download', messagePrefix + ' download attribute' );
+            equal( tracker.hook.test._getLinkType('test', 'index.html', false, true), 'download', 'download attribute' );
+            equal( tracker.hook.test._getLinkType('piwik_link', 'index.html', true, true), 'link', messagePrefix + ' download attribute, but link class' );
             equal( tracker.hook.test._getLinkType('piwik_download', 'test.pdf', true, true), 'download', messagePrefix + ' download attribute' );
         }
 

@@ -3236,7 +3236,7 @@ if (typeof Piwik !== 'object') {
                 // does file extension indicate that it is a download?
                     downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions.join('|') + ')([?&#]|$)', 'i');
 
-                if (!hasDownloadAttribute && linkPattern.test(className)) {
+                if (linkPattern.test(className)) {
                     return 'link';
                 }
 
