@@ -74,7 +74,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
 CoreUpdater_ThereIsNewVersionAvailableForUpdate
 
 CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
-index.php?module=CoreUpdater&action=newVersionAvailable
+http://localhost/tests/PHPUnit/proxy/index.php?module=CoreUpdater&action=newVersionAvailable
 
 CoreUpdater_ViewVersionChangelog
 http://piwik.org/changelog/piwik-33-0-0/
