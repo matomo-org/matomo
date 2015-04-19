@@ -9,6 +9,9 @@
  * @package Piwik
  */
 
+// TODO: this file should be moved to an API method that is only accessible to the super user.
+//       then we can finally deprecate this file.
+
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Piwik\Container\StaticContainer;
@@ -81,6 +84,8 @@ if (isset($_SERVER['argv']) && Piwik\Console::isSupported()) {
         $handler->setFormatter(StaticContainer::get('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter'));
         $logger->pushHandler($handler);
     }
+
+    \Piwik\FrontController::getInstance()->init();
 
     $archiver = new Piwik\CronArchive();
 
