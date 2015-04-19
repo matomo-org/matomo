@@ -130,7 +130,7 @@ CoreUpdater_ThereIsNewPluginVersionAvailableForUpdate
  * MyTest3 31.0.0
 
 CoreUpdater_NotificationClickToUpdatePlugins
-index.php?module=CorePluginsAdmin&action=plugins
+http://localhost/tests/PHPUnit/proxy/index.php?module=CorePluginsAdmin&action=plugins
 
 Installation_HappyAnalysing';
 
