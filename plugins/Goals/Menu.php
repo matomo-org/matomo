@@ -24,15 +24,13 @@ class Menu extends \Piwik\Plugin\Menu
         $goals  = API::getInstance()->getGoals($idSite);
         $mainGoalMenu = 'Goals_Goals';
 
-        $linkToAddNewGoal = $this->urlForAction('addNewGoal', array(
-            'idGoal' => null
-        ));
+        $linkToManageGoals = $this->urlForAction('editGoals');
 
         $order = 1;
 
         if (count($goals) == 0) {
 
-            $menu->addItem($mainGoalMenu, '', $linkToAddNewGoal, 25);
+            $menu->addItem($mainGoalMenu, '', $linkToManageGoals, 25);
 
         } else {
 
@@ -60,7 +58,7 @@ class Menu extends \Piwik\Plugin\Menu
 
         }
 
-        $menu->addItem($mainGoalMenu, 'Goals_AddNewGoal', $linkToAddNewGoal, ++$order);
+        $menu->addItem($mainGoalMenu, 'Goals_ManageGoals', $linkToManageGoals, ++$order);
     }
 
     public function configureUserMenu(MenuUser $menu)
