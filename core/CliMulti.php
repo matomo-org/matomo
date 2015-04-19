@@ -252,7 +252,12 @@ class CliMulti {
 
     private function executeNotAsyncHttp($url, Output $output)
     {
-        $url = SettingsPiwik::getPiwikUrl() . $url;
+        $piwikUrl = SettingsPiwik::getPiwikUrl();
+        if (empty($piwikUrl)) {
+            $piwikUrl = 'http://' . Url::getHost() . '/';
+        }
+
+        $url = $piwikUrl . $url;
         if (Config::getInstance()->General['force_ssl'] == 1) {
             $url = str_replace("http://", "https://", $url);
         }
