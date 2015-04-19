@@ -2,6 +2,12 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+## Next
+
+### Internal changes
+
+* The referer spam filter has moved from the `referrer_urls_spam` INI option (in `global.ini.php`) to a separate package (see https://github.com/piwik/referer-spam-blacklist).
+
 ## Piwik 2.13.0
 
 ### Deprecations
