@@ -44,19 +44,15 @@ class SpamFilter
             return $this->spammerList;
         }
 
-        $userFile = StaticContainer::get('path.tmp') . '/spammers.txt';
-        if (file_exists($userFile)) {
-            $this->spammerList = file($userFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $file = StaticContainer::get('path.tmp') . '/spammers.txt';
+        if (!file_exists($file)) {
+            $file = PIWIK_INCLUDE_PATH . '/vendor/piwik/referrer-spam-blacklist/spammers.txt';
+        }
 
-            if (!is_array($this->spammerList)) {
-                throw new \Exception(sprintf('The file %s does not contain a JSON array', $userFile));
-            }
-        } else {
-            // TODO
-            $this->spammerList = array(
-                '4webmasters.org',
-                '7makemoneyonline.com',
-            );
+        $this->spammerList = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+        if (!is_array($this->spammerList)) {
+            throw new \Exception(sprintf('The file %s does not contain a JSON array', $file));
         }
 
         return $this->spammerList;
