@@ -411,9 +411,7 @@ class CronArchive
             return;
         }
 
-        Access::getInstance()->doAsSuperUser(function () {
-            CoreAdminHomeAPI::getInstance()->runScheduledTasks();
-        });
+        CoreAdminHomeAPI::getInstance()->runScheduledTasks();
 
         $this->logSection("");
     }
