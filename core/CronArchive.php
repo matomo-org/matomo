@@ -237,7 +237,6 @@ class CronArchive
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
         $this->formatter = new Formatter();
 
-        $this->initCore();
         $this->initTokenAuth();
 
         $processNewSegmentsFrom = $processNewSegmentsFrom ?: StaticContainer::get('ini.General.process_new_segments_from');
@@ -412,11 +411,9 @@ class CronArchive
             return;
         }
 
-        API\Request::processRequest("CoreAdminHome.runScheduledTasks", array(
-            'token_auth' => $this->token_auth,
-            'format' => 'original', // so exceptions get thrown
-            'trigger' => 'archivephp'
-        ));
+        Access::getInstance()->doAsSuperUser(function () {
+            CoreAdminHomeAPI::getInstance()->runScheduledTasks();
+        });
 
         $this->logSection("");
     }
@@ -865,18 +862,6 @@ class CronArchive
     }
 
     /**
-     * Init Piwik, connect DB, create log & config objects, etc.
-     */
-    private function initCore()
-    {
-        try {
-            FrontController::getInstance()->init();
-        } catch (Exception $e) {
-            throw new Exception("ERROR: During Piwik init, Message: " . $e->getMessage());
-        }
-    }
-
-    /**
      * Initializes the various parameters to the script, based on input parameters.
      *
      */
@@ -1109,7 +1094,7 @@ class CronArchive
         return $websiteDayHasFinishedSinceLastRun;
     }
 
-    // TODO: test archiving w/ curl (no climulti processes) when piwik host is unreachable, is there a useful error message?
+    // TODO: test archiving w/ curl (ie, when piwik host is unreachable, is there a useful error message?
 
     private function logInitInfo()
     {

@@ -36,12 +36,7 @@ class CoreArchiver extends ConsoleCommand
         }
 
         $archiver = self::makeArchiver($url, $input);
-
-        try {
-            $archiver->main();
-        } catch (Exception $e) {
-            $archiver->logFatalError($e->getMessage());
-        }
+        $archiver->main();
     }
 
     // also used by another console command

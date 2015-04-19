@@ -128,7 +128,7 @@ class ArchiveCronTest extends SystemTestCase
         $urlToProxy = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
 
         // create the command
-        $cmd = "php \"$archivePhpScript\" --url=\"$urlToProxy\" 2>&1";
+        $cmd = "php \"$archivePhpScript\" -vvv --url=\"$urlToProxy\" 2>&1";
 
         // run the command
         exec($cmd, $output, $result);
