@@ -89,7 +89,7 @@ class RequestCommand extends ConsoleCommand
         Url::setHost($hostname);
 
         $query = $input->getArgument('url-query');
-        $query = UrlHelper::getArrayFromQueryString($query);
+        $query = UrlHelper::getArrayFromQueryString($query); // NOTE: this method can create the StaticContainer now
         foreach ($query as $name => $value) {
             $_GET[$name] = $value;
         }

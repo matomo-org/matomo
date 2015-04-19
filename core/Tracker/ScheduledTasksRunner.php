@@ -81,8 +81,7 @@ class ScheduledTasksRunner
             $tokens = CronArchive::getSuperUserTokenAuths();
             $tokenAuth = reset($tokens);
 
-            $invokeScheduledTasksUrl = SettingsPiwik::getPiwikUrl()
-                . "?module=API&format=csv&convertToUnicode=0&method=CoreAdminHome.runScheduledTasks&trigger=archivephp&token_auth=$tokenAuth";
+            $invokeScheduledTasksUrl = "?module=API&format=csv&convertToUnicode=0&method=CoreAdminHome.runScheduledTasks&trigger=archivephp&token_auth=$tokenAuth";
 
             $cliMulti = new CliMulti();
             $responses = $cliMulti->request(array($invokeScheduledTasksUrl));
