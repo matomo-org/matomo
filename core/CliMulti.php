@@ -243,7 +243,7 @@ class CliMulti {
 
         $url      = $this->appendTestmodeParamToUrlIfNeeded($url);
         $query    = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId));
-        $hostname = UrlHelper::getHostFromUrl($url);
+        $hostname = Url::getHost($checkIfTrusted = false);
         $command  = $this->buildCommand($hostname, $query, $output->getPathToFile());
 
         Log::debug($command);
@@ -252,6 +252,11 @@ class CliMulti {
 
     private function executeNotAsyncHttp($url, Output $output)
     {
+        $url = SettingsPiwik::getPiwikUrl() . $url;
+        if (Config::getInstance()->General['force_ssl'] == 1) {
+            $url = str_replace("http://", "https://", $url);
+        }
+
         try {
             Log::debug("Execute HTTP API request: "  . $url);
             $response = Http::sendHttpRequestBy('curl', $url, $timeout = 0, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $this->acceptInvalidSSLCertificate);
@@ -273,7 +278,7 @@ class CliMulti {
 
     private function appendTestmodeParamToUrlIfNeeded($url)
     {
-        $isTestMode = $url && false !== strpos($url, 'tests/PHPUnit/proxy');
+        $isTestMode = class_exists('Piwik_TestingEnvironment');
 
         if ($isTestMode && false === strpos($url, '?')) {
             $url .= "?testmode=1";

@@ -41,10 +41,7 @@ class ArchiveWebTest extends SystemTestCase
 
         // ignore random build issues
         if (empty($output) || strpos($output, \Piwik\CronArchive::NO_ERROR) === false) {
-            $message = "This test has failed. Because it sometimes randomly fails, we skip the test, and ignore this failure.\n";
-            $message .= "If you see this message often, or in every build, please investigate as this should only be a random and rare occurence!\n";
-            $message .= "\n\narchive web failed: " . $output . "\n\nurl used: $url";
-            $this->markTestSkipped($message);
+            $this->fail("archive web failed: " . $output . "\n\nurl used: $url");
         }
 
         if (!empty($urlTmp)) {
