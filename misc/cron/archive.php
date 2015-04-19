@@ -9,16 +9,6 @@
  * @package Piwik
  */
 
-// TODO: this file should be moved to an API method that is only accessible to the super user.
-//       then we can finally deprecate this file.
-
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
-use Piwik\Container\StaticContainer;
-use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\OutputInterface;
-
 if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
 }
@@ -63,15 +53,7 @@ if (Piwik\Common::isPhpCliMode()) {
     array_unshift($_SERVER['argv'], $script);
 
     $console->run();
-} else { // if running via web request, use CronArchive directly
-
-    // HTTP request: logs needs to be dumped in the HTTP response (on top of existing log destinations)
-    /** @var \Monolog\Logger $logger */
-    $logger = StaticContainer::get('Psr\Log\LoggerInterface');
-    $handler = new StreamHandler('php://output', Logger::INFO);
-    $handler->setFormatter(StaticContainer::get('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter'));
-    $logger->pushHandler($handler);
-
+} else { // if running via web request, use CoreAdminHome.runCronArchiving method
     $_GET['module'] = 'API';
     $_GET['method'] = 'CoreAdminHome.runCronArchiving';
 
