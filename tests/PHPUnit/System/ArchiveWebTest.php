@@ -58,7 +58,7 @@ class ArchiveWebTest extends SystemTestCase
     {
         list($returnCode, $output) = $this->runArchivePhpScriptWithPhpCgi();
 
-        $this->assertEquals(0, $returnCode);
+        $this->assertEquals(0, $returnCode, "Output: " . $output);
         $this->assertWebArchivingDone($output, $checkArchivedSite = false);
     }
 

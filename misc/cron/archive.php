@@ -27,10 +27,10 @@ if (!defined('PIWIK_USER_PATH')) {
     define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 }
 
-define('PIWIK_ENABLE_DISPATCH', false);
 define('PIWIK_ENABLE_ERROR_HANDLER', false);
 define('PIWIK_ENABLE_SESSION_START', false);
-require_once PIWIK_INCLUDE_PATH . "/index.php";
+
+require_once PIWIK_INCLUDE_PATH . "/core/bootstrap.php";
 
 if (!empty($_SERVER['argv'][0])) {
     $callee = $_SERVER['argv'][0];
@@ -52,8 +52,9 @@ try 'php archive.php --url=http://your.piwik/path'
 -------------------------------------------------------
 \n\n";
 }
-
-if (isset($_SERVER['argv']) && Piwik\Console::isSupported()) {
+// TODO: manual test against php-cgi + ArchiveWebTest
+//       => test w/ token auth & w/o token auth
+if (Piwik\Common::isPhpCliMode()) {
     $console = new Piwik\Console();
 
     // manipulate command line arguments so CoreArchiver command will be executed
@@ -64,41 +65,15 @@ if (isset($_SERVER['argv']) && Piwik\Console::isSupported()) {
     $console->run();
 } else { // if running via web request, use CronArchive directly
 
-    if (Piwik\Common::isPhpCliMode()) {
-        // We can run the archive in CLI with `php-cgi` so we have to configure the container/logger
-        // just like for CLI
-        $environment = new \Piwik\Application\Environment('cli');
-        $environment->init();
+    // HTTP request: logs needs to be dumped in the HTTP response (on top of existing log destinations)
+    /** @var \Monolog\Logger $logger */
+    $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+    $handler = new StreamHandler('php://output', Logger::INFO);
+    $handler->setFormatter(StaticContainer::get('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter'));
+    $logger->pushHandler($handler);
 
-        /** @var ConsoleHandler $consoleLogHandler */
-        $consoleLogHandler = StaticContainer::get('Symfony\Bridge\Monolog\Handler\ConsoleHandler');
-        $consoleLogHandler->setOutput(new ConsoleOutput(OutputInterface::VERBOSITY_VERBOSE));
-    } else {
-        // HTTP request: logs needs to be dumped in the HTTP response (on top of existing log destinations)
-        $environment = new \Piwik\Application\Environment(null);
-        $environment->init();
+    $_GET['module'] = 'API';
+    $_GET['method'] = 'CoreAdminHome.runCronArchiving';
 
-        /** @var \Monolog\Logger $logger */
-        $logger = StaticContainer::get('Psr\Log\LoggerInterface');
-        $handler = new StreamHandler('php://output', Logger::INFO);
-        $handler->setFormatter(StaticContainer::get('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter'));
-        $logger->pushHandler($handler);
-    }
-
-    \Piwik\FrontController::getInstance()->init();
-
-    $archiver = new Piwik\CronArchive();
-
-    if (!Piwik\Common::isPhpCliMode()) {
-        $token_auth = Piwik\Common::getRequestVar('token_auth', '', 'string');
-
-        if (!$archiver->isTokenAuthSuperUserToken($token_auth)) {
-            die('<b>You must specify the Super User token_auth as a parameter to this script, eg. <code>?token_auth=XYZ</code> if you wish to run this script through the browser. </b><br>
-                    However it is recommended to run it <a href="http://piwik.org/docs/setup-auto-archiving/">via cron in the command line</a>, since it can take a long time to run.<br/>
-                    In a shell, execute for example the following to trigger archiving on the local Piwik server:<br/>
-                    <code>$ /path/to/php /path/to/piwik/console core:archive --url=http://your-website.org/path/to/piwik/</code>');
-        }
-    }
-
-    $archiver->main();
+    require_once PIWIK_INCLUDE_PATH . "/index.php";
 }

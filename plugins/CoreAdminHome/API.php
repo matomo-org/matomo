@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\CronArchive;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Scheduler\Scheduler;
@@ -85,5 +86,16 @@ class API extends \Piwik\Plugin\API
         return $output;
     }
 
+    /**
+     * Initiates cron archiving via web request.
+     *
+     * @hideExceptForSuperUser
+     */
+    public function runCronArchiving()
+    {
+        Piwik::checkUserHasSuperUserAccess();
 
+        $archiver = new CronArchive();
+        $archiver->main();
+    }
 }
