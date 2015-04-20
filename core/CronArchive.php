@@ -585,7 +585,7 @@ class CronArchive
      */
     private function getVisitsRequestUrl($idSite, $period, $date, $segment = false)
     {
-        $request = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php&token_auth=" . $this->token_auth;
+        $request = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php";
         if($segment) {
             $request .= '&segment=' . urlencode($segment);;
         }
@@ -753,6 +753,7 @@ class CronArchive
         $cliMulti = new CliMulti();
         $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
         $cliMulti->setConcurrentProcessesLimit($this->getConcurrentRequestsPerWebsite());
+        $cliMulti->runAsSuperUser();
         $response = $cliMulti->request($urls);
 
         foreach ($urls as $index => $url) {
@@ -974,16 +975,6 @@ class CronArchive
         $this->token_auth = array_shift($tokens);
 
         return $this->token_auth;
-    }
-
-    public function isTokenAuthSuperUserToken($token_auth)
-    {
-        if(empty($token_auth)
-            || strlen($token_auth) != 32) {
-            return false;
-        }
-
-        return in_array($token_auth, $this->validTokenAuths);
     }
 
     private function updateIdSitesInvalidatedOldReports()
@@ -1436,7 +1427,7 @@ class CronArchive
         return $url . self::APPEND_TO_API_REQUEST;
     }
 
-    public static function getSuperUserTokenAuths()
+    public static function getSuperUserTokenAuths() // TODO: move this to CliMulti
     {
         $tokens = array();
 

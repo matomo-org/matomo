@@ -43,6 +43,11 @@ class CliMulti {
 
     private $acceptInvalidSSLCertificate = false;
 
+    /**
+     * @var bool
+     */
+    private $runAsSuperUser = false;
+
     public function __construct()
     {
         $this->supportsAsync = $this->supportsAsync();
@@ -94,6 +99,11 @@ class CliMulti {
         $this->concurrentProcessesLimit = $limit;
     }
 
+    public function runAsSuperUser($runAsSuperUser = true)
+    {
+        $this->runAsSuperuser = $runAsSuperUser;
+    }
+
     private function start($piwikUrls)
     {
         foreach ($piwikUrls as $index => $url) {
@@ -122,9 +132,10 @@ class CliMulti {
     private function buildCommand($hostname, $query, $outputFile)
     {
         $bin = $this->findPhpBinary();
+        $superuserCommand = $this->runAsSuperUser ? "--superuser" : "";
 
-        return sprintf('%s %s/console climulti:request -q --piwik-domain=%s %s > %s 2>&1 &',
-                       $bin, PIWIK_INCLUDE_PATH, escapeshellarg($hostname), escapeshellarg($query), $outputFile);
+        return sprintf('%s %s/console climulti:request -q --piwik-domain=%s %s %s > %s 2>&1 &',
+                       $bin, PIWIK_INCLUDE_PATH, escapeshellarg($hostname), $superuserCommand, escapeshellarg($query), $outputFile);
     }
 
     private function getResponse()
@@ -241,10 +252,10 @@ class CliMulti {
     {
         $this->processes[] = new Process($cmdId);
 
-        $url      = $this->appendTestmodeParamToUrlIfNeeded($url);
-        $query    = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId));
+        $url = $this->appendTestmodeParamToUrlIfNeeded($url);
+        $query = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId));
         $hostname = Url::getHost($checkIfTrusted = false);
-        $command  = $this->buildCommand($hostname, $query, $output->getPathToFile());
+        $command = $this->buildCommand($hostname, $query, $output->getPathToFile());
 
         Log::debug($command);
         shell_exec($command);
@@ -260,6 +271,19 @@ class CliMulti {
         $url = $piwikUrl . $url;
         if (Config::getInstance()->General['force_ssl'] == 1) {
             $url = str_replace("http://", "https://", $url);
+        }
+
+        if ($this->runAsSuperUser) {
+            $tokenAuths = CronArchive::getSuperUserTokenAuths();
+            $tokenAuth = reset($tokenAuths);
+
+            if (strpos($url, '?') === false) {
+                $url .= '?';
+            } else {
+                $url .= '&';
+            }
+
+            $url .= 'token_auth=' . $tokenAuth;
         }
 
         try {
@@ -313,5 +337,4 @@ class CliMulti {
 
         return $results;
     }
-
 }

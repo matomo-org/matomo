@@ -44,6 +44,7 @@ try 'php archive.php --url=http://your.piwik/path'
 }
 // TODO: manual test against php-cgi + ArchiveWebTest
 //       => test w/ token auth & w/o token auth
+// TODO: add test for CoreAdminHome.runCronArchiving in ArchiveWebTest (or replace existing?)
 if (Piwik\Common::isPhpCliMode()) {
     $console = new Piwik\Console();
 
