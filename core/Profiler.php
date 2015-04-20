@@ -239,11 +239,11 @@ class Profiler
             $profilerNamespace .= "-" . $currentGitBranch;
         }
 
-        xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
-
         if ($mainRun) {
             self::setProfilingRunIds(array());
         }
+
+        xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
 
         register_shutdown_function(function () use($profilerNamespace, $mainRun) {
             $xhprofData = xhprof_disable();
@@ -337,6 +337,6 @@ class Profiler
      */
     private static function getPathToXHProfRunIds()
     {
-        return StaticContainer::get('path.tmp') . '/cache/tests-xhprof-runs';
+        return PIWIK_INCLUDE_PATH . '/tmp/cache/tests-xhprof-runs';
     }
 }
