@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Option;
+use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
@@ -145,6 +146,23 @@ class TrackerTest extends IntegrationTestCase
 
         $this->assertEquals(0, $this->getCountOfConversions());
         $this->assertEquals(0, count($this->getConversionItems()));
+    }
+
+    public function test_trackingWithLangParameter_ForwardsLangParameter_ToDefaultLocationProvider()
+    {
+        LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
+
+        $urlToTest = "?idsite=1&rec=1&action_name=test&lang=fr-be";
+        $response = $this->sendTrackingRequestByCurl($urlToTest);
+        Fixture::checkResponse($response);
+
+        $logVisitTable = Common::prefixTable('log_visit');
+
+        $visitCount = Db::fetchOne("SELECT COUNT(*) FROM $logVisitTable");
+        $this->assertEquals(1, $visitCount);
+
+        $visitCountry = Db::fetchOne("SELECT location_country FROM $logVisitTable");
+        $this->assertEquals('be', $visitCountry);
     }
 
     public function test_scheduledTasks_CanBeRunThroughTracker_WithoutIncludingOutputInTrackerOutput()
