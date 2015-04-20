@@ -6,8 +6,10 @@ use Piwik\Log;
 
 return array(
 
-    'Psr\Log\LoggerInterface' => DI\object('Monolog\Logger')
+    'Monolog\Logger' => DI\object('Monolog\Logger')
         ->constructor('piwik', DI\get('log.handlers'), DI\get('log.processors')),
+
+    'Psr\Log\LoggerInterface' => DI\get('Monolog\Logger'),
 
     'log.handlers' => DI\factory(function (ContainerInterface $c) {
         if ($c->has('ini.log.log_writers')) {
