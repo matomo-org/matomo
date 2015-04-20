@@ -50,8 +50,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
 
 \Piwik\Container\StaticContainer::setEnvironment('tracker');
 
-\Piwik\Profiler::setupProfilerXHProf(true, true);
-
 Tracker::loadTrackerEnvironment();
 
 $tracker    = new Tracker();
