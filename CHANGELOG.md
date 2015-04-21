@@ -13,6 +13,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### New commands
 * There is now a `diagnostic:run` command to run the system check from the command line.
+* There is now an option `--xhprof` that can be used with any command to profile that command via XHProf.
 
 ### APIs Improvements
 * Visitor details now additionally contain: `deviceTypeIcon`, `deviceBrand` and `deviceModel`
