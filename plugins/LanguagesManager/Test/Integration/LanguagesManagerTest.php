@@ -97,7 +97,7 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
             $translationWriter->saveTemporary();
             $this->markTestSkipped(implode("\n", $translationWriter->getFilterMessages()) . "\n"
                 . 'Translation file errors detected in ' . $language . "...\n"
-                . "To synchronise the language files with the english strings, you can manually edit the language files or run the following command may work if you have access to oTrance: \n"
+                . "To synchronise the language files with the english strings, you can manually edit the language files or run the following command may work if you have access to Transifex: \n"
                 . "$ ./console translations:update [--plugin=XYZ] \n"
             );
         }
