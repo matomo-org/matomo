@@ -10,6 +10,7 @@ namespace Piwik\Translation\Transifex;
 
 use Exception;
 use Piwik\Exception\AuthenticationFailedException;
+use Piwik\Http;
 
 class API
 {
@@ -123,14 +124,10 @@ class API
     {
         $apiUrl = $this->apiUrl . $apiPath;
 
-        $curl = curl_init($apiUrl);
-        curl_setopt($curl, CURLOPT_USERPWD, sprintf("%s:%s", $this->username, $this->password));
-        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($curl, CURLOPT_ENCODING, '');
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($curl);
-        $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        curl_close($curl);
+        $response = Http::sendHttpRequest($apiUrl, 1000, null, null, 5, false, false, true, 'GET', $this->username, $this->password);
+
+        $httpStatus = $response['status'];
+        $response   = $response['data'];
 
         if ($httpStatus == 401) {
             throw new AuthenticationFailedException();

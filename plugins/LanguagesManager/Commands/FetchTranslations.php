@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
-class FetchFromTransifex extends TranslationBase
+class FetchTranslations extends TranslationBase
 {
     const DOWNLOAD_PATH = '/transifex';
 
