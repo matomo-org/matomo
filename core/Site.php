@@ -103,6 +103,9 @@ class Site
          *     });
          *
          * @param array $sites An array of website entities. [Learn more.](/guides/persistence-and-the-mysql-backend#websites-aka-sites)
+         *
+         * This is not yet public as it doesn't work 100% accurately. Eg if `setSite()` is called directly this event will not be triggered.
+         * @ignore
          */
         Piwik::postEvent('Site.setSites', array(&$sites));
     }

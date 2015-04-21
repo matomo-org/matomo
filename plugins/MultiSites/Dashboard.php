@@ -19,6 +19,10 @@ use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Site;
 use Piwik\View;
 
+/**
+ * Fetches and formats the response of `MultiSites.getAll` in a way that it can be used by the All Websites AngularJS
+ * widget. Eg sites are moved into groups if one is assigned, stats are calculated for groups, etc.
+ */
 class Dashboard
 {
     /** @var DataTable */
