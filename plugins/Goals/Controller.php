@@ -168,27 +168,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = new View('@Goals/manageGoals');
         $this->setGeneralVariablesView($view);
-
-        $goals = $this->goals;
-        $view->goals = $goals;
-
-        $idGoal = Common::getRequestVar('idGoal', 0, 'int');
-        $view->idGoal = 0;
-        if ($idGoal && array_key_exists($idGoal, $goals)) {
-            $view->idGoal = $idGoal;
-        }
-
-        // unsanitize goal names and other text data (not done in API so as not to break
-        // any other code/cause security issues)
-
-        foreach ($goals as &$goal) {
-            $goal['name'] = Common::unsanitizeInputValue($goal['name']);
-            if (isset($goal['pattern'])) {
-                $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
-            }
-        }
-        $view->goalsJSON = json_encode($goals);
-        $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
+        $this->setEditGoalsViewVariables($view);
         return $view->render();
     }
 
@@ -260,6 +240,15 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
         $view->onlyShowAddNewGoal = true;
+        return $view->render();
+    }
+
+    public function editGoals()
+    {
+        $view = new View('@Goals/editGoals');
+        $this->setGeneralVariablesView($view);
+        $this->setEditGoalsViewVariables($view);
+        $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
         return $view->render();
     }
 
@@ -485,5 +474,29 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         return $goalReportsByDimension->render();
+    }
+
+    private function setEditGoalsViewVariables($view)
+    {
+        $goals = $this->goals;
+        $view->goals = $goals;
+
+        $idGoal = Common::getRequestVar('idGoal', 0, 'int');
+        $view->idGoal = 0;
+        if ($idGoal && array_key_exists($idGoal, $goals)) {
+            $view->idGoal = $idGoal;
+        }
+
+        // unsanitize goal names and other text data (not done in API so as not to break
+        // any other code/cause security issues)
+
+        foreach ($goals as &$goal) {
+            $goal['name'] = Common::unsanitizeInputValue($goal['name']);
+            if (isset($goal['pattern'])) {
+                $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
+            }
+        }
+        $view->goalsJSON = json_encode($goals);
+        $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
     }
 }
