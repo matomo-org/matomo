@@ -21,7 +21,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Internal changes
 
-* The referrer spam filter has moved from the `referrer_urls_spam` INI option (in `global.ini.php`) to a separate package (see https://github.com/piwik/referrer-spam-blacklist).
+* The referrer spam filter has moved from the `referrer_urls_spam` INI option (in `global.ini.php`) to a separate package (see [https://github.com/piwik/referrer-spam-blacklist](https://github.com/piwik/referrer-spam-blacklist)).
 
 ## Piwik 2.12.0
 
@@ -88,7 +88,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * During UI tests we do now add a CSS class to the HTML element called `uiTest`. This allows you do hide content when screenshots are captured.
 
 ### New commands
-* A new command (core:fix-duplicate-log-actions) has been added which can be used to remove duplicate actions and correct references to them in other tables. Duplicates were caused by this bug: https://github.com/piwik/piwik/issues/6436
+* A new command (core:fix-duplicate-log-actions) has been added which can be used to remove duplicate actions and correct references to them in other tables. Duplicates were caused by this bug: [#6436](https://github.com/piwik/piwik/issues/6436)
 
 ### Library updates
 * Updated AngularJS from 1.2.26 to 1.2.28
