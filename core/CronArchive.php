@@ -283,11 +283,6 @@ class CronArchive
             $this->log('Will ignore websites and help finish a previous started queue instead. IDs: ' . implode(', ', $this->websites->getInitialSiteIds()));
         }
 
-        if ($this->shouldStartProfiler) {
-            \Piwik\Profiler::setupProfilerXHProf($mainRun = true);
-            $this->log("XHProf profiling is enabled.");
-        }
-
         /**
          * This event is triggered after a CronArchive instance is initialized.
          *
