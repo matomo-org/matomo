@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f0c9c70091696d6197a4c438b9c12860",
+    "hash": "5033f5c1e5d1d67add5f5e75bbe59aaf",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -925,6 +925,28 @@
                 "LGPL-3.0"
             ],
             "time": "2014-10-23 03:30:23"
+        },
+        {
+            "name": "piwik/referrer-spam-blacklist",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/piwik/referrer-spam-blacklist.git",
+                "reference": "4508617435cd8b93c0fbd0fd430dc24d2a898cdb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/piwik/referrer-spam-blacklist/zipball/4508617435cd8b93c0fbd0fd430dc24d2a898cdb",
+                "reference": "4508617435cd8b93c0fbd0fd430dc24d2a898cdb",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Public Domain"
+            ],
+            "description": "Community-contributed list of referrer spammers",
+            "time": "2015-04-19 23:20:51"
         },
         {
             "name": "psr/log",
