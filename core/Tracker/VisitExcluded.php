@@ -13,7 +13,7 @@ use Piwik\Config;
 use Piwik\DeviceDetectorFactory;
 use Piwik\Network\IP;
 use Piwik\Piwik;
-use Piwik\Tracker\Visit\SpamFilter;
+use Piwik\Tracker\Visit\ReferrerSpamFilter;
 
 /**
  * This class contains the logic to exclude some visitors from being tracked as per user settings
@@ -29,7 +29,7 @@ class VisitExcluded
      */
     public function __construct(Request $request, $ip = false, $userAgent = false)
     {
-        $this->spamFilter = new SpamFilter();
+        $this->spamFilter = new ReferrerSpamFilter();
 
         if (false === $ip) {
             $ip = $request->getIp();

@@ -8,7 +8,7 @@ use Piwik\Tracker\Request;
 /**
  * Filters out tracking requests issued by spammers.
  */
-class SpamFilter
+class ReferrerSpamFilter
 {
     /**
      * @var string[]
