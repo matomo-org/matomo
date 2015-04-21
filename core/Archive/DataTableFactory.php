@@ -200,9 +200,6 @@ class DataTableFactory
             throw new \Exception('This method is supposed to work with non-numeric data types but it is not tested. To use it, remove this exception and write tests to be sure it works.');
         }
 
-        // as the resulting table will be merged, we do only set Period metedata and no metadata for site. Instead each
-        // row will have an idsite metadata entry.
-
         $hasSiteIndex   = isset($resultIndices[self::TABLE_METADATA_SITE_INDEX]);
         $hasPeriodIndex = isset($resultIndices[self::TABLE_METADATA_PERIOD_INDEX]);
 
@@ -476,6 +473,8 @@ class DataTableFactory
         $tables = array();
 
         foreach ($this->periods as $range => $period) {
+            // as the resulting table is "merged", we do only set Period metedata and no metadata for site. Instead each
+            // row will have an idsite metadata entry.
             $metadata = array(self::TABLE_METADATA_PERIOD_INDEX => $period);
 
             if ($useSimpleDataTable) {
@@ -496,13 +495,13 @@ class DataTableFactory
             foreach ($table as $range => $row) {
                 if (!empty($row)) {
                     $tables[$range]->addRow(new Row(array(
-                            Row::COLUMNS  => $row,
-                            Row::METADATA => $rowMeta)
+                        Row::COLUMNS  => $row,
+                        Row::METADATA => $rowMeta)
                     ));
                 } elseif ($isNumeric) {
                     $tables[$range]->addRow(new Row(array(
-                            Row::COLUMNS  => $this->defaultRow,
-                            Row::METADATA => $rowMeta)
+                        Row::COLUMNS  => $this->defaultRow,
+                        Row::METADATA => $rowMeta)
                     ));
                 }
             }
@@ -524,13 +523,13 @@ class DataTableFactory
         foreach ($index as $idsite => $row) {
             if (!empty($row)) {
                 $table->addRow(new Row(array(
-                        Row::COLUMNS  => $row,
-                        Row::METADATA => array('idsite' => $idsite))
+                    Row::COLUMNS  => $row,
+                    Row::METADATA => array('idsite' => $idsite))
                 ));
             } elseif ($isNumeric) {
                 $table->addRow(new Row(array(
-                        Row::COLUMNS  => $this->defaultRow,
-                        Row::METADATA => array('idsite' => $idsite))
+                    Row::COLUMNS  => $this->defaultRow,
+                    Row::METADATA => array('idsite' => $idsite))
                 ));
             }
         }
