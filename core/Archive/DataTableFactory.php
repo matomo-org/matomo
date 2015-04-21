@@ -323,11 +323,8 @@ class DataTableFactory
         $hasIndices = !empty($resultIndices);
 
         foreach ($index as $label => $value) {
-            if ($resultIndex === DataTableFactory::TABLE_METADATA_SITE_INDEX) {
-                $keyMetadata[$resultIndex] = new Site($label);
-            } elseif ($resultIndex === DataTableFactory::TABLE_METADATA_PERIOD_INDEX) {
-                $keyMetadata[$resultIndex] = $this->periods[$label];
-            }
+            $keyMetadata[$resultIndex] = $this->createTableIndexMetadata($resultIndex, $label);
+
             if ($hasIndices) {
                 $newTable = $this->createDataTableMapFromIndex($value, $resultIndices, $keyMetadata);
             } else {
@@ -338,6 +335,15 @@ class DataTableFactory
         }
 
         return $result;
+    }
+
+    private function createTableIndexMetadata($resultIndex, $label)
+    {
+        if ($resultIndex === DataTableFactory::TABLE_METADATA_SITE_INDEX) {
+            return new Site($label);
+        } elseif ($resultIndex === DataTableFactory::TABLE_METADATA_PERIOD_INDEX) {
+            return $this->periods[$label];
+        }
     }
 
     /**
