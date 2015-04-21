@@ -1,5 +1,6 @@
 {
     "UserLanguage": {
+        "BrowserLanguage": "உலாவி மொழி",
         "Language_aa": "அஃபார்",
         "Language_ab": "அப்காஜியான்",
         "Language_ae": "அவெஸ்தான்",
@@ -37,7 +38,7 @@
         "Language_dz": "பூடானி",
         "Language_ee": "ஈஓயே",
         "Language_el": "கிரேக்கம்",
-        "Language_en": "ஆங்கிலம்",
+        "Language_en": "தமிழ்",
         "Language_eo": "எஸ்பரேன்டோ",
         "Language_es": "ஸ்பேனிஷ்",
         "Language_et": "எஸ்டோனியன்",
@@ -110,7 +111,7 @@
         "Language_ms": "மலாய்",
         "Language_mt": "மால்டிஸ்",
         "Language_my": "பர்மிஸ்",
-        "Language_na": "நவ்ரூ",
+        "Language_na": "நௌரு",
         "Language_nb": "நார்வே பொக்மால்",
         "Language_nd": "வடக்கு தெபெலே",
         "Language_ne": "நேபாளி",
@@ -183,6 +184,8 @@
         "Language_yo": "யோருப்பா",
         "Language_za": "ஜுவாங்",
         "Language_zh": "சீனம்",
-        "Language_zu": "ஜூலூ"
+        "Language_zu": "ஜூலூ",
+        "LanguageCode": "மொழி குறியீடு",
+        "PluginDescription": "வருகையாளர் உலாவியின் மொழிகளை பற்றிய அறிக்கை"
     }
 }

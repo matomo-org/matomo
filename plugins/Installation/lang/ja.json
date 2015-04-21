@@ -1,7 +1,5 @@
 {
     "Installation": {
-        "CannotConnectToDb": "データベースに接続できません。",
-        "CannotConnectToDbResolvingExplanation": "これは一時的な問題の可能性があります。%1$srefreshing the page%2$s をお試しください。問題が続く場合、Piwik 管理者にお問い合わせください。",
         "CollaborativeProject": "Piwik は、世界中の人々に愛され、構築されている共同プロジェクトです。",
         "ConfigurationHelp": "Piwik 設定ファイルが誤設定されているようです。 config\/config.ini.php を削除してインストールを再開するか、データベースの接続設定を修正してください。",
         "ConfirmDeleteExistingTables": "本当にデータベースからテーブル %s を削除しますか？ 警告： これらのテーブルのデータを復旧することはできません！",
@@ -38,17 +36,16 @@
         "NfsFilesystemWarningSuffixAdmin": "これは、ファイルベースのセッションを利用する際、Piwik が極端に遅くなることを意味します。",
         "NfsFilesystemWarningSuffixInstall": "NFS 上でファイルベースのセッションを利用すると極端に遅いので、Piwik はデータベースセッションを使用します。同時に多くのダッシュボードユーザーがいる場合、データベースサーバーへのクライアント接続の最大数を増やす必要があります。",
         "NoConfigFound": "Piwik の設定ファイルを見つけることができませんでしたが、あなたは Piwik ページにアクセスしようとしています。<br \/><b>  »<a href='index.php'>ただちに Piwik をインストール<\/a>することができます。<\/b><br \/><small>以前に Piwik をインストールしたことがあり、DB に多少のデータがある場合でも心配しないでください。 既存のデータを保持したまま、同じテーブルを再利用することができます！<\/small>",
-        "NotSupported": "サポートされていません",
         "Optional": "オプション",
         "Password": "パスワード",
         "PasswordDoNotMatch": "パスワードが一致しませんでした",
         "PasswordRepeat": "パスワード（再入力）",
         "PercentDone": "%s %% 完了",
-        "PiwikOrgNewsletter": "私に Piwik コミュニティの最新情報をメールで送る",
         "PleaseFixTheFollowingErrors": "次のエラーを修正してください",
         "Requirements": "Piwik の動作環境",
         "RestartWebServer": "この変更を行った後、ウェブサーバーを再起動してください。",
         "ReusingTables": "表の再利用",
+        "PiwikOrgNewsletter": "私に Piwik コミュニティの最新情報をメールで送る",
         "SeeBelowForMoreInfo": "詳細は、以下をご確認ください。",
         "SetupWebsite": "ウェブサイトのセットアップ",
         "SetupWebsiteError": "ウェブサイトを追加する際にエラーが発生しました",
@@ -64,8 +61,6 @@
         "SystemCheck": "システムの確認",
         "SystemCheckAutoUpdateHelp": "注意： Piwik のワンクリックアップデートには、Piwik のフォルダとその内容に書き込み権限が必要となります。",
         "SystemCheckCreateFunctionHelp": "Piwik はコールバックに匿名関数を使用します。",
-        "SystemCheckCronArchiveProcess": "アーカイブ cron",
-        "SystemCheckCronArchiveProcessCLI": "CLI を経由して処理を管理する",
         "SystemCheckDatabaseHelp": "Piwik には、mysqli エクステンションか、PDO と pdo_mysql エクステンションの両方の、どちらかが必要です。",
         "SystemCheckDebugBacktraceHelp": "View::factory はコール側モジュールのビューを作成することができません。",
         "SystemCheckError": "エラー発生 - 次の処理へ進む前に修正する必要があります。",
@@ -110,6 +105,9 @@
         "SystemCheckWriteDirs": "書き込み権限のあるディレクトリ",
         "SystemCheckWriteDirsHelp": "この Linux システムでこの問題を修正するには、次のコマンドを打ち込んでみてください",
         "SystemCheckZlibHelp": "\"zlib\" のサポートを有効にして、PHP の再構築と設定を行う必要があります（--with-zlib）。",
+        "SystemCheckCronArchiveProcess": "アーカイブ cron",
+        "SystemCheckCronArchiveProcessCLI": "CLI を経由して処理を管理する",
+        "NotSupported": "サポートされていません",
         "Tables": "テーブルの作成",
         "TablesCreatedSuccess": "テーブルは正常に作成されました！",
         "TablesDelete": "検出されたテーブルを削除",
@@ -123,6 +121,8 @@
         "WeHopeYouWillEnjoyPiwik": "私達が Piwik の開発を楽しんでいるように、Piwik のご利用をお楽しみ頂ける事を願っています。",
         "Welcome": "ようこそ！",
         "WelcomeHelp": "<p>Piwik は、ビジターからあなたが必要とする情報を収集することを容易にする、オープンソースのウェブ解析ソフトウェアです。<\/p><p>この処理は %s の簡単なステップに分かれていて、5分程度で完了します。<\/p>",
-        "WelcomeToCommunity": "Piwik コミュニティへようこそ！"
+        "WelcomeToCommunity": "Piwik コミュニティへようこそ！",
+        "CannotConnectToDb": "データベースに接続できません。",
+        "CannotConnectToDbResolvingExplanation": "これは一時的な問題の可能性があります。%1$srefreshing the page%2$s をお試しください。問題が続く場合、Piwik 管理者にお問い合わせください。"
     }
 }

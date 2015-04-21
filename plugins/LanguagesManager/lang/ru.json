@@ -1,5 +1,6 @@
 {
     "LanguagesManager": {
-        "AboutPiwikTranslations": "О переводах Piwik"
+        "AboutPiwikTranslations": "О переводах Piwik",
+        "TranslationSearch": "Поиск перевода"
     }
 }

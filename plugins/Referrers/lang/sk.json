@@ -3,7 +3,7 @@
         "Campaigns": "Kampane",
         "ColumnCampaign": "Kampaň",
         "ColumnSearchEngine": "Vyhľadávač",
-        "ColumnWebsite": "Portál",
+        "ColumnWebsite": "Webová stránka",
         "ColumnWebsitePage": "Stránka portálu",
         "DirectEntry": "Priamy vstup",
         "Distinct": "Rozlíšiť odkazy podľa typu odkazu",
@@ -22,7 +22,7 @@
         "TypeSearchEngines": "%s z vyhľadávačov",
         "TypeWebsites": "%s zo stránok",
         "UsingNDistinctUrls": "(pomocou %s rôznych adries URL)",
-        "Websites": "Webstránky",
+        "Websites": "Stránky",
         "WidgetExternalWebsites": "Zoznam externých stránok"
     }
 }

@@ -41,6 +41,7 @@
         "UpdateAutomatically": "自动升级",
         "UpdateHasBeenCancelledExplanation": "Piwik 一键升级已被取消。如果您无法修正以上的错误信息，建议您手动升级 Piwik。%1$s 请查看 %2$s升级文件%3$s 来开始吧！",
         "UpdateTitle": "升级",
+        "UpdateSuccessTitle": "Piwik 升级成功！",
         "UpgradeComplete": "升级完成！",
         "UpgradePiwik": "升级 Piwik",
         "VerifyingUnpackedFiles": "正在验证解压后的文件",

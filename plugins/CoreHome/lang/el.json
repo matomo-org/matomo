@@ -3,7 +3,6 @@
         "CategoryNoData": "Ανεπαρκή δεδομένα στη κατηγορία. Δοκιμάστε να συμπεριλάβετε όλο το πλήθος.",
         "CheckForUpdates": "Έλεγχος για ενημερώσεις",
         "CheckPiwikOut": "Δοκιμάστε το Piwik!",
-        "ClickRowToExpandOrContract": "Πατήστε στη γραμμή για να επεκταθεί ή να κρυφτεί ο υποπίνακας.",
         "ClickToEditX": "Κάντε κλικ για να επεξεργαστείτε το %s",
         "CloseWidgetDirections": "Μπορείτε να κλείσετε αυτή τη λειτουργία κάνοντας κλικ στο εικονίδιο 'X' στην κορυφή του widget.",
         "DataForThisReportHasBeenPurged": "Τα δεδομένα για αυτή την αναφορά είναι περισσότερα από %s μήνες και κόπηκαν.",
@@ -43,7 +42,6 @@
         "PeriodWeeks": "εβδομάδων",
         "PeriodYear": "Έτος",
         "PeriodYears": "ετών",
-        "PivotBySubtable": "Η αναφορά αυτή δεν είναι θεμελιωμένη %s Να θεμελιωθεί από %s",
         "ReportGeneratedOn": "Η αναφορά δημιουργήθηκε στις %s",
         "ReportGeneratedXAgo": "Η αναφορά δημιουργήθηκε πριν από %s",
         "SharePiwikLong": "Γεια σας! Βρήκα μόνο ένα καταπληκτικό λογισμικό ανοικτού κώδικα: το Piwik!\n\nΤο Piwik θα σας επιτρέψει να παρακολουθείτε τους επισκέπτες στην ιστοσελίδα σας δωρεάν. Καλό θα είναι να το δείτε!",
@@ -59,10 +57,12 @@
         "SupportPiwik": "Στηρίξτε το Piwik!",
         "TableNoData": "Δεν υπάρχουν δεδομένα για τον πίνακα.",
         "ThereIsNoDataForThisReport": "Δεν υπάρχουν δεδομένα για αυτή την αναφορά.",
-        "UndoPivotBySubtable": "Η αναφορά θεμελιώθηκε %s Αναίρεση της θεμελίωσης",
         "UnFlattenDataTable": "Η αναφορά είναι επίπεδη %s Κάντε την ιεραρχημένη",
         "ViewAllPiwikVideoTutorials": "Δείτε όλα τα βίντεο εκμάθησης του Piwik",
         "WebAnalyticsReports": "Αναφορές Στατιστικών Ιστού",
-        "YouAreUsingTheLatestVersion": "Χρησιμοποιείτε την τελευταία έκδοση του Piwik!"
+        "YouAreUsingTheLatestVersion": "Χρησιμοποιείτε την τελευταία έκδοση του Piwik!",
+        "ClickRowToExpandOrContract": "Πατήστε στη γραμμή για να επεκταθεί ή να κρυφτεί ο υποπίνακας.",
+        "UndoPivotBySubtable": "Η αναφορά θεμελιώθηκε %s Αναίρεση της θεμελίωσης",
+        "PivotBySubtable": "Η αναφορά αυτή δεν είναι θεμελιωμένη %s Να θεμελιωθεί από %s"
     }
 }

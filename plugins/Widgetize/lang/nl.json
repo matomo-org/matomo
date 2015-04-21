@@ -1,5 +1,7 @@
 {
     "Widgetize": {
-        "OpenInNewWindow": "Open in een nieuw venster"
+        "OpenInNewWindow": "Open in een nieuw venster",
+        "PluginDescription": "Toon elk Piwik rapport in je website of app eenvoudig met een Embed HTML tag.",
+        "TopLinkTooltip": "Export Piwik Rapporten als Widgets en voeg het dashboard toe in je app als een iframe."
     }
 }

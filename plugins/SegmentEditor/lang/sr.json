@@ -22,8 +22,8 @@
         "ThisSegmentIsVisibleTo": "Ovaj segment je vidljiv:",
         "VisibleToAllUsers": "svi korisnici",
         "VisibleToMe": "meni",
-        "YouDontHaveAccessToCreateSegments": "Nemate odgovarajući nivo pristupa da biste kreirali i menjali segmente.",
         "YouMayChangeSetting": "Takođe možete promeniti podešavanja i u datoteci %s ili izmenom segmenta i izborom '%s'.",
-        "YouMustBeLoggedInToCreateSegments": "Morate biti prijavljeni kako biste mogli da kreirate i menjate segmente."
+        "YouMustBeLoggedInToCreateSegments": "Morate biti prijavljeni kako biste mogli da kreirate i menjate segmente.",
+        "YouDontHaveAccessToCreateSegments": "Nemate odgovarajući nivo pristupa da biste kreirali i menjali segmente."
     }
 }

@@ -35,6 +35,7 @@
         "UpdateAutomatically": "自動更新",
         "UpdateHasBeenCancelledExplanation": "Piwik 一鍵更新已被取消。如果你無法修正以上的錯誤訊息，建議你手動更新 Piwik。%1$s 請查看 %2$s更新文件%3$s 來開始吧！",
         "UpdateTitle": "Piwik › 更新",
+        "UpdateSuccessTitle": "Piwik 已成功更新！",
         "UpgradeComplete": "升級完成！",
         "UpgradePiwik": "升級 Piwik",
         "VerifyingUnpackedFiles": "正在驗證解壓縮後的檔案",

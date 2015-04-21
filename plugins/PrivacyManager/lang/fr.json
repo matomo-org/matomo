@@ -1,8 +1,8 @@
 {
     "PrivacyManager": {
         "AnonymizeIpDescription": "Sélectionnez \"Oui\" si vous voulez que Piwik ne trace pas les adresses IP complètes.",
-        "AnonymizeIpExtendedHelp": "Quand les utilisateurs visitent votre site, Piwik n'utilisera pas l'adresse IP complète (par exemple %s) mais l'anonymisera (par exemple %s). L'anonymisation des adresses IP est requise par certaines lois adressant la protection de la vie privée dans certains pays comme l'Allemagne.",
         "AnonymizeIpInlineHelp": "Masque les adresses IP des visiteurs pour remplir les conditions légales et politiques locales.",
+        "AnonymizeIpExtendedHelp": "Quand les utilisateurs visitent votre site, Piwik n'utilisera pas l'adresse IP complète (par exemple %s) mais l'anonymisera (par exemple %s). L'anonymisation des adresses IP est requise par certaines lois adressant la protection de la vie privée dans certains pays comme l'Allemagne.",
         "AnonymizeIpMaskLengtDescription": "Sélectionnez combien de bytes de l'adresse IP du visiteur doivent être masqués.",
         "AnonymizeIpMaskLength": "%s byte(s) - ex %s",
         "CannotLockSoDeleteLogActions": "La table log_action ne sera pas purgée : veuillez accorder le privilège LOCK TABLES à l'utilisateur MYSQL '%s'.",
@@ -47,6 +47,7 @@
         "LeastMonthsInput": "Veuillez spécifier un nombre de mois supérieur à %s",
         "MenuPrivacySettings": "Vie privée",
         "NextDelete": "Prochaine suppression programmée dans",
+        "PluginDescription": "Augmente le respect de la vie privée de vos utilisateurs et rend votre installation de Piwik conforme avec la législation locale.",
         "PurgeNow": "Purger la base de données maintenant",
         "PurgeNowConfirm": "Vous êtes sur le point de supprimer définitivement les données de votre base de données. Êtes vous sûr(e) de vouloir continuer?",
         "PurgingData": "Purge des données...",

@@ -61,7 +61,7 @@
         "SelectDefaultCurrency": "Du kan välja standardvaluta för nya webbplatser.",
         "SelectDefaultTimezone": "Du kan välja standard tidszon för nya webbplatser.",
         "ShowTrackingTag": "Visa spårningskod",
-        "Sites": "Webbplatser",
+        "Sites": "Webbsidor",
         "SiteSearchUse": "Du kan använda Piwik för att spåra och rapportera om vad besökarna söker efter med din webbplats interna sökmotor.",
         "SuperUserAccessCan": "En användare med Superbehörighet kan också %s specificera globala inställningar%s för nya webbsidor.",
         "Timezone": "Tidszon",

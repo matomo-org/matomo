@@ -1,5 +1,10 @@
 {
     "Insights": {
-        "Filter": "Filter"
+        "DayComparedToPreviousDay": "eelmine päev",
+        "DayComparedToPreviousWeek": "sama päev eelmisel nädalal",
+        "DayComparedToPreviousYear": "sama päev eelmisel aastal",
+        "Filter": "Filter",
+        "MonthComparedToPreviousMonth": "eelmine kuu",
+        "WeekComparedToPreviousWeek": "eelmine nädal"
     }
 }

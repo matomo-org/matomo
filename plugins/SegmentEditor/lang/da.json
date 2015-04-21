@@ -1,7 +1,6 @@
 {
     "SegmentEditor": {
         "AddANDorORCondition": "Tilføj %s betingelse",
-        "AddingSegmentForAllWebsitesDisabled": "Tilføjelse af segmenter for alle websteder er blevet deaktiveret.",
         "AddNewSegment": "Tilføj nyt segment",
         "AreYouSureDeleteSegment": "Er du sikker på, at du vil slette dette segment?",
         "AutoArchivePreProcessed": "Segmenterede rapporter behandles på forhånd (er hurtigere, kræver archive.php cron)",
@@ -23,8 +22,9 @@
         "ThisSegmentIsVisibleTo": "Segmentet er synligt for:",
         "VisibleToAllUsers": "Alle brugere",
         "VisibleToMe": "mig",
-        "YouDontHaveAccessToCreateSegments": "Du har ikke det nødvendige adgangsniveau til at oprette og redigere segmenter.",
         "YouMayChangeSetting": "Alternativt kan du ændre indstillingen i konfigurationsfilen (%s), eller redigere dette segment og vælg '%s'.",
-        "YouMustBeLoggedInToCreateSegments": "Du skal være logget ind for at oprette og anvende brugerdefinerede besøgssegmenter."
+        "YouMustBeLoggedInToCreateSegments": "Du skal være logget ind for at oprette og anvende brugerdefinerede besøgssegmenter.",
+        "YouDontHaveAccessToCreateSegments": "Du har ikke det nødvendige adgangsniveau til at oprette og redigere segmenter.",
+        "AddingSegmentForAllWebsitesDisabled": "Tilføjelse af segmenter for alle websteder er blevet deaktiveret."
     }
 }

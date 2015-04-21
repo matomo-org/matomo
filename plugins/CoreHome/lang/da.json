@@ -3,7 +3,6 @@
         "CategoryNoData": "Ingen data i kategorien. Prøv at 'Inkluder hele populationen'.",
         "CheckForUpdates": "Søg efter opdateringer",
         "CheckPiwikOut": "Tjek Piwik!",
-        "ClickRowToExpandOrContract": "Klik på rækken for at udvide eller sammentrække undertabelen.",
         "ClickToEditX": "Klik for at redigere %s",
         "CloseWidgetDirections": "Luk modulet ved at klikke på 'X' ikonet øverst.",
         "DataForThisReportHasBeenPurged": "Data til rapporten er er mere end %s måneder gamle og er blevet ryddet op.",
@@ -43,7 +42,6 @@
         "PeriodWeeks": "uger",
         "PeriodYear": "År",
         "PeriodYears": "år",
-        "PivotBySubtable": "Rapporten er ikke pivoteret %s Pivoter med %s.",
         "ReportGeneratedOn": "Rapport genereret på %s",
         "ReportGeneratedXAgo": "Rapport genereret %s siden",
         "SharePiwikLong": "Hej! Jeg har lige fundet et fantastisk open source program: Piwik!\n\nPiwik kan gratis spore besøgende på din hjemmeside. Du bør helt klart undersøge det!",
@@ -54,14 +52,17 @@
         "ShortMonthFormat": "%shortMonth% %longYear%",
         "ShortWeekFormat": "%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%",
         "ShowJSCode": "Vis JavaScript-koden til at indsætte.",
+        "SkipToContent": "Gå til indhold",
         "SubscribeAndBecomePiwikSupporter": "Fortsæt til sikker kreditkort betalingsside (Paypal) for at blive en Piwik supporter!",
         "SupportPiwik": "Støt Piwik!",
         "TableNoData": "Ingen data til denne tabel.",
         "ThereIsNoDataForThisReport": "Der er ingen data for denne rapport.",
-        "UndoPivotBySubtable": "Rapporten er blevet pivoteret %s Fortryd pivot.",
         "UnFlattenDataTable": "Rapporten er ikke hierarkisk %s lav den hierakisk",
         "ViewAllPiwikVideoTutorials": "Vis alle Piwik videoselvstudier",
         "WebAnalyticsReports": "Webanalyse-rapporter",
-        "YouAreUsingTheLatestVersion": "Du bruger den seneste version af Piwik!"
+        "YouAreUsingTheLatestVersion": "Du bruger den seneste version af Piwik!",
+        "ClickRowToExpandOrContract": "Klik på rækken for at udvide eller sammentrække undertabelen.",
+        "UndoPivotBySubtable": "Rapporten er blevet pivoteret %s Fortryd pivot.",
+        "PivotBySubtable": "Rapporten er ikke pivoteret %s Pivoter med %s."
     }
 }

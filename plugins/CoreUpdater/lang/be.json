@@ -35,6 +35,7 @@
         "UpdateAutomatically": "Абнавіць аўтаматычна",
         "UpdateHasBeenCancelledExplanation": "Piwik One Click Update адменены. Калі Вы не можаце выправіць вышэйапісаныя памылкі, рэкамендуецца абнавіць Piwik уручную. %1$s Калі ласка, праверце %2$sдокументацію абнаўленні%3$s для тона, каб пачаць!",
         "UpdateTitle": "Абнаўленне",
+        "UpdateSuccessTitle": "Piwik паспяхова абноўлены!",
         "UpgradeComplete": "Абнаўленне завершана!",
         "UpgradePiwik": "Абнавіць Piwik",
         "VerifyingUnpackedFiles": "Правяраю распакаваныя файлы",

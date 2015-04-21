@@ -35,6 +35,7 @@
         "UpdateAutomatically": "Përmirësoje Vetvetiu",
         "UpdateHasBeenCancelledExplanation": "Përditësimi Piwik Me Një Klik u anulua. Nëse nuk ndreqni dot gabimin me mesazhin e mësipërm, këshillohet ta përditësoni Piwik-un dorazi. %1$s Ju lutem, shihni %2$sdokumentimin e Përditësimeve%3$s për t'ia filluar!",
         "UpdateTitle": "Piwik › Përditësim",
+        "UpdateSuccessTitle": "Piwik-u u përmirësua me sukses!",
         "UpgradeComplete": "Përmirësim i plotësuar!",
         "UpgradePiwik": "Përmirësojeni Piwik-un",
         "VerifyingUnpackedFiles": "Po verifikohen kartelat e shpaketuara",

@@ -1,11 +1,11 @@
 {
     "Contents": {
+        "Impressions": "Impresiones",
+        "Interactions": "Interacciones",
+        "InteractionRate": "Nivel de interaccion",
         "ContentName": "Nombre del contenido",
         "ContentPiece": "Pieza de Contenido",
-        "Contents": "Contenidos",
         "ContentTarget": "Contenido de objetivo",
-        "Impressions": "Impresiones",
-        "InteractionRate": "Nivel de interaccion",
-        "Interactions": "Interacciones"
+        "Contents": "Contenidos"
     }
 }

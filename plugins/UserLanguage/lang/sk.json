@@ -1,5 +1,6 @@
 {
     "UserLanguage": {
+        "BrowserLanguage": "Jazyk prehliadača",
         "Language_aa": "afarčina",
         "Language_ab": "abcházština",
         "Language_ae": "avestčina",
@@ -37,7 +38,7 @@
         "Language_dz": "dzongkä",
         "Language_ee": "eweština",
         "Language_el": "gréčtina",
-        "Language_en": "angličtina",
+        "Language_en": "Slovensky",
         "Language_eo": "esperanto",
         "Language_es": "španielčina",
         "Language_et": "estónčina",
@@ -184,6 +185,7 @@
         "Language_za": "čuangčina",
         "Language_zh": "čínština",
         "Language_zu": "zuluština",
-        "LanguageCode": "Kód jazyka"
+        "LanguageCode": "Kód jazyka",
+        "PluginDescription": "Informuje o jazyku použitom v prehliadači návštevníka."
     }
 }

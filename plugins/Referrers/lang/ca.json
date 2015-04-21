@@ -36,7 +36,7 @@
         "TypeSearchEngines": "Hi ha %s visites provinents dels motors de cerca",
         "TypeWebsites": "Hi ha %s visites provinents d'altres llocs",
         "UsingNDistinctUrls": "(utiltizant %s urls diferents)",
-        "Websites": "Llocs web",
+        "Websites": "Llocs",
         "WebsitesDocumentation": "Els visitant ha seguit un enllaç en un altre lloc web que ha portat al vostre lloc web. %s Visualitzeu l'informe %s per a més detalls.",
         "WebsitesReportDocumentation": "En aquesta taula podeu observar quins llocs web han portat visitants al vostre lloc web. %s Cliqueu en una fila de la taule per veure les URL dels enllaços a les vostres pàgines.",
         "WidgetExternalWebsites": "Llistat de llocs web externs",

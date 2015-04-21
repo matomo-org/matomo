@@ -2,7 +2,7 @@
     "MultiSites": {
         "Evolution": "Ebolusyon",
         "LoadingWebsites": "Naglo-load ang mga website",
-        "Pagination": "%s - %s ng %s",
-        "TopLinkTooltip": "Ikumpara ang stats ng Web Analytics para sa lahat ng iyong Website."
+        "TopLinkTooltip": "Ikumpara ang stats ng Web Analytics para sa lahat ng iyong Website.",
+        "Pagination": "%s - %s ng %s"
     }
 }

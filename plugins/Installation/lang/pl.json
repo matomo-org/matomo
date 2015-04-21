@@ -1,6 +1,5 @@
 {
     "Installation": {
-        "CannotConnectToDb": "Nie można połączyć się z bazą danych",
         "CollaborativeProject": "Piwik jest wspólnym projetem, tworzonym z miłością przez ludzi z całego świata.",
         "ConfigurationHelp": "Twój plik konfiguracyjny Piwik wydaje się nieskonfigurowany. Możesz również usunąć config\/config.ini.php i powtórzyć instalację, lub naprawić konfigurację połączenia z bazą danych.",
         "ConfirmDeleteExistingTables": "Czy masz pewność, że chcesz skasować tabele: %s ze swojej bazy danych? OSTRZEŻENIE: DANE Z TYCH TABEL NIE ZOSTANĄ ODTWORZONE CZY ZABEZPIECZONE!",
@@ -26,17 +25,16 @@
         "Legend": "Legenda",
         "NfsFilesystemWarning": "Twój system używa systemu plików NFS",
         "NoConfigFound": "Plik konfiguracyjny Piwik nie został odnaleziony, a ty próbujesz uzyskać dostęp do strony Piwik.<br \/><b>  » Możesz <a href='index.php'>zainstalować statystyki Piwik teraz<\/a><\/b><br \/><small>Jeżeli zainstalowałeś Piwik poprzednio i masz swoje tabele w bazie danych, nie przejmuj się, możesz uzyć tych samych tabel i zachować istniejące w nich dane!<\/small>",
-        "NotSupported": "nie obsługiwane",
         "Optional": "Opcionalnie",
         "Password": "hasło",
         "PasswordDoNotMatch": "hasło jest nieprawidłowe",
         "PasswordRepeat": "hasło (ponownie)",
         "PercentDone": "%s %% wykonano",
-        "PiwikOrgNewsletter": "Wyślij mi wiadomość email z głównymi aktualizacjami społeczności Piwik",
         "PleaseFixTheFollowingErrors": "Prosimy naprawić następujące błędy",
         "Requirements": "Wymagania systemu Piwik",
         "RestartWebServer": "Po dokonaniu tych zmian, zrestartuj swój serwer.",
         "ReusingTables": "Ponowne użycie Tabel",
+        "PiwikOrgNewsletter": "Wyślij mi wiadomość email z głównymi aktualizacjami społeczności Piwik",
         "SeeBelowForMoreInfo": "Poniżej znajdziesz więcej informacji.",
         "SetupWebsite": "Konfiguracja portalu",
         "SetupWebsiteError": "Pojawił się błąd podczas dodawania adresu strony",
@@ -52,7 +50,6 @@
         "SystemCheck": "Sprawdzenie systemu",
         "SystemCheckAutoUpdateHelp": "Uwaga: automatyczna aktualizacja statystyk Piwik wymaga praw do zapisu w folderze Piwik i w jego podkatalogach.",
         "SystemCheckCreateFunctionHelp": "Piwik używa funkcji anonimizujących dla wywołań zwrotnych.",
-        "SystemCheckCronArchiveProcessCLI": "Zarządzaj procesami z wiersza poleceń",
         "SystemCheckDatabaseHelp": "Piwik wymaga do prawidłowego działania również rozszerzeń MYSQLI lub jednocześnie działania rozszerzeń PDO i pdo_mysql.",
         "SystemCheckDebugBacktraceHelp": "Podgląd::czynnik ten nie będzie zdolny do wytworzenia podglądu w wywołanym module.",
         "SystemCheckError": "Wystąpił błąd - powinien zostać naprawiony przed dalszym działaniem",
@@ -95,6 +92,8 @@
         "SystemCheckWriteDirs": "Katalogi z prawem do zapisu",
         "SystemCheckWriteDirsHelp": "Aby naprawić ten błąd w swoim systemie Linux, próbuj wpisać następującą komendę(y)",
         "SystemCheckZlibHelp": "Potrzebujesz skonfigurować i przebudować środowisko PHP, z włączonym wsparciem dla \"zlib\", --with-zlib.",
+        "SystemCheckCronArchiveProcessCLI": "Zarządzaj procesami z wiersza poleceń",
+        "NotSupported": "nie obsługiwane",
         "Tables": "Tworzenie tabel",
         "TablesCreatedSuccess": "Tabele zostały utworzone pomyślnie!",
         "TablesDelete": "Kasowanie wykrytych tabel z bazy",
@@ -106,6 +105,7 @@
         "Timezone": "strefa czasowa",
         "Welcome": "Witaj!",
         "WelcomeHelp": "<p>Piwik jest systemem analityki statystyk stron w oparciu o wolne oprogramowanie open source, które zapewnia bezpośrednie pozyskanie informacji o odwiedzinach danego serwisu www.<\/p><p>Proces ten jest podzielony na kilka łatwych kroków, obecnie w ilości: %s i zajmie około 5 minut.<\/p>",
-        "WelcomeToCommunity": "Witamy w społeczności Piwik"
+        "WelcomeToCommunity": "Witamy w społeczności Piwik",
+        "CannotConnectToDb": "Nie można połączyć się z bazą danych"
     }
 }
