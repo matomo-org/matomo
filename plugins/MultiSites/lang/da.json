@@ -2,7 +2,7 @@
     "MultiSites": {
         "Evolution": "Udvikling",
         "LoadingWebsites": "Loading websites",
-        "Pagination": "%s - %s af %s",
-        "TopLinkTooltip": "Sammenlign analyse statistik for alle hjemmesider."
+        "TopLinkTooltip": "Sammenlign analyse statistik for alle hjemmesider.",
+        "Pagination": "%s - %s af %s"
     }
 }

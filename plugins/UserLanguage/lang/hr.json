@@ -1,5 +1,6 @@
 {
     "UserLanguage": {
+        "BrowserLanguage": "Jezik preglednika",
         "Language_aa": "afarski",
         "Language_ab": "abhaski",
         "Language_ae": "avestan",
@@ -37,7 +38,7 @@
         "Language_dz": "dzongkha",
         "Language_ee": "ewe",
         "Language_el": "grčki",
-        "Language_en": "engleski",
+        "Language_en": "Hrvatski",
         "Language_eo": "esperanto",
         "Language_es": "španjolski",
         "Language_et": "estonijski",
@@ -183,6 +184,8 @@
         "Language_yo": "joruba",
         "Language_za": "zhuang",
         "Language_zh": "kineski",
-        "Language_zu": "zulu"
+        "Language_zu": "zulu",
+        "LanguageCode": "Oznaka jezika",
+        "PluginDescription": "Bilježi jezik na koji je podešen preglednik posjetitelja."
     }
 }

@@ -7,6 +7,7 @@
         "FilterOnlyNew": "Только новые",
         "MonthComparedToPreviousMonth": "предыдущий месяц",
         "MonthComparedToPreviousYear": "тот же месяц годом ранее",
+        "NoResultMatchesCriteria": "Нет строк, отвечающих критериям",
         "WeekComparedToPreviousWeek": "предыдущая неделя",
         "YearComparedToPreviousYear": "прошлый год"
     }

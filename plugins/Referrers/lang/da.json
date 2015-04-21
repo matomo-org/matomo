@@ -20,6 +20,7 @@
         "EvolutionDocumentationMoreInfo": "Flere oplysninger om de forskellige henvisnings typer findes i dokumentationen af tabellen %s.",
         "Keywords": "Søgeord",
         "KeywordsReportDocumentation": "Rapport viser hvilke søgeord brugere søgte efter, før de blev henvist til hjemmesiden. %s Klik på en række i tabellen for at se fordelingen af søgemaskiner, der blev forespurgt om søgeordet.",
+        "PluginDescription": "Rapporter af henvisendedata: Søgemaskiner, søgeord, hjemmesider, kampagner, sociale medier, direkte indtastning.",
         "Referrer": "Henviser",
         "ReferrerName": "Henvisningsnavn",
         "Referrers": "Henvisninger",

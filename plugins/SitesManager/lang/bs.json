@@ -1,5 +1,6 @@
 {
     "SitesManager": {
-        "Currency": "Valuta"
+        "Currency": "Valuta",
+        "Urls": "Veza"
     }
 }

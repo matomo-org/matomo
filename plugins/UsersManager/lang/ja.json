@@ -45,7 +45,7 @@
         "NoUsersExist": "まだユーザーがいません。",
         "PrivAdmin": "管理",
         "PrivNone": "権限なし",
-        "PrivView": "表示",
+        "PrivView": "ビュー",
         "ReportDateToLoadByDefault": "デフォルトで読み込むリポートの日付",
         "ReportToLoadByDefault": "デフォルトで読み込むリポート",
         "SuperUserAccessManagement": "スーパーユーザーアクセス権の管理",

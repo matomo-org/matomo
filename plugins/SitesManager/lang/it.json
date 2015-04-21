@@ -62,7 +62,7 @@
         "SelectDefaultCurrency": "È possibile selezionare la valuta da impostare di default per i nuovi siti web.",
         "SelectDefaultTimezone": "Puoi selezionare il fuso orario da caricare di default per i nuovi siti.",
         "ShowTrackingTag": "Vedi codice Tracking",
-        "Sites": "Siti",
+        "Sites": "Siti web",
         "SiteSearchUse": "È possibile utilizzare Piwik per monitorare e creare reports su ciò che i visitatori stanno cercando nel motore di ricerca interno del tuo sito web.",
         "SuperUserAccessCan": "Un utente con accesso Super User può anche %sspecificare le impostazioni globali%s per i nuovi siti.",
         "Timezone": "Fuso orario",

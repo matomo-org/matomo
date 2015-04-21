@@ -37,8 +37,8 @@
         "PiwikUpdatedSuccessfully": "Piwik er opdateret!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik vil blive opgraderet fra version %1$s til den nye version %2$s.",
         "ReadyToGo": "Klar, parat, start?",
-        "TheFollowingDimensionsWillBeUpgradedX": "Følgende mål vil blive opdateret: %s.",
         "TheFollowingPluginsWillBeUpgradedX": "Følgende udvidelsesmoduler vil blive opgraderet: %s.",
+        "TheFollowingDimensionsWillBeUpgradedX": "Følgende mål vil blive opdateret: %s.",
         "ThereIsNewPluginVersionAvailableForUpdate": "Nogle programudvidelser du bruger er blevet opdateret på markedspladsen:",
         "ThereIsNewVersionAvailableForUpdate": "Ny version af Piwik er tilgængelig",
         "TheUpgradeProcessMayFailExecuteCommand": "Hvis du har en stor Piwik database, kan opdateringer tage for lang tid at køre i browseren. I denne situation, kan du udføre opdateringen fra kommandolinjen: %s",
@@ -47,6 +47,7 @@
         "UpdateAutomatically": "Opdater automatisk",
         "UpdateHasBeenCancelledExplanation": "Piwik ét klik-opdatering er blevet annulleret. Kan ovenstående fejlmeddelelse ikke løses, anbefales det at opdatere Piwik manuelt. %1$s Læs %2$sOpdaterings dokumentationen%3$s for at komme i gang!",
         "UpdateTitle": "Opdatering",
+        "UpdateSuccessTitle": "Piwik blev opdateret!",
         "UpgradeComplete": "Opgradering fuldført!",
         "UpgradePiwik": "Opgrader Piwik",
         "VerifyingUnpackedFiles": "Kontrollerer filer",
@@ -55,6 +56,7 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Opdater til version %s automatisk eller hent programpakken og installer manuelt:",
         "YouCouldManuallyExecuteSqlQueries": "Hvis du ikke er i stand til at bruge kommandolinje opdatering og hvis Piwik opgradering fejler (på grund af timeout i databasen, netlæser timeout, eller andet), kan du manuelt udføre SQL-forespørgsler til at opdatere Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik er i stand til at overskrive din nuværende installation. Du kan enten rette mappe\/fil tilladelserne eller hente pakken og installere version %s manuelt:",
-        "YourDatabaseIsOutOfDate": "Piwik databasen er ikke opdateret, og skal opgraderes før du kan fortsættes."
+        "YourDatabaseIsOutOfDate": "Piwik databasen er ikke opdateret, og skal opgraderes før du kan fortsættes.",
+        "ViewVersionChangelog": "Se ændringsloggen for denne version:"
     }
 }

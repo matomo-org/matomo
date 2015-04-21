@@ -46,6 +46,7 @@
         "UpdateAutomatically": "Uppdatera automatiskt",
         "UpdateHasBeenCancelledExplanation": "Piwik's Ett-klicks-uppdatering har avbrutits. Om du inte kan åtgärda ovanstående felmeddelande, rekommenderas att du manuellt uppdaterar Piwik. %1$s Kolla in %2$sUppdateringsdokumentation%3$s för att komma igång!",
         "UpdateTitle": "Uppdatera",
+        "UpdateSuccessTitle": "Piwik har uppdaterats utan problem!",
         "UpgradeComplete": "Uppgradering färdig!",
         "UpgradePiwik": "Uppgradera Piwik",
         "VerifyingUnpackedFiles": "Kontrollerar uppackage filer",

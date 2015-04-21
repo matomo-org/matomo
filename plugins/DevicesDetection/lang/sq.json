@@ -6,6 +6,7 @@
         "BrowserVersion": "Version shfletuesi",
         "ColumnBrowser": "Shfletues",
         "ColumnOperatingSystem": "Sistem operativ",
+        "dataTableLabelTypes": "Lloj",
         "OperatingSystems": "Sisteme operativë",
         "WidgetBrowsers": "Shfletuesa vizitorësh",
         "WidgetBrowsersDocumentation": "Ky raport përmban të dhëna rreth llojeve të shfletuesit që përdornin vizitorët tuaj. Secili version i një shfletuesi tregohet veçmas."

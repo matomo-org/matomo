@@ -38,7 +38,7 @@
         "Language_dz": "dzongkha",
         "Language_ee": "ewe",
         "Language_el": "grecki",
-        "Language_en": "angielski",
+        "Language_en": "Polski",
         "Language_eo": "esperanto",
         "Language_es": "hiszpański",
         "Language_et": "estoński",
@@ -185,6 +185,7 @@
         "Language_za": "czuang",
         "Language_zh": "chiński",
         "Language_zu": "zulu",
-        "LanguageCode": "Kod języka"
+        "LanguageCode": "Kod języka",
+        "PluginDescription": "Raportuj języki używane przez przeglądarki odwiedzających."
     }
 }

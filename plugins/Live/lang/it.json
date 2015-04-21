@@ -25,10 +25,6 @@
         "PreviousVisitor": "Visitatore precedente",
         "RealTimeVisitorCount": "Conteggio Visitatori in Tempo Reale",
         "Referrer_URL": "URL del referer",
-        "RowActionTooltipDefault": "Mostra Log Visitatori segmentato per questa riga",
-        "RowActionTooltipTitle": "Apri il log segmentato dei visitatori",
-        "RowActionTooltipWithDimension": "Mostra Log Visitatori segmentato per questo %s",
-        "SegmentedVisitorLogTitle": "Log Visitatore che mostra le visite dove %s è \\\"%s\\\"",
         "ShowMap": "mostra mappa",
         "SimpleRealTimeWidget_Message": "%s e %s negli ultimi %s",
         "ViewVisitorProfile": "Guarda profilo visitatore",
@@ -39,6 +35,9 @@
         "VisitorsInRealTime": "Visite in tempo reale",
         "VisitorsLastVisit": "L'ultima visita di questo visitatore è stata %s giorni fa.",
         "VisitsFrom": "%1$s%2$s visite%3$s da",
-        "VisitSummary": "Passato un totale di %1$s%2$s sul sito%3$s e %4$sviste %5$s pagine in %6$s visite.%7$s"
+        "VisitSummary": "Passato un totale di %1$s%2$s sul sito%3$s e %4$sviste %5$s pagine in %6$s visite.%7$s",
+        "RowActionTooltipDefault": "Mostra Log Visitatori segmentato per questa riga",
+        "RowActionTooltipWithDimension": "Mostra Log Visitatori segmentato per questo %s",
+        "RowActionTooltipTitle": "Apri il log segmentato dei visitatori"
     }
 }

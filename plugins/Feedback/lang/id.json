@@ -1,12 +1,10 @@
 {
     "Feedback": {
-        "ContactThePiwikTeam": "Kontak tim Piwik!",
         "DoYouHaveBugReportOrFeatureRequest": "Apakah Anda ada laporan kutu atau permintaan fitur?",
         "IWantTo": "Saya ingin:",
         "LearnWaysToParticipate": "Pelajari bagaimana kamu dapat %s berpartisipasi%s",
         "ManuallySendEmailTo": "Silakan kirim manual pesan Anda ke",
         "SendFeedback": "Kirim Umpanbalik",
-        "SpecialRequest": "Apakah anda memiliki permintaan khusus untuk tim Piwik?",
         "ThankYou": "Terimaksih telah membantu kami menjadikan Piwik lebih baik!",
         "TopLinkTooltip": "Katakan apa yang Anda pikirkan, atau membutuhkan Bantuan Profesional.",
         "VisitTheForums": "Kunjungi %s Forum%s"

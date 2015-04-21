@@ -30,6 +30,7 @@
         "ColumnMaxActions": "ერთი ვიზიტის დროს დასაშვები ქმედებების მაქსიმუმი",
         "ColumnNbActions": "ქმედებები",
         "ColumnNbUniqVisitors": "უნიკალური ვიზიტორი",
+        "ColumnNbUsers": "მომხმარებლები",
         "ColumnNbVisits": "ვიზიტები",
         "ColumnPageviews": "გვერდის ნახვები",
         "ColumnPercentageVisits": "% ვიზიტი",

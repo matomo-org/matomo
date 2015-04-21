@@ -36,7 +36,7 @@
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "说明: 不能在这里修改设置，因为没有任何公开的网站。",
         "PrivAdmin": "管理员权限",
         "PrivNone": "无查看权限",
-        "PrivView": "有查看权限",
+        "PrivView": "查看",
         "ReportDateToLoadByDefault": "默认加载的报表日期",
         "ReportToLoadByDefault": "默认加载的报表",
         "TheLoginScreen": "登录界面",

@@ -22,8 +22,8 @@
         "ThisSegmentIsVisibleTo": "Det här segmentet är synligt för:",
         "VisibleToAllUsers": "alla användare",
         "VisibleToMe": "jag",
-        "YouDontHaveAccessToCreateSegments": "Du har inte rättigheter för att skapa och redigera segment.",
         "YouMayChangeSetting": "Alternativt kan du ändra inställningarna i konfigurationsfilen (%s), eller redigera detta Segment och välj '%s'.",
-        "YouMustBeLoggedInToCreateSegments": "Du måste vara inloggad för att skapa och redigera besökssegment."
+        "YouMustBeLoggedInToCreateSegments": "Du måste vara inloggad för att skapa och redigera besökssegment.",
+        "YouDontHaveAccessToCreateSegments": "Du har inte rättigheter för att skapa och redigera segment."
     }
 }

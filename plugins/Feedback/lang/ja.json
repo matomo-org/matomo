@@ -1,8 +1,6 @@
 {
     "Feedback": {
-        "ContactThePiwikTeam": "Piwik チームと連絡を取る！",
         "DoYouHaveBugReportOrFeatureRequest": "報告するべきバグや機能要望がありますか？",
-        "GetInTouch": "フィードバックありがとうございます。私たちは、いつもすべてのメッセージを読んでいます。簡単な挨拶から、ビジネス機会の共有、 Piwik コンサルタントの採用、あなたのサクセスストーリーなど、様々なアイデアや意見を教えてください。",
         "IWantTo": "あなたの希望：",
         "LearnWaysToParticipate": "あなたが参加できるすべての方法を%s学んでください%s",
         "ManuallySendEmailTo": "あなたのメッセージを手作業で次のアドレスへ送ってください：",
@@ -13,12 +11,10 @@
         "RateFeatureThankYouTitle": "'%s' の評価をありがとう！",
         "RateFeatureTitle": "'%s' の機能は好きですか ? ぜひ評価コメントを残してください。",
         "SendFeedback": "フィードバックを送信",
-        "SpecialRequest": "Piwik チームに対して特別なリクエストがありますか？",
         "ThankYou": "私たちが Piwik をより良くするのを支援していただきありがとうございます！",
         "TopLinkTooltip": "あなたの意見をお知らせください。または、プロフェッショナルサポートをリクエストしてください。",
         "ViewAnswersToFAQ": "%sFrequently Asked Questions%s への答えをご覧ください。",
         "ViewUserGuides": "Piwik の設定方法と、効果的なデータ分析方法は、%1$suser guides%2$s をご確認ください。",
-        "VisitTheForums": "%sフォーラム%sにアクセスする",
-        "WantToThankConsiderDonating": "Piwik の素晴らしさを実感し、Piwik チームに感謝したいと思いますか ?"
+        "VisitTheForums": "%sフォーラム%sにアクセスする"
     }
 }

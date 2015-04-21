@@ -58,7 +58,6 @@
         "OptOutForYourVisitors": "Piwik opt-out para os seus visitantes",
         "PiwikIsInstalledAt": "Piwik esta instalado no",
         "PluginSettingChangeNotAllowed": "Você não tem permissão para alterar o valor da configuração \"%s\" no plug-in \"%s\"",
-        "PluginSettings": "Configurações do plugin",
         "PluginSettingsIntro": "Aqui você pode alterar as configurações dos seguintes plugins de terceiros:",
         "PluginSettingsValueNotAllowed": "O valor para o campo \"%s\" no plug-in \"%s\" não é permitido",
         "StableReleases": "Se Piwik é uma parte crítica do seu negócio, recomendamos que você use a última versão estável. Se você usar a versão beta mais recente e você encontrar um erro ou tem uma sugestão, por favor, %sveja aqui%s.",

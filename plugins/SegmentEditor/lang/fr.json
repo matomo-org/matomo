@@ -1,7 +1,6 @@
 {
     "SegmentEditor": {
         "AddANDorORCondition": "Ajouter la condition %s",
-        "AddingSegmentForAllWebsitesDisabled": "Ajouter des segments pour tous les sites a été désactivé.",
         "AddNewSegment": "Ajouter un nouveau segment",
         "AreYouSureDeleteSegment": "Êtes vous sûr(e) de vouloir supprimer ce segment?",
         "AutoArchivePreProcessed": "les rapports segmentés sont pré-traités (plus rapide, requiert un cron sur archive.php)",
@@ -23,8 +22,9 @@
         "ThisSegmentIsVisibleTo": "Ce segment est visible pour :",
         "VisibleToAllUsers": "tous les utilisateurs",
         "VisibleToMe": "moi",
-        "YouDontHaveAccessToCreateSegments": "Vous n'avez pas les permissions requises pour créer et modifier des segments.",
         "YouMayChangeSetting": "Vous pouvez ou changer le paramètre depuis le fichier de configuration (%s) ou bien modifier ce segment et choisir '%s'.",
-        "YouMustBeLoggedInToCreateSegments": "Vous devez être identifié(e) pour créer et modifier des segments de visiteurs personnalisés."
+        "YouMustBeLoggedInToCreateSegments": "Vous devez être identifié(e) pour créer et modifier des segments de visiteurs personnalisés.",
+        "YouDontHaveAccessToCreateSegments": "Vous n'avez pas les permissions requises pour créer et modifier des segments.",
+        "AddingSegmentForAllWebsitesDisabled": "Ajouter des segments pour tous les sites a été désactivé."
     }
 }

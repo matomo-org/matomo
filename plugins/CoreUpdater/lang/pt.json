@@ -35,6 +35,7 @@
         "UpdateAutomatically": "Actualizar Automaticamente",
         "UpdateHasBeenCancelledExplanation": "A Actualização Um Click de Piwik foi cancelada. Se não conseguir corrigir o erro acima, é recomendado que tente actualizar Piwik manualmente. %1$s Por favor leia a %2$sDocumentação de Actualização%3$s para começar!",
         "UpdateTitle": "Actualizar",
+        "UpdateSuccessTitle": "Piwik foi actualizado com sucesso!",
         "UpgradeComplete": "Actualização completa!",
         "UpgradePiwik": "Actualizar Piwik",
         "VerifyingUnpackedFiles": "A verificar os ficheiros descompactados",
