@@ -68,8 +68,6 @@ then
     elif [ "$TEST_SUITE" = "AllTests" ]
     then
         travis_wait ./../../console tests:run --options="--colors"
-        
-        ./vendor/bin/php-cs-fixer fix -v --dry-run --diff --config-file=.php_cs
     else
         if [ -n "$PLUGIN_NAME" ]
         then
@@ -83,6 +81,8 @@ else
     then
         echo "Executing tests in test suite UnitTests..."
         phpunit --configuration phpunit.xml --testsuite UnitTests --colors --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover-unit.xml $PHPUNIT_EXTRA_OPTIONS || true
+   
+        ./vendor/bin/php-cs-fixer fix -v --dry-run --diff --config-file=.php_cs
     elif [ "$COVERAGE" = "Integration" ]
     then
         echo "Executing tests in test suite IntegrationTests..."
