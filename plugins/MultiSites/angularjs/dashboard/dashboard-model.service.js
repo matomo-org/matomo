@@ -76,7 +76,7 @@
         }
 
         function getNumberOfFilteredSites () {
-            return model.numberOfSites; // todo
+            return model.numberOfSites;
         }
 
         function getNumberOfPages() {

@@ -13,18 +13,6 @@ describe("MultiSitesTest", function () {
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
     var selector = '.pageWrap,.expandDataTableFooterDrawer';
 
-    beforeEach(function () {
-        delete testEnvironment.configOverride;
-        testEnvironment.testUseRegularAuth = 0;
-        testEnvironment.save();
-    });
-
-    after(function () {
-        delete testEnvironment.queryParamOverride;
-        testEnvironment.testUseRegularAuth = 0;
-        testEnvironment.save();
-    });
-
     it('should load the all websites dashboard correctly', function (done) {
         expect.screenshot('all_websites').to.be.captureSelector(selector, function (page) {
             page.load("?" + generalParams + "&module=MultiSites&action=index");
