@@ -88,6 +88,7 @@ class Twig
         $this->addFilter_safeDecodeRaw();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
         $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
+        $this->twig->addFilter(new Twig_SimpleFilter('lcfirst', 'lcfirst'));
 
         $this->addFunction_includeAssets();
         $this->addFunction_linkTo();
