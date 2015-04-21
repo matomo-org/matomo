@@ -272,12 +272,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mnapoli/PHP-DI.git",
-                "reference": "92e2f01c7f2076649235aa50f415dda11b87e6da"
+                "reference": "b555566822ce0bdf1c946d46785a038317908ed1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mnapoli/PHP-DI/zipball/92e2f01c7f2076649235aa50f415dda11b87e6da",
-                "reference": "92e2f01c7f2076649235aa50f415dda11b87e6da",
+                "url": "https://api.github.com/repos/mnapoli/PHP-DI/zipball/b555566822ce0bdf1c946d46785a038317908ed1",
+                "reference": "b555566822ce0bdf1c946d46785a038317908ed1",
                 "shasum": ""
             },
             "require": {
@@ -321,7 +321,7 @@
                 "dependency injection",
                 "di"
             ],
-            "time": "2015-04-12 06:13:26"
+            "time": "2015-04-19 08:13:30"
         },
         {
             "name": "mnapoli/phpdocreader",
@@ -1384,7 +1384,7 @@
                 "performance",
                 "profiling"
             ],
-            "time": "2015-02-26 14:37:51"
+            "time": "2014-08-28 17:34:52"
         },
         {
             "name": "guzzle/guzzle",
