@@ -63,7 +63,7 @@ abstract class DataTableManipulator
     {
         if ($dataTable instanceof DataTable\Map) {
             return $this->manipulateDataTableMap($dataTable);
-        } else if ($dataTable instanceof DataTable) {
+        } elseif ($dataTable instanceof DataTable) {
             return $this->manipulateDataTable($dataTable);
         } else {
             return $dataTable;
@@ -90,7 +90,7 @@ abstract class DataTableManipulator
      * Manipulates a single DataTable instance. Derived classes must define
      * this function.
      */
-    protected abstract function manipulateDataTable($dataTable);
+    abstract protected function manipulateDataTable($dataTable);
 
     /**
      * Load the subtable for a row.
@@ -136,7 +136,7 @@ abstract class DataTableManipulator
      * @param $request
      * @return
      */
-    protected abstract function manipulateSubtableRequest($request);
+    abstract protected function manipulateSubtableRequest($request);
 
     /**
      * Extract the API method for loading subtables from the meta data

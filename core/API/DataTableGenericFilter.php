@@ -39,7 +39,7 @@ class DataTableGenericFilter
      *
      * @param $request
      */
-    function __construct($request, $report)
+    public function __construct($request, $report)
     {
         $this->request = $request;
         $this->report  = $report;
