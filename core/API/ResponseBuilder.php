@@ -202,7 +202,7 @@ class ResponseBuilder
             $offset = Common::getRequestVar('filter_offset', '0', 'integer', $this->request);
 
             if ($this->shouldApplyLimitOnArray($limit, $offset)) {
-                $array = array_slice($array, $offset, $limit, $firstKey !== 0);
+                $array = array_slice($array, $offset, $limit, $preserveKeys = false);
             }
         }
 
