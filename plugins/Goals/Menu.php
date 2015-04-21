@@ -24,41 +24,40 @@ class Menu extends \Piwik\Plugin\Menu
         $goals  = API::getInstance()->getGoals($idSite);
         $mainGoalMenu = 'Goals_Goals';
 
-        $linkToManageGoals = $this->urlForAction('editGoals');
+        if (count($goals) == 0) {
+            $linkToAddNewGoal = $this->urlForAction('addNewGoal', array(
+                'idGoal' => null,
+            ));
+            $menu->addItem($mainGoalMenu, '', $linkToAddNewGoal, 25);
+            $menu->addItem($mainGoalMenu, 'Goals_AddNewGoal', $linkToAddNewGoal, 1);
+            return;
+        }
 
         $order = 1;
 
-        if (count($goals) == 0) {
+        $url = $this->urlForAction('index', array('idGoal' => null));
 
-            $menu->addItem($mainGoalMenu, '', $linkToManageGoals, 25);
+        $menu->addItem($mainGoalMenu, '', $url, 25);
+        $menu->addItem($mainGoalMenu, 'General_Overview', $url, ++$order);
 
-        } else {
-
-            $url = $this->urlForAction('index', array('idGoal' => null));
-
-            $menu->addItem($mainGoalMenu, '', $url, 25);
-            $menu->addItem($mainGoalMenu, 'General_Overview', $url, ++$order);
-
-            $group = new Group();
-            foreach ($goals as $goal) {
-                $subMenuName = str_replace('%', '%%', Translate::clean($goal['name']));
-                $params      = $this->urlForAction('goalReport', array('idGoal' => $goal['idgoal']));
-                $tooltip     = sprintf('%s (id = %d)', $subMenuName, $goal['idgoal']);
-
-                if (count($goals) > 3) {
-                    $group->add($subMenuName, $params, $tooltip);
-                } else {
-                    $menu->addItem($mainGoalMenu, $subMenuName, $params, ++$order, $tooltip);
-                }
-            }
+        $group = new Group();
+        foreach ($goals as $goal) {
+            $subMenuName = str_replace('%', '%%', Translate::clean($goal['name']));
+            $params      = $this->urlForAction('goalReport', array('idGoal' => $goal['idgoal']));
+            $tooltip     = sprintf('%s (id = %d)', $subMenuName, $goal['idgoal']);
 
             if (count($goals) > 3) {
-                $menu->addGroup($mainGoalMenu, 'Goals_ChooseGoal', $group, ++$order, $tooltip = false);
+                $group->add($subMenuName, $params, $tooltip);
+            } else {
+                $menu->addItem($mainGoalMenu, $subMenuName, $params, ++$order, $tooltip);
             }
-
         }
 
-        $menu->addItem($mainGoalMenu, 'Goals_ManageGoals', $linkToManageGoals, ++$order);
+        if (count($goals) > 3) {
+            $menu->addGroup($mainGoalMenu, 'Goals_ChooseGoal', $group, ++$order, $tooltip = false);
+        }
+
+        $menu->addItem($mainGoalMenu, 'Goals_ManageGoals', $this->urlForAction('editGoals'), ++$order);
     }
 
     public function configureUserMenu(MenuUser $menu)
