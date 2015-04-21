@@ -1581,7 +1581,11 @@ class CronArchive
     private function getUrlsWithSegment($idSite, $period, $date)
     {
         $urlsWithSegment = array();
-        foreach ($this->getSegmentsForSite($idSite, $period) as $segment) {
+        $segments = $this->getSegmentsForSite($idSite, $period);
+        $segmentCount = count($segments);
+        $processedSegmentCount = 0;
+
+        foreach ($segments as $segment) {
             $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
 
             $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
@@ -1589,12 +1593,19 @@ class CronArchive
 
             $request = new Request($urlWithSegment);
             $self = $this;
-            $request->before(function () use ($self, $segment) {
-                $self->log('- pre-processing segment ' . $segment);
+            $request->before(function () use ($self, $segment, $segmentCount, &$processedSegmentCount) {
+                $processedSegmentCount++;
+                $self->log(sprintf(
+                    '- pre-processing segment %d/%d %s',
+                    $processedSegmentCount,
+                    $segmentCount,
+                    $segment
+                ));
             });
 
             $urlsWithSegment[] = $request;
         }
+
         return $urlsWithSegment;
     }
 
