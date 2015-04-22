@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugin;
 
+use Piwik\Common;
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuReporting;
@@ -138,12 +139,9 @@ class Menu
      */
     protected function urlForActionWithDefaultUserParams($controllerAction, $additionalParams = array())
     {
-        $urlModuleAction = $this->urlForAction($controllerAction);
-        return array_merge(
-            $urlModuleAction,
-            $this->urlForDefaultUserParams(),
-            $additionalParams
-        );
+        $module = $this->getModule();
+
+        return $this->urlForModuleActionWithDefaultUserParams($module, $controllerAction, $additionalParams);
     }
 
     /**
@@ -161,9 +159,20 @@ class Menu
     protected function urlForModuleActionWithDefaultUserParams($module, $controllerAction, $additionalParams = array())
     {
         $urlModuleAction = $this->urlForModuleAction($module, $controllerAction);
+
+        $date = Common::getRequestVar('date', false);
+        if ($date) {
+            $urlModuleAction['date'] = $date;
+        }
+        $period = Common::getRequestVar('period', false);
+        if ($period) {
+            $urlModuleAction['period'] = $period;
+        }
+
+        // We want the current query parameters to override the user's defaults
         return array_merge(
-            $urlModuleAction,
             $this->urlForDefaultUserParams(),
+            $urlModuleAction,
             $additionalParams
         );
     }
