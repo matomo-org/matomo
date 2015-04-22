@@ -31,7 +31,7 @@ describe("SitesManager", function () {
     function searchForText(page, textToAppendToSearchField)
     {
         page.sendKeys(".SitesManager .search:first input", textToAppendToSearchField);
-        page.click('.SitesManager .search:first .submit');
+        page.click('.SitesManager .search:first img');
         page.wait(150);
     }
 
