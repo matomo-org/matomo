@@ -895,7 +895,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * Returns an array containing all column values of columns whose name starts with `$name`.
      *
-     * @param $namePrefix The column name prefix.
+     * @param string $namePrefix The column name prefix.
      * @return array The array of column values.
      */
     public function getColumnsStartingWith($namePrefix)

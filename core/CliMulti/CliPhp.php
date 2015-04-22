@@ -87,10 +87,11 @@ class CliPhp
                 return $path;
             }
         }
+        return null;
     }
 
     /**
-     * @param $bin PHP binary
+     * @param string $bin PHP binary
      * @return string
      */
     private function getPhpVersion($bin)

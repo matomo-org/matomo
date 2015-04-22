@@ -8,6 +8,7 @@
  */
 namespace Piwik\DataTable;
 
+use Closure;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Console;
@@ -199,6 +200,8 @@ class Map implements DataTableInterface
                 return $subTableRow;
             }
         }
+
+        return null;
     }
 
     /**
