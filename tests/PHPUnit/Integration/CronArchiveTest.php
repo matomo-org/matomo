@@ -79,20 +79,20 @@ Starting Piwik reports archiving...
 Will pre-process for website id = 1, day period, 1 segments
 - pre-processing all visits
 - pre-processing segment 1/1 actions>=2
-Archived website id = 1, period = day, 0 visits in last last52 days, 0 visits today, Time elapsed: %s
+Archived website id = 1, period = day, 0 visits in last %s days, 0 visits today, Time elapsed: %s
 Will pre-process for website id = 1, week period, 1 segments
 - pre-processing all visits
 - pre-processing segment 1/1 actions>=2
-Archived website id = 1, period = week, 0 visits in last last133 weeks, 0 visits this week, Time elapsed: %s
+Archived website id = 1, period = week, 0 visits in last %s weeks, 0 visits this week, Time elapsed: %s
 Will pre-process for website id = 1, month period, 1 segments
 - pre-processing all visits
 - pre-processing segment 1/1 actions>=2
-Archived website id = 1, period = month, 0 visits in last last52 months, 0 visits this month, Time elapsed: %s
+Archived website id = 1, period = month, 0 visits in last %s months, 0 visits this month, Time elapsed: %s
 Will pre-process for website id = 1, year period, 1 segments
 - pre-processing all visits
 - pre-processing segment 1/1 actions>=2
-Archived website id = 1, period = year, 0 visits in last last7 years, 0 visits this year, Time elapsed: %s
-Archived website id = 1, 8 API requests, Time elapsed: %s [1/1 done]
+Archived website id = 1, period = year, 0 visits in last %s years, 0 visits this year, Time elapsed: %s
+Archived website id = 1, %s API requests, Time elapsed: %s [1/1 done]
 Done archiving!
 ---------------------------
 SUMMARY
@@ -102,8 +102,8 @@ Archived week/month/year for 1 websites
 Skipped 0 websites: no new visit since the last script execution
 Skipped 0 websites day archiving: existing daily reports are less than 150 seconds old
 Skipped 0 websites week/month/year archiving: existing periods reports are less than 3600 seconds old
-Total API requests: 8
-done: 1/1 100%, 0 vtoday, 1 wtoday, 1 wperiods, 8 req, %s ms, no error
+Total API requests: %s
+done: 1/1 100%, 0 vtoday, 1 wtoday, 1 wperiods, %s req, %s ms, no error
 Time elapsed: %s
 
 LOG;
