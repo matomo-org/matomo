@@ -362,6 +362,10 @@ class Archive
      * This is the same as doing `$this->getDataTableFromNumeric()->mergeChildren()` but this way it is much faster.
      *
      * @return DataTable|DataTable\Map
+     *
+     * @internal Currently only used by MultiSites.getAll plugin. Feel free to remove internal tag if needed somewhere
+     *           else. If no longer needed by MultiSites.getAll please remove this method. If you need this to work in
+     *           a bit different way feel free to refactor as always.
      */
     public function getDataTableFromNumericAndMergeChildren($names)
     {
