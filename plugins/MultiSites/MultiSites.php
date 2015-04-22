@@ -68,13 +68,13 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'MultiSites_LoadingWebsites';
         $translations[] = 'General_ErrorRequest';
         $translations[] = 'General_Pagination';
+        $translations[] = 'General_ClickToSearch';
     }
 
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/MultiSites/angularjs/dashboard/dashboard-model.service.js";
         $jsFiles[] = "plugins/MultiSites/angularjs/dashboard/dashboard.controller.js";
-        $jsFiles[] = "plugins/MultiSites/angularjs/dashboard/dashboard-group.filter.js";
         $jsFiles[] = "plugins/MultiSites/angularjs/dashboard/dashboard.directive.js";
         $jsFiles[] = "plugins/MultiSites/angularjs/site/site.controller.js";
         $jsFiles[] = "plugins/MultiSites/angularjs/site/site.directive.js";

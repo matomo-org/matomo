@@ -207,56 +207,56 @@
 	<reportMetadata>
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
+				<idsite>1</idsite>
 				<group />
 				<main_url>http://piwik.net</main_url>
-				<idsite>1</idsite>
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010">
 			<row>
+				<idsite>1</idsite>
 				<group />
 				<main_url>http://piwik.net</main_url>
-				<idsite>1</idsite>
 			</row>
 			<row>
+				<idsite>2</idsite>
 				<group />
 				<main_url>http://piwik.net</main_url>
-				<idsite>2</idsite>
 			</row>
 		</result>
 		<result prettyDate="Tuesday 5 January 2010">
 			<row>
+				<idsite>1</idsite>
 				<group />
 				<main_url>http://piwik.net</main_url>
-				<idsite>1</idsite>
 			</row>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010">
 			<row>
+				<idsite>1</idsite>
 				<group />
 				<main_url>http://piwik.net</main_url>
-				<idsite>1</idsite>
 			</row>
 		</result>
 		<result prettyDate="Thursday 7 January 2010">
 			<row>
+				<idsite>1</idsite>
 				<group />
 				<main_url>http://piwik.net</main_url>
-				<idsite>1</idsite>
 			</row>
 		</result>
 		<result prettyDate="Friday 8 January 2010">
 			<row>
+				<idsite>1</idsite>
 				<group />
 				<main_url>http://piwik.net</main_url>
-				<idsite>1</idsite>
 			</row>
 		</result>
 		<result prettyDate="Saturday 9 January 2010">
 			<row>
+				<idsite>1</idsite>
 				<group />
 				<main_url>http://piwik.net</main_url>
-				<idsite>1</idsite>
 			</row>
 		</result>
 	</reportMetadata>

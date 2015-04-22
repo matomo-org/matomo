@@ -10,6 +10,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Breaking Changes
 * The API method `Live.getLastVisitsDetails` does no longer support the API parameter `filter_sort_column` to prevent possible memory issues when `filter_offset` is large.
+* The Event `Site.setSite` was removed as it causes performance problems.
 
 ### New commands
 * There is now a `diagnostic:run` command to run the system check from the command line.
