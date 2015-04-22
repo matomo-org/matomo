@@ -157,6 +157,10 @@ after_success:
   - cd $PIWIK_ROOT_DIR
   - ./tests/travis/generate_docs.sh
 
+sudo: required
+
+
+
 notifications:
   slack:
     rooms:
