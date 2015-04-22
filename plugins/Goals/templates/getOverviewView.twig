@@ -15,21 +15,32 @@
             </a>
         </h2>
 
+        {% if not isWidget %}
         <div class="row">
             <div class="col-md-6">
+        {% endif %}
+
                 <div class="sparkline">{{ sparkline(goal.urlSparklineConversions) }}
                     {{ 'Goals_Conversions'|translate("<strong>"~nb_conversions~"</strong>")|raw }}
                     {% if goal.goalAllowMultipleConversionsPerVisit %}
                         ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>") | raw }})
                     {% endif %}
                 </div>
+
+        {% if not isWidget %}
             </div>
             <div class="col-md-6">
+        {% endif %}
+
                 <div class="sparkline">{{ sparkline(goal.urlSparklineConversionRate) }}
                     {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate~"</strong>")|raw }}
                 </div>
+
+        {% if not isWidget %}
             </div>
         </div>
+        {% endif %}
+
     </div>
 {% endfor %}
 
