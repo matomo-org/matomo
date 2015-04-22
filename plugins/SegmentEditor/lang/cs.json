@@ -1,7 +1,6 @@
 {
     "SegmentEditor": {
         "AddANDorORCondition": "Přidat podmínku %s",
-        "AddingSegmentForAllWebsitesDisabled": "Přidávání segmentů pro všechny stránky bylo zakázáno.",
         "AddNewSegment": "Přidat nový segment",
         "AreYouSureDeleteSegment": "Opravdu chcete odstranit tento segment?",
         "AutoArchivePreProcessed": "Segmentovaná hlášení jsou předzpracována rychleji (vyžadují cron)",
@@ -23,8 +22,9 @@
         "ThisSegmentIsVisibleTo": "Tento segment je viditelný",
         "VisibleToAllUsers": "Všem uživatelům",
         "VisibleToMe": "Mně",
-        "YouDontHaveAccessToCreateSegments": "Pro vytváření a úpravu segmentů nemáte požadovanou přístupovou úroveň.",
         "YouMayChangeSetting": "Jinak můžete nastavení změnit v souboru %s, nebo můžete upravit tento segment a zvolit %s.",
-        "YouMustBeLoggedInToCreateSegments": "Pro vytváření a úpravu vlastních segmentů návštěvníků musíte být přihlášen."
+        "YouMustBeLoggedInToCreateSegments": "Pro vytváření a úpravu vlastních segmentů návštěvníků musíte být přihlášen.",
+        "YouDontHaveAccessToCreateSegments": "Pro vytváření a úpravu segmentů nemáte požadovanou přístupovou úroveň.",
+        "AddingSegmentForAllWebsitesDisabled": "Přidávání segmentů pro všechny stránky bylo zakázáno."
     }
 }

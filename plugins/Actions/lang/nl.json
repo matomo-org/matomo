@@ -39,6 +39,7 @@
         "PagesReportDocumentation": "Dit rapport bevat informatie over de pagina-URL's die zijn bezocht. %s De tabel is hiërarchisch georganiseerd. De URL's worden weergegeven in een map structuur.",
         "PageTitlesReportDocumentation": "Dit rapport bevat informatie over de titels van de pagina's die zijn bezocht. %s De paginatitel is de HTML %s Tag dat de meeste browsers laten zien in hun window titel.",
         "PageUrls": "pagina-URL's",
+        "PluginDescription": "Rapporteert over pagina weergaven en pagina titels. Het maakt het zoekgedrag op je website inzichtelijk, geeft rapporten weer over outlinks en downloads.",
         "SiteSearchCategories1": "Dit rapport toont de categorieën die bezoekers hebben geselecteerd bij het zoeken op uw website.",
         "SiteSearchCategories2": "Bijvoorbeeld, Ecommerce websites hebben vaak een categoriekeuze waarbij de zoekresultaten worden beperkt tot een specifieke categorie.",
         "SiteSearchFollowingPagesDoc": "Als bezoekers op uw website surfen, dan zoekt men vaak een bepaalde pagina, inhoud, produkt of dienst. Dit rapport laat de pagina's zien die het vaakst zijn aangeklikt na een interne zoekopdracht. Met andere woorden: de meeste gezochte pagina's door bezoekers die reeds op uw website zijn.",

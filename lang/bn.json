@@ -94,6 +94,7 @@
         "SmtpPort": "SMTP পোর্ট",
         "SmtpServerAddress": "SMTP সার্ভারের ঠিকানা",
         "SmtpUsername": "SMTP ব্যবহারকারীর নাম",
+        "Table": "সারণি",
         "Today": "আজ",
         "Total": "সর্বমোট",
         "TranslatorEmail": "-",

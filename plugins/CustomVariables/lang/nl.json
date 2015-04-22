@@ -4,6 +4,7 @@
         "ColumnCustomVariableValue": "Aangepaste variabele waarde",
         "CustomVariables": "Aangepaste variabelen",
         "CustomVariablesReportDocumentation": "Dit rapport bevat informatie over uw aangepaste variabelen. Klik op de naam van een variabele om de verdeling van de waarden te zien. %s voor meer informatie over aangepaste variabelen in het algemeen, lees de %sCustom variabelen documentatie over piwik.org%s",
+        "PluginDescription": "Aangepaste Variabelen zijn (name, value) pairs, welke je kunt",
         "ScopePage": "omvang pagina",
         "ScopeVisit": "omvang bezoek"
     }

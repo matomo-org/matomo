@@ -114,7 +114,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         }
 
         if ($optionalTrace) {
-            $optionalTrace = '<h2>Stack trace</h2><pre>' . $optionalTrace . '</pre></span>';
+            $optionalTrace = '<h2>Stack trace</h2><pre>' . htmlentities($optionalTrace) . '</pre>';
         }
 
         if ($isCli === null) {

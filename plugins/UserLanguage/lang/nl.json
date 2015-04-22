@@ -38,7 +38,7 @@
         "Language_dz": "Dzongkha",
         "Language_ee": "Ewe",
         "Language_el": "Grieks",
-        "Language_en": "Engels",
+        "Language_en": "Nederlands",
         "Language_eo": "Esperanto",
         "Language_es": "Spaans",
         "Language_et": "Estlands",
@@ -185,6 +185,7 @@
         "Language_za": "Zhuang",
         "Language_zh": "Chinees",
         "Language_zu": "Zulu",
-        "LanguageCode": "Taal code"
+        "LanguageCode": "Taal code",
+        "PluginDescription": "Toont de taal die gebruikt wordt door browsers van uw bezoekers."
     }
 }

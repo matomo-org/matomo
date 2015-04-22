@@ -4,6 +4,7 @@
         "ColumnCustomVariableValue": "Brugerdefineret variabelværdi",
         "CustomVariables": "Brugerdefinerede variabler",
         "CustomVariablesReportDocumentation": "Rapporten indeholder oplysninger om brugerdefinerede variabler. Klik på et variabelnavn se fordeling af værdier. %s Yderligere oplysninger om brugerdefinerede variabler generelt, læs %sBrugerdefinerede variabel dokumentation på piwik.org%s",
+        "PluginDescription": "Tilpassede variabler er (navn, værdi) par som kan tildeles ved hjælp af Javascript API til besøgende eller nogle af deres handlinger. Piwik vil derefter rapportere hvor mange besøg, sider, konverteringer for hvert af de brugerdefinerede navne og værdier. Se de detaljerede tilpassede variabler for hver bruger og handling i besøgsloggen.",
         "ScopePage": "virkefelt side",
         "ScopeVisit": "virkefelt besøg"
     }

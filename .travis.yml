@@ -78,6 +78,8 @@ matrix:
     - php: hhvm
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
 
+sudo: required
+
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 
 before_install:

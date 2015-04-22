@@ -53,7 +53,8 @@
         "symfony/monolog-bridge": "~2.6",
         "symfony/event-dispatcher": "~2.6",
         "pear/pear_exception": "~1.0.0",
-        "pear/pear-core-minimal": "~1.9.5"
+        "pear/pear-core-minimal": "~1.9.5",
+        "piwik/referrer-spam-blacklist": "~1.0"
     },
     "require-dev": {
         "aws/aws-sdk-php": "2.7.1",

@@ -17,6 +17,7 @@
         "UpdateAutomatically": "ራስሰር አልቅ",
         "UpdateHasBeenCancelledExplanation": "ፒዊክ አንድ ጠቅ አርግ ማላቅ ተሰርዟል። ከላይ ያለውን የስህተት መልዕክት መጠገን ካልቻልክ ፒዊክን በእጅ እንድታልቅትመከራለህ። %1$s ለመጀመር የ %2$sማላቂያ ስነዳ %3$sተመልከት!",
         "UpdateTitle": "ፒዊክ › አልቅ",
+        "UpdateSuccessTitle": "ፒዊክን ማላቅ በተሳካ ሁኔታ ተጠናቋል!",
         "UpgradeComplete": "ማላቅ ተጠናቋል!",
         "UpgradePiwik": "ፒዊክን አልቅ",
         "VerifyingUnpackedFiles": "የተበተኑትን ፋይሎች በመበተን ላይ",

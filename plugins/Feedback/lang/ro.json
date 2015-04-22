@@ -1,8 +1,6 @@
 {
     "Feedback": {
-        "ContactThePiwikTeam": "Contactează echipa Piwik!",
         "DoYouHaveBugReportOrFeatureRequest": "Doreşti să raportezi o problemă sau să propui o înbunătăţire?",
-        "GetInTouch": "Noi apreciem parerea dvs si citim intotdeauna toate mesajele. Poate ca doriti sa ne propuneti o oportunitate de afacere, sa angajati un consultant Piwik, sa ne spuneti o poveste de succes sau doar sa ne spuneti un simplu Salut!",
         "IWantTo": "Doresc să:",
         "LearnWaysToParticipate": "Invata despre toate modalitatile in care poti %s participa%s",
         "ManuallySendEmailTo": "Va rugam trimiteti manual mesajul dvs catre",
@@ -13,12 +11,10 @@
         "RateFeatureThankYouTitle": "Iti multumim pentru ca ai evaluat '%s'!",
         "RateFeatureTitle": "Va place functionalitatea '%s' ? Va rugam evaluati si lasati un comentariu",
         "SendFeedback": "Trimite Feedback",
-        "SpecialRequest": "Ai o cerece deosebită către echipa Piwik?",
         "ThankYou": "Va multumim pentru ca ne ajutati sa facem Piwik mai bun!",
         "TopLinkTooltip": "Transmiteti-ne parerea Dvs sau cereti Support Profesional.",
         "ViewAnswersToFAQ": "Vedeti raspunsurile la %sIntrebari Frecvente(FAQ)%s",
         "ViewUserGuides": "Invata cum sa configurezi Piwik si cum sa analizezi datele eficient cu %1$sghidurile de utilizare%2$s",
-        "VisitTheForums": "Vizitati %s Forumurile%s si primiti ajutor de la comunitatea de utilizatori Piwik.",
-        "WantToThankConsiderDonating": "Credeti ca Piwik este extraordinar si doriti sa ne multumiti?"
+        "VisitTheForums": "Vizitati %s Forumurile%s si primiti ajutor de la comunitatea de utilizatori Piwik."
     }
 }

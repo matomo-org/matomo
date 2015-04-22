@@ -21,7 +21,7 @@
     <a href="{{ linkTo({'sort': 'alpha', 'query': ''}) }}" {% if 'alpha' == sort %}class="active"{% endif %}>{{ 'CorePluginsAdmin_SortByAlpha'|translate }}</a>
     |
     <form action="{{ linkTo({'sort': ''}) }}" method="POST">
-        <input value="{{ query }}" placeholder="{{ 'General_Search'|translate }}" type="text" name="query"/>
+        <input value="{{ query }}" placeholder="{{ 'General_Search'|translate }} {{ plugins|length }} {{ 'General_Plugins'|translate|lcfirst }}..." type="text" name="query"/>
         <button type="submit">{{ 'General_Search'|translate }}</button>
     </form>
 </div>

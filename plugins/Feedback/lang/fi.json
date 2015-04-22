@@ -1,6 +1,5 @@
 {
     "Feedback": {
-        "ContactThePiwikTeam": "Ota yhteyttä Piwikin tiimiin!",
         "DoYouHaveBugReportOrFeatureRequest": "Onko sinulle virheraportti tai pyyntö uudesta ominaisuudesta?",
         "IWantTo": "Haluan:",
         "LearnWaysToParticipate": "Katso erilaisia tapoja %s osallistua%s",
@@ -10,10 +9,8 @@
         "RateFeatureThankYouTitle": "Kiitos '%s':n arvostelemisesta!",
         "RateFeatureTitle": "Pidätkö ominaisuudesta '%s'? Jätä arvostelu ja kommentti",
         "SendFeedback": "Lähetä palaute",
-        "SpecialRequest": "Onko sinulla erikoispyyntö Piwikin tiimille?",
         "ThankYou": "Kiitos että autat parantamaan Piwikiä!",
         "TopLinkTooltip": "Kerro meille mitä ajattelet, tai osta tukipalveluita (englanniksi).",
-        "VisitTheForums": "Käy %s foorumeilla %s",
-        "WantToThankConsiderDonating": "Onko Piwik mielestäsi mainio, ja haluat kiittää meitä?"
+        "VisitTheForums": "Käy %s foorumeilla %s"
     }
 }

@@ -24,6 +24,7 @@
         "UpdateAutomatically": "Automaticky zaktualizovať",
         "UpdateHasBeenCancelledExplanation": "Piwik aktualizácia „jedným kliknutím“ bola zrušená. Ak neviete vyriešiť uvedené chybové hlásenia, odporúčame Vám urobiť aktualizáciu manuálne. %1$s Pred začiatkom sa pozrite sa do %2$sdokumentácie k aktualizácií%3$s!",
         "UpdateTitle": "Piwik › Aktualizácia",
+        "UpdateSuccessTitle": "Piwik bol úspešne zaktualizovaný!",
         "UpgradeComplete": "Aktualizácia je ukončená!",
         "UpgradePiwik": "Aktualizácia Piwik",
         "VerifyingUnpackedFiles": "Verifikácia rozbalených súborov",

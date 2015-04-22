@@ -35,6 +35,7 @@
         "UpdateAutomatically": "Naujinti automatiškai",
         "UpdateHasBeenCancelledExplanation": "Piwik automatinis atnaujinimas atšauktas. Jei negalite ištaisyti nurodytos klaidos, rekomenduojame atnaujinti Piwik rankiniu būdu. %1$s Peržiūrėkite %2$sNaujinimo dokumentaciją%3$s prieš pradedant!",
         "UpdateTitle": "Naujinimas",
+        "UpdateSuccessTitle": "Piwik sėkmingai atnaujinta!",
         "UpgradeComplete": "Naujinimas baigtas!",
         "UpgradePiwik": "Naujinti Piwik",
         "VerifyingUnpackedFiles": "Tikrinami išskleisti failai",

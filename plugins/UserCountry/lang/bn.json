@@ -1,5 +1,6 @@
 {
     "UserCountry": {
+        "continent_ant": "এন্টার্কটিকা",
         "country_ac": "অ্যাসসেনশন আইল্যান্ড",
         "country_ad": "এ্যান্ডোরা",
         "country_ae": "সংযুক্ত আরব আমিরাত",
@@ -204,6 +205,7 @@
         "country_sc": "সিসিলি",
         "country_sd": "সুদান",
         "country_se": "সুইডেন",
+        "country_sf": "ফিন্ল্যাণ্ড",
         "country_sg": "সিঙ্গাপুর",
         "country_sh": "সেন্ট হেলেনা",
         "country_si": "স্লোভানিয়া",
@@ -239,6 +241,7 @@
         "country_tz": "তাঞ্জানিয়া",
         "country_ua": "ইউক্রেইন",
         "country_ug": "উগান্ডা",
+        "country_uk": "গ্রেটবৃটেন",
         "country_um": "যুক্তরাষ্ট্রের ক্ষুদ্র ও পার্শ্ববর্তী দ্বীপপুঞ্জ",
         "country_us": "মার্কিন যুক্তরাষ্ট্র",
         "country_uy": "উরুগোয়ে",

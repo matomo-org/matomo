@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f0c9c70091696d6197a4c438b9c12860",
+    "hash": "5033f5c1e5d1d67add5f5e75bbe59aaf",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -272,12 +272,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mnapoli/PHP-DI.git",
-                "reference": "92e2f01c7f2076649235aa50f415dda11b87e6da"
+                "reference": "b555566822ce0bdf1c946d46785a038317908ed1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mnapoli/PHP-DI/zipball/92e2f01c7f2076649235aa50f415dda11b87e6da",
-                "reference": "92e2f01c7f2076649235aa50f415dda11b87e6da",
+                "url": "https://api.github.com/repos/mnapoli/PHP-DI/zipball/b555566822ce0bdf1c946d46785a038317908ed1",
+                "reference": "b555566822ce0bdf1c946d46785a038317908ed1",
                 "shasum": ""
             },
             "require": {
@@ -321,7 +321,7 @@
                 "dependency injection",
                 "di"
             ],
-            "time": "2015-04-12 06:13:26"
+            "time": "2015-04-19 08:13:30"
         },
         {
             "name": "mnapoli/phpdocreader",
@@ -863,22 +863,23 @@
         },
         {
             "name": "piwik/ini",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/component-ini.git",
-                "reference": "5863e8a006d490c2eb50e32ef08c1c684dff0ed0"
+                "reference": "9269255fd187e5bda2e5778041c8d143eb615b0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-ini/zipball/5863e8a006d490c2eb50e32ef08c1c684dff0ed0",
-                "reference": "5863e8a006d490c2eb50e32ef08c1c684dff0ed0",
+                "url": "https://api.github.com/repos/piwik/component-ini/zipball/9269255fd187e5bda2e5778041c8d143eb615b0a",
+                "reference": "9269255fd187e5bda2e5778041c8d143eb615b0a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
+                "athletic/athletic": "0.1.*",
                 "phpunit/phpunit": "~4.0"
             },
             "type": "library",
@@ -891,7 +892,7 @@
             "license": [
                 "LGPL-3.0"
             ],
-            "time": "2015-03-03 22:19:39"
+            "time": "2015-04-21 04:59:09"
         },
         {
             "name": "piwik/network",
@@ -924,6 +925,28 @@
                 "LGPL-3.0"
             ],
             "time": "2014-10-23 03:30:23"
+        },
+        {
+            "name": "piwik/referrer-spam-blacklist",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/piwik/referrer-spam-blacklist.git",
+                "reference": "4508617435cd8b93c0fbd0fd430dc24d2a898cdb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/piwik/referrer-spam-blacklist/zipball/4508617435cd8b93c0fbd0fd430dc24d2a898cdb",
+                "reference": "4508617435cd8b93c0fbd0fd430dc24d2a898cdb",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Public Domain"
+            ],
+            "description": "Community-contributed list of referrer spammers",
+            "time": "2015-04-19 23:20:51"
         },
         {
             "name": "psr/log",
@@ -1384,7 +1407,7 @@
                 "performance",
                 "profiling"
             ],
-            "time": "2015-02-26 14:37:51"
+            "time": "2014-08-28 17:34:52"
         },
         {
             "name": "guzzle/guzzle",

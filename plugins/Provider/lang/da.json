@@ -1,8 +1,9 @@
 {
     "Provider": {
         "ColumnProvider": "Udbyder",
+        "PluginDescription": "Rapporterer den besøgendes internetudbyder.",
         "ProviderReportDocumentation": "Rapporten viser hvilken Internet udbyder de besøgende bruger. Klik på en udbyders navn for flere oplysninger. %s Hvis Piwik ikke kan bestemme besøgendes udbyder, er den opført som IP.",
-        "ProviderReportFooter": "Ukendt udbyder betyder at IP-adressen kunne ikke slås op.",
-        "WidgetProviders": "Udbydere"
+        "WidgetProviders": "Udbydere",
+        "ProviderReportFooter": "Ukendt udbyder betyder at IP-adressen kunne ikke slås op."
     }
 }

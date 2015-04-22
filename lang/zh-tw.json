@@ -4,6 +4,8 @@
         "Action": "動作",
         "Actions": "進站活動",
         "Add": "新增",
+        "AfterEntry": "在這裡之後輸入",
+        "All": "全部",
         "AllowPiwikArchivingToTriggerBrowser": "當報告在瀏覽器裡檢視時，允許 Piwik 觸發彙整",
         "AllWebsitesDashboard": "所有網站展示板",
         "API": "API",
@@ -35,6 +37,7 @@
         "ColumnNbActions": "活動量",
         "ColumnNbUniqVisitors": "獨立非重返訪客數",
         "ColumnNbUniqVisitorsDocumentation": "前來訪問網站的不重複訪客數。即使單一訪客一天訪問數次，也僅計一回。",
+        "ColumnNbUsers": "使用者",
         "ColumnNbVisits": "訪客",
         "ColumnPageviews": "瀏覽量",
         "ColumnPageviewsDocumentation": "頁面被瀏覽次數",
@@ -251,12 +254,21 @@
         "YourChangesHaveBeenSaved": "您的變更已儲存！"
     },
     "Mobile": {
+        "AboutPiwikMobile": "關於 Piwik 行動版",
         "AccessUrlLabel": "Piwik 存取網址",
+        "Account": "帳號",
+        "Accounts": "帳號",
+        "AddAccount": "新增帳號",
+        "AddPiwikDemo": "增加 Piwik 示範",
         "AnonymousAccess": "匿名存取",
         "EnableGraphsLabel": "顯示圖表",
         "MultiChartLabel": "顯示 sparklines",
         "NetworkNotReachable": "網路無法訪問",
         "SaveSuccessError": "請確認設定",
         "YouAreOffline": "抱歉，您目前為離線狀態"
+    },
+    "RowEvolution": {
+        "AvailableMetrics": "可用指標",
+        "CompareRows": "比較紀錄"
     }
 }

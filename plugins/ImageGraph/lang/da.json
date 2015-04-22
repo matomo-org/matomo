@@ -1,5 +1,6 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "Kolonnen '%s' blev ikke fundet i denne rapport. Prøv en af %s"
+        "ColumnOrdinateMissing": "Kolonnen '%s' blev ikke fundet i denne rapport. Prøv en af %s",
+        "PluginDescription": "Generer flotte statiske PNG Graph billeder til alle datarapporter."
     }
 }
