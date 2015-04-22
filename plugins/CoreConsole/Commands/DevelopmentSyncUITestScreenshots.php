@@ -100,6 +100,8 @@ class DevelopmentSyncUITestScreenshots extends ConsoleCommand
 cd $downloadToPath
 git pull
 git add .
+git status
+sleep 5
 git commit -m '' # Write a good commit message, eg. 'Fixed UI test failure caused by change introduced in <core or plugin commit> which caused failure by <explanation of failure>'
 git push";
 
@@ -108,6 +110,8 @@ git push";
 cd ..
 git pull
 git add expected-ui-screenshots/
+git status
+sleep 5
 git commit -m '' # Copy paste the good commit message
 git push
 cd ../../\n\n";
