@@ -375,6 +375,7 @@ function setupContentTrackingFixture(name, targetNode) {
     <li><a id="click6" href="example.pdf" target="iframe6" class="clicktest">download: implicit (file extension)</a></li>
     <li><a id="click7" href="example.word" target="iframe7" class="piwik_download clicktest">download: explicit</a></li>
     <li><a id="click8" href="example.exe" target="iframe8" class="clicktest">no click handler</a></li>
+    <li><a id="click9" href="example.html" target="iframe7" download class="clicktest">download: explicit (attribute)</a></li>
   </ul>
   <div id="clickDiv"></div>
  </div>
@@ -573,7 +574,7 @@ function PiwikTest() {
         propEqual(actual, [_e('click7')], "findNodesHavingCssClass, find matching within div different class");
 
         actual = query.findNodesHavingCssClass(_e('other'), 'clicktest');
-        propEqual(actual, [_e('click1'), _e('click2'), _e('click3'), _e('click4'), _e('click5'), _e('click6'), _e('click7'), _e('click8')], "findNodesHavingCssClass, find many matching within div");
+        propEqual(actual, [_e('click1'), _e('click2'), _e('click3'), _e('click4'), _e('click5'), _e('click6'), _e('click7'), _e('click8'), _e('click9')], "findNodesHavingCssClass, find many matching within div");
 
         actual = query.findNodesHavingCssClass(_e('click7'), 'piwik_download');
         propEqual(actual, [], "findNodesHavingCssClass, should not find if passed node has class itself");
@@ -702,7 +703,7 @@ function PiwikTest() {
         ok(actual.length > 11, "findNodesHavingAttribute, should find many elements within body");
 
         actual = query.findNodesHavingAttribute(_e('other'), 'href');
-        propEqual(actual, [_e('click1'), _e('click2'), _e('click3'), _e('click4'), _e('click5'), _e('click6'), _e('click7'), _e('click8')], "findNodesHavingAttribute, should find many elements within node");
+        propEqual(actual, [_e('click1'), _e('click2'), _e('click3'), _e('click4'), _e('click5'), _e('click6'), _e('click7'), _e('click8'), _e('click9')], "findNodesHavingAttribute, should find many elements within node");
 
         actual = query.findNodesHavingAttribute(_e('other'), 'anyAttribute');
         propEqual(actual, [], "findNodesHavingAttribute, should not find any such attribute within div");
@@ -805,7 +806,7 @@ function PiwikTest() {
         ok(-1 !== indexOfArray(actual, _e('click1')), 'find, random check to make sure it contains a link');
 
         actual = query.find('.clicktest');
-        ok(actual.length === 8, "find, should find many elements by class");
+        ok(actual.length === 9, "find, should find many elements by class");
         ok(-1 !== indexOfArray(actual, _e('click1')), 'find, random check to make sure it contains a link');
 
 
@@ -2296,7 +2297,7 @@ function PiwikTest() {
     });
 
     test("Tracker setDownloadExtensions(), addDownloadExtensions(), setDownloadClasses(), setLinkClasses(), and getLinkType()", function() {
-        expect(66);
+        expect(72);
 
         var tracker = Piwik.getTracker();
 
@@ -2304,50 +2305,55 @@ function PiwikTest() {
 
             equal( typeof tracker.hook.test._getLinkType, 'function', 'getLinkType' );
 
-            equal( tracker.hook.test._getLinkType('something', 'goofy.html', false), 'link', messagePrefix + 'implicit link' );
-            equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', false), 'download', messagePrefix + 'external PDF files are downloads' );
-            equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', true), 'download', messagePrefix + 'local PDF are downloads' );
-            equal( tracker.hook.test._getLinkType('something', 'goofy-with-dash.pdf', true), 'download', messagePrefix + 'local PDF are downloads' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy.html', false, false), 'link', messagePrefix + 'implicit link' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', false, false), 'download', messagePrefix + 'external PDF files are downloads' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', true, false), 'download', messagePrefix + 'local PDF are downloads' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy-with-dash.pdf', true, false), 'download', messagePrefix + 'local PDF are downloads' );
 
-            equal( tracker.hook.test._getLinkType('piwik_download', 'piwiktest.ext', true), 'download', messagePrefix + 'piwik_download' );
-            equal( tracker.hook.test._getLinkType('abc piwik_download xyz', 'piwiktest.ext', true), 'download', messagePrefix + 'abc piwik_download xyz' );
-            equal( tracker.hook.test._getLinkType('piwik_link', 'piwiktest.asp', true), 'link', messagePrefix+ 'piwik_link' );
-            equal( tracker.hook.test._getLinkType('abc piwik_link xyz', 'piwiktest.asp', true), 'link', messagePrefix + 'abc piwik_link xyz' );
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true), 'download', messagePrefix + 'download extension' );
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.ext', true), 0, messagePrefix + '[1] link (default)' );
+            equal( tracker.hook.test._getLinkType('piwik_download', 'piwiktest.ext', true, false), 'download', messagePrefix + 'piwik_download' );
+            equal( tracker.hook.test._getLinkType('abc piwik_download xyz', 'piwiktest.ext', true, false), 'download', messagePrefix + 'abc piwik_download xyz' );
+            equal( tracker.hook.test._getLinkType('piwik_link', 'piwiktest.asp', true, false), 'link', messagePrefix+ 'piwik_link' );
+            equal( tracker.hook.test._getLinkType('abc piwik_link xyz', 'piwiktest.asp', true, false), 'link', messagePrefix + 'abc piwik_link xyz' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true, false), 'download', messagePrefix + 'download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.ext', true, false), 0, messagePrefix + '[1] link (default)' );
 
-            equal( tracker.hook.test._getLinkType('something', 'file.zip', true), 'download', messagePrefix + 'download file.zip' );
-            equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip#anchor', true), 'download', messagePrefix + 'download file.zip (anchor)' );
-            equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip&redirect=yes', true), 'download', messagePrefix + 'download file.zip (is param)' );
-            equal( tracker.hook.test._getLinkType('something', 'file.zip?mirror=true', true), 'download', messagePrefix + 'download file.zip (with param)' );
+            equal( tracker.hook.test._getLinkType('something', 'file.zip', true, false), 'download', messagePrefix + 'download file.zip' );
+            equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip#anchor', true, false), 'download', messagePrefix + 'download file.zip (anchor)' );
+            equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip&redirect=yes', true, false), 'download', messagePrefix + 'download file.zip (is param)' );
+            equal( tracker.hook.test._getLinkType('something', 'file.zip?mirror=true', true, false), 'download', messagePrefix + 'download file.zip (with param)' );
 
             tracker.setDownloadExtensions('pk');
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', messagePrefix + '[1] .pk == download extension' );
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true), 0, messagePrefix + '.txt =! download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true, false), 'download', messagePrefix + '[1] .pk == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true, false), 0, messagePrefix + '.txt =! download extension' );
 
             tracker.addDownloadExtensions('xyz');
             tracker.addDownloadExtensions(['abc','zz']);
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', messagePrefix + '[2] .pk == download extension' );
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true), 'download', messagePrefix + '.xyz == download extension' );
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.abc', true), 'download', messagePrefix + '.abc == download extension' );
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.zz', true), 'download', messagePrefix + '.zz == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true, false), 'download', messagePrefix + '[2] .pk == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true, false), 'download', messagePrefix + '.xyz == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.abc', true, false), 'download', messagePrefix + '.abc == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.zz', true, false), 'download', messagePrefix + '.zz == download extension' );
 
             tracker.removeDownloadExtensions(['xyz','pk']);
             tracker.removeDownloadExtensions('zz');
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 0, messagePrefix + '[2] .pk =! download extension' );
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true), 0, messagePrefix + '.xyz =! download extension' );
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.abc', true), 'download', messagePrefix + '.abc == download extension' );
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.zz', true), 0, messagePrefix + '.zz =! download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true, false), 0, messagePrefix + '[2] .pk =! download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true, false), 0, messagePrefix + '.xyz =! download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.abc', true, false), 'download', messagePrefix + '.abc == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.zz', true, false), 0, messagePrefix + '.zz =! download extension' );
 
             tracker.setDownloadClasses(['a', 'b']);
-            equal( tracker.hook.test._getLinkType('abc piwik_download', 'piwiktest.ext', true), 'download', messagePrefix + 'download (default)' );
-            equal( tracker.hook.test._getLinkType('abc a', 'piwiktest.ext', true), 'download', messagePrefix + 'download (a)' );
-            equal( tracker.hook.test._getLinkType('b abc', 'piwiktest.ext', true), 'download', messagePrefix + 'download (b)' );
+            equal( tracker.hook.test._getLinkType('abc piwik_download', 'piwiktest.ext', true, false), 'download', messagePrefix + 'download (default)' );
+            equal( tracker.hook.test._getLinkType('abc a', 'piwiktest.ext', true, false), 'download', messagePrefix + 'download (a)' );
+            equal( tracker.hook.test._getLinkType('b abc', 'piwiktest.ext', true, false), 'download', messagePrefix + 'download (b)' );
 
             tracker.setLinkClasses(['c', 'd']);
-            equal( tracker.hook.test._getLinkType('abc piwik_link', 'piwiktest.ext', true), 'link', messagePrefix + 'link (default)' );
-            equal( tracker.hook.test._getLinkType('abc c', 'piwiktest.ext', true), 'link', messagePrefix + 'link (c)' );
-            equal( tracker.hook.test._getLinkType('d abc', 'piwiktest.ext', true), 'link', messagePrefix + 'link (d)' );
+            equal( tracker.hook.test._getLinkType('abc piwik_link', 'piwiktest.ext', true, false), 'link', messagePrefix + 'link (default)' );
+            equal( tracker.hook.test._getLinkType('abc c', 'piwiktest.ext', true, false), 'link', messagePrefix + 'link (c)' );
+            equal( tracker.hook.test._getLinkType('d abc', 'piwiktest.ext', true, false), 'link', messagePrefix + 'link (d)' );
+
+            // links containing a download attribute are always downloads
+            equal( tracker.hook.test._getLinkType('test', 'index.html', false, true), 'download', 'download attribute' );
+            equal( tracker.hook.test._getLinkType('piwik_link', 'index.html', true, true), 'link', messagePrefix + ' download attribute, but link class' );
+            equal( tracker.hook.test._getLinkType('piwik_download', 'test.pdf', true, true), 'download', messagePrefix + ' download attribute' );
         }
 
         var trackerUrl = tracker.getTrackerUrl();
@@ -2367,9 +2373,9 @@ function PiwikTest() {
 
         runTests('with tracker url, ');
 
-        equal( tracker.hook.test._getLinkType('something', 'piwik.php', true), 0, 'matches tracker url and should never return any tracker Url' );
-        equal( tracker.hook.test._getLinkType('something', 'piwik.php?redirecturl=http://example.com/test.pdf', true), 0, 'should not match download as is config tracker url' );
-        equal( tracker.hook.test._getLinkType('something', 'piwik.php?redirecturl=http://example.com/', true), 0, 'should not match link as is config tracker url' );
+        equal( tracker.hook.test._getLinkType('something', 'piwik.php', true, false), 0, 'matches tracker url and should never return any tracker Url' );
+        equal( tracker.hook.test._getLinkType('something', 'piwik.php?redirecturl=http://example.com/test.pdf', true, false), 0, 'should not match download as is config tracker url' );
+        equal( tracker.hook.test._getLinkType('something', 'piwik.php?redirecturl=http://example.com/', true, false), 0, 'should not match link as is config tracker url' );
 
         tracker.setTrackerUrl(trackerUrl);
     });
@@ -2801,13 +2807,13 @@ if ($sqlite) {
         var clickDiv = _e("clickDiv"),
             anchor = document.createElement("a");
 
-        anchor.id = "click9";
+        anchor.id = "click10";
         anchor.href = "http://example.us";
         clickDiv.innerHTML = "";
         clickDiv.appendChild(anchor);
         tracker.addListener(anchor);
         tracker.hook.test._addEventListener(anchor, "click", stopEvent);
-        triggerEvent(_e('click9'), 'click');
+        triggerEvent(_e('click10'), 'click');
 
         var visitorId1, visitorId2;
 
