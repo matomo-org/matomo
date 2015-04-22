@@ -119,6 +119,9 @@ tracker_always_new_visitor = 0
 ; Allow automatic upgrades to Beta or RC releases
 allow_upgrades_to_beta = 0
 
+; if set to 1, all SQL queries will be logged using the DEBUG log level
+log_sql_queries = 0
+
 [DebugTests]
 ; When set to 1, standalone plugins (those with their own git repositories)
 ; will be loaded when executing tests.
