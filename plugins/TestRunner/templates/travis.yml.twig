@@ -61,6 +61,8 @@ matrix:
   {{ existingMatrix|trim|raw }}
 {% endif %}
 
+sudo: required
+
 script: {{ travisShScriptLocation }}
 
 before_install:
