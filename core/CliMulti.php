@@ -7,6 +7,7 @@
  */
 namespace Piwik;
 
+use Piwik\Archiver\Request;
 use Piwik\CliMulti\CliPhp;
 use Piwik\CliMulti\Output;
 use Piwik\CliMulti\Process;
@@ -96,6 +97,10 @@ class CliMulti {
     private function start($piwikUrls)
     {
         foreach ($piwikUrls as $index => $url) {
+            if ($url instanceof Request) {
+                $url->start();
+            }
+
             $cmdId = $this->generateCommandId($url) . $index;
             $this->executeUrlCommand($cmdId, $url);
         }
