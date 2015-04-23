@@ -262,6 +262,11 @@ class API extends \Piwik\Plugin\API
             $this->populateLabel($pastData); // labels are needed to calculate evolution
             $this->calculateEvolutionPercentages($dataTable, $pastData, $apiMetrics);
             $this->setPastTotalVisitsMetadata($dataTable, $pastData);
+
+            if ($dataTable instanceof DataTable) {
+                // needed for MultiSites\Dashboard
+                $dataTable->setMetadata('pastData', $pastData);
+            }
         }
 
         // move the site id to a metadata column 
