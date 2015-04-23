@@ -48,11 +48,12 @@ class Dashboard
             foreach ($table->getRows() as $row) {
                 $idSite = $row->getColumn('label');
                 $site   = Site::getSite($idSite);
-                // we cannot queue label and group as we might need them for search!
+                // we cannot queue label and group as we might need them for search and sorting!
                 $row->setColumn('label', $site['name']);
                 $row->setMetadata('group', $site['group']);
             }
         });
+        $sites->getMetadata('pastData')->filter('ColumnCallbackReplace', array('label', '\Piwik\Site::getNameFor'));
 
         $this->setSitesTable($sites);
     }
@@ -289,7 +290,9 @@ class Dashboard
                 continue;
             }
 
-            $site['revenue']  = $formatter->getPrettyMoney($site['revenue'], $site['idsite']);
+            if (isset($site['revenue'])) {
+                $site['revenue']  = $formatter->getPrettyMoney($site['revenue'], $site['idsite']);
+            }
             $site['main_url'] = Site::getMainUrlFor($site['idsite']);
         }
 
