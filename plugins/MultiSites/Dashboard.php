@@ -44,16 +44,27 @@ class Dashboard
                                             $enhanced = true, $searchTerm = false,
                                             $showColumns = array('nb_visits', 'nb_pageviews', 'revenue'));
         $sites->deleteRow(DataTable::ID_SUMMARY_ROW);
-        $sites->filter(function (DataTable $table) {
+
+        /** @var DataTable $pastData */
+        $pastData = $sites->getMetadata('pastData');
+
+        $sites->filter(function (DataTable $table) use ($pastData) {
             foreach ($table->getRows() as $row) {
                 $idSite = $row->getColumn('label');
                 $site   = Site::getSite($idSite);
                 // we cannot queue label and group as we might need them for search and sorting!
                 $row->setColumn('label', $site['name']);
                 $row->setMetadata('group', $site['group']);
+
+                // if we do not update the pastData labels, the evolution cannot be calculated correctly.
+                $pastRow = $pastData->getRowFromLabel($idSite);
+                if ($pastRow) {
+                    $pastRow->setColumn('label', $site['name']);
+                }
             }
+
+            $pastData->setLabelsHaveChanged();
         });
-        $sites->getMetadata('pastData')->filter('ColumnCallbackReplace', array('label', '\Piwik\Site::getNameFor'));
 
         $this->setSitesTable($sites);
     }
