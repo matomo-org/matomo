@@ -13,7 +13,7 @@ use PDOStatement;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
-use Piwik\Timer;
+use Piwik\Timer\Timer;
 use Piwik\Tracker;
 use Piwik\Tracker\Db\DbException;
 use Piwik\Tracker\Db\Mysqli;

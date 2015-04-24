@@ -12,7 +12,7 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\DataAccess\RawLogDao;
-use Piwik\Timer;
+use Piwik\Timer\Timer;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

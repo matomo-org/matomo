@@ -12,7 +12,7 @@ use Piwik\Common;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
-use Piwik\Timer;
+use Piwik\Timer\Timer;
 use Symfony\Component\VarDumper\Cloner\Data;
 
 /**

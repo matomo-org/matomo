@@ -24,6 +24,7 @@ use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\UserPreferences;
+use Piwik\Timer\Timer;
 use Psr\Log\LoggerInterface;
 
 /**

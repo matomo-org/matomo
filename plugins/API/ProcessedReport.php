@@ -24,7 +24,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Site;
-use Piwik\Timer;
+use Piwik\Timer\Timer;
 use Piwik\Url;
 
 class ProcessedReport

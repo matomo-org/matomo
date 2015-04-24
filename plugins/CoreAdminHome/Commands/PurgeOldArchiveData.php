@@ -14,7 +14,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Timer;
+use Piwik\Timer\Timer;
 use Psr\Log\NullLogger;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

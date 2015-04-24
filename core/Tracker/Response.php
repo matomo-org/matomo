@@ -11,7 +11,7 @@ namespace Piwik\Tracker;
 use Exception;
 use Piwik\Common;
 use Piwik\Profiler;
-use Piwik\Timer;
+use Piwik\Timer\Timer;
 use Piwik\Tracker;
 use Piwik\Tracker\Db as TrackerDb;
 

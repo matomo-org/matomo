@@ -16,7 +16,7 @@ use Piwik\DataTable\Manager;
 use Piwik\Metrics;
 use Piwik\Plugin\Archiver;
 use Piwik\Log;
-use Piwik\Timer;
+use Piwik\Timer\Timer;
 
 /**
  * This class creates the Archiver objects found in plugins and will trigger aggregation,

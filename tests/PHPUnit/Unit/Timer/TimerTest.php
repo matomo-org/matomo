@@ -8,7 +8,7 @@
 
 namespace Piwik\Tests\Unit\Timer;
 
-use Piwik\Timer;
+use Piwik\Timer\Timer;
 
 class TimerTest extends \PHPUnit_Framework_TestCase
 {
@@ -48,7 +48,7 @@ class TimerTest extends \PHPUnit_Framework_TestCase
         $timer = new Timer();
 
         $this->assertInternalType('string', $timer->getMemoryDelta(true));
-        $this->assertStringMatchesFormat('%i B', $timer->getMemoryDelta(true));
+        $this->assertStringMatchesFormat('%i %s', $timer->getMemoryDelta(true));
     }
 
     /**

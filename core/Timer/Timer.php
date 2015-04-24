@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik;
+namespace Piwik\Timer;
 
 use Piwik\Metrics\Formatter;
 
 /**
  * Utility class for timing.
+ *
+ * @api
  */
 class Timer
 {
@@ -52,6 +54,8 @@ class Timer
     }
 
     /**
+     * Returns the memory usage difference between now and when the timer was started.
+     *
      * @param string $formatted If true will format the result, e.g.: `256 Kb`. If false, returns an int.
      * @return int|string
      */
