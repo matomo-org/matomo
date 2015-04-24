@@ -320,11 +320,6 @@ class Controller extends ControllerAdmin
      */
     public function optOut()
     {
-        $reref = Common::getRequestVar('reref', false);
-        if (!empty($reref)) {
-            Url::redirectToUrl($reref);
-        }
-
         $trackVisits = !IgnoreCookie::isIgnoreCookieFound();
 
         $dntChecker = new DoNotTrackHeaderChecker();
