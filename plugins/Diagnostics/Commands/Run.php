@@ -22,19 +22,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class Run extends ConsoleCommand
 {
-    /**
-     * @var DiagnosticService
-     */
-    private $diagnosticService;
-
-    public function __construct()
-    {
-        // Replace this with dependency injection once available
-        $this->diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
-
-        parent::__construct();
-    }
-
     protected function configure()
     {
         $this->setName('diagnostics:run')
@@ -44,9 +31,13 @@ class Run extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // Replace this with dependency injection once available
+        /** @var DiagnosticService $diagnosticService */
+        $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
+
         $showAll = $input->getOption('all');
 
-        $report = $this->diagnosticService->runDiagnostics();
+        $report = $diagnosticService->runDiagnostics();
 
         foreach ($report->getAllResults() as $result) {
             $items = $result->getItems();
