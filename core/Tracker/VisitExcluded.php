@@ -8,6 +8,7 @@
  */
 namespace Piwik\Tracker;
 
+use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DeviceDetectorFactory;
@@ -20,6 +21,9 @@ use Piwik\Tracker\Visit\ReferrerSpamFilter;
  */
 class VisitExcluded
 {
+    /**
+     * @var ReferrerSpamFilter
+     */
     private $spamFilter;
 
     /**
@@ -163,10 +167,25 @@ class VisitExcluded
 
         $deviceDetector = DeviceDetectorFactory::getInstance($this->userAgent);
 
-        $ip = IP::fromBinaryIP($this->ip);
-
         return !$allowBots
-            && ($deviceDetector->isBot() || $ip->isInRanges($this->getBotIpRanges()));
+            && ($deviceDetector->isBot() || $this->isIpInRange());
+    }
+
+    private function isIpInRange()
+    {
+        $cache = PiwikCache::getTransientCache();
+
+        $ip  = IP::fromBinaryIP($this->ip);
+        $key = 'VisitExcludedIsIpInRange' . $ip->toString();
+
+        if ($cache->contains($key)) {
+            $isInRanges = $cache->fetch($key);
+        } else {
+            $isInRanges = $ip->isInRanges($this->getBotIpRanges());
+            $cache->save($key, $isInRanges);
+        }
+
+        return $isInRanges;
     }
 
     protected function getBotIpRanges()
