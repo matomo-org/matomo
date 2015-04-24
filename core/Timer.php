@@ -4,63 +4,66 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
+
 namespace Piwik;
+
 use Piwik\Metrics\Formatter;
 
 /**
- *
+ * Utility class for timing.
  */
 class Timer
 {
-    private $timerStart;
-    private $memoryStart;
+    /**
+     * @var Formatter
+     */
     private $formatter;
 
     /**
-     * @return \Piwik\Timer
+     * @var float Time in seconds.
+     */
+    private $timeStart;
+
+    /**
+     * @var int
+     */
+    private $memoryStart;
+
+    /**
+     * Starts the timer
      */
     public function __construct()
     {
         $this->formatter = new Formatter();
 
-        $this->init();
-    }
-
-    /**
-     * @return void
-     */
-    public function init()
-    {
-        $this->timerStart = $this->getMicrotime();
+        $this->timeStart = microtime(true);
         $this->memoryStart = $this->getMemoryUsage();
     }
 
     /**
-     * @param int $decimals
-     * @return string
+     * Returns the time elapsed since the start in seconds.
+     *
+     * @return float
      */
-    public function getTime($decimals = 3)
+    public function getTimeElapsed()
     {
-        return number_format($this->getMicrotime() - $this->timerStart, $decimals, '.', '');
+        return microtime(true) - $this->timeStart;
     }
 
     /**
-     * @param int $decimals
-     * @return string
+     * @param string $formatted If true will format the result, e.g.: `256 Kb`. If false, returns an int.
+     * @return int|string
      */
-    public function getTimeMs($decimals = 3)
+    public function getMemoryDelta($formatted = false)
     {
-        return number_format(1000 * ($this->getMicrotime() - $this->timerStart), $decimals, '.', '');
-    }
+        $delta = $this->getMemoryUsage() - $this->memoryStart;
 
-    /**
-     * @return string
-     */
-    public function getMemoryLeak()
-    {
-        return "Memory delta: " . $this->formatter->getPrettySizeFromBytes($this->getMemoryUsage() - $this->memoryStart);
+        if ($formatted) {
+            return $this->formatter->getPrettySizeFromBytes($this->getMemoryUsage() - $this->memoryStart);
+        }
+
+        return $delta;
     }
 
     /**
@@ -68,16 +71,9 @@ class Timer
      */
     public function __toString()
     {
-        return "Time elapsed: " . $this->getTime() . "s";
-    }
+        $timeFormatted = number_format(microtime(true) - $this->timeStart, 3, '.', '');
 
-    /**
-     * @return float
-     */
-    private function getMicrotime()
-    {
-        list($micro_seconds, $seconds) = explode(" ", microtime());
-        return ((float)$micro_seconds + (float)$seconds);
+        return 'Time elapsed: ' . $timeFormatted . 's';
     }
 
     /**

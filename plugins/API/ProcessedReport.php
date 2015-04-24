@@ -436,7 +436,7 @@ class ProcessedReport
             'reportTotal'    => $totals
         );
         if ($showTimer) {
-            $return['timerMillis'] = $timer->getTimeMs(0);
+            $return['timerMillis'] = $timer->getTimeElapsed() * 1000;
         }
         return $return;
     }

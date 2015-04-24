@@ -86,7 +86,7 @@ abstract class Db
             $this->queriesProfiling[$query] = array('sum_time_ms' => 0, 'count' => 0);
         }
 
-        $time  = $timer->getTimeMs(2);
+        $time  = $timer->getTimeElapsed() * 1000;
         $time += $this->queriesProfiling[$query]['sum_time_ms'];
         $count = $this->queriesProfiling[$query]['count'] + 1;
 
