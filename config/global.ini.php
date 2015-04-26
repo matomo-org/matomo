@@ -775,11 +775,13 @@ Plugins[] = Resolution
 Plugins[] = DevicePlugins
 
 [PluginsInstalled]
+PluginsInstalled[] = Diagnostics
 PluginsInstalled[] = Login
 PluginsInstalled[] = CoreAdminHome
 PluginsInstalled[] = UsersManager
 PluginsInstalled[] = SitesManager
 PluginsInstalled[] = Installation
+PluginsInstalled[] = Monolog
 
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call
