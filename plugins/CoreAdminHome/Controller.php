@@ -328,7 +328,7 @@ class Controller extends ControllerAdmin
         $setCookieInNewWindow = Common::getRequestVar('setCookieInNewWindow', false, 'int');
         if ($setCookieInNewWindow) {
             $reloadUrl = Url::getCurrentQueryStringWithParametersModified(array(
-                'showConfirm' => 1,
+                'showConfirmOnly' => 1,
                 'setCookieInNewWindow' => 0,
             ));
         } else {
@@ -357,7 +357,7 @@ class Controller extends ControllerAdmin
         $view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
         $view->language = $lang;
         $view->isSafari = $this->isUserAgentSafari();
-        $view->showConfirm = Common::getRequestVar('showConfirm', false, 'int');
+        $view->showConfirmOnly = Common::getRequestVar('showConfirmOnly', false, 'int');
         $view->reloadUrl = $reloadUrl;
         return $view->render();
     }
