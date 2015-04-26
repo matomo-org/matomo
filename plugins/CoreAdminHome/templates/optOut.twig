@@ -12,16 +12,28 @@
 {% elseif reloadUrl %}
     {# empty #}
 {% else %}
+    {# if only showing confirmation (because we're in a new window), we only display the success message if JS is disabled.
+     # otherwise we try to close the window immediately.
+     #}
+    {% if showConfirmOnly %}
+    <p>{{ 'CoreAdminHome_OptingYouOut'|translate }}</p><script>window.close();</script>
+    <noscript>
+    {% endif %}
+
     {% if not trackVisits %}
         {{ 'CoreAdminHome_OptOutComplete'|translate }}
-	<br/>
+	    <br/>
         {{ 'CoreAdminHome_OptOutCompleteBis'|translate }}
     {% else %}
         {{ 'CoreAdminHome_YouMayOptOut'|translate }}
         <br/>
         {{ 'CoreAdminHome_YouMayOptOutBis'|translate }}
     {% endif %}
+
+    {% if showConfirmOnly %}</noscript>{% endif %}
+
     <br/><br/>
+
     {% if not showConfirmOnly %}
     {% set loadInNewWindow = isSafari and trackVisits %}
     <form method="post" action="?module=CoreAdminHome&amp;action=optOut{% if language %}&amp;language={{ language }}{% endif %}{% if loadInNewWindow %}&amp;setCookieInNewWindow=1{% endif %}" {% if loadInNewWindow %}target="_blank"{% endif %}>
