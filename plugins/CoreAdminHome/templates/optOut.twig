@@ -13,7 +13,7 @@
                 var newWindow = window.open(form.action + '&time=' + Date.now());
 
                 // when the new window loads, reload this page
-                newWindow.addEventListener('before-unload', function () {
+                newWindow.addEventListener('unload', function () {
                     alert('b');
                     window.reload();
                 }, false);
