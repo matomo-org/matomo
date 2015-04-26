@@ -495,19 +495,21 @@ class Report
 
         $processedMetrics = $this->processedMetrics ?: array();
         foreach ($processedMetrics as $processedMetric) {
-            if (!($processedMetric instanceof ProcessedMetric)) {
-                continue;
+            if (is_string($processedMetric) && !empty($translations[$processedMetric])) {
+                $documentation[$processedMetric] = $translations[$processedMetric];
+            } elseif ($processedMetric instanceof ProcessedMetric) {
+
+                $name = $processedMetric->getName();
+                $metricDocs = $processedMetric->getDocumentation();
+                if (empty($metricDocs)) {
+                    $metricDocs = @$translations[$name];
+                }
+
+                if (!empty($metricDocs)) {
+                    $documentation[$processedMetric->getName()] = $metricDocs;
+                }
             }
 
-            $name = $processedMetric->getName();
-            $metricDocs = $processedMetric->getDocumentation();
-            if (empty($metricDocs)) {
-                $metricDocs = @$translations[$name];
-            }
-
-            if (!empty($metricDocs)) {
-                $documentation[$processedMetric->getName()] = $metricDocs;
-            }
         }
 
         return $documentation;

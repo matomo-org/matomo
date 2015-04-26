@@ -9,6 +9,7 @@
 namespace Piwik\Translation\Transifex;
 
 use Exception;
+use Piwik\Cache;
 use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Http;
 
@@ -19,7 +20,7 @@ class API
     protected $password = '';
     protected $projectSlug = '';
 
-    public function __construct($username, $password, $project='piwik')
+    public function __construct($username, $password, $project = 'piwik')
     {
         $this->username = $username;
         $this->password = $password;
@@ -33,11 +34,14 @@ class API
      */
     public function getAvailableResources()
     {
-        static $resources;
+        $cache = Cache::getTransientCache();
+        $cacheId = 'transifex_resources_' . $this->projectSlug;
+        $resources = $cache->fetch($cacheId);
 
         if (empty($resources)) {
             $apiPath = 'project/' . $this->projectSlug . '/resources';
             $resources = $this->getApiResults($apiPath);
+            $cache->save($cacheId, $resources);
         }
 
         return $resources;
@@ -69,12 +73,16 @@ class API
      */
     public function getAvailableLanguageCodes()
     {
-        static $languageCodes = array();
+        $cache = Cache::getTransientCache();
+        $cacheId = 'transifex_languagescodes_' . $this->projectSlug;
+        $languageCodes = $cache->fetch($cacheId);
+
         if (empty($languageCodes)) {
             $apiData = $this->getApiResults('project/' . $this->projectSlug . '/languages');
             foreach ($apiData as $languageData) {
                 $languageCodes[] = $languageData->language_code;
             }
+            $cache->save($cacheId, $languageCodes);
         }
         return $languageCodes;
     }
@@ -102,7 +110,7 @@ class API
      * @throws AuthenticationFailedException
      * @throws Exception
      */
-    public function getTranslations($resource, $language, $raw=false)
+    public function getTranslations($resource, $language, $raw = false)
     {
         if ($this->resourceExists($resource)) {
             $apiPath = 'project/' . $this->projectSlug . '/resource/' . $resource . '/translation/' . $language . '/?mode=onlytranslated&file';
@@ -120,14 +128,14 @@ class API
      * @throws AuthenticationFailedException
      * @throws Exception
      */
-    protected function getApiResults($apiPath, $raw=false)
+    protected function getApiResults($apiPath, $raw = false)
     {
         $apiUrl = $this->apiUrl . $apiPath;
 
         $response = Http::sendHttpRequest($apiUrl, 1000, null, null, 5, false, false, true, 'GET', $this->username, $this->password);
 
         $httpStatus = $response['status'];
-        $response   = $response['data'];
+        $response = $response['data'];
 
         if ($httpStatus == 401) {
             throw new AuthenticationFailedException();

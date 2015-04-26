@@ -1,6 +1,8 @@
+{% if not isWidget %}
 <div class="row">
-
     <div class="col-md-6">
+{% endif %}
+
         <div class="sparkline">
             {{ sparkline(urlSparklineNbVisits)|raw }}
             {{ 'General_NVisits'|translate("<strong>"~nbVisits~"</strong>")|raw }}{% if displayUniqueVisitors %},
@@ -33,9 +35,12 @@
             {{ 'VisitsSummary_AverageGenerationTime'|translate("<strong>"~averageGenerationTime~"</strong>")|raw }}
         </div>
         {% endif %}
-    </div>
 
+{% if not isWidget %}
+    </div>
     <div class="col-md-6">
+{% endif %}
+
         {% if showActionsPluginReports|default(false) %}
             {% if showOnlyActions %}
                 <div class="sparkline">
@@ -73,9 +78,11 @@
         </div>
 
         {{ postEvent('Template.VisitsSummaryOverviewSparklines') }}
-    </div>
 
+{% if not isWidget %}
+    </div>
 </div>
+{% endif %}
 
 {% include "_sparklineFooter.twig" %}
 

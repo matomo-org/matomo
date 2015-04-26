@@ -48,13 +48,13 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $translator;
 
-    private function formatConversionRate($conversionRate)
+    private function formatConversionRate($conversionRate, $columnName = 'conversion_rate')
     {
         if ($conversionRate instanceof DataTable) {
             if ($conversionRate->getRowsCount() == 0) {
                 $conversionRate = 0;
             } else {
-                $conversionRate = $conversionRate->getFirstRow()->getColumn('conversion_rate');
+                $conversionRate = $conversionRate->getFirstRow()->getColumn($columnName);
             }
         }
 
@@ -128,14 +128,11 @@ class Controller extends \Piwik\Plugin\Controller
         $view->nameGraphEvolution = 'Goals.getEvolutionGraph' . $idGoal;
         $view->topDimensions = $this->getTopDimensions($idGoal);
 
-        // conversion rate for new and returning visitors
-        $segment = urldecode(\Piwik\Plugins\VisitFrequency\API::RETURNING_VISITOR_SEGMENT);
-        $conversionRateReturning = Request::processRequest("Goals.get", array('segment' => $segment, 'idGoal' => $idGoal));
-        $view->conversion_rate_returning = $this->formatConversionRate($conversionRateReturning);
+        $goalMetrics = Request::processRequest('Goals.get', array('idGoal' => $idGoal));
 
-        $segment = 'visitorType==new';
-        $conversionRateNew = Request::processRequest("Goals.get", array('segment' => $segment, 'idGoal' => $idGoal));
-        $view->conversion_rate_new = $this->formatConversionRate($conversionRateNew);
+        // conversion rate for new and returning visitors
+        $view->conversion_rate_returning = $this->formatConversionRate($goalMetrics, 'conversion_rate_returning_visit');
+        $view->conversion_rate_new = $this->formatConversionRate($goalMetrics, 'conversion_rate_new_visit');
 
         $view->goalReportsByDimension = $this->getGoalReportsByDimensionTable(
             $view->nb_conversions, isset($ecommerce), !empty($view->cart_nb_conversions));
