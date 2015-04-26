@@ -23,7 +23,9 @@
     {% endif %}
     <br/><br/>
     {% if not showConfirm %}
-    <form method="post" action="?module=CoreAdminHome&amp;action=optOut{% if language %}&amp;language={{ language }}{% endif %}{% if isSafari and trackVisits %}&amp;setCookieInNewWindow=1{% endif %}" {% if isSafari and trackVisits %}target="_blank"{% endif %}>
+    {% set loadInNewWindow = isSafari and trackVisits %}
+    <form method="post" action="?module=CoreAdminHome&amp;action=optOut{% if language %}&amp;language={{ language }}{% endif %}{% if loadInNewWindow %}&amp;setCookieInNewWindow=1{% endif %}" {% if loadInNewWindow %}target="_blank"{% endif %}
+            {% if loadInNewWindow %}onload="window.reload();"{% endif %}>
         <input type="hidden" name="nonce" value="{{ nonce }}" />
         <input type="hidden" name="fuzz" value="{{ "now"|date }}" />
         <input onclick="this.form.submit()" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
