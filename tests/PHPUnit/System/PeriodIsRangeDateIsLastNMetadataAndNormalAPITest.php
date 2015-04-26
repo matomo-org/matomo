@@ -66,9 +66,15 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
 
         $result = array();
         foreach ($segments as $segment) {
+            $testSuffix = '';
+            if (!empty($segment) && false !== strpos($segment, 'pageUrl')) {
+                $testSuffix .= '_pagesegment';
+            }
+
             foreach ($dates as $date) {
                 $result[] = array($apiToCall, array('idSite'    => $idSite, 'date' => $date,
                                                     'periods'   => array('range'), 'segment' => $segment,
+                                                    'testSuffix' => $testSuffix,
                                                     'otherRequestParameters' => array(
                                                         'lastMinutes' => 60 * 24 * 2,
                                                         'visitorId' => $visitorId // testing getLastVisitsForVisitor requires a visitor ID

@@ -1,7 +1,6 @@
 {
     "SegmentEditor": {
         "AddANDorORCondition": "Voeg %s voorwaarde toe",
-        "AddingSegmentForAllWebsitesDisabled": "Het toevoegen van segmenten voor alle websites is uitgeschakeld.",
         "AddNewSegment": "Voeg nieuw segment toe",
         "AreYouSureDeleteSegment": "Weet je zeker dat je dit segment wilt verwijderen?",
         "AutoArchivePreProcessed": "gesegmenteerde rapporten worden voor verwerkt (sneller, vereist archive.php cron)",
@@ -23,8 +22,9 @@
         "ThisSegmentIsVisibleTo": "Dit segment is zichtbaar voor:",
         "VisibleToAllUsers": "alle gebruikers",
         "VisibleToMe": "mij",
-        "YouDontHaveAccessToCreateSegments": "U heeft niet het benodigde toegangsniveau om segmenten te maken en bewerken.",
         "YouMayChangeSetting": "Als alternatief kun je er voor kiezen om de instelling binnen het configuratie bestand (%s) aan te passen, of wijzig dit Segment en kies '%s'.",
-        "YouMustBeLoggedInToCreateSegments": "Je moet ingelogd zijn om Bezoekers segmenten te bewerken of aan te maken."
+        "YouMustBeLoggedInToCreateSegments": "Je moet ingelogd zijn om Bezoekers segmenten te bewerken of aan te maken.",
+        "YouDontHaveAccessToCreateSegments": "U heeft niet het benodigde toegangsniveau om segmenten te maken en bewerken.",
+        "AddingSegmentForAllWebsitesDisabled": "Het toevoegen van segmenten voor alle websites is uitgeschakeld."
     }
 }

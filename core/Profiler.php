@@ -239,16 +239,13 @@ class Profiler
             $profilerNamespace .= "-" . $currentGitBranch;
         }
 
-        xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
-
-        $baseUrlStored = "";
         if ($mainRun) {
             self::setProfilingRunIds(array());
-
-            $baseUrlStored = SettingsPiwik::getPiwikUrl();
         }
 
-        register_shutdown_function(function () use($profilerNamespace, $mainRun, $baseUrlStored) {
+        xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
+
+        register_shutdown_function(function () use($profilerNamespace, $mainRun) {
             $xhprofData = xhprof_disable();
             $xhprofRuns = new XHProfRuns_Default();
             $runId = $xhprofRuns->save_run($xhprofData, $profilerNamespace);
@@ -262,6 +259,8 @@ class Profiler
 
             if ($mainRun) {
                 Profiler::aggregateXhprofRuns($runs, $profilerNamespace, $saveTo = $runId);
+
+                $baseUrlStored = SettingsPiwik::getPiwikUrl();
 
                 $out = "\n\n";
                 $baseUrl = "http://" . @$_SERVER['HTTP_HOST'] . "/" . @$_SERVER['REQUEST_URI'];
@@ -338,6 +337,6 @@ class Profiler
      */
     private static function getPathToXHProfRunIds()
     {
-        return StaticContainer::get('path.tmp') . '/cache/tests-xhprof-runs';
+        return PIWIK_INCLUDE_PATH . '/tmp/cache/tests-xhprof-runs';
     }
 }

@@ -17,6 +17,8 @@
         "Seconds": "секунд",
         "SecondsAgo": "%s секунд назад",
         "VisitorMap": "Карта посещений",
-        "WorldWide": "Весь мир"
+        "WorldWide": "Весь мир",
+        "WithUnknownRegion": "%s с неизвестным регионом",
+        "WithUnknownCity": "%s с неизвестным городом"
     }
 }

@@ -5,6 +5,7 @@
         "BrowserVersion": "ब्राउज़र संस्करण",
         "ColumnBrowser": "ब्राउज़र",
         "ColumnOperatingSystem": "आपरेटिंग सिस्टम",
+        "dataTableLabelTypes": "प्रकार",
         "OperatingSystemFamily": "आपरेटिंग सिस्टम परिवार",
         "OperatingSystems": "आपरेटिंग सिस्टम",
         "WidgetBrowsers": "आगंतुक ब्राउज़र"

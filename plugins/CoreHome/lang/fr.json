@@ -3,7 +3,6 @@
         "CategoryNoData": "Aucune donnée pour cette catégorie. Essayez \"d'inclure toute la population\".",
         "CheckForUpdates": "Vérifier les mises à jour",
         "CheckPiwikOut": "Vérifiez sur Piwik!",
-        "ClickRowToExpandOrContract": "Cliquez sur cette rangée pour afficher ou masquer le sous-tableau",
         "ClickToEditX": "Cliquer pour éditer %s",
         "CloseWidgetDirections": "Vous pouvez fermer ce gadget en cliquant sur l'icône en forme de \"X\" en haut du gadget.",
         "DataForThisReportHasBeenPurged": "Les données pour ce rapport ont plus de %s mois et ont été purgées.",
@@ -61,6 +60,9 @@
         "UnFlattenDataTable": "Le rapport est plat %s Le rendre hiérarchique",
         "ViewAllPiwikVideoTutorials": "Visualiser tous les tutoriaux vidéo de Piwik",
         "WebAnalyticsReports": "Rapports des statistiques web.",
-        "YouAreUsingTheLatestVersion": "Vous utilisez la dernière version de Piwik!"
+        "YouAreUsingTheLatestVersion": "Vous utilisez la dernière version de Piwik!",
+        "ClickRowToExpandOrContract": "Cliquez sur cette rangée pour afficher ou masquer le sous-tableau",
+        "UndoPivotBySubtable": "Ce rapport a été pivoté %s Annuler le pivot",
+        "PivotBySubtable": "Ce rapport n'a pas été pivoté %s Pivoter par %s"
     }
 }

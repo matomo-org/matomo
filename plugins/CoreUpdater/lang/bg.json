@@ -43,6 +43,7 @@
         "UpdateAutomatically": "Обновете автоматично",
         "UpdateHasBeenCancelledExplanation": "Автоматичното обновяване на Piwik е отказано. Опитайте отново! Ако не успеете автоматично да обновите Piwik, опитайте ръчно. %1$s Моля прочетете %2$s документацията %3$s и продължете!",
         "UpdateTitle": "Обновления",
+        "UpdateSuccessTitle": "Piwik успешно е обновен!",
         "UpgradeComplete": "Обновяването приключи!",
         "UpgradePiwik": "Обновете Piwik",
         "VerifyingUnpackedFiles": "Разархивираните файлове",

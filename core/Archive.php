@@ -357,6 +357,24 @@ class Archive
     }
 
     /**
+     * Similar to {@link getDataTableFromNumeric()} but merges all children on the created DataTable.
+     *
+     * This is the same as doing `$this->getDataTableFromNumeric()->mergeChildren()` but this way it is much faster.
+     *
+     * @return DataTable|DataTable\Map
+     *
+     * @internal Currently only used by MultiSites.getAll plugin. Feel free to remove internal tag if needed somewhere
+     *           else. If no longer needed by MultiSites.getAll please remove this method. If you need this to work in
+     *           a bit different way feel free to refactor as always.
+     */
+    public function getDataTableFromNumericAndMergeChildren($names)
+    {
+        $data  = $this->get($names, 'numeric');
+        $resultIndexes = $this->getResultIndices();
+        return $data->getMergedDataTable($resultIndexes);
+    }
+
+    /**
      * Queries and returns one or more reports as DataTable instances.
      *
      * This method will query blob data that is a serialized array of of {@link DataTable\Row}'s and
@@ -616,21 +634,19 @@ class Archive
 
         $archiveData = ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
 
+        $isNumeric = $archiveDataType == 'numeric';
+
         foreach ($archiveData as $row) {
             // values are grouped by idsite (site ID), date1-date2 (date range), then name (field name)
-            $idSite    = $row['idsite'];
-            $periodStr = $row['date1'] . "," . $row['date2'];
+            $periodStr = $row['date1'] . ',' . $row['date2'];
 
-            if ($archiveDataType == 'numeric') {
+            if ($isNumeric) {
                 $row['value'] = $this->formatNumericValue($row['value']);
             } else {
-                $result->addMetadata($idSite, $periodStr, 'ts_archived', $row['ts_archived']);
+                $result->addMetadata($row['idsite'], $periodStr, 'ts_archived', $row['ts_archived']);
             }
 
-            $resultRow = & $result->get($idSite, $periodStr);
-
-            // one blob per datatable or subtable
-            $resultRow[$row['name']] = $row['value'];
+            $result->set($row['idsite'], $periodStr, $row['name'], $row['value']);
         }
 
         return $result;

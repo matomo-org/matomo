@@ -29,6 +29,7 @@
         "ColumnMaxActions": "Hámark aðgerða í einni heimsókn",
         "ColumnNbActions": "Aðgerðir",
         "ColumnNbUniqVisitors": "Einstakir gestir",
+        "ColumnNbUsers": "Notendur",
         "ColumnNbVisits": "Heimsóknir",
         "ColumnPageviews": "Síðuflettingar",
         "ColumnPercentageVisits": "% Heimsóknir",

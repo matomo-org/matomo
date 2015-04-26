@@ -514,12 +514,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // top bar pages
-    it('should load the all websites dashboard correctly', function (done) {
-        expect.screenshot('all_websites').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + generalParams + "&module=MultiSites&action=index");
-        }, done);
-    });
-
     it('should load the widgets listing page correctly', function (done) {
         expect.screenshot('widgets_listing').to.be.captureSelector('#content', function (page) {
             page.load("?" + generalParams + "&module=Widgetize&action=index");

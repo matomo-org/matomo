@@ -1,10 +1,10 @@
 {
     "LeftMenu": {
+        "SettingsIntroduction": "Das LeftMenu Plug-In verschiebt die Menüs für die Reporte auf die linke Seite. Dies ist für umfangreiche Reporte hilfreich.",
+        "GlobalSettingTitle": "LeftMenu aktiviert als Voreinstellung",
         "GlobalSettingDescription": "Legt die Standardeinstellung für alle Benutzer fest.",
         "GlobalSettingInlineHelp": "Die Benutzer können es unabhängig von der Vorgabe aktivieren\/deaktivieren.",
-        "GlobalSettingTitle": "LeftMenu aktiviert als Voreinstellung",
-        "SettingsIntroduction": "Das LeftMenu Plug-In verschiebt die Menüs für die Reporte auf die linke Seite. Dies ist für umfangreiche Reporte hilfreich.",
-        "UserSettingInlineHelp": "Legt die Einstellung für den aktuellen Benutzer fest, ob LeftMenu aktiviert oder deaktiviert sein soll. Ein Administrator kann die Standardeinstellung für alle Benutzer festlegen.",
-        "UserSettingTitle": "LeftMenu aktiviert"
+        "UserSettingTitle": "LeftMenu aktiviert",
+        "UserSettingInlineHelp": "Legt die Einstellung für den aktuellen Benutzer fest, ob LeftMenu aktiviert oder deaktiviert sein soll. Ein Administrator kann die Standardeinstellung für alle Benutzer festlegen."
     }
 }

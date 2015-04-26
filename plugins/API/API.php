@@ -23,9 +23,9 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Segment\SegmentExpression;
-use Piwik\Translate;
 use Piwik\Translation\Translator;
 use Piwik\Version;
 
@@ -417,7 +417,8 @@ class API extends \Piwik\Plugin\API
             if ($mergedDataTable === false) {
                 $mergedDataTable = $dataTable;
             } else {
-                $this->mergeDataTables($mergedDataTable, $dataTable);
+                $merger = new MergeDataTables();
+                $merger->mergeDataTables($mergedDataTable, $dataTable);
             }
         }
 
@@ -428,41 +429,6 @@ class API extends \Piwik\Plugin\API
         }
 
         return $mergedDataTable;
-    }
-
-    /**
-     * Merge the columns of two data tables.
-     * Manipulates the first table.
-     */
-    private function mergeDataTables($table1, $table2)
-    {
-        // handle table arrays
-        if ($table1 instanceof DataTable\Map && $table2 instanceof DataTable\Map) {
-            $subTables2 = $table2->getDataTables();
-            foreach ($table1->getDataTables() as $index => $subTable1) {
-                if (!array_key_exists($index, $subTables2)) {
-                    // occurs when archiving starts on dayN and continues into dayN+1, see https://github.com/piwik/piwik/issues/5168#issuecomment-50959925
-                    continue;
-                }
-                $subTable2 = $subTables2[$index];
-                $this->mergeDataTables($subTable1, $subTable2);
-            }
-            return;
-        }
-
-        $firstRow2 = $table2->getFirstRow();
-        if (!($firstRow2 instanceof Row)) {
-            return;
-        }
-
-        $firstRow1 = $table1->getFirstRow();
-        if (empty($firstRow1)) {
-            $firstRow1 = $table1->addRow(new Row());
-        }
-
-        foreach ($firstRow2->getColumns() as $metric => $value) {
-            $firstRow1->setColumn($metric, $value);
-        }
     }
 
     /**

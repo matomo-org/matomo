@@ -10,7 +10,6 @@
 namespace Piwik\Archive;
 
 use Piwik\DataTable;
-use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Row;
 use Piwik\Site;
 
@@ -146,6 +145,11 @@ class DataTableFactory
         $this->idSubtable = $idSubtable;
     }
 
+    private function isNumericDataType()
+    {
+        return $this->dataType == 'numeric';
+    }
+
     /**
      * Creates a DataTable|Set instance using an index of
      * archive data.
@@ -157,21 +161,62 @@ class DataTableFactory
      */
     public function make($index, $resultIndices)
     {
+        $keyMetadata = $this->getDefaultMetadata();
+
         if (empty($resultIndices)) {
             // for numeric data, if there's no index (and thus only 1 site & period in the query),
             // we want to display every queried metric name
             if (empty($index)
-                && $this->dataType == 'numeric'
+                && $this->isNumericDataType()
             ) {
                 $index = $this->defaultRow;
             }
 
-            $dataTable = $this->createDataTable($index, $keyMetadata = array());
+            $dataTable = $this->createDataTable($index, $keyMetadata);
         } else {
-            $dataTable = $this->createDataTableMapFromIndex($index, $resultIndices, $keyMetadata = array());
+            $dataTable = $this->createDataTableMapFromIndex($index, $resultIndices, $keyMetadata);
         }
 
-        $this->transformMetadata($dataTable);
+        return $dataTable;
+    }
+
+    /**
+     * Creates a merged DataTable|Map instance using an index of archive data similar to {@link make()}.
+     *
+     * Whereas {@link make()} creates a Map for each result index (period and|or site), this will only create a Map
+     * for a period result index and move all site related indices into one dataTable. This is the same as doing
+     * `$dataTableFactory->make()->mergeChildren()` just much faster. It is mainly useful for reports across many sites
+     * eg `MultiSites.getAll`. Was done as part of https://github.com/piwik/piwik/issues/6809
+     *
+     * @param array $index @see DataCollection
+     * @param array $resultIndices an array mapping metadata names with pretty metadata labels.
+     *
+     * @return DataTable|DataTable\Map
+     * @throws \Exception
+     */
+    public function makeMerged($index, $resultIndices)
+    {
+        if (!$this->isNumericDataType()) {
+            throw new \Exception('This method is supposed to work with non-numeric data types but it is not tested. To use it, remove this exception and write tests to be sure it works.');
+        }
+
+        $hasSiteIndex   = isset($resultIndices[self::TABLE_METADATA_SITE_INDEX]);
+        $hasPeriodIndex = isset($resultIndices[self::TABLE_METADATA_PERIOD_INDEX]);
+
+        $isNumeric = $this->isNumericDataType();
+        // to be backwards compatible use a Simple table if needed as it will be formatted differently
+        $useSimpleDataTable = !$hasSiteIndex && $isNumeric;
+
+        if (!$hasSiteIndex) {
+            $firstIdSite = reset($this->sitesId);
+            $index = array($firstIdSite => $index);
+        }
+
+        if ($hasPeriodIndex) {
+            $dataTable = $this->makeMergedTableWithPeriodAndSiteIndex($index, $resultIndices, $useSimpleDataTable, $isNumeric);
+        } else {
+            $dataTable = $this->makeMergedWithSiteIndex($index, $useSimpleDataTable, $isNumeric);
+        }
 
         return $dataTable;
     }
@@ -190,16 +235,16 @@ class DataTableFactory
      * @param array $blobRow
      * @return DataTable|DataTable\Map
      */
-    private function makeFromBlobRow($blobRow)
+    private function makeFromBlobRow($blobRow, $keyMetadata)
     {
         if ($blobRow === false) {
             return new DataTable();
         }
 
         if (count($this->dataNames) === 1) {
-            return $this->makeDataTableFromSingleBlob($blobRow);
+            return $this->makeDataTableFromSingleBlob($blobRow, $keyMetadata);
         } else {
-            return $this->makeIndexedByRecordNameDataTable($blobRow);
+            return $this->makeIndexedByRecordNameDataTable($blobRow, $keyMetadata);
         }
     }
 
@@ -211,7 +256,7 @@ class DataTableFactory
      * @param array $blobRow
      * @return DataTable
      */
-    private function makeDataTableFromSingleBlob($blobRow)
+    private function makeDataTableFromSingleBlob($blobRow, $keyMetadata)
     {
         $recordName = reset($this->dataNames);
         if ($this->idSubtable !== null) {
@@ -225,7 +270,7 @@ class DataTableFactory
         }
 
         // set table metadata
-        $table->setMetadataValues(DataCollection::getDataRowMetadata($blobRow));
+        $table->setAllTableMetadata(array_merge(DataCollection::getDataRowMetadata($blobRow), $keyMetadata));
 
         if ($this->expandDataTable) {
             $table->enableRecursiveFilters();
@@ -242,12 +287,12 @@ class DataTableFactory
      * @param array $blobRow
      * @return DataTable\Map
      */
-    private function makeIndexedByRecordNameDataTable($blobRow)
+    private function makeIndexedByRecordNameDataTable($blobRow, $keyMetadata)
     {
         $table = new DataTable\Map();
         $table->setKeyName('recordName');
 
-        $tableMetadata = DataCollection::getDataRowMetadata($blobRow);
+        $tableMetadata = array_merge(DataCollection::getDataRowMetadata($blobRow), $keyMetadata);
 
         foreach ($blobRow as $name => $blob) {
             $newTable = DataTable::fromSerializedArray($blob);
@@ -267,29 +312,38 @@ class DataTableFactory
      * @param array $keyMetadata The metadata to add to the table when it's created.
      * @return DataTable\Map
      */
-    private function createDataTableMapFromIndex($index, $resultIndices, $keyMetadata = array())
+    private function createDataTableMapFromIndex($index, $resultIndices, $keyMetadata)
     {
-        $resultIndexLabel = reset($resultIndices);
+        $result = new DataTable\Map();
+        $result->setKeyName(reset($resultIndices));
         $resultIndex = key($resultIndices);
 
         array_shift($resultIndices);
 
-        $result = new DataTable\Map();
-        $result->setKeyName($resultIndexLabel);
+        $hasIndices = !empty($resultIndices);
 
         foreach ($index as $label => $value) {
-            $keyMetadata[$resultIndex] = $label;
+            $keyMetadata[$resultIndex] = $this->createTableIndexMetadata($resultIndex, $label);
 
-            if (empty($resultIndices)) {
-                $newTable = $this->createDataTable($value, $keyMetadata);
-            } else {
+            if ($hasIndices) {
                 $newTable = $this->createDataTableMapFromIndex($value, $resultIndices, $keyMetadata);
+            } else {
+                $newTable = $this->createDataTable($value, $keyMetadata);
             }
 
             $result->addTable($newTable, $this->prettifyIndexLabel($resultIndex, $label));
         }
 
         return $result;
+    }
+
+    private function createTableIndexMetadata($resultIndex, $label)
+    {
+        if ($resultIndex === DataTableFactory::TABLE_METADATA_SITE_INDEX) {
+            return new Site($label);
+        } elseif ($resultIndex === DataTableFactory::TABLE_METADATA_PERIOD_INDEX) {
+            return $this->periods[$label];
+        }
     }
 
     /**
@@ -302,11 +356,11 @@ class DataTableFactory
     private function createDataTable($data, $keyMetadata)
     {
         if ($this->dataType == 'blob') {
-            $result = $this->makeFromBlobRow($data);
+            $result = $this->makeFromBlobRow($data, $keyMetadata);
         } else {
-            $result = $this->makeFromMetricsArray($data);
+            $result = $this->makeFromMetricsArray($data, $keyMetadata);
         }
-        $this->setTableMetadata($keyMetadata, $result);
+
         return $result;
     }
 
@@ -359,17 +413,12 @@ class DataTableFactory
         }
     }
 
-    /**
-     * Converts site IDs and period string ranges into Site instances and
-     * Period instances in DataTable metadata.
-     */
-    private function transformMetadata(DataTableInterface $table)
+    private function getDefaultMetadata()
     {
-        $periods = $this->periods;
-        $table->filter(function (DataTable $table) use ($periods) {
-            $table->setMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX, new Site($table->getMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX)));
-            $table->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, $periods[$table->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)]);
-        });
+        return array(
+            DataTableFactory::TABLE_METADATA_SITE_INDEX => new Site(reset($this->sitesId)),
+            DataTableFactory::TABLE_METADATA_PERIOD_INDEX => reset($this->periods),
+        );
     }
 
     /**
@@ -388,38 +437,15 @@ class DataTableFactory
     }
 
     /**
-     * @param $keyMetadata
-     * @param $result
-     */
-    private function setTableMetadata($keyMetadata, DataTableInterface $result)
-    {
-        if (!isset($keyMetadata[DataTableFactory::TABLE_METADATA_SITE_INDEX])) {
-            $keyMetadata[DataTableFactory::TABLE_METADATA_SITE_INDEX] = reset($this->sitesId);
-        }
-
-        if (!isset($keyMetadata[DataTableFactory::TABLE_METADATA_PERIOD_INDEX])) {
-            reset($this->periods);
-            $keyMetadata[DataTableFactory::TABLE_METADATA_PERIOD_INDEX] = key($this->periods);
-        }
-
-        // Note: $result can be a DataTable\Map
-        $result->filter(function (DataTable $table) use ($keyMetadata) {
-            foreach ($keyMetadata as $name => $value) {
-                $table->setMetadata($name, $value);
-            }
-        });
-    }
-
-    /**
      * @param $data
      * @return DataTable\Simple
      */
-    private function makeFromMetricsArray($data)
+    private function makeFromMetricsArray($data, $keyMetadata)
     {
         $table = new DataTable\Simple();
 
         if (!empty($data)) {
-            $table->setAllTableMetadata(DataCollection::getDataRowMetadata($data));
+            $table->setAllTableMetadata(array_merge(DataCollection::getDataRowMetadata($data), $keyMetadata));
 
             DataCollection::removeMetadataFromDataRow($data);
 
@@ -431,14 +457,89 @@ class DataTableFactory
             // w/o this code, an empty array would be created, and other parts of Piwik
             // would break.
             if (count($this->dataNames) == 1
-                && $this->dataType == 'numeric'
+                && $this->isNumericDataType()
             ) {
                 $name = reset($this->dataNames);
                 $table->addRow(new Row(array(Row::COLUMNS => array($name => 0))));
             }
+
+            $table->setAllTableMetadata($keyMetadata);
         }
 
         $result = $table;
         return $result;
+    }
+
+    private function makeMergedTableWithPeriodAndSiteIndex($index, $resultIndices, $useSimpleDataTable, $isNumeric)
+    {
+        $map = new DataTable\Map();
+        $map->setKeyName($resultIndices[self::TABLE_METADATA_PERIOD_INDEX]);
+
+        // we save all tables of the map in this array to be able to add rows fast
+        $tables = array();
+
+        foreach ($this->periods as $range => $period) {
+            // as the resulting table is "merged", we do only set Period metedata and no metadata for site. Instead each
+            // row will have an idsite metadata entry.
+            $metadata = array(self::TABLE_METADATA_PERIOD_INDEX => $period);
+
+            if ($useSimpleDataTable) {
+                $table = new DataTable\Simple();
+            } else {
+                $table = new DataTable();
+            }
+
+            $table->setAllTableMetadata($metadata);
+            $map->addTable($table, $this->prettifyIndexLabel(self::TABLE_METADATA_PERIOD_INDEX, $range));
+
+            $tables[$range] = $table;
+        }
+
+        foreach ($index as $idsite => $table) {
+            $rowMeta = array('idsite' => $idsite);
+
+            foreach ($table as $range => $row) {
+                if (!empty($row)) {
+                    $tables[$range]->addRow(new Row(array(
+                        Row::COLUMNS  => $row,
+                        Row::METADATA => $rowMeta)
+                    ));
+                } elseif ($isNumeric) {
+                    $tables[$range]->addRow(new Row(array(
+                        Row::COLUMNS  => $this->defaultRow,
+                        Row::METADATA => $rowMeta)
+                    ));
+                }
+            }
+        }
+
+        return $map;
+    }
+
+    private function makeMergedWithSiteIndex($index, $useSimpleDataTable, $isNumeric)
+    {
+        if ($useSimpleDataTable) {
+            $table = new DataTable\Simple();
+        } else {
+            $table = new DataTable();
+        }
+
+        $table->setAllTableMetadata(array(DataTableFactory::TABLE_METADATA_PERIOD_INDEX => reset($this->periods)));
+
+        foreach ($index as $idsite => $row) {
+            if (!empty($row)) {
+                $table->addRow(new Row(array(
+                    Row::COLUMNS  => $row,
+                    Row::METADATA => array('idsite' => $idsite))
+                ));
+            } elseif ($isNumeric) {
+                $table->addRow(new Row(array(
+                    Row::COLUMNS  => $this->defaultRow,
+                    Row::METADATA => array('idsite' => $idsite))
+                ));
+            }
+        }
+
+        return $table;
     }
 }

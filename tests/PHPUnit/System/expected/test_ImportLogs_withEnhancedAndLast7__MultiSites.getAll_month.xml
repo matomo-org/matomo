@@ -13,9 +13,9 @@
 			<pageviews_evolution>100%</pageviews_evolution>
 			<revenue_evolution>100%</revenue_evolution>
 			<nb_conversions_evolution>100%</nb_conversions_evolution>
+			<idsite>1</idsite>
 			<group />
 			<main_url>http://piwik.net</main_url>
-			<idsite>1</idsite>
 		</row>
 		<row>
 			<label>Piwik test two</label>
@@ -29,9 +29,9 @@
 			<pageviews_evolution>100%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>2</idsite>
 			<group />
 			<main_url>http://example-site-two.com</main_url>
-			<idsite>2</idsite>
 		</row>
 	</result>
 	<result date="2012-09">
@@ -47,195 +47,195 @@
 			<pageviews_evolution>-73.7%</pageviews_evolution>
 			<revenue_evolution>-97%</revenue_evolution>
 			<nb_conversions_evolution>-97%</nb_conversions_evolution>
+			<idsite>1</idsite>
 			<group />
 			<main_url>http://piwik.net</main_url>
-			<idsite>1</idsite>
 		</row>
 		<row>
+			<label>Piwik test two</label>
 			<nb_visits>0</nb_visits>
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
-			<label>Piwik test two</label>
 			<visits_evolution>-100%</visits_evolution>
 			<actions_evolution>-100%</actions_evolution>
 			<pageviews_evolution>-100%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>2</idsite>
 			<group />
 			<main_url>http://example-site-two.com</main_url>
-			<idsite>2</idsite>
 		</row>
 	</result>
 	<result date="2012-10">
 		<row>
+			<label>Piwik test</label>
 			<nb_visits>0</nb_visits>
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
-			<label>Piwik test</label>
 			<visits_evolution>-100%</visits_evolution>
 			<actions_evolution>-100%</actions_evolution>
 			<pageviews_evolution>-100%</pageviews_evolution>
 			<revenue_evolution>-100%</revenue_evolution>
 			<nb_conversions_evolution>-100%</nb_conversions_evolution>
+			<idsite>1</idsite>
 			<group />
 			<main_url>http://piwik.net</main_url>
-			<idsite>1</idsite>
 		</row>
 		<row>
+			<label>Piwik test two</label>
 			<nb_visits>0</nb_visits>
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
-			<label>Piwik test two</label>
 			<visits_evolution>0%</visits_evolution>
 			<actions_evolution>0%</actions_evolution>
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>2</idsite>
 			<group />
 			<main_url>http://example-site-two.com</main_url>
-			<idsite>2</idsite>
 		</row>
 	</result>
 	<result date="2012-11">
 		<row>
+			<label>Piwik test</label>
 			<nb_visits>0</nb_visits>
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
-			<label>Piwik test</label>
 			<visits_evolution>0%</visits_evolution>
 			<actions_evolution>0%</actions_evolution>
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>1</idsite>
 			<group />
 			<main_url>http://piwik.net</main_url>
-			<idsite>1</idsite>
 		</row>
 		<row>
+			<label>Piwik test two</label>
 			<nb_visits>0</nb_visits>
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
-			<label>Piwik test two</label>
 			<visits_evolution>0%</visits_evolution>
 			<actions_evolution>0%</actions_evolution>
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>2</idsite>
 			<group />
 			<main_url>http://example-site-two.com</main_url>
-			<idsite>2</idsite>
 		</row>
 	</result>
 	<result date="2012-12">
 		<row>
+			<label>Piwik test</label>
 			<nb_visits>0</nb_visits>
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
-			<label>Piwik test</label>
 			<visits_evolution>0%</visits_evolution>
 			<actions_evolution>0%</actions_evolution>
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>1</idsite>
 			<group />
 			<main_url>http://piwik.net</main_url>
-			<idsite>1</idsite>
 		</row>
 		<row>
+			<label>Piwik test two</label>
 			<nb_visits>0</nb_visits>
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
-			<label>Piwik test two</label>
 			<visits_evolution>0%</visits_evolution>
 			<actions_evolution>0%</actions_evolution>
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>2</idsite>
 			<group />
 			<main_url>http://example-site-two.com</main_url>
-			<idsite>2</idsite>
 		</row>
 	</result>
 	<result date="2013-01">
 		<row>
+			<label>Piwik test</label>
 			<nb_visits>0</nb_visits>
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
-			<label>Piwik test</label>
 			<visits_evolution>0%</visits_evolution>
 			<actions_evolution>0%</actions_evolution>
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>1</idsite>
 			<group />
 			<main_url>http://piwik.net</main_url>
-			<idsite>1</idsite>
 		</row>
 		<row>
+			<label>Piwik test two</label>
 			<nb_visits>0</nb_visits>
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
-			<label>Piwik test two</label>
 			<visits_evolution>0%</visits_evolution>
 			<actions_evolution>0%</actions_evolution>
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>2</idsite>
 			<group />
 			<main_url>http://example-site-two.com</main_url>
-			<idsite>2</idsite>
 		</row>
 	</result>
 	<result date="2013-02">
 		<row>
+			<label>Piwik test</label>
 			<nb_visits>0</nb_visits>
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
-			<label>Piwik test</label>
 			<visits_evolution>0%</visits_evolution>
 			<actions_evolution>0%</actions_evolution>
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>1</idsite>
 			<group />
 			<main_url>http://piwik.net</main_url>
-			<idsite>1</idsite>
 		</row>
 		<row>
+			<label>Piwik test two</label>
 			<nb_visits>0</nb_visits>
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
-			<label>Piwik test two</label>
 			<visits_evolution>0%</visits_evolution>
 			<actions_evolution>0%</actions_evolution>
 			<pageviews_evolution>0%</pageviews_evolution>
 			<revenue_evolution>0%</revenue_evolution>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>2</idsite>
 			<group />
 			<main_url>http://example-site-two.com</main_url>
-			<idsite>2</idsite>
 		</row>
 	</result>
 </results>

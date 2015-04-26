@@ -29,7 +29,8 @@ class TravisYmlView extends View
         'install',
         'before_script',
         'after_script',
-        'after_success'
+        'after_success',
+        'sudo'
     );
 
     /**

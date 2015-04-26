@@ -61,7 +61,7 @@
         "SelectDefaultCurrency": "Voit valita oletusvaluutan uusille verkkosivuille.",
         "SelectDefaultTimezone": "Voit valita oletusaikavyöhykkeen uusille verkkosivuille.",
         "ShowTrackingTag": "näytä seurantakoodi",
-        "Sites": "Sivut",
+        "Sites": "Sivustot",
         "SiteSearchUse": "Voit käyttää Piwikiä seurataksesi ja raportoidaksesi, mitä kävijät etsivät verkkosivusi sisäisellä hakukoneella.",
         "SuperUserAccessCan": "Superkäyttäjän oikeudet omaava käyttäjä voi myös %s määritellä globaaleja asetuksia%s uusille verkkosivuille.",
         "Timezone": "Aikavyöhyke",

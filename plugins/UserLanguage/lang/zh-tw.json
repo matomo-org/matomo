@@ -2,7 +2,7 @@
     "UserLanguage": {
         "BrowserLanguage": "瀏覽器語系",
         "Language_aa": "阿法文",
-        "Language_ab": "阿布哈西亚文",
+        "Language_ab": "阿布哈茲語",
         "Language_ae": "阿维斯塔文",
         "Language_af": "南非荷兰文",
         "Language_ak": "阿肯文",
@@ -38,7 +38,7 @@
         "Language_dz": "不丹文",
         "Language_ee": "埃维文",
         "Language_el": "希腊文",
-        "Language_en": "英文",
+        "Language_en": "繁體中文",
         "Language_eo": "世界文",
         "Language_es": "西班牙文",
         "Language_et": "爱沙尼亚文",
@@ -164,7 +164,7 @@
         "Language_tk": "土库曼文",
         "Language_tl": "塔加洛语",
         "Language_tn": "塞茨瓦纳文",
-        "Language_to": "汤加文",
+        "Language_to": "東加王國",
         "Language_tr": "土耳其文",
         "Language_ts": "宗加文",
         "Language_tt": "塔塔尔文",
@@ -185,6 +185,7 @@
         "Language_za": "壮语",
         "Language_zh": "中文",
         "Language_zu": "祖鲁文",
-        "LanguageCode": "語系代碼"
+        "LanguageCode": "語系代碼",
+        "PluginDescription": "回報訪客使用的瀏覽器語系"
     }
 }

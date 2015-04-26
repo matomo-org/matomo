@@ -5,6 +5,8 @@
         "DayComparedToPreviousYear": "bir önceki yılın aynı günü",
         "Filter": "Filtre",
         "FilterOnlyNew": "Sadece yeni",
+        "MonthComparedToPreviousMonth": "önceki ay",
+        "MonthComparedToPreviousYear": "önceki yılın aynı ayı",
         "WeekComparedToPreviousWeek": "önceki hafta",
         "YearComparedToPreviousYear": "önceki yıl"
     }

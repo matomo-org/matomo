@@ -52,7 +52,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
 // TODO should move to Tracker application class later. currently needed for environment validation.
 SettingsServer::setIsTrackerApiRequest();
 
-$environment = new \Piwik\Application\Environment(null);
+$environment = new \Piwik\Application\Environment('tracker');
 $environment->init();
 
 Tracker::loadTrackerEnvironment();

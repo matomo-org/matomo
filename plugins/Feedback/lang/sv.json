@@ -1,8 +1,6 @@
 {
     "Feedback": {
-        "ContactThePiwikTeam": "Kontakta Piwikteamet!",
         "DoYouHaveBugReportOrFeatureRequest": "Har du en bugg att rapportera eller en funktionsbegäran?",
-        "GetInTouch": "Vi uppskattar din feedback och läser alltid alla meddelanden. Du kanske vill dela en affärsmöjlighet, hyra en Piwik konsult, berätta en framgångssaga eller bara säga Hej!",
         "HowToCreateTicket": "Vänligen läs rekommendationerna för hur du skriver en bra %1$sfel rapport%2$s eller %3$sfunktionsförfrågan%4$s. Registrera eller logga in på %5$svårt ärendehanteringssystem%6$s och skapa %7$sett nytt ärende%8$s.",
         "IWantTo": "Jag vill:",
         "LearnWaysToParticipate": "Läs om alla sätt du kan %s delta%s",
@@ -14,12 +12,10 @@
         "RateFeatureThankYouTitle": "Tack för att du betygsatt '%s'!",
         "RateFeatureTitle": "Tycker du om '%s'-funktionen? Vänligen betygsätt och lämna en kommentar",
         "SendFeedback": "Skicka Feedback",
-        "SpecialRequest": "Har du en speciell begäran för Piwikteamet?",
         "ThankYou": "Tack för att du hjälper oss att göra Piwik bättre!",
         "TopLinkTooltip": "Tala om för oss vad du tycker, eller fråga efter professionell support.",
         "ViewAnswersToFAQ": "Se svar på %svanliga frågor%s",
         "ViewUserGuides": "Lär dig att konfigurera Piwik och hur man på ett effektivt sätt analyserar data med våra %1$sanvändarguider%2$s",
-        "VisitTheForums": "Besök %s Forumet%s",
-        "WantToThankConsiderDonating": "Tycker du att Piwik är fantastiskt och vill tacka oss?"
+        "VisitTheForums": "Besök %s Forumet%s"
     }
 }

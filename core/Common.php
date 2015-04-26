@@ -111,12 +111,12 @@ class Common
      */
     public static function isGoalPluginEnabled()
     {
-        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('Goals');
+        return Plugin\Manager::getInstance()->isPluginActivated('Goals');
     }
 
     public static function isActionsPluginEnabled()
     {
-        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('Actions');
+        return Plugin\Manager::getInstance()->isPluginActivated('Actions');
     }
 
     /**
@@ -535,7 +535,7 @@ class Common
     }
 
     /**
-     * Configureable hash() algorithm (defaults to md5)
+     * Configurable hash() algorithm (defaults to md5)
      *
      * @param string $str String to be hashed
      * @param bool $raw_output
@@ -717,14 +717,14 @@ class Common
     /**
      * Returns the list of parent classes for the given class.
      *
-     * @param  string    $klass   A class name.
+     * @param  string    $class   A class name.
      * @return string[]  The list of parent classes in order from highest ancestor to the descended class.
      */
-    public static function getClassLineage($klass)
+    public static function getClassLineage($class)
     {
-        $klasses = array_merge(array($klass), array_values(class_parents($klass, $autoload = false)));
+        $classes = array_merge(array($class), array_values(class_parents($class, $autoload = false)));
 
-        return array_reverse($klasses);
+        return array_reverse($classes);
     }
 
     /*
@@ -1081,7 +1081,7 @@ class Common
     /**
      * Returns the continent of a given country
      *
-     * @param string $country 2 letters isocode
+     * @param string $country 2 letters iso code
      *
      * @return string  Continent (3 letters code : afr, asi, eur, amn, ams, oce)
      */
@@ -1245,7 +1245,7 @@ class Common
      * Marks an orphaned object for garbage collection.
      *
      * For more information: {@link https://github.com/piwik/piwik/issues/374}
-     * @param $var The object to destroy.
+     * @param mixed $var The object to destroy.
      * @api
      */
     public static function destroy(&$var)

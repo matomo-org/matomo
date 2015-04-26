@@ -22,7 +22,6 @@
         "PreviousVisitor": "Vorige bezoeker",
         "RealTimeVisitorCount": "Real Time bezoekers aantal",
         "Referrer_URL": "Referrer URL",
-        "RowActionTooltipTitle": "Open gesegmenteerd Bezoekerslogboek",
         "ShowMap": "Toon kaart",
         "SimpleRealTimeWidget_Message": "%s en %s in de laatste %s",
         "ViewVisitorProfile": "Bekijk bezoeker profiel",
@@ -33,6 +32,7 @@
         "VisitorsInRealTime": "Bezoekers in real-time",
         "VisitorsLastVisit": "Het laatste bezoek van deze bezoekers was %s dagen geleden.",
         "VisitsFrom": "%1$s%2$s bezoeken%3$s van",
-        "VisitSummary": "Spendeerde in totaal %1$s%2$s op de website %3$s, en %4$sbekeek %5$s pagina's in %6$s bezoeken.%7$s"
+        "VisitSummary": "Spendeerde in totaal %1$s%2$s op de website %3$s, en %4$sbekeek %5$s pagina's in %6$s bezoeken.%7$s",
+        "RowActionTooltipTitle": "Open gesegmenteerd Bezoekerslogboek"
     }
 }

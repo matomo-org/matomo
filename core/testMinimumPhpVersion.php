@@ -77,11 +77,6 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         $bool = (defined('PIWIK_PRINT_ERROR_BACKTRACE') && PIWIK_PRINT_ERROR_BACKTRACE)
                 || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']);
 
-        try {
-            $bool = $bool || \Piwik\Development::isEnabled();
-        } catch (Exception $e) {
-        }
-
         return $bool;
     }
 
@@ -119,7 +114,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         }
 
         if ($optionalTrace) {
-            $optionalTrace = '<h2>Stack trace</h2><pre>' . $optionalTrace . '</pre></span>';
+            $optionalTrace = '<h2>Stack trace</h2><pre>' . htmlentities($optionalTrace) . '</pre>';
         }
 
         if ($isCli === null) {

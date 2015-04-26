@@ -18,6 +18,7 @@
         "Maximise": "Maksimer",
         "Minimise": "Minimer",
         "NotUndo": "Handlingen kan ikke fortrydes.",
+        "PluginDescription": "Webanalyse kontrolpanel. Tilpas dit kontrolpanel ved at tilføje nye moduler, træk og slip dem rundt, og ændre kontrolpanelets kolonnelayout. Hver bruger kan styre deres eget brugerdefinerede kontrolpanel.",
         "RemoveDashboard": "Fjern kontrolpanel",
         "RemoveDashboardConfirm": "Bekræft fjernelse af kontrolpanel \"%s\"?",
         "RenameDashboard": "Omdøb kontrolpanel",

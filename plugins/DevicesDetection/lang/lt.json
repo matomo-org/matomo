@@ -5,6 +5,7 @@
         "BrowserVersion": "Naršyklės versija",
         "ColumnBrowser": "Naršyklė",
         "ColumnOperatingSystem": "Operacinė sistema",
+        "dataTableLabelTypes": "Tipas",
         "OperatingSystems": "Operacinės sistemos",
         "WidgetBrowsers": "Lankytojų naršyklės"
     }

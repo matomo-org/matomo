@@ -37,6 +37,7 @@
         "UpdateAutomatically": "स्वचालित रूप से अद्यतन",
         "UpdateHasBeenCancelledExplanation": "Piwik एक क्लिक अद्यतन रद्द कर दिया गया. आप ऊपर त्रुटि संदेश को ठीक नहीं कर सकते हैं, यह आप मैन्युअल Piwik अद्यतन की सिफारिश है. %1$sआरंभ करने के लिए अद्यतन%2$s दस्तावेज़ीकरण %3$sकी जाँच करें!",
         "UpdateTitle": "अद्यतन",
+        "UpdateSuccessTitle": "Piwik सफलतापूर्वक अद्यतन किया गया है!",
         "UpgradeComplete": "पूरा अपग्रेड करें!",
         "UpgradePiwik": "Piwik अपग्रेड",
         "VerifyingUnpackedFiles": "अनपैक फ़ाइलों को सत्यापित करना",

@@ -8,11 +8,13 @@
  */
 namespace Piwik\Tracker;
 
+use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DeviceDetectorFactory;
 use Piwik\Network\IP;
 use Piwik\Piwik;
+use Piwik\Tracker\Visit\ReferrerSpamFilter;
 
 /**
  * This class contains the logic to exclude some visitors from being tracked as per user settings
@@ -20,12 +22,19 @@ use Piwik\Piwik;
 class VisitExcluded
 {
     /**
+     * @var ReferrerSpamFilter
+     */
+    private $spamFilter;
+
+    /**
      * @param Request $request
      * @param bool|string $ip
      * @param bool|string $userAgent
      */
     public function __construct(Request $request, $ip = false, $userAgent = false)
     {
+        $this->spamFilter = new ReferrerSpamFilter();
+
         if (false === $ip) {
             $ip = $request->getIp();
         }
@@ -158,10 +167,25 @@ class VisitExcluded
 
         $deviceDetector = DeviceDetectorFactory::getInstance($this->userAgent);
 
-        $ip = IP::fromBinaryIP($this->ip);
-
         return !$allowBots
-            && ($deviceDetector->isBot() || $ip->isInRanges($this->getBotIpRanges()));
+            && ($deviceDetector->isBot() || $this->isIpInRange());
+    }
+
+    private function isIpInRange()
+    {
+        $cache = PiwikCache::getTransientCache();
+
+        $ip  = IP::fromBinaryIP($this->ip);
+        $key = 'VisitExcludedIsIpInRange' . $ip->toString();
+
+        if ($cache->contains($key)) {
+            $isInRanges = $cache->fetch($key);
+        } else {
+            $isInRanges = $ip->isInRanges($this->getBotIpRanges());
+            $cache->save($key, $isInRanges);
+        }
+
+        return $isInRanges;
     }
 
     protected function getBotIpRanges()
@@ -266,19 +290,6 @@ class VisitExcluded
      */
     protected function isReferrerSpamExcluded()
     {
-        $spamHosts = Config::getInstance()->Tracker['referrer_urls_spam'];
-        $spamHosts = explode(",", $spamHosts);
-
-        $referrerUrl = $this->request->getParam('urlref');
-
-        foreach($spamHosts as $spamHost) {
-            $spamHost = trim($spamHost);
-            if ( strpos($referrerUrl, $spamHost) !== false) {
-                Common::printDebug('Referrer URL is a known spam: ' . $spamHost);
-                return true;
-            }
-        }
-
-        return false;
+        return $this->spamFilter->isSpam($this->request);
     }
 }

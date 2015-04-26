@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\UsersManager\tests;
 
+use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -89,6 +90,42 @@ class UserPreferencesTest extends IntegrationTestCase
         $this->assertEquals(1, $this->userPreferences->getDefaultWebsiteId());
     }
 
+    public function test_getDefaultPeriod_ShouldReturnDayIfToday()
+    {
+        $this->setDefaultDate('today');
+        $this->assertEquals('day', $this->userPreferences->getDefaultPeriod());
+    }
+
+    public function test_getDefaultPeriod_ShouldReturnDayIfYesterday()
+    {
+        $this->setDefaultDate('yesterday');
+        $this->assertEquals('day', $this->userPreferences->getDefaultPeriod());
+    }
+
+    public function test_getDefaultDate()
+    {
+        $this->setDefaultDate('today');
+        $this->assertEquals('today', $this->userPreferences->getDefaultDate());
+    }
+
+    public function test_getDefaultPeriod_ShouldOnlyReturnAllowedPeriods()
+    {
+        // Only allow for week period
+        Config::getInstance()->General['enabled_periods_UI'] = 'week';
+        Config::getInstance()->General['default_period'] = 'week';
+        $this->setDefaultDate('today');
+        $this->assertEquals('week', $this->userPreferences->getDefaultPeriod());
+    }
+
+    public function test_getDefaultDate_ShouldOnlyReturnDateInAllowedPeriods()
+    {
+        // Only allow for week period
+        Config::getInstance()->General['enabled_periods_UI'] = 'day';
+        Config::getInstance()->General['default_period'] = 'day';
+        $this->setDefaultDate('last7');
+        $this->assertEquals('yesterday', $this->userPreferences->getDefaultDate());
+    }
+
     private function setSuperUser()
     {
         $pseudoMockAccess = new FakeAccess();
@@ -110,9 +147,19 @@ class UserPreferencesTest extends IntegrationTestCase
 
     private function setDefaultReport($defaultReport)
     {
-        APIUsersManager::getInstance()->setUserPreference(Piwik::getCurrentUserLogin(),
+        APIUsersManager::getInstance()->setUserPreference(
+            Piwik::getCurrentUserLogin(),
             APIUsersManager::PREFERENCE_DEFAULT_REPORT,
-            $defaultReport);
+            $defaultReport
+        );
     }
 
+    private function setDefaultDate($date)
+    {
+        APIUsersManager::getInstance()->setUserPreference(
+            Piwik::getCurrentUserLogin(),
+            APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
+            $date
+        );
+    }
 }

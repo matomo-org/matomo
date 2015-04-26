@@ -35,6 +35,7 @@
         "UpdateAutomatically": "Automatikus frissítés",
         "UpdateHasBeenCancelledExplanation": "Az Egyklikkes Piwik Frissítés modult törölték. Ha nem tudod kijavítani a fenti hibaüzenetben kapott hibát, akkor a Piwik kézzel történő frissítését ajánljuk. %1$s Kérjük, kezdd a %2$s frissítésről szóló dokumentáció %3$s elolvasásával!",
         "UpdateTitle": "Frissítés",
+        "UpdateSuccessTitle": "A Piwik sikeresen frissült!",
         "UpgradeComplete": "Frissítés megtörtént!",
         "UpgradePiwik": "Piwik frissítése",
         "VerifyingUnpackedFiles": "Kicsomagolt fájlok ellenőrzése",

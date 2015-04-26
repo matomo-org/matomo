@@ -38,7 +38,6 @@
         "OptOutExplanationBis": "سيقوم هذا الكود بعرض iFrame يحتوي رابطاً لزوارك لإلغاء اشتراكهم في Piwik من خلال ضبط كوكيز في متصفحهم. %s انقر هنا %s لمشاهدة المحتويات التي سيتم عرضها في النافذة الفرعية iFrame.",
         "OptOutForYourVisitors": "إلغاء الاشتراك في Piwik لزوارك",
         "PiwikIsInstalledAt": "بايويك مثبت في المسار",
-        "PluginSettings": "إعدادات الإضافة",
         "TrackAGoal": "تتبع هدف",
         "TrackingCode": "كود التتبع",
         "TrustedHostConfirm": "هل ترغب حقاً في تغيير اسم المُضيف الموثوق لدى بايويك؟",

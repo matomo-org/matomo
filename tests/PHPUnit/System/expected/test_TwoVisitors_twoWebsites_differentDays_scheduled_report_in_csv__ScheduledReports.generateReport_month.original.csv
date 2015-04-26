@@ -220,13 +220,13 @@ No data available
 
 Country
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-Unknown,9,41,4.6,00:13:21,11%,$ 0
-France,2,2,1,00:00:00,100%,$ 0
+Unknown,8,40,5,00:15:01,0%,$ 0
+France,3,3,1,00:00:00,100%,$ 0
 
 Continent
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-Unknown,9,41,4.6,00:13:21,11%,$ 0
-Europe,2,2,1,00:00:00,100%,$ 0
+Unknown,8,40,5,00:15:01,0%,$ 0
+Europe,3,3,1,00:00:00,100%,$ 0
 
 Region
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
@@ -313,25 +313,25 @@ label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site
 Unknown,8,40,0%,5,00:15:01,0%
 Desktop,3,3,0%,1,00:00:00,100%
 
-Device brand
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,11,43,0%,3.9,00:10:55,27%
-
 Visitor Browser
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,8,40,0%,5,00:15:01,0%
 Firefox,2,2,0%,1,00:00:00,100%
 Opera,1,1,0%,1,00:00:00,100%
 
+Device brand
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Unknown,11,43,0%,3.9,00:10:55,27%
+
+Device model
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Unknown,11,43,0%,3.9,00:10:55,27%
+
 Browser version
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,8,40,0%,5,00:15:01,0%
 Firefox 3.6,2,2,0%,1,00:00:00,100%
 Opera 9.63,1,1,0%,1,00:00:00,100%
-
-Device model
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,11,43,0%,3.9,00:10:55,27%
 
 Operating System families
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate

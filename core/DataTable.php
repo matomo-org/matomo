@@ -895,7 +895,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * Returns an array containing all column values of columns whose name starts with `$name`.
      *
-     * @param $namePrefix The column name prefix.
+     * @param string $namePrefix The column name prefix.
      * @return array The array of column values.
      */
     public function getColumnsStartingWith($namePrefix)
@@ -1133,12 +1133,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         if (is_null($limit)) {
-            $spliced = array_splice($this->rows, $offset);
+            array_splice($this->rows, $offset);
         } else {
-            $spliced = array_splice($this->rows, $offset, $limit);
+            array_splice($this->rows, $offset, $limit);
         }
-        $countDeleted = count($spliced);
-        return $countDeleted;
+
+        return $count - $this->getRowsCount();
     }
 
     /**
@@ -1415,11 +1415,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             return;
         }
 
-        // we define an exception we may throw if at one point we notice that we cannot handle the data structure
-        $e = new Exception(" Data structure returned is not convertible in the requested format." .
+        $exceptionText = " Data structure returned is not convertible in the requested format." .
             " Try to call this method with the parameters '&format=original&serialize=1'" .
             "; you will get the original php data structure serialized." .
-            " The data structure looks like this: \n \$data = " . var_export($array, true) . "; ");
+            " The data structure looks like this: \n \$data = %s; ";
 
         // first pass to see if the array has the structure
         // array(col1_name => val1, col2_name => val2, etc.)
@@ -1460,12 +1459,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 // it cannot be lost during the conversion. Because we are not able to handle properly
                 // this key, we throw an explicit exception.
                 if (is_string($key)) {
-                    throw $e;
+                    // we define an exception we may throw if at one point we notice that we cannot handle the data structure
+                    throw new Exception(sprintf($exceptionText, var_export($array, true)));
                 }
                 // if any of the sub elements of row is an array we cannot handle this data structure...
                 foreach ($row as $subRow) {
                     if (is_array($subRow)) {
-                        throw $e;
+                        throw new Exception(sprintf($exceptionText, var_export($array, true)));
                     }
                 }
                 $row = new Row(array(Row::COLUMNS => $row));
