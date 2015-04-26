@@ -13,9 +13,8 @@
                 var newWindow = window.open(form.action + '&time=' + Date.now());
 
                 // when the new window loads, reload this page
-                newWindow.addEventListener('unload', function () {
-                    alert('b');
-                    window.reload();
+                newWindow.addEventListener('load', function () {
+                    window.location.reload();
                 }, false);
             } else {
                 form.submit();
