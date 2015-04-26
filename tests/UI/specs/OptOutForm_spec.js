@@ -39,16 +39,20 @@ describe("OptOutForm", function () {
         }, done);
     });
 
-    it("should correclty set opt-out cookie on safari", function (done) {
-        expect.screenshot('opted-out').to.be.captureSelector('safari-opted-out', 'iframe#optOutIframe', function (page) {
+    it("should correctly show display opted-in form when cookies are cleared", function (done) {
+        expect.screenshot('loaded').to.be.captureSelector('safari-loaded', 'iframe#optOutIframe', function (page) {
             page.webpage.clearCookies();
 
             page.userAgent = safariUserAgent;
             page.load(siteUrl);
+        });
+    }, done);
+
+    it("should correclty set opt-out cookie on safari", function (done) {
+        expect.screenshot('opted-out').to.be.captureSelector('safari-opted-out', 'iframe#optOutIframe', function (page) {
             page.evaluate(function () {
                 $('iframe#optOutIframe').contents().find('input#trackVisits').click();
             });
-            page.wait(3000); // wait for iframe to reload (after setTimeout in optOut.twig finishes)
             page.load(siteUrl); // reload to check that cookie was set
         }, done);
     });
