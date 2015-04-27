@@ -56,14 +56,16 @@ class Dashboard
                 $row->setColumn('label', $site['name']);
                 $row->setMetadata('group', $site['group']);
 
-                // if we do not update the pastData labels, the evolution cannot be calculated correctly.
-                $pastRow = $pastData->getRowFromLabel($idSite);
-                if ($pastRow) {
-                    $pastRow->setColumn('label', $site['name']);
+                if ($pastData) {
+                    // if we do not update the pastData labels, the evolution cannot be calculated correctly.
+                    $pastRow = $pastData->getRowFromLabel($idSite);
+                    if ($pastRow) {
+                        $pastRow->setColumn('label', $site['name']);
+                        $pastData->setLabelsHaveChanged();
+                    }
                 }
             }
 
-            $pastData->setLabelsHaveChanged();
         });
 
         $this->setSitesTable($sites);

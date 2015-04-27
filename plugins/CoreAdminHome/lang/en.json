@@ -86,6 +86,7 @@
         "YouAreOptedIn": "You are currently opted in.",
         "YouAreOptedOut": "You are currently opted out.",
         "YouMayOptOut": "You may choose not to have a unique web analytics cookie identification number assigned to your computer to avoid the aggregation and analysis of data collected on this website.",
-        "YouMayOptOutBis": "To make that choice, please click below to receive an opt-out cookie."
+        "YouMayOptOutBis": "To make that choice, please click below to receive an opt-out cookie.",
+        "OptingYouOut": "Opting you out, please wait..."
     }
 }
