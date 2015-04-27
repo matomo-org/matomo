@@ -2801,15 +2801,33 @@ if (typeof Piwik !== 'object') {
                 ];
             }
 
+            function isPossibleToSetCookieOnDomain(domainToTest)
+            {
+                var valueToSet = 'testvalue';
+                setCookie('test', valueToSet, 10000, null, domainToTest);
+
+                if (getCookie('test') === valueToSet) {
+                    deleteCookie('test', null, domainToTest);
+
+                    return true;
+                }
+
+                return false;
+            }
+
+            function deleteCookie(cookieName, path, domain) {
+                setCookie(cookieName, '', -86400, path, domain);
+            }
+
             function deleteCookies() {
                 var savedConfigCookiesDisabled = configCookiesDisabled;
 
                 // Temporarily allow cookies just to delete the existing ones
                 configCookiesDisabled = false;
-                setCookie(getCookieName('id'), '', -86400, configCookiePath, configCookieDomain);
-                setCookie(getCookieName('ses'), '', -86400, configCookiePath, configCookieDomain);
-                setCookie(getCookieName('cvar'), '', -86400, configCookiePath, configCookieDomain);
-                setCookie(getCookieName('ref'), '', -86400, configCookiePath, configCookieDomain);
+                deleteCookie(getCookieName('id'), configCookiePath, configCookieDomain);
+                deleteCookie(getCookieName('ses'), configCookiePath, configCookieDomain);
+                deleteCookie(getCookieName('cvar'), configCookiePath, configCookieDomain);
+                deleteCookie(getCookieName('ref'), configCookiePath, configCookieDomain);
 
                 configCookiesDisabled = savedConfigCookiesDisabled;
             }
@@ -4643,8 +4661,12 @@ if (typeof Piwik !== 'object') {
                  * @param string domain
                  */
                 setCookieDomain: function (domain) {
-                    configCookieDomain = domainFixup(domain);
-                    updateDomainHash();
+                    var domainFixed = domainFixup(domain);
+
+                    if (isPossibleToSetCookieOnDomain(domainFixed)) {
+                        configCookieDomain = domainFixed;
+                        updateDomainHash();
+                    }
                 },
 
                 /**
