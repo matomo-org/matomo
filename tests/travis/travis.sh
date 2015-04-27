@@ -68,8 +68,6 @@ then
     elif [ "$TEST_SUITE" = "AllTests" ]
     then
         travis_wait ./../../console tests:run --options="--colors"
-        
-        ./vendor/bin/php-cs-fixer fix -v --dry-run --diff --config-file=.php_cs
     else
         if [ -n "$PLUGIN_NAME" ]
         then
