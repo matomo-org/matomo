@@ -61,11 +61,11 @@ class Dashboard
                     $pastRow = $pastData->getRowFromLabel($idSite);
                     if ($pastRow) {
                         $pastRow->setColumn('label', $site['name']);
+                        $pastData->setLabelsHaveChanged();
                     }
                 }
             }
 
-            $pastData->setLabelsHaveChanged();
         });
 
         $this->setSitesTable($sites);
