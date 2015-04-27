@@ -45,7 +45,7 @@ describe("OptOutForm", function () {
 
             page.userAgent = safariUserAgent;
             page.load(siteUrl);
-        });
+        }, done);
     }, done);
 
     it("should correclty set opt-out cookie on safari", function (done) {
