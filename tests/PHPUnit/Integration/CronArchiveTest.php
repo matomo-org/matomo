@@ -76,22 +76,22 @@ NOTES
 ---------------------------
 START
 Starting Piwik reports archiving...
-Will pre-process for website id = 1, day period, 1 segments
+Will pre-process for website id = 1, day period
 - pre-processing all visits
 - pre-processing segment 1/1 actions>=2
-Archived website id = 1, period = day, 0 visits in last %s days, 0 visits today, Time elapsed: %s
-Will pre-process for website id = 1, week period, 1 segments
+Archived website id = 1, period = day, 1 segments, 0 visits in last %s days, 0 visits today, Time elapsed: %s
+Will pre-process for website id = 1, week period
 - pre-processing all visits
 - pre-processing segment 1/1 actions>=2
-Archived website id = 1, period = week, 0 visits in last %s weeks, 0 visits this week, Time elapsed: %s
-Will pre-process for website id = 1, month period, 1 segments
+Archived website id = 1, period = week, 1 segments, 0 visits in last %s weeks, 0 visits this week, Time elapsed: %s
+Will pre-process for website id = 1, month period
 - pre-processing all visits
 - pre-processing segment 1/1 actions>=2
-Archived website id = 1, period = month, 0 visits in last %s months, 0 visits this month, Time elapsed: %s
-Will pre-process for website id = 1, year period, 1 segments
+Archived website id = 1, period = month, 1 segments, 0 visits in last %s months, 0 visits this month, Time elapsed: %s
+Will pre-process for website id = 1, year period
 - pre-processing all visits
 - pre-processing segment 1/1 actions>=2
-Archived website id = 1, period = year, 0 visits in last %s years, 0 visits this year, Time elapsed: %s
+Archived website id = 1, period = year, 1 segments, 0 visits in last %s years, 0 visits this year, Time elapsed: %s
 Archived website id = 1, %s API requests, Time elapsed: %s [1/1 done]
 Done archiving!
 ---------------------------
