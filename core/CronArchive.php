@@ -683,6 +683,9 @@ class CronArchive
 
         $date = $this->getApiDateParameter($idSite, "day", $processDaysSince);
         $url = $this->getVisitsRequestUrl($idSite, "day", $date);
+
+        $this->logArchiveWebsite($idSite, "day");
+
         $content = $this->request($url);
         $daysResponse = @unserialize($content);
 
@@ -711,7 +714,8 @@ class CronArchive
         $this->processed++;
 
         // If there is no visit today and we don't need to process this website, we can skip remaining archives
-        if (0 == $visitsToday
+        if (
+            0 == $visitsToday
             && !$shouldArchivePeriods
         ) {
             $this->logger->info("Skipped website id $idSite, no visit today, " . $timerWebsite->__toString());
@@ -732,7 +736,6 @@ class CronArchive
         $this->websitesWithVisitsSinceLastRun++;
 
         $this->archiveReportsFor($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince), $archiveSegments = true);
-        $this->logArchivedWebsite($idSite, "day", $date, $visitsLastDays, $visitsToday, $timerWebsite);
 
         return true;
     }
@@ -741,14 +744,6 @@ class CronArchive
     {
         $segmentsAllSites = $this->segments;
         $segmentsThisSite = SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite);
-        if (!empty($segmentsThisSite)) {
-            $this->logger->info(sprintf(
-                "Will pre-process for website id = %s, %s period, %d segments",
-                $idSite,
-                $period,
-                count($segmentsThisSite)
-            ));
-        }
         $segments = array_unique(array_merge($segmentsAllSites, $segmentsThisSite));
         return $segments;
     }
@@ -780,19 +775,20 @@ class CronArchive
         // already processed above for "day"
         if ($period != "day") {
             $urls[] = $url;
+            $this->logArchiveWebsite($idSite, $period);
         }
 
+        $segmentRequestsCount = 0;
         if($archiveSegments) {
             $urlsWithSegment = $this->getUrlsWithSegment($idSite, $period, $date);
             $urls = array_merge($urls, $urlsWithSegment);
+            $segmentRequestsCount = count($urlsWithSegment);
 
             // in case several segment URLs for period=range had the date= rewritten to the same value, we only call API once
             $urls = array_unique($urls);
         }
 
         $this->requests += count($urls);
-
-        $this->logger->info('- pre-processing all visits');
 
         $cliMulti = new CliMulti();
         $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
@@ -821,10 +817,7 @@ class CronArchive
             }
         }
 
-        // we have already logged the daily archive above
-        if ($period != "day") {
-            $this->logArchivedWebsite($idSite, $period, $date, $visitsInLastPeriods, $visitsLastPeriod, $timer);
-        }
+        $this->logArchivedWebsite($idSite, $period, $date, $segmentRequestsCount, $visitsInLastPeriods, $visitsLastPeriod, $timer);
 
         return $success;
     }
@@ -1339,11 +1332,12 @@ class CronArchive
      * @param $idSite
      * @param $period
      * @param $date
+     * @param $segmentsCount
      * @param $visitsInLastPeriods
      * @param $visitsToday
      * @param $timer
      */
-    private function logArchivedWebsite($idSite, $period, $date, $visitsInLastPeriods, $visitsToday, Timer $timer)
+    private function logArchivedWebsite($idSite, $period, $date, $segmentsCount, $visitsInLastPeriods, $visitsToday, Timer $timer)
     {
         if (strpos($date, 'last') === 0 || strpos($date, 'previous') === 0) {
             $visitsInLastPeriods = (int)$visitsInLastPeriods . " visits in last " . $date . " " . $period . "s, ";
@@ -1354,7 +1348,7 @@ class CronArchive
             $visitsInLastPeriod = '';
         }
 
-        $this->logger->info("Archived website id = $idSite, period = $period, "
+        $this->logger->info("Archived website id = $idSite, period = $period, $segmentsCount segments, "
             . $visitsInLastPeriods
             . $visitsInLastPeriod
             . $timer->__toString());
@@ -1623,4 +1617,18 @@ class CronArchive
 
         return new SharedSiteIds($websitesIds);
    }
+
+    /**
+     * @param $idSite
+     * @param $period
+     */
+    private function logArchiveWebsite($idSite, $period)
+    {
+        $this->logger->info(sprintf(
+            "Will pre-process for website id = %s, %s period",
+            $idSite,
+            $period
+        ));
+        $this->logger->info('- pre-processing all visits');
+    }
 }
