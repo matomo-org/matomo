@@ -53,6 +53,7 @@
         "SelectDefaultTimezone": "U kunt de standaard tijdzone selecteren voor nieuwe websites.",
         "ShowTrackingTag": "Toon tracking tag",
         "Sites": "Websites",
+        "SiteWithoutDataTitle": "Er zijn nog geen gegevens geregistreerd",
         "Timezone": "Tijdzone",
         "TrackingTags": "Trackingcode voor %s",
         "Urls": "URLs",
