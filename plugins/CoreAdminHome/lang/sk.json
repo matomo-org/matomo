@@ -1,6 +1,7 @@
 {
     "CoreAdminHome": {
         "Administration": "Administrácia",
+        "ArchivingSettings": "Archivačné nastavenia",
         "EmailServerSettings": "Nastavenia e-mailového servera",
         "ForBetaTestersOnly": "Len pre beta testerov",
         "ImageTracking": "Sledovanie obrázkom",
