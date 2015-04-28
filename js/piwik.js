@@ -2569,7 +2569,6 @@ if (typeof Piwik !== 'object') {
              * Does browser have cookies enabled (for this site)?
              */
             function hasCookies() {
-                return '0';
                 if (configCookiesDisabled) {
                     return '0';
                 }
