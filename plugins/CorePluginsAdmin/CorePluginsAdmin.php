@@ -29,6 +29,7 @@ class CorePluginsAdmin extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/marketplace.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugins_admin.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugin-details.less";
     }
 
     public static function isMarketplaceEnabled()
@@ -43,8 +44,9 @@ class CorePluginsAdmin extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
+        $jsFiles[] = "libs/bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/popover.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginDetail.js";
+        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/marketplace.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginOverview.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginExtend.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/plugins.js";

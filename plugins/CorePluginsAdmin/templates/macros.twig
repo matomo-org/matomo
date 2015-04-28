@@ -96,13 +96,13 @@
 {% macro missingRequirementsPleaseUpdateNotice(plugin) %}
     {% if plugin.missingRequirements and 0 < plugin.missingRequirements|length %}
         {% for req in plugin.missingRequirements -%}
-            <p class="missingRequirementsNotice">
+            <div class="alert alert-danger">
                 {% set requirement = req.requirement|capitalize %}
                 {% if 'Php' == requirement %}
                     {% set requirement = 'PHP' %}
                 {% endif %}
                 {{ 'CorePluginsAdmin_MissingRequirementsNotice'|translate(requirement, req.actualVersion, req.requiredVersion) }}
-            </p>
+            </div>
         {%- endfor %}
     {% endif %}
 {% endmacro %}
