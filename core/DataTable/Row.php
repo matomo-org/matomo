@@ -326,7 +326,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
     /**
      * Set all the columns at once. Overwrites **all** previously set columns.
      *
-     * @param array eg, `array('label' => 'www.php.net', 'nb_visits' => 15894)`
+     * @param array $columns eg, `array('label' => 'www.php.net', 'nb_visits' => 15894)`
      */
     public function setColumns($columns)
     {

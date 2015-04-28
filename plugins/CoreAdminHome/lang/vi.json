@@ -58,7 +58,6 @@
         "OptOutForYourVisitors": "Piwik không tham gia truy cập của bạn",
         "PiwikIsInstalledAt": "Piwik được cài đặt tại",
         "PluginSettingChangeNotAllowed": "Bạn không được phép thay đổi giá trị của các thiết lập \"%s\" trong plugin \"%s\"",
-        "PluginSettings": "Cài đặt tiện ích",
         "PluginSettingsIntro": "Ở đây bạn có thể thay đổi các thiết lập cho các plugin của bên thứ 3 như sau:",
         "PluginSettingsValueNotAllowed": "Giá trị của trường \"%s\" trong plugin \"%s\" không được chấp nhận",
         "SendPluginUpdateCommunication": "Gửi thông báo qua email cho tôi khi có plugin được nâng cấp",

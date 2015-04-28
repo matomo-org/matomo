@@ -45,7 +45,7 @@
         "NoUsersExist": "Yhtään käyttäjää ei ole vielä olemassa.",
         "PrivAdmin": "Hallinnointioikeus",
         "PrivNone": "Ei käyttöoikeutta",
-        "PrivView": "Katsomisoikeus",
+        "PrivView": "Näkymä",
         "ReportDateToLoadByDefault": "Raportin oletuspäiväys",
         "ReportToLoadByDefault": "Oletuksena ladattava raportti",
         "SuperUserAccessManagement": "Hallinnoi Superkäyttäjäoikeuksia",

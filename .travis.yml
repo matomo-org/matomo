@@ -33,6 +33,7 @@ env:
     - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL
   global:
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR
+    - SKIP_INSTALL_MYSQL_56=1
     - secure: "AMhZmPZx4SUcuZRBzGHlQPxzM4D8FvFB3UThDa52gbi9KIBrwcumzV2VGi6B\n5fgjwtB4XTE1In7qhY2HMikPWBmWYYOQ5QcMPJsqqHt4iMmahx8WKzne6NOk\nNpqAuje/fulNGeP2LJZi0nrub3Fh4VwXaOvpNloKNQN/2JuqPtM="
     - secure: "DySde80fX3dw0osGY5s5lGiGLjMleUkkONsuRDC4xjT1hAQP94FGHpPXVZV8\nAQY0s8MQmcK2eRLOQrmE9Bh1XXbGqh40s66XhSWq0hulFHxQH5OLaZXccFeu\n5WxGkHXnNDIc+CVhXW/IIbHZPO1K6hffS8fuvP1o6mYgxwFL6Xw="
     - secure: "CW73pDjcaabpSL7bWiWIQLydKmvLzA1gWNv/zK0VcAKezQtCAQbqpIY1+B56wOhkaCWa7P+xdd2gUWEtvvdRKEC0sZcgCdHD5pQx390e5PWCMQTFO+doAElI4w4DMATCbH890Wcw2rotiZcjlkPYY+urIpUlcRsl6mMtBVQuQ9c="
@@ -77,6 +78,8 @@ matrix:
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
+
+sudo: required
 
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 

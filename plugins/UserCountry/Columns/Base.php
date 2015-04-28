@@ -68,7 +68,7 @@ abstract class Base extends VisitDimension
     protected function getUserInfo(Request $request, Visitor $visitor)
     {
         $ipAddress = $this->getIpAddress($visitor->getVisitorColumn('location_ip'), $request);
-        $language  = $visitor->getVisitorColumn('location_browser_lang');
+        $language  = $request->getBrowserLanguage();
 
         $userInfo  = array('lang' => $language, 'ip' => $ipAddress);
 

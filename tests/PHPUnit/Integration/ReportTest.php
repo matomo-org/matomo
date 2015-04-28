@@ -340,7 +340,11 @@ class ReportTest extends IntegrationTestCase
                     'nb_visits' => 'General_ColumnNbVisitsDocumentation',
                     'nb_uniq_visitors' => 'General_ColumnNbUniqVisitorsDocumentation',
                     'nb_actions' => 'General_ColumnNbActionsDocumentation',
-                    'nb_users' => 'General_ColumnNbUsersDocumentation'
+                    'nb_users' => 'General_ColumnNbUsersDocumentation',
+                    'nb_actions_per_visit' => 'General_ColumnActionsPerVisitDocumentation',
+                    'avg_time_on_site' => 'General_ColumnAvgTimeOnSiteDocumentation',
+                    'bounce_rate' => 'General_ColumnBounceRateDocumentation',
+                    'conversion_rate' => 'General_ColumnConversionRateDocumentation',
                 ),
                 'processedMetrics' => array(
                     'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
@@ -377,6 +381,8 @@ class ReportTest extends IntegrationTestCase
                 'metricsDocumentation' => array(
                     'nb_actions' => 'General_ColumnNbActionsDocumentation',
                     'nb_visits' => 'General_ColumnNbVisitsDocumentation',
+                    'conversion_rate' => 'General_ColumnConversionRateDocumentation',
+                    'bounce_rate' => 'General_ColumnBounceRateDocumentation',
                 ),
                 'processedMetrics' => array(
                     'conversion_rate' => 'General_ColumnConversionRate',

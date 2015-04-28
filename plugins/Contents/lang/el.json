@@ -1,12 +1,12 @@
 {
     "Contents": {
-        "ContentName": "Όνομα Περιεχομένου",
-        "ContentPiece": "Κομμάτι Περιεχομένου",
-        "Contents": "Περιεχόμενα",
-        "ContentTarget": "Στόχος Περιεχομένου",
         "Impressions": "Αποτυπώσεις",
+        "Interactions": "Αλληλεπιδράσεις",
         "Interaction": "Αλληλεπίδραση",
         "InteractionRate": "Ρυθμός αλληλεπίδρασης",
-        "Interactions": "Αλληλεπιδράσεις"
+        "ContentName": "Όνομα Περιεχομένου",
+        "ContentPiece": "Κομμάτι Περιεχομένου",
+        "ContentTarget": "Στόχος Περιεχομένου",
+        "Contents": "Περιεχόμενα"
     }
 }

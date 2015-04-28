@@ -132,8 +132,6 @@ class Tracker
         if ($request->isEmptyRequest()) {
             Common::printDebug("The request is empty");
         } else {
-            $this->loadTrackerPlugins();
-
             Common::printDebug("Current datetime: " . date("Y-m-d H:i:s", $request->getCurrentTimestamp()));
 
             $visit = Visit\Factory::make();
@@ -168,6 +166,13 @@ class Tracker
             }
 
             PluginManager::getInstance()->loadCorePluginsDuringTracker();
+        }
+    }
+
+    public static function restoreTrackerPlugins()
+    {
+        if (SettingsServer::isTrackerApiRequest() && Tracker::$initTrackerMode) {
+            Plugin\Manager::getInstance()->loadTrackerPlugins();
         }
     }
 
@@ -245,7 +250,9 @@ class Tracker
         }
 
         // Do not run scheduled tasks during tests
-        TrackerConfig::setConfigValue('scheduled_tasks_min_interval', 0);
+        if (!defined('DEBUG_FORCE_SCHEDULED_TASKS')) {
+            TrackerConfig::setConfigValue('scheduled_tasks_min_interval', 0);
+        }
 
         // if nothing found in _GET/_POST and we're doing a POST, assume bulk request. in which case,
         // we have to bypass authentication

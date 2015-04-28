@@ -26,59 +26,39 @@
   }
 }
 
-#dashboardWidgetsArea {
-  padding-bottom: 100px;
-}
+#dashboard {
+  .col {
+    min-height: 100px;
+    // Customize Bootstrap gutter between columns
+    padding-right: 7px;
+    padding-left: 7px;
 
-.col {
-  float: left;
-  min-height: 100px;
-}
-
-.col.width-100 {
-  width: 100%;
-}
-
-.col.width-75 {
-  width: 75%;
-}
-
-.col.width-67 {
-  width: 66.67%;
-}
-
-.col.width-50 {
-  width: 50%;
-}
-
-.col.width-40 {
-  width: 40%;
-}
-
-.col.width-33 {
-  width: 33.33%;
-}
-
-.col.width-30 {
-  width: 30%;
-}
-
-.col.width-25 {
-  width: 25%;
-}
-
-.hover {
-  border: 2px dashed #E3E3E3;
+    >.sortable {
+      padding: 5px 0;
+    }
+  }
 }
 
 .widget {
   background: @theme-color-background-base;
   border: 1px solid #bbb6ad;
-  margin: 10px 7px;
   border-radius: 4px;
   overflow: hidden;
   font-size: 14px;
   z-index: 1;
+
+  h3 {
+    font-size: 15px;
+    margin: 0;
+    font-weight: normal;
+    color: #0D0D0D;
+    text-shadow: none;
+    padding: 15px 15px 10px;
+  }
+}
+
+.hover {
+  border: 2px dashed #E3E3E3;
 }
 
 .widgetHover {
@@ -116,18 +96,6 @@
   padding-bottom: 4px;
 }
 
-.widgetTopHover {
-}
-
-h3.widgetName {
-  font-size: 15px;
-  padding: 0px;
-  margin: 0px;
-  font-weight: normal;
-  color: #0D0D0D;
-  text-shadow: none;
-}
-
 .widgetNameOffScreen {
   overflow: hidden;
   width:1px;
@@ -137,7 +105,11 @@ h3.widgetName {
 // Overriding some dataTable css for better dashboard display
 .widget .dataTableWrapper {
   width: 100% !important;
+  table * {
+    // Because of Bootstrap
+    box-sizing: content-box;
   }
+}
 
 .widgetTop .button {
   cursor: pointer;
@@ -327,31 +299,24 @@ h3.widgetName {
 #columnPreview .width-100 {
   width: 120px;
 }
-
 #columnPreview .width-75 {
   width: 90px;
 }
-
 #columnPreview .width-67 {
   width: 80.4px;
 }
-
 #columnPreview .width-50 {
   width: 60px;
 }
-
 #columnPreview .width-40 {
   width: 48px;
 }
-
 #columnPreview .width-33 {
   width: 40px;
 }
-
 #columnPreview .width-30 {
   width: 36px;
 }
-
 #columnPreview .width-25 {
   width: 30px;
 }
@@ -505,6 +470,10 @@ div.widgetpreview-preview {
 #copyDashboardToUserConfirm .inputs label {
   width: 200px;
   float: left;
+}
+
+#dashboardWidgetsArea {
+  margin-top: 5px;
 }
 
 @media all and (max-width: 749px) {

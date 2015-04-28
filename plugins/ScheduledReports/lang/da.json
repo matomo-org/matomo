@@ -17,6 +17,7 @@
         "EmailSchedule": "E-mail tidsplan",
         "EvolutionGraph": "Vis historiske grafer for top %s værdier",
         "FrontPage": "Forside",
+        "PersonalEmailReports": "Personlige E-mail rapporter",
         "MonthlyScheduleHelp": "Månedlig tidsplan: Rapporten vil blive sendt den første dag i hver måned.",
         "MustBeLoggedIn": "Du skal være logget på for at oprette og planlægge brugerdefinerede rapporter.",
         "NoRecipients": "Denne rapport har ingen modtagere",

@@ -116,8 +116,8 @@ class Factory
      */
     public static function isPeriodEnabledForAPI($period)
     {
-        $enabledPeriodsInAPI = self::getPeriodsEnabledForAPI();
-        return in_array($period, $enabledPeriodsInAPI);
+        $periodValidator = new PeriodValidator();
+        return $periodValidator->isPeriodAllowedForAPI($period);
     }
 
     /**
@@ -125,9 +125,7 @@ class Factory
      */
     public static function getPeriodsEnabledForAPI()
     {
-        $enabledPeriodsInAPI = Config::getInstance()->General['enabled_periods_API'];
-        $enabledPeriodsInAPI = explode(",", $enabledPeriodsInAPI);
-        $enabledPeriodsInAPI = array_map('trim', $enabledPeriodsInAPI);
-        return $enabledPeriodsInAPI;
+        $periodValidator = new PeriodValidator();
+        return $periodValidator->getPeriodsAllowedForAPI();
     }
 }

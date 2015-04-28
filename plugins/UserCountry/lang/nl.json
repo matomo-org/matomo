@@ -11,7 +11,7 @@
         "continent_amc": "Centraal-Amerika",
         "continent_amn": "Noord-Amerika",
         "continent_ams": "Zuid en Centraal-Amerika",
-        "continent_ant": "Antarctica",
+        "continent_ant": "Antartica",
         "continent_asi": "Azië",
         "continent_eur": "Europa",
         "continent_oce": "Oceanië",
@@ -335,6 +335,7 @@
         "SubmenuLocations": "Locaties",
         "ThisUrlIsNotAValidGeoIPDB": "Het gedownloade bestand is geen valide GeoIP database. Controleer de link a.u.b. opnieuw, of download het bestand handmatig.",
         "ToGeolocateOldVisits": "Om locatie data voor oude bezoeken te krijgen, gebruik het %1$shier%2$s beschreven script.",
+        "UnsupportedArchiveType": "Niet ondersteund archieftype aangetroffen %1$s.",
         "UpdaterHasNotBeenRun": "De updater is nog niet eerder uitgevoerd.",
         "UpdaterWasLastRun": "De updater is voor het laatst uitgevoerd op %s.",
         "WidgetLocation": "Bezoeker Locatie"

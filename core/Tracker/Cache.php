@@ -15,6 +15,8 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin;
+use Piwik\SettingsServer;
 use Piwik\Tracker;
 
 /**
@@ -105,6 +107,8 @@ class Cache
             $cache->save($cacheId, $content, self::getTtl());
         }
 
+        Tracker::restoreTrackerPlugins();
+
         return $content;
     }
 
@@ -160,6 +164,9 @@ class Cache
         Piwik::postEvent('Tracker.setTrackerCacheGeneral', array(&$cacheContent));
         self::setCacheGeneral($cacheContent);
         Common::printDebug("General tracker cache was re-created.");
+
+        Tracker::restoreTrackerPlugins();
+
         return $cacheContent;
     }
 

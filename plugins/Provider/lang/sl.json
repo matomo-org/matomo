@@ -1,7 +1,7 @@
 {
     "Provider": {
         "ColumnProvider": "Ponudnik",
-        "ProviderReportFooter": "Neznan ponudnik pomeni, da IP številke ni bilo mogoče povezati s ponudnikom.",
-        "WidgetProviders": "Ponudniki"
+        "WidgetProviders": "Ponudniki",
+        "ProviderReportFooter": "Neznan ponudnik pomeni, da IP številke ni bilo mogoče povezati s ponudnikom."
     }
 }

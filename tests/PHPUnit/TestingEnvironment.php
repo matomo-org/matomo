@@ -152,6 +152,8 @@ class Piwik_TestingEnvironment
             ));
         }
 
+        $diConfig = array();
+
         // Apply DI config from the fixture
         if ($testingEnvironment->fixtureClass) {
             $fixtureClass = $testingEnvironment->fixtureClass;
@@ -159,10 +161,21 @@ class Piwik_TestingEnvironment
                 /** @var Fixture $fixture */
                 $fixture = new $fixtureClass;
                 $diConfig = $fixture->provideContainerConfig();
-                if (!empty($diConfig)) {
-                    StaticContainer::addDefinitions($diConfig);
+            }
+        }
+
+        if ($testingEnvironment->testCaseClass) {
+            $testCaseClass = $testingEnvironment->testCaseClass;
+            if (class_exists($testCaseClass)) {
+                $testCase = new $testCaseClass();
+                if (method_exists($testCase, 'provideContainerConfig')) {
+                    $diConfig = array_merge($diConfig, $testCase->provideContainerConfig());
                 }
             }
+        }
+
+        if (!empty($diConfig)) {
+            StaticContainer::addDefinitions($diConfig);
         }
 
         \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;

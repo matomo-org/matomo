@@ -65,6 +65,7 @@
         "SystemCheck": "System Check",
         "SystemCheckAutoUpdateHelp": "Note: Piwik's One Click update requires write-permissions to the Piwik folder and its contents.",
         "SystemCheckCreateFunctionHelp": "Piwik uses anonymous functions for callbacks.",
+        "SystemCheckDatabaseExtensions": "MySQL extensions",
         "SystemCheckDatabaseHelp": "Piwik requires either the mysqli extension or both the PDO and pdo_mysql extensions.",
         "SystemCheckDebugBacktraceHelp": "View::factory won't be able to create views for the calling module.",
         "SystemCheckError": "An error occured - must be fixed before you proceed",

@@ -1,6 +1,8 @@
 {
     "Login": {
-        "ContactAdmin": "Možné dôvody: Váš server ma zakázanú funkciu mail().<br \/> Skontaktujte svojho administrátora Piwik.",
+        "ConfirmationLinkSent": "Potvrdzovací odkaz bol zaslaný na váš e-mail. Skontrolujte si došlú poštu a navštívte tento odkaz pre autorizovanie požiadavky pre zmenu hesla.",
+        "ContactAdmin": "Možné dôvody: Váš server ma zakázanú funkciu mail(). <br \/>Skontaktujte svojho administrátora Piwik.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Používateľ s prístupom Super Používateľ nemôže byť autorizovaný pomocou '%s' mechanizmu.",
         "ExceptionPasswordMD5HashExpected": "Očakávajte že heslo bude v MD5 hash.",
         "InvalidOrExpiredToken": "Token je neplatný, alebo už vypršal.",
         "InvalidUsernameEmail": "Neplatné meno používateľa alebo e-mailová adresa",
@@ -8,8 +10,11 @@
         "LoginOrEmail": "Prihlasovací údaj (Login) alebo e-mail",
         "LoginPasswordNotCorrect": "Meno používateľa a heslo nie sú správne",
         "LostYourPassword": "Zabudli ste heslo?",
+        "MailTopicPasswordChange": "Potvrďte zmenu hesla",
+        "PasswordChanged": "Vaše heslo bolo zmenené.",
         "PasswordRepeat": "Heslo (znovu)",
         "PasswordsDoNotMatch": "Heslá sa nezhodujú.",
-        "RememberMe": "Zapamätať si ma"
+        "RememberMe": "Zapamätať si ma",
+        "ResetPasswordInstructions": "Vložte nové heslo pre svoj účet."
     }
 }

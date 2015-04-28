@@ -1,6 +1,5 @@
 {
     "Installation": {
-        "CannotConnectToDb": "No se puedo conectar con la base de datos",
         "CollaborativeProject": "Piwik es un proyecto de colaboración, creado con amor por personas de todo el mundo",
         "ConfigurationHelp": "Su archivo de configuración de Piwik parece estar desconfigurado. Puede remover el archivo config\/config.ini.php y seguir la instalación, o corregir la configuración de conexión de la base de datos.",
         "ConfirmDeleteExistingTables": "¿Está seguro de que desea borrar las tablas: %s de su base de datos? ADVERTENCIA: ¡LOS DATOS DE ESTAS TABLAS NO SE PUEDEN RECUPERAR!",
@@ -37,7 +36,6 @@
         "NfsFilesystemWarningSuffixAdmin": "Esto significa que Piwik será extremadamente lento cuando se utilice sesiones basadas en archivos.",
         "NfsFilesystemWarningSuffixInstall": "Utilizando sesiones basadas en archivos sobre NFS es extremadamente lento, por lo tanto, Piwik utilizará sesiones basada en base de datos. Si tiene varios usuarios de panel, puede que necesite incrementar el número máximo de conexiones de clientes al servidor de la base de datos.",
         "NoConfigFound": "El archivo de configuración de Piwik no se ha encontrado y está intentando acceder a una página de Piwik.<br \/><b>  » Puede <a href='index.php'>instalar Piwik ahora<\/a><\/b><br \/><small>¡Si ha instalado Piwik antes y tiene algunas tablas en su BD, no se preocupe, usted puede reutilizar las mismas tablas y mantener sus datos existentes!<\/small>",
-        "NotSupported": "no soportado",
         "Optional": "Opcional",
         "Password": "Contraseña",
         "PasswordDoNotMatch": "las contraseñas no coinciden",
@@ -106,6 +104,7 @@
         "SystemCheckWriteDirs": "Directorios con acceso de escritura",
         "SystemCheckWriteDirsHelp": "Para arreglar este error en su sistema Linux, intente tecleando los siguientes comandos",
         "SystemCheckZlibHelp": "Necesita configurar y reconstruir PHP con el soporte \"zlib\" habilitado, --with-zlib.",
+        "NotSupported": "no soportado",
         "Tables": "Creando las tablas",
         "TablesCreatedSuccess": "¡Tablas creadas con éxito!",
         "TablesDelete": "Borrar las tablas detectadas",
@@ -119,6 +118,7 @@
         "WeHopeYouWillEnjoyPiwik": "Esperamos que te gusta usar Piwik tanto como a nosotros nos gusta crearlo.",
         "Welcome": "¡Bienvenido!",
         "WelcomeHelp": "<p>Piwik es un software de análisis web de código abierto que facilita el obtener la información que desea de sus visitantes.<\/p><p>Este proceso se divide en %s sencillos pasos que le llevarán en torno a 5 minutos.<\/p>",
-        "WelcomeToCommunity": "¡Bienvenido a la comunidad de Piwik!"
+        "WelcomeToCommunity": "¡Bienvenido a la comunidad de Piwik!",
+        "CannotConnectToDb": "No se puedo conectar con la base de datos"
     }
 }

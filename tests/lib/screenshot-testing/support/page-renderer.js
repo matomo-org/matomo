@@ -12,6 +12,7 @@ var VERBOSE = false;
 // TODO: should refactor, move all event queueing logic to PageAutomation class and add .frame method to change context
 var PageRenderer = function (baseUrl) {
     this.webpage = null;
+    this.userAgent = null;
 
     this.queuedEvents = [];
     this.pageLogs = [];
@@ -34,6 +35,10 @@ PageRenderer.prototype._recreateWebPage = function () {
 
     this.webpage = require('webpage').create();
     this.webpage.viewportSize = {width:1350, height:768};
+    if (this.userAgent) {
+        this.webpage.settings.userAgent = this.userAgent;
+    }
+
     this._setupWebpageEvents();
 };
 

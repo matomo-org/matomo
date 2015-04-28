@@ -1,7 +1,5 @@
 {
     "Installation": {
-        "CannotConnectToDb": "Ne mogu da se povežem na bazu podataka.",
-        "CannotConnectToDbResolvingExplanation": "Ovo bi mogao da bude privremeni problem, pokušajte da %1$sosvežite stranicu%2$s. Ukoliko se problem ponovi, kontaktirajte Piwik administratora.",
         "CollaborativeProject": "Piwik je saradnički projekat, satkan od ljubavi od strane ljudi diljem celog sveta.",
         "ConfigurationHelp": "Vaša Piwik podešavanja kao da nisu dobra. Možete ili ukloniti config\/config.ini.php datoteku i nastaviti sa instalacijom, ili ispraviti podešavanja u vezi sa povezivanjem na bazu podataka.",
         "ConfirmDeleteExistingTables": "Da li zaista želite da obrišete tabele: %s iz vaše baze? Upozorenje: Podaci iz ovih tabela se ne mogu više povratiti!",
@@ -38,17 +36,16 @@
         "NfsFilesystemWarningSuffixAdmin": "To znači da će Piwik biti jako spor ako koristite sesije bazirane na datotekama.",
         "NfsFilesystemWarningSuffixInstall": "Korišćene sesija na bazi datoteka na NFS sistemu je jako sporo tako da će piwik koristiti sesije u bazi podataka. Ako imate puno istovremenih korisnika Konzole, možda ćete morati da povećate maksimalan broj klijentskih konekcija ka serveru sa bazom.",
         "NoConfigFound": "Piwik datoteka sa podešavanjima nije nađena u momentu dok vi pokušavate da pristupite Piwik stranici.<br \/><b>  » Kliknite ovde kako biste <a href='index.php'>instalirali Piwik<\/a><\/b><br \/><small>Ukoliko ste već ranije instalirali Piwik i imate neke tabele u bazi podataka, bez brige: možete nastaviti da ih koristite i zadržite postojeće podatke!<\/small>",
-        "NotSupported": "nije podržano",
         "Optional": "Opciono",
         "Password": "lozinka",
         "PasswordDoNotMatch": "lozinke se ne podudaraju",
         "PasswordRepeat": "lozinka (ponovo)",
         "PercentDone": "%s %% Završeno",
-        "PiwikOrgNewsletter": "pošalji mi mejl kada dođe do značajne Piwik izmene",
         "PleaseFixTheFollowingErrors": "Molimo vas da ispravite sledeće greške",
         "Requirements": "Piwik zahtevi",
         "RestartWebServer": "Nakon ovih izmena restartujte vaš web server",
         "ReusingTables": "Ponovna upotreba tabela",
+        "PiwikOrgNewsletter": "pošalji mi mejl kada dođe do značajne Piwik izmene",
         "SeeBelowForMoreInfo": "Pogledajte ispod za više informacija.",
         "SetupWebsite": "Podešavanje sajta",
         "SetupWebsiteError": "Došlo je do greške prilikom dodavanja sajta",
@@ -64,8 +61,6 @@
         "SystemCheck": "Provera sistema",
         "SystemCheckAutoUpdateHelp": "Pažnja: Piwik nadogradnja putem jednog klika zahteva da bude omogućeno pisanje u Piwik direktorijum i njegov sadržaj",
         "SystemCheckCreateFunctionHelp": "Piwik koristi anonimne funkcije",
-        "SystemCheckCronArchiveProcess": "Kron za arhiviranje",
-        "SystemCheckCronArchiveProcessCLI": "Upravljanje procesima pomoću CLI",
         "SystemCheckDatabaseHelp": "Piwik zahteva ili mysqli proširenje ili PDO i pdo_mysql proširenja.",
         "SystemCheckDebugBacktraceHelp": "View::factory neće biti u mogućnosti da generiše prikaze za module koji ga pozivaju.",
         "SystemCheckError": "Došlo je do greške koja mora biti ispravljena pre nego što nastavimo",
@@ -110,6 +105,9 @@
         "SystemCheckWriteDirs": "Diektorijumi sa pristupom pisanja",
         "SystemCheckWriteDirsHelp": "Da biste ispravili ovu grešku na Linux serveru, ukucajte sledeće komande:",
         "SystemCheckZlibHelp": "Potrebno je da kompajlirate PHP sa \"zlib\" podrškom, --with-zlib.",
+        "SystemCheckCronArchiveProcess": "Kron za arhiviranje",
+        "SystemCheckCronArchiveProcessCLI": "Upravljanje procesima pomoću CLI",
+        "NotSupported": "nije podržano",
         "Tables": "Kreiranje tabela",
         "TablesCreatedSuccess": "Tabele su uspešno kreirane!",
         "TablesDelete": "Brisanje postojećih tabela",
@@ -123,6 +121,8 @@
         "WeHopeYouWillEnjoyPiwik": "Nadamo se da ćete uživati u korišćenju Piwik-a isto koliko smo mi uživali u njegovom stvaranju.",
         "Welcome": "Dobrodošli!",
         "WelcomeHelp": "<p>Piwik je alat otvorenog koda za analizu saobraćaja na sajtovima koji vam na lak način pruža željene informacije o vašim posetiocima.<\/p><p>Proces instalacije je podeljen na %s jednostavnih koraka i zahteva svega 5 minuta vašeg vremena.<\/p>",
-        "WelcomeToCommunity": "Dobrodošli u Piwik zajednicu!"
+        "WelcomeToCommunity": "Dobrodošli u Piwik zajednicu!",
+        "CannotConnectToDb": "Ne mogu da se povežem na bazu podataka.",
+        "CannotConnectToDbResolvingExplanation": "Ovo bi mogao da bude privremeni problem, pokušajte da %1$sosvežite stranicu%2$s. Ukoliko se problem ponovi, kontaktirajte Piwik administratora."
     }
 }

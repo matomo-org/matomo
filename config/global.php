@@ -53,6 +53,6 @@ return array(
     'Psr\Log\LoggerInterface' => DI\object('Psr\Log\NullLogger'),
 
     'Piwik\Translation\Loader\LoaderInterface' => DI\object('Piwik\Translation\Loader\LoaderCache')
-        ->constructor(DI\link('Piwik\Translation\Loader\JsonFileLoader')),
+        ->constructor(DI\get('Piwik\Translation\Loader\JsonFileLoader')),
 
 );

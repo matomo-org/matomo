@@ -1,8 +1,12 @@
 {
     "Contents": {
+        "Impressions": "Показы",
+        "Interactions": "Взаимодествия",
+        "Interaction": "Взаимодествие",
+        "InteractionRate": "Коэффициент взаимодествия",
         "ContentName": "Название публикации",
         "ContentPiece": "Часть публикации",
-        "Contents": "Публикации",
-        "ContentTarget": "Цель публикации"
+        "ContentTarget": "Цель публикации",
+        "Contents": "Публикации"
     }
 }

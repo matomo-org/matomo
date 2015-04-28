@@ -1,6 +1,5 @@
 {
     "Feedback": {
-        "ContactThePiwikTeam": "Neem contact op met het Piwik team!",
         "DoYouHaveBugReportOrFeatureRequest": "Heeft u een bugmelding of een verzoek voor nieuwe functies?",
         "IWantTo": "Ik wil:",
         "LearnWaysToParticipate": "Ontdek op welke manieren je kunt %s bijdragen%s",
@@ -10,11 +9,14 @@
         "RateFeatureLeaveMessageLike": "We zijn blij dat je het leuk vind! Laat ons weten wat het leukste vind of als je een goed idee hebt.",
         "RateFeatureThankYouTitle": "Bedank voor het waarderen '%s'!",
         "SendFeedback": "Stuur Feedback",
-        "SpecialRequest": "Heeft u een speciaal verzoek aan het Piwik team?",
         "ThankYou": "Bedankt voor uw bijdrage om Piwik beter te maken!",
         "TopLinkTooltip": "Vertel ons je waat je ervan denkt, of vraag om Professionele Ondersteuning.",
         "ViewAnswersToFAQ": "Bekijk de antwoorden van %sveelgestelde vragen%s",
-        "VisitTheForums": "Bezoek de %s Forums %s",
-        "WantToThankConsiderDonating": "Vind je Piwik geweldig en wil je ons bedanken?"
+        "ProfessionalHelp": "Professionele Hulp",
+        "PiwikProOfferIntro": "Ons aanbod omvat",
+        "PiwikProPhoneEmailSupport": "Telefoon en e-mail ondersteuning",
+        "PiwikProPremiumFeatures": "Premium functies",
+        "ContactUs": "Contacteer ons",
+        "VisitTheForums": "Bezoek de %s Forums %s"
     }
 }

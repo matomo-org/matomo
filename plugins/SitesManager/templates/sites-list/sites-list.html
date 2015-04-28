@@ -1,14 +1,12 @@
-<div class="entityContainer">
+<div class="entityContainer sitesManagerList">
 
-    <div ng-repeat="site in sites" ng-include="'plugins/SitesManager/templates/dialogs/dialogs.html'"></div>
+    <div ng-repeat="site in adminSites.sites" ng-include="'plugins/SitesManager/templates/dialogs/dialogs.html?cb=' + cacheBuster"></div>
 
-    <div ng-include="'plugins/SitesManager/templates/sites-list/add-site-link.html'"></div>
-
-    <table class="entityTable dataTable">
+    <table class="entityTable dataTable" ng-class="{'isLoading': adminSites.isLoading==true}">
         <thead>
         <tr>
             <th>{{ 'General_Id'|translate }}</th>
-            <th>{{ 'General_Name'|translate }}</th>
+            <th class="wideColumn">{{ 'General_Name'|translate }}</th>
             <th>{{ 'SitesManager_Urls'|translate }}</th>
             <th>{{ 'SitesManager_ExcludedIps'|translate }}</th>
             <th>{{ 'SitesManager_ExcludedParameters'|translate }}</th>
@@ -24,15 +22,17 @@
         </tr>
         </thead>
         <tbody>
-            <tr
-                    sites-manager-scroll
-                    ng-controller="SitesManagerSiteController"
-                    ng-repeat="site in sites"
-                    ng-include="'plugins/SitesManager/templates/sites-list/site-fields.html'">
+            <tr ng-show="adminSites.searchTerm && 0 === adminSites.sites.length && !adminSites.isLoading">
+                <td colspan="12">
+                    {{ 'SitesManager_NotFound'|translate }} <strong>{{ adminSites.searchTerm }}</strong>
+                </td>
+            </tr>
+            <tr sites-manager-scroll
+                ng-controller="SitesManagerSiteController"
+                ng-repeat="site in adminSites.sites"
+                ng-include="'plugins/SitesManager/templates/sites-list/site-fields.html?cb=' + cacheBuster">
             </tr>
         </tbody>
     </table>
-
-    <div ng-include="'plugins/SitesManager/templates/sites-list/add-site-link.html'"></div>
 
 </div>

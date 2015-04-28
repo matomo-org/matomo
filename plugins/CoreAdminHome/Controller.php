@@ -321,20 +321,28 @@ class Controller extends ControllerAdmin
     public function optOut()
     {
         $trackVisits = !IgnoreCookie::isIgnoreCookieFound();
-        
+
         $dntChecker = new DoNotTrackHeaderChecker();
         $dntFound = $dntChecker->isDoNotTrackFound();
-        
-        $nonce    = Common::getRequestVar('nonce', false);
-        $language = Common::getRequestVar('language', '');
-        if ($nonce !== false && Nonce::verifyNonce('Piwik_OptOut', $nonce)) {
-            Nonce::discardNonce('Piwik_OptOut');
-            IgnoreCookie::setIgnoreCookie();
-            $trackVisits = !$trackVisits;
+
+        $setCookieInNewWindow = Common::getRequestVar('setCookieInNewWindow', false, 'int');
+        if ($setCookieInNewWindow) {
+            $reloadUrl = Url::getCurrentQueryStringWithParametersModified(array(
+                'showConfirmOnly' => 1,
+                'setCookieInNewWindow' => 0,
+            ));
+        } else {
+            $reloadUrl = false;
+
+            $nonce = Common::getRequestVar('nonce', false);
+            if ($nonce !== false && Nonce::verifyNonce('Piwik_OptOut', $nonce)) {
+                Nonce::discardNonce('Piwik_OptOut');
+                IgnoreCookie::setIgnoreCookie();
+                $trackVisits = !$trackVisits;
+            }
         }
 
-
-
+        $language = Common::getRequestVar('language', '');
         $lang = APILanguagesManager::getInstance()->isLanguageAvailable($language)
             ? $language
             : LanguagesManager::getLanguageCodeForCurrentUser();
@@ -348,7 +356,16 @@ class Controller extends ControllerAdmin
         $view->trackVisits = $trackVisits;
         $view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
         $view->language = $lang;
+        $view->isSafari = $this->isUserAgentSafari();
+        $view->showConfirmOnly = Common::getRequestVar('showConfirmOnly', false, 'int');
+        $view->reloadUrl = $reloadUrl;
         return $view->render();
+    }
+
+    private function isUserAgentSafari()
+    {
+        $userAgent = @$_SERVER['HTTP_USER_AGENT'] ?: '';
+        return strpos($userAgent, 'Safari') !== false && strpos($userAgent, 'Chrome') === false;
     }
 
     public function uploadCustomLogo()

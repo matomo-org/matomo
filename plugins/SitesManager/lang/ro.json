@@ -61,7 +61,7 @@
         "SelectDefaultCurrency": "Puteți selecta moneda în mod implicit pentru site-uri noi",
         "SelectDefaultTimezone": "Puteți selecta fusul orar pentru a selecta în mod implicit pentru noul site.",
         "ShowTrackingTag": "Vizionare cod de urmarire",
-        "Sites": "Situri",
+        "Sites": "Siteuri",
         "SiteSearchUse": "Puteți utiliza Piwik pentru a urmări și raporta ceea ce vizitatorii cauta în motorul de căutare intern al site-ul dvs..",
         "SuperUserAccessCan": "Un utilizator cu acces la Super Utilizatorul poate, de asemenea,%s specifica setări globale%s pentru site-uri noi.",
         "Timezone": "Fus orar",

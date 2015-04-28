@@ -18,7 +18,7 @@
         "DistinctWebsites": "Websites distintos",
         "EvolutionDocumentation": "Esta é uma visão geral dos referrers que conduziram os visitantes no seu site.",
         "EvolutionDocumentationMoreInfo": "Para mais informações sobre os tipos encaminhadores diferentes, consulte a documentação da tabela %s.",
-        "Keywords": "Palavras Chaves",
+        "Keywords": "Palavras-chave",
         "KeywordsReportDocumentation": "Este relatório mostra quais palavras-chave os usuários estavam procurando antes de eles serem encaminhados para o seu site. %s Ao clicar em uma linha na tabela, você pode ver a distribuição dos motores de busca, que foram consultados para a palavra-chave.",
         "Referrer": "Encaminhador",
         "ReferrerName": "Nome do encaminhador",

@@ -38,7 +38,7 @@
         "Language_dz": "Dzongkha",
         "Language_ee": "Ewe",
         "Language_el": "Grecque",
-        "Language_en": "Anglais",
+        "Language_en": "French",
         "Language_eo": "Espéranto",
         "Language_es": "Espagnol",
         "Language_et": "Estonien",
@@ -111,7 +111,7 @@
         "Language_ms": "Malais",
         "Language_mt": "Maltais",
         "Language_my": "Birman",
-        "Language_na": "Nauruan",
+        "Language_na": "Nauru",
         "Language_nb": "Bokmål",
         "Language_nd": "Sindebele",
         "Language_ne": "Népalais",
@@ -164,7 +164,7 @@
         "Language_tk": "Turkmène",
         "Language_tl": "Tagalog",
         "Language_tn": "Tswana",
-        "Language_to": "Tonguien",
+        "Language_to": "Tonga",
         "Language_tr": "Turc",
         "Language_ts": "Tsonga",
         "Language_tt": "Tatar",
@@ -185,6 +185,7 @@
         "Language_za": "Chuang",
         "Language_zh": "Chinois",
         "Language_zu": "Zoulou",
-        "LanguageCode": "Code langue"
+        "LanguageCode": "Code langue",
+        "PluginDescription": "Affiche la langue configurée au sein du navigateur de vos visiteurs."
     }
 }

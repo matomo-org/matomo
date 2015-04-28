@@ -24,8 +24,6 @@
         "PreviousVisitor": "Forrige besøgende",
         "RealTimeVisitorCount": "Tidstro besøgsantal",
         "Referrer_URL": "Henvisning netadresse",
-        "RowActionTooltipDefault": "Vis besøgslog opdelt efter denne række",
-        "RowActionTooltipWithDimension": "Vis besøgslog opdelt efter %s",
         "ShowMap": "vis kort",
         "SimpleRealTimeWidget_Message": "%s og %s i den sidste %s.",
         "ViewVisitorProfile": "Vis besøgendes profil",
@@ -36,6 +34,10 @@
         "VisitorsInRealTime": "Besøgende her og nu",
         "VisitorsLastVisit": "Besøgendes seneste besøg var for %s dage siden.",
         "VisitsFrom": "%1$s%2$s besøg %3$s fra",
-        "VisitSummary": "Brugte i alt %1$s%2$s på hjemmesiden %3$s og %4$så %5$s sider på %6$s besøg. %7$s"
+        "VisitSummary": "Brugte i alt %1$s%2$s på hjemmesiden %3$s og %4$sså %5$s sider på %6$s besøg. %7$s",
+        "RowActionTooltipDefault": "Vis besøgslog opdelt efter denne række",
+        "RowActionTooltipWithDimension": "Vis besøgslog opdelt efter %s",
+        "RowActionTooltipTitle": "Åben segmenteret besøgslog",
+        "SegmentedVisitorLogTitle": "Besøgslog viser besøg, hvor %s er \\\"%s\\\""
     }
 }

@@ -32,7 +32,9 @@ class Remote
         $this->ssh->exec('git submodule foreach git clean -f');
         $this->ssh->exec('git fetch --all');
         $this->ssh->exec('git checkout ' . trim($gitHash));
+        $this->ssh->exec('git submodule update --init');
         $this->ssh->exec('git submodule update --recursive --force');
+        $this->ssh->exec('sudo composer.phar self-update');
         $this->ssh->exec('composer.phar install');
     }
 

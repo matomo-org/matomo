@@ -240,7 +240,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
         try {
-            return API::getInstance()->getSitesId();
+            return $this->getSitesId();
         } catch (Exception $e) {
             // can be called before Piwik tables are created so return empty
             return array();
@@ -278,16 +278,24 @@ class API extends \Piwik\Plugin\API
      * For the superUser it returns all the websites in the database.
      *
      * @param bool $fetchAliasUrls
+     * @param false|string $pattern
+     * @param false|int    $limit
      * @return array for each site, an array of information (idsite, name, main_url, etc.)
      */
-    public function getSitesWithAdminAccess($fetchAliasUrls = false)
+    public function getSitesWithAdminAccess($fetchAliasUrls = false, $pattern = false, $limit = false)
     {
         $sitesId = $this->getSitesIdWithAdminAccess();
-        $sites = $this->getSitesFromIds($sitesId);
+
+        if ($pattern === false) {
+            $sites = $this->getSitesFromIds($sitesId, $limit);
+        } else {
+            $sites = $this->getModel()->getPatternMatchSites($sitesId, $pattern, $limit);
+            Site::setSitesFromArray($sites);
+        }
 
         if ($fetchAliasUrls) {
             foreach ($sites as &$site) {
-                $site['alias_urls'] = API::getInstance()->getSiteUrlsFromId($site['idsite']);
+                $site['alias_urls'] = $this->getSiteUrlsFromId($site['idsite']);
             }
         }
 
@@ -593,7 +601,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        $idSites = API::getInstance()->getSitesId();
+        $idSites = $this->getSitesId();
         if (!in_array($idSite, $idSites)) {
             throw new Exception("website id = $idSite not found");
         }
@@ -1048,7 +1056,8 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
-        $idSites = API::getInstance()->getSitesId();
+        $idSites = $this->getSitesId();
+
         if (!in_array($idSite, $idSites)) {
             throw new Exception("website id = $idSite not found");
         }

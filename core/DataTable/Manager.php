@@ -24,7 +24,7 @@ class Manager extends \ArrayObject
      * Id of the next inserted table id in the Manager
      * @var int
      */
-    protected $nextTableId = 1;
+    protected $nextTableId = 0;
 
     private static $instance;
 
@@ -45,9 +45,9 @@ class Manager extends \ArrayObject
      */
     public function addTable($table)
     {
-        $this[$this->nextTableId] = $table;
         $this->nextTableId++;
-        return $this->nextTableId - 1;
+        $this[$this->nextTableId] = $table;
+        return $this->nextTableId;
     }
 
     /**
@@ -75,7 +75,7 @@ class Manager extends \ArrayObject
      */
     public function getMostRecentTableId()
     {
-        return $this->nextTableId - 1;
+        return $this->nextTableId;
     }
 
     /**
@@ -91,7 +91,7 @@ class Manager extends \ArrayObject
 
         if ($deleteWhenIdTableGreaterThan == 0) {
             $this->exchangeArray(array());
-            $this->nextTableId = 1;
+            $this->nextTableId = 0;
         }
     }
 

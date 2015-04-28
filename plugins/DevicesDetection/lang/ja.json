@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "ブラウザ エンジン",
         "BrowserEngineDocumentation": "このチャートは、ビジターのブラウザをブラウザファミリー別に表示します。 %s Web開発者にとって最も重要な情報は、ビジターが使用しているレンダリングエンジンの種類です。ラベルはエンジンの名前で、括弧内にそのエンジンを使う最も一般的なブラウザ名を表示しています。",
         "BrowserFamily": "ブラウザファミリー",
         "Browsers": "ブラウザ",
@@ -27,6 +28,7 @@
         "OperatingSystemVersions": "オペレーティングシステムのバージョン",
         "SmartDisplay": "スマートディスプレイ",
         "Smartphone": "スマートフォン",
+        "Devices": "デバイス",
         "Tablet": "タブレット",
         "TV": "TV",
         "UserAgent": "ユーザーエージェント",

@@ -46,6 +46,7 @@
         "UpdateAutomatically": "Actualizare automată",
         "UpdateHasBeenCancelledExplanation": "Piwik Actualizare cu Un Click a fost anulat. Daca nu puteti repara mesajul de eroare de mai sus, este recomandat sa actualizati Piwik manual. %1$s Va rugam uitati-va peste %2$sDocumentatia de Actualizare%3$s pentru a incepe!",
         "UpdateTitle": "Actualizare",
+        "UpdateSuccessTitle": "Piwik a fost actualizat cu succes!",
         "UpgradeComplete": "Actualizare finisată!",
         "UpgradePiwik": "Actualizează Piwik",
         "VerifyingUnpackedFiles": "Se verifică fişierele dezarchivate",

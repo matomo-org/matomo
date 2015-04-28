@@ -1,8 +1,8 @@
 {
     "PrivacyManager": {
         "AnonymizeIpDescription": "Vælg \"Ja\", hvis Piwik ikke skal spore fuldt kvalificerede IP-adresser.",
-        "AnonymizeIpExtendedHelp": "Når brugerne besøger hjemmesiden, vil Piwik ikke bruge den fulde IP-adresse (f.eks %s), men i stedet vil Piwik anonymisere det først (til %s). IP-adresse anonymisering er et af de krav, som lovgivningen om privatlivets fred i visse lande som fx. Tyskland.",
         "AnonymizeIpInlineHelp": "Anonymiser besøgendes IP-adresser for at efterkomme den lokale lovgivning om privatlivets fred\/retningslinjer.",
+        "AnonymizeIpExtendedHelp": "Når brugerne besøger hjemmesiden, vil Piwik ikke bruge den fulde IP-adresse (f.eks %s), men i stedet vil Piwik anonymisere det først (til %s). IP-adresse anonymisering er et af de krav, som lovgivningen om privatlivets fred i visse lande som fx. Tyskland.",
         "AnonymizeIpMaskLengtDescription": "Vælg hvor mange bytes af de besøgendes IP-adresser der skal maskeres.",
         "AnonymizeIpMaskLength": "%s bytes - f.eks %s",
         "CannotLockSoDeleteLogActions": "log_action tabellen vil ikke blive slettet: giv LOCK TABELLER privilegium til '%s' MYSQL brugeren.",

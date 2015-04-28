@@ -44,6 +44,8 @@ class Manager extends Singleton
 
     protected $doLoadPlugins = true;
 
+    private $pluginsLoadedAndActivated;
+
     /**
      * @var Plugin[]
      */
@@ -426,6 +428,7 @@ class Manager extends Singleton
      */
     private function clearCache($pluginName)
     {
+        $this->resetTransientCache();
         Filesystem::deleteAllCacheOnUpdate($pluginName);
     }
 
@@ -678,6 +681,7 @@ class Manager extends Singleton
      */
     public function loadPlugins(array $pluginsToLoad)
     {
+        $this->resetTransientCache();
         $this->pluginsToLoad = $this->makePluginsToLoad($pluginsToLoad);
         $this->reloadActivatedPlugins();
     }
@@ -765,15 +769,21 @@ class Manager extends Singleton
      */
     public function getPluginsLoadedAndActivated()
     {
-        $plugins = $this->getLoadedPlugins();
-        $enabled = $this->getActivatedPlugins();
+        if (is_null($this->pluginsLoadedAndActivated)) {
+            $enabled = $this->getActivatedPlugins();
 
-        if (empty($enabled)) {
-            return array();
+            if (empty($enabled)) {
+                return array();
+            }
+
+            $plugins = $this->getLoadedPlugins();
+            $enabled = array_combine($enabled, $enabled);
+            $plugins = array_intersect_key($plugins, $enabled);
+
+            $this->pluginsLoadedAndActivated = $plugins;
         }
-        $enabled = array_combine($enabled, $enabled);
-        $plugins = array_intersect_key($plugins, $enabled);
-        return $plugins;
+
+        return $this->pluginsLoadedAndActivated;
     }
 
     /**
@@ -936,6 +946,11 @@ class Manager extends Singleton
         return "\\Piwik\\Plugins\\$pluginName\\$className";
     }
 
+    private function resetTransientCache()
+    {
+        $this->pluginsLoadedAndActivated = null;
+    }
+
     /**
      * Unload plugin
      *
@@ -944,6 +959,8 @@ class Manager extends Singleton
      */
     public function unloadPlugin($plugin)
     {
+        $this->resetTransientCache();
+
         if (!($plugin instanceof Plugin)) {
             $oPlugin = $this->loadPlugin($plugin);
             if ($oPlugin === null) {
@@ -962,6 +979,8 @@ class Manager extends Singleton
      */
     public function unloadPlugins()
     {
+        $this->resetTransientCache();
+
         $pluginsLoaded = $this->getLoadedPlugins();
         foreach ($pluginsLoaded as $plugin) {
             $this->unloadPlugin($plugin);
@@ -992,6 +1011,8 @@ class Manager extends Singleton
      */
     public function addLoadedPlugin($pluginName, Plugin $newPlugin)
     {
+        $this->resetTransientCache();
+
         $this->loadedPlugins[$pluginName] = $newPlugin;
     }
 

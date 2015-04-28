@@ -28,9 +28,7 @@ class ImportLogsTest extends SystemTestCase
     {
         parent::setUp();
 
-        $testingEnvironment = new \Piwik_TestingEnvironment();
-        $testingEnvironment->configOverride = null;
-        $testingEnvironment->save();
+        $this->resetTestingEnvironmentChanges();
     }
 
     /**
@@ -149,6 +147,13 @@ class ImportLogsTest extends SystemTestCase
     public static function getOutputPrefix()
     {
         return 'ImportLogs';
+    }
+
+    private function resetTestingEnvironmentChanges()
+    {
+        $testingEnvironment = new \Piwik_TestingEnvironment();
+        $testingEnvironment->configOverride = null;
+        $testingEnvironment->save();
     }
 }
 

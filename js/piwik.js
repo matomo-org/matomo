@@ -2177,7 +2177,7 @@ if (typeof Piwik !== 'object') {
                 configTitle = documentAlias.title,
 
                 // Extensions to be treated as download links
-                configDownloadExtensions = ['7z','aac','apk','arc','arj','asf','asx','avi','azw3','bin','csv','deb','dmg','doc','docx','epub','exe','flv','gif','gz','gzip','hqx','jar','jpg','jpeg','js','mobi','mp2','mp3','mp4','mpg','mpeg','mov','movie','msi','msp','odb','odf','odg','ods','odt','ogg','ogv','pdf','phps','png','ppt','pptx','qt','qtm','ra','ram','rar','rpm','sea','sit','tar','tbz','tbz2','bz','bz2','tgz','torrent','txt','wav','wma','wmv','wpd','xls','xlsx','xml','z','zip'],
+                configDownloadExtensions = ['7z','aac','apk','arc','arj','asf','asx','avi','azw3','bin','csv','deb','dmg','doc','docx','epub','exe','flv','gif','gz','gzip','hqx','ibooks','jar','jpg','jpeg','js','mobi','mp2','mp3','mp4','mpg','mpeg','mov','movie','msi','msp','odb','odf','odg','ods','odt','ogg','ogv','pdf','phps','png','ppt','pptx','qt','qtm','ra','ram','rar','rpm','sea','sit','tar','tbz','tbz2','bz','bz2','tgz','torrent','txt','wav','wma','wmv','wpd','xls','xlsx','xml','z','zip'],
 
                 // Hosts or alias(es) to not treat as outlinks
                 configHostsAlias = [domainAlias],
@@ -3224,7 +3224,7 @@ if (typeof Piwik !== 'object') {
             /*
              * Link or Download?
              */
-            function getLinkType(className, href, isInLink) {
+            function getLinkType(className, href, isInLink, hasDownloadAttribute) {
                 if (startsUrlWithTrackerUrl(href)) {
                     return 0;
                 }
@@ -3240,7 +3240,7 @@ if (typeof Piwik !== 'object') {
                     return 'link';
                 }
 
-                if (downloadPattern.test(className) || downloadExtensionsPattern.test(href)) {
+                if (hasDownloadAttribute || downloadPattern.test(className) || downloadExtensionsPattern.test(href)) {
                     return 'download';
                 }
 
@@ -3298,7 +3298,7 @@ if (typeof Piwik !== 'object') {
 
                 if (!scriptProtocol.test(sourceHref)) {
                     // track outlinks and all downloads
-                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
+                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName), query.hasNodeAttribute(sourceElement, 'download'));
 
                     if (linkType) {
                         return {

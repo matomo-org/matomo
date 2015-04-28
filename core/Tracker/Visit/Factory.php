@@ -37,7 +37,7 @@ class Factory
          */
         Piwik::postEvent('Tracker.makeNewVisitObject', array(&$visit));
 
-        if (is_null($visit)) {
+        if (!isset($visit)) {
             $visit = new Visit();
         } elseif (!($visit instanceof VisitInterface)) {
             throw new Exception("The Visit object set in the plugin must implement VisitInterface");

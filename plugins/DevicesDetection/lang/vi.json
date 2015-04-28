@@ -6,6 +6,7 @@
         "BrowserVersion": "Phiên bản trình duyệt",
         "ColumnBrowser": "Trình duyệt",
         "ColumnOperatingSystem": "Hệ điều hành",
+        "dataTableLabelTypes": "Kiểu",
         "OperatingSystemFamily": "Hệ điều hành gia đình",
         "OperatingSystems": "Các hệ điều hành",
         "WidgetBrowsers": "Trình duyệt khách truy cập",

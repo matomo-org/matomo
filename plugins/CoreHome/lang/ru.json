@@ -3,7 +3,6 @@
         "CategoryNoData": "Нет данных в этой категории. Попробуйте \"Включить все показатели\".",
         "CheckForUpdates": "Проверить на обновления",
         "CheckPiwikOut": "Проверить Piwik на обновления!",
-        "ClickRowToExpandOrContract": "Нажмите на эту строку, чтобы растянуть или сжать подтаблицу.",
         "ClickToEditX": "Редактировать %s",
         "CloseWidgetDirections": "Вы можете закрыть этот виджет, нажав на значок 'X' в верхней части виджета.",
         "DataForThisReportHasBeenPurged": "Данные для этого отчета хранятся более %s месяцев и были почищены.",
@@ -61,6 +60,7 @@
         "UnFlattenDataTable": "Отчет более конкретный %s Построить его по иерархии",
         "ViewAllPiwikVideoTutorials": "Просмотреть все обучающие ролики про Piwik",
         "WebAnalyticsReports": "Отчеты веб аналитики",
-        "YouAreUsingTheLatestVersion": "У вас последняя версия Piwik!"
+        "YouAreUsingTheLatestVersion": "У вас последняя версия Piwik!",
+        "ClickRowToExpandOrContract": "Нажмите на эту строку, чтобы растянуть или сжать подтаблицу."
     }
 }

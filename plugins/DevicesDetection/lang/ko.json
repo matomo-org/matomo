@@ -6,6 +6,7 @@
         "BrowserVersion": "브라우저 버전",
         "ColumnBrowser": "브라우저",
         "ColumnOperatingSystem": "운영체제",
+        "dataTableLabelTypes": "유형",
         "OperatingSystemFamily": "운영 체제 제품군",
         "OperatingSystems": "운영체제",
         "WidgetBrowsers": "방문자 브라우저",

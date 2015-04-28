@@ -32,6 +32,11 @@ class SystemSetting extends Setting
     public $readableByCurrentUser = false;
 
     /**
+     * @var bool
+     */
+    private $writableByCurrentUser = false;
+
+    /**
      * Constructor.
      *
      * @param string $name The persisted name of the setting.
@@ -43,6 +48,27 @@ class SystemSetting extends Setting
 
         $this->writableByCurrentUser = Piwik::hasUserSuperUserAccess();
         $this->readableByCurrentUser = $this->writableByCurrentUser;
+    }
+
+    /**
+     * Returns `true` if this setting is writable for the current user, `false` if otherwise. In case it returns
+     * writable for the current user it will be visible in the Plugin settings UI.
+     *
+     * @return bool
+     */
+    public function isWritableByCurrentUser()
+    {
+        return $this->writableByCurrentUser;
+    }
+
+    /**
+     * Returns `true` if this setting can be displayed for the current user, `false` if otherwise.
+     *
+     * @return bool
+     */
+    public function isReadableByCurrentUser()
+    {
+        return $this->readableByCurrentUser;
     }
 
     /**

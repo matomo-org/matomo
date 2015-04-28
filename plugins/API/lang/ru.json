@@ -4,6 +4,7 @@
         "KeepTokenSecret": "Этот token_auth является таким же секретным, как ваш логин и пароль. %s НЕ СООБЩАЙТЕ ЕГО НИКОМУ%s!",
         "LoadedAPIs": "%s API успешно загружен",
         "MoreInformation": "Чтобы узнать больше информации о Piwik API, пожалуйста, посмотрите раздел %s Introduction to Piwik API %s в %s Piwik API Reference %s.",
+        "PluginDescription": "Все данные из Piwik доступны через простые API. Этот плагин является входной точкой для веб сервиса, который можно вызвать чтобы получить данные веб аналитики в xml, json, php, csv и др.",
         "QuickDocumentationTitle": "Краткая API документация",
         "TopLinkTooltip": "Получайте доступ к вашей веб-аналитике с помощью простого API и использования json, xml и др.",
         "UserAuthentication": "Аутентификация пользователя",

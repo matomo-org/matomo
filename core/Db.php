@@ -717,7 +717,9 @@ class Db
 
     private static function logSql($functionName, $sql, $parameters = array())
     {
-        if (self::$logQueries === false) {
+        if (self::$logQueries === false
+            || @Config::getInstance()->Debug['log_sql_queries'] != 1
+        ) {
             return;
         }
 

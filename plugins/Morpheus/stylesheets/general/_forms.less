@@ -3,7 +3,7 @@ input:not([type="checkbox"]), select, textarea {
     .border-radius(0px);
     margin-left: 0;
     padding: 8px 10px;
-    min-height: 30px;
+    min-height: 20px;
     .box-sizing(border-box);
     background: @theme-color-background-base;
 }
@@ -12,6 +12,7 @@ button,
 .add-cors-host,
 input[type="submit"],
 button[type="button"],
+.btn,
 .submit {
     .border-radius(3px) !important;
     background: none !important;
@@ -41,6 +42,15 @@ button[type="button"],
         }
     }
 }
+// Bootstrap classes (can be removed in the future)
+.btn-lg {
+    padding: 12px 16px !important;;
+    font-size: 14px !important;;
+}
+.btn-block {
+    display: block;
+    width: 100%;
+}
 
 .top_bar_sites_selector {
   .sites_autocomplete .custom_select {
@@ -57,7 +67,7 @@ button[type="button"],
         .border-radius(0px);
         background: @theme-color-background-base;
         .box-shadow(~"inset 1px 1px 3px #d8d8d8");
-        padding: 0px 5px 0px;
+        padding: 0;
         color: @theme-color-text;
         text-transform: uppercase;
         .font-default(10px, 12px);
@@ -94,7 +104,7 @@ button[type="button"],
         color: @theme-color-brand;
         font-size: 0.7em;
         top: 2px;
-        right: 5px;
+        right: 10px;
         content: '';
         border-left: 4px solid transparent;
         border-right: 4px solid transparent;
