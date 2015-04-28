@@ -5,6 +5,12 @@ if [ "$SKIP_INSTALL_MYSQL_56" == "1" ]; then
     exit 0;
 fi
 
+CURRENT_VERSION=`mysql -e "SELECT VERSION();"`
+if [[ "$CURRENT_VERSION" =~ 5\.6 ]]; then
+    echo "MySQL 5.6 already installed."
+    exit 0
+fi
+
 # remove mysql 5.5
 sudo apt-get remove mysql-common mysql-server-5.5 mysql-server-core-5.5 mysql-client-5.5 mysql-client-core-5.5 > /dev/null
 sudo apt-get autoremove > /dev/null
