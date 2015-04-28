@@ -303,6 +303,7 @@
     },
     "RowEvolution": {
         "CompareRows": "பதிவுகளுடன் ஒப்பிட",
-        "ComparingRecords": "%s வரிகளுடன் ஒப்பிடுகிறது"
+        "ComparingRecords": "%s வரிகளுடன் ஒப்பிடுகிறது",
+        "MetricBetweenText": "%s இருந்து %s வரை"
     }
 }

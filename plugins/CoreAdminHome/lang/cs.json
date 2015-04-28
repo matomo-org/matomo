@@ -67,6 +67,7 @@
         "PersonalPluginSettings": "Osobní nastavení zásuvných modulů",
         "PluginSettingChangeNotAllowed": "Nemůžete změnit hodnotu volby %s zásuvného modulu \"%s\"",
         "PluginSettingReadNotAllowed": "Nemůžete číst hodnotu volby %s zásuvného modulu \"%s\"",
+        "PluginSettings": "Nastavení zásuvného modulu",
         "PluginSettingsIntro": "Zde můžete změnit nastavení pro následující zásuvné moduly třetích stran:",
         "PluginSettingsValueNotAllowed": "Hodnota pro pole \"%s\" zásuvného modulu \"%s\" není povolena",
         "PluginSettingsSaveFailed": "Nepodařilo se uložit nastavení zásuvného modulu",

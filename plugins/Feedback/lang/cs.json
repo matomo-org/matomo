@@ -17,8 +17,18 @@
         "TopLinkTooltip": "Řekni co si myslíš, nebo požádej o pomoc profesionála.",
         "ViewAnswersToFAQ": "Zobrazit odpovědi na %sčasto kladené otázky%s",
         "ViewUserGuides": "Naučte se, jak konfigurovat Piwik a efektivně analyzovat data s našimi %1$suživatelskými příručkami%2$s",
+        "CommunityHelp": "Komunitní pomoc",
+        "ProfessionalHelp": "Profesionální pomoc",
+        "PiwikProIntro": "Piwik Pro poskytuje konzultace s experty pro ty, kteří hostují Piwik na vlastní infrastruktuře.",
         "PiwikProOfferIntro": "Naše nabídka obsahuje",
         "PiwikProReviewPiwikSetup": "Kontrolu vašeho nastavení Piwik",
+        "PiwikProOptimizationMaintenance": "Služby optimalizace & údržby Piwiku",
+        "PiwikProPhoneEmailSupport": "Telefonická a e-mailová podpora",
+        "PiwikProTraining": "Uživatelská, technická a vývojářská školení",
+        "PiwikProPremiumFeatures": "Prémiové funkce",
+        "PiwikProCustomDevelopment": "Služby vlastního vývoje",
+        "PiwikProAnalystConsulting": "Služby analytického konzultanta",
+        "ContactUs": "Kontaktujte nás",
         "VisitTheForums": "Navštivte %s forum%s"
     }
 }

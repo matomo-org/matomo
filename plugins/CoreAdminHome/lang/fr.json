@@ -86,6 +86,7 @@
         "YouAreOptedIn": "Vous êtes actuellement suivi(e).",
         "YouAreOptedOut": "Vous n'êtes actuellement pas suivi(e).",
         "YouMayOptOut": "Vous pouvez choisir ici de NE PAS autoriser le suivi de votre ordinateur via un cookie lui assignant un numéro d'identification unique. Notre outil d'analyse web n'enregistrera pas l'activité de votre ordinateur.",
-        "YouMayOptOutBis": "Pour faire ce choix et installer un cookie d'exclusion, veuillez cliquer ci-dessous."
+        "YouMayOptOutBis": "Pour faire ce choix et installer un cookie d'exclusion, veuillez cliquer ci-dessous.",
+        "OptingYouOut": "Désinscription en cours, merci de patienter..."
     }
 }

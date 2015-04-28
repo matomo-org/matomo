@@ -1,0 +1,7 @@
+{
+    "API": {
+        "GenerateVisits": "Ako ne postoje podaci za danas, možete ih kreirati pomoću %s plugina. Prvo uključite %s plugin, zatim koristite opciju 'Kreiraj posjetitelje' u izborniku Piwik administracije.",
+        "LoadedAPIs": "%s API je uspješno učitan",
+        "QuickDocumentationTitle": "Sažeta API dokumentacija"
+    }
+}
