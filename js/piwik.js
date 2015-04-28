@@ -3291,7 +3291,7 @@ if (typeof Piwik !== 'object') {
                 // browsers, such as Safari, don't downcase hostname and href
                 var originalSourceHostName = sourceElement.hostname || getHostName(sourceElement.href);
                 var sourceHostName = originalSourceHostName.toLowerCase();
-                var sourceHref = sourceElement.href.replace(originalSourceHostName, sourceHostName);
+                var sourceHref = href.replace(originalSourceHostName, sourceHostName);
 
                 // browsers, such as Safari, don't downcase hostname and href
                 var scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript|mailto):', 'i');
