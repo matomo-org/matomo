@@ -13,9 +13,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
 use Piwik\FrontController;
-use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Session;
 
 /**
