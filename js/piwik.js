@@ -2668,6 +2668,8 @@ if (typeof Piwik !== 'object') {
 
                 if(visitorUUID.length) {
                     uuid = visitorUUID;
+                } else if ('0' == hasCookies()){
+                    uuid = '';
                 } else {
                     uuid = generateRandomUuid();
                 }
