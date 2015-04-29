@@ -2,6 +2,7 @@
     "MultiSites": {
         "Evolution": "Kehitys",
         "LoadingWebsites": "Lataa verkkosivuja",
-        "TopLinkTooltip": "Vertaile eri sivujen tilastoja."
+        "TopLinkTooltip": "Vertaile eri sivujen tilastoja.",
+        "Pagination": "%s - %s %s:sta."
     }
 }

@@ -1,6 +1,6 @@
 {
     "UserCountry": {
-        "AssumingNonApache": "Ei voida löytää apache_get_modules toimintoa, oletettavasti verkkoselain ei käytä Apachea.",
+        "AssumingNonApache": "apache_get_modules toimintoa ei löydy, oletettavasti verkkopalvelin on muu kuin Apache-ohjelmisto.",
         "CannotFindGeoIPDatabaseInArchive": "Tiedostoa %1$s ei löytynyt tar-arkistosta %2$s!",
         "CannotFindGeoIPServerVar": "Muuttujaa %s ei ole asetettu. Palvelimesi ei ehkä ole oikein konfiguroitu.",
         "CannotFindPeclGeoIPDb": "GeoIP PECL moduulille ei voitu löytää maata, aluetta tai kaupunkia. Varmista, että GeoIP tietokanta sijaitsee %1$s:ssa ja sille on annettu nimeksi joko %2$s tai %3$s, muuten PECL-moduuli ei voi tunnistaa sitä.",
@@ -356,6 +356,7 @@
         "PeclGeoIPNoDBDir": "PECL-moduuli etsii tietokantoja %1$s:ssa, mutta tätä hakemistoa ei ole olemassa. Luo se ja lisää GeoIP tietokannat siihen. Vaihtoehtoisesti voit asentaa %2$s:n oikeaan hakemistoon php.ini tiedostossasi.",
         "PeclGeoLiteError": "%1$s:ssa sijaitsevan GeoIP tietokantasi nimi on %2$s. Valitettavasti PECL-moduuli ei tunnista sitä tällä nimellä. Ole hyvä ja anna sille nimi %3$s.",
         "PiwikNotManagingGeoIPDBs": "Piwik ei käytä tällä hetkellä mitään GeoIP tietokantoja.",
+        "PluginDescription": "Kertoo kävijöiden sijainnin: Maa, alue, kaupunki ja maantieteelliset koordinaatit (pohjoinen leveys\/itäinen pituus).",
         "Region": "Alue",
         "SetupAutomaticUpdatesOfGeoIP": "Asenna automaattiset GeoIP tietokantojen päivitykset",
         "SubmenuLocations": "Sijainnit",

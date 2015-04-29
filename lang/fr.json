@@ -32,6 +32,7 @@
         "ClickHere": "Cliquez ici pour plus d'informations.",
         "ClickToChangePeriod": "Cliquez à nouveau pour modifier la période.",
         "Close": "Fermer",
+        "ClickToSearch": "Cliquez pour effectuer une recherche",
         "ColumnActionsPerVisit": "Actions par visite",
         "ColumnActionsPerVisitDocumentation": "Nombre moyen d'actions (affichages de page, téléchargements ou liens sortants) qui ont été effectuées durant les visites.",
         "ColumnAverageGenerationTime": "Temps moyen de génération",

@@ -13,6 +13,12 @@ describe("Overlay", function () {
 
     var url = null;
 
+    function removeOptOutIframe(page) {
+        page.evaluate(function () {
+            $('iframe#optOutIframe', $('iframe').contents()).remove();
+        });
+    }
+
     before(function (done) {
         url = "?module=Overlay&period=year&date=today&idSite=3#l=" + encodeURIComponent(testEnvironment.overlayUrl).replace(/[%]/g, "$");
         
@@ -26,6 +32,8 @@ describe("Overlay", function () {
     it("should load correctly", function (done) {
         expect.screenshot("loaded").to.be.capture(function (page) {
             page.load(url);
+
+            removeOptOutIframe(page);
         }, done);
     });
 
@@ -40,6 +48,8 @@ describe("Overlay", function () {
                 };
             });
             page.sendMouseEvent('mousemove', pos);
+
+            removeOptOutIframe(page);
         }, done);
     });
 
@@ -54,6 +64,8 @@ describe("Overlay", function () {
                 };
             });
             page.sendMouseEvent('click', pos, 2000);
+
+            removeOptOutIframe(page);
         }, done);
     });
 
@@ -68,6 +80,8 @@ describe("Overlay", function () {
                 };
             });
             page.sendMouseEvent('click', pos);
+
+            removeOptOutIframe(page);
         }, done);
     });
 
@@ -76,6 +90,8 @@ describe("Overlay", function () {
             page.evaluate(function () {
                 $('#Overlay_DateRangeSelect').val('day;yesterday').trigger('change');
             });
+
+            removeOptOutIframe(page);
         }, done);
     });
 
@@ -85,6 +101,8 @@ describe("Overlay", function () {
             page.evaluate(function () {
                 $('.jqplot-xaxis').hide(); // xaxis will change every day so hide it
             });
+
+            removeOptOutIframe(page);
         }, done);
     });
 
@@ -92,6 +110,8 @@ describe("Overlay", function () {
         expect.screenshot("transitions").to.be.capture(function (page) {
             page.click('button.ui-dialog-titlebar-close');
             page.click('#Overlay_Transitions');
+
+            removeOptOutIframe(page);
         }, done);
     });
 });
