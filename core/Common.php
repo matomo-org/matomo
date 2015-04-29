@@ -338,6 +338,7 @@ class Common
      *
      * @param string $value
      * @return string  unsanitized input
+     * @api
      */
     public static function unsanitizeInputValue($value)
     {
