@@ -1,18 +1,18 @@
 {% extends '@Installation/layout.twig' %}
 
 {% block content %}
-<h2>{{ 'Installation_SuperUser'|translate }}</h2>
 
-{% if errorMessage is defined %}
-    <div class="error">
-        <img src="plugins/Morpheus/images/error_medium.png"/>
-        {{ 'Installation_SuperUserSetupError'|translate }}:
-        <br/>- {{ errorMessage|raw }}
+    <h2>{{ 'Installation_SuperUser'|translate }}</h2>
 
-    </div>
-{% endif %}
+    {% if errorMessage is defined %}
+        <div class="alert alert-danger">
+            {{ 'Installation_SuperUserSetupError'|translate }}:
+            <br/>- {{ errorMessage|raw }}
+        </div>
+    {% endif %}
 
-{% if form_data is defined %}
-    {% include "genericForm.twig" %}
-{% endif %}
+    {% if form_data is defined %}
+        {% include "genericForm.twig" %}
+    {% endif %}
+
 {% endblock %}

@@ -1,8 +1,5 @@
 $(function () {
     $('input:first').focus();
-    $('#progressbar').progressbar({
-        value: parseInt($('#progressbar').attr('data-progress'))
-    });
     $('code').click(function () { $(this).select(); });
 
     // Focus the first input field in the form
