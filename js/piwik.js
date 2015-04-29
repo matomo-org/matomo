@@ -433,7 +433,7 @@ if (typeof JSON2 !== 'object') {
     setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
-    deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
+    deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
     getAttribute, hasAttribute, attributes, nodeName, findContentNodes, findContentNodes, findContentNodesWithinNode,
     findPieceNode, findTargetNodeNoDefault, findTargetNode, findContentPiece, children, hasNodeCssClass,
@@ -2668,7 +2668,7 @@ if (typeof Piwik !== 'object') {
 
                 if(visitorUUID.length) {
                     uuid = visitorUUID;
-                } else if ('0' == hasCookies()){
+                } else if ('0' === hasCookies()){
                     uuid = '';
                 } else {
                     uuid = generateRandomUuid();
@@ -2803,6 +2803,10 @@ if (typeof Piwik !== 'object') {
                 ];
             }
 
+            function deleteCookie(cookieName, path, domain) {
+                setCookie(cookieName, '', -86400, path, domain);
+            }
+
             function isPossibleToSetCookieOnDomain(domainToTest)
             {
                 var valueToSet = 'testvalue';
@@ -2815,10 +2819,6 @@ if (typeof Piwik !== 'object') {
                 }
 
                 return false;
-            }
-
-            function deleteCookie(cookieName, path, domain) {
-                setCookie(cookieName, '', -86400, path, domain);
             }
 
             function deleteCookies() {
@@ -4165,7 +4165,7 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Get visitor ID (from first party cookie)
                  *
-                 * @return string Visitor ID in hexits (or null, if not yet known)
+                 * @return string Visitor ID in hexits (or empty string, if not yet known)
                  */
                 getVisitorId: function () {
                     return getValuesFromVisitorIdCookie().uuid;
