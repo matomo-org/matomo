@@ -64,7 +64,6 @@ class CronArchiveTest extends IntegrationTestCase
         $expected = <<<LOG
 ---------------------------
 INIT
-Piwik is installed at: %s
 Running Piwik %s as Super User
 ---------------------------
 NOTES
