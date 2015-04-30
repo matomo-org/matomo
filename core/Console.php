@@ -34,11 +34,23 @@ class Console extends Application
 
         $this->getDefinition()->addOption($option);
 
+        $option = new InputOption('xhprof',
+            null,
+            InputOption::VALUE_NONE,
+            'Enable profiling with XHProf'
+        );
+
+        $this->getDefinition()->addOption($option);
+
         StaticContainer::setEnvironment('cli');
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+        if ($input->hasParameterOption('--xhprof')) {
+            Profiler::setupProfilerXHProf(true, true);
+        }
+
         $this->initPiwikHost($input);
         $this->initConfig($output);
         $this->initLoggerOutput($output);

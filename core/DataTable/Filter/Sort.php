@@ -21,11 +21,14 @@ use Piwik\Metrics;
  *
  * @api
  */
-class
-Sort extends BaseFilter
+class Sort extends BaseFilter
 {
     protected $columnToSort;
     protected $order;
+    protected $sign;
+
+    const ORDER_DESC = 'desc';
+    const ORDER_ASC  = 'asc';
 
     /**
      * Constructor.
@@ -36,7 +39,7 @@ Sort extends BaseFilter
      * @param bool $naturalSort Whether to use a natural sort or not (see {@link http://php.net/natsort}).
      * @param bool $recursiveSort Whether to sort all subtables or not.
      */
-    public function __construct($table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = false)
+    public function __construct($table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = true)
     {
         parent::__construct($table);
 
@@ -68,8 +71,8 @@ Sort extends BaseFilter
     /**
      * Sorting method used for sorting numbers
      *
-     * @param Row $a
-     * @param Row $b
+     * @param array $rowA  array[0 => value of column to sort, 1 => label]
+     * @param array $rowB  array[0 => value of column to sort, 1 => label]
      * @return int
      */
     public function numberSort($rowA, $rowB)
@@ -80,27 +83,24 @@ Sort extends BaseFilter
             } else {
                 return -1 * $this->sign * strnatcasecmp($rowA[1], $rowB[1]);
             }
-        } elseif (!isset($rowB[0])) {
-            return -1;
+        } elseif (!isset($rowB[0]) && !isset($rowA[0])) {
+            return -1 * $this->sign * strnatcasecmp($rowA[1], $rowB[1]);
         } elseif (!isset($rowA[0])) {
             return 1;
         }
 
-        return 0;
+        return -1;
     }
 
     /**
      * Sorting method used for sorting values natural
      *
-     * @param mixed $a
-     * @param mixed $b
+     * @param mixed $valA
+     * @param mixed $valB
      * @return int
      */
-    function naturalSort($rowA, $rowB)
+    function naturalSort($valA, $valB)
     {
-        $valA = $rowA[0];
-        $valB = $rowB[0];
-
         return !isset($valA)
         && !isset($valB)
             ? 0
@@ -119,15 +119,12 @@ Sort extends BaseFilter
     /**
      * Sorting method used for sorting values
      *
-     * @param mixed $a
-     * @param mixed $b
+     * @param mixed $valA
+     * @param mixed $valB
      * @return int
      */
-    function sortString($rowA, $rowB)
+    function sortString($valA, $valB)
     {
-        $valA = $rowA[0];
-        $valB = $rowB[0];
-
         return !isset($valA)
         && !isset($valB)
             ? 0
@@ -147,11 +144,10 @@ Sort extends BaseFilter
     {
         $value = $row->getColumn($this->columnToSort);
 
-        if ($value === false
-            || is_array($value)
-        ) {
+        if ($value === false || is_array($value)) {
             return null;
         }
+
         return $value;
     }
 
@@ -163,8 +159,8 @@ Sort extends BaseFilter
      */
     protected function selectColumnToSort($row)
     {
-        $value = $row->getColumn($this->columnToSort);
-        if ($value !== false) {
+        $value = $row->hasColumn($this->columnToSort);
+        if ($value) {
             return $this->columnToSort;
         }
 
@@ -172,9 +168,9 @@ Sort extends BaseFilter
         // sorting by "nb_visits" but the index is Metrics::INDEX_NB_VISITS in the table
         if (isset($columnIdToName[$this->columnToSort])) {
             $column = $columnIdToName[$this->columnToSort];
-            $value = $row->getColumn($column);
+            $value = $row->hasColumn($column);
 
-            if ($value !== false) {
+            if ($value) {
                 return $column;
             }
         }
@@ -182,8 +178,8 @@ Sort extends BaseFilter
         // eg. was previously sorted by revenue_per_visit, but this table
         // doesn't have this column; defaults with nb_visits
         $column = Metrics::INDEX_NB_VISITS;
-        $value = $row->getColumn($column);
-        if ($value !== false) {
+        $value = $row->hasColumn($column);
+        if ($value) {
             return $column;
         }
 
@@ -208,20 +204,20 @@ Sort extends BaseFilter
             return;
         }
 
-        $rows = $table->getRows();
-        if (count($rows) == 0) {
+        if (!$table->getRowsCount()) {
             return;
         }
 
-        $row = current($rows);
+        $row = $table->getFirstRow();
         if ($row === false) {
             return;
         }
 
         $this->columnToSort = $this->selectColumnToSort($row);
 
-        $value = $row->getColumn($this->columnToSort);
-        if (is_numeric($value)) {
+        $value = $this->getFirstValueFromDataTable($table);
+
+        if (is_numeric($value) && $this->columnToSort !== 'label') {
             $methodToUse = "numberSort";
         } else {
             if ($this->naturalSort) {
@@ -232,6 +228,16 @@ Sort extends BaseFilter
         }
 
         $this->sort($table, $methodToUse);
+    }
+
+    private function getFirstValueFromDataTable($table)
+    {
+        foreach ($table->getRowsWithoutSummaryRow() as $row) {
+            $value = $this->getColumnValue($row);
+            if (!is_null($value)) {
+                return $value;
+            }
+        }
     }
 
     /**
@@ -249,24 +255,30 @@ Sort extends BaseFilter
 
         // get column value and label only once for performance tweak
         $values = array();
-        foreach ($rows as $key => $row) {
-            $values[$key] = array($this->getColumnValue($row), $row->getColumn('label'));
+        if ($functionCallback === 'numberSort') {
+            foreach ($rows as $key => $row) {
+                $values[$key] = array($this->getColumnValue($row), $row->getColumn('label'));
+            }
+        } else {
+            foreach ($rows as $key => $row) {
+                $values[$key] = $this->getColumnValue($row);
+            }
         }
 
         uasort($values, array($this, $functionCallback));
 
         $sortedRows = array();
         foreach ($values as $key => $value) {
-            $sortedRows[$key] = $rows[$key];
+            $sortedRows[] = $rows[$key];
         }
 
-        $table->setRows(array_values($sortedRows));
+        $table->setRows($sortedRows);
 
         unset($rows);
         unset($sortedRows);
 
         if ($table->isSortRecursiveEnabled()) {
-            foreach ($table->getRows() as $row) {
+            foreach ($table->getRowsWithoutSummaryRow() as $row) {
 
                 $subTable = $row->getSubtable();
                 if ($subTable) {

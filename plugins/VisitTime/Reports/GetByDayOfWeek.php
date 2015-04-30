@@ -18,6 +18,8 @@ use Piwik\Site;
 
 class GetByDayOfWeek extends Base
 {
+    protected $defaultSortColumn = '';
+
     protected function init()
     {
         parent::init();

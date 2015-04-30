@@ -166,6 +166,17 @@
      header('Content-type: image/png');
      imagepng($this->Picture);
     }
+    
+   /* Updated code to send image as encoded data */
+   function strokeAsImageData()
+    {
+     ob_start();
+     if ( $this->TransparentBackground ) { imagealphablending($this->Picture,false); imagesavealpha($this->Picture,true); }
+     imagepng($this->Picture);
+     $imagedata = ob_get_contents();
+     ob_end_clean();
+     return $imagedata;
+    }
 
    /* Automatic output method based on the calling interface */
    function autoOutput($FileName="output.png")

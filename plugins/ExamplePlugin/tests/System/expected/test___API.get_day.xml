@@ -18,6 +18,15 @@
 	<nb_conversions>1</nb_conversions>
 	<nb_visits_converted>1</nb_visits_converted>
 	<revenue>2541</revenue>
+	<conversion_rate>50%</conversion_rate>
+	<nb_conversions_new_visit>1</nb_conversions_new_visit>
+	<nb_visits_converted_new_visit>1</nb_visits_converted_new_visit>
+	<revenue_new_visit>2541</revenue_new_visit>
+	<conversion_rate_new_visit>50%</conversion_rate_new_visit>
+	<nb_conversions_returning_visit>0</nb_conversions_returning_visit>
+	<nb_visits_converted_returning_visit>0</nb_visits_converted_returning_visit>
+	<revenue_returning_visit>0</revenue_returning_visit>
+	<conversion_rate_returning_visit>0%</conversion_rate_returning_visit>
 	<nb_pageviews>3</nb_pageviews>
 	<nb_uniq_pageviews>3</nb_uniq_pageviews>
 	<nb_downloads>0</nb_downloads>
@@ -26,7 +35,6 @@
 	<nb_uniq_outlinks>0</nb_uniq_outlinks>
 	<nb_searches>1</nb_searches>
 	<nb_keywords>1</nb_keywords>
-	<conversion_rate>50%</conversion_rate>
 	<bounce_rate>0%</bounce_rate>
 	<nb_actions_per_visit>2</nb_actions_per_visit>
 	<avg_time_on_site>632</avg_time_on_site>

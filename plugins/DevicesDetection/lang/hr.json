@@ -3,6 +3,7 @@
         "Browsers": "Pretraživači",
         "BrowserVersion": "Verzija pretraživača",
         "ColumnOperatingSystem": "Operativni sustav",
+        "dataTableLabelTypes": "Vrsta",
         "WidgetBrowsers": "Pretraživać posjetitelja"
     }
 }

@@ -1,8 +1,6 @@
 {
     "Feedback": {
-        "ContactThePiwikTeam": "Kontaktujte tým Piwiku",
         "DoYouHaveBugReportOrFeatureRequest": "Máte hlášení chyby, nebo námět na vylepšení?",
-        "GetInTouch": "Jsme rádi za vaši zpětnou vazbu a vždy čteme všechny zprávy. Možná chcete nabídnout podnikatelskou příležitost, najmout Piwik konzultanta, podělit se o váš úspěch, nebo prostě pozdravit.",
         "HowToCreateTicket": "Prosím, přečtěte si doporučení, jak dobře nahlásit %1$schybu%2$s nebo %3$sžádost o vlastnost%4$s. Potom se zaregistrujte nebo přihlaste do %5$ssystému pro sledování problémů%6$s a vytvořte %7$snový problém%8$s.",
         "IWantTo": "Chci:",
         "LearnWaysToParticipate": "Naučit způsoby jak %s spolupracovat %s",
@@ -15,12 +13,22 @@
         "RateFeatureThankYouTitle": "Děkujeme za ohodnocení %s.",
         "RateFeatureTitle": "Líbí se vám vlastnost %s? Ohodnoťte ji a zanechte komentář",
         "SendFeedback": "Odeslat odezvu",
-        "SpecialRequest": "Máte speciální požadavek na tým Piwiku?",
         "ThankYou": "Děkujeme vám, že pomáháte Piwik dělat lepším!",
         "TopLinkTooltip": "Řekni co si myslíš, nebo požádej o pomoc profesionála.",
         "ViewAnswersToFAQ": "Zobrazit odpovědi na %sčasto kladené otázky%s",
         "ViewUserGuides": "Naučte se, jak konfigurovat Piwik a efektivně analyzovat data s našimi %1$suživatelskými příručkami%2$s",
-        "VisitTheForums": "Navštivte %s forum%s",
-        "WantToThankConsiderDonating": "Myslíte si, že je Piwik úžasný a chcete nám poděkovat?"
+        "CommunityHelp": "Komunitní pomoc",
+        "ProfessionalHelp": "Profesionální pomoc",
+        "PiwikProIntro": "Piwik Pro poskytuje konzultace s experty pro ty, kteří hostují Piwik na vlastní infrastruktuře.",
+        "PiwikProOfferIntro": "Naše nabídka obsahuje",
+        "PiwikProReviewPiwikSetup": "Kontrolu vašeho nastavení Piwik",
+        "PiwikProOptimizationMaintenance": "Služby optimalizace & údržby Piwiku",
+        "PiwikProPhoneEmailSupport": "Telefonická a e-mailová podpora",
+        "PiwikProTraining": "Uživatelská, technická a vývojářská školení",
+        "PiwikProPremiumFeatures": "Prémiové funkce",
+        "PiwikProCustomDevelopment": "Služby vlastního vývoje",
+        "PiwikProAnalystConsulting": "Služby analytického konzultanta",
+        "ContactUs": "Kontaktujte nás",
+        "VisitTheForums": "Navštivte %s forum%s"
     }
 }

@@ -19,8 +19,11 @@
         "EvolutionDocumentationMoreInfo": "Per mes informació dels tipus de referents, mireu la informació de la taula %s.",
         "Keywords": "Paraules clau",
         "KeywordsReportDocumentation": "Aquest informe mostra quines paraules clau han utilitzat els vostres visitants abans de ser dirigits al vostre lloc web. %s Clicant en una fila de la taula podeu veure la distribució de cercadors en que s'ha cercat la paraula clau.",
+        "Referrer": "Referent",
         "ReferrerName": "Nom del referent",
         "Referrers": "Referents",
+        "ReferrersOverview": "Resum dels referents",
+        "ReferrerTypes": "Tipus de referent",
         "SearchEngines": "Cercadors",
         "SearchEnginesDocumentation": "Un visitant ha vingut al vostre lloc web a través d'un navegador web. %s Visualitzeu l'informe %s per a més informació.",
         "SearchEnginesReportDocumentation": "Aquest informa mostra quins motors de cerca han portat usuaris al vostre lloc web. %s Clicant en una fila de la tabla, pedeu veureu que han estat cercant els vostres usuris en aquest lloc web.",
@@ -36,10 +39,13 @@
         "TypeSearchEngines": "Hi ha %s visites provinents dels motors de cerca",
         "TypeWebsites": "Hi ha %s visites provinents d'altres llocs",
         "UsingNDistinctUrls": "(utiltizant %s urls diferents)",
-        "Websites": "Llocs web",
+        "ViewAllReferrers": "Veure tots els referents",
+        "ViewReferrersBy": "Veure els referents agrupats per %s",
+        "Websites": "Llocs",
         "WebsitesDocumentation": "Els visitant ha seguit un enllaç en un altre lloc web que ha portat al vostre lloc web. %s Visualitzeu l'informe %s per a més detalls.",
         "WebsitesReportDocumentation": "En aquesta taula podeu observar quins llocs web han portat visitants al vostre lloc web. %s Cliqueu en una fila de la taule per veure les URL dels enllaços a les vostres pàgines.",
         "WidgetExternalWebsites": "Llistat de llocs web externs",
+        "WidgetGetAll": "Tots els referents",
         "WidgetSocials": "Llista de xarxes socials"
     }
 }

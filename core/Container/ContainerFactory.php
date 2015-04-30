@@ -28,11 +28,17 @@ class ContainerFactory
     private $environment;
 
     /**
+     * @var array
+     */
+    private $definitions;
+
+    /**
      * @param string|null $environment Optional environment config to load.
      */
-    public function __construct($environment = null)
+    public function __construct($environment = null, array $definitions = array())
     {
         $this->environment = $environment;
+        $this->definitions = $definitions;
     }
 
     /**
@@ -69,6 +75,10 @@ class ContainerFactory
         // Environment config
         $this->addEnvironmentConfig($builder);
 
+        if (!empty($this->definitions)) {
+            $builder->addDefinitions($this->definitions);
+        }
+
         return $builder->build();
     }
 
@@ -80,7 +90,9 @@ class ContainerFactory
 
         $file = sprintf('%s/config/environment/%s.php', PIWIK_USER_PATH, $this->environment);
 
-        $builder->addDefinitions($file);
+        if (file_exists($file)) {
+            $builder->addDefinitions($file);
+        }
     }
 
     private function addPluginConfigs(ContainerBuilder $builder)
@@ -88,13 +100,17 @@ class ContainerFactory
         $plugins = Manager::getInstance()->getActivatedPluginsFromConfig();
 
         foreach ($plugins as $plugin) {
-            $file = Manager::getPluginsDirectory() . $plugin . '/config/config.php';
+            $baseDir = Manager::getPluginsDirectory() . $plugin;
 
-            if (! file_exists($file)) {
-                continue;
+            $file = $baseDir . '/config/config.php';
+            if (file_exists($file)) {
+                $builder->addDefinitions($file);
             }
 
-            $builder->addDefinitions($file);
+            $environmentFile = $baseDir . '/config/' . $this->environment . '.php';
+            if (file_exists($environmentFile)) {
+                $builder->addDefinitions($environmentFile);
+            }
         }
     }
 }

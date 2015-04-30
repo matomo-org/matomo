@@ -192,7 +192,7 @@ class View implements ViewInterface
     /**
      * Returns true if a template variable has been set or not.
      *
-     * @param $name The name of the template variable.
+     * @param string $name The name of the template variable.
      * @return bool
      */
     public function __isset($name)

@@ -37,6 +37,7 @@
         "UpdateAutomatically": "Cập nhật tự động",
         "UpdateHasBeenCancelledExplanation": "Piwik One Click Update đã bị thoát. Nếu bạn không thể sửa được thông điệp lỗi ở trên, bạn có thể update Piwik bằng tay. %1$s Vui lòng xem %2$stài liệu cập nhật %3$s để bắt đầu!",
         "UpdateTitle": "Cập nhật",
+        "UpdateSuccessTitle": "Piwik vừa được cập nhật thành công!",
         "UpgradeComplete": "Cập nhật xong!",
         "UpgradePiwik": "Cập nhật Piwik!",
         "VerifyingUnpackedFiles": "Xác minh các tập tin giải nén",

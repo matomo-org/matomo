@@ -35,6 +35,7 @@
         "UpdateAutomatically": "ავტომატური განახლება",
         "UpdateHasBeenCancelledExplanation": "Piwik–ის ერთი დაწკაპუნებით განახლება შეწყდა. თუ თქვენ არ შეგიძლიათ შეტყობინებაში ხსენებული შეცდომის მოგვარება, გირჩევთ მექანიკურად განაახლოთ Piwik. %1$s გთხოვთ, დაწყებამდე გაეცნოთ %2$sგანახლების დოკუმენტაციას%3$s!",
         "UpdateTitle": "განახლება",
+        "UpdateSuccessTitle": "Piwik წარმატებით განახლდა!",
         "UpgradeComplete": "განახლება დასრულდა!",
         "UpgradePiwik": "Piwik განახლება",
         "VerifyingUnpackedFiles": "გახნილი პაკეტის ფაილების შემოწმება",

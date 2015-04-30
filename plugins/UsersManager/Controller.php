@@ -13,6 +13,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter;
+use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
@@ -67,8 +68,12 @@ class Controller extends ControllerAdmin
             $usersAccessByWebsite = array();
             $defaultReportSiteName = $this->translator->translate('UsersManager_ApplyToAllWebsites');
         } else {
-            $usersAccessByWebsite = APIUsersManager::getInstance()->getUsersAccessFromSite($idSiteSelected);
             $defaultReportSiteName = Site::getNameFor($idSiteSelected);
+            try {
+                $usersAccessByWebsite = APIUsersManager::getInstance()->getUsersAccessFromSite($idSiteSelected);
+            } catch (NoAccessException $e) {
+                return $this->noAdminAccessToWebsite($idSiteSelected, $defaultReportSiteName, $e->getMessage());
+            }
         }
 
         // we dont want to display the user currently logged so that the user can't change his settings from admin to view...
@@ -393,6 +398,18 @@ class Controller extends ControllerAdmin
         }
 
         return $toReturn;
+    }
+
+    private function noAdminAccessToWebsite($idSiteSelected, $defaultReportSiteName, $message)
+    {
+        $view = new View('@UsersManager/noWebsiteAdminAccess');
+
+        $view->idSiteSelected = $idSiteSelected;
+        $view->defaultReportSiteName = $defaultReportSiteName;
+        $view->message = $message;
+        $this->setBasicVariablesView($view);
+
+        return $view->render();
     }
 
     private function processPasswordChange($userLogin)

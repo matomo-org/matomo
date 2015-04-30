@@ -14,6 +14,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Url;
 use Piwik\View;
 
@@ -24,12 +25,15 @@ class Controller extends \Piwik\Plugin\Controller
 {
     function index()
     {
+        $token = 'token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string');
+
         // when calling the API through http, we limit the number of returned results
         if (!isset($_GET['filter_limit'])) {
             $_GET['filter_limit'] = Config::getInstance()->General['API_datatable_default_limit'];
+            $token .= '&api_datatable_default_limit=' . $_GET['filter_limit'];
         }
 
-        $request = new Request('token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string'));
+        $request  = new Request($token);
         $response = $request->process();
 
         if (is_array($response)) {

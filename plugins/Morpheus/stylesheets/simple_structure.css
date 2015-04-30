@@ -1,6 +1,99 @@
-body#simple  {
-	background: #eee;
+/* Most of the code here can be removed once we switch to Bootstrap */
+body {
+	font-family: Verdana, sans-serif;
 }
+body#simple  {
+    background: #fff;
+}
+#simple .logo {
+    color: #888;
+    text-align: center;
+    font-size: 12px;
+    margin-top: 30px;
+}
+#simple .logo a {
+	color: #888;
+	text-decoration: none;
+}
+#simple .box {
+    border-radius: 12px;
+    border: solid 1px #ccc;
+    max-width: 780px;
+    margin: 30px auto 60px auto;
+    overflow: hidden;
+    box-shadow: 0 1px 2px 0 #ccc;
+}
+
+#simple .box .header {
+    background-color: #f0f0f0;
+    border-bottom: solid 1px #ccc;
+	padding: 40px 80px;
+    text-align: center;
+}
+#simple .box .header h1 {
+	font-size: 30px;
+	font-weight: normal;
+	margin: 0;
+}
+#simple .box .header p {
+	font-size: 13px;
+	margin-top: 10px;
+	padding: 0;
+}
+
+#simple .box .content {
+	margin: 1em 2em;
+	text-align: center;
+	padding: 30px 50px;
+	font-size: 14px;
+}
+#simple .box .content.text-left {
+	text-align: left;
+}
+#simple .box .content ul {
+	text-align: left;
+	list-style: disc;
+	width: 60%;
+	margin: 0 auto;
+}
+#simple .box .content.text-left ul {
+	width: 100%;
+}
+#simple .box .content form {
+    margin: 10px 0;
+    min-height: 0;
+}
+#simple .box .content .btn {
+	float: none;
+	margin: 0;
+}
+#simple .box .content h2 {
+	font-weight: normal;
+	font-size: 19px;
+	margin-bottom: 25px;
+	margin-top: 30px;
+}
+#simple .box .content h2:first-child {
+	margin-top: 0;
+}
+#simple .box .content pre {
+	overflow-x: scroll;
+	font-size: 11px;
+	text-align: left;
+}
+
+#simple .box .footer {
+    background-color: #f0f0f0;
+    border-top: solid 1px #ccc;
+    padding: 15px;
+    text-align: center;
+}
+#simple .box .footer a {
+    text-decoration: none;
+}
+
+/* Old style below */
+
 #contentsimple {
 	background: #fff;
 	color: #000;
@@ -23,11 +116,6 @@ body#simple  {
     vertical-align: bottom;
 }
 
-#titleUpdate {
-	font-size: 18px;
- 	color: #7e7363;
-	clear:both;
-}
 #subh1 a {
 	color: #444;
     text-decoration:none;
@@ -42,11 +130,9 @@ body#simple  {
 	font:42px Georgia, serif;
 }
 p, dt {
-	line-height: 120%;
+	line-height: 1.5;
 	padding-bottom: 1em;
-	margin:10px;
 }
-a { color: #006; }
 #logo { margin-bottom: 2em; }
 .submit {
 	font-size:18pt;

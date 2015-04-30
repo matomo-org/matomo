@@ -1,372 +1,50 @@
-{% set ok %}<img src='plugins/Morpheus/images/ok.png' />{% endset %}
-{% set error %}<img src='plugins/Morpheus/images/error.png' />{% endset %}
-{% set warning %}<img src='plugins/Morpheus/images/warning.png' />{% endset %}
-{% set link %}<img src='plugins/Morpheus/images/link.gif' />{% endset %}
+{% import _self as local %}
 
 <table class="infosServer" id="systemCheckRequired">
-    <tr>
-        {% set MinPHP %}{{ 'Installation_SystemCheckPhp'|translate }} &gt;= {{ infos.phpVersion_minimum }}{% endset %}
-        <td class="label">{{ MinPHP }}</td>
-
-        <td>
-            {% if infos.phpVersion_ok %}
-                {{ ok }} {{ infos.phpVersion }}
-            {% else %}
-                {{ error }} <span class="err">{{ 'General_Error'|translate }}: {{ 'General_Required'|translate(MinPHP)|raw }}</span>
-            {% endif %}
-        </td>
-    </tr>
-    <tr>
-        <td class="label">PDO {{ 'Installation_Extension'|translate }}</td>
-        <td>
-            {% if infos.pdo_ok %}
-                {{- ok -}}
-            {% else %}
-                -
-            {% endif %}
-        </td>
-    </tr>
-    {% for adapter, port in infos.adapters %}
-        <tr>
-            <td class="label">{{ adapter }} {{ 'Installation_Extension'|translate }}</td>
-            <td>{{ ok }}</td>
-        </tr>
-    {% endfor %}
-    {% if infos.adapters|length == 0 %}
-        <tr>
-            <td colspan="2" class="error" style="font-size: small;">
-                {{ 'Installation_SystemCheckDatabaseHelp'|translate }}
-                <p>
-                    {% if infos.isWindows %}
-                        {{ 'Installation_SystemCheckWinPdoAndMysqliHelp'|translate("<br /><br /><code>extension=php_mysqli.dll</code><br /><code>extension=php_pdo.dll</code><br /><code>extension=php_pdo_mysql.dll</code><br />")|raw|nl2br }}
-                    {% else %}
-                        {{ 'Installation_SystemCheckPdoAndMysqliHelp'|translate("<br /><br /><code>--with-mysqli</code><br /><code>--with-pdo-mysql</code><br /><br />","<br /><br /><code>extension=mysqli.so</code><br /><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />")|raw }}
-                    {% endif %}
-                    {{ 'Installation_RestartWebServer'|translate }}
-                    <br/>
-                    <br/>
-                    {{ 'Installation_SystemCheckPhpPdoAndMysqli'|translate("<a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">","<\/a>","<a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">","<\/a>")|raw|nl2br }}
-                </p>
-            </td>
-        </tr>
-    {% endif %}
-    <tr>
-        <td class="label">{{ 'Installation_SystemCheckExtensions'|translate }}</td>
-        <td>
-            {% for needed_extension in infos.needed_extensions %}
-                {% if needed_extension in infos.missing_extensions %}
-                    {{ error }}
-                    <br/>{{ 'Installation_RestartWebServer'|translate }}
-                {% else %}
-                    {{ ok }}
-                {% endif %}
-                {{ needed_extension }}
-                <br/>
-            {% endfor %}
-        </td>
-    </tr>
-    {% if infos.missing_extensions|length > 0 %}
-        <tr>
-            <td colspan="2" class="error" style="font-size: small;">
-                {% for missing_extension in infos.missing_extensions %}
-                    <p>
-                        <em>{{ helpMessages[missing_extension]|translate }}</em>
-                    </p>
-                {% endfor %}
-            </td>
-        </tr>
-    {% endif %}
-    <tr>
-        <td class="label">{{ 'Installation_SystemCheckFunctions'|translate }}</td>
-        <td>
-            {% for needed_function in infos.needed_functions %}
-                {% if needed_function in infos.missing_functions %}
-                    {{ error }}
-                    <span class='err'>{{ needed_function }}</span>
-                    <p>
-                        <em>
-                            {{ helpMessages[needed_function]|translate }}
-                            <br/>{{ 'Installation_RestartWebServer'|translate }}
-                        </em>
-                    </p>
-                {% else %}
-                    {{ ok }} {{ needed_function }}
-                    <br/>
-                {% endif %}
-            {% endfor %}
-        </td>
-    </tr>
-    <tr>
-        <td class="label">{{ 'Installation_SystemCheckSettings'|translate }}</td>
-        <td>
-            {% for needed_setting in infos.needed_settings %}
-                {% if needed_setting in infos.missing_settings %}
-                    {{ error }}
-                    <span class='err'>{{ needed_setting }}</span>
-                    <p>
-                        <em>
-                            {{ helpMessages[needed_setting]|translate }}
-                            <br/>{{ 'Installation_RestartWebServer'|translate }}
-                        </em>
-                    </p>
-                {% else %}
-                    {{ ok }} {{ needed_setting }}
-                    <br/>
-                {% endif %}
-            {% endfor %}
-        </td>
-    </tr>
-    <tr>
-        <td valign="top">
-            {{ 'Installation_SystemCheckWriteDirs'|translate }}
-        </td>
-        <td style="font-size: small;">
-            {% for dir, bool in infos.directories %}
-                {% if bool %}
-                    {{ ok }}
-                {% else %}
-                    <span style="color:red;">{{ error }}</span>
-                {% endif %}
-                {{ dir }}
-                <br/>
-            {% endfor %}
-        </td>
-    </tr>
-    {% if problemWithSomeDirectories %}
-        <tr>
-            <td colspan="2" class="error">
-                {{ 'Installation_SystemCheckWriteDirsHelp'|translate }}:
-                {% for dir,bool in infos.directories %}
-                    <ul>
-                        {% if not bool %}
-                            <li>
-                                <pre>chmod a+w {{ dir }}</pre>
-                            </li>
-                        {% endif %}
-                    </ul>
-                {% endfor %}
-            </td>
-        </tr>
-    {% endif %}
+    {{ local.diagnosticTable(diagnosticReport.getMandatoryDiagnosticResults()) }}
 </table>
-<br/>
 
 <h3>{{ 'Installation_Optional'|translate }}</h3>
+
 <table class="infos" id="systemCheckOptional">
-    <tr>
-        <td class="label">{{ 'Installation_SystemCheckFileIntegrity'|translate }}</td>
-        <td>
-            {% if infos.integrityErrorMessages is empty %}
-                {{ ok }}
-            {% else %}
-                {% if infos.integrity %}
-                    {{ warning }}
-                    <em>{{ infos.integrityErrorMessages[0] }}</em>
-                {% else %}
-                    {{ error }}
-                    <em>{{ infos.integrityErrorMessages[0] }}</em>
-                {% endif %}
-                {% if infos.integrityErrorMessages|length > 1 %}
-                    <button id="more-results" class="ui-button ui-state-default ui-corner-all">{{ 'General_Details'|translate }}</button>
-                {% endif %}
-            {% endif %}
-        </td>
-    </tr>
-    <tr>
-        <td class="label">{{ 'Installation_SystemCheckTracker'|translate }}</td>
-        <td>
-            {% if infos.tracker_status == 0 %}
-                {{ ok }}
-            {% else %}
-                {{ warning }}
-                <span class="warn">{{ infos.tracker_status }}
-                    <br/>{{ 'Installation_SystemCheckTrackerHelp'|translate }} </span>
-                <br/>
-                {{ 'Installation_RestartWebServer'|translate }}
-            {% endif %}
-        </td>
-    </tr>
-    <tr>
-        <td class="label">{{ 'Installation_SystemCheckMemoryLimit'|translate }}</td>
-        <td>
-            {% if infos.memory_ok %}
-                {{ ok }} {{ infos.memoryCurrent }}
-            {% else %}
-                {{ warning }}
-                <span class="warn">{{ infos.memoryCurrent }}</span>
-                <br/>
-                {{ 'Installation_SystemCheckMemoryLimitHelp'|translate }}
-                {{ 'Installation_RestartWebServer'|translate }}
-            {% endif %}
-        </td>
-    </tr>
-    <tr>
-        <td class="label">{{ 'SitesManager_Timezone'|translate }}</td>
-        <td>
-            {% if infos.timezone %}
-                {{ ok }}
-            {% else %}
-                {{ warning }}
-                <span class="warn">{{ 'SitesManager_AdvancedTimezoneSupportNotFound'|translate }} </span>
-                <br/>
-                <a href="http://php.net/manual/en/datetime.installation.php" rel="noreferrer" target="_blank">Timezone PHP documentation</a>
-                .
-            {% endif %}
-        </td>
-    </tr>
-    <tr>
-        <td class="label">{{ 'Installation_SystemCheckOpenURL'|translate }}</td>
-        <td>
-            {% if infos.openurl %}
-                {{ ok }} {{ infos.openurl }}
-            {% else %}
-                {{ warning }}
-                <span class="warn">{{ 'Installation_SystemCheckOpenURLHelp'|translate }}</span>
-            {% endif %}
-            {% if not infos.can_auto_update %}
-                <br/>
-                {{ warning }} <span class="warn">{{ 'Installation_SystemCheckAutoUpdateHelp'|translate }}</span>
-            {% endif %}
-        </td>
-    </tr>
-    <tr>
-        <td class="label">{{ 'Installation_SystemCheckPageSpeedDisabled'|translate }}</td>
-        <td>
-            {% if infos.pagespeed_module_disabled_ok %}
-                {{ ok }}
-            {% else %}
-                {{ warning }} <span class="warn">{{ 'Installation_SystemCheckPageSpeedWarn'|translate('(eg. Apache, Nginx or IIS)') }}</span>
-            {% endif %}
-        </td>
-    </tr>
-    <tr>
-        <td class="label">{{ 'Installation_SystemCheckGDFreeType'|translate }}</td>
-        <td>
-            {% if infos.gd_ok %}
-                {{ ok }}
-            {% else %}
-                {{ warning }} <span class="warn">{{ 'Installation_SystemCheckGDFreeType'|translate }}
-                <br/>
-                {{ 'Installation_SystemCheckGDHelp'|translate }} </span>
-            {% endif %}
-        </td>
-    </tr>
-    <tr>
-        <td class="label">{{ 'Installation_SystemCheckOtherExtensions'|translate }}</td>
-        <td>
-            {% for desired_extension in infos.desired_extensions %}
-                {% if desired_extension in infos.missing_desired_extensions %}
-                    {{ warning }}<span class="warn">{{ desired_extension }}</span>
-                    <p>{{ helpMessages[desired_extension]|translate }}</p>
-                {% else %}
-                    {{ ok }} {{ desired_extension }}
-                    <br/>
-                {% endif %}
-            {% endfor %}
-        </td>
-    </tr>
-    <tr>
-        <td class="label">{{ 'Installation_SystemCheckOtherFunctions'|translate }}</td>
-        <td>
-            {% for desired_function in infos.desired_functions %}
-                {% if desired_function in infos.missing_desired_functions %}
-                    {{ warning }}
-                    <span class="warn">{{ desired_function }}</span>
-                    <p>{{ helpMessages[desired_function]|translate }}</p>
-                {% else %}
-                    {{ ok }} {{ desired_function }}
-                    <br/>
-                {% endif %}
-            {% endfor %}
-        </td>
-    </tr>
-    <tr>
-        <td class="label">{{ 'Installation_Filesystem'|translate }}</td>
-        <td>
-            {% if not infos.is_nfs %}
-                {{ ok }} {{ 'General_Ok'|translate }}
-                <br/>
-            {% else %}
-                {{ warning }}
-                <span class="warn">{{ 'Installation_NfsFilesystemWarning'|translate }}</span>
-                {% if duringInstall is not empty %}
-                    <p>{{ 'Installation_NfsFilesystemWarningSuffixInstall'|translate }}</p>
-                {% else %}
-                    <p>{{ 'Installation_NfsFilesystemWarningSuffixAdmin'|translate }}</p>
-                {% endif %}
-            {% endif %}
-        </td>
-    </tr>
-
-    <tr>
-        <td class="label">{{ 'Installation_SystemCheckCronArchiveProcess'|translate }}</td>
-        <td>
-            {# Both results are OK, but we report the status to help troubleshoot #}
-            {% if infos.cli_process_ok %}
-                {{ ok }} {{ 'Installation_SystemCheckCronArchiveProcessCLI'|translate }}: {{ 'General_Ok'|translate }}
-            {% else %}
-                {{ ok }} {{ 'Installation_SystemCheckCronArchiveProcessCLI'|translate }}:
-                {{ 'Installation_NotSupported'|translate }} {{ 'Goals_Optional'|translate }}
-            {% endif %}
-        </td>
-    </tr>
-
-    {% if duringInstall is empty %}
-    <tr>
-        <td class="label">{{ 'UserCountry_Geolocation'|translate }}</td>
-        <td>
-            {% if infos.extra.geolocation_ok %}
-                {{ ok }} {{ 'General_Ok'|translate }}
-                <br/>
-            {% elseif infos.extra.geolocation_using_non_recommended %}
-                {{ warning }}
-                <span class="warn">{{ 'UserCountry_GeoIpLocationProviderNotRecomnended'|translate }}
-                    {{ 'UserCountry_GeoIpLocationProviderDesc_ServerBased2'|translate('<a href="http://piwik.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>')|raw }}</span>
-                <br/>
-            {% else %}
-                {{ warning }}
-                <span class="warn">{{ 'UserCountry_DefaultLocationProviderDesc1'|translate }}
-                    {{ 'UserCountry_DefaultLocationProviderDesc2'|translate('<a href="http://piwik.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>')|raw }} </span>
-                </span>
-            {% endif %}
-        </td>
-    </tr>
-    {% endif %}
-    {% if infos.extra.load_data_infile_available is defined %}
-        <tr>
-            <td class="label">{{ 'Installation_DatabaseAbilities'|translate }}</td>
-            <td>
-                {% if infos.extra.load_data_infile_available %}
-                    {{ ok }} LOAD DATA INFILE
-                    <br/>
-                {% else %}
-                    {{ warning }}
-                    <span class="warn">LOAD DATA INFILE</span>
-                    <br/>
-                    <br/>
-                    <p>{{ 'Installation_LoadDataInfileUnavailableHelp'|translate("LOAD DATA INFILE","FILE") }}</p>
-                    <p>{{ 'Installation_LoadDataInfileRecommended'|translate }}</p>
-                    {% if infos.extra.load_data_infile_error is defined %}
-                        <em><strong>{{ 'General_Error'|translate }}:</strong></em>
-                        {{ infos.extra.load_data_infile_error|raw }}
-                    {% endif %}
-                    <p>Troubleshooting: <a target='_blank' href="?module=Proxy&action=redirect&url=http://piwik.org/faq/troubleshooting/%23faq_194">FAQ on piwik.org</a></p>
-                {% endif %}
-            </td>
-        </tr>
-    {% endif %}
-
-    <tr>
-        <td class="label">{{ 'Installation_SystemCheckUpdateHttps'|translate }}</td>
-        <td>
-            {% if infos.https_update %}
-                {{ ok }}
-            {% else %}
-                {{ warning }} {{ 'Installation_SystemCheckUpdateHttpsNotSupported'|translate }}
-            {% endif %}
-        </td>
-    </tr>
-
+    {{ local.diagnosticTable(diagnosticReport.getOptionalDiagnosticResults()) }}
 </table>
 
-{% include "@Installation/_integrityDetails.twig" %}
+{% macro diagnosticTable(results) %}
+
+    {% set error = constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_ERROR') %}
+    {% set warning = constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_WARNING') %}
+
+    {% set errorIcon %}<img src='plugins/Morpheus/images/error.png' />{% endset %}
+    {% set warningIcon %}<img src='plugins/Morpheus/images/warning.png' />{% endset %}
+    {% set okIcon %}<img src='plugins/Morpheus/images/ok.png' />{% endset %}
+
+    {% for result in results %}
+        <tr>
+            <td class="label">{{ result.label }}</td>
+            <td>
+                {% for item in result.items %}
+
+                    {% if item.status == error %}
+                        {{ errorIcon }} <span class="err">{{ item.comment|raw }}</span>
+                    {% elseif item.status == warning %}
+                        {{ warningIcon }} {{ item.comment|raw }}
+                    {% else %}
+                        {{ okIcon }} {{ item.comment|raw }}
+                    {% endif %}
+
+                    <br/>
+
+                {% endfor %}
+            </td>
+        </tr>
+        {% if result.longErrorMessage %}
+            <tr>
+                <td colspan="2" class="error" style="font-size: small;">
+                    {{ result.longErrorMessage|raw }}
+                </td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+
+{% endmacro %}

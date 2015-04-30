@@ -6,6 +6,7 @@
         "BrowserVersion": "Versió del navegador",
         "ColumnBrowser": "Navegador",
         "ColumnOperatingSystem": "Sistema operatiu",
+        "dataTableLabelTypes": "Tipus",
         "OperatingSystemFamily": "Família del Sistema Operatiu",
         "OperatingSystems": "Sistemes operatius",
         "WidgetBrowsers": "Navegadors",

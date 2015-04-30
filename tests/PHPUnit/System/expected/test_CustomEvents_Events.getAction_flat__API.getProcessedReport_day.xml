@@ -43,7 +43,7 @@
 	<reportData>
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
-				<label>playTrailer - Ponyo (崖の上のポニョ)</label>
+				<label>clickBuyNow - Spirited Away (千と千尋の神隠し)</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -52,25 +52,16 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>playTrailer - Princess Mononoke (もののけ姫)</label>
+				<label>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;--- - event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
 				<nb_events>2</nb_events>
-				<nb_events_with_value>0</nb_events_with_value>
-				<sum_event_value>0</sum_event_value>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>19.32</sum_event_value>
 				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-				<avg_event_value>0</avg_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
 			</row>
 			<row>
-				<label>playTrailer - Spirited Away (千と千尋の神隠し)</label>
-				<nb_events>2</nb_events>
-				<nb_events_with_value>0</nb_events_with_value>
-				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-				<avg_event_value>0</avg_event_value>
-			</row>
-			<row>
-				<label>Search - Search query here</label>
+				<label>play - La fiancée de l&amp;#039;eau</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -151,6 +142,51 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
+				<label>playStart - Spirited Away (千と千尋の神隠し)</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>playTrailer - Ponyo (崖の上のポニョ)</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>playTrailer - Princess Mononoke (もののけ姫)</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>playTrailer - Spirited Away (千と千尋の神隠し)</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Purchase</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
 				<label>rating - La fiancée de l&amp;#039;eau</label>
 				<nb_events>4</nb_events>
 				<nb_events_with_value>4</nb_events_with_value>
@@ -169,43 +205,7 @@
 				<avg_event_value>9.66</avg_event_value>
 			</row>
 			<row>
-				<label>clickBuyNow - Spirited Away (千と千尋の神隠し)</label>
-				<nb_events>2</nb_events>
-				<nb_events_with_value>0</nb_events_with_value>
-				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-				<avg_event_value>0</avg_event_value>
-			</row>
-			<row>
-				<label>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;--- - event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
-				<nb_events>2</nb_events>
-				<nb_events_with_value>2</nb_events_with_value>
-				<sum_event_value>19.32</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>9.66</max_event_value>
-				<avg_event_value>9.66</avg_event_value>
-			</row>
-			<row>
-				<label>play - La fiancée de l&amp;#039;eau</label>
-				<nb_events>2</nb_events>
-				<nb_events_with_value>0</nb_events_with_value>
-				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-				<avg_event_value>0</avg_event_value>
-			</row>
-			<row>
-				<label>playStart - Spirited Away (千と千尋の神隠し)</label>
-				<nb_events>2</nb_events>
-				<nb_events_with_value>0</nb_events_with_value>
-				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-				<avg_event_value>0</avg_event_value>
-			</row>
-			<row>
-				<label>Purchase</label>
+				<label>Search - Search query here</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>

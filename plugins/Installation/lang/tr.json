@@ -1,6 +1,5 @@
 {
     "Installation": {
-        "CannotConnectToDb": "Veritabanına bağlanamadı",
         "Congratulations": "Tebrikler",
         "CongratulationsHelp": "<p>Tebrikler! Piwik Başarıyla kuruldu.<\/p><p>JavaScript kodunu sayfalarınıza yerleştirdiğinizden emin olun ve ilk ziyaretçilerinizi beklemeye başlayın!<\/p>",
         "DatabaseCreation": "Veritabaı oluşturma",
@@ -43,6 +42,7 @@
         "SystemCheckWarning": "Piwik normal olarak çalışacaktır ancak bazı özellikler eksik olacak.",
         "Tables": "Tablolar oluşturuluyor",
         "TablesCreatedSuccess": "Tablolar başarılı bir şekilde yaratıldı!",
-        "Welcome": "Hoşgeldiniz!"
+        "Welcome": "Hoşgeldiniz!",
+        "CannotConnectToDb": "Veritabanına bağlanamadı"
     }
 }

@@ -1,4 +1,0 @@
-#Version: 1.0
-#Fields: date time x-edge-location c-ip x-event sc-bytes x-cf-status x-cf-client-id cs-uri-stem cs-uri-query c-referrer x-page-url​  c-user-agent x-sname x-sname-query x-file-ext x-sid
-2010-03-12   23:51:20   SEA4   192.0.2.147   connect   2014   OK   bfd8a98bee0840d9b871b7f6ade9908f   rtmp://shqshne4jdp4b6.cloudfront.net/cfx/st​  key=value   http://player.longtailvideo.com/player.swf   http://www.longtailvideo.com/support/jw-player-setup-wizard?example=204   LNX%2010,0,32,18   -   -   -   -
-2010-03-12   23:51:21   SEA4   192.0.2.222   play   3914   OK   bfd8a98bee0840d9b871b7f6ade9908f   rtmp://shqshne4jdp4b6.cloudfront.net/cfx/st​  key=value   http://player.longtailvideo.com/player.swf   http://www.longtailvideo.com/support/jw-player-setup-wizard?example=204   LNX%2010,0,32,18   myvideo   p=2&q=4   flv   1

@@ -10,8 +10,8 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Common;
-use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\DataTable;
+use Piwik\Plugin;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 
@@ -25,13 +25,24 @@ class DataTableGenericFilter
     private $disabledFilters = array();
 
     /**
+     * @var Report
+     */
+    private $report;
+
+    /**
+     * @var array
+     */
+    private $request;
+
+    /**
      * Constructor
      *
      * @param $request
      */
-    function __construct($request)
+    function __construct($request, $report)
     {
         $this->request = $request;
+        $this->report  = $report;
     }
 
     /**
@@ -102,6 +113,22 @@ class DataTableGenericFilter
         );
     }
 
+    private function getGenericFiltersHavingDefaultValues()
+    {
+        $filters = self::getGenericFiltersInformation();
+
+        if ($this->report && $this->report->getDefaultSortColumn()) {
+            foreach ($filters as $index => $filter) {
+                if ($filter[0] === 'Sort') {
+                    $filters[$index][1]['filter_sort_column'] = array('string', $this->report->getDefaultSortColumn());
+                    $filters[$index][1]['filter_sort_order']  = array('string', $this->report->getDefaultSortOrder());
+                }
+            }
+        }
+
+        return $filters;
+    }
+
     /**
      * Apply generic filters to the DataTable object resulting from the API Call.
      * Disable this feature by setting the parameter disable_generic_filters to 1 in the API call request.
@@ -119,7 +146,7 @@ class DataTableGenericFilter
             return;
         }
 
-        $genericFilters = self::getGenericFiltersInformation();
+        $genericFilters = $this->getGenericFiltersHavingDefaultValues();
 
         $filterApplied = false;
         foreach ($genericFilters as $filterMeta) {

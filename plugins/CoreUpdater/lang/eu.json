@@ -31,6 +31,7 @@
         "UpdateAutomatically": "Eguneratu automatikoki",
         "UpdateHasBeenCancelledExplanation": "Piwik-en klik bakarreko eguneraketa utzi egin da. Goiko errore-mezua ezin baduzu konpondu, Piwik eskuz eguneratzea gomendatzen da. %1$s Emaiozu begirada bat %2$seguneraketen dokumentazioari%3$s konponbidea bilatzeko!",
         "UpdateTitle": "Eguneratu",
+        "UpdateSuccessTitle": "Piwik ondo eguneratu da!",
         "UpgradeComplete": "Bertsio-berritzea burututa!",
         "UpgradePiwik": "Bertsio-berritu Piwik",
         "VerifyingUnpackedFiles": "Despaketatutako fitxategiak egiaztatzen",

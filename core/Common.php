@@ -111,12 +111,12 @@ class Common
      */
     public static function isGoalPluginEnabled()
     {
-        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('Goals');
+        return Plugin\Manager::getInstance()->isPluginActivated('Goals');
     }
 
     public static function isActionsPluginEnabled()
     {
-        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('Actions');
+        return Plugin\Manager::getInstance()->isPluginActivated('Actions');
     }
 
     /**
@@ -379,9 +379,13 @@ class Common
      */
     private static function undoMagicQuotes($value)
     {
-        if (version_compare(PHP_VERSION, '5.4', '<') &&
-            get_magic_quotes_gpc()) {
+        static $shouldUndo;
 
+        if (!isset($shouldUndo)) {
+            $shouldUndo = version_compare(PHP_VERSION, '5.4', '<') && get_magic_quotes_gpc();
+        }
+
+        if ($shouldUndo) {
             $value = stripslashes($value);
         }
 
@@ -470,7 +474,7 @@ class Common
         }
 
         $value = self::sanitizeInputValues($requestArrayToUse[$varName]);
-        if (!is_null($varType)) {
+        if (isset($varType)) {
             $ok = false;
 
             if ($varType === 'string') {
@@ -531,7 +535,7 @@ class Common
     }
 
     /**
-     * Configureable hash() algorithm (defaults to md5)
+     * Configurable hash() algorithm (defaults to md5)
      *
      * @param string $str String to be hashed
      * @param bool $raw_output
@@ -713,14 +717,14 @@ class Common
     /**
      * Returns the list of parent classes for the given class.
      *
-     * @param  string    $klass   A class name.
+     * @param  string    $class   A class name.
      * @return string[]  The list of parent classes in order from highest ancestor to the descended class.
      */
-    public static function getClassLineage($klass)
+    public static function getClassLineage($class)
     {
-        $klasses = array_merge(array($klass), array_values(class_parents($klass, $autoload = false)));
+        $classes = array_merge(array($class), array_values(class_parents($class, $autoload = false)));
 
-        return array_reverse($klasses);
+        return array_reverse($classes);
     }
 
     /*
@@ -1077,7 +1081,7 @@ class Common
     /**
      * Returns the continent of a given country
      *
-     * @param string $country 2 letters isocode
+     * @param string $country 2 letters iso code
      *
      * @return string  Continent (3 letters code : afr, asi, eur, amn, ams, oce)
      */
@@ -1199,7 +1203,8 @@ class Common
             401 => 'Unauthorized',
             403 => 'Forbidden',
             404 => 'Not Found',
-            500 => 'Internal Server Error'
+            500 => 'Internal Server Error',
+            503 => 'Service Unavailable',
         );
 
         if (!array_key_exists($code, $messages)) {
@@ -1240,7 +1245,7 @@ class Common
      * Marks an orphaned object for garbage collection.
      *
      * For more information: {@link https://github.com/piwik/piwik/issues/374}
-     * @param $var The object to destroy.
+     * @param mixed $var The object to destroy.
      * @api
      */
     public static function destroy(&$var)

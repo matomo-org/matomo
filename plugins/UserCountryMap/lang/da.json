@@ -20,8 +20,8 @@
         "ShowingVisits": "Geografisk placeret besøg af sidste",
         "Unlocated": "<b>%s<\/b> besøg %p fra %c kunne ikke placeres geografisk.",
         "VisitorMap": "Besøgerkort",
-        "WithUnknownCity": "%s med ukendt by",
+        "WorldWide": "Hele verden",
         "WithUnknownRegion": "%s med ukendt region",
-        "WorldWide": "Hele verden"
+        "WithUnknownCity": "%s med ukendt by"
     }
 }

@@ -33,6 +33,8 @@
  ************************************************************/
 /*jslint evil: true, regexp: false, bitwise: true, white: true */
 /*global JSON2:true */
+/*global window:true */
+/*property JSON:true */
 /*members "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply,
     call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join,
@@ -45,7 +47,7 @@
 // methods in a closure to avoid creating global variables.
 
 if (typeof JSON2 !== 'object') {
-    JSON2 = {};
+    JSON2 = window.JSON || {};
 }
 
 (function () {
@@ -416,7 +418,7 @@ if (typeof JSON2 !== 'object') {
     setCustomData, getCustomData,
     setCustomRequestProcessing,
     setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie,
-    setDownloadExtensions, addDownloadExtensions,
+    setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle,
     setDownloadClasses, setLinkClasses,
@@ -431,7 +433,7 @@ if (typeof JSON2 !== 'object') {
     setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
-    deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
+    deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
     getAttribute, hasAttribute, attributes, nodeName, findContentNodes, findContentNodes, findContentNodesWithinNode,
     findPieceNode, findTargetNodeNoDefault, findTargetNode, findContentPiece, children, hasNodeCssClass,
@@ -2175,7 +2177,7 @@ if (typeof Piwik !== 'object') {
                 configTitle = documentAlias.title,
 
                 // Extensions to be treated as download links
-                configDownloadExtensions = '7z|aac|apk|ar[cj]|as[fx]|avi|azw3|bin|csv|deb|dmg|docx?|epub|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mobi|mp(2|3|4|e?g)|mov(ie)?|ms[ip]|od[bfgpst]|og[gv]|pdf|phps|png|pptx?|qtm?|ra[mr]?|rpm|sea|sit|tar|t?bz2?|tgz|torrent|txt|wav|wm[av]|wpd||xlsx?|xml|z|zip',
+                configDownloadExtensions = ['7z','aac','apk','arc','arj','asf','asx','avi','azw3','bin','csv','deb','dmg','doc','docx','epub','exe','flv','gif','gz','gzip','hqx','ibooks','jar','jpg','jpeg','js','mobi','mp2','mp3','mp4','mpg','mpeg','mov','movie','msi','msp','odb','odf','odg','ods','odt','ogg','ogv','pdf','phps','png','ppt','pptx','qt','qtm','ra','ram','rar','rpm','sea','sit','tar','tbz','tbz2','bz','bz2','tgz','torrent','txt','wav','wma','wmv','wpd','xls','xlsx','xml','z','zip'],
 
                 // Hosts or alias(es) to not treat as outlinks
                 configHostsAlias = [domainAlias],
@@ -2626,6 +2628,21 @@ if (typeof Piwik !== 'object') {
             }
 
             /*
+             * Generate a pseudo-unique ID to fingerprint this user
+             * 16 hexits = 64 bits
+             * note: this isn't a RFC4122-compliant UUID
+             */
+            function generateRandomUuid() {
+                return hash(
+                    (navigatorAlias.userAgent || '') +
+                    (navigatorAlias.platform || '') +
+                    JSON2.stringify(browserFeatures) +
+                    (new Date()).getTime() +
+                    Math.random()
+                ).slice(0, 16);
+            }
+
+            /*
              * Load visitor ID cookie
              */
             function loadVisitorIdCookie() {
@@ -2636,6 +2653,7 @@ if (typeof Piwik !== 'object') {
                     cookieValue,
                     uuid;
 
+                // Visitor ID cookie found
                 if (id) {
                     cookieValue = id.split('.');
 
@@ -2648,20 +2666,15 @@ if (typeof Piwik !== 'object') {
                     return cookieValue;
                 }
 
-                // uuid - generate a pseudo-unique ID to fingerprint this user;
-                // note: this isn't a RFC4122-compliant UUID
-                if (visitorUUID.length) {
+                if(visitorUUID.length) {
                     uuid = visitorUUID;
+                } else if ('0' === hasCookies()){
+                    uuid = '';
                 } else {
-                    uuid = hash(
-                        (navigatorAlias.userAgent || '') +
-                        (navigatorAlias.platform || '') +
-                        JSON2.stringify(browserFeatures) +
-                        now.getTime() +
-                        Math.random()
-                    ).slice(0, 16); // 16 hexits = 64 bits
+                    uuid = generateRandomUuid();
                 }
 
+                // No visitor ID cookie, let's create a new one
                 cookieValue = [
                     // new visitor
                     '1',
@@ -2790,15 +2803,33 @@ if (typeof Piwik !== 'object') {
                 ];
             }
 
+            function deleteCookie(cookieName, path, domain) {
+                setCookie(cookieName, '', -86400, path, domain);
+            }
+
+            function isPossibleToSetCookieOnDomain(domainToTest)
+            {
+                var valueToSet = 'testvalue';
+                setCookie('test', valueToSet, 10000, null, domainToTest);
+
+                if (getCookie('test') === valueToSet) {
+                    deleteCookie('test', null, domainToTest);
+
+                    return true;
+                }
+
+                return false;
+            }
+
             function deleteCookies() {
                 var savedConfigCookiesDisabled = configCookiesDisabled;
 
                 // Temporarily allow cookies just to delete the existing ones
                 configCookiesDisabled = false;
-                setCookie(getCookieName('id'), '', -86400, configCookiePath, configCookieDomain);
-                setCookie(getCookieName('ses'), '', -86400, configCookiePath, configCookieDomain);
-                setCookie(getCookieName('cvar'), '', -86400, configCookiePath, configCookieDomain);
-                setCookie(getCookieName('ref'), '', -86400, configCookiePath, configCookieDomain);
+                deleteCookie(getCookieName('id'), configCookiePath, configCookieDomain);
+                deleteCookie(getCookieName('ses'), configCookiePath, configCookieDomain);
+                deleteCookie(getCookieName('cvar'), configCookiePath, configCookieDomain);
+                deleteCookie(getCookieName('ref'), configCookiePath, configCookieDomain);
 
                 configCookiesDisabled = savedConfigCookiesDisabled;
             }
@@ -3213,7 +3244,7 @@ if (typeof Piwik !== 'object') {
             /*
              * Link or Download?
              */
-            function getLinkType(className, href, isInLink) {
+            function getLinkType(className, href, isInLink, hasDownloadAttribute) {
                 if (startsUrlWithTrackerUrl(href)) {
                     return 0;
                 }
@@ -3223,13 +3254,13 @@ if (typeof Piwik !== 'object') {
                     linkPattern = getClassesRegExp(configLinkClasses, 'link'),
 
                 // does file extension indicate that it is a download?
-                    downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions + ')([?&#]|$)', 'i');
+                    downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions.join('|') + ')([?&#]|$)', 'i');
 
                 if (linkPattern.test(className)) {
                     return 'link';
                 }
 
-                if (downloadPattern.test(className) || downloadExtensionsPattern.test(href)) {
+                if (hasDownloadAttribute || downloadPattern.test(className) || downloadExtensionsPattern.test(href)) {
                     return 'download';
                 }
 
@@ -3287,7 +3318,7 @@ if (typeof Piwik !== 'object') {
 
                 if (!scriptProtocol.test(sourceHref)) {
                     // track outlinks and all downloads
-                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
+                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName), query.hasNodeAttribute(sourceElement, 'download'));
 
                     if (linkType) {
                         return {
@@ -3993,6 +4024,7 @@ if (typeof Piwik !== 'object') {
                     },
                     devicePixelRatio = (new RegExp('Mac OS X.*Safari/')).test(navigatorAlias.userAgent) ? windowAlias.devicePixelRatio || 1 : 1;
 
+                // detect browser features except IE < 11 (IE 11 user agent is no longer MSIE)
                 if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
                     // general plugin detection
                     if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
@@ -4133,7 +4165,7 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Get visitor ID (from first party cookie)
                  *
-                 * @return string Visitor ID in hexits (or null, if not yet known)
+                 * @return string Visitor ID in hexits (or empty string, if not yet known)
                  */
                 getVisitorId: function () {
                     return getValuesFromVisitorIdCookie().uuid;
@@ -4347,7 +4379,7 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Set custom variable within this visit
                  *
-                 * @param int index
+                 * @param int index Custom variable slot ID from 1-5
                  * @param string name
                  * @param string value
                  * @param string scope Scope of Custom Variable:
@@ -4386,7 +4418,7 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Get custom variable
                  *
-                 * @param int index
+                 * @param int index Custom variable slot ID from 1-5
                  * @param string scope Scope of Custom Variable: "visit" or "page" or "event"
                  */
                 getCustomVariable: function (index, scope) {
@@ -4416,7 +4448,7 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Delete custom variable
                  *
-                 * @param int index
+                 * @param int index Custom variable slot ID from 1-5
                  */
                 deleteCustomVariable: function (index, scope) {
                     // Only delete if it was there already
@@ -4447,19 +4479,46 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Set list of file extensions to be recognized as downloads
                  *
-                 * @param string extensions
+                 * @param string|array extensions
                  */
                 setDownloadExtensions: function (extensions) {
+                    if(isString(extensions)) {
+                        extensions = extensions.split('|');
+                    }
                     configDownloadExtensions = extensions;
                 },
 
                 /**
                  * Specify additional file extensions to be recognized as downloads
                  *
-                 * @param string extensions
+                 * @param string|array extensions  for example 'custom' or ['custom1','custom2','custom3']
                  */
                 addDownloadExtensions: function (extensions) {
-                    configDownloadExtensions += '|' + extensions;
+                    var i;
+                    if(isString(extensions)) {
+                        extensions = extensions.split('|');
+                    }
+                    for (i=0; i < extensions.length; i++) {
+                        configDownloadExtensions.push(extensions[i]);
+                    }
+                },
+
+                /**
+                 * Removes specified file extensions from the list of recognized downloads
+                 *
+                 * @param string|array extensions  for example 'custom' or ['custom1','custom2','custom3']
+                 */
+                removeDownloadExtensions: function (extensions) {
+                    var i, newExtensions = [];
+                    if(isString(extensions)) {
+                        extensions = extensions.split('|');
+                    }
+                    for (i=0; i < configDownloadExtensions.length; i++) {
+                        if (indexOfArray(extensions, configDownloadExtensions[i]) === -1) {
+                            newExtensions.push(configDownloadExtensions[i]);
+                        }
+                    }
+                    configDownloadExtensions = newExtensions;
                 },
 
                 /**
@@ -4604,8 +4663,12 @@ if (typeof Piwik !== 'object') {
                  * @param string domain
                  */
                 setCookieDomain: function (domain) {
-                    configCookieDomain = domainFixup(domain);
-                    updateDomainHash();
+                    var domainFixed = domainFixup(domain);
+
+                    if (isPossibleToSetCookieOnDomain(domainFixed)) {
+                        configCookieDomain = domainFixed;
+                        updateDomainHash();
+                    }
                 },
 
                 /**

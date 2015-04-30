@@ -103,9 +103,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should load the visitors > settings page correctly', function (done) {
-        expect.screenshot("visitors_settings").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=UserSettings&action=index");
+    it('should load the visitors > software page correctly', function (done) {
+        expect.screenshot("visitors_software").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+            page.load("?" + urlBase + "#" + generalParams + "&module=DevicesDetection&action=software");
         }, done);
     });
 
@@ -514,18 +514,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // top bar pages
-    it('should load the all websites dashboard correctly', function (done) {
-        expect.screenshot('all_websites').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + generalParams + "&module=MultiSites&action=index");
-        }, done);
-    });
-
     it('should load the widgets listing page correctly', function (done) {
         expect.screenshot('widgets_listing').to.be.captureSelector('#content', function (page) {
             page.load("?" + generalParams + "&module=Widgetize&action=index");
             page.mouseMove('.widgetpreview-categorylist>li:contains(Visits Summary)');
             page.mouseMove('li[uniqueid=widgetVisitsSummarygetEvolutionGraphcolumnsArray]');
-        }, done);top
+        }, done);
     });
 
     it('should load the API listing page correctly', function (done) {

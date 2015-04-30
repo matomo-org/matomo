@@ -81,6 +81,7 @@
         "Products": "Produkten",
         "ProductSKU": "Produkt SKU",
         "ReturningVisitorsConversionRateIs": "Conversiepercentage terugkerende bezoekers is %s",
+        "SendEvent": "Stuur een gebeurtenis",
         "SingleGoalOverviewDocumentation": "Dit is een overzicht van de conversies voor een enkel doel. %s De sparklines onder de grafiek kunnen worden vergroot door erop te klikken.",
         "ThereIsNoGoalToManage": "Er is geen doel om te beheren voor website %s",
         "UpdateGoal": "Update doelstelling",

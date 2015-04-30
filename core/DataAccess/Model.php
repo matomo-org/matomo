@@ -10,9 +10,11 @@ namespace Piwik\DataAccess;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Sequence;
+use Psr\Log\LoggerInterface;
 
 /**
  * Cleans up outdated archives
@@ -21,6 +23,15 @@ use Piwik\Sequence;
  */
 class Model
 {
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(LoggerInterface $logger = null)
+    {
+        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+    }
 
     /**
      * Returns the archives IDs that have already been invalidated and have been since re-processed.
@@ -118,13 +129,21 @@ class Model
         $query = "DELETE FROM %s WHERE period = ? AND ts_archived < ?";
         $bind  = array($period, $date);
 
-        Db::query(sprintf($query, $numericTable), $bind);
+        $queryObj = Db::query(sprintf($query, $numericTable), $bind);
+        $deletedRows = $queryObj->rowCount();
 
         try {
-            Db::query(sprintf($query, $blobTable), $bind);
+            $queryObj = Db::query(sprintf($query, $blobTable), $bind);
+            $deletedRows += $queryObj->rowCount();
         } catch (Exception $e) {
             // Individual blob tables could be missing
+            $this->logger->debug("Unable to delete archives by period from {blobTable}.", array(
+                'blobTable' => $blobTable,
+                'exception' => $e
+            ));
         }
+
+        return $deletedRows;
     }
 
     public function deleteArchiveIds($numericTable, $blobTable, $idsToDelete)
@@ -132,13 +151,21 @@ class Model
         $idsToDelete = array_values($idsToDelete);
         $query = "DELETE FROM %s WHERE idarchive IN (" . Common::getSqlStringFieldsArray($idsToDelete) . ")";
 
-        Db::query(sprintf($query, $numericTable), $idsToDelete);
+        $queryObj = Db::query(sprintf($query, $numericTable), $idsToDelete);
+        $deletedRows = $queryObj->rowCount();
 
         try {
-            Db::query(sprintf($query, $blobTable), $idsToDelete);
+            $queryObj = Db::query(sprintf($query, $blobTable), $idsToDelete);
+            $deletedRows += $queryObj->rowCount();
         } catch (Exception $e) {
             // Individual blob tables could be missing
+            $this->logger->debug("Unable to delete archive IDs from {blobTable}.", array(
+                'blobTable' => $blobTable,
+                'exception' => $e
+            ));
         }
+
+        return $deletedRows;
     }
 
     public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues)

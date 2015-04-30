@@ -1,3 +1,34 @@
-<a ng-show="hasSuperUserAccess && !siteIsBeingEdited" class="addRowSite" ng-click="addSite()" tabindex="1">
-    {{ 'SitesManager_AddSite'|translate }}
-</a>
+<div ng-show="!siteIsBeingEdited" class="sitesButtonBar">
+    <div class="addSite">
+        <a ng-show="hasSuperUserAccess" class="addRowSite" ng-click="addSite()" tabindex="1">
+            {{ 'SitesManager_AddSite'|translate }}
+        </a>
+    </div>
+    <div class="paging">
+        <a class="submit prev"
+           ng-class="{'visible': adminSites.hasPrev, 'hide_only': !adminSites.hasPrev}"
+           ng-click="adminSites.previousPage()">
+            <span style="cursor:pointer;">&#171; {{ 'General_Previous'|translate }}</span>
+        </a>
+        <span class="counter" ng-show="adminSites.hasPrev || adminSites.hasNext">
+            <span ng-if="adminSites.searchTerm">
+                {{ 'General_PaginationWithoutTotal'|translate:adminSites.offsetStart:adminSites.offsetEnd }}
+            </span>
+            <span ng-if="!adminSites.searchTerm">
+                {{ 'General_Pagination'|translate:adminSites.offsetStart:adminSites.offsetEnd:totalNumberOfSites }}
+            </span>
+        </span>
+        <a class="submit next"
+           ng-class="{'visible': adminSites.hasNext, 'hide_only': !adminSites.hasNext}"
+           ng-click="adminSites.nextPage()">
+            <span style="cursor:pointer;" class="pointer">{{ 'General_Next'|translate }} &#187;</span>
+        </a>
+    </div>
+    <div class="search" ng-show="adminSites.hasPrev || adminSites.hasNext || adminSites.searchTerm">
+        <input ng-model="adminSites.search" piwik-onenter="adminSites.searchSite(adminSites.search)"
+               placeholder="{{ 'Actions_SubmenuSitesearch' | translate }}" type="text">
+        <img ng-click="adminSites.searchSite(adminSites.search)" title="{{ 'General_ClickToSearch' | translate }}"
+             class="search_ico"
+             src="plugins/Morpheus/images/search_ico.png"/>
+    </div>
+</div>

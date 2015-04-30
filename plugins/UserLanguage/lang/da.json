@@ -185,6 +185,7 @@
         "Language_za": "Zhuang",
         "Language_zh": "Kinesisk",
         "Language_zu": "Zulu",
-        "LanguageCode": "Sprogkode"
+        "LanguageCode": "Sprogkode",
+        "PluginDescription": "Rapporter sproget, som anvendes af de besøgendes browsere."
     }
 }

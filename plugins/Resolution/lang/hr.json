@@ -1,7 +1,10 @@
 {
     "Resolution": {
-        "ColumnConfiguration": "KOnfiguracija",
+        "ColumnConfiguration": "Konfiguracija",
         "ColumnResolution": "Rezolucija",
-        "Configurations": "Konfiguracija"
+        "Configurations": "Konfiguracije",
+        "Resolutions": "Rezolucije",
+        "WidgetGlobalVisitors": "Konfiguracija posjetitelja",
+        "WidgetResolutions": "Rezolucija zaslona"
     }
 }

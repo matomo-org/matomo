@@ -119,6 +119,9 @@ tracker_always_new_visitor = 0
 ; Allow automatic upgrades to Beta or RC releases
 allow_upgrades_to_beta = 0
 
+; if set to 1, all SQL queries will be logged using the DEBUG log level
+log_sql_queries = 0
+
 [DebugTests]
 ; When set to 1, standalone plugins (those with their own git repositories)
 ; will be loaded when executing tests.
@@ -219,6 +222,13 @@ adding_segment_requires_access = "view"
 ; this admin option can be used to prevent users from performing an action that will have a major impact
 ; on Piwik performance.
 allow_adding_segments_for_all_websites = 1
+
+; When archiving segments for the first time, this determines the oldest date that will be archived.
+; This option can be used to avoid archiving (for isntance) the lastN years for every new segment.
+; Valid option values include: "beginning_of_time" (start date of archiving will not be changed)
+;                              "segment_creation_time" (start date of archiving will be the creation date of the segment)
+;                              lastN where N is an integer (eg "last10" to archive for 10 days before the segment creation date)
+process_new_segments_from = "beginning_of_time"
 
 ; this action name is used when the URL ends with a slash /
 ; it is useful to have an actual string to write in the UI
@@ -455,7 +465,8 @@ enable_trusted_host_check = 1
 ; Examples:
 ;cors_domains[] = http://example.com
 ;cors_domains[] = http://stats.example.com
-; OR allow for all domains
+;
+; Or you may allow cross domain requests for all domains with:
 ;cors_domains[] = *
 
 ; If you use this Piwik instance over multiple hostnames, Piwik will need to know
@@ -555,6 +566,10 @@ use_third_party_id_cookie = 0
 ; Once enabled (set to 1) messages will be logged to all loggers defined in "[log] log_writers" config.
 debug = 0
 
+; This option is an alternative to the debug option above. When set to 1, you can debug tracker request by adding
+; a debug=1 query paramater in the URL. All other HTTP requests will not have debug enabled.
+debug_on_demand = 0
+
 ; This setting is described in this FAQ: http://piwik.org/faq/how-to/faq_175/
 ; Note: generally this should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
 ; and the same IP. If left to 0 in this setting, all visitors will be counted as one single visitor.
@@ -621,7 +636,7 @@ campaign_keyword_var_name = "pk_kwd,pk_keyword,piwik_kwd,utm_term"
 create_new_visit_when_campaign_changes = 1
 
 ; if set to 1, actions that contain different website referrer information from the visitor's ongoing visit
-; will be treatedas the start of a new visit. This will include situations when website referrer information was
+; will be treated as the start of a new visit. This will include situations when website referrer information was
 ; absent before, but is present now.
 create_new_visit_when_website_referrer_changes = 0
 
@@ -638,11 +653,6 @@ bulk_requests_require_authentication = 0
 ; Whether Bulk tracking requests will be wrapped within a DB Transaction.
 ; This greatly increases performance of Log Analytics and in general any Bulk Tracking API requests.
 bulk_requests_use_transaction = 1
-
-; Comma separated list of known Referrer Spammers, ie. bot visits that set a fake Referrer field.
-; All Visits with a Referrer URL host set to one of these will be excluded.
-; If you find new spam entries in Referrers>Websites, please report them here: https://github.com/piwik/piwik/issues/5099
-referrer_urls_spam = "semalt.com,buttons-for-website.com,7makemoneyonline.com,anticrawler.org,ranksonic.info,savetubevideo.com,kambasoft.com,ilovevitaly.com,priceg.com,blackhatworth.com,hulfingtonpost.com,darodar.com,econom.co,o-o-6-o-o.com,bestwebsitesawards.com,darodar.com,ranksonic.org,ranksonic.info"
 
 ; DO NOT USE THIS SETTING ON PUBLICLY AVAILABLE PIWIK SERVER
 ; !!! Security risk: if set to 0, it would allow anyone to push data to Piwik with custom dates in the past/future and even with fake IPs!
@@ -708,6 +718,7 @@ password = ; Proxy password: optional; if specified, username is mandatory
 Plugins[] = CorePluginsAdmin
 Plugins[] = CoreAdminHome
 Plugins[] = CoreHome
+Plugins[] = Diagnostics
 Plugins[] = CoreVisualizations
 Plugins[] = Proxy
 Plugins[] = API
@@ -764,11 +775,13 @@ Plugins[] = Resolution
 Plugins[] = DevicePlugins
 
 [PluginsInstalled]
+PluginsInstalled[] = Diagnostics
 PluginsInstalled[] = Login
 PluginsInstalled[] = CoreAdminHome
 PluginsInstalled[] = UsersManager
 PluginsInstalled[] = SitesManager
 PluginsInstalled[] = Installation
+PluginsInstalled[] = Monolog
 
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call

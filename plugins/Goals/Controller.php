@@ -48,13 +48,13 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $translator;
 
-    private function formatConversionRate($conversionRate)
+    private function formatConversionRate($conversionRate, $columnName = 'conversion_rate')
     {
         if ($conversionRate instanceof DataTable) {
             if ($conversionRate->getRowsCount() == 0) {
                 $conversionRate = 0;
             } else {
-                $conversionRate = $conversionRate->getFirstRow()->getColumn('conversion_rate');
+                $conversionRate = $conversionRate->getFirstRow()->getColumn($columnName);
             }
         }
 
@@ -128,14 +128,11 @@ class Controller extends \Piwik\Plugin\Controller
         $view->nameGraphEvolution = 'Goals.getEvolutionGraph' . $idGoal;
         $view->topDimensions = $this->getTopDimensions($idGoal);
 
-        // conversion rate for new and returning visitors
-        $segment = urldecode(\Piwik\Plugins\VisitFrequency\API::RETURNING_VISITOR_SEGMENT);
-        $conversionRateReturning = Request::processRequest("Goals.get", array('segment' => $segment, 'idGoal' => $idGoal));
-        $view->conversion_rate_returning = $this->formatConversionRate($conversionRateReturning);
+        $goalMetrics = Request::processRequest('Goals.get', array('idGoal' => $idGoal));
 
-        $segment = 'visitorType==new';
-        $conversionRateNew = Request::processRequest("Goals.get", array('segment' => $segment, 'idGoal' => $idGoal));
-        $view->conversion_rate_new = $this->formatConversionRate($conversionRateNew);
+        // conversion rate for new and returning visitors
+        $view->conversion_rate_returning = $this->formatConversionRate($goalMetrics, 'conversion_rate_returning_visit');
+        $view->conversion_rate_new = $this->formatConversionRate($goalMetrics, 'conversion_rate_new_visit');
 
         $view->goalReportsByDimension = $this->getGoalReportsByDimensionTable(
             $view->nb_conversions, isset($ecommerce), !empty($view->cart_nb_conversions));
@@ -168,27 +165,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = new View('@Goals/manageGoals');
         $this->setGeneralVariablesView($view);
-
-        $goals = $this->goals;
-        $view->goals = $goals;
-
-        $idGoal = Common::getRequestVar('idGoal', 0, 'int');
-        $view->idGoal = 0;
-        if ($idGoal && array_key_exists($idGoal, $goals)) {
-            $view->idGoal = $idGoal;
-        }
-
-        // unsanitize goal names and other text data (not done in API so as not to break
-        // any other code/cause security issues)
-
-        foreach ($goals as &$goal) {
-            $goal['name'] = Common::unsanitizeInputValue($goal['name']);
-            if (isset($goal['pattern'])) {
-                $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
-            }
-        }
-        $view->goalsJSON = json_encode($goals);
-        $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
+        $this->setEditGoalsViewVariables($view);
         return $view->render();
     }
 
@@ -260,6 +237,15 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
         $view->onlyShowAddNewGoal = true;
+        return $view->render();
+    }
+
+    public function editGoals()
+    {
+        $view = new View('@Goals/editGoals');
+        $this->setGeneralVariablesView($view);
+        $this->setEditGoalsViewVariables($view);
+        $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
         return $view->render();
     }
 
@@ -485,5 +471,29 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         return $goalReportsByDimension->render();
+    }
+
+    private function setEditGoalsViewVariables($view)
+    {
+        $goals = $this->goals;
+        $view->goals = $goals;
+
+        $idGoal = Common::getRequestVar('idGoal', 0, 'int');
+        $view->idGoal = 0;
+        if ($idGoal && array_key_exists($idGoal, $goals)) {
+            $view->idGoal = $idGoal;
+        }
+
+        // unsanitize goal names and other text data (not done in API so as not to break
+        // any other code/cause security issues)
+
+        foreach ($goals as &$goal) {
+            $goal['name'] = Common::unsanitizeInputValue($goal['name']);
+            if (isset($goal['pattern'])) {
+                $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
+            }
+        }
+        $view->goalsJSON = json_encode($goals);
+        $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
     }
 }

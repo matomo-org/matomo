@@ -17,18 +17,6 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function getDefinition_withMergeableDefinition_shouldReturnNull()
-    {
-        $definition = $this->getMockForAbstractClass('DI\Definition\MergeableDefinition');
-
-        $definitionSource = new IniConfigDefinitionSource($this->createConfig());
-
-        $this->assertNull($definitionSource->getDefinition('foo', $definition));
-    }
-
-    /**
-     * @test
-     */
     public function getDefinition_whenNotMatchingPrefix_shouldReturnNull()
     {
         $definitionSource = new IniConfigDefinitionSource($this->createConfig(), 'prefix.');

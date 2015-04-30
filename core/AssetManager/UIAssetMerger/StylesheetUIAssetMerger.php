@@ -92,7 +92,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
      * Rewrite CSS url() directives
      *
      * @param string $content
-     * @param function $pathsRewriter
+     * @param callable $pathsRewriter
      * @return string
      */
     private function rewriteCssImagePaths($content, $pathsRewriter)
@@ -105,7 +105,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
      * Rewrite CSS import directives
      *
      * @param string $content
-     * @param function $pathsRewriter
+     * @param callable $pathsRewriter
      * @return string
      */
     private function rewriteCssImportPaths($content, $pathsRewriter)
@@ -119,7 +119,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
      * - rewrites paths defined relatively to their css/less definition file
      * - rewrite windows directory separator \\ to /
      *
-     * @param string $baseDirectory
+     * @param UIAsset $uiAsset
      * @return \Closure
      */
     private function getCssPathsRewriter($uiAsset)

@@ -18,6 +18,7 @@
         "Maximise": "Maximaliseer",
         "Minimise": "Minimaliseer",
         "NotUndo": "U kunt deze verwijdering niet meer ongedaan maken.",
+        "PluginDescription": "Je Web Analytics Dashboard. Pas je dashboard aan door nieuwe widgets toe te voegen, sleep ze in het rond, en wijzig de dashboard kolom weergave. Elke gebruiker kan zijn eigen aangepaste dashboard beheren.",
         "RemoveDashboard": "Verwijder dashboard",
         "RemoveDashboardConfirm": "Weet u zeker dat u het dashboard \"%s\" wilt verwijderen?",
         "RenameDashboard": "Hernoem dashboard",

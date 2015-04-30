@@ -123,7 +123,7 @@ class Pdf extends ReportRenderer
 
     public function sendToDisk($filename)
     {
-        $filename = ReportRenderer::appendExtension($filename, self::PDF_CONTENT_TYPE);
+        $filename = ReportRenderer::makeFilenameWithExtension($filename, self::PDF_CONTENT_TYPE);
         $outputFilename = ReportRenderer::getOutputPath($filename);
 
         $this->TCPDF->Output($outputFilename, 'F');
@@ -133,13 +133,13 @@ class Pdf extends ReportRenderer
 
     public function sendToBrowserDownload($filename)
     {
-        $filename = ReportRenderer::appendExtension($filename, self::PDF_CONTENT_TYPE);
+        $filename = ReportRenderer::makeFilenameWithExtension($filename, self::PDF_CONTENT_TYPE);
         $this->TCPDF->Output($filename, 'D');
     }
 
     public function sendToBrowserInline($filename)
     {
-        $filename = ReportRenderer::appendExtension($filename, self::PDF_CONTENT_TYPE);
+        $filename = ReportRenderer::makeFilenameWithExtension($filename, self::PDF_CONTENT_TYPE);
         $this->TCPDF->Output($filename, 'I');
     }
 

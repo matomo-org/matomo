@@ -42,6 +42,7 @@ use Piwik\Plugins\Dashboard\Model AS DashboardModel;
  */
 class Updates_2_10_0_b5 extends Updates
 {
+    public static $archiveBlobTables;
 
     static function getSql()
     {
@@ -120,21 +121,18 @@ class Updates_2_10_0_b5 extends Updates
      */
     public static function getAllArchiveBlobTables()
     {
-        static $archiveBlobTables;
-
-        if (empty($archiveBlobTables)) {
-
+        if (empty(self::$archiveBlobTables)) {
             $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
 
-            $archiveBlobTables = array_filter($archiveTables, function($name) {
+            self::$archiveBlobTables = array_filter($archiveTables, function($name) {
                 return ArchiveTableCreator::getTypeFromTableName($name) == ArchiveTableCreator::BLOB_TABLE;
             });
 
             // sort tables so we have them in order of their date
-            rsort($archiveBlobTables);
+            rsort(self::$archiveBlobTables);
         }
 
-        return (array) $archiveBlobTables;
+        return (array) self::$archiveBlobTables;
     }
 
     /**

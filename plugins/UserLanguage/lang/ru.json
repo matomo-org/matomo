@@ -185,6 +185,7 @@
         "Language_za": "чжуань",
         "Language_zh": "китайский",
         "Language_zu": "зулу",
-        "LanguageCode": "Код языка"
+        "LanguageCode": "Код языка",
+        "PluginDescription": "Сообщает о языках, используемых у посетителей в браузере"
     }
 }

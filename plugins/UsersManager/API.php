@@ -45,9 +45,9 @@ class API extends \Piwik\Plugin\API
 
     private static $instance = null;
 
-    protected function __construct()
+    public function __construct(Model $model)
     {
-        $this->model = new Model();
+        $this->model = $model;
     }
 
     /**
@@ -71,7 +71,7 @@ class API extends \Piwik\Plugin\API
             self::$instance = $instance;
             
         } catch (Exception $e) {
-            self::$instance = new self;
+            self::$instance = StaticContainer::get('Piwik\Plugins\UsersManager\API');
             StaticContainer::getContainer()->set('UsersManager_API', self::$instance);
         }
 
@@ -101,13 +101,32 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
 
-        $optionValue = Option::get($this->getPreferenceId($userLogin, $preferenceName));
+        $optionValue = $this->getPreferenceValue($userLogin, $preferenceName);
 
         if ($optionValue !== false) {
             return $optionValue;
         }
 
         return $this->getDefaultUserPreference($preferenceName, $userLogin);
+    }
+
+    /**
+     * Sets a user preference in the DB using the preference's default value.
+     * @param string $userLogin
+     * @param string $preferenceName
+     * @ignore
+     */
+    public function initUserPreferenceWithDefault($userLogin, $preferenceName)
+    {
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
+
+        $optionValue = $this->getPreferenceValue($userLogin, $preferenceName);
+
+        if ($optionValue === false) {
+            $defaultValue = $this->getDefaultUserPreference($preferenceName, $userLogin);
+
+            $this->setUserPreference($userLogin, $preferenceName, $defaultValue);
+        }
     }
 
     /**
@@ -141,6 +160,11 @@ class API extends \Piwik\Plugin\API
             throw new Exception("Preference name cannot contain underscores.");
         }
         return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
+    }
+
+    private function getPreferenceValue($userLogin, $preferenceName)
+    {
+        return Option::get($this->getPreferenceId($userLogin, $preferenceName));
     }
 
     private function getDefaultUserPreference($preferenceName, $login)
@@ -276,7 +300,21 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserExists($userLogin);
-        $this->checkUserHasNotSuperUserAccess($userLogin);
+
+        // Super users have 'admin' access for every site
+        if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
+            $return = array();
+            $siteManagerModel = new \Piwik\Plugins\SitesManager\Model();
+            $sites = $siteManagerModel->getAllSites();
+            foreach ($sites as $site) {
+                $return[] = array(
+                    'site' => $site['idsite'],
+                    'access' => 'admin'
+                );
+
+            }
+            return $return;
+        }
 
         return $this->model->getSitesAccessFromUser($userLogin);
     }

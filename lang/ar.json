@@ -39,6 +39,7 @@
         "ColumnMaxActions": "أقصى عدد من السلوكيات في زيارة واحدة",
         "ColumnNbActions": "السلوكيات",
         "ColumnNbUniqVisitors": "زوار فريدين",
+        "ColumnNbUsers": "المستخدمون",
         "ColumnNbVisits": "الزيارات",
         "ColumnPageviews": "المشاهدات",
         "ColumnPercentageVisits": "% زيارة",

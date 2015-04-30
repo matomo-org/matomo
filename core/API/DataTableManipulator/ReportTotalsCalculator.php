@@ -23,6 +23,31 @@ use Piwik\Plugin\Report;
 class ReportTotalsCalculator extends DataTableManipulator
 {
     /**
+     * Array [readableMetric] => [summed value]
+     * @var array
+     */
+    private $totals = array();
+
+    /**
+     * @var Report
+     */
+    private $report;
+
+    /**
+     * Constructor
+     *
+     * @param bool $apiModule
+     * @param bool $apiMethod
+     * @param array $request
+     * @param Report $report
+     */
+    public function __construct($apiModule = false, $apiMethod = false, $request = array(), $report = null)
+    {
+        parent::__construct($apiModule, $apiMethod, $request);
+        $this->report = $report;
+    }
+
+    /**
      * @param  DataTable $table
      * @return \Piwik\DataTable|\Piwik\DataTable\Map
      */
@@ -53,64 +78,30 @@ class ReportTotalsCalculator extends DataTableManipulator
      */
     protected function manipulateDataTable($dataTable)
     {
-        $report = $this->findCurrentReport();
-
-        if (!empty($report) && !$report->getDimension() && !$this->isReportAllMetricsReport($report)) {
+        if (!empty($this->report) && !$this->report->getDimension() && !$this->isAllMetricsReport()) {
             // we currently do not calculate the total value for reports having no dimension
             return $dataTable;
         }
 
-        // Array [readableMetric] => [summed value]
-        $totalValues = array();
-
+        $this->totals       = array();
         $firstLevelTable    = $this->makeSureToWorkOnFirstLevelDataTable($dataTable);
         $metricsToCalculate = Metrics::getMetricIdsToProcessReportTotal();
 
-        $realMetricNames = array();
+        $metricNames = array();
         foreach ($metricsToCalculate as $metricId) {
-            $metricName = Metrics::getReadableColumnName($metricId);
-            $realMetricName = $this->hasDataTableMetric($firstLevelTable, $metricId, $metricName);
-            if (!empty($realMetricName)) {
-                $realMetricNames[$metricName] = $realMetricName;
-            }
+            $metricNames[$metricId] = Metrics::getReadableColumnName($metricId);;
         }
 
         foreach ($firstLevelTable->getRows() as $row) {
             $columns = $row->getColumns();
-            foreach ($realMetricNames as $metricName => $realMetricName) {
-                $totalValues = $this->sumColumnValueToTotal($columns, $metricName, $realMetricName, $totalValues);
+            foreach ($metricNames as $metricId => $metricName) {
+                $this->sumColumnValueToTotal($columns, $metricId, $metricName);
             }
         }
 
-        $dataTable->setMetadata('totals', $totalValues);
+        $dataTable->setMetadata('totals', $this->totals);
 
         return $dataTable;
-    }
-
-    private function hasDataTableMetric(DataTable $dataTable, $metricId, $readableColumnName)
-    {
-        $firstRow = $dataTable->getFirstRow();
-
-        if (empty($firstRow)) {
-            return false;
-        }
-
-        $columnAlternatives = array(
-            $metricId,
-            $readableColumnName,
-            // TODO: this and below is a hack to get report totals to work correctly w/ MultiSites.getAll. can be corrected
-            //       when all metrics are described by Metadata classes & internal naming quirks are handled by core system.
-            'Goal_' . $readableColumnName,
-            'Actions_' . $readableColumnName
-        );
-
-        foreach ($columnAlternatives as $column) {
-            if ($firstRow->getColumn($column) !== false) {
-                return $column;
-            }
-        }
-
-        return false;
     }
 
     private function makeSureToWorkOnFirstLevelDataTable($table)
@@ -155,25 +146,40 @@ class ReportTotalsCalculator extends DataTableManipulator
         return $table;
     }
 
-    private function sumColumnValueToTotal($columns, $metricName, $realMetricId, $totalValues)
+    private function sumColumnValueToTotal($columns, $metricId, $metricName)
     {
         $value = false;
-        if (array_key_exists($realMetricId, $columns)) {
-            $value = $columns[$realMetricId];
+        if (array_key_exists($metricId, $columns)) {
+            $value = $columns[$metricId];
         }
 
-        if (false === $value) {
+        if ($value === false) {
+            // we do not add $metricId to $possibleMetricNames for a small performance improvement since in most cases
+            // $metricId should be present in $columns so we avoid this foreach loop
+            $possibleMetricNames = array(
+                $metricName,
+                // TODO: this and below is a hack to get report totals to work correctly w/ MultiSites.getAll. can be corrected
+                //       when all metrics are described by Metadata classes & internal naming quirks are handled by core system.
+                'Goal_' . $metricName,
+                'Actions_' . $metricName
+            );
+            foreach ($possibleMetricNames as $possibleMetricName) {
+                if (array_key_exists($possibleMetricName, $columns)) {
+                    $value = $columns[$possibleMetricName];
+                    break;
+                }
+            }
 
-            return $totalValues;
+            if ($value === false) {
+                return;
+            }
         }
 
-        if (array_key_exists($metricName, $totalValues)) {
-            $totalValues[$metricName] += $value;
+        if (array_key_exists($metricName, $this->totals)) {
+            $this->totals[$metricName] += $value;
         } else {
-            $totalValues[$metricName] = $value;
+            $this->totals[$metricName] = $value;
         }
-
-        return $totalValues;
     }
 
     /**
@@ -188,6 +194,7 @@ class ReportTotalsCalculator extends DataTableManipulator
         $request['expanded']      = 0;
         $request['filter_limit']  = -1;
         $request['filter_offset'] = 0;
+        $request['filter_sort_column'] = '';
 
         $parametersToRemove = array('flat');
 
@@ -221,8 +228,8 @@ class ReportTotalsCalculator extends DataTableManipulator
         return null;
     }
 
-    private function isReportAllMetricsReport(Report $report)
+    private function isAllMetricsReport()
     {
-        return $report->getModule() == 'API' && $report->getAction() == 'get';
+        return $this->report->getModule() == 'API' && $this->report->getAction() == 'get';
     }
 }

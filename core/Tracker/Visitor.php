@@ -173,54 +173,58 @@ class Visitor
      */
     private function getVisitFieldsPersist()
     {
-        $fields = array(
-            'idvisitor',
-            'idvisit',
-            'user_id',
+        static $fields;
 
-            'visit_exit_idaction_url',
-            'visit_exit_idaction_name',
-            'visitor_returning',
-            'visitor_days_since_first',
-            'visitor_days_since_order',
-            'visitor_count_visits',
-            'visit_goal_buyer',
+        if (is_null($fields)) {
+            $fields = array(
+                'idvisitor',
+                'idvisit',
+                'user_id',
 
-            'location_country',
-            'location_region',
-            'location_city',
-            'location_latitude',
-            'location_longitude',
+                'visit_exit_idaction_url',
+                'visit_exit_idaction_name',
+                'visitor_returning',
+                'visitor_days_since_first',
+                'visitor_days_since_order',
+                'visitor_count_visits',
+                'visit_goal_buyer',
 
-            'referer_name',
-            'referer_keyword',
-            'referer_type',
-        );
+                'location_country',
+                'location_region',
+                'location_city',
+                'location_latitude',
+                'location_longitude',
 
-        $dimensions = VisitDimension::getAllDimensions();
+                'referer_name',
+                'referer_keyword',
+                'referer_type',
+            );
 
-        foreach ($dimensions as $dimension) {
-            if ($dimension->hasImplementedEvent('onExistingVisit')) {
-                $fields[] = $dimension->getColumnName();
+            $dimensions = VisitDimension::getAllDimensions();
+
+            foreach ($dimensions as $dimension) {
+                if ($dimension->hasImplementedEvent('onExistingVisit')) {
+                    $fields[] = $dimension->getColumnName();
+                }
+
+                foreach ($dimension->getRequiredVisitFields() as $field) {
+                    $fields[] = $field;
+                }
             }
 
-            foreach ($dimension->getRequiredVisitFields() as $field) {
-                $fields[] = $field;
-            }
+            /**
+             * This event collects a list of [visit entity](/guides/persistence-and-the-mysql-backend#visits) properties that should be loaded when reading
+             * the existing visit. Properties that appear in this list will be available in other tracking
+             * events such as 'onExistingVisit'.
+             *
+             * Plugins can use this event to load additional visit entity properties for later use during tracking.
+             */
+            Piwik::postEvent('Tracker.getVisitFieldsToPersist', array(&$fields));
+
+            array_unshift($fields, 'visit_first_action_time');
+            array_unshift($fields, 'visit_last_action_time');
+            $fields = array_unique($fields);
         }
-
-        /**
-         * This event collects a list of [visit entity](/guides/persistence-and-the-mysql-backend#visits) properties that should be loaded when reading
-         * the existing visit. Properties that appear in this list will be available in other tracking
-         * events such as 'onExistingVisit'.
-         *
-         * Plugins can use this event to load additional visit entity properties for later use during tracking.
-         */
-        Piwik::postEvent('Tracker.getVisitFieldsToPersist', array(&$fields));
-
-        array_unshift($fields, 'visit_first_action_time');
-        array_unshift($fields, 'visit_last_action_time');
-        $fields = array_unique($fields);
 
         return $fields;
     }

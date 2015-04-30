@@ -17,6 +17,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\Constraint\ResponseCode;
+use Piwik\Tests\Framework\Constraint\HttpResponseText;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
 use Piwik\Tests\Framework\TestRequest\Collection;
 use Piwik\Tests\Framework\TestRequest\Response;
@@ -275,7 +276,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         return $apiCalls;
     }
 
-    protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $xmlFieldsToRemove = array(), $params = array())
+    protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $params = array())
     {
         list($processedFilePath, $expectedFilePath) =
             $this->getProcessedAndExpectedPaths($testName, $apiId, $format = null, $compareAgainst);
@@ -440,7 +441,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         $testRequests = $this->getTestRequestsCollection($api, $testConfig, $api);
 
         foreach ($testRequests->getRequestUrls() as $apiId => $requestUrl) {
-            $this->_testApiUrl($testName . $testConfig->testSuffix, $apiId, $requestUrl, $testConfig->compareAgainst, $testConfig->xmlFieldsToRemove, $params);
+            $this->_testApiUrl($testName . $testConfig->testSuffix, $apiId, $requestUrl, $testConfig->compareAgainst, $params);
         }
 
         // change the language back to en
@@ -566,7 +567,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                     } else if (is_numeric($value)) {
                         $values[] = $value;
                     } else if (!ctype_print($value)) {
-                        $values[] = "x'" . bin2hex(substr($value, 1)) . "'";
+                        $values[] = "x'" . bin2hex($value) . "'";
                     } else {
                         $values[] = "?";
                         $bind[] = $value;
@@ -594,6 +595,11 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         if(self::isPhpVersion53()) {
             $this->markTestSkipped('Sometimes fail on php 5.3');
         }
+    }
+
+    public function assertHttpResponseText($expectedResponseCode, $url, $message = '')
+    {
+        self::assertThat($url, new HttpResponseText($expectedResponseCode), $message);
     }
 
     public function assertResponseCode($expectedResponseCode, $url, $message = '')

@@ -168,10 +168,14 @@ describe("SegmentSelectorEditorTest", function () {
         }, done);
     });
 
-    it("should correctly remove the segment when the delete link is clicked", function (done) {
-        expect.screenshot('deleted').to.be.captureSelector(selectorsToCapture, function (page) {
-            page.click('.segmentList li[data-idsegment=4] .editSegment');
+    it("should correctly show delete dialog when the delete link is clicked", function (done) {
+        expect.screenshot('deleted_dialog').to.be.captureSelector('.ui-dialog', function (page) {
             page.click('.segmentEditorPanel a.delete');
+        }, done);
+    });
+
+    it("should correctly remove the segment when the delete dialog is confirmed", function (done) {
+        expect.screenshot('deleted').to.be.captureSelector(selectorsToCapture + ',.ui-dialog', function (page) {
             page.click('.ui-dialog button>span:contains(Yes):visible');
 
             page.click('.segmentationContainer');

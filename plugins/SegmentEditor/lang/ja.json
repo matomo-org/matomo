@@ -1,7 +1,6 @@
 {
     "SegmentEditor": {
         "AddANDorORCondition": "%s の条件を追加",
-        "AddingSegmentForAllWebsitesDisabled": "全ウェブサイトに対するセグメントは追加できませんでした。",
         "AddNewSegment": "新しいセグメントを追加",
         "AreYouSureDeleteSegment": "このセグメントを削除してもよろしいですか？",
         "AutoArchivePreProcessed": "セグメントレポートの事前処理（archive.php の cron 設定が必要）",
@@ -23,8 +22,9 @@
         "ThisSegmentIsVisibleTo": "このセグメント設定の表示：",
         "VisibleToAllUsers": "すべてのユーザー",
         "VisibleToMe": "自分",
-        "YouDontHaveAccessToCreateSegments": "セグメントの作成および編集に必要なレベルのアクセス権限を持っていません。",
         "YouMayChangeSetting": "別の方法としては設定ファイル (%s) で設定を変更するか、このセグメント '%s' を選択し編集することができます。",
-        "YouMustBeLoggedInToCreateSegments": "ビジターのカスタムセグメントの作成と編集にはログインが必要です。"
+        "YouMustBeLoggedInToCreateSegments": "ビジターのカスタムセグメントの作成と編集にはログインが必要です。",
+        "YouDontHaveAccessToCreateSegments": "セグメントの作成および編集に必要なレベルのアクセス権限を持っていません。",
+        "AddingSegmentForAllWebsitesDisabled": "全ウェブサイトに対するセグメントは追加できませんでした。"
     }
 }

@@ -7,11 +7,14 @@
         "Deactivate": "Çaktivizoje",
         "Inactive": "Jovepruese",
         "LicenseHomepage": "Faqja Hyrëse e Lejes",
+        "PluginsExtendPiwik": "Shtojcat zgjerojnë dhe thellojnë funksionet e Piwik-ut.",
         "OncePluginIsInstalledYouMayActivateHere": "Pasi një shtojcë të jetë instaluar, mund ta aktivizoni ose çaktivizoni prej këtu.",
         "PluginHomepage": "Faqe Hyrëse e Shtojcës",
-        "PluginsExtendPiwik": "Shtojcat zgjerojnë dhe thellojnë funksionet e Piwik-ut.",
+        "PluginKeywords": "Fjalëkyça",
         "PluginsManagement": "Administrim Shtojcash",
+        "PluginVersionInfo": "%1$s from %2$s",
         "Status": "Gjendje",
-        "Version": "Version"
+        "Version": "Version",
+        "Websites": "\"Site\"-e web"
     }
 }

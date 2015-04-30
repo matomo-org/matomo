@@ -449,14 +449,14 @@ class API extends \Piwik\Plugin\API
         // render report
         $description = str_replace(array("\r", "\n"), ' ', $report['description']);
 
-        list($reportSubject, $reportTitle) = self::getReportSubjectAndReportTitle(Site::getNameFor($idSite), $report['reports']);
+        list($reportSubject, $reportTitle) = self::getReportSubjectAndReportTitle(Common::unsanitizeInputValue(Site::getNameFor($idSite)), $report['reports']);
+
+        // if reporting for a segment, use the segment's name in the title
+        if(is_array($segment) && strlen($segment['name'])) {
+            $reportTitle .= " - ".$segment['name'];
+        }
         $filename = "$reportTitle - $prettyDate - $description";
 
-	// if reporting for a segment, use the segment's name in the title
-	if(is_array($segment) && strlen($segment['name'])) {
-		$reportTitle .= " - ".$segment['name'];
-	}
-	
         $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment);
         array_walk($processedReports, array($reportRenderer, 'renderReport'));
 

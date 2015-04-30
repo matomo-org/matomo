@@ -2,10 +2,12 @@
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Option;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\DbHelper;
+use Piwik\Tests\Framework\Fixture;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Config.php";
 
@@ -144,9 +146,37 @@ class Piwik_TestingEnvironment
             \Piwik\Profiler::setupProfilerXHProf($mainRun = false, $setupDuringTracking = true);
         }
 
-        Config::setSingletonInstance(new Config(
-            $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
-        ));
+        if ($testingEnvironment->dontUseTestConfig) {
+            Config::setSingletonInstance(new Config(
+                $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
+            ));
+        }
+
+        $diConfig = array();
+
+        // Apply DI config from the fixture
+        if ($testingEnvironment->fixtureClass) {
+            $fixtureClass = $testingEnvironment->fixtureClass;
+            if (class_exists($fixtureClass)) {
+                /** @var Fixture $fixture */
+                $fixture = new $fixtureClass;
+                $diConfig = $fixture->provideContainerConfig();
+            }
+        }
+
+        if ($testingEnvironment->testCaseClass) {
+            $testCaseClass = $testingEnvironment->testCaseClass;
+            if (class_exists($testCaseClass)) {
+                $testCase = new $testCaseClass();
+                if (method_exists($testCase, 'provideContainerConfig')) {
+                    $diConfig = array_merge($diConfig, $testCase->provideContainerConfig());
+                }
+            }
+        }
+
+        if (!empty($diConfig)) {
+            StaticContainer::addDefinitions($diConfig);
+        }
 
         \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
 
@@ -157,11 +187,11 @@ class Piwik_TestingEnvironment
             }
         });
         if (!$testingEnvironment->dontUseTestConfig) {
-            Piwik::addAction('Config.createConfigSingleton', function(Config $config, &$cache, &$local) use ($testingEnvironment) {
+            Piwik::addAction('Config.createConfigSingleton', function(Config $config, &$cache) use ($testingEnvironment) {
                 $config->setTestEnvironment($testingEnvironment->configFileLocal, $testingEnvironment->configFileGlobal, $testingEnvironment->configFileCommon);
 
                 if ($testingEnvironment->configFileLocal) {
-                    $local['General']['session_save_handler'] = 'dbtable';
+                    $config->General['session_save_handler'] = 'dbtable';
                 }
 
                 $manager = \Piwik\Plugin\Manager::getInstance();
@@ -172,19 +202,19 @@ class Piwik_TestingEnvironment
 
                 sort($pluginsToLoad);
 
-                $local['Plugins'] = array('Plugins' => $pluginsToLoad);
+                $config->Plugins = array('Plugins' => $pluginsToLoad);
 
-                $local['log']['log_writers'] = array('file');
+                $config->log['log_writers'] = array('file');
 
                 $manager->unloadPlugins();
 
                 // TODO: replace this and below w/ configOverride use
                 if ($testingEnvironment->tablesPrefix) {
-                    $cache['database']['tables_prefix'] = $testingEnvironment->tablesPrefix;
+                    $config->database['tables_prefix'] = $testingEnvironment->tablesPrefix;
                 }
 
                 if ($testingEnvironment->dbName) {
-                    $cache['database']['dbname'] = $testingEnvironment->dbName;
+                    $config->database['dbname'] = $testingEnvironment->dbName;
                 }
 
                 if ($testingEnvironment->configOverride) {

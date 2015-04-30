@@ -1,6 +1,5 @@
 {
     "Installation": {
-        "CannotConnectToDb": "Kan ikke koble til databasen",
         "ConfirmDeleteExistingTables": "Er du sikker på at du vil slette tabellene %s fra databasen din? ADVARSEL: DATA FRA DISSE TABELLENE KAN IKKE GJENOPPRETTES!",
         "Congratulations": "Gratulerer",
         "CongratulationsHelp": "<p>Gratulerer! Din Piwik installasjon er fullført.<\/p><p>Sørg for at JavaScript-koden er lagt inn på dine sider, og vent på dine første besøkende!<\/p>",
@@ -24,7 +23,6 @@
         "NfsFilesystemWarning": "Din tjeneren bruker et NFS filsystem.",
         "NfsFilesystemWarningSuffixAdmin": "Dette betyr Piwik vil være svært treg når du bruker filbaserte økter.",
         "NoConfigFound": "Klarte ikke finne konfigurasjonsfilen for Piwik, og du prøver å få tilgang til en Piwik-side. <br \/><b>  »Du kan <a href='index.php'>installere Piwik nå<\/a><\/b><br \/><small>Hvis du prøvde å installere Piwik tidligere og har noen tabeller i databasen, kan du ta det med ro. Du kan bruke de gamle tabellene og beholde dine eksisterende data!<\/small>",
-        "NotSupported": "støttes ikke",
         "Optional": "Valgfritt",
         "Password": "passord",
         "PasswordDoNotMatch": "passordene stemmer ikke overens",
@@ -61,8 +59,8 @@
         "SystemCheckOpenURLHelp": "Nyhetsbrev abonnement, oppdatering påminninger og en-klikk-oppdatering krever Curl-utvidelsen, \"allow_url_fopen=On\" eller at fsockopen() er aktivert.",
         "SystemCheckOtherExtensions": "Andre utvidelser",
         "SystemCheckOtherFunctions": "Andre funksjoner",
-        "SystemCheckPackHelp": "pack()-funksjonen er nødvendig for å spore besøkende i Piwik.",
         "SystemCheckPageSpeedDisabled": "PageSpeed deaktivert",
+        "SystemCheckPackHelp": "pack()-funksjonen er nødvendig for å spore besøkende i Piwik.",
         "SystemCheckParseIniFileHelp": "Denne innebygde funksjonen har blitt deaktivert på verten. Piwik vil forsøke å etterligne denne funksjonen, men kan møte ytterligere sikkerhetsbegrensninger. Sporingsytelsen vil også bli påvirket.",
         "SystemCheckPhp": "PHP-versjon",
         "SystemCheckPhpPdoAndMysqli": "Mer informasjon om: %1$sPHP PDO%2$s og %3$sMYSQLI%4$s.",
@@ -75,6 +73,7 @@
         "SystemCheckWriteDirs": "Kataloger med skrivetilgang",
         "SystemCheckWriteDirsHelp": "For å fikse denne feilen på ditt Linux-system, prøv å skriv inn følgende kommando(er)",
         "SystemCheckZlibHelp": "Du må konfigurere og bygge PHP på nytt med zlib-støtte aktivert, --with-zlib.",
+        "NotSupported": "støttes ikke",
         "Tables": "Oppretter tabellene",
         "TablesCreatedSuccess": "Tabellene ble vellykket opprettet!",
         "TablesDelete": "Slett de oppdagede tabellene",
@@ -87,6 +86,7 @@
         "Timezone": "tidssone for nettsted",
         "Welcome": "Velkommen!",
         "WelcomeHelp": "<p>Piwik er åpen kildekode nettstatistikk-programvare som gjør det enkelt å finne informasjonen du ønsker om dine besøkende.<\/p><p>Denne prossessen er delt opp i %s lette steg og vil ta ca 5 minutter.<\/p>",
-        "WelcomeToCommunity": "Velkommen til Piwik-fellesskapet!"
+        "WelcomeToCommunity": "Velkommen til Piwik-fellesskapet!",
+        "CannotConnectToDb": "Kan ikke koble til databasen"
     }
 }

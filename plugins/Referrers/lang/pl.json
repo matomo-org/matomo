@@ -3,7 +3,7 @@
         "Campaigns": "Kampanie reklamowe",
         "ColumnCampaign": "Kampania",
         "ColumnSearchEngine": "Wyszukiwarka",
-        "ColumnWebsite": "Strona",
+        "ColumnWebsite": "Strona WWW",
         "ColumnWebsitePage": "Pojedyncza strona",
         "DirectEntry": "wejścia bezpośrednie",
         "Distinct": "Wyróżnione odsyłacze według ich typu",
@@ -23,7 +23,7 @@
         "TypeSearchEngines": "%s z wyszukiwarek",
         "TypeWebsites": "%s ze stron",
         "UsingNDistinctUrls": "(używając %s wyróżnionych adresów url)",
-        "Websites": "Strony",
+        "Websites": "Serwisy internetowe",
         "WidgetExternalWebsites": "Lista zewnętrznych serwisów internetowych"
     }
 }

@@ -13,26 +13,57 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
+use Piwik\Plugin\Manager AS PluginManager;
+use Piwik\Plugins\DevicePlugins\Reports\GetPlugin;
 use Piwik\Plugins\DevicesDetection\Reports\GetBrand;
 use Piwik\Plugins\DevicesDetection\Reports\GetBrowserEngines;
 use Piwik\Plugins\DevicesDetection\Reports\GetBrowsers;
 use Piwik\Plugins\DevicesDetection\Reports\GetModel;
 use Piwik\Plugins\DevicesDetection\Reports\GetOsVersions;
 use Piwik\Plugins\DevicesDetection\Reports\GetType;
+use Piwik\Plugins\Resolution\Reports\GetConfiguration;
+use Piwik\Plugins\Resolution\Reports\GetResolution;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
 {
     public function index()
     {
-        $view = new View('@DevicesDetection/index');
-        $view->deviceTypes = $view->deviceModels = $view->deviceBrands = $view->osReport = $view->browserReport = "blank";
+        return $this->devices();
+    }
+    
+    public function devices()
+    {
+        $view = new View('@DevicesDetection/devices');
         $view->deviceTypes = $this->renderReport(new GetType());
         $view->deviceBrands = $this->renderReport(new GetBrand());
         $view->deviceModels = $this->renderReport(new GetModel());
+
+        $isResolutionEnabled = PluginManager::getInstance()->isPluginActivated('Resolution');
+        if ($isResolutionEnabled) {
+            $view->resolutions = $this->renderReport(new GetResolution());
+        }
+
+        return $view->render();
+    }
+
+    public function software()
+    {
+        $view = new View('@DevicesDetection/software');
         $view->osReport = $this->renderReport(new GetOsVersions());
         $view->browserReport = $this->renderReport(new GetBrowsers());
         $view->browserEngineReport = $this->renderReport(new GetBrowserEngines());
+
+        $isResolutionEnabled = PluginManager::getInstance()->isPluginActivated('Resolution');
+        if ($isResolutionEnabled) {
+            $view->configurations = $this->renderReport(new GetConfiguration());
+        }
+
+        $isDevicePluginsEnabled = PluginManager::getInstance()->isPluginActivated('DevicePlugins');
+        if ($isDevicePluginsEnabled) {
+            $view->browserPlugins = $this->renderReport(new GetPlugin());
+        }
+
         return $view->render();
     }
 

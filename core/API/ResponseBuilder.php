@@ -14,8 +14,8 @@ use Piwik\DataTable;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\ColumnDelete;
+use Piwik\DataTable\Filter\Pattern;
 use Piwik\Plugin\Report;
-use Piwik\Plugins\API\Renderer\Original;
 
 /**
  */
@@ -189,6 +189,23 @@ class ResponseBuilder
 
         $isAssoc = !empty($firstArray) && is_numeric($firstKey) && is_array($firstArray) && count(array_filter(array_keys($firstArray), 'is_string'));
 
+        if (is_numeric($firstKey)) {
+            $columns = Common::getRequestVar('filter_column', false, 'array', $this->request);
+            $pattern = Common::getRequestVar('filter_pattern', '', 'string', $this->request);
+
+            if ($columns != array(false) && $pattern !== '') {
+                $pattern = new Pattern(new DataTable(), $columns, $pattern);
+                $array   = $pattern->filterArray($array);
+            }
+
+            $limit  = Common::getRequestVar('filter_limit', -1, 'integer', $this->request);
+            $offset = Common::getRequestVar('filter_offset', '0', 'integer', $this->request);
+
+            if ($this->shouldApplyLimitOnArray($limit, $offset)) {
+                $array = array_slice($array, $offset, $limit, $preserveKeys = false);
+            }
+        }
+
         if ($isAssoc) {
             $hideColumns = Common::getRequestVar('hideColumns', '', 'string', $this->request);
             $showColumns = Common::getRequestVar('showColumns', '', 'string', $this->request);
@@ -196,16 +213,41 @@ class ResponseBuilder
                 $columnDelete = new ColumnDelete(new DataTable(), $hideColumns, $showColumns);
                 $array = $columnDelete->filter($array);
             }
-        } else if (is_numeric($firstKey)) {
-            $limit  = Common::getRequestVar('filter_limit', -1, 'integer', $this->request);
-            $offset = Common::getRequestVar('filter_offset', '0', 'integer', $this->request);
-
-            if (-1 !== $limit) {
-                $array = array_slice($array, $offset, $limit);
-            }
         }
 
         return $this->apiRenderer->renderArray($array);
+    }
+
+    private function shouldApplyLimitOnArray($limit, $offset)
+    {
+        if ($limit === -1) {
+            // all fields are requested
+            return false;
+        }
+
+        if ($offset > 0) {
+            // an offset is specified, we have to apply the limit
+            return true;
+        }
+
+        // "api_datatable_default_limit" is set by API\Controller if no filter_limit is specified by the user.
+        // it holds the number of the configured default limit.
+        $limitSetBySystem = Common::getRequestVar('api_datatable_default_limit', -2, 'integer', $this->request);
+
+        // we ignore the limit if the datatable_default_limit was set by the system as this default filter_limit is
+        // only meant for dataTables but not for arrays. This way we stay BC as filter_limit was not applied pre
+        // Piwik 2.6 and some fixes were made in Piwik 2.13.
+        $wasFilterLimitSetBySystem = $limitSetBySystem !== -2;
+
+        // we check for "$limitSetBySystem === $limit" as an API method could request another API method with
+        // another limit. In this case we need to apply it again.
+        $isLimitStillDefaultLimit = $limitSetBySystem === $limit;
+
+        if ($wasFilterLimitSetBySystem && $isLimitStillDefaultLimit) {
+            return false;
+        }
+
+        return true;
     }
 
     private function sendHeaderIfEnabled()

@@ -36,6 +36,7 @@
         "UpdateAutomatically": "تحديث آلي",
         "UpdateHasBeenCancelledExplanation": "تم إلغاء تحديث Piwik الآلي. إذا لم يكن في استطاعتك حل رسالة الخطأ الواردة أعلاه، فنوصي بالتحديث اليدوي لنظام Piwik. %1$s يرجى مراجعة %2$s مساعدة التحديث %3$s لتبدأ!",
         "UpdateTitle": "تحديث",
+        "UpdateSuccessTitle": "تم تحديث Piwik بنجاح!",
         "UpgradeComplete": "اكتملت عملية الترقية!",
         "UpgradePiwik": "ترقية Piwik",
         "VerifyingUnpackedFiles": "جاري تعريف الملفات",

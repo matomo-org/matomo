@@ -3,7 +3,6 @@
         "CategoryNoData": "Geen data in deze categorie. Probeer \"Toon alle data\".",
         "CheckForUpdates": "Controleer op updates",
         "CheckPiwikOut": "Kijk eens naar Piwik!",
-        "ClickRowToExpandOrContract": "Klik deze regel om de tabel te openen of te sluiten.",
         "ClickToEditX": "Klik om %s te bewerken",
         "CloseWidgetDirections": "Je kunt deze widget sluiten door op het 'X' icoon bovenaan de widget te klikken.",
         "DataForThisReportHasBeenPurged": "De data voor dit rapport was meer dan %s maanden oud en is reeds opgeschoond.",
@@ -11,7 +10,7 @@
         "DataTableIncludeAggregateRows": "Geagregeerde rijen zijn verborgen %s Toon ze",
         "DateFormat": "%longDay% %day% %longMonth% %longYear%",
         "Default": "standaard",
-        "DonateCall1": "Piwik zal altijd niks kosten voor gebruik, maar dat wil niet zeggen dat het niks kost om te maken.",
+        "DonateCall1": "Piwik zal altijd gratis zijn om te gebruiken, maar dat wil niet zeggen dat het niks kost om te maken.",
         "DonateCall2": "Piwik heeft uw voortdurende steun nodig om te groeien.",
         "DonateCall3": "Als u vindt dat Piwik een grote hulp is voor uw zaak, %1$s overweeg dan een donatie!%2$s",
         "DonateFormInstructions": "Klik op de schuifbalk om een bedrag te selecteren, en klik dan subscribe om te doneren.",
@@ -45,8 +44,8 @@
         "PeriodYears": "jaren",
         "ReportGeneratedOn": "Rapport aangemaakt op %s",
         "ReportGeneratedXAgo": "Rapport %s geleden gemaakt",
-        "SharePiwikLong": "Hey, Ik heb net een prachtig stukje open source software ontdekt: Piwik!\n\nPiwik laat je toe gratis bezoekers op je website te volgen. Je zou het zeker eens moeten uitproberen!",
-        "SharePiwikShort": "Piwik! Gratus en open source web analyse. Beheer je data.",
+        "SharePiwikLong": "Hey, Ik heb net een prachtig stukje open source software ontdekt: Piwik!\n\nPiwik geeft je de mogelijkheid om gratis bezoekers op je website te volgen. Je zou het zeker eens moeten uitproberen!",
+        "SharePiwikShort": "Piwik! Gratis en open source web analyse. Beheer je data.",
         "ShareThis": "Deel dit",
         "ShortDateFormat": "%shortDay% %day% %shortMonth%",
         "ShortDateFormatWithYear": "%day% %shortMonth% %shortYear%",
@@ -61,6 +60,9 @@
         "UnFlattenDataTable": "De rapportweergave is vlak %s Maak het hierarchisch",
         "ViewAllPiwikVideoTutorials": "Bekijk alle Piwik Video Tutorials",
         "WebAnalyticsReports": "Web Analyse rapporten",
-        "YouAreUsingTheLatestVersion": "Je gebruikt de laatste versie van Piwik!"
+        "YouAreUsingTheLatestVersion": "Je gebruikt de laatste versie van Piwik!",
+        "ClickRowToExpandOrContract": "Klik deze regel om de tabel te openen of te sluiten.",
+        "UndoPivotBySubtable": "Dit rapport wordt als een draaitabel getoond, %s schakel de draaitabel uit.",
+        "PivotBySubtable": "Dit rapport wordt niet als een draaitabel getoond, %s maak een draaitabel op basis van %s"
     }
 }

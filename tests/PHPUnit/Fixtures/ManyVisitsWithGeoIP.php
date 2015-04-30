@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Cache;
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
@@ -14,6 +15,7 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
 use Exception;
 use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
+use Piwik\Tracker\Visit;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvider.php';
 
@@ -89,6 +91,11 @@ class ManyVisitsWithGeoIP extends Fixture
 
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
+
+        if ($useLocal) {
+            Cache::getTransientCache()->flushAll(); // make sure dimension cache is empty between local tracking runs
+            Visit::$dimensions = null;
+        }
 
         // use local tracker so mock location provider can be used
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useLocal);
@@ -192,7 +199,7 @@ class ManyVisitsWithGeoIP extends Fixture
         self::checkResponse($t->doTrackPageView('It\'s pitch black...'));
     }
 
-    private function setLocationProvider($file)
+    public function setLocationProvider($file)
     {
         GeoIp::$dbNames['loc'] = array($file);
         GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';

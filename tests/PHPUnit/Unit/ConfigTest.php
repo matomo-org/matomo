@@ -11,6 +11,34 @@ namespace Piwik\Tests\Unit;
 use PHPUnit_Framework_TestCase;
 use Piwik\Config;
 
+class DumpConfigTestMockIniFileChain extends Config\IniFileChain
+{
+    public function __construct($settingsChain, $mergedSettings)
+    {
+        parent::__construct();
+
+        $this->settingsChain = $settingsChain;
+        $this->mergedSettings = $mergedSettings;
+    }
+}
+
+class DumpConfigTestMockConfig extends Config
+{
+    public function __construct($configLocal, $configGlobal, $configCommon, $configCache)
+    {
+        parent::__construct();
+
+        $this->settings = new DumpConfigTestMockIniFileChain(
+            array(
+                $this->pathGlobal => $configGlobal,
+                $this->pathCommon => $configCommon,
+                $this->pathLocal => $configLocal,
+            ),
+            $configCache
+        );
+    }
+}
+
 /**
  * @group Core
  */
@@ -113,113 +141,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedArray, $array['my_array']);
 
         Config::getInstance()->clear();
-    }
-
-    /**
-     * Dateprovider for testCompareElements
-     */
-    public function getCompareElementsData()
-    {
-        return array(
-            array('string = string', array(
-                'a', 'a', 0,
-            )),
-            array('string > string', array(
-                'b', 'a', 1,
-            )),
-            array('string < string', array(
-                'a', 'b', -1,
-            )),
-            array('string vs array', array(
-                'a', array('a'), -1,
-            )),
-            array('array vs string', array(
-                array('a'), 'a', 1,
-            )),
-            array('array = array', array(
-                array('a'), array('a'), 0,
-            )),
-            array('array > array', array(
-                array('b'), array('a'), 1,
-            )),
-            array('array < array', array(
-                array('a'), array('b'), -1,
-            )),
-        );
-    }
-
-    /**
-     * @dataProvider getCompareElementsData
-     */
-    public function testCompareElements($description, $test)
-    {
-        list($a, $b, $expected) = $test;
-
-        $result = Config::compareElements($a, $b);
-        $this->assertEquals($expected, $result, $description);
-    }
-
-    /**
-     * Dataprovider for testArrayUnmerge
-     * @return array
-     */
-    public function getArrayUnmergeData()
-    {
-        return array(
-            array('description of test', array(
-                array(),
-                array(),
-            )),
-            array('override with empty', array(
-                array('login' => 'root', 'password' => 'b33r'),
-                array('password' => ''),
-            )),
-            array('override with non-empty', array(
-                array('login' => 'root', 'password' => ''),
-                array('password' => 'b33r'),
-            )),
-            array('add element', array(
-                array('login' => 'root', 'password' => ''),
-                array('auth' => 'Login'),
-            )),
-            array('override with empty array', array(
-                array('headers' => ''),
-                array('headers' => array()),
-            )),
-            array('override with array', array(
-                array('headers' => ''),
-                array('headers' => array('Content-Length', 'Content-Type')),
-            )),
-            array('override an array', array(
-                array('headers' => array()),
-                array('headers' => array('Content-Length', 'Content-Type')),
-            )),
-            array('override similar arrays', array(
-                array('headers' => array('Content-Length', 'Set-Cookie')),
-                array('headers' => array('Content-Length', 'Content-Type')),
-            )),
-            array('override dyslexic arrays', array(
-                array('headers' => array('Content-Type', 'Content-Length')),
-                array('headers' => array('Content-Length', 'Content-Type')),
-            )),
-        );
-    }
-
-    /**
-     * @dataProvider getArrayUnmergeData
-     */
-    public function testArrayUnmerge($description, $test)
-    {
-        $configWriter = Config::getInstance();
-
-        list($a, $b) = $test;
-
-        $combined = array_merge($a, $b);
-
-        $diff = $configWriter->array_unmerge($a, $combined);
-
-        // expect $b == $diff
-        $this->assertEquals(serialize($b), serialize($diff), $description);
     }
 
     /**
@@ -337,7 +258,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
                 array('Tracker' => array('anonymize' => 1)),  // local
                 array('General' => array('debug' => 1)),      // global
                 array(),                                      // common
-                array('General' => array('debug' => 2)),
+                array('General' => array('debug' => 2), 'Tracker' => array('anonymize' => 1)),
                 $header . "[General]\ndebug = 2\n\n[Tracker]\nanonymize = 1\n\n",
             )),
 
@@ -347,7 +268,8 @@ class ConfigTest extends PHPUnit_Framework_TestCase
                 array('General' => array('debug' => 0),       // global
                       'Tracker' => array('anonymize' => 0)),
                 array(),                                      // common
-                array('Tracker' => array('anonymize' => 2)),
+                array('Tracker' => array('anonymize' => 2),
+                      'General' => array('debug' => 1)),
                 $header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 2\n\n",
             )),
 
@@ -357,7 +279,9 @@ class ConfigTest extends PHPUnit_Framework_TestCase
                 array('General' => array('debug' => 0),       // global
                       'Tracker' => array('anonymize' => 0)),
                 array(),                                      // common
-                array('Segment' => array('dimension' => 'foo')),
+                array('Segment' => array('dimension' => 'foo'),
+                      'Tracker' => array('anonymize' => 1),   // local
+                      'General' => array('debug' => 1)),
                 $header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 1\n\n[Segment]\ndimension = \"foo\"\n\n",
             )),
 
@@ -406,7 +330,8 @@ class ConfigTest extends PHPUnit_Framework_TestCase
                 array('CommonCategory' => array('settingCommon' => 'common',            // common
                                                 'settingCommon2' => 'common2')),
                 array('CommonCategory' => array('settingCommon2' => 'common2',
-                                                'newSetting' => 'newValue')),
+                                                'newSetting' => 'newValue'),
+                      'General' => array('key' => 'value')),
                 $header . "[General]\nkey = \"value\"\n\n[CommonCategory]\nnewSetting = \"newValue\"\n\n",
             )),
 
@@ -417,7 +342,8 @@ class ConfigTest extends PHPUnit_Framework_TestCase
                 array('CommonCategory' => array('settingCommon' => 'common',            // common
                     'settingCommon2' => 'common2')),
                 array('CommonCategory' => array('settingCommon2' => 'common2',
-                    'newSetting' => 'newValue')),
+                                                'newSetting' => 'newValue'),
+                    'General' => array('key' => '$value', 'key2' => '${value}')),
                 $header . "[General]\nkey = \"&#36;value\"\nkey2 = \"&#36;{value}\"\n\n[CommonCategory]\nnewSetting = \"newValue\"\n\n",
             )),
         );
@@ -429,11 +355,11 @@ class ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testDumpConfig($description, $test)
     {
-        $config = Config::getInstance();
-
         list($configLocal, $configGlobal, $configCommon, $configCache, $expected) = $test;
 
-        $output = $config->dumpConfig($configLocal, $configGlobal, $configCommon, $configCache);
+        $config = new DumpConfigTestMockConfig($configLocal, $configGlobal, $configCommon, $configCache);
+
+        $output = $config->dumpConfig();
         $this->assertEquals($expected, $output, $description);
     }
 
@@ -443,11 +369,67 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
         $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
 
-        $config = Config::getInstance();
-        $config->setTestEnvironment($userFile, $globalFile, $commonFile);
-        $config->init();
+        $config = new Config($globalFile, $userFile, $commonFile);
 
         $this->assertEquals('${@piwik(crash))}', $config->Category['key3']);
+    }
+
+    public function test_forceSave_writesNothingIfThereAreNoChanges()
+    {
+        $sourceConfigFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
+        $configFile = PIWIK_INCLUDE_PATH . '/tmp/tmp.config.ini.php';
+
+        @unlink($configFile);
+        copy($sourceConfigFile, $configFile);
+
+        $config = new Config($sourceConfigFile, $configFile);
+        $config->reload();
+        $config->forceSave();
+
+        $this->assertEquals(file_get_contents($sourceConfigFile), file_get_contents($configFile));
+
+        @unlink($configFile);
+    }
+    
+    public function testFromGlobalConfig()
+    {
+        $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
+        $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
+        $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
+        
+        $config = new Config($globalFile, $userFile, $commonFile);
+        $config->reload();
+        
+        $configCategory = $config->getFromGlobalConfig('Category');
+        $this->assertEquals('value1', $configCategory['key1']);
+        $this->assertEquals('value2', $configCategory['key2']);
+        $this->assertEquals(array('key1' => 'value1', 'key2' => 'value2'), $configCategory);
+    }
+    
+    public function testFromCommonConfig()
+    {
+        $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
+        $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
+        $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
+    
+        $config = new Config($globalFile, $userFile, $commonFile);
+        $config->reload();
+    
+        $configCategory = $config->getFromCommonConfig('Category');
+        $this->assertEquals(array('key2' => 'valueCommon', 'key3' => '${@piwik(crash))}'), $configCategory);
+    }
+    
+    public function testFromLocalConfig()
+    {
+        $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
+        $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
+        $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
+    
+        $config = new Config($globalFile, $userFile, $commonFile);
+        $config->reload();
+        
+        $configCategory = $config->getFromLocalConfig('Category');
+        $this->assertEquals(array('key1' => 'value_overwritten'), $configCategory);
     }
 }
 

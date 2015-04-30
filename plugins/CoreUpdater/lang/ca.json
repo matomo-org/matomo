@@ -37,6 +37,7 @@
         "UpdateAutomatically": "Actualitza automàticament",
         "UpdateHasBeenCancelledExplanation": "L'actualització en un clic del Piwik ha estat cancel·lada. Si no podeu arreglar l'error de més amunt, us recomanem que actualitzeu el Piwik manualment. %1$s Si us plau, mireu-vos la %2$sDocumentació d'actualització (en anglès)%3$s per a començar!",
         "UpdateTitle": "Actualització del Piwik",
+        "UpdateSuccessTitle": "El Piwik s'ha actualitzat amb èxit!",
         "UpgradeComplete": "S'ha actualitzat amb èxit!",
         "UpgradePiwik": "Actualitza el Piwik",
         "VerifyingUnpackedFiles": "S'estan verificant els fitxers",

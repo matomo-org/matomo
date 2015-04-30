@@ -9,12 +9,23 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Config;
+use Piwik\Period\PeriodValidator;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 
 class UserPreferences
 {
+    /**
+     * @var APIUsersManager
+     */
+    private $api;
+
+    public function __construct()
+    {
+        $this->api = APIUsersManager::getInstance();
+    }
+
     /**
      * Returns default site ID that Piwik should load.
      *
@@ -51,7 +62,7 @@ class UserPreferences
     public function getDefaultReport()
     {
         // User preference: default website ID to load
-        $defaultReport = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT);
+        $defaultReport = $this->api->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT);
 
         if (!is_numeric($defaultReport)) {
             return $defaultReport;
@@ -74,8 +85,45 @@ class UserPreferences
      */
     public function getDefaultDate()
     {
+        list($defaultDate, $defaultPeriod) = $this->getDefaultDateAndPeriod();
+
+        return $defaultDate;
+    }
+
+    /**
+     * Returns default period type for Piwik reports.
+     *
+     * @param string $defaultDate the default date string from which the default period will be guessed
+     * @return string `'day'`, `'week'`, `'month'`, `'year'` or `'range'`
+     * @api
+     */
+    public function getDefaultPeriod($defaultDate = null)
+    {
+        list($defaultDate, $defaultPeriod) = $this->getDefaultDateAndPeriod($defaultDate);
+
+        return $defaultPeriod;
+    }
+
+    private function getDefaultDateAndPeriod($defaultDate = null)
+    {
+        if (! $defaultDate) {
+            $defaultDate = $this->getDefaultDateWithoutValidation();
+        }
+        $defaultPeriod = $this->getDefaultPeriodWithoutValidation($defaultDate);
+
+        $periodValidator = new PeriodValidator();
+        if (! $periodValidator->isPeriodAllowedForUI($defaultPeriod)) {
+            $defaultDate = $this->getSystemDefaultDate();
+            $defaultPeriod = $this->getSystemDefaultPeriod();
+        }
+
+        return array($defaultDate, $defaultPeriod);
+    }
+
+    public function getDefaultDateWithoutValidation()
+    {
         // NOTE: a change in this function might mean a change in plugins/UsersManager/javascripts/usersSettings.js as well
-        $userSettingsDate = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
+        $userSettingsDate = $this->api->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
         if ($userSettingsDate == 'yesterday') {
             return $userSettingsDate;
         }
@@ -89,17 +137,10 @@ class UserPreferences
         return 'today';
     }
 
-    /**
-     * Returns default period type for Piwik reports.
-     *
-     * @param $defaultDate string the default date string from which the default period will be guessed
-     * @return string `'day'`, `'week'`, `'month'`, `'year'` or `'range'`
-     * @api
-     */
-    public function getDefaultPeriod($defaultDate)
+    public function getDefaultPeriodWithoutValidation($defaultDate = null)
     {
         if (empty($defaultDate)) {
-            $defaultDate = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
+            $defaultDate = $this->api->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
         }
 
         if (empty($defaultDate)) {
@@ -119,9 +160,13 @@ class UserPreferences
         return $defaultDate;
     }
 
+    private function getSystemDefaultDate()
+    {
+        return Config::getInstance()->General['default_day'];
+    }
+
     private function getSystemDefaultPeriod()
     {
         return Config::getInstance()->General['default_period'];
     }
-
 }

@@ -43,15 +43,21 @@ then
         echo ""
         echo "http://builds-artifacts.piwik.org/$artifacts_folder/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
         echo ""
-        echo "If the new screenshots are valid, then you can copy them over to tests/UI/expected-ui-screenshots/"
+        echo "If the new screenshots are valid, then you can copy them over to the right directory with the command:"
 
+        echo ""
+        echo "./console development:sync-ui-test-screenshots $TRAVIS_JOB_NUMBER"
         if [ -n "$PLUGIN_NAME" ]
         then
-            echo " with command:"
-            echo ""
-            echo "./console development:sync-ui-test-screenshots $TRAVIS_JOB_NUMBER"
-            echo ""
+            echo "  --plugin=$PLUGIN_NAME"
+
+            if [ "$UNPROTECTED_ARTIFACTS" = "" ];
+            then
+                echo " --http-user=... --http-password=..."
+            fi
         fi
+        
+        echo ""
 
         if [ -n "$PLUGIN_NAME" ]
         then

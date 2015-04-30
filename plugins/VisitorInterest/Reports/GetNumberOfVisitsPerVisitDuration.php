@@ -16,6 +16,8 @@ use Piwik\Plugins\VisitorInterest\Columns\VisitDuration;
 
 class GetNumberOfVisitsPerVisitDuration extends Base
 {
+    protected $defaultSortColumn = '';
+
     protected function init()
     {
         parent::init();

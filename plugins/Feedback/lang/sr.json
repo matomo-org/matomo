@@ -1,8 +1,6 @@
 {
     "Feedback": {
-        "ContactThePiwikTeam": "Kontaktirajte Piwik tim!",
         "DoYouHaveBugReportOrFeatureRequest": "Da li želite da prijavite grešku u programu ili imate neku želju?",
-        "GetInTouch": "Zahvaljujemo vam na interesovanju, mi uvek pročitamo sve poruke. Možda želite da podelite sa nama poslovnu ponudu, unajmite Piwik konsultanta, da nam ispričate uspešnu priču ili jednostavno da nas pozdravite!",
         "HowToCreateTicket": "Molimo vas da pročitate preporuke kako se piše dobra %1$sprijava problema%2$s ili %3$szahtev za novom funkcionalnošću%4$s. Nakon toga se %5$sregistrujte ili prijavite%6$s i kreirajte %7$snovi zahtev%8$s.",
         "IWantTo": "Želim da:",
         "LearnWaysToParticipate": "Pogledajte kako sve možete da %s uzmete učešće%s",
@@ -14,12 +12,10 @@
         "RateFeatureThankYouTitle": "Hvala vam na oceni '%s'!",
         "RateFeatureTitle": "Da li vam se sviđa '%s'? Molimo vas da date ocenu i ostavite komentar",
         "SendFeedback": "Pošaljite vaše zapažanje",
-        "SpecialRequest": "Da li imate neki specijalan zahtev za Piwik tim?",
         "ThankYou": "Hvala vam što nam pomažete da učinimo Piwik boljim!",
         "TopLinkTooltip": "Recite nam šta mislite ili zatražite profesionalnu pomoć.",
         "ViewAnswersToFAQ": "Prikaži odgovore na %sčesto postavljana pitanja%s",
         "ViewUserGuides": "Naučite kako da podesite Piwik i kako da efikasno analizirate vaše podatke prateći %1$skorisničko uputstvo%2$s",
-        "VisitTheForums": "Posetite %s Forum%s",
-        "WantToThankConsiderDonating": "Da li smatrate da je Piwik fenomenalan i želite da nam se zahvalite?"
+        "VisitTheForums": "Posetite %s Forum%s"
     }
 }

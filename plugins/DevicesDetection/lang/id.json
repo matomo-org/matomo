@@ -6,6 +6,7 @@
         "BrowserVersion": "Versi Perambang",
         "ColumnBrowser": "Peramban",
         "ColumnOperatingSystem": "Sistem Operasi",
+        "dataTableLabelTypes": "Jenis",
         "OperatingSystemFamily": "Keluarga sistem operasi",
         "OperatingSystems": "Sistem Operasi",
         "WidgetBrowsers": "Peramban Pengunjung",

@@ -22,10 +22,14 @@ php_errors.log
 /plugins/ImageGraph/fonts/unifont.ttf
 /plugins/ImageGraph/fonts/unifont.ttf.zip
 /plugins/*/tests/System/processed
+/plugins/*/Test/System/processed
 /plugins/*/tests/UI/processed-ui-screenshots
+/plugins/*/Test/UI/processed-ui-screenshots
 /plugins/*/tests/UI/screenshot-diffs
+/plugins/*/Test/UI/screenshot-diffs
 /robots.txt
-/tmp/
+/tmp/*
+!/tmp/.gitkeep
 /vendor/
 /.cache
 /.externalToolBuilders
@@ -59,3 +63,5 @@ php_errors.log
 /config/*.config.ini.php
 /Vagrantfile
 /misc/vagrant
+/.vagrant
+/plugins/.gitignore

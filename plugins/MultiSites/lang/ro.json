@@ -2,7 +2,7 @@
     "MultiSites": {
         "Evolution": "Evoluţie",
         "LoadingWebsites": "încărcare site-uri web",
-        "Pagination": "%s - %s of %s",
-        "TopLinkTooltip": "Compara statisticiLE Web Analytics pentru toate site-urile dvs.."
+        "TopLinkTooltip": "Compara statisticiLE Web Analytics pentru toate site-urile dvs..",
+        "Pagination": "%s - %s of %s"
     }
 }

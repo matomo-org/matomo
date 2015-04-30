@@ -37,6 +37,7 @@
         "UpdateAutomatically": "자동 업데이트",
         "UpdateHasBeenCancelledExplanation": "Piwik 원클릭 업데이트가 취소되었습니다. 만약 위의 에러 메세지를 고칠 수 없다면, 수동으로 Piwik을 업데이트하는 것을 권장합니다. %1$s 시작하기 위해 %2$s업데이트 문서%3$s 를 확인하세요!",
         "UpdateTitle": "Piwik › 업데이트",
+        "UpdateSuccessTitle": "Piwik 이 성공적으로 업데이트되었습니다!",
         "UpgradeComplete": "업그레이드 완료!",
         "UpgradePiwik": "Piwik 업그레이드",
         "VerifyingUnpackedFiles": "압축이 풀린 파일 확인중",

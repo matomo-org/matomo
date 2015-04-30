@@ -23,8 +23,8 @@ class CreatePull extends TranslationBase
     {
         $this->setName('translations:createpull')
             ->setDescription('Updates translation files')
-            ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'oTrance username')
-            ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'oTrance password')
+            ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'Transifex username')
+            ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'Transifex password')
             ->addOption('plugin', 'P', InputOption::VALUE_OPTIONAL, 'optional name of plugin to update translations for');
     }
 
@@ -158,7 +158,7 @@ class CreatePull extends TranslationBase
             implode(', ', $languageCodesTouched)
         );
 
-        shell_exec('git commit -m "language update ${pluginName} refs #3430"');
+        shell_exec('git commit -m "language update ${pluginName}"');
         shell_exec('git push');
         shell_exec('git checkout master > /dev/null 2>&1');
 

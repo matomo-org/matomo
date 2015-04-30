@@ -43,7 +43,7 @@ class Manager
     /**
      * Removes a posted notification by ID.
      *
-     * @param $id The notification ID, see {@link notify()}.
+     * @param string $id The notification ID, see {@link notify()}.
      */
     public static function cancel($id)
     {

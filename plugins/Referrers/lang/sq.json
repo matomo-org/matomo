@@ -32,7 +32,7 @@
         "TypeSearchEngines": "%s prej motorësh kërkimi",
         "TypeWebsites": "%s prej \"site\"-esh web",
         "UsingNDistinctUrls": "(duke përdorur url të dallueshme %s)",
-        "Websites": "\"Site\"-e Web",
+        "Websites": "\"Site\"-e web",
         "WebsitesDocumentation": "Vizitori ndoqi një lidhje në një site tjetër web e cila të shpinte te site-i juaj. Për më tepër hollësira, %s shihni %s raportin.",
         "WebsitesReportDocumentation": "Në këtë tabelë, mund të shihni cilët site-e web sollën vizitorë te site-i juaj. %s Duke klikuar mbi një rresht të tabelës, mund të shihni se te cilat URL gjendeshin lidhjet për te site-i juaj web.",
         "WidgetExternalWebsites": "Listë e \"site\"-eve Web të jashtëm"

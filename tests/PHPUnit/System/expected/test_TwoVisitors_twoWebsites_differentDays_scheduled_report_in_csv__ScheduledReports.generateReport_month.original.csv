@@ -188,8 +188,8 @@ Direct Entry,1,1,1,00:00:00,100%,$ 0
 
 All Referrers
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-goal-matching-url-parameter,4,20,0%,5,00:15:01,0%
 referrer.com,6,22,0%,3.7,00:10:01,33%
+goal-matching-url-parameter,4,20,0%,5,00:15:01,0%
 
 Keywords
 No data available
@@ -220,13 +220,13 @@ No data available
 
 Country
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-Unknown,9,41,4.6,00:13:21,11%,$ 0
-France,2,2,1,00:00:00,100%,$ 0
+Unknown,8,40,5,00:15:01,0%,$ 0
+France,3,3,1,00:00:00,100%,$ 0
 
 Continent
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-Unknown,9,41,4.6,00:13:21,11%,$ 0
-Europe,2,2,1,00:00:00,100%,$ 0
+Unknown,8,40,5,00:15:01,0%,$ 0
+Europe,3,3,1,00:00:00,100%,$ 0
 
 Region
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue

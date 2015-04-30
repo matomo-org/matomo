@@ -357,8 +357,11 @@ class Model
                           OR s.main_url like ?
                           OR s.`group` like ?
                           $where )
-                     AND idsite in ($ids_str)
-                 LIMIT " . (int) $limit;
+                     AND idsite in ($ids_str)";
+
+        if ($limit !== false) {
+            $query .= " LIMIT " . (int) $limit;
+        }
 
         $db    = $this->getDb();
         $sites = $db->fetchAll($query, $bind);

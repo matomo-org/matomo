@@ -37,8 +37,15 @@ class ArchivesToPurgeDistributedList extends DistributedList
      */
     public function setAll($yearMonths)
     {
-        $yearMonths = array_unique($yearMonths);
+        $yearMonths = array_unique($yearMonths, SORT_REGULAR);
         parent::setAll($yearMonths);
+    }
+
+    protected function getListOptionValue()
+    {
+        $result = parent::getListOptionValue();
+        $this->convertOldDistributedList($result);
+        return $result;
     }
 
     public function getAllAsDates()
@@ -60,5 +67,21 @@ class ArchivesToPurgeDistributedList extends DistributedList
     {
         $yearMonth = $date->toString('Y_m');
         $this->remove($yearMonth);
+    }
+
+    /**
+     * Before 2.12.0 Piwik stored this list as an array mapping year months to arrays of site IDs. If this is
+     * found in the DB, we convert the array to an array of year months to avoid errors and to make sure
+     * the correct tables are still purged.
+     */
+    private function convertOldDistributedList(&$yearMonths)
+    {
+        foreach ($yearMonths as $key => $value) {
+            if (preg_match("/^[0-9]{4}_[0-9]{2}$/", $key)) {
+                unset($yearMonths[$key]);
+
+                $yearMonths[] = $key;
+            }
+        }
     }
 }

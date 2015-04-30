@@ -62,12 +62,7 @@ class Tracker
     public static function loadTrackerEnvironment()
     {
         SettingsServer::setIsTrackerApiRequest();
-        try {
-            $debug = (bool)TrackerConfig::getConfigValue('debug');
-        } catch(Exception $e) {
-            $debug = false;
-        }
-        $GLOBALS['PIWIK_TRACKER_DEBUG'] = $debug;
+        $GLOBALS['PIWIK_TRACKER_DEBUG'] = self::isDebugEnabled();
         PluginManager::getInstance()->loadTrackerPlugins();
     }
 
@@ -137,8 +132,6 @@ class Tracker
         if ($request->isEmptyRequest()) {
             Common::printDebug("The request is empty");
         } else {
-            $this->loadTrackerPlugins();
-
             Common::printDebug("Current datetime: " . date("Y-m-d H:i:s", $request->getCurrentTimestamp()));
 
             $visit = Visit\Factory::make();
@@ -173,6 +166,13 @@ class Tracker
             }
 
             PluginManager::getInstance()->loadCorePluginsDuringTracker();
+        }
+    }
+
+    public static function restoreTrackerPlugins()
+    {
+        if (SettingsServer::isTrackerApiRequest() && Tracker::$initTrackerMode) {
+            Plugin\Manager::getInstance()->loadTrackerPlugins();
         }
     }
 
@@ -225,6 +225,16 @@ class Tracker
         }
     }
 
+    // for tests
+    public static function disconnectCachedDbConnection()
+    {
+        // code redundancy w/ above is on purpose; above disconnectDatabase depends on method that can potentially be overridden
+        if (!is_null(self::$db))  {
+            self::$db->disconnect();
+            self::$db = null;
+        }
+    }
+
     public static function setTestEnvironment($args = null, $requestMethod = null)
     {
         if (is_null($args)) {
@@ -240,7 +250,9 @@ class Tracker
         }
 
         // Do not run scheduled tasks during tests
-        TrackerConfig::setConfigValue('scheduled_tasks_min_interval', 0);
+        if (!defined('DEBUG_FORCE_SCHEDULED_TASKS')) {
+            TrackerConfig::setConfigValue('scheduled_tasks_min_interval', 0);
+        }
 
         // if nothing found in _GET/_POST and we're doing a POST, assume bulk request. in which case,
         // we have to bypass authentication
@@ -302,5 +314,23 @@ class Tracker
                 Common::sendResponseCode(500);
             }
         });
+    }
+
+    private static function isDebugEnabled()
+    {
+        try {
+            $debug = (bool) TrackerConfig::getConfigValue('debug');
+            if ($debug) {
+                return true;
+            }
+
+            $debugOnDemand = (bool) TrackerConfig::getConfigValue('debug_on_demand');
+            if ($debugOnDemand) {
+                return (bool) Common::getRequestVar('debug', false);
+            }
+        } catch(Exception $e) {
+        }
+
+        return false;
     }
 }

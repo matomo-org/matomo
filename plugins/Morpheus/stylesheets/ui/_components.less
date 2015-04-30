@@ -34,7 +34,8 @@
     }
 }
 
-.ui-datepicker td.ui-datepicker-current-period a.ui-state-default, td .ui-state-active, .ui-datepicker td.ui-datepicker-current-period a.ui-state-active, .ui-datepicker td.ui-datepicker-week-end .ui-state-active, .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
+.ui-datepicker td.ui-datepicker-current-period a.ui-state-default, td .ui-state-active, .ui-datepicker td.ui-datepicker-current-period a.ui-state-active, .ui-datepicker td.ui-datepicker-week-end .ui-state-active, .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period,
+.ui-datepicker td .ui-state-default.ui-state-active:hover {
     background: @theme-color-text !important;
 }
 
@@ -88,8 +89,8 @@
                 .font-default(12px, 14px);
                 color: @theme-color-text;
                 font-weight: 500;
-                margin: 0px;
-                min-height: auto;
+                margin: 0;
+                height: 30px;
             }
         }
     }

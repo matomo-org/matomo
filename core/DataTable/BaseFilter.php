@@ -14,7 +14,7 @@ use Piwik\DataTable\Row;
 /**
  * A filter is set of logic that manipulates a DataTable. Existing filters do things like,
  *
- * - remove rows
+ * - add/remove rows
  * - change column values (change string to lowercase, truncate, etc.)
  * - add/remove columns or metadata (compute percentage values, add an 'icon' metadata based on the label, etc.)
  * - add/remove/edit subtable associated with rows

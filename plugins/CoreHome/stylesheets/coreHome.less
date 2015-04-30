@@ -6,29 +6,24 @@ h1 {
     clear: both;
 }
 
-h2 {
-    font-size: 18px;
-    font-weight: normal;
-    color: #7e7363;
-    padding: 12px 0 7px 0;
-    clear: both;
-}
+.home {
+    h2 {
+        font-size: 18px;
+        padding: 12px 0 7px 0;
+        clear: both;
+        border: none;
+        margin: 0;
+    }
 
-h2 a {
-    text-decoration: none;
-    color: #7e7363;
-}
-
-h3 {
-    font-size: 1.3em;
-    margin-top: 2em;
-    color: #1D3256;
-}
-
-.home p {
-    padding-bottom: 1em;
-    margin-right: 1em;
-    margin-left: 1em;
+    h3 {
+        font-size: 1.3em;
+        margin-top: 2em;
+    }
+    p {
+        padding-bottom: 1em;
+        margin-right: 1em;
+        margin-left: 1em;
+    }
 }
 
 .nav_sep {
@@ -38,13 +33,8 @@ h3 {
 }
 
 .pageWrap {
-  border-left: 1px solid #DDDDDD;
-  border-right: 1px solid #DDDDDD;
-  min-height: 10px;
-  overflow: visible;
-  padding: 15px 15px 0;
-  position: relative;
-  font-size: 13px;
+    margin-top: 15px;
+    font-size: 13px;
 }
 
 /* Content */
@@ -71,16 +61,16 @@ h3 {
     width: auto;
 }
 
-
-.accessibility-skip-to-content{
-position:absolute;
-left:-10000px;
+.accessibility-skip-to-content {
+    font-size: 14px;
+    position: absolute;
+    left: -10000px;
+    top: 21px;
 }
-
-.accessibility-skip-to-content:focus{
-display: block;
-position: absolute;
-left: 50%;
+.accessibility-skip-to-content:focus {
+    display: block;
+    position: absolute;
+    left: 140px;
 }
 
 /* Calendar*/
@@ -270,3 +260,9 @@ a.Piwik_Popover_Error_Back {
 /* Used to link within content text, without adding visual clutter */
 .linkContent { color:#333; text-decoration:none}
 .linkContent:hover { text-decoration:underline;}
+
+.ui-confirm h2 {
+  border-bottom: 0 none;
+  margin:0;
+  font-size:18px;
+}

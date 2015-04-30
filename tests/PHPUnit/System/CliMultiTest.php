@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+use Piwik\Archiver\Request;
 use Piwik\CliMulti;
 use Piwik\Version;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -194,6 +195,19 @@ class CliMultiTest extends SystemTestCase
 
         $this->assertFileNotExists($tmpDir . 'toberemoved.output');
         $this->assertFileNotExists($tmpDir . 'toberemoved.output');
+    }
+
+    public function test_shouldSupportRequestObjects()
+    {
+        $wasCalled = false;
+        $request = new Request('url');
+        $request->before(function () use (&$wasCalled) {
+            $wasCalled = true;
+        });
+
+        $this->cliMulti->request(array($request));
+
+        $this->assertTrue($wasCalled, 'The request "before" handler was not called');
     }
 
     private function assertRequestReturnsValidResponses($urls, $expectedResponseIds)

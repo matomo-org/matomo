@@ -14,6 +14,7 @@ use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Columns\Dimension;
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\Sort;
 use Piwik\Menu\MenuReporting;
 use Piwik\Metrics;
 use Piwik\Cache as PiwikCache;
@@ -187,6 +188,20 @@ class Report
      * @api
      */
     protected $recursiveLabelSeparator = ' - ';
+
+    /**
+     * Default sort column. Either a column name or a column id.
+     *
+     * @var string|int
+     */
+    protected $defaultSortColumn = 'nb_visits';
+
+    /**
+     * Default sort desc. If true will sort by default desc, if false will sort by default asc
+     *
+     * @var bool
+     */
+    protected $defaultSortOrderDesc = true;
 
     /**
      * @var array
@@ -480,19 +495,21 @@ class Report
 
         $processedMetrics = $this->processedMetrics ?: array();
         foreach ($processedMetrics as $processedMetric) {
-            if (!($processedMetric instanceof ProcessedMetric)) {
-                continue;
+            if (is_string($processedMetric) && !empty($translations[$processedMetric])) {
+                $documentation[$processedMetric] = $translations[$processedMetric];
+            } elseif ($processedMetric instanceof ProcessedMetric) {
+
+                $name = $processedMetric->getName();
+                $metricDocs = $processedMetric->getDocumentation();
+                if (empty($metricDocs)) {
+                    $metricDocs = @$translations[$name];
+                }
+
+                if (!empty($metricDocs)) {
+                    $documentation[$processedMetric->getName()] = $metricDocs;
+                }
             }
 
-            $name = $processedMetric->getName();
-            $metricDocs = $processedMetric->getDocumentation();
-            if (empty($metricDocs)) {
-                $metricDocs = @$translations[$name];
-            }
-
-            if (!empty($metricDocs)) {
-                $documentation[$processedMetric->getName()] = $metricDocs;
-            }
         }
 
         return $documentation;
@@ -576,6 +593,26 @@ class Report
         $report['order'] = $this->order;
 
         return $report;
+    }
+
+    /**
+     * @ignore
+     */
+    public function getDefaultSortColumn()
+    {
+        return $this->defaultSortColumn;
+    }
+
+    /**
+     * @ignore
+     */
+    public function getDefaultSortOrder()
+    {
+        if ($this->defaultSortOrderDesc) {
+            return Sort::ORDER_DESC;
+        }
+
+        return Sort::ORDER_ASC;
     }
 
     /**

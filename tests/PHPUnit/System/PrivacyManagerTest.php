@@ -27,6 +27,7 @@ use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Translate;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/PrivacyManager.php';
 
@@ -47,7 +48,7 @@ class PrivacyManagerTest extends SystemTestCase
     const JAN_METRIC_ARCHIVE_COUNT = 11; // 5 days + 4 weeks + 1 month + 1 year
     const FEB_METRIC_ARCHIVE_COUNT = 11; // 6 days + 4 weeks + 1 month
 
-    const JAN_DONE_FLAGS_COUNT = 43;
+    const JAN_DONE_FLAGS_COUNT = 44;
 
     // fake metric/report name used to make sure unwanted metrics are purged
     const GARBAGE_FIELD = 'abcdefg';
@@ -80,6 +81,8 @@ class PrivacyManagerTest extends SystemTestCase
     public function setUp()
     {
         parent::setUp();
+
+        Translate::loadAllTranslations();
 
         LogDataPurger::$selectSegmentSize = 2;
         ReportsPurger::$selectSegmentSize = 2;
@@ -374,7 +377,7 @@ class PrivacyManagerTest extends SystemTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 5, $janNumericRemaining = 69); // 5 blobs for 5 days
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 5, $janNumericRemaining = 70); // 5 blobs for 5 days
     }
 
     /**
@@ -408,7 +411,7 @@ class PrivacyManagerTest extends SystemTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 4, $janNumericRemaining = 63); // 4 blobs for 4 weeks
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 4, $janNumericRemaining = 64); // 4 blobs for 4 weeks
     }
 
     /**
@@ -442,7 +445,7 @@ class PrivacyManagerTest extends SystemTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 48);
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 49);
     }
 
     /**
@@ -476,7 +479,7 @@ class PrivacyManagerTest extends SystemTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 48);
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 49);
     }
 
     /**
@@ -539,7 +542,7 @@ class PrivacyManagerTest extends SystemTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 2, $janNumericRemaining = 47); // 2 range blobs
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 2, $janNumericRemaining = 48); // 2 range blobs
     }
 
     /**
@@ -574,7 +577,7 @@ class PrivacyManagerTest extends SystemTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 6, $janNumericRemaining = 71); // 1 segmented blob + 5 day blobs
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 6, $janNumericRemaining = 72); // 1 segmented blob + 5 day blobs
     }
 
     // --- utility functions follow ---
@@ -866,7 +869,8 @@ class PrivacyManagerTest extends SystemTestCase
         // + 1 garbage metric
         // log_link_visit_action+ 2 entries per range period (4 total) + 2 'done...' entries per range period (4 total)
         // + 2 entries per segment (2 total) + 2 'done...' entries per segment (2 total)
-        return self::JAN_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_JAN_ARCHIVE_COUNT + 1 + 8 + 4;
+        // +1 done flag for one further week used to create the archive of a month
+        return self::JAN_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_JAN_ARCHIVE_COUNT + 1 + 8 + 4 + 1;
     }
 
     protected function _getExpectedNumericArchiveCountFeb()
