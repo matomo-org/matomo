@@ -188,15 +188,6 @@ class FrontController extends Singleton
     }
 
     /**
-     * Loads the config file
-     * This is overridden in tests to ensure test config file is used
-     */
-    public static function createConfigObject()
-    {
-        Config::getInstance()->database; // access property
-    }
-
-    /**
      * Must be called before dispatch()
      * - checks that directories are writable,
      * - loads the configuration file,
@@ -214,8 +205,6 @@ class FrontController extends Singleton
             return;
         }
         $initialized = true;
-
-        self::createConfigObject();
 
         $tmpPath = StaticContainer::get('path.tmp');
 
