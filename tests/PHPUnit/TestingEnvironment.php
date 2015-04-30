@@ -198,6 +198,7 @@ class Piwik_TestingEnvironment
 
         sort($pluginsToLoad);
 
+        \Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider::unsetSingletonInstance();
         if (!$testingEnvironment->dontUseTestConfig) {
             Piwik::addAction('Config.createConfigSingleton', function(IniFileChain $chain) use ($testingEnvironment, $pluginsToLoad) {
                 $general =& $chain->get('General');
