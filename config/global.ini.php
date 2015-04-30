@@ -636,7 +636,7 @@ campaign_keyword_var_name = "pk_kwd,pk_keyword,piwik_kwd,utm_term"
 create_new_visit_when_campaign_changes = 1
 
 ; if set to 1, actions that contain different website referrer information from the visitor's ongoing visit
-; will be treatedas the start of a new visit. This will include situations when website referrer information was
+; will be treated as the start of a new visit. This will include situations when website referrer information was
 ; absent before, but is present now.
 create_new_visit_when_website_referrer_changes = 0
 
