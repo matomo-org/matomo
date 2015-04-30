@@ -4,7 +4,7 @@
 
 __Can I easily change the config for tests that run on AWS?__
 
-Yes, just edit `Aws/config.ini.php`
+Yes, just edit `Aws/config.ini.php
 
 __I want to run the tests with different parameters on AWS, is it possible?__
 
