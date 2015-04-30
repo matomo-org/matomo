@@ -3,7 +3,7 @@
 ; tests on Travis-CI. Do not use this in production.
 
 [database]
-host = localhost
+host = 127.0.0.1
 username = root
 password =
 dbname = piwik_tests
@@ -16,7 +16,7 @@ tables_prefix =
 request_uri = "/"
 
 [database_tests]
-host = localhost
+host = 127.0.0.1
 username = root
 password =
 dbname = piwik_tests
