@@ -105,9 +105,9 @@ class IniSettingsProvider implements GlobalSettingsProvider
             // sanity check. the parameters should only be non-null when creating the IniSettingsProvider the first time.
             // if it's done after, it may point to a problem in the tests. (tests are the only place where these arguments
             // should be specified)
-            if ($pathGlobal === null
-                || $pathLocal === null
-                || $pathCommon === null
+            if ($pathGlobal !== null
+                || $pathLocal !== null
+                || $pathCommon !== null
             ) {
                 $message = "Unexpected state in IniSettingsProvider::getSingletonInstance: singleton already created but paths supplied:\n";
                 $message .= "global = '$pathGlobal', local = '$pathLocal', common = '$pathCommon'\n";
