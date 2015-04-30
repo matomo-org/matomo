@@ -76,11 +76,6 @@ body#simple  {
 #simple .box .content h2:first-child {
 	margin-top: 0;
 }
-#simple .box .content pre {
-	overflow-x: scroll;
-	font-size: 11px;
-	text-align: left;
-}
 
 #simple .box .footer {
     background-color: #f0f0f0;

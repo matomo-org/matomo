@@ -18,20 +18,6 @@
     margin-left: 0;
 }
 
-code {
-    font-size: 13px;
-    color: #F3F3F3;
-    background-color: #4D4D4D;
-    border: none;
-    border-radius: 3px;
-    direction: ltr;
-    display: block;
-    margin: 2px 2px 20px;
-    padding: 20px;
-    text-align: left;
-    overflow-x: hidden;
-}
-
 li {
     margin-top: 10px;
     margin-left: 30px;
