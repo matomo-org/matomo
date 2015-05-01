@@ -20,6 +20,8 @@ class TestConfig extends Config
 
     public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null, $allowSave = false, $doSetTestEnvironment = true)
     {
+        \Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider::unsetSingletonInstance();
+
         parent::__construct($pathGlobal, $pathLocal, $pathCommon);
 
         $this->allowSave = $allowSave;

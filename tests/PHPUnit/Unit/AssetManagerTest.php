@@ -83,7 +83,9 @@ class AssetManagerTest extends UnitTestCase
 
     public function tearDown()
     {
-        $this->assetManager->removeMergedAssets();
+        if ($this->assetManager !== null) {
+            $this->assetManager->removeMergedAssets();
+        }
 
         parent::tearDown();
     }
