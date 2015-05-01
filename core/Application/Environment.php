@@ -12,7 +12,6 @@ use DI\Container;
 use Piwik\Application\Kernel\EnvironmentValidator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
-use Piwik\Application\Kernel\PluginList\IniPluginList;
 use Piwik\Container\ContainerFactory;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
@@ -163,7 +162,7 @@ class Environment
     protected function getPluginList()
     {
         // TODO: in tracker should only load tracker plugins. can't do properly until tracker entrypoint is encapsulated.
-        return new IniPluginList($this->getGlobalSettingsCached());
+        return new PluginList($this->getGlobalSettingsCached());
     }
 
     private function validateEnvironment()

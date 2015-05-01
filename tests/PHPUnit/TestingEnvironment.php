@@ -103,7 +103,7 @@ class Piwik_TestingEnvironment
     public function getCoreAndSupportedPlugins()
     {
         $settings = new \Piwik\Application\Kernel\GlobalSettingsProvider();
-        $pluginManager = new PluginManager(new \Piwik\Application\Kernel\PluginList\IniPluginList($settings));
+        $pluginManager = new PluginManager(new \Piwik\Application\Kernel\PluginList($settings));
 
         $disabledPlugins = $pluginManager->getCorePluginsDisabledByDefault();
         $disabledPlugins[] = 'LoginHttpAuth';
