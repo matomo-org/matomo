@@ -75,14 +75,14 @@
 
                 initKeepURLFragmentsList();
 
-                adminSites.fetchLimitedSitesWithAdminAccess();
+                adminSites.fetchLimitedSitesWithAdminAccess(function () {
+                    triggerAddSiteIfRequested();
+                });
                 sitesManagerAPI.getSitesIdWithAdminAccess(function (siteIds) {
                     if (siteIds && siteIds.length) {
                         $scope.totalNumberOfSites = siteIds.length;
                     }
                 });
-
-                triggerAddSiteIfRequested();
             });
         };
 
