@@ -13,7 +13,6 @@ use Piwik\Application\Kernel\EnvironmentValidator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Application\Kernel\PluginList\IniPluginList;
-use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
 use Piwik\Container\ContainerFactory;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
@@ -152,7 +151,7 @@ class Environment
     {
         // TODO: need to be able to set path global/local/etc. which is in DI... for now works because TestingEnvironment creates
         //       singleton instance before this method.
-        return IniSettingsProvider::getSingletonInstance();
+        return GlobalSettingsProvider::getSingletonInstance();
     }
 
     /**

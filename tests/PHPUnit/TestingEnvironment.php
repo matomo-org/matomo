@@ -102,7 +102,7 @@ class Piwik_TestingEnvironment
 
     public function getCoreAndSupportedPlugins()
     {
-        $settings = new \Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider();
+        $settings = new \Piwik\Application\Kernel\GlobalSettingsProvider();
         $pluginManager = new PluginManager(new \Piwik\Application\Kernel\PluginList\IniPluginList($settings));
 
         $disabledPlugins = $pluginManager->getCorePluginsDisabledByDefault();
@@ -151,7 +151,7 @@ class Piwik_TestingEnvironment
             \Piwik\Profiler::setupProfilerXHProf($mainRun = false, $setupDuringTracking = true);
         }
 
-        \Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider::getSingletonInstance(
+        \Piwik\Application\Kernel\GlobalSettingsProvider::getSingletonInstance(
             $testingEnvironment->configFileGlobal,
             $testingEnvironment->configFileLocal,
             $testingEnvironment->configFileCommon

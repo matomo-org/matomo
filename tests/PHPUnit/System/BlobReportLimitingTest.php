@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\System;
 
-use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Cache;
 use Piwik\Config;
 use Piwik\Plugins\Actions\ArchivingHelper;
@@ -174,7 +174,6 @@ class BlobReportLimitingTest extends SystemTestCase
 
     protected static function setUpConfigOptions()
     {
-        IniSettingsProvider::unsetSingletonInstance();
         Config::setSingletonInstance(new TestConfig());
 
         $generalConfig =& Config::getInstance()->General;

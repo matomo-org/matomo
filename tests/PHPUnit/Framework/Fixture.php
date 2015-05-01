@@ -9,7 +9,7 @@ namespace Piwik\Tests\Framework;
 
 use Piwik\Access;
 use Piwik\Application\Environment;
-use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Archive;
 use Piwik\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
@@ -151,7 +151,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     public function performSetUp($setupEnvironmentOnly = false)
     {
         if ($this->createConfig) {
-            IniSettingsProvider::unsetSingletonInstance();
+            GlobalSettingsProvider::unsetSingletonInstance();
         }
 
         $this->piwikEnvironment = new Environment('test');
@@ -329,7 +329,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         $_GET = $_REQUEST = array();
         Translate::reset();
 
-        IniSettingsProvider::unsetSingletonInstance();
+        GlobalSettingsProvider::unsetSingletonInstance();
         Config::setSingletonInstance(new TestConfig());
 
         Config::getInstance()->Plugins; // make sure Plugins exists in a config object for next tests that use Plugin\Manager

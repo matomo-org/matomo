@@ -11,7 +11,6 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
-use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
 
 /**
  * Singleton that provides read & write access to Piwik's INI configuration.
@@ -52,7 +51,7 @@ class Config extends Singleton
     protected $doNotWriteConfigInTests = false;
 
     /**
-     * @var IniSettingsProvider
+     * @var GlobalSettingsProvider
      */
     protected $settings;
 
@@ -60,7 +59,7 @@ class Config extends Singleton
 
     public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null)
     {
-        $this->settings = IniSettingsProvider::getSingletonInstance($pathGlobal, $pathLocal, $pathCommon);
+        $this->settings = GlobalSettingsProvider::getSingletonInstance($pathGlobal, $pathLocal, $pathCommon);
     }
 
     /**

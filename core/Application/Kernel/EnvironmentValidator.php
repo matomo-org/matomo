@@ -8,7 +8,7 @@
 
 namespace Piwik\Application\Kernel;
 
-use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
@@ -22,9 +22,9 @@ use Piwik\Translation\Translator;
 class EnvironmentValidator
 {
     /**
-     * @var IniSettingsProvider
+     * @var GlobalSettingsProvider
      */
-    protected $iniSettingsProvider;
+    protected $settingsProvider;
 
     /**
      * @var Translator
@@ -33,7 +33,7 @@ class EnvironmentValidator
 
     public function __construct(GlobalSettingsProvider $settingsProvider, Translator $translator)
     {
-        $this->iniSettingsProvider = $settingsProvider;
+        $this->settingsProvider = $settingsProvider;
         $this->translator = $translator;
     }
 
@@ -42,8 +42,8 @@ class EnvironmentValidator
         $inTrackerRequest = SettingsServer::isTrackerApiRequest();
         $inConsole = Common::isPhpCliMode();
 
-        $this->checkConfigFileExists($this->iniSettingsProvider->getPathGlobal());
-        $this->checkConfigFileExists($this->iniSettingsProvider->getPathLocal(), $startInstaller = !$inTrackerRequest && !$inConsole);
+        $this->checkConfigFileExists($this->settingsProvider->getPathGlobal());
+        $this->checkConfigFileExists($this->settingsProvider->getPathLocal(), $startInstaller = !$inTrackerRequest && !$inConsole);
     }
 
     /**

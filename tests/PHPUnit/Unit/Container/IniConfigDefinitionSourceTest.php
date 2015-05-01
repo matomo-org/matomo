@@ -10,7 +10,6 @@ namespace Piwik\Tests\Unit\Container;
 
 use DI\Definition\ValueDefinition;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
-use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
 use Piwik\Container\IniConfigDefinitionSource;
 
 class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
@@ -30,7 +29,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
      */
     public function getDefinition_withUnknownConfigSection_shouldReturnEmptyArray()
     {
-        $definitionSource = new IniConfigDefinitionSource(new IniSettingsProvider());
+        $definitionSource = new IniConfigDefinitionSource(new GlobalSettingsProvider());
 
         /** @var ValueDefinition $definition */
         $definition = $definitionSource->getDefinition('ini.foo');
@@ -45,7 +44,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
      */
     public function getDefinition_withUnknownConfigSectionAndKey_shouldReturnNull()
     {
-        $definitionSource = new IniConfigDefinitionSource(new IniSettingsProvider());
+        $definitionSource = new IniConfigDefinitionSource(new GlobalSettingsProvider());
 
         $this->assertNull($definitionSource->getDefinition('ini.foo.bar'));
     }
@@ -55,7 +54,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
      */
     public function getDefinition_withUnknownConfigKey_shouldReturnNull()
     {
-        $definitionSource = new IniConfigDefinitionSource(new IniSettingsProvider());
+        $definitionSource = new IniConfigDefinitionSource(new GlobalSettingsProvider());
 
         $this->assertNull($definitionSource->getDefinition('ini.General.foo'));
     }

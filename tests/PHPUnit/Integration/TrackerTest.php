@@ -8,7 +8,7 @@
 
 namespace Piwik\Tests\Integration;
 
-use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\EventDispatcher;
@@ -20,7 +20,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\RequestSet;
 use Piwik\Tracker\Request;
-use Piwik\Translate;
 
 class TestTracker extends Tracker
 {
@@ -60,7 +59,7 @@ class TrackerTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        IniSettingsProvider::unsetSingletonInstance();
+        GlobalSettingsProvider::unsetSingletonInstance();
         Config::unsetInstance();
 
         Fixture::createWebsite('2014-01-01 00:00:00');

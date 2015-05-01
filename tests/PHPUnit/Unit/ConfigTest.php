@@ -9,7 +9,7 @@
 namespace Piwik\Tests\Unit;
 
 use PHPUnit_Framework_TestCase;
-use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
 use Piwik\Tests\Framework\Mock\TestConfig;
 
@@ -24,7 +24,7 @@ class DumpConfigTestMockIniFileChain extends Config\IniFileChain
     }
 }
 
-class MockIniSettingsProvider extends IniSettingsProvider
+class MockIniSettingsProvider extends GlobalSettingsProvider
 {
     public function __construct($configLocal, $configGlobal, $configCommon, $configCache)
     {
@@ -60,7 +60,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        IniSettingsProvider::unsetSingletonInstance();
+        GlobalSettingsProvider::unsetSingletonInstance();
     }
 
     public function testUserConfigOverwritesSectionGlobalConfigValue()

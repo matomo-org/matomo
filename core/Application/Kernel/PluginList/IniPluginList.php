@@ -9,19 +9,18 @@
 namespace Piwik\Application\Kernel\PluginList;
 
 use Piwik\Application\Kernel\GlobalSettingsProvider;
-use Piwik\Application\Kernel\GlobalSettingsProvider\IniSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
 
 /**
  * Default implementation of the PluginList interface. Uses the [Plugins] section
  * in Piwik's INI config to get the activated plugins.
  *
- * Depends on IniSettingsProvider being used.
+ * Depends on GlobalSettingsProvider being used.
  */
 class IniPluginList implements PluginList
 {
     /**
-     * @var IniSettingsProvider
+     * @var GlobalSettingsProvider
      */
     private $settings;
 
