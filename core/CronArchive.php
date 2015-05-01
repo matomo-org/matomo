@@ -1340,6 +1340,7 @@ class CronArchive
     private function logArchivedWebsite($idSite, $period, $date, $segmentsCount, $visitsInLastPeriods, $visitsToday, Timer $timer)
     {
         if (strpos($date, 'last') === 0 || strpos($date, 'previous') === 0) {
+            $date = str_replace ("last", "", $date);
             $visitsInLastPeriods = (int)$visitsInLastPeriods . " visits in last " . $date . " " . $period . "s, ";
             $thisPeriod = $period == "day" ? "today" : "this " . $period;
             $visitsInLastPeriod = (int)$visitsToday . " visits " . $thisPeriod . ", ";
