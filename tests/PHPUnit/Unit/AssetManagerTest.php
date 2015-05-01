@@ -68,6 +68,8 @@ class AssetManagerTest extends UnitTestCase
     {
         parent::setUp();
 
+        $this->setUpConfig('merged-assets-enabled.ini.php');
+
         $this->activateMergedAssets();
 
         $this->setUpCacheBuster();
@@ -99,12 +101,12 @@ class AssetManagerTest extends UnitTestCase
 
     private function activateMergedAssets()
     {
-        $this->setUpConfig('merged-assets-enabled.ini.php');
+        Config::getInstance()->Development['disable_merged_assets'] = 0;
     }
 
     private function disableMergedAssets()
     {
-        $this->setUpConfig('merged-assets-disabled.ini.php');
+        Config::getInstance()->Development['disable_merged_assets'] = 1;
     }
 
     /**
@@ -116,6 +118,8 @@ class AssetManagerTest extends UnitTestCase
         $globalFile = PIWIK_INCLUDE_PATH . '/' . self::ASSET_MANAGER_TEST_DIR . 'configs/plugins.ini.php';
 
         Config::setSingletonInstance(new TestConfig($globalFile, $userFile));
+
+        $this->initEnvironment();
     }
 
     private function setUpCacheBuster()

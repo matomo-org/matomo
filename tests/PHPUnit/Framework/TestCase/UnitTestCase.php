@@ -32,8 +32,7 @@ abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
 
         IniSettingsProvider::unsetSingletonInstance();
 
-        $this->environment = new Environment('test', $this->provideContainerConfig(), $postBootstrappedEvent = false);
-        $this->environment->init();
+        $this->initEnvironment();
 
         File::reset();
         EventDispatcher::getInstance()->clearAllObservers();
@@ -61,5 +60,11 @@ abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
     protected function provideContainerConfig()
     {
         return array();
+    }
+
+    protected function initEnvironment()
+    {
+        $this->environment = new Environment('test', $this->provideContainerConfig(), $postBootstrappedEvent = false);
+        $this->environment->init();
     }
 }
