@@ -166,7 +166,7 @@ class ProcessedReport
 
         $availableReports = array();
 
-        foreach (Report::getAllReports() as $report) {
+        foreach (Report::getAllReports($idSites) as $report) {
             $report->configureReportMetadata($availableReports, $parameters);
         }
 

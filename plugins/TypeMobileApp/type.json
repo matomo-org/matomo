@@ -1,0 +1,24 @@
+{
+  "type": "mobileapp",
+  "name": "Mobile App",
+  "namePlural": "Mobile Apps",
+  "management": {
+    "name": "App name",
+    "urls": "App identifiers",
+    "customFields": []
+  },
+  "reports": {
+    "disable:": ["Referrers", "DevicesDetection.getBrowser*"],
+    "enable:": [],
+    "rename": {
+      "VisitorInterest.getNumberOfVisitsByDaysSinceLast": "Sessions by days since last session"
+    }
+  },
+  "metrics": {
+    "nb_visitors": "Users",
+    "nb_visitor": "User",
+    "nb_unique_visitors": "Unique Users",
+    "nb_visits": "Sessions",
+    "nb_pageviews": "Screens"
+  }
+}

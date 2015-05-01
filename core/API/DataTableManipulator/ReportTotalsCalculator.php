@@ -217,7 +217,7 @@ class ReportTotalsCalculator extends DataTableManipulator
 
     private function findFirstLevelReport()
     {
-        foreach (Report::getAllReports() as $report) {
+        foreach (Report::getAllReports($this->request['idSite']) as $report) {
             $actionToLoadSubtables = $report->getActionToLoadSubTables();
             if ($actionToLoadSubtables == $this->apiMethod
                 && $this->apiModule == $report->getModule()

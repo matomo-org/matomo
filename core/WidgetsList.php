@@ -61,7 +61,7 @@ class WidgetsList extends Singleton
      *               )
      *               ```
      */
-    public static function get()
+    public static function get($idSite)
     {
         $cache   = self::getCacheForCompleteList();
         $cacheId = self::getCacheId();
@@ -70,7 +70,7 @@ class WidgetsList extends Singleton
             return $cache->fetch($cacheId);
         }
 
-        self::addWidgets();
+        self::addWidgets($idSite);
 
         uksort(self::$widgets, array('Piwik\WidgetsList', '_sortWidgetCategories'));
 
@@ -91,7 +91,7 @@ class WidgetsList extends Singleton
         return $widgets;
     }
 
-    private static function addWidgets()
+    private static function addWidgets($idSite)
     {
         if (!self::$hookCalled) {
             self::$hookCalled = true;
@@ -104,7 +104,7 @@ class WidgetsList extends Singleton
 
             $widgetsList = self::getInstance();
 
-            foreach (Report::getAllReports() as $report) {
+            foreach (Report::getAllReports($idSite) as $report) {
                 if ($report->isEnabled()) {
                     $report->configureWidget($widgetsList);
                 }
@@ -250,7 +250,7 @@ class WidgetsList extends Singleton
      */
     public static function isDefined($controllerName, $controllerAction)
     {
-        $widgetsList = self::get();
+        $widgetsList = self::get($idSite = null); // TODO getIdSite
         foreach ($widgetsList as $widgets) {
             foreach ($widgets as $widget) {
                 if ($widget['parameters']['module'] == $controllerName

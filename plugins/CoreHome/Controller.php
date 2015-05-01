@@ -128,8 +128,11 @@ class Controller extends \Piwik\Plugin\Controller
 
     protected function getDefaultIndexView()
     {
+        $idSite = Common::getRequestVar('idSite', '', 'string');
+
         $view = new View('@CoreHome/getDefaultIndexView');
         $this->setGeneralVariablesView($view);
+        MenuReporting::getInstance()->setIdSite($idSite);
         $view->menu = MenuReporting::getInstance()->getMenu();
         $view->dashboardSettingsControl = new DashboardManagerControl();
         $view->content = '';

@@ -34,6 +34,8 @@ use Piwik\Plugin\Report;
 class MenuReporting extends MenuAbstract
 {
 
+    private $idSite;
+
     /**
      * See {@link add()}. Adds a new menu item to the visitors section of the reporting menu.
      * @param string $menuName
@@ -111,6 +113,11 @@ class MenuReporting extends MenuAbstract
         return false;
     }
 
+    public function setIdSite($idSite)
+    {
+        $this->idSite = $idSite;
+    }
+
     /**
      * Triggers the Menu.Reporting.addItems hook and returns the menu.
      *
@@ -126,7 +133,7 @@ class MenuReporting extends MenuAbstract
              */
             Piwik::postEvent('Menu.Reporting.addItems', array());
 
-            foreach (Report::getAllReports() as $report) {
+            foreach (Report::getAllReports($this->idSite) as $report) {
                 if ($report->isEnabled()) {
                     $report->configureReportingMenu($this);
                 }

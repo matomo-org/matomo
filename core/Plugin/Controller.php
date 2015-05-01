@@ -312,8 +312,10 @@ abstract class Controller
      */
     protected function renderReport($apiAction, $controllerAction = false)
     {
+        $idSite = Common::getRequestVar('idSite', '', 'string');
+
         if (empty($controllerAction) && is_string($apiAction)) {
-            $report = Report::factory($this->pluginName, $apiAction);
+            $report = Report::factory($this->pluginName, $apiAction, $idSite);
 
             if (!empty($report)) {
                 $apiAction = $report;

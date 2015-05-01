@@ -39,7 +39,9 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View($template);
         $this->setGeneralVariablesView($view);
 
-        $view->availableWidgets = json_encode(WidgetsList::get());
+        $idSite = Common::getRequestVar('idSite', '', 'int');
+
+        $view->availableWidgets = json_encode(WidgetsList::get($idSite));
         $view->availableLayouts = $this->getAvailableLayouts();
 
         $view->dashboardId = Common::getRequestVar('idDashboard', 1, 'int');
@@ -74,8 +76,10 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $this->checkTokenInUrl();
 
+        $idSite = Common::getRequestVar('idSite', '', 'int');
+
         Json::sendHeaderJSON();
-        return json_encode(WidgetsList::get());
+        return json_encode(WidgetsList::get($idSite));
     }
 
     public function getDashboardLayout($checkToken = true)

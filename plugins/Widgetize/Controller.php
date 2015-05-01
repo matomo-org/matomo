@@ -21,8 +21,10 @@ class Controller extends \Piwik\Plugin\Controller
 {
     public function index()
     {
+        $idSite = Common::getRequestVar('idSite', '', 'int');
+
         $view = new View('@Widgetize/index');
-        $view->availableWidgets = json_encode(WidgetsList::get());
+        $view->availableWidgets = json_encode(WidgetsList::get($idSite));
         $this->setGeneralVariablesView($view);
         return $view->render();
     }

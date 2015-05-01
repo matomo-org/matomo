@@ -21,6 +21,7 @@ use Piwik\Cache as PiwikCache;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Site;
 use Piwik\WidgetsList;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Exception;
@@ -238,6 +239,12 @@ class Report
         }
 
         $this->init();
+    }
+
+    public function setName($name)
+    {
+        $this->widgetTitle = $name;
+        $this->name = $name;
     }
 
     /**
@@ -786,7 +793,7 @@ class Report
      * @return null|\Piwik\Plugin\Report
      * @api
      */
-    public static function factory($module, $action)
+    public static function factory($module, $action, $idSite = null)
     {
         $listApiToReport = self::getMapOfModuleActionsToReport();
         $api = $module . '.' . ucfirst($action);
@@ -797,7 +804,23 @@ class Report
 
         $klassName = $listApiToReport[$api];
 
-        return new $klassName;
+        $report = new $klassName;
+
+        if (!empty($idSite)) {
+            $type = Site::getTypeFor($idSite);
+            $type = Type::factory($type);
+
+            if ($type) {
+                $reports = $type->filterReports(array($report));
+                $type->renameReports($reports);
+
+                if (!empty($reports)) {
+                    $report = array_shift($reports);
+                }
+            }
+        }
+
+        return $report;
     }
 
     private static function getMapOfModuleActionsToReport()
@@ -828,8 +851,16 @@ class Report
      * @return \Piwik\Plugin\Report[]
      * @api
      */
-    public static function getAllReports()
+    public static function getAllReports($idSite = null)
     {
+        if (!empty($idSite)) {
+            if (is_array($idSite)) {
+                $idSite = reset($idSite);
+            }
+            $type = Site::getTypeFor($idSite);
+            $type = Type::factory($type);
+        }
+
         $reports = self::getAllReportClasses();
         $cacheId = CacheId::languageAware('Reports' . md5(implode('', $reports)));
         $cache   = PiwikCache::getTransientCache();
@@ -846,7 +877,14 @@ class Report
             $cache->save($cacheId, $instances);
         }
 
-        return $cache->fetch($cacheId);
+        $reports = $cache->fetch($cacheId);
+
+        if (isset($type)) {
+            $reports = $type->filterReports($reports);
+            $type->renameReports($reports);
+        }
+
+        return $reports;
     }
 
     /**
