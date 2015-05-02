@@ -1,32 +1,31 @@
-button,
-input[type="submit"],
-button[type="button"],
+// We use `button:not(.btn)` because  `button` has a higher priority than CSS classes
+// which makes it impossible to use btn-lg or similar additional classes.
+button:not(.btn),
+input[type="submit"]:not(.btn),
 .btn {
-    .border-radius(3px) !important;
-    background: none !important;
-    background-color: @theme-color-brand !important;
-    #gradient > .vertical(rgba(255,255,255,.15), rgba(255,255,255,0)) !important;
-    .font-default(12px, 16px) !important;
-    color: @theme-color-brand-contrast !important;;
+    display: inline-block;
+    .border-radius(3px);
+    background: none;
+    color: @theme-color-brand-contrast;
+    background-color: @theme-color-brand;
+    box-shadow: 0 1px 1px 0 rgba(13, 13, 13, 0.3);
+    #gradient > .vertical(rgba(255,255,255,.15), rgba(255,255,255,0));
+    .font-default(12px, 16px);
     font-weight: normal;
-    padding: 5px 15px !important;
+    padding: 5px 15px;
     text-align: center;
-    text-decoration: none !important;
+    text-decoration: none;
     cursor: pointer;
-    border: 0px !important;
+    border: 0;
+
     &:hover {
-        background: @theme-color-brand !important;
-        background-color: @theme-color-brand !important;
+        color: @theme-color-brand-contrast;
+        background: @theme-color-brand;
+        text-decoration: none;
     }
 
     em {
         font-style: normal;
-    }
-    &.ui-dialog-titlebar-close {
-        &:hover {
-            background: none !important;
-            background-color: transparent !important;
-        }
     }
 }
 
@@ -35,12 +34,15 @@ button[type="button"],
     display: inline-block;
 }
 .btn-lg {
-    padding: 12px 40px !important;;
-    font-size: 14px !important;;
+    padding: 12px 40px;
+    font-size: 14px;
 }
 .btn-block {
     display: block;
     width: 100%;
+}
+.btn-block + .btn-block {
+    margin-top: 5px;
 }
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn {
     pointer-events: none;

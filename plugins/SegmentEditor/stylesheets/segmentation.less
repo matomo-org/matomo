@@ -98,11 +98,11 @@ div.scrollable {
 
 .segment-element .custom_select_search input[type="text"] {
   font: 11px Arial;
-  color: #454545;
+  color: #454545 !important;
   width: 125px;
-  padding: 4px 0 3px 7px;
+  padding: 4px 0 3px 7px !important;
   border: none;
-  background: none;
+  background: none !important;
 }
 
 .segment-element .custom_select_search a {
@@ -415,18 +415,6 @@ div.scrollable {
 }
 
 .segment-element .segment-footer button {
-  min-width: 178px;
-  height: 30px;
-  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDE3OCAzMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGxpbmVhckdyYWRpZW50IGlkPSJoYXQwIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjUwJSIgeTE9IjEwMCUiIHgyPSI1MCUiIHkyPSItMS40MjEwODU0NzE1MjAyZS0xNCUiPgo8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODM3OTZiIiBzdG9wLW9wYWNpdHk9IjEiLz4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjYWJhMzkzIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgPC9saW5lYXJHcmFkaWVudD4KCjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxNzgiIGhlaWdodD0iMzAiIGZpbGw9InVybCgjaGF0MCkiIC8+Cjwvc3ZnPg==);
-  background-image: -moz-linear-gradient(bottom, #83796b 0%, #aba393 100%);
-  background-image: -o-linear-gradient(bottom, #83796b 0%, #aba393 100%);
-  background-image: -webkit-linear-gradient(bottom, #83796b 0%, #aba393 100%);
-  background-image: linear-gradient(bottom, #83796b 0%, #aba393 100%);
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 4px 4px 4px 4px;
-  border: none;
   margin: 0 0 0 15px;
 }
 
@@ -550,13 +538,9 @@ div.scrollable {
 }
 
 .segmentEditorPanel.visible .add_new_segment {
-  display: block;
-  border: 0 none;
   clear: both;
   float: right;
   margin: 12px 0 10px;
-  text-decoration: none;
-  width: 130px;
 }
 
 .segmentationContainer > ul.submenu > li {
@@ -571,10 +555,6 @@ span.segmentationTitle {
   min-width: 180px;
   display: block;
   cursor: pointer;
-}
-
-.add_new_segment {
-  display: none;
 }
 
 .segmentList {
@@ -683,10 +663,6 @@ a.metric_category {
   span.segmentationTitle,
   .segmentEditorPanel.visible .segmentationContainer {
     width: auto;
-  }
-
-  .segmentEditorPanel.visible .add_new_segment {
-    float: left;
   }
 }
 

@@ -1,4 +1,4 @@
-input:not([type="checkbox"]), select, textarea {
+input:not([type="checkbox"]):not([type="submit"]):not([type="button"]), select, textarea {
     color: @theme-color-text;
     .border-radius(0px);
     margin-left: 0;
@@ -7,7 +7,7 @@ input:not([type="checkbox"]), select, textarea {
     .box-sizing(border-box);
     background: @theme-color-background-base;
 }
-.add-trusted-host,
+a.add-trusted-host,
 .add-cors-host,
 .submit {
     .btn;
