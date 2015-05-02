@@ -7,266 +7,276 @@
         help-url="http://piwik.org/docs/privacy/">{{ 'PrivacyManager_TeaserHeadline'|translate }}</h2>
     <p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>")|raw }}
         {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<a href="http://piwik.org/privacy/" rel="noreferrer"  target="_blank">','</a>')|raw }}</p>
+
     <h2 id="anonymizeIPAnchor">{{ 'PrivacyManager_UseAnonymizeIp'|translate }}</h2>
     <form method="post" action="{{ {'action':'saveSettings', 'form':'formMaskLength', 'token_auth':token_auth} | urlRewriteWithParameters }}" id="formMaskLength">
-        <div id='anonymizeIpSettings'>
-            <table class="adminTable" style='width:800px;'>
-                <tr>
-                    <td width="250">{{ 'PrivacyManager_UseAnonymizeIp'|translate }}<br/>
-                        <span class="form-description">{{ 'PrivacyManager_AnonymizeIpDescription'|translate }}</span>
-                    </td>
-                    <td width='500'>
-                        <input id="anonymizeIPEnable-1" type="radio" name="anonymizeIPEnable" value="1" {% if anonymizeIP.enabled == '1' %}checked {% endif %}/>
-                        <label for="anonymizeIPEnable-1">{{ 'General_Yes'|translate }}</label>
-                        <input class="indented-radio-button" id="anonymizeIPEnable-0" type="radio" name="anonymizeIPEnable" value="0" {% if anonymizeIP.enabled == '0' %} checked {% endif %}/>
-                        <label for="anonymizeIPEnable-0">{{ 'General_No'|translate }}</label>
-                        <input type="hidden" name="token_auth" value="{{ token_auth }}"/>
-                    </td>
-                    <td width="200">
-                        <div style="width:180px">
-                            {{ piwik.inlineHelp('PrivacyManager_AnonymizeIpInlineHelp'|translate) }}
-                        </div>
-                    </td>
-                </tr>
-            </table>
+        <div id="anonymizeIpSettings" class="form-group">
+            <label>
+                {{ 'PrivacyManager_UseAnonymizeIp'|translate }}<br/>
+                <span class="form-description">{{ 'PrivacyManager_AnonymizeIpDescription'|translate }}</span>
+            </label>
+            <div class="form-help">
+                {{ 'PrivacyManager_AnonymizeIpInlineHelp'|translate }}
+            </div>
+            <label class="radio">
+                <input id="anonymizeIPEnable-1" type="radio" name="anonymizeIPEnable" value="1" {% if anonymizeIP.enabled == '1' %}checked {% endif %}/>
+                {{ 'General_Yes'|translate }}
+            </label>
+            <label class="radio">
+                <input class="indented-radio-button" id="anonymizeIPEnable-0" type="radio" name="anonymizeIPEnable" value="0" {% if anonymizeIP.enabled == '0' %} checked {% endif %}/>
+                {{ 'General_No'|translate }}
+            </label>
+            <input type="hidden" name="token_auth" value="{{ token_auth }}"/>
         </div>
         <div id="anonymizeIPenabled">
-            <table class="adminTable" style='width:800px;'>
-                <tr>
-                    <td width="250">{{ 'PrivacyManager_AnonymizeIpMaskLengtDescription'|translate }}</td>
-                    <td width="500">
-                        <input id="maskLength-1" type="radio" name="maskLength" value="1" {% if anonymizeIP.maskLength == '1' %}
-                            checked {% endif %}/>
-                        <label for="maskLength-1">{{ 'PrivacyManager_AnonymizeIpMaskLength'|translate("1","192.168.100.xxx") }}</label><br/>
-                        <input id="maskLength-2" type="radio" name="maskLength" value="2" {% if anonymizeIP.maskLength == '2' %}
-                            checked {% endif %}/>
-                        <label for="maskLength-2">{{ 'PrivacyManager_AnonymizeIpMaskLength'|translate("2","192.168.xxx.xxx") }} <span
-                                    class="form-description">{{ 'General_Recommended'|translate }}</span></label><br/>
-                        <input id="maskLength-3" type="radio" name="maskLength" value="3" {% if anonymizeIP.maskLength == '3' %}
-                            checked {% endif %}/>
-                        <label for="maskLength-3">{{ 'PrivacyManager_AnonymizeIpMaskLength'|translate("3","192.xxx.xxx.xxx") }}</label>
-                    </td>
-                    <td width="200">
-                        <div style="width:180px">
-                            {{ piwik.inlineHelp('PrivacyManager_GeolocationAnonymizeIpNote'|translate) }}
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="250">
-                        {{ 'PrivacyManager_UseAnonymizedIpForVisitEnrichment'|translate }}
-                    </td>
-                    <td width='500'>
-                        <input id="useAnonymizedIpForVisitEnrichment-1" type="radio" name="useAnonymizedIpForVisitEnrichment" value="1" {% if anonymizeIP.useAnonymizedIpForVisitEnrichment == '1' %}checked {% endif %}/>
-                        <label for="useAnonymizedIpForVisitEnrichment-1">{{ 'General_Yes'|translate }}</label>
-                        <span class="form-description">
-                            {{ 'PrivacyManager_RecommendedForPrivacy'|translate }}
-                        </span>
-                        <br/>
-                        <input id="useAnonymizedIpForVisitEnrichment-2" type="radio" name="useAnonymizedIpForVisitEnrichment" value="0" {% if anonymizeIP.useAnonymizedIpForVisitEnrichment == '0' %} checked {% endif %}/>
-                        <label for="useAnonymizedIpForVisitEnrichment-2">{{ 'General_No'|translate }}</label>
-                    </td>
-                    <td width="200">
-                        <div style="width:180px">
-                            {{ piwik.inlineHelp('PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote'|translate) }}
-                        </div>
-                    </td>
-                </tr>
-            </table>
+            <div class="form-group">
+                <label>
+                    {{ 'PrivacyManager_AnonymizeIpMaskLengtDescription'|translate }}<br/>
+                </label>
+                <div class="form-help">
+                    {{ 'PrivacyManager_GeolocationAnonymizeIpNote'|translate }}
+                </div>
+                <label class="radio">
+                    <input id="maskLength-1" type="radio" name="maskLength" value="1" {% if anonymizeIP.maskLength == '1' %} checked {% endif %}/>
+                    {{ 'PrivacyManager_AnonymizeIpMaskLength'|translate("1","192.168.100.xxx") }}
+                </label>
+                <label class="radio">
+                    <input id="maskLength-2" type="radio" name="maskLength" value="2" {% if anonymizeIP.maskLength == '2' %} checked {% endif %}/>
+                    {{ 'PrivacyManager_AnonymizeIpMaskLength'|translate("2","192.168.xxx.xxx") }}
+                    <span class="form-description">{{ 'General_Recommended'|translate }}</span>
+                </label>
+                <label class="radio">
+                    <input id="maskLength-3" type="radio" name="maskLength" value="3" {% if anonymizeIP.maskLength == '3' %} checked {% endif %}/>
+                    {{ 'PrivacyManager_AnonymizeIpMaskLength'|translate("3","192.xxx.xxx.xxx") }}
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    {{ 'PrivacyManager_UseAnonymizedIpForVisitEnrichment'|translate }}<br/>
+                </label>
+                <div class="form-help">
+                    {{ 'PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote'|translate }}
+                </div>
+                <label class="radio">
+                    <input id="useAnonymizedIpForVisitEnrichment-1" type="radio" name="useAnonymizedIpForVisitEnrichment" value="1" {% if anonymizeIP.useAnonymizedIpForVisitEnrichment == '1' %}checked {% endif %}/>
+                    {{ 'General_Yes'|translate }}
+                    <span class="form-description">{{ 'PrivacyManager_RecommendedForPrivacy'|translate }}</span>
+                </label>
+                <label class="radio">
+                    <input id="useAnonymizedIpForVisitEnrichment-2" type="radio" name="useAnonymizedIpForVisitEnrichment" value="0" {% if anonymizeIP.useAnonymizedIpForVisitEnrichment == '0' %} checked {% endif %}/>
+                    {{ 'General_No'|translate }}
+                </label>
+            </div>
         </div>
 
         <input type="hidden" name="nonce" value="{% if anonymizeIP.enabled %}{{ deactivateNonce }}{% else %}{{ activateNonce }}{% endif %}">
-
-        <input type="submit" value="{{ 'General_Save'|translate }}" id="privacySettingsSubmit" class="submit"/>
+        <input type="submit" value="{{ 'General_Save'|translate }}" id="privacySettingsSubmit"/>
     </form>
 
     {% if isDataPurgeSettingsEnabled %}
-    <div class="ui-confirm" id="confirmDeleteSettings">
-        <h2 id="deleteLogsConfirm">{{ 'PrivacyManager_DeleteLogsConfirm'|translate }}</h2>
 
-        <h2 id="deleteReportsConfirm">{{ 'PrivacyManager_DeleteReportsConfirm'|translate }}</h2>
+        <div class="ui-confirm" id="confirmDeleteSettings">
+            <h2 id="deleteLogsConfirm">{{ 'PrivacyManager_DeleteLogsConfirm'|translate }}</h2>
 
-        <h2 id="deleteBothConfirm">{{ 'PrivacyManager_DeleteBothConfirm'|translate }}</h2>
-        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
-        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
-    </div>
-    <div class="ui-confirm" id="saveSettingsBeforePurge">
-        <h2>{{ 'PrivacyManager_SaveSettingsBeforePurge'|translate }}</h2>
-        <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
-    </div>
-    <div class="ui-confirm" id="confirmPurgeNow">
-        <h2>{{ 'PrivacyManager_PurgeNowConfirm'|translate }}</h2>
-        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
-        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
-    </div>
-    <h2 id="deleteLogsAnchor">{{ 'PrivacyManager_DeleteDataSettings'|translate }}</h2>
-    <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }} {{ 'PrivacyManager_DeleteDataDescription2'|translate }}</p>
-    <form method="post" action="{{ {'action':'saveSettings','form':'formDeleteSettings','token_auth':token_auth} | urlRewriteWithParameters }}" id="formDeleteSettings">
-        <table class="adminTable" style='width:800px;'>
-            <tr id='deleteLogSettingEnabled'>
-                <td width="250">{{ 'PrivacyManager_UseDeleteLog'|translate }}<br/>
+            <h2 id="deleteReportsConfirm">{{ 'PrivacyManager_DeleteReportsConfirm'|translate }}</h2>
 
-                </td>
-                <td width='500'>
-                    <input id="deleteEnable-1" type="radio" name="deleteEnable" value="1" {% if deleteData.config.delete_logs_enable == '1' %}
-                        checked {% endif %}/>
-                    <label for="deleteEnable-1">{{ 'General_Yes'|translate }}</label>
-                    <input class="indented-radio-button" id="deleteEnable-2" type="radio" name="deleteEnable" value="0"
-                                  {% if deleteData.config.delete_logs_enable == '0' %}
-                        checked {% endif %}/>
-                    <label for="deleteEnable-2">{{ 'General_No'|translate }}</label>
-				<span id="privacyManagerDeleteLogDescription" style="margin-top: 10px;display:inline-block;">
-                    {% set deleteLogDescription %}
-                        {{ 'PrivacyManager_DeleteLogDescription2'|translate|raw }}
-                        <a href="http://piwik.org/faq/general/#faq_125" rel="noreferrer"  target="_blank">
-                            {{ 'General_ClickHere'|translate }}
-                        </a>
-                    {% endset %}
-                    {{ deleteLogDescription|notification({'raw': true, 'placeat': '#privacyManagerDeleteLogDescription', 'noclear': true, 'context': 'warning'}) }}
-				</span>
-                </td>
-                <td width="200">
-                    {% set deleteLogInfo %}
-                        {{ 'PrivacyManager_DeleteLogInfo'|translate(deleteData.deleteTables)|raw }}
-                        {% if not canDeleteLogActions %}
-                            <br/>
-                            <br/>
-                            {{ 'PrivacyManager_CannotLockSoDeleteLogActions'|translate(dbUser) }}
-                        {% endif %}
-                    {% endset %}
-                    {{ piwik.inlineHelp(deleteLogInfo) }}
-                </td>
-            </tr>
-            <tr id="deleteLogSettings">
-                <td width="250">&nbsp;</td>
-                <td width="500">
-                    <label>{{ 'PrivacyManager_DeleteLogsOlderThan'|translate }}
-                        <input type="text" id="deleteOlderThan" value="{{ deleteData.config.delete_logs_older_than }}" style="width:55px;"
-                               name="deleteOlderThan"/>
-                        {{ 'CoreHome_PeriodDays'|translate }}</label><br/>
-                    <span class="form-description">{{ 'PrivacyManager_LeastDaysInput'|translate("1") }}</span>
-                </td>
-                <td width="200">
-
-                </td>
-            </tr>
-            <tr id='deleteReportsSettingEnabled'>
-                <td width="250">{{ 'PrivacyManager_UseDeleteReports'|translate }}
-                </td>
-                <td width="500">
-                    <input id="deleteReportsEnable-1" type="radio" name="deleteReportsEnable" value="1" {% if deleteData.config.delete_reports_enable == '1' %}checked="true"{% endif %} />
-                    <label for="deleteReportsEnable-1">{{ 'General_Yes'|translate }}</label>
-                    <input class="indented-radio-button" id="deleteReportsEnable-2" type="radio" name="deleteReportsEnable" value="0" {% if deleteData.config.delete_reports_enable == '0' %}checked="true"{% endif %}/>
-                    <label for="deleteReportsEnable-2">{{ 'General_No'|translate }}</label>
-
-                    {% set useDeleteLog %}
-                        {% set deleteOldLogs %}{{ 'PrivacyManager_UseDeleteLog'|translate }}{% endset %}
-                        {{ 'PrivacyManager_DeleteReportsInfo'|translate('<em>','</em>')|raw }}
-                        <span id='deleteOldReportsMoreInfo'><br/><br/>
-                            {{ 'PrivacyManager_DeleteReportsInfo2'|translate(deleteOldLogs) }}<br/><br/>
-                            {{ 'PrivacyManager_DeleteReportsInfo3'|translate(deleteOldLogs) }}</span>
-                    {% endset %}
-                    <span id="privacyManagerUseDeleteLog" style="margin-top: 10px;display:inline-block;">
-                        {{ useDeleteLog|notification({'raw': true, 'placeat': '#privacyManagerUseDeleteLog', 'noclear': true, 'context': 'warning'}) }}
-                    </span>
-                </td>
-                <td width="200">
-                    {{ piwik.inlineHelp('PrivacyManager_DeleteReportsDetailedInfo'|translate('archive_numeric_*','archive_blob_*')) }}
-                </td>
-            </tr>
-            <tr id='deleteReportsSettings'>
-                <td width="250">&nbsp;</td>
-                <td width="500">
-                    <label>{{ 'PrivacyManager_DeleteReportsOlderThan'|translate }}
-                        <input type="text" id="deleteReportsOlderThan" value="{{ deleteData.config.delete_reports_older_than }}" style="width:42px;"
-                               name="deleteReportsOlderThan"/>
-                        {{ 'CoreHome_PeriodMonths'|translate }}
-                    </label><br/>
-                    <span class="form-description">{{ 'PrivacyManager_LeastMonthsInput'|translate("3") }}</span><br/><br/>
-                    <input id="deleteReportsKeepBasic" type="checkbox" name="deleteReportsKeepBasic" value="1"
-                                  {% if deleteData.config.delete_reports_keep_basic_metrics %}checked="true"{% endif %}>
-                    <label for="deleteReportsKeepBasic">{{ 'PrivacyManager_KeepBasicMetrics'|translate }}
-                        <span class="form-description">{{ 'General_Recommended'|translate }}</span>
-                    </label><br/><br/>
-                    {{ 'PrivacyManager_KeepDataFor'|translate }}<br/><br/>
-                    <input id="deleteReportsKeepDay" type="checkbox" name="deleteReportsKeepDay" value="1"
-                                  {% if deleteData.config.delete_reports_keep_day_reports %}checked="true"{% endif %}>
-                    <label for="deleteReportsKeepDay">{{ 'General_DailyReports'|translate }}</label><br/>
-                    <input type="checkbox" name="deleteReportsKeepWeek" value="1" id="deleteReportsKeepWeek"
-                                  {% if deleteData.config.delete_reports_keep_week_reports %}checked="true"{% endif %}>
-                    <label for="deleteReportsKeepWeek">{{ 'General_WeeklyReports'|translate }}</label><br/>
-                    <input type="checkbox" name="deleteReportsKeepMonth" value="1" id="deleteReportsKeepMonth"
-                                  {% if deleteData.config.delete_reports_keep_month_reports %}checked="true"{% endif %}>
-                    <label for="deleteReportsKeepMonth">{{ 'General_MonthlyReports'|translate }}<span
-                                class="form-description">{{ 'General_Recommended'|translate }}</span></label><br/>
-                    <input type="checkbox" name="deleteReportsKeepYear" value="1" id="deleteReportsKeepYear"
-                                  {% if deleteData.config.delete_reports_keep_year_reports %}checked="true"{% endif %}>
-                    <label for="deleteReportsKeepYear">{{ 'General_YearlyReports'|translate }}<span
-                                class="form-description">{{ 'General_Recommended'|translate }}</span></label><br/>
-                    <input type="checkbox" name="deleteReportsKeepRange" value="1" id="deleteReportsKeepRange"
-                                  {% if deleteData.config.delete_reports_keep_range_reports %}checked="true"{% endif %}>
-                    <label for="deleteReportsKeepRange">{{ 'General_RangeReports'|translate }}
-                    </label><br/><br/>
-                    <input type="checkbox" name="deleteReportsKeepSegments" value="1" id="deleteReportsKeepSegments"
-                                  {% if deleteData.config.delete_reports_keep_segment_reports %}checked="true"{% endif %}>
-                    <label for="deleteReportsKeepSegments">{{ 'PrivacyManager_KeepReportSegments'|translate }}</label><br/>
-                </td>
-                <td width="200">
-
-                </td>
-            </tr>
-            <tr id="deleteDataEstimateSect"
-                {% if deleteData.config.delete_reports_enable == '0' and deleteData.config.delete_logs_enable == '0' %}style="display:none;"{% endif %}>
-                <td width="250">{{ 'PrivacyManager_ReportsDataSavedEstimate'|translate }}<br/></td>
-                <td width="500">
-                    <div id="deleteDataEstimate"></div>
-                    <span class="loadingPiwik" style="display:none;"><img
-                                src="./plugins/Morpheus/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
-                </td>
-                <td width="200">
-                    {% if deleteData.config.enable_auto_database_size_estimate == '0' %}
-                        {% set manualEstimate %}
-                            <em><a id="getPurgeEstimateLink" style="width:280px" class="ui-inline-help" href="#">{{ 'PrivacyManager_GetPurgeEstimate'|translate }}</a></em>
-                        {% endset %}
-                        {{ piwik.inlineHelp(manualEstimate) }}
+            <h2 id="deleteBothConfirm">{{ 'PrivacyManager_DeleteBothConfirm'|translate }}</h2>
+            <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+            <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+        </div>
+        <div class="ui-confirm" id="saveSettingsBeforePurge">
+            <h2>{{ 'PrivacyManager_SaveSettingsBeforePurge'|translate }}</h2>
+            <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
+        </div>
+        <div class="ui-confirm" id="confirmPurgeNow">
+            <h2>{{ 'PrivacyManager_PurgeNowConfirm'|translate }}</h2>
+            <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+            <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+        </div>
+        <h2 id="deleteLogsAnchor">{{ 'PrivacyManager_DeleteDataSettings'|translate }}</h2>
+        <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }} {{ 'PrivacyManager_DeleteDataDescription2'|translate }}</p>
+        <form method="post" action="{{ {'action':'saveSettings','form':'formDeleteSettings','token_auth':token_auth} | urlRewriteWithParameters }}" id="formDeleteSettings">
+            <div id="deleteLogSettingEnabled" class="form-group">
+                <label>
+                    {{ 'PrivacyManager_UseDeleteLog'|translate }}
+                </label>
+                <div class="form-help">
+                    {{ 'PrivacyManager_DeleteLogInfo'|translate(deleteData.deleteTables)|raw }}
+                    {% if not canDeleteLogActions %}
+                        <br/>
+                        <br/>
+                        {{ 'PrivacyManager_CannotLockSoDeleteLogActions'|translate(dbUser) }}
                     {% endif %}
-                </td>
-            </tr>
-            <tr id="deleteSchedulingSettings">
-                <td width="250">{{ 'PrivacyManager_DeleteSchedulingSettings'|translate }}<br/></td>
-                <td width="500">
-                    <label>{{ 'PrivacyManager_DeleteDataInterval'|translate }}
-                        <select id="deleteLowestInterval" name="deleteLowestInterval">
-                            <option {% if deleteData.config.delete_logs_schedule_lowest_interval == '1' %} selected="selected" {% endif %}
-                                    value="1"> {{ 'CoreHome_PeriodDay'|translate }}</option>
-                            <option {% if deleteData.config.delete_logs_schedule_lowest_interval == '7' %} selected="selected" {% endif %}
-                                    value="7">{{ 'CoreHome_PeriodWeek'|translate }}</option>
-                            <option {% if deleteData.config.delete_logs_schedule_lowest_interval == '30' %} selected="selected" {% endif %}
-                                    value="30">{{ 'CoreHome_PeriodMonth'|translate }}</option>
-                        </select></label><br/><br/>
-                </td>
-                <td width="200">
-                    {% set purgeStats %}
-                        {% if deleteData.lastRun %}<strong>{{ 'PrivacyManager_LastDelete'|translate }}:</strong>
-                            {{ deleteData.lastRunPretty }}
-                            <br/>
-                            <br/>
-                        {% endif %}
-                        <strong>{{ 'PrivacyManager_NextDelete'|translate }}:</strong>
-                        {{ deleteData.nextRunPretty|raw }}
+                </div>
+                <label class="radio">
+                    <input id="deleteEnable-1" type="radio" name="deleteEnable" value="1" {% if deleteData.config.delete_logs_enable == '1' %} checked {% endif %}/>
+                    {{ 'General_Yes'|translate }}
+                </label>
+                <label class="radio">
+                    <input class="indented-radio-button" id="deleteEnable-2" type="radio" name="deleteEnable" value="0"
+                            {% if deleteData.config.delete_logs_enable == '0' %} checked {% endif %}/>
+                    {{ 'General_No'|translate }}
+                </label>
+                <div class="clearfix"><br/></div>
+                <div class="alert alert-warning">
+                    {{ 'PrivacyManager_DeleteLogDescription2'|translate|raw }}
+                    <a href="http://piwik.org/faq/general/#faq_125" rel="noreferrer"  target="_blank">
+                        {{ 'General_ClickHere'|translate }}
+                    </a>
+                </div>
+            </div>
+
+            <div id="deleteLogSettings" class="form-group">
+                <label for="deleteOlderThan">
+                    {{ 'PrivacyManager_DeleteLogsOlderThan'|translate }}
+                </label>
+                <div class="form-help">
+                    {{ 'PrivacyManager_LeastDaysInput'|translate("1") }}
+                </div>
+                <div class="input-group">
+                    <input type="text" id="deleteOlderThan" value="{{ deleteData.config.delete_logs_older_than }}" name="deleteOlderThan"/>
+                    <span class="input-group-addon">{{ 'CoreHome_PeriodDays'|translate }}</span>
+                </div>
+            </div>
+
+            <div id="deleteReportsSettingEnabled" class="form-group">
+                <label>
+                    {{ 'PrivacyManager_UseDeleteReports'|translate }}
+                </label>
+                <div class="form-help">
+                    {{ 'PrivacyManager_DeleteReportsDetailedInfo'|translate('archive_numeric_*','archive_blob_*') }}
+                </div>
+                <label class="radio">
+                    <input id="deleteReportsEnable-1" type="radio" name="deleteReportsEnable" value="1" {% if deleteData.config.delete_reports_enable == '1' %}checked="checked"{% endif %} />
+                    {{ 'General_Yes'|translate }}
+                </label>
+                <label class="radio">
+                    <input class="indented-radio-button" id="deleteReportsEnable-2" type="radio" name="deleteReportsEnable" value="0" {% if deleteData.config.delete_reports_enable == '0' %}checked="checked"{% endif %}/>
+                    {{ 'General_No'|translate }}
+                </label>
+                <div class="clearfix"><br/></div>
+                <div class="alert alert-warning">
+                    {% set deleteOldLogs %}{{ 'PrivacyManager_UseDeleteLog'|translate }}{% endset %}
+                    {{ 'PrivacyManager_DeleteReportsInfo'|translate('<em>','</em>')|raw }}
+                    <span id='deleteOldReportsMoreInfo'><br/><br/>
+                        {{ 'PrivacyManager_DeleteReportsInfo2'|translate(deleteOldLogs) }}<br/><br/>
+                        {{ 'PrivacyManager_DeleteReportsInfo3'|translate(deleteOldLogs) }}</span>
+                </div>
+            </div>
+
+            <div id="deleteReportsSettings">
+                <div class="form-group">
+                    <label for="deleteReportsOlderThan">
+                        {{ 'PrivacyManager_DeleteReportsOlderThan'|translate }}
+                    </label>
+                    <div class="form-help">
+                        {{ 'PrivacyManager_LeastMonthsInput'|translate("3") }}
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="deleteReportsOlderThan" value="{{ deleteData.config.delete_reports_older_than }}" name="deleteReportsOlderThan"/>
+                        <span class="input-group-addon">{{ 'CoreHome_PeriodMonths'|translate }}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="deleteReportsOlderThan">
+                        {{ 'PrivacyManager_DeleteReportsOlderThan'|translate }}
+                    </label>
+                    <label class="checkbox">
+                        <input id="deleteReportsKeepBasic" type="checkbox" name="deleteReportsKeepBasic" value="1"
+                               {% if deleteData.config.delete_reports_keep_basic_metrics %}checked="checked"{% endif %}>
+                        {{ 'PrivacyManager_KeepBasicMetrics'|translate }}
+                        <span class="form-description">{{ 'General_Recommended'|translate }}</span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        {{ 'PrivacyManager_KeepDataFor'|translate }}
+                    </label>
+                    <label class="checkbox">
+                        <input id="deleteReportsKeepDay" type="checkbox" name="deleteReportsKeepDay" value="1"
+                               {% if deleteData.config.delete_reports_keep_day_reports %}checked="checked"{% endif %}>
+                        {{ 'General_DailyReports'|translate }}
+                    </label>
+                    <label class="checkbox">
+                        <input type="checkbox" name="deleteReportsKeepWeek" value="1" id="deleteReportsKeepWeek"
+                               {% if deleteData.config.delete_reports_keep_week_reports %}checked="checked"{% endif %}>
+                        {{ 'General_WeeklyReports'|translate }}
+                    </label>
+                    <label class="checkbox">
+                        <input type="checkbox" name="deleteReportsKeepMonth" value="1" id="deleteReportsKeepMonth"
+                               {% if deleteData.config.delete_reports_keep_month_reports %}checked="checked"{% endif %}>
+                        {{ 'General_MonthlyReports'|translate }}
+                        <span class="form-description">{{ 'General_Recommended'|translate }}</span>
+                    </label>
+                    <label class="checkbox">
+                        <input type="checkbox" name="deleteReportsKeepYear" value="1" id="deleteReportsKeepYear"
+                               {% if deleteData.config.delete_reports_keep_year_reports %}checked="checked"{% endif %}>
+                        {{ 'General_YearlyReports'|translate }}
+                        <span class="form-description">{{ 'General_Recommended'|translate }}</span>
+                    </label>
+                    <label class="checkbox">
+                        <input type="checkbox" name="deleteReportsKeepRange" value="1" id="deleteReportsKeepRange"
+                               {% if deleteData.config.delete_reports_keep_range_reports %}checked="checked"{% endif %}>
+                        {{ 'General_RangeReports'|translate }}
+                    </label>
+                    <label class="checkbox">
+                        <input type="checkbox" name="deleteReportsKeepSegments" value="1" id="deleteReportsKeepSegments"
+                               {% if deleteData.config.delete_reports_keep_segment_reports %}checked="checked"{% endif %}>
+                        {{ 'PrivacyManager_KeepReportSegments'|translate }}
+                    </label>
+                </div>
+            </div>
+
+            <div {% if deleteData.config.delete_reports_enable == '0' and deleteData.config.delete_logs_enable == '0' %}style="display:none;"{% endif %}
+                 id="deleteDataEstimateSect" class="form-group">
+                <label>
+                    {{ 'PrivacyManager_ReportsDataSavedEstimate'|translate }}
+                </label>
+                {% if deleteData.config.enable_auto_database_size_estimate == '0' %}
+                    <div class="form-help">
+                        <a id="getPurgeEstimateLink" href="#">{{ 'PrivacyManager_GetPurgeEstimate'|translate }}</a>
+                    </div>
+                {% endif %}
+                <div id="deleteDataEstimate"></div>
+                <span class="loadingPiwik" style="display:none;">
+                    <img src="./plugins/Morpheus/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}
+                </span>
+            </div>
+
+            <div id="deleteSchedulingSettings" class="form-group">
+                <label for="deleteLowestInterval">
+                    {{ 'PrivacyManager_DeleteSchedulingSettings'|translate }}
+                </label>
+                <div class="form-help">
+                    {% if deleteData.lastRun %}<strong>{{ 'PrivacyManager_LastDelete'|translate }}:</strong>
+                        {{ deleteData.lastRunPretty }}
                         <br/>
                         <br/>
-                        <em><a id="purgeDataNowLink" href="#">{{ 'PrivacyManager_PurgeNow'|translate }}</a></em>
+                    {% endif %}
+                    <strong>{{ 'PrivacyManager_NextDelete'|translate }}:</strong>
+                    {{ deleteData.nextRunPretty|raw }}
+                    <br/>
+                    <br/>
+                    <em><a id="purgeDataNowLink" href="#">{{ 'PrivacyManager_PurgeNow'|translate }}</a></em>
                         <span class="loadingPiwik" style="display:none;"><img
                                     src="./plugins/Morpheus/images/loading-blue.gif"/> {{ 'PrivacyManager_PurgingData'|translate }}</span>
-                        <span id="db-purged-message" style="display: none;"><em>{{ 'PrivacyManager_DBPurged'|translate }}</em></span>
-                    {% endset %}
-                    {{ piwik.inlineHelp(purgeStats) }}
-                </td>
-            </tr>
-        </table>
-        <input type="button" value="{{ 'General_Save'|translate }}" id="deleteLogSettingsSubmit" class="submit"/>
-    </form>
+                    <span id="db-purged-message" style="display: none;"><em>{{ 'PrivacyManager_DBPurged'|translate }}</em></span>
+                </div>
+                <p>{{ 'PrivacyManager_DeleteDataInterval'|translate }}
+                    <select id="deleteLowestInterval" name="deleteLowestInterval">
+                        <option {% if deleteData.config.delete_logs_schedule_lowest_interval == '1' %} selected="selected" {% endif %}
+                                value="1"> {{ 'CoreHome_PeriodDay'|translate }}</option>
+                        <option {% if deleteData.config.delete_logs_schedule_lowest_interval == '7' %} selected="selected" {% endif %}
+                                value="7">{{ 'CoreHome_PeriodWeek'|translate }}</option>
+                        <option {% if deleteData.config.delete_logs_schedule_lowest_interval == '30' %} selected="selected" {% endif %}
+                                value="30">{{ 'CoreHome_PeriodMonth'|translate }}</option>
+                    </select>
+                </p>
+            </div>
+
+            <input type="button" value="{{ 'General_Save'|translate }}" id="deleteLogSettingsSubmit" class="submit"/>
+
+        </form>
 
     {% endif %}
 
