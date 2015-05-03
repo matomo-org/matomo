@@ -5,8 +5,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-function Platform() {
-    // empty
+function Platform(config) {
+    this.config = config;
 }
 
 Platform.prototype.init = function () {
@@ -19,7 +19,7 @@ Platform.prototype.init = function () {
 
     var testsLibDir = path.join(phantom.libraryPath, "..", "..", "lib");
 
-    var chaiPath = path.join(testsLibDir, config.chai, "chai.js");
+    var chaiPath = path.join(testsLibDir, this.config.chai, "chai.js");
     phantom.injectJs(chaiPath);
 
     require('../chai-extras');
