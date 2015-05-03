@@ -44,8 +44,9 @@ var isCorePlugin = function (pathToPlugin) {
     return !fs.exists(gitDir);
 };
 
-var Application = function () {
+var Application = function (config) {
     this.runner = null;
+    this.config = config;
 };
 
 Application.prototype.printHelpAndExit = function () {
@@ -85,7 +86,7 @@ Application.prototype.run = function () {
 Application.prototype.init = function () {
     var app = this;
 
-    var diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', config.screenshotDiffDir);
+    var diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', this.config.screenshotDiffDir);
     this.diffViewerGenerator = new DiffViewerGenerator(diffviewerDir);
 
     // overwrite describe function so we can inject the base directory of a suite
@@ -94,9 +95,9 @@ Application.prototype.init = function () {
         var suite = oldDescribe.apply(null, arguments);
         suite.baseDirectory = app.currentModulePath.match(/\/plugins\//) ? path.dirname(app.currentModulePath) : uiTestsDir;
         if (options['assume-artifacts']) {
-            suite.diffDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', config.screenshotDiffDir);
+            suite.diffDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', app.config.screenshotDiffDir);
         } else {
-            suite.diffDir = path.join(suite.baseDirectory, config.screenshotDiffDir);
+            suite.diffDir = path.join(suite.baseDirectory, app.config.screenshotDiffDir);
         }
         return suite;
     };

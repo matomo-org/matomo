@@ -16,5 +16,3 @@ var expect = function () {
 };
 
 var options = require('./src/parse-cli-args').parse();
-
-var testEnvironment = require('./src/test-environment').TestingEnvironment;

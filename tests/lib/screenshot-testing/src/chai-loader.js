@@ -10,10 +10,11 @@
 var fs = require('fs'),
     AssertionError = chai.AssertionError;
 
-function ChaiLoader(pageRenderer, app) {
+function ChaiLoader(pageRenderer, app, config) {
     this.pageRenderer = pageRenderer;
     this.uiTestsDir = path.join(PIWIK_INCLUDE_PATH, 'tests', 'UI');
     this.app = app;
+    this.config = config;
 }
 
 ChaiLoader.prototype.initExtras = function () {
@@ -53,7 +54,7 @@ ChaiLoader.prototype.addChaiAssertions = function () {
                 pageSetupFn = arguments[1],
                 done        = arguments[2];
         } else {
-            var screenName  = self.app.runner.suite.title + "_" + arguments[0],// TODO: using global app object here
+            var screenName  = self.app.runner.suite.title + "_" + arguments[0],
                 selector    = arguments[1],
                 pageSetupFn = arguments[2],
                 done        = arguments[3];
@@ -162,12 +163,12 @@ ChaiLoader.prototype.capture = function(screenName, compareAgainst, selector, pa
     var screenshotFileName = screenName + '.png',
         dirsBase = this.app.runner.suite.baseDirectory,
 
-        expectedScreenshotDir = path.join(dirsBase, config.expectedScreenshotsDir),
+        expectedScreenshotDir = path.join(dirsBase, this.config.expectedScreenshotsDir),
         expectedScreenshotPath = path.join(expectedScreenshotDir, compareAgainst + '.png'),
 
         processedScreenshotPath = this.getProcessedScreenshotPath(screenName);
 
-    screenshotDiffDir = path.join(options['store-in-ui-tests-repo'] ? this.uiTestsDir : dirsBase, config.screenshotDiffDir);
+    screenshotDiffDir = path.join(options['store-in-ui-tests-repo'] ? this.uiTestsDir : dirsBase, this.config.screenshotDiffDir);
 
     if (!fs.isDirectory(screenshotDiffDir)) {
         fs.makeTree(screenshotDiffDir);
@@ -263,7 +264,7 @@ ChaiLoader.prototype.capture = function(screenName, compareAgainst, selector, pa
 ChaiLoader.prototype.getProcessedScreenshotPath = function(screenName) {
     var screenshotFileName = screenName + '.png',
         dirsBase = this.app.runner.suite.baseDirectory,
-        processedScreenshotDir = path.join(options['store-in-ui-tests-repo'] ? this.uiTestsDir : dirsBase, config.processedScreenshotsDir);
+        processedScreenshotDir = path.join(options['store-in-ui-tests-repo'] ? this.uiTestsDir : dirsBase, this.config.processedScreenshotsDir);
 
     if (!fs.isDirectory(processedScreenshotDir)) {
         fs.makeTree(processedScreenshotDir);

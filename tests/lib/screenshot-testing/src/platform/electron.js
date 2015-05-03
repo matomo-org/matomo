@@ -14,6 +14,8 @@ function Platform(config, app) {
 }
 
 Platform.prototype.init = function () {
+    require('../fs-extras');
+
     // TODO
 };
 

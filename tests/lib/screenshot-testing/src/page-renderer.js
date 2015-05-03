@@ -11,7 +11,7 @@ var VERBOSE = false,
     path = require('path');
 
 // TODO: should refactor, move all event queueing logic to PageAutomation class and add .frame method to change context
-var PageRenderer = function () {
+var PageRenderer = function (config) {
     var baseUrl = config.piwikUrl + path.join("tests", "PHPUnit", "proxy");
 
     this.webpage = null;

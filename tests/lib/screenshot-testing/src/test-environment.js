@@ -10,13 +10,16 @@
 var fs = require('fs'),
     testingEnvironmentOverridePath = path.join(PIWIK_INCLUDE_PATH, '/tmp/testingPathOverride.json');
 
-var TestingEnvironment = function () {
+var TestingEnvironment = function (config) {
+    this._config = config;
     this.reload();
 };
 
 TestingEnvironment.prototype.reload = function () {
     for (var key in this) {
-        delete this[key];
+        if (key[0] != '_') { // properties prefixed w/ '_' (like _config) are not testing environment properties
+            delete this[key];
+        }
     }
 
     if (fs.exists(testingEnvironmentOverridePath)) {
@@ -55,7 +58,7 @@ TestingEnvironment.prototype.callController = function (method, params, done) {
 };
 
 TestingEnvironment.prototype._call = function (params, done) {
-    var url = path.join(config.piwikUrl, "tests/PHPUnit/proxy/index.php?");
+    var url = path.join(this._config.piwikUrl, "tests/PHPUnit/proxy/index.php?");
     for (var key in params) {
         var value = params[key];
         if (value instanceof Array) {
@@ -94,7 +97,7 @@ TestingEnvironment.prototype._call = function (params, done) {
 TestingEnvironment.prototype.executeConsoleCommand = function (command, args, callback) {
     var consoleFile = path.join(PIWIK_INCLUDE_PATH, 'console'),
         commandArgs = [consoleFile, command].concat(args),
-        child = require('child_process').spawn(config.php, commandArgs);
+        child = require('child_process').spawn(this._config.php, commandArgs);
 
     var firstLine = true;
     child.stdout.on("data", function (data) {
@@ -131,7 +134,7 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
 
     this.deleteAndSave();
 
-    var args = [fixtureClass || "UITestFixture", '--set-phantomjs-symlinks', '--server-global=' + JSON.stringify(config.phpServer)];
+    var args = [fixtureClass || "UITestFixture", '--set-phantomjs-symlinks', '--server-global=' + JSON.stringify(this._config.phpServer)];
 
     if (options['persist-fixture-data']) {
         args.push('--persist-fixture-data');
@@ -206,7 +209,7 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
     console.log();
     console.log("    Tearing down fixture " + fixtureClass + "...");
 
-    var args = [fixtureClass || "UITestFixture", "--teardown", '--server-global=' + JSON.stringify(config.phpServer)];
+    var args = [fixtureClass || "UITestFixture", "--teardown", '--server-global=' + JSON.stringify(this._config.phpServer)];
     this.executeConsoleCommand('tests:setup-fixture', args, function (code) {
         if (code) {
             done(new Error("Failed to teardown fixture " + fixtureClass + " (error code = " + code + ")"));
@@ -221,4 +224,4 @@ TestingEnvironment.prototype.deleteAndSave = function () {
     this.reload();
 };
 
-exports.TestingEnvironment = new TestingEnvironment();
+exports.TestingEnvironment = TestingEnvironment;
