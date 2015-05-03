@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Site AAAAAA</label>
+		<nb_visits>2</nb_visits>
+		<visits_evolution>0%</visits_evolution>
+		<idsite>1</idsite>
+		<group />
+		<main_url>http://piwik.net</main_url>
+	</row>
+	<row>
+		<label>SITE BBbbBB</label>
+		<nb_visits>1</nb_visits>
+		<visits_evolution>0%</visits_evolution>
+		<idsite>2</idsite>
+		<group />
+		<main_url>http://piwik.net</main_url>
+	</row>
+</result>
