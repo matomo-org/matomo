@@ -72,7 +72,7 @@ Application.prototype.printHelpAndExit = function () {
     console.log("                            to link to in the diffviewer. For use with travis build.");
     console.log("  --core:                   Only execute UI tests that are for Piwik core or Piwik core plugins.");
 
-    phantom.exit(0);
+    process.exit(0);
 };
 
 Application.prototype.run = function () {
@@ -242,7 +242,7 @@ Application.prototype.doRunTests = function () {
 };
 
 Application.prototype.finish = function () {
-    phantom.exit(this.runner ? this.runner.failures : -1);
+    process.exit(this.runner ? this.runner.failures : -1);
 };
 
 exports.Application = Application;

@@ -18,6 +18,8 @@ Platform.prototype.init = function () {
 
     require('../fs-extras');
 
+    phantom.injectJs('./src/platform/phantomjs/process.js');
+
     phantom.injectJs('./src/globals.js');
 
     var testsLibDir = path.join(phantom.libraryPath, "..", "..", "lib");

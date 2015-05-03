@@ -1,0 +1,8 @@
+{
+  "platform": {
+    "type": "Platform@platform/electron",
+    "construct": [
+      "@config"
+    ]
+  }
+}
