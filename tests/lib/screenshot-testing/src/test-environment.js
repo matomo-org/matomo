@@ -23,8 +23,8 @@ TestingEnvironment.prototype.reload = function () {
         }
     }
 
-    if (fs.exists(testingEnvironmentOverridePath)) {
-        var data = JSON.parse(fs.read(testingEnvironmentOverridePath));
+    if (fs.existsSync(testingEnvironmentOverridePath)) {
+        var data = JSON.parse(fs.readFileSync(testingEnvironmentOverridePath));
         for (var key in data) {
             this[key] = data[key];
         }
@@ -37,7 +37,7 @@ TestingEnvironment.prototype.save = function () {
         copy[key] = this[key];
     }
 
-    fs.write(testingEnvironmentOverridePath, JSON.stringify(copy));
+    fs.writeFileSync(testingEnvironmentOverridePath, JSON.stringify(copy));
 };
 
 TestingEnvironment.prototype.callApi = function (method, params, done) {
@@ -107,7 +107,7 @@ TestingEnvironment.prototype.executeConsoleCommand = function (command, args, ca
             firstLine = false;
         }
 
-        fs.write("/dev/stdout", data.replace(/\n/g, "\n    "), "w");
+        fs.writeFileSync("/dev/stdout", data.replace(/\n/g, "\n    "), "w");
     });
 
     child.stderr.on("data", function (data) {
@@ -116,7 +116,7 @@ TestingEnvironment.prototype.executeConsoleCommand = function (command, args, ca
             firstLine = false;
         }
 
-        fs.write("/dev/stderr", data, "w");
+        fs.writeFileSync("/dev/stderr", data, "w");
     });
 
     child.on("exit", callback);
@@ -177,7 +177,7 @@ TestingEnvironment.prototype.readDbInfoFromConfig = function () {
 
     var pathConfigIni = path.join(PIWIK_INCLUDE_PATH, "/config/config.ini.php");
 
-    var configFile = fs.read(pathConfigIni);
+    var configFile = fs.readFileSync(pathConfigIni);
 
     if (configFile) {
         var match = ('' + configFile).match(/password\s?=\s?"(.*)"/);
@@ -221,7 +221,7 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
 };
 
 TestingEnvironment.prototype.deleteAndSave = function () {
-    fs.write(testingEnvironmentOverridePath, "{}");
+    fs.writeFileSync(testingEnvironmentOverridePath, "{}");
     this.reload();
 };
 

@@ -16,7 +16,7 @@ var uiTestsDir = path.join(PIWIK_INCLUDE_PATH, 'tests', 'UI');
 var walk = function (dir, pattern, result) {
     result = result || [];
 
-    fs.list(dir).forEach(function (item) {
+    fs.readdirSync(dir).forEach(function (item) {
         if (item == '.'
             || item == '..'
         ) {
@@ -28,7 +28,7 @@ var walk = function (dir, pattern, result) {
             return;
         }
 
-        if (fs.isDirectory(wholePath)) {
+        if (fs.isDir(wholePath)) {
             walk(wholePath, pattern, result);
         } else if (wholePath.match(pattern)) {
             result.push(wholePath);
@@ -41,7 +41,7 @@ var walk = function (dir, pattern, result) {
 var isCorePlugin = function (pathToPlugin) {
     // if the plugin is a .git checkout, it's not part of core
     var gitDir = path.join(pathToPlugin, '.git');
-    return !fs.exists(gitDir);
+    return !fs.existsSync(gitDir);
 };
 
 var Application = function (config) {
@@ -108,12 +108,12 @@ Application.prototype.loadTestModules = function () {
         pluginDir = path.join(PIWIK_INCLUDE_PATH, 'plugins');
 
     // find all installed plugins
-    var plugins = fs.list(pluginDir).filter(function (item) {
+    var plugins = fs.readdirSync(pluginDir).filter(function (item) {
         return item != '..' && item != '.';
     }).map(function (item) {
         return path.join(pluginDir, item);
     }).filter(function (path) {
-        return fs.isDirectory(path) && !path.match(/\/\.*$/);
+        return fs.isDir(path) && !path.match(/\/\.*$/);
     });
 
     // load all UI tests we can find
@@ -167,12 +167,12 @@ Application.prototype.loadTestModules = function () {
             }
 
             // remove existing diffs
-            fs.list(suite.diffDir).forEach(function (item) {
+            fs.readdirSync(suite.diffDir).forEach(function (item) {
                 var file = path.join(suite.diffDir, item);
-                if (fs.exists(file)
+                if (fs.existsSync(file)
                     && item.slice(-4) == '.png'
                 ) {
-                    fs.remove(file);
+                    fs.unlinkSync(file);
                 }
             });
 
@@ -208,7 +208,7 @@ Application.prototype.runTests = function () {
     ];
 
     dirsToCreate.forEach(function (path) {
-        if (!fs.isDirectory(path)) {
+        if (!fs.isDir(path)) {
             fs.makeTree(path);
         }
     });
@@ -229,8 +229,8 @@ Application.prototype.doRunTests = function () {
 
             symlinks.forEach(function (item) {
                 var file = path.join(uiTestsDir, '..', 'PHPUnit', 'proxy', item);
-                if (fs.exists(file)) {
-                    fs.remove(file);
+                if (fs.existsSync(file)) {
+                    fs.unlinkSync(file);
                 }
             });
         }

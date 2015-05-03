@@ -11,19 +11,93 @@ var path = require('path'),
 function Platform(config, app) {
     this.config = config;
     this.app = app;
+
+    this.electronApp = require('app');
+
+    var self = this;
+    this.electronApp.on('window-all-closed', function() {
+        if (process.platform != 'darwin') {
+            self.electronApp.quit();
+        }
+    });
+
+    //var BrowserWindow = require('browser-window');
+    //this.mainWindow = new BrowserWindow({width: 1, height:1});
 }
 
 Platform.prototype.init = function () {
+    this.addPlatformSpecificExtras();
+
     require('../fs-extras');
 
-    // TODO
+    var libraryRootDir = exports.getLibraryRootDir();
+
+    // setup simple globals
+    global.PIWIK_INCLUDE_PATH = path.join(libraryRootDir, '..', '..', '..');
+
+    global.expect = function () {
+        return chai.expect.apply(chai.expect, arguments);
+    };
+
+    global.options = require('../parse-cli-args').parse(process.argv);
+
+    global.window = global;
+    global.document = global;
+
+    var testsLibDir = path.join(libraryRootDir, "..", "..", "lib");
+
+    // load mocha
+    var mochaPath = path.join(testsLibDir, this.config.mocha, "mocha.js");
+    require(mochaPath);
+
+    // load chai
+    var chaiPath = path.join(testsLibDir, this.config.chai, "chai.js");
+
+    global.chai = require(chaiPath);
+
+    // load & configure resemble (for comparison)
+    var resemblePath = path.join(testsLibDir, 'resemblejs', 'resemble.js'),
+        resembleModule = require(resemblePath);
+
+    for (var key in resembleModule) {
+        if (resembleModule.hasOwnProperty(key)) {
+            global[key] = resembleModule[key];
+        }
+    }
+};
+
+Platform.prototype.addPlatformSpecificExtras = function () {
+    fs.isDir = function (path) {
+        try {
+            return fs.statSync(path).isDirectory();
+        } catch (e) {
+            return false;
+        }
+    };
+
+    fs.isFile = function (path) {
+        try {
+            return fs.statSync(path).isFile();
+        } catch (e) {
+            return false;
+        }
+    };
+
+    fs.isLink = function (path) {
+        try {
+            return fs.statSync(path).isSymbolicLink();
+        } catch (e) {
+            return false;
+        }
+    };
+};
+
+Platform.prototype.setupGlobals = function (testEnvironment) {
+    global.testEnvironment = testEnvironment;
 };
 
 Platform.prototype.runApp = function (app) {
-    var electronApp = require('app');
-    electronApp.on('ready', function () {
-        app.run();
-    });
+    app.run();
 };
 
 Platform.prototype.changeWorkingDirectory = function (path) {

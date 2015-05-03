@@ -15,11 +15,13 @@ function Platform(config) {
 
 Platform.prototype.init = function () {
     this.addMissingNodeFunctions();
+    this.addPlatformSpecificExtras();
 
     require('../fs-extras');
 
     phantom.injectJs('./src/platform/phantomjs/process.js');
 
+    // setup simple globals
     window.PIWIK_INCLUDE_PATH = path.join(phantom.libraryPath, '..', '..', '..');
 
     window.expect = function () {
@@ -55,6 +57,26 @@ Platform.prototype.setupGlobals = function (testEnvironment) {
 };
 
 Platform.prototype.addMissingNodeFunctions = function () {
+    fs.readdirSync = function (path) {
+        return fs.list(path);
+    };
+
+    fs.unlinkSync = function (path) {
+        return fs.remove(path);
+    };
+
+    fs.existsSync = function (path) {
+        return fs.exists(path);
+    };
+
+    fs.writeFileSync = function (path, data) {
+        fs.write(path, data, "w");
+    };
+
+    fs.readFileSync = function (path) {
+        return fs.read(path);
+    };
+
     // phantomjs does not have Function.prototype.bind
     Function.prototype.bind = function () {
         var f = this,
@@ -104,8 +126,16 @@ Platform.prototype.addMissingNodeFunctions = function () {
     console.error = sprintfWrappedFunc(console.error);
 };
 
+Platform.prototype.addPlatformSpecificExtras = function () {
+    fs.isDir = function (path) {
+        return fs.isDirectory(path);
+    };
+
+    // isFile & isLink already exists, don't overwrite
+};
+
 Platform.prototype.changeWorkingDirectory = function (toDirectory) {
-    require('fs').changeWorkingDirectory(toDirectory);
+    fs.changeWorkingDirectory(toDirectory);
 };
 
 Platform.prototype.runApp = function (app) {

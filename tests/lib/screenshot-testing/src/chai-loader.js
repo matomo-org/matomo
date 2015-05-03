@@ -171,7 +171,7 @@ ChaiLoader.prototype.capture = function(screenName, compareAgainst, selector, pa
 
     screenshotDiffDir = path.join(options['store-in-ui-tests-repo'] ? this.uiTestsDir : dirsBase, this.config.screenshotDiffDir);
 
-    if (!fs.isDirectory(screenshotDiffDir)) {
+    if (!fs.isDir(screenshotDiffDir)) {
         fs.makeTree(screenshotDiffDir);
     }
 
@@ -267,7 +267,7 @@ ChaiLoader.prototype.getProcessedScreenshotPath = function(screenName) {
         dirsBase = this.app.runner.suite.baseDirectory,
         processedScreenshotDir = path.join(options['store-in-ui-tests-repo'] ? this.uiTestsDir : dirsBase, this.config.processedScreenshotsDir);
 
-    if (!fs.isDirectory(processedScreenshotDir)) {
+    if (!fs.isDir(processedScreenshotDir)) {
         fs.makeTree(processedScreenshotDir);
     }
 

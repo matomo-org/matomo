@@ -29,7 +29,7 @@ fs.relpath = function (p, start) {
 
     l = fs.commonprefixLength([start_list, path_list]);
 
-    rel_list = []
+    rel_list = [];
     for (var i = 0; i < start_list.length - l; ++i) {
         rel_list.push('..');
     }

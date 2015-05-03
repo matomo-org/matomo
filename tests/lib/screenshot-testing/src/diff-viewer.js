@@ -105,7 +105,7 @@ DiffViewerGenerator.prototype.generate = function (callback) {
 </body>\
 </html>';
 
-        fs.write(this.outputPath, diffViewerContent, "w");
+        fs.writeFileSync(this.outputPath, diffViewerContent);
 
         console.log("Failures encountered. View all diffs at: " + this.outputPath);
         console.log();
