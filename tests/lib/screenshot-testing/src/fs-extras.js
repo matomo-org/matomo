@@ -1,5 +1,5 @@
 var fs = require('fs'),
-    path = require('./path');
+    path = require('path');
 
 fs.commonprefixLength = function (lists) {
     var l = 0;

@@ -8,8 +8,8 @@
  */
 
 var fs = require('fs'),
-    path = require('./path'),
-    DiffViewerGenerator = require('./diff-viewer').DiffViewerGenerator
+    path = require('path'),
+    DiffViewerGenerator = require('./diff-viewer').DiffViewerGenerator;
 
 var walk = function (dir, pattern, result) {
     result = result || [];
@@ -22,6 +22,9 @@ var walk = function (dir, pattern, result) {
         }
 
         var wholePath = path.join(dir, item);
+        if (fs.isLink(wholePath)) {
+            return;
+        }
 
         if (fs.isDirectory(wholePath)) {
             walk(wholePath, pattern, result);
@@ -70,6 +73,16 @@ Application.prototype.printHelpAndExit = function () {
     phantom.exit(0);
 };
 
+Application.prototype.run = function () {
+    if (options['help']) {
+        this.printHelpAndExit();
+    }
+
+    this.init();
+    this.loadTestModules();
+    this.runTests();
+};
+
 Application.prototype.init = function () {
     var app = this;
 
@@ -92,7 +105,9 @@ Application.prototype.loadTestModules = function () {
         pluginDir = path.join(PIWIK_INCLUDE_PATH, 'plugins');
 
     // find all installed plugins
-    var plugins = fs.list(pluginDir).map(function (item) {
+    var plugins = fs.list(pluginDir).filter(function (item) {
+        return item != '..' && item != '.';
+    }).map(function (item) {
         return path.join(pluginDir, item);
     }).filter(function (path) {
         return fs.isDirectory(path) && !path.match(/\/\.*$/);
@@ -228,4 +243,4 @@ Application.prototype.finish = function () {
     phantom.exit(this.runner ? this.runner.failures : -1);
 };
 
-exports.Application = new Application();
+exports.Application = Application;

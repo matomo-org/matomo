@@ -8,7 +8,7 @@
  */
 
 var fs = require('fs'),
-    path = require('./path');
+    path = require('path');
 
 var DiffViewerGenerator = function (diffDir) {
     this.diffDir = diffDir;

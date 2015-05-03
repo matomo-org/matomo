@@ -8,7 +8,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-var path = require('./path'),
+var path = require('path'),
     fs = require("fs"),
     sprintf = require('./sprintf').sprintf;
 

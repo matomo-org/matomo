@@ -1,0 +1,16 @@
+{
+  "name": "screenshot-testing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "run-tests.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jambalaya": "^1.1.1",
+    "path": "^0.11.14",
+    "util": "^0.10.3"
+  }
+}
