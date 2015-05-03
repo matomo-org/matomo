@@ -20,7 +20,13 @@ Platform.prototype.init = function () {
 
     phantom.injectJs('./src/platform/phantomjs/process.js');
 
-    phantom.injectJs('./src/globals.js');
+    window.PIWIK_INCLUDE_PATH = path.join(phantom.libraryPath, '..', '..', '..');
+
+    window.expect = function () {
+        return chai.expect.apply(chai.expect, arguments);
+    };
+
+    window.options = require('../parse-cli-args').parse(require('system').args);
 
     var testsLibDir = path.join(phantom.libraryPath, "..", "..", "lib");
 
@@ -42,6 +48,10 @@ Platform.prototype.init = function () {
     // load & configure resemble (for comparison)
     var resemblePath = path.join(testsLibDir, 'resemblejs', 'resemble.js');
     phantom.injectJs(resemblePath);
+};
+
+Platform.prototype.setupGlobals = function (testEnvironment) {
+    window.testEnvironment = testEnvironment;
 };
 
 Platform.prototype.addMissingNodeFunctions = function () {

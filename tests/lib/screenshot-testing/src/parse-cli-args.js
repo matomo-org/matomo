@@ -7,10 +7,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-exports.parse = function () {
+exports.parse = function (args) {
     var result = {tests: []};
 
-    var args = require('system').args;
     for (var i = 1; i < args.length; ++i) {
         var arg = args[i];
         if (arg[0] == '-') {

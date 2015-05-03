@@ -8,6 +8,7 @@
  */
 
 var fs = require('fs'),
+    path = require('path'),
     AssertionError = chai.AssertionError;
 
 function ChaiLoader(pageRenderer, app, config) {

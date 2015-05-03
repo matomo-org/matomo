@@ -40,18 +40,18 @@ var _container = (function () {
 
     var thisDir = require('./src/platform/' + platformId).getLibraryRootDir();
     var Jambalaya = require('./node_modules/jambalaya'),
-        container = new Jambalaya(iocConfig, thisDir + '/src');
+        container = new Jambalaya(iocConfig, thisDir + '/src'),
+        platform = container.get('platform');
 
-    container.get('platform').changeWorkingDirectory(thisDir);
+    platform.changeWorkingDirectory(thisDir);
+    platform.init();
+    platform.setupGlobals(container.get('test-environment'));
 
     return container;
 }());
 
-_container.get('platform').init();
 _container.get('chai-loader').initExtras();
 _container.get('mocha-loader').load();
 _container.get('resemble-loader').load();
-
-var testEnvironment = _container.get('test-environment'); // setting these vars here makes them globals
 
 _container.get('platform').runApp(_container.get('app'));

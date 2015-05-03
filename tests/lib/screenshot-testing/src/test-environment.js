@@ -8,6 +8,7 @@
  */
 
 var fs = require('fs'),
+    path = require('path'),
     testingEnvironmentOverridePath = path.join(PIWIK_INCLUDE_PATH, '/tmp/testingPathOverride.json');
 
 var TestingEnvironment = function (config) {
