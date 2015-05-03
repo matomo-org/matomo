@@ -11,7 +11,7 @@
   "chai-loader": {
     "type": "ChaiLoader@chai-loader",
     "construct": [
-      "@page-renderer"
+      "@page-renderer", "@app"
     ]
   },
   "mocha-loader": {

@@ -98,6 +98,10 @@ Platform.prototype.changeWorkingDirectory = function (toDirectory) {
     require('fs').changeWorkingDirectory(toDirectory);
 };
 
+Platform.prototype.runApp = function (app) {
+    app.run();
+};
+
 exports.Platform = Platform;
 
 exports.getLibraryRootDir = function () {

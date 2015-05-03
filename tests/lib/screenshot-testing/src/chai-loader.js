@@ -10,9 +10,10 @@
 var fs = require('fs'),
     AssertionError = chai.AssertionError;
 
-function ChaiLoader(pageRenderer) {
+function ChaiLoader(pageRenderer, app) {
     this.pageRenderer = pageRenderer;
     this.uiTestsDir = path.join(PIWIK_INCLUDE_PATH, 'tests', 'UI');
+    this.app = app;
 }
 
 ChaiLoader.prototype.initExtras = function () {
@@ -21,10 +22,12 @@ ChaiLoader.prototype.initExtras = function () {
 };
 
 ChaiLoader.prototype.setupKeywords = function () {
+    var self = this;
+
     // add screenshot keyword to `expect`
     expect.screenshot = function (file, prefix) {
         if (!prefix) {
-            prefix = app.runner.suite.title; // note: runner is made global by run-tests.js
+            prefix = self.app.runner.suite.title; // note: runner is made global by run-tests.js
         }
 
         return chai.expect(prefix + '_' + file);
@@ -50,7 +53,7 @@ ChaiLoader.prototype.addChaiAssertions = function () {
                 pageSetupFn = arguments[1],
                 done        = arguments[2];
         } else {
-            var screenName  = app.runner.suite.title + "_" + arguments[0],// TODO: using global app object here
+            var screenName  = self.app.runner.suite.title + "_" + arguments[0],// TODO: using global app object here
                 selector    = arguments[1],
                 pageSetupFn = arguments[2],
                 done        = arguments[3];
@@ -67,7 +70,7 @@ ChaiLoader.prototype.addChaiAssertions = function () {
                 pageSetupFn = arguments[0],
                 done        = arguments[1];
         } else {
-            var screenName  = app.runner.suite.title + "_" + arguments[0],
+            var screenName  = self.app.runner.suite.title + "_" + arguments[0],
                 pageSetupFn = arguments[1],
                 done        = arguments[2];
         }
@@ -87,7 +90,7 @@ ChaiLoader.prototype.addChaiAssertions = function () {
                 done = arguments[2];
         } else {
             var elementSelector = arguments[0],
-                screenName = app.runner.suite.title + "_" + arguments[1],
+                screenName = self.app.runner.suite.title + "_" + arguments[1],
                 pageSetupFn = arguments[2],
                 done = arguments[3];
         }
@@ -157,7 +160,7 @@ ChaiLoader.prototype.capture = function(screenName, compareAgainst, selector, pa
     }
 
     var screenshotFileName = screenName + '.png',
-        dirsBase = app.runner.suite.baseDirectory,
+        dirsBase = this.app.runner.suite.baseDirectory,
 
         expectedScreenshotDir = path.join(dirsBase, config.expectedScreenshotsDir),
         expectedScreenshotPath = path.join(expectedScreenshotDir, compareAgainst + '.png'),
@@ -191,7 +194,7 @@ ChaiLoader.prototype.capture = function(screenName, compareAgainst, selector, pa
             };
 
             var fail = function (message) {
-                app.diffViewerGenerator.failures.push(testInfo);
+                self.app.diffViewerGenerator.failures.push(testInfo);
 
                 var expectedPath = testInfo.expected ? path.resolve(testInfo.expected) :
                         (expectedScreenshotPath + " (not found)"),
@@ -259,7 +262,7 @@ ChaiLoader.prototype.capture = function(screenName, compareAgainst, selector, pa
 
 ChaiLoader.prototype.getProcessedScreenshotPath = function(screenName) {
     var screenshotFileName = screenName + '.png',
-        dirsBase = app.runner.suite.baseDirectory,
+        dirsBase = this.app.runner.suite.baseDirectory,
         processedScreenshotDir = path.join(options['store-in-ui-tests-repo'] ? this.uiTestsDir : dirsBase, config.processedScreenshotsDir);
 
     if (!fs.isDirectory(processedScreenshotDir)) {

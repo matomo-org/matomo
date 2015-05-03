@@ -46,9 +46,6 @@ var isCorePlugin = function (pathToPlugin) {
 
 var Application = function () {
     this.runner = null;
-
-    var diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', config.screenshotDiffDir);
-    this.diffViewerGenerator = new DiffViewerGenerator(diffviewerDir);
 };
 
 Application.prototype.printHelpAndExit = function () {
@@ -87,6 +84,9 @@ Application.prototype.run = function () {
 
 Application.prototype.init = function () {
     var app = this;
+
+    var diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', config.screenshotDiffDir);
+    this.diffViewerGenerator = new DiffViewerGenerator(diffviewerDir);
 
     // overwrite describe function so we can inject the base directory of a suite
     var oldDescribe = describe;
