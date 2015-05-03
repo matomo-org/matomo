@@ -4,5 +4,14 @@
   },
   "app": {
     "type": "Application@app"
+  },
+  "page-renderer": {
+    "type": "PageRenderer@page-renderer"
+  },
+  "chai-loader": {
+    "type": "ChaiLoader@chai-loader",
+    "construct": [
+      "@page-renderer"
+    ]
   }
 }

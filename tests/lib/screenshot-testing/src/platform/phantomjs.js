@@ -22,8 +22,6 @@ Platform.prototype.init = function () {
     var chaiPath = path.join(testsLibDir, this.config.chai, "chai.js");
     phantom.injectJs(chaiPath);
 
-    require('../chai-extras');
-
     // load & configure resemble (for comparison)
     var resemblePath = path.join(testsLibDir, 'resemblejs', 'resemble.js');
     phantom.injectJs(resemblePath);

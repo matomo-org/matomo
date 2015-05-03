@@ -14,13 +14,14 @@ var _container = (function () {
         } else if (isElectron()) {
             return 'electron';
         } else {
-            throw new Error("Don't know what platform the tests are running under, currently recognized platforms are: phantomjs");
+            throw new Error("Don't know what platform the tests are running under, currently recognized platforms are: phantomjs, electron");
         }
     }
 
     function isElectron() {
         try {
             require('browser-window');
+            return true;
         } catch (e) {
             return false;
         }
@@ -49,6 +50,7 @@ var _container = (function () {
 var config = _container.get('config'); // setting these vars here makes them globals
 
 _container.get('platform').init();
+_container.get('chai-loader').initExtras();
 
 var app = _container.get('app');
 
