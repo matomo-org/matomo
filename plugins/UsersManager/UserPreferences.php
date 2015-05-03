@@ -106,10 +106,10 @@ class UserPreferences
 
     private function getDefaultDateAndPeriod($defaultDate = null)
     {
+        $defaultPeriod = $this->getDefaultPeriodWithoutValidation($defaultDate);
         if (! $defaultDate) {
             $defaultDate = $this->getDefaultDateWithoutValidation();
         }
-        $defaultPeriod = $this->getDefaultPeriodWithoutValidation($defaultDate);
 
         $periodValidator = new PeriodValidator();
         if (! $periodValidator->isPeriodAllowedForUI($defaultPeriod)) {
