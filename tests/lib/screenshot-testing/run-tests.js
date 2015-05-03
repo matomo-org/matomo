@@ -8,7 +8,25 @@
  */
 
 var _container = (function () {
-    var platformId = 'phantomjs';
+    function detectPlatform() {
+        if (typeof phantom !== 'undefined') {
+            return 'phantomjs';
+        } else if (isElectron()) {
+            return 'electron';
+        } else {
+            throw new Error("Don't know what platform the tests are running under, currently recognized platforms are: phantomjs");
+        }
+    }
+
+    function isElectron() {
+        try {
+            require('browser-window');
+        } catch (e) {
+            return false;
+        }
+    }
+
+    var platformId = detectPlatform();
 
     var iocConfig = require('./config/config.json'),
         platformConfig = require('./config/' + platformId + '.json');
