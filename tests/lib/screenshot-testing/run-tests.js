@@ -13,13 +13,9 @@ var Jambalaya = require('./node_modules/jambalaya'),
     iocConfig = require('./config/config.json'),
     container = new Jambalaya(iocConfig, thisDir + '/src'),
 
-    config = container.get('config'),
     platform = container.get('platform');
-
-phantom.injectJs('./src/globals.js');
 
 platform.init();
 platform.changeWorkingDirectory(thisDir);
 
-var app = app = container.get('app');
-app.run();
+container.get('app').run();

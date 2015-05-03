@@ -12,14 +12,20 @@ function Platform() {
 Platform.prototype.init = function () {
     require('./fs-extras');
 
-    phantom.injectJs('./globals.js');
+    phantom.injectJs('./src/globals.js');
 
     // load mocha + chai
     require('./mocha-loader');
+
+    var testsLibDir = path.join(phantom.libraryPath, "..", "..", "lib");
+
+    var chaiPath = path.join(testsLibDir, config.chai, "chai.js");
     phantom.injectJs(chaiPath);
+
     require('./chai-extras');
 
     // load & configure resemble (for comparison)
+    var resemblePath = path.join(testsLibDir, 'resemblejs', 'resemble.js');
     phantom.injectJs(resemblePath);
 
     resemble.outputSettings({

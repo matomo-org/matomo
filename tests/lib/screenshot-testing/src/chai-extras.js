@@ -40,7 +40,8 @@ function getPageLogsString(pageLogs, indent) {
 }
 
 // add capture assertion
-var pageRenderer = new PageRenderer(config.piwikUrl + path.join("tests", "PHPUnit", "proxy"));
+var pageRenderer = new PageRenderer(config.piwikUrl + path.join("tests", "PHPUnit", "proxy")),
+    uiTestsDir = path.join(PIWIK_INCLUDE_PATH, 'tests', 'UI');
 
 function getProcessedScreenshotPath(screenName) {
     var screenshotFileName = screenName + '.png',

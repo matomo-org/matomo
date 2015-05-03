@@ -11,6 +11,8 @@ var fs = require('fs'),
     path = require('path'),
     DiffViewerGenerator = require('./diff-viewer').DiffViewerGenerator;
 
+var uiTestsDir = path.join(PIWIK_INCLUDE_PATH, 'tests', 'UI');
+
 var walk = function (dir, pattern, result) {
     result = result || [];
 

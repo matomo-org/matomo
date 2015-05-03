@@ -61,6 +61,7 @@ console.log = sprintfWrappedFunc(console.log);
 console.error = sprintfWrappedFunc(console.error);
 
 // load mocha
+var mochaPath = path.join(phantom.libraryPath, "..", "..", "lib", config.mocha, "mocha.js");
 phantom.injectJs(mochaPath);
 
 // setup mocha (add stdout.write function & configure style + reporter)
