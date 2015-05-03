@@ -10,19 +10,19 @@ function Platform() {
 }
 
 Platform.prototype.init = function () {
-    require('./fs-extras');
+    require('../fs-extras');
 
     phantom.injectJs('./src/globals.js');
 
     // load mocha + chai
-    require('./mocha-loader');
+    require('../mocha-loader');
 
     var testsLibDir = path.join(phantom.libraryPath, "..", "..", "lib");
 
     var chaiPath = path.join(testsLibDir, config.chai, "chai.js");
     phantom.injectJs(chaiPath);
 
-    require('./chai-extras');
+    require('../chai-extras');
 
     // load & configure resemble (for comparison)
     var resemblePath = path.join(testsLibDir, 'resemblejs', 'resemble.js');
@@ -37,8 +37,8 @@ Platform.prototype.init = function () {
         },
         errorType: 'movement',
         transparency: 0.3
-    })
-;};
+    });
+};
 
 Platform.prototype.changeWorkingDirectory = function (toDirectory) {
     require('fs').changeWorkingDirectory(toDirectory);

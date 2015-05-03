@@ -2,9 +2,6 @@
   "config": {
     "type": "Config@config"
   },
-  "platform": {
-    "type": "Platform@platform"
-  },
   "app": {
     "type": "Application@app"
   }
