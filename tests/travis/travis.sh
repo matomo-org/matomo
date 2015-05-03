@@ -38,6 +38,10 @@ then
             artifacts_folder="ui-tests.$TRAVIS_BRANCH"
         fi
 
+        cd ../lib/screenshot-testing
+        npm install
+        cd ../../PHPUnit
+
         echo ""
         echo "View UI failures (if any) here:"
         echo ""
