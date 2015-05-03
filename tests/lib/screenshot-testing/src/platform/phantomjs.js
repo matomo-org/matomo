@@ -26,7 +26,12 @@ Platform.prototype.init = function () {
     var mochaPath = path.join(testsLibDir, this.config.mocha, "mocha.js");
     phantom.injectJs(mochaPath);
 
-    require('../mocha-loader');
+    // setup mocha (add stdout.write function & configure style + reporter)
+    mocha.constructor.process.stdout = {
+        write: function (data) {
+            fs.write("/dev/stdout", data, "w");
+        }
+    };
 
     // load chai
     var chaiPath = path.join(testsLibDir, this.config.chai, "chai.js");
@@ -35,17 +40,6 @@ Platform.prototype.init = function () {
     // load & configure resemble (for comparison)
     var resemblePath = path.join(testsLibDir, 'resemblejs', 'resemble.js');
     phantom.injectJs(resemblePath);
-
-    resemble.outputSettings({
-        errorColor: {
-            red: 255,
-            green: 0,
-            blue: 0,
-            alpha: 125
-        },
-        errorType: 'movement',
-        transparency: 0.3
-    });
 };
 
 Platform.prototype.addMissingNodeFunctions = function () {

@@ -7,17 +7,17 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-var fs = require("fs");
 
-// setup mocha (add stdout.write function & configure style + reporter)
-mocha.constructor.process.stdout = {
-    write: function (data) {
-        fs.write("/dev/stdout", data, "w");
-    }
+function MochaLoader(config) {
+    this.config = config;
+}
+
+MochaLoader.prototype.load = function () {
+    mocha.setup({
+        ui: 'bdd',
+        reporter: this.config.reporter,
+        bail: false
+    });
 };
 
-mocha.setup({
-    ui: 'bdd',
-    reporter: config.reporter,
-    bail: false
-});
+exports.MochaLoader = MochaLoader;

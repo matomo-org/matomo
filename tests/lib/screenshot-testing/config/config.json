@@ -13,5 +13,14 @@
     "construct": [
       "@page-renderer"
     ]
+  },
+  "mocha-loader": {
+    "type": "MochaLoader@mocha-loader",
+    "construct": [
+      "@config"
+    ]
+  },
+  "resemble-loader": {
+    "type": "ResembleLoader@resemble-loader"
   }
 }

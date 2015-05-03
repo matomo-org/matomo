@@ -51,6 +51,8 @@ var config = _container.get('config'); // setting these vars here makes them glo
 
 _container.get('platform').init();
 _container.get('chai-loader').initExtras();
+_container.get('mocha-loader').load();
+_container.get('resemble-loader').load();
 
 var app = _container.get('app');
 
