@@ -107,7 +107,7 @@ TestingEnvironment.prototype.executeConsoleCommand = function (command, args, ca
             firstLine = false;
         }
 
-        fs.writeFileSync("/dev/stdout", data.replace(/\n/g, "\n    "), "w");
+        fs.appendFileSync("/dev/stdout", data.toString().replace(/\n/g, "\n    "));
     });
 
     child.stderr.on("data", function (data) {
@@ -116,7 +116,7 @@ TestingEnvironment.prototype.executeConsoleCommand = function (command, args, ca
             firstLine = false;
         }
 
-        fs.writeFileSync("/dev/stderr", data, "w");
+        fs.appendFileSync("/dev/stderr", data.toString());
     });
 
     child.on("exit", callback);

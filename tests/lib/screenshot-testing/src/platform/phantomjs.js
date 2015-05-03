@@ -36,7 +36,7 @@ Platform.prototype.init = function () {
     var mochaPath = path.join(testsLibDir, this.config.mocha, "mocha.js");
     phantom.injectJs(mochaPath);
 
-    // setup mocha (add stdout.write function & configure style + reporter)
+    // setup mocha (add stdout.write function)
     mocha.constructor.process.stdout = {
         write: function (data) {
             fs.write("/dev/stdout", data, "w");
@@ -71,6 +71,10 @@ Platform.prototype.addMissingNodeFunctions = function () {
 
     fs.writeFileSync = function (path, data) {
         fs.write(path, data, "w");
+    };
+
+    fs.appendFileSync = function (path, data) {
+        fs.write(path, data, "a");
     };
 
     fs.readFileSync = function (path) {

@@ -20,9 +20,6 @@ function Platform(config, app) {
             self.electronApp.quit();
         }
     });
-
-    //var BrowserWindow = require('browser-window');
-    //this.mainWindow = new BrowserWindow({width: 1, height:1});
 }
 
 Platform.prototype.init = function () {
@@ -43,12 +40,20 @@ Platform.prototype.init = function () {
 
     global.window = global;
     global.document = global;
+    global.location = {search: ''};
 
     var testsLibDir = path.join(libraryRootDir, "..", "..", "lib");
 
     // load mocha
     var mochaPath = path.join(testsLibDir, this.config.mocha, "mocha.js");
     require(mochaPath);
+
+    // setup mocha (add stdout.write function)
+    mocha.constructor.process.stdout = {
+        write: function (data) {
+            process.stdout.write(data);
+        }
+    };
 
     // load chai
     var chaiPath = path.join(testsLibDir, this.config.chai, "chai.js");

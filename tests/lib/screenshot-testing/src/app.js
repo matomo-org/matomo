@@ -16,24 +16,26 @@ var uiTestsDir = path.join(PIWIK_INCLUDE_PATH, 'tests', 'UI');
 var walk = function (dir, pattern, result) {
     result = result || [];
 
-    fs.readdirSync(dir).forEach(function (item) {
-        if (item == '.'
-            || item == '..'
-        ) {
-            return;
-        }
+    if (fs.existsSync(dir)) {
+        fs.readdirSync(dir).forEach(function (item) {
+            if (item == '.'
+                || item == '..'
+            ) {
+                return;
+            }
 
-        var wholePath = path.join(dir, item);
-        if (fs.isLink(wholePath)) {
-            return;
-        }
+            var wholePath = path.join(dir, item);
+            if (fs.isLink(wholePath)) {
+                return;
+            }
 
-        if (fs.isDir(wholePath)) {
-            walk(wholePath, pattern, result);
-        } else if (wholePath.match(pattern)) {
-            result.push(wholePath);
-        }
-    });
+            if (fs.isDir(wholePath)) {
+                walk(wholePath, pattern, result);
+            } else if (wholePath.match(pattern)) {
+                result.push(wholePath);
+            }
+        });
+    }
 
     return result;
 };
