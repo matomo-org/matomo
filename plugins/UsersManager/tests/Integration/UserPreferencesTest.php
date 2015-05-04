@@ -90,22 +90,26 @@ class UserPreferencesTest extends IntegrationTestCase
         $this->assertEquals(1, $this->userPreferences->getDefaultWebsiteId());
     }
 
-    public function test_getDefaultPeriod_ShouldReturnDayIfToday()
+    /**
+     * @dataProvider provideDefaultDates
+     */
+    public function test_getDefaultDateAndPeriod($defaultDate, $expectedDate, $expectedPeriod)
     {
-        $this->setDefaultDate('today');
-        $this->assertEquals('day', $this->userPreferences->getDefaultPeriod());
+        $this->setDefaultDate($defaultDate);
+        $this->assertEquals($expectedDate, $this->userPreferences->getDefaultDate());
+        $this->assertEquals($expectedPeriod, $this->userPreferences->getDefaultPeriod());
     }
 
-    public function test_getDefaultPeriod_ShouldReturnDayIfYesterday()
+    public function provideDefaultDates()
     {
-        $this->setDefaultDate('yesterday');
-        $this->assertEquals('day', $this->userPreferences->getDefaultPeriod());
-    }
-
-    public function test_getDefaultDate()
-    {
-        $this->setDefaultDate('today');
-        $this->assertEquals('today', $this->userPreferences->getDefaultDate());
+        return array(
+            'today'     => array('today', 'today', 'day'),
+            'yesterday' => array('yesterday', 'yesterday', 'day'),
+            'month'     => array('month', 'today', 'month'),
+            'week'      => array('week', 'today', 'week'),
+            'last7'     => array('last7', 'last7', 'range'),
+            'last30'    => array('last30', 'last30', 'range'),
+        );
     }
 
     public function test_getDefaultPeriod_ShouldOnlyReturnAllowedPeriods()
@@ -113,8 +117,12 @@ class UserPreferencesTest extends IntegrationTestCase
         // Only allow for week period
         Config::getInstance()->General['enabled_periods_UI'] = 'week';
         Config::getInstance()->General['default_period'] = 'week';
+        Config::getInstance()->General['default_day'] = 'yesterday';
+
         $this->setDefaultDate('today');
+        // Should be system defaults
         $this->assertEquals('week', $this->userPreferences->getDefaultPeriod());
+        $this->assertEquals('yesterday', $this->userPreferences->getDefaultDate());
     }
 
     public function test_getDefaultDate_ShouldOnlyReturnDateInAllowedPeriods()
