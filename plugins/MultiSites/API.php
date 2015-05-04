@@ -91,6 +91,10 @@ class API extends \Piwik\Plugin\API
 
         $sites = $this->getSitesIdFromPattern($pattern, $_restrictSitesToLogin);
 
+        if (!empty($showColumns) && !is_array($showColumns)) {
+            $showColumns = explode(',', $showColumns);
+        }
+
         if (empty($sites)) {
             return new DataTable();
         }

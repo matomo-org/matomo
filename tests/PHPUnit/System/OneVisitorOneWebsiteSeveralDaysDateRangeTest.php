@@ -66,6 +66,13 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeTest extends SystemTestCase
                                              'testSuffix' => '_MultipleDatesNotSupported',
             )),
 
+            // test that multiple periods are not supported
+            array('MultiSites.getAll', array('date'       => '2010-12-15',
+                                             'periods'    => array('day'),
+                                             'testSuffix' => '_showColumns',
+                                             'otherRequestParameters' => array('showColumns' => 'nb_visits,visits_evolution')
+            )),
+
             //---------------------------------------
             // THEN some Socials tests. Share these...
             array('Referrers.getSocials', array('idSite'  => 'all',
