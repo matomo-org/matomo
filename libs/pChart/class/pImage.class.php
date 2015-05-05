@@ -190,7 +190,7 @@
    /* Return the surrounding box of text area */
    function getTextBox_deprecated($X,$Y,$FontName,$FontSize,$Angle,$Text)
     {
-     $Size    = imagettfbbox($FontSize,$Angle,$FontName,$Text);
+     $Size    = imagettfbbox($FontSize,$Angle,$FontName,$this->getEncodedText($Text));
      $Width   = $this->getLength($Size[0],$Size[1],$Size[2],$Size[3])+1;
      $Height  = $this->getLength($Size[2],$Size[3],$Size[4],$Size[5])+1;
 
@@ -205,10 +205,20 @@
      return($RealPos);
     }
 
+     function getEncodedText($text)
+     {
+         $gdinfo = gd_info();
+         if (!empty($gdinfo['JIS-mapped Japanese Font Support'])) {
+             return mb_convert_encoding($text, "SJIS", "UTF-8");
+         }
+
+         return $text;
+     }
+
    /* Return the surrounding box of text area */
    function getTextBox($X,$Y,$FontName,$FontSize,$Angle,$Text)
     {
-     $coords = imagettfbbox($FontSize, 0, $FontName, $Text);
+     $coords = imagettfbbox($FontSize, 0, $FontName, $this->getEncodedText($Text));
 
      $a = deg2rad($Angle); $ca = cos($a); $sa = sin($a); $RealPos = array();
      for($i = 0; $i < 7; $i += 2)
