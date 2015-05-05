@@ -16,7 +16,12 @@ describe("MultiSitesTest", function () {
     var createdSiteId = null;
 
     before(function (done) {
-        var callback = function (undefined, response) {
+        var callback = function (error, response) {
+            if (error) {
+                done(error, response);
+                return;
+            }
+            
             createdSiteId = response.value;
             done();
         };
