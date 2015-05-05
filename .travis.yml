@@ -5,7 +5,7 @@
 # otherwise your changes will be synced with every plugin that uses an auto generated .travis.yml
 
 # also please test generation before committing by running ./console generate:travis-yml --core and ./console generate:travis-yml --plugin=CustomAlerts
-# and making sure the .travis.yml files are changed correctly
+# and making sure the .travis.yml file is changed correctly
 
 language: php
 
