@@ -115,6 +115,12 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
 
     protected function processSpecifiedLogsInChunks(OutputInterface $output, $from, $to, $segmentLimit)
     {
+        // TODO: maybe should rename it, it's not really an iterator but a range at this point. LogRowRange? LazyLogRowRange?
+        $rawLogIterator = $this->dao->makeLogIterator(array('dateStart' => $from, 'dateEnd' => $to), $segmentLimit); // TODO [ should contain delete by params ]
+        foreach ($rawLogIterator->getChunks() as $chunk) {
+            $this->reattributeVisitLogs($output, $chunk->getRows());
+        }
+        /*
         $visitFieldsToSelect = array_merge(array('idvisit', 'location_ip'), array_keys(VisitorGeolocator::$logVisitFieldsToUpdate));
 
         $lastId = 0;
@@ -126,6 +132,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
                 $this->reattributeVisitLogs($output, $logs);
             }
         } while (count($logs) == $segmentLimit);
+        */
     }
 
     protected function reattributeVisitLogs(OutputInterface $output, $logRows)
