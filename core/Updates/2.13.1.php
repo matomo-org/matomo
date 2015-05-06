@@ -25,7 +25,7 @@ class Updates_2_13_1 extends Updates
     static function getSql()
     {
         $optionTable = Common::prefixTable('option');
-        $removeEmptyDefaultReportsSql = "delete from $optionTable where option_name like '%defaultReport%' and option_value=''";
+        $removeEmptyDefaultReportsSql = "delete from `$optionTable` where option_name like '%defaultReport%' and option_value=''";
 
         return array(
             $removeEmptyDefaultReportsSql => false
