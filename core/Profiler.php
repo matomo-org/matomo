@@ -273,6 +273,12 @@ class Profiler
                 $out .= "<a href='$baseUrl'>$baseUrl</a>";
                 $out .= "\n\n";
 
+                if (Development::isEnabled()) {
+                    $out .= "WARNING: Development mode is enabled. Many runtime optimizations are not applied in development mode. ";
+                    $out .= "Unless you intend to profile Piwik in development mode, your profile may not be accurate.";
+                    $out .= "\n\n";
+                }
+
                 echo $out;
             } else {
                 Profiler::setProfilingRunIds($runs);
