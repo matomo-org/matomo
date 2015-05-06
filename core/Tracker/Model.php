@@ -339,13 +339,6 @@ class Model
 
         } elseif ($shouldMatchOneFieldOnly) {
 
-            // We have a config_id AND a visitor_id. We match on either of these.
-            // 		Why do we also match on config_id?
-            //		we do not trust the visitor ID only. Indeed, some browsers, or browser addons,
-            // 		cause the visitor id from the 1st party cookie to be different on each page view!
-            // 		It is not acceptable to create a new visit every time such browser does a page view,
-            // 		so we also backup by searching for matching config_id.
-            // We use a UNION here so that each sql query uses its own INDEX
             $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $whereCommon, $bindSql);
 
         } else {
