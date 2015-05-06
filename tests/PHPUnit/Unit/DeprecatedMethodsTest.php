@@ -46,7 +46,7 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'getHostByAddr', $validTill);
         $this->assertDeprecatedMethodIsRemoved('Piwik\SettingsPiwik', 'rewriteTmpPathWithInstanceId', $validTill);
 
-        $validTill = '2015-05-01';
+        $validTill = '2015-06-01';
         $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getBrowserVersion', $validTill);
         $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getBrowser', $validTill);
         $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getOS', $validTill);
