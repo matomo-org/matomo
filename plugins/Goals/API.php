@@ -366,7 +366,7 @@ class API extends \Piwik\Plugin\API
                 'idGoal'  => $idGoal,
                 'columns' => $columns,
                 'serialize' => '0',
-                'format_metrics' => '0'
+                'format_metrics' => 'bc'
             ));
 
             $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
