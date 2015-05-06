@@ -9,15 +9,17 @@
 namespace Piwik\Plugins\Morpheus;
 
 use Piwik\Development;
+use Piwik\Piwik;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
 {
     public function demo()
     {
-        if (! Development::isEnabled()) {
+        if (! Development::isEnabled() || !Piwik::isUserHasSomeAdminAccess()) {
             return;
         }
+
         return $this->renderTemplate('demo');
     }
 }
