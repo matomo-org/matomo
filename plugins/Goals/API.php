@@ -401,13 +401,16 @@ class API extends \Piwik\Plugin\API
         $isEcommerceGoal = $idGoal === GoalManager::IDGOAL_ORDER || $idGoal === GoalManager::IDGOAL_CART;
 
         $allMetrics = Goals::getGoalColumns($idGoal);
-        $requestedColumns = Piwik::getArrayFromApiParameter($columns);
+        $columnsToShow = Piwik::getArrayFromApiParameter($columns);
+        $requestedColumns = $columnsToShow;
 
         $shouldAddAverageOrderRevenue = (in_array('avg_order_revenue', $requestedColumns) || empty($requestedColumns)) && $isEcommerceGoal;
 
         if ($shouldAddAverageOrderRevenue && !empty($requestedColumns)) {
+
             $avgOrder = new AverageOrderRevenue();
             $metricsToAdd = $avgOrder->getDependentMetrics();
+
             $requestedColumns = array_unique(array_merge($requestedColumns, $metricsToAdd));
         }
 
@@ -441,13 +444,14 @@ class API extends \Piwik\Plugin\API
         }
 
         // remove temporary metrics that were not explicitly requested
-        $allColumns = $allMetrics;
-        $allColumns[] = 'conversion_rate';
-        if ($isEcommerceGoal) {
-            $allColumns[] = 'avg_order_revenue';
+        if (empty($columnsToShow)) {
+            $columnsToShow = $allMetrics;
+            $columnsToShow[] = 'conversion_rate';
+            if ($isEcommerceGoal) {
+                $columnsToShow[] = 'avg_order_revenue';
+            }
         }
 
-        $columnsToShow = $requestedColumns ?: $allColumns;
         $dataTable->queueFilter('ColumnDelete', array($columnsToRemove = array(), $columnsToShow));
 
         return $dataTable;
