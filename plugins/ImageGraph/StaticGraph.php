@@ -127,9 +127,18 @@ abstract class StaticGraph extends BaseFactory
      */
     public function getPngImageData()
     {
-        return 'data:image/png;base64,'.base64_encode($this->pImage->strokeAsImageData());
+        return 'data:image/png;base64,'.base64_encode($this->strokeAsImageData());
     }
-
+    
+    private function strokeAsImageData()
+    {
+        ob_start();
+        $this->pImage->stroke();
+        $imagedata = ob_get_contents();
+        ob_end_clean();
+        return $imagedata;
+    }
+    
     public function setWidth($width)
     {
         $this->width = $width;
