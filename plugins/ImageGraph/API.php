@@ -19,6 +19,7 @@ use Piwik\Plugins\ImageGraph\StaticGraph;
 use Piwik\SettingsServer;
 use Piwik\Translate;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Site;
 
 /**
  * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Piwik report.
@@ -131,22 +132,8 @@ class API extends \Piwik\Plugin\API
     )
     {
         $idSiteArr = array();
-        if (strpos($idSite, ',') !== false) {
-            $idSiteList = explode(',', $idSite);
-            foreach ($idSiteList as $key) {
-                $idSiteArr[] = $key;
-            }
-        } else if (!empty($idSite) && ($idSite != 'all')) {
-            $idSiteArr[] = $idSite;
-        } else if (!empty($idSite) && ($idSite == 'all')) {
-            $viewableIdSites = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
-            foreach ($viewableIdSites as $site) {
-                $idSiteArr[] = $site;
-            }
-        } else {
-            // empty or invalid idSite has been already handled somewhere
-            exit;
-        }
+        $idSiteArr = Site::getIdSitesFromIdSitesString($idSite);
+        Piwik::checkUserHasViewAccess($idSiteArr);
 
         $pngImgArr = array();
         // remove duplicated idSite; improves image graph generation time.
@@ -155,7 +142,6 @@ class API extends \Piwik\Plugin\API
         for ($w = 0; $w < $idSiteArrCount; $w++)
         {
             $idSite = $idSiteArr[$w];
-            Piwik::checkUserHasViewAccess($idSite);
 
             // Health check - should we also test for GD2 only?
             if (!SettingsServer::isGdExtensionEnabled()) {
@@ -566,7 +552,7 @@ class API extends \Piwik\Plugin\API
      * @param string $imageGraphCount Number of img tags available for output
      * Exits after outputting HTML content
      */
-    public function renderImageGraph($pngImgArr, $imageGraphCount)
+    private function renderImageGraph($pngImgArr, $imageGraphCount)
     {
         header('Content-Type: text/html; charset=utf-8');
         $lineBorderCss = 'border-bottom:1px dotted black;position:relative;height:5px;';$htmlImageGraph = '';
