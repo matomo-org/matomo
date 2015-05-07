@@ -8,10 +8,6 @@
  */
 namespace Piwik\Plugins\VisitorInterest;
 
-use Piwik\Plugins\VisitorInterest\Reports\GetNumberOfVisitsByDaysSinceLast;
-use Piwik\Plugins\VisitorInterest\Reports\GetNumberOfVisitsByVisitCount;
-use Piwik\Plugins\VisitorInterest\Reports\GetNumberOfVisitsPerPage;
-use Piwik\Plugins\VisitorInterest\Reports\GetNumberOfVisitsPerVisitDuration;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
@@ -19,10 +15,10 @@ class Controller extends \Piwik\Plugin\Controller
     public function index()
     {
         $view = new View('@VisitorInterest/index');
-        $view->dataTableNumberOfVisitsPerVisitDuration = $this->renderReport(new GetNumberOfVisitsPerVisitDuration());
-        $view->dataTableNumberOfVisitsPerPage = $this->renderReport(new GetNumberOfVisitsPerPage());
-        $view->dataTableNumberOfVisitsByVisitNum = $this->renderReport(new GetNumberOfVisitsByVisitCount());
-        $view->dataTableNumberOfVisitsByDaysSinceLast = $this->renderReport(new GetNumberOfVisitsByDaysSinceLast());
+        $view->dataTableNumberOfVisitsPerVisitDuration = $this->renderReport('getNumberOfVisitsPerVisitDuration');
+        $view->dataTableNumberOfVisitsPerPage = $this->renderReport('getNumberOfVisitsPerPage');
+        $view->dataTableNumberOfVisitsByVisitNum = $this->renderReport('getNumberOfVisitsByVisitCount');
+        $view->dataTableNumberOfVisitsByDaysSinceLast = $this->renderReport('getNumberOfVisitsByDaysSinceLast');
         return $view->render();
     }
 }

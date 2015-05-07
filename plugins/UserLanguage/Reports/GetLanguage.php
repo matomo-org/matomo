@@ -37,7 +37,7 @@ class GetLanguage extends Base
 
     public function getRelatedReports() {
         return array(
-            new GetLanguageCode()
+            self::factory('UserLanguage', 'getLanguageCode'),
         );
     }
 

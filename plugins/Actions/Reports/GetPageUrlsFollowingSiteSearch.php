@@ -34,7 +34,7 @@ class GetPageUrlsFollowingSiteSearch extends GetPageTitlesFollowingSiteSearch
     public function getRelatedReports()
     {
         return array(
-            new GetPageTitlesFollowingSiteSearch()
+            self::factory('Actions', 'getPageTitlesFollowingSiteSearch'),
         );
     }
 }

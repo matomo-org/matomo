@@ -34,7 +34,7 @@ class GetBrowserVersions extends Base
     public function getRelatedReports()
     {
         return array(
-            new GetBrowsers()
+            self::factory('DevicesDetection', 'getBrowsers'),
         );
     }
 }

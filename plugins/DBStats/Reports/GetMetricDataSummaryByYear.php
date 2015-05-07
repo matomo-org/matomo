@@ -34,7 +34,9 @@ class GetMetricDataSummaryByYear extends Base
 
     public function getRelatedReports()
     {
-        return array(new GetMetricDataSummary());
+        return array(
+            self::factory('DBStats', 'getMetricDataSummary'),
+        );
     }
 
 }
