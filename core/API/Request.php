@@ -231,7 +231,7 @@ class Request
                 $access = Access::getInstance();
                 $tokenAuthToRestore = $access->getTokenAuth();
                 $hadSuperUserAccess = $access->hasSuperUserAccess();
-                self::doReloadAuthUsingTokenAuth($tokenAuth);
+                self::forceReloadAuthUsingTokenAuth($tokenAuth);
             }
 
             // call the method
@@ -260,7 +260,7 @@ class Request
 
         // we need to restore by reloading the tokenAuth as some permissions could have been removed in the API
         // request etc. Otherwise we could just store a clone of Access::getInstance() and restore here
-        self::doReloadAuthUsingTokenAuth($tokenToRestore);
+        self::forceReloadAuthUsingTokenAuth($tokenToRestore);
 
         if ($hadSuperUserAccess && !Access::getInstance()->hasSuperUserAccess()) {
             // we are in context of `doAsSuperUser()` and need to restore this behaviour
@@ -294,7 +294,7 @@ class Request
         $token_auth = Common::getRequestVar('token_auth', '', 'string', $request);
 
         if (self::shouldReloadAuthUsingTokenAuth($request)) {
-            self::doReloadAuthUsingTokenAuth($token_auth);
+            self::forceReloadAuthUsingTokenAuth($token_auth);
         }
     }
 
@@ -305,7 +305,7 @@ class Request
      * @param string $tokenAuth
      * @return void
      */
-    private static function doReloadAuthUsingTokenAuth($tokenAuth)
+    private static function forceReloadAuthUsingTokenAuth($tokenAuth)
     {
         /**
          * Triggered when authenticating an API request, but only if the **token_auth**
