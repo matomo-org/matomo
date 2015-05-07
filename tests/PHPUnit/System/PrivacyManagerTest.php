@@ -11,9 +11,11 @@ use Piwik\Archive;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\RawLogDao;
 use Piwik\DataTable\Manager;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\LogPurger;
 use Piwik\Option;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\Goals\Archiver;
@@ -484,7 +486,8 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         \Piwik\Piwik::addAction("LogDataPurger.ActionsToKeepInserted.olderThan", array($this, 'addReferenceToUnusedAction'));
 
-        $purger = new LogDataPurger(new DimensionMetadataProvider());
+        $rawLogDao = new RawLogDao();
+        $purger = new LogDataPurger(new DimensionMetadataProvider(), new LogPurger($rawLogDao), $rawLogDao);
 
         $this->unusedIdAction = Db::fetchOne(
             "SELECT idaction FROM " . Common::prefixTable('log_action') . " WHERE name = ?",

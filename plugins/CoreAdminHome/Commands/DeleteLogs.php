@@ -44,7 +44,7 @@ class DeleteLogs extends ConsoleCommand
      */
     private $logPurger;
 
-    public function __construct(LogPurger $logPurger, RawLogDao $rawLogDao = null)
+    public function __construct(LogPurger $logPurger = null, RawLogDao $rawLogDao = null)
     {
         parent::__construct();
 

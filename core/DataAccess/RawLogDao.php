@@ -114,7 +114,7 @@ class RawLogDao
         $sql = "DELETE FROM `" . Common::prefixTable('log_visit') . "` WHERE idvisit IN "
              . $this->getInFieldExpressionWithInts($idVisits);
 
-        $statement = Db::exec($sql);
+        $statement = Db::query($sql);
         return $statement->rowCount();
     }
 
@@ -129,7 +129,7 @@ class RawLogDao
         $sql = "DELETE FROM `" . Common::prefixTable('log_link_visit_action') . "` WHERE idvisit IN "
              . $this->getInFieldExpressionWithInts($visitIds);
 
-        $statement = Db::exec($sql);
+        $statement = Db::query($sql);
         return $statement->rowCount();
     }
 
@@ -144,7 +144,7 @@ class RawLogDao
         $sql = "DELETE FROM `" . Common::prefixTable('log_link_visit_action') . "` WHERE idlink_va IN "
              . $this->getInFieldExpressionWithInts($visitActionIds);
 
-        $statement = Db::exec($sql);
+        $statement = Db::query($sql);
         return $statement->rowCount();
     }
 
@@ -159,7 +159,7 @@ class RawLogDao
         $sql = "DELETE FROM `" . Common::prefixTable('log_conversion') . "` WHERE idvisit IN "
              . $this->getInFieldExpressionWithInts($visitIds);
 
-        $statement = Db::exec($sql);
+        $statement = Db::query($sql);
         return $statement->rowCount();
     }
 
@@ -174,7 +174,7 @@ class RawLogDao
         $sql = "DELETE FROM `" . Common::prefixTable('log_conversion_item') . "` WHERE idvisit IN "
              . $this->getInFieldExpressionWithInts($visitIds);
 
-        $statement = Db::exec($sql);
+        $statement = Db::query($sql);
         return $statement->rowCount();
     }
 
