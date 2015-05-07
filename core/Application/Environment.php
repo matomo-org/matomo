@@ -100,18 +100,6 @@ class Environment
     }
 
     /**
-     * Returns the Piwik object for this Environment's Piwik instance by ID.
-     *
-     * @param string $id
-     * @return mixed
-     * @throws \DI\NotFoundException
-     */
-    public function get($id)
-    {
-        return $this->container->get($id);
-    }
-
-    /**
      * @link http://php-di.org/doc/container-configuration.html
      */
     private function createContainer()
@@ -168,7 +156,7 @@ class Environment
     private function validateEnvironment()
     {
         /** @var EnvironmentValidator $validator */
-        $validator = $this->get('Piwik\Application\Kernel\EnvironmentValidator');
+        $validator = $this->container->get('Piwik\Application\Kernel\EnvironmentValidator');
         $validator->validate();
     }
 }
