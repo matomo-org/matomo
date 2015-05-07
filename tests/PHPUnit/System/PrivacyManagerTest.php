@@ -19,7 +19,7 @@ use Piwik\LogPurger;
 use Piwik\Option;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\Goals\Archiver;
-use Piwik\Plugins\PrivacyManager\DimensionMetadataProvider;
+use Piwik\Plugin\Dimension\DimensionMetadataProvider;
 use Piwik\Plugins\PrivacyManager\LogDataPurger;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
@@ -122,7 +122,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
     public function tearDown()
     {
-        $tempTableName = Common::prefixTable(LogDataPurger::TEMP_TABLE_NAME);
+        $tempTableName = Common::prefixTable(RawLogDao::TEMP_TABLE_NAME);
         Db::query("DROP TABLE IF EXISTS " . $tempTableName);
 
         parent::tearDown();
@@ -486,8 +486,8 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         \Piwik\Piwik::addAction("LogDataPurger.ActionsToKeepInserted.olderThan", array($this, 'addReferenceToUnusedAction'));
 
-        $rawLogDao = new RawLogDao();
-        $purger = new LogDataPurger(new DimensionMetadataProvider(), new LogPurger($rawLogDao), $rawLogDao);
+        $rawLogDao = new RawLogDao(new DimensionMetadataProvider());
+        $purger = new LogDataPurger(new LogPurger($rawLogDao), $rawLogDao);
 
         $this->unusedIdAction = Db::fetchOne(
             "SELECT idaction FROM " . Common::prefixTable('log_action') . " WHERE name = ?",

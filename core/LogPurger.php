@@ -14,7 +14,7 @@ use Piwik\DataAccess\RawLogDao;
  * TODO
  * TODO: change name to LogDeleter
  *
- * TODO: class docs
+ * TODO: class + method docs
  */
 class LogPurger
 {
@@ -51,10 +51,5 @@ class LogPurger
     public function deleteConversionItems($visitIds)
     {
         return $this->rawLogDao->deleteConversionItems($visitIds);
-    }
-
-    public function deleteActions($actionIds)
-    {
-        // TODO (should this cascade as well? what about existing references? revisit when refactoring log purging class)
     }
 }
