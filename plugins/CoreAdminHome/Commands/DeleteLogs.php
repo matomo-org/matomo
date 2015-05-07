@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome\Commands;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
+use Piwik\LogPurger;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Site;
 use Symfony\Component\Console\Input\Input;
@@ -38,18 +39,23 @@ class DeleteLogs extends ConsoleCommand
      */
     private $rawLogDao;
 
-    public function __construct()
+    /**
+     * @var LogPurger
+     */
+    private $logPurger;
+
+    public function __construct(LogPurger $logPurger, RawLogDao $rawLogDao = null)
     {
         parent::__construct();
 
-        $this->rawLogDao = StaticContainer::get('Piwik\DataAccess\RawLogDao');
+        $this->logPurger = $logPurger ?: StaticContainer::get('Piwik\LogPurger');
+        $this->rawLogDao = $rawLogDao ?: StaticContainer::get('Piwik\DataAccess\RawLogDao');
     }
 
     protected function configure()
     {
         $this->setName('logs:delete');
         $this->setDescription('Delete data from one of the log tables: ' . implode(', ', array_keys(self::$logTables)) . '.');
-        $this->addOption('table', null, InputOption::VALUE_REQUIRED, "The table to delete from.");
         $this->addOption('dates', null, InputOption::VALUE_REQUIRED, 'Delete log data with a date within this date range. Eg, 2012-01-01,2013-01-01');
         $this->addOption('site', null, InputOption::VALUE_REQUIRED,
             'Delete log data belonging to the site with this ID. Eg, 1, 2, 3, etc. By default log data from all sites is purged.');
@@ -60,55 +66,33 @@ class DeleteLogs extends ConsoleCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // TODO: make sure to confirm to delete w/ warning that action cannot be undone.
-        $table = $this->getTableToDeleteFrom($input);
         list($from, $to) = $this->getDateRangeToDeleteFrom($input);
         $idSite = $this->getSiteToDeleteFrom($input);
         $step = $this->getRowIterationStep($input);
 
         $logsDeleted = 0;
 
-        $fields = array(self::$logTables[$table]);
+        $fields = array('idvisit');
         $conditions = array(
             array('visit_last_action_time', '>=', $from),
             array('visit_last_action_time', '<', $to),
             array('idsite', '==', $idSite)
         );
 
+        // TODO: move this code to LogPurger service
         $self = $this;
-        $this->rawLogDao->forAllLogs($table, $fields, $conditions, $step, function ($logs) use ($self, $table, &$logsDeleted) {
-            $logsDeleted += $self->deleteLogs($table, $logs);
+        $this->rawLogDao->forAllLogs('log_visit', $fields, $conditions, $step, function ($logs) use ($self, &$logsDeleted) {
+            $logsDeleted += $self->deleteLogs($logs);
         });
 
-        $this->writeSuccessMessage($output, "Successfully deleted $logsDeleted rows from $table.");
+        $this->writeSuccessMessage($output, "Successfully deleted $logsDeleted rows from all log tables.");
     }
 
-    private function getTableToDeleteFrom(InputInterface $input)
-    {
-        $table = $input->getOption('table');
-
-        if (empty(self::$logTables[$table])) {
-            throw new \InvalidArgumentException("Invalid table name '$table'. Supported values are: " . implode(', ', array_keys(self::$logTables)));
-        }
-
-        return $table;
-    }
-
-    private function deleteLogs($table, $logs)
+    private function deleteLogs($logs)
     {
         $ids = array_map(function ($row) { return reset($row); }, $logs);
 
-        // TODO: these methods should cascade; deleting visits must delete conversions/conversion items/etc.
-        if ($table == 'log_visit') {
-            return $this->rawLogDao->deleteVisits($ids);
-        } else if ($table == 'log_link_visit_action') {
-            return $this->rawLogDao->deleteVisitActions($ids);
-        } else if ($table == 'log_conversion') {
-            return $this->rawLogDao->deleteConversions($ids);
-        } else if ($table == 'log_conversion_item') {
-            return $this->rawLogDao->deleteConversionItems($ids);
-        } else if ($table == 'log_action') {
-            return $this->rawLogDao->deleteActions($ids);
-        }
+        return $this->logPurger->deleteVisits($ids);
     }
 
     /**

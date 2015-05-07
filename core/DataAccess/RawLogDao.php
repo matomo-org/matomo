@@ -104,6 +104,81 @@ class RawLogDao
     }
 
     /**
+     * TODO
+     *
+     * @param $idVisits
+     * @return int
+     */
+    public function deleteVisits($idVisits)
+    {
+        $sql = "DELETE FROM `" . Common::prefixTable('log_visit') . "` WHERE idvisit IN "
+             . $this->getInFieldExpressionWithInts($idVisits);
+
+        $statement = Db::exec($sql);
+        return $statement->rowCount();
+    }
+
+    /**
+     * TODO
+     *
+     * @param $visitIds
+     * @return int
+     */
+    public function deleteVisitActionsForVisits($visitIds)
+    {
+        $sql = "DELETE FROM `" . Common::prefixTable('log_link_visit_action') . "` WHERE idvisit IN "
+             . $this->getInFieldExpressionWithInts($visitIds);
+
+        $statement = Db::exec($sql);
+        return $statement->rowCount();
+    }
+
+    /**
+     * TODO
+     *
+     * @param $visitActionIds
+     * @return int
+     */
+    public function deleteVisitActions($visitActionIds)
+    {
+        $sql = "DELETE FROM `" . Common::prefixTable('log_link_visit_action') . "` WHERE idlink_va IN "
+             . $this->getInFieldExpressionWithInts($visitActionIds);
+
+        $statement = Db::exec($sql);
+        return $statement->rowCount();
+    }
+
+    /**
+     * TODO
+     *
+     * @param $visitIds
+     * @return int
+     */
+    public function deleteConversions($visitIds)
+    {
+        $sql = "DELETE FROM `" . Common::prefixTable('log_conversion') . "` WHERE idvisit IN "
+             . $this->getInFieldExpressionWithInts($visitIds);
+
+        $statement = Db::exec($sql);
+        return $statement->rowCount();
+    }
+
+    /**
+     * TODO
+     *
+     * @param $visitIds
+     * @return int
+     */
+    public function deleteConversionItems($visitIds)
+    {
+        $sql = "DELETE FROM `" . Common::prefixTable('log_conversion_item') . "` WHERE idvisit IN "
+             . $this->getInFieldExpressionWithInts($visitIds);
+
+        $statement = Db::exec($sql);
+        return $statement->rowCount();
+    }
+
+    /**
      * @param array $columnsToSet
      * @return string
      */
@@ -144,6 +219,8 @@ class RawLogDao
                 return 'idvisit';
             case 'log_action':
                 return 'idaction';
+            default:
+                throw new \InvalidArgumentException("Unknown log table '$logTable'.");
         }
     }
 
@@ -171,5 +248,25 @@ class RawLogDao
         $sql .= " LIMIT " . (int)$iterationStep;
 
         return array($sql, $bind);
+    }
+
+    private function getInFieldExpressionWithInts($idVisits)
+    {
+        $sql = "(";
+
+        $isFirst = true;
+        foreach ($idVisits as $idVisit) {
+            if ($isFirst) {
+                $isFirst = false;
+            } else {
+                $sql .= ', ';
+            }
+
+            $sql .= (int)$idVisit;
+        }
+
+        $sql .= ")";
+
+        return $sql;
     }
 }
