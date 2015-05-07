@@ -19,7 +19,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\RequestSet;
 use Piwik\Tracker\Request;
-use Piwik\Translate;
 
 class TestTracker extends Tracker
 {
