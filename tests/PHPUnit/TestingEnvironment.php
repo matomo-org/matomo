@@ -232,6 +232,8 @@ class Piwik_TestingEnvironment
                 $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
             ));
         } else {
+            \Piwik\Application\Kernel\GlobalSettingsProvider::unsetSingletonInstance();
+            
             Config::setSingletonInstance(new Config(
                 $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
             ));
