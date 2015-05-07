@@ -54,7 +54,7 @@ class CacheTest extends UnitTestCase
         $cache->save('test', 'mycontent'); // make sure something was changed, otherwise it won't save anything
 
         /** @var \Piwik\Cache\Backend $backend */
-        $backend = $this->environment->get('Piwik\Cache\Backend');
+        $backend = $this->environment->getContainer()->get('Piwik\Cache\Backend');
         $this->assertFalse($backend->doContains($storageId));
 
         Piwik::postEvent('Request.dispatch.end'); // should trigger save
