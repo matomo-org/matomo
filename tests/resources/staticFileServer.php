@@ -56,6 +56,9 @@ if ($staticFileServerMode === "") {
         SRV_MODE_REQUEST_VAR . " must be provided.");
 }
 
+$environment = new \Piwik\Application\Environment(null);
+$environment->init();
+
 switch ($staticFileServerMode) {
     // The static file server calls Piwik::serverStaticFile with a null file
     case NULL_FILE_SRV_MODE:

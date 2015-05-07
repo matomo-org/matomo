@@ -9,7 +9,7 @@
 namespace Piwik\Tests\Unit\Container;
 
 use DI\Definition\ValueDefinition;
-use Piwik\Config;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Container\IniConfigDefinitionSource;
 
 class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
@@ -29,7 +29,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
      */
     public function getDefinition_withUnknownConfigSection_shouldReturnEmptyArray()
     {
-        $definitionSource = new IniConfigDefinitionSource(Config::getInstance());
+        $definitionSource = new IniConfigDefinitionSource(new GlobalSettingsProvider());
 
         /** @var ValueDefinition $definition */
         $definition = $definitionSource->getDefinition('ini.foo');
@@ -44,7 +44,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
      */
     public function getDefinition_withUnknownConfigSectionAndKey_shouldReturnNull()
     {
-        $definitionSource = new IniConfigDefinitionSource(Config::getInstance());
+        $definitionSource = new IniConfigDefinitionSource(new GlobalSettingsProvider());
 
         $this->assertNull($definitionSource->getDefinition('ini.foo.bar'));
     }
@@ -54,7 +54,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
      */
     public function getDefinition_withUnknownConfigKey_shouldReturnNull()
     {
-        $definitionSource = new IniConfigDefinitionSource(Config::getInstance());
+        $definitionSource = new IniConfigDefinitionSource(new GlobalSettingsProvider());
 
         $this->assertNull($definitionSource->getDefinition('ini.General.foo'));
     }
@@ -66,7 +66,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
     {
         $config = $this->createConfig();
         $config->expects($this->once())
-            ->method('__get')
+            ->method('getSection')
             ->with('General')
             ->willReturn(array('foo' => 'bar'));
 
@@ -88,7 +88,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
     {
         $config = $this->createConfig();
         $config->expects($this->once())
-            ->method('__get')
+            ->method('getSection')
             ->with('General')
             ->willReturn(array('foo' => 'bar'));
 
@@ -103,10 +103,10 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Config
+     * @return \PHPUnit_Framework_MockObject_MockObject|GlobalSettingsProvider
      */
     private function createConfig()
     {
-        return $this->getMock('Piwik\Config', array(), array(), '', false);
+        return $this->getMock('Piwik\Application\Kernel\GlobalSettingsProvider', array(), array(), '', false);
     }
 }

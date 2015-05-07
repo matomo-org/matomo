@@ -8,6 +8,9 @@
 namespace Piwik\Tests\Framework;
 
 use Piwik\Access;
+use Piwik\Application\Environment;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\Archive;
 use Piwik\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
@@ -39,6 +42,7 @@ use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
+use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
@@ -97,6 +101,11 @@ class Fixture extends \PHPUnit_Framework_Assert
     public $testEnvironment = null;
 
     /**
+     * @var Environment
+     */
+    public $piwikEnvironment;
+
+    /**
      * @return string
      */
     protected static function getPythonBinary()
@@ -141,11 +150,18 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function performSetUp($setupEnvironmentOnly = false)
     {
-        try {
-            if ($this->createConfig) {
-                Config::getInstance()->setTestEnvironment();
-            }
+        if ($this->createConfig) {
+            GlobalSettingsProvider::unsetSingletonInstance();
+        }
 
+        $this->piwikEnvironment = new Environment('test');
+        $this->piwikEnvironment->init();
+
+        if ($this->createConfig) {
+            Config::setSingletonInstance(new TestConfig());
+        }
+
+        try {
             $this->dbName = $this->getDbName();
 
             if ($this->persistFixtureData) {
@@ -206,9 +222,9 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         static::loadAllPlugins($this->getTestEnvironment(), $this->testCaseClass, $this->extraPluginsToLoad);
 
-        self::updateDatabase();
-
         self::installAndActivatePlugins();
+
+        self::updateDatabase();
 
         $_GET = $_REQUEST = array();
         $_SERVER['HTTP_REFERER'] = '';
@@ -299,13 +315,13 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function clearInMemoryCaches()
     {
+        Archive::clearStaticCache();
         DataTableManager::getInstance()->deleteAll();
         Option::clearCache();
         Site::clearCache();
         Cache::deleteTrackerCache();
         PiwikCache::getTransientCache()->flushAll();
         PiwikCache::getEagerCache()->flushAll();
-        Config::getInstance()->clear();
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
         EventDispatcher::getInstance()->clearAllObservers();
@@ -313,7 +329,8 @@ class Fixture extends \PHPUnit_Framework_Assert
         $_GET = $_REQUEST = array();
         Translate::reset();
 
-        Config::unsetInstance();
+        GlobalSettingsProvider::unsetSingletonInstance();
+        Config::setSingletonInstance(new TestConfig());
 
         Config::getInstance()->Plugins; // make sure Plugins exists in a config object for next tests that use Plugin\Manager
         // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object

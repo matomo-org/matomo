@@ -306,12 +306,12 @@ class IniFileChainTest extends PHPUnit_Framework_TestCase
                 array(
                     'Custom' => array('var' => 'val'),
                     'Settings0' => array('abc' => 'def2'),
-                    'Section1' => array('var1' => '5'),
+                    'Section1' => array('var1' => '5$'),
                     'Settings3' => array('var1' => '2'),
                     'Section2' => array('var4' => '9')
                 ),
                 "; some header\n",
-                "; some header\n[Settings3]\nvar1 = \"2\"\n\n[Settings0]\nabc = \"def2\"\n\n[Section1]\nvar1 = \"5\"\n\n[Section2]\nvar4 = \"9\"\n\n[Custom]\nvar = \"val\"\n\n"
+                "; some header\n[Settings3]\nvar1 = \"2\"\n\n[Settings0]\nabc = \"def2\"\n\n[Section1]\nvar1 = \"5&#36;\"\n\n[Section2]\nvar4 = \"9\"\n\n[Custom]\nvar = \"val\"\n\n"
             )
         );
     }

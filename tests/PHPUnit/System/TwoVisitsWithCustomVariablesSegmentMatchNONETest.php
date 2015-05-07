@@ -26,22 +26,23 @@ class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
+        if (!array_key_exists('segment', $params)) {
+            $params['segment'] = $this->getSegmentToTest(); // this method can access the DB, so we get it here instead of the data provider
+        }
+
         $this->runApiTests($api, $params);
     }
 
     public function getApiForTesting()
     {
         // we will test all segments from all plugins
-        Fixture::loadAllPlugins();
-
         $apiToCall = array('VisitsSummary.get', 'CustomVariables.getCustomVariables');
 
         return array(
             array($apiToCall, array('idSite'       => 'all',
                                     'date'         => self::$fixture->dateTime,
                                     'periods'      => array('day', 'week'),
-                                    'setDateLastN' => true,
-                                    'segment'      => $this->getSegmentToTest()))
+                                    'setDateLastN' => true))
         );
     }
 

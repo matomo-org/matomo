@@ -47,6 +47,9 @@ if (!defined("PIWIK_KEEP_JS_TRACKER_COMMENT")
     $byteStart = 369; // length of comment header in bytes
 }
 
+$environment = new \Piwik\Application\Environment(null);
+$environment->init();
+
 ProxyHttp::serverStaticFile($file, "application/javascript; charset=UTF-8", $daysExpireFarFuture, $byteStart, $byteEnd);
 
 exit;

@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Test;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Plugin\Manager;
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
@@ -61,7 +62,7 @@ class FakeConversionVisitDimension extends FakeVisitDimension
 /**
  * @group Core
  */
-class Plugin_VisitDimensionTest extends \PHPUnit_Framework_TestCase
+class Plugin_VisitDimensionTest extends UnitTestCase
 {
     /**
      * @var FakeVisitDimension
@@ -75,17 +76,13 @@ class Plugin_VisitDimensionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         Manager::getInstance()->unloadPlugins();
         Manager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 
         $this->dimension = new FakeVisitDimension();
         $this->conversionDimension = new FakeConversionVisitDimension();
-    }
-
-    public function tearDown()
-    {
-        Manager::unsetInstance();
-        parent::tearDown();
     }
 
     public function test_install_shouldNotReturnAnything_IfColumnTypeNotSpecified()

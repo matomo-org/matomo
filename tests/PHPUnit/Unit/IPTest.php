@@ -13,6 +13,7 @@ namespace Piwik\Tests\Unit;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
+use Piwik\Tests\Framework\Mock\TestConfig;
 
 class IPTest extends \PHPUnit_Framework_TestCase
 {
@@ -86,7 +87,7 @@ class IPTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetIpFromHeader($description, $test)
     {
-        Config::getInstance()->setTestEnvironment();
+        Config::setSingletonInstance(new TestConfig());
 
         $_SERVER['REMOTE_ADDR'] = $test[0];
         $_SERVER['HTTP_X_FORWARDED_FOR'] = $test[1];

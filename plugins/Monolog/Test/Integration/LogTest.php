@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Monolog\Test\Integration;
 
 use Exception;
+use Piwik\Application\Environment;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\ContainerFactory;
@@ -39,9 +40,9 @@ class LogTest extends IntegrationTestCase
         parent::setUp();
 
         // Create the container in the normal environment (because in tests logging is disabled)
-        $containerFactory = new ContainerFactory();
-        $container = $containerFactory->create();
-        StaticContainer::set($container);
+        $environment = new Environment(null);
+        $environment->init();
+
         Log::unsetInstance();
 
         Config::getInstance()->log['string_message_format'] = self::STRING_MESSAGE_FORMAT;
@@ -53,13 +54,12 @@ class LogTest extends IntegrationTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
-        StaticContainer::clearContainer();
         Log::unsetInstance();
 
         @unlink(self::getLogFileLocation());
         Log::$debugBacktraceForTests = null;
+
+        parent::tearDown();
     }
 
     /**

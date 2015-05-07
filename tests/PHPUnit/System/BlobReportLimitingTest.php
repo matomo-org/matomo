@@ -7,9 +7,11 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Cache;
 use Piwik\Config;
 use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
 
@@ -22,6 +24,9 @@ use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
  */
 class BlobReportLimitingTest extends SystemTestCase
 {
+    /**
+     * @var ManyVisitsWithMockLocationProvider
+     */
     public static $fixture = null; // initialized below class definition
 
     public static function setUpBeforeClass()
@@ -169,7 +174,7 @@ class BlobReportLimitingTest extends SystemTestCase
 
     protected static function setUpConfigOptions()
     {
-        Config::getInstance()->setTestEnvironment();
+        Config::setSingletonInstance(new TestConfig());
 
         $generalConfig =& Config::getInstance()->General;
         $generalConfig['datatable_archiving_maximum_rows_referers'] = 3;

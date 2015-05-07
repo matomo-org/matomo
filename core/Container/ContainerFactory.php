@@ -11,7 +11,9 @@ namespace Piwik\Container;
 use DI\Container;
 use DI\ContainerBuilder;
 use Doctrine\Common\Cache\ArrayCache;
-use Piwik\Config;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\Application\Kernel\PluginList;
+use Piwik\Config\IniFileChainFactory;
 use Piwik\Development;
 use Piwik\Plugin\Manager;
 
@@ -20,6 +22,16 @@ use Piwik\Plugin\Manager;
  */
 class ContainerFactory
 {
+    /**
+     * @var PluginList
+     */
+    private $pluginList;
+
+    /**
+     * @var GlobalSettingsProvider
+     */
+    private $settings;
+
     /**
      * Optional environment config to load.
      *
@@ -33,10 +45,15 @@ class ContainerFactory
     private $definitions;
 
     /**
+     * @param PluginList $pluginList
+     * @param GlobalSettingsProvider $settings
      * @param string|null $environment Optional environment config to load.
+     * @param array $definitions
      */
-    public function __construct($environment = null, array $definitions = array())
+    public function __construct(PluginList $pluginList, GlobalSettingsProvider $settings, $environment = null, array $definitions = array())
     {
+        $this->pluginList = $pluginList;
+        $this->settings = $settings;
         $this->environment = $environment;
         $this->definitions = $definitions;
     }
@@ -54,7 +71,7 @@ class ContainerFactory
         $builder->setDefinitionCache(new ArrayCache());
 
         // INI config
-        $builder->addDefinitions(new IniConfigDefinitionSource(Config::getInstance()));
+        $builder->addDefinitions(new IniConfigDefinitionSource($this->settings));
 
         // Global config
         $builder->addDefinitions(PIWIK_USER_PATH . '/config/global.php');
@@ -63,7 +80,7 @@ class ContainerFactory
         $this->addPluginConfigs($builder);
 
         // Development config
-        if (Development::isEnabled()) {
+        if ($this->isDevelopmentModeEnabled()) {
             $builder->addDefinitions(PIWIK_USER_PATH . '/config/environment/dev.php');
         }
 
@@ -79,7 +96,11 @@ class ContainerFactory
             $builder->addDefinitions($this->definitions);
         }
 
-        return $builder->build();
+        $container = $builder->build();
+        $container->set('Piwik\Application\Kernel\PluginList', $this->pluginList);
+        $container->set('Piwik\Application\Kernel\GlobalSettingsProvider', $this->settings);
+
+        return $container;
     }
 
     private function addEnvironmentConfig(ContainerBuilder $builder)
@@ -97,7 +118,7 @@ class ContainerFactory
 
     private function addPluginConfigs(ContainerBuilder $builder)
     {
-        $plugins = Manager::getInstance()->getActivatedPluginsFromConfig();
+        $plugins = $this->pluginList->getActivatedPlugins();
 
         foreach ($plugins as $plugin) {
             $baseDir = Manager::getPluginsDirectory() . $plugin;
@@ -112,5 +133,11 @@ class ContainerFactory
                 $builder->addDefinitions($environmentFile);
             }
         }
+    }
+
+    private function isDevelopmentModeEnabled()
+    {
+        $section = $this->settings->getSection('Development');
+        return (bool) @$section['enabled']; // TODO: code redundancy w/ Development. hopefully ok for now.
     }
 }

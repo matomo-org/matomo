@@ -17,6 +17,8 @@ use Piwik\Config;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
 use Piwik\EventDispatcher;
+use Piwik\Tests\Framework\Mock\TestConfig;
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Piwik\Tests\Unit\AssetManager\PluginManagerMock;
 use Piwik\Tests\Unit\AssetManager\PluginMock;
 use Piwik\Tests\Unit\AssetManager\ThemeMock;
@@ -25,7 +27,7 @@ use Piwik\Tests\Unit\AssetManager\UIAssetCacheBusterMock;
 /**
  * @group AssetManagerTest
  */
-class AssetManagerTest extends PHPUnit_Framework_TestCase
+class AssetManagerTest extends UnitTestCase
 {
     // todo Theme->rewriteAssetPathIfOverridesFound is not tested
 
@@ -64,6 +66,10 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        parent::setUp();
+
+        $this->setUpConfig('merged-assets-enabled.ini.php');
+
         $this->activateMergedAssets();
 
         $this->setUpCacheBuster();
@@ -79,18 +85,28 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        $this->assetManager->removeMergedAssets();
-        Manager::unsetInstance();
+        if ($this->assetManager !== null) {
+            $this->assetManager->removeMergedAssets();
+        }
+
+        parent::tearDown();
+    }
+
+    protected function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Plugin\Manager' => \DI\object('Piwik\Tests\Unit\AssetManager\PluginManagerMock')
+        );
     }
 
     private function activateMergedAssets()
     {
-        $this->setUpConfig('merged-assets-enabled.ini.php');
+        Config::getInstance()->Development['disable_merged_assets'] = 0;
     }
 
     private function disableMergedAssets()
     {
-        $this->setUpConfig('merged-assets-disabled.ini.php');
+        Config::getInstance()->Development['disable_merged_assets'] = 1;
     }
 
     /**
@@ -101,9 +117,9 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
         $userFile = PIWIK_INCLUDE_PATH . '/' . self::ASSET_MANAGER_TEST_DIR . 'configs/' . $filename;
         $globalFile = PIWIK_INCLUDE_PATH . '/' . self::ASSET_MANAGER_TEST_DIR . 'configs/plugins.ini.php';
 
-        $config = Config::getInstance();
-        $config->setTestEnvironment($userFile, $globalFile);
-        $config->init();
+        Config::setSingletonInstance(new TestConfig($globalFile, $userFile));
+
+        $this->initEnvironment();
     }
 
     private function setUpCacheBuster()
@@ -122,8 +138,7 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 
     private function setUpPluginManager()
     {
-        $this->pluginManager = PluginManagerMock::getInstance();
-        Manager::setSingletonInstance($this->pluginManager);
+        $this->pluginManager = Manager::getInstance();
 
         EventDispatcher::unsetInstance(); // EventDispatcher stores a reference to Plugin Manager
     }

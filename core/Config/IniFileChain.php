@@ -11,7 +11,6 @@ use Piwik\Common;
 use Piwik\Ini\IniReader;
 use Piwik\Ini\IniReadingException;
 use Piwik\Ini\IniWriter;
-use Piwik\Piwik;
 
 /**
  * Manages a list of INI files where the settings in each INI file merge with or override the
@@ -28,6 +27,10 @@ use Piwik\Piwik;
  *
  * The user settings file (for example, config.ini.php) holds the actual setting values. Settings in the
  * user settings files overwrite other settings. So array settings will not merge w/ previous values.
+ *
+ * HTML characters and dollar signs are stored as encoded HTML entities in INI files. This prevents
+ * several `parse_ini_file` issues, including one where parse_ini_file tries to insert a variable
+ * into a setting value if a string like `"$varname" is present.
  */
 class IniFileChain
 {
@@ -208,14 +211,15 @@ class IniFileChain
                     $contents = $reader->readFile($file);
                     $this->settingsChain[$file] = $this->decodeValues($contents);
                 } catch (IniReadingException $ex) {
-                    $message = Piwik::translate('General_ExceptionUnreadableFileDisabledMethod', array($file, "parse_ini_file()"));
-                    throw new IniReadingException($message, $code = 0, $ex);
+                    throw new IniReadingException('Unable to read INI file {' . $file . '}: ' . $ex->getMessage() . "\n Your host may have disabled parse_ini_file().");
                 }
+
+                $this->decodeValues($this->settingsChain[$file]);
             }
         }
 
         $this->mergedSettings = $this->mergeFileSettings();
-    }
+   }
 
     private function resetSettingsChain($defaultSettingsFiles, $userSettingsFile)
     {

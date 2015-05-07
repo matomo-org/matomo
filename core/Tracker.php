@@ -70,8 +70,6 @@ class Tracker
     {
         $this->handleFatalErrors();
 
-        \Piwik\FrontController::createConfigObject();
-
         if ($this->isDebugModeEnabled()) {
             ErrorHandler::registerErrorHandler();
             ExceptionHandler::setUp();

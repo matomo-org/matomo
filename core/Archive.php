@@ -949,4 +949,12 @@ class Archive
 
         return $idArchivesByMonth;
     }
+
+    /**
+     * @internal
+     */
+    public static function clearStaticCache()
+    {
+        self::$cache = null;
+    }
 }
