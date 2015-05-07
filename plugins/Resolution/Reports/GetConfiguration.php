@@ -36,7 +36,7 @@ class GetConfiguration extends Base
     public function getRelatedReports()
     {
         return array(
-            new GetResolution()
+            self::factory('Resolution', 'getResolution'),
         );
     }
 }

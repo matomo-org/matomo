@@ -86,8 +86,8 @@ class GetExitPageTitles extends Base
     public function getRelatedReports()
     {
         return array(
-            new GetPageTitles(),
-            new GetExitPageUrls()
+            self::factory('Actions', 'getPageTitles'),
+            self::factory('Actions', 'getExitPageUrls'),
         );
     }
 }

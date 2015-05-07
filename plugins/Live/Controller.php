@@ -12,7 +12,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
-use Piwik\Plugins\Live\Reports\GetLastVisitsDetails;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Url;
 use Piwik\View;
@@ -57,7 +56,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function indexVisitorLog()
     {
         $view = new View('@Live/indexVisitorLog.twig');
-        $view->visitorLog = $this->renderReport(new GetLastVisitsDetails());
+        $view->visitorLog = $this->renderReport('getLastVisitsDetails');
         return $view->render();
     }
 
@@ -66,7 +65,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getVisitorLog()
     {
-        return $this->renderReport(new GetLastVisitsDetails());
+        return $this->renderReport('getLastVisitsDetails');
     }
 
     public function getLastVisitsStart()

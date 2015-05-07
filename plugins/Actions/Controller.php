@@ -9,10 +9,6 @@
 namespace Piwik\Plugins\Actions;
 
 use Piwik\Plugin\Report;
-use Piwik\Plugins\Actions\Reports\GetPageUrlsFollowingSiteSearch;
-use Piwik\Plugins\Actions\Reports\GetSiteSearchCategories;
-use Piwik\Plugins\Actions\Reports\GetSiteSearchKeywords;
-use Piwik\Plugins\Actions\Reports\GetSiteSearchNoResultKeywords;
 use Piwik\View;
 
 /**
@@ -29,9 +25,9 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@Actions/indexSiteSearch');
 
-        $keyword  = new GetSiteSearchKeywords();
-        $noResult = new GetSiteSearchNoResultKeywords();
-        $pageUrls = new GetPageUrlsFollowingSiteSearch();
+        $keyword  = Report::factory($this->pluginName, 'getSiteSearchKeywords');
+        $noResult = Report::factory($this->pluginName, 'getSiteSearchNoResultKeywords');
+        $pageUrls = Report::factory($this->pluginName, 'getPageUrlsFollowingSiteSearch');
 
         $view->keywords = $keyword->render();
         $view->noResultKeywords = $noResult->render();
@@ -39,7 +35,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $categoryTrackingEnabled = Actions::isCustomVariablesPluginsEnabled();
         if ($categoryTrackingEnabled) {
-            $categories = new GetSiteSearchCategories();
+            $categories = Report::factory($this->pluginName, 'getSiteSearchCategories');
             $view->categories = $categories->render();
         }
 

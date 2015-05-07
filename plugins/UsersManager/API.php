@@ -125,7 +125,9 @@ class API extends \Piwik\Plugin\API
         if ($optionValue === false) {
             $defaultValue = $this->getDefaultUserPreference($preferenceName, $userLogin);
 
-            $this->setUserPreference($userLogin, $preferenceName, $defaultValue);
+            if ($defaultValue !== false) {
+                $this->setUserPreference($userLogin, $preferenceName, $defaultValue);
+            }
         }
     }
 
@@ -172,7 +174,10 @@ class API extends \Piwik\Plugin\API
         switch ($preferenceName) {
             case self::PREFERENCE_DEFAULT_REPORT:
                 $viewableSiteIds = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAtLeastViewAccess($login);
-                return reset($viewableSiteIds);
+                if (!empty($viewableSiteIds)) {
+                    return reset($viewableSiteIds);
+                }
+                return false;
             case self::PREFERENCE_DEFAULT_REPORT_DATE:
                 return Config::getInstance()->General['default_day'];
             default:

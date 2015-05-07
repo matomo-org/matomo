@@ -79,8 +79,8 @@ class GetEntryPageTitles extends Base
     public function getRelatedReports()
     {
         return array(
-            new GetPageTitles(),
-            new GetEntryPageUrls()
+            self::factory('Actions', 'getPageTitles'),
+            self::factory('Actions', 'getEntryPageUrls')
         );
     }
 }
