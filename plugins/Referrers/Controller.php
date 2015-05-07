@@ -14,12 +14,6 @@ use Piwik\DataTable\Map;
 use Piwik\Metrics;
 use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Plugins\Referrers\Reports\GetAll;
-use Piwik\Plugins\Referrers\Reports\GetKeywords;
-use Piwik\Plugins\Referrers\Reports\GetReferrerType;
-use Piwik\Plugins\Referrers\Reports\GetSearchEngines;
-use Piwik\Plugins\Referrers\Reports\GetSocials;
-use Piwik\Plugins\Referrers\Reports\GetWebsites;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -107,7 +101,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Referrers/allReferrers');
 
         // building the referrers summary report
-        $view->dataTableReferrerType = $this->renderReport(new GetReferrerType());
+        $view->dataTableReferrerType = $this->renderReport('getReferrerType');
 
         $nameValues = $this->getReferrersVisitorsByType();
 
@@ -125,7 +119,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $view->totalVisits = $totalVisits;
-        $view->referrersReportsByDimension = $this->renderReport(new GetAll());
+        $view->referrersReportsByDimension = $this->renderReport('getAll');
 
         return $view->render();
     }
@@ -133,16 +127,16 @@ class Controller extends \Piwik\Plugin\Controller
     public function getSearchEnginesAndKeywords()
     {
         $view = new View('@Referrers/getSearchEnginesAndKeywords');
-        $view->searchEngines = $this->renderReport(new GetSearchEngines());
-        $view->keywords      = $this->renderReport(new GetKeywords());
+        $view->searchEngines = $this->renderReport('getSearchEngines');
+        $view->keywords      = $this->renderReport('getKeywords');
         return $view->render();
     }
 
     public function indexWebsites()
     {
         $view = new View('@Referrers/indexWebsites');
-        $view->websites = $this->renderReport(new GetWebsites());
-        $view->socials  = $this->renderReport(new GetSocials());
+        $view->websites = $this->renderReport('getWebsites');
+        $view->socials  = $this->renderReport('getSocials');
 
         return $view->render();
     }

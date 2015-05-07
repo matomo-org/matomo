@@ -113,7 +113,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($idGoal !== false) {
-            $urlParams['idGoal'] = $idGoal;
+            $urlParams['idgoal'] = $idGoal;
             if ($revenue !== false) {
                 $urlParams['revenue'] = $revenue;
             }

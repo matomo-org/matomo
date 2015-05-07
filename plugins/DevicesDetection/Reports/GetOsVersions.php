@@ -35,7 +35,7 @@ class GetOsVersions extends Base
     public function getRelatedReports()
     {
         return array(
-            new GetOsFamilies()
+            self::factory('DevicesDetection', 'getOsFamilies'),
         );
     }
 }

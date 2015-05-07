@@ -70,7 +70,7 @@
             fetchLimitedSitesWithAdminAccess();
         }
 
-        function fetchLimitedSitesWithAdminAccess(searchTerm)
+        function fetchLimitedSitesWithAdminAccess(callback)
         {
             if (model.isLoading) {
                 piwikApi.abort();
@@ -103,6 +103,10 @@
                 setSites(sites);
 
             }, onError)['finally'](function () {
+                if (callback) {
+                    callback();
+                }
+
                 model.isLoading = false;
             });
         }

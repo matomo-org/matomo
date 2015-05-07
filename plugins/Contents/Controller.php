@@ -9,8 +9,6 @@
 namespace Piwik\Plugins\Contents;
 
 use Piwik\Plugin\Report;
-use Piwik\Plugins\Contents\Reports\GetContentNames;
-use Piwik\Plugins\Contents\Reports\GetContentPieces;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
@@ -21,7 +19,9 @@ class Controller extends \Piwik\Plugin\Controller
         $reportsView = new View\ReportsByDimension('Contents');
 
         /** @var \Piwik\Plugin\Report[] $reports */
-        $reports = array(new GetContentNames(), new GetContentPieces());
+        $contentNames  = Report::factory($this->pluginName, 'getContentNames');
+        $contentPieces = Report::factory($this->pluginName, 'getContentPieces');
+        $reports = array($contentNames, $contentPieces);
 
         foreach($reports as $report) {
             $reportsView->addReport(
@@ -36,14 +36,14 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function menuGetContentNames()
     {
-        $report = new GetContentNames();
+        $report = Report::factory($this->pluginName, 'getContentNames');
 
         return View::singleReport($report->getName(), $report->render());
     }
 
     public function menuGetContentPieces()
     {
-        $report = new GetContentPieces();
+        $report = Report::factory($this->pluginName, 'getContentPieces');
 
         return View::singleReport($report->getName(), $report->render());
     }
