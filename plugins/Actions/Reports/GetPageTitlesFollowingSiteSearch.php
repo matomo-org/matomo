@@ -80,7 +80,7 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
     public function getRelatedReports()
     {
         return array(
-            new GetPageUrlsFollowingSiteSearch()
+            self::factory('Actions', 'getPageUrlsFollowingSiteSearch'),
         );
     }
 }

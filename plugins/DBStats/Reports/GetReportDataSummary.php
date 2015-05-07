@@ -33,6 +33,8 @@ class GetReportDataSummary extends Base
 
     public function getRelatedReports()
     {
-        return array(new GetReportDataSummaryByYear());
+        return array(
+            self::factory('DBStats', 'getReportDataSummaryByYear'),
+        );
     }
 }

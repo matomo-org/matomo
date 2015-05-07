@@ -8,8 +8,6 @@
  */
 namespace Piwik\Plugins\VisitTime;
 
-use Piwik\Plugins\VisitTime\Reports\GetVisitInformationPerLocalTime;
-use Piwik\Plugins\VisitTime\Reports\GetVisitInformationPerServerTime;
 use Piwik\View;
 
 /**
@@ -20,8 +18,8 @@ class Controller extends \Piwik\Plugin\Controller
     public function index()
     {
         $view = new View('@VisitTime/index');
-        $view->dataTableVisitInformationPerLocalTime = $this->renderReport(new GetVisitInformationPerLocalTime());
-        $view->dataTableVisitInformationPerServerTime = $this->renderReport(new GetVisitInformationPerServerTime());
+        $view->dataTableVisitInformationPerLocalTime = $this->renderReport('getVisitInformationPerLocalTime');
+        $view->dataTableVisitInformationPerServerTime = $this->renderReport('getVisitInformationPerServerTime');
         return $view->render();
     }
 }

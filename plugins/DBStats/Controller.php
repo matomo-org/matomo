@@ -10,11 +10,6 @@ namespace Piwik\Plugins\DBStats;
 
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
-use Piwik\Plugins\DBStats\Reports\GetAdminDataSummary;
-use Piwik\Plugins\DBStats\Reports\GetDatabaseUsageSummary;
-use Piwik\Plugins\DBStats\Reports\GetMetricDataSummary;
-use Piwik\Plugins\DBStats\Reports\GetReportDataSummary;
-use Piwik\Plugins\DBStats\Reports\GetTrackerDataSummary;
 use Piwik\View;
 
 /**
@@ -34,11 +29,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@DBStats/index');
         $this->setBasicVariablesView($view);
 
-        $view->databaseUsageSummary = $this->renderReport(new GetDatabaseUsageSummary());
-        $view->trackerDataSummary   = $this->renderReport(new GetTrackerDataSummary());
-        $view->metricDataSummary    = $this->renderReport(new GetMetricDataSummary());
-        $view->reportDataSummary    = $this->renderReport(new GetReportDataSummary());
-        $view->adminDataSummary     = $this->renderReport(new GetAdminDataSummary());
+        $view->databaseUsageSummary = $this->renderReport('getDatabaseUsageSummary');
+        $view->trackerDataSummary   = $this->renderReport('getTrackerDataSummary');
+        $view->metricDataSummary    = $this->renderReport('getMetricDataSummary');
+        $view->reportDataSummary    = $this->renderReport('getReportDataSummary');
+        $view->adminDataSummary     = $this->renderReport('getAdminDataSummary');
 
         list($siteCount, $userCount, $totalSpaceUsed) = API::getInstance()->getGeneralInformation();
 
