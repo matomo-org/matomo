@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\UserCountry\Commands;
 
+use Piwik\DataAccess\RawLogDao\LogsChunk;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -115,24 +116,19 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
 
     protected function processSpecifiedLogsInChunks(OutputInterface $output, $from, $to, $segmentLimit)
     {
-        // TODO: maybe should rename it, it's not really an iterator but a range at this point. LogRowRange? LazyLogRowRange?
-        $rawLogIterator = $this->dao->makeLogIterator(array('dateStart' => $from, 'dateEnd' => $to), $segmentLimit); // TODO [ should contain delete by params ]
-        foreach ($rawLogIterator->getChunks() as $chunk) {
-            $this->reattributeVisitLogs($output, $chunk->getRows());
-        }
-        /*
         $visitFieldsToSelect = array_merge(array('idvisit', 'location_ip'), array_keys(VisitorGeolocator::$logVisitFieldsToUpdate));
 
-        $lastId = 0;
-        do {
-            $logs = $this->dao->getVisitsWithDatesLimit($from, $to, $visitFieldsToSelect, $lastId, $segmentLimit);
-            if (!empty($logs)) {
-                $lastId = $logs[count($logs) - 1]['idvisit'];
+        $conditions = array(
+            array('visit_last_action_time', '>=', $from),
+            array('visit_last_action_time', '<', $to)
+        );
 
-                $this->reattributeVisitLogs($output, $logs);
+        $self = $this;
+        $this->dao->forAllLogs('log_visit', $visitFieldsToSelect, $conditions, $segmentLimit, function ($logs) use ($self, $output) {
+            if (!empty($logs)) {
+                $self->reattributeVisitLogs($output, $logs);
             }
-        } while (count($logs) == $segmentLimit);
-        */
+        });
     }
 
     protected function reattributeVisitLogs(OutputInterface $output, $logRows)

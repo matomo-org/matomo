@@ -80,6 +80,30 @@ class RawLogDao
     }
 
     /**
+     * TODO
+     *
+     * @param $logTable
+     * @param $conditions
+     * @param $iterationStep
+     * @param $callback
+     */
+    public function forAllLogs($logTable, $fields, $conditions, $iterationStep, $callback)
+    {
+        $idField = $this->getIdFieldForLogTable($logTable);
+        list($query, $bind) = $this->createLogIterationQuery($logTable, $idField, $fields, $conditions, $iterationStep);
+
+        $lastId = 0;
+        do {
+            $rows = Db::fetchAll($query, array_merge(array($lastId), $bind));
+            if (!empty($rows)) {
+                $lastId = $rows[count($rows) - 1][$idField];
+
+                $callback($rows);
+            }
+        } while (count($rows) == $iterationStep);
+    }
+
+    /**
      * @param array $columnsToSet
      * @return string
      */
@@ -105,5 +129,47 @@ class RawLogDao
     protected function update($sql, array $values, $idVisit)
     {
         return Db::query($sql, array_merge(array_values($values), array($idVisit)));
+    }
+
+    private function getIdFieldForLogTable($logTable)
+    {
+        switch ($logTable) {
+            case 'log_visit':
+                return 'idvisit';
+            case 'log_link_visit_action':
+                return 'idlink_va';
+            case 'log_conversion':
+                return 'idvisit';
+            case 'log_conversion_item':
+                return 'idvisit';
+            case 'log_action':
+                return 'idaction';
+        }
+    }
+
+    // TODO: move to query builder class? only relevant to relational backends
+    private function createLogIterationQuery($logTable, $idField, $fields, $conditions, $iterationStep)
+    {
+        $bind = array();
+
+        $sql = "SELECT " . implode(', ', $fields) . " FROM `" . Common::prefixTable($logTable) . "` WHERE $idField > ?";
+
+        foreach ($conditions as $condition) {
+            list($column, $operator, $value) = $condition;
+
+            if (is_array($value)) {
+                $sql .= " AND $column IN (" . Common::getSqlStringFieldsArray($value) . ")";
+
+                $bind = array_merge($bind, $value);
+            } else {
+                $sql .= " AND $column $operator ?";
+
+                $bind[] = $value;
+            }
+        }
+
+        $sql .= " LIMIT " . (int)$iterationStep;
+
+        return array($sql, $bind);
     }
 }

@@ -10,7 +10,10 @@ namespace Piwik\Plugins\CoreAdminHome\Commands;
 
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
+use Piwik\Date;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Site;
+use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -21,12 +24,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DeleteLogs extends ConsoleCommand
 {
+    // TODO: move this to RawLogDao and make it public. use it there and here.
     private static $logTables = array(
-        'log_visit',
-        'log_link_visit_action',
-        'log_conversion',
-        'log_conversion_item',
-        'log_action'
+        'log_visit' => 'idvisit',
+        'log_link_visit_action' => 'idlink_va',
+        'log_conversion' => 'idvisit',
+        'log_conversion_item' => 'idvisit',
+        'log_action' => 'idaction'
     );
 
     /**
@@ -44,7 +48,7 @@ class DeleteLogs extends ConsoleCommand
     protected function configure()
     {
         $this->setName('logs:delete');
-        $this->setDescription('Delete data from one of the log tables: ' . implode(', ', self::$logTables) . '.');
+        $this->setDescription('Delete data from one of the log tables: ' . implode(', ', array_keys(self::$logTables)) . '.');
         $this->addOption('table', null, InputOption::VALUE_REQUIRED, "The table to delete from.");
         $this->addOption('dates', null, InputOption::VALUE_REQUIRED, 'Delete log data with a date within this date range. Eg, 2012-01-01,2013-01-01');
         $this->addOption('site', null, InputOption::VALUE_REQUIRED,
@@ -63,34 +67,91 @@ class DeleteLogs extends ConsoleCommand
 
         $logsDeleted = 0;
 
-        $rawLogIterator = $this->rawLogDao->makeLogIterator(array('dateStart' => $from, 'dateEnd' => $to, 'site' => $idSite), $step); // TODO
-        foreach ($rawLogIterator->getChunks() as $chunk) {
-            if ($table == 'log_visit') { // TODO: move to private method
-                $logsDeleted += $this->rawLogDao->deleteVisits($chunk->getIds());
-            } else if ($table == 'log_link_visit_action') {
-                $logsDeleted += $this->rawLogDao->deleteVisitActions($chunk->getIds());
-            } else if ($table == 'log_conversion') {
-                $logsDeleted += $this->rawLogDao->deleteConversions($chunk->getIds());
-            } else if ($table == 'log_conversion_item') {
-                $logsDeleted += $this->rawLogDao->deleteConversionItems($chunk->getIds());
-            } else if ($table == 'log_action') {
-                $logsDeleted += $this->rawLogDao->deleteActions($chunk->getIds());
-            }
-        }
+        $fields = array(self::$logTables[$table]);
+        $conditions = array(
+            array('visit_last_action_time', '>=', $from),
+            array('visit_last_action_time', '<', $to),
+            array('idsite', '==', $idSite)
+        );
+
+        $self = $this;
+        $this->rawLogDao->forAllLogs($table, $fields, $conditions, $step, function ($logs) use ($self, $table, &$logsDeleted) {
+            $logsDeleted += $self->deleteLogs($table, $logs);
+        });
 
         $this->writeSuccessMessage($output, "Successfully deleted $logsDeleted rows from $table.");
     }
-
-    // TODO: in usercountry:attribute, use makeLogIterator above
 
     private function getTableToDeleteFrom(InputInterface $input)
     {
         $table = $input->getOption('table');
 
-        if (!in_array($table, self::$logTables)) {
-            throw new \InvalidArgumentException("Invalid table name '$table'. Supported values are: " . implode(', ', self::$logTables));
+        if (empty(self::$logTables[$table])) {
+            throw new \InvalidArgumentException("Invalid table name '$table'. Supported values are: " . implode(', ', array_keys(self::$logTables)));
         }
 
         return $table;
+    }
+
+    private function deleteLogs($table, $logs)
+    {
+        $ids = array_map(function ($row) { return reset($row); }, $logs);
+
+        // TODO: these methods should cascade; deleting visits must delete conversions/conversion items/etc.
+        if ($table == 'log_visit') {
+            return $this->rawLogDao->deleteVisits($ids);
+        } else if ($table == 'log_link_visit_action') {
+            return $this->rawLogDao->deleteVisitActions($ids);
+        } else if ($table == 'log_conversion') {
+            return $this->rawLogDao->deleteConversions($ids);
+        } else if ($table == 'log_conversion_item') {
+            return $this->rawLogDao->deleteConversionItems($ids);
+        } else if ($table == 'log_action') {
+            return $this->rawLogDao->deleteActions($ids);
+        }
+    }
+
+    /**
+     * @param InputInterface $input
+     * @return Date[]
+     */
+    private function getDateRangeToDeleteFrom(InputInterface $input)
+    {
+        $dates = $input->getOption('dates');
+        if (empty($dates)) {
+            throw new \InvalidArgumentException("No date range supplied in --dates option. Deleting all logs by default is not allowed, you must specify a date range.");
+        }
+
+        $parts = explode(',', $dates);
+        $parts = array_map('trim', $parts);
+
+        if (count($parts) !== 2) {
+            throw new \InvalidArgumentException("Invalid date range supplied: $dates");
+        }
+
+        list($start, $end) = $parts;
+
+        return array(Date::factory($start)->getDatetime(), Date::factory($end)->getDatetime());
+    }
+
+    private function getSiteToDeleteFrom(InputInterface $input)
+    {
+        $idSite = $input->getOption('site');
+
+        // validate the site ID
+        new Site($idSite); // TODO: check error message returned from invalid site
+
+        return $idSite;
+    }
+
+    private function getRowIterationStep(InputInterface $input)
+    {
+        $step = (int) $input->getOption('limit');
+
+        if ($step <= 0) {
+            throw new \InvalidArgumentException("Invalid row limit supplied: $step. Must be a number greater than 0.");
+        }
+
+        return $step;
     }
 }
