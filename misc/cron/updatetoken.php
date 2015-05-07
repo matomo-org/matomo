@@ -62,7 +62,7 @@ $token = Db::get()->fetchOne("SELECT token_auth
                               WHERE superuser_access = 1
                               ORDER BY date_registered ASC");
 
-$filename = $environment->get('path.tmp') . '/cache/token.php';
+$filename = $environment->getContainer()->get('path.tmp') . '/cache/token.php';
 
 $content  = "<?php exit; //\t" . $token;
 file_put_contents($filename, $content);
