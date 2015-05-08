@@ -18,7 +18,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\ImageGraph\StaticGraph;
 use Piwik\SettingsServer;
 use Piwik\Translate;
-use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 /**
  * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Piwik report.
@@ -130,453 +129,404 @@ class API extends \Piwik\Plugin\API
         $segment = false
     )
     {
-        $idSiteArr = array();
-        if (strpos($idSite, ',') !== false) {
-            $idSiteList = explode(',', $idSite);
-            foreach ($idSiteList as $key) {
-                $idSiteArr[] = $key;
-            }
-        } else if (!empty($idSite) && ($idSite != 'all')) {
-            $idSiteArr[] = $idSite;
-        } else if (!empty($idSite) && ($idSite == 'all')) {
-            $viewableIdSites = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
-            foreach ($viewableIdSites as $site) {
-                $idSiteArr[] = $site;
-            }
-        } else {
-            // empty or invalid idSite has been already handled somewhere
-            exit;
+        Piwik::checkUserHasViewAccess($idSite);
+
+        // Health check - should we also test for GD2 only?
+        if (!SettingsServer::isGdExtensionEnabled()) {
+            throw new Exception('Error: To create graphs in Piwik, please enable GD php extension (with Freetype support) in php.ini,
+            and restart your web server.');
         }
 
-        $pngImgArr = array();
-        // remove duplicated idSite; improves image graph generation time.
-        $idSiteArr = array_unique($idSiteArr);
-        $idSiteArrCount = count($idSiteArr);
-        for ($w = 0; $w < $idSiteArrCount; $w++)
-        {
-            $idSite = $idSiteArr[$w];
-            Piwik::checkUserHasViewAccess($idSite);
+        $useUnicodeFont = array(
+            'am', 'ar', 'el', 'fa', 'fi', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw',
+        );
+        $languageLoaded = Translate::getLanguageLoaded();
+        $font = self::getFontPath(self::DEFAULT_FONT);
+        if (in_array($languageLoaded, $useUnicodeFont)) {
+            $unicodeFontPath = self::getFontPath(self::UNICODE_FONT);
+            $font = file_exists($unicodeFontPath) ? $unicodeFontPath : $font;
+        }
 
-            // Health check - should we also test for GD2 only?
-            if (!SettingsServer::isGdExtensionEnabled()) {
-                throw new Exception('Error: To create graphs in Piwik, please enable GD php extension (with Freetype support) in php.ini,
-                and restart your web server.');
+        // save original GET to reset after processing. Important for API-in-API-call
+        $savedGET = $_GET;
+
+        try {
+            $apiParameters = array();
+            if (!empty($idGoal)) {
+                $apiParameters = array('idGoal' => $idGoal);
             }
-
-            $useUnicodeFont = array(
-                'am', 'ar', 'el', 'fa', 'fi', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw',
+            // Fetch the metadata for given api-action
+            $parameters = array(
+                'idSite' => $idSite,
+                'apiModule' => $apiModule,
+                'apiAction' => $apiAction,
+                'apiParameters' => $apiParameters,
+                'language' => $languageLoaded,
+                'period' => $period,
+                'date' => $date,
+                'hideMetricsDoc' => false,
+                'showSubtableReports' => true
             );
-            $languageLoaded = Translate::getLanguageLoaded();
-            $font = self::getFontPath(self::DEFAULT_FONT);
-            if (in_array($languageLoaded, $useUnicodeFont)) {
-                $unicodeFontPath = self::getFontPath(self::UNICODE_FONT);
-                $font = file_exists($unicodeFontPath) ? $unicodeFontPath : $font;
+
+            $metadata = Request::processRequest('API.getMetadata', $parameters);
+            if (!$metadata) {
+                throw new Exception('Invalid API Module and/or API Action');
             }
 
-            // save original GET to reset after processing. Important for API-in-API-call
-            $savedGET = $_GET;
+            $metadata = $metadata[0];
+            $reportHasDimension = !empty($metadata['dimension']);
+            $constantRowsCount = !empty($metadata['constantRowsCount']);
 
-            try {
-                $apiParameters = array();
-                if (!empty($idGoal)) {
-                    $apiParameters = array('idGoal' => $idGoal);
-                }
-                // Fetch the metadata for given api-action
-                $parameters = array(
-                    'idSite' => $idSite,
-                    'apiModule' => $apiModule,
-                    'apiAction' => $apiAction,
-                    'apiParameters' => $apiParameters,
-                    'language' => $languageLoaded,
-                    'period' => $period,
-                    'date' => $date,
-                    'hideMetricsDoc' => false,
-                    'showSubtableReports' => true
-                );
+            $isMultiplePeriod = Period::isMultiplePeriod($date, $period);
+            if (!$reportHasDimension && !$isMultiplePeriod) {
+                throw new Exception('The graph cannot be drawn for this combination of \'date\' and \'period\' parameters.');
+            }
 
-                $metadata = Request::processRequest('API.getMetadata', $parameters);
-                if (!$metadata) {
-                    throw new Exception('Invalid API Module and/or API Action');
-                }
+            if (empty($legendFontSize)) {
+                $legendFontSize = (int)$fontSize + self::DEFAULT_LEGEND_FONT_SIZE_OFFSET;
+            }
 
-                $metadata = $metadata[0];
-                $reportHasDimension = !empty($metadata['dimension']);
-                $constantRowsCount = !empty($metadata['constantRowsCount']);
-
-                $isMultiplePeriod = Period::isMultiplePeriod($date, $period);
-                if (!$reportHasDimension && !$isMultiplePeriod) {
-                    throw new Exception('The graph cannot be drawn for this combination of \'date\' and \'period\' parameters.');
-                }
-
-                if (empty($legendFontSize)) {
-                    $legendFontSize = (int)$fontSize + self::DEFAULT_LEGEND_FONT_SIZE_OFFSET;
-                }
-
-                if (empty($graphType)) {
-                    if ($isMultiplePeriod) {
-                        $graphType = StaticGraph::GRAPH_TYPE_BASIC_LINE;
-                    } else {
-                        if ($constantRowsCount) {
-                            $graphType = StaticGraph::GRAPH_TYPE_VERTICAL_BAR;
-                        } else {
-                            $graphType = StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR;
-                        }
-                    }
-
-                    $reportUniqueId = $metadata['uniqueId'];
-                    if (isset(self::$DEFAULT_GRAPH_TYPE_OVERRIDE[$reportUniqueId][$isMultiplePeriod])) {
-                        $graphType = self::$DEFAULT_GRAPH_TYPE_OVERRIDE[$reportUniqueId][$isMultiplePeriod];
-                    }
+            if (empty($graphType)) {
+                if ($isMultiplePeriod) {
+                    $graphType = StaticGraph::GRAPH_TYPE_BASIC_LINE;
                 } else {
-                    $availableGraphTypes = StaticGraph::getAvailableStaticGraphTypes();
-                    if (!in_array($graphType, $availableGraphTypes)) {
+                    if ($constantRowsCount) {
+                        $graphType = StaticGraph::GRAPH_TYPE_VERTICAL_BAR;
+                    } else {
+                        $graphType = StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR;
+                    }
+                }
+
+                $reportUniqueId = $metadata['uniqueId'];
+                if (isset(self::$DEFAULT_GRAPH_TYPE_OVERRIDE[$reportUniqueId][$isMultiplePeriod])) {
+                    $graphType = self::$DEFAULT_GRAPH_TYPE_OVERRIDE[$reportUniqueId][$isMultiplePeriod];
+                }
+            } else {
+                $availableGraphTypes = StaticGraph::getAvailableStaticGraphTypes();
+                if (!in_array($graphType, $availableGraphTypes)) {
+                    throw new Exception(
+                        Piwik::translate(
+                            'General_ExceptionInvalidStaticGraphType',
+                            array($graphType, implode(', ', $availableGraphTypes))
+                        )
+                    );
+                }
+            }
+
+            $width = (int)$width;
+            $height = (int)$height;
+            if (empty($width)) {
+                $width = self::$DEFAULT_PARAMETERS[$graphType][self::WIDTH_KEY];
+            }
+            if (empty($height)) {
+                $height = self::$DEFAULT_PARAMETERS[$graphType][self::HEIGHT_KEY];
+            }
+
+            // Cap width and height to a safe amount
+            $width = min($width, self::MAX_WIDTH);
+            $height = min($height, self::MAX_HEIGHT);
+
+            $reportColumns = array_merge(
+                !empty($metadata['metrics']) ? $metadata['metrics'] : array(),
+                !empty($metadata['processedMetrics']) ? $metadata['processedMetrics'] : array(),
+                !empty($metadata['metricsGoal']) ? $metadata['metricsGoal'] : array(),
+                !empty($metadata['processedMetricsGoal']) ? $metadata['processedMetricsGoal'] : array()
+            );
+
+            $ordinateColumns = array();
+            if (empty($columns)) {
+                $ordinateColumns[] =
+                    empty($reportColumns[self::DEFAULT_ORDINATE_METRIC]) ? key($metadata['metrics']) : self::DEFAULT_ORDINATE_METRIC;
+            } else {
+                $ordinateColumns = explode(',', $columns);
+                foreach ($ordinateColumns as $column) {
+                    if (empty($reportColumns[$column])) {
                         throw new Exception(
                             Piwik::translate(
-                                'General_ExceptionInvalidStaticGraphType',
-                                array($graphType, implode(', ', $availableGraphTypes))
+                                'ImageGraph_ColumnOrdinateMissing',
+                                array($column, implode(',', array_keys($reportColumns)))
                             )
                         );
                     }
                 }
+            }
 
-                $width = (int)$width;
-                $height = (int)$height;
-                if (empty($width)) {
-                    $width = self::$DEFAULT_PARAMETERS[$graphType][self::WIDTH_KEY];
-                }
-                if (empty($height)) {
-                    $height = self::$DEFAULT_PARAMETERS[$graphType][self::HEIGHT_KEY];
-                }
+            $ordinateLabels = array();
+            foreach ($ordinateColumns as $column) {
+                $ordinateLabels[$column] = $reportColumns[$column];
+            }
 
-                // Cap width and height to a safe amount
-                $width = min($width, self::MAX_WIDTH);
-                $height = min($height, self::MAX_HEIGHT);
+            // sort and truncate filters
+            $defaultFilterTruncate = self::$DEFAULT_PARAMETERS[$graphType][self::TRUNCATE_KEY];
+            switch ($graphType) {
+                case StaticGraph::GRAPH_TYPE_3D_PIE:
+                case StaticGraph::GRAPH_TYPE_BASIC_PIE:
 
-                $reportColumns = array_merge(
-                    !empty($metadata['metrics']) ? $metadata['metrics'] : array(),
-                    !empty($metadata['processedMetrics']) ? $metadata['processedMetrics'] : array(),
-                    !empty($metadata['metricsGoal']) ? $metadata['metricsGoal'] : array(),
-                    !empty($metadata['processedMetricsGoal']) ? $metadata['processedMetricsGoal'] : array()
-                );
-
-                $ordinateColumns = array();
-                if (empty($columns)) {
-                    $ordinateColumns[] =
-                        empty($reportColumns[self::DEFAULT_ORDINATE_METRIC]) ? key($metadata['metrics']) : self::DEFAULT_ORDINATE_METRIC;
-                } else {
-                    $ordinateColumns = explode(',', $columns);
-                    foreach ($ordinateColumns as $column) {
-                        if (empty($reportColumns[$column])) {
-                            throw new Exception(
-                                Piwik::translate(
-                                    'ImageGraph_ColumnOrdinateMissing',
-                                    array($column, implode(',', array_keys($reportColumns)))
-                                )
-                            );
-                        }
+                    if (count($ordinateColumns) > 1) {
+                        // pChart doesn't support multiple series on pie charts
+                        throw new Exception("Pie charts do not currently support multiple series");
                     }
-                }
 
-                $ordinateLabels = array();
-                foreach ($ordinateColumns as $column) {
-                    $ordinateLabels[$column] = $reportColumns[$column];
-                }
+                    $_GET['filter_sort_column'] = reset($ordinateColumns);
+                    $this->setFilterTruncate($defaultFilterTruncate);
+                    break;
 
-                // sort and truncate filters
-                $defaultFilterTruncate = self::$DEFAULT_PARAMETERS[$graphType][self::TRUNCATE_KEY];
-                switch ($graphType) {
-                    case StaticGraph::GRAPH_TYPE_3D_PIE:
-                    case StaticGraph::GRAPH_TYPE_BASIC_PIE:
+                case StaticGraph::GRAPH_TYPE_VERTICAL_BAR:
+                case StaticGraph::GRAPH_TYPE_BASIC_LINE:
 
-                        if (count($ordinateColumns) > 1) {
-                            // pChart doesn't support multiple series on pie charts
-                            throw new Exception("Pie charts do not currently support multiple series");
-                        }
-
-                        $_GET['filter_sort_column'] = reset($ordinateColumns);
+                    if (!$isMultiplePeriod && !$constantRowsCount) {
                         $this->setFilterTruncate($defaultFilterTruncate);
-                        break;
-
-                    case StaticGraph::GRAPH_TYPE_VERTICAL_BAR:
-                    case StaticGraph::GRAPH_TYPE_BASIC_LINE:
-
-                        if (!$isMultiplePeriod && !$constantRowsCount) {
-                            $this->setFilterTruncate($defaultFilterTruncate);
-                        }
-                        break;
-                }
-
-                $ordinateLogos = array();
-
-                // row evolutions
-                if ($isMultiplePeriod && $reportHasDimension) {
-                    $plottedMetric = reset($ordinateColumns);
-
-                    // when no labels are specified, getRowEvolution returns the top N=filter_limit row evolutions
-                    // rows are sorted using filter_sort_column (see DataTableGenericFilter for more info)
-                    if (!$labels) {
-                        $savedFilterSortColumnValue = Common::getRequestVar('filter_sort_column', '');
-                        $_GET['filter_sort_column'] = $plottedMetric;
-
-                        $savedFilterLimitValue = Common::getRequestVar('filter_limit', -1, 'int');
-                        if ($savedFilterLimitValue == -1 || $savedFilterLimitValue > self::MAX_NB_ROW_LABELS) {
-                            $_GET['filter_limit'] = self::DEFAULT_NB_ROW_EVOLUTIONS;
-                        }
                     }
+                    break;
+            }
 
-                    $parameters = array(
-                        'idSite' => $idSite,
-                        'period' => $period,
-                        'date' => $date,
-                        'apiModule' => $apiModule,
-                        'apiAction' => $apiAction,
-                        'label' => $labels,
-                        'segment' => $segment,
-                        'column' => $plottedMetric,
-                        'language' => $languageLoaded,
-                        'idGoal' => $idGoal,
-                        'legendAppendMetric' => $legendAppendMetric,
-                        'labelUseAbsoluteUrl' => false
-                    );
-                    $processedReport = Request::processRequest('API.getRowEvolution', $parameters);
+            $ordinateLogos = array();
 
-                    //@review this test will need to be updated after evaluating the @review comment in API/API.php
-                    if (!$processedReport) {
-                        throw new Exception(Piwik::translate('General_NoDataForGraph'));
-                    }
+            // row evolutions
+            if ($isMultiplePeriod && $reportHasDimension) {
+                $plottedMetric = reset($ordinateColumns);
 
-                    // restoring generic filter parameters
-                    if (!$labels) {
-                        $_GET['filter_sort_column'] = $savedFilterSortColumnValue;
-                        if ($savedFilterLimitValue != -1) {
-                            $_GET['filter_limit'] = $savedFilterLimitValue;
-                        }
-                    }
+                // when no labels are specified, getRowEvolution returns the top N=filter_limit row evolutions
+                // rows are sorted using filter_sort_column (see DataTableGenericFilter for more info)
+                if (!$labels) {
+                    $savedFilterSortColumnValue = Common::getRequestVar('filter_sort_column', '');
+                    $_GET['filter_sort_column'] = $plottedMetric;
 
-                    // retrieve metric names & labels
-                    $metrics = $processedReport['metadata']['metrics'];
-                    $ordinateLabels = array();
-
-                    // getRowEvolution returned more than one label
-                    if (!array_key_exists($plottedMetric, $metrics)) {
-                        $ordinateColumns = array();
-                        $i = 0;
-                        foreach ($metrics as $metric => $info) {
-                            $ordinateColumn = $plottedMetric . '_' . $i++;
-                            $ordinateColumns[] = $metric;
-                            $ordinateLabels[$ordinateColumn] = $info['name'];
-
-                            if (isset($info['logo'])) {
-                                $ordinateLogo = $info['logo'];
-
-                                // @review pChart does not support gifs in graph legends, would it be possible to convert all plugin pictures (cookie.gif, flash.gif, ..) to png files?
-                                if (!strstr($ordinateLogo, '.gif')) {
-                                    $absoluteLogoPath = self::getAbsoluteLogoPath($ordinateLogo);
-                                    if (file_exists($absoluteLogoPath)) {
-                                        $ordinateLogos[$ordinateColumn] = $absoluteLogoPath;
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        $ordinateLabels[$plottedMetric] = $processedReport['label'] . ' (' . $metrics[$plottedMetric]['name'] . ')';
-                    }
-                } else {
-                    $parameters = array(
-                        'idSite' => $idSite,
-                        'period' => $period,
-                        'date' => $date,
-                        'apiModule' => $apiModule,
-                        'apiAction' => $apiAction,
-                        'segment' => $segment,
-                        'apiParameters' => false,
-                        'idGoal' => $idGoal,
-                        'language' => $languageLoaded,
-                        'showTimer' => true,
-                        'hideMetricsDoc' => false,
-                        'idSubtable' => $idSubtable,
-                        'showRawMetrics' => false
-                    );
-                    $processedReport = Request::processRequest('API.getProcessedReport', $parameters);
-                }
-
-                // prepare abscissa and ordinate series
-                $abscissaSeries = array();
-                $abscissaLogos = array();
-                $ordinateSeries = array();
-                /** @var \Piwik\DataTable\Simple|\Piwik\DataTable\Map $reportData */
-                $reportData = $processedReport['reportData'];
-                $hasData = false;
-                $hasNonZeroValue = false;
-
-                if (!$isMultiplePeriod) {
-                    $reportMetadata = $processedReport['reportMetadata']->getRows();
-
-                    $i = 0;
-                    // $reportData instanceof DataTable
-                    foreach ($reportData->getRows() as $row) // Row[]
-                    {
-                        // $row instanceof Row
-                        $rowData = $row->getColumns(); // Associative Array
-                        $abscissaSeries[] = Common::unsanitizeInputValue($rowData['label']);
-
-                        foreach ($ordinateColumns as $column) {
-                            $parsedOrdinateValue = $this->parseOrdinateValue($rowData[$column]);
-                            $hasData = true;
-
-                            if ($parsedOrdinateValue != 0) {
-                                $hasNonZeroValue = true;
-                            }
-                            $ordinateSeries[$column][] = $parsedOrdinateValue;
-                        }
-
-                        if (isset($reportMetadata[$i])) {
-                            $rowMetadata = $reportMetadata[$i]->getColumns();
-                            if (isset($rowMetadata['logo'])) {
-                                $absoluteLogoPath = self::getAbsoluteLogoPath($rowMetadata['logo']);
-                                if (file_exists($absoluteLogoPath)) {
-                                    $abscissaLogos[$i] = $absoluteLogoPath;
-                                }
-                            }
-                        }
-                        $i++;
-                    }
-                } else // if the report has no dimension we have multiple reports each with only one row within the reportData
-                {
-                    // $periodsData instanceof Simple[]
-                    $periodsData = array_values($reportData->getDataTables());
-                    $periodsCount = count($periodsData);
-
-                    for ($i = 0; $i < $periodsCount; $i++) {
-                        // $periodsData[$i] instanceof Simple
-                        // $rows instanceof Row[]
-                        if (empty($periodsData[$i])) {
-                            continue;
-                        }
-                        $rows = $periodsData[$i]->getRows();
-
-                        if (array_key_exists(0, $rows)) {
-                            $rowData = $rows[0]->getColumns(); // associative Array
-
-                            foreach ($ordinateColumns as $column) {
-                                if(empty($rowData[$column])) {
-                                    continue;
-                                }
-                                $ordinateValue = $rowData[$column];
-                                $parsedOrdinateValue = $this->parseOrdinateValue($ordinateValue);
-
-                                $hasData = true;
-
-                                if (!empty($parsedOrdinateValue)) {
-                                    $hasNonZeroValue = true;
-                                }
-
-                                $ordinateSeries[$column][] = $parsedOrdinateValue;
-                            }
-                        } else {
-                            foreach ($ordinateColumns as $column) {
-                                $ordinateSeries[$column][] = 0;
-                            }
-                        }
-
-                        $rowId = $periodsData[$i]->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedShortString();
-                        $abscissaSeries[] = Common::unsanitizeInputValue($rowId);
+                    $savedFilterLimitValue = Common::getRequestVar('filter_limit', -1, 'int');
+                    if ($savedFilterLimitValue == -1 || $savedFilterLimitValue > self::MAX_NB_ROW_LABELS) {
+                        $_GET['filter_limit'] = self::DEFAULT_NB_ROW_EVOLUTIONS;
                     }
                 }
 
-                if (!$hasData || !$hasNonZeroValue) {
+                $parameters = array(
+                    'idSite' => $idSite,
+                    'period' => $period,
+                    'date' => $date,
+                    'apiModule' => $apiModule,
+                    'apiAction' => $apiAction,
+                    'label' => $labels,
+                    'segment' => $segment,
+                    'column' => $plottedMetric,
+                    'language' => $languageLoaded,
+                    'idGoal' => $idGoal,
+                    'legendAppendMetric' => $legendAppendMetric,
+                    'labelUseAbsoluteUrl' => false
+                );
+                $processedReport = Request::processRequest('API.getRowEvolution', $parameters);
+
+                //@review this test will need to be updated after evaluating the @review comment in API/API.php
+                if (!$processedReport) {
                     throw new Exception(Piwik::translate('General_NoDataForGraph'));
                 }
 
-                //Setup the graph
-                $graph = StaticGraph::factory($graphType);
-                $graph->setWidth($width);
-                $graph->setHeight($height);
-                $graph->setFont($font);
-                $graph->setFontSize($fontSize);
-                $graph->setLegendFontSize($legendFontSize);
-                $graph->setOrdinateLabels($ordinateLabels);
-                $graph->setShowLegend($showLegend);
-                $graph->setAliasedGraph($aliasedGraph);
-                $graph->setAbscissaSeries($abscissaSeries);
-                $graph->setAbscissaLogos($abscissaLogos);
-                $graph->setOrdinateSeries($ordinateSeries);
-                $graph->setOrdinateLogos($ordinateLogos);
-                $graph->setColors(!empty($colors) ? explode(',', $colors) : array());
-                $graph->setTextColor($textColor);
-                $graph->setBackgroundColor($backgroundColor);
-                $graph->setGridColor($gridColor);
-
-                // when requested period is day, x-axis unit is time and all date labels can not be displayed
-                // within requested width, force labels to be skipped every 6 days to delimit weeks
-                if ($period == 'day' && $isMultiplePeriod) {
-                    $graph->setForceSkippedLabels(6);
+                // restoring generic filter parameters
+                if (!$labels) {
+                    $_GET['filter_sort_column'] = $savedFilterSortColumnValue;
+                    if ($savedFilterLimitValue != -1) {
+                        $_GET['filter_limit'] = $savedFilterLimitValue;
+                    }
                 }
 
-                // render graph
-                $graph->renderGraph();
-            } catch (\Exception $e) {
+                // retrieve metric names & labels
+                $metrics = $processedReport['metadata']['metrics'];
+                $ordinateLabels = array();
 
-                $graph = new \Piwik\Plugins\ImageGraph\StaticGraph\Exception();
-                $graph->setWidth($width);
-                $graph->setHeight($height);
-                $graph->setFont($font);
-                $graph->setFontSize($fontSize);
-                $graph->setBackgroundColor($backgroundColor);
-                $graph->setTextColor($textColor);
-                $graph->setException($e);
-                $graph->renderGraph();
+                // getRowEvolution returned more than one label
+                if (!array_key_exists($plottedMetric, $metrics)) {
+                    $ordinateColumns = array();
+                    $i = 0;
+                    foreach ($metrics as $metric => $info) {
+                        $ordinateColumn = $plottedMetric . '_' . $i++;
+                        $ordinateColumns[] = $metric;
+                        $ordinateLabels[$ordinateColumn] = $info['name'];
+
+                        if (isset($info['logo'])) {
+                            $ordinateLogo = $info['logo'];
+
+                            // @review pChart does not support gifs in graph legends, would it be possible to convert all plugin pictures (cookie.gif, flash.gif, ..) to png files?
+                            if (!strstr($ordinateLogo, '.gif')) {
+                                $absoluteLogoPath = self::getAbsoluteLogoPath($ordinateLogo);
+                                if (file_exists($absoluteLogoPath)) {
+                                    $ordinateLogos[$ordinateColumn] = $absoluteLogoPath;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    $ordinateLabels[$plottedMetric] = $processedReport['label'] . ' (' . $metrics[$plottedMetric]['name'] . ')';
+                }
+            } else {
+                $parameters = array(
+                    'idSite' => $idSite,
+                    'period' => $period,
+                    'date' => $date,
+                    'apiModule' => $apiModule,
+                    'apiAction' => $apiAction,
+                    'segment' => $segment,
+                    'apiParameters' => false,
+                    'idGoal' => $idGoal,
+                    'language' => $languageLoaded,
+                    'showTimer' => true,
+                    'hideMetricsDoc' => false,
+                    'idSubtable' => $idSubtable,
+                    'showRawMetrics' => false
+                );
+                $processedReport = Request::processRequest('API.getProcessedReport', $parameters);
             }
 
-            // restoring get parameters
-            $_GET = $savedGET;
+            // prepare abscissa and ordinate series
+            $abscissaSeries = array();
+            $abscissaLogos = array();
+            $ordinateSeries = array();
+            /** @var \Piwik\DataTable\Simple|\Piwik\DataTable\Map $reportData */
+            $reportData = $processedReport['reportData'];
+            $hasData = false;
+            $hasNonZeroValue = false;
 
-            switch ($outputType) {
-                case self::GRAPH_OUTPUT_FILE:
-                    if ($idGoal != '') {
-                        $idGoal = '_' . $idGoal;
+            if (!$isMultiplePeriod) {
+                $reportMetadata = $processedReport['reportMetadata']->getRows();
+
+                $i = 0;
+                // $reportData instanceof DataTable
+                foreach ($reportData->getRows() as $row) // Row[]
+                {
+                    // $row instanceof Row
+                    $rowData = $row->getColumns(); // Associative Array
+                    $abscissaSeries[] = Common::unsanitizeInputValue($rowData['label']);
+
+                    foreach ($ordinateColumns as $column) {
+                        $parsedOrdinateValue = $this->parseOrdinateValue($rowData[$column]);
+                        $hasData = true;
+
+                        if ($parsedOrdinateValue != 0) {
+                            $hasNonZeroValue = true;
+                        }
+                        $ordinateSeries[$column][] = $parsedOrdinateValue;
                     }
-                    $fileName = self::$DEFAULT_PARAMETERS[$graphType][self::FILENAME_KEY] . '_' . $apiModule . '_' . $apiAction . $idGoal . ' ' . str_replace(',', '-', $date) . ' ' . $idSite . '.png';
-                    $fileName = str_replace(array(' ', '/'), '_', $fileName);
 
-                    if (!Filesystem::isValidFilename($fileName)) {
-                        throw new Exception('Error: Image graph filename ' . $fileName . ' is not valid.');
+                    if (isset($reportMetadata[$i])) {
+                        $rowMetadata = $reportMetadata[$i]->getColumns();
+                        if (isset($rowMetadata['logo'])) {
+                            $absoluteLogoPath = self::getAbsoluteLogoPath($rowMetadata['logo']);
+                            if (file_exists($absoluteLogoPath)) {
+                                $abscissaLogos[$i] = $absoluteLogoPath;
+                            }
+                        }
+                    }
+                    $i++;
+                }
+            } else // if the report has no dimension we have multiple reports each with only one row within the reportData
+            {
+                // $periodsData instanceof Simple[]
+                $periodsData = array_values($reportData->getDataTables());
+                $periodsCount = count($periodsData);
+
+                for ($i = 0; $i < $periodsCount; $i++) {
+                    // $periodsData[$i] instanceof Simple
+                    // $rows instanceof Row[]
+                    if (empty($periodsData[$i])) {
+                        continue;
+                    }
+                    $rows = $periodsData[$i]->getRows();
+
+                    if (array_key_exists(0, $rows)) {
+                        $rowData = $rows[0]->getColumns(); // associative Array
+
+                        foreach ($ordinateColumns as $column) {
+                            if(empty($rowData[$column])) {
+                                continue;
+                            }
+                            $ordinateValue = $rowData[$column];
+                            $parsedOrdinateValue = $this->parseOrdinateValue($ordinateValue);
+
+                            $hasData = true;
+
+                            if (!empty($parsedOrdinateValue)) {
+                                $hasNonZeroValue = true;
+                            }
+
+                            $ordinateSeries[$column][] = $parsedOrdinateValue;
+                        }
+                    } else {
+                        foreach ($ordinateColumns as $column) {
+                            $ordinateSeries[$column][] = 0;
+                        }
                     }
 
-                    return $graph->sendToDisk($fileName);
-
-                case self::GRAPH_OUTPUT_PHP:
-                    return $graph->getRenderedImage();
-
-                case self::GRAPH_OUTPUT_INLINE:
-                default:
-                    $pngImgArr[$w]['source'] = $graph->getPngImageData();
-                    $pngImgArr[$w]['id'] = $idSite;
+                    $rowId = $periodsData[$i]->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedShortString();
+                    $abscissaSeries[] = Common::unsanitizeInputValue($rowId);
+                }
             }
-        }
-        // render one or more image graphs as HTML page
-        $imageGraphCount = count($pngImgArr);
-        if ($imageGraphCount >= 1) {
-            $this->renderImageGraph($pngImgArr, $imageGraphCount);
-        }
-    }
 
-    /**
-     * @param array $pngImgArr Each array index contains image tag with base_64 encoded value of image source
-     * @param string $imageGraphCount Number of img tags available for output
-     * Exits after outputting HTML content
-     */
-    public function renderImageGraph($pngImgArr, $imageGraphCount)
-    {
-        header('Content-Type: text/html; charset=utf-8');
-        $lineBorderCss = 'border-bottom:1px dotted black;position:relative;height:5px;';$htmlImageGraph = '';
-        for ($w = 0; $w < $imageGraphCount; $w++) {
-            $htmlImageGraph .= '<div>Site Id:'.$pngImgArr[$w]['id'].'</div>';
-            $htmlImageGraph .= '<div style="margin:10px;clear:both;"><img src="'.$pngImgArr[$w]['source'].'" /></div>';
-            $htmlImageGraph .= '<div style="'.$lineBorderCss.'"></div>';
+            if (!$hasData || !$hasNonZeroValue) {
+                throw new Exception(Piwik::translate('General_NoDataForGraph'));
+            }
+
+            //Setup the graph
+            $graph = StaticGraph::factory($graphType);
+            $graph->setWidth($width);
+            $graph->setHeight($height);
+            $graph->setFont($font);
+            $graph->setFontSize($fontSize);
+            $graph->setLegendFontSize($legendFontSize);
+            $graph->setOrdinateLabels($ordinateLabels);
+            $graph->setShowLegend($showLegend);
+            $graph->setAliasedGraph($aliasedGraph);
+            $graph->setAbscissaSeries($abscissaSeries);
+            $graph->setAbscissaLogos($abscissaLogos);
+            $graph->setOrdinateSeries($ordinateSeries);
+            $graph->setOrdinateLogos($ordinateLogos);
+            $graph->setColors(!empty($colors) ? explode(',', $colors) : array());
+            $graph->setTextColor($textColor);
+            $graph->setBackgroundColor($backgroundColor);
+            $graph->setGridColor($gridColor);
+
+            // when requested period is day, x-axis unit is time and all date labels can not be displayed
+            // within requested width, force labels to be skipped every 6 days to delimit weeks
+            if ($period == 'day' && $isMultiplePeriod) {
+                $graph->setForceSkippedLabels(6);
+            }
+
+            // render graph
+            $graph->renderGraph();
+        } catch (\Exception $e) {
+
+            $graph = new \Piwik\Plugins\ImageGraph\StaticGraph\Exception();
+            $graph->setWidth($width);
+            $graph->setHeight($height);
+            $graph->setFont($font);
+            $graph->setFontSize($fontSize);
+            $graph->setBackgroundColor($backgroundColor);
+            $graph->setTextColor($textColor);
+            $graph->setException($e);
+            $graph->renderGraph();
         }
-        echo $htmlImageGraph;
-        exit;
+
+        // restoring get parameters
+        $_GET = $savedGET;
+
+        switch ($outputType) {
+            case self::GRAPH_OUTPUT_FILE:
+                if ($idGoal != '') {
+                    $idGoal = '_' . $idGoal;
+                }
+                $fileName = self::$DEFAULT_PARAMETERS[$graphType][self::FILENAME_KEY] . '_' . $apiModule . '_' . $apiAction . $idGoal . ' ' . str_replace(',', '-', $date) . ' ' . $idSite . '.png';
+                $fileName = str_replace(array(' ', '/'), '_', $fileName);
+
+                if (!Filesystem::isValidFilename($fileName)) {
+                    throw new Exception('Error: Image graph filename ' . $fileName . ' is not valid.');
+                }
+
+                return $graph->sendToDisk($fileName);
+
+            case self::GRAPH_OUTPUT_PHP:
+                return $graph->getRenderedImage();
+
+            case self::GRAPH_OUTPUT_INLINE:
+            default:
+                $graph->sendToBrowser();
+                exit;
+        }
     }
 
     private function setFilterTruncate($default)
