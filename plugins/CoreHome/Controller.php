@@ -17,6 +17,7 @@ use Piwik\Menu\MenuReporting;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
+use Piwik\Plugin\Widget;
 use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
 use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
@@ -78,9 +79,19 @@ class Controller extends \Piwik\Plugin\Controller
         return $report->render();
     }
 
-    public function renderWidget(PluginWidgets $widget, $method)
+    /**
+     * @param PluginWidgets|Widget $widget
+     * @param string $method
+     * @return mixed
+     * @throws Exception
+     */
+    public function renderWidget($widget, $method)
     {
         Piwik::checkUserHasSomeViewAccess();
+
+        if ($widget instanceof Widget) {
+            $widget->checkIsEnabled();
+        }
 
         return $widget->$method();
     }

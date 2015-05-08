@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Report;
+use Piwik\Plugin\Widget;
 use Piwik\Plugin\Widgets;
 
 /**
@@ -116,6 +117,13 @@ class WidgetsList extends Singleton
 
                 foreach ($widgets as $widget) {
                     $widgetsList->add($widget['category'], $widget['name'], $widget['module'], $widget['method'], $widget['params']);
+                }
+            }
+
+            $widgets = Widget::getAllWidgets();
+            foreach ($widgets as $widget) {
+                if ($widget->isEnabled()) {
+                    $widgetsList->add($widget->getCategory(), $widget->getName(), $widget->getModule(), $widget->getAction(), $widget->getParameters());
                 }
             }
 

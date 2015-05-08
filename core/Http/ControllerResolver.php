@@ -12,6 +12,7 @@ use DI\FactoryInterface;
 use Exception;
 use Piwik\Plugin\Controller;
 use Piwik\Plugin\Report;
+use Piwik\Plugin\Widget;
 use Piwik\Plugin\Widgets;
 use Piwik\Session;
 
@@ -85,14 +86,21 @@ class ControllerResolver
 
     private function createWidgetController($module, $action, array &$parameters)
     {
-        $widget = Widgets::factory($module, $action);
+        $widget = Widget::factory($module, $action);
 
         if (!$widget) {
-            return null;
-        }
+            $widget = Widgets::factory($module, $action);
+            
+            if (!$widget) {
+                return null;
+            }
 
-        $parameters['widget'] = $widget;
-        $parameters['method'] = $action;
+            $parameters['widget'] = $widget;
+            $parameters['method'] = $action;
+        } else {
+            $parameters['widget'] = $widget;
+            $parameters['method'] = 'render';
+        }
 
         return array($this->createCoreHomeController(), 'renderWidget');
     }

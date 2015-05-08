@@ -64,4 +64,5 @@ class Widgets extends \Piwik\Plugin\Widgets
         // $widgetsList->remove('NameOfWidgetCategory'); // will remove all widgets having this category
         // $widgetsList->remove('NameOfWidgetCategory', 'Widget name'); // will only remove a specific widget
     }
+
 }
