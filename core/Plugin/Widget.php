@@ -138,12 +138,6 @@ class Widget
             return;
         }
 
-        // the widget class implements such an action, but we have to check whether it is actually exposed and whether
-        // it was maybe disabled by another plugin, this is only possible by checking the widgetslist, unfortunately
-        if (!WidgetsList::isDefined($module, $action)) {
-            return;
-        }
-
         /** @var Widget[] $widgetContainer */
         $widgets = $plugin->findMultipleComponents('Widgets', 'Piwik\\Plugin\\Widget');
 
