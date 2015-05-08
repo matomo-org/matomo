@@ -42,8 +42,7 @@ try 'php archive.php --url=http://your.piwik/path'
 -------------------------------------------------------
 \n\n";
 }
-// TODO: manual test against php-cgi + ArchiveWebTest
-//       => test w/ token auth & w/o token auth
+
 if (Piwik\Common::isPhpCliMode()) {
     $console = new Piwik\Console();
 

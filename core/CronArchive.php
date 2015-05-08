@@ -829,6 +829,7 @@ class CronArchive
 
             $cliMulti  = new CliMulti();
             $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
+            $cliMulti->runAsSuperUser();
             $responses = $cliMulti->request(array($url));
 
             $response  = !empty($responses) ? array_shift($responses) : null;

@@ -101,7 +101,7 @@ class CliMulti {
 
     public function runAsSuperUser($runAsSuperUser = true)
     {
-        $this->runAsSuperuser = $runAsSuperUser;
+        $this->runAsSuperUser = $runAsSuperUser;
     }
 
     private function start($piwikUrls)
