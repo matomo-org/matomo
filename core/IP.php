@@ -45,7 +45,8 @@ class IP
      */
     public static function getIpFromHeader()
     {
-        $clientHeaders = @Config::getInstance()->General['proxy_client_headers'];
+        $general = Config::getInstance()->General;
+        $clientHeaders = @$general['proxy_client_headers'];
         if (!is_array($clientHeaders)) {
             $clientHeaders = array();
         }

@@ -8,12 +8,14 @@
 
 namespace Piwik\CliMulti;
 
+use Piwik\Application\Environment;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Url;
 use Piwik\UrlHelper;
 use Symfony\Component\Console\Input\InputArgument;
@@ -25,6 +27,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class RequestCommand extends ConsoleCommand
 {
+    /**
+     * @var Environment
+     */
+    private $environment;
+
     protected function configure()
     {
         $this->setName('climulti:request');
@@ -39,12 +46,7 @@ class RequestCommand extends ConsoleCommand
         $this->initHostAndQueryString($input);
 
         if ($this->isTestModeEnabled()) {
-            require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
-
-            Config::unsetInstance();
-            StaticContainer::clearContainer();
-            \Piwik_TestingEnvironment::addHooks();
-
+            Config::setSingletonInstance(new TestConfig());
             $indexFile = '/tests/PHPUnit/proxy/';
 
             $this->resetDatabase();
@@ -101,9 +103,11 @@ class RequestCommand extends ConsoleCommand
      */
     private function recreateContainerWithWebEnvironment()
     {
-        StaticContainer::setEnvironment(null);
         StaticContainer::clearContainer();
         Log::unsetInstance();
+
+        $this->environment = new Environment(null);
+        $this->environment->init();
     }
 
     private function resetDatabase()

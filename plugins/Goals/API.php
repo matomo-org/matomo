@@ -365,7 +365,8 @@ class API extends \Piwik\Plugin\API
                 'date'    => $date,
                 'idGoal'  => $idGoal,
                 'columns' => $columns,
-                'serialize' => '0'
+                'serialize' => '0',
+                'format_metrics' => 'bc'
             ));
 
             $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
@@ -400,7 +401,18 @@ class API extends \Piwik\Plugin\API
         $isEcommerceGoal = $idGoal === GoalManager::IDGOAL_ORDER || $idGoal === GoalManager::IDGOAL_CART;
 
         $allMetrics = Goals::getGoalColumns($idGoal);
-        $requestedColumns = Piwik::getArrayFromApiParameter($columns);
+        $columnsToShow = Piwik::getArrayFromApiParameter($columns);
+        $requestedColumns = $columnsToShow;
+
+        $shouldAddAverageOrderRevenue = (in_array('avg_order_revenue', $requestedColumns) || empty($requestedColumns)) && $isEcommerceGoal;
+
+        if ($shouldAddAverageOrderRevenue && !empty($requestedColumns)) {
+
+            $avgOrder = new AverageOrderRevenue();
+            $metricsToAdd = $avgOrder->getDependentMetrics();
+
+            $requestedColumns = array_unique(array_merge($requestedColumns, $metricsToAdd));
+        }
 
         $report = Report::factory('Goals', 'getMetrics');
         $columnsToGet = $report->getMetricsRequiredForReport($allMetrics, $requestedColumns);
@@ -420,25 +432,26 @@ class API extends \Piwik\Plugin\API
         // TODO: this should be in Goals/Get.php but it depends on idGoal parameter which isn't always in _GET (ie,
         //       it's not in ProcessedReport.php). more refactoring must be done to report class before this can be
         //       corrected.
-        if ((in_array('avg_order_revenue', $requestedColumns)
-                || empty($requestedColumns))
-            && $isEcommerceGoal
-        ) {
+        if ($shouldAddAverageOrderRevenue) {
             $dataTable->filter(function (DataTable $table) {
                 $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+                if (empty($extraProcessedMetrics)) {
+                    $extraProcessedMetrics = array();
+                }
                 $extraProcessedMetrics[] = new AverageOrderRevenue();
                 $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
             });
         }
 
         // remove temporary metrics that were not explicitly requested
-        $allColumns = $allMetrics;
-        $allColumns[] = 'conversion_rate';
-        if ($isEcommerceGoal) {
-            $allColumns[] = 'avg_order_revenue';
+        if (empty($columnsToShow)) {
+            $columnsToShow = $allMetrics;
+            $columnsToShow[] = 'conversion_rate';
+            if ($isEcommerceGoal) {
+                $columnsToShow[] = 'avg_order_revenue';
+            }
         }
 
-        $columnsToShow = $requestedColumns ?: $allColumns;
         $dataTable->queueFilter('ColumnDelete', array($columnsToRemove = array(), $columnsToShow));
 
         return $dataTable;

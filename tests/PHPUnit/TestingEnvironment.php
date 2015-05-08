@@ -2,12 +2,14 @@
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Config\IniFileChain;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Option;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\DbHelper;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\TestConfig;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Config.php";
 
@@ -100,7 +102,10 @@ class Piwik_TestingEnvironment
 
     public function getCoreAndSupportedPlugins()
     {
-        $disabledPlugins = PluginManager::getInstance()->getCorePluginsDisabledByDefault();
+        $settings = new \Piwik\Application\Kernel\GlobalSettingsProvider();
+        $pluginManager = new PluginManager(new \Piwik\Application\Kernel\PluginList($settings));
+
+        $disabledPlugins = $pluginManager->getCorePluginsDisabledByDefault();
         $disabledPlugins[] = 'LoginHttpAuth';
         $disabledPlugins[] = 'ExampleVisualization';
 
@@ -108,13 +113,13 @@ class Piwik_TestingEnvironment
             'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin'
         ));
 
-        $plugins = array_filter(PluginManager::getInstance()->readPluginsDirectory(), function ($pluginName) use ($disabledPlugins) {
+        $plugins = array_filter($pluginManager->readPluginsDirectory(), function ($pluginName) use ($disabledPlugins, $pluginManager) {
             if (in_array($pluginName, $disabledPlugins)) {
                 return false;
             }
 
-            return PluginManager::getInstance()->isPluginBundledWithCore($pluginName)
-                || PluginManager::getInstance()->isPluginOfficialAndNotBundledWithCore($pluginName);
+            return $pluginManager->isPluginBundledWithCore($pluginName)
+                || $pluginManager->isPluginOfficialAndNotBundledWithCore($pluginName);
         });
 
         sort($plugins);
@@ -146,15 +151,14 @@ class Piwik_TestingEnvironment
             \Piwik\Profiler::setupProfilerXHProf($mainRun = false, $setupDuringTracking = true);
         }
 
-        if ($testingEnvironment->dontUseTestConfig) {
-            Config::setSingletonInstance(new Config(
-                $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
-            ));
-        }
-
-        $diConfig = array();
+        \Piwik\Application\Kernel\GlobalSettingsProvider::getSingletonInstance(
+            $testingEnvironment->configFileGlobal,
+            $testingEnvironment->configFileLocal,
+            $testingEnvironment->configFileCommon
+        );
 
         // Apply DI config from the fixture
+        $diConfig = array();
         if ($testingEnvironment->fixtureClass) {
             $fixtureClass = $testingEnvironment->fixtureClass;
             if (class_exists($fixtureClass)) {
@@ -186,50 +190,70 @@ class Piwik_TestingEnvironment
                 \Piwik\Access::setSingletonInstance($access);
             }
         });
+
+        $pluginsToLoad = $testingEnvironment->getCoreAndSupportedPlugins();
+        if (!empty($testingEnvironment->pluginsToLoad)) {
+            $pluginsToLoad = array_unique(array_merge($pluginsToLoad, $testingEnvironment->pluginsToLoad));
+        }
+
+        sort($pluginsToLoad);
+
         if (!$testingEnvironment->dontUseTestConfig) {
-            Piwik::addAction('Config.createConfigSingleton', function(Config $config, &$cache) use ($testingEnvironment) {
-                $config->setTestEnvironment($testingEnvironment->configFileLocal, $testingEnvironment->configFileGlobal, $testingEnvironment->configFileCommon);
+            Piwik::addAction('Config.createConfigSingleton', function(IniFileChain $chain) use ($testingEnvironment, $pluginsToLoad) {
+                $general =& $chain->get('General');
+                $plugins =& $chain->get('Plugins');
+                $log =& $chain->get('log');
+                $database =& $chain->get('database');
 
                 if ($testingEnvironment->configFileLocal) {
-                    $config->General['session_save_handler'] = 'dbtable';
+                    $general['session_save_handler'] = 'dbtable';
                 }
 
-                $manager = \Piwik\Plugin\Manager::getInstance();
-                $pluginsToLoad = $testingEnvironment->getCoreAndSupportedPlugins();
-                if (!empty($testingEnvironment->pluginsToLoad)) {
-                    $pluginsToLoad = array_unique(array_merge($pluginsToLoad, $testingEnvironment->pluginsToLoad));
-                }
+                $plugins['Plugins'] = $pluginsToLoad;
 
-                sort($pluginsToLoad);
-
-                $config->Plugins = array('Plugins' => $pluginsToLoad);
-
-                $config->log['log_writers'] = array('file');
-
-                $manager->unloadPlugins();
+                $log['log_writers'] = array('file');
 
                 // TODO: replace this and below w/ configOverride use
                 if ($testingEnvironment->tablesPrefix) {
-                    $config->database['tables_prefix'] = $testingEnvironment->tablesPrefix;
+                    $database['tables_prefix'] = $testingEnvironment->tablesPrefix;
                 }
 
                 if ($testingEnvironment->dbName) {
-                    $config->database['dbname'] = $testingEnvironment->dbName;
+                    $database['dbname'] = $testingEnvironment->dbName;
                 }
 
                 if ($testingEnvironment->configOverride) {
+                    $cache =& $chain->getAll();
                     $cache = $testingEnvironment->arrayMergeRecursiveDistinct($cache, $testingEnvironment->configOverride);
                 }
             });
+
+            Config::setSingletonInstance(new TestConfig(
+                $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
+            ));
+        } else {
+            \Piwik\Application\Kernel\GlobalSettingsProvider::unsetSingletonInstance();
+            
+            Config::setSingletonInstance(new Config(
+                $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
+            ));
         }
         Piwik::addAction('Request.dispatch', function() use ($testingEnvironment) {
             if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
-                \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
+                try {
+                    \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
+                } catch (\Exception $ex) {
+                    // ignore (in case DB is not setup)
+                }
             }
 
             if ($testingEnvironment->optionsOverride) {
-                foreach ($testingEnvironment->optionsOverride as $name => $value) {
-                    Option::set($name, $value);
+                try {
+                    foreach ($testingEnvironment->optionsOverride as $name => $value) {
+                        Option::set($name, $value);
+                    }
+                } catch (\Exception $ex) {
+                    // ignore (in case DB is not setup)
                 }
             }
 
@@ -261,9 +285,10 @@ class Piwik_TestingEnvironment
                 DbHelper::deleteArchiveTables();
             }
         });
-
-        $testingEnvironment->logVariables();
-        $testingEnvironment->executeSetupTestEnvHook();
+        Piwik::addAction('Environment.bootstrapped', function () use ($testingEnvironment) {
+            $testingEnvironment->logVariables();
+            $testingEnvironment->executeSetupTestEnvHook();
+        });
     }
 
     public static function addSendMailHook()

@@ -6,27 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Integration;
+namespace Piwik\Tests\Unit;
 
 use Piwik\Cache;
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
  * @group Cache
  */
-class CacheTest extends IntegrationTestCase
+class CacheTest extends UnitTestCase
 {
-    public function setUp()
-    {
-    }
-
-    public function tearDown()
-    {
-    }
-
     public function test_getLazyCache_shouldCreateAnInstanceOfLazy()
     {
         $cache = Cache::getLazyCache();
@@ -59,13 +49,12 @@ class CacheTest extends IntegrationTestCase
 
     public function test_getEagerCache_shouldPersistOnceEventWasTriggered()
     {
-        StaticContainer::clearContainer();
         $storageId = 'eagercache-test-ui';
         $cache = Cache::getEagerCache();
         $cache->save('test', 'mycontent'); // make sure something was changed, otherwise it won't save anything
 
         /** @var \Piwik\Cache\Backend $backend */
-        $backend = StaticContainer::get('Piwik\Cache\Backend');
+        $backend = $this->environment->getContainer()->get('Piwik\Cache\Backend');
         $this->assertFalse($backend->doContains($storageId));
 
         Piwik::postEvent('Request.dispatch.end'); // should trigger save

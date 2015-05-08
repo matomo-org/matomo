@@ -78,7 +78,11 @@ class ExceptionHandler
             $logoHeaderUrl = $logo->getHeaderLogoUrl();
             $logoFaviconUrl = $logo->getPathUserFavicon();
         } catch (Exception $ex) {
-            Log::debug($ex);
+            try {
+                Log::debug($ex);
+            } catch (\Exception $otherEx) {
+                // DI container may not be setup at this point
+            }
         }
 
         $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logoHeaderUrl, $logoFaviconUrl);

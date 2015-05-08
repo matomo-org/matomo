@@ -245,6 +245,16 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                 array($goalWeekApi, array('idSite'     => $idSite2, 'date' => $dateTime, 'periods' => array('week'),
                                           'testSuffix' => '_Website2')),
 
+                // see https://github.com/piwik/piwik/issues/7851 make sure avg_order_revenue is calculated correct
+                // even if only this column is given
+                array('Goals.get', array('idSite' => $idSite,
+                                         'date' => $dateTime,
+                                         'periods' => array('week'),
+                                         'otherRequestParameters' => array(
+                                           'idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,
+                                            'columns' => 'avg_order_revenue'),
+                                         'testSuffix' => '_AvgOrderRevenue')),
+
            ),
             self::getApiForTestingScheduledReports($dateTime, 'week')
         );

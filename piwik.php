@@ -8,6 +8,7 @@
  * @package Piwik
  */
 
+use Piwik\SettingsServer;
 use Piwik\Tracker\RequestSet;
 use Piwik\Tracker;
 use Piwik\Tracker\Handler;
@@ -48,7 +49,11 @@ require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Cache.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Request.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
 
-\Piwik\Container\StaticContainer::setEnvironment('tracker');
+// TODO should move to Tracker application class later. currently needed for environment validation.
+SettingsServer::setIsTrackerApiRequest();
+
+$environment = new \Piwik\Application\Environment('tracker');
+$environment->init();
 
 Tracker::loadTrackerEnvironment();
 

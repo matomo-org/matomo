@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\EventDispatcher;
@@ -19,7 +20,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\RequestSet;
 use Piwik\Tracker\Request;
-use Piwik\Translate;
 
 class TestTracker extends Tracker
 {
@@ -58,6 +58,9 @@ class TrackerTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
+
+        GlobalSettingsProvider::unsetSingletonInstance();
+        Config::unsetInstance();
 
         Fixture::createWebsite('2014-01-01 00:00:00');
 
@@ -145,16 +148,13 @@ class TrackerTest extends IntegrationTestCase
 
         $this->assertFalse(SettingsServer::isTrackerApiRequest());
 
-        $this->assertTrue(Config::getInstance()->existsLocalConfig());
+        $this->assertTrue(is_readable(Config::getInstance()->getLocalPath()));
 
         $this->removeConfigFile();
-        try {
-            Config::getInstance()->reload();
-        } catch (\Exception $ex) {
-            // ignore config file not found exception
-        }
 
-        $this->assertFalse(Config::getInstance()->existsLocalConfig());
+        $this->assertFalse(is_readable(Config::getInstance()->getLocalPath()));
+
+        Config::unsetInstance();
 
         Tracker::loadTrackerEnvironment();
 

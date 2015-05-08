@@ -1,0 +1,7 @@
+#!/usr/bin/env php
+<?php
+require realpath(dirname(__FILE__)) . "/includes.php";
+
+Piwik_TestingEnvironment::addHooks();
+
+require_once PIWIK_INCLUDE_PATH . "/console";

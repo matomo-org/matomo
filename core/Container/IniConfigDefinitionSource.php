@@ -11,7 +11,7 @@ namespace Piwik\Container;
 use DI\Definition\Exception\DefinitionException;
 use DI\Definition\Source\DefinitionSource;
 use DI\Definition\ValueDefinition;
-use Piwik\Config;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 
 /**
  * Expose the INI config into PHP-DI.
@@ -23,7 +23,7 @@ use Piwik\Config;
 class IniConfigDefinitionSource implements DefinitionSource
 {
     /**
-     * @var Config
+     * @var GlobalSettingsProvider
      */
     private $config;
 
@@ -33,10 +33,10 @@ class IniConfigDefinitionSource implements DefinitionSource
     private $prefix;
 
     /**
-     * @param Config $config
+     * @param GlobalSettingsProvider $config
      * @param string $prefix Prefix for the container entries.
      */
-    public function __construct(Config $config, $prefix = 'ini.')
+    public function __construct(GlobalSettingsProvider $config, $prefix = 'ini.')
     {
         $this->config = $config;
         $this->prefix = $prefix;
@@ -81,11 +81,11 @@ class IniConfigDefinitionSource implements DefinitionSource
 
     private function getSection($sectionName)
     {
-        $section = $this->config->$sectionName;
+        $section = $this->config->getSection($sectionName);
 
         if (!is_array($section)) {
             throw new DefinitionException(sprintf(
-                'Piwik\Config did not return an array for the config section %s',
+                'IniFileChain did not return an array for the config section %s',
                 $section
             ));
         }
