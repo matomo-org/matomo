@@ -29,6 +29,7 @@ class TestsRunUI extends ConsoleCommand
         $this->addOption('plugin', null, InputOption::VALUE_REQUIRED, "Execute all tests for a plugin.");
         $this->addOption('core', null, InputOption::VALUE_NONE, "Execute only tests for Piwik core & core plugins.");
         $this->addOption('skip-delete-assets', null, InputOption::VALUE_NONE, "Skip deleting of merged assets (will speed up a test run, but not by a lot).");
+        $this->addOption('electron', null, InputOption::VALUE_NONE, "Run tests using electron instead of phantomjs.");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -86,7 +87,11 @@ class TestsRunUI extends ConsoleCommand
 
         $specs = implode(" ", $specs);
 
-        $cmd = "phantomjs '" . PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/run-tests.js' $options $specs";
+        if ($input->getOption('electron')) {
+            $cmd = "electron '" . PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/run-tests.js' $options $specs";
+        } else {
+            $cmd = "phantomjs '" . PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/run-tests.js' $options $specs";
+        }
 
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
         $output->writeln('');

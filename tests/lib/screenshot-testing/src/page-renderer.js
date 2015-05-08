@@ -7,10 +7,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-var VERBOSE = false;
+var VERBOSE = false,
+    path = require('path');
 
 // TODO: should refactor, move all event queueing logic to PageAutomation class and add .frame method to change context
-var PageRenderer = function (baseUrl) {
+var PageRenderer = function (config) {
+    var baseUrl = config.piwikUrl + path.join("tests", "PHPUnit", "proxy");
+
     this.webpage = null;
     this.userAgent = null;
 

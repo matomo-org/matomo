@@ -1,0 +1,8 @@
+{
+  "platform": {
+    "type": "Platform@platform/phantomjs",
+    "construct": [
+      "@config"
+    ]
+  }
+}

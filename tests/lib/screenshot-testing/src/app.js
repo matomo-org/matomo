@@ -8,27 +8,34 @@
  */
 
 var fs = require('fs'),
-    path = require('./path'),
-    DiffViewerGenerator = require('./diff-viewer').DiffViewerGenerator
+    path = require('path'),
+    DiffViewerGenerator = require('./diff-viewer').DiffViewerGenerator;
+
+var uiTestsDir = path.join(PIWIK_INCLUDE_PATH, 'tests', 'UI');
 
 var walk = function (dir, pattern, result) {
     result = result || [];
 
-    fs.list(dir).forEach(function (item) {
-        if (item == '.'
-            || item == '..'
-        ) {
-            return;
-        }
+    if (fs.existsSync(dir)) {
+        fs.readdirSync(dir).forEach(function (item) {
+            if (item == '.'
+                || item == '..'
+            ) {
+                return;
+            }
 
-        var wholePath = path.join(dir, item);
+            var wholePath = path.join(dir, item);
+            if (fs.isLink(wholePath)) {
+                return;
+            }
 
-        if (fs.isDirectory(wholePath)) {
-            walk(wholePath, pattern, result);
-        } else if (wholePath.match(pattern)) {
-            result.push(wholePath);
-        }
-    });
+            if (fs.isDir(wholePath)) {
+                walk(wholePath, pattern, result);
+            } else if (wholePath.match(pattern)) {
+                result.push(wholePath);
+            }
+        });
+    }
 
     return result;
 };
@@ -36,14 +43,12 @@ var walk = function (dir, pattern, result) {
 var isCorePlugin = function (pathToPlugin) {
     // if the plugin is a .git checkout, it's not part of core
     var gitDir = path.join(pathToPlugin, '.git');
-    return !fs.exists(gitDir);
+    return !fs.existsSync(gitDir);
 };
 
-var Application = function () {
+var Application = function (config) {
     this.runner = null;
-
-    var diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', config.screenshotDiffDir);
-    this.diffViewerGenerator = new DiffViewerGenerator(diffviewerDir);
+    this.config = config;
 };
 
 Application.prototype.printHelpAndExit = function () {
@@ -67,11 +72,24 @@ Application.prototype.printHelpAndExit = function () {
     console.log("                            to link to in the diffviewer. For use with travis build.");
     console.log("  --core:                   Only execute UI tests that are for Piwik core or Piwik core plugins.");
 
-    phantom.exit(0);
+    process.exit(0);
+};
+
+Application.prototype.run = function () {
+    if (options['help']) {
+        this.printHelpAndExit();
+    }
+
+    this.init();
+    this.loadTestModules();
+    this.runTests();
 };
 
 Application.prototype.init = function () {
     var app = this;
+
+    var diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', this.config.screenshotDiffDir);
+    this.diffViewerGenerator = new DiffViewerGenerator(diffviewerDir);
 
     // overwrite describe function so we can inject the base directory of a suite
     var oldDescribe = describe;
@@ -79,9 +97,9 @@ Application.prototype.init = function () {
         var suite = oldDescribe.apply(null, arguments);
         suite.baseDirectory = app.currentModulePath.match(/\/plugins\//) ? path.dirname(app.currentModulePath) : uiTestsDir;
         if (options['assume-artifacts']) {
-            suite.diffDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', config.screenshotDiffDir);
+            suite.diffDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', app.config.screenshotDiffDir);
         } else {
-            suite.diffDir = path.join(suite.baseDirectory, config.screenshotDiffDir);
+            suite.diffDir = path.join(suite.baseDirectory, app.config.screenshotDiffDir);
         }
         return suite;
     };
@@ -92,10 +110,12 @@ Application.prototype.loadTestModules = function () {
         pluginDir = path.join(PIWIK_INCLUDE_PATH, 'plugins');
 
     // find all installed plugins
-    var plugins = fs.list(pluginDir).map(function (item) {
+    var plugins = fs.readdirSync(pluginDir).filter(function (item) {
+        return item != '..' && item != '.';
+    }).map(function (item) {
         return path.join(pluginDir, item);
     }).filter(function (path) {
-        return fs.isDirectory(path) && !path.match(/\/\.*$/);
+        return fs.isDir(path) && !path.match(/\/\.*$/);
     });
 
     // load all UI tests we can find
@@ -149,12 +169,12 @@ Application.prototype.loadTestModules = function () {
             }
 
             // remove existing diffs
-            fs.list(suite.diffDir).forEach(function (item) {
+            fs.readdirSync(suite.diffDir).forEach(function (item) {
                 var file = path.join(suite.diffDir, item);
-                if (fs.exists(file)
+                if (fs.existsSync(file)
                     && item.slice(-4) == '.png'
                 ) {
-                    fs.remove(file);
+                    fs.unlinkSync(file);
                 }
             });
 
@@ -190,7 +210,7 @@ Application.prototype.runTests = function () {
     ];
 
     dirsToCreate.forEach(function (path) {
-        if (!fs.isDirectory(path)) {
+        if (!fs.isDir(path)) {
             fs.makeTree(path);
         }
     });
@@ -211,8 +231,8 @@ Application.prototype.doRunTests = function () {
 
             symlinks.forEach(function (item) {
                 var file = path.join(uiTestsDir, '..', 'PHPUnit', 'proxy', item);
-                if (fs.exists(file)) {
-                    fs.remove(file);
+                if (fs.existsSync(file)) {
+                    fs.unlinkSync(file);
                 }
             });
         }
@@ -225,7 +245,7 @@ Application.prototype.doRunTests = function () {
 };
 
 Application.prototype.finish = function () {
-    phantom.exit(this.runner ? this.runner.failures : -1);
+    process.exit(this.runner ? this.runner.failures : -1);
 };
 
-exports.Application = new Application();
+exports.Application = Application;

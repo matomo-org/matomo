@@ -7,58 +7,51 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// required modules
-var config = require("./../../UI/config.dist");
-try {
-    var localConfig = require("./../../UI/config");
-} catch (e) {
-    localConfig = null;
-}
-
-if (localConfig) {
-    for (var prop in localConfig) {
-        if (localConfig.hasOwnProperty(prop)) {
-            config[prop] = localConfig[prop];
+var _container = (function () {
+    function detectPlatform() {
+        if (typeof phantom !== 'undefined') {
+            return 'phantomjs';
+        } else if (isElectron()) {
+            return 'electron';
+        } else {
+            throw new Error("Don't know what platform the tests are running under, currently recognized platforms are: phantomjs, electron");
         }
     }
-}
 
-// assume the URI points to a folder and make sure Piwik won't cut off the last path segment
-if (config.phpServer.REQUEST_URI.slice(-1) != '/') {
-    config.phpServer.REQUEST_URI += '/';
-}
+    function isElectron() {
+        try {
+            require('browser-window');
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
 
-require('./support/fs-extras');
+    var platformId = detectPlatform();
 
-phantom.injectJs('./support/globals.js');
+    var iocConfig = require('./config/config.json'),
+        platformConfig = require('./config/' + platformId + '.json');
 
-// make sure script works wherever it's executed from
-require('fs').changeWorkingDirectory(__dirname);
+    for (var key in platformConfig) {
+        if (platformConfig.hasOwnProperty(key)) {
+            iocConfig[key] = platformConfig[key];
+        }
+    }
 
-// load mocha + chai
-require('./support/mocha-loader');
-phantom.injectJs(chaiPath);
-require('./support/chai-extras');
+    var thisDir = require('./src/platform/' + platformId).getLibraryRootDir();
+    var Jambalaya = require('./node_modules/jambalaya'),
+        container = new Jambalaya(iocConfig, thisDir + '/src'),
+        platform = container.get('platform');
 
-// load & configure resemble (for comparison)
-phantom.injectJs(resemblePath);
+    platform.changeWorkingDirectory(thisDir);
+    platform.init();
+    platform.setupGlobals(container.get('test-environment'));
 
-resemble.outputSettings({
-    errorColor: {
-        red: 255,
-        green: 0,
-        blue: 0,
-        alpha: 125
-    },
-    errorType: 'movement',
-    transparency: 0.3
-});
+    return container;
+}());
 
-// run script
-if (options['help']) {
-    app.printHelpAndExit();
-}
+_container.get('chai-loader').initExtras();
+_container.get('mocha-loader').load();
+_container.get('resemble-loader').load();
 
-app.init();
-app.loadTestModules();
-app.runTests();
+_container.get('platform').runApp(_container.get('app'));

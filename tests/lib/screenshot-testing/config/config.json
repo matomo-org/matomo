@@ -1,0 +1,38 @@
+{
+  "config": {
+    "type": "Config@config"
+  },
+  "app": {
+    "type": "Application@app",
+    "construct": [
+      "@config"
+    ]
+  },
+  "page-renderer": {
+    "type": "PageRenderer@page-renderer",
+    "construct": [
+      "@config"
+    ]
+  },
+  "chai-loader": {
+    "type": "ChaiLoader@chai-loader",
+    "construct": [
+      "@page-renderer", "@app", "@config"
+    ]
+  },
+  "mocha-loader": {
+    "type": "MochaLoader@mocha-loader",
+    "construct": [
+      "@config"
+    ]
+  },
+  "resemble-loader": {
+    "type": "ResembleLoader@resemble-loader"
+  },
+  "test-environment": {
+    "type": "TestingEnvironment@test-environment",
+    "construct": [
+      "@config"
+    ]
+  }
+}

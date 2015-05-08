@@ -8,19 +8,23 @@
  */
 
 var fs = require('fs'),
+    path = require('path'),
     testingEnvironmentOverridePath = path.join(PIWIK_INCLUDE_PATH, '/tmp/testingPathOverride.json');
 
-var TestingEnvironment = function () {
+var TestingEnvironment = function (config) {
+    this._config = config;
     this.reload();
 };
 
 TestingEnvironment.prototype.reload = function () {
     for (var key in this) {
-        delete this[key];
+        if (key[0] != '_') { // properties prefixed w/ '_' (like _config) are not testing environment properties
+            delete this[key];
+        }
     }
 
-    if (fs.exists(testingEnvironmentOverridePath)) {
-        var data = JSON.parse(fs.read(testingEnvironmentOverridePath));
+    if (fs.existsSync(testingEnvironmentOverridePath)) {
+        var data = JSON.parse(fs.readFileSync(testingEnvironmentOverridePath));
         for (var key in data) {
             this[key] = data[key];
         }
@@ -33,7 +37,7 @@ TestingEnvironment.prototype.save = function () {
         copy[key] = this[key];
     }
 
-    fs.write(testingEnvironmentOverridePath, JSON.stringify(copy));
+    fs.writeFileSync(testingEnvironmentOverridePath, JSON.stringify(copy));
 };
 
 TestingEnvironment.prototype.callApi = function (method, params, done) {
@@ -55,7 +59,7 @@ TestingEnvironment.prototype.callController = function (method, params, done) {
 };
 
 TestingEnvironment.prototype._call = function (params, done) {
-    var url = path.join(config.piwikUrl, "tests/PHPUnit/proxy/index.php?");
+    var url = path.join(this._config.piwikUrl, "tests/PHPUnit/proxy/index.php?");
     for (var key in params) {
         var value = params[key];
         if (value instanceof Array) {
@@ -94,7 +98,7 @@ TestingEnvironment.prototype._call = function (params, done) {
 TestingEnvironment.prototype.executeConsoleCommand = function (command, args, callback) {
     var consoleFile = path.join(PIWIK_INCLUDE_PATH, 'console'),
         commandArgs = [consoleFile, command].concat(args),
-        child = require('child_process').spawn(config.php, commandArgs);
+        child = require('child_process').spawn(this._config.php, commandArgs);
 
     var firstLine = true;
     child.stdout.on("data", function (data) {
@@ -103,7 +107,7 @@ TestingEnvironment.prototype.executeConsoleCommand = function (command, args, ca
             firstLine = false;
         }
 
-        fs.write("/dev/stdout", data.replace(/\n/g, "\n    "), "w");
+        fs.appendFileSync("/dev/stdout", data.toString().replace(/\n/g, "\n    "));
     });
 
     child.stderr.on("data", function (data) {
@@ -112,7 +116,7 @@ TestingEnvironment.prototype.executeConsoleCommand = function (command, args, ca
             firstLine = false;
         }
 
-        fs.write("/dev/stderr", data, "w");
+        fs.appendFileSync("/dev/stderr", data.toString());
     });
 
     child.on("exit", callback);
@@ -131,7 +135,7 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
 
     this.deleteAndSave();
 
-    var args = [fixtureClass || "UITestFixture", '--set-phantomjs-symlinks', '--server-global=' + JSON.stringify(config.phpServer)];
+    var args = [fixtureClass || "UITestFixture", '--set-phantomjs-symlinks', '--server-global=' + JSON.stringify(this._config.phpServer)];
 
     if (options['persist-fixture-data']) {
         args.push('--persist-fixture-data');
@@ -173,7 +177,7 @@ TestingEnvironment.prototype.readDbInfoFromConfig = function () {
 
     var pathConfigIni = path.join(PIWIK_INCLUDE_PATH, "/config/config.ini.php");
 
-    var configFile = fs.read(pathConfigIni);
+    var configFile = fs.readFileSync(pathConfigIni);
 
     if (configFile) {
         var match = ('' + configFile).match(/password\s?=\s?"(.*)"/);
@@ -206,7 +210,7 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
     console.log();
     console.log("    Tearing down fixture " + fixtureClass + "...");
 
-    var args = [fixtureClass || "UITestFixture", "--teardown", '--server-global=' + JSON.stringify(config.phpServer)];
+    var args = [fixtureClass || "UITestFixture", "--teardown", '--server-global=' + JSON.stringify(this._config.phpServer)];
     this.executeConsoleCommand('tests:setup-fixture', args, function (code) {
         if (code) {
             done(new Error("Failed to teardown fixture " + fixtureClass + " (error code = " + code + ")"));
@@ -217,8 +221,8 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
 };
 
 TestingEnvironment.prototype.deleteAndSave = function () {
-    fs.write(testingEnvironmentOverridePath, "{}");
+    fs.writeFileSync(testingEnvironmentOverridePath, "{}");
     this.reload();
 };
 
-exports.TestingEnvironment = new TestingEnvironment();
+exports.TestingEnvironment = TestingEnvironment;
