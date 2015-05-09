@@ -86,6 +86,7 @@
         "YouAreOptedIn": "Ihr Besuch dieser Webseite wird aktuell von der Piwik Webanalyse erfasst.",
         "YouAreOptedOut": "Ihr Besuch dieser Webseite wird aktuell von der Piwik Webanalyse nicht erfasst.",
         "YouMayOptOut": "Sie können sich hier entscheiden, ob in Ihrem Browser ein eindeutiger Webanalyse-Cookie abgelegt werden darf, um dem Betreiber der Webseite die Erfassung und Analyse verschiedener statistischer Daten zu ermöglichen.",
-        "YouMayOptOutBis": "Wenn Sie sich dagegen entscheiden möchten, klicken Sie den folgenden Link, um den Piwik-Deaktivierungs-Cookie in Ihrem Browser abzulegen."
+        "YouMayOptOutBis": "Wenn Sie sich dagegen entscheiden möchten, klicken Sie den folgenden Link, um den Piwik-Deaktivierungs-Cookie in Ihrem Browser abzulegen.",
+        "OptingYouOut": "Deaktivierung wird durchgeführt, bitte warten..."
     }
 }

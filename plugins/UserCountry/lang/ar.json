@@ -1,5 +1,10 @@
 {
     "UserCountry": {
+        "AssumingNonApache": "لم أجد دالة apache_get_modules ، أفترض أن خادم ويب ليس Apache.",
+        "CannotFindGeoIPDatabaseInArchive": "لم أجد ملف %1$s في الملف المضغوط %2$s الذي صيغته tar !",
+        "CannotFindGeoIPServerVar": "لم يتم وضع قيمة للمتغير %s . يبدو أن الخادوم لديك ضبطه غير صحيح .",
+        "CannotListContent": "لم أتمكن من سرد محتويات %1$s: %2$s",
+        "CannotLocalizeLocalIP": "عنوان IP %s هو عنوان محلي لايمكن تحديد موقعه الجغرافي.",
         "Continent": "القارة",
         "continent_afr": "أفريقيا",
         "continent_amc": "أمريكا الوسطى",

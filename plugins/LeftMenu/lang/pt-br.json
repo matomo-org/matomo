@@ -1,0 +1,10 @@
+{
+    "LeftMenu": {
+        "SettingsIntroduction": "O plugin de menu lateral irá mover o menu de relatórios do topo para a esquerda, se habilitado. Isto é útil especialmente para telas de grandes proporções.",
+        "GlobalSettingTitle": "Menu lateral habilitado por padrão",
+        "GlobalSettingDescription": "Define o padrão do sistema para todos os usuários.",
+        "GlobalSettingInlineHelp": "Usuários podem habilitar ou desabilitar o menu lateral independentemente do padrão do sistema.",
+        "UserSettingTitle": "Habilitar o menu lateral de relatórios",
+        "UserSettingInlineHelp": "Isto irá habilitar ou desabilitar o menu lateral apenas para você, sem afetar nenhum outro usuário. Um superusuário poderá alterar o padrão para todos os usuários."
+    }
+}

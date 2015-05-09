@@ -15,6 +15,18 @@
         "ThankYou": "Спасибо за помощь в развитии Piwik!",
         "TopLinkTooltip": "Расскажите о своей проблеме с Piwik или запросите профессиональную помощь.",
         "ViewAnswersToFAQ": "Посмотреть ответы на %sЧасто Задаваемые Вопросы%s",
+        "ViewUserGuides": "Узнайте, как настроить Piwik и эффективно анализировать Ваши данные, используя %1$s руководства пользователя%2$s",
+        "CommunityHelp": "Помощь сообщества",
+        "ProfessionalHelp": "Помощь профессионала",
+        "PiwikProOfferIntro": "Наше предложение включает",
+        "PiwikProReviewPiwikSetup": "Просмотр Вашей установки Piwik",
+        "PiwikProOptimizationMaintenance": "Услуги оптимизации и обслуживания Piwik",
+        "PiwikProPhoneEmailSupport": "Поддержку по телефону и электронной почте",
+        "PiwikProTraining": "Обучение пользователей, технических специалистов и разработчиков",
+        "PiwikProPremiumFeatures": "Премиальные возможности",
+        "PiwikProCustomDevelopment": "Услуги разработки",
+        "PiwikProAnalystConsulting": "Услуги аналитика-консультанта",
+        "ContactUs": "Свяжитесь с нами",
         "VisitTheForums": "Посетить %s Форумы%s"
     }
 }

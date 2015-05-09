@@ -17,16 +17,4 @@ abstract class Base extends \Piwik\Plugin\Report
     {
         $this->category = 'General_VisitorSettings';
     }
-
-    protected function getBasicUserSettingsDisplayProperties(ViewDataTable $view)
-    {
-        $view->config->show_search = false;
-        $view->config->show_exclude_low_population = false;
-
-        $view->requestConfig->filter_limit = 5;
-
-        if ($view->isViewDataTableId(Graph::ID)) {
-            $view->config->max_graph_elements = 5;
-        }
-    }
 }

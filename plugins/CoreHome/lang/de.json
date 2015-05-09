@@ -3,7 +3,6 @@
         "CategoryNoData": "Keine Daten in dieser Kategorie. Probieren Sie \"Gesamte Daten einbeziehen\"",
         "CheckForUpdates": "Nach Aktualisierungen suchen",
         "CheckPiwikOut": "Sieh dir Piwik an!",
-        "ClickRowToExpandOrContract": "Klicken Sie auf diese Zeile um die Untertabelle anzuzeigen oder zu verbergen.",
         "ClickToEditX": "Klicken Sie um %s zu bearbeiten",
         "CloseWidgetDirections": "Sie können das Widget schließen, indem Sie auf das 'X' oben im Widget klicken.",
         "DataForThisReportHasBeenPurged": "Die Daten für diesen Bericht sind älter als %s Monate und wurden gelöscht",
@@ -43,7 +42,6 @@
         "PeriodWeeks": "Wochen",
         "PeriodYear": "Jahr",
         "PeriodYears": "Jahre",
-        "PivotBySubtable": "Kein Pivot erstellt für diesen Bericht %s Pivot erstellen mit %s",
         "ReportGeneratedOn": "Bericht erzeugt am %s",
         "ReportGeneratedXAgo": "Bericht erzeugt vor %s",
         "SharePiwikLong": "Hi! Ich habe gerade diese großartige Open Soruce Software gefunden: Piwik!\nPiwik ermöglicht es Besucher einer Webseite zu tracken und ist kostenlos. Du solltest es dir unbedingt einmal ansehen!",
@@ -59,10 +57,12 @@
         "SupportPiwik": "Unterstützen Sie Piwik!",
         "TableNoData": "Keine Daten für diese Tabelle.",
         "ThereIsNoDataForThisReport": "Es stehen keine Daten für diesen Bericht zur Verfügung.",
-        "UndoPivotBySubtable": "Pivot erstellt für diesen Bericht %s Pivot rückgängig machen",
         "UnFlattenDataTable": "Der Bericht ist flach %s Hierarchisch anzeigen",
         "ViewAllPiwikVideoTutorials": "Zeige alle Piwik Video Tutorials an",
         "WebAnalyticsReports": "Webanalytik Berichte",
-        "YouAreUsingTheLatestVersion": "Sie verwenden die aktuelle Version von Piwik!"
+        "YouAreUsingTheLatestVersion": "Sie verwenden die aktuelle Version von Piwik!",
+        "ClickRowToExpandOrContract": "Klicken Sie auf diese Zeile um die Untertabelle anzuzeigen oder zu verbergen.",
+        "UndoPivotBySubtable": "Pivot erstellt für diesen Bericht %s Pivot rückgängig machen",
+        "PivotBySubtable": "Kein Pivot erstellt für diesen Bericht %s Pivot erstellen mit %s"
     }
 }

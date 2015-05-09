@@ -1,5 +1,6 @@
 {
     "UserLanguage": {
+        "BrowserLanguage": "لغة المستعرض",
         "Language_aa": "الأفارية",
         "Language_ab": "الأبخازية",
         "Language_ae": "الأفستية",
@@ -175,6 +176,7 @@
         "Language_uz": "الاوزباكية",
         "Language_ve": "الفيندا",
         "Language_vi": "الفيتنامية",
+        "Language_vo": "فولابوك",
         "Language_wa": "الولونية",
         "Language_wo": "الولوف",
         "Language_xh": "الخوسا",
@@ -183,6 +185,7 @@
         "Language_za": "الزهيونج",
         "Language_zh": "الصينية",
         "Language_zu": "الزولو",
-        "LanguageCode": "كود اللغة"
+        "LanguageCode": "كود اللغة",
+        "PluginDescription": "يعرض اللغة التي تستخدمها مستعرضات زوَّارك."
     }
 }
