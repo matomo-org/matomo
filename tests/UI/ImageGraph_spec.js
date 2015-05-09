@@ -16,25 +16,25 @@ describe("ImageGraph", function () {
     }
 
     it("should render evolution graphs correctly", function (done) {
-        expect.screenshot('evolution_graph').to.be.capture(function (page) {
+        expect.screenshot('evolution_graph').to.be.similar(.95).to.capture(function (page) {
             page.load(getImageGraphUrl('VisitsSummary', 'get', 'evolution', 'month', '2011-06-01,2012-06-01'));
         }, done);
     });
 
     it("should render horizontal bar graphs correctly", function (done) {
-        expect.screenshot('horizontal_bar').to.be.capture(function (page) {
+        expect.screenshot('horizontal_bar').to.be.similar(.95).to.capture(function (page) {
             page.load(getImageGraphUrl('DevicesDetection', 'getBrowsers', 'horizontalBar', 'year', '2012-01-01'));
         }, done);
     });
 
     it("should render vertical bar graphs correctly", function (done) {
-        expect.screenshot('vertical_bar').to.be.capture(function (page) {
+        expect.screenshot('vertical_bar').to.be.similar(.95).to.capture(function (page) {
             page.load(getImageGraphUrl('UserCountry', 'getCountry', 'verticalBar', 'year', '2012-01-01'));
         }, done);
     });
 
     it("should render pie graphs correctly", function (done) {
-        expect.screenshot('pie').to.be.capture(function (page) {
+        expect.screenshot('pie').to.be.similar(.95).to.capture(function (page) {
             page.load(getImageGraphUrl('DevicesDetection', 'getOsVersions', 'pie', 'year', '2012-01-01'));
         }, done);
     });
