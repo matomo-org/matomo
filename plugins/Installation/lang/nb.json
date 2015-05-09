@@ -66,6 +66,7 @@
         "SystemCheckPhpPdoAndMysqli": "Mer informasjon om: %1$sPHP PDO%2$s og %3$sMYSQLI%4$s.",
         "SystemCheckSplHelp": "Du må konfigurere og bygge PHP på nytt med Standard PHP Library (SPL) aktivert.",
         "SystemCheckSummaryNoProblems": "Hurra! Det er ingen problemer med ditt Piwik-oppsett. Gi deg selv et klapp på skulderen.",
+        "SystemCheckSummaryThereWereErrors": "Å nei! Piwik har oppdaget noen %1$skritiske problemer%2$s med ditt Piwik-oppsett. %3$sDisse problemene bør fikses umiddelbart.%4$s",
         "SystemCheckSummaryThereWereWarnings": "Det er noen problemer med systemet ditt. Piwik vil kjøre, men du kan oppleve noen mindre problemer.",
         "SystemCheckTimeLimitHelp": "På en høyt trafikkert webside, kan arkiveringsprossessen kreve mer tid enn det som nå er tillatt.<br \/>Se på max_execution_time i din php.ini fil hvis nødvendig.",
         "SystemCheckWarning": "Piwik vil virke normalt, men noen tjenester vil kanskje mangle",

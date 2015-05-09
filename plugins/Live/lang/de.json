@@ -39,6 +39,8 @@
         "RowActionTooltipDefault": "Zeige Besucher-Log aufgeteilt durch diese Zeile",
         "RowActionTooltipWithDimension": "Zeige Besucher-Log segmentiert durch %s",
         "RowActionTooltipTitle": "Log segmentierter Besucher öffnen",
-        "SegmentedVisitorLogTitle": "Besucher-Log zeigt Besuche bei denen gilt: %s ist \\\"%s\\\""
+        "SegmentedVisitorLogTitle": "Besucher-Log zeigt Besuche bei denen gilt: %s ist \\\"%s\\\"",
+        "OnClickPause": "%s ist gestartet. Klicken Sie um zu pausieren.",
+        "OnClickStart": "%s ist gestoppt. Klicken Sie um zu starten."
     }
 }

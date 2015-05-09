@@ -3,6 +3,7 @@
         "CategoryNoData": "Sem dados nesta categoria. Tente o \"Incluir toda a população\".",
         "CheckForUpdates": "Verificar atualizações",
         "CheckPiwikOut": "Verificar saída do Piwik",
+        "ClickToEditX": "Clique para editar %s",
         "CloseWidgetDirections": "Você pode fechar esta ferramenta clicando no ícone \"X\" na parte superior do widget.",
         "DataForThisReportHasBeenPurged": "Os dados para este relatório possuem mais de %s meses e foram excluídos.",
         "DataTableExcludeAggregateRows": "Agregar linhas é mostrados %s Esconder-los.",
@@ -14,6 +15,7 @@
         "DonateCall3": "Se você sentir que Piwik tem acrescentado valor significativo para o seu negócio ou empreendimento,%1$sconsidere doar para o projeto!%2$s",
         "DonateFormInstructions": "Clique no controle deslizante para selecionar um valor, clique em subscrever para doar.",
         "ExcludeRowsWithLowPopulation": "Todas as linhas são mostradas %s Excluir população de baixa.",
+        "ExternalHelp": "Ajuda (abre em uma nova aba)",
         "FlattenDataTable": "O relatório é hierárquico %s Tornar plano",
         "HowMuchIsPiwikWorth": "Quanto é que o Piwik vale para você?",
         "IncludeRowsWithLowPopulation": "Linhas com poucos dados estão ocultas %s Mostrar todas as linhas",
@@ -27,6 +29,7 @@
         "LongWeekFormat": "%dayFrom% %longMonthFrom% - %dayTo% %longMonthTo% %longYearTo%",
         "MakeADifference": "Faça a diferença:%1$sDoe agora%2$s para o fundo Piwik 2.0!",
         "MakeOneTimeDonation": "Em vez disso, faça uma doação.",
+        "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Você está logado como '%s', mas parece que você não tem nenhuma permissão definida no Piwik. %s Pergunte ao seu administrador Piwik (clique para e-mail) %s para lhe dar acesso de 'visão' para um site.",
         "OnlyForSuperUserAccess": "Este widget só é exibido para os usuários com privilégios de Super Usuário.",
         "PageOf": "%1$s de %2$s",
@@ -49,6 +52,7 @@
         "ShortMonthFormat": "%shortMonth% %longYear%",
         "ShortWeekFormat": "%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%",
         "ShowJSCode": "Mostra o código JavaScript a inserir",
+        "SkipToContent": "Ir para o conteúdo",
         "SubscribeAndBecomePiwikSupporter": "Proceder a uma página de pagamento seguro através de cartão de crédito (Paypal) para se tornar um apoiador do Piwik!",
         "SupportPiwik": "Apóie o Piwik!",
         "TableNoData": "Sem dados para esta tabela.",
@@ -56,6 +60,9 @@
         "UnFlattenDataTable": "O relatório é plano %s Tornar hierárquico",
         "ViewAllPiwikVideoTutorials": "Veja todos os Video tutoriais do Piwik",
         "WebAnalyticsReports": "Relatórios Web Analytics",
-        "YouAreUsingTheLatestVersion": "Você está usando a última versão do Piwik!"
+        "YouAreUsingTheLatestVersion": "Você está usando a última versão do Piwik!",
+        "ClickRowToExpandOrContract": "Clique nesta linha para expandir ou contrair a subtabela.",
+        "UndoPivotBySubtable": "Este relatório foi articulado %s desfazer articulação",
+        "PivotBySubtable": "Este relatório não foi articulado %s Articular por %s"
     }
 }

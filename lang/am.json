@@ -109,7 +109,7 @@
         "TagCloud": "መለያ Cloud",
         "Today": "ዛሬ",
         "TranslatorEmail": "info@addismap.com",
-        "TranslatorName": "Alazar Tekle",
+        "TranslatorName": "Alazar Tekle of <a href=\"http:\/\/www.addismap.com\">Addis Map<\/a> \/ <a href=\"http:\/\/www.map.et\">Ethiopia Map<\/a>",
         "Unknown": "ያልታወቀ",
         "VBarGraph": "አቀባዊ አሞሌ ግራፍ",
         "View": "ትእይታ",
@@ -117,7 +117,6 @@
         "VisitorSettings": "የጎበኚዎች ቅንብሮች",
         "Warning": "ማስጠንቀቂያ",
         "Website": "ድር ጣቢያ",
-        "Widgets": "Widgets",
         "Yes": "አዎን",
         "Yesterday": "ትናንት"
     }
