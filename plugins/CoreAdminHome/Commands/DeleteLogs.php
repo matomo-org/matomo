@@ -79,20 +79,14 @@ class DeleteLogs extends ConsoleCommand
             array('idsite', '==', $idSite)
         );
 
-        // TODO: move this code to LogPurger service
-        $self = $this;
-        $this->rawLogDao->forAllLogs('log_visit', $fields, $conditions, $step, function ($logs) use ($self, &$logsDeleted) {
-            $logsDeleted += $self->deleteLogs($logs);
+        // TODO: move this code to LogPurger service (deleteVisitsFor($startDate, $endDate, $idSite)?)
+        $logPurger = $this->logPurger;
+        $this->rawLogDao->forAllLogs('log_visit', $fields, $conditions, $step, function ($logs) use ($logPurger, &$logsDeleted) {
+            $ids = array_map(function ($row) { return reset($row); }, $logs);
+            $logsDeleted += $logPurger->deleteVisits($ids);
         });
 
         $this->writeSuccessMessage($output, "Successfully deleted $logsDeleted rows from all log tables.");
-    }
-
-    private function deleteLogs($logs)
-    {
-        $ids = array_map(function ($row) { return reset($row); }, $logs);
-
-        return $this->logPurger->deleteVisits($ids);
     }
 
     /**
