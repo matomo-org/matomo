@@ -1,9 +1,12 @@
 {
     "SegmentEditor": {
+        "AddANDorORCondition": "Добавить условие %s",
         "AddNewSegment": "Добавить новый сегмент",
+        "AreYouSureDeleteSegment": "Вы уверены, что хотите удалить этот сегмент?",
         "AutoArchiveRealTime": "отчёты по сегментам обрабатываются в реальном времени",
         "ChooseASegment": "Выбрать сегмент",
         "DefaultAllVisits": "Все посещения",
+        "LoadingSegmentedDataMayTakeSomeTime": "Обработка данных о посещениях сегмента может занять несколько минут...",
         "OperatorAND": "И",
         "OperatorOR": "ИЛИ",
         "SaveAndApply": "Сохранить и применить",
@@ -14,6 +17,7 @@
         "SelectSegmentOfVisitors": "Выберите сегмент посетителей:",
         "ThisSegmentIsVisibleTo": "Этот сегмент видим для:",
         "VisibleToAllUsers": "все пользователи",
-        "VisibleToMe": "меня"
+        "VisibleToMe": "меня",
+        "AddingSegmentForAllWebsitesDisabled": "Добавление сегментов для всех веб-сайтов было отключено."
     }
 }

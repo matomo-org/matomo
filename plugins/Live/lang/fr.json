@@ -39,6 +39,8 @@
         "RowActionTooltipDefault": "Afficher le logs des visiteurs segmenté par cette rangée",
         "RowActionTooltipWithDimension": "Afficher le log des visiteurs segmenté en fonction de %s",
         "RowActionTooltipTitle": "Ouvrir le log des visiteur segmenté",
-        "SegmentedVisitorLogTitle": "Log des visiteurs affichant les visites ou %s est \"%s\""
+        "SegmentedVisitorLogTitle": "Log des visiteurs affichant les visites ou %s est \"%s\"",
+        "OnClickPause": "%s est démarré. Cliquer pour mettre en pause.",
+        "OnClickStart": "%s est arrêté. Cliquer pour démarrer."
     }
 }

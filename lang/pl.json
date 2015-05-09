@@ -288,6 +288,7 @@
         "Overview": "Przegląd",
         "Pages": "Strony",
         "Pagination": "%s - %s z %s",
+        "PaginationWithoutTotal": "%s - %s",
         "ParameterMustIntegerBetween": "Parametr %s musi być liczbą całkowitą między %s a %s.",
         "Password": "Hasło",
         "Period": "Okres",
@@ -406,6 +407,7 @@
         "VisitType": "Typ oglądającego",
         "VisitTypeExample": "Przykładowo, aby wybrać wszystkich odwiedzających, którzy powrócili na serwis, włączając tych, którzy zakupili coś podczas poprzednich wizyt, zapytanie API będzie zawierać %s",
         "Warning": "Ostrzeżenie",
+        "WarningPiwikWillStopSupportingPHPVersion": "Piwik przestanie wspierać tą wersję PHP w %s. Zauktualizuj wersję PHP zanim będzie za późno!",
         "WarningFileIntegrityNoManifest": "Weryfikacja integralności plików nie mogła zostać przeprowadzona z powodu braku pliku manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "W przypadku wdrażania Piwik z Git, komunikat ten jest prawidłowy.",
         "WarningFileIntegrityNoMd5file": "Weryfikacja integralności plików nie mogła zostać zakończona z powodu braku funkcji md5_file().",
@@ -447,6 +449,8 @@
         "EmailUs": "Wyślij nam wiadomośc email",
         "EnableGraphsLabel": "Wyświetlanie wykresów",
         "HowtoDeleteAnAccount": "Naciśnij i przytrzymaj by usunac konto.",
+        "HowtoDeleteAnAccountOniOS": "W celu usunięcia konta przeciągnij z prawej do lewej",
+        "HowtoLoginAnonymous": "Pozostaw nazwę i hasło uzytkownika pustymi dla logowania anonimowego",
         "LastUpdated": "Ostatnia aktualizacja: %s",
         "LoadingReport": "Ładowanie %s",
         "LoginCredentials": "Uprawnienia",
@@ -475,10 +479,16 @@
         "ShowAll": "Pokaż wszystko",
         "ShowLess": "Pokaż mniej",
         "TryIt": "Wypróbuj!",
+        "VerifyAccount": "Weryfikowanie Konta",
         "YouAreOffline": "Przepraszamy, obecnie jesteś odłączony"
     },
     "RowEvolution": {
+        "AvailableMetrics": "Dostępne wskaźniki",
         "CompareRows": "Porównaj rekordy",
-        "MetricBetweenText": "od %s do %s"
+        "ComparingRecords": "Porównywanych wierszy %s",
+        "MetricBetweenText": "od %s do %s",
+        "MultiRowEvolutionTitle": "Postęp dla wielu rekordów",
+        "PickAnotherRow": "Wybierz inny wiersz do porównania",
+        "PickARow": "Wybierz wiersz do porównania"
     }
 }
