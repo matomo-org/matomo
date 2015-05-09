@@ -1,0 +1,15 @@
+// We have to use a class (and not <table> directly) because HTML tables
+// are used for layouts (e.g. forms in the admin section use tables)
+.table {
+    margin: 20px 0;
+    width: 100%;
+    border-top: 1px solid @theme-color-border;
+
+    th, td {
+        border-bottom: 1px solid @theme-color-border;
+        padding: 14px;
+    }
+    th {
+        text-align: left;
+    }
+}
