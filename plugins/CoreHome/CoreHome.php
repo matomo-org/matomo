@@ -145,6 +145,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/anchorLinkFix.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/http404check.js";
 
+        $jsFiles[] = "plugins/CoreHome/angularjs/history/history.service.js";
+
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.directive.js";
