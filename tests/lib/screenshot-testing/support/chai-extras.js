@@ -157,7 +157,7 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
                 if (comparisonThreshold) {
                     return misMatchPercentage <= (1 - comparisonThreshold);
                 } else {
-                    return data.misMatchPercentage == 0;
+                    return misMatchPercentage == 0;
                 }
             }
         }, selector);
