@@ -155,7 +155,7 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
 
             function screenshotMatches(misMatchPercentage) {
                 if (comparisonThreshold) {
-                    return misMatchPercentage <= (1 - comparisonThreshold);
+                    return misMatchPercentage <= 100 * (1 - comparisonThreshold);
                 } else {
                     return misMatchPercentage == 0;
                 }
