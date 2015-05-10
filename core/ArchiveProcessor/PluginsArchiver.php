@@ -16,7 +16,7 @@ use Piwik\DataTable\Manager;
 use Piwik\Metrics;
 use Piwik\Plugin\Archiver;
 use Piwik\Log;
-use Piwik\Timer;
+use Piwik\Timer\Timer;
 
 /**
  * This class creates the Archiver objects found in plugins and will trigger aggregation,
@@ -113,9 +113,9 @@ class PluginsArchiver
                     $archiver->aggregateMultipleReports();
                 }
 
-                Log::debug("PluginsArchiver::%s: %s while archiving %s reports for plugin '%s'.",
+                Log::debug("PluginsArchiver::%s: Memory delta: %s while archiving %s reports for plugin '%s'.",
                     __FUNCTION__,
-                    $timer->getMemoryLeak(),
+                    $timer->getMemoryDelta(true),
                     $this->params->getPeriod()->getLabel(),
                     $pluginName
                 );

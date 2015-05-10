@@ -24,6 +24,7 @@ use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\UserPreferences;
+use Piwik\Timer\Timer;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -358,7 +359,7 @@ class CronArchive
         $this->logger->info("done: " .
             $this->processed . "/" . $this->websites->getNumSites() . "" . $percent . ", " .
             $this->visitsToday . " vtoday, $this->websitesWithVisitsSinceLastRun wtoday, {$this->archivedPeriodsArchivesWebsite} wperiods, " .
-            $this->requests . " req, " . round($timer->getTimeMs()) . " ms, " .
+            $this->requests . " req, " . round($timer->getTimeElapsed() * 1000) . " ms, " .
             (empty($this->errors)
                 ? self::NO_ERROR
                 : (count($this->errors) . " errors."))

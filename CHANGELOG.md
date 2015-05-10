@@ -2,6 +2,11 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+## Piwik 2.14.0
+
+### New features
+* `Piwik\Timer\Timer` can now be used by plugins to measure the time spent in some parts of the code (the class has been tagged as `@api`).
+
 ## Piwik 2.13.0
 
 ### Breaking Changes

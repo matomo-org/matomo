@@ -9,7 +9,7 @@
 namespace Piwik\Scheduler;
 
 use Exception;
-use Piwik\Timer;
+use Piwik\Timer\Timer;
 use Psr\Log\LoggerInterface;
 
 /**

@@ -24,7 +24,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Site;
-use Piwik\Timer;
+use Piwik\Timer\Timer;
 use Piwik\Url;
 
 class ProcessedReport
@@ -436,7 +436,7 @@ class ProcessedReport
             'reportTotal'    => $totals
         );
         if ($showTimer) {
-            $return['timerMillis'] = $timer->getTimeMs(0);
+            $return['timerMillis'] = $timer->getTimeElapsed() * 1000;
         }
         return $return;
     }

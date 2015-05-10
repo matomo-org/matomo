@@ -17,10 +17,10 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreatingExistingClassSucceeds()
     {
-        $instance = BaseFactory::factory('Piwik\Timer');
+        $instance = BaseFactory::factory('Piwik\Timer\Timer');
 
         $this->assertNotNull($instance);
-        $this->assertInstanceOf('Piwik\Timer', $instance);
+        $this->assertInstanceOf('Piwik\Timer\Timer', $instance);
     }
 
     /**

@@ -14,7 +14,7 @@ use Piwik\DataAccess\Actions;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreAdminHome\Model\DuplicateActionRemover;
-use Piwik\Timer;
+use Piwik\Timer\Timer;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
