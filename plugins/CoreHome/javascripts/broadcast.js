@@ -222,8 +222,9 @@ var broadcast = {
         else {
             // Let history know about this new Hash and load it.
             broadcast.forceReload = true;
-            angular.element(document).injector().invoke(function (historyService) {
+            angular.element(document).injector().invoke(function (historyService, $rootScope) {
                 historyService.load(currentHashStr);
+                $rootScope.$apply();
             });
         }
     },
@@ -380,8 +381,9 @@ var broadcast = {
         }
 
         broadcast.forceReload = false;
-        angular.element(document).injector().invoke(function (historyService) {
+        angular.element(document).injector().invoke(function (historyService, $rootScope) {
             historyService.load(newHash);
+            $rootScope.$apply();
         });
     },
 

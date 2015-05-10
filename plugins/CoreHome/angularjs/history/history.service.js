@@ -28,20 +28,19 @@
         }
 
         function loadCurrentPage() {
-            // the location hash will have a #? prefix, which broadcast.pageload doesn't want
-            broadcast.pageload(window.location.hash.substring(2));
+            // the location hash will have a / prefix, which broadcast.pageload doesn't want
+            broadcast.pageload($location.path().substring(1));
         }
 
         function load(hash) {
-            // make sure the hash is just the query parameter values, w/o a starting #, / or ? char. broadcast.pageload & $location.search should get neither
+            // make sure the hash is just the query parameter values, w/o a starting #, / or ? char. broadcast.pageload & $location.path should get neither
             ['#', '/', '?'].forEach(function (char) {
                 if (hash.charAt(0) == char) {
                     hash = hash.substring(1);
                 }
             });
 
-            $location.search(hash);
-            broadcast.pageload(hash);
+            $location.path(hash);
         }
     }
 })(window, jQuery, broadcast);
