@@ -2,6 +2,12 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+## Piwik 2.14.0
+
+### Breaking Changes
+* The `UserSettings` API has been removed. The API was deprecated in earlier versions. Use `DevicesDetection`, `Resolution` and `DevicePlugins` API instead.
+
+
 ## Piwik 2.13.0
 
 ### Breaking Changes
