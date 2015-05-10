@@ -332,6 +332,22 @@ class AccessTest extends IntegrationTestCase
         $this->assertTrue($access->reloadAccess(null));
     }
 
+    public function testReloadAccess_ShouldResetTokenAuthAndLogin_IfAuthIsNotValid()
+    {
+        $mock = $this->createAuthMockWithAuthResult(AuthResult::SUCCESS);
+        $access = Access::getInstance();
+
+        $this->assertTrue($access->reloadAccess($mock));
+        $this->assertSame('login', $access->getLogin());
+        $this->assertSame('token', $access->getTokenAuth());
+
+        $mock = $this->createAuthMockWithAuthResult(AuthResult::FAILURE);
+
+        $this->assertFalse($access->reloadAccess($mock));
+        $this->assertNull($access->getLogin());
+        $this->assertNull($access->getTokenAuth());
+    }
+
     public function testReloadAccessWithMockedAuthValid()
     {
         $mock = $this->createPiwikAuthMockInstance();
@@ -493,6 +509,16 @@ class AccessTest extends IntegrationTestCase
 
         $mock = $this->getMock('Piwik\Access', $methods);
         $mock->reloadAccess($authMock);
+
+        return $mock;
+    }
+
+    private function createAuthMockWithAuthResult($resultCode)
+    {
+        $mock = $this->createPiwikAuthMockInstance();
+        $mock->expects($this->once())
+            ->method('authenticate')
+            ->will($this->returnValue(new AuthResult($resultCode, 'login', 'token')));
 
         return $mock;
     }
