@@ -338,7 +338,7 @@ class CliMulti {
         return $results;
     }
 
-    public static function getSuperUserTokenAuths()
+    private static function getSuperUserTokenAuths()
     {
         $tokens = array();
 

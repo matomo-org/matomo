@@ -20,8 +20,6 @@ if (!defined('PIWIK_USER_PATH')) {
 define('PIWIK_ENABLE_ERROR_HANDLER', false);
 define('PIWIK_ENABLE_SESSION_START', false);
 
-require_once PIWIK_INCLUDE_PATH . "/core/bootstrap.php";
-
 if (!empty($_SERVER['argv'][0])) {
     $callee = $_SERVER['argv'][0];
 } else {
@@ -44,6 +42,8 @@ try 'php archive.php --url=http://your.piwik/path'
 }
 
 if (Piwik\Common::isPhpCliMode()) {
+    require_once PIWIK_INCLUDE_PATH . "/core/bootstrap.php";
+
     $console = new Piwik\Console();
 
     // manipulate command line arguments so CoreArchiver command will be executed
