@@ -249,6 +249,8 @@ class Fixture extends \PHPUnit_Framework_Assert
             self::createSuperUser($this->removeExistingSuperUser);
         }
 
+        SettingsPiwik::overwritePiwikUrl(self::getRootUrl() . 'tests/PHPUnit/proxy/');
+
         if ($setupEnvironmentOnly) {
             return;
         }

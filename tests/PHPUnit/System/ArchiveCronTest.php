@@ -133,9 +133,7 @@ class ArchiveCronTest extends SystemTestCase
         // run the command
         exec($cmd, $output, $result);
         if ($result !== 0 || stripos($result, "error")) {
-            $message = 'This failed once after a lunar eclipse, and it has again randomly failed.';
-            $message .= "\n\narchive cron failed: " . implode("\n", $output) . "\n\ncommand used: $cmd";
-            $this->markTestSkipped($message);
+            $this->fail("archive cron failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
         }
 
         return $output;
