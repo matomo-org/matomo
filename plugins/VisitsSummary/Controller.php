@@ -39,7 +39,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@VisitsSummary/index');
         $this->setPeriodVariablesView($view);
-        $view->graphEvolutionVisitsSummary = $this->getEvolutionGraph(array(), array('nb_visits'));
+        $view->graphEvolutionVisitsSummary = $this->getEvolutionGraph(array(), array('nb_visits'), __FUNCTION__);
         $this->setSparklinesAndNumbers($view);
         return $view->render();
     }
@@ -52,7 +52,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function getEvolutionGraph(array $columns = array(), array $defaultColumns = array())
+    public function getEvolutionGraph(array $columns = array(), array $defaultColumns = array(), $callingAction = __FUNCTION__)
     {
         if (empty($columns)) {
             $columns = Common::getRequestVar('columns', false);
@@ -106,8 +106,7 @@ class Controller extends \Piwik\Plugin\Controller
             $selectableColumns[] = 'nb_searches';
             $selectableColumns[] = 'nb_keywords';
         }
-
-        $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns,
+        $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, $callingAction, $columns,
             $selectableColumns, $documentation);
 
         if (empty($view->config->columns_to_display) && !empty($defaultColumns)) {
