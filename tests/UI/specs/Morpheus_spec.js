@@ -10,6 +10,16 @@ describe("Morpheus", function () {
 
     var url = "?module=Morpheus&action=demo";
 
+    before(function () {
+        // Enable development mode
+        testEnvironment.configOverride = {
+            Development: {
+                enabled: true
+            }
+        };
+        testEnvironment.save();
+    });
+
     it("should show all UI components and CSS classes", function (done) {
         expect.screenshot('load').to.be.capture(function (page) {
             page.load(url);
