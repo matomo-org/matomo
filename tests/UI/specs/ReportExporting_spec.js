@@ -19,10 +19,10 @@ describe("ReportExporting", function () {
             expect.file('Referrers.getWebsites_exported.' + format.toLowerCase() + '.txt').to.be.pageContents(function (page) {
                 if (page.getCurrentUrl() != referrersGetWebsitesUrl) {
                     page.load(referrersGetWebsitesUrl);
+                    page.click('a.tableIcon[var=export]');
+                    page.click('a.tableIcon[var=export]'); // have to click twice in phantomjs
                 }
 
-                page.click('a.tableIcon[var=export]');
-                page.click('a.tableIcon[var=export]'); // have to click twice in phantomjs
                 page.downloadLink('.exportToFormatItems a[format=' + format + ']');
             }, done);
         });
@@ -33,11 +33,28 @@ describe("ReportExporting", function () {
             expect.file('VisitsSummary.get_exported.' + format.toLowerCase() + '.txt').to.be.pageContents(function (page) {
                 if (page.getCurrentUrl() != visitsSummaryGetUrl) {
                     page.load(visitsSummaryGetUrl);
+                    page.click('a.tableIcon[var=export]');
+                    page.click('a.tableIcon[var=export]'); // have to click twice in phantomjs
                 }
 
-                page.click('a.tableIcon[var=export]');
-                page.click('a.tableIcon[var=export]'); // have to click twice in phantomjs
                 page.downloadLink('.exportToFormatItems a[format=' + format + ']');
+            }, done);
+        });
+    }
+
+    function rowEvolutionReportTest(format) {
+        it("should export an row evolution graph report correclty when the " + format + " export link is clicked", function (done) {
+            expect.file('RowEvolution_exported.' + format.toLowerCase() + '.txt').to.be.pageContents(function (page) {
+                if (!page.getCurrentUrl() || page.getCurrentUrl().indexOf('popover') == -1) {
+                    page.load(referrersGetWebsitesUrl);
+                    page.mouseMove('tbody tr:first-child');
+                    page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
+                    page.click('a.actionRowEvolution:visible');
+
+                    page.click('.ui-dialog a.tableIcon[var=export]');
+                }
+
+                page.downloadLink('.ui-dialog .exportToFormatItems a[format=' + format + ']');
             }, done);
         });
     }
@@ -45,4 +62,5 @@ describe("ReportExporting", function () {
     var formats = ['CSV', 'TSV', 'XML', 'JSON', 'PHP'];
     formats.forEach(normalReportTest);
     formats.forEach(evolutionReportTest);
+    formats.forEach(rowEvolutionReportTest);
 });

@@ -59,7 +59,6 @@ abstract class Graph extends Visualization
             $this->requestConfig->request_parameters_to_modify['filter_truncate'] = $this->config->max_graph_elements - 1;
         }
 
-        // TODO: let's add UI tests for export links. they should not compare screenshots, but compare output. will need to use page renderer after a page is loaded.
         $this->requestConfig->request_parameters_to_modify['format_metrics'] = 1;
 
         $this->metricsFormatter = new Numeric();
