@@ -19,8 +19,6 @@ use Exception;
  * add new widgets or to remove widgets defined by other plugins.
  *
  * For an example, see the {@link https://github.com/piwik/piwik/blob/master/plugins/ExamplePlugin/Widgets.php} plugin.
- *
- * @api
  */
 class Widget
 {
@@ -39,6 +37,9 @@ class Widget
         return $this->category;
     }
 
+    /**
+     * @ignore
+     */
     public function getModule()
     {
         if (empty($this->module)) {
@@ -50,6 +51,9 @@ class Widget
         return $this->module;
     }
 
+    /**
+     * @ignore
+     */
     public function getAction()
     {
         if (empty($this->action)) {
@@ -63,6 +67,11 @@ class Widget
         return $this->action;
     }
 
+    /**
+     * Here you can optionally define URL parameters that will be used when this widget is requested.
+     * @return array  Eg ('urlparam' => 'urlvalue').
+     * @api
+     */
     public function getParameters()
     {
         return $this->parameters;
@@ -78,6 +87,15 @@ class Widget
         return $this->name;
     }
 
+    /**
+     * This method renders the widget. It's on you how to generate the content of the widget.
+     * As long as you return a string everything is fine. You can use for instance a "Piwik\View" to render a
+     * twig template. In such a case don't forget to create a twig template (eg. myViewTemplate.twig) in the
+     * "templates" directory of your plugin.
+     *
+     * @return string
+     * @api
+     */
     public function render()
     {
         return '';
@@ -150,6 +168,18 @@ class Widget
     }
 
     /**
+     * Allows you to configure previously added widgets.
+     * For instance you can remove any widgets defined by any plugin by calling the
+     * {@link \Piwik\WidgetsList::remove()} method.
+     *
+     * @param WidgetsList $widgetsList
+     * @api
+     */
+    public function configureWidgetsList(WidgetsList $widgetsList)
+    {
+    }
+
+    /**
      * Defines whether a widget is enabled or not. For instance some widgets might not be available to every user or
      * might depend on a setting (such as Ecommerce) of a site. In such a case you can perform any checks and then
      * return `true` or `false`. If your report is only available to users having super user access you can do the
@@ -160,18 +190,6 @@ class Widget
     public function isEnabled()
     {
         return true;
-    }
-
-    /**
-     * Allows you to configure previously added widgets.
-     * For instance you can remove any widgets defined by any plugin by calling the
-     * {@link \Piwik\WidgetsList::remove()} method.
-     *
-     * @param WidgetsList $widgetsList
-     * @api
-     */
-    public function configureWidgetsList(WidgetsList $widgetsList)
-    {
     }
 
     /**

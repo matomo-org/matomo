@@ -67,8 +67,8 @@ class GenerateReport extends GeneratePluginBase
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
         $this->writeSuccessMessage($output, array(
-            sprintf('Reports/%s.php for %s generated.', ucfirst($apiName), $pluginName),
-            'You should now implement the method called "' . lcfirst($apiName) . '" in API.php',
+            sprintf('plugins/%s/Reports/%s.php for %s generated.', $pluginName, ucfirst($apiName)),
+            'You should now implement the method called <comment>"' . lcfirst($apiName) . '()"</comment> in API.php',
            // 'Read more about this here: link to developer guide',
             'Enjoy!'
         ));

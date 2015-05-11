@@ -10,7 +10,6 @@ namespace Piwik\Plugins\ExamplePlugin\Widgets;
 
 use Piwik\Plugin\Widget;
 use Piwik\View;
-use Piwik\WidgetsList;
 
 /**
  * This class allows you to add your own widget to the Piwik platform. In case you want to remove widgets from another
