@@ -138,6 +138,24 @@ class DashboardTest extends IntegrationTestCase
         $this->assertSame(4, $this->dashboard->getNumSites());
     }
 
+    public function test_getNumSites_ShouldCountGroupsIntoResult()
+    {
+        $sites = $this->setSitesTable(20);
+
+        $this->setGroupForSiteId($sites, $siteId = 1, 'group1');
+        $this->setGroupForSiteId($sites, $siteId = 2, 'group2');
+        $this->setGroupForSiteId($sites, $siteId = 3, 'group1');
+        $this->setGroupForSiteId($sites, $siteId = 4, 'group4');
+        $this->setGroupForSiteId($sites, $siteId = 15, 'group1');
+        $this->setGroupForSiteId($sites, $siteId = 16, 'group1');
+        $this->setGroupForSiteId($sites, $siteId = 18, 'group1');
+        $this->setGroupForSiteId($sites, $siteId = 6, 'group4');
+        $this->dashboard->setSitesTable($sites);
+
+        // 3 different groups
+        $this->assertSame(20 + 3, $this->dashboard->getNumSites());
+    }
+
     public function test_getSites_shouldReturnAnArrayOfSites()
     {
         $this->setSitesTable(8);
@@ -156,6 +174,81 @@ class DashboardTest extends IntegrationTestCase
         $this->assertEquals($expectedSites, $this->dashboard->getSites(array(), $limit = 4));
     }
 
+    public function test_getSites_ShouldApplyLimitCorrectIfThereAreLessFirstLevelRowsThenLimit()
+    {
+        $sites = $this->setSitesTable(8);
+
+        $this->setGroupForSiteId($sites, $siteId = 1, 'group1');
+        $this->setGroupForSiteId($sites, $siteId = 2, 'group2');
+        $this->setGroupForSiteId($sites, $siteId = 3, 'group1');
+        $this->setGroupForSiteId($sites, $siteId = 4, 'group4');
+        $this->setGroupForSiteId($sites, $siteId = 5, 'group4');
+        $this->setGroupForSiteId($sites, $siteId = 6, 'group4');
+        $this->setGroupForSiteId($sites, $siteId = 7, 'group4');
+        $this->dashboard->setSitesTable($sites);
+
+        $expectedSites = array(
+                array ('label' => 'group1',
+                       'nb_visits' => 20,
+                       'isGroup' => 1,
+             ), array ('label' => 'Site1',
+                       'nb_visits' => 10,
+                       'group' => 'group1',
+             ), array ('label' => 'Site3',
+                       'nb_visits' => 10,
+                       'group' => 'group1',
+             ), array ('label' => 'group2',
+                       'nb_visits' => 10,
+                       'isGroup' => 1,
+             ), array ('label' => 'Site2',
+                       'nb_visits' => 10,
+                       'group' => 'group2',
+             ), array ('label' => 'Site8',
+                       'nb_visits' => 10,
+             ),
+        );
+
+        // there will be 4 first level entries (group1, group2, group4 and site8), offset is 5, limit is 6.
+        // See https://github.com/piwik/piwik/issues/7854 before there was no site returned since 5 > 4 first level entries
+
+        $this->assertEquals($expectedSites, $this->dashboard->getSites(array('filter_offset' => 5), $limit = 6));
+    }
+
+    public function test_getSites_ShouldReturnOneMoreGroup_IfFirstSiteBelongsToAGroupButGroupWouldBeNormallyNotInResult()
+    {
+        $sites = $this->setSitesTable(8);
+
+        $this->setGroupForSiteId($sites, $siteId = 1, 'group1');
+        $this->setGroupForSiteId($sites, $siteId = 2, 'group2');
+        $this->setGroupForSiteId($sites, $siteId = 3, 'group1');
+        $this->setGroupForSiteId($sites, $siteId = 4, 'group4');
+        $this->setGroupForSiteId($sites, $siteId = 5, 'group4');
+        $this->setGroupForSiteId($sites, $siteId = 6, 'group4');
+        $this->setGroupForSiteId($sites, $siteId = 7, 'group4');
+        $this->dashboard->setSitesTable($sites);
+
+        $expectedSites = array(
+                array ('label' => 'group4', // this group should be the added group, that's why there are 5 entries
+                       'nb_visits' => 40,
+                       'isGroup' => 1,
+             ), array ('label' => 'Site6',
+                       'nb_visits' => 10,
+                       'group' => 'group4',
+             ), array ('label' => 'Site7',
+                       'nb_visits' => 10,
+                       'group' => 'group4',
+             ), array ('label' => 'group1',
+                       'nb_visits' => 20,
+                       'isGroup' => 1,
+             ), array ('label' => 'Site1',
+                       'nb_visits' => 10,
+                       'group' => 'group1',
+             )
+        );
+
+        $this->assertEquals($expectedSites, $this->dashboard->getSites(array('filter_offset' => 3), $limit = 4));
+    }
+
     public function test_getSites_WithGroup_shouldApplyALimitAndKeepSitesWithinGroup()
     {
         $sites = $this->setSitesTable(20);
@@ -172,8 +265,8 @@ class DashboardTest extends IntegrationTestCase
 
         $expectedSites = array (
             array (
-                'label' => 'group1',
-                'nb_visits' => 50, // there are 5 matching sites having that group, we only return 4, still result is correct!
+                'label' => 'group1', // do not count group into the limit
+                'nb_visits' => 50, // there are 5 matching sites having that group, we only return 3, still result is correct!
                 'isGroup' => 1,
             ), array (
                 'label' => 'Site1',
