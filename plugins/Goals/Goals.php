@@ -15,6 +15,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Tracker\GoalManager;
 use Piwik\Translate;
+use Piwik\WidgetsList;
 
 /**
  *
@@ -94,7 +95,7 @@ class Goals extends \Piwik\Plugin
             'SitesManager.deleteSite.end'            => 'deleteSiteGoals',
             'Goals.getReportsWithGoalMetrics'        => 'getActualReportsWithGoalMetrics',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations'
+            'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
         );
         return $hooks;
     }

@@ -130,6 +130,10 @@ class WidgetsList extends Singleton
             foreach ($widgetContainers as $widgetContainer) {
                 $widgetContainer->configureWidgetsList($widgetsList);
             }
+
+            foreach ($widgets as $widget) {
+                $widget->configureWidgetsList($widgetsList);
+            }
         }
     }
 

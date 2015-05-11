@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\SEO;
+namespace Piwik\Plugins\SEO\Widgets;
 
 use Piwik\Common;
 use Piwik\DataTable\Renderer;
@@ -14,17 +14,14 @@ use Piwik\Site;
 use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\View;
+use Piwik\Plugins\SEO\API;
 
-class Widgets extends \Piwik\Plugin\Widgets
+class GetRank extends \Piwik\Plugin\Widget
 {
     protected $category = 'SEO';
+    protected $name = 'SEO_SeoRankings';
 
-    public function init()
-    {
-        $this->addWidget('SEO_SeoRankings', 'getRank');
-    }
-
-    public function getRank()
+    public function render()
     {
         $idSite = Common::getRequestVar('idSite');
         $site = new Site($idSite);

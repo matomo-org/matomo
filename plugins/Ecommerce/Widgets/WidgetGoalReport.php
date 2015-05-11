@@ -6,25 +6,28 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\Ecommerce;
+namespace Piwik\Plugins\Ecommerce\Widgets;
 
 use Piwik\Common;
 use Piwik\Site;
 use Piwik\Piwik;
 
-class Widgets extends \Piwik\Plugin\Widgets
+class WidgetGoalReport extends \Piwik\Plugin\Widget
 {
     protected $category = 'Goals_Ecommerce';
+    protected $name = 'General_Overview';
 
-    protected function init()
+    public function getParameters()
+    {
+        return array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
+    }
+
+    public function isEnabled()
     {
         $idSite = $this->getIdSite();
 
         $site = new Site($idSite);
-        if ($site->isEcommerceEnabled()) {
-            $this->addWidget('General_Overview', 'widgetGoalReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
-            $this->addWidget('Goals_EcommerceLog', 'getEcommerceLog');
-        }
+        return $site->isEcommerceEnabled();
     }
 
     private function getIdSite()

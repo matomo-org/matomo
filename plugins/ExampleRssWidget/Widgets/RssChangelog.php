@@ -6,35 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\ExampleRssWidget;
+namespace Piwik\Plugins\ExampleRssWidget\Widgets;
 
 use Piwik\Piwik;
+use Piwik\Plugins\ExampleRssWidget\RssRenderer;
 
-class Widgets extends \Piwik\Plugin\Widgets
+class RssChangelog extends \Piwik\Plugin\Widget
 {
     protected $category = 'Example Widgets';
+    protected $name = 'Piwik Changelog';
 
-    protected function init()
-    {
-        $this->addWidget('Piwik.org Blog', 'rssPiwik');
-        $this->addWidget('Piwik Changelog', 'rssChangelog');
-    }
-
-    public function rssPiwik()
-    {
-        try {
-            $rss = new RssRenderer('http://feeds.feedburner.com/Piwik');
-            $rss->showDescription(true);
-
-            return $rss->get();
-
-        } catch (\Exception $e) {
-
-            return $this->error($e);
-        }
-    }
-
-    public function rssChangelog()
+    public function render()
     {
         try {
             $rss = new RssRenderer('http://feeds.feedburner.com/PiwikReleases');

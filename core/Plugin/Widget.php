@@ -163,7 +163,19 @@ class Widget
     }
 
     /**
-     * This method checks whether the report is available, see {@isEnabled()}. If not, it triggers an exception
+     * Allows you to configure previously added widgets.
+     * For instance you can remove any widgets defined by any plugin by calling the
+     * {@link \Piwik\WidgetsList::remove()} method.
+     *
+     * @param WidgetsList $widgetsList
+     * @api
+     */
+    public function configureWidgetsList(WidgetsList $widgetsList)
+    {
+    }
+
+    /**
+     * This method checks whether the widget is available, see {@isEnabled()}. If not, it triggers an exception
      * containing a message that will be displayed to the user. You can overwrite this message in case you want to
      * customize the error message. Eg.
      * ```

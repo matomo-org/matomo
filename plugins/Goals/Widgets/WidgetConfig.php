@@ -6,19 +6,24 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\Goals;
+namespace Piwik\Plugins\Goals\Widgets;
 
 use Piwik\Common;
+use Piwik\Plugins\Goals\API;
+use Piwik\WidgetsList;
 
-class Widgets extends \Piwik\Plugin\Widgets
+class WidgetConfig extends \Piwik\Plugin\Widget
 {
     protected $category = 'Goals_Goals';
 
-    protected function init()
+    public function isEnabled()
     {
-        $this->addWidget('Goals_GoalsOverview', 'widgetGoalsOverview');
+        return false;
+    }
 
-        $idSite = $this->getIdSite();
+    public function configureWidgetsList(WidgetsList $widgetsList)
+    {
+        $idSite = Common::getRequestVar('idSite', null, 'int');
         $goals  = API::getInstance()->getGoals($idSite);
 
         if (count($goals) > 0) {
@@ -26,14 +31,8 @@ class Widgets extends \Piwik\Plugin\Widgets
                 $name   = Common::sanitizeInputValue($goal['name']);
                 $params = array('idGoal' => $goal['idgoal']);
 
-                $this->addWidget($name, 'widgetGoalReport', $params);
+                $widgetsList->add($this->getCategory(), $name, $this->getModule(), 'widgetGoalReport', $params);
             }
         }
     }
-
-    private function getIdSite()
-    {
-        return Common::getRequestVar('idSite', null, 'int');
-    }
-
 }
