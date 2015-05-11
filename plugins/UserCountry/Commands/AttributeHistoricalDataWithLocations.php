@@ -115,28 +115,10 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
 
     protected function processSpecifiedLogsInChunks(OutputInterface $output, $from, $to, $segmentLimit)
     {
-        $visitFieldsToSelect = array_merge(array('idvisit', 'location_ip'), array_keys(VisitorGeolocator::$logVisitFieldsToUpdate));
-
-        $conditions = array(
-            array('visit_last_action_time', '>=', $from),
-            array('visit_last_action_time', '<', $to)
-        );
-
         $self = $this;
-        $this->dao->forAllLogs('log_visit', $visitFieldsToSelect, $conditions, $segmentLimit, function ($logs) use ($self, $output) {
-            if (!empty($logs)) {
-                $self->reattributeVisitLogs($output, $logs);
-            }
+        $this->visitorGeolocator->reattributeVisitLogs($from, $to, $idSite = null, $segmentLimit, function () use ($output, $self) {
+            $self->onVisitProcessed($output);
         });
-    }
-
-    protected function reattributeVisitLogs(OutputInterface $output, $logRows)
-    {
-        foreach ($logRows as $row) {
-            $this->visitorGeolocator->attributeExistingVisit($row);
-
-            $this->onVisitProcessed($output);
-        }
     }
 
     /**
