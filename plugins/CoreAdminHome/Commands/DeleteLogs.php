@@ -19,6 +19,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * TODO
@@ -70,23 +71,38 @@ class DeleteLogs extends ConsoleCommand
         $idSite = $this->getSiteToDeleteFrom($input);
         $step = $this->getRowIterationStep($input);
 
+        $output->writeln("Preparing to delete all visits between $from and $to belonging to site $idSite.");
+
+        $confirm = $this->askForDeleteConfirmation($input, $output);
+        if (!$confirm) {
+            return;
+        }
+
         $logsDeleted = 0;
 
         $fields = array('idvisit');
         $conditions = array(
             array('visit_last_action_time', '>=', $from),
             array('visit_last_action_time', '<', $to),
-            array('idsite', '==', $idSite)
+            array('idsite', '=', $idSite)
         );
 
         // TODO: move this code to LogPurger service (deleteVisitsFor($startDate, $endDate, $idSite)?)
-        $logPurger = $this->logPurger;
-        $this->rawLogDao->forAllLogs('log_visit', $fields, $conditions, $step, function ($logs) use ($logPurger, &$logsDeleted) {
-            $ids = array_map(function ($row) { return reset($row); }, $logs);
-            $logsDeleted += $logPurger->deleteVisits($ids);
-        });
+        try {
+            $logPurger = $this->logPurger;
+            $this->rawLogDao->forAllLogs('log_visit', $fields, $conditions, $step, function ($logs) use ($logPurger, &$logsDeleted, $output) {
+                $ids = array_map(function ($row) { return reset($row); }, $logs);
+                $logsDeleted += $logPurger->deleteVisits($ids);
 
-        $this->writeSuccessMessage($output, "Successfully deleted $logsDeleted rows from all log tables.");
+                $output->write('.');
+            });
+        } catch (\Exception $ex) {
+            $output->writeln("");
+
+            throw $ex;
+        }
+
+        $this->writeSuccessMessage($output, array("Successfully deleted $logsDeleted visits."));
     }
 
     /**
@@ -109,7 +125,20 @@ class DeleteLogs extends ConsoleCommand
 
         list($start, $end) = $parts;
 
-        return array(Date::factory($start)->getDatetime(), Date::factory($end)->getDatetime());
+        try {
+            /** @var Date[] $dateObjects */
+            $dateObjects = array(Date::factory($start), Date::factory($end));
+        } catch (\Exception $ex) {
+            throw new \InvalidArgumentException("Invalid date range supplied: $dates (" . $ex->getMessage() . ")", $code = 0, $ex);
+        }
+
+        if ($dateObjects[0]->getTimestamp() > $dateObjects[1]->getTimestamp()) {
+            throw new \InvalidArgumentException("Invalid date range supplied: $dates (first date is older than the last date)");
+        }
+
+        $dateObjects = array($dateObjects[0]->getDatetime(), $dateObjects[1]->getDatetime());
+
+        return $dateObjects;
     }
 
     private function getSiteToDeleteFrom(InputInterface $input)
@@ -117,7 +146,11 @@ class DeleteLogs extends ConsoleCommand
         $idSite = $input->getOption('site');
 
         // validate the site ID
-        new Site($idSite); // TODO: check error message returned from invalid site
+        try {
+            new Site($idSite); // TODO: check error message returned from invalid site
+        } catch (\Exception $ex) {
+            throw new \InvalidArgumentException("Invalid site ID: $idSite", $code = 0, $ex);
+        }
 
         return $idSite;
     }
@@ -131,5 +164,13 @@ class DeleteLogs extends ConsoleCommand
         }
 
         return $step;
+    }
+
+    private function askForDeleteConfirmation(InputInterface $input, OutputInterface $output)
+    {
+        $helper   = $this->getHelper('question');
+        $question = new ConfirmationQuestion('<comment>You are about to delete log data. This action cannot be undone, are you sure you want to continue?</comment>', false);
+
+        return $helper->ask($input, $output, $question);
     }
 }

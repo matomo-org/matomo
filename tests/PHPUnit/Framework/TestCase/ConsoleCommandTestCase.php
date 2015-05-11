@@ -10,7 +10,21 @@ namespace Piwik\Tests\Framework\TestCase;
 
 use Piwik\Console;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Tester\ApplicationTester;
+
+class TestConsole extends Console
+{
+    protected function configureIO(InputInterface $input, OutputInterface $output)
+    {
+        $isInteractive = $input->isInteractive();
+
+        parent::configureIO($input, $output);
+
+        $input->setInteractive($isInteractive);
+    }
+}
 
 /**
  * Base class for test cases that test Piwik console commands. Derives from SystemTestCase
@@ -51,7 +65,7 @@ class ConsoleCommandTestCase extends SystemTestCase
     {
         parent::setUp();
 
-        $this->application = new Console();
+        $this->application = new TestConsole();
         $this->application->setAutoExit(false);
 
         $this->applicationTester = new ApplicationTester($this->application);
