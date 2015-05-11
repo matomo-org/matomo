@@ -14,8 +14,6 @@ use Piwik\Date;
 use Piwik\LogPurger;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Site;
-use Symfony\Component\Console\Input\Input;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -66,7 +64,6 @@ class DeleteLogs extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // TODO: make sure to confirm to delete w/ warning that action cannot be undone.
         list($from, $to) = $this->getDateRangeToDeleteFrom($input);
         $idSite = $this->getSiteToDeleteFrom($input);
         $step = $this->getRowIterationStep($input);
@@ -78,22 +75,8 @@ class DeleteLogs extends ConsoleCommand
             return;
         }
 
-        $logsDeleted = 0;
-
-        $fields = array('idvisit');
-        $conditions = array(
-            array('visit_last_action_time', '>=', $from),
-            array('visit_last_action_time', '<', $to),
-            array('idsite', '=', $idSite)
-        );
-
-        // TODO: move this code to LogPurger service (deleteVisitsFor($startDate, $endDate, $idSite)?)
         try {
-            $logPurger = $this->logPurger;
-            $this->rawLogDao->forAllLogs('log_visit', $fields, $conditions, $step, function ($logs) use ($logPurger, &$logsDeleted, $output) {
-                $ids = array_map(function ($row) { return reset($row); }, $logs);
-                $logsDeleted += $logPurger->deleteVisits($ids);
-
+            $logsDeleted = $this->logPurger->deleteVisitsFor($from, $to, $idSite, $step, function () use ($output) {
                 $output->write('.');
             });
         } catch (\Exception $ex) {
