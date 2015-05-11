@@ -39,10 +39,18 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@VisitsSummary/index');
         $this->setPeriodVariablesView($view);
-        $view->graphEvolutionVisitsSummary = $this->getEvolutionGraph(array(), array('nb_visits'), __FUNCTION__);
+        $view->graphEvolutionVisitsSummary = $this->getEvolutionGraph(array(), array('nb_visits'), 'getIndexGraph');
         $this->setSparklinesAndNumbers($view);
         return $view->render();
     }
+
+	// sparkline.js:81 dataTable.trigger('reload', …); does not remove the old headline,
+	// so when updating this graph (such as when selecting a different metric)
+	// ONLY the graph should be returned
+	public function getIndexGraph()
+	{
+		return $this->getEvolutionGraph(array(), array(), __FUNCTION__);
+	}
 
     public function getSparklines()
     {
@@ -106,6 +114,8 @@ class Controller extends \Piwik\Plugin\Controller
             $selectableColumns[] = 'nb_searches';
             $selectableColumns[] = 'nb_keywords';
         }
+		// $callingAction may be specified to distinguish between
+		// "VisitsSummary_WidgetLastVisits" and "VisitsSummary_WidgetOverviewGraph"
         $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, $callingAction, $columns,
             $selectableColumns, $documentation);
 
