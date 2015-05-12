@@ -116,16 +116,8 @@ class WidgetsList extends Singleton
 
             $widgetContainers = Widgets::getAllWidgets();
             foreach ($widgetContainers as $widgetContainer) {
-                $widgetConfigs = $widgetContainer->getWidgets();
-
-                foreach ($widgetConfigs as $widget) {
-                    $config = new WidgetConfig();
-                    $config->setCategory($widget['category']);
-                    $config->setName($widget['name']);
-                    $config->setModule($widget['module']);
-                    $config->setAction($widget['method']);
-                    $config->setParameters($widget['params']);
-                    $widgetsList->addWidget($config);
+                foreach ($widgetContainer->getWidgets() as $widget) {
+                    $widgetsList->addWidget($widget);
                 }
             }
 

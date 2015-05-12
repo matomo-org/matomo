@@ -24,6 +24,9 @@ use Piwik\WidgetsList;
 class Widgets
 {
     protected $category = '';
+    /**
+     * @var WidgetConfig[]
+     */
     protected $widgets  = array();
 
     public function __construct()
@@ -69,11 +72,14 @@ class Widgets
     {
         $this->checkIsValidWidget($name, $method);
 
-        $this->widgets[] = array('category' => $category,
-                                 'name'     => $name,
-                                 'params'   => $parameters,
-                                 'method'   => $method,
-                                 'module'   => $this->getModule());
+        $config = new WidgetConfig();
+        $config->setCategory($category);
+        $config->setName($name);
+        $config->setModule($this->getModule());
+        $config->setAction($method);
+        $config->setParameters($parameters);
+
+        $this->widgets[] = $config;
     }
 
     /**
