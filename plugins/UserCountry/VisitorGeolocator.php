@@ -234,6 +234,40 @@ class VisitorGeolocator
     }
 
     /**
+     * TODO
+     *
+     * @param $from
+     * @param $to
+     * @param null $idSite
+     * @param int $segmentLimit
+     * @param callable $onLogProcessed
+     */
+    public function reattributeVisitLogs($from, $to, $idSite = null, $segmentLimit = 1000, $onLogProcessed = null)
+    {
+        $visitFieldsToSelect = array_merge(array('idvisit', 'location_ip'), array_keys(VisitorGeolocator::$logVisitFieldsToUpdate));
+
+        $conditions = array(
+            array('visit_last_action_time', '>=', $from),
+            array('visit_last_action_time', '<', $to)
+        );
+
+        if (!empty($idSite)) {
+            $conditions[] = array('idsite', '=', $idSite);
+        }
+
+        $self = $this;
+        $this->dao->forAllLogs('log_visit', $visitFieldsToSelect, $conditions, $segmentLimit, function ($logs) use ($self, $onLogProcessed) {
+            foreach ($logs as $row) {
+                $self->attributeExistingVisit($row);
+
+                if (!empty($onLogProcessed)) {
+                    $onLogProcessed($row);
+                }
+            }
+        });
+    }
+
+    /**
      * @return LocationProvider
      */
     public function getProvider()
@@ -273,37 +307,5 @@ class VisitorGeolocator
             self::$defaultLocationCache = new Transient();
         }
         return self::$defaultLocationCache;
-    }
-
-    /**
-     * @param $from
-     * @param $to
-     * @param null $idSite
-     * @param int $segmentLimit
-     * @param callable $onLogProcessed
-     */
-    public function reattributeVisitLogs($from, $to, $idSite = null, $segmentLimit = 1000, $onLogProcessed = null)
-    {
-        $visitFieldsToSelect = array_merge(array('idvisit', 'location_ip'), array_keys(VisitorGeolocator::$logVisitFieldsToUpdate));
-
-        $conditions = array(
-            array('visit_last_action_time', '>=', $from),
-            array('visit_last_action_time', '<', $to)
-        );
-
-        if (!empty($idSite)) {
-            $conditions[] = array('idsite', '=', $idSite);
-        }
-
-        $self = $this;
-        $this->dao->forAllLogs('log_visit', $visitFieldsToSelect, $conditions, $segmentLimit, function ($logs) use ($self, $onLogProcessed) {
-            foreach ($logs as $row) {
-                $self->attributeExistingVisit($row);
-
-                if (!empty($onLogProcessed)) {
-                    $onLogProcessed($row);
-                }
-            }
-        });
     }
 }

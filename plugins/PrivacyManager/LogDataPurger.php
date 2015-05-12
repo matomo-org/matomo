@@ -14,7 +14,7 @@ use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
-use Piwik\LogPurger;
+use Piwik\LogDeleter;
 use Piwik\Piwik;
 
 /**
@@ -30,7 +30,7 @@ class LogDataPurger
     /**
      * TODO
      *
-     * @var LogPurger
+     * @var LogDeleter
      */
     private $logPurger;
 
@@ -42,16 +42,9 @@ class LogDataPurger
     private $rawLogDao;
 
     /**
-     * TODO
-     *
-     * @var int
-     */
-    private $logIterationStepSize = 1000; // TODO: make configurable via constructor
-
-    /**
      * Constructor.
      */
-    public function __construct(LogPurger $logPurger, RawLogDao $rawLogDao)
+    public function __construct(LogDeleter $logPurger, RawLogDao $rawLogDao)
     {
         $this->logPurger = $logPurger;
         $this->rawLogDao = $rawLogDao;
@@ -68,21 +61,11 @@ class LogDataPurger
      * @param int $deleteLogsOlderThan The number of days after which log entires are considered old.
      *                                 Visits and related data whose age is greater than this number
      *                                 will be purged.
-     * @param int $maxRowsToDeletePerQuery The maximum number of rows to delete in one query. Used to
-     *                                     make sure log tables aren't locked for too long.
      */
-    public function purgeData($deleteLogsOlderThan, $maxRowsToDeletePerQuery)
+    public function purgeData($deleteLogsOlderThan)
     {
-        $dateStart = Date::factory("today")->subDay($deleteLogsOlderThan); // TODO: move logic to constructor
-        $conditions = array(
-            array('visit_last_action_time', '<', $dateStart->getDatetime())
-        );
-
-        $logPurger = $this->logPurger;
-        $this->rawLogDao->forAllLogs('log_visit', array('idvisit'), $conditions, $this->logIterationStepSize, function ($rows) use ($logPurger) {
-            $ids = array_map('reset', $rows);
-            $logPurger->deleteVisits($ids);
-        });
+        $dateUpperLimit = Date::factory("today")->subDay($deleteLogsOlderThan); // TODO: move logic to constructor
+        $this->logPurger->deleteVisitsFor($start = null, $dateUpperLimit->getDatetime());
 
         $logTables = self::getDeleteTableLogTables();
 
@@ -94,7 +77,7 @@ class LogDataPurger
             Log::warning($logMessage);
         }
 
-        // optimize table overhead after deletion // TODO: logs:delete command should allow optimization
+        // optimize table overhead after deletion // TODO: logs:delete command should allow table optimization
         Db::optimizeTables($logTables);
     }
 

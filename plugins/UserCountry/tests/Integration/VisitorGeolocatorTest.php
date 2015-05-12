@@ -247,6 +247,99 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         $this->assertNull($result);
     }
 
+    public function test_reattributeVisitLogs_ReattributesVisitsInDateRangeAndFromSite_AndCallsCallbackWithEveryProcessedRow()
+    {
+        foreach (array(1, 2) as $idSite) {
+            foreach (array('2012-01-01', '2012-01-02', '2012-01-03', '2012-01-04') as $date) {
+                $this->insertVisit(array(
+                    'visit_last_action_time' => $date,
+                    'idsite' => $idSite
+                ));
+            }
+        }
+
+        $mockLocationProvider = $this->getProviderMockThatGeolocates(array(
+            'location_country' => 'US',
+            'location_region' => 'rg',
+            'location_city' => 'the city'
+        ));
+        $geolocator = new VisitorGeolocator($mockLocationProvider);
+
+        $reattributedVisits = array();
+        $geolocator->reattributeVisitLogs('2012-01-02', '2012-01-04', 2, $segmentLimit = 1000, function ($row) use (&$reattributedVisits) {
+            $reattributedVisits[] = $row['idvisit'];
+        });
+
+        sort($reattributedVisits);
+
+        $expectedVisitsVisited = array(6, 7);
+        $this->assertEquals($expectedVisitsVisited, $reattributedVisits);
+
+        // check that no visits were re-attributed for site 1
+        $actualVisits = Db::fetchAll("SELECT visit_last_action_time, idsite, location_country, location_region, location_city FROM "
+            . Common::prefixTable('log_visit') . " ORDER BY idsite ASC, visit_last_action_time ASC");
+        $expectedVisits = array(
+            array(
+                'visit_last_action_time' => '2012-01-01 00:00:00',
+                'idsite' => '1',
+                'location_country' => 'xx',
+                'location_region' => null,
+                'location_city' => null
+            ),
+            array(
+                'visit_last_action_time' => '2012-01-02 00:00:00',
+                'idsite' => '1',
+                'location_country' => 'xx',
+                'location_region' => null,
+                'location_city' => null
+            ),
+            array(
+                'visit_last_action_time' => '2012-01-03 00:00:00',
+                'idsite' => '1',
+                'location_country' => 'xx',
+                'location_region' => null,
+                'location_city' => null
+            ),
+            array(
+                'visit_last_action_time' => '2012-01-04 00:00:00',
+                'idsite' => '1',
+                'location_country' => 'xx',
+                'location_region' => null,
+                'location_city' => null
+            ),
+            array(
+                'visit_last_action_time' => '2012-01-01 00:00:00',
+                'idsite' => '2',
+                'location_country' => 'xx',
+                'location_region' => null,
+                'location_city' => null
+            ),
+            array(
+                'visit_last_action_time' => '2012-01-02 00:00:00',
+                'idsite' => '2',
+                'location_country' => 'us',
+                'location_region' => 'rg',
+                'location_city' => 'the city'
+            ),
+            array(
+                'visit_last_action_time' => '2012-01-03 00:00:00',
+                'idsite' => '2',
+                'location_country' => 'us',
+                'location_region' => 'rg',
+                'location_city' => 'the city'
+            ),
+            array(
+                'visit_last_action_time' => '2012-01-04 00:00:00',
+                'idsite' => '2',
+                'location_country' => 'xx',
+                'location_region' => null,
+                'location_city' => null
+            ),
+        );
+
+        $this->assertEquals($expectedVisits, $actualVisits);
+    }
+
     /**
      * @return PHPUnit_Framework_MockObject_MockObject|LocationProvider
      */
@@ -261,7 +354,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     private function getProviderMockThatGeolocates($locationResult)
     {
         $mock = $this->getProviderMock();
-        $mock->expects($this->once())->method('getLocation')->will($this->returnCallback(function ($info) use ($locationResult) {
+        $mock->expects($this->any())->method('getLocation')->will($this->returnCallback(function ($info) use ($locationResult) {
             if ($info['ip'] == VisitorGeolocatorTest::TEST_IP) {
                 return $locationResult;
             } else {

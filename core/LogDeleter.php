@@ -12,11 +12,10 @@ use Piwik\DataAccess\RawLogDao;
 
 /**
  * TODO
- * TODO: change name to LogDeleter
  *
  * TODO: class + method docs
  */
-class LogPurger
+class LogDeleter
 {
     /**
      * @var RawLogDao
@@ -28,7 +27,6 @@ class LogPurger
         $this->rawLogDao = $rawLogDao;
     }
 
-    // TODO: these methods should cascade; deleting visits must delete conversions/conversion items/etc.
     public function deleteVisits($visitIds)
     {
         $this->deleteConversions($visitIds);

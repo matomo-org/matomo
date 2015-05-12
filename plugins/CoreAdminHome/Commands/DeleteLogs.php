@@ -11,7 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome\Commands;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
-use Piwik\LogPurger;
+use Piwik\LogDeleter;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Site;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,15 +39,15 @@ class DeleteLogs extends ConsoleCommand
     private $rawLogDao;
 
     /**
-     * @var LogPurger
+     * @var LogDeleter
      */
-    private $logPurger;
+    private $logDeleter;
 
-    public function __construct(LogPurger $logPurger = null, RawLogDao $rawLogDao = null)
+    public function __construct(LogDeleter $logDeleter = null, RawLogDao $rawLogDao = null)
     {
         parent::__construct();
 
-        $this->logPurger = $logPurger ?: StaticContainer::get('Piwik\LogPurger');
+        $this->logDeleter = $logDeleter ?: StaticContainer::get('Piwik\LogDeleter');
         $this->rawLogDao = $rawLogDao ?: StaticContainer::get('Piwik\DataAccess\RawLogDao');
     }
 
@@ -76,7 +76,7 @@ class DeleteLogs extends ConsoleCommand
         }
 
         try {
-            $logsDeleted = $this->logPurger->deleteVisitsFor($from, $to, $idSite, $step, function () use ($output) {
+            $logsDeleted = $this->logDeleter->deleteVisitsFor($from, $to, $idSite, $step, function () use ($output) {
                 $output->write('.');
             });
         } catch (\Exception $ex) {
