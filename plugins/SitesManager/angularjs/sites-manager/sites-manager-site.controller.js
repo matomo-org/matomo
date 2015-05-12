@@ -24,7 +24,7 @@
             $scope.editSite = editSite;
             $scope.saveSite = saveSite;
             $scope.openDeleteDialog = openDeleteDialog;
-            $scope.site.delete = deleteSite;
+            $scope.site['delete'] = deleteSite;
         };
 
         var initModel = function() {

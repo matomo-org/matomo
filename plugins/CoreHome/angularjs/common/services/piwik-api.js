@@ -262,7 +262,7 @@
                     }
 
                     deferred.resolve(response);
-                }).catch(function () {
+                })['catch'](function () {
                     deferred.reject.apply(deferred, arguments);
                 });
 
