@@ -34,7 +34,7 @@ class TranslationHelper
 		// Return either "Goals/Sales by %s" or "Goals/Sales %s", depending on the category
 		switch ($category) {
 			case 'Visit':
-				return Piwik::translate($type . '_' . $subKey . 'Noun', Piwik::translate('Goals_CategoryText' . $category));
+				return Piwik::translate($type . '_' . $subKey . 'Adjective', Piwik::translate('Goals_CategoryText' . $category));
 
 			default:
 				return Piwik::translate($type . '_' . $subKey . 'By', Piwik::translate('Goals_CategoryText' . $category));

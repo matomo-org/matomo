@@ -95,7 +95,7 @@
         "URL": "URL",
         "ViewAndEditGoals": "View and Edit Goals",
         "GoalsBy": "Goals by %s",
-		"GoalsNoun": "Goals %s",
+		"GoalsAdjective": "Goals %s",
         "VisitPageTitle": "Visit a given Page Title",
         "VisitsUntilConv": "Visits to Conversion",
         "VisitUrl": "Visit a given URL (page or group of pages)",
