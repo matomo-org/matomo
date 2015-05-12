@@ -39,11 +39,13 @@
 
         function load(hash) {
             // make sure the hash is just the query parameter values, w/o a starting #, / or ? char. broadcast.pageload & $location.path should get neither
-            ['#', '/', '?'].forEach(function (char) {
-                if (hash.charAt(0) == char) {
+            var chars = ['#', '/', '?'];
+            for (var i = 0; i != chars.length; ++i) {
+                var charToRemove = chars[i];
+                if (hash.charAt(0) == charToRemove) {
                     hash = hash.substring(1);
                 }
-            });
+            }
 
             $location.path(hash);
 
