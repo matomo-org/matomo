@@ -91,10 +91,10 @@ class LogInserter
         return $visit;
     }
 
-    public function insertConversion($properties)
+    public function insertConversion($idVisit, $properties = array())
     {
         $defaultProperties = array(
-            'idvisit' => 1,
+            'idvisit' => $idVisit,
             'idsite' => 1,
             'idvisitor' => $this->getDummyVisitorId(),
             'server_time' => '2012-01-01 00:00:00',
@@ -116,5 +116,44 @@ class LogInserter
     private function getDummyVisitorId()
     {
         return Common::hex2bin('ea95f303f2165aa0');
+    }
+
+    public function insertVisitAction($idVisit, $properties = array())
+    {
+        $defaultProperties = array(
+            'idsite' => 1,
+            'idvisitor' => $this->getDummyVisitorId(),
+            'idvisit' => $idVisit,
+            'idaction_name_ref' => 1
+        );
+
+        $properties = array_merge($defaultProperties, $properties);
+
+        $this->insertInto('log_link_visit_action', $properties);
+    }
+
+    public function insertConversionItem($idVisit, $idOrder, $properties = array())
+    {
+        $defaultProperties = array(
+            'idsite' => 1,
+            'idvisitor' => $this->getDummyVisitorId(),
+            'server_time' => '2012-01-01 00:00:00',
+            'idvisit' => $idVisit,
+            'idorder' => $idOrder,
+            'idaction_sku' => 1,
+            'idaction_name' => 2,
+            'idaction_category' => 3,
+            'idaction_category2' => 4,
+            'idaction_category3' => 5,
+            'idaction_category4' => 6,
+            'idaction_category5' => 7,
+            'price' => 40,
+            'quantity' => 4,
+            'deleted' => 0
+        );
+
+        $properties = array_merge($defaultProperties, $properties);
+
+        $this->insertInto('log_conversion_item', $properties);
     }
 }

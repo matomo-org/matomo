@@ -389,7 +389,6 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     private function insertTwoConversions($visit)
     {
         $conversionProperties = array(
-            'idvisit' => $visit['idvisit'],
             'idsite' => $visit['idsite'],
             'idvisitor' => $visit['idvisitor'],
             'location_longitude' => $visit['location_longitude'],
@@ -401,10 +400,10 @@ class VisitorGeolocatorTest extends IntegrationTestCase
             'visitor_returning' => $visit['visitor_returning'],
         );
 
-        $this->logInserter->insertConversion($conversionProperties);
+        $this->logInserter->insertConversion($visit['idvisit'], $conversionProperties);
 
         $conversionProperties['buster'] = 2;
-        $this->logInserter->insertConversion($conversionProperties);
+        $this->logInserter->insertConversion($visit['idvisit'], $conversionProperties);
     }
 
     private function getConversions($visit)

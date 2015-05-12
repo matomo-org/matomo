@@ -35,11 +35,6 @@ class LogDeleter
         return $this->rawLogDao->deleteVisits($visitIds);
     }
 
-    public function deleteVisitActions($visitActionIds)
-    {
-        return $this->rawLogDao->deleteVisitActions($visitActionIds);
-    }
-
     public function deleteConversions($visitIds)
     {
         $this->deleteConversionItems($visitIds);
