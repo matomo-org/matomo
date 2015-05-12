@@ -154,6 +154,9 @@ class Access
             return true;
         }
 
+        $this->token_auth = null;
+        $this->login = null;
+
         // if the Auth wasn't set, we may be in the special case of setSuperUser(), otherwise we fail TODO: docs + review
         if ($this->auth === null) {
             return false;

@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "5033f5c1e5d1d67add5f5e75bbe59aaf",
@@ -276,7 +276,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mnapoli/PHP-DI/zipball/b555566822ce0bdf1c946d46785a038317908ed1",
+                "url": "https://api.github.com/repos/mnapoli/PHP-DI/zipball/2325afb15d74728f52cb9721c9e184829f8f343a",
                 "reference": "b555566822ce0bdf1c946d46785a038317908ed1",
                 "shasum": ""
             },
@@ -813,16 +813,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.1.1",
+            "version": "3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "3d36a5bd0710896311d69b10fd6eb1ca3b2d3c19"
+                "reference": "331a7ce5f8fde8d758312e6ac4182c01beabc83b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/3d36a5bd0710896311d69b10fd6eb1ca3b2d3c19",
-                "reference": "3d36a5bd0710896311d69b10fd6eb1ca3b2d3c19",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/331a7ce5f8fde8d758312e6ac4182c01beabc83b",
+                "reference": "331a7ce5f8fde8d758312e6ac4182c01beabc83b",
                 "shasum": ""
             },
             "require": {
@@ -830,6 +830,7 @@
                 "php": ">=5.3.2"
             },
             "require-dev": {
+                "fabpot/php-cs-fixer": "~1.7",
                 "phpunit/phpunit": "4.1.*"
             },
             "suggest": {
@@ -859,7 +860,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2015-04-04 16:44:30"
+            "time": "2015-05-10 18:34:07"
         },
         {
             "name": "piwik/ini",
@@ -1407,7 +1408,7 @@
                 "performance",
                 "profiling"
             ],
-            "time": "2014-08-28 17:34:52"
+            "time": "2015-02-26 14:37:51"
         },
         {
             "name": "guzzle/guzzle",

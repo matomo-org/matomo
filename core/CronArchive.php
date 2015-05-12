@@ -80,9 +80,6 @@ class CronArchive
     private $websites = array();
     private $allWebsites = array();
     private $segments = array();
-    private $piwikUrl = false;
-    private $token_auth = false;
-    private $validTokenAuths = array();
     private $visitsToday = 0;
     private $requests = 0;
     private $archiveAndRespectTTL = true;
@@ -226,21 +223,13 @@ class CronArchive
     /**
      * Constructor.
      *
-     * @param string|false $piwikUrl The URL to the Piwik installation to initiate archiving for. If `false`,
-     *                               we determine it using the current request information.
-     *
-     *                               If invoked via the command line, $piwikUrl cannot be false.
      * @param string|null $processNewSegmentsFrom When to archive new segments from. See [General] process_new_segments_from
      *                                            for possible values.
      */
-    public function __construct($piwikUrl = false, $processNewSegmentsFrom = null, LoggerInterface $logger = null)
+    public function __construct($processNewSegmentsFrom = null, LoggerInterface $logger = null)
     {
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
         $this->formatter = new Formatter();
-
-        $this->initPiwikHost($piwikUrl);
-        $this->initCore();
-        $this->initTokenAuth();
 
         $processNewSegmentsFrom = $processNewSegmentsFrom ?: StaticContainer::get('ini.General.process_new_segments_from');
         $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom);
@@ -266,7 +255,6 @@ class CronArchive
         $this->initStateFromParameters();
 
         $this->logInitInfo();
-        $this->checkPiwikUrlIsValid();
         $this->logArchiveTimeoutInfo();
 
         // record archiving start time
@@ -298,15 +286,6 @@ class CronArchive
          *                          already been processed.
          */
         Piwik::postEvent('CronArchive.init.finish', array($this->websites->getInitialSiteIds()));
-    }
-
-    public function runScheduledTasksInTrackerMode()
-    {
-        $this->initCore();
-        $this->initTokenAuth();
-        $this->logInitInfo();
-        $this->checkPiwikUrlIsValid();
-        $this->runScheduledTasks();
     }
 
     /**
@@ -424,11 +403,7 @@ class CronArchive
             return;
         }
 
-        API\Request::processRequest("CoreAdminHome.runScheduledTasks", array(
-            'token_auth' => $this->token_auth,
-            'format' => 'original', // so exceptions get thrown
-            'trigger' => 'archivephp'
-        ));
+        CoreAdminHomeAPI::getInstance()->runScheduledTasks();
 
         $this->logSection("");
     }
@@ -597,14 +572,12 @@ class CronArchive
         return $success;
     }
 
-    // TODO: make sure core:archive + web archive is tested when host is for domain (need --dry-run parameter + some output to check for so test won't be super slow)
-
     /**
      * Returns base URL to process reports for the $idSite on a given $period
      */
     private function getVisitsRequestUrl($idSite, $period, $date, $segment = false)
     {
-        $request = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php&token_auth=" . $this->token_auth;
+        $request = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php";
         if($segment) {
             $request .= '&segment=' . urlencode($segment);;
         }
@@ -772,6 +745,7 @@ class CronArchive
         $cliMulti = new CliMulti();
         $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
         $cliMulti->setConcurrentProcessesLimit($this->getConcurrentRequestsPerWebsite());
+        $cliMulti->runAsSuperUser();
         $response = $cliMulti->request($urls);
 
         foreach ($urls as $index => $url) {
@@ -855,6 +829,7 @@ class CronArchive
 
             $cliMulti  = new CliMulti();
             $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
+            $cliMulti->runAsSuperUser();
             $responses = $cliMulti->request(array($url));
 
             $response  = !empty($responses) ? array_shift($responses) : null;
@@ -876,18 +851,6 @@ class CronArchive
             return $this->logNetworkError($url, $response);
         }
         return true;
-    }
-
-    /**
-     * Init Piwik, connect DB, create log & config objects, etc.
-     */
-    private function initCore()
-    {
-        try {
-            FrontController::getInstance()->init();
-        } catch (Exception $e) {
-            throw new Exception("ERROR: During Piwik init, Message: " . $e->getMessage());
-        }
     }
 
     /**
@@ -997,70 +960,6 @@ class CronArchive
         return array_unique($websiteIds);
     }
 
-    public function initTokenAuth()
-    {
-        $tokens = self::getSuperUserTokenAuths();
-
-        $this->validTokenAuths = $tokens;
-        $this->token_auth = array_shift($tokens);
-
-        return $this->token_auth;
-    }
-
-    public function isTokenAuthSuperUserToken($token_auth)
-    {
-        if(empty($token_auth)
-            || strlen($token_auth) != 32) {
-            return false;
-        }
-
-        return in_array($token_auth, $this->validTokenAuths);
-    }
-
-    /**
-     * @param string|bool $piwikUrl
-     */
-    protected function initPiwikHost($piwikUrl = false)
-    {
-        // If core:archive command run as a web cron, we use the current hostname+path
-        if (empty($piwikUrl)) {
-            if (!empty(self::$url)) {
-                $piwikUrl = self::$url;
-            } else {
-                // example.org/piwik/
-                $piwikUrl = SettingsPiwik::getPiwikUrl();
-            }
-        }
-
-        if (!$piwikUrl) {
-            $this->logFatalErrorUrlExpected();
-        }
-
-        if (!\Piwik\UrlHelper::isLookLikeUrl($piwikUrl)) {
-            // try adding http:// in case it's missing
-            $piwikUrl = "http://" . $piwikUrl;
-        }
-
-        if (!\Piwik\UrlHelper::isLookLikeUrl($piwikUrl)) {
-            $this->logFatalErrorUrlExpected($piwikUrl);
-        }
-
-        // ensure there is a trailing slash
-        if ($piwikUrl[strlen($piwikUrl) - 1] != '/' && !Common::stringEndsWith($piwikUrl, 'index.php')) {
-            $piwikUrl .= '/';
-        }
-
-        if (Config::getInstance()->General['force_ssl'] == 1) {
-            $piwikUrl = str_replace('http://', 'https://', $piwikUrl);
-        }
-
-        if (!Common::stringEndsWith($piwikUrl, 'index.php')) {
-            $piwikUrl .= 'index.php';
-        }
-
-        $this->piwikUrl = $piwikUrl;
-    }
-
     private function updateIdSitesInvalidatedOldReports()
     {
         $store = new SitesToReprocessDistributedList();
@@ -1167,24 +1066,9 @@ class CronArchive
         return $websiteDayHasFinishedSinceLastRun;
     }
 
-    /**
-     *  Test that the specified piwik URL is a valid Piwik endpoint.
-     */
-    protected function checkPiwikUrlIsValid()
-    {
-        $response = $this->request("?module=API&method=API.getDefaultMetricTranslations&format=original&serialize=1");
-        $responseUnserialized = @unserialize($response);
-        if ($response === false
-            || !is_array($responseUnserialized)
-        ) {
-            $this->logFatalError("The Piwik URL {$this->piwikUrl} does not seem to be pointing to a Piwik server. Response was '$response'.");
-        }
-    }
-
     private function logInitInfo()
     {
         $this->logSection("INIT");
-        $this->logger->info("Piwik is installed at: {$this->piwikUrl}");
         $this->logger->info("Running Piwik " . Version::VERSION . " as Super User");
     }
 
@@ -1247,13 +1131,6 @@ class CronArchive
         }
 
         return true;
-    }
-
-    private function logFatalErrorUrlExpected($piwikUrl = false)
-    {
-        $this->logFatalError("./console core:archive expects the argument 'url' to be set to your Piwik URL, for example: --url=http://example.org/piwik/"
-            . ($piwikUrl ? "\n '$piwikUrl' supplied" : "")
-            . "\nuse --help for more information");
     }
 
     private function getVisitsLastPeriodFromApiResponse($stats)
@@ -1528,19 +1405,7 @@ class CronArchive
      */
     private function makeRequestUrl($url)
     {
-        return $this->piwikUrl . $url . self::APPEND_TO_API_REQUEST;
-    }
-
-    public static function getSuperUserTokenAuths()
-    {
-        $tokens = array();
-
-        /**
-         * @ignore
-         */
-        Piwik::postEvent('CronArchive.getTokenAuth', array(&$tokens));
-
-        return $tokens;
+        return $url . self::APPEND_TO_API_REQUEST;
     }
 
     /**

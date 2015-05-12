@@ -54,7 +54,7 @@ function getProcessedScreenshotPath(screenName) {
     return path.join(processedScreenshotDir, screenshotFileName);
 }
 
-function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
+function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonThreshold, done) {
 
     if (!(done instanceof Function)) {
         throw new Error("No 'done' callback specified in capture assertion.");
@@ -145,13 +145,21 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
 
             // if the files are not exact, perform a diff to check if they are truly different
             resemble("file://" + processedScreenshotPath).compareTo("file://" + expectedScreenshotPath).onComplete(function(data) {
-                if (data.misMatchPercentage != 0) {
+                if (!screenshotMatches(data.misMatchPercentage)) {
                     fail("Processed screenshot does not match expected for " + screenshotFileName + ". (mismatch = " + data.misMatchPercentage + ")");
                     return;
                 }
 
                 pass();
             });
+
+            function screenshotMatches(misMatchPercentage) {
+                if (comparisonThreshold) {
+                    return misMatchPercentage <= 100 * (1 - comparisonThreshold);
+                } else {
+                    return misMatchPercentage == 0;
+                }
+            }
         }, selector);
     } catch (ex) {
         var err = new Error(ex.message);
@@ -175,7 +183,9 @@ chai.Assertion.addChainableMethod('captureSelector', function () {
             done        = arguments[3];
     }
 
-    capture(screenName, compareAgainst, selector, pageSetupFn, done);
+    var comparisonThreshold = this.__flags['comparisonThreshold'];
+
+    capture(screenName, compareAgainst, selector, pageSetupFn, comparisonThreshold, done);
 });
 
 chai.Assertion.addChainableMethod('capture', function () {
@@ -191,7 +201,9 @@ chai.Assertion.addChainableMethod('capture', function () {
             done        = arguments[2];
     }
 
-    capture(screenName, compareAgainst, null, pageSetupFn, done);
+    var comparisonThreshold = this.__flags['comparisonThreshold'];
+
+    capture(screenName, compareAgainst, null, pageSetupFn, comparisonThreshold, done);
 });
 
 // add `contains` assertion
@@ -262,4 +274,14 @@ chai.Assertion.addChainableMethod('contains', function () {
             done(error);
         }
     });
+});
+
+chai.Assertion.addChainableMethod('similar', function (comparisonThreshold) {
+    if (comparisonThreshold === null
+        || comparisonThreshold === undefined
+    ) {
+        throw new Error("No comparison threshold supplied to '.similar('!");
+    }
+
+    this.__flags['comparisonThreshold'] = comparisonThreshold;
 });

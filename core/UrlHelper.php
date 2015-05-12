@@ -156,6 +156,9 @@ class UrlHelper
             return array();
         }
 
+        // TODO: this method should not use a cache. callers should instead have their own cache, configured through DI.
+        //       one undesirable side effect of using a cache here, is that this method can now init the StaticContainer, which makes setting
+        //       test environment for RequestCommand more complicated.
         $cache    = Cache::getTransientCache();
         $cacheKey = 'arrayFromQuery' . $urlQuery;
 

@@ -68,28 +68,16 @@ class ScheduledTasksRunner
         ) {
             $cache['lastTrackerCronRun'] = $now;
             Cache::setCacheGeneral($cache);
-            Tracker::initCorePiwikInTrackerMode();
+
             Option::set('lastTrackerCronRun', $cache['lastTrackerCronRun']);
             Common::printDebug('-> Scheduled Tasks: Starting...');
 
-            // save current user privilege and temporarily assume Super User privilege
-            $isSuperUser = Piwik::hasUserSuperUserAccess();
-
-            // Scheduled tasks assume Super User is running
-            Piwik::setUserHasSuperUserAccess();
-
-            $tokens = CronArchive::getSuperUserTokenAuths();
-            $tokenAuth = reset($tokens);
-
-            $invokeScheduledTasksUrl = SettingsPiwik::getPiwikUrl()
-                . "?module=API&format=csv&convertToUnicode=0&method=CoreAdminHome.runScheduledTasks&trigger=archivephp&token_auth=$tokenAuth";
+            $invokeScheduledTasksUrl = "?module=API&format=csv&convertToUnicode=0&method=CoreAdminHome.runScheduledTasks&trigger=archivephp";
 
             $cliMulti = new CliMulti();
+            $cliMulti->runAsSuperUser();
             $responses = $cliMulti->request(array($invokeScheduledTasksUrl));
             $resultTasks = reset($responses);
-
-            // restore original user privilege
-            Piwik::setUserHasSuperUserAccess($isSuperUser);
 
             Common::printDebug($resultTasks);
 
