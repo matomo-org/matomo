@@ -6,7 +6,12 @@
  */
 
 /**
- * TODO
+ * History service. Provides the ability to change the window hash, and makes sure broadcast.pageload
+ * is called on every change.
+ *
+ * This service replaces the previously used jQuery history extension.
+ *
+ * Should only be used by the broadcast object.
  */
 (function (window, $, broadcast) {
     angular.module('piwikApp').service('historyService', historyService);
@@ -41,6 +46,8 @@
             });
 
             $location.path(hash);
+
+            setTimeout(function () { $rootScope.$apply(); }, 1);
         }
     }
 })(window, jQuery, broadcast);
