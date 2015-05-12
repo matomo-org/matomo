@@ -14,6 +14,7 @@ use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Translation\Translator;
 use Piwik\View;
+use Piwik\Plugins\Goals\TranslationHelper;
 
 class Controller extends \Piwik\Plugins\Goals\Controller
 {
@@ -22,11 +23,11 @@ class Controller extends \Piwik\Plugins\Goals\Controller
      */
     private $translator;
 
-    public function __construct(Translator $translator)
+    public function __construct(Translator $translator, TranslationHelper $translationHelper)
     {
         $this->translator = $translator;
 
-        parent::__construct($translator);
+        parent::__construct($translator, $translationHelper);
     }
 
     public function ecommerceReport()
