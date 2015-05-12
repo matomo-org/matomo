@@ -48,6 +48,11 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $translator;
 
+    /**
+     * @var TranslationHelper
+     */
+    private $translationHelper;
+
     private function formatConversionRate($conversionRate, $columnName = 'conversion_rate')
     {
         if ($conversionRate instanceof DataTable) {
@@ -65,11 +70,12 @@ class Controller extends \Piwik\Plugin\Controller
         return $conversionRate;
     }
 
-    public function __construct(Translator $translator)
+    public function __construct(Translator $translator, TranslationHelper $translationHelper)
     {
         parent::__construct();
 
         $this->translator = $translator;
+		$this->translationHelper = $translationHelper;
 
         $this->idSite = Common::getRequestVar('idSite', null, 'int');
         $this->goals = API::getInstance()->getGoals($this->idSite);
@@ -451,9 +457,9 @@ class Controller extends \Piwik\Plugin\Controller
             $allReports = Goals::getReportsWithGoalMetrics();
             foreach ($allReports as $category => $reports) {
                 if ($ecommerce) {
-                    $categoryText = $this->translator->translate('Ecommerce_ViewSalesBy', $category);
+					$categoryText = $this->translationHelper->getTranslationForGoalMetricCategoryText('Ecommerce', $category);
                 } else {
-                    $categoryText = $this->translator->translate('Goals_ViewGoalsBy', $category);
+					$categoryText = $this->translationHelper->getTranslationForGoalMetricCategoryText('Goals', $category);
                 }
 
                 foreach ($reports as $report) {

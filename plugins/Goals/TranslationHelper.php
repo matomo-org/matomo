@@ -14,6 +14,33 @@ use Piwik\Piwik;
 
 class TranslationHelper
 {
+
+	public function getTranslationForGoalMetricCategoryText($type, $category)
+	{
+		// Type is either 'Goals' or 'Ecommerce'
+		switch ($type) {
+			case 'Goals':
+				$subKey = 'Goals';
+				break;
+
+			case 'Ecommerce':
+				$subKey = 'Sales';
+				break;
+
+			default:
+				return '';
+		}
+
+		// Return either "Goals/Sales by %s" or "Goals/Sales %s", depending on the category
+		switch ($category) {
+			case 'Visit':
+				return Piwik::translate($type . '_' . $subKey . 'Noun', Piwik::translate('Goals_CategoryText' . $category));
+
+			default:
+				return Piwik::translate($type . '_' . $subKey . 'By', Piwik::translate('Goals_CategoryText' . $category));
+		}
+	}
+
     public function getTranslationForCompleteDescription($match, $patternType, $pattern)
     {
         $description = $this->getTranslationForMatchAttribute($match);

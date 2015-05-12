@@ -680,6 +680,16 @@ class Report
     }
 
     /**
+     * Get the translation key of the category the report belongs to.
+     * @return string
+     * @ignore
+     */
+    public function getCategoryKey()
+    {
+        return $this->category;
+    }
+
+    /**
      * @return \Piwik\Columns\Dimension
      * @ignore
      */

@@ -28,6 +28,9 @@ class Goals extends \Piwik\Plugin
         $dimensionsByGroup = array();
         foreach ($dimensions as $dimension) {
             $group = $dimension['category'];
+			if ($dimension['module'] === 'CustomVariables') {
+				$group = 'VisitsSummary_VisitsSummary';
+			}
             unset($dimension['category']);
             $dimensionsByGroup[$group][] = $dimension;
         }
@@ -175,7 +178,7 @@ class Goals extends \Piwik\Plugin
         foreach (Report::getAllReports() as $report) {
             if ($report->hasGoalMetrics()) {
                 $reportsWithGoals[] = array(
-                    'category' => $report->getCategory(),
+                    'category' => $report->getCategoryKey(),
                     'name'     => $report->getName(),
                     'module'   => $report->getModule(),
                     'action'   => $report->getAction(),

@@ -1,6 +1,7 @@
 {
     "Ecommerce": {
         "Sales": "Sales",
-        "ViewSalesBy": "View sales by %s"
+        "SalesBy": "Sales by %s",
+		"SalesNoun": "Sales %s"
     }
 }
