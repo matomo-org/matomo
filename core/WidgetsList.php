@@ -77,6 +77,8 @@ class WidgetsList extends Singleton
 
         $widgets = array();
         foreach (self::$widgets as $key => $v) {
+            usort($v, array('Piwik\WidgetsList', '_sortWidgetsByOrder'));
+
             $category = Piwik::translate($key);
 
             if (isset($widgets[$category])) {
@@ -123,7 +125,10 @@ class WidgetsList extends Singleton
             $widgets = Widget::getAllWidgets();
             foreach ($widgets as $widget) {
                 if ($widget->isEnabled()) {
-                    $widgetsList->add($widget->getCategory(), $widget->getName(), $widget->getModule(), $widget->getAction(), $widget->getParameters());
+                    $widgetsList->add(
+                        $widget->getCategory(), $widget->getName(), $widget->getModule(),
+                        $widget->getAction(), $widget->getParameters(), $widget->getOrder()
+                    );
                 }
             }
 
@@ -173,6 +178,22 @@ class WidgetsList extends Singleton
     }
 
     /**
+     * Sorting method for widgets
+     *
+     * @param array $a
+     * @param array $b
+     * @return int
+     */
+    protected static function _sortWidgetsByOrder($a, $b)
+    {
+        if ($a['order'] == $b['order']) {
+            return 0;
+        }
+
+        return $a['order'] < $b['order'] ? -1 : 1;
+    }
+
+    /**
      * Returns the unique id of an widget with the given parameters
      *
      * @param $controllerName
@@ -205,8 +226,9 @@ class WidgetsList extends Singleton
      * @param string $controllerAction The report's controller action method name.
      * @param array $customParameters Extra query parameters that should be sent while getting
      *                                this report.
+     * @param int $order The order hint.
      */
-    public static function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
+    public static function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array(), $order = 99)
     {
         $widgetName     = Piwik::translate($widgetName);
         $widgetUniqueId = self::getWidgetUniqueId($controllerName, $controllerAction, $customParameters);
@@ -219,6 +241,7 @@ class WidgetsList extends Singleton
         self::$widgets[$widgetCategory][] = array(
             'name'       => $widgetName,
             'uniqueId'   => $widgetUniqueId,
+            'order'      => $order,
             'parameters' => array('module' => $controllerName,
                                   'action' => $controllerAction
                 ) + $customParameters
