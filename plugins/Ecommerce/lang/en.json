@@ -2,6 +2,6 @@
     "Ecommerce": {
         "Sales": "Sales",
         "SalesBy": "Sales by %s",
-		"SalesAdjective": "Sales %s"
+        "SalesAdjective": "Sales %s"
     }
 }

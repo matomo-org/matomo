@@ -28,10 +28,10 @@ class Goals extends \Piwik\Plugin
         $dimensionsByGroup = array();
         foreach ($dimensions as $dimension) {
             $group = $dimension['category'];
-			// move "Custom Variables" report to the "Goals/Sales by User attribute" category
-			if ($dimension['module'] === 'CustomVariables') {
-				$group = 'VisitsSummary_VisitsSummary';
-			}
+            // move "Custom Variables" report to the "Goals/Sales by User attribute" category
+            if ($dimension['module'] === 'CustomVariables') {
+                $group = 'VisitsSummary_VisitsSummary';
+            }
             unset($dimension['category']);
             $dimensionsByGroup[$group][] = $dimension;
         }

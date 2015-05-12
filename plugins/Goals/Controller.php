@@ -75,7 +75,7 @@ class Controller extends \Piwik\Plugin\Controller
         parent::__construct();
 
         $this->translator = $translator;
-		$this->translationHelper = $translationHelper;
+        $this->translationHelper = $translationHelper;
 
         $this->idSite = Common::getRequestVar('idSite', null, 'int');
         $this->goals = API::getInstance()->getGoals($this->idSite);
@@ -345,11 +345,11 @@ class Controller extends \Piwik\Plugin\Controller
         $topDimensions = array();
         foreach ($topDimensionsToLoad as $dimensionName => $apiMethod) {
             $request = new Request("method=$apiMethod
-								&format=original
-								&filter_update_columns_when_show_all_goals=1
-								&idGoal=" . AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE . "
-								&filter_sort_order=desc
-								&filter_sort_column=$columnNbConversions" .
+                                &format=original
+                                &filter_update_columns_when_show_all_goals=1
+                                &idGoal=" . AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE . "
+                                &filter_sort_order=desc
+                                &filter_sort_column=$columnNbConversions" .
                 // select a couple more in case some are not valid (ie. conversions==0 or they are "Keyword not defined")
                 "&filter_limit=" . (self::COUNT_TOP_ROWS_TO_DISPLAY + 2));
             $datatable = $request->process();
@@ -457,9 +457,9 @@ class Controller extends \Piwik\Plugin\Controller
             $allReports = Goals::getReportsWithGoalMetrics();
             foreach ($allReports as $category => $reports) {
                 if ($ecommerce) {
-					$categoryText = $this->translationHelper->getTranslationForGoalMetricCategoryText('Ecommerce', $category);
+                    $categoryText = $this->translationHelper->getTranslationForGoalMetricCategoryText('Ecommerce', $category);
                 } else {
-					$categoryText = $this->translationHelper->getTranslationForGoalMetricCategoryText('Goals', $category);
+                    $categoryText = $this->translationHelper->getTranslationForGoalMetricCategoryText('Goals', $category);
                 }
 
                 foreach ($reports as $report) {
