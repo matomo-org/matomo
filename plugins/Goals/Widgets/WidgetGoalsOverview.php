@@ -8,9 +8,13 @@
  */
 namespace Piwik\Plugins\Goals\Widgets;
 
+use Piwik\Plugin\WidgetConfig;
+
 class WidgetGoalsOverview extends \Piwik\Plugin\Widget
 {
-    protected $category = 'Goals_Goals';
-    protected $name = 'Goals_GoalsOverview';
-
+    public static function configure(WidgetConfig $config)
+    {
+        $config->setCategory('Goals_Goals');
+        $config->setName('Goals_GoalsOverview');
+    }
 }

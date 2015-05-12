@@ -9,12 +9,16 @@
 namespace Piwik\Plugins\ExampleRssWidget\Widgets;
 
 use Piwik\Piwik;
+use Piwik\Plugin\WidgetConfig;
 use Piwik\Plugins\ExampleRssWidget\RssRenderer;
 
 class RssChangelog extends \Piwik\Plugin\Widget
 {
-    protected $category = 'Example Widgets';
-    protected $name = 'Piwik Changelog';
+    public static function configure(WidgetConfig $config)
+    {
+        $config->setCategory('Example Widgets');
+        $config->setName('Piwik Changelog');
+    }
 
     public function render()
     {

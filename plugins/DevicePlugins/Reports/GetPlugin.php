@@ -24,7 +24,8 @@ class GetPlugin extends Base
         $this->constantRowsCount = true;
         $this->processedMetrics = array('nb_visits_percentage');
         $this->order = 4;
-        $this->widgetTitle  = 'DevicePlugins_WidgetPlugins';
+
+        $this->createWidget();
     }
 
     public function configureView(ViewDataTable $view)

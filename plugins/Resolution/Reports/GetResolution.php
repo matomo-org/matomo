@@ -21,7 +21,8 @@ class GetResolution extends Base
         $this->name          = Piwik::translate('Resolution_WidgetResolutions');
         $this->documentation = ''; // TODO
         $this->order = 0;
-        $this->widgetTitle  = 'Resolution_WidgetResolutions';
+
+        $this->createWidget();
     }
 
     public function configureView(ViewDataTable $view)

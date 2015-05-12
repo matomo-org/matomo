@@ -24,8 +24,9 @@ class GetCampaigns extends Base
         $this->actionToLoadSubTables = 'getKeywordsFromCampaignId';
         $this->hasGoalMetrics = true;
         $this->order = 9;
-        $this->widgetTitle  = 'Referrers_Campaigns';
-        $this->menuTitle    = 'Referrers_Campaigns';
+
+        $this->menuTitle = 'Referrers_Campaigns';
+        $this->createWidget();
     }
 
     public function configureView(ViewDataTable $view)

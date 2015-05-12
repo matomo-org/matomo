@@ -23,7 +23,8 @@ class GetProvider extends Report
         $this->name          = Piwik::translate('Provider_ColumnProvider');
         $this->documentation = Piwik::translate('Provider_ProviderReportDocumentation', '<br />');
         $this->order = 50;
-        $this->widgetTitle  = 'Provider_WidgetProviders';
+
+        $this->createWidget()->setName('Provider_WidgetProviders');
     }
 
     public function configureView(ViewDataTable $view)

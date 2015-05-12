@@ -8,9 +8,13 @@
  */
 namespace Piwik\Plugins\VisitsSummary\Widgets;
 
+use Piwik\Plugin\WidgetConfig;
+
 class Index extends \Piwik\Plugin\Widget
 {
-    protected $category = 'VisitsSummary_VisitsSummary';
-    protected $name = 'VisitsSummary_WidgetOverviewGraph';
-
+    public static function configure(WidgetConfig $config)
+    {
+        $config->setCategory('VisitsSummary_VisitsSummary');
+        $config->setName('VisitsSummary_WidgetOverviewGraph');
+    }
 }

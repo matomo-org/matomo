@@ -22,7 +22,8 @@ class GetBrowserEngines extends Base
         $this->name          = Piwik::translate('DevicesDetection_BrowserEngines');
         $this->documentation = Piwik::translate('DevicesDetection_BrowserEngineDocumentation', '<br />');
         $this->order = 7;
-        $this->widgetTitle  = 'DevicesDetection_BrowserEngines';
+
+        $this->createWidget();
     }
 
     public function getDefaultTypeViewDataTable()

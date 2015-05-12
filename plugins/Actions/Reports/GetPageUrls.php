@@ -40,7 +40,7 @@ class GetPageUrls extends Base
         $this->segmentSql = 'log_visit.visit_entry_idaction_url';
 
         $this->menuTitle   = 'General_Pages';
-        $this->widgetTitle = 'General_Pages';
+        $this->createWidget()->setName($this->menuTitle);
     }
 
     public function getMetrics()

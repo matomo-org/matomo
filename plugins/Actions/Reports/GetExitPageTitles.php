@@ -38,7 +38,7 @@ class GetExitPageTitles extends Base
 
         $this->actionToLoadSubTables = $this->action;
 
-        $this->widgetTitle = 'Actions_WidgetExitPageTitles';
+        $this->createWidget()->setName('Actions_WidgetExitPageTitles');
     }
 
     public function getProcessedMetrics()

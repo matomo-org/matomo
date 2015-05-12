@@ -21,7 +21,8 @@ class GetOsFamilies extends Base
         $this->name          = Piwik::translate('DevicesDetection_OperatingSystemFamilies');
         $this->documentation = ''; // TODO
         $this->order = 3;
-        $this->widgetTitle  = 'DevicesDetection_OperatingSystemFamilies';
+
+        $this->createWidget();
     }
 
     public function configureView(ViewDataTable $view)

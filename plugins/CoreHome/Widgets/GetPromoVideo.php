@@ -9,15 +9,12 @@
 namespace Piwik\Plugins\CoreHome\Widgets;
 
 use Piwik\Plugin\Widget;
+use Piwik\Plugin\WidgetConfig;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
 class GetPromoVideo extends Widget
 {
-    protected $category = 'Example Widgets';
-    protected $name     = 'Installation_Welcome';
-    protected $order    = 10;
-
     /**
      * @var Translator
      */
@@ -26,6 +23,13 @@ class GetPromoVideo extends Widget
     public function __construct(Translator $translator)
     {
         $this->translator = $translator;
+    }
+
+    public static function configure(WidgetConfig $config)
+    {
+        $config->setCategory('Example Widgets');
+        $config->setName('Installation_Welcome');
+        $config->setOrder(10);
     }
 
     public function render()

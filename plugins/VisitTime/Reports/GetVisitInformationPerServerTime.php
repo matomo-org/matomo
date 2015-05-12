@@ -27,7 +27,8 @@ class GetVisitInformationPerServerTime extends Base
         $this->constantRowsCount = true;
         $this->hasGoalMetrics = true;
         $this->order = 15;
-        $this->widgetTitle  = 'VisitTime_WidgetServerTime';
+
+        $this->createWidget();
     }
 
     public function configureView(ViewDataTable $view)

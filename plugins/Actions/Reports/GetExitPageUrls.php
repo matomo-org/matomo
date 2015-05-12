@@ -41,7 +41,7 @@ class GetExitPageUrls extends Base
         $this->order = 4;
 
         $this->menuTitle   = 'Actions_SubmenuPagesExit';
-        $this->widgetTitle = 'Actions_WidgetPagesExit';
+        $this->createWidget()->setName('Actions_WidgetPagesExit');
     }
 
     public function getProcessedMetrics()

@@ -8,10 +8,14 @@
  */
 namespace Piwik\Plugins\Live\Widgets;
 
+use Piwik\Plugin\WidgetConfig;
+
 class Widget extends \Piwik\Plugin\Widget
 {
-    protected $category = 'Live!';
-    protected $name = 'Live_VisitorsInRealTime';
-    protected $order = 20;
-
+    public static function configure(WidgetConfig $config)
+    {
+        $config->setCategory('Live!');
+        $config->setName('Live_VisitorsInRealTime');
+        $config->setOrder(20);
+    }
 }

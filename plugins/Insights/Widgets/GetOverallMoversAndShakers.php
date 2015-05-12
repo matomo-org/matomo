@@ -8,9 +8,13 @@
  */
 namespace Piwik\Plugins\Insights\Widgets;
 
+use Piwik\Plugin\WidgetConfig;
+
 class GetOverallMoversAndShakers extends \Piwik\Plugin\Widget
 {
-    protected $category = 'Insights_WidgetCategory';
-    protected $name = 'Insights_MoversAndShakersWidgetTitle';
-
+    public static function configure(WidgetConfig $config)
+    {
+        $config->setCategory('Insights_WidgetCategory');
+        $config->setName('Insights_MoversAndShakersWidgetTitle');
+    }
 }

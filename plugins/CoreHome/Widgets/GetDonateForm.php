@@ -11,15 +11,12 @@ namespace Piwik\Plugins\CoreHome\Widgets;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Widget;
+use Piwik\Plugin\WidgetConfig;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
 class GetDonateForm extends Widget
 {
-    protected $category = 'Example Widgets';
-    protected $name     = 'CoreHome_SupportPiwik';
-    protected $order    = 5;
-
     /**
      * @var Translator
      */
@@ -28,6 +25,13 @@ class GetDonateForm extends Widget
     public function __construct(Translator $translator)
     {
         $this->translator = $translator;
+    }
+
+    public static function configure(WidgetConfig $config)
+    {
+        $config->setCategory('Example Widgets');
+        $config->setName('CoreHome_SupportPiwik');
+        $config->setOrder(5);
     }
 
     public function render()

@@ -21,7 +21,8 @@ class GetBrowsers extends Base
         $this->name          = Piwik::translate('DevicesDetection_WidgetBrowsers');
         $this->documentation = Piwik::translate('DevicesDetection_WidgetBrowsersDocumentation', '<br />');
         $this->order = 1;
-        $this->widgetTitle  = 'DevicesDetection_WidgetBrowsers';
+
+        $this->createWidget();
     }
 
     public function configureView(ViewDataTable $view)

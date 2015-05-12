@@ -89,10 +89,6 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        if ($widget instanceof Widget) {
-            $widget->checkIsEnabled();
-        }
-
         return $widget->$method();
     }
 

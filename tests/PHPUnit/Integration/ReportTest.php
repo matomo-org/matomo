@@ -45,7 +45,6 @@ class GetAdvancedReport extends GetBasicReport
         parent::init();
 
         $this->action      = 'getAdvancedReport';
-        $this->widgetTitle = 'Actions_WidgetPageTitlesFollowingSearch';
         $this->menuTitle   = 'Actions_SubmenuPageTitles';
         $this->documentation = Piwik::translate('ExampleReportDocumentation');
         $this->dimension   = new ExitPageUrl();
@@ -55,6 +54,8 @@ class GetAdvancedReport extends GetBasicReport
         $this->isSubtableReport = true;
         $this->actionToLoadSubTables = 'GetBasicReport';
         $this->constantRowsCount = true;
+
+        $this->createWidget()->setName('Actions_WidgetPageTitlesFollowingSearch');
     }
 
     public function set($param, $value)

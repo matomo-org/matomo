@@ -8,16 +8,16 @@
  */
 namespace Piwik\Plugins\Referrers\Widgets;
 
+use Piwik\Plugin\WidgetConfig;
 use Piwik\SettingsPiwik;
 
 class GetKeywordsForPage extends \Piwik\Plugin\Widget
 {
-    protected $category = 'SEO';
-    protected $name = 'Referrers_WidgetTopKeywordsForPages';
-
-    public function isEnabled()
+    public static function configure(WidgetConfig $config)
     {
-        return SettingsPiwik::isSegmentationEnabled();
+        $config->setCategory('SEO');
+        $config->setName('Referrers_WidgetTopKeywordsForPages');
+        $config->setIsEnabled(SettingsPiwik::isSegmentationEnabled());
     }
 
 }

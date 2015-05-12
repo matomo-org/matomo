@@ -8,10 +8,27 @@
  */
 namespace Piwik\Plugins\Live\Widgets;
 
+use Piwik\Plugin\WidgetConfig;
+use Piwik\WidgetsList;
+
 class GetVisitorProfilePopup extends \Piwik\Plugin\Widget
 {
-    protected $category = 'Live!';
-    protected $name = 'Live_VisitorProfile';
-    protected $order = 25;
+
+    public static function configure(WidgetConfig $config)
+    {
+        $config->setCategory('Live!');
+        $config->setName('Live_VisitorProfile');
+        $config->setOrder(25);
+    }
+
+    public function render()
+    {
+
+    }
+
+    public static function configureWidgetsList(WidgetsList $widgetsList)
+    {
+
+    }
 
 }

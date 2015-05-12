@@ -41,7 +41,7 @@ class GetPageTitles extends Base
         $this->actionToLoadSubTables = $this->action;
 
         $this->menuTitle   = 'Actions_SubmenuPageTitles';
-        $this->widgetTitle = 'Actions_WidgetPageTitles';
+        $this->createWidget()->setName('Actions_WidgetPageTitles');
     }
 
     public function getMetrics()

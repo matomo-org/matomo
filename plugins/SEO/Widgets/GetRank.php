@@ -10,6 +10,7 @@ namespace Piwik\Plugins\SEO\Widgets;
 
 use Piwik\Common;
 use Piwik\DataTable\Renderer;
+use Piwik\Plugin\WidgetConfig;
 use Piwik\Site;
 use Piwik\Url;
 use Piwik\UrlHelper;
@@ -18,8 +19,11 @@ use Piwik\Plugins\SEO\API;
 
 class GetRank extends \Piwik\Plugin\Widget
 {
-    protected $category = 'SEO';
-    protected $name = 'SEO_SeoRankings';
+    public static function configure(WidgetConfig $config)
+    {
+        $config->setCategory('SEO');
+        $config->setName('SEO_SeoRankings');
+    }
 
     public function render()
     {

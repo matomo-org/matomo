@@ -41,7 +41,7 @@ class GetEntryPageUrls extends Base
         $this->actionToLoadSubTables = $this->action;
 
         $this->menuTitle   = 'Actions_SubmenuPagesEntry';
-        $this->widgetTitle = 'Actions_WidgetPagesEntry';
+        $this->createWidget()->setName('Actions_WidgetPagesEntry');
     }
 
     public function getProcessedMetrics()

@@ -36,7 +36,7 @@ class GetEntryPageTitles extends Base
         $this->order   = 6;
         $this->actionToLoadSubTables = $this->action;
 
-        $this->widgetTitle = 'Actions_WidgetEntryPageTitles';
+        $this->createWidget()->setName('Actions_WidgetEntryPageTitles');
     }
 
     public function getProcessedMetrics()

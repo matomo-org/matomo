@@ -9,30 +9,22 @@
 namespace Piwik\Plugins\Ecommerce\Widgets;
 
 use Piwik\Common;
+use Piwik\Plugin\WidgetConfig;
 use Piwik\Site;
 use Piwik\Piwik;
 
 class WidgetGoalReport extends \Piwik\Plugin\Widget
 {
-    protected $category = 'Goals_Ecommerce';
-    protected $name = 'General_Overview';
-
-    public function getParameters()
+    public static function configure(WidgetConfig $config)
     {
-        return array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
-    }
+        $config->setCategory('Goals_Ecommerce');
+        $config->setName('General_Overview');
+        $config->setParameters(array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
 
-    public function isEnabled()
-    {
-        $idSite = $this->getIdSite();
+        $idSite = Common::getRequestVar('idSite', null, 'int');
 
         $site = new Site($idSite);
-        return $site->isEcommerceEnabled();
-    }
-
-    private function getIdSite()
-    {
-        return Common::getRequestVar('idSite', null, 'int');
+        $config->setIsEnabled($site->isEcommerceEnabled());
     }
 
 }

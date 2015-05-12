@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Live\Reports;
 use Piwik\Menu\MenuReporting;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\Live\VisitorLog;
-use Piwik\WidgetsList;
 
 class GetLastVisitsDetails extends Base
 {
@@ -21,6 +20,7 @@ class GetLastVisitsDetails extends Base
     {
         parent::init();
         $this->order = 2;
+        $this->menuTitle = 'Live_VisitorLog';
 
         $this->createWidget()
              ->setName('Live_VisitorLog')
@@ -43,7 +43,7 @@ class GetLastVisitsDetails extends Base
     {
         if ($this->isEnabled()) {
             $url = array('module' => $this->module, 'action' => 'indexVisitorLog');
-            $menu->addVisitorsItem($this->widgetTitle, $url, $order = 5);
+            $menu->addVisitorsItem($this->menuTitle, $url, $order = 5);
         }
     }
 

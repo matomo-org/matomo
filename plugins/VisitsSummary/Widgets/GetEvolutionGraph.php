@@ -8,14 +8,14 @@
  */
 namespace Piwik\Plugins\VisitsSummary\Widgets;
 
+use Piwik\Plugin\WidgetConfig;
+
 class GetEvolutionGraph extends \Piwik\Plugin\Widget
 {
-    protected $category = 'VisitsSummary_VisitsSummary';
-    protected $name = 'VisitsSummary_WidgetLastVisits';
-
-    public function getParameters()
+    public static function configure(WidgetConfig $config)
     {
-        return array('columns' => array('nb_visits'));
+        $config->setCategory('VisitsSummary_VisitsSummary');
+        $config->setName('VisitsSummary_WidgetLastVisits');
+        $config->setParameters(array('columns' => array('nb_visits')));
     }
-
 }

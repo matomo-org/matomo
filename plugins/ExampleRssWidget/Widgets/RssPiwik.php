@@ -9,12 +9,16 @@
 namespace Piwik\Plugins\ExampleRssWidget\Widgets;
 
 use Piwik\Piwik;
+use Piwik\Plugin\WidgetConfig;
 use Piwik\Plugins\ExampleRssWidget\RssRenderer;
 
 class RssPiwik extends \Piwik\Plugin\Widget
 {
-    protected $category = 'Example Widgets';
-    protected $name = 'Piwik.org Blog';
+    public static function configure(WidgetConfig $config)
+    {
+        $config->setCategory('Example Widgets');
+        $config->setName('Piwik.org Blog');
+    }
 
     public function render()
     {

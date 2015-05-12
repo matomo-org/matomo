@@ -20,6 +20,7 @@ class GetItemsName extends BaseItem
         $this->name      = Piwik::translate('Goals_ProductName');
         $this->dimension = new ProductName();
         $this->order     = 31;
-        $this->widgetTitle = 'Goals_ProductName';
+
+        $this->createWidget();
     }
 }

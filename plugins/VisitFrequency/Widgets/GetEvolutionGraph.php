@@ -8,13 +8,14 @@
  */
 namespace Piwik\Plugins\VisitFrequency\Widgets;
 
+use Piwik\Plugin\WidgetConfig;
+
 class GetEvolutionGraph extends \Piwik\Plugin\Widget
 {
-    protected $category = 'General_Visitors';
-    protected $name = 'VisitFrequency_WidgetGraphReturning';
-
-    public function getParameters()
+    public static function configure(WidgetConfig $config)
     {
-        return array('columns' => array('nb_visits_returning'));
+        $config->setCategory('General_Visitors');
+        $config->setName('VisitFrequency_WidgetGraphReturning');
+        $config->setParameters(array('columns' => array('nb_visits_returning')));
     }
 }

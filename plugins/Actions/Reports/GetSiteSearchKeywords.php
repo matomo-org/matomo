@@ -33,7 +33,7 @@ class GetSiteSearchKeywords extends SiteSearchBase
             new AveragePageGenerationTime()
         );
         $this->order = 15;
-        $this->widgetTitle  = 'Actions_WidgetSearchKeywords';
+        $this->createWidget();
     }
 
     public function getMetrics()

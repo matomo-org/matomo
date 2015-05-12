@@ -9,24 +9,19 @@
 namespace Piwik\Plugins\Ecommerce\Widgets;
 
 use Piwik\Common;
+use Piwik\Plugin\WidgetConfig;
 use Piwik\Site;
 
 class GetEcommerceLog extends \Piwik\Plugin\Widget
 {
-    protected $category = 'Goals_Ecommerce';
-    protected $name = 'Goals_EcommerceLog';
-
-    public function isEnabled()
+    public static function configure(WidgetConfig $config)
     {
-        $idSite = $this->getIdSite();
+        $config->setCategory('Goals_Ecommerce');
+        $config->setName('Goals_EcommerceLog');
 
-        $site = new Site($idSite);
-        return $site->isEcommerceEnabled();
-    }
-
-    private function getIdSite()
-    {
-        return Common::getRequestVar('idSite', null, 'int');
+        $idSite = Common::getRequestVar('idSite', null, 'int');
+        $site   = new Site($idSite);
+        $config->setIsEnabled($site->isEcommerceEnabled());
     }
 
 }

@@ -24,7 +24,8 @@ class GetKeywords extends Base
         $this->actionToLoadSubTables = 'getSearchEnginesFromKeywordId';
         $this->hasGoalMetrics = true;
         $this->order = 3;
-        $this->widgetTitle  = 'Referrers_Keywords';
+
+        $this->createWidget();
     }
 
     public function configureView(ViewDataTable $view)

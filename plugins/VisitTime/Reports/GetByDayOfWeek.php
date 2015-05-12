@@ -28,7 +28,8 @@ class GetByDayOfWeek extends Base
         $this->documentation = Piwik::translate('VisitTime_WidgetByDayOfWeekDocumentation');
         $this->constantRowsCount = true;
         $this->order = 25;
-        $this->widgetTitle  = 'VisitTime_VisitsByDayOfWeek';
+
+        $this->createWidget();
     }
 
     public function configureView(ViewDataTable $view)

@@ -21,7 +21,8 @@ class GetBrowserVersions extends Base
         $this->name          = Piwik::translate('DevicesDetection_BrowserVersion');
         $this->documentation = ''; // TODO
         $this->order = 2;
-        $this->widgetTitle  = 'DevicesDetection_BrowserVersion';
+
+        $this->createWidget();
     }
 
     public function configureView(ViewDataTable $view)

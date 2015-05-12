@@ -25,7 +25,8 @@ class GetSocials extends Base
         $this->documentation = Piwik::translate('Referrers_WebsitesReportDocumentation', '<br />');
         $this->actionToLoadSubTables = 'getUrlsForSocial';
         $this->order = 11;
-        $this->widgetTitle  = 'Referrers_WidgetSocials';
+
+        $this->createWidget()->setName('Referrers_WidgetSocials');
     }
 
     public function getDefaultTypeViewDataTable()

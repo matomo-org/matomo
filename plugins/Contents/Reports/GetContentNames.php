@@ -32,8 +32,9 @@ class GetContentNames extends Base
         $this->order         = 35;
         $this->actionToLoadSubTables = 'getContentNames';
 
-        $this->widgetTitle = 'Contents_ContentName';
         $this->metrics = array('nb_impressions', 'nb_interactions');
         $this->processedMetrics = array(new InteractionRate());
+
+        $this->createWidget();
     }
 }

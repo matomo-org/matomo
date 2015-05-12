@@ -8,9 +8,13 @@
  */
 namespace Piwik\Plugins\VisitFrequency\Widgets;
 
+use Piwik\Plugin\WidgetConfig;
+
 class GetSparklines extends \Piwik\Plugin\Widget
 {
-    protected $category = 'General_Visitors';
-    protected $name = 'VisitFrequency_WidgetOverview';
-
+    public static function configure(WidgetConfig $config)
+    {
+        $config->setCategory('General_Visitors');
+        $config->setName('VisitFrequency_WidgetOverview');
+    }
 }

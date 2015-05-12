@@ -24,8 +24,9 @@ class GetCountry extends Base
         $this->metrics        = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
         $this->hasGoalMetrics = true;
         $this->order = 5;
-        $this->widgetTitle = Piwik::translate('UserCountry_WidgetLocation')
-                           . ' (' . Piwik::translate('UserCountry_Country') . ')';
+
+        $this->createWidget()->setName(Piwik::translate('UserCountry_WidgetLocation')
+                           . ' (' . Piwik::translate('UserCountry_Country') . ')');
     }
 
     public function configureView(ViewDataTable $view)

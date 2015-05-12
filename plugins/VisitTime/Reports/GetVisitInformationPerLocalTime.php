@@ -27,7 +27,8 @@ class GetVisitInformationPerLocalTime extends Base
         $this->documentation = Piwik::translate('VisitTime_WidgetLocalTimeDocumentation', array('<strong>', '</strong>'));
         $this->constantRowsCount = true;
         $this->order = 20;
-        $this->widgetTitle  = 'VisitTime_WidgetLocalTime';
+
+        $this->createWidget();
     }
 
     public function configureView(ViewDataTable $view)

@@ -31,7 +31,8 @@ class GetNumberOfVisitsByVisitCount extends Base
         );
         $this->constantRowsCount = true;
         $this->order = 25;
-        $this->widgetTitle  = 'VisitorInterest_visitsByVisitCount';
+
+        $this->createWidget();
     }
 
     public function configureView(ViewDataTable $view)

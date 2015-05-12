@@ -10,6 +10,7 @@ namespace Piwik\Plugins\UserCountryMap;
 
 use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\Plugin\WidgetConfig;
 use Piwik\Version;
 use Piwik\WidgetsList;
 use Piwik\Plugin\Manager as PluginManager;
@@ -61,8 +62,21 @@ class UserCountryMap extends \Piwik\Plugin
     public function registerWidgets()
     {
         if (PluginManager::getInstance()->isPluginActivated('UserCountry')) {
-            WidgetsList::add('General_Visitors', Piwik::translate('UserCountryMap_VisitorMap'), 'UserCountryMap', 'visitorMap');
-            WidgetsList::add('Live!', Piwik::translate('UserCountryMap_RealTimeMap'), 'UserCountryMap', 'realtimeMap', array(), $order = 5);
+            $config = new WidgetConfig();
+            $config->setCategory('General_Visitors');
+            $config->setName(Piwik::translate('UserCountryMap_VisitorMap'));
+            $config->setModule('UserCountryMap');
+            $config->setAction('visitorMap');
+
+            WidgetsList::getInstance()->addWidget($config);
+            
+            $config = new WidgetConfig();
+            $config->setCategory('Live!');
+            $config->setName(Piwik::translate('UserCountryMap_RealTimeMap'));
+            $config->setModule('UserCountryMap');
+            $config->setAction('realtimeMap');
+            $config->setOrder(5);
+            WidgetsList::getInstance()->addWidget($config);
         }
     }
 

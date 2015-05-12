@@ -32,7 +32,7 @@ class GetSiteSearchNoResultKeywords extends SiteSearchBase
             new AveragePageGenerationTime()
         );
         $this->order = 16;
-        $this->widgetTitle  = 'Actions_WidgetSearchNoResultKeywords';
+        $this->createWidget();
     }
 
     public function getMetrics()

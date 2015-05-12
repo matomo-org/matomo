@@ -21,7 +21,8 @@ class GetConfiguration extends Base
         $this->name          = Piwik::translate('Resolution_WidgetGlobalVisitors');
         $this->documentation = Piwik::translate('Resolution_WidgetGlobalVisitorsDocumentation', '<br />');
         $this->order = 7;
-        $this->widgetTitle  = 'Resolution_WidgetGlobalVisitors';
+
+        $this->createWidget();
     }
 
     public function configureView(ViewDataTable $view)

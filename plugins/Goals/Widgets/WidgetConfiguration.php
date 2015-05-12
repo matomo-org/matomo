@@ -9,19 +9,18 @@
 namespace Piwik\Plugins\Goals\Widgets;
 
 use Piwik\Common;
+use Piwik\Plugin\WidgetConfig;
 use Piwik\Plugins\Goals\API;
 use Piwik\WidgetsList;
 
-class WidgetConfig extends \Piwik\Plugin\Widget
+class WidgetConfiguration extends \Piwik\Plugin\Widget
 {
-    protected $category = 'Goals_Goals';
-
-    public function isEnabled()
+    public static function configure(WidgetConfig $config)
     {
-        return false;
+        $config->disable();
     }
 
-    public function configureWidgetsList(WidgetsList $widgetsList)
+    public static function configureWidgetsList(WidgetsList $widgetsList)
     {
         $idSite = Common::getRequestVar('idSite', null, 'int');
         $goals  = API::getInstance()->getGoals($idSite);
@@ -31,7 +30,7 @@ class WidgetConfig extends \Piwik\Plugin\Widget
                 $name   = Common::sanitizeInputValue($goal['name']);
                 $params = array('idGoal' => $goal['idgoal']);
 
-                $widgetsList->add($this->getCategory(), $name, $this->getModule(), 'widgetGoalReport', $params);
+                $widgetsList->add('Goals_Goals', $name, 'Goals', 'widgetGoalReport', $params);
             }
         }
     }

@@ -11,6 +11,7 @@ namespace Piwik;
 use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Widget;
+use Piwik\Plugin\WidgetConfig;
 use Piwik\Plugin\Widgets;
 
 /**
@@ -115,15 +116,15 @@ class WidgetsList extends Singleton
 
             $widgetContainers = Widgets::getAllWidgets();
             foreach ($widgetContainers as $widgetContainer) {
-                $widgets = $widgetContainer->getWidgets();
+                $widgetConfigs = $widgetContainer->getWidgets();
 
-                foreach ($widgets as $widget) {
+                foreach ($widgetConfigs as $widget) {
                     $widgetsList->add($widget['category'], $widget['name'], $widget['module'], $widget['method'], $widget['params']);
                 }
             }
 
-            $widgets = Widget::getAllWidgets();
-            foreach ($widgets as $widget) {
+            $widgetConfigs = Widget::getAllWidgetConfigurations();
+            foreach ($widgetConfigs as $widget) {
                 if ($widget->isEnabled()) {
                     $widgetsList->addWidget($widget);
                 }
@@ -133,13 +134,13 @@ class WidgetsList extends Singleton
                 $widgetContainer->configureWidgetsList($widgetsList);
             }
 
-            foreach ($widgets as $widget) {
-                $widget->configureWidgetsList($widgetsList);
+            foreach (Widget::getAllWidgetClassNames() as $widgetClass) {
+                $widgetClass::configureWidgetsList($widgetsList);
             }
         }
     }
 
-    public function addWidget(Widget $widget)
+    public function addWidget(WidgetConfig $widget)
     {
         $this->add(
             $widget->getCategory(), $widget->getName(), $widget->getModule(),

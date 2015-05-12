@@ -30,7 +30,7 @@ class GetOutlinks extends Base
         $this->actionToLoadSubTables = $this->action;
 
         $this->menuTitle   = 'General_Outlinks';
-        $this->widgetTitle = 'General_Outlinks';
+        $this->createWidget();
     }
 
     public function getMetrics()
