@@ -15,6 +15,7 @@ use Piwik\Network\IPUtils;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tests\Framework\TestDataHelper\LogInserter;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Visit;
 use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
@@ -27,6 +28,18 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvide
 class VisitorGeolocatorTest extends IntegrationTestCase
 {
     const TEST_IP = '1.2.3.4';
+
+    /**
+     * @var LogInserter
+     */
+    private $logInserter;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->logInserter = new LogInserter();
+    }
 
     public function test_getLocation_shouldReturnLocationForProvider_IfLocationIsSetForCurrentProvider()
     {
@@ -218,7 +231,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         $geolocator = new VisitorGeolocator($mockLocationProvider);
         $valuesUpdated = $geolocator->attributeExistingVisit($visit, $useCache = false);
 
-        $this->assertEquals($expectedVisitProperties, $this->getVisit($visit['idvisit']), $message = '', $delta = 0.001);
+        $this->assertEquals($expectedVisitProperties, $this->logInserter->getVisit($visit['idvisit']), $message = '', $delta = 0.001);
 
         $expectedUpdateValues = $expectedUpdateValues === null ? $expectedVisitProperties : $expectedUpdateValues;
         $this->assertEquals($expectedUpdateValues, $valuesUpdated, $message = '', $delta = 0.001);
@@ -367,64 +380,10 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     private function insertVisit($visit = array())
     {
         $defaultProperties = array(
-            'idsite' => 1,
-            'idvisitor' => Common::hex2bin('ea95f303f2165aa0'),
-            'visit_last_action_time' => '2012-01-01 00:00:00',
-            'config_id' => Common::hex2bin('ea95f303f2165aa0'),
-            'location_ip' => IPUtils::stringToBinaryIP(self::TEST_IP),
-            'visitor_localtime' => '2012-01-01 00:00:00',
-            'location_country' => 'xx',
-            'config_os' => 'xxx',
-            'visit_total_events' => 0,
-            'visitor_days_since_last' => 0,
-            'config_quicktime' => 0,
-            'config_pdf' => 0,
-            'config_realplayer' => 0,
-            'config_silverlight' => 0,
-            'config_windowsmedia' => 0,
-            'config_java' => 0,
-            'config_gears' => 0,
-            'config_resolution' => 0,
-            'config_resolution' => '',
-            'config_cookie' => 0,
-            'config_director' => 0,
-            'config_flash' => 0,
-            'config_browser_version' => '',
-            'visitor_count_visits' => 1,
-            'visitor_returning' => 0,
-            'visit_total_time' => 123,
-            'visit_entry_idaction_name' => 0,
-            'visit_entry_idaction_url' => 0,
-            'visitor_days_since_order' => 0,
-            'visitor_days_since_first' => 0,
-            'visit_first_action_time' => '2012-01-01 00:00:00',
-            'visit_goal_buyer' => 0,
-            'visit_goal_converted' => 0,
-            'visit_exit_idaction_name' => 0,
-            'referer_url' => '',
-            'location_browser_lang' => 'xx',
-            'config_browser_engine' => '',
-            'config_browser_name' => '',
-            'referer_type' => 0,
-            'referer_name' => '',
-            'visit_total_actions' => 0,
-            'visit_total_searches' => 0
+            'location_ip' => IPUtils::stringToBinaryIP(self::TEST_IP)
         );
 
-        $visit = array_merge($defaultProperties, $visit);
-
-        $this->insertInto('log_visit', $visit);
-
-        $idVisit = Db::fetchOne("SELECT LAST_INSERT_ID()");
-        return $this->getVisit($idVisit, $allColumns = true);
-    }
-
-    private function getVisit($idVisit, $allColumns = false)
-    {
-        $columns = $allColumns ? "*" : "location_country, location_region, location_city, location_latitude, location_longitude";
-        $visit = Db::fetchRow("SELECT $columns FROM " . Common::prefixTable('log_visit') . " WHERE idvisit = ?", array($idVisit));
-
-        return $visit;
+        return $this->logInserter->insertVisit(array_merge($defaultProperties, $visit));
     }
 
     private function insertTwoConversions($visit)
@@ -433,10 +392,6 @@ class VisitorGeolocatorTest extends IntegrationTestCase
             'idvisit' => $visit['idvisit'],
             'idsite' => $visit['idsite'],
             'idvisitor' => $visit['idvisitor'],
-            'server_time' => '2012-01-01 00:00:00',
-            'idgoal' => 1,
-            'buster' => 1,
-            'url' => '',
             'location_longitude' => $visit['location_longitude'],
             'location_latitude' => $visit['location_latitude'],
             'location_region' => $visit['location_region'],
@@ -444,23 +399,12 @@ class VisitorGeolocatorTest extends IntegrationTestCase
             'location_city' => $visit['location_city'],
             'visitor_count_visits' => $visit['visitor_count_visits'],
             'visitor_returning' => $visit['visitor_returning'],
-            'visitor_days_since_order' => 0,
-            'visitor_days_since_first' => 0
         );
 
-        $this->insertInto('log_conversion', $conversionProperties);
+        $this->logInserter->insertConversion($conversionProperties);
 
         $conversionProperties['buster'] = 2;
-        $this->insertInto('log_conversion', $conversionProperties);
-    }
-
-    private function insertInto($table, $row)
-    {
-        $columns = implode(', ', array_keys($row));
-        $columnsPlaceholders = Common::getSqlStringFieldsArray($row);
-        $values = array_values($row);
-
-        Db::query("INSERT INTO " . Common::prefixTable($table) . " ($columns) VALUES ($columnsPlaceholders)", $values);
+        $this->logInserter->insertConversion($conversionProperties);
     }
 
     private function getConversions($visit)
