@@ -30,7 +30,13 @@ class WidgetConfiguration extends \Piwik\Plugin\Widget
                 $name   = Common::sanitizeInputValue($goal['name']);
                 $params = array('idGoal' => $goal['idgoal']);
 
-                $widgetsList->add('Goals_Goals', $name, 'Goals', 'widgetGoalReport', $params);
+                $config = new WidgetConfig();
+                $config->setCategory('Goals_Goals');
+                $config->setName($name);
+                $config->setModule('Goals');
+                $config->setAction('widgetGoalReport');
+                $config->setParameters($params);
+                $widgetsList->addWidget($config);
             }
         }
     }

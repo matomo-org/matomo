@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Access;
+use Piwik\Plugin\WidgetConfig;
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Translate;
@@ -171,7 +172,12 @@ class WidgetsListTest extends IntegrationTestCase
         $_GET['idSite'] = 1;
 
         WidgetsList::_reset();
-        WidgetsList::add('Actions', 'Pages', 'Actions', 'getPageUrls');
+        $config = new WidgetConfig();
+        $config->setCategory('Actions');
+        $config->setName('Pages');
+        $config->setModule('Actions');
+        $config->setAction('getPageUrls');
+        WidgetsList::getInstance()->addWidget($config);
 
         $this->assertTrue(WidgetsList::isDefined('Actions', 'getPageUrls'));
         $this->assertFalse(WidgetsList::isDefined('Actions', 'inValiD'));

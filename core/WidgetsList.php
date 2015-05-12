@@ -119,7 +119,13 @@ class WidgetsList extends Singleton
                 $widgetConfigs = $widgetContainer->getWidgets();
 
                 foreach ($widgetConfigs as $widget) {
-                    $widgetsList->add($widget['category'], $widget['name'], $widget['module'], $widget['method'], $widget['params']);
+                    $config = new WidgetConfig();
+                    $config->setCategory($widget['category']);
+                    $config->setName($widget['name']);
+                    $config->setModule($widget['module']);
+                    $config->setAction($widget['method']);
+                    $config->setParameters($widget['params']);
+                    $widgetsList->addWidget($config);
                 }
             }
 
@@ -142,10 +148,31 @@ class WidgetsList extends Singleton
 
     public function addWidget(WidgetConfig $widget)
     {
+        $this->checkIsValidWidget($widget);
+
         $this->add(
             $widget->getCategory(), $widget->getName(), $widget->getModule(),
             $widget->getAction(), $widget->getParameters(), $widget->getOrder()
         );
+    }
+
+    private function checkIsValidWidget(WidgetConfig $widget)
+    {
+        if (!Development::isEnabled()) {
+            return;
+        }
+
+        if (!$widget->getName()) {
+            Development::error('No name is defined for added widget having method "' . $widget->getAction());
+        }
+
+        if (!$widget->getModule()) {
+            Development::error('No module is defined for added widget having name "' . $widget->getName());
+        }
+
+        if (!$widget->getAction()) {
+            Development::error('No action is defined for added widget having name "' . $widget->getName());
+        }
     }
 
     /**
@@ -233,6 +260,7 @@ class WidgetsList extends Singleton
      * @param array $customParameters Extra query parameters that should be sent while getting
      *                                this report.
      * @param int $order The order hint.
+     * @deprecated since Piwik 2.15, use `addWidget()` instead.
      */
     public static function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array(), $order = 99)
     {

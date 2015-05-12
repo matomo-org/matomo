@@ -366,6 +366,8 @@ class Report
      * @param WidgetsList $widget
      * @api
      * @deprecated since Piwik 2.15, use `createWidget()` instead
+     * FYI: We will most likely keep this method but we will remove @api
+     * @internal
      */
     public function configureWidget(WidgetsList $widget)
     {

@@ -19,6 +19,7 @@ use Piwik\WidgetsList;
  * For an example, see the {@link https://github.com/piwik/piwik/blob/master/plugins/ExamplePlugin/Widgets.php} plugin.
  *
  * @api
+ * @deprecated since Piwik 2.15, use `Piwik\Plugin\Widget` instead.
  */
 class Widgets
 {
