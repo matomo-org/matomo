@@ -40,6 +40,16 @@ class Widget
     /**
      * @ignore
      */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @ignore
+     */
     public function getModule()
     {
         if (empty($this->module)) {
@@ -68,6 +78,54 @@ class Widget
     }
 
     /**
+     * Set the module of the widget
+     * @param string $module
+     * @ignore
+     */
+    public function setModule($module)
+    {
+        $this->module = $module;
+
+        return $this;
+    }
+
+    /**
+     * Set the action of the widget
+     * @param string $action
+     * @ignore
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * Set the parameters of the widget
+     * @param array $parameters
+     * @ignore
+     */
+    public function setParameters($parameters)
+    {
+        $this->parameters = $parameters;
+
+        return $this;
+    }
+
+    /**
+     * Set the order of the widget
+     * @param int $order
+     * @ignore
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    /**
      * Here you can optionally define URL parameters that will be used when this widget is requested.
      * @return array  Eg ('urlparam' => 'urlvalue').
      * @api
@@ -85,6 +143,18 @@ class Widget
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set the name of the widget
+     * @param string $name
+     * @ignore
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     /**

@@ -20,8 +20,13 @@ class GetLastVisitsDetails extends Base
     protected function init()
     {
         parent::init();
-        $this->widgetTitle = 'Live_VisitorLog';
         $this->order = 2;
+
+        $this->createWidget()
+             ->setName('Live_VisitorLog')
+             ->setAction('getVisitorLog')
+             ->setOrder(10)
+             ->setParameters(array('small' => 1));
     }
 
     public function getDefaultTypeViewDataTable()
@@ -40,11 +45,6 @@ class GetLastVisitsDetails extends Base
             $url = array('module' => $this->module, 'action' => 'indexVisitorLog');
             $menu->addVisitorsItem($this->widgetTitle, $url, $order = 5);
         }
-    }
-
-    public function configureWidget(WidgetsList $widget)
-    {
-        $widget->add($this->category, $this->widgetTitle, $this->module, 'getVisitorLog', array('small' => 1));
     }
 
 }

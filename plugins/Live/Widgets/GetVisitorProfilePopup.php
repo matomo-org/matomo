@@ -12,5 +12,6 @@ class GetVisitorProfilePopup extends \Piwik\Plugin\Widget
 {
     protected $category = 'Live!';
     protected $name = 'Live_VisitorProfile';
+    protected $order = 25;
 
 }

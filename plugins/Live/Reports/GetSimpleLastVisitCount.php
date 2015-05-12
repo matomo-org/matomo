@@ -22,8 +22,9 @@ class GetSimpleLastVisitCount extends Base
     protected function init()
     {
         parent::init();
-        $this->widgetTitle = 'Live_RealTimeVisitorCount';
         $this->order = 3;
+
+        $this->createWidget()->setName('Live_RealTimeVisitorCount')->setOrder(15);
     }
 
     public function render()

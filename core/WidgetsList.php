@@ -125,10 +125,7 @@ class WidgetsList extends Singleton
             $widgets = Widget::getAllWidgets();
             foreach ($widgets as $widget) {
                 if ($widget->isEnabled()) {
-                    $widgetsList->add(
-                        $widget->getCategory(), $widget->getName(), $widget->getModule(),
-                        $widget->getAction(), $widget->getParameters(), $widget->getOrder()
-                    );
+                    $widgetsList->addWidget($widget);
                 }
             }
 
@@ -140,6 +137,14 @@ class WidgetsList extends Singleton
                 $widget->configureWidgetsList($widgetsList);
             }
         }
+    }
+
+    public function addWidget(Widget $widget)
+    {
+        $this->add(
+            $widget->getCategory(), $widget->getName(), $widget->getModule(),
+            $widget->getAction(), $widget->getParameters(), $widget->getOrder()
+        );
     }
 
     /**

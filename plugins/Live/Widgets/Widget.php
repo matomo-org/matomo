@@ -12,5 +12,6 @@ class Widget extends \Piwik\Plugin\Widget
 {
     protected $category = 'Live!';
     protected $name = 'Live_VisitorsInRealTime';
+    protected $order = 20;
 
 }

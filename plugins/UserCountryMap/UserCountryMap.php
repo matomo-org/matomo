@@ -62,7 +62,7 @@ class UserCountryMap extends \Piwik\Plugin
     {
         if (PluginManager::getInstance()->isPluginActivated('UserCountry')) {
             WidgetsList::add('General_Visitors', Piwik::translate('UserCountryMap_VisitorMap'), 'UserCountryMap', 'visitorMap');
-            WidgetsList::add('Live!', Piwik::translate('UserCountryMap_RealTimeMap'), 'UserCountryMap', 'realtimeMap');
+            WidgetsList::add('Live!', Piwik::translate('UserCountryMap_RealTimeMap'), 'UserCountryMap', 'realtimeMap', array(), $order = 5);
         }
     }
 
