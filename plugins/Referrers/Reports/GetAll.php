@@ -24,7 +24,7 @@ class GetAll extends Base
         $this->documentation = Piwik::translate('Referrers_AllReferrersReportDocumentation', '<br />');
         $this->order = 2;
 
-        $this->createWidget();
+        $this->createWidget()->setSubCategory('Referrers_WidgetGetAll');
     }
 
     public function getDefaultTypeViewDataTable()

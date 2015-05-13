@@ -26,7 +26,9 @@ class GetSocials extends Base
         $this->actionToLoadSubTables = 'getUrlsForSocial';
         $this->order = 11;
 
-        $this->createWidget()->setName('Referrers_WidgetSocials');
+        $this->createWidget()
+             ->setName('Referrers_WidgetSocials')
+             ->setSubCategory('Referrers_SubmenuWebsites');
     }
 
     public function getDefaultTypeViewDataTable()

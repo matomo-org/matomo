@@ -25,8 +25,7 @@ class GetCampaigns extends Base
         $this->hasGoalMetrics = true;
         $this->order = 9;
 
-        $this->menuTitle = 'Referrers_Campaigns';
-        $this->createWidget();
+        $this->createWidget()->setSubCategory('Referrers_Campaigns');
     }
 
     public function configureView(ViewDataTable $view)

@@ -26,7 +26,9 @@ class GetWebsites extends Base
         $this->hasGoalMetrics = true;
         $this->order = 5;
 
-        $this->createWidget()->setName('Referrers_WidgetExternalWebsites');
+        $this->createWidget()
+             ->setName('Referrers_WidgetExternalWebsites')
+             ->setSubCategory('Referrers_SubmenuWebsites');
     }
 
     public function configureView(ViewDataTable $view)

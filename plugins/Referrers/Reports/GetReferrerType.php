@@ -33,7 +33,9 @@ class GetReferrerType extends Base
         $this->hasGoalMetrics = true;
         $this->order = 1;
 
-        $this->createWidget()->setName('General_Overview');
+        $this->createWidget()
+             ->setName('General_Overview')
+             ->setSubCategory('Referrers_WidgetGetAll');
     }
 
     public function getDefaultTypeViewDataTable()

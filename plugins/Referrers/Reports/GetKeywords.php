@@ -25,7 +25,7 @@ class GetKeywords extends Base
         $this->hasGoalMetrics = true;
         $this->order = 3;
 
-        $this->createWidget();
+        $this->createWidget()->setSubCategory('Referrers_SubmenuSearchEngines');
     }
 
     public function configureView(ViewDataTable $view)
