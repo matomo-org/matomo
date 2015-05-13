@@ -25,6 +25,9 @@ expect.page = function (url) {
     return chai.expect(url);
 };
 
+// add file keyword to `expect`
+expect.file = expect.screenshot;
+
 expect.current_page = expect.page(null);
 
 function getPageLogsString(pageLogs, indent) {
@@ -42,16 +45,19 @@ function getPageLogsString(pageLogs, indent) {
 // add capture assertion
 var pageRenderer = new PageRenderer(config.piwikUrl + path.join("tests", "PHPUnit", "proxy"));
 
-function getProcessedScreenshotPath(screenName) {
-    var screenshotFileName = screenName + '.png',
-        dirsBase = app.runner.suite.baseDirectory,
+function getProcessedFilePath(fileName) {
+    var dirsBase = app.runner.suite.baseDirectory,
         processedScreenshotDir = path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.processedScreenshotsDir);
 
     if (!fs.isDirectory(processedScreenshotDir)) {
         fs.makeTree(processedScreenshotDir);
     }
 
-    return path.join(processedScreenshotDir, screenshotFileName);
+    return path.join(processedScreenshotDir, fileName);
+}
+
+function getProcessedScreenshotPath(screenName) {
+    return getProcessedFilePath(screenName + '.png');
 }
 
 function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonThreshold, done) {
@@ -161,6 +167,78 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
                 }
             }
         }, selector);
+    } catch (ex) {
+        var err = new Error(ex.message);
+        err.stack = ex.message;
+        done(err);
+    }
+}
+
+function compareContents(compareAgainst, pageSetupFn, done) {
+    if (!(done instanceof Function)) {
+        throw new Error("No 'done' callback specified in 'pageContents' assertion.");
+    }
+
+    var dirsBase = app.runner.suite.baseDirectory,
+
+        expectedScreenshotDir = path.join(dirsBase, config.expectedScreenshotsDir),
+        expectedFilePath = path.join(expectedScreenshotDir, compareAgainst),
+
+        processedFilePath = getProcessedFilePath(compareAgainst),
+
+        processedScreenshotPath = getProcessedScreenshotPath(compareAgainst);
+
+    pageSetupFn(pageRenderer);
+
+    try {
+        pageRenderer.capture(processedScreenshotPath, function (err) {
+            if (err) {
+                var indent = "     ";
+                err.stack = err.message + "\n" + indent + getPageLogsString(pageRenderer.pageLogs, indent);
+
+                done(err);
+                return;
+            }
+
+            var fail = function (message) {
+                var indent = "     ";
+                var failureInfo = message + "\n";
+                failureInfo += indent + "Url to reproduce: " + pageRenderer.getCurrentUrl() + "\n";
+                failureInfo += getPageLogsString(pageRenderer.pageLogs, indent);
+
+                error = new AssertionError(message);
+
+                // stack traces are useless so we avoid the clutter w/ this
+                error.stack = failureInfo;
+
+                done(error);
+            };
+
+            var pass = function () {
+                if (options['print-logs']) {
+                    console.log(getPageLogsString(pageRenderer.pageLogs, "     "));
+                }
+
+                done();
+            };
+
+            var processed = pageRenderer.getPageContents();
+
+            fs.write(processedFilePath, processed);
+
+            if (!fs.isFile(expectedFilePath)) {
+                fail("No expected output file found at " + expectedFilePath + ".");
+                return;
+            }
+
+            var expected = fs.read(expectedFilePath);
+
+            if (processed == expected) {
+                pass();
+            } else {
+                fail("Processed page contents does not equal expected file contents.");
+            }
+        });
     } catch (ex) {
         var err = new Error(ex.message);
         err.stack = ex.message;
@@ -284,4 +362,11 @@ chai.Assertion.addChainableMethod('similar', function (comparisonThreshold) {
     }
 
     this.__flags['comparisonThreshold'] = comparisonThreshold;
+});
+
+// add pageContents assertion
+chai.Assertion.addChainableMethod('pageContents', function (pageSetupFn, done) {
+    var compareAgainst = this.__flags['object'];
+
+    compareContents(compareAgainst, pageSetupFn, done);
 });
