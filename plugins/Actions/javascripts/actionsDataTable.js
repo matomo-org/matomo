@@ -91,6 +91,36 @@
             self.handleExpandFooter(domElem);
             self.setFixWidthToMakeEllipsisWork(domElem);
             self.handleSummaryRow(domElem);
+            self.openSubtableFromLevel0IfOnlyOneSubtableGiven(domElem);
+        },
+
+        openSubtableFromLevel0IfOnlyOneSubtableGiven: function (domElem) {
+            var $subtables = domElem.find('.subDataTable');
+            var hasOnlyOneSubtable = $subtables.length === 1;
+
+            if (hasOnlyOneSubtable) {
+                var hasOnlyOneRow = domElem.find('tbody tr.level0').length === 1;
+                
+                if (hasOnlyOneRow) {
+                    var $labels = $subtables.find('.label');
+                    if ($labels.length) {
+                        $labels.first().click();
+                    }
+                }
+            }
+        },
+
+        openSubtableFromSubtableIfOnlyOneSubtableGiven: function (domElem) {
+            var hasOnlyOneRow = domElem.length === 1
+            var hasOnlyOneSubtable = domElem.hasClass('subDataTable');
+
+            if (hasOnlyOneRow && hasOnlyOneSubtable) {
+                // when subtable is loaded
+                var $labels = domElem.find('.label');
+                if ($labels.length) {
+                    $labels.first().click();
+                }
+            }
         },
 
         //see dataTable::applyCosmetics
@@ -323,6 +353,8 @@
                 function () {
                     self.onClickActionSubDataTable(this)
                 });
+
+            self.openSubtableFromSubtableIfOnlyOneSubtableGiven(response);
         }
     });
 
