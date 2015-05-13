@@ -15,7 +15,6 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
 use Piwik\LogDeleter;
-use Piwik\Piwik;
 
 /**
  * Purges the log_visit, log_conversion and related tables of old visit data.
@@ -28,14 +27,14 @@ class LogDataPurger
     public static $selectSegmentSize = 100000;
 
     /**
-     * TODO
+     * LogDeleter service used to delete visits.
      *
      * @var LogDeleter
      */
-    private $logPurger;
+    private $logDeleter;
 
     /**
-     * TODO
+     * DAO class that is used to delete unused actions.
      *
      * @var RawLogDao
      */
@@ -64,7 +63,7 @@ class LogDataPurger
      */
     public function purgeData($deleteLogsOlderThan)
     {
-        $dateUpperLimit = Date::factory("today")->subDay($deleteLogsOlderThan); // TODO: move logic to constructor
+        $dateUpperLimit = Date::factory("today")->subDay($deleteLogsOlderThan);
         $this->logPurger->deleteVisitsFor($start = null, $dateUpperLimit->getDatetime());
 
         $logTables = self::getDeleteTableLogTables();
@@ -77,7 +76,7 @@ class LogDataPurger
             Log::warning($logMessage);
         }
 
-        // optimize table overhead after deletion // TODO: logs:delete command should allow table optimization
+        // optimize table overhead after deletion
         Db::optimizeTables($logTables);
     }
 
