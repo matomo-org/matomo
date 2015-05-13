@@ -183,9 +183,9 @@ class WidgetConfig
      * containing a message that will be displayed to the user. You can overwrite this message in case you want to
      * customize the error message. Eg.
      * ```
-    if (!$this->isEnabled()) {
-    throw new Exception('Setting XYZ is not enabled or the user has not enough permission');
-    }
+     * if (!$this->isEnabled()) {
+     *     throw new Exception('Setting XYZ is not enabled or the user has not enough permission');
+     * }
      * ```
      * @throws \Exception
      * @api
