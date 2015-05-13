@@ -63,11 +63,14 @@
     </div>
 
     <script type="text/javascript">
-        var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ date }}';
-        Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ date }}');
+        broadcast._isInit = true;
+        $(function () {
+            var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ date }}';
+            Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ date }}');
 
-        Piwik_Overlay_Translations = {
-            domain: "{{ 'Overlay_Domain'|translate }}"
-        };
+            window.Piwik_Overlay_Translations = {
+                domain: "{{ 'Overlay_Domain'|translate }}"
+            };
+        });
     </script>
 {% endblock %}
