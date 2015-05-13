@@ -65,28 +65,6 @@ class RawLogDao
     /**
      * @param string $from
      * @param string $to
-     * @param array $fields
-     * @param int $fromId
-     * @param int $limit
-     * @return array[]
-     */
-    public function getVisitsWithDatesLimit($from, $to, $fields = array(), $fromId = 0, $limit = 1000)
-    {
-        $sql = "SELECT " . implode(', ', $fields)
-             . " FROM " . Common::prefixTable('log_visit')
-             . " WHERE visit_first_action_time >= ? AND visit_last_action_time < ?"
-             . " AND idvisit > ?"
-             . sprintf(" LIMIT %d", $limit);
-
-        $bind = array($from, $to, $fromId);
-
-        return Db::fetchAll($sql, $bind);
-    }
-
-    /**
-     * TODO: are these methods still used? also check Db::segmented... methods
-     * @param string $from
-     * @param string $to
      * @return int
      */
     public function countVisitsWithDatesLimit($from, $to)
@@ -380,7 +358,7 @@ class RawLogDao
             /**
              * @ignore
              */
-            Piwik::postEvent("LogDataPurger.ActionsToKeepInserted.olderThan"); // TODO: use DI/descendant class instead
+            Piwik::postEvent("LogDataPurger.ActionsToKeepInserted.olderThan"); // TODO: use DI/descendant class instead of test events
         } else {
             /**
              * @ignore
