@@ -20,17 +20,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
- * TODO
+ * Command to selectively delete visits.
  */
 class DeleteLogs extends ConsoleCommand
 {
-    // TODO: move this to RawLogDao and make it public. use it there and here.
     private static $logTables = array(
-        'log_visit' => 'idvisit',
-        'log_link_visit_action' => 'idlink_va',
-        'log_conversion' => 'idvisit',
-        'log_conversion_item' => 'idvisit',
-        'log_action' => 'idaction'
+        'log_visit',
+        'log_link_visit_action',
+        'log_conversion',
+        'log_conversion_item',
+        'log_action'
     );
 
     /**
@@ -54,7 +53,7 @@ class DeleteLogs extends ConsoleCommand
     protected function configure()
     {
         $this->setName('logs:delete');
-        $this->setDescription('Delete data from one of the log tables: ' . implode(', ', array_keys(self::$logTables)) . '.');
+        $this->setDescription('Delete data from one of the log tables: ' . implode(', ', self::$logTables) . '.');
         $this->addOption('dates', null, InputOption::VALUE_REQUIRED, 'Delete log data with a date within this date range. Eg, 2012-01-01,2013-01-01');
         $this->addOption('site', null, InputOption::VALUE_REQUIRED,
             'Delete log data belonging to the site with this ID. Eg, 1, 2, 3, etc. By default log data from all sites is purged.');
@@ -130,7 +129,7 @@ class DeleteLogs extends ConsoleCommand
 
         // validate the site ID
         try {
-            new Site($idSite); // TODO: check error message returned from invalid site
+            new Site($idSite);
         } catch (\Exception $ex) {
             throw new \InvalidArgumentException("Invalid site ID: $idSite", $code = 0, $ex);
         }
