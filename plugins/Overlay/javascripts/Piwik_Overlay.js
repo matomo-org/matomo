@@ -170,6 +170,8 @@ var Piwik_Overlay = (function () {
 
             // handle hash change
             broadcast.loadAjaxContent = hashChangeCallback;
+
+            broadcast._isInit = false;
             broadcast.init();
 
             if (window.location.href.split('#').length == 1) {
