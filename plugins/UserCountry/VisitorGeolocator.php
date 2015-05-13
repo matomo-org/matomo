@@ -234,15 +234,16 @@ class VisitorGeolocator
     }
 
     /**
-     * TODO
+     * Re-geolocate visits within a date range for a specified site (if any).
      *
-     * @param $from
-     * @param $to
-     * @param null $idSite
-     * @param int $segmentLimit
-     * @param callable $onLogProcessed
+     * @param string $from A datetime string to treat as the lower bound. Visits newer than this date are processed.
+     * @param string $to A datetime string to treat as the upper bound. Visits older than this date are processed.
+     * @param int|null $idSite If supplied, only visits for this site are re-attributed.
+     * @param int $iterationStep The number of visits to re-attribute at the same time.
+     * @param callable|null $onLogProcessed If supplied, this callback is called after every row is processed.
+     *                                      The processed visit and the updated values are passed to the callback.
      */
-    public function reattributeVisitLogs($from, $to, $idSite = null, $segmentLimit = 1000, $onLogProcessed = null)
+    public function reattributeVisitLogs($from, $to, $idSite = null, $iterationStep = 1000, $onLogProcessed = null)
     {
         $visitFieldsToSelect = array_merge(array('idvisit', 'location_ip'), array_keys(VisitorGeolocator::$logVisitFieldsToUpdate));
 
@@ -256,12 +257,12 @@ class VisitorGeolocator
         }
 
         $self = $this;
-        $this->dao->forAllLogs('log_visit', $visitFieldsToSelect, $conditions, $segmentLimit, function ($logs) use ($self, $onLogProcessed) {
+        $this->dao->forAllLogs('log_visit', $visitFieldsToSelect, $conditions, $iterationStep, function ($logs) use ($self, $onLogProcessed) {
             foreach ($logs as $row) {
-                $self->attributeExistingVisit($row);
+                $updatedValues = $self->attributeExistingVisit($row);
 
                 if (!empty($onLogProcessed)) {
-                    $onLogProcessed($row);
+                    $onLogProcessed($row, $updatedValues);
                 }
             }
         });

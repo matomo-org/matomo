@@ -13,11 +13,10 @@ use Piwik\Network\IPUtils;
 use Piwik\Db;
 
 /**
- * TODO
- *
- * TODO: this also gets log data. rename to LogHelper?
+ * Test helper that inserts rows into log tables. Defines defaults for all non null columns so
+ * developers can specify as little as needed.
  */
-class LogInserter
+class LogHelper
 {
     public function insertVisit($visit = array())
     {

@@ -15,7 +15,7 @@ use Piwik\Network\IPUtils;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Tests\Framework\TestDataHelper\LogInserter;
+use Piwik\Tests\Framework\TestDataHelper\LogHelper;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Visit;
 use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
@@ -30,7 +30,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     const TEST_IP = '1.2.3.4';
 
     /**
-     * @var LogInserter
+     * @var LogHelper
      */
     private $logInserter;
 
@@ -38,7 +38,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->logInserter = new LogInserter();
+        $this->logInserter = new LogHelper();
     }
 
     public function test_getLocation_shouldReturnLocationForProvider_IfLocationIsSetForCurrentProvider()

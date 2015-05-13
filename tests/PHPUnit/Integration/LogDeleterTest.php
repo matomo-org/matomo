@@ -13,7 +13,7 @@ use Piwik\DataAccess\RawLogDao;
 use Piwik\Db;
 use Piwik\LogDeleter;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Tests\Framework\TestDataHelper\LogInserter;
+use Piwik\Tests\Framework\TestDataHelper\LogHelper;
 
 /**
  * @group Core
@@ -21,7 +21,7 @@ use Piwik\Tests\Framework\TestDataHelper\LogInserter;
 class LogDeleterTest extends IntegrationTestCase
 {
     /**
-     * @var LogInserter
+     * @var LogHelper
      */
     private $logInserter;
 
@@ -36,7 +36,7 @@ class LogDeleterTest extends IntegrationTestCase
 
         $this->logDeleter = new LogDeleter(new RawLogDao());
 
-        $this->logInserter = new LogInserter();
+        $this->logInserter = new LogHelper();
         $this->insertTestData();
     }
 
