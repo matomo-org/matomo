@@ -8,9 +8,11 @@
 
 namespace Piwik\Plugins\CoreAdminHome\Commands;
 
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\LogDeleter;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Site;
@@ -59,6 +61,8 @@ class DeleteLogs extends ConsoleCommand
             'Delete log data belonging to the site with this ID. Eg, 1, 2, 3, etc. By default log data from all sites is purged.');
         $this->addOption('limit', null, InputOption::VALUE_REQUIRED, "The number of rows to delete at a time. The larger the number, "
             . "the more time is spent deleting logs, and the less progress will be printed to the screen.", 1000);
+        $this->addOption('optimize-tables', null, InputOption::VALUE_NONE, "If supplied, the command will optimize log tables after deleting logs.");
+        // TODO: manual tests for optimize-tables
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -85,6 +89,10 @@ class DeleteLogs extends ConsoleCommand
         }
 
         $this->writeSuccessMessage($output, array("Successfully deleted $logsDeleted visits."));
+
+        if ($input->getOption('optimize-tables')) {
+            $this->optimizeTables($output);
+        }
     }
 
     /**
@@ -154,5 +162,19 @@ class DeleteLogs extends ConsoleCommand
         $question = new ConfirmationQuestion('<comment>You are about to delete log data. This action cannot be undone, are you sure you want to continue?</comment>', false);
 
         return $helper->ask($input, $output, $question);
+    }
+
+    private function optimizeTables(OutputInterface $output)
+    {
+        foreach (self::$logTables as $table) {
+            $output->write("Optimizing table $table...");
+
+            $prefixedTable = Common::prefixTable($table);
+            Db::exec("OPTIMIZE TABLE $prefixedTable");
+
+            $output->writeln("Done.");
+        }
+
+        $this->writeSuccessMessage($output, array("Table optimization finished."));
     }
 }
