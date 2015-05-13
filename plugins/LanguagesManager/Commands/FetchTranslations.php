@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Plugins\LanguagesManager\API as LanguagesManagerApi;
 use Piwik\Translation\Transifex\API;
 use Symfony\Component\Console\Helper\ProgressHelper;
@@ -57,19 +58,27 @@ class FetchTranslations extends TranslationBase
 
         $output->writeln("Fetching translations from Transifex for resource $resource");
 
-        $languages = $transifexApi->getAvailableLanguageCodes();
-
-        if (!empty($plugin)) {
-            $languages = array_filter($languages, function($language) {
-                return LanguagesManagerApi::getInstance()->isLanguageAvailable(str_replace('_', '-', strtolower($language)));
-            });
-        }
-
         $availableLanguages = LanguagesManagerApi::getInstance()->getAvailableLanguageNames();
 
         $languageCodes = array();
         foreach ($availableLanguages as $languageInfo) {
             $languageCodes[] = $languageInfo['code'];
+        }
+
+        $languageCodes = array_filter($languageCodes, function($code) {
+            return !in_array($code, array('en', 'dev'));
+        });
+
+        try {
+            $languages = $transifexApi->getAvailableLanguageCodes();
+
+            if (!empty($plugin)) {
+                $languages = array_filter($languages, function ($language) {
+                    return LanguagesManagerApi::getInstance()->isLanguageAvailable(str_replace('_', '-', strtolower($language)));
+                });
+            }
+        } catch (AuthenticationFailedException $e) {
+            $languages = $languageCodes;
         }
 
         /** @var ProgressHelper $progress */
