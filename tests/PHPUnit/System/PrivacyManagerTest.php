@@ -122,7 +122,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
     public function tearDown()
     {
-        $tempTableName = Common::prefixTable(RawLogDao::TEMP_TABLE_NAME);
+        $tempTableName = Common::prefixTable(RawLogDao::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
         Db::query("DROP TABLE IF EXISTS " . $tempTableName);
 
         parent::tearDown();
