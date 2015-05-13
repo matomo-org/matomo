@@ -8,7 +8,9 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Common;
 use Piwik\DataAccess\RawLogDao;
+use Piwik\Db;
 use Piwik\LogDeleter;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tests\Framework\TestDataHelper\LogInserter;
@@ -52,8 +54,8 @@ class LogDeleterTest extends IntegrationTestCase
     {
         $this->logDeleter->deleteConversions(array(2, 3));
 
-        $this->assertConversionNotExists(2);
-        $this->assertConversionNotExists(3);
+        $this->assertConversionsNotExists(2);
+        $this->assertConversionsNotExists(3);
 
         $this->assertVisitExists(1);
         $this->assertVisitExists(2, $checkAggregates = false);
@@ -65,11 +67,11 @@ class LogDeleterTest extends IntegrationTestCase
     {
         $this->logDeleter->deleteConversionItems(array(2, 3));
 
-        $this->assertConversionItemNotExists(2);
-        $this->assertConversionItemNotExists(3);
+        $this->assertConversionItemsNotExist(2);
+        $this->assertConversionItemsNotExist(3);
 
-        $this->assertConversionExists(2, $checkAggregates = false);
-        $this->assertConversionExists(3, $checkAggregates = false);
+        $this->assertConversionsExists(2, $checkAggregates = false);
+        $this->assertConversionsExists(3, $checkAggregates = false);
 
         $this->assertVisitExists(1);
         $this->assertVisitExists(2, $checkAggregates = false);
@@ -79,7 +81,20 @@ class LogDeleterTest extends IntegrationTestCase
 
     public function test_deleteVisitsFor_DeletesVisitsForSpecifiedRangeAndSites_AndInvokesCallbackAfterEveryChunkIsDeleted()
     {
-        // TODO
+        $iterationCount = 0;
+        $this->logDeleter->deleteVisitsFor('2012-01-01', '2012-01-02 05:05:05', 2, $iterationStep = 1, function () use (&$iterationCount) {
+            ++$iterationCount;
+        });
+
+        $this->assertEquals(2, $iterationCount);
+
+        // visits for idSite = 1 do not get deleted
+        $this->assertVisitExists(1);
+        $this->assertVisitExists(2);
+
+        // visits for idSite = 2 do get deleted
+        $this->assertVisitNotExists(3);
+        $this->assertVisitNotExists(4);
     }
 
     private function insertTestData()
@@ -109,6 +124,55 @@ class LogDeleterTest extends IntegrationTestCase
 
         // insert two conversion items for last conversion
         $this->logInserter->insertConversionItem($visit['idvisit'], $orderId, array('idsite' => $idSite));
+        $this->logInserter->insertConversionItem($visit['idvisit'], $orderId, array('idsite' => $idSite, 'idaction_sku' => 123));
+    }
 
+    private function assertVisitExists($idVisit, $checkAggregates = true)
+    {
+        $this->assertEquals(1, $this->getRowCountWithIdVisit('log_visit', $idVisit));
+        $this->assertEquals(2, $this->getRowCountWithIdVisit('log_link_visit_action', $idVisit));
+
+        if ($checkAggregates) {
+            $this->assertConversionsExists($idVisit);
+        }
+    }
+
+    private function assertConversionsExists($idVisit, $checkAggregates = true)
+    {
+        $this->assertEquals(2, $this->getRowCountWithIdVisit('log_conversion', $idVisit));
+
+        if ($checkAggregates) {
+            $this->assertConversionItemsExist($idVisit);
+        }
+    }
+
+    private function assertConversionItemsExist($idVisit)
+    {
+        $this->assertEquals(2, $this->getRowCountWithIdVisit('log_conversion_item', $idVisit));
+    }
+
+    private function assertVisitNotExists($idVisit)
+    {
+        $this->assertEquals(0, $this->getRowCountWithIdVisit('log_visit', $idVisit));
+        $this->assertEquals(0, $this->getRowCountWithIdVisit('log_link_visit_action', $idVisit));
+
+        $this->assertConversionsNotExists($idVisit);
+    }
+
+    private function getRowCountWithIdVisit($table, $idVisit)
+    {
+        return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable($table) . " WHERE idvisit = $idVisit");
+    }
+
+    private function assertConversionsNotExists($idVisit)
+    {
+        $this->assertEquals(0, $this->getRowCountWithIdVisit('log_conversion', $idVisit));
+
+        $this->assertConversionItemsNotExist($idVisit);
+    }
+
+    private function assertConversionItemsNotExist($idVisit)
+    {
+        $this->assertEquals(0, $this->getRowCountWithIdVisit('log_conversion_item', $idVisit));
     }
 }
