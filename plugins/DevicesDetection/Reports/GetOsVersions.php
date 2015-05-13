@@ -22,7 +22,9 @@ class GetOsVersions extends Base
         $this->documentation = ''; // TODO
         $this->order = 4;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('General_Visitors')
+             ->setSubCategory('DevicesDetection_Software');
     }
 
     public function configureView(ViewDataTable $view)

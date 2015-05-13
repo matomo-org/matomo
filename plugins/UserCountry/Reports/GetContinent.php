@@ -24,8 +24,10 @@ class GetContinent extends Base
         $this->hasGoalMetrics = true;
         $this->order = 6;
 
-        $this->createWidget()->setName(Piwik::translate('UserCountry_WidgetLocation')
-                           . ' (' . Piwik::translate('UserCountry_Continent') . ')');
+        $this->createWidget()
+             ->setName(Piwik::translate('UserCountry_WidgetLocation') . ' (' . Piwik::translate('UserCountry_Continent') . ')')
+             ->setCategory('General_Visitors')
+             ->setSubCategory('UserCountry_SubmenuLocations');
     }
 
     public function configureView(ViewDataTable $view)

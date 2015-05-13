@@ -24,6 +24,7 @@ class GetLastVisitsDetails extends Base
 
         $this->createWidget()
              ->setName('Live_VisitorLog')
+             ->setCategory('General_Visitors')
              ->setAction('getVisitorLog')
              ->setOrder(10)
              ->setParameters(array('small' => 1));

@@ -25,7 +25,9 @@ class GetPlugin extends Base
         $this->processedMetrics = array('nb_visits_percentage');
         $this->order = 4;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('General_Visitors')
+             ->setSubCategory('DevicesDetection_Software');
     }
 
     public function configureView(ViewDataTable $view)

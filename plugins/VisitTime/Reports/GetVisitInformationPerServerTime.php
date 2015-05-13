@@ -28,7 +28,9 @@ class GetVisitInformationPerServerTime extends Base
         $this->hasGoalMetrics = true;
         $this->order = 15;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('General_Visitors')
+             ->setSubCategory('VisitTime_SubmenuTimes');
     }
 
     public function configureView(ViewDataTable $view)

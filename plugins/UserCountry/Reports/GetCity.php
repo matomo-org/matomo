@@ -24,8 +24,10 @@ class GetCity extends Base
         $this->hasGoalMetrics = true;
         $this->order = 8;
 
-        $this->createWidget()->setName(Piwik::translate('UserCountry_WidgetLocation')
-            . ' (' . Piwik::translate('UserCountry_City') . ')');
+        $this->createWidget()
+             ->setName(Piwik::translate('UserCountry_WidgetLocation') . ' (' . Piwik::translate('UserCountry_City') . ')')
+             ->setCategory('General_Visitors')
+             ->setSubCategory('UserCountry_SubmenuLocations');
     }
 
     public function configureView(ViewDataTable $view)

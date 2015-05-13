@@ -14,6 +14,55 @@ function widgetsHelper() {
  * @return {object} object containing available widgets
  */
 widgetsHelper.getAvailableWidgets = function () {
+
+    function mergeCategoriesAndSubCategories(availableWidgets)
+    {
+        var categorized = {};
+
+        $.each(availableWidgets, function (category, widgets) {
+            if (!categorized[category]) {
+                categorized[category] = {'-': []};
+            }
+
+            $.each(widgets, function (index, widget) {
+                var subcategory = widget['subcategory'];
+
+                if (subcategory === '') {
+                    subcategory = '-';
+                }
+
+                if (!categorized[category][subcategory]) {
+                    categorized[category][subcategory] = [];
+                }
+
+                categorized[category][subcategory].push(widget);
+            });
+        });
+
+        var moved = {};
+
+        $.each(categorized, function (category, widgets) {
+            $.each(widgets, function (subcategory, subwidgets) {
+
+                var categoryToUse = category;
+                if (subwidgets.length >= 3 && subcategory !== '-') {
+                    categoryToUse = category + ' - ' + subcategory;
+                }
+
+                if (!moved[categoryToUse]) {
+                    moved[categoryToUse] = [];
+                }
+
+                $.each(subwidgets, function (index, widget) {
+                    moved[categoryToUse].push(widget);
+                });
+
+            });
+        });
+
+        return moved;
+    }
+
     if (!widgetsHelper.availableWidgets) {
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.addParams({
@@ -22,7 +71,7 @@ widgetsHelper.getAvailableWidgets = function () {
         }, 'get');
         ajaxRequest.setCallback(
             function (data) {
-                widgetsHelper.availableWidgets = data;
+                widgetsHelper.availableWidgets = mergeCategoriesAndSubCategories(data);
             }
         );
         ajaxRequest.send(true);
@@ -191,6 +240,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
              * @return {$} category list element
              */
             function createWidgetCategoryList(widgetPreview, availableWidgets) {
+
                 var settings = widgetPreview.settings;
 
                 if (!$('.' + settings.categorylistClass, widgetPreview).length) {
@@ -200,7 +250,6 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 }
 
                 for (var widgetCategory in availableWidgets) {
-
                     $('.' + settings.categorylistClass, widgetPreview).append('<li>' + widgetCategory + '</li>');
                 }
 

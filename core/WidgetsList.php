@@ -75,12 +75,15 @@ class WidgetsList extends Singleton
         self::addWidgets();
 
         uksort(self::$widgets, array('Piwik\WidgetsList', '_sortWidgetCategories'));
-
         $widgets = array();
         foreach (self::$widgets as $key => $v) {
             usort($v, array('Piwik\WidgetsList', '_sortWidgetsByOrder'));
-
+            
             $category = Piwik::translate($key);
+
+            foreach ($v as $index => $widget) {
+                $v[$index]['subcategory'] = Piwik::translate($widget['subcategory']);
+            }
 
             if (isset($widgets[$category])) {
                 $v = array_merge($widgets[$category], $v);
@@ -88,7 +91,7 @@ class WidgetsList extends Singleton
 
             $widgets[$category] = $v;
         }
-
+        
         $cache->save($cacheId, $widgets);
         self::$listCacheToBeInvalidated = false;
 
@@ -144,7 +147,8 @@ class WidgetsList extends Singleton
 
         $this->add(
             $widget->getCategory(), $widget->getName(), $widget->getModule(),
-            $widget->getAction(), $widget->getParameters(), $widget->getOrder()
+            $widget->getAction(), $widget->getParameters(), $widget->getOrder(),
+            $widget->getSubCategory()
         );
     }
 
@@ -251,10 +255,12 @@ class WidgetsList extends Singleton
      * @param string $controllerAction The report's controller action method name.
      * @param array $customParameters Extra query parameters that should be sent while getting
      *                                this report.
+     * @param int $order The order hint
+     * @param string $widgetSubCategory The widget subcategory. This can be a translation token.
      * @param int $order The order hint.
      * @deprecated since Piwik 2.15, use `addWidget()` instead.
      */
-    public static function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array(), $order = 99)
+    public static function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array(), $order = 99, $widgetSubCategory = '')
     {
         $widgetName     = Piwik::translate($widgetName);
         $widgetUniqueId = self::getWidgetUniqueId($controllerName, $controllerAction, $customParameters);
@@ -265,11 +271,12 @@ class WidgetsList extends Singleton
 
         self::$listCacheToBeInvalidated = true;
         self::$widgets[$widgetCategory][] = array(
-            'name'       => $widgetName,
-            'uniqueId'   => $widgetUniqueId,
-            'order'      => $order,
-            'parameters' => array('module' => $controllerName,
-                                  'action' => $controllerAction
+            'name'        => $widgetName,
+            'subcategory' => $widgetSubCategory,
+            'uniqueId'    => $widgetUniqueId,
+            'order'       => $order,
+            'parameters'  => array('module' => $controllerName,
+                                   'action' => $controllerAction
                 ) + $customParameters
         );
     }

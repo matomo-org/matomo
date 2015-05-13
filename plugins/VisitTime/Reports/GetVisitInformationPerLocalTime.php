@@ -28,7 +28,9 @@ class GetVisitInformationPerLocalTime extends Base
         $this->constantRowsCount = true;
         $this->order = 20;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('General_Visitors')
+             ->setSubCategory('VisitTime_SubmenuTimes');
     }
 
     public function configureView(ViewDataTable $view)

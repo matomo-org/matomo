@@ -25,7 +25,9 @@ class GetSiteSearchCategories extends SiteSearchBase
         $this->metrics       = array('nb_visits', 'nb_pages_per_search', 'exit_rate');
         $this->order = 17;
 
-        $this->createWidget();
+        $this->createWidget()
+            ->setCategory('General_Actions')
+            ->setSubCategory('Actions_SubmenuSitesearch');
     }
 
     protected function isEnabledForIdSites($idSites, $idSite)

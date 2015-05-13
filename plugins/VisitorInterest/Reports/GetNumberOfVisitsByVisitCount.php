@@ -32,7 +32,9 @@ class GetNumberOfVisitsByVisitCount extends Base
         $this->constantRowsCount = true;
         $this->order = 25;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('General_Visitors')
+             ->setSubCategory('VisitorInterest_Engagement');
     }
 
     public function configureView(ViewDataTable $view)

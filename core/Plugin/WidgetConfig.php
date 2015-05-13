@@ -20,6 +20,7 @@ use Exception;
 class WidgetConfig
 {
     private $category = '';
+    private $subCategory = '';
     private $module = '';
     private $action = '';
     private $parameters = array();
@@ -35,6 +36,18 @@ class WidgetConfig
     public function setCategory($category)
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getSubCategory()
+    {
+        return $this->subCategory;
+    }
+
+    public function setSubCategory($subCategory)
+    {
+        $this->subCategory = $subCategory;
 
         return $this;
     }

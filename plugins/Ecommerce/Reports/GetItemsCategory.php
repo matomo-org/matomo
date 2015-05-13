@@ -21,6 +21,8 @@ class GetItemsCategory extends BaseItem
         $this->dimension = new ProductCategory();
         $this->order     = 32;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('Goals_Ecommerce')
+             ->setSubCategory('Goals_Products');
     }
 }

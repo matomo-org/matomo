@@ -30,7 +30,9 @@ class GetNumberOfVisitsPerPage extends Base
         $this->constantRowsCount = true;
         $this->order = 20;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('General_Visitors')
+             ->setSubCategory('VisitorInterest_Engagement');
     }
 
     public function getDefaultTypeViewDataTable()

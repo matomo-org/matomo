@@ -27,7 +27,10 @@ class GetNumberOfVisitsByDaysSinceLast extends Base
         $this->constantRowsCount = true;
         $this->order = 30;
 
-        $this->createWidget()->setName('VisitorInterest_WidgetVisitsByDaysSinceLast');
+        $this->createWidget()
+            ->setName('VisitorInterest_WidgetVisitsByDaysSinceLast')
+            ->setCategory('General_Visitors')
+            ->setSubCategory('VisitorInterest_Engagement');
     }
 
     public function configureView(ViewDataTable $view)

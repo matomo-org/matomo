@@ -21,6 +21,8 @@ class GetItemsName extends BaseItem
         $this->dimension = new ProductName();
         $this->order     = 31;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('Goals_Ecommerce')
+             ->setSubCategory('Goals_Products');
     }
 }

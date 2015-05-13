@@ -22,7 +22,9 @@ class GetBrand extends Base
         $this->documentation = ''; // TODO
         $this->order = 1;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('General_Visitors')
+             ->setSubCategory('DevicesDetection_Devices');
     }
 
     public function configureView(ViewDataTable $view)

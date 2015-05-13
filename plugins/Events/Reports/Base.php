@@ -20,9 +20,14 @@ abstract class Base extends \Piwik\Plugin\Report
             new AverageEventValue()
         );
 
-        $this->createWidget()->setParameters(array(
+        $widget = $this->createWidget()->setParameters(array(
             'secondaryDimension' => API::getInstance()->getDefaultSecondaryDimension($this->action)
         ));
+
+        if (!$this->isSubtableReport) {
+            $widget->setCategory('General_Actions')
+                   ->setSubCategory('Events_Events');
+        }
     }
 
 }

@@ -22,7 +22,9 @@ class GetConfiguration extends Base
         $this->documentation = Piwik::translate('Resolution_WidgetGlobalVisitorsDocumentation', '<br />');
         $this->order = 7;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('General_Visitors')
+             ->setSubCategory('DevicesDetection_Software');
     }
 
     public function configureView(ViewDataTable $view)

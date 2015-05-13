@@ -30,7 +30,9 @@ class GetNumberOfVisitsPerVisitDuration extends Base
         $this->constantRowsCount = true;
         $this->order = 15;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('General_Visitors')
+             ->setSubCategory('VisitorInterest_Engagement');
     }
 
     public function getDefaultTypeViewDataTable()

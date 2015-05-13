@@ -21,7 +21,9 @@ class GetLanguageCode extends GetLanguage
         $this->documentation = '';
         $this->order = 11;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('General_Visitors')
+             ->setSubCategory('UserCountry_SubmenuLocations');
     }
 
     public function getRelatedReports()

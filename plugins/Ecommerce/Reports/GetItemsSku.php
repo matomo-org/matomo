@@ -22,7 +22,9 @@ class GetItemsSku extends BaseItem
         $this->dimension = new ProductSku();
         $this->order     = 30;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('Goals_Ecommerce')
+             ->setSubCategory('Goals_Products');
     }
 
 }

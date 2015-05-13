@@ -33,7 +33,9 @@ class GetSiteSearchKeywords extends SiteSearchBase
             new AveragePageGenerationTime()
         );
         $this->order = 15;
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('General_Actions')
+             ->setSubCategory('Actions_SubmenuSitesearch');
     }
 
     public function getMetrics()

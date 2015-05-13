@@ -22,7 +22,9 @@ class GetType extends Base
         $this->documentation = ''; // TODO
         $this->order = 0;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('General_Visitors')
+             ->setSubCategory('DevicesDetection_Devices');
     }
 
     public function configureView(ViewDataTable $view)

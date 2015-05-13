@@ -22,7 +22,9 @@ class GetOsFamilies extends Base
         $this->documentation = ''; // TODO
         $this->order = 3;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('General_Visitors')
+             ->setSubCategory('DevicesDetection_Software');
     }
 
     public function configureView(ViewDataTable $view)

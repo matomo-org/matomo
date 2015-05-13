@@ -22,7 +22,9 @@ class GetLanguage extends Base
         $this->documentation = ''; // TODO
         $this->order = 10;
 
-        $this->createWidget();
+        $this->createWidget()
+             ->setCategory('General_Visitors')
+             ->setSubCategory('UserCountry_SubmenuLocations');
     }
 
     public function configureView(ViewDataTable $view)
