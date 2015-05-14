@@ -90,9 +90,8 @@ class LogDataPurger
      *                                 will be purged.
      * @return array
      *
-     * TODO: purge estimate should ideally not use idvisit, but we have to wait until performance tests are done to
-     *       really test this.
-     * TODO: let's move PrivacyManagerTest to PrivacyManager plugin
+     * TODO: purge estimate uses max idvisit w/ time, but purge does not, so estimate may be less accurate.
+     *       to be more accurate, it should use the same strategy as purgeData(), but this could be very slow.
      */
     public function getPurgeEstimate($deleteLogsOlderThan)
     {

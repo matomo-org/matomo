@@ -5,7 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\System;
+namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
 use Piwik\Archive;
 use Piwik\Common;
@@ -27,7 +27,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tests\Framework\Fixture;
 
-class PrivacyManagerTest_RawLogDao extends RawLogDao
+class DataPurgingTest_RawLogDao extends RawLogDao
 {
     public $insertActionsOlderThanCallback;
     public $insertActionsNewerThanCallback;
@@ -48,10 +48,10 @@ class PrivacyManagerTest_RawLogDao extends RawLogDao
 }
 
 /**
- * @group PrivacyManagerTest
+ * @group PrivacyManager
  * @group Plugins
  */
-class PrivacyManagerTest extends IntegrationTestCase
+class DataPurgingTest extends IntegrationTestCase
 {
     // constants used in checking whether numeric tables are populated correctly.
     // 'done' entries exist for every period, even if there's no metric data, so we need the
@@ -502,7 +502,7 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testPurgeLogDataConcurrency()
     {
-        $rawLogDao = new PrivacyManagerTest_RawLogDao(new DimensionMetadataProvider());
+        $rawLogDao = new DataPurgingTest_RawLogDao(new DimensionMetadataProvider());
         $rawLogDao->insertActionsOlderThanCallback = array($this, 'addReferenceToUnusedAction');
         $purger = new LogDataPurger(new LogDeleter($rawLogDao), $rawLogDao);
 
