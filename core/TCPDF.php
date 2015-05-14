@@ -12,11 +12,6 @@ namespace Piwik;
 use Exception;
 
 /**
- * @see libs/tcpdf/tcpdf.php
- */
-require_once PIWIK_INCLUDE_PATH . '/libs/tcpdf/tcpdf.php';
-
-/**
  * TCPDF class wrapper.
  *
  */
