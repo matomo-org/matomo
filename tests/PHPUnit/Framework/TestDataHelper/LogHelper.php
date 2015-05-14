@@ -123,7 +123,8 @@ class LogHelper
             'idsite' => 1,
             'idvisitor' => $this->getDummyVisitorId(),
             'idvisit' => $idVisit,
-            'idaction_name_ref' => 1
+            'idaction_name_ref' => 1,
+            'server_time' => '2012-01-01 00:00:00',
         );
 
         $properties = array_merge($defaultProperties, $properties);
