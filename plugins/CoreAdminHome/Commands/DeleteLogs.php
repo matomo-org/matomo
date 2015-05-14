@@ -16,6 +16,7 @@ use Piwik\Db;
 use Piwik\LogDeleter;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Site;
+use Piwik\Timer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -71,12 +72,14 @@ class DeleteLogs extends ConsoleCommand
         $idSite = $this->getSiteToDeleteFrom($input);
         $step = $this->getRowIterationStep($input);
 
-        $output->writeln("Preparing to delete all visits between $from and $to belonging to site $idSite.");
+        $output->writeln("<info>Preparing to delete all visits between $from and $to belonging to site $idSite.</info>");
 
         $confirm = $this->askForDeleteConfirmation($input, $output);
         if (!$confirm) {
             return;
         }
+
+        $timer = new Timer();
 
         try {
             $logsDeleted = $this->logDeleter->deleteVisitsFor($from, $to, $idSite, $step, function () use ($output) {
@@ -88,7 +91,8 @@ class DeleteLogs extends ConsoleCommand
             throw $ex;
         }
 
-        $this->writeSuccessMessage($output, array("Successfully deleted $logsDeleted visits."));
+        $this->writeSuccessMessage($output, array(
+            "Successfully deleted $logsDeleted visits. <comment>" . $timer . "</comment>"));
 
         if ($input->getOption('optimize-tables')) {
             $this->optimizeTables($output);
@@ -159,7 +163,7 @@ class DeleteLogs extends ConsoleCommand
     private function askForDeleteConfirmation(InputInterface $input, OutputInterface $output)
     {
         $helper   = $this->getHelper('question');
-        $question = new ConfirmationQuestion('<comment>You are about to delete log data. This action cannot be undone, are you sure you want to continue?</comment>', false);
+        $question = new ConfirmationQuestion('<comment>You are about to delete log data. This action cannot be undone, are you sure you want to continue? (Y/N)</comment> ', false);
 
         return $helper->ask($input, $output, $question);
     }
