@@ -26,11 +26,6 @@ class RawLogDao
      */
     private $dimensionMetadataProvider;
 
-    /**
-     * The max set of rows each table scan select should query at one time. TODO: this was copied from LogDataPurger. should be specified on construction.
-     */
-    public static $selectSegmentSize = 100000;
-
     public function __construct(DimensionMetadataProvider $provider = null)
     {
         $this->dimensionMetadataProvider = $provider ?: StaticContainer::get('Piwik\Plugin\Dimension\DimensionMetadataProvider');
@@ -329,7 +324,7 @@ class RawLogDao
         Db::query($sql);
     }
 
-    private function insertActionsToKeep($maxIds, $olderThan = true)
+    private function insertActionsToKeep($maxIds, $olderThan = true, $insertIntoTempIterationStep = 100000)
     {
         $tempTableName = Common::prefixTable(self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
 
@@ -349,7 +344,7 @@ class RawLogDao
                     $finish = Db::fetchOne("SELECT MAX($idCol) FROM " . Common::prefixTable($table));
                 }
 
-                Db::segmentedQuery($sql, $start, $finish, self::$selectSegmentSize);
+                Db::segmentedQuery($sql, $start, $finish, $insertIntoTempIterationStep);
             }
         }
 
