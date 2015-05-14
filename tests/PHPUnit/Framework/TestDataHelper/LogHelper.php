@@ -125,6 +125,7 @@ class LogHelper
             'idvisit' => $idVisit,
             'idaction_name_ref' => 1,
             'server_time' => '2012-01-01 00:00:00',
+            'time_spent_ref_action' => 1
         );
 
         $properties = array_merge($defaultProperties, $properties);
