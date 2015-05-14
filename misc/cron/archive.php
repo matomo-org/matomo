@@ -41,6 +41,8 @@ try 'php archive.php --url=http://your.piwik/path'
 \n\n";
 }
 
+require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
+
 if (Piwik\Common::isPhpCliMode()) {
     require_once PIWIK_INCLUDE_PATH . "/core/bootstrap.php";
 
