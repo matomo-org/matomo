@@ -254,7 +254,8 @@ class RawLogDao
         }
     }
 
-    // TODO: move to query builder class? only relevant to relational backends
+    // TODO: instead of creating a log query like this, we should re-use segments. to do this, however, there must be a 1-1
+    //       mapping for dimensions => segments, and each dimension should automatically have a segment.
     private function createLogIterationQuery($logTable, $idField, $fields, $conditions, $iterationStep)
     {
         $bind = array();
@@ -324,7 +325,8 @@ class RawLogDao
         Db::query($sql);
     }
 
-    private function insertActionsToKeep($maxIds, $olderThan = true, $insertIntoTempIterationStep = 100000)
+    // protected for testing purposes
+    protected function insertActionsToKeep($maxIds, $olderThan = true, $insertIntoTempIterationStep = 100000)
     {
         $tempTableName = Common::prefixTable(self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
 
@@ -346,19 +348,6 @@ class RawLogDao
 
                 Db::segmentedQuery($sql, $start, $finish, $insertIntoTempIterationStep);
             }
-        }
-
-        // allow code to be executed after data is inserted. for concurrency testing purposes.
-        if ($olderThan) {
-            /**
-             * @ignore
-             */
-            Piwik::postEvent("LogDataPurger.ActionsToKeepInserted.olderThan"); // TODO: use DI/descendant class instead of test events
-        } else {
-            /**
-             * @ignore
-             */
-            Piwik::postEvent("LogDataPurger.ActionsToKeepInserted.newerThan");
         }
     }
 

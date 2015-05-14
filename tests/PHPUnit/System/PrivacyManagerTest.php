@@ -12,7 +12,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\RawLogDao;
-use Piwik\DataTable\Manager;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\LogDeleter;
@@ -24,12 +23,29 @@ use Piwik\Plugins\PrivacyManager\LogDataPurger;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
 use Piwik\Plugins\VisitorInterest\API as APIVisitorInterest;
-use Piwik\Site;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Translate;
+
+class PrivacyManagerTest_RawLogDao extends RawLogDao
+{
+    public $insertActionsOlderThanCallback;
+    public $insertActionsNewerThanCallback;
+
+    protected function insertActionsToKeep($maxIds, $olderThan = true, $insertIntoTempIterationStep = 100000)
+    {
+        parent::insertActionsToKeep($maxIds, $olderThan, 2); // we use 2 to force iterations during tests
+
+        // allow code to be executed after data is inserted. for concurrency testing purposes.
+        if ($olderThan && $this->insertActionsOlderThanCallback) {
+            $callback = $this->insertActionsOlderThanCallback;
+            $callback();
+        } else if ($this->insertActionsNewerThanCallback) {
+            $callback = $this->insertActionsNewerThanCallback;
+            $callback();
+        }
+    }
+}
 
 /**
  * @group PrivacyManagerTest
@@ -122,6 +138,8 @@ class PrivacyManagerTest extends IntegrationTestCase
 
     public function tearDown()
     {
+        parent::tearDown();
+
         $tempTableName = Common::prefixTable(RawLogDao::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
         Db::query("DROP TABLE IF EXISTS " . $tempTableName);
 
@@ -484,9 +502,8 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testPurgeLogDataConcurrency()
     {
-        \Piwik\Piwik::addAction("LogDataPurger.ActionsToKeepInserted.olderThan", array($this, 'addReferenceToUnusedAction'));
-
-        $rawLogDao = new RawLogDao(new DimensionMetadataProvider());
+        $rawLogDao = new PrivacyManagerTest_RawLogDao(new DimensionMetadataProvider());
+        $rawLogDao->insertActionsOlderThanCallback = array($this, 'addReferenceToUnusedAction');
         $purger = new LogDataPurger(new LogDeleter($rawLogDao), $rawLogDao);
 
         $this->unusedIdAction = Db::fetchOne(
@@ -656,7 +673,7 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         $date = Date::factory(self::$dateTime);
 
-        $archive = Archive::build(self::$idSite, 'year', $date);
+        Archive::build(self::$idSite, 'year', $date);
 
         APIVisitorInterest::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'year', $date);
 
