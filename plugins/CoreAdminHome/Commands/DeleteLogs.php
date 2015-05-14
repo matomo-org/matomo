@@ -62,8 +62,8 @@ class DeleteLogs extends ConsoleCommand
             'Delete log data belonging to the site with this ID. Eg, 1, 2, 3, etc. By default log data from all sites is purged.');
         $this->addOption('limit', null, InputOption::VALUE_REQUIRED, "The number of rows to delete at a time. The larger the number, "
             . "the more time is spent deleting logs, and the less progress will be printed to the screen.", 1000);
-        $this->addOption('optimize-tables', null, InputOption::VALUE_NONE, "If supplied, the command will optimize log tables after deleting logs.");
-        // TODO: manual tests for optimize-tables
+        $this->addOption('optimize-tables', null, InputOption::VALUE_NONE,
+            "If supplied, the command will optimize log tables after deleting logs. Note: this can take a very long time.");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -173,10 +173,12 @@ class DeleteLogs extends ConsoleCommand
         foreach (self::$logTables as $table) {
             $output->write("Optimizing table $table...");
 
+            $timer = new Timer();
+
             $prefixedTable = Common::prefixTable($table);
             Db::exec("OPTIMIZE TABLE $prefixedTable");
 
-            $output->writeln("Done.");
+            $output->writeln("done. <comment>" . $timer . "</comment>");
         }
 
         $this->writeSuccessMessage($output, array("Table optimization finished."));
