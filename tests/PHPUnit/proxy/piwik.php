@@ -20,7 +20,7 @@ require realpath(dirname(__FILE__)) . "/includes.php";
 ob_start();
 
 try {
-    Piwik_TestingEnvironment::addHooks();
+    \Piwik\Tests\Framework\TestingEnvironment::addHooks();
 
     GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 

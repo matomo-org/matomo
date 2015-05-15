@@ -10,6 +10,7 @@ namespace Piwik\Tests\Framework\Mock;
 
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Tests\Framework\TestingEnvironment;
 
 class TestConfig extends Config
 {
@@ -18,7 +19,8 @@ class TestConfig extends Config
     private $isConfigTestEventPosted = false;
     private $doSetTestEnvironment = false;
 
-    public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null, $allowSave = false, $doSetTestEnvironment = true)
+    public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null, $allowSave = false, $doSetTestEnvironment = true,
+                                TestingEnvironment $testingEnvironment = null)
     {
         \Piwik\Application\Kernel\GlobalSettingsProvider::unsetSingletonInstance();
 
@@ -28,6 +30,10 @@ class TestConfig extends Config
         $this->doSetTestEnvironment = $doSetTestEnvironment;
 
         $this->reload($pathGlobal, $pathLocal, $pathCommon);
+
+        if ($testingEnvironment) {
+            $this->setupFromTestEnvironment($testingEnvironment);
+        }
     }
 
     public function reload($pathLocal = null, $pathGlobal = null, $pathCommon = null)
@@ -71,6 +77,45 @@ class TestConfig extends Config
     {
         if ($this->allowSave) {
             parent::forceSave();
+        }
+    }
+
+    private function setupFromTestEnvironment(TestingEnvironment $testingEnvironment)
+    {
+        $pluginsToLoad = $testingEnvironment->getCoreAndSupportedPlugins();
+        if (!empty($testingEnvironment->pluginsToLoad)) {
+            $pluginsToLoad = array_unique(array_merge($pluginsToLoad, $testingEnvironment->pluginsToLoad));
+        }
+
+        sort($pluginsToLoad);
+
+        $chain = $this->settings->getIniFileChain();
+
+        $general =& $chain->get('General');
+        $plugins =& $chain->get('Plugins');
+        $log =& $chain->get('log');
+        $database =& $chain->get('database');
+
+        if ($testingEnvironment->configFileLocal) {
+            $general['session_save_handler'] = 'dbtable';
+        }
+
+        $plugins['Plugins'] = $pluginsToLoad;
+
+        $log['log_writers'] = array('file');
+
+        // TODO: replace this and below w/ configOverride use
+        if ($testingEnvironment->tablesPrefix) {
+            $database['tables_prefix'] = $testingEnvironment->tablesPrefix;
+        }
+
+        if ($testingEnvironment->dbName) {
+            $database['dbname'] = $testingEnvironment->dbName;
+        }
+
+        if ($testingEnvironment->configOverride) {
+            $cache =& $chain->getAll();
+            $cache = $testingEnvironment->arrayMergeRecursiveDistinct($cache, $testingEnvironment->configOverride);
         }
     }
 }

@@ -13,11 +13,39 @@ use Piwik\Option;
 use Piwik\Container\StaticContainer;
 use Piwik\DbHelper;
 use Piwik\Common;
-use Piwik\Config\IniFileChain;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\Mock\TestConfig;
-use Piwik_MockAccess;
+
+if (!defined('PIWIK_TEST_MODE')) {
+    define('PIWIK_TEST_MODE', true);
+}
+
+class Piwik_MockAccess
+{
+    private $access;
+
+    public function __construct($access)
+    {
+        $this->access = $access;
+        $access->setSuperUserAccess(true);
+    }
+
+    public function __call($name, $arguments)
+    {
+        return call_user_func_array(array($this->access, $name), $arguments);
+    }
+
+    public function reloadAccess($auth = null)
+    {
+        return true;
+    }
+
+    public function getLogin()
+    {
+        return 'superUserLogin';
+    }
+}
 
 /**
  * Sets the test environment.
@@ -167,46 +195,10 @@ class TestingEnvironment
             }
         });
 
-        $pluginsToLoad = $testingEnvironment->getCoreAndSupportedPlugins();
-        if (!empty($testingEnvironment->pluginsToLoad)) {
-            $pluginsToLoad = array_unique(array_merge($pluginsToLoad, $testingEnvironment->pluginsToLoad));
-        }
-
-        sort($pluginsToLoad);
-
         if (!$testingEnvironment->dontUseTestConfig) {
-            Piwik::addAction('Config.createConfigSingleton', function (IniFileChain $chain) use ($testingEnvironment, $pluginsToLoad) {
-                $general =& $chain->get('General');
-                $plugins =& $chain->get('Plugins');
-                $log =& $chain->get('log');
-                $database =& $chain->get('database');
-
-                if ($testingEnvironment->configFileLocal) {
-                    $general['session_save_handler'] = 'dbtable';
-                }
-
-                $plugins['Plugins'] = $pluginsToLoad;
-
-                $log['log_writers'] = array('file');
-
-                // TODO: replace this and below w/ configOverride use
-                if ($testingEnvironment->tablesPrefix) {
-                    $database['tables_prefix'] = $testingEnvironment->tablesPrefix;
-                }
-
-                if ($testingEnvironment->dbName) {
-                    $database['dbname'] = $testingEnvironment->dbName;
-                }
-
-                if ($testingEnvironment->configOverride) {
-                    $cache =& $chain->getAll();
-                    $cache = $testingEnvironment->arrayMergeRecursiveDistinct($cache, $testingEnvironment->configOverride);
-                }
-            });
-
             Config::setSingletonInstance(new TestConfig(
                 $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon,
-                $testingEnvironment
+                $doSetTestEnvironment = true, $testingEnvironment
             ));
         } else {
             \Piwik\Application\Kernel\GlobalSettingsProvider::unsetSingletonInstance();
