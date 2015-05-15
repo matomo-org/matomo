@@ -122,14 +122,6 @@ abstract class StaticGraph extends BaseFactory
         $this->pImage->stroke();
     }
 
-    /**
-     * returns base_64 encoded PNG image data
-     */
-    public function getPngImageData()
-    {
-        return 'data:image/png;base64,'.base64_encode($this->pImage->strokeAsImageData());
-    }
-
     public function setWidth($width)
     {
         $this->width = $width;
