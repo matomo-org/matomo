@@ -153,7 +153,7 @@
         "ExceptionInvalidArchiveTimeToLive": "Arkiveringstidens giltighetstid för idag måste anges i sekunder och vara större än noll.",
         "ExceptionInvalidDateFormat": "Datumformatet måste vara: %s eller något sökord som stöds av %s funktionen (se %s för mer information)",
         "ExceptionInvalidDateRange": "Datumet '%s' är inte ett korrekt datumintervall. Det borde ha följande format: %s.",
-        "ExceptionInvalidPeriod": "Perioden '%s' stödjs inte. Prova med något av följande istället: %s",
+        "ExceptionInvalidPeriod": "Perioden '%s' stöds inte. Prova med något av följande istället: %s",
         "ExceptionInvalidRendererFormat": "Renderingsformatet '%s' är inte giltigt. Prova med något av följande istället: %s.",
         "ExceptionInvalidReportRendererFormat": "Rapportens format '%s' är ogiltigt. Använd något av följande istället: %s.",
         "ExceptionInvalidStaticGraphType": "Den statiska graftypen '%s' är ogiltig. Prova någon av följande: %s.",
