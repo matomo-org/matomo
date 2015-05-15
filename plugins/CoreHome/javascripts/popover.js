@@ -24,7 +24,7 @@ var Piwik_Popover = (function () {
         {
             title: title,
             modal: true,
-            width: '950px',
+            width: '1050px',
             position: ['center', 'center'],
             resizable: false,
             autoOpen: true,
