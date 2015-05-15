@@ -1,5 +1,4 @@
 {% set displayVisitorsInOwnColumn = (isWidget ? false : true) %}
-{% set displayReferrersInOwnColumn = (clientSideParameters.smallWidth ? false : true) %}
 <table class="dataTable" cellspacing="0" width="100%" style="width:100%;table-layout:fixed;">
 <thead>
 <tr>
@@ -11,11 +10,6 @@
         <th id="label" class="sortable label" style="cursor: auto;width: 15%;">
             <div id="thDIV">{{ 'General_Visitors'|translate }}</div>
         </th>
-    {% endif %}
-    {% if displayReferrersInOwnColumn %}
-    <th id="label" class="sortable label" style="cursor: auto;width: 15%">
-        <div id="thDIV">{{ 'Live_Referrer_URL'|translate }}</div>
-    </th>
     {% endif %}
     <th id="label" class="sortable label" style="cursor: auto;width: 60%">
         <div id="thDIV">{{ 'General_ColumnNbActions'|translate }}</div>
@@ -106,8 +100,8 @@
 
     {% endset %}
 
-    {% set referrerColumnContent %}
-    <div class="referrer">
+    {% set referrerContent %}
+    <div class="visitorReferrer">
         {% if visitor.getColumn('referrerType') == 'website' %}
             {{ 'Referrers_ColumnWebsite'|translate }}:
             <a href="{{ visitor.getColumn('referrerUrl') }}" rel="noreferrer" target="_blank" title="{{ visitor.getColumn('referrerUrl') }}"
@@ -116,9 +110,7 @@
             </a>
         {% endif %}
         {% if visitor.getColumn('referrerType') == 'campaign' %}
-            {{ 'Referrers_ColumnCampaign'|translate }}
-            <br/>
-            {{ visitor.getColumn('referrerName') }}
+            {{ 'Referrers_ColumnCampaign'|translate }}: {{ visitor.getColumn('referrerName') }}
             {% if visitor.getColumn('referrerKeyword') is not empty %} - {{ visitor.getColumn('referrerKeyword') }}{% endif %}
         {% endif %}
         {% if visitor.getColumn('referrerType') == 'search' %}
@@ -129,7 +121,6 @@
             {% endif %}
             <span {% if not showKeyword %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitor.getColumn('referrerName') }}</span>
             {% if showKeyword %}{{ 'Referrers_Keywords'|translate }}:
-                <br/>
                 <a href="{{ visitor.getColumn('referrerUrl') }}" rel="noreferrer" target="_blank" style="text-decoration:underline;">
                     "{{ visitor.getColumn('referrerKeyword') }}"</a>
             {% endif %}
@@ -193,21 +184,12 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                     <br/>
                     {{ visitorColumnContent }}
                 {% endif %}
-                {% if not displayReferrersInOwnColumn %}
-                    <br/>
-                    {{ referrerColumnContent }}
-                {% endif %}
+                    {{ referrerContent }}
             </td>
 
             {% if displayVisitorsInOwnColumn %}
                 <td class="label">
                     {{ visitorColumnContent }}
-                </td>
-            {% endif %}
-
-            {% if displayReferrersInOwnColumn %}
-                <td class="column">
-                    {{ referrerColumnContent }}
                 </td>
             {% endif %}
 
