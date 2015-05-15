@@ -17,8 +17,8 @@
         "Seconds": "sekund",
         "SecondsAgo": "%s sekund temu",
         "VisitorMap": "Mapa Odwiedzin",
-        "WithUnknownCity": "%s z nieznanego miasta",
+        "WorldWide": "World-Wide",
         "WithUnknownRegion": "%s z nieznanego regionu",
-        "WorldWide": "World-Wide"
+        "WithUnknownCity": "%s z nieznanego miasta"
     }
 }

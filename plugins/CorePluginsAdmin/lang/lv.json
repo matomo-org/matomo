@@ -7,11 +7,13 @@
         "Deactivate": "Deaktivizēt",
         "Inactive": "Neaktīvs",
         "LicenseHomepage": "Licences vietne",
+        "PluginsExtendPiwik": "Spraudņi paplašina Piwik funkcionalitāti.",
         "OncePluginIsInstalledYouMayActivateHere": "Pēc spraudņa instalācijas, Jūs to varat aktivizēt (vai deaktivizēt) šeit.",
         "PluginHomepage": "Spraudņa vietne",
-        "PluginsExtendPiwik": "Spraudņi paplašina Piwik funkcionalitāti.",
+        "PluginKeywords": "Atslēgvārdi",
         "PluginsManagement": "Spraudņu pārvaldība",
         "Status": "Statuss",
-        "Version": "Versija"
+        "Version": "Versija",
+        "Websites": "Vietnes"
     }
 }

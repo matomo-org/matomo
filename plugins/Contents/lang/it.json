@@ -1,10 +1,10 @@
 {
     "Contents": {
-        "ContentName": "Nome Contenuto",
-        "Contents": "Contenuti",
         "Impressions": "Impressioni",
+        "Interactions": "Interazioni",
         "Interaction": "Interazione",
         "InteractionRate": "Rapporto di Interazione",
-        "Interactions": "Interazioni"
+        "ContentName": "Nome Contenuto",
+        "Contents": "Contenuti"
     }
 }

@@ -3,7 +3,6 @@
         "CategoryNoData": "Det finns ingen data i denna kategori. Försök att \"Inkludera alla träffar\".",
         "CheckForUpdates": "Sök efter uppdateringar",
         "CheckPiwikOut": "Kolla in Piwik!",
-        "ClickRowToExpandOrContract": "Klicka på denna rad för att visa eller dölja undertabeller.",
         "ClickToEditX": "Klicka för att editera %s",
         "CloseWidgetDirections": "Du kan stänga widgeten genom att klicka på (X)-ikonen på widgetens topp.",
         "DataForThisReportHasBeenPurged": "Data för denna rapport är mer än %s månader gammal och har tagits bort.",
@@ -45,7 +44,7 @@
         "PeriodYears": "år",
         "ReportGeneratedOn": "Rapporten genererades på %s",
         "ReportGeneratedXAgo": "Rapporten genererades för %s sen",
-        "SharePiwikLong": "Hej! Jag har just hittat ett fantastiskt öppen källkodsprogram: Piwik!\n\nPiwik hjälper dig spåra besökarna på din hemsida helt gratis. Du borde definitivt kolla in det!",
+        "SharePiwikLong": "Hej! Jag har just hittat ett fantastiskt öppet källkodsprogram: Piwik!\n\nPiwik hjälper dig spåra besökarna på din hemsida helt gratis. Du borde definitivt kolla in det!",
         "SharePiwikShort": "Piwik! Gratis och öppen källkods webbanalys. Äg din egen data.",
         "ShareThis": "Dela det här",
         "ShortDateFormat": "%shortDay% %day% %shortMonth%",
@@ -54,13 +53,14 @@
         "ShortWeekFormat": "%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%",
         "ShowJSCode": "Visa JavaScript-koden för att inkludera.",
         "SkipToContent": "Hoppa till innehåll",
-        "SubscribeAndBecomePiwikSupporter": "Fortsätt till en säker kortbetalnings sida (Paypal) för att bli en Piwik Supporter!",
-        "SupportPiwik": "Stödj Piwik!",
+        "SubscribeAndBecomePiwikSupporter": "Fortsätt till en säker kortbetalningssida (Paypal) för att bli en Piwik-Supporter!",
+        "SupportPiwik": "Stöd Piwik!",
         "TableNoData": "Det finns ingen data för den här tabellen-",
         "ThereIsNoDataForThisReport": "Det finns ingen data för denna rapport.",
         "UnFlattenDataTable": "Rapporten är plan %s Gör den hierarkisk",
         "ViewAllPiwikVideoTutorials": "Visa alla videokurser för Piwik",
         "WebAnalyticsReports": "Webbanalys rapporter",
-        "YouAreUsingTheLatestVersion": "Du använder den senaste versionen av Piwik!"
+        "YouAreUsingTheLatestVersion": "Du använder den senaste versionen av Piwik!",
+        "ClickRowToExpandOrContract": "Klicka på denna rad för att visa eller dölja undertabeller."
     }
 }

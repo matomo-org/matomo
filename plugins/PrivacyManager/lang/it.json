@@ -1,8 +1,8 @@
 {
     "PrivacyManager": {
         "AnonymizeIpDescription": "Seleziona \"Si\" se vuoi che Piwik non mostri gli indirizzi IP completi dei visitatori.",
-        "AnonymizeIpExtendedHelp": "Quando gli utenti visitano il tuo sito web, Piwik non userà l'indirizzo IP completo (come %s) ma lo renderà prima anonimo (in %s). Questo è uno dei requisiti definiti dalle leggi sulla privacy in alcuni paesi come la Germania.",
         "AnonymizeIpInlineHelp": "Rende anonimi gli ip dei tuoi visitatori per conformarsi alle leggi o alle linee guida locali.",
+        "AnonymizeIpExtendedHelp": "Quando gli utenti visitano il tuo sito web, Piwik non userà l'indirizzo IP completo (come %s) ma lo renderà prima anonimo (in %s). Questo è uno dei requisiti definiti dalle leggi sulla privacy in alcuni paesi come la Germania.",
         "AnonymizeIpMaskLengtDescription": "Seleziona quanti byte degli indirizzi IP dei visitatori devono essere nascosti.",
         "AnonymizeIpMaskLength": "%s byte - e.s. %s",
         "CannotLockSoDeleteLogActions": "La tabella log_action non verrà pulita: assicura il privilegio LOCK TABLES a '%s' utente MYSQL.",

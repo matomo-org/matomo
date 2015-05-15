@@ -19,8 +19,6 @@ use Piwik\TCPDF;
  * @see libs/tcpdf
  */
 require_once PIWIK_INCLUDE_PATH . '/plugins/ScheduledReports/config/tcpdf_config.php';
-require_once PIWIK_INCLUDE_PATH . '/libs/tcpdf/config/lang/eng.php';
-require_once PIWIK_INCLUDE_PATH . '/core/TCPDF.php';
 
 /**
  *
@@ -93,6 +91,11 @@ class Pdf extends ReportRenderer
     public function setLocale($locale)
     {
         switch ($locale) {
+            case 'bn':
+            case 'hi':
+                $reportFont = 'freesans';
+                break;
+
             case 'zh-tw':
                 $reportFont = 'msungstdlight';
                 break;
@@ -110,9 +113,17 @@ class Pdf extends ReportRenderer
                 break;
 
             case 'ar':
-                $reportFont = 'almohanad';
+                $reportFont = 'aealarabiya';
                 break;
 
+            case 'am':
+            case 'ta':
+            case 'th':
+                $reportFont = 'freeserif';
+                break;
+
+            case 'te':
+                // not working with bundled fonts
             case 'en':
             default:
                 $reportFont = ReportRenderer::DEFAULT_REPORT_FONT_FAMILY;

@@ -1,6 +1,7 @@
 {
     "UserCountry": {
         "continent_ant": "Antarktika",
+        "continent_oce": "Australija",
         "country_ac": "Ostrvo Asension",
         "country_ad": "Andora",
         "country_ae": "Ujedinjeni Arapski Emirati",
@@ -53,6 +54,7 @@
         "country_co": "Kolumbija",
         "country_cp": "Ostrvo Kliperton",
         "country_cr": "Kostarika",
+        "country_cs": "Crna Gora",
         "country_cu": "Kuba",
         "country_cv": "Kape Verde",
         "country_cx": "Božićna Ostrva",

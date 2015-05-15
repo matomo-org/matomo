@@ -8,7 +8,7 @@
         "DataForThisReportHasBeenPurged": "Датата на този доклад е стара с %s месеца и ще бъде изтрита.",
         "DataTableExcludeAggregateRows": "Сумарните редове са показани %s Скриване",
         "DataTableIncludeAggregateRows": "Сумарните редове са скрити %s Покажи ги",
-        "DateFormat": "%дължинаДен% %ден% %дължинаМесец% %дължинаГодина%",
+        "DateFormat": "%longDay% %day% %longMonth% %longYear%",
         "Default": "подразбиране",
         "DonateCall1": "Piwik винаги ще бъде безплатен за използване, но това не означава, че ние нямаме разходи за развитието му.",
         "DonateCall2": "Piwik се нуждае от вашата подкрепа, за да продължава да расте и процъфтява.",

@@ -3,7 +3,6 @@
         "CategoryNoData": "V této kategorii nejsou k dispozici žádná data. Zkuste \"Zobrazit všechny výsledky\".",
         "CheckForUpdates": "Zkontrolovat aktualizace",
         "CheckPiwikOut": "Vyzkoušejte Piwik!",
-        "ClickRowToExpandOrContract": "Klikněte na tento řádek pro rozbalení nebo zbalení podtabulky.",
         "ClickToEditX": "Klikněte pro úpravu %s",
         "CloseWidgetDirections": "Tento widget můžete zavřít kliknutím na ikonu X na horní části widgetu.",
         "DataForThisReportHasBeenPurged": "Data pro toto hlášení jsou starší než %s měsíců a byla odstraněna.",
@@ -43,7 +42,6 @@
         "PeriodWeeks": "týdnů",
         "PeriodYear": "Rok",
         "PeriodYears": "let",
-        "PivotBySubtable": "Toto hlášení není zaměřené %s Zaměřit na %s",
         "ReportGeneratedOn": "Hlášení vygenerované %s",
         "ReportGeneratedXAgo": "Hlášení vygenerováno před %s",
         "SharePiwikLong": "Nazdar! Zrovna jsem našel skvělý open source software Piwik!",
@@ -59,10 +57,12 @@
         "SupportPiwik": "Podpořte Piwik!",
         "TableNoData": "Žádná data",
         "ThereIsNoDataForThisReport": "Pro toto hlášení nejsou k dispozici žádná data",
-        "UndoPivotBySubtable": "Toto hlášení bylo zaměřeno %s Vrátit zpět",
         "UnFlattenDataTable": "Hlášení je ploché %s Vytvořit hierarchický",
         "ViewAllPiwikVideoTutorials": "Zobrazit všechny návody Piwik",
         "WebAnalyticsReports": "Hlášení",
-        "YouAreUsingTheLatestVersion": "Používáte nejnovější verzi Piwiku."
+        "YouAreUsingTheLatestVersion": "Používáte nejnovější verzi Piwiku.",
+        "ClickRowToExpandOrContract": "Klikněte na tento řádek pro rozbalení nebo zbalení podtabulky.",
+        "UndoPivotBySubtable": "Toto hlášení bylo zaměřeno %s Vrátit zpět",
+        "PivotBySubtable": "Toto hlášení není zaměřené %s Zaměřit na %s"
     }
 }

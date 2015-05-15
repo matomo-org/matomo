@@ -7,11 +7,13 @@
         "Deactivate": "Деактивувати",
         "Inactive": "Неактивний",
         "LicenseHomepage": "Сторінка ліцензії",
+        "PluginsExtendPiwik": "Плагіни розширюють та примножують функціонал Piwik.",
         "OncePluginIsInstalledYouMayActivateHere": "Як тільки плагін встановлено його можна автивувати або деактивувати тут.",
         "PluginHomepage": "Домашня сторінка плагіна",
-        "PluginsExtendPiwik": "Плагіни розширюють та примножують функціонал Piwik.",
+        "PluginKeywords": "Ключові слова",
         "PluginsManagement": "Керування плагінами",
         "Status": "Статус",
-        "Version": "Версія"
+        "Version": "Версія",
+        "Websites": "Сайти"
     }
 }

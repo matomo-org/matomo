@@ -307,6 +307,7 @@
         "GeoIPDatabases": "GeoIP Databases",
         "GeoIPDocumentationSuffix": "Para ver os dados para este relatório, você deve configurar GeoIP na guia de administração de Geolocalização. Os %1$s banco de dados GeoIP Maxmind comerciais %2$s são mais precisos que os livres. Para ver como são precisos, clique %3$saqui%4$s.",
         "GeoIPImplHasAccessTo": "Esta implementação GeoIP tem acesso aos seguintes tipos de bancos de dados",
+        "GeoIPIncorrectDatabaseFormat": "Seu banco de dados GeoIP não parece ter o formato correto. Ele pode estar corrompido. Certifique-se de que você está usando a versão binária e tente substituí-lo com outra cópia.",
         "GeoIpLocationProviderDesc_Pecl1": "Esse provedor de localização utiliza um banco de dados GeoIP e um módulo PECL para de forma precisa e eficaz determinar a localização seus visitantes.",
         "GeoIpLocationProviderDesc_Pecl2": "Não existem limitações com este fornecedor, por isso é o que nós recomendamos usar.",
         "GeoIpLocationProviderDesc_Php1": "Este provedor de localização é o mais simples de instalar, pois não necessita de configuração do servidor (ideal para hospedagem compartilhada!). Ele usa um banco de dados GeoIP MaxMind PHP API para determinar com precisão a localização de seus visitantes.",
@@ -355,6 +356,7 @@
         "PeclGeoIPNoDBDir": "O módulo PECL está à procura de bancos de dados em %1$s mas este diretório não existe. Por favor, crie-o e adicione as bases de dados GeoIP a ele. Como alternativa, você pode definir %2$s para o diretório correto em seu arquivo php.ini.",
         "PeclGeoLiteError": "Seu banco de dados GeoIP em %1$s é nomeado %2$s. Infelizmente, o módulo PECL não irá reconhecê-lo com este nome. Por favor, mude o nome para %3$s.",
         "PiwikNotManagingGeoIPDBs": "Piwik atualmente não gerencia nenhuma base de dados GeoIP.",
+        "PluginDescription": "Informa a localização de seus visitantes: país, região, cidade e coordenadas geográficas (latitude \/ longitude).",
         "Region": "Região",
         "SetupAutomaticUpdatesOfGeoIP": "Configurar as atualizações automáticas de bancos de dados GeoIP",
         "SubmenuLocations": "Locais",
@@ -366,6 +368,7 @@
         "UpdaterIsNotScheduledToRun": "Não está agendado para ser executado no futuro.",
         "UpdaterScheduledForNextRun": "Está programado para ser executado durante a próxima execução do cron job archive.php",
         "UpdaterWasLastRun": "O atualizador foi executado pela última vez em %s.",
+        "UpdaterWillRunNext": "A próxima execução está programada para ser executada em %s.",
         "WidgetLocation": "Localização dos visitantes"
     }
 }

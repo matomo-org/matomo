@@ -1,10 +1,10 @@
 {
     "Contents": {
+        "Interactions": "Interaksjoner",
+        "Interaction": "Interaksjon",
         "ContentName": "Innholdsnavn",
         "ContentPiece": "Innholdsdel",
-        "Contents": "Innhold",
         "ContentTarget": "Innholdsmål",
-        "Interaction": "Interaksjon",
-        "Interactions": "Interaksjoner"
+        "Contents": "Innhold"
     }
 }

@@ -1,8 +1,8 @@
 {
     "PrivacyManager": {
         "AnonymizeIpDescription": "Wybierz \"Tak\" jeśli chcesz aby nie śledzić w pełni wykwalifikowanych adresów IP.",
-        "AnonymizeIpExtendedHelp": "Kiedy użytkownik odwiedzi twoją stronę. Piwik nie użyje całego adresu IP danej osoby (np %s), a zamiast tego wykona anonimizację adresu (do %s). Anonimizacja adresu IP jest wymogiem prawnym w niektórych krajach - na przykład w Niemczech.",
         "AnonymizeIpInlineHelp": "Anonimizacja ostatniego bajtu w adresie IP odwiedzających, by dostosować się do być może lokalnego prawa do prywatności\/wytycznych o prywatności.",
+        "AnonymizeIpExtendedHelp": "Kiedy użytkownik odwiedzi twoją stronę. Piwik nie użyje całego adresu IP danej osoby (np %s), a zamiast tego wykona anonimizację adresu (do %s). Anonimizacja adresu IP jest wymogiem prawnym w niektórych krajach - na przykład w Niemczech.",
         "AnonymizeIpMaskLengtDescription": "Wybierz ile bajtów z odwiedzających' adresów IP powinny być zamaskowane.",
         "AnonymizeIpMaskLength": "%s bajt(ów) - np. %s",
         "ClickHereSettings": "Kliknij tutaj, aby uzyskać dostęp do %s ustawień.",
