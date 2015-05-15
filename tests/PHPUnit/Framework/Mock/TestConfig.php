@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Framework\Mock;
 
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\TestingEnvironment;
@@ -19,17 +20,15 @@ class TestConfig extends Config
     private $isConfigTestEventPosted = false;
     private $doSetTestEnvironment = false;
 
-    public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null, $allowSave = false, $doSetTestEnvironment = true,
+    public function __construct(GlobalSettingsProvider $settings, $allowSave = false, $doSetTestEnvironment = true,
                                 TestingEnvironment $testingEnvironment = null)
     {
-        \Piwik\Application\Kernel\GlobalSettingsProvider::unsetSingletonInstance();
-
-        parent::__construct($pathGlobal, $pathLocal, $pathCommon);
+        parent::__construct($settings);
 
         $this->allowSave = $allowSave;
         $this->doSetTestEnvironment = $doSetTestEnvironment;
 
-        $this->reload($pathGlobal, $pathLocal, $pathCommon);
+        $this->reload();
 
         if ($testingEnvironment) {
             $this->setupFromTestEnvironment($testingEnvironment);
@@ -39,10 +38,10 @@ class TestConfig extends Config
     public function reload($pathLocal = null, $pathGlobal = null, $pathCommon = null)
     {
         if ($this->isSettingTestEnv) {
-            parent::reload($pathGlobal, $pathLocal, $pathCommon);
+            parent::reload();
         } else {
             $this->isSettingTestEnv = true;
-            $this->setTestEnvironment($pathLocal, $pathGlobal, $pathCommon, $this->allowSave);
+            $this->setTestEnvironment($this->allowSave);
             $this->isSettingTestEnv = false;
         }
     }
@@ -58,16 +57,12 @@ class TestConfig extends Config
         }
     }
 
-    public function setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null, $allowSaving = false)
+    public function setTestEnvironment($allowSaving = false)
     {
         if ($this->doSetTestEnvironment) {
-            parent::setTestEnvironment($pathLocal, $pathGlobal, $pathCommon, $allowSaving);
+            parent::setTestEnvironment($allowSaving);
         } else {
             $this->doNotWriteConfigInTests = !$allowSaving;
-
-            $this->pathLocal = $pathLocal ?: Config::getLocalConfigPath();
-            $this->pathGlobal = $pathGlobal ?: Config::getGlobalConfigPath();
-            $this->pathCommon = $pathCommon ?: Config::getCommonConfigPath();
 
             $this->reload();
         }

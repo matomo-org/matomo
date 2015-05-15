@@ -113,6 +113,8 @@ class GlobalSettingsProvider
 
     public static function getSingletonInstance($pathGlobal = null, $pathLocal = null, $pathCommon = null)
     {
+        throw new \Exception("not supported no more");
+
         if (self::$instance === null) {
             self::$instance = new GlobalSettingsProvider($pathGlobal, $pathLocal, $pathCommon);
         } else {

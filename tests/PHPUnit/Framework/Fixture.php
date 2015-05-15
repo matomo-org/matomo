@@ -150,15 +150,13 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function performSetUp($setupEnvironmentOnly = false)
     {
-        if ($this->createConfig) {
-            GlobalSettingsProvider::unsetSingletonInstance();
-        }
-
-        $this->piwikEnvironment = new Environment('test');
+        $defs = array();
+        $defs['Piwik\Config'] = \DI\object('Piwik\Tests\Framework\Mock\TestConfig');
+        $this->piwikEnvironment = new Environment('test', $defs);
         $this->piwikEnvironment->init();
 
         if ($this->createConfig) {
-            Config::setSingletonInstance(new TestConfig());
+            // TODO: removed the setSingletonInstance call here
         }
 
         try {
@@ -330,9 +328,6 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $_GET = $_REQUEST = array();
         Translate::reset();
-
-        GlobalSettingsProvider::unsetSingletonInstance();
-        Config::setSingletonInstance(new TestConfig());
 
         Config::getInstance()->Plugins; // make sure Plugins exists in a config object for next tests that use Plugin\Manager
         // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object

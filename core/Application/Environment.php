@@ -39,6 +39,11 @@ use Piwik\Piwik;
  */
 class Environment
 {
+    // TODO: document and mark as @internal
+    public static $configFileGlobal;
+    public static $configFileLocal;
+    public static $configFileCommon;
+
     /**
      * @var string
      */
@@ -136,9 +141,7 @@ class Environment
      */
     protected function getGlobalSettings()
     {
-        // TODO: need to be able to set path global/local/etc. which is in DI... for now works because TestingEnvironment creates
-        //       singleton instance before this method.
-        return GlobalSettingsProvider::getSingletonInstance();
+        return new GlobalSettingsProvider(self::$configFileGlobal, self::$configFileLocal, self::$configFileCommon);
     }
 
     /**
