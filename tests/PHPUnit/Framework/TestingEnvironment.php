@@ -177,6 +177,10 @@ class TestingEnvironment
             }
         }
 
+        // TODO: let's create the concept of an EnvironmentManipulator which is added via static method call to Environment.
+        //       EnvironmentManipulator's provide hooks into environment creation (create kernel object, post container config, etc.).
+        //       should also allow local ones, ie, for specific Environment instances. Then we don't need to derive descendants for
+        //       Environment instances.
         Environment::$configFileCommon = $testingEnvironment->configFileCommon;
         Environment::$configFileGlobal = $testingEnvironment->configFileGlobal;
         Environment::$configFileLocal = $testingEnvironment->configFileLocal;
