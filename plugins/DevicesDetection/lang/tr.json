@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "Tarayıcı",
         "BrowserFamily": "Tarayıcı ailesi",
         "Browsers": "Tarayıcılar",
         "BrowserVersion": "Tarayıcı sürümü",

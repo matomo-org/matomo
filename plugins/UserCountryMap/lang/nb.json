@@ -18,8 +18,8 @@
         "Seconds": "sekunder",
         "SecondsAgo": "%s sekunder siden",
         "VisitorMap": "Kart over besøkende",
-        "WithUnknownCity": "%s med ukjent by",
+        "WorldWide": "Verdensbasis",
         "WithUnknownRegion": "%s med ukjent region",
-        "WorldWide": "Verdensbasis"
+        "WithUnknownCity": "%s med ukjent by"
     }
 }

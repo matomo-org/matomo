@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "瀏覽器",
         "BrowserFamily": "瀏覽器家族",
         "Browsers": "使用瀏覽器",
         "BrowserVersion": "瀏覽器版本",

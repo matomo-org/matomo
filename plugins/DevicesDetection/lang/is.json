@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "Vafri",
         "BrowserFamily": "Vafrafjölskylda",
         "Browsers": "Vafrar",
         "ColumnBrowser": "Vafri",

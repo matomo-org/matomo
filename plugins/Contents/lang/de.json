@@ -1,12 +1,12 @@
 {
     "Contents": {
-        "ContentName": "Inhaltsname",
-        "ContentPiece": "Inhaltsteil",
-        "Contents": "Inhalte",
-        "ContentTarget": "Inhaltsziel",
         "Impressions": "Impressionen",
+        "Interactions": "Interaktionen",
         "Interaction": "Interaktion",
         "InteractionRate": "Interaktionsrate",
-        "Interactions": "Interaktionen"
+        "ContentName": "Inhaltsname",
+        "ContentPiece": "Inhaltsteil",
+        "ContentTarget": "Inhaltsziel",
+        "Contents": "Inhalte"
     }
 }

@@ -3,7 +3,6 @@
         "CategoryNoData": "Non ci sono dati in questa categoria. Prova ad includere tutte le categorie.",
         "CheckForUpdates": "Cerca aggiornamenti",
         "CheckPiwikOut": "Controlla Piwik!",
-        "ClickRowToExpandOrContract": "Clicca su questa riga per espandere o restringere la sotto-tabella.",
         "ClickToEditX": "Clicca per modificare %s",
         "CloseWidgetDirections": "Potete chiudere questo widget cliccando sull'icona 'X' nella parte alta del widget stesso.",
         "DataForThisReportHasBeenPurged": "I dati di questo report hanno più di un mese %s e sono stati eliminato.",
@@ -43,7 +42,6 @@
         "PeriodWeeks": "settimane",
         "PeriodYear": "Anno",
         "PeriodYears": "anni",
-        "PivotBySubtable": "Questo report non è imperniato al Pivot %s da %s",
         "ReportGeneratedOn": "Report generato il %s",
         "ReportGeneratedXAgo": "Report generato %s fa",
         "SharePiwikLong": "Salve! Ho giusto trovato un bel software open source: Piwik!\n\nPiwik vi permetterà di tracciare i visitatori del vostro sito gratuitamente. Dovreste provarlo!",
@@ -59,10 +57,12 @@
         "SupportPiwik": "Sostieni Piwik!",
         "TableNoData": "nessun dato per questa tabella.",
         "ThereIsNoDataForThisReport": "Non c'è nessun dato in questo report.",
-        "UndoPivotBySubtable": "Questo report è stato imperniato al Pivot %s Undo",
         "UnFlattenDataTable": "Il report è piatto %s Rendilo gerarchico",
         "ViewAllPiwikVideoTutorials": "Vedi tutti i Video Tutorial di Piwik",
         "WebAnalyticsReports": "Report Web Analytics",
-        "YouAreUsingTheLatestVersion": "Stai utilizzando l'ultima versione di Piwik!"
+        "YouAreUsingTheLatestVersion": "Stai utilizzando l'ultima versione di Piwik!",
+        "ClickRowToExpandOrContract": "Clicca su questa riga per espandere o restringere la sotto-tabella.",
+        "UndoPivotBySubtable": "Questo report è stato imperniato al Pivot %s Undo",
+        "PivotBySubtable": "Questo report non è imperniato al Pivot %s da %s"
     }
 }

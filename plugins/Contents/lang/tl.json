@@ -1,12 +1,12 @@
 {
     "Contents": {
-        "ContentName": "Pangalan ng Nilalaman",
-        "ContentPiece": "Piraso ng Nilalaman",
-        "Contents": "Mga Nilalaman",
-        "ContentTarget": "Target ng Nilalaman",
         "Impressions": "Mga Impresyon",
+        "Interactions": "Mga Pakikipag-ugnayan",
         "Interaction": "Pakikipag-ugnayan",
         "InteractionRate": "Rate ng Pakikipag-ugnayan",
-        "Interactions": "Mga Pakikipag-ugnayan"
+        "ContentName": "Pangalan ng Nilalaman",
+        "ContentPiece": "Piraso ng Nilalaman",
+        "ContentTarget": "Target ng Nilalaman",
+        "Contents": "Mga Nilalaman"
     }
 }

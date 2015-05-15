@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "Nettlesar",
         "BrowserFamily": "Nettlesarfamilar",
         "Browsers": "Nettlesarar",
         "ColumnBrowser": "Nettlesar",

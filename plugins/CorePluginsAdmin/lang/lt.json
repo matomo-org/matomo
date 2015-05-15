@@ -5,11 +5,13 @@
         "Active": "Aktyvus",
         "Deactivate": "Pasyvinti",
         "Inactive": "Pasyvus",
+        "PluginsExtendPiwik": "Papildiniai suteikia Piwik papildomų galimybių.",
         "OncePluginIsInstalledYouMayActivateHere": "Įdiegę papildinį, čia galite jį aktyvinti arba pasyvinti",
         "PluginHomepage": "Papildinio svetainė",
-        "PluginsExtendPiwik": "Papildiniai suteikia Piwik papildomų galimybių.",
+        "PluginKeywords": "Raktiniai žodžiai",
         "PluginsManagement": "Papildinių valdymas",
         "Status": "Būsena",
-        "Version": "Versija"
+        "Version": "Versija",
+        "Websites": "Svetainės"
     }
 }

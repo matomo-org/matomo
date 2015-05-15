@@ -1,5 +1,6 @@
 {
     "Transitions": {
+        "ErrorBack": "Gå tilbake til forrige handling",
         "FromCampaigns": "Fra kampanjer",
         "FromPreviousPages": "Fra interne sider",
         "FromPreviousPagesInline": "%s fra interne sider",
