@@ -198,7 +198,7 @@ class TestingEnvironment
         if (!$testingEnvironment->dontUseTestConfig) {
             Config::setSingletonInstance(new TestConfig(
                 $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon,
-                $doSetTestEnvironment = true, $testingEnvironment
+                $allowSave = false, $doSetTestEnvironment = true, $testingEnvironment
             ));
         } else {
             \Piwik\Application\Kernel\GlobalSettingsProvider::unsetSingletonInstance();
