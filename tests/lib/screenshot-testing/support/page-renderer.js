@@ -33,6 +33,8 @@ PageRenderer.prototype._recreateWebPage = function () {
         this.webpage.close();
     }
 
+    this.downloadedContents = null;
+
     this.webpage = require('webpage').create();
     this.webpage.viewportSize = {width:1350, height:768};
     if (this.userAgent) {
@@ -102,6 +104,10 @@ PageRenderer.prototype.load = function (url, waitTime) {
 
 PageRenderer.prototype.evaluate = function (impl, waitTime) {
     this.queuedEvents.push([this._evaluate, waitTime, impl]);
+};
+
+PageRenderer.prototype.downloadLink = function (selector, waitTime) {
+    this.queuedEvents.push([this._downloadLink, waitTime, selector]);
 };
 
 PageRenderer.prototype.dragDrop = function (startSelector, endSelector, waitTime) {
@@ -196,6 +202,23 @@ PageRenderer.prototype._evaluate = function (impl, callback) {
         var $ = window.jQuery;
         eval("(" + js + ")();");
     }, impl.toString());
+
+    callback();
+};
+
+PageRenderer.prototype._downloadLink = function (str, callback) {
+    var response = this.webpage.evaluate(function (selector) {
+        var $ = window.jQuery,
+            url = $(selector).attr('href');
+
+        return $.ajax({
+            type: "GET",
+            url: url,
+            async: false
+        }).responseText;
+    }, str);
+
+    this.downloadedContents = response;
 
     callback();
 };
@@ -523,6 +546,20 @@ PageRenderer.prototype._setupWebpageEvents = function () {
     this.webpage.onLoadFinished = function () {
         self._isLoading = false;
     };
+};
+
+PageRenderer.prototype.getPageContents = function () {
+    var result = this.downloadedContents || this.webpage.content;
+
+    if (/^<html><head><\/head><body>/.test(result)) {
+        result = result.substring('<html><head></head><body>'.length);
+    }
+
+    if (/<\/body><\/html>$/.test(result)) {
+        result = result.substring(0, result.length - '</body></html>'.length);
+    }
+
+    return result;
 };
 
 exports.PageRenderer = PageRenderer;

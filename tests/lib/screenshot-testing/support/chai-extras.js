@@ -25,6 +25,9 @@ expect.page = function (url) {
     return chai.expect(url);
 };
 
+// add file keyword to `expect`
+expect.file = expect.screenshot;
+
 expect.current_page = expect.page(null);
 
 function getPageLogsString(pageLogs, indent) {
@@ -42,19 +45,22 @@ function getPageLogsString(pageLogs, indent) {
 // add capture assertion
 var pageRenderer = new PageRenderer(config.piwikUrl + path.join("tests", "PHPUnit", "proxy"));
 
-function getProcessedScreenshotPath(screenName) {
-    var screenshotFileName = screenName + '.png',
-        dirsBase = app.runner.suite.baseDirectory,
+function getProcessedFilePath(fileName) {
+    var dirsBase = app.runner.suite.baseDirectory,
         processedScreenshotDir = path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.processedScreenshotsDir);
 
     if (!fs.isDirectory(processedScreenshotDir)) {
         fs.makeTree(processedScreenshotDir);
     }
 
-    return path.join(processedScreenshotDir, screenshotFileName);
+    return path.join(processedScreenshotDir, fileName);
 }
 
-function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
+function getProcessedScreenshotPath(screenName) {
+    return getProcessedFilePath(screenName + '.png');
+}
+
+function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonThreshold, done) {
 
     if (!(done instanceof Function)) {
         throw new Error("No 'done' callback specified in capture assertion.");
@@ -145,14 +151,94 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
 
             // if the files are not exact, perform a diff to check if they are truly different
             resemble("file://" + processedScreenshotPath).compareTo("file://" + expectedScreenshotPath).onComplete(function(data) {
-                if (data.misMatchPercentage != 0) {
+                if (!screenshotMatches(data.misMatchPercentage)) {
                     fail("Processed screenshot does not match expected for " + screenshotFileName + ". (mismatch = " + data.misMatchPercentage + ")");
                     return;
                 }
 
                 pass();
             });
+
+            function screenshotMatches(misMatchPercentage) {
+                if (comparisonThreshold) {
+                    return misMatchPercentage <= 100 * (1 - comparisonThreshold);
+                } else {
+                    return misMatchPercentage == 0;
+                }
+            }
         }, selector);
+    } catch (ex) {
+        var err = new Error(ex.message);
+        err.stack = ex.message;
+        done(err);
+    }
+}
+
+function compareContents(compareAgainst, pageSetupFn, done) {
+    if (!(done instanceof Function)) {
+        throw new Error("No 'done' callback specified in 'pageContents' assertion.");
+    }
+
+    var dirsBase = app.runner.suite.baseDirectory,
+
+        expectedScreenshotDir = path.join(dirsBase, config.expectedScreenshotsDir),
+        expectedFilePath = path.join(expectedScreenshotDir, compareAgainst),
+
+        processedFilePath = getProcessedFilePath(compareAgainst),
+
+        processedScreenshotPath = getProcessedScreenshotPath(compareAgainst);
+
+    pageSetupFn(pageRenderer);
+
+    try {
+        pageRenderer.capture(processedScreenshotPath, function (err) {
+            if (err) {
+                var indent = "     ";
+                err.stack = err.message + "\n" + indent + getPageLogsString(pageRenderer.pageLogs, indent);
+
+                done(err);
+                return;
+            }
+
+            var fail = function (message) {
+                var indent = "     ";
+                var failureInfo = message + "\n";
+                failureInfo += indent + "Url to reproduce: " + pageRenderer.getCurrentUrl() + "\n";
+                failureInfo += getPageLogsString(pageRenderer.pageLogs, indent);
+
+                error = new AssertionError(message);
+
+                // stack traces are useless so we avoid the clutter w/ this
+                error.stack = failureInfo;
+
+                done(error);
+            };
+
+            var pass = function () {
+                if (options['print-logs']) {
+                    console.log(getPageLogsString(pageRenderer.pageLogs, "     "));
+                }
+
+                done();
+            };
+
+            var processed = pageRenderer.getPageContents();
+
+            fs.write(processedFilePath, processed);
+
+            if (!fs.isFile(expectedFilePath)) {
+                fail("No expected output file found at " + expectedFilePath + ".");
+                return;
+            }
+
+            var expected = fs.read(expectedFilePath);
+
+            if (processed == expected) {
+                pass();
+            } else {
+                fail("Processed page contents does not equal expected file contents.");
+            }
+        });
     } catch (ex) {
         var err = new Error(ex.message);
         err.stack = ex.message;
@@ -175,7 +261,9 @@ chai.Assertion.addChainableMethod('captureSelector', function () {
             done        = arguments[3];
     }
 
-    capture(screenName, compareAgainst, selector, pageSetupFn, done);
+    var comparisonThreshold = this.__flags['comparisonThreshold'];
+
+    capture(screenName, compareAgainst, selector, pageSetupFn, comparisonThreshold, done);
 });
 
 chai.Assertion.addChainableMethod('capture', function () {
@@ -191,7 +279,9 @@ chai.Assertion.addChainableMethod('capture', function () {
             done        = arguments[2];
     }
 
-    capture(screenName, compareAgainst, null, pageSetupFn, done);
+    var comparisonThreshold = this.__flags['comparisonThreshold'];
+
+    capture(screenName, compareAgainst, null, pageSetupFn, comparisonThreshold, done);
 });
 
 // add `contains` assertion
@@ -262,4 +352,21 @@ chai.Assertion.addChainableMethod('contains', function () {
             done(error);
         }
     });
+});
+
+chai.Assertion.addChainableMethod('similar', function (comparisonThreshold) {
+    if (comparisonThreshold === null
+        || comparisonThreshold === undefined
+    ) {
+        throw new Error("No comparison threshold supplied to '.similar('!");
+    }
+
+    this.__flags['comparisonThreshold'] = comparisonThreshold;
+});
+
+// add pageContents assertion
+chai.Assertion.addChainableMethod('pageContents', function (pageSetupFn, done) {
+    var compareAgainst = this.__flags['object'];
+
+    compareContents(compareAgainst, pageSetupFn, done);
 });

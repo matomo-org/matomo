@@ -38,6 +38,25 @@
         init: function () {
             dataTablePrototype.init.call(this);
 
+            $('.visitorLogIconWithDetails>img').each(function () {
+                $(this).tooltip({
+                    items: 'img',
+                    track: true,
+                    show: false,
+                    hide: false,
+                    content: function () {
+                        return $('<ul>').html($('ul', $(this).closest('.visitorLogIconWithDetails')).html());
+                    },
+                    tooltipClass: 'small',
+                    open: function () {
+                        tooltipIsOpened = true;
+                    },
+                    close: function () {
+                        tooltipIsOpened = false;
+                    }
+                });
+            });
+
             // Replace duplicated page views by a NX count instead of using too much vertical space
             $("ol.visitorLog").each(function () {
                 var prevelement;

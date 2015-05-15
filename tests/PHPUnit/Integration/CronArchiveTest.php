@@ -55,7 +55,7 @@ class CronArchiveTest extends IntegrationTestCase
 
         $logger = new FakeLogger();
 
-        $archiver = new CronArchive(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php', null, $logger);
+        $archiver = new CronArchive(null, $logger);
         $archiver->shouldArchiveAllSites = true;
         $archiver->shouldArchiveAllPeriodsSince = true;
         $archiver->init();
@@ -64,7 +64,6 @@ class CronArchiveTest extends IntegrationTestCase
         $expected = <<<LOG
 ---------------------------
 INIT
-Piwik is installed at: %s
 Running Piwik %s as Super User
 ---------------------------
 NOTES

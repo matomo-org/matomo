@@ -84,7 +84,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/jquery/jquery.browser.js";
         $jsFiles[] = "libs/jquery/jquery.truncate.js";
         $jsFiles[] = "libs/bower_components/jquery.scrollTo/jquery.scrollTo.min.js";
-        $jsFiles[] = "libs/jquery/jquery.history.js";
         $jsFiles[] = "libs/bower_components/jScrollPane/script/jquery.jscrollpane.min.js";
         $jsFiles[] = "libs/bower_components/jquery-mousewheel/jquery.mousewheel.min.js";
         $jsFiles[] = "libs/jquery/mwheelIntent.js";
@@ -144,6 +143,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/anchorLinkFix.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/http404check.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/history/history.service.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.controller.js";

@@ -9,6 +9,7 @@
 namespace Piwik\CliMulti;
 
 use Piwik\Application\Environment;
+use Piwik\Access;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
@@ -20,6 +21,7 @@ use Piwik\Url;
 use Piwik\UrlHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -37,6 +39,7 @@ class RequestCommand extends ConsoleCommand
         $this->setName('climulti:request');
         $this->setDescription('Parses and executes the given query. See Piwik\CliMulti. Intended only for system usage.');
         $this->addArgument('url-query', InputArgument::REQUIRED, 'Piwik URL query string, for instance: "module=API&method=API.getPiwikVersion&token_auth=123456789"');
+        $this->addOption('superuser', null, InputOption::VALUE_NONE, 'If supplied, runs the code as superuser.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -66,6 +69,10 @@ class RequestCommand extends ConsoleCommand
             $process->startProcess();
         }
 
+        if ($input->getOption('superuser')) {
+            Access::getInstance()->setSuperUserAccess(true);
+        }
+
         require_once PIWIK_INCLUDE_PATH . $indexFile;
 
         if (!empty($process)) {
@@ -89,7 +96,7 @@ class RequestCommand extends ConsoleCommand
         Url::setHost($hostname);
 
         $query = $input->getArgument('url-query');
-        $query = UrlHelper::getArrayFromQueryString($query);
+        $query = UrlHelper::getArrayFromQueryString($query); // NOTE: this method can create the StaticContainer now
         foreach ($query as $name => $value) {
             $_GET[$name] = $value;
         }

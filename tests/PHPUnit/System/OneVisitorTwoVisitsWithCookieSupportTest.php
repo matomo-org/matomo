@@ -33,7 +33,7 @@ class OneVisitorTwoVisitsWithCookieSupportTest extends SystemTestCase
     public function getApiForTesting()
     {
         $apiToCall = array(
-            'VisitTime', 'VisitsSummary', 'VisitorInterest', 'VisitFrequency', 'UserSettings', 'DevicesDetection',
+            'VisitTime', 'VisitsSummary', 'VisitorInterest', 'VisitFrequency', 'DevicesDetection',
             'UserCountry', 'Referrers', 'Provider', 'Goals', 'CustomVariables', 'CoreAdminHome', 'DevicePlugins',
             'Actions', 'Live.getLastVisitsDetails');
 

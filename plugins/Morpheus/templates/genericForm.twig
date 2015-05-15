@@ -1,6 +1,5 @@
 {% if form_data.errors %}
-	<div class="warning">
-		<img src="plugins/Morpheus/images/warning_medium.png">
+	<div class="alert alert-warning">
 		<strong>{{ 'Installation_PleaseFixTheFollowingErrors'|translate }}:</strong>
 		<ul>
             {% for data in form_data.errors %}

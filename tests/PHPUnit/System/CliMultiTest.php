@@ -238,15 +238,13 @@ class CliMultiTest extends SystemTestCase
 
     private function completeUrl($query)
     {
-        $host = Fixture::getRootUrl();
-
         if (false === strpos($query, '?')) {
             $query .= '?';
         } else {
             $query .= '&';
         }
 
-        return $host . 'tests/PHPUnit/proxy/index.php' . $query . 'testmode=1&token_auth=' . $this->authToken;
+        return $query . 'testmode=1&token_auth=' . $this->authToken;
     }
 
     private function getFilesInTmpFolder()

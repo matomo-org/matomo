@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\MultiSites;
 
+use Piwik\API\DataTablePostProcessor;
 use Piwik\API\ResponseBuilder;
 use Piwik\Config;
 use Piwik\Metrics\Formatter;
@@ -15,6 +16,7 @@ use Piwik\Period;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Row\DataTableSummaryRow;
+use Piwik\Plugin\Report;
 use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Site;
 use Piwik\View;
@@ -49,6 +51,8 @@ class Dashboard
         $pastData = $sites->getMetadata('pastData');
 
         $sites->filter(function (DataTable $table) use ($pastData) {
+            $pastRow = null;
+
             foreach ($table->getRows() as $row) {
                 $idSite = $row->getColumn('label');
                 $site   = Site::getSite($idSite);
@@ -61,9 +65,12 @@ class Dashboard
                     $pastRow = $pastData->getRowFromLabel($idSite);
                     if ($pastRow) {
                         $pastRow->setColumn('label', $site['name']);
-                        $pastData->setLabelsHaveChanged();
                     }
                 }
+            }
+
+            if ($pastData && $pastRow) {
+                $pastData->setLabelsHaveChanged();
             }
 
         });
@@ -73,20 +80,20 @@ class Dashboard
 
     public function setSitesTable(DataTable $sites)
     {
-        $this->numSites     = $sites->getRowsCount();
         $this->sitesByGroup = $this->moveSitesHavingAGroupIntoSubtables($sites);
+        $this->rememberNumberOfSites();
     }
 
     public function getSites($request, $limit)
     {
-        $request['filter_limit'] = $limit;
+        $request['filter_limit']  = $limit;
+        $request['filter_offset'] = isset($request['filter_offset']) ? $request['filter_offset'] : 0;
 
-        $sitesExpanded = $this->convertDataTableToArrayAndApplyFilters($this->sitesByGroup, $request);
-        $sitesFlat     = $this->makeSitesFlat($sitesExpanded);
-        $sitesFlat     = $this->applyLimitIfNeeded($sitesFlat, $limit);
-        $sitesFlat     = $this->enrichValues($sitesFlat);
+        $this->makeSitesFlatAndApplyGenericFilters($this->sitesByGroup, $request);
+        $sites = $this->convertDataTableToArrayAndApplyQueuedFilters($this->sitesByGroup, $request);
+        $sites = $this->enrichValues($sites);
 
-        return $sitesFlat;
+        return $sites;
     }
 
     public function getTotals()
@@ -107,7 +114,11 @@ class Dashboard
     public function search($pattern)
     {
         $this->nestedSearch($this->sitesByGroup, $pattern);
+        $this->rememberNumberOfSites();
+    }
 
+    private function rememberNumberOfSites()
+    {
         $this->numSites = $this->sitesByGroup->getRowsCountRecursive();
     }
 
@@ -153,19 +164,13 @@ class Dashboard
         return $lastPeriod;
     }
 
-    private function convertDataTableToArrayAndApplyFilters(DataTable $table, $request)
+    private function convertDataTableToArrayAndApplyQueuedFilters(DataTable $table, $request)
     {
         $request['serialize'] = 0;
-        $request['expanded'] = 1;
+        $request['expanded'] = 0;
         $request['totals'] = 0;
         $request['format_metrics'] = 1;
-
-        // filter_sort_column does not work correctly is a bug in MultiSites.getAll
-        if (!empty($request['filter_sort_column']) && $request['filter_sort_column'] === 'nb_pageviews') {
-            $request['filter_sort_column'] = 'Actions_nb_pageviews';
-        } elseif (!empty($request['filter_sort_column']) && $request['filter_sort_column'] === 'revenue') {
-            $request['filter_sort_column'] = 'Goal_revenue';
-        }
+        $request['disable_generic_filters'] = 1;
 
         $responseBuilder = new ResponseBuilder('php', $request);
         $rows = $responseBuilder->getResponse($table, 'MultiSites', 'getAll');
@@ -234,7 +239,8 @@ class Dashboard
 
     /**
      * Makes sure to not have any subtables anymore.
-     * So if $sites is
+     *
+     * So if $table is
      * array(
      *    site1
      *    site2
@@ -257,41 +263,39 @@ class Dashboard
      *    site7
      * )
      *
-     * @param $sites
-     * @return array
+     * in a sorted order
+     *
+     * @param DataTable $table
+     * @param array $request
      */
-    private function makeSitesFlat($sites)
+    private function makeSitesFlatAndApplyGenericFilters(DataTable $table, $request)
     {
-        $flatSites = array();
+        // we handle limit here as we have to apply sort filter, then make sites flat, then apply limit filter.
+        $filterOffset = $request['filter_offset'];
+        $filterLimit  = $request['filter_limit'];
+        unset($request['filter_offset']);
+        unset($request['filter_limit']);
 
-        foreach ($sites as $site) {
-            if (!empty($site['subtable'])) {
-                if (isset($site['idsubdatatable'])) {
-                    unset($site['idsubdatatable']);
-                }
-
-                $subtable = $site['subtable'];
-                unset($site['subtable']);
-                $flatSites[] = $site;
-                foreach ($subtable as $siteWithinGroup) {
-                    $flatSites[] = $siteWithinGroup;
-                }
-            } else {
-                $flatSites[] = $site;
-            }
+        // filter_sort_column does not work correctly is a bug in MultiSites.getAll
+        if (!empty($request['filter_sort_column']) && $request['filter_sort_column'] === 'nb_pageviews') {
+            $request['filter_sort_column'] = 'Actions_nb_pageviews';
+        } elseif (!empty($request['filter_sort_column']) && $request['filter_sort_column'] === 'revenue') {
+            $request['filter_sort_column'] = 'Goal_revenue';
         }
 
-        return $flatSites;
-    }
+        // make sure no limit filter is applied, we will do this manually
+        $table->disableFilter('Limit');
 
-    private function applyLimitIfNeeded($sites, $limit)
-    {
-        // why do we need to apply a limit again? because we made sitesFlat and it may contain many more sites now
-        if ($limit > 0) {
-            $sites = array_slice($sites, 0, $limit);
-        }
+        // this will apply the sort filter
+        /** @var DataTable $table */
+        $genericFilter = new DataTablePostProcessor('MultiSites', 'getAll', $request);
+        $table = $genericFilter->applyGenericFilters($table);
 
-        return $sites;
+        // make sure from now on the sites will be no longer sorted, they were already sorted
+        $table->disableFilter('Sort');
+
+        // make sites flat and limit
+        $table->filter('Piwik\Plugins\MultiSites\DataTable\Filter\NestedSitesLimiter', array($filterOffset, $filterLimit));
     }
 
     private function enrichValues($sites)

@@ -597,9 +597,9 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function assertHttpResponseText($expectedResponseCode, $url, $message = '')
+    public function assertHttpResponseText($expectedResponseText, $url, $message = '')
     {
-        self::assertThat($url, new HttpResponseText($expectedResponseCode), $message);
+        self::assertThat($url, new HttpResponseText($expectedResponseText), $message);
     }
 
     public function assertResponseCode($expectedResponseCode, $url, $message = '')
