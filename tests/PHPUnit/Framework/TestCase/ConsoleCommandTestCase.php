@@ -14,6 +14,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Tester\ApplicationTester;
 
+/**
+ * This class is used to workaround a Symfony issue. For tests that need to test interactivity,
+ * we need to create a memory stream, set it as the input stream, and force symfony to think it
+ * is truly interactive. The forcing is done by ApplicationTester. Unfortunately, the Application::configureIO
+ * method will reverse this change if the `posix_isatty` method exists. It will call it on the stream,
+ * and since the stream will never be an actual tty, the interactivity will be overwritten.
+ *
+ * This class gets whether the input is interactive before configureIO is called, and restores
+ * it after the method is called.
+ */
 class TestConsole extends Console
 {
     protected function configureIO(InputInterface $input, OutputInterface $output)
