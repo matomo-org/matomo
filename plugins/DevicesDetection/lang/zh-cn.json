@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "浏览器名称",
         "BrowserEngineDocumentation": "本报表显示访客的浏览器分类。%s对网站开发者来说最重要的就是访客使用何种渲染引擎。标签包括引擎名称，加上括号中的使用这种引擎的最常用的浏览器。",
         "BrowserFamily": "浏览器种类",
         "Browsers": "浏览器名称",

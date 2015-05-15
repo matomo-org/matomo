@@ -1,5 +1,6 @@
 {
     "Live": {
+        "FirstVisit": "Første besøk",
         "GoalType": "Type",
         "HideMap": "skjul kart",
         "LastHours": "Siste %s timer",

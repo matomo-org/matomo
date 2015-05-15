@@ -20,8 +20,8 @@
         "ShowingVisits": "Geo-located na pagbisita ng huling",
         "Unlocated": "<b> %s <b> %p sa mga pagbisita mula sa %c ay hindi pwedeng i-geolocated.",
         "VisitorMap": "Mapa ng bumisita",
-        "WithUnknownCity": "%s hindi kilalang lungsod",
+        "WorldWide": "World-Wide",
         "WithUnknownRegion": "%s na may hindi kilalang rehiyon",
-        "WorldWide": "World-Wide"
+        "WithUnknownCity": "%s hindi kilalang lungsod"
     }
 }

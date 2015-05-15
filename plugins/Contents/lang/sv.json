@@ -1,12 +1,12 @@
 {
     "Contents": {
-        "ContentName": "Namn på innehåll",
-        "ContentPiece": "Innehållsdel",
-        "Contents": "Innehåll",
-        "ContentTarget": "Innehållsmål",
         "Impressions": "Visningar",
+        "Interactions": "Interaktioner",
         "Interaction": "Interaktion",
         "InteractionRate": "Andel interaktioner",
-        "Interactions": "Interaktioner"
+        "ContentName": "Namn på innehåll",
+        "ContentPiece": "Innehållsdel",
+        "ContentTarget": "Innehållsmål",
+        "Contents": "Innehåll"
     }
 }

@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "Веб-оглядач",
         "BrowserFamily": "Родина веб-оглядача",
         "Browsers": "Веб-оглядачі",
         "ColumnBrowser": "Веб-оглядач",

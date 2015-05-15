@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "Veebisirvija",
         "BrowserFamily": "Sirvija tüüp",
         "Browsers": "Veebisirvijad",
         "BrowserVersion": "Sirvija versioon",

@@ -18,8 +18,8 @@
         "Seconds": "seconden",
         "SecondsAgo": "%s seconden geleden",
         "VisitorMap": "Bezoeker Kaart",
-        "WithUnknownCity": "%s met onbekende stad",
+        "WorldWide": "Wereldwijd",
         "WithUnknownRegion": "%s met onbekende regio",
-        "WorldWide": "Wereldwijd"
+        "WithUnknownCity": "%s met onbekende stad"
     }
 }
