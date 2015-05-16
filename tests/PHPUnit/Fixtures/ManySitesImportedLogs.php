@@ -34,11 +34,12 @@ class ManySitesImportedLogs extends Fixture
     public $includeNginxJson = false;
     public $includeApiCustomVarMapping = false;
 
-    public static function createAccessInstance()
-    {
-        Access::setSingletonInstance($access = new OverrideLogin());
-        \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
-    }
+    // TODO: removed still needed?
+    //public static function createAccessInstance()
+    //{
+    //    Access::setSingletonInstance($access = new OverrideLogin());
+    //    \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
+    //}
 
     public function setUp()
     {

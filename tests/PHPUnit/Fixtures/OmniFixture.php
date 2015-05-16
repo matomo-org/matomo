@@ -112,9 +112,10 @@ class OmniFixture extends Fixture
         }
     }
 
-    public static function createAccessInstance()
-    {
-        Access::setSingletonInstance($access = new OverrideLogin());
-        \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
-    }
+    // TODO: still needed?
+    //public static function createAccessInstance()
+    //{
+    //    Access::setSingletonInstance($access = new OverrideLogin());
+    //    \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
+    //}
 }
