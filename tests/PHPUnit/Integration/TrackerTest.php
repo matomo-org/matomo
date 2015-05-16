@@ -152,8 +152,6 @@ class TrackerTest extends IntegrationTestCase
 
         $this->assertFalse(is_readable(Config::getInstance()->getLocalPath()));
 
-        Config::unsetInstance();
-
         Tracker::loadTrackerEnvironment();
 
         $this->assertTrue(SettingsServer::isTrackerApiRequest());

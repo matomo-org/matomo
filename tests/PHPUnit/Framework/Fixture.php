@@ -10,10 +10,12 @@ namespace Piwik\Tests\Framework;
 use Piwik\Access;
 use Piwik\Application\Environment;
 use Piwik\Archive;
+use Piwik\Auth;
 use Piwik\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
@@ -114,6 +116,17 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         return 'python';
+    }
+
+    private function loginAsSuperUser()
+    {
+        /** @var Auth $auth */
+        $auth = $this->piwikEnvironment->getContainer()->get('Piwik\Auth');
+        $auth->setLogin(Fixture::ADMIN_USER_LOGIN);
+        $auth->setPassword(Fixture::ADMIN_USER_PASSWORD);
+
+        Access::getInstance()->setSuperUserAccess(false);
+        Access::getInstance()->reloadAccess(StaticContainer::get('Piwik\Auth'));
     }
 
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
@@ -240,6 +253,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         if ($this->createSuperUser) {
             self::createSuperUser($this->removeExistingSuperUser);
+            $this->loginAsSuperUser();
         }
 
         SettingsPiwik::overwritePiwikUrl(self::getRootUrl() . 'tests/PHPUnit/proxy/');

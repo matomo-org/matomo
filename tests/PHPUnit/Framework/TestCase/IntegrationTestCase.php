@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Framework\TestCase;
 
+use Piwik\Access;
 use Piwik\Application\Environment;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -80,6 +81,8 @@ abstract class IntegrationTestCase extends SystemTestCase
         $environment->init();
 
         Fixture::loadAllPlugins(null, get_class($this), self::$fixture->extraPluginsToLoad);
+
+        Access::getInstance()->setSuperUserAccess(true);
 
         if (!empty(self::$tableData)) {
             self::restoreDbTables(self::$tableData);

@@ -37,16 +37,6 @@ class TwoSitesWithAnnotations extends Fixture
 
     private function addAnnotations()
     {
-        // reload auth so super user login is correctly set
-
-        /** @var Auth $auth */
-        $auth = $this->piwikEnvironment->getContainer()->get('Piwik\Auth');
-        $auth->setLogin(Fixture::ADMIN_USER_LOGIN);
-        $auth->setPassword(Fixture::ADMIN_USER_PASSWORD);
-
-        Access::getInstance()->setSuperUserAccess(false);
-        Access::getInstance()->reloadAccess(StaticContainer::get('Piwik\Auth'));
-
         // add two annotations per week for three months, starring every third annotation
         // first month in 2011, second two in 2012
         $count = 0;
