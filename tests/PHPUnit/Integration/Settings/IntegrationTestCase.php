@@ -29,7 +29,6 @@ class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\IntegrationTes
     public function setUp()
     {
         parent::setUp();
-        Access::setSingletonInstance(null);
         Db::destroyDatabaseObject();
         $this->settings = $this->createSettingsInstance();
     }
@@ -81,16 +80,13 @@ class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\IntegrationTes
 
     protected function setSuperUser()
     {
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
     }
 
     protected function setUser()
     {
-        $pseudoMockAccess = new FakeAccess();
+        FakeAccess::$superUser = false;
         FakeAccess::$idSitesView = array(1);
-        Access::setSingletonInstance($pseudoMockAccess);
     }
 
     protected function createSettingsInstance()
@@ -121,5 +117,12 @@ class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\IntegrationTes
         $verifySettings->addSetting($setting);
 
         $this->assertEquals($expectedValue, $setting->getValue());
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

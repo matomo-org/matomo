@@ -53,18 +53,14 @@ class ArchiveProcessingTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
-        FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
-
         ArchiveTableCreator::$tablesAlreadyInstalled = null;
     }
 
     public function tearDown()
     {
-        Access::setSingletonInstance(null);
         ArchiveTableCreator::$tablesAlreadyInstalled = null;
+
+        parent::tearDown();
     }
 
     /**

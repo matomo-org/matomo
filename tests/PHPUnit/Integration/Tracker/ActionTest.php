@@ -29,7 +29,9 @@ class ActionTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
-        Config::setSingletonInstance(new TestConfig());
+
+        FakeAccess::$superUser = true;
+
         $section = Config::getInstance()->Tracker;
         $section['default_action_url'] = '/';
         $section['campaign_var_name']  = 'campaign_param_name,piwik_campaign,utm_campaign,test_campaign_name';
@@ -47,13 +49,6 @@ class ActionTest extends IntegrationTestCase
         parent::tearDown();
 
         Translate::reset();
-    }
-
-    protected function setUpRootAccess()
-    {
-        $pseudoMockAccess = new FakeAccess;
-        FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
     }
 
     public function getTestUrls()
@@ -132,7 +127,6 @@ class ActionTest extends IntegrationTestCase
      */
     public function testExcludeQueryParametersNone($url, $filteredUrl)
     {
-        $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
             $excludedIps = '', $excludedQueryParameters = '', $timezone = null, $currency = null,
@@ -169,7 +163,6 @@ class ActionTest extends IntegrationTestCase
     public function testExcludeQueryParametersSiteExcluded($url, $filteredUrl)
     {
         $excludedQueryParameters = 'p4, p2, var[value][date]';
-        $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
             $excludedIps = '', $excludedQueryParameters, $timezone = null, $currency = null,
@@ -186,7 +179,6 @@ class ActionTest extends IntegrationTestCase
         // testing also that query parameters are case insensitive
         $excludedQueryParameters = 'P2,var[value][date]';
         $excludedGlobalParameters = 'blabla, P4';
-        $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
             $excludedIps = '', $excludedQueryParameters, $timezone = null, $currency = null,
@@ -372,7 +364,6 @@ class ActionTest extends IntegrationTestCase
     public function testExtractUrlAndActionNameFromRequest($request, $expected)
     {
         PluginManager::getInstance()->loadPlugins(array('Actions', 'SitesManager'));
-        $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'));
         $request['idsite'] = $idSite;
         $request = new Request($request);
@@ -386,5 +377,12 @@ class ActionTest extends IntegrationTestCase
         );
 
         $this->assertEquals($processed, $expected);
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

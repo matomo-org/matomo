@@ -18,12 +18,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ManagerTest extends IntegrationTestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-        Access::setSingletonInstance(null);
-    }
-
     public function test_getViewDataTableParameters_shouldReturnEmptyArray_IfNothingPersisted()
     {
         $login        = 'mylogin';

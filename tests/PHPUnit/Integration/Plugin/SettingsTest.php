@@ -299,7 +299,7 @@ class SettingsTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionPrivilege
+     * @expectedExceptionMessage checkUserHasSuperUserAccess Fake exception
      */
     public function test_removeAllPluginSettings_shouldThrowException_InCaseAnonymousUser()
     {

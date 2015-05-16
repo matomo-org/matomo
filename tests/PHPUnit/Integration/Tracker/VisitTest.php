@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
-use Piwik\Access;
 use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Archive\ArchiveInvalidator;
@@ -17,7 +16,6 @@ use Piwik\Network\IPUtils;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tracker\ActionPageview;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
@@ -33,11 +31,6 @@ class VisitTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
-
-        // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
-        FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         Manager::getInstance()->loadTrackerPlugins();
         Manager::getInstance()->loadPlugin('SitesManager');

@@ -8,7 +8,9 @@
 
 namespace Piwik\Tests\Framework\TestCase;
 
+use Piwik\Application\Environment;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Cache as PiwikCache;
@@ -74,6 +76,11 @@ abstract class IntegrationTestCase extends SystemTestCase
     {
         parent::setUp();
 
+        $environment = new Environment('test', $this->provideContainerConfig(), $postBootstrappedEvent = false);
+        $environment->init();
+
+        Fixture::loadAllPlugins(null, get_class($this), self::$fixture->extraPluginsToLoad);
+
         if (!empty(self::$tableData)) {
             self::restoreDbTables(self::$tableData);
         }
@@ -102,6 +109,16 @@ abstract class IntegrationTestCase extends SystemTestCase
     protected static function beforeTableDataCached()
     {
         // empty
+    }
+
+    /**
+     * Use this method to return custom container configuration that you want to apply for the tests.
+     *
+     * @return array
+     */
+    public function provideContainerConfig()
+    {
+        return array();
     }
 }
 
