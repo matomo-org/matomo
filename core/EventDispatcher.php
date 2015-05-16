@@ -16,7 +16,7 @@ use Piwik\Plugin;
  * This class allows code to post events from anywhere in Piwik and for
  * plugins to associate callbacks to be executed when events are posted.
  */
-class EventDispatcher extends Singleton
+class EventDispatcher
 {
     // implementation details for postEvent
     const EVENT_CALLBACK_GROUP_FIRST = 0;

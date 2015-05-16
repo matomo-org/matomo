@@ -25,7 +25,6 @@ class ComponentFactoryTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        Config::setSingletonInstance(new TestConfig());
         Config::getInstance()->Plugins['Plugins'] = array();
 
         $this->unloadAllPlugins();

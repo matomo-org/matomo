@@ -68,7 +68,7 @@ class AssetManagerTest extends UnitTestCase
     {
         parent::setUp();
 
-        $this->setUpConfig('merged-assets-enabled.ini.php');
+        $this->setUpConfig();
 
         $this->activateMergedAssets();
 
@@ -109,17 +109,15 @@ class AssetManagerTest extends UnitTestCase
         Config::getInstance()->Development['disable_merged_assets'] = 1;
     }
 
-    /**
-     * @param string $filename
-     */
-    private function setUpConfig($filename)
+    private function setUpConfig()
     {
-        $userFile = PIWIK_INCLUDE_PATH . '/' . self::ASSET_MANAGER_TEST_DIR . 'configs/' . $filename;
-        $globalFile = PIWIK_INCLUDE_PATH . '/' . self::ASSET_MANAGER_TEST_DIR . 'configs/plugins.ini.php';
-
-        Config::setSingletonInstance(new TestConfig($globalFile, $userFile));
-
         $this->initEnvironment();
+
+        Config::getInstance()->Plugins = array('Plugins' => array('MockCorePlugin', 'CoreThemePlugin'));
+        Config::getInstance()->Development['enabled'] = 1;
+        Config::getInstance()->General['default_language'] = 'en';
+
+        $this->disableMergedAssets();
     }
 
     private function setUpCacheBuster()
@@ -129,7 +127,7 @@ class AssetManagerTest extends UnitTestCase
 
     private function setUpAssetManager()
     {
-        $this->assetManager = AssetManager::getInstance();
+        $this->assetManager = new AssetManager();
 
         $this->assetManager->removeMergedAssets();
 
@@ -139,8 +137,6 @@ class AssetManagerTest extends UnitTestCase
     private function setUpPluginManager()
     {
         $this->pluginManager = Manager::getInstance();
-
-        EventDispatcher::unsetInstance(); // EventDispatcher stores a reference to Plugin Manager
     }
 
     private function setUpPlugins()

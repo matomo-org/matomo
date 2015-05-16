@@ -59,8 +59,6 @@ class PivotByDimensionTest extends UnitTestCase
         Proxy::setSingletonInstance($proxyMock);
 
         $this->segmentTableCount = 0;
-
-        Config::setSingletonInstance(new TestConfig());
     }
 
     public function tearDown()
