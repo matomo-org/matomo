@@ -299,9 +299,10 @@ class UITestFixture extends SqlDump
             "Multiple actions", "actions>=2", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
     }
 
-    public static function createAccessInstance()
-    {
-        Access::setSingletonInstance($access = new OverrideLogin());
-        \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
-    }
+    // TODO: removed, still needed?
+    //public static function createAccessInstance()
+    //{
+        //Access::setSingletonInstance($access = new OverrideLogin());
+        //\Piwik\Piwik::postEvent('Request.initAuthenticationObject');
+    //}
 }

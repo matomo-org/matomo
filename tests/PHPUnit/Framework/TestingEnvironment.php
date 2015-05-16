@@ -206,11 +206,6 @@ class TestingEnvironment
         Environment::$globalEnvironmentManipulators[] = new TestingEnvironment_MakeGlobalSettingsWithFile(
             $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon);
 
-        if (!$testingEnvironment->dontUseTestConfig) {
-            $diConfig['Piwik\Config'] = \DI\object('Piwik\Tests\Framework\Mock\TestConfig')
-                ->constructorParameter('testingEnvironment', \DI\get('Piwik\Tests\Framework\TestingEnvironment'));
-        }
-
         if (!$testingEnvironment->testUseRegularAuth) {
             $diConfig['Piwik\Access'] = \DI\object('Piwik\Tests\Framework\Piwik_MockAccess')->constructorParameter('access', new Access());
         }
@@ -289,6 +284,9 @@ class TestingEnvironment
         });
 
         $diConfig['observers.global'] = \DI\add($globalObservers);
+
+        // TODO: need to do this only for UI tests. for other tests, test.php DI config removes the translator directories
+        $diConfig['Piwik\Translation\Translator'] = \DI\object()->constructorParameter('directories', array(PIWIK_INCLUDE_PATH . '/lang'));
 
         if (!empty($diConfig)) {
             StaticContainer::addDefinitions($diConfig);
