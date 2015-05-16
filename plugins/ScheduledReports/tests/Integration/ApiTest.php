@@ -222,9 +222,8 @@ class ApiTest extends IntegrationTestCase
      */
     public function testGetTopMenuTranslationKeyUserIsAnonymous()
     {
-        $anonymousAccess = new FakeAccess;
+        FakeAccess::clearAccess();
         FakeAccess::$identity = 'anonymous';
-        Access::setSingletonInstance($anonymousAccess);
 
         $pdfReportPlugin = new Menu();
         $this->assertEquals(
@@ -507,8 +506,13 @@ class ApiTest extends IntegrationTestCase
 
     private static function setSuperUser()
     {
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

@@ -103,25 +103,21 @@ class APITest extends IntegrationTestCase
 
     private function setSuperUser()
     {
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
         FakeAccess::$superUserLogin = 'superUserLogin';
-        Access::setSingletonInstance($pseudoMockAccess);
         $this->createSettings();
     }
 
     private function setAnonymous()
     {
-        Access::setSingletonInstance(null);
+        FakeAccess::clearAccess();
         $this->createSettings();
     }
 
     private function setUser()
     {
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$idSitesView = array(1);
         FakeAccess::$identity    = 'userLogin';
-        Access::setSingletonInstance($pseudoMockAccess);
         $this->createSettings();
     }
 
@@ -141,5 +137,12 @@ class APITest extends IntegrationTestCase
     {
         $this->settings->userEnabled->setValue($value);
         $this->settings->save();
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

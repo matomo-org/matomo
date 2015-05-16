@@ -12,7 +12,6 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
-use Piwik\Access;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -136,16 +135,12 @@ class UserPreferencesTest extends IntegrationTestCase
 
     private function setSuperUser()
     {
-        $pseudoMockAccess = new FakeAccess();
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
     }
 
     private function setAnonymous()
     {
-        $pseudoMockAccess = new FakeAccess();
-        FakeAccess::$superUser = false;
-        Access::setSingletonInstance($pseudoMockAccess);
+        FakeAccess::clearAccess();
     }
 
     private function createSite()
@@ -168,6 +163,13 @@ class UserPreferencesTest extends IntegrationTestCase
             Piwik::getCurrentUserLogin(),
             APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
             $date
+        );
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
         );
     }
 }

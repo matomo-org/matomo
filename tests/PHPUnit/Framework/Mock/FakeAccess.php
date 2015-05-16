@@ -23,6 +23,13 @@ class FakeAccess
     public static $identity = 'superUserLogin';
     public static $superUserLogin = 'superUserLogin';
 
+    public static function clearAccess()
+    {
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesAdmin = array();
+        FakeAccess::$idSitesView = array();
+    }
+
     public function getTokenAuth()
     {
         return false;
