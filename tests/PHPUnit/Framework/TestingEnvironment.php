@@ -301,7 +301,7 @@ class TestingEnvironment
     public function executeSetupTestEnvHook()
     {
         /**
-         * @deprected Try to use test.php DI config instead.
+         * @deprecated Try to use test.php DI config instead.
          * @ignore
          */
         Piwik::postEvent("TestingEnvironment.addHooks", array($this), $pending = true);
