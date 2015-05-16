@@ -9,13 +9,12 @@
 
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin;
 
 /**
  * This class allows code to post events from anywhere in Piwik and for
  * plugins to associate callbacks to be executed when events are posted.
- *
- * @method static \Piwik\EventDispatcher getInstance()
  */
 class EventDispatcher extends Singleton
 {
@@ -23,6 +22,11 @@ class EventDispatcher extends Singleton
     const EVENT_CALLBACK_GROUP_FIRST = 0;
     const EVENT_CALLBACK_GROUP_SECOND = 1;
     const EVENT_CALLBACK_GROUP_THIRD = 2;
+
+    public static function getInstance()
+    {
+        return StaticContainer::get('Piwik\EventDispatcher');
+    }
 
     /**
      * Array of observers (callbacks attached to events) that are not methods
@@ -57,7 +61,7 @@ class EventDispatcher extends Singleton
     /**
      * Constructor.
      */
-    public function __construct($pluginManager = null)
+    public function __construct(Plugin\Manager $pluginManager)
     {
         $this->pluginManager = $pluginManager;
     }
@@ -80,7 +84,7 @@ class EventDispatcher extends Singleton
             $this->pendingEvents[] = array($eventName, $params);
         }
 
-        $manager = $this->getPluginManager();
+        $manager = $this->pluginManager;
 
         if (empty($plugins)) {
             $plugins = $manager->getPluginsLoadedAndActivated();
@@ -212,19 +216,5 @@ class EventDispatcher extends Singleton
         }
 
         return array($pluginFunction, $callbackGroup);
-    }
-
-    /**
-     * Returns the Plugin\Manager instance used by the event dispatcher.
-     *
-     * @return Plugin\Manager
-     */
-    private function getPluginManager()
-    {
-        if ($this->pluginManager === null) {
-            return Plugin\Manager::getInstance(); // caching the var breaks DI for now since only Plugin\Manager is in the container.
-        } else {
-            return $this->pluginManager;
-        }
     }
 }
