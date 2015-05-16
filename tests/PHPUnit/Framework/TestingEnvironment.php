@@ -8,6 +8,8 @@
 namespace Piwik\Tests\Framework;
 
 use Piwik\Application\Environment;
+use Piwik\Application\EnvironmentManipulator;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Plugin\Manager as PluginManager;
 use Exception;
 use Piwik\Option;
@@ -45,6 +47,29 @@ class Piwik_MockAccess
     public function getLogin()
     {
         return 'superUserLogin';
+    }
+}
+
+class TestingEnvironment_MakeGlobalSettingsWithFile implements EnvironmentManipulator
+{
+    private $configFileGlobal;
+    private $configFileLocal;
+    private $configFileCommon;
+
+    public function __construct($configFileGlobal, $configFileLocal, $configFileCommon)
+    {
+        $this->configFileGlobal = $configFileGlobal;
+        $this->configFileLocal = $configFileLocal;
+        $this->configFileCommon = $configFileCommon;
+    }
+
+    public function makeKernelObject($className, array $kernelObjects)
+    {
+        if ($className == 'Piwik\Application\Kernel\GlobalSettingsProvider') {
+            return new GlobalSettingsProvider($this->configFileGlobal, $this->configFileLocal, $this->configFileCommon);
+        }
+
+        return null;
     }
 }
 
@@ -177,13 +202,8 @@ class TestingEnvironment
             }
         }
 
-        // TODO: let's create the concept of an EnvironmentManipulator which is added via static method call to Environment.
-        //       EnvironmentManipulator's provide hooks into environment creation (create kernel object, post container config, etc.).
-        //       should also allow local ones, ie, for specific Environment instances. Then we don't need to derive descendants for
-        //       Environment instances.
-        Environment::$configFileCommon = $testingEnvironment->configFileCommon;
-        Environment::$configFileGlobal = $testingEnvironment->configFileGlobal;
-        Environment::$configFileLocal = $testingEnvironment->configFileLocal;
+        Environment::$globalEnvironmentManipulators[] = new TestingEnvironment_MakeGlobalSettingsWithFile(
+            $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon);
 
         if (!$testingEnvironment->dontUseTestConfig) {
             $diConfig['Piwik\Config'] = \DI\object('Piwik\Tests\Framework\Mock\TestConfig')

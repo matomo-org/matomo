@@ -39,10 +39,10 @@ use Piwik\Piwik;
  */
 class Environment
 {
-    // TODO: document and mark as @internal
-    public static $configFileGlobal;
-    public static $configFileLocal;
-    public static $configFileCommon;
+    /**
+     * @var EnvironmentManipulator[]
+     */
+    public static $globalEnvironmentManipulators = array();
 
     /**
      * @var string
@@ -120,7 +120,11 @@ class Environment
     protected function getGlobalSettingsCached()
     {
         if ($this->globalSettingsProvider === null) {
-            $this->globalSettingsProvider = $this->getGlobalSettings();
+            // TODO: should provide array of kernel objects
+            $result = $this->invokeFirstManipulator(
+                'makeKernelObject', array('Piwik\Application\Kernel\GlobalSettingsProvider', array()));
+
+            $this->globalSettingsProvider = $result ?: $this->getGlobalSettings();
         }
         return $this->globalSettingsProvider;
     }
@@ -128,7 +132,10 @@ class Environment
     protected function getPluginListCached()
     {
         if ($this->pluginList === null) {
-            $this->pluginList = $this->getPluginList();
+            $result = $this->invokeFirstManipulator(
+                'makeKernelObject', array('Piwik\Application\Kernel\PluginList', array()));
+
+            $this->pluginList = $result ?: $this->getPluginList();
         }
         return $this->pluginList;
     }
@@ -141,7 +148,7 @@ class Environment
      */
     protected function getGlobalSettings()
     {
-        return new GlobalSettingsProvider(self::$configFileGlobal, self::$configFileLocal, self::$configFileCommon);
+        return new GlobalSettingsProvider();
     }
 
     /**
@@ -161,5 +168,16 @@ class Environment
         /** @var EnvironmentValidator $validator */
         $validator = $this->container->get('Piwik\Application\Kernel\EnvironmentValidator');
         $validator->validate();
+    }
+
+    private function invokeFirstManipulator($methodName, $params)
+    {
+        foreach (self::$globalEnvironmentManipulators as $manipulator) {
+            $result = call_user_func_array(array($manipulator, $methodName), $params);
+            if (!empty($result)) {
+                return $result;
+            }
+        }
+        return null;
     }
 }
