@@ -80,7 +80,7 @@ class Access
     private $auth = null;
 
     /**
-     * Gets the singleton instance. Creates it if necessary.
+     * @return Access
      */
     public static function getInstance()
     {

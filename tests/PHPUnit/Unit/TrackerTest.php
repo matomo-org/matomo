@@ -15,7 +15,6 @@ use Piwik\Tests\Framework\Mock\Tracker\Handler;
 use Piwik\Tests\Framework\Mock\Tracker\RequestSet;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Piwik\Tracker;
-use Piwik\Translate;
 
 class TestTracker extends Tracker
 {
@@ -67,12 +66,6 @@ class TrackerTest extends UnitTestCase
         $this->handler = new Handler();
         $this->requestSet = new RequestSet();
         $this->requestSet->setRequests(array($this->buildRequest(1), $this->buildRequest(1)));
-    }
-
-    public function tearDown()
-    {
-        EventDispatcher::getInstance()->clearObservers('Tracker.end');
-        parent::tearDown();
     }
 
     public function test_isDebugModeEnabled_shouldReturnFalse_ByDefault()

@@ -148,12 +148,6 @@ class Visit2Test extends IntegrationTestCase
         });
     }
 
-    public function tearDown()
-    {
-        EventDispatcher::getInstance()->clearObservers('Tracker.Request.getIdSite');
-        parent::tearDown();
-    }
-
     public function test_handleNewVisitWithoutConversion_shouldTriggerDimensions()
     {
         $request = new Request(array());

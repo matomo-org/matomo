@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
-use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker\RequestSet;
@@ -64,7 +63,6 @@ class RequestSetTest extends IntegrationTestCase
         $_GET  = $this->get;
         $_POST = $this->post;
 
-        EventDispatcher::getInstance()->clearObservers('Tracker.initRequestSet');
         parent::tearDown();
     }
 

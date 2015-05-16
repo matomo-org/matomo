@@ -9,7 +9,6 @@ namespace Piwik\Tests\Framework;
 
 use Piwik\Access;
 use Piwik\Application\Environment;
-use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Archive;
 use Piwik\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
@@ -20,7 +19,6 @@ use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\EventDispatcher;
 use Piwik\Ini\IniReader;
 use Piwik\Log;
 use Piwik\Option;
@@ -42,18 +40,15 @@ use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
-use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\Url;
 use PHPUnit_Framework_Assert;
-use Piwik\Tests\Framework\TestingEnvironment;
 use PiwikTracker;
 use Piwik_LocalTracker;
 use Piwik\Updater;
-use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Exception;
 use ReflectionClass;
 
@@ -255,7 +250,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $this->getTestEnvironment()->save();
         $this->getTestEnvironment()->executeSetupTestEnvHook();
-        TestingEnvironment::addSendMailHook();
+        // TestingEnvironment::addSendMailHook(); TODO: removed, still needed?
 
         PiwikCache::getTransientCache()->flushAll();
 
@@ -324,7 +319,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         PiwikCache::getEagerCache()->flushAll();
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
-        EventDispatcher::getInstance()->clearAllObservers();
 
         $_GET = $_REQUEST = array();
         Translate::reset();
@@ -623,9 +617,10 @@ class Fixture extends \PHPUnit_Framework_Assert
     public static function setUpScheduledReports($idSite)
     {
         // fake access is needed so API methods can call Piwik::getCurrentUserLogin(), e.g: 'ScheduledReports.addReport'
-        $pseudoMockAccess = new FakeAccess;
-        FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
+        // TODO: commented out. still needed?
+        //$pseudoMockAccess = new FakeAccess;
+        //FakeAccess::$superUser = true;
+        //Access::setSingletonInstance($pseudoMockAccess);
 
         // retrieve available reports
         $availableReportMetadata = APIScheduledReports::getReportMetadata($idSite, ScheduledReports::EMAIL_TYPE);
@@ -828,9 +823,10 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function createAccessInstance()
     {
-        Access::setSingletonInstance(null);
-        Access::getInstance();
-        Piwik::postEvent('Request.initAuthenticationObject');
+        // TODO: commented out. still needed?
+        //Access::setSingletonInstance(null);
+        //Access::getInstance();
+        //Piwik::postEvent('Request.initAuthenticationObject');
     }
 
     public function dropDatabase($dbName = null)

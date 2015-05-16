@@ -60,7 +60,6 @@ class TrackerTest extends IntegrationTestCase
         parent::setUp();
 
         GlobalSettingsProvider::unsetSingletonInstance();
-        Config::unsetInstance();
 
         Fixture::createWebsite('2014-01-01 00:00:00');
 
@@ -74,7 +73,6 @@ class TrackerTest extends IntegrationTestCase
         if($this->tracker) {
             $this->tracker->disconnectDatabase();
         }
-        EventDispatcher::getInstance()->clearObservers('Tracker.makeNewVisitObject');
         if (array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS)) {
             unset($GLOBALS['PIWIK_TRACKER_DEBUG']);
         }
