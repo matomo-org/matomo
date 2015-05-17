@@ -35,6 +35,11 @@ abstract class IntegrationTestCase extends SystemTestCase
     public static $tableData;
 
     /**
+     * @var Environment
+     */
+    protected $piwikEnvironment;
+
+    /**
      * Implementation details:
      *
      * To increase speed of tests, database setup is done once in setUpBeforeClass.
@@ -77,8 +82,8 @@ abstract class IntegrationTestCase extends SystemTestCase
     {
         parent::setUp();
 
-        $environment = new Environment('test', $this->provideContainerConfig(), $postBootstrappedEvent = false);
-        $environment->init();
+        $this->piwikEnvironment = new Environment('test', $this->provideContainerConfig(), $postBootstrappedEvent = false);
+        $this->piwikEnvironment->init();
 
         Fixture::loadAllPlugins(null, get_class($this), self::$fixture->extraPluginsToLoad);
 

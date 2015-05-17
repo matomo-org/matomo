@@ -49,7 +49,6 @@ class RequestCommand extends ConsoleCommand
         $this->initHostAndQueryString($input);
 
         if ($this->isTestModeEnabled()) {
-            Config::setSingletonInstance(new TestConfig());
             $indexFile = '/tests/PHPUnit/proxy/';
 
             $this->resetDatabase();
@@ -113,7 +112,9 @@ class RequestCommand extends ConsoleCommand
         StaticContainer::clearContainer();
         Log::unsetInstance();
 
-        $this->environment = new Environment(null);
+        $environmentName = $this->isTestModeEnabled() ? 'test' : null;
+
+        $this->environment = new Environment($environmentName);
         $this->environment->init();
     }
 
