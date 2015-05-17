@@ -8,12 +8,10 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
-use Piwik\Access;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Mock\FakeAccess;
-use Piwik\Translate;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Exception;
 
@@ -48,14 +46,12 @@ class UsersManagerTest extends IntegrationTestCase
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
 
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::setIdSitesView(array(1, 2));
         FakeAccess::setIdSitesAdmin(array(3, 4));
 
         //finally we set the user as a Super User by default
         FakeAccess::$superUser = true;
         FakeAccess::$superUserLogin = 'superusertest';
-        Access::setSingletonInstance($pseudoMockAccess);
 
         $this->api   = API::getInstance();
         $this->model = new Model();
@@ -915,5 +911,12 @@ class UsersManagerTest extends IntegrationTestCase
         }
 
         return $idSites;
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

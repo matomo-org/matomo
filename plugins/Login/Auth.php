@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Login;
 
 use Exception;
 use Piwik\AuthResult;
+use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Session;
@@ -119,6 +120,10 @@ class Auth implements \Piwik\Auth
      */
     public function setPassword($password)
     {
+        if (empty($password)) {
+            return;
+        }
+
         $this->md5Password = md5($password);
     }
 
@@ -130,7 +135,9 @@ class Auth implements \Piwik\Auth
      */
     public function setPasswordHash($passwordHash)
     {
-        if (strlen($passwordHash) != 32) {
+        if ($passwordHash !== null
+            && strlen($passwordHash) != 32
+        ) {
             throw new Exception("Invalid hash: incorrect length " . strlen($passwordHash));
         }
 

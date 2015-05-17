@@ -118,7 +118,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         return 'python';
     }
 
-    private function loginAsSuperUser()
+    public function loginAsSuperUser()
     {
         /** @var Auth $auth */
         $auth = $this->piwikEnvironment->getContainer()->get('Piwik\Auth');
