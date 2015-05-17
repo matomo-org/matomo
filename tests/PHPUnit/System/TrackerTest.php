@@ -308,7 +308,9 @@ class TrackerTest extends IntegrationTestCase
 
     public function provideContainerConfig()
     {
-        define('DEBUG_FORCE_SCHEDULED_TASKS', 1);
+        if (!defined('DEBUG_FORCE_SCHEDULED_TASKS')) {
+            define('DEBUG_FORCE_SCHEDULED_TASKS', 1);
+        }
 
         $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironment();
 
