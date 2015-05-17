@@ -2,7 +2,7 @@
     "PrivacyManager": {
         "AnonymizeIpDescription": "Select \"Yes\" if you want Piwik not to track fully qualified IP-Addresses.",
         "AnonymizeIpInlineHelp": "Anonymize the last byte(s) of visitors IP addresses to comply with your local privacy laws\/guidelines.",
-        "AnonymizeIpExtendedHelp": "When users visit your website, Piwik will not use the full IP address (such as %s) but instead Piwik will anonymise it first (to %s). IP address anonymisation is one of the requirements set by the privacy laws in some countries such as Germany.",
+        "AnonymizeIpExtendedHelp": "When users visit your website, Piwik will not use the full IP address (such as %s) but instead Piwik will anonymize it first (to %s). IP address anonymization is one of the requirements set by the privacy laws in some countries such as Germany.",
         "AnonymizeIpMaskLengtDescription": "Select how many bytes of the visitors' IPs should be masked.",
         "AnonymizeIpMaskLength": "%s byte(s) - e.g. %s",
         "CannotLockSoDeleteLogActions": "The log_action table will not be purged: please grant the LOCK TABLES privilege to the '%s' MYSQL user.",
