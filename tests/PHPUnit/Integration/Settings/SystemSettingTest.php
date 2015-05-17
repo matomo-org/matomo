@@ -46,6 +46,7 @@ class SystemSettingTest extends IntegrationTestCase
      */
     public function test_setSettingValue_shouldThrowException_IfAnonymousIsTryingToSetASettingWhichNeedsSuperUserPermission()
     {
+        $this->setAnoymous();
         $setting = $this->addSystemSetting('mysystem', 'mytitle');
 
         $setting->setValue(2);
@@ -91,6 +92,7 @@ class SystemSettingTest extends IntegrationTestCase
      */
     public function test_getSettingValue_shouldThrowException_IfAnonymousTriedToReadValue()
     {
+        $this->setAnoymous();
         $setting = $this->addSystemSetting('myusersetting', 'mytitle');
         $setting->getValue();
     }
@@ -128,6 +130,7 @@ class SystemSettingTest extends IntegrationTestCase
      */
     public function test_removeSettingValue_shouldThrowException_IfAnonymousTriesToRemoveValue()
     {
+        $this->setAnoymous();
         $setting = $this->addSystemSetting('mysystemsetting', 'mytitle');
         $setting->removeValue();
     }

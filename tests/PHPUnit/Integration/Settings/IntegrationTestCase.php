@@ -89,6 +89,11 @@ class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\IntegrationTes
         FakeAccess::$idSitesView = array(1);
     }
 
+    protected function setAnoymous()
+    {
+        FakeAccess::clearAccess();
+    }
+
     protected function createSettingsInstance()
     {
         return new CorePluginTestSettings('ExampleSettingsPlugin');

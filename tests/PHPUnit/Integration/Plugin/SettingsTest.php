@@ -303,6 +303,7 @@ class SettingsTest extends IntegrationTestCase
      */
     public function test_removeAllPluginSettings_shouldThrowException_InCaseAnonymousUser()
     {
+        $this->setAnoymous();
         $this->settings->removeAllPluginSettings();
     }
 
