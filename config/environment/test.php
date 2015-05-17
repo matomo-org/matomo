@@ -5,9 +5,6 @@ use Piwik\Tests\Framework\Mock\TestConfig;
 
 return array(
 
-    // Disable logging
-    'Psr\Log\LoggerInterface' => DI\object('Psr\Log\NullLogger'),
-
     'Piwik\Cache\Backend' => function () {
         return \Piwik\Cache::buildBackend('file');
     },

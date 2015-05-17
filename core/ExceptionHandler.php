@@ -87,16 +87,21 @@ class ExceptionHandler
 
         $result = Piwik_GetErrorMessagePage($message, $debugTrace, true, true, $logoHeaderUrl, $logoFaviconUrl);
 
-        /**
-         * Triggered before a Piwik error page is displayed to the user.
-         *
-         * This event can be used to modify the content of the error page that is displayed when
-         * an exception is caught.
-         *
-         * @param string &$result The HTML of the error page.
-         * @param Exception $ex The Exception displayed in the error page.
-         */
-        Piwik::postEvent('FrontController.modifyErrorPage', array(&$result, $ex));
+        try {
+            /**
+             * Triggered before a Piwik error page is displayed to the user.
+             *
+             * This event can be used to modify the content of the error page that is displayed when
+             * an exception is caught.
+             *
+             * @param string &$result The HTML of the error page.
+             * @param Exception $ex The Exception displayed in the error page.
+             */
+            Piwik::postEvent('FrontController.modifyErrorPage', array(&$result, $ex));
+        } catch (\Exception $ex) {
+            // can occur if the exception occurs before the environment is initialized
+            // TODO: log the exception
+        }
 
         return $result;
     }
