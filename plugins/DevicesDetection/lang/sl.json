@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "Brskalnik",
         "BrowserEngines": "Pogoni brskalnikov",
         "BrowserFamily": "Družina brskalnika",
         "Browsers": "Brskalniki",

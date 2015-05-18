@@ -1,5 +1,6 @@
 {
     "Insights": {
+        "ControlComparedToDescription": "Прирост по сравнению с",
         "DayComparedToPreviousDay": "предыдущий день",
         "DayComparedToPreviousWeek": "тот же день неделей ранее",
         "DayComparedToPreviousYear": "тот же день в предыдущем году",
@@ -8,6 +9,8 @@
         "MonthComparedToPreviousMonth": "предыдущий месяц",
         "MonthComparedToPreviousYear": "тот же месяц годом ранее",
         "NoResultMatchesCriteria": "Нет строк, отвечающих критериям",
+        "TitleConsideredInsightsGrowth": "Следующие строки имеют прирост по крайней мере %1$s%% по сравнению с %2$s.",
+        "TitleRowMoverAndShaker": "Влияние этой строки больше среднего.",
         "WeekComparedToPreviousWeek": "предыдущая неделя",
         "YearComparedToPreviousYear": "прошлый год"
     }

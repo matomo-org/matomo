@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "ბრაუზერი",
         "BrowserFamily": "ბრაუზერის ოჯახი",
         "Browsers": "ბრაუზერები",
         "ColumnBrowser": "ბრაუზერი",

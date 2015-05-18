@@ -1,11 +1,13 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "Nettleser",
         "BrowserFamily": "Nettleserfamilie",
         "Browsers": "Nettlesere",
         "BrowserVersion": "Nettleserversjon",
         "BrowserVersions": "Nettleser-versjoner",
         "Camera": "Kamera",
         "CarBrowser": "Nettleser i bil",
+        "Software": "Programvare",
         "ColumnBrowser": "Nettleser",
         "ColumnOperatingSystem": "Operativsystem",
         "Console": "Konsoll",

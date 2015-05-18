@@ -18,6 +18,7 @@
         "MaxValueDocumentation": "Максимальное значения для этого события",
         "MinValue": "Минимальное значение",
         "MinValueDocumentation": "Минимальное значения для этого события",
+        "SwitchToSecondaryDimension": "Переключиться на %s",
         "TopEvents": "Топ событий",
         "TotalEvents": "Всего событий",
         "TotalEventsDocumentation": "Общее количество событий",

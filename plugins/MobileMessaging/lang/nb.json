@@ -8,6 +8,7 @@
         "Settings_PhoneActivated": "Telefonnummer validert! Du kan nå motta SMS med dine statistikker.",
         "Settings_PhoneNumber": "Telefonnummer",
         "Settings_PhoneNumbers_Add": "Legg til et nytt telefonnummer",
+        "Settings_SMSAPIAccount": "Behandle SMS API-konto",
         "Settings_SMSProvider": "SMS-leverandør",
         "Settings_SuperAdmin": "Superbruker-instillinger",
         "Settings_ValidatePhoneNumber": "Valider",

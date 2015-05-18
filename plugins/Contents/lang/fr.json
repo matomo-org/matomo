@@ -1,12 +1,12 @@
 {
     "Contents": {
-        "ContentName": "Nom du contenu",
-        "ContentPiece": "Partie du contenu",
-        "Contents": "Contenus",
-        "ContentTarget": "Cible du contenu",
         "Impressions": "Impressions",
+        "Interactions": "Interactions",
         "Interaction": "Interaction",
         "InteractionRate": "Taux d'interaction",
-        "Interactions": "Interactions"
+        "ContentName": "Nom du contenu",
+        "ContentPiece": "Partie du contenu",
+        "ContentTarget": "Cible du contenu",
+        "Contents": "Contenus"
     }
 }

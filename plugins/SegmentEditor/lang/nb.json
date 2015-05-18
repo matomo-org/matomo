@@ -1,6 +1,7 @@
 {
     "SegmentEditor": {
         "AddNewSegment": "Legg til nytt segment",
+        "AreYouSureDeleteSegment": "Er du sikker på at du vil slette dette segmentet?",
         "ChooseASegment": "Velg et segment",
         "DefaultAllVisits": "Alle besøk",
         "OperatorAND": "OG",

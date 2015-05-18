@@ -20,8 +20,8 @@
         "ShowingVisits": "Geolocirane posete od poslednjih",
         "Unlocated": "<b>%s<\/b> %p od poseta sa %c nije moguće geolocirati.",
         "VisitorMap": "Mapa posetilaca",
-        "WithUnknownCity": "%s sa nepoznatim gradom",
+        "WorldWide": "Ceo svet",
         "WithUnknownRegion": "%s sa nepoznatim regionom",
-        "WorldWide": "Ceo svet"
+        "WithUnknownCity": "%s sa nepoznatim gradom"
     }
 }

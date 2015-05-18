@@ -1,12 +1,12 @@
 {
     "Contents": {
-        "ContentName": "Jméno obsahu",
-        "ContentPiece": "Část obsahu",
-        "Contents": "Obsah",
-        "ContentTarget": "Cíl obsahu",
         "Impressions": "Dojmy",
+        "Interactions": "Interakce",
         "Interaction": "Interakce",
         "InteractionRate": "Rychlost interakcí",
-        "Interactions": "Interakce"
+        "ContentName": "Jméno obsahu",
+        "ContentPiece": "Část obsahu",
+        "ContentTarget": "Cíl obsahu",
+        "Contents": "Obsah"
     }
 }

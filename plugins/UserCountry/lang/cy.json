@@ -1,6 +1,7 @@
 {
     "UserCountry": {
         "continent_ant": "Antarctica",
+        "continent_oce": "Awstralia",
         "country_ac": "Ynys Ascension",
         "country_ad": "Andorra",
         "country_ae": "Emiraethau Arabaidd Unedig",
@@ -54,6 +55,7 @@
         "country_co": "Colombia",
         "country_cp": "Ynys Clipperton",
         "country_cr": "Costa Rica",
+        "country_cs": "Montenegro",
         "country_cu": "Ciwba",
         "country_cv": "Cape Verde",
         "country_cw": "Curaçao",

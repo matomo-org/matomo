@@ -1,9 +1,9 @@
 {
     "Contents": {
-        "Contents": "Conteúdos",
-        "ContentTarget": "Conteúdo de Destino",
         "Impressions": "Impressões",
+        "Interactions": "Interações",
         "Interaction": "Interação",
-        "Interactions": "Interações"
+        "ContentTarget": "Conteúdo de Destino",
+        "Contents": "Conteúdos"
     }
 }

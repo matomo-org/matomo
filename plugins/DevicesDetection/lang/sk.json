@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "Prehliadač",
         "BrowserFamily": "Rodina prehliadača",
         "Browsers": "Prehliadače",
         "ColumnBrowser": "Prehliadač",

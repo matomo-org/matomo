@@ -1,8 +1,8 @@
 {
     "PrivacyManager": {
         "AnonymizeIpDescription": "Zvolte \"ano\", pokud nemá Piwik sledovat plně kvalifikované IP adresy.",
-        "AnonymizeIpExtendedHelp": "Když uživatelé navštíví vaše stránky, Piwik neuloží jejich plnou IP adresu(jako %s), ale nejprve bude anonymizována (na %s). Anonymizace IP adres je jeden z požadavků práva na ochranu soukromí v některých zemí, jako je třeba Německo.",
         "AnonymizeIpInlineHelp": "Skryje poslední byte IP adresy návštěvníka, aby souhlasila se zákony vaší země.",
+        "AnonymizeIpExtendedHelp": "Když uživatelé navštíví vaše stránky, Piwik neuloží jejich plnou IP adresu(jako %s), ale nejprve bude anonymizována (na %s). Anonymizace IP adres je jeden z požadavků práva na ochranu soukromí v některých zemí, jako je třeba Německo.",
         "AnonymizeIpMaskLengtDescription": "Zvolte, kolik bitů z návštěvníkovy IP adresy má být maskováno.",
         "AnonymizeIpMaskLength": "%s bitů - např. %s",
         "CannotLockSoDeleteLogActions": "Tabulka log_action nebude vyprázdněna: dejte Mysql uživateli %s privilegium LOCK TABLES.",
