@@ -65,6 +65,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
         $fixture->testCaseClass = get_called_class();
 
+        $fixture->extraDiDefinitions = static::provideContainerConfigBeforeClass();
+
         try {
             $fixture->performSetUp();
         } catch (Exception $e) {
@@ -617,6 +619,10 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         self::assertTrue(Db::hasDatabaseObject(), $message);
     }
 
+    public static function provideContainerConfigBeforeClass()
+    {
+        return array();
+    }
 }
 
 SystemTestCase::$fixture = new \Piwik\Tests\Framework\Fixture();

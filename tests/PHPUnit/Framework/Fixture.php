@@ -97,6 +97,8 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public $testEnvironment = null;
 
+    public $extraDiDefinitions = array();
+
     /**
      * @var Environment
      */
@@ -158,9 +160,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function performSetUp($setupEnvironmentOnly = false)
     {
-        $defs = array();
-        $defs['Piwik\Config'] = \DI\object('Piwik\Tests\Framework\Mock\TestConfig');
-        $this->piwikEnvironment = new Environment('test', $defs);
+        $this->piwikEnvironment = new Environment('test', $this->extraDiDefinitions);
         $this->piwikEnvironment->init();
 
         if ($this->createConfig) {

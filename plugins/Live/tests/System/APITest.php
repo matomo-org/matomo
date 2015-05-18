@@ -176,7 +176,7 @@ class APITest extends SystemTestCase
         FakeAccess::clearAccess();
     }
 
-    public function provideContainerConfig()
+    public static function provideContainerConfigBeforeClass()
     {
         return array(
             'Piwik\Access' => new FakeAccess()
