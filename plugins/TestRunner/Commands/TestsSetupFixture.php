@@ -8,7 +8,9 @@
 
 namespace Piwik\Plugins\TestRunner\Commands;
 
+use Piwik\Application\Environment;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Url;
 use Piwik\Tests\Framework\Fixture;
@@ -88,6 +90,10 @@ class TestsSetupFixture extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if (!defined('PIWIK_TEST_MODE')) {
+            define('PIWIK_TEST_MODE', true);
+        }
+
         $serverGlobal = $input->getOption('server-global');
         if ($serverGlobal) {
             $_SERVER = json_decode($serverGlobal, true);
