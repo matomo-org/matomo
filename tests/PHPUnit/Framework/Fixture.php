@@ -80,7 +80,14 @@ class Fixture extends \PHPUnit_Framework_Assert
     const ADMIN_USER_PASSWORD = 'superUserPass';
 
     public $dbName = false;
+
+    /**
+     * Ignored now.
+     *
+     * @deprecated
+     */
     public $createConfig = true;
+
     public $dropDatabaseInSetUp = true;
     public $dropDatabaseInTearDown = true;
     public $loadTranslations = true;
@@ -162,10 +169,6 @@ class Fixture extends \PHPUnit_Framework_Assert
     {
         $this->piwikEnvironment = new Environment('test', $this->extraDiDefinitions);
         $this->piwikEnvironment->init();
-
-        if ($this->createConfig) {
-            // TODO: removed the setSingletonInstance call here
-        }
 
         try {
             $this->dbName = $this->getDbName();
