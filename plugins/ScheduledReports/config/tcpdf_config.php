@@ -13,7 +13,7 @@ use Piwik\Container\StaticContainer;
  *
  */
 
-define('K_PATH_MAIN', PIWIK_INCLUDE_PATH . '/libs/tcpdf/');
+define('K_PATH_MAIN', PIWIK_INCLUDE_PATH . '/vendor/tecnick.com/tcpdf/');
 
 $pathTmpTCPDF = StaticContainer::get('path.tmp') . '/tcpdf/';
 

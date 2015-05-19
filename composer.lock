@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5033f5c1e5d1d67add5f5e75bbe59aaf",
+    "hash": "2087f5d0167b3c950c4b02ce7c1cf629",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -276,7 +276,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mnapoli/PHP-DI/zipball/2325afb15d74728f52cb9721c9e184829f8f343a",
+                "url": "https://api.github.com/repos/mnapoli/PHP-DI/zipball/21d3f59f1917fc7377b9c59013418012ad93b32c",
                 "reference": "b555566822ce0bdf1c946d46785a038317908ed1",
                 "shasum": ""
             },
@@ -479,16 +479,16 @@
         },
         {
             "name": "myclabs/php-enum",
-            "version": "1.3.0",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/php-enum.git",
-                "reference": "c0bcd731d26d53d3db280cca0af33b3cd99fbafe"
+                "reference": "e5976f17636cd68cf07ee5fc3d036c0fd30d6297"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/c0bcd731d26d53d3db280cca0af33b3cd99fbafe",
-                "reference": "c0bcd731d26d53d3db280cca0af33b3cd99fbafe",
+                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/e5976f17636cd68cf07ee5fc3d036c0fd30d6297",
+                "reference": "e5976f17636cd68cf07ee5fc3d036c0fd30d6297",
                 "shasum": ""
             },
             "require": {
@@ -519,7 +519,7 @@
             "keywords": [
                 "enum"
             ],
-            "time": "2015-01-30 22:06:24"
+            "time": "2015-02-15 21:39:11"
         },
         {
             "name": "pear/archive_tar",
@@ -1159,6 +1159,69 @@
             "description": "Symfony Monolog Bridge",
             "homepage": "http://symfony.com",
             "time": "2015-01-03 08:01:59"
+        },
+        {
+            "name": "tecnick.com/tcpdf",
+            "version": "6.2.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tecnickcom/TCPDF.git",
+                "reference": "3dee9e7f3a414875fd1d9f4f1dfc2433493a86d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/3dee9e7f3a414875fd1d9f4f1dfc2433493a86d2",
+                "reference": "3dee9e7f3a414875fd1d9f4f1dfc2433493a86d2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "fonts",
+                    "config",
+                    "include",
+                    "tcpdf.php",
+                    "tcpdf_parser.php",
+                    "tcpdf_import.php",
+                    "tcpdf_barcodes_1d.php",
+                    "tcpdf_barcodes_2d.php",
+                    "include/tcpdf_colors.php",
+                    "include/tcpdf_filters.php",
+                    "include/tcpdf_font_data.php",
+                    "include/tcpdf_fonts.php",
+                    "include/tcpdf_images.php",
+                    "include/tcpdf_static.php",
+                    "include/barcodes/datamatrix.php",
+                    "include/barcodes/pdf417.php",
+                    "include/barcodes/qrcode.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "homepage": "http://nicolaasuni.tecnick.com"
+                }
+            ],
+            "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "PDFD32000-2008",
+                "TCPDF",
+                "barcodes",
+                "datamatrix",
+                "pdf",
+                "pdf417",
+                "qrcode"
+            ],
+            "time": "2015-04-29 16:13:58"
         },
         {
             "name": "tedivm/jshrink",
