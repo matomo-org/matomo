@@ -119,7 +119,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->showNextStep = !$view->diagnosticReport->hasErrors();
 
         // On the system check page, if all is green, display Next link at the top
-        $view->showNextStepAtTop = $view->showNextStep;
+        $view->showNextStepAtTop = $view->showNextStep && !$view->diagnosticReport->hasWarnings();
 
         return $view->render();
     }
