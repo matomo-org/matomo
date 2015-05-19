@@ -4022,7 +4022,7 @@ if (typeof Piwik !== 'object') {
                         gears: 'application/x-googlegears',
                         ag: 'application/x-silverlight'
                     },
-                    devicePixelRatio = (new RegExp('Mac OS X.*Safari/')).test(navigatorAlias.userAgent) ? windowAlias.devicePixelRatio || 1 : 1;
+                    devicePixelRatio = windowAlias.devicePixelRatio || 1;
 
                 // detect browser features except IE < 11 (IE 11 user agent is no longer MSIE)
                 if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
@@ -4054,8 +4054,6 @@ if (typeof Piwik !== 'object') {
                 }
 
                 // screen resolution
-                // - only Apple reports screen.* in device-independent-pixels (dips)
-                // - devicePixelRatio is always 2 on MacOSX+Retina regardless of resolution set in Display Preferences
                 browserFeatures.res = screenAlias.width * devicePixelRatio + 'x' + screenAlias.height * devicePixelRatio;
             }
 
