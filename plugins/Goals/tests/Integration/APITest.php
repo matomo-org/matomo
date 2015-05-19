@@ -35,7 +35,6 @@ class APITest extends IntegrationTestCase
         parent::setUp();
         $this->api = API::getInstance();
 
-        Fixture::createAccessInstance();
         Piwik::setUserHasSuperUserAccess();
 
         Fixture::createWebsite('2014-01-01 00:00:00');

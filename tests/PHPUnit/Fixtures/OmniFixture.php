@@ -111,11 +111,4 @@ class OmniFixture extends Fixture
             $fixture->tearDown();
         }
     }
-
-    // TODO: still needed?
-    //public static function createAccessInstance()
-    //{
-    //    Access::setSingletonInstance($access = new OverrideLogin());
-    //    \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
-    //}
 }

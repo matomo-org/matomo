@@ -300,11 +300,4 @@ class UITestFixture extends SqlDump
         APISegmentEditor::getInstance()->add(
             "Multiple actions", "actions>=2", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
     }
-
-    // TODO: removed, still needed?
-    //public static function createAccessInstance()
-    //{
-        //Access::setSingletonInstance($access = new OverrideLogin());
-        //\Piwik\Piwik::postEvent('Request.initAuthenticationObject');
-    //}
 }
