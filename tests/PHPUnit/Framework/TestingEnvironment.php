@@ -51,29 +51,6 @@ class Piwik_MockAccess
     }
 }
 
-class TestingEnvironment_MakeGlobalSettingsWithFile implements EnvironmentManipulator
-{
-    private $configFileGlobal;
-    private $configFileLocal;
-    private $configFileCommon;
-
-    public function __construct(TestingEnvironment $testingEnvironment)
-    {
-        $this->configFileGlobal = $testingEnvironment->configFileGlobal;
-        $this->configFileLocal = $testingEnvironment->configFileLocal;
-        $this->configFileCommon = $testingEnvironment->configFileCommon;
-    }
-
-    public function makeKernelObject($className, array $kernelObjects)
-    {
-        if ($className == 'Piwik\Application\Kernel\GlobalSettingsProvider') {
-            return new GlobalSettingsProvider($this->configFileGlobal, $this->configFileLocal, $this->configFileCommon);
-        }
-
-        return null;
-    }
-}
-
 /**
  * Sets the test environment.
  */
