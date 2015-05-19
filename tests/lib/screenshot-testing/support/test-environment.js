@@ -19,6 +19,8 @@ TestingEnvironment.prototype.reload = function () {
         delete this[key];
     }
 
+    this['loadRealTranslations'] = true; // UI tests should test w/ real translations, not translation keys
+
     if (fs.exists(testingEnvironmentOverridePath)) {
         var data = JSON.parse(fs.read(testingEnvironmentOverridePath));
         for (var key in data) {
