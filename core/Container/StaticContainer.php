@@ -37,7 +37,7 @@ class StaticContainer
     public static function getContainer()
     {
         if (self::$container === null) {
-            throw new \Exception("The root container has not been created yet.");
+            throw new ContainerNotFoundException("The root container has not been created yet.");
         }
 
         return self::$container;

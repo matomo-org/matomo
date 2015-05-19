@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\ContainerNotFoundException;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 
 /**
@@ -98,9 +99,8 @@ class ExceptionHandler
              * @param Exception $ex The Exception displayed in the error page.
              */
             Piwik::postEvent('FrontController.modifyErrorPage', array(&$result, $ex));
-        } catch (\Exception $ex) {
-            // can occur if the exception occurs before the environment is initialized
-            // TODO: log the exception
+        } catch (ContainerNotFoundException $ex) {
+            // can occur if the exception occurs before the environment is initialized.
         }
 
         return $result;
