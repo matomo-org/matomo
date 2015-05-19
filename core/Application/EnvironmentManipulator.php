@@ -9,14 +9,14 @@
 namespace Piwik\Application;
 
 /**
- * TODO
- *
- * TODO: change to EnvironmentInterceptor?
+ * Used to manipulate Environment instances before the container is created.
+ * Only used by the testing environment setup code, shouldn't be used anywhere
+ * else.
  */
 interface EnvironmentManipulator
 {
     /**
-     * TODO
+     * Create a custom kernel object, overriding the default behavior.
      *
      * @param $className
      * @param array $kernelObjects
