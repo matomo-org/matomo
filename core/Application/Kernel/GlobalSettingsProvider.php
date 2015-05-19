@@ -22,8 +22,6 @@ use Piwik\Config\IniFileChain;
  */
 class GlobalSettingsProvider
 {
-    private static $instance = null;
-
     /**
      * @var IniFileChain
      */
@@ -109,33 +107,5 @@ class GlobalSettingsProvider
     public function getPathCommon()
     {
         return $this->pathCommon;
-    }
-
-    public static function getSingletonInstance($pathGlobal = null, $pathLocal = null, $pathCommon = null)
-    {
-        throw new \Exception("not supported no more");
-
-        if (self::$instance === null) {
-            self::$instance = new GlobalSettingsProvider($pathGlobal, $pathLocal, $pathCommon);
-        } else {
-            // sanity check. the parameters should only be non-null when creating the GlobalSettingsProvider the first time.
-            // if it's done after, it may point to a problem in the tests. (tests are the only place where these arguments
-            // should be specified)
-            if ($pathGlobal !== null
-                || $pathLocal !== null
-                || $pathCommon !== null
-            ) {
-                $message = "Unexpected state in GlobalSettingsProvider::getSingletonInstance: singleton already created but paths supplied:\n";
-                $message .= "global = '$pathGlobal', local = '$pathLocal', common = '$pathCommon'\n";
-                throw new \Exception($message);
-            }
-        }
-
-        return self::$instance;
-    }
-
-    public static function unsetSingletonInstance()
-    {
-        self::$instance = null;
     }
 }

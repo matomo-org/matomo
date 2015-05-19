@@ -28,8 +28,6 @@ abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        GlobalSettingsProvider::unsetSingletonInstance();
-
         $this->initEnvironment();
 
         File::reset();
@@ -38,8 +36,6 @@ abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         File::reset();
-
-        GlobalSettingsProvider::unsetSingletonInstance();
 
         // make sure the global container exists for the next test case that is executed (since logging can be done
         // before a test sets up an environment)

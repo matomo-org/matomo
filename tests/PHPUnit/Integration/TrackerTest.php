@@ -59,8 +59,6 @@ class TrackerTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        GlobalSettingsProvider::unsetSingletonInstance();
-
         Fixture::createWebsite('2014-01-01 00:00:00');
 
         $this->tracker = new TestTracker();
