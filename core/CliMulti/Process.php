@@ -173,6 +173,10 @@ class Process
             return false;
         }
 
+        if (!self::commandExists('ps') || !self::returnsSuccessCode('ps') || !self::commandExists('awk')) {
+            return false;
+        }
+
         if (count(self::getRunningProcesses()) > 0) {
             return true;
         }
@@ -181,11 +185,7 @@ class Process
             return false;
         }
 
-        if (self::commandExists('ps') && self::returnsSuccessCode('ps') && self::commandExists('awk')) {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     private static function isSystemNotSupported()
