@@ -120,9 +120,8 @@ class Environment
     protected function getGlobalSettingsCached()
     {
         if ($this->globalSettingsProvider === null) {
-            // TODO: should provide array of kernel objects
             $result = $this->invokeFirstManipulator(
-                'makeKernelObject', array('Piwik\Application\Kernel\GlobalSettingsProvider', array()));
+                'makeKernelObject', array('Piwik\Application\Kernel\GlobalSettingsProvider', $this->getKernelObjectsArray()));
 
             $this->globalSettingsProvider = $result ?: $this->getGlobalSettings();
         }
@@ -133,7 +132,7 @@ class Environment
     {
         if ($this->pluginList === null) {
             $result = $this->invokeFirstManipulator(
-                'makeKernelObject', array('Piwik\Application\Kernel\PluginList', array()));
+                'makeKernelObject', array('Piwik\Application\Kernel\PluginList', $this->getKernelObjectsArray()));
 
             $this->pluginList = $result ?: $this->getPluginList();
         }
@@ -179,6 +178,14 @@ class Environment
             }
         }
         return null;
+    }
+
+    private function getKernelObjectsArray()
+    {
+        return array(
+            'Piwik\Application\Kernel\PluginList' => $this->pluginList,
+            'Piwik\Application\Kernel\GlobalSettingsProvider' => $this->globalSettingsProvider
+        );
     }
 
     /**
