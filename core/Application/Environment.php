@@ -42,7 +42,7 @@ class Environment
     /**
      * @var EnvironmentManipulator[]
      */
-    public static $globalEnvironmentManipulators = array();
+    private static $globalEnvironmentManipulators = array();
 
     /**
      * @var string
@@ -179,5 +179,13 @@ class Environment
             }
         }
         return null;
+    }
+
+    /**
+     * @internal
+     */
+    public static function addEnvironmentManipulator(EnvironmentManipulator $manipulator)
+    {
+        self::$globalEnvironmentManipulators[] = $manipulator;
     }
 }

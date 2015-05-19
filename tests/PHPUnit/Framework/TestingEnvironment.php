@@ -57,11 +57,11 @@ class TestingEnvironment_MakeGlobalSettingsWithFile implements EnvironmentManipu
     private $configFileLocal;
     private $configFileCommon;
 
-    public function __construct($configFileGlobal, $configFileLocal, $configFileCommon)
+    public function __construct(TestingEnvironment $testingEnvironment)
     {
-        $this->configFileGlobal = $configFileGlobal;
-        $this->configFileLocal = $configFileLocal;
-        $this->configFileCommon = $configFileCommon;
+        $this->configFileGlobal = $testingEnvironment->configFileGlobal;
+        $this->configFileLocal = $testingEnvironment->configFileLocal;
+        $this->configFileCommon = $testingEnvironment->configFileCommon;
     }
 
     public function makeKernelObject($className, array $kernelObjects)
@@ -203,8 +203,7 @@ class TestingEnvironment
             }
         }
 
-        Environment::$globalEnvironmentManipulators[] = new TestingEnvironment_MakeGlobalSettingsWithFile(
-            $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon);
+        Environment::addEnvironmentManipulator(new TestingEnvironment_MakeGlobalSettingsWithFile($testingEnvironment));
 
         if (!$testingEnvironment->testUseRegularAuth) {
             $diConfig['Piwik\Access'] = \DI\object('Piwik\Tests\Framework\Piwik_MockAccess')->constructorParameter('access', new Access());
