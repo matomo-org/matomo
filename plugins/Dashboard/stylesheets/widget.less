@@ -1,0 +1,108 @@
+.widget {
+    .font-default(13px, 18px);
+    background: @theme-color-background-base;
+    border: 1px solid @color-silver-l85;
+    .border-radius();
+    .box-shadow-1(0 1px 1px rgba(204,204,204,.5));
+    overflow: hidden;
+    z-index: 1;
+
+    h2 {
+        font-weight: normal;
+        border-bottom: none;
+        margin: 0;
+        padding: 12px 10px 7px;
+    }
+    h3 {
+        font-weight: normal;
+        font-size: 15px;
+        margin: 0;
+        color: #0D0D0D;
+        text-shadow: none;
+        padding: 15px 15px 10px;
+    }
+    p {
+        margin-left: 10px;
+    }
+
+    &.default {
+        margin-left: 0;
+        margin-right: 0;
+        .widgetTop {
+            cursor: default !important;
+        }
+    }
+
+    .widgetTop {
+        cursor: move;
+        font-size: 10pt;
+        font-weight: normal;
+        padding-bottom: 4px;
+        background: @theme-color-widget-title-background;
+        border-bottom: 1px solid @color-silver-l85;
+        h3 {
+            .font-default(15px, 18px);
+            color: @theme-color-widget-title-text;
+        }
+        .button {
+            margin: 16px 8px 0 0;
+            opacity: 0.8;
+            visibility: hidden;
+            display:none;
+            cursor: pointer;
+            float: right;
+        }
+    }
+    // TODO those 2 should probably be simplified eventually...
+    .widgetTop:hover .button {
+        visibility: visible;
+    }
+    .widgetTop.widgetTopHover .button {
+        display:block;
+    }
+
+    .widgetText {
+        padding: 10px;
+    }
+
+    .pk-emptyDataTable {
+        .font-default(12px, 16px);
+        text-transform: none;
+    }
+
+    .dataTableFooterIcons {
+        border-top: 1px solid @color-silver-l85;
+    }
+
+    .widgetContent .jqplot-graph {
+        margin-top: 6px;
+    }
+
+    .widgetContent.hidden {
+        position: absolute;
+        top: -5000px;
+        height: 1000px;
+        overflow: hidden;
+    }
+    .widgetContent.loading {
+        opacity: 0.5;
+        background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat top right;
+    }
+
+    .widgetLoading {
+        cursor: wait;
+        text-align: center;
+    }
+
+    .widgetNameOffScreen {
+        overflow: hidden;
+        width:1px;
+        height:1px;
+    }
+}
+
+.widget.hiddenContent .widgetTop.widgetTopHover {
+    .button#minimise,.button#refresh {
+        display:none;
+    }
+}
