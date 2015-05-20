@@ -2661,10 +2661,16 @@ if (typeof Piwik !== 'object') {
              */
             function sendRequest(request, delay, callbacks) {
 
-                callbacks = callbacks || {
-                    success: function() {},
-                    error: function() {}
-                };
+                var callbacks = {};
+
+                if(callback) {
+
+                    if('function' !== callback) {
+                        callbacks = callback;
+                    }else{
+                        callbacks.error = callbacks.success = callback;
+                    }
+                }
 
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
