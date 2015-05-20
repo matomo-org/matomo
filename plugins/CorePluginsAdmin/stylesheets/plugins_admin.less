@@ -52,3 +52,52 @@ table.entityTable tr td a.uninstall {
     font-style:italic;
     color:#777;
 }
+
+#plugins {
+
+    .plugin-desc-missingrequirements {
+        font-weight:bold;
+        font-style: italic;
+        a {
+            text-decoration: underline !important;
+            color: black;
+        }
+    }
+
+    .settingsLink {
+        text-align: right;
+        width: 100%;
+        display: inline-block;
+        font-style: italic;
+    }
+}
+
+.admin .pluginsFilter {
+    color: @theme-color-text-lighter;
+    .active {
+        font-weight: bold;
+    }
+
+    a {
+        color: @theme-color-link;
+        text-decoration: none;
+    }
+
+    a .counter {
+        color: #999999;
+        font-weight: normal;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    .status {
+        display: inline-block;
+        margin-left: 20px;
+    }
+
+    .getNewPlugins {
+        float: right;
+    }
+}

@@ -1,0 +1,110 @@
+<div class="row marketplace-max-width">
+
+    {# Hide filters and search for themes because we don't have many of them #}
+    {% if not showThemes %}
+        <div class="col-sm-12 clearfix">
+
+            <form action="{{ linkTo({'sort': ''}) }}" method="post" class="plugin-search">
+                <input value="{{ query }}" placeholder="{{ 'General_Search'|translate }} {{ plugins|length }} {{ 'General_Plugins'|translate|lcfirst }}..." type="text" name="query"/>
+                <button type="submit">{{ 'General_Search'|translate }}</button>
+            </form>
+
+            <ul class="nav nav-pills">
+                <li {% if 'popular' == sort %}class="active"{% endif %}>
+                    <a href="{{ linkTo({'sort': 'popular', 'query': ''}) }}">
+                        {{ 'CorePluginsAdmin_SortByPopular'|translate }}
+                    </a>
+                </li>
+                <li {% if 'newest' == sort %}class="active"{% endif %}>
+                    <a href="{{ linkTo({'sort': 'newest', 'query': ''}) }}">
+                        {{ 'CorePluginsAdmin_SortByNewest'|translate }}
+                    </a>
+                </li>
+                <li {% if 'alpha' == sort %}class="active"{% endif %}>
+                    <a href="{{ linkTo({'sort': 'alpha', 'query': ''}) }}">
+                        {{ 'CorePluginsAdmin_SortByAlpha'|translate }}
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    {% endif %}
+
+    {% for plugin in plugins %}
+
+        <div class="col-md-4">
+            <div class="panel plugin">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title panel-title-block" title="{{ 'General_MoreDetails'|translate }}">
+                        <a class="plugin-details" href="#" data-pluginName="{{ plugin.name }}">{{ plugin.name }}</a>
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+                    <p class="description">
+                        {{ plugin.description }}
+                        <a class="more plugin-details" href="#" data-pluginName="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">
+                            &rsaquo; {{ 'General_MoreLowerCase'|translate }}</a>
+                    </p>
+
+                    {% if showThemes %}
+                        {# Screenshot for themes #}
+                        <a class="more plugin-details" href="#" data-pluginName="{{ plugin.name }}">
+                            <img title="{{ 'General_MoreDetails'|translate }}"
+                                 class="preview" src="{{ plugin.screenshots|first }}?w=250&h=150"/></a>
+                    {% endif %}
+
+                    <ul class="metadata">
+                        <li>
+                            {{ 'CorePluginsAdmin_Version'|translate }}: {{ plugin.latestVersion }}
+                            {% if plugin.canBeUpdated %}
+                                <a class="plugin-details update-available" href="#" data-pluginName="{{ plugin.name }}" data-activePluginTab="changelog"
+                                   title="{{ 'CorePluginsAdmin_PluginUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}">
+                                    {{ 'CorePluginsAdmin_NewVersion'|translate }}</a>
+                            {% endif %}
+                        </li>
+                        <li>{{ 'CorePluginsAdmin_Updated'|translate }}: {{ plugin.lastUpdated }}</li>
+                        <li>{{ 'General_Downloads'|translate }}: {{ plugin.numDownloads }}</li>
+                        <li>{{ 'CorePluginsAdmin_Developer'|translate }}: {{ pluginsMacro.pluginDeveloper(plugin.owner) }}</li>
+                    </ul>
+                </div>
+
+                {% if isSuperUser %}
+                    <div class="panel-footer" data-pluginName="{{ plugin.name }}">
+                        {% if plugin.canBeUpdated and 0 == plugin.missingRequirements|length %}
+                            <a class="btn btn-block"
+                               href="{{ linkTo({'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': updateNonce}) }}">
+                                {{ 'CoreUpdater_UpdateTitle'|translate }}
+                            </a>
+                        {% elseif plugin.isInstalled %}
+                            <button class="btn btn-noop btn-block">
+                                {{ 'General_Installed'|translate }}
+                            </button>
+                        {% elseif plugin.missingRequirements|length > 0 %}
+                            <a class="btn btn-link btn-block plugin-details" href="#" data-pluginName="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">
+                                {{ 'CorePluginsAdmin_CannotInstall'|translate }}
+                            </a>
+                        {% else %}
+                            <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': installNonce}) }}"
+                               class="btn btn-block">
+                                {{ 'CorePluginsAdmin_ActionInstall'|translate }}
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+    {% endfor %}
+
+    {% if plugins|length == 0 %}
+        {% if showThemes %}
+            {{ 'CorePluginsAdmin_NoThemesFound'|translate }}
+        {% else %}
+            {{ 'CorePluginsAdmin_NoPluginsFound'|translate }}
+        {% endif %}
+    {% endif %}
+
+</div>

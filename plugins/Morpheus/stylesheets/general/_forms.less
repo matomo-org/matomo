@@ -51,6 +51,26 @@ button[type="button"],
     display: block;
     width: 100%;
 }
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    pointer-events: none;
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    opacity: .65;
+}
+// See http://getbootstrap.com/css/#buttons-options
+.btn.btn-link {
+    // We have to use !important unfortunately because the default button style uses it...
+    background: transparent !important;
+    color: @theme-color-link !important;
+    text-decoration: underline !important;
+}
+.btn.btn-noop {
+    // We have to use !important unfortunately because the default button style uses it...
+    background: transparent !important;
+    color: @theme-color-text !important;
+    pointer-events: none;
+    cursor: not-allowed;
+}
 
 .top_bar_sites_selector {
   .sites_autocomplete .custom_select {

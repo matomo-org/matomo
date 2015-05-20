@@ -47,6 +47,38 @@ class Controller extends Plugin\ControllerAdmin
         parent::__construct();
     }
 
+    public function marketplace()
+    {
+        self::dieIfMarketplaceIsDisabled();
+
+        $show = Common::getRequestVar('show', 'plugins', 'string');
+        $query = Common::getRequestVar('query', '', 'string', $_POST);
+        $sort = Common::getRequestVar('sort', $this->defaultSortMethod, 'string');
+        if (!in_array($sort, $this->validSortMethods)) {
+            $sort = $this->defaultSortMethod;
+        }
+        $mode = Common::getRequestVar('mode', 'admin', 'string');
+        if (!in_array($sort, array('user', 'admin'))) {
+            $mode = 'admin';
+        }
+
+        $view = $this->configureView('@CorePluginsAdmin/marketplace');
+
+        $marketplace = new Marketplace();
+
+        $showThemes = ($show === 'themes');
+        $view->plugins = $marketplace->searchPlugins($query, $sort, $showThemes);
+        $view->showThemes = $showThemes;
+        $view->mode = $mode;
+        $view->query = $query;
+        $view->sort = $sort;
+        $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
+        $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
+        $view->isSuperUser = Piwik::hasUserSuperUserAccess();
+
+        return $view->render();
+    }
+
     private function createUpdateOrInstallView($template, $nonceName)
     {
         static::dieIfMarketplaceIsDisabled();
@@ -160,6 +192,30 @@ class Controller extends Plugin\ControllerAdmin
         return $view->render();
     }
 
+    /**
+     * @deprecated
+     */
+    public function browsePlugins()
+    {
+        $this->redirectToIndex('CorePluginsAdmin', 'marketplace');
+    }
+
+    /**
+     * @deprecated
+     */
+    public function browseThemes()
+    {
+        $this->redirectToIndex('CorePluginsAdmin', 'marketplace', null, null, null, array('show' => 'themes'));
+    }
+
+    /**
+     * @deprecated
+     */
+    public function userBrowsePlugins()
+    {
+        $this->redirectToIndex('CorePluginsAdmin', 'marketplace', null, null, null, array('mode' => 'user'));
+    }
+
     private function dieIfMarketplaceIsDisabled()
     {
         if (!CorePluginsAdmin::isMarketplaceEnabled()) {
@@ -177,50 +233,6 @@ class Controller extends Plugin\ControllerAdmin
             throw new \Exception('Enabling, disabling and uninstalling plugins has been disabled by Piwik admins.
             Please contact your Piwik admins with your request so they can assist you.');
         }
-    }
-
-    private function createBrowsePluginsOrThemesView($template, $themesOnly)
-    {
-        static::dieIfMarketplaceIsDisabled();
-
-        $query = Common::getRequestVar('query', '', 'string', $_POST);
-        $sort = Common::getRequestVar('sort', $this->defaultSortMethod, 'string');
-
-        if (!in_array($sort, $this->validSortMethods)) {
-            $sort = $this->defaultSortMethod;
-        }
-
-        $view = $this->configureView('@CorePluginsAdmin/' . $template);
-
-        $marketplace = new Marketplace();
-        $view->plugins = $marketplace->searchPlugins($query, $sort, $themesOnly);
-
-        $view->query = $query;
-        $view->sort = $sort;
-        $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
-        $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
-        $view->isSuperUser = Piwik::hasUserSuperUserAccess();
-
-        return $view;
-    }
-
-    public function browsePlugins()
-    {
-        $view = $this->createBrowsePluginsOrThemesView('browsePlugins', $themesOnly = false);
-        return $view->render();
-    }
-
-    public function browseThemes()
-    {
-        $view = $this->createBrowsePluginsOrThemesView('browseThemes', $themesOnly = true);
-        return $view->render();
-    }
-
-    public function userBrowsePlugins()
-    {
-        $view = $this->createBrowsePluginsOrThemesView('browsePlugins', $themesOnly = false);
-        $view->mode = 'user';
-        return $view->render();
     }
 
     private function createPluginsOrThemesView($template, $themesOnly)
