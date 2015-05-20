@@ -154,8 +154,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             GlobalSettingsProvider::unsetSingletonInstance();
         }
 
-        $this->piwikEnvironment = new Environment('test');
-        $this->piwikEnvironment->init();
+        $this->createEnvironmentInstance();
 
         if ($this->createConfig) {
             Config::setSingletonInstance(new TestConfig());
@@ -912,5 +911,11 @@ class Fixture extends \PHPUnit_Framework_Assert
     public function provideContainerConfig()
     {
         return array();
+    }
+
+    public function createEnvironmentInstance()
+    {
+        $this->piwikEnvironment = new Environment('test');
+        $this->piwikEnvironment->init();
     }
 }

@@ -74,6 +74,10 @@ abstract class IntegrationTestCase extends SystemTestCase
     {
         parent::setUp();
 
+        self::$fixture->createEnvironmentInstance();
+
+        Fixture::loadAllPlugins(new \Piwik_TestingEnvironment(), get_class($this), self::$fixture->extraPluginsToLoad);
+
         if (!empty(self::$tableData)) {
             self::restoreDbTables(self::$tableData);
         }
