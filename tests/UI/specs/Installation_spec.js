@@ -47,13 +47,13 @@ describe("Installation", function () {
 
     it("should display the system check page when next is clicked on the first page", function (done) {
         expect.screenshot("system_check").to.be.capture(function (page) {
-            page.click('.submit');
+            page.click('.next-step .btn');
         }, done);
     });
 
     it("should display the database setup page when next is clicked on the system check page", function (done) {
         expect.screenshot("db_setup").to.be.capture(function (page) {
-            page.click('.submit');
+            page.click('.next-step .btn');
         }, done);
     });
 
@@ -82,7 +82,7 @@ describe("Installation", function () {
 
     it("should display the superuser configuration page when next is clicked on the tables created page", function (done) {
         expect.screenshot("superuser").to.be.capture(function (page) {
-            page.click('.submit');
+            page.click('.next-step .btn');
         }, done);
     });
 
@@ -124,7 +124,7 @@ describe("Installation", function () {
 
     it("should display the congratulations page when next is clicked on the javascript tracking page", function (done) {
         expect.screenshot("congrats").to.be.capture(function (page) {
-            page.click('.submit');
+            page.click('.next-step .btn');
         }, done);
     });
 

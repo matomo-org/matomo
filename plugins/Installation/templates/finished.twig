@@ -2,33 +2,33 @@
 
 {% block content %}
 
-<h2>{{ 'Installation_Congratulations'|translate|raw }}</h2>
-{{ 'Installation_CongratulationsHelp'|translate|raw }}
-<br/>
+    <h2>{{ 'Installation_Congratulations'|translate|raw }}</h2>
 
-<h2>{{ 'Installation_WelcomeToCommunity'|translate }}</h2>
-<p>
-    {{ 'Installation_CollaborativeProject'|translate }}
-</p>
-<p>
-    {{ 'Installation_GetInvolved'|translate('<a  rel="noreferrer"  target="_blank" href="http://piwik.org/get-involved/">','</a>')|raw }}
-    {{ 'General_HelpTranslatePiwik'|translate("<a rel='noreferrer' target='_blank' href=\'http://piwik.org/translations/\'>","<\/a>")|raw }}
-</p>
-<p>{{ 'Installation_WeHopeYouWillEnjoyPiwik'|translate }}</p>
-<p><i>{{ 'Installation_HappyAnalysing'|translate }}</i></p>
-<br/>
+    {{ 'Installation_CongratulationsHelp'|translate|raw }}
 
-<h2>{{ 'Installation_DefaultSettings'|translate }}</h2>
-<p>{{ 'Installation_DefaultSettingsHelp'|translate }}</p>
-{% if errorMessage is defined %}
-    <div class="error">
-        <img src="plugins/Morpheus/images/error_medium.png"/>
-        {{ 'General_Error'|translate }}:
-        <br/>- {{ errorMessage|raw }}
-    </div>
-{% endif %}
-{% if form_data is defined %}
-    {% include "genericForm.twig" %}
-{% endif %}
+    <h3>{{ 'Installation_WelcomeToCommunity'|translate }}</h3>
+    <p>
+        {{ 'Installation_CollaborativeProject'|translate }}
+    </p>
+    <p>
+        {{ 'Installation_GetInvolved'|translate('<a  rel="noreferrer"  target="_blank" href="http://piwik.org/get-involved/">','</a>')|raw }}
+        {{ 'General_HelpTranslatePiwik'|translate("<a rel='noreferrer' target='_blank' href=\'http://piwik.org/translations/\'>","<\/a>")|raw }}
+    </p>
+    <p>{{ 'Installation_WeHopeYouWillEnjoyPiwik'|translate }}</p>
+    <p><i>{{ 'Installation_HappyAnalysing'|translate }}</i></p>
+
+    <h3>{{ 'Installation_DefaultSettings'|translate }}</h3>
+    <p>{{ 'Installation_DefaultSettingsHelp'|translate }}</p>
+
+    {% if errorMessage is defined %}
+        <div class="alert alert-danger">
+            {{ 'General_Error'|translate }}:
+            <br/>- {{ errorMessage|raw }}
+        </div>
+    {% endif %}
+
+    {% if form_data is defined %}
+        {% include "genericForm.twig" %}
+    {% endif %}
 
 {% endblock %}

@@ -133,7 +133,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function assertInstallationProcessStarted($output)
     {
-        $this->assertRegExp('<div id="installationPage">', $output);
+        $this->assertContains('<title>Piwik &rsaquo; Installation</title>', $output);
     }
 
     private function simulateAbsentConfigFile($fileName)
