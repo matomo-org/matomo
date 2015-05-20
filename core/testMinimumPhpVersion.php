@@ -50,7 +50,7 @@ if ($minimumPhpInvalid) {
             . "<pre> curl -sS https://getcomposer.org/installer | php \n\n php composer.phar install\n\n</pre> ";
         if (DIRECTORY_SEPARATOR === '\\' /* ::isWindows() */) {
             $composerInstall = "Download and run <a href=\"https://getcomposer.org/Composer-Setup.exe\"><b>Composer-Setup.exe</b></a>, it will install the latest Composer version and set up your PATH so that you can just call composer from any directory in your command line. "
-                . " <br>Then run this command in a terminal in the piwik directory: <br> $ php composer.phar update ";
+                . " <br>Then run this command in a terminal in the piwik directory: <br> $ php composer.phar install ";
         }
         $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' rel='noreferrer' target='_blank'>composer</a> tool is not yet installed. You can install Composer in a few easy steps:\n\n".
                     "<br/>" . $composerInstall.
