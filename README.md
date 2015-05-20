@@ -1,9 +1,5 @@
 # Piwik - piwik.org
 
-[![Build Status](https://scrutinizer-ci.com/g/piwik/piwik/badges/build.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/build-status/master)
-[![Code Coverage](https://scrutinizer-ci.com/g/piwik/piwik/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/piwik/piwik/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master)
-
 ## Description
 
 Piwik is the leading Free/Libre open analytics platform.
@@ -13,6 +9,16 @@ At the end of the five minute installation process you will be given a JavaScrip
 Simply copy and paste this tag on websites you wish to track and access your analytics reports in real time.
 
 Piwik aims to be a Free software alternative to Google Analytics, and is already used on more than 1,000,000 websites. Privacy is built-in!
+
+## Code Status
+The Piwik project uses an ever-expanding comprehensive set of thousands of unit and integration tests and dozens of system [tests](https://github.com/piwik/piwik/tree/master/tests),
+ running on the hosted distributed continuous integration platform Travis-CI.
+
+Build status (master branch) [![Build Status](https://travis-ci.org/piwik/piwik.svg?branch=master)](https://travis-ci.org/piwik/piwik)
+
+Code Coverage: [![Code Coverage](https://scrutinizer-ci.com/g/piwik/piwik/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master)
+
+Issue tracker metrics: [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Average time to resolve an issue") - [![Percentage of issues still open](http://isitmaintained.com/badge/open/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Percentage of issues still open")
 
 ## Mission Statement
 
@@ -97,15 +103,3 @@ What makes Piwik unique from the competition:
     Custom Variables, Email Reports, Custom Segment Editor, Geo Location, Real time maps, and more!
 
 Documentation and more info on http://piwik.org
-
-
-## Code Status
-The Piwik project uses an ever-expanding comprehensive set of thousands of unit and integration tests and dozens of system [tests](https://github.com/piwik/piwik/tree/master/tests),
- running on the hosted distributed continuous integration platform Travis-CI.
-
-Build status (master branch) [![Build Status](https://travis-ci.org/piwik/piwik.svg?branch=master)](https://travis-ci.org/piwik/piwik)
-
-Code Coverage: [![Code Coverage](https://scrutinizer-ci.com/g/piwik/piwik/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master)
-
-Issue tracker metrics: [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Average time to resolve an issue") - [![Percentage of issues still open](http://isitmaintained.com/badge/open/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Percentage of issues still open")
- 
