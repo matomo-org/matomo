@@ -1493,7 +1493,7 @@ if (typeof Piwik !== 'object') {
                     var foundNodes = nodeToSearch.getElementsByClassName(className);
                     return this.htmlCollectionToArray(foundNodes);
                 }
-                
+
                 var children = getChildrenFromNode(nodeToSearch);
 
                 if (!children || !children.length) {
@@ -2447,12 +2447,27 @@ if (typeof Piwik !== 'object') {
              * Send image request to Piwik server using GET.
              * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
              */
-            function getImage(request, callback) {
+            function getImage(request, callbacks) {
+
+                callbacks = callbacks || {
+                    success: function() {},
+                    error: function() {}
+                };
+
                 var image = new Image(1, 1);
+
 
                 image.onload = function () {
                     iterator = 0; // To avoid JSLint warning of empty block
-                    if (typeof callback === 'function') { callback(); }
+                    if (typeof callbacks.success === 'function') {
+                        callbacks.success();
+                    }
+                };
+                image.onerror = function () {
+                    iterator = 0; // To avoid JSLint warning of empty block
+                    if (typeof callbacks.success === 'function') {
+                        callbacks.error();
+                    }
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
@@ -2460,9 +2475,44 @@ if (typeof Piwik !== 'object') {
             /*
              * POST request to Piwik server using XMLHttpRequest.
              */
-            function sendXmlHttpRequest(request, callback, fallbackToGet) {
+            function sendXmlHttpRequest(request, callbacks, fallbackToGet) {
+
                 if (!isDefined(fallbackToGet) || null === fallbackToGet) {
                     fallbackToGet = true;
+                }
+
+                var aborted = false;
+                callbacks = callbacks || {};
+
+                if('function' !== typeof callbacks.error) {
+                    callbacks.error = function(){};
+                }
+
+                if('function' !== typeof callbacks.success) {
+                    callbacks.success = function(){};
+                }
+
+                /**
+                 * Trigger after the request
+                 * Callbacks available:
+                 *     - success
+                 *     - error
+                 * @param  {XMLHttpRequest} xhr
+                 * @param  {String} type Type of cb to execute
+                 * @return {void}
+                 */
+                function onEndCb(xhr, type) {
+
+                    if(aborted) {
+                        return;
+                    }
+
+                    // XHR callbacks has one argument: isXHR set to true
+                    callbacks[type](true);
+
+                    // Because without it onreadystatechange is triggered 3 times
+                    aborted = true;
+                    xhr.abort();
                 }
 
                 try {
@@ -2480,9 +2530,10 @@ if (typeof Piwik !== 'object') {
                     // fallback on error
                     xhr.onreadystatechange = function () {
                         if (this.readyState === 4 && !(this.status >= 200 && this.status < 300) && fallbackToGet) {
-                            getImage(request, callback);
+                            onEndCb(xhr, 'error');
+                            getImage(request, callbacks);
                         } else {
-                            if (typeof callback === 'function') { callback(); }
+                            onEndCb(xhr, 'success');
                         }
                     };
 
@@ -2492,7 +2543,7 @@ if (typeof Piwik !== 'object') {
                 } catch (e) {
                     if (fallbackToGet) {
                         // fallback
-                        getImage(request, callback);
+                        getImage(request, callbacks);
                     }
                 }
             }
@@ -2608,13 +2659,19 @@ if (typeof Piwik !== 'object') {
             /*
              * Send request
              */
-            function sendRequest(request, delay, callback) {
+            function sendRequest(request, delay, callbacks) {
+
+                callbacks = callbacks || {
+                    success: function() {},
+                    error: function() {}
+                };
+
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                         if (configRequestMethod === 'POST') {
-                            sendXmlHttpRequest(request, callback);
+                            sendXmlHttpRequest(request, callbacks);
                         } else {
-                            getImage(request, callback);
+                            getImage(request, callbacks);
                         }
 
                         setExpireDateTime(delay);
@@ -3782,7 +3839,7 @@ if (typeof Piwik !== 'object') {
             /*
              * Log the event
              */
-            function logEvent(category, action, name, value, customData)
+            function logEvent(category, action, name, value, customData, callbacks)
             {
                 // Category and Action are required parameters
                 if (String(category).length === 0 || String(action).length === 0) {
@@ -3794,7 +3851,7 @@ if (typeof Piwik !== 'object') {
                         'event'
                     );
 
-                sendRequest(request, configTrackerPause);
+                sendRequest(request, configTrackerPause, callbacks);
             }
 
             /*
@@ -4208,6 +4265,8 @@ if (typeof Piwik !== 'object') {
                 }
 
                 // screen resolution
+                // - only Apple reports screen.* in device-independent-pixels (dips)
+                // - devicePixelRatio is always 2 on MacOSX+Retina regardless of resolution set in Display Preferences
                 browserFeatures.res = screenAlias.width * devicePixelRatio + 'x' + screenAlias.height * devicePixelRatio;
             }
 
@@ -5341,9 +5400,9 @@ if (typeof Piwik !== 'object') {
                  * @param string name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
                  * @param float value (optional) The Event's value
                  */
-                trackEvent: function (category, action, name, value) {
+                trackEvent: function (category, action, name, value, callbacks) {
                     trackCallback(function () {
-                        logEvent(category, action, name, value);
+                        logEvent(category, action, name, value, null, callbacks);
                     });
                 },
 
