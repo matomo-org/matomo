@@ -74,7 +74,6 @@ class TrackerTest extends IntegrationTestCase
         if($this->tracker) {
             $this->tracker->disconnectDatabase();
         }
-        EventDispatcher::getInstance()->clearObservers('Tracker.makeNewVisitObject');
         if (array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS)) {
             unset($GLOBALS['PIWIK_TRACKER_DEBUG']);
         }

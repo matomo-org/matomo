@@ -35,7 +35,6 @@ abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
         $this->initEnvironment();
 
         File::reset();
-        EventDispatcher::getInstance()->clearAllObservers();
     }
 
     public function tearDown()

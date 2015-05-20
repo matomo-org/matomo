@@ -23,13 +23,6 @@ use Piwik\Tracker\Handler\Factory;
  */
 class FactoryTest extends IntegrationTestCase
 {
-
-    public function tearDown()
-    {
-        EventDispatcher::getInstance()->clearObservers('Tracker.initRequestSet');
-        parent::tearDown();
-    }
-
     public function test_make_shouldCreateDefaultInstance()
     {
         $handler = Factory::make();

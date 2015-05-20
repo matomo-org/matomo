@@ -139,8 +139,6 @@ class AssetManagerTest extends UnitTestCase
     private function setUpPluginManager()
     {
         $this->pluginManager = Manager::getInstance();
-
-        EventDispatcher::unsetInstance(); // EventDispatcher stores a reference to Plugin Manager
     }
 
     private function setUpPlugins()

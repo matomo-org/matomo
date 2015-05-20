@@ -9,16 +9,23 @@
 
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin;
 
 /**
  * This class allows code to post events from anywhere in Piwik and for
  * plugins to associate callbacks to be executed when events are posted.
- *
- * @method static \Piwik\EventDispatcher getInstance()
  */
-class EventDispatcher extends Singleton
+class EventDispatcher
 {
+    /**
+     * @return EventDispatcher
+     */
+    public static function getInstance()
+    {
+        return StaticContainer::get('Piwik\EventDispatcher');
+    }
+
     // implementation details for postEvent
     const EVENT_CALLBACK_GROUP_FIRST = 0;
     const EVENT_CALLBACK_GROUP_SECOND = 1;
@@ -155,30 +162,6 @@ class EventDispatcher extends Singleton
     public function addObserver($eventName, $callback)
     {
         $this->extraObservers[$eventName][] = $callback;
-    }
-
-    /**
-     * Removes all registered extra observers for an event name. Only used for testing.
-     *
-     * @param string $eventName
-     */
-    public function clearObservers($eventName)
-    {
-        $this->extraObservers[$eventName] = array();
-    }
-
-    /**
-     * Removes all registered extra observers. Only used for testing.
-     */
-    public function clearAllObservers()
-    {
-        foreach ($this->extraObservers as $eventName => $eventObservers) {
-            if (strpos($eventName, 'Log.format') === 0) {
-                continue;
-            }
-
-            $this->extraObservers[$eventName] = array();
-        }
     }
 
     /**

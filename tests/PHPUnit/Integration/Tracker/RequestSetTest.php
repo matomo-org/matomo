@@ -64,7 +64,6 @@ class RequestSetTest extends IntegrationTestCase
         $_GET  = $this->get;
         $_POST = $this->post;
 
-        EventDispatcher::getInstance()->clearObservers('Tracker.initRequestSet');
         parent::tearDown();
     }
 
