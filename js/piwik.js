@@ -513,6 +513,9 @@ if (typeof Piwik !== 'object') {
             /* decode */
             decodeWrapper = windowAlias.decodeURIComponent,
 
+            /* urldecode */
+            urldecode = unescape,
+
             /* asynchronous tracker */
             asyncTracker,
 
@@ -796,7 +799,7 @@ if (typeof Piwik !== 'object') {
          * UTF-8 encoding
          */
         function utf8_encode(argString) {
-            return decodeWrapper(encodeWrapper(argString));
+            return unescape(encodeWrapper(argString));
         }
 
         /************************************************************
