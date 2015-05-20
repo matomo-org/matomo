@@ -64,11 +64,11 @@ class EventDispatcher
     /**
      * Constructor.
      */
-    public function __construct(Plugin\Manager $pluginManager, array $globalObservers = array())
+    public function __construct(Plugin\Manager $pluginManager, array $observers = array())
     {
         $this->pluginManager = $pluginManager;
 
-        foreach ($globalObservers as $observerInfo) {
+        foreach ($observers as $observerInfo) {
             list($eventName, $callback) = $observerInfo;
             $this->extraObservers[$eventName][] = $callback;
         }
