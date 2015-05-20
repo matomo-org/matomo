@@ -1,5 +1,9 @@
 # Piwik - piwik.org
 
+[![Build Status](https://scrutinizer-ci.com/g/piwik/piwik/badges/build.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/build-status/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/piwik/piwik/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/piwik/piwik/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master)
+
 ## Description
 
 Piwik is the leading Free/Libre open analytics platform.
