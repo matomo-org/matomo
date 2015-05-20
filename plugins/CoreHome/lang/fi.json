@@ -3,7 +3,6 @@
         "CategoryNoData": "Tässä kategoriassa ei ole tietoja. Kokeile linkkiä \"Kaikki esiintymät\".",
         "CheckForUpdates": "Tarkista päivitykset",
         "CheckPiwikOut": "Tutustu Piwikiin!",
-        "ClickRowToExpandOrContract": "Klikkaa tätä riviä avataksesi tai sulkeaksesi alataulukon.",
         "CloseWidgetDirections": "Voit sulkea tämän widget-käyttöliittymän klikkaamalla \"X\"-ikonia käyttöliittymän yläreunassa.",
         "DataForThisReportHasBeenPurged": "Tämän raportin data on yli %s kuukautta vanhaa ja on poistettu.",
         "DataTableExcludeAggregateRows": "Yhdistetyt rivit ovat näkyvillä %s Piilota",
@@ -41,7 +40,6 @@
         "PeriodWeeks": "viikot",
         "PeriodYear": "Vuosi",
         "PeriodYears": "vuodet",
-        "PivotBySubtable": "Tämä raportti ei ole käännetty %s:n mukaan. Käännetty %s:llä.",
         "ReportGeneratedOn": "Raportti luotu %s",
         "ReportGeneratedXAgo": "Raportti luotu %s sitten",
         "SharePiwikLong": "Hei! Löysin juuri mahtavan avoimen lähdekoodin ohjelmiston: Piwik!\n\nPiwikin avulla voit seurata verkkosivusi kävijöitä ilmaiseksi. Kannattaa ehdottomasti tutustua!",
@@ -56,10 +54,12 @@
         "SupportPiwik": "Tue Piwikiä!",
         "TableNoData": "Ei tietoja tässä taulukossa",
         "ThereIsNoDataForThisReport": "Tähän raporttiin ei ole tietoja.",
-        "UndoPivotBySubtable": "Tämä raportti on käännetty %s:llä. Kumoa kääntö",
         "UnFlattenDataTable": "Tämä raportti on tasainen %s Muuta hierarkiseksi",
         "ViewAllPiwikVideoTutorials": "Näytä kaikki Piwikin videokurssit",
         "WebAnalyticsReports": "Raportit",
-        "YouAreUsingTheLatestVersion": "Käytössäsi on uusin versio Piwikistä!"
+        "YouAreUsingTheLatestVersion": "Käytössäsi on uusin versio Piwikistä!",
+        "ClickRowToExpandOrContract": "Klikkaa tätä riviä avataksesi tai sulkeaksesi alataulukon.",
+        "UndoPivotBySubtable": "Tämä raportti on käännetty %s:llä. Kumoa kääntö",
+        "PivotBySubtable": "Tämä raportti ei ole käännetty %s:n mukaan. Käännetty %s:llä."
     }
 }

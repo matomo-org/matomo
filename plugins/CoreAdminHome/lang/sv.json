@@ -29,7 +29,7 @@
         "JSTracking_DisableCookies": "Inaktivera spårnings cookies",
         "JSTracking_DisableCookiesDesc": "Inaktivera alla direkta cookies. Befintliga Piwik cookies för denna webbsida kommer att raderas vid nästa sidvisning.",
         "JSTracking_EnableDoNotTrack": "Aktivera klientsidan för sidan \"SpåraInte\" upptäckt",
-        "JSTracking_EnableDoNotTrack_AlreadyEnabled": "Observera: Rapporten till server sidan SpåraInteRapport har aktiverats, så det här valet kommer inte att ha någon effekt.",
+        "JSTracking_EnableDoNotTrack_AlreadyEnabled": "Observera: Rapporten till serversidan DoNotTrack har aktiverats, så det här valet kommer inte att ha någon effekt.",
         "JSTracking_EnableDoNotTrackDesc": "Ingen spårningsförfrågan kommer att skickas om inte besökare önskar att bli spårade.",
         "JSTracking_GroupPageTitlesByDomain": "Lägg till webbplatsens domän till sidans titel vid spårning",
         "JSTracking_GroupPageTitlesByDomainDesc1": "Om någon besöker \"om\" sidan på din blogg .%1$s så kommer besökets registreras som \"ditt-blogg-namn\/om\". Det här är det enklaste sättet för dig att få en överblick av din sub-domänstrafik.",

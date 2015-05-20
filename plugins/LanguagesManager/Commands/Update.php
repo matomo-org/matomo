@@ -56,6 +56,8 @@ class Update extends TranslationBase
         if (empty($plugin)) {
             $pluginList = self::getPluginsInCore();
             array_unshift($pluginList, '');
+        } else {
+            $input->setOption('force', true); // force plugin only updates
         }
 
         foreach ($pluginList as $plugin) {

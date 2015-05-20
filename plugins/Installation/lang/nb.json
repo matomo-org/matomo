@@ -74,6 +74,7 @@
         "SystemCheckWriteDirs": "Kataloger med skrivetilgang",
         "SystemCheckWriteDirsHelp": "For å fikse denne feilen på ditt Linux-system, prøv å skriv inn følgende kommando(er)",
         "SystemCheckZlibHelp": "Du må konfigurere og bygge PHP på nytt med zlib-støtte aktivert, --with-zlib.",
+        "SystemCheckUpdateHttps": "Oppdater over HTTPS",
         "NotSupported": "støttes ikke",
         "Tables": "Oppretter tabellene",
         "TablesCreatedSuccess": "Tabellene ble vellykket opprettet!",

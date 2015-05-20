@@ -362,7 +362,7 @@
         "TestIPLocatorFailed": "Piwik försökte kontrollera platsen för en känd IP-adress (%1$s), men din server returnernade %2$s. Om tjänsten var rätt inställd borde den returnerat %3$s.",
         "ThisUrlIsNotAValidGeoIPDB": "Den nedladdade filen är ingen giltig GeoIP-databas. Kontrollera din URL, eller ladda ner filen manuellt.",
         "ToGeolocateOldVisits": "Används skriptet som beskrivs %1$shär%2$s för att få platsdata för gamla besök.",
-        "UnsupportedArchiveType": "En arkivtyp som ej stödjs påträffades %1$s.",
+        "UnsupportedArchiveType": "En arkivtyp som ej stöds påträffades %1$s.",
         "UpdaterHasNotBeenRun": "Uppdateringen har aldrig körts.",
         "UpdaterIsNotScheduledToRun": "Den är inte planerad att köras i fortsättningen.",
         "UpdaterScheduledForNextRun": "Den är planerad att köras under den nästa archive.php tidssession.",

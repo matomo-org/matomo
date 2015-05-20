@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "مرورگر",
         "BrowserFamily": "خانواده مرورگر",
         "Browsers": "مرورگر ها",
         "BrowserVersion": "نسخه مرورگر",

@@ -146,6 +146,7 @@
         "ExceptionContactSupportGeneric": "Si vous avez toujours ce problème veuillez %scontacter votre administrateur Piwik%s pour obtenir de l'aide.",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "L'utilisateur doit être un Super Utilisateur ou l'utilisateur \"%s\" lui-même.",
         "ExceptionConfigurationFileNotFound": "Le fichier de configuration {%s} n'a pas été trouvé",
+        "ExceptionConfigurationFileNotFound2": "Si le fichier existe, veuillez vérifier que %s est lisible pour l'utilisateur '%s'.",
         "ExceptionDatabaseVersion": "Votre version de %1$s est %2$s mais Piwik a besoin au minimum de la version %3$s.",
         "ExceptionDatabaseVersionNewerThanCodebase": "Votre installation de Piwik fonctionne sur l'ancienne version %1$s et nous avons détecté que votre base de données a été mise à jour vers la version plus récente %2$s.",
         "ExceptionDatabaseVersionNewerThanCodebaseWait": "Peut-être que vos administrateurs Piwik sont en train de terminer le processus de mise à jour en ce moment. Veuillez réessayer dans quelques minutes.",

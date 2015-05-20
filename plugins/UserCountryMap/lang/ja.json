@@ -20,8 +20,8 @@
         "ShowingVisits": "位置情報が探索された最後の訪問",
         "Unlocated": "%c からの訪問の <b> %s <\/b> %p は、位置情報が特定できませんでした。",
         "VisitorMap": "ビジターマップ",
-        "WithUnknownCity": "未知の都市と %s",
+        "WorldWide": "世界規模",
         "WithUnknownRegion": "未知の地域と %s",
-        "WorldWide": "世界規模"
+        "WithUnknownCity": "未知の都市と %s"
     }
 }

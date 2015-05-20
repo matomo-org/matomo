@@ -1,8 +1,10 @@
 {
     "Events": {
+        "AvgValue": "Gjennomsnittlig verdi",
         "Event": "Hendelse",
         "Events": "Hendelser",
         "SwitchToSecondaryDimension": "Bytt til %s",
+        "TotalValue": "Totalverdi",
         "ViewEvents": "Vis hendelser"
     }
 }

@@ -3,7 +3,6 @@
         "CategoryNoData": "このカテゴリにデータはありません。 \"すべての母集団（統計の対象とする集団）を含める\" を試してみてください。",
         "CheckForUpdates": "アップデートの確認",
         "CheckPiwikOut": "Piwik をチェック！",
-        "ClickRowToExpandOrContract": "サブテーブルを拡大または縮小するには、この列をクリックしてください。",
         "CloseWidgetDirections": "ウィジェットの上部にある「X」アイコンをクリックして、このウィジェットを閉じることができます。",
         "DataForThisReportHasBeenPurged": "このリポートのデータは %sヶ月以上古いのでパージされました。",
         "DataTableExcludeAggregateRows": "集計行は表示 %s 隠す",
@@ -41,7 +40,6 @@
         "PeriodWeeks": "週",
         "PeriodYear": "年",
         "PeriodYears": "年",
-        "PivotBySubtable": "このレポートは、%s が %s ピボット を旋回していません。",
         "ReportGeneratedOn": "%s に生成されたリポート",
         "ReportGeneratedXAgo": "%s 前に生成されたリポート",
         "SharePiwikLong": "素晴らしい無償ソフトウェアが見つかりました ! : Piwik です! Piwik はあなたのウェブサイト訪問者を無料で追跡します。要チェック !",
@@ -56,10 +54,12 @@
         "SupportPiwik": "Piwik をサポート！",
         "TableNoData": "このテーブルにはデータがありません",
         "ThereIsNoDataForThisReport": "このリポートのデータがありません。",
-        "UndoPivotBySubtable": "このレポートは、%s 元に戻すピボットを旋回しました。",
         "UnFlattenDataTable": "リポートはフラット表示です %s 階層表示にする",
         "ViewAllPiwikVideoTutorials": "Piwik のチュートリアルビデオを全て見ます",
         "WebAnalyticsReports": "ウェブ解析リポート",
-        "YouAreUsingTheLatestVersion": "Piwik の最新バージョンを使用しています ！"
+        "YouAreUsingTheLatestVersion": "Piwik の最新バージョンを使用しています ！",
+        "ClickRowToExpandOrContract": "サブテーブルを拡大または縮小するには、この列をクリックしてください。",
+        "UndoPivotBySubtable": "このレポートは、%s 元に戻すピボットを旋回しました。",
+        "PivotBySubtable": "このレポートは、%s が %s ピボット を旋回していません。"
     }
 }

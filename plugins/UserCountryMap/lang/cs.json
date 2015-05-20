@@ -10,7 +10,7 @@
         "map": "mapa",
         "Minutes": "minut",
         "MinutesAgo": "před %s minutami",
-        "None": "Nic",
+        "None": "Žádní",
         "NoVisit": "Žádná návštěva",
         "RealTimeMap": "Mapa v reálném čase",
         "Regions": "Regiony",
@@ -20,8 +20,8 @@
         "ShowingVisits": "Geolokované návštěvy posledních",
         "Unlocated": "<b>%s<\/b> %p z návštěv z %c nebylo možné geolokovat.",
         "VisitorMap": "Mapa návštěvníků",
-        "WithUnknownCity": "%s s neznámým městem",
+        "WorldWide": "Celosvětová",
         "WithUnknownRegion": "%s s neznámým regionem",
-        "WorldWide": "Celosvětová"
+        "WithUnknownCity": "%s s neznámým městem"
     }
 }
