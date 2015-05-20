@@ -178,18 +178,7 @@ class Piwik_TestingEnvironment
             }
         }
 
-        if (!empty($diConfig)) {
-            StaticContainer::addDefinitions($diConfig);
-        }
-
         \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
-
-        Piwik::addAction('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
-            if (!$testingEnvironment->testUseRegularAuth) {
-                $access = new Piwik_MockAccess($access);
-                \Piwik\Access::setSingletonInstance($access);
-            }
-        });
 
         $pluginsToLoad = $testingEnvironment->getCoreAndSupportedPlugins();
         if (!empty($testingEnvironment->pluginsToLoad)) {
@@ -197,6 +186,13 @@ class Piwik_TestingEnvironment
         }
 
         sort($pluginsToLoad);
+
+        $globalObservers[] = array('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
+            if (!$testingEnvironment->testUseRegularAuth) {
+                $access = new Piwik_MockAccess($access);
+                \Piwik\Access::setSingletonInstance($access);
+            }
+        });
 
         if (!$testingEnvironment->dontUseTestConfig) {
             $globalObservers[] = array('Config.createConfigSingleton', function(IniFileChain $chain) use ($testingEnvironment, $pluginsToLoad) {
@@ -307,6 +303,8 @@ class Piwik_TestingEnvironment
         });
 
         $diConfig['observers.global'] = \DI\add($globalObservers);
+
+        StaticContainer::addDefinitions($diConfig);
     }
 
     public function arrayMergeRecursiveDistinct(array $array1, array $array2)
