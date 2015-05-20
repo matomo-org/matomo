@@ -2051,18 +2051,18 @@ function PiwikTest() {
         equal( typeof tracker.hook.test._encode, 'function', 'encodeWrapper' );
     });
 
-    test("Tracker encode, decode, urldecode wrappers", function() {
+        test("Tracker encode, decode wrappers", function() {
         expect(6);
 
         var tracker = Piwik.getTracker();
 
         equal( typeof tracker.hook.test._encode, 'function', 'encodeWrapper' );
         equal( typeof tracker.hook.test._decode, 'function', 'decodeWrapper' );
-        equal( typeof tracker.hook.test._urldecode, 'function', 'urldecodeWrapper' );
 
         equal( tracker.hook.test._encode("&=?;/#"), '%26%3D%3F%3B%2F%23', 'encodeWrapper()' );
         equal( tracker.hook.test._decode("%26%3D%3F%3B%2F%23"), '&=?;/#', 'decodeWrapper()' );
-        equal( tracker.hook.test._urldecode("mailto:%69%6e%66%6f@%65%78%61%6d%70%6c%65.%63%6f%6d"), 'mailto:info@example.com', 'decodeWrapper()' );
+        equal( tracker.hook.test._decode("mailto:%69%6e%66%6f@%65%78%61%6d%70%6c%65.%63%6f%6d"), 'mailto:info@example.com', 'decodeWrapper()' );
+        equal( tracker.hook.test._decode("http://example.org/2013/06/test.php?param[]=1&test2=%D8%A5%D9%86%D8%B4%D8%A7%D8%A1-%D9%86%D8%B3%D8%AE%D8%A9-%D9%85%D8%AE%D8%B5%D8%B5%D8%A9-%D9%86%D8%B8%D8%A7%D9%85-%D8%AA%D8%B4%D8%BA%D9%8A%D9%84-%D8%A3%D9%88%D8%A8%D9%86%D8%AA%D9%88-%D8%A8/"), 'http://example.org/2013/06/test.php?param[]=1&test2=%D8%A5%D9%86%D8%B4%D8%A7%D8%A1-%D9%86%D8%B3%D8%AE%D8%A9-%D9%85%D8%AE%D8%B5%D8%B5%D8%A9-%D9%86%D8%B8%D8%A7%D9%85-%D8%AA%D8%B4%D8%BA%D9%8A%D9%84-%D8%A3%D9%88%D8%A8%D9%86%D8%AA%D9%88-%D8%A8/', 'decodeWrapper()' );
     });
     
     test("Tracker getHostName(), getParameter(), urlFixup(), domainFixup(), titleFixup() and purify()", function() {

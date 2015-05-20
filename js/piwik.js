@@ -513,9 +513,6 @@ if (typeof Piwik !== 'object') {
             /* decode */
             decodeWrapper = windowAlias.decodeURIComponent,
 
-            /* urldecode */
-            urldecode = unescape,
-
             /* asynchronous tracker */
             asyncTracker,
 
@@ -799,7 +796,7 @@ if (typeof Piwik !== 'object') {
          * UTF-8 encoding
          */
         function utf8_encode(argString) {
-            return urldecode(encodeWrapper(argString));
+            return decodeWrapper(encodeWrapper(argString));
         }
 
         /************************************************************
@@ -3857,8 +3854,7 @@ if (typeof Piwik !== 'object') {
                 var link = getLinkIfShouldBeProcessed(sourceElement);
 
                 if (link && link.type) {
-                    // urldecode %xx
-                    link.href = urldecode(link.href);
+                    link.href = decodeWrapper(link.href);
                     logLink(link.href, link.type, undefined, null, sourceElement);
                 }
             }
