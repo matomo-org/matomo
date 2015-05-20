@@ -2661,23 +2661,30 @@ if (typeof Piwik !== 'object') {
              */
             function sendRequest(request, delay, callbacks) {
 
-                var callbacks = {};
+                var cb = callbacks || {};
 
-                if(callback) {
+                // Compatibility for eventLink
+                if('function' === typeof cb) {
+                    cb = {
+                        success: callbacks,
+                        error: callbacks
+                    };
+                }
 
-                    if('function' !== callback) {
-                        callbacks = callback;
-                    }else{
-                        callbacks.error = callbacks.success = callback;
-                    }
+                if(!cb.error) {
+                    cb.error = function() {};
+                }
+
+                if(!cb.success) {
+                    cb.success = function() {};
                 }
 
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                         if (configRequestMethod === 'POST') {
-                            sendXmlHttpRequest(request, callbacks);
+                            sendXmlHttpRequest(request, cb);
                         } else {
-                            getImage(request, callbacks);
+                            getImage(request, cb);
                         }
 
                         setExpireDateTime(delay);
