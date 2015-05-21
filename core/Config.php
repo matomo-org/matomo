@@ -38,7 +38,7 @@ use Piwik\Container\StaticContainer;
  *     Config::getInstance()->MySection = array('myoption' => 1);
  *     Config::getInstance()->forceSave();
  */
-class Config extends Singleton
+class Config
 {
     const DEFAULT_LOCAL_CONFIG_PATH = '/config/config.ini.php';
     const DEFAULT_COMMON_CONFIG_PATH = '/config/common.config.ini.php';

@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration;
 
-use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\EventDispatcher;
@@ -58,8 +57,6 @@ class TrackerTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
-
-        Config::unsetInstance();
 
         Fixture::createWebsite('2014-01-01 00:00:00');
 
@@ -151,8 +148,6 @@ class TrackerTest extends IntegrationTestCase
         $this->removeConfigFile();
 
         $this->assertFalse(is_readable(Config::getInstance()->getLocalPath()));
-
-        Config::unsetInstance();
 
         Tracker::loadTrackerEnvironment();
 

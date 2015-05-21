@@ -49,7 +49,6 @@ class RequestCommand extends ConsoleCommand
         $this->initHostAndQueryString($input);
 
         if ($this->isTestModeEnabled()) {
-            Config::setSingletonInstance(new TestConfig());
             $indexFile = '/tests/PHPUnit/proxy/';
 
             $this->resetDatabase();

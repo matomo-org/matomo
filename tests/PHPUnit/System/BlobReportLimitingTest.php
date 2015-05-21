@@ -174,8 +174,6 @@ class BlobReportLimitingTest extends SystemTestCase
 
     protected static function setUpConfigOptions()
     {
-        Config::setSingletonInstance(new TestConfig());
-
         $generalConfig =& Config::getInstance()->General;
         $generalConfig['datatable_archiving_maximum_rows_referers'] = 3;
         $generalConfig['datatable_archiving_maximum_rows_subtable_referers'] = 2;

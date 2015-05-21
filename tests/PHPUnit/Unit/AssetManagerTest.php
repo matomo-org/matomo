@@ -117,8 +117,6 @@ class AssetManagerTest extends UnitTestCase
         $userFile = PIWIK_INCLUDE_PATH . '/' . self::ASSET_MANAGER_TEST_DIR . 'configs/' . $filename;
         $globalFile = PIWIK_INCLUDE_PATH . '/' . self::ASSET_MANAGER_TEST_DIR . 'configs/plugins.ini.php';
 
-        Config::setSingletonInstance(new TestConfig($globalFile, $userFile));
-
         $this->initEnvironment();
     }
 

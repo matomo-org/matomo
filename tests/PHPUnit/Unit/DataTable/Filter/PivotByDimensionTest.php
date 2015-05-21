@@ -14,7 +14,6 @@ use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\DataTable\Row;
 use Piwik\Plugin\Manager as PluginManager;
 use Exception;
-use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
@@ -59,8 +58,6 @@ class PivotByDimensionTest extends UnitTestCase
         Proxy::setSingletonInstance($proxyMock);
 
         $this->segmentTableCount = 0;
-
-        Config::setSingletonInstance(new TestConfig());
     }
 
     public function tearDown()
