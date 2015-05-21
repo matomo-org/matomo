@@ -13,7 +13,6 @@ use Piwik\Config;
 class TestConfig extends Config
 {
     private $allowSave = false;
-    private $isSettingTestEnv = false;
     private $doSetTestEnvironment = false;
 
     public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null, $allowSave = false, $doSetTestEnvironment = true)
@@ -33,28 +32,9 @@ class TestConfig extends Config
 
     public function reload($pathLocal = null, $pathGlobal = null, $pathCommon = null)
     {
-        if ($this->isSettingTestEnv) {
-            parent::reload($pathGlobal, $pathLocal, $pathCommon);
-        } else {
-            $this->isSettingTestEnv = true;
-            $this->setTestEnvironment($pathLocal, $pathGlobal, $pathCommon, $this->allowSave);
-            $this->isSettingTestEnv = false;
-        }
-    }
+        parent::reload($pathGlobal, $pathLocal, $pathCommon);
 
-    public function setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null, $allowSaving = false)
-    {
-        if ($this->doSetTestEnvironment) {
-            parent::setTestEnvironment($pathLocal, $pathGlobal, $pathCommon, $allowSaving);
-        } else {
-            $this->doNotWriteConfigInTests = !$allowSaving;
-
-            $this->pathLocal = $pathLocal ?: Config::getLocalConfigPath();
-            $this->pathGlobal = $pathGlobal ?: Config::getGlobalConfigPath();
-            $this->pathCommon = $pathCommon ?: Config::getCommonConfigPath();
-
-            $this->reload();
-        }
+        $this->setTestEnvironment();
     }
 
     public function forceSave()
@@ -62,6 +42,36 @@ class TestConfig extends Config
         if ($this->allowSave) {
             parent::forceSave();
         }
+    }
+
+    public function setTestEnvironment()
+    {
+        if (!$this->allowSave) {
+            $this->doNotWriteConfigInTests = true;
+        }
+
+        $chain = $this->settings->getIniFileChain();
+
+        $databaseTestsSettings = $chain->get('database_tests'); // has to be __get otherwise when called from TestConfig, PHP will issue a NOTICE
+        if (!empty($databaseTestsSettings)) {
+            $chain->set('database', $databaseTestsSettings);
+        }
+
+        // Ensure local mods do not affect tests
+        if (empty($pathGlobal)) {
+            $chain->set('Debug', $chain->getFrom($this->getGlobalPath(), 'Debug'));
+            $chain->set('mail', $chain->getFrom($this->getGlobalPath(), 'mail'));
+            $chain->set('General', $chain->getFrom($this->getGlobalPath(), 'General'));
+            $chain->set('Segments', $chain->getFrom($this->getGlobalPath(), 'Segments'));
+            $chain->set('Tracker', $chain->getFrom($this->getGlobalPath(), 'Tracker'));
+            $chain->set('Deletelogs', $chain->getFrom($this->getGlobalPath(), 'Deletelogs'));
+            $chain->set('Deletereports', $chain->getFrom($this->getGlobalPath(), 'Deletereports'));
+            $chain->set('Development', $chain->getFrom($this->getGlobalPath(), 'Development'));
+        }
+
+        // for unit tests, we set that no plugin is installed. This will force
+        // the test initialization to create the plugins tables, execute ALTER queries, etc.
+        $chain->set('PluginsInstalled', array('PluginsInstalled' => array()));
     }
 
     private function setFromTestEnvironment(\Piwik_TestingEnvironment $testingEnvironment)

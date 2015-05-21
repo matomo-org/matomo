@@ -91,46 +91,6 @@ class Config extends Singleton
     }
 
     /**
-     * Enable test environment
-     *
-     * @param string $pathLocal
-     * @param string $pathGlobal
-     * @param string $pathCommon
-     * @deprecated
-     */
-    public function setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null, $allowSaving = false)
-    {
-        if (!$allowSaving) {
-            $this->doNotWriteConfigInTests = true;
-        }
-
-        $this->reload($pathLocal, $pathGlobal, $pathCommon);
-
-        $chain = $this->settings->getIniFileChain();
-
-        $databaseTestsSettings = $chain->get('database_tests'); // has to be __get otherwise when called from TestConfig, PHP will issue a NOTICE
-        if (!empty($databaseTestsSettings)) {
-            $chain->set('database', $databaseTestsSettings);
-        }
-
-        // Ensure local mods do not affect tests
-        if (empty($pathGlobal)) {
-            $chain->set('Debug', $chain->getFrom($this->getGlobalPath(), 'Debug'));
-            $chain->set('mail', $chain->getFrom($this->getGlobalPath(), 'mail'));
-            $chain->set('General', $chain->getFrom($this->getGlobalPath(), 'General'));
-            $chain->set('Segments', $chain->getFrom($this->getGlobalPath(), 'Segments'));
-            $chain->set('Tracker', $chain->getFrom($this->getGlobalPath(), 'Tracker'));
-            $chain->set('Deletelogs', $chain->getFrom($this->getGlobalPath(), 'Deletelogs'));
-            $chain->set('Deletereports', $chain->getFrom($this->getGlobalPath(), 'Deletereports'));
-            $chain->set('Development', $chain->getFrom($this->getGlobalPath(), 'Development'));
-        }
-
-        // for unit tests, we set that no plugin is installed. This will force
-        // the test initialization to create the plugins tables, execute ALTER queries, etc.
-        $chain->set('PluginsInstalled', array('PluginsInstalled' => array()));
-    }
-
-    /**
      * Returns absolute path to the global configuration file
      *
      * @return string
