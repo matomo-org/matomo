@@ -48,16 +48,33 @@ class CronArchiveTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $api->getInvalidatedReports());
     }
 
+    public function test_setSegmentsToForceFromSegmentIds_CorrectlyGetsSegmentDefinitions_FromSegmentIds()
+    {
+        Fixture::createWebsite('2014-12-12 00:01:02');
+        SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
+        SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+        SegmentAPI::getInstance()->add('burb', 'actions>=3', 1, true, true);
+        SegmentAPI::getInstance()->add('sub', 'actions>=4', 1, true, true);
+
+        $cronarchive = new TestCronArchive(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
+        $cronarchive->setSegmentsToForceFromSegmentIds(array(2, 4));
+
+        $expectedSegments = array('actions>=2', 'actions>=4');
+        $this->assertEquals($expectedSegments, array_values($cronarchive->segmentsToForce));
+    }
+
     public function test_output()
     {
         Fixture::createWebsite('2014-12-12 00:01:02');
         SegmentAPI::getInstance()->add('foo', 'actions>=2', 1, true, true);
+        SegmentAPI::getInstance()->add('burr', 'actions>=4', 1, true, true);
 
         $logger = new FakeLogger();
 
         $archiver = new CronArchive(null, $logger);
         $archiver->shouldArchiveAllSites = true;
         $archiver->shouldArchiveAllPeriodsSince = true;
+        $archiver->segmentsToForce = array('actions>=2;browserCode=FF', 'actions>=2');
         $archiver->init();
         $archiver->run();
 
@@ -72,23 +89,30 @@ NOTES
 - Reports for today will be processed at most every %s seconds. You can change this value in Piwik UI > Settings > General Settings.
 - Reports for the current week/month/year will be refreshed at most every %s seconds.
 - Will process all 1 websites
+- Limiting segment archiving to following segments:
+  * actions>=2;browserCode=FF
+  * actions>=2
 ---------------------------
 START
 Starting Piwik reports archiving...
 Will pre-process for website id = 1, day period
 - pre-processing all visits
+- skipping segment archiving for 'actions>=4'.
 - pre-processing segment 1/1 actions>=2
 Archived website id = 1, period = day, 1 segments, 0 visits in last %s days, 0 visits today, Time elapsed: %s
 Will pre-process for website id = 1, week period
 - pre-processing all visits
+- skipping segment archiving for 'actions>=4'.
 - pre-processing segment 1/1 actions>=2
 Archived website id = 1, period = week, 1 segments, 0 visits in last %s weeks, 0 visits this week, Time elapsed: %s
 Will pre-process for website id = 1, month period
 - pre-processing all visits
+- skipping segment archiving for 'actions>=4'.
 - pre-processing segment 1/1 actions>=2
 Archived website id = 1, period = month, 1 segments, 0 visits in last %s months, 0 visits this month, Time elapsed: %s
 Will pre-process for website id = 1, year period
 - pre-processing all visits
+- skipping segment archiving for 'actions>=4'.
 - pre-processing segment 1/1 actions>=2
 Archived website id = 1, period = year, 1 segments, 0 visits in last %s years, 0 visits this year, Time elapsed: %s
 Archived website id = 1, %s API requests, Time elapsed: %s [1/1 done]

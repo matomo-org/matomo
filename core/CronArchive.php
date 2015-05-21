@@ -21,6 +21,7 @@ use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
+use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\UserPreferences;
@@ -189,6 +190,14 @@ class CronArchive
      */
     public $concurrentRequestsPerWebsite = false;
 
+    /**
+     * List of segment strings to force archiving for. If a stored segment is not in this list, it will not
+     * be archived.
+     *
+     * @var string[]
+     */
+    public $segmentsToForce = array();
+
     private $websitesWithVisitsSinceLastRun = 0;
     private $skippedPeriodsArchivesWebsite = 0;
     private $skippedDayArchivesWebsites = 0;
@@ -277,6 +286,8 @@ class CronArchive
         if ($this->websites->getInitialSiteIds() != $websitesIds) {
             $this->logger->info('Will ignore websites and help finish a previous started queue instead. IDs: ' . implode(', ', $this->websites->getInitialSiteIds()));
         }
+
+        $this->logForcedSegmentInfo();
 
         /**
          * This event is triggered after a CronArchive instance is initialized.
@@ -392,6 +403,26 @@ class CronArchive
         $this->logError($m);
 
         throw new Exception($m);
+    }
+
+    /**
+     * @param int[] $idSegments
+     */
+    public function setSegmentsToForceFromSegmentIds($idSegments)
+    {
+        /** @var SegmentEditorModel $segmentEditorModel */
+        $segmentEditorModel = StaticContainer::get('Piwik\Plugins\SegmentEditor\Model');
+        $segments = $segmentEditorModel->getAllSegmentsAndIgnoreVisibility();
+
+        $segments = array_filter($segments, function ($segment) use ($idSegments) {
+            return in_array($segment['idsegment'], $idSegments);
+        });
+
+        $segments = array_map(function ($segment) {
+            return $segment['definition'];
+        }, $segments);
+
+        $this->segmentsToForce = $segments;
     }
 
     public function runScheduledTasks()
@@ -1413,10 +1444,21 @@ class CronArchive
     private function getUrlsWithSegment($idSite, $period, $date)
     {
         $urlsWithSegment = array();
-        $segments = $this->getSegmentsForSite($idSite, $period);
+        $segmentsForSite = $this->getSegmentsForSite($idSite, $period);
+
+        $segments = array();
+        foreach ($segmentsForSite as $segment) {
+            if ($this->shouldSkipSegmentArchiving($segment)) {
+                $this->logger->info("- skipping segment archiving for '{segment}'.", array('segment' => $segment));
+
+                continue;
+            }
+
+            $segments[] = $segment;
+        }
+
         $segmentCount = count($segments);
         $processedSegmentCount = 0;
-
         foreach ($segments as $segment) {
             $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
 
@@ -1468,5 +1510,22 @@ class CronArchive
             $period
         ));
         $this->logger->info('- pre-processing all visits');
+    }
+
+    private function shouldSkipSegmentArchiving($segment)
+    {
+        return !empty($this->segmentsToForce) && !in_array($segment, $this->segmentsToForce);
+    }
+
+    private function logForcedSegmentInfo()
+    {
+        if (empty($this->segmentsToForce)) {
+            return;
+        }
+
+        $this->logger->info("- Limiting segment archiving to following segments:");
+        foreach ($this->segmentsToForce as $segmentDefinition) {
+            $this->logger->info("  * " . $segmentDefinition);
+        }
     }
 }
