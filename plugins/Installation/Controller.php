@@ -229,12 +229,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'tablesCreation'
         );
 
+        $oldVersion = Option::get('version_core');
+
         $result = $this->updateComponents();
         if ($result === false) {
             $this->redirectToNextStep('tablesCreation');
         }
-
-        $oldVersion = Option::get('version_core');
 
         $view->coreError       = $result['coreError'];
         $view->warningMessages = $result['warnings'];
