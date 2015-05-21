@@ -83,7 +83,7 @@ sudo: required
 
 script: 
   - $PIWIK_ROOT_DIR/tests/travis/travis.sh
-  - php ./vendor/bin/php-cs-fixer fix --level=psr2 --fixers=unused_use -v --dry-run ./core
+  - php $PIWIK_ROOT_DIR/vendor/bin/php-cs-fixer fix --level=psr2 --fixers=unused_use -v --dry-run $PIWIK_ROOT_DIR/core
 
 before_install:
   # do not use the Zend allocator on PHP 5.3 since it will randomly segfault after program execution
