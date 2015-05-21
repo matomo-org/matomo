@@ -69,12 +69,6 @@ class TrackerTest extends UnitTestCase
         $this->requestSet->setRequests(array($this->buildRequest(1), $this->buildRequest(1)));
     }
 
-    public function tearDown()
-    {
-        EventDispatcher::getInstance()->clearObservers('Tracker.end');
-        parent::tearDown();
-    }
-
     public function test_isDebugModeEnabled_shouldReturnFalse_ByDefault()
     {
         unset($GLOBALS['PIWIK_TRACKER_DEBUG']);

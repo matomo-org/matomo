@@ -9,16 +9,23 @@
 
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin;
 
 /**
  * This class allows code to post events from anywhere in Piwik and for
  * plugins to associate callbacks to be executed when events are posted.
- *
- * @method static \Piwik\EventDispatcher getInstance()
  */
-class EventDispatcher extends Singleton
+class EventDispatcher
 {
+    /**
+     * @return EventDispatcher
+     */
+    public static function getInstance()
+    {
+        return StaticContainer::get('Piwik\EventDispatcher');
+    }
+
     // implementation details for postEvent
     const EVENT_CALLBACK_GROUP_FIRST = 0;
     const EVENT_CALLBACK_GROUP_SECOND = 1;
@@ -57,9 +64,14 @@ class EventDispatcher extends Singleton
     /**
      * Constructor.
      */
-    public function __construct($pluginManager = null)
+    public function __construct(Plugin\Manager $pluginManager, array $observers = array())
     {
         $this->pluginManager = $pluginManager;
+
+        foreach ($observers as $observerInfo) {
+            list($eventName, $callback) = $observerInfo;
+            $this->extraObservers[$eventName][] = $callback;
+        }
     }
 
     /**
@@ -80,7 +92,7 @@ class EventDispatcher extends Singleton
             $this->pendingEvents[] = array($eventName, $params);
         }
 
-        $manager = $this->getPluginManager();
+        $manager = $this->pluginManager;
 
         if (empty($plugins)) {
             $plugins = $manager->getPluginsLoadedAndActivated();
@@ -158,30 +170,6 @@ class EventDispatcher extends Singleton
     }
 
     /**
-     * Removes all registered extra observers for an event name. Only used for testing.
-     *
-     * @param string $eventName
-     */
-    public function clearObservers($eventName)
-    {
-        $this->extraObservers[$eventName] = array();
-    }
-
-    /**
-     * Removes all registered extra observers. Only used for testing.
-     */
-    public function clearAllObservers()
-    {
-        foreach ($this->extraObservers as $eventName => $eventObservers) {
-            if (strpos($eventName, 'Log.format') === 0) {
-                continue;
-            }
-
-            $this->extraObservers[$eventName] = array();
-        }
-    }
-
-    /**
      * Re-posts all pending events to the given plugin.
      *
      * @param Plugin $plugin
@@ -212,19 +200,5 @@ class EventDispatcher extends Singleton
         }
 
         return array($pluginFunction, $callbackGroup);
-    }
-
-    /**
-     * Returns the Plugin\Manager instance used by the event dispatcher.
-     *
-     * @return Plugin\Manager
-     */
-    private function getPluginManager()
-    {
-        if ($this->pluginManager === null) {
-            return Plugin\Manager::getInstance(); // caching the var breaks DI for now since only Plugin\Manager is in the container.
-        } else {
-            return $this->pluginManager;
-        }
     }
 }

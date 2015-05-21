@@ -154,8 +154,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             GlobalSettingsProvider::unsetSingletonInstance();
         }
 
-        $this->piwikEnvironment = new Environment('test');
-        $this->piwikEnvironment->init();
+        $this->createEnvironmentInstance();
 
         if ($this->createConfig) {
             Config::setSingletonInstance(new TestConfig());
@@ -257,7 +256,6 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $this->getTestEnvironment()->save();
         $this->getTestEnvironment()->executeSetupTestEnvHook();
-        Piwik_TestingEnvironment::addSendMailHook();
 
         PiwikCache::getTransientCache()->flushAll();
 
@@ -326,7 +324,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         PiwikCache::getEagerCache()->flushAll();
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
-        EventDispatcher::getInstance()->clearAllObservers();
 
         $_GET = $_REQUEST = array();
         Translate::reset();
@@ -914,5 +911,11 @@ class Fixture extends \PHPUnit_Framework_Assert
     public function provideContainerConfig()
     {
         return array();
+    }
+
+    public function createEnvironmentInstance()
+    {
+        $this->piwikEnvironment = new Environment('test');
+        $this->piwikEnvironment->init();
     }
 }

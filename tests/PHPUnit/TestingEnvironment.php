@@ -127,7 +127,7 @@ class Piwik_TestingEnvironment
         return $plugins;
     }
 
-    public static function addHooks()
+    public static function addHooks($globalObservers = array())
     {
         $testingEnvironment = new Piwik_TestingEnvironment();
 
@@ -178,18 +178,7 @@ class Piwik_TestingEnvironment
             }
         }
 
-        if (!empty($diConfig)) {
-            StaticContainer::addDefinitions($diConfig);
-        }
-
         \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
-
-        Piwik::addAction('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
-            if (!$testingEnvironment->testUseRegularAuth) {
-                $access = new Piwik_MockAccess($access);
-                \Piwik\Access::setSingletonInstance($access);
-            }
-        });
 
         $pluginsToLoad = $testingEnvironment->getCoreAndSupportedPlugins();
         if (!empty($testingEnvironment->pluginsToLoad)) {
@@ -198,8 +187,15 @@ class Piwik_TestingEnvironment
 
         sort($pluginsToLoad);
 
+        $globalObservers[] = array('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
+            if (!$testingEnvironment->testUseRegularAuth) {
+                $access = new Piwik_MockAccess($access);
+                \Piwik\Access::setSingletonInstance($access);
+            }
+        });
+
         if (!$testingEnvironment->dontUseTestConfig) {
-            Piwik::addAction('Config.createConfigSingleton', function(IniFileChain $chain) use ($testingEnvironment, $pluginsToLoad) {
+            $globalObservers[] = array('Config.createConfigSingleton', function(IniFileChain $chain) use ($testingEnvironment, $pluginsToLoad) {
                 $general =& $chain->get('General');
                 $plugins =& $chain->get('Plugins');
                 $log =& $chain->get('log');
@@ -233,12 +229,18 @@ class Piwik_TestingEnvironment
             ));
         } else {
             \Piwik\Application\Kernel\GlobalSettingsProvider::unsetSingletonInstance();
-            
+
             Config::setSingletonInstance(new Config(
                 $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
             ));
         }
-        Piwik::addAction('Request.dispatch', function() use ($testingEnvironment) {
+
+        $globalObservers[] = array('Environment.bootstrapped', function () use ($testingEnvironment) {
+            $testingEnvironment->logVariables();
+            $testingEnvironment->executeSetupTestEnvHook();
+        });
+
+        $globalObservers[] = array('Request.dispatch', function () use ($testingEnvironment) {
             if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
                 try {
                     \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
@@ -246,7 +248,6 @@ class Piwik_TestingEnvironment
                     // ignore (in case DB is not setup)
                 }
             }
-
             if ($testingEnvironment->optionsOverride) {
                 try {
                     foreach ($testingEnvironment->optionsOverride as $name => $value) {
@@ -256,28 +257,43 @@ class Piwik_TestingEnvironment
                     // ignore (in case DB is not setup)
                 }
             }
-
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
             \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
             \Piwik\Plugins\ExampleUI\API::$disableRandomness = true;
         });
-        Piwik::addAction('AssetManager.getStylesheetFiles', function(&$stylesheets) {
+
+        $globalObservers[] = array('AssetManager.getStylesheetFiles', function (&$stylesheets) {
             $stylesheets[] = 'tests/resources/screenshot-override/override.css';
         });
-        Piwik::addAction('AssetManager.getJavaScriptFiles', function(&$jsFiles) {
+
+        $globalObservers[] = array('AssetManager.getJavaScriptFiles', function (&$jsFiles) {
             $jsFiles[] = 'tests/resources/screenshot-override/override.js';
         });
-        self::addSendMailHook();
-        Piwik::addAction('Updater.checkForUpdates', function () {
+
+        $globalObservers[] = array('Updater.checkForUpdates', function () {
             try {
                 @\Piwik\Filesystem::deleteAllCacheOnUpdate();
             } catch (Exception $ex) {
                 // pass
             }
         });
-        Piwik::addAction('Platform.initialized', function () use ($testingEnvironment) {
-            static $archivingTablesDeleted = false;
 
+        $globalObservers[] = array('Test.Mail.send', function (\Zend_Mail $mail) {
+            $outputFile = PIWIK_INCLUDE_PATH . '/tmp/' . Common::getRequestVar('module', '') . '.' . Common::getRequestVar('action', '') . '.mail.json';
+            $outputContent = str_replace("=\n", "", $mail->getBodyText($textOnly = true));
+            $outputContent = str_replace("=0A", "\n", $outputContent);
+            $outputContent = str_replace("=3D", "=", $outputContent);
+            $outputContents = array(
+                'from' => $mail->getFrom(),
+                'to' => $mail->getRecipients(),
+                'subject' => $mail->getSubject(),
+                'contents' => $outputContent
+            );
+            file_put_contents($outputFile, json_encode($outputContents));
+        });
+
+        $globalObservers[] = array('Platform.initialized', function () use ($testingEnvironment) {
+            static $archivingTablesDeleted = false;
             if ($testingEnvironment->deleteArchiveTables
                 && !$archivingTablesDeleted
             ) {
@@ -285,30 +301,10 @@ class Piwik_TestingEnvironment
                 DbHelper::deleteArchiveTables();
             }
         });
-        Piwik::addAction('Environment.bootstrapped', function () use ($testingEnvironment) {
-            $testingEnvironment->logVariables();
-            $testingEnvironment->executeSetupTestEnvHook();
-        });
-    }
 
-    public static function addSendMailHook()
-    {
-        Piwik::addAction('Test.Mail.send', function($mail) {
-            $outputFile = PIWIK_INCLUDE_PATH . '/tmp/' . Common::getRequestVar('module', '') . '.' . Common::getRequestVar('action', '') . '.mail.json';
+        $diConfig['observers.global'] = \DI\add($globalObservers);
 
-            $outputContent = str_replace("=\n", "", $mail->getBodyText($textOnly = true));
-            $outputContent = str_replace("=0A", "\n", $outputContent);
-            $outputContent = str_replace("=3D", "=", $outputContent);
-
-            $outputContents = array(
-                'from'     => $mail->getFrom(),
-                'to'       => $mail->getRecipients(),
-                'subject'  => $mail->getSubject(),
-                'contents' => $outputContent
-            );
-
-            file_put_contents($outputFile, json_encode($outputContents));
-        });
+        StaticContainer::addDefinitions($diConfig);
     }
 
     public function arrayMergeRecursiveDistinct(array $array1, array $array2)

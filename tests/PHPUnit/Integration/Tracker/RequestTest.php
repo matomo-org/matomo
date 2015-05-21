@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
-use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\UsersManager\API;
@@ -50,12 +49,6 @@ class RequestTest extends IntegrationTestCase
         Cache::deleteTrackerCache();
 
         $this->request = $this->buildRequest(array('idsite' => '1'));
-    }
-
-    public function tearDown()
-    {
-        EventDispatcher::getInstance()->clearObservers('Request.initAuthenticationObject');
-        parent::tearDown();
     }
 
     public function test_getCustomVariablesInVisitScope_ShouldReturnNoCustomVars_IfNoWerePassedInParams()

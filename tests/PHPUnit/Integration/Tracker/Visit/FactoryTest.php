@@ -24,13 +24,6 @@ use Piwik\Tracker\Visit\Factory;
  */
 class FactoryTest extends IntegrationTestCase
 {
-
-    public function tearDown()
-    {
-        EventDispatcher::getInstance()->clearObservers('Tracker.makeNewVisitObject');
-        parent::tearDown();
-    }
-
     public function test_make_shouldCreateDefaultInstance()
     {
         $visit = Factory::make();

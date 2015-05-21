@@ -55,7 +55,7 @@ class ManagerTest extends IntegrationTestCase
 
     public function test_loadTrackerPlugins_shouldBeAbleToLoadPluginsCorrectWhenItIsCached()
     {
-        $pluginsToLoad = array('CoreHome', 'UserLanguage', 'Login', 'CoreAdminHome');
+        $pluginsToLoad = array('CoreAdminHome', 'CoreHome', 'UserLanguage', 'Login');
         $this->getCacheForTrackerPlugins()->save($this->trackerCacheId, $pluginsToLoad);
 
         $pluginsToLoad = $this->manager->loadTrackerPlugins();
