@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 
 /**
@@ -78,27 +79,12 @@ class Access
      */
     private $auth = null;
 
-    private static $instance = null;
-
     /**
-     * Gets the singleton instance. Creates it if necessary.
+     * @return Access
      */
     public static function getInstance()
     {
-        if (self::$instance == null) {
-            self::$instance = new self;
-
-            Piwik::postEvent('Access.createAccessSingleton', array(&self::$instance));
-        }
-        return self::$instance;
-    }
-
-    /**
-     * Sets the singleton instance. For testing purposes.
-     */
-    public static function setSingletonInstance($instance)
-    {
-        self::$instance = $instance;
+        return StaticContainer::get('Piwik\Access');
     }
 
     /**

@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration\Tracker\Handler;
 
-use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker;
@@ -23,13 +22,6 @@ use Piwik\Tracker\Handler\Factory;
  */
 class FactoryTest extends IntegrationTestCase
 {
-
-    public function tearDown()
-    {
-        EventDispatcher::getInstance()->clearObservers('Tracker.initRequestSet');
-        parent::tearDown();
-    }
-
     public function test_make_shouldCreateDefaultInstance()
     {
         $handler = Factory::make();

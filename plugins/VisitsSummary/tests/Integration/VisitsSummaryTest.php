@@ -8,11 +8,9 @@
 
 namespace Piwik\Plugins\VisitsSummary\tests\Integration;
 
-use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
-use Piwik\Plugins\Live\API;
 use Piwik\Plugins\VisitsSummary\VisitsSummary;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -175,8 +173,13 @@ class VisitsSummaryTest extends IntegrationTestCase
 
     private function setSuperUser()
     {
-        $pseudoMockAccess = new FakeAccess();
-        $pseudoMockAccess::setSuperUserAccess(true);
-        Access::setSingletonInstance($pseudoMockAccess);
+        FakeAccess::$superUser = true;
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

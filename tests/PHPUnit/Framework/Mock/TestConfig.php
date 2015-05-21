@@ -8,8 +8,10 @@
 
 namespace Piwik\Tests\Framework\Mock;
 
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Tests\Framework\TestingEnvironment;
 
 class TestConfig extends Config
 {
@@ -18,25 +20,28 @@ class TestConfig extends Config
     private $isConfigTestEventPosted = false;
     private $doSetTestEnvironment = false;
 
-    public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null, $allowSave = false, $doSetTestEnvironment = true)
+    public function __construct(GlobalSettingsProvider $settings, $allowSave = false, $doSetTestEnvironment = true,
+                                TestingEnvironment $testingEnvironment = null)
     {
-        \Piwik\Application\Kernel\GlobalSettingsProvider::unsetSingletonInstance();
-
-        parent::__construct($pathGlobal, $pathLocal, $pathCommon);
+        parent::__construct($settings);
 
         $this->allowSave = $allowSave;
         $this->doSetTestEnvironment = $doSetTestEnvironment;
 
-        $this->reload($pathGlobal, $pathLocal, $pathCommon);
+        $this->reload();
+
+        if ($testingEnvironment) {
+            $this->setupFromTestEnvironment($testingEnvironment);
+        }
     }
 
     public function reload($pathLocal = null, $pathGlobal = null, $pathCommon = null)
     {
         if ($this->isSettingTestEnv) {
-            parent::reload($pathGlobal, $pathLocal, $pathCommon);
+            parent::reload();
         } else {
             $this->isSettingTestEnv = true;
-            $this->setTestEnvironment($pathLocal, $pathGlobal, $pathCommon, $this->allowSave);
+            $this->setTestEnvironment($this->allowSave);
             $this->isSettingTestEnv = false;
         }
     }
@@ -52,16 +57,12 @@ class TestConfig extends Config
         }
     }
 
-    public function setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null, $allowSaving = false)
+    public function setTestEnvironment($allowSaving = false)
     {
         if ($this->doSetTestEnvironment) {
-            parent::setTestEnvironment($pathLocal, $pathGlobal, $pathCommon, $allowSaving);
+            parent::setTestEnvironment($allowSaving);
         } else {
             $this->doNotWriteConfigInTests = !$allowSaving;
-
-            $this->pathLocal = $pathLocal ?: Config::getLocalConfigPath();
-            $this->pathGlobal = $pathGlobal ?: Config::getGlobalConfigPath();
-            $this->pathCommon = $pathCommon ?: Config::getCommonConfigPath();
 
             $this->reload();
         }
@@ -72,5 +73,61 @@ class TestConfig extends Config
         if ($this->allowSave) {
             parent::forceSave();
         }
+    }
+
+    private function setupFromTestEnvironment(TestingEnvironment $testingEnvironment)
+    {
+        $pluginsToLoad = $testingEnvironment->getCoreAndSupportedPlugins();
+        if (!empty($testingEnvironment->pluginsToLoad)) {
+            $pluginsToLoad = array_unique(array_merge($pluginsToLoad, $testingEnvironment->pluginsToLoad));
+        }
+
+        sort($pluginsToLoad);
+
+        $chain = $this->settings->getIniFileChain();
+
+        $general =& $chain->get('General');
+        $plugins =& $chain->get('Plugins');
+        $log =& $chain->get('log');
+        $database =& $chain->get('database');
+
+        if ($testingEnvironment->configFileLocal) {
+            $general['session_save_handler'] = 'dbtable';
+        }
+
+        $plugins['Plugins'] = $pluginsToLoad;
+
+        $log['log_writers'] = array('file');
+
+        // TODO: replace this and below w/ configOverride use
+        if ($testingEnvironment->tablesPrefix) {
+            $database['tables_prefix'] = $testingEnvironment->tablesPrefix;
+        }
+
+        if ($testingEnvironment->dbName) {
+            $database['dbname'] = $testingEnvironment->dbName;
+        }
+
+        if ($testingEnvironment->configOverride) {
+            $cache =& $chain->getAll();
+            $cache = $this->arrayMergeRecursiveDistinct($cache, $testingEnvironment->configOverride);
+        }
+    }
+
+    public function arrayMergeRecursiveDistinct(array $array1, array $array2)
+    {
+        $result = $array1;
+
+        foreach ($array2 as $key => $value) {
+            if (is_array($value)) {
+                $result[$key] = isset($result[$key]) && is_array($result[$key])
+                    ? $this->arrayMergeRecursiveDistinct($result[$key], $value)
+                    : $value;
+            } else {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
     }
 }

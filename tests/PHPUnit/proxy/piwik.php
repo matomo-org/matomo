@@ -20,16 +20,18 @@ require realpath(dirname(__FILE__)) . "/includes.php";
 ob_start();
 
 try {
-    Piwik_TestingEnvironment::addHooks();
+    $extraObservers = array(
+        array('Environment.bootstrapped', function () {
+            Tracker::setTestEnvironment();
+            Manager::getInstance()->deleteAll();
+            Option::clearCache();
+            Site::clearCache();
+        })
+    );
+
+    \Piwik\Tests\Framework\TestingEnvironment::addHooks($extraObservers);
 
     GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-
-    \Piwik\Piwik::addAction('Environment.bootstrapped', function () {
-        Tracker::setTestEnvironment();
-        Manager::getInstance()->deleteAll();
-        Option::clearCache();
-        Site::clearCache();
-    });
 
     include PIWIK_INCLUDE_PATH . '/piwik.php';
 } catch (Exception $ex) {

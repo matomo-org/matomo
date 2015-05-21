@@ -31,9 +31,8 @@ class RequestTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->auth   = $this->createAuthMock();
-        $this->access = $this->createAccessMock($this->auth);
-        Access::setSingletonInstance($this->access);
+        $this->auth   = StaticContainer::get('Piwik\Auth');
+        $this->access = Access::getInstance();
     }
 
     public function test_process_shouldNotReloadAccessIfNoTokenAuthIsGiven()
@@ -143,4 +142,12 @@ class RequestTest extends IntegrationTestCase
         return $mock;
     }
 
+    public function provideContainerConfig()
+    {
+        $auth = $this->createAuthMock();
+        return array(
+            'Piwik\Auth' => $auth,
+            'Piwik\Access' => $this->createAccessMock($auth)
+        );
+    }
 }

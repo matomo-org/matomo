@@ -137,7 +137,7 @@ class ImportLogsTest extends SystemTestCase
 
     private function simulateTrackerFailure()
     {
-        $testingEnvironment = new \Piwik_TestingEnvironment();
+        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironment();
         $testingEnvironment->configOverride = array(
             'Tracker' => array('bulk_requests_require_authentication' => 1)
         );
@@ -151,7 +151,7 @@ class ImportLogsTest extends SystemTestCase
 
     private function resetTestingEnvironmentChanges()
     {
-        $testingEnvironment = new \Piwik_TestingEnvironment();
+        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironment();
         $testingEnvironment->configOverride = null;
         $testingEnvironment->save();
     }

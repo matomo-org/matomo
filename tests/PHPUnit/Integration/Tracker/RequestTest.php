@@ -52,12 +52,6 @@ class RequestTest extends IntegrationTestCase
         $this->request = $this->buildRequest(array('idsite' => '1'));
     }
 
-    public function tearDown()
-    {
-        EventDispatcher::getInstance()->clearObservers('Request.initAuthenticationObject');
-        parent::tearDown();
-    }
-
     public function test_getCustomVariablesInVisitScope_ShouldReturnNoCustomVars_IfNoWerePassedInParams()
     {
         $this->assertEquals(array(), $this->request->getCustomVariablesInVisitScope());

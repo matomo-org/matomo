@@ -127,10 +127,6 @@ class MetricsTest extends \PHPUnit_Framework_TestCase
             1 => array('name' => 'TestSite', 'currency' => 'EUR')
         ));
 
-        $pseudoMockAccess = new FakeAccess;
-        FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
-
         $actual = Metrics::getUnit($column, 1);
         $this->assertEquals($expected, $actual);
     }

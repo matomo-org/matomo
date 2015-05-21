@@ -1,9 +1,9 @@
 <?php
 
-return array(
+use Interop\Container\ContainerInterface;
+use Piwik\Tests\Framework\Mock\TestConfig;
 
-    // Disable logging
-    'Psr\Log\LoggerInterface' => DI\object('Psr\Log\NullLogger'),
+return array(
 
     'Piwik\Cache\Backend' => function () {
         return \Piwik\Cache::buildBackend('file');
@@ -13,5 +13,15 @@ return array(
     // Disable loading core translations
     'Piwik\Translation\Translator' => DI\object()
         ->constructorParameter('directories', array()),
+
+    'Piwik\Config' => DI\decorate(function ($previous, ContainerInterface $c) {
+        $testingEnvironment = $c->get('Piwik\Tests\Framework\TestingEnvironment');
+
+        if (!$testingEnvironment->dontUseTestConfig) {
+            return new TestConfig($c->get('Piwik\Application\Kernel\GlobalSettingsProvider'), $allowSave = false, $doSetTestEnvironment = true, $testingEnvironment);
+        } else {
+            return $previous;
+        }
+    })
 
 );

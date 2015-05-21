@@ -13,8 +13,6 @@ use DI\ContainerBuilder;
 use Doctrine\Common\Cache\ArrayCache;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
-use Piwik\Config\IniFileChainFactory;
-use Piwik\Development;
 use Piwik\Plugin\Manager;
 
 /**
@@ -92,6 +90,11 @@ class ContainerFactory
         // Environment config
         $this->addEnvironmentConfig($builder);
 
+        // Test config
+        if (defined('PIWIK_TEST_MODE')) {
+            $this->addEnvironmentConfig($builder, 'test');
+        }
+
         if (!empty($this->definitions)) {
             $builder->addDefinitions($this->definitions);
         }
@@ -103,13 +106,15 @@ class ContainerFactory
         return $container;
     }
 
-    private function addEnvironmentConfig(ContainerBuilder $builder)
+    private function addEnvironmentConfig(ContainerBuilder $builder, $environmentName = null)
     {
-        if (!$this->environment) {
+        $environmentName = $environmentName ?: $this->environment;
+
+        if (!$environmentName) {
             return;
         }
 
-        $file = sprintf('%s/config/environment/%s.php', PIWIK_USER_PATH, $this->environment);
+        $file = sprintf('%s/config/environment/%s.php', PIWIK_USER_PATH, $environmentName);
 
         if (file_exists($file)) {
             $builder->addDefinitions($file);

@@ -255,6 +255,7 @@ class UITestFixture extends SqlDump
             }
             $_GET['layout'] = json_encode($layout);
             $_GET['idDashboard'] = $id + 1;
+            $_GET['token_auth'] = self::getTokenAuth();
             FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
         }
 
@@ -278,6 +279,7 @@ class UITestFixture extends SqlDump
         $_GET['layout'] = json_encode($dashboard);
         $_GET['idDashboard'] = 5;
         $_GET['idSite'] = 2;
+        $_GET['token_auth'] = self::getTokenAuth();
         FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
 
         $_GET = $oldGet;
@@ -297,11 +299,5 @@ class UITestFixture extends SqlDump
             "From Europe", "continentCode==eur", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
         APISegmentEditor::getInstance()->add(
             "Multiple actions", "actions>=2", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
-    }
-
-    public static function createAccessInstance()
-    {
-        Access::setSingletonInstance($access = new OverrideLogin());
-        \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
     }
 }

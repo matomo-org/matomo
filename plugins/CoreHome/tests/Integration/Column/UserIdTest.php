@@ -39,7 +39,7 @@ class UserIdTest extends IntegrationTestCase
         parent::setUp();
         $this->userId = new UserId();
 
-        $this->setSuperUser();
+        FakeAccess::$superUser = true;
 
         Fixture::createSuperUser();
         Fixture::createWebsite('2014-01-01 00:00:00');
@@ -254,11 +254,10 @@ class UserIdTest extends IntegrationTestCase
         return $tracker;
     }
 
-    private function setSuperUser()
+    public function provideContainerConfig()
     {
-        $pseudoMockAccess = new FakeAccess();
-        $pseudoMockAccess::setSuperUserAccess(true);
-        Access::setSingletonInstance($pseudoMockAccess);
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
-
 }

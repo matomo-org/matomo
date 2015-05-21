@@ -21,6 +21,9 @@ use Exception;
  */
 class AnnotationsTest extends SystemTestCase
 {
+    /**
+     * @var TwoSitesWithAnnotations
+     */
     public static $fixture = null;
 
     public static function getOutputPrefix()
@@ -262,11 +265,9 @@ class AnnotationsTest extends SystemTestCase
     public function testMethodPermissions($hasAdminAccess, $hasViewAccess, $request, $checkException, $failMessage)
     {
         // create fake access that denies user access
-        $access = new FakeAccess();
         FakeAccess::$superUser = false;
         FakeAccess::$idSitesAdmin = $hasAdminAccess ? array(self::$fixture->idSite1) : array();
         FakeAccess::$idSitesView = $hasViewAccess ? array(self::$fixture->idSite1) : array();
-        Access::setSingletonInstance($access);
 
         if ($checkException) {
             try {

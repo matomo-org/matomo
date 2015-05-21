@@ -155,9 +155,13 @@ class ModelTest extends IntegrationTestCase
 
     protected function setSuperUser()
     {
-        $pseudoMockAccess = new FakeAccess();
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
     }
 
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
+    }
 }

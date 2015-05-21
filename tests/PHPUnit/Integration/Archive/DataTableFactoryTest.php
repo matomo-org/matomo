@@ -48,11 +48,6 @@ class DataTableFactoryTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
-        FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
-
         for ($i = 0; $i < $this->site2; $i++) {
             Fixture::createWebsite('2015-01-01 00:00:00');
         }

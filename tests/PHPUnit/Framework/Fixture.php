@@ -9,18 +9,18 @@ namespace Piwik\Tests\Framework;
 
 use Piwik\Access;
 use Piwik\Application\Environment;
-use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Archive;
+use Piwik\Auth;
 use Piwik\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\EventDispatcher;
 use Piwik\Ini\IniReader;
 use Piwik\Log;
 use Piwik\Option;
@@ -42,18 +42,15 @@ use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
-use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\Url;
 use PHPUnit_Framework_Assert;
-use Piwik_TestingEnvironment;
 use PiwikTracker;
 use Piwik_LocalTracker;
 use Piwik\Updater;
-use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Exception;
 use ReflectionClass;
 
@@ -83,7 +80,14 @@ class Fixture extends \PHPUnit_Framework_Assert
     const ADMIN_USER_PASSWORD = 'superUserPass';
 
     public $dbName = false;
+
+    /**
+     * Ignored now.
+     *
+     * @deprecated
+     */
     public $createConfig = true;
+
     public $dropDatabaseInSetUp = true;
     public $dropDatabaseInTearDown = true;
     public $loadTranslations = true;
@@ -99,6 +103,8 @@ class Fixture extends \PHPUnit_Framework_Assert
     public $extraPluginsToLoad = array();
 
     public $testEnvironment = null;
+
+    public $extraDiDefinitions = array();
 
     /**
      * @var Environment
@@ -119,6 +125,17 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         return 'python';
+    }
+
+    public function loginAsSuperUser()
+    {
+        /** @var Auth $auth */
+        $auth = $this->piwikEnvironment->getContainer()->get('Piwik\Auth');
+        $auth->setLogin(Fixture::ADMIN_USER_LOGIN);
+        $auth->setPassword(Fixture::ADMIN_USER_PASSWORD);
+
+        Access::getInstance()->setSuperUserAccess(false);
+        Access::getInstance()->reloadAccess(StaticContainer::get('Piwik\Auth'));
     }
 
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
@@ -150,16 +167,8 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function performSetUp($setupEnvironmentOnly = false)
     {
-        if ($this->createConfig) {
-            GlobalSettingsProvider::unsetSingletonInstance();
-        }
-
-        $this->piwikEnvironment = new Environment('test');
+        $this->piwikEnvironment = new Environment('test', $this->extraDiDefinitions);
         $this->piwikEnvironment->init();
-
-        if ($this->createConfig) {
-            Config::setSingletonInstance(new TestConfig());
-        }
 
         try {
             $this->dbName = $this->getDbName();
@@ -213,8 +222,6 @@ class Fixture extends \PHPUnit_Framework_Assert
             DbHelper::truncateAllTables();
         }
 
-        static::createAccessInstance();
-
         // We need to be SU to create websites for tests
         Access::getInstance()->setSuperUserAccess();
 
@@ -247,6 +254,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         if ($this->createSuperUser) {
             self::createSuperUser($this->removeExistingSuperUser);
+            $this->loginAsSuperUser();
         }
 
         SettingsPiwik::overwritePiwikUrl(self::getRootUrl() . 'tests/PHPUnit/proxy/');
@@ -257,7 +265,6 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $this->getTestEnvironment()->save();
         $this->getTestEnvironment()->executeSetupTestEnvHook();
-        Piwik_TestingEnvironment::addSendMailHook();
 
         PiwikCache::getTransientCache()->flushAll();
 
@@ -276,7 +283,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     public function getTestEnvironment()
     {
         if ($this->testEnvironment === null) {
-            $this->testEnvironment = new Piwik_TestingEnvironment();
+            $this->testEnvironment = new TestingEnvironment();
             $this->testEnvironment->delete();
 
             if (getenv('PIWIK_USE_XHPROF') == 1) {
@@ -326,13 +333,9 @@ class Fixture extends \PHPUnit_Framework_Assert
         PiwikCache::getEagerCache()->flushAll();
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
-        EventDispatcher::getInstance()->clearAllObservers();
 
         $_GET = $_REQUEST = array();
         Translate::reset();
-
-        GlobalSettingsProvider::unsetSingletonInstance();
-        Config::setSingletonInstance(new TestConfig());
 
         Config::getInstance()->Plugins; // make sure Plugins exists in a config object for next tests that use Plugin\Manager
         // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object
@@ -341,7 +344,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     public static function loadAllPlugins($testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
     {
         if (empty($testEnvironment)) {
-            $testEnvironment = new Piwik_TestingEnvironment();
+            $testEnvironment = new TestingEnvironment();
         }
 
         DbHelper::createTables();
@@ -627,11 +630,6 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function setUpScheduledReports($idSite)
     {
-        // fake access is needed so API methods can call Piwik::getCurrentUserLogin(), e.g: 'ScheduledReports.addReport'
-        $pseudoMockAccess = new FakeAccess;
-        FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
-
         // retrieve available reports
         $availableReportMetadata = APIScheduledReports::getReportMetadata($idSite, ScheduledReports::EMAIL_TYPE);
 
@@ -829,13 +827,12 @@ class Fixture extends \PHPUnit_Framework_Assert
     }
 
     /**
-     * Sets up access instance.
+     * No longer used.
+     *
+     * @deprecated
      */
     public static function createAccessInstance()
     {
-        Access::setSingletonInstance(null);
-        Access::getInstance();
-        Piwik::postEvent('Request.initAuthenticationObject');
     }
 
     public function dropDatabase($dbName = null)

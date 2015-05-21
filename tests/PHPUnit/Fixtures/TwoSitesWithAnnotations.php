@@ -8,6 +8,8 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Access;
+use Piwik\Auth;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Plugins\Annotations\API;
 use Piwik\Tests\Framework\Fixture;
@@ -35,11 +37,6 @@ class TwoSitesWithAnnotations extends Fixture
 
     private function addAnnotations()
     {
-        // create fake access for fake username
-        $access = new FakeAccess();
-        FakeAccess::$superUser = true;
-        Access::setSingletonInstance($access);
-
         // add two annotations per week for three months, starring every third annotation
         // first month in 2011, second two in 2012
         $count = 0;

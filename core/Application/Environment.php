@@ -40,6 +40,11 @@ use Piwik\Piwik;
 class Environment
 {
     /**
+     * @var EnvironmentManipulator[]
+     */
+    private static $globalEnvironmentManipulators = array();
+
+    /**
      * @var string
      */
     private $environment;
@@ -115,7 +120,10 @@ class Environment
     protected function getGlobalSettingsCached()
     {
         if ($this->globalSettingsProvider === null) {
-            $this->globalSettingsProvider = $this->getGlobalSettings();
+            $result = $this->invokeFirstManipulator(
+                'makeKernelObject', array('Piwik\Application\Kernel\GlobalSettingsProvider', $this->getKernelObjectsArray()));
+
+            $this->globalSettingsProvider = $result ?: $this->getGlobalSettings();
         }
         return $this->globalSettingsProvider;
     }
@@ -123,7 +131,10 @@ class Environment
     protected function getPluginListCached()
     {
         if ($this->pluginList === null) {
-            $this->pluginList = $this->getPluginList();
+            $result = $this->invokeFirstManipulator(
+                'makeKernelObject', array('Piwik\Application\Kernel\PluginList', $this->getKernelObjectsArray()));
+
+            $this->pluginList = $result ?: $this->getPluginList();
         }
         return $this->pluginList;
     }
@@ -136,9 +147,7 @@ class Environment
      */
     protected function getGlobalSettings()
     {
-        // TODO: need to be able to set path global/local/etc. which is in DI... for now works because TestingEnvironment creates
-        //       singleton instance before this method.
-        return GlobalSettingsProvider::getSingletonInstance();
+        return new GlobalSettingsProvider();
     }
 
     /**
@@ -158,5 +167,32 @@ class Environment
         /** @var EnvironmentValidator $validator */
         $validator = $this->container->get('Piwik\Application\Kernel\EnvironmentValidator');
         $validator->validate();
+    }
+
+    private function invokeFirstManipulator($methodName, $params)
+    {
+        foreach (self::$globalEnvironmentManipulators as $manipulator) {
+            $result = call_user_func_array(array($manipulator, $methodName), $params);
+            if (!empty($result)) {
+                return $result;
+            }
+        }
+        return null;
+    }
+
+    private function getKernelObjectsArray()
+    {
+        return array(
+            'Piwik\Application\Kernel\PluginList' => $this->pluginList,
+            'Piwik\Application\Kernel\GlobalSettingsProvider' => $this->globalSettingsProvider
+        );
+    }
+
+    /**
+     * @internal
+     */
+    public static function addEnvironmentManipulator(EnvironmentManipulator $manipulator)
+    {
+        self::$globalEnvironmentManipulators[] = $manipulator;
     }
 }

@@ -62,4 +62,7 @@ return array(
     'Piwik\Translation\Loader\LoaderInterface' => DI\object('Piwik\Translation\Loader\LoaderCache')
         ->constructor(DI\get('Piwik\Translation\Loader\JsonFileLoader')),
 
+    'observers.global' => array(),
+
+    'Piwik\EventDispatcher' => DI\object()->constructorParameter('globalObservers', DI\get('observers.global'))
 );

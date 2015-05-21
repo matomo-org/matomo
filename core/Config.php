@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\Container\StaticContainer;
 
 /**
  * Singleton that provides read & write access to Piwik's INI configuration.
@@ -36,14 +37,17 @@ use Piwik\Application\Kernel\GlobalSettingsProvider;
  *
  *     Config::getInstance()->MySection = array('myoption' => 1);
  *     Config::getInstance()->forceSave();
- *
- * @method static Config getInstance()
  */
-class Config extends Singleton
+class Config
 {
     const DEFAULT_LOCAL_CONFIG_PATH = '/config/config.ini.php';
     const DEFAULT_COMMON_CONFIG_PATH = '/config/common.config.ini.php';
     const DEFAULT_GLOBAL_CONFIG_PATH = '/config/global.ini.php';
+
+    public static function getInstance()
+    {
+        return StaticContainer::get('Piwik\Config');
+    }
 
     /**
      * @var boolean
@@ -57,9 +61,9 @@ class Config extends Singleton
 
     private $initialized = false;
 
-    public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null)
+    public function __construct(GlobalSettingsProvider $settings)
     {
-        $this->settings = GlobalSettingsProvider::getSingletonInstance($pathGlobal, $pathLocal, $pathCommon);
+        $this->settings = $settings;
     }
 
     /**
@@ -100,13 +104,13 @@ class Config extends Singleton
      * @param string $pathCommon
      * @deprecated
      */
-    public function setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null, $allowSaving = false)
+    public function setTestEnvironment($allowSaving = false)
     {
         if (!$allowSaving) {
             $this->doNotWriteConfigInTests = true;
         }
 
-        $this->reload($pathLocal, $pathGlobal, $pathCommon);
+        $this->reload();
 
         $chain = $this->settings->getIniFileChain();
 
@@ -312,10 +316,10 @@ class Config extends Singleton
      * @throws \Exception if the global config file is not found and this is a tracker request, or
      *                    if the local config file is not found and this is NOT a tracker request.
      */
-    protected function reload($pathLocal = null, $pathGlobal = null, $pathCommon = null)
+    protected function reload()
     {
         $this->initialized = false;
-        $this->settings->reload($pathGlobal, $pathLocal, $pathCommon);
+        $this->settings->reload();
     }
 
     /**

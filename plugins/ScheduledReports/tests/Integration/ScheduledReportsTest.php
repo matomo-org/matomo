@@ -157,10 +157,14 @@ class ScheduledReportsTest extends IntegrationTestCase
 
     private function setIdentity($login)
     {
-        $pseudoMockAccess = new FakeAccess();
-        $pseudoMockAccess::$identity  = $login;
-        $pseudoMockAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
+        FakeAccess::$identity  = $login;
+        FakeAccess::$superUser = true;
     }
 
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
+    }
 }
