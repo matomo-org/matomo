@@ -11,16 +11,20 @@
 
 <form {{ form_data.attributes|raw }}>
 	{% for fieldname in element_list %}
-		{% if form_data[fieldname].type == 'checkbox' %}
-			{{ form_data[fieldname].html|raw }}
-		{% elseif form_data[fieldname].label %}
-			<label>
-				{{ form_data[fieldname].label|raw }}
-				{{ form_data[fieldname].html|raw }}
-			</label>
-		{% elseif form_data[fieldname].type == 'hidden' %}
-			{{ form_data[fieldname].html|raw }}
-		{% endif %}
+		<div class="form-group">
+            {% if form_data[fieldname].type == 'checkbox' %}
+                <label class="checkbox">
+                    {{ form_data[fieldname].html|raw }}
+                </label>
+            {% elseif form_data[fieldname].label %}
+                <label>
+                    {{ form_data[fieldname].label|raw }}
+                </label>
+                {{ form_data[fieldname].html|raw }}
+            {% elseif form_data[fieldname].type == 'hidden' %}
+                {{ form_data[fieldname].html|raw }}
+            {% endif %}
+		</div>
 	{% endfor %}
 
 	{{ form_data.submit.html|raw }}
