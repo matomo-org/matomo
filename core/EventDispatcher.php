@@ -92,7 +92,7 @@ class EventDispatcher
             $this->pendingEvents[] = array($eventName, $params);
         }
 
-        $manager = $this->getPluginManager();
+        $manager = $this->pluginManager;
 
         if (empty($plugins)) {
             $plugins = $manager->getPluginsLoadedAndActivated();
@@ -200,19 +200,5 @@ class EventDispatcher
         }
 
         return array($pluginFunction, $callbackGroup);
-    }
-
-    /**
-     * Returns the Plugin\Manager instance used by the event dispatcher.
-     *
-     * @return Plugin\Manager
-     */
-    private function getPluginManager()
-    {
-        if ($this->pluginManager === null) {
-            return Plugin\Manager::getInstance(); // caching the var breaks DI for now since only Plugin\Manager is in the container.
-        } else {
-            return $this->pluginManager;
-        }
     }
 }
