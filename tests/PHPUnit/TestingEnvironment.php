@@ -185,13 +185,6 @@ class Piwik_TestingEnvironment
 
         \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
 
-        $pluginsToLoad = $testingEnvironment->getCoreAndSupportedPlugins();
-        if (!empty($testingEnvironment->pluginsToLoad)) {
-            $pluginsToLoad = array_unique(array_merge($pluginsToLoad, $testingEnvironment->pluginsToLoad));
-        }
-
-        sort($pluginsToLoad);
-
         $globalObservers[] = array('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
             if (!$testingEnvironment->testUseRegularAuth) {
                 $access = new Piwik_MockAccess($access);
@@ -200,35 +193,6 @@ class Piwik_TestingEnvironment
         });
 
         if (!$testingEnvironment->dontUseTestConfig) {
-            $globalObservers[] = array('Config.createConfigSingleton', function(IniFileChain $chain) use ($testingEnvironment, $pluginsToLoad) {
-                $general =& $chain->get('General');
-                $plugins =& $chain->get('Plugins');
-                $log =& $chain->get('log');
-                $database =& $chain->get('database');
-
-                if ($testingEnvironment->configFileLocal) {
-                    $general['session_save_handler'] = 'dbtable';
-                }
-
-                $plugins['Plugins'] = $pluginsToLoad;
-
-                $log['log_writers'] = array('file');
-
-                // TODO: replace this and below w/ configOverride use
-                if ($testingEnvironment->tablesPrefix) {
-                    $database['tables_prefix'] = $testingEnvironment->tablesPrefix;
-                }
-
-                if ($testingEnvironment->dbName) {
-                    $database['dbname'] = $testingEnvironment->dbName;
-                }
-
-                if ($testingEnvironment->configOverride) {
-                    $cache =& $chain->getAll();
-                    $cache = $testingEnvironment->arrayMergeRecursiveDistinct($cache, $testingEnvironment->configOverride);
-                }
-            });
-
             Config::setSingletonInstance(new TestConfig(
                 $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
             ));
