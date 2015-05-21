@@ -124,7 +124,6 @@ class TestsSetupFixture extends ConsoleCommand
 
         // perform setup and/or teardown
         if ($input->getOption('teardown')) {
-            exit;
             $fixture->getTestEnvironment()->save();
             $fixture->performTearDown();
         } else {
