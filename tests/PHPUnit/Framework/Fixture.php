@@ -101,6 +101,14 @@ class Fixture extends \PHPUnit_Framework_Assert
     public $testEnvironment = null;
 
     /**
+     * Extra DI configuration to use when creating the test environment. This will override configuration
+     * returned by the `provideContainerConfig()` method.
+     *
+     * @var array
+     */
+    public $extraDefinitions = array();
+
+    /**
      * @var Environment
      */
     public $piwikEnvironment;
@@ -915,7 +923,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function createEnvironmentInstance()
     {
-        $this->piwikEnvironment = new Environment('test');
+        $this->piwikEnvironment = new Environment('test', array_merge($this->provideContainerConfig(), $this->extraDefinitions));
         $this->piwikEnvironment->init();
     }
 }

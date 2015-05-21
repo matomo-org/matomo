@@ -74,6 +74,7 @@ abstract class IntegrationTestCase extends SystemTestCase
     {
         parent::setUp();
 
+        self::$fixture->extraDefinitions = array_merge(static::provideContainerConfigBeforeClass(), $this->provideContainerConfig());
         self::$fixture->createEnvironmentInstance();
 
         Fixture::loadAllPlugins(new \Piwik_TestingEnvironment(), get_class($this), self::$fixture->extraPluginsToLoad);
@@ -106,6 +107,17 @@ abstract class IntegrationTestCase extends SystemTestCase
     protected static function beforeTableDataCached()
     {
         // empty
+    }
+
+    /**
+     * Use this method to return custom container configuration that you want to apply for the tests.
+     * This configuration will override Fixture config and config specified in SystemTestCase::provideContainerConfig().
+     *
+     * @return array
+     */
+    public function provideContainerConfig()
+    {
+        return array();
     }
 }
 
