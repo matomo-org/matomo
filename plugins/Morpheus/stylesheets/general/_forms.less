@@ -51,6 +51,18 @@ input[disabled] {
         font-size: 12px;
         line-height: 20px;
         margin: 2px 0;
+        input[type="checkbox"], input[type="radio"] {
+            display: inline;
+            width: auto;
+        }
+        // Quickform adds a label automatically so we have to remove its formatting
+        // TODO remove when we get rid of Quickform
+        label {
+            text-transform: none;
+            display: inline;
+            width: auto;
+            font-size: inherit;
+        }
     }
     .form-help {
         .alert;
