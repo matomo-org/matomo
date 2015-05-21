@@ -55,8 +55,6 @@ class Config extends Singleton
      */
     protected $settings;
 
-    private $initialized = false;
-
     public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null)
     {
         $this->settings = GlobalSettingsProvider::getSingletonInstance($pathGlobal, $pathLocal, $pathCommon);
@@ -130,11 +128,6 @@ class Config extends Singleton
         // for unit tests, we set that no plugin is installed. This will force
         // the test initialization to create the plugins tables, execute ALTER queries, etc.
         $chain->set('PluginsInstalled', array('PluginsInstalled' => array()));
-    }
-
-    protected function postConfigTestEvent()
-    {
-        Piwik::postTestEvent('Config.createConfigSingleton', array($this->settings->getIniFileChain(), $this)  );
     }
 
     /**
@@ -291,7 +284,6 @@ class Config extends Singleton
      */
     public function clear()
     {
-        $this->initialized = false;
         $this->reload();
     }
 
@@ -314,7 +306,6 @@ class Config extends Singleton
      */
     protected function reload($pathLocal = null, $pathGlobal = null, $pathCommon = null)
     {
-        $this->initialized = false;
         $this->settings->reload($pathGlobal, $pathLocal, $pathCommon);
     }
 
@@ -343,12 +334,6 @@ class Config extends Singleton
      */
     public function &__get($name)
     {
-        if (!$this->initialized) {
-            $this->initialized = true;
-
-            $this->postConfigTestEvent();
-        }
-
         $section =& $this->settings->getIniFileChain()->get($name);
         return $section;
     }

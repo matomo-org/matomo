@@ -14,7 +14,6 @@ class TestConfig extends Config
 {
     private $allowSave = false;
     private $isSettingTestEnv = false;
-    private $isConfigTestEventPosted = false;
     private $doSetTestEnvironment = false;
 
     public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null, $allowSave = false, $doSetTestEnvironment = true)
@@ -40,17 +39,6 @@ class TestConfig extends Config
             $this->isSettingTestEnv = true;
             $this->setTestEnvironment($pathLocal, $pathGlobal, $pathCommon, $this->allowSave);
             $this->isSettingTestEnv = false;
-        }
-    }
-
-    protected function postConfigTestEvent()
-    {
-        if ($this->isConfigTestEventPosted) { // avoid infinite recursion in case setTestEnvironment is called from within Config.setSingletonInstance test event
-            return;
-        } else {
-            $this->isConfigTestEventPosted = true;
-            parent::postConfigTestEvent();
-            $this->isConfigTestEventPosted = false;
         }
     }
 
