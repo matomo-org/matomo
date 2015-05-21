@@ -9,7 +9,6 @@ namespace Piwik\Tests\Framework;
 
 use Piwik\Access;
 use Piwik\Application\Environment;
-use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Archive;
 use Piwik\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
@@ -20,7 +19,6 @@ use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\EventDispatcher;
 use Piwik\Ini\IniReader;
 use Piwik\Log;
 use Piwik\Option;
@@ -42,7 +40,6 @@ use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
-use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
@@ -53,7 +50,6 @@ use Piwik_TestingEnvironment;
 use PiwikTracker;
 use Piwik_LocalTracker;
 use Piwik\Updater;
-use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Exception;
 use ReflectionClass;
 
@@ -83,7 +79,12 @@ class Fixture extends \PHPUnit_Framework_Assert
     const ADMIN_USER_PASSWORD = 'superUserPass';
 
     public $dbName = false;
+
+    /**
+     * @deprecated has no effect now.
+     */
     public $createConfig = true;
+
     public $dropDatabaseInSetUp = true;
     public $dropDatabaseInTearDown = true;
     public $loadTranslations = true;
@@ -158,15 +159,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function performSetUp($setupEnvironmentOnly = false)
     {
-        if ($this->createConfig) {
-            GlobalSettingsProvider::unsetSingletonInstance();
-        }
-
         $this->createEnvironmentInstance();
-
-        if ($this->createConfig) {
-            Config::setSingletonInstance(new TestConfig());
-        }
 
         try {
             $this->dbName = $this->getDbName();
@@ -335,9 +328,6 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $_GET = $_REQUEST = array();
         Translate::reset();
-
-        GlobalSettingsProvider::unsetSingletonInstance();
-        Config::setSingletonInstance(new TestConfig());
 
         Config::getInstance()->Plugins; // make sure Plugins exists in a config object for next tests that use Plugin\Manager
         // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object

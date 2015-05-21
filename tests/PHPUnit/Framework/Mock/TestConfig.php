@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Framework\Mock;
 
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
 
 class TestConfig extends Config
@@ -15,16 +16,14 @@ class TestConfig extends Config
     private $allowSave = false;
     private $doSetTestEnvironment = false;
 
-    public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null, $allowSave = false, $doSetTestEnvironment = true)
+    public function __construct(GlobalSettingsProvider $provider, $allowSave = false, $doSetTestEnvironment = true)
     {
-        \Piwik\Application\Kernel\GlobalSettingsProvider::unsetSingletonInstance();
-
-        parent::__construct($pathGlobal, $pathLocal, $pathCommon);
+        parent::__construct($provider);
 
         $this->allowSave = $allowSave;
         $this->doSetTestEnvironment = $doSetTestEnvironment;
 
-        $this->reload($pathGlobal, $pathLocal, $pathCommon);
+        $this->reload();
 
         $testingEnvironment = new \Piwik_TestingEnvironment();
         $this->setFromTestEnvironment($testingEnvironment);

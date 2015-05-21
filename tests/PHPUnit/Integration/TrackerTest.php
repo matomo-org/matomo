@@ -59,7 +59,6 @@ class TrackerTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        GlobalSettingsProvider::unsetSingletonInstance();
         Config::unsetInstance();
 
         Fixture::createWebsite('2014-01-01 00:00:00');

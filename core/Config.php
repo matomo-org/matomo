@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\Container\StaticContainer;
 
 /**
  * Singleton that provides read & write access to Piwik's INI configuration.
@@ -36,8 +37,6 @@ use Piwik\Application\Kernel\GlobalSettingsProvider;
  *
  *     Config::getInstance()->MySection = array('myoption' => 1);
  *     Config::getInstance()->forceSave();
- *
- * @method static Config getInstance()
  */
 class Config extends Singleton
 {
@@ -55,9 +54,17 @@ class Config extends Singleton
      */
     protected $settings;
 
-    public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null)
+    /**
+     * @return Config
+     */
+    public static function getInstance()
     {
-        $this->settings = GlobalSettingsProvider::getSingletonInstance($pathGlobal, $pathLocal, $pathCommon);
+        return StaticContainer::get('Piwik\Config');
+    }
+
+    public function __construct(GlobalSettingsProvider $settings)
+    {
+        $this->settings = $settings;
     }
 
     /**
