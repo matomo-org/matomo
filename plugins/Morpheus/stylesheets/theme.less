@@ -557,48 +557,6 @@ div.sparkline {
     z-index: 1;
 }
 
-.widget {
-    background: @theme-color-background-base;
-    border: 1px solid @color-silver-l80;
-    .border-radius();
-    .font-default(13px, 18px);
-    .box-shadow-1(0 1px 1px rgba(204,204,204,.5));
-
-    h2 {
-        font-weight: normal;
-    }
-
-    &.default {
-        margin-left: 0;
-        margin-right: 0;
-        .widgetTop {
-            cursor: default !important;
-        }
-    }
-
-    .widgetTop {
-        background: @theme-color-widget-title-background;
-        border-bottom: 1px solid @color-silver-l80;
-        h3 {
-            .font-default(15px, 18px);
-            color: @theme-color-widget-title-text;
-        }
-    }
-
-    .widgetText {
-        padding: 10px;
-    }
-
-    .pk-emptyDataTable {
-        .font-default(12px, 16px);
-        text-transform: none;
-    }
-
-    .dataTableFooterIcons {
-        border-top: 1px solid @color-silver-l80;
-    }
-}
-
 .dataTableSearchPattern {
     background: none;
     height: auto;
@@ -832,19 +790,6 @@ div.sparkline {
             margin-right:-4px;
         }
     }
-}
-
-.widgetTop .button {
-    margin: 16px 8px 0 0;
-}
-
-.widget .widgetTop:hover .button {
-  visibility: visible;
-}
-
-.widget .widgetTop .button {
-  opacity: 0.8;
-  visibility: hidden;
 }
 
 .annotationView {
