@@ -172,6 +172,11 @@ class Piwik_TestingEnvironment
             $testCaseClass = $testingEnvironment->testCaseClass;
             if (class_exists($testCaseClass)) {
                 $testCase = new $testCaseClass();
+
+                if (method_exists($testCase, 'provideContainerConfigBeforeClass')) {
+                    $diConfig = array_merge($diConfig, $testCaseClass::provideContainerConfigBeforeClass());
+                }
+
                 if (method_exists($testCase, 'provideContainerConfig')) {
                     $diConfig = array_merge($diConfig, $testCase->provideContainerConfig());
                 }
