@@ -62,7 +62,8 @@
         "phpunit/phpunit": "~4.1",
         "facebook/xhprof": "dev-master",
         "phpseclib/phpseclib": "~0.3.8",
-        "symfony/var-dumper": "~2.6"
+        "symfony/var-dumper": "~2.6",
+        "fabpot/php-cs-fixer": "~1.0"
     },
     "repositories": [
         {
