@@ -5,7 +5,7 @@
         </a>
     </div>
     <div class="paging">
-        <a class="submit prev"
+        <a class="btn prev"
            ng-class="{'visible': adminSites.hasPrev, 'hide_only': !adminSites.hasPrev}"
            ng-click="adminSites.previousPage()">
             <span style="cursor:pointer;">&#171; {{ 'General_Previous'|translate }}</span>
@@ -18,7 +18,7 @@
                 {{ 'General_Pagination'|translate:adminSites.offsetStart:adminSites.offsetEnd:totalNumberOfSites }}
             </span>
         </span>
-        <a class="submit next"
+        <a class="btn next"
            ng-class="{'visible': adminSites.hasNext, 'hide_only': !adminSites.hasNext}"
            ng-click="adminSites.nextPage()">
             <span style="cursor:pointer;" class="pointer">{{ 'General_Next'|translate }} &#187;</span>
