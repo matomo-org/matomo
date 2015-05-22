@@ -29,8 +29,6 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Translate;
 
-require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/PrivacyManager.php';
-
 /**
  * @group PrivacyManagerTest
  * @group Plugins
