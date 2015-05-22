@@ -29,12 +29,6 @@ class BlobReportLimitingTest extends SystemTestCase
      */
     public static $fixture = null; // initialized below class definition
 
-    public static function setUpBeforeClass()
-    {
-        self::setUpConfigOptions();
-        parent::setUpBeforeClass();
-    }
-
     public function setUp()
     {
         Cache::getTransientCache()->flushAll();
@@ -103,6 +97,8 @@ class BlobReportLimitingTest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
+        self::setUpConfigOptions();
+
         $this->runApiTests($api, $params);
     }
 
@@ -187,4 +183,3 @@ class BlobReportLimitingTest extends SystemTestCase
 }
 
 BlobReportLimitingTest::$fixture = new ManyVisitsWithMockLocationProvider();
-BlobReportLimitingTest::$fixture->createConfig = false;
