@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Unit;
 
-use PHPUnit_Framework_TestCase;
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager;
@@ -16,10 +15,7 @@ use Piwik\AssetManager\UIAssetFetcher\StaticUIAssetFetcher;
 use Piwik\Config;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
-use Piwik\EventDispatcher;
-use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
-use Piwik\Tests\Unit\AssetManager\PluginManagerMock;
 use Piwik\Tests\Unit\AssetManager\PluginMock;
 use Piwik\Tests\Unit\AssetManager\ThemeMock;
 use Piwik\Tests\Unit\AssetManager\UIAssetCacheBusterMock;
@@ -68,7 +64,7 @@ class AssetManagerTest extends UnitTestCase
     {
         parent::setUp();
 
-        $this->setUpConfig('merged-assets-enabled.ini.php');
+        $this->setUpConfig();
 
         $this->activateMergedAssets();
 
@@ -109,15 +105,15 @@ class AssetManagerTest extends UnitTestCase
         Config::getInstance()->Development['disable_merged_assets'] = 1;
     }
 
-    /**
-     * @param string $filename
-     */
-    private function setUpConfig($filename)
+    private function setUpConfig()
     {
-        $userFile = PIWIK_INCLUDE_PATH . '/' . self::ASSET_MANAGER_TEST_DIR . 'configs/' . $filename;
-        $globalFile = PIWIK_INCLUDE_PATH . '/' . self::ASSET_MANAGER_TEST_DIR . 'configs/plugins.ini.php';
-
         $this->initEnvironment();
+
+        Config::getInstance()->Plugins = array('Plugins' => array('MockCorePlugin', 'CoreThemePlugin'));
+        Config::getInstance()->Development['enabled'] = 1;
+        Config::getInstance()->General['default_language'] = 'en';
+
+        $this->disableMergedAssets();
     }
 
     private function setUpCacheBuster()
@@ -127,7 +123,7 @@ class AssetManagerTest extends UnitTestCase
 
     private function setUpAssetManager()
     {
-        $this->assetManager = AssetManager::getInstance();
+        $this->assetManager = new AssetManager();
 
         $this->assetManager->removeMergedAssets();
 
