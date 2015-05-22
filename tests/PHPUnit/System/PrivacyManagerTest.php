@@ -8,7 +8,6 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Archive;
-use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -18,6 +17,7 @@ use Piwik\Db;
 use Piwik\Option;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\Goals\Archiver;
+use Piwik\Plugins\PrivacyManager\DimensionMetadataProvider;
 use Piwik\Plugins\PrivacyManager\LogDataPurger;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
@@ -489,7 +489,7 @@ class PrivacyManagerTest extends SystemTestCase
     {
         \Piwik\Piwik::addAction("LogDataPurger.ActionsToKeepInserted.olderThan", array($this, 'addReferenceToUnusedAction'));
 
-        $purger = LogDataPurger::make();
+        $purger = new LogDataPurger(new DimensionMetadataProvider());
 
         $this->unusedIdAction = Db::fetchOne(
             "SELECT idaction FROM " . Common::prefixTable('log_action') . " WHERE name = ?",

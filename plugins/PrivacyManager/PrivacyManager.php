@@ -11,6 +11,7 @@ namespace Piwik\Plugins\PrivacyManager;
 use HTML_QuickForm2_DataSource_Array;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Db;
@@ -326,7 +327,8 @@ class PrivacyManager extends Plugin
         Option::set(self::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDeleteDate);
 
         // execute the purge
-        $logDataPurger = LogDataPurger::make();
+        /** @var LogDataPurger $logDataPurger */
+        $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
         $logDataPurger->purgeData($settings['delete_logs_older_than'], $settings['delete_logs_max_rows_per_query']);
 
         return true;
@@ -352,7 +354,8 @@ class PrivacyManager extends Plugin
         $result = array();
 
         if ($settings['delete_logs_enable']) {
-            $logDataPurger = LogDataPurger::make();
+            /** @var LogDataPurger $logDataPurger */
+            $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
             $result = array_merge($result, $logDataPurger->getPurgeEstimate($settings['delete_logs_older_than']));
         }
 
