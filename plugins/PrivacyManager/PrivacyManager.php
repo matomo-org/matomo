@@ -326,7 +326,8 @@ class PrivacyManager extends Plugin
         Option::set(self::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDeleteDate);
 
         // execute the purge
-        LogDataPurger::make($settings)->purgeData();
+        $logDataPurger = LogDataPurger::make();
+        $logDataPurger->purgeData($settings['delete_logs_older_than'], $settings['delete_logs_max_rows_per_query']);
 
         return true;
     }
@@ -351,8 +352,8 @@ class PrivacyManager extends Plugin
         $result = array();
 
         if ($settings['delete_logs_enable']) {
-            $logDataPurger = LogDataPurger::make($settings);
-            $result = array_merge($result, $logDataPurger->getPurgeEstimate());
+            $logDataPurger = LogDataPurger::make();
+            $result = array_merge($result, $logDataPurger->getPurgeEstimate($settings['delete_logs_older_than']));
         }
 
         if ($settings['delete_reports_enable']) {

@@ -489,7 +489,7 @@ class PrivacyManagerTest extends SystemTestCase
     {
         \Piwik\Piwik::addAction("LogDataPurger.ActionsToKeepInserted.olderThan", array($this, 'addReferenceToUnusedAction'));
 
-        $purger = LogDataPurger::make($this->settings, true);
+        $purger = LogDataPurger::make();
 
         $this->unusedIdAction = Db::fetchOne(
             "SELECT idaction FROM " . Common::prefixTable('log_action') . " WHERE name = ?",
@@ -497,7 +497,7 @@ class PrivacyManagerTest extends SystemTestCase
         $this->assertTrue($this->unusedIdAction > 0);
 
         // purge data
-        $purger->purgeData();
+        $purger->purgeData($this->settings['delete_logs_older_than'], $this->settings['delete_logs_max_rows_per_query']);
 
         // check that actions were purged
         $this->assertEquals(22 + $this->getCountEventIdsNotPurged(), $this->_getTableCount('log_action')); // January

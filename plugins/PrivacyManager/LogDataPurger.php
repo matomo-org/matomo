@@ -27,33 +27,15 @@ class LogDataPurger
     public static $selectSegmentSize = 100000;
 
     /**
-     * The number of days after which log entries are considered old.
-     */
-    private $deleteLogsOlderThan;
-
-    /**
-     * The number of rows to delete per DELETE query.
-     */
-    private $maxRowsToDeletePerQuery;
-
-    /**
      * @param DimensionMetadataProvider
      */
     private $dimensionMetadataProvider;
 
     /**
      * Constructor.
-     *
-     * @param int $deleteLogsOlderThan The number of days after which log entires are considered old.
-     *                                 Visits and related data whose age is greater than this number
-     *                                 will be purged.
-     * @param int $maxRowsToDeletePerQuery The maximum number of rows to delete in one query. Used to
-     *                                     make sure log tables aren't locked for too long.
      */
-    public function __construct($deleteLogsOlderThan, $maxRowsToDeletePerQuery, DimensionMetadataProvider $dimensionMetadataProvider)
+    public function __construct(DimensionMetadataProvider $dimensionMetadataProvider)
     {
-        $this->deleteLogsOlderThan = $deleteLogsOlderThan;
-        $this->maxRowsToDeletePerQuery = $maxRowsToDeletePerQuery;
         $this->dimensionMetadataProvider = $dimensionMetadataProvider;
     }
 
@@ -64,10 +46,16 @@ class LogDataPurger
      * - log_conversion
      * - log_conversion_item
      * - log_action
+     *
+     * @param int $deleteLogsOlderThan The number of days after which log entires are considered old.
+     *                                 Visits and related data whose age is greater than this number
+     *                                 will be purged.
+     * @param int $maxRowsToDeletePerQuery The maximum number of rows to delete in one query. Used to
+     *                                     make sure log tables aren't locked for too long.
      */
-    public function purgeData()
+    public function purgeData($deleteLogsOlderThan, $maxRowsToDeletePerQuery)
     {
-        $maxIdVisit = $this->getDeleteIdVisitOffset();
+        $maxIdVisit = $this->getDeleteIdVisitOffset($deleteLogsOlderThan);
 
         // break if no ID was found (nothing to delete for given period)
         if (empty($maxIdVisit)) {
@@ -81,7 +69,7 @@ class LogDataPurger
         foreach ($logTables as $logTable) {
             // deleting from log_action must be handled differently, so we do it later
             if ($logTable != Common::prefixTable('log_action')) {
-                Db::deleteAllRows($logTable, $where, "idvisit ASC", $this->maxRowsToDeletePerQuery, array($maxIdVisit));
+                Db::deleteAllRows($logTable, $where, "idvisit ASC", $maxRowsToDeletePerQuery, array($maxIdVisit));
             }
         }
 
@@ -103,14 +91,17 @@ class LogDataPurger
      * This function returns an array that maps table names with the number of rows
      * that will be deleted.
      *
+     * @param int $deleteLogsOlderThan The number of days after which log entires are considered old.
+     *                                 Visits and related data whose age is greater than this number
+     *                                 will be purged.
      * @return array
      */
-    public function getPurgeEstimate()
+    public function getPurgeEstimate($deleteLogsOlderThan)
     {
         $result = array();
 
         // deal w/ log tables that will be purged
-        $maxIdVisit = $this->getDeleteIdVisitOffset();
+        $maxIdVisit = $this->getDeleteIdVisitOffset($deleteLogsOlderThan);
         if (!empty($maxIdVisit)) {
             foreach ($this->getDeleteTableLogTables() as $table) {
                 // getting an estimate for log_action is not supported since it can take too long
@@ -153,7 +144,7 @@ class LogDataPurger
      * get highest idVisit to delete rows from
      * @return string
      */
-    private function getDeleteIdVisitOffset()
+    private function getDeleteIdVisitOffset($deleteLogsOlderThan)
     {
         $logVisit = Common::prefixTable("log_visit");
 
@@ -164,7 +155,7 @@ class LogDataPurger
         }
 
         // select highest idvisit to delete from
-        $dateStart = Date::factory("today")->subDay($this->deleteLogsOlderThan);
+        $dateStart = Date::factory("today")->subDay($deleteLogsOlderThan);
         $sql = "SELECT idvisit
 		          FROM $logVisit
 		         WHERE '" . $dateStart->toString('Y-m-d H:i:s') . "' > visit_last_action_time
@@ -299,16 +290,10 @@ class LogDataPurger
      *                             old.
      * - 'delete_logs_max_rows_per_query': Max number of rows to DELETE in one query.
      *
-     * @param array $settings Array of settings
-     * @param bool $useRealTable
      * @return \Piwik\Plugins\PrivacyManager\LogDataPurger
      */
-    public static function make($settings, $useRealTable = false)
+    public static function make()
     {
-        return new LogDataPurger(
-            $settings['delete_logs_older_than'],
-            $settings['delete_logs_max_rows_per_query'],
-            new DimensionMetadataProvider()
-        );
+        return new LogDataPurger(new DimensionMetadataProvider());
     }
 }
