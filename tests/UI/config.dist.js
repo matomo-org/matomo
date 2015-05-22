@@ -45,7 +45,7 @@ exports.reporter = "spec";
 /**
  * The directory that stores expected screenshots. Relative to the UI repo's root directoriy.
  */
-exports.expectedScreenshotsDir = "./expected-ui-screenshots";
+exports.expectedScreenshotsDir = "./expected-screenshots";
 
 /**
  * The directory that stores processed screenshots. Relative to the UI repo's root directory.

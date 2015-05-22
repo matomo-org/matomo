@@ -47,7 +47,7 @@ class SyncScreenshots extends ConsoleCommand
         $this->setName('tests:sync-ui-screenshots');
         $this->setAliases(array('development:sync-ui-test-screenshots'));
         $this->setDescription('For Piwik core devs. Copies screenshots '
-                            . 'from travis artifacts to the tests/UI/expected-ui-screenshots/ folder');
+                            . 'from travis artifacts to the tests/UI/expected-screenshots/ folder');
         $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync.');
         $this->addArgument('screenshotsRegex', InputArgument::OPTIONAL,
             'A regex to use when selecting screenshots to copy. If not supplied all screenshots are copied.', '.*');
@@ -149,7 +149,7 @@ git push";
             $commands .= "
 cd ..
 git pull
-git add expected-ui-screenshots/
+git add expected-screenshots/
 git status
 git commit -m 'UI tests: ...' # Copy paste the good commit message
 echo -e \"\n--> Check the commit above is correct... <---\n\"
@@ -169,10 +169,10 @@ cd ../../../../../";
         $plugin = $this->getPluginName($repository);
 
         if (empty($plugin)) {
-            return PIWIK_DOCUMENT_ROOT . '/tests/UI/expected-ui-screenshots/';
+            return PIWIK_DOCUMENT_ROOT . "/tests/UI/expected-screenshots/";
         }
 
-        $downloadTo = PIWIK_DOCUMENT_ROOT . "/plugins/$plugin/tests/UI/expected-ui-screenshots/";
+        $downloadTo = PIWIK_DOCUMENT_ROOT . "/plugins/$plugin/tests/UI/expected-screenshots/";
         if(is_dir($downloadTo)) {
             return $downloadTo;
         }
