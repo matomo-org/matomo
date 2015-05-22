@@ -71,6 +71,7 @@ class Manager extends Singleton
         'API',
         'Proxy',
         'LanguagesManager',
+        'Diagnostics',
 
         // default Piwik theme, always enabled
         self::DEFAULT_THEME,
@@ -804,6 +805,7 @@ class Manager extends Singleton
     public function getActivatedPluginsFromConfig()
     {
         $plugins = @Config::getInstance()->Plugins['Plugins'];
+        $plugins = is_array($plugins) ? $plugins : array();
 
         return $this->makePluginsToLoad($plugins);
     }
