@@ -799,7 +799,7 @@ if (typeof Piwik !== 'object') {
          * UTF-8 encoding
          */
         function utf8_encode(argString) {
-            return urldecode(encodeWrapper(argString));
+            return unescape(encodeWrapper(argString));
         }
 
         /************************************************************
@@ -3857,8 +3857,7 @@ if (typeof Piwik !== 'object') {
                 var link = getLinkIfShouldBeProcessed(sourceElement);
 
                 if (link && link.type) {
-                    // urldecode %xx
-                    link.href = urldecode(link.href);
+                    link.href = decodeWrapper(link.href);
                     logLink(link.href, link.type, undefined, null, sourceElement);
                 }
             }
