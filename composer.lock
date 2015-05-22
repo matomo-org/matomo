@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2087f5d0167b3c950c4b02ce7c1cf629",
+    "hash": "38059fad1036bf805aa3fd11b0788731",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -268,16 +268,16 @@
         },
         {
             "name": "mnapoli/php-di",
-            "version": "5.0.x-dev",
+            "version": "5.0.0-beta1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mnapoli/PHP-DI.git",
-                "reference": "b555566822ce0bdf1c946d46785a038317908ed1"
+                "reference": "2325afb15d74728f52cb9721c9e184829f8f343a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mnapoli/PHP-DI/zipball/21d3f59f1917fc7377b9c59013418012ad93b32c",
-                "reference": "b555566822ce0bdf1c946d46785a038317908ed1",
+                "url": "https://api.github.com/repos/mnapoli/PHP-DI/zipball/2325afb15d74728f52cb9721c9e184829f8f343a",
+                "reference": "2325afb15d74728f52cb9721c9e184829f8f343a",
                 "shasum": ""
             },
             "require": {
@@ -285,8 +285,8 @@
                 "doctrine/annotations": "~1.2",
                 "doctrine/cache": "~1.0",
                 "mnapoli/phpdocreader": "~1.3",
-                "myclabs/php-enum": "~1.1",
-                "php": ">=5.3.3"
+                "php": ">=5.3.3",
+                "php-di/invoker": "~1.0"
             },
             "require-dev": {
                 "mnapoli/phpunit-easymock": "~0.1.4",
@@ -321,7 +321,7 @@
                 "dependency injection",
                 "di"
             ],
-            "time": "2015-04-19 08:13:30"
+            "time": "2015-04-25 02:05:04"
         },
         {
             "name": "mnapoli/phpdocreader",
@@ -476,50 +476,6 @@
                 "yml"
             ],
             "time": "2013-02-21 10:52:01"
-        },
-        {
-            "name": "myclabs/php-enum",
-            "version": "1.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/myclabs/php-enum.git",
-                "reference": "e5976f17636cd68cf07ee5fc3d036c0fd30d6297"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/e5976f17636cd68cf07ee5fc3d036c0fd30d6297",
-                "reference": "e5976f17636cd68cf07ee5fc3d036c0fd30d6297",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.*",
-                "squizlabs/php_codesniffer": "1.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MyCLabs\\Enum\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP Enum contributors",
-                    "homepage": "https://github.com/myclabs/php-enum/graphs/contributors"
-                }
-            ],
-            "description": "PHP Enum implementation",
-            "homepage": "http://github.com/myclabs/php-enum",
-            "keywords": [
-                "enum"
-            ],
-            "time": "2015-02-15 21:39:11"
         },
         {
             "name": "pear/archive_tar",
@@ -727,6 +683,49 @@
                 "exception"
             ],
             "time": "2015-02-10 20:07:52"
+        },
+        {
+            "name": "php-di/invoker",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHP-DI/Invoker.git",
+                "reference": "7ea703c62dbb29d64763fa85258826034ce3c97d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHP-DI/Invoker/zipball/7ea703c62dbb29d64763fa85258826034ce3c97d",
+                "reference": "7ea703c62dbb29d64763fa85258826034ce3c97d",
+                "shasum": ""
+            },
+            "require": {
+                "container-interop/container-interop": "~1.1"
+            },
+            "require-dev": {
+                "athletic/athletic": "~0.1.8",
+                "phpunit/phpunit": "~4.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Invoker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Generic and extensible callable invoker",
+            "homepage": "https://github.com/PHP-DI/Invoker",
+            "keywords": [
+                "callable",
+                "dependency",
+                "dependency-injection",
+                "injection",
+                "invoke",
+                "invoker"
+            ],
+            "time": "2015-04-24 10:18:34"
         },
         {
             "name": "piwik/cache",
@@ -1471,7 +1470,7 @@
                 "performance",
                 "profiling"
             ],
-            "time": "2015-02-26 14:37:51"
+            "time": "2014-08-28 17:34:52"
         },
         {
             "name": "guzzle/guzzle",
@@ -1564,6 +1563,50 @@
                 "web service"
             ],
             "time": "2014-08-11 04:32:36"
+        },
+        {
+            "name": "myclabs/php-enum",
+            "version": "1.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/myclabs/php-enum.git",
+                "reference": "e5976f17636cd68cf07ee5fc3d036c0fd30d6297"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/e5976f17636cd68cf07ee5fc3d036c0fd30d6297",
+                "reference": "e5976f17636cd68cf07ee5fc3d036c0fd30d6297",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*",
+                "squizlabs/php_codesniffer": "1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MyCLabs\\Enum\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP Enum contributors",
+                    "homepage": "https://github.com/myclabs/php-enum/graphs/contributors"
+                }
+            ],
+            "description": "PHP Enum implementation",
+            "homepage": "http://github.com/myclabs/php-enum",
+            "keywords": [
+                "enum"
+            ],
+            "time": "2015-02-15 21:39:11"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -2509,7 +2552,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "mnapoli/php-di": 20,
+        "mnapoli/php-di": 10,
         "facebook/xhprof": 20
     },
     "prefer-stable": false,
