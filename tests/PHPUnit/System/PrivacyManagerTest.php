@@ -23,9 +23,9 @@ use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
 use Piwik\Plugins\VisitorInterest\API as APIVisitorInterest;
 use Piwik\Site;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
-use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Translate;
 
@@ -33,7 +33,7 @@ use Piwik\Translate;
  * @group PrivacyManagerTest
  * @group Plugins
  */
-class PrivacyManagerTest extends SystemTestCase
+class PrivacyManagerTest extends IntegrationTestCase
 {
     // constants used in checking whether numeric tables are populated correctly.
     // 'done' entries exist for every period, even if there's no metric data, so we need the
@@ -55,9 +55,6 @@ class PrivacyManagerTest extends SystemTestCase
     private static $dateTime = '2012-02-28';
     private static $daysAgoStart = 50;
 
-    // maps table names w/ array rows
-    private static $dbData = null;
-
     /**
      * @var PrivacyManager
      */
@@ -66,14 +63,18 @@ class PrivacyManagerTest extends SystemTestCase
 
     private $unusedIdAction = null;
 
-    public static function setUpBeforeClass()
+    public static function beforeTableDataCached()
     {
-        parent::setUpBeforeClass();
+        parent::beforeTableDataCached();
 
         self::_addLogData();
         self::_addReportData();
+    }
 
-        self::$dbData = self::getDbTablesWithData();
+    protected static function configureFixture($fixture)
+    {
+        $fixture->loadTranslations = true;
+        $fixture->createSuperUser = true;
     }
 
     public function setUp()
@@ -86,8 +87,6 @@ class PrivacyManagerTest extends SystemTestCase
         ReportsPurger::$selectSegmentSize = 2;
 
         Db::$lockPrivilegeGranted = null;
-
-        self::restoreDbTables(self::$dbData);
 
         $dateTime = Date::factory(self::$dateTime);
 
@@ -124,15 +123,10 @@ class PrivacyManagerTest extends SystemTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-        Manager::getInstance()->deleteAll();
-        Option::clearCache();
-        Site::clearCache();
-        Cache::deleteTrackerCache();
-        ArchiveTableCreator::clear();
-
         $tempTableName = Common::prefixTable(LogDataPurger::TEMP_TABLE_NAME);
         Db::query("DROP TABLE IF EXISTS " . $tempTableName);
+
+        parent::tearDown();
     }
 
     /**
