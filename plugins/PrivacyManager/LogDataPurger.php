@@ -37,6 +37,11 @@ class LogDataPurger
     private $maxRowsToDeletePerQuery;
 
     /**
+     * @param DimensionMetadataProvider
+     */
+    private $dimensionMetadataProvider;
+
+    /**
      * Constructor.
      *
      * @param int $deleteLogsOlderThan The number of days after which log entires are considered old.
@@ -45,10 +50,11 @@ class LogDataPurger
      * @param int $maxRowsToDeletePerQuery The maximum number of rows to delete in one query. Used to
      *                                     make sure log tables aren't locked for too long.
      */
-    public function __construct($deleteLogsOlderThan, $maxRowsToDeletePerQuery)
+    public function __construct($deleteLogsOlderThan, $maxRowsToDeletePerQuery, DimensionMetadataProvider $dimensionMetadataProvider)
     {
         $this->deleteLogsOlderThan = $deleteLogsOlderThan;
         $this->maxRowsToDeletePerQuery = $maxRowsToDeletePerQuery;
+        $this->dimensionMetadataProvider = $dimensionMetadataProvider;
     }
 
     /**
@@ -204,7 +210,8 @@ class LogDataPurger
         $tempTableName = Common::prefixTable(self::TEMP_TABLE_NAME);
 
         $idColumns = $this->getTableIdColumns();
-        foreach ($this->getIdActionColumns() as $table => $columns) {
+        $idActionColumnsByTable = $this->dimensionMetadataProvider->getActionReferenceColumnsByTable();
+        foreach ($idActionColumnsByTable as $table => $columns) {
             $idCol = $idColumns[$table];
 
             foreach ($columns as $col) {
@@ -260,34 +267,6 @@ class LogDataPurger
         Db::query($deleteSql);
     }
 
-    private function getIdActionColumns()
-    {
-        return array(
-            'log_link_visit_action' => array('idaction_url',
-                                             'idaction_url_ref',
-                                             'idaction_name',
-                                             'idaction_name_ref',
-                                             'idaction_event_category',
-                                             'idaction_event_action'
-            ),
-
-            'log_conversion'        => array('idaction_url'),
-
-            'log_visit'             => array('visit_exit_idaction_url',
-                                             'visit_exit_idaction_name',
-                                             'visit_entry_idaction_url',
-                                             'visit_entry_idaction_name'),
-
-            'log_conversion_item'   => array('idaction_sku',
-                                             'idaction_name',
-                                             'idaction_category',
-                                             'idaction_category2',
-                                             'idaction_category3',
-                                             'idaction_category4',
-                                             'idaction_category5')
-        );
-    }
-
     private function getTableIdColumns()
     {
         return array(
@@ -328,7 +307,8 @@ class LogDataPurger
     {
         return new LogDataPurger(
             $settings['delete_logs_older_than'],
-            $settings['delete_logs_max_rows_per_query']
+            $settings['delete_logs_max_rows_per_query'],
+            new DimensionMetadataProvider()
         );
     }
 }
