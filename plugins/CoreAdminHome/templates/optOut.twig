@@ -5,6 +5,8 @@
     {% if reloadUrl %}
         <meta http-equiv="refresh" content="0; url={{ reloadUrl }}&amp;nonce={{ nonce }}" />
     {% endif %}
+    {% block stylesheets %}{% endblock %}
+    {% block scripts %}
     <script>
         function submitForm(event, form, loadInNewWindow) {
             event.preventDefault();
@@ -21,53 +23,56 @@
             }
         }
     </script>
+    {% endblock %}
 </head>
 <body>
-{% if dntFound %}
-    {{ 'CoreAdminHome_OptOutDntFound'|translate }}
-{% elseif reloadUrl %}
-    {# empty #}
-{% else %}
-    {# if only showing confirmation (because we're in a new window), we only display the success message if JS is disabled.
-     # otherwise we try to close the window immediately.
-     #}
-    {% if showConfirmOnly %}
-    <p>{{ 'CoreAdminHome_OptingYouOut'|translate }}</p><script>window.close();</script>
-    <noscript>
-    {% endif %}
-
-    {% if not trackVisits %}
-        {{ 'CoreAdminHome_OptOutComplete'|translate }}
-	    <br/>
-        {{ 'CoreAdminHome_OptOutCompleteBis'|translate }}
+{% block body %}
+    {% if dntFound %}
+        {{ 'CoreAdminHome_OptOutDntFound'|translate }}
+    {% elseif reloadUrl %}
+        {# empty #}
     {% else %}
-        {{ 'CoreAdminHome_YouMayOptOut'|translate }}
-        <br/>
-        {{ 'CoreAdminHome_YouMayOptOutBis'|translate }}
-    {% endif %}
-
-    {% if showConfirmOnly %}</noscript>{% endif %}
-
-    <br/><br/>
-
-    {% if not showConfirmOnly %}
-    {% set loadInNewWindow = isSafari and trackVisits %}
-    <form method="post" action="?module=CoreAdminHome&amp;action=optOut{% if language %}&amp;language={{ language }}{% endif %}{% if loadInNewWindow %}&amp;setCookieInNewWindow=1{% endif %}" {% if loadInNewWindow %}target="_blank"{% endif %}>
-        <input type="hidden" name="nonce" value="{{ nonce }}" />
-        <input type="hidden" name="fuzz" value="{{ "now"|date }}" />
-        <input onclick="submitForm(event, this.form, {{ loadInNewWindow|default(0) }});" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
-        <label for="trackVisits"><strong>
-        {% if trackVisits %}
-            {{ 'CoreAdminHome_YouAreOptedIn'|translate }} {{ 'CoreAdminHome_ClickHereToOptOut'|translate }}
-        {% else %}
-            {{ 'CoreAdminHome_YouAreOptedOut'|translate }} {{ 'CoreAdminHome_ClickHereToOptIn'|translate }}
-        {% endif %}
-        </strong></label>
+        {# if only showing confirmation (because we're in a new window), we only display the success message if JS is disabled.
+         # otherwise we try to close the window immediately.
+         #}
+        {% if showConfirmOnly %}
+        <p>{{ 'CoreAdminHome_OptingYouOut'|translate }}</p><script>window.close();</script>
         <noscript>
-            <button type="submit">{{ 'General_Save'|translate }}</button>
-        </noscript>
-    </form>
+        {% endif %}
+
+        {% if not trackVisits %}
+            {{ 'CoreAdminHome_OptOutComplete'|translate }}
+            <br/>
+            {{ 'CoreAdminHome_OptOutCompleteBis'|translate }}
+        {% else %}
+            {{ 'CoreAdminHome_YouMayOptOut'|translate }}
+            <br/>
+            {{ 'CoreAdminHome_YouMayOptOutBis'|translate }}
+        {% endif %}
+
+        {% if showConfirmOnly %}</noscript>{% endif %}
+
+        <br/><br/>
+
+        {% if not showConfirmOnly %}
+        {% set loadInNewWindow = isSafari and trackVisits %}
+        <form method="post" action="?module=CoreAdminHome&amp;action=optOut{% if language %}&amp;language={{ language }}{% endif %}{% if loadInNewWindow %}&amp;setCookieInNewWindow=1{% endif %}" {% if loadInNewWindow %}target="_blank"{% endif %}>
+            <input type="hidden" name="nonce" value="{{ nonce }}" />
+            <input type="hidden" name="fuzz" value="{{ "now"|date }}" />
+            <input onclick="submitForm(event, this.form, {{ loadInNewWindow|default(0) }});" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
+            <label for="trackVisits"><strong>
+            {% if trackVisits %}
+                {{ 'CoreAdminHome_YouAreOptedIn'|translate }} {{ 'CoreAdminHome_ClickHereToOptOut'|translate }}
+            {% else %}
+                {{ 'CoreAdminHome_YouAreOptedOut'|translate }} {{ 'CoreAdminHome_ClickHereToOptIn'|translate }}
+            {% endif %}
+            </strong></label>
+            <noscript>
+                <button type="submit">{{ 'General_Save'|translate }}</button>
+            </noscript>
+        </form>
+        {% endif %}
     {% endif %}
-{% endif %}
+{% endblock %}
 </body>
 </html>
