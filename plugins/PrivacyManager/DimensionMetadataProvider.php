@@ -5,7 +5,10 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\PrivacyManager;
+
+use Piwik\Plugin\Dimension\ActionDimension;
 
 /**
  * Provides metadata about dimensions for the LogDataPurger class.
@@ -38,13 +41,10 @@ class DimensionMetadataProvider
      */
     public function getActionReferenceColumnsByTable()
     {
-        return array(
+        $result = array(
             'log_link_visit_action' => array('idaction_url',
                 'idaction_url_ref',
-                'idaction_name',
-                'idaction_name_ref',
-                'idaction_event_category',
-                'idaction_event_action'
+                'idaction_name_ref'
             ),
 
             'log_conversion'        => array('idaction_url'),
@@ -62,5 +62,48 @@ class DimensionMetadataProvider
                 'idaction_category4',
                 'idaction_category5')
         );
+
+        $dimensionIdActionColumns = $this->getVisitActionTableActionReferences();
+        $result['log_link_visit_action'] = array_unique(
+            array_merge($result['log_link_visit_action'], $dimensionIdActionColumns));
+
+        foreach ($this->actionReferenceColumnsOverride as $table => $columns) {
+            if (empty($result[$table])) {
+                $result[$table] = $columns;
+            } else {
+                $result[$table] = array_unique(array_merge($result[$table], $columns));
+            }
+        }
+
+        return $result;
+    }
+
+    private function getVisitActionTableActionReferences()
+    {
+        $idactionColumns = array();
+        foreach (ActionDimension::getAllDimensions() as $actionDimension) {
+            if ($this->isActionReference($actionDimension)) {
+                $idactionColumns[] = $actionDimension->getColumnName();
+            }
+        }
+        return $idactionColumns;
+    }
+
+
+    /**
+     * Returns `true` if the column for this dimension is a reference to the `log_action` table (ie, an "idaction column"),
+     * `false` if otherwise.
+     *
+     * @return bool
+     */
+    private function isActionReference(ActionDimension $dimension)
+    {
+        try {
+            $dimension->getActionId();
+
+            return true;
+        } catch (\Exception $ex) {
+            return false;
+        }
     }
 }

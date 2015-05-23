@@ -209,6 +209,7 @@ abstract class ActionDimension extends Dimension
 
     /**
      * Get all action dimensions that are defined by all activated plugins.
+     * @return ActionDimension[]
      * @ignore
      */
     public static function getAllDimensions()
