@@ -186,9 +186,6 @@ class Http
         $headers = array();
 
         $httpAuthIsUsed = !empty($httpUsername) || !empty($httpPassword);
-        if($httpAuthIsUsed && $method != 'curl') {
-            throw new Exception("Specifying HTTP Username and HTTP password is only supported for CURL for now.");
-        }
 
         if ($method == 'socket') {
             if (!self::isSocketEnabled()) {
@@ -243,9 +240,15 @@ class Http
                 throw new Exception("Error while connecting to: $host. Please try again later. $errstr");
             }
 
+            $httpAuth = '';
+            if ($httpAuthIsUsed) {
+                $httpAuth = 'Authorization: Basic ' . base64_encode($httpUsername.':'.$httpPassword) . "\r\n";
+            }
+
             // send HTTP request header
             $requestHeader .=
                 "Host: $host" . ($port != 80 ? ':' . $port : '') . "\r\n"
+                . ($httpAuth ? $httpAuth : '')
                 . ($proxyAuth ? $proxyAuth : '')
                 . 'User-Agent: ' . $userAgent . "\r\n"
                 . ($acceptLanguage ? $acceptLanguage . "\r\n" : '')
@@ -394,11 +397,17 @@ class Http
             $default_socket_timeout = @ini_get('default_socket_timeout');
             @ini_set('default_socket_timeout', $timeout);
 
+            $httpAuth = '';
+            if ($httpAuthIsUsed) {
+                $httpAuth = 'Authorization: Basic ' . base64_encode($httpUsername.':'.$httpPassword) . "\r\n";
+            }
+
             $ctx = null;
             if (function_exists('stream_context_create')) {
                 $stream_options = array(
                     'http' => array(
                         'header'        => 'User-Agent: ' . $userAgent . "\r\n"
+                            . ($httpAuth ? $httpAuth : '')
                             . ($acceptLanguage ? $acceptLanguage . "\r\n" : '')
                             . $xff . "\r\n"
                             . $via . "\r\n"
@@ -430,7 +439,13 @@ class Http
                 fclose($handle);
             } else {
                 $response = @file_get_contents($aUrl, 0, $ctx);
-                if ($response === false) {
+
+                // try to get http status code from response headers
+                if (isset($http_response_header) && preg_match('~^HTTP/(\d\.\d)\s+(\d+)(\s*.*)?~', implode("\n", $http_response_header), $m)) {
+                    $status = (int)$m[2];
+                }
+
+                if (!$status && $response === false) {
                     $error = error_get_last();
                     throw new \Exception($error['message']);
                 }
