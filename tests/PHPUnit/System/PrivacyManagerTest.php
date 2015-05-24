@@ -187,9 +187,10 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks on prediction
         $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
+        $contents = 3; // one content impression per day, so 3 purged
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6 + $events,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
@@ -298,9 +299,10 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks on prediction
         $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
+        $contents = 3; // one content impression per day, so 3 purged
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6 + $events,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => 1, // remove the garbage metric
@@ -352,9 +354,10 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks on prediction
         $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
+        $contents = 3; // one content impression per day, so 3 purged
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6 + $events,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
@@ -386,9 +389,10 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks on prediction
         $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
+        $contents = 3; // one content impression per day, so 3 purged
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6 + $events,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
@@ -420,9 +424,10 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks on prediction
         $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
+        $contents = 3; // one content impression per day, so 3 purged
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6 + $events,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
@@ -454,9 +459,10 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks on prediction
         $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
+        $contents = 3; // one content impression per day, so 3 purged
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6 + $events,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
@@ -492,7 +498,8 @@ class PrivacyManagerTest extends IntegrationTestCase
         $purger->purgeData($this->settings['delete_logs_older_than'], $this->settings['delete_logs_max_rows_per_query']);
 
         // check that actions were purged
-        $this->assertEquals(22 + $this->getCountEventIdsNotPurged(), $this->_getTableCount('log_action')); // January
+        $contentsNotPurged = 3;
+        $this->assertEquals(22 + $this->getCountEventIdsNotPurged() + $contentsNotPurged, $this->_getTableCount('log_action')); // January
 
         // check that the unused action still exists
         $count = Db::fetchOne(
@@ -517,9 +524,10 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks on prediction
         $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
+        $contents = 3; // one content impression per day, so 3 purged
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6 + $events,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
@@ -552,9 +560,10 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks on prediction
         $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
+        $contents = 3; // one content impression per day, so 3 purged
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6 + $events,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
@@ -624,9 +633,14 @@ class PrivacyManagerTest extends IntegrationTestCase
             $t->setUrl("http://whatever.com/42/$daysAgo");
             $t->doTrackPageView('Second page view');
 
+            // track an event to test event actions are purged/preserved
             $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.1));
             $t->setUrl("http://whatever.com/event");
             $t->doTrackEvent('Event action', 'event cat', 'daysAgo=' . $daysAgo, 1000);
+
+            // track a content impression to test that content actions are purged/preserved
+            $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.1));
+            $t->doTrackContentImpression('SugarTransportAd', '/path/ad.jpg', 'http://www.satsumaprovince.jp');
 
             $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2));
             $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR', $category = 'Electronics & Cameras',
@@ -634,6 +648,7 @@ class PrivacyManagerTest extends IntegrationTestCase
             $t->doTrackEcommerceOrder($orderId = '937nsjusu ' . $dateTime, $grandTotal = 1111.11, $subTotal = 1000,
                 $tax = 111, $shipping = 0.11, $discount = 666);
         }
+
         Fixture::checkBulkTrackingResponse($t->doBulkTrack());
     }
 
@@ -728,12 +743,12 @@ class PrivacyManagerTest extends IntegrationTestCase
 
     protected function _checkNoDataChanges()
     {
-        // 11 visits total w/ 2 actions per visit & 2 conversions per visit. 1 e-commerce order per visit.
+        // 11 visits total w/ 4 actions per visit & 2 conversions per visit. 1 e-commerce order per visit.
         $this->assertEquals(11, $this->_getTableCount('log_visit'));
         $this->assertEquals(22, $this->_getTableCount('log_conversion'));
-        $this->assertEquals(33, $this->_getTableCount('log_link_visit_action'));
+        $this->assertEquals(44, $this->_getTableCount('log_link_visit_action'));
         $this->assertEquals(11, $this->_getTableCount('log_conversion_item'));
-        $this->assertEquals(41, $this->_getTableCount('log_action'));
+        $this->assertEquals(45, $this->_getTableCount('log_action'));
 
         $archiveTables = self::_getArchiveTableNames();
         //var_export(Db::fetchAll("SELECT * FROM " . Common::prefixTable($archiveTables['numeric'][0])));
@@ -776,14 +791,16 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         // 3 days removed by purge, so 3 visits, 6 conversions, 6 visit actions, 3 e-commerce orders
         // & 6 actions removed
-        $events = 11 - 3; // 3 deleted;
+        $events = 11 - 3; // 3 deleted (1 per day purged)
+        $contents = 11 - 3; // 3 deleted (1 per day purged)
         $this->assertEquals(8, $this->_getTableCount('log_visit'));
         $this->assertEquals(16, $this->_getTableCount('log_conversion'));
-        $this->assertEquals(16 + $events, $this->_getTableCount('log_link_visit_action'));
+        $this->assertEquals(16 + $events + $contents, $this->_getTableCount('log_link_visit_action'));
         $this->assertEquals(8, $this->_getTableCount('log_conversion_item'));
 
         $eventsId = $this->getCountEventIdsNotPurged();
-        $this->assertEquals(21 + $eventsId, $this->_getTableCount('log_action'));
+        $contentsNotPurged = 3;
+        $this->assertEquals(21 + $eventsId + $contentsNotPurged, $this->_getTableCount('log_action'));
     }
 
     /**
@@ -878,8 +895,8 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     private function getCountEventIdsNotPurged()
     {
-        $eventsId = 11 /* days eventAction */ + 2 /* category+name */ + 1 /* event url */ - 3 /* days deleted */
-        ;
-        return $eventsId;
+        $count = 11 /* days eventAction */ + 2 /* category+name */ + 1 /* event url */ - 3 /* days deleted */;
+        $count += 1; // since content tracking is done after event tracking, a referrer action is generated for the event
+        return $count;
     }
 }
