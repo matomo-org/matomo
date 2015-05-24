@@ -119,6 +119,57 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getMethodsToTest
      */
+    public function testHttpAuthentication($method)
+    {
+        $result = Http::sendHttpRequestBy(
+            $method,
+            Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/HttpAuthentication.php',
+            30,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = false,
+            $getExtendedInfo = true,
+            $httpMethod = 'GET',
+            $httpUsername = 'test',
+            $httpPassword = 'test'
+        );
+
+        $this->assertEquals('Authentication successful', $result['data']);
+        $this->assertEquals(200, $result['status']);
+    }
+
+    /**
+     * @dataProvider getMethodsToTest
+     */
+    public function testHttpAuthenticationInvalid($method)
+    {
+        $result = Http::sendHttpRequestBy(
+            $method,
+            Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/HttpAuthentication.php',
+            30,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = false,
+            $getExtendedInfo = true,
+            $httpMethod = 'GET',
+            $httpUsername = '',
+            $httpPassword = ''
+        );
+
+        $this->assertEquals(401, $result['status']);
+    }
+
+    /**
+     * @dataProvider getMethodsToTest
+     */
     public function testHttpsWorksWithValidCertificate($method)
     {
         $result = Http::sendHttpRequestBy($method, 'https://builds.piwik.org/LATEST', 10);
