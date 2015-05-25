@@ -59,9 +59,6 @@ class TrackerTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        GlobalSettingsProvider::unsetSingletonInstance();
-        Config::unsetInstance();
-
         Fixture::createWebsite('2014-01-01 00:00:00');
 
         $this->tracker = new TestTracker();
@@ -251,6 +248,22 @@ class TrackerTest extends IntegrationTestCase
 
         $this->assertActionEquals('test', 1);
         $this->assertActionEquals('example.com', 2);
+    }
+
+    public function test_trackRequest_shouldTrackOutlinkWithFragment()
+    {
+        $request = $this->buildRequest(array('idsite' => 1, 'link' => 'http://example.com/outlink#fragment-here', 'rec' => 1));
+        $this->tracker->trackRequest($request);
+
+        $this->assertActionEquals('http://example.com/outlink#fragment-here', 1);
+    }
+
+    public function test_trackRequest_shouldTrackDownloadWithFragment()
+    {
+        $request = $this->buildRequest(array('idsite' => 1, 'download' => 'http://example.com/file.zip#fragment-here&pk_campaign=Campaign param accepted here', 'rec' => 1));
+        $this->tracker->trackRequest($request);
+
+        $this->assertActionEquals('http://example.com/file.zip#fragment-here&amp;pk_campaign=Campaign param accepted here', 1);
     }
 
     public function test_main_shouldReturnEmptyPiwikResponse_IfNoRequestsAreGiven()

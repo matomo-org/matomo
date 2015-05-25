@@ -208,8 +208,9 @@ abstract class Action
 
     protected function setActionUrlWithoutExcludingParameters($url)
     {
-        $this->rawActionUrl = PageUrl::getUrlIfLookValid($url);
-        $this->actionUrl = PageUrl::getUrlIfLookValid($url);
+        $url = PageUrl::getUrlIfLookValid($url);
+        $this->rawActionUrl = $url;
+        $this->actionUrl = $url;
     }
 
     abstract protected function getActionsToLookup();
