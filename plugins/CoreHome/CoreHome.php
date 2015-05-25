@@ -59,7 +59,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "libs/bower_components/ngDialog/css/ngDialog.min.css";
         $stylesheets[] = "libs/bower_components/ngDialog/css/ngDialog-theme-default.min.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
-        $stylesheets[] = "plugins/Morpheus/stylesheets/theme.less";
+        $stylesheets[] = "plugins/Morpheus/stylesheets/main.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/coreHome.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/menu.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/dataTable.less";
