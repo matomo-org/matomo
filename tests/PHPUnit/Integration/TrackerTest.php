@@ -250,6 +250,22 @@ class TrackerTest extends IntegrationTestCase
         $this->assertActionEquals('example.com', 2);
     }
 
+    public function test_trackRequest_shouldTrackOutlinkWithFragment()
+    {
+        $request = $this->buildRequest(array('idsite' => 1, 'link' => 'http://example.com/outlink#fragment-here', 'rec' => 1));
+        $this->tracker->trackRequest($request);
+
+        $this->assertActionEquals('http://example.com/outlink#fragment-here', 1);
+    }
+
+    public function test_trackRequest_shouldTrackDownloadWithFragment()
+    {
+        $request = $this->buildRequest(array('idsite' => 1, 'download' => 'http://example.com/file.zip#fragment-here&pk_campaign=Campaign param accepted here', 'rec' => 1));
+        $this->tracker->trackRequest($request);
+
+        $this->assertActionEquals('http://example.com/file.zip#fragment-here&amp;pk_campaign=Campaign param accepted here', 1);
+    }
+
     public function test_main_shouldReturnEmptyPiwikResponse_IfNoRequestsAreGiven()
     {
         $requestSet = $this->getEmptyRequestSet();

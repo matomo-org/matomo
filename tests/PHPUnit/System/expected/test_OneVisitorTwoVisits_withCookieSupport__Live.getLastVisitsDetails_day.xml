@@ -21,7 +21,7 @@
 				<type>action</type>
 				<url>http://example.org/store/purchase.htm</url>
 				<pageTitle>Checkout/Purchasing...</pageTitle>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>13</pageIdAction>
 				
 				<pageId>9</pageId>
 				<generationTime>0.13s</generationTime>
@@ -147,7 +147,7 @@
 			</row>
 			<row>
 				<type>outlink</type>
-				<url>http://dev.piwik.org/svn</url>
+				<url>https://outlinks.org/#!outlink-with-fragment-&lt;script&gt;</url>
 				<pageTitle />
 				<pageIdAction>5</pageIdAction>
 				
@@ -171,7 +171,7 @@
 			</row>
 			<row>
 				<type>outlink</type>
-				<url>http://outlinks.org/other_outlink</url>
+				<url>http://outlinks.org/other_outlink#fragment&amp;pk_campaign=Open%20partnership</url>
 				<pageTitle />
 				<pageIdAction>7</pageIdAction>
 				
@@ -185,7 +185,7 @@
 				<type>outlink</type>
 				<url>http://dev.piwik.org/svn</url>
 				<pageTitle />
-				<pageIdAction>5</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>6</pageId>
 				<timeSpent>72</timeSpent>
@@ -221,7 +221,7 @@
 				<type>action</type>
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Looking at homepage after site search...</pageTitle>
-				<pageIdAction>10</pageIdAction>
+				<pageIdAction>11</pageIdAction>
 				
 				<pageId>8</pageId>
 				<generationTime>0.02s</generationTime>

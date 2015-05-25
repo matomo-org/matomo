@@ -124,6 +124,11 @@ class BackwardsCompatibility1XTest extends SystemTestCase
              // the Action.getPageTitles test fails for unknown reason, so skipping it
              // eg. https://travis-ci.org/piwik/piwik/jobs/24449365
             'Action.getPageTitles',
+
+            // Outlinks now tracked with URL Fragment which was not the case in 1.X
+            'Actions.get',
+            'Actions.getOutlink',
+            'Actions.getOutlinks',
         );
 
         $apiNotToCall = array_merge($apiNotToCall, $reportsToCompareSeparately);
