@@ -38,7 +38,7 @@ class PageUrl
      * @static
      * @param $originalUrl
      * @param $idSite
-     * @return bool|string
+     * @return bool|string Returned URL is HTML entities decoded
      */
     public static function excludeQueryParametersFromUrl($originalUrl, $idSite)
     {
