@@ -18,6 +18,11 @@ use Piwik\Tracker\Cache;
 use ReflectionClass;
 
 /**
+ * @see plugins/UserCountry/functions.php
+ */
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
+
+/**
  * @see plugins/UserCountry/LocationProvider/Default.php
  */
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/Default.php';
@@ -355,7 +360,7 @@ abstract class LocationProvider
             && !empty($location[self::COUNTRY_CODE_KEY])
         ) {
             $countryCode = strtolower($location[self::COUNTRY_CODE_KEY]);
-            $location[self::COUNTRY_NAME_KEY] = Piwik::translate('UserCountry_country_' . $countryCode);
+            $location[self::COUNTRY_NAME_KEY] = countryTranslate($countryCode);
         }
 
         // deal w/ improper latitude/longitude & round proper values
