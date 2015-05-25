@@ -11,6 +11,7 @@ namespace Piwik\Plugins\PrivacyManager;
 use HTML_QuickForm2_DataSource_Array;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Db;
@@ -24,9 +25,6 @@ use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
-
-require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/LogDataPurger.php';
-require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/ReportsPurger.php';
 
 /**
  * Specifically include this for Tracker API (which does not use autoloader)
@@ -326,7 +324,9 @@ class PrivacyManager extends Plugin
         Option::set(self::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDeleteDate);
 
         // execute the purge
-        LogDataPurger::make($settings)->purgeData();
+        /** @var LogDataPurger $logDataPurger */
+        $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
+        $logDataPurger->purgeData($settings['delete_logs_older_than'], $settings['delete_logs_max_rows_per_query']);
 
         return true;
     }
@@ -351,8 +351,9 @@ class PrivacyManager extends Plugin
         $result = array();
 
         if ($settings['delete_logs_enable']) {
-            $logDataPurger = LogDataPurger::make($settings);
-            $result = array_merge($result, $logDataPurger->getPurgeEstimate());
+            /** @var LogDataPurger $logDataPurger */
+            $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
+            $result = array_merge($result, $logDataPurger->getPurgeEstimate($settings['delete_logs_older_than']));
         }
 
         if ($settings['delete_reports_enable']) {

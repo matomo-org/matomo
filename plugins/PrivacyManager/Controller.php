@@ -167,7 +167,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $settings = PrivacyManager::getPurgeDataSettings();
         if ($settings['delete_logs_enable']) {
-            $logDataPurger = LogDataPurger::make($settings);
+            /** @var LogDataPurger $logDataPurger */
+            $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
             $logDataPurger->purgeData();
         }
         if ($settings['delete_reports_enable']) {
