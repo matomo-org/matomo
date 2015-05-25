@@ -149,7 +149,7 @@ before_script:
   # travis now complains about this failing 9 times out of 10, so removing it. hopefully the random failures it prevented won't come back
   - travis_retry composer self-update
 
-  - '[ "$SKIP_COMPOSER_INSTALL" != "1" ] && travis_retry composer install'
+  - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install'
 
   # print out more debugging info
   - uname -a

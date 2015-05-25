@@ -25,8 +25,8 @@ env:
     - TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
     # Javascript tests
-    - TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
-    - TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
+    - TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
+    - TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
     # All tests after another
     - TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
@@ -70,14 +70,14 @@ matrix:
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
     # Javascript tests need to run only on one PHP version
     - php: 5.3.3
-      env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
+      env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
     - php: hhvm
-      env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
+      env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
     # AngularJS tests need to run only on one PHP version
     - php: 5.3.3
-      env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
+      env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
     - php: hhvm
-      env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
+      env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
 
 sudo: required
 
@@ -121,7 +121,7 @@ before_script:
   # travis now complains about this failing 9 times out of 10, so removing it. hopefully the random failures it prevented won't come back
   - travis_retry composer self-update
 
-  - '[ "$SKIP_COMPOSER_INSTALL" != "1" ] && travis_retry composer install'
+  - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install'
 
   # print out more debugging info
   - uname -a
