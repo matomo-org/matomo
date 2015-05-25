@@ -64,5 +64,10 @@ return array(
 
     'observers.global' => array(),
 
-    'Piwik\EventDispatcher' => DI\object()->constructorParameter('observers', DI\get('observers.global'))
+    'Piwik\EventDispatcher' => DI\object()->constructorParameter('observers', DI\get('observers.global')),
+
+    'RequestSanitizer.requestParameterSanitizeBlacklist' => array(),
+
+    'Piwik\Http\RequestSanitizer' => DI\object()
+        ->constructorParameter('requestParameterSanitizeBlacklist', DI\get('RequestSanitizer.requestParameterSanitizeBlacklist')),
 );

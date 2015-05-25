@@ -351,10 +351,7 @@ class Common
 
         // there is no value $varName in the REQUEST so we try to use the default value
         if (empty($varName)
-            || !isset($requestArrayToUse[$varName])
-            || (!is_array($requestArrayToUse[$varName])
-                && strlen($requestArrayToUse[$varName]) === 0
-            )
+            || !self::isParameterPresentInRequest($varName, $requestArrayToUse)
         ) {
             if (is_null($varDefault)) {
                 throw new Exception("The parameter '$varName' isn't set in the Request, and a default value wasn't provided.");
@@ -1216,5 +1213,21 @@ class Common
             return $validLanguages;
         }
         return $validLanguages;
+    }
+
+    /**
+     * Returns true if a query parameter exists in an array of query parameters and if the value is not convertible
+     * to an empty string.
+     *
+     * It is important for this to check that the value is not convertible to an empty string. Values like `false`
+     * and empty strings are not considered valid query parameter values.
+     *
+     * @param string $name
+     * @param array $parametersRequest
+     * @return bool
+     */
+    public static function isParameterPresentInRequest($name, $parametersRequest)
+    {
+        return isset($parametersRequest[$name]) && (is_array($parametersRequest[$name]) || strlen($parametersRequest[$name]) !== 0);
     }
 }

@@ -21,6 +21,25 @@ class RequestSanitizer
     const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
 
     /**
+     * @var array[]
+     */
+    private $requestParameterSanitizeBlacklist = array();
+
+    public function __construct(array $requestParameterSanitizeBlacklist = array())
+    {
+        foreach ($requestParameterSanitizeBlacklist as $entry) {
+            list($apiMethod, $params) = $entry;
+
+            if (isset($this->requestParameterSanitizeBlacklist[$apiMethod])) {
+                $this->requestParameterSanitizeBlacklist[$apiMethod] =
+                    array_merge($this->requestParameterSanitizeBlacklist[$apiMethod], $params);
+            } else {
+                $this->requestParameterSanitizeBlacklist[$apiMethod] = $params;
+            }
+        }
+    }
+
+    /**
      * Sanitizes a single value.
      *
      * @param mixed $value If numeric, the value is not changed. If a string, line breaks are removed and HTML entities
@@ -127,6 +146,31 @@ class RequestSanitizer
         $value = $this->undoMagicQuotes($value);
         $value = json_decode($value, $assoc = true);
         return $this->sanitizeValues($value, $alreadyStripslashed = true);
+    }
+
+    /**
+     * Sanitizes an API parameter unless it has been blacklisted from sanitization.
+     *
+     * @param string $apiMethod The API method being called, eg, SitesManager.getAllSites.
+     * @param string $name The name of the API parameter being sanitized.
+     * @param string $value The value of the API parameter.
+     * @return string
+     */
+    public function sanitizeApiParameter($apiMethod, $name, $value)
+    {
+        // segment parameter is an exception: we do not want to sanitize user input or it would break the segment encoding
+        if ($name == 'segment') {
+            return $value;
+        }
+
+        // check if the API parameter was blacklisted in DI
+        if (!empty($this->requestParameterSanitizeBlacklist[$apiMethod])
+            && in_array($name, $this->requestParameterSanitizeBlacklist[$apiMethod])
+        ) {
+            return $value;
+        }
+
+        return $this->sanitizeValues($value);
     }
 
     /**
