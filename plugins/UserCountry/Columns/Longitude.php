@@ -32,7 +32,7 @@ class Longitude extends Base
 
     public function getName()
     {
-        return Piwik::translate('UserCountry_Latitude');
+        return Piwik::translate('UserCountry_Longitude');
     }
 
     /**
