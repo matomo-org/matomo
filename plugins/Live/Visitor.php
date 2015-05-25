@@ -307,7 +307,10 @@ class Visitor implements VisitorInterface
             }
 
             // Reconstruct url from prefix
-            $actionDetail['url'] = Tracker\PageUrl::reconstructNormalizedUrl($actionDetail['url'], $actionDetail['url_prefix']);
+            $url = Tracker\PageUrl::reconstructNormalizedUrl($actionDetail['url'], $actionDetail['url_prefix']);
+            $url = Common::unsanitizeInputValue($url);
+
+            $actionDetail['url'] = $url;
             unset($actionDetail['url_prefix']);
 
             // Set the time spent for this action (which is the timeSpentRef of the next action)
