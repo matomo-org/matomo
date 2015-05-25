@@ -1,9 +1,11 @@
 {
     "Live": {
+        "AbandonedCartSummary": "%1$s%2$s achtergelaten winkelwagens%3$s en %4$s achtergelaten items %5$s, voor een totale waarde van %6$s%7$s.",
         "AveragePageGenerationTime": "Elke pagina duurde gemiddeld %1$s om te laden voor deze bezoeker.",
         "CalculatedOverNPageViews": "Berekend met de laatste %1$s paginaweergaves van deze bezoeker.",
         "ClickToViewMoreAboutVisit": "Klik om meer informatie over dit bezoek te zien",
         "ConvertedNGoals": "Behaalde %s Doelen",
+        "EcommerceSummaryConversions": "%1$s%2$s aankopen voor een totaal van %3$s%4$s, kochten %5$s items aan.",
         "FirstVisit": "Eerste bezoek",
         "GoalType": "Type",
         "HideMap": "Verberg kaart",
@@ -33,6 +35,9 @@
         "VisitorsLastVisit": "Het laatste bezoek van deze bezoekers was %s dagen geleden.",
         "VisitsFrom": "%1$s%2$s bezoeken%3$s van",
         "VisitSummary": "Spendeerde in totaal %1$s%2$s op de website %3$s, en %4$sbekeek %5$s pagina's in %6$s bezoeken.%7$s",
-        "RowActionTooltipTitle": "Open gesegmenteerd Bezoekerslogboek"
+        "RowActionTooltipDefault": "Toon bezoekers log verdeeld volgens deze rij",
+        "RowActionTooltipTitle": "Open gesegmenteerd Bezoekerslogboek",
+        "OnClickPause": "%s is gestart. Klik om te pauzeren.",
+        "OnClickStart": "%s is gestopt. Klik om te starten."
     }
 }
