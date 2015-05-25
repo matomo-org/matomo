@@ -146,6 +146,7 @@
         "ExceptionContactSupportGeneric": "Als het probleem zich nog steeds voordoet, neem dan %scontact op met je Piwik beheerder%s.",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "De gebruiker dient een Super User of de gebruiker '%s' zelf te zijn.",
         "ExceptionConfigurationFileNotFound": "Het configuratiebestand {%s} is niet gevonden of kon niet worden gelezen.",
+        "ExceptionConfigurationFileNotFound2": "Indien het bestand bestaat, wees er dan zeker van %s kan gelezen worden door de gebruiker '%s'.",
         "ExceptionDatabaseVersion": "Uw %1$s versie is %2$s maar Piwik vereist ten minste %3$s.",
         "ExceptionDatabaseVersionNewerThanCodebase": "De Piwik bestanden zijn van de verouderde versie %1$s en we zien dat de Piwik Database al een upgrade heeft gehad naar de nieuwere versie %2$s.",
         "ExceptionDatabaseVersionNewerThanCodebaseWait": "Het kan zijn dat de Piwik beheerder op dit moment de upgrade aan het uitvoeren is. Probeer het over een paar minuten nog eens.",

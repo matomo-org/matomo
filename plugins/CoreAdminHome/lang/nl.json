@@ -86,6 +86,7 @@
         "YouAreOptedIn": "U bent momenteel aangemeld.",
         "YouAreOptedOut": "U bent momenteel afgemeld.",
         "YouMayOptOut": "Je kunt ervoor kiezen om geen uniek cookie identificatie nummer van je computer te hebben, zodat er op deze website van uw apparaat geen data verzameld of geanalyseerd kan worden.",
-        "YouMayOptOutBis": "Om hiervoor te kiezen kunt u hieronder klikken om een opt-out cookie te ontvangen."
+        "YouMayOptOutBis": "Om hiervoor te kiezen kunt u hieronder klikken om een opt-out cookie te ontvangen.",
+        "OptingYouOut": "Opt-out inschakelen, even geduld."
     }
 }

@@ -1,6 +1,8 @@
 {
     "UserCountry": {
+        "AssumingNonApache": "Kan de functie apache_get_modules niet vinden, uitgegaan van non-Apache webserver.",
         "CannotFindGeoIPDatabaseInArchive": "Kan bestand %1$s niet vinden in tar archief %2$s!",
+        "CannotFindGeoIPServerVar": "De %s variabele is niet ingesteld. Je server is waarschijnlijk niet correct geconfigureerd",
         "CannotListContent": "Kon geen lijst maken van de inhoud voor %1$s: %2$s",
         "CannotLocalizeLocalIP": "IP-adres %s is een lokaal adres en kan geen geolocatie op toegepast worden.",
         "CannotUnzipDatFile": "Kan dat bestand niet uitpakken in %1$s: %2$s",
@@ -337,7 +339,9 @@
         "ToGeolocateOldVisits": "Om locatie data voor oude bezoeken te krijgen, gebruik het %1$shier%2$s beschreven script.",
         "UnsupportedArchiveType": "Niet ondersteund archieftype aangetroffen %1$s.",
         "UpdaterHasNotBeenRun": "De updater is nog niet eerder uitgevoerd.",
+        "UpdaterIsNotScheduledToRun": "Het is niet gepland om te worden uitgevoerd in de toekomst.",
         "UpdaterWasLastRun": "De updater is voor het laatst uitgevoerd op %s.",
+        "UpdaterWillRunNext": "De volgende run is gepland om %s",
         "WidgetLocation": "Bezoeker Locatie"
     }
 }

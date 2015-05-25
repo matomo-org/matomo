@@ -2,6 +2,7 @@
     "Login": {
         "ConfirmationLinkSent": "Een bevestigings link is verstuurd naar je mailbox. Controleer je email en open de link om je wachtwoord wijzigen actie te voltooien.",
         "ContactAdmin": "Mogelijke reden: uw host heeft mogelijk de mail() functie geblokkeerd. <br \/>Neem contact op met uw Piwik beheerder.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Een gebruiker met Super User toegang kan niet geauthenticeerd worden met het '%s' mechanisme.",
         "ExceptionPasswordMD5HashExpected": "De wachtwoord parameter moet een MD5 hash zijn van het wachtwoord.",
         "InvalidNonceOrHeadersOrReferrer": "Securityformulier gefaald. Herlaad het formulier en controleer dat cookies worden toegestaan. Als u een proxyserver gebruikt, %s configureer Piwik dan zodanig dat deze proxy headers%s accepteert, die de Hostheaders doorstuurt. Controleer tevens dat de refererheader correct wordt verzonden.",
         "InvalidOrExpiredToken": "Token is ongeldig of is verlopen",
