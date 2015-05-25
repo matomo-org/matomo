@@ -603,7 +603,12 @@ class ArchivingHelper
         $urlFragment = $matches[3];
 
         if (in_array($type, array(Action::TYPE_DOWNLOAD, Action::TYPE_OUTLINK))) {
-            return array(trim($urlHost), '/' . trim($urlPath));
+            $path = '/' . trim($urlPath);
+            if (!empty($urlFragment)) {
+                $path .= '#' . $urlFragment;
+            }
+
+            return array(trim($urlHost), $path);
         }
 
         $name = $urlPath;
