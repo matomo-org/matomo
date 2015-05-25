@@ -235,7 +235,7 @@ class TableLogAction
     /**
      * This function will sanitize or not if it's needed for the specified action type
      *
-     * URLs (Page URLs, Downloads, Outlinks) are stored raw (unsanitized)
+     * URLs (Download URL, Outlink URL) are stored raw (unsanitized)
      * while other action types are stored Sanitized
      *
      * @param $actionType
@@ -246,26 +246,25 @@ class TableLogAction
     {
         $actionString = Common::unsanitizeInputValue($actionString);
 
-        if (self::isActionTypeStoredSanitized($actionType)) {
-            return Common::sanitizeInputValue($actionString);
+        if (self::isActionTypeStoredUnsanitized($actionType)) {
+            return $actionString;
         }
-        return $actionString;
+
+        return Common::sanitizeInputValue($actionString);
     }
 
     /**
      * @param $actionType
      * @return bool
      */
-    private static function isActionTypeStoredSanitized($actionType)
+    private static function isActionTypeStoredUnsanitized($actionType)
     {
         $actionsTypesStoredUnsanitized = array(
-            $actionType == Action::TYPE_PAGE_URL,
             $actionType == Action::TYPE_DOWNLOAD,
             $actionType == Action::TYPE_OUTLINK,
         );
 
-        $isStoredUnsanitized = in_array($actionType, $actionsTypesStoredUnsanitized);
-        return !$isStoredUnsanitized;
+        return in_array($actionType, $actionsTypesStoredUnsanitized);
     }
 
 }

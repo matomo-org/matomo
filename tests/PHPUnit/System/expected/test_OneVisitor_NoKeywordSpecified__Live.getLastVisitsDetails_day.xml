@@ -8,7 +8,7 @@
 		<actionDetails>
 			<row>
 				<type>action</type>
-				<url>http://example.org/this%20is%20cool!</url>
+				<url>http://example.org/this%20is%20cool!?filter=&lt;script&gt;alert(1);&lt;/script&gt;{&quot;place&quot;:{&quot;place&quot;:&quot;0c5b2444-70a0-4932-980c-b4dc0d3f02b5&quot;}}</url>
 				<pageTitle />
 				<pageIdAction>2</pageIdAction>
 				
@@ -109,8 +109,8 @@
 		<actionDetails>
 			<row>
 				<type>action</type>
-				<url>http://example.org/this%20is%20cool!</url>
-				<pageTitle>incredible title!</pageTitle>
+				<url>http://example.org/this%20is%20cool!?filter=&lt;script&gt;alert(1);&lt;/script&gt;{&quot;place&quot;:{&quot;place&quot;:&quot;0c5b2444-70a0-4932-980c-b4dc0d3f02b5&quot;}}</url>
+				<pageTitle>incredible title! (Page URL contains a HTML entity)</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>1</pageId>
@@ -124,7 +124,7 @@
 				<revenue>0</revenue>
 				<goalPageId />
 				
-				<url>http://example.org/this%20is%20cool!</url>
+				<url>http://example.org/this%20is%20cool!?filter=&lt;script&gt;alert(1);&lt;/script&gt;{&quot;place&quot;:{&quot;place&quot;:&quot;0c5b2444-70a0-4932-980c-b4dc0d3f02b5&quot;}}</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
