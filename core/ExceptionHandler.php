@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Container\ContainerDoesNotExistException;
+use Piwik\Http\RequestSanitizer;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 
 /**
@@ -68,7 +69,8 @@ class ExceptionHandler
         $message = $ex->getMessage();
 
         if (!method_exists($ex, 'isHtmlMessage') || !$ex->isHtmlMessage()) {
-            $message = Common::sanitizeInputValue($message);
+            $sanitizer = new RequestSanitizer();
+            $message = $sanitizer->sanitizeValue($message);
         }
 
         $logo = new CustomLogo();
