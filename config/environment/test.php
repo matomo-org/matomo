@@ -19,8 +19,14 @@ return array(
     'cache.eager.cache_id' => 'eagercache-test-',
 
     // Disable loading core translations
-    'Piwik\Translation\Translator' => DI\object()
-        ->constructorParameter('directories', array()),
+    'Piwik\Translation\Translator' => DI\decorate(function ($previous, ContainerInterface $c) {
+        $testingEnvironment = $c->get('Piwik\Tests\Framework\TestingEnvironment');
+        if (!$testingEnvironment->loadRealTranslations) {
+            return new \Piwik\Translation\Translator($c->get('Piwik\Translation\Loader\LoaderInterface'), $directories = array());
+        } else {
+            return $previous;
+        }
+    }),
 
     'Piwik\Config' => DI\decorate(function ($previous, ContainerInterface $c) {
         $testingEnvironment = $c->get('Piwik\Tests\Framework\TestingEnvironment');

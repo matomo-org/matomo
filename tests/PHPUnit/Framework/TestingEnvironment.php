@@ -184,23 +184,6 @@ class TestingEnvironment
         StaticContainer::addDefinitions($diConfig);
     }
 
-    public function arrayMergeRecursiveDistinct(array $array1, array $array2)
-    {
-        $result = $array1;
-
-        foreach ($array2 as $key => $value) {
-            if (is_array($value)) {
-                $result[$key] = isset($result[$key]) && is_array($result[$key])
-                    ? $this->arrayMergeRecursiveDistinct($result[$key], $value)
-                    : $value;
-            } else {
-                $result[$key] = $value;
-            }
-        }
-
-        return $result;
-    }
-
     /**
      * for plugins that need to inject special testing logic
      */
