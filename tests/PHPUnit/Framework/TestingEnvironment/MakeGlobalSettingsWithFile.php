@@ -17,7 +17,7 @@ class MakeGlobalSettingsWithFile implements EnvironmentManipulator
     private $configFileLocal;
     private $configFileCommon;
 
-    public function __construct(\Piwik_TestingEnvironment $testingEnvironment)
+    public function __construct(\Piwik\Tests\Framework\TestingEnvironment $testingEnvironment)
     {
         $this->configFileGlobal = $testingEnvironment->configFileGlobal;
         $this->configFileLocal = $testingEnvironment->configFileLocal;

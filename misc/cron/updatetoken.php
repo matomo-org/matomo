@@ -33,10 +33,8 @@ if (!Common::isPhpCliMode()) {
 
 $testmode = in_array('--testmode', $_SERVER['argv']);
 if ($testmode) {
-    require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/TestingEnvironment.php";
-    \Piwik_TestingEnvironment::addHooks();
+    Tests\Framework\TestingEnvironment::addHooks();
 }
-
 
 function getPiwikDomain()
 {

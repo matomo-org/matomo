@@ -1,17 +1,22 @@
 <?php
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
 
-use Piwik\Application\Environment;
-use Piwik\Common;
-use Piwik\Config;
-use Piwik\Container\StaticContainer;
-use Piwik\Piwik;
-use Piwik\Option;
+namespace Piwik\Tests\Framework;
+
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\DbHelper;
-use Piwik\Tests\Framework\Fixture;
+use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Tests\Framework\TestingEnvironment\MakeGlobalSettingsWithFile;
-
-require_once PIWIK_INCLUDE_PATH . "/core/Config.php";
+use Piwik\Common;
+use Piwik\Option;
+use Piwik\DbHelper;
+use Piwik\Piwik;
+use Piwik\Application\Environment;
 
 if (!defined('PIWIK_TEST_MODE')) {
     define('PIWIK_TEST_MODE', true);
@@ -46,7 +51,7 @@ class Piwik_MockAccess
 /**
  * Sets the test environment.
  */
-class Piwik_TestingEnvironment
+class TestingEnvironment
 {
     private $behaviorOverrideProperties = array();
 
@@ -119,7 +124,7 @@ class Piwik_TestingEnvironment
             }
 
             return $pluginManager->isPluginBundledWithCore($pluginName)
-                || $pluginManager->isPluginOfficialAndNotBundledWithCore($pluginName);
+            || $pluginManager->isPluginOfficialAndNotBundledWithCore($pluginName);
         });
 
         sort($plugins);
@@ -129,7 +134,7 @@ class Piwik_TestingEnvironment
 
     public static function addHooks($globalObservers = array())
     {
-        $testingEnvironment = new Piwik_TestingEnvironment();
+        $testingEnvironment = new TestingEnvironment();
 
         if ($testingEnvironment->queryParamOverride) {
             foreach ($testingEnvironment->queryParamOverride as $key => $value) {
@@ -185,7 +190,7 @@ class Piwik_TestingEnvironment
             $diConfig['Piwik\Config'] = \DI\object('Piwik\Tests\Framework\Mock\TestConfig');
         }
 
-        $globalObservers[] = array('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
+        $globalObservers[] = array('Access.createAccessSingleton', function ($access) use ($testingEnvironment) {
             if (!$testingEnvironment->testUseRegularAuth) {
                 $access = new Piwik_MockAccess($access);
                 \Piwik\Access::setSingletonInstance($access);
@@ -271,9 +276,8 @@ class Piwik_TestingEnvironment
         foreach ($array2 as $key => $value) {
             if (is_array($value)) {
                 $result[$key] = isset($result[$key]) && is_array($result[$key])
-                              ? $this->arrayMergeRecursiveDistinct($result[$key], $value)
-                              : $value
-                              ;
+                    ? $this->arrayMergeRecursiveDistinct($result[$key], $value)
+                    : $value;
             } else {
                 $result[$key] = $value;
             }

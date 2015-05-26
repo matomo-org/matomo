@@ -25,7 +25,7 @@ class TestConfig extends Config
 
         $this->reload();
 
-        $testingEnvironment = new \Piwik_TestingEnvironment();
+        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironment();
         $this->setFromTestEnvironment($testingEnvironment);
     }
 
@@ -73,7 +73,7 @@ class TestConfig extends Config
         $chain->set('PluginsInstalled', array('PluginsInstalled' => array()));
     }
 
-    private function setFromTestEnvironment(\Piwik_TestingEnvironment $testingEnvironment)
+    private function setFromTestEnvironment(\Piwik\Tests\Framework\TestingEnvironment $testingEnvironment)
     {
         $pluginsToLoad = $testingEnvironment->getCoreAndSupportedPlugins();
         if (!empty($testingEnvironment->pluginsToLoad)) {
