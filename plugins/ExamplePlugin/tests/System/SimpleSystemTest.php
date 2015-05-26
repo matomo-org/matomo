@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\ExamplePlugin\tests\System;
 
-use Piwik\Plugins\ExamplePlugin\tests\fixtures\SimpleFixtureTrackFewVisits;
+use Piwik\Plugins\ExamplePlugin\tests\Fixtures\SimpleFixtureTrackFewVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**

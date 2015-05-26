@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\MultiSites\tests\Integration;
 
 use Piwik\FrontController;
-use Piwik\Plugins\MultiSites\tests\fixtures\ManySitesWithVisits;
+use Piwik\Plugins\MultiSites\tests\Fixtures\ManySitesWithVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
