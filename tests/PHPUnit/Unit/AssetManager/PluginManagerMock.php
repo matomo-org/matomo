@@ -74,4 +74,9 @@ class PluginManagerMock extends Manager
     {
         $this->loadedTheme = $loadedTheme;
     }
+
+    public function isPluginBundledWithCore($name)
+    {
+        return stripos($name, 'NonCore') === false;
+    }
 }

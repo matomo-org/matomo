@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\Container\StaticContainer;
 
 /**
  * Singleton that provides read & write access to Piwik's INI configuration.
@@ -36,10 +37,8 @@ use Piwik\Application\Kernel\GlobalSettingsProvider;
  *
  *     Config::getInstance()->MySection = array('myoption' => 1);
  *     Config::getInstance()->forceSave();
- *
- * @method static Config getInstance()
  */
-class Config extends Singleton
+class Config
 {
     const DEFAULT_LOCAL_CONFIG_PATH = '/config/config.ini.php';
     const DEFAULT_COMMON_CONFIG_PATH = '/config/common.config.ini.php';
@@ -55,11 +54,17 @@ class Config extends Singleton
      */
     protected $settings;
 
-    private $initialized = false;
-
-    public function __construct($pathGlobal = null, $pathLocal = null, $pathCommon = null)
+    /**
+     * @return Config
+     */
+    public static function getInstance()
     {
-        $this->settings = GlobalSettingsProvider::getSingletonInstance($pathGlobal, $pathLocal, $pathCommon);
+        return StaticContainer::get('Piwik\Config');
+    }
+
+    public function __construct(GlobalSettingsProvider $settings)
+    {
+        $this->settings = $settings;
     }
 
     /**
@@ -90,51 +95,6 @@ class Config extends Singleton
     public function getCommonPath()
     {
         return $this->settings->getPathCommon();
-    }
-
-    /**
-     * Enable test environment
-     *
-     * @param string $pathLocal
-     * @param string $pathGlobal
-     * @param string $pathCommon
-     * @deprecated
-     */
-    public function setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null, $allowSaving = false)
-    {
-        if (!$allowSaving) {
-            $this->doNotWriteConfigInTests = true;
-        }
-
-        $this->reload($pathLocal, $pathGlobal, $pathCommon);
-
-        $chain = $this->settings->getIniFileChain();
-
-        $databaseTestsSettings = $chain->get('database_tests'); // has to be __get otherwise when called from TestConfig, PHP will issue a NOTICE
-        if (!empty($databaseTestsSettings)) {
-            $chain->set('database', $databaseTestsSettings);
-        }
-
-        // Ensure local mods do not affect tests
-        if (empty($pathGlobal)) {
-            $chain->set('Debug', $chain->getFrom($this->getGlobalPath(), 'Debug'));
-            $chain->set('mail', $chain->getFrom($this->getGlobalPath(), 'mail'));
-            $chain->set('General', $chain->getFrom($this->getGlobalPath(), 'General'));
-            $chain->set('Segments', $chain->getFrom($this->getGlobalPath(), 'Segments'));
-            $chain->set('Tracker', $chain->getFrom($this->getGlobalPath(), 'Tracker'));
-            $chain->set('Deletelogs', $chain->getFrom($this->getGlobalPath(), 'Deletelogs'));
-            $chain->set('Deletereports', $chain->getFrom($this->getGlobalPath(), 'Deletereports'));
-            $chain->set('Development', $chain->getFrom($this->getGlobalPath(), 'Development'));
-        }
-
-        // for unit tests, we set that no plugin is installed. This will force
-        // the test initialization to create the plugins tables, execute ALTER queries, etc.
-        $chain->set('PluginsInstalled', array('PluginsInstalled' => array()));
-    }
-
-    protected function postConfigTestEvent()
-    {
-        Piwik::postTestEvent('Config.createConfigSingleton', array($this->settings->getIniFileChain(), $this)  );
     }
 
     /**
@@ -291,7 +251,6 @@ class Config extends Singleton
      */
     public function clear()
     {
-        $this->initialized = false;
         $this->reload();
     }
 
@@ -314,7 +273,6 @@ class Config extends Singleton
      */
     protected function reload($pathLocal = null, $pathGlobal = null, $pathCommon = null)
     {
-        $this->initialized = false;
         $this->settings->reload($pathGlobal, $pathLocal, $pathCommon);
     }
 
@@ -343,12 +301,6 @@ class Config extends Singleton
      */
     public function &__get($name)
     {
-        if (!$this->initialized) {
-            $this->initialized = true;
-
-            $this->postConfigTestEvent();
-        }
-
         $section =& $this->settings->getIniFileChain()->get($name);
         return $section;
     }

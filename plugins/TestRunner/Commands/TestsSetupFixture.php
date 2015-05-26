@@ -124,7 +124,6 @@ class TestsSetupFixture extends ConsoleCommand
 
         // perform setup and/or teardown
         if ($input->getOption('teardown')) {
-            exit;
             $fixture->getTestEnvironment()->save();
             $fixture->performTearDown();
         } else {
@@ -224,12 +223,6 @@ class TestsSetupFixture extends ConsoleCommand
         if ($extraPluginsToLoad) {
             $fixture->extraPluginsToLoad = explode(',', $extraPluginsToLoad);
         }
-
-        if ($fixture->createConfig) {
-            Config::getInstance()->setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null, $allowSave);
-        }
-
-        $fixture->createConfig = false;
 
         return $fixture;
     }

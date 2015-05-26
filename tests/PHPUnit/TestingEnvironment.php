@@ -1,15 +1,15 @@
 <?php
 
+use Piwik\Application\Environment;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Config\IniFileChain;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Option;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\DbHelper;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\Mock\TestConfig;
+use Piwik\Tests\Framework\TestingEnvironment\MakeGlobalSettingsWithFile;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Config.php";
 
@@ -151,12 +151,6 @@ class Piwik_TestingEnvironment
             \Piwik\Profiler::setupProfilerXHProf($mainRun = false, $setupDuringTracking = true);
         }
 
-        \Piwik\Application\Kernel\GlobalSettingsProvider::getSingletonInstance(
-            $testingEnvironment->configFileGlobal,
-            $testingEnvironment->configFileLocal,
-            $testingEnvironment->configFileCommon
-        );
-
         // Apply DI config from the fixture
         $diConfig = array();
         if ($testingEnvironment->fixtureClass) {
@@ -185,12 +179,11 @@ class Piwik_TestingEnvironment
 
         \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
 
-        $pluginsToLoad = $testingEnvironment->getCoreAndSupportedPlugins();
-        if (!empty($testingEnvironment->pluginsToLoad)) {
-            $pluginsToLoad = array_unique(array_merge($pluginsToLoad, $testingEnvironment->pluginsToLoad));
-        }
+        Environment::addEnvironmentManipulator(new MakeGlobalSettingsWithFile($testingEnvironment));
 
-        sort($pluginsToLoad);
+        if (!$testingEnvironment->dontUseTestConfig) {
+            $diConfig['Piwik\Config'] = \DI\object('Piwik\Tests\Framework\Mock\TestConfig');
+        }
 
         $globalObservers[] = array('Access.createAccessSingleton', function($access) use ($testingEnvironment) {
             if (!$testingEnvironment->testUseRegularAuth) {
@@ -198,47 +191,6 @@ class Piwik_TestingEnvironment
                 \Piwik\Access::setSingletonInstance($access);
             }
         });
-
-        if (!$testingEnvironment->dontUseTestConfig) {
-            $globalObservers[] = array('Config.createConfigSingleton', function(IniFileChain $chain) use ($testingEnvironment, $pluginsToLoad) {
-                $general =& $chain->get('General');
-                $plugins =& $chain->get('Plugins');
-                $log =& $chain->get('log');
-                $database =& $chain->get('database');
-
-                if ($testingEnvironment->configFileLocal) {
-                    $general['session_save_handler'] = 'dbtable';
-                }
-
-                $plugins['Plugins'] = $pluginsToLoad;
-
-                $log['log_writers'] = array('file');
-
-                // TODO: replace this and below w/ configOverride use
-                if ($testingEnvironment->tablesPrefix) {
-                    $database['tables_prefix'] = $testingEnvironment->tablesPrefix;
-                }
-
-                if ($testingEnvironment->dbName) {
-                    $database['dbname'] = $testingEnvironment->dbName;
-                }
-
-                if ($testingEnvironment->configOverride) {
-                    $cache =& $chain->getAll();
-                    $cache = $testingEnvironment->arrayMergeRecursiveDistinct($cache, $testingEnvironment->configOverride);
-                }
-            });
-
-            Config::setSingletonInstance(new TestConfig(
-                $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
-            ));
-        } else {
-            \Piwik\Application\Kernel\GlobalSettingsProvider::unsetSingletonInstance();
-
-            Config::setSingletonInstance(new Config(
-                $testingEnvironment->configFileGlobal, $testingEnvironment->configFileLocal, $testingEnvironment->configFileCommon
-            ));
-        }
 
         $globalObservers[] = array('Environment.bootstrapped', function () use ($testingEnvironment) {
             $testingEnvironment->logVariables();

@@ -12,7 +12,6 @@ use Piwik\Access;
 use Piwik\Config;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;
-use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
@@ -29,7 +28,7 @@ class ActionTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
-        Config::setSingletonInstance(new TestConfig());
+
         $section = Config::getInstance()->Tracker;
         $section['default_action_url'] = '/';
         $section['campaign_var_name']  = 'campaign_param_name,piwik_campaign,utm_campaign,test_campaign_name';

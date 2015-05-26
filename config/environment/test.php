@@ -14,4 +14,5 @@ return array(
     'Piwik\Translation\Translator' => DI\object()
         ->constructorParameter('directories', array()),
 
+    'Piwik\Config' => DI\object('Piwik\Tests\Framework\Mock\TestConfig'),
 );

@@ -67,18 +67,10 @@ namespace Piwik\Tests\Unit\Columns
         {
             parent::setUp();
 
-            Config::unsetInstance();
-
             Manager::getInstance()->unloadPlugins();
             Manager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 
             $this->dimension = new DimensionTest();
-        }
-
-        public function tearDown()
-        {
-            Config::unsetInstance();
-            parent::tearDown();
         }
 
         public function test_hasImplementedEvent_shouldDetectWhetherAMethodWasOverwrittenInTheActualPluginClass()

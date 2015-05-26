@@ -16,7 +16,6 @@ class Test_DataTable_Map extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        Config::setSingletonInstance(new TestConfig());
         Manager::getInstance()->deleteAll();
     }
 
