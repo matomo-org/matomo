@@ -17,44 +17,31 @@
 .SitesManager {
 
     .sitesManagerList {
-        .isLoading {
-            opacity: 0.5;
-        }
 
-        table {
-            width: 100%;
-            border-top: solid 1px @theme-color-border;
-            border-bottom: solid 1px @theme-color-border;
-
-            th, td {
-                padding: 12px 4px;
-            }
-            th {
-                font-size: 10px;
-                font-weight: normal;
+        .site {
+            color: @theme-color-text-light;
+            padding: 15px;
+            margin: 7px 0;
+            border-radius: 2px;
+            background-color: #fff;
+            -webkit-box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.3);
+            -moz-box-shadow:    0 2px 6px 0 rgba(0, 0, 0, 0.3);
+            box-shadow:         0 2px 6px 0 rgba(0, 0, 0, 0.3);
+            .title {
+                font-size: 11px;
                 text-transform: uppercase;
-                text-align: left;
             }
-            tbody > tr {
-                border-top: solid 1px @theme-color-border;
-                border-left: solid 1px @theme-color-border;
-                border-right: solid 1px @theme-color-border;
+            h4, .link_but {
+                color: @theme-color-text;
             }
-            th:first-child, td:first-child {
-                padding-left: 10px;
-            }
-            th:last-child, td:last-child {
-                padding-right: 10px;
-            }
-            td.editingSite {
-                background-color: @theme-color-background-tinyContrast;
-                padding: 20px;
-                .editingSiteFooter {
-                    background-color: @theme-color-background-base;
-                    padding: 20px;
-                    margin: 0 -20px -20px;
-                    border-top: solid 1px #E5E5E5;
-                }
+        }
+        .editingSite {
+            background-color: @theme-color-background-tinyContrast;
+            .editingSiteFooter {
+                background-color: @theme-color-background-base;
+                padding: 15px;
+                margin: 0 -15px -15px;
+                border-top: solid 1px #E5E5E5;
             }
         }
     }
