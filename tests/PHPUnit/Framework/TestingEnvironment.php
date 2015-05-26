@@ -12,9 +12,6 @@ use Piwik\Plugin\Manager as PluginManager;
 use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Tests\Framework\TestingEnvironment\MakeGlobalSettingsWithFile;
-use Piwik\Common;
-use Piwik\Option;
-use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Application\Environment;
 
@@ -181,84 +178,6 @@ class TestingEnvironment
         \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
 
         Environment::addEnvironmentManipulator(new MakeGlobalSettingsWithFile($testingEnvironment));
-
-        if (!$testingEnvironment->dontUseTestConfig) {
-            $diConfig['Piwik\Config'] = \DI\object('Piwik\Tests\Framework\Mock\TestConfig');
-        }
-
-        $globalObservers[] = array('Access.createAccessSingleton', function ($access) use ($testingEnvironment) {
-            if (!$testingEnvironment->testUseRegularAuth) {
-                $access = new Piwik_MockAccess($access);
-                \Piwik\Access::setSingletonInstance($access);
-            }
-        });
-
-        $globalObservers[] = array('Environment.bootstrapped', function () use ($testingEnvironment) {
-            $testingEnvironment->logVariables();
-            $testingEnvironment->executeSetupTestEnvHook();
-        });
-
-        $globalObservers[] = array('Request.dispatch', function () use ($testingEnvironment) {
-            if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
-                try {
-                    \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
-                } catch (\Exception $ex) {
-                    // ignore (in case DB is not setup)
-                }
-            }
-            if ($testingEnvironment->optionsOverride) {
-                try {
-                    foreach ($testingEnvironment->optionsOverride as $name => $value) {
-                        Option::set($name, $value);
-                    }
-                } catch (\Exception $ex) {
-                    // ignore (in case DB is not setup)
-                }
-            }
-            \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
-            \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
-            \Piwik\Plugins\ExampleUI\API::$disableRandomness = true;
-        });
-
-        $globalObservers[] = array('AssetManager.getStylesheetFiles', function (&$stylesheets) {
-            $stylesheets[] = 'tests/resources/screenshot-override/override.css';
-        });
-
-        $globalObservers[] = array('AssetManager.getJavaScriptFiles', function (&$jsFiles) {
-            $jsFiles[] = 'tests/resources/screenshot-override/override.js';
-        });
-
-        $globalObservers[] = array('Updater.checkForUpdates', function () {
-            try {
-                @\Piwik\Filesystem::deleteAllCacheOnUpdate();
-            } catch (Exception $ex) {
-                // pass
-            }
-        });
-
-        $globalObservers[] = array('Test.Mail.send', function (\Zend_Mail $mail) {
-            $outputFile = PIWIK_INCLUDE_PATH . '/tmp/' . Common::getRequestVar('module', '') . '.' . Common::getRequestVar('action', '') . '.mail.json';
-            $outputContent = str_replace("=\n", "", $mail->getBodyText($textOnly = true));
-            $outputContent = str_replace("=0A", "\n", $outputContent);
-            $outputContent = str_replace("=3D", "=", $outputContent);
-            $outputContents = array(
-                'from' => $mail->getFrom(),
-                'to' => $mail->getRecipients(),
-                'subject' => $mail->getSubject(),
-                'contents' => $outputContent
-            );
-            file_put_contents($outputFile, json_encode($outputContents));
-        });
-
-        $globalObservers[] = array('Platform.initialized', function () use ($testingEnvironment) {
-            static $archivingTablesDeleted = false;
-            if ($testingEnvironment->deleteArchiveTables
-                && !$archivingTablesDeleted
-            ) {
-                $archivingTablesDeleted = true;
-                DbHelper::deleteArchiveTables();
-            }
-        });
 
         $diConfig['observers.global'] = \DI\add($globalObservers);
 
