@@ -5,16 +5,16 @@
     {{ site.name }}
 </td>
 <td ng-if="!site.editMode" sites-manager-edit-trigger>
-    <span ng-repeat="url in site.alias_urls">{{ url | prettyUrl }}</span>
+    <span ng-repeat="url in site.alias_urls">{{ url | prettyUrl }} <br/></span>
 </td>
 <td ng-if="!site.editMode" sites-manager-edit-trigger>
-    <span ng-repeat="ip in site.excluded_ips">{{ ip }}</span>
+    <span ng-repeat="ip in site.excluded_ips">{{ ip }} <br/></span>
 </td>
 <td ng-if="!site.editMode" sites-manager-edit-trigger>
-    <span ng-repeat="parameter in site.excluded_parameters">{{ parameter }}</span>
+    <span ng-repeat="parameter in site.excluded_parameters">{{ parameter }} <br/></span>
 </td>
 <td ng-if="!site.editMode" ng-show="globalSettings.siteSpecificUserAgentExcludeEnabled" sites-manager-edit-trigger>
-    <span ng-repeat="userAgent in site.excluded_user_agents">{{ userAgent }}</span>
+    <span ng-repeat="userAgent in site.excluded_user_agents">{{ userAgent }} <br/></span>
 </td>
 <td ng-if="!site.editMode" sites-manager-edit-trigger>
     <span ng-switch="site.sitesearch">
