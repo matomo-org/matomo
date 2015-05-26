@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Framework;
 
 use Piwik\Access;
+use Piwik\API\Request;
 use Piwik\Application\Environment;
 use Piwik\Archive;
 use Piwik\Auth;
@@ -639,41 +640,44 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         //@review should we also test evolution graphs?
+
+        // add scheduled reports, but add via Request::processRequest to simulate normal user actions
+
         // set-up mail report
-        APIScheduledReports::getInstance()->addReport(
-            $idSite,
-            'Mail Test report',
-            'day', // overridden in getApiForTestingScheduledReports()
-            0,
-            ScheduledReports::EMAIL_TYPE,
-            ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
-            $availableReportIds,
-            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
-        );
+        Request::processRequest("ScheduledReports.addReport", array(
+            'idSite' => $idSite,
+            'description' => '"Mail Test report"',
+            'period' => 'day', // overridden in getApiForTestingScheduledReports()
+            'hour' => 0,
+            'reportType' => ScheduledReports::EMAIL_TYPE,
+            'reportFormat' => ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
+            'reports' => $availableReportIds,
+            'parameters' => array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
+        ));
 
         // set-up sms report for one website
-        APIScheduledReports::getInstance()->addReport(
-            $idSite,
-            'SMS Test report, one website',
-            'day', // overridden in getApiForTestingScheduledReports()
-            0,
-            MobileMessaging::MOBILE_TYPE,
-            MobileMessaging::SMS_FORMAT,
-            array("MultiSites_getOne"),
-            array("phoneNumbers" => array())
-        );
+        Request::processRequest("ScheduledReports.addReport", array(
+            'idSite' => $idSite,
+            'description' => '"SMS Test report, one website"',
+            'period' => 'day', // overridden in getApiForTestingScheduledReports()
+            'hour' => 0,
+            'reportType' => MobileMessaging::MOBILE_TYPE,
+            'reportFormat' => MobileMessaging::SMS_FORMAT,
+            'reports' => array("MultiSites_getOne"),
+            'parameters' => array("phoneNumbers" => array())
+        ));
 
         // set-up sms report for all websites
-        APIScheduledReports::getInstance()->addReport(
-            $idSite,
-            'SMS Test report, all websites',
-            'day', // overridden in getApiForTestingScheduledReports()
-            0,
-            MobileMessaging::MOBILE_TYPE,
-            MobileMessaging::SMS_FORMAT,
-            array("MultiSites_getAll"),
-            array("phoneNumbers" => array())
-        );
+        Request::processRequest("ScheduledReports.addReport", array(
+            'idSite' => $idSite,
+            'description' => '"SMS Test report, all websites"',
+            'period' => 'day', // overridden in getApiForTestingScheduledReports()
+            'hour' => 0,
+            'reportType' => MobileMessaging::MOBILE_TYPE,
+            'reportFormat' => MobileMessaging::SMS_FORMAT,
+            'reports' => array("MultiSites_getAll"),
+            'parameters' => array("phoneNumbers" => array())
+        ));
 
         if (self::canImagesBeIncludedInScheduledReports()) {
             // set-up mail report with images
