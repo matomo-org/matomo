@@ -27,8 +27,7 @@
                     {{ 'SitesManager_NotFound'|translate }} <strong>{{ adminSites.searchTerm }}</strong>
                 </td>
             </tr>
-            <tr sites-manager-scroll
-                ng-controller="SitesManagerSiteController"
+            <tr ng-controller="SitesManagerSiteController"
                 ng-repeat="site in adminSites.sites"
                 ng-include="'plugins/SitesManager/templates/sites-list/site-fields.html?cb=' + cacheBuster">
             </tr>
