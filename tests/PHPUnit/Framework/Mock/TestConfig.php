@@ -10,13 +10,14 @@ namespace Piwik\Tests\Framework\Mock;
 
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
+use Piwik\Tests\Framework\TestingEnvironment;
 
 class TestConfig extends Config
 {
     private $allowSave = false;
     private $doSetTestEnvironment = false;
 
-    public function __construct(GlobalSettingsProvider $provider, $allowSave = false, $doSetTestEnvironment = true)
+    public function __construct(GlobalSettingsProvider $provider, TestingEnvironment $testingEnvironment, $allowSave = false, $doSetTestEnvironment = true)
     {
         parent::__construct($provider);
 
@@ -25,7 +26,6 @@ class TestConfig extends Config
 
         $this->reload();
 
-        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironment();
         $this->setFromTestEnvironment($testingEnvironment);
     }
 
