@@ -255,6 +255,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             return;
         }
 
+        $this->getTestEnvironment()->testCaseClass = $this->testCaseClass;
         $this->getTestEnvironment()->save();
         $this->getTestEnvironment()->executeSetupTestEnvHook();
 
