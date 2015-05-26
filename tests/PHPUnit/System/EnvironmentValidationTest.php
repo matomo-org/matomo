@@ -34,6 +34,7 @@ class EnvironmentValidationTest extends SystemTestCase
         $testingEnvironment->configFileGlobal = null;
         $testingEnvironment->configFileLocal = null;
         $testingEnvironment->configFileCommon = null;
+        $testingEnvironment->loadRealTranslations = true;
         $testingEnvironment->save();
     }
 

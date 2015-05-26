@@ -12,7 +12,6 @@ use Exception;
 use Piwik\Application\Environment;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Container\ContainerFactory;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Log;
@@ -29,7 +28,7 @@ class LogTest extends IntegrationTestCase
     const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
     const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] %s";
 
-    public static $expectedExceptionOutput = '[Monolog] LogTest.php(120): dummy error message
+    public static $expectedExceptionOutput = '[Monolog] LogTest.php(112): dummy error message
   dummy backtrace';
 
     public static $expectedErrorOutput = '[Monolog] dummyerrorfile.php(145): Unknown error (102) - dummy error string
@@ -39,15 +38,8 @@ class LogTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        // Create the container in the normal environment (because in tests logging is disabled)
-        $environment = new Environment(null);
-        $environment->init();
-
         Log::unsetInstance();
 
-        Config::getInstance()->log['string_message_format'] = self::STRING_MESSAGE_FORMAT;
-        Config::getInstance()->log['logger_file_path'] = self::getLogFileLocation();
-        Config::getInstance()->log['log_level'] = Log::INFO;
         @unlink(self::getLogFileLocation());
         Log::$debugBacktraceForTests = "dummy backtrace";
     }
@@ -78,7 +70,7 @@ class LogTest extends IntegrationTestCase
      */
     public function testLoggingWorksWhenMessageIsString($backend)
     {
-        Config::getInstance()->log['log_writers'] = array($backend);
+        $this->recreateLogSingleton($backend);
 
         Log::warning(self::TESTMESSAGE);
 
@@ -90,7 +82,7 @@ class LogTest extends IntegrationTestCase
      */
     public function testLoggingWorksWhenMessageIsSprintfString($backend)
     {
-        Config::getInstance()->log['log_writers'] = array($backend);
+        $this->recreateLogSingleton($backend);
 
         Log::warning(self::TESTMESSAGE, " subst ");
 
@@ -102,7 +94,7 @@ class LogTest extends IntegrationTestCase
      */
     public function testLoggingWorksWhenMessageIsError($backend)
     {
-        Config::getInstance()->log['log_writers'] = array($backend);
+        $this->recreateLogSingleton($backend);
 
         $error = new \ErrorException("dummy error string", 0, 102, "dummyerrorfile.php", 145);
         Log::error($error);
@@ -115,7 +107,7 @@ class LogTest extends IntegrationTestCase
      */
     public function testLoggingWorksWhenMessageIsException($backend)
     {
-        Config::getInstance()->log['log_writers'] = array($backend);
+        $this->recreateLogSingleton($backend);
 
         $exception = new Exception("dummy error message");
         Log::error($exception);
@@ -128,7 +120,7 @@ class LogTest extends IntegrationTestCase
      */
     public function testLoggingCorrectlyIdentifiesPlugin($backend)
     {
-        Config::getInstance()->log['log_writers'] = array($backend);
+        $this->recreateLogSingleton($backend);
 
         LoggerWrapper::doLog(self::TESTMESSAGE);
 
@@ -140,8 +132,7 @@ class LogTest extends IntegrationTestCase
      */
     public function testLogMessagesIgnoredWhenNotWithinLevel($backend)
     {
-        Config::getInstance()->log['log_writers'] = array($backend);
-        Config::getInstance()->log['log_level'] = 'ERROR';
+        $this->recreateLogSingleton($backend, 'ERROR');
 
         Log::info(self::TESTMESSAGE);
 
@@ -153,7 +144,7 @@ class LogTest extends IntegrationTestCase
      */
     public function testLogMessagesAreTrimmed($backend)
     {
-        Config::getInstance()->log['log_writers'] = array($backend);
+        $this->recreateLogSingleton($backend);
 
         LoggerWrapper::doLog(" \n   ".self::TESTMESSAGE."\n\n\n   \n");
 
@@ -165,7 +156,7 @@ class LogTest extends IntegrationTestCase
      */
     public function testTokenAuthIsRemoved($backend)
     {
-        Config::getInstance()->log['log_writers'] = array($backend);
+        $this->recreateLogSingleton($backend);
 
         Log::error('token_auth=9b1cefc915ff6180071fb7dcd13ec5a4');
 
@@ -179,8 +170,7 @@ class LogTest extends IntegrationTestCase
      */
     public function testNoInfiniteLoopWhenLoggingToDatabase()
     {
-        Config::getInstance()->log['log_writers'] = array('database');
-        Config::getInstance()->log['log_level'] = 'DEBUG';
+        $this->recreateLogSingleton('database');
 
         Log::info(self::TESTMESSAGE);
 
@@ -192,7 +182,7 @@ class LogTest extends IntegrationTestCase
      */
     public function testLoggingNonString($backend)
     {
-        Config::getInstance()->log['log_writers'] = array($backend);
+        $this->recreateLogSingleton($backend);
 
         Log::warning(123);
 
@@ -257,5 +247,28 @@ class LogTest extends IntegrationTestCase
     public static function getLogFileLocation()
     {
         return StaticContainer::get('path.tmp') . '/logs/piwik.test.log';
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
+        );
+    }
+
+    private function recreateLogSingleton($backend, $level = 'INFO')
+    {
+        $newEnv = new Environment('test', array(
+            'ini.log.log_writers' => array($backend),
+            'ini.log.log_level' => $level,
+            'ini.log.string_message_format' => self::STRING_MESSAGE_FORMAT,
+            'ini.log.logger_file_path' => self::getLogFileLocation(),
+            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
+        ));
+        $newEnv->init();
+
+        $newMonologLogger = $newEnv->getContainer()->make('Psr\Log\LoggerInterface');
+        $oldLogger = new Log($newMonologLogger);
+        Log::setSingletonInstance($oldLogger);
     }
 }

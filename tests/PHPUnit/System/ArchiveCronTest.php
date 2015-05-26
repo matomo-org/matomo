@@ -158,6 +158,13 @@ class ArchiveCronTest extends SystemTestCase
             $this->comparisonFailures[] = $ex;
         }
     }
+
+    public static function provideContainerConfigBeforeClass()
+    {
+        return array(
+            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
+        );
+    }
 }
 
 ArchiveCronTest::$fixture = new ManySitesImportedLogs();
