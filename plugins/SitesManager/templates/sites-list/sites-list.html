@@ -1,12 +1,12 @@
-<div class="entityContainer sitesManagerList">
+<div class="sitesManagerList">
 
     <div ng-repeat="site in adminSites.sites" ng-include="'plugins/SitesManager/templates/dialogs/dialogs.html?cb=' + cacheBuster"></div>
 
-    <table class="entityTable dataTable" ng-class="{'isLoading': adminSites.isLoading==true}">
+    <table ng-class="{'isLoading': adminSites.isLoading==true}">
         <thead>
         <tr>
             <th>{{ 'General_Id'|translate }}</th>
-            <th class="wideColumn">{{ 'General_Name'|translate }}</th>
+            <th>{{ 'General_Name'|translate }}</th>
             <th>{{ 'SitesManager_Urls'|translate }}</th>
             <th>{{ 'SitesManager_ExcludedIps'|translate }}</th>
             <th>{{ 'SitesManager_ExcludedParameters'|translate }}</th>
