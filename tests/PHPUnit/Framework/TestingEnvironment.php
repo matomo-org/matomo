@@ -18,10 +18,6 @@ use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Application\Environment;
 
-if (!defined('PIWIK_TEST_MODE')) {
-    define('PIWIK_TEST_MODE', true);
-}
-
 class Piwik_MockAccess
 {
     private $access;

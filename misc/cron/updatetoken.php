@@ -33,6 +33,8 @@ if (!Common::isPhpCliMode()) {
 
 $testmode = in_array('--testmode', $_SERVER['argv']);
 if ($testmode) {
+    define('PIWIK_TEST_MODE', true);
+
     Tests\Framework\TestingEnvironment::addHooks();
 }
 

@@ -43,7 +43,7 @@ if (getenv('PIWIK_USE_XHPROF') == 1) {
 
 // setup container for tests
 function setupRootContainer() {
-    $rootTestEnvironment = new \Piwik\Application\Environment('test');
+    $rootTestEnvironment = new \Piwik\Application\Environment(null);
     $rootTestEnvironment->init();
 }
 

@@ -88,6 +88,10 @@ class TestsSetupFixture extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if (!defined('PIWIK_TEST_MODE')) {
+            define('PIWIK_TEST_MODE', true);
+        }
+
         $serverGlobal = $input->getOption('server-global');
         if ($serverGlobal) {
             $_SERVER = json_decode($serverGlobal, true);

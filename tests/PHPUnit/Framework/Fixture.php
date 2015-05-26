@@ -913,7 +913,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function createEnvironmentInstance()
     {
-        $this->piwikEnvironment = new Environment('test', array_merge($this->provideContainerConfig(), $this->extraDefinitions));
+        $this->piwikEnvironment = new Environment($environment = null, array_merge($this->provideContainerConfig(), $this->extraDefinitions));
         $this->piwikEnvironment->init();
     }
 }
