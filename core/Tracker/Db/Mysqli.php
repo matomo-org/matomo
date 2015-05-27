@@ -39,7 +39,7 @@ class Mysqli extends Db
             $this->host = null;
             $this->port = null;
             $this->socket = $dbInfo['unix_socket'];
-        } else if ($dbInfo['port'][0] == '/') {
+        } elseif ($dbInfo['port'][0] == '/') {
             $this->host = null;
             $this->port = null;
             $this->socket = $dbInfo['port'];
@@ -239,7 +239,7 @@ class Mysqli extends Db
     {
         if (!$parameters) {
             $parameters = array();
-        } else if (!is_array($parameters)) {
+        } elseif (!is_array($parameters)) {
             $parameters = array($parameters);
         }
 
@@ -295,7 +295,7 @@ class Mysqli extends Db
             return;
         }
 
-        if ( $this->connection->autocommit(false)) {
+        if ($this->connection->autocommit(false)) {
             $this->activeTransaction = uniqid();
             return $this->activeTransaction;
         }
@@ -310,13 +310,12 @@ class Mysqli extends Db
     public function commit($xid)
     {
         if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
-
             return;
         }
 
         $this->activeTransaction = false;
 
-        if (!$this->connection->commit() ) {
+        if (!$this->connection->commit()) {
             throw new DbException("Commit failed");
         }
 
@@ -337,7 +336,7 @@ class Mysqli extends Db
 
         $this->activeTransaction = false;
 
-        if (!$this->connection->rollback() ) {
+        if (!$this->connection->rollback()) {
             throw new DbException("Rollback failed");
         }
 

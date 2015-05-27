@@ -221,5 +221,4 @@ abstract class ControllerAdmin extends Controller
     {
         return strpos(PHP_VERSION, '5.3') === 0;
     }
-
 }

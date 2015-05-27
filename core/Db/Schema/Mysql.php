@@ -346,7 +346,6 @@ class Mysql implements SchemaInterface
         if (is_null($this->tablesInstalled)
             || $forceReload === true
         ) {
-
             $db = $this->getDb();
             $prefixTables = $this->getTablePrefixEscaped();
 
@@ -483,7 +482,8 @@ class Mysql implements SchemaInterface
         return $this->getDbSettings()->getEngine();
     }
 
-    private function getDb(){
+    private function getDb()
+    {
         return Db::get();
     }
 

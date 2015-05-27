@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik\Menu;
+
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 
@@ -135,7 +136,6 @@ class MenuReporting extends MenuAbstract
             foreach ($this->getAllMenus() as $menu) {
                 $menu->configureReportingMenu($this);
             }
-
         }
 
         return parent::getMenu();

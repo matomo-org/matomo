@@ -7,8 +7,8 @@
  *
  */
 namespace Piwik\ArchiveProcessor;
+
 use Piwik\Archive;
-use Piwik\ArchiveProcessor;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Date;
@@ -223,6 +223,4 @@ class Loader
 
         return $this->temporaryArchive;
     }
-
 }
-

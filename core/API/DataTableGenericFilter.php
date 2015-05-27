@@ -11,7 +11,6 @@ namespace Piwik\API;
 use Exception;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Plugin;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 
@@ -39,7 +38,7 @@ class DataTableGenericFilter
      *
      * @param $request
      */
-    function __construct($request, $report)
+    public function __construct($request, $report)
     {
         $this->request = $request;
         $this->report  = $report;

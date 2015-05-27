@@ -45,7 +45,7 @@ class Hourly extends Schedule
      */
     public function setHour($_hour)
     {
-        throw new Exception ("Method not supported");
+        throw new Exception("Method not supported");
     }
 
     /**
@@ -56,6 +56,6 @@ class Hourly extends Schedule
      */
     public function setDay($_day)
     {
-        throw new Exception ("Method not supported");
+        throw new Exception("Method not supported");
     }
 }

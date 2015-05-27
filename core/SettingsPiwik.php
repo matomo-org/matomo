@@ -224,7 +224,6 @@ class SettingsPiwik
             return false;
         }
         return true;
-
     }
 
     /**
@@ -437,5 +436,4 @@ class SettingsPiwik
     {
         return (bool)Config::getInstance()->Tracker['enable_fingerprinting_across_websites'];
     }
-
 }

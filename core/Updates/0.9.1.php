@@ -18,7 +18,7 @@ use Piwik\Updates;
  */
 class Updates_0_9_1 extends Updates
 {
-    static function getSql()
+    public static function getSql()
     {
         if (!SettingsServer::isTimezoneSupportEnabled()) {
             return array();
@@ -48,7 +48,7 @@ class Updates_0_9_1 extends Updates
         );
     }
 
-    static function update()
+    public static function update()
     {
         if (SettingsServer::isTimezoneSupportEnabled()) {
             Updater::updateDatabase(__FILE__, self::getSql());

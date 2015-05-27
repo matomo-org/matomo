@@ -10,7 +10,6 @@ namespace Piwik;
 
 use Piwik\Columns\Updater as ColumnUpdater;
 use Piwik\Container\StaticContainer;
-use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 use Piwik\Updater\UpdateObserver;
 use Zend_Db_Exception;
 
@@ -290,7 +289,7 @@ class Updater
 
                 foreach ($files as $file) {
                     $fileVersion = basename($file, '.php');
-                    if ( // if the update is from a newer version
+                    if (// if the update is from a newer version
                         version_compare($currentVersion, $fileVersion) == -1
                         // but we don't execute updates from non existing future releases
                         && version_compare($fileVersion, $newVersion) <= 0
@@ -551,7 +550,7 @@ class Updater
      * @param array $sqlarray An array of SQL queries to be executed
      * @throws UpdaterErrorException
      */
-    static function updateDatabase($file, $sqlarray)
+    public static function updateDatabase($file, $sqlarray)
     {
         self::$activeInstance->executeMigrationQueries($file, $sqlarray);
     }

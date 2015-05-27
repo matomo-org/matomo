@@ -118,15 +118,21 @@ class Row implements \ArrayAccess, \IteratorAggregate
     {
         $columns = array();
         foreach ($this->getColumns() as $column => $value) {
-            if (is_string($value)) $value = "'$value'";
-            elseif (is_array($value)) $value = var_export($value, true);
+            if (is_string($value)) {
+                $value = "'$value'";
+            } elseif (is_array($value)) {
+                $value = var_export($value, true);
+            }
             $columns[] = "'$column' => $value";
         }
         $columns = implode(", ", $columns);
         $metadata = array();
         foreach ($this->getMetadata() as $name => $value) {
-            if (is_string($value)) $value = "'$value'";
-            elseif (is_array($value)) $value = var_export($value, true);
+            if (is_string($value)) {
+                $value = "'$value'";
+            } elseif (is_array($value)) {
+                $value = var_export($value, true);
+            }
             $metadata[] = "'$name' => $value";
         }
         $metadata = implode(", ", $metadata);
@@ -247,7 +253,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
         if ($this->isSubtableLoaded) {
             try {
                 return Manager::getInstance()->getTable($this->subtableId);
-            } catch(TableNotFoundException $e) {
+            } catch (TableNotFoundException $e) {
                 // edge case
             }
         }
@@ -491,7 +497,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
             case 'min':
                 if (!$thisColumnValue) {
                     $newValue = $columnToSumValue;
-                } else if (!$columnToSumValue) {
+                } elseif (!$columnToSumValue) {
                     $newValue = $thisColumnValue;
                 } else {
                     $newValue = min($thisColumnValue, $columnToSumValue);
@@ -598,11 +604,13 @@ class Row implements \ArrayAccess, \IteratorAggregate
             }
             return 1;
         }
-        if (is_array($elem2))
+        if (is_array($elem2)) {
             return -1;
+        }
 
-        if ((string)$elem1 === (string)$elem2)
+        if ((string)$elem1 === (string)$elem2) {
             return 0;
+        }
 
         return ((string)$elem1 > (string)$elem2) ? 1 : -1;
     }
@@ -679,7 +687,8 @@ class Row implements \ArrayAccess, \IteratorAggregate
         $this->deleteColumn($offset);
     }
 
-    public function getIterator() {
+    public function getIterator()
+    {
         return new \ArrayIterator($this->columns);
     }
 
@@ -706,5 +715,4 @@ class Row implements \ArrayAccess, \IteratorAggregate
             );
         }
     }
-
 }

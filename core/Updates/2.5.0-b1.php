@@ -33,5 +33,4 @@ class Updates_2_5_0_b1 extends Updates
             $config->forceSave();
         }
     }
-
 }

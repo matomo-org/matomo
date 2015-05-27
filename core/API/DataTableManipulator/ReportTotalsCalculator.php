@@ -10,7 +10,6 @@ namespace Piwik\API\DataTableManipulator;
 
 use Piwik\API\DataTableManipulator;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Plugin\Report;
@@ -62,7 +61,7 @@ class ReportTotalsCalculator extends DataTableManipulator
 
         try {
             return $this->manipulate($table);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             // eg. requests with idSubtable may trigger this exception
             // (where idSubtable was removed in
             // ?module=API&method=Events.getNameFromCategoryId&idSubtable=1&secondaryDimension=eventName&format=XML&idSite=1&period=day&date=yesterday&flat=0
@@ -89,7 +88,7 @@ class ReportTotalsCalculator extends DataTableManipulator
 
         $metricNames = array();
         foreach ($metricsToCalculate as $metricId) {
-            $metricNames[$metricId] = Metrics::getReadableColumnName($metricId);;
+            $metricNames[$metricId] = Metrics::getReadableColumnName($metricId);
         }
 
         foreach ($firstLevelTable->getRows() as $row) {

@@ -15,8 +15,7 @@ use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Updater;
 use Piwik\Updates;
-use DeviceDetector\Parser\Client\Browser AS BrowserParser;
-use Piwik\Plugins\Dashboard\Model AS DashboardModel;
+use Piwik\Plugins\Dashboard\Model as DashboardModel;
 
 /**
  * This Update script will update all browser and os archives of UserSettings and DevicesDetection plugin
@@ -44,7 +43,7 @@ class Updates_2_10_0_b5 extends Updates
 {
     public static $archiveBlobTables;
 
-    static function getSql()
+    public static function getSql()
     {
         $sqls = array('# ATTENTION: This update script will execute some more SQL queries than that below as it is necessary to rebuilt some archives #' => false);
 
@@ -86,8 +85,7 @@ class Updates_2_10_0_b5 extends Updates
 
         $allDashboards = Db::get()->fetchAll(sprintf("SELECT * FROM %s", Common::prefixTable('user_dashboard')));
 
-        foreach($allDashboards AS $dashboard) {
-
+        foreach ($allDashboards as $dashboard) {
             $dashboardLayout = json_decode($dashboard['layout']);
 
             $dashboardLayout = DashboardModel::replaceDashboardWidgets($dashboardLayout, $oldWidgets, $newWidgets);
@@ -101,7 +99,7 @@ class Updates_2_10_0_b5 extends Updates
         return $sqls;
     }
 
-    static function update()
+    public static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
 
@@ -124,7 +122,7 @@ class Updates_2_10_0_b5 extends Updates
         if (empty(self::$archiveBlobTables)) {
             $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
 
-            self::$archiveBlobTables = array_filter($archiveTables, function($name) {
+            self::$archiveBlobTables = array_filter($archiveTables, function ($name) {
                 return ArchiveTableCreator::getTypeFromTableName($name) == ArchiveTableCreator::BLOB_TABLE;
             });
 
@@ -145,7 +143,6 @@ class Updates_2_10_0_b5 extends Updates
         static $deviceDetectionBlobAvailableDate;
 
         if (empty($deviceDetectionBlobAvailableDate)) {
-
             $archiveBlobTables = self::getAllArchiveBlobTables();
 
             $deviceDetectionBlobAvailableDate = null;
@@ -157,7 +154,6 @@ class Updates_2_10_0_b5 extends Updates
                 if (!empty($deviceDetectionBlobAvailableDate)) {
                     break;
                 }
-
             }
 
             $deviceDetectionBlobAvailableDate = strtotime($deviceDetectionBlobAvailableDate);
@@ -185,14 +181,14 @@ class Updates_2_10_0_b5 extends Updates
 
             // if start date of blob is before calculated date us old usersettings archive instead of already existing DevicesDetection archive
             if (strtotime($blob['date1']) < self::getFirstDayOfArchivedDeviceDetectorData()) {
-
                 Db::get()->query(sprintf("DELETE FROM %s WHERE idarchive = ? AND name = ?", $table), array($blob['idarchive'], 'DevicesDetection_browserVersions'));
                 Db::get()->query(sprintf("UPDATE %s SET name = ? WHERE idarchive = ? AND name = ?", $table), array('DevicesDetection_browserVersions', $blob['idarchive'], 'UserSettings_browser'));
             }
         }
     }
 
-    public static function updateOsArchives($table) {
+    public static function updateOsArchives($table)
+    {
         Db::exec(sprintf("UPDATE IGNORE %s SET name='DevicesDetection_osVersions' WHERE name = 'UserSettings_os'", $table));
 
         /*
@@ -204,7 +200,6 @@ class Updates_2_10_0_b5 extends Updates
 
             // if start date of blob is before calculated date us old usersettings archive instead of already existing DevicesDetection archive
             if (strtotime($blob['date1']) < self::getFirstDayOfArchivedDeviceDetectorData()) {
-
                 Db::get()->query(sprintf("DELETE FROM %s WHERE idarchive = ? AND name = ?", $table), array($blob['idarchive'], 'DevicesDetection_osVersions'));
                 Db::get()->query(sprintf("UPDATE %s SET name = ? WHERE idarchive = ? AND name = ?", $table), array('DevicesDetection_osVersions', $blob['idarchive'], 'UserSettings_os'));
             }

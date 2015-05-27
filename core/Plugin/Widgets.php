@@ -106,7 +106,6 @@ class Widgets
      */
     public function configureWidgetsList(WidgetsList $widgetsList)
     {
-
     }
 
     /**

@@ -392,7 +392,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
         if ($this->isSortRecursiveEnabled()) {
             foreach ($this->getRowsWithoutSummaryRow() as $row) {
-
                 $subTable = $row->getSubtable();
                 if ($subTable) {
                     $subTable->enableRecursiveSort();
@@ -772,8 +771,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if ($this->maximumAllowedRows > 0
             && $this->getRowsCount() >= $this->maximumAllowedRows - 1
         ) {
-            if ($this->summaryRow === null) // create the summary row if necessary
-            {
+            if ($this->summaryRow === null) {
+                // create the summary row if necessary
+
                 $columns = array('label' => self::LABEL_SUMMARY_ROW) + $row->getColumns();
                 $this->addSummaryRow(new Row(array(Row::COLUMNS => $columns)));
             } else {
@@ -1657,15 +1657,17 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 // if there is no table to advance to, and we're not adding missing rows, return false
                 if ($missingRowColumns === false) {
                     return array(false, $i);
-                } else // if we're adding missing rows, add a new row
-                {
+                } else {
+                    // if we're adding missing rows, add a new row
+
                     $row = new DataTableSummaryRow();
                     $row->setColumns(array('label' => $segment) + $missingRowColumns);
 
                     $next = $table->addRow($row);
 
-                    if ($next !== $row) // if the row wasn't added, the table is full
-                    {
+                    if ($next !== $row) {
+                        // if the row wasn't added, the table is full
+
                         // Summary row, has no metadata
                         $next->deleteMetadata();
                         return array($next, $i);
@@ -1679,8 +1681,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 // missing rows, return false
                 if ($missingRowColumns === false) {
                     return array(false, $i);
-                } else if ($i != $pathLength - 1) // create subtable if missing, but only if not on the last segment
-                {
+                } elseif ($i != $pathLength - 1) {
+                    // create subtable if missing, but only if not on the last segment
+
                     $table = new DataTable();
                     $table->setMaximumAllowedRows($maxSubtableRows);
                     $table->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME]
@@ -1829,7 +1832,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         if ($row === false) {
             return;
-
         }
         $thisRow = $this->getFirstRow();
         if ($thisRow === false) {
@@ -1850,7 +1852,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * @return \ArrayIterator|Row[]
      */
-    public function getIterator() {
+    public function getIterator()
+    {
         return new \ArrayIterator($this->getRows());
     }
 

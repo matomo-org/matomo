@@ -18,7 +18,7 @@ class Updates_2_0_rc1 extends Updates
     {
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('Morpheus');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }

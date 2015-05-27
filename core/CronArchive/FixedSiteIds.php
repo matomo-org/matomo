@@ -8,7 +8,6 @@
  */
 namespace Piwik\CronArchive;
 
-use Piwik\CronArchive;
 
 class FixedSiteIds
 {
@@ -63,6 +62,4 @@ class FixedSiteIds
 
         return null;
     }
-
 }
-

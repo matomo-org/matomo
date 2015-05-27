@@ -114,5 +114,4 @@ class Handler
             Url::redirectToUrl($redirectUrl);
         }
     }
-
 }

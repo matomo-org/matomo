@@ -9,7 +9,6 @@
 namespace Piwik\Period;
 
 use Exception;
-use Piwik\Config;
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\Piwik;

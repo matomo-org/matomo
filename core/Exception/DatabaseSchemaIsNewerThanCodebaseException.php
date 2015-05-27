@@ -10,5 +10,4 @@ namespace Piwik\Exception;
 
 class DatabaseSchemaIsNewerThanCodebaseException extends Exception
 {
-
 }

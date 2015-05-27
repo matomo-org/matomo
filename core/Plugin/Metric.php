@@ -112,7 +112,6 @@ abstract class Metric
             $value = $row->getColumn($columnName);
 
             if ($value === false) {
-
                 if (empty($mappingNameToId)) {
                     $mappingNameToId = Metrics::getMappingFromNameToId();
                 }
@@ -123,14 +122,10 @@ abstract class Metric
             }
 
             return $value;
-
         } elseif (!empty($row)) {
-            
             if (array_key_exists($columnName, $row)) {
                 return $row[$columnName];
-
             } else {
-
                 if (empty($mappingNameToId)) {
                     $mappingNameToId = Metrics::getMappingFromNameToId();
                 }

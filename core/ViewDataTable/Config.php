@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\ViewDataTable;
+
 use Piwik\API\Request as ApiRequest;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;

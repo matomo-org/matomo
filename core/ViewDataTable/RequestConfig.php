@@ -8,7 +8,7 @@
  */
 
 namespace Piwik\ViewDataTable;
-use Piwik\Common;
+
 
 /**
  * Contains base request properties for {@link Piwik\Plugin\ViewDataTable} instances. Manipulating

@@ -238,7 +238,6 @@ class Request
             $returnedValue = Proxy::getInstance()->call($apiClassName, $method, $this->request);
 
             $toReturn = $response->getResponse($returnedValue, $module, $method);
-
         } catch (Exception $e) {
             Log::debug($e);
 

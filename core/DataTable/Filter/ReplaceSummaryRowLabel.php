@@ -10,7 +10,6 @@ namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
-use Piwik\DataTable\Manager;
 use Piwik\Piwik;
 
 /**

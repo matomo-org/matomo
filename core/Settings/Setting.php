@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\Settings;
+
 use Piwik\Piwik;
 use Piwik\SettingsServer;
 

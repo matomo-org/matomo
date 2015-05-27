@@ -39,5 +39,4 @@ class Factory
 
         return $handler;
     }
-
 }

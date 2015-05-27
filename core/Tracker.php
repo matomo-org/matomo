@@ -227,7 +227,7 @@ class Tracker
     public static function disconnectCachedDbConnection()
     {
         // code redundancy w/ above is on purpose; above disconnectDatabase depends on method that can potentially be overridden
-        if (!is_null(self::$db))  {
+        if (!is_null(self::$db)) {
             self::$db->disconnect();
             self::$db = null;
         }
@@ -243,7 +243,7 @@ class Tracker
 
         if (is_null($requestMethod) && array_key_exists('REQUEST_METHOD', $_SERVER)) {
             $requestMethod = $_SERVER['REQUEST_METHOD'];
-        } else if (is_null($requestMethod)) {
+        } elseif (is_null($requestMethod)) {
             $requestMethod = 'GET';
         }
 
@@ -278,7 +278,6 @@ class Tracker
 
         // Tests can force the enabling of IP anonymization
         if (Common::getRequestVar('forceIpAnonymization', false, null, $args) == 1) {
-
             self::getDatabase(); // make sure db is initialized
 
             $privacyConfig = new PrivacyManagerConfig();
@@ -326,7 +325,7 @@ class Tracker
             if ($debugOnDemand) {
                 return (bool) Common::getRequestVar('debug', false);
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
         }
 
         return false;

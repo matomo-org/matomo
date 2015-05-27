@@ -16,34 +16,32 @@ use Piwik\Updates;
 class Updates_2_10_0_b10 extends Updates
 {
 
-    static function getSql()
+    public static function getSql()
     {
         $sqls = array();
 
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
 
-        $archiveBlobTables = array_filter($archiveTables, function($name) {
+        $archiveBlobTables = array_filter($archiveTables, function ($name) {
             return ArchiveTableCreator::getTypeFromTableName($name) == ArchiveTableCreator::BLOB_TABLE;
         });
 
         foreach ($archiveBlobTables as $table) {
-
             $sqls["UPDATE " . $table . " SET name = 'DevicePlugins_plugin' WHERE name = 'UserSettings_plugin'"] = false;
         }
 
         return $sqls;
     }
 
-    static function update()
+    public static function update()
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
 
         try {
             $pluginManager->activatePlugin('DevicePlugins');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
 
         Updater::updateDatabase(__FILE__, self::getSql());
     }
-
 }

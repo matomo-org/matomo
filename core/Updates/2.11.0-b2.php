@@ -13,7 +13,7 @@ use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Plugins\Dashboard\Model AS DashboardModel;
+use Piwik\Plugins\Dashboard\Model as DashboardModel;
 
 /**
  * Update for version 2.11.0-b2.
@@ -21,7 +21,7 @@ use Piwik\Plugins\Dashboard\Model AS DashboardModel;
 class Updates_2_11_0_b2 extends Updates
 {
 
-    static function getSql()
+    public static function getSql()
     {
         $sqls = array();
 
@@ -38,8 +38,7 @@ class Updates_2_11_0_b2 extends Updates
 
         $allDashboards = Db::get()->fetchAll(sprintf("SELECT * FROM %s", Common::prefixTable('user_dashboard')));
 
-        foreach($allDashboards AS $dashboard) {
-
+        foreach ($allDashboards as $dashboard) {
             $dashboardLayout = json_decode($dashboard['layout']);
             $dashboardLayout = DashboardModel::replaceDashboardWidgets($dashboardLayout, $oldWidgets, $newWidgets);
 
@@ -52,13 +51,13 @@ class Updates_2_11_0_b2 extends Updates
         return $sqls;
     }
 
-    static function update()
+    public static function update()
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
 
         try {
             $pluginManager->activatePlugin('Ecommerce');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
 
         Updater::updateDatabase(__FILE__, self::getSql());

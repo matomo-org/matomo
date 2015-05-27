@@ -7,7 +7,6 @@
  */
 namespace Piwik\CliMulti;
 
-use Piwik\CliMulti;
 use Piwik\Common;
 
 class CliPhp
@@ -16,7 +15,6 @@ class CliPhp
     public function findPhpBinary()
     {
         if (defined('PHP_BINARY')) {
-
             if ($this->isHhvmBinary(PHP_BINARY)) {
                 return PHP_BINARY . ' --php';
             }

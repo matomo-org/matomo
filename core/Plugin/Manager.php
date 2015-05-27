@@ -15,7 +15,6 @@ use Piwik\Columns\Dimension;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\Db;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Log;
@@ -141,7 +140,6 @@ class Manager
         if ($cache->contains($cacheId)) {
             $pluginsTracker = $cache->fetch($cacheId);
         } else {
-
             $this->unloadPlugins();
             $this->loadActivatedPlugins();
 
@@ -196,7 +194,7 @@ class Manager
 
     public function getCorePluginsDisabledByDefault()
     {
-        return array_merge( $this->corePluginsDisabledByDefault, $this->coreThemesDisabledByDefault);
+        return array_merge($this->corePluginsDisabledByDefault, $this->coreThemesDisabledByDefault);
     }
 
     // If a plugin hooks onto at least an event starting with "Tracker.", we load the plugin during tracker
@@ -244,7 +242,7 @@ class Manager
 
     public function clearPluginsInstalledConfig()
     {
-        $this->updatePluginsInstalledConfig( array() );
+        $this->updatePluginsInstalledConfig(array());
         PiwikConfig::getInstance()->forceSave();
     }
 
@@ -1309,7 +1307,7 @@ class Manager
     protected function isPluginEnabledByDefault($name)
     {
         $pluginsBundledWithPiwik = $this->getPluginsFromGlobalIniConfigFile();
-        if(empty($pluginsBundledWithPiwik)) {
+        if (empty($pluginsBundledWithPiwik)) {
             return false;
         }
         return in_array($name, $pluginsBundledWithPiwik);
@@ -1333,7 +1331,7 @@ class Manager
     private function sortPluginsSameOrderAsGlobalConfig(array $plugins)
     {
         $global = $this->getPluginsFromGlobalIniConfigFile();
-        if(empty($global)) {
+        if (empty($global)) {
             return $plugins;
         }
         $global = array_values($global);

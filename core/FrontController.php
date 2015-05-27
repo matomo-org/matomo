@@ -11,15 +11,12 @@ namespace Piwik;
 
 use Exception;
 use Piwik\API\Request;
-use Piwik\API\ResponseBuilder;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
-use Piwik\Plugin\Report;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
-use Piwik\Session;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
@@ -170,7 +167,7 @@ class FrontController extends Singleton
 
     public static function setUpSafeMode()
     {
-        register_shutdown_function(array('\\Piwik\\FrontController','triggerSafeModeWhenError'));
+        register_shutdown_function(array('\\Piwik\\FrontController', 'triggerSafeModeWhenError'));
     }
 
     public static function triggerSafeModeWhenError()

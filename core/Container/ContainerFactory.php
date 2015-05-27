@@ -13,7 +13,6 @@ use DI\ContainerBuilder;
 use Doctrine\Common\Cache\ArrayCache;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
-use Piwik\Config\IniFileChainFactory;
 use Piwik\Development;
 use Piwik\Plugin\Manager;
 

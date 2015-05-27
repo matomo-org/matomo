@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Container\StaticContainer;
 use XHProfRuns_Default;
 
 /**
@@ -228,7 +227,8 @@ class Profiler
         }
 
         if (!function_exists('xhprof_error')) {
-            function xhprof_error($out) {
+            function xhprof_error($out)
+            {
                 echo substr($out, 0, 300) . '...';
             }
         }
@@ -245,7 +245,7 @@ class Profiler
 
         xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
 
-        register_shutdown_function(function () use($profilerNamespace, $mainRun) {
+        register_shutdown_function(function () use ($profilerNamespace, $mainRun) {
             $xhprofData = xhprof_disable();
             $xhprofRuns = new XHProfRuns_Default();
             $runId = $xhprofRuns->save_run($xhprofData, $profilerNamespace);
@@ -324,13 +324,13 @@ class Profiler
 
     public static function setProfilingRunIds($ids)
     {
-        file_put_contents( self::getPathToXHProfRunIds(), json_encode($ids) );
+        file_put_contents(self::getPathToXHProfRunIds(), json_encode($ids));
         @chmod(self::getPathToXHProfRunIds(), 0777);
     }
 
     public static function getProfilingRunIds()
     {
-        $runIds = file_get_contents( self::getPathToXHProfRunIds() );
+        $runIds = file_get_contents(self::getPathToXHProfRunIds());
         $array = json_decode($runIds, $assoc = true);
         if (!is_array($array)) {
             $array = array();

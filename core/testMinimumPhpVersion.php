@@ -100,7 +100,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
             header('Content-Type: text/html; charset=utf-8');
 
             $isInternalServerError = preg_match('/(sql|database|mysql)/i', $message);
-            if($isInternalServerError) {
+            if ($isInternalServerError) {
                 header('HTTP/1.1 500 Internal Server Error');
             }
         }

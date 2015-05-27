@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\Settings;
+
 use Piwik\Option;
 
 /**
@@ -71,7 +72,6 @@ class Storage implements StorageInterface
         $this->loadSettingsIfNotDoneYet();
 
         if (array_key_exists($setting->getKey(), $this->settingsValues)) {
-
             return $this->settingsValues[$setting->getKey()];
         }
 
@@ -140,5 +140,4 @@ class Storage implements StorageInterface
 
         return array();
     }
-
 }

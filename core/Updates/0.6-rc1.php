@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_0_6_rc1 extends Updates
 {
-    static function getSql()
+    public static function getSql()
     {
         $defaultTimezone = 'UTC';
         $defaultCurrency = 'USD';
@@ -38,7 +38,7 @@ class Updates_0_6_rc1 extends Updates
         );
     }
 
-    static function update()
+    public static function update()
     {
         // first we disable the plugins and keep an array of warnings messages
         $pluginsToDisableMessage = array(

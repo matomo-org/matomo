@@ -18,7 +18,7 @@ abstract class Updates
     /**
      * @deprecated since v2.12.0 use getMigrationQueries() instead
      */
-    static function getSql()
+    public static function getSql()
     {
         return array();
     }
@@ -26,7 +26,7 @@ abstract class Updates
     /**
      * @deprecated since v2.12.0 use doUpdate() instead
      */
-    static function update()
+    public static function update()
     {
     }
 

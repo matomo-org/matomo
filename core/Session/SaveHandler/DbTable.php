@@ -25,7 +25,7 @@ class DbTable implements Zend_Session_SaveHandler_Interface
     /**
      * @param array $config
      */
-    function __construct($config)
+    public function __construct($config)
     {
         $this->config = $config;
         $this->maxLifetime = ini_get('session.gc_maxlifetime');

@@ -54,7 +54,6 @@ class Json extends Renderer
                     }
                 }
             }
-
         } else {
             $array = $this->convertDataTableToArray($table);
         }

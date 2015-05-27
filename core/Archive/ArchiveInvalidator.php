@@ -13,7 +13,6 @@ use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Option;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
@@ -193,7 +192,7 @@ class ArchiveInvalidator
         // In each table, invalidate day/week/month/year containing this date
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
 
-        $archiveNumericTables = array_filter($archiveTables, function($name) {
+        $archiveNumericTables = array_filter($archiveTables, function ($name) {
             return ArchiveTableCreator::getTypeFromTableName($name) == ArchiveTableCreator::NUMERIC_TABLE;
         });
 
@@ -287,7 +286,6 @@ class ArchiveInvalidator
             $week = Period\Factory::build('week', $date);
             $weekAsString = $week->getDateStart()->toString('Y_m');
             $datesByMonth[$weekAsString][] = $date->toString();
-
         }
         return $datesByMonth;
     }
@@ -346,5 +344,4 @@ class ArchiveInvalidator
     {
         return new Model();
     }
-
-} 
+}

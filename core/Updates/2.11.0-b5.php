@@ -13,7 +13,7 @@ use Piwik\Updates;
 
 class Updates_2_11_0_b5 extends Updates
 {
-    static function update()
+    public static function update()
     {
         try {
             Manager::getInstance()->activatePlugin('Monolog');

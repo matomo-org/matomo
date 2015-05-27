@@ -18,17 +18,17 @@ class Updates_2_4_0_b3 extends Updates
 
         try {
             $pluginManager->activatePlugin('LeftMenu');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
 
         try {
             $pluginManager->deactivatePlugin('Zeitgeist');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
 
         try {
             $pluginManager->uninstallPlugin('Zeitgeist');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }

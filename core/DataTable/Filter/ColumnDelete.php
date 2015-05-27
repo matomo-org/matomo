@@ -121,7 +121,6 @@ class ColumnDelete extends BaseFilter
         if (!empty($this->columnsToKeep)) {
             foreach ($table as $index => $row) {
                 foreach ($row as $name => $value) {
-
                     $keep = false;
                     // @see self::APPEND_TO_COLUMN_NAME_TO_KEEP
                     foreach ($this->columnsToKeep as $nameKeep => $true) {

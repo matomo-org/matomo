@@ -99,7 +99,7 @@ class Sort extends BaseFilter
      * @param mixed $valB
      * @return int
      */
-    function naturalSort($valA, $valB)
+    public function naturalSort($valA, $valB)
     {
         return !isset($valA)
         && !isset($valB)
@@ -123,7 +123,7 @@ class Sort extends BaseFilter
      * @param mixed $valB
      * @return int
      */
-    function sortString($valA, $valB)
+    public function sortString($valA, $valB)
     {
         return !isset($valA)
         && !isset($valB)
@@ -279,7 +279,6 @@ class Sort extends BaseFilter
 
         if ($table->isSortRecursiveEnabled()) {
             foreach ($table->getRowsWithoutSummaryRow() as $row) {
-
                 $subTable = $row->getSubtable();
                 if ($subTable) {
                     $subTable->enableRecursiveSort();
@@ -287,7 +286,5 @@ class Sort extends BaseFilter
                 }
             }
         }
-
     }
-
 }

@@ -9,16 +9,7 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Container\StaticContainer;
-use Piwik\Db\Adapter;
-use Piwik\Db\Schema;
-use Piwik\Db;
-use Piwik\Plugin;
-use Piwik\Plugins\UsersManager\API as APIUsersManager;
-use Piwik\Session;
-use Piwik\Tracker;
-use Piwik\Translation\Translator;
-use Piwik\View;
+use Piwik\Container\StaticContainer;use Piwik\Plugins\UsersManager\API as APIUsersManager;use Piwik\Translation\Translator;
 
 /**
  * @see core/Translate.php
@@ -203,7 +194,7 @@ class Piwik
     {
         $login = Access::getInstance()->getLogin();
 
-        if(empty($login)) {
+        if (empty($login)) {
             return 'anonymous';
         }
         return $login;
@@ -301,7 +292,6 @@ class Piwik
             $hasAccess = Access::getInstance()->hasSuperUserAccess();
 
             return $hasAccess;
-
         } catch (Exception $e) {
             return false;
         }
@@ -635,8 +625,9 @@ class Piwik
         reset($array);
         if (!is_numeric(key($array))
             || key($array) != 0
-        ) // first key must be 0
-        {
+        ) {
+            // first key must be 0
+
             return true;
         }
 
@@ -649,7 +640,7 @@ class Piwik
 
             if ($next === null) {
                 break;
-            } else if ($current + 1 != $next) {
+            } elseif ($current + 1 != $next) {
                 return true;
             }
         }

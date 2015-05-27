@@ -241,7 +241,6 @@ class Range extends Period
             }
 
             $startDate = $endDate->addPeriod(-1 * $lastN, $period);
-
         } elseif ($dateRange = Range::parseDateRange($this->strDate)) {
             $strDateStart = $dateRange[1];
             $strDateEnd = $dateRange[2];
@@ -338,7 +337,7 @@ class Range extends Period
             ) {
                 $this->addSubperiod($year);
                 $endOfPeriod = $endOfYear;
-            } else if ($startDate == $startOfMonth
+            } elseif ($startDate == $startOfMonth
                 && ($endOfMonth->isEarlier($endDate)
                     || $endOfMonth == $endDate
                     || $endOfMonth->isLater($this->today)
@@ -460,8 +459,9 @@ class Range extends Period
         $strLastDate = false;
         $lastPeriod  = false;
         if ($period != 'range' && !preg_match('/(last|previous)([0-9]*)/', $date, $regs)) {
-            if (strpos($date, ',')) // date in the form of 2011-01-01,2011-02-02
-            {
+            if (strpos($date, ',')) {
+                // date in the form of 2011-01-01,2011-02-02
+
                 $rangePeriod = new Range($period, $date);
 
                 $lastStartDate = $rangePeriod->getDateStart()->subPeriod($subXPeriods, $period);

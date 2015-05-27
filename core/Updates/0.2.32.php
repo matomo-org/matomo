@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_0_2_32 extends Updates
 {
-    static function getSql()
+    public static function getSql()
     {
         return array(
             // 0.2.32 [941]
@@ -32,7 +32,7 @@ class Updates_0_2_32 extends Updates
         );
     }
 
-    static function update()
+    public static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
     }

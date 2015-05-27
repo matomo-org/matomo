@@ -223,7 +223,6 @@ class Model
                 $sequence->create();
             }
         } catch (Exception $e) {
-
         }
     }
 
@@ -233,7 +232,7 @@ class Model
 
         try {
             $idarchive = $sequence->getNextId();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             // edge case: sequence was not found, create it now
             $sequence->create();
 
@@ -312,5 +311,4 @@ class Model
     {
         Db::releaseDbLock($dbLockName);
     }
-
 }

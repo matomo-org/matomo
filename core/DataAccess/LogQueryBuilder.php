@@ -9,7 +9,6 @@
 
 namespace Piwik\DataAccess;
 
-
 use Exception;
 use Piwik\Common;
 use Piwik\Segment\SegmentExpression;
@@ -27,7 +26,7 @@ class LogQueryBuilder
             $from = array($from);
         }
 
-        if(!$this->segmentExpression->isEmpty()) {
+        if (!$this->segmentExpression->isEmpty()) {
             $this->segmentExpression->parseSubExpressionsIntoSqlExpressions($from);
             $segmentSql = $this->segmentExpression->getSql();
             $where = $this->getWhereMatchBoth($where, $segmentSql['where']);
@@ -105,18 +104,18 @@ class LogQueryBuilder
                     // have actions, need conversions => join on idlink_va
                     $join = "log_conversion.idlink_va = log_link_visit_action.idlink_va "
                         . "AND log_conversion.idsite = log_link_visit_action.idsite";
-                } else if ($actionsAvailable && $table == "log_visit") {
+                } elseif ($actionsAvailable && $table == "log_visit") {
                     // have actions, need visits => join on idvisit
                     $join = "log_visit.idvisit = log_link_visit_action.idvisit";
-                } else if ($visitsAvailable && $table == "log_link_visit_action") {
+                } elseif ($visitsAvailable && $table == "log_link_visit_action") {
                     // have visits, need actions => we have to use a more complex join
                     // we don't hande this here, we just return joinWithSubSelect=true in this case
                     $joinWithSubSelect = true;
                     $join = "log_link_visit_action.idvisit = log_visit.idvisit";
-                } else if ($conversionsAvailable && $table == "log_link_visit_action") {
+                } elseif ($conversionsAvailable && $table == "log_link_visit_action") {
                     // have conversions, need actions => join on idlink_va
                     $join = "log_conversion.idlink_va = log_link_visit_action.idlink_va";
-                } else if (($visitsAvailable && $table == "log_conversion")
+                } elseif (($visitsAvailable && $table == "log_conversion")
                     || ($conversionsAvailable && $table == "log_visit")
                 ) {
                     // have visits, need conversion (or vice versa) => join on idvisit
@@ -154,7 +153,6 @@ class LogQueryBuilder
             'joinWithSubSelect' => $joinWithSubSelect
         );
         return $return;
-
     }
 
 
@@ -188,11 +186,11 @@ class LogQueryBuilder
         $innerLimit = $limit;
         $innerGroupBy = "log_visit.idvisit";
         $innerOrderBy = "NULL";
-        if($innerLimit && $orderBy) {
+        if ($innerLimit && $orderBy) {
             // only When LIMITing we can apply to the inner query the same ORDER BY as the parent query
             $innerOrderBy = $orderBy;
         }
-        if($innerLimit) {
+        if ($innerLimit) {
             // When LIMITing, no need to GROUP BY (GROUPing by is done before the LIMIT which is super slow when large amount of rows is matched)
             $innerGroupBy = false;
         }
@@ -296,5 +294,4 @@ class LogQueryBuilder
                 AND
                 ($segmentWhere)";
     }
-
-} 
+}

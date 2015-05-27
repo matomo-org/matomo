@@ -15,8 +15,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugin;
-use Piwik\SettingsServer;
 use Piwik\Tracker;
 
 /**
@@ -56,7 +54,7 @@ class Cache
      * @param int $idSite
      * @return array
      */
-    static function getCacheWebsiteAttributes($idSite)
+    public static function getCacheWebsiteAttributes($idSite)
     {
         if ('all' == $idSite) {
             return array();

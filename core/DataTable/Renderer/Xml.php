@@ -160,7 +160,7 @@ class Xml extends Renderer
                     $prefix = "<row $keyAttributeName=\"$key\">";
                     $suffix = "</row>";
                     $emptyNode = "<row $keyAttributeName=\"$key\">";
-                } else if (!self::isValidXmlTagName($key)) {
+                } elseif (!self::isValidXmlTagName($key)) {
                     $prefix = "<row key=\"$key\">";
                     $suffix = "</row>";
                     $emptyNode = "<row key=\"$key\"/>";
@@ -180,7 +180,7 @@ class Xml extends Renderer
                 $result .= $prefixLines . $prefix . "\n";
                 $result .= $this->renderArray($value, $prefixLines . "\t");
                 $result .= $prefixLines . $suffix . "\n";
-            } else if ($value instanceof DataTable
+            } elseif ($value instanceof DataTable
                 || $value instanceof Map
             ) {
                 if ($value->getRowsCount() == 0) {
@@ -189,7 +189,7 @@ class Xml extends Renderer
                     $result .= $prefixLines . $prefix . "\n";
                     if ($value instanceof Map) {
                         $result .= $this->renderDataTableMap($value, $this->getArrayFromDataTable($value), $prefixLines);
-                    } else if ($value instanceof Simple) {
+                    } elseif ($value instanceof Simple) {
                         $result .= $this->renderDataTableSimple($this->getArrayFromDataTable($value), $prefixLines);
                     } else {
                         $result .= $this->renderDataTable($this->getArrayFromDataTable($value), $prefixLines);

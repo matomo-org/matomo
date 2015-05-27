@@ -13,7 +13,6 @@ use Exception;
 use Piwik\Plugin\Controller;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Widgets;
-use Piwik\Session;
 
 /**
  * Resolves the controller that will handle the request.

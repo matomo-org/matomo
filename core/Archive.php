@@ -8,7 +8,6 @@
  */
 namespace Piwik;
 
-use Piwik\Archive\Chunk;
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchiveInvalidator;
@@ -889,9 +888,9 @@ class Archive
         if (in_array($report, Metrics::getVisitsMetricNames())) {
             $report = 'VisitsSummary_CoreMetrics';
         } // Goal_* metrics are processed by the Goals plugin (HACK)
-        else if (strpos($report, 'Goal_') === 0) {
+        elseif (strpos($report, 'Goal_') === 0) {
             $report = 'Goals_Metrics';
-        } else if (strrpos($report, '_returning') === strlen($report) - strlen('_returning')) { // HACK
+        } elseif (strrpos($report, '_returning') === strlen($report) - strlen('_returning')) { // HACK
             $report = 'VisitFrequency_Metrics';
         }
 

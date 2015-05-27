@@ -37,7 +37,6 @@ class Manager
         }
 
         if (empty(static::$settings)) {
-
             $settings = PluginManager::getInstance()->findComponents('Settings', 'Piwik\\Plugin\\Settings');
             $byPluginName = array();
 
@@ -155,5 +154,4 @@ class Manager
 
         return !empty($settings);
     }
-
 }

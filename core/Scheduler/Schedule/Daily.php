@@ -51,6 +51,6 @@ class Daily extends Schedule
      */
     public function setDay($_day)
     {
-        throw new Exception ("Method not supported");
+        throw new Exception("Method not supported");
     }
 }

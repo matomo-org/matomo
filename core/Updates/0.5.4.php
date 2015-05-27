@@ -18,7 +18,7 @@ use Piwik\Updates;
  */
 class Updates_0_5_4 extends Updates
 {
-    static function getSql()
+    public static function getSql()
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('log_action') . '`
@@ -26,7 +26,7 @@ class Updates_0_5_4 extends Updates
         );
     }
 
-    static function update()
+    public static function update()
     {
         $salt = Common::generateUniqId();
         $config = Config::getInstance();

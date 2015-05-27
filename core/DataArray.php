@@ -100,7 +100,7 @@ class DataArray
         }
 
         // Edge case fail safe
-        if(!isset($oldRowToUpdate[Metrics::INDEX_NB_VISITS])) {
+        if (!isset($oldRowToUpdate[Metrics::INDEX_NB_VISITS])) {
             return;
         }
 
@@ -121,7 +121,7 @@ class DataArray
                             Metrics::INDEX_BOUNCE_COUNT,
                             Metrics::INDEX_NB_VISITS_CONVERTED
             );
-            foreach($toZero as $metric) {
+            foreach ($toZero as $metric) {
                 $oldRowToUpdate[$metric] = 0;
             }
         }

@@ -10,7 +10,6 @@
 namespace Piwik;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Plugin;
 
 /**
  * This class allows code to post events from anywhere in Piwik and for
@@ -190,10 +189,11 @@ class EventDispatcher
             $pluginFunction = $hookInfo['function'];
             if (!empty($hookInfo['before'])) {
                 $callbackGroup = self::EVENT_CALLBACK_GROUP_FIRST;
-            } else if (!empty($hookInfo['after'])) {
+            } elseif (!empty($hookInfo['after'])) {
                 $callbackGroup = self::EVENT_CALLBACK_GROUP_THIRD;
             } else {
-                $callbackGroup = self::EVENT_CALLBACK_GROUP_SECOND;            }
+                $callbackGroup = self::EVENT_CALLBACK_GROUP_SECOND;
+            }
         } else {
             $pluginFunction = $hookInfo;
             $callbackGroup = self::EVENT_CALLBACK_GROUP_SECOND;

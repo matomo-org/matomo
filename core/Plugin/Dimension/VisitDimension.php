@@ -19,7 +19,6 @@ use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
 use Piwik\Tracker;
-use Piwik\Translate;
 use Piwik\Plugin;
 use Exception;
 
@@ -299,7 +298,6 @@ abstract class VisitDimension extends Dimension
         $cache   = PiwikCache::getTransientCache();
 
         if (!$cache->contains($cacheId)) {
-
             $plugins   = PluginManager::getInstance()->getPluginsLoadedAndActivated();
             $instances = array();
 
@@ -352,5 +350,4 @@ abstract class VisitDimension extends Dimension
 
         return $instances;
     }
-
 }

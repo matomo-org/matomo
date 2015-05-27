@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_1_2_5_rc1 extends Updates
 {
-    static function getSql()
+    public static function getSql()
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('goal') . '`
@@ -29,9 +29,8 @@ class Updates_1_2_5_rc1 extends Updates
         );
     }
 
-    static function update()
+    public static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
     }
 }
-

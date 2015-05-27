@@ -18,7 +18,7 @@ use Piwik\Updates;
 class Updates_2_5_0_rc2 extends Updates
 {
 
-    static function update()
+    public static function update()
     {
         $files = self::getFilesToDeleteIfOld();
 

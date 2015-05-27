@@ -8,10 +8,8 @@
  */
 namespace Piwik\DataTable\Filter;
 
-use Exception;
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
-use Piwik\DataTable\Manager;
 
 /**
  * Deletes rows that do not contain a column that matches a regex pattern and do not contain a
@@ -63,7 +61,7 @@ class PatternRecursive extends BaseFilter
             $patternNotFoundInChildren = false;
 
             $subTable = $row->getSubtable();
-            if(!$subTable) {
+            if (!$subTable) {
                 $patternNotFoundInChildren = true;
             } else {
                 // we delete the row if we couldn't find the pattern in any row in the

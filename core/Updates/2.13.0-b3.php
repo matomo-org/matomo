@@ -9,7 +9,6 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Config;
 use Piwik\Updater;
 use Piwik\Updates;
 
@@ -21,7 +20,7 @@ class Updates_2_13_0_b3 extends Updates
 
         try {
             $pluginManager->activatePlugin('Diagnostics');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }

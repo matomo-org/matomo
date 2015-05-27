@@ -107,7 +107,7 @@ abstract class Schedule
     public function setHour($hour)
     {
         if (!($hour >= 0 && $hour < 24)) {
-            throw new Exception ("Invalid hour parameter, must be >=0 and < 24");
+            throw new Exception("Invalid hour parameter, must be >=0 and < 24");
         }
 
         $this->hour = $hour;

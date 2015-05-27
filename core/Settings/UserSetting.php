@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\Settings;
+
 use Piwik\Common;
 use Piwik\Piwik;
 
@@ -130,16 +131,13 @@ class UserSetting extends Setting
         $pluginsSettings = Manager::getAllPluginSettings();
 
         foreach ($pluginsSettings as $pluginSettings) {
-
             $settings = $pluginSettings->getSettings();
 
             foreach ($settings as $setting) {
-
                 if ($setting instanceof UserSetting) {
                     $setting->setUserLogin($userLogin);
                     $setting->removeValue();
                 }
-
             }
 
             $pluginSettings->save();

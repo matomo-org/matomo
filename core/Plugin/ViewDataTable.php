@@ -347,7 +347,7 @@ abstract class ViewDataTable implements ViewInterface
             throw new \Exception($message);
         }
 
-       return $id;
+        return $id;
     }
 
     /**
@@ -514,5 +514,4 @@ abstract class ViewDataTable implements ViewInterface
             }
         }
     }
-
 }

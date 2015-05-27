@@ -196,7 +196,6 @@ class Pdf extends ReportRenderer
 
         // segment
         if ($segment != null) {
-
             $this->TCPDF->Ln();
             $this->TCPDF->Ln();
             $this->TCPDF->SetFont($this->reportFont, '', $this->reportHeaderFontSize - 2);
@@ -472,7 +471,7 @@ class Pdf extends ReportRenderer
             && $columnsCount <= 3
         ) {
             $totalWidth = $this->reportWidthPortrait * 2 / 3;
-        } else if ($this->orientation == self::LANDSCAPE) {
+        } elseif ($this->orientation == self::LANDSCAPE) {
             $totalWidth = $this->reportWidthLandscape;
         } else {
             $totalWidth = $this->reportWidthPortrait;

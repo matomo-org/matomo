@@ -64,7 +64,7 @@ class Weekly extends Schedule
         }
 
         if (!($day >= 1 && $day < 8)) {
-            throw new Exception ("Invalid day parameter, must be >=1 and < 8");
+            throw new Exception("Invalid day parameter, must be >=1 and < 8");
         }
 
         $this->day = $day;

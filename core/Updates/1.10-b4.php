@@ -15,12 +15,12 @@ use Piwik\Updates;
  */
 class Updates_1_10_b4 extends Updates
 {
-    static function isMajorUpdate()
+    public static function isMajorUpdate()
     {
         return false;
     }
 
-    static function update()
+    public static function update()
     {
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('MobileMessaging');

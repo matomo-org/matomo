@@ -64,7 +64,6 @@ abstract class Settings
         if (!empty($pluginName)) {
             $this->pluginName = $pluginName;
         } else {
-
             $classname = get_class($this);
             $parts     = explode('\\', $classname);
 

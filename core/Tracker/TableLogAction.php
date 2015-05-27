@@ -11,7 +11,6 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Segment\SegmentExpression;
-use Piwik\Tracker;
 
 /**
  * This class is used to query Action IDs from the log_action table.
@@ -35,7 +34,7 @@ class TableLogAction
     public static function loadIdsAction($actionsNameAndType)
     {
         // Add url prefix if not set
-        foreach($actionsNameAndType as &$action) {
+        foreach ($actionsNameAndType as &$action) {
             if (2 == count($action)) {
                 $action[] = null;
             }
@@ -266,6 +265,4 @@ class TableLogAction
 
         return in_array($actionType, $actionsTypesStoredUnsanitized);
     }
-
 }
-

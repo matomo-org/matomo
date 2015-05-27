@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
-use Exception;
 
 /**
  * Caching class used for DeviceDetector caching
@@ -93,5 +92,4 @@ class DeviceDetectorCache implements \DeviceDetector\Cache\Cache
     {
         return $this->cache->flushAll();
     }
-
 }

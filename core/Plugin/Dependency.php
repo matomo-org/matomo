@@ -51,12 +51,11 @@ class Dependency
     public function getMissingVersions($currentVersion, $requiredVersion)
     {
         $currentVersion   = trim($currentVersion);
-        $requiredVersions = explode(',' , (string) $requiredVersion);
+        $requiredVersions = explode(',', (string) $requiredVersion);
 
         $missingVersions = array();
 
         foreach ($requiredVersions as $required) {
-
             $comparison = '>=';
             $required   = trim($required);
 
@@ -98,7 +97,8 @@ class Dependency
                     if (!empty($plugin)) {
                         return $plugin->getVersion();
                     }
-                } catch (\Exception $e) {}
+                } catch (\Exception $e) {
+                }
         }
 
         return '';

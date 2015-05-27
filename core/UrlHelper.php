@@ -45,7 +45,7 @@ class UrlHelper
                             $validQuery .= $name . '[]=' . $param . $separator;
                         }
                     }
-                } else if ($value === false) {
+                } elseif ($value === false) {
                     $validQuery .= $name . $separator;
                 } else {
                     $validQuery .= $name . '=' . $value . $separator;
@@ -207,7 +207,7 @@ class UrlHelper
                     $nameToValue[$name] = array();
                 }
                 array_push($nameToValue[$name], $value);
-            } else if (!empty($name)) {
+            } elseif (!empty($name)) {
                 $nameToValue[$name] = $value;
             }
         }
@@ -365,7 +365,7 @@ class UrlHelper
                 $query = str_replace('&', '&amp;', strstr($query, '?'));
             }
             $searchEngineName = 'Google Images';
-        } else if ($searchEngineName === 'Google'
+        } elseif ($searchEngineName === 'Google'
             && (strpos($query, '&as_') !== false || strpos($query, 'as_') === 0)
         ) {
             $keys = array();

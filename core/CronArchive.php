@@ -493,7 +493,7 @@ class CronArchive
 
         try {
             $shouldProceed = $this->processArchiveDays($idSite, $lastTimestampWebsiteProcessedDay, $shouldArchivePeriods, $timerWebsite);
-        } catch(UnexpectedWebsiteFoundException $e) {
+        } catch (UnexpectedWebsiteFoundException $e) {
             // this website was deleted in the meantime
             $shouldProceed = false;
             $this->logger->info("Skipped website id $idSite, got: UnexpectedWebsiteFoundException, " . $timerWebsite->__toString());
@@ -519,9 +519,9 @@ class CronArchive
             Option::set($this->lastRunKey($idSite, "periods"), time());
         }
 
-        if(!$success) {
+        if (!$success) {
             // cancel marking the site as reprocessed
-            if($websiteInvalidatedShouldReprocess) {
+            if ($websiteInvalidatedShouldReprocess) {
                 $store = new SitesToReprocessDistributedList();
                 $store->add($idSite);
             }
@@ -550,7 +550,6 @@ class CronArchive
         $success = true;
 
         foreach (array('week', 'month', 'year') as $period) {
-
             if (!$this->shouldProcessPeriod($period)) {
                 // if any period was skipped, we do not mark the Periods archiving as successful
                 $success = false;
@@ -578,8 +577,9 @@ class CronArchive
     private function getVisitsRequestUrl($idSite, $period, $date, $segment = false)
     {
         $request = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php";
-        if($segment) {
-            $request .= '&segment=' . urlencode($segment);;
+        if ($segment) {
+            $request .= '&segment=' . urlencode($segment);
+            ;
         }
         return $request;
     }
@@ -649,7 +649,7 @@ class CronArchive
             Option::set($this->lastRunKey($idSite, "day"), 0);
 
             // cancel marking the site as reprocessed
-            if($websiteInvalidatedShouldReprocess) {
+            if ($websiteInvalidatedShouldReprocess) {
                 $store = new SitesToReprocessDistributedList();
                 $store->add($idSite);
             }
@@ -731,7 +731,7 @@ class CronArchive
         }
 
         $segmentRequestsCount = 0;
-        if($archiveSegments) {
+        if ($archiveSegments) {
             $urlsWithSegment = $this->getUrlsWithSegment($idSite, $period, $date);
             $urls = array_merge($urls, $urlsWithSegment);
             $segmentRequestsCount = count($urlsWithSegment);
@@ -753,13 +753,12 @@ class CronArchive
             $success = $success && $this->checkResponse($content, $url);
 
             if ($noSegmentUrl === $url && $success) {
-
                 $stats = @unserialize($content);
                 if (!is_array($stats)) {
                     $this->logError("Error unserializing the following response from $url: " . $content);
                 }
 
-                if($period == 'range') {
+                if ($period == 'range') {
                     // range returns one dataset (the sum of data between the two dates),
                     // whereas other periods return lastN which is N datasets in an array. Here we make our period=range dataset look like others:
                     $stats = array($stats);
@@ -826,14 +825,12 @@ class CronArchive
         }
 
         try {
-
             $cliMulti  = new CliMulti();
             $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
             $cliMulti->runAsSuperUser();
             $responses = $cliMulti->request(array($url));
 
             $response  = !empty($responses) ? array_shift($responses) : null;
-
         } catch (Exception $e) {
             return $this->logNetworkError($url, $e->getMessage());
         }
@@ -874,7 +871,7 @@ class CronArchive
                 // there was a previous successful run
                 $this->shouldArchiveOnlySitesWithTrafficSince = time() - $this->lastSuccessRunTimestamp;
             }
-        }  else {
+        } else {
             // force-all-periods is set here
             $this->archiveAndRespectTTL = false;
 
@@ -996,7 +993,7 @@ class CronArchive
     {
         $sitesIdWithVisits = APISitesManager::getInstance()->getSitesIdWithVisits(time() - $this->shouldArchiveOnlySitesWithTrafficSince);
         $websiteIds = !empty($sitesIdWithVisits) ? ", IDs: " . implode(", ", $sitesIdWithVisits) : "";
-        $prettySeconds = $this->formatter->getPrettyTimeFromSeconds( $this->shouldArchiveOnlySitesWithTrafficSince, true);
+        $prettySeconds = $this->formatter->getPrettyTimeFromSeconds($this->shouldArchiveOnlySitesWithTrafficSince, true);
         $this->logger->info("- Will process " . count($sitesIdWithVisits) . " websites with new visits since "
             . $prettySeconds
             . " "
@@ -1155,7 +1152,7 @@ class CronArchive
         }
 
         $visits = 0;
-        foreach($stats as $metrics) {
+        foreach ($stats as $metrics) {
             if (empty($metrics['nb_visits'])) {
                 continue;
             }
@@ -1344,10 +1341,10 @@ class CronArchive
     private function getCustomDateRangeToPreProcess($idSite)
     {
         static $cache = null;
-        if(is_null($cache)) {
+        if (is_null($cache)) {
             $cache = $this->loadCustomDateRangeToPreProcess();
         }
-        if(empty($cache[$idSite])) {
+        if (empty($cache[$idSite])) {
             return array();
         }
         $dates = array_unique($cache[$idSite]);
@@ -1370,7 +1367,6 @@ class CronArchive
         ));
 
         foreach ($allUsersPreferences as $userLogin => $userPreferences) {
-
             if (!isset($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE])) {
                 continue;
             }
@@ -1458,7 +1454,7 @@ class CronArchive
         }
 
         return new SharedSiteIds($websitesIds);
-   }
+    }
 
     /**
      * @param $idSite

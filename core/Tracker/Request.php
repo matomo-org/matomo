@@ -112,7 +112,6 @@ class Request
         $shouldAuthenticate = TrackerConfig::getConfigValue('tracking_requests_require_authentication');
 
         if ($shouldAuthenticate) {
-
             try {
                 $idSite = $this->getIdSite();
             } catch (Exception $e) {
@@ -143,7 +142,6 @@ class Request
             if ($this->isAuthenticated) {
                 Common::printDebug("token_auth is authenticated!");
             }
-
         } else {
             $this->isAuthenticated = true;
             Common::printDebug("token_auth authentication not required");
@@ -429,7 +427,7 @@ class Request
         $isTimestampRecent = $timeFromNow < self::CUSTOM_TIMESTAMP_DOES_NOT_REQUIRE_TOKENAUTH_WHEN_NEWER_THAN;
 
         if (!$isTimestampRecent) {
-            if(!$this->isAuthenticated()) {
+            if (!$this->isAuthenticated()) {
                 Common::printDebug(sprintf("Custom timestamp is %s seconds old, requires &token_auth...", $timeFromNow));
                 Common::printDebug("WARN: Tracker API 'cdt' was used with invalid token_auth");
                 return false;
@@ -739,7 +737,7 @@ class Request
      */
     public function getUserIdHashed($userId)
     {
-        return substr( sha1( $userId ), 0, 16);
+        return substr(sha1($userId), 0, 16);
     }
 
     /**

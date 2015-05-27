@@ -420,7 +420,6 @@ class Date
             return 0;
         }
         if ($currentYear < $toCompareYear) {
-
             return -1;
         }
         return 1;

@@ -77,12 +77,11 @@ class GroupBy extends BaseFilter
         $nonGroupByRowIds = array();
 
         foreach ($table->getRowsWithoutSummaryRow() as $rowId => $row) {
-
             $groupByColumnValue = $row->getColumn($this->groupByColumn);
             $groupByValue = $groupByColumnValue;
 
             // reduce the group by column of this row
-            if($this->reduceFunction) {
+            if ($this->reduceFunction) {
                 $parameters   = array_merge(array($groupByColumnValue), $this->parameters);
                 $groupByValue = call_user_func_array($this->reduceFunction, $parameters);
             }

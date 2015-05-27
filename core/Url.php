@@ -9,9 +9,7 @@
 namespace Piwik;
 
 use Exception;
-
 use Piwik\Network\IPUtils;
-use Piwik\Session;
 
 /**
  * Provides URL related helper methods.
@@ -217,8 +215,9 @@ class Url
 
         if ($host === false) {
             $host = @$_SERVER['HTTP_HOST'];
-            if (empty($host)) // if no current host, assume valid
-            {
+            if (empty($host)) {
+                // if no current host, assume valid
+
                 return true;
             }
         }
@@ -406,7 +405,7 @@ class Url
      * @return string eg, `"?param2=value2&param3=value3"`
      * @api
      */
-    static function getCurrentQueryStringWithParametersModified($params)
+    public static function getCurrentQueryStringWithParametersModified($params)
     {
         $urlValues = self::getArrayFromCurrentQueryString();
         foreach ($params as $key => $value) {

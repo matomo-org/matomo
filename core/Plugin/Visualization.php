@@ -508,7 +508,7 @@ class Visualization extends ViewDataTable
         foreach ($this->config->clientSideProperties as $name) {
             if (property_exists($this->requestConfig, $name)) {
                 $result[$name] = $this->getIntIfValueIsBool($this->requestConfig->$name);
-            } else if (property_exists($this->config, $name)) {
+            } elseif (property_exists($this->config, $name)) {
                 $result[$name] = $this->getIntIfValueIsBool($this->config->$name);
             }
         }
@@ -562,7 +562,7 @@ class Visualization extends ViewDataTable
 
             if (property_exists($this->requestConfig, $name)) {
                 $valueToConvert = $this->requestConfig->$name;
-            } else if (property_exists($this->config, $name)) {
+            } elseif (property_exists($this->config, $name)) {
                 $valueToConvert = $this->config->$name;
             }
 
@@ -719,7 +719,7 @@ class Visualization extends ViewDataTable
 
     /**
      * @internal
-     * 
+     *
      * @return array
      */
     public function buildApiRequestArray()

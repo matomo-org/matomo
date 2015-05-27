@@ -767,12 +767,11 @@ class GoalManager
 
         $match = $this->isGoalPatternMatchingUrl($goal, $pattern_type, $url);
 
-        if(!$match) {
+        if (!$match) {
             // Users may set Goal matching URL as URL encoded
             $goal['pattern'] = urldecode($goal['pattern']);
 
             $match = $this->isGoalPatternMatchingUrl($goal, $pattern_type, $url);
-
         }
         return $match;
     }
@@ -792,7 +791,6 @@ class GoalManager
             $value = $dimension->$hook($this->request, $visitor, $action, $this);
 
             if (false !== $value) {
-
                 if (is_float($value)) {
                     $value = Common::forceDotAsSeparatorForDecimalPoint($value);
                 }

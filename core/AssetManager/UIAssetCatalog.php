@@ -28,7 +28,7 @@ class UIAssetCatalog
     /**
      * @param UIAssetCatalogSorter $catalogSorter
      */
-    function __construct($catalogSorter)
+    public function __construct($catalogSorter)
     {
         $this->catalogSorter = $catalogSorter;
     }

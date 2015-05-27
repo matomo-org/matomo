@@ -80,7 +80,6 @@ class ArchiveSelector
         list($visits, $visitsConverted) = self::getVisitsMetricsFromResults($idArchive, $idArchiveVisitsSummary, $results);
 
         if (false === $visits && false === $idArchive) {
-
             return false;
         }
 
@@ -236,7 +235,6 @@ class ArchiveSelector
         // create the SQL to select archive data
         $loadAllSubtables = $idSubtable == Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
         if ($loadAllSubtables) {
-
             $name = reset($recordNames);
 
             // select blobs w/ name like "$name_[0-9]+" w/o using RLIKE
@@ -252,7 +250,6 @@ class ArchiveSelector
             $whereNameIs = "(name = ? OR (name LIKE ? AND ( $checkForChunkBlob OR $checkForSubtableId ) ))";
             $bind = array($name, $name . '%');
         } else {
-
             if ($idSubtable === null) {
                 // select root table or specific record names
                 $bind = array_values($recordNames);
@@ -279,7 +276,6 @@ class ArchiveSelector
         // get data from every table we're querying
         $rows = array();
         foreach ($archiveIds as $period => $ids) {
-
             if (empty($ids)) {
                 throw new Exception("Unexpected: id archive not found for period '$period' '");
             }
@@ -301,7 +297,6 @@ class ArchiveSelector
                 if ($isNumeric) {
                     $rows[] = $row;
                 } else {
-
                     $row['value'] = self::uncompress($row['value']);
 
                     if ($chunk->isRecordNameAChunk($row['name'])) {
@@ -371,6 +366,4 @@ class ArchiveSelector
         // create the SQL to find archives that are DONE
         return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
     }
-
-
 }

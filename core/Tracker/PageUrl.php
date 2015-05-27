@@ -50,7 +50,6 @@ class PageUrl
 
         if (empty($parsedUrl['query'])) {
             if (empty($parsedUrl['fragment'])) {
-
                 return UrlHelper::getParseUrlReverse($parsedUrl);
             }
 
@@ -97,11 +96,11 @@ class PageUrl
          *
          * @param array &$parametersToExclude An array of parameters to exclude from the tracking url.
          */
-		Piwik::postEvent('Tracker.PageUrl.getQueryParametersToExclude', array(&$parametersToExclude));
+        Piwik::postEvent('Tracker.PageUrl.getQueryParametersToExclude', array(&$parametersToExclude));
 
-		if (!empty($parametersToExclude)) {
-			Common::printDebug('Excluding parameters "' . implode(',', $parametersToExclude) . '" from URL');
-		}
+        if (!empty($parametersToExclude)) {
+            Common::printDebug('Excluding parameters "' . implode(',', $parametersToExclude) . '" from URL');
+        }
 
         $parametersToExclude = array_map('strtolower', $parametersToExclude);
         return $parametersToExclude;
@@ -332,7 +331,6 @@ class PageUrl
     {
         foreach (self::$urlPrefixMap as $prefix => $id) {
             if (strtolower(substr($url, 0, strlen($prefix))) == $prefix) {
-
                 return array(
                     'url'      => substr($url, strlen($prefix)),
                     'prefixId' => $id

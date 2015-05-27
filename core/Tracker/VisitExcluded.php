@@ -10,7 +10,6 @@ namespace Piwik\Tracker;
 
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\DeviceDetectorFactory;
 use Piwik\Network\IP;
 use Piwik\Piwik;

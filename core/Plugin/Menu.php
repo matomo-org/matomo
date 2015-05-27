@@ -268,5 +268,4 @@ class Menu
             Development::error($prefix . 'The defined action "' . $action . '" is not callable on "' . $controllerClass . '". Make sure the method is public.');
         }
     }
-
 }

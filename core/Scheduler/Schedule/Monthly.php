@@ -85,8 +85,9 @@ class Monthly extends Schedule
             && $this->week !== null
         ) {
             $newTime = $rescheduledTime + $this->week * 7 * 86400;
-            while (date("w", $newTime) != $this->dayOfWeek % 7) // modulus for sanity check
-            {
+            while (date("w", $newTime) != $this->dayOfWeek % 7) {
+                // modulus for sanity check
+
                 $newTime += 86400;
             }
             $scheduledDay = ($newTime - $rescheduledTime) / 86400 + 1;
@@ -114,7 +115,7 @@ class Monthly extends Schedule
     public function setDay($_day)
     {
         if (!($_day >= 1 && $_day < 32)) {
-            throw new Exception ("Invalid day parameter, must be >=1 and < 32");
+            throw new Exception("Invalid day parameter, must be >=1 and < 32");
         }
 
         $this->day = $_day;

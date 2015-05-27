@@ -28,7 +28,9 @@ abstract class ApiRenderer
         $this->init();
     }
 
-    protected function init() {}
+    protected function init()
+    {
+    }
 
     abstract public function sendHeader();
 
@@ -126,5 +128,4 @@ abstract class ApiRenderer
 
         return strtolower(end($klass));
     }
-
 }

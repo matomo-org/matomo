@@ -161,7 +161,7 @@ class Visitor
             return true;
         }
 
-        if (!$isVisitorIdToLookup ) {
+        if (!$isVisitorIdToLookup) {
             return true;
         }
 

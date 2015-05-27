@@ -75,7 +75,7 @@ class Model
 
         try {
             $this->getDb()->query($sql, $sqlBind);
-        } catch(Exception $e){
+        } catch (Exception $e) {
             Common::printDebug("There was an error while updating the Conversion: " . $e->getMessage());
 
             return false;
@@ -120,7 +120,6 @@ class Model
         $bind = array();
 
         foreach ($ecommerceItems as $item) {
-
             if ($i === 0) {
                 $fields = implode(', ', array_keys($item));
                 $sql   .= ' (' . $fields . ') VALUES ';
@@ -334,15 +333,10 @@ class Model
         );
 
         if ($shouldMatchOneFieldOnly && $isVisitorIdToLookup) {
-
             $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $whereCommon, $bindSql);
-
         } elseif ($shouldMatchOneFieldOnly) {
-
             $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $whereCommon, $bindSql);
-
         } else {
-
             $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $whereCommon, $bindSql);
 
             if (empty($visitRow)) {

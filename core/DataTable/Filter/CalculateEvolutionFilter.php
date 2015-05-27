@@ -102,7 +102,9 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
     protected function getDivisor($row)
     {
         $pastRow = $this->getPastRowFromCurrent($row);
-        if (!$pastRow) return 0;
+        if (!$pastRow) {
+            return 0;
+        }
 
         return $pastRow->getColumn($this->columnNameUsedAsDivisor);
     }

@@ -11,7 +11,6 @@ namespace Piwik;
 use Exception;
 use Piwik\DataAccess\TableMetadata;
 use Piwik\Db\Adapter;
-use Piwik\Tracker;
 
 /**
  * Contains SQL related helper functions for Piwik's MySQL database.

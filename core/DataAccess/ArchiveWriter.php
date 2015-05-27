@@ -86,7 +86,6 @@ class ArchiveWriter
     public function insertBlobRecord($name, $values)
     {
         if (is_array($values)) {
-
             $clean = array();
 
             if (isset($values[0])) {

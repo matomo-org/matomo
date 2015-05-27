@@ -9,7 +9,6 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Config;
 use Piwik\Updater;
 use Piwik\Updates;
 use Piwik\Plugin\Manager;
@@ -26,14 +25,12 @@ class Updates_2_14_0_b1 extends Updates
         $pluginManager = Manager::getInstance();
 
         if ($pluginManager->isPluginInstalled($plugin)) {
-
             if ($pluginManager->isPluginActivated($plugin)) {
                 $pluginManager->deactivatePlugin($plugin);
             }
 
             $pluginManager->unloadPlugin($plugin);
             $pluginManager->uninstallPlugin($plugin);
-
         } else {
             $this->makeSurePluginIsRemovedFromFilesystem($plugin);
         }

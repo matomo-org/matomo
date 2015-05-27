@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Db;
 
 /**
  * Singleton that manages user access to Piwik resources.
@@ -226,7 +225,7 @@ class Access
                 }
                 $this->idsitesByAccess['superuser'] = $allSitesId;
             }
-        } else if (isset($this->login)) {
+        } elseif (isset($this->login)) {
             if (empty($this->idsitesByAccess['view'])
                 && empty($this->idsitesByAccess['admin'])) {
 

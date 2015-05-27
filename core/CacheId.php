@@ -8,7 +8,6 @@
  */
 namespace Piwik;
 
-use Piwik\Translate;
 use Piwik\Plugin\Manager;
 
 class CacheId

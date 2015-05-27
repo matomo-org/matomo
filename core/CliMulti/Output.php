@@ -10,7 +10,8 @@ namespace Piwik\CliMulti;
 use Piwik\CliMulti;
 use Piwik\Filesystem;
 
-class Output {
+class Output
+{
 
     private $tmpFile  = '';
     private $outputId = null;
@@ -64,5 +65,4 @@ class Output {
     {
         Filesystem::deleteFileIfExists($this->tmpFile);
     }
-
 }

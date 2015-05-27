@@ -139,7 +139,7 @@ class API
 
         if ($httpStatus == 401) {
             throw new AuthenticationFailedException();
-        } else if ($httpStatus != 200) {
+        } elseif ($httpStatus != 200) {
             throw new Exception('Error while getting API results', $httpStatus);
         }
 

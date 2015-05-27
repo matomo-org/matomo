@@ -15,7 +15,6 @@ use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
-use Piwik\Translate;
 
 /**
  * @api

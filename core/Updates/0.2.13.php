@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_0_2_13 extends Updates
 {
-    static function getSql()
+    public static function getSql()
     {
         return array(
             'DROP TABLE IF EXISTS `' . Common::prefixTable('option') . '`'    => false,
@@ -31,7 +31,7 @@ class Updates_0_2_13 extends Updates
         );
     }
 
-    static function update()
+    public static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
     }

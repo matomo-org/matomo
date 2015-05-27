@@ -18,7 +18,7 @@ class Updates_2_4_0_b6 extends Updates
 
         try {
             $pluginManager->activatePlugin('DevicesDetection');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }

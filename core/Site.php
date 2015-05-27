@@ -80,7 +80,7 @@ class Site
     {
         self::triggerSetSitesEvent($sites);
 
-        foreach($sites as $idsite => $site) {
+        foreach ($sites as $idsite => $site) {
             self::setSite($idsite, $site);
         }
     }

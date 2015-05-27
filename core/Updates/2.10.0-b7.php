@@ -16,18 +16,17 @@ use Piwik\Updates;
 class Updates_2_10_0_b7 extends Updates
 {
 
-    static function getSql()
+    public static function getSql()
     {
         $sqls = array();
 
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
 
-        $archiveBlobTables = array_filter($archiveTables, function($name) {
+        $archiveBlobTables = array_filter($archiveTables, function ($name) {
             return ArchiveTableCreator::getTypeFromTableName($name) == ArchiveTableCreator::BLOB_TABLE;
         });
 
         foreach ($archiveBlobTables as $table) {
-
             $sqls["UPDATE " . $table . " SET name = 'Resolution_resolution' WHERE name = 'UserSettings_resolution'"] = false;
             $sqls["UPDATE " . $table . " SET name = 'Resolution_configuration' WHERE name = 'UserSettings_configuration'"] = false;
         }
@@ -35,9 +34,8 @@ class Updates_2_10_0_b7 extends Updates
         return $sqls;
     }
 
-    static function update()
+    public static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
     }
-
 }

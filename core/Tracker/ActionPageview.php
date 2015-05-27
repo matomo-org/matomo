@@ -10,7 +10,6 @@
 namespace Piwik\Tracker;
 
 use Piwik\Config;
-use Piwik\Tracker;
 
 /**
  * This class represents a page view, tracking URL, page title and generation time.
@@ -20,7 +19,7 @@ class ActionPageview extends Action
 {
     protected $timeGeneration = false;
 
-    function __construct(Request $request)
+    public function __construct(Request $request)
     {
         parent::__construct(Action::TYPE_PAGE_URL, $request);
 
@@ -88,5 +87,4 @@ class ActionPageview extends Action
 
         return Config::getInstance()->General['action_url_category_delimiter'];
     }
-
 }

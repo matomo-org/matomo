@@ -17,13 +17,13 @@ use Piwik\Updates;
 class Updates_2_10_0_b4 extends Updates
 {
 
-    static function update()
+    public static function update()
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
 
         try {
             $pluginManager->activatePlugin('BulkTracking');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }
