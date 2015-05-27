@@ -42,7 +42,7 @@ return array(
 
         array('Access.createAccessSingleton', function ($access) {
             $testingEnvironment = new TestingEnvironment();
-            if (!$testingEnvironment->testUseRegularAuth) {
+            if ($testingEnvironment->testUseMockAuth) {
                 $access = new Piwik_MockAccess($access);
                 \Piwik\Access::setSingletonInstance($access);
             }

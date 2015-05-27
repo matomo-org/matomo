@@ -31,13 +31,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     beforeEach(function () {
         delete testEnvironment.configOverride;
-        testEnvironment.testUseRegularAuth = 0;
+        testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
 
     after(function () {
         delete testEnvironment.queryParamOverride;
-        testEnvironment.testUseRegularAuth = 0;
+        testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
 
@@ -593,7 +593,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     // opt out page
     it('should load the opt out page correctly', function (done) {
         expect.screenshot('opt_out').to.be.capture(function (page) {
-            testEnvironment.testUseRegularAuth = 1;
+            testEnvironment.testUseMockAuth = 0;
             testEnvironment.save();
 
             page.load("?module=CoreAdminHome&action=optOut&language=en");

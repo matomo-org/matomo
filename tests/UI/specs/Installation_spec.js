@@ -14,7 +14,7 @@ describe("Installation", function () {
     this.fixture = null;
 
     before(function () {
-        testEnvironment.testUseRegularAuth = 1;
+        testEnvironment.testUseMockAuth = 0;
         testEnvironment.configFileLocal = path.join(PIWIK_INCLUDE_PATH, "/tmp/test.config.ini.php");
         testEnvironment.dontUseTestConfig = true;
         testEnvironment.tablesPrefix = 'piwik_';
@@ -29,7 +29,7 @@ describe("Installation", function () {
         delete testEnvironment.configFileLocal;
         delete testEnvironment.dontUseTestConfig;
         delete testEnvironment.tablesPrefix;
-        delete testEnvironment.testUseRegularAuth;
+        delete testEnvironment.testUseMockAuth;
         testEnvironment.save();
     });
 
