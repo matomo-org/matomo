@@ -64,6 +64,7 @@ class UserSettingTest extends IntegrationTestCase
      */
     public function test_setSettingValue_shouldThrowException_IfAnonymousIsTryingToSetASettingWhichNeedsUserPermission()
     {
+        $this->setAnonymousUser();
         $setting = $this->addUserSetting('mysystem', 'mytitle');
 
         $setting->setValue(2);
@@ -170,6 +171,7 @@ class UserSettingTest extends IntegrationTestCase
      */
     public function test_getSettingValue_shouldThrowException_IfGivenSettingDoesNotExist()
     {
+        $this->setAnonymousUser();
         $setting = $this->buildUserSetting('myusersetting', 'mytitle');
         $setting->getValue();
     }
@@ -190,6 +192,7 @@ class UserSettingTest extends IntegrationTestCase
      */
     public function test_removeSettingValue_shouldThrowException_IfUserHasNotEnoughUserPermissions()
     {
+        $this->setAnonymousUser();
         $setting = $this->addUserSetting('myusersetting', 'mytitle');
         $setting->removeValue();
     }
