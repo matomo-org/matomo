@@ -1308,13 +1308,13 @@
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
-		<country>Russian Federation</country>
+		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
 		<region>Moscow City</region>
 		<regionCode>48</regionCode>
 		<city>Moscow</city>
-		<location>Moscow, Moscow City, Russian Federation</location>
+		<location>Moscow, Moscow City, Russia</location>
 		<latitude>55.751999</latitude>
 		<longitude>37.616001</longitude>
 		<visitLocalTime>04:28:18</visitLocalTime>

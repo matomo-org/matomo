@@ -397,13 +397,13 @@
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
-		<country>Macedonia, the Former Yugoslav Republic of</country>
+		<country>Macedonia</country>
 		<countryCode>mk</countryCode>
 		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
 		<region>Miravci</region>
 		<regionCode>66</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</location>
+		<location>Stratford-upon-Avon, Miravci, Macedonia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>

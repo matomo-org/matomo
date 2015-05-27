@@ -40,7 +40,7 @@ class LanguageFixture extends Fixture
     private function getBrowserLangs() {
         return array(
             'fr-be', 'ar_QA', 'fr-ch', 'pl', 'pl', 'th_TH', 'zh_SG', 'eu_ES',
-            'sr_CS', 'el,fi', 'fr,en-us,en;q=', 'fr-be', 'en,en-us,en;q=',
+            'sr_RS', 'el,fi', 'fr,en-us,en;q=', 'fr-be', 'en,en-us,en;q=',
             'de,en-us,en;q=', 'cs_CZ', 'pl,en-us,en;q=',
             'kpe_LR', 'en,en-us,en;q=',
         );
