@@ -25,7 +25,7 @@ class GenerateIntl extends TranslationBase
 {
     protected function configure()
     {
-        $this->setName('intl:generate')
+        $this->setName('translations:generate-intl-data')
              ->setDescription('Generates Intl-data for Piwik');
     }
 
