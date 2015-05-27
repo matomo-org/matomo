@@ -30,7 +30,7 @@ class Provider extends \Piwik\Plugin
     public function install()
     {
         // add column hostname / hostname ext in the visit table
-        $query = "ALTER IGNORE TABLE `" . Common::prefixTable('log_visit') . "` ADD `location_provider` VARCHAR( 100 ) NULL";
+        $query = "ALTER TABLE `" . Common::prefixTable('log_visit') . "` ADD `location_provider` VARCHAR( 100 ) NULL";
 
         // if the column already exist do not throw error. Could be installed twice...
         try {
