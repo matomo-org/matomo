@@ -28,7 +28,7 @@ class Xml extends ApiRenderer
     {
         return '<?xml version="1.0" encoding="utf-8" ?>' . "\n" .
                "<result>\n" .
-               "\t<error message=\"" . $message . "\" />\n" .
+               "\t<error message=\"" . Renderer::formatValueXml($message) . "\" />\n" .
                "</result>";
     }
 
