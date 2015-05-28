@@ -247,7 +247,7 @@ class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
         curl_close($curlHandle);
 
         // Tests response content, it has to be equal to the test file. If not equal, double compression occurred
-        $this->assertEquals($fullResponse, file_get_contents(TEST_FILE_LOCATION));
+        $this->assertEquals(file_get_contents(TEST_FILE_LOCATION), $fullResponse);
     }
 
     /**
@@ -272,14 +272,14 @@ class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
         curl_close($curlHandle);
 
         // Tests response content, it has to be equal to the test file
-        $this->assertEquals($fullResponse, file_get_contents(TEST_FILE_LOCATION));
+        $this->assertEquals(file_get_contents(TEST_FILE_LOCATION), $fullResponse);
 
         // Tests deflate compression has been used
         $deflateFileLocation = $this->getCompressedFileLocation() . ".deflate";
         $this->assertFileExists($deflateFileLocation);
 
         // Tests gzdeflate has been used for IE compatibility
-        $this->assertEquals(gzinflate(file_get_contents($deflateFileLocation)), file_get_contents(TEST_FILE_LOCATION));
+        $this->assertEquals(file_get_contents(TEST_FILE_LOCATION), gzinflate(file_get_contents($deflateFileLocation)));
 
         $this->removeCompressedFiles();
     }
@@ -306,7 +306,7 @@ class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
         curl_close($curlHandle);
 
         // Tests response content, it has to be equal to the test file
-        $this->assertEquals($fullResponse, file_get_contents(TEST_FILE_LOCATION));
+        $this->assertEquals(file_get_contents(TEST_FILE_LOCATION), $fullResponse);
 
         // Tests gzip compression has been used
         $gzipFileLocation = $this->getCompressedFileLocation() . ".gz";
