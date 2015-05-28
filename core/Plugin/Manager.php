@@ -339,14 +339,14 @@ class Manager
      */
     public function deactivatePlugin($pluginName)
     {
+        $this->clearCache($pluginName);
+
         // execute deactivate() to let the plugin do cleanups
         $this->executePluginDeactivate($pluginName);
 
         $this->unloadPluginFromMemory($pluginName);
 
         $this->removePluginFromConfig($pluginName);
-
-        $this->clearCache($pluginName);
 
         /**
          * Event triggered after a plugin has been deactivated.
