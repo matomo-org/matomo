@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\UserLanguage;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 
 /**
@@ -22,6 +23,12 @@ function languageTranslate($label)
 {
     if ($label == '' || $label == 'xx') {
         return Piwik::translate('General_Unknown');
+    }
+
+    $language = StaticContainer::get('Piwik\Translation\Translator')->getTranslatedLanguage($label);
+
+    if ($language) {
+        return $language;
     }
 
     $key = 'UserLanguage_Language_' . $label;
@@ -47,7 +54,11 @@ function languageTranslateWithCode($label)
 
     if (count($ex) == 2 && $ex[0] != $ex[1]) {
         $countryKey = 'UserCountry_country_' . $ex[1];
-        $country = Piwik::translate($countryKey);
+        $country = StaticContainer::get('Piwik\Translation\Translator')->getTranslatedCountry($ex[1]);
+
+        if (empty($country)) {
+            $country = Piwik::translate($countryKey);
+        }
 
         if ($country == $countryKey) {
             return sprintf("%s (%s)", $lang, $ex[0]);

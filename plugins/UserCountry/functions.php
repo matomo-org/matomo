@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\UserCountry;
 
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
@@ -56,7 +57,10 @@ function countryTranslate($label)
     if ($label == Visit::UNKNOWN_CODE || $label == '') {
         return Piwik::translate('General_Unknown');
     }
-    return Piwik::translate('UserCountry_country_' . $label);
+
+    $country = StaticContainer::get('Piwik\Translation\Translator')->getTranslatedCountry($label);
+
+    return $country ? $country : Piwik::translate('UserCountry_country_' . $label);
 }
 
 /**
