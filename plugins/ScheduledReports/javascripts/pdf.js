@@ -29,7 +29,7 @@ function formSetEditReport(idReport) {
 
     toggleReportType(report.type);
 
-    $('#report_description').html(report.description);
+    $('#report_description').text(report.description);
     $('#report_segment').find('option[value=' + report.idsegment + ']').prop('selected', 'selected');
     $('#report_type').find('option[value=' + report.type + ']').prop('selected', 'selected');
     $('#report_period').find('option[value=' + report.period + ']').prop('selected', 'selected');
