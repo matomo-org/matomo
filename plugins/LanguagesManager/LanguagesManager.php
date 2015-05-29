@@ -17,7 +17,6 @@ use Piwik\Cookie;
 use Piwik\Db;
 use Piwik\Intl\Locale;
 use Piwik\Piwik;
-use Piwik\Translate;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
@@ -98,17 +97,8 @@ class LanguagesManager extends \Piwik\Plugin
     {
         /** @var Translator $translator */
         $translator = StaticContainer::get('Piwik\Translation\Translator');
-
-        $language = Common::getRequestVar('language', '', 'string');
-        if (empty($language)) {
-            $userLanguage = self::getLanguageCodeForCurrentUser();
-            if (API::getInstance()->isLanguageAvailable($userLanguage)) {
-                $language = $userLanguage;
-            }
-        }
-        if (!empty($language) && API::getInstance()->isLanguageAvailable($language)) {
-            $translator->setCurrentLanguage($language);
-        }
+        // Update current language.
+        $translator->setCurrentLanguage($translator->getDefaultLanguage());
 
         $locale = $translator->translate('General_Locale');
         Locale::setLocale($locale);
@@ -141,14 +131,16 @@ class LanguagesManager extends \Piwik\Plugin
      */
     public static function getLanguageCodeForCurrentUser()
     {
-        $languageCode = self::getLanguageFromPreferences();
-        if (!API::getInstance()->isLanguageAvailable($languageCode)) {
-            $languageCode = Common::extractLanguageCodeFromBrowserLanguage(Common::getBrowserLanguage(), API::getInstance()->getAvailableLanguages());
+        $languageCodes = [
+            self::getLanguageFromPreferences(),
+            Common::extractLanguageCodeFromBrowserLanguage(Common::getBrowserLanguage(), API::getInstance()->getAvailableLanguages()),
+        ];
+        foreach ($languageCodes as $languageCode) {
+            if (API::getInstance()->isLanguageAvailable($languageCode)) {
+                return $languageCode;
+            }
         }
-        if (!API::getInstance()->isLanguageAvailable($languageCode)) {
-            $languageCode = Translate::getLanguageDefault();
-        }
-        return $languageCode;
+        return null;
     }
 
     /**

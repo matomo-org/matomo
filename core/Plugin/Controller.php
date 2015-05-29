@@ -32,9 +32,9 @@ use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
-use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
+use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\View\ViewInterface;
@@ -631,8 +631,9 @@ abstract class Controller
         $view->startDate = $dateStart;
         $view->endDate = $dateEnd;
 
-        $language = LanguagesManager::getLanguageForSession();
-        $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        $view->language = $translator->getCurrentLanguage();
 
         $this->setBasicVariablesView($view);
 
