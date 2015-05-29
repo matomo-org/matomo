@@ -300,6 +300,7 @@ class ArchivingHelper
 
     protected static $actionUrlCategoryDelimiter = null;
     protected static $actionTitleCategoryDelimiter = null;
+    protected static $actionTitleCategoryReverse = false;
     protected static $defaultActionName = null;
     protected static $defaultActionNameWhenNotDefined = null;
     protected static $defaultActionUrlWhenNotDefined = null;
@@ -314,6 +315,7 @@ class ArchivingHelper
         } else {
             self::$actionUrlCategoryDelimiter = self::$actionTitleCategoryDelimiter = $actionDelimiter;
         }
+        self::$actionTitleCategoryReverse = Config::getInstance()->General['action_title_category_reverse'];
 
         self::$defaultActionName = Config::getInstance()->General['action_default_name'];
         self::$columnToSortByBeforeTruncation = PiwikMetrics::INDEX_NB_VISITS;
@@ -570,6 +572,15 @@ class ArchivingHelper
         }
 
         $split = explode($categoryDelimiter, $name, self::getSubCategoryLevelLimit());
+
+        // 2015-05-29 hannes@dorn.cc
+        // Some websites have the lowest category at first:
+        // page / section / website
+        if ($type == Action::TYPE_PAGE_TITLE) {
+            if (self::$actionTitleCategoryReverse) {
+                $split = array_reverse( $split );
+            }
+        }
 
         // trim every category and remove empty categories
         $split = array_map('trim', $split);
