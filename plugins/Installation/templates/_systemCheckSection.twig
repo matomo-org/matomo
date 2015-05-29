@@ -1,12 +1,12 @@
 {% import _self as local %}
 
-<table class="table system-check" id="systemCheckRequired">
+<table class="simple-table system-check" id="systemCheckRequired">
     {{ local.diagnosticTable(diagnosticReport.getMandatoryDiagnosticResults()) }}
 </table>
 
 <h3>{{ 'Installation_Optional'|translate }}</h3>
 
-<table class="table system-check" id="systemCheckOptional">
+<table class="simple-table system-check" id="systemCheckOptional">
     {{ local.diagnosticTable(diagnosticReport.getOptionalDiagnosticResults()) }}
 </table>
 
