@@ -172,7 +172,6 @@ class Html extends ReportRenderer
 
         foreach ($processedReports as $processedReport) {
             if ($processedReport['displayGraph']) {
-
                 $additionalFiles[] = $this->getAttachment($report, $processedReport, $prettyDate);
             }
         }

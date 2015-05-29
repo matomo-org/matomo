@@ -335,7 +335,6 @@ class Plugin
             if (file_exists($componentFile)) {
                 include_once $componentFile;
             }
-
         } else {
             $this->cache->save($cacheId, false); // prevent from trying to load over and over again for instance if there is no Menu for a plugin
 

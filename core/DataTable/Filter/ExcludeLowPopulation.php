@@ -10,7 +10,6 @@ namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
 use Piwik\DataTable\BaseFilter;
-use Piwik\Plugin\Metric;
 
 /**
  * Deletes all rows for which a specific column has a value that is lower than

@@ -78,7 +78,7 @@ class Proxy extends Singleton
         $this->checkClassIsSingleton($className);
 
         $rClass = new ReflectionClass($className);
-        if(!$this->shouldHideAPIMethod($rClass->getDocComment())) {
+        if (!$this->shouldHideAPIMethod($rClass->getDocComment())) {
             foreach ($rClass->getMethods() as $method) {
                 $this->loadMethodMetadata($className, $method);
             }
@@ -388,7 +388,6 @@ class Proxy extends Singleton
                     $requestValue = Common::getRequestVar($name, null, null, $parametersRequest);
                 } else {
                     try {
-
                         if ($name == 'segment' && !empty($parametersRequest['segment'])) {
                             // segment parameter is an exception: we do not want to sanitize user input or it would break the segment encoding
                             $requestValue = ($parametersRequest['segment']);

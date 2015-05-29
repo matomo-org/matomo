@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_1_2_rc1 extends Updates
 {
-    static function getSql()
+    public static function getSql()
     {
         return array(
             // Various performance improvements schema updates
@@ -125,7 +125,7 @@ class Updates_1_2_rc1 extends Updates
         );
     }
 
-    static function update()
+    public static function update()
     {
         // first we disable the plugins and keep an array of warnings messages
         $pluginsToDisableMessage = array(
@@ -150,7 +150,5 @@ class Updates_1_2_rc1 extends Updates
                 implode('</li><li>', $disabledPlugins) .
                 "</li></ul>");
         }
-
     }
 }
-

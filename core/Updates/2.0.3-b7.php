@@ -18,7 +18,7 @@ use Piwik\Updates;
  */
 class Updates_2_0_3_b7 extends Updates
 {
-    static function update()
+    public static function update()
     {
         $errors = array();
 
@@ -43,8 +43,7 @@ class Updates_2_0_3_b7 extends Updates
         foreach ($oldPlugins as $plugin) {
             try {
                 \Piwik\Plugin\Manager::getInstance()->deactivatePlugin($plugin);
-            } catch(\Exception $e) {
-
+            } catch (\Exception $e) {
             }
 
             $dir = PIWIK_INCLUDE_PATH . "/plugins/$plugin";
@@ -56,7 +55,6 @@ class Updates_2_0_3_b7 extends Updates
             if (file_exists($dir)) {
                 $errors[] = "Please delete this directory manually (eg. using your FTP software): $dir \n";
             }
-
         }
         if (!empty($errors)) {
             throw new \Exception("Warnings during the update: <br>" . implode("<br>", $errors));

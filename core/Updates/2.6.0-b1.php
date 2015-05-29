@@ -21,7 +21,7 @@ class Updates_2_6_0_b1 extends Updates
      * Here you can define any action that should be performed during the update. For instance executing SQL statements,
      * renaming config entries, updating files, etc.
      */
-    static function update()
+    public static function update()
     {
         $config = Config::getInstance();
         $config->Plugins_Tracker = array();

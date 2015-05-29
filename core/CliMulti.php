@@ -16,7 +16,8 @@ use Piwik\Container\StaticContainer;
 /**
  * Class CliMulti.
  */
-class CliMulti {
+class CliMulti
+{
 
     /**
      * If set to true or false it will overwrite whether async is supported or not.
@@ -70,11 +71,11 @@ class CliMulti {
     {
         $chunks = array($piwikUrls);
         if ($this->concurrentProcessesLimit) {
-            $chunks = array_chunk( $piwikUrls, $this->concurrentProcessesLimit);
+            $chunks = array_chunk($piwikUrls, $this->concurrentProcessesLimit);
         }
 
         $results = array();
-        foreach($chunks as $urlsChunk) {
+        foreach ($chunks as $urlsChunk) {
             $results = array_merge($results, $this->requestUrls($urlsChunk));
         }
 
@@ -159,7 +160,6 @@ class CliMulti {
                 // ==> declare the process as finished
                 $process->finishProcess();
                 continue;
-
             } elseif (!$hasStarted) {
                 return false;
             }
@@ -236,7 +236,7 @@ class CliMulti {
             if (file_exists($file)) {
                 $timeLastModified = filemtime($file);
 
-                if ($timeLastModified !== FALSE && $timeOneWeekAgo > $timeLastModified) {
+                if ($timeLastModified !== false && $timeOneWeekAgo > $timeLastModified) {
                     unlink($file);
                 }
             }
@@ -344,7 +344,7 @@ class CliMulti {
 
         /**
          * Used to be in CronArchive, moved to CliMulti.
-         * 
+         *
          * @ignore
          */
         Piwik::postEvent('CronArchive.getTokenAuth', array(&$tokens));

@@ -17,9 +17,6 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Map;
 use Piwik\DataTable\Row;
-use Piwik\Db;
-use Piwik\Period;
-
 /**
  * Used by {@link Piwik\Plugin\Archiver} instances to insert and aggregate archive data.
  *
@@ -258,7 +255,7 @@ class ArchiveProcessor
     {
         $metrics = $this->getAggregatedNumericMetrics($columns, $operationToApply);
 
-        foreach($metrics as $column => $value) {
+        foreach ($metrics as $column => $value) {
             $value = Common::forceDotAsSeparatorForDecimalPoint($value);
             $this->archiveWriter->insertRecord($column, $value);
         }
@@ -432,10 +429,10 @@ class ArchiveProcessor
             Metrics::INDEX_NB_USERS
         );
 
-        if($this->getParams()->isSingleSite()) {
+        if ($this->getParams()->isSingleSite()) {
             $uniqueVisitorsMetric = Metrics::INDEX_NB_UNIQ_VISITORS;
         } else {
-            if(!SettingsPiwik::isSameFingerprintAcrossWebsites()) {
+            if (!SettingsPiwik::isSameFingerprintAcrossWebsites()) {
                 throw new Exception("Processing unique visitors across websites is enabled for this instance,
                             but to process this metric you must first set enable_fingerprinting_across_websites=1
                             in the config file, under the [Tracker] section.");
@@ -444,7 +441,7 @@ class ArchiveProcessor
         }
         $metrics[] = $uniqueVisitorsMetric;
 
-        $uniques = $this->computeNbUniques( $metrics );
+        $uniques = $this->computeNbUniques($metrics);
         $row->setColumn('nb_uniq_visitors', $uniques[$uniqueVisitorsMetric]);
         $row->setColumn('nb_users', $uniques[Metrics::INDEX_NB_USERS]);
     }

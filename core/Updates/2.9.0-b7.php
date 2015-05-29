@@ -16,7 +16,7 @@ use Piwik\Updates;
 
 class Updates_2_9_0_b7 extends Updates
 {
-    static function getSql()
+    public static function getSql()
     {
         $sql = array();
         $sql = self::addCreateSequenceTableQuery($sql);
@@ -25,7 +25,7 @@ class Updates_2_9_0_b7 extends Updates
         return $sql;
     }
 
-    static function update()
+    public static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
     }
@@ -87,5 +87,4 @@ class Updates_2_9_0_b7 extends Updates
     {
         return Common::prefixTable('sequence');
     }
-
 }

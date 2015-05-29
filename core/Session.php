@@ -86,7 +86,7 @@ class Session extends Zend_Session
 
             @ini_set('session.save_handler', 'files');
             @ini_set('session.save_path', $sessionPath);
-        } else if ($config->General['session_save_handler'] === 'dbtable'
+        } elseif ($config->General['session_save_handler'] === 'dbtable'
             || in_array($currentSaveHandler, array('user', 'mm'))
         ) {
             // We consider these to be misconfigurations, in that:

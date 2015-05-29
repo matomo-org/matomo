@@ -181,6 +181,4 @@ class SharedSiteIds
     {
         return Process::isSupported();
     }
-
 }
-

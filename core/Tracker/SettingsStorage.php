@@ -55,5 +55,4 @@ class SettingsStorage extends Storage
     {
         return PiwikCache::getEagerCache();
     }
-
 }

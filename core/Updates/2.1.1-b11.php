@@ -21,7 +21,7 @@ use Piwik\Updates;
  */
 class Updates_2_1_1_b11 extends Updates
 {
-    static function update()
+    public static function update()
     {
         $returningMetrics = array(
             'nb_visits_returning',

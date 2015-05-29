@@ -17,12 +17,12 @@ use Piwik\Updates;
  */
 class Updates_1_9_b9 extends Updates
 {
-    static function isMajorUpdate()
+    public static function isMajorUpdate()
     {
         return true;
     }
 
-    static function getSql()
+    public static function getSql()
     {
         $logVisit = Common::prefixTable('log_visit');
         $logConversion = Common::prefixTable('log_conversion');
@@ -45,7 +45,7 @@ class Updates_1_9_b9 extends Updates
         );
     }
 
-    static function update()
+    public static function update()
     {
         try {
             self::enableMaintenanceMode();
@@ -57,4 +57,3 @@ class Updates_1_9_b9 extends Updates
         }
     }
 }
-

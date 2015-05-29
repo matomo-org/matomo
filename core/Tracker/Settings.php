@@ -17,7 +17,7 @@ class Settings
 {
     const OS_BOT = 'BOT';
 
-    function __construct(Request $request, $ip, $isSameFingerprintsAcrossWebsites)
+    public function __construct(Request $request, $ip, $isSameFingerprintsAcrossWebsites)
     {
         $this->request   = $request;
         $this->ipAddress = $ip;
@@ -25,7 +25,7 @@ class Settings
         $this->configId  = null;
     }
 
-    function getConfigId()
+    public function getConfigId()
     {
         if (empty($this->configId)) {
             $this->loadInfo();
@@ -114,7 +114,7 @@ class Settings
             . $browserLang
             . $salt;
 
-        if(!$this->isSameFingerprintsAcrossWebsites) {
+        if (!$this->isSameFingerprintsAcrossWebsites) {
             $configString .= $this->request->getIdSite();
         }
 
@@ -122,5 +122,4 @@ class Settings
 
         return substr($hash, 0, Tracker::LENGTH_BINARY_ID);
     }
-
 }

@@ -234,7 +234,7 @@ class ProxyHttp
 
         if (preg_match(self::DEFLATE_ENCODING_REGEX, $acceptEncoding, $matches)) {
             return array('deflate', '.deflate');
-        } else if (preg_match(self::GZIP_ENCODING_REGEX, $acceptEncoding, $matches)) {
+        } elseif (preg_match(self::GZIP_ENCODING_REGEX, $acceptEncoding, $matches)) {
             return array('gzip', '.gz');
         } else {
             return array(false, false);
@@ -262,7 +262,7 @@ class ProxyHttp
 
         if ($compressionEncoding == 'deflate') {
             $data = gzdeflate($data, 9);
-        } else if ($compressionEncoding == 'gzip' || $compressionEncoding == 'x-gzip') {
+        } elseif ($compressionEncoding == 'gzip' || $compressionEncoding == 'x-gzip') {
             $data = gzencode($data, 9);
         }
 

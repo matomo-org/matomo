@@ -82,7 +82,6 @@ class Month extends Period
     {
         while ($startDate->isEarlier($endDate)
             || $startDate == $endDate) {
-
             $week        = new Week($startDate);
             $startOfWeek = $week->getDateStart();
             $endOfWeek   = $week->getDateEnd();
@@ -112,5 +111,4 @@ class Month extends Period
             $startDate = $startDate->addDay(1);
         }
     }
-
 }

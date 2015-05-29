@@ -40,7 +40,7 @@ class SegmentExpression
     const INDEX_BOOL_OPERATOR = 0;
     const INDEX_OPERAND = 1;
 
-    function __construct($string)
+    public function __construct($string)
     {
         $this->string = $string;
         $this->tree = $this->parseTree();

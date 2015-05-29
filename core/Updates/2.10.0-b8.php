@@ -13,14 +13,13 @@ use Piwik\Updates;
 
 class Updates_2_10_0_b8 extends Updates
 {
-    static function update()
+    public static function update()
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
 
         try {
             $pluginManager->activatePlugin('Resolution');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
     }
-
 }

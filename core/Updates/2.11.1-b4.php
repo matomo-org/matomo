@@ -19,7 +19,7 @@ class Updates_2_11_1_b4 extends Updates
      * Here you can define any action that should be performed during the update. For instance executing SQL statements,
      * renaming config entries, updating files, etc.
      */
-    static function update()
+    public static function update()
     {
         if (!Development::isEnabled()) {
             return;

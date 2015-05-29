@@ -144,8 +144,7 @@ class Http
         $httpMethod = 'GET',
         $httpUsername = null,
         $httpPassword = null
-    )
-    {
+    ) {
         if ($followDepth > 5) {
             throw new Exception('Too many redirects (' . $followDepth . ')');
         }
@@ -388,7 +387,7 @@ class Http
 
             // determine success or failure
             @fclose(@$fsock);
-        } else if ($method == 'fopen') {
+        } elseif ($method == 'fopen') {
             $response = false;
 
             // we make sure the request takes less than a few seconds to fail
@@ -456,7 +455,7 @@ class Http
             if (!empty($default_socket_timeout)) {
                 @ini_set('default_socket_timeout', $default_socket_timeout);
             }
-        } else if ($method == 'curl') {
+        } elseif ($method == 'curl') {
             if (!self::isCurlEnabled()) {
                 // can be triggered in tests
                 throw new Exception("CURL is not enabled in php.ini, but is being used.");
@@ -501,7 +500,7 @@ class Http
                 @curl_setopt($ch, CURLOPT_NOBODY, true);
             }
 
-            if(!empty($httpUsername) && !empty($httpPassword)) {
+            if (!empty($httpUsername) && !empty($httpPassword)) {
                 $curl_options += array(
                     CURLOPT_USERPWD => $httpUsername . ':' . $httpPassword,
                 );
@@ -537,7 +536,7 @@ class Http
 
             if ($response === true) {
                 $response = '';
-            } else if ($response === false) {
+            } elseif ($response === false) {
                 $errstr = curl_error($ch);
                 if ($errstr != '') {
                     throw new Exception('curl_exec: ' . $errstr

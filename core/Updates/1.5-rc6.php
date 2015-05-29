@@ -15,7 +15,7 @@ use Piwik\Updates;
  */
 class Updates_1_5_rc6 extends Updates
 {
-    static function update()
+    public static function update()
     {
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('PrivacyManager');
@@ -23,4 +23,3 @@ class Updates_1_5_rc6 extends Updates
         }
     }
 }
-

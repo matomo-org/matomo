@@ -67,7 +67,6 @@ class Segment
      */
     protected function init()
     {
-
     }
 
     /**
@@ -201,7 +200,8 @@ class Segment
      *
      * @param callable $suggestedValuesCallback
      */
-    public function setSuggestedValuesCallback($suggestedValuesCallback) {
+    public function setSuggestedValuesCallback($suggestedValuesCallback)
+    {
         $this->suggestedValuesCallback = $suggestedValuesCallback;
     }
 

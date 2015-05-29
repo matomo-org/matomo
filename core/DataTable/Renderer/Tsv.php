@@ -20,7 +20,7 @@ class Tsv extends Csv
     /**
      * Constructor
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->setSeparator("\t");
@@ -31,7 +31,7 @@ class Tsv extends Csv
      *
      * @return string
      */
-    function render()
+    public function render()
     {
         return parent::render();
     }

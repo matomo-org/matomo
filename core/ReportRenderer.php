@@ -13,9 +13,7 @@ use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
-use Piwik\DataTable;
 use Piwik\Plugins\ImageGraph\API;
-use Piwik\BaseFactory;
 
 /**
  * A Report Renderer produces user friendly renderings of any given Piwik report.
@@ -164,7 +162,7 @@ abstract class ReportRenderer extends BaseFactory
 
         $bytesWritten = file_put_contents($outputFilename, $content);
         if ($bytesWritten === false) {
-            throw new Exception ("ReportRenderer: Could not write to file '" . $outputFilename . "'.");
+            throw new Exception("ReportRenderer: Could not write to file '" . $outputFilename . "'.");
         }
 
         return $outputFilename;

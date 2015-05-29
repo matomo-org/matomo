@@ -331,7 +331,7 @@ class DataCollection
 
             if ($metadataName == DataTableFactory::TABLE_METADATA_SITE_INDEX) {
                 $indexKeyValues = array_values($this->sitesId);
-            } else if ($metadataName == DataTableFactory::TABLE_METADATA_PERIOD_INDEX) {
+            } elseif ($metadataName == DataTableFactory::TABLE_METADATA_PERIOD_INDEX) {
                 $indexKeyValues = array_keys($this->periods);
             }
 
@@ -342,7 +342,6 @@ class DataCollection
                     $result[$key] = $this->createOrderedIndex($metadataNamesToIndexBy);
                 }
             }
-
         }
 
         return $result;

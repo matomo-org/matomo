@@ -23,12 +23,12 @@ class Updates_2_4_0_b4 extends Updates
 
         try {
             $pluginManager->deactivatePlugin('Zeitgeist');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
 
         try {
             $pluginManager->uninstallPlugin('Zeitgeist');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }

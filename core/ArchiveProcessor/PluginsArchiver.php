@@ -9,7 +9,6 @@
 
 namespace Piwik\ArchiveProcessor;
 
-use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataTable\Manager;
@@ -130,7 +129,7 @@ class PluginsArchiver
 
     public function finalizeArchive()
     {
-        $this->params->logStatusDebug( $this->archiveWriter->isArchiveTemporary );
+        $this->params->logStatusDebug($this->archiveWriter->isArchiveTemporary);
         $this->archiveWriter->finalizeArchive();
         return $this->archiveWriter->getIdArchive();
     }
@@ -212,5 +211,4 @@ class PluginsArchiver
         $metrics = $this->archiveProcessor->aggregateNumericMetrics($toSum);
         return $metrics;
     }
-
 }

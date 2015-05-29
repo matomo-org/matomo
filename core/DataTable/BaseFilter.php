@@ -9,7 +9,6 @@
 namespace Piwik\DataTable;
 
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 
 /**
  * A filter is set of logic that manipulates a DataTable. Existing filters do things like,

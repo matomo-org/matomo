@@ -82,7 +82,7 @@ class Console extends Application
     {
         if (!class_exists($command)) {
             Log::warning(sprintf('Cannot add command %s, class does not exist', $command));
-        } else if (!is_subclass_of($command, 'Piwik\Plugin\ConsoleCommand')) {
+        } elseif (!is_subclass_of($command, 'Piwik\Plugin\ConsoleCommand')) {
             Log::warning(sprintf('Cannot add command %s, class does not extend Piwik\Plugin\ConsoleCommand', $command));
         } else {
             /** @var Command $commandInstance */
@@ -144,7 +144,7 @@ class Console extends Application
             }
 
             if (!defined('STDIN')) {
-                define('STDIN', fopen('php://stdin','r'));
+                define('STDIN', fopen('php://stdin', 'r'));
             }
         }
     }
@@ -213,5 +213,4 @@ class Console extends Application
 
         return $commands;
     }
-
 }

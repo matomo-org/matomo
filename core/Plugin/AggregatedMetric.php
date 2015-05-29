@@ -7,7 +7,6 @@
  */
 namespace Piwik\Plugin;
 
-use Piwik\DataTable\Row;
 
 /**
  * Base type for metric metadata classes that describe aggregated metrics. These metrics are

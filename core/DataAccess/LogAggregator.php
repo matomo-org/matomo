@@ -447,8 +447,8 @@ class LogAggregator
     protected function isMetricRequested($metricId, $metricsRequested)
     {
         // do not process INDEX_NB_UNIQ_FINGERPRINTS unless specifically asked for
-        if($metricsRequested === false) {
-            if($metricId == Metrics::INDEX_NB_UNIQ_FINGERPRINTS) {
+        if ($metricsRequested === false) {
+            if ($metricId == Metrics::INDEX_NB_UNIQ_FINGERPRINTS) {
                 return false;
             }
             return true;

@@ -8,7 +8,6 @@
 
 namespace Piwik\Translation\Loader;
 
-use Exception;
 use Piwik\Common;
 
 /**

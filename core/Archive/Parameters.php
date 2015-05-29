@@ -57,4 +57,3 @@ class Parameters
         return $this->idSites;
     }
 }
-

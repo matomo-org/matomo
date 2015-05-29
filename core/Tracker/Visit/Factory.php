@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\Tracker\Visit;
+
 use Piwik\Piwik;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\VisitInterface;

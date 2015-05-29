@@ -27,7 +27,7 @@ abstract class QuickForm2 extends HTML_QuickForm2
 {
     protected $a_formElements = array();
 
-    function __construct($id, $method = 'post', $attributes = null, $trackSubmit = false)
+    public function __construct($id, $method = 'post', $attributes = null, $trackSubmit = false)
     {
         if (!isset($attributes['action'])) {
             $attributes['action'] = Url::getCurrentQueryString();
@@ -43,7 +43,7 @@ abstract class QuickForm2 extends HTML_QuickForm2
     /**
      * Class specific initialization
      */
-    abstract function init();
+    abstract public function init();
 
     /**
      * The elements in this form
@@ -77,7 +77,7 @@ abstract class QuickForm2 extends HTML_QuickForm2
         return parent::addElement($elementOrType, $name, $attributes, $data);
     }
 
-    function setChecked($nameElement)
+    public function setChecked($nameElement)
     {
         foreach ($this->_elements as $key => $value) {
             if ($value->_attributes['name'] == $nameElement) {
@@ -86,7 +86,7 @@ abstract class QuickForm2 extends HTML_QuickForm2
         }
     }
 
-    function setSelected($nameElement, $value)
+    public function setSelected($nameElement, $value)
     {
         foreach ($this->_elements as $key => $value) {
             if ($value->_attributes['name'] == $nameElement) {
@@ -101,7 +101,7 @@ abstract class QuickForm2 extends HTML_QuickForm2
      * @param string $elementName
      * @return mixed
      */
-    function getSubmitValue($elementName)
+    public function getSubmitValue($elementName)
     {
         $value = $this->getValue();
         return isset($value[$elementName]) ? $value[$elementName] : null;

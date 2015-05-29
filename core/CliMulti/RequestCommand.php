@@ -10,13 +10,11 @@ namespace Piwik\CliMulti;
 
 use Piwik\Application\Environment;
 use Piwik\Access;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Url;
 use Piwik\UrlHelper;
 use Symfony\Component\Console\Input\InputArgument;

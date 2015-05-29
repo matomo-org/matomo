@@ -240,8 +240,7 @@ abstract class MenuAbstract extends Singleton
 
     private function applyRemoves()
     {
-        foreach($this->menuEntriesToRemove as $menuToDelete) {
-
+        foreach ($this->menuEntriesToRemove as $menuToDelete) {
             if (empty($menuToDelete[1])) {
                 // Delete Main Menu
                 if (isset($this->menu[$menuToDelete[0]])) {
@@ -275,7 +274,7 @@ abstract class MenuAbstract extends Singleton
                     $this->menu[$mainMenuRenamed][$subMenuRenamed] = $save;
                 }
             } // Changing a first-level element
-            else if (isset($this->menu[$mainMenuOriginal])) {
+            elseif (isset($this->menu[$mainMenuOriginal])) {
                 $save = $this->menu[$mainMenuOriginal];
                 $save['_name'] = $mainMenuRenamed;
                 unset($this->menu[$mainMenuOriginal]);
@@ -299,7 +298,7 @@ abstract class MenuAbstract extends Singleton
         foreach ($this->menu as $key => &$element) {
             if (is_null($element)) {
                 unset($this->menu[$key]);
-            } else if ($element['_hasSubmenu']) {
+            } elseif ($element['_hasSubmenu']) {
                 uasort($element, array($this, 'menuCompare'));
             }
         }

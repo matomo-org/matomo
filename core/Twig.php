@@ -41,26 +41,26 @@ class Twig
     public function __construct()
     {
         $loader = $this->getDefaultThemeLoader();
-		$this->addPluginNamespaces($loader);
+        $this->addPluginNamespaces($loader);
 
-		//get current theme
-		$manager = Plugin\Manager::getInstance();
-		$theme   = $manager->getThemeEnabled();
-		$loaders = array();
+        //get current theme
+        $manager = Plugin\Manager::getInstance();
+        $theme   = $manager->getThemeEnabled();
+        $loaders = array();
 
         $this->formatter = new Formatter();
 
-		//create loader for custom theme to overwrite twig templates
-		if ($theme && $theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME) {
-			$customLoader = $this->getCustomThemeLoader($theme);
-			if ($customLoader) {
-				//make it possible to overwrite plugin templates
-				$this->addCustomPluginNamespaces($customLoader, $theme->getPluginName());
-				$loaders[] = $customLoader;
-			}
-		}
+        //create loader for custom theme to overwrite twig templates
+        if ($theme && $theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME) {
+            $customLoader = $this->getCustomThemeLoader($theme);
+            if ($customLoader) {
+                //make it possible to overwrite plugin templates
+                $this->addCustomPluginNamespaces($customLoader, $theme->getPluginName());
+                $loaders[] = $customLoader;
+            }
+        }
 
-		$loaders[] = $loader;
+        $loaders[] = $loader;
 
         $chainLoader = new Twig_Loader_Chain($loaders);
 
@@ -161,7 +161,7 @@ class Twig
             // make the first value the string that will get output in the template
             // plugins can modify this string
             $str = '';
-            $params = array_merge( array( &$str ), $params);
+            $params = array_merge(array( &$str ), $params);
 
             Piwik::postEvent($eventName, $params);
             return $str;
@@ -199,21 +199,22 @@ class Twig
         return $themeLoader;
     }
 
-	/**
-	 * create template loader for a custom theme
-	 * @param \Piwik\Plugin $theme
-	 * @return \Twig_Loader_Filesystem
-	 */
-	protected function getCustomThemeLoader(Plugin $theme){
-		if (!file_exists(sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $theme->getPluginName()))){
-			return false;
-		}
-		$themeLoader = new Twig_Loader_Filesystem(array(
+    /**
+     * create template loader for a custom theme
+     * @param \Piwik\Plugin $theme
+     * @return \Twig_Loader_Filesystem
+     */
+    protected function getCustomThemeLoader(Plugin $theme)
+    {
+        if (!file_exists(sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $theme->getPluginName()))) {
+            return false;
+        }
+        $themeLoader = new Twig_Loader_Filesystem(array(
                                                        sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $theme->getPluginName())
                                                   ));
 
         return $themeLoader;
-	}
+    }
 
     public function getTwigEnvironment()
     {
@@ -353,18 +354,18 @@ class Twig
         }
     }
 
-	/**
-	*
-	* Plugin-Templates can be overwritten by putting identically named templates in plugins/[theme]/templates/plugins/[plugin]/
-	*
-	*/
-	private function addCustomPluginNamespaces(Twig_Loader_Filesystem $loader, $pluginName)
+    /**
+    *
+    * Plugin-Templates can be overwritten by putting identically named templates in plugins/[theme]/templates/plugins/[plugin]/
+    *
+    */
+    private function addCustomPluginNamespaces(Twig_Loader_Filesystem $loader, $pluginName)
     {
         $plugins = \Piwik\Plugin\Manager::getInstance()->getAllPluginsNames();
         foreach ($plugins as $name) {
             $path = sprintf("%s/plugins/%s/templates/plugins/%s/", PIWIK_INCLUDE_PATH, $pluginName, $name);
             if (is_dir($path)) {
-                $loader->addPath(PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/templates/plugins/'. $name , $name);
+                $loader->addPath(PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/templates/plugins/'. $name, $name);
             }
         }
     }

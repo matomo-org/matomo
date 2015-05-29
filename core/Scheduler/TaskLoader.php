@@ -27,7 +27,6 @@ class TaskLoader
         $pluginTasks = PluginManager::getInstance()->findComponents('Tasks', 'Piwik\Plugin\Tasks');
 
         foreach ($pluginTasks as $pluginTask) {
-
             $pluginTask->schedule();
 
             foreach ($pluginTask->getScheduledTasks() as $task) {

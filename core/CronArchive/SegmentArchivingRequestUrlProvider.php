@@ -102,7 +102,7 @@ class SegmentArchivingRequestUrlProvider
             $this->logger->debug("process_new_segments_from set to segment_creation_time, oldest date to process is {time}", array('time' => $segmentCreatedTime));
 
             return $segmentCreatedTime;
-        } else if (preg_match("/^last([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
+        } elseif (preg_match("/^last([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
             $lastN = $matches[1];
 
             list($lastDate, $lastPeriod) = Range::getDateXPeriodsAgo($lastN, $segmentCreatedTime, 'day');

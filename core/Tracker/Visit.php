@@ -125,7 +125,6 @@ class Visit implements VisitInterface
             if ($this->goalManager->isGoalAnOrder()) {
                 $visitIsConverted = true;
             }
-
         } elseif ($isManualGoalConversion) {
             // this request is from the JS call to piwikTracker.trackGoal()
             $someGoalsConverted = $this->goalManager->detectGoalId($this->request->getIdSite());
@@ -136,7 +135,6 @@ class Visit implements VisitInterface
                 Common::printDebug('Invalid goal tracking request for goal id = ' . $this->goalManager->idGoal);
                 return;
             }
-
         } else {
             // normal page view, potentially triggering a URL matching goal
             $action = Action::factory($this->request);
@@ -178,7 +176,6 @@ class Visit implements VisitInterface
                 if (!is_null($action)) {
                     $action->record($visitor, $idReferrerActionUrl, $idReferrerActionName);
                 }
-
             } catch (VisitorNotFoundInDb $e) {
 
                 // There is an edge case when:
@@ -386,7 +383,7 @@ class Visit implements VisitInterface
     protected function getSettingsObject()
     {
         if (is_null($this->userSettings)) {
-            $this->userSettings = new Settings( $this->request, $this->getVisitorIp(), SettingsPiwik::isSameFingerprintAcrossWebsites());
+            $this->userSettings = new Settings($this->request, $this->getVisitorIp(), SettingsPiwik::isSameFingerprintAcrossWebsites());
         }
 
         return $this->userSettings;
@@ -590,7 +587,7 @@ class Visit implements VisitInterface
             self::$dimensions = VisitDimension::getAllDimensions();
 
             $dimensionNames = array();
-            foreach(self::$dimensions as $dimension) {
+            foreach (self::$dimensions as $dimension) {
                 $dimensionNames[] = $dimension->getColumnName();
             }
 

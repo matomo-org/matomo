@@ -14,7 +14,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Piwik;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;

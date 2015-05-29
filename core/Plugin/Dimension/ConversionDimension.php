@@ -18,7 +18,6 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
-use Piwik\Translate;
 use Piwik\Plugin\Segment;
 use Piwik\Plugin;
 use Exception;
@@ -160,7 +159,6 @@ abstract class ConversionDimension extends Dimension
         $cache   = PiwikCache::getTransientCache();
 
         if (!$cache->contains($cacheId)) {
-
             $plugins   = PluginManager::getInstance()->getPluginsLoadedAndActivated();
             $instances = array();
 
@@ -244,5 +242,4 @@ abstract class ConversionDimension extends Dimension
     {
         return false;
     }
-
 }

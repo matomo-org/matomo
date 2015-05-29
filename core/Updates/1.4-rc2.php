@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_1_4_rc2 extends Updates
 {
-    static function getSql()
+    public static function getSql()
     {
         return array(
             "SET sql_mode=''"                                                            => false,
@@ -37,7 +37,7 @@ class Updates_1_4_rc2 extends Updates
         );
     }
 
-    static function update()
+    public static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
     }

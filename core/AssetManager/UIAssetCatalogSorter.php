@@ -18,7 +18,7 @@ class UIAssetCatalogSorter
     /**
      * @param string[] $priorityOrder
      */
-    function __construct($priorityOrder)
+    public function __construct($priorityOrder)
     {
         $this->priorityOrder = $priorityOrder;
     }
@@ -31,12 +31,11 @@ class UIAssetCatalogSorter
     {
         $sortedCatalog = new UIAssetCatalog($this);
         foreach ($this->priorityOrder as $filePattern) {
-
-            $assetsMatchingPattern = array_filter($uiAssetCatalog->getAssets(), function($uiAsset) use ($filePattern)  {
+            $assetsMatchingPattern = array_filter($uiAssetCatalog->getAssets(), function ($uiAsset) use ($filePattern) {
                 return preg_match('~^' . $filePattern . '~', $uiAsset->getRelativeLocation());
             });
 
-            foreach($assetsMatchingPattern as $assetMatchingPattern) {
+            foreach ($assetsMatchingPattern as $assetMatchingPattern) {
                 $sortedCatalog->addUIAsset($assetMatchingPattern);
             }
         }

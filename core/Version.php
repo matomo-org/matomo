@@ -36,5 +36,4 @@ final class Version
     {
         return (bool) preg_match('/^(\d+)\.(\d+)\.(\d+)-.{1,4}(\d+)$/', $version);
     }
-
 }

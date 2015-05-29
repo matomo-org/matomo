@@ -21,7 +21,7 @@ class Group
             'name'    => $subTitleMenu,
             'url'     => $url,
             'tooltip' => $tooltip
-        );;
+        );
     }
 
     public function getItems()

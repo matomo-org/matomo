@@ -297,7 +297,7 @@ class Report
      * Defaults to false
      * @return bool
      */
-    public function alwaysUseDefaultViewDataTable ()
+    public function alwaysUseDefaultViewDataTable()
     {
         return false;
     }
@@ -312,7 +312,6 @@ class Report
      */
     public function configureView(ViewDataTable $view)
     {
-
     }
 
     /**
@@ -433,7 +432,7 @@ class Report
         foreach ($restrictToColumns as $column) {
             if (isset($processedMetricsById[$column])) {
                 $metrics = array_merge($metrics, $processedMetricsById[$column]->getDependentMetrics());
-            } else if (isset($metricsSet[$column])) {
+            } elseif (isset($metricsSet[$column])) {
                 $metrics[] = $column;
             }
         }
@@ -498,7 +497,6 @@ class Report
             if (is_string($processedMetric) && !empty($translations[$processedMetric])) {
                 $documentation[$processedMetric] = $translations[$processedMetric];
             } elseif ($processedMetric instanceof ProcessedMetric) {
-
                 $name = $processedMetric->getName();
                 $metricDocs = $processedMetric->getDocumentation();
                 if (empty($metricDocs)) {
@@ -509,7 +507,6 @@ class Report
                     $documentation[$processedMetric->getName()] = $metricDocs;
                 }
             }
-
         }
 
         return $documentation;

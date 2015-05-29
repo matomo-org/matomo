@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_2_0_a7 extends Updates
 {
-    static function getSql()
+    public static function getSql()
     {
         return array(
             // ignore existing column name error (1060)
@@ -29,7 +29,7 @@ class Updates_2_0_a7 extends Updates
         );
     }
 
-    static function update()
+    public static function update()
     {
         // add tag & level columns to logger_message table
         Updater::updateDatabase(__FILE__, self::getSql());

@@ -28,7 +28,7 @@ class OnDiskUIAsset extends UIAsset
      * @param string $baseDirectory
      * @param string $fileLocation
      */
-    function __construct($baseDirectory, $fileLocation)
+    public function __construct($baseDirectory, $fileLocation)
     {
         $this->baseDirectory = $baseDirectory;
         $this->relativeLocation = $fileLocation;
@@ -51,14 +51,14 @@ class OnDiskUIAsset extends UIAsset
 
     public function validateFile()
     {
-        if (!$this->assetIsReadable())
+        if (!$this->assetIsReadable()) {
             throw new Exception("The ui asset with 'href' = " . $this->getAbsoluteLocation() . " is not readable");
+        }
     }
 
     public function delete()
     {
         if ($this->exists()) {
-
             try {
                 Filesystem::remove($this->getAbsoluteLocation());
             } catch (Exception $e) {
@@ -81,8 +81,9 @@ class OnDiskUIAsset extends UIAsset
 
         $newFile = @fopen($this->getAbsoluteLocation(), "w");
 
-        if (!$newFile)
-            throw new Exception ("The file : " . $newFile . " can not be opened in write mode.");
+        if (!$newFile) {
+            throw new Exception("The file : " . $newFile . " can not be opened in write mode.");
+        }
 
         fwrite($newFile, $content);
 

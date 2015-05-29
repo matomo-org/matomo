@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_1_7_2_rc5 extends Updates
 {
-    static function getSql()
+    public static function getSql()
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('pdf') . '`
@@ -25,7 +25,7 @@ class Updates_1_7_2_rc5 extends Updates
         );
     }
 
-    static function update()
+    public static function update()
     {
         try {
             Updater::updateDatabase(__FILE__, self::getSql());

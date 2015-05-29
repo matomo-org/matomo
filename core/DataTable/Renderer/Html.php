@@ -56,8 +56,9 @@ class Html extends Renderer
      */
     protected function renderTable($table)
     {
-        if (is_array($table)) // convert array to DataTable
-        {
+        if (is_array($table)) {
+            // convert array to DataTable
+
             $table = DataTable::makeFromSimpleArray($table);
         }
 
@@ -67,8 +68,9 @@ class Html extends Renderer
                     $this->buildTableStructure($subtable, '_' . $table->getKeyName(), $date);
                 }
             }
-        } else // Simple
-        {
+        } else {
+            // Simple
+
             if ($table->getRowsCount()) {
                 $this->buildTableStructure($table);
             }
@@ -113,7 +115,9 @@ class Html extends Renderer
 
             $metadata = array();
             foreach ($row->getMetadata() as $name => $value) {
-                if (is_string($value)) $value = "'$value'";
+                if (is_string($value)) {
+                    $value = "'$value'";
+                }
                 $metadata[] = "'$name' => $value";
             }
 

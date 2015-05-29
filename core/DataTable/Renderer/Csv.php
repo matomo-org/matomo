@@ -117,8 +117,9 @@ class Csv extends Renderer
      */
     protected function renderTable($table, &$allColumns = array())
     {
-        if (is_array($table)) // convert array to DataTable
-        {
+        if (is_array($table)) {
+            // convert array to DataTable
+
             $table = DataTable::makeFromSimpleArray($table);
         }
 
@@ -264,11 +265,12 @@ class Csv extends Renderer
 
         $period = Common::getRequestVar('period', false);
         $date = Common::getRequestVar('date', false);
-        if ($period || $date) // in test cases, there are no request params set
-        {
+        if ($period || $date) {
+            // in test cases, there are no request params set
+
             if ($period == 'range') {
                 $period = new Range($period, $date);
-            } else if (strpos($date, ',') !== false) {
+            } elseif (strpos($date, ',') !== false) {
                 $period = new Range('range', $date);
             } else {
                 $period = Period\Factory::build($period, Date::factory($date));

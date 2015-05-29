@@ -76,7 +76,7 @@ class Year extends Period
      * @param string $format
      * @return array
      */
-    function toString($format = 'ignored')
+    public function toString($format = 'ignored')
     {
         $this->generate();
 

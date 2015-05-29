@@ -8,7 +8,6 @@
 
 namespace Piwik\Application\Kernel;
 
-use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\SettingsServer;

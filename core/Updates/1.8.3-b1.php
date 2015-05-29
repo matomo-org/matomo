@@ -20,7 +20,7 @@ use Piwik\Updates;
 class Updates_1_8_3_b1 extends Updates
 {
 
-    static function getSql()
+    public static function getSql()
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('site') . '`
@@ -44,7 +44,7 @@ class Updates_1_8_3_b1 extends Updates
         );
     }
 
-    static function update()
+    public static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginLoaded('ScheduledReports')) {
@@ -61,7 +61,6 @@ class Updates_1_8_3_b1 extends Updates
 
             $reports = Db::fetchAll('SELECT * FROM `' . Common::prefixTable('pdf') . '`');
             foreach ($reports as $report) {
-
                 $idreport = $report['idreport'];
                 $idsite = $report['idsite'];
                 $login = $report['login'];
@@ -110,6 +109,5 @@ class Updates_1_8_3_b1 extends Updates
             Db::query('DROP TABLE `' . Common::prefixTable('pdf') . '`');
         } catch (\Exception $e) {
         }
-
     }
 }

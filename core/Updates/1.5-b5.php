@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_1_5_b5 extends Updates
 {
-    static function getSql()
+    public static function getSql()
     {
         return array(
             'CREATE TABLE `' . Common::prefixTable('session') . '` (
@@ -30,7 +30,7 @@ class Updates_1_5_b5 extends Updates
         );
     }
 
-    static function update()
+    public static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
     }

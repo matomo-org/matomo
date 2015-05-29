@@ -15,7 +15,7 @@ use Piwik\Updates;
  */
 class Updates_1_12_b15 extends Updates
 {
-    static function update()
+    public static function update()
     {
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('SegmentEditor');

@@ -29,5 +29,4 @@ class AddSegmentValue extends ColumnCallbackAddMetadata
     {
         parent::__construct($table, 'label', 'segmentValue', $callback, null, false);
     }
-
 }

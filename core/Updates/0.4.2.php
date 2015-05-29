@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_0_4_2 extends Updates
 {
-    static function getSql()
+    public static function getSql()
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
@@ -31,7 +31,7 @@ class Updates_0_4_2 extends Updates
     }
 
     // when restoring (possibly) previousy dropped columns, ignore mysql code error 1060: duplicate column
-    static function update()
+    public static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
     }

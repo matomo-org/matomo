@@ -70,7 +70,6 @@ class ColumnCallbackAddMetadata extends BaseFilter
         }
 
         foreach ($rows as $key => $row) {
-
             $parameters = array();
             foreach ($this->columnsToRead as $columnsToRead) {
                 $parameters[] = $row->getColumn($columnsToRead);

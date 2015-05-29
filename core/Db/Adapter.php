@@ -62,7 +62,7 @@ class Adapter
     private static function getAdapterClassName($adapterName)
     {
         $className = 'Piwik\Db\Adapter\\' . str_replace(' ', '\\', ucwords(str_replace(array('_', '\\'), ' ', strtolower($adapterName))));
-        if(!class_exists($className)) {
+        if (!class_exists($className)) {
             throw new \Exception("Adapter $adapterName is not valid.");
         }
         return $className;

@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
 use Piwik\DataAccess\ArchiveTableCreator;
 

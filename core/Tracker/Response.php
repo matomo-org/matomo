@@ -146,7 +146,7 @@ class Response
         $this->outputTransparentGif();
     }
 
-    private function outputTransparentGif ()
+    private function outputTransparentGif()
     {
         $transGifBase64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         Common::sendHeader('Content-Type: image/gif');
@@ -179,5 +179,4 @@ class Response
     {
         error_log(sprintf("Error in Piwik (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
     }
-
 }

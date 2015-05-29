@@ -21,7 +21,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
      */
     private $lessCompiler;
 
-    function __construct($mergedAsset, $assetFetcher, $cacheBuster)
+    public function __construct($mergedAsset, $assetFetcher, $cacheBuster)
     {
         parent::__construct($mergedAsset, $assetFetcher, $cacheBuster);
 
@@ -97,7 +97,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
      */
     private function rewriteCssImagePaths($content, $pathsRewriter)
     {
-        $content = preg_replace_callback( "/(url\(['\"]?)([^'\")]*)/", $pathsRewriter, $content );
+        $content = preg_replace_callback("/(url\(['\"]?)([^'\")]*)/", $pathsRewriter, $content);
         return $content;
     }
 
@@ -110,7 +110,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
      */
     private function rewriteCssImportPaths($content, $pathsRewriter)
     {
-        $content = preg_replace_callback( "/(@import \")([^\")]*)/", $pathsRewriter, $content );
+        $content = preg_replace_callback("/(@import \")([^\")]*)/", $pathsRewriter, $content);
         return $content;
     }
 

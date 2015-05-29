@@ -15,7 +15,6 @@ use Piwik\DataTable\Renderer;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Filter\Pattern;
-use Piwik\Plugin\Report;
 
 /**
  */

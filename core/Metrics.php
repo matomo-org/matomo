@@ -304,7 +304,7 @@ class Metrics
          */
         Piwik::postEvent('Metrics.getDefaultMetricTranslations', array(&$translations));
 
-        $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
+        $translations = array_map(array('\\Piwik\\Piwik', 'translate'), $translations);
 
         $cache->save($cacheId, $translations);
 
@@ -326,7 +326,7 @@ class Metrics
             'nb_actions'       => 'General_ColumnNbActions',
             'nb_users'         => 'General_ColumnNbUsers',
         );
-        $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
+        $translations = array_map(array('\\Piwik\\Piwik', 'translate'), $translations);
 
         $cache->save($cacheId, $translations);
 
@@ -349,7 +349,7 @@ class Metrics
             'bounce_rate'          => 'General_ColumnBounceRate',
             'conversion_rate'      => 'General_ColumnConversionRate',
         );
-        $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
+        $translations = array_map(array('\\Piwik\\Piwik', 'translate'), $translations);
 
         $cache->save($cacheId, $translations);
 
@@ -361,7 +361,6 @@ class Metrics
         $mappingIdToName = self::$mappingFromIdToName;
 
         if (array_key_exists($columnIdRaw, $mappingIdToName)) {
-
             return $mappingIdToName[$columnIdRaw];
         }
 
@@ -417,7 +416,7 @@ class Metrics
          */
         Piwik::postEvent('Metrics.getDefaultMetricDocumentationTranslations', array(&$translations));
 
-        $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
+        $translations = array_map(array('\\Piwik\\Piwik', 'translate'), $translations);
 
         $cache->save($cacheId, $translations);
 

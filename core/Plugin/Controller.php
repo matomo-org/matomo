@@ -778,7 +778,7 @@ abstract class Controller
                                                                                     $validHost,
                                                                                     '</a>'
                                                                                ));
-            } else if (Piwik::isUserIsAnonymous()) {
+            } elseif (Piwik::isUserIsAnonymous()) {
                 $view->invalidHostMessage = $warningStart . ' '
                     . Piwik::translate('CoreHome_InjectedHostNonSuperUserWarning', array(
                         "<br/><a href=\"$validUrl\">",
@@ -860,7 +860,7 @@ abstract class Controller
     {
         try {
             $this->doRedirectToUrl($moduleToRedirect, $actionToRedirect, $websiteId, $defaultPeriod, $defaultDate, $parameters);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             // no website ID to default to, so could not redirect
         }
 
@@ -926,8 +926,9 @@ abstract class Controller
      */
     public static function getCalendarPrettyDate($period)
     {
-        if ($period instanceof Month) // show month name when period is for a month
-        {
+        if ($period instanceof Month) {
+            // show month name when period is for a month
+
             return $period->getLocalizedLongString();
         } else {
             return $period->getPrettyString();
@@ -976,7 +977,7 @@ abstract class Controller
         if ($evolutionPercent < 0) {
             $class = "negative-evolution";
             $img = "arrow_down.png";
-        } else if ($evolutionPercent == 0) {
+        } elseif ($evolutionPercent == 0) {
             $class = "neutral-evolution";
             $img = "stop.png";
         } else {
@@ -1008,7 +1009,7 @@ abstract class Controller
     {
         if (!empty($this->idSite) && empty($this->site)) {
             throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $this->idSite)));
-        } else if (empty($this->site) || empty($this->idSite)) {
+        } elseif (empty($this->site) || empty($this->idSite)) {
             throw new Exception("The requested website idSite is not found in the request, or is invalid.
 				Please check that you are logged in Piwik and have permission to access the specified website.");
         }

@@ -17,7 +17,7 @@ use Piwik\Updates;
 
 class Updates_2_9_0_b1 extends Updates
 {
-    static function getSql()
+    public static function getSql()
     {
         $sql = array();
         $sql = self::updateBrowserEngine($sql);
@@ -25,7 +25,7 @@ class Updates_2_9_0_b1 extends Updates
         return $sql;
     }
 
-    static function update()
+    public static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
 
@@ -34,7 +34,6 @@ class Updates_2_9_0_b1 extends Updates
         try {
             Manager::getInstance()->activatePlugin('TestRunner');
         } catch (\Exception $e) {
-
         }
     }
 
@@ -54,8 +53,7 @@ class Updates_2_9_0_b1 extends Updates
         $engineUpdate = "''";
         $ifFragment = "IF (`config_browser_name` IN ('%s'), '%s', %s)";
 
-        foreach ($browserEngineMatch AS $engine => $browsers) {
-
+        foreach ($browserEngineMatch as $engine => $browsers) {
             $engineUpdate = sprintf($ifFragment, implode("','", $browsers), $engine, $engineUpdate);
         }
 

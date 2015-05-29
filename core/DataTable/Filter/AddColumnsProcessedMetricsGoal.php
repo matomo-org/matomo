@@ -10,7 +10,6 @@ namespace Piwik\DataTable\Filter;
 
 use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Plugin\Metric;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\AverageOrderRevenue;

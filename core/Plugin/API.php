@@ -50,7 +50,8 @@ abstract class API
      *
      * @return static
      */
-    public static function getInstance() {
+    public static function getInstance()
+    {
         $class = get_called_class();
 
         if (!isset(self::$instances[$class])) {

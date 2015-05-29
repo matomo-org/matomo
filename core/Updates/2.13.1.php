@@ -22,7 +22,7 @@ class Updates_2_13_1 extends Updates
      * Here you can define one or multiple SQL statements that should be executed during the update.
      * @return array
      */
-    static function getSql()
+    public static function getSql()
     {
         $optionTable = Common::prefixTable('option');
         $removeEmptyDefaultReportsSql = "delete from `$optionTable` where option_name like '%defaultReport%' and option_value=''";
@@ -36,7 +36,7 @@ class Updates_2_13_1 extends Updates
      * Here you can define any action that should be performed during the update. For instance executing SQL statements,
      * renaming config entries, updating files, etc.
      */
-    static function update()
+    public static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
     }
