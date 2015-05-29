@@ -208,7 +208,7 @@
                 if ($('#image-tracking-goal-check').is(':checked')) {
                     generateDataParams.idGoal = $('#image-tracker-goal').val();
                     if (generateDataParams.idGoal) {
-                        generateDataParams.revenue = $('#image-tracker-advanced-options').find('.revenue').val();
+                        generateDataParams.revenue = $('#image-goal-picker-extra').find('.revenue').val();
                     }
                 }
 
