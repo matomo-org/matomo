@@ -13,3 +13,8 @@
 #image-tracking-text {
     padding-top: 10px;
 }
+
+#js-campaign-query-param-extra .form-group {
+    /* terrible hack for a bug... */
+    width: 600px;
+}
