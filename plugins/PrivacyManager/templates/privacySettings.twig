@@ -281,34 +281,36 @@
     {% endif %}
 
     <h2 id="DNT">{{ 'PrivacyManager_DoNotTrack_SupportDNTPreference'|translate }}</h2>
-    <table class="adminTable" style='width:800px;'>
-        <tr>
-            <td width="650">
-                <p>
-                    {% if dntSupport %}
-                        {% set action='deactivateDoNotTrack' %}
-                        {% set nonce=deactivateNonce %}
-                        <strong>{{ 'PrivacyManager_DoNotTrack_Enabled'|translate }}</strong>
-                        <br/>
-                        {{ 'PrivacyManager_DoNotTrack_EnabledMoreInfo'|translate }}
-                    {% else %}
-                        {% set action='activateDoNotTrack' %}
-                        {% set nonce=activateNonce %}
-                        {{ 'PrivacyManager_DoNotTrack_Disabled'|translate }} {{ 'PrivacyManager_DoNotTrack_DisabledMoreInfo'|translate }}
-                    {% endif %}
-                </p>
-			<span style="margin-left:20px;">
-			<a href='{{ {'module':'PrivacyManager','nonce':nonce,'action':action} | urlRewriteWithParameters }}#DNT'>&rsaquo;
-                {% if dntSupport %}{{ 'PrivacyManager_DoNotTrack_Disable'|translate }} {{ 'General_NotRecommended'|translate }}
-                {% else %}{{ 'PrivacyManager_DoNotTrack_Enable'|translate }} {{ 'General_Recommended'|translate }}{% endif %}
-                <br/>
-            </a></span>
-            </td>
-            <td width="200">
-                {{ piwik.inlineHelp('PrivacyManager_DoNotTrack_Description'|translate) }}
-            </td>
-        </tr>
-    </table>
+    <p>
+        {% if dntSupport %}
+            {% set action='deactivateDoNotTrack' %}
+            {% set nonce=deactivateNonce %}
+            <strong>{{ 'PrivacyManager_DoNotTrack_Enabled'|translate }}</strong>
+            <br/>
+            {{ 'PrivacyManager_DoNotTrack_EnabledMoreInfo'|translate }}
+        {% else %}
+            {% set action='activateDoNotTrack' %}
+            {% set nonce=activateNonce %}
+            {{ 'PrivacyManager_DoNotTrack_Disabled'|translate }} {{ 'PrivacyManager_DoNotTrack_DisabledMoreInfo'|translate }}
+        {% endif %}
+    </p>
+    <div class="form-group">
+        <div class="form-help">
+            {{ 'PrivacyManager_DoNotTrack_Description'|translate }}
+        </div>
+        <a class="btn" href='{{ {'module':'PrivacyManager','nonce':nonce,'action':action} | urlRewriteWithParameters }}#DNT'>
+            {% if dntSupport %}
+                {{ 'PrivacyManager_DoNotTrack_Disable'|translate }}
+            {% else %}
+                {{ 'PrivacyManager_DoNotTrack_Enable'|translate }}
+            {% endif %}
+        </a>
+        {% if dntSupport %}
+            {{ 'General_NotRecommended'|translate }}
+        {% else %}
+            {{ 'General_Recommended'|translate }}
+        {% endif %}
+    </div>
 {% endif %}
 
 <h2 id="optOutAnchor">{{ 'CoreAdminHome_OptOutForYourVisitors'|translate }}</h2>
