@@ -226,8 +226,15 @@ class View implements ViewInterface
             $this->latest_version_available = UpdateCheck::isNewestVersionAvailable();
             $this->disableLink = Common::getRequestVar('disableLink', 0, 'int');
             $this->isWidget = Common::getRequestVar('widget', 0, 'int');
-            $this->cacheBuster = UIAssetCacheBuster::getInstance()->piwikVersionBasedCacheBuster();
+            
+            if (Development::isEnabled()) {
+                $cacheBuster = rand(0, 10000);
+            } else {
+                $cacheBuster = UIAssetCacheBuster::getInstance()->piwikVersionBasedCacheBuster();
+            }
 
+            $this->cacheBuster = $cacheBuster;
+            
             $this->loginModule = Piwik::getLoginPluginName();
 
             $user = APIUsersManager::getInstance()->getUser($this->userLogin);
