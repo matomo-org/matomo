@@ -116,13 +116,11 @@ return array(
         }),
 
         array('Platform.initialized', function () {
-            static $archivingTablesDeleted = false;
-
             $testingEnvironment = new TestingEnvironment();
             if ($testingEnvironment->deleteArchiveTables
-                && !$archivingTablesDeleted
+                && !$testingEnvironment->_archivingTablesDeleted
             ) {
-                $archivingTablesDeleted = true;
+                $testingEnvironment->_archivingTablesDeleted = true;
                 DbHelper::deleteArchiveTables();
             }
         }),
