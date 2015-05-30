@@ -61,6 +61,7 @@
         "SelectACity": "Select a city",
         "SelectDefaultCurrency": "You can select the currency to set by default for new websites.",
         "SelectDefaultTimezone": "You can select the time zone to select by default for new websites.",
+        "SetUp": "Set up",
         "ShowTrackingTag": "View Tracking code",
         "Sites": "Websites",
         "SiteSearchUse": "You can use Piwik to track and report what visitors are searching in your website's internal search engine.",

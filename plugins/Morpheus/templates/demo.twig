@@ -217,29 +217,148 @@
 
         <div class="demo">
             <form action="#">
-                <label>
-                    Username:
-                    <input type="text" placeholder="Some text here..."/>
-                </label>
-                <label>
-                    Email:
-                    <input type="text" placeholder="Some email here..."/>
-                </label>
-                <button type="submit">Submit</button>
+                <div class="form-group">
+                    <label for="username">
+                        Username
+                    </label>
+                    <input type="text" id="username" placeholder="Some text here..."/>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">
+                        Email
+                    </label>
+                    <div class="form-help">
+                        Here is more information.
+                    </div>
+                    <input type="email" id="email" placeholder="Some email here..."/>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Report to load by default
+                    </label>
+                    <div class="form-help">
+                        This is a help text that can be used to describe the field.
+                        This help text may extend over several lines.
+                    </div>
+                    <label class="radio">
+                        <input type="radio" name="defaultReport" value="today">
+                        Today
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="defaultReport" value="yesterday">
+                        Yesterday
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="defaultReport" value="week">
+                        Previous 30 days (not including today)
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="language">
+                        Language
+                    </label>
+                    <select id="language">
+                        <option>English</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">
+                        Description
+                    </label>
+                    <textarea id="description" rows="5"></textarea>
+                </div>
+
+                <input type="submit" value="Submit">
             </form>
         </div>
         <div class="demo-code">
             <pre>&lt;form action=&quot;#&quot;&gt;
-    &lt;label&gt;
-        Username:
-        &lt;input type=&quot;text&quot; placeholder=&quot;Some text here...&quot;/&gt;
-    &lt;/label&gt;
-    &lt;label&gt;
-        Email:
-        &lt;input type=&quot;text&quot; placeholder=&quot;Some email here...&quot;/&gt;
-    &lt;/label&gt;
-    &lt;button type=&quot;submit&quot;&gt;Submit&lt;/button&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label for=&quot;username&quot;&gt;
+            Username
+        &lt;/label&gt;
+        &lt;input type=&quot;text&quot; id=&quot;username&quot; placeholder=&quot;Some text here...&quot;/&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label for=&quot;email&quot;&gt;
+            Email
+        &lt;/label&gt;
+        &lt;div class=&quot;form-help&quot;&gt;
+            Here is more information.
+        &lt;/div&gt;
+        &lt;input type=&quot;email&quot; id=&quot;email&quot; placeholder=&quot;Some email here...&quot;/&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;
+            Report to load by default
+        &lt;/label&gt;
+        &lt;div class=&quot;form-help&quot;&gt;
+            This is a help text that can be used to describe the field.
+            This help text may extend over several lines.
+        &lt;/div&gt;
+        &lt;label class=&quot;radio&quot;&gt;
+            &lt;input type=&quot;radio&quot; name=&quot;defaultReport&quot; value=&quot;today&quot;&gt;
+            Today
+        &lt;/label&gt;
+        &lt;label class=&quot;radio&quot;&gt;
+            &lt;input type=&quot;radio&quot; name=&quot;defaultReport&quot; value=&quot;yesterday&quot;&gt;
+            Yesterday
+        &lt;/label&gt;
+        &lt;label class=&quot;radio&quot;&gt;
+            &lt;input type=&quot;radio&quot; name=&quot;defaultReport&quot; value=&quot;week&quot;&gt;
+            Previous 30 days (not including today)
+        &lt;/label&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label for=&quot;language&quot;&gt;
+            Language
+        &lt;/label&gt;
+        &lt;select id=&quot;language&quot;&gt;
+            &lt;option&gt;English&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label for=&quot;description&quot;&gt;
+            Description
+        &lt;/label&gt;
+        &lt;textarea id=&quot;description&quot; rows=&quot;5&quot;&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+
+    &lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
 &lt;/form&gt;</pre>
+        </div>
+
+        <h3>Input group</h3>
+
+        <div class="demo">
+            <div class="form-group">
+                <label for="deleteOlderThan">
+                    Input with a text addon
+                </label>
+                <div class="input-group">
+                    <input type="text" id="deleteOlderThan" value="180"/>
+                    <span class="input-group-addon">days</span>
+                </div>
+            </div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;div class=&quot;form-group&quot;&gt;
+    &lt;label for=&quot;foo&quot;&gt;
+        Input with a text addon
+    &lt;/label&gt;
+    &lt;div class=&quot;input-group&quot;&gt;
+        &lt;input type=&quot;text&quot; id=&quot;foo&quot; value=&quot;180&quot;/&gt;
+        &lt;span class=&quot;input-group-addon&quot;&gt;days&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
         </div>
 
         <h2>Code</h2>

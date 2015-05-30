@@ -71,7 +71,7 @@ $(document).ready(function () {
 
     showSmtpSettings(isSmtpEnabled());
     showCustomLogoSettings(isCustomLogoEnabled());
-    $('#generalSettingsSubmit').click(function () {
+    $('.generalSettingsSubmit').click(function () {
         var doSubmit = function () {
             sendGeneralSettingsAJAX();
         };
@@ -106,7 +106,7 @@ $(document).ready(function () {
     $('input').keypress(function (e) {
             var key = e.keyCode || e.which;
             if (key == 13) {
-                $('#generalSettingsSubmit').click();
+                $('.generalSettingsSubmit').click();
             }
         }
     );
