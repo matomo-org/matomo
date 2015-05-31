@@ -15,8 +15,14 @@ describe("Theme", function () {
     });
 
     it("should use the current theme", function (done) {
-        expect.screenshot("load").to.be.capture(function (page) {
+        expect.screenshot("home").to.be.capture(function (page) {
             page.load("");
+        }, done);
+    });
+
+    it("should theme the UI demo page", function (done) {
+        expect.screenshot("load").to.be.capture(function (page) {
+            page.load("?module=Morpheus&action=demo");
         }, done);
     });
 });
