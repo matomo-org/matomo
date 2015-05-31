@@ -24,6 +24,7 @@
         "VisibleToMe": "meni",
         "YouMayChangeSetting": "Takođe možete promeniti podešavanja i u datoteci %s ili izmenom segmenta i izborom '%s'.",
         "YouMustBeLoggedInToCreateSegments": "Morate biti prijavljeni kako biste mogli da kreirate i menjate segmente.",
-        "YouDontHaveAccessToCreateSegments": "Nemate odgovarajući nivo pristupa da biste kreirali i menjali segmente."
+        "YouDontHaveAccessToCreateSegments": "Nemate odgovarajući nivo pristupa da biste kreirali i menjali segmente.",
+        "AddingSegmentForAllWebsitesDisabled": "Dodavanje segmenata za sve sajtove je onemogućeno."
     }
 }

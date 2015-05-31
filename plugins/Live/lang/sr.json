@@ -21,6 +21,7 @@
         "NextVisitor": "Sledeći posetilac",
         "NoMoreVisits": "Nema više poseta ovog posetioca.",
         "PageRefreshed": "Broj prikaza ove stranice zaredom.",
+        "PluginDescription": "Omogućuje zapis poseta u realnom vremenu i pruža vam mogućnost da pratite vaše posetioce preko vidžeta. Dodatak takođe prikazuje profil posetioca za bilo kog korisnika.",
         "PreviousVisitor": "Prethodni posetilac",
         "RealTimeVisitorCount": "Brojač posetilaca u realnom vremenu",
         "Referrer_URL": "Referenca",
@@ -34,6 +35,12 @@
         "VisitorsInRealTime": "Posetioci u realnom vremenu",
         "VisitorsLastVisit": "Poslednja poseta je bila pre %s dana.",
         "VisitsFrom": "%1$s%2$s poseta%3$s sa",
-        "VisitSummary": "Utrošeno ukupno %1$s%2$s na sajtu%3$s, %4$sprikazano %5$s stranica u %6$s poseta.%7$s"
+        "VisitSummary": "Utrošeno ukupno %1$s%2$s na sajtu%3$s, %4$sprikazano %5$s stranica u %6$s poseta.%7$s",
+        "RowActionTooltipDefault": "Prikaži zapis poseta podeljen ovim redom",
+        "RowActionTooltipWithDimension": "Prikaži zapis poseta podeljen %s",
+        "RowActionTooltipTitle": "Otvori podeljeni zapis psoeta",
+        "SegmentedVisitorLogTitle": "Zapis poseta prikazuje posete kod kojih %s je \"%s\"",
+        "OnClickPause": "%s je pokrenut. Kliknite za pauzu.",
+        "OnClickStart": "%s je zaustavljen. Kliknite za start."
     }
 }

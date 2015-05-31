@@ -17,6 +17,7 @@
         "NbUniquePageviewsDescription": "%s jedinstvenih prikaza stranica",
         "NbUniqueVisitors": "Broj jedinstvenih posetilaca: %s",
         "NbVisitsBounced": "%s posetilaca je otišlo posle samo jedne stranice",
+        "PluginDescription": "Prikaz osnovnih metrika: posete, jedinstveni posetioci, broj akcija, stepen odbijanja (bounce) itd.",
         "VisitsSummary": "Sumarno",
         "VisitsSummaryDocumentation": "Ovo je pregled razvoja poseta",
         "WidgetLastVisits": "Grafikon najskorijih poseta",

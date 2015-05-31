@@ -18,6 +18,7 @@
         "Maximise": "Povećaj",
         "Minimise": "Smanji",
         "NotUndo": "Nećete moći da poništite ovu operaciju",
+        "PluginDescription": "Vaša konzola za veb analitiku. Prilagodite je svojim potrebama dodavanjem novih vidžeta, prevlačenjem istih i menjanjem rasporeda. Svaki korisnik može da upravlja svojom konzolom.",
         "RemoveDashboard": "Ukloni konzolu",
         "RemoveDashboardConfirm": "Da li ste sigurni da želite da uklonite konzolu \"%s\"?",
         "RenameDashboard": "Promena naziva",

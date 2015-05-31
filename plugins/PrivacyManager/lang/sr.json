@@ -2,6 +2,7 @@
     "PrivacyManager": {
         "AnonymizeIpDescription": "Kliknite na \"Da\" ako želite da Piwik ne beleži pune IP adrese",
         "AnonymizeIpInlineHelp": "Maskiranje poslednjeg bajta IP adresa posetioca kako bi sve bilo u skladu sa vašim lokalnim zakonima i preporukama o zaštiti privatnosti.",
+        "AnonymizeIpExtendedHelp": "Kada korisnik poseti vaš sajt, Piwik neće koristiti punu IP adresu (poput %s) već će je anonimizirati (u %s). Anonimizacija IP adresa je jedan od zahteva koje su postavili zakoni o zaštit privatnosti u zemljama poput Nemačke.",
         "AnonymizeIpMaskLengtDescription": "Izaberite koliko bajtova IP adrese treba da bude maskirano",
         "AnonymizeIpMaskLength": "%s bajt(ova) - npr. %s",
         "CannotLockSoDeleteLogActions": "Tabela log_action ne može biti očišćena. Potrebno je da MYSQL korisnik '%s' ima privilegiju LOCK TABLES",
@@ -46,6 +47,7 @@
         "LeastMonthsInput": "Molimo vas da navedete broj meseci veći od %s.",
         "MenuPrivacySettings": "Privatnost",
         "NextDelete": "Sledeće zakazano brisanje za",
+        "PluginDescription": "Obezbedite privatnost vaših korisnika i uskladite Piwik sa lokalnim zakonodavstvom.",
         "PurgeNow": "Očisti bazu",
         "PurgeNowConfirm": "Na putu ste da trajno obrišete podatke iz baze. Da li želite da nastavite?",
         "PurgingData": "Čišćenje baze",

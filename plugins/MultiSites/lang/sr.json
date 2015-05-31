@@ -2,6 +2,7 @@
     "MultiSites": {
         "Evolution": "Razvoj",
         "LoadingWebsites": "Učitavanje sajtova",
+        "PluginDescription": "Pregledajte i uporedite sve vaše sajtove i aplikacije preko ovog korisnog 'Svi sajtovi' dodatka.",
         "TopLinkTooltip": "Uporedi statistiku za sve vaše sajtove",
         "Pagination": "%s - %s od %s"
     }

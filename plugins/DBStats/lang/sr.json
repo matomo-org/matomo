@@ -10,6 +10,7 @@
         "MetricDataByYear": "Metrika po godinama",
         "MetricTables": "Metrika",
         "OtherTables": "Ostalo",
+        "PluginDescription": "Omogućuje detaljne izveštaje oko iskorišćenosti MySQL baze podataka. Dostupno superkorisnicima pod Dijagnostikom.",
         "ReportDataByYear": "Izveštaji po godinama",
         "ReportTables": "Izveštaji",
         "RowCount": "Broj redova",

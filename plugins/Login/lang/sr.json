@@ -16,6 +16,7 @@
         "PasswordChanged": "Vaša lozinka je promenjena.",
         "PasswordRepeat": "Lozinka (ponovo)",
         "PasswordsDoNotMatch": "Lozinka se ne poklapa",
+        "PluginDescription": "Omogućuje proveru korisnika putem koriničkog imena i lozinke kao i funkciju reseta zaboravljene lozinke. Metod provere se može promeniti korišćenjem nekog drugog dodatka za prijavu poput LoginLdap-a koji je dostupan na Marketu.",
         "RememberMe": "Zapamti me",
         "ResetPasswordInstructions": "Upišite novu lozinku za vaš nalog."
     }

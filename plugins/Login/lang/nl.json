@@ -16,6 +16,7 @@
         "PasswordChanged": "Je wachtwoord is veranderd.",
         "PasswordRepeat": "Wachtwoord (herhaal)",
         "PasswordsDoNotMatch": "Wachtwoorden komen niet overeen",
+        "PluginDescription": "Maakt het mogelijk authenticatie via gebruikersnaam en wachtwoord te laten verlopen, aslook de wachtwoord reset mogelijkheid. De authenticatie methode kan worden gewijzigd door gebruik te maken van een andere login plugin - zoals LoginLdap - die beschikbaar zijn in de marktplaats.",
         "RememberMe": "Onthoud mij",
         "ResetPasswordInstructions": "Voer een nieuw wachtwoord in voor je account."
     }

@@ -3,6 +3,7 @@
         "CategoryNoData": "Nema podataka u ovoj kategoriji. Probajte sa \"Uključi celu populaciju\".",
         "CheckForUpdates": "Proveri da li se pojavila nova verzija",
         "CheckPiwikOut": "Proverite!",
+        "ClickToEditX": "Kliknite kako biste izmenili %s",
         "CloseWidgetDirections": "Možete zatvoriti ovaj vidžet tako što ćete kliknuti na sličicu 'X' na vrhu.",
         "DataForThisReportHasBeenPurged": "Podaci za ovaj izveštaj su više od %s meseci stari te su obrisani.",
         "DataTableExcludeAggregateRows": "Zbirni redovi su prikazani %s Sakrij ih",
@@ -28,6 +29,7 @@
         "LongWeekFormat": "%dayFrom% %longMonthFrom% - %dayTo% %longMonthTo% %longYearTo%",
         "MakeADifference": "Budi drugačiji: %1$sDoniraj%2$s za Piwik 2.0!",
         "MakeOneTimeDonation": "Možete izvršiti i jednokratnu donaciju.",
+        "Menu": "Meni",
         "NoPrivilegesAskPiwikAdmin": "Prijavljeni ste kao '%s' ali izgleda da nemate postavljena nikakva ovlašćenja. %s Tražite od Piwik administratora (kliknite za poruku)%s da vam dozvoli 'prikaz' na sajtu.",
         "OnlyForSuperUserAccess": "Ovaj vidžet se prikazuje samo superkorisnicima.",
         "PageOf": "%1$s od %2$s",
@@ -50,6 +52,7 @@
         "ShortMonthFormat": "%shortMonth% %longYear%",
         "ShortWeekFormat": "%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%",
         "ShowJSCode": "Prikaži JavaScript kod",
+        "SkipToContent": "Pređi na sadržaj",
         "SubscribeAndBecomePiwikSupporter": "Nastavite ka stranici za sigurno plaćanje (Paypal) kako biste postali Piwik suporter!",
         "SupportPiwik": "Podržite Piwik!",
         "TableNoData": "Nema podataka za ovu tabelu.",
@@ -57,6 +60,9 @@
         "UnFlattenDataTable": "Izveštaj je ravan %s Prikaži hijerarhiju",
         "ViewAllPiwikVideoTutorials": "Prikaži sve Piwik video tutorijale",
         "WebAnalyticsReports": "Izveštaj web analitike",
-        "YouAreUsingTheLatestVersion": "Koristite poslednju verziju Piwik-a"
+        "YouAreUsingTheLatestVersion": "Koristite poslednju verziju Piwik-a",
+        "ClickRowToExpandOrContract": "Kliknite ovaj red kako biste proširili ili skupili tabelu.",
+        "UndoPivotBySubtable": "Ovaj izveštaj je pivotiran %s Otkaži pivot",
+        "PivotBySubtable": "Ovaj izveštaj nije pivotiran %s Pivotiraj sa %s"
     }
 }

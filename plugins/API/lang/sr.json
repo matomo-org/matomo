@@ -4,6 +4,7 @@
         "KeepTokenSecret": "token_auth je poverljivi podatak poput vašeg korisničkog imena i lozinke, stoga ga %s nemojte nikome pokazivati%s!",
         "LoadedAPIs": "Uspešno učitano API-ja: %s",
         "MoreInformation": "Za više informacija o Piwik API-ju molimo vas da pogledate %s uvod u Piwik API %s i %s Piwik API referenc listu %s.",
+        "PluginDescription": "Svi podaci su u Piwik-u dostupni preko jednostavnih API-ja. Ovaj dodatak je ulazna tačka za veb servis koji možete pozivati kako biste dobili vaše analitičke podatke u XML, JSON, PHP, CSV i drugim formatima.",
         "QuickDocumentationTitle": "API kratka dokumentacija",
         "TopLinkTooltip": "Pristupite analitičkim podacima iz vašeg programa pomoću jednostavnog API-ja u json-u, xml-u itd.",
         "UserAuthentication": "Autentifikacija korisnika",

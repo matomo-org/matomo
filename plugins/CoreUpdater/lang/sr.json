@@ -48,6 +48,18 @@
         "UpdateHasBeenCancelledExplanation": "Automatska nadogradnja Piwik-a je prekinuta. Ako ne možete popraviti grešku iznad, preporučljivo je da ručno izvršite nadogradnju. %1$s Molimo Vas da proverite %2$sdokumentaciju za nadogradnju%3$s!",
         "UpdateTitle": "Nadogradnja",
         "UpdateSuccessTitle": "Piwik je uspešno nadograđen!",
+        "UpdateErrorTitle": "Greška prilikom ažuriranja",
+        "ThankYouUpdatePiwik": "Hvala vam što koristite Piwik i što ga držite uvek ažurnim!",
+        "PostUpdateMessage": "Piwik će uvek biti besplatan za preuzimanje i korišćenje ali on zahteva vašu neprestanu podršku kako bi rastao i razvijao se.",
+        "PostUpdateSupport": "Ukoliko vam je potrebna pomoć oko korišćenja Piwik-a, možete je dobiti od njegovih tvoraca:",
+        "EnterpriseSolutions": "Poslovna rešenja",
+        "CloudHosting": "Hosting u oblacima",
+        "Updating": "Ažuriranje",
+        "UpdateUsingHttpsFailed": "Preuzimanje poslednje verzije Piwik-a preko HTTPS-a nije uspelo zbog sledeće greške:",
+        "UpdateUsingHttpsFailedHelp": "Zašto nije uspelo? Preuzimanje preko HTTPS-a može da ne uspe iz više razloga. Na primer, mrežna greška, slab mrežni protok ili greška u sistemskim podešavanjima. Takođe, vaš server može da bude meta MITM napada i neko možda pokušava da ažurira sistem malicioznom verzijom Piwik-a.",
+        "UpdateUsingHttpsFailedHelpWhatToDo": "Preporučujemo da pokušate preuzimanje korišćenjem HTTPS konekcije kako biste sprečili MITM napad.",
+        "UsingHttps": "korišćenjem sigurne HTTPS konekcije (preporučljivo)",
+        "UsingHttp": "korišćenjem nesigurne HTTP konekcije",
         "UpgradeComplete": "Nadogradnja okončana!",
         "UpgradePiwik": "Nadogradnja Piwik-a",
         "VerifyingUnpackedFiles": "Provera otpakovanih datoteka",
@@ -56,6 +68,7 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Možete izvršiti automatsku nadogradnju na verziju %s ili preuzeti poslednju verziju Piwik-a i izvršiti ručnu nadogradnju",
         "YouCouldManuallyExecuteSqlQueries": "Ukoliko niste u mogućnosti da izvršite nadogradnju iz komandne linije i ako Piwik ne uspe da se nadogradi (zbog isteka vremena na bazi, brauzeru ili bilo čega drugog), možete ručno izvršiti SQL upite.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik nije u stanju da prebriše trenutnu instalaciju. Možete ili da popravite dozvole nad datotekama i direktorijumima ili da preuzmete paket sa Interneta i instalirate verziju %s ručno:",
-        "YourDatabaseIsOutOfDate": "Piwik baza podataka je zastarela i mora biti nadograđena pre nego što nastavite."
+        "YourDatabaseIsOutOfDate": "Piwik baza podataka je zastarela i mora biti nadograđena pre nego što nastavite.",
+        "ViewVersionChangelog": "Prikaži zapis promena za ovu verziju:"
     }
 }

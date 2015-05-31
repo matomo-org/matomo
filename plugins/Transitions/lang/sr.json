@@ -16,6 +16,7 @@
         "NoDataForAction": "Nema podataka za %s",
         "NoDataForActionDetails": "Ili akcija nema nijedan pregled stranica za dati period %s ili ona nije validna.",
         "OutgoingTraffic": "Odlazni saobraćaj",
+        "PluginDescription": "Izveštaj o prethodnoj i sledećoj akciji za svaki URL",
         "ShareOfAllPageviews": "Ova stranica ima %s pregleda (%s od svih pregleda)",
         "ToFollowingPages": "Ka internim stranicama",
         "ToFollowingPagesInline": "%s ka drugim stranicama",
