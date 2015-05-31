@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "38059fad1036bf805aa3fd11b0788731",
@@ -813,16 +813,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.2",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "331a7ce5f8fde8d758312e6ac4182c01beabc83b"
+                "reference": "c1b651af61aed864e793fe5896f1976aa06b939c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/331a7ce5f8fde8d758312e6ac4182c01beabc83b",
-                "reference": "331a7ce5f8fde8d758312e6ac4182c01beabc83b",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/c1b651af61aed864e793fe5896f1976aa06b939c",
+                "reference": "c1b651af61aed864e793fe5896f1976aa06b939c",
                 "shasum": ""
             },
             "require": {
@@ -860,7 +860,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2015-05-10 18:34:07"
+            "time": "2015-05-31 20:06:34"
         },
         {
             "name": "piwik/ini",
@@ -1474,7 +1474,7 @@
                 "performance",
                 "profiling"
             ],
-            "time": "2014-08-28 17:34:52"
+            "time": "2015-02-26 14:37:51"
         },
         {
             "name": "guzzle/guzzle",
