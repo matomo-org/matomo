@@ -1,12 +1,12 @@
 {% import _self as local %}
 
-<table class="infosServer" id="systemCheckRequired">
+<table class="simple-table system-check" id="systemCheckRequired">
     {{ local.diagnosticTable(diagnosticReport.getMandatoryDiagnosticResults()) }}
 </table>
 
 <h3>{{ 'Installation_Optional'|translate }}</h3>
 
-<table class="infos" id="systemCheckOptional">
+<table class="simple-table system-check" id="systemCheckOptional">
     {{ local.diagnosticTable(diagnosticReport.getOptionalDiagnosticResults()) }}
 </table>
 
@@ -21,7 +21,7 @@
 
     {% for result in results %}
         <tr>
-            <td class="label">{{ result.label }}</td>
+            <td>{{ result.label }}</td>
             <td>
                 {% for item in result.items %}
 

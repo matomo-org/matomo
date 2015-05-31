@@ -65,16 +65,9 @@ p.next-step:first-child {
     margin-top: 0;
 }
 
-table {
-    margin: 20px 0;
-    width: 100%;
-}
-th, td {
-    border-top: 1px solid #cccccc;
-    padding: 8px;
-}
-tr:nth-of-type(odd) {
-    background-color: #FAFAFA;
+/* This rule is duplicated here from systemCheckPage.less */
+.system-check td:first-child {
+    width: 40%;
 }
 
 /* Form classes that we can't change */
