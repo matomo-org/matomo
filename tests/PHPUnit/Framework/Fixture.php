@@ -213,8 +213,6 @@ class Fixture extends \PHPUnit_Framework_Assert
             DbHelper::truncateAllTables();
         }
 
-        static::createAccessInstance();
-
         // We need to be SU to create websites for tests
         Access::getInstance()->setSuperUserAccess();
 
@@ -623,11 +621,6 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function setUpScheduledReports($idSite)
     {
-        // fake access is needed so API methods can call Piwik::getCurrentUserLogin(), e.g: 'ScheduledReports.addReport'
-        $pseudoMockAccess = new FakeAccess;
-        FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
-
         // retrieve available reports
         $availableReportMetadata = APIScheduledReports::getReportMetadata($idSite, ScheduledReports::EMAIL_TYPE);
 
@@ -825,13 +818,10 @@ class Fixture extends \PHPUnit_Framework_Assert
     }
 
     /**
-     * Sets up access instance.
+     * @deprecated
      */
     public static function createAccessInstance()
     {
-        Access::setSingletonInstance(null);
-        Access::getInstance();
-        Piwik::postEvent('Request.initAuthenticationObject');
     }
 
     public function dropDatabase($dbName = null)

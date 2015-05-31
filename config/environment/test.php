@@ -38,15 +38,16 @@ return array(
         }
     }),
 
-    'observers.global' => DI\add(array(
+    'Piwik\Access' => DI\decorate(function ($previous, ContainerInterface $c) {
+        $testingEnvironment = $c->get('Piwik\Tests\Framework\TestingEnvironment');
+        if ($testingEnvironment->testUseMockAuth) {
+            return new Piwik_MockAccess($previous);
+        } else {
+            return $previous;
+        }
+    }),
 
-        array('Access.createAccessSingleton', function ($access) {
-            $testingEnvironment = new TestingEnvironment();
-            if ($testingEnvironment->testUseMockAuth) {
-                $access = new Piwik_MockAccess($access);
-                \Piwik\Access::setSingletonInstance($access);
-            }
-        }),
+    'observers.global' => DI\add(array(
 
         array('Environment.bootstrapped', function () {
             $testingEnvironment = new TestingEnvironment();
