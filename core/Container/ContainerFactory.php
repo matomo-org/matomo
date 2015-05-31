@@ -38,7 +38,7 @@ class ContainerFactory
     private $environment;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $definitions;
 
@@ -46,7 +46,7 @@ class ContainerFactory
      * @param PluginList $pluginList
      * @param GlobalSettingsProvider $settings
      * @param string|null $environment Optional environment config to load.
-     * @param array $definitions
+     * @param array[] $definitions
      */
     public function __construct(PluginList $pluginList, GlobalSettingsProvider $settings, $environment = null, array $definitions = array())
     {
@@ -96,7 +96,9 @@ class ContainerFactory
         }
 
         if (!empty($this->definitions)) {
-            $builder->addDefinitions($this->definitions);
+            foreach ($this->definitions as $definitionArray) {
+                $builder->addDefinitions($definitionArray);
+            }
         }
 
         $container = $builder->build();

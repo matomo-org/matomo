@@ -166,9 +166,8 @@ class TestingEnvironment
 
         Environment::addEnvironmentManipulator(new MakeGlobalSettingsWithFile($testingEnvironment));
 
-        $diConfig['observers.global'] = \DI\add($globalObservers);
-
         StaticContainer::addDefinitions($diConfig);
+        StaticContainer::addDefinitions(array('observers.global' => \DI\add($globalObservers)));
     }
 
     /**

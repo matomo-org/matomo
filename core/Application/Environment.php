@@ -112,7 +112,7 @@ class Environment
     {
         $pluginList = $this->getPluginListCached();
         $settings = $this->getGlobalSettingsCached();
-        $definitions = array_merge(StaticContainer::getDefinitions(), $this->definitions);
+        $definitions = array_merge(StaticContainer::getDefinitions(), array($this->definitions));
 
         $containerFactory = new ContainerFactory($pluginList, $settings, $this->environment, $definitions);
         return $containerFactory->create();

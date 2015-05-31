@@ -27,7 +27,7 @@ class StaticContainer
     /**
      * Definitions to register in the container.
      *
-     * @var array
+     * @var array[]
      */
     private static $definitions = array();
 
@@ -60,7 +60,7 @@ class StaticContainer
 
     public static function addDefinitions(array $definitions)
     {
-        self::$definitions = $definitions;
+        self::$definitions[] = $definitions;
     }
 
     /**
