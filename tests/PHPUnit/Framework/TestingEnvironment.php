@@ -85,19 +85,6 @@ class TestingEnvironment
         $this->save();
     }
 
-    public function logVariables()
-    {
-        try {
-            if (isset($_SERVER['QUERY_STRING'])
-                && !$this->dontUseTestConfig
-            ) {
-                @\Piwik\Log::debug("Test Environment Variables for (%s):\n%s", $_SERVER['QUERY_STRING'], print_r($this->behaviorOverrideProperties, true));
-            }
-        } catch (Exception $ex) {
-            // ignore
-        }
-    }
-
     public function getCoreAndSupportedPlugins()
     {
         $settings = new \Piwik\Application\Kernel\GlobalSettingsProvider();

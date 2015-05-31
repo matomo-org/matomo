@@ -50,7 +50,6 @@ return array(
 
         array('Environment.bootstrapped', function () {
             $testingEnvironment = new TestingEnvironment();
-            $testingEnvironment->logVariables();
             $testingEnvironment->executeSetupTestEnvHook();
         }),
 
