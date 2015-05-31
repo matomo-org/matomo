@@ -51,9 +51,7 @@ return array(
         array('Environment.bootstrapped', function () {
             $testingEnvironment = new TestingEnvironment();
             $testingEnvironment->executeSetupTestEnvHook();
-        }),
 
-        array('Request.dispatch', function () {
             if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
                 try {
                     \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
