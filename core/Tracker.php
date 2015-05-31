@@ -284,6 +284,9 @@ class Tracker
             $privacyConfig->ipAddressMaskLength = 2;
 
             \Piwik\Plugins\PrivacyManager\IPAnonymizer::activate();
+
+            \Piwik\Tracker\Cache::deleteTrackerCache();
+            Filesystem::clearPhpCaches();
         }
 
         $pluginsDisabled = array('Provider');
