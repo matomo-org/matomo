@@ -87,6 +87,7 @@
         "PeclGeoIPNoDBDir": "PECL modul traži bazu u %1$s ali ovaj direktorijum ne postoji. Molimo vas da ga kreirate i da mu dodate GeoIP bazu. Takođe možete postaviti %2$s za pravi direktorijum u php.ini datoteci.",
         "PeclGeoLiteError": "Vaša GeoIp baza se nalazi u %1$s i zove se %2$s. Na žalost, PECL modul je neće prepoznati pod ovim imenom. Molimo vas da je reimenujete u %3$s.",
         "PiwikNotManagingGeoIPDBs": "Piwik trenutno ne upravlja ni jednom GeoIP bazom.",
+        "PluginDescription": "Prikazuje lokaciju vaših posetilaca: zemlja, region, grad i geografske koordinate (geografska dužina i širina).",
         "Region": "Regija",
         "SetupAutomaticUpdatesOfGeoIP": "Podesite automatska osvežavanja GeoIP baza.",
         "SubmenuLocations": "Lokacije",

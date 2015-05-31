@@ -1,5 +1,6 @@
 {
     "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s без активированных плагинов",
         "PluginDescription": "Сообщает список плагинов, доступных в браузерах посетителей.",
         "PluginDetectionDoesNotWorkInIE": "Учтите: Определение плагинов не работает в Internet Explorer. Этот отчет содержит информацию о не-IE браузерах.",
         "WidgetPlugins": "Список плагинов",

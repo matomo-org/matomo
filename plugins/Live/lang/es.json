@@ -34,6 +34,8 @@
         "VisitorsInRealTime": "Visitantes en Tiempo Real",
         "VisitorsLastVisit": "La última visita de este visitante fue hace %s días.",
         "VisitsFrom": "%1$s%2$s visitas%3$s desde",
-        "VisitSummary": "Pasado un total de %1$s%2$s en el sitio%3$s y %4$svisto %5$s paginas en %6$s visitas.%7$s"
+        "VisitSummary": "Pasado un total de %1$s%2$s en el sitio%3$s y %4$svisto %5$s paginas en %6$s visitas.%7$s",
+        "OnClickPause": "%s está iniciado. Clic para pausar.",
+        "OnClickStart": "%s está detenido. Clic para iniciar."
     }
 }

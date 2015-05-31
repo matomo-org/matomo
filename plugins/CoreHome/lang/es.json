@@ -1,8 +1,9 @@
 {
     "CoreHome": {
         "CategoryNoData": "No hay datos en esta categoría. Intenta \"Incluir toda la población\".",
-        "CheckForUpdates": "Comprobar actualizaciones existentes",
+        "CheckForUpdates": "Comprobar actualizaciones",
         "CheckPiwikOut": "Compruebe Piwik fuera!",
+        "ClickToEditX": "Clic para editar %s",
         "CloseWidgetDirections": "Puede cerrar este widget haciendo clic en el icono \"X\" en la parte superior del widget.",
         "DataForThisReportHasBeenPurged": "Los datos para este reporte tienen más de %s meses de antigüedad y han sido purgados.",
         "DataTableExcludeAggregateRows": "Mostrar filas acumuladas %s Ocultarlas",
@@ -28,6 +29,7 @@
         "LongWeekFormat": "%dayFrom% %longMonthFrom% - %dayTo% %longMonthTo% %longYearTo%",
         "MakeADifference": "Causa un impacto positivo: %1$sDona ahora%2$s para financiar Piwik 2.0!",
         "MakeOneTimeDonation": "Si no quieres donar periódicamente, también puedes hacer una donación puntual.",
+        "Menu": "Menú",
         "NoPrivilegesAskPiwikAdmin": "Has iniciado sesión como '%s', pero parece que no tienes ningún permiso configurado en Piwik. %s Consulta al administrador de tu Piwik (clic para enviar email)%s para que te de acceso para 'ver' en el sitio web.",
         "OnlyForSuperUserAccess": "Este widget sólo se muestra a los usuarios con acceso Super User.",
         "PageOf": "%1$s de %2$s",
@@ -50,6 +52,7 @@
         "ShortMonthFormat": "%shortMonth% %longYear%",
         "ShortWeekFormat": "%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%",
         "ShowJSCode": "Mostrar el código JavaScript para insertar",
+        "SkipToContent": "Saltar al contenido",
         "SubscribeAndBecomePiwikSupporter": "Continuar a una página de pago con tarjeta de crédito segura (PayPal) para ser un ¡Colaborador de Piwik!",
         "SupportPiwik": "¡Apoyar Piwik!",
         "TableNoData": "Sin datos para esta tabla.",
@@ -57,6 +60,7 @@
         "UnFlattenDataTable": "Este reporte es plano %s Hazlo jerárquico",
         "ViewAllPiwikVideoTutorials": "Ver todos los Video Tutoriales de Piwik",
         "WebAnalyticsReports": "Informes de Análisis Web",
-        "YouAreUsingTheLatestVersion": "Está utilizando la última versión de Piwik!"
+        "YouAreUsingTheLatestVersion": "Está utilizando la última versión de Piwik!",
+        "ClickRowToExpandOrContract": "Clic en esta fila para expandir o contraer la subtabla"
     }
 }

@@ -1,0 +1,9 @@
+{
+    "ZenMode": {
+        "SearchForAnything": "Buscar cualquier cosa",
+        "QuickAccessTitle": "Buscar entradas de menú, reportes y sitios web",
+        "HowToSearch": "Para buscar entradas de menú, reportes o sitios web utiliza la caja de búsqueda en la parte superior derecha o presiona 'alt-f'.",
+        "HowToToggleZenMode": "Para salir o ingresar al modo Zen haz clic en la flecha en la parte superior derecha o presiona 'alt+z'.",
+        "Activated": "Modo Zen activado"
+    }
+}

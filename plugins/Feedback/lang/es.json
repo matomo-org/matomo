@@ -1,9 +1,11 @@
 {
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Tienes un error que reportar o una nueva característica?",
+        "HowToCreateTicket": "Por favor, lee las recomendaciones de cómo escribir un buen %1$sreporte de error%2$s o %3$spetición de funcionalidad%4$s. Luego regístrate o inicia sesión en nuestro %5$ssistema de seguimiento de errores%6$s y crea un %7$snuevo problema%8$s.",
         "IWantTo": "Yo quiero:",
         "LearnWaysToParticipate": "Aprende sobre todas las formas de %sparticipar%s",
         "ManuallySendEmailTo": "Por favor envíe su mensaje manualmente a",
+        "PluginDescription": "Envía tu feedback al equipo de Piwik. ¡Comparte tus ideas y sugerencias para hacer de Piwik la mejor plataforma de analíticas en el mundo!",
         "PrivacyClaim": "Piwik respeta tu %1$sprivacidad%2$s y te deja controlar todos tus datos.",
         "RateFeatureLeaveMessageDislike": "¡Lamentamos que no te gusta! Por favor déjanos saber cómo podemos mejorar.",
         "RateFeatureLeaveMessageLike": "¡Nos alegra que te gusta! Por favor déjanos saber qué es lo que más te gusta y si hay otras funciones que te gustaría tener.",
@@ -15,6 +17,16 @@
         "TopLinkTooltip": "Danos tu opinión o solicita Soporte Profesional",
         "ViewAnswersToFAQ": "Ver respuestas a las %sPreguntas frecuentes%s",
         "ViewUserGuides": "Aprende a configurar Piwik y a analizar tus datos de modo eficaz con nuestras %1$sguías de usuario%2$s",
+        "CommunityHelp": "Ayuda comunitaria",
+        "ProfessionalHelp": "Ayuda profesional",
+        "PiwikProIntro": "Piwik PRO proporciona soporte de calidad y consultas a clientes que alojan Piwik en su propia infraestructura.",
+        "PiwikProOfferIntro": "Nuestra oferta incluye",
+        "PiwikProReviewPiwikSetup": "Una reseña de tu instalación de Piwik",
+        "PiwikProOptimizationMaintenance": "Servicios de optimización y mantenimiento de Piwik",
+        "PiwikProPhoneEmailSupport": "Soporte por teléfono y correo electrónico",
+        "PiwikProPremiumFeatures": "Funcionalidades premium",
+        "PiwikProCustomDevelopment": "Servicios de desarrollo personalizado",
+        "ContactUs": "Contáctanos",
         "VisitTheForums": "Visita el %sForo%s"
     }
 }

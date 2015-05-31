@@ -1,5 +1,6 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "Kolona '%s' nije nađena u ovom izveštaju. Pokušajte bilo koju od %s"
+        "ColumnOrdinateMissing": "Kolona '%s' nije nađena u ovom izveštaju. Pokušajte bilo koju od %s",
+        "PluginDescription": "Kreirajte predivne statične PNG grafikone za bilo koji od vaših izveštaja."
     }
 }

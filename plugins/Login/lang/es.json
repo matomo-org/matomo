@@ -16,6 +16,7 @@
         "PasswordChanged": "Tu contraseña ha sido modificada.",
         "PasswordRepeat": "Contraseña (repetir)",
         "PasswordsDoNotMatch": "Las contraseñas no coinciden.",
+        "PluginDescription": "Proporciona autentificación vía nombre de usuario y contraseña así como también la funcionalidad de reestablecimiento de contraseña. El método de autentificación puede ser modificado usando otro plugin de inicio de sesión, tal como LoginLdap que se encuentra disponible en el Marketplace.",
         "RememberMe": "Recuerdeme",
         "ResetPasswordInstructions": "Ingresa una nueva contraseña para tu cuenta."
     }

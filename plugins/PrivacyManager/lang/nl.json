@@ -35,6 +35,7 @@
         "DoNotTrack_SupportDNTPreference": "Ondersteun de volg-me-niet voorkeur",
         "EstimatedDBSizeAfterPurge": "Geschatte database grootte na purge",
         "EstimatedSpaceSaved": "Geschatte terug gewonnen ruimte",
+        "GetPurgeEstimate": "Schat het aantal teruggewonnen ruimte.",
         "KeepBasicMetrics": "Behoud de basisgegevens (visits, page views, bounce rate, goal conversions, ecommerce conversions, etc.)",
         "KeepDataFor": "Behoud alle data voor:",
         "LastDelete": "Laatste verwijdering was op",
