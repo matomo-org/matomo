@@ -74,6 +74,14 @@ return array(
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
             \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
             \Piwik\Plugins\ExampleUI\API::$disableRandomness = true;
+
+            $testingEnvironment = new TestingEnvironment();
+            if ($testingEnvironment->deleteArchiveTables
+                && !$testingEnvironment->_archivingTablesDeleted
+            ) {
+                $testingEnvironment->_archivingTablesDeleted = true;
+                DbHelper::deleteArchiveTables();
+            }
         }),
 
         array('AssetManager.getStylesheetFiles', function (&$stylesheets) {
@@ -110,16 +118,6 @@ return array(
                 'contents' => $outputContent
             );
             file_put_contents($outputFile, json_encode($outputContents));
-        }),
-
-        array('Platform.initialized', function () {
-            $testingEnvironment = new TestingEnvironment();
-            if ($testingEnvironment->deleteArchiveTables
-                && !$testingEnvironment->_archivingTablesDeleted
-            ) {
-                $testingEnvironment->_archivingTablesDeleted = true;
-                DbHelper::deleteArchiveTables();
-            }
         }),
     )),
 );
