@@ -10,6 +10,8 @@ namespace Piwik\Tests\Framework;
 
 use Piwik\Application\EnvironmentManipulator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\DbHelper;
+use Piwik\Option;
 
 /**
  * Manipulates an environment for tests.
@@ -59,6 +61,40 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
     }
 
+    public function onEnvironmentBootstrapped()
+    {
+        $this->vars->executeSetupTestEnvHook();
+
+        if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
+            try {
+                \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
+            } catch (\Exception $ex) {
+                // ignore (in case DB is not setup)
+            }
+        }
+
+        if ($this->vars->optionsOverride) {
+            try {
+                foreach ($this->vars->optionsOverride as $name => $value) {
+                    Option::set($name, $value);
+                }
+            } catch (\Exception $ex) {
+                // ignore (in case DB is not setup)
+            }
+        }
+
+        \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
+        \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
+        \Piwik\Plugins\ExampleUI\API::$disableRandomness = true;
+
+        if ($this->vars->deleteArchiveTables
+            && !$this->vars->_archivingTablesDeleted
+        ) {
+            $this->vars->_archivingTablesDeleted = true;
+            DbHelper::deleteArchiveTables();
+        }
+    }
+
     public function getExtraDefinitions()
     {
         // Apply DI config from the fixture
@@ -89,7 +125,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
         return array(
             $diConfig,
-            array('observers.global' => \DI\add($this->globalObservers))
+            array('observers.global' => \DI\add($this->globalObservers)),
         );
     }
 }

@@ -93,6 +93,8 @@ class Environment
 
         $this->validateEnvironment();
 
+        $this->invokeEnvironmentBootstrappedHook();
+
         Piwik::postEvent('Environment.bootstrapped'); // this event should be removed eventually
     }
 
@@ -204,5 +206,12 @@ class Environment
             $result = array_merge($result, $manipulator->getExtraDefinitions());
         }
         return $result;
+    }
+
+    private function invokeEnvironmentBootstrappedHook()
+    {
+        foreach (self::$globalEnvironmentManipulators as $manipulator) {
+            $manipulator->onEnvironmentBootstrapped();
+        }
     }
 }

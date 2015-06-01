@@ -35,4 +35,9 @@ interface EnvironmentManipulator
      * @return array[]
      */
     public function getExtraDefinitions();
+
+    /**
+     * Invoked after the container is created and the environment is considered bootstrapped.
+     */
+    public function onEnvironmentBootstrapped();
 }

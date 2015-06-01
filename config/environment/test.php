@@ -49,42 +49,6 @@ return array(
 
     'observers.global' => DI\add(array(
 
-        array('Environment.bootstrapped', function () {
-            $testingEnvironment = new TestingEnvironmentVariables();
-            $testingEnvironment->executeSetupTestEnvHook();
-
-            if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
-                try {
-                    \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
-                } catch (\Exception $ex) {
-                    // ignore (in case DB is not setup)
-                }
-            }
-
-            $testingEnvironment = new TestingEnvironmentVariables();
-            if ($testingEnvironment->optionsOverride) {
-                try {
-                    foreach ($testingEnvironment->optionsOverride as $name => $value) {
-                        Option::set($name, $value);
-                    }
-                } catch (\Exception $ex) {
-                    // ignore (in case DB is not setup)
-                }
-            }
-
-            \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
-            \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
-            \Piwik\Plugins\ExampleUI\API::$disableRandomness = true;
-
-            $testingEnvironment = new TestingEnvironmentVariables();
-            if ($testingEnvironment->deleteArchiveTables
-                && !$testingEnvironment->_archivingTablesDeleted
-            ) {
-                $testingEnvironment->_archivingTablesDeleted = true;
-                DbHelper::deleteArchiveTables();
-            }
-        }),
-
         array('AssetManager.getStylesheetFiles', function (&$stylesheets) {
             $testingEnvironment = new TestingEnvironmentVariables();
             if ($testingEnvironment->useOverrideCss) {
