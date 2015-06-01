@@ -271,13 +271,6 @@ table.entityTable tr td a:hover {
       }
 
     }
-
-    .add_new_segment {
-      .submit();
-      .font-default(12px, 16px) !important;
-      width: auto;
-      padding: 7px 10px !important;
-    }
   }
 
   .segmentListContainer {
@@ -564,17 +557,16 @@ div.sparkline {
     input {
         color: @theme-color-text !important;
         .border-radius(0px);
-        border: 0px;
         margin-left: 0;
         padding: 8px 10px;
-        min-height: 30px;
+        min-height: 30px !important;
         .box-sizing(border-box);
         border: 1px solid @color-silver-l80;
         .opacity(1);
 
         &[type="text"] {
             width: 40% !important;
-            padding-right: 4%;
+            padding-right: 30px !important;
             &:focus {
                 border-color: @color-silver-l60;
             }
@@ -584,12 +576,15 @@ div.sparkline {
             margin: 0;
             float: none;
             .font-default(10px, 12px) !important;
-            padding: 0px !important;
+            padding: 0 !important;
             position: relative;
             right: 33px;
-            background: no-repeat 0px 7px url('plugins/Morpheus/images/search_ico.png') !important;
+            background: no-repeat 0 7px url('plugins/Morpheus/images/search_ico.png') !important;
             text-indent: 999999px;
             width: 17px !important;
+            -webkit-box-shadow: none;
+            -moz-box-shadow:    none;
+            box-shadow:         none;
         }
     }
 }
