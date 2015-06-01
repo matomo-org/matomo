@@ -12,32 +12,6 @@ use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Piwik;
 use Piwik\Application\Environment;
 
-class Piwik_MockAccess
-{
-    private $access;
-
-    public function __construct($access)
-    {
-        $this->access = $access;
-        $access->setSuperUserAccess(true);
-    }
-
-    public function __call($name, $arguments)
-    {
-        return call_user_func_array(array($this->access, $name), $arguments);
-    }
-
-    public function reloadAccess($auth = null)
-    {
-        return true;
-    }
-
-    public function getLogin()
-    {
-        return 'superUserLogin';
-    }
-}
-
 /**
  * Sets the test environment.
  */

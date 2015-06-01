@@ -2,10 +2,8 @@
 
 use Interop\Container\ContainerInterface;
 use Piwik\Common;
-use Piwik\DbHelper;
-use Piwik\Option;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\Mock\TestConfig;
-use Piwik\Tests\Framework\Piwik_MockAccess;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 return array(
@@ -41,7 +39,10 @@ return array(
     'Piwik\Access' => DI\decorate(function ($previous, ContainerInterface $c) {
         $testingEnvironment = $c->get('Piwik\Tests\Framework\TestingEnvironmentVariables');
         if ($testingEnvironment->testUseMockAuth) {
-            return new Piwik_MockAccess($previous);
+            $access = new FakeAccess();
+            FakeAccess::$superUser = true;
+            FakeAccess::$superUserLogin = 'superUserLogin';
+            return $access;
         } else {
             return $previous;
         }
