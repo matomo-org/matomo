@@ -249,13 +249,6 @@ class LogTest extends IntegrationTestCase
         return StaticContainer::get('path.tmp') . '/logs/piwik.test.log';
     }
 
-    public function provideContainerConfig()
-    {
-        return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
-        );
-    }
-
     private function recreateLogSingleton($backend, $level = 'INFO')
     {
         $newEnv = new Environment('test', array(
