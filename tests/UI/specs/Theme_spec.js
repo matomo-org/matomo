@@ -6,8 +6,15 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+var fs = require('fs');
+
 describe("Theme", function () {
     this.timeout(0);
+
+    function clearAssets() {
+        fs.removeTree(path.join(PIWIK_INCLUDE_PATH, 'tmp', 'assets'));
+    }
 
     before(function () {
         testEnvironment.pluginsToLoad = ['ExampleTheme'];
@@ -20,6 +27,12 @@ describe("Theme", function () {
         };
 
         testEnvironment.save();
+
+        clearAssets();
+    });
+
+    after(function () {
+        clearAssets();
     });
 
     it("should use the current theme", function (done) {
