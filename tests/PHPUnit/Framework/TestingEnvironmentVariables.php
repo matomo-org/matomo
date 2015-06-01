@@ -9,9 +9,6 @@
 namespace Piwik\Tests\Framework;
 
 use Piwik\Plugin\Manager as PluginManager;
-use Exception;
-use Piwik\Container\StaticContainer;
-use Piwik\Tests\Framework\TestingEnvironment\MakeGlobalSettingsWithFile;
 use Piwik\Piwik;
 use Piwik\Application\Environment;
 
@@ -115,59 +112,7 @@ class TestingEnvironmentVariables
     public static function addHooks($globalObservers = array())
     {
         $testingEnvironment = new TestingEnvironmentVariables();
-
-        if ($testingEnvironment->queryParamOverride) {
-            foreach ($testingEnvironment->queryParamOverride as $key => $value) {
-                $_GET[$key] = $value;
-            }
-        }
-
-        if ($testingEnvironment->globalsOverride) {
-            foreach ($testingEnvironment->globalsOverride as $key => $value) {
-                $GLOBALS[$key] = $value;
-            }
-        }
-
-        if ($testingEnvironment->hostOverride) {
-            \Piwik\Url::setHost($testingEnvironment->hostOverride);
-        }
-
-        if ($testingEnvironment->useXhprof) {
-            \Piwik\Profiler::setupProfilerXHProf($mainRun = false, $setupDuringTracking = true);
-        }
-
-        // Apply DI config from the fixture
-        $diConfig = array();
-        if ($testingEnvironment->fixtureClass) {
-            $fixtureClass = $testingEnvironment->fixtureClass;
-            if (class_exists($fixtureClass)) {
-                /** @var Fixture $fixture */
-                $fixture = new $fixtureClass;
-                $diConfig = $fixture->provideContainerConfig();
-            }
-        }
-
-        if ($testingEnvironment->testCaseClass) {
-            $testCaseClass = $testingEnvironment->testCaseClass;
-            if (class_exists($testCaseClass)) {
-                $testCase = new $testCaseClass();
-
-                if (method_exists($testCase, 'provideContainerConfigBeforeClass')) {
-                    $diConfig = array_merge($diConfig, $testCaseClass::provideContainerConfigBeforeClass());
-                }
-
-                if (method_exists($testCase, 'provideContainerConfig')) {
-                    $diConfig = array_merge($diConfig, $testCase->provideContainerConfig());
-                }
-            }
-        }
-
-        \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
-
-        Environment::addEnvironmentManipulator(new MakeGlobalSettingsWithFile($testingEnvironment));
-
-        StaticContainer::addDefinitions($diConfig);
-        StaticContainer::addDefinitions(array('observers.global' => \DI\add($globalObservers)));
+        Environment::addEnvironmentManipulator(new TestingEnvironmentManipulator($testingEnvironment, $globalObservers));
     }
 
     /**

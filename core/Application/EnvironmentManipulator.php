@@ -23,4 +23,16 @@ interface EnvironmentManipulator
      * @return GlobalSettingsProvider
      */
     public function makeGlobalSettingsProvider();
+
+    /**
+     * Invoked before the container is created.
+     */
+    public function beforeContainerCreated();
+
+    /**
+     * Return an array of definition arrays that override DI config specified in PHP config files.
+     *
+     * @return array[]
+     */
+    public function getExtraDefinitions();
 }

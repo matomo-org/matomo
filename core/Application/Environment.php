@@ -85,6 +85,8 @@ class Environment
      */
     public function init()
     {
+        $this->invokeBeforeContainerCreatedHook();
+
         $this->container = $this->createContainer();
 
         StaticContainer::set($this->container);
@@ -112,7 +114,9 @@ class Environment
     {
         $pluginList = $this->getPluginListCached();
         $settings = $this->getGlobalSettingsCached();
-        $definitions = array_merge(StaticContainer::getDefinitions(), array($this->definitions));
+
+        $extraDefinitions = $this->getExtraDefinitionsFromManipulators();
+        $definitions = array_merge(StaticContainer::getDefinitions(), $extraDefinitions, array($this->definitions));
 
         $containerFactory = new ContainerFactory($pluginList, $settings, $this->environment, $definitions);
         return $containerFactory->create();
@@ -184,5 +188,21 @@ class Environment
         }
 
         return null;
+    }
+
+    private function invokeBeforeContainerCreatedHook()
+    {
+        foreach (self::$globalEnvironmentManipulators as $manipulator) {
+            $manipulator->beforeContainerCreated();
+        }
+    }
+
+    private function getExtraDefinitionsFromManipulators()
+    {
+        $result = array();
+        foreach (self::$globalEnvironmentManipulators as $manipulator) {
+            $result = array_merge($result, $manipulator->getExtraDefinitions());
+        }
+        return $result;
     }
 }
