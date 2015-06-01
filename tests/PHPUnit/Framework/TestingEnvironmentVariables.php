@@ -109,12 +109,6 @@ class TestingEnvironmentVariables
         return $plugins;
     }
 
-    public static function addHooks($globalObservers = array())
-    {
-        $testingEnvironment = new TestingEnvironmentVariables();
-        Environment::addEnvironmentManipulator(new TestingEnvironmentManipulator($testingEnvironment, $globalObservers));
-    }
-
     /**
      * for plugins that need to inject special testing logic
      */

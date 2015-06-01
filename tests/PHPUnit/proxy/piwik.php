@@ -7,10 +7,13 @@
  *
  */
 
+use Piwik\Application\Environment;
 use Piwik\DataTable\Manager;
 use Piwik\Option;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Site;
+use Piwik\Tests\Framework\TestingEnvironmentManipulator;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Piwik\Tracker;
 
 require realpath(dirname(__FILE__)) . "/includes.php";
@@ -29,7 +32,7 @@ try {
         })
     );
 
-    \Piwik\Tests\Framework\TestingEnvironmentVariables::addHooks($globalObservers);
+    Environment::addEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables(), $globalObservers));
 
     GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 
