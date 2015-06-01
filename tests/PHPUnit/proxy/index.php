@@ -6,6 +6,6 @@
 
 require realpath(dirname(__FILE__)) . "/includes.php";
 
-\Piwik\Tests\Framework\TestingEnvironment::addHooks();
+\Piwik\Tests\Framework\TestingEnvironmentVariables::addHooks();
 
 include PIWIK_INCLUDE_PATH . '/index.php';

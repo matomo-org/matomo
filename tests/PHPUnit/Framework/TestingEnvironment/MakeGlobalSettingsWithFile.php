@@ -9,7 +9,7 @@ namespace Piwik\Tests\Framework\TestingEnvironment;
 
 use Piwik\Application\EnvironmentManipulator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
-use Piwik\Tests\Framework\TestingEnvironment;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 class MakeGlobalSettingsWithFile implements EnvironmentManipulator
 {
@@ -17,7 +17,7 @@ class MakeGlobalSettingsWithFile implements EnvironmentManipulator
     private $configFileLocal;
     private $configFileCommon;
 
-    public function __construct(\Piwik\Tests\Framework\TestingEnvironment $testingEnvironment)
+    public function __construct(\Piwik\Tests\Framework\TestingEnvironmentVariables $testingEnvironment)
     {
         $this->configFileGlobal = $testingEnvironment->configFileGlobal;
         $this->configFileLocal = $testingEnvironment->configFileLocal;

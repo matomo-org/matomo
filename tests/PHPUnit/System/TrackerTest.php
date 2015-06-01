@@ -36,7 +36,7 @@ class TrackerTest extends IntegrationTestCase
 
         Fixture::createWebsite('2014-02-04');
 
-        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironment();
+        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
         $testingEnvironment->testCaseClass = null;
         $testingEnvironment->addFailingScheduledTask = false;
         $testingEnvironment->addScheduledTask = false;
@@ -291,7 +291,7 @@ class TrackerTest extends IntegrationTestCase
 
     private function setScheduledTasksToRunInTracker()
     {
-        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironment();
+        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
         $testingEnvironment->testCaseClass = 'Piwik\Tests\System\TrackerTest';
         $testingEnvironment->addScheduledTask = true;
         $testingEnvironment->configOverride = array('Tracker' => array('scheduled_tasks_min_interval' => 1, 'debug_on_demand' => 1));
@@ -300,7 +300,7 @@ class TrackerTest extends IntegrationTestCase
 
     private function addFailingScheduledTaskToTracker($doFatalError)
     {
-        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironment();
+        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
         $testingEnvironment->addFailingScheduledTask = true;
         $testingEnvironment->scheduledTaskFailureShouldBeFatal = $doFatalError;
         $testingEnvironment->save();
@@ -312,7 +312,7 @@ class TrackerTest extends IntegrationTestCase
             define('DEBUG_FORCE_SCHEDULED_TASKS', 1);
         }
 
-        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironment();
+        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
 
         $tasksToAdd = array();
 

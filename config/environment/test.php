@@ -6,7 +6,7 @@ use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tests\Framework\Piwik_MockAccess;
-use Piwik\Tests\Framework\TestingEnvironment;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 return array(
 
@@ -20,7 +20,7 @@ return array(
 
     // Disable loading core translations
     'Piwik\Translation\Translator' => DI\decorate(function ($previous, ContainerInterface $c) {
-        $testingEnvironment = $c->get('Piwik\Tests\Framework\TestingEnvironment');
+        $testingEnvironment = $c->get('Piwik\Tests\Framework\TestingEnvironmentVariables');
         if (!$testingEnvironment->loadRealTranslations) {
             return new \Piwik\Translation\Translator($c->get('Piwik\Translation\Loader\LoaderInterface'), $directories = array());
         } else {
@@ -29,7 +29,7 @@ return array(
     }),
 
     'Piwik\Config' => DI\decorate(function ($previous, ContainerInterface $c) {
-        $testingEnvironment = $c->get('Piwik\Tests\Framework\TestingEnvironment');
+        $testingEnvironment = $c->get('Piwik\Tests\Framework\TestingEnvironmentVariables');
         if (!$testingEnvironment->dontUseTestConfig) {
             $settingsProvider = $c->get('Piwik\Application\Kernel\GlobalSettingsProvider');
             return new TestConfig($settingsProvider, $testingEnvironment, $allowSave = false, $doSetTestEnvironment = true);
@@ -39,7 +39,7 @@ return array(
     }),
 
     'Piwik\Access' => DI\decorate(function ($previous, ContainerInterface $c) {
-        $testingEnvironment = $c->get('Piwik\Tests\Framework\TestingEnvironment');
+        $testingEnvironment = $c->get('Piwik\Tests\Framework\TestingEnvironmentVariables');
         if ($testingEnvironment->testUseMockAuth) {
             return new Piwik_MockAccess($previous);
         } else {
@@ -50,7 +50,7 @@ return array(
     'observers.global' => DI\add(array(
 
         array('Environment.bootstrapped', function () {
-            $testingEnvironment = new TestingEnvironment();
+            $testingEnvironment = new TestingEnvironmentVariables();
             $testingEnvironment->executeSetupTestEnvHook();
 
             if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
@@ -61,7 +61,7 @@ return array(
                 }
             }
 
-            $testingEnvironment = new TestingEnvironment();
+            $testingEnvironment = new TestingEnvironmentVariables();
             if ($testingEnvironment->optionsOverride) {
                 try {
                     foreach ($testingEnvironment->optionsOverride as $name => $value) {
@@ -76,7 +76,7 @@ return array(
             \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
             \Piwik\Plugins\ExampleUI\API::$disableRandomness = true;
 
-            $testingEnvironment = new TestingEnvironment();
+            $testingEnvironment = new TestingEnvironmentVariables();
             if ($testingEnvironment->deleteArchiveTables
                 && !$testingEnvironment->_archivingTablesDeleted
             ) {
@@ -86,14 +86,14 @@ return array(
         }),
 
         array('AssetManager.getStylesheetFiles', function (&$stylesheets) {
-            $testingEnvironment = new TestingEnvironment();
+            $testingEnvironment = new TestingEnvironmentVariables();
             if ($testingEnvironment->useOverrideCss) {
                 $stylesheets[] = 'tests/resources/screenshot-override/override.css';
             }
         }),
 
         array('AssetManager.getJavaScriptFiles', function (&$jsFiles) {
-            $testingEnvironment = new TestingEnvironment();
+            $testingEnvironment = new TestingEnvironmentVariables();
             if ($testingEnvironment->useOverrideJs) {
                 $jsFiles[] = 'tests/resources/screenshot-override/override.js';
             }

@@ -78,7 +78,7 @@ abstract class IntegrationTestCase extends SystemTestCase
         self::$fixture->extraDefinitions = array_merge(static::provideContainerConfigBeforeClass(), $this->provideContainerConfig());
         self::$fixture->createEnvironmentInstance();
 
-        Fixture::loadAllPlugins(new \Piwik\Tests\Framework\TestingEnvironment(), get_class($this), self::$fixture->extraPluginsToLoad);
+        Fixture::loadAllPlugins(new \Piwik\Tests\Framework\TestingEnvironmentVariables(), get_class($this), self::$fixture->extraPluginsToLoad);
 
         Access::getInstance()->setSuperUserAccess(true);
         

@@ -44,7 +44,7 @@ class Piwik_MockAccess
 /**
  * Sets the test environment.
  */
-class TestingEnvironment
+class TestingEnvironmentVariables
 {
     private $behaviorOverrideProperties = array();
 
@@ -114,7 +114,7 @@ class TestingEnvironment
 
     public static function addHooks($globalObservers = array())
     {
-        $testingEnvironment = new TestingEnvironment();
+        $testingEnvironment = new TestingEnvironmentVariables();
 
         if ($testingEnvironment->queryParamOverride) {
             foreach ($testingEnvironment->queryParamOverride as $key => $value) {
