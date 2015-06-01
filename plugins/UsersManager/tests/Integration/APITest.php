@@ -7,7 +7,7 @@
  */
 
 namespace Piwik\Plugins\UsersManager\tests;
-use Piwik\Access;
+
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API;
@@ -35,9 +35,7 @@ class APITest extends IntegrationTestCase
 
         $this->api = API::getInstance();
 
-        $pseudoMockAccess = new FakeAccess();
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
@@ -51,7 +49,7 @@ class APITest extends IntegrationTestCase
         $self = $this;
         Piwik::addAction('UsersManager.removeSiteAccess', function ($login, $idSites) use (&$eventTriggered, $self) {
             $eventTriggered = true;
-            $self->assertEquals($this->login, $login);
+            $self->assertEquals($self->login, $login);
             $self->assertEquals(array(1, 2), $idSites);
         });
 
@@ -213,5 +211,12 @@ class APITest extends IntegrationTestCase
     private function getPreferenceId($preferenceName)
     {
         return $this->login . '_' . $preferenceName;
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

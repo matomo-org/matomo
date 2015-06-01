@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\Live\tests\Integration;
 
-use Piwik\Access;
 use Piwik\Common;
 use Piwik\Plugins\Live\Model;
 use Piwik\Tests\Framework\Fixture;
@@ -152,12 +151,15 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
     }
 
-
     protected function setSuperUser()
     {
-        $pseudoMockAccess = new FakeAccess();
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
     }
 
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
+    }
 }

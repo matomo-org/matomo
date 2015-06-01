@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\SitesManager\tests\Integration;
 
-use Piwik\Access;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\Model;
@@ -33,9 +32,7 @@ class ApiTest extends IntegrationTestCase
         parent::setUp();
 
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
     }
 
     /**
@@ -1011,8 +1008,6 @@ class ApiTest extends IntegrationTestCase
         API::getInstance()->addSite("site2", array("http://piwik.com", "http://piwik.net"));
         API::getInstance()->addSite("site3", array("http://piwik.com", "http://piwik.org"));
 
-        $saveAccess = Access::getInstance();
-
         APIUsersManager::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
         APIUsersManager::getInstance()->setUserAccess("user1", "view", array(1));
 
@@ -1024,12 +1019,11 @@ class ApiTest extends IntegrationTestCase
         APIUsersManager::getInstance()->setUserAccess("user3", "view", array(1, 2));
         APIUsersManager::getInstance()->setUserAccess("user3", "admin", array(3));
 
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = false;
         FakeAccess::$identity = 'user1';
         FakeAccess::setIdSitesView(array(1));
         FakeAccess::setIdSitesAdmin(array());
-        Access::setSingletonInstance($pseudoMockAccess);
+
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
         $this->assertEquals(1, count($idsites));
 
@@ -1039,25 +1033,21 @@ class ApiTest extends IntegrationTestCase
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.net');
         $this->assertEquals(1, count($idsites));
 
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = false;
         FakeAccess::$identity = 'user2';
         FakeAccess::setIdSitesView(array(1));
         FakeAccess::setIdSitesAdmin(array(3));
-        Access::setSingletonInstance($pseudoMockAccess);
+
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
         $this->assertEquals(2, count($idsites));
 
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = false;
         FakeAccess::$identity = 'user3';
         FakeAccess::setIdSitesView(array(1, 2));
         FakeAccess::setIdSitesAdmin(array(3));
-        Access::setSingletonInstance($pseudoMockAccess);
+
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
         $this->assertEquals(3, count($idsites));
-
-        Access::setSingletonInstance($saveAccess);
     }
 
     public function testGetSitesFromTimezones()
@@ -1068,5 +1058,12 @@ class ApiTest extends IntegrationTestCase
         $idsite4 = API::getInstance()->addSite("site3", array("http://piwik.org"), null, $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, null, null, 'UTC+10');
         $result = API::getInstance()->getSitesIdFromTimezones(array('UTC+10', 'Pacific/Auckland'));
         $this->assertEquals(array($idsite2, $idsite3, $idsite4), $result);
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

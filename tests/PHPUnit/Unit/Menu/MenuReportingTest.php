@@ -8,12 +8,9 @@
 
 namespace Piwik\Tests\Unit\Menu;
 
-use Piwik\Access;
 use Piwik\Plugin\Report;
 use Piwik\Piwik;
 use Piwik\Metrics;
-use Piwik\Tests\Framework\Mock\FakeAccess;
-use Piwik\Translate;
 use Piwik\Menu\MenuReporting;
 use Piwik\Plugin\Manager as PluginManager;
 
@@ -31,14 +28,11 @@ class ReportingTest extends \PHPUnit_Framework_TestCase
     {
         PluginManager::getInstance()->unloadPlugins();
         $this->menu = MenuReporting::getInstance();
-
-        Access::setSingletonInstance(new FakeAccess());
     }
 
     public function tearDown()
     {
         MenuReporting::getInstance()->unsetInstance();
-        Access::setSingletonInstance(null);
         parent::tearDown();
     }
 

@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\Login\tests\Integration;
 
-use Piwik\Access;
 use Piwik\AuthResult;
 use Piwik\DbHelper;
 use Piwik\Plugins\Login\Auth;
@@ -37,13 +36,11 @@ class LoginTest extends IntegrationTestCase
         parent::setUp();
 
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::setIdSitesView(array(1, 2));
         FakeAccess::setIdSitesAdmin(array(3, 4));
 
         //finally we set the user as a Super User by default
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         $this->auth = new Auth();
     }
@@ -401,4 +398,10 @@ class LoginTest extends IntegrationTestCase
         $this->assertEquals($tokenLength, strlen($authResult->getTokenAuth()));
     }
 
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
+    }
 }

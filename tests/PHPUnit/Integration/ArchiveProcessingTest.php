@@ -54,16 +54,13 @@ class ArchiveProcessingTest extends IntegrationTestCase
         parent::setUp();
 
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         ArchiveTableCreator::$tablesAlreadyInstalled = null;
     }
 
     public function tearDown()
     {
-        Access::setSingletonInstance(null);
         ArchiveTableCreator::$tablesAlreadyInstalled = null;
     }
 
@@ -497,5 +494,12 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $array[] = array(4, 'lorem ipsum compressed', 1, '2011-03-31', '2011-03-31', Piwik::$idPeriods['day'], $ts, gzcompress($str));
 
         return $array;
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

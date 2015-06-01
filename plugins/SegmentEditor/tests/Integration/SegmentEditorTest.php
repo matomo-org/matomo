@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\SegmentEditor\tests\Integration;
 
-use Piwik\Access;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\API;
@@ -33,14 +32,12 @@ class SegmentEditorTest extends IntegrationTestCase
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
 
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::setIdSitesView(array(1, 2));
         FakeAccess::setIdSitesAdmin(array(3, 4));
 
         //finally we set the user as a Super User by default
         FakeAccess::$superUser = true;
         FakeAccess::$superUserLogin = 'superusertest';
-        Access::setSingletonInstance($pseudoMockAccess);
 
         APISitesManager::getInstance()->addSite('test', 'http://example.org');
     }
@@ -206,5 +203,12 @@ class SegmentEditorTest extends IntegrationTestCase
                 $segmentInfo[$propertyName] = substr($segmentInfo[$propertyName], 0, strlen($segmentInfo[$propertyName] - 2));
             }
         }
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

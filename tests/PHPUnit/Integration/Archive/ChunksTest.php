@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration\Archive;
 
-use Piwik\Access;
 use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Parameters;
@@ -39,17 +38,9 @@ class ChunksTest extends IntegrationTestCase
         parent::setUp();
 
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         Fixture::createWebsite('2015-01-01 00:00:00');
-    }
-
-    public function tearDown()
-    {
-        Access::setSingletonInstance(null);
-        parent::tearDown();
     }
 
     public function test_subtables_willBeSplitIntoChunks()
@@ -149,5 +140,12 @@ class ChunksTest extends IntegrationTestCase
         $params = $this->createArchiveProcessorParamaters();
 
         return new ArchiveProcessor\PluginsArchiver($params, $isTemporary = false);
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

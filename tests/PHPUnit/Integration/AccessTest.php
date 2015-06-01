@@ -20,12 +20,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class AccessTest extends IntegrationTestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-        Access::setSingletonInstance(null);
-    }
-
     public function testGetListAccess()
     {
         $accessList = Access::getListAccess();
