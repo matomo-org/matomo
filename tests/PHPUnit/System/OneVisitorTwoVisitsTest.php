@@ -194,28 +194,6 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
     }
 
     /**
-     * Test that Archive::getBlob won't fetch extra unnecessary blobs.
-     */
-    public function testArchiveSingleGetBlob()
-    {
-        $archive = Archive::build(self::$fixture->idSite, 'day', self::$fixture->dateTime);
-        $cache = $archive->getBlob('Actions_actions', 'all');
-
-        $foundSubtable = false;
-
-        $this->assertTrue(count($cache) > 0, "empty blob cache");
-        foreach ($cache as $name => $value) {
-            $this->assertTrue(strpos($name, "Actions_actions_url") === false, "found blob w/ name '$name'");
-
-            if (strpos($name, "Actions_actions_") !== false) {
-                $foundSubtable = true;
-            }
-        }
-
-        $this->assertTrue($foundSubtable, "Actions_actions subtable was not loaded");
-    }
-
-    /**
      * Test that restricting the number of sites to those viewable to another login
      * works when building an archive query object.
      */
