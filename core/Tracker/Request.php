@@ -160,6 +160,8 @@ class Request
         $auth = StaticContainer::get('Piwik\Auth');
         $auth->setTokenAuth($tokenAuth);
         $auth->setLogin(null);
+        $auth->setPassword(null);
+        $auth->setPasswordHash(null);
         $access = $auth->authenticate();
 
         if (!empty($access) && $access->hasSuperUserAccess()) {

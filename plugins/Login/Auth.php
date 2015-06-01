@@ -119,7 +119,11 @@ class Auth implements \Piwik\Auth
      */
     public function setPassword($password)
     {
-        $this->md5Password = md5($password);
+        if (empty($password)) {
+            $this->md5Password = null;
+        } else {
+            $this->md5Password = md5($password);
+        }
     }
 
     /**
@@ -130,6 +134,11 @@ class Auth implements \Piwik\Auth
      */
     public function setPasswordHash($passwordHash)
     {
+        if ($passwordHash === null) {
+            $this->md5Password = null;
+            return;
+        }
+
         if (strlen($passwordHash) != 32) {
             throw new Exception("Invalid hash: incorrect length " . strlen($passwordHash));
         }
