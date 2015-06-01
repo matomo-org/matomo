@@ -117,8 +117,6 @@ class RequestTest extends IntegrationTestCase
                  ->method('authenticate')
                  ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, 'login', $this->userAuthToken)));
 
-        StaticContainer::getContainer()->set('Piwik\Auth', $authMock);
-
         return $authMock;
     }
 
@@ -138,6 +136,7 @@ class RequestTest extends IntegrationTestCase
         $this->auth   = $this->createAuthMock();
         $this->access = $this->createAccessMock($this->auth);
         return array(
+            'Piwik\Auth'     => $this->auth,
             'Piwik\Access' => $this->access
         );
     }
