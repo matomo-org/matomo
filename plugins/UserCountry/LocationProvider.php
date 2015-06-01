@@ -23,9 +23,9 @@ use ReflectionClass;
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
 /**
- * @see plugins/UserCountry/LocationProvider/Default.php
+ * @see plugins/UserCountry/LocationProvider/DefaultProvider.php
  */
-require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/Default.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/DefaultProvider.php';
 
 /**
  * @see plugins/UserCountry/LocationProvider/GeoIp.php
