@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "38059fad1036bf805aa3fd11b0788731",
+    "hash": "c0dde90f5435a41a37e93c69b0518cd6",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -227,22 +227,22 @@
         },
         {
             "name": "leafo/lessphp",
-            "version": "v0.4.0",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/leafo/lessphp.git",
-                "reference": "51f3f06f0fe78a722dabfd14578444bdd078d9de"
+                "reference": "0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leafo/lessphp/zipball/51f3f06f0fe78a722dabfd14578444bdd078d9de",
-                "reference": "51f3f06f0fe78a722dabfd14578444bdd078d9de",
+                "url": "https://api.github.com/repos/leafo/lessphp/zipball/0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283",
+                "reference": "0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283",
                 "shasum": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.3-dev"
+                    "dev-master": "0.4.x-dev"
                 }
             },
             "autoload": {
@@ -264,7 +264,7 @@
             ],
             "description": "lessphp is a compiler for LESS written in PHP.",
             "homepage": "http://leafo.net/lessphp/",
-            "time": "2013-08-09 17:09:19"
+            "time": "2014-11-24 18:39:20"
         },
         {
             "name": "mnapoli/php-di",
