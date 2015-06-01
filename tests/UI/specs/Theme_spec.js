@@ -11,6 +11,14 @@ describe("Theme", function () {
 
     before(function () {
         testEnvironment.pluginsToLoad = ['ExampleTheme'];
+
+        // Enable development mode to be able to see the UI demo page
+        testEnvironment.configOverride = {
+            Development: {
+                enabled: true
+            }
+        };
+
         testEnvironment.save();
     });
 
@@ -21,7 +29,7 @@ describe("Theme", function () {
     });
 
     it("should theme the UI demo page", function (done) {
-        expect.screenshot("load").to.be.capture(function (page) {
+        expect.screenshot("demo").to.be.capture(function (page) {
             page.load("?module=Morpheus&action=demo");
         }, done);
     });
