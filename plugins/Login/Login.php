@@ -82,10 +82,7 @@ class Login extends \Piwik\Plugin
      */
     function initAuthenticationObject($activateCookieAuth = false)
     {
-        $auth = new Auth();
-        StaticContainer::getContainer()->set('Piwik\Auth', $auth);
-
-        $this->initAuthenticationFromCookie($auth, $activateCookieAuth);
+        $this->initAuthenticationFromCookie(StaticContainer::getContainer()->get('Piwik\Auth'), $activateCookieAuth);
     }
 
     /**
