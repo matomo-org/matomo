@@ -102,7 +102,6 @@ abstract class IntegrationTestCase extends SystemTestCase
 
     protected static function configureFixture($fixture)
     {
-        $fixture->loadTranslations    = false;
         $fixture->createSuperUser     = false;
         $fixture->configureComponents = false;
     }

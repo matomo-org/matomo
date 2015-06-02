@@ -144,7 +144,6 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
 
     public static function configureFixture($fixture)
     {
-        $fixture->loadTranslations    = true;
         // empty (undo IntegrationTestCase configuring)
     }
 
