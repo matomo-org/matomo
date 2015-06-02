@@ -14,6 +14,8 @@ use Doctrine\Common\Cache\ArrayCache;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Plugin\Manager;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
+use Piwik\Tests\Framework\TestingEnvironmentVariablesDefinitionSource;
 
 /**
  * Creates a configured DI container.
@@ -92,6 +94,9 @@ class ContainerFactory
 
         // Test config
         if (defined('PIWIK_TEST_MODE')) {
+            $vars = new TestingEnvironmentVariables();
+            $builder->addDefinitions(new TestingEnvironmentVariablesDefinitionSource($vars));
+
             $this->addEnvironmentConfig($builder, 'test');
         }
 
