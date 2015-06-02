@@ -1,0 +1,16 @@
+<div piwik-dialog="$parent.showAddSiteDialog"
+     title="{{ 'SitesManager_ChooseMeasurableTypeHeadline'|translate }}">
+
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <div class="ui-dialog-buttonset">
+            <button type="button"
+                    ng-repeat="type in availableTypes"
+                    title="{{ type.description }}"
+                    class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                    ng-click="addSite(type.id);closeAddMeasurableDialog()"
+                    aria-disabled="false">
+                <span class="ui-button-text">{{ type.name }}</span>
+            </button>
+        </div>
+    </div>
+</div>

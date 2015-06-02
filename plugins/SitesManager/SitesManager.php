@@ -10,7 +10,9 @@ namespace Piwik\Plugins\SitesManager;
 
 use Piwik\Common;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Db;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Measurable\Settings\Storage;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Model as TrackerModel;
 
@@ -69,6 +71,9 @@ class SitesManager extends \Piwik\Plugin
 
         $archiveInvalidator = new ArchiveInvalidator();
         $archiveInvalidator->forgetRememberedArchivedReportsToInvalidateForSite($idSite);
+
+        $measurableStorage = new Storage(Db::get(), $idSite);
+        $measurableStorage->deleteAllValues();
     }
 
     /**
@@ -88,6 +93,7 @@ class SitesManager extends \Piwik\Plugin
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-helper.service.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-site.service.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/api-core.service.js";
+        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager-type-model.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager-admin-sites-model.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/multiline-field.directive.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/edit-trigger.directive.js";
@@ -326,7 +332,11 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_SelectDefaultTimezone";
         $translationKeys[] = "SitesManager_DefaultCurrencyForNewWebsites";
         $translationKeys[] = "SitesManager_SelectDefaultCurrency";
+        $translationKeys[] = "SitesManager_AddMeasurable";
         $translationKeys[] = "SitesManager_AddSite";
+        $translationKeys[] = "SitesManager_XManagement";
+        $translationKeys[] = "SitesManager_ChooseMeasurableTypeHeadline";
+        $translationKeys[] = "General_Measurables";
         $translationKeys[] = "Goals_Ecommerce";
         $translationKeys[] = "SitesManager_NotFound";
     }

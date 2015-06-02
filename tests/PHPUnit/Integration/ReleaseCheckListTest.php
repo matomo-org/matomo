@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration;
 
 use Exception;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Ini\IniReader;
 use Piwik\Plugin\Manager;
@@ -235,7 +236,10 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             }
             $manager = Manager::getInstance();
             $isGitSubmodule = $manager->isPluginOfficialAndNotBundledWithCore($pluginName);
-            $disabled = in_array($pluginName, $manager->getCorePluginsDisabledByDefault())  || $isGitSubmodule;
+
+            $pluginList = StaticContainer::get('Piwik\Application\Kernel\PluginList');
+
+            $disabled = in_array($pluginName, $pluginList->getCorePluginsDisabledByDefault())  || $isGitSubmodule;
 
             $enabled = in_array($pluginName, $pluginsBundledWithPiwik);
 

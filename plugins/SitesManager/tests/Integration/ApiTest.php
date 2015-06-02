@@ -9,9 +9,12 @@
 namespace Piwik\Plugins\SitesManager\tests\Integration;
 
 use Piwik\Piwik;
+use Piwik\Plugin;
+use Piwik\Plugins\MobileAppMeasurable;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\Model;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Measurable\Measurable;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -30,6 +33,8 @@ class ApiTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
+
+        Plugin\Manager::getInstance()->activatePlugin('MobileAppMeasurable');
 
         // setup the access layer
         FakeAccess::$superUser = true;
@@ -194,6 +199,40 @@ class ApiTest extends IntegrationTestCase
     }
 
     /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Only 100 characters are allowed
+     */
+    public function testAddSite_ShouldFailAndNotCreatedASiteIfASettingIsInvalid()
+    {
+        try {
+            $type = MobileAppMeasurable\Type::ID;
+            $settings = array('app_id' => str_pad('test', 789, 't'));
+            $this->addSiteWithType($type, $settings);
+        } catch (Exception $e) {
+
+            // make sure no site created
+            $ids = API::getInstance()->getAllSitesId();
+            $this->assertEquals(array(), $ids);
+
+            throw $e;
+        }
+    }
+
+    public function testAddSite_ShouldSavePassedMeasurableSettings_IfSettingsAreValid()
+    {
+        $type = MobileAppMeasurable\Type::ID;
+        $settings = array('app_id' => 'org.piwik.mobile2');
+        $idSite = $this->addSiteWithType($type, $settings);
+
+        $this->assertSame(1, $idSite);
+
+        $measurable = new Measurable($idSite);
+        $appId = $measurable->getSettingValue('app_id');
+
+        $this->assertSame('org.piwik.mobile2', $appId);
+    }
+
+    /**
      * adds a site
      * use by several other unit tests
      */
@@ -211,6 +250,42 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals(array("http://piwik.net", "http://piwik.com/test"), $siteUrls);
 
         return $idsite;
+    }
+
+    private function addSiteWithType($type, $settings)
+    {
+        return API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
+            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
+            $ip = null,
+            $excludedQueryParameters = null,
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepURLFragments = null,
+            $type, $settings);
+    }
+
+    private function updateSiteSettings($idSite, $newSiteName, $settings)
+    {
+        return API::getInstance()->updateSite($idSite,
+            $newSiteName,
+            $urls = null,
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParameters = null,
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepURLFragments = null,
+            $type = null,
+            $settings);
     }
 
     /**
@@ -793,6 +868,42 @@ class ApiTest extends IntegrationTestCase
         sort($allUrls);
         sort($newurls);
         $this->assertEquals($newurls, $allUrls);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Only 100 characters are allowed
+     */
+    public function testUpdateSite_ShouldFailAndNotUpdateSiteIfASettingIsInvalid()
+    {
+        $type  = MobileAppMeasurable\Type::ID;
+        $idSite = $this->addSiteWithType($type, array());
+
+        try {
+            $this->updateSiteSettings($idSite, 'newSiteName', array('app_id' => str_pad('t', 589, 't')));
+
+        } catch (Exception $e) {
+            // verify nothing was updated (not even the name)
+            $measurable = new Measurable($idSite);
+            $this->assertNotEquals('newSiteName', $measurable->getName());
+
+            throw $e;
+        }
+    }
+
+    public function testUpdateSite_ShouldSavePassedMeasurableSettings_IfSettingsAreValid()
+    {
+        $type = MobileAppMeasurable\Type::ID;
+        $idSite = $this->addSiteWithType($type, array());
+
+        $this->assertSame(1, $idSite);
+
+        $this->updateSiteSettings($idSite, 'newSiteName', $settings = array('app_id' => 'org.piwik.mobile2'));
+
+        // verify it was updated
+        $measurable = new Measurable($idSite);
+        $this->assertSame('newSiteName', $measurable->getName());
+        $this->assertSame('org.piwik.mobile2', $measurable->getSettingValue('app_id'));
     }
 
     /**

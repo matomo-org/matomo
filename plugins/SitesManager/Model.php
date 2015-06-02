@@ -332,6 +332,22 @@ class Model
     }
 
     /**
+     * Returns all used type ids (unique)
+     * @return array of used type ids
+     */
+    public function getUsedTypeIds()
+    {
+        $types = array();
+        $rows = $this->getDb()->fetchAll("SELECT DISTINCT `type` as typeid FROM " . $this->table);
+
+        foreach ($rows as $row) {
+            $types[] = $row['typeid'];
+        }
+
+        return $types;
+    }
+
+    /**
      * Insert the list of alias URLs for the website.
      * The URLs must not exist already for this website!
      */
