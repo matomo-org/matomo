@@ -137,6 +137,13 @@ class ContainerFactory
             if (file_exists($environmentFile)) {
                 $builder->addDefinitions($environmentFile);
             }
+
+            if (defined('PIWIK_TEST_MODE')) {
+                $testEnvironmentFile = $baseDir . '/config/test.php';
+                if (file_exists($testEnvironmentFile)) {
+                    $builder->addDefinitions($testEnvironmentFile);
+                }
+            }
         }
     }
 
