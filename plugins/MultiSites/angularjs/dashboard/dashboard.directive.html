@@ -34,7 +34,7 @@
                 <span class="arrow" ng-class="{multisites_asc: !model.reverse && evolutionSelector == model.sortColumn, multisites_desc: model.reverse && evolutionSelector == model.sortColumn}"></span>
                 <span class="evolution"
                       ng-click="model.sortBy(evolutionSelector)"> {{ 'MultiSites_Evolution'|translate }}</span>
-                <select class="selector" id="evolution_selector" ng-model="evolutionSelector"
+                <select class="selector native-select" id="evolution_selector" ng-model="evolutionSelector"
                         ng-change="model.sortBy(evolutionSelector)">
                     <option value="visits_evolution">{{ 'General_ColumnNbVisits'|translate }}</option>
                     <option value="pageviews_evolution">{{ 'General_ColumnPageviews'|translate }}</option>
