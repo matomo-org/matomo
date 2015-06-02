@@ -30,7 +30,10 @@ select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: url("plugins/Morpheus/images/select_arrow.png") no-repeat right center;
+    background-color: @theme-color-background-base;
+    background-image: url("plugins/Morpheus/images/select_arrow.png");
+    background-repeat: no-repeat;
+    background-position: right center;
     padding-right: 30px;
 }
 // This mixin allows to restore the native style of selects when needed
