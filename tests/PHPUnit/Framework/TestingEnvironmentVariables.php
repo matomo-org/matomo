@@ -82,12 +82,4 @@ class TestingEnvironmentVariables
 
         return $plugins;
     }
-
-    /**
-     * for plugins that need to inject special testing logic
-     */
-    public function executeSetupTestEnvHook()
-    {
-        Piwik::postEvent("TestingEnvironment.addHooks", array($this), $pending = true);
-    }
 }

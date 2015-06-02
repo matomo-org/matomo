@@ -268,7 +268,6 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $this->getTestEnvironment()->testCaseClass = $this->testCaseClass;
         $this->getTestEnvironment()->save();
-        $this->getTestEnvironment()->executeSetupTestEnvHook();
 
         PiwikCache::getTransientCache()->flushAll();
 
