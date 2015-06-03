@@ -47,11 +47,8 @@ class Filechecks
             Filesystem::mkdir($directoryToCheck);
 
             $directory = Filesystem::realpath($directoryToCheck);
-            $resultCheck[$directory] = false;
-            if ($directory !== false // realpath() returns FALSE on failure
-                && is_writable($directoryToCheck)
-            ) {
-                $resultCheck[$directory] = true;
+            if ($directory !== false) {
+                $resultCheck[$directory] = is_writable($directoryToCheck);
             }
         }
         return $resultCheck;
