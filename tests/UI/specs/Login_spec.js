@@ -14,13 +14,13 @@ describe("Login", function () {
         formlessLoginUrl = "?module=Login&action=logme&login=oliverqueen&password=" + md5Pass;
 
     before(function () {
-        testEnvironment.testUseRegularAuth = 1;
+        testEnvironment.testUseMockAuth = 0;
         testEnvironment.queryParamOverride = {date: "2012-01-01", period: "year"};
         testEnvironment.save();
     });
 
     after(function () {
-        testEnvironment.testUseRegularAuth = 0;
+        testEnvironment.testUseMockAuth = 1;
         delete testEnvironment.queryParamOverride;
         testEnvironment.save();
     });

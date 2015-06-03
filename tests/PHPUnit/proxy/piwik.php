@@ -29,7 +29,7 @@ try {
         })
     );
 
-    Piwik_TestingEnvironment::addHooks($globalObservers);
+    \Piwik\Tests\Framework\TestingEnvironment::addHooks($globalObservers);
 
     GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 

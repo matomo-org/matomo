@@ -53,14 +53,14 @@ class AccessTest extends IntegrationTestCase
 
     public function testHasSuperUserAccessWithSuperUserAccess()
     {
-        $access = Access::getInstance();
+        $access = new Access();
         $access->setSuperUserAccess(true);
         $this->assertTrue($access->hasSuperUserAccess());
     }
 
     public function test_GetLogin_UserIsNotAnonymous_WhenSuperUserAccess()
     {
-        $access = Access::getInstance();
+        $access = new Access();
         $access->setSuperUserAccess(true);
         $this->assertNotEmpty($access->getLogin());
         $this->assertNotSame('anonymous', $access->getLogin());
@@ -68,7 +68,7 @@ class AccessTest extends IntegrationTestCase
 
     public function testHasSuperUserAccessWithNoSuperUserAccess()
     {
-        $access = Access::getInstance();
+        $access = new Access();
         $access->setSuperUserAccess(false);
         $this->assertFalse($access->hasSuperUserAccess());
     }
@@ -102,7 +102,7 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasSuperUserAccessWithSuperUserAccess()
     {
-        $access = Access::getInstance();
+        $access = new Access();
         $access->setSuperUserAccess(true);
         $access->checkUserHasSuperUserAccess();
     }
@@ -118,7 +118,7 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasSomeAdminAccessWithSuperUserAccess()
     {
-        $access = Access::getInstance();
+        $access = new Access();
         $access->setSuperUserAccess(true);
         $access->checkUserHasSomeAdminAccess();
     }
@@ -181,7 +181,7 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasSomeViewAccessWithSuperUserAccess()
     {
-        $access = Access::getInstance();
+        $access = new Access();
         $access->setSuperUserAccess(true);
         $access->checkUserHasSomeViewAccess();
     }
@@ -256,7 +256,7 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasAdminAccessWithSuperUserAccess()
     {
-        $access = Access::getInstance();
+        $access = new Access();
         $access->setSuperUserAccess(true);
         $access->checkUserHasAdminAccess(array());
     }
@@ -327,7 +327,7 @@ class AccessTest extends IntegrationTestCase
 
     public function testReloadAccessWithEmptyAuthSuperUser()
     {
-        $access = Access::getInstance();
+        $access = new Access();
         $access->setSuperUserAccess(true);
         $this->assertTrue($access->reloadAccess(null));
     }
@@ -335,7 +335,7 @@ class AccessTest extends IntegrationTestCase
     public function testReloadAccess_ShouldResetTokenAuthAndLogin_IfAuthIsNotValid()
     {
         $mock = $this->createAuthMockWithAuthResult(AuthResult::SUCCESS);
-        $access = Access::getInstance();
+        $access = new Access();
 
         $this->assertTrue($access->reloadAccess($mock));
         $this->assertSame('login', $access->getLogin());
@@ -357,7 +357,7 @@ class AccessTest extends IntegrationTestCase
 
         $mock->expects($this->any())->method('getName')->will($this->returnValue("test name"));
 
-        $access = Access::getInstance();
+        $access = new Access();
         $this->assertTrue($access->reloadAccess($mock));
         $this->assertFalse($access->hasSuperUserAccess());
     }

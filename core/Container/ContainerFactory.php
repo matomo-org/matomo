@@ -13,7 +13,6 @@ use DI\ContainerBuilder;
 use Doctrine\Common\Cache\ArrayCache;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
-use Piwik\Development;
 use Piwik\Plugin\Manager;
 
 /**
@@ -39,7 +38,7 @@ class ContainerFactory
     private $environment;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $definitions;
 
@@ -47,7 +46,7 @@ class ContainerFactory
      * @param PluginList $pluginList
      * @param GlobalSettingsProvider $settings
      * @param string|null $environment Optional environment config to load.
-     * @param array $definitions
+     * @param array[] $definitions
      */
     public function __construct(PluginList $pluginList, GlobalSettingsProvider $settings, $environment = null, array $definitions = array())
     {
@@ -89,10 +88,17 @@ class ContainerFactory
         }
 
         // Environment config
-        $this->addEnvironmentConfig($builder);
+        $this->addEnvironmentConfig($builder, $this->environment);
+
+        // Test config
+        if (defined('PIWIK_TEST_MODE')) {
+            $this->addEnvironmentConfig($builder, 'test');
+        }
 
         if (!empty($this->definitions)) {
-            $builder->addDefinitions($this->definitions);
+            foreach ($this->definitions as $definitionArray) {
+                $builder->addDefinitions($definitionArray);
+            }
         }
 
         $container = $builder->build();
@@ -102,13 +108,13 @@ class ContainerFactory
         return $container;
     }
 
-    private function addEnvironmentConfig(ContainerBuilder $builder)
+    private function addEnvironmentConfig(ContainerBuilder $builder, $environment)
     {
-        if (!$this->environment) {
+        if (!$environment) {
             return;
         }
 
-        $file = sprintf('%s/config/environment/%s.php', PIWIK_USER_PATH, $this->environment);
+        $file = sprintf('%s/config/environment/%s.php', PIWIK_USER_PATH, $environment);
 
         if (file_exists($file)) {
             $builder->addDefinitions($file);

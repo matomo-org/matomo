@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\System;
 
+use Interop\Container\ContainerInterface;
 use Piwik\Date;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -157,6 +158,19 @@ class ArchiveCronTest extends SystemTestCase
         } catch (Exception $ex) {
             $this->comparisonFailures[] = $ex;
         }
+    }
+
+    public static function provideContainerConfigBeforeClass()
+    {
+        return array(
+            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
+
+            // for some reason, w/o real translations archiving segments in CronArchive fails. the data returned by CliMulti
+            // is a translation token, and nothing else.
+            'Piwik\Translation\Translator' => function (ContainerInterface $c) {
+                return new \Piwik\Translation\Translator($c->get('Piwik\Translation\Loader\LoaderInterface'));
+            }
+        );
     }
 }
 

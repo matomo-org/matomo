@@ -30,10 +30,11 @@ class EnvironmentValidationTest extends SystemTestCase
     {
         parent::setUp();
 
-        $testingEnvironment = new \Piwik_TestingEnvironment();
+        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironment();
         $testingEnvironment->configFileGlobal = null;
         $testingEnvironment->configFileLocal = null;
         $testingEnvironment->configFileCommon = null;
+        $testingEnvironment->loadRealTranslations = true;
         $testingEnvironment->save();
     }
 
@@ -138,7 +139,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function simulateAbsentConfigFile($fileName)
     {
-        $testingEnvironment = new \Piwik_TestingEnvironment();
+        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironment();
 
         if ($fileName == 'global.ini.php') {
             $testingEnvironment->configFileGlobal = PIWIK_INCLUDE_PATH . '/tmp/nonexistant/global.ini.php';
@@ -153,7 +154,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function simulateBadConfigFile($fileName)
     {
-        $testingEnvironment = new \Piwik_TestingEnvironment();
+        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironment();
 
         if ($fileName == 'global.ini.php') {
             $testingEnvironment->configFileGlobal = PIWIK_INCLUDE_PATH . '/piwik.php';
@@ -168,7 +169,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function simulateHost($host)
     {
-        $testingEnvironment = new \Piwik_TestingEnvironment();
+        $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironment();
         $testingEnvironment->hostOverride = $host;
         $testingEnvironment->save();
     }

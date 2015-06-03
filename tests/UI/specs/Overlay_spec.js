@@ -1,4 +1,4 @@
-/*!
+    /*!
  * Piwik - free/libre analytics platform
  *
  * Overlay screenshot tests.

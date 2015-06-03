@@ -12,6 +12,7 @@ use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
+use Piwik\Tests\Framework\TestingEnvironment;
 
 /**
  * Tests the log importer.
@@ -118,7 +119,7 @@ class ImportLogsTest extends SystemTestCase
 
         $options = array(
             '--idsite'                    => self::$fixture->idSite,
-            '--token-auth'                => 'asldfjksd',
+            '--token-auth'                => Fixture::getTokenAuth(),
             '--retry-max-attempts'        => 5,
             '--retry-delay'               => 1
         );
@@ -137,10 +138,8 @@ class ImportLogsTest extends SystemTestCase
 
     private function simulateTrackerFailure()
     {
-        $testingEnvironment = new \Piwik_TestingEnvironment();
-        $testingEnvironment->configOverride = array(
-            'Tracker' => array('bulk_requests_require_authentication' => 1)
-        );
+        $testingEnvironment = new TestingEnvironment();
+        $testingEnvironment->_triggerTrackerFailure = true;
         $testingEnvironment->save();
     }
 
@@ -151,9 +150,26 @@ class ImportLogsTest extends SystemTestCase
 
     private function resetTestingEnvironmentChanges()
     {
-        $testingEnvironment = new \Piwik_TestingEnvironment();
-        $testingEnvironment->configOverride = null;
+        $testingEnvironment = new TestingEnvironment();
+        $testingEnvironment->_triggerTrackerFailure = null;
         $testingEnvironment->save();
+    }
+
+    public static function provideContainerConfigBeforeClass()
+    {
+        $result = array();
+
+        $testingEnvironment = new TestingEnvironment();
+        if ($testingEnvironment->_triggerTrackerFailure) {
+            $result['observers.global'] = \DI\add(array(
+                array('Tracker.newHandler', function () {
+                    @http_response_code(500);
+
+                    throw new \Exception("injected exception");
+                })
+            ));
+        }
+        return $result;
     }
 }
 

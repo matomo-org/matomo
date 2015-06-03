@@ -109,7 +109,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         // This will write the file
         $config->forceSave();
 
-        $config = new TestConfig(new GlobalSettingsProvider($globalFile, $userFile));
+        $config = new Config(new GlobalSettingsProvider($globalFile, $userFile));
 
         $this->assertEquals($stringWritten, $config->Category['test']);
         $config->Category = array(

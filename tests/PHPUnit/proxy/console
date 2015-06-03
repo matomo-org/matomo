@@ -2,6 +2,6 @@
 <?php
 require realpath(dirname(__FILE__)) . "/includes.php";
 
-Piwik_TestingEnvironment::addHooks();
+\Piwik\Tests\Framework\TestingEnvironment::addHooks();
 
 require_once PIWIK_INCLUDE_PATH . "/console";

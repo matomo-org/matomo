@@ -107,8 +107,6 @@ class AssetManagerTest extends UnitTestCase
 
     private function setUpConfig()
     {
-        $this->initEnvironment();
-
         Config::getInstance()->Plugins = array('Plugins' => array('MockCorePlugin', 'CoreThemePlugin'));
         Config::getInstance()->Development['enabled'] = 1;
         Config::getInstance()->General['default_language'] = 'en';

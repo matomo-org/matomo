@@ -10,13 +10,14 @@ namespace Piwik\Tests\Framework\Mock;
 
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
+use Piwik\Tests\Framework\TestingEnvironment;
 
 class TestConfig extends Config
 {
     private $allowSave = false;
     private $doSetTestEnvironment = false;
 
-    public function __construct(GlobalSettingsProvider $provider, $allowSave = false, $doSetTestEnvironment = true)
+    public function __construct(GlobalSettingsProvider $provider, TestingEnvironment $testingEnvironment, $allowSave = false, $doSetTestEnvironment = true)
     {
         parent::__construct($provider);
 
@@ -25,7 +26,6 @@ class TestConfig extends Config
 
         $this->reload();
 
-        $testingEnvironment = new \Piwik_TestingEnvironment();
         $this->setFromTestEnvironment($testingEnvironment);
     }
 
@@ -73,7 +73,7 @@ class TestConfig extends Config
         $chain->set('PluginsInstalled', array('PluginsInstalled' => array()));
     }
 
-    private function setFromTestEnvironment(\Piwik_TestingEnvironment $testingEnvironment)
+    private function setFromTestEnvironment(\Piwik\Tests\Framework\TestingEnvironment $testingEnvironment)
     {
         $pluginsToLoad = $testingEnvironment->getCoreAndSupportedPlugins();
         if (!empty($testingEnvironment->pluginsToLoad)) {
@@ -108,7 +108,24 @@ class TestConfig extends Config
 
         if ($testingEnvironment->configOverride) {
             $cache =& $chain->getAll();
-            $cache = $testingEnvironment->arrayMergeRecursiveDistinct($cache, $testingEnvironment->configOverride);
+            $cache = $this->arrayMergeRecursiveDistinct($cache, $testingEnvironment->configOverride);
         }
+    }
+
+    private function arrayMergeRecursiveDistinct(array $array1, array $array2)
+    {
+        $result = $array1;
+
+        foreach ($array2 as $key => $value) {
+            if (is_array($value)) {
+                $result[$key] = isset($result[$key]) && is_array($result[$key])
+                    ? $this->arrayMergeRecursiveDistinct($result[$key], $value)
+                    : $value;
+            } else {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
     }
 }

@@ -96,6 +96,13 @@ class ArchiveWebTest extends SystemTestCase
 
         return array($returnCode, $output);
     }
+
+    public static function provideContainerConfigBeforeClass()
+    {
+        return array(
+            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
+        );
+    }
 }
 
 ArchiveWebTest::$fixture = new ManySitesImportedLogs();

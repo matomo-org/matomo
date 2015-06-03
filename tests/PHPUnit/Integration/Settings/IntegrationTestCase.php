@@ -93,6 +93,12 @@ class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\IntegrationTes
         Access::setSingletonInstance($pseudoMockAccess);
     }
 
+    protected function setAnonymousUser()
+    {
+        FakeAccess::clearAccess();
+        Access::setSingletonInstance(new FakeAccess());
+    }
+
     protected function createSettingsInstance()
     {
         return new CorePluginTestSettings('ExampleSettingsPlugin');
