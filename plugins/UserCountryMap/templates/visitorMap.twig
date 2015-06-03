@@ -60,7 +60,7 @@
                     <option value="{{ metric[0] }}" {% if metric[0] == defaultMetric %}selected="selected"{% endif %}}>{{ metric[1] }}</option>
                 {% endfor %}
             </select>
-            <select class="userCountryMapSelectCountry" style="float:right;margin-right:5px;margin-bottom:5px; max-width: 10em;font-size:10px;">
+            <select class="userCountryMapSelectCountry">
                 <option value="world">{{ 'UserCountryMap_WorldWide'|translate }}</option>
                 <option disabled="disabled">––––––</option>
                 <option value="AF">{{ 'UserCountry_continent_afr'|translate }}</option>

@@ -73,16 +73,16 @@ $(document).ready(function () {
     }
 
     // make sure certain sections only display if their corresponding features are enabled
-    $('input[name=anonymizeIPEnable]').click(function () {
+    $('input[name=anonymizeIPEnable]').change(function () {
         toggleBlock("anonymizeIPenabled", $(this).val());
     });
 
-    $('input[name=deleteEnable]').click(function () {
+    $('input[name=deleteEnable]').change(function () {
         toggleBlock("deleteLogSettings", $(this).val());
         toggleOtherDeleteSections();
     }).change(reloadDbStats);
 
-    $('input[name=deleteReportsEnable]').click(function () {
+    $('input[name=deleteReportsEnable]').change(function () {
         toggleBlock("deleteReportsSettings", $(this).val());
         toggleBlock("deleteOldReportsMoreInfo", $(this).val());
         toggleOtherDeleteSections();

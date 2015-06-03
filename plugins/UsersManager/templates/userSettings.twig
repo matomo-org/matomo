@@ -1,6 +1,7 @@
 {% extends 'user.twig' %}
 
 {% block content %}
+
 <h2 piwik-enriched-headline>{{ 'UsersManager_PersonalSettings'|translate }}</h2>
 
 <div class="ui-confirm" id="confirmPasswordChange">
@@ -9,109 +10,109 @@
     <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
 </div>
 
-<table id='userSettingsTable' class="adminTable">
-    <tr>
-        <td><label for="username">{{ 'General_Username'|translate }} </label></td>
-        <td>
-            <input size="25" value="{{ userLogin }}" id="username" disabled="disabled"/>
-            <span class='form-description'>{{ 'UsersManager_YourUsernameCannotBeChanged'|translate }}</span>
-        </td>
-    </tr>
+<form id="userSettingsTable">
 
-    <tr>
-        <td><label for="alias">{{ 'UsersManager_Alias'|translate }} </label></td>
-        <td><input size="25" value="{{ userAlias }}" id="alias" /></td>
-    </tr>
-    <tr>
-        <td><label for="email">{{ 'UsersManager_Email'|translate }} </label></td>
-        <td><input size="25" value="{{ userEmail }}" id="email"/></td>
-    </tr>
-    <tr>
-        <td><div style="margin-top: 5px;margin-bottom: 10px;">{{ 'General_Language'|translate }}</div></td>
-        <td>
-            <fieldset style="margin-top: 5px;margin-bottom: 10px;">
-                <select name="language" id="language" onchange="if (this.value=='') window.open('?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/translations/');">
-                    <option title="" value="">{{ 'LanguagesManager_AboutPiwikTranslations'|translate }}</option>
-                    {% for language in languages %}
-                        <option value="{{ language.code }}" {% if language.code == currentLanguageCode %}selected="selected"{% endif %}
-                                title="{{ language.name }} ({{ language.english_name }})">{{ language.name }}</option>
-                    {% endfor %}
-                </select>
-                <br />
-            </fieldset>
-        </td>
-    </tr>
-    <tr>
-        <td>{{ 'UsersManager_ReportToLoadByDefault'|translate }}</td>
-        <td>
-            <fieldset>
-                <input id="defaultReportRadioAll" type="radio" value="MultiSites"
-                      name="defaultReport"{% if defaultReport=='MultiSites' %} checked="checked"{% endif %} />
-                <label for="defaultReportRadioAll">{{ 'General_AllWebsitesDashboard'|translate }}</label><br/>
-                <input id="defaultReportSpecific" type="radio" value="1"
-                       name="defaultReport"{% if defaultReport != 'MultiSites' %} checked="checked"{% endif %} />
-                <label for="defaultReportSpecific" style="padding-right:12px;">{{ 'General_DashboardForASpecificWebsite'|translate }}</label>
+    <div class="form-group">
+        <label for="username">{{ 'General_Username'|translate }}</label>
+        <div class="form-help">{{ 'UsersManager_YourUsernameCannotBeChanged'|translate }}</div>
+        <input value="{{ userLogin }}" id="username" disabled="disabled"/>
+    </div>
 
-                <div piwik-siteselector
-                     class="sites_autocomplete"
-                     siteid="{{ defaultReportIdSite }}"
-                     sitename="{{ defaultReportSiteName }}"
-                     switch-site-on-select="false"
-                     show-all-sites-item="false"
-                     showselectedsite="true"
-                     id="defaultReportSiteSelector"></div>
-            </fieldset>
-        </td>
-    </tr>
-    <tr>
-        <td>{{ 'UsersManager_ReportDateToLoadByDefault'|translate }}</td>
-        <td>
-            <fieldset>
-                {% for value,description in availableDefaultDates %}
-                    <input id="defaultDate-{{ loop.index }}" type="radio"{% if defaultDate==value %} checked="checked"{% endif %} value="{{ value }}" name="defaultDate"/>
-                    <label for="defaultDate-{{ loop.index }}">{{ description }}</label>
-                    <br/>
-                {% endfor %}
-            </fieldset>
-        </td>
-    </tr>
+    <div class="form-group">
+        <label for="alias">{{ 'UsersManager_Alias'|translate }}</label>
+        <input value="{{ userAlias }}" id="alias" />
+    </div>
+
+    <div class="form-group">
+        <label for="email">{{ 'UsersManager_Email'|translate }}</label>
+        <input value="{{ userEmail }}" id="email"/>
+    </div>
+
+    <div class="form-group">
+        <label for="language">{{ 'General_Language'|translate }}</label>
+        <div class="form-help">
+            <a href="?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/translations/" target="_blank">
+                {{ 'LanguagesManager_AboutPiwikTranslations'|translate }}</a>
+        </div>
+        <select name="language" id="language">
+            {% for language in languages %}
+                <option value="{{ language.code }}" {% if language.code == currentLanguageCode %}selected="selected"{% endif %}
+                        title="{{ language.name }} ({{ language.english_name }})">{{ language.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>{{ 'UsersManager_ReportToLoadByDefault'|translate }}</label>
+        <label class="radio">
+            <input id="defaultReportRadioAll" type="radio" value="MultiSites"
+                   name="defaultReport"{% if defaultReport=='MultiSites' %} checked="checked"{% endif %} />
+            {{ 'General_AllWebsitesDashboard'|translate }}
+        </label>
+        <label class="radio">
+            <input id="defaultReportSpecific" type="radio" value="1"
+                   name="defaultReport"{% if defaultReport != 'MultiSites' %} checked="checked"{% endif %} />
+            {{ 'General_DashboardForASpecificWebsite'|translate }}
+        </label>
+        <div piwik-siteselector
+             class="sites_autocomplete"
+             siteid="{{ defaultReportIdSite }}"
+             sitename="{{ defaultReportSiteName }}"
+             switch-site-on-select="false"
+             show-all-sites-item="false"
+             showselectedsite="true"
+             id="defaultReportSiteSelector"
+             style="position: relative"></div>
+    </div>
+
+    <div class="form-group">
+        <label>{{ 'UsersManager_ReportDateToLoadByDefault'|translate }}</label>
+        {% for value,description in availableDefaultDates %}
+            <label class="radio">
+                <input id="defaultDate-{{ loop.index }}" type="radio"{% if defaultDate==value %} checked="checked"{% endif %} value="{{ value }}" name="defaultDate"/>
+                {{ description }}
+            </label>
+        {% endfor %}
+    </div>
 
     {% if isValidHost is defined and isValidHost %}
-        <tr>
-            <td><label for="email">{{ 'General_ChangePassword'|translate }} </label></td>
-            <td><input size="25" value="" autocomplete="off" id="password" type="password"/>
-                <span class='form-description'>{{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate }}</span>
-                <br/><br/><input size="25" value="" autocomplete="off" id="passwordBis" type="password"/>
-                <span class='form-description'> {{ 'UsersManager_TypeYourPasswordAgain'|translate }}</span>
-            </td>
-        </tr>
+        <div class="form-group">
+            <label for="password">{{ 'General_ChangePassword'|translate }}</label>
+            <div class="form-help">
+                {{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate }}
+            </div>
+            <input value="" autocomplete="off" id="password" type="password"/>
+        </div>
+        <div class="form-group">
+            <div class="form-help">
+                {{ 'UsersManager_TypeYourPasswordAgain'|translate }}
+            </div>
+            <input value="" autocomplete="off" id="passwordBis" type="password"/>
+        </div>
     {% endif %}
-</table>
-{% if isValidHost is not defined or not isValidHost %}
-    <div id="injectedHostCannotChangePwd">
-        {% set injectedHostCannotChangePwd %}
-        {{ 'UsersManager_InjectedHostCannotChangePwd'|translate(invalidHost) }}
-        &nbsp;{% if not isSuperUser %}{{ 'UsersManager_EmailYourAdministrator'|translate(invalidHostMailLinkStart,'</a>')|raw }}{% endif %}
-        {% endset %}
-        {{ injectedHostCannotChangePwd|notification({'raw': true, 'context': 'error', 'placeat': '#injectedHostCannotChangePwd', 'noclear': true}) }}
-    </div>
-    <br/>
-{% endif %}
 
-{% import 'ajaxMacros.twig' as ajax %}
-{{ ajax.errorDiv('ajaxErrorUserSettings') }}
-{{ ajax.loadingDiv('ajaxLoadingUserSettings') }}
-<input type="submit" value="{{ 'General_Save'|translate }}" id="userSettingsSubmit" class="submit"/>
+    {% if isValidHost is not defined or not isValidHost %}
+        <div class="alert alert-danger">
+            {{ 'UsersManager_InjectedHostCannotChangePwd'|translate(invalidHost) }}
+            {% if not isSuperUser %}{{ 'UsersManager_EmailYourAdministrator'|translate(invalidHostMailLinkStart,'</a>')|raw }}{% endif %}
+        </div>
+    {% endif %}
 
-<br/><br/>
+    {% import 'ajaxMacros.twig' as ajax %}
+    {{ ajax.errorDiv('ajaxErrorUserSettings') }}
+    {{ ajax.loadingDiv('ajaxLoadingUserSettings') }}
+
+    <button type="button" id="userSettingsSubmit">{{ 'General_Save'|translate }}</button>
+
+</form>
 
 <h2 id="excludeCookie">{{ 'UsersManager_ExcludeVisitsViaCookie'|translate }}</h2>
 <p>
-{% if ignoreCookieSet %}
-   {{ 'UsersManager_YourVisitsAreIgnoredOnDomain'|translate("<strong>", piwikHost, "</strong>")|raw }}
-{% else %}
-   {{ 'UsersManager_YourVisitsAreNotIgnored'|translate("<strong>","</strong>")|raw }}
-{% endif %}
+    {% if ignoreCookieSet %}
+       {{ 'UsersManager_YourVisitsAreIgnoredOnDomain'|translate("<strong>", piwikHost, "</strong>")|raw }}
+    {% else %}
+       {{ 'UsersManager_YourVisitsAreNotIgnored'|translate("<strong>","</strong>")|raw }}
+    {% endif %}
 </p>
 <span style="margin-left:20px;">
 <a href='{{ linkTo({'ignoreSalt':ignoreSalt, 'action':'setIgnoreCookie'}) }}#excludeCookie'>&rsaquo; {% if ignoreCookieSet %}{{ 'UsersManager_ClickHereToDeleteTheCookie'|translate }}
@@ -119,5 +120,4 @@
     <br/>
 </a></span>
 
-<br/><br/>
 {% endblock %}

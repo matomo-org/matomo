@@ -17,11 +17,9 @@
 			<td width="150">{{ 'UserCountry_LocationDatabase'|translate }}</td>
 			<td><input type="text" id="geoip-location-db" value="{{ geoIPLocUrl }}"/></td>
 			<td width="164">
-				{% set locationHint %}
-				{{ 'UserCountry_LocationDatabaseHint'|translate }}
-				{% endset %}
-                {% import 'macros.twig' as piwik %}
-				{{ piwik.inlineHelp(locationHint) }}
+				<div class="alert alert-info">
+					{{ 'UserCountry_LocationDatabaseHint'|translate }}
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -42,18 +40,17 @@
 				<label for="geoip-update-period-week">{{ 'CoreHome_PeriodWeek'|translate }}</label>
 			</td>
 			<td width="164">
-			{% set lastTimeRunNote %}
-				{% if lastTimeUpdaterRun is defined and lastTimeUpdaterRun is not empty %}
-					{{ 'UserCountry_UpdaterWasLastRun'|translate(lastTimeUpdaterRun)|raw }}
-				{% else %}
-					{{ 'UserCountry_UpdaterHasNotBeenRun'|translate }}
-				{% endif %}
-        <br/><br/>
-        <div id="geoip-updater-next-run-time">
-        {% include "@UserCountry/_updaterNextRunTime.twig" %}
-        </div>
-			{% endset %}
-			{{ piwik.inlineHelp(lastTimeRunNote) }}
+				<div class="alert alert-info">
+					{% if lastTimeUpdaterRun is defined and lastTimeUpdaterRun is not empty %}
+						{{ 'UserCountry_UpdaterWasLastRun'|translate(lastTimeUpdaterRun)|raw }}
+					{% else %}
+						{{ 'UserCountry_UpdaterHasNotBeenRun'|translate }}
+					{% endif %}
+					<br/><br/>
+					<div id="geoip-updater-next-run-time">
+						{% include "@UserCountry/_updaterNextRunTime.twig" %}
+					</div>
+				</div>
 			</td>
 		</tr>
 	</table>

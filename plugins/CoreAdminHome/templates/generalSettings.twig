@@ -1,290 +1,226 @@
 {% extends 'admin.twig' %}
 
 {% block content %}
-{# load macros #}
-{% import 'macros.twig' as piwik %}
-{% import 'ajaxMacros.twig' as ajax %}
+    {% import 'macros.twig' as piwik %}
+    {% import 'ajaxMacros.twig' as ajax %}
 
-{% if isSuperUser %}
     {{ ajax.errorDiv() }}
     {{ ajax.loadingDiv() }}
 
     <h2>{{ 'CoreAdminHome_ArchivingSettings'|translate }}</h2>
-    <table class="adminTable" style='width:900px;'>
 
     {% if isGeneralSettingsAdminEnabled %}
-        <tr>
-            <td style="width:400px;">{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</td>
-            <td style="width:220px;">
-                <fieldset>
-                    <input id="enableBrowserTriggerArchiving-yes" type="radio" value="1" name="enableBrowserTriggerArchiving"{% if enableBrowserTriggerArchiving==1 %} checked="checked"{% endif %} />
-                    <label for="enableBrowserTriggerArchiving-yes">{{ 'General_Yes'|translate }}</label><br/>
-                    <span class="form-description">{{ 'General_Default'|translate }}</span>
-                    <br/><br/>
-
-                    <input id="enableBrowserTriggerArchiving-no" type="radio" value="0" name="enableBrowserTriggerArchiving"{% if enableBrowserTriggerArchiving==0 %} checked="checked"{% endif %} />
-                    <label for="enableBrowserTriggerArchiving-no">{{ 'General_No'|translate }}</label><br/>
-                    <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}</span>
-                </fieldset>
-            <td>
-                {% set browserArchivingHelp %}
-                    {{ 'General_ArchivingInlineHelp'|translate }}
-                    <br/>
-                    {{ 'General_SeeTheOfficialDocumentationForMoreInformation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}
-                {% endset %}
-                {{ piwik.inlineHelp(browserArchivingHelp) }}
-            </td>
-        </tr>
+        <div class="form-group">
+            <label>{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</label>
+            <div class="form-help">
+                {{ 'General_ArchivingInlineHelp'|translate }}
+                <br/>
+                {{ 'General_SeeTheOfficialDocumentationForMoreInformation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}
+            </div>
+            <label class="radio">
+                <input type="radio" value="1" name="enableBrowserTriggerArchiving" {% if enableBrowserTriggerArchiving==1 %} checked="checked"{% endif %} />
+                {{ 'General_Yes'|translate }}
+            </label>
+            <span class="form-description">{{ 'General_Default'|translate }}</span>
+            <label class="radio">
+                <input type="radio" value="0" name="enableBrowserTriggerArchiving" {% if enableBrowserTriggerArchiving==0 %} checked="checked"{% endif %} />
+                {{ 'General_No'|translate }}
+            </label>
+            <span class="form-description">
+                {{ 'General_ArchivingTriggerDescription'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}
+            </span>
+        </div>
     {% else %}
-        <tr>
-            <td style="width:400px;">{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</td>
-            <td style="width:220px;">
-                <input id="enableBrowserTriggerArchiving-disabled" type="radio" checked="checked" disabled="disabled" />
-                <label for="enableBrowserTriggerArchiving-disabled">{% if enableBrowserTriggerArchiving==1 %}{{ 'General_Yes'|translate }}{% else %}{{ 'General_No'|translate }}{% endif %}</label><br/>
-            </td>
-        </tr>
+        <div class="form-group">
+            <label>{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</label>
+            <label class="radio">
+                <input type="radio" checked="checked" disabled="disabled" />
+                {% if enableBrowserTriggerArchiving==1 %}
+                    {{ 'General_Yes'|translate }}
+                {% else %}
+                    {{ 'General_No'|translate }}
+                {% endif %}
+            </label>
+        </div>
     {% endif %}
 
-    <tr>
-        <td width="400px">
-            <label for="todayArchiveTimeToLive">
-                {{ 'General_ReportsContainingTodayWillBeProcessedAtMostEvery'|translate }}
-            </label>
-        </td>
-        <td>
-            {% set timeOutInput %}
-            <input size='3' value='{{ todayArchiveTimeToLive  }}' id='todayArchiveTimeToLive' {% if not isGeneralSettingsAdminEnabled %}disabled="disabled"{% endif %}/>
-            {% endset %}
-
-            {{ 'General_NSeconds'|translate(timeOutInput)|raw }}
-        </td>
-
+    <div class="form-group">
+        <label for="todayArchiveTimeToLive">
+            {{ 'General_ReportsContainingTodayWillBeProcessedAtMostEvery'|translate }}
+        </label>
         {% if isGeneralSettingsAdminEnabled %}
-            <td width='450px'>
-                {% set archiveTodayTTLHelp %}
-                    {% if showWarningCron %}
-                        <strong>
-                            {{ 'General_NewReportsWillBeProcessedByCron'|translate }}<br/>
-                            {{ 'General_ReportsWillBeProcessedAtMostEveryHour'|translate }}
-                            {{ 'General_IfArchivingIsFastYouCanSetupCronRunMoreOften'|translate }}<br/>
-                        </strong>
-                    {% endif %}
-                    {{ 'General_SmallTrafficYouCanLeaveDefault'|translate( todayArchiveTimeToLiveDefault ) }}
-                    <br/>
-                    {{ 'General_MediumToHighTrafficItIsRecommendedTo'|translate(1800,3600) }}
-                {% endset %}
-                {{ piwik.inlineHelp(archiveTodayTTLHelp) }}
-            </td>
+            <div class="form-help">
+                {% if showWarningCron %}
+                    <strong>
+                        {{ 'General_NewReportsWillBeProcessedByCron'|translate }}<br/>
+                        {{ 'General_ReportsWillBeProcessedAtMostEveryHour'|translate }}
+                        {{ 'General_IfArchivingIsFastYouCanSetupCronRunMoreOften'|translate }}<br/>
+                    </strong>
+                {% endif %}
+                {{ 'General_SmallTrafficYouCanLeaveDefault'|translate( todayArchiveTimeToLiveDefault ) }}
+                <br/>
+                {{ 'General_MediumToHighTrafficItIsRecommendedTo'|translate(1800,3600) }}
+            </div>
         {% endif %}
-    </tr>
+        <div class="input-group">
+            <input value='{{ todayArchiveTimeToLive  }}' id='todayArchiveTimeToLive' {% if not isGeneralSettingsAdminEnabled %}disabled="disabled"{% endif %} />
+            <span class="input-group-addon">{{ 'General_NSeconds'|translate('') }}</span>
+        </div>
+    </div>
 
     {% if isGeneralSettingsAdminEnabled %}
-        <tr>
-            <td colspan="3">
+        <h2>{{ 'CoreAdminHome_UpdateSettings'|translate }}</h2>
 
-                <h2>{{ 'CoreAdminHome_UpdateSettings'|translate }}</h2>
-            </td>
-        </tr>
-        <tr>
-            <td style="width:400px;">{{ 'CoreAdminHome_CheckReleaseGetVersion'|translate }}</td>
-            <td style="width:220px;">
-                <fieldset>
-                    <input id="enableBetaReleaseCheck-0" type="radio" value="0" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==0 %} checked="checked"{% endif %} />
-                    <label for="enableBetaReleaseCheck-0">{{ 'CoreAdminHome_LatestStableRelease'|translate }}</label><br/>
-                    <span class="form-description">{{ 'General_Recommended'|translate }}</span>
-                    <br/><br/>
-
-                    <input id="enableBetaReleaseCheck-1" type="radio" value="1" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==1 %} checked="checked"{% endif %} />
-                    <label for="enableBetaReleaseCheck-1">{{ 'CoreAdminHome_LatestBetaRelease'|translate }}</label><br/>
-                    <span class="form-description">{{ 'CoreAdminHome_ForBetaTestersOnly'|translate }}</span>
-                </fieldset>
-            <td>
-                {% set checkReleaseHelp %}
-                    {{ 'CoreAdminHome_DevelopmentProcess'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/development-process/' target='_blank'>","</a>")|raw }}
-                    <br/>
-                    {{ 'CoreAdminHome_StableReleases'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/user-feedback/' target='_blank'>","</a>")|raw }}
-                {% endset %}
-                {{ piwik.inlineHelp(checkReleaseHelp) }}
-            </td>
-        </tr>
+        <div class="form-group">
+            <label>{{ 'CoreAdminHome_CheckReleaseGetVersion'|translate }}</label>
+            <div class="form-help">
+                {{ 'CoreAdminHome_DevelopmentProcess'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/development-process/' target='_blank'>","</a>")|raw }}
+                <br/>
+                {{ 'CoreAdminHome_StableReleases'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/user-feedback/' target='_blank'>","</a>")|raw }}
+            </div>
+            <label class="radio">
+                <input type="radio" value="0" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==0 %} checked="checked"{% endif %} />
+                {{ 'CoreAdminHome_LatestStableRelease'|translate }}
+            </label>
+            <span class="form-description">{{ 'General_Recommended'|translate }}</span>
+            <label class="radio">
+                <input type="radio" value="1" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==1 %} checked="checked"{% endif %} />
+                {{ 'CoreAdminHome_LatestBetaRelease'|translate }}
+            </label>
+            <span class="form-description">{{ 'CoreAdminHome_ForBetaTestersOnly'|translate }}</span>
+        </div>
 
         {% if canUpdateCommunication %}
-
-            <tr>
-                <td style="width:400px;">{{ 'CoreAdminHome_SendPluginUpdateCommunication'|translate }}</td>
-                <td style="width:220px;">
-                    <fieldset>
-                        <input id="enablePluginUpdateCommunication-1" type="radio"
-                               name="enablePluginUpdateCommunication" value="1"
-                                {% if enableSendPluginUpdateCommunication==1 %} checked="checked"{% endif %}/>
-                        <label for="enablePluginUpdateCommunication-1">{{ 'General_Yes'|translate }}</label>
-                        <br />
-                        <br />
-                        <input class="indented-radio-button" id="enablePluginUpdateCommunication-0" type="radio"
-                               name="enablePluginUpdateCommunication" value="0"
-                               {% if enableSendPluginUpdateCommunication==0 %} checked="checked"{% endif %}/>
-                        <label for="enablePluginUpdateCommunication-0">{{ 'General_No'|translate }}</label>
-                        <br />
-                        <span class="form-description">{{ 'General_Default'|translate }}</span>
-                    </fieldset>
-                <td>
-                    {{ piwik.inlineHelp('CoreAdminHome_SendPluginUpdateCommunicationHelp'|translate) }}
-                </td>
-            </tr>
-
+            <div class="form-group">
+                <label>{{ 'CoreAdminHome_SendPluginUpdateCommunication'|translate }}</label>
+                <div class="form-help">
+                    {{ 'CoreAdminHome_SendPluginUpdateCommunicationHelp'|translate }}
+                </div>
+                <label class="radio">
+                    <input type="radio" name="enablePluginUpdateCommunication" value="1"
+                            {% if enableSendPluginUpdateCommunication==1 %} checked="checked"{% endif %}/>
+                    {{ 'General_Yes'|translate }}
+                </label>
+                <label class="radio">
+                    <input type="radio" name="enablePluginUpdateCommunication" value="0"
+                            {% if enableSendPluginUpdateCommunication==0 %} checked="checked"{% endif %}/>
+                    {{ 'General_No'|translate }}
+                </label>
+                <span class="form-description">{{ 'General_Default'|translate }}</span>
+            </div>
         {% endif %}
-
     {% endif %}
-    </table>
 
     {% if isGeneralSettingsAdminEnabled %}
         <h2>{{ 'CoreAdminHome_EmailServerSettings'|translate }}</h2>
-        <div id='emailSettings'>
-            <table class="adminTable" style='width:600px;'>
-                <tr>
-                    <td>{{ 'General_UseSMTPServerForEmail'|translate }}<br/>
-                        <span class="form-description">{{ 'General_SelectYesIfYouWantToSendEmailsViaServer'|translate }}</span>
-                    </td>
-                    <td style="width:200px;">
-                        <input id="mailUseSmtp-1" type="radio" name="mailUseSmtp" value="1" {% if mail.transport == 'smtp' %} checked {% endif %}/>
-                        <label for="mailUseSmtp-1">{{ 'General_Yes'|translate }}</label>
-                        <input class="indented-radio-button" id="mailUseSmtp-0" type="radio" name="mailUseSmtp" value="0"
-                               {% if mail.transport == '' %} checked {% endif %}/>
-                        <label for="mailUseSmtp-0">{{ 'General_No'|translate }}</label>
-                    </td>
-                </tr>
-            </table>
+
+        <div class="form-group">
+            <label>{{ 'General_UseSMTPServerForEmail'|translate }}</label>
+            <div class="form-help">
+                {{ 'General_SelectYesIfYouWantToSendEmailsViaServer'|translate }}
+            </div>
+            <label class="radio">
+                <input type="radio" name="mailUseSmtp" value="1" {% if mail.transport == 'smtp' %}checked{% endif %} />
+                {{ 'General_Yes'|translate }}
+            </label>
+            <label class="radio">
+                <input type="radio" name="mailUseSmtp" value="0" {% if mail.transport == '' %}checked{% endif %} />
+                {{ 'General_No'|translate }}
+            </label>
         </div>
-        <div id='smtpSettings'>
-            <table class="adminTable" style='width:550px;'>
-                <tr>
-                    <td><label for="mailHost">{{ 'General_SmtpServerAddress'|translate }}</label></td>
-                    <td style="width:200px;"><input type="text" id="mailHost" value="{{ mail.host }}"></td>
-                </tr>
-                <tr>
-                    <td><label for="mailPort">{{ 'General_SmtpPort'|translate }}</label><br/>
-                        <span class="form-description">{{ 'General_OptionalSmtpPort'|translate }}</span></td>
-                    <td><input type="text" id="mailPort" value="{{ mail.port }}"></td>
-                </tr>
-                <tr>
-                    <td><label for="mailType">{{ 'General_AuthenticationMethodSmtp'|translate }}</label><br/>
-                        <span class="form-description">{{ 'General_OnlyUsedIfUserPwdIsSet'|translate }}</span>
-                    </td>
-                    <td>
-                        <select id="mailType">
-                            <option value="" {% if mail.type == '' %} selected="selected" {% endif %}></option>
-                            <option id="plain" {% if mail.type == 'Plain' %} selected="selected" {% endif %} value="Plain">Plain</option>
-                            <option id="login" {% if mail.type == 'Login' %} selected="selected" {% endif %} value="Login"> Login</option>
-                            <option id="cram-md5" {% if mail.type == 'Crammd5' %} selected="selected" {% endif %} value="Crammd5"> Crammd5</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="mailUsername">{{ 'General_SmtpUsername'|translate }}</label><br/>
-                        <span class="form-description">{{ 'General_OnlyEnterIfRequired'|translate }}</span></td>
-                    <td>
-                        <input type="text" id="mailUsername" value="{{ mail.username }}"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="mailPassword">{{ 'General_SmtpPassword'|translate }}</label><br/>
-                    <span class="form-description">{{ 'General_OnlyEnterIfRequiredPassword'|translate }}<br/>
-                        {{ 'General_WarningPasswordStored'|translate("<strong>","</strong>")|raw }}</span>
-                    </td>
-                    <td>
-                        <input type="password" id="mailPassword" value="{{ mail.password }}"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="mailEncryption">{{ 'General_SmtpEncryption'|translate }}</label><br/>
-                        <span class="form-description">{{ 'General_EncryptedSmtpTransport'|translate }}</span></td>
-                    <td>
-                        <select id="mailEncryption">
-                            <option value="" {% if mail.encryption == '' %} selected="selected" {% endif %}></option>
-                            <option id="ssl" {% if mail.encryption == 'ssl' %} selected="selected" {% endif %} value="ssl">SSL</option>
-                            <option id="tls" {% if mail.encryption == 'tls' %} selected="selected" {% endif %} value="tls">TLS</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
+
+        <div id="smtpSettings">
+            <div class="form-group">
+                <label for="mailHost">{{ 'General_SmtpServerAddress'|translate }}</label>
+                <input type="text" id="mailHost" value="{{ mail.host }}">
+            </div>
+            <div class="form-group">
+                <label for="mailPort">{{ 'General_SmtpPort'|translate }}</label>
+                <span class="form-help">{{ 'General_OptionalSmtpPort'|translate }}</span>
+                <input type="text" id="mailPort" value="{{ mail.port }}">
+            </div>
+            <div class="form-group">
+                <label for="mailType">{{ 'General_AuthenticationMethodSmtp'|translate }}</label>
+                <span class="form-help">{{ 'General_OnlyUsedIfUserPwdIsSet'|translate }}</span>
+                <select id="mailType">
+                    <option value="" {% if mail.type == '' %} selected="selected" {% endif %}></option>
+                    <option id="plain" {% if mail.type == 'Plain' %} selected="selected" {% endif %} value="Plain">Plain</option>
+                    <option id="login" {% if mail.type == 'Login' %} selected="selected" {% endif %} value="Login"> Login</option>
+                    <option id="cram-md5" {% if mail.type == 'Crammd5' %} selected="selected" {% endif %} value="Crammd5"> Crammd5</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="mailUsername">{{ 'General_SmtpUsername'|translate }}</label>
+                <span class="form-help">{{ 'General_OnlyEnterIfRequired'|translate }}</span>
+                <input type="text" id="mailUsername" value="{{ mail.username }}"/>
+            </div>
+            <div class="form-group">
+                <label for="mailPassword">{{ 'General_SmtpPassword'|translate }}</label>
+                <span class="form-help">
+                    {{ 'General_OnlyEnterIfRequiredPassword'|translate }}<br/>
+                    {{ 'General_WarningPasswordStored'|translate("<strong>","</strong>")|raw }}
+                </span>
+                <input type="password" id="mailPassword" value="{{ mail.password }}"/>
+            </div>
+            <div class="form-group">
+                <label for="mailEncryption">{{ 'General_SmtpEncryption'|translate }}</label>
+                <span class="form-help">{{ 'General_EncryptedSmtpTransport'|translate }}</span>
+                <select id="mailEncryption">
+                    <option value="" {% if mail.encryption == '' %} selected="selected" {% endif %}></option>
+                    <option id="ssl" {% if mail.encryption == 'ssl' %} selected="selected" {% endif %} value="ssl">SSL</option>
+                    <option id="tls" {% if mail.encryption == 'tls' %} selected="selected" {% endif %} value="tls">TLS</option>
+                </select>
+            </div>
         </div>
     {% endif %}
 
     <h2>{{ 'CoreAdminHome_BrandingSettings'|translate }}</h2>
-    <div id='brandSettings'>
-        {{ 'CoreAdminHome_CustomLogoHelpText'|translate }}
-        <table class="adminTable" style="width:900px;">
-            <tr>
-                <td style="width:200px;">{{ 'CoreAdminHome_UseCustomLogo'|translate }}</td>
-                <td style="width:200px;">
-                    <input id="useCustomLogo-1" type="radio" name="useCustomLogo" value="1" {% if branding.use_custom_logo == 1 %} checked {% endif %}/>
-                    <label for="useCustomLogo-1">{{ 'General_Yes'|translate }}</label>
-                    <input class="indented-radio-button" id="useCustomLogo-0" type="radio" name="useCustomLogo" value="0" {% if branding.use_custom_logo == 0 %} checked {% endif %} />
-                    <label for="useCustomLogo-0" class>{{ 'General_No'|translate }}</label>
-                </td>
-                <td id="inlineHelpCustomLogo">
-                    {% set giveUsFeedbackText %}"{{ 'General_GiveUsYourFeedback'|translate }}"{% endset %}
-                    {% set customLogoHelp %}
-                    {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=plugins' rel='noreferrer' target='_blank'>","</a>")|raw }}
-                    {% endset %}
-                    {{ piwik.inlineHelp(customLogoHelp) }}
-                </td>
-            </tr>
-        </table>
+
+    <p>{{ 'CoreAdminHome_CustomLogoHelpText'|translate }}</p>
+
+    <div class="form-group">
+        <label>{{ 'CoreAdminHome_UseCustomLogo'|translate }}</label>
+        <div class="form-help">
+            {% set giveUsFeedbackText %}"{{ 'General_GiveUsYourFeedback'|translate }}"{% endset %}
+            {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=plugins' rel='noreferrer' target='_blank'>","</a>")|raw }}
+        </div>
+        <label class="radio">
+            <input type="radio" name="useCustomLogo" value="1" {% if branding.use_custom_logo == 1 %}checked{% endif %} />
+            {{ 'General_Yes'|translate }}
+        </label>
+        <label class="radio">
+            <input type="radio" name="useCustomLogo" value="0" {% if branding.use_custom_logo == 0 %}checked{% endif %} />
+            {{ 'General_No'|translate }}
+        </label>
     </div>
-    <div id='logoSettings'>
+
+    <div id="logoSettings">
         <form id="logoUploadForm" method="post" enctype="multipart/form-data" action="index.php?module=CoreAdminHome&format=json&action=uploadCustomLogo">
-            <table class="adminTable" style='width:550px;'>
-                {% if fileUploadEnabled %}
-                    {% if logosWriteable %}
-                        <tr>
-                            <td>
-                                <label for="customLogo">{{ 'CoreAdminHome_LogoUpload'|translate }}:<br/>
-                                    <span class="form-description">{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF", 110) }}</span>
-                                </label>
-                            </td>
-                            <td style="width:200px;">
-                                <input name="customLogo" type="file" id="customLogo"/>
-                                <img src="{{ pathUserLogo }}?r={{ random() }}" id="currentLogo" height="150"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="customLogo">{{ 'CoreAdminHome_FaviconUpload'|translate }}:<br/>
-                                    <span class="form-description">{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF", 16) }}</span>
-                                </label>
-                            </td>
-                            <td style="width:200px;">
-                                <input name="customFavicon" type="file" id="customFavicon"/>
-                                <img src="{{ pathUserFavicon }}?r={{ random() }}" id="currentFavicon" width="16" height="16"/>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td>
-                                <div style="display:inline-block;margin-top:10px;" id="CoreAdminHome_LogoNotWriteable">
-                                    {{ 'CoreAdminHome_LogoNotWriteableInstruction'
-                                            |translate("<strong>"~pathUserLogoDirectory~"</strong><br/>", pathUserLogo ~", "~ pathUserLogoSmall ~", "~ pathUserLogoSVG ~"")
-                                            |notification({'placeAt': '#CoreAdminHome_LogoNotWriteable', 'noclear': true, 'context': 'warning', 'raw': true}) }}
-
-                                </div>
-                            </td>
-                        </tr>
-                    {% endif %}
+            {% if fileUploadEnabled %}
+                {% if logosWriteable %}
+                    <div class="form-group">
+                        <label for="customLogo">{{ 'CoreAdminHome_LogoUpload'|translate }}</label>
+                        <div class="form-help">{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF", 110) }}</div>
+                        <input name="customLogo" type="file" id="customLogo"/>
+                        <img src="{{ pathUserLogo }}?r={{ random() }}" id="currentLogo" style="max-height: 150px"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="customLogo">{{ 'CoreAdminHome_FaviconUpload'|translate }}</label>
+                        <div class="form-help">{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF", 16) }}</div>
+                        <input name="customFavicon" type="file" id="customFavicon"/>
+                        <img src="{{ pathUserFavicon }}?r={{ random() }}" id="currentFavicon" width="16" height="16"/>
+                    </div>
                 {% else %}
-                    <tr>
-                        <td>
-                            <div style="display:inline-block;margin-top:10px;" id="CoreAdminHome_FileUploadDisabled">
-                                {{ 'CoreAdminHome_FileUploadDisabled'
-                                |translate("file_uploads=1")
-                                |notification({'placeAt': '#CoreAdminHome_FileUploadDisabled', 'noclear': true, 'context': 'warning', 'raw': true}) }}
-
-                            </div>
-                        </td>
-                    </tr>
-
+                    <div class="alert alert-warning">
+                        {{ 'CoreAdminHome_LogoNotWriteableInstruction'
+                            |translate("<code>"~pathUserLogoDirectory~"</code><br/>", pathUserLogo ~", "~ pathUserLogoSmall ~", "~ pathUserLogoSVG ~"")|raw }}
+                    </div>
                 {% endif %}
-            </table>
+            {% else %}
+                <div class="alert alert-warning">
+                    {{ 'CoreAdminHome_FileUploadDisabled'|translate("file_uploads=1") }}
+                </div>
+            {% endif %}
         </form>
     </div>
 
@@ -301,8 +237,9 @@
         {% if not isGeneralSettingsAdminEnabled %}
             {{ 'CoreAdminHome_PiwikIsInstalledAt'|translate }}: {{ trustedHosts|join(", ") }}
         {% else %}
-            <p>{{ 'CoreAdminHome_PiwikIsInstalledAt'|translate }}:</p>
-            <strong>{{ 'CoreAdminHome_ValidPiwikHostname'|translate }}</strong>
+            <div class="form-group">
+                <label>{{ 'CoreAdminHome_ValidPiwikHostname'|translate }}</label>
+            </div>
             <ul>
                 {% for hostIdx, host in trustedHosts %}
                     <li>
@@ -319,21 +256,17 @@
         {% endif %}
     </div>
 
-    <input type="submit" value="{{ 'General_Save'|translate }}" id="generalSettingsSubmit" class="submit"/>
-    <br/>
-    <br/>
+    <input type="submit" value="{{ 'General_Save'|translate }}" class="submit generalSettingsSubmit"/>
+    <br/><br/>
 
     {% if isDataPurgeSettingsEnabled %}
-    {% set clickDeleteLogSettings %}{{ 'PrivacyManager_DeleteDataSettings'|translate }}{% endset %}
-    <h2>{{ 'PrivacyManager_DeleteDataSettings'|translate }}</h2>
-    <p>
-        {{ 'PrivacyManager_DeleteDataDescription'|translate }} {{ 'PrivacyManager_DeleteDataDescription2'|translate }}
-        <br/>
-        <a href='{{ linkTo({'module':"PrivacyManager", 'action':"privacySettings"}) }}#deleteLogsAnchor'>
-            {{ 'PrivacyManager_ClickHereSettings'|translate("'" ~ clickDeleteLogSettings ~ "'") }}
-        </a>
-    </p>
+        <h2>{{ 'PrivacyManager_DeleteDataSettings'|translate }}</h2>
+        <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }} {{ 'PrivacyManager_DeleteDataDescription2'|translate }}</p>
+        <p>
+            <a href='{{ linkTo({'module':"PrivacyManager", 'action':"privacySettings"}) }}#deleteLogsAnchor'>
+                {{ 'PrivacyManager_ClickHereSettings'|translate("'" ~ 'PrivacyManager_DeleteDataSettings'|translate ~ "'") }}
+            </a>
+        </p>
     {% endif %}
-{% endif %}
 
 {% endblock %}
