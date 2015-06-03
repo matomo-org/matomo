@@ -105,14 +105,14 @@ select {
 }
 
 .top_bar_sites_selector {
-  .sites_autocomplete .custom_select {
-    z-index: 139;
-  }
+    .sites_autocomplete .custom_select {
+        z-index: 139;
+    }
 }
 
 .sites_autocomplete {
     input {
-      min-height: 0;
+        min-height: 0;
     }
     .custom_select {
         border-color: @theme-color-background-lowContrast;
@@ -125,13 +125,13 @@ select {
         min-height: 30px;
         .box-sizing(border-box);
         a {
-          color: @theme-color-text;
-          &:hover {
-            text-decoration: none;
-          }
+            color: @theme-color-text;
+            &:hover {
+                text-decoration: none;
+            }
         }
         .custom_select_block {
-            .custom_select_container{
+            .custom_select_container {
                 .custom_select_ul_list {
                     margin-top: 20px;
                 }
@@ -143,7 +143,7 @@ select {
 .ajaxError {
     background: @theme-color-brand;
     color: #fff;
-    border:0px;
+    border: 0px;
     .border-radius(6px);
     padding: 20px 25px;
     text-align: center;
@@ -230,33 +230,33 @@ select {
 }
 
 .form-radio.disabled {
-    background-position:15px -16px;
+    background-position: 15px -16px;
 }
 
 .form-checkbox.disabled {
-    background-position:15px 0px;
+    background-position: 15px 0px;
 }
 
 .form-radio + label, .form-checkbox + label {
-    float:left;
-    display:inline-block;
+    float: left;
+    display: inline-block;
 
     + .form-description {
-        margin-left:1em;
+        margin-left: 1em;
     }
 
     + br, + .form-description + br {
-        clear:both;
+        clear: both;
     }
 
     + .form-radio, + .form-checkbox {
-        margin-left:32px;
+        margin-left: 32px;
     }
 }
 
 fieldset > .form-radio + label { // assumes <br/> after the label
-  display: inline-block;
-  margin-bottom: -.5em;
+    display: inline-block;
+    margin-bottom: -.5em;
 }
 
 label {
@@ -347,19 +347,19 @@ label {
 
 // specific form control overrides (for iCheck)
 .indented-radio-button {
-  margin:0;
+    margin: 0;
 }
 
 .listReports > li:after {
-  content:"";
-  display:table;
-  clear:both;
+    content: "";
+    display: table;
+    clear: both;
 }
 
 .listReports {
-  .form-radio + label, .form-checkbox + label {
-    width: 250px;
-  }
+    .form-radio + label, .form-checkbox + label {
+        width: 250px;
+    }
 }
 
 // Bootstrap input groups
