@@ -9,7 +9,23 @@
 namespace Piwik;
 
 /**
- * Abstract class for update scripts
+ * Base class for update scripts.
+ *
+ * Update scripts perform version updates for Piwik core or individual plugins. They can run
+ * SQL queries and/or PHP code to update an environment to a newer version.
+ *
+ * To create a new update script, create a class that extends `Updates`. Name the class and file
+ * after the version, eg, `class Updates_3_0_0` and `3.0.0.php`. Override the {@link getMigrationQueries()}
+ * method if you need to run SQL queries. Override the {@link doUpdate()} method to do other types
+ * of updating, eg, to activate/deactivate plugins or create files.
+ *
+ * If you define SQL queries in {@link getMigrationQueries()}, you have to call {@link Updater::executeMigrationQueries()},
+ * eg:
+ *
+ *     public function doUpdate(Updater $updater)
+ *     {
+ *         $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries());
+ *     }
  *
  * @example core/Updates/0.4.2.php
  */
@@ -31,13 +47,21 @@ abstract class Updates
     }
 
     /**
-     * Return SQL to be executed in this update
+     * Return SQL to be executed in this update.
      *
-     * @return array(
-     *              'ALTER .... ' => '1234', // if the query fails, it will be ignored if the error code is 1234
-     *              'ALTER .... ' => false,  // if an error occurs, the update will stop and fail
-     *                                       // and user will have to manually run the query
-     *         )
+     * SQL queries should be defined here, instead of in `doUpdate()`, since this method is used
+     * in the `core:update` command when displaying the queries an update will run. If you execute
+     * queries directly in `doUpdate()`, they won't be displayed to the user.
+     *
+     * @param Updater $updater
+     * @return array ```
+     *               array(
+     *                   'ALTER .... ' => '1234', // if the query fails, it will be ignored if the error code is 1234
+     *                   'ALTER .... ' => false,  // if an error occurs, the update will stop and fail
+     *                                            // and user will have to manually run the query
+     *               )
+     *               ```
+     * @api
      */
     public function getMigrationQueries(Updater $updater)
     {
@@ -45,7 +69,15 @@ abstract class Updates
     }
 
     /**
-     * Incremental version update
+     * Perform the incremental version update.
+     *
+     * This method should preform all updating logic. If you define queries in an overridden `getMigrationQueries()`
+     * method, you must call {@link Updater::executeMigrationQueries()} here.
+     *
+     * See {@link Updates} for an example.
+     *
+     * @param Updater $updater
+     * @api
      */
     public function doUpdate(Updater $updater)
     {
@@ -67,7 +99,8 @@ abstract class Updates
     }
 
     /**
-     * Helper method to enable maintenance mode during large updates
+     * Enables maintenance mode. Should be used for updates where Piwik will be unavailable
+     * for a large amount of time.
      */
     public static function enableMaintenanceMode()
     {
@@ -85,7 +118,7 @@ abstract class Updates
     }
 
     /**
-     * Helper method to disable maintenance mode after large updates
+     * Helper method to disable maintenance mode after large updates.
      */
     public static function disableMaintenanceMode()
     {
