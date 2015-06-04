@@ -66,7 +66,6 @@ function image(name) {
  *   - `bail` bail on the first test failure
  *   - `slow` milliseconds to wait before considering a test slow
  *   - `ignoreLeaks` ignore global leaks
- *   - `fullTrace` display the full stack-trace on failing
  *   - `grep` string or regexp to filter tests with
  *
  * @param {Object} options
@@ -84,7 +83,7 @@ function Mocha(options) {
   this.bail(options.bail);
   this.reporter(options.reporter, options.reporterOptions);
   if (null != options.timeout) this.timeout(options.timeout);
-  this.useColors(options.useColors);
+  this.useColors(options.useColors)
   if (options.enableTimeouts !== null) this.enableTimeouts(options.enableTimeouts);
   if (options.slow) this.slow(options.slow);
 
@@ -143,12 +142,8 @@ Mocha.prototype.reporter = function(reporter, reporterOptions){
   } else {
     reporter = reporter || 'spec';
     var _reporter;
-    try { _reporter = require('./reporters/' + reporter); } catch (err) {}
-    if (!_reporter) try { _reporter = require(reporter); } catch (err) {
-      err.message.indexOf('Cannot find module') !== -1
-        ? console.warn('"' + reporter + '" reporter not found')
-        : console.warn('"' + reporter + '" reporter blew up with error:\n' + err.stack);
-    }
+    try { _reporter = require('./reporters/' + reporter); } catch (err) {};
+    if (!_reporter) try { _reporter = require(reporter); } catch (err) {};
     if (!_reporter && reporter === 'teamcity')
       console.warn('The Teamcity reporter was moved to a package named ' +
         'mocha-teamcity-reporter ' +
@@ -170,7 +165,7 @@ Mocha.prototype.reporter = function(reporter, reporterOptions){
 Mocha.prototype.ui = function(name){
   name = name || 'bdd';
   this._ui = exports.interfaces[name];
-  if (!this._ui) try { this._ui = require(name); } catch (err) {}
+  if (!this._ui) try { this._ui = require(name); } catch (err) {};
   if (!this._ui) throw new Error('invalid interface "' + name + '"');
   this._ui = this._ui(this.suite);
   return this;
@@ -268,18 +263,6 @@ Mocha.prototype.ignoreLeaks = function(ignore){
 
 Mocha.prototype.checkLeaks = function(){
   this.options.ignoreLeaks = false;
-  return this;
-};
-
-/**
- * Display long stack-trace on failing
- *
- * @return {Mocha}
- * @api public
- */
-
-Mocha.prototype.fullTrace = function() {
-  this.options.fullStackTrace = true;
   return this;
 };
 
@@ -426,7 +409,6 @@ Mocha.prototype.run = function(fn){
   var runner = new exports.Runner(suite, options.delay);
   var reporter = new this._reporter(runner, options);
   runner.ignoreLeaks = false !== options.ignoreLeaks;
-  runner.fullStackTrace = options.fullStackTrace;
   runner.asyncOnly = options.asyncOnly;
   if (options.grep) runner.grep(options.grep, options.invert);
   if (options.globals) runner.globals(options.globals);

@@ -10,8 +10,7 @@ var EventEmitter = require('events').EventEmitter
   , filter = utils.filter
   , keys = utils.keys
   , type = utils.type
-  , stringify = utils.stringify
-  , stackFilter = utils.stackTraceFilter();
+  , stringify = utils.stringify;
 
 /**
  * Non-enumerable globals.
@@ -198,17 +197,15 @@ Runner.prototype.checkGlobals = function(test){
  * @api private
  */
 
-Runner.prototype.fail = function(test, err) {
+Runner.prototype.fail = function(test, err){
   ++this.failures;
   test.state = 'failed';
 
-  if (!(err instanceof Error)) {
+  if ('string' == typeof err) {
+    err = new Error('the string "' + err + '" was thrown, throw an Error :)');
+  } else if (!(err instanceof Error)) {
     err = new Error('the ' + type(err) + ' ' + stringify(err) + ' was thrown, throw an Error :)');
   }
-
-  err.stack = (this.fullStackTrace || !err.stack)
-    ? err.stack
-    : stackFilter(err.stack);
 
   this.emit('fail', test, err);
 };
@@ -697,20 +694,20 @@ function filterLeaks(ok, globals) {
  * @api private
  */
 
-function extraGlobals() {
- if (typeof(process) === 'object' &&
-     typeof(process.version) === 'string') {
+ function extraGlobals() {
+  if (typeof(process) === 'object' &&
+      typeof(process.version) === 'string') {
 
-   var nodeVersion = process.version.split('.').reduce(function(a, v) {
-     return a << 8 | v;
-   });
+    var nodeVersion = process.version.split('.').reduce(function(a, v) {
+      return a << 8 | v;
+    });
 
-   // 'errno' was renamed to process._errno in v0.9.11.
+    // 'errno' was renamed to process._errno in v0.9.11.
 
-   if (nodeVersion < 0x00090B) {
-     return ['errno'];
-   }
+    if (nodeVersion < 0x00090B) {
+      return ['errno'];
+    }
+  }
+
+  return [];
  }
-
- return [];
-}

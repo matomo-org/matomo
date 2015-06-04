@@ -7,13 +7,7 @@
 
 var spawn = require('child_process').spawn,
   path = require('path'),
-  fs = require('fs'),
-  args = [path.join(__dirname, '_mocha')],
-  getOptions = require('./options');
-
-// load mocha.opts into process.argv
-
-getOptions();
+  args = [process.execPath, path.join(__dirname, '_mocha')];
 
 process.argv.slice(2).forEach(function(arg){
   var flag = arg.split('=')[0];
@@ -35,19 +29,16 @@ process.argv.slice(2).forEach(function(arg){
       break;
     case '--gc-global':
     case '--harmony':
-    case '--es_staging':
     case '--harmony-proxies':
     case '--harmony-collections':
     case '--harmony-generators':
     case '--harmony_shipping':
     case '--harmony_arrow_functions':
     case '--harmony_proxies':
-    case '--harmony_classes':
     case '--no-deprecation':
     case '--prof':
     case '--throw-deprecation':
     case '--trace-deprecation':
-    case '--allow-natives-syntax':
       args.unshift(arg);
       break;
     default:
@@ -57,7 +48,7 @@ process.argv.slice(2).forEach(function(arg){
   }
 });
 
-var proc = spawn(process.execPath, args, { stdio: 'inherit' });
+var proc = spawn(args[0], args.slice(1), { stdio: 'inherit' });
 proc.on('exit', function (code, signal) {
   process.on('exit', function(){
     if (signal) {
