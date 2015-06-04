@@ -91,7 +91,6 @@ class SitesManager extends \Piwik\Plugin
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager-admin-sites-model.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/multiline-field.directive.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/edit-trigger.directive.js";
-        $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/scroll.directive.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager.controller.js";
         $jsFiles[] = "plugins/SitesManager/angularjs/sites-manager/sites-manager-site.controller.js";
     }
@@ -266,6 +265,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "General_Pagination";
         $translationKeys[] = "General_ClickToSearch";
         $translationKeys[] = "General_PaginationWithoutTotal";
+        $translationKeys[] = "General_Loading";
         $translationKeys[] = "Actions_SubmenuSitesearch";
         $translationKeys[] = "SitesManager_OnlyOneSiteAtTime";
         $translationKeys[] = "SitesManager_DeleteConfirm";

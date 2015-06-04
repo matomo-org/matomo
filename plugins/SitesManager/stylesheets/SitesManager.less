@@ -1,112 +1,102 @@
-.trackingHelp ul {
-    padding-left: 40px;
-    list-style-type: square;
-}
-
-.trackingHelp ul li {
-    margin-bottom: 10px;
-}
-
-.trackingHelp h2 {
-    margin-top: 20px;
-}
-
-.trackingHelp p {
-    text-align: justify;
+.trackingHelp {
+    ul {
+        padding-left: 40px;
+        list-style-type: square;
+        li {
+            margin-bottom: 10px;
+        }
+    }
+    h2 {
+        margin-top: 20px;
+    }
+    p {
+        text-align: justify;
+    }
 }
 
 .SitesManager {
-    
-  .entityContainer {
-    width: 100%;
-  }
 
-  @media (max-width: 1700px) {
-    .entityContainer {
-      width: 800px;
-    }
-  }
+    .sitesManagerList {
 
-  .wideColumn {
-    min-width: 250px;
-  }
-  .bottomButtonBar {
-    margin-top: 9px
-  }
-
-  .visible {
-    visibility: visible;
-  }
-  .hide_only {
-    visibility: hidden;
-  }
-
-  .search_ico {
-
-    cursor: pointer;
-    display: block;
-    left: 205px;
-    margin: -32px 0 17px -21px;
-    position: relative;
-  }
-
-  .sitesButtonBar {
-    width:100%;
-    text-align: center;
-  }
-
-  .addSite {
-    float: left;
-    display: inline-block;
-
-    .addRowSite {
-      font-size: 14px;
-      margin-top: 8px;
-    }
-  }
-
-  .paging {
-    text-align: center;
-    display: inline-block;
-    min-width: 400px;
-    margin-top: 10px;
-
-    .counter {
-      margin-left: 10px;
-      margin-right: 10px;
+        .site {
+            color: @theme-color-text-light;
+            padding: 15px;
+            margin: 7px 0;
+            border-radius: 2px;
+            background-color: #fff;
+            -webkit-box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.3);
+            -moz-box-shadow:    0 2px 6px 0 rgba(0, 0, 0, 0.3);
+            box-shadow:         0 2px 6px 0 rgba(0, 0, 0, 0.3);
+            .title {
+                font-size: 11px;
+                text-transform: uppercase;
+            }
+            h4, .link_but {
+                color: @theme-color-text;
+            }
+        }
+        .editingSite {
+            background-color: @theme-color-background-tinyContrast;
+            .editingSiteFooter {
+                background-color: @theme-color-background-base;
+                padding: 15px;
+                margin: 0 -15px -15px;
+                border-top: solid 1px #E5E5E5;
+            }
+        }
     }
 
-  }
-
-  .search {
-    display: inline-block;
-    text-align: right;
-    float: right;
-
-    input {
-      padding-right: 29px;
-      width: 205px;
-      margin-bottom: 7px;
+    .visible {
+        visibility: visible;
     }
-  }
-}
+    .hide_only {
+        visibility: hidden;
+    }
 
-.sitesManagerList {
-  clear:both;
+    .search_ico {
+        cursor: pointer;
+        display: block;
+        left: 205px;
+        margin: -32px 0 17px -21px;
+        position: relative;
+    }
 
-  .isLoading {
-    opacity: 0.5;
-  }
-}
+    .sitesButtonBar {
+        width: 100%;
+        text-align: center;
+    }
+    .bottomButtonBar {
+        margin-top: 7px;
+    }
+    .addSite {
+        float: left;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
 
-.addRowSite {
-  text-decoration: none;
-}
+    .paging {
+        text-align: center;
+        display: inline-block;
+        min-width: 400px;
+        margin-top: 8px;
 
-.addRowSite:before {
-  display: inline-block;
-  content: url(plugins/Morpheus/images/add.png);
-  vertical-align: middle;
+        .counter {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    }
+
+    .search {
+        display: inline-block;
+        text-align: right;
+        float: right;
+
+        input {
+            padding-right: 29px;
+            width: 205px;
+            margin-bottom: 7px;
+        }
+    }
 }
 
 td.editable-site-field:hover {
@@ -114,26 +104,25 @@ td.editable-site-field:hover {
 }
 
 .link_but:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
-
 .link_but:hover > span {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .site-without-data {
-  padding: 15px;
-  h2 {
-    border-bottom: 1px solid #ccc;
-    margin: 25px 0;
-    padding: 0 0 5px 0;
-    font-size: 24px;
-  }
-  h3 {
-    margin: 15px 0;
-    font-size: 18px;
-    line-height: 24px;
-    font-weight: normal;
-    color: black;
-  }
+    padding: 15px;
+    h2 {
+        border-bottom: 1px solid #ccc;
+        margin: 25px 0;
+        padding: 0 0 5px 0;
+        font-size: 24px;
+    }
+    h3 {
+        margin: 15px 0;
+        font-size: 18px;
+        line-height: 24px;
+        font-weight: normal;
+        color: black;
+    }
 }
