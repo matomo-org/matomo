@@ -63,7 +63,8 @@
                     </span>
                 </li>
                 <li ng-show="site.idsite">
-                    <a href="">{{ 'SitesManager_ShowTrackingTag'|translate }}</a>
+                    <a href="?module=CoreAdminHome&action=trackingCodeGenerator&idSite={{ site.idsite }}&period={{ period }}&date={{ date }}&updated=false">
+                        {{ 'SitesManager_ShowTrackingTag'|translate }}</a>
                 </li>
             </ul>
         </div>
