@@ -19,6 +19,7 @@ use Piwik\Option;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\WidgetsList;
 use Piwik\Tests\Framework\OverrideLogin;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -192,6 +193,7 @@ class UITestFixture extends SqlDump
 
         $oldGet = $_GET;
         $_GET['idSite'] = 1;
+        $_GET['token_auth'] = Fixture::getTokenAuth();
 
         // collect widgets & sort them so widget order is not important
         $allWidgets = array();
@@ -297,11 +299,5 @@ class UITestFixture extends SqlDump
             "From Europe", "continentCode==eur", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
         APISegmentEditor::getInstance()->add(
             "Multiple actions", "actions>=2", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
-    }
-
-    public static function createAccessInstance()
-    {
-        Access::setSingletonInstance($access = new OverrideLogin());
-        \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
     }
 }

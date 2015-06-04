@@ -169,16 +169,18 @@ class APITest extends SystemTestCase
 
     private function setSuperUser()
     {
-        $pseudoMockAccess = new FakeAccess();
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
     }
 
     private function setAnonymous()
     {
-        $pseudoMockAccess = new FakeAccess();
-        FakeAccess::$superUser = false;
-        Access::setSingletonInstance($pseudoMockAccess);
+        FakeAccess::clearAccess();
     }
 
+    public static function provideContainerConfigBeforeClass()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
+    }
 }

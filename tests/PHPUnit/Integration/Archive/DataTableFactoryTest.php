@@ -8,16 +8,13 @@
 
 namespace Piwik\Tests\Integration\Archive;
 
-use Piwik\Access;
 use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\DataTable;
-use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Row;
 use Piwik\Db;
 use Piwik\Period;
 use Piwik\Segment;
-use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -49,9 +46,7 @@ class DataTableFactoryTest extends IntegrationTestCase
         parent::setUp();
 
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         for ($i = 0; $i < $this->site2; $i++) {
             Fixture::createWebsite('2015-01-01 00:00:00');
@@ -356,5 +351,10 @@ class DataTableFactoryTest extends IntegrationTestCase
         return $indices;
     }
 
-
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
+    }
 }

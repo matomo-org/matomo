@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Integration;
 
 use Exception;
-use Piwik\Access;
 use Piwik\Common;
 use Piwik\Segment;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -26,9 +25,7 @@ class SegmentTest extends IntegrationTestCase
         parent::setUp();
 
         // setup the access layer (required in Segment contrustor testing if anonymous is allowed to use segments)
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
     }
 
     public function tearDown()
@@ -501,5 +498,12 @@ class SegmentTest extends IntegrationTestCase
             "bind" => array(1, 'Test'));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

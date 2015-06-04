@@ -8,12 +8,12 @@
 
 namespace Piwik\Tests\Unit;
 
-use Piwik\Access;
 use Piwik\Metrics;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
-class MetricsTest extends \PHPUnit_Framework_TestCase
+class MetricsTest extends UnitTestCase
 {
     /**
      * @group Core
@@ -127,12 +127,16 @@ class MetricsTest extends \PHPUnit_Framework_TestCase
             1 => array('name' => 'TestSite', 'currency' => 'EUR')
         ));
 
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         $actual = Metrics::getUnit($column, 1);
         $this->assertEquals($expected, $actual);
     }
 
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
+    }
 }

@@ -225,11 +225,15 @@ class APITest extends IntegrationTestCase
 
     protected function setNonAdminUser()
     {
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::setSuperUserAccess(false);
         FakeAccess::$idSitesView = array(99);
         FakeAccess::$identity = 'aUser';
-        Access::setSingletonInstance($pseudoMockAccess);
     }
 
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
+    }
 }

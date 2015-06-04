@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration\ViewDataTable;
 
-use Piwik\Access;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -18,12 +17,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ManagerTest extends IntegrationTestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-        Access::setSingletonInstance(null);
-    }
-
     public function test_getViewDataTableParameters_shouldReturnEmptyArray_IfNothingPersisted()
     {
         $login        = 'mylogin';

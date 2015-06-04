@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration;
 
-use Piwik\Access;
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Translate;
@@ -24,9 +23,7 @@ class WidgetsListTest extends IntegrationTestCase
     public function testGet()
     {
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         Fixture::createWebsite('2009-01-04 00:11:42');
 
@@ -64,9 +61,7 @@ class WidgetsListTest extends IntegrationTestCase
     public function testGetWithGoals()
     {
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         Fixture::createWebsite('2009-01-04 00:11:42');
         API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
@@ -93,9 +88,7 @@ class WidgetsListTest extends IntegrationTestCase
     public function testGetWithGoalsAndEcommerce()
     {
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         Fixture::createWebsite('2009-01-04 00:11:42', true);
         API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
@@ -123,9 +116,7 @@ class WidgetsListTest extends IntegrationTestCase
     public function testRemove()
     {
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         Fixture::createWebsite('2009-01-04 00:11:42', true);
         API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
@@ -160,9 +151,7 @@ class WidgetsListTest extends IntegrationTestCase
     public function testIsDefined()
     {
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         Translate::loadAllTranslations();
 
@@ -177,5 +166,12 @@ class WidgetsListTest extends IntegrationTestCase
         $this->assertFalse(WidgetsList::isDefined('Actions', 'inValiD'));
 
         Translate::reset();
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

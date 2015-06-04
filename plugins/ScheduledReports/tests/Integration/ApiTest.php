@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\ScheduledReports\tests;
 
-use Piwik\Access;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
@@ -222,9 +221,7 @@ class ApiTest extends IntegrationTestCase
      */
     public function testGetTopMenuTranslationKeyUserIsAnonymous()
     {
-        $anonymousAccess = new FakeAccess;
-        FakeAccess::$identity = 'anonymous';
-        Access::setSingletonInstance($anonymousAccess);
+        $this->setAnonymous();
 
         $pdfReportPlugin = new Menu();
         $this->assertEquals(
@@ -492,7 +489,7 @@ class ApiTest extends IntegrationTestCase
 
     private static function updateReport($idReport, $data)
     {
-        $idReport = APIScheduledReports::getInstance()->updateReport(
+        APIScheduledReports::getInstance()->updateReport(
             $idReport,
             $data['idsite'],
             $data['description'],
@@ -507,8 +504,19 @@ class ApiTest extends IntegrationTestCase
 
     private static function setSuperUser()
     {
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
+    }
+
+    private function setAnonymous()
+    {
+        FakeAccess::clearAccess();
+        FakeAccess::$identity = 'anonymous';
     }
 }

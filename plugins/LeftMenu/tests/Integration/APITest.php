@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\LeftMenu\tests\Integration;
 
-use Piwik\Access;
 use Piwik\Plugins\LeftMenu\API;
 use Piwik\Plugins\LeftMenu\Settings;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -103,25 +102,23 @@ class APITest extends IntegrationTestCase
 
     private function setSuperUser()
     {
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
         FakeAccess::$superUserLogin = 'superUserLogin';
-        Access::setSingletonInstance($pseudoMockAccess);
+
         $this->createSettings();
     }
 
     private function setAnonymous()
     {
-        Access::setSingletonInstance(null);
+        FakeAccess::clearAccess();
         $this->createSettings();
     }
 
     private function setUser()
     {
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$idSitesView = array(1);
         FakeAccess::$identity    = 'userLogin';
-        Access::setSingletonInstance($pseudoMockAccess);
+
         $this->createSettings();
     }
 
@@ -141,5 +138,12 @@ class APITest extends IntegrationTestCase
     {
         $this->settings->userEnabled->setValue($value);
         $this->settings->save();
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

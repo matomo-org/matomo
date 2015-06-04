@@ -10,10 +10,12 @@ namespace Piwik\Tests\Framework;
 use Piwik\Access;
 use Piwik\Application\Environment;
 use Piwik\Archive;
+use Piwik\Auth;
 use Piwik\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
@@ -130,6 +132,16 @@ class Fixture extends \PHPUnit_Framework_Assert
         return 'python';
     }
 
+    public function loginAsSuperUser()
+    {
+        /** @var Auth $auth */
+        $auth = $this->piwikEnvironment->getContainer()->get('Piwik\Auth');
+        $auth->setLogin(Fixture::ADMIN_USER_LOGIN);
+        $auth->setPassword(Fixture::ADMIN_USER_PASSWORD);
+        Access::getInstance()->setSuperUserAccess(false);
+        Access::getInstance()->reloadAccess(StaticContainer::get('Piwik\Auth'));
+    }
+
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
     public function setUp()
     {
@@ -213,8 +225,6 @@ class Fixture extends \PHPUnit_Framework_Assert
             DbHelper::truncateAllTables();
         }
 
-        static::createAccessInstance();
-
         // We need to be SU to create websites for tests
         Access::getInstance()->setSuperUserAccess();
 
@@ -247,6 +257,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         if ($this->createSuperUser) {
             self::createSuperUser($this->removeExistingSuperUser);
+            $this->loginAsSuperUser();
         }
 
         SettingsPiwik::overwritePiwikUrl(self::getRootUrl() . 'tests/PHPUnit/proxy/');
@@ -623,11 +634,6 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function setUpScheduledReports($idSite)
     {
-        // fake access is needed so API methods can call Piwik::getCurrentUserLogin(), e.g: 'ScheduledReports.addReport'
-        $pseudoMockAccess = new FakeAccess;
-        FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
-
         // retrieve available reports
         $availableReportMetadata = APIScheduledReports::getReportMetadata($idSite, ScheduledReports::EMAIL_TYPE);
 
@@ -825,13 +831,10 @@ class Fixture extends \PHPUnit_Framework_Assert
     }
 
     /**
-     * Sets up access instance.
+     * @deprecated
      */
     public static function createAccessInstance()
     {
-        Access::setSingletonInstance(null);
-        Access::getInstance();
-        Piwik::postEvent('Request.initAuthenticationObject');
     }
 
     public function dropDatabase($dbName = null)

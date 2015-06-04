@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
-use Piwik\Access;
 use Piwik\Config;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -50,9 +49,7 @@ class ActionTest extends IntegrationTestCase
 
     protected function setUpRootAccess()
     {
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
     }
 
     public function getTestUrls()
@@ -385,5 +382,12 @@ class ActionTest extends IntegrationTestCase
         );
 
         $this->assertEquals($processed, $expected);
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

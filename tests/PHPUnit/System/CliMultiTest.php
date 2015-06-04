@@ -143,6 +143,7 @@ class CliMultiTest extends SystemTestCase
     public function test_request_shouldDetectFinishOfRequest_IfNoParamsAreGiven()
     {
         $this->skipWhenPhp53();
+        $this->cliMulti->runAsSuperUser();
         $response = $this->cliMulti->request(array($this->completeUrl('')));
         $this->assertStringStartsWith('Error in Piwik: Error: no website was found', $response[0]);
     }
