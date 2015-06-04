@@ -66,8 +66,8 @@ exports.colors = {
   , 'green': 32
   , 'light': 90
   , 'diff gutter': 90
-  , 'diff added': 42
-  , 'diff removed': 41
+  , 'diff added': 32
+  , 'diff removed': 31
 };
 
 /**
@@ -168,21 +168,29 @@ exports.list = function(failures){
     var err = test.err
       , message = err.message || ''
       , stack = err.stack || message
-      , index = stack.indexOf(message) + message.length
-      , msg = stack.slice(0, index)
+      , index = stack.indexOf(message)
       , actual = err.actual
       , expected = err.expected
       , escape = true;
+    if (index === -1) {
+      msg = message;
+    } else {
+      index += message.length;
+      msg = stack.slice(0, index);
+      // remove msg from stack
+      stack = stack.slice(index + 1);
+    }
 
     // uncaught
     if (err.uncaught) {
       msg = 'Uncaught ' + msg;
     }
     // explicitly show diff
-    if (err.showDiff && sameType(actual, expected)) {
+    if (err.showDiff !== false && sameType(actual, expected)
+        && expected !== undefined) {
 
-      if ('string' !== typeof actual) {
-        escape = false;
+      escape = false;
+      if (!(utils.isString(actual) && utils.isString(expected))) {
         err.actual = actual = utils.stringify(actual);
         err.expected = expected = utils.stringify(expected);
       }
@@ -198,9 +206,8 @@ exports.list = function(failures){
       }
     }
 
-    // indent stack trace without msg
-    stack = stack.slice(index ? index + 1 : index)
-      .replace(/^/gm, '  ');
+    // indent stack trace
+    stack = stack.replace(/^/gm, '  ');
 
     console.log(fmt, (i + 1), test.fullTitle(), msg, stack);
   });

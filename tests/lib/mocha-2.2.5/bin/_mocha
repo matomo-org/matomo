@@ -1,17 +1,20 @@
+#!/usr/bin/env node
+
 /**
  * Module dependencies.
  */
 
-var program = require('commander')
-  , path = require('path')
-  , fs = require('fs')
-  , resolve = path.resolve
-  , exists = fs.existsSync || path.existsSync
-  , Mocha = require('../')
-  , utils = Mocha.utils
-  , join = path.join
-  , cwd = process.cwd()
-  , mocha = new Mocha;
+var program = require('commander'),
+  path = require('path'),
+  fs = require('fs'),
+  resolve = path.resolve,
+  exists = fs.existsSync || path.existsSync,
+  Mocha = require('../'),
+  utils = Mocha.utils,
+  join = path.join,
+  cwd = process.cwd(),
+  getOptions = require('./options'),
+  mocha = new Mocha;
 
 /**
  * Save timer references to avoid Sinon interfering (see GH-237).
@@ -74,16 +77,19 @@ program
   .option('-u, --ui <name>', 'specify user-interface (bdd|tdd|exports)', 'bdd')
   .option('-w, --watch', 'watch files for changes')
   .option('--check-leaks', 'check for global variable leaks')
+  .option('--full-trace', 'display the full stack trace')
   .option('--compilers <ext>:<module>,...', 'use the given module(s) to compile files', list, [])
   .option('--debug-brk', "enable node's debugger breaking on the first line")
   .option('--globals <names>', 'allow the given comma-delimited global [names]', list, [])
   .option('--harmony', 'enable all harmony features (except typeof)')
+  .option('--es_staging', 'enable all staged features')
   .option('--harmony-collections', 'enable harmony collections (sets, maps, and weak maps)')
   .option('--harmony-generators', 'enable harmony generators')
   .option('--harmony-proxies', 'enable harmony proxies')
   .option('--harmony_shipping', 'enable all shipped harmony fetaures (iojs)')
   .option('--harmony_arrow_functions', 'enable "harmony arrow functions" (iojs)')
   .option('--harmony_proxies', 'enable "harmony proxies" (iojs)')
+  .option('--harmony_classes', 'enable "harmony classes" (iojs)')
   .option('--inline-diffs', 'display actual/expected differences inline within each string')
   .option('--interfaces', 'display available interfaces')
   .option('--no-deprecation', 'silence deprecation warnings')
@@ -170,26 +176,9 @@ program.on('require', function(mod){
   requires.push(mod);
 });
 
-// --opts
+// load mocha.opts into process.argv
 
-var optsPath = process.argv.indexOf('--opts') !== -1
-    ? process.argv[process.argv.indexOf('--opts') + 1]
-    : 'test/mocha.opts';
-
-try {
-  var opts = fs.readFileSync(optsPath, 'utf8')
-    .trim()
-    .split(/\s+/)
-    .filter(function(value) {
-      return value ? true : false;
-    });
-
-  process.argv = process.argv
-    .slice(0, 2)
-    .concat(opts.concat(process.argv.slice(2)));
-} catch (err) {
-  // ignore
-}
+getOptions();
 
 // parse args
 
@@ -278,6 +267,10 @@ if (program.invert) mocha.invert();
 // --check-leaks
 
 if (program.checkLeaks) mocha.checkLeaks();
+
+// --stack-trace
+
+if(program.fullTrace) mocha.fullTrace();
 
 // --growl
 
