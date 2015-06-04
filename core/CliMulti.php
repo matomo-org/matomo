@@ -307,7 +307,7 @@ class CliMulti
 
     private function appendTestmodeParamToUrlIfNeeded($url)
     {
-        $isTestMode = class_exists('Piwik\Tests\Framework\TestingEnvironment');
+        $isTestMode = defined('PIWIK_TEST_MODE');
 
         if ($isTestMode && false === strpos($url, '?')) {
             $url .= "?testmode=1";
