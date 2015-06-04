@@ -74,5 +74,5 @@ mocha.setup({
     ui: 'bdd',
     reporter: config.reporter,
     bail: false,
-    colors: false
+    useColors: false
 });
