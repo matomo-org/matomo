@@ -73,6 +73,5 @@ mocha.constructor.process.stdout = {
 mocha.setup({
     ui: 'bdd',
     reporter: config.reporter,
-    bail: false,
-    useColors: false
+    bail: false
 });
