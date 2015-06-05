@@ -95,12 +95,6 @@ class ContainerFactory
             $this->addEnvironmentConfig($builder, $environment);
         }
 
-        // Test config
-        if (defined('PIWIK_TEST_MODE')) {
-            $vars = new TestingEnvironmentVariables();
-            $builder->addDefinitions(new TestingEnvironmentVariablesDefinitionSource($vars));
-        }
-
         if (!empty($this->definitions)) {
             foreach ($this->definitions as $definitionArray) {
                 $builder->addDefinitions($definitionArray);

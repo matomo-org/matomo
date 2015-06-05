@@ -95,6 +95,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function getExtraDefinitions()
     {
+        $testVarDefinitionSource = new TestingEnvironmentVariablesDefinitionSource($this->vars);
+
         // Apply DI config from the fixture
         $diConfig = array();
         if ($this->vars->fixtureClass) {
@@ -122,6 +124,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         }
 
         return array(
+            $testVarDefinitionSource,
             $diConfig,
             array('observers.global' => \DI\add($this->globalObservers)),
         );
