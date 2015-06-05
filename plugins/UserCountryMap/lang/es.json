@@ -20,6 +20,8 @@
         "ShowingVisits": "Geo-ubicadas últimas visitas",
         "Unlocated": "<b>%s<\/b> %p de las visitas desde %c no pudieron ser geo ubicadas.",
         "VisitorMap": "Mapa de Visitantes",
-        "WorldWide": "Mundial"
+        "WorldWide": "Mundial",
+        "WithUnknownRegion": "%s con región desconocida",
+        "WithUnknownCity": "%s con ciudad desconocida"
     }
 }

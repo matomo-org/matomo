@@ -61,6 +61,8 @@
         "ViewAllPiwikVideoTutorials": "Ver todos los Video Tutoriales de Piwik",
         "WebAnalyticsReports": "Informes de Análisis Web",
         "YouAreUsingTheLatestVersion": "Está utilizando la última versión de Piwik!",
-        "ClickRowToExpandOrContract": "Clic en esta fila para expandir o contraer la subtabla"
+        "ClickRowToExpandOrContract": "Clic en esta fila para expandir o contraer la subtabla",
+        "UndoPivotBySubtable": "Este informe ha sido girado %s Deshacer giro",
+        "PivotBySubtable": "Este informe no es girado %s Giro por %s"
     }
 }

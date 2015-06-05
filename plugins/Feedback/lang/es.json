@@ -24,8 +24,10 @@
         "PiwikProReviewPiwikSetup": "Una reseña de tu instalación de Piwik",
         "PiwikProOptimizationMaintenance": "Servicios de optimización y mantenimiento de Piwik",
         "PiwikProPhoneEmailSupport": "Soporte por teléfono y correo electrónico",
+        "PiwikProTraining": "Entrenamiento del usuario, técnico y desarrollador",
         "PiwikProPremiumFeatures": "Funcionalidades premium",
         "PiwikProCustomDevelopment": "Servicios de desarrollo personalizado",
+        "PiwikProAnalystConsulting": "Servicios de consultoría de análisis",
         "ContactUs": "Contáctanos",
         "VisitTheForums": "Visita el %sForo%s"
     }

@@ -1,5 +1,10 @@
 {
     "LeftMenu": {
-        "GlobalSettingTitle": "Menú izquierdo activado por defecto"
+        "SettingsIntroduction": "El menú izquierdo del complemento moverá el menú de información desde la parte superior a la izquierda si es habilitado. Esto es especialmente útil para pantallas grandes.",
+        "GlobalSettingTitle": "Menú izquierdo activado por defecto",
+        "GlobalSettingDescription": "Define el sistema predeterminado para todos sus usuarios.",
+        "GlobalSettingInlineHelp": "Los usuarios están habilitados a deshabilitar\/habilitar el menú izquierdo independientemente del sistema por omisión.",
+        "UserSettingTitle": "Habilitar menú izquierdo de información",
+        "UserSettingInlineHelp": "Esto habilitará o deshabilitará el menú izquierdo solo para usted y no afectará a ningún otro usuario. Un Super Usuario puede cambiar el modo predeterminado para todos los demás usuarios."
     }
 }

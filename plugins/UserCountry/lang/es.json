@@ -87,6 +87,7 @@
         "PeclGeoIPNoDBDir": "El módulo PECL está buscando base de datos en %1$s, pero esta carpeta no existe. Por favor, créela y agreguéle una base de datos GeoIP a la misma. Alternativamente, puede disponer %2$s una determinada carpeta en su archivo php.ini",
         "PeclGeoLiteError": "Su base de datos GeoIP en %1$s está nombrada %2$s. Desafortunadamente, el módulo PECL no la reconocerá con dicho nombre. Por favor, renómbrela a %3$s.",
         "PiwikNotManagingGeoIPDBs": "Piwik no está actualmente administrando ninguna base de datos GeoIP.",
+        "PluginDescription": "Informa la ubicación de sus visitantes: país, región, ciudad y coordenadas geográficas (latitud\/longitud).",
         "Region": "Región",
         "SetupAutomaticUpdatesOfGeoIP": "Configurar actualizaciones automáticas de sus base de datos GeoIP",
         "SubmenuLocations": "Localizaciones",

@@ -38,6 +38,9 @@
         "VisitSummary": "Passato un totale di %1$s%2$s sul sito%3$s e %4$sviste %5$s pagine in %6$s visite.%7$s",
         "RowActionTooltipDefault": "Mostra Log Visitatori segmentato per questa riga",
         "RowActionTooltipWithDimension": "Mostra Log Visitatori segmentato per questo %s",
-        "RowActionTooltipTitle": "Apri il log segmentato dei visitatori"
+        "RowActionTooltipTitle": "Apri il log segmentato dei visitatori",
+        "SegmentedVisitorLogTitle": "Log Visitatori che mostra le visite, dove %s è \"%s\"",
+        "OnClickPause": "%s è avviato. Clicca per mettere in pausa.",
+        "OnClickStart": "%s è stato arrestato. Clicca per avviare."
     }
 }
