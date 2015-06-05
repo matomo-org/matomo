@@ -38,6 +38,7 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "La base de datos de Piwik será actualizada desde la versión %1$s a la nueva versión %2$s.",
         "ReadyToGo": "¿Listo?",
         "TheFollowingPluginsWillBeUpgradedX": "Los siguientes plugins serán actualizados: %s.",
+        "TheFollowingDimensionsWillBeUpgradedX": "Las siguientes dimensiones serán actualizadas: %s.",
         "ThereIsNewPluginVersionAvailableForUpdate": "Algunos plugins que utilizas han sido actualizados en el Marketplace:",
         "ThereIsNewVersionAvailableForUpdate": "Hay una nueva versión de Piwik disponible para actualizar",
         "TheUpgradeProcessMayFailExecuteCommand": "Si tiene una base de datos grande de Piwik, las actualizaciones podrían llevar mucho tiempo para ejecutarse en el navegador. En esta situación, puede ejecutar las actualizaciones desde la línea de comandos: %s",
@@ -47,6 +48,18 @@
         "UpdateHasBeenCancelledExplanation": "La actualización con Un Clic de Piwik se ha cancelado. Si no puede solucionar el mensaje de error anterior, se recomienda que actualice Piwik manualmente. %1$s ¡Por favor, consulte la %2$sdocumentación de actualización%3$s para empezar!",
         "UpdateTitle": "Actualizar",
         "UpdateSuccessTitle": "¡Piwik se ha actualizado correctamente!",
+        "UpdateErrorTitle": "Error de actualización",
+        "ThankYouUpdatePiwik": "Gracias por utilizar Piwik y mantenerlo actualizado!",
+        "PostUpdateMessage": "Piwik siempre será gratuita su descarga y uso, pero necesitamos su continuo apoyo para crecer y mejorar.",
+        "PostUpdateSupport": "Si necesita ayuda utilizando Piwik, puede obtener apoyo de sus creadores:",
+        "EnterpriseSolutions": "Soluciones empresariales",
+        "CloudHosting": "Alojamiento en la nube",
+        "Updating": "Actualizando",
+        "UpdateUsingHttpsFailed": "La descarga de la más reciente versión de Piwik sobre una conexión segura HTTPS no fue exitosa, debido al siguiente error:",
+        "UpdateUsingHttpsFailedHelp": "Por qué falló? Descargando la última versión de Piwik (sobre una conexión segura HTTPS) puede fallar por diversas razones, por ejemplo, debido a un error de red, una baja velocidad de la red o una configuración equivocada de su sistema. También puede que su servidor sea el objetivo de un ataque MITM y alguien está tratando de reemplazar la actualización con una versión maliciosa de Piwik.",
+        "UpdateUsingHttpsFailedHelpWhatToDo": "Es recomendado volver a reiterar la descarga utilizando una conexión segura HTTPS en tanto previene de ataques MITM.",
+        "UsingHttps": "utilizando una conexión segura HTTPS (recomendada)",
+        "UsingHttp": "utilizando la conexión no-segura HTTP",
         "UpgradeComplete": "¡Actualización completa!",
         "UpgradePiwik": "Actualizar Piwik",
         "VerifyingUnpackedFiles": "Verificando los archivos desempaquetados",
@@ -55,6 +68,7 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Puede actualizar automáticamente a la versión %s o descargar el paquete e instalarlo manualmente:",
         "YouCouldManuallyExecuteSqlQueries": "Si no puede utilizar el actualizador de linea de comandos y si la actualización de Piwik fallara (debido a un tiempo de espera excesivo de la base de datos, del explorador o cualquier otro motivo), usted puede ejecutar manualmente las sentencias SQL para actualizar Piwik",
         "YouMustDownloadPackageOrFixPermissions": "Piwik no puede sobreescribir la instalación actual. Usted puede arreglar los permisos de los directorios \/ archivos, o descargar el paquete e instalar la versión %s manualmente:",
-        "YourDatabaseIsOutOfDate": "Su base de datos de Piwik está obsoleta, y debe ser actualizada antes de poder continuar."
+        "YourDatabaseIsOutOfDate": "Su base de datos de Piwik está obsoleta, y debe ser actualizada antes de poder continuar.",
+        "ViewVersionChangelog": "Ver la lista de cambios para esta versión:"
     }
 }

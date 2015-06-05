@@ -17,6 +17,7 @@
         "NbUniquePageviewsDescription": "%s vista de páginas únicas",
         "NbUniqueVisitors": "%s visitas únicas",
         "NbVisitsBounced": "%s de visitas que han vuelto (abandonaron el sitio después de una página)",
+        "PluginDescription": "Informes generales de análisis de la métricas: visitas, visitantes únicos, número de acciones, tasa de rebote, etc.",
         "VisitsSummary": "Resumen de visitas",
         "VisitsSummaryDocumentation": "Esta es una visión holística de la evolución de las visitas.",
         "WidgetLastVisits": "Gráfica de las últimas visitas",

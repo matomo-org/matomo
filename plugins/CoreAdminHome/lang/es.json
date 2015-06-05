@@ -59,18 +59,22 @@
         "MenuDevelopment": "Desarrollo",
         "OptOutComplete": "Opt-out completado; sus visitas a este sitio web no serán grabadas por la herramienta de Análisis Web.",
         "OptOutCompleteBis": "Tenga en cuenta que si borra sus cookies, elimina la cookie opt-out, o si cambia de ordenador o navegador, deberá llevar a cabo el procedimiento opt-out otra vez.",
+        "OptOutDntFound": "No está siendo rastreado desde que su navegador está informando que esa es su elección. Esta es una opción de su navegador, así que no será posible hasta tanto no deshabilite la función 'No rastrear'.",
         "OptOutExplanation": "Piwik se dedica a proveer privacidad en Internet. Para proporcionar a sus visitantes la opción de no ser seguidos por Piwik, puede añadir el siguiente código HTML en una de sus páginas en el sitio web, por ejemplo en la página de la Política de Privacidad.",
         "OptOutExplanationBis": "Este código mostrará un iFrame que contendrá un link para que sus visitantes dejen de ser seguidos por Piwik configurando una cookie opt-out en sus navegadores. %s Haga clic aquí%s para ver el contenido que será mostrado por el iFrame.",
         "OptOutForYourVisitors": "Opción de no seguimiento de Piwik para sus visitantes",
         "PiwikIsInstalledAt": "Piwik está instalado en",
+        "PersonalPluginSettings": "Ajustes de complemento personal",
         "PluginSettingChangeNotAllowed": "No está permitido cambiar el valor de configuración \"%s\" en el plugin \"%s\"",
         "PluginSettingReadNotAllowed": "No está permitido que leas el valor de la opción \"%s\" en el plugin \"%s\"",
+        "PluginSettings": "Ajustes de complemento",
         "PluginSettingsIntro": "Aquí puedes cambiar la configuración de los siguientes plugins de terceros:",
         "PluginSettingsValueNotAllowed": "El valor del campo \"%s\" del plugin \"%s\" no es permitido.",
         "PluginSettingsSaveFailed": "Error al guardar la configuración del plugin",
         "SendPluginUpdateCommunication": "Enviarme una notificación por correo electrónico cuando hay una actualización para los plugins",
         "SendPluginUpdateCommunicationHelp": "Se enviará un correo electrónico a los Super Users cuando hay disponible una nueva versión de un plugin.",
         "StableReleases": "Si Piwik es una parte crítica de su negocio, le recomendamos que utilice la última versión estable. Si utiliza la última versión beta y te encuentras un error o tiene alguna sugerencia, por favor %sver aquí%s.",
+        "SystemPluginSettings": "Ajustes de complemento de sistema",
         "TrackAGoal": "El seguimiento de un objetivo",
         "TrackingCode": "Código de seguimiento",
         "TrustedHostConfirm": "Está seguro que quiere cambiar el nombre del servidor de confianza Piwik?",
@@ -82,6 +86,7 @@
         "YouAreOptedIn": "Actualmente usted está siendo seguido por la herramienta de Análisis web.",
         "YouAreOptedOut": "Actualmente usted NO está siendo seguido por la herramienta de Análisis web.",
         "YouMayOptOut": "Puede escojer no tener un único número de identificación de la cookie de análisis web asignado a su ordenador para prevenir la agregación y el análisis de datos recogidos en este sitio web.",
-        "YouMayOptOutBis": "Para escoger esto, por favor haga click debajo para recibir una cookie opt-out (para no ser seguido)."
+        "YouMayOptOutBis": "Para escoger esto, por favor haga click debajo para recibir una cookie opt-out (para no ser seguido).",
+        "OptingYouOut": "Optar a salir, por favor espere..."
     }
 }

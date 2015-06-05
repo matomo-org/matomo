@@ -3,6 +3,7 @@
         "ColumnConfiguration": "Configuración",
         "ColumnResolution": "Resoluciones",
         "Configurations": "Configuración",
+        "PluginDescription": "Informa las resoluciones de pantalla de sus visitantes.",
         "Resolutions": "Resoluciones",
         "WidgetGlobalVisitors": "Configuración global de visitantes",
         "WidgetGlobalVisitorsDocumentation": "Este informe muestra las más usuales configuraciones que poseen sus visitantes. Una configuración es una combinación de un sistema operativo, un tipo de navegador de internet y una resolución de pantalla.",

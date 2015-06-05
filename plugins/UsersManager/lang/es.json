@@ -46,6 +46,7 @@
         "PersonalSettings": "Ajustes personales",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Nota: No puede modificar la configuración en esta sección, debido a que no posee ningún sitio de internet que pueda ser contactado por un usuario anónimo.",
         "NoUsersExist": "Todavía no hay usuarios.",
+        "PluginDescription": "Administración de usuarios le permite añadir nuevos usuarios, editar actuales usuarios y asignarles permisos de visualización o administrar sitios de internet.",
         "PrivAdmin": "Admin",
         "PrivNone": "Sin acceso",
         "PrivView": "Ver",

@@ -52,6 +52,8 @@
         "ThankYouUpdatePiwik": "Děkujeme, že používáte Piwik vždy v nejaktuálnější verzi!",
         "PostUpdateMessage": "Piwik bude vždy zdarma ke stažení a použití, ale potřebuje pro svůj růst a zlepšení vaši neustálou podporu .",
         "PostUpdateSupport": "Pokud potřebujete pomoc s použitím aplikace Piwik, můžete ji obdržet od jejích tvůrců:",
+        "EnterpriseSolutions": "Firemní řešení",
+        "CloudHosting": "Hostování v Cloudu",
         "Updating": "Aktualizuji",
         "UpdateUsingHttpsFailed": "Stažení nejnovější verze Piwik pomocí zabezpečeného HTTPS připojení se nezdařilo kvůli následující chybě:",
         "UsingHttps": "za použití zabezpečeného HTTPS připojení (doporučeno)",

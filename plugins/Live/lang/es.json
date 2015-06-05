@@ -21,6 +21,7 @@
         "NextVisitor": "Siguiente visitante",
         "NoMoreVisits": "No hay más visitas de este visitante.",
         "PageRefreshed": "Número de veces que esta página ha sido vista \/ refrescada en una fila",
+        "PluginDescription": "Suministra el Registro de Visitante en vivo y le permite observar a sus visitantes en tiempo real en el reproductor del tablero correspondiente. El complemento también le permite observar un perfil de visitante para cualquier usuario dado.",
         "PreviousVisitor": "Visitante anterior",
         "RealTimeVisitorCount": "Tiempo Real Contador de Visitantes",
         "Referrer_URL": "URL de referencia",
@@ -35,6 +36,10 @@
         "VisitorsLastVisit": "La última visita de este visitante fue hace %s días.",
         "VisitsFrom": "%1$s%2$s visitas%3$s desde",
         "VisitSummary": "Pasado un total de %1$s%2$s en el sitio%3$s y %4$svisto %5$s paginas en %6$s visitas.%7$s",
+        "RowActionTooltipDefault": "Mostrar Registro de Visitante segmentado por esto, ahora",
+        "RowActionTooltipWithDimension": "Mostrar Registro de Visitante segmentado por este %s",
+        "RowActionTooltipTitle": "Abrir Registro de Visitante segmentado",
+        "SegmentedVisitorLogTitle": "Mostrando visitas del Registro de Visitante donde %s es \"%s\"",
         "OnClickPause": "%s está iniciado. Clic para pausar.",
         "OnClickStart": "%s está detenido. Clic para iniciar."
     }

@@ -1,6 +1,11 @@
 {
     "Contents": {
         "Impressions": "Импресии",
-        "ContentName": "Име на съдържанието"
+        "Interactions": "Взаимодействия",
+        "Interaction": "Взаимодействие",
+        "InteractionRate": "Честота на взаимодействие",
+        "ContentName": "Име на съдържанието",
+        "ContentTarget": "Целево съдържание",
+        "Contents": "Съдържание"
     }
 }

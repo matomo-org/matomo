@@ -5,6 +5,7 @@
         "CannotFindGeoIPServerVar": "De %s variabele is niet ingesteld. Je server is waarschijnlijk niet correct geconfigureerd",
         "CannotListContent": "Kon geen lijst maken van de inhoud voor %1$s: %2$s",
         "CannotLocalizeLocalIP": "IP-adres %s is een lokaal adres en kan geen geolocatie op toegepast worden.",
+        "CannotSetupGeoIPAutoUpdating": "Het lijkt erop dat je GeoIP database buiten Piwik geïnstalleerd is. Er bevindt zich namelijk geen database in de misc subdirectory, terwijl je GeoIP toch functioneert. Piwik kan je GeoIP databases niet automatisch updaten als ze niet in de misc directory zijn geplaatst.",
         "CannotUnzipDatFile": "Kan dat bestand niet uitpakken in %1$s: %2$s",
         "City": "Stad",
         "CityAndCountry": "%1$s, %2$s",

@@ -23,6 +23,8 @@
         "VisibleToAllUsers": "todos los usuarios",
         "VisibleToMe": "mí",
         "YouMayChangeSetting": "Alternativamente puedes cambiar la configuración en el archivo config (%s) o modificar este segmento y elegir '%s'.",
-        "YouMustBeLoggedInToCreateSegments": "Usted debe estar conectado para crear y editar segmentos de usuario personalizados."
+        "YouMustBeLoggedInToCreateSegments": "Usted debe estar conectado para crear y editar segmentos de usuario personalizados.",
+        "YouDontHaveAccessToCreateSegments": "No posee el nivel de acceso requerido para crear y editar segmentos.",
+        "AddingSegmentForAllWebsitesDisabled": "Añadir segmentos para todos los sitios de internet se ha deshabilitado."
     }
 }

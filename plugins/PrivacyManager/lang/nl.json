@@ -2,6 +2,7 @@
     "PrivacyManager": {
         "AnonymizeIpDescription": "Selecteer \"Ja\" als u wilt dat Piwik niet de volledige IP-adressen registreert.",
         "AnonymizeIpInlineHelp": "Anonimiseer de laatste byte van bezoekers IP adressen om te voldoen aan lokale privacy wetten\/richtlijnen.",
+        "AnonymizeIpExtendedHelp": "Als gebruikers uw website bezoeken zal Piwik niet het volledige IP adres (zoals %s) gebruiken maar ditt eerst anonimiseren (tot %s). IP adres anonimisatie is in sommige landen zoals Duitsland, een van de eisen gesteld in privacy wetten.",
         "AnonymizeIpMaskLengtDescription": "Geef aan hoeveel cijfers van het IP-adres moeten worden gemaskeerd.",
         "AnonymizeIpMaskLength": "%s byte(s) - bijvoorbeeld %s",
         "ClickHereSettings": "Klik hier om de%s-instellingen te openen.",

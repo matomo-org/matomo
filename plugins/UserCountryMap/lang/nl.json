@@ -18,6 +18,7 @@
         "Seconds": "seconden",
         "SecondsAgo": "%s seconden geleden",
         "ShowingVisits": "Geo-gelokaliseerde bezoekers van laatste",
+        "Unlocated": "<b>%s<\/b> %p van de bezoekers vanaf %c konden niet worden geo-gelokaliseerd.",
         "VisitorMap": "Bezoeker Kaart",
         "WorldWide": "Wereldwijd",
         "WithUnknownRegion": "%s met onbekende regio",

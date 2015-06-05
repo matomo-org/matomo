@@ -7,7 +7,9 @@
         "ExternalBacklinks": "Externe terugkoppelingen (Majestic)",
         "Google_IndexedPages": "Google geindexeerde pagina's",
         "Rank": "Ranking",
+        "ReferrerDomains": "Verwijzende domeinen (Majestic)",
         "SeoRankings": "SEO rankings",
-        "SEORankingsFor": "SEO rankings voor %s"
+        "SEORankingsFor": "SEO rankings voor %s",
+        "ViewBacklinksOnMajesticSEO": "Bekijk de Externe Backlinks rapportage op MajesticSEO.com"
     }
 }

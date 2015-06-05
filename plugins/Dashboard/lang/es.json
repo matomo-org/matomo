@@ -18,6 +18,7 @@
         "Maximise": "Maximizar",
         "Minimise": "Minimizar",
         "NotUndo": "No podrás deshacer esta operación.",
+        "PluginDescription": "Su tablero de analítica de internet. Personalize su tablero agregando nuevos reproductores, arrastre y suelte y cambie la disposición de las columnas del tablero. Cada usuario puede administrar su propio tablero personalizado.",
         "RemoveDashboard": "Elimina el tablero",
         "RemoveDashboardConfirm": "¿Estás seguro que deseas eliminar el tablero \"%s\"?",
         "RenameDashboard": "Renombrar el tablero",

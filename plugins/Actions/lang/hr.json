@@ -50,6 +50,9 @@
         "WidgetPagesExit": "Izlazne stranice",
         "WidgetPageTitles": "Naslovi stranica",
         "WidgetPageTitlesFollowingSearch": "Naslovi stranica kod pretraživanja",
-        "WidgetSearchCategories": "Pretraži kategoije"
+        "WidgetPageUrlsFollowingSearch": "Stranice kod pretraživanja",
+        "WidgetSearchCategories": "Pretraži kategoije",
+        "WidgetSearchKeywords": "Ključne riječi pretraživanja",
+        "WidgetSearchNoResultKeywords": "Ključne riječi pretraživanja bez rezultata"
     }
 }

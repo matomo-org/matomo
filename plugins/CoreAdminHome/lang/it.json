@@ -67,6 +67,7 @@
         "PersonalPluginSettings": "Impostazioni Personali Plugin",
         "PluginSettingChangeNotAllowed": "Non sei abilitato a cambiare il valore dell'impostazione \"%s\" nel plugin \"%s\"",
         "PluginSettingReadNotAllowed": "Non sei abilitato a leggere il valore dell'impostazione \"%s\" nel plugin \"%s\"",
+        "PluginSettings": "Impostazioni plugin",
         "PluginSettingsIntro": "Qui puoi cambiare le impostazioni dei seguenti plugin di terze parti:",
         "PluginSettingsValueNotAllowed": "Il valore del campo \"%s\" nel plugin \"%s\" non è consentito",
         "PluginSettingsSaveFailed": "Salvataggio delle impostazioni del plugin fallito",
@@ -85,6 +86,7 @@
         "YouAreOptedIn": "Stai attualmente partecipando al programma.",
         "YouAreOptedOut": "Non stai partecipando al programma.",
         "YouMayOptOut": "Puoi scegliere di non avere un cookie univoco di identificazione per web analytics assegnato al tuo computer al fine di evitare l'aggregazione e l'analisi dei dati raccolti su questo sito web.",
-        "YouMayOptOutBis": "Per fare questa scelta, clicca qui di seguito per ricevere un cookie di opt-out."
+        "YouMayOptOutBis": "Per fare questa scelta, clicca qui di seguito per ricevere un cookie di opt-out.",
+        "OptingYouOut": "Sto acquisendo la tua rinuncia, attendi..."
     }
 }

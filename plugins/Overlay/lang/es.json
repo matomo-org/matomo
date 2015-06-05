@@ -13,6 +13,7 @@
         "OneClick": "1 clic",
         "OpenFullScreen": "Ir a pantalla completa",
         "Overlay": "Vísta general de página",
+        "PluginDescription": "Vea sus datos analíticos como una superposición en su página de internet. Visualize cuántas veces los usuarios han hecho clic en cada enlace.",
         "RedirectUrlError": "Está intentando abrir una página de la dirección de internet \"%s\"- %s Ninguno de sus dominios de su configuración Piwik coincide con el enlace.",
         "RedirectUrlErrorAdmin": "Puede agregar el dominio como una dirección de internet %sen la configuración%s.",
         "RedirectUrlErrorUser": "Pregunte a su administrador para agregar el dominio como una dirección de internet adicional."

@@ -10,6 +10,7 @@
         "MetricDataByYear": "Tablas de Medición Anuales",
         "MetricTables": "Tablas de Medición",
         "OtherTables": "Otras tablas",
+        "PluginDescription": "Suministra informes detallados de usos de la base de datos MySQL. Disponible para Super Usuarios bajo Diagnósticos.",
         "ReportDataByYear": "Reporte de Tablas Anual",
         "ReportTables": "Tablas de reportes",
         "RowCount": "Cantidad de filas",

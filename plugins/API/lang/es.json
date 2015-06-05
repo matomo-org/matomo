@@ -4,6 +4,7 @@
         "KeepTokenSecret": "Esta token_auth es tan secreta como su nombre de usuario y contraseña, %s no lo comparta %s!",
         "LoadedAPIs": "Se han cargado %s APIs con éxito",
         "MoreInformation": "Para mayor información acerca de las APIs Piwik, por favor mire la %s Introducción a las API Piwik %s y a la %s Referencia de las API Piwik %s.",
+        "PluginDescription": "Toda la información en Piwik está disponible a través de simples APIs. Este complemento es el punto de entrada del servicio de internet, al que puede llamar para obtener la información analítica de internet en xml, json, php, csv, etc.",
         "QuickDocumentationTitle": "Documentación rápida de API",
         "TopLinkTooltip": "Accede a tus datos de Análisis Web programáticamente, a través de una sencilla API en json, xml, etc.",
         "UserAuthentication": "Autenticación de usuario",
