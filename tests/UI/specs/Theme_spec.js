@@ -37,7 +37,7 @@ describe("Theme", function () {
 
     it("should use the current theme", function (done) {
         expect.screenshot("home").to.be.capture(function (page) {
-            page.load("");
+            page.load("?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09");
         }, done);
     });
 
