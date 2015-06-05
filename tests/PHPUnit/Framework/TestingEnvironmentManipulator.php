@@ -126,4 +126,9 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             array('observers.global' => \DI\add($this->globalObservers)),
         );
     }
+
+    public function getExtraEnvironments()
+    {
+        return array('test');
+    }
 }

@@ -40,4 +40,11 @@ interface EnvironmentManipulator
      * Invoked after the container is created and the environment is considered bootstrapped.
      */
     public function onEnvironmentBootstrapped();
+
+    /**
+     * Return an array of environment names to apply after the normal environment.
+     *
+     * @return string[]
+     */
+    public function getExtraEnvironments();
 }

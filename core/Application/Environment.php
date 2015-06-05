@@ -120,7 +120,10 @@ class Environment
         $extraDefinitions = $this->getExtraDefinitionsFromManipulators();
         $definitions = array_merge(StaticContainer::getDefinitions(), $extraDefinitions, array($this->definitions));
 
-        $containerFactory = new ContainerFactory($pluginList, $settings, $this->environment, $definitions);
+        $environments = array($this->environment);
+        $environments = array_merge($environments, $this->getExtraEnvironmentsFromManipulators());
+
+        $containerFactory = new ContainerFactory($pluginList, $settings, $environments, $definitions);
         return $containerFactory->create();
     }
 
@@ -209,6 +212,15 @@ class Environment
     {
         if (self::$globalEnvironmentManipulator) {
             self::$globalEnvironmentManipulator->onEnvironmentBootstrapped();
+        }
+    }
+
+    private function getExtraEnvironmentsFromManipulators()
+    {
+        if (self::$globalEnvironmentManipulator) {
+            return self::$globalEnvironmentManipulator->getExtraEnvironments();
+        } else {
+            return array();
         }
     }
 }
