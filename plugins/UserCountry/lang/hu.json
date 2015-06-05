@@ -1,14 +1,6 @@
 {
     "UserCountry": {
         "Continent": "Kontinens",
-        "continent_afr": "Afrika",
-        "continent_amc": "Közép-Amerika",
-        "continent_amn": "Észak-Amerika",
-        "continent_ams": "Dél- és Közép-Amerika",
-        "continent_ant": "Északi-sark",
-        "continent_asi": "Ázsia",
-        "continent_eur": "Európa",
-        "continent_oce": "Óceánia",
         "Country": "Ország",
         "country_a1": "Anonim proxy",
         "country_a2": "Szatellit szolgáltató",

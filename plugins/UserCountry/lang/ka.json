@@ -1,14 +1,6 @@
 {
     "UserCountry": {
         "Continent": "კონტინენტი",
-        "continent_afr": "აფრიკა",
-        "continent_amc": "ცენტრალური ამერიკა",
-        "continent_amn": "ჩრდილო ამერიკა",
-        "continent_ams": "სამხრეთ ამერიკა",
-        "continent_ant": "ანტარქტიკა",
-        "continent_asi": "აზია",
-        "continent_eur": "ევროპა",
-        "continent_oce": "ოკეანეთი",
         "Country": "ქვეყანა",
         "country_a1": "ანონიმური პროქსი",
         "country_a2": "სატელიტური პროვაიდერი",

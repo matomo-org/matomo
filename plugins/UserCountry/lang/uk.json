@@ -1,14 +1,6 @@
 {
     "UserCountry": {
         "Continent": "Континент",
-        "continent_afr": "Африка",
-        "continent_amc": "Центральна Америка",
-        "continent_amn": "Північна америка",
-        "continent_ams": "Південна та Центральна Америка",
-        "continent_ant": "Антарктида",
-        "continent_asi": "Азія",
-        "continent_eur": "Європа",
-        "continent_oce": "Океанія",
         "Country": "Країна",
         "country_a1": "Анонімний проксі",
         "country_a2": "Супутниковий провайдер",

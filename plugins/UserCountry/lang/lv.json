@@ -1,14 +1,6 @@
 {
     "UserCountry": {
         "Continent": "Kontinents",
-        "continent_afr": "Āfrika",
-        "continent_amc": "Centrālamerika",
-        "continent_amn": "Ziemeļamerika",
-        "continent_ams": "Dienvidamerika",
-        "continent_ant": "Antarktīda",
-        "continent_asi": "Āzija",
-        "continent_eur": "Eiropa",
-        "continent_oce": "Okeānija",
         "Country": "Valsts",
         "country_a1": "Anonīms starpniekserveris",
         "country_a2": "Satelītpieslēgums",

@@ -1,13 +1,6 @@
 {
     "UserCountry": {
         "Continent": "世界大陸洲",
-        "continent_afr": "非洲",
-        "continent_amn": "北美洲",
-        "continent_ams": "中南美洲",
-        "continent_ant": "南極洲",
-        "continent_asi": "亞洲",
-        "continent_eur": "歐洲",
-        "continent_oce": "大洋洲",
         "Country": "國家",
         "DistinctCountries": "%s 個不同的國家",
         "Location": "位置",

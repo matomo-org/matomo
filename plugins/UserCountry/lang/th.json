@@ -2,13 +2,6 @@
     "UserCountry": {
         "City": "เมือง",
         "Continent": "ทวีป",
-        "continent_afr": "อัฟริกา",
-        "continent_amn": "อเมริกาเหนือ",
-        "continent_ams": "อเมริกาใต้และกลาง",
-        "continent_ant": "แอนตาร์กติกา",
-        "continent_asi": "เอเชีย",
-        "continent_eur": "ยุโรป",
-        "continent_oce": "โอเชียเนีย",
         "Country": "ประเทศ",
         "country_a2": "ผู้ให้บริการดาวเทียม",
         "country_o1": "ประเทศอื่นๆ",
