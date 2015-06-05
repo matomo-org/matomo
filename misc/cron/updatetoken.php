@@ -37,7 +37,7 @@ $testmode = in_array('--testmode', $_SERVER['argv']);
 if ($testmode) {
     define('PIWIK_TEST_MODE', true);
 
-    Environment::addEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables()));
+    Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables()));
 }
 
 function getPiwikDomain()

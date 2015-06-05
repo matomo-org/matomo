@@ -10,6 +10,6 @@ use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 require realpath(dirname(__FILE__)) . "/includes.php";
 
-Environment::addEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables()));
+Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables()));
 
 include PIWIK_INCLUDE_PATH . '/index.php';

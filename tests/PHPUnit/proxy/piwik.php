@@ -32,7 +32,7 @@ try {
         })
     );
 
-    Environment::addEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables(), $globalObservers));
+    Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables(), $globalObservers));
 
     GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 

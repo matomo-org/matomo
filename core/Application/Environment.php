@@ -41,9 +41,9 @@ class Environment
 {
     /**
      * @internal
-     * @var EnvironmentManipulator[]
+     * @var EnvironmentManipulator
      */
-    private static $globalEnvironmentManipulators = array();
+    private static $globalEnvironmentManipulator = null;
 
     /**
      * @var string
@@ -175,43 +175,40 @@ class Environment
      * @param EnvironmentManipulator $manipulator
      * @internal
      */
-    public static function addEnvironmentManipulator(EnvironmentManipulator $manipulator)
+    public static function setGlobalEnvironmentManipulator(EnvironmentManipulator $manipulator)
     {
-        self::$globalEnvironmentManipulators[] = $manipulator;
+        self::$globalEnvironmentManipulator = $manipulator;
     }
 
     private function getGlobalSettingsProviderOverride()
     {
-        foreach (self::$globalEnvironmentManipulators as $manipulator) {
-            $result = $manipulator->makeGlobalSettingsProvider();
-            if (!empty($result)) {
-                return $result;
-            }
+        if (self::$globalEnvironmentManipulator) {
+            return self::$globalEnvironmentManipulator->makeGlobalSettingsProvider();
+        } else {
+            return null;
         }
-
-        return null;
     }
 
     private function invokeBeforeContainerCreatedHook()
     {
-        foreach (self::$globalEnvironmentManipulators as $manipulator) {
-            $manipulator->beforeContainerCreated();
+        if (self::$globalEnvironmentManipulator) {
+            return self::$globalEnvironmentManipulator->beforeContainerCreated();
         }
     }
 
     private function getExtraDefinitionsFromManipulators()
     {
-        $result = array();
-        foreach (self::$globalEnvironmentManipulators as $manipulator) {
-            $result = array_merge($result, $manipulator->getExtraDefinitions());
+        if (self::$globalEnvironmentManipulator) {
+            return self::$globalEnvironmentManipulator->getExtraDefinitions();
+        } else {
+            return array();
         }
-        return $result;
     }
 
     private function invokeEnvironmentBootstrappedHook()
     {
-        foreach (self::$globalEnvironmentManipulators as $manipulator) {
-            $manipulator->onEnvironmentBootstrapped();
+        if (self::$globalEnvironmentManipulator) {
+            self::$globalEnvironmentManipulator->onEnvironmentBootstrapped();
         }
     }
 }
