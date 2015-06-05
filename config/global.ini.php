@@ -772,6 +772,7 @@ Plugins[] = TestRunner
 Plugins[] = BulkTracking
 Plugins[] = Resolution
 Plugins[] = DevicePlugins
+Plugins[] = Intl
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics
@@ -781,6 +782,7 @@ PluginsInstalled[] = UsersManager
 PluginsInstalled[] = SitesManager
 PluginsInstalled[] = Installation
 PluginsInstalled[] = Monolog
+PluginsInstalled[] = Intl
 
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call
