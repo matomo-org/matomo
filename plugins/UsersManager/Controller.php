@@ -175,8 +175,8 @@ class Controller extends ControllerAdmin
     protected function getDefaultDates()
     {
         $dates = array(
-            'today'      => $this->translator->translate('General_Today'),
-            'yesterday'  => $this->translator->translate('General_Yesterday'),
+            'today'      => $this->translator->translate('Intl_Today'),
+            'yesterday'  => $this->translator->translate('Intl_Yesterday'),
             'previous7'  => $this->translator->translate('General_PreviousDays', 7),
             'previous30' => $this->translator->translate('General_PreviousDays', 30),
             'last7'      => $this->translator->translate('General_LastDays', 7),

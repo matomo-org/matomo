@@ -627,10 +627,10 @@ class Date
         $monthOfYear = $this->toString('n');
         $patternToValue = array(
             "%day%"        => $day,
-            "%shortMonth%" => $translator->translate('General_ShortMonth_' . $monthOfYear),
-            "%longMonth%"  => $translator->translate('General_LongMonth_' . $monthOfYear),
-            "%shortDay%"   => $translator->translate('General_ShortDay_' . $dayOfWeek),
-            "%longDay%"    => $translator->translate('General_LongDay_' . $dayOfWeek),
+            "%shortMonth%" => $translator->translate('Intl_ShortMonth_' . $monthOfYear),
+            "%longMonth%"  => $translator->translate('Intl_LongMonth_' . $monthOfYear),
+            "%shortDay%"   => $translator->translate('Intl_ShortDay_' . $dayOfWeek),
+            "%longDay%"    => $translator->translate('Intl_LongDay_' . $dayOfWeek),
             "%longYear%"   => $this->toString('Y'),
             "%shortYear%"  => $this->toString('y'),
             "%time%"       => $this->toString('H:i:s')

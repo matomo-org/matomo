@@ -36,5 +36,5 @@ function dayOfWeekFromDate($dateStr)
  */
 function translateDayOfWeek($dayOfWeek)
 {
-    return Piwik::translate('General_LongDay_' . $dayOfWeek);
+    return Piwik::translate('Intl_LongDay_' . $dayOfWeek);
 }

@@ -127,7 +127,7 @@
 
         var result = piwik.getBaseDatePickerOptions(annotationDate);
         result.showButtonPanel = true;
-        result.currentText = _pk_translate('General_Today');
+        result.currentText = _pk_translate('Intl_Today');
 
         // make sure days before site start & after today cannot be selected
         var piwikMinDate = result.minDate;
