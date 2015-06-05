@@ -33,8 +33,9 @@
 
 <div class="entityContainer" style="width:600px;">
     {% if anonymousHasViewAccess %}
-        <div style="display:inline-block;margin-top:10px;" id="usersManagerAnonymousUserHasViewAccess">
-            {{ ['UsersManager_AnonymousUserHasViewAccess'|translate("'anonymous'","'view'"), 'UsersManager_AnonymousUserHasViewAccess2'|translate]|join(' ')|notification({'placeAt': '#usersManagerAnonymousUserHasViewAccess', 'noclear': true}) }}
+        <br/>
+        <div class="alert alert-warning">
+            {{ ['UsersManager_AnonymousUserHasViewAccess'|translate("'anonymous'","'view'"), 'UsersManager_AnonymousUserHasViewAccess2'|translate]|join(' ') }}
         </div>
     {% endif %}
     <table class="entityTable dataTable" id="access" style="display:inline-table;width:500px;">
