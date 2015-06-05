@@ -457,9 +457,9 @@ class Controller extends \Piwik\Plugin\Controller
             $allReports = Goals::getReportsWithGoalMetrics();
             foreach ($allReports as $category => $reports) {
                 if ($ecommerce) {
-                    $categoryText = $this->translationHelper->getTranslationForGoalMetricCategoryText('Ecommerce', $category);
+                    $categoryText = $this->translationHelper->translateEcommerceMetricCategory($category);
                 } else {
-                    $categoryText = $this->translationHelper->getTranslationForGoalMetricCategoryText('Goals', $category);
+                    $categoryText = $this->translationHelper->translateGoalMetricCategory($category);
                 }
 
                 foreach ($reports as $report) {

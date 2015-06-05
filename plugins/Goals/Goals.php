@@ -46,11 +46,11 @@ class Goals extends \Piwik\Plugin
 
         if (is_null($order)) {
             $order = array(
-                Piwik::translate('Referrers_Referrers'),
-                Piwik::translate('General_Visit'),
-                Piwik::translate('General_Visitors'),
-                Piwik::translate('VisitsSummary_VisitsSummary'),
-                Piwik::translate('VisitTime_ColumnServerTime'),
+                'Referrers_Referrers',
+                'General_Visit',
+                'General_Visitors',
+                'VisitsSummary_VisitsSummary',
+                'VisitTime_ColumnServerTime',
             );
         }
 
@@ -230,13 +230,13 @@ class Goals extends \Piwik\Plugin
     public function getActualReportsWithGoalMetrics(&$dimensions)
     {
         $reportWithGoalMetrics = array(
-            array('category' => Piwik::translate('General_Visit'),
+            array('category' => 'General_Visit',
                   'name'     => Piwik::translate('Goals_VisitsUntilConv'),
                   'module'   => 'Goals',
                   'action'   => 'getVisitsUntilConversion',
                   'viewDataTable' => 'table',
             ),
-            array('category' => Piwik::translate('General_Visit'),
+            array('category' => 'General_Visit',
                   'name'     => Piwik::translate('Goals_DaysToConv'),
                   'module'   => 'Goals',
                   'action'   => 'getDaysToConversion',

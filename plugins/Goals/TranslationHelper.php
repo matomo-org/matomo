@@ -15,30 +15,22 @@ use Piwik\Piwik;
 class TranslationHelper
 {
 
-    public function getTranslationForGoalMetricCategoryText($type, $category)
+    public function translateGoalMetricCategory($category)
     {
-        // Type is either 'Goals' or 'Ecommerce'
-        switch ($type) {
-            case 'Goals':
-                $subKey = 'Goals';
-                break;
-
-            case 'Ecommerce':
-                $subKey = 'Sales';
-                break;
-
-            default:
-                return '';
+        // Return either "Goals by %s" or "Goals %s", depending on the category
+        if ($category === 'General_Visit') {
+                return Piwik::translate('Goals_GoalsAdjective', Piwik::translate('Goals_CategoryText' . $category));
         }
+        return Piwik::translate('Goals_GoalsBy', Piwik::translate('Goals_CategoryText' . $category));
+    }
 
-        // Return either "Goals/Sales by %s" or "Goals/Sales %s", depending on the category
-        switch ($category) {
-            case 'Visit':
-                return Piwik::translate($type . '_' . $subKey . 'Adjective', Piwik::translate('Goals_CategoryText' . $category));
-
-            default:
-                return Piwik::translate($type . '_' . $subKey . 'By', Piwik::translate('Goals_CategoryText' . $category));
+    public function translateEcommerceMetricCategory($category)
+    {
+        // Return either "Sales by %s" or "Sales %s", depending on the category
+        if ($category === 'General_Visit') {
+                return Piwik::translate('Ecommerce_SalesAdjective', Piwik::translate('Goals_CategoryText' . $category));
         }
+        return Piwik::translate('Ecommerce_SalesBy', Piwik::translate('Goals_CategoryText' . $category));
     }
 
     public function getTranslationForCompleteDescription($match, $patternType, $pattern)
