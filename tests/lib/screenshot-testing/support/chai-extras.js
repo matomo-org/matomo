@@ -62,6 +62,8 @@ function getProcessedScreenshotPath(screenName) {
 
 function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonThreshold, done) {
 
+    var start = new Date();
+
     if (!(done instanceof Function)) {
         throw new Error("No 'done' callback specified in capture assertion.");
     }
@@ -100,6 +102,10 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
             };
 
             var fail = function (message) {
+                var endTime = new Date(),
+                    elapsed = (endTime - start) / 1000.0;
+                console.log("Time elapsed: " + elapsed + "s");
+
                 app.diffViewerGenerator.failures.push(testInfo);
 
                 var expectedPath = testInfo.expected ? path.resolve(testInfo.expected) :
