@@ -118,6 +118,8 @@ before_script:
   # travis now complains about this failing 9 times out of 10, so removing it. hopefully the random failures it prevented won't come back
   # - travis_retry composer self-update
 
+  # fabpot/php-cs-fixer needs php >=5.3.6, which is not affordable at the moment - so just skip it for particular php version.
+  - '[ "$SKIP_COMPOSER_INSTALL" != "1" ] && [ "$TRAVIS_PHP_VERSION" == "5.3.3" ] && travis_retry composer remove fabpot/php-cs-fixer'
   - '[ "$SKIP_COMPOSER_INSTALL" != "1" ] && travis_retry composer install'
 
   # print out more debugging info
