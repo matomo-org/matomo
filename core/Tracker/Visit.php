@@ -158,6 +158,14 @@ class Visit implements VisitInterface
 
         $isNewVisit = $this->isVisitNew($visitor, $action);
 
+        // on a ping request that is received before the standard visit length, we just update the visit time w/o
+        // adding a new action
+        if ($this->isPingRequest()
+            && !$isNewVisit
+        ) {
+            $action = null;
+        }
+
         // Known visit when:
         // ( - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor
         //   OR
@@ -699,5 +707,10 @@ class Visit implements VisitInterface
         if (!empty($site['timezone'])) {
             return $site['timezone'];
         }
+    }
+
+    private function isPingRequest()
+    {
+        return $this->request->getParam('ping') == 1;
     }
 }

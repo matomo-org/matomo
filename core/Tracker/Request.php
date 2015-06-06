@@ -311,6 +311,7 @@ class Request
             'urlref'       => array('', 'string'),
             'res'          => array(self::UNKNOWN_RESOLUTION, 'string'),
             'idgoal'       => array(-1, 'int'),
+            'ping'         => array(0, 'int'),
 
             // other
             'bots'         => array(0, 'int'),
