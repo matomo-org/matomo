@@ -69,11 +69,11 @@ class AssetManagerTest extends IntegrationTestCase
 
         $this->activateMergedAssets();
 
+        $this->setUpPluginManager();
+
         $this->setUpCacheBuster();
 
         $this->setUpAssetManager();
-
-        $this->setUpPluginManager();
 
         $this->setUpTheme();
 
@@ -117,7 +117,7 @@ class AssetManagerTest extends IntegrationTestCase
 
     private function setUpCacheBuster()
     {
-        $this->cacheBuster = UIAssetCacheBusterMock::getInstance();
+        $this->cacheBuster = new UIAssetCacheBusterMock($this->pluginManager);
     }
 
     private function setUpAssetManager()
