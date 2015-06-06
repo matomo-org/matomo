@@ -312,16 +312,64 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
             }
         }
 
+        if($this->_config['usessl']) {
+            if(empty($this->_config['sslkey'])) {
+                $sslkey = null;
+            } else {
+                $sslkey = $this->_config['sslkey'];
+            }
+            if(empty($this->_config['sslcert'])) {
+                $sslcert = null;
+            } else {
+                $sslcert = $this->_config['sslcert'];
+            }
+            if(empty($this->_config['sslca'])) {
+                $sslca = null;
+            } else {
+                $sslca = $this->_config['sslca'];
+            }
+            if(empty($this->_config['sslcapath'])) {
+                $sslcapth = null;
+            } else {
+                $sslcapath = $this->_config['sslcapath'];
+            }
+            if(empty(($this->_config['sslcipher']))) {
+                $sslcipher = null;
+            } else {
+                $sslcipher =  $this->_config['sslcipher'];
+            }
+            mysqli_ssl_set(
+                $this->_connection,
+                $sslkey,
+                $sslcert,
+                $sslca,
+                $sslcapath,
+                $sslcipher
+            );
+        }
+
         // Suppress connection warnings here.
         // Throw an exception instead.
-        $_isConnected = @mysqli_real_connect(
-            $this->_connection,
-            $this->_config['host'],
-            $this->_config['username'],
-            $this->_config['password'],
-            $this->_config['dbname'],
-            $port
-        );
+        if($this->config['usessl']) {
+            $_isConnected = @mysqli_real_connect(
+                $this->_connection,
+                $this->_config['host'],
+                $this->_config['username'],
+                $this->_config['password'],
+                $this->_config['dbname'],
+                $port,
+                MYSQLI_CLIENT_SSL
+            );
+        } else {
+            $_isConnected = @mysqli_real_connect(
+                $this->_connection,
+                $this->_config['host'],
+                $this->_config['username'],
+                $this->_config['password'],
+                $this->_config['dbname'],
+                $port
+            );
+        }
 
         if ($_isConnected === false || mysqli_connect_errno()) {
 
