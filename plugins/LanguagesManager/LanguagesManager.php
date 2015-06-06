@@ -143,7 +143,7 @@ class LanguagesManager extends \Piwik\Plugin
             StaticContainer::get('Piwik\Translation\Translator')->getDefaultLanguage(),
         );
         foreach ($languageCodes as $languageCode) {
-            if (!empty($languageCode) && APILanguagesManager::getInstance()->isLanguageAvailable($languageCode)) {
+            if (!empty($languageCode) && API::getInstance()->isLanguageAvailable($languageCode)) {
                 return $languageCode;
             }
         }
