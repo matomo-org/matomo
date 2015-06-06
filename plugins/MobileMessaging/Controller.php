@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Piwik\Common;
+use Piwik\FrontController;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\IP;
 use Piwik\Piwik;
@@ -33,12 +34,12 @@ class Controller extends ControllerAdmin
      */
     private $translator;
 
-    public function __construct(RegionDataProvider $regionDataProvider, Translator $translator)
+    public function __construct(FrontController $frontController, RegionDataProvider $regionDataProvider, Translator $translator)
     {
         $this->regionDataProvider = $regionDataProvider;
         $this->translator = $translator;
 
-        parent::__construct();
+        parent::__construct($frontController);
     }
 
     /**

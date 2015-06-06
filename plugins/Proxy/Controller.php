@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Proxy;
 use Piwik\AssetManager;
 use Piwik\AssetManager\UIAsset;
 use Piwik\Common;
+use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
 use Piwik\Url;
@@ -30,9 +31,9 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $assetManager;
 
-    public function __construct(AssetManager $assetManager)
+    public function __construct(FrontController $frontController, AssetManager $assetManager)
     {
-        parent::__construct();
+        parent::__construct($frontController);
 
         $this->assetManager = $assetManager;
     }

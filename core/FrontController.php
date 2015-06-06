@@ -51,10 +51,8 @@ use Piwik\Plugins\CoreAdminHome\CustomLogo;
  *     }
  *
  * For a detailed explanation, see the documentation [here](http://piwik.org/docs/plugins/framework-overview).
- *
- * @method static \Piwik\FrontController getInstance()
  */
-class FrontController extends Singleton
+class FrontController
 {
     const DEFAULT_MODULE = 'CoreHome';
 
@@ -176,7 +174,7 @@ class FrontController extends Singleton
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
             Common::sendResponseCode(500);
 
-            $controller = FrontController::getInstance();
+            $controller = new FrontController();
             $controller->init();
             $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
 

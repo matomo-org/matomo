@@ -19,6 +19,7 @@ use Piwik\Db;
 use Piwik\Db\Adapter;
 use Piwik\DbHelper;
 use Piwik\Filesystem;
+use Piwik\FrontController;
 use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -59,9 +60,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     private $assetManager;
 
-    public function __construct(AssetManager $assetManager)
+    public function __construct(FrontController $frontController, AssetManager $assetManager)
     {
-        parent::__construct();
+        parent::__construct($frontController);
 
         $this->assetManager = $assetManager;
     }

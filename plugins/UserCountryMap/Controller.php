@@ -12,6 +12,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
@@ -33,11 +34,11 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $translator;
 
-    public function __construct(Translator $translator)
+    public function __construct(FrontController $frontController, Translator $translator)
     {
         $this->translator = $translator;
 
-        parent::__construct();
+        parent::__construct($frontController);
     }
 
     public function visitorMap($fetch = false, $segmentOverride = false)

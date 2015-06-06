@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
+use Piwik\FrontController;
 use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -39,11 +40,11 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $updater;
 
-    public function __construct(Updater $updater)
+    public function __construct(FrontController $frontController, Updater $updater)
     {
         $this->updater = $updater;
 
-        parent::__construct();
+        parent::__construct($frontController);
     }
 
     public function newVersionAvailable()

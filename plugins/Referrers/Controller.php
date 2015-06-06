@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Referrers;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable\Map;
+use Piwik\FrontController;
 use Piwik\Metrics;
 use Piwik\Period\Range;
 use Piwik\Piwik;
@@ -28,11 +29,11 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $translator;
 
-    public function __construct(Translator $translator)
+    public function __construct(FrontController $frontController, Translator $translator)
     {
         $this->translator = $translator;
 
-        parent::__construct();
+        parent::__construct($frontController);
     }
 
     public function index()

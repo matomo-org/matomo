@@ -10,26 +10,11 @@ namespace Piwik\Plugins\Ecommerce;
 
 use Exception;
 use Piwik\DataTable;
-use Piwik\FrontController;
 use Piwik\Piwik;
-use Piwik\Translation\Translator;
 use Piwik\View;
-use Piwik\Plugins\Goals\TranslationHelper;
 
 class Controller extends \Piwik\Plugins\Goals\Controller
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
-
-    public function __construct(Translator $translator, TranslationHelper $translationHelper)
-    {
-        $this->translator = $translator;
-
-        parent::__construct($translator, $translationHelper);
-    }
-
     public function ecommerceReport()
     {
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('CustomVariables')) {
@@ -58,7 +43,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         $saveGET = $_GET;
         $_GET['segment'] = urlencode('visitEcommerceStatus!=none');
         $_GET['widget'] = 1;
-        $output = FrontController::getInstance()->dispatch('Live', 'getVisitorLog', array($fetch));
+        $output = $this->frontController->dispatch('Live', 'getVisitorLog', array($fetch));
         $_GET   = $saveGET;
 
         return $output;

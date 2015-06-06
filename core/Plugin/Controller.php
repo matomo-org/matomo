@@ -112,12 +112,19 @@ abstract class Controller
     protected $site = null;
 
     /**
+     * @var FrontController
+     */
+    protected $frontController;
+
+    /**
      * Constructor.
      *
      * @api
      */
-    public function __construct()
+    public function __construct(FrontController $frontController)
     {
+        $this->frontController = $frontController;
+
         $this->init();
     }
 
@@ -887,7 +894,7 @@ abstract class Controller
             throw $ex;
         }
 
-        echo FrontController::getInstance()->dispatch(Piwik::getLoginPluginName(), false);
+        echo $this->frontController->dispatch(Piwik::getLoginPluginName(), false);
         exit;
     }
 

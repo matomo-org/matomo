@@ -14,7 +14,6 @@ use Piwik\Piwik;
 use Piwik\Session\SessionNamespace;
 use Piwik\View;
 use Piwik\WidgetsList;
-use Piwik\FrontController;
 
 /**
  * Dashboard Controller
@@ -45,7 +44,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->dashboardId = Common::getRequestVar('idDashboard', 1, 'int');
 
         // get the layout via FrontController so controller events are posted
-        $view->dashboardLayout = FrontController::getInstance()->dispatch('Dashboard', 'getDashboardLayout',
+        $view->dashboardLayout = $this->frontController->dispatch('Dashboard', 'getDashboardLayout',
             array($checkToken = false));
 
         return $view;

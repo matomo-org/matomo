@@ -13,6 +13,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\FrontController;
 use Piwik\Period;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
@@ -28,9 +29,9 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $translator;
 
-    public function __construct(Translator $translator)
+    public function __construct(FrontController $frontController, Translator $translator)
     {
-        parent::__construct();
+        parent::__construct($frontController);
 
         $this->translator = $translator;
     }

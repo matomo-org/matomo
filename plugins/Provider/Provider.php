@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Provider;
 use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\FrontController;
 use Piwik\Piwik;
@@ -65,8 +66,11 @@ class Provider extends \Piwik\Plugin
 
     public static function footerUserCountry(&$out)
     {
+        /** @var FrontController $frontController */
+        $frontController = StaticContainer::get('Piwik\FrontController');
+
         $out .= '<h2 piwik-enriched-headline>' . Piwik::translate('Provider_WidgetProviders') . '</h2>';
-        $out .= FrontController::getInstance()->fetchDispatch('Provider', 'getProvider');
+        $out .= $frontController->fetchDispatch('Provider', 'getProvider');
     }
 
     /**

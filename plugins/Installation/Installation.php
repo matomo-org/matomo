@@ -10,10 +10,10 @@ namespace Piwik\Plugins\Installation;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\Installation\Exception\DatabaseConnectionFailedException;
-use Piwik\Translate;
 use Piwik\View as PiwikView;
 
 /**
@@ -94,7 +94,9 @@ class Installation extends \Piwik\Plugin
         $action = Common::getRequestVar('action', 'welcome', 'string');
 
         if ($this->isAllowedAction($action)) {
-            echo FrontController::getInstance()->dispatch('Installation', $action, array($message));
+            /** @var FrontController $frontController */
+            $frontController = StaticContainer::get('Piwik\FrontController');
+            echo $frontController->dispatch('Installation', $action, array($message));
         } else {
             Piwik::exitWithErrorMessage(Piwik::translate('Installation_NoConfigFound'));
         }

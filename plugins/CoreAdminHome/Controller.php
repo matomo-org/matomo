@@ -14,6 +14,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable\Renderer\Json;
+use Piwik\FrontController;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 use Piwik\Nonce;
@@ -43,11 +44,11 @@ class Controller extends ControllerAdmin
      */
     private $translator;
 
-    public function __construct(Translator $translator)
+    public function __construct(FrontController $frontController, Translator $translator)
     {
         $this->translator = $translator;
 
-        parent::__construct();
+        parent::__construct($frontController);
     }
 
     public function index()

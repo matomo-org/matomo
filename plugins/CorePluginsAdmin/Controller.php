@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
+use Piwik\FrontController;
 use Piwik\Nonce;
 use Piwik\Notification;
 use Piwik\Piwik;
@@ -40,11 +41,11 @@ class Controller extends Plugin\ControllerAdmin
      */
     private $translator;
 
-    public function __construct(Translator $translator)
+    public function __construct(FrontController $frontController, Translator $translator)
     {
         $this->translator = $translator;
 
-        parent::__construct();
+        parent::__construct($frontController);
     }
 
     public function marketplace()

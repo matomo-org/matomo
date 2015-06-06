@@ -37,11 +37,11 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $translator;
 
-    public function __construct(Translator $translator)
+    public function __construct(FrontController $frontController, Translator $translator)
     {
         $this->translator = $translator;
 
-        parent::__construct();
+        parent::__construct($frontController);
     }
     
     public function getDefaultAction()
@@ -116,7 +116,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $view = $this->getDefaultIndexView();
-        $view->content = FrontController::getInstance()->fetchDispatch($controllerName, $actionName);
+        $view->content = $this->frontController->fetchDispatch($controllerName, $actionName);
         return $view->render();
     }
 

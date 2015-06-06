@@ -8,11 +8,11 @@
  */
 namespace Piwik\Plugins\Goals;
 
-use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
+use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Translation\Translator;
@@ -46,7 +46,7 @@ class Controller extends \Piwik\Plugin\Controller
     /**
      * @var Translator
      */
-    private $translator;
+    protected $translator;
 
     /**
      * @var TranslationHelper
@@ -70,9 +70,9 @@ class Controller extends \Piwik\Plugin\Controller
         return $conversionRate;
     }
 
-    public function __construct(Translator $translator, TranslationHelper $translationHelper)
+    public function __construct(FrontController $frontController, Translator $translator, TranslationHelper $translationHelper)
     {
-        parent::__construct();
+        parent::__construct($frontController);
 
         $this->translator = $translator;
         $this->translationHelper = $translationHelper;

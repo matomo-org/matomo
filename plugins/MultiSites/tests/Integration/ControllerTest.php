@@ -106,7 +106,11 @@ class ControllerTest extends SystemTestCase
         $params['period'] = 'day';
         $params['date']   = '2013-01-23';
         $_GET   = $params;
-        $sites  = FrontController::getInstance()->dispatch('MultiSites', 'getAllWithGroups');
+
+        /** @var FrontController $frontController */
+        $frontController = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\FrontController');
+        $sites  = $frontController->dispatch('MultiSites', 'getAllWithGroups');
+
         $_GET   = $oldGet;
         return $sites;
     }
