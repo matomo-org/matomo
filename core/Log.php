@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Monolog\Logger;
+use Piwik\Container\StaticContainer;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -52,7 +53,7 @@ use Psr\Log\LoggerInterface;
  * @deprecated Inject and use Psr\Log\LoggerInterface instead of this class.
  * @see \Psr\Log\LoggerInterface
  */
-class Log extends Singleton
+class Log
 {
     // log levels
     const NONE = 0;
@@ -198,7 +199,9 @@ class Log extends Singleton
 
     private static function logMessage($level, $message, $parameters)
     {
-        self::getInstance()->doLog($level, $message, $parameters);
+        /** @var Log $log */
+        $log = StaticContainer::get('Piwik\Log');
+        $log->doLog($level, $message, $parameters);
     }
 
     public static function getMonologLevel($level)
