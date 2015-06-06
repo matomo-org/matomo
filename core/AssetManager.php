@@ -19,6 +19,7 @@ use Piwik\AssetManager\UIAssetFetcher\StylesheetUIAssetFetcher;
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\AssetManager\UIAssetMerger\JScriptUIAssetMerger;
 use Piwik\AssetManager\UIAssetMerger\StylesheetUIAssetMerger;
+use Piwik\AssetManager\UIAssetMinifier;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager;
 
@@ -56,6 +57,11 @@ class AssetManager extends Singleton
     private $cacheBuster;
 
     /**
+     * @var UIAssetMinifier
+     */
+    private $assetMinifier;
+
+    /**
      * @var UIAssetFetcher
      */
     private $minimalStylesheetFetcher;
@@ -65,9 +71,10 @@ class AssetManager extends Singleton
      */
     private $theme;
 
-    public function __construct()
+    public function __construct(UIAssetMinifier $assetMinifier, UIAssetCacheBuster $cacheBuster)
     {
-        $this->cacheBuster = UIAssetCacheBuster::getInstance();
+        $this->assetMinifier = $assetMinifier;
+        $this->cacheBuster = $cacheBuster;
         $this->minimalStylesheetFetcher =  new StaticUIAssetFetcher(array('plugins/Morpheus/stylesheets/base.less', 'plugins/Morpheus/stylesheets/general/_forms.less'), array(), $this->theme);
 
         $theme = Manager::getInstance()->getThemeEnabled();
@@ -270,7 +277,7 @@ class AssetManager extends Singleton
      */
     private function getMergedJavascript($assetFetcher, $mergedAsset)
     {
-        $assetMerger = new JScriptUIAssetMerger($mergedAsset, $assetFetcher, $this->cacheBuster);
+        $assetMerger = new JScriptUIAssetMerger($mergedAsset, $assetFetcher, $this->cacheBuster, $this->assetMinifier);
 
         $assetMerger->generateFile();
 
