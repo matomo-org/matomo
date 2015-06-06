@@ -25,7 +25,10 @@ class Filesystem
      */
     public static function deleteAllCacheOnUpdate($pluginName = false)
     {
-        AssetManager::getInstance()->removeMergedAssets($pluginName);
+        /** @var AssetManager $assetManager */
+        $assetManager = StaticContainer::get('Piwik\AssetManager');
+        $assetManager->removeMergedAssets($pluginName);
+
         View::clearCompiledTemplates();
         TrackerCache::deleteTrackerCache();
         PiwikCache::flushAll();

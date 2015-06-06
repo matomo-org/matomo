@@ -36,10 +36,8 @@ use Piwik\Plugin\Manager;
  * Whether assets are included individually or as merged files is defined by
  * the global option 'disable_merged_assets'. See the documentation in the global
  * config for more information.
- *
- * @method static AssetManager getInstance()
  */
-class AssetManager extends Singleton
+class AssetManager
 {
     const MERGED_CSS_FILE = "asset_manager_global_css.css";
     const MERGED_CORE_JS_FILE = "asset_manager_core_js.js";

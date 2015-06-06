@@ -26,6 +26,18 @@ class Controller extends \Piwik\Plugin\Controller
     const JS_MIME_TYPE = "application/javascript; charset=UTF-8";
 
     /**
+     * @var AssetManager
+     */
+    private $assetManager;
+
+    public function __construct(AssetManager $assetManager)
+    {
+        parent::__construct();
+
+        $this->assetManager = $assetManager;
+    }
+
+    /**
      * Output the merged CSS file.
      * This method is called when the asset manager is enabled.
      *
@@ -33,7 +45,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getCss()
     {
-        $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet();
+        $cssMergedFile = $this->assetManager->getMergedStylesheet();
         ProxyHttp::serverStaticFile($cssMergedFile->getAbsoluteLocation(), "text/css");
     }
 
@@ -45,7 +57,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getCoreJs()
     {
-        $jsMergedFile = AssetManager::getInstance()->getMergedCoreJavaScript();
+        $jsMergedFile = $this->assetManager->getMergedCoreJavaScript();
         $this->serveJsFile($jsMergedFile);
     }
 
@@ -57,7 +69,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getNonCoreJs()
     {
-        $jsMergedFile = AssetManager::getInstance()->getMergedNonCoreJavaScript();
+        $jsMergedFile = $this->assetManager->getMergedNonCoreJavaScript();
         $this->serveJsFile($jsMergedFile);
     }
 

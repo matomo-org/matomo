@@ -55,6 +55,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     );
 
     /**
+     * @var AssetManager
+     */
+    private $assetManager;
+
+    public function __construct(AssetManager $assetManager)
+    {
+        parent::__construct();
+
+        $this->assetManager = $assetManager;
+    }
+
+    /**
      * Get installation steps
      *
      * @return array installation steps
@@ -486,7 +498,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function getBaseCss()
     {
         Common::sendHeader('Content-Type: text/css');
-        return AssetManager::getInstance()->getCompiledBaseCss()->getContent();
+        return $this->assetManager->getCompiledBaseCss()->getContent();
     }
 
     private function getParam($name)

@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\TestRunner\Commands;
 
 use Piwik\AssetManager;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -50,7 +51,9 @@ class TestsRunUI extends ConsoleCommand
         $core = $input->getOption('core');
 
         if (!$skipDeleteAssets) {
-            AssetManager::getInstance()->removeMergedAssets();
+            /** @var AssetManager $assetManager */
+            $assetManager = StaticContainer::get('Piwik\AssetManager');
+            $assetManager->removeMergedAssets();
         }
 
         $options = array();
