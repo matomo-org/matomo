@@ -111,7 +111,7 @@ class ReportTest extends IntegrationTestCase
 
     public function tearDown()
     {
-        WidgetsList::getInstance()->_reset();
+        $this->getWidgetsList()->_reset();
         unset($_GET['idSite']);
         parent::tearDown();
     }
@@ -169,7 +169,7 @@ class ReportTest extends IntegrationTestCase
         $widgets = WidgetsList::get();
         $this->assertCount(0, $widgets);
 
-        $this->basicReport->configureWidget(WidgetsList::getInstance());
+        $this->basicReport->configureWidget($this->getWidgetsList());
 
         $widgets = WidgetsList::get();
         $this->assertCount(0, $widgets);
@@ -180,7 +180,7 @@ class ReportTest extends IntegrationTestCase
         $widgets = WidgetsList::get();
         $this->assertCount(0, $widgets);
 
-        $this->advancedReport->configureWidget(WidgetsList::getInstance());
+        $this->advancedReport->configureWidget($this->getWidgetsList());
 
         $widgets = WidgetsList::get();
         $this->assertCount(1, $widgets);
@@ -197,7 +197,7 @@ class ReportTest extends IntegrationTestCase
         $this->assertCount(0, $widgets);
 
         $this->advancedReport->set('widgetParams', array('foo' => 'bar'));
-        $this->advancedReport->configureWidget(WidgetsList::getInstance());
+        $this->advancedReport->configureWidget($this->getWidgetsList());
 
         $widgets = WidgetsList::get();
         $this->assertCount(1, $widgets);
@@ -543,5 +543,13 @@ class ReportTest extends IntegrationTestCase
     private function unloadAllPlugins()
     {
         PluginManager::getInstance()->unloadPlugins();
+    }
+
+    /**
+     * @return WidgetsList
+     */
+    private function getWidgetsList()
+    {
+        return self::$fixture->piwikEnvironment->getContainer()->get('Piwik\WidgetsList');
     }
 }
