@@ -11,6 +11,7 @@ namespace Piwik\Tests\Framework\TestRequest;
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\Application\Environment;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Url;
 use Piwik\UrlHelper;
@@ -79,11 +80,17 @@ class Collection
     private $apiNotToCall;
 
     /**
+     * @var Environment
+     */
+    private $environment;
+
+    /**
      * Constructor.
      */
-    public function __construct($api, ApiTestConfig $testConfig, $apiToCall)
+    public function __construct($api, ApiTestConfig $testConfig, $apiToCall, Environment $environment)
     {
         $this->testConfig = $testConfig;
+        $this->environment = $environment;
         $this->setExplicitApiToCallAndNotCall($apiToCall);
 
         $this->requestUrls = $this->_generateApiUrls();
@@ -185,7 +192,9 @@ class Collection
         $originalDate = $parametersToSet['date'];
 
         $requestUrls = array();
-        $apiMetadata = new DocumentationGenerator;
+
+        /** @var DocumentationGenerator $apiMetadata */
+        $apiMetadata = $this->environment->getContainer()->get('Piwik\API\DocumentationGenerator');
 
         // Get the URLs to query against the API for all functions starting with get*
         foreach ($this->getAllApiMethods() as $apiMethodInfo) {
@@ -276,10 +285,13 @@ class Collection
 
     private function getAllApiMethods()
     {
+        /** @var Proxy $apiProxy */
+        $apiProxy = $this->environment->getContainer()->get('Piwik\API\Proxy');
+
         $result = array();
 
-        foreach (Proxy::getInstance()->getMetadata() as $class => $info) {
-            $moduleName = Proxy::getInstance()->getModuleNameFromClassName($class);
+        foreach ($apiProxy->getMetadata() as $class => $info) {
+            $moduleName = $apiProxy->getModuleNameFromClassName($class);
             foreach ($info as $methodName => $infoMethod) {
                 if ($this->shouldSkipApiMethod($moduleName, $methodName)) {
                     continue;

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
+use Piwik\API\Proxy;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DbHelper;
@@ -40,11 +41,11 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $updater;
 
-    public function __construct(FrontController $frontController, Updater $updater)
+    public function __construct(FrontController $frontController, Proxy $apiProxy, Updater $updater)
     {
         $this->updater = $updater;
 
-        parent::__construct($frontController);
+        parent::__construct($frontController, $apiProxy);
     }
 
     public function newVersionAvailable()

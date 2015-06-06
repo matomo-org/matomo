@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Installation;
 
 use Exception;
 use Piwik\Access;
+use Piwik\API\Proxy;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
@@ -60,9 +61,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     private $assetManager;
 
-    public function __construct(FrontController $frontController, AssetManager $assetManager)
+    public function __construct(FrontController $frontController, Proxy $apiProxy, AssetManager $assetManager)
     {
-        parent::__construct($frontController);
+        parent::__construct($frontController, $apiProxy);
 
         $this->assetManager = $assetManager;
     }

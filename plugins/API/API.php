@@ -396,13 +396,16 @@ class API extends \Piwik\Plugin\API
         }
         krsort($columnsByPlugin);
 
+        /** @var Proxy $proxy */
+        $proxy = StaticContainer::get('Piwik\API\Proxy');
+
         $mergedDataTable = false;
         $params = compact('idSite', 'period', 'date', 'segment', 'idGoal');
         foreach ($columnsByPlugin as $plugin => $columns) {
             // load the data
             $className = Request::getClassNameAPI($plugin);
             $params['columns'] = implode(',', $columns);
-            $dataTable = Proxy::getInstance()->call($className, 'get', $params);
+            $dataTable = $proxy->call($className, 'get', $params);
 
             $dataTable->filter(function (DataTable $table) {
                 $table->clearQueuedFilters();

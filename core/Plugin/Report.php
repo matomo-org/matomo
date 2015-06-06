@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Columns\Dimension;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\Sort;
 use Piwik\Menu\MenuReporting;
@@ -325,7 +326,8 @@ class Report
      */
     public function render()
     {
-        $apiProxy = Proxy::getInstance();
+        /** @var Proxy $proxy */
+        $apiProxy = StaticContainer::get('Piwik\API\Proxy');
 
         if (!$apiProxy->isExistingApiAction($this->module, $this->action)) {
             throw new Exception("Invalid action name '$this->action' for '$this->module' plugin.");

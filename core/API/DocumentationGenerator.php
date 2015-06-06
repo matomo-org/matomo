@@ -13,21 +13,29 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Url;
 use ReflectionClass;
+use Piwik\Plugin\Manager as PluginManager;
 
 class DocumentationGenerator
 {
     protected $countPluginsLoaded = 0;
 
     /**
+     * @var Proxy
+     */
+    private $apiProxy;
+
+    /**
      * trigger loading all plugins with an API.php file in the Proxy
      */
-    public function __construct()
+    public function __construct(Proxy $apiProxy, PluginManager $pluginManager)
     {
-        $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPluginsName();
+        $this->apiProxy = $apiProxy;
+
+        $plugins = $pluginManager->getLoadedPluginsName();
         foreach ($plugins as $plugin) {
             try {
                 $className = Request::getClassNameAPI($plugin);
-                Proxy::getInstance()->registerClass($className);
+                $apiProxy->registerClass($className);
             } catch (Exception $e) {
             }
         }
@@ -50,8 +58,8 @@ class DocumentationGenerator
 
         $str = $toc = '';
 
-        foreach (Proxy::getInstance()->getMetadata() as $class => $info) {
-            $moduleName = Proxy::getInstance()->getModuleNameFromClassName($class);
+        foreach ($this->apiProxy->getMetadata() as $class => $info) {
+            $moduleName = $this->apiProxy->getModuleNameFromClassName($class);
             $rClass = new ReflectionClass($class);
 
             if (!Piwik::hasUserSuperUserAccess() && $this->checkIfClassCommentContainsHideAnnotation($rClass)) {
@@ -84,7 +92,7 @@ class DocumentationGenerator
         $info['__documentation'] = $this->checkDocumentation($info['__documentation']);
         $str .= "<div class='apiDescription'> " . $info['__documentation'] . " </div>";
         foreach ($methods as $methodName) {
-            if (Proxy::getInstance()->isDeprecatedMethod($class, $methodName)) {
+            if ($this->apiProxy->isDeprecatedMethod($class, $methodName)) {
                 continue;
             }
 
@@ -184,7 +192,7 @@ class DocumentationGenerator
                 continue;
             }
 
-            if (Proxy::getInstance()->isDeprecatedMethod($class, $methodName)) {
+            if ($this->apiProxy->isDeprecatedMethod($class, $methodName)) {
                 continue;
             }
 
@@ -256,7 +264,7 @@ class DocumentationGenerator
         }
 
         // we try to give an URL example to call the API
-        $aParameters = Proxy::getInstance()->getParametersList($class, $methodName);
+        $aParameters = $this->apiProxy->getParametersList($class, $methodName);
         // Kindly force some known generic parameters to appear in the final list
         // the parameter 'format' can be set to all API methods (used in tests)
         // the parameter 'hideIdSubDatable' is used for system tests only
@@ -287,7 +295,7 @@ class DocumentationGenerator
         $aParameters['disable_queued_filters'] = false;
         $aParameters['disable_generic_filters'] = false;
 
-        $moduleName = Proxy::getInstance()->getModuleNameFromClassName($class);
+        $moduleName = $this->apiProxy->getModuleNameFromClassName($class);
         $aParameters = array_merge(array('module' => 'API', 'method' => $moduleName . '.' . $methodName), $aParameters);
 
         foreach ($aParameters as $nameVariable => &$defaultValue) {
@@ -311,7 +319,7 @@ class DocumentationGenerator
      */
     public function getParametersString($class, $name)
     {
-        $aParameters = Proxy::getInstance()->getParametersList($class, $name);
+        $aParameters = $this->apiProxy->getParametersList($class, $name);
         $asParameters = array();
         foreach ($aParameters as $nameVariable => $defaultValue) {
             // Do not show API parameters starting with _

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
+use Piwik\API\Proxy;
 use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
@@ -44,11 +45,11 @@ class Controller extends ControllerAdmin
      */
     private $translator;
 
-    public function __construct(FrontController $frontController, Translator $translator)
+    public function __construct(FrontController $frontController, Proxy $apiProxy, Translator $translator)
     {
         $this->translator = $translator;
 
-        parent::__construct($frontController);
+        parent::__construct($frontController, $apiProxy);
     }
 
     public function index()

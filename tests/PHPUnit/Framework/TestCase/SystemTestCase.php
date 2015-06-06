@@ -58,11 +58,10 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         Log::debug("Setting up " . get_called_class());
 
         if (!isset(static::$fixture)) {
-            $fixture = new Fixture();
-        } else {
-            $fixture = static::$fixture;
+            self::$fixture = new Fixture();
         }
 
+        $fixture = static::$fixture;
         $fixture->testCaseClass = get_called_class();
 
         if (!array_key_exists('loadRealTranslations', $fixture->extraTestEnvVars)) {
@@ -472,7 +471,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
     protected function getTestRequestsCollection($api, $testConfig, $api)
     {
-       return new Collection($api, $testConfig, $api);
+       return new Collection($api, $testConfig, $api, static::$fixture->piwikEnvironment);
     }
 
     private function printComparisonFailures()

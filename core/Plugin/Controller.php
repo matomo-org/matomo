@@ -117,13 +117,19 @@ abstract class Controller
     protected $frontController;
 
     /**
+     * @var Proxy
+     */
+    protected $apiProxy;
+
+    /**
      * Constructor.
      *
      * @api
      */
-    public function __construct(FrontController $frontController)
+    public function __construct(FrontController $frontController, Proxy $apiProxy)
     {
         $this->frontController = $frontController;
+        $this->apiProxy = $apiProxy;
 
         $this->init();
     }
@@ -336,8 +342,7 @@ abstract class Controller
 
         $pluginName = $this->pluginName;
 
-        /** @var Proxy $apiProxy */
-        $apiProxy = Proxy::getInstance();
+        $apiProxy = $this->apiProxy;
 
         if (!$apiProxy->isExistingApiAction($pluginName, $apiAction)) {
             throw new \Exception("Invalid action name '$apiAction' for '$pluginName' plugin.");

@@ -332,7 +332,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         $this->clearInMemoryCaches();
-
         $this->destroyEnvironment();
     }
 

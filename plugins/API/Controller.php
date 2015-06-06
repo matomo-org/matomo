@@ -13,6 +13,7 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Url;
@@ -23,7 +24,19 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    function index()
+    /**
+     * @var DocumentationGenerator
+     */
+    private $documentationGenerator;
+
+    public function __construct(FrontController $frontController, Proxy $apiProxy, DocumentationGenerator $documentationGenerator)
+    {
+        parent::__construct($frontController, $apiProxy);
+
+        $this->documentationGenerator = $documentationGenerator;
+    }
+
+    public function index()
     {
         $token = 'token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string');
 
@@ -45,8 +58,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function listAllMethods()
     {
-        $ApiDocumentation = new DocumentationGenerator();
-        return $ApiDocumentation->getAllInterfaceString($outputExampleUrls = true, $prefixUrls = Common::getRequestVar('prefixUrl', ''));
+        return $this->documentationGenerator->getAllInterfaceString($outputExampleUrls = true, $prefixUrls = Common::getRequestVar('prefixUrl', ''));
     }
 
     public function listAllAPI()
@@ -54,9 +66,8 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View("@API/listAllAPI");
         $this->setGeneralVariablesView($view);
 
-        $ApiDocumentation = new DocumentationGenerator();
-        $view->countLoadedAPI = Proxy::getInstance()->getCountRegisteredClasses();
-        $view->list_api_methods_with_links = $ApiDocumentation->getAllInterfaceString();
+        $view->countLoadedAPI = $this->apiProxy->getCountRegisteredClasses();
+        $view->list_api_methods_with_links = $this->documentationGenerator->getAllInterfaceString();
         return $view->render();
     }
 

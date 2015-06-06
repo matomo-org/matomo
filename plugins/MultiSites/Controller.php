@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\MultiSites;
 
+use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
@@ -29,9 +30,9 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $translator;
 
-    public function __construct(FrontController $frontController, Translator $translator)
+    public function __construct(FrontController $frontController, Proxy $apiProxy, Translator $translator)
     {
-        parent::__construct($frontController);
+        parent::__construct($frontController, $apiProxy);
 
         $this->translator = $translator;
     }

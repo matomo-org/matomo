@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UserCountryMap;
 
 use Exception;
+use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
@@ -34,11 +35,11 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $translator;
 
-    public function __construct(FrontController $frontController, Translator $translator)
+    public function __construct(FrontController $frontController, Proxy $apiProxy, Translator $translator)
     {
         $this->translator = $translator;
 
-        parent::__construct($frontController);
+        parent::__construct($frontController, $apiProxy);
     }
 
     public function visitorMap($fetch = false, $segmentOverride = false)

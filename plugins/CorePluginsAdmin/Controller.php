@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Exception;
+use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Exception\MissingFilePermissionException;
@@ -41,11 +42,11 @@ class Controller extends Plugin\ControllerAdmin
      */
     private $translator;
 
-    public function __construct(FrontController $frontController, Translator $translator)
+    public function __construct(FrontController $frontController, Proxy $apiProxy, Translator $translator)
     {
         $this->translator = $translator;
 
-        parent::__construct($frontController);
+        parent::__construct($frontController, $apiProxy);
     }
 
     public function marketplace()

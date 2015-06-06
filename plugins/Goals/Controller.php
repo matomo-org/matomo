@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Goals;
 
+use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
@@ -70,9 +71,9 @@ class Controller extends \Piwik\Plugin\Controller
         return $conversionRate;
     }
 
-    public function __construct(FrontController $frontController, Translator $translator, TranslationHelper $translationHelper)
+    public function __construct(FrontController $frontController, Proxy $apiProxy, Translator $translator, TranslationHelper $translationHelper)
     {
-        parent::__construct($frontController);
+        parent::__construct($frontController, $apiProxy);
 
         $this->translator = $translator;
         $this->translationHelper = $translationHelper;

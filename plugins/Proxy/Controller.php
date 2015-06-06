@@ -16,6 +16,7 @@ use Piwik\Piwik;
 use Piwik\ProxyHttp;
 use Piwik\Url;
 use Piwik\UrlHelper;
+use Piwik\API\Proxy as ApiProxy;
 
 /**
  * Controller for proxy services
@@ -31,9 +32,9 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $assetManager;
 
-    public function __construct(FrontController $frontController, AssetManager $assetManager)
+    public function __construct(FrontController $frontController, ApiProxy $apiProxy, AssetManager $assetManager)
     {
-        parent::__construct($frontController);
+        parent::__construct($frontController, $apiProxy);
 
         $this->assetManager = $assetManager;
     }

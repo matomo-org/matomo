@@ -23,10 +23,8 @@ use ReflectionMethod;
  * object, with the parameters in the right order.
  *
  * It will also log the performance of API calls (time spent, parameter values, etc.) if logger available
- *
- * @method static Proxy getInstance()
  */
-class Proxy extends Singleton
+class Proxy
 {
     // array of already registered plugins names
     protected $alreadyRegistered = array();
