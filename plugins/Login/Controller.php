@@ -46,28 +46,14 @@ class Controller extends \Piwik\Plugin\Controller
 
     /**
      * Constructor.
-     *
-     * @param PasswordResetter $passwordResetter
-     * @param AuthInterface $auth
-     * @param SessionInitializer $authenticatedSessionFactory
 \     */
-    public function __construct(FrontController $frontController, $passwordResetter = null, $auth = null, $sessionInitializer = null)
+    public function __construct(FrontController $frontController, PasswordResetter $passwordResetter, Auth $auth,
+                                SessionInitializer $sessionInitializer)
     {
         parent::__construct($frontController);
 
-        if (empty($passwordResetter)) {
-            $passwordResetter = new PasswordResetter();
-        }
         $this->passwordResetter = $passwordResetter;
-
-        if (empty($auth)) {
-            $auth = StaticContainer::get('Piwik\Auth');
-        }
         $this->auth = $auth;
-
-        if (empty($sessionInitializer)) {
-            $sessionInitializer = new SessionInitializer();
-        }
         $this->sessionInitializer = $sessionInitializer;
     }
 
