@@ -856,6 +856,10 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
+        // converts html entities back to original form & removes quotes if present.
+        $excludedUserAgents = html_entity_decode($excludedUserAgents);
+        $excludedUserAgents = trim($excludedUserAgents, '"');
+        
         // update option
         $excludedUserAgents = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
         Option::set(self::OPTION_EXCLUDED_USER_AGENTS_GLOBAL, $excludedUserAgents);
