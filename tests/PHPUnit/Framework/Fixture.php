@@ -24,7 +24,6 @@ use Piwik\DbHelper;
 use Piwik\Ini\IniReader;
 use Piwik\Log;
 use Piwik\Option;
-use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
@@ -333,8 +332,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         $this->clearInMemoryCaches();
-
-        Log::unsetInstance();
 
         $this->destroyEnvironment();
     }

@@ -33,12 +33,6 @@ class ReportingTest extends IntegrationTestCase
         $this->menu = MenuReporting::getInstance();
     }
 
-    public function tearDown()
-    {
-        MenuReporting::getInstance()->unsetInstance();
-        parent::tearDown();
-    }
-
     public function test_getMenu_shouldBeNull_IfNoItems()
     {
         $this->assertNull($this->menu->getMenu());

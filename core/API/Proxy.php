@@ -40,7 +40,7 @@ class Proxy extends Singleton
     /**
      * protected constructor
      */
-    protected function __construct()
+    public function __construct()
     {
         $this->noDefaultValue = new NoDefaultValue();
     }

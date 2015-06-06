@@ -17,7 +17,7 @@ class UIAssetMinifier extends Singleton
 {
     const MINIFIED_JS_RATIO = 100;
 
-    protected function __construct()
+    public function __construct()
     {
         self::validateDependency();
         parent::__construct();

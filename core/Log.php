@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Monolog\Logger;
-use Piwik\Container\StaticContainer;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -77,32 +76,9 @@ class Log extends Singleton
     public static $debugBacktraceForTests;
 
     /**
-     * Singleton instance.
-     *
-     * @var Log
-     */
-    private static $instance;
-
-    /**
      * @var LoggerInterface
      */
     private $logger;
-
-    public static function getInstance()
-    {
-        if (self::$instance === null) {
-            self::$instance = StaticContainer::get(__CLASS__);
-        }
-        return self::$instance;
-    }
-    public static function unsetInstance()
-    {
-        self::$instance = null;
-    }
-    public static function setSingletonInstance($instance)
-    {
-        self::$instance = $instance;
-    }
 
     /**
      * @param LoggerInterface $logger
