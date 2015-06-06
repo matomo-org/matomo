@@ -8,12 +8,9 @@
 
 namespace Piwik\Translation;
 
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugin;
-use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
-use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Translation\Loader\LoaderInterface;
 
 /**
@@ -192,32 +189,12 @@ class Translator
      */
     public function getDefaultLanguage()
     {
-        // First check forced by request param language setting,
-        // then - session language setting, then - from browser,
-        // and finally default configured setting.
-        $languageCodes = [
-            Common::getRequestVar('language', ''),
-            LanguagesManager::getLanguageForSession(),
-            LanguagesManager::getLanguageCodeForCurrentUser(),
-            self::getDefaultConfiguredLanguage(),
-        ];
-        foreach ($languageCodes as $languageCode) {
-            if (APILanguagesManager::getInstance()->isLanguageAvailable($languageCode)) {
-                return $languageCode;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * @return string The default configured language.
-     */
-    public static function getDefaultConfiguredLanguage()
-    {
         // Default to 'en' if the config is not available
         // (for example, during environment setup).
         $generalSection = Config::getInstance()->General;
-        return !empty($generalSection['default_language']) ?: 'en';
+        return !empty($generalSection['default_language'])
+            ? $generalSection['default_language']
+            : 'en';
     }
 
     /**
