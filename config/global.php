@@ -27,21 +27,12 @@ return array(
 
     'Piwik\Cache\Eager' => function (ContainerInterface $c) {
         $backend = $c->get('Piwik\Cache\Backend');
-        $cacheId = $c->get('cache.eager.cache_id');
-
-        if (SettingsServer::isTrackerApiRequest()) {
-            $eventToPersist = 'Tracker.end';
-            $cacheId .= 'tracker';
-        } else {
-            $eventToPersist = 'Request.dispatch.end';
-            $cacheId .= 'ui';
-        }
+        $cacheId = $c->get('cache.eager.cache_id') . 'ui';
 
         $cache = new Eager($backend, $cacheId);
-        \Piwik\Piwik::addAction($eventToPersist, function () use ($cache) {
+        \Piwik\Piwik::addAction('Request.dispatch.end', function () use ($cache) {
             $cache->persistCacheIfNeeded(43200);
         });
-
         return $cache;
     },
     'Piwik\Cache\Backend' => function (ContainerInterface $c) {
