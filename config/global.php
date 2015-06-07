@@ -3,7 +3,6 @@
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\NotFoundException;
 use Piwik\Cache\Eager;
-use Piwik\SettingsServer;
 
 return array(
 
@@ -29,11 +28,7 @@ return array(
         $backend = $c->get('Piwik\Cache\Backend');
         $cacheId = $c->get('cache.eager.cache_id') . 'ui';
 
-        $cache = new Eager($backend, $cacheId);
-        \Piwik\Piwik::addAction('Request.dispatch.end', function () use ($cache) {
-            $cache->persistCacheIfNeeded(43200);
-        });
-        return $cache;
+        return new Eager($backend, $cacheId);
     },
     'Piwik\Cache\Backend' => function (ContainerInterface $c) {
         try {
@@ -53,7 +48,15 @@ return array(
     'Piwik\Translation\Loader\LoaderInterface' => DI\object('Piwik\Translation\Loader\LoaderCache')
         ->constructor(DI\get('Piwik\Translation\Loader\JsonFileLoader')),
 
-    'observers.global' => array(),
+    'observers.global' => array(
+
+        array('Request.dispatch.end', function (ContainerInterface $c) {
+            /** @var Eager $cache */
+            $cache = $c->get('Piwik\Cache\Eager');
+            $cache->persistCacheIfNeeded(43200);
+        }),
+
+    ),
 
     'Piwik\EventDispatcher' => DI\object()
         ->constructorParameter('observers', DI\get('observers.global'))

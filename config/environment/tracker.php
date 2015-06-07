@@ -9,11 +9,17 @@ return array(
         $backend = $c->get('Piwik\Cache\Backend');
         $cacheId = $c->get('cache.eager.cache_id') . 'tracker';
 
-        $cache = new Eager($backend, $cacheId);
-        \Piwik\Piwik::addAction('Tracker.end', function () use ($cache) {
-            $cache->persistCacheIfNeeded(43200);
-        });
-        return $cache;
+        return new Eager($backend, $cacheId);
     },
+
+    'global.observers' => DI\add(array(
+
+        array('Tracker.end', function (ContainerInterface $c) {
+            /** @var Eager $cache */
+            $cache = $c->get('Piwik\Cache\Eager');
+            $cache->persistCacheIfNeeded(43200);
+        }),
+
+    )),
 
 );
