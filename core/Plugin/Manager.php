@@ -39,6 +39,7 @@ class Manager
 {
     /**
      * @return self
+     * @deprecated
      */
     public static function getInstance()
     {
