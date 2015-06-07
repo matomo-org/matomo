@@ -2747,6 +2747,7 @@ if (typeof Piwik !== 'object') {
              * Sets the Visitor ID cookie
              */
             function setVisitorIdCookie(visitorIdCookieValues) {
+
                 if(!configTrackerSiteId) {
                     // when called before Site ID was set
                     return;
@@ -2826,10 +2827,16 @@ if (typeof Piwik !== 'object') {
 
                 // Temporarily allow cookies just to delete the existing ones
                 configCookiesDisabled = false;
-                deleteCookie(getCookieName('id'), configCookiePath, configCookieDomain);
-                deleteCookie(getCookieName('ses'), configCookiePath, configCookieDomain);
-                deleteCookie(getCookieName('cvar'), configCookiePath, configCookieDomain);
-                deleteCookie(getCookieName('ref'), configCookiePath, configCookieDomain);
+
+                var cookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
+                var index, cookieName;
+
+                for (index = 0; index < cookiesToDelete.length; index++) {
+                    cookieName = getCookieName(cookiesToDelete[index]);
+                    if (0 !== getCookie(cookieName)) {
+                        deleteCookie(cookieName, configCookiePath, configCookieDomain);
+                    }
+                }
 
                 configCookiesDisabled = savedConfigCookiesDisabled;
             }
@@ -4726,6 +4733,10 @@ if (typeof Piwik !== 'object') {
                 disableCookies: function () {
                     configCookiesDisabled = true;
                     browserFeatures.cookie = '0';
+
+                    if (configTrackerSiteId) {
+                        deleteCookies();
+                    }
                 },
 
                 /**
@@ -5274,6 +5285,46 @@ if (typeof Piwik !== 'object') {
             };
         }
 
+        /**
+         * Applies the given methods in the given order if they are present in paq.
+         *
+         * @param {Array} paq
+         * @param {Array} methodsToApply an array containing method names in the order that they should be applied
+         *                 eg ['setSiteId', 'setTrackerUrl']
+         * @returns {Array} the modified paq array with the methods that were already applied set to undefined
+         */
+        function applyMethodsInOrder(paq, methodsToApply)
+        {
+            var appliedMethods = {};
+            var index, iterator;
+
+            for (index = 0; index < methodsToApply.length; index++) {
+                var methodNameToApply = methodsToApply[index];
+                appliedMethods[methodNameToApply] = 1;
+
+                for (iterator = 0; iterator < paq.length; iterator++) {
+                    if (paq[iterator] && paq[iterator][0]) {
+                        var methodName = paq[iterator][0];
+
+                        if (methodNameToApply === methodName) {
+                            apply(paq[iterator]);
+                            delete paq[iterator];
+
+                            if (appliedMethods[methodName] > 1) {
+                                if (console !== undefined && console && console.error) {
+                                    console.error('The method ' + methodName + ' is registered more than once in "paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: http://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
+                                }
+                            }
+
+                            appliedMethods[methodName]++;
+                        }
+                    }
+                }
+            }
+
+            return paq;
+        }
+
         /************************************************************
          * Constructor
          ************************************************************/
@@ -5286,26 +5337,8 @@ if (typeof Piwik !== 'object') {
 
         asyncTracker = new Tracker();
 
-        var applyFirst = {setTrackerUrl: 1, setAPIUrl: 1, setUserId: 1, setSiteId: 1, disableCookies: 1, enableLinkTracking: 1};
-        var methodName;
-
-        // find the call to setTrackerUrl or setSiteid (if any) and call them first
-        for (iterator = 0; iterator < _paq.length; iterator++) {
-            methodName = _paq[iterator][0];
-
-            if (applyFirst[methodName]) {
-                apply(_paq[iterator]);
-                delete _paq[iterator];
-
-                if (applyFirst[methodName] > 1) {
-                    if (console !== undefined && console && console.error) {
-                        console.error('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: http://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
-                    }
-                }
-
-                applyFirst[methodName]++;
-            }
-        }
+        var applyFirst  = ['disableCookies', 'setTrackerUrl', 'setAPIUrl', 'setUserId', 'setSiteId', 'enableLinkTracking'];
+        _paq = applyMethodsInOrder(_paq, applyFirst);
 
         // apply the queue of actions
         for (iterator = 0; iterator < _paq.length; iterator++) {
