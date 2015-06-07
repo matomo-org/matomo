@@ -207,7 +207,7 @@ class ReportTest extends IntegrationTestCase
 
     public function test_configureReportingMenu_shouldNotAddAMenuIfNoWidgetTitleIsSet()
     {
-        $menu      = MenuReporting::getInstance();
+        $menu = $this->getMenuReporting();
         $menuItems = $menu->getMenu();
         $this->assertNull($menuItems);
 
@@ -219,7 +219,7 @@ class ReportTest extends IntegrationTestCase
 
     public function test_configureReportingMenu_shouldAddAMenuIfATitleIsSet()
     {
-        $menu      = MenuReporting::getInstance();
+        $menu = $this->getMenuReporting();
         $menuItems = $menu->getMenu();
         $this->assertNull($menuItems);
 
@@ -551,5 +551,13 @@ class ReportTest extends IntegrationTestCase
     private function getWidgetsList()
     {
         return self::$fixture->piwikEnvironment->getContainer()->get('Piwik\WidgetsList');
+    }
+
+    /**
+     * @return MenuReporting
+     */
+    private function getMenuReporting()
+    {
+        return self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Menu\MenuReporting');
     }
 }

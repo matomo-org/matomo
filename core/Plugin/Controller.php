@@ -648,8 +648,13 @@ abstract class Controller
 
         $this->setBasicVariablesView($view);
 
-        $view->topMenu  = MenuTop::getInstance()->getMenu();
-        $view->userMenu = MenuUser::getInstance()->getMenu();
+        /** @var MenuTop $menuTop */
+        $menuTop = StaticContainer::get('Piwik\Menu\MenuTop');
+        $view->topMenu  = $menuTop->getMenu();
+
+        /** @var MenuUser $userMenu */
+        $userMenu = StaticContainer::get('Piwik\Menu\MenuUser');
+        $view->userMenu = $userMenu->getMenu();
 
         $notifications = $view->notifications;
         if (empty($notifications)) {

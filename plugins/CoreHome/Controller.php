@@ -12,6 +12,7 @@ use Exception;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Menu\MenuReporting;
@@ -131,7 +132,11 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@CoreHome/getDefaultIndexView');
         $this->setGeneralVariablesView($view);
-        $view->menu = MenuReporting::getInstance()->getMenu();
+
+        /** @var MenuReporting $menuTop */
+        $menuReporting = StaticContainer::get('Piwik\Menu\MenuReporting');
+        $view->menu  = $menuReporting->getMenu();
+
         $view->dashboardSettingsControl = new DashboardManagerControl();
         $view->content = '';
         return $view;

@@ -31,6 +31,8 @@ class ReportingTest extends IntegrationTestCase
 
         PluginManager::getInstance()->unloadPlugins();
         $this->menu = MenuReporting::getInstance();
+
+        $this->menu = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Menu\MenuReporting');
     }
 
     public function test_getMenu_shouldBeNull_IfNoItems()
