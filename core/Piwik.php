@@ -689,7 +689,9 @@ class Piwik
      */
     public static function postEvent($eventName, $params = array(), $pending = false, $plugins = null)
     {
-        EventDispatcher::getInstance()->postEvent($eventName, $params, $pending, $plugins);
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = StaticContainer::get('Piwik\EventDispatcher');
+        $eventDispatcher->postEvent($eventName, $params, $pending, $plugins);
     }
 
     /**
@@ -704,7 +706,9 @@ class Piwik
      */
     public static function addAction($eventName, $function)
     {
-        EventDispatcher::getInstance()->addObserver($eventName, $function);
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = StaticContainer::get('Piwik\EventDispatcher');
+        $eventDispatcher->addObserver($eventName, $function);
     }
 
     /**

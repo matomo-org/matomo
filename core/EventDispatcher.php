@@ -18,14 +18,6 @@ use Piwik\Container\StaticContainer;
  */
 class EventDispatcher
 {
-    /**
-     * @return EventDispatcher
-     */
-    public static function getInstance()
-    {
-        return StaticContainer::get('Piwik\EventDispatcher');
-    }
-
     // implementation details for postEvent
     const EVENT_CALLBACK_GROUP_FIRST = 0;
     const EVENT_CALLBACK_GROUP_SECOND = 1;

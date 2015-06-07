@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
+use Piwik\Container\StaticContainer;
 use Piwik\EventDispatcher;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
@@ -43,7 +44,7 @@ class DocumentationGeneratorTest extends UnitTestCase
     public function test_CheckIfMethodComment_ContainsHideAnnotation_andText()
     {
         $annotation = '@hideForAll test test';
-        EventDispatcher::getInstance()->addObserver('API.DocumentationGenerator.@hideForAll',
+        $this->getEventDispatcher()->addObserver('API.DocumentationGenerator.@hideForAll',
             function (&$hide) {
                 $hide = true;
             });
@@ -53,7 +54,7 @@ class DocumentationGeneratorTest extends UnitTestCase
     public function test_CheckIfMethodComment_ContainsHideAnnotation_only()
     {
         $annotation = '@hideForAll';
-        EventDispatcher::getInstance()->addObserver('API.DocumentationGenerator.@hideForAll',
+        $this->getEventDispatcher()->addObserver('API.DocumentationGenerator.@hideForAll',
             function (&$hide) {
                 $hide = true;
             });
@@ -63,7 +64,7 @@ class DocumentationGeneratorTest extends UnitTestCase
     public function test_CheckIfMethodComment_DoesNotContainHideAnnotation()
     {
         $annotation = '@not found here';
-        EventDispatcher::getInstance()->addObserver('API.DocumentationGenerator.@hello',
+        $this->getEventDispatcher()->addObserver('API.DocumentationGenerator.@hello',
             function (&$hide) {
                 $hide = true;
             });
@@ -76,5 +77,10 @@ class DocumentationGeneratorTest extends UnitTestCase
     private function getApiProxy()
     {
         return $this->environment->getContainer()->get('Piwik\API\Proxy');
+    }
+
+    private function getEventDispatcher()
+    {
+        return StaticContainer::get('Piwik\EventDispatcher');
     }
 }
