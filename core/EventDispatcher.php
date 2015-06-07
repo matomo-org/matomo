@@ -9,6 +9,7 @@
 
 namespace Piwik;
 
+use Interop\Container\ContainerInterface;
 use Piwik\Container\StaticContainer;
 
 /**
@@ -58,14 +59,20 @@ class EventDispatcher
      */
     private $pluginManager;
 
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
     private $pluginHooks = array();
 
     /**
      * Constructor.
      */
-    public function __construct(Plugin\Manager $pluginManager, array $observers = array())
+    public function __construct(Plugin\Manager $pluginManager, ContainerInterface $container = null, array $observers = array())
     {
         $this->pluginManager = $pluginManager;
+        $this->container = $container;
 
         foreach ($observers as $observerInfo) {
             list($eventName, $callback) = $observerInfo;
@@ -136,6 +143,7 @@ class EventDispatcher
         ksort($callbacks);
 
         // execute callbacks in order
+        $params[] = $this->container;
         foreach ($callbacks as $callbackGroup) {
             foreach ($callbackGroup as $callback) {
                 call_user_func_array($callback, $params);

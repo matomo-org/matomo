@@ -64,5 +64,7 @@ return array(
 
     'observers.global' => array(),
 
-    'Piwik\EventDispatcher' => DI\object()->constructorParameter('observers', DI\get('observers.global'))
+    'Piwik\EventDispatcher' => DI\object()
+        ->constructorParameter('observers', DI\get('observers.global'))
+        ->constructorParameter('container', DI\get('DI\Container'))
 );
