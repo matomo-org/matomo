@@ -9,7 +9,6 @@
 namespace Piwik\Menu;
 
 use Piwik\Plugins\SitesManager\API;
-use Piwik\Singleton;
 use Piwik\Plugin\Manager as PluginManager;
 
 /**

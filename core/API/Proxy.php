@@ -12,7 +12,6 @@ namespace Piwik\API;
 use Exception;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Singleton;
 use ReflectionClass;
 use ReflectionMethod;
 

@@ -16,7 +16,7 @@ use Piwik\Container\StaticContainer;
  *
  * All plugin APIs are singletons and thus extend this class.
  *
- * @api
+ * @deprecated
  */
 class Singleton
 {
