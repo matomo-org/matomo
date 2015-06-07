@@ -23,7 +23,8 @@ class UserLanguage extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Live.getAllVisitorDetails'              => 'extendVisitorDetails'
+            'Live.getAllVisitorDetails' => 'extendVisitorDetails',
+            'Template.footerUserCountry' => 'footerUserCountry',
         );
     }
 
@@ -35,12 +36,7 @@ class UserLanguage extends \Piwik\Plugin
         $visitor['language']     = $instance->getLanguage();
     }
 
-    public function postLoad()
-    {
-        Piwik::addAction('Template.footerUserCountry', array('Piwik\Plugins\UserLanguage\UserLanguage', 'footerUserCountry'));
-    }
-
-    public static function footerUserCountry(&$out)
+    public function footerUserCountry(&$out)
     {
         /** @var FrontController $frontController */
         $frontController = StaticContainer::get('Piwik\FrontController');

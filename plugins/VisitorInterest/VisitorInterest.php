@@ -26,15 +26,11 @@ class VisitorInterest extends \Piwik\Plugin
     {
         return array(
             'Live.getAllVisitorDetails' => 'extendVisitorDetails',
+            'Template.footerVisitsFrequency' => 'footerVisitsFrequency',
         );
     }
 
-    function postLoad()
-    {
-        Piwik::addAction('Template.footerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'footerVisitsFrequency'));
-    }
-
-   public static function footerVisitsFrequency(&$out)
+   public function footerVisitsFrequency(&$out)
     {
         /** @var FrontController $frontController */
         $frontController = StaticContainer::get('Piwik\FrontController');

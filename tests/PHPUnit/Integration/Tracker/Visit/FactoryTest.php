@@ -32,9 +32,12 @@ class FactoryTest extends IntegrationTestCase
 
     public function test_make_shouldTriggerEventOnce()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $called = 0;
         $self   = $this;
-        Piwik::addAction('Tracker.makeNewVisitObject', function ($visit) use (&$called, $self) {
+        $eventObserver->addObserver('Tracker.makeNewVisitObject', function ($visit) use (&$called, $self) {
             $called++;
             $self->assertNull($visit);
         });
@@ -45,8 +48,11 @@ class FactoryTest extends IntegrationTestCase
 
     public function test_make_shouldPreferManuallyCreatedHandlerInstanceInEventOverDefaultHandler()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $visitToUse = new Visit();
-        Piwik::addAction('Tracker.makeNewVisitObject', function (&$visit) use ($visitToUse) {
+        $eventObserver->addObserver('Tracker.makeNewVisitObject', function (&$visit) use ($visitToUse) {
             $visit = $visitToUse;
         });
 
@@ -60,7 +66,10 @@ class FactoryTest extends IntegrationTestCase
      */
     public function test_make_shouldTriggerExceptionInCaseWrongInstanceCreatedInHandler()
     {
-        Piwik::addAction('Tracker.makeNewVisitObject', function (&$visit) {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
+        $eventObserver->addObserver('Tracker.makeNewVisitObject', function (&$visit) {
             $visit = new Tracker();
         });
 

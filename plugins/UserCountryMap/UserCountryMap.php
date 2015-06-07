@@ -11,7 +11,6 @@ namespace Piwik\Plugins\UserCountryMap;
 use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Piwik;
-use Piwik\Version;
 use Piwik\WidgetsList;
 use Piwik\Plugin\Manager as PluginManager;
 
@@ -19,12 +18,7 @@ use Piwik\Plugin\Manager as PluginManager;
  */
 class UserCountryMap extends \Piwik\Plugin
 {
-    public function postLoad()
-    {
-        Piwik::addAction('Template.leftColumnUserCountry', array('Piwik\Plugins\UserCountryMap\UserCountryMap', 'insertMapInLocationReport'));
-    }
-
-    public static function insertMapInLocationReport(&$out)
+    public function insertMapInLocationReport(&$out)
     {
         /** @var FrontController $frontController */
         $frontController = StaticContainer::get('Piwik\FrontController');
@@ -42,7 +36,8 @@ class UserCountryMap extends \Piwik\Plugin
             'Platform.initialized' => array(
                 'after'    => true,
                 'function' => 'registerWidgets'
-            )
+            ),
+            'Template.leftColumnUserCountry' => 'insertMapInLocationReport',
         );
         return $hooks;
     }

@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
+use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\TrackerCodeGenerator;
@@ -62,9 +63,12 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
      */
     public function testJavascriptTrackingCode_withAllOptionsAndProtocolOverwrite()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $generator = new TrackerCodeGenerator();
 
-        Piwik::addAction('Piwik.getJavascriptCode', function (&$codeImpl) {
+        $eventObserver->addObserver('Piwik.getJavascriptCode', function (&$codeImpl) {
             $codeImpl['protocol'] = 'https://';
         });
 
@@ -109,9 +113,12 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
      */
     public function testJavascriptTrackingCode_withAllOptionsAndOptionsBeforeTrackerUrl()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $generator = new TrackerCodeGenerator();
 
-        Piwik::addAction('Piwik.getJavascriptCode', function (&$codeImpl) {
+        $eventObserver->addObserver('Piwik.getJavascriptCode', function (&$codeImpl) {
             $codeImpl['optionsBeforeTrackerUrl'] .= "_paq.push(['setAPIUrl', 'http://localhost/statistics']);\n    ";
         });
 

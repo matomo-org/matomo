@@ -112,11 +112,14 @@ class RequestSetTest extends IntegrationTestCase
 
     public function test_initRequestsAndTokenAuth_shouldTriggerEventToInitRequestsButOnlyOnce()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $requestSet = $this->buildNewRequestSetThatIsNotInitializedYet();
 
         $called = 0;
         $passedRequest = null;
-        Piwik::addAction('Tracker.initRequestSet', function ($param) use (&$called, &$passedRequest) {
+        $eventObserver->addObserver('Tracker.initRequestSet', function ($param) use (&$called, &$passedRequest) {
             $called++;
             $passedRequest = $param;
         });
@@ -138,10 +141,13 @@ class RequestSetTest extends IntegrationTestCase
 
     public function test_initRequestsAndTokednAuth_shouldInitializeFromGetAndPostIfEventDoesNotHandleRequests()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $_GET  = array('idsite' => 1);
         $_POST = array('c_i' => 'click');
 
-        Piwik::addAction('Tracker.initRequestSet', function (RequestSet $requestSet) {
+        $eventObserver->addObserver('Tracker.initRequestSet', function (RequestSet $requestSet) {
             $requestSet->setRequests(array(array('idsite' => '2'), array('idsite' => '3')));
         });
 

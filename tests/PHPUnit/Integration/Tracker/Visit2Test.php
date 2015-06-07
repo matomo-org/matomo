@@ -143,7 +143,10 @@ class Visit2Test extends IntegrationTestCase
     {
         parent::setUp();
         Fixture::createWebsite('2014-01-01 00:00:00');
-        Piwik::addAction('Tracker.Request.getIdSite', function (&$idSite) {
+
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+        $eventObserver->addObserver('Tracker.Request.getIdSite', function (&$idSite) {
             $idSite = 1;
         });
     }

@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\UsersManager\tests;
 
+use Piwik\EventDispatcher;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API;
@@ -45,9 +46,12 @@ class APITest extends IntegrationTestCase
 
     public function test_setUserAccess_ShouldTriggerRemoveSiteAccessEvent_IfAccessToAWebsiteIsRemoved()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $eventTriggered = false;
         $self = $this;
-        Piwik::addAction('UsersManager.removeSiteAccess', function ($login, $idSites) use (&$eventTriggered, $self) {
+        $eventObserver->addObserver('UsersManager.removeSiteAccess', function ($login, $idSites) use (&$eventTriggered, $self) {
             $eventTriggered = true;
             $self->assertEquals($self->login, $login);
             $self->assertEquals(array(1, 2), $idSites);
@@ -60,8 +64,11 @@ class APITest extends IntegrationTestCase
 
     public function test_setUserAccess_ShouldNotTriggerRemoveSiteAccessEvent_IfAccessIsAdded()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $eventTriggered = false;
-        Piwik::addAction('UsersManager.removeSiteAccess', function () use (&$eventTriggered) {
+        $eventObserver->addObserver('UsersManager.removeSiteAccess', function () use (&$eventTriggered) {
             $eventTriggered = true;
         });
 

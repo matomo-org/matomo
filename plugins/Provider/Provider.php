@@ -24,7 +24,8 @@ class Provider extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Live.getAllVisitorDetails' => 'extendVisitorDetails'
+            'Live.getAllVisitorDetails' => 'extendVisitorDetails',
+            'Template.footerUserCountry' => 'footerUserCountry',
         );
     }
 
@@ -59,12 +60,7 @@ class Provider extends \Piwik\Plugin
         Db::exec($query);
     }
 
-    public function postLoad()
-    {
-        Piwik::addAction('Template.footerUserCountry', array('Piwik\Plugins\Provider\Provider', 'footerUserCountry'));
-    }
-
-    public static function footerUserCountry(&$out)
+    public function footerUserCountry(&$out)
     {
         /** @var FrontController $frontController */
         $frontController = StaticContainer::get('Piwik\FrontController');
