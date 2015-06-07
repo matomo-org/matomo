@@ -12,13 +12,6 @@ use Piwik\Piwik;
 
 class MultiSites extends \Piwik\Plugin
 {
-    public function getInformation()
-    {
-        $info = parent::getInformation();
-        $info['authors'] = array(array('name' => 'Piwik PRO', 'homepage' => 'http://piwik.pro'));
-        return $info;
-    }
-
     /**
      * @see Piwik\Plugin::getListHooksRegistered
      */
