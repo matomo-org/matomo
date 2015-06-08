@@ -91,4 +91,12 @@ describe("ActionsDataTable", function () {
             page.click('.dataTableSearchPattern>input[type=submit]');
         }, done);
     });
+    
+    it("should automatically expand subtables if it contains only one folder", function (done) {
+        expect.screenshot('auto_expand').to.be.capture(function (page) {
+            page.load(url + '&viewDataTable=table');
+            page.click('tr .value:contains("blog")');
+            page.click('tr .value:contains("2012")');
+        }, done);
+    });
 });

@@ -1,14 +1,6 @@
 {
     "UserCountry": {
         "Continent": "Kontinent",
-        "continent_afr": "Afrika",
-        "continent_amc": "Sentral-Amerika",
-        "continent_amn": "Nordamerika",
-        "continent_ams": "Sør- og SentralAmerika",
-        "continent_ant": "Antarktis",
-        "continent_asi": "Asia",
-        "continent_eur": "Europa",
-        "continent_oce": "Oseania",
         "Country": "Land",
         "country_a1": "Anonym mellomtenar",
         "country_a2": "Satelitt-tilbydar",

@@ -1,14 +1,6 @@
 {
     "UserCountry": {
         "Continent": "Continente",
-        "continent_afr": "África",
-        "continent_amc": "América Central",
-        "continent_amn": "América do Norte",
-        "continent_ams": "América do Sul e Central",
-        "continent_ant": "Antárctica",
-        "continent_asi": "Ásia",
-        "continent_eur": "Europa",
-        "continent_oce": "Oceânia",
         "Country": "País",
         "country_a1": "Proxy anónimo",
         "country_a2": "Fornecedor Satélite",

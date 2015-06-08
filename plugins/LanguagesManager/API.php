@@ -132,8 +132,8 @@ class API extends \Piwik\Plugin\API
             $percentageComplete = count($translationStringsDone, COUNT_RECURSIVE) / count($englishTranslation, COUNT_RECURSIVE);
             $percentageComplete = round(100 * $percentageComplete, 0);
             $languageInfo = array('code'                => $filename,
-                                  'name'                => $translations['General']['OriginalLanguageName'],
-                                  'english_name'        => $translations['General']['EnglishLanguageName'],
+                                  'name'                => $translations['Intl']['OriginalLanguageName'],
+                                  'english_name'        => $translations['Intl']['EnglishLanguageName'],
                                   'translators'         => $translations['General']['TranslatorName'],
                                   'translators_email'   => $translations['General']['TranslatorEmail'],
                                   'percentage_complete' => $percentageComplete . '%',
@@ -285,12 +285,12 @@ class API extends \Piwik\Plugin\API
             $filenames = $this->getAvailableLanguages();
             $languagesInfo = array();
             foreach ($filenames as $filename) {
-                $data = file_get_contents(PIWIK_INCLUDE_PATH . "/lang/$filename.json");
+                $data = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Intl/lang/$filename.json");
                 $translations = json_decode($data, true);
                 $languagesInfo[] = array(
                     'code'         => $filename,
-                    'name'         => $translations['General']['OriginalLanguageName'],
-                    'english_name' => $translations['General']['EnglishLanguageName']
+                    'name'         => $translations['Intl']['OriginalLanguageName'],
+                    'english_name' => $translations['Intl']['EnglishLanguageName']
                 );
             }
 

@@ -1,13 +1,6 @@
 {
     "UserCountry": {
         "Continent": "Kontinentea",
-        "continent_afr": "Afrika",
-        "continent_amn": "Iparramerika",
-        "continent_ams": "Hegoamerika eta ertamerika",
-        "continent_ant": "Antartika",
-        "continent_asi": "Asia",
-        "continent_eur": "Europa",
-        "continent_oce": "Ozeania",
         "Country": "Herrialdea",
         "DistinctCountries": "%s herrialde desberdin",
         "SubmenuLocations": "Kokalekuak"

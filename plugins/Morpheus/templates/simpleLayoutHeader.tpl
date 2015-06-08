@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="robots" content="noindex,nofollow">
 	<title>{$HTML_TITLE}</title>
 	<link rel="shortcut icon" href="%faviconUrl%" />
 	<link rel="stylesheet" type="text/css" href="plugins/Morpheus/stylesheets/simple_structure.css" />

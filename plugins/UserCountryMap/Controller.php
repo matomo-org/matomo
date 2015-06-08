@@ -105,6 +105,15 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config = json_encode($config);
         $view->noData = empty($config['visitsSummary']['nb_visits']);
 
+        $view->continents = array(
+            'AF' => \Piwik\Plugins\UserCountry\continentTranslate('afr'),
+            'AS' => \Piwik\Plugins\UserCountry\continentTranslate('asi'),
+            'EU' => \Piwik\Plugins\UserCountry\continentTranslate('eur'),
+            'NA' => \Piwik\Plugins\UserCountry\continentTranslate('amn'),
+            'OC' => \Piwik\Plugins\UserCountry\continentTranslate('oce'),
+            'SA' => \Piwik\Plugins\UserCountry\continentTranslate('ams')
+        );
+
         return $view->render();
     }
 
