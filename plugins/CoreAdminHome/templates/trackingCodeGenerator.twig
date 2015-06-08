@@ -221,8 +221,10 @@
                 <option value="">{{ 'UserCountryMap_None'|translate }}</option>
             </select>
             <span>{{ 'CoreAdminHome_WithOptionalRevenue'|translate }}</span>
-            <span class="currency">{{ defaultSiteRevenue }}</span>
-            <input type="text" class="revenue" value=""/>
+            <div class="input-group">
+                <input type="text" class="revenue" value=""/>
+                <span class="input-group-addon">{{ defaultSiteRevenue }}</span>
+            </div>
         </div>
 
     </div>
