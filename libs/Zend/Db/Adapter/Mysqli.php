@@ -312,26 +312,26 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
             }
         }
 
-        if($this->_config['usessl']) {
+        if($this->_config['use_ssl']) {
             $sslkey = null;
-            if(!empty($this->_config['sslkey'])) {
-                $sslkey = $this->_config['sslkey'];
+            if(!empty($this->_config['ssl_key'])) {
+                $sslkey = $this->_config['ssl_key'];
             }
             $sslcert = null;
-            if(!empty($this->_config['sslcert'])) {
-                $sslcert = $this->_config['sslcert'];
+            if(!empty($this->_config['ssl_cert'])) {
+                $sslcert = $this->_config['ssl_cert'];
             }
             $sslca = null;
-            if(!empty($this->_config['sslca'])) {
-                $sslca = $this->_config['sslca'];
+            if(!empty($this->_config['ssl_ca'])) {
+                $sslca = $this->_config['ssl_ca'];
             }
             $sslcapth = null;
-            if(!empty($this->_config['sslcapath'])) {
-                $sslcapath = $this->_config['sslcapath'];
+            if(!empty($this->_config['ssl_ca_path'])) {
+                $sslcapath = $this->_config['ssl_ca_path'];
             }
             $sslcipher = null;
-            if(!empty(($this->_config['sslcipher']))) {
-                $sslcipher =  $this->_config['sslcipher'];
+            if(!empty(($this->_config['ssl_cipher']))) {
+                $sslcipher =  $this->_config['ssl_cipher'];
             }
             mysqli_ssl_set(
                 $this->_connection,
@@ -352,7 +352,7 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
             $this->_config['password'],
             $this->_config['dbname'],
             $port,
-            $this->config['usessl'] ? MYSQLI_CLIENT_SSL : null
+            $this->config['use_ssl'] ? MYSQLI_CLIENT_SSL : null
         );
 
         if ($_isConnected === false || mysqli_connect_errno()) {

@@ -21,12 +21,26 @@ port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
-usessl = false
-sslca =
-sslcert =
-sslkey =
-sslcapath =
-sslcipher =
+
+; Database SSL Options START
+; Turn on or off SSL connection to database, possible values for use_ssl: true or false
+use_ssl = false
+
+; Direct path to server CA file, CA bundle supported (required for ssl connection)
+ssl_ca =
+
+; Direct path to client cert file (optional)
+ssl_cert =
+
+; Direct path to client key file (optional)
+ssl_key =
+
+; Direct path to CA cert files directory (optional)
+ssl_ca_path =
+
+; List of one or more ciphers for SSL encryption, in OpenSSL format (optional)
+ssl_cipher =
+; Database SSL Options END
 
 ; if charset is set to utf8, Piwik will ensure that it is storing its data using UTF8 charset.
 ; it will add a sql query SET at each page view.
