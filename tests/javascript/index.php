@@ -206,11 +206,15 @@ function loadJash() {
      window.scroll(0, 0);
  }
 
-function triggerEvent(element, type) {
+function triggerEvent(element, type, buttonNumber) {
  if ( document.createEvent ) {
+     if ('undefined' === (typeof buttonNumber)) {
+         buttonNumber = 0;
+     }
+
      var event = document.createEvent( "MouseEvents" );
      event.initMouseEvent(type, true, true, element.ownerDocument.defaultView,
-         0, 0, 0, 0, 0, false, false, false, false, 0, null);
+         0, 0, 0, 0, 0, false, false, false, false, buttonNumber, null);
      element.dispatchEvent( event );
  } else if ( element.fireEvent ) {
      element.fireEvent( "on" + type );
@@ -2795,7 +2799,7 @@ if ($sqlite) {
         tracker.hook.test._addEventListener(_e("click8"), "click", stopEvent);
         triggerEvent(_e("click8"), 'click');
 
-        tracker.enableLinkTracking();
+        tracker.enableLinkTracking(true);
 
         tracker.setRequestMethod("GET");
         var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7");
@@ -2803,6 +2807,11 @@ if ($sqlite) {
             tracker.hook.test._addEventListener(_e(buttons[i]), "click", stopEvent);
             triggerEvent(_e(buttons[i]), 'click');
         }
+
+        triggerEvent(_e('click7'), 'contextmenu');
+
+        triggerEvent(_e('click7'), 'mousedown', 1);
+        triggerEvent(_e('click7'), 'mouseup', 1); // middleclick
 
         var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
             window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") :
@@ -2989,7 +2998,7 @@ if ($sqlite) {
             xhr.open("GET", "piwik.php?requests=" + getToken(), false);
             xhr.send(null);
             results = xhr.responseText;
-            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "30", "count tracking events" );
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "32", "count tracking events" );
 
             // firing callback
             ok( trackLinkCallbackFired, "trackLink() callback fired" );
