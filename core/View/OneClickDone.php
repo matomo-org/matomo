@@ -73,6 +73,7 @@ class OneClickDone
 <!DOCTYPE html>
 <html>
  <head>
+  <meta name="robots" content="noindex,nofollow">
   <meta charset="utf-8">
   <title></title>
  </head>

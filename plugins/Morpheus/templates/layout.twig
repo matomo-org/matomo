@@ -10,6 +10,9 @@
             <meta name="description" content="{% block pageDescription %}{% endblock %}"/>
             <meta name="apple-itunes-app" content="app-id=737216887" />
             <meta name="google-play-app" content="app-id=org.piwik.mobile2">
+            {% block meta %}
+                <meta name="robots" content="noindex,nofollow">
+            {% endblock %}
 
             {% include "@CoreHome/_favicon.twig" %}
             {% include "_jsGlobalVariables.twig" %}
