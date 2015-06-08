@@ -271,9 +271,7 @@
             e.preventDefault();
 
             var newRow = '<tr>\
-			<td>&nbsp;</td>\
 			<td><input type="textbox" class="custom-variable-name"/></td>\
-			<td>&nbsp;</td>\
 			<td><input type="textbox" class="custom-variable-value"/></td>\
 		</tr>',
                 row = $(this).closest('tr');
