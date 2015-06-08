@@ -87,28 +87,30 @@
         <div id="javascript-advanced-options" style="display:none;">
 
             {# visitor custom variable #}
-            <div class="form-group" id="javascript-tracking-visitor-cv">
-                <div class="form-help">
-                    {{ 'CoreAdminHome_JSTracking_VisitorCustomVarsDesc'|translate }}
+            <div id="javascript-tracking-visitor-cv">
+                <div class="form-group">
+                    <div class="form-help">
+                        {{ 'CoreAdminHome_JSTracking_VisitorCustomVarsDesc'|translate }}
+                    </div>
+                    <label class="checkbox">
+                        <input class="section-toggler-link" type="checkbox" id="javascript-tracking-visitor-cv-check" data-section-id="js-visitor-cv-extra"/>
+                        {{ 'CoreAdminHome_JSTracking_VisitorCustomVars'|translate }}
+                    </label>
                 </div>
-                <label class="checkbox">
-                    <input class="section-toggler-link" type="checkbox" id="javascript-tracking-visitor-cv-check" data-section-id="js-visitor-cv-extra"/>
-                    {{ 'CoreAdminHome_JSTracking_VisitorCustomVars'|translate }}
-                </label>
+                <table id="js-visitor-cv-extra" style="display:none;">
+                    <tr>
+                        <td><strong>{{ 'General_Name'|translate }}</strong></td>
+                        <td><input type="text" class="custom-variable-name" placeholder="e.g. Type"/></td>
+                        <td><strong>{{ 'General_Value'|translate }}</strong></td>
+                        <td><input type="text" class="custom-variable-value" placeholder="e.g. Customer"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align:right;">
+                            <a href="#" class="add-custom-variable">{{ 'General_Add'|translate }}</a>
+                        </td>
+                    </tr>
+                </table>
             </div>
-            <table id="js-visitor-cv-extra" style="display:none;">
-                <tr>
-                    <td><strong>{{ 'General_Name'|translate }}</strong></td>
-                    <td><input type="text" class="custom-variable-name" placeholder="e.g. Type"/></td>
-                    <td><strong>{{ 'General_Value'|translate }}</strong></td>
-                    <td><input type="text" class="custom-variable-value" placeholder="e.g. Customer"/></td>
-                </tr>
-                <tr>
-                    <td colspan="4" style="text-align:right;">
-                        <a href="#" class="add-custom-variable">{{ 'General_Add'|translate }}</a>
-                    </td>
-                </tr>
-            </table>
 
             {# do not track support #}
             <div class="form-group">
