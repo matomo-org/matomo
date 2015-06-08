@@ -73,6 +73,7 @@ class Manager
         'Installation',
         'SitesManager',
         'UsersManager',
+        'Intl',
         'API',
         'Proxy',
         'LanguagesManager',

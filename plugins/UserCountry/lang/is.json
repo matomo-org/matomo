@@ -1,14 +1,6 @@
 {
     "UserCountry": {
         "Continent": "Heimsálfa",
-        "continent_afr": "Afríka",
-        "continent_amc": "Mið Ameríka",
-        "continent_amn": "Norður Ameríka",
-        "continent_ams": "Suður Ameríka",
-        "continent_ant": "Suðurskautslandið",
-        "continent_asi": "Asía",
-        "continent_eur": "Evrópa",
-        "continent_oce": "Eyjaálfa",
         "Country": "Land",
         "country_a1": "Nafnlaus milliþjónn",
         "country_a2": "Gerfihnattasamband",

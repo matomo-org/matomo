@@ -2,13 +2,6 @@
     "UserCountry": {
         "City": "Mesto",
         "Continent": "Kontinent",
-        "continent_afr": "Afrika",
-        "continent_amn": "Severná Amerika",
-        "continent_ams": "Stredná a Južná Amerika",
-        "continent_ant": "Antarktída",
-        "continent_asi": "Ázia",
-        "continent_eur": "Európa",
-        "continent_oce": "Oceánia",
         "Country": "Krajina",
         "DistinctCountries": "Počet rôznych krajín: %s",
         "Location": "Miesto",

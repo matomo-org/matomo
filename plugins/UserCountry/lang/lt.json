@@ -1,14 +1,6 @@
 {
     "UserCountry": {
         "Continent": "Kontinentas",
-        "continent_afr": "Afrika",
-        "continent_amc": "Centrinė Amerika",
-        "continent_amn": "Šiaurės Amerika",
-        "continent_ams": "Pietų ir Centrinė Amerika",
-        "continent_ant": "Antarctica",
-        "continent_asi": "Azija",
-        "continent_eur": "Europa",
-        "continent_oce": "Okeanija",
         "Country": "Šalis",
         "country_a1": "Anonimas (proxy)",
         "country_a2": "Palydovinis tiekėjas",

@@ -1,14 +1,6 @@
 {
     "UserCountry": {
         "Continent": "Kontinent",
-        "continent_afr": "Afrikë",
-        "continent_amc": "Amerika Qendrore",
-        "continent_amn": "Amerika e Veriut",
-        "continent_ams": "Amerika e Jugut dhe Qendrore",
-        "continent_ant": "Antarktida",
-        "continent_asi": "Azi",
-        "continent_eur": "Europë",
-        "continent_oce": "Oqeani",
         "Country": "Vend",
         "country_a1": "Ndërmjetës Anonim",
         "country_a2": "Mundësues Satelitor",

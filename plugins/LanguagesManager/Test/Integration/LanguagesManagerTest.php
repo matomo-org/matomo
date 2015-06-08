@@ -139,9 +139,9 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
         $languagesReference = $dataProvider->getLanguageList();
 
         foreach ($languages as $language) {
-            $data = file_get_contents(PIWIK_INCLUDE_PATH . "/lang/$language.json");
+            $data = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Intl/lang/$language.json");
             $translations = json_decode($data, true);
-            $name = $translations['General']['EnglishLanguageName'];
+            $name = $translations['Intl']['EnglishLanguageName'];
 
             if ($language != 'en') {
                 $this->assertFalse($name == 'English', "for $language");

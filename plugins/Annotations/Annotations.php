@@ -29,7 +29,7 @@ class Annotations extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
-        $translationKeys[] = 'General_Today';
+        $translationKeys[] = 'Intl_Today';
     }
 
     /**

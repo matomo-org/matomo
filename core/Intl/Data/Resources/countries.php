@@ -237,7 +237,7 @@ return array(
     'tf' => 'ant',
     'tg' => 'afr',
     'th' => 'asi',
-    'ti' => 'asi',
+    'ti' => 'asi', // Tibet (no iso 3166 code)
     'tj' => 'asi',
     'tk' => 'oce',
     'tl' => 'asi',

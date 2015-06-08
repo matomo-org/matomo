@@ -1,13 +1,6 @@
 {
     "UserCountry": {
         "Continent": "Continente",
-        "continent_afr": "África",
-        "continent_amn": "América do Norte",
-        "continent_ams": "América do Sur e Central",
-        "continent_ant": "Antártida",
-        "continent_asi": "Asia",
-        "continent_eur": "Europa",
-        "continent_oce": "Oceanía",
         "Country": "País",
         "DistinctCountries": "%s continentes distintos",
         "SubmenuLocations": "Lugares"

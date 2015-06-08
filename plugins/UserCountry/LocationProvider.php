@@ -352,7 +352,7 @@ abstract class LocationProvider
             && !empty($location[self::CONTINENT_CODE_KEY])
         ) {
             $continentCode = strtolower($location[self::CONTINENT_CODE_KEY]);
-            $location[self::CONTINENT_NAME_KEY] = Piwik::translate('UserCountry_continent_' . $continentCode);
+            $location[self::CONTINENT_NAME_KEY] = continentTranslate($continentCode);
         }
 
         // fill in country name if country code is present

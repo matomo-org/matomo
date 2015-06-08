@@ -63,12 +63,9 @@
             <select class="userCountryMapSelectCountry">
                 <option value="world">{{ 'UserCountryMap_WorldWide'|translate }}</option>
                 <option disabled="disabled">––––––</option>
-                <option value="AF">{{ 'UserCountry_continent_afr'|translate }}</option>
-                <option value="AS">{{ 'UserCountry_continent_asi'|translate }}</option>
-                <option value="EU">{{ 'UserCountry_continent_eur'|translate }}</option>
-                <option value="NA">{{ 'UserCountry_continent_amn'|translate }}</option>
-                <option value="OC">{{ 'UserCountry_continent_oce'|translate }}</option>
-                <option value="SA">{{ 'UserCountry_continent_ams'|translate }}</option>
+                {% for code,continent in continents %}
+                    <option value="{{ code }}">{{ continent }}</option>
+                {% endfor %}
                 <option disabled="disabled">––––––</option>
             </select>
         </div>

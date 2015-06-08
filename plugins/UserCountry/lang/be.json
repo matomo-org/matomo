@@ -1,14 +1,6 @@
 {
     "UserCountry": {
         "Continent": "Кантынент",
-        "continent_afr": "Афрыка",
-        "continent_amc": "Цэнтральная Амерыка",
-        "continent_amn": "Паўночная Амерыка",
-        "continent_ams": "Паўднёвая і Цэнтральная Амерыка",
-        "continent_ant": "Антарктыда",
-        "continent_asi": "Азія",
-        "continent_eur": "Еўропа",
-        "continent_oce": "Акіянія",
         "Country": "Краіна",
         "country_a1": "Ананімныя проксі",
         "country_a2": "Спадарожнікавы правайдар",
