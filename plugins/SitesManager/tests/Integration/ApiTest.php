@@ -1002,6 +1002,32 @@ class ApiTest extends IntegrationTestCase
         $this->assertTrue(count($idsites) == 3);
     }
 
+    public function testGetSitesIdFromSiteUrl_matchesBothHttpAndHttpsUrls()
+    {
+        API::getInstance()->addSite("site1", array("https://piwik.org", "http://example.com"));
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.org');
+        $this->assertTrue(count($idsites) == 1);
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl('piwik.org');
+        $this->assertTrue(count($idsites) == 1);
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl('https://www.piwik.org');
+        $this->assertTrue(count($idsites) == 1);
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl('https://example.com');
+        $this->assertTrue(count($idsites) == 1);
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl('https://random-example.com');
+        $this->assertTrue(count($idsites) == 0);
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl('not-found.piwik.org');
+        $this->assertTrue(count($idsites) == 0);
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl('piwik.org/not-found/');
+        $this->assertTrue(count($idsites) == 0);
+    }
+
     public function testGetSitesIdFromSiteUrlUser()
     {
         API::getInstance()->addSite("site1", array("http://www.piwik.net", "http://piwik.com"));

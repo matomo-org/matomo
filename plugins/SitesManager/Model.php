@@ -106,18 +106,26 @@ class Model
      *
      * @param string $url
      * @param string $urlBis
+     * @param string $urlTer
+     * @param string $urlQuater
      * @return array list of websites ID
      */
-    public function getAllSitesIdFromSiteUrl($url, $urlBis)
+    public function getAllSitesIdFromSiteUrl($url, $urlBis, $urlTer, $urlQuater)
     {
         $siteUrlTable = Common::prefixTable('site_url');
 
         $ids = $this->getDb()->fetchAll(
             'SELECT idsite FROM ' . $this->table . '
-                    WHERE (main_url = ? OR main_url = ?) ' .
+                    WHERE (main_url = ? OR main_url = ? OR main_url = ? OR main_url = ?) ' .
             'UNION
                 SELECT idsite FROM ' . $siteUrlTable . '
-                    WHERE (url = ? OR url = ?) ', array($url, $urlBis, $url, $urlBis));
+                    WHERE (url = ? OR url = ? OR url = ? OR url = ?) ',
+
+            // Bind
+            array(  $url, $urlBis, $urlTer, $urlQuater,
+                    $url, $urlBis, $urlTer, $urlQuater
+            )
+        );
 
         return $ids;
     }
