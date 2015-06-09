@@ -140,4 +140,11 @@ describe("EvolutionGraph", function () {
             page.click('.delete-annotation');
         }, done);
     });
+
+    it("should cutout two labels so all can fit on screen", function (done) {
+        expect.screenshot('label_ticks_cutout').to.be.capture(function (page) {
+            page.setViewportSize(320,320);
+            page.load(url.replace(/idSite=[^&]*/, "idSite=3") + "&columns=nb_visits");
+        }, done);
+    });
 });
