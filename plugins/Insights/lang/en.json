@@ -1,5 +1,6 @@
 {
     "Insights": {
+        "PluginDescription": "Provides Insights about your traffic. Insights are available as dashboard widgets as well as a new icon in reports to let you see most important trends in your data.",
         "ControlComparedToDescription": "Growth compared to the",
         "ControlFilterByDescription": "Show all, only movers, only new or only disappeared",
         "DatePeriodCombinationNotSupported": "It is not possible to generate insights for this date and period combination.",

@@ -1,5 +1,6 @@
 {
     "SEO": {
+        "PluginDescription": "This Plugin extracts and displays SEO metrics: Alexa web ranking, Google Pagerank, number of Indexed pages and backlinks of the currently selected website.",
         "AlexaRank": "Alexa Rank",
         "Bing_IndexedPages": "Bing indexed pages",
         "Dmoz": "DMOZ entries",

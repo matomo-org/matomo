@@ -312,6 +312,10 @@ class Controller extends Plugin\ControllerAdmin
 
             $plugin['isCorePlugin'] = $pluginManager->isPluginBundledWithCore($pluginName);
 
+            if (!empty($plugin['info']['description'])) {
+                $plugin['info']['description'] = $this->translator->translate($plugin['info']['description']);
+            }
+
             if (!isset($plugin['info'])) {
 
                 $suffix = $this->translator->translate('CorePluginsAdmin_PluginNotWorkingAlternative');

@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "This plugin provides the widgets Visitor Map and Real-time Map. Note: Requires the UserCountry plugin enabled.",
         "AndNOthers": "and %s others",
         "Cities": "Cities",
         "Countries": "Countries",

@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "Track Events and get reports on your visitors activity.",
         "AvgEventValue": "Average Event value is: %s",
         "AvgValue": "Average value",
         "AvgValueDocumentation": "The average of all values for this event",

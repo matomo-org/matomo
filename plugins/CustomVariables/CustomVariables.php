@@ -15,13 +15,6 @@ use Piwik\Tracker;
 
 class CustomVariables extends \Piwik\Plugin
 {
-    public function getInformation()
-    {
-        $info = parent::getInformation();
-        $info['description'] .= ' <br/>Required to use <a href="http://piwik.org/docs/ecommerce-analytics/">Ecommerce Analytics</a> feature!';
-        return $info;
-    }
-
     /**
      * @see Piwik\Plugin::getListHooksRegistered
      */
