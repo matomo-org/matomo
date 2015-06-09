@@ -811,7 +811,8 @@
                  */
                 function updateCitySymbols() {
                     // color regions in white as background for symbols
-                    if (map.getLayer('regions')) map.getLayer('regions').style('fill', invisibleRegionBackgroundColor);
+                    var layerName = self.mode != "region" ? "regions2" : "regions";
+                    if (map.getLayer(layerName)) map.getLayer(layerName).style('fill', invisibleRegionBackgroundColor);
 
                     indicateLoading();
 
