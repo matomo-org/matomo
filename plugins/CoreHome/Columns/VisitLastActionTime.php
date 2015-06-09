@@ -15,6 +15,14 @@ use Piwik\Tracker\Request;
 use Piwik\Tracker;
 use Piwik\Tracker\Visitor;
 
+/**
+ * This dimension holds the best guess for a visit's end time. It is set the last action
+ * time for each visit. `ping=1` requests can be sent to update the dimension value so
+ * it can be a more accurate guess of the time the visitor spent on the site.
+ *
+ * Note: though it is named 'visit last action time' it actually refers to the visit's last action's
+ * end time.
+ */
 class VisitLastActionTime extends VisitDimension
 {
     protected $columnName = 'visit_last_action_time';
