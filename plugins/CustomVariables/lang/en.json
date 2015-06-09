@@ -4,7 +4,7 @@
         "ColumnCustomVariableValue": "Custom Variable value",
         "CustomVariables": "Custom Variables",
         "CustomVariablesReportDocumentation": "This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. %s For more information about Custom Variables in general, read the %sCustom Variables documentation on piwik.org%s",
-        "PluginDescription": "Custom Variables are (name, value) pairs that you can assign using the Javascript API to visitors or any of their action. Piwik will then report how many visits, pages, conversions for each of these custom names and values. View the detailed Custom Variables for each user and action in the Visitor Log.",
+        "PluginDescription": "Custom Variables are (name, value) pairs that you can assign using the Javascript API to visitors or any of their action. Piwik will then report how many visits, pages, conversions for each of these custom names and values. View the detailed Custom Variables for each user and action in the Visitor Log.<br />Required to use <a href=\"http://piwik.org/docs/ecommerce-analytics/\">Ecommerce Analytics</a> feature!",
         "ScopePage": "scope page",
         "ScopeVisit": "scope visit"
     }

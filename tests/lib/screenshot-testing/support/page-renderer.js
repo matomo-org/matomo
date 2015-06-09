@@ -257,8 +257,14 @@ PageRenderer.prototype.contains = function (selector) {
 PageRenderer.prototype.capture = function (outputPath, callback, selector) {
     var self = this,
         timeout = setTimeout(function () {
+            var timeoutDetails = "";
+            timeoutDetails += "Page not ready: " + self._isLoading + "\n";
+            timeoutDetails += "Pending AJAX request count: " + self._getAjaxRequestCount() + "\n";
+            timeoutDetails += "Loading images count: " + self._getImageLoadingCount() + "\n";
+
             self.abort();
-            callback(new Error("Screenshot load timeout."));
+
+            callback(new Error("Screenshot load timeout. Details:\n" + timeoutDetails));
         }, 120 * 1000);
 
     if (this.webpage === null) {

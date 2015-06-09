@@ -37,6 +37,14 @@ describe("Dashboard", function () {
     };
 
     var setup = function (done) {
+        // make sure live widget doesn't refresh constantly for UI tests
+        testEnvironment.configOverride = {
+            General: {
+                'live_widget_refresh_after_seconds': 1000000
+            }
+        };
+        testEnvironment.save();
+
         // save empty layout for dashboard ID = 5
         var layout = [
             [
@@ -149,12 +157,9 @@ describe("Dashboard", function () {
             page.click('.dashboard-manager');
             page.click('li[data-action=renameDashboard]');
             page.evaluate(function () {
-                $('#newDashboardName').val('');
+                $('#newDashboardName:visible').val('newname'); // don't use sendKeys or click, since in this test it appears to trigger a seg fault on travis
+                $('.ui-dialog[aria-describedby=renameDashboardConfirm] button>span:contains(Save):visible').click();
             });
-            page.sendKeys('#newDashboardName', 'newname');
-
-            // sending a mouse event doesn't seem to work...
-            page.click('.ui-dialog[aria-describedby=renameDashboardConfirm] button>span:contains(Save)');
         }, done);
     });
 

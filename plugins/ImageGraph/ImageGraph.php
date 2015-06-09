@@ -21,15 +21,6 @@ use Piwik\Period\Factory as PeriodFactory;
 
 class ImageGraph extends \Piwik\Plugin
 {
-    public function getInformation()
-    {
-        $suffix = ' Debug: <a href="' . Url::getCurrentQueryStringWithParametersModified(
-                array('module' => 'ImageGraph', 'action' => 'index')) . '">All images</a>';
-        $info = parent::getInformation();
-        $info['description'] .= ' ' . $suffix;
-        return $info;
-    }
-
     private static $CONSTANT_ROW_COUNT_REPORT_EXCEPTIONS = array(
         'Referrers_getReferrerType',
     );
