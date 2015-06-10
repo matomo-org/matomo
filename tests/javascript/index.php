@@ -18,6 +18,9 @@ function getToken() {
 function getContentToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
+function getHeartbeatToken() {
+    return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
 <?php
 $sqlite = false;
 if (file_exists("enable_sqlite")) {
@@ -231,7 +234,7 @@ function triggerEvent(element, type, buttonNumber) {
      }
  }
 
- function fetchTrackedRequests(token)
+ function fetchTrackedRequests(token, parse)
  {
      var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
          window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") :
@@ -240,7 +243,18 @@ function triggerEvent(element, type, buttonNumber) {
      xhr.open("GET", "piwik.php?requests=" + token, false);
      xhr.send(null);
 
-     return xhr.responseText;
+     var response = xhr.responseText;
+     if (parse) {
+         var results = [];
+         $(response).filter('span').each(function (i) {
+             if (i != 0) {
+                 results.push($(this).text());
+             }
+         });
+         return results;
+     }
+
+     return response;
  }
 
  function dropCookie(cookieName, path, domain) {
@@ -3087,6 +3101,84 @@ if ($sqlite) {
         }, 5000);
     });
 
+    // heartbeat tests
+    test("trackingHeartBeat", function () {
+        expect(11);
+
+        var tokenBase = getHeartbeatToken();
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("piwik.php");
+        tracker.setSiteId(1);
+        tracker.setHeartBeatTimer(1);
+
+        // test ping heart beat not set up until an initial request tracked
+        tracker.setCustomData('token', 1 + tokenBase);
+        wait(1200);
+
+        // test ping not sent on initial page load, and sent if inactive for N secs.
+        tracker.setCustomData('token', 2 + tokenBase);
+        tracker.trackPageView('whatever'); // normal request sent here
+        triggerEvent(document.body, 'focus');
+
+        wait(1200); // ping request sent after this
+
+        // test ping not sent after N secs, if tracking request sent in the mean time
+        tracker.setCustomData('token', 3 + tokenBase);
+
+        wait(200);
+        tracker.trackPageView('whatever2'); // normal request sent here
+        wait(200);
+
+        wait(1000); // ping request NOT sent here
+
+        // test ping sent N secs after second tracking request if inactive.
+        tracker.setCustomData('token', 4 + tokenBase);
+
+        wait(1000); // ping request sent here
+
+        // test ping not sent N secs after, if window blur event triggered (ie tab switch) and N secs pass.
+        tracker.setCustomData('token', 5 + tokenBase);
+        triggerEvent(document.body, 'blur');
+
+        wait(1000); // ping request not sent here
+
+        // test ping sent immediately if tab switched and more than N secs pass, then tab switched back
+        tracker.setCustomData('token', 6 + tokenBase);
+
+        triggerEvent(document.body, 'focus'); // ping request sent here
+
+        stop();
+        setTimeout(function() {
+            var token;
+
+            var requests = fetchTrackedRequests(token = 1 + tokenBase, true);
+            equal(requests.length, 0, "no requests sent before initial non-ping request sent");
+
+            requests = fetchTrackedRequests(token = 2 + tokenBase, true);
+            ok(/action_name=whatever/.test(requests[0]) && !(/ping=1/.test(requests[0])), "first request is page view not ping");
+            ok(/ping=1/.test(requests[1]), "second request is ping request");
+            equal(requests.length, 2, "only 2 requests sent for normal ping");
+
+            requests = fetchTrackedRequests(token = 3 + tokenBase, true);
+            ok(/action_name=whatever2/.test(requests[0]) && !(/ping=1/.test(requests[0])), "first request is page view not ping");
+            equal(requests.length, 1, "no ping request sent if other request sent in meantime");
+
+            requests = fetchTrackedRequests(token = 4 + tokenBase, true);
+            ok(/ping=1/.test(requests[0]), "ping request sent if no other activity and after heart beat");
+            equal(requests.length, 1, "only ping request sent if no other activity");
+
+            requests = fetchTrackedRequests(token = 5 + tokenBase, true);
+            equal(requests.length, 0, "no requests sent if window not in focus");
+
+            requests = fetchTrackedRequests(token = 6 + tokenBase, true);
+            ok(/ping=1/.test(requests[0]), "ping sent after window regains focus");
+            equal(requests.length, 1, "only one ping request sent after window regains focus");
+
+            start();
+        }, 6000);
+    });
+
     test("trackingContent", function() {
         expect(81);
 
@@ -3566,9 +3658,7 @@ if ($sqlite) {
 
             start();
         }, 4000);
-
     });
-
     <?php
 }
 ?>
