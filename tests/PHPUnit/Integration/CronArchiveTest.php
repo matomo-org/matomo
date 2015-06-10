@@ -8,6 +8,8 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Archiver\Request;
+use Piwik\CliMulti;
 use Piwik\CronArchive;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Date;
@@ -17,6 +19,54 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeLogger;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\SegmentEditor\API as SegmentAPI;
+
+class FakeCliMulti extends CliMulti
+{
+    public static $specifiedResults = null;
+
+    public function request(array $piwikUrls)
+    {
+        if (empty(FakeCliMulti::$specifiedResults)) {
+            return parent::request($piwikUrls);
+        }
+
+        $results = array();
+        foreach ($piwikUrls as $url) {
+            if ($url instanceof Request) {
+                $url->start();
+
+                $url = (string)$url;
+            }
+
+            $results[] = $this->getSpecifiedResult($url);
+        }
+        return $results;
+    }
+
+    private function getSpecifiedResult($url)
+    {
+        foreach (FakeCliMulti::$specifiedResults as $pattern => $result) {
+            if (substr($pattern, 0, 1) == '/'
+                && substr($pattern, strlen($pattern) - 1, 1) == '/'
+            ) {
+                $isMatch = preg_match($pattern, $url);
+            } else {
+                $isMatch = $pattern == $url;
+            }
+
+            if (!$isMatch) {
+                continue;
+            }
+
+            if (is_callable($result)) {
+                return $result($url);
+            } else {
+                return $result;
+            }
+        }
+        return null;
+    }
+}
 
 /**
  * @group Archiver
@@ -65,6 +115,10 @@ class CronArchiveTest extends IntegrationTestCase
 
     public function test_output()
     {
+        FakeCliMulti::$specifiedResults = array(
+            '/method=API.get/' => serialize(array(array('nb_visits' => 1)))
+        );
+
         Fixture::createWebsite('2014-12-12 00:01:02');
         SegmentAPI::getInstance()->add('foo', 'actions>=2', 1, true, true);
         SegmentAPI::getInstance()->add('burr', 'actions>=4', 1, true, true);
@@ -104,33 +158,40 @@ Will pre-process for website id = 1, week period
 - pre-processing all visits
 - skipping segment archiving for 'actions>=4'.
 - pre-processing segment 1/1 actions>=2
-Archived website id = 1, period = week, 1 segments, 0 visits in last %s weeks, 0 visits this week, Time elapsed: %s
+Archived website id = 1, period = week, 1 segments, 1 visits in last %s weeks, 1 visits this week, Time elapsed: %s
 Will pre-process for website id = 1, month period
 - pre-processing all visits
 - skipping segment archiving for 'actions>=4'.
 - pre-processing segment 1/1 actions>=2
-Archived website id = 1, period = month, 1 segments, 0 visits in last %s months, 0 visits this month, Time elapsed: %s
+Archived website id = 1, period = month, 1 segments, 1 visits in last %s months, 1 visits this month, Time elapsed: %s
 Will pre-process for website id = 1, year period
 - pre-processing all visits
 - skipping segment archiving for 'actions>=4'.
 - pre-processing segment 1/1 actions>=2
-Archived website id = 1, period = year, 1 segments, 0 visits in last %s years, 0 visits this year, Time elapsed: %s
+Archived website id = 1, period = year, 1 segments, 1 visits in last %s years, 1 visits this year, Time elapsed: %s
 Archived website id = 1, %s API requests, Time elapsed: %s [1/1 done]
 Done archiving!
 ---------------------------
 SUMMARY
-Total visits for today across archived websites: 0
+Total visits for today across archived websites: 1
 Archived today's reports for 1 websites
 Archived week/month/year for 1 websites
 Skipped 0 websites: no new visit since the last script execution
 Skipped 0 websites day archiving: existing daily reports are less than 150 seconds old
 Skipped 0 websites week/month/year archiving: existing periods reports are less than 3600 seconds old
 Total API requests: %s
-done: 1/1 100%, 0 vtoday, 1 wtoday, 1 wperiods, %s req, %s ms, no error
+done: 1/1 100%, 1 vtoday, 1 wtoday, 1 wperiods, %s req, %s ms, no error
 Time elapsed: %s
 
 LOG;
         $this->assertStringMatchesFormat($expected, $logger->output);
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\CliMulti' => \DI\object('Piwik\Tests\Integration\FakeCliMulti')
+        );
     }
 }
 

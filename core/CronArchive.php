@@ -773,7 +773,7 @@ class CronArchive
 
         $this->requests += count($urls);
 
-        $cliMulti = new CliMulti();
+        $cliMulti = $this->makeCliMulti();
         $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
         $cliMulti->setConcurrentProcessesLimit($this->getConcurrentRequestsPerWebsite());
         $cliMulti->runAsSuperUser();
@@ -856,7 +856,7 @@ class CronArchive
         }
 
         try {
-            $cliMulti  = new CliMulti();
+            $cliMulti  = $this->makeCliMulti();
             $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
             $cliMulti->runAsSuperUser();
             $responses = $cliMulti->request(array($url));
@@ -1527,5 +1527,13 @@ class CronArchive
         foreach ($this->segmentsToForce as $segmentDefinition) {
             $this->logger->info("  * " . $segmentDefinition);
         }
+    }
+
+    /**
+     * @return CliMulti
+     */
+    private function makeCliMulti()
+    {
+        return StaticContainer::get('Piwik\CliMulti');
     }
 }
