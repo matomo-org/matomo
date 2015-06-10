@@ -231,7 +231,7 @@
                 }
 
                 // a good place to update the legend, isn't it?
-                if (choropleth) {
+                if (choropleth && values.length > 0) {
                     $('.UserCountryMap-legend .content').html('').show();
                     var itemExists = {};
                     $.each(chroma.limits(values, 'k', 3), function (i, v) {
