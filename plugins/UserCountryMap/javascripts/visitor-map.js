@@ -206,7 +206,7 @@
 
                 stats = minmax(values);
 
-                if (stats.min == stats.max) {
+                if (stats.min == stats.max && typeof stats.min != 'undefined') {
                     colscale = function () { return chroma.hex(oneCountryColor); };
                     if (choropleth) {
                         $('.UserCountryMap-legend .content').html('').show();
