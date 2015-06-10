@@ -9,7 +9,7 @@ use Piwik\Translation\Translator;
 
 /**
  * Check if Piwik is connected with database through ssl.
- * TODO: translation
+ * TODO: Translation for anything expect Installation_SystemCheckDatabaseSSL is not working!
  * TODO: link to piwik FAQ into comment
  */
 class DbOverSSLCheck implements Diagnostic
@@ -31,33 +31,33 @@ class DbOverSSLCheck implements Diagnostic
             return array();
         }
 
-        //$label = $this->translator->translate('Installation_DatabaseAbilities'); 
-        $label = "Database SSL connection:";
+        $label = $this->translator->translate('Installation_SystemCheckDatabaseSSL');
 
         $cipher = Db::fetchAll("show status like 'Ssl_cipher'");
         if(!empty($cipher[0]['Value'])) {
-             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, 'Cipher: ' . $cipher[0]['Value']));
+             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, $this->translator->translate('Installation_SystemCheckDatabaseSslCipher') . ': ' . $cipher[0]['Value']));
         }
 
         //no cipher, not working
-        $comment = 'use_ssl is set to true but ssl connection is not working<br />';
+        $comment = sprintf($this->translator->translate('Installation_SystemCheckDatabaseSSLNotWorking'), "use_ssl", "true");
 
         // test ssl support
         $ssl_support = Db::fetchAll("SHOW VARIABLES LIKE 'have_ssl'");
-        switch ($ssl_support[0]['Value']) {
-            case 'YES': 
-                $comment .= "Database server is supporting SSL connections, please check your configuration in config/config.ini.php <br /> 
-                    Consider using REQUIRE SSL for your piwik database user";
-                break;
-            case 'DISABLED':
-                $comment .= "SSL support in your database server is disabled";
-                break;
-            case 'NO':
-                $comment .= "Database server is not compiled with SSL support";
-                break;
+        if(!empty($ssl_support[0]['Value'])) {
+            switch ($ssl_support[0]['Value']) {
+                case 'YES':
+                    $comment .= $this->translator->translate('Installation_SystemCheckDatabaseSSLOn');
+                    break;
+                case 'DISABLED':
+                    $comment .= $this->translator->translate('Installation_SystemCheckDatabaseSSLDisabled');
+                    break;
+                case 'NO':
+                    $comment .= $this->translator->translate('Installation_SystemCheckDatabaseSSLNo');
+                    break;
+            }
         }
 
-        $comment .= '<br />Piwik <a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/"> FAQ on piwik.org</a>'; // TODO: change link to piwik FAQ how to set up ssl connection
+        $comment .= '<br /><a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/"> FAQ on piwik.org</a>'; // TODO: change link to piwik FAQ how to set up ssl connection
 
         return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
     }

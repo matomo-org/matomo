@@ -106,24 +106,6 @@ class Zend_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Abstract
             $this->_config['driver_options'][1002] = $initCommand; // 1002 = PDO::MYSQL_ATTR_INIT_COMMAND
         }
 
-        if ($this->_config['use_ssl']) {
-            if (!empty($this->_config['ssl_key'])) {
-                $this->_config['driver_options'][1010] = $this->_config['ssl_key']; // 1010 = PDO::MYSQL_ATTR_SSL_KEY
-            }
-            if (!empty($this->_config['ssl_cert'])) {
-                $this->_config['driver_options'][1011] = $this->_config['ssl_cert']; // 1011 = PDO::MYSQL_ATTR_SSL_CERT
-            }
-            if (!empty($this->_config['ssl_ca'])) {
-                $this->_config['driver_options'][1012] = $this->_config['ssl_ca']; // 1012 = PDO::MYSQL_ATTR_SSL_CA
-            }
-            if (!empty($this->_config['ssl_ca_path'])) {
-                $this->_config['driver_options'][1013] = $this->_config['ssl_ca_path']; // 1013 = PDO::MYSQL_ATTR_SSL_CAPATH
-            }
-            if (!empty($this->_config['ssl_cipher'])) {
-                $this->_config['driver_options'][1014] = $this->_config['ssl_cipher']; // 1014 = PDO::MYSQL_ATTR_SSL_CIPHER
-            }
-        }
-
         parent::_connect();
     }
 

@@ -34,6 +34,23 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         if (defined('PDO::MYSQL_ATTR_LOCAL_INFILE')) {
             $config['driver_options'][PDO::MYSQL_ATTR_LOCAL_INFILE] = true;
         }
+        if ($config['use_ssl']) {
+            if (!empty($config['ssl_key'])) {
+                $config['driver_options'][PDO::MYSQL_ATTR_SSL_KEY] = $config['ssl_key'];
+            }
+            if (!empty($config['ssl_cert'])) {
+                $config['driver_options'][PDO::MYSQL_ATTR_SSL_CERT] = $config['ssl_cert'];
+            }
+            if (!empty($config['ssl_ca'])) {
+                $config['driver_options'][PDO::MYSQL_ATTR_SSL_CA] = $config['ssl_ca'];
+            }
+            if (!empty($config['ssl_ca_path'])) {
+                $config['driver_options'][PDO::MYSQL_ATTR_SSL_CAPATH] = $config['ssl_ca_path'];
+            }
+            if (!empty($config['ssl_cipher'])) {
+                $config['driver_options'][PDO::MYSQL_ATTR_SSL_CIPHER] = $config['ssl_cipher'];
+            }
+        }
         parent::__construct($config);
     }
 

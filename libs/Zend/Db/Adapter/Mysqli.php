@@ -299,6 +299,15 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
 
         $this->_connection = mysqli_init();
 
+        $use_ssl = false;
+        $ssl_options = array (
+            1012 => null, // 1012 = PDO::MYSQL_ATTR_SSL_CA
+            1013 => null, // 1013 = PDO::MYSQL_ATTR_SSL_CAPATH
+            1011 => null, // 1011 = PDO::MYSQL_ATTR_SSL_CERT
+            1014 => null, // 1014 = PDO::MYSQL_ATTR_SSL_CIPHER
+            1010 => null, // 1015 = PDO::MYSQL_ATTR_SSL_KEY
+        );
+
         if(!empty($this->_config['driver_options'])) {
             foreach($this->_config['driver_options'] as $option=>$value) {
                 if(is_string($option)) {
@@ -308,39 +317,18 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
                     if($option === null)
                         continue;
                 }
-                mysqli_options($this->_connection, $option, $value);
+                if(array_key_exists($option, $ssl_options)) {
+                    $ssl_options[$option] = $value;
+                    $use_ssl = true;
+                } else {
+                    mysqli_options($this->_connection, $option, $value);
+                }
             }
         }
 
-        if($this->_config['use_ssl']) {
-            $sslkey = null;
-            if(!empty($this->_config['ssl_key'])) {
-                $sslkey = $this->_config['ssl_key'];
-            }
-            $sslcert = null;
-            if(!empty($this->_config['ssl_cert'])) {
-                $sslcert = $this->_config['ssl_cert'];
-            }
-            $sslca = null;
-            if(!empty($this->_config['ssl_ca'])) {
-                $sslca = $this->_config['ssl_ca'];
-            }
-            $sslcapth = null;
-            if(!empty($this->_config['ssl_ca_path'])) {
-                $sslcapath = $this->_config['ssl_ca_path'];
-            }
-            $sslcipher = null;
-            if(!empty(($this->_config['ssl_cipher']))) {
-                $sslcipher =  $this->_config['ssl_cipher'];
-            }
-            mysqli_ssl_set(
-                $this->_connection,
-                $sslkey,
-                $sslcert,
-                $sslca,
-                $sslcapath,
-                $sslcipher
-            );
+        if ($use_ssl) {
+            mysqli_ssl_set($this->_connection, $ssl_options[1010], $ssl_options[1011], $ssl_options[1012], $ssl_options[1013],
+                $ssl_options[1014]);
         }
 
         // Suppress connection warnings here.
@@ -352,7 +340,7 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
             $this->_config['password'],
             $this->_config['dbname'],
             $port,
-            $this->config['use_ssl'] ? MYSQLI_CLIENT_SSL : null
+            $use_ssl ? MYSQLI_CLIENT_SSL : null
         );
 
         if ($_isConnected === false || mysqli_connect_errno()) {

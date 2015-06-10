@@ -28,6 +28,25 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
     {
         // Enable LOAD DATA INFILE
         $config['driver_options'][MYSQLI_OPT_LOCAL_INFILE] = true;
+
+        if ($config['use_ssl']) {
+            if (!empty($config['ssl_key'])) {
+                $config['driver_options'][1010] = $config['ssl_key'];
+            }
+            if (!empty($config['ssl_cert'])) {
+                $config['driver_options'][1011] = $config['ssl_cert'];
+            }
+            if (!empty($config['ssl_ca'])) {
+                $config['driver_options'][1012] = $config['ssl_ca'];
+            }
+            if (!empty($config['ssl_ca_path'])) {
+                $config['driver_options'][1013] = $config['ssl_ca_path'];
+            }
+            if (!empty($config['ssl_cipher'])) {
+                $config['driver_options'][1014] = $config['ssl_cipher'];
+            }
+        }
+
         parent::__construct($config);
     }
 
