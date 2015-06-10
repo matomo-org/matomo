@@ -49,6 +49,8 @@ class CoreArchiver extends ConsoleCommand
         $archiver->dateLastForced = $input->getOption('force-date-last-n');
         $archiver->concurrentRequestsPerWebsite = $input->getOption('concurrent-requests-per-website');
 
+        $archiver->disableSegmentsArchiving = $input->getOption('skip-all-segments');
+
         $segmentIds = $input->getOption('force-idsegments');
         $segmentIds = explode(',', $segmentIds);
         $segmentIds = array_map('trim', $segmentIds);
@@ -101,6 +103,8 @@ class CoreArchiver extends ConsoleCommand
             'If specified, only these segments will be processed (if the segment should be applied to a site in the '
             . "first place). Specify stored segment IDs, not the segments themselves, eg, 1,2,3. Note: if identical "
             . "segments exist w/ different IDs, they will both be skipped, even if you only supply one ID.");
+        $command->addOption('skip-all-segments', null, InputOption::VALUE_NONE,
+            'If specified, all segments will be skipped during archiving.');
         $command->addOption('concurrent-requests-per-website', null, InputOption::VALUE_OPTIONAL,
             "When processing a website and its segments, number of requests to process in parallel", CronArchive::MAX_CONCURRENT_API_REQUESTS);
         $command->addOption('disable-scheduled-tasks', null, InputOption::VALUE_NONE,

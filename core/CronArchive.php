@@ -198,6 +198,11 @@ class CronArchive
      */
     public $segmentsToForce = array();
 
+    /**
+     * @var bool
+     */
+    public $disableSegmentsArchiving = false;
+
     private $websitesWithVisitsSinceLastRun = 0;
     private $skippedPeriodsArchivesWebsite = 0;
     private $skippedDayArchivesWebsites = 0;
@@ -1514,6 +1519,10 @@ class CronArchive
 
     private function shouldSkipSegmentArchiving($segment)
     {
+        if ($this->disableSegmentsArchiving) {
+            return true;
+        }
+
         return !empty($this->segmentsToForce) && !in_array($segment, $this->segmentsToForce);
     }
 
