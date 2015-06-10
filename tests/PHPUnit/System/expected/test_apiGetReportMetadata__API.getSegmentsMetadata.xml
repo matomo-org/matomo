@@ -82,6 +82,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit Location</category>
+		<name>Language</name>
+		<segment>languageCode</segment>
+		<acceptedValues>de, fr, en-gb, zh-cn, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit Location</category>
 		<name>Latitude</name>
 		<segment>latitude</segment>
 		<acceptedValues>-33.578, 40.830, etc.&lt;br/&gt;You can select visitors within a lat/long range using &amp;segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N.</acceptedValues>
