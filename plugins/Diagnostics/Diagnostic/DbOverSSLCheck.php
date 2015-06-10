@@ -9,7 +9,6 @@ use Piwik\Translation\Translator;
 
 /**
  * Check if Piwik is connected with database through ssl.
- * TODO: Translation for anything expect Installation_SystemCheckDatabaseSSL is not working!
  * TODO: link to piwik FAQ into comment
  */
 class DbOverSSLCheck implements Diagnostic
@@ -35,7 +34,7 @@ class DbOverSSLCheck implements Diagnostic
 
         $cipher = Db::fetchAll("show status like 'Ssl_cipher'");
         if(!empty($cipher[0]['Value'])) {
-             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, $this->translator->translate('Installation_SystemCheckDatabaseSslCipher') . ': ' . $cipher[0]['Value']));
+             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, $this->translator->translate('Installation_SystemCheckDatabaseSSLCipher') . ': ' . $cipher[0]['Value']));
         }
 
         //no cipher, not working
