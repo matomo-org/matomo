@@ -1,6 +1,5 @@
 {
     "Ecommerce": {
-        "Sales": "Verkopen",
-        "ViewSalesBy": "Bekijk verkopen per %s"
+        "Sales": "Verkopen"
     }
 }

@@ -1,6 +1,5 @@
 {
     "Ecommerce": {
-        "Sales": "Salg",
-        "ViewSalesBy": "Vis salg fra %s"
+        "Sales": "Salg"
     }
 }

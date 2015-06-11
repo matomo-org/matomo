@@ -13,7 +13,6 @@
         "OneClick": "1 klik",
         "OpenFullScreen": "Vis fuldskærm (ingen sidebjælke)",
         "Overlay": "Side overlejring",
-        "PluginDescription": "Se analyse-data som en overlejring det faktiske websted. Se hvor mange gange dine brugere har klikket på hvert link.",
         "RedirectUrlError": "Du forsøger at åbne sideoverlejring for URL \"%s\". %s Ingen af ​​domæner fra Piwiks indstillinger matcher linket.",
         "RedirectUrlErrorAdmin": "Du kan tilføje domænet som en yderligere URL %si indstillingerne%s.",
         "RedirectUrlErrorUser": "Spørg administratoren om at tilføje domænet som en yderligere URL."

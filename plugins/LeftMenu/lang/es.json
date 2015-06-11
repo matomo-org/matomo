@@ -1,5 +1,6 @@
 {
     "LeftMenu": {
+        "PluginDescription": "Ubicar el menú del table a la izquierda.",
         "SettingsIntroduction": "El menú izquierdo del complemento moverá el menú de información desde la parte superior a la izquierda si es habilitado. Esto es especialmente útil para pantallas grandes.",
         "GlobalSettingTitle": "Menú izquierdo activado por defecto",
         "GlobalSettingDescription": "Define el sistema predeterminado para todos sus usuarios.",

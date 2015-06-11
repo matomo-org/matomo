@@ -16,6 +16,7 @@
         "country_a2": "卫星网络",
         "country_cat": "加泰罗尼亚语社区",
         "country_o1": "其它国家",
+        "country_ti": "中国",
         "CurrentLocationIntro": "根据提供商信息，您现在的位置是",
         "DefaultLocationProviderDesc1": "默认的地理位置查询以访客的浏览器猜测国家。",
         "DefaultLocationProviderDesc2": "这不是很准确，所以 %1$s我们建议安装使用 %2$sGeoIP%3$s.%4$s",

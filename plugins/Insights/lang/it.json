@@ -1,5 +1,6 @@
 {
     "Insights": {
+        "PluginDescription": "Fornisce approfondimenti sul tuo traffico. Questi sono disponibili come widgets nella dashboard e anche come una nuova icona in report che ti fanno vedere le più importanti tendenze dei tuoi dati.",
         "ControlComparedToDescription": "Crescita comparata a",
         "ControlFilterByDescription": "Mostra tutto, solo protagoniste, solo nuove o solo scomparse",
         "DatePeriodCombinationNotSupported": "Non è possibile generare approfondimenti per questa combinazione di data e periodo.",

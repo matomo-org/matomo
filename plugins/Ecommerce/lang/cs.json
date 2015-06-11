@@ -1,6 +1,5 @@
 {
     "Ecommerce": {
-        "Sales": "Tržby",
-        "ViewSalesBy": "Zobrazí tržby podle %s"
+        "Sales": "Tržby"
     }
 }
