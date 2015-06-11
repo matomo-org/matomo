@@ -11,6 +11,7 @@ namespace Piwik\Plugins\DBStats;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugins\DBStats\tests\Mocks\MockDataAccess;
 
 class DBStats extends \Piwik\Plugin
 {
@@ -35,8 +36,7 @@ class DBStats extends \Piwik\Plugin
     public function setupTestEnvironment($environment)
     {
         Piwik::addAction("MySQLMetadataProvider.createDao", function (&$dao) {
-            require_once dirname(__FILE__) . "/tests/Mocks/MockDataAccess.php";
-            $dao = new Mocks\MockDataAccess();
+            $dao = new MockDataAccess();
         });
     }
 }

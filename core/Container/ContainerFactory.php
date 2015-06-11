@@ -14,6 +14,9 @@ use Doctrine\Common\Cache\ArrayCache;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Plugin\Manager;
+use Piwik\SettingsServer;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
+use Piwik\Tests\Framework\TestingEnvironmentVariablesDefinitionSource;
 
 /**
  * Creates a configured DI container.
@@ -31,11 +34,11 @@ class ContainerFactory
     private $settings;
 
     /**
-     * Optional environment config to load.
+     * Optional environment configs to load.
      *
-     * @var string|null
+     * @var string[]
      */
-    private $environment;
+    private $environments;
 
     /**
      * @var array[]
@@ -45,14 +48,14 @@ class ContainerFactory
     /**
      * @param PluginList $pluginList
      * @param GlobalSettingsProvider $settings
-     * @param string|null $environment Optional environment config to load.
+     * @param string[] $environment Optional environment configs to load.
      * @param array[] $definitions
      */
-    public function __construct(PluginList $pluginList, GlobalSettingsProvider $settings, $environment = null, array $definitions = array())
+    public function __construct(PluginList $pluginList, GlobalSettingsProvider $settings, array $environments = array(), array $definitions = array())
     {
         $this->pluginList = $pluginList;
         $this->settings = $settings;
-        $this->environment = $environment;
+        $this->environments = $environments;
         $this->definitions = $definitions;
     }
 
@@ -88,11 +91,8 @@ class ContainerFactory
         }
 
         // Environment config
-        $this->addEnvironmentConfig($builder, $this->environment);
-
-        // Test config
-        if (defined('PIWIK_TEST_MODE')) {
-            $this->addEnvironmentConfig($builder, 'test');
+        foreach ($this->environments as $environment) {
+            $this->addEnvironmentConfig($builder, $environment);
         }
 
         if (!empty($this->definitions)) {
@@ -133,9 +133,11 @@ class ContainerFactory
                 $builder->addDefinitions($file);
             }
 
-            $environmentFile = $baseDir . '/config/' . $this->environment . '.php';
-            if (file_exists($environmentFile)) {
-                $builder->addDefinitions($environmentFile);
+            foreach ($this->environments as $environment) {
+                $environmentFile = $baseDir . '/config/' . $environment . '.php';
+                if (file_exists($environmentFile)) {
+                    $builder->addDefinitions($environmentFile);
+                }
             }
         }
     }

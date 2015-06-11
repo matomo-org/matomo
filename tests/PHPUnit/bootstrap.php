@@ -1,10 +1,13 @@
 <?php
 
+use Piwik\Application\Environment;
 use Piwik\Container\StaticContainer;
 use Piwik\Http;
 use Piwik\Intl\Locale;
 use Piwik\Config;
 use Piwik\SettingsPiwik;
+use Piwik\Tests\Framework\TestingEnvironmentManipulator;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 define('PIWIK_TEST_MODE', true);
 define('PIWIK_PRINT_ERROR_BACKTRACE', false);
@@ -43,6 +46,8 @@ if (getenv('PIWIK_USE_XHPROF') == 1) {
 
 // setup container for tests
 function setupRootContainer() {
+    Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables()));
+
     $rootTestEnvironment = new \Piwik\Application\Environment(null);
     $rootTestEnvironment->init();
 }
