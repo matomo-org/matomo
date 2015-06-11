@@ -286,8 +286,6 @@
          * gutter, by default width of 5 px from each side so they are more
          * readable.
          *
-         * @TODO upgrade ticks cutout algorithm, so last possible tick is always on most left position under chart
-         *
          * @param $targetDiv
          * @private
          */
@@ -361,14 +359,11 @@
             // report has been displayed.
             var self = this;
 
-            // I think that viewDataTable should be checked against some
-            // configuration, but I can't find any place where any global configs
-            // are stored.
+            // before drawing a jqplot chart, check if all labels ticks will fit
+            // into it
             if( this.param.viewDataTable === "graphBar"
                 || this.param.viewDataTable === "graphVerticalBar"
                 || this.param.viewDataTable === "graphEvolution" ) {
-                // before drawing a jqplot chart, check if all labels ticks will fit
-                // into it
                 self._checkTicksWidth(target);
             }
 
