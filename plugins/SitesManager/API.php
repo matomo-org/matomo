@@ -418,6 +418,7 @@ class API extends \Piwik\Plugin\API
 
         // return all variations of the URL
         return array(
+            $url,
             "http://" . $hostname,
             "http://www." . $hostname,
             "https://" . $hostname,

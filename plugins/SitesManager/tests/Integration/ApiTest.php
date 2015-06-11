@@ -1004,22 +1004,21 @@ class ApiTest extends IntegrationTestCase
 
     public function test_getSitesIdFromSiteUrl_matchesBothHttpAndHttpsUrls_asSuperUser()
     {
-        API::getInstance()->addSite("site1", array("https://piwik.org", "http://example.com"));
+        API::getInstance()->addSite("site1", array("https://piwik.org", "http://example.com", "fb://special-url"));
 
         $this->assert_getSitesIdFromSiteUrl_matchesBothHttpAndHttpsUrls();
     }
 
     public function test_getSitesIdFromSiteUrl_matchesBothHttpAndHttpsUrls_asUserWithViewPermission()
     {
-        API::getInstance()->addSite("site1", array("https://piwik.org", "http://example.com"));
+        API::getInstance()->addSite("site1", array("https://piwik.org", "http://example.com", "fb://special-url"));
 
         APIUsersManager::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
         APIUsersManager::getInstance()->setUserAccess("user1", "view", array(1));
 
+        // Make sure we're not Super user
         FakeAccess::setSuperUserAccess(false);
         FakeAccess::$identity = 'user1';
-
-        // Make sure we're not Super user
         $this->assertFalse(Piwik::hasUserSuperUserAccess());
 
         $this->assert_getSitesIdFromSiteUrl_matchesBothHttpAndHttpsUrls();
@@ -1037,6 +1036,9 @@ class ApiTest extends IntegrationTestCase
         $this->assertTrue(count($idsites) == 1);
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('https://example.com');
+        $this->assertTrue(count($idsites) == 1);
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl("fb://special-url");
         $this->assertTrue(count($idsites) == 1);
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('https://random-example.com');
