@@ -104,13 +104,10 @@ class Model
     /**
      * Returns the list of websites ID associated with a URL.
      *
-     * @param string $url
-     * @param string $urlBis
-     * @param string $urlTer
-     * @param string $urlQuater
+     * @param array $urls
      * @return array list of websites ID
      */
-    public function getAllSitesIdFromSiteUrl($url, $urlBis, $urlTer, $urlQuater)
+    public function getAllSitesIdFromSiteUrl(array $urls)
     {
         $siteUrlTable = Common::prefixTable('site_url');
 
@@ -122,9 +119,7 @@ class Model
                     WHERE (url = ? OR url = ? OR url = ? OR url = ?) ',
 
             // Bind
-            array(  $url, $urlBis, $urlTer, $urlQuater,
-                    $url, $urlBis, $urlTer, $urlQuater
-            )
+            array_merge( $urls, $urls)
         );
 
         return $ids;
@@ -133,10 +128,11 @@ class Model
     /**
      * Returns the list of websites ID associated with a URL.
      *
-     * @param string $url
+     * @param string $login
+     * @param array $urls
      * @return array list of websites ID
      */
-    public function getSitesIdFromSiteUrlHavingAccess($url, $urlBis, $login)
+    public function getSitesIdFromSiteUrlHavingAccess($login, $urls)
     {
         $siteUrlTable  = Common::prefixTable('site_url');
         $sqlAccessSite = Access::getSqlAccessSite('idsite');
@@ -144,14 +140,21 @@ class Model
         $ids = $this->getDb()->fetchAll(
             'SELECT idsite
                 FROM ' . $this->table . '
-                    WHERE (main_url = ? OR main_url = ?)' .
+                    WHERE (main_url = ? OR main_url = ? OR main_url = ? OR main_url = ?)' .
             'AND idsite IN (' . $sqlAccessSite . ') ' .
             'UNION
                 SELECT idsite
                 FROM ' . $siteUrlTable . '
-                    WHERE (url = ? OR url = ?)' .
+                    WHERE (url = ? OR url = ? OR url = ? OR url = ?)' .
             'AND idsite IN (' . $sqlAccessSite . ')',
-            array($url, $urlBis, $login, $url, $urlBis, $login));
+
+            // Bind
+            array_merge(    $urls,
+                            array( $login ),
+                            $urls,
+                            array( $login )
+            )
+        );
 
         return $ids;
     }

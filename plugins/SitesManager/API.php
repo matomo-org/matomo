@@ -434,13 +434,13 @@ class API extends \Piwik\Plugin\API
     public function getSitesIdFromSiteUrl($url)
     {
         $url = $this->removeTrailingSlash($url);
-        list($url, $urlBis, $urlTer, $urlQuater) = $this->getNormalizedUrls($url);
+        $normalisedUrls = $this->getNormalizedUrls($url);
 
         if (Piwik::hasUserSuperUserAccess()) {
-            $ids   = $this->getModel()->getAllSitesIdFromSiteUrl($url, $urlBis, $urlTer, $urlQuater);
+            $ids   = $this->getModel()->getAllSitesIdFromSiteUrl($normalisedUrls);
         } else {
             $login = Piwik::getCurrentUserLogin();
-            $ids   = $this->getModel()->getSitesIdFromSiteUrlHavingAccess($url, $urlBis, $login, $urlTer, $urlQuater);
+            $ids   = $this->getModel()->getSitesIdFromSiteUrlHavingAccess($login, $normalisedUrls);
         }
 
         return $ids;
