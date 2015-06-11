@@ -10,14 +10,14 @@ namespace Piwik\Tests\Framework\Mock;
 
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
-use Piwik\Tests\Framework\TestingEnvironment;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 class TestConfig extends Config
 {
     private $allowSave = false;
     private $doSetTestEnvironment = false;
 
-    public function __construct(GlobalSettingsProvider $provider, TestingEnvironment $testingEnvironment, $allowSave = false, $doSetTestEnvironment = true)
+    public function __construct(GlobalSettingsProvider $provider, TestingEnvironmentVariables $testingEnvironment, $allowSave = false, $doSetTestEnvironment = true)
     {
         parent::__construct($provider);
 
@@ -73,7 +73,7 @@ class TestConfig extends Config
         $chain->set('PluginsInstalled', array('PluginsInstalled' => array()));
     }
 
-    private function setFromTestEnvironment(\Piwik\Tests\Framework\TestingEnvironment $testingEnvironment)
+    private function setFromTestEnvironment(\Piwik\Tests\Framework\TestingEnvironmentVariables $testingEnvironment)
     {
         $pluginsToLoad = $testingEnvironment->getCoreAndSupportedPlugins();
         if (!empty($testingEnvironment->pluginsToLoad)) {

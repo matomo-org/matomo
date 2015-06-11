@@ -73,15 +73,12 @@ class PrivacyManagerTest extends IntegrationTestCase
 
     protected static function configureFixture($fixture)
     {
-        $fixture->loadTranslations = true;
         $fixture->createSuperUser = true;
     }
 
     public function setUp()
     {
         parent::setUp();
-
-        Translate::loadAllTranslations();
 
         LogDataPurger::$selectSegmentSize = 2;
         ReportsPurger::$selectSegmentSize = 2;

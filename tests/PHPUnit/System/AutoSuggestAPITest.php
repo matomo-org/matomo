@@ -164,7 +164,6 @@ class AutoSuggestAPITest extends SystemTestCase
         $segments = \Piwik\Plugins\API\API::getInstance()->getSegmentsMetadata($idSite);
         return $segments;
     }
-
 }
 
 AutoSuggestAPITest::$fixture = new ManyVisitsWithGeoIP();
