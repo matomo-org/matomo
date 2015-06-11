@@ -1,6 +1,5 @@
 {
     "Ecommerce": {
-        "Sales": "Продажи",
-        "ViewSalesBy": "Просмотреть продажи %s"
+        "Sales": "Продажи"
     }
 }

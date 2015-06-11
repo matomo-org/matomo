@@ -4,7 +4,6 @@
         "ColumnCustomVariableValue": "Wert der benutzerdefinierten Variable",
         "CustomVariables": "Benutzerdefinierte Variablen",
         "CustomVariablesReportDocumentation": "Dieser Bericht enthält Informationen über Ihre benutzerdefinierten Variablen. Klicken Sie auf einen Variablennamen, um die Verteilung der Werte zu sehen. %s Für mehr Informationen über benutzerdefinierte Variablen, lesen Sie die %sDokumentation auf piwik.org%s",
-        "PluginDescription": "Benutzerdefinierte Variablen sind (Namen-, Wert-) Paare, welche Sie mit Hilfe der Javascript API auf Besucher oder deren Aktionen festlegen können. Piwik wird Sie dann über die Menge an Besuchen, Seiten, Konversionen für jede der benutzerdefinierten Variablen und Werte informieren. Die detaillierten benutzerdefinierten Variablen für jeden Benutzer und Aktionen im Besucher-Log einsehbar.",
         "ScopePage": "Anwendungsbereich Seite",
         "ScopeVisit": "Anwendungsbereich Besuch"
     }

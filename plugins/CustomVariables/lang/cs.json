@@ -4,7 +4,6 @@
         "ColumnCustomVariableValue": "Hodnota vlastní proměnné",
         "CustomVariables": "Vlastní proměnné",
         "CustomVariablesReportDocumentation": "Toto hlášení obsahuje informace o vašich vlastních proměnných. Klikněte na proměnnou pro zobrazení distribuce hodnot. %s Pro více informací si přečtěte %sdokumentaci o vlastních proměnných na piwik.org%s",
-        "PluginDescription": "Vlastní proměnné jsou páry klíč, hodnota, které javascriptové API umožňuje přiřadit návštěvníkům, nebo jejich akcím. Piwik pak zobrazí počet návštěv, stránek a konverzí, kterou má konkrétní pár klíč\/hodnota. Prohlédněte si detailní údaje pro každého návštěvníka a proměnnou v záznamu návštěvníků.",
         "ScopePage": "rozsah stránky",
         "ScopeVisit": "rozsah návštěvy"
     }

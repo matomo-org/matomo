@@ -1,6 +1,6 @@
 {
     "Ecommerce": {
         "Sales": "Vendite",
-        "ViewSalesBy": "Vista vendite per %s"
+        "SalesAdjective": "Vendite %s"
     }
 }
