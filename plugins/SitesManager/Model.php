@@ -113,10 +113,10 @@ class Model
 
         $ids = $this->getDb()->fetchAll(
             'SELECT idsite FROM ' . $this->table . '
-                    WHERE (main_url = ? OR main_url = ? OR main_url = ? OR main_url = ?) ' .
+                    WHERE main_url IN ( ' . Common::getSqlStringFieldsArray($urls) . ') ' .
             'UNION
                 SELECT idsite FROM ' . $siteUrlTable . '
-                    WHERE (url = ? OR url = ? OR url = ? OR url = ?) ',
+                    WHERE url IN ( ' . Common::getSqlStringFieldsArray($urls) . ') ',
 
             // Bind
             array_merge( $urls, $urls)
@@ -140,12 +140,12 @@ class Model
         $ids = $this->getDb()->fetchAll(
             'SELECT idsite
                 FROM ' . $this->table . '
-                    WHERE (main_url = ? OR main_url = ? OR main_url = ? OR main_url = ?)' .
+                    WHERE main_url IN ( ' . Common::getSqlStringFieldsArray($urls) . ')' .
             'AND idsite IN (' . $sqlAccessSite . ') ' .
             'UNION
                 SELECT idsite
                 FROM ' . $siteUrlTable . '
-                    WHERE (url = ? OR url = ? OR url = ? OR url = ?)' .
+                    WHERE url IN ( ' . Common::getSqlStringFieldsArray($urls) . ')' .
             'AND idsite IN (' . $sqlAccessSite . ')',
 
             // Bind
