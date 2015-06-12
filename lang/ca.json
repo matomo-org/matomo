@@ -181,7 +181,6 @@
         "Language": "Idioma",
         "LastDays": "Últims %s dies (incloent avui)",
         "LastDaysShort": "Últims %s dies",
-        "LayoutDirection": "ltr",
         "Loading": "Carregant…",
         "LoadingData": "Les dades s'estan carregant…",
         "LoadingPopover": "Carregant %s...",

@@ -96,6 +96,7 @@ class GenerateIntl extends ConsoleCommand
             $this->fetchLanguageData($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchTerritoryData($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchCalendarData($output, $transformedLangCode, $requestLangCode, $translations);
+            $this->fetchLayoutDirection($output, $transformedLangCode, $requestLangCode, $translations);
 
             ksort($translations['Intl']);
 
@@ -150,6 +151,30 @@ class GenerateIntl extends ConsoleCommand
                 $translations['Intl']['OriginalLanguageName'] = $this->transform($languageData[$requestLangCode]);
             }
             $translations['Intl']['EnglishLanguageName'] = $this->getEnglishLanguageName($langCode) ? $this->getEnglishLanguageName($langCode) : $this->getEnglishLanguageName($requestLangCode);
+
+            $output->writeln('Saved language data for ' . $langCode);
+        } catch (\Exception $e) {
+            $output->writeln('Unable to import language data for ' . $langCode);
+        }
+    }
+
+    protected function fetchLayoutDirection(OutputInterface $output, $langCode, $requestLangCode, &$translations)
+    {
+        $layoutDirectionUrl = 'https://raw.githubusercontent.com/unicode-cldr/cldr-misc-full/master/main/%s/layout.json';
+
+        try {
+            $layoutData = Http::fetchRemoteFile(sprintf($layoutDirectionUrl, $requestLangCode));
+            $layoutData = json_decode($layoutData, true);
+            $layoutData = $layoutData['main'][$requestLangCode]['layout']['orientation'];
+
+            if (empty($layoutData)) {
+                throw new \Exception();
+            }
+
+            $translations['Intl']['LayoutDirection'] = 'ltr';
+            if ($layoutData['characterOrder'] == 'right-to-left') {
+                $translations['Intl']['LayoutDirection'] = 'rtl';
+            }
 
             $output->writeln('Saved language data for ' . $langCode);
         } catch (\Exception $e) {

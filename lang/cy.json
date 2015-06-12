@@ -130,7 +130,6 @@
         "InvalidResponse": "Mae'r data a dderbyniwyd yn annilys.",
         "Language": "Iaith",
         "LastDays": "Dyddiau %s diwethaf (yn cynnwys heddiw)",
-        "LayoutDirection": "ltr",
         "Loading": "Yn llwytho...",
         "LoadingData": "Wrthi'n llwytho data...",
         "Locale": "cy_GB.UTF-8",

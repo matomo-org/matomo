@@ -99,7 +99,6 @@
         "InvalidResponse": "Отримані дані невірні.",
         "JsTrackingTag": "Тег відслідковування JavaScript",
         "Language": "Мова",
-        "LayoutDirection": "ltr",
         "Loading": "Завантаження...",
         "LoadingData": "Завантаження даних...",
         "Locale": "uk_UA.UTF-8",

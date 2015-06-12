@@ -79,7 +79,6 @@
         "InvalidResponse": "Mótteknu gögnin eru ógild.",
         "JsTrackingTag": "Merkimiði sem er eltur (JavaScript)",
         "Language": "Tungumál",
-        "LayoutDirection": "ltr",
         "Loading": "Sæki...",
         "LoadingData": "Sækir gögn...",
         "Locale": "is_IS.UTF-8",

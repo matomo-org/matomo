@@ -120,7 +120,6 @@
         "InvalidResponse": "המידע שהתקבל אינו תקף.",
         "Language": "שפה",
         "LastDays": "%s ימים אחרונים (כולל היום)",
-        "LayoutDirection": "rtl",
         "Loading": "טוען...",
         "LoadingData": "טוען מידע...",
         "Locale": "he_IL.UTF-8",

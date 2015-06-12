@@ -62,7 +62,6 @@
         "HoursMinutes": "%1$s horas %2$s min",
         "Id": "ID",
         "JsTrackingTag": "Etiqueta Javascript",
-        "LayoutDirection": "ltr",
         "Loading": "Cargando",
         "LoadingData": "Cargando Datos...",
         "Locale": "gl_ES.UTF-8",

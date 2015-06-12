@@ -143,7 +143,6 @@
         "InvalidResponse": "A kapott adat érvénytelen.",
         "JsTrackingTag": "JavaScript követőkód",
         "Language": "Nyelv",
-        "LayoutDirection": "ltr",
         "Loading": "Betöltés…",
         "LoadingData": "Adatok betöltése folyamatban…",
         "Locale": "hu_HU.UTF-8",

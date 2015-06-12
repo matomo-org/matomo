@@ -159,7 +159,6 @@
         "JsTrackingTag": "แท็กจาวาสคริปต์",
         "Language": "ภาษา",
         "LastDays": "ล่าสุด %s วัน (รวมวันนี้)",
-        "LayoutDirection": "ltr",
         "Loading": "กำลังโหลด...",
         "LoadingData": "กำลังโหลดข้อมูล...",
         "LoadingPopover": "กำลังโหลดข้อมูล %s...",

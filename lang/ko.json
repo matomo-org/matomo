@@ -175,7 +175,6 @@
         "Language": "언어",
         "LastDays": "마지막 %s일간 (오늘 포함)",
         "LastDaysShort": "마지막 %s일",
-        "LayoutDirection": "ltr",
         "Loading": "로딩중...",
         "LoadingData": "데이터 로딩중...",
         "LoadingPopover": "로딩중 %s...",

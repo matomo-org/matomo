@@ -73,21 +73,9 @@ class CoreTranslationsTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'General' => array(
-                        'Locale' => 'de_DE.UTF-8',
-                        'TranslatorName' => 'name',
-                        'TranslatorEmail' => 'emails',
-                        'LayoutDirection' => 'afd'
-                    )
-                ),
-                CoreTranslations::ERRORSTATE_LAYOUTDIRECTIONINVALID
-            ),
-            array(
-                array(
-                    'General' => array(
                         'Locale' => 'invalid',
                         'TranslatorName' => 'name',
                         'TranslatorEmail' => 'emails',
-                        'LayoutDirection' => 'ltr'
                     )
                 ),
                 CoreTranslations::ERRORSTATE_LOCALEINVALID
@@ -98,7 +86,6 @@ class CoreTranslationsTest extends \PHPUnit_Framework_TestCase
                         'Locale' => 'xx_DE.UTF-8',
                         'TranslatorName' => 'name',
                         'TranslatorEmail' => 'emails',
-                        'LayoutDirection' => 'ltr'
                     )
                 ),
                 CoreTranslations::ERRORSTATE_LOCALEINVALIDLANGUAGE
@@ -109,7 +96,6 @@ class CoreTranslationsTest extends \PHPUnit_Framework_TestCase
                         'Locale' => 'de_XX.UTF-8',
                         'TranslatorName' => 'name',
                         'TranslatorEmail' => 'emails',
-                        'LayoutDirection' => 'ltr'
                     )
                 ),
                 CoreTranslations::ERRORSTATE_LOCALEINVALIDCOUNTRY

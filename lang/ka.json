@@ -99,7 +99,6 @@
         "InvalidResponse": "მიღებული მონაცემები არასწორია.",
         "JsTrackingTag": "JavaScript ტრეკირების ტეგი",
         "Language": "ენა",
-        "LayoutDirection": "ltr",
         "Loading": "ჩატვირთვა...",
         "LoadingData": "მონაცემები იტვირთება...",
         "Locale": "ka_GE.UTF-8",

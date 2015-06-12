@@ -181,7 +181,6 @@
         "Language": "Bahasa",
         "LastDays": "%s hari terakhir (termasuk hari ini)",
         "LastDaysShort": "%s hari terakhir",
-        "LayoutDirection": "ltr",
         "Loading": "Memuat...",
         "LoadingData": "Memuat data...",
         "LoadingPopover": "Memuat %s...",

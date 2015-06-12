@@ -112,7 +112,6 @@
         "Language": "語系",
         "LastDays": "最近 %s 天內(含今天)",
         "LastDaysShort": "最近 %s 天內",
-        "LayoutDirection": "ltr",
         "Loading": "載入中...",
         "LoadingData": "載入資料中...",
         "Locale": "zh_TW.UTF-8",
