@@ -1,6 +1,5 @@
 {
     "Ecommerce": {
-        "Sales": "Umsatz",
-        "ViewSalesBy": "Zeigt Umsätze nach %s"
+        "Sales": "Umsatz"
     }
 }

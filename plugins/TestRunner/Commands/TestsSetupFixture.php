@@ -8,8 +8,11 @@
 
 namespace Piwik\Plugins\TestRunner\Commands;
 
+use Piwik\Application\Environment;
 use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Tests\Framework\TestingEnvironmentManipulator;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Piwik\Url;
 use Piwik\Tests\Framework\Fixture;
 use Symfony\Component\Console\Input\InputArgument;
@@ -91,6 +94,8 @@ class TestsSetupFixture extends ConsoleCommand
         if (!defined('PIWIK_TEST_MODE')) {
             define('PIWIK_TEST_MODE', true);
         }
+
+        Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables()));
 
         $serverGlobal = $input->getOption('server-global');
         if ($serverGlobal) {

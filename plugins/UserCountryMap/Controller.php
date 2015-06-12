@@ -18,6 +18,8 @@ use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
+
 /**
  *
  */

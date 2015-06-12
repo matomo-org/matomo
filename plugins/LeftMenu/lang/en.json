@@ -1,5 +1,6 @@
 {
     "LeftMenu": {
+        "PluginDescription": "Position the dashboard menu to the left.",
         "SettingsIntroduction": "The left menu plugin will move the reporting menu from the top to the left if enabled. This is especially useful for large displays.",
         "GlobalSettingTitle": "Left menu enabled by default",
         "GlobalSettingDescription": "Defines the system default for all of your users.",

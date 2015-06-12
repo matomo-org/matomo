@@ -48,7 +48,7 @@ use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\Url;
 use PHPUnit_Framework_Assert;
-use Piwik\Tests\Framework\TestingEnvironment;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use PiwikTracker;
 use Piwik_LocalTracker;
 use Piwik\Updater;
@@ -89,7 +89,12 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public $dropDatabaseInSetUp = true;
     public $dropDatabaseInTearDown = true;
+
+    /**
+     * @deprecated
+     */
     public $loadTranslations = true;
+
     public $createSuperUser = true;
     public $removeExistingSuperUser = true;
     public $overwriteExisting = true;
@@ -171,6 +176,8 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function performSetUp($setupEnvironmentOnly = false)
     {
+        TestingEnvironmentManipulator::$extraPluginsToLoad = $this->extraPluginsToLoad;
+
         $this->createEnvironmentInstance();
 
         try {
@@ -239,12 +246,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         $_GET = $_REQUEST = array();
         $_SERVER['HTTP_REFERER'] = '';
 
-        // Make sure translations are loaded to check messages in English
-        if ($this->loadTranslations) {
-            Translate::loadAllTranslations();
-            APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
-        }
-
         FakeAccess::$superUserLogin = 'superUserLogin';
 
         File::$invalidateOpCacheBeforeRead = true;
@@ -258,6 +259,8 @@ class Fixture extends \PHPUnit_Framework_Assert
         if ($this->createSuperUser) {
             self::createSuperUser($this->removeExistingSuperUser);
             $this->loginAsSuperUser();
+
+            APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
         }
 
         SettingsPiwik::overwritePiwikUrl(self::getRootUrl() . 'tests/PHPUnit/proxy/');
@@ -268,7 +271,6 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $this->getTestEnvironment()->testCaseClass = $this->testCaseClass;
         $this->getTestEnvironment()->save();
-        $this->getTestEnvironment()->executeSetupTestEnvHook();
 
         PiwikCache::getTransientCache()->flushAll();
 
@@ -287,7 +289,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     public function getTestEnvironment()
     {
         if ($this->testEnvironment === null) {
-            $this->testEnvironment = new TestingEnvironment();
+            $this->testEnvironment = new TestingEnvironmentVariables();
             $this->testEnvironment->delete();
 
             if (getenv('PIWIK_USE_XHPROF') == 1) {
@@ -345,41 +347,10 @@ class Fixture extends \PHPUnit_Framework_Assert
         // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object
     }
 
-    public static function loadAllPlugins($testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
+    public static function loadAllPlugins(TestingEnvironmentVariables $testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
     {
-        if (empty($testEnvironment)) {
-            $testEnvironment = new TestingEnvironment();
-        }
-
         DbHelper::createTables();
-        $pluginsManager = Manager::getInstance();
-
-        $plugins = $testEnvironment->getCoreAndSupportedPlugins();
-
-        // make sure the plugin that executed this method is included in the plugins to load
-        $extraPlugins = array_merge($extraPluginsToLoad, array(
-            Plugin::getPluginNameFromBacktrace(debug_backtrace()),
-            Plugin::getPluginNameFromNamespace($testCaseClass),
-            Plugin::getPluginNameFromNamespace(get_called_class())
-        ));
-        foreach ($extraPlugins as $pluginName) {
-            if (empty($pluginName)) {
-                continue;
-            }
-
-            if (in_array($pluginName, $plugins)) {
-                continue;
-            }
-
-            $plugins[] = $pluginName;
-            if ($testEnvironment) {
-                $testEnvironment->pluginsToLoad = array_merge($testEnvironment->pluginsToLoad ?: array(), array($pluginName));
-            }
-        }
-
-        Log::debug("Plugins to load during tests: " . implode(', ', $plugins));
-
-        $pluginsManager->loadPlugins($plugins);
+        Plugin\Manager::getInstance()->loadActivatedPlugins();
     }
 
     public static function installAndActivatePlugins()
@@ -399,6 +370,8 @@ class Fixture extends \PHPUnit_Framework_Assert
                 $pluginsManager->activatePlugin($name);
             }
         }
+
+        $pluginsManager->loadPluginTranslations();
     }
 
     public static function unloadAllPlugins()

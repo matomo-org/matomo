@@ -195,7 +195,7 @@
                     $('.UserCountryMap-legend .content').append(r);
                 }
 
-                var stats, values = [], id = self.lastSelected, c;
+                var stats, values = [], id = self.lastSelected, c, showLegend;
 
                 $.each(rows, function (i, r) {
                     if (!$.isFunction(filter) || filter(r)) {
@@ -205,12 +205,15 @@
                 });
 
                 stats = minmax(values);
+                showLegend = values.length > 0;
 
                 if (stats.min == stats.max) {
                     colscale = function () { return chroma.hex(oneCountryColor); };
                     if (choropleth) {
                         $('.UserCountryMap-legend .content').html('').show();
-                        addLegendItem(stats.min, true);
+                        if (showLegend) {
+                            addLegendItem(stats.min, true);
+                        }
                     }
                     return colscale;
                 }
@@ -231,7 +234,7 @@
                 }
 
                 // a good place to update the legend, isn't it?
-                if (choropleth) {
+                if (choropleth && showLegend) {
                     $('.UserCountryMap-legend .content').html('').show();
                     var itemExists = {};
                     $.each(chroma.limits(values, 'k', 3), function (i, v) {

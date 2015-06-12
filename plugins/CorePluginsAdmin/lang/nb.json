@@ -24,6 +24,7 @@
         "OncePluginIsInstalledYouMayActivateHere": "Når et tillegg har blitt installert, kan du slå det av eller på her.",
         "Marketplace": "Markedsplass",
         "MenuPlatform": "Platform",
+        "NewVersion": "ny versjon",
         "NoPluginsFound": "Ingen tillegg funnet",
         "NoZipFileSelected": "Vennligst velg en ZIP-fil.",
         "NumDownloadsLatestVersion": "Siste versjon: %s nedlastinger",

@@ -12,12 +12,12 @@
 	</row>
 	<row>
 		<code>be</code>
-		<name>беларуская</name>
+		<name>Беларуская</name>
 		<english_name>Belarusian</english_name>
 	</row>
 	<row>
 		<code>bg</code>
-		<name>български</name>
+		<name>Български</name>
 		<english_name>Bulgarian</english_name>
 	</row>
 	<row>
@@ -27,17 +27,17 @@
 	</row>
 	<row>
 		<code>bs</code>
-		<name>bosanski</name>
+		<name>Bosanski</name>
 		<english_name>Bosnian</english_name>
 	</row>
 	<row>
 		<code>ca</code>
-		<name>català</name>
+		<name>Català</name>
 		<english_name>Catalan</english_name>
 	</row>
 	<row>
 		<code>cs</code>
-		<name>čeština</name>
+		<name>Čeština</name>
 		<english_name>Czech</english_name>
 	</row>
 	<row>
@@ -47,7 +47,7 @@
 	</row>
 	<row>
 		<code>da</code>
-		<name>dansk</name>
+		<name>Dansk</name>
 		<english_name>Danish</english_name>
 	</row>
 	<row>
@@ -67,17 +67,17 @@
 	</row>
 	<row>
 		<code>es</code>
-		<name>español</name>
+		<name>Español</name>
 		<english_name>Spanish</english_name>
 	</row>
 	<row>
 		<code>et</code>
-		<name>eesti</name>
+		<name>Eesti</name>
 		<english_name>Estonian</english_name>
 	</row>
 	<row>
 		<code>eu</code>
-		<name>euskara</name>
+		<name>Euskara</name>
 		<english_name>Basque</english_name>
 	</row>
 	<row>
@@ -87,17 +87,17 @@
 	</row>
 	<row>
 		<code>fi</code>
-		<name>suomi</name>
+		<name>Suomi</name>
 		<english_name>Finnish</english_name>
 	</row>
 	<row>
 		<code>fr</code>
-		<name>français</name>
+		<name>Français</name>
 		<english_name>French</english_name>
 	</row>
 	<row>
 		<code>gl</code>
-		<name>galego</name>
+		<name>Galego</name>
 		<english_name>Galician</english_name>
 	</row>
 	<row>
@@ -112,12 +112,12 @@
 	</row>
 	<row>
 		<code>hr</code>
-		<name>hrvatski</name>
+		<name>Hrvatski</name>
 		<english_name>Croatian</english_name>
 	</row>
 	<row>
 		<code>hu</code>
-		<name>magyar</name>
+		<name>Magyar</name>
 		<english_name>Hungarian</english_name>
 	</row>
 	<row>
@@ -127,12 +127,12 @@
 	</row>
 	<row>
 		<code>is</code>
-		<name>íslenska</name>
+		<name>Íslenska</name>
 		<english_name>Icelandic</english_name>
 	</row>
 	<row>
 		<code>it</code>
-		<name>italiano</name>
+		<name>Italiano</name>
 		<english_name>Italian</english_name>
 	</row>
 	<row>
@@ -152,17 +152,17 @@
 	</row>
 	<row>
 		<code>lt</code>
-		<name>lietuvių</name>
+		<name>Lietuvių</name>
 		<english_name>Lithuanian</english_name>
 	</row>
 	<row>
 		<code>lv</code>
-		<name>latviešu</name>
+		<name>Latviešu</name>
 		<english_name>Latvian</english_name>
 	</row>
 	<row>
 		<code>nb</code>
-		<name>norsk bokmål</name>
+		<name>Norsk bokmål</name>
 		<english_name>Norwegian Bokmål</english_name>
 	</row>
 	<row>
@@ -172,57 +172,57 @@
 	</row>
 	<row>
 		<code>nn</code>
-		<name>nynorsk</name>
+		<name>Nynorsk</name>
 		<english_name>Norwegian Nynorsk</english_name>
 	</row>
 	<row>
 		<code>pl</code>
-		<name>polski</name>
+		<name>Polski</name>
 		<english_name>Polish</english_name>
 	</row>
 	<row>
 		<code>pt-br</code>
-		<name>português do Brasil</name>
+		<name>Português do Brasil</name>
 		<english_name>Brazilian Portuguese</english_name>
 	</row>
 	<row>
 		<code>pt</code>
-		<name>português</name>
+		<name>Português</name>
 		<english_name>Portuguese</english_name>
 	</row>
 	<row>
 		<code>ro</code>
-		<name>română</name>
+		<name>Română</name>
 		<english_name>Romanian</english_name>
 	</row>
 	<row>
 		<code>ru</code>
-		<name>русский</name>
+		<name>Русский</name>
 		<english_name>Russian</english_name>
 	</row>
 	<row>
 		<code>sk</code>
-		<name>slovenčina</name>
+		<name>Slovenčina</name>
 		<english_name>Slovak</english_name>
 	</row>
 	<row>
 		<code>sl</code>
-		<name>slovenščina</name>
+		<name>Slovenščina</name>
 		<english_name>Slovenian</english_name>
 	</row>
 	<row>
 		<code>sq</code>
-		<name>shqip</name>
+		<name>Shqip</name>
 		<english_name>Albanian</english_name>
 	</row>
 	<row>
 		<code>sr</code>
-		<name>српски</name>
+		<name>Српски</name>
 		<english_name>Serbian</english_name>
 	</row>
 	<row>
 		<code>sv</code>
-		<name>svenska</name>
+		<name>Svenska</name>
 		<english_name>Swedish</english_name>
 	</row>
 	<row>
@@ -252,7 +252,7 @@
 	</row>
 	<row>
 		<code>uk</code>
-		<name>українська</name>
+		<name>Українська</name>
 		<english_name>Ukrainian</english_name>
 	</row>
 	<row>

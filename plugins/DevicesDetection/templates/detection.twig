@@ -25,7 +25,6 @@
     </script>
 
     <style type="text/css">
-
         textarea {
             width: 700px;
             display: block;
@@ -37,8 +36,11 @@
         .detection td {
             width: 50%;
         }
-
+        .detection td img {
+            margin-right: 10px;
+        }
     </style>
+
     <h2>{{ 'DevicesDetection_DeviceDetection'|translate }}</h2>
 
     <h3>{{ 'DevicesDetection_UserAgent'|translate }}</h3>
@@ -48,7 +50,7 @@
     </form>
 
     <h3>{{ 'DevicesDetection_ColumnOperatingSystem'|translate }}</h3>
-    <table class="dataTable detection">
+    <table class="simple-table detection">
         <tr>
             <td>{{ 'General_Name'|translate }} <small>(<a href="javascript:showList('os');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
             <td><img src="{{ os_logo }}" />{{ os_name }}</td>
@@ -64,7 +66,7 @@
     </table>
 
     <h3>{{ 'DevicesDetection_ColumnBrowser'|translate }}</h3>
-    <table class="dataTable detection">
+    <table class="simple-table detection">
         <tr>
             <td>{{ 'General_Name'|translate }} <small>(<a href="javascript:showList('browsers');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
             <td><img src="{{ browser_logo }}" />{{ browser_name }}</td>
@@ -80,7 +82,7 @@
     </table>
 
     <h3>{{ 'DevicesDetection_Device'|translate }}</h3>
-    <table class="dataTable detection">
+    <table class="simple-table detection">
         <tr>
             <td>{{ 'DevicesDetection_dataTableLabelTypes'|translate }} <small>(<a href="javascript:showList('devicetypes');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
             <td><img src="{{ device_type_logo }}" />{{ device_type }}</td>

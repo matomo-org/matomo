@@ -93,29 +93,6 @@ class Events extends \Piwik\Plugin
         );
     }
 
-    public function getSegmentsMetadata(&$segments)
-    {
-//        $segments[] = array(
-//            'type'           => 'metric',
-//            'category'       => 'Events_Events',
-//            'name'           => 'Events_EventValue',
-//            'segment'        => 'eventValue',
-//            'sqlSegment'     => 'log_link_visit_action.custom_float',
-//            'sqlFilter'      => '\\Piwik\\Plugins\\Events\\Events::getSegmentEventValue'
-//        );
-    }
-//
-//    public static function getSegmentEventValue($valueToMatch, $sqlField, $matchType, $segmentName)
-//    {
-//        $andActionisNotEvent = \Piwik\Plugins\Actions\Archiver::getWhereClauseActionIsNotEvent();
-//        $andActionisEvent = str_replace("IS NULL", "IS NOT NULL", $andActionisNotEvent);
-//
-//        return array(
-//            'extraWhere' => $andActionisEvent,
-//            'bind' => $valueToMatch
-//        );
-//    }
-
     /**
      * Given getCategory, returns "Event Categories"
      *

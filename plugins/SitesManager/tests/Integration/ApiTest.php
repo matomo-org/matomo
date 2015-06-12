@@ -983,7 +983,7 @@ class ApiTest extends IntegrationTestCase
         $this->assertFalse(Site::isEcommerceEnabledFor($idsite));
     }
 
-    public function testGetSitesIdFromSiteUrlSuperUser()
+    public function testGetSitesIdFromSiteUrl_asSuperUser()
     {
         API::getInstance()->addSite("site1", array("http://piwik.net", "http://piwik.com"));
         API::getInstance()->addSite("site2", array("http://piwik.com", "http://piwik.net"));
@@ -1002,9 +1002,58 @@ class ApiTest extends IntegrationTestCase
         $this->assertTrue(count($idsites) == 3);
     }
 
-    public function testGetSitesIdFromSiteUrlUser()
+    public function test_getSitesIdFromSiteUrl_matchesBothHttpAndHttpsUrls_asSuperUser()
     {
-        API::getInstance()->addSite("site1", array("http://www.piwik.net", "http://piwik.com"));
+        API::getInstance()->addSite("site1", array("https://piwik.org", "http://example.com", "fb://special-url"));
+
+        $this->assert_getSitesIdFromSiteUrl_matchesBothHttpAndHttpsUrls();
+    }
+
+    public function test_getSitesIdFromSiteUrl_matchesBothHttpAndHttpsUrls_asUserWithViewPermission()
+    {
+        API::getInstance()->addSite("site1", array("https://piwik.org", "http://example.com", "fb://special-url"));
+
+        APIUsersManager::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
+        APIUsersManager::getInstance()->setUserAccess("user1", "view", array(1));
+
+        // Make sure we're not Super user
+        FakeAccess::setSuperUserAccess(false);
+        FakeAccess::$identity = 'user1';
+        $this->assertFalse(Piwik::hasUserSuperUserAccess());
+
+        $this->assert_getSitesIdFromSiteUrl_matchesBothHttpAndHttpsUrls();
+    }
+
+    private function assert_getSitesIdFromSiteUrl_matchesBothHttpAndHttpsUrls()
+    {
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.org');
+        $this->assertTrue(count($idsites) == 1);
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl('piwik.org');
+        $this->assertTrue(count($idsites) == 1);
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl('https://www.piwik.org');
+        $this->assertTrue(count($idsites) == 1);
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl('https://example.com');
+        $this->assertTrue(count($idsites) == 1);
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl("fb://special-url");
+        $this->assertTrue(count($idsites) == 1);
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl('https://random-example.com');
+        $this->assertTrue(count($idsites) == 0);
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl('not-found.piwik.org');
+        $this->assertTrue(count($idsites) == 0);
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl('piwik.org/not-found/');
+        $this->assertTrue(count($idsites) == 0);
+    }
+
+    public function test_getSitesIdFromSiteUrl_asUser()
+    {
+        API::getInstance()->addSite("site1", array("http://www.piwik.net", "https://piwik.com"));
         API::getInstance()->addSite("site2", array("http://piwik.com", "http://piwik.net"));
         API::getInstance()->addSite("site3", array("http://piwik.com", "http://piwik.org"));
 
@@ -1024,6 +1073,7 @@ class ApiTest extends IntegrationTestCase
         FakeAccess::setIdSitesView(array(1));
         FakeAccess::setIdSitesAdmin(array());
 
+        $this->assertFalse(Piwik::hasUserSuperUserAccess());
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
         $this->assertEquals(1, count($idsites));
 
@@ -1048,6 +1098,9 @@ class ApiTest extends IntegrationTestCase
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
         $this->assertEquals(3, count($idsites));
+
+        $idsites = API::getInstance()->getSitesIdFromSiteUrl('https://www.piwik.com');
+        $this->assertEquals(3, count($idsites));
     }
 
     public function testGetSitesFromTimezones()
@@ -1066,4 +1119,5 @@ class ApiTest extends IntegrationTestCase
             'Piwik\Access' => new FakeAccess()
         );
     }
+
 }

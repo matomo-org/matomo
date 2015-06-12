@@ -12,7 +12,7 @@ use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
-use Piwik\Tests\Framework\TestingEnvironment;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 /**
  * Tests the log importer.
@@ -138,7 +138,7 @@ class ImportLogsTest extends SystemTestCase
 
     private function simulateTrackerFailure()
     {
-        $testingEnvironment = new TestingEnvironment();
+        $testingEnvironment = new TestingEnvironmentVariables();
         $testingEnvironment->_triggerTrackerFailure = true;
         $testingEnvironment->save();
     }
@@ -150,7 +150,7 @@ class ImportLogsTest extends SystemTestCase
 
     private function resetTestingEnvironmentChanges()
     {
-        $testingEnvironment = new TestingEnvironment();
+        $testingEnvironment = new TestingEnvironmentVariables();
         $testingEnvironment->_triggerTrackerFailure = null;
         $testingEnvironment->save();
     }
@@ -159,7 +159,7 @@ class ImportLogsTest extends SystemTestCase
     {
         $result = array();
 
-        $testingEnvironment = new TestingEnvironment();
+        $testingEnvironment = new TestingEnvironmentVariables();
         if ($testingEnvironment->_triggerTrackerFailure) {
             $result['observers.global'] = \DI\add(array(
                 array('Tracker.newHandler', function () {

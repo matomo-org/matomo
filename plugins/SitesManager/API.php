@@ -411,13 +411,19 @@ class API extends \Piwik\Plugin\API
 
     protected function getNormalizedUrls($url)
     {
-        if (strpos($url, 'www.') !== false) {
-            $urlBis = str_replace('www.', '', $url);
-        } else {
-            $urlBis = str_replace('://', '://www.', $url);
-        }
+        // if found, remove scheme and www. from URL
+        $hostname = str_replace('www.', '', $url);
+        $hostname = str_replace('http://', '', $hostname);
+        $hostname = str_replace('https://', '', $hostname);
 
-        return array($url, $urlBis);
+        // return all variations of the URL
+        return array(
+            $url,
+            "http://" . $hostname,
+            "http://www." . $hostname,
+            "https://" . $hostname,
+            "https://www." . $hostname
+        );
     }
 
     /**
@@ -429,13 +435,13 @@ class API extends \Piwik\Plugin\API
     public function getSitesIdFromSiteUrl($url)
     {
         $url = $this->removeTrailingSlash($url);
-        list($url, $urlBis) = $this->getNormalizedUrls($url);
+        $normalisedUrls = $this->getNormalizedUrls($url);
 
         if (Piwik::hasUserSuperUserAccess()) {
-            $ids   = $this->getModel()->getAllSitesIdFromSiteUrl($url, $urlBis);
+            $ids   = $this->getModel()->getAllSitesIdFromSiteUrl($normalisedUrls);
         } else {
             $login = Piwik::getCurrentUserLogin();
-            $ids   = $this->getModel()->getSitesIdFromSiteUrlHavingAccess($url, $urlBis, $login);
+            $ids   = $this->getModel()->getSitesIdFromSiteUrlHavingAccess($login, $normalisedUrls);
         }
 
         return $ids;

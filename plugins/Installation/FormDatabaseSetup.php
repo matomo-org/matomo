@@ -73,7 +73,7 @@ class FormDatabaseSetup extends QuickForm2
             ->loadOptions($adapters)
             ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupAdapter')));
 
-        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'submit'));
+        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'submit btn btn-lg'));
 
         // default values
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(

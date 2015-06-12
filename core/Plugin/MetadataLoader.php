@@ -66,7 +66,7 @@ class MetadataLoader
     {
         $descriptionKey = $this->pluginName . '_PluginDescription';
         return array(
-            'description'      => Piwik::translate($descriptionKey),
+            'description'      => $descriptionKey,
             'homepage'         => 'http://piwik.org/',
             'authors'          => array(array('name' => 'Piwik', 'homepage'  => 'http://piwik.org/')),
             'license'          => 'GPL v3+',

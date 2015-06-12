@@ -26,7 +26,7 @@ build:
   tests:
     override:
       -
-        command: cd tests/PHPUnit && ../../vendor/bin/phpunit --testsuite UnitTests --coverage-clover clover-unit.xml
+        command: cd tests/PHPUnit && ../../vendor/bin/phpunit --testsuite UnitTests --coverage-clover clover-unit.xml --no-globals-backup --tap
         coverage:
           file: tests/PHPUnit/clover-unit.xml
           format: php-clover
