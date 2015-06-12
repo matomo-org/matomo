@@ -23,8 +23,8 @@ type = InnoDB
 schema = Mysql
 
 ; Database SSL Options START
-; Turn on or off SSL connection to database, possible values for use_ssl: true or false
-use_ssl = false
+; Turn on or off SSL connection to database, possible values for enable_ssl: 1 or 0
+enable_ssl = 0
 
 ; Direct path to server CA file, CA bundle supported (required for ssl connection)
 ssl_ca =

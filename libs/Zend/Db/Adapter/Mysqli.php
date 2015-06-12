@@ -299,13 +299,13 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
 
         $this->_connection = mysqli_init();
 
-        $use_ssl = false;
+        $enable_ssl = false;
         $ssl_options = array (
-            1012 => null, // 1012 = PDO::MYSQL_ATTR_SSL_CA
-            1013 => null, // 1013 = PDO::MYSQL_ATTR_SSL_CAPATH
-            1011 => null, // 1011 = PDO::MYSQL_ATTR_SSL_CERT
-            1014 => null, // 1014 = PDO::MYSQL_ATTR_SSL_CIPHER
-            1010 => null, // 1015 = PDO::MYSQL_ATTR_SSL_KEY
+            defined(PDO::MYSQL_ATTR_SSL_CA) ? PDO::MYSQL_ATTR_SSL_CA : 1012 => null,
+            defined(PDO::MYSQL_ATTR_SSL_CAPATH) ? PDO::MYSQL_ATTR_SSL_CAPATH : 1013 => null,
+            defined(PDO::MYSQL_ATTR_SSL_CERT) ? PDO::MYSQL_ATTR_SSL_CERT : 1011 => null,
+            defined(PDO::MYSQL_ATTR_SSL_CIPHER) ? PDO::MYSQL_ATTR_SSL_CIPHER : 1014 => null,
+            defined(PDO::MYSQL_ATTR_SSL_CIPHER) ? PDO::MYSQL_ATTR_SSL_CIPHER : 1010 => null,
         );
 
         if(!empty($this->_config['driver_options'])) {
@@ -319,14 +319,14 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
                 }
                 if(array_key_exists($option, $ssl_options)) {
                     $ssl_options[$option] = $value;
-                    $use_ssl = true;
+                    $enable_ssl = true;
                 } else {
                     mysqli_options($this->_connection, $option, $value);
                 }
             }
         }
 
-        if ($use_ssl) {
+        if ($enable_ssl) {
             mysqli_ssl_set($this->_connection, $ssl_options[1010], $ssl_options[1011], $ssl_options[1012], $ssl_options[1013],
                 $ssl_options[1014]);
         }
@@ -340,7 +340,7 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
             $this->_config['password'],
             $this->_config['dbname'],
             $port,
-            $use_ssl ? MYSQLI_CLIENT_SSL : null
+            $enable_ssl ? MYSQLI_CLIENT_SSL : null
         );
 
         if ($_isConnected === false || mysqli_connect_errno()) {

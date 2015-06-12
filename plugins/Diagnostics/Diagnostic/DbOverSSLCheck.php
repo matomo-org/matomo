@@ -25,25 +25,25 @@ class DbOverSSLCheck implements Diagnostic
 
     public function execute()
     {
-        $use_ssl = Config::getInstance()->database['use_ssl'];
-        if (!$use_ssl) {
+        $enable_ssl = Config::getInstance()->database['enable_ssl'];
+        if (!$enable_ssl) {
             return array();
         }
 
         $label = $this->translator->translate('Installation_SystemCheckDatabaseSSL');
 
-        $cipher = Db::fetchAll("show status like 'Ssl_cipher'");
-        if(!empty($cipher[0]['Value'])) {
-             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, $this->translator->translate('Installation_SystemCheckDatabaseSSLCipher') . ': ' . $cipher[0]['Value']));
+        $cipher = Db::fetchRow("show status like 'Ssl_cipher'");
+        if(!empty($cipher['Value'])) {
+             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, $this->translator->translate('Installation_SystemCheckDatabaseSSLCipher') . ': ' . $cipher['Value']));
         }
 
         //no cipher, not working
-        $comment = sprintf($this->translator->translate('Installation_SystemCheckDatabaseSSLNotWorking'), "use_ssl", "true");
+        $comment = sprintf($this->translator->translate('Installation_SystemCheckDatabaseSSLNotWorking'), "enable_ssl") . "<br />";
 
         // test ssl support
-        $ssl_support = Db::fetchAll("SHOW VARIABLES LIKE 'have_ssl'");
-        if(!empty($ssl_support[0]['Value'])) {
-            switch ($ssl_support[0]['Value']) {
+        $ssl_support = Db::fetchRow("SHOW VARIABLES LIKE 'have_ssl'");
+        if(!empty($ssl_support['Value'])) {
+            switch ($ssl_support['Value']) {
                 case 'YES':
                     $comment .= $this->translator->translate('Installation_SystemCheckDatabaseSSLOn');
                     break;
@@ -56,7 +56,7 @@ class DbOverSSLCheck implements Diagnostic
             }
         }
 
-        $comment .= '<br /><a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/"> FAQ on piwik.org</a>'; // TODO: change link to piwik FAQ how to set up ssl connection
+        $comment .= '<br />' . '<a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/"> FAQ on piwik.org</a>'; // TODO: change link to piwik FAQ how to set up ssl connection
 
         return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
     }
