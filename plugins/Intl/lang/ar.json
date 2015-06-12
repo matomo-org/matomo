@@ -473,6 +473,7 @@
         "NDays": "%s يوم",
         "NHoursShort": "%s س",
         "NMinutes": "%s دقيقة",
+        "NMinutesShort": "%s د",
         "NSeconds": "%s ثانية",
         "NSecondsShort": "%s ث",
         "OneDay": "يوم",

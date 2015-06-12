@@ -473,6 +473,7 @@
         "NDays": "%s hari",
         "NHoursShort": "%s j",
         "NMinutes": "%s menit",
+        "NMinutesShort": "%s mnt",
         "NSeconds": "%s detik",
         "NSecondsShort": "%s dtk",
         "OneDay": "1 hari",

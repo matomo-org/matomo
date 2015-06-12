@@ -473,6 +473,7 @@
         "NDays": "%s gün",
         "NHoursShort": "%ss",
         "NMinutes": "%s dakika",
+        "NMinutesShort": "%s dk.",
         "NSeconds": "%s saniye",
         "NSecondsShort": "%ssn",
         "OneDay": "1 gün",

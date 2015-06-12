@@ -473,6 +473,7 @@
         "NDays": "%s ööpäeva",
         "NHoursShort": "%s h",
         "NMinutes": "%s minutit",
+        "NMinutesShort": "%s min",
         "NSeconds": "%s sekundit",
         "NSecondsShort": "%s s",
         "OneDay": "1 ööpäev",

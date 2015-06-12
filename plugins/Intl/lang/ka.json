@@ -454,6 +454,7 @@
         "NDays": "%s დღე",
         "NHoursShort": "%sსთ",
         "NMinutes": "%s წუთი",
+        "NMinutesShort": "%s წთ",
         "NSeconds": "%s წამი",
         "NSecondsShort": "%sწმ",
         "OneDay": "1 დღე",

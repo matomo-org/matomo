@@ -441,6 +441,7 @@
         "NDays": "%s araw",
         "NHoursShort": "%sh",
         "NMinutes": "%s minuto",
+        "NMinutesShort": "%s min.",
         "NSeconds": "%s segundo",
         "NSecondsShort": "%ss",
         "OneDay": "1 araw",

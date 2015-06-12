@@ -443,6 +443,7 @@
         "NDays": "%s egun",
         "NHoursShort": "%s h",
         "NMinutes": "%s minutu",
+        "NMinutesShort": "%s min",
         "NSeconds": "%s segundo",
         "NSecondsShort": "%s s",
         "OneDay": "1 egun",

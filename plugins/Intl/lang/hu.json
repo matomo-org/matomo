@@ -473,6 +473,7 @@
         "NDays": "%s nap",
         "NHoursShort": "%s h",
         "NMinutes": "%s perc",
+        "NMinutesShort": "%s min",
         "NSeconds": "%s másodperc",
         "NSecondsShort": "%s s",
         "OneDay": "1 nap",

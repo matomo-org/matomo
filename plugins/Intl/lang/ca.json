@@ -473,6 +473,7 @@
         "NDays": "%s dies",
         "NHoursShort": "%s h",
         "NMinutes": "%s minuts",
+        "NMinutesShort": "%s min",
         "NSeconds": "%s segons",
         "NSecondsShort": "%s s",
         "OneDay": "1 dia",

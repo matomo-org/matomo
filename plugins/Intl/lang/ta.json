@@ -473,6 +473,7 @@
         "NDays": "%s நாட்கள்",
         "NHoursShort": "%s ம.நே.",
         "NMinutes": "%s நிமிடங்கள்",
+        "NMinutesShort": "%s நிமிடங்கள்",
         "NSeconds": "%s விநாடிகள்",
         "NSecondsShort": "%s வி.",
         "OneDay": "1 நாள்",

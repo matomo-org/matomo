@@ -449,6 +449,7 @@
         "NDays": "%s ቀናት",
         "NHoursShort": "%s ሰ",
         "NMinutes": "%s ደቂቃዎች",
+        "NMinutesShort": "%s ደቂቃ",
         "NSeconds": "%s ሰከንዶች",
         "NSecondsShort": "%s ሰ",
         "OneDay": "1 ቀናት",

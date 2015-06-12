@@ -473,6 +473,7 @@
         "NDays": "%s 日",
         "NHoursShort": "%s時間",
         "NMinutes": "%s 分",
+        "NMinutesShort": "%s 分",
         "NSeconds": "%s 秒",
         "NSecondsShort": "%s秒",
         "OneDay": "1 日",

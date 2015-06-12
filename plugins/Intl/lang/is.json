@@ -471,6 +471,7 @@
         "NDays": "%s dagar",
         "NHoursShort": "%s klst.",
         "NMinutes": "%s mínútur",
+        "NMinutesShort": "%s mín.",
         "NSeconds": "%s sekúndur",
         "NSecondsShort": "%s sek.",
         "OneDay": "1 dagur",

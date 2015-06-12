@@ -473,6 +473,7 @@
         "NDays": "%s дни",
         "NHoursShort": "%s h",
         "NMinutes": "%s минути",
+        "NMinutesShort": "%s min",
         "NSeconds": "%s секунди",
         "NSecondsShort": "%s s",
         "OneDay": "1 ден",

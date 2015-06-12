@@ -473,6 +473,7 @@
         "NDays": "%s de zile",
         "NHoursShort": "%s h",
         "NMinutes": "%s de minute",
+        "NMinutesShort": "%s min.",
         "NSeconds": "%s de secunde",
         "NSecondsShort": "%s s",
         "OneDay": "1 zi",

@@ -473,6 +473,7 @@
         "NDays": "%s ημέρες",
         "NHoursShort": "%s ώ",
         "NMinutes": "%s λεπτά",
+        "NMinutesShort": "%s λεπ.",
         "NSeconds": "%s δευτερόλεπτα",
         "NSecondsShort": "%s δ",
         "OneDay": "1 ημέρα",

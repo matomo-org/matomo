@@ -471,6 +471,7 @@
         "NDays": "%s dni",
         "NHoursShort": "%s h",
         "NMinutes": "%s minut",
+        "NMinutesShort": "%s min",
         "NSeconds": "%s sekund",
         "NSecondsShort": "%s s",
         "OneDay": "1 dan",

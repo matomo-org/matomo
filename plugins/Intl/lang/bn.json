@@ -473,6 +473,7 @@
         "NDays": "%s দিন",
         "NHoursShort": "%s ঘন্টা",
         "NMinutes": "%s মিনিট",
+        "NMinutesShort": "%s মিনিট",
         "NSeconds": "%s সেকেন্ড",
         "NSecondsShort": "%s সেকেন্ড",
         "OneDay": "1 দিন",

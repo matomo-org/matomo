@@ -390,6 +390,7 @@
         "NDays": "%s дня",
         "NHoursShort": "%s h",
         "NMinutes": "%s хвіліны",
+        "NMinutesShort": "%s min",
         "NSeconds": "%s сэкунды",
         "NSecondsShort": "%s s",
         "OneDay": "1 дня",

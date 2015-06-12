@@ -423,6 +423,7 @@
         "NDays": "%s ditë",
         "NHoursShort": "%s orë",
         "NMinutes": "%s minuta",
+        "NMinutesShort": "%s min.",
         "NSeconds": "%s sekonda",
         "NSecondsShort": "%s sek.",
         "OneDay": "1 ditë",

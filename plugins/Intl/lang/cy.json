@@ -458,6 +458,7 @@
         "NDays": "%s diwrnod",
         "NHoursShort": "%s awr",
         "NMinutes": "%s munud",
+        "NMinutesShort": "%s mun",
         "NSeconds": "%s eiliad",
         "NSecondsShort": "%s eil",
         "OneDay": "1 diwrnod",

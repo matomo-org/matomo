@@ -473,6 +473,7 @@
         "NDays": "%s dienų",
         "NHoursShort": "%s h",
         "NMinutes": "%s minučių",
+        "NMinutesShort": "%s min.",
         "NSeconds": "%s sekundžių",
         "NSecondsShort": "%s s",
         "OneDay": "1 diena",

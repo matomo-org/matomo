@@ -472,6 +472,7 @@
         "NDays": "%s dana",
         "NHoursShort": "%s sat",
         "NMinutes": "%s minuta",
+        "NMinutesShort": "%s min",
         "NSeconds": "%s sekundi",
         "NSecondsShort": "%s sek",
         "OneDay": "1 dan",
