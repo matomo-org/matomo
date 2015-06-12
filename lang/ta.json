@@ -179,7 +179,6 @@
         "Tax": "வரி",
         "TimeAgo": "%s முன்பு",
         "TimeOnPage": "பக்க நேரம்",
-        "Today": "இன்று",
         "Total": "மொத்தம்",
         "TotalRevenue": "மொத்த வருமானம்",
         "TransitionsRowActionTooltipTitle": "வெளிப்படையான மாற்றங்கள்",
@@ -208,9 +207,7 @@
         "WellDone": "நன்றாக செய்தீர்கள்!",
         "YearlyReport": "வருடாந்தம்",
         "YearlyReports": "வருடாந்த அறிக்கை",
-        "YearShort": "வரு",
         "Yes": "ஓம்",
-        "Yesterday": "நேற்று"
     },
     "Mobile": {
         "AboutPiwikMobile": "பிவிக் கையடக்கத்தொலைபேசி பற்றி",

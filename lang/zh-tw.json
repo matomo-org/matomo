@@ -180,7 +180,6 @@
         "SmtpUsername": "SMTP 使用者名稱",
         "Table": "表格",
         "TagCloud": "標籤雲",
-        "Today": "今天",
         "TranslatorEmail": "pserics@gmail.com, php.twn@gmail.com",
         "TranslatorName": "<a href=\"http:\/\/www.freegroup.org\/\">Pseric<\/a>, Eros",
         "Unknown": "未知",
@@ -201,7 +200,6 @@
         "Widgets": "組件",
         "YearsDays": "%1$s 年 %2$s 天",
         "Yes": "是",
-        "Yesterday": "昨天",
         "YouAreViewingDemoShortMessage": "你正在瀏覽 Piwik 範例",
         "YouMustBeLoggedIn": "您必須登入才能存取這個功能！",
         "YourChangesHaveBeenSaved": "您的變更已儲存！"

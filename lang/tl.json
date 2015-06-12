@@ -308,15 +308,13 @@
         "Segment": "Bahagi",
         "SelectYesIfYouWantToSendEmailsViaServer": "Piliin ang \"Oo\" kung gusto mo o magpadala ng e-mail sa pamamagitan ng isang server sa halip na ang mga lokal na mail function.",
         "Table": "Talahanayan",
-        "Today": "hoje",
         "TranslatorEmail": "hello@piwik.org",
         "TranslatorName": "<a href=\"http:\/\/levante.se\/\">Levante.se<\/a>",
         "View": "Tingnan",
         "Visitors": "Mga Bisita",
         "VisitorSettings": "Mga Setting ng bisita",
         "Website": "Website",
-        "XFromY": "%1$s mula %2$s",
-        "Yesterday": "ontem"
+        "XFromY": "%1$s mula %2$s"
     },
     "Mobile": {
         "AboutPiwikMobile": "Tungkol sa Piwik Mobile",

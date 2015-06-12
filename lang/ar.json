@@ -216,7 +216,6 @@
         "Summary": "موجز",
         "Table": "جدول",
         "TagCloud": "سحابة وسوم",
-        "Today": "اليوم",
         "Total": "مجموع",
         "TotalRevenue": "إجمالي الإيرادات",
         "TranslatorEmail": "mustafa@i-translate.info, benkheil.abdelouali@gmail.com",
@@ -247,7 +246,6 @@
         "Widgets": "الإضافات",
         "YearsDays": "%1$s سنة %2$s أيام",
         "Yes": "نعم",
-        "Yesterday": "الأمس",
         "YouAreViewingDemoShortMessage": "أنت تشاهد حالياً نسخة عرض من Piwik",
         "YouMustBeLoggedIn": "يجب عليك تسجيل الدخول للوصول إلى هذه الخاصية.",
         "YourChangesHaveBeenSaved": "تم حفظ التغييرات."
