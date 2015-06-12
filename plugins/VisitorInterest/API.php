@@ -37,7 +37,7 @@ class API extends \Piwik\Plugin\API
         $dataTable->queueFilter('BeautifyTimeRangeLabels', array(
                                                                 Piwik::translate('VisitorInterest_BetweenXYSeconds'),
                                                                 Piwik::translate('Intl_OneMinuteShort'),
-                                                                Piwik::translate('VisitorInterest_PlusXMin')));
+                                                                Piwik::translate('Intl_NMinutesShort')));
         return $dataTable;
     }
 

@@ -321,6 +321,8 @@ class GenerateIntl extends ConsoleCommand
                 $translations['Intl']['OneMinuteShort'] = $this->replacePlaceHolder($unitsData['short']['duration-minute']['unitPattern-count-other'], '1');
             }
 
+            $translations['Intl']['NMinutesShort'] = $this->replacePlaceHolder($unitsData['short']['duration-minute']['unitPattern-count-other']);
+
             $translations['Intl']['Minutes']        = $unitsData['long']['duration-minute']['displayName'];
 
             $translations['Intl']['Hours']          = $unitsData['long']['duration-hour']['displayName'];
