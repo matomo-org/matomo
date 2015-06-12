@@ -268,6 +268,18 @@ class Translator
             return $this->translations[$lang][$plugin][$key];
         }
 
+        /**
+         * Fallback for keys moved to new Intl plugin to avoid untranslated string in non core plugins
+         * @todo remove this in a later version
+         */
+        if ($plugin != 'Intl') {
+            if (isset($this->translations[$lang]['Intl'])
+                && isset($this->translations[$lang]['Intl'][$key])
+            ) {
+                return $this->translations[$lang]['Intl'][$key];
+            }
+        }
+
         // fallback
         if ($lang !== $this->fallback) {
             return $this->getTranslation($id, $this->fallback, $plugin, $key);
