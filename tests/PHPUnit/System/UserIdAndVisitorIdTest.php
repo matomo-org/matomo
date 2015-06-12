@@ -75,16 +75,6 @@ class UserIdAndVisitorIdTest extends SystemTestCase
                                              'testSuffix' => '_segmentUserId',
             )),
 
-            // Test invalid segment match type throws exception
-            array('VisitsSummary.get',
-                  array('idSite'     => self::$fixture->idSite,
-                        'date'       => self::$fixture->dateTime,
-                        'periods'    => 'day',
-                        'segment'    => 'userId=@invalidSegment',
-                        'testSuffix' => '_invalidSegmentUserId',
-            )),
-
-
             // Testing userId segment matches both log_visits and log_conversion
             array('Goals.getItemsName',
                                         array('idSite'     => self::$fixture->idSite,
