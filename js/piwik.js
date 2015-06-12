@@ -3253,7 +3253,7 @@ if (typeof Piwik !== 'object') {
              */
             function heartBeatPingIfActivity() {
                 var now = new Date();
-                if (lastTrackerRequestTime + configHeartBeatDelay < now.getTime()) {
+                if (lastTrackerRequestTime + configHeartBeatDelay <= now.getTime()) {
                     var requestPing = getRequest('ping=1', null, 'ping');
                     sendRequest(requestPing, configTrackerPause);
 
