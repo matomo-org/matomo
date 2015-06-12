@@ -97,6 +97,7 @@ class GenerateIntl extends ConsoleCommand
             $this->fetchTerritoryData($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchCalendarData($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchLayoutDirection($output, $transformedLangCode, $requestLangCode, $translations);
+            $this->fetchUnitData($output, $transformedLangCode, $requestLangCode, $translations);
 
             ksort($translations['Intl']);
 
@@ -279,10 +280,10 @@ class GenerateIntl extends ConsoleCommand
             $dateFieldData = json_decode($dateFieldData, true);
             $dateFieldData = $dateFieldData['main'][$requestLangCode]['dates']['fields'];
 
-            #$translations['Intl']['Period_Week'] = $dateFieldData['week']['displayName'];
-            #$translations['Intl']['Period_Year'] = $dateFieldData['year']['displayName'];
-            #$translations['Intl']['Period_Day'] = $dateFieldData['day']['displayName'];
-            #$translations['Intl']['Period_Month'] = $dateFieldData['month']['displayName'];
+            $translations['Intl']['PeriodWeek'] = $dateFieldData['week']['displayName']; // CoreHome_PeriodWeek
+            $translations['Intl']['PeriodYear'] = $dateFieldData['year']['displayName']; // CoreHome_PeriodYear
+            $translations['Intl']['PeriodDay'] = $dateFieldData['day']['displayName']; // CoreHome_PeriodDay
+            $translations['Intl']['PeriodMonth'] = $dateFieldData['month']['displayName']; // CoreHome_PeriodMonth
             $translations['Intl']['YearShort'] = $dateFieldData['year-narrow']['displayName'];
             $translations['Intl']['Today'] = $this->transform($dateFieldData['day']['relative-type-0']);
             $translations['Intl']['Yesterday'] = $this->transform($dateFieldData['day']['relative-type--1']);
@@ -293,5 +294,61 @@ class GenerateIntl extends ConsoleCommand
         }
     }
 
+    protected function fetchUnitData(OutputInterface $output, $langCode, $requestLangCode, &$translations)
+    {
+        $unitsUrl = 'https://raw.githubusercontent.com/unicode-cldr/cldr-units-full/master/main/%s/units.json';
+
+        try {
+            $unitsData = Http::fetchRemoteFile(sprintf($unitsUrl, $requestLangCode));
+            $unitsData = json_decode($unitsData, true);
+            $unitsData = $unitsData['main'][$requestLangCode]['units'];
+
+            $translations['Intl']['NSeconds']       = $this->replacePlaceHolder($unitsData['long']['duration-second']['unitPattern-count-other']); // General_NSeconds
+            $translations['Intl']['NSecondsShort']  = $this->replacePlaceHolder($unitsData['narrow']['duration-second']['unitPattern-count-other']); // General_Seconds
+            $translations['Intl']['Seconds']        = $unitsData['long']['duration-second']['displayName']; // UserCountryMap_Seconds
+
+            $translations['Intl']['NMinutes']       = $this->replacePlaceHolder($unitsData['long']['duration-minute']['unitPattern-count-other']); // General_NMinutes
+
+            if (isset($unitsData['long']['duration-minute']['unitPattern-count-one'])) {
+                $translations['Intl']['OneMinute'] = $this->replacePlaceHolder($unitsData['long']['duration-minute']['unitPattern-count-one'], '1'); // General_OneMinute
+            } else {
+                $translations['Intl']['OneMinute'] = $this->replacePlaceHolder($unitsData['long']['duration-minute']['unitPattern-count-other'], '1');
+            }
+
+            if (isset($unitsData['short']['duration-minute']['unitPattern-count-one'])) {
+                $translations['Intl']['OneMinuteShort'] = $this->replacePlaceHolder($unitsData['short']['duration-minute']['unitPattern-count-one'], '1'); // VisitorInterest_OneMinute
+            } else {
+                $translations['Intl']['OneMinuteShort'] = $this->replacePlaceHolder($unitsData['short']['duration-minute']['unitPattern-count-other'], '1');
+            }
+
+            $translations['Intl']['Minutes']        = $unitsData['long']['duration-minute']['displayName']; // UserCountryMap_Minutes
+
+            $translations['Intl']['Hours']          = $unitsData['long']['duration-hour']['displayName']; // UserCountryMap_Hours
+            $translations['Intl']['NHoursShort']    = $this->replacePlaceHolder($unitsData['narrow']['duration-hour']['unitPattern-count-other']); // VisitTime_NHour
+
+            $translations['Intl']['NDays']          = $this->replacePlaceHolder($unitsData['long']['duration-day']['unitPattern-count-other']); // General_NDays
+
+            if (isset($unitsData['short']['duration-day']['unitPattern-count-one'])) {
+                $translations['Intl']['OneDay']         = $this->replacePlaceHolder($unitsData['long']['duration-day']['unitPattern-count-one'], '1');    // General_OneDay
+            } else {
+                $translations['Intl']['OneDay']         = $this->replacePlaceHolder($unitsData['long']['duration-day']['unitPattern-count-other'], '1');
+            }
+
+            $translations['Intl']['PeriodWeeks']    = $unitsData['long']['duration-week']['displayName']; // CoreHome_PeriodWeeks
+            $translations['Intl']['PeriodYears']    = $unitsData['long']['duration-year']['displayName']; // CoreHome_PeriodYears
+            $translations['Intl']['PeriodDays']     = $unitsData['long']['duration-day']['displayName']; // CoreHome_PeriodDays
+            $translations['Intl']['PeriodMonths']   = $unitsData['long']['duration-month']['displayName']; // CoreHome_PeriodMonths
+
+
+            $output->writeln('Saved unit data for ' . $langCode);
+        } catch (\Exception $e) {
+            $output->writeln('Unable to import unit data for ' . $langCode);
+        }
+    }
+
+    protected function replacePlaceHolder($string, $replacement = '%s')
+    {
+        return str_replace('{0}', $replacement, $string);
+    }
 
 }
