@@ -554,6 +554,11 @@ PageRenderer.prototype._logMessage = function (message) {
     this.pageLogs.push(message);
 };
 
+PageRenderer.prototype._isUrlThatWeCareAbout = function (url) {
+
+    return -1 === url.indexOf('proxy/misc/user/favicon.png?r=') && -1 === url.indexOf('proxy/misc/user/logo.png?r=');
+};
+
 PageRenderer.prototype._addUrlToQueue = function (url) {
     if (this._resourcesRequested[url]){
         this._resourcesRequested[url]++;
@@ -610,7 +615,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
             self._removeUrlFromQueue(response.url);
         }
 
-        if (VERBOSE || (isStartStage && response.status >= 400)) {
+        if (VERBOSE || (isStartStage && response.status >= 400 && self._isUrlThatWeCareAbout(response.url))) {
             var message = 'Response (#' + response.id + ', stage "' + response.stage + '", size "' +
                 response.bodySize + '", status "' + response.status + '"): ' + response.url;
             self._logMessage(message);
@@ -621,12 +626,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         self._removeUrlFromQueue(resourceError.url);
 
         if (!self.aborted) {
-            var isUrlThatWeCareAbout = function (url)
-            {
-                return -1 === url.indexOf('proxy/misc/user/favicon.png?r=') && -1 === url.indexOf('proxy/misc/user/logo.png?r=');
-            }
-
-            if (isUrlThatWeCareAbout(resourceError.url)) {
+            if (self._isUrlThatWeCareAbout(resourceError.url)) {
                 self._logMessage('Unable to load resource (#' + resourceError.id + 'URL:' + resourceError.url + ')');
                 self._logMessage('Error code: ' + resourceError.errorCode + '. Description: ' + resourceError.errorString);
             }
