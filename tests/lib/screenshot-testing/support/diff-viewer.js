@@ -90,13 +90,18 @@ DiffViewerGenerator.prototype.generate = function (callback) {
                 entryLocationHint = ' <em>(for ' + m[1] + ' plugin)</em>';
             }
 
+            var processedEntryPath = '';
+            if (entry.processed) {
+                processedEntryPath = path.basename(entry.processed);
+            }
+
             diffViewerContent += '\
     <tr>\
         <td>' + entry.name + entryLocationHint + '</td>\
         <td>' + expectedHtml + '</td>\
         <td>' + githubUrl + '</td>\
         <td>' + (entry.processed ? ('<a href="' + entry.processedUrl + '">Processed</a>') : '<em>Not found</em>') + '</td>\
-        <td>' + (expectedUrl ? ('<a href="singlediff.html?processed=' + entry.processedUrl + '&expected=' + expectedUrl + '&github=' + path.basename(entry.processed) + '">Difference</a>') : '<em>Could not create diff.</em>') + '</td>\
+        <td>' + (expectedUrl ? ('<a href="singlediff.html?processed=' + entry.processedUrl + '&expected=' + expectedUrl + '&github=' + processedEntryPath + '">Difference</a>') : '<em>Could not create diff.</em>') + '</td>\
     </tr>';
         }
 
