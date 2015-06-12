@@ -21,8 +21,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
 use Piwik\Plugins\CustomVariables\CustomVariables;
-use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
-use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Settings\Manager as SettingsManager;
@@ -74,7 +72,7 @@ class Controller extends ControllerAdmin
         $view->pathUserLogoSVG       = CustomLogo::getPathUserSvgLogo();
         $view->pathUserLogoDirectory = realpath(dirname($view->pathUserLogo) . '/');
 
-        $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
+        $view->language = $this->translator->getCurrentLanguage();
         $this->setBasicVariablesView($view);
         return $view->render();
     }
@@ -339,11 +337,6 @@ class Controller extends ControllerAdmin
             }
         }
 
-        $language = Common::getRequestVar('language', '');
-        $lang = APILanguagesManager::getInstance()->isLanguageAvailable($language)
-            ? $language
-            : LanguagesManager::getLanguageCodeForCurrentUser();
-
         // should not use self::renderTemplate since that uses setBasicVariablesView. this will cause
         // an error when setBasicVariablesAdminView is called, and MenuTop is requested (the idSite query
         // parameter is required)
@@ -352,7 +345,7 @@ class Controller extends ControllerAdmin
         $view->dntFound = $dntFound;
         $view->trackVisits = $trackVisits;
         $view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
-        $view->language = $lang;
+        $view->language = $this->translator->getCurrentLanguage();
         $view->isSafari = $this->isUserAgentSafari();
         $view->showConfirmOnly = Common::getRequestVar('showConfirmOnly', false, 'int');
         $view->reloadUrl = $reloadUrl;

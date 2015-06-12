@@ -138,15 +138,16 @@ class Translator
     }
 
     /**
-     * @return string The default configured language.
+     * @return string The default language.
      */
     public function getDefaultLanguage()
     {
+        // Default to 'en' if the config is not available
+        // (for example, during environment setup).
         $generalSection = Config::getInstance()->General;
-
-        // the config may not be available (for example, during environment setup), so we default to 'en'
-        // if the config cannot be found.
-        return @$generalSection['default_language'] ?: 'en';
+        return !empty($generalSection['default_language'])
+            ? $generalSection['default_language']
+            : 'en';
     }
 
     /**

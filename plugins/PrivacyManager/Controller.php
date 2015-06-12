@@ -19,8 +19,8 @@ use Piwik\Notification;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\DBStats\MySQLMetadataProvider;
-use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Scheduler\Scheduler;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
 /**
@@ -121,7 +121,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $forceEstimate = Common::getRequestVar('forceEstimate', 0);
         $view->dbStats = $this->getDeleteDBSizeEstimate($getSettingsFromQuery = true, $forceEstimate);
-        $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        $view->language = $translator->getCurrentLanguage();
 
         return $view->render();
     }
@@ -141,7 +143,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->deactivateNonce = Nonce::getNonce(self::DEACTIVATE_DNT_NONCE);
             $view->activateNonce   = Nonce::getNonce(self::ACTIVATE_DNT_NONCE);
         }
-        $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
+        /** @var  Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        $view->language = $translator->getCurrentLanguage();
         $this->setBasicVariablesView($view);
         return $view->render();
     }

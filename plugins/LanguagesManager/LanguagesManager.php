@@ -17,7 +17,6 @@ use Piwik\Cookie;
 use Piwik\Db;
 use Piwik\Intl\Locale;
 use Piwik\Piwik;
-use Piwik\Translate;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
@@ -35,6 +34,7 @@ class LanguagesManager extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'            => 'getJsFiles',
             'Config.NoConfigurationFile'                 => 'initLanguage',
+            'Request.dispatch'                           => 'initLanguage',
             'Request.dispatchCoreAndPluginUpdatesScreen' => 'initLanguage',
             'Platform.initialized'                       => 'initLanguage',
             'UsersManager.deleteUser'                    => 'deleteUserLanguage',
@@ -98,18 +98,9 @@ class LanguagesManager extends \Piwik\Plugin
     {
         /** @var Translator $translator */
         $translator = StaticContainer::get('Piwik\Translation\Translator');
-
-        $language = Common::getRequestVar('language', '', 'string');
-        if (empty($language)) {
-            $userLanguage = self::getLanguageCodeForCurrentUser();
-            if (API::getInstance()->isLanguageAvailable($userLanguage)) {
-                $language = $userLanguage;
-            }
-        }
-        if (!empty($language) && API::getInstance()->isLanguageAvailable($language)) {
-            $translator->setCurrentLanguage($language);
-        }
-
+        // Update current language.
+        $translator->setCurrentLanguage(self::getCurrentLanguage());
+        // Update current locale.
         $locale = $translator->translate('General_Locale');
         Locale::setLocale($locale);
     }
@@ -137,18 +128,46 @@ class LanguagesManager extends \Piwik\Plugin
     }
 
     /**
+     * First check forced by request language setting,
+     * then - session language setting, then - from browser,
+     * and finally default configured setting.
+     *
+     * @return string Two letters language code, eg. "fr"
+     */
+    public static function getCurrentLanguage()
+    {
+        $languageCodes = array(
+            Common::getRequestVar('language', ''),
+            self::getLanguageForSession(),
+            self::getLanguageCodeForCurrentUser(),
+            StaticContainer::get('Piwik\Translation\Translator')->getDefaultLanguage(),
+        );
+        foreach ($languageCodes as $languageCode) {
+            if (!empty($languageCode) && API::getInstance()->isLanguageAvailable($languageCode)) {
+                return $languageCode;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @return string Two letters language code, eg. "fr"
      */
     public static function getLanguageCodeForCurrentUser()
     {
-        $languageCode = self::getLanguageFromPreferences();
-        if (!API::getInstance()->isLanguageAvailable($languageCode)) {
-            $languageCode = Common::extractLanguageCodeFromBrowserLanguage(Common::getBrowserLanguage(), API::getInstance()->getAvailableLanguages());
+        $languageCodes = array(
+            self::getLanguageFromPreferences(),
+            Common::extractLanguageCodeFromBrowserLanguage(
+                Common::getBrowserLanguage(),
+                API::getInstance()->getAvailableLanguages()
+            ),
+        );
+        foreach ($languageCodes as $languageCode) {
+            if (!empty($languageCode) && API::getInstance()->isLanguageAvailable($languageCode)) {
+                return $languageCode;
+            }
         }
-        if (!API::getInstance()->isLanguageAvailable($languageCode)) {
-            $languageCode = Translate::getLanguageDefault();
-        }
-        return $languageCode;
+        return null;
     }
 
     /**

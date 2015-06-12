@@ -8,11 +8,10 @@
  */
 namespace Piwik\Plugins\ScheduledReports;
 
-use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
 /**
@@ -74,7 +73,9 @@ class Controller extends \Piwik\Plugin\Controller
         $view->defaultPeriod = ScheduledReports::DEFAULT_PERIOD;
         $view->defaultHour = ScheduledReports::DEFAULT_HOUR;
 
-        $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        $view->language = $translator->getCurrentLanguage();
 
         $view->segmentEditorActivated = false;
         if (API::isSegmentEditorActivated()) {
