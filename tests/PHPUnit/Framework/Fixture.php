@@ -176,6 +176,8 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function performSetUp($setupEnvironmentOnly = false)
     {
+        TestingEnvironmentManipulator::$extraPluginsToLoad = $this->extraPluginsToLoad;
+
         $this->createEnvironmentInstance();
 
         try {
@@ -345,41 +347,10 @@ class Fixture extends \PHPUnit_Framework_Assert
         // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object
     }
 
-    public static function loadAllPlugins($testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
+    public static function loadAllPlugins(TestingEnvironmentVariables $testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
     {
-        if (empty($testEnvironment)) {
-            $testEnvironment = new TestingEnvironmentVariables();
-        }
-
         DbHelper::createTables();
-        $pluginsManager = Manager::getInstance();
-
-        $plugins = $testEnvironment->getCoreAndSupportedPlugins();
-
-        // make sure the plugin that executed this method is included in the plugins to load
-        $extraPlugins = array_merge($extraPluginsToLoad, array(
-            Plugin::getPluginNameFromBacktrace(debug_backtrace()),
-            Plugin::getPluginNameFromNamespace($testCaseClass),
-            Plugin::getPluginNameFromNamespace(get_called_class())
-        ));
-        foreach ($extraPlugins as $pluginName) {
-            if (empty($pluginName)) {
-                continue;
-            }
-
-            if (in_array($pluginName, $plugins)) {
-                continue;
-            }
-
-            $plugins[] = $pluginName;
-            if ($testEnvironment) {
-                $testEnvironment->pluginsToLoad = array_merge($testEnvironment->pluginsToLoad ?: array(), array($pluginName));
-            }
-        }
-
-        Log::debug("Plugins to load during tests: " . implode(', ', $plugins));
-
-        $pluginsManager->loadPlugins($plugins);
+        Plugin\Manager::getInstance()->loadActivatedPlugins();
     }
 
     public static function installAndActivatePlugins()
