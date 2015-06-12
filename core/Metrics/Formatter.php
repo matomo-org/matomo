@@ -109,7 +109,7 @@ class Formatter
         } elseif ($minutes > 0) {
             $return = sprintf(Piwik::translate('General_MinutesSeconds'), $minutes, $seconds);
         } else {
-            $return = sprintf(Piwik::translate('General_Seconds'), $seconds);
+            $return = sprintf(Piwik::translate('Intl_NSecondsShort'), $seconds);
         }
 
         if ($isNegative) {

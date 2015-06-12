@@ -280,10 +280,10 @@ class GenerateIntl extends ConsoleCommand
             $dateFieldData = json_decode($dateFieldData, true);
             $dateFieldData = $dateFieldData['main'][$requestLangCode]['dates']['fields'];
 
-            $translations['Intl']['PeriodWeek'] = $dateFieldData['week']['displayName']; // CoreHome_PeriodWeek
-            $translations['Intl']['PeriodYear'] = $dateFieldData['year']['displayName']; // CoreHome_PeriodYear
-            $translations['Intl']['PeriodDay'] = $dateFieldData['day']['displayName']; // CoreHome_PeriodDay
-            $translations['Intl']['PeriodMonth'] = $dateFieldData['month']['displayName']; // CoreHome_PeriodMonth
+            $translations['Intl']['PeriodWeek'] = $dateFieldData['week']['displayName'];
+            $translations['Intl']['PeriodYear'] = $dateFieldData['year']['displayName'];
+            $translations['Intl']['PeriodDay'] = $dateFieldData['day']['displayName'];
+            $translations['Intl']['PeriodMonth'] = $dateFieldData['month']['displayName'];
             $translations['Intl']['YearShort'] = $dateFieldData['year-narrow']['displayName'];
             $translations['Intl']['Today'] = $this->transform($dateFieldData['day']['relative-type-0']);
             $translations['Intl']['Yesterday'] = $this->transform($dateFieldData['day']['relative-type--1']);
@@ -303,41 +303,41 @@ class GenerateIntl extends ConsoleCommand
             $unitsData = json_decode($unitsData, true);
             $unitsData = $unitsData['main'][$requestLangCode]['units'];
 
-            $translations['Intl']['NSeconds']       = $this->replacePlaceHolder($unitsData['long']['duration-second']['unitPattern-count-other']); // General_NSeconds
-            $translations['Intl']['NSecondsShort']  = $this->replacePlaceHolder($unitsData['narrow']['duration-second']['unitPattern-count-other']); // General_Seconds
-            $translations['Intl']['Seconds']        = $unitsData['long']['duration-second']['displayName']; // UserCountryMap_Seconds
+            $translations['Intl']['NSeconds']       = $this->replacePlaceHolder($unitsData['long']['duration-second']['unitPattern-count-other']);
+            $translations['Intl']['NSecondsShort']  = $this->replacePlaceHolder($unitsData['narrow']['duration-second']['unitPattern-count-other']);
+            $translations['Intl']['Seconds']        = $unitsData['long']['duration-second']['displayName'];
 
-            $translations['Intl']['NMinutes']       = $this->replacePlaceHolder($unitsData['long']['duration-minute']['unitPattern-count-other']); // General_NMinutes
+            $translations['Intl']['NMinutes']       = $this->replacePlaceHolder($unitsData['long']['duration-minute']['unitPattern-count-other']);
 
             if (isset($unitsData['long']['duration-minute']['unitPattern-count-one'])) {
-                $translations['Intl']['OneMinute'] = $this->replacePlaceHolder($unitsData['long']['duration-minute']['unitPattern-count-one'], '1'); // General_OneMinute
+                $translations['Intl']['OneMinute'] = $this->replacePlaceHolder($unitsData['long']['duration-minute']['unitPattern-count-one'], '1');
             } else {
                 $translations['Intl']['OneMinute'] = $this->replacePlaceHolder($unitsData['long']['duration-minute']['unitPattern-count-other'], '1');
             }
 
             if (isset($unitsData['short']['duration-minute']['unitPattern-count-one'])) {
-                $translations['Intl']['OneMinuteShort'] = $this->replacePlaceHolder($unitsData['short']['duration-minute']['unitPattern-count-one'], '1'); // VisitorInterest_OneMinute
+                $translations['Intl']['OneMinuteShort'] = $this->replacePlaceHolder($unitsData['short']['duration-minute']['unitPattern-count-one'], '1');
             } else {
                 $translations['Intl']['OneMinuteShort'] = $this->replacePlaceHolder($unitsData['short']['duration-minute']['unitPattern-count-other'], '1');
             }
 
-            $translations['Intl']['Minutes']        = $unitsData['long']['duration-minute']['displayName']; // UserCountryMap_Minutes
+            $translations['Intl']['Minutes']        = $unitsData['long']['duration-minute']['displayName'];
 
-            $translations['Intl']['Hours']          = $unitsData['long']['duration-hour']['displayName']; // UserCountryMap_Hours
-            $translations['Intl']['NHoursShort']    = $this->replacePlaceHolder($unitsData['narrow']['duration-hour']['unitPattern-count-other']); // VisitTime_NHour
+            $translations['Intl']['Hours']          = $unitsData['long']['duration-hour']['displayName'];
+            $translations['Intl']['NHoursShort']    = $this->replacePlaceHolder($unitsData['narrow']['duration-hour']['unitPattern-count-other']);
 
-            $translations['Intl']['NDays']          = $this->replacePlaceHolder($unitsData['long']['duration-day']['unitPattern-count-other']); // General_NDays
+            $translations['Intl']['NDays']          = $this->replacePlaceHolder($unitsData['long']['duration-day']['unitPattern-count-other']);
 
             if (isset($unitsData['short']['duration-day']['unitPattern-count-one'])) {
-                $translations['Intl']['OneDay']         = $this->replacePlaceHolder($unitsData['long']['duration-day']['unitPattern-count-one'], '1');    // General_OneDay
+                $translations['Intl']['OneDay']         = $this->replacePlaceHolder($unitsData['long']['duration-day']['unitPattern-count-one'], '1');
             } else {
                 $translations['Intl']['OneDay']         = $this->replacePlaceHolder($unitsData['long']['duration-day']['unitPattern-count-other'], '1');
             }
 
-            $translations['Intl']['PeriodWeeks']    = $unitsData['long']['duration-week']['displayName']; // CoreHome_PeriodWeeks
-            $translations['Intl']['PeriodYears']    = $unitsData['long']['duration-year']['displayName']; // CoreHome_PeriodYears
-            $translations['Intl']['PeriodDays']     = $unitsData['long']['duration-day']['displayName']; // CoreHome_PeriodDays
-            $translations['Intl']['PeriodMonths']   = $unitsData['long']['duration-month']['displayName']; // CoreHome_PeriodMonths
+            $translations['Intl']['PeriodWeeks']    = $unitsData['long']['duration-week']['displayName'];
+            $translations['Intl']['PeriodYears']    = $unitsData['long']['duration-year']['displayName'];
+            $translations['Intl']['PeriodDays']     = $unitsData['long']['duration-day']['displayName'];
+            $translations['Intl']['PeriodMonths']   = $unitsData['long']['duration-month']['displayName'];
 
 
             $output->writeln('Saved unit data for ' . $langCode);

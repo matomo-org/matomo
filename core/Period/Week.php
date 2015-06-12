@@ -43,7 +43,7 @@ class Week extends Period
         $format = $this->translator->translate('CoreHome_LongWeekFormat');
         $string = self::getTranslatedRange($format, $this->getDateStart(), $this->getDateEnd());
 
-        return $this->translator->translate('CoreHome_PeriodWeek') . " " . $string;
+        return $this->translator->translate('Intl_PeriodWeek') . " " . $string;
     }
 
     /**
