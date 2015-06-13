@@ -119,11 +119,8 @@
         "NotDefined": "%s வரையறுக்கப்படவில்லை",
         "Note": "எதுவும் இல்லை",
         "NotInstalled": "நிறுவப்படவில்லை",
-        "NSeconds": "%s வினாடிகள்",
         "Ok": "சரி",
         "OneAction": "1 செயல்",
-        "OneDay": "1 நாள்",
-        "OneMinute": "1 நிமிடம்",
         "OneVisit": "1 வருகை",
         "OpenSourceWebAnalytics": "திறந்த மூலக்கூற்று இணைய பகுப்பாய்வு",
         "OperationContains": "உள்ளடக்கம்",
@@ -160,7 +157,6 @@
         "Search": "தேடு",
         "Clear": "சுத்தப்படுத்து",
         "SearchNoResults": "எந்த முடிவுகளும் இல்லை",
-        "Seconds": "%s நொடிகள்",
         "SeeAll": "எல்லாவற்றையும் காண",
         "Settings": "அமைப்புகள்",
         "Shipping": "அனுப்புதல்",
@@ -207,7 +203,7 @@
         "WellDone": "நன்றாக செய்தீர்கள்!",
         "YearlyReport": "வருடாந்தம்",
         "YearlyReports": "வருடாந்த அறிக்கை",
-        "Yes": "ஓம்",
+        "Yes": "ஓம்"
     },
     "Mobile": {
         "AboutPiwikMobile": "பிவிக் கையடக்கத்தொலைபேசி பற்றி",
