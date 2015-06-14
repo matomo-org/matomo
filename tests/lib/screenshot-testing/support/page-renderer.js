@@ -625,11 +625,9 @@ PageRenderer.prototype._setupWebpageEvents = function () {
     this.webpage.onResourceError = function (resourceError) {
         self._removeUrlFromQueue(resourceError.url);
 
-        if (!self.aborted) {
-            if (self._isUrlThatWeCareAbout(resourceError.url)) {
-                self._logMessage('Unable to load resource (#' + resourceError.id + 'URL:' + resourceError.url + ')');
-                self._logMessage('Error code: ' + resourceError.errorCode + '. Description: ' + resourceError.errorString);
-            }
+        if (!self.aborted && self._isUrlThatWeCareAbout(resourceError.url)) {
+            self._logMessage('Unable to load resource (#' + resourceError.id + 'URL:' + resourceError.url + ')');
+            self._logMessage('Error code: ' + resourceError.errorCode + '. Description: ' + resourceError.errorString);
         }
     };
 

@@ -222,6 +222,15 @@ Application.prototype.doRunTests = function () {
             self.finish();
         });
     });
+
+    this.runner.on('fail', function(test, err) {
+        var indent = "     ";
+
+        var message = "\n";
+        message += err && err.stack ? err.stack : err;
+        message = message.replace(/\n/g, "\n" + indent);
+        console.log(indent + message + "\n\n");
+    });
 };
 
 Application.prototype.finish = function () {
