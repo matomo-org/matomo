@@ -164,13 +164,11 @@ class PrivacyManager extends Plugin
     {
         $form->addElement('checkbox', 'do_not_track', null,
             array(
-                'content' => '&nbsp;&nbsp;' . Piwik::translate('PrivacyManager_DoNotTrack_Enable') . '<br>'
-                    . Piwik::translate('PrivacyManager_DoNotTrack_EnabledMoreInfo'),
+                'content' => '<div class="form-help">' . Piwik::translate('PrivacyManager_DoNotTrack_EnabledMoreInfo') . '</div> &nbsp;&nbsp;' . Piwik::translate('PrivacyManager_DoNotTrack_Enable')
             ));
         $form->addElement('checkbox', 'anonymise_ip', null,
             array(
-                'content' => '&nbsp;&nbsp;' . Piwik::translate('PrivacyManager_AnonymizeIpInlineHelp') . '<br>'
-                    . Piwik::translate('PrivacyManager_AnonymizeIpExtendedHelp', array('213.34.51.91', '213.34.0.0')),
+                'content' => '<div class="form-help">' . Piwik::translate('PrivacyManager_AnonymizeIpExtendedHelp', array('213.34.51.91', '213.34.0.0')) . '</div> &nbsp;&nbsp;' . Piwik::translate('PrivacyManager_AnonymizeIpInlineHelp')
             ));
 
         // default values

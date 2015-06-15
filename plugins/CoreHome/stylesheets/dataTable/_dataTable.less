@@ -9,16 +9,15 @@
   td .ratio {
     color: #999999;
     font-size: 12px;
-    display:none;
+    display: inline-block;
+    visibility: hidden;
     text-align: right;
-    min-width: 45px;
-    margin-left: 4px;
+    margin-right: 4px;
     font-weight: normal;
   }
 
   td.highlight > .ratio {
-    display: inline-block;
-    line-height: 15px;
+    visibility: visible;
   }
 }
 
@@ -63,7 +62,6 @@ table.dataTable th {
   background: @dataTable-header-background;
   font-size: 12px;
   font-weight: normal;
-  border-left: 1px solid #d4d0c4;
   vertical-align: top;
 }
 
@@ -73,14 +71,11 @@ table.dataTable th.sortable {
 
 table.dataTable th.columnSorted {
   font-weight: bold;
-  padding-right: 20px;
-  background: @dataTable-headerActive-background;
 }
 
 table.dataTable td {
-  padding: 5px 5px 5px 12px;
+  padding: 5px 1px 5px 12px;
   background: @theme-color-background-base;
-  border-left: 1px solid #e7e7e7;
 }
 
 table.dataTable td,
@@ -88,21 +83,6 @@ table.dataTable td a {
   margin: 0;
   text-decoration: none;
   color: @theme-color-text-light;
-}
-
-table.dataTable tr:hover > td,
-table.dataTable tr:hover > td .dataTableRowActions {
-  background-color: #FFFFF7;
-}
-
-table.dataTable tr.subDataTable:hover > td,
-table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
-  background-color: #ffffcb;
-}
-
-table.dataTable tr:hover > td.cellSubDataTable
-table.dataTable tr:hover > td.cellSubDataTable .dataTableRowActions {
-  background-color: @theme-color-background-base;
 }
 
 td.clean {
@@ -113,16 +93,7 @@ table.dataTable td.column {
   white-space: nowrap;
 }
 
-table.dataTable td.columneven {
-  background: #efeeec;
-}
-
-table.dataTable td.columnodd {
-  background: #f6f5f3;
-}
-
 .dataTable tr.highlight td {
-  background-color: #ECF9DD;
   font-weight: bold;
 }
 
@@ -180,7 +151,7 @@ div.dataTable, div.dataTable > .dataTableWrapper {
 }
 
 .sortIconContainer {
-  float: right;
+  float: left;
   position: relative;
 }
 
@@ -548,7 +519,7 @@ div.dataTable, div.dataTable > .dataTableWrapper {
 }
 
 /* Actions table */
-.dataTableActions table.dataTable tr td.labelodd {
+.dataTableActions table.dataTable tr td.label {
   background-image: none;
 }
 
@@ -609,7 +580,7 @@ tr.level12 td.label {
 }
 
 tr td.label img.plusMinus {
-  margin-left: -1em;
+  margin-left: -10px;
   margin-right: 3px;
   margin-top: -5px;
 }

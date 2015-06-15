@@ -17,17 +17,17 @@
                 <span ng-class="{multisites_asc: !model.reverse && 'label' == model.sortColumn, multisites_desc: model.reverse && 'label' == model.sortColumn}" class="arrow"></span>
             </th>
             <th id="visits" class="multisites-column" ng-click="model.sortBy('nb_visits')" ng-class="{columnSorted: 'nb_visits' == model.sortColumn}">
-                <span class="heading">{{ 'General_ColumnNbVisits'|translate }}</span>
                 <span ng-class="{multisites_asc: !model.reverse && 'nb_visits' == model.sortColumn, multisites_desc: model.reverse && 'nb_visits' == model.sortColumn}" class="arrow"></span>
+                <span class="heading">{{ 'General_ColumnNbVisits'|translate }}</span>
             </th>
             <th id="pageviews" class="multisites-column" ng-click="model.sortBy('nb_pageviews')" ng-class="{columnSorted: 'nb_pageviews' == model.sortColumn}">
-                <span class="heading">{{ 'General_ColumnPageviews'|translate }}</span>
                 <span ng-class="{multisites_asc: !model.reverse && 'nb_pageviews' == model.sortColumn, multisites_desc: model.reverse && 'nb_pageviews' == model.sortColumn}" class="arrow"></span>
+                <span class="heading">{{ 'General_ColumnPageviews'|translate }}</span>
             </th>
 
             <th ng-if="displayRevenueColumn" id="revenue" class="multisites-column" ng-click="model.sortBy('revenue')" ng-class="{columnSorted: 'revenue' == model.sortColumn}">
-                <span class="heading">{{ 'General_ColumnRevenue'|translate }}</span>
                 <span ng-class="{multisites_asc: !model.reverse && 'revenue' == model.sortColumn, multisites_desc: model.reverse && 'revenue' == model.sortColumn}" class="arrow"></span>
+                <span class="heading">{{ 'General_ColumnRevenue'|translate }}</span>
             </th>
 
             <th id="evolution" colspan="{{ showSparklines ? 2 : 1 }}" ng-class="{columnSorted: evolutionSelector == model.sortColumn}">
@@ -69,7 +69,6 @@
                 date-sparkline="dateSparkline"
                 show-sparklines="showSparklines"
                 metric="model.sortColumn"
-                ng-class-odd="'columnodd'"
                 display-revenue-column="displayRevenueColumn"
                 ng-repeat="website in model.sites">
             </tr>

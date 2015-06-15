@@ -44,8 +44,11 @@
     <h2>{{ 'DevicesDetection_DeviceDetection'|translate }}</h2>
 
     <h3>{{ 'DevicesDetection_UserAgent'|translate }}</h3>
+
+    <br />
     <form action="{{ linkTo({}) }}" method="POST">
         <textarea name="ua">{{ userAgent }}</textarea>
+        <br />
         <input type="submit" value="{{ 'General_Refresh'|translate }}" />
     </form>
 

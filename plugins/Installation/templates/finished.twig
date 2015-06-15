@@ -27,8 +27,10 @@
         </div>
     {% endif %}
 
-    {% if form_data is defined %}
-        {% include "genericForm.twig" %}
-    {% endif %}
+    <div class="installation-finished">
+        {% if form_data is defined %}
+            {% include "genericForm.twig" %}
+        {% endif %}
+    </div>
 
 {% endblock %}

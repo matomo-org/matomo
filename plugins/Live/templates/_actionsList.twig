@@ -102,7 +102,7 @@
                     {# For events, do not show (url) if the Event URL is the same as the URL last displayed #}
                 {% else %}
                     <a href="{{ action.url }}" rel="noreferrer" target="_blank" class="{% if action.eventCategory|default(false) is empty %}action-list-url{# don't put URL on new line for events #}{% endif %} truncated-text-line"
-                       {% if overrideLinkStyle is not defined or overrideLinkStyle %}style="{% if action.type=='action' and action.pageTitle|default(false) is not empty %}margin-left: 9px;{% endif %}text-decoration:underline;"{% endif %}>
+                       {% if overrideLinkStyle is not defined or overrideLinkStyle %}style="text-decoration:underline;"{% endif %}>
                        {% if action.eventCategory|default(false) is not empty %}
                            (url)
                        {% else %}
@@ -113,7 +113,7 @@
                 {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}</p>{% endif %}
             {% elseif action.type != 'search' and action.type != 'event' %}
                 <p>
-                <span style="margin-left: 9px;">{{ clientSideParameters.pageUrlNotDefined }}</span>
+                <span>{{ clientSideParameters.pageUrlNotDefined }}</span>
                 </p>
             {% endif %}
         {% else %}

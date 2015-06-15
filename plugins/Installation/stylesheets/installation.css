@@ -41,6 +41,10 @@ body {
     margin-bottom: 0;
 }
 
+.installation-finished .form-group .checkbox {
+    width: 100%;
+}
+
 /* Content */
 h2 {
     font-size: 25px;

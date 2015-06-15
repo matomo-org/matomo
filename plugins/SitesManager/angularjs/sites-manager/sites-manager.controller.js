@@ -105,6 +105,7 @@
                         $scope.totalNumberOfSites = siteIds.length;
                     }
                 });
+                $(piwik.broadcast).trigger('updateICheck', {});
             });
         };
 

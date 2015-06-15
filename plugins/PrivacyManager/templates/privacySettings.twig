@@ -12,7 +12,7 @@
     <form method="post" action="{{ {'action':'saveSettings', 'form':'formMaskLength', 'token_auth':token_auth} | urlRewriteWithParameters }}" id="formMaskLength">
         <div id="anonymizeIpSettings" class="form-group">
             <label>
-                {{ 'PrivacyManager_UseAnonymizeIp'|translate }}<br/>
+                {{ 'PrivacyManager_UseAnonymizeIp'|translate }}
             </label>
             <div class="form-help">
                 {{ 'PrivacyManager_AnonymizeIpInlineHelp'|translate }}
@@ -93,7 +93,7 @@
             <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
             <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
         </div>
-        <h2 id="deleteLogsAnchor">{{ 'PrivacyManager_DeleteDataSettings'|translate }}</h2>
+        <h2 id="deleteLogsAnchor">{{ 'PrivacyManager_DeleteOldVisitorLogs'|translate }}</h2>
         <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }} {{ 'PrivacyManager_DeleteDataDescription2'|translate }}</p>
         <form method="post" action="{{ {'action':'saveSettings','form':'formDeleteSettings','token_auth':token_auth} | urlRewriteWithParameters }}" id="formDeleteSettings">
             <div id="deleteLogSettingEnabled" class="form-group">
@@ -139,6 +139,8 @@
                 </div>
             </div>
 
+            <h2 id="deleteReportsAnchor" class="secondary">{{ 'PrivacyManager_DeleteOldArchivedReports'|translate }}</h2>
+
             <div id="deleteReportsSettingEnabled" class="form-group">
                 <label>
                     {{ 'PrivacyManager_UseDeleteReports'|translate }}
@@ -178,9 +180,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="deleteReportsOlderThan">
-                        {{ 'PrivacyManager_DeleteReportsOlderThan'|translate }}
-                    </label>
                     <label class="checkbox">
                         <input id="deleteReportsKeepBasic" type="checkbox" name="deleteReportsKeepBasic" value="1"
                                {% if deleteData.config.delete_reports_keep_basic_metrics %}checked="checked"{% endif %}>
@@ -188,10 +187,10 @@
                         <span class="form-description">{{ 'General_Recommended'|translate }}</span>
                     </label>
                 </div>
+                <h3>
+                    {{ 'PrivacyManager_KeepDataFor'|translate }}
+                </h3>
                 <div class="form-group">
-                    <label>
-                        {{ 'PrivacyManager_KeepDataFor'|translate }}
-                    </label>
                     <label class="checkbox">
                         <input id="deleteReportsKeepDay" type="checkbox" name="deleteReportsKeepDay" value="1"
                                {% if deleteData.config.delete_reports_keep_day_reports %}checked="checked"{% endif %}>
@@ -227,26 +226,11 @@
                 </div>
             </div>
 
-            <div {% if deleteData.config.delete_reports_enable == '0' and deleteData.config.delete_logs_enable == '0' %}style="display:none;"{% endif %}
-                 id="deleteDataEstimateSect" class="form-group">
-                <label>
-                    {{ 'PrivacyManager_ReportsDataSavedEstimate'|translate }}
-                </label>
-                {% if deleteData.config.enable_auto_database_size_estimate == '0' %}
-                    <div class="form-help">
-                        <a id="getPurgeEstimateLink" href="#">{{ 'PrivacyManager_GetPurgeEstimate'|translate }}</a>
-                    </div>
-                {% endif %}
-                <div id="deleteDataEstimate"></div>
-                <span class="loadingPiwik" style="display:none;">
-                    <img src="./plugins/Morpheus/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}
-                </span>
-            </div>
 
+            <h2 for="deleteLowestInterval" id="scheduleSettingsHeadline">
+                {{ 'PrivacyManager_DeleteSchedulingSettings'|translate }}
+            </h2>
             <div id="deleteSchedulingSettings" class="form-group">
-                <label for="deleteLowestInterval">
-                    {{ 'PrivacyManager_DeleteSchedulingSettings'|translate }}
-                </label>
                 <div class="form-help">
                     {% if deleteData.lastRun %}<strong>{{ 'PrivacyManager_LastDelete'|translate }}:</strong>
                         {{ deleteData.lastRunPretty }}
@@ -262,16 +246,32 @@
                                     src="./plugins/Morpheus/images/loading-blue.gif"/> {{ 'PrivacyManager_PurgingData'|translate }}</span>
                     <span id="db-purged-message" style="display: none;"><em>{{ 'PrivacyManager_DBPurged'|translate }}</em></span>
                 </div>
-                <p>{{ 'PrivacyManager_DeleteDataInterval'|translate }}
-                    <select id="deleteLowestInterval" name="deleteLowestInterval">
-                        <option {% if deleteData.config.delete_logs_schedule_lowest_interval == '1' %} selected="selected" {% endif %}
-                                value="1"> {{ 'CoreHome_PeriodDay'|translate }}</option>
-                        <option {% if deleteData.config.delete_logs_schedule_lowest_interval == '7' %} selected="selected" {% endif %}
-                                value="7">{{ 'CoreHome_PeriodWeek'|translate }}</option>
-                        <option {% if deleteData.config.delete_logs_schedule_lowest_interval == '30' %} selected="selected" {% endif %}
-                                value="30">{{ 'CoreHome_PeriodMonth'|translate }}</option>
-                    </select>
-                </p>
+
+                <label>{{ 'PrivacyManager_DeleteDataInterval'|translate }}</label>
+                <select id="deleteLowestInterval" name="deleteLowestInterval">
+                    <option {% if deleteData.config.delete_logs_schedule_lowest_interval == '1' %} selected="selected" {% endif %}
+                            value="1"> {{ 'CoreHome_PeriodDay'|translate }}</option>
+                    <option {% if deleteData.config.delete_logs_schedule_lowest_interval == '7' %} selected="selected" {% endif %}
+                            value="7">{{ 'CoreHome_PeriodWeek'|translate }}</option>
+                    <option {% if deleteData.config.delete_logs_schedule_lowest_interval == '30' %} selected="selected" {% endif %}
+                            value="30">{{ 'CoreHome_PeriodMonth'|translate }}</option>
+                </select>
+            </div>
+
+            <h3 id="databaseSizeHeadline">
+                {{ 'PrivacyManager_ReportsDataSavedEstimate'|translate }}
+            </h3>
+            <div {% if deleteData.config.delete_reports_enable == '0' and deleteData.config.delete_logs_enable == '0' %}style="display:none;"{% endif %}
+                 id="deleteDataEstimateSect" class="form-group">
+                {% if deleteData.config.enable_auto_database_size_estimate == '0' %}
+                    <div class="form-help">
+                        <a id="getPurgeEstimateLink" href="#">{{ 'PrivacyManager_GetPurgeEstimate'|translate }}</a>
+                    </div>
+                {% endif %}
+                <div id="deleteDataEstimate"></div>
+                <span class="loadingPiwik" style="display:none;">
+                    <img src="./plugins/Morpheus/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}
+                </span>
             </div>
 
             <input type="button" value="{{ 'General_Save'|translate }}" id="deleteLogSettingsSubmit" class="submit"/>
@@ -305,10 +305,11 @@
                 {{ 'PrivacyManager_DoNotTrack_Enable'|translate }}
             {% endif %}
         </a>
+
         {% if dntSupport %}
-            {{ 'General_NotRecommended'|translate }}
+            ({{ 'General_NotRecommended'|translate }})
         {% else %}
-            {{ 'General_Recommended'|translate }}
+            ({{ 'General_Recommended'|translate }})
         {% endif %}
     </div>
 {% endif %}

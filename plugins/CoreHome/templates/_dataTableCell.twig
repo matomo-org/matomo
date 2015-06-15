@@ -7,20 +7,6 @@
         <img class="link" width="10" height="9" src="plugins/Morpheus/images/link.gif"/>
     {% endif %}
 {% endif %}
-{% if column=='label' %}
-    {% import 'macros.twig' as piwik %}
-
-    <span class='label{% if row.getMetadata('is_aggregate') %} highlighted{% endif %}'
-    {% if properties is defined and properties.tooltip_metadata_name is not empty %}title="{{ row.getMetadata(properties.tooltip_metadata_name) }}"{% endif %}>
-        {{ piwik.logoHtml(row.getMetadata(), row.getColumn('label')) }}
-        {% if row.getMetadata('html_label_prefix') %}<span class='label-prefix'>{{ row.getMetadata('html_label_prefix') | raw }}&nbsp;</span>{% endif -%}
-        {%- if row.getMetadata('html_label_suffix') %}<span class='label-suffix'>{{ row.getMetadata('html_label_suffix') | raw }}</span>{% endif -%}
-{% endif %}<span class="value">{% if row.getColumn(column) %}{{- row.getColumn(column)|raw -}}{% else %}-{% endif %}</span>
-{% if column=='label' %}</span>{% endif %}
-{% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
-    </a>
-{% endif %}
-{% if row.getMetadata(tooltipIndex) %}</span>{% endif %}
 
 {% set totals = dataTable.getMetadata('totals') %}
 {% if column in totals|keys -%}
@@ -46,4 +32,20 @@
 
     <span class="ratio" title="{{ reportRatioTooltip|raw }} {{ totalRatioTooltip|e('html_attr') }}">&nbsp;{{ rowPercentage }}</span>
 {%- endif %}
+
+{% if column=='label' %}
+    {% import 'macros.twig' as piwik %}
+
+    <span class='label{% if row.getMetadata('is_aggregate') %} highlighted{% endif %}'
+    {% if properties is defined and properties.tooltip_metadata_name is not empty %}title="{{ row.getMetadata(properties.tooltip_metadata_name) }}"{% endif %}>
+        {{ piwik.logoHtml(row.getMetadata(), row.getColumn('label')) }}
+        {% if row.getMetadata('html_label_prefix') %}<span class='label-prefix'>{{ row.getMetadata('html_label_prefix') | raw }}&nbsp;</span>{% endif -%}
+        {%- if row.getMetadata('html_label_suffix') %}<span class='label-suffix'>{{ row.getMetadata('html_label_suffix') | raw }}</span>{% endif -%}
+{% endif %}<span class="value">{% if row.getColumn(column) %}{{- row.getColumn(column)|raw -}}{% else %}-{% endif %}</span>
+{% if column=='label' %}</span>{% endif %}
+{% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
+    </a>
+{% endif %}
+{% if row.getMetadata(tooltipIndex) %}</span>{% endif %}
+
 {% endspaceless %}

@@ -14,20 +14,18 @@
                 <input type='radio' value='false' id="delegatedManagement" name='delegatedManagement'
                         {% if not delegatedManagement %} checked='checked'{% endif %}/>
                 {{ 'General_No'|translate }}
+
+                <span class='form-description'>{{ 'General_Default'|translate }}.
+                    {{ 'MobileMessaging_Settings_LetUsersManageAPICredential_No_Help'|translate }}</span>
             </label>
-            <span class='form-description'>
-                ({{ 'General_Default'|translate }})
-                {{ 'MobileMessaging_Settings_LetUsersManageAPICredential_No_Help'|translate }}
-            </span>
 
             <label class="radio">
                 <input type='radio' value='true' id="delegatedManagement" name='delegatedManagement'
                         {% if delegatedManagement %} checked='checked'{% endif %}/>
                 {{ 'General_Yes'|translate }}
+
+                <span class='form-description'>{{ 'MobileMessaging_Settings_LetUsersManageAPICredential_Yes_Help'|translate }}</span>
             </label>
-            <span class='form-description'>
-                {{ 'MobileMessaging_Settings_LetUsersManageAPICredential_Yes_Help'|translate }}
-            </span>
         </div>
     {% endif %}
 
