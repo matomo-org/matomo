@@ -151,4 +151,47 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $this->assertEquals($expected, $jsTag);
     }
+
+    public function testStringsAreEscaped()
+    {
+        $generator = new TrackerCodeGenerator();
+
+        $jsTag = $generator->generate(
+            $idSite = 1,
+            $piwikUrl = 'abc"def',
+            $mergeSubdomains = true,
+            $groupPageTitlesByDomain = true,
+            $mergeAliasUrls = true,
+            $visitorCustomVariables = array(array('abc"def', 'abc"def')),
+            $pageCustomVariables = array(array('abc"def', 'abc"def')),
+            $customCampaignNameQueryParam = 'abc"def',
+            $customCampaignKeywordParam = 'abc"def'
+        );
+
+        $expected = '&lt;!-- Piwik --&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+  var _paq = _paq || [];
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  // you can set up to 5 custom variables for each visitor
+  _paq.push(["setCustomVariable", 1, "abc\"def", "abc\"def", "visit"]);
+  // you can set up to 5 custom variables for each action (page view, download, click, site search)
+  _paq.push(["setCustomVariable", 1, "abc\"def", "abc\"def", "page"]);
+  _paq.push(["setCampaignNameKey", "abc\"def"]);
+  _paq.push(["setCampaignKeywordKey", "abc\"def"]);
+  _paq.push([\'trackPageView\']);
+  _paq.push([\'enableLinkTracking\']);
+  (function() {
+    var u=&quot;//abc&quot;def/&quot;;
+    _paq.push([\'setTrackerUrl\', u+\'piwik.php\']);
+    _paq.push([\'setSiteId\', 1]);
+    var d=document, g=d.createElement(\'script\'), s=d.getElementsByTagName(\'script\')[0];
+    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'piwik.js\'; s.parentNode.insertBefore(g,s);
+  })();
+&lt;/script&gt;
+&lt;noscript&gt;&lt;p&gt;&lt;img src=&quot;//abc&quot;def/piwik.php?idsite=1&quot; style=&quot;border:0;&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;&lt;/noscript&gt;
+&lt;!-- End Piwik Code --&gt;
+';
+
+        $this->assertEquals($expected, $jsTag);
+    }
 }

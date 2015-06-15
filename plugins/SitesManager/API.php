@@ -25,6 +25,7 @@ use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
+use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Url;
 use Piwik\UrlHelper;
 
@@ -84,15 +85,22 @@ class API extends \Piwik\Plugin\API
         if (empty($piwikUrl)) {
             $piwikUrl = SettingsPiwik::getPiwikUrl();
         }
-        $piwikUrl = Common::sanitizeInputValues($piwikUrl);
 
-        $javascriptGenerator = new Tracker\TrackerCodeGenerator();
-        $htmlEncoded = $javascriptGenerator->generate($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain,
-                                                $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables,
-                                                $customCampaignNameQueryParam, $customCampaignKeywordParam,
-                                                $doNotTrack, $disableCookies);
-        $htmlEncoded = str_replace(array('<br>', '<br />', '<br/>'), '', $htmlEncoded);
-        return $htmlEncoded;
+        // Revert the automatic encoding
+        // TODO remove that when https://github.com/piwik/piwik/issues/4231 is fixed
+        $piwikUrl = Common::unsanitizeInputValue($piwikUrl);
+        $visitorCustomVariables = Common::unsanitizeInputValues($visitorCustomVariables);
+        $pageCustomVariables = Common::unsanitizeInputValues($pageCustomVariables);
+        $customCampaignNameQueryParam = Common::unsanitizeInputValue($customCampaignNameQueryParam);
+        $customCampaignKeywordParam = Common::unsanitizeInputValue($customCampaignKeywordParam);
+
+        $generator = new TrackerCodeGenerator();
+        $code = $generator->generate($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain,
+                                     $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables,
+                                     $customCampaignNameQueryParam, $customCampaignKeywordParam,
+                                     $doNotTrack, $disableCookies);
+        $code = str_replace(array('<br>', '<br />', '<br/>'), '', $code);
+        return $code;
     }
 
     /**
