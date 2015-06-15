@@ -38,6 +38,12 @@ if ($minimumPhpInvalid) {
 					To enjoy Piwik, you need remove <pre>ini_set</pre> from your <pre>disable_functions</pre> directive in php.ini, and restart your webserver.</p>";
     }
 
+    if (ini_get('mbstring.func_overload')) {
+        $piwik_errorMessage .= "<p><strong>Piwik does not works when PHP is configured with <pre>mbstring.func_overload = " . ini_get('mbstring.func_overload') . "</pre></strong></p>
+					<p>It appears your mbstring extension in PHP is configured to override string functions.
+					To enjoy Piwik, you need to modify php.ini <pre>mbstring.func_overload = 0</pre>, and restart your webserver.</p>";
+    }
+
     if (!function_exists('json_encode')) {
         $piwik_errorMessage .= "<p><strong>Piwik requires the php5-json extension which provides the functions <code>json_encode()</code> and <code>json_decode()</code></strong></p>
 					<p>It appears your PHP has not yet installed the php5-json extension.
