@@ -168,11 +168,15 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         $plugins = $this->vars->getCoreAndSupportedPlugins();
 
         // make sure the plugin that executed this method is included in the plugins to load
-        $extraPlugins = array_merge(self::$extraPluginsToLoad, array(
-            Plugin::getPluginNameFromBacktrace(debug_backtrace()),
-            Plugin::getPluginNameFromNamespace($this->vars->testCaseClass),
-            Plugin::getPluginNameFromNamespace(get_called_class())
-        ));
+        $extraPlugins = array_merge(
+            self::$extraPluginsToLoad,
+            $this->vars->pluginsToLoad ?: array(),
+            array(
+                Plugin::getPluginNameFromBacktrace(debug_backtrace()),
+                Plugin::getPluginNameFromNamespace($this->vars->testCaseClass),
+                Plugin::getPluginNameFromNamespace(get_called_class())
+            )
+        );
         foreach ($extraPlugins as $pluginName) {
             if (empty($pluginName)) {
                 continue;
