@@ -362,7 +362,9 @@ function ajaxHelper() {
             error:    function () {
                 --globalAjaxQueue.active;
 
-                that.errorCallback.apply(this, arguments);
+                if (that.errorCallback) {
+                    that.errorCallback.apply(this, arguments);
+                }
             },
             success:  function (response) {
                 if (that.loadingElement) {
