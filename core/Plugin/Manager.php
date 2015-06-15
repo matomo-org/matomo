@@ -224,7 +224,7 @@ class Manager
      */
     private function updatePluginsConfig($pluginsToLoad)
     {
-        $pluginsToLoad = $this->sortPluginsSameOrderAsGlobalConfig($pluginsToLoad);
+        $pluginsToLoad = $this->pluginList->sortPlugins($pluginsToLoad);
         $section = PiwikConfig::getInstance()->Plugins;
         $section['Plugins'] = $pluginsToLoad;
         PiwikConfig::getInstance()->Plugins = $section;
@@ -1326,29 +1326,8 @@ class Manager
             $pluginsToLoad = array_merge($pluginsToLoad, $this->pluginToAlwaysActivate);
         }
         $pluginsToLoad = array_unique($pluginsToLoad);
-        $pluginsToLoad = $this->sortPluginsSameOrderAsGlobalConfig($pluginsToLoad);
+        $pluginsToLoad = $this->pluginList->sortPlugins($pluginsToLoad);
         return $pluginsToLoad;
-    }
-
-    private function sortPluginsSameOrderAsGlobalConfig(array $plugins)
-    {
-        $global = $this->getPluginsFromGlobalIniConfigFile();
-        if (empty($global)) {
-            return $plugins;
-        }
-        $global = array_values($global);
-        $plugins = array_values($plugins);
-
-        $defaultPluginsLoadedFirst = array_intersect($global, $plugins);
-
-        $otherPluginsToLoadAfterDefaultPlugins = array_diff($plugins, $defaultPluginsLoadedFirst);
-
-        // sort by name to have a predictable order for those extra plugins
-        sort($otherPluginsToLoadAfterDefaultPlugins);
-
-        $sorted = array_merge($defaultPluginsLoadedFirst, $otherPluginsToLoadAfterDefaultPlugins);
-
-        return $sorted;
     }
 
     public function loadPluginTranslations()

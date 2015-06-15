@@ -22,7 +22,8 @@ class FakePluginList extends PluginList
     public function __construct(GlobalSettingsProvider $globalSettingsProvider, $plugins)
     {
         parent::__construct($globalSettingsProvider);
-        $this->plugins = $plugins;
+
+        $this->plugins = $this->sortPlugins($plugins);
     }
 
     public function getActivatedPlugins()

@@ -54,4 +54,32 @@ class PluginList
         $section = $this->settings->getIniFileChain()->getFrom($pathGlobal, 'Plugins');
         return $section['Plugins'];
     }
+
+    /**
+     * Sorts an array of plugins in the order they should be loaded.
+     *
+     * @params string[] $plugins
+     * @return \string[]
+     */
+    public function sortPlugins(array $plugins)
+    {
+        $global = $this->getPluginsBundledWithPiwik();
+        if (empty($global)) {
+            return $plugins;
+        }
+
+        $global = array_values($global);
+        $plugins = array_values($plugins);
+
+        $defaultPluginsLoadedFirst = array_intersect($global, $plugins);
+
+        $otherPluginsToLoadAfterDefaultPlugins = array_diff($plugins, $defaultPluginsLoadedFirst);
+
+        // sort by name to have a predictable order for those extra plugins
+        sort($otherPluginsToLoadAfterDefaultPlugins);
+
+        $sorted = array_merge($defaultPluginsLoadedFirst, $otherPluginsToLoadAfterDefaultPlugins);
+
+        return $sorted;
+    }
 }
