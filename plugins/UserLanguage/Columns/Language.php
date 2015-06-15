@@ -51,4 +51,14 @@ class Language extends VisitDimension
         $languageCode = Common::extractLanguageAndRegionCodeFromBrowserLanguage($acceptLanguagesString);
         return $languageCode;
     }
+
+    protected function configureSegments()
+    {
+        $segment = new \Piwik\Plugin\Segment();
+        $segment->setCategory('Visit Location');
+        $segment->setSegment('languageCode');
+        $segment->setName('General_Language');
+        $segment->setAcceptedValues('de, fr, en-gb, zh-cn, etc.');
+        $this->addSegment($segment);
+    }
 }
