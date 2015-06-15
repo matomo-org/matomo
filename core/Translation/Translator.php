@@ -270,7 +270,7 @@ class Translator
 
         /**
          * Fallback for keys moved to new Intl plugin to avoid untranslated string in non core plugins
-         * @todo remove this in a later version
+         * @todo remove this in Piwik 3.0
          */
         if ($plugin != 'Intl') {
             if (isset($this->translations[$lang]['Intl'])
