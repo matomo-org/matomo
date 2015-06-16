@@ -58,7 +58,7 @@ class Controller extends Plugin\ControllerAdmin
             $sort = $this->defaultSortMethod;
         }
         $mode = Common::getRequestVar('mode', 'admin', 'string');
-        if (!in_array($sort, array('user', 'admin'))) {
+        if (!in_array($mode, array('user', 'admin'))) {
             $mode = 'admin';
         }
 
