@@ -33,10 +33,23 @@ describe("Menus", function () {
         }, done);
     });
 
+    // user menu tests
+    it('should load the user reporting menu correctly', function (done) {
+        expect.screenshot('user_loaded').to.be.captureSelector('.Menu--admin', function (page) {
+            page.load("?" + generalParams + "&module=UsersManager&action=userSettings");
+        }, done);
+    });
+
+    it('should change the user page correctly when a user menu item is clicked', function (done) {
+        expect.screenshot('user_changed').to.be.captureSelector('.Menu--admin', function (page) {
+            page.click('.Menu--admin a:contains(API)');
+        }, done);
+    });
+
     // admin menu tests
     it('should load the admin reporting menu correctly', function (done) {
         expect.screenshot('admin_loaded').to.be.captureSelector('.Menu--admin', function (page) {
-            page.load("?" + generalParams + "&module=UsersManager&action=userSettings");
+            page.load("?" + generalParams + "&module=CoreAdminHome&action=generalSettings");
         }, done);
     });
 
