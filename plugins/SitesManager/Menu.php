@@ -10,13 +10,13 @@ namespace Piwik\Plugins\SitesManager;
 
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
-use Piwik\Measurable\Type;
+use Piwik\Measurable\Type\TypeManager;
 
 class Menu extends \Piwik\Plugin\Menu
 {
     private $typeManager;
 
-    public function __construct(Type\Manager $typeManager)
+    public function __construct(TypeManager $typeManager)
     {
         $this->typeManager = $typeManager;
     }
@@ -50,7 +50,7 @@ class Menu extends \Piwik\Plugin\Menu
             $typeIds = $model->getUsedTypeIds();
 
             if (count($typeIds) === 1) {
-                $typeManager = new Type\Manager();
+                $typeManager = new TypeManager();
                 return $typeManager->getType(reset($typeIds));
             }
         }

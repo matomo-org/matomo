@@ -11,7 +11,7 @@ namespace Piwik\Measurable\Type;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Measurable\Type;
 
-class Manager
+class TypeManager
 {
     /**
      * @return Type[]

@@ -36,7 +36,7 @@
         function fetchAvailableTypes()
         {
             if (!typesPromise) {
-                typesPromise = piwikApi.fetch({method: 'API.getAvailableTypes'}).then(function (types) {
+                typesPromise = piwikApi.fetch({method: 'API.getAvailableMeasurableTypes'}).then(function (types) {
 
                     angular.forEach(types, function (type) {
                         model.typesById[type.id] = type;

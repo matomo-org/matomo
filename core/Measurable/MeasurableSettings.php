@@ -13,7 +13,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Settings;
 use Piwik\Measurable\Settings\Storage;
 use Piwik\Settings\Setting;
-use Piwik\Measurable\Type;
+use Piwik\Measurable\Type\TypeManager;
 
 class MeasurableSettings extends Settings
 {
@@ -46,7 +46,7 @@ class MeasurableSettings extends Settings
 
     protected function init()
     {
-        $typeManager = new Type\Manager();
+        $typeManager = new TypeManager();
         $type = $typeManager->getType($this->idType);
         $type->configureMeasurableSettings($this);
 
@@ -79,7 +79,7 @@ class MeasurableSettings extends Settings
     {
         Piwik::checkUserHasAdminAccess($this->idSite);
 
-        $typeManager = new Type\Manager();
+        $typeManager = new TypeManager();
         $type = $typeManager->getType($this->idType);
 
         /**
