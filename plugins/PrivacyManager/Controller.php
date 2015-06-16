@@ -18,6 +18,7 @@ use Piwik\Nonce;
 use Piwik\Notification;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\DBStats\MySQLMetadataDataAccess;
 use Piwik\Plugins\DBStats\MySQLMetadataProvider;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Scheduler\Scheduler;
@@ -191,7 +192,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $doDatabaseSizeEstimate = PiwikConfig::getInstance()->Deletelogs['enable_auto_database_size_estimate'];
 
         // determine the DB size & purged DB size
-        $metadataProvider = new MySQLMetadataProvider();
+        $metadataProvider = new MySQLMetadataProvider(new MySQLMetadataDataAccess());
         $tableStatuses = $metadataProvider->getAllTablesStatus();
 
         $totalBytes = 0;
