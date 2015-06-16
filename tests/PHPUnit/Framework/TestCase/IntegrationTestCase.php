@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Framework\TestCase;
 
 use Piwik\Access;
-use Piwik\Application\Environment;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
@@ -31,8 +30,6 @@ abstract class IntegrationTestCase extends SystemTestCase
      */
     public static $fixture;
     public static $tableData;
-
-    private $piwikEnvironment;
 
     /**
      * Implementation details:
@@ -86,15 +83,6 @@ abstract class IntegrationTestCase extends SystemTestCase
         
         if (!empty(self::$tableData)) {
             self::restoreDbTables(self::$tableData);
-        }
-
-        $extraDefinitions = $this->provideContainerConfig();
-        if (!empty($extraDefinitions)) { // we check it's not empty in order to avoid strange test errors w/ tests written before
-                                         // allowing container config changes. hopefully this can be removed when DI is better supported.
-            $this->piwikEnvironment = new Environment('test', $extraDefinitions);
-            $this->piwikEnvironment->init();
-
-            Fixture::loadAllPlugins(null, get_class($this));
         }
 
         PiwikCache::getEagerCache()->flushAll();
