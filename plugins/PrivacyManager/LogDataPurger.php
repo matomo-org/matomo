@@ -42,9 +42,9 @@ class LogDataPurger
     /**
      * Constructor.
      */
-    public function __construct(LogDeleter $logPurger, RawLogDao $rawLogDao)
+    public function __construct(LogDeleter $logDeleter, RawLogDao $rawLogDao)
     {
-        $this->logPurger = $logPurger;
+        $this->logDeleter = $logDeleter;
         $this->rawLogDao = $rawLogDao;
     }
 
@@ -63,7 +63,7 @@ class LogDataPurger
     public function purgeData($deleteLogsOlderThan)
     {
         $dateUpperLimit = Date::factory("today")->subDay($deleteLogsOlderThan);
-        $this->logPurger->deleteVisitsFor($start = null, $dateUpperLimit->getDatetime());
+        $this->logDeleter->deleteVisitsFor($start = null, $dateUpperLimit->getDatetime());
 
         $logTables = self::getDeleteTableLogTables();
 
