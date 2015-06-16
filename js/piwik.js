@@ -396,7 +396,7 @@ if (typeof JSON2 !== 'object') {
 /*global ActiveXObject */
 /*members encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit,
-    createElement, appendChild, characterSet, charset,
+    createElement, appendChild, characterSet, charset, all,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text,
     location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
@@ -3869,47 +3869,134 @@ if (typeof Piwik !== 'object') {
                 }
             }
 
+            function isIE8orOlder()
+            {
+                return documentAlias.all && !documentAlias.addEventListener;
+            }
+
+            function getKeyCodeFromEvent(event)
+            {
+                // event.which is deprecated https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/which
+                var which = event.which;
+
+                /**
+                 1 : Left mouse button
+                 2 : Wheel button or middle button
+                 3 : Right mouse button
+                 */
+
+                var typeOfEventButton = (typeof event.button);
+
+                if (!which && typeOfEventButton !== 'undefined' ) {
+                    /**
+                     -1: No button pressed
+                     0 : Main button pressed, usually the left button
+                     1 : Auxiliary button pressed, usually the wheel button or themiddle button (if present)
+                     2 : Secondary button pressed, usually the right button
+                     3 : Fourth button, typically the Browser Back button
+                     4 : Fifth button, typically the Browser Forward button
+
+                     IE8 and earlier has different values:
+                     1 : Left mouse button
+                     2 : Right mouse button
+                     4 : Wheel button or middle button
+
+                     For a left-hand configured mouse, the return values are reversed. We do not take care of that.
+                     */
+
+                    if (isIE8orOlder()) {
+                        if (event.button & 1) {
+                            which = 1;
+                        } else if (event.button & 2) {
+                            which = 3;
+                        } else if (event.button & 4) {
+                            which = 2;
+                        }
+                    } else {
+                        if (event.button === 0 || event.button === '0') {
+                            which = 1;
+                        } else if (event.button & 1) {
+                            which = 2;
+                        } else if (event.button & 2) {
+                            which = 3;
+                        }
+                    }
+                }
+
+                return which;
+            }
+
+            function getNameOfClickedButton(event)
+            {
+                switch (getKeyCodeFromEvent(event)) {
+                    case 1:
+                        return 'left';
+                    case 2:
+                        return 'middle';
+                    case 3:
+                        return 'right';
+                }
+            }
+
+            function getTargetElementFromEvent(event)
+            {
+                return event.target || event.srcElement;
+            }
+
             /*
              * Handle click event
              */
-            function clickHandler(evt) {
-                var button,
-                    target;
+            function clickHandler(enable) {
 
-                evt = evt || windowAlias.event;
-                button = evt.which || evt.button;
-                target = evt.target || evt.srcElement;
+                return function (event) {
 
-                // Using evt.type (added in IE4), we avoid defining separate handlers for mouseup and mousedown.
-                if (evt.type === 'click') {
-                    if (target) {
-                        processClick(target);
-                    }
-                } else if (evt.type === 'mousedown') {
-                    if ((button === 1 || button === 2) && target) {
-                        lastButton = button;
-                        lastTarget = target;
-                    } else {
+                    event = event || windowAlias.event;
+
+                    var button = getNameOfClickedButton(event);
+                    var target = getTargetElementFromEvent(event);
+
+                    if (event.type === 'click') {
+
+                        var ignoreClick = false;
+                        if (enable && button === 'middle') {
+                            // if enabled, we track middle clicks via mouseup
+                            // some browsers (eg chrome) trigger click and mousedown/up events when middle is clicked,
+                            // whereas some do not. This way we make "sure" to track them only once, either in click
+                            // (default) or in mouseup (if enable == true)
+                            ignoreClick = true;
+                        }
+
+                        if (target && !ignoreClick) {
+                            processClick(target);
+                        }
+                    } else if (event.type === 'mousedown') {
+                        if (button === 'middle' && target) {
+                            lastButton = button;
+                            lastTarget = target;
+                        } else {
+                            lastButton = lastTarget = null;
+                        }
+                    } else if (event.type === 'mouseup') {
+                        if (button === lastButton && target === lastTarget) {
+                            processClick(target);
+                        }
                         lastButton = lastTarget = null;
-                    }
-                } else if (evt.type === 'mouseup') {
-                    if (button === lastButton && target === lastTarget) {
+                    } else if (event.type === 'contextmenu') {
                         processClick(target);
                     }
-                    lastButton = lastTarget = null;
-                }
+                };
             }
 
             /*
              * Add click listener to a DOM element
              */
             function addClickListener(element, enable) {
+                addEventListener(element, 'click', clickHandler(enable), false);
+
                 if (enable) {
-                    // for simplicity and performance, we ignore drag events
-                    addEventListener(element, 'mouseup', clickHandler, false);
-                    addEventListener(element, 'mousedown', clickHandler, false);
-                } else {
-                    addEventListener(element, 'click', clickHandler, false);
+                    addEventListener(element, 'mouseup', clickHandler(enable), false);
+                    addEventListener(element, 'mousedown', clickHandler(enable), false);
+                    addEventListener(element, 'contextmenu', clickHandler(enable), false);
                 }
             }
 
@@ -4767,7 +4854,7 @@ if (typeof Piwik !== 'object') {
                  * When clicked, Piwik will log the click automatically.
                  *
                  * @param DOMElement element
-                 * @param bool enable If true, use pseudo click-handler (mousedown+mouseup)
+                 * @param bool enable If true, use pseudo click-handler (middle click + context menu)
                  */
                 addListener: function (element, enable) {
                     addClickListener(element, enable);
@@ -4788,7 +4875,13 @@ if (typeof Piwik !== 'object') {
                  *
                  * @see https://bugs.webkit.org/show_bug.cgi?id=54783
                  *
-                 * @param bool enable If true, use pseudo click-handler (mousedown+mouseup)
+                 * @param bool enable If "true", use pseudo click-handler (treat middle click and open contextmenu as
+                 *                    left click). A right click (or any click that opens the context menu) on a link
+                 *                    will be tracked as clicked even if "Open in new tab" is not selected. If
+                 *                    "false" (default), nothing will be tracked on open context menu or middle click.
+                 *                    The context menu is usually opened to open a link / download in a new tab
+                 *                    therefore you can get more accurate results by treat it as a click but it can lead
+                 *                    to wrong click numbers.
                  */
                 enableLinkTracking: function (enable) {
                     linkTrackingEnabled = true;
