@@ -31,9 +31,9 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         $this->setCommandInput('N');
 
         $result = $this->applicationTester->run(array(
-            'command' => 'logs:delete',
+            'command' => 'core:delete-logs-data',
             '--dates' => $dateRange,
-            '--site' => self::$fixture->idSite,
+            '--idsite' => self::$fixture->idSite,
             '-vvv' => true
         ));
 
@@ -57,9 +57,9 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         $this->setCommandInput('N');
 
         $result = $this->applicationTester->run(array(
-            'command' => 'logs:delete',
+            'command' => 'core:delete-logs-data',
             '--dates' => '2012-01-01,2012-01-02',
-            '--site' => 43,
+            '--idsite' => 43,
             '-vvv' => true
         ));
 
@@ -75,9 +75,9 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         $this->setCommandInput('N');
 
         $result = $this->applicationTester->run(array(
-            'command' => 'logs:delete',
+            'command' => 'core:delete-logs-data',
             '--dates' => '2012-01-01,2012-01-02',
-            '--site' => self::$fixture->idSite,
+            '--idsite' => self::$fixture->idSite,
             '--limit' => $limit,
             '-vvv' => true
         ));
@@ -99,9 +99,9 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         $this->setCommandInput('N');
 
         $result = $this->applicationTester->run(array(
-            'command' => 'logs:delete',
+            'command' => 'core:delete-logs-data',
             '--dates' => '2012-08-09,2012-08-11',
-            '--site' => self::$fixture->idSite,
+            '--idsite' => self::$fixture->idSite,
             '-vvv' => true
         ));
 
@@ -115,9 +115,9 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
 
         $options = array('interactive' => true);
         $result = $this->applicationTester->run(array(
-            'command' => 'logs:delete',
+            'command' => 'core:delete-logs-data',
             '--dates' => '2012-08-09,2012-08-11',
-            '--site' => self::$fixture->idSite,
+            '--idsite' => self::$fixture->idSite,
             '-vvv' => true
         ), $options);
 
