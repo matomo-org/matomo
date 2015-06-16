@@ -326,7 +326,7 @@ class PrivacyManager extends Plugin
         // execute the purge
         /** @var LogDataPurger $logDataPurger */
         $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
-        $logDataPurger->purgeData($settings['delete_logs_older_than'], $settings['delete_logs_max_rows_per_query']);
+        $logDataPurger->purgeData($settings['delete_logs_older_than']);
 
         return true;
     }

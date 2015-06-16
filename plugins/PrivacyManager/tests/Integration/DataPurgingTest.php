@@ -5,35 +5,53 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\System;
+namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
 use Piwik\Archive;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataAccess\ArchiveTableCreator;
-use Piwik\DataTable\Manager;
+use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\LogDeleter;
+use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\Goals\Archiver;
-use Piwik\Plugins\PrivacyManager\DimensionMetadataProvider;
+use Piwik\Plugin\Dimension\DimensionMetadataProvider;
 use Piwik\Plugins\PrivacyManager\LogDataPurger;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
 use Piwik\Plugins\VisitorInterest\API as APIVisitorInterest;
-use Piwik\Site;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Translate;
+
+class DataPurgingTest_RawLogDao extends RawLogDao
+{
+    public $insertActionsOlderThanCallback;
+    public $insertActionsNewerThanCallback;
+
+    protected function insertActionsToKeep($maxIds, $olderThan = true, $insertIntoTempIterationStep = 100000)
+    {
+        parent::insertActionsToKeep($maxIds, $olderThan, 2); // we use 2 to force iterations during tests
+
+        // allow code to be executed after data is inserted. for concurrency testing purposes.
+        if ($olderThan && $this->insertActionsOlderThanCallback) {
+            $callback = $this->insertActionsOlderThanCallback;
+            $callback();
+        } else if ($this->insertActionsNewerThanCallback) {
+            $callback = $this->insertActionsNewerThanCallback;
+            $callback();
+        }
+    }
+}
 
 /**
- * @group PrivacyManagerTest
+ * @group PrivacyManager
  * @group Plugins
  */
-class PrivacyManagerTest extends IntegrationTestCase
+class DataPurgingTest extends IntegrationTestCase
 {
     // constants used in checking whether numeric tables are populated correctly.
     // 'done' entries exist for every period, even if there's no metric data, so we need the
@@ -120,7 +138,9 @@ class PrivacyManagerTest extends IntegrationTestCase
 
     public function tearDown()
     {
-        $tempTableName = Common::prefixTable(LogDataPurger::TEMP_TABLE_NAME);
+        parent::tearDown();
+
+        $tempTableName = Common::prefixTable(RawLogDao::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
         Db::query("DROP TABLE IF EXISTS " . $tempTableName);
 
         parent::tearDown();
@@ -219,6 +239,21 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertEquals(self::FEB_METRIC_ARCHIVE_COUNT + 1, $this->_getTableCount($archiveTables['blob'][1])); // February
     }
 
+    public function test_LogDataPurging_WorksWhenVisitsInPastTracked()
+    {
+        DbHelper::deleteArchiveTables();
+
+        self::trackVisitInPast();
+        self::_addReportData();
+
+        $this->_setTimeToRun();
+        $this->assertTrue( $this->instance->deleteLogData() );
+
+        $this->checkLogDataPurged();
+
+        // NOTE: it is not expected that the data purging estimate will work when visits in the past are tracked
+    }
+
     /**
      * Make sure nothing happens when deleting logs & reports are both disabled.
      */
@@ -251,10 +286,8 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testPurgeDataDeleteLogsNoData()
     {
-        \Piwik\DbHelper::truncateAllTables();
-        foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
-            Db::exec("DROP TABLE $table");
-        }
+        DbHelper::truncateAllTables();
+        DbHelper::deleteArchiveTables();
 
         // get purge data prediction
         $prediction = PrivacyManager::getPurgeEstimate();
@@ -482,9 +515,9 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testPurgeLogDataConcurrency()
     {
-        \Piwik\Piwik::addAction("LogDataPurger.ActionsToKeepInserted.olderThan", array($this, 'addReferenceToUnusedAction'));
-
-        $purger = new LogDataPurger(new DimensionMetadataProvider());
+        $rawLogDao = new DataPurgingTest_RawLogDao(new DimensionMetadataProvider());
+        $rawLogDao->insertActionsOlderThanCallback = array($this, 'addReferenceToUnusedAction');
+        $purger = new LogDataPurger(new LogDeleter($rawLogDao), $rawLogDao);
 
         $this->unusedIdAction = Db::fetchOne(
             "SELECT idaction FROM " . Common::prefixTable('log_action') . " WHERE name = ?",
@@ -649,11 +682,25 @@ class PrivacyManagerTest extends IntegrationTestCase
         Fixture::checkBulkTrackingResponse($t->doBulkTrack());
     }
 
+    protected static function trackVisitInPast()
+    {
+        $start = Date::factory(self::$dateTime);
+
+        // add a visit in the past so the idvisit will be greater than the others, but the time will be older
+        // this tests issue #7180
+        $t = Fixture::getTracker(self::$idSite, $start, $defaultInit = true);
+        // we subtract 5 so it will be on the same day as another visit. this way, we won't create another day archive
+        // and change the counts in asserts
+        $t->setForceVisitDateTime($start->subDay(self::$daysAgoStart - 5));
+        $t->setUrl("http://whatever.com/days_in_past");
+        $t->doTrackPageView('visit in past');
+    }
+
     protected static function _addReportData()
     {
         $date = Date::factory(self::$dateTime);
 
-        $archive = Archive::build(self::$idSite, 'year', $date);
+        Archive::build(self::$idSite, 'year', $date);
 
         APIVisitorInterest::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'year', $date);
 
@@ -748,7 +795,6 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertEquals(45, $this->_getTableCount('log_action'));
 
         $archiveTables = self::_getArchiveTableNames();
-        //var_export(Db::fetchAll("SELECT * FROM " . Common::prefixTable($archiveTables['numeric'][0])));
 
         $janMetricCount = $this->_getExpectedNumericArchiveCountJan();
         $this->assertEquals($janMetricCount, $this->_getTableCount($archiveTables['numeric'][0])); // January
