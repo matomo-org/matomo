@@ -514,25 +514,35 @@ PageRenderer.prototype._getImageLoadingCount = function () {
 
 PageRenderer.prototype._waitForNextEvent = function (events, callback, i, waitTime) {
 
-    function isEmpty(obj) {
-        for (var key in obj) {
-            if (Object.prototype.hasOwnProperty.call(obj, key)) return false;
+    function hasPendingResources(self)
+    {
+        function isEmpty(obj) {
+            for (var key in obj) {
+                if (Object.prototype.hasOwnProperty.call(obj, key)) return false;
+            }
+
+            return true;
         }
 
-        return true;
+        var hasPhantomPendingResources = !isEmpty(self._resourcesRequested);
+
+        if (!hasPhantomPendingResources) {
+            // why isEmpty(self._resourcesRequested) || !self._getAjaxRequestCount()) ?
+            // if someone sends a sync XHR we only get a resourceRequested event but not a responseEvent so we need
+            // to fall back for ajaxRequestCount as a safety net. See https://github.com/ariya/phantomjs/issues/11284
+            return false;
+        }
+
+        var hasPendingResourcesInCore = (self._getAjaxRequestCount() || self._getImageLoadingCount());
+
+        return hasPendingResourcesInCore;
     }
 
     var self = this;
-    setTimeout(function () {
-        if (!self._isLoading && !self._isInitializing && !self._isNavigationRequested) {
-            var hasPhantomNoPendingRequests = isEmpty(self._resourcesRequested)
 
-            if (hasPhantomNoPendingRequests || (!self._getAjaxRequestCount() && !self._getImageLoadingCount())) {
-                // why isEmpty(self._resourcesRequested) || !self._getAjaxRequestCount()) ?
-                // if someone sends a sync XHR we only get a resoruceRequested event but not a responseEvent so we need to
-                // fall back for ajaxRequestCount as a safety net. See https://github.com/ariya/phantomjs/issues/11284
-                self._executeEvents(events, callback, i + 1);
-            }
+    setTimeout(function () {
+        if (!self._isLoading && !self._isInitializing && !self._isNavigationRequested && !hasPendingResources(self)) {
+            self._executeEvents(events, callback, i + 1);
         } else {
             self._waitForNextEvent(events, callback, i, waitTime);
         }
