@@ -408,7 +408,7 @@ if (typeof JSON2 !== 'object') {
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
     onload, src,
-    round, random,
+    min, round, random,
     exec,
     res, width, height, devicePixelRatio,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
@@ -430,7 +430,7 @@ if (typeof JSON2 !== 'object') {
     disablePerformanceTracking, setGenerationTimeMs,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
-    setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
+    setHeartBeatTimer, clearHeartBeat, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
@@ -2200,6 +2200,9 @@ if (typeof Piwik !== 'object') {
                 // Recurring heart beat after initial ping (in milliseconds)
                 configHeartBeatDelay,
 
+                // alias to circumvent circular function dependency (JSLint requires this)
+                heartBeatPingIfActivityAlias,
+
                 // Disallow hash tags in URL
                 configDiscardHashTag,
 
@@ -2485,6 +2488,66 @@ if (typeof Piwik !== 'object') {
                 if (!expireDateTime || time > expireDateTime) {
                     expireDateTime = time;
                 }
+            }
+
+            /*
+             * Sets up the heart beat timeout.
+             */
+            function heartBeatUp(delay) {
+                if (heartBeatTimeout) {
+                    return;
+                }
+
+                heartBeatTimeout = setTimeout(function heartBeat() {
+                    heartBeatTimeout = null;
+                    if (heartBeatPingIfActivityAlias()) {
+                        return;
+                    }
+
+                    var now = new Date(),
+                        heartBeatDelay = configHeartBeatDelay - (now.getTime() - lastTrackerRequestTime);
+                    // sanity check
+                    heartBeatDelay = Math.min(configHeartBeatDelay, heartBeatDelay);
+                    heartBeatUp(heartBeatDelay);
+                }, delay || configHeartBeatDelay);
+            }
+
+            /*
+             * Removes the heart beat timeout.
+             */
+            function heartBeatDown() {
+                if (!heartBeatTimeout) {
+                    return;
+                }
+
+                clearTimeout(heartBeatTimeout);
+                heartBeatTimeout = null;
+            }
+
+            /*
+             * Setup event handlers and timeout for initial heart beat.
+             */
+            function setUpHeartBeat() {
+                if (heartBeatSetUp) {
+                    return;
+                }
+
+                heartBeatSetUp = true;
+
+                addEventListener(windowAlias, 'focus', function () {
+                    // since it's possible for a user to come back to a tab after several hours or more, we try to send
+                    // a ping if the page is active. (after the ping is sent, the heart beat timeout will be set)
+                    if (heartBeatPingIfActivityAlias()) {
+                        return;
+                    }
+
+                    heartBeatUp();
+                });
+                addEventListener(windowAlias, 'blur', function () {
+                    heartBeatDown();
+                });
+
+                heartBeatUp();
             }
 
             function makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(callback)
@@ -3095,6 +3158,22 @@ if (typeof Piwik !== 'object') {
                 return request;
             }
 
+            /*
+             * If there was user activity since the last check, and it's been configHeartBeatDelay seconds
+             * since the last tracker, send a ping request (the heartbeat timeout will be reset by sendRequest).
+             */
+            heartBeatPingIfActivityAlias = function heartBeatPingIfActivity() {
+                var now = new Date();
+                if (lastTrackerRequestTime + configHeartBeatDelay <= now.getTime()) {
+                    var requestPing = getRequest('ping=1', null, 'ping');
+                    sendRequest(requestPing, configTrackerPause);
+
+                    return true;
+                }
+
+                return false;
+            };
+
             function logEcommerce(orderId, grandTotal, subTotal, tax, shipping, discount) {
                 var request = 'idgoal=0',
                     lastEcommerceOrderTs,
@@ -3186,81 +3265,6 @@ if (typeof Piwik !== 'object') {
                 if (configHeartBeatDelay) {
                     setUpHeartBeat();
                 }
-            }
-
-            /*
-             * Setup event handlers and timeout for initial heart beat.
-             */
-            function setUpHeartBeat() {
-                if (heartBeatSetUp) {
-                    return;
-                }
-
-                heartBeatSetUp = true;
-
-                addEventListener(windowAlias, 'focus', function () {
-                    // since it's possible for a user to come back to a tab after several hours or more, we try to send
-                    // a ping if the page is active. (after the ping is sent, the heart beat timeout will be set)
-                    if (heartBeatPingIfActivity()) {
-                        return;
-                    }
-
-                    heartBeatUp();
-                });
-                addEventListener(windowAlias, 'blur', function () {
-                    heartBeatDown();
-                });
-
-                heartBeatUp();
-            }
-
-            /*
-             * Sets up the heart beat timeout.
-             */
-            function heartBeatUp(delay) {
-                if (heartBeatTimeout) {
-                    return;
-                }
-
-                heartBeatTimeout = setTimeout(function heartBeat() {
-                    heartBeatTimeout = null;
-                    if (heartBeatPingIfActivity()) {
-                        return;
-                    }
-
-                    var now = new Date(),
-                        heartBeatDelay = configHeartBeatDelay - (now.getTime() - lastTrackerRequestTime);
-                    heartBeatDelay = Math.min(configHeartBeatDelay, heartBeatDelay); // sanity check
-                    heartBeatUp(heartBeatDelay)
-                }, delay || configHeartBeatDelay);
-            }
-
-            /*
-             * Removes the heart beat timeout.
-             */
-            function heartBeatDown() {
-                if (!heartBeatTimeout) {
-                    return;
-                }
-
-                clearTimeout(heartBeatTimeout);
-                heartBeatTimeout = null;
-            }
-
-            /*
-             * If there was user activity since the last check, and it's been configHeartBeatDelay seconds
-             * since the last tracker, send a ping request (the heartbeat timeout will be reset by sendRequest).
-             */
-            function heartBeatPingIfActivity() {
-                var now = new Date();
-                if (lastTrackerRequestTime + configHeartBeatDelay <= now.getTime()) {
-                    var requestPing = getRequest('ping=1', null, 'ping');
-                    sendRequest(requestPing, configTrackerPause);
-
-                    return true;
-                }
-
-                return false;
             }
 
             /*
