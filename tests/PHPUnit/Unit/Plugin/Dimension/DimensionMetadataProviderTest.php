@@ -23,7 +23,7 @@ class DimensionMetadataProviderTest extends UnitTestCase
         $manager->loadPlugins(array('Events', 'Contents'));
     }
 
-    public function test_getActionReferenceColumnsByTable_DetectsActionReferenceDimensions_AndIncludesHardocdedColumns()
+    public function test_getActionReferenceColumnsByTable_DetectsActionReferenceDimensions_AndIncludesHardcodedColumns()
     {
         $dimensionMetadataProvider = new DimensionMetadataProvider();
 

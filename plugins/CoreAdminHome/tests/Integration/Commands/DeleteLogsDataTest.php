@@ -49,7 +49,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
             array('completegarbage'),
             array('2012-01-01,garbage'),
             array('garbage,2012-01-01'),
-            array('2012-02-01,2012-01-01'),
+            array('2012-02-01,2012-01-01'), // first date is older than the last date
             array(',')
         );
     }
