@@ -4,10 +4,10 @@
     font-family: "Courier New", Courier, monospace;
 }
 #javascript-output-section textarea {
-    height: 256px;
+    height: 312px;
 }
 #image-link-output-section textarea {
-    height: 128px;
+    height: 92px;
 }
 
 #image-tracking-text {
