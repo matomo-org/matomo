@@ -8,6 +8,8 @@
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\RawLogDao;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -98,9 +100,12 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
     {
         $this->setCommandInput('N');
 
+        $dateRange = '2012-08-09,2012-08-11';
+        $this->assertVisitsFoundInLogs($dateRange);
+
         $result = $this->applicationTester->run(array(
             'command' => 'core:delete-logs-data',
-            '--dates' => '2012-08-09,2012-08-11',
+            '--dates' => $dateRange,
             '--idsite' => self::$fixture->idSite,
             '-vvv' => true
         ));
@@ -113,10 +118,13 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
     {
         $this->setCommandInput('Y');
 
+        $dateRange = '2012-08-09,2012-08-11';
+        $this->assertVisitsFoundInLogs($dateRange);
+
         $options = array('interactive' => true);
         $result = $this->applicationTester->run(array(
             'command' => 'core:delete-logs-data',
-            '--dates' => '2012-08-09,2012-08-11',
+            '--dates' => $dateRange,
             '--idsite' => self::$fixture->idSite,
             '-vvv' => true
         ), $options);
@@ -130,6 +138,15 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         /** @var QuestionHelper $dialog */
         $dialog = $this->application->getHelperSet()->get('question');
         $dialog->setInputStream($this->getInputStream("$value\n"));
+    }
+
+    protected function assertVisitsFoundInLogs($dateRange)
+    {
+        list($from, $to) = explode(",", $dateRange);
+
+        /** @var RawLogDao $dao */
+        $dao = StaticContainer::get('Piwik\DataAccess\RawLogDao');
+        $this->assertNotEmpty($dao->countVisitsWithDatesLimit($from, $to));
     }
 }
 

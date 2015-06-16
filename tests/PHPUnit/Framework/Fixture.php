@@ -716,9 +716,16 @@ class Fixture extends \PHPUnit_Framework_Assert
         $outfileName = $deflatedOut . '.gz';
 
         if (file_exists($deflatedOut)) {
+            $filesize = filesize($deflatedOut);
+            if($filesize == 0) {
+                throw new Exception("The file $deflatedOut is empty. Suggestion: delete it and try again.");
+            }
+
+            // Valid geoip db found
             return;
         }
 
+        Log::warning("Geoip database $outfileName is not found. Downloading from $url...");
         $dump = fopen($url, 'rb');
         $outfile = fopen($outfileName, 'wb');
         if(!$outfile) {
