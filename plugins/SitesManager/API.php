@@ -142,7 +142,7 @@ class API extends \Piwik\Plugin\API
      * @param string $group Group name
      * @return array of sites
      */
-    public function getSitesFromGroup($group)
+    public function getSitesFromGroup($group = '')
     {
         Piwik::checkUserHasSuperUserAccess();
 
