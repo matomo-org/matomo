@@ -7,12 +7,14 @@ php_errors.log
 /build
 /composer.phar
 /config/config*
+/config/*.pem
 /crossdomain.xml
 /documentation
 /docs/
 /favicon.ico
 /js/yui*
 /misc/*.dat
+/misc/*.dat.gz
 /misc/user/logo-header.png
 /misc/user/logo.png
 /misc/user/logo.svg
