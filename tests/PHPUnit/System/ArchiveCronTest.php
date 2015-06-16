@@ -105,6 +105,15 @@ class ArchiveCronTest extends SystemTestCase
         }
     }
 
+    public function test_archivePhpScript_DoesNotFail_WhenCommandHelpRequested()
+    {
+        $output = $this->runArchivePhpCron(array('--help' => null), PIWIK_INCLUDE_PATH . '/misc/cron/archive.php');
+        $output = implode("\n", $output);
+
+        $this->assertRegExp('/Usage:\s*core:archive/', $output);
+        $this->assertNotContains("Starting Piwik reports archiving...", $output);
+    }
+
     private function setLastRunArchiveOptions()
     {
         $periodTypes = array('day', 'periods');
@@ -123,13 +132,20 @@ class ArchiveCronTest extends SystemTestCase
         }
     }
 
-    private function runArchivePhpCron()
+    private function runArchivePhpCron($options = array(), $archivePhpScript = false)
     {
-        $archivePhpScript = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/archive.php';
+        $archivePhpScript = $archivePhpScript ?: PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/archive.php';
         $urlToProxy = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
 
         // create the command
-        $cmd = "php \"$archivePhpScript\" --url=\"$urlToProxy\" 2>&1";
+        $cmd = "php \"$archivePhpScript\" --url=\"$urlToProxy\"";
+        foreach ($options as $name => $value) {
+            $cmd .= " $name";
+            if ($value !== null) {
+                $cmd .= "=" . escapeshellarg($value);
+            }
+        }
+        $cmd .= " 2>&1";
 
         // run the command
         exec($cmd, $output, $result);
