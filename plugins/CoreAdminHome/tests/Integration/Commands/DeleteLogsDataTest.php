@@ -16,7 +16,7 @@ use Symfony\Component\Console\Helper\QuestionHelper;
 /**
  * @group Core
  */
-class DeleteLogsTest extends ConsoleCommandTestCase
+class DeleteLogsDataTest extends ConsoleCommandTestCase
 {
     /**
      * @var ManySitesImportedLogs
@@ -133,4 +133,4 @@ class DeleteLogsTest extends ConsoleCommandTestCase
     }
 }
 
-DeleteLogsTest::$fixture = new ManySitesImportedLogs();
+DeleteLogsDataTest::$fixture = new ManySitesImportedLogs();

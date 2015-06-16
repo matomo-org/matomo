@@ -25,7 +25,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 /**
  * Command to selectively delete visits.
  */
-class DeleteLogs extends ConsoleCommand
+class DeleteLogsData extends ConsoleCommand
 {
     private static $logTables = array(
         'log_visit',
@@ -55,11 +55,11 @@ class DeleteLogs extends ConsoleCommand
 
     protected function configure()
     {
-        $this->setName('logs:delete');
+        $this->setName('core:delete-logs-data');
         $this->setDescription('Delete data from one of the log tables: ' . implode(', ', self::$logTables) . '.');
         $this->addOption('dates', null, InputOption::VALUE_REQUIRED, 'Delete log data with a date within this date range. Eg, 2012-01-01,2013-01-01');
-        $this->addOption('site', null, InputOption::VALUE_REQUIRED,
-            'Delete log data belonging to the site with this ID. Eg, 1, 2, 3, etc. By default log data from all sites is purged.');
+        $this->addOption('idsite', null, InputOption::VALUE_OPTIONAL,
+            'Delete log data belonging to the site with this ID. Comma separated list of website id. Eg, 1, 2, 3, etc. By default log data from all sites is purged.');
         $this->addOption('limit', null, InputOption::VALUE_REQUIRED, "The number of rows to delete at a time. The larger the number, "
             . "the more time is spent deleting logs, and the less progress will be printed to the screen.", 1000);
         $this->addOption('optimize-tables', null, InputOption::VALUE_NONE,
@@ -72,7 +72,10 @@ class DeleteLogs extends ConsoleCommand
         $idSite = $this->getSiteToDeleteFrom($input);
         $step = $this->getRowIterationStep($input);
 
-        $output->writeln("<info>Preparing to delete all visits between $from and $to belonging to site $idSite.</info>");
+        $output->writeln( sprintf(
+                "<info>Preparing to delete all visits belonging to %s between $from and $to.</info>",
+                $idSite ? "website $idSite" : "ALL websites"
+        ));
 
         $confirm = $this->askForDeleteConfirmation($input, $output);
         if (!$confirm) {
@@ -137,8 +140,11 @@ class DeleteLogs extends ConsoleCommand
 
     private function getSiteToDeleteFrom(InputInterface $input)
     {
-        $idSite = $input->getOption('site');
+        $idSite = $input->getOption('idsite');
 
+        if(is_null($idSite)) {
+            return $idSite;
+        }
         // validate the site ID
         try {
             new Site($idSite);
@@ -171,14 +177,19 @@ class DeleteLogs extends ConsoleCommand
     private function optimizeTables(OutputInterface $output)
     {
         foreach (self::$logTables as $table) {
-            $output->write("Optimizing table $table...");
+            $output->write("Optimizing table $table... ");
 
             $timer = new Timer();
 
             $prefixedTable = Common::prefixTable($table);
-            Db::exec("OPTIMIZE TABLE $prefixedTable");
 
-            $output->writeln("done. <comment>" . $timer . "</comment>");
+            $done = Db::optimizeTables($prefixedTable);
+
+            if($done) {
+                $output->writeln("done. <comment>" . $timer . "</comment>");
+            } else {
+                $output->writeln("skipped! <comment>" . $timer . "</comment>");
+            }
         }
 
         $this->writeSuccessMessage($output, array("Table optimization finished."));
