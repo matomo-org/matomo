@@ -1,5 +1,6 @@
 {
     "LeftMenu": {
+        "PluginDescription": "Positionne le menu du tableau de bord sur la gauche.",
         "SettingsIntroduction": "Le composant de menu à gauche va déplacer le menu de rapport d'en haut vers la gauche s'il est activé. C'est particulièrement utile pour les affichages larges.",
         "GlobalSettingTitle": "Menu de gauche activé par défaut",
         "GlobalSettingDescription": "Définit les valeurs système par défaut pour tous les utilisateurs.",

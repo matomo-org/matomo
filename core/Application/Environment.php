@@ -139,7 +139,8 @@ class Environment
     protected function getPluginListCached()
     {
         if ($this->pluginList === null) {
-            $this->pluginList = $this->getPluginList();
+            $pluginList = $this->getPluginListOverride();
+            $this->pluginList = $pluginList ?: $this->getPluginList();
         }
         return $this->pluginList;
     }
@@ -221,6 +222,15 @@ class Environment
             return self::$globalEnvironmentManipulator->getExtraEnvironments();
         } else {
             return array();
+        }
+    }
+
+    private function getPluginListOverride()
+    {
+        if (self::$globalEnvironmentManipulator) {
+            return self::$globalEnvironmentManipulator->makePluginList($this->getGlobalSettingsCached());
+        } else {
+            return null;
         }
     }
 }

@@ -46,7 +46,13 @@ if (getenv('PIWIK_USE_XHPROF') == 1) {
 
 // setup container for tests
 function setupRootContainer() {
-    Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables()));
+    // before running tests, delete the TestingEnvironmentVariables file, since it can indirectly mess w/
+    // phpunit's class loading (if a test class is loaded in bootstrap.php, phpunit can't load it from a file,
+    // so executing the tests in a file will fail)
+    $vars = new TestingEnvironmentVariables();
+    $vars->delete();
+
+    Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator($vars));
 
     $rootTestEnvironment = new \Piwik\Application\Environment(null);
     $rootTestEnvironment->init();

@@ -1,7 +1,7 @@
 {
     "Overlay": {
-        "Clicks": "%s clicks",
-        "ClicksFromXLinks": "%1$s clics desde uno de %2$s links",
+        "Clicks": "%s clics",
+        "ClicksFromXLinks": "%1$s clics desde uno de %2$s enlaces",
         "Domain": "Dominio",
         "ErrorNotLoading": "La sesión de superposición de página no puede ser aun iniciada.",
         "ErrorNotLoadingDetails": "Tal vez la página cargada a su derecha no posee el código de rastreo Piwik. En este caso, trate de lanzar Overlay para una página diferente desde el informe de páginas.",
@@ -11,9 +11,9 @@
         "Location": "Ubicación",
         "NoData": "No hay información para esta página en el período seleccionado.",
         "OneClick": "1 clic",
-        "OpenFullScreen": "Ir a pantalla completa",
+        "OpenFullScreen": "Ir a pantalla completa (sin barras laterales)",
         "Overlay": "Vísta general de página",
-        "PluginDescription": "Vea sus datos analíticos como una superposición en su página de internet. Visualize cuántas veces los usuarios han hecho clic en cada enlace.",
+        "PluginDescription": "Vea su información analítica como una superposición en su actual sitio de internet. Vea cuántas veces sus usuarios han hecho clic en cada enlace. Nota: Requiere el complemento Transitions habilitado.",
         "RedirectUrlError": "Está intentando abrir una página de la dirección de internet \"%s\"- %s Ninguno de sus dominios de su configuración Piwik coincide con el enlace.",
         "RedirectUrlErrorAdmin": "Puede agregar el dominio como una dirección de internet %sen la configuración%s.",
         "RedirectUrlErrorUser": "Pregunte a su administrador para agregar el dominio como una dirección de internet adicional."

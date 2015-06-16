@@ -77,11 +77,16 @@
         <div id="createDashboardNameInput">
             <label>{{ 'Dashboard_DashboardName'|translate }} <input type="input" name="newDashboardName" id="createDashboardName" value=""/></label><br/>
 
-            <input type="radio" checked="checked" name="type" value="default" id="dashboard_type_default" />
-            <label for="dashboard_type_default">{{ 'Dashboard_DefaultDashboard'|translate }}</label><br/>
+            <label for="dashboard_type_default">
+                <input type="radio" checked="checked" name="type" value="default" id="dashboard_type_default" />
+                {{ 'Dashboard_DefaultDashboard'|translate }}
+            </label>
+            <br/><br/>
 
-            <input type="radio" name="type" value="empty" id="dashboard_type_empty" />
-            <label for="dashboard_type_empty">{{ 'Dashboard_EmptyDashboard'|translate }}</label>
+            <label for="dashboard_type_empty">
+                <input type="radio" name="type" value="empty" id="dashboard_type_empty" />
+                {{ 'Dashboard_EmptyDashboard'|translate }}
+            </label>
         </div>
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
         <input role="no" type="button" value="{{ 'General_Cancel'|translate }}"/>

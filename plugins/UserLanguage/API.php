@@ -38,6 +38,7 @@ class API extends \Piwik\Plugin\API
     public function getLanguage($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::LANGUAGE_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable->filter('AddSegmentValue');
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\groupByLangCallback'));
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\languageTranslate'));
 
@@ -47,6 +48,7 @@ class API extends \Piwik\Plugin\API
     public function getLanguageCode($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::LANGUAGE_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable->filter('AddSegmentValue');
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\languageTranslateWithCode'));
 
         return $dataTable;

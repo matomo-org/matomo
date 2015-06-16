@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "Rastrear Eventos y obtener informes de la actividad de sus visitantes",
         "AvgEventValue": "El valor medio de los eventos es: %s",
         "AvgValue": "El valor medio",
         "AvgValueDocumentation": "El promedio de todos los valores de este evento",

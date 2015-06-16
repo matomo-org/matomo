@@ -1,5 +1,6 @@
 {
     "LeftMenu": {
+        "PluginDescription": "Posiziona il menù dashboard sulla sinistra.",
         "SettingsIntroduction": "Il plugin menù di sinistra sposta il menu di segnalazione dalla parte superiore a sinistra, se abilitato. Ciò è particolarmente utile per i display di grandi dimensioni.",
         "GlobalSettingTitle": "Il menù di sinistra è abilitato di default",
         "GlobalSettingDescription": "Definisce le impostazioni predefinite di sistema per tutti gli utenti.",

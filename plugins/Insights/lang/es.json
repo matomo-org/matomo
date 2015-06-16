@@ -1,5 +1,6 @@
 {
     "Insights": {
+        "PluginDescription": "Proporciona información detallada acerca de su tráfico. Estos están disponibles como reproductores del tablero, así como un nuevo icono en los informes que le permiten ver las tendencias más importantes en sus datos.",
         "ControlComparedToDescription": "El crecimiento comparado con",
         "ControlFilterByDescription": "Muestra todos, solo los más activos, nuevos o solo desaparecidos",
         "DatePeriodCombinationNotSupported": "No es posible generar estadística para esta combinación de data y periodo.",

@@ -56,6 +56,8 @@
 		<referrerUrl>http://google.com/?q=Wikileaks FTW</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -207,6 +209,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -335,6 +339,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -477,6 +483,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -605,6 +613,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -764,6 +774,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -892,6 +904,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -1034,6 +1048,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -1162,6 +1178,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -1321,6 +1339,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -1449,6 +1469,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -1591,6 +1613,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -1733,6 +1757,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -1853,6 +1879,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -1981,6 +2009,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -2140,6 +2170,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -2299,6 +2331,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -2419,6 +2453,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -2547,6 +2583,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -2689,6 +2727,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -2831,6 +2871,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -2973,6 +3015,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -3107,6 +3151,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -3235,6 +3281,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -3363,6 +3411,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -3491,6 +3541,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -3619,6 +3671,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -3778,6 +3832,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -3937,6 +3993,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -4096,6 +4154,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -4247,6 +4307,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -4375,6 +4437,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -4503,6 +4567,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -4631,6 +4697,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -4759,6 +4827,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>

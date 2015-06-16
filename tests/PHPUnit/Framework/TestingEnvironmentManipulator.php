@@ -10,14 +10,38 @@ namespace Piwik\Tests\Framework;
 
 use Piwik\Application\EnvironmentManipulator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\Application\Kernel\PluginList;
 use Piwik\DbHelper;
 use Piwik\Option;
+use Piwik\Plugin;
+
+class FakePluginList extends PluginList
+{
+    private $plugins;
+
+    public function __construct(GlobalSettingsProvider $globalSettingsProvider, $plugins)
+    {
+        parent::__construct($globalSettingsProvider);
+
+        $this->plugins = $this->sortPlugins($plugins);
+    }
+
+    public function getActivatedPlugins()
+    {
+        return $this->plugins;
+    }
+}
 
 /**
  * Manipulates an environment for tests.
  */
 class TestingEnvironmentManipulator implements EnvironmentManipulator
 {
+    /**
+     * @var string[]
+     */
+    public static $extraPluginsToLoad = array();
+
     /**
      * @var TestingEnvironmentVariables
      */
@@ -34,6 +58,11 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     public function makeGlobalSettingsProvider()
     {
         return new GlobalSettingsProvider($this->vars->configFileGlobal, $this->vars->configFileLocal, $this->vars->configFileCommon);
+    }
+
+    public function makePluginList(GlobalSettingsProvider $globalSettingsProvider)
+    {
+        return new FakePluginList($globalSettingsProvider, $this->getPluginsToLoadDuringTest());
     }
 
     public function beforeContainerCreated()
@@ -133,5 +162,34 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     public function getExtraEnvironments()
     {
         return array('test');
+    }
+
+    private function getPluginsToLoadDuringTest()
+    {
+        $plugins = $this->vars->getCoreAndSupportedPlugins();
+
+        // make sure the plugin that executed this method is included in the plugins to load
+        $extraPlugins = array_merge(
+            self::$extraPluginsToLoad,
+            $this->vars->pluginsToLoad ?: array(),
+            array(
+                Plugin::getPluginNameFromBacktrace(debug_backtrace()),
+                Plugin::getPluginNameFromNamespace($this->vars->testCaseClass),
+                Plugin::getPluginNameFromNamespace(get_called_class())
+            )
+        );
+        foreach ($extraPlugins as $pluginName) {
+            if (empty($pluginName)) {
+                continue;
+            }
+
+            if (in_array($pluginName, $plugins)) {
+                continue;
+            }
+
+            $plugins[] = $pluginName;
+        }
+
+        return $plugins;
     }
 }

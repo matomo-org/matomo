@@ -13,7 +13,6 @@
         "OneClick": "1 kliknutí",
         "OpenFullScreen": "Přejít na celou obrazovku (bez postranní lišty)",
         "Overlay": "Překryv stránky",
-        "PluginDescription": "Prohlížejte si vaše analytická data jako překryv na stránkách. Zjistěte, kolik uživatelů kliklo na každý z odkazů.",
         "RedirectUrlError": "Pokoušíte se spustit překryv pro stránku s url \"%s\". %s Žádná doména z nastavení Piwiku ale neodpovídá odkazu.",
         "RedirectUrlErrorAdmin": "Doménu můžete jako další URL přidat v %snastavení%s.",
         "RedirectUrlErrorUser": "Požádejte svého administrátora o přidání stránky jako další URL:."
