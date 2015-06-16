@@ -66,7 +66,7 @@ class RawLogDao
     {
         $sql = "SELECT COUNT(*) AS num_rows"
              . " FROM " . Common::prefixTable('log_visit')
-             . " WHERE visit_first_action_time >= ? AND visit_last_action_time < ?";
+             . " WHERE visit_last_action_time >= ? AND visit_last_action_time < ?";
 
         $bind = array($from, $to);
 
