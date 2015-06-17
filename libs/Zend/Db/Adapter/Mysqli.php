@@ -300,6 +300,7 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
         $this->_connection = mysqli_init();
 
         $enable_ssl = false;
+        //use values from PDO if that is not set - set the values from php 5.6
         $ssl_options = array (
             defined(PDO::MYSQL_ATTR_SSL_CA) ? PDO::MYSQL_ATTR_SSL_CA : 1012 => null,
             defined(PDO::MYSQL_ATTR_SSL_CAPATH) ? PDO::MYSQL_ATTR_SSL_CAPATH : 1013 => null,
@@ -327,8 +328,14 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
         }
 
         if ($enable_ssl) {
-            mysqli_ssl_set($this->_connection, $ssl_options[1010], $ssl_options[1011], $ssl_options[1012], $ssl_options[1013],
-                $ssl_options[1014]);
+            mysqli_ssl_set(
+                $this->_connection,
+                $ssl_options[defined(PDO::MYSQL_ATTR_SSL_CIPHER) ? PDO::MYSQL_ATTR_SSL_CIPHER : 1010],
+                $ssl_options[defined(PDO::MYSQL_ATTR_SSL_CERT) ? PDO::MYSQL_ATTR_SSL_CERT : 1011],
+                $ssl_options[defined(PDO::MYSQL_ATTR_SSL_CA) ? PDO::MYSQL_ATTR_SSL_CA : 1012],
+                $ssl_options[defined(PDO::MYSQL_ATTR_SSL_CAPATH) ? PDO::MYSQL_ATTR_SSL_CAPATH : 1013],
+                $ssl_options[defined(PDO::MYSQL_ATTR_SSL_CIPHER) ? PDO::MYSQL_ATTR_SSL_CIPHER : 1014]
+            );
         }
 
         // Suppress connection warnings here.
