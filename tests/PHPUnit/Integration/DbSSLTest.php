@@ -14,6 +14,7 @@ use Piwik\Config;
 
 /**
  * @group Core
+ * @requires PHP 5.3.7
  */
 class DbSSLTest extends IntegrationTestCase
 {

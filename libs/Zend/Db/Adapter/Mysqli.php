@@ -306,7 +306,7 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
             defined(PDO::MYSQL_ATTR_SSL_CAPATH) ? PDO::MYSQL_ATTR_SSL_CAPATH : 1013 => null,
             defined(PDO::MYSQL_ATTR_SSL_CERT) ? PDO::MYSQL_ATTR_SSL_CERT : 1011 => null,
             defined(PDO::MYSQL_ATTR_SSL_CIPHER) ? PDO::MYSQL_ATTR_SSL_CIPHER : 1014 => null,
-            defined(PDO::MYSQL_ATTR_SSL_CIPHER) ? PDO::MYSQL_ATTR_SSL_CIPHER : 1010 => null,
+            defined(PDO::MYSQL_ATTR_SSL_KEY) ? PDO::MYSQL_ATTR_SSL_KEY : 1010 => null,
         );
 
         if(!empty($this->_config['driver_options'])) {
@@ -330,7 +330,7 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
         if ($enable_ssl) {
             mysqli_ssl_set(
                 $this->_connection,
-                $ssl_options[defined(PDO::MYSQL_ATTR_SSL_CIPHER) ? PDO::MYSQL_ATTR_SSL_CIPHER : 1010],
+                $ssl_options[defined(PDO::MYSQL_ATTR_SSL_KEY) ? PDO::MYSQL_ATTR_SSL_KEY : 1010],
                 $ssl_options[defined(PDO::MYSQL_ATTR_SSL_CERT) ? PDO::MYSQL_ATTR_SSL_CERT : 1011],
                 $ssl_options[defined(PDO::MYSQL_ATTR_SSL_CA) ? PDO::MYSQL_ATTR_SSL_CA : 1012],
                 $ssl_options[defined(PDO::MYSQL_ATTR_SSL_CAPATH) ? PDO::MYSQL_ATTR_SSL_CAPATH : 1013],
