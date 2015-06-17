@@ -57,12 +57,8 @@ class PhpExtensionsCheck implements Diagnostic
             'iconv',
             'json',
             'mbstring',
+            'Reflection',
         );
-
-        if (! defined('HHVM_VERSION')) {
-            // HHVM provides the required subset of Reflection but lists Reflections as missing
-            $requiredExtensions[] = 'Reflection';
-        }
 
         return $requiredExtensions;
     }
