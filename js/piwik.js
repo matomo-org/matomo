@@ -2293,7 +2293,7 @@ if (typeof Piwik !== 'object') {
                 heartBeatSetUp = false,
 
                 // Timestamp of last tracker request sent to Piwik
-                lastTrackerRequestTime,
+                lastTrackerRequestTime = null,
 
                 // Handle to the current heart beat timeout
                 heartBeatTimeout,
@@ -2582,9 +2582,7 @@ if (typeof Piwik !== 'object') {
              * Send request
              */
             function sendRequest(request, delay, callback) {
-                if (request.indexOf('ping=') === -1) {
-                    lastTrackerRequestTime = (new Date()).getTime();
-                }
+                lastTrackerRequestTime = (new Date()).getTime();
 
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
@@ -5007,6 +5005,11 @@ if (typeof Piwik !== 'object') {
                  */
                 setHeartBeatTimer: function (heartBeatDelay) {
                     configHeartBeatDelay = (heartBeatDelay || 15) * 1000;
+
+                    // if a tracking request has already been set, start the heart beat timeout
+                    if (lastTrackerRequestTime !== null) {
+                        setUpHeartBeat();
+                    }
                 },
 
                 /**
