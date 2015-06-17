@@ -10,8 +10,8 @@ namespace Piwik\Plugins\BulkTracking\tests\Integration;
 
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Plugins\BulkTracking\tests\Mock\TrackerResponse;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\Mock\Tracker\Response;
 use Piwik\Tests\Framework\Mock\Tracker\ScheduledTasksRunner;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker;
@@ -32,7 +32,7 @@ class HandlerTest extends IntegrationTestCase
     private $handler;
 
     /**
-     * @var Response
+     * @var TrackerResponse
      */
     private $response;
 
@@ -53,7 +53,7 @@ class HandlerTest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
         Tracker\Cache::deleteTrackerCache();
 
-        $this->response = new Response();
+        $this->response = new TrackerResponse();
         $this->handler  = new Handler();
         $this->handler->setResponse($this->response);
         $this->tracker  = new Tracker();

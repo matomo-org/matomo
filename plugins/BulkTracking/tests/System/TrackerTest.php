@@ -46,8 +46,12 @@ class TrackerTest extends SystemTestCase
         $this->tracker->doTrackPageView('Test');
         $this->tracker->doTrackPageView('Test');
 
+        // test skipping invalid site errors
+        $this->tracker->setIdSite(5);
+        $this->tracker->doTrackPageView('Test');
+
         $response = $this->tracker->doBulkTrack();
 
-        $this->assertEquals('{"status":"success","tracked":2}', $response);
+        $this->assertEquals('{"status":"success","tracked":2,"invalid":1}', $response);
     }
 }

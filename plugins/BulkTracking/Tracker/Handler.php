@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\BulkTracking\Tracker;
 
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Tracker;
 use Piwik\Tracker\RequestSet;
 use Piwik\Tracker\TrackerConfig;
@@ -35,6 +36,22 @@ class Handler extends Tracker\Handler
         $this->commitTransaction();
 
         // Do not run schedule task if we are importing logs or doing custom tracking (as it could slow down)
+    }
+
+    public function process(Tracker $tracker, RequestSet $requestSet)
+    {
+        $invalidRequests = 0;
+        foreach ($requestSet->getRequests() as $request) {
+            try {
+                $tracker->trackRequest($request);
+            } catch (UnexpectedWebsiteFoundException $ex) {
+                $invalidRequests += 1;
+            }
+        }
+
+        /** @var Response $response */
+        $response = $this->getResponse();
+        $response->setInvalidCount($invalidRequests);
     }
 
     public function onException(Tracker $tracker, RequestSet $requestSet, Exception $e)
