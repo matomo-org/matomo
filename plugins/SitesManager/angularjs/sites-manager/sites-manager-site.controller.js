@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('SitesManagerSiteController', SitesManagerSiteController);
 
-    SitesManagerSiteController.$inject = ['$scope', '$filter', 'sitesManagerApiHelper'];
+    SitesManagerSiteController.$inject = ['$scope', '$filter', 'sitesManagerApiHelper', 'sitesManagerTypeModel'];
 
-    function SitesManagerSiteController($scope, $filter, sitesManagerApiHelper) {
+    function SitesManagerSiteController($scope, $filter, sitesManagerApiHelper, sitesManagerTypeModel) {
 
         var translate = $filter('translate');
 
@@ -17,6 +17,16 @@
 
             initModel();
             initActions();
+
+            sitesManagerTypeModel.fetchTypeById($scope.site.type).then(function (type) {
+                if (type) {
+                    $scope.currentType = type;
+                    $scope.howToSetupUrl = type.howToSetupUrl;
+                    $scope.isInternalSetupUrl = '?' === ('' + type.howToSetupUrl).substr(0, 1);
+                } else {
+                    $scope.currentType = {name: $scope.site.type};
+                }
+            });
         };
 
         var initActions = function () {
@@ -77,6 +87,16 @@
                 }, 'GET');
             }
 
+            var settings = $('.typeSettings fieldset').serializeArray();
+
+            var flatSettings = '';
+            if (settings.length) {
+                flatSettings = {};
+                angular.forEach(settings, function (setting) {
+                    flatSettings[setting.name] = setting.value;
+                });
+            }
+
             ajaxHandler.addParams({
                 siteName: $scope.site.name,
                 timezone: $scope.site.timezone,
@@ -87,9 +107,11 @@
                 excludedUserAgents: $scope.site.excluded_user_agents.join(','),
                 keepURLFragments: $scope.site.keep_url_fragment,
                 siteSearch: $scope.site.sitesearch,
+                type: $scope.site.type,
                 searchKeywordParameters: sendSiteSearchKeywordParams ? $scope.site.sitesearch_keyword_parameters.join(',') : null,
                 searchCategoryParameters: sendSearchCategoryParameters ? $scope.site.sitesearch_category_parameters.join(',') : null,
-                urls: $scope.site.alias_urls
+                urls: $scope.site.alias_urls,
+                settings: flatSettings
             }, 'POST');
 
             ajaxHandler.redirectOnSuccess($scope.redirectParams);

@@ -6,43 +6,36 @@
             <h4>{{ site.name }}</h4>
             <ul>
                 <li><span class="title">{{ 'General_Id'|translate }}:</span> {{ site.idsite }}</li>
-                <li>
-                    <span class="title">{{ 'SitesManager_Urls'|translate }}</span>:
-                    {{ site.alias_urls.join(', ') }}
-                </li>
+                <li ng-show="availableTypes.length > 1"><span class="title">Type:</span> {{ currentType.name }}</li>
             </ul>
         </div>
         <div class="col-md-3">
             <ul>
                 <li><span class="title">{{ 'SitesManager_Timezone'|translate }}:</span> {{ site.timezone }}</li>
                 <li><span class="title">{{ 'SitesManager_Currency'|translate }}:</span> {{ site.currency }}</li>
-                <li>
-                    <span class="title">{{ 'Actions_SubmenuSitesearch'|translate }}:</span>
-                    <span ng-switch="site.sitesearch">
-                        <span ng-switch-when="1">{{ 'General_Yes'|translate }}</span>
-                        <span ng-switch-default>{{ 'General_No'|translate }}</span>
-                    </span>
+                <li ng-show="site.ecommerce == 1">
+                    <span class="title">{{ 'Goals_Ecommerce'|translate }}: {{ 'General_Yes'|translate }}</span>
+                </li>
+                <li ng-show="site.sitesearch == 1">
+                    <span class="title">{{ 'Actions_SubmenuSitesearch'|translate }}: {{ 'General_Yes'|translate }}</span>
                 </li>
             </ul>
         </div>
         <div class="col-md-4">
             <ul>
                 <li>
-                    <span class="title">{{ 'Goals_Ecommerce'|translate }}:</span>
-                    <span ng-switch="site.ecommerce">
-                        <span ng-switch-default>{{ 'General_No'|translate }}</span>
-                        <span ng-switch-when="1">{{ 'General_Yes'|translate }}</span>
-                    </span>
+                    <span class="title">{{ 'SitesManager_Urls'|translate }}</span>:
+                    {{ site.alias_urls.join(', ') }}
                 </li>
-                <li>
+                <li ng-show="site.excluded_ips.length">
                     <span class="title">{{ 'SitesManager_ExcludedIps'|translate }}:</span>
                     {{ site.excluded_ips.join(', ') }}
                 </li>
-                <li>
+                <li ng-show="site.excluded_parameters.length">
                     <span class="title">{{ 'SitesManager_ExcludedParameters'|translate }}:</span>
                     {{ site.excluded_parameters.join(', ') }}
                 </li>
-                <li ng-if="globalSettings.siteSpecificUserAgentExcludeEnabled">
+                <li ng-if="globalSettings.siteSpecificUserAgentExcludeEnabled && site.excluded_user_agents.length">
                     <span class="title">{{ 'SitesManager_ExcludedUserAgents'|translate }}:</span>
                     {{ site.excluded_user_agents.join(', ') }}
                 </li>
@@ -62,8 +55,8 @@
                         Delete
                     </span>
                 </li>
-                <li ng-show="site.idsite">
-                    <a href="?module=CoreAdminHome&action=trackingCodeGenerator&idSite={{ site.idsite }}&period={{ period }}&date={{ date }}&updated=false">
+                <li ng-show="site.idsite && howToSetupUrl">
+                    <a target="{{ isInternalSetupUrl ? '_self' : '_blank' }}" ng-href="{{ howToSetupUrl }}{{ isInternalSetupUrl ? '&idSite=' + site.idsite + '&period=' + period + '&date=' + date +'&updated=false' : ''}}">
                         {{ 'SitesManager_ShowTrackingTag'|translate }}</a>
                 </li>
             </ul>
@@ -76,6 +69,11 @@
         <div class="form-group">
             <label>{{ 'General_Name'|translate }}</label>
             <input type="text" ng-model="site.name"/>
+        </div>
+
+        <div class="form-group typeSettings"
+             ng-include="'?module=SitesManager&action=getMeasurableTypeSettings&idSite=' + site.idsite + '&idType=' + site.type"
+                >
         </div>
 
         <div class="form-group">

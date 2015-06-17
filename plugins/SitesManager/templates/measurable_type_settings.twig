@@ -1,0 +1,7 @@
+{% import 'settingsMacros.twig' as settingsMacro %}
+
+{% for name, setting in settings %}
+    <fieldset>
+        {{ settingsMacro.singleSetting(setting, loop.index) }}
+    </fieldset>
+{% endfor %}

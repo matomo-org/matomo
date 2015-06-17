@@ -841,6 +841,7 @@ class Report
         $cacheId = CacheId::languageAware('Reports' . md5(implode('', $reports)));
         $cache   = PiwikCache::getTransientCache();
 
+
         if (!$cache->contains($cacheId)) {
             $instances = array();
 

@@ -8,6 +8,8 @@
 namespace Piwik\Plugins\SitesManager\tests\Fixtures;
 
 use Piwik\Plugin;
+use Piwik\Plugins\MobileAppMeasurable;
+use Piwik\Plugins\WebsiteMeasurable;
 use Piwik\Tests\Framework\Fixture;
 
 /**
@@ -27,7 +29,15 @@ class ManySites extends Fixture
                     $siteName = 'Site ' . $idSite;
                 }
 
-                self::createWebsite($this->dateTime, $ecommerce = 0, $siteName);
+                $type = null;
+                if ($idSite === 2) {
+                    $type = MobileAppMeasurable\Type::ID;
+                }
+
+                self::createWebsite($this->dateTime, $ecommerce = 0, $siteName,
+                                    $siteUrl = false,
+                                    $siteSearch = 1, $searchKeywordParameters = null,
+                                    $searchCategoryParameters = null, $timezone = null, $type);
             }
         }
     }

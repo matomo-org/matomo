@@ -1,7 +1,9 @@
 <div ng-show="!siteIsBeingEdited" class="sitesButtonBar clearfix">
 
-    <a ng-show="hasSuperUserAccess" class="btn addSite" ng-click="addSite()" tabindex="1">
-        {{ 'SitesManager_AddSite'|translate }}
+    <a ng-show="hasSuperUserAccess && availableTypes"
+       class="btn addSite"
+       ng-click="addNewEntity()" tabindex="1">
+        {{ availableTypes.length > 1 ? ('SitesManager_AddMeasurable'|translate) : ('SitesManager_AddSite'|translate) }}
     </a>
 
     <div class="search" ng-show="adminSites.hasPrev || adminSites.hasNext || adminSites.searchTerm">

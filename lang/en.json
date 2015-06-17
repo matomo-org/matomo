@@ -299,6 +299,8 @@
         "Price": "Price",
         "ProductConversionRate": "Product Conversion Rate",
         "ProductRevenue": "Product Revenue",
+        "Measurable": "Measurable",
+        "Measurables": "Measurables",
         "PurchasedProducts": "Purchased Products",
         "Quantity": "Quantity",
         "RangeReports": "Custom date ranges",
