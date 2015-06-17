@@ -39,6 +39,12 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::LANGUAGE_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\groupByLangCallback'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'segment', function($label) {
+            if (empty($label) || $label == 'xx') {
+                return 'languageCode==xx';
+            }
+            return sprintf('languageCode==%1$s,languageCode=@%1$s-', $label);
+        }));
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\languageTranslate'));
 
         return $dataTable;
@@ -47,6 +53,7 @@ class API extends \Piwik\Plugin\API
     public function getLanguageCode($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::LANGUAGE_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable->filter('AddSegmentValue');
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\languageTranslateWithCode'));
 
         return $dataTable;

@@ -49,12 +49,12 @@ abstract class Settings
     private $settings = array();
 
     private $introduction;
-    private $pluginName;
+    protected $pluginName;
 
     /**
      * @var StorageInterface
      */
-    private $storage;
+    protected $storage;
 
     /**
      * Constructor.
@@ -181,8 +181,8 @@ abstract class Settings
     {
         $name = $setting->getName();
 
-        if (!ctype_alnum($name)) {
-            $msg = sprintf('The setting name "%s" in plugin "%s" is not valid. Only alpha and numerical characters are allowed', $setting->getName(), $this->pluginName);
+        if (!ctype_alnum(str_replace('_', '', $name))) {
+            $msg = sprintf('The setting name "%s" in plugin "%s" is not valid. Only underscores, alpha and numerical characters are allowed', $setting->getName(), $this->pluginName);
             throw new \Exception($msg);
         }
 

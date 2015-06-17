@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\UserLanguage;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 
 /**

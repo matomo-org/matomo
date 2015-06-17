@@ -65,6 +65,8 @@
 		<referrerUrl>http://blog.comperiosearch.com/blog/2014/02/05/dynamic-search-ranking-using-elasticsearch-neo4j-and-piwik/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -209,6 +211,8 @@
 		<referrerUrl>http://piwik.org/what-is-piwik/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -323,6 +327,8 @@
 		<referrerUrl>http://demo.piwik.org/index.php?module=MultiSites&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=32</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -479,6 +485,8 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -598,6 +606,8 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -729,6 +739,8 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -867,6 +879,8 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -994,6 +1008,8 @@
 		<referrerUrl>http://berndjung.com/piwik/index.php?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=today</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -1113,6 +1129,8 @@
 		<referrerUrl>http://forum.golem.de/kommentare/security/urteil-zu-tracking-nutzer-muessen-piwik-analyse-widersprechen-koennen/piwik-log-analytics/80715,3669355,3669355,read.html</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -1289,6 +1307,8 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -1412,6 +1432,8 @@
 		<referrerUrl>http://piwik.org/docs/installation/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -1543,6 +1565,8 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -1845,6 +1869,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -1955,6 +1981,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -2082,6 +2110,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -2200,6 +2230,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -2359,6 +2391,8 @@
 		<referrerUrl>http://example.com/Search/SearchResults.pg?informationRecipient.languageCode.c=en</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
 		<deviceBrand>Samsung</deviceBrand>
@@ -2473,6 +2507,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -2610,6 +2646,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -2727,6 +2765,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -2848,6 +2888,8 @@
 		<referrerUrl>http://piwik.org/contribute%</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -2970,6 +3012,8 @@
 		<referrerUrl>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -3109,6 +3153,8 @@
 		<referrerUrl>https://www.test.nl/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -3209,6 +3255,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -3308,6 +3356,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -3417,6 +3467,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -3548,6 +3600,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -3686,6 +3740,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -3799,6 +3855,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -3912,6 +3970,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -4014,6 +4074,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -4127,6 +4189,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
 		<deviceBrand>HTC</deviceBrand>
@@ -4240,6 +4304,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -4353,6 +4419,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -4462,6 +4530,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -4571,6 +4641,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -4680,6 +4752,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -4789,6 +4863,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -4898,6 +4974,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -5007,6 +5085,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -5116,6 +5196,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -5225,6 +5307,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -5334,6 +5418,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -5443,6 +5529,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -5552,6 +5640,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -5661,6 +5751,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -5770,6 +5862,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -5879,6 +5973,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
@@ -5988,6 +6084,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
 		<deviceBrand>HTC</deviceBrand>
@@ -6097,6 +6195,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>

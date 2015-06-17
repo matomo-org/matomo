@@ -80,11 +80,15 @@ TestingEnvironment.prototype._call = function (params, done) {
             try {
                 response = JSON.parse(response);
             } catch (e) {
+                page.close();
+
                 done(new Error("Unable to parse JSON response: " + response));
                 return;
             }
 
             if (response.result == "error") {
+                page.close();
+
                 done(new Error("API returned error: " + response.message));
                 return;
             }

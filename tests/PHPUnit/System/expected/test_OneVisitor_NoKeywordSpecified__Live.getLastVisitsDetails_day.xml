@@ -47,6 +47,8 @@
 		<referrerUrl>http://www.google.com.vn/search?q=%3C%3E%26%5C%22the+pdo+extension+is+required+for+this+adapter+but+the+extension+is+not+loaded</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<languageCode>fr</languageCode>
+		<language>Français</language>
 		<deviceType>Inconnu</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
 		<deviceBrand>Inconnu</deviceBrand>
@@ -159,6 +161,8 @@
 		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<languageCode>fr</languageCode>
+		<language>Français</language>
 		<deviceType>Inconnu</deviceType>
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
 		<deviceBrand>Inconnu</deviceBrand>

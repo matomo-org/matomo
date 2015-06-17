@@ -78,26 +78,10 @@ class Manager
         'API',
         'Proxy',
         'LanguagesManager',
+        'WebsiteMeasurable',
 
         // default Piwik theme, always enabled
         self::DEFAULT_THEME,
-    );
-
-    // Plugins bundled with core package, disabled by default
-    protected $corePluginsDisabledByDefault = array(
-        'DBStats',
-        'ExampleCommand',
-        'ExampleSettingsPlugin',
-        'ExampleUI',
-        'ExampleVisualization',
-        'ExamplePluginTemplate',
-        'ExampleTracker',
-        'ExampleReport'
-    );
-
-    // Themes bundled with core package, disabled by default
-    protected $coreThemesDisabledByDefault = array(
-        'ExampleTheme'
     );
 
     private $trackerPluginsNotToLoad = array();
@@ -194,11 +178,6 @@ class Manager
         return $this->trackerPluginsNotToLoad;
     }
 
-    public function getCorePluginsDisabledByDefault()
-    {
-        return array_merge($this->corePluginsDisabledByDefault, $this->coreThemesDisabledByDefault);
-    }
-
     // If a plugin hooks onto at least an event starting with "Tracker.", we load the plugin during tracker
     const TRACKER_EVENT_PREFIX = 'Tracker.';
 
@@ -224,7 +203,7 @@ class Manager
      */
     private function updatePluginsConfig($pluginsToLoad)
     {
-        $pluginsToLoad = $this->sortPluginsSameOrderAsGlobalConfig($pluginsToLoad);
+        $pluginsToLoad = $this->pluginList->sortPlugins($pluginsToLoad);
         $section = PiwikConfig::getInstance()->Plugins;
         $section['Plugins'] = $pluginsToLoad;
         PiwikConfig::getInstance()->Plugins = $section;
@@ -668,7 +647,7 @@ class Manager
     public function isPluginBundledWithCore($name)
     {
         return $this->isPluginEnabledByDefault($name)
-        || in_array($name, $this->getCorePluginsDisabledByDefault())
+        || in_array($name, $this->pluginList->getCorePluginsDisabledByDefault())
         || $name == self::DEFAULT_THEME;
     }
 
@@ -888,9 +867,11 @@ class Manager
      */
     public static function getAllPluginsNames()
     {
+        $pluginList = StaticContainer::get('Piwik\Application\Kernel\PluginList');
+
         $pluginsToLoad = array_merge(
             self::getInstance()->readPluginsDirectory(),
-            self::getInstance()->getCorePluginsDisabledByDefault()
+            $pluginList->getCorePluginsDisabledByDefault()
         );
         $pluginsToLoad = array_values(array_unique($pluginsToLoad));
         return $pluginsToLoad;
@@ -1326,29 +1307,8 @@ class Manager
             $pluginsToLoad = array_merge($pluginsToLoad, $this->pluginToAlwaysActivate);
         }
         $pluginsToLoad = array_unique($pluginsToLoad);
-        $pluginsToLoad = $this->sortPluginsSameOrderAsGlobalConfig($pluginsToLoad);
+        $pluginsToLoad = $this->pluginList->sortPlugins($pluginsToLoad);
         return $pluginsToLoad;
-    }
-
-    private function sortPluginsSameOrderAsGlobalConfig(array $plugins)
-    {
-        $global = $this->getPluginsFromGlobalIniConfigFile();
-        if (empty($global)) {
-            return $plugins;
-        }
-        $global = array_values($global);
-        $plugins = array_values($plugins);
-
-        $defaultPluginsLoadedFirst = array_intersect($global, $plugins);
-
-        $otherPluginsToLoadAfterDefaultPlugins = array_diff($plugins, $defaultPluginsLoadedFirst);
-
-        // sort by name to have a predictable order for those extra plugins
-        sort($otherPluginsToLoadAfterDefaultPlugins);
-
-        $sorted = array_merge($defaultPluginsLoadedFirst, $otherPluginsToLoadAfterDefaultPlugins);
-
-        return $sorted;
     }
 
     public function loadPluginTranslations()

@@ -6,9 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\PrivacyManager\tests\Unit;
+namespace Piwik\Tests\Unit\Plugin\Dimension;
 
-use Piwik\Plugins\PrivacyManager\DimensionMetadataProvider;
+use Piwik\Plugin\Dimension\DimensionMetadataProvider;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Piwik\Plugin\Manager as PluginManager;
 
@@ -23,7 +23,7 @@ class DimensionMetadataProviderTest extends UnitTestCase
         $manager->loadPlugins(array('Events', 'Contents'));
     }
 
-    public function test_getActionReferenceColumnsByTable_DetectsActionReferenceDimensions_AndIncludesHardocdedColumns()
+    public function test_getActionReferenceColumnsByTable_DetectsActionReferenceDimensions_AndIncludesHardcodedColumns()
     {
         $dimensionMetadataProvider = new DimensionMetadataProvider();
 

@@ -59,9 +59,10 @@ class TestingEnvironmentVariables
     public function getCoreAndSupportedPlugins()
     {
         $settings = new \Piwik\Application\Kernel\GlobalSettingsProvider();
-        $pluginManager = new PluginManager(new \Piwik\Application\Kernel\PluginList($settings));
+        $pluginList = new \Piwik\Application\Kernel\PluginList($settings);
+        $pluginManager = new PluginManager($pluginList);
 
-        $disabledPlugins = $pluginManager->getCorePluginsDisabledByDefault();
+        $disabledPlugins = $pluginList->getCorePluginsDisabledByDefault();
         $disabledPlugins[] = 'LoginHttpAuth';
         $disabledPlugins[] = 'ExampleVisualization';
 

@@ -15,6 +15,7 @@ use Piwik\Network\IPUtils;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tests\Framework\TestDataHelper\LogHelper;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Visit;
 use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
@@ -27,6 +28,18 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvide
 class VisitorGeolocatorTest extends IntegrationTestCase
 {
     const TEST_IP = '1.2.3.4';
+
+    /**
+     * @var LogHelper
+     */
+    private $logInserter;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->logInserter = new LogHelper();
+    }
 
     public function test_getLocation_shouldReturnLocationForProvider_IfLocationIsSetForCurrentProvider()
     {
@@ -218,7 +231,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         $geolocator = new VisitorGeolocator($mockLocationProvider);
         $valuesUpdated = $geolocator->attributeExistingVisit($visit, $useCache = false);
 
-        $this->assertEquals($expectedVisitProperties, $this->getVisit($visit['idvisit']), $message = '', $delta = 0.001);
+        $this->assertEquals($expectedVisitProperties, $this->logInserter->getVisit($visit['idvisit']), $message = '', $delta = 0.001);
 
         $expectedUpdateValues = $expectedUpdateValues === null ? $expectedVisitProperties : $expectedUpdateValues;
         $this->assertEquals($expectedUpdateValues, $valuesUpdated, $message = '', $delta = 0.001);
@@ -247,6 +260,99 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         $this->assertNull($result);
     }
 
+    public function test_reattributeVisitLogs_ReattributesVisitsInDateRangeAndFromSite_AndCallsCallbackWithEveryProcessedRow()
+    {
+        foreach (array(1, 2) as $idSite) {
+            foreach (array('2012-01-01', '2012-01-02', '2012-01-03', '2012-01-04') as $date) {
+                $this->insertVisit(array(
+                    'visit_last_action_time' => $date,
+                    'idsite' => $idSite
+                ));
+            }
+        }
+
+        $mockLocationProvider = $this->getProviderMockThatGeolocates(array(
+            'location_country' => 'US',
+            'location_region' => 'rg',
+            'location_city' => 'the city'
+        ));
+        $geolocator = new VisitorGeolocator($mockLocationProvider);
+
+        $reattributedVisits = array();
+        $geolocator->reattributeVisitLogs('2012-01-02', '2012-01-04', 2, $segmentLimit = 1000, function ($row) use (&$reattributedVisits) {
+            $reattributedVisits[] = $row['idvisit'];
+        });
+
+        sort($reattributedVisits);
+
+        $expectedVisitsVisited = array(6, 7);
+        $this->assertEquals($expectedVisitsVisited, $reattributedVisits);
+
+        // check that no visits were re-attributed for site 1
+        $actualVisits = Db::fetchAll("SELECT visit_last_action_time, idsite, location_country, location_region, location_city FROM "
+            . Common::prefixTable('log_visit') . " ORDER BY idsite ASC, visit_last_action_time ASC");
+        $expectedVisits = array(
+            array(
+                'visit_last_action_time' => '2012-01-01 00:00:00',
+                'idsite' => '1',
+                'location_country' => 'xx',
+                'location_region' => null,
+                'location_city' => null
+            ),
+            array(
+                'visit_last_action_time' => '2012-01-02 00:00:00',
+                'idsite' => '1',
+                'location_country' => 'xx',
+                'location_region' => null,
+                'location_city' => null
+            ),
+            array(
+                'visit_last_action_time' => '2012-01-03 00:00:00',
+                'idsite' => '1',
+                'location_country' => 'xx',
+                'location_region' => null,
+                'location_city' => null
+            ),
+            array(
+                'visit_last_action_time' => '2012-01-04 00:00:00',
+                'idsite' => '1',
+                'location_country' => 'xx',
+                'location_region' => null,
+                'location_city' => null
+            ),
+            array(
+                'visit_last_action_time' => '2012-01-01 00:00:00',
+                'idsite' => '2',
+                'location_country' => 'xx',
+                'location_region' => null,
+                'location_city' => null
+            ),
+            array(
+                'visit_last_action_time' => '2012-01-02 00:00:00',
+                'idsite' => '2',
+                'location_country' => 'us',
+                'location_region' => 'rg',
+                'location_city' => 'the city'
+            ),
+            array(
+                'visit_last_action_time' => '2012-01-03 00:00:00',
+                'idsite' => '2',
+                'location_country' => 'us',
+                'location_region' => 'rg',
+                'location_city' => 'the city'
+            ),
+            array(
+                'visit_last_action_time' => '2012-01-04 00:00:00',
+                'idsite' => '2',
+                'location_country' => 'xx',
+                'location_region' => null,
+                'location_city' => null
+            ),
+        );
+
+        $this->assertEquals($expectedVisits, $actualVisits);
+    }
+
     /**
      * @return PHPUnit_Framework_MockObject_MockObject|LocationProvider
      */
@@ -261,7 +367,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     private function getProviderMockThatGeolocates($locationResult)
     {
         $mock = $this->getProviderMock();
-        $mock->expects($this->once())->method('getLocation')->will($this->returnCallback(function ($info) use ($locationResult) {
+        $mock->expects($this->any())->method('getLocation')->will($this->returnCallback(function ($info) use ($locationResult) {
             if ($info['ip'] == VisitorGeolocatorTest::TEST_IP) {
                 return $locationResult;
             } else {
@@ -274,76 +380,17 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     private function insertVisit($visit = array())
     {
         $defaultProperties = array(
-            'idsite' => 1,
-            'idvisitor' => Common::hex2bin('ea95f303f2165aa0'),
-            'visit_last_action_time' => '2012-01-01 00:00:00',
-            'config_id' => Common::hex2bin('ea95f303f2165aa0'),
-            'location_ip' => IPUtils::stringToBinaryIP(self::TEST_IP),
-            'visitor_localtime' => '2012-01-01 00:00:00',
-            'location_country' => 'xx',
-            'config_os' => 'xxx',
-            'visit_total_events' => 0,
-            'visitor_days_since_last' => 0,
-            'config_quicktime' => 0,
-            'config_pdf' => 0,
-            'config_realplayer' => 0,
-            'config_silverlight' => 0,
-            'config_windowsmedia' => 0,
-            'config_java' => 0,
-            'config_gears' => 0,
-            'config_resolution' => 0,
-            'config_resolution' => '',
-            'config_cookie' => 0,
-            'config_director' => 0,
-            'config_flash' => 0,
-            'config_browser_version' => '',
-            'visitor_count_visits' => 1,
-            'visitor_returning' => 0,
-            'visit_total_time' => 123,
-            'visit_entry_idaction_name' => 0,
-            'visit_entry_idaction_url' => 0,
-            'visitor_days_since_order' => 0,
-            'visitor_days_since_first' => 0,
-            'visit_first_action_time' => '2012-01-01 00:00:00',
-            'visit_goal_buyer' => 0,
-            'visit_goal_converted' => 0,
-            'visit_exit_idaction_name' => 0,
-            'referer_url' => '',
-            'location_browser_lang' => 'xx',
-            'config_browser_engine' => '',
-            'config_browser_name' => '',
-            'referer_type' => 0,
-            'referer_name' => '',
-            'visit_total_actions' => 0,
-            'visit_total_searches' => 0
+            'location_ip' => IPUtils::stringToBinaryIP(self::TEST_IP)
         );
 
-        $visit = array_merge($defaultProperties, $visit);
-
-        $this->insertInto('log_visit', $visit);
-
-        $idVisit = Db::fetchOne("SELECT LAST_INSERT_ID()");
-        return $this->getVisit($idVisit, $allColumns = true);
-    }
-
-    private function getVisit($idVisit, $allColumns = false)
-    {
-        $columns = $allColumns ? "*" : "location_country, location_region, location_city, location_latitude, location_longitude";
-        $visit = Db::fetchRow("SELECT $columns FROM " . Common::prefixTable('log_visit') . " WHERE idvisit = ?", array($idVisit));
-
-        return $visit;
+        return $this->logInserter->insertVisit(array_merge($defaultProperties, $visit));
     }
 
     private function insertTwoConversions($visit)
     {
         $conversionProperties = array(
-            'idvisit' => $visit['idvisit'],
             'idsite' => $visit['idsite'],
             'idvisitor' => $visit['idvisitor'],
-            'server_time' => '2012-01-01 00:00:00',
-            'idgoal' => 1,
-            'buster' => 1,
-            'url' => '',
             'location_longitude' => $visit['location_longitude'],
             'location_latitude' => $visit['location_latitude'],
             'location_region' => $visit['location_region'],
@@ -351,23 +398,12 @@ class VisitorGeolocatorTest extends IntegrationTestCase
             'location_city' => $visit['location_city'],
             'visitor_count_visits' => $visit['visitor_count_visits'],
             'visitor_returning' => $visit['visitor_returning'],
-            'visitor_days_since_order' => 0,
-            'visitor_days_since_first' => 0
         );
 
-        $this->insertInto('log_conversion', $conversionProperties);
+        $this->logInserter->insertConversion($visit['idvisit'], $conversionProperties);
 
         $conversionProperties['buster'] = 2;
-        $this->insertInto('log_conversion', $conversionProperties);
-    }
-
-    private function insertInto($table, $row)
-    {
-        $columns = implode(', ', array_keys($row));
-        $columnsPlaceholders = Common::getSqlStringFieldsArray($row);
-        $values = array_values($row);
-
-        Db::query("INSERT INTO " . Common::prefixTable($table) . " ($columns) VALUES ($columnsPlaceholders)", $values);
+        $this->logInserter->insertConversion($visit['idvisit'], $conversionProperties);
     }
 
     private function getConversions($visit)

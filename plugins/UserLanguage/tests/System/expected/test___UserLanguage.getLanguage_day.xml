@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>4</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>languageCode==fr,languageCode=@fr-</segment>
 	</row>
 	<row>
 		<label>Polish</label>
@@ -21,6 +22,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>3</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>languageCode==pl,languageCode=@pl-</segment>
 	</row>
 	<row>
 		<label>English</label>
@@ -32,6 +34,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>languageCode==en,languageCode=@en-</segment>
 	</row>
 	<row>
 		<label>Arabic</label>
@@ -43,6 +46,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>languageCode==ar,languageCode=@ar-</segment>
 	</row>
 	<row>
 		<label>Basque</label>
@@ -54,6 +58,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>languageCode==eu,languageCode=@eu-</segment>
 	</row>
 	<row>
 		<label>Chinese</label>
@@ -65,6 +70,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>languageCode==zh,languageCode=@zh-</segment>
 	</row>
 	<row>
 		<label>Czech</label>
@@ -76,6 +82,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>languageCode==cs,languageCode=@cs-</segment>
 	</row>
 	<row>
 		<label>German</label>
@@ -87,6 +94,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>languageCode==de,languageCode=@de-</segment>
 	</row>
 	<row>
 		<label>Greek</label>
@@ -98,6 +106,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>languageCode==el,languageCode=@el-</segment>
 	</row>
 	<row>
 		<label>Serbian</label>
@@ -109,6 +118,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>languageCode==sr,languageCode=@sr-</segment>
 	</row>
 	<row>
 		<label>Thai</label>
@@ -120,6 +130,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>languageCode==th,languageCode=@th-</segment>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -131,5 +142,6 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>languageCode==xx</segment>
 	</row>
 </result>

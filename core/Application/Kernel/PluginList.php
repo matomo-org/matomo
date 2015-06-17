@@ -25,6 +25,27 @@ class PluginList
      */
     private $settings;
 
+    /**
+     * Plugins bundled with core package, disabled by default
+     * @var array
+     */
+    private $corePluginsDisabledByDefault = array(
+        'DBStats',
+        'ExampleCommand',
+        'ExampleSettingsPlugin',
+        'ExampleUI',
+        'ExampleVisualization',
+        'ExamplePluginTemplate',
+        'ExampleTracker',
+        'ExampleReport',
+        'MobileAppMeasurable'
+    );
+
+    // Themes bundled with core package, disabled by default
+    private $coreThemesDisabledByDefault = array(
+        'ExampleTheme'
+    );
+
     public function __construct(GlobalSettingsProvider $settings)
     {
         $this->settings = $settings;
@@ -53,5 +74,46 @@ class PluginList
 
         $section = $this->settings->getIniFileChain()->getFrom($pathGlobal, 'Plugins');
         return $section['Plugins'];
+    }
+
+    /**
+     * Returns the plugins bundled with core package that are disabled by default.
+     *
+     * @return string[]
+     */
+    public function getCorePluginsDisabledByDefault()
+    {
+        return array_merge($this->corePluginsDisabledByDefault, $this->coreThemesDisabledByDefault);
+    }
+
+    /**
+     * Sorts an array of plugins in the order they should be loaded.
+     *
+     * @params string[] $plugins
+     * @return \string[]
+     */
+    public function sortPlugins(array $plugins)
+    {
+        $global = $this->getPluginsBundledWithPiwik();
+        if (empty($global)) {
+            return $plugins;
+        }
+
+        // we need to make sure a possibly disabled plugin will be still loaded before any 3rd party plugin
+        $global = array_merge($global, $this->corePluginsDisabledByDefault);
+
+        $global = array_values($global);
+        $plugins = array_values($plugins);
+
+        $defaultPluginsLoadedFirst = array_intersect($global, $plugins);
+
+        $otherPluginsToLoadAfterDefaultPlugins = array_diff($plugins, $defaultPluginsLoadedFirst);
+
+        // sort by name to have a predictable order for those extra plugins
+        sort($otherPluginsToLoadAfterDefaultPlugins);
+
+        $sorted = array_merge($defaultPluginsLoadedFirst, $otherPluginsToLoadAfterDefaultPlugins);
+
+        return $sorted;
     }
 }

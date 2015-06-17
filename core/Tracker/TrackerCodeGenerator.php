@@ -24,19 +24,27 @@ class TrackerCodeGenerator
      * @param bool $mergeSubdomains
      * @param bool $groupPageTitlesByDomain
      * @param bool $mergeAliasUrls
-     * @param bool $visitorCustomVariables
-     * @param bool $pageCustomVariables
-     * @param bool $customCampaignNameQueryParam
-     * @param bool $customCampaignKeywordParam
+     * @param array $visitorCustomVariables
+     * @param array $pageCustomVariables
+     * @param string $customCampaignNameQueryParam
+     * @param string $customCampaignKeywordParam
      * @param bool $doNotTrack
      * @param bool $disableCookies
      * @return string Javascript code.
      */
-    public function generate($idSite, $piwikUrl, $mergeSubdomains = false, $groupPageTitlesByDomain = false,
-                             $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
-                             $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
-                             $doNotTrack = false, $disableCookies = false)
-    {
+    public function generate(
+        $idSite,
+        $piwikUrl,
+        $mergeSubdomains = false,
+        $groupPageTitlesByDomain = false,
+        $mergeAliasUrls = false,
+        $visitorCustomVariables = null,
+        $pageCustomVariables = null,
+        $customCampaignNameQueryParam = null,
+        $customCampaignKeywordParam = null,
+        $doNotTrack = false,
+        $disableCookies = false
+    ) {
         // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
         $jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/templates/javascriptCode.tpl");
         $jsCode = htmlentities($jsCode);
@@ -57,7 +65,7 @@ class TrackerCodeGenerator
         }
         $maxCustomVars = CustomVariables::getMaxCustomVariables();
 
-        if ($visitorCustomVariables) {
+        if ($visitorCustomVariables && count($visitorCustomVariables) > 0) {
             $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each visitor' . PHP_EOL;
             $index = 1;
             foreach ($visitorCustomVariables as $visitorCustomVariable) {
@@ -65,24 +73,38 @@ class TrackerCodeGenerator
                     continue;
                 }
 
-                $options .= '  _paq.push(["setCustomVariable", ' . $index++ . ', "' . $visitorCustomVariable[0] . '", "' . $visitorCustomVariable[1] . '", "visit"]);' . PHP_EOL;
+                $options .= sprintf(
+                    '  _paq.push(["setCustomVariable", %d, %s, %s, "visit"]);%s',
+                    $index++,
+                    json_encode($visitorCustomVariable[0]),
+                    json_encode($visitorCustomVariable[1]),
+                    PHP_EOL
+                );
             }
         }
-        if ($pageCustomVariables) {
+        if ($pageCustomVariables && count($pageCustomVariables) > 0) {
             $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each action (page view, download, click, site search)' . PHP_EOL;
             $index = 1;
             foreach ($pageCustomVariables as $pageCustomVariable) {
                 if (empty($pageCustomVariable)) {
                     continue;
                 }
-                $options .= '  _paq.push(["setCustomVariable", ' . $index++ . ', "' . $pageCustomVariable[0] . '", "' . $pageCustomVariable[1] . '", "page"]);' . PHP_EOL;
+                $options .= sprintf(
+                    '  _paq.push(["setCustomVariable", %d, %s, %s, "page"]);%s',
+                    $index++,
+                    json_encode($pageCustomVariable[0]),
+                    json_encode($pageCustomVariable[1]),
+                    PHP_EOL
+                );
             }
         }
         if ($customCampaignNameQueryParam) {
-            $options .= '  _paq.push(["setCampaignNameKey", "' . $customCampaignNameQueryParam . '"]);' . PHP_EOL;
+            $options .= '  _paq.push(["setCampaignNameKey", '
+                . json_encode($customCampaignNameQueryParam) . ']);' . PHP_EOL;
         }
         if ($customCampaignKeywordParam) {
-            $options .= '  _paq.push(["setCampaignKeywordKey", "' . $customCampaignKeywordParam . '"]);' . PHP_EOL;
+            $options .= '  _paq.push(["setCampaignKeywordKey", '
+                . json_encode($customCampaignKeywordParam) . ']);' . PHP_EOL;
         }
         if ($doNotTrack) {
             $options .= '  _paq.push(["setDoNotTrack", true]);' . PHP_EOL;
@@ -93,6 +115,7 @@ class TrackerCodeGenerator
 
         $codeImpl = array(
             'idSite'                  => $idSite,
+            // TODO why sanitizeInputValue() and not json_encode?
             'piwikUrl'                => Common::sanitizeInputValue($piwikUrl),
             'options'                 => $options,
             'optionsBeforeTrackerUrl' => $optionsBeforeTrackerUrl,

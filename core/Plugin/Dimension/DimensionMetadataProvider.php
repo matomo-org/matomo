@@ -6,9 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\PrivacyManager;
-
-use Piwik\Plugin\Dimension\ActionDimension;
+namespace Piwik\Plugin\Dimension;
 
 /**
  * Provides metadata about dimensions for the LogDataPurger class.
