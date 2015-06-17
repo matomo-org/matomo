@@ -60,7 +60,7 @@ class PhpSettingsCheck implements Diagnostic
             'session.auto_start=0',
         );
 
-        if ($this->isPhpVersionAtLeast56()) {
+        if ($this->isPhpVersionAtLeast56() && ! defined("HHVM_VERSION")) {
             // always_populate_raw_post_data must be -1
             $requiredSettings[] = 'always_populate_raw_post_data=-1';
         }

@@ -67,8 +67,7 @@ class Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements AdapterInterface
      */
     public static function isEnabled()
     {
-        $extensions = @get_loaded_extensions();
-        return in_array('PDO', $extensions) && in_array('pdo_pgsql', $extensions);
+        return extension_loaded('PDO') && extension_loaded('pdo_pgsql');
     }
 
     /**
