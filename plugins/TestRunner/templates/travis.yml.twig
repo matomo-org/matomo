@@ -107,8 +107,6 @@ install:
   - mv ../$PLUGIN_NAME plugins
 
 {% endif %}
-  # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
-  - git checkout master -q -- ./tests/travis ./plugins/TestRunner || true
 {% if generationMode == 'plugin' or generationMode == 'piwik-tests-plugins' %}
   # clone dependent repos
   - ./tests/travis/checkout_dependent_plugins.sh
