@@ -368,6 +368,7 @@ class Controller extends ControllerAdmin
     public function uploadCustomLogo()
     {
         Piwik::checkUserHasSuperUserAccess();
+        $this->checkTokenInUrl();
 
         $logo = new CustomLogo();
         $successLogo    = $logo->copyUploadedLogoToFilesystem();
