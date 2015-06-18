@@ -270,6 +270,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         $this->getTestEnvironment()->testCaseClass = $this->testCaseClass;
+        $this->getTestEnvironment()->fixtureClass = get_class($this);
         $this->getTestEnvironment()->save();
 
         PiwikCache::getTransientCache()->flushAll();
@@ -904,7 +905,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function createEnvironmentInstance()
     {
-        $this->piwikEnvironment = new Environment($environment = null, array_merge($this->provideContainerConfig(), $this->extraDefinitions));
+        $this->piwikEnvironment = new Environment($environment = null, $this->extraDefinitions);
         $this->piwikEnvironment->init();
     }
 }
