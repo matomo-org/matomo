@@ -327,6 +327,8 @@ class Fixture extends \PHPUnit_Framework_Assert
         $this->clearInMemoryCaches();
 
         Log::unsetInstance();
+
+        $this->destroyEnvironment();
     }
 
     public function clearInMemoryCaches()
@@ -907,5 +909,15 @@ class Fixture extends \PHPUnit_Framework_Assert
     {
         $this->piwikEnvironment = new Environment($environment = null, $this->extraDefinitions);
         $this->piwikEnvironment->init();
+    }
+
+    public function destroyEnvironment()
+    {
+        if ($this->piwikEnvironment === null) {
+            return;
+        }
+
+        $this->piwikEnvironment->destroy();
+        $this->piwikEnvironment = null;
     }
 }
