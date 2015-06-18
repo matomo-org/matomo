@@ -67,6 +67,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function beforeContainerCreated()
     {
+        $this->vars->reload();
+
         if ($this->vars->queryParamOverride) {
             foreach ($this->vars->queryParamOverride as $key => $value) {
                 $_GET[$key] = $value;
