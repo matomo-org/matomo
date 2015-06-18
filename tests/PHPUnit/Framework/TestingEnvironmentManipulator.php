@@ -135,7 +135,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     {
         $testVarDefinitionSource = new TestingEnvironmentVariablesDefinitionSource($this->vars);
 
-        $diConfig = array();
+        $diConfigs = array($testVarDefinitionSource);
         if ($this->vars->testCaseClass) {
             $testCaseClass = $this->vars->testCaseClass;
             if (class_exists($testCaseClass)) {
@@ -143,24 +143,22 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
                 // Apply DI config from the fixture
                 if (isset($testCaseClass::$fixture)) {
-                    $diConfig = array_merge($diConfig, $testCaseClass::$fixture->provideContainerConfig());
+                    $diConfigs[] = $testCaseClass::$fixture->provideContainerConfig();
                 }
 
                 if (method_exists($testCase, 'provideContainerConfigBeforeClass')) {
-                    $diConfig = array_merge($diConfig, $testCaseClass::provideContainerConfigBeforeClass());
+                    $diConfigs[] = $testCaseClass::provideContainerConfigBeforeClass();
                 }
 
                 if (method_exists($testCase, 'provideContainerConfig')) {
-                    $diConfig = array_merge($diConfig, $testCase->provideContainerConfig());
+                    $diConfigs[] = $testCase->provideContainerConfig();
                 }
             }
         }
 
-        return array(
-            $testVarDefinitionSource,
-            $diConfig,
-            array('observers.global' => \DI\add($this->globalObservers)),
-        );
+        $diConfigs[] = array('observers.global' => \DI\add($this->globalObservers));
+
+        return $diConfigs;
     }
 
     public function getExtraEnvironments()
