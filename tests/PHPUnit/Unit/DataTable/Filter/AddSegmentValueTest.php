@@ -10,16 +10,13 @@ namespace Piwik\Tests\Core\DataTable\Filter;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
  * @group AddSegmentValueTest
  * @group DataTable
  * @group Filter
- * @group Unit
- * @group Core
  */
-class AddSegmentValueTest extends UnitTestCase
+class AddSegmentValueTest extends \PHPUnit_Framework_TestCase
 {
     private $filter = 'AddSegmentValue';
 
@@ -122,5 +119,4 @@ class AddSegmentValueTest extends UnitTestCase
             false);
         $this->assertSame($expected, $segmentValues);
     }
-
 }

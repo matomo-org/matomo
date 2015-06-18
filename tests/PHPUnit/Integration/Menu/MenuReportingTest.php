@@ -6,18 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\Menu;
+namespace Piwik\Tests\Integration\Menu;
 
 use Piwik\Plugin\Report;
 use Piwik\Piwik;
 use Piwik\Metrics;
 use Piwik\Menu\MenuReporting;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group Core
  */
-class ReportingTest extends \PHPUnit_Framework_TestCase
+class ReportingTest extends IntegrationTestCase
 {
     /**
      * @var MenuReporting
@@ -74,5 +75,4 @@ class ReportingTest extends \PHPUnit_Framework_TestCase
             'Actions', 'DevicesDetection', 'CoreVisualizations', 'API', 'Morpheus'
         ));
     }
-
 }

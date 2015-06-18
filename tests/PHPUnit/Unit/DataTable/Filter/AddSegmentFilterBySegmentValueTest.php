@@ -14,16 +14,14 @@ use Piwik\Plugins\Actions\Reports\GetOutlinks;
 use Piwik\Plugins\UserCountry\Reports\GetCity;
 use Piwik\Plugins\UserCountry\Reports\GetCountry;
 use Piwik\Plugins\VisitsSummary\Reports\Get;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
  * @group AddSegmentBySegmentValueTest
  * @group DataTable
  * @group Filter
- * @group Unit
  * @group Core
  */
-class AddSegmentBySegmentValueTest extends UnitTestCase
+class AddSegmentBySegmentValueTest extends \PHPUnit_Framework_TestCase
 {
     private $filter = 'AddSegmentBySegmentValue';
 
@@ -132,5 +130,4 @@ class AddSegmentBySegmentValueTest extends UnitTestCase
         $segment = $row->getMetadata('segment');
         $this->assertSame($expected, $segment);
     }
-
 }

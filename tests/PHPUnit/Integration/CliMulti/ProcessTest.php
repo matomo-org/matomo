@@ -6,18 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\CliMulti;
+namespace Piwik\Tests\Integration\CliMulti;
 
 use Piwik\CliMulti\Process;
 use Piwik\Tests\Framework\Mock\File;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use ReflectionProperty;
 
 /**
- * @group Core
  * @group CliMulti
  */
-class ProcessTest extends UnitTestCase
+class ProcessTest extends IntegrationTestCase
 {
     /**
      * @var Process
@@ -27,12 +26,15 @@ class ProcessTest extends UnitTestCase
     public function setUp()
     {
         parent::setup();
+
+        File::reset();
         $this->process = new Process('testPid');
     }
 
     public function tearDown()
     {
         $this->process->finishProcess();
+        File::reset();
     }
 
     /**

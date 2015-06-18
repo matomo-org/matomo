@@ -16,35 +16,6 @@ use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\TrackerConfig;
 
-class TestRequest extends  Request {
-
-    public function getCookieName()
-    {
-        return parent::getCookieName();
-    }
-
-    public function getCookieExpire()
-    {
-        return parent::getCookieExpire();
-    }
-
-    public function getCookiePath()
-    {
-        return parent::getCookiePath();
-    }
-
-    public function makeThirdPartyCookie()
-    {
-        return parent::makeThirdPartyCookie();
-    }
-
-    public function setIsAuthenticated()
-    {
-        $this->isAuthenticated = true;
-    }
-
-}
-
 /**
  * @group RequestSetTest
  * @group RequestSet
@@ -599,6 +570,32 @@ class RequestTest extends UnitTestCase
     {
         return new TestRequest($params, $token);
     }
+}
 
+class TestRequest extends Request
+{
+    public function getCookieName()
+    {
+        return parent::getCookieName();
+    }
 
+    public function getCookieExpire()
+    {
+        return parent::getCookieExpire();
+    }
+
+    public function getCookiePath()
+    {
+        return parent::getCookiePath();
+    }
+
+    public function makeThirdPartyCookie()
+    {
+        return parent::makeThirdPartyCookie();
+    }
+
+    public function setIsAuthenticated()
+    {
+        $this->isAuthenticated = true;
+    }
 }

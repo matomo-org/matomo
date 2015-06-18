@@ -8,10 +8,9 @@
 
 namespace Piwik\Tests\Unit;
 
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Piwik\Version;
 
-class VersionTest extends UnitTestCase
+class VersionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Version
@@ -78,5 +77,4 @@ class VersionTest extends UnitTestCase
         $isStable = $this->version->isVersionNumber($versionNumber);
         $this->assertFalse($isStable);
     }
-
 }

@@ -14,12 +14,11 @@ use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\DataTable\Row;
 use Piwik\Plugin\Manager as PluginManager;
 use Exception;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
  * @group DataTableTest
  */
-class PivotByDimensionTest extends UnitTestCase
+class PivotByDimensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * The number of segment tables that have been created. Used when injecting API results to make sure each

@@ -8,39 +8,14 @@
 
 namespace Piwik\Tests\Unit\Tracker;
 
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestSet;
 
-class TestRequestSet extends RequestSet {
-
-    public function getRedirectUrl()
-    {
-        return parent::getRedirectUrl();
-    }
-
-    public function hasRedirectUrl()
-    {
-        return parent::hasRedirectUrl();
-    }
-
-    public function getAllSiteIdsWithinRequest()
-    {
-        return parent::getAllSiteIdsWithinRequest();
-    }
-
-    public function getEnvironment()
-    {
-        return parent::getEnvironment();
-    }
-}
-
 /**
  * @group RequestSetTest
- * @group RequestSet
  * @group Tracker
  */
-class RequestSetTest extends UnitTestCase
+class RequestSetTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var TestRequestSet
@@ -444,6 +419,10 @@ class RequestSetTest extends UnitTestCase
         $this->assertEquals(array(1, 5, 2, 9), $this->requestSet->getAllSiteIdsWithinRequest());
     }
 
+    /**
+     * @param int $numRequests
+     * @return Request[]
+     */
     private function buildRequests($numRequests)
     {
         $requests = array();
@@ -465,6 +444,27 @@ class RequestSetTest extends UnitTestCase
     {
         return array('server' => array('mytest' => 'test'));
     }
+}
 
+class TestRequestSet extends RequestSet
+{
+    public function getRedirectUrl()
+    {
+        return parent::getRedirectUrl();
+    }
 
+    public function hasRedirectUrl()
+    {
+        return parent::hasRedirectUrl();
+    }
+
+    public function getAllSiteIdsWithinRequest()
+    {
+        return parent::getAllSiteIdsWithinRequest();
+    }
+
+    public function getEnvironment()
+    {
+        return parent::getEnvironment();
+    }
 }

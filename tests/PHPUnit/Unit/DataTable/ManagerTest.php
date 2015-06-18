@@ -6,14 +6,13 @@ use Piwik\Config;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
  * @group DataTable
  * @group ManagerTest
  * @group Core
  */
-class ManagerTest extends UnitTestCase
+class ManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Manager

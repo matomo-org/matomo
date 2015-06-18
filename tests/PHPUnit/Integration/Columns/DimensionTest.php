@@ -43,20 +43,23 @@ namespace Piwik\Plugins\Test\Columns
     }
 }
 
-namespace Piwik\Tests\Unit\Columns
+namespace Piwik\Tests\Integration\Columns
 {
     use Piwik\Columns\Dimension;
     use Piwik\Config;
+    use Piwik\Plugin\Dimension\ActionDimension;
+    use Piwik\Plugin\Dimension\ConversionDimension;
+    use Piwik\Plugin\Dimension\VisitDimension;
     use Piwik\Plugin\Segment;
     use Piwik\Plugin\Manager;
     use Piwik\Plugins\Test\Columns\DimensionTest;
     use Piwik\Plugins\Test\FakeActionDimension;
-    use Piwik\Tests\Framework\TestCase\UnitTestCase;
+    use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
     /**
      * @group Core
      */
-    class ColumnDimensionTest extends UnitTestCase
+    class ColumnDimensionTest extends IntegrationTestCase
     {
         /**
          * @var FakeActionDimension
@@ -112,11 +115,11 @@ namespace Piwik\Tests\Unit\Columns
             $foundAction     = false;
 
             foreach ($dimensions as $dimension) {
-                if ($dimension instanceof \Piwik\Plugin\Dimension\ConversionDimension) {
+                if ($dimension instanceof ConversionDimension) {
                     $foundConversion = true;
-                } else if ($dimension instanceof \Piwik\Plugin\Dimension\ActionDimension) {
+                } else if ($dimension instanceof ActionDimension) {
                     $foundAction = true;
-                } else if ($dimension instanceof \Piwik\Plugin\Dimension\VisitDimension) {
+                } else if ($dimension instanceof VisitDimension) {
                     $foundVisit = true;
                 } else {
                     $this->fail('Unexpected dimension class found');
@@ -142,9 +145,9 @@ namespace Piwik\Tests\Unit\Columns
             $foundAction     = false;
 
             foreach ($dimensions as $dimension) {
-                if ($dimension instanceof \Piwik\Plugin\Dimension\ActionDimension) {
+                if ($dimension instanceof ActionDimension) {
                     $foundAction = true;
-                } else if ($dimension instanceof \Piwik\Plugin\Dimension\VisitDimension) {
+                } else if ($dimension instanceof VisitDimension) {
                     $foundVisit = true;
                 }
 
@@ -166,7 +169,7 @@ namespace Piwik\Tests\Unit\Columns
             $foundConversion = false;
 
             foreach ($dimensions as $dimension) {
-                if ($dimension instanceof \Piwik\Plugin\Dimension\ConversionDimension) {
+                if ($dimension instanceof ConversionDimension) {
                     $foundConversion = true;
                 }
 
@@ -209,7 +212,7 @@ namespace Piwik\Tests\Unit\Columns
             Manager::getInstance()->loadPlugins(array('ExampleTracker'));
 
             $dimension = Dimension::factory("ExampleTracker.ExampleDimension");
-            $this->assertInstanceOf("Piwik\\Plugins\\ExampleTracker\\Columns\\ExampleDimension", $dimension);
+            $this->assertInstanceOf('Piwik\Plugins\ExampleTracker\Columns\ExampleDimension', $dimension);
         }
    }
 }
