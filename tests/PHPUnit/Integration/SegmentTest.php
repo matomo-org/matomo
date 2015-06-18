@@ -600,7 +600,13 @@ class SegmentTest extends IntegrationTestCase
         $where = false;
         $bind = array();
 
-        $segment = 'visitServerHour==12,pageUrl==xyz;pageUrl==abcdefg,pageUrl=='.urlencode($pageUrlFoundInDb);
+        /**
+         * pageUrl==xyz                              -- Matches none
+         * pageUrl!=abcdefg                          -- Matches all
+         * pageUrl=@does-not-exist                   -- Matches none
+         * pageUrl=='.urlencode($pageUrlFoundInDb)   -- Matches one
+         */
+        $segment = 'visitServerHour==12,pageUrl==xyz;pageUrl!=abcdefg,pageUrl=@does-not-exist,pageUrl=='.urlencode($pageUrlFoundInDb);
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -618,12 +624,17 @@ class SegmentTest extends IntegrationTestCase
                     LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
                 WHERE (HOUR(log_visit.visit_last_action_time) = ?
                         OR (1 = 0))
-                      AND ((1 = 0)
+                      AND ((1 = 1)
+                        OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )
                         OR   log_link_visit_action.idaction_url = ? )
                 GROUP BY log_visit.idvisit
                 ORDER BY NULL
                     ) AS log_inner",
-            "bind" => array(12, $actionIdFoundInDb));
+            "bind" => array(
+                12,
+                "does-not-exist",
+                $actionIdFoundInDb
+            ));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
