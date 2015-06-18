@@ -89,13 +89,21 @@ class Environment
 
         $this->container = $this->createContainer();
 
-        StaticContainer::set($this->container);
+        StaticContainer::push($this->container);
 
         $this->validateEnvironment();
 
         $this->invokeEnvironmentBootstrappedHook();
 
         Piwik::postEvent('Environment.bootstrapped'); // this event should be removed eventually
+    }
+
+    /**
+     * Destroys an environment. MUST be called when embedding environments.
+     */
+    public function destroy()
+    {
+        StaticContainer::pop();
     }
 
     /**
