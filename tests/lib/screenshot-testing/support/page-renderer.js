@@ -40,7 +40,7 @@ PageRenderer.prototype._recreateWebPage = function () {
     this.downloadedContents = null;
 
     this.webpage = require('webpage').create();
-    this.webpage.viewportSize = {width:1350, height:768};
+    this._setCorrectViewportSize();
     if (this.userAgent) {
         this.webpage.settings.userAgent = this.userAgent;
     }
@@ -390,12 +390,10 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
                 self.webpage.render(outputPath);
             }
 
-            self._viewportSizeOverride = null;
             self.webpage.clipRect = previousClipRect;
 
             callback();
         } catch (e) {
-            self._viewportSizeOverride = null;
             self.webpage.clipRect = previousClipRect;
 
             callback(e);
