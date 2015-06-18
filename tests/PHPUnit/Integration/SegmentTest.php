@@ -10,9 +10,12 @@ namespace Piwik\Tests\Integration;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Db;
 use Piwik\Segment;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\TableLogAction;
 
 /**
  * @group Core
@@ -500,10 +503,162 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
+    public function test_getSelectQuery_whenPageUrlExists_asStatementAND()
+    {
+        $pageUrlFoundInDb = 'example.com/page.html?hello=world';
+
+        $actionIdFoundInDb = $this->insertPageUrlAsAction($pageUrlFoundInDb);
+
+        $select = 'log_visit.*';
+        $from = 'log_visit';
+        $where = false;
+        $bind = array();
+
+        $segment = 'visitServerHour==3;pageUrl==' . urlencode($pageUrlFoundInDb);
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+
+        $expected = array(
+            "sql"  => "
+                SELECT
+                    log_inner.*
+                FROM
+                    (
+                SELECT
+                    log_visit.*
+                FROM
+                    " . Common::prefixTable('log_visit') . " AS log_visit
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                WHERE HOUR(log_visit.visit_last_action_time) = ?
+                      AND log_link_visit_action.idaction_url = ?
+                GROUP BY log_visit.idvisit
+                ORDER BY NULL
+                    ) AS log_inner",
+            "bind" => array(3, $actionIdFoundInDb));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function test_getSelectQuery_whenPageUrlDoesNotExist_asStatementAND()
+    {
+        $select = 'log_visit.*';
+        $from = 'log_visit';
+        $where = false;
+        $bind = array();
+
+        $segment = 'visitServerHour==12;pageUrl==xyz';
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+
+        $expected = array(
+            "sql"  => "
+                SELECT
+                    log_visit.*
+                FROM
+                    " . Common::prefixTable('log_visit') . " AS log_visit
+                WHERE HOUR(log_visit.visit_last_action_time) = ?
+                      AND (1 = 0) ",
+            "bind" => array(12));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function test_getSelectQuery_whenPageUrlDoesNotExist_asStatementOR()
+    {
+        $select = 'log_visit.*';
+        $from = 'log_visit';
+        $where = false;
+        $bind = array();
+
+        $segment = 'visitServerHour==12,pageUrl==xyz';
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+
+        $expected = array(
+            "sql"  => "
+                SELECT
+                    log_visit.*
+                FROM
+                    " . Common::prefixTable('log_visit') . " AS log_visit
+                WHERE (HOUR(log_visit.visit_last_action_time) = ?
+                      OR (1 = 0) )",
+            "bind" => array(12));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND()
+    {
+        $pageUrlFoundInDb = 'example.com/found-in-db';
+        $actionIdFoundInDb = $this->insertPageUrlAsAction($pageUrlFoundInDb);
+
+        $select = 'log_visit.*';
+        $from = 'log_visit';
+        $where = false;
+        $bind = array();
+
+        /**
+         * pageUrl==xyz                              -- Matches none
+         * pageUrl!=abcdefg                          -- Matches all
+         * pageUrl=@does-not-exist                   -- Matches none
+         * pageUrl=='.urlencode($pageUrlFoundInDb)   -- Matches one
+         */
+        $segment = 'visitServerHour==12,pageUrl==xyz;pageUrl!=abcdefg,pageUrl=@does-not-exist,pageUrl=='.urlencode($pageUrlFoundInDb);
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+
+        $expected = array(
+            "sql"  => "
+                SELECT
+                    log_inner.*
+                FROM
+                    (
+                SELECT
+                    log_visit.*
+                FROM
+                    " . Common::prefixTable('log_visit') . " AS log_visit
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                WHERE (HOUR(log_visit.visit_last_action_time) = ?
+                        OR (1 = 0))
+                      AND ((1 = 1)
+                        OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )
+                        OR   log_link_visit_action.idaction_url = ? )
+                GROUP BY log_visit.idvisit
+                ORDER BY NULL
+                    ) AS log_inner",
+            "bind" => array(
+                12,
+                "does-not-exist",
+                $actionIdFoundInDb
+            ));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
     public function provideContainerConfig()
     {
         return array(
             'Piwik\Access' => new FakeAccess()
         );
+    }
+
+    /**
+     * @param $pageUrlFoundInDb
+     * @return string
+     * @throws Exception
+     */
+    private function insertPageUrlAsAction($pageUrlFoundInDb)
+    {
+        TableLogAction::loadIdsAction(array(
+            'idaction_url' => array($pageUrlFoundInDb, Action::TYPE_PAGE_URL)
+        ));
+
+        $actionIdFoundInDb = Db::fetchOne("SELECT idaction from " . Common::prefixTable('log_action') . " WHERE name = ?", $pageUrlFoundInDb);
+        $this->assertNotEmpty($actionIdFoundInDb, "Action $pageUrlFoundInDb was not found in the " . Common::prefixTable('log_action') . " table.");
+        return $actionIdFoundInDb;
     }
 }

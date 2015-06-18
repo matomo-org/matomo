@@ -40,6 +40,9 @@ class SegmentExpression
     const INDEX_BOOL_OPERATOR = 0;
     const INDEX_OPERAND = 1;
 
+    const SQL_WHERE_DO_NOT_MATCH_ANY_ROW = "(1 = 0)";
+    const SQL_WHERE_MATCHES_ALL_ROWS = "(1 = 1)";
+
     public function __construct($string)
     {
         $this->string = $string;
@@ -138,6 +141,7 @@ class SegmentExpression
             $operator = $leaf[self::INDEX_BOOL_OPERATOR];
             $operandDefinition = $leaf[self::INDEX_OPERAND];
 
+
             $operand = $this->getSqlMatchFromDefinition($operandDefinition, $availableTables);
 
             if ($operand[1] !== null) {
@@ -145,6 +149,7 @@ class SegmentExpression
             }
 
             $operand = $operand[0];
+
             $sqlSubExpressions[] = array(
                 self::INDEX_BOOL_OPERATOR => $operator,
                 self::INDEX_OPERAND       => $operand,
@@ -170,6 +175,26 @@ class SegmentExpression
         $field     = $def[0];
         $matchType = $def[1];
         $value     = $def[2];
+
+        // Segment::getCleanedExpression() may return array(null, $matchType, null)
+        $operandWillNotMatchAnyRow = is_null($field) && is_null($value);
+        if($operandWillNotMatchAnyRow) {
+            if($matchType == self::MATCH_EQUAL) {
+                // eg. pageUrl==DoesNotExist
+                // Equal to NULL means it will match none
+                $sqlExpression = self::SQL_WHERE_DO_NOT_MATCH_ANY_ROW;
+            } elseif($matchType == self::MATCH_NOT_EQUAL) {
+                // eg. pageUrl!=DoesNotExist
+                // Not equal to NULL means it matches all rows
+                $sqlExpression = self::SQL_WHERE_MATCHES_ALL_ROWS;
+            } else {
+                // it is not expected to reach this code path
+                throw new Exception("Unexpected match type $matchType for your segment. " .
+                    "Please report this issue to the Piwik team with the segment you are using.");
+            }
+
+            return array($sqlExpression, $value = null);
+        }
 
         $alsoMatchNULLValues = false;
         switch ($matchType) {
@@ -381,3 +406,4 @@ class SegmentExpression
         );
     }
 }
+

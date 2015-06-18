@@ -179,12 +179,18 @@ class Segment
                 if (isset($segment['sqlFilter'])) {
                     $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
 
+                    if(is_null($value)) { // null is returned in TableLogAction::getIdActionFromSegment()
+                        return array(null, $matchType, null);
+                    }
+
                     // sqlFilter-callbacks might return arrays for more complex cases
                     // e.g. see TableLogAction::getIdActionFromSegment()
                     if (is_array($value) && isset($value['SQL'])) {
                         // Special case: returned value is a sub sql expression!
                         $matchType = SegmentExpression::MATCH_ACTIONS_CONTAINS;
                     }
+
+
                 }
             }
             break;

@@ -177,10 +177,9 @@ class TableLogAction
             || $matchType == SegmentExpression::MATCH_NOT_EQUAL
         ) {
             $idAction = self::getModel()->getIdActionMatchingNameAndType($valueToMatch, $actionType);
-            // if the action is not found, we hack -100 to ensure it tries to match against an integer
-            // otherwise binding idaction_name to "false" returns some rows for some reasons (in case &segment=pageTitle==Větrnásssssss)
+            // Action is not found (eg. &segment=pageTitle==Větrnásssssss)
             if (empty($idAction)) {
-                $idAction = -100;
+                $idAction = null;
             }
             return $idAction;
         }
