@@ -27,10 +27,9 @@ class PhpExtensionsCheck implements Diagnostic
         $longErrorMessage = '';
 
         $requiredExtensions = $this->getRequiredExtensions();
-        $loadedExtensions = @get_loaded_extensions();
 
         foreach ($requiredExtensions as $extension) {
-            if (! in_array($extension, $loadedExtensions)) {
+            if (! extension_loaded($extension)) {
                 $status = DiagnosticResult::STATUS_ERROR;
                 $comment = $extension . ': ' . $this->translator->translate('Installation_RestartWebServer');
                 $longErrorMessage .= '<p>' . $this->getHelpMessage($extension) . '</p>';
@@ -58,12 +57,8 @@ class PhpExtensionsCheck implements Diagnostic
             'iconv',
             'json',
             'mbstring',
+            'Reflection',
         );
-
-        if (! defined('HHVM_VERSION')) {
-            // HHVM provides the required subset of Reflection but lists Reflections as missing
-            $requiredExtensions[] = 'Reflection';
-        }
 
         return $requiredExtensions;
     }

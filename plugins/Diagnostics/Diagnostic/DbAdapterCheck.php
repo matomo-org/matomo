@@ -34,7 +34,7 @@ class DbAdapterCheck implements Diagnostic
     {
         $label = 'PDO ' . $this->translator->translate('Installation_Extension');
 
-        if (in_array('PDO', $this->getPhpExtensionsLoaded())) {
+        if (extension_loaded('PDO')) {
             $status = DiagnosticResult::STATUS_OK;
         } else {
             $status = DiagnosticResult::STATUS_WARNING;
@@ -65,11 +65,6 @@ class DbAdapterCheck implements Diagnostic
         }
 
         return $results;
-    }
-
-    private function getPhpExtensionsLoaded()
-    {
-        return @get_loaded_extensions();
     }
 
     private function getLongErrorMessage()
