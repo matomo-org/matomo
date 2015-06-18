@@ -13,10 +13,10 @@
         <div id="anonymizeIpSettings" class="form-group">
             <label>
                 {{ 'PrivacyManager_UseAnonymizeIp'|translate }}<br/>
-                <span class="form-description">{{ 'PrivacyManager_AnonymizeIpDescription'|translate }}</span>
             </label>
             <div class="form-help">
                 {{ 'PrivacyManager_AnonymizeIpInlineHelp'|translate }}
+                {{ 'PrivacyManager_AnonymizeIpDescription'|translate }}
             </div>
             <label class="radio">
                 <input id="anonymizeIPEnable-1" type="radio" name="anonymizeIPEnable" value="1" {% if anonymizeIP.enabled == '1' %}checked {% endif %}/>
