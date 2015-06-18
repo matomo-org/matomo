@@ -9,11 +9,12 @@
 namespace Piwik\Tests\Framework\TestCase;
 
 use Piwik\Application\Environment;
-use Piwik\EventDispatcher;
 use Piwik\Tests\Framework\Mock\File;
 
 /**
  * Base class for Unit tests.
+ *
+ * @deprecated Unit tests don't need no environment.
  *
  * @since 2.10.0
  */

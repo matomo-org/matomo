@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\Plugin\Dimension;
+namespace Piwik\Tests\Integration\Plugin\Dimension;
 
 use Piwik\Plugin\Dimension\DimensionMetadataProvider;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;

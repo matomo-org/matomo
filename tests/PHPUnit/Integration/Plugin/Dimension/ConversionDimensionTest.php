@@ -6,13 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Test;
 // there is a test that requires the class to be defined in a plugin
+namespace Piwik\Plugins\Test;
 
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Plugin\Manager;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class FakeConversionDimension extends ConversionDimension
 {
@@ -46,7 +46,7 @@ class FakeConversionDimension extends ConversionDimension
 /**
  * @group Core
  */
-class Plugin_ConversionDimensionTest extends UnitTestCase
+class ConversionDimensionTest extends IntegrationTestCase
 {
     /**
      * @var FakeConversionDimension

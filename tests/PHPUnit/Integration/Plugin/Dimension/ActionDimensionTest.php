@@ -6,13 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Test;
 // there is a test that requires the class to be defined in a plugin
+namespace Piwik\Plugins\Test;
 
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Plugin\Manager;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class FakeActionDimension extends ActionDimension
 {
@@ -46,7 +46,7 @@ class FakeActionDimension extends ActionDimension
 /**
  * @group Core
  */
-class Plugin_ActionDimensionTest extends UnitTestCase
+class ActionDimensionTest extends IntegrationTestCase
 {
     /**
      * @var FakeActionDimension
