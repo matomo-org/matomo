@@ -138,8 +138,10 @@ class Environment
     protected function getGlobalSettingsCached()
     {
         if ($this->globalSettingsProvider === null) {
-            $globalSettingsProvider = $this->getGlobalSettingsProviderOverride();
-            $this->globalSettingsProvider = $globalSettingsProvider ?: $this->getGlobalSettings();
+            $original = $this->getGlobalSettings();
+            $globalSettingsProvider = $this->getGlobalSettingsProviderOverride($original);
+
+            $this->globalSettingsProvider = $globalSettingsProvider ?: $original;
         }
         return $this->globalSettingsProvider;
     }
@@ -192,10 +194,10 @@ class Environment
         self::$globalEnvironmentManipulator = $manipulator;
     }
 
-    private function getGlobalSettingsProviderOverride()
+    private function getGlobalSettingsProviderOverride(GlobalSettingsProvider $original)
     {
         if (self::$globalEnvironmentManipulator) {
-            return self::$globalEnvironmentManipulator->makeGlobalSettingsProvider();
+            return self::$globalEnvironmentManipulator->makeGlobalSettingsProvider($original);
         } else {
             return null;
         }

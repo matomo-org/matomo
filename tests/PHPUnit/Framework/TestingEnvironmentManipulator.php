@@ -55,9 +55,16 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         $this->globalObservers = $globalObservers;
     }
 
-    public function makeGlobalSettingsProvider()
+    public function makeGlobalSettingsProvider(GlobalSettingsProvider $original)
     {
-        return new GlobalSettingsProvider($this->vars->configFileGlobal, $this->vars->configFileLocal, $this->vars->configFileCommon);
+        if ($this->vars->configFileGlobal
+            || $this->vars->configFileLocal
+            || $this->vars->configFileCommon
+        ) {
+            return new GlobalSettingsProvider($this->vars->configFileGlobal, $this->vars->configFileLocal, $this->vars->configFileCommon);
+        } else {
+            return $original;
+        }
     }
 
     public function makePluginList(GlobalSettingsProvider $globalSettingsProvider)
@@ -128,21 +135,16 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     {
         $testVarDefinitionSource = new TestingEnvironmentVariablesDefinitionSource($this->vars);
 
-        // Apply DI config from the fixture
         $diConfig = array();
-        if ($this->vars->fixtureClass) {
-            $fixtureClass = $this->vars->fixtureClass;
-            if (class_exists($fixtureClass)) {
-                /** @var Fixture $fixture */
-                $fixture = new $fixtureClass;
-                $diConfig = $fixture->provideContainerConfig();
-            }
-        }
-
         if ($this->vars->testCaseClass) {
             $testCaseClass = $this->vars->testCaseClass;
             if (class_exists($testCaseClass)) {
                 $testCase = new $testCaseClass();
+
+                // Apply DI config from the fixture
+                if (isset($testCaseClass::$fixture)) {
+                    $diConfig = array_merge($diConfig, $testCaseClass::$fixture->provideContainerConfig());
+                }
 
                 if (method_exists($testCase, 'provideContainerConfigBeforeClass')) {
                     $diConfig = array_merge($diConfig, $testCaseClass::provideContainerConfigBeforeClass());
