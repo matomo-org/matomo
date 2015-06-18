@@ -1,5 +1,5 @@
 {# testing, remove test_ from var names #}
-{% set test_latest_version_available="3.0" %}
+{% set test_latest_version_available="4.0.0" %}
 {% set test_piwikUrl='http://demo.piwik.org/' %}
 {% set isPiwikDemo %}{{ piwikUrl == 'http://demo.piwik.org/' or piwikUrl == 'https://demo.piwik.org/'}}{% endset %}
 
@@ -39,9 +39,9 @@
         {% if isSuperUser and adminMenu is defined and adminMenu %}
             <br />
             {{ updateCheck|raw }}
-            <br />
-            {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
         {% endif %}
+        <br />
+        {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
     </span>
 </span>
 {% endif %}
