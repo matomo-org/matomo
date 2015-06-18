@@ -31,7 +31,7 @@ class TestConfig extends Config
 
     public function reload($pathLocal = null, $pathGlobal = null, $pathCommon = null)
     {
-        parent::reload($pathGlobal, $pathLocal, $pathCommon);
+        parent::reload($pathLocal, $pathGlobal, $pathCommon);
 
         $this->setTestEnvironment();
     }
