@@ -40,6 +40,8 @@ class SegmentExpression
     const INDEX_BOOL_OPERATOR = 0;
     const INDEX_OPERAND = 1;
 
+    const SQL_WHERE_DO_NOT_MATCH_ANY_ROW = "(1 = 0)";
+
     public function __construct($string)
     {
         $this->string = $string;
@@ -138,13 +140,21 @@ class SegmentExpression
             $operator = $leaf[self::INDEX_BOOL_OPERATOR];
             $operandDefinition = $leaf[self::INDEX_OPERAND];
 
-            $operand = $this->getSqlMatchFromDefinition($operandDefinition, $availableTables);
 
-            if ($operand[1] !== null) {
-                $this->valuesBind[] = $operand[1];
+            // in case we know already the segment won't match any row...
+            if($operandDefinition === array() ) { // see getCleanedExpression()
+                $operand = self::SQL_WHERE_DO_NOT_MATCH_ANY_ROW;
+
+            } else {
+                $operand = $this->getSqlMatchFromDefinition($operandDefinition, $availableTables);
+
+                if ($operand[1] !== null) {
+                    $this->valuesBind[] = $operand[1];
+                }
+
+                $operand = $operand[0];
             }
 
-            $operand = $operand[0];
             $sqlSubExpressions[] = array(
                 self::INDEX_BOOL_OPERATOR => $operator,
                 self::INDEX_OPERAND       => $operand,
@@ -381,3 +391,4 @@ class SegmentExpression
         );
     }
 }
+

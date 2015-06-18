@@ -124,6 +124,8 @@ class Segment
      * or callable: `string $valueToMatch`, `string $segment` (see {@link setSegment()}), `string $matchType`
      * (eg SegmentExpression::MATCH_EQUAL or any other match constant of this class) and `$segmentName`.
      *
+     * If the closure returns NULL, then Piwik assumes the segment sub-string will not match any visitor.
+     *
      * @param string|\Closure $sqlFilter
      * @api
      */
