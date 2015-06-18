@@ -125,8 +125,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      */
     public static function isEnabled()
     {
-        $extensions = @get_loaded_extensions();
-        return in_array('PDO', $extensions) && in_array('pdo_mysql', $extensions) && in_array('mysql', PDO::getAvailableDrivers());
+        return extension_loaded('PDO') && extension_loaded('pdo_mysql') && in_array('mysql', PDO::getAvailableDrivers());
     }
 
     /**

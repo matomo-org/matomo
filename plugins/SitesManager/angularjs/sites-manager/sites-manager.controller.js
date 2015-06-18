@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('SitesManagerController', SitesManagerController);
 
-    SitesManagerController.$inject = ['$scope', '$filter', 'coreAPI', 'sitesManagerAPI', 'sitesManagerAdminSitesModel', 'piwik', 'sitesManagerApiHelper'];
+    SitesManagerController.$inject = ['$scope', '$filter', 'coreAPI', 'sitesManagerAPI', 'piwikApi', 'sitesManagerAdminSitesModel', 'piwik', 'sitesManagerApiHelper', 'sitesManagerTypeModel'];
 
-    function SitesManagerController($scope, $filter, coreAPI, sitesManagerAPI, adminSites, piwik, sitesManagerApiHelper) {
+    function SitesManagerController($scope, $filter, coreAPI, sitesManagerAPI, piwikApi, adminSites, piwik, sitesManagerApiHelper, sitesManagerTypeModel) {
 
         var translate = $filter('translate');
 
@@ -38,10 +38,28 @@
 
             $scope.cancelEditSite = cancelEditSite;
             $scope.addSite = addSite;
+            $scope.addNewEntity = addNewEntity;
             $scope.saveGlobalSettings = saveGlobalSettings;
 
             $scope.informSiteIsBeingEdited = informSiteIsBeingEdited;
             $scope.lookupCurrentEditSite = lookupCurrentEditSite;
+
+            $scope.closeAddMeasurableDialog = function () {
+                // I couldn't figure out another way to close that jquery dialog
+                var element  = angular.element('[piwik-dialog="$parent.showAddSiteDialog"]');
+                if (element.parents('ui-dialog') && element.dialog('isOpen')) {
+                    element.dialog('close');
+                }
+            }
+        };
+
+        var initAvailableTypes = function () {
+            return sitesManagerTypeModel.fetchAvailableTypes().then(function (types) {
+                $scope.availableTypes = types;
+                $scope.typeForNewEntity = 'website';
+
+                return types;
+            });
         };
 
         var informSiteIsBeingEdited = function() {
@@ -61,6 +79,8 @@
 
             showLoading();
 
+            var availableTypesPromise = initAvailableTypes();
+
             sitesManagerAPI.getGlobalSettings(function(globalSettings) {
 
                 $scope.globalSettings = globalSettings;
@@ -76,7 +96,9 @@
                 initKeepURLFragmentsList();
 
                 adminSites.fetchLimitedSitesWithAdminAccess(function () {
-                    triggerAddSiteIfRequested();
+                    availableTypesPromise.then(function () {
+                        triggerAddSiteIfRequested();
+                    });
                 });
                 sitesManagerAPI.getSitesIdWithAdminAccess(function (siteIds) {
                     if (siteIds && siteIds.length) {
@@ -90,7 +112,7 @@
             var search = String(window.location.search);
 
             if(piwik.helper.getArrayFromQueryString(search).showaddsite == 1)
-                addSite();
+                addNewEntity();
         };
 
         var initEcommerceSelectOptions = function() {
@@ -181,8 +203,23 @@
             };
         };
 
-        var addSite = function() {
-            $scope.adminSites.sites.push({});
+        var addNewEntity = function () {
+            sitesManagerTypeModel.hasMultipleTypes().then(function (hasMultipleTypes) {
+                if (hasMultipleTypes) {
+                    $scope.showAddSiteDialog = true;
+                } else if ($scope.availableTypes.length === 1) {
+                    var type = $scope.availableTypes[0].id;
+                    addSite(type);
+                }
+            });
+        };
+
+        var addSite = function(type) {
+            if (!type) {
+                type = 'website'; // todo shall we really hard code this or trigger an exception or so?
+            }
+
+            $scope.adminSites.sites.unshift({type: type});
         };
 
         var saveGlobalSettings = function() {

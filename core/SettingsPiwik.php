@@ -99,7 +99,7 @@ class SettingsPiwik
      * cron archiving.
      *
      * @param int $idSite The ID of the site to get stored segments for.
-     * @return string The list of stored segments that apply to the requested site.
+     * @return string[] The list of stored segments that apply to the requested site.
      */
     public static function getKnownSegmentsToArchiveForSite($idSite)
     {
