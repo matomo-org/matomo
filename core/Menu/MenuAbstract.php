@@ -55,9 +55,9 @@ abstract class MenuAbstract extends Singleton
      */
     protected function getAllMenus()
     {
-        if (!empty(self::$menus)) {
-            return self::$menus;
-        }
+//        if (!empty(self::$menus)) {
+//            return self::$menus;
+//        }
 
         self::$menus = PluginManager::getInstance()->findComponents('Menu', 'Piwik\\Plugin\\Menu');
 
