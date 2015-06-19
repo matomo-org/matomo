@@ -7,7 +7,17 @@
             <div style="display:none;" class="idvisit">{{ visitor.idVisit }}</div>
             <div title="{{ visitor.actionDetails|length }} {{ 'General_Actions'|translate }}" class="datetime">
                 <span style="display:none;" class="serverTimestamp">{{ visitor.serverTimestamp|raw }}</span>
-                {{ visitor.serverDatePretty }} - {{ visitor.serverTimePretty }} {% if visitor.visitDuration > 0 %}<em>({{ visitor.visitDurationPretty|raw }})</em>{% endif %}
+                {% set year = visitor.serverTimestamp|date('Y') %}
+                {{ visitor.serverDatePretty|replace({(year): ' '}) }} - {{ visitor.serverTimePretty }} {% if visitor.visitDuration > 0 %}<em>({{ visitor.visitDurationPretty|raw }})</em>{% endif %}
+                {% if visitor.visitorId|default(false) is not empty %}
+                  &nbsp;  <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }} {% if visitor.userId is not empty %}{{ visitor.userId|raw }}{% endif %}" data-visitor-id="{{ visitor.visitorId }}">
+                        {% if visitor.userId is not empty %}<br/>{% endif %}
+                        <img src="plugins/Live/images/visitorProfileLaunch.png"/>
+                        {{ visitor.userId|default('')|raw }}
+                    </a>
+                {% endif %}
+                <br />
+
                 {% if visitor.countryFlag is defined %}&nbsp;<img src="{{ visitor.countryFlag }}" title="{{ visitor.location }}, {{ 'Provider_ColumnProvider'|translate }} {% if visitor.providerName is defined %}{{ visitor.providerName }}{% endif %}"/>{% endif %}
                 {% if visitor.browserIcon is defined %}&nbsp;<img src="{{ visitor.browserIcon }}" title="{{ visitor.browser }}{% if visitor.plugins is defined %}, {{ 'General_Plugins'|translate }}: {{ visitor.plugins }}{% endif %}"/>{% endif %}
                 {% if visitor.operatingSystemIcon is defined %}&nbsp;<img src="{{ visitor.operatingSystemIcon }}" title="{{ visitor.operatingSystem }}{% if visitor.resolution is defined %}, {{ visitor.resolution }}{% endif %}"/>{% endif %}
@@ -18,27 +28,20 @@
                     <span class='hash'>#</span>
                     {{ visitor.goalConversions }}
                     {% if visitor.visitEcommerceStatusIcon %}
-                        &nbsp;-
+
                         <img src="{{ visitor.visitEcommerceStatusIcon }}" title="{{ visitor.visitEcommerceStatus }}"/>
                     {% endif %}
                 </span>
                 {% endif %}
                 {% if visitor.visitorTypeIcon %}
-                    &nbsp;- <img src="{{ visitor.visitorTypeIcon }}" title="{{ 'General_ReturningVisitor'|translate }}"/>
+                    <img src="{{ visitor.visitorTypeIcon }}" title="{{ 'General_ReturningVisitor'|translate }}"/>
                 {% endif %}
-                {% if visitor.visitorId|default(false) is not empty %}
-                <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }} {% if visitor.userId is not empty %}{{ visitor.userId|raw }}{% endif %}" data-visitor-id="{{ visitor.visitorId }}">
-                    {% if visitor.userId is not empty %}<br/>{% endif %}
-                    <img src="plugins/Live/images/visitorProfileLaunch.png"/>
-                    {{ visitor.userId|default('')|raw }}
-                </a>
-                {% endif %}
-                {% if visitor.visitIp %}- <span title="{% if visitor.visitorId is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitor.visitorId }}{% endif %}">
+
+                {% if visitor.visitIp %} <span title="{% if visitor.visitorId is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitor.visitorId }}{% endif %}">
                     IP: {{ visitor.visitIp }}</span>
                 {% endif %}
-            </div>
             <!--<div class="settings"></div>-->
-            <div class="referrer">
+            <span class="referrer">
                 {% if visitor.referrerType is defined and visitor.referrerType != 'direct' %}
                     {{ 'General_FromReferrer'|translate }}
                     {% if visitor.referrerUrl is not empty %}
@@ -63,9 +66,9 @@
                 {% elseif visitor.referrerType is defined %}
                     {{ 'Referrers_DirectEntry'|translate }}
                 {% endif %}
-            </div>
+            </span></div>
             <div id="{{ visitor.idVisit }}_actions" class="settings">
-                <span class="pagesTitle" title="{{ visitor.actionDetails|length }} {{ 'General_Actions'|translate }}">{{ 'General_Pages'|translate }}:</span>&nbsp;
+                <span class="pagesTitle" title="{{ visitor.actionDetails|length }} {{ 'General_Actions'|translate }}">{{ 'General_Actions'|translate }}:</span>&nbsp;
                 {% set col = 0 %}
                 {% for action in visitor.actionDetails %}
                     {% if loop.index <= maxPagesDisplayedByVisitor %}

@@ -580,13 +580,21 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             var imageSortHeight = 16;
 
             var sortOrder = self.param.filter_sort_order || 'desc';
-            var ImageSortClass = sortOrder.charAt(0).toUpperCase() + sortOrder.substr(1);
 
             // we change the style of the column currently used as sort column
             // adding an image and the class columnSorted to the TD
-            $('th', domElem).filter(function () { return $(this).attr('id') == self.param.filter_sort_column; })
-                .addClass('columnSorted')
-                .prepend('<div class="sortIconContainer sortIconContainer' + ImageSortClass + ' ' + imageSortClassType + '"><span class="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" /></div>');
+            var head = $('th', domElem).filter(function () {
+                return $(this).attr('id') == self.param.filter_sort_column;
+            }).addClass('columnSorted');
+
+            var sortIconHtml = '<span class="sortIcon ' + sortOrder + ' ' + imageSortClassType +'" width="' + imageSortWidth + '" height="' + imageSortHeight + '" />';
+
+            var div = head.find('.thDIV');
+            if (head.hasClass('first') || head.attr('id') == 'label') {
+                div.append(sortIconHtml);
+            } else {
+                div.prepend(sortIconHtml);
+            }
         }
     },
 
@@ -1408,10 +1416,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         // Add some styles on the cells even/odd
         // label (first column of a data row) or not
         $("th:first-child", domElem).addClass('label');
-        $("td:first-child:odd", domElem).addClass('label labeleven');
-        $("td:first-child:even", domElem).addClass('label labelodd');
-        $("tr:odd td", domElem).slice(1).addClass('column columnodd');
-        $("tr:even td", domElem).slice(1).addClass('column columneven');
+        $("td:first-child", domElem).addClass('label');
+        $("tr td", domElem).slice(1).addClass('column');
     },
 
     handleExpandFooter: function (domElem) {

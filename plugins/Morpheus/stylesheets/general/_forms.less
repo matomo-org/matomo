@@ -52,10 +52,10 @@ select {
 
     label {
         display: block;
+        margin: 8px 0 6px;
+        font-size: 14px;
+        line-height: 20px;
         width: 40%;
-        font-size: 11px;
-        text-transform: uppercase;
-        margin: 8px 0;
     }
     input, select, textarea {
         display: block;
@@ -64,12 +64,16 @@ select {
     .input-group {
         width: 40%;
     }
+
+    .radio {
+      font-size: 12px;
+    }
+
     .radio, .checkbox {
         width: 40%;
         text-transform: none;
-        font-size: 12px;
         line-height: 20px;
-        margin: 6px 0 2px;
+        margin: 7px 0 2px;
         input[type="checkbox"], input[type="radio"] {
             display: inline;
             width: auto;
@@ -86,6 +90,7 @@ select {
             display: inline;
         }
     }
+
     .form-help {
         .alert;
         .alert-info;
@@ -95,10 +100,23 @@ select {
         // Smaller padding to match input's heights
         padding-top: 11px;
         padding-bottom: 10px;
+        border: 0px;
     }
+
+    label .form-description {
+      display: inline;
+      &:before {
+        content: '(';
+      }
+      &:after {
+        content: ')';
+      }
+    }
+
     .form-description {
-        width: 40%;
-        display: block;
+      width: 40%;
+      display: block;
+      margin-top: 6px;
     }
 
     .sites_autocomplete {

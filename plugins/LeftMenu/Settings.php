@@ -36,8 +36,7 @@ class Settings extends \Piwik\Plugin\Settings
     {
         $this->globalEnabled = new SystemSetting('globalEnabled', $this->t('GlobalSettingTitle'));
         $this->globalEnabled->type = static::TYPE_BOOL;
-        $this->globalEnabled->description  = $this->t('GlobalSettingDescription');
-        $this->globalEnabled->inlineHelp   = $this->t('GlobalSettingInlineHelp');
+        $this->globalEnabled->inlineHelp   = $this->t('GlobalSettingDescription') . ' ' . $this->t('GlobalSettingInlineHelp');
         $this->globalEnabled->defaultValue = false;
         $this->globalEnabled->readableByCurrentUser = true;
 

@@ -20,15 +20,13 @@
             <label class="radio">
                 <input type="radio" value="1" name="enableBrowserTriggerArchiving" {% if enableBrowserTriggerArchiving==1 %} checked="checked"{% endif %} />
                 {{ 'General_Yes'|translate }}
+                <span class="form-description">{{ 'General_Default'|translate }}</span>
             </label>
-            <span class="form-description">{{ 'General_Default'|translate }}</span>
             <label class="radio">
                 <input type="radio" value="0" name="enableBrowserTriggerArchiving" {% if enableBrowserTriggerArchiving==0 %} checked="checked"{% endif %} />
                 {{ 'General_No'|translate }}
+                <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}</span>
             </label>
-            <span class="form-description">
-                {{ 'General_ArchivingTriggerDescription'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}
-            </span>
         </div>
     {% else %}
         <div class="form-group">
@@ -66,6 +64,9 @@
             <input value='{{ todayArchiveTimeToLive  }}' id='todayArchiveTimeToLive' {% if not isGeneralSettingsAdminEnabled %}disabled="disabled"{% endif %} />
             <span class="input-group-addon">{{ 'General_NSeconds'|translate('') }}</span>
         </div>
+        <span class="form-description">
+            {{ 'General_RearchiveTimeIntervalOnlyForTodayReports'|translate }}
+        </span>
     </div>
 
     {% if isGeneralSettingsAdminEnabled %}
@@ -79,15 +80,14 @@
                 {{ 'CoreAdminHome_StableReleases'|translate("<a href='?module=Proxy&action=redirect&url=http%3A%2F%2Fdeveloper.piwik.org%2Fguides%2Fcore-team-workflow%23influencing-piwik-development' target='_blank'>","</a>")|raw }}
             </div>
             <label class="radio">
-                <input type="radio" value="0" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==0 %} checked="checked"{% endif %} />
-                {{ 'CoreAdminHome_LatestStableRelease'|translate }}
-            </label>
-            <span class="form-description">{{ 'General_Recommended'|translate }}</span>
-            <label class="radio">
                 <input type="radio" value="1" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==1 %} checked="checked"{% endif %} />
-                {{ 'CoreAdminHome_LatestBetaRelease'|translate }}
+                {{ 'General_Yes'|translate }}
             </label>
-            <span class="form-description">{{ 'CoreAdminHome_ForBetaTestersOnly'|translate }}</span>
+            <label class="radio">
+                <input type="radio" value="0" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==0 %} checked="checked"{% endif %} />
+                {{ 'General_No'|translate }}
+                <span class="form-description">{{ 'General_Recommended'|translate }}</span>
+            </label>
         </div>
 
         {% if canUpdateCommunication %}
@@ -105,8 +105,8 @@
                     <input type="radio" name="enablePluginUpdateCommunication" value="0"
                             {% if enableSendPluginUpdateCommunication==0 %} checked="checked"{% endif %}/>
                     {{ 'General_No'|translate }}
+                    <span class="form-description">{{ 'General_Default'|translate }}</span>
                 </label>
-                <span class="form-description">{{ 'General_Default'|translate }}</span>
             </div>
         {% endif %}
     {% endif %}

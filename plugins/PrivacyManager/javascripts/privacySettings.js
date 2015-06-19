@@ -18,6 +18,8 @@ $(document).ready(function () {
     function toggleOtherDeleteSections() {
         var showSection = isEitherDeleteSectionEnabled();
         toggleBlock('deleteDataEstimateSect', showSection);
+        toggleBlock('scheduleSettingsHeadline', showSection);
+        toggleBlock('databaseSizeHeadline', showSection);
         toggleBlock('deleteSchedulingSettings', showSection);
     }
 

@@ -55,7 +55,7 @@ a:hover {
 
 .entityTable {
     .border-radius(0px)!important;
-    border:1px solid @color-silver-l80!important;
+    border: 1px solid @color-silver-l90 !important;
     tr {
         &.first {
             th {
@@ -356,51 +356,80 @@ table.dataTable {
     thead {
         tr {
             th {
-                background: @theme-color-background-base;
+                background: @color-silver-l98;
                 text-transform: uppercase;
                 color: @theme-color-text;
-                .font-default(10px, 12px);
+                .font-default(11px, 12px);
                 padding-top: 12px;
                 padding-bottom: 12px;
-                border-bottom: 1px solid @color-silver-l85;
+                vertical-align: middle;
+
+                &:not(.first) {
+                  text-align: right;
+                  padding-left: 28px;
+                  padding-right: 12px;
+                }
+
+                &.first + th {
+                  // first column after label should have a bit less padding
+                  padding-left: 13px;
+                }
+              
+                #thDIV {
+                 display: inline; 
+                }
+
                 &.columnSorted {
-                    background:  @theme-color-background-base !important;
+                  .sortIcon {
+                    display: inline-block;
+                    position: absolute;
+                    margin: 0px;
+                    height: 12px;
+                    margin-top: -1px;
+                    margin-left: -14px;
+
+                    &.asc {
+                      margin-top: -7px;
+                    }
+
+                  }
+
+                  &.first {
                     .sortIcon {
-                        margin-top: -1px;
+                      margin-top: -1px;
+                      margin-left: 4px;
+                      &.asc {
+                        margin-top: -6px;
+                      }
                     }
+                  }
 
-                    .sortIconContainerAsc .sortIcon {
-                      margin-top: -6px;
-                    }
+                  .sortIcon.asc:after {
+                    content: " \25B2";
+                    border-bottom: 5px solid @theme-color-brand;
+                    border-top: 0px;
+                  }
 
-                    .sortIconContainer.sortSubtable {
-                      color: @theme-color-text-light;
-                    }
-
-                    .sortIconContainerAsc .sortIcon:after {
-                      content: " \25B2";
-                      border-bottom: 5px solid @theme-color-brand;
-                      border-top: 0px;
-                    }
-
-                    .sortIcon:after {
-                      content: " \25BC";
-                      font-size: 1px;
-                      color: @theme-color-brand;
-                      border-left: 4px solid rgba(0, 0, 0, 0);
-                      border-right: 4px solid rgba(0, 0, 0, 0);
-                      border-top: 5px solid @theme-color-brand;
-                    }
+                  .sortIcon:after {
+                    content: " \25BC";
+                    font-size: 1px;
+                    color: @theme-color-brand;
+                    border-left: 4px solid rgba(0, 0, 0, 0);
+                    border-right: 4px solid rgba(0, 0, 0, 0);
+                    border-top: 5px solid @theme-color-brand;
+                  }
 
                 }
             }
         }
     }
     tr {
+
         td {
-            border-color: @color-silver-l85 !important;
+            border-bottom: 1px solid @color-silver-l95 !important;
+            border-color: @color-silver-l95 !important;
             color: @theme-color-text;
-            background: @color-silver-l95;
+            background: @theme-color-background-base;
 
             &:not(.value) {
               .font-default(13px, 16px);
@@ -418,9 +447,19 @@ table.dataTable {
                 border-left: 0px;
             }
 
-            &.labelodd,
-            &.columnodd {
-                background-color: @color-silver-l95 !important;
+            &.label + td.column {
+              // first column after label should have a bit less padding
+              padding-left: 10px;
+            }
+
+            &.label .label {
+              text-align: left;
+            }
+
+            &.column:not(.label) {
+              padding-left: 28px;
+              padding-right: 12px;
+              text-align: right;
             }
 
             a {
@@ -443,15 +482,19 @@ table.dataTable {
               display: inline-block;
             }
         }
-        & td.columneven,
-        & td.labeleven,
-        &:hover > td.labeleven,
-        &:hover > td.columneven,
-        &.subDataTable:hover > td.labeleven,
-        &.subDataTable:hover > td.columneven,
-        td.cellSubDataTable {
-          background-color: @theme-color-background-base !important;
+
+      &:hover {
+        td:not(.cellSubDataTable) {
+          background-color: @color-silver-l95;
         }
+
+        .cellSubDataTable td {
+          background: @theme-color-background-base;
+        }
+        .cellSubDataTable tr:hover td {
+          background-color: @color-silver-l95;
+        }
+      }
     }
 
     &.entityTable tr {
@@ -476,7 +519,7 @@ div.dataTableVizHtmlTable:not(.dataTableActions), div.dataTableVizAllColumns {
     top: 0;
     width: 12px;
     height: 12px;
-    margin-left:-.5em;
+    margin-left:-1px;
     margin-top:4px;
     margin-right:8px;
     content: '';
@@ -491,12 +534,8 @@ div.dataTableVizHtmlTable:not(.dataTableActions), div.dataTableVizAllColumns {
   }
 }
 
-table.dataTable tr.subDataTable:hover > td, table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
-    background-color: #d9d9d9;
-}
-
 table.dataTable .dataTableRowActions {
-  margin-top: -8px;
+  margin-top: -7px;
 }
 
 .visitsLiveFooter {
@@ -848,16 +887,7 @@ table#users {
 }
 
 #multisites table.dataTable {
-    thead tr th {
-        background: @theme-color-background-base;
-    }
-    td {
-        background: white;
-    }
-    tr:hover td {
-        background: #f2f2f2;
-    }
     tfoot tr:hover td {
-        background: white;
+        background: @theme-color-background-base;
     }
 }

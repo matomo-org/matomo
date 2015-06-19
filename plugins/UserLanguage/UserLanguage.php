@@ -41,8 +41,7 @@ class UserLanguage extends \Piwik\Plugin
 
     public static function footerUserCountry(&$out)
     {
-        $out .= '<div><h2>' . Piwik::translate('UserLanguage_BrowserLanguage') . '</h2>';
+        $out .= '<h2 piwik-enriched-headline>' . Piwik::translate('UserLanguage_BrowserLanguage') . '</h2>';
         $out .= FrontController::getInstance()->fetchDispatch('UserLanguage', 'getLanguage');
-        $out .= '</div>';
     }
 }

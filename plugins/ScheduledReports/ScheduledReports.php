@@ -76,6 +76,7 @@ class ScheduledReports extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getJavaScriptFiles'           => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'           => 'getStylesheetFiles',
             'MobileMessaging.deletePhoneNumber'         => 'deletePhoneNumber',
             'ScheduledReports.getReportParameters'      => 'getReportParameters',
             'ScheduledReports.validateReportParameters' => 'validateReportParameters',
@@ -127,6 +128,11 @@ class ScheduledReports extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/ScheduledReports/javascripts/pdf.js";
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = 'plugins/ScheduledReports/stylesheets/scheduledreports.less';
     }
 
     public function validateReportParameters(&$parameters, $reportType)

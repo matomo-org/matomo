@@ -1,4 +1,4 @@
-#content:not(.admin), .widget {
+#content:not(.admin), .widget, .ui-widget {
 
   .UserCountryMap .dataTableFooterIcons {
     display: block;
@@ -8,7 +8,6 @@
 
   table.dataTable {
     th.sortable {
-      background: @theme-color-background-base !important;
       border-left: 0px;
       border-bottom: 0px;
     }
@@ -32,8 +31,7 @@
   }
 
   .dataTableActions table.dataTable  {
-    td.columnodd,
-    td.columneven,
+    td.column
     th.sortable:not(.first) {
       width: 50px;
     }
@@ -49,15 +47,6 @@
 
   .dataTableFooterIcons {
     border-top: 0px;
-  }
-
-  h2:nth-of-type(n+2) {
-    margin-top: 40px;
-  }
-
-  h2 {
-    padding-left: 10px;
-    font-size: 24px;
   }
 
   .goalEntry:first-of-type {
@@ -84,6 +73,18 @@
     margin-left: 13px;
   }
 
+}
+
+#content:not(.admin), .widget {
+
+  h2:nth-of-type(n+2) {
+    margin-top: 40px;
+  }
+
+  h2 {
+    padding-left: 10px;
+    font-size: 24px;
+  }
 }
 
 .dataTableFeatures .expandDataTableFooterDrawer {

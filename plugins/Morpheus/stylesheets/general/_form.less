@@ -54,14 +54,20 @@
   margin-top: 5px;
 }
 
-.entityTable {
-  border-radius: 4px !important;
-  border-top: 1px solid #cdc8bf !important;
-  border-bottom: 1px solid #948c7d !important;
-}
+table.entityTable {
+  thead {
+    tr {
+      th {
+        background-color: @color-silver-l98 !important;
+        text-align: left !important;
+        font-size: 16px;
+      }
 
-.entityTable tr th {
-  font-size: 16px;
+      td {
+        padding: 10px;
+      }
+    }
+  }
 }
 
 .entityTable tr td.first, .entityTable tr th.first {
@@ -71,13 +77,11 @@
 
 .entityTable tr th {
   white-space: nowrap;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
+  padding: 16px 10px !important;
 }
 
 .entityTable tr td, .entityTable tr th {
   border-bottom: 0 !important;
-  border-top: 1px solid #E7E7E7 !important;
 }
 
 table.entityTable tr td a {

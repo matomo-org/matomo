@@ -13,14 +13,14 @@
         <h2 piwik-enriched-headline>{{ 'CoreAdminHome_SystemPluginSettings'|translate }}</h2>
     {% endif %}
 
+    <input type="hidden" name="setpluginsettingsnonce" value="{{ nonce }}">
+
     <p>
         {{ 'CoreAdminHome_PluginSettingsIntro'|translate }}
         {% for pluginName, settings in pluginsSettings %}
             <a href="#{{ pluginName|e('html_attr') }}">{{ pluginName }}</a>{% if not loop.last %}, {% endif %}
         {% endfor %}
     </p>
-
-    <input type="hidden" name="setpluginsettingsnonce" value="{{ nonce }}">
 
     {% for pluginName, pluginSettings in pluginsSettings %}
 
