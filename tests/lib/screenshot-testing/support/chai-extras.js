@@ -141,24 +141,6 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
                 return;
             }
 
-            var expected = fs.read(expectedScreenshotPath),
-                processed = fs.read(processedScreenshotPath);
-
-            if (processed == expected) {
-                pass();
-                return;
-            }
-
-            // if the files are not exact, perform a diff to check if they are truly different
-            resemble("file://" + processedScreenshotPath).compareTo("file://" + expectedScreenshotPath).onComplete(function(data) {
-                if (!screenshotMatches(data.misMatchPercentage)) {
-                    fail("Processed screenshot does not match expected for " + screenshotFileName + ". (mismatch = " + data.misMatchPercentage + ")");
-                    return;
-                }
-
-                pass();
-            });
-
             function screenshotMatches(misMatchPercentage) {
                 if (comparisonThreshold) {
                     return misMatchPercentage <= 100 * (1 - comparisonThreshold);
@@ -166,6 +148,59 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
                     return misMatchPercentage == 0;
                 }
             }
+
+            function compareImages(expected, processed)
+            {
+                var args = ["-metric", "AE", expected, processed, 'null:'];
+                var child = require('child_process').spawn('compare', args);
+
+                var testFailure = '';
+
+                function onCommandResponse (numPxDifference) {
+                    // on success we get numPxDifference = '0' meaning no pixel was different
+                    // on different images we get the number of different pixels
+                    // on any error we get an error message (eg image size different)
+                    numPxDifference = numPxDifference.trim();
+
+                    if (numPxDifference && numPxDifference !== '0') {
+                        if (/^(\d+)$/.test(numPxDifference)) {
+                            testFailure += "(" + numPxDifference + "px difference";
+                        } else {
+                            testFailure += "(image magick error: " + numPxDifference;
+                        }
+                        
+                        testFailure += ")\n";
+                    }
+                }
+
+                child.stdout.on("data", onCommandResponse);
+                child.stderr.on("data", onCommandResponse);
+
+                child.on("exit", function (code) {
+                    if (testFailure) {
+                        testFailure = 'Processed screenshot does not match expected for ' + screenshotFileName + ' ' + testFailure;
+                    }
+
+                    if (code == 0 && !testFailure) {
+                        pass();
+                    } else if (comparisonThreshold) {
+                        // we use image magick only for exact match comparison, if there is a threshold we now check if this one fails
+                        resemble("file://" + processedScreenshotPath).compareTo("file://" + expectedScreenshotPath).onComplete(function(data) {
+                            if (!screenshotMatches(data.misMatchPercentage)) {
+                                fail(testFailure + ". (mismatch = " + data.misMatchPercentage + ")");
+                                return;
+                            }
+
+                            pass();
+                        });
+                    } else {
+                        fail(testFailure);
+                    }
+                });
+            }
+
+            compareImages(expectedScreenshotPath, processedScreenshotPath);
+
         }, selector);
     } catch (ex) {
         var err = new Error(ex.message);
