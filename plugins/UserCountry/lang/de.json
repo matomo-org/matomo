@@ -16,6 +16,7 @@
         "country_a2": "Satelliten-Anbieter",
         "country_cat": "Katalanisch sprechende Gemeinden",
         "country_o1": "Anderes Land",
+        "country_ti": "Tibet",
         "CurrentLocationIntro": "Gemäß diesem Provider ist Ihr derzeitiger Standort",
         "DefaultLocationProviderDesc1": "Die voreingestellte Standorterkennung versucht das Herkunftsland des Besuchers anhand dessen verwendeter Sprache zu erkennen.",
         "DefaultLocationProviderDesc2": "Dies ist nicht sehr genau, daher %1$swird empfohlen %2$sGeoIP%3$s zu installieren und zu nutzen.%4$s",

@@ -1,5 +1,6 @@
 {
     "LeftMenu": {
+        "PluginDescription": "Platziert das Dashboardmenü auf die linke Seite",
         "SettingsIntroduction": "Das LeftMenu Plug-In verschiebt die Menüs für die Reporte auf die linke Seite. Dies ist für umfangreiche Reporte hilfreich.",
         "GlobalSettingTitle": "LeftMenu aktiviert als Voreinstellung",
         "GlobalSettingDescription": "Legt die Standardeinstellung für alle Benutzer fest.",

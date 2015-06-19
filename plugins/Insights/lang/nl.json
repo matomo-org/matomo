@@ -1,5 +1,6 @@
 {
     "Insights": {
+        "PluginDescription": "Biedt inzichten over je verkeer. Inzichten zijn beschikbaar als dashboard widgets en als een nieuw icoon in je rapporten om de belangrijkste trends weer te geven in je data.",
         "ControlComparedToDescription": "Groei vergeleken met",
         "ControlFilterByDescription": "Toon alles, enkel verschuivingen, enkel nieuw of enkel verdwenen",
         "DatePeriodCombinationNotSupported": "Het is niet mogelijk om inzichten te genereren voor deze datum en periode combinatie.",

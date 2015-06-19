@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "Speichert Ereignisse und stellt Berichte über die Aktivität der Besucher bereit",
         "AvgEventValue": "Durchschnittlicher Ereigniswert ist: %s",
         "AvgValue": "Durchschnittswert",
         "AvgValueDocumentation": "Der Durchschnitt von allen Werten für dieses Event.",

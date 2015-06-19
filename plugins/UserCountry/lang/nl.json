@@ -16,6 +16,7 @@
         "country_a2": "Satellite Provider",
         "country_cat": "Catalaans-sprekende gemeenschappen",
         "country_o1": "Ander land",
+        "country_ti": "Tibet",
         "CurrentLocationIntro": "Volgens deze provider is je huidige locatie",
         "DefaultLocationProviderDesc1": "De standaard locatie provider gokt een bezoekers land gebaseerd op de taal die ze gebruiken.",
         "DefaultLocationProviderDesc2": "Dit is niet erg nauwkeurig, %1$swe adviseren %2$sGeoIP%3$s. te installeren en gebruiken.%4$s",
@@ -73,6 +74,7 @@
         "UnsupportedArchiveType": "Niet ondersteund archieftype aangetroffen %1$s.",
         "UpdaterHasNotBeenRun": "De updater is nog niet eerder uitgevoerd.",
         "UpdaterIsNotScheduledToRun": "Het is niet gepland om te worden uitgevoerd in de toekomst.",
+        "UpdaterScheduledForNextRun": "Het is ingepland om uitgevoerd te worden tijdens de volgende commando core:archive.",
         "UpdaterWasLastRun": "De updater is voor het laatst uitgevoerd op %s.",
         "UpdaterWillRunNext": "De volgende run is gepland om %s",
         "WidgetLocation": "Bezoeker Locatie"

@@ -17,6 +17,7 @@
         "NbUniquePageviewsDescription": "%s unieke paginaweergaves",
         "NbUniqueVisitors": "%s unieke bezoekers",
         "NbVisitsBounced": "%s bezoekers hebben de website verlaten na één pagina",
+        "PluginDescription": "Rapporteert algemene analyse metrics: bezoeken, unieke bezoeken, aantal acties, bounce ration, enz.",
         "VisitsSummary": "Bezoekers samenvatting",
         "VisitsSummaryDocumentation": "Dit is een trendlijn die de ontwikkeling weergeeft.",
         "WidgetLastVisits": "Recente bezoeken",

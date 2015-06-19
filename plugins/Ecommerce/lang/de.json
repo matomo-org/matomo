@@ -1,5 +1,7 @@
 {
     "Ecommerce": {
-        "Sales": "Umsatz"
+        "Sales": "Umsatz",
+        "SalesBy": "Umsatz nach %s",
+        "SalesAdjective": "Umsatz %s"
     }
 }

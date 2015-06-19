@@ -6,7 +6,6 @@
         "Add": "新增",
         "AfterEntry": "在這裡之後輸入",
         "All": "全部",
-        "AllowPiwikArchivingToTriggerBrowser": "當報告在瀏覽器裡檢視時，允許 Piwik 觸發彙整",
         "AllWebsitesDashboard": "所有網站展示板",
         "API": "API",
         "ArchivingInlineHelp": "對於中或高流量的網站，建議停用 Piwik 彙整觸發瀏覽器。反之，我們建議你設定一個工作排程(Cron job)，每小時處理 Piwik 報告。",

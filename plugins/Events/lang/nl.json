@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "Houd gebeurtenissen bij en ontvang rapporten over gebruikersactiviteiten.",
         "AvgEventValue": "Gemiddelde gebeurtenis waarde is: %s",
         "AvgValue": "Gemiddelde waarde",
         "AvgValueDocumentation": "Het gemiddelde voor alle waardes van deze gebeurtenis",

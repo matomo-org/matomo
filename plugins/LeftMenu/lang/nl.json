@@ -1,5 +1,6 @@
 {
     "LeftMenu": {
+        "PluginDescription": "Plaats het dashboard menu aan de linkerzijde",
         "SettingsIntroduction": "De linkermenu plugin verplaatst indien ingeschakeld het menu van bovenaan de pagina naar links. Deze optie is vooral handig bij het gebruik van een groot scherm.",
         "GlobalSettingTitle": "Linker menu standaard ingeschakeld",
         "GlobalSettingDescription": "Definieert het systeem standaard voor al uw gebruikers.",

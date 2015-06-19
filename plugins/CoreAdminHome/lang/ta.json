@@ -2,7 +2,6 @@
     "CoreAdminHome": {
         "Administration": "ஆட்சி",
         "BrandingSettings": "வர்த்தக அமைப்புகள்",
-        "CheckReleaseGetVersion": "Piwik இன் புதிய பதிப்பை அறியும் போதெல்லாம், அதை பெறலாம்",
         "ClickHereToOptIn": "விலக இங்கே சொடுக்குங்கள்.",
         "ClickHereToOptOut": "வெளியற இங்கே சொடுக்குங்கள்.",
         "CustomLogoHelpText": "பாவனையாளர் பக்கத்திலும் மின்னஞ்சல் அறிக்கைகளிலும் காட்சிப்படுத்தப்படும் Piwik இலட்ச்சனையை உங்களால் மாற்ற முடியும்.",

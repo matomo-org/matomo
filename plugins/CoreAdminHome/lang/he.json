@@ -2,7 +2,6 @@
     "CoreAdminHome": {
         "Administration": "ניהול",
         "BrandingSettings": "הגדרות מיתוג",
-        "CheckReleaseGetVersion": "כאשר מתבצעת בדיקה לגרסה חדשה של פיווק, קבל תמיד",
         "ClickHereToOptIn": "לחץ כאן להצטרפות.",
         "ClickHereToOptOut": "לחץ כאן לביטול.",
         "EmailServerSettings": "הגדרות שרת אימייל",

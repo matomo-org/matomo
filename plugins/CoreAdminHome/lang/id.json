@@ -2,7 +2,6 @@
     "CoreAdminHome": {
         "Administration": "Administrasi",
         "BrandingSettings": "Pengaturan merek",
-        "CheckReleaseGetVersion": "Ketika memeriksa versi baru Piwik, selalu memperoleh",
         "ClickHereToOptIn": "Klik di sini agar terekam.",
         "ClickHereToOptOut": "Klik di sini agar tak-terekam.",
         "CustomLogoFeedbackInfo": "Jika Anda menyesuaikan logo Piwik, Anda mungkin juga tertarik untuk menyembunyikan tautan %s di menu atas. Untuk melakukannya, Anda mematikan pengaya Umpan Balik di halaman %s Pengelolaan Pengaya%s.",
