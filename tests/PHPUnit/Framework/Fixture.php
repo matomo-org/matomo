@@ -350,6 +350,11 @@ class Fixture extends \PHPUnit_Framework_Assert
         // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object
     }
 
+    /**
+     * @param \Piwik\Tests\Framework\TestingEnvironmentVariables|null $testEnvironment Ignored.
+     * @param bool|false $testCaseClass Ignored.
+     * @param array $extraPluginsToLoad Ignoerd.
+     */
     public static function loadAllPlugins(TestingEnvironmentVariables $testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
     {
         DbHelper::createTables();
