@@ -56,7 +56,7 @@ class DeleteLogsData extends ConsoleCommand
     protected function configure()
     {
         $this->setName('core:delete-logs-data');
-        $this->setDescription('Delete data from one of the log tables: ' . implode(', ', self::$logTables) . '.');
+        $this->setDescription('Delete data from the user log tables: ' . implode(', ', self::$logTables) . '.');
         $this->addOption('dates', null, InputOption::VALUE_REQUIRED, 'Delete log data with a date within this date range. Eg, 2012-01-01,2013-01-01');
         $this->addOption('idsite', null, InputOption::VALUE_OPTIONAL,
             'Delete log data belonging to the site with this ID. Comma separated list of website id. Eg, 1, 2, 3, etc. By default log data from all sites is purged.');

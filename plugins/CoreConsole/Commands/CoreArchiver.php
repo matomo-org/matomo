@@ -91,6 +91,8 @@ class CoreArchiver extends ConsoleCommand
             . "specified, defaults to " . CronArchive::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES . ".");
         $command->addOption('skip-idsites', null, InputOption::VALUE_OPTIONAL,
             'If specified, archiving will be skipped for these websites (in case these website ids would have been archived).');
+        $command->addOption('skip-all-segments', null, InputOption::VALUE_NONE,
+            'If specified, all segments will be skipped during archiving.');
         $command->addOption('force-idsites', null, InputOption::VALUE_OPTIONAL,
             'If specified, archiving will be processed only for these Sites Ids (comma separated)');
         $command->addOption('force-periods', null, InputOption::VALUE_OPTIONAL,
@@ -100,11 +102,9 @@ class CoreArchiver extends ConsoleCommand
         $command->addOption('force-date-range', null, InputOption::VALUE_OPTIONAL,
             "If specified, archiving will be processed only for periods included in this date range. Format: YYYY-MM-DD,YYYY-MM-DD");
         $command->addOption('force-idsegments', null, InputOption::VALUE_REQUIRED,
-            'If specified, only these segments will be processed (if the segment should be applied to a site in the '
-            . "first place). Specify stored segment IDs, not the segments themselves, eg, 1,2,3. Note: if identical "
-            . "segments exist w/ different IDs, they will both be skipped, even if you only supply one ID.");
-        $command->addOption('skip-all-segments', null, InputOption::VALUE_NONE,
-            'If specified, all segments will be skipped during archiving.');
+            'If specified, only these segments will be processed (if the segment should be applied to a site in the first place).'
+            . "\nSpecify stored segment IDs, not the segments themselves, eg, 1,2,3. "
+            . "\nNote: if identical segments exist w/ different IDs, they will both be skipped, even if you only supply one ID.");
         $command->addOption('concurrent-requests-per-website', null, InputOption::VALUE_OPTIONAL,
             "When processing a website and its segments, number of requests to process in parallel", CronArchive::MAX_CONCURRENT_API_REQUESTS);
         $command->addOption('disable-scheduled-tasks', null, InputOption::VALUE_NONE,
