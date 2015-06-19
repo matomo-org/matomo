@@ -11,6 +11,7 @@ namespace Piwik\Tests\Framework\TestCase;
 use Piwik\Access;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
@@ -88,6 +89,7 @@ abstract class IntegrationTestCase extends SystemTestCase
 
         PiwikCache::getEagerCache()->flushAll();
         PiwikCache::getTransientCache()->flushAll();
+        MenuAbstract::clearMenus();
     }
 
     /**

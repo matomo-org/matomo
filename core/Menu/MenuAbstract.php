@@ -55,13 +55,23 @@ abstract class MenuAbstract extends Singleton
      */
     protected function getAllMenus()
     {
-//        if (!empty(self::$menus)) {
-//            return self::$menus;
-//        }
+        if (!empty(self::$menus)) {
+            return self::$menus;
+        }
 
         self::$menus = PluginManager::getInstance()->findComponents('Menu', 'Piwik\\Plugin\\Menu');
 
         return self::$menus;
+    }
+
+    /**
+     * To use only for tests.
+     *
+     * @deprecated The whole $menus cache should be replaced by a real transient cache
+     */
+    public static function clearMenus()
+    {
+        self::$menus = array();
     }
 
     /**
