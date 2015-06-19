@@ -11,26 +11,17 @@ namespace Piwik\Tests\Unit;
 use Piwik\Archive\DataCollection;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Period;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
  * @group DataCollectionTest
- * @group DataCollection
  * @group Archive
- * @group Core
  */
-class DataCollectionTest extends UnitTestCase
+class DataCollectionTest extends \PHPUnit_Framework_TestCase
 {
     private $site1 = 1;
     private $site2 = 2;
     private $date1 = '2012-12-12,2012-12-12';
     private $date2 = '2012-12-13,2012-12-13';
-
-    public function setUp()
-    {
-        parent::setUp();
-
-    }
 
     private function createCollection($onlyOnePeriod = false, $onlyOneSite = false)
     {
@@ -280,5 +271,4 @@ class DataCollectionTest extends UnitTestCase
 
         $this->assertEquals($expected, $collection->getIndexedArray($this->getPeriodAndSiteResultIndices()));
     }
-
 }

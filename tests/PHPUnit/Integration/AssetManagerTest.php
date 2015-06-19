@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit;
+namespace Piwik\Tests\Integration;
 
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAsset;
@@ -15,7 +15,8 @@ use Piwik\AssetManager\UIAssetFetcher\StaticUIAssetFetcher;
 use Piwik\Config;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tests\Unit\AssetManager\PluginManagerMock;
 use Piwik\Tests\Unit\AssetManager\PluginMock;
 use Piwik\Tests\Unit\AssetManager\ThemeMock;
 use Piwik\Tests\Unit\AssetManager\UIAssetCacheBusterMock;
@@ -23,7 +24,7 @@ use Piwik\Tests\Unit\AssetManager\UIAssetCacheBusterMock;
 /**
  * @group AssetManagerTest
  */
-class AssetManagerTest extends UnitTestCase
+class AssetManagerTest extends IntegrationTestCase
 {
     // todo Theme->rewriteAssetPathIfOverridesFound is not tested
 
@@ -51,12 +52,12 @@ class AssetManagerTest extends UnitTestCase
     private $mergedAsset;
 
     /**
-     * @var \Piwik\Tests\Unit\AssetManager\UIAssetCacheBusterMock
+     * @var UIAssetCacheBusterMock
      */
     private $cacheBuster;
 
     /**
-     * @var \Piwik\Tests\Unit\AssetManager\PluginManagerMock
+     * @var PluginManagerMock
      */
     private $pluginManager;
 
@@ -88,7 +89,7 @@ class AssetManagerTest extends UnitTestCase
         parent::tearDown();
     }
 
-    protected function provideContainerConfig()
+    public function provideContainerConfig()
     {
         return array(
             'Piwik\Plugin\Manager' => \DI\object('Piwik\Tests\Unit\AssetManager\PluginManagerMock')

@@ -8,38 +8,16 @@
 
 namespace Piwik\Tests\Unit;
 
-use Piwik\EventDispatcher;
-use Piwik\Piwik;
 use Piwik\Tracker\Request;
 use Piwik\Tests\Framework\Mock\Tracker\Handler;
 use Piwik\Tests\Framework\Mock\Tracker\RequestSet;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Piwik\Tracker;
-use Piwik\Translate;
-
-class TestTracker extends Tracker
-{
-    public function __construct()
-    {
-        $this->record = true;
-    }
-
-    public function shouldRecordStatistics()
-    {
-        return $this->record;
-    }
-
-    public function disalbeRecordStatistics()
-    {
-        $this->record = false;
-    }
-}
 
 /**
  * @group TrackerTest
  * @group Tracker
  */
-class TrackerTest extends UnitTestCase
+class TrackerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var TestTracker
@@ -128,7 +106,7 @@ class TrackerTest extends UnitTestCase
 
     public function test_main_shouldTriggerHandlerInitAndFinishEvent_EvenIfShouldNotRecordStats()
     {
-        $this->tracker->disalbeRecordStatistics();
+        $this->tracker->disableRecordStatistics();
         $this->tracker->main($this->handler, $this->requestSet);
 
         $this->assertTrue($this->handler->isInit);
@@ -147,46 +125,6 @@ class TrackerTest extends UnitTestCase
         $this->assertTrue($this->handler->isOnException);
     }
 
-    public function test_main_shouldPostEndEvent()
-    {
-        $called = false;
-        Piwik::addAction('Tracker.end', function () use (&$called) {
-            $called = true;
-        });
-
-        $this->tracker->main($this->handler, $this->requestSet);
-
-        $this->assertTrue($called);
-    }
-
-    public function test_main_shouldPostEndEvent_EvenIfShouldNotRecordStats()
-    {
-        $called = false;
-        Piwik::addAction('Tracker.end', function () use (&$called) {
-            $called = true;
-        });
-
-        $this->tracker->disalbeRecordStatistics();
-        $this->tracker->main($this->handler, $this->requestSet);
-
-        $this->assertFalse($this->handler->isProcessed);
-        $this->assertTrue($called);
-    }
-
-    public function test_main_shouldPostEndEvent_EvenIfThereIsAnException()
-    {
-        $called = false;
-        Piwik::addAction('Tracker.end', function () use (&$called) {
-            $called = true;
-        });
-
-        $this->handler->enableTriggerExceptionInProcess();
-        $this->tracker->main($this->handler, $this->requestSet);
-
-        $this->assertTrue($this->handler->isOnException);
-        $this->assertTrue($called);
-    }
-
     public function test_track_shouldTrack_IfThereAreRequests()
     {
         $this->tracker->track($this->handler, $this->requestSet);
@@ -199,7 +137,7 @@ class TrackerTest extends UnitTestCase
 
     public function test_track_shouldNotTrackAnything_IfTrackingIsDisabled()
     {
-        $this->tracker->disalbeRecordStatistics();
+        $this->tracker->disableRecordStatistics();
         $this->tracker->track($this->handler, $this->requestSet);
 
         $this->assertFalse($this->handler->isOnStartTrackRequests);
@@ -221,7 +159,7 @@ class TrackerTest extends UnitTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedException My Exception During Process
+     * @expectedExceptionMessage My Exception During Process
      */
     public function test_track_shouldNotCatchAnyException_IfExceptionWasThrown()
     {
@@ -264,5 +202,22 @@ class TrackerTest extends UnitTestCase
 
         return $request;
     }
+}
 
+class TestTracker extends Tracker
+{
+    public function __construct()
+    {
+        $this->record = true;
+    }
+
+    public function shouldRecordStatistics()
+    {
+        return $this->record;
+    }
+
+    public function disableRecordStatistics()
+    {
+        $this->record = false;
+    }
 }

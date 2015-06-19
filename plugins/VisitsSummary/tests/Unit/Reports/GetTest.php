@@ -10,7 +10,6 @@ namespace Piwik\Plugins\VisitsSummary\tests\Unit\Reports;
 
 use Piwik\DataTable;
 use Piwik\Plugins\VisitsSummary\Reports\Get;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
  * @group VisitsSummary
@@ -18,7 +17,7 @@ use Piwik\Tests\Framework\TestCase\UnitTestCase;
  * @group GetTest
  * @group Plugins
  */
-class GetTest extends UnitTestCase
+class GetTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Get

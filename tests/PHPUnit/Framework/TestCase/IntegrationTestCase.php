@@ -11,8 +11,10 @@ namespace Piwik\Tests\Framework\TestCase;
 use Piwik\Access;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Cache as PiwikCache;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 /**
  * Tests extending IntegrationTestCase are much slower to run: the setUp will
@@ -77,7 +79,7 @@ abstract class IntegrationTestCase extends SystemTestCase
         self::$fixture->extraDefinitions = array_merge(static::provideContainerConfigBeforeClass(), $this->provideContainerConfig());
         self::$fixture->createEnvironmentInstance();
 
-        Fixture::loadAllPlugins(new \Piwik\Tests\Framework\TestingEnvironmentVariables(), get_class($this), self::$fixture->extraPluginsToLoad);
+        Fixture::loadAllPlugins(new TestingEnvironmentVariables(), get_class($this), self::$fixture->extraPluginsToLoad);
 
         Access::getInstance()->setSuperUserAccess(true);
         
@@ -87,6 +89,7 @@ abstract class IntegrationTestCase extends SystemTestCase
 
         PiwikCache::getEagerCache()->flushAll();
         PiwikCache::getTransientCache()->flushAll();
+        MenuAbstract::clearMenus();
     }
 
     /**

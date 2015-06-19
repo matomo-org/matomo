@@ -65,6 +65,16 @@ abstract class MenuAbstract extends Singleton
     }
 
     /**
+     * To use only for tests.
+     *
+     * @deprecated The whole $menus cache should be replaced by a real transient cache
+     */
+    public static function clearMenus()
+    {
+        self::$menus = array();
+    }
+
+    /**
      * Adds a new entry to the menu.
      *
      * @param string $menuName The menu's category name. Can be a translation token.

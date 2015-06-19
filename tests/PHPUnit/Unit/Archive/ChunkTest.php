@@ -9,15 +9,12 @@
 namespace Piwik\Tests\Unit;
 
 use Piwik\Archive\Chunk;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
  * @group ChunkTest
- * @group Chunk
  * @group Archive
- * @group Core
  */
-class ChunkTest extends UnitTestCase
+class ChunkTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Chunk
@@ -28,7 +25,6 @@ class ChunkTest extends UnitTestCase
 
     public function setUp()
     {
-        parent::setUp();
         $this->chunk = new Chunk();
     }
 

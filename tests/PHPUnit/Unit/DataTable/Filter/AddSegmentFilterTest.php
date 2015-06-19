@@ -10,16 +10,13 @@ namespace Piwik\Tests\Core\DataTable\Filter;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
  * @group AddSegmentByLabelTest
  * @group DataTable
  * @group Filter
- * @group Unit
- * @group Core
  */
-class AddSegmentByLabelTest extends UnitTestCase
+class AddSegmentByLabelTest extends \PHPUnit_Framework_TestCase
 {
     private $filter = 'AddSegmentByLabel';
 
@@ -143,5 +140,4 @@ class AddSegmentByLabelTest extends UnitTestCase
 
         $this->assertFalse($summaryRow->getMetadata('segment'));
     }
-
 }

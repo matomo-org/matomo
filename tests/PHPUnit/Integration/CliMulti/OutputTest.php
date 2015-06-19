@@ -6,18 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\CliMulti;
+namespace Piwik\Tests\Integration\CliMulti;
 
 use Piwik\CliMulti\Output;
 use Piwik\Tests\Framework\Mock\File;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Url;
 
 /**
- * @group Core
  * @group CliMulti
  */
-class OutputTest extends UnitTestCase
+class OutputTest extends IntegrationTestCase
 {
     /**
      * @var Output
@@ -27,6 +26,8 @@ class OutputTest extends UnitTestCase
     public function setUp()
     {
         parent::setup();
+
+        File::reset();
         Url::setHost(false);
         $this->output = new Output('myid');
     }
@@ -34,6 +35,8 @@ class OutputTest extends UnitTestCase
     public function tearDown()
     {
         $this->output->destroy();
+        File::reset();
+
         parent::tearDown();
     }
 

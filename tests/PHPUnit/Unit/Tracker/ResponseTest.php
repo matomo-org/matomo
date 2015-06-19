@@ -12,7 +12,6 @@ use Piwik\Common;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker\Response;
 use Piwik\Tests\Framework\Mock\Tracker;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Exception;
 
 class TestResponse extends Response {
@@ -34,7 +33,7 @@ class TestResponse extends Response {
  * @group Plugins
  * @group Tracker
  */
-class ResponseTest extends UnitTestCase
+class ResponseTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var TestResponse

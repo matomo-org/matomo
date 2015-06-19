@@ -8,25 +8,21 @@
 
 namespace Piwik\Plugins\ExamplePlugin\tests\Unit;
 
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
-
 /**
  * @group ExamplePlugin
  * @group SimpleTest
  * @group Plugins
  */
-class SimpleTest extends UnitTestCase
+class SimpleTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        parent::setUp();
         // set up here if needed
     }
     
     public function tearDown()
     {
         // tear down here if needed
-        parent::tearDown();
     }
 
     /**

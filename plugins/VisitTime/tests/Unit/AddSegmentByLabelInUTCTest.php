@@ -10,14 +10,13 @@ namespace Piwik\Plugins\VisitTime\tests\Unit;
 
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
  * @group VisitTime
  * @group AddSegmentByLabelInUTCTest
  * @group Plugins
  */
-class AddSegmentByLabelInUTCTest extends UnitTestCase
+class AddSegmentByLabelInUTCTest extends \PHPUnit_Framework_TestCase
 {
     private $filter = 'Piwik\Plugins\VisitTime\DataTable\Filter\AddSegmentByLabelInUTC';
 

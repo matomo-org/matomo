@@ -6,20 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit\Plugin\Dimension;
+namespace Piwik\Tests\Integration\Plugin\Dimension;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Dimension\DimensionMetadataProvider;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugin\Manager as PluginManager;
 
-class DimensionMetadataProviderTest extends UnitTestCase
+class DimensionMetadataProviderTest extends IntegrationTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
         /** @var PluginManager $manager */
-        $manager = $this->environment->getContainer()->get('Piwik\Plugin\Manager');
+        $manager = StaticContainer::get('Piwik\Plugin\Manager');
         $manager->loadPlugins(array('Events', 'Contents'));
     }
 

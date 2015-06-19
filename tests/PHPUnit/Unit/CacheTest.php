@@ -9,13 +9,11 @@
 namespace Piwik\Tests\Unit;
 
 use Piwik\Cache;
-use Piwik\Piwik;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
  * @group Cache
  */
-class CacheTest extends UnitTestCase
+class CacheTest extends \PHPUnit_Framework_TestCase
 {
     public function test_getLazyCache_shouldCreateAnInstanceOfLazy()
     {
@@ -45,21 +43,6 @@ class CacheTest extends UnitTestCase
         $cache2 = Cache::getEagerCache();
 
         $this->assertSame($cache1, $cache2);
-    }
-
-    public function test_getEagerCache_shouldPersistOnceEventWasTriggered()
-    {
-        $storageId = 'eagercache-test-ui';
-        $cache = Cache::getEagerCache();
-        $cache->save('test', 'mycontent'); // make sure something was changed, otherwise it won't save anything
-
-        /** @var \Piwik\Cache\Backend $backend */
-        $backend = $this->environment->getContainer()->get('Piwik\Cache\Backend');
-        $this->assertFalse($backend->doContains($storageId));
-
-        Piwik::postEvent('Request.dispatch.end'); // should trigger save
-
-        $this->assertTrue($backend->doContains($storageId));
     }
 
     public function test_getTransientCache_shouldCreateAnInstanceOfTransient()
