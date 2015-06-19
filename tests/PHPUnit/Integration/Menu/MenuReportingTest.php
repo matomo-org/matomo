@@ -27,6 +27,8 @@ class ReportingTest extends IntegrationTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         PluginManager::getInstance()->unloadPlugins();
         $this->menu = MenuReporting::getInstance();
     }

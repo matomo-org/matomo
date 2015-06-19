@@ -476,19 +476,6 @@ class RequestTest extends UnitTestCase
         $this->assertSame(14, $request->getIdSite());
     }
 
-    public function test_getIdSite_shouldTriggerEventAndReturnThatIdSite()
-    {
-        $self = $this;
-        Piwik::addAction('Tracker.Request.getIdSite', function (&$idSite, $params) use ($self) {
-            $self->assertSame(14, $idSite);
-            $self->assertEquals(array('idsite' => '14'), $params);
-            $idSite = 12;
-        });
-
-        $request = $this->buildRequest(array('idsite' => '14'));
-        $this->assertSame(12, $request->getIdSite());
-    }
-
     /**
      * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
      * @expectedExceptionMessage Invalid idSite: '0'

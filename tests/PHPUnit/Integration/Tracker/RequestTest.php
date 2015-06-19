@@ -19,15 +19,6 @@ use Piwik\Tracker\Request;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\TrackerConfig;
 
-class TestRequest extends Request {
-
-    public function setIsAuthenticated()
-    {
-        $this->isAuthenticated = true;
-    }
-
-}
-
 /**
  * @group RequestTest
  * @group Request
@@ -335,6 +326,19 @@ class RequestTest extends IntegrationTestCase
                             $this->buildCustomVars(array('key' => 'val', 'key2' => 'val2')));
     }
 
+    public function test_getIdSite_shouldTriggerEventAndReturnThatIdSite()
+    {
+        $self = $this;
+        Piwik::addAction('Tracker.Request.getIdSite', function (&$idSite, $params) use ($self) {
+            $self->assertSame(14, $idSite);
+            $self->assertEquals(array('idsite' => '14'), $params);
+            $idSite = 12;
+        });
+
+        $request = $this->buildRequest(array('idsite' => '14'));
+        $this->assertSame(12, $request->getIdSite());
+    }
+
     private function assertCustomVariablesInVisitScope($expectedCvars, $cvarsJsonEncoded)
     {
         $request = $this->buildRequest(array('_cvar' => $cvarsJsonEncoded));
@@ -382,5 +386,13 @@ class RequestTest extends IntegrationTestCase
     private function buildRequestWithToken($params, $token)
     {
         return new TestRequest($params, $token);
+    }
+}
+
+class TestRequest extends Request
+{
+    public function setIsAuthenticated()
+    {
+        $this->isAuthenticated = true;
     }
 }
