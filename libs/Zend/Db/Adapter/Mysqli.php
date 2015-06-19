@@ -300,41 +300,38 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
         $this->_connection = mysqli_init();
 
         $enable_ssl = false;
-        //use values from PDO if that is not set - set the values from php 5.6
         $ssl_options = array (
-            defined(PDO::MYSQL_ATTR_SSL_CA) ? PDO::MYSQL_ATTR_SSL_CA : 1012 => null,
-            defined(PDO::MYSQL_ATTR_SSL_CAPATH) ? PDO::MYSQL_ATTR_SSL_CAPATH : 1013 => null,
-            defined(PDO::MYSQL_ATTR_SSL_CERT) ? PDO::MYSQL_ATTR_SSL_CERT : 1011 => null,
-            defined(PDO::MYSQL_ATTR_SSL_CIPHER) ? PDO::MYSQL_ATTR_SSL_CIPHER : 1014 => null,
-            defined(PDO::MYSQL_ATTR_SSL_KEY) ? PDO::MYSQL_ATTR_SSL_KEY : 1010 => null,
+            'ssl_ca' => null,
+            'ssl_ca_path' => null,
+            'ssl_cert' => null,
+            'ssl_cipher' => null,
+            'ssl_key' => null,
         );
 
         if(!empty($this->_config['driver_options'])) {
             foreach($this->_config['driver_options'] as $option=>$value) {
-                if(is_string($option)) {
+                if(array_key_exists($option, $ssl_options)) {
+                    $ssl_options[$option] = $value;
+                    $enable_ssl = true;
+                } elseif(is_string($option)) {
                     // Suppress warnings here
                     // Ignore it if it's not a valid constant
                     $option = @constant(strtoupper($option));
                     if($option === null)
                         continue;
                 }
-                if(array_key_exists($option, $ssl_options)) {
-                    $ssl_options[$option] = $value;
-                    $enable_ssl = true;
-                } else {
-                    mysqli_options($this->_connection, $option, $value);
-                }
+                mysqli_options($this->_connection, $option, $value);
             }
         }
 
         if ($enable_ssl) {
             mysqli_ssl_set(
                 $this->_connection,
-                $ssl_options[defined(PDO::MYSQL_ATTR_SSL_KEY) ? PDO::MYSQL_ATTR_SSL_KEY : 1010],
-                $ssl_options[defined(PDO::MYSQL_ATTR_SSL_CERT) ? PDO::MYSQL_ATTR_SSL_CERT : 1011],
-                $ssl_options[defined(PDO::MYSQL_ATTR_SSL_CA) ? PDO::MYSQL_ATTR_SSL_CA : 1012],
-                $ssl_options[defined(PDO::MYSQL_ATTR_SSL_CAPATH) ? PDO::MYSQL_ATTR_SSL_CAPATH : 1013],
-                $ssl_options[defined(PDO::MYSQL_ATTR_SSL_CIPHER) ? PDO::MYSQL_ATTR_SSL_CIPHER : 1014]
+                $ssl_options['ssl_key'],
+                $ssl_options['ssl_cert'],
+                $ssl_options['ssl_ca'],
+                $ssl_options['ssl_ca_path'],
+                $ssl_options['ssl_cipher']
             );
         }
 

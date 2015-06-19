@@ -31,19 +31,19 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
 
         if ($config['enable_ssl']) {
             if (!empty($config['ssl_key'])) {
-                $config['driver_options'][defined(PDO::MYSQL_ATTR_SSL_KEY) ? PDO::MYSQL_ATTR_SSL_KEY : 1010] = $config['ssl_key'];
+                $config['driver_options']['ssl_key'] = $config['ssl_key'];
             }
             if (!empty($config['ssl_cert'])) {
-                $config['driver_options'][defined(PDO::MYSQL_ATTR_SSL_CERT) ? PDO::MYSQL_ATTR_SSL_CERT : 1011] = $config['ssl_cert'];
+                $config['driver_options']['ssl_cert'] = $config['ssl_cert'];
             }
             if (!empty($config['ssl_ca'])) {
-                $config['driver_options'][defined(PDO::MYSQL_ATTR_SSL_CA) ? PDO::MYSQL_ATTR_SSL_CA : 1012] = $config['ssl_ca'];
+                $config['driver_options']['ssl_ca'] = $config['ssl_ca'];
             }
             if (!empty($config['ssl_ca_path'])) {
-                $config['driver_options'][defined(PDO::MYSQL_ATTR_SSL_CAPATH) ? PDO::MYSQL_ATTR_SSL_CAPATH : 1013] = $config['ssl_ca_path'];
+                $config['driver_options']['ssl_ca_path'] = $config['ssl_ca_path'];
             }
             if (!empty($config['ssl_cipher'])) {
-                $config['driver_options'][defined(PDO::MYSQL_ATTR_SSL_CIPHER) ? PDO::MYSQL_ATTR_SSL_CIPHER : 1014] = $config['ssl_cipher'];
+                $config['driver_options']['ssl_cipher'] = $config['ssl_cipher'];
             }
         }
 
