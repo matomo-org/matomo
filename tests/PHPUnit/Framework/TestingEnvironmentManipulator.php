@@ -24,11 +24,10 @@ class FakePluginList extends PluginList
         parent::__construct($globalSettingsProvider);
 
         $this->plugins = $this->sortPlugins($plugins);
-    }
 
-    public function getActivatedPlugins()
-    {
-        return $this->plugins;
+        $section = $globalSettingsProvider->getSection('Plugins');
+        $section['Plugins'] = $this->plugins;
+        $globalSettingsProvider->setSection('Plugins', $section);
     }
 }
 
