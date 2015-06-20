@@ -28,34 +28,6 @@ class Translator
     private $translations = array();
 
     /**
-     * Contains the already loaded country name translations
-     *
-     * @var array
-     */
-    protected $loadedCountryTranslations = array();
-
-    /**
-     * Contains the already loaded continent name translations
-     *
-     * @var array
-     */
-    protected $loadedContinentTranslations = array();
-
-    /**
-     * Contains the already loaded language name translations
-     *
-     * @var array
-     */
-    private $loadedLanguageTranslations = array();
-
-    /**
-     * Contains the already loaded calendar translations
-     *
-     * @var array
-     */
-    private $loadedCalendarTranslations = array();
-
-    /**
      * @var string
      */
     private $currentLanguage;
