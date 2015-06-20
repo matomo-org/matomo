@@ -279,13 +279,6 @@ class AnnotationsTest extends SystemTestCase
 
         }
     }
-
-    public function provideContainerConfig()
-    {
-        return array(
-            'Piwik\Access' => new FakeAccess()
-        );
-    }
 }
 
 AnnotationsTest::$fixture = new TwoSitesWithAnnotations();
