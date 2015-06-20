@@ -176,7 +176,12 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function performSetUp($setupEnvironmentOnly = false)
     {
+        // TODO: don't use static var, use test env var for this
         TestingEnvironmentManipulator::$extraPluginsToLoad = $this->extraPluginsToLoad;
+
+        $this->getTestEnvironment()->testCaseClass = $this->testCaseClass;
+        $this->getTestEnvironment()->fixtureClass = get_class($this);
+        $this->getTestEnvironment()->save();
 
         $this->createEnvironmentInstance();
 
@@ -268,10 +273,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         if ($setupEnvironmentOnly) {
             return;
         }
-
-        $this->getTestEnvironment()->testCaseClass = $this->testCaseClass;
-        $this->getTestEnvironment()->fixtureClass = get_class($this);
-        $this->getTestEnvironment()->save();
 
         PiwikCache::getTransientCache()->flushAll();
 
