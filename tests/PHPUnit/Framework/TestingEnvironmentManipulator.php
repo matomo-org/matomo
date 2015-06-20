@@ -8,9 +8,12 @@
 
 namespace Piwik\Tests\Framework;
 
+use Interop\Container\ContainerInterface;
+use Piwik\Application\Environment;
 use Piwik\Application\EnvironmentManipulator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
+use Piwik\Config;
 use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Plugin;
@@ -155,7 +158,22 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             }
         }
 
-        $diConfigs[] = array('observers.global' => \DI\add($this->globalObservers));
+        $plugins = $this->getPluginsToLoadDuringTest();
+        $diConfigs[] = array(
+            'observers.global' => \DI\add($this->globalObservers),
+
+            'Piwik\Config' => \DI\decorate(function (Config $config, ContainerInterface $c) use ($plugins) {
+                /** @var PluginList $pluginList */
+                $pluginList = $c->get('Piwik\Application\Kernel\PluginList');
+                $plugins = $pluginList->sortPlugins($plugins);
+
+                // set the plugins to load, has to be done to Config, since Config will reload files on construction.
+                // TODO: probably shouldn't need to do this, will wait until 3.0 to remove.
+                $config->Plugins['Plugins'] = $plugins;
+
+                return $config;
+            }),
+        );
 
         return $diConfigs;
     }
@@ -176,6 +194,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             array(
                 Plugin::getPluginNameFromBacktrace(debug_backtrace()),
                 Plugin::getPluginNameFromNamespace($this->vars->testCaseClass),
+                Plugin::getPluginNameFromNamespace($this->vars->fixtureClass),
                 Plugin::getPluginNameFromNamespace(get_called_class())
             )
         );
