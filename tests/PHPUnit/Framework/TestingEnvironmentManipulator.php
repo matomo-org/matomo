@@ -8,9 +8,12 @@
 
 namespace Piwik\Tests\Framework;
 
+use Interop\Container\ContainerInterface;
+use Piwik\Application\Environment;
 use Piwik\Application\EnvironmentManipulator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
+use Piwik\Config;
 use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Plugin;
@@ -24,11 +27,10 @@ class FakePluginList extends PluginList
         parent::__construct($globalSettingsProvider);
 
         $this->plugins = $this->sortPlugins($plugins);
-    }
 
-    public function getActivatedPlugins()
-    {
-        return $this->plugins;
+        $section = $globalSettingsProvider->getSection('Plugins');
+        $section['Plugins'] = $this->plugins;
+        $globalSettingsProvider->setSection('Plugins', $section);
     }
 }
 
@@ -55,9 +57,16 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         $this->globalObservers = $globalObservers;
     }
 
-    public function makeGlobalSettingsProvider()
+    public function makeGlobalSettingsProvider(GlobalSettingsProvider $original)
     {
-        return new GlobalSettingsProvider($this->vars->configFileGlobal, $this->vars->configFileLocal, $this->vars->configFileCommon);
+        if ($this->vars->configFileGlobal
+            || $this->vars->configFileLocal
+            || $this->vars->configFileCommon
+        ) {
+            return new GlobalSettingsProvider($this->vars->configFileGlobal, $this->vars->configFileLocal, $this->vars->configFileCommon);
+        } else {
+            return $original;
+        }
     }
 
     public function makePluginList(GlobalSettingsProvider $globalSettingsProvider)
@@ -67,6 +76,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function beforeContainerCreated()
     {
+        $this->vars->reload();
+
         if ($this->vars->queryParamOverride) {
             foreach ($this->vars->queryParamOverride as $key => $value) {
                 $_GET[$key] = $value;
@@ -126,37 +137,45 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     {
         $testVarDefinitionSource = new TestingEnvironmentVariablesDefinitionSource($this->vars);
 
-        // Apply DI config from the fixture
-        $diConfig = array();
-        if ($this->vars->fixtureClass) {
-            $fixtureClass = $this->vars->fixtureClass;
-            if (class_exists($fixtureClass)) {
-                /** @var Fixture $fixture */
-                $fixture = new $fixtureClass;
-                $diConfig = $fixture->provideContainerConfig();
-            }
-        }
-
+        $diConfigs = array($testVarDefinitionSource);
         if ($this->vars->testCaseClass) {
             $testCaseClass = $this->vars->testCaseClass;
             if (class_exists($testCaseClass)) {
                 $testCase = new $testCaseClass();
 
+                // Apply DI config from the fixture
+                if (isset($testCaseClass::$fixture)) {
+                    $diConfigs[] = $testCaseClass::$fixture->provideContainerConfig();
+                }
+
                 if (method_exists($testCase, 'provideContainerConfigBeforeClass')) {
-                    $diConfig = array_merge($diConfig, $testCaseClass::provideContainerConfigBeforeClass());
+                    $diConfigs[] = $testCaseClass::provideContainerConfigBeforeClass();
                 }
 
                 if (method_exists($testCase, 'provideContainerConfig')) {
-                    $diConfig = array_merge($diConfig, $testCase->provideContainerConfig());
+                    $diConfigs[] = $testCase->provideContainerConfig();
                 }
             }
         }
 
-        return array(
-            $testVarDefinitionSource,
-            $diConfig,
-            array('observers.global' => \DI\add($this->globalObservers)),
+        $plugins = $this->getPluginsToLoadDuringTest();
+        $diConfigs[] = array(
+            'observers.global' => \DI\add($this->globalObservers),
+
+            'Piwik\Config' => \DI\decorate(function (Config $config, ContainerInterface $c) use ($plugins) {
+                /** @var PluginList $pluginList */
+                $pluginList = $c->get('Piwik\Application\Kernel\PluginList');
+                $plugins = $pluginList->sortPlugins($plugins);
+
+                // set the plugins to load, has to be done to Config, since Config will reload files on construction.
+                // TODO: probably shouldn't need to do this, will wait until 3.0 to remove.
+                $config->Plugins['Plugins'] = $plugins;
+
+                return $config;
+            }),
         );
+
+        return $diConfigs;
     }
 
     public function getExtraEnvironments()
@@ -175,6 +194,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             array(
                 Plugin::getPluginNameFromBacktrace(debug_backtrace()),
                 Plugin::getPluginNameFromNamespace($this->vars->testCaseClass),
+                Plugin::getPluginNameFromNamespace($this->vars->fixtureClass),
                 Plugin::getPluginNameFromNamespace(get_called_class())
             )
         );

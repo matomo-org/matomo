@@ -76,9 +76,10 @@ abstract class IntegrationTestCase extends SystemTestCase
     {
         parent::setUp();
 
-        self::$fixture->extraDefinitions = array_merge(static::provideContainerConfigBeforeClass(), $this->provideContainerConfig());
-        self::$fixture->createEnvironmentInstance();
+        static::$fixture->extraDefinitions = array_merge(static::provideContainerConfigBeforeClass(), $this->provideContainerConfig());
+        static::$fixture->createEnvironmentInstance();
 
+        Db::createDatabaseObject();
         Fixture::loadAllPlugins(new TestingEnvironmentVariables(), get_class($this), self::$fixture->extraPluginsToLoad);
 
         Access::getInstance()->setSuperUserAccess(true);
@@ -98,6 +99,7 @@ abstract class IntegrationTestCase extends SystemTestCase
     public function tearDown()
     {
         static::$fixture->clearInMemoryCaches();
+        static::$fixture->destroyEnvironment();
 
         parent::tearDown();
     }

@@ -31,7 +31,7 @@ class TestConfig extends Config
 
     public function reload($pathLocal = null, $pathGlobal = null, $pathCommon = null)
     {
-        parent::reload($pathGlobal, $pathLocal, $pathCommon);
+        parent::reload($pathLocal, $pathGlobal, $pathCommon);
 
         $this->setTestEnvironment();
     }
@@ -75,25 +75,15 @@ class TestConfig extends Config
 
     private function setFromTestEnvironment(\Piwik\Tests\Framework\TestingEnvironmentVariables $testingEnvironment)
     {
-        $pluginsToLoad = $testingEnvironment->getCoreAndSupportedPlugins();
-        if (!empty($testingEnvironment->pluginsToLoad)) {
-            $pluginsToLoad = array_unique(array_merge($pluginsToLoad, $testingEnvironment->pluginsToLoad));
-        }
-
-        sort($pluginsToLoad);
-
         $chain = $this->settings->getIniFileChain();
 
         $general =& $chain->get('General');
-        $plugins =& $chain->get('Plugins');
         $log =& $chain->get('log');
         $database =& $chain->get('database');
 
         if ($testingEnvironment->configFileLocal) {
             $general['session_save_handler'] = 'dbtable';
         }
-
-        $plugins['Plugins'] = $pluginsToLoad;
 
         $log['log_writers'] = array('file');
 

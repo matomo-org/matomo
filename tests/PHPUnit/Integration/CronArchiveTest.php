@@ -20,54 +20,6 @@ use Piwik\Tests\Framework\Mock\FakeLogger;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\SegmentEditor\API as SegmentAPI;
 
-class FakeCliMulti extends CliMulti
-{
-    public static $specifiedResults = null;
-
-    public function request(array $piwikUrls)
-    {
-        if (empty(FakeCliMulti::$specifiedResults)) {
-            return parent::request($piwikUrls);
-        }
-
-        $results = array();
-        foreach ($piwikUrls as $url) {
-            if ($url instanceof Request) {
-                $url->start();
-
-                $url = (string)$url;
-            }
-
-            $results[] = $this->getSpecifiedResult($url);
-        }
-        return $results;
-    }
-
-    private function getSpecifiedResult($url)
-    {
-        foreach (FakeCliMulti::$specifiedResults as $pattern => $result) {
-            if (substr($pattern, 0, 1) == '/'
-                && substr($pattern, strlen($pattern) - 1, 1) == '/'
-            ) {
-                $isMatch = preg_match($pattern, $url);
-            } else {
-                $isMatch = $pattern == $url;
-            }
-
-            if (!$isMatch) {
-                continue;
-            }
-
-            if (is_callable($result)) {
-                return $result($url);
-            } else {
-                return $result;
-            }
-        }
-        return null;
-    }
-}
-
 /**
  * @group Archiver
  * @group CronArchive
@@ -115,7 +67,7 @@ class CronArchiveTest extends IntegrationTestCase
 
     public function test_output()
     {
-        FakeCliMulti::$specifiedResults = array(
+        \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
             '/method=API.get/' => serialize(array(array('nb_visits' => 1)))
         );
 
@@ -190,7 +142,7 @@ LOG;
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\CliMulti' => \DI\object('Piwik\Tests\Integration\FakeCliMulti')
+            'Piwik\CliMulti' => \DI\object('Piwik\Tests\Framework\Mock\FakeCliMulti')
         );
     }
 }

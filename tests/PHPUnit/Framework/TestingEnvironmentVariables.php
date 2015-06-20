@@ -9,8 +9,6 @@
 namespace Piwik\Tests\Framework;
 
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Piwik;
-use Piwik\Application\Environment;
 
 /**
  * Sets the test environment.
@@ -21,10 +19,7 @@ class TestingEnvironmentVariables
 
     public function __construct()
     {
-        $overridePath = PIWIK_INCLUDE_PATH . '/tmp/testingPathOverride.json';
-        if (file_exists($overridePath)) {
-            $this->behaviorOverrideProperties = json_decode(file_get_contents($overridePath), true);
-        }
+        $this->reload();
     }
 
     public function __get($key)
@@ -82,5 +77,13 @@ class TestingEnvironmentVariables
         sort($plugins);
 
         return $plugins;
+    }
+
+    public function reload()
+    {
+        $overridePath = PIWIK_INCLUDE_PATH . '/tmp/testingPathOverride.json';
+        if (file_exists($overridePath)) {
+            $this->behaviorOverrideProperties = json_decode(file_get_contents($overridePath), true);
+        }
     }
 }

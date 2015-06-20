@@ -176,7 +176,12 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function performSetUp($setupEnvironmentOnly = false)
     {
+        // TODO: don't use static var, use test env var for this
         TestingEnvironmentManipulator::$extraPluginsToLoad = $this->extraPluginsToLoad;
+
+        $this->getTestEnvironment()->testCaseClass = $this->testCaseClass;
+        $this->getTestEnvironment()->fixtureClass = get_class($this);
+        $this->getTestEnvironment()->save();
 
         $this->createEnvironmentInstance();
 
@@ -269,9 +274,6 @@ class Fixture extends \PHPUnit_Framework_Assert
             return;
         }
 
-        $this->getTestEnvironment()->testCaseClass = $this->testCaseClass;
-        $this->getTestEnvironment()->save();
-
         PiwikCache::getTransientCache()->flushAll();
 
         if ($this->overwriteExisting
@@ -326,6 +328,8 @@ class Fixture extends \PHPUnit_Framework_Assert
         $this->clearInMemoryCaches();
 
         Log::unsetInstance();
+
+        $this->destroyEnvironment();
     }
 
     public function clearInMemoryCaches()
@@ -347,6 +351,11 @@ class Fixture extends \PHPUnit_Framework_Assert
         // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object
     }
 
+    /**
+     * @param \Piwik\Tests\Framework\TestingEnvironmentVariables|null $testEnvironment Ignored.
+     * @param bool|false $testCaseClass Ignored.
+     * @param array $extraPluginsToLoad Ignoerd.
+     */
     public static function loadAllPlugins(TestingEnvironmentVariables $testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
     {
         DbHelper::createTables();
@@ -904,7 +913,17 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function createEnvironmentInstance()
     {
-        $this->piwikEnvironment = new Environment($environment = null, array_merge($this->provideContainerConfig(), $this->extraDefinitions));
+        $this->piwikEnvironment = new Environment($environment = null, $this->extraDefinitions);
         $this->piwikEnvironment->init();
+    }
+
+    public function destroyEnvironment()
+    {
+        if ($this->piwikEnvironment === null) {
+            return;
+        }
+
+        $this->piwikEnvironment->destroy();
+        $this->piwikEnvironment = null;
     }
 }
