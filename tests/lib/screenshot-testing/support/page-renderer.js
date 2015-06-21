@@ -388,6 +388,7 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
 
                 self._setCorrectViewportSize();
                 self.webpage.render(outputPath);
+                self._viewportSizeOverride = null;
             }
 
             self.webpage.clipRect = previousClipRect;
