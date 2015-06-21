@@ -8,9 +8,6 @@
  */
 namespace Piwik\Plugins\MobileAppMeasurable;
 
-use Piwik\Measurable\MeasurableSetting;
-use Piwik\Measurable\MeasurableSettings;
-
 class Type extends \Piwik\Measurable\Type
 {
     const ID = 'mobileapp';
