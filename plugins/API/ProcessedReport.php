@@ -837,7 +837,8 @@ class ProcessedReport
         }
 
         // Add revenue symbol to revenues
-        if (strpos($columnName, 'revenue') !== false && strpos($columnName, 'evolution') === false) {
+        $isMoneyMetric = strpos($columnName, 'revenue') !== false || strpos($columnName, 'price') !== false;
+        if ($isMoneyMetric && strpos($columnName, 'evolution') === false) {
             return $formatter->getPrettyMoney($value, $idSite);
         }
 
