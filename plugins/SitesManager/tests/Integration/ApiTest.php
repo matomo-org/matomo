@@ -11,6 +11,7 @@ namespace Piwik\Plugins\SitesManager\tests\Integration;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\MobileAppMeasurable;
+use Piwik\Plugins\MobileAppMeasurable\tests\Framework\Mock\Type;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\Model;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -1227,7 +1228,8 @@ class ApiTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
+            'Piwik\Plugins\MobileAppMeasurable\Type' => new Type()
         );
     }
 
