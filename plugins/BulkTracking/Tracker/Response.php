@@ -15,6 +15,11 @@ use Piwik\Tracker;
 class Response extends Tracker\Response
 {
     /**
+     * @var int
+     */
+    private $invalidRequests = 0;
+
+    /**
      * Echos an error message & other information, then exits.
      *
      * @param Tracker $tracker
@@ -55,7 +60,8 @@ class Response extends Tracker\Response
         // when doing bulk tracking we return JSON so the caller will know how many succeeded
         $result = array(
             'status'  => 'error',
-            'tracked' => $tracker->getCountOfLoggedRequests()
+            'tracked' => $tracker->getCountOfLoggedRequests(),
+            'invalid' => $this->invalidRequests,
         );
 
         // send error when in debug mode
@@ -70,8 +76,13 @@ class Response extends Tracker\Response
     {
         return array(
             'status' => 'success',
-            'tracked' => $tracker->getCountOfLoggedRequests()
+            'tracked' => $tracker->getCountOfLoggedRequests(),
+            'invalid' => $this->invalidRequests,
         );
     }
 
+    public function setInvalidCount($invalidRequests)
+    {
+        $this->invalidRequests = $invalidRequests;
+    }
 }
