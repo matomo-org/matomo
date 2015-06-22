@@ -109,7 +109,7 @@ class Sparkline implements ViewInterface
 
         $min = $max = $last = null;
         $i = 0;
-        $seconds  = Piwik::translate('General_Seconds');
+        $seconds  = Piwik::translate('Intl_NSecondsShort');
         $toRemove = array('%', str_replace('%s', '', $seconds));
 
         foreach ($this->values as $value) {

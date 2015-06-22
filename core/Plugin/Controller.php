@@ -199,20 +199,20 @@ abstract class Controller
         $availablePeriods = self::getEnabledPeriodsInUI();
         $periodNames = array(
             'day'   => array(
-                'singular' => Piwik::translate('CoreHome_PeriodDay'),
-                'plural' => Piwik::translate('CoreHome_PeriodDays')
+                'singular' => Piwik::translate('Intl_PeriodDay'),
+                'plural' => Piwik::translate('Intl_PeriodDays')
             ),
             'week'  => array(
-                'singular' => Piwik::translate('CoreHome_PeriodWeek'),
-                'plural' => Piwik::translate('CoreHome_PeriodWeeks')
+                'singular' => Piwik::translate('Intl_PeriodWeek'),
+                'plural' => Piwik::translate('Intl_PeriodWeeks')
             ),
             'month' => array(
-                'singular' => Piwik::translate('CoreHome_PeriodMonth'),
-                'plural' => Piwik::translate('CoreHome_PeriodMonths')
+                'singular' => Piwik::translate('Intl_PeriodMonth'),
+                'plural' => Piwik::translate('Intl_PeriodMonths')
             ),
             'year'  => array(
-                'singular' => Piwik::translate('CoreHome_PeriodYear'),
-                'plural' => Piwik::translate('CoreHome_PeriodYears')
+                'singular' => Piwik::translate('Intl_PeriodYear'),
+                'plural' => Piwik::translate('Intl_PeriodYears')
             ),
             // Note: plural is not used for date range
             'range' => array(

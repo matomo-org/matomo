@@ -564,7 +564,7 @@ class API extends \Piwik\Plugin\API
 
         $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
         $dataTable->queueFilter(
-            'BeautifyRangeLabels', array(Piwik::translate('General_OneDay'), Piwik::translate('General_NDays')));
+            'BeautifyRangeLabels', array(Piwik::translate('Intl_OneDay'), Piwik::translate('Intl_NDays')));
 
         return $dataTable;
     }

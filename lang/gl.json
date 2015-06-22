@@ -62,7 +62,6 @@
         "HoursMinutes": "%1$s horas %2$s min",
         "Id": "ID",
         "JsTrackingTag": "Etiqueta Javascript",
-        "LayoutDirection": "ltr",
         "Loading": "Cargando",
         "LoadingData": "Cargando Datos...",
         "Locale": "gl_ES.UTF-8",
@@ -107,7 +106,6 @@
         "Settings": "Configuración",
         "Table": "Táboa",
         "TagCloud": "Nube de etiquetas",
-        "Today": "Hoxe",
         "TranslatorEmail": "info@ousli.org",
         "TranslatorName": "OUSLI - Ourense Software Libre, Antonio Andina",
         "Unknown": "Descoñecido",
@@ -127,7 +125,6 @@
         "Widgets": "Engadidos",
         "YearsDays": "%1$s anos %2$s días",
         "Yes": "Si",
-        "Yesterday": "Onte",
         "YouAreViewingDemoShortMessage": "Vostede esta vendo a demo de Piwik",
         "YouMustBeLoggedIn": "Debes de rexistrate para acceder a esta función.",
         "YourChangesHaveBeenSaved": "Os cambios foron grabados"

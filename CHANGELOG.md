@@ -6,6 +6,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Breaking Changes
 * The `UserSettings` API has been removed. The API was deprecated in earlier versions. Use `DevicesDetection`, `Resolution` and `DevicePlugins` API instead.
+* Many translations have been moved to the new Intl plugin. Most of them will still work, but please update their usage. See https://github.com/piwik/piwik/pull/8101 for a full list 
 
 ### New features 
 * The JavaScript Tracker does now track outlinks and downloads if a user opens the context menu if the `enabled` parameter of the `enableLinkTracking()` method is set to `true`. To use this new feature use `tracker.enableLinkTracking(true)` or `_paq.push(['enableLinkTracking', true]);`. This is not industry standard and is vulnerable to false positives since not every user will select "Open in a new tab" when the context menu is shown. Most users will do though and it will lead to more accurate results in most cases.

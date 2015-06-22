@@ -135,7 +135,7 @@
                 </div>
                 <div class="input-group">
                     <input type="text" id="deleteOlderThan" value="{{ deleteData.config.delete_logs_older_than }}" name="deleteOlderThan"/>
-                    <span class="input-group-addon">{{ 'CoreHome_PeriodDays'|translate }}</span>
+                    <span class="input-group-addon">{{ 'Intl_PeriodDays'|translate }}</span>
                 </div>
             </div>
 
@@ -176,7 +176,7 @@
                     </div>
                     <div class="input-group">
                         <input type="text" id="deleteReportsOlderThan" value="{{ deleteData.config.delete_reports_older_than }}" name="deleteReportsOlderThan"/>
-                        <span class="input-group-addon">{{ 'CoreHome_PeriodMonths'|translate }}</span>
+                        <span class="input-group-addon">{{ 'Intl_PeriodMonths'|translate }}</span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -250,11 +250,11 @@
                 <label>{{ 'PrivacyManager_DeleteDataInterval'|translate }}</label>
                 <select id="deleteLowestInterval" name="deleteLowestInterval">
                     <option {% if deleteData.config.delete_logs_schedule_lowest_interval == '1' %} selected="selected" {% endif %}
-                            value="1"> {{ 'CoreHome_PeriodDay'|translate }}</option>
+                            value="1"> {{ 'Intl_PeriodDay'|translate }}</option>
                     <option {% if deleteData.config.delete_logs_schedule_lowest_interval == '7' %} selected="selected" {% endif %}
-                            value="7">{{ 'CoreHome_PeriodWeek'|translate }}</option>
+                            value="7">{{ 'Intl_PeriodWeek'|translate }}</option>
                     <option {% if deleteData.config.delete_logs_schedule_lowest_interval == '30' %} selected="selected" {% endif %}
-                            value="30">{{ 'CoreHome_PeriodMonth'|translate }}</option>
+                            value="30">{{ 'Intl_PeriodMonth'|translate }}</option>
                 </select>
             </div>
 

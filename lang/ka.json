@@ -99,7 +99,6 @@
         "InvalidResponse": "მიღებული მონაცემები არასწორია.",
         "JsTrackingTag": "JavaScript ტრეკირების ტეგი",
         "Language": "ენა",
-        "LayoutDirection": "ltr",
         "Loading": "ჩატვირთვა...",
         "LoadingData": "მონაცემები იტვირთება...",
         "Locale": "ka_GE.UTF-8",
@@ -159,7 +158,6 @@
         "SmtpUsername": "SMTP მომხმრებელი",
         "Table": "ცხრილი",
         "TagCloud": "ტეგების ერთობლიობა",
-        "Today": "დღეს",
         "TranslatorEmail": "kasia@pawel.com",
         "TranslatorName": "Kasia",
         "Unknown": "უცნობი",
@@ -180,7 +178,6 @@
         "Widgets": "ვიჯეტები",
         "YearsDays": "%1$s წელი %2$s დღე",
         "Yes": "დიახ",
-        "Yesterday": "გუშინ",
         "YouAreViewingDemoShortMessage": "ახლა თქვენ ათვალიერებთ Piwik–ის დემო ვერსიას",
         "YouMustBeLoggedIn": "ამ ფუნქციის გამოყენებისთვის სისტემაში შესული უნდა იყოთ.",
         "YourChangesHaveBeenSaved": "თქვენს მიერ გაკეთებული ცვლილებები შენახულია."

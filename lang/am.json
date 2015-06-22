@@ -34,7 +34,6 @@
         "HelloUser": "ሃሎ, %s!",
         "Id": "የለም",
         "JsTrackingTag": "የጃቫ ስክሪፕት ዱካ መከተያ መለያ",
-        "LayoutDirection": "ltr",
         "Loading": "በማስገባት ላይ...",
         "LoadingData": "ውሂብ በማስገባት ላይ...",
         "Locale": "am_ET.UTF-8",
@@ -62,7 +61,6 @@
         "Settings": "ቅንብሮች",
         "Table": "ሰንጠረዥ",
         "TagCloud": "መለያ Cloud",
-        "Today": "ዛሬ",
         "TranslatorEmail": "info@addismap.com",
         "TranslatorName": "Alazar Tekle of <a href=\"http:\/\/www.addismap.com\">Addis Map<\/a> \/ <a href=\"http:\/\/www.map.et\">Ethiopia Map<\/a>",
         "Unknown": "ያልታወቀ",
@@ -73,7 +71,6 @@
         "Warning": "ማስጠንቀቂያ",
         "Website": "ድር ጣቢያ",
         "Widgets": "Widgets",
-        "Yes": "አዎን",
-        "Yesterday": "ትናንት"
+        "Yes": "አዎን"
     }
 }

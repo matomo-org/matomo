@@ -36,8 +36,8 @@ class API extends \Piwik\Plugin\API
         $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
         $dataTable->queueFilter('BeautifyTimeRangeLabels', array(
                                                                 Piwik::translate('VisitorInterest_BetweenXYSeconds'),
-                                                                Piwik::translate('VisitorInterest_OneMinute'),
-                                                                Piwik::translate('VisitorInterest_PlusXMin')));
+                                                                Piwik::translate('Intl_OneMinuteShort'),
+                                                                Piwik::translate('Intl_NMinutesShort')));
         return $dataTable;
     }
 
@@ -65,7 +65,7 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(
             Archiver::DAYS_SINCE_LAST_RECORD_NAME, $idSite, $period, $date, $segment, Metrics::INDEX_NB_VISITS);
-        $dataTable->queueFilter('BeautifyRangeLabels', array(Piwik::translate('General_OneDay'), Piwik::translate('General_NDays')));
+        $dataTable->queueFilter('BeautifyRangeLabels', array(Piwik::translate('Intl_OneDay'), Piwik::translate('Intl_NDays')));
         return $dataTable;
     }
 

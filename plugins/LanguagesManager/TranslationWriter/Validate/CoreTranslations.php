@@ -21,7 +21,6 @@ class CoreTranslations extends ValidateAbstract
     const ERRORSTATE_LOCALEREQUIRED = 'Locale required';
     const ERRORSTATE_TRANSLATORINFOREQUIRED = 'Translator info required';
     const ERRORSTATE_TRANSLATOREMAILREQUIRED = 'Translator email required';
-    const ERRORSTATE_LAYOUTDIRECTIONINVALID = 'Layout direction must be rtl or ltr';
     const ERRORSTATE_LOCALEINVALID = 'Locale is invalid';
     const ERRORSTATE_LOCALEINVALIDLANGUAGE = 'Locale is invalid - invalid language code';
     const ERRORSTATE_LOCALEINVALIDCOUNTRY = 'Locale is invalid - invalid country code';
@@ -40,9 +39,8 @@ class CoreTranslations extends ValidateAbstract
 
     /**
      * Validates the given translations
-     *  * There need to be more than 250 translations presen
+     *  * There need to be more than 250 translations present
      *  * Locale, TranslatorName and TranslatorEmail needs to be set in plugin General
-     *  * LayoutDirection needs to be ltr or rtl if present
      *  * Locale must be valid (format, language & country)
      *
      * @param array $translations
@@ -65,13 +63,6 @@ class CoreTranslations extends ValidateAbstract
 
         if (empty($translations['General']['TranslatorEmail'])) {
             $this->message = self::ERRORSTATE_TRANSLATOREMAILREQUIRED;
-            return false;
-        }
-
-        if (!empty($translations['General']['LayoutDirection']) &&
-            !in_array($translations['General']['LayoutDirection'], array('ltr', 'rtl'))
-        ) {
-            $this->message = self::ERRORSTATE_LAYOUTDIRECTIONINVALID;
             return false;
         }
 
