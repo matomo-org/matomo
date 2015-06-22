@@ -14,6 +14,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Ini\IniReader;
 use Piwik\Plugin\Manager;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -381,9 +382,13 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
      */
     public function test_TotalPiwikFilesSize_isWithinReasonnableSize()
     {
-        $maximumTotalFilesizesExpectedInMb = 70;
-        $minimumTotalFilesizesExpectedInMb = 50;
-        $minimumExpectedFilesCount = 6000;
+        if(!SystemTestCase::isTravisCI()) {
+            // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
+            $this->markTestSkipped("Skipped this test on local dev environment.");
+        }
+        $maximumTotalFilesizesExpectedInMb = 50;
+        $minimumTotalFilesizesExpectedInMb = 38;
+        $minimumExpectedFilesCount = 7000;
 
         $filesizes = $this->getAllFilesizes();
         $sumFilesizes = array_sum($filesizes);
@@ -417,10 +422,10 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         }
 
         // in build-package.sh we have: `find ./ -iname 'tests' -type d -prune -exec rm -rf {} \;`
-        If(stripos($file, "/tests/") !== false) {
+        if(stripos($file, "/tests/") !== false) {
             return false;
         }
-        If(strpos($file, PIWIK_INCLUDE_PATH . "/tmp/") !== false) {
+        if(strpos($file, PIWIK_INCLUDE_PATH . "/tmp/") !== false) {
             return false;
         }
 
