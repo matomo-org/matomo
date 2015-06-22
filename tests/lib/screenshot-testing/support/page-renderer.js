@@ -381,19 +381,25 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
         clearTimeout(timeout);
 
         try {
-            var previousClipRect = self.webpage.clipRect;
-
             if (outputPath) {
+                var previousClipRect = self.webpage.clipRect;
+
                 setClipRect(self.webpage, selector);
 
-                self._setCorrectViewportSize();
-                self.webpage.render(outputPath);
-                self._viewportSizeOverride = null;
+                // _setCorrectViewportSize might cause a re-render. We should wait for a while for the re-render to
+                // finish before capturing a screenshot to avoid possible random failures.
+                var timeInMsToWaitForReRenderToFinish = 400;
+                setTimeout(function () {
+                    self.webpage.render(outputPath);
+                    self._viewportSizeOverride = null;
+                    self.webpage.clipRect = previousClipRect;
+                    callback();
+                }, timeInMsToWaitForReRenderToFinish);
+                
+            } else {
+                callback();
             }
-
-            self.webpage.clipRect = previousClipRect;
-
-            callback();
+            
         } catch (e) {
             self.webpage.clipRect = previousClipRect;
 
