@@ -90,7 +90,7 @@ class Pecl extends GeoIp
         // get isp data if the isp database is available
         if (self::isISPDatabaseAvailable()) {
             $isp = @geoip_isp_by_name($ip);
-            if ($ip !== false) {
+            if ($isp !== false) {
                 $result[self::ISP_KEY] = utf8_encode($isp);
             }
         }
