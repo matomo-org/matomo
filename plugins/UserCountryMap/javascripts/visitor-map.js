@@ -96,7 +96,8 @@
                     apiModule: module,
                     apiAction: action,
                     filter_limit: -1,
-                    limit: -1
+                    limit: -1,
+                    format_metrics: 0
                 });
                 if (countryFilter) {
                     $.extend(params, {
@@ -701,7 +702,7 @@
                     // load data from Piwik API
                     ajax(_reportParams('UserCountry', 'getRegion', UserCountryMap.countriesByIso[iso].iso2))
                         .done(function (data) {
-                            convertBounceRatesToInts(data);
+                            convertBounceRatesToPercents(data);
 
                             loadingComplete();
 
@@ -832,7 +833,7 @@
                     // get visits per city from API
                     ajax(_reportParams('UserCountry', 'getCity', UserCountryMap.countriesByIso[iso].iso2))
                         .done(function (data) {
-                            convertBounceRatesToInts(data);
+                            convertBounceRatesToPercents(data);
 
                             loadingComplete();
 
@@ -1125,7 +1126,7 @@
             // now load the metrics for all countries
             ajax(_reportParams('UserCountry', 'getCountry'))
                 .done(function (report) {
-                    convertBounceRatesToInts(report);
+                    convertBounceRatesToPercents(report);
 
                     var metrics = $$('.userCountryMapSelectMetrics option');
                     var countryData = [], countrySelect = $$('.userCountryMapSelectCountry'),
@@ -1226,11 +1227,11 @@
             $$('.widgetUserCountryMapvisitorMap .widgetName span').remove();
             $$('.widgetUserCountryMapvisitorMap .widgetName').append('<span class="map-title"></span>');
 
-            // converts bounce rate percents to strings, eg, 12% => 12
-            function convertBounceRatesToInts(report) {
+            // converts bounce rate quotients to numeric percents, eg, .12 => 12
+            function convertBounceRatesToPercents(report) {
                 $.each(report.reportData, function (i, row) {
                     if (row['bounce_rate']) {
-                        row['bounce_rate'] = parseInt(row['bounce_rate']);
+                        row['bounce_rate'] = parseFloat(row['bounce_rate']) * 100;
                     }
                 });
             }
