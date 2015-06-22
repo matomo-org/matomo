@@ -152,8 +152,12 @@
             //
             function formatValueForTooltips(data, metric, id) {
 
-                var val = data[metric] % 1 === 0 || Number(data[metric]) != data[metric] ? data[metric] : data[metric].toFixed(1),
-                    v = _[metric].replace('%s', '<strong>' + val + '</strong>');
+                var val = data[metric] % 1 === 0 || Number(data[metric]) != data[metric] ? data[metric] : data[metric].toFixed(1);
+                if (metric == 'bounce_rate') {
+                    val += '%';
+                }
+
+                var v = _[metric].replace('%s', '<strong>' + val + '</strong>');
 
                 if (val == 1 && metric == 'nb_visits') v = _.one_visit;
 
@@ -187,7 +191,14 @@
                 function addLegendItem(val, first) {
                     var d = $('<div>'), r = $('<div>'), l = $('<div>'),
                         metric = $$('.userCountryMapSelectMetrics').val(),
-                        v = formatNumber(Math.round(val)) + (metric == 'avg_time_on_site' ? first ? ' sec' : 's' : '');
+                        v = formatNumber(Math.round(val));
+
+                    if (metric == 'avg_time_on_site') {
+                        v += first ? ' sec' : 's';
+                    } else if (metric == 'bounce_rate') {
+                        v += '%';
+                    }
+
                     d.css({ width: 17, height: 17, float: 'left', background: colscale(val) });
                     l.css({ 'margin-left': 20, 'line-height': '20px', 'text-align': 'right' }).html(v);
                     r.css({ clear: 'both', height: 19 });
@@ -597,8 +608,6 @@
                 switch (metric) {
                     case 'avg_time_on_site':
                         return d.sum_visit_length / d.nb_visits;
-                    case 'bounce_rate':
-                        return d.bounce_count / d.nb_visits;
                     default:
                         return d[metric];
                 }
@@ -637,7 +646,7 @@
                 $.each(groups, function (g_id, group) {
                     var apv = group.nb_actions / group.nb_visits,
                         ats = group.sum_visit_length / group.nb_visits,
-                        br = (group.bounce_count * 100 / group.bounce_count);
+                        br = group.bounce_rate;
                     group['nb_actions_per_visit'] = apv;
                     group['avg_time_on_site'] = new Date(0, 0, 0, ats / 3600, ats % 3600 / 60, ats % 60).toLocaleTimeString();
                     group['bounce_rate'] = (br % 1 !== 0 ? br.toFixed(1) : br) + "%";
@@ -692,6 +701,7 @@
                     // load data from Piwik API
                     ajax(_reportParams('UserCountry', 'getRegion', UserCountryMap.countriesByIso[iso].iso2))
                         .done(function (data) {
+                            convertBounceRatesToInts(data);
 
                             loadingComplete();
 
@@ -822,6 +832,7 @@
                     // get visits per city from API
                     ajax(_reportParams('UserCountry', 'getCity', UserCountryMap.countriesByIso[iso].iso2))
                         .done(function (data) {
+                            convertBounceRatesToInts(data);
 
                             loadingComplete();
 
@@ -1114,6 +1125,8 @@
             // now load the metrics for all countries
             ajax(_reportParams('UserCountry', 'getCountry'))
                 .done(function (report) {
+                    convertBounceRatesToInts(report);
+
                     var metrics = $$('.userCountryMapSelectMetrics option');
                     var countryData = [], countrySelect = $$('.userCountryMapSelectCountry'),
                         countriesByIso = {};
@@ -1213,6 +1226,14 @@
             $$('.widgetUserCountryMapvisitorMap .widgetName span').remove();
             $$('.widgetUserCountryMapvisitorMap .widgetName').append('<span class="map-title"></span>');
 
+            // converts bounce rate percents to strings, eg, 12% => 12
+            function convertBounceRatesToInts(report) {
+                $.each(report.reportData, function (i, row) {
+                    if (row['bounce_rate']) {
+                        row['bounce_rate'] = parseInt(row['bounce_rate']);
+                    }
+                });
+            }
         },
 
         /*
