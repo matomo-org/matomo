@@ -8,9 +8,6 @@
  */
 namespace Piwik\Plugins\MobileAppMeasurable;
 
-use Piwik\Measurable\MeasurableSetting;
-use Piwik\Measurable\MeasurableSettings;
-
 class Type extends \Piwik\Measurable\Type
 {
     const ID = 'mobileapp';
@@ -19,17 +16,6 @@ class Type extends \Piwik\Measurable\Type
     protected $description = 'MobileAppMeasurable_MobileAppDescription';
     protected $howToSetupUrl = 'http://developer.piwik.org/guides/tracking-api-clients#mobile-sdks';
 
-    public function configureMeasurableSettings(MeasurableSettings $settings)
-    {
-        $appId = new MeasurableSetting('app_id', 'App-ID');
-        $appId->validate = function ($value) {
-            if (strlen($value) > 100) {
-                throw new \Exception('Only 100 characters are allowed');
-            }
-        };
-
-        $settings->addSetting($appId);
-    }
 
 }
 
