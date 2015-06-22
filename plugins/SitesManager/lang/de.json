@@ -74,6 +74,7 @@
         "Urls": "URLs",
         "UTCTimeIs": "UTC-Zeit ist %s.",
         "WebsitesManagement": "Webseitenverwaltung",
+        "XManagement": "%s verwalten",
         "YouCurrentlyHaveAccessToNWebsites": "Sie haben derzeit Zugriff auf %s Webseiten.",
         "YourCurrentIpAddressIs": "Ihre aktuelle IP-Adresse ist %s"
     }
