@@ -28,7 +28,7 @@ describe("MeasurableManager", function () {
         assertScreenshotEquals("loaded", done, function (page) {
             page.load(url);
             page.evaluate(function () {
-                $('.ui-inline-help:contains(UTC time is)').hide();
+                $('.form-help:contains(UTC time is)').hide();
             });
         });
     });
