@@ -558,12 +558,12 @@ URL: https://github.com/Huddle/Resemble.js
 			var self = {
 				ignoreNothing: function(){
 
-					tolerance.red = 16;
-					tolerance.green = 16;
-					tolerance.blue = 16;
-					tolerance.alpha = 16;
-					tolerance.minBrightness = 16;
-					tolerance.maxBrightness = 240;
+                    tolerance.red = 0;
+                    tolerance.green = 0;
+                    tolerance.blue = 0;
+                    tolerance.alpha = 0;
+                    tolerance.minBrightness = 0;
+                    tolerance.maxBrightness = 255;
 
 					ignoreAntialiasing = false;
 					ignoreColors = false;

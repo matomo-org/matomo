@@ -15,7 +15,8 @@ resemble.outputSettings({
         alpha: 125
     },
     errorType: 'movement',
-    transparency: 0.3
+    transparency: 0.3,
+    largeImageThreshold: 20000
 });
 
 function compareImages(expected, expectedGithub, processed)
@@ -57,6 +58,7 @@ $(function () {
     var expected  = getUrlQueryParam('expected');
     var github    = getUrlQueryParam('github');
     var resembleControl = compareImages(expected, github, processed);
+    resembleControl.ignoreNothing();
 
     $('#toggleAliasing').click(function () {
         resembleControl.ignoreAntialiasing();

@@ -51,7 +51,8 @@ resemble.outputSettings({
         alpha: 125
     },
     errorType: 'movement',
-    transparency: 0.3
+    transparency: 0.3,
+    largeImageThreshold: 20000
 });
 
 // run script

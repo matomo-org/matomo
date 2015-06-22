@@ -13,6 +13,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Library updates
 * Updated pChart library from 2.1.3 to 2.1.4. The files were moved from the directory `libs/pChart2.1.3` to `libs/pChart`
 
+### Internal change
+* To execute UI tests "ImageMagick" is now required.
+
 ## Piwik 2.13.0
 
 ### Breaking Changes
