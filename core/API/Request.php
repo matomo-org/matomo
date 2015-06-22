@@ -94,7 +94,7 @@ class Request
                 $defaultRequest['segment'] = $requestRaw['segment'];
             }
 
-            if (empty($defaultRequest['format_metrics'])) {
+            if (!isset($defaultRequest['format_metrics'])) {
                 $defaultRequest['format_metrics'] = 'bc';
             }
         }
