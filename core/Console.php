@@ -26,11 +26,13 @@ class Console extends Application
      */
     private $environment;
 
-    public function __construct()
+    public function __construct(Environment $environment = null)
     {
         $this->setServerArgsIfPhpCgi();
 
         parent::__construct();
+
+        $this->environment = $environment;
 
         $option = new InputOption('piwik-domain',
             null,
@@ -169,8 +171,10 @@ class Console extends Application
     protected function initEnvironment(OutputInterface $output)
     {
         try {
-            $this->environment = new Environment('cli');
-            $this->environment->init();
+            if ($this->environment === null) {
+                $this->environment = new Environment('cli');
+                $this->environment->init();
+            }
 
             $config = Config::getInstance();
             return $config;
