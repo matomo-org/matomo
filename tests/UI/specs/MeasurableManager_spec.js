@@ -21,7 +21,7 @@ describe("MeasurableManager", function () {
 
     function assertScreenshotEquals(screenshotName, done, test)
     {
-        expect.screenshot(screenshotName).to.be.captureSelector('.sitesManagerList,.sitesButtonBar,.sites-manager-header', test, done);
+        expect.screenshot(screenshotName).to.be.captureSelector('.sitesManagerList,.sitesButtonBar,.sites-manager-header,.ui-dialog.ui-widget', test, done);
     }
 
     it("should load correctly and should not use SitesManager wording as another type is enabled", function (done) {
