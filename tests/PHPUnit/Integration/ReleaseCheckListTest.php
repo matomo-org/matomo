@@ -403,7 +403,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         // as of Piwik 2.14.0, we have:
         // du -h --max-depth=1 .
         // gives us 114Mb
-        $maximumTotalFilesizesExpectedInMb = 100;
+        $maximumTotalFilesizesExpectedInMb = 70;
+        $minimumTotalFilesizesExpectedInMb = 50;
 
         $filesOrderedBySize = $filesizes;
         arsort($filesOrderedBySize);
@@ -413,16 +414,15 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             $sumFilesizes,
             sprintf("Sum of all files should be less than $maximumTotalFilesizesExpectedInMb Mb.
                     \nGot total file sizes of: %d Mb.
-                    \nAll files: %s
                     \nBiggest files: %s",
+//                var_export($filesizes, true),
                 $sumFilesizes / 1024 / 1024,
-                var_export($filesizes, true),
                 var_export(array_slice($filesOrderedBySize, 0, 100, $preserveKeys = true), true)
             )
         );
 
         $this->assertGreaterThan(6000, count($filesizes), "Expected at least 6000 files should be included in Piwik.");
-        $this->assertGreaterThan(90 * 1024 * 1024, $sumFilesizes, "expected to have at least 90Mb of files in Piwik codebase.");
+        $this->assertGreaterThan($minimumTotalFilesizesExpectedInMb * 1024 * 1024, $sumFilesizes, "expected to have at least 90Mb of files in Piwik codebase.");
     }
 
     /**
@@ -445,6 +445,10 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             return false;
         }
 
+        if($this->isPluginSubmoduleAndThereforeNotFoundInFinalRelease($file)) {
+            return false;
+        }
+
         if($this->isFileBelongToComposerDevelopmentPackage($file)) {
             return false;
         }
@@ -454,6 +458,34 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         }
 
         return true;
+    }
+
+    /**
+     * Plugins Submodule in Piwik codebase are not there in the release package,
+     * (the plugins are released on the Marketplace.)
+     *
+     * @param $file
+     * @return bool
+     */
+    private function isPluginSubmoduleAndThereforeNotFoundInFinalRelease($file)
+    {
+        if(strpos($file, PIWIK_INCLUDE_PATH . "/plugins/") === false) {
+            return false;
+        }
+
+        $pluginName = str_replace(PIWIK_INCLUDE_PATH . "/plugins/", "", $file);
+        $pluginName = substr($pluginName, 0, strpos($pluginName, "/"));
+
+        $this->assertNotEmpty($pluginName, "Detected an empty plugin name from path: $file ");
+
+        $pluginManager = Manager::getInstance();
+        $notInPackagedRelease = $pluginManager->isPluginOfficialAndNotBundledWithCore($pluginName);
+
+        // test that the submodule check works
+        if($pluginName == 'VisitorGenerator') {
+            $this->assertTrue($notInPackagedRelease, "Expected isPluginOfficialAndNotBundledWithCore to return true for VisitorGenerator plugin");
+        }
+        return $notInPackagedRelease;
     }
 
     /**
