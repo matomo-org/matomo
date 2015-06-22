@@ -90,6 +90,10 @@ class Pdf extends ReportRenderer
 
     public function setLocale($locale)
     {
+        // WARNING
+        // To make Piwik release smaller, we're deleting some fonts from the Piwik build package.
+        // If you change this code below, make sure that the fonts are NOT deleted from the Piwik package:
+        // https://github.com/piwik/piwik-package/blob/master/scripts/build-package.sh
         switch ($locale) {
             case 'bn':
             case 'hi':
@@ -129,6 +133,8 @@ class Pdf extends ReportRenderer
                 $reportFont = ReportRenderer::DEFAULT_REPORT_FONT_FAMILY;
                 break;
         }
+        // WARNING: Did you read the warning above?
+
         $this->reportFont = $reportFont;
     }
 

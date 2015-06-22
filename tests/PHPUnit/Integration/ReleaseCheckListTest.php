@@ -374,4 +374,168 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $addedToGit = (strlen($gitOutput) > 0) && strpos($gitOutput, 'error: pathspec') === false;
         return $addedToGit;
     }
+
+
+    /**
+     * Tests that the Piwik files are not too big, to ensure the downloadable ZIP package is not too large
+     */
+    public function test_TotalPiwikFilesSize_isWithinReasonnableSize()
+    {
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*');
+
+        $filesizes = array();
+        foreach($files as $file) {
+
+            if(!$this->isFileIncludedInFinalRelease($file)) {
+                continue;
+            }
+
+            $filesize = filesize($file);
+
+            if($filesize === false) {
+                throw new Exception("Error getting filesize for file: $file");
+            }
+            $filesizes[$file] = $filesize;
+        }
+
+        $sumFilesizes = array_sum($filesizes);
+
+        // as of Piwik 2.14.0, we have:
+        // du -h --max-depth=1 .
+        // gives us 114Mb
+        $sumFilesizesExpectedInMb = 110;
+
+        $this->assertLessThan(
+            $sumFilesizesExpectedInMb * 1024 * 1024,
+            $sumFilesizes,
+            sprintf("Sum of all files should be less than $sumFilesizesExpectedInMb Mb.
+                    \nGot total file sizes of: %d Mb.
+                    \nAll files: %s",
+                $sumFilesizes / 1024 / 1024,
+                var_export($filesizes, true)
+            )
+        );
+
+        $this->assertGreaterThan(6000, count($filesizes), "Expected at least 6000 files should be included in Piwik.");
+        $this->assertGreaterThan(90 * 1024 * 1024, $sumFilesizes, "expected to have at least 90Mb of files in Piwik codebase.");
+    }
+
+    /**
+     * @param $file
+     * @return bool
+     */
+    private function isFileIncludedInFinalRelease($file)
+    {
+        if(is_dir($file)) {
+            return false;
+        }
+
+        // in build-package.sh we have: `find ./ -name 'tests' -type d -prune -exec rm -rf {} \;`
+        If(strpos($file, "/tests/") !== false
+            // and: `find ./ -name 'Tests' -type d -prune -exec rm -rf {} \;`
+            || strpos($file, "/Tests/") !== false) {
+            return false;
+        }
+        If(strpos($file, PIWIK_INCLUDE_PATH . "/tmp/") !== false) {
+            return false;
+        }
+
+        if($this->isFileBelongToComposerDevelopmentPackage($file)) {
+            return false;
+        }
+
+        if($this->isFileDeletedFromPackage($file)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param $file
+     * @return bool
+     */
+    private function isFileBelongToComposerDevelopmentPackage($file)
+    {
+        $composerDependencyDevOnly = $this->getComposerRequireDevPackages();
+
+        return $this->isFilePathFoundInArray($file, $composerDependencyDevOnly);
+    }
+
+    /**
+     * @return array
+     */
+    private function getComposerRequireDevPackages()
+    {
+        $composer = file_get_contents(PIWIK_INCLUDE_PATH . '/composer.json');
+        $composerJson = json_decode($composer, $assoc = true);
+        $composerDependencyDevOnly = array_keys($composerJson["require-dev"]);
+        return $composerDependencyDevOnly;
+    }
+
+    /**
+     * return true if $file is found within any sub-string in $filesToMatchAgainst,
+     *
+     * @param $file
+     * @param $filesToMatchAgainst array
+     * @return bool
+     */
+    private function isFilePathFoundInArray($file, $filesToMatchAgainst)
+    {
+        foreach ($filesToMatchAgainst as $devPackageName) {
+            if (strpos($file, $devPackageName) !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param $file
+     * @return bool
+     */
+    private function isFileDeletedFromPackage($file)
+    {
+        $filesDeletedFromPackage = array(
+            // copied from: https://github.com/piwik/piwik-package/blob/master/scripts/build-package.sh#L104-L116
+            'composer.phar',
+            'vendor/twig/twig/test/',
+            'vendor/twig/twig/doc/',
+            'vendor/symfony/console/Symfony/Component/Console/Resources/bin',
+            'vendor/doctrine/cache/.git',
+            'vendor/mnapoli/php-di/.git',
+            'vendor/mnapoli/php-di/website',
+            'vendor/mnapoli/php-di/news',
+            'vendor/mnapoli/php-di/doc',
+            'vendor/tecnick.com/tcpdf/examples',
+
+            // deleted fonts folders
+            'vendor/tecnick.com/tcpdf/fonts/ae_fonts_2.0',
+            'vendor/tecnick.com/tcpdf/fonts/dejavu-fonts-ttf-2.33',
+            'vendor/tecnick.com/tcpdf/fonts/dejavu-fonts-ttf-2.34',
+            'vendor/tecnick.com/tcpdf/fonts/freefont-20100919',
+            'vendor/tecnick.com/tcpdf/fonts/freefont-20120503',
+
+            // In the package script, there is a trailing * so any font matching will be deleted
+            'vendor/tecnick.com/tcpdf/fonts/freemon',
+            'vendor/tecnick.com/tcpdf/fonts/cid',
+            'vendor/tecnick.com/tcpdf/fonts/courier',
+            'vendor/tecnick.com/tcpdf/fonts/aefurat',
+            'vendor/tecnick.com/tcpdf/fonts/dejavusansb',
+            'vendor/tecnick.com/tcpdf/fonts/dejavusansi',
+            'vendor/tecnick.com/tcpdf/fonts/dejavusansmono',
+            'vendor/tecnick.com/tcpdf/fonts/dejavusanscondensed',
+            'vendor/tecnick.com/tcpdf/fonts/dejavusansextralight',
+            'vendor/tecnick.com/tcpdf/fonts/dejavuserif',
+            'vendor/tecnick.com/tcpdf/fonts/freesansi',
+            'vendor/tecnick.com/tcpdf/fonts/freesansb',
+            'vendor/tecnick.com/tcpdf/fonts/freeserifb',
+            'vendor/tecnick.com/tcpdf/fonts/freeserifi',
+            'vendor/tecnick.com/tcpdf/fonts/pdf',
+            'vendor/tecnick.com/tcpdf/fonts/times',
+            'vendor/tecnick.com/tcpdf/fonts/uni2cid',
+        );
+
+        return $this->isFilePathFoundInArray($file, $filesDeletedFromPackage);
+    }
 }
