@@ -381,30 +381,12 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
      */
     public function test_TotalPiwikFilesSize_isWithinReasonnableSize()
     {
-        $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*');
-
-        $filesizes = array();
-        foreach($files as $file) {
-
-            if(!$this->isFileIncludedInFinalRelease($file)) {
-                continue;
-            }
-
-            $filesize = filesize($file);
-
-            if($filesize === false) {
-                throw new Exception("Error getting filesize for file: $file");
-            }
-            $filesizes[$file] = $filesize;
-        }
-
-        $sumFilesizes = array_sum($filesizes);
-
-        // as of Piwik 2.14.0, we have:
-        // du -h --max-depth=1 .
-        // gives us 114Mb
         $maximumTotalFilesizesExpectedInMb = 70;
         $minimumTotalFilesizesExpectedInMb = 50;
+        $minimumExpectedFilesCount = 6000;
+
+        $filesizes = $this->getAllFilesizes();
+        $sumFilesizes = array_sum($filesizes);
 
         $filesOrderedBySize = $filesizes;
         arsort($filesOrderedBySize);
@@ -415,14 +397,13 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             sprintf("Sum of all files should be less than $maximumTotalFilesizesExpectedInMb Mb.
                     \nGot total file sizes of: %d Mb.
                     \nBiggest files: %s",
-//                var_export($filesizes, true),
                 $sumFilesizes / 1024 / 1024,
                 var_export(array_slice($filesOrderedBySize, 0, 100, $preserveKeys = true), true)
             )
         );
 
-        $this->assertGreaterThan(6000, count($filesizes), "Expected at least 6000 files should be included in Piwik.");
-        $this->assertGreaterThan($minimumTotalFilesizesExpectedInMb * 1024 * 1024, $sumFilesizes, "expected to have at least 90Mb of files in Piwik codebase.");
+        $this->assertGreaterThan($minimumExpectedFilesCount, count($filesizes), "Expected at least $minimumExpectedFilesCount files should be included in Piwik.");
+        $this->assertGreaterThan($minimumTotalFilesizesExpectedInMb * 1024 * 1024, $sumFilesizes, "expected to have at least $minimumTotalFilesizesExpectedInMb Mb of files in Piwik codebase.");
     }
 
     /**
@@ -435,10 +416,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             return false;
         }
 
-        // in build-package.sh we have: `find ./ -name 'tests' -type d -prune -exec rm -rf {} \;`
-        If(strpos($file, "/tests/") !== false
-            // and: `find ./ -name 'Tests' -type d -prune -exec rm -rf {} \;`
-            || strpos($file, "/Tests/") !== false) {
+        // in build-package.sh we have: `find ./ -iname 'tests' -type d -prune -exec rm -rf {} \;`
+        If(stripos($file, "/tests/") !== false) {
             return false;
         }
         If(strpos($file, PIWIK_INCLUDE_PATH . "/tmp/") !== false) {
@@ -534,7 +513,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     private function isFileDeletedFromPackage($file)
     {
         $filesDeletedFromPackage = array(
-            // copied from: https://github.com/piwik/piwik-package/blob/master/scripts/build-package.sh#L104-L116
+            // Should stay synchronised with: https://github.com/piwik/piwik-package/blob/master/scripts/build-package.sh#L104-L116
             'composer.phar',
             'vendor/twig/twig/test/',
             'vendor/twig/twig/doc/',
@@ -545,6 +524,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             'vendor/mnapoli/php-di/news',
             'vendor/mnapoli/php-di/doc',
             'vendor/tecnick.com/tcpdf/examples',
+            'vendor/tecnick.com/tcpdf/CHANGELOG.txt',
+            'vendor/guzzle/guzzle/docs/',
 
             // deleted fonts folders
             'vendor/tecnick.com/tcpdf/fonts/ae_fonts_2.0',
@@ -574,5 +555,30 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         );
 
         return $this->isFilePathFoundInArray($file, $filesDeletedFromPackage);
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    private function getAllFilesizes()
+    {
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*');
+
+        $filesizes = array();
+        foreach ($files as $file) {
+
+            if (!$this->isFileIncludedInFinalRelease($file)) {
+                continue;
+            }
+
+            $filesize = filesize($file);
+
+            if ($filesize === false) {
+                throw new Exception("Error getting filesize for file: $file");
+            }
+            $filesizes[$file] = $filesize;
+        }
+        return $filesizes;
     }
 }
