@@ -155,13 +155,15 @@
                 var val = data[metric] % 1 === 0 || Number(data[metric]) != data[metric] ? data[metric] : data[metric].toFixed(1);
                 if (metric == 'bounce_rate') {
                     val += '%';
+                } else if (metric == 'avg_time_on_site') {
+                    val = new Date(0, 0, 0, val / 3600, val % 3600 / 60, val % 60)
+                        .toTimeString()
+                        .replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
                 }
 
                 var v = _[metric].replace('%s', '<strong>' + val + '</strong>');
 
                 if (val == 1 && metric == 'nb_visits') v = _.one_visit;
-
-                function avgTime(d) { return d['sum_visit_length'] / d['nb_visits']; }
 
                 if (metric.substr(0, 3) == 'nb_' && metric != 'nb_actions_per_visit') {
                     var total;
@@ -606,8 +608,6 @@
             function quantify(d, metric) {
                 if (!metric) metric = $$('.userCountryMapSelectMetrics').val();
                 switch (metric) {
-                    case 'avg_time_on_site':
-                        return d.sum_visit_length / d.nb_visits;
                     default:
                         return d[metric];
                 }

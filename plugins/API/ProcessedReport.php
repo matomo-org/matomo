@@ -393,7 +393,7 @@ class ProcessedReport
                                                        'serialize'  => '0',
                                                        'language'   => $language,
                                                        'idSubtable' => $idSubtable,
-                                                       'format_metrics' => 1,
+                                                       'format_metrics' => $showRawMetrics ? 'bc' : '1',
                                                   ));
 
         if (!empty($segment)) $parameters['segment'] = $segment;
@@ -668,7 +668,9 @@ class ProcessedReport
 
             foreach ($rowMetrics as $columnName => $columnValue) {
                 // filter metrics according to metadata definition
-                if (isset($metadataColumns[$columnName])) {
+                if (isset($metadataColumns[$columnName])
+                    && !$returnRawMetrics
+                ) {
                     // generate 'human readable' metric values
 
                     // if we handle MultiSites.getAll we do not always have the same idSite but different ones for
