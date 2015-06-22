@@ -344,7 +344,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         }
 
         if (!empty($errors)) {
-            $icons = "gimp " . implode(" ", $errors);
+            $icons = implode(" ", $errors);
             $this->fail("$format format failed for following icons $icons \n");
         }
     }
@@ -403,16 +403,21 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         // as of Piwik 2.14.0, we have:
         // du -h --max-depth=1 .
         // gives us 114Mb
-        $sumFilesizesExpectedInMb = 110;
+        $maximumTotalFilesizesExpectedInMb = 100;
+
+        $filesOrderedBySize = $filesizes;
+        arsort($filesOrderedBySize);
 
         $this->assertLessThan(
-            $sumFilesizesExpectedInMb * 1024 * 1024,
+            $maximumTotalFilesizesExpectedInMb * 1024 * 1024,
             $sumFilesizes,
-            sprintf("Sum of all files should be less than $sumFilesizesExpectedInMb Mb.
+            sprintf("Sum of all files should be less than $maximumTotalFilesizesExpectedInMb Mb.
                     \nGot total file sizes of: %d Mb.
-                    \nAll files: %s",
+                    \nAll files: %s
+                    \nBiggest files: %s",
                 $sumFilesizes / 1024 / 1024,
-                var_export($filesizes, true)
+                var_export($filesizes, true),
+                var_export(array_slice($filesOrderedBySize, 0, 100, $preserveKeys = true), true)
             )
         );
 
