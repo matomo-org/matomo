@@ -41,7 +41,7 @@ To fix a broken build, follow these steps:
  * Push the changes (to your code and/or to the expected-ui-screenshots directory.
  * Wait for next Test build [on travis](https://travis-ci.org/piwik/piwik). Hopefully, the build should be green!
 
-_Note: the **development:sync-ui-test-screenshots** console command can be used to speed up the process. Run **./console help development:sync-ui-test-screenshots** to learn more._
+_Note: the `tests:sync-ui-screenshots` console command can be used to speed up the process. Run `./console tests:sync-ui-screenshots -h` to learn more._
 
 ## <a name="run-tests"></a>Running Tests
 

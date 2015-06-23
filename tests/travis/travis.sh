@@ -41,12 +41,13 @@ then
         echo ""
         echo "View UI failures (if any) here:"
         echo ""
-        echo "http://builds-artifacts.piwik.org/$artifacts_folder/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
+        echo "http://builds-artifacts.piwik.org/$artifacts_folder/$TRAVIS_JOB_NUMBER/"
+        echo "or: http://builds-artifacts.piwik.org/$artifacts_folder/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
         echo ""
         echo "If the new screenshots are valid, then you can copy them over to the right directory with the command:"
 
         echo ""
-        echo "./console development:sync-ui-test-screenshots $TRAVIS_JOB_NUMBER"
+        echo "./console tests:sync-ui-screenshots $TRAVIS_JOB_NUMBER"
         if [ -n "$PLUGIN_NAME" ]
         then
             echo "  --plugin=$PLUGIN_NAME"
