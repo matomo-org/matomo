@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
-use Piwik\Access;
 use Piwik\Auth as AuthInterface;
 use Piwik\Common;
 use Piwik\Config;
@@ -160,6 +159,26 @@ class Controller extends \Piwik\Plugin\Controller
         $urlToRedirect = Common::unsanitizeInputValue($urlToRedirect);
 
         $this->authenticateAndRedirect($login, $password, false, $urlToRedirect, $passwordHashed = true);
+    }
+
+    /**
+     * Error message shown when an AJAX request has no access
+     *
+     * @param string $errorMessage
+     * @return string
+     */
+    public function ajaxNoAccess($errorMessage)
+    {
+        return sprintf(
+            '<div class="alert alert-danger">
+                <p><strong>%s:</strong> %s</p>
+                <p><a href="%s">%s</a></p>
+            </div>',
+            Piwik::translate('General_Error'),
+            $errorMessage,
+            'index.php?module=Login&idSite=7&period=day&date=yesterday',
+            Piwik::translate('Login_LogIn')
+        );
     }
 
     /**

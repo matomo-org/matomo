@@ -1289,6 +1289,17 @@ class Common
     }
 
     /**
+     * Returns true if the request is an AJAX request.
+     *
+     * @return bool
+     */
+    public static function isXmlHttpRequest()
+    {
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+    }
+
+    /**
      * @param $validLanguages
      * @return array
      */
