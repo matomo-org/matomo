@@ -416,6 +416,13 @@ var broadcast = {
             );
         }
 
+        if(broadcast.getParamValue('module', urlAjax) == 'API') {
+            broadcast.lastUrlRequested = null;
+            $('#content').html("Loading content from the API and displaying it within Piwik is not allowed.");
+            piwikHelper.hideAjaxLoading();
+            return false;
+        }
+
         piwikHelper.hideAjaxError('loadingError');
         piwikHelper.showAjaxLoading();
         $('#content').empty();
