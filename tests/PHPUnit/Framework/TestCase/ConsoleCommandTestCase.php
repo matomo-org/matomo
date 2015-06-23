@@ -75,7 +75,7 @@ class ConsoleCommandTestCase extends SystemTestCase
     {
         parent::setUp();
 
-        $this->application = new TestConsole();
+        $this->application = new TestConsole(self::$fixture->piwikEnvironment);
         $this->application->setAutoExit(false);
 
         $this->applicationTester = new ApplicationTester($this->application);

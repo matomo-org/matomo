@@ -128,6 +128,12 @@ class API extends \Piwik\Plugin\API
                 }
                 return $res;
             };
+
+            // Skip languages not having Intl translations
+            if (empty($translations['Intl'])) {
+                continue;
+            }
+
             $translationStringsDone = $intersect($englishTranslation, $translations);
             $percentageComplete = count($translationStringsDone, COUNT_RECURSIVE) / count($englishTranslation, COUNT_RECURSIVE);
             $percentageComplete = round(100 * $percentageComplete, 0);
@@ -282,13 +288,19 @@ class API extends \Piwik\Plugin\API
         if ($cache->contains($cacheId)) {
             $languagesInfo = $cache->fetch($cacheId);
         } else {
-            $filenames = $this->getAvailableLanguages();
+            $languages = $this->getAvailableLanguages();
             $languagesInfo = array();
-            foreach ($filenames as $filename) {
-                $data = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Intl/lang/$filename.json");
+            foreach ($languages as $languageCode) {
+                $data = @file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Intl/lang/$languageCode.json");
+
+                // Skip languages not having Intl translations
+                if (empty($data)) {
+                    continue;
+                }
+
                 $translations = json_decode($data, true);
                 $languagesInfo[] = array(
-                    'code'         => $filename,
+                    'code'         => $languageCode,
                     'name'         => $translations['Intl']['OriginalLanguageName'],
                     'english_name' => $translations['Intl']['EnglishLanguageName']
                 );

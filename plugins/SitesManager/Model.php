@@ -378,7 +378,7 @@ class Model
             $where  = 'OR s.idsite = ?';
         }
 
-        $query = "SELECT idsite, name, main_url, `group`
+        $query = "SELECT *
                   FROM " . $this->table . " s
                   WHERE (    s.name like ?
                           OR s.main_url like ?

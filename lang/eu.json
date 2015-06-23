@@ -80,7 +80,6 @@
         "InvalidResponse": "Jasotako datuak baliogabeak dira.",
         "JsTrackingTag": "JavaScript jarraipen-etiketa",
         "Language": "Hizkuntza",
-        "LayoutDirection": "ltr",
         "Loading": "Kargatzen...",
         "LoadingData": "Datuak kargatzen...",
         "Locale": "eu_ES.UTF-8",
@@ -130,7 +129,6 @@
         "SmtpUsername": "SMTP erabiltzaile-izena",
         "Table": "Taula",
         "TagCloud": "Etiketa-hodeia",
-        "Today": "Gaur",
         "TranslatorEmail": "librezale@librezale.org",
         "TranslatorName": "Librezale.org",
         "Unknown": "Ezezaguna",
@@ -148,7 +146,6 @@
         "Widgets": "Widget-ak",
         "YearsDays": "%1$s urte %2$s egun",
         "Yes": "Bai",
-        "Yesterday": "Atzo",
         "YouAreViewingDemoShortMessage": "Piwiken demoa ikusten ari zara",
         "YouMustBeLoggedIn": "Saioa hasi behar duzu funtzionaltasun hau erabiltzeko.",
         "YourChangesHaveBeenSaved": "Zure aldaketak gorde egin dira."

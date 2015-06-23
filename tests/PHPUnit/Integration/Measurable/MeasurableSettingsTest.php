@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration\Measurable;
 
 use Piwik\Db;
 use Piwik\Plugin;
+use Piwik\Plugins\MobileAppMeasurable\tests\Framework\Mock\Type;
 use Piwik\Plugins\MobileAppMeasurable\Type as MobileAppType;
 use Piwik\Measurable\MeasurableSetting;
 use Piwik\Measurable\MeasurableSettings;
@@ -103,7 +104,8 @@ class MeasurableSettingsTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
+            'Piwik\Plugins\MobileAppMeasurable\Type' => new Type()
         );
     }
 }

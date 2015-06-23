@@ -13,7 +13,7 @@ use Piwik\Piwik;
 
 function getTimeLabel($label)
 {
-    return sprintf(Piwik::translate('VisitTime_NHour'), $label);
+    return sprintf(Piwik::translate('Intl_NHoursShort'), $label);
 }
 
 /**

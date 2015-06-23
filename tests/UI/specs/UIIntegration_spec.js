@@ -333,6 +333,20 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    // Do not allow API response to be displayed
+    it('should not allow to widgetize an API call', function (done) {
+        expect.screenshot('widgetize_apidisallowed').to.be.captureSelector('#content', function (page) {
+            page.load("?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=API&actionToWidgetize=index&method=SitesManager.getImageTrackingCode&piwikUrl=test");
+        }, done);
+    });
+
+    it('should not display API response in the content', function (done) {
+        expect.screenshot('menu_apidisallowed').to.be.captureSelector('#content', function (page) {
+            page.load("?" + urlBase + "#" + generalParams + "&module=API&action=SitesManager.getImageTrackingCode");
+        }, done);
+    });
+
+    // Ecommerce
     it('should load the ecommerce overview page', function (done) {
         expect.screenshot('ecommerce_overview').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
             page.load("?" + urlBase + "#" + generalParams + "&module=Ecommerce&action=ecommerceReport&idGoal=ecommerceOrder");
@@ -599,4 +613,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.load("?module=CoreAdminHome&action=optOut&language=en");
         }, done);
     });
+
+
 });

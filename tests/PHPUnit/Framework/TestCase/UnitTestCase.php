@@ -12,7 +12,8 @@ use Piwik\Application\Environment;
 use Piwik\Tests\Framework\Mock\File;
 
 /**
- * Base class for Unit tests.
+ * Base class for Unit tests. Use this if you need to use the DI container in tests. It will be created fresh
+ * before each test.
  *
  * @deprecated Unit tests don't need no environment.
  *

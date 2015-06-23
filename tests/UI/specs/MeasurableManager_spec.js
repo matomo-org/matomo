@@ -21,15 +21,12 @@ describe("MeasurableManager", function () {
 
     function assertScreenshotEquals(screenshotName, done, test)
     {
-        expect.screenshot(screenshotName).to.be.captureSelector('.sitesManagerList,.sitesButtonBar,.sites-manager-header', test, done);
+        expect.screenshot(screenshotName).to.be.captureSelector('.sitesManagerList,.sitesButtonBar,.sites-manager-header,.ui-dialog.ui-widget', test, done);
     }
 
     it("should load correctly and should not use SitesManager wording as another type is enabled", function (done) {
         assertScreenshotEquals("loaded", done, function (page) {
             page.load(url);
-            page.evaluate(function () {
-                $('.ui-inline-help:contains(UTC time is)').hide();
-            });
         });
     });
 
@@ -49,6 +46,9 @@ describe("MeasurableManager", function () {
     it("should load mobile app specific fields", function (done) {
         assertScreenshotEquals("add_measurable_view", done, function (page) {
             page.click('.ui-dialog-content button:contains(Mobile App)');
+            page.evaluate(function () {
+                $('.form-help:contains(UTC time is)').hide();
+            });
             page.wait(250);
         });
     });

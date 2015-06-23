@@ -27,7 +27,6 @@
         "Help": "সাহায্য",
         "Id": "হিন্দি",
         "Language": "ভাষা",
-        "LayoutDirection": "ltr",
         "Loading": "লোড করা হচ্ছে...",
         "LoadingData": "ডাটা লোড করা হচ্ছে...",
         "Locale": "bn_BD.UTF-8",
@@ -52,7 +51,6 @@
         "SmtpServerAddress": "SMTP সার্ভারের ঠিকানা",
         "SmtpUsername": "SMTP ব্যবহারকারীর নাম",
         "Table": "সারণি",
-        "Today": "আজ",
         "Total": "সর্বমোট",
         "TranslatorEmail": "-",
         "TranslatorName": "Anjan Dutta, Rezaul Hasan",
@@ -60,7 +58,6 @@
         "Username": "ব্যবহারকারীর নাম",
         "Warning": "সতর্কতা",
         "Website": "ওয়েবসাইট",
-        "Weekly": "সাপ্তাহিক",
-        "Yesterday": "গতকাল"
+        "Weekly": "সাপ্তাহিক"
     }
 }
