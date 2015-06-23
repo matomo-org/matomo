@@ -1417,7 +1417,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         // label (first column of a data row) or not
         $("th:first-child", domElem).addClass('label');
         $("td:first-child", domElem).addClass('label');
-        $("tr td", domElem).slice(1).addClass('column');
+        $("tr td", domElem).addClass('column');
     },
 
     handleExpandFooter: function (domElem) {
