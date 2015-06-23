@@ -45,7 +45,7 @@ class RunScheduledTasks extends ConsoleCommand
         $task = $input->getArgument('task');
 
         if ($task) {
-            $this->runSingleTask($scheduler, $task);
+            $this->runSingleTask($scheduler, $task, $output);
         } else {
             $scheduler->run();
         }
@@ -62,10 +62,10 @@ class RunScheduledTasks extends ConsoleCommand
         }
     }
 
-    private function runSingleTask(Scheduler $scheduler, $task)
+    private function runSingleTask(Scheduler $scheduler, $task, OutputInterface $output)
     {
         try {
-            $scheduler->runTaskNow($task);
+            $message = $scheduler->runTaskNow($task);
         } catch (\InvalidArgumentException $e) {
             $message = $e->getMessage() . PHP_EOL
                 . 'Available tasks:' . PHP_EOL
@@ -73,5 +73,7 @@ class RunScheduledTasks extends ConsoleCommand
 
             throw new \Exception($message);
         }
+
+        $output->writeln($message);
     }
 }
