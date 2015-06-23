@@ -4,10 +4,9 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
 
-namespace Piwik\Plugins\CoreConsole\Commands;
+namespace Piwik\Plugins\TestRunner\Commands;
 
 use Piwik\Development;
 use Piwik\Http;
@@ -15,14 +14,14 @@ use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Tool for core developers to help making UI screenshot builds green.
+ * Downloads the UI tests screenshots from Travis into the local repository.
  *
+ * This command helps synchronizing the screenshots after they have changed.
  */
-class DevelopmentSyncUITestScreenshots extends ConsoleCommand
+class SyncScreenshots extends ConsoleCommand
 {
     public function isEnabled()
     {
@@ -31,7 +30,8 @@ class DevelopmentSyncUITestScreenshots extends ConsoleCommand
 
     protected function configure()
     {
-        $this->setName('development:sync-ui-test-screenshots');
+        $this->setName('tests:sync-ui-screenshots');
+        $this->setAliases(array('development:sync-ui-test-screenshots'));
         $this->setDescription('For Piwik core devs. Copies screenshots '
                             . 'from travis artifacts to the tests/UI/expected-ui-screenshots/ folder');
         $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync.');
