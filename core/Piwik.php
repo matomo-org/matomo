@@ -9,7 +9,9 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Container\StaticContainer;use Piwik\Plugins\UsersManager\API as APIUsersManager;use Piwik\Translation\Translator;
+use Piwik\Container\StaticContainer;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Translation\Translator;
 
 /**
  * @see core/Translate.php
