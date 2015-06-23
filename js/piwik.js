@@ -430,7 +430,7 @@ if (typeof JSON2 !== 'object') {
     disablePerformanceTracking, setGenerationTimeMs,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
-    setHeartBeatTimer, clearHeartBeat, killFrame, redirectFile, setCountPreRendered,
+    enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
@@ -2198,7 +2198,7 @@ if (typeof Piwik !== 'object') {
                 configMinimumVisitTime,
 
                 // Recurring heart beat after initial ping (in milliseconds)
-                configHeartBeatDelay,
+                configHeartBeatDelayInSeconds,
 
                 // alias to circumvent circular function dependency (JSLint requires this)
                 heartBeatPingIfActivityAlias,
@@ -2505,11 +2505,11 @@ if (typeof Piwik !== 'object') {
                     }
 
                     var now = new Date(),
-                        heartBeatDelay = configHeartBeatDelay - (now.getTime() - lastTrackerRequestTime);
+                        heartBeatDelay = configHeartBeatDelayInSeconds - (now.getTime() - lastTrackerRequestTime);
                     // sanity check
-                    heartBeatDelay = Math.min(configHeartBeatDelay, heartBeatDelay);
+                    heartBeatDelay = Math.min(configHeartBeatDelayInSeconds, heartBeatDelay);
                     heartBeatUp(heartBeatDelay);
-                }, delay || configHeartBeatDelay);
+                }, delay || configHeartBeatDelayInSeconds);
             }
 
             /*
@@ -2596,8 +2596,12 @@ if (typeof Piwik !== 'object') {
                     });
                 }
 
-                if (configHeartBeatDelay) {
-                    heartBeatUp();
+                if (configHeartBeatDelayInSeconds) {
+                    if (!heartBeatSetUp) {
+                        setUpHeartBeat();
+                    } else {
+                        heartBeatUp();
+                    }
                 }
             }
 
@@ -3157,12 +3161,12 @@ if (typeof Piwik !== 'object') {
             }
 
             /*
-             * If there was user activity since the last check, and it's been configHeartBeatDelay seconds
+             * If there was user activity since the last check, and it's been configHeartBeatDelayInSeconds seconds
              * since the last tracker, send a ping request (the heartbeat timeout will be reset by sendRequest).
              */
             heartBeatPingIfActivityAlias = function heartBeatPingIfActivity() {
                 var now = new Date();
-                if (lastTrackerRequestTime + configHeartBeatDelay <= now.getTime()) {
+                if (lastTrackerRequestTime + configHeartBeatDelayInSeconds <= now.getTime()) {
                     var requestPing = getRequest('ping=1', null, 'ping');
                     sendRequest(requestPing, configTrackerPause);
 
@@ -3258,11 +3262,6 @@ if (typeof Piwik !== 'object') {
                     request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
 
                 sendRequest(request, configTrackerPause);
-
-                // send ping
-                if (configHeartBeatDelay) {
-                    setUpHeartBeat();
-                }
             }
 
             /*
@@ -5001,12 +5000,12 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Set heartbeat (in seconds)
                  *
-                 * @param int heartBeatDelay Defaults to 15.
+                 * @param int heartBeatDelayInSeconds Defaults to 15.
                  */
-                setHeartBeatTimer: function (heartBeatDelay) {
-                    configHeartBeatDelay = (heartBeatDelay || 15) * 1000;
+                enableHeartBeatTimer: function (heartBeatDelayInSeconds) {
+                    configHeartBeatDelayInSeconds = (heartBeatDelayInSeconds || 15) * 1000;
 
-                    // if a tracking request has already been set, start the heart beat timeout
+                    // if a tracking request has already been sent, start the heart beat timeout
                     if (lastTrackerRequestTime !== null) {
                         setUpHeartBeat();
                     }
@@ -5015,9 +5014,9 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Clear heartbeat.
                  */
-                clearHeartBeat: function () {
+                disableHeartBeatTimer: function () {
                     heartBeatDown();
-                    configHeartBeatDelay = null;
+                    configHeartBeatDelayInSeconds = null;
                 },
 
                 /**

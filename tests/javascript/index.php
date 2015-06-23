@@ -1981,7 +1981,7 @@ function PiwikTest() {
         equal( typeof tracker.setConversionAttributionFirstReferrer, 'function', 'setConversionAttributionFirstReferrer' );
         equal( typeof tracker.addListener, 'function', 'addListener' );
         equal( typeof tracker.enableLinkTracking, 'function', 'enableLinkTracking' );
-        equal( typeof tracker.setHeartBeatTimer, 'function', 'setHeartBeatTimer' );
+        equal( typeof tracker.enableHeartBeatTimer, 'function', 'enableHeartBeatTimer' );
         equal( typeof tracker.killFrame, 'function', 'killFrame' );
         equal( typeof tracker.redirectFile, 'function', 'redirectFile' );
         equal( typeof tracker.setCountPreRendered, 'function', 'setCountPreRendered' );
@@ -3110,7 +3110,7 @@ if ($sqlite) {
         var tracker = Piwik.getTracker();
         tracker.setTrackerUrl("piwik.php");
         tracker.setSiteId(1);
-        tracker.setHeartBeatTimer(3);
+        tracker.enableHeartBeatTimer(3);
 
         stop();
         Q.delay(1).then(function () {
@@ -3153,7 +3153,7 @@ if ($sqlite) {
 
             triggerEvent(window, 'focus'); // ping request sent here
 
-            tracker.clearHeartBeat(); // flatline
+            tracker.disableHeartBeatTimer(); // flatline
 
             return Q.delay(1000); // for the ping request to get sent
         }).then(function () {
