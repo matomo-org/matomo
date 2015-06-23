@@ -166,7 +166,7 @@ class Segment
             if (isset($segment['permission'])
                 && $segment['permission'] != 1
             ) {
-                throw new Exception("You do not have enough permission to access the segment " . $name);
+                throw new NoAccessException("You do not have enough permission to access the segment " . $name);
             }
 
             if ($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
