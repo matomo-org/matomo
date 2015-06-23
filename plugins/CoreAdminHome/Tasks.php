@@ -10,11 +10,13 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchivePurger;
-use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Http;
+use Piwik\Option;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
+use Piwik\Tracker\Visit\ReferrerSpamFilter;
 use Psr\Log\LoggerInterface;
 
 class Tasks extends \Piwik\Plugin\Tasks
@@ -45,13 +47,15 @@ class Tasks extends \Piwik\Plugin\Tasks
 
         // lowest priority since tables should be optimized after they are modified
         $this->daily('optimizeArchiveTable', null, self::LOWEST_PRIORITY);
+
+        $this->weekly('updateSpammerBlacklist');
     }
 
     public function purgeOutdatedArchives()
     {
         if ($this->willPurgingCausePotentialProblemInUI()) {
             $this->logger->info("Purging temporary archives: skipped (browser triggered archiving not enabled & not running after core:archive)");
-            return false;
+            return;
         }
 
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
@@ -98,6 +102,19 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
         Db::optimizeTables($archiveTables);
+    }
+
+    /**
+     * Update the referrer spam blacklist
+     *
+     * @see https://github.com/piwik/referrer-spam-blacklist
+     */
+    public function updateSpammerBlacklist()
+    {
+        $url = 'https://raw.githubusercontent.com/piwik/referrer-spam-blacklist/master/spammers.txt';
+        $list = Http::sendHttpRequest($url, 10);
+        $list = preg_split("/\r\n|\n|\r/", $list);
+        Option::set(ReferrerSpamFilter::OPTION_STORAGE_NAME, serialize($list));
     }
 
     /**

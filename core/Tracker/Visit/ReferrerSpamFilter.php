@@ -3,6 +3,7 @@
 namespace Piwik\Tracker\Visit;
 
 use Piwik\Common;
+use Piwik\Option;
 use Piwik\Tracker\Request;
 
 /**
@@ -10,6 +11,7 @@ use Piwik\Tracker\Request;
  */
 class ReferrerSpamFilter
 {
+    const OPTION_STORAGE_NAME = 'referrer_spam_blacklist';
     /**
      * @var string[]
      */
@@ -43,8 +45,16 @@ class ReferrerSpamFilter
             return $this->spammerList;
         }
 
-        $file = PIWIK_INCLUDE_PATH . '/vendor/piwik/referrer-spam-blacklist/spammers.txt';
-        $this->spammerList = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        // Read first from the auto-updated list in database
+        $list = Option::get(self::OPTION_STORAGE_NAME);
+
+        if ($list) {
+            $this->spammerList = unserialize($list);
+        } else {
+            // Fallback to reading the bundled list
+            $file = PIWIK_INCLUDE_PATH . '/vendor/piwik/referrer-spam-blacklist/spammers.txt';
+            $this->spammerList = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        }
 
         return $this->spammerList;
     }
