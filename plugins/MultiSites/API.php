@@ -149,13 +149,6 @@ class API extends \Piwik\Plugin\API
                       'format'      => 'original'));
 
             if (!empty($sites)) {
-                $idSites = array();
-                foreach ($sites as $site) {
-                    $idSites[] = $site['idsite'];
-                }
-
-                $model = new ModelSitesManager();
-                $sites = $model->getSitesFromIds($idSites); // getPatternMatchSites does not return all sites information...
                 Site::setSitesFromArray($sites);
             }
         }
