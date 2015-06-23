@@ -180,6 +180,37 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         self::resetPiwikOption();
     }
 
+    /**
+     * @dataProvider runDataProvider
+     */
+    public function testRunTaskNow($expectedTimetable, $expectedExecutedTasks, $timetableBeforeTaskExecution, $configuredTasks)
+    {
+        $taskLoader = $this->getMock('Piwik\Scheduler\TaskLoader');
+        $taskLoader->expects($this->atLeastOnce())
+            ->method('loadTasks')
+            ->willReturn($configuredTasks);
+
+        // stub the piwik option object to control the returned option value
+        self::stubPiwikOption(serialize($timetableBeforeTaskExecution));
+
+        $timetable = new Timetable();
+        $initialTimetable = $timetable->getTimetable();
+
+        $scheduler = new Scheduler($taskLoader, new NullLogger());
+
+        foreach ($configuredTasks as $task) {
+            /** @var Task $task */
+            $result = $scheduler->runTaskNow($task->getName());
+
+            $this->assertNotEmpty($result);
+        }
+
+        // assert the timetable is NOT updated
+        $this->assertSame($initialTimetable, $timetable->getTimetable());
+
+        self::resetPiwikOption();
+    }
+
     private static function stubPiwikOption($timetable)
     {
         self::getReflectedPiwikOptionInstance()->setValue(new PiwikOption($timetable));
