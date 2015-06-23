@@ -11,6 +11,7 @@ namespace Piwik\Plugins\SitesManager;
 use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
 use Piwik\Measurable\MeasurableSetting;
 use Piwik\Measurable\MeasurableSettings;
@@ -149,6 +150,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $javascriptGenerator = new TrackerCodeGenerator();
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
+
+        if (!$this->site) {
+            throw new UnexpectedWebsiteFoundException('Invalid site ' . $this->idSite);
+        }
 
         return $this->renderTemplate('siteWithoutData', array(
             'siteName'     => $this->site->getName(),
