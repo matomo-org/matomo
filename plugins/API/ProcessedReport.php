@@ -363,7 +363,8 @@ class ProcessedReport
 
     public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false,
                                        $apiParameters = false, $idGoal = false, $language = false,
-                                       $showTimer = true, $hideMetricsDoc = false, $idSubtable = false, $showRawMetrics = false)
+                                       $showTimer = true, $hideMetricsDoc = false, $idSubtable = false, $showRawMetrics = false,
+                                       $formatMetrics = null)
     {
         $timer = new Timer();
         if (empty($apiParameters)) {
@@ -393,7 +394,6 @@ class ProcessedReport
                                                        'serialize'  => '0',
                                                        'language'   => $language,
                                                        'idSubtable' => $idSubtable,
-                                                       'format_metrics' => 1,
                                                   ));
 
         if (!empty($segment)) $parameters['segment'] = $segment;
@@ -416,7 +416,7 @@ class ProcessedReport
             throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()) . ":" . $e->getLine() . "\n");
         }
 
-        list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics);
+        list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics, $formatMetrics);
 
         foreach ($columns as &$name) {
             $name = ucfirst($name);
@@ -454,9 +454,10 @@ class ProcessedReport
      * @param \Piwik\DataTable\Map|\Piwik\DataTable\Simple $dataTable
      * @param array $reportMetadata
      * @param bool $showRawMetrics
+     * @param bool|null $formatMetrics
      * @return array Simple|Set $newReport with human readable format & array $columns list of translated column names & Simple|Set $rowsMetadata
      */
-    private function handleTableReport($idSite, $dataTable, &$reportMetadata, $showRawMetrics = false)
+    private function handleTableReport($idSite, $dataTable, &$reportMetadata, $showRawMetrics = false, $formatMetrics = null)
     {
         $hasDimension = isset($reportMetadata['dimension']);
         $columns = @$reportMetadata['metrics'] ?: array();
@@ -510,7 +511,7 @@ class ProcessedReport
             foreach ($dataTable->getDataTables() as $simpleDataTable) {
                 $this->removeEmptyColumns($columns, $reportMetadata, $simpleDataTable);
 
-                list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension, $showRawMetrics);
+                list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension, $showRawMetrics, $formatMetrics);
                 $enhancedSimpleDataTable->setAllTableMetadata($simpleDataTable->getAllTableMetadata());
 
                 $period = $simpleDataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedLongString();
@@ -521,7 +522,7 @@ class ProcessedReport
             }
         } else {
             $this->removeEmptyColumns($columns, $reportMetadata, $dataTable);
-            list($newReport, $rowsMetadata) = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics);
+            list($newReport, $rowsMetadata) = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics, $formatMetrics);
 
             $totals = $this->aggregateReportTotalValues($dataTable, $totals);
         }
@@ -635,10 +636,10 @@ class ProcessedReport
      * @param array $metadataColumns
      * @param boolean $hasDimension
      * @param bool $returnRawMetrics If set to true, the original metrics will be returned
-     *
+     * @param bool|null $formatMetrics
      * @return array DataTable $enhancedDataTable filtered metrics with human readable format & Simple $rowsMetadata
      */
-    private function handleSimpleDataTable($idSite, $simpleDataTable, $metadataColumns, $hasDimension, $returnRawMetrics = false)
+    private function handleSimpleDataTable($idSite, $simpleDataTable, $metadataColumns, $hasDimension, $returnRawMetrics = false, $formatMetrics = null)
     {
         // new DataTable to store metadata
         $rowsMetadata = new DataTable();
@@ -679,10 +680,18 @@ class ProcessedReport
                         $idSiteForRow = (int) $idSiteMetadata;
                     }
 
-                    $prettyValue = self::getPrettyValue($formatter, $idSiteForRow, $columnName, $columnValue, $htmlAllowed = false);
+                    // format metrics manually here to maintain API.getProcessedReport BC if format_metrics query parameter is
+                    // not supplied. TODO: should be removed for 3.0. should only rely on format_metrics query parameter.
+                    if ($formatMetrics === null
+                        || $formatMetrics == 'bc'
+                    ) {
+                        $prettyValue = self::getPrettyValue($formatter, $idSiteForRow, $columnName, $columnValue, $htmlAllowed = false);
+                    } else {
+                        $prettyValue = $columnValue;
+                    }
                     $enhancedRow->addColumn($columnName, $prettyValue);
                 } // For example the Maps Widget requires the raw metrics to do advanced datavis
-                elseif ($returnRawMetrics) {
+                else if ($returnRawMetrics) {
                     if (!isset($columnValue)) {
                         $columnValue = 0;
                     }
@@ -828,7 +837,8 @@ class ProcessedReport
         }
 
         // Add revenue symbol to revenues
-        if (strpos($columnName, 'revenue') !== false && strpos($columnName, 'evolution') === false) {
+        $isMoneyMetric = strpos($columnName, 'revenue') !== false || strpos($columnName, 'price') !== false;
+        if ($isMoneyMetric && strpos($columnName, 'evolution') === false) {
             return $formatter->getPrettyMoney($value, $idSite);
         }
 
