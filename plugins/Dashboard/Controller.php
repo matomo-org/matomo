@@ -88,6 +88,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $layout = $this->getLayout($idDashboard);
 
+        Json::sendHeaderJSON();
         return $layout;
     }
 
