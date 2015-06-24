@@ -34,7 +34,7 @@ $(document).ready(function () {
         ajaxHandler.redirectOnSuccess();
         ajaxHandler.setLoadingElement(getLoadingElement());
         ajaxHandler.setErrorElement(getErrorElement());
-        ajaxHandler.send(true);
+        ajaxHandler.send();
     }
 
     function getSettings()

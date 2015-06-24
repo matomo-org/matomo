@@ -60,7 +60,7 @@ function createDashboard() {
                 $('#dashboardWidgetsArea').dashboard('loadDashboard', id);
             }
         );
-        ajaxRequest.send(true);
+        ajaxRequest.send();
     }});
 }
 
@@ -122,7 +122,7 @@ function copyDashboardToUser() {
             });
         }
     );
-    ajaxRequest.send(true);
+    ajaxRequest.send();
 
     piwikHelper.modalConfirm('#copyDashboardToUserConfirm', {
         yes: function () {
@@ -145,7 +145,7 @@ function copyDashboardToUser() {
                     piwikHelper.modalConfirm('#alert', {});
                 }
             );
-            ajaxRequest.send(true);
+            ajaxRequest.send();
         }
     });
 }

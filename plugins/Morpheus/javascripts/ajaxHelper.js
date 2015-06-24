@@ -74,6 +74,7 @@ function ajaxHelper() {
     /**
      * Should ajax request be asynchronous
      * @type {Boolean}
+     * @deprecated Synchronous XHR requests are deprecated(see http://xhr.spec.whatwg.org)
      */
     this.async =          true;
 
@@ -298,7 +299,7 @@ function ajaxHelper() {
 
     /**
      * Send the request
-     * @param {Boolean} [sync]  indicates if the request should be synchronous (defaults to false)
+     * @param {Boolean} [sync] DEPRECATED! indicates if the request should be synchronous (defaults to false)
      * @return {void}
      */
     this.send = function (sync) {
