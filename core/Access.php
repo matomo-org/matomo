@@ -202,7 +202,7 @@ class Access
         }
     }
 
-    private function loadSitesIfNeeded()
+    protected function loadSitesIfNeeded()
     {
         if ($this->hasSuperUserAccess) {
             if (empty($this->idsitesByAccess['superuser'])) {
