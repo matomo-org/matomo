@@ -260,7 +260,9 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         if ($this->createSuperUser) {
             self::createSuperUser($this->removeExistingSuperUser);
-            $this->loginAsSuperUser();
+            if (!(Access::getInstance() instanceof FakeAccess)) {
+                $this->loginAsSuperUser();
+            }
 
             APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
         }
