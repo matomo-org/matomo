@@ -1,7 +1,7 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Promedio basado en %s acceso(s) %s entre %s y %s",
-        "ColumnClickedURL": "URL seguida",
+        "ColumnClickedURL": "URL elegida",
         "ColumnClicks": "Clics",
         "ColumnClicksDocumentation": "Número de veces que este enlace ha sido clicado.",
         "ColumnDownloadURL": "URL de descarga",
@@ -16,7 +16,7 @@
         "ColumnPageURL": "URL de la página",
         "ColumnSearchCategory": "Categoría de búsqueda",
         "ColumnSearches": "Búsquedas",
-        "ColumnSearchesDocumentation": "La cantidad de visitantes que buscó esta palabra clave en el buscador de tu sitio web.",
+        "ColumnSearchesDocumentation": "La cantidad de visitantes que buscaron esta palabra clave en el buscador de su sitio de internet.",
         "ColumnSearchExits": "% Salida de la búsqueda",
         "ColumnSearchExitsDocumentation": "El porcentaje de visitantes que abandonó el sitio después de buscar esta palabra clave en el buscador de tu sitio.",
         "ColumnSearchResultsCount": "Cantidad de resultados de la búsqueda",

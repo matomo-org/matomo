@@ -1,0 +1,13 @@
+{
+    "VisitorInterest": {
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "यात्रा के प्रति पन्ने",
+        "ColumnVisitDuration": "भेंट अवधि",
+        "Engagement": "नियम",
+        "NPages": "%s के पन्नों",
+        "OnePage": "1 पेज",
+        "VisitsPerDuration": "पिछली यात्रा के बाद के दिनों से दौरा",
+        "WidgetLengths": "यात्रा अवधि प्रति दौरा",
+        "WidgetVisitsByDaysSinceLast": "भेंट प्रति पन्ने"
+    }
+}

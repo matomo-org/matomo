@@ -11,9 +11,11 @@
         "City": "शहर",
         "Continent": "महाद्वीप",
         "Country": "देश",
+        "country_a1": "बेनाम प्रॉक्सी",
         "country_a2": "सैटेलाइट प्रदाता",
         "country_cat": "कैटलन भाषी समुदायों",
         "country_o1": "अन्य देश",
+        "country_ti": "तिब्बत",
         "CurrentLocationIntro": "इस प्रदाता के अनुसार, आपका वर्तमान स्थान है",
         "DefaultLocationProviderDesc1": "एक आगंतुक का देश डिफ़ॉल्ट स्थान प्रदाता के अनुमान का इस्तेमाल वे भाषा के आधार पर करते है.",
         "DefaultLocationProviderDesc2": "यह बहुत सही नहीं है, तो %1$sहम स्थापित करने और %2$sGeoIP%3$s का उपयोग करना चाहिये.%4$s",
@@ -77,7 +79,10 @@
         "ToGeolocateOldVisits": "अपने पुराने यात्राओं के लिए स्थान डेटा प्राप्त करने के लिए, %1$sयहाँ%2$s वर्णित स्क्रिप्ट का उपयोग करें.",
         "UnsupportedArchiveType": "असमर्थित संग्रह प्रकार का सामना करना पड़ा %1$s.",
         "UpdaterHasNotBeenRun": "updater कभी नहीं चलाया गया",
+        "UpdaterIsNotScheduledToRun": "यह भविष्य में चलाने के लिए निर्धारित नहीं है।",
+        "UpdaterScheduledForNextRun": "संग्रह आदेश निष्पादन: यह अगले क्रॉन कोर के दौरान चलाने के लिए निर्धारित है।",
         "UpdaterWasLastRun": "Updater %s पर अंतिम रन था.",
+        "UpdaterWillRunNext": "यह अगले %s पर चलने के लिए निर्धारित किया गया है।",
         "WidgetLocation": "आगंतुक स्थान"
     }
 }

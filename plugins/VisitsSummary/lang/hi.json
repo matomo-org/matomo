@@ -1,5 +1,17 @@
 {
     "VisitsSummary": {
-        "NbPageviewsDescription": "%s पृष्ठ दृश्यों"
+        "AverageVisitDuration": "%s औसत यात्रा की अवधि",
+        "GenerateQueries": "%s के प्रश्नों को मार डाला",
+        "GenerateTime": "%s सेकेंडों पेज उत्पन्न करने के लिए",
+        "MaxNbActions": "एक यात्रा में %s अधिकतम कार्यों",
+        "NbActionsDescription": "%s कार्रवाई",
+        "NbDownloadsDescription": "%s डाउनलोड",
+        "NbOutlinksDescription": "%s आउटलिंक",
+        "NbPageviewsDescription": "%s पृष्ठ दृश्यों",
+        "NbUniqueOutlinksDescription": "%s अद्वितीय आउटलिंक",
+        "NbUniquePageviewsDescription": "%s अद्वितीय पृष्ठदृश्य",
+        "NbUniqueVisitors": "%s अद्वितीय आगंतुकों",
+        "PluginDescription": "रिपोर्ट सामान्य विश्लेषिकी मेट्रिक्स: यात्राओं, अद्वितीय आगंतुकों, कार्यों की संख्या, उछाल दर, आदि",
+        "VisitsSummary": "दौरा सारांश"
     }
 }

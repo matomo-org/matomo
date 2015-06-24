@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "Dieses Plugin stellt die Widgets Besucherkarte sowie Besucherkarte in Echtzeit bereit. Hinweis: Das Plugin UserCountry muss aktiviert sein.",
         "AndNOthers": "und %s andere",
         "Cities": "Städte",
         "Countries": "Länder",

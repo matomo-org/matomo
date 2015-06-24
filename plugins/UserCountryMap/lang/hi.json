@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "इस प्लगइन विगेट्स आगंतुक मानचित्र और वास्तविक समय का नक्शा प्रदान करता है। नोट: सक्षम UserCountry प्लगइन की आवश्यकता है।",
         "AndNOthers": "और %s दूसरों के",
         "Cities": "शहरों",
         "Countries": "देश",

@@ -1,9 +1,18 @@
 {
     "CorePluginsAdmin": {
+        "ActionActivatePlugin": "प्लगइन सक्रिय",
+        "ActionActivateTheme": "विषय को सक्रिय करें",
+        "ActionInstall": "स्थापित करें",
+        "ActionUninstall": "स्थापना रद्द करें",
         "Activate": "सक्रिय करें",
         "Activated": "सक्रिय",
         "Active": "सक्रिय",
+        "Activity": "गतिविधि",
         "AuthorHomepage": "लेखक होमपेज",
+        "Authors": "लेखक",
+        "BackToExtendPiwik": "वापस बाज़ार में",
+        "ByXDevelopers": "%s के डेवलपर्स द्वारा",
+        "CannotInstall": "स्थापित नहीं कर सकते (मदद)",
         "Deactivate": "निष्क्रिय करें",
         "Inactive": "निष्क्रिय",
         "LicenseHomepage": "लाइसेंस होमपेज",
@@ -13,12 +22,18 @@
         "PluginHomepage": "प्लगइन होमपेज",
         "PluginKeywords": "खोजशब्द",
         "PluginsManagement": "प्लगइन्स प्रबंधन",
+        "PluginVersionInfo": "%1$s से %2$s",
         "Status": "स्थिति",
         "Theme": "विषय",
         "Themes": "विषय",
         "ThemesDescription": "थीम्स, Piwik यूजर इंटरफेस के स्वरूप को बदल सकते हैं और अपने विश्लेषण रिपोर्टों के आनंद के लिए एक पूरी तरह से नए दृश्य का अनुभव प्रदान करते हैं.",
         "ThemesManagement": "विषय प्रबंधन",
+        "UninstallConfirm": "आप एक प्लगइन %s की स्थापना रद्द करने के बारे में हैं। प्लगइन पूरी तरह से अपने मंच से हटा दिया जाएगा और यह वसूली योग्य नहीं होगा। क्या आप वास्तव में इसे करना चाहते हैं?",
+        "Updated": "अद्यतन",
+        "UpdatingPlugin": "अद्यतन कर रहा है %s",
+        "UploadZipFile": "ZIP फ़ाइल अपलोड करें",
         "Version": "संस्करण",
+        "ViewRepositoryChangelog": "परिवर्तन देखें",
         "Websites": "वेबसाइटें"
     }
 }
