@@ -2,6 +2,7 @@
 
 namespace Piwik\Tracker\Visit;
 
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Option;
 use Piwik\Tracker\Request;
@@ -25,7 +26,7 @@ class ReferrerSpamFilter
      */
     public function isSpam(Request $request)
     {
-        $spammers = $this->loadSpammerList();
+        $spammers = $this->getSpammerListFromCache();
 
         $referrerUrl = $request->getParam('urlref');
 
@@ -37,6 +38,21 @@ class ReferrerSpamFilter
         }
 
         return false;
+    }
+
+    private function getSpammerListFromCache()
+    {
+        $cache = Cache::getLazyCache();
+        $cacheId = __CLASS__ . '-' . self::OPTION_STORAGE_NAME;
+
+        $list = $cache->fetch($cacheId);
+
+        if (! is_array($list)) {
+            $list = $this->loadSpammerList();
+            $cache->save($cacheId, $list);
+        }
+
+        return $list;
     }
 
     private function loadSpammerList()
