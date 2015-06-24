@@ -16,7 +16,6 @@ body#simple  {
 	text-decoration: none;
 }
 #simple .box {
-    border-radius: 12px;
     border: solid 1px #ccc;
     max-width: 780px;
     margin: 30px auto 60px auto;
