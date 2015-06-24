@@ -113,7 +113,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should show the visits percent when hovering over a column", function (done) {
         expect.screenshot('14_visits_percent').to.be.capture(function (page) {
-            page.mouseMove('td.column');
+            page.mouseMove('td.column:not(.label)');
         }, done);
     });
 
