@@ -17,6 +17,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Internal change
 * To execute UI tests "ImageMagick" is now required.
+* The Q JavaScript promise library is now distributed with tests and can be used in the piwik.js tests.
 
 ## Piwik 2.13.0
 
