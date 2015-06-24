@@ -3,6 +3,7 @@
         "ClickHereToViewSqlQueries": "क्रियान्वित किया जाएगा कि एसक्यूएल प्रश्नों की सूची देखने और कॉपी करने के लिए यहां क्लिक करें",
         "CriticalErrorDuringTheUpgradeProcess": "अद्यतन प्रक्रिया के दौरान गंभीर त्रुटि:",
         "DatabaseUpgradeRequired": "डेटाबेस नवीनीकरण आवश्यक",
+        "DisablingIncompatiblePlugins": "असंगत plugins के अक्षम करना है: %s",
         "DownloadingUpdateFromX": "%s से अद्यतन डाउनलोड कर रहा है",
         "DownloadX": "%s डाउनलोड",
         "EmptyDatabaseError": "डाटाबेस %s खाली है. आप अपने Piwik का विन्यास फ़ाइल संपादित या निकालना आवश्यक है.",

@@ -1,13 +1,13 @@
 {
     "Contents": {
-        "PluginDescription": "El contenido y el seguimiento de anuncios le permite medir el rendimiento (visitas, clics, CTR) de cualquier pieza de contenido en sus páginas (anuncios publicitarios, la imagen, cualquier elemento).",
+        "PluginDescription": "El contenido y el seguimiento de anuncios le permite medir el rendimiento (visitas, clics, CTR) de cualquier pieza de contenido en sus páginas (anuncios publicitarios, imágenes, cualquier elemento).",
         "Impressions": "Impresiones",
         "Interactions": "Interacciones",
         "Interaction": "Interacción",
-        "InteractionRate": "Nivel de interaccion",
+        "InteractionRate": "Nivel de interacción",
         "ContentName": "Nombre del contenido",
-        "ContentPiece": "Pieza de Contenido",
-        "ContentTarget": "Contenido de objetivo",
+        "ContentPiece": "Pieza de contenido",
+        "ContentTarget": "Objetivo del contenido",
         "Contents": "Contenidos"
     }
 }

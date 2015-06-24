@@ -1,5 +1,13 @@
 {
     "UsersManager": {
+        "AddUser": "एक नया उपयोगकर्ता जोड़ें",
+        "Alias": "उपनाम",
+        "AllWebsites": "सभी वेबसाइटों",
+        "AnonymousUser": "बेनामी उपयोगकर्ता",
+        "AnonymousUserHasViewAccess2": "आपकी Analytics रिपोर्ट और अपने दर्शकों के बारे में जानकारी सार्वजनिक रूप से देखा जा सकता है।",
+        "ApplyToAllWebsites": "सभी वेबसाइटों के लिए लागू करें",
+        "DeleteConfirm": "क्या आप प्रयोक्ता %s को हटाना चाहते हैं?",
+        "Email": "ईमेल",
         "PrivView": "देखना"
     }
 }

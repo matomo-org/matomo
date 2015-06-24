@@ -1,13 +1,13 @@
 {
     "API": {
-        "GenerateVisits": "Si no tiene los datos de hoy puede generar primero algunos datos mediante el plugin %s. Puede habilitar el plugin %s, a continuación, haga clic en el menú 'Generador de Visitas' del zona Administrativa de Piwik.",
-        "KeepTokenSecret": "Esta token_auth es tan secreta como su nombre de usuario y contraseña, %s no lo comparta %s!",
-        "LoadedAPIs": "Se han cargado %s APIs con éxito",
-        "MoreInformation": "Para mayor información acerca de las APIs Piwik, por favor mire la %s Introducción a las API Piwik %s y a la %s Referencia de las API Piwik %s.",
-        "PluginDescription": "Toda la información en Piwik está disponible a través de simples APIs. Este complemento es el punto de entrada del servicio de internet, al que puede llamar para obtener la información analítica de internet en xml, json, php, csv, etc.",
+        "GenerateVisits": "Si no tiene los datos de hoy puede generar primero algunos datos mediante el complemento %s. Puede habilitar el complemento %s, a continuación, haga clic en el menú 'Generador de Visitas' en la area Administrativa de Piwik.",
+        "KeepTokenSecret": "Este token_auth es tan secreto como su nombre de usuario y contraseña, %s no lo comparta %s!",
+        "LoadedAPIs": "Se han cargado %s APIs exitosamente",
+        "MoreInformation": "Para mayor información acerca de las APIs de Piwik, por favor lea la %s Introducción a las API Piwik %s y la %s Referencia de las API Piwik %s.",
+        "PluginDescription": "Toda la información en Piwik está disponible a través de simples APIs. Este complemento es el punto de entrada del servicio de internet, al que puede convocar para obtener la información analítica de internet en formato xml, json, php, csv, etc.",
         "QuickDocumentationTitle": "Documentación rápida de API",
-        "TopLinkTooltip": "Accede a tus datos de Análisis Web programáticamente, a través de una sencilla API en json, xml, etc.",
+        "TopLinkTooltip": "Acceda a sus datos de análisis de internet programáticamente, a través de una sencilla API en json, xml, etc.",
         "UserAuthentication": "Autenticación de usuario",
-        "UsingTokenAuth": "Si quieres %s solicitar datos dentro de un script, un crontab, etc %s tiene que agregar el parámetro %s a las llamas a la URL de la API que requieren autenticación."
+        "UsingTokenAuth": "Si quieres %s solicitar datos dentro de un script, un crontab, etc. %s tiene que agregar el parámetro %s a las llamadas a la URL de la API que requieren autenticación."
     }
 }

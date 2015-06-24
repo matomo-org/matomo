@@ -1,5 +1,8 @@
 {
     "Live": {
+        "AveragePageGenerationTime": "प्रत्येक पृष्ठ इस आगंतुक के लिए लोड करने के लिए औसत %1$s पर ले लिया।",
+        "CalculatedOverNPageViews": "इस आगंतुक के अंतिम %1$s पृष्ठ विचार उपयोग कर की गणना।",
+        "ClickToViewMoreAboutVisit": "इस यात्रा के बारे में अधिक जानकारी देखने के लिए क्लिक करें",
         "ConvertedNGoals": "लक्ष्य %s बदल दिया गया है",
         "FirstVisit": "पहला दौरा",
         "GoalType": "प्रकार",
@@ -9,9 +12,11 @@
         "LastMinutes": "अंतिम %s मिनट",
         "LastVisit": "अंतिम दौरा",
         "LinkVisitorLog": "विस्तृत आगंतुक लॉग देखें",
+        "LoadMoreVisits": "अधिक यात्राओं लोड",
         "MorePagesNotDisplayed": "इस आगंतुक से अधिक पृष्ठों को प्रदर्शित नहीं कर रहे हैं",
         "NbVisitor": "1 आगंतुक",
         "NbVisitors": "%s आगंतुकों",
+        "NextVisitor": "अगले आगंतुक",
         "PageRefreshed": "यह पृष्ठ देखा गया था \/ एक पंक्ति में रिफ्रेश की संख्या।",
         "RealTimeVisitorCount": "रीयल टाइम आगंतुक गणना",
         "Referrer_URL": "संदर्भ URL",

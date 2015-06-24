@@ -4,7 +4,7 @@
         "AboutPiwikX": "درباره ی Piwik %s",
         "Action": "عمل",
         "Actions": "فعالیت ها",
-        "Add": "اضافه کن",
+        "Add": "افزودن",
         "AfterEntry": "بعد از ورود به اینجا",
         "All": "همه",
         "AllWebsitesDashboard": "داشبورد همه وب سايت ها",
@@ -365,7 +365,7 @@
     "Mobile": {
         "AboutPiwikMobile": "درباره پیویک نسخه موبایل",
         "AccessUrlLabel": "آدرس دسترسی پیویک",
-        "Account": "اکانت",
+        "Account": "حساب",
         "Accounts": "حساب ها",
         "AddAccount": "ایجاد حساب",
         "AddPiwikDemo": "نسخه ی نمایشی پیویک را اضافه کن",

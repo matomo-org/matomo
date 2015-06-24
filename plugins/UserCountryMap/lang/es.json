@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "Este complemento suministra los reproductores Mapa de visitante y Mapa tiempo-real. Nota: Requiere el complemento UserCountry habilitado.",
         "AndNOthers": "y %s otros",
         "Cities": "Ciudades",
         "Countries": "Países",

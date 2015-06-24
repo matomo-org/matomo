@@ -3,7 +3,9 @@
         "ColumnConfiguration": "विन्यास",
         "ColumnResolution": "संकल्प",
         "Configurations": "विन्यास",
+        "PluginDescription": "अपने दर्शकों के स्क्रीन संकल्प रिपोर्ट।",
         "Resolutions": "संकल्प",
-        "WidgetGlobalVisitors": "आगंतुक विन्यास"
+        "WidgetGlobalVisitors": "आगंतुक विन्यास",
+        "WidgetResolutions": "स्क्रीन संकल्प"
     }
 }
