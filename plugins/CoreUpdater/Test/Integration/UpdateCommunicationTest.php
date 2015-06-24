@@ -16,8 +16,6 @@ use Piwik\Version;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * Class Plugins_CoreUpdater_UpdateCommunicationTest
- *
  * @group Plugins
  */
 class UpdateCommunicationTest extends IntegrationTestCase
