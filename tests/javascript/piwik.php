@@ -75,8 +75,6 @@ if (isset($_GET['requests'])) {
 
 	echo "<html><head><title>$token</title></head><body>\n";
 
-	sleep(5);
-
 //	$result = $sqlite->query_array("SELECT uri FROM requests");
 	$result = @$sqlite->query_array("SELECT uri FROM requests WHERE token = \"$token\" AND ua = \"$ua\" ORDER BY ts ASC, requestid ASC");
 	if ($result !== false) {
