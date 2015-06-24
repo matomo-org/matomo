@@ -112,7 +112,7 @@ class Tasks extends \Piwik\Plugin\Tasks
     public function updateSpammerBlacklist()
     {
         $url = 'https://raw.githubusercontent.com/piwik/referrer-spam-blacklist/master/spammers.txt';
-        $list = Http::sendHttpRequest($url, 10);
+        $list = Http::sendHttpRequest($url, 30);
         $list = preg_split("/\r\n|\n|\r/", $list);
         Option::set(ReferrerSpamFilter::OPTION_STORAGE_NAME, serialize($list));
     }
