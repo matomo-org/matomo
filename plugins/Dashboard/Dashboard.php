@@ -76,14 +76,13 @@ class Dashboard extends \Piwik\Plugin
                 ],
                 [
                     ' . $topWidget . '
-                    {"uniqueId":"widgetReferrersgetKeywords","parameters":{"module":"Referrers","action":"getKeywords"}},
-                    {"uniqueId":"widgetReferrersgetWebsites","parameters":{"module":"Referrers","action":"getWebsites"}}
+                    {"uniqueId":"widgetReferrersgetWebsites","parameters":{"module":"Referrers","action":"getWebsites"}},
+                    {"uniqueId":"widgetVisitTimegetVisitInformationPerServerTime","parameters":{"module":"VisitTime","action":"getVisitInformationPerServerTime"}}
                 ],
                 [
                     {"uniqueId":"widgetUserCountryMapvisitorMap","parameters":{"module":"UserCountryMap","action":"visitorMap"}},
                     {"uniqueId":"widgetDevicesDetectiongetBrowsers","parameters":{"module":"DevicesDetection","action":"getBrowsers"}},
                     {"uniqueId":"widgetReferrersgetSearchEngines","parameters":{"module":"Referrers","action":"getSearchEngines"}},
-                    {"uniqueId":"widgetVisitTimegetVisitInformationPerServerTime","parameters":{"module":"VisitTime","action":"getVisitInformationPerServerTime"}},
                     {"uniqueId":"widgetExampleRssWidgetrssPiwik","parameters":{"module":"ExampleRssWidget","action":"rssPiwik"}}
                 ]
             ]';
