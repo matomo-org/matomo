@@ -156,6 +156,16 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                     $diConfigs[] = $testCase->provideContainerConfig();
                 }
             }
+        } else if ($this->vars->fixtureClass) {
+            $fixtureClass = $this->vars->fixtureClass;
+
+            if (class_exists($fixtureClass)) {
+                $fixture = new $fixtureClass();
+
+                if (method_exists($fixture, 'provideContainerConfig')) {
+                    $diConfigs[] = $fixture->provideContainerConfig();
+                }
+            }
         }
 
         $plugins = $this->getPluginsToLoadDuringTest();
