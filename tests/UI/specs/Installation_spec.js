@@ -59,7 +59,7 @@ describe("Installation", function () {
 
     it("should fail when the next button is clicked and no database info is entered in the form", function (done) {
         expect.screenshot("db_setup_fail").to.be.capture(function (page) {
-            page.click('.submit');
+            page.click('.btn');
         }, done);
     });
 
@@ -76,7 +76,7 @@ describe("Installation", function () {
             }
 
             page.sendKeys('input[name=dbname]', 'newdb');
-            page.click('.submit');
+            page.click('.btn');
         }, done);
     });
 
@@ -88,7 +88,7 @@ describe("Installation", function () {
 
     it("should fail when incorrect information is entered in the superuser configuration page", function (done) {
         expect.screenshot("superuser_fail").to.be.capture(function (page) {
-            page.click('.submit');
+            page.click('.btn');
         }, done);
     });
 
@@ -98,14 +98,14 @@ describe("Installation", function () {
             page.sendKeys('input[name=password]', 'thepassword');
             page.sendKeys('input[name=password_bis]', 'thepassword');
             page.sendKeys('input[name=email]', 'hello@piwik.org');
-            page.click('.submit');
+            page.click('.btn');
             page.wait(3000);
         }, done);
     });
 
     it("should should fail when incorrect information is entered in the setup a website page", function (done) {
         expect.screenshot("setup_website_fail").to.be.capture(function (page) {
-            page.click('.submit');
+            page.click('.btn');
         }, done);
     });
 
@@ -117,7 +117,7 @@ describe("Installation", function () {
                 $('select[name=timezone]').val('Europe/Paris');
                 $('select[name=ecommerce]').val('1');
             });
-            page.click('.submit');
+            page.click('.btn');
             page.wait(3000);
         }, done);
     });
@@ -130,7 +130,7 @@ describe("Installation", function () {
 
     it("should continue to piwik after submitting on the privacy settings form in the congrats page", function (done) {
         expect.screenshot('login_form', 'Login').to.be.capture(function (page) {
-            page.click('.submit');
+            page.click('.btn');
         }, done);
     });
 });
