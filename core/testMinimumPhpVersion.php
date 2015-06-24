@@ -39,7 +39,7 @@ if ($minimumPhpInvalid) {
     }
 
     if (ini_get('mbstring.func_overload')) {
-        $piwik_errorMessage .= "<p><strong>Piwik does not works when PHP is configured with <pre>mbstring.func_overload = " . ini_get('mbstring.func_overload') . "</pre></strong></p>
+        $piwik_errorMessage .= "<p><strong>Piwik does not work when PHP is configured with <pre>mbstring.func_overload = " . ini_get('mbstring.func_overload') . "</pre></strong></p>
 					<p>It appears your mbstring extension in PHP is configured to override string functions.
 					To enjoy Piwik, you need to modify php.ini <pre>mbstring.func_overload = 0</pre>, and restart your webserver.</p>";
     }
