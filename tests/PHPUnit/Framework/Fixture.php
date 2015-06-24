@@ -241,9 +241,9 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         static::loadAllPlugins($this->getTestEnvironment(), $this->testCaseClass, $this->extraPluginsToLoad);
 
-        self::installAndActivatePlugins();
-
         self::updateDatabase();
+
+        self::installAndActivatePlugins();
 
         $_GET = $_REQUEST = array();
         $_SERVER['HTTP_REFERER'] = '';
