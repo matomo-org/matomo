@@ -114,6 +114,13 @@ class Tasks extends \Piwik\Plugin\Tasks
         $url = 'https://raw.githubusercontent.com/piwik/referrer-spam-blacklist/master/spammers.txt';
         $list = Http::sendHttpRequest($url, 30);
         $list = preg_split("/\r\n|\n|\r/", $list);
+        if (count($list) < 10) {
+            throw new \Exception(sprintf(
+                'The spammers list downloaded from %s contains less than 10 entries, considering it a fail',
+                $url
+            ));
+        }
+
         Option::set(ReferrerSpamFilter::OPTION_STORAGE_NAME, serialize($list));
     }
 
