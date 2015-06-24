@@ -2559,6 +2559,8 @@ if (typeof Piwik !== 'object') {
                 var now     = new Date();
                 var timeNow = now.getTime();
 
+                lastTrackerRequestTime = timeNow;
+
                 if (timeNextTrackingRequestCanBeExecutedImmediately && timeNow < timeNextTrackingRequestCanBeExecutedImmediately) {
                     // we are in the time frame shortly after the first request. we have to delay this request a bit to make sure
                     // a visitor has been created meanwhile.
@@ -2586,8 +2588,6 @@ if (typeof Piwik !== 'object') {
              * Send request
              */
             function sendRequest(request, delay, callback) {
-                lastTrackerRequestTime = (new Date()).getTime();
-
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                         if (configRequestMethod === 'POST') {
@@ -5014,6 +5014,7 @@ if (typeof Piwik !== 'object') {
                     }
                 },
 
+/*<DEBUG>*/
                 /**
                  * Clear heartbeat.
                  */
@@ -5021,6 +5022,7 @@ if (typeof Piwik !== 'object') {
                     heartBeatDown();
                     configHeartBeatDelayInSeconds = null;
                 },
+/*</DEBUG>*/
 
                 /**
                  * Frame buster
