@@ -2494,7 +2494,9 @@ if (typeof Piwik !== 'object') {
              * Sets up the heart beat timeout.
              */
             function heartBeatUp(delay) {
-                if (heartBeatTimeout) {
+                if (heartBeatTimeout
+                    || !configHeartBeatDelayInSeconds
+                ) {
                     return;
                 }
 
@@ -2528,13 +2530,15 @@ if (typeof Piwik !== 'object') {
              * Setup event handlers and timeout for initial heart beat.
              */
             function setUpHeartBeat() {
-                if (heartBeatSetUp) {
+                if (heartBeatSetUp
+                    || !configHeartBeatDelayInSeconds
+                ) {
                     return;
                 }
 
                 heartBeatSetUp = true;
 
-                addEventListener(windowAlias, 'focus', function () {
+                addEventListener(windowAlias, 'focus', function heartBeatOnFocus() {
                     // since it's possible for a user to come back to a tab after several hours or more, we try to send
                     // a ping if the page is active. (after the ping is sent, the heart beat timeout will be set)
                     if (heartBeatPingIfActivityAlias()) {
@@ -2543,7 +2547,7 @@ if (typeof Piwik !== 'object') {
 
                     heartBeatUp();
                 });
-                addEventListener(windowAlias, 'blur', function () {
+                addEventListener(windowAlias, 'blur', function heartBeatOnBlur() {
                     heartBeatDown();
                 });
 
@@ -2596,12 +2600,10 @@ if (typeof Piwik !== 'object') {
                     });
                 }
 
-                if (configHeartBeatDelayInSeconds) {
-                    if (!heartBeatSetUp) {
-                        setUpHeartBeat();
-                    } else {
-                        heartBeatUp();
-                    }
+                if (!heartBeatSetUp) {
+                    setUpHeartBeat(); // setup window events too, but only once
+                } else {
+                    heartBeatUp();
                 }
             }
 
@@ -5000,9 +5002,10 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Set heartbeat (in seconds)
                  *
-                 * @param int heartBeatDelayInSeconds Defaults to 15.
+                 * @param int heartBeatDelayInSeconds Defaults to 15. Cannot be lower than 1.
                  */
                 enableHeartBeatTimer: function (heartBeatDelayInSeconds) {
+                    heartBeatDelayInSeconds = Math.max(heartBeatDelayInSeconds, 1);
                     configHeartBeatDelayInSeconds = (heartBeatDelayInSeconds || 15) * 1000;
 
                     // if a tracking request has already been sent, start the heart beat timeout
