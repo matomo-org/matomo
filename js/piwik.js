@@ -408,7 +408,7 @@ if (typeof JSON2 !== 'object') {
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
     onload, src,
-    min, round, random,
+    min, max, round, random,
     exec,
     res, width, height, devicePixelRatio,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
@@ -2200,6 +2200,16 @@ if (typeof Piwik !== 'object') {
                 // Recurring heart beat after initial ping (in milliseconds)
                 configHeartBeatDelay,
 
+                // Current heart beat delay. Initialized to configHeartBeatDelay, then configHeartBeatDelayMultiplier
+                // is applied after each ping request
+                configHeartBeatDelayCurrent,
+
+                // Multiplier used to increase configHeartBeatDelay after each ping
+                configHeartBeatDelayMultiplier,
+
+                // Max heart beat delay amount (in milliseconds)
+                configHeartBeatMaxDelay,
+
                 // alias to circumvent circular function dependency (JSLint requires this)
                 heartBeatPingIfActivityAlias,
 
@@ -2500,18 +2510,26 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
+                delay = Math.min(delay || configHeartBeatDelayCurrent, configHeartBeatMaxDelay);
+
                 heartBeatTimeout = setTimeout(function heartBeat() {
                     heartBeatTimeout = null;
                     if (heartBeatPingIfActivityAlias()) {
+                        // after ping, increase heart beat delay, but only when ping is due to timeout.
+                        // shouldn't do it for every ping request.
+                        configHeartBeatDelayCurrent = configHeartBeatDelayCurrent * configHeartBeatDelayMultiplier;
+                        configHeartBeatDelayCurrent = Math.min(configHeartBeatDelayCurrent, configHeartBeatMaxDelay);
+
                         return;
                     }
 
                     var now = new Date(),
-                        heartBeatDelay = configHeartBeatDelay - (now.getTime() - lastTrackerRequestTime);
-                    // sanity check
-                    heartBeatDelay = Math.min(configHeartBeatDelay, heartBeatDelay);
+                        heartBeatDelay = configHeartBeatDelayCurrent - (now.getTime() - lastTrackerRequestTime);
+
+                    heartBeatDelay = Math.min(configHeartBeatDelayCurrent, heartBeatDelay); // sanity check
+
                     heartBeatUp(heartBeatDelay);
-                }, delay || configHeartBeatDelay);
+                }, delay);
             }
 
             /*
@@ -2524,6 +2542,21 @@ if (typeof Piwik !== 'object') {
 
                 clearTimeout(heartBeatTimeout);
                 heartBeatTimeout = null;
+                configHeartBeatDelayCurrent = configHeartBeatDelay;
+            }
+
+            function heartBeatOnFocus() {
+                // since it's possible for a user to come back to a tab after several hours or more, we try to send
+                // a ping if the page is active. (after the ping is sent, the heart beat timeout will be set)
+                if (heartBeatPingIfActivityAlias()) {
+                    return;
+                }
+
+                heartBeatUp();
+            }
+
+            function heartBeatOnBlur() {
+                heartBeatDown();
             }
 
             function heartBeatOnFocus() {
@@ -5006,11 +5039,22 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Set heartbeat (in seconds)
                  *
-                 * @param int heartBeatDelayInSeconds Defaults to 15. Cannot be lower than 1.
+                 * @param int heartBeatDelayInSeconds Defaults to 15. Cannot be lower than 1. Ping requests
+                 *                                    are sent after this number of seconds.
+                 * @param int delayMultiplier This value is used to change the delay after each ping.
+                 *                            For example, if 2 is used, the delay will double each time,
+                 *                            so the first request will be sent after 15s, the second after
+                 *                            30s, and so on. Defaults to 1.
+                 * @param int maxDelayInSeconds The maximum delay to use. Defaults to 900.
                  */
-                enableHeartBeatTimer: function (heartBeatDelayInSeconds) {
+                enableHeartBeatTimer: function (heartBeatDelayInSeconds, delayMultiplier, maxDelayInSeconds) {
                     heartBeatDelayInSeconds = Math.max(heartBeatDelayInSeconds, 1);
                     configHeartBeatDelay = (heartBeatDelayInSeconds || 15) * 1000;
+
+                    configHeartBeatDelayCurrent = configHeartBeatDelay;
+
+                    configHeartBeatDelayMultiplier = delayMultiplier || 1;
+                    configHeartBeatMaxDelay = (maxDelayInSeconds || 900) * 1000;
 
                     // if a tracking request has already been sent, start the heart beat timeout
                     if (lastTrackerRequestTime !== null) {
