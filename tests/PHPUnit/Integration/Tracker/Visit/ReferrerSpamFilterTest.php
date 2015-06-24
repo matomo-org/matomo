@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration\Tracker\Visit;
 
+use Piwik\Cache;
 use Piwik\Option;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Request;
@@ -27,7 +28,16 @@ class ReferrerSpamFilterTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
+
+        Cache::flushAll();
         $this->filter = new ReferrerSpamFilter;
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        Cache::flushAll();
     }
 
     /**

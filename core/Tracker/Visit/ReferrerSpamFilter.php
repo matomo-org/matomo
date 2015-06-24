@@ -43,7 +43,7 @@ class ReferrerSpamFilter
     private function getSpammerListFromCache()
     {
         $cache = Cache::getLazyCache();
-        $cacheId = __CLASS__ . '-' . self::OPTION_STORAGE_NAME;
+        $cacheId = 'ReferrerSpamFilter-' . self::OPTION_STORAGE_NAME;
 
         $list = $cache->fetch($cacheId);
 
