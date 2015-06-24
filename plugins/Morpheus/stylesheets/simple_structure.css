@@ -21,8 +21,6 @@ body#simple  {
     max-width: 780px;
     margin: 30px auto 60px auto;
     overflow: hidden;
-    -webkit-box-shadow: 0 1px 6px 0 #ccc;
-    -moz-box-shadow: 0 1px 6px 0 #ccc;
     box-shadow: 0 1px 6px 0 #ccc;
 }
 
