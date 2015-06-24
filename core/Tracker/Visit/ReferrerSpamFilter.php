@@ -45,9 +45,9 @@ class ReferrerSpamFilter
         $cache = Cache::getEagerCache();
         $cacheId = 'ReferrerSpamFilter-' . self::OPTION_STORAGE_NAME;
 
-        $list = $cache->fetch($cacheId);
-
-        if (! is_array($list)) {
+        if ($cache->contains($cacheId)) {
+            $list = $cache->fetch($cacheId);
+        } else {
             $list = $this->loadSpammerList();
             $cache->save($cacheId, $list);
         }
