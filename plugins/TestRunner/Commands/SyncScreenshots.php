@@ -8,9 +8,11 @@
 
 namespace Piwik\Plugins\TestRunner\Commands;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -23,6 +25,18 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class SyncScreenshots extends ConsoleCommand
 {
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct()
+    {
+        $this->logger = StaticContainer::get('Psr\Log\LoggerInterface');
+
+        parent::__construct();
+    }
+
     public function isEnabled()
     {
         return Development::isEnabled();
@@ -59,11 +73,6 @@ class SyncScreenshots extends ConsoleCommand
         $urlBase = $this->getUrlBase($plugin, $buildNumber);
         $diffviewer = $this->getDiffviewerContent($output, $urlBase, $httpUser, $httpPassword);
 
-        if(empty($diffviewer)) {
-            throw new \Exception("Screenshot tests artifacts were not found for this build.");
-        }
-
-
         $dom = new \DOMDocument();
         $dom->loadHTML($diffviewer);
         foreach ($dom->getElementsByTagName("tr") as $row) {
@@ -89,10 +98,8 @@ class SyncScreenshots extends ConsoleCommand
 
     }
 
-    protected function displayGitInstructions(OutputInterface $output, $plugin)
+    private function displayGitInstructions(OutputInterface $output, $plugin)
     {
-        $output->writeln('');
-        $output->writeln('--------------');
         $output->writeln('');
         $output->writeln("If all downloaded screenshots are valid you may push them with these commands:");
         $downloadToPath = $this->getDownloadToPath($plugin);
@@ -111,18 +118,17 @@ cd ..
 git pull
 git add expected-ui-screenshots/
 git status
-sleep 5
 git commit -m '' # Copy paste the good commit message
 git push
-cd ../../\n\n";
+cd ../../";
         } else {
             $commands .= "
-cd ../../../../../\n\n";
+cd ../../../../../";
         }
         $output->writeln($commands);
     }
 
-    protected function getUrlBase($plugin, $buildNumber)
+    private function getUrlBase($plugin, $buildNumber)
     {
         if ($plugin) {
             return sprintf('http://builds-artifacts.piwik.org/ui-tests.master.%s/%s', $plugin, $buildNumber);
@@ -130,7 +136,7 @@ cd ../../../../../\n\n";
         return sprintf('http://builds-artifacts.piwik.org/ui-tests.master/%s', $buildNumber);
     }
 
-    protected function getDownloadToPath($plugin)
+    private function getDownloadToPath($plugin)
     {
         if (empty($plugin)) {
             return PIWIK_DOCUMENT_ROOT . "/tests/UI/expected-ui-screenshots/";
@@ -149,20 +155,26 @@ cd ../../../../../\n\n";
         throw new \Exception("Download to path could not be found: $downloadTo");
     }
 
-    protected function getDiffviewerContent(OutputInterface $output, $urlBase, $httpUser = false, $httpPassword = false)
+    private function getDiffviewerContent(OutputInterface $output, &$urlBase, $httpUser = false, $httpPassword = false)
     {
-        $diffviewerUrl = $this->getDiffviewerUrl($urlBase);
+        $url = $this->getDiffviewerUrl($urlBase);
 
         try {
-            return $this->downloadDiffviewer($output, $diffviewerUrl);
-        } catch(\Exception $e) {
+            $diffViewer = $this->downloadDiffviewer($output, $url);
+        } catch (\Exception $e) {
+            $this->logger->debug('Not found: {url}', array('url' => $url));
 
             // Maybe this is a Premium Piwik PRO plugin...
-            return $this->getDiffviewContentForPrivatePlugin($output, $urlBase, $httpUser, $httpPassword);
+            $diffViewer = $this->getDiffviewContentForPrivatePlugin($output, $urlBase, $httpUser, $httpPassword);
         }
+
+        if (empty($diffViewer)) {
+            throw new \Exception("Screenshot tests artifacts were not found for this build.");
+        }
+        return $diffViewer;
     }
 
-    protected function getDiffviewContentForPrivatePlugin(OutputInterface $output, $urlBase, $httpUser, $httpPassword)
+    private function getDiffviewContentForPrivatePlugin(OutputInterface $output, &$urlBase, $httpUser, $httpPassword)
     {
         if (empty($httpUser) || empty($httpPassword)) {
             $output->writeln("<info>--http-user and --http-password was not specified, skip download of private plugins screenshots.</info>");
@@ -179,13 +191,15 @@ cd ../../../../../\n\n";
     /**
      * @return string
      */
-    protected function getDiffviewerUrl($urlBase)
+    private function getDiffviewerUrl($urlBase)
     {
         return $urlBase . "/screenshot-diffs/diffviewer.html";
     }
 
-    protected function downloadDiffviewer(OutputInterface $output, $urlDiffviewer, $httpUsername = false, $httpPassword = false)
+    private function downloadDiffviewer(OutputInterface $output, $urlDiffviewer, $httpUsername = false, $httpPassword = false)
     {
+        $this->logger->debug('Downloading {url}', array('url' => $urlDiffviewer));
+
         $responseExtended = Http::sendHttpRequest(
             $urlDiffviewer,
             $timeout = 60,
@@ -213,14 +227,17 @@ cd ../../../../../\n\n";
     }
 
 
-    protected function downloadProcessedScreenshot(OutputInterface $output, $urlBase, $file, $plugin, $httpUser, $httpPassword)
+    private function downloadProcessedScreenshot(OutputInterface $output, $urlBase, $file, $plugin, $httpUser, $httpPassword)
     {
         $downloadTo = $this->getDownloadToPath($plugin) . $file;
 
         $output->write("<info>Downloading $file to  $downloadTo...</info>\n");
-        $urlProcessedScreenshot = $urlBase . "/processed-ui-screenshots/$file";
+        $screenshotUrl = $urlBase . "/processed-ui-screenshots/$file";
 
-        Http::sendHttpRequest($urlProcessedScreenshot,
+        $this->logger->debug('Downloading {url}', array('url' => $screenshotUrl));
+
+        Http::sendHttpRequest(
+            $screenshotUrl,
             $timeout = 60,
             $userAgent = null,
             $downloadTo,
@@ -230,7 +247,8 @@ cd ../../../../../\n\n";
             $getExtendedInfo = true,
             $httpMethod = 'GET',
             $httpUser,
-            $httpPassword);
+            $httpPassword
+        );
     }
 
 }
