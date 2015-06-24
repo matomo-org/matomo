@@ -111,6 +111,13 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
             }
         }
 
+        // We return only an HTML fragment for AJAX requests
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
+        ) {
+            return "<div class='alert alert-danger'><strong>Error:</strong> $message</div>";
+        }
+
         if (empty($logoUrl)) {
             $logoUrl = "plugins/Morpheus/images/logo-header.png";
         }
