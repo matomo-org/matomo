@@ -176,7 +176,7 @@ class Controller extends \Piwik\Plugin\Controller
             </div>',
             Piwik::translate('General_Error'),
             $errorMessage,
-            'index.php?module=Login&idSite=7&period=day&date=yesterday',
+            'index.php?module=Login',
             Piwik::translate('Login_LogIn')
         );
     }
