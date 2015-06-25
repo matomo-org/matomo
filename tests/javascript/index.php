@@ -18,6 +18,9 @@ function getToken() {
 function getContentToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
+function getHeartbeatToken() {
+    return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
 <?php
 $sqlite = false;
 if (file_exists("enable_sqlite")) {
@@ -51,6 +54,7 @@ testTrackPageViewAsync();
 }
 ?>
  </script>
+ <script src="../lib/q-1.4.1/q.js" type="text/javascript"></script>
  <script src="../../js/piwik.js?rand=<?php echo md5(uniqid(mt_rand(), true)) ?>" type="text/javascript"></script>
  <script src="../../plugins/Overlay/client/urlnormalizer.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
@@ -212,8 +216,9 @@ function triggerEvent(element, type, buttonNumber) {
          buttonNumber = 0;
      }
 
-     var event = document.createEvent( "MouseEvents" );
-     event.initMouseEvent(type, true, true, element.ownerDocument.defaultView,
+     var event = document.createEvent( "MouseEvents" ),
+         docView = element == window ? element : element.ownerDocument.defaultView;
+     event.initMouseEvent(type, true, true, docView,
          0, 0, 0, 0, 0, false, false, false, false, buttonNumber, null);
      element.dispatchEvent( event );
  } else if ( element.fireEvent ) {
@@ -231,7 +236,7 @@ function triggerEvent(element, type, buttonNumber) {
      }
  }
 
- function fetchTrackedRequests(token)
+ function fetchTrackedRequests(token, parse)
  {
      var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
          window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") :
@@ -240,7 +245,18 @@ function triggerEvent(element, type, buttonNumber) {
      xhr.open("GET", "piwik.php?requests=" + token, false);
      xhr.send(null);
 
-     return xhr.responseText;
+     var response = xhr.responseText;
+     if (parse) {
+         var results = [];
+         $(response).filter('span').each(function (i) {
+             if (i != 0) {
+                 results.push($(this).text());
+             }
+         });
+         return results;
+     }
+
+     return response;
  }
 
  function dropCookie(cookieName, path, domain) {
@@ -1965,7 +1981,7 @@ function PiwikTest() {
         equal( typeof tracker.setConversionAttributionFirstReferrer, 'function', 'setConversionAttributionFirstReferrer' );
         equal( typeof tracker.addListener, 'function', 'addListener' );
         equal( typeof tracker.enableLinkTracking, 'function', 'enableLinkTracking' );
-        equal( typeof tracker.setHeartBeatTimer, 'function', 'setHeartBeatTimer' );
+        equal( typeof tracker.enableHeartBeatTimer, 'function', 'enableHeartBeatTimer' );
         equal( typeof tracker.killFrame, 'function', 'killFrame' );
         equal( typeof tracker.redirectFile, 'function', 'redirectFile' );
         equal( typeof tracker.setCountPreRendered, 'function', 'setCountPreRendered' );
@@ -2533,7 +2549,7 @@ function PiwikTest() {
           function link() { lastInteractionType = "link"; }
           function load() { lastInteractionType = "load"; }
           function log() { lastInteractionType = "log"; }
-          function ping() { lastInteractionType = "ping"; }
+          function ping() { lastInteractionType = "ping"; return "&dummy=1"; }
           function sitesearch() { lastInteractionType = "sitesearch"; }
           function unload() { lastInteractionType = "unload"; }
           function getLastInteractionType() { return lastInteractionType; }
@@ -2706,9 +2722,7 @@ if ($sqlite) {
     test("tracking", function() {
         expect(101);
 
-        /*
-         * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
-         */
+        // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
                 evt = evt || window.event;
 
@@ -3085,6 +3099,91 @@ if ($sqlite) {
 
             start();
         }, 5000);
+    });
+
+    // heartbeat tests
+    test("trackingHeartBeat", function () {
+        expect(14);
+
+        var tokenBase = getHeartbeatToken();
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("piwik.php");
+        tracker.setSiteId(1);
+        tracker.enableHeartBeatTimer(3);
+
+        stop();
+        Q.delay(1).then(function () {
+            // test ping heart beat not set up until an initial request tracked
+            tracker.setCustomData('token', 1 + tokenBase);
+
+            return Q.delay(3500);
+        }).then(function () {
+            // test ping not sent on initial page load, and sent if inactive for N secs.
+            tracker.setCustomData('token', 2 + tokenBase);
+            tracker.trackPageView('whatever'); // normal request sent here
+        }).then(function () {
+            triggerEvent(window, 'focus');
+
+            return Q.delay(4000); // ping request sent after this (afterwards 2 secs to next heartbeat)
+        }).then(function () {
+            // test ping not sent after N secs, if tracking request sent in the mean time
+            tracker.setCustomData('token', 3 + tokenBase);
+
+            tracker.trackPageView('whatever2'); // normal request sent here
+            // heart beat will trigger in 2 secs, then reset to 1 sec later, since tracker request
+            // was sent 2 secs ago
+        }).then(function () {
+            return Q.delay(2100); // ping request NOT sent here (heart beat triggered. after, .9s to next heartbeat)
+        }).then(function () {
+            // test ping sent N secs after second tracking request if inactive.
+            tracker.setCustomData('token', 4 + tokenBase);
+
+            return Q.delay(2100); // ping request sent here (heart beat triggered after 1s; 2s to next heart beat)
+        }).then(function () {
+            // test ping not sent N secs after, if window blur event triggered (ie tab switch) and N secs pass.
+            tracker.setCustomData('token', 5 + tokenBase);
+
+            triggerEvent(window, 'blur');
+
+            return Q.delay(3000); // ping request not sent here (heart beat triggered after 2s; 1s to next heart beat)
+        }).then(function () {
+            // test ping sent immediately if tab switched and more than N secs pass, then tab switched back
+            tracker.setCustomData('token', 6 + tokenBase);
+
+            triggerEvent(window, 'focus'); // ping request sent here
+
+            tracker.disableHeartBeatTimer(); // flatline
+
+            return Q.delay(1000); // for the ping request to get sent
+        }).then(function () {
+            var token;
+
+            var requests = fetchTrackedRequests(token = 1 + tokenBase, true);
+            equal(requests.length, 0, "[token = 1] no requests sent before initial non-ping request sent");
+
+            requests = fetchTrackedRequests(token = 2 + tokenBase, true);
+            ok(/action_name=whatever/.test(requests[0]) && !(/ping=1/.test(requests[0])), "[token = 2] first request is page view not ping");
+            ok(/ping=1/.test(requests[1]), "[token = 2] second request is ping request");
+            equal(requests.length, 2, "[token = 2] only 2 requests sent for normal ping");
+
+            requests = fetchTrackedRequests(token = 3 + tokenBase, true);
+            ok(/action_name=whatever2/.test(requests[0]) && !(/ping=1/.test(requests[0])), "[token = 3] first request is page view not ping");
+            equal(requests.length, 1, "[token = 3] no ping request sent if other request sent in meantime");
+
+            requests = fetchTrackedRequests(token = 4 + tokenBase, true);
+            ok(/ping=1/.test(requests[0]), "[token = 4] ping request sent if no other activity and after heart beat");
+            equal(requests.length, 1, "[token = 4] only ping request sent if no other activity");
+
+            requests = fetchTrackedRequests(token = 5 + tokenBase, true);
+            equal(requests.length, 0, "[token = 5] no requests sent if window not in focus");
+
+            requests = fetchTrackedRequests(token = 6 + tokenBase, true);
+            ok(/ping=1/.test(requests[0]), "[token = 6] ping sent after window regains focus");
+            equal(requests.length, 1, "[token = 6] only one ping request sent after window regains focus");
+
+            start();
+        });
     });
 
     test("trackingContent", function() {
@@ -3566,15 +3665,14 @@ if ($sqlite) {
 
             start();
         }, 4000);
-
     });
-
     <?php
 }
 ?>
 }
 
-function addEventListener(element, eventType, eventHandler, useCapture) {
+// do not name this addEventListener so it won't overwrite the member in window
+function customAddEventListener(element, eventType, eventHandler, useCapture) {
     if (element.addEventListener) {
         element.addEventListener(eventType, eventHandler, useCapture);
         return true;
@@ -3587,7 +3685,7 @@ function addEventListener(element, eventType, eventHandler, useCapture) {
 
 (function (f) {
     if (document.addEventListener) {
-        addEventListener(document, 'DOMContentLoaded', function ready() {
+        customAddEventListener(document, 'DOMContentLoaded', function ready() {
             document.removeEventListener('DOMContentLoaded', ready, false);
             f();
         });
@@ -3612,8 +3710,9 @@ function addEventListener(element, eventType, eventHandler, useCapture) {
                 }
             }());
         }
+    } else {
+        customAddEventListener(window, 'load', f, false);
     }
-    addEventListener(window, 'load', f, false);
 })(PiwikTest);
  </script>
 

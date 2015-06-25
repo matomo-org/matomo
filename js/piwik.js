@@ -408,7 +408,7 @@ if (typeof JSON2 !== 'object') {
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
     onload, src,
-    round, random,
+    min, round, random,
     exec,
     res, width, height, devicePixelRatio,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
@@ -430,7 +430,7 @@ if (typeof JSON2 !== 'object') {
     disablePerformanceTracking, setGenerationTimeMs,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
-    setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
+    enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
@@ -2198,7 +2198,10 @@ if (typeof Piwik !== 'object') {
                 configMinimumVisitTime,
 
                 // Recurring heart beat after initial ping (in milliseconds)
-                configHeartBeatTimer,
+                configHeartBeatDelay,
+
+                // alias to circumvent circular function dependency (JSLint requires this)
+                heartBeatPingIfActivityAlias,
 
                 // Disallow hash tags in URL
                 configDiscardHashTag,
@@ -2287,10 +2290,13 @@ if (typeof Piwik !== 'object') {
                 linkTrackingEnabled = false,
 
                 // Guard against installing the activity tracker more than once per Tracker instance
-                activityTrackingInstalled = false,
+                heartBeatSetUp = false,
 
-                // Last activity timestamp
-                lastActivityTime,
+                // Timestamp of last tracker request sent to Piwik
+                lastTrackerRequestTime = null,
+
+                // Handle to the current heart beat timeout
+                heartBeatTimeout,
 
                 // Internal state of the pseudo click handler
                 lastButton,
@@ -2484,10 +2490,80 @@ if (typeof Piwik !== 'object') {
                 }
             }
 
+            /*
+             * Sets up the heart beat timeout.
+             */
+            function heartBeatUp(delay) {
+                if (heartBeatTimeout
+                    || !configHeartBeatDelay
+                ) {
+                    return;
+                }
+
+                heartBeatTimeout = setTimeout(function heartBeat() {
+                    heartBeatTimeout = null;
+                    if (heartBeatPingIfActivityAlias()) {
+                        return;
+                    }
+
+                    var now = new Date(),
+                        heartBeatDelay = configHeartBeatDelay - (now.getTime() - lastTrackerRequestTime);
+                    // sanity check
+                    heartBeatDelay = Math.min(configHeartBeatDelay, heartBeatDelay);
+                    heartBeatUp(heartBeatDelay);
+                }, delay || configHeartBeatDelay);
+            }
+
+            /*
+             * Removes the heart beat timeout.
+             */
+            function heartBeatDown() {
+                if (!heartBeatTimeout) {
+                    return;
+                }
+
+                clearTimeout(heartBeatTimeout);
+                heartBeatTimeout = null;
+            }
+
+            function heartBeatOnFocus() {
+                // since it's possible for a user to come back to a tab after several hours or more, we try to send
+                // a ping if the page is active. (after the ping is sent, the heart beat timeout will be set)
+                if (heartBeatPingIfActivityAlias()) {
+                    return;
+                }
+
+                heartBeatUp();
+            }
+
+            function heartBeatOnBlur() {
+                heartBeatDown();
+            }
+
+            /*
+             * Setup event handlers and timeout for initial heart beat.
+             */
+            function setUpHeartBeat() {
+                if (heartBeatSetUp
+                    || !configHeartBeatDelay
+                ) {
+                    return;
+                }
+
+                heartBeatSetUp = true;
+
+                addEventListener(windowAlias, 'focus', heartBeatOnFocus);
+                addEventListener(windowAlias, 'blur', heartBeatOnBlur);
+
+                heartBeatUp();
+            }
+
             function makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(callback)
             {
                 var now     = new Date();
                 var timeNow = now.getTime();
+
+                lastTrackerRequestTime = timeNow;
 
                 if (timeNextTrackingRequestCanBeExecutedImmediately && timeNow < timeNextTrackingRequestCanBeExecutedImmediately) {
                     // we are in the time frame shortly after the first request. we have to delay this request a bit to make sure
@@ -2516,7 +2592,6 @@ if (typeof Piwik !== 'object') {
              * Send request
              */
             function sendRequest(request, delay, callback) {
-
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                         if (configRequestMethod === 'POST') {
@@ -2527,6 +2602,12 @@ if (typeof Piwik !== 'object') {
 
                         setExpireDateTime(delay);
                     });
+                }
+
+                if (!heartBeatSetUp) {
+                    setUpHeartBeat(); // setup window events too, but only once
+                } else {
+                    heartBeatUp();
                 }
             }
 
@@ -2615,16 +2696,6 @@ if (typeof Piwik !== 'object') {
                 if (customVariables === false) {
                     customVariables = getCustomVariablesFromCookie();
                 }
-            }
-
-            /*
-             * Process all "activity" events.
-             * For performance, this function must have low overhead.
-             */
-            function activityHandler() {
-                var now = new Date();
-
-                lastActivityTime = now.getTime();
             }
 
             /*
@@ -3095,6 +3166,22 @@ if (typeof Piwik !== 'object') {
                 return request;
             }
 
+            /*
+             * If there was user activity since the last check, and it's been configHeartBeatDelay seconds
+             * since the last tracker, send a ping request (the heartbeat timeout will be reset by sendRequest).
+             */
+            heartBeatPingIfActivityAlias = function heartBeatPingIfActivity() {
+                var now = new Date();
+                if (lastTrackerRequestTime + configHeartBeatDelay <= now.getTime()) {
+                    var requestPing = getRequest('ping=1', null, 'ping');
+                    sendRequest(requestPing, configTrackerPause);
+
+                    return true;
+                }
+
+                return false;
+            };
+
             function logEcommerce(orderId, grandTotal, subTotal, tax, shipping, discount) {
                 var request = 'idgoal=0',
                     lastEcommerceOrderTs,
@@ -3181,49 +3268,6 @@ if (typeof Piwik !== 'object') {
                     request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
 
                 sendRequest(request, configTrackerPause);
-
-                // send ping
-                if (configMinimumVisitTime && configHeartBeatTimer && !activityTrackingInstalled) {
-                    activityTrackingInstalled = true;
-
-                    // add event handlers; cross-browser compatibility here varies significantly
-                    // @see http://quirksmode.org/dom/events
-                    addEventListener(documentAlias, 'click', activityHandler);
-                    addEventListener(documentAlias, 'mouseup', activityHandler);
-                    addEventListener(documentAlias, 'mousedown', activityHandler);
-                    addEventListener(documentAlias, 'mousemove', activityHandler);
-                    addEventListener(documentAlias, 'mousewheel', activityHandler);
-                    addEventListener(windowAlias, 'DOMMouseScroll', activityHandler);
-                    addEventListener(windowAlias, 'scroll', activityHandler);
-                    addEventListener(documentAlias, 'keypress', activityHandler);
-                    addEventListener(documentAlias, 'keydown', activityHandler);
-                    addEventListener(documentAlias, 'keyup', activityHandler);
-                    addEventListener(windowAlias, 'resize', activityHandler);
-                    addEventListener(windowAlias, 'focus', activityHandler);
-                    addEventListener(windowAlias, 'blur', activityHandler);
-
-                    // periodic check for activity
-                    lastActivityTime = now.getTime();
-                    setTimeout(function heartBeat() {
-                        var requestPing;
-                        now = new Date();
-
-                        // there was activity during the heart beat period;
-                        // on average, this is going to overstate the visitDuration by configHeartBeatTimer/2
-                        if ((lastActivityTime + configHeartBeatTimer) > now.getTime()) {
-                            // send ping if minimum visit time has elapsed
-                            if (configMinimumVisitTime < now.getTime()) {
-                                requestPing = getRequest('ping=1', customData, 'ping');
-
-                                sendRequest(requestPing, configTrackerPause);
-                            }
-
-                            // resume heart beat
-                            setTimeout(heartBeat, configHeartBeatTimer);
-                        }
-                        // else heart beat cancelled due to inactivity
-                    }, configHeartBeatTimer);
-                }
             }
 
             /*
@@ -4962,15 +5006,30 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Set heartbeat (in seconds)
                  *
-                 * @param int minimumVisitLength
-                 * @param int heartBeatDelay
+                 * @param int heartBeatDelayInSeconds Defaults to 15. Cannot be lower than 1.
                  */
-                setHeartBeatTimer: function (minimumVisitLength, heartBeatDelay) {
-                    var now = new Date();
+                enableHeartBeatTimer: function (heartBeatDelayInSeconds) {
+                    heartBeatDelayInSeconds = Math.max(heartBeatDelayInSeconds, 1);
+                    configHeartBeatDelay = (heartBeatDelayInSeconds || 15) * 1000;
 
-                    configMinimumVisitTime = now.getTime() + minimumVisitLength * 1000;
-                    configHeartBeatTimer = heartBeatDelay * 1000;
+                    // if a tracking request has already been sent, start the heart beat timeout
+                    if (lastTrackerRequestTime !== null) {
+                        setUpHeartBeat();
+                    }
                 },
+
+/*<DEBUG>*/
+                /**
+                 * Clear heartbeat.
+                 */
+                disableHeartBeatTimer: function () {
+                    heartBeatDown();
+                    configHeartBeatDelay = null;
+
+                    window.removeEventListener('focus', heartBeatOnFocus);
+                    window.removeEventListener('blur', heartBeatOnBlur);
+                },
+/*</DEBUG>*/
 
                 /**
                  * Frame buster

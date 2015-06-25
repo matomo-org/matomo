@@ -166,6 +166,12 @@ class Visit implements VisitInterface
         // AND
         // - the last page view for this visitor was less than 30 minutes ago @see isLastActionInTheSameVisit()
         if (!$isNewVisit) {
+            // on a ping request that is received before the standard visit length, we just update the visit time w/o
+            // adding a new action
+            if ($this->isPingRequest()) {
+                $action = null;
+            }
+
             $idReferrerActionUrl  = $this->visitorInfo['visit_exit_idaction_url'];
             $idReferrerActionName = $this->visitorInfo['visit_exit_idaction_name'];
 
@@ -699,5 +705,10 @@ class Visit implements VisitInterface
         if (!empty($site['timezone'])) {
             return $site['timezone'];
         }
+    }
+
+    private function isPingRequest()
+    {
+        return $this->request->getParam('ping') == 1;
     }
 }
