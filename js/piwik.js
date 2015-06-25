@@ -2198,7 +2198,7 @@ if (typeof Piwik !== 'object') {
                 configMinimumVisitTime,
 
                 // Recurring heart beat after initial ping (in milliseconds)
-                configHeartBeatDelayInSeconds,
+                configHeartBeatDelay,
 
                 // alias to circumvent circular function dependency (JSLint requires this)
                 heartBeatPingIfActivityAlias,
@@ -2495,7 +2495,7 @@ if (typeof Piwik !== 'object') {
              */
             function heartBeatUp(delay) {
                 if (heartBeatTimeout
-                    || !configHeartBeatDelayInSeconds
+                    || !configHeartBeatDelay
                 ) {
                     return;
                 }
@@ -2507,11 +2507,11 @@ if (typeof Piwik !== 'object') {
                     }
 
                     var now = new Date(),
-                        heartBeatDelay = configHeartBeatDelayInSeconds - (now.getTime() - lastTrackerRequestTime);
+                        heartBeatDelay = configHeartBeatDelay - (now.getTime() - lastTrackerRequestTime);
                     // sanity check
-                    heartBeatDelay = Math.min(configHeartBeatDelayInSeconds, heartBeatDelay);
+                    heartBeatDelay = Math.min(configHeartBeatDelay, heartBeatDelay);
                     heartBeatUp(heartBeatDelay);
-                }, delay || configHeartBeatDelayInSeconds);
+                }, delay || configHeartBeatDelay);
             }
 
             /*
@@ -2531,7 +2531,7 @@ if (typeof Piwik !== 'object') {
              */
             function setUpHeartBeat() {
                 if (heartBeatSetUp
-                    || !configHeartBeatDelayInSeconds
+                    || !configHeartBeatDelay
                 ) {
                     return;
                 }
@@ -3163,12 +3163,12 @@ if (typeof Piwik !== 'object') {
             }
 
             /*
-             * If there was user activity since the last check, and it's been configHeartBeatDelayInSeconds seconds
+             * If there was user activity since the last check, and it's been configHeartBeatDelay seconds
              * since the last tracker, send a ping request (the heartbeat timeout will be reset by sendRequest).
              */
             heartBeatPingIfActivityAlias = function heartBeatPingIfActivity() {
                 var now = new Date();
-                if (lastTrackerRequestTime + configHeartBeatDelayInSeconds <= now.getTime()) {
+                if (lastTrackerRequestTime + configHeartBeatDelay <= now.getTime()) {
                     var requestPing = getRequest('ping=1', null, 'ping');
                     sendRequest(requestPing, configTrackerPause);
 
@@ -5006,7 +5006,7 @@ if (typeof Piwik !== 'object') {
                  */
                 enableHeartBeatTimer: function (heartBeatDelayInSeconds) {
                     heartBeatDelayInSeconds = Math.max(heartBeatDelayInSeconds, 1);
-                    configHeartBeatDelayInSeconds = (heartBeatDelayInSeconds || 15) * 1000;
+                    configHeartBeatDelay = (heartBeatDelayInSeconds || 15) * 1000;
 
                     // if a tracking request has already been sent, start the heart beat timeout
                     if (lastTrackerRequestTime !== null) {
@@ -5020,7 +5020,7 @@ if (typeof Piwik !== 'object') {
                  */
                 disableHeartBeatTimer: function () {
                     heartBeatDown();
-                    configHeartBeatDelayInSeconds = null;
+                    configHeartBeatDelay = null;
                 },
 /*</DEBUG>*/
 
