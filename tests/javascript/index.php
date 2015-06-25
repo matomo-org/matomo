@@ -3113,7 +3113,7 @@ if ($sqlite) {
         tracker.enableHeartBeatTimer(3);
 
         stop();
-        Q.delay(1).then(function () {
+        Q.fcall(function () {
             // test ping heart beat not set up until an initial request tracked
             tracker.setCustomData('token', 1 + tokenBase);
 
@@ -3181,6 +3181,96 @@ if ($sqlite) {
             requests = fetchTrackedRequests(token = 6 + tokenBase, true);
             ok(/ping=1/.test(requests[0]), "[token = 6] ping sent after window regains focus");
             equal(requests.length, 1, "[token = 6] only one ping request sent after window regains focus");
+
+            start();
+        });
+    });
+
+    test("trackingHeartBeatWithMultiplier", function () {
+        expect(19);
+
+        var tokenBase = '_2_' + getHeartbeatToken();
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("piwik.php");
+        tracker.setSiteId(1);
+        tracker.enableHeartBeatTimer(1, 2, 5); // 2 seconds initial delay, 2 multiplier, 4 second max delay
+
+        stop();
+        Q.fcall(function () {
+            tracker.setCustomData('token', 1 + tokenBase);
+
+            tracker.trackPageView('whatever'); // trigger heart beat setup
+
+            return Q.delay(2000); // ping request sent (next heart beat in 1s, total delay 2s due to multiplier)
+        }).then(function () {
+            tracker.setCustomData('token', 2 + tokenBase);
+
+            tracker.trackPageView('mywhatever'); // normal request
+
+            return Q.delay(1500); // ping request not sent due to normal request (next heart beat in 1.5s, == to 2s from last request time)
+        }).then(function () {
+            tracker.setCustomData('token', 3 + tokenBase);
+
+            return Q.delay(2500); // ping request sent (next heart beat in 3s, delay changes from 2s to 4s)
+        }).then(function () {
+            tracker.setCustomData('token', 4 + tokenBase);
+
+            return Q.delay(4000); // ping request sent (next heart beat in 4s, delay changes from 4s to 5s, would be 8s, but max is 5s)
+        }).then(function () {
+            tracker.setCustomData('token', 5 + tokenBase);
+
+            return Q.delay(5000); // ping request sent (next heart beat in 4s, delay is at max so stays at 5s total)
+        }).then(function () {
+            // test window blur + focus resets ping delay
+
+            tracker.setCustomData('token', 6 + tokenBase);
+
+            triggerEvent(window, 'blur');
+
+            return Q.delay(1); // trigger event handler
+        }).then(function () {
+            triggerEvent(window, 'focus'); // reset delay time, ping sent due to low initial delay
+
+            return Q.delay(1500); // ping request sent (next heart beat in 1s, total delay 2s due to reset then multiplier)
+        }).then(function () {
+            tracker.setCustomData('token', 7 + tokenBase);
+
+            return Q.delay(2500); // ping request sent (next heart beat in 3s)
+        }).then(function () {
+            tracker.disableHeartBeatTimer(); // flatline
+        }).then(function () {
+            var token;
+
+            var requests = fetchTrackedRequests(token = 1 + tokenBase, true);
+            ok(/action_name=whatever/.test(requests[0]) && !(/ping=1/.test(requests[0])), "[token = 1] first request is page view not ping");
+            ok(/ping=1/.test(requests[1]), "[token = 1] second request is ping request");
+            equal(requests.length, 2, "[token = 1] two requests sent at start of test");
+
+            requests = fetchTrackedRequests(token = 2 + tokenBase, true);
+            ok(/action_name=mywhatever/.test(requests[0]) && !(/ping=1/.test(requests[0])), "[token = 2] first request is page view not ping");
+            equal(requests.length, 1, "[token = 2] only page view request sent here");
+
+            requests = fetchTrackedRequests(token = 3 + tokenBase, true);
+            ok(/ping=1/.test(requests[0]), "[token = 3] first request is ping request");
+            equal(requests.length, 1, "[token = 3] only ping request sent");
+
+            requests = fetchTrackedRequests(token = 4 + tokenBase, true);
+            ok(/ping=1/.test(requests[0]), "[token = 4] first request is ping request");
+            equal(requests.length, 1, "[token = 4] only ping request sent");
+
+            requests = fetchTrackedRequests(token = 5 + tokenBase, true);
+            ok(/ping=1/.test(requests[0]), "[token = 5] first request is ping request");
+            equal(requests.length, 1, "[token = 5] only ping request sent");
+
+            requests = fetchTrackedRequests(token = 6 + tokenBase, true);
+            ok(/ping=1/.test(requests[0]), "[token = 6] first request is ping request");
+            ok(/ping=1/.test(requests[0]), "[token = 6] second request is ping request");
+            equal(requests.length, 2, "[token = 6] only two ping requests sent");
+
+            requests = fetchTrackedRequests(token = 7 + tokenBase, true);
+            ok(/ping=1/.test(requests[0]), "[token = 7] first request is ping request");
+            equal(requests.length, 1, "[token = 7] only ping request sent");
 
             start();
         });
