@@ -2526,6 +2526,20 @@ if (typeof Piwik !== 'object') {
                 heartBeatTimeout = null;
             }
 
+            function heartBeatOnFocus() {
+                // since it's possible for a user to come back to a tab after several hours or more, we try to send
+                // a ping if the page is active. (after the ping is sent, the heart beat timeout will be set)
+                if (heartBeatPingIfActivityAlias()) {
+                    return;
+                }
+
+                heartBeatUp();
+            }
+
+            function heartBeatOnBlur() {
+                heartBeatDown();
+            }
+
             /*
              * Setup event handlers and timeout for initial heart beat.
              */
@@ -2538,18 +2552,8 @@ if (typeof Piwik !== 'object') {
 
                 heartBeatSetUp = true;
 
-                addEventListener(windowAlias, 'focus', function heartBeatOnFocus() {
-                    // since it's possible for a user to come back to a tab after several hours or more, we try to send
-                    // a ping if the page is active. (after the ping is sent, the heart beat timeout will be set)
-                    if (heartBeatPingIfActivityAlias()) {
-                        return;
-                    }
-
-                    heartBeatUp();
-                });
-                addEventListener(windowAlias, 'blur', function heartBeatOnBlur() {
-                    heartBeatDown();
-                });
+                addEventListener(windowAlias, 'focus', heartBeatOnFocus);
+                addEventListener(windowAlias, 'blur', heartBeatOnBlur);
 
                 heartBeatUp();
             }
@@ -5021,6 +5025,9 @@ if (typeof Piwik !== 'object') {
                 disableHeartBeatTimer: function () {
                     heartBeatDown();
                     configHeartBeatDelay = null;
+
+                    window.removeEventListener('focus', heartBeatOnFocus);
+                    window.removeEventListener('blur', heartBeatOnBlur);
                 },
 /*</DEBUG>*/
 
