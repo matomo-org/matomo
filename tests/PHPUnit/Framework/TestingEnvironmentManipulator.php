@@ -148,7 +148,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                     $diConfigs[] = $testCaseClass::$fixture->provideContainerConfig();
                 }
 
-                if (method_exists($testCase, 'provideContainerConfigBeforeClass')) {
+                if (method_exists($testCaseClass, 'provideContainerConfigBeforeClass')) {
                     $diConfigs[] = $testCaseClass::provideContainerConfigBeforeClass();
                 }
 
