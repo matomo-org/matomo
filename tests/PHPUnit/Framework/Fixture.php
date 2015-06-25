@@ -116,6 +116,8 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public $extraDefinitions = array();
 
+    public $extraTestEnvVars = array();
+
     /**
      * @var Environment
      */
@@ -188,10 +190,16 @@ class Fixture extends \PHPUnit_Framework_Assert
             $this->removeExistingSuperUser = false;
         }
 
-        $this->getTestEnvironment()->testCaseClass = $this->testCaseClass;
-        $this->getTestEnvironment()->fixtureClass = get_class($this);
-        $this->getTestEnvironment()->dbName = $this->dbName;
-        $this->getTestEnvironment()->save();
+        $testEnv = $this->getTestEnvironment();
+        $testEnv->testCaseClass = $this->testCaseClass;
+        $testEnv->fixtureClass = get_class($this);
+        $testEnv->dbName = $this->dbName;
+
+        foreach ($this->extraTestEnvVars as $name => $value) {
+            $testEnv->$name = $value;
+        }
+
+        $testEnv->save();
 
         $this->createEnvironmentInstance();
 
