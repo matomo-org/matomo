@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Framework\Mock;
 
+use Piwik\NoAccessException;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Site as PiwikSite;
 use Exception;
@@ -61,7 +62,7 @@ class FakeAccess
     public static function checkUserHasSuperUserAccess()
     {
         if (!self::$superUser) {
-            throw new Exception("checkUserHasSuperUserAccess Fake exception // string not to be tested");
+            throw new NoAccessException("checkUserHasSuperUserAccess Fake exception // string not to be tested");
         }
     }
 
@@ -87,7 +88,7 @@ class FakeAccess
 
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $websitesAccess)) {
-                throw new Exception("checkUserHasAdminAccess Fake exception // string not to be tested");
+                throw new NoAccessException("checkUserHasAdminAccess Fake exception // string not to be tested");
             }
         }
     }
@@ -110,12 +111,12 @@ class FakeAccess
         }
 
         if (empty($websitesAccess)) {
-            throw new Exception("checkUserHasViewAccess Fake exception // string not to be tested");
+            throw new NoAccessException("checkUserHasViewAccess Fake exception // string not to be tested");
         }
 
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $websitesAccess)) {
-                throw new Exception("checkUserHasViewAccess Fake exception // string not to be tested");
+                throw new NoAccessException("checkUserHasViewAccess Fake exception // string not to be tested");
             }
         }
     }
@@ -124,7 +125,7 @@ class FakeAccess
     {
         if (!self::$superUser) {
             if (count(self::$idSitesView) == 0) {
-                throw new Exception("checkUserHasSomeViewAccess Fake exception // string not to be tested");
+                throw new NoAccessException("checkUserHasSomeViewAccess Fake exception // string not to be tested");
             }
         } else {
             return;
@@ -136,7 +137,7 @@ class FakeAccess
     {
         if (!self::$superUser) {
             if (count(self::$idSitesAdmin) == 0) {
-                throw new Exception("checkUserHasSomeAdminAccess Fake exception // string not to be tested");
+                throw new NoAccessException("checkUserHasSomeAdminAccess Fake exception // string not to be tested");
             }
         } else {
             return; //Super User has some admin rights
