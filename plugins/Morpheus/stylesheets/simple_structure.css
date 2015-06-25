@@ -16,17 +16,16 @@ body#simple  {
 	text-decoration: none;
 }
 #simple .box {
-    border-radius: 12px;
+    border-radius: 2px;	
     border: solid 1px #ccc;
     max-width: 780px;
     margin: 30px auto 60px auto;
     overflow: hidden;
-    box-shadow: 0 1px 2px 0 #ccc;
+    box-shadow: 0 1px 6px 0 #ccc;
 }
 
 #simple .box .header {
     background-color: #f0f0f0;
-    border-bottom: solid 1px #ccc;
 	padding: 40px 80px;
     text-align: center;
 }
@@ -79,7 +78,6 @@ body#simple  {
 
 #simple .box .footer {
     background-color: #f0f0f0;
-    border-top: solid 1px #ccc;
     padding: 15px;
     text-align: center;
 }
