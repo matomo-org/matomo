@@ -108,6 +108,8 @@ abstract class IntegrationTestCase extends SystemTestCase
     {
         $fixture->createSuperUser     = false;
         $fixture->configureComponents = false;
+
+        $fixture->extraTestEnvVars['loadRealTranslations'] = false;
     }
 
     protected static function beforeTableDataCached()
