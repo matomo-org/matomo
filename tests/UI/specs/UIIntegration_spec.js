@@ -335,7 +335,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // Do not allow API response to be displayed
     it('should not allow to widgetize an API call', function (done) {
-        expect.screenshot('widgetize_apidisallowed').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('widgetize_apidisallowed').to.be.capture(function (page) {
             page.load("?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=API&actionToWidgetize=index&method=SitesManager.getImageTrackingCode&piwikUrl=test");
         }, done);
     });
