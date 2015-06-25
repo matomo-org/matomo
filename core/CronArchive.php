@@ -672,7 +672,7 @@ class CronArchive
         $date = $this->getApiDateParameter($idSite, "day", $processDaysSince);
         $url = $this->getVisitsRequestUrl($idSite, "day", $date);
 
-        $this->logArchiveWebsite($idSite, "day");
+        $this->logArchiveWebsite($idSite, "day", $date);
 
         $content = $this->request($url);
         $daysResponse = @unserialize($content);
@@ -763,7 +763,7 @@ class CronArchive
         // already processed above for "day"
         if ($period != "day") {
             $urls[] = $url;
-            $this->logArchiveWebsite($idSite, $period);
+            $this->logArchiveWebsite($idSite, $period, $date);
         }
 
         $segmentRequestsCount = 0;
@@ -1507,12 +1507,13 @@ class CronArchive
      * @param $idSite
      * @param $period
      */
-    private function logArchiveWebsite($idSite, $period)
+    private function logArchiveWebsite($idSite, $period, $date)
     {
         $this->logger->info(sprintf(
-            "Will pre-process for website id = %s, %s period",
+            "Will pre-process for website id = %s, period = %s, date = %s",
             $idSite,
-            $period
+            $period,
+            $date
         ));
         $this->logger->info('- pre-processing all visits');
     }
