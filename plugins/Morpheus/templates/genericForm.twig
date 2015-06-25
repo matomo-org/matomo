@@ -10,22 +10,27 @@
 {% endif %}
 
 <form {{ form_data.attributes|raw }}>
-	{% for fieldname in element_list %}
-		<div class="form-group">
-            {% if form_data[fieldname].type == 'checkbox' %}
-                <label class="checkbox">
+    {# display any hidden input field #}
+    {{ form_data.hidden|join|raw }}
+
+    {% for fieldname in element_list %}
+    {% if form_data[fieldname] is defined %}
+            <div class="form-group">
+                {% if form_data[fieldname].type == 'checkbox' %}
+                    <label class="checkbox">
+                        {{ form_data[fieldname].html|raw }}
+                    </label>
+                {% elseif form_data[fieldname].label %}
+                    <label>
+                        {{ form_data[fieldname].label|raw }}
+                    </label>
                     {{ form_data[fieldname].html|raw }}
-                </label>
-            {% elseif form_data[fieldname].label %}
-                <label>
-                    {{ form_data[fieldname].label|raw }}
-                </label>
-                {{ form_data[fieldname].html|raw }}
-            {% elseif form_data[fieldname].type == 'hidden' %}
-                {{ form_data[fieldname].html|raw }}
-            {% endif %}
+                {% elseif form_data[fieldname].type == 'hidden' %}
+                    {{ form_data[fieldname].html|raw }}
+                {% endif %}
 		</div>
-	{% endfor %}
+    {% endif %}
+    {% endfor %}
 
 	{{ form_data.submit.html|raw }}
 </form>
