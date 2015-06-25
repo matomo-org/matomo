@@ -4,6 +4,7 @@
         "KeepTokenSecret": "token_auth は、ログイン名とパスワードのように秘密にし、%s絶対に共有しないでください%s！",
         "LoadedAPIs": "%s API が正常に読み込まれました",
         "MoreInformation": "Piwik API の詳細については、%sIntroduction to Piwik API%s や %sPiwik API Reference%s を参照してください。",
+        "PluginDescription": "Pwik の全てのデータは簡単な API を通して利用することができます。このプラグインはウェブサービスの入り口で、xml , json , php , csv などのあなたのウェブ分析データを入手するために呼び出すことができます。",
         "QuickDocumentationTitle": "API クイックドキュメント",
         "TopLinkTooltip": "jsopn、xml等シンプルなAPIを介して、プログラムで分析データにアクセスできます",
         "UserAuthentication": "ユーザー認証",

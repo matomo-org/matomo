@@ -2,6 +2,7 @@
     "PrivacyManager": {
         "AnonymizeIpDescription": "完全に特定されたIPアドレスを追跡しないようにするには「はい」を選んでください。",
         "AnonymizeIpInlineHelp": "ローカルプライバシー規則やガイドラインに応じて、ビジターの IP アドレスの最終バイトを匿名化します。",
+        "AnonymizeIpExtendedHelp": "ユーザーがウェブサイトを訪れるとき、Piwik は ( %s のような ) 完全な IP アドレスを使用しませんが、代わりに最初に匿名化します ( %s まで ) 。IP アドレスの匿名化はドイツを含むいくつかの国においてプライバシー法によって設定されている条件の中の１つです。",
         "AnonymizeIpMaskLengtDescription": "ビジターのIPアドレスから何バイトマスクするか選択してください。",
         "AnonymizeIpMaskLength": "%s バイト- 例. %s",
         "CannotLockSoDeleteLogActions": "log_action 表は、パージされません。'%s' MYSQL ユーザーに、LOCK TABLES 権限を付与してください。",

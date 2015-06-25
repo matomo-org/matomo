@@ -3,6 +3,7 @@
         "CategoryNoData": "このカテゴリにデータはありません。 \"すべての母集団（統計の対象とする集団）を含める\" を試してみてください。",
         "CheckForUpdates": "アップデートの確認",
         "CheckPiwikOut": "Piwik をチェック！",
+        "ClickToEditX": "クリックして %s を編集",
         "CloseWidgetDirections": "ウィジェットの上部にある「X」アイコンをクリックして、このウィジェットを閉じることができます。",
         "DataForThisReportHasBeenPurged": "このリポートのデータは %sヶ月以上古いのでパージされました。",
         "DataTableExcludeAggregateRows": "集計行は表示 %s 隠す",

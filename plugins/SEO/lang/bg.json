@@ -1,5 +1,6 @@
 {
     "SEO": {
+        "PluginDescription": "Този плъгин извлича и показва SEO метрики: Alexa уеб ранк, Google Pagerank, брой индексирани страници и брой обратни връзки за избраната уеб страница.",
         "AlexaRank": "Alexa ранг",
         "Bing_IndexedPages": "Bing индексирани страници",
         "Dmoz": "DMOZ записи",

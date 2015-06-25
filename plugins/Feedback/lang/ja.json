@@ -1,6 +1,7 @@
 {
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "報告するべきバグや機能要望がありますか？",
+        "HowToCreateTicket": "良い%1$sバグ報告 %2$s や %3$s 機能のリクエスト %4$s を書いて上の推奨事項をお読みください。その後、登録又は %5$s 課題トラッカー%6$sにログインして、%7$s 新しい課題 %8$s を作成します。",
         "IWantTo": "あなたの希望：",
         "LearnWaysToParticipate": "あなたが参加できるすべての方法を%s学んでください%s",
         "ManuallySendEmailTo": "あなたのメッセージを手作業で次のアドレスへ送ってください：",
