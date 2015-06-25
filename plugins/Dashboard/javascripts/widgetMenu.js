@@ -25,7 +25,7 @@ widgetsHelper.getAvailableWidgets = function () {
                 widgetsHelper.availableWidgets = data;
             }
         );
-        ajaxRequest.send(true);
+        ajaxRequest.send();
     }
 
     return widgetsHelper.availableWidgets;
