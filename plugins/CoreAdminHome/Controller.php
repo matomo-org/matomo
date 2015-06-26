@@ -356,6 +356,9 @@ class Controller extends ControllerAdmin
         $view->isSafari = $this->isUserAgentSafari();
         $view->showConfirmOnly = Common::getRequestVar('showConfirmOnly', false, 'int');
         $view->reloadUrl = $reloadUrl;
+        
+        Piwik::postEvent('CoreAdminHome.optOutView', array(&$view));
+
         return $view->render();
     }
 
