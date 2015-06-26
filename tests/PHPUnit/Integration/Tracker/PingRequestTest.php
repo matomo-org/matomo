@@ -64,7 +64,7 @@ class PingRequestTest extends IntegrationTestCase
         $this->assertInitialVisitIsExtended($pingTime, self::FIRST_VISIT_TIME, $checkModifiedDimensions = true);
     }
 
-    public function test_PingAfterThirtyMinutes_CreatesNewVisit_AndCreatesNewAction()
+    public function test_PingAfterThirtyMinutes_DoesNotCreateNewVisit()
     {
         $tracker = $this->getTracker();
 
@@ -77,10 +77,10 @@ class PingRequestTest extends IntegrationTestCase
         $pingTime = '2012-01-05 00:40:00';
         $this->doPingRequest($tracker, $pingTime, $setNewDimensionValues = false);
 
-        $this->assertPingCreatedNewVisit(self::FIRST_VISIT_TIME, $pingTime, $checkModifiedDimensions = false);
+        $this->assertPingDidNotCreateNewVisit(self::FIRST_VISIT_TIME, $checkModifiedDimensions = false);
     }
 
-    public function test_PingAfterThirtyMinutes_AndChangedDimensionValues_CreatesNewVisit_AndUsesNewDimensionValues()
+    public function test_PingAfterThirtyMinutes_AndChangedDimensionValues_DoesNotCreateNewVisit()
     {
         $tracker = $this->getTracker();
 
@@ -93,7 +93,7 @@ class PingRequestTest extends IntegrationTestCase
         $pingTime = '2012-01-05 00:40:00';
         $this->doPingRequest($tracker, $pingTime, $setNewDimensionValues = true);
 
-        $this->assertPingCreatedNewVisit(self::FIRST_VISIT_TIME, $pingTime, $checkModifiedDimensions = true);
+        $this->assertPingDidNotCreateNewVisit(self::FIRST_VISIT_TIME, $checkModifiedDimensions = true);
     }
 
     private function getTracker()
@@ -214,28 +214,16 @@ class PingRequestTest extends IntegrationTestCase
         $this->assertEquals(self::CHANGED_REGION, $region);
     }
 
-    private function assertPingCreatedNewVisit($expectedFirstVisitTime, $newVisitTime, $checkPropertiesModified)
+    private function assertPingDidNotCreateNewVisit($expectedFirstVisitTime, $checkPropertiesModified)
     {
-        $this->assertVisitCount(2);
-        $this->assertActionCount(2);
+        $this->assertVisitCount(1);
+        $this->assertActionCount(1);
 
         $firstVisitEndTime = $this->getVisitLastActionTime($idVisit = 1);
         $this->assertEquals($expectedFirstVisitTime, $firstVisitEndTime);
 
         $firstVisitActionTime = $this->getLatestActionTime($idVisit = 1);
         $this->assertEquals($expectedFirstVisitTime, $firstVisitActionTime);
-
-        $secondVisitEndTime = $this->getVisitLastActionTime($idVisit = 2);
-        $this->assertEquals($newVisitTime, $secondVisitEndTime);
-
-        $secondVisitActionTime = $this->getLatestActionTime($idVisit = 2);
-        $this->assertEquals($newVisitTime, $secondVisitActionTime);
-
-        if ($checkPropertiesModified) {
-            $this->assertVisitPropertiesAreChanged($idVisit = 2, $checkUnchangeable = true);
-        } else {
-            $this->assertVisitPropertiesAreUnchanged($idVisit = 2);
-        }
     }
 
     protected static function configureFixture($fixture)
