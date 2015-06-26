@@ -2,9 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8">
+    {% if title %}
+        <title>{{ title }}</title>
+    {% endif %}
     {% if reloadUrl %}
         <meta http-equiv="refresh" content="0; url={{ reloadUrl }}&amp;nonce={{ nonce }}" />
     {% endif %}
+
     <script>
         function submitForm(event, form, loadInNewWindow) {
             event.preventDefault();
@@ -21,6 +25,19 @@
             }
         }
     </script>
+
+    {% if stylesheets.extern|length > 0 %}
+        {% for style in stylesheets.extern %}
+            <link href="{{ style|raw }}" rel="stylesheet" type="text/css">
+        {% endfor %}
+    {% endif %}
+    {% if stylesheets.inline|length > 0 %}
+        <style>
+            {% for style in stylesheets.inline %}
+            {{ style|raw }}
+            {% endfor %}
+        </style>
+    {% endif %}
 </head>
 <body>
 {% if dntFound %}
@@ -68,6 +85,19 @@
         </noscript>
     </form>
     {% endif %}
+{% endif %}
+
+{% if javascripts.extern|length > 0 %}
+    {% for script in javascripts.extern %}
+        <script type="text/javascript" src="{{ script|raw }}"></script>
+    {% endfor %}
+{% endif %}
+{% if javascripts.inline|length > 0 %}
+    <script>
+        {% for script in javascripts.inline %}
+        {{ script|raw }}
+        {% endfor %}
+    </script>
 {% endif %}
 </body>
 </html>

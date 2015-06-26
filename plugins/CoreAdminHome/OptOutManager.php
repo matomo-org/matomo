@@ -31,6 +31,9 @@ class OptOutManager
     /** @var string */
     private $title;
 
+    /**
+     * @param DoNotTrackHeaderChecker $doNotTrackHeaderChecker
+     */
     public function __construct(DoNotTrackHeaderChecker $doNotTrackHeaderChecker = null)
     {
         $this->doNotTrackHeaderChecker = $doNotTrackHeaderChecker ?: new DoNotTrackHeaderChecker();
@@ -47,8 +50,6 @@ class OptOutManager
     }
 
     /**
-     * Add javascript
-     *
      * @param string $javascript
      * @param bool $inline
      */
@@ -59,8 +60,6 @@ class OptOutManager
     }
 
     /**
-     * Return the javascripts array
-     *
      * @return array
      */
     public function getJavascripts()
@@ -69,8 +68,6 @@ class OptOutManager
     }
 
     /**
-     * Add Stylesheet
-     *
      * @param string $stylesheet
      * @param bool $inline
      */
@@ -81,8 +78,6 @@ class OptOutManager
     }
 
     /**
-     * Return the stylesheets array
-     *
      * @return array
      */
     public function getStylesheets()
@@ -106,6 +101,10 @@ class OptOutManager
         $this->title = $title;
     }
 
+    /**
+     * @return View
+     * @throws \Exception
+     */
     public function createView()
     {
         $trackVisits = !IgnoreCookie::isIgnoreCookieFound();
@@ -142,6 +141,9 @@ class OptOutManager
         $view->isSafari = $this->isUserAgentSafari();
         $view->showConfirmOnly = Common::getRequestVar('showConfirmOnly', false, 'int');
         $view->reloadUrl = $reloadUrl;
+        $view->javascripts = $this->getJavascripts();
+        $view->stylesheets = $this->getStylesheets();
+        $view->title = $this->getTitle();
 
         return $view;
     }
@@ -154,6 +156,9 @@ class OptOutManager
         return $this->doNotTrackHeaderChecker;
     }
 
+    /**
+     * @return bool
+     */
     protected function isUserAgentSafari()
     {
         $userAgent = @$_SERVER['HTTP_USER_AGENT'] ?: '';
