@@ -175,7 +175,7 @@ class Controller extends \Piwik\Plugin\Controller
                 <p><a href="%s">%s</a></p>
             </div>',
             Piwik::translate('General_Error'),
-            $errorMessage,
+            htmlentities($errorMessage, Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8', $doubleEncode = false),
             'index.php?module=Login',
             Piwik::translate('Login_LogIn')
         );
