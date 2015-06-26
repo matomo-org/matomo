@@ -329,3 +329,4 @@ We are using `@since` annotations in case we are introducing new API's to make i
  -->
 
 Find the general Piwik Changelogs for each release at [piwik.org/changelog](http://piwik.org/changelog/)
+ 
