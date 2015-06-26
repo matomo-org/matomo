@@ -115,35 +115,34 @@ class Visit implements VisitInterface
          */
         $isManualGoalConversion = $requestIsEcommerce = $visitIsConverted = $someGoalsConverted = false;
         $action = null;
-        $this->goalManager = null;
+        $goalManager = null;
 
         if($this->isPingRequest()) {
             // on a ping request that is received before the standard visit length, we just update the visit time w/o adding a new action
-            if ($this->isPingRequest()) {
-                Common::printDebug("-> ping=1 request: we do not track a new action nor a new visit.");
-            }
+            Common::printDebug("-> ping=1 request: we do not track a new action nor a new visit nor any goal.");
 
         } else {
-            $this->goalManager = new GoalManager($this->request);
 
-            $isManualGoalConversion = $this->goalManager->isManualGoalConversion();
-            $requestIsEcommerce = $this->goalManager->requestIsEcommerce;
+            $goalManager = new GoalManager($this->request);
+
+            $isManualGoalConversion = $goalManager->isManualGoalConversion();
+            $requestIsEcommerce = $goalManager->requestIsEcommerce;
 
             if ($requestIsEcommerce) {
                 $someGoalsConverted = true;
 
                 // Mark the visit as Converted only if it is an order (not for a Cart update)
-                if ($this->goalManager->isGoalAnOrder()) {
+                if ($goalManager->isGoalAnOrder()) {
                     $visitIsConverted = true;
                 }
             } elseif ($isManualGoalConversion) {
                 // this request is from the JS call to piwikTracker.trackGoal()
-                $someGoalsConverted = $this->goalManager->detectGoalId($this->request->getIdSite());
+                $someGoalsConverted = $goalManager->detectGoalId($this->request->getIdSite());
                 $visitIsConverted = $someGoalsConverted;
 
                 // if we find a idgoal in the URL, but then the goal is not valid, this is most likely a fake request
                 if (!$someGoalsConverted) {
-                    Common::printDebug('Invalid goal tracking request for goal id = ' . $this->goalManager->idGoal);
+                    Common::printDebug('Invalid goal tracking request for goal id = ' . $goalManager->idGoal);
                     return;
                 }
             } else {
@@ -152,7 +151,7 @@ class Visit implements VisitInterface
 
                 $action->writeDebugInfo();
 
-                $someGoalsConverted = $this->goalManager->detectGoalsMatchingUrl($this->request->getIdSite(), $action);
+                $someGoalsConverted = $goalManager->detectGoalsMatchingUrl($this->request->getIdSite(), $action);
                 $visitIsConverted = $someGoalsConverted;
 
                 $action->loadIdsFromLogActionTable();
@@ -184,8 +183,8 @@ class Visit implements VisitInterface
             $idReferrerActionName = $this->visitorInfo['visit_exit_idaction_name'];
 
             try {
-                if($this->goalManager) {
-                    $this->goalManager->detectIsThereExistingCartInVisit($this->visitorInfo);
+                if($goalManager) {
+                    $goalManager->detectIsThereExistingCartInVisit($this->visitorInfo);
                 }
 
                 $this->handleExistingVisit($visitor, $action, $visitIsConverted);
@@ -237,14 +236,14 @@ class Visit implements VisitInterface
 
         // record the goals if applicable
         if ($someGoalsConverted) {
-            $this->goalManager->recordGoals(
+            $goalManager->recordGoals(
                 $visitor,
                 $this->visitorInfo,
                 $this->visitorCustomVariables,
                 $action
             );
         }
-        unset($this->goalManager);
+
         unset($action);
 
         $this->markArchivedReportsAsInvalidIfArchiveAlreadyFinished();

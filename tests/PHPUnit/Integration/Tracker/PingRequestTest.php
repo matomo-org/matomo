@@ -77,7 +77,8 @@ class PingRequestTest extends IntegrationTestCase
 
         // send a ping request within 30 minutes
         $pingTime = '2012-01-05 00:20:00';
-        // force trigger a goal
+
+        // force trigger a goal within the ping request
         $tracker->setDebugStringAppend('&idgoal=1');
         $this->doPingRequest($tracker, $pingTime, $setNewDimensionValues = true);
 
