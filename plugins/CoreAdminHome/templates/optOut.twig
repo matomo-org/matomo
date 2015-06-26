@@ -26,8 +26,8 @@
         }
     </script>
 
-    {% if stylesheets.extern|length > 0 %}
-        {% for style in stylesheets.extern %}
+    {% if stylesheets.external|length > 0 %}
+        {% for style in stylesheets.external %}
             <link href="{{ style|raw }}" rel="stylesheet" type="text/css">
         {% endfor %}
     {% endif %}
@@ -87,8 +87,8 @@
     {% endif %}
 {% endif %}
 
-{% if javascripts.extern|length > 0 %}
-    {% for script in javascripts.extern %}
+{% if javascripts.external|length > 0 %}
+    {% for script in javascripts.external %}
         <script type="text/javascript" src="{{ script|raw }}"></script>
     {% endfor %}
 {% endif %}

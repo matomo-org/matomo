@@ -40,12 +40,12 @@ class OptOutManager
 
         $this->javascripts = array(
             'inline' => array(),
-            'extern' => array(),
+            'external' => array(),
         );
 
         $this->stylesheets = array(
             'inline' => array(),
-            'extern' => array(),
+            'external' => array(),
         );
     }
 
@@ -55,7 +55,7 @@ class OptOutManager
      */
     public function addJavascript($javascript, $inline = true)
     {
-        $type = $inline ? 'inline' : 'extern';
+        $type = $inline ? 'inline' : 'external';
         $this->javascripts[$type][] = $javascript;
     }
 
@@ -73,7 +73,7 @@ class OptOutManager
      */
     public function addStylesheet($stylesheet, $inline = true)
     {
-        $type = $inline ? 'inline' : 'extern';
+        $type = $inline ? 'inline' : 'external';
         $this->stylesheets[$type][] = $stylesheet;
     }
 
