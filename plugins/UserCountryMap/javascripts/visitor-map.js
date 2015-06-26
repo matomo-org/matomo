@@ -97,7 +97,8 @@
                     apiAction: action,
                     filter_limit: -1,
                     limit: -1,
-                    format_metrics: 0
+                    format_metrics: 0,
+                    showRawMetrics: 1
                 });
                 if (countryFilter) {
                     $.extend(params, {
@@ -647,7 +648,7 @@
                 $.each(groups, function (g_id, group) {
                     var apv = group.nb_actions / group.nb_visits,
                         ats = group.sum_visit_length / group.nb_visits,
-                        br = group.bounce_rate;
+                        br = group.bounce_count / group.nb_visits;
                     group['nb_actions_per_visit'] = apv;
                     group['avg_time_on_site'] = new Date(0, 0, 0, ats / 3600, ats % 3600 / 60, ats % 60).toLocaleTimeString();
                     group['bounce_rate'] = (br % 1 !== 0 ? br.toFixed(1) : br) + "%";
