@@ -22,11 +22,11 @@
             {% for goal in goals %}
                 <tr>
                     <td class="first">{{ goal.idgoal }}</td>
-                    <td>{{ goal.name|raw }}</td>{# NOTE: goal names are escaped in the DB #}
+                    <td>{{ goal.name }}</td>
                     <td><span class='matchAttribute'>{{ goal.match_attribute }}</span>
                         {% if goal.pattern_type is defined %}
                             <br/>
-                            {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern|raw }}
+                            {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern }}
                         {% endif %}
                     </td>
                     <td>{% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}</td>

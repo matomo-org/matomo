@@ -79,12 +79,6 @@ class Controller extends \Piwik\Plugin\Controller
 
         $this->idSite = Common::getRequestVar('idSite', null, 'int');
         $this->goals = API::getInstance()->getGoals($this->idSite);
-        foreach ($this->goals as &$goal) {
-            $goal['name'] = Common::sanitizeInputValue($goal['name']);
-            if (isset($goal['pattern'])) {
-                $goal['pattern'] = Common::sanitizeInputValue($goal['pattern']);
-            }
-        }
     }
 
     public function widgetGoalReport()
@@ -152,12 +146,6 @@ class Controller extends \Piwik\Plugin\Controller
         // unsanitize goal names and other text data (not done in API so as not to break
         // any other code/cause security issues)
         $goals = $this->goals;
-        foreach ($goals as &$goal) {
-            $goal['name'] = Common::unsanitizeInputValue($goal['name']);
-            if (isset($goal['pattern'])) {
-                $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
-            }
-        }
         $view->goalsJSON = json_encode($goals);
 
         $view->ecommerceEnabled = $this->site->isEcommerceEnabled();

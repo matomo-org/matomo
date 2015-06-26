@@ -6,7 +6,7 @@
             edit-url="{{ linkTo({'module': 'Goals', 'action': 'manage', 'idGoal': idGoal})|e('html_attr') }}"
             feature-name="{{ 'Goals_Details'|translate|e('html_attr') }}"
         {% endif %}
-       >{% if headline is defined %}{{ headline }}{% elseif goalName is defined %}{{ 'Goals_GoalX'|translate(goalName)|raw }}{% else %}{{ 'General_EvolutionOverPeriod'|translate }}{% endif %}</h2>
+       >{% if headline is defined %}{{ headline }}{% elseif goalName is defined %}{{ 'Goals_GoalX'|translate(goalName) }}{% else %}{{ 'General_EvolutionOverPeriod'|translate }}{% endif %}</h2>
 {% endif %}
 {{ graphEvolution|raw }}
 
