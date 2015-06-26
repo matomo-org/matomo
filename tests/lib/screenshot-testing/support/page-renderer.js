@@ -237,6 +237,10 @@ PageRenderer.prototype._downloadLink = function (str, callback) {
 };
 
 PageRenderer.prototype._getPosition = function (selector) {
+    if (selector.x && selector.y) {
+        return selector;
+    }
+
     var pos = this.webpage.evaluate(function (selector) {
         var element = window.jQuery(selector),
             offset = element.offset();
