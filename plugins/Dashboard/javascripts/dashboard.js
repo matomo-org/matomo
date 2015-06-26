@@ -16,27 +16,28 @@ function initDashboard(dashboardId, dashboardLayout) {
         $('#Dashboard_embeddedIndex_' + dashboardId).addClass('sfHover');
     }
 
-    widgetsHelper.getAvailableWidgets();
+    widgetsHelper.getAvailableWidgets(function(availableWidgets) {
+        $('#dashboardWidgetsArea')
+            .on('dashboardempty', showEmptyDashboardNotification)
+            .dashboard({
+                idDashboard: dashboardId,
+                layout: dashboardLayout
+            });
 
-    $('#dashboardWidgetsArea')
-        .on('dashboardempty', showEmptyDashboardNotification)
-        .dashboard({
-            idDashboard: dashboardId,
-            layout: dashboardLayout
+        $('#columnPreview').find('>div').each(function () {
+            var width = [];
+            $('div', this).each(function () {
+                width.push(this.className.replace(/width-/, ''));
+            });
+            $(this).attr('layout', width.join('-'));
         });
 
-    $('#columnPreview').find('>div').each(function () {
-        var width = [];
-        $('div', this).each(function () {
-            width.push(this.className.replace(/width-/, ''));
+        $('#columnPreview').find('>div').on('click', function () {
+            $('#columnPreview').find('>div').removeClass('choosen');
+            $(this).addClass('choosen');
         });
-        $(this).attr('layout', width.join('-'));
     });
 
-    $('#columnPreview').find('>div').on('click', function () {
-        $('#columnPreview').find('>div').removeClass('choosen');
-        $(this).addClass('choosen');
-    });
 }
 
 function createDashboard() {
@@ -205,10 +206,10 @@ function copyDashboardToUser() {
                 return self.isWidgetAvailable(widgetUniqueId);
             },
             onSelect: function (widgetUniqueId) {
-                var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
-                self.$element.removeClass('visible');
-
-                self.widgetSelected(widget);
+                widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, function (widget) {
+                    self.$element.removeClass('visible');
+                    self.widgetSelected(widget);
+                });
             },
             resetOnSelect: true
         });

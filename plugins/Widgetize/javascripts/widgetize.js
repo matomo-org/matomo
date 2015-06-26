@@ -41,44 +41,45 @@ function widgetize() {
     };
 
     this.callbackAddExportButtonsUnderWidget = function (widgetUniqueId, loadedWidgetElement) {
-        var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
-        var widgetParameters = widget['parameters'];
+        widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, function(widget) {
+            var widgetParameters = widget['parameters'];
 
-        var exportButtonsElement = $('<span id="exportButtons">');
+            var exportButtonsElement = $('<span id="exportButtons">');
 
-        var urlIframe = self.getEmbedUrl(widgetParameters, "iframe");
-        // We first build the HTML code that will load the widget in an IFRAME
-        var widgetIframeHtml = '<div id="widgetIframe">' +
-            '<iframe width="100%" height="350" src="' +
-            urlIframe +
-            '" scrolling="no" frameborder="0" marginheight="0" marginwidth="0">' +
-            '</iframe>' +
-            '</div>';
+            var urlIframe = self.getEmbedUrl(widgetParameters, "iframe");
+            // We first build the HTML code that will load the widget in an IFRAME
+            var widgetIframeHtml = '<div id="widgetIframe">' +
+                '<iframe width="100%" height="350" src="' +
+                urlIframe +
+                '" scrolling="no" frameborder="0" marginheight="0" marginwidth="0">' +
+                '</iframe>' +
+                '</div>';
 
-        // Add the input field containing the widget in an Iframe
-        $(exportButtonsElement).append(
-            '<div id="embedThisWidgetIframe">' +
-                '<label for="embedThisWidgetIframeInput">&rsaquo; Embed Iframe</label>' +
-                '<span id="embedThisWidgetIframeInput">' +
-                self.getInputFormWithHtml('iframeEmbed', widgetIframeHtml) +
-                '</span>' +
-                '</div>' +
-                '<div> <label for="embedThisWidgetDirectLink">&rsaquo; Direct Link</label>' +
-                '<span id="embedThisWidgetDirectLink"> ' + self.getInputFormWithHtml('directLinkEmbed', urlIframe) + ' - <a href="' + urlIframe + '" rel="noreferrer"  target="_blank">' + _pk_translate('Widgetize_OpenInNewWindow') + '</a></span>'
-                + '</div>'
-        );
+            // Add the input field containing the widget in an Iframe
+            $(exportButtonsElement).append(
+                '<div id="embedThisWidgetIframe">' +
+                    '<label for="embedThisWidgetIframeInput">&rsaquo; Embed Iframe</label>' +
+                    '<span id="embedThisWidgetIframeInput">' +
+                    self.getInputFormWithHtml('iframeEmbed', widgetIframeHtml) +
+                    '</span>' +
+                    '</div>' +
+                    '<div> <label for="embedThisWidgetDirectLink">&rsaquo; Direct Link</label>' +
+                    '<span id="embedThisWidgetDirectLink"> ' + self.getInputFormWithHtml('directLinkEmbed', urlIframe) + ' - <a href="' + urlIframe + '" rel="noreferrer"  target="_blank">' + _pk_translate('Widgetize_OpenInNewWindow') + '</a></span>'
+                    + '</div>'
+            );
 
-        // We then replace the div iframeDivToExport with the actual Iframe html
-        $('#iframeDivToExport')
-            .html(widgetIframeHtml);
+            // We then replace the div iframeDivToExport with the actual Iframe html
+            $('#iframeDivToExport')
+                .html(widgetIframeHtml);
 
-        // Finally we append the content to the parent widget DIV
-        $(loadedWidgetElement)
-            .parent()
-            .append(exportButtonsElement);
+            // Finally we append the content to the parent widget DIV
+            $(loadedWidgetElement)
+                .parent()
+                .append(exportButtonsElement);
 
-        // JS is buggy at least on IE
-        //var widgetJS = '<script type="text/javascript" src="'+ getEmbedUrl(pluginId, actionId, "js") +'"></scr'+'ipt>';
-        //divEmbedThisWidget.append('<br />Embed JS: '+ getInputFormWithHtml('javascriptEmbed', widgetJS));
+            // JS is buggy at least on IE
+            //var widgetJS = '<script type="text/javascript" src="'+ getEmbedUrl(pluginId, actionId, "js") +'"></scr'+'ipt>';
+            //divEmbedThisWidget.append('<br />Embed JS: '+ getInputFormWithHtml('javascriptEmbed', widgetJS));
+        });
     }
 }
