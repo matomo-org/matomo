@@ -95,6 +95,26 @@
                 </td>
             </tr>
 
+            <tr id="row_report_pdf_header">
+                <td class="first">
+                    {{ 'ScheduledReports_PdfHeader'|translate }}
+                </td>
+                <td>
+                    <div id="leftcolumn">
+                        <input type='checkbox' name="reportPdfHeaderFrontPage" />
+                        <label for="reportPdfHeaderFrontPage">{{ 'ScheduledReports_PdfHeaderFrontPage'|translate }}</label>
+                    </div>
+                    <div id="rightcolumn">
+                        <input type='checkbox' name="reportPdfHeaderReportPages" />
+                        <label for="reportPdfHeaderReportPages">{{ 'ScheduledReports_PdfHeaderReportPages'|translate }}</label>
+                    </div>
+                    <div class="pdf_header">
+                        <p>{{ 'ScheduledReports_PdfHeader1stLine'|translate }}:<br><input name="reportPdfHeader1stLine" type="text"></p>
+                        <p>{{ 'ScheduledReports_PdfHeader2ndLine'|translate }}:<br><input name="reportPdfHeader2ndLine" type="text"></p>
+                    </div>
+                </td>
+            </tr>
+
             {{ postEvent("Template.reportParametersScheduledReports") }}
 
             <tr class='email' id="row_report_display_options">

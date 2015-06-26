@@ -28,6 +28,7 @@ function formSetEditReport(idReport) {
     }
 
     toggleReportType(report.type);
+    toggleReportFormat(report.format);
 
     $('#report_description').html(report.description);
     $('#report_segment').find('option[value=' + report.idsegment + ']').prop('selected', 'selected');
@@ -83,6 +84,14 @@ function toggleReportType(reportType) {
         $('.' + $(type).val()).hide();
     });
     $('.' + reportType).show();
+}
+
+function toggleReportFormat(reportFormat) {
+    if (reportFormat == 'pdf') {
+        $('#row_report_pdf_header').show();
+    } else {
+        $('#row_report_pdf_header').hide();
+    }
 }
 
 function fadeInOutSuccessMessage(selector, message) {
@@ -185,6 +194,12 @@ function initManagePdf() {
     $('#report_type').change(function () {
         var reportType = $(this).val();
         toggleReportType(reportType);
+    });
+
+    // Switch Report Format
+    $('select[name="report_format"]').change(function () {
+      var reportFormat = $(this).val();
+      toggleReportFormat(reportFormat);
     });
 
     // Add a Report click
