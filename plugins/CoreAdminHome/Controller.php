@@ -21,7 +21,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
 use Piwik\Plugins\CustomVariables\CustomVariables;
-use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -29,7 +28,6 @@ use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Settings\SystemSetting;
 use Piwik\Settings\UserSetting;
 use Piwik\Site;
-use Piwik\Tracker\IgnoreCookie;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\View;
@@ -43,9 +41,13 @@ class Controller extends ControllerAdmin
      */
     private $translator;
 
-    public function __construct(Translator $translator)
+    /** @var OptOutManager */
+    private $optOutManager;
+
+    public function __construct(Translator $translator, OptOutManager $optOutManager)
     {
         $this->translator = $translator;
+        $this->optOutManager = $optOutManager;
 
         parent::__construct();
     }
@@ -317,52 +319,7 @@ class Controller extends ControllerAdmin
      */
     public function optOut()
     {
-        $trackVisits = !IgnoreCookie::isIgnoreCookieFound();
-
-        $dntChecker = new DoNotTrackHeaderChecker();
-        $dntFound = $dntChecker->isDoNotTrackFound();
-
-        $setCookieInNewWindow = Common::getRequestVar('setCookieInNewWindow', false, 'int');
-        if ($setCookieInNewWindow) {
-            $reloadUrl = Url::getCurrentQueryStringWithParametersModified(array(
-                'showConfirmOnly' => 1,
-                'setCookieInNewWindow' => 0,
-            ));
-        } else {
-            $reloadUrl = false;
-
-            $nonce = Common::getRequestVar('nonce', false);
-            if ($nonce !== false && Nonce::verifyNonce('Piwik_OptOut', $nonce)) {
-                Nonce::discardNonce('Piwik_OptOut');
-                IgnoreCookie::setIgnoreCookie();
-                $trackVisits = !$trackVisits;
-            }
-        }
-
-        $language = Common::getRequestVar('language', '');
-        $lang = APILanguagesManager::getInstance()->isLanguageAvailable($language)
-            ? $language
-            : LanguagesManager::getLanguageCodeForCurrentUser();
-
-        // should not use self::renderTemplate since that uses setBasicVariablesView. this will cause
-        // an error when setBasicVariablesAdminView is called, and MenuTop is requested (the idSite query
-        // parameter is required)
-        $view = new View("@CoreAdminHome/optOut");
-        $view->setXFrameOptions('allow');
-        $view->dntFound = $dntFound;
-        $view->trackVisits = $trackVisits;
-        $view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
-        $view->language = $lang;
-        $view->isSafari = $this->isUserAgentSafari();
-        $view->showConfirmOnly = Common::getRequestVar('showConfirmOnly', false, 'int');
-        $view->reloadUrl = $reloadUrl;
-        return $view->render();
-    }
-
-    private function isUserAgentSafari()
-    {
-        $userAgent = @$_SERVER['HTTP_USER_AGENT'] ?: '';
-        return strpos($userAgent, 'Safari') !== false && strpos($userAgent, 'Chrome') === false;
+        return $this->optOutManager->createView()->render();
     }
 
     public function uploadCustomLogo()
