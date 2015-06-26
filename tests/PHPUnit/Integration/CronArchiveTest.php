@@ -116,7 +116,7 @@ Will pre-process for website id = 1, period = month, date = last%s
 - skipping segment archiving for 'actions>=4'.
 - pre-processing segment 1/1 actions>=2
 Archived website id = 1, period = month, 1 segments, 1 visits in last %s months, 1 visits this month, Time elapsed: %s
-Will pre-process for website id = 1, period = year, date = last%s`
+Will pre-process for website id = 1, period = year, date = last%s
 - pre-processing all visits
 - skipping segment archiving for 'actions>=4'.
 - pre-processing segment 1/1 actions>=2
