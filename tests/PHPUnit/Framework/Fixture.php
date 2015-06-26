@@ -744,11 +744,14 @@ class Fixture extends \PHPUnit_Framework_Assert
                 throw new Exception("The file $deflatedOut is empty. Suggestion: delete it and try again.");
             }
 
+            self::copyDownloadedGeoIp($deflatedOut, $filename);
+
             // Valid geoip db found
             return;
         }
 
-        Log::warning("Geoip database $outfileName is not found. Downloading from $url...");
+        echo "Geoip database $outfileName is not found. Downloading from $url...\n";
+
         $dump = fopen($url, 'rb');
         $outfile = fopen($outfileName, 'wb');
         if(!$outfile) {
@@ -768,6 +771,16 @@ class Fixture extends \PHPUnit_Framework_Assert
             Log::info(file_get_contents($outfile));
 
             throw new Exception("gunzip failed($return): " . implode("\n", $output));
+        }
+
+        self::copyDownloadedGeoIp($deflatedOut, $filename);
+    }
+
+    private static function copyDownloadedGeoIp($deflatedOut, $filename)
+    {
+        $realFileOut = PIWIK_INCLUDE_PATH . '/' . LocationProvider\GeoIp::$geoIPDatabaseDir . '/' . $filename;
+        if (!file_exists($realFileOut)) {
+            copy($deflatedOut, $realFileOut);
         }
     }
 
