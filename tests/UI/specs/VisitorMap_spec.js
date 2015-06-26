@@ -34,12 +34,9 @@ describe("VisitorMap", function () {
         }, done);
     });
 
-    it("should display the regions layer correctly w/ the bounce rate metric", function (done) {
+    it("should display the regions layer correctly", function (done) {
         expect.screenshot('regions').to.be.capture(function (page) {
             page.load(urlWithCities);
-            page.evaluate(function () {
-                $('.userCountryMapSelectMetrics').val('bounce_rate').trigger('change');
-            });
             page.evaluate(function () {
                 // zoom into USA
                 var path = window.visitorMap.map.getLayer('countries').getPaths({iso: "USA"})[0].svgPath[0];
@@ -53,7 +50,7 @@ describe("VisitorMap", function () {
         }, done);
     });
 
-    it("should display the cities layer correctly w/ the bounce rate metric", function (done) {
+    it("should display the cities layer correctly", function (done) {
         expect.screenshot('cities').to.be.capture(function (page) {
             page.click('.UserCountryMap-btn-city');
         }, done);
