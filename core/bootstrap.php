@@ -14,6 +14,14 @@ error_reporting(E_ALL | E_NOTICE);
 @ini_set('xdebug.show_exception_trace', 0);
 @ini_set('magic_quotes_runtime', 0);
 
+if (!defined('PIWIK_VENDOR_PATH')) {
+	if (is_dir(PIWIK_INCLUDE_PATH . '/vendor')) {
+		define('PIWIK_VENDOR_PATH', PIWIK_INCLUDE_PATH . '/vendor'); // Piwik is the main project
+	} else {
+		define('PIWIK_VENDOR_PATH', PIWIK_INCLUDE_PATH . '/../..'); // Piwik is installed as a Composer dependency
+	}
+}
+
 // NOTE: the code above must be PHP 4 compatible
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 
@@ -25,12 +33,7 @@ disableEaccelerator();
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
 // Composer autoloader
-if (file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')) {
-    $path = PIWIK_INCLUDE_PATH . '/vendor/autoload.php'; // Piwik is the main project
-} else {
-    $path = PIWIK_INCLUDE_PATH . '/../../autoload.php'; // Piwik is installed as a dependency
-}
-require_once $path;
+require_once PIWIK_VENDOR_PATH . '/autoload.php';
 
 /**
  * Eaccelerator does not support closures and is known to be not comptabile with Piwik. Therefore we are disabling

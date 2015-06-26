@@ -28,13 +28,14 @@ define('PIWIK_USER_PATH', '..');
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
-// Composer autoloader
-if (file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')) {
-    $path = PIWIK_INCLUDE_PATH . '/vendor/autoload.php'; // Piwik is the main project
+if (is_dir(PIWIK_INCLUDE_PATH . '/vendor')) {
+    define('PIWIK_VENDOR_PATH', PIWIK_INCLUDE_PATH . '/vendor'); // Piwik is the main project
 } else {
-    $path = PIWIK_INCLUDE_PATH . '/../../autoload.php'; // Piwik is installed as a dependency
+    define('PIWIK_VENDOR_PATH', PIWIK_INCLUDE_PATH . '/../..'); // Piwik is installed as a Composer dependency
 }
-require $path;
+
+// Composer autoloader
+require PIWIK_VENDOR_PATH . '/autoload.php';
 
 $file = '../piwik.js';
 
