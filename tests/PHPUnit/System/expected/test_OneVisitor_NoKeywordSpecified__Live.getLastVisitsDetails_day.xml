@@ -116,6 +116,8 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>1</pageId>
+				<timeSpent>1080</timeSpent>
+				<timeSpentPretty>18 min 0s</timeSpentPretty>
 				<icon />
 				
 			</row>

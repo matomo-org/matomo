@@ -101,22 +101,22 @@ NOTES
 ---------------------------
 START
 Starting Piwik reports archiving...
-Will pre-process for website id = 1, period = day, date = last52
+Will pre-process for website id = 1, period = day, date = last%s
 - pre-processing all visits
 - skipping segment archiving for 'actions>=4'.
 - pre-processing segment 1/1 actions>=2
 Archived website id = 1, period = day, 1 segments, 0 visits in last %s days, 0 visits today, Time elapsed: %s
-Will pre-process for website id = 1, period = week, date = last198
+Will pre-process for website id = 1, period = week, date = last%s
 - pre-processing all visits
 - skipping segment archiving for 'actions>=4'.
 - pre-processing segment 1/1 actions>=2
 Archived website id = 1, period = week, 1 segments, 1 visits in last %s weeks, 1 visits this week, Time elapsed: %s
-Will pre-process for website id = 1, period = month, date = last52
+Will pre-process for website id = 1, period = month, date = last%s
 - pre-processing all visits
 - skipping segment archiving for 'actions>=4'.
 - pre-processing segment 1/1 actions>=2
 Archived website id = 1, period = month, 1 segments, 1 visits in last %s months, 1 visits this month, Time elapsed: %s
-Will pre-process for website id = 1, period = year, date = last7
+Will pre-process for website id = 1, period = year, date = last%s
 - pre-processing all visits
 - skipping segment archiving for 'actions>=4'.
 - pre-processing segment 1/1 actions>=2

@@ -31,7 +31,7 @@ class ReferrerSpamFilter
         $referrerUrl = $request->getParam('urlref');
 
         foreach ($spammers as $spammerHost) {
-            if (strpos($referrerUrl, $spammerHost) !== false) {
+            if (stripos($referrerUrl, $spammerHost) !== false) {
                 Common::printDebug('Referrer URL is a known spam: ' . $spammerHost);
                 return true;
             }

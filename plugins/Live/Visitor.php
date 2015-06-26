@@ -312,14 +312,6 @@ class Visitor implements VisitorInterface
 
             $actionDetail['url'] = $url;
             unset($actionDetail['url_prefix']);
-
-            // Set the time spent for this action (which is the timeSpentRef of the next action)
-            if (isset($actionDetails[$actionIdx + 1])) {
-                $actionDetail['timeSpent'] = $actionDetails[$actionIdx + 1]['timeSpentRef'];
-                $actionDetail['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($actionDetail['timeSpent'], true);
-            }
-            unset($actionDetails[$actionIdx]['timeSpentRef']); // not needed after timeSpent is added
-
         }
 
         // If the visitor converted a goal, we shall select all Goals
@@ -359,6 +351,37 @@ class Visitor implements VisitorInterface
             $ecommerceConversion['itemDetails'] = $itemsDetails;
         }
 
+        // Enrich with time spent per action
+        foreach($actionDetails as $actionIdx => &$actionDetail) {
+
+            // Set the time spent for this action (which is the timeSpentRef of the next action)
+            $nextActionFound = isset($actionDetails[$actionIdx + 1]);
+            if ($nextActionFound) {
+                $actionDetail['timeSpent'] = $actionDetails[$actionIdx + 1]['timeSpentRef'];
+            } else {
+                // Last action of a visit.
+                // By default, Piwik does not know how long the user stayed on the page
+                // If enableHeartBeatTimer() is used in piwik.js then we can find the accurate time on page for the last pageview
+                $timeOfLastActionOrPingInVisitRow = $visitorDetailsArray['lastActionTimestamp'];
+
+                $timeOfLastAction = Date::factory($actionDetail['serverTimePretty'])->getTimestamp();
+
+                $timeSpentOnPage = $timeOfLastActionOrPingInVisitRow - $timeOfLastAction;
+
+                // Safe net, we assume the time is correct when it's more than 10 seconds
+                if($timeSpentOnPage > 10) {
+                    $actionDetail['timeSpent'] = $timeSpentOnPage;
+                }
+            }
+
+            if(isset($actionDetail['timeSpent'])) {
+                $actionDetail['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($actionDetail['timeSpent'], true);
+            }
+
+            unset($actionDetails[$actionIdx]['timeSpentRef']); // not needed after timeSpent is added
+
+        }
+
         $actions = array_merge($actionDetails, $goalDetails, $ecommerceDetails);
 
         usort($actions, array('static', 'sortByServerTime'));
@@ -367,7 +390,10 @@ class Visitor implements VisitorInterface
             unset($action['idlink_va']);
         }
 
+        $visitorDetailsArray['goalConversions'] = count($goalDetails);
+
         $visitorDetailsArray['actionDetails'] = $actions;
+
         foreach ($visitorDetailsArray['actionDetails'] as &$details) {
             switch ($details['type']) {
                 case 'goal':
@@ -398,12 +424,14 @@ class Visitor implements VisitorInterface
                     $details['icon'] = null;
                     break;
             }
+
             // Convert datetimes to the site timezone
             $dateTimeVisit = Date::factory($details['serverTimePretty'], $timezone);
             $details['serverTimePretty'] = $dateTimeVisit->getLocalized(Piwik::translate('CoreHome_ShortDateFormat') . ' %time%');
             $details['timestamp'] = $dateTimeVisit->getTimestamp();
         }
-        $visitorDetailsArray['goalConversions'] = count($goalDetails);
+
+
         return $visitorDetailsArray;
     }
 
