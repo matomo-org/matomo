@@ -110,41 +110,54 @@ class Visit implements VisitInterface
             Common::printDebug($this->visitorCustomVariables);
         }
 
-        $this->goalManager = new GoalManager($this->request);
-
-        $visitIsConverted = false;
+        /**
+         * Goals & Ecommerce conversions
+         */
+        $isManualGoalConversion = $requestIsEcommerce = $visitIsConverted = $someGoalsConverted = false;
         $action = null;
+        $this->goalManager = null;
 
-        $isManualGoalConversion = $this->goalManager->isManualGoalConversion();
-        $requestIsEcommerce = $this->goalManager->requestIsEcommerce;
-
-        if ($requestIsEcommerce) {
-            $someGoalsConverted = true;
-
-            // Mark the visit as Converted only if it is an order (not for a Cart update)
-            if ($this->goalManager->isGoalAnOrder()) {
-                $visitIsConverted = true;
+        if($this->isPingRequest()) {
+            // on a ping request that is received before the standard visit length, we just update the visit time w/o adding a new action
+            if ($this->isPingRequest()) {
+                Common::printDebug("-> ping=1 request: we do not track a new action nor a new visit.");
             }
-        } elseif ($isManualGoalConversion) {
-            // this request is from the JS call to piwikTracker.trackGoal()
-            $someGoalsConverted = $this->goalManager->detectGoalId($this->request->getIdSite());
-            $visitIsConverted = $someGoalsConverted;
 
-            // if we find a idgoal in the URL, but then the goal is not valid, this is most likely a fake request
-            if (!$someGoalsConverted) {
-                Common::printDebug('Invalid goal tracking request for goal id = ' . $this->goalManager->idGoal);
-                return;
-            }
         } else {
-            // normal page view, potentially triggering a URL matching goal
-            $action = Action::factory($this->request);
+            $this->goalManager = new GoalManager($this->request);
 
-            $action->writeDebugInfo();
+            $isManualGoalConversion = $this->goalManager->isManualGoalConversion();
+            $requestIsEcommerce = $this->goalManager->requestIsEcommerce;
 
-            $someGoalsConverted = $this->goalManager->detectGoalsMatchingUrl($this->request->getIdSite(), $action);
-            $visitIsConverted = $someGoalsConverted;
+            if ($requestIsEcommerce) {
+                $someGoalsConverted = true;
 
-            $action->loadIdsFromLogActionTable();
+                // Mark the visit as Converted only if it is an order (not for a Cart update)
+                if ($this->goalManager->isGoalAnOrder()) {
+                    $visitIsConverted = true;
+                }
+            } elseif ($isManualGoalConversion) {
+                // this request is from the JS call to piwikTracker.trackGoal()
+                $someGoalsConverted = $this->goalManager->detectGoalId($this->request->getIdSite());
+                $visitIsConverted = $someGoalsConverted;
+
+                // if we find a idgoal in the URL, but then the goal is not valid, this is most likely a fake request
+                if (!$someGoalsConverted) {
+                    Common::printDebug('Invalid goal tracking request for goal id = ' . $this->goalManager->idGoal);
+                    return;
+                }
+            } else {
+                // normal page view, potentially triggering a URL matching goal
+                $action = Action::factory($this->request);
+
+                $action->writeDebugInfo();
+
+                $someGoalsConverted = $this->goalManager->detectGoalsMatchingUrl($this->request->getIdSite(), $action);
+                $visitIsConverted = $someGoalsConverted;
+
+                $action->loadIdsFromLogActionTable();
+            }
+
         }
 
         /***
@@ -166,18 +179,15 @@ class Visit implements VisitInterface
         // AND
         // - the last page view for this visitor was less than 30 minutes ago @see isLastActionInTheSameVisit()
         if (!$isNewVisit) {
-            // on a ping request that is received before the standard visit length, we just update the visit time w/o
-            // adding a new action
-            if ($this->isPingRequest()) {
-                Common::printDebug("-> ping=1 request: we do not track a new action.");
-                $action = null;
-            }
 
             $idReferrerActionUrl = $this->visitorInfo['visit_exit_idaction_url'];
             $idReferrerActionName = $this->visitorInfo['visit_exit_idaction_name'];
 
             try {
-                $this->goalManager->detectIsThereExistingCartInVisit($this->visitorInfo);
+                if($this->goalManager) {
+                    $this->goalManager->detectIsThereExistingCartInVisit($this->visitorInfo);
+                }
+
                 $this->handleExistingVisit($visitor, $action, $visitIsConverted);
 
                 if (!is_null($action)) {

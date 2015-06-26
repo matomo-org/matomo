@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Plugins\Goals\API as GoalsAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -30,6 +31,7 @@ class PingRequestTest extends IntegrationTestCase
         parent::setUp();
 
         Fixture::createWebsite('2012-01-01 00:00:00');
+        GoalsAPI::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', $matchPattern = 'pong', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
     }
 
     public function test_PingWithinThirtyMinutes_ExtendsExistingVisitAndLastAction_WithoutNewAction()
@@ -64,6 +66,25 @@ class PingRequestTest extends IntegrationTestCase
         $this->assertInitialVisitIsExtended($pingTime, self::FIRST_VISIT_TIME, $checkModifiedDimensions = true);
     }
 
+    public function test_PingWithinThirtyMinutes_DoesNotTriggerGoalConversion()
+    {
+        $tracker = $this->getTracker();
+
+        // track initial action
+        $response = $tracker->doTrackPageView('pong');
+        Fixture::checkResponse($response);
+        $this->assertInitialVisitIsCorrect();
+
+        // send a ping request within 30 minutes
+        $pingTime = '2012-01-05 00:20:00';
+        // force trigger a goal
+        $tracker->setDebugStringAppend('&idgoal=1');
+        $this->doPingRequest($tracker, $pingTime, $setNewDimensionValues = true);
+
+        $this->assertInitialVisitIsExtended($pingTime, self::FIRST_VISIT_TIME, $checkModifiedDimensions = true);
+        $this->assertGoalConversionCount(1);
+    }
+
     public function test_PingAfterThirtyMinutes_DoesNotCreateNewVisit()
     {
         $tracker = $this->getTracker();
@@ -91,6 +112,7 @@ class PingRequestTest extends IntegrationTestCase
 
         // send a ping request after 30 minutes
         $pingTime = '2012-01-05 00:40:00';
+
         $this->doPingRequest($tracker, $pingTime, $setNewDimensionValues = true);
 
         $this->assertPingDidNotCreateNewVisit(self::FIRST_VISIT_TIME, $checkModifiedDimensions = true);
@@ -124,6 +146,12 @@ class PingRequestTest extends IntegrationTestCase
         $this->assertEquals($expected, $visitCount);
     }
 
+    private function assertGoalConversionCount($expected)
+    {
+        $visitCount = Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('log_conversion'));
+        $this->assertEquals($expected, $visitCount);
+    }
+
     private function getVisitLastActionTime($idVisit)
     {
         return $this->getVisitProperty('visit_last_action_time', $idVisit);
@@ -138,6 +166,7 @@ class PingRequestTest extends IntegrationTestCase
     {
         $this->assertVisitCount(1);
         $this->assertActionCount(1);
+        $this->assertGoalConversionCount(1);
 
         $this->assertVisitPropertiesAreUnchanged($idVisit = 1);
     }
@@ -166,6 +195,7 @@ class PingRequestTest extends IntegrationTestCase
     {
         $this->assertVisitCount(1);
         $this->assertActionCount(1);
+        $this->assertGoalConversionCount(1);
 
         $visitEndTime = $this->getVisitLastActionTime($idVisit = 1);
         $this->assertEquals($newEndTime, $visitEndTime);
