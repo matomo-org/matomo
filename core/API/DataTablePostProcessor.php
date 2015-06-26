@@ -288,11 +288,12 @@ class DataTablePostProcessor
         // after queued filters are run so processed metrics can be removed, too)
         $hideColumns = Common::getRequestVar('hideColumns', '', 'string', $this->request);
         $showColumns = Common::getRequestVar('showColumns', '', 'string', $this->request);
+        $showRawMetrics = Common::getRequestVar('showRawMetrics', 0, 'int', $this->request);
         if (!empty($hideColumns)
             || !empty($showColumns)
         ) {
             $dataTable->filter('ColumnDelete', array($hideColumns, $showColumns));
-        } else {
+        } else if ($showRawMetrics !== 1) {
             $this->removeTemporaryMetrics($dataTable);
         }
 
