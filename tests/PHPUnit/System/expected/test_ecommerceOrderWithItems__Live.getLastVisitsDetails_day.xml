@@ -87,6 +87,8 @@
 						<customVariablePageValue5>Category TWO LEFT in cart</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 				
 			</row>
@@ -431,6 +433,8 @@
 						<customVariablePageValue5>Category TWO LEFT in cart</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
 				
 			</row>
