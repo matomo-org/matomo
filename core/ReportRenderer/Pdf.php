@@ -58,6 +58,8 @@ class Pdf extends ReportRenderer
     private $leftSpacesBeforeLogo = 7;
     private $logoImagePosition = array(10, 40);
     private $headerTextColor;
+    private $headlineFrontPage = false;
+    private $headlineReportPages = false;
     private $reportTextColor;
     private $tableHeaderBackgroundColor;
     private $tableHeaderTextColor;
@@ -174,8 +176,15 @@ class Pdf extends ReportRenderer
         $this->TCPDF->SetFooterFont(array($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize));
         $this->TCPDF->SetFooterContent($reportTitle . " | " . $dateRange . " | ");
 
+        // header
+        if ($this->headlineFrontPage || $this->headlineReportPages) {
+            $this->TCPDF->SetHeaderFont(array($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize));
+            $this->TCPDF->SetHeaderData(API::getInstance()->getLogoUrl(true), 13, "Lorem ipsum dolor sit amet,", "Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.");
+            $this->TCPDF->SetHeaderMargin(1);
+        }
+
         // add first page
-        $this->TCPDF->setPrintHeader(false);
+        $this->TCPDF->setPrintHeader($this->headlineFrontPage);
         $this->TCPDF->AddPage(self::PORTRAIT);
         $this->TCPDF->AddFont($this->reportFont, '', '', false);
         $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
@@ -263,7 +272,6 @@ class Pdf extends ReportRenderer
             )
         ) {
             $this->currentPage++;
-            $this->TCPDF->AddPage();
 
             // Table-only reports with more than 2 columns are always landscape
             if ($tableOnlyManyColumnReport) {
@@ -274,7 +282,8 @@ class Pdf extends ReportRenderer
                 $this->orientation = $graphOnlyReport ? self::PORTRAIT : ($columnCount > $this->maxColumnCountPortraitOrientation ? self::LANDSCAPE : self::PORTRAIT);
             }
 
-            $this->TCPDF->setPageOrientation($this->orientation, '', $this->bottomMargin);
+            $this->TCPDF->setPrintHeader($this->headlineReportPages);
+            $this->TCPDF->AddPage($this->orientation);
         }
 
         $graphOnlyReportCount = ($graphOnlyReport && $reportHasData) ? ($graphOnlyReportCount + 1) % self::MAX_GRAPH_REPORTS : 0;
