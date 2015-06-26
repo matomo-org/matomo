@@ -170,6 +170,7 @@ class Visit implements VisitInterface
 
         $isNewVisit = $this->isVisitNew($visitor, $action);
 
+
         // Known visit when:
         // ( - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor
         //   OR
@@ -212,18 +213,18 @@ class Visit implements VisitInterface
             }
         }
 
+        // When a ping request is received more than 30 min after the last request/ping,
+        // we choose not to create a new visit.
+        if ($isNewVisit && $this->isPingRequest()) {
+            Common::printDebug("-> ping=1 request: we do _not_ create a new visit.");
+            return;
+        }
+
         // New visit when:
         // - the visitor has the Piwik cookie but the last action was performed more than 30 min ago @see isLastActionInTheSameVisit()
         // - the visitor doesn't have the Piwik cookie, and couldn't be matched in @see recognizeTheVisitor()
         // - the visitor does have the Piwik cookie but the idcookie and idvisit found in the cookie didn't match to any existing visit in the DB
         if ($isNewVisit) {
-
-            // When a ping request is received more than 30 min after the last request/ping,
-            // we choose not to create a new visit.
-            if ($this->isPingRequest()) {
-                Common::printDebug("-> ping=1 request: we do _not_ create a new visit.");
-                return;
-            }
 
             $this->handleNewVisit($visitor, $action, $visitIsConverted);
             if (!is_null($action)) {
