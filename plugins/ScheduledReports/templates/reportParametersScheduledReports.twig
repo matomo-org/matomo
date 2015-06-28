@@ -24,7 +24,8 @@
                                 'displayFormat': '{{ defaultDisplayFormat }}',
                                 'emailMe': {{ defaultEmailMe }},
                                 'evolutionGraph': {{ defaultEvolutionGraph }},
-                                'additionalEmails': null
+                                'additionalEmails': null,
+                                'pdfCustomization': null
                             };
                             updateReportParametersFunctions['{{ reportType }}'](reportParameters);
                         };
@@ -52,6 +53,14 @@
                             else
                                 $('#report_additional_emails').html('');
 
+                            if (reportParameters.pdfCustomization != null) {
+                                $('#reportPdfHeadlineFrontPage').prop('checked', (reportParameters.pdfCustomization.headlineFrontPage === true));
+                                $('#reportPdfHeadlineReportPages').prop('checked', (reportParameters.pdfCustomization.headlineReportPages === true));
+                                $('#reportPdfHeadline1stLine').val(reportParameters.pdfCustomization.headline1stLine);
+                                $('#reportPdfHeadline2ndLine').val(reportParameters.pdfCustomization.headline2ndLine);
+                            }
+
+
                             $(document).trigger('ScheduledReport.edit', {});
                         };
 
@@ -67,6 +76,15 @@
                             var additionalEmails = $('#report_additional_emails').val();
                             parameters.additionalEmails =
                                     additionalEmails != '' ? additionalEmails.split('\n') : [];
+
+                            if ($('select[name="report_format"]').val() == 'pdf') {
+                                parameters.pdfCustomization = {
+                                     headlineFrontPage: $('#reportPdfHeadlineFrontPage').prop('checked'),
+                                     headlineReportPages: $('#reportPdfHeadlineReportPages').prop('checked'),
+                                     headline1stLine: $('#reportPdfHeadline1stLine').val(),
+                                     headline2ndLine: $('#reportPdfHeadline2ndLine').val()
+                                }
+                            }
 
                             return parameters;
                         };

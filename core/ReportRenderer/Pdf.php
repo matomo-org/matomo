@@ -60,6 +60,8 @@ class Pdf extends ReportRenderer
     private $headerTextColor;
     private $headlineFrontPage = false;
     private $headlineReportPages = false;
+    private $headline1stLine = '';
+    private $headline2ndLine = '';
     private $reportTextColor;
     private $tableHeaderBackgroundColor;
     private $tableHeaderTextColor;
@@ -167,10 +169,22 @@ class Pdf extends ReportRenderer
         return $this->TCPDF->Output(null, 'S');
     }
 
-    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment)
+    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment, $customization = null)
     {
         $reportTitle = $this->formatText($reportTitle);
         $dateRange = $this->formatText(Piwik::translate('General_DateRange') . " " . $prettyDate);
+
+        file_put_contents('/var/www/piwik-dev/tmp/logs/dev.log', print_r($customization, true));
+        if (isset($customization)) {
+            $this->headlineFrontPage = ($customization['headlineFrontPage'] === true);
+            $this->headlineReportPages = ($customization['headlineReportPages'] === true);
+            if (is_string($customization['headline1stLine'])) {
+                $this->headline1stLine = trim($customization['headline1stLine']);
+            }
+            if (is_string($customization['headline2ndLine'])) {
+                $this->headline2ndLine = trim($customization['headline2ndLine']);
+            }
+        }
 
         // footer
         $this->TCPDF->SetFooterFont(array($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize));
@@ -179,7 +193,7 @@ class Pdf extends ReportRenderer
         // header
         if ($this->headlineFrontPage || $this->headlineReportPages) {
             $this->TCPDF->SetHeaderFont(array($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize));
-            $this->TCPDF->SetHeaderData(API::getInstance()->getLogoUrl(true), 13, "Lorem ipsum dolor sit amet,", "Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.");
+            $this->TCPDF->SetHeaderData(API::getInstance()->getLogoUrl(true), 13, $this->headline1stLine, $this->headline2ndLine);
             $this->TCPDF->SetHeaderMargin(1);
         }
 

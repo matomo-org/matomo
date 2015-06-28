@@ -50,7 +50,7 @@ class Sms extends ReportRenderer
         return $this->rendering;
     }
 
-    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment)
+    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment, $customization = null)
     {
         // nothing to do
     }

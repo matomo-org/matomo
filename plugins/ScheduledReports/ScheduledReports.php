@@ -47,6 +47,7 @@ class ScheduledReports extends \Piwik\Plugin
     const DISPLAY_FORMAT_PARAMETER = 'displayFormat';
     const EMAIL_ME_PARAMETER_DEFAULT_VALUE = true;
     const EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE = false;
+    const PDF_CUSTOMIZATION_PARAMETER = 'pdfCustomization';
 
     const EMAIL_TYPE = 'email';
 
@@ -55,6 +56,7 @@ class ScheduledReports extends \Piwik\Plugin
         self::EVOLUTION_GRAPH_PARAMETER   => false,
         self::ADDITIONAL_EMAILS_PARAMETER => false,
         self::DISPLAY_FORMAT_PARAMETER    => true,
+        self::PDF_CUSTOMIZATION_PARAMETER  => false
     );
 
     private static $managedReportTypes = array(
@@ -170,6 +172,11 @@ class ScheduledReports extends \Piwik\Plugin
         // additionalEmails is an optional parameter
         if (isset($parameters[self::ADDITIONAL_EMAILS_PARAMETER])) {
             $parameters[self::ADDITIONAL_EMAILS_PARAMETER] = self::checkAdditionalEmails($parameters[self::ADDITIONAL_EMAILS_PARAMETER]);
+        }
+
+        // pdfCustomization is an optional parameter
+        if (isset($parameters[self::PDF_CUSTOMIZATION_PARAMETER])) {
+            $parameters[self::PDF_CUSTOMIZATION_PARAMETER] = self::checkPdfCustomization($parameters[self::PDF_CUSTOMIZATION_PARAMETER]);
         }
     }
 
@@ -610,6 +617,12 @@ class ScheduledReports extends \Piwik\Plugin
         }
         $additionalEmails = array_values(array_filter($additionalEmails));
         return $additionalEmails;
+    }
+
+    private static function checkPdfCustomization($pdfCustomization) {
+        $pdfCustomization["headlineFrontPage"] = self::valueIsTrue($pdfCustomization["headlineFrontPage"]);
+        $pdfCustomization["headlineReportPages"] = self::valueIsTrue($pdfCustomization["headlineReportPages"]);
+        return $pdfCustomization;
     }
 
     public static function getDisplayFormats()

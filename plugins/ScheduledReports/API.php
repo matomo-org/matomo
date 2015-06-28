@@ -457,7 +457,7 @@ class API extends \Piwik\Plugin\API
         }
         $filename = "$reportTitle - $prettyDate - $description";
 
-        $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment);
+        $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment, $report['parameters']['pdfCustomization']);
         array_walk($processedReports, array($reportRenderer, 'renderReport'));
 
         switch ($outputType) {
