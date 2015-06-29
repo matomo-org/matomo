@@ -18,6 +18,9 @@ function getToken() {
 function getContentToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
+function getHeartbeatToken() {
+    return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
 <?php
 $sqlite = false;
 if (file_exists("enable_sqlite")) {
@@ -51,6 +54,7 @@ testTrackPageViewAsync();
 }
 ?>
  </script>
+ <script src="../lib/q-1.4.1/q.js" type="text/javascript"></script>
  <script src="../../js/piwik.js?rand=<?php echo md5(uniqid(mt_rand(), true)) ?>" type="text/javascript"></script>
  <script src="../../plugins/Overlay/client/urlnormalizer.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
@@ -212,8 +216,9 @@ function triggerEvent(element, type, buttonNumber) {
          buttonNumber = 0;
      }
 
-     var event = document.createEvent( "MouseEvents" );
-     event.initMouseEvent(type, true, true, element.ownerDocument.defaultView,
+     var event = document.createEvent( "MouseEvents" ),
+         docView = element == window ? element : element.ownerDocument.defaultView;
+     event.initMouseEvent(type, true, true, docView,
          0, 0, 0, 0, 0, false, false, false, false, buttonNumber, null);
      element.dispatchEvent( event );
  } else if ( element.fireEvent ) {
@@ -231,28 +236,27 @@ function triggerEvent(element, type, buttonNumber) {
      }
  }
 
- function fetchMultipleTrackedRequests(tokens, callback)
+ function fetchTrackedRequests(token, parse)
  {
-     var requests = [];
-     var responses = [];
+     var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
+         window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") :
+             null;
 
-     function handleResponse(result, status) {
-         if(status) {
-            responses.push(result.responseText);
-         }
-         var request = requests.shift();
-         request ? $.ajax(request) : callback(responses);
-     }
+     xhr.open("GET", "piwik.php?requests=" + token, false);
+     xhr.send(null);
 
-     for(var i in tokens) {
-         requests.push({
-             url: 'piwik.php?requests=' + tokens[i],
-             dataType: 'text',
-             complete: handleResponse
+     var response = xhr.responseText;
+     if (parse) {
+         var results = [];
+         $(response).filter('span').each(function (i) {
+             if (i != 0) {
+                 results.push($(this).text());
+             }
          });
+         return results;
      }
 
-     handleResponse();
+     return response;
  }
 
  function dropCookie(cookieName, path, domain) {
@@ -339,20 +343,22 @@ var contentTestHtml = {};
      $('#contenttest').remove();
  }
 
-
-
 function setupContentTrackingFixture(name, targetNode) {
     var url = 'content-fixtures/' + name + '.html'
+
     if (!contentTestHtml[name]) {
         $.ajax({
             url: url,
             success: function( content ) { contentTestHtml[name] = content; },
             dataType: 'html',
-            async: false // TODO: should be changed to async: true because XHR sync is deprecated
+            async: false
         });
     }
+
     var newNode = $('<div id="contenttest">' + contentTestHtml[name] + '</div>');
+
     removeContentTrackingFixture();
+
     if (targetNode) {
         $(targetNode).prepend(newNode);
     } else {
@@ -1975,7 +1981,7 @@ function PiwikTest() {
         equal( typeof tracker.setConversionAttributionFirstReferrer, 'function', 'setConversionAttributionFirstReferrer' );
         equal( typeof tracker.addListener, 'function', 'addListener' );
         equal( typeof tracker.enableLinkTracking, 'function', 'enableLinkTracking' );
-        equal( typeof tracker.setHeartBeatTimer, 'function', 'setHeartBeatTimer' );
+        equal( typeof tracker.enableHeartBeatTimer, 'function', 'enableHeartBeatTimer' );
         equal( typeof tracker.killFrame, 'function', 'killFrame' );
         equal( typeof tracker.redirectFile, 'function', 'redirectFile' );
         equal( typeof tracker.setCountPreRendered, 'function', 'setCountPreRendered' );
@@ -2543,7 +2549,7 @@ function PiwikTest() {
           function link() { lastInteractionType = "link"; }
           function load() { lastInteractionType = "load"; }
           function log() { lastInteractionType = "log"; }
-          function ping() { lastInteractionType = "ping"; }
+          function ping() { lastInteractionType = "ping"; return "&dummy=1"; }
           function sitesearch() { lastInteractionType = "sitesearch"; }
           function unload() { lastInteractionType = "unload"; }
           function getLastInteractionType() { return lastInteractionType; }
@@ -2716,9 +2722,7 @@ if ($sqlite) {
     test("tracking", function() {
         expect(101);
 
-        /*
-         * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
-         */
+        // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
                 evt = evt || window.event;
 
@@ -3097,6 +3101,91 @@ if ($sqlite) {
         }, 5000);
     });
 
+    // heartbeat tests
+    test("trackingHeartBeat", function () {
+        expect(14);
+
+        var tokenBase = getHeartbeatToken();
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("piwik.php");
+        tracker.setSiteId(1);
+        tracker.enableHeartBeatTimer(3);
+
+        stop();
+        Q.delay(1).then(function () {
+            // test ping heart beat not set up until an initial request tracked
+            tracker.setCustomData('token', 1 + tokenBase);
+
+            return Q.delay(3500);
+        }).then(function () {
+            // test ping not sent on initial page load, and sent if inactive for N secs.
+            tracker.setCustomData('token', 2 + tokenBase);
+            tracker.trackPageView('whatever'); // normal request sent here
+        }).then(function () {
+            triggerEvent(window, 'focus');
+
+            return Q.delay(4000); // ping request sent after this (afterwards 2 secs to next heartbeat)
+        }).then(function () {
+            // test ping not sent after N secs, if tracking request sent in the mean time
+            tracker.setCustomData('token', 3 + tokenBase);
+
+            tracker.trackPageView('whatever2'); // normal request sent here
+            // heart beat will trigger in 2 secs, then reset to 1 sec later, since tracker request
+            // was sent 2 secs ago
+        }).then(function () {
+            return Q.delay(2100); // ping request NOT sent here (heart beat triggered. after, .9s to next heartbeat)
+        }).then(function () {
+            // test ping sent N secs after second tracking request if inactive.
+            tracker.setCustomData('token', 4 + tokenBase);
+
+            return Q.delay(2100); // ping request sent here (heart beat triggered after 1s; 2s to next heart beat)
+        }).then(function () {
+            // test ping not sent N secs after, if window blur event triggered (ie tab switch) and N secs pass.
+            tracker.setCustomData('token', 5 + tokenBase);
+
+            triggerEvent(window, 'blur');
+
+            return Q.delay(3000); // ping request not sent here (heart beat triggered after 2s; 1s to next heart beat)
+        }).then(function () {
+            // test ping sent immediately if tab switched and more than N secs pass, then tab switched back
+            tracker.setCustomData('token', 6 + tokenBase);
+
+            triggerEvent(window, 'focus'); // ping request sent here
+
+            tracker.disableHeartBeatTimer(); // flatline
+
+            return Q.delay(1000); // for the ping request to get sent
+        }).then(function () {
+            var token;
+
+            var requests = fetchTrackedRequests(token = 1 + tokenBase, true);
+            equal(requests.length, 0, "[token = 1] no requests sent before initial non-ping request sent");
+
+            requests = fetchTrackedRequests(token = 2 + tokenBase, true);
+            ok(/action_name=whatever/.test(requests[0]) && !(/ping=1/.test(requests[0])), "[token = 2] first request is page view not ping");
+            ok(/ping=1/.test(requests[1]), "[token = 2] second request is ping request");
+            equal(requests.length, 2, "[token = 2] only 2 requests sent for normal ping");
+
+            requests = fetchTrackedRequests(token = 3 + tokenBase, true);
+            ok(/action_name=whatever2/.test(requests[0]) && !(/ping=1/.test(requests[0])), "[token = 3] first request is page view not ping");
+            equal(requests.length, 1, "[token = 3] no ping request sent if other request sent in meantime");
+
+            requests = fetchTrackedRequests(token = 4 + tokenBase, true);
+            ok(/ping=1/.test(requests[0]), "[token = 4] ping request sent if no other activity and after heart beat");
+            equal(requests.length, 1, "[token = 4] only ping request sent if no other activity");
+
+            requests = fetchTrackedRequests(token = 5 + tokenBase, true);
+            equal(requests.length, 0, "[token = 5] no requests sent if window not in focus");
+
+            requests = fetchTrackedRequests(token = 6 + tokenBase, true);
+            ok(/ping=1/.test(requests[0]), "[token = 6] ping sent after window regains focus");
+            equal(requests.length, 1, "[token = 6] only one ping request sent after window regains focus");
+
+            start();
+        });
+    });
+
     test("trackingContent", function() {
         expect(81);
 
@@ -3311,145 +3400,129 @@ if ($sqlite) {
         setTimeout(function() {
             removeContentTrackingFixture();
 
-            fetchMultipleTrackedRequests([
-                token,
-                token2,
-                token3,
-                token4,
-                token5,
-                token6,
-                token7,
-                token8,
-                token9,
-                token10
-            ], function (results) {
-                
-                // trackAllContentImpressions()
-                var result = results[0];
-                equal((/<span\>([0-9]+)\<\/span\>/.exec(result))[1], "7", "count trackAllContentImpressions requests. all content blocks should be tracked");
+            // trackAllContentImpressions()
+            var results = fetchTrackedRequests(token);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "7", "count trackAllContentImpressions requests. all content blocks should be tracked" );
 
-                var requests = result.match(/<span\>(.*?)\<\/span\>/g);
-                requests.shift();
+            var requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
 
-                assertTrackingRequest(requests[0], trackingRequests[7]);
-                assertTrackingRequest(requests[1], trackingRequests[6]);
-                assertTrackingRequest(requests[2], trackingRequests[5]);
-                assertTrackingRequest(requests[3], trackingRequests[4]);
-                assertTrackingRequest(requests[4], trackingRequests[3]);
-                assertTrackingRequest(requests[5], trackingRequests[2]);
-                assertTrackingRequest(requests[6], trackingRequests[1]);
+            assertTrackingRequest(requests[0], trackingRequests[7]);
+            assertTrackingRequest(requests[1], trackingRequests[6]);
+            assertTrackingRequest(requests[2], trackingRequests[5]);
+            assertTrackingRequest(requests[3], trackingRequests[4]);
+            assertTrackingRequest(requests[4], trackingRequests[3]);
+            assertTrackingRequest(requests[5], trackingRequests[2]);
+            assertTrackingRequest(requests[6], trackingRequests[1]);
 
 
-                // trackContentImpressionsWithinNode()
-                result = results[1];
-                equal((/<span\>([0-9]+)\<\/span\>/.exec(result))[1], "3", "count trackContentImpressionsWithinNode requests. should track only content blocks within node");
+            // trackContentImpressionsWithinNode()
+            results = fetchTrackedRequests(token2);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "3", "count trackContentImpressionsWithinNode requests. should track only content blocks within node" );
 
-                requests = result.match(/<span\>(.*?)\<\/span\>/g);
-                requests.shift();
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
 
-                assertTrackingRequest(requests[0], trackingRequests[4]);
-                assertTrackingRequest(requests[1], trackingRequests[3]);
-                assertTrackingRequest(requests[2], trackingRequests[2]);
+            assertTrackingRequest(requests[0], trackingRequests[4]);
+            assertTrackingRequest(requests[1], trackingRequests[3]);
+            assertTrackingRequest(requests[2], trackingRequests[2]);
 
+            // trackContentImpression()
+            results = fetchTrackedRequests(token3);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "2", "count trackContentImpression requests. " );
 
-                // trackContentImpression()
-                result = results[2];
-                equal((/<span\>([0-9]+)\<\/span\>/.exec(result))[1], "2", "count trackContentImpression requests. ");
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
 
-                requests = result.match(/<span\>(.*?)\<\/span\>/g);
-                requests.shift();
+            var firstRequest  = 0;
+            var secondRequest = 1;
+            if (-1 === requests[0].indexOf('MyName')) {
+                firstRequest  = 1;
+                secondRequest = 0;
+            }
 
-                var firstRequest = 0;
-                var secondRequest = 1;
-                if (-1 === requests[0].indexOf('MyName')) {
-                    firstRequest = 1;
-                    secondRequest = 0;
-                }
-
-                assertTrackingRequest(requests[firstRequest], 'c_n=MyName&c_p=Unknown');
-                assertTrackingRequest(requests[secondRequest], 'c_n=Any%3A%2F%2FName&c_p=AnyPiece%3F&c_t=http%3A%2F%2Fwww.example.com');
-
-
-                // trackContentInteraction()
-                result = results[3];
-                equal((/<span\>([0-9]+)\<\/span\>/.exec(result))[1], "2", "count trackContentInteraction requests.");
-
-                requests = result.match(/<span\>(.*?)\<\/span\>/g);
-                requests.shift();
-
-                firstRequest = 0;
-                secondRequest = 1;
-                if (-1 === requests[0].indexOf('IntName')) {
-                    firstRequest = 1;
-                    secondRequest = 0;
-                }
-
-                assertTrackingRequest(requests[firstRequest], 'c_i=Clicke&c_n=IntName&c_p=Unknown');
-                assertTrackingRequest(requests[secondRequest], 'c_i=Clicki&c_n=IntN%3A%2Fame&c_p=IntPiece%3F&c_t=http%3A%2F%2Fint.example.com');
+            assertTrackingRequest(requests[firstRequest], 'c_n=MyName&c_p=Unknown');
+            assertTrackingRequest(requests[secondRequest], 'c_n=Any%3A%2F%2FName&c_p=AnyPiece%3F&c_t=http%3A%2F%2Fwww.example.com');
 
 
-                // trackContentInteractionNode()
-                result = results[4];
-                equal((/<span\>([0-9]+)\<\/span\>/.exec(result))[1], "1", "count trackContentInteractionNode requests.");
+            // trackContentInteraction()
+            results = fetchTrackedRequests(token4);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "2", "count trackContentInteraction requests." );
 
-                requests = result.match(/<span\>(.*?)\<\/span\>/g);
-                requests.shift();
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
 
-                assertTrackingRequest(requests[0], 'c_i=Clicki%3Fiii&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5');
+            firstRequest  = 0;
+            secondRequest = 1;
+            if (-1 === requests[0].indexOf('IntName')) {
+                firstRequest  = 1;
+                secondRequest = 0;
+            }
 
-
-                // enableTrackOnlyVisibleContent() && trackAllContentImpressions()
-                result = results[5];
-                equal((/<span\>([0-9]+)\<\/span\>/.exec(result))[1], "7", "count enabledVisibleContentImpressions requests.");
-
-
-                // enableTrackOnlyVisibleContent() && trackContentImpressionsWithinNode()
-                result = results[6];
-                equal((/<span\>([0-9]+)\<\/span\>/.exec(result))[1], "2", "count enabledVisibleContentImpressionsWithinNode requests.");
-
-                requests = result.match(/<span\>(.*?)\<\/span\>/g);
-                requests.shift();
-
-                assertTrackingRequest(requests[0], trackingRequests[6]);
-                assertTrackingRequest(requests[1], trackingRequests[5]);
+            assertTrackingRequest(requests[firstRequest], 'c_i=Clicke&c_n=IntName&c_p=Unknown');
+            assertTrackingRequest(requests[secondRequest], 'c_i=Clicki&c_n=IntN%3A%2Fame&c_p=IntPiece%3F&c_t=http%3A%2F%2Fint.example.com');
 
 
-                // trackVisibleContentImpressions()
-                result = results[7];
-                equal((/<span\>([0-9]+)\<\/span\>/.exec(result))[1], "3", "count enabledVisibleContentImpressions requests.");
+            // trackContentInteractionNode()
+            results = fetchTrackedRequests(token5);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "1", "count trackContentInteractionNode requests." );
 
-                requests = result.match(/<span\>(.*?)\<\/span\>/g);
-                requests.shift();
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
 
-                assertTrackingRequest(requests[0], trackingRequests[6]);
-                assertTrackingRequest(requests[1], trackingRequests[5]);
-                assertTrackingRequest(requests[2], trackingRequests[1]);
+            assertTrackingRequest(requests[0], 'c_i=Clicki%3Fiii&c_n=My%20Ad%205&c_p=http%3A%2F%2Fimg5.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink5');
 
 
-                // enableTrackOnlyVisibleContent(false, 500)
-                result = results[8];
-                equal((/<span\>([0-9]+)\<\/span\>/.exec(result))[1], "6", "count automatically tracked requests via time interval. ");
-
-                var requests = result.match(/<span\>(.*?)\<\/span\>/g);
-                requests.shift();
-
-                assertTrackingRequest(requests[0], trackingRequests[6]);
-                assertTrackingRequest(requests[1], trackingRequests[5]);
-                assertTrackingRequest(requests[2], trackingRequests[1]);
-                assertTrackingRequest(requests[3], trackingRequests[4]);
-                assertTrackingRequest(requests[4], trackingRequests[3]);
-                assertTrackingRequest(requests[5], trackingRequests[2]);
+            // enableTrackOnlyVisibleContent() && trackAllContentImpressions()
+            results = fetchTrackedRequests(token6);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "7", "count enabledVisibleContentImpressions requests." );
 
 
-                // enableTrackOnlyVisibleContent(true, 0)
-                result = results[9];
-                console.log('TTT', token10, result, (/<span\>([0-9]+)\<\/span\>/.exec(result)));
-                equal((/<span\>([0-9]+)\<\/span\>/.exec(result))[1], "6", "count automatically tracked requests, via scroll. ");
+            // enableTrackOnlyVisibleContent() && trackContentImpressionsWithinNode()
+            results = fetchTrackedRequests(token7);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "2", "count enabledVisibleContentImpressionsWithinNode requests." );
 
-                start();
-            });
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
 
+            assertTrackingRequest(requests[0], trackingRequests[6]);
+            assertTrackingRequest(requests[1], trackingRequests[5]);
+
+
+            // trackVisibleContentImpressions()
+            results = fetchTrackedRequests(token8);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "3", "count enabledVisibleContentImpressions requests." );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], trackingRequests[6]);
+            assertTrackingRequest(requests[1], trackingRequests[5]);
+            assertTrackingRequest(requests[2], trackingRequests[1]);
+
+
+            // enableTrackOnlyVisibleContent(false, 500)
+            results = fetchTrackedRequests(token9);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "6", "count automatically tracked requests via time interval. " );
+
+            var requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], trackingRequests[6]);
+            assertTrackingRequest(requests[1], trackingRequests[5]);
+            assertTrackingRequest(requests[2], trackingRequests[1]);
+            assertTrackingRequest(requests[3], trackingRequests[4]);
+            assertTrackingRequest(requests[4], trackingRequests[3]);
+            assertTrackingRequest(requests[5], trackingRequests[2]);
+
+
+            // enableTrackOnlyVisibleContent(true, 0)
+            results = fetchTrackedRequests(token10);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "6", "count automatically tracked requests, via scroll. " );
+
+            start();
         }, 7000);
+
     });
 
     test("trackingContentInteractionInteractive", function() {
@@ -3554,62 +3627,52 @@ if ($sqlite) {
         wait(300);
 
         stop();
-
         setTimeout(function() {
             removeContentTrackingFixture();
-          
-            fetchMultipleTrackedRequests([
-                token1,
-                token2,
-                token3,
-                token4,
-                token5
-            ], function (results) {
 
-                var result = results[0];
-                equal((/<span\>([0-9]+)\<\/span\>/.exec(result))[1], "1", "count #isWithinOutlink requests as interaction. ");
+            var results = fetchTrackedRequests(token1);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "1", "count #isWithinOutlink requests as interaction. " );
 
-                var requests = result.match(/<span\>(.*?)\<\/span\>/g);
-                requests.shift();
-                assertTrackingRequest(requests[0], 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+            var requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+            assertTrackingRequest(requests[0], 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
 
 
-                result = results[1];
-                equal((/<span\>([0-9]+)\<\/span\>/.exec(result))[1], "1", "count #isWithinOutlink requests as outlink + interaction. ");
+            results = fetchTrackedRequests(token2);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "1", "count #isWithinOutlink requests as outlink + interaction. " );
 
-                requests = result.match(/<span\>(.*?)\<\/span\>/g);
-                requests.shift();
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
 
-                assertTrackingRequest(requests[0], 'link=http%3A%2F%2Fimg2.example.com%2F&c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
-
-
-                result = results[2];
-                equal((/<span\>([0-9]+)\<\/span\>/.exec(result))[1], "1", "count #isOutlink requests as outlink + interaction. ");
-
-                requests = result.match(/<span\>(.*?)\<\/span\>/g);
-                requests.shift();
-
-                assertTrackingRequest(requests[0], 'link=http%3A%2F%2Fimg2.example.com%2F&c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
+            assertTrackingRequest(requests[0], 'link=http%3A%2F%2Fimg2.example.com%2F&c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
 
 
-                result = results[3];
-                equal((/<span\>([0-9]+)\<\/span\>/.exec(result))[1], "0", "count #notWithinTarget requests.");
+            results = fetchTrackedRequests(token3);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "1", "count #isOutlink requests as outlink + interaction. " );
+
+            requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            assertTrackingRequest(requests[0], 'link=http%3A%2F%2Fimg2.example.com%2F&c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=http%3A%2F%2Fimg2.example.com');
 
 
-                result = results[4];
-                equal((/<span\>([0-9]+)\<\/span\>/.exec(result))[1], "0", "count #internalLink requests. (would be tracked via redirect which we do not want to perform in test and it is tested above)");
+            results = fetchTrackedRequests(token4);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "0", "count #notWithinTarget requests." );
 
-                start();
-            });
+
+            results = fetchTrackedRequests(token5);
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "0", "count #internalLink requests. (would be tracked via redirect which we do not want to perform in test and it is tested above)" );
+
+            start();
         }, 4000);
     });
-
     <?php
 }
 ?>
 }
 
-function addEventListener(element, eventType, eventHandler, useCapture) {
+// do not name this addEventListener so it won't overwrite the member in window
+function customAddEventListener(element, eventType, eventHandler, useCapture) {
     if (element.addEventListener) {
         element.addEventListener(eventType, eventHandler, useCapture);
         return true;
@@ -3622,7 +3685,7 @@ function addEventListener(element, eventType, eventHandler, useCapture) {
 
 (function (f) {
     if (document.addEventListener) {
-        addEventListener(document, 'DOMContentLoaded', function ready() {
+        customAddEventListener(document, 'DOMContentLoaded', function ready() {
             document.removeEventListener('DOMContentLoaded', ready, false);
             f();
         });
@@ -3647,8 +3710,9 @@ function addEventListener(element, eventType, eventHandler, useCapture) {
                 }
             }());
         }
+    } else {
+        customAddEventListener(window, 'load', f, false);
     }
-    addEventListener(window, 'load', f, false);
 })(PiwikTest);
  </script>
 

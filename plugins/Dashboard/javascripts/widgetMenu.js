@@ -73,6 +73,7 @@ widgetsHelper.getWidgetObjectFromUniqueId = function (uniqueId, callback) {
             for (var i in widgetInCategory) {
                 if (widgetInCategory[i]["uniqueId"] == uniqueId) {
                     callback(widgetInCategory[i]);
+                    return;
                 }
             }
         }
