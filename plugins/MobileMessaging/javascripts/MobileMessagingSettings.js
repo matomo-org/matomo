@@ -123,7 +123,7 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
             ajaxHandler.setCallback(success);
             ajaxHandler.setLoadingElement(ajaxLoadingSelector);
             ajaxHandler.setErrorElement(invalidVerificationCodeAjaxErrorSelector);
-            ajaxHandler.send(true);
+            ajaxHandler.send();
         }
     }
 
@@ -141,7 +141,7 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
         ajaxHandler.redirectOnSuccess();
         ajaxHandler.setLoadingElement(ajaxLoadingSelector);
         ajaxHandler.setErrorElement(ajaxErrorsSelector);
-        ajaxHandler.send(true);
+        ajaxHandler.send();
     }
 
     function updateSuspiciousPhoneNumberMessage() {
@@ -173,7 +173,7 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
             ajaxHandler.redirectOnSuccess();
             ajaxHandler.setLoadingElement(ajaxLoadingSelector);
             ajaxHandler.setErrorElement(ajaxErrorsSelector);
-            ajaxHandler.send(true);
+            ajaxHandler.send();
         }
     }
 
@@ -204,7 +204,7 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
         ajaxHandler.redirectOnSuccess();
         ajaxHandler.setLoadingElement(ajaxLoadingSelector);
         ajaxHandler.setErrorElement(ajaxErrorsSelector);
-        ajaxHandler.send(true);
+        ajaxHandler.send();
     }
 
     function updateApiAccount() {
@@ -223,7 +223,7 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
             ajaxHandler.redirectOnSuccess();
             ajaxHandler.setLoadingElement(ajaxLoadingSelector);
             ajaxHandler.setErrorElement(ajaxErrorsSelector);
-            ajaxHandler.send(true);
+            ajaxHandler.send();
         }
     }
 
@@ -238,7 +238,7 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
         ajaxHandler.redirectOnSuccess();
         ajaxHandler.setLoadingElement(ajaxLoadingSelector);
         ajaxHandler.setErrorElement(ajaxErrorsSelector);
-        ajaxHandler.send(true);
+        ajaxHandler.send();
     }
 
     function getDelegatedManagement() {
