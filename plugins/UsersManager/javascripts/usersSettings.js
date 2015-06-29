@@ -49,7 +49,7 @@ function sendUserSettingsAJAX() {
     ajaxHandler.redirectOnSuccess(params);
     ajaxHandler.setLoadingElement('#ajaxLoadingUserSettings');
     ajaxHandler.setErrorElement('#ajaxErrorUserSettings');
-    ajaxHandler.send(true);
+    ajaxHandler.send();
 }
 function sendAnonymousUserSettingsAJAX() {
     var anonymousDefaultReport = $('input[name=anonymousDefaultReport]:checked').val();
@@ -71,7 +71,7 @@ function sendAnonymousUserSettingsAJAX() {
     ajaxHandler.redirectOnSuccess();
     ajaxHandler.setLoadingElement('#ajaxLoadingAnonymousUserSettings');
     ajaxHandler.setErrorElement('#ajaxErrorAnonymousUserSettings');
-    ajaxHandler.send(true);
+    ajaxHandler.send();
 }
 
 $(document).ready(function () {

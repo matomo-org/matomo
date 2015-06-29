@@ -134,7 +134,7 @@ function initManagePdf() {
                 fadeInOutSuccessMessage('#reportUpdatedSuccess', _pk_translate('ScheduledReports_ReportUpdated'));
             });
         }
-        ajaxHandler.send(true);
+        ajaxHandler.send();
         return false;
     });
 
@@ -151,7 +151,7 @@ function initManagePdf() {
         ajaxHandler.setCallback(function (response) {
             fadeInOutSuccessMessage('#reportSentSuccess', _pk_translate('ScheduledReports_ReportSent'));
         });
-        ajaxHandler.send(true);
+        ajaxHandler.send();
     });
 
     // Delete Report
@@ -166,7 +166,7 @@ function initManagePdf() {
             ajaxHandler.addParams(parameters, 'POST');
             ajaxHandler.redirectOnSuccess();
             ajaxHandler.setLoadingElement();
-            ajaxHandler.send(true);
+            ajaxHandler.send();
         }
 
         piwikHelper.modalConfirm('#confirm', {yes: onDelete});

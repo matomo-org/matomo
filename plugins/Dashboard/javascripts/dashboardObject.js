@@ -176,7 +176,7 @@
             );
             ajaxRequest.setLoadingElement();
             ajaxRequest.setFormat('html');
-            ajaxRequest.send(true);
+            ajaxRequest.send();
         },
 
         /**
@@ -598,7 +598,7 @@
             }
         );
         ajaxRequest.setFormat('html');
-        ajaxRequest.send(true);
+        ajaxRequest.send();
     }
 
     /**
