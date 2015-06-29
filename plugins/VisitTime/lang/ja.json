@@ -5,6 +5,7 @@
         "DayOfWeek": "曜日",
         "LocalTime": "ローカルタイム単位のビジット",
         "NHour": "%s時",
+        "PluginDescription": "ビジターがあなたのウェブサイトもしくはアプリケーションを見るときに現地時間とサーバータイムを報告します。",
         "ServerTime": "サーバタイム単位のビジット",
         "SubmenuTimes": "時間",
         "VisitsByDayOfWeek": "曜日別訪問数",

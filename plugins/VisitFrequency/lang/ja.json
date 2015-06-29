@@ -10,6 +10,8 @@
         "ColumnReturningVisits": "リピートビジット",
         "ColumnSumVisitLengthReturning": "リピーターの総滞在時間(秒単位)",
         "ColumnUniqueReturningVisitors": "ユニークリピートビジット",
+        "ColumnReturningUsers": "戻ってきたユーザー",
+        "PluginDescription": "初めての新しいビジターやリピーターに関するレポートメトリック。",
         "ReturnActions": "%s リピートビジットによるアクション数",
         "ReturnAverageVisitDuration": "%s リピートビジットの平均ビジット継続時間",
         "ReturnAvgActions": "%s リピートビジット単位のアクション数",

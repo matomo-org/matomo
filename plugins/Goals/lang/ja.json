@@ -10,6 +10,7 @@
         "BestKeywords": "トップコンバージョンのキーワード：",
         "BestReferrers": "ベストコンバージョンの参照元ウェブサイト",
         "CaseSensitive": "大文字小文字を区別する一致",
+        "CancelAndReturnToGoals": "キャンセルして目標 %s のリスト %s に戻る",
         "ChooseGoal": "Choose Goal",
         "ClickOutlink": "外部ウェブサイトへのリンクをクリック",
         "SendEvent": "イベントを送信",

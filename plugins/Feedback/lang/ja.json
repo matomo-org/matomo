@@ -5,6 +5,7 @@
         "IWantTo": "あなたの希望：",
         "LearnWaysToParticipate": "あなたが参加できるすべての方法を%s学んでください%s",
         "ManuallySendEmailTo": "あなたのメッセージを手作業で次のアドレスへ送ってください：",
+        "PluginDescription": "Piwik チームにフィードバックをお送りください。あなたのアイデアや提案をシェアすることで、Piwik を世界で最高のアナリティックス・プラットフォームにしましょう。",
         "PrivacyClaim": "Piwik は あなたの %1$sprivacy%2$s を尊重します。あなたのデータに関する全ての管理はあなたにお任せします。",
         "RateFeatureLeaveMessageDislike": "好きではない とのこと、非常に残念です。ぜひどのように改善すべきかお知らせください。",
         "RateFeatureLeaveMessageLike": "気に入った　とのこと、とても嬉しいです !ぜひあなたの最も気に入った内容や今後のリクエストをお知らせください。",

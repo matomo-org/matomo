@@ -272,6 +272,7 @@
         "Password": "Парола",
         "Period": "Период",
         "Piechart": "Диаграма",
+        "PiwikIsACollaborativeProjectYouCanContributeAndDonate": "%1$sPiwik%2$s е съвместен проект достъпен за вас благодарение на %7$sPiwik екипа%8$s, както много други доброволци. Ако харесвате Piwik, може да помогнете: вижте как %3$sКак да се включа в Piwik%4$s или %5$sдарете сега%6$s, за да помогнете с финансирането на Piwik 3.0!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s е наличен. Моля, уведомете %2$sPiwik администратор%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s е наличен. %2$s Обновете сега. %3$s (вижте %4$s промените%5$s).",
         "PleaseSpecifyValue": "Моля, въведете стойност за '%s'.",

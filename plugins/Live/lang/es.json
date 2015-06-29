@@ -32,7 +32,7 @@
         "VisitorLog": "Registro de visitantes",
         "VisitorLogDocumentation": "Esta tabla muestra las últimas visitas en el rango de fecha seleccionado.%s Si el rango de fecha incluye hoy, ¡usted puede ver sus visitantes en tiempo real! %s La información mostrada aquí es siempre en tiempo real, sin tener en cuenta si está usando o cada cuanto tiempo está usando el trabajo de cron para archivar.",
         "VisitorProfile": "Perfil de Visitante",
-        "VisitorsInRealTime": "Visitantes en Tiempo Real",
+        "VisitorsInRealTime": "Visitantes en tiempo real",
         "VisitorsLastVisit": "La última visita de este visitante fue hace %s días.",
         "VisitsFrom": "%1$s%2$s visitas%3$s desde",
         "VisitSummary": "Pasado un total de %1$s%2$s en el sitio%3$s y %4$svisto %5$s paginas en %6$s visitas.%7$s",
