@@ -14,9 +14,6 @@ function widgetsHelper() {
  * @return {object} object containing available widgets
  */
 widgetsHelper.getAvailableWidgets = function (callback) {
-    if(!callback) { // @deprecated
-        return this.getAvailableWidgetsSync();
-    }
     if (!widgetsHelper.availableWidgets) {
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.addParams({
@@ -37,26 +34,6 @@ widgetsHelper.getAvailableWidgets = function (callback) {
 };
 
 /**
- * @deprecated
- */
-widgetsHelper.getAvailableWidgetsSync = function () {
-    if (!widgetsHelper.availableWidgets) {
-        var ajaxRequest = new ajaxHelper();
-        ajaxRequest.addParams({
-            module: 'Dashboard',
-            action: 'getAvailableWidgets'
-        }, 'get');
-        ajaxRequest.setCallback(
-            function (data) {
-                widgetsHelper.availableWidgets = data;
-            }
-        );
-        ajaxRequest.send(true);
-    }
-    return widgetsHelper.availableWidgets;
-};
-
-/**
  * Returns the complete widget object by its unique id
  *
  * @param {string} uniqueId
@@ -64,9 +41,6 @@ widgetsHelper.getAvailableWidgetsSync = function () {
  * @return {object} widget object
  */
 widgetsHelper.getWidgetObjectFromUniqueId = function (uniqueId, callback) {
-    if(!callback) { // @deprecated
-        return this.getWidgetObjectFromUniqueIdSync(uniqueId);
-    }
     widgetsHelper.getAvailableWidgets(function (widgets) {
         for (var widgetCategory in widgets) {
             var widgetInCategory = widgets[widgetCategory];
@@ -82,23 +56,6 @@ widgetsHelper.getWidgetObjectFromUniqueId = function (uniqueId, callback) {
 };
 
 /**
- * @deprecated
- * @param uniqueId
- */
-widgetsHelper.getWidgetObjectFromUniqueIdSync = function (uniqueId) {
-    var widgets = widgetsHelper.getAvailableWidgetsSync();
-    for (var widgetCategory in widgets) {
-        var widgetInCategory = widgets[widgetCategory];
-        for (var i in widgetInCategory) {
-            if (widgetInCategory[i]["uniqueId"] == uniqueId) {
-                return widgetInCategory[i];
-            }
-        }
-    }
-    return false;
-};
-
-/**
  * Returns the name of a widget by its unique id
  *
  * @param {string} uniqueId  unique id of the widget
@@ -106,27 +63,12 @@ widgetsHelper.getWidgetObjectFromUniqueIdSync = function (uniqueId) {
  * @return {string}
  */
 widgetsHelper.getWidgetNameFromUniqueId = function (uniqueId, callback) {
-    if(!callback) { // @deprecated
-        return this.getWidgetNameFromUniqueIdSync(uniqueId);
-    }
     this.getWidgetObjectFromUniqueId(uniqueId, function(widget) {
         if (widget == false) {
             callback(false);
         }
         return callback(widget["name"]);
     });
-};
-
-/**
- * @deprecated
- * @param uniqueId
- */
-widgetsHelper.getWidgetNameFromUniqueIdSync = function (uniqueId) {
-    var widget = this.getWidgetObjectFromUniqueIdSync(uniqueId);
-    if (widget == false) {
-        return false;
-    }
-    return widget["name"];
 };
 
 /**
