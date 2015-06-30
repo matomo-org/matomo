@@ -31,7 +31,7 @@ class ReportingTest extends IntegrationTestCase
         parent::setUp();
 
         PluginManager::getInstance()->unloadPlugins();
-        $this->menu = MenuReporting::getInstance();
+        $this->menu = new MenuReporting();
 
         $this->menu = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Menu\MenuReporting');
     }
@@ -44,7 +44,7 @@ class ReportingTest extends IntegrationTestCase
     public function test_getMenu_shouldTriggerAddItemsEvent_toBeBackwardsCompatible()
     {
         /** @var EventDispatcher $eventObserver */
-        $eventObserver = $this->environment->getContainer()->get('Piwik\EventDispatcher');
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
 
         $this->loadSomePlugins();
 

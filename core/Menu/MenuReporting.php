@@ -30,7 +30,6 @@ use Piwik\Plugin\Report;
  *     }
  *
  * @api
- * @method static \Piwik\Menu\MenuReporting getInstance()
  */
 class MenuReporting extends MenuAbstract
 {
