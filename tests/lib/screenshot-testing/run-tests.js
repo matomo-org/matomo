@@ -8,7 +8,7 @@
  */
 
 // required modules
-var config = require("./../../UI/config.dist");
+config = require("./../../UI/config.dist");
 try {
     var localConfig = require("./../../UI/config");
 } catch (e) {
