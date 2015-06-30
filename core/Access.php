@@ -446,23 +446,31 @@ class Access
      * @throws Exception rethrows any exceptions thrown by `$function`.
      * @api
      */
-    public static function doAsSuperUser($function)
+    public function execAsSuperUser($function)
     {
-        $isSuperUser = self::getInstance()->hasSuperUserAccess();
+        $isSuperUser = $this->hasSuperUserAccess();
 
-        self::getInstance()->setSuperUserAccess(true);
+        $this->setSuperUserAccess(true);
 
         try {
             $result = $function();
         } catch (Exception $ex) {
-            self::getInstance()->setSuperUserAccess($isSuperUser);
+            $this->setSuperUserAccess($isSuperUser);
 
             throw $ex;
         }
 
-        self::getInstance()->setSuperUserAccess($isSuperUser);
+        $this->setSuperUserAccess($isSuperUser);
 
         return $result;
+    }
+
+    /**
+     * @deprecated
+     */
+    public static function doAsSuperUser($function)
+    {
+        return self::getInstance()->execAsSuperUser($function);
     }
 }
 

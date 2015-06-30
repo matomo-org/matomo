@@ -186,4 +186,21 @@ class FakeAccess
 
         return $result;
     }
+
+    public function execAsSuperUser($function)
+    {
+        $previous = self::$superUser;
+
+        self::$superUser = true;
+        try {
+            $result = $function();
+        } catch (\Exception $ex) {
+            self::$superUser = $previous;
+            throw $ex;
+        }
+
+        self::$superUser = $previous;
+
+        return $result;
+    }
 }

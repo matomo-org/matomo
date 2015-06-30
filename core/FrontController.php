@@ -64,6 +64,16 @@ class FrontController
     public static $enableDispatch = true;
 
     /**
+     * @var Access
+     */
+    private $access;
+
+    public function __construct(Access $access)
+    {
+        $this->access = $access;
+    }
+
+    /**
      * Executes the requested plugin controller method.
      *
      * @throws Exception|\Piwik\PluginDeactivatedException in case the plugin doesn't exist, the action doesn't exist,
@@ -269,9 +279,6 @@ class FrontController
             throw $exception;
         }
 
-        // Init the Access object, so that eg. core/Updates/* can enforce Super User and use some APIs
-        Access::getInstance();
-
         /**
          * Triggered just after the platform is initialized and plugins are loaded.
          *
@@ -317,7 +324,7 @@ class FrontController
 
             throw $ex;
         }
-        Access::getInstance()->reloadAccess($authAdapter);
+        $this->access->reloadAccess($authAdapter);
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
         // and all other non widgetized controller methods works fine
