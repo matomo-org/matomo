@@ -319,7 +319,7 @@ class Controller extends ControllerAdmin
      */
     public function optOut()
     {
-        return $this->optOutManager->createView()->render();
+        return $this->optOutManager->getOptOutView()->render();
     }
 
     public function uploadCustomLogo()

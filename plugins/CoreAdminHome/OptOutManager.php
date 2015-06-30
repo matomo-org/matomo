@@ -31,6 +31,9 @@ class OptOutManager
     /** @var string */
     private $title;
 
+    /** @var View|null */
+    private $view;
+
     /**
      * @param DoNotTrackHeaderChecker $doNotTrackHeaderChecker
      */
@@ -50,6 +53,9 @@ class OptOutManager
     }
 
     /**
+     * Add a javascript file|code into the OptOut View
+     * Note: This method will not escape the inline javascript code!
+     *
      * @param string $javascript
      * @param bool $inline
      */
@@ -68,7 +74,10 @@ class OptOutManager
     }
 
     /**
-     * @param string $stylesheet
+     * Add a stylesheet file|code into the OptOut View
+     * Note: This method will not escape the inline css code!
+     *
+     * @param string $stylesheet Escaped stylesheet
      * @param bool $inline
      */
     public function addStylesheet($stylesheet, $inline = true)
@@ -105,8 +114,12 @@ class OptOutManager
      * @return View
      * @throws \Exception
      */
-    public function createView()
+    public function getOptOutView()
     {
+        if ($this->view) {
+            return $this->view;
+        }
+
         $trackVisits = !IgnoreCookie::isIgnoreCookieFound();
         $dntFound = $this->getDoNotTrackHeaderChecker()->isDoNotTrackFound();
 
@@ -132,20 +145,20 @@ class OptOutManager
             ? $language
             : LanguagesManager::getLanguageCodeForCurrentUser();
 
-        $view = new View("@CoreAdminHome/optOut");
-        $view->setXFrameOptions('allow');
-        $view->dntFound = $dntFound;
-        $view->trackVisits = $trackVisits;
-        $view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
-        $view->language = $lang;
-        $view->isSafari = $this->isUserAgentSafari();
-        $view->showConfirmOnly = Common::getRequestVar('showConfirmOnly', false, 'int');
-        $view->reloadUrl = $reloadUrl;
-        $view->javascripts = $this->getJavascripts();
-        $view->stylesheets = $this->getStylesheets();
-        $view->title = $this->getTitle();
+        $this->view = new View("@CoreAdminHome/optOut");
+        $this->view->setXFrameOptions('allow');
+        $this->view->dntFound = $dntFound;
+        $this->view->trackVisits = $trackVisits;
+        $this->view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
+        $this->view->language = $lang;
+        $this->view->isSafari = $this->isUserAgentSafari();
+        $this->view->showConfirmOnly = Common::getRequestVar('showConfirmOnly', false, 'int');
+        $this->view->reloadUrl = $reloadUrl;
+        $this->view->javascripts = $this->getJavascripts();
+        $this->view->stylesheets = $this->getStylesheets();
+        $this->view->title = $this->getTitle();
 
-        return $view;
+        return $this->view;
     }
 
     /**
