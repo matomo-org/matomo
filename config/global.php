@@ -50,7 +50,7 @@ return array(
 
     'observers.global' => array(
 
-        array('Request.dispatch.end', function (ContainerInterface $c) {
+        array('Request.dispatch.end', function ($result, $module, $action, $parameters, ContainerInterface $c) {
             /** @var Eager $cache */
             $cache = $c->get('Piwik\Cache\Eager');
             $cache->persistCacheIfNeeded(43200);
