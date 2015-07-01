@@ -39,10 +39,6 @@ class Controller extends \Piwik\Plugin\Controller
 
         $this->setGeneralVariablesView($view);
 
-        $view->idSite = $this->idSite;
-        $view->date = Common::getRequestVar('date', 'today');
-        $view->period = Common::getRequestVar('period', 'day');
-
         $view->ssl = ProxyHttp::isHttps();
 
         $this->outputCORSHeaders();

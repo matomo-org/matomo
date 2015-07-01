@@ -65,8 +65,8 @@
     <script type="text/javascript">
         broadcast._isInit = true;
         $(function () {
-            var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ date }}';
-            Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ date }}');
+            var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ rawDate }}';
+            Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ rawDate }}');
 
             window.Piwik_Overlay_Translations = {
                 domain: "{{ 'Overlay_Domain'|translate }}"
