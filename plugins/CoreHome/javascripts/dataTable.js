@@ -121,7 +121,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         if (!self.isDashboard()) {
             self.notifyWidgetParametersChange(domElem, {
-                filter_sort_column: newColumnToSort
+                filter_sort_column: newColumnToSort,
+                filter_sort_order: self.param.filter_sort_order
             });
         }
 
