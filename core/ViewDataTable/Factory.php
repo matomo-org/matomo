@@ -244,6 +244,10 @@ class Factory
             $params = array();
         }
 
+        if(!is_subclass_of($klass, 'Piwik\View\ViewInterface')) {
+            throw new \Exception("viewDataTable $klass must implement Piwik\View\ViewInterface interface.");
+        }
+
         return new $klass($controllerAction, $apiAction, $params);
     }
 }
