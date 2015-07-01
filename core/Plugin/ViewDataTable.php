@@ -514,4 +514,46 @@ abstract class ViewDataTable implements ViewInterface
             }
         }
     }
+
+    /**
+     * Display a meaningful error message when any invalid parameter is being set.
+     *
+     * @param $overrideParams
+     * @throws
+     */
+    public function throwWhenSettingNonOverridableParameter($overrideParams)
+    {
+        $nonOverridableParams = $this->getNonOverridableParams($overrideParams);
+        if(count($nonOverridableParams) > 0) {
+            throw new \Exception(sprintf(
+                "Setting parameters %s is not allowed. Please report this bug to the Piwik team.",
+                implode(" and ", $nonOverridableParams)
+            ));
+        }
+    }
+
+    /**
+     * @param $overrideParams
+     * @return array
+     */
+    public function getNonOverridableParams($overrideParams)
+    {
+        $paramsCannotBeOverridden = array();
+        foreach ($overrideParams as $paramName => $paramValue) {
+            if (property_exists($this->requestConfig, $paramName)) {
+                $allowedParams = $this->requestConfig->overridableProperties;
+            } elseif (property_exists($this->config, $paramName)) {
+                $allowedParams = $this->config->overridableProperties;
+            } else {
+                // setting Config.custom_parameters is always allowed
+                continue;
+            }
+
+            if (!in_array($paramName, $allowedParams)) {
+                $paramsCannotBeOverridden[] = $paramName;
+            }
+        }
+        return $paramsCannotBeOverridden;
+    }
+
 }
