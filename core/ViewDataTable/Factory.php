@@ -86,10 +86,12 @@ class Factory
      *                                       Defaulted to `$apiAction` if `false` is supplied.
      * @param bool $forceDefault If true, then the visualization type that was configured for the report will be
      *                           ignored and `$defaultType` will be used as the default.
+     * @param bool $loadViewDataTableParametersForUser Whether the per-user parameters for this user, this ViewDataTable and this Api action
+     *                                          should be loaded from the user preferences and override the default params values.
      * @throws \Exception
      * @return \Piwik\Plugin\ViewDataTable
      */
-    public static function build($defaultType = null, $apiAction = false, $controllerAction = false, $forceDefault = false)
+    public static function build($defaultType = null, $apiAction = false, $controllerAction = false, $forceDefault = false, $loadViewDataTableParametersForUser = null)
     {
         if (false === $controllerAction) {
             $controllerAction = $apiAction;
@@ -99,11 +101,12 @@ class Factory
 
         $defaultViewType = self::getDefaultViewTypeForReport($report, $apiAction);
 
-        $isWidget = Common::getRequestVar('widget', '0', 'string');
+        $params = array();
 
-        if (!empty($isWidget)) {
-            $params = array();
-        } else {
+        if(is_null($loadViewDataTableParametersForUser)) {
+            $loadViewDataTableParametersForUser = ('0' == Common::getRequestVar('widget', '0', 'string'));
+        }
+        if ($loadViewDataTableParametersForUser) {
             $login  = Piwik::getCurrentUserLogin();
             $params = Manager::getViewDataTableParameters($login, $controllerAction);
         }
@@ -239,6 +242,10 @@ class Factory
             // for now we ignore those params in case it is not a visualization. We do not want to apply
             // any of those saved parameters to sparklines etc. Need to find a better solution here
             $params = array();
+        }
+
+        if(!is_subclass_of($klass, 'Piwik\View\ViewInterface')) {
+            throw new \Exception("viewDataTable $klass must implement Piwik\View\ViewInterface interface.");
         }
 
         return new $klass($controllerAction, $apiAction, $params);
