@@ -9,100 +9,99 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Piwik;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group Core
  */
-class EmailValidatorTest extends IntegrationTestCase
+class EmailValidatorTest extends \PHPUnit_Framework_TestCase
 {
     protected function isValid($email)
     {
         return Piwik::isValidEmailString($email);
     }
 
-    public function testValidStandard()
+    public function test_isValid_validStandard()
     {
         $this->assertTrue($this->isValid('test@example.com'));
     }
 
-    public function testValidUpperCaseLocalPart()
+    public function test_isValid_validUpperCaseLocalPart()
     {
         $this->assertTrue($this->isValid('TEST@example.com'));
     }
 
-    public function testValidNumericLocalPart()
+    public function test_isValid_validNumericLocalPart()
     {
         $this->assertTrue($this->isValid('1234567890@example.com'));
     }
 
-    public function testValidTaggedLocalPart()
+    public function test_isValid_validTaggedLocalPart()
     {
         $this->assertTrue($this->isValid('test+test@example.com'));
     }
 
-    public function testValidQmailLocalPart()
+    public function test_isValid_validQmailLocalPart()
     {
         $this->assertTrue($this->isValid('test-test@example.com'));
     }
 
-    public function testValidUnusualCharactersInLocalPart()
+    public function test_isValid_validUnusualCharactersInLocalPart()
     {
         $this->assertTrue($this->isValid('t*est@example.com'));
         $this->assertTrue($this->isValid('+1~1+@example.com'));
         $this->assertTrue($this->isValid('{_test_}@example.com'));
     }
 
-    public function testValidQuotedLocalPart()
+    public function test_isValid_validQuotedLocalPart()
     {
         $this->assertTrue($this->isValid('"[[ test ]]"@example.com'));
     }
 
-    public function testValidAtomisedLocalPart()
+    public function test_isValid_validAtomisedLocalPart()
     {
         $this->assertTrue($this->isValid('test.test@example.com'));
     }
 
-    public function testValidQuotedAtLocalPart()
+    public function test_isValid_validQuotedAtLocalPart()
     {
         $this->assertTrue($this->isValid('"test@test"@example.com'));
     }
 
-    public function testValidMultipleLabelDomain()
+    public function test_isValid_validMultipleLabelDomain()
     {
         $this->assertTrue($this->isValid('test@example.example.com'));
         $this->assertTrue($this->isValid('test@example.example.example.com'));
     }
 
-    public function testInvalidTooLong()
+    public function test_isValid_invalidTooLong()
     {
         $this->assertFalse($this->isValid('12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345@example.com'));
     }
 
-    public function testInvalidTooShort()
+    public function test_isValid_invalidTooShort()
     {
         $this->assertFalse($this->isValid('@a'));
     }
 
-    public function testInvalidNoAtSymbol()
+    public function test_isValid_invalidNoAtSymbol()
     {
         $this->assertFalse($this->isValid('test.example.com'));
     }
 
-    public function testInvalidBlankAtomInLocalPart()
+    public function test_isValid_invalidBlankAtomInLocalPart()
     {
         $this->assertFalse($this->isValid('test.@example.com'));
         $this->assertFalse($this->isValid('test..test@example.com'));
         $this->assertFalse($this->isValid('.test@example.com'));
     }
 
-    public function testInvalidMultipleAtSymbols()
+    public function test_isValid_invalidMultipleAtSymbols()
     {
         $this->assertFalse($this->isValid('test@test@example.com'));
         $this->assertFalse($this->isValid('test@@example.com'));
     }
 
-    public function testInvalidInvalidCharactersInLocalPart()
+    public function test_isValid_invalidInvalidCharactersInLocalPart()
     {
         $this->assertFalse($this->isValid('-- test --@example.com'));
         $this->assertFalse($this->isValid('[test]@example.com'));
@@ -110,29 +109,29 @@ class EmailValidatorTest extends IntegrationTestCase
         $this->assertFalse($this->isValid('()[]\;:,<>@example.com'));
     }
 
-    public function testInvalidDomainLabelTooShort()
+    public function test_isValid_invalidDomainLabelTooShort()
     {
         $this->assertFalse($this->isValid('test@.'));
         $this->assertFalse($this->isValid('test@example.'));
         $this->assertFalse($this->isValid('test@.org'));
     }
 
-    public function testInvalidLocalPartTooLong()
+    public function test_isValid_invalidLocalPartTooLong()
     {
         $this->assertFalse($this->isValid('12345678901234567890123456789012345678901234567890123456789012345@example.com')); // 64 characters is maximum length for local part
     }
 
-    public function testInvalidDomainLabelTooLong()
+    public function test_isValid_invalidDomainLabelTooLong()
     {
         $this->assertFalse($this->isValid('test@123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012.com')); // 255 characters is maximum length for domain. This is 256.
     }
 
-    public function testInvalidTooFewLabelsInDomain()
+    public function test_isValid_invalidTooFewLabelsInDomain()
     {
         $this->assertFalse($this->isValid('test@example'));
     }
 
-    public function testInvalidUnpartneredSquareBracketIp()
+    public function test_isValid_invalidUnpartneredSquareBracketIp()
     {
         $this->assertFalse($this->isValid('test@[123.123.123.123'));
         $this->assertFalse($this->isValid('test@123.123.123.123]'));
