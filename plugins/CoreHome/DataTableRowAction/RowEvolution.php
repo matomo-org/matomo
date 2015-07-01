@@ -144,9 +144,10 @@ class RowEvolution
     {
         list($apiModule, $apiAction) = explode('.', $this->apiMethod);
 
+        // getQueryStringFromParameters expects sanitised query parameter values
         $parameters = array(
             'method'    => 'API.getRowEvolution',
-            'label'     => urlencode($this->label),
+            'label'     => Common::sanitizeInputValue($this->label),
             'apiModule' => $apiModule,
             'apiAction' => $apiAction,
             'idSite'    => $this->idSite,
