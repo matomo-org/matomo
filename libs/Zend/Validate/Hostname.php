@@ -545,8 +545,15 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
         if ((count($domainParts) > 1) && (strlen($value) >= 4) && (strlen($value) <= 254)) {
             $status = false;
 
-            $origenc = iconv_get_encoding('internal_encoding');
-            iconv_set_encoding('internal_encoding', 'UTF-8');
+            $origenc = PHP_VERSION_ID < 50600
+                ? iconv_get_encoding('internal_encoding')
+                : ini_get('default_charset');
+            if (PHP_VERSION_ID < 50600) {
+                iconv_set_encoding('internal_encoding', 'UTF-8');
+            } else {
+                ini_set('default_charset', 'UTF-8');
+            }
+
             do {
                 // First check TLD
                 $matches = array();
@@ -642,7 +649,12 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
                 }
             } while (false);
 
-            iconv_set_encoding('internal_encoding', $origenc);
+            if (PHP_VERSION_ID < 50600) {
+                iconv_set_encoding('internal_encoding', $origenc);
+            } else {
+                ini_set('default_charset', $origenc);
+            }
+
             // If the input passes as an Internet domain name, and domain names are allowed, then the hostname
             // passes validation
             if ($status && ($this->_options['allow'] & self::ALLOW_DNS)) {
