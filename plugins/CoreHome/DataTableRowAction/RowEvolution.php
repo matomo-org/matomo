@@ -11,11 +11,11 @@ namespace Piwik\Plugins\CoreHome\DataTableRowAction;
 use Exception;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
-use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
+use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
 use Piwik\Url;
@@ -95,7 +95,7 @@ class RowEvolution
         if ($this->label === '') throw new Exception("Parameter label not set.");
 
         $this->period = Common::getRequestVar('period', '', 'string');
-        if (empty($this->period)) throw new Exception("Parameter period not set.");
+        PeriodFactory::checkPeriodIsEnabled($this->period);
 
         $this->idSite = $idSite;
         $this->graphType = $graphType;
@@ -146,7 +146,7 @@ class RowEvolution
 
         $parameters = array(
             'method'    => 'API.getRowEvolution',
-            'label'     => $this->label,
+            'label'     => urlencode($this->label),
             'apiModule' => $apiModule,
             'apiAction' => $apiAction,
             'idSite'    => $this->idSite,
