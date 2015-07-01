@@ -6,4 +6,4 @@ As a developer it may be useful to generate test data. Follow these steps:
 * Generate users `./console visitorgenerator:generate-users --limit=50`
 * Generate goals for a website `./console visitorgenerator:generate-goals --idsite=1`
 * Generate visits for a website `./console visitorgenerator:generate-visits --idsite=1`
-* Trigger the archiving in case browser archiving is disabled `./console core:archive --url=http://localhost/path/`
+* Trigger the archiving in case browser archiving is disabled `./console core:archive`
