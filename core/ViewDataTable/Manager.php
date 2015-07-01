@@ -345,7 +345,8 @@ class Manager
         $viewDataTableType = isset($params['viewDataTable']) ? $params['viewDataTable'] : $report->getDefaultTypeViewDataTable();
 
         $apiAction = $controllerAction;
-        $viewDataTable = Factory::build($viewDataTableType, $apiAction, $controllerAction);
+        $loadViewDataTableParametersForUser = false;
+        $viewDataTable = Factory::build($viewDataTableType, $apiAction, $controllerAction, $forceDefault = false, $loadViewDataTableParametersForUser);
         return $viewDataTable;
     }
 
