@@ -574,6 +574,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'searches.vi-view.com'           => array('InfoSpace'),
         'search.webssearches.com'        => array('InfoSpace'),
         'search.fbdownloader.com'        => array('InfoSpace'),
+        'searches3.globososo.com'        => array('InfoSpace'),
         
         // old infospace system
         'wsdsold.infospace.com'          => array('InfoSpace', '/\/[^\/]+\/ws\/results\/[^\/]+\/([^\/]+)/', 'pemonitorhosted/ws/results/Web/{k}/1/417/TopNavigation/Source/'),
