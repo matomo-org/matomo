@@ -17,6 +17,16 @@
         "TopLinkTooltip": "あなたの意見をお知らせください。または、プロフェッショナルサポートをリクエストしてください。",
         "ViewAnswersToFAQ": "%sFrequently Asked Questions%s への答えをご覧ください。",
         "ViewUserGuides": "Piwik の設定方法と、効果的なデータ分析方法は、%1$suser guides%2$s をご確認ください。",
+        "ProfessionalHelp": "プロフェッショナルヘルプ",
+        "PiwikProIntro": "Piwik PRO は、専門家のサポートと Piwik 独自のインフラストラクチャ上でホストするクライアントへのコンサルティングを提供します。",
+        "PiwikProOfferIntro": "当社オファーには以下が含まれます",
+        "PiwikProReviewPiwikSetup": "Piwik セットアップのレビュー",
+        "PiwikProOptimizationMaintenance": "Piwikiの最適化と保守のサービス",
+        "PiwikProPhoneEmailSupport": "電話とEメールのサポート",
+        "PiwikProPremiumFeatures": "プレミア機能",
+        "PiwikProCustomDevelopment": "カスタム開発サービス",
+        "PiwikProAnalystConsulting": "アナリストのコンサルティングサービス",
+        "ContactUs": "お問い合わせ",
         "VisitTheForums": "%sフォーラム%sにアクセスする"
     }
 }
