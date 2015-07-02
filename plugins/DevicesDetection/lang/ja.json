@@ -12,6 +12,7 @@
         "Software": "ソフトウェア",
         "ColumnBrowser": "ブラウザ",
         "ColumnOperatingSystem": "オペレーティングシステム",
+        "ColumnOperatingSystemVersion": "オペレーティングシステムのバージョン",
         "Console": "コンソール",
         "dataTableLabelBrands": "ブランド",
         "dataTableLabelModels": "モデル",

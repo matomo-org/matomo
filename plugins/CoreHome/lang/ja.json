@@ -29,6 +29,7 @@
         "LongWeekFormat": "%dayFrom% %longMonthFrom% - %dayTo% %longMonthTo% %longYearTo%",
         "MakeADifference": "ぜひ、新しい変化を生み出してください : Piwik 2.0 基金に %1$sDonate now%2$s !",
         "MakeOneTimeDonation": "代わりに寄与をする",
+        "Menu": "メニュー",
         "NoPrivilegesAskPiwikAdmin": "'%s'としてログインしていますが、権限が設定されていないようです。 %s Piwikの管理者(クリックしてEメール)%s に'表示'の権限を与えてもらってください。",
         "OnlyForSuperUserAccess": "このウィジェットは、スーパーユーザのアクセス権を持つユーザにのみ表示されます",
         "PageOf": "%1$s \/ %2$s",

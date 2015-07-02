@@ -16,6 +16,7 @@
         "PasswordChanged": "パスワードが変更されました。",
         "PasswordRepeat": "パスワード（再入力）",
         "PasswordsDoNotMatch": "パスワードが一致しません。",
+        "PluginDescription": "パスワードリセットの機能と同様にユーザ名とパスワードで認証を提供します。 Marketplace で利用可能な LoginLdap など別の Login プラグインを使用することによって、認証方法を変えることができます。",
         "RememberMe": "次回の入力を省略",
         "ResetPasswordInstructions": "あなたのアカウントの新しいパスワードを入力してください。"
     }
