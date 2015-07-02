@@ -8,7 +8,7 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
-use Piwik\Piwik;
+use Piwik\EventDispatcher;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
@@ -236,8 +236,11 @@ class RequestTest extends IntegrationTestCase
 
     public function test_authenticateSuperUserOrAdmin_ShouldPostAuthInitEvent_IfTokenIsGiven()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $called = 0;
-        Piwik::addAction('Request.initAuthenticationObject', function () use (&$called) {
+        $eventObserver->addObserver('Request.initAuthenticationObject', function () use (&$called) {
             $called++;
         });
 
@@ -328,8 +331,11 @@ class RequestTest extends IntegrationTestCase
 
     public function test_getIdSite_shouldTriggerEventAndReturnThatIdSite()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $self = $this;
-        Piwik::addAction('Tracker.Request.getIdSite', function (&$idSite, $params) use ($self) {
+        $eventObserver->addObserver('Tracker.Request.getIdSite', function (&$idSite, $params) use ($self) {
             $self->assertSame(14, $idSite);
             $self->assertEquals(array('idsite' => '14'), $params);
             $idSite = 12;

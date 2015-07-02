@@ -53,7 +53,7 @@ use Psr\Log\LoggerInterface;
  * @deprecated Inject and use Psr\Log\LoggerInterface instead of this class.
  * @see \Psr\Log\LoggerInterface
  */
-class Log extends Singleton
+class Log
 {
     // log levels
     const NONE = 0;
@@ -77,32 +77,9 @@ class Log extends Singleton
     public static $debugBacktraceForTests;
 
     /**
-     * Singleton instance.
-     *
-     * @var Log
-     */
-    private static $instance;
-
-    /**
      * @var LoggerInterface
      */
     private $logger;
-
-    public static function getInstance()
-    {
-        if (self::$instance === null) {
-            self::$instance = StaticContainer::get(__CLASS__);
-        }
-        return self::$instance;
-    }
-    public static function unsetInstance()
-    {
-        self::$instance = null;
-    }
-    public static function setSingletonInstance($instance)
-    {
-        self::$instance = $instance;
-    }
 
     /**
      * @param LoggerInterface $logger
@@ -222,7 +199,9 @@ class Log extends Singleton
 
     private static function logMessage($level, $message, $parameters)
     {
-        self::getInstance()->doLog($level, $message, $parameters);
+        /** @var Log $log */
+        $log = StaticContainer::get('Piwik\Log');
+        $log->doLog($level, $message, $parameters);
     }
 
     public static function getMonologLevel($level)

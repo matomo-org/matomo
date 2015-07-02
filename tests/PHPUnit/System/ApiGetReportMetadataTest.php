@@ -21,6 +21,9 @@ use Piwik\Tests\Fixtures\ThreeGoalsOnePageview;
  */
 class ApiGetReportMetadataTest extends SystemTestCase
 {
+    /**
+     * @var ThreeGoalsOnePageview
+     */
     public static $fixture = null; // initialized below class definition
 
     public function setUp()
@@ -30,7 +33,10 @@ class ApiGetReportMetadataTest extends SystemTestCase
         // From Piwik 1.5, we hide Goals.getConversions and other get* methods via @ignore, but we
         // ensure that they still work. This hack allows the API proxy to let us generate example
         // URLs for the ignored functions
-        Proxy::getInstance()->setHideIgnoredFunctions(false);
+
+        /** @var Proxy $proxy */
+        $proxy = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\API\Proxy');
+        $proxy->setHideIgnoredFunctions(false);
     }
 
     public function tearDown()
@@ -38,7 +44,10 @@ class ApiGetReportMetadataTest extends SystemTestCase
         parent::tearDown();
 
         // reset that value after the test
-        Proxy::getInstance()->setHideIgnoredFunctions(true);
+
+        /** @var Proxy $proxy */
+        $proxy = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\API\Proxy');
+        $proxy->setHideIgnoredFunctions(true);
     }
 
     public static function getOutputPrefix()

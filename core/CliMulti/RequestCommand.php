@@ -114,7 +114,6 @@ class RequestCommand extends ConsoleCommand
     private function recreateContainerWithWebEnvironment()
     {
         StaticContainer::clearContainer();
-        Log::unsetInstance();
 
         $this->environment = new Environment(null);
         $this->environment->init();

@@ -51,10 +51,8 @@ use Piwik\Plugins\CoreAdminHome\CustomLogo;
  *     }
  *
  * For a detailed explanation, see the documentation [here](http://piwik.org/docs/plugins/framework-overview).
- *
- * @method static \Piwik\FrontController getInstance()
  */
-class FrontController extends Singleton
+class FrontController
 {
     const DEFAULT_MODULE = 'CoreHome';
 
@@ -64,6 +62,16 @@ class FrontController extends Singleton
      * @var bool
      */
     public static $enableDispatch = true;
+
+    /**
+     * @var Access
+     */
+    private $access;
+
+    public function __construct(Access $access)
+    {
+        $this->access = $access;
+    }
 
     /**
      * Executes the requested plugin controller method.
@@ -176,7 +184,7 @@ class FrontController extends Singleton
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
             Common::sendResponseCode(500);
 
-            $controller = FrontController::getInstance();
+            $controller = new FrontController();
             $controller->init();
             $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
 
@@ -271,9 +279,6 @@ class FrontController extends Singleton
             throw $exception;
         }
 
-        // Init the Access object, so that eg. core/Updates/* can enforce Super User and use some APIs
-        Access::getInstance();
-
         /**
          * Triggered just after the platform is initialized and plugins are loaded.
          *
@@ -319,7 +324,7 @@ class FrontController extends Singleton
 
             throw $ex;
         }
-        Access::getInstance()->reloadAccess($authAdapter);
+        $this->access->reloadAccess($authAdapter);
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
         // and all other non widgetized controller methods works fine

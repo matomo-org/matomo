@@ -4,23 +4,19 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
- * @method static \Piwik\AssetManager\UIAssetMinifier getInstance()
  */
 namespace Piwik\AssetManager;
 
 use Exception;
 use JShrink\Minifier;
-use Piwik\Singleton;
 
-class UIAssetMinifier extends Singleton
+class UIAssetMinifier
 {
     const MINIFIED_JS_RATIO = 100;
 
-    protected function __construct()
+    public function __construct()
     {
         self::validateDependency();
-        parent::__construct();
     }
 
     /**

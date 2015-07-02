@@ -8,8 +8,10 @@
  */
 namespace Piwik\Plugins\VisitFrequency;
 
+use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -21,11 +23,11 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $translator;
 
-    public function __construct(Translator $translator)
+    public function __construct(FrontController $frontController, Proxy $apiProxy, Translator $translator)
     {
         $this->translator = $translator;
 
-        parent::__construct();
+        parent::__construct($frontController, $apiProxy);
     }
 
     public function index()

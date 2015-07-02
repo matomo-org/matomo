@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\CoreAdminHome\Commands;
 
 use Piwik\Container\StaticContainer;
-use Piwik\FrontController;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Scheduler\Scheduler;
 use Symfony\Component\Console\Input\InputArgument;
@@ -35,8 +34,6 @@ class RunScheduledTasks extends ConsoleCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->forceRunAllTasksIfRequested($input);
-
-        FrontController::getInstance()->init();
 
         // TODO use dependency injection
         /** @var Scheduler $scheduler */

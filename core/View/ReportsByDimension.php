@@ -8,6 +8,7 @@
  */
 namespace Piwik\View;
 
+use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Url;
@@ -100,6 +101,9 @@ class ReportsByDimension extends View
 
         $this->firstReport = "";
 
+        /** @var FrontController $frontController */
+        $frontController = StaticContainer::get('Piwik\FrontController');
+
         // if there are reports & report categories added, render the first one so we can
         // display it initially
         $categories = $this->dimensionCategories;
@@ -118,7 +122,7 @@ class ReportsByDimension extends View
 
             $module = $firstReportInfo['params']['module'];
             $action = $firstReportInfo['params']['action'];
-            $this->firstReport = FrontController::getInstance()->fetchDispatch($module, $action);
+            $this->firstReport = $frontController->fetchDispatch($module, $action);
 
             $_GET  = $oldGet;
             $_POST = $oldPost;

@@ -112,12 +112,25 @@ abstract class Controller
     protected $site = null;
 
     /**
+     * @var FrontController
+     */
+    protected $frontController;
+
+    /**
+     * @var Proxy
+     */
+    protected $apiProxy;
+
+    /**
      * Constructor.
      *
      * @api
      */
-    public function __construct()
+    public function __construct(FrontController $frontController, Proxy $apiProxy)
     {
+        $this->frontController = $frontController;
+        $this->apiProxy = $apiProxy;
+
         $this->init();
     }
 
@@ -329,8 +342,7 @@ abstract class Controller
 
         $pluginName = $this->pluginName;
 
-        /** @var Proxy $apiProxy */
-        $apiProxy = Proxy::getInstance();
+        $apiProxy = $this->apiProxy;
 
         if (!$apiProxy->isExistingApiAction($pluginName, $apiAction)) {
             throw new \Exception("Invalid action name '$apiAction' for '$pluginName' plugin.");
@@ -636,8 +648,13 @@ abstract class Controller
 
         $this->setBasicVariablesView($view);
 
-        $view->topMenu  = MenuTop::getInstance()->getMenu();
-        $view->userMenu = MenuUser::getInstance()->getMenu();
+        /** @var MenuTop $menuTop */
+        $menuTop = StaticContainer::get('Piwik\Menu\MenuTop');
+        $view->topMenu  = $menuTop->getMenu();
+
+        /** @var MenuUser $userMenu */
+        $userMenu = StaticContainer::get('Piwik\Menu\MenuUser');
+        $view->userMenu = $userMenu->getMenu();
 
         $notifications = $view->notifications;
         if (empty($notifications)) {
@@ -887,7 +904,7 @@ abstract class Controller
             throw $ex;
         }
 
-        echo FrontController::getInstance()->dispatch(Piwik::getLoginPluginName(), false);
+        echo $this->frontController->dispatch(Piwik::getLoginPluginName(), false);
         exit;
     }
 

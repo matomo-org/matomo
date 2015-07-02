@@ -3,7 +3,6 @@
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\NotFoundException;
 use Piwik\Cache\Eager;
-use Piwik\SettingsServer;
 
 return array(
 
@@ -27,22 +26,9 @@ return array(
 
     'Piwik\Cache\Eager' => function (ContainerInterface $c) {
         $backend = $c->get('Piwik\Cache\Backend');
-        $cacheId = $c->get('cache.eager.cache_id');
+        $cacheId = $c->get('cache.eager.cache_id') . 'ui';
 
-        if (SettingsServer::isTrackerApiRequest()) {
-            $eventToPersist = 'Tracker.end';
-            $cacheId .= 'tracker';
-        } else {
-            $eventToPersist = 'Request.dispatch.end';
-            $cacheId .= 'ui';
-        }
-
-        $cache = new Eager($backend, $cacheId);
-        \Piwik\Piwik::addAction($eventToPersist, function () use ($cache) {
-            $cache->persistCacheIfNeeded(43200);
-        });
-
-        return $cache;
+        return new Eager($backend, $cacheId);
     },
     'Piwik\Cache\Backend' => function (ContainerInterface $c) {
         try {
@@ -62,7 +48,17 @@ return array(
     'Piwik\Translation\Loader\LoaderInterface' => DI\object('Piwik\Translation\Loader\LoaderCache')
         ->constructor(DI\get('Piwik\Translation\Loader\JsonFileLoader')),
 
-    'observers.global' => array(),
+    'observers.global' => array(
 
-    'Piwik\EventDispatcher' => DI\object()->constructorParameter('observers', DI\get('observers.global'))
+        array('Request.dispatch.end', function ($result, $module, $action, $parameters, ContainerInterface $c) {
+            /** @var Eager $cache */
+            $cache = $c->get('Piwik\Cache\Eager');
+            $cache->persistCacheIfNeeded(43200);
+        }),
+
+    ),
+
+    'Piwik\EventDispatcher' => DI\object()
+        ->constructorParameter('observers', DI\get('observers.global'))
+        ->constructorParameter('container', DI\get('DI\Container'))
 );

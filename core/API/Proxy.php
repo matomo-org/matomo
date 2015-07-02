@@ -12,7 +12,6 @@ namespace Piwik\API;
 use Exception;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Singleton;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -23,10 +22,8 @@ use ReflectionMethod;
  * object, with the parameters in the right order.
  *
  * It will also log the performance of API calls (time spent, parameter values, etc.) if logger available
- *
- * @method static Proxy getInstance()
  */
-class Proxy extends Singleton
+class Proxy
 {
     // array of already registered plugins names
     protected $alreadyRegistered = array();
@@ -40,7 +37,7 @@ class Proxy extends Singleton
     /**
      * protected constructor
      */
-    protected function __construct()
+    public function __construct()
     {
         $this->noDefaultValue = new NoDefaultValue();
     }

@@ -28,11 +28,11 @@ class JScriptUIAssetMerger extends UIAssetMerger
      * @param JScriptUIAssetFetcher $assetFetcher
      * @param UIAssetCacheBuster $cacheBuster
      */
-    public function __construct($mergedAsset, $assetFetcher, $cacheBuster)
+    public function __construct($mergedAsset, $assetFetcher, $cacheBuster, UIAssetMinifier $assetMinifier)
     {
         parent::__construct($mergedAsset, $assetFetcher, $cacheBuster);
 
-        $this->assetMinifier = UIAssetMinifier::getInstance();
+        $this->assetMinifier = $assetMinifier;
     }
 
     protected function getMergedAssets()

@@ -14,11 +14,12 @@ use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\DataTable\Row;
 use Piwik\Plugin\Manager as PluginManager;
 use Exception;
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
  * @group DataTableTest
  */
-class PivotByDimensionTest extends \PHPUnit_Framework_TestCase
+class PivotByDimensionTest extends UnitTestCase
 {
     /**
      * The number of segment tables that have been created. Used when injecting API results to make sure each
@@ -40,30 +41,7 @@ class PivotByDimensionTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $self = $this;
-
-        $proxyMock = $this->getMock('stdClass', array('call'));
-        $proxyMock->expects($this->any())->method('call')->willReturnCallback(function ($className, $methodName, $parameters) use ($self) {
-            if ($className == "\\Piwik\\Plugins\\UserCountry\\API"
-                && $methodName == 'getCity'
-            ) {
-                $self->segmentUsedToGetIntersected[] = $parameters['segment'];
-
-                return $self->getSegmentTable();
-            } else {
-                throw new Exception("Unknown API request: $className::$methodName.");
-            }
-        });
-        Proxy::setSingletonInstance($proxyMock);
-
         $this->segmentTableCount = 0;
-    }
-
-    public function tearDown()
-    {
-        Proxy::unsetInstance();
-
-        parent::tearDown();
     }
 
     /**
@@ -388,5 +366,27 @@ class PivotByDimensionTest extends \PHPUnit_Framework_TestCase
     private function loadPlugins()
     {
         PluginManager::getInstance()->loadPlugins(func_get_args());
+    }
+
+    protected function provideContainerConfig()
+    {
+        $self = $this;
+
+        $proxyMock = $this->getMock('Piwik\API\Proxy', array('call'));
+        $proxyMock->expects($this->any())->method('call')->willReturnCallback(function ($className, $methodName, $parameters) use ($self) {
+            if ($className == "\\Piwik\\Plugins\\UserCountry\\API"
+                && $methodName == 'getCity'
+            ) {
+                $self->segmentUsedToGetIntersected[] = $parameters['segment'];
+
+                return $self->getSegmentTable();
+            } else {
+                throw new Exception("Unknown API request: $className::$methodName.");
+            }
+        });
+
+        return array(
+            'Piwik\API\Proxy' => $proxyMock
+        );
     }
 }

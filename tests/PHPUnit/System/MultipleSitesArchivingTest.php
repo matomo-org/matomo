@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Config;
-use Piwik\Piwik;
+use Piwik\EventDispatcher;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Fixtures\ThreeSitesWithSharedVisitors;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -19,6 +19,9 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
  */
 class MultipleSitesArchivingTest extends SystemTestCase
 {
+    /**
+     * @var ThreeSitesWithSharedVisitors
+     */
     public static $fixture = null; // initialized below class definition
 
     public static function setUpBeforeClass()
@@ -27,7 +30,10 @@ class MultipleSitesArchivingTest extends SystemTestCase
 
         $extraSite = Fixture::createWebsite(self::$fixture->dateTime, $ecommerce = 1, "the site");
 
-        Piwik::addAction("ArchiveProcessor.Parameters.getIdSites", function (&$sites, $period) use ($extraSite) {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
+        $eventObserver->addObserver("ArchiveProcessor.Parameters.getIdSites", function (&$sites, $period) use ($extraSite) {
             if (reset($sites) == $extraSite) {
                 $sites = array(1, 2, 3);
             }

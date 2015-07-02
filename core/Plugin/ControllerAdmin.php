@@ -10,6 +10,7 @@ namespace Piwik\Plugin;
 
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
@@ -167,8 +168,13 @@ abstract class ControllerAdmin extends Controller
         self::notifyWhenTrackingStatisticsDisabled();
         self::notifyIfEAcceleratorIsUsed();
 
-        $view->topMenu  = MenuTop::getInstance()->getMenu();
-        $view->userMenu = MenuUser::getInstance()->getMenu();
+        /** @var MenuTop $menuTop */
+        $menuTop = StaticContainer::get('Piwik\Menu\MenuTop');
+        $view->topMenu  = $menuTop->getMenu();
+
+        /** @var MenuUser $userMenu */
+        $userMenu = StaticContainer::get('Piwik\Menu\MenuUser');
+        $view->userMenu = $userMenu->getMenu();
 
         $view->isDataPurgeSettingsEnabled = self::isDataPurgeSettingsEnabled();
         $enableFrames = PiwikConfig::getInstance()->General['enable_framed_settings'];
@@ -186,8 +192,9 @@ abstract class ControllerAdmin extends Controller
 
         self::notifyWhenPhpVersionIsEOL();
 
-        $adminMenu = MenuAdmin::getInstance()->getMenu();
-        $view->adminMenu = $adminMenu;
+        /** @var MenuAdmin $userMenu */
+        $adminMenu = StaticContainer::get('Piwik\Menu\MenuAdmin');
+        $view->adminMenu = $adminMenu->getMenu();
 
         $notifications = $view->notifications;
 

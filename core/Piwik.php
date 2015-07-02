@@ -331,7 +331,7 @@ class Piwik
      * Helper method user to set the current as superuser.
      * This should be used with great care as this gives the user all permissions.
      *
-     * This method is deprecated, use {@link Access::doAsSuperUser()} instead.
+     * This method is deprecated, use {@link Access::execAsSuperUser()} instead.
      *
      * @param bool $bool true to set current user as Super User
      * @deprecated
@@ -689,7 +689,9 @@ class Piwik
      */
     public static function postEvent($eventName, $params = array(), $pending = false, $plugins = null)
     {
-        EventDispatcher::getInstance()->postEvent($eventName, $params, $pending, $plugins);
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = StaticContainer::get('Piwik\EventDispatcher');
+        $eventDispatcher->postEvent($eventName, $params, $pending, $plugins);
     }
 
     /**
@@ -700,11 +702,13 @@ class Piwik
      *
      * @param string $eventName The event name.
      * @param callable|array $function The observer.
-     * @api
+     * @deprecated
      */
     public static function addAction($eventName, $function)
     {
-        EventDispatcher::getInstance()->addObserver($eventName, $function);
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = StaticContainer::get('Piwik\EventDispatcher');
+        $eventDispatcher->addObserver($eventName, $function);
     }
 
     /**

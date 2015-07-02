@@ -9,7 +9,6 @@
 namespace Piwik\Menu;
 
 use Piwik\Plugins\SitesManager\API;
-use Piwik\Singleton;
 use Piwik\Plugin\Manager as PluginManager;
 
 /**
@@ -18,12 +17,9 @@ use Piwik\Plugin\Manager as PluginManager;
  * There are three menus in Piwik, the main menu, the top menu and the admin menu.
  * Each menu has a class that manages the menu's content. Each class invokes
  * a different event to allow plugins to add new menu items.
- *
- * @static \Piwik\Menu\MenuAbstract getInstance()
  */
-abstract class MenuAbstract extends Singleton
+abstract class MenuAbstract
 {
-
     protected $menu = null;
     protected $menuEntries = array();
     protected $menuEntriesToRemove = array();

@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\SitesManager\tests\Integration;
 
+use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\MobileAppMeasurable;
@@ -955,7 +956,9 @@ class ApiTest extends IntegrationTestCase
         $called = 0;
         $deletedSiteId = null;
 
-        Piwik::addAction('SitesManager.deleteSite.end', function ($param) use (&$called, &$deletedSiteId) {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+        $eventObserver->addObserver('SitesManager.deleteSite.end', function ($param) use (&$called, &$deletedSiteId) {
             $called++;
             $deletedSiteId = $param;
         });

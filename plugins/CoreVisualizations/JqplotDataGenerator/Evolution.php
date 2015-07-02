@@ -10,9 +10,11 @@ namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Menu\MenuMain;
+use Piwik\Menu\MenuReporting;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Url;
 
@@ -161,12 +163,15 @@ class Evolution extends JqplotDataGenerator
      */
     private function getQueryStringAsHash()
     {
+        /** @var MenuReporting $menuTop */
+        $menuReporting = StaticContainer::get('Piwik\Menu\MenuReporting');
+
         $queryString = Url::getArrayFromCurrentQueryString();
         $piwikParameters = array('idSite', 'date', 'period', 'XDEBUG_SESSION_START', 'KEY');
         foreach ($piwikParameters as $parameter) {
             unset($queryString[$parameter]);
         }
-        if (MenuMain::getInstance()->isUrlFound($queryString)) {
+        if ($menuReporting->isUrlFound($queryString)) {
             return $queryString;
         }
         return false;

@@ -13,6 +13,7 @@ use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Proxy;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Log;
@@ -256,7 +257,10 @@ class Visualization extends ViewDataTable
         PluginManager::getInstance()->checkIsPluginActivated($module);
 
         $class     = ApiRequest::getClassNameAPI($module);
-        $dataTable = Proxy::getInstance()->call($class, $method, $request);
+
+        /** @var Proxy $proxy */
+        $proxy = StaticContainer::get('Piwik\API\Proxy');
+        $dataTable = $proxy->call($class, $method, $request);
 
         $response = new ResponseBuilder($format = 'original', $request);
         $response->disableSendHeader();

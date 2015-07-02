@@ -19,6 +19,7 @@ use Piwik\AssetManager\UIAssetFetcher\StylesheetUIAssetFetcher;
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\AssetManager\UIAssetMerger\JScriptUIAssetMerger;
 use Piwik\AssetManager\UIAssetMerger\StylesheetUIAssetMerger;
+use Piwik\AssetManager\UIAssetMinifier;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager;
 
@@ -35,10 +36,8 @@ use Piwik\Plugin\Manager;
  * Whether assets are included individually or as merged files is defined by
  * the global option 'disable_merged_assets'. See the documentation in the global
  * config for more information.
- *
- * @method static AssetManager getInstance()
  */
-class AssetManager extends Singleton
+class AssetManager
 {
     const MERGED_CSS_FILE = "asset_manager_global_css.css";
     const MERGED_CORE_JS_FILE = "asset_manager_core_js.js";
@@ -56,6 +55,11 @@ class AssetManager extends Singleton
     private $cacheBuster;
 
     /**
+     * @var UIAssetMinifier
+     */
+    private $assetMinifier;
+
+    /**
      * @var UIAssetFetcher
      */
     private $minimalStylesheetFetcher;
@@ -65,9 +69,10 @@ class AssetManager extends Singleton
      */
     private $theme;
 
-    public function __construct()
+    public function __construct(UIAssetMinifier $assetMinifier, UIAssetCacheBuster $cacheBuster)
     {
-        $this->cacheBuster = UIAssetCacheBuster::getInstance();
+        $this->assetMinifier = $assetMinifier;
+        $this->cacheBuster = $cacheBuster;
         $this->minimalStylesheetFetcher =  new StaticUIAssetFetcher(array('plugins/Morpheus/stylesheets/base.less', 'plugins/Morpheus/stylesheets/general/_forms.less'), array(), $this->theme);
 
         $theme = Manager::getInstance()->getThemeEnabled();
@@ -270,7 +275,7 @@ class AssetManager extends Singleton
      */
     private function getMergedJavascript($assetFetcher, $mergedAsset)
     {
-        $assetMerger = new JScriptUIAssetMerger($mergedAsset, $assetFetcher, $this->cacheBuster);
+        $assetMerger = new JScriptUIAssetMerger($mergedAsset, $assetFetcher, $this->cacheBuster, $this->assetMinifier);
 
         $assetMerger->generateFile();
 

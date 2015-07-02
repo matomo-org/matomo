@@ -51,15 +51,15 @@ return array(
 
     'observers.global' => DI\add(array(
 
-        array('AssetManager.getStylesheetFiles', function (&$stylesheets) {
-            $useOverrideCss = \Piwik\Container\StaticContainer::get('test.vars.useOverrideCss');
+        array('AssetManager.getStylesheetFiles', function (&$stylesheets, ContainerInterface $c) {
+            $useOverrideCss = $c->get('test.vars.useOverrideCss');
             if ($useOverrideCss) {
                 $stylesheets[] = 'tests/resources/screenshot-override/override.css';
             }
         }),
 
-        array('AssetManager.getJavaScriptFiles', function (&$jsFiles) {
-            $useOverrideJs = \Piwik\Container\StaticContainer::get('test.vars.useOverrideJs');
+        array('AssetManager.getJavaScriptFiles', function (&$jsFiles, ContainerInterface $c) {
+            $useOverrideJs = $c->get('test.vars.useOverrideJs');
             if ($useOverrideJs) {
                 $jsFiles[] = 'tests/resources/screenshot-override/override.js';
             }

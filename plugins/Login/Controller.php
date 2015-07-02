@@ -9,11 +9,11 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
-use Piwik\Auth as AuthInterface;
+use Piwik\API\Proxy;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
+use Piwik\FrontController;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
@@ -45,28 +45,14 @@ class Controller extends \Piwik\Plugin\Controller
 
     /**
      * Constructor.
-     *
-     * @param PasswordResetter $passwordResetter
-     * @param AuthInterface $auth
-     * @param SessionInitializer $authenticatedSessionFactory
 \     */
-    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null)
+    public function __construct(FrontController $frontController, Proxy $apiProxy, PasswordResetter $passwordResetter,
+                                Auth $auth, SessionInitializer $sessionInitializer)
     {
-        parent::__construct();
+        parent::__construct($frontController, $apiProxy);
 
-        if (empty($passwordResetter)) {
-            $passwordResetter = new PasswordResetter();
-        }
         $this->passwordResetter = $passwordResetter;
-
-        if (empty($auth)) {
-            $auth = StaticContainer::get('Piwik\Auth');
-        }
         $this->auth = $auth;
-
-        if (empty($sessionInitializer)) {
-            $sessionInitializer = new SessionInitializer();
-        }
         $this->sessionInitializer = $sessionInitializer;
     }
 

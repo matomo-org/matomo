@@ -8,15 +8,16 @@
 
 namespace Piwik\Tests\Integration;
 
-use PHPUnit_Framework_TestCase;
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
+use Piwik\Container\StaticContainer;
 use Piwik\EventDispatcher;
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 /**
  * @group Core
  */
-class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
+class DocumentationGeneratorTest extends UnitTestCase
 {
     public function test_CheckIfModule_ContainsHideAnnotation()
     {
@@ -26,7 +27,8 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('getDocComment'))
             ->getMock();
         $mock->expects($this->once())->method('getDocComment')->willReturn($annotation);
-        $documentationGenerator = new DocumentationGenerator();
+        /** @var DocumentationGenerator $documentationGenerator */
+        $documentationGenerator = $this->environment->getContainer()->get('Piwik\API\DocumentationGenerator');
         $this->assertTrue($documentationGenerator->checkIfClassCommentContainsHideAnnotation($mock));
     }
 
@@ -34,37 +36,51 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
     {
         $moduleToCheck = 'this is documentation which contains @hideExceptForSuperUser';
         $documentationAfterCheck = 'this is documentation which contains ';
-        $documentationGenerator = new DocumentationGenerator();
+        /** @var DocumentationGenerator $documentationGenerator */
+        $documentationGenerator = $this->environment->getContainer()->get('Piwik\API\DocumentationGenerator');
         $this->assertEquals($documentationGenerator->checkDocumentation($moduleToCheck), $documentationAfterCheck);
     }
 
     public function test_CheckIfMethodComment_ContainsHideAnnotation_andText()
     {
         $annotation = '@hideForAll test test';
-        EventDispatcher::getInstance()->addObserver('API.DocumentationGenerator.@hideForAll',
+        $this->getEventDispatcher()->addObserver('API.DocumentationGenerator.@hideForAll',
             function (&$hide) {
                 $hide = true;
             });
-        $this->assertEquals(Proxy::getInstance()->shouldHideAPIMethod($annotation), true);
+        $this->assertEquals($this->getApiProxy()->shouldHideAPIMethod($annotation), true);
     }
 
     public function test_CheckIfMethodComment_ContainsHideAnnotation_only()
     {
         $annotation = '@hideForAll';
-        EventDispatcher::getInstance()->addObserver('API.DocumentationGenerator.@hideForAll',
+        $this->getEventDispatcher()->addObserver('API.DocumentationGenerator.@hideForAll',
             function (&$hide) {
                 $hide = true;
             });
-        $this->assertEquals(Proxy::getInstance()->shouldHideAPIMethod($annotation), true);
+        $this->assertEquals($this->getApiProxy()->shouldHideAPIMethod($annotation), true);
     }
 
     public function test_CheckIfMethodComment_DoesNotContainHideAnnotation()
     {
         $annotation = '@not found here';
-        EventDispatcher::getInstance()->addObserver('API.DocumentationGenerator.@hello',
+        $this->getEventDispatcher()->addObserver('API.DocumentationGenerator.@hello',
             function (&$hide) {
                 $hide = true;
             });
-        $this->assertEquals(Proxy::getInstance()->shouldHideAPIMethod($annotation), false);
+        $this->assertEquals($this->getApiProxy()->shouldHideAPIMethod($annotation), false);
+    }
+
+    /**
+     * @return Proxy
+     */
+    private function getApiProxy()
+    {
+        return $this->environment->getContainer()->get('Piwik\API\Proxy');
+    }
+
+    private function getEventDispatcher()
+    {
+        return StaticContainer::get('Piwik\EventDispatcher');
     }
 }

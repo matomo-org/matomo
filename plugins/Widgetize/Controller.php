@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Widgetize;
 
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\FrontController;
 use Piwik\View;
 use Piwik\WidgetsList;
 
@@ -47,7 +46,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $this->setGeneralVariablesView($view);
         $view->setXFrameOptions('allow');
-        $view->content = FrontController::getInstance()->fetchDispatch($controllerName, $actionName);
+        $view->content = $this->frontController->fetchDispatch($controllerName, $actionName);
 
         return $view->render();
     }

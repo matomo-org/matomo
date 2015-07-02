@@ -11,6 +11,7 @@ namespace Piwik\API;
 use Exception;
 use Piwik\Access;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\PluginDeactivatedException;
@@ -235,7 +236,10 @@ class Request
             }
 
             // call the method
-            $returnedValue = Proxy::getInstance()->call($apiClassName, $method, $this->request);
+
+            /** @var Proxy $proxy */
+            $proxy = StaticContainer::get('Piwik\API\Proxy');
+            $returnedValue = $proxy->call($apiClassName, $method, $this->request);
 
             $toReturn = $response->getResponse($returnedValue, $module, $method);
         } catch (Exception $e) {

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Installation;
 
 use Exception;
 use Piwik\Access;
+use Piwik\API\Proxy;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
@@ -19,6 +20,7 @@ use Piwik\Db;
 use Piwik\Db\Adapter;
 use Piwik\DbHelper;
 use Piwik\Filesystem;
+use Piwik\FrontController;
 use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -53,6 +55,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         'trackingCode'      => 'General_JsTrackingTag',
         'finished'          => 'Installation_Congratulations',
     );
+
+    /**
+     * @var AssetManager
+     */
+    private $assetManager;
+
+    public function __construct(FrontController $frontController, Proxy $apiProxy, AssetManager $assetManager)
+    {
+        parent::__construct($frontController, $apiProxy);
+
+        $this->assetManager = $assetManager;
+    }
 
     /**
      * Get installation steps
@@ -486,7 +500,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function getBaseCss()
     {
         Common::sendHeader('Content-Type: text/css');
-        return AssetManager::getInstance()->getCompiledBaseCss()->getContent();
+        return $this->assetManager->getCompiledBaseCss()->getContent();
     }
 
     private function getParam($name)

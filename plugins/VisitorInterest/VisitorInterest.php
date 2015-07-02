@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\VisitorInterest;
 
 use Piwik\ArchiveProcessor;
+use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Metrics;
 use Piwik\Piwik;
@@ -25,17 +26,16 @@ class VisitorInterest extends \Piwik\Plugin
     {
         return array(
             'Live.getAllVisitorDetails' => 'extendVisitorDetails',
+            'Template.footerVisitsFrequency' => 'footerVisitsFrequency',
         );
     }
 
-    function postLoad()
+   public function footerVisitsFrequency(&$out)
     {
-        Piwik::addAction('Template.footerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'footerVisitsFrequency'));
-    }
+        /** @var FrontController $frontController */
+        $frontController = StaticContainer::get('Piwik\FrontController');
 
-   public static function footerVisitsFrequency(&$out)
-    {
-        $out .= FrontController::getInstance()->fetchDispatch('VisitorInterest', 'index');
+        $out .= $frontController->fetchDispatch('VisitorInterest', 'index');
     }
 
     public function extendVisitorDetails(&$visitor, $details)

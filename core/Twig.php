@@ -38,8 +38,15 @@ class Twig
 
     private $formatter;
 
-    public function __construct()
+    /**
+     * @var AssetManager
+     */
+    private $assetManager;
+
+    public function __construct(AssetManager $assetManager)
     {
+        $this->assetManager = $assetManager;
+
         $loader = $this->getDefaultThemeLoader();
         $this->addPluginNamespaces($loader);
 
@@ -140,9 +147,9 @@ class Twig
             $assetType = strtolower($params['type']);
             switch ($assetType) {
                 case 'css':
-                    return AssetManager::getInstance()->getCssInclusionDirective();
+                    return $this->assetManager->getCssInclusionDirective();
                 case 'js':
-                    return AssetManager::getInstance()->getJsInclusionDirective();
+                    return $this->assetManager->getJsInclusionDirective();
                 default:
                     throw new Exception("The twig function includeAssets 'type' parameter needs to be either 'css' or 'js'.");
             }

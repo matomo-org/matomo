@@ -11,7 +11,6 @@ namespace Piwik\Plugins\DBStats;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Plugins\DBStats\tests\Mocks\MockDataAccess;
 
 class DBStats extends \Piwik\Plugin
 {
@@ -23,20 +22,12 @@ class DBStats extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            "TestingEnvironment.addHooks"     => 'setupTestEnvironment'
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles'
         );
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/DBStats/stylesheets/dbStatsTable.less";
-    }
-
-    public function setupTestEnvironment($environment)
-    {
-        Piwik::addAction("MySQLMetadataProvider.createDao", function (&$dao) {
-            $dao = new MockDataAccess();
-        });
     }
 }

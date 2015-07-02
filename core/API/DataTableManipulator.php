@@ -10,6 +10,7 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Archive\DataTableFactory;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Period\Range;
@@ -185,7 +186,10 @@ abstract class DataTableManipulator
         // run it on the flattened table.
         unset($request['filter_pattern_recursive']);
 
-        $dataTable = Proxy::getInstance()->call($class, $method, $request);
+        /** @var Proxy $proxy */
+        $proxy = StaticContainer::get('Piwik\API\Proxy');
+        $dataTable = $proxy->call($class, $method, $request);
+
         $response = new ResponseBuilder($format = 'original', $request);
         $response->disableSendHeader();
         $dataTable = $response->getResponse($dataTable, $apiModule, $method);

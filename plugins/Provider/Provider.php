@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Provider;
 use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\FrontController;
 use Piwik\Piwik;
@@ -23,7 +24,8 @@ class Provider extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Live.getAllVisitorDetails' => 'extendVisitorDetails'
+            'Live.getAllVisitorDetails' => 'extendVisitorDetails',
+            'Template.footerUserCountry' => 'footerUserCountry',
         );
     }
 
@@ -58,15 +60,13 @@ class Provider extends \Piwik\Plugin
         Db::exec($query);
     }
 
-    public function postLoad()
+    public function footerUserCountry(&$out)
     {
-        Piwik::addAction('Template.footerUserCountry', array('Piwik\Plugins\Provider\Provider', 'footerUserCountry'));
-    }
+        /** @var FrontController $frontController */
+        $frontController = StaticContainer::get('Piwik\FrontController');
 
-    public static function footerUserCountry(&$out)
-    {
         $out .= '<h2 piwik-enriched-headline>' . Piwik::translate('Provider_WidgetProviders') . '</h2>';
-        $out .= FrontController::getInstance()->fetchDispatch('Provider', 'getProvider');
+        $out .= $frontController->fetchDispatch('Provider', 'getProvider');
     }
 
     /**

@@ -156,9 +156,6 @@ class Tracker
             self::$initTrackerMode = true;
             require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
-            Access::getInstance();
-            Config::getInstance();
-
             try {
                 Db::get();
             } catch (Exception $e) {

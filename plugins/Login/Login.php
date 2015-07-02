@@ -54,7 +54,8 @@ class Login extends \Piwik\Plugin
      */
     public function noAccess(Exception $exception)
     {
-        $frontController = FrontController::getInstance();
+        /** @var FrontController $frontController */
+        $frontController = StaticContainer::get('Piwik\FrontController');
 
         if (Common::isXmlHttpRequest()) {
             echo $frontController->dispatch('Login', 'ajaxNoAccess', array($exception->getMessage()));

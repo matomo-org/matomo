@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\SettingsServer;
@@ -177,8 +178,11 @@ class TrackerTest extends IntegrationTestCase
 
     public function test_trackRequest_shouldNotTrackAnything_IfRequestIsEmpty()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $called = false;
-        Piwik::addAction('Tracker.makeNewVisitObject', function () use (&$called) {
+        $eventObserver->addObserver('Tracker.makeNewVisitObject', function () use (&$called) {
             $called = true;
         });
 
@@ -189,8 +193,11 @@ class TrackerTest extends IntegrationTestCase
 
     public function test_trackRequest_shouldTrack_IfRequestIsNotEmpty()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $called = false;
-        Piwik::addAction('Tracker.makeNewVisitObject', function () use (&$called) {
+        $eventObserver->addObserver('Tracker.makeNewVisitObject', function () use (&$called) {
             $called = true;
         });
 
@@ -314,8 +321,11 @@ class TrackerTest extends IntegrationTestCase
 
     public function test_main_shouldPostEndEvent()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $called = false;
-        Piwik::addAction('Tracker.end', function () use (&$called) {
+        $eventObserver->addObserver('Tracker.end', function () use (&$called) {
             $called = true;
         });
 
@@ -326,8 +336,11 @@ class TrackerTest extends IntegrationTestCase
 
     public function test_main_shouldPostEndEvent_EvenIfShouldNotRecordStats()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $called = false;
-        Piwik::addAction('Tracker.end', function () use (&$called) {
+        $eventObserver->addObserver('Tracker.end', function () use (&$called) {
             $called = true;
         });
 
@@ -342,8 +355,11 @@ class TrackerTest extends IntegrationTestCase
 
     public function test_main_shouldPostEndEvent_EvenIfThereIsAnException()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $called = false;
-        Piwik::addAction('Tracker.end', function () use (&$called) {
+        $eventObserver->addObserver('Tracker.end', function () use (&$called) {
             $called = true;
         });
 

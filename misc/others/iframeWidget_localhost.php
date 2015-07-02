@@ -1,5 +1,4 @@
 <?php
-use Piwik\FrontController;
 use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\WidgetsList;
@@ -33,7 +32,10 @@ define('PIWIK_ENABLE_SESSION_START', false);
 require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
 
-FrontController::getInstance()->init();
+// TODO: need to test this file, I think...
+$environment = new \Piwik\Application\Environment(null);
+$environment->init();
+
 $widgets = WidgetsList::get();
 foreach ($widgets as $category => $widgetsInCategory) {
     echo '<h2>' . $category . '</h2>';

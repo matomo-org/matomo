@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Widgets;
 
@@ -19,9 +20,8 @@ use Piwik\Plugin\Widgets;
  * event. Observers for this event should call the {@link add()} method to add reports.
  *
  * @api
- * @method static \Piwik\WidgetsList getInstance()
  */
-class WidgetsList extends Singleton
+class WidgetsList
 {
     /**
      * List of widgets
@@ -102,7 +102,8 @@ class WidgetsList extends Singleton
              */
             Piwik::postEvent('WidgetsList.addWidgets');
 
-            $widgetsList = self::getInstance();
+            /** @var WidgetsList $widgetsList */
+            $widgetsList = StaticContainer::get('Piwik\WidgetsList');
 
             foreach (Report::getAllReports() as $report) {
                 if ($report->isEnabled()) {

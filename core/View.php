@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\View\ViewInterface;
 use Twig_Environment;
@@ -202,7 +203,8 @@ class View implements ViewInterface
 
     private function initializeTwig()
     {
-        $piwikTwig = new Twig();
+        /** @var Twig $twig */
+        $piwikTwig = StaticContainer::get('Piwik\Twig');
         $this->twig = $piwikTwig->getTwigEnvironment();
     }
 
@@ -230,7 +232,9 @@ class View implements ViewInterface
             if (Development::isEnabled()) {
                 $cacheBuster = rand(0, 10000);
             } else {
-                $cacheBuster = UIAssetCacheBuster::getInstance()->piwikVersionBasedCacheBuster();
+                /** @var UIAssetCacheBuster $cacheBuster */
+                $cacheBusterService = StaticContainer::get('Piwik\AssetManager\UIAssetCacheBuster');
+                $cacheBuster = $cacheBusterService->piwikVersionBasedCacheBuster();
             }
 
             $this->cacheBuster = $cacheBuster;
@@ -275,7 +279,8 @@ class View implements ViewInterface
 
     protected function applyFilter_cacheBuster($output)
     {
-        $assetManager = AssetManager::getInstance();
+        /** @var AssetManager $assetManager */
+        $assetManager = StaticContainer::get('Piwik\AssetManager');
 
         $stylesheet = $assetManager->getMergedStylesheetAsset();
         if ($stylesheet->exists()) {
@@ -284,7 +289,8 @@ class View implements ViewInterface
             $content = $assetManager->getMergedStylesheet()->getContent();
         }
 
-        $cacheBuster = UIAssetCacheBuster::getInstance();
+        /** @var UIAssetCacheBuster $cacheBuster */
+        $cacheBuster = StaticContainer::get('Piwik\AssetManager\UIAssetCacheBuster');
         $tagJs       = 'cb=' . $cacheBuster->piwikVersionBasedCacheBuster();
         $tagCss      = 'cb=' . $cacheBuster->md5BasedCacheBuster($content);
 
@@ -373,7 +379,9 @@ class View implements ViewInterface
      */
     public static function clearCompiledTemplates()
     {
-        $twig = new Twig();
+        /** @var Twig $twig */
+        $twig = StaticContainer::get('Piwik\Twig');
+
         $environment = $twig->getTwigEnvironment();
         $environment->clearTemplateCache();
 

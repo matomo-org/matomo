@@ -8,6 +8,8 @@
  */
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
+
 /**
  * Http helper: static file server proxy, with compression, caching, isHttps() helper...
  *
@@ -102,7 +104,10 @@ class ProxyHttp
 
         $compressed = false;
         $encoding = '';
-        $compressedFileLocation = AssetManager::getInstance()->getAssetDirectory() . '/' . basename($file);
+
+        /** @var AssetManager $assetManager */
+        $assetManager = StaticContainer::get('Piwik\AssetManager');
+        $compressedFileLocation = $assetManager->getAssetDirectory() . '/' . basename($file);
 
         if (!($byteStart == 0
               && $byteEnd == filesize($file))

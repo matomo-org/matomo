@@ -27,7 +27,8 @@ if (PIWIK_ENABLE_DISPATCH) {
     $environment = new \Piwik\Application\Environment(null);
     $environment->init();
 
-    $controller = FrontController::getInstance();
+    /** @var FrontController $controller */
+    $controller = $environment->getContainer()->get('Piwik\FrontController');
 
     try {
         $controller->init();

@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration\Menu;
 
+use Piwik\EventDispatcher;
 use Piwik\Plugin\Report;
 use Piwik\Piwik;
 use Piwik\Metrics;
@@ -30,13 +31,9 @@ class ReportingTest extends IntegrationTestCase
         parent::setUp();
 
         PluginManager::getInstance()->unloadPlugins();
-        $this->menu = MenuReporting::getInstance();
-    }
+        $this->menu = new MenuReporting();
 
-    public function tearDown()
-    {
-        MenuReporting::getInstance()->unsetInstance();
-        parent::tearDown();
+        $this->menu = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Menu\MenuReporting');
     }
 
     public function test_getMenu_shouldBeNull_IfNoItems()
@@ -46,10 +43,13 @@ class ReportingTest extends IntegrationTestCase
 
     public function test_getMenu_shouldTriggerAddItemsEvent_toBeBackwardsCompatible()
     {
+        /** @var EventDispatcher $eventObserver */
+        $eventObserver = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\EventDispatcher');
+
         $this->loadSomePlugins();
 
         $triggered = false;
-        Piwik::addAction('Menu.Reporting.addItems', function () use (&$triggered) {
+        $eventObserver->addObserver('Menu.Reporting.addItems', function () use (&$triggered) {
             $triggered = true;
         });
 

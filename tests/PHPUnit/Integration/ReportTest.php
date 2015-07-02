@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration;
 
-use Piwik\API\Proxy;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\ExampleReport\Reports\GetExampleReport;
 use Piwik\Plugins\Actions\Columns\ExitPageUrl;
@@ -108,14 +107,11 @@ class ReportTest extends IntegrationTestCase
         $this->disabledReport = new GetDisabledReport();
         $this->basicReport    = new GetBasicReport();
         $this->advancedReport = new GetAdvancedReport();
-
-        Proxy::unsetInstance();
     }
 
     public function tearDown()
     {
-        WidgetsList::getInstance()->_reset();
-        MenuReporting::getInstance()->unsetInstance();
+        $this->getWidgetsList()->_reset();
         unset($_GET['idSite']);
         parent::tearDown();
     }
@@ -173,7 +169,7 @@ class ReportTest extends IntegrationTestCase
         $widgets = WidgetsList::get();
         $this->assertCount(0, $widgets);
 
-        $this->basicReport->configureWidget(WidgetsList::getInstance());
+        $this->basicReport->configureWidget($this->getWidgetsList());
 
         $widgets = WidgetsList::get();
         $this->assertCount(0, $widgets);
@@ -184,7 +180,7 @@ class ReportTest extends IntegrationTestCase
         $widgets = WidgetsList::get();
         $this->assertCount(0, $widgets);
 
-        $this->advancedReport->configureWidget(WidgetsList::getInstance());
+        $this->advancedReport->configureWidget($this->getWidgetsList());
 
         $widgets = WidgetsList::get();
         $this->assertCount(1, $widgets);
@@ -201,7 +197,7 @@ class ReportTest extends IntegrationTestCase
         $this->assertCount(0, $widgets);
 
         $this->advancedReport->set('widgetParams', array('foo' => 'bar'));
-        $this->advancedReport->configureWidget(WidgetsList::getInstance());
+        $this->advancedReport->configureWidget($this->getWidgetsList());
 
         $widgets = WidgetsList::get();
         $this->assertCount(1, $widgets);
@@ -211,7 +207,7 @@ class ReportTest extends IntegrationTestCase
 
     public function test_configureReportingMenu_shouldNotAddAMenuIfNoWidgetTitleIsSet()
     {
-        $menu      = MenuReporting::getInstance();
+        $menu = $this->getMenuReporting();
         $menuItems = $menu->getMenu();
         $this->assertNull($menuItems);
 
@@ -223,7 +219,7 @@ class ReportTest extends IntegrationTestCase
 
     public function test_configureReportingMenu_shouldAddAMenuIfATitleIsSet()
     {
-        $menu      = MenuReporting::getInstance();
+        $menu = $this->getMenuReporting();
         $menuItems = $menu->getMenu();
         $this->assertNull($menuItems);
 
@@ -466,7 +462,7 @@ class ReportTest extends IntegrationTestCase
     {
         PluginManager::getInstance()->loadPlugins(array('API', 'ExampleReport'));
 
-        $proxyMock = $this->getMock('stdClass', array('call', '__construct'));
+        $proxyMock = $this->getMock('Piwik\API\Proxy', array('call', '__construct'));
         $proxyMock->expects($this->once())->method('call')->with(
             '\\Piwik\\Plugins\\ExampleReport\\API', 'getExampleReport', array(
                 'idSite' => 1,
@@ -477,7 +473,8 @@ class ReportTest extends IntegrationTestCase
                 'format_metrics' => 'bc'
             )
         )->willReturn("result");
-        Proxy::setSingletonInstance($proxyMock);
+
+        self::$fixture->piwikEnvironment->getContainer()->set('Piwik\API\Proxy', $proxyMock);
 
         $report = new GetExampleReport();
         $result = $report->fetch(array('idSite' => 1, 'date' => '2012-01-02'));
@@ -488,7 +485,7 @@ class ReportTest extends IntegrationTestCase
     {
         PluginManager::getInstance()->loadPlugins(array('API', 'Referrers'));
 
-        $proxyMock = $this->getMock('stdClass', array('call', '__construct'));
+        $proxyMock = $this->getMock('Piwik\API\Proxy', array('call', '__construct'));
         $proxyMock->expects($this->once())->method('call')->with(
             '\\Piwik\\Plugins\\Referrers\\API', 'getSearchEnginesFromKeywordId', array(
                 'idSubtable' => 23,
@@ -500,7 +497,8 @@ class ReportTest extends IntegrationTestCase
                 'format_metrics' => 'bc'
             )
         )->willReturn("result");
-        Proxy::setSingletonInstance($proxyMock);
+
+        self::$fixture->piwikEnvironment->getContainer()->set('Piwik\API\Proxy', $proxyMock);
 
         $report = new \Piwik\Plugins\Referrers\Reports\GetKeywords();
         $result = $report->fetchSubtable(23, array('idSite' => 1, 'date' => '2012-01-02'));
@@ -545,5 +543,21 @@ class ReportTest extends IntegrationTestCase
     private function unloadAllPlugins()
     {
         PluginManager::getInstance()->unloadPlugins();
+    }
+
+    /**
+     * @return WidgetsList
+     */
+    private function getWidgetsList()
+    {
+        return self::$fixture->piwikEnvironment->getContainer()->get('Piwik\WidgetsList');
+    }
+
+    /**
+     * @return MenuReporting
+     */
+    private function getMenuReporting()
+    {
+        return self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Menu\MenuReporting');
     }
 }

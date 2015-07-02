@@ -10,8 +10,9 @@ namespace Piwik\Tests\Unit\AssetManager;
 
 use PHPUnit_Framework_TestCase;
 use Piwik\AssetManager\UIAssetCacheBuster;
+use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
-class UIAssetCacheBusterTest extends PHPUnit_Framework_TestCase
+class UIAssetCacheBusterTest extends UnitTestCase
 {
     /**
      * @var UIAssetCacheBuster
@@ -20,7 +21,8 @@ class UIAssetCacheBusterTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->cacheBuster = UIAssetCacheBuster::getInstance();
+        parent::setUp();
+        $this->cacheBuster = $this->environment->getContainer()->get('Piwik\AssetManager\UIAssetCacheBuster');
     }
 
     /**

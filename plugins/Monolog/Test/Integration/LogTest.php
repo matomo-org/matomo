@@ -28,7 +28,7 @@ class LogTest extends IntegrationTestCase
     const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
     const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] %s";
 
-    public static $expectedExceptionOutput = '[Monolog] LogTest.php(112): dummy error message
+    public static $expectedExceptionOutput = '[Monolog] LogTest.php(108): dummy error message
   dummy backtrace';
 
     public static $expectedErrorOutput = '[Monolog] dummyerrorfile.php(145): Unknown error (102) - dummy error string
@@ -38,16 +38,12 @@ class LogTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        Log::unsetInstance();
-
         @unlink(self::getLogFileLocation());
         Log::$debugBacktraceForTests = "dummy backtrace";
     }
 
     public function tearDown()
     {
-        Log::unsetInstance();
-
         @unlink(self::getLogFileLocation());
         Log::$debugBacktraceForTests = null;
 
@@ -256,12 +252,9 @@ class LogTest extends IntegrationTestCase
             'ini.log.log_level' => $level,
             'ini.log.string_message_format' => self::STRING_MESSAGE_FORMAT,
             'ini.log.logger_file_path' => self::getLogFileLocation(),
-            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
+            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
+            'Piwik\Log' => \DI\object()->constructor(\DI\get('Psr\Log\LoggerInterface'))
         ));
         $newEnv->init();
-
-        $newMonologLogger = $newEnv->getContainer()->make('Psr\Log\LoggerInterface');
-        $oldLogger = new Log($newMonologLogger);
-        Log::setSingletonInstance($oldLogger);
     }
 }

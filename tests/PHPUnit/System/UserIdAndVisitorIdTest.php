@@ -19,16 +19,27 @@ use Piwik\Tests\Fixtures\FewVisitsWithSetVisitorId;
  */
 class UserIdAndVisitorIdTest extends SystemTestCase
 {
+    /**
+     * @var FewVisitsWithSetVisitorId
+     */
     public static $fixture = null; // initialized below class definition
 
     public function setUp()
     {
-        Proxy::getInstance()->setHideIgnoredFunctions(false);
+        parent::setUp();
+
+        /** @var Proxy $proxy */
+        $proxy = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\API\Proxy');
+        $proxy->setHideIgnoredFunctions(false);
     }
 
     public function tearDown()
     {
-        Proxy::getInstance()->setHideIgnoredFunctions(true);
+        /** @var Proxy $proxy */
+        $proxy = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\API\Proxy');
+        $proxy->setHideIgnoredFunctions(true);
+
+        parent::tearDown();
     }
 
     public static function getOutputPrefix()

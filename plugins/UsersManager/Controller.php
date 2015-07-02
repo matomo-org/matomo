@@ -9,9 +9,11 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
+use Piwik\API\Proxy;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\FrontController;
 use Piwik\Metrics\Formatter;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
@@ -35,11 +37,11 @@ class Controller extends ControllerAdmin
      */
     private $translator;
 
-    public function __construct(Translator $translator)
+    public function __construct(FrontController $frontController, Proxy $apiProxy, Translator $translator)
     {
         $this->translator = $translator;
 
-        parent::__construct();
+        parent::__construct($frontController, $apiProxy);
     }
 
     static function orderByName($a, $b)

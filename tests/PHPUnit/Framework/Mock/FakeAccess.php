@@ -7,6 +7,8 @@
  */
 namespace Piwik\Tests\Framework\Mock;
 
+use Piwik\Access;
+use Piwik\Auth;
 use Piwik\NoAccessException;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Site as PiwikSite;
@@ -16,7 +18,7 @@ use Exception;
  * FakeAccess for UnitTests
  * @since 2.8.0
  */
-class FakeAccess
+class FakeAccess extends Access
 {
     public static $superUser = false;
     public static $idSitesAdmin = array();
@@ -39,6 +41,8 @@ class FakeAccess
 
     public function __construct($superUser = false, $idSitesAdmin = array(), $idSitesView = array(), $identity = 'superUserLogin')
     {
+        parent::__construct();
+
         self::clearAccess($superUser, $idSitesAdmin, $idSitesView, $identity);
     }
 
@@ -54,29 +58,29 @@ class FakeAccess
         self::$idSitesView = $ids;
     }
 
-    public static function hasSuperUserAccess()
+    public function hasSuperUserAccess()
     {
         return self::$superUser;
     }
 
-    public static function checkUserHasSuperUserAccess()
+    public function checkUserHasSuperUserAccess()
     {
         if (!self::$superUser) {
             throw new NoAccessException("checkUserHasSuperUserAccess Fake exception // string not to be tested");
         }
     }
 
-    public static function setSuperUserAccess($bool = true)
+    public function setSuperUserAccess($bool = true)
     {
         self::$superUser = $bool;
     }
 
-    public static function reloadAccess()
+    public function reloadAccess(Auth $auth = null)
     {
         return true;
     }
 
-    public static function checkUserHasAdminAccess($idSites)
+    public function checkUserHasAdminAccess($idSites)
     {
         if (!self::$superUser) {
             $websitesAccess = self::$idSitesAdmin;
@@ -94,7 +98,7 @@ class FakeAccess
     }
 
     //means at least view access
-    public static function checkUserHasViewAccess($idSites)
+    public function checkUserHasViewAccess($idSites)
     {
         if (self::$superUser) {
             return;
@@ -121,7 +125,7 @@ class FakeAccess
         }
     }
 
-    public static function checkUserHasSomeViewAccess()
+    public function checkUserHasSomeViewAccess()
     {
         if (!self::$superUser) {
             if (count(self::$idSitesView) == 0) {
@@ -133,7 +137,7 @@ class FakeAccess
     }
 
     //means at least view access
-    public static function checkUserHasSomeAdminAccess()
+    public function checkUserHasSomeAdminAccess()
     {
         if (!self::$superUser) {
             if (count(self::$idSitesAdmin) == 0) {
@@ -144,12 +148,12 @@ class FakeAccess
         }
     }
 
-    public static function getLogin()
+    public function getLogin()
     {
         return self::$identity;
     }
 
-    public static function getSitesIdWithAdminAccess()
+    public function getSitesIdWithAdminAccess()
     {
         if (self::$superUser) {
             return API::getInstance()->getAllSitesId();
@@ -158,7 +162,7 @@ class FakeAccess
         return self::$idSitesAdmin;
     }
 
-    public static function getSitesIdWithViewAccess()
+    public function getSitesIdWithViewAccess()
     {
         if (self::$superUser) {
             return API::getInstance()->getAllSitesId();
@@ -167,7 +171,7 @@ class FakeAccess
         return self::$idSitesView;
     }
 
-    public static function getSitesIdWithAtLeastViewAccess()
+    public function getSitesIdWithAtLeastViewAccess()
     {
         if (self::$superUser) {
             return API::getInstance()->getAllSitesId();

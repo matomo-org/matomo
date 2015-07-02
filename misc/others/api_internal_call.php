@@ -1,6 +1,6 @@
 <?php
+
 use Piwik\API\Request;
-use Piwik\FrontController;
 
 define('PIWIK_INCLUDE_PATH', realpath('../..'));
 define('PIWIK_USER_PATH', realpath('../..'));
@@ -13,7 +13,9 @@ define('PIWIK_ENABLE_SESSION_START', false);
 require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
 
-FrontController::getInstance()->init();
+// TODO: need to test this file, I think...
+$environment = new \Piwik\Application\Environment(null);
+$environment->init();
 
 // This inits the API Request with the specified parameters
 $request = new Request('
