@@ -471,6 +471,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'gfsoso.com'                     => array('Google', 'q'),
         'searches.safehomepage.com'      => array('Google', 'q'),
         'searches.f-secure.com'          => array('Google', 'query', 'search?query={k}'),
+        'startgoogle.startpagina.nl'     => array('Google', 'query'),
 
         // Google Cache
         'webcache.googleusercontent.com' => array('Google', '/\/search\?q=cache:[A-Za-z0-9]+:[^+]+([^&]+)/', 'search?q={k}'),
