@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Container\StaticContainer;
+use Piwik\Http\RequestSanitizer;
 use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
@@ -27,9 +28,6 @@ class Common
     const REFERRER_TYPE_SEARCH_ENGINE = 2;
     const REFERRER_TYPE_WEBSITE = 3;
     const REFERRER_TYPE_CAMPAIGN = 6;
-
-    // Flag used with htmlspecialchar. See php.net/htmlspecialchars.
-    const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
 
     public static $isCliMode = null;
 
@@ -263,33 +261,9 @@ class Common
      */
     public static function sanitizeInputValues($value, $alreadyStripslashed = false)
     {
-        if (is_numeric($value)) {
-            return $value;
-        } elseif (is_string($value)) {
-            $value = self::sanitizeString($value);
-
-            if (!$alreadyStripslashed) {
-                // a JSON array was already stripslashed, don't do it again for each value
-
-                $value = self::undoMagicQuotes($value);
-            }
-        } elseif (is_array($value)) {
-            foreach (array_keys($value) as $key) {
-                $newKey = $key;
-                $newKey = self::sanitizeInputValues($newKey, $alreadyStripslashed);
-                if ($key != $newKey) {
-                    $value[$newKey] = $value[$key];
-                    unset($value[$key]);
-                }
-
-                $value[$newKey] = self::sanitizeInputValues($value[$newKey], $alreadyStripslashed);
-            }
-        } elseif (!is_null($value)
-            && !is_bool($value)
-        ) {
-            throw new Exception("The value to escape has not a supported type. Value = " . var_export($value, true));
-        }
-        return $value;
+        /** @var RequestSanitizer $requestSanitizer */
+        $requestSanitizer = StaticContainer::get('Piwik\Http\RequestSanitizer');
+        return $requestSanitizer->sanitizeValues($value, $alreadyStripslashed);
     }
 
     /**
@@ -300,37 +274,9 @@ class Common
      */
     public static function sanitizeInputValue($value)
     {
-        $value = self::sanitizeLineBreaks($value);
-        $value = self::sanitizeString($value);
-        return $value;
-    }
-
-    /**
-     * Sanitize a single input value
-     *
-     * @param $value
-     * @return string
-     */
-    private static function sanitizeString($value)
-    {
-        // $_GET and $_REQUEST already urldecode()'d
-        // decode
-        // note: before php 5.2.7, htmlspecialchars() double encodes &#x hex items
-        $value = html_entity_decode($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
-
-        $value = self::sanitizeNullBytes($value);
-
-        // escape
-        $tmp = @htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
-
-        // note: php 5.2.5 and above, htmlspecialchars is destructive if input is not UTF-8
-        if ($value != '' && $tmp == '') {
-            // convert and escape
-            $value = utf8_encode($value);
-            $tmp = htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
-            return $tmp;
-        }
-        return $tmp;
+        /** @var RequestSanitizer $requestSanitizer */
+        $requestSanitizer = StaticContainer::get('Piwik\Http\RequestSanitizer');
+        return $requestSanitizer->sanitizeValue($value);
     }
 
     /**
@@ -342,7 +288,9 @@ class Common
      */
     public static function unsanitizeInputValue($value)
     {
-        return htmlspecialchars_decode($value, self::HTML_ENCODING_QUOTE_STYLE);
+        /** @var RequestSanitizer $requestSanitizer */
+        $requestSanitizer = StaticContainer::get('Piwik\Http\RequestSanitizer');
+        return $requestSanitizer->unsanitizeValue($value);
     }
 
     /**
@@ -361,54 +309,9 @@ class Common
      */
     public static function unsanitizeInputValues($value)
     {
-        if (is_array($value)) {
-            $result = array();
-            foreach ($value as $key => $arrayValue) {
-                $result[$key] = self::unsanitizeInputValues($arrayValue);
-            }
-            return $result;
-        } else {
-            return self::unsanitizeInputValue($value);
-        }
-    }
-
-    /**
-     * Undo the damage caused by magic_quotes; deprecated in php 5.3 but not removed until php 5.4
-     *
-     * @param string
-     * @return string  modified or not
-     */
-    private static function undoMagicQuotes($value)
-    {
-        static $shouldUndo;
-
-        if (!isset($shouldUndo)) {
-            $shouldUndo = version_compare(PHP_VERSION, '5.4', '<') && get_magic_quotes_gpc();
-        }
-
-        if ($shouldUndo) {
-            $value = stripslashes($value);
-        }
-
-        return $value;
-    }
-
-    /**
-     * @param string $value
-     * @return string Line breaks and line carriage removed
-     */
-    public static function sanitizeLineBreaks($value)
-    {
-        return str_replace(array("\n", "\r"), '', $value);
-    }
-
-    /**
-     * @param string $value
-     * @return string Null bytes removed
-     */
-    public static function sanitizeNullBytes($value)
-    {
-        return str_replace(array("\0"), '', $value);
+        /** @var RequestSanitizer $requestSanitizer */
+        $requestSanitizer = StaticContainer::get('Piwik\Http\RequestSanitizer');
+        return $requestSanitizer->unsanitizeValues($value);
     }
 
     /**
@@ -448,10 +351,7 @@ class Common
 
         // there is no value $varName in the REQUEST so we try to use the default value
         if (empty($varName)
-            || !isset($requestArrayToUse[$varName])
-            || (!is_array($requestArrayToUse[$varName])
-                && strlen($requestArrayToUse[$varName]) === 0
-            )
+            || !self::isParameterPresentInRequest($varName, $requestArrayToUse)
         ) {
             if (is_null($varDefault)) {
                 throw new Exception("The parameter '$varName' isn't set in the Request, and a default value wasn't provided.");
@@ -469,9 +369,9 @@ class Common
 
         // we deal w/ json differently
         if ($varType == 'json') {
-            $value = self::undoMagicQuotes($requestArrayToUse[$varName]);
-            $value = json_decode($value, $assoc = true);
-            return self::sanitizeInputValues($value, $alreadyStripslashed = true);
+            /** @var RequestSanitizer $requestSanitizer */
+            $requestSanitizer = StaticContainer::get('Piwik\Http\RequestSanitizer');
+            return $requestSanitizer->sanitizeJsonValues($requestArrayToUse[$varName]);
         }
 
         $value = self::sanitizeInputValues($requestArrayToUse[$varName]);
@@ -1313,5 +1213,21 @@ class Common
             return $validLanguages;
         }
         return $validLanguages;
+    }
+
+    /**
+     * Returns true if a query parameter exists in an array of query parameters and if the value is not convertible
+     * to an empty string.
+     *
+     * It is important for this to check that the value is not convertible to an empty string. Values like `false`
+     * and empty strings are not considered valid query parameter values.
+     *
+     * @param string $name
+     * @param array $parametersRequest
+     * @return bool
+     */
+    public static function isParameterPresentInRequest($name, $parametersRequest)
+    {
+        return isset($parametersRequest[$name]) && (is_array($parametersRequest[$name]) || strlen($parametersRequest[$name]) !== 0);
     }
 }

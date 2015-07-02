@@ -172,7 +172,9 @@ var Piwik_Popover = (function () {
 
             if (message) {
                 p = $(document.createElement('p')).addClass('Piwik_Popover_Error_Message');
-                error.append(p.html(message));
+                angular.element(document).injector().invoke(function ($sanitize) {
+                    error.append(p.html($sanitize(message)));
+                });
             }
 
             if (backLabel) {

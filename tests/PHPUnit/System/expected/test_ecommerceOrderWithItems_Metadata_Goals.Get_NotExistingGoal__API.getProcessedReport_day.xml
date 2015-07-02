@@ -2,6 +2,6 @@
 <result>
 	<error message="Requested report Goals.get for Website id=1 not found in the list of available reports. 
 
- 
+
  --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php" />
 </result>

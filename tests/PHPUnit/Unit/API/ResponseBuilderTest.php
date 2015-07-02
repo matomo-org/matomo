@@ -19,22 +19,47 @@ use Piwik\Plugin\Manager;
  */
 class ResponseBuilderTest extends \PHPUnit_Framework_TestCase
 {
+    const TEST_EXCEPTION_MESSAGE = 'My Message "<script>alert(1)</script>&';
+
     public function setUp()
     {
         Manager::getInstance()->loadPlugins(array('API'));
     }
 
-    public function test_getResponseException_shouldFormatExceptionDependingOnFormatAndAddDebugHelp()
+    public function getTestDataForGetResponseException()
     {
-        $builder = new ResponseBuilder('xml', array());
-        $response = $builder->getResponseException(new Exception('My Message'));
-
-        $this->assertEquals('<?xml version="1.0" encoding="utf-8" ?>
+        return array(
+            array('xml', '<?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<error message="My Message
- 
+	<error message="My Message &quot;&lt;script&gt;alert(1)&lt;/script&gt;&amp;
+
  --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php" />
-</result>', $response);
+</result>'),
+            array('json', '{"result":"error","message":"My Message \"<script>alert(1)<\/script>& --> To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php"}'),
+            array('html', 'My Message &quot;&lt;script&gt;alert(1)&lt;/script&gt;&amp;<br />
+<br />
+ --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php'),
+            array('php', 'a:2:{s:6:"result";s:5:"error";s:7:"message";s:142:"My Message "<script>alert(1)</script>&
+
+ --> To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php";}'),
+            array('rss', 'Error: My Message "<script>alert(1)</script>&
+
+ --> To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php'),
+            array('tsv', 'Error: My Message "<script>alert(1)</script>&
+
+ --> To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php'),
+        );
+    }
+
+    /**
+     * @dataProvider getTestDataForGetResponseException
+     */
+    public function test_getResponseException_shouldFormatExceptionDependingOnFormatAndAddDebugHelp($format, $expected)
+    {
+        $builder = new ResponseBuilder($format, array());
+        $response = $builder->getResponseException(new Exception(self::TEST_EXCEPTION_MESSAGE));
+
+        $this->assertEquals($expected, $response);
     }
 
     public function test_getResponse_shouldTreatAsSuccessIfNoValue()

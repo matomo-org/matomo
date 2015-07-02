@@ -41,6 +41,9 @@ define("WHOLE_TEST_FILE_WITH_RANGE_SRV_MODE", "wholeTestFileWithRange");
 define("PARTIAL_BYTE_START", 1204);
 define("PARTIAL_BYTE_END", 14724);
 
+$environment = new \Piwik\Application\Environment(null);
+$environment->init();
+
 /**
  * If the static file server has been requested, the response sent back to the browser will be the content produced by
  * the execution of Piwik:serverStaticFile(). In this case, unit tests won't be executed
@@ -55,9 +58,6 @@ if ($staticFileServerMode === "") {
     throw new Exception("When this testing file is used as a static file server, the request parameter " .
         SRV_MODE_REQUEST_VAR . " must be provided.");
 }
-
-$environment = new \Piwik\Application\Environment(null);
-$environment->init();
 
 switch ($staticFileServerMode) {
     // The static file server calls Piwik::serverStaticFile with a null file

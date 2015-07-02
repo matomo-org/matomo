@@ -10,6 +10,8 @@ namespace Piwik\Plugins\BulkTracking\Tracker;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Http\RequestSanitizer;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\TrackerConfig;
 
@@ -67,7 +69,10 @@ class Requests
     public function getRequestsArrayFromBulkRequest($rawData)
     {
         $rawData = trim($rawData);
-        $rawData = Common::sanitizeLineBreaks($rawData);
+
+        /** @var RequestSanitizer $requestSanitizer */
+        $requestSanitizer = StaticContainer::get('Piwik\Http\RequestSanitizer');
+        $rawData = $requestSanitizer->sanitizeLineBreaks($rawData);
 
         // POST data can be array of string URLs or array of arrays w/ visit info
         $jsonData = json_decode($rawData, $assoc = true);

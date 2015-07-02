@@ -11,6 +11,8 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Http\RequestSanitizer;
 use Piwik\Piwik;
 use Piwik\Singleton;
 use ReflectionClass;
@@ -38,11 +40,17 @@ class Proxy extends Singleton
     private $noDefaultValue;
 
     /**
+     * @var RequestSanitizer
+     */
+    private $requestSanitizer;
+
+    /**
      * protected constructor
      */
-    protected function __construct()
+    protected function __construct(RequestSanitizer $requestSanitizer = null)
     {
         $this->noDefaultValue = new NoDefaultValue();
+        $this->requestSanitizer = $requestSanitizer ?: StaticContainer::get('Piwik\Http\RequestSanitizer');
     }
 
     /**
@@ -158,11 +166,11 @@ class Proxy extends Singleton
             // get the list of parameters required by the method
             $parameterNamesDefaultValues = $this->getParametersList($className, $methodName);
 
-            // load parameters in the right order, etc.
-            $finalParameters = $this->getRequestParametersArray($parameterNamesDefaultValues, $parametersRequest);
-
             // allow plugins to manipulate the value
             $pluginName = $this->getModuleNameFromClassName($className);
+
+            // load parameters in the right order, etc.
+            $finalParameters = $this->getRequestParametersArray("$pluginName.$methodName", $parameterNamesDefaultValues, $parametersRequest);
 
             /**
              * Triggered before an API request is dispatched.
@@ -374,41 +382,26 @@ class Proxy extends Singleton
     /**
      * Returns an array containing the values of the parameters to pass to the method to call
      *
+     * @param string $method
      * @param array $requiredParameters array of (parameter name, default value)
      * @param array $parametersRequest
      * @throws Exception
      * @return array values to pass to the function call
      */
-    private function getRequestParametersArray($requiredParameters, $parametersRequest)
+    private function getRequestParametersArray($method, $requiredParameters, $parametersRequest)
     {
         $finalParameters = array();
         foreach ($requiredParameters as $name => $defaultValue) {
-            try {
-                if ($defaultValue instanceof NoDefaultValue) {
-                    $requestValue = Common::getRequestVar($name, null, null, $parametersRequest);
-                } else {
-                    try {
-                        if ($name == 'segment' && !empty($parametersRequest['segment'])) {
-                            // segment parameter is an exception: we do not want to sanitize user input or it would break the segment encoding
-                            $requestValue = ($parametersRequest['segment']);
-                        } else {
-                            $requestValue = Common::getRequestVar($name, $defaultValue, null, $parametersRequest);
-                        }
-                    } catch (Exception $e) {
-                        // Special case: empty parameter in the URL, should return the empty string
-                        if (isset($parametersRequest[$name])
-                            && $parametersRequest[$name] === ''
-                        ) {
-                            $requestValue = '';
-                        } else {
-                            $requestValue = $defaultValue;
-                        }
-                    }
-                }
-            } catch (Exception $e) {
+            $isValuePresent = Common::isParameterPresentInRequest($name, $parametersRequest);
+
+            $value = $isValuePresent ? $parametersRequest[$name] : $defaultValue;
+            if ($value instanceof NoDefaultValue) {
                 throw new Exception(Piwik::translate('General_PleaseSpecifyValue', array($name)));
             }
-            $finalParameters[] = $requestValue;
+
+            $value = $this->requestSanitizer->sanitizeApiParameter($method, $name, $value);
+
+            $finalParameters[] = $value;
         }
         return $finalParameters;
     }

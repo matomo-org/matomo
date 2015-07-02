@@ -215,7 +215,7 @@ class CommonTest extends PHPUnit_Framework_TestCase
             array(array("test", 1345524, array("gaga")), array(), 'array', array("test", 1345524, array("gaga"))), // array as a default value / types
             array(array("test", 1345524, array("gaga")), 45, 'string', "45"),
             array(array("test", 1345524, array("gaga")), array(1), 'array', array("test", 1345524, array("gaga"))),
-            array(array("test", 1345524, "Start of hello\nworld\n\t", array("gaga")), array(1), 'array', array("test", 1345524, "Start of hello\nworld\n\t", array("gaga"))),
+            array(array("test", 1345524, "Start of hello\nworld\n\t", array("gaga")), array(1), 'array', array("test", 1345524, "Start of helloworld\t", array("gaga"))),
             array(array("test", 1345524, array("gaga")), 4, 'int', 4),
             array('', array(1), 'array', array(1)),
             array('', array(), 'array', array()),

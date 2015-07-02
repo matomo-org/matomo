@@ -80,7 +80,9 @@
             }
         }
 
-        html += '>' + message + '</div>';
+        angular.element(document).injector().invoke(function ($sanitize) {
+            html += '>' + $sanitize(message) + '</div>';
+        });
 
         return html;
     }

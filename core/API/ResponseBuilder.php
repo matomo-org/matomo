@@ -148,7 +148,7 @@ class ResponseBuilder
             if (\Piwik_ShouldPrintBackTraceWithMessage()) {
                 $message = $e->getMessage() . " in \n " . $e->getFile() . ":" . $e->getLine() . " \n " . $e->getTraceAsString();
             } else {
-                $message = $e->getMessage() . "\n \n --> To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php";
+                $message = $e->getMessage() . "\n\n --> To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php";
             }
 
             return new Exception($message);
@@ -164,7 +164,7 @@ class ResponseBuilder
             $message .= "\n" . $exception->getTraceAsString();
         }
 
-        return Renderer::formatValueXml($message);
+        return $message;
     }
 
     private function handleDataTable(DataTableInterface $datatable)
