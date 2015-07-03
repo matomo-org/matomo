@@ -30,7 +30,7 @@ class RssRendererTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        FakeAccess::setSuperUserAccess(true);
+        FakeAccess::$superUser = true;
 
         $idSite = Fixture::createWebsite('2014-01-01 00:00:00');
 
