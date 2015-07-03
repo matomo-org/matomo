@@ -652,7 +652,7 @@ class UsersManagerTest extends IntegrationTestCase
      */
     public function testSetSuperUserAccess_ShouldFail_IfUserHasNotSuperUserPermission()
     {
-        FakeAccess::setSuperUserAccess(false);
+        FakeAccess::$superUser= false;
         $this->api->setSuperUserAccess('nologin', false);
     }
 

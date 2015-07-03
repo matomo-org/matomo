@@ -225,7 +225,7 @@ class APITest extends IntegrationTestCase
 
     protected function setNonAdminUser()
     {
-        FakeAccess::setSuperUserAccess(false);
+        FakeAccess::$superUser = false;
         FakeAccess::$idSitesView = array(99);
         FakeAccess::$identity = 'aUser';
     }
