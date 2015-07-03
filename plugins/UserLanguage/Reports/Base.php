@@ -15,6 +15,7 @@ abstract class Base extends \Piwik\Plugin\Report
 {
     protected function init()
     {
-        $this->category = 'General_VisitorSettings';
+        $this->categoryId = 'General_Visitors';
+        $this->subcategoryId = 'UserCountry_SubmenuLocations';
     }
 }

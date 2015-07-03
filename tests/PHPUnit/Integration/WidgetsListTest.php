@@ -8,10 +8,12 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Access;
+use Piwik\Widget\WidgetConfig;
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Translate;
-use Piwik\WidgetsList;
+use Piwik\Widget\WidgetsList;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -20,150 +22,152 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class WidgetsListTest extends IntegrationTestCase
 {
+    public function setIp()
+    {
+        parent::setUp();
+
+        FakeAccess::$superUser = true;
+    }
+
     public function testGet()
     {
-        // setup the access layer
-        FakeAccess::$superUser = true;
-
         Fixture::createWebsite('2009-01-04 00:11:42');
 
         $_GET['idSite'] = 1;
 
-        WidgetsList::_reset();
         $widgets = WidgetsList::get();
-        WidgetsList::_reset();
+
+        $widgetsPerCategory = $this->getWidgetsPerCategory($widgets);
 
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
-            'VisitsSummary_VisitsSummary'  => 6,
-            'Live!'                        => 4,
-            'General_Visitors'             => 12,
-            'General_VisitorSettings'      => 5,
-            'General_Actions'              => 10,
-            'Events_Events'                => 3,
-            'Actions_SubmenuSitesearch'    => 5,
-            'Referrers_Referrers'          => 7,
-            'Goals_Goals'                  => 1,
-            'SEO'                          => 2,
-            'Example Widgets'              => 4,
-            'DevicesDetection_DevicesDetection' => 8,
-            'Insights_WidgetCategory' => 2
+            'Dashboard_Dashboard' => 1,
+            'General_Actions' => 15,
+            'General_Visitors' => 35,
+            'Example Widgets' => 5,
+            'SEO' => 2,
+            'Goals_Goals' => 3,
+            'Live!' => 2,
+            'Insights_WidgetCategory' => 2,
+            'ExampleUI_UiFramework' => 8,
+            'Referrers_Referrers' => 9,
         );
 
         // number of main categories
-        $this->assertEquals(count($numberOfWidgets), count($widgets));
+        $this->assertEquals(count($numberOfWidgets), count($widgetsPerCategory));
 
         foreach ($numberOfWidgets as $category => $widgetCount) {
-            $this->assertEquals($widgetCount, count($widgets[$category]), sprintf("Widget: %s", $category));
+            $this->assertEquals($widgetCount, count($widgetsPerCategory[$category]), sprintf("Widget: %s", $category));
         }
+    }
+
+    private function getWidgetsPerCategory(WidgetsList $list)
+    {
+        $widgetsPerCategory = array();
+        foreach ($list->getWidgetConfigs() as $widgetConfig) {
+            $category = $widgetConfig->getCategoryId();
+            if (!isset($widgetsPerCategory[$category])) {
+                $widgetsPerCategory[$category] = array();
+            }
+
+            $widgetsPerCategory[$category][] = $widgetConfig;
+        }
+
+        return $widgetsPerCategory;
     }
 
     public function testGetWithGoals()
     {
-        // setup the access layer
-        FakeAccess::$superUser = true;
-
         Fixture::createWebsite('2009-01-04 00:11:42');
-        API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
+
+        $initialGoalsWidgets = 3;
 
         $_GET['idSite'] = 1;
 
-        WidgetsList::_reset();
-        $widgets = WidgetsList::get();
-        WidgetsList::_reset();
+        $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
+        $this->assertEquals($initialGoalsWidgets, count($perCategory['Goals_Goals']));
+
+
+        API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
+
+        $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(13, count($widgets));
-
-        // check that the goal widget was added
-        $numberOfWidgets = array(
-            'Goals_Goals' => 2,
-        );
-
-        foreach ($numberOfWidgets as $category => $widgetCount) {
-            $this->assertEquals($widgetCount, count($widgets[$category]));
-        }
+        $this->assertEquals(10, count($perCategory));
+        $this->assertEquals($initialGoalsWidgets + 2, count($perCategory['Goals_Goals'])); // make sure widgets for that goal were added
     }
 
     public function testGetWithGoalsAndEcommerce()
     {
-        // setup the access layer
-        FakeAccess::$superUser = true;
-
         Fixture::createWebsite('2009-01-04 00:11:42', true);
         API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
 
         $_GET['idSite'] = 1;
 
-        WidgetsList::_reset();
-        $widgets = WidgetsList::get();
-        WidgetsList::_reset();
+        $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(14, count($widgets));
+        $this->assertEquals(11, count($perCategory));
 
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
-            'Goals_Goals'     => 2,
-            'Goals_Ecommerce' => 5,
+            'Goals_Goals'     => 5,
+            'Goals_Ecommerce' => 4,
         );
 
         foreach ($numberOfWidgets as $category => $widgetCount) {
-            $this->assertEquals($widgetCount, count($widgets[$category]));
+            $this->assertEquals($widgetCount, count($perCategory[$category]));
         }
     }
 
     public function testRemove()
     {
-        // setup the access layer
-        FakeAccess::$superUser = true;
-
         Fixture::createWebsite('2009-01-04 00:11:42', true);
         API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
 
         $_GET['idSite'] = 1;
 
-        WidgetsList::_reset();
-        $widgets = WidgetsList::get();
+        $list = WidgetsList::get();
 
-        $this->assertCount(14, $widgets);
-        WidgetsList::remove('SEO', 'NoTeXiStInG');
+        $this->assertCount(11, $this->getWidgetsPerCategory($list));
 
-        $widgets = WidgetsList::get();
-        $this->assertCount(14, $widgets);
+        $list->remove('SEO', 'NoTeXiStInG');
 
-        $this->assertArrayHasKey('SEO', $widgets);
-        $this->assertCount(2, $widgets['SEO']);
+        $perCategory = $this->getWidgetsPerCategory($list);
+        $this->assertCount(11, $perCategory);
 
-        WidgetsList::remove('SEO', 'SEO_SeoRankings');
-        $widgets = WidgetsList::get();
+        $this->assertArrayHasKey('SEO', $perCategory);
+        $this->assertCount(2, $perCategory['SEO']);
 
-        $this->assertCount(1, $widgets['SEO']);
+        $list->remove('SEO', 'SEO_SeoRankings');
 
-        WidgetsList::remove('SEO');
-        $widgets = WidgetsList::get();
+        $perCategory = $this->getWidgetsPerCategory($list);
+        $this->assertCount(1, $perCategory['SEO']);
 
-        $this->assertArrayNotHasKey('SEO', $widgets);
+        $list->remove('SEO');
 
-        WidgetsList::_reset();
+        $perCategory = $this->getWidgetsPerCategory($list);
+        $this->assertArrayNotHasKey('SEO', $perCategory);
     }
 
     public function testIsDefined()
     {
-        // setup the access layer
-        FakeAccess::$superUser = true;
-
         Translate::loadAllTranslations();
 
         Fixture::createWebsite('2009-01-04 00:11:42', true);
 
         $_GET['idSite'] = 1;
 
-        WidgetsList::_reset();
-        WidgetsList::add('Actions', 'Pages', 'Actions', 'getPageUrls');
+        $config = new WidgetConfig();
+        $config->setCategoryId('Actions');
+        $config->setName('Pages');
+        $config->setModule('Actions');
+        $config->setAction('getPageUrls');
+        $list = WidgetsList::get();
+        $list->addWidgetConfig($config);
 
-        $this->assertTrue(WidgetsList::isDefined('Actions', 'getPageUrls'));
-        $this->assertFalse(WidgetsList::isDefined('Actions', 'inValiD'));
+        $this->assertTrue($list->isDefined('Actions', 'getPageUrls'));
+        $this->assertFalse($list->isDefined('Actions', 'inValiD'));
 
         Translate::reset();
     }

@@ -480,7 +480,7 @@ class Plugin
             require_once $file;
 
             $fileName  = str_replace(array($baseDir . '/', '.php'), '', $file);
-            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, $directoryWithinPlugin, str_replace('/', '\\', $fileName));
+            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, str_replace('/', '\\', $directoryWithinPlugin), str_replace('/', '\\', $fileName));
 
             if (!class_exists($klassName)) {
                 continue;

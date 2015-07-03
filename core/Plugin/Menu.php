@@ -11,11 +11,11 @@ namespace Piwik\Plugin;
 use Piwik\Common;
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
-use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\UsersManager\UserPreferences;
+use Piwik\Plugin\Reports;
 
 /**
  * Base class of all plugin menu providers. Plugins that define their own menu items can extend this class to easily
@@ -210,14 +210,6 @@ class Menu
     }
 
     /**
-     * Configures the reporting menu which should only contain links to reports of a specific site such as
-     * "Search Engines", "Page Titles" or "Locations & Provider".
-     */
-    public function configureReportingMenu(MenuReporting $menu)
-    {
-    }
-
-    /**
      * Configures the top menu which is supposed to contain analytics related items such as the
      * "All Websites Dashboard".
      */
@@ -254,7 +246,7 @@ class Menu
         }
 
         $reportAction = lcfirst(substr($action, 4));
-        if (Report::factory($module, $reportAction)) {
+        if (Reports::factory($module, $reportAction)) {
             return;
         }
 

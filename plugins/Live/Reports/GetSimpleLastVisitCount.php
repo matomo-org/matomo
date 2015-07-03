@@ -15,15 +15,22 @@ use Piwik\Plugin\Report;
 use Piwik\Plugins\Live\Controller;
 use Piwik\Plugins\Live\VisitorLog;
 use Piwik\API\Request;
+use Piwik\Report\ReportWidgetFactory;
 use Piwik\View;
+use Piwik\Widget\WidgetsList;
 
 class GetSimpleLastVisitCount extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->widgetTitle = 'Live_RealTimeVisitorCount';
         $this->order = 3;
+    }
+
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
+    {
+        $widget = $factory->createWidget()->setName('Live_RealTimeVisitorCount')->setOrder(15);
+        $widgetsList->addWidgetConfig($widget);
     }
 
     public function render()

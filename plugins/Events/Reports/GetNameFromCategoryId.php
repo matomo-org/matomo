@@ -19,7 +19,7 @@ class GetNameFromCategoryId extends Report
 {
     protected function init()
     {
-        $this->category = 'Events_Events';
+        $this->categoryId = 'Events_Events';
         $this->processedMetrics = false;
         $this->dimension     = new EventName();
         $this->name          = Piwik::translate('Events_EventNames');

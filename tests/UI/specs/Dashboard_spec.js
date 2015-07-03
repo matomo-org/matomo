@@ -49,7 +49,7 @@ describe("Dashboard", function () {
         var layout = [
             [
                 {
-                    uniqueId: "widgetVisitsSummarygetEvolutionGraphcolumnsArray",
+                    uniqueId: "widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution",
                     parameters: {module: "VisitsSummary", action: "getEvolutionGraph", columns: "nb_visits"}
                 }
             ],
@@ -126,18 +126,20 @@ describe("Dashboard", function () {
             page.click('.dashboard-manager');
 
             page.mouseMove('.widgetpreview-categorylist>li:contains(Live!)'); // have to mouse move twice... otherwise Live! will just be highlighted
-            page.mouseMove('.widgetpreview-categorylist>li:contains(Visits Summary)');
+            page.mouseMove('.widgetpreview-categorylist>li:contains(Times):first');
 
-            page.mouseMove('.widgetpreview-widgetlist>li:contains(Visits by Local Time)');
+            page.mouseMove('.widgetpreview-widgetlist>li:contains(Visits per local time)');
 
-            page.click('.widgetpreview-widgetlist>li:contains(Visits by Local Time)');
+            page.click('.widgetpreview-widgetlist>li:contains(Visits per local time)');
         }, done);
     });
 
     it("should remove widget when remove widget icon is clicked", function (done) {
         expect.screenshot("widget_move").to.be.capture("widget_removed", function (page) {
-            page.mouseMove('#widgetVisitTimegetVisitInformationPerLocalTime .widgetTop');
-            page.click('#widgetVisitTimegetVisitInformationPerLocalTime .button#close');
+            var widget = '[id="widgetVisitTimegetVisitInformationPerLocalTimeviewDataTablegraphVerticalBar"]';
+
+            page.mouseMove(widget + ' .widgetTop');
+            page.click(widget + ' .button#close');
             page.click('.ui-dialog button>span:contains(Yes)');
             page.mouseMove('.dashboard-manager');
         }, done);
@@ -148,7 +150,7 @@ describe("Dashboard", function () {
             page.click('.dashboard-manager');
             page.click('li[data-action=showChangeDashboardLayoutDialog]');
             page.click('div[layout=50-50]');
-            page.click('.ui-dialog button>span:contains(Save)', 3000);
+            page.click('.ui-dialog button>span:contains(Save)');
         }, done);
     });
 
@@ -168,11 +170,11 @@ describe("Dashboard", function () {
             page.click('.dashboard-manager');
             page.click('li[data-action=copyDashboardToUser]');
             page.evaluate(function () {
-                $('#copyDashboardName').val('');
+                $('[id=copyDashboardName]:last').val('');
             });
-            page.sendKeys('#copyDashboardName', 'newdash');
+            page.sendKeys('[id=copyDashboardName]:last', 'newdash');
             page.evaluate(function () {
-                $('#copyDashboardUser').val('superUserLogin');
+                $('[id=copyDashboardUser]:last').val('superUserLogin');
             });
             page.click('.ui-dialog button>span:contains(Ok)');
 
@@ -184,7 +186,7 @@ describe("Dashboard", function () {
         expect.screenshot("reset").to.be.capture(function (page) {
             page.click('.dashboard-manager');
             page.click('li[data-action=resetDashboard]');
-            page.click('.ui-dialog button>span:contains(Yes)', 10000);
+            page.click('.ui-dialog button>span:contains(Yes)', 4000);
             page.mouseMove('.dashboard-manager');
         }, done);
     });
@@ -214,7 +216,7 @@ describe("Dashboard", function () {
         expect.screenshot("create_new").to.be.capture(function (page) {
             page.click('.dashboard-manager');
             page.click('li[data-action=createDashboard]');
-            page.sendKeys('#createDashboardName', 'newdash2');
+            page.sendKeys('#createDashboardName:visible', 'newdash2');
             page.click('.ui-dialog[aria-describedby=createDashboardConfirm] button>span:contains(Yes)');
         }, done);
     });

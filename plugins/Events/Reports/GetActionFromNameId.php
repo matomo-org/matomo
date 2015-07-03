@@ -19,7 +19,7 @@ class GetActionFromNameId extends Report
 {
     protected function init()
     {
-        $this->category = 'Events_Events';
+        $this->categoryId = 'Events_Events';
         $this->processedMetrics = false;
         $this->dimension     = new EventAction();
         $this->name          = Piwik::translate('Events_EventActions');

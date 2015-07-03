@@ -10,8 +10,8 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Piwik;
-use Piwik\Plugin\Widgets;
 use Piwik\Translate;
+use Piwik\Widget\WidgetsList;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,6 +25,7 @@ class GenerateWidget extends GeneratePluginBase
         $this->setName('generate:widget')
             ->setDescription('Adds a plugin widget class to an existing plugin')
             ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have any widgets defined yet')
+            ->addOption('widgetname', null, InputOption::VALUE_REQUIRED, 'The name of the widget you want to create')
             ->addOption('category', null, InputOption::VALUE_REQUIRED, 'The name of the category the widget should belong to');
     }
 
@@ -33,6 +34,7 @@ class GenerateWidget extends GeneratePluginBase
         $pluginName = $this->getPluginName($input, $output);
         $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
 
+        $widgetName = $this->getWidgetName($input, $output);
         $category   = $this->getCategory($input, $output);
 
         if ($category === Piwik::translate($category)) {
@@ -40,26 +42,78 @@ class GenerateWidget extends GeneratePluginBase
             $category = $this->makeTranslationIfPossible($pluginName, $category);
         }
 
+        $widgetMethod = $this->getWidgetMethodName($widgetName);
+        $widgetClass  = ucfirst($widgetMethod);
+
         $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
-        $replace        = array('ExamplePlugin'    => $pluginName,
-                                'Example Category' => $category);
-        $whitelistFiles = array('/Widgets.php');
+        $replace        = array('ExamplePlugin'   => $pluginName,
+                                'MyExampleWidget' => $widgetClass,
+                                'Example Widget Name' => $this->makeTranslationIfPossible($pluginName, $widgetName),
+                                'Example Widgets' => $category);
+        $whitelistFiles = array('/Widgets', '/Widgets/MyExampleWidget.php');
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
         $this->writeSuccessMessage($output, array(
-             sprintf('Widgets.php for %s generated.', $pluginName),
-             'You can now start defining your plugin widgets',
+             sprintf('plugins/%s/Widgets/%s.php generated.', $pluginName, $widgetClass),
+             'You can now start implementing the <comment>render()</comment> method.',
              'Enjoy!'
         ));
+    }
+
+    private function getWidgetMethodName($methodName)
+    {
+        $methodName = trim($methodName);
+        $methodName = str_replace(' ', '', $methodName);
+        $methodName = preg_replace("/[^A-Za-z0-9]/", '', $methodName);
+
+        if (0 !== strpos(strtolower($methodName), 'get')) {
+            $methodName = 'get' . ucfirst($methodName);
+        }
+
+        return lcfirst($methodName);
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return array
+     * @throws \RuntimeException
+     */
+    protected function getWidgetName(InputInterface $input, OutputInterface $output)
+    {
+        $validate = function ($widgetName) {
+            if (empty($widgetName)) {
+                throw new \InvalidArgumentException('Please enter the name of your widget');
+            }
+
+            if (preg_match("/[^A-Za-z0-9 ]/", $widgetName)) {
+                throw new \InvalidArgumentException('Only alpha numerical characters and whitespaces are allowed');
+            }
+
+            return $widgetName;
+        };
+
+        $widgetName = $input->getOption('widgetname');
+
+        if (empty($widgetName)) {
+            $dialog = $this->getHelperSet()->get('dialog');
+            $widgetName = $dialog->askAndValidate($output, 'Enter the name of your Widget, for instance "Browser Families": ', $validate);
+        } else {
+            $validate($widgetName);
+        }
+
+        $widgetName = ucfirst($widgetName);
+
+        return $widgetName;
     }
 
     protected function getExistingCategories()
     {
         $categories = array();
-        foreach (Widgets::getAllWidgets() as $widget) {
-            if ($widget->getCategory()) {
-                $categories[] = Piwik::translate($widget->getCategory());
+        foreach (WidgetsList::get()->getWidgetConfigs() as $widget) {
+            if ($widget->getCategoryId()) {
+                $categories[] = Piwik::translate($widget->getCategoryId());
             }
         }
         $categories = array_values(array_unique($categories));
@@ -111,8 +165,8 @@ class GenerateWidget extends GeneratePluginBase
      */
     protected function getPluginName(InputInterface $input, OutputInterface $output)
     {
-        $pluginNames = $this->getPluginNamesHavingNotSpecificFile('Widgets.php');
-        $invalidName = 'You have to enter the name of an existing plugin which does not already have any widgets defined';
+        $pluginNames = $this->getPluginNames();
+        $invalidName = 'You have to enter a name of an existing plugin.';
 
         return $this->askPluginNameAndValidate($input, $output, $pluginNames, $invalidName);
     }

@@ -11,6 +11,7 @@ namespace Piwik\Plugins\UserLanguage\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\UserLanguage\Columns\Language;
+use Piwik\Plugin\Reports;
 
 class GetLanguage extends Base
 {
@@ -20,8 +21,7 @@ class GetLanguage extends Base
         $this->dimension     = new Language();
         $this->name          = Piwik::translate('UserLanguage_BrowserLanguage');
         $this->documentation = ''; // TODO
-        $this->order = 10;
-        $this->widgetTitle  = 'UserLanguage_BrowserLanguage';
+        $this->order = 8;
     }
 
     public function configureView(ViewDataTable $view)
@@ -37,7 +37,7 @@ class GetLanguage extends Base
 
     public function getRelatedReports() {
         return array(
-            self::factory('UserLanguage', 'getLanguageCode'),
+            Reports::factory('UserLanguage', 'getLanguageCode'),
         );
     }
 

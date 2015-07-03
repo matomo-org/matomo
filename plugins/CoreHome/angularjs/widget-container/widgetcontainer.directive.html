@@ -1,0 +1,10 @@
+<div>
+    <!-- custom template prevents recursion -->
+    <script id="mywidget.html" type="text/ng-template">
+        <div piwik-widget="widget"></div>
+    </script>
+
+    <div ng-repeat="widget in container.widgets">
+        <div ng-include src="'mywidget.html'"/>
+    </div>
+</div>

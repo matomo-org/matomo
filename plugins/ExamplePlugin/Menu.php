@@ -9,27 +9,16 @@
 namespace Piwik\Plugins\ExamplePlugin;
 
 use Piwik\Menu\MenuAdmin;
-use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 
 /**
  * This class allows you to add, remove or rename menu items.
- * To configure a menu (such as Admin Menu, Reporting Menu, User Menu...) simply call the corresponding methods as
+ * To configure a menu (such as Admin Menu, Top Menu, User Menu...) simply call the corresponding methods as
  * described in the API-Reference http://developer.piwik.org/api-reference/Piwik/Menu/MenuAbstract
  */
 class Menu extends \Piwik\Plugin\Menu
 {
-    public function configureReportingMenu(MenuReporting $menu)
-    {
-        // reuse an existing category. Execute the showList() method within the controller when menu item was clicked
-        // $menu->addVisitorsItem('Report 1', $this->urlForAction('showList'), $orderId = 30);
-        // $menu->addActionsItem('Report 1', $this->urlForAction('showList'), $orderId = 30);
-
-        // or create a custom category 'UI Framework'
-        // $menu->addItem('UI Framework', '', $this->urlForDefaultAction(), $orderId = 30);
-        // $menu->addItem('UI Framework', 'Report 1', $this->urlForAction('showList'), $orderId = 30);
-    }
 
     public function configureAdminMenu(MenuAdmin $menu)
     {

@@ -24,6 +24,19 @@
         service.init = init;
         return service;
 
+        function cleanHash(hash)
+        {
+            var chars = ['#', '/', '?'];
+            for (var i = 0; i != chars.length; ++i) {
+                var charToRemove = chars[i];
+                if (hash.charAt(0) == charToRemove) {
+                    hash = hash.substring(1);
+                }
+            }
+
+            return hash;
+        }
+
         function init() {
             $rootScope.$on('$locationChangeSuccess', function () {
                 loadCurrentPage();
@@ -33,19 +46,12 @@
         }
 
         function loadCurrentPage() {
-            // the location hash will have a / prefix, which broadcast.pageload doesn't want
-            broadcast.pageload($location.path().substring(1));
+            broadcast.pageload(cleanHash(window.location.hash));
         }
 
         function load(hash) {
             // make sure the hash is just the query parameter values, w/o a starting #, / or ? char. broadcast.pageload & $location.path should get neither
-            var chars = ['#', '/', '?'];
-            for (var i = 0; i != chars.length; ++i) {
-                var charToRemove = chars[i];
-                if (hash.charAt(0) == charToRemove) {
-                    hash = hash.substring(1);
-                }
-            }
+            hash = cleanHash(hash);
 
             $location.path(hash);
 

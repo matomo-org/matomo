@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\UserCountry;
 
 use Piwik\Menu\MenuAdmin;
-use Piwik\Menu\MenuReporting;
 use Piwik\Piwik;
 
 class Menu extends \Piwik\Plugin\Menu
@@ -21,10 +20,5 @@ class Menu extends \Piwik\Plugin\Menu
                                    $this->urlForAction('adminIndex'),
                                    $order = 9);
         }
-    }
-
-    public function configureReportingMenu(MenuReporting $menu)
-    {
-        $menu->addVisitorsItem('UserCountry_SubmenuLocations', $this->urlForAction('index'));
     }
 }
