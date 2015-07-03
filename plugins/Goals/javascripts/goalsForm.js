@@ -105,7 +105,7 @@ function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, patte
 
 function bindGoalForm() {
 
-    $('select[name=trigger_type]').click(function () {
+    $('select[name=trigger_type]').change(function () {
         var triggerTypeId = $(this).val();
         if (triggerTypeId == "manually") {
             $('input[name=match_attribute]').prop('disabled', true);
