@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
+use Piwik\Access;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
@@ -474,8 +475,11 @@ class UsersManagerTest extends IntegrationTestCase
         $access = $this->api->getSitesAccessFromUser("gegg4564eqgeqag");
         $access = $this->_flatten($access);
 
+        /** @var Access $accessInstance */
+        $accessInstance = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Access');
+
         FakeAccess::$superUser = false;
-        $this->assertEquals(array_keys($access), FakeAccess::getSitesIdWithAdminAccess());
+        $this->assertEquals(array_keys($access), $accessInstance->getSitesIdWithAdminAccess());
 
         // we want to test the case for which we have actually set some rights
         // if this is not OK then change the setUp method and add some admin rights for some websites
