@@ -21,7 +21,8 @@ class GetModel extends Base
         $this->name          = Piwik::translate('DevicesDetection_DeviceModel');
         $this->documentation = ''; // TODO
         $this->order = 2;
-        $this->widgetTitle  = 'DevicesDetection_DeviceModel';
+
+        $this->subcategoryId = 'DevicesDetection_Devices';
     }
 
     public function configureView(ViewDataTable $view)

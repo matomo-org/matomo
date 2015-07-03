@@ -10,9 +10,9 @@
 describe("PivotByDimension", function () {
     this.timeout(0);
 
-    var eventsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09#/idSite=1&period=year&date=2012-08-09&module=Events&action=index",
-        actionsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09#/idSite=1&period=year&date=2012-08-09&module=Actions&action=menuGetPageUrls",
-        cvarsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09#/idSite=1&period=year&date=2012-08-09&module=CustomVariables&action=menuGetCustomVariables"
+    var eventsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09#?idSite=1&period=year&date=2012-08-09&category=General_Actions&subcategory=Events_Events",
+        actionsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09#?idSite=1&period=year&date=2012-08-09&category=General_Actions&subcategory=General_Pages",
+        cvarsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09#?idSite=1&period=year&date=2012-08-09&category=General_Visitors&subcategory=CustomVariables_CustomVariables"
         ;
 
     it("should pivot a report correctly when the pivot cog option is selected", function (done) {

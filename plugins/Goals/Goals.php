@@ -13,8 +13,9 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
+use Piwik\Plugin\Reports;
 use Piwik\Tracker\GoalManager;
-use Piwik\Translate;
+use Piwik\Category\Subcategory;
 
 /**
  *
@@ -29,34 +30,15 @@ class Goals extends \Piwik\Plugin
         foreach ($dimensions as $dimension) {
             $group = $dimension['category'];
             // move "Custom Variables" report to the "Goals/Sales by User attribute" category
-            if ($dimension['module'] === 'CustomVariables') {
+            if ($dimension['module'] === 'CustomVariables'
+                || $dimension['action'] == 'getVisitInformationPerServerTime') {
                 $group = 'VisitsSummary_VisitsSummary';
             }
             unset($dimension['category']);
             $dimensionsByGroup[$group][] = $dimension;
         }
 
-        uksort($dimensionsByGroup, array('self', 'sortGoalDimensionsByModule'));
         return $dimensionsByGroup;
-    }
-
-    public static function sortGoalDimensionsByModule($a, $b)
-    {
-        static $order = null;
-
-        if (is_null($order)) {
-            $order = array(
-                'Referrers_Referrers',
-                'General_Visit',
-                'General_Visitors',
-                'VisitsSummary_VisitsSummary',
-                'VisitTime_ColumnServerTime',
-            );
-        }
-
-        $orderA = array_search($a, $order);
-        $orderB = array_search($b, $order);
-        return $orderA > $orderB;
     }
 
     public static function getGoalColumns($idGoal)
@@ -98,10 +80,33 @@ class Goals extends \Piwik\Plugin
             'SitesManager.deleteSite.end'            => 'deleteSiteGoals',
             'Goals.getReportsWithGoalMetrics'        => 'getActualReportsWithGoalMetrics',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations'
+            'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
+            'Category.addSubcategories' => 'addSubcategories'
         );
         return $hooks;
     }
+
+    public function addSubcategories(&$subcategories)
+    {
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
+
+        if (!$idSite) {
+            return;
+        }
+
+        $goals = API::getInstance()->getGoals($idSite);
+
+        $order = 900;
+        foreach ($goals as $goal) {
+            $category = new Subcategory();
+            $category->setName($goal['name']);
+            $category->setCategoryId('Goals_Goals');
+            $category->setId($goal['idgoal']);
+            $category->setOrder($order++);
+            $subcategories[] = $category;
+        }
+    }
+
 
     public function addMetricTranslations(&$translations)
     {
@@ -176,10 +181,12 @@ class Goals extends \Piwik\Plugin
     {
         $reportsWithGoals = array();
 
-        foreach (Report::getAllReports() as $report) {
+        $reports = new Reports();
+
+        foreach ($reports->getAllReports() as $report) {
             if ($report->hasGoalMetrics()) {
                 $reportsWithGoals[] = array(
-                    'category' => $report->getCategoryKey(),
+                    'category' => $report->getCategoryId(),
                     'name'     => $report->getName(),
                     'module'   => $report->getModule(),
                     'action'   => $report->getAction(),
@@ -271,5 +278,6 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_DeleteGoalConfirm';
         $translationKeys[] = 'Goals_Ecommerce';
         $translationKeys[] = 'Goals_Optional';
+        $translationKeys[] = 'Goals_ChooseGoal';
     }
 }

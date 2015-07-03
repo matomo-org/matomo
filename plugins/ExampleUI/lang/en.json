@@ -1,0 +1,8 @@
+{
+    "ExampleUI": {
+        "UiFramework": "UI Framework",
+        "GetTemperaturesDataTable": "Data tables",
+        "GetTemperaturesEvolution": "Temperatures evolution over time",
+        "TemperaturesEvolution": "Evolution of server temperatures over the last few days"
+    }
+}

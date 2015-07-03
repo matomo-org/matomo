@@ -17,6 +17,9 @@ use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
 use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
 use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
+use Piwik\Plugin\Reports;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 class GetEntryPageUrls extends Base
 {
@@ -40,8 +43,7 @@ class GetEntryPageUrls extends Base
 
         $this->actionToLoadSubTables = $this->action;
 
-        $this->menuTitle   = 'Actions_SubmenuPagesEntry';
-        $this->widgetTitle = 'Actions_WidgetPagesEntry';
+        $this->subcategoryId = 'Actions_SubmenuPagesEntry';
     }
 
     public function getProcessedMetrics()
@@ -83,7 +85,7 @@ class GetEntryPageUrls extends Base
     public function getRelatedReports()
     {
         return array(
-            self::factory('Actions', 'getEntryPageTitles'),
+            Reports::factory('Actions', 'getEntryPageTitles'),
         );
     }
 }

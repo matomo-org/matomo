@@ -18,7 +18,7 @@ class Contents extends \Piwik\Plugin
         return array(
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles'
         );
     }
 

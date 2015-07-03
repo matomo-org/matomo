@@ -1,0 +1,40 @@
+<div class="Menu--dashboard">
+    <ul class="Menu-tabList">
+        <li ng-repeat="category in menuModel.menu"
+            ng-class="{'sfActive': category.active, 'sfHover': category.hover}"
+            ng-mouseenter="enterCategory(category)"
+            ng-mouseleave="leaveCategory(category)">
+            <a class="menuItem"
+               ng-href="#?{{ makeUrl(category,category.subcategories[0]) }}"
+               ng-click="loadSubcategory(category, category.subcategories[0])">
+                {{ category.name }}
+            </a>
+            <ul ng-show="(category.subcategories|length) > 1">
+                <li ng-repeat="subcategory in category.subcategories"
+                    ng-class="{'sfHover': subcategory.active}">
+                    <div ng-if="subcategory.isGroup" piwik-menudropdown show-search="true" menu-title="{{ subcategory.name|escape }}">
+                        <a class="item"
+                           ng-repeat="subcat in subcategory.subcategories"
+                           title="{{ subcat.tooltip }}"
+                           ng-class="{'active': subcat.active}"
+                           ng-href="#?{{ makeUrl(category,subcat) }}"
+                           ng-click='loadSubcategory(category, subcat)'>
+                            {{ subcat.name }}
+                        </a>
+                    </div>
+
+                    <a ng-if="!subcategory.isGroup"
+                       ng-href="#?{{ makeUrl(category,subcategory) }}"
+                       class="menuItem"
+                       ng-click='loadSubcategory(category, subcategory)'>
+                        {{ subcategory.name }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li id="Searchmenu">
+            <span piwik-quick-access></span>
+        </li>
+    </ul>
+
+</div>

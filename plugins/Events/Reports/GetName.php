@@ -27,6 +27,5 @@ class GetName extends Base
             $this->actionToLoadSubTables = 'getActionFromNameId';
         }
         $this->order = 2;
-        $this->widgetTitle  = 'Events_EventNames';
     }
 }

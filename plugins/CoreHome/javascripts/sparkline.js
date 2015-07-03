@@ -35,14 +35,30 @@ piwik.initSparklines = function() {
 };
 
 window.initializeSparklines = function () {
-    var sparklineUrlParamsToIgnore = ['module', 'action', 'idSite', 'period', 'date', 'viewDataTable'];
+    var sparklineUrlParamsToIgnore = ['module', 'action', 'idSite', 'period', 'date', 'viewDataTable', 'forceView', 'random'];
 
-    $("[data-graph-id]").each(function () {
+    $('.graphEvolution [data-report]').each(function () {
         var graph = $(this);
 
-        // try to find sparklines and add them clickable behaviour
-        graph.parent().find('div.sparkline').each(function () {
+        // we search for .widget to make sure eg in the Dashboard to not update any graph of another report
+        var selectorsToFindParent = ['.widget', '.reporting-page', 'body'];
+        var index = 0, selector, parent;
+        for (index; index < selectorsToFindParent.length; index++) {
+            selector = selectorsToFindParent[index];
+            parent = graph.parents(selector).first();
+            if (parent && parent.length) {
+                break;
+            }
+        }
 
+        if (!parent || !parent.length) {
+            return;
+        }
+
+        var sparklines = parent.find('div.sparkline');
+
+        // try to find sparklines and add them clickable behaviour
+        sparklines.each(function () {
             // find the sparkline and get it's src attribute
             var sparklineUrl = $('img', this).attr('data-src');
 
@@ -66,8 +82,8 @@ window.initializeSparklines = function () {
                 // on click, reload the graph with the new url
                 $(this).off('click.sparkline');
                 $(this).on('click.sparkline', function () {
-                    var reportId = graph.attr('data-graph-id'),
-                        dataTable = $(require('piwik/UI').DataTable.getDataTableByReport(reportId));
+                    var reportId = graph.attr('data-report'),
+                        dataTable = graph;
 
                     // when the metrics picker is used, the id of the data table might be updated (which is correct behavior).
                     // for example, in goal reports it might change from GoalsgetEvolutionGraph to GoalsgetEvolutionGraph1.

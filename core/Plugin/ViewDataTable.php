@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugin\Reports;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
@@ -191,7 +192,7 @@ abstract class ViewDataTable implements ViewInterface
 
         $this->requestConfig->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
 
-        $report = Report::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
+        $report = Reports::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
 
         if (!empty($report)) {
             /** @var Report $report */
@@ -205,13 +206,7 @@ abstract class ViewDataTable implements ViewInterface
             $relatedReports = $report->getRelatedReports();
             if (!empty($relatedReports)) {
                 foreach ($relatedReports as $relatedReport) {
-                    $widgetTitle = $relatedReport->getWidgetTitle();
-
-                    if ($widgetTitle && Common::getRequestVar('widget', 0, 'int')) {
-                        $relatedReportName = $widgetTitle;
-                    } else {
-                        $relatedReportName = $relatedReport->getName();
-                    }
+                    $relatedReportName = $relatedReport->getName();
 
                     $this->config->addRelatedReport($relatedReport->getModule() . '.' . $relatedReport->getAction(),
                                                     $relatedReportName);
@@ -273,7 +268,7 @@ abstract class ViewDataTable implements ViewInterface
         $this->overrideViewPropertiesWithQueryParams();
     }
 
-    protected function assignRelatedReportsTitle()
+    private function assignRelatedReportsTitle()
     {
         if (!empty($this->config->related_reports_title)) {
             // title already assigned by a plugin
@@ -411,11 +406,8 @@ abstract class ViewDataTable implements ViewInterface
      */
     public function render()
     {
-        $view = $this->buildView();
-        return $view->render();
+        return '';
     }
-
-    abstract protected function buildView();
 
     protected function getDefaultDataTableCssClass()
     {

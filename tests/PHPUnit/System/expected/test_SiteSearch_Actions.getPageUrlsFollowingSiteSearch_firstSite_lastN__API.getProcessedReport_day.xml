@@ -3,7 +3,8 @@
 	<website>Site 1 - Site search</website>
 	<prettyDate>3 Jan 10 - 9 Jan 10</prettyDate>
 	<metadata>
-		<category>Site Search</category>
+		<category>Actions</category>
+		<subcategory>Site Search</subcategory>
 		<name>Pages Following a Site Search</name>
 		<module>Actions</module>
 		<action>getPageUrlsFollowingSiteSearch</action>
@@ -17,6 +18,13 @@
 			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 		</metricsDocumentation>
+		<relatedReports>
+			<row>
+				<name>Page Titles Following a Site Search</name>
+				<module>Actions</module>
+				<action>getPageTitlesFollowingSiteSearch</action>
+			</row>
+		</relatedReports>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrlsFollowingSiteSearch&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrlsFollowingSiteSearch&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getPageUrlsFollowingSiteSearch</uniqueId>

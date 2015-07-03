@@ -159,7 +159,6 @@ var broadcast = {
         } else {
             // start page
             Piwik_Popover.close();
-
             $('.pageWrap #content:not(.admin)').empty();
         }
     },
@@ -173,6 +172,7 @@ var broadcast = {
     },
 
     /**
+     * ONLY USED BY OVERLAY
      * propagateAjax -- update hash values then make ajax calls.
      *    example :
      *       1) <a href="javascript:broadcast.propagateAjax('module=Referrers&action=getKeywords')">View keywords report</a>
@@ -226,6 +226,47 @@ var broadcast = {
                 historyService.load(currentHashStr);
             });
         }
+    },
+
+    /**
+     * propagateAjax -- update hash values then make ajax calls.
+     *    example :
+     *       1) <a href="javascript:broadcast.propagateAjax('module=Referrers&action=getKeywords')">View keywords report</a>
+     *       2) Main menu li also goes through this function.
+     *
+     * Will propagate your new value into the current hash string and make ajax calls.
+     *
+     * NOTE: this method will only make ajax call and replacing main content.
+     *
+     * @param {string} ajaxUrl  querystring with parameters to be updated
+     * @param {boolean} [disableHistory]  the hash change won't be available in the browser history
+     * @return {void}
+     */
+    buildReportingUrl: function (ajaxUrl, disableHistory) {
+
+        // available in global scope
+        var currentHashStr = broadcast.getHash();
+
+        ajaxUrl = ajaxUrl.replace(/^\?|&#/, '');
+
+        var params_vals = ajaxUrl.split("&");
+        for (var i = 0; i < params_vals.length; i++) {
+            currentHashStr = broadcast.updateParamValue(params_vals[i], currentHashStr);
+        }
+
+        // if the module is not 'Goals', we specifically unset the 'idGoal' parameter
+        // this is to ensure that the URLs are clean (and that clicks on graphs work as expected - they are broken with the extra parameter)
+        var action = broadcast.getParamValue('action', currentHashStr);
+        if (action != 'goalReport' && action != 'ecommerceReport' && action != 'products' && action != 'sales') {
+            currentHashStr = broadcast.updateParamValue('idGoal=', currentHashStr);
+        }
+        // unset idDashboard if use doesn't display a dashboard
+        var module = broadcast.getParamValue('module', currentHashStr);
+        if (module != 'Dashboard') {
+            currentHashStr = broadcast.updateParamValue('idDashboard=', currentHashStr);
+        }
+
+        return '#' + currentHashStr;
     },
 
     /**
@@ -349,9 +390,9 @@ var broadcast = {
      */
     propagateNewPopoverParameter: function (handlerName, value) {
         // init broadcast if not already done (it is required to make popovers work in widgetize mode)
-        broadcast.init(true);
+        //broadcast.init(true);
 
-        var hash = broadcast.getHashFromUrl(window.location.href);
+        var $location = angular.element(document).injector().get('$location');
 
         var popover = '';
         if (handlerName) {
@@ -365,24 +406,14 @@ var broadcast = {
         }
 
         if ('' == value || 'undefined' == typeof value) {
-            var newHash = hash.replace(/(&?popover=.*)/, '');
-        } else if (broadcast.getParamValue('popover', hash)) {
-            var newHash = broadcast.updateParamValue('popover='+popover, hash);
-        } else if (hash && hash != '#') {
-            var newHash = hash + '&popover=' + popover
+            $location.search('popover', '');
         } else {
-            var newHash = '#popover='+popover;
+            $location.search('popover', popover);
         }
 
-        // never use an empty hash, as that might reload the page
-        if ('' == newHash) {
-            newHash = '#';
-        }
-
-        broadcast.forceReload = false;
-        angular.element(document).injector().invoke(function (historyService) {
-            historyService.load(newHash);
-        });
+        setTimeout(function () {
+            angular.element(document).injector().get('$rootScope').$apply();
+        }, 1);
     },
 
     /**

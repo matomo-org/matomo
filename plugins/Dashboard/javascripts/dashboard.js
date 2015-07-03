@@ -5,45 +5,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-function initDashboard(dashboardId, dashboardLayout) {
-
-    $('.dashboardSettings').show();
-    initTopControls();
-
-    // Embed dashboard
-    if (!$('#topBars').length) {
-        $('.dashboardSettings').after($('#Dashboard'));
-        $('#Dashboard_embeddedIndex_' + dashboardId).addClass('sfHover');
-    }
-
-    widgetsHelper.getAvailableWidgets();
-
-    $('#dashboardWidgetsArea')
-        .on('dashboardempty', showEmptyDashboardNotification)
-        .dashboard({
-            idDashboard: dashboardId,
-            layout: dashboardLayout
-        });
-
-    $('#columnPreview').find('>div').each(function () {
-        var width = [];
-        $('div', this).each(function () {
-            width.push(this.className.replace(/width-/, ''));
-        });
-        $(this).attr('layout', width.join('-'));
-    });
-
-    $('#columnPreview').find('>div').on('click', function () {
-        $('#columnPreview').find('>div').removeClass('choosen');
-        $(this).addClass('choosen');
-    });
-}
-
 function createDashboard() {
-    $('#createDashboardName').val('');
-    piwikHelper.modalConfirm('#createDashboardConfirm', {yes: function () {
-        var dashboardName = $('#createDashboardName').val();
-        var type = ($('#dashboard_type_empty:checked').length > 0) ? 'empty' : 'default';
+    $(makeSelectorLastId('createDashboardName')).val('');
+
+    piwikHelper.modalConfirm(makeSelectorLastId('createDashboardConfirm'), {yes: function () {
+        var dashboardName = $(makeSelectorLastId('createDashboardName')).val();
+        var type = ($('[id=dashboard_type_empty]:last:checked').length > 0) ? 'empty' : 'default';
 
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.setLoadingElement();
@@ -57,50 +24,74 @@ function createDashboard() {
         }, 'post');
         ajaxRequest.setCallback(
             function (id) {
-                $('#dashboardWidgetsArea').dashboard('loadDashboard', id);
+                angular.element(document).injector().invoke(function ($location, reportingMenuModel, dashboardsModel) {
+                    dashboardsModel.reloadAllDashboards().then(function () {
+                        $('#dashboardWidgetsArea').dashboard('loadDashboard', id);
+                        $('#dashboardWidgetsArea').dashboard('rebuildMenu');
+                    });
+                });
             }
         );
         ajaxRequest.send(true);
     }});
 }
 
+function makeSelectorLastId(domElementId)
+{
+    // there can be many elements with this id, we prefer the last one
+    return '[id=' + domElementId + ']:last';
+}
+
 function resetDashboard() {
-    piwikHelper.modalConfirm('#resetDashboardConfirm', {yes: function () { $('#dashboardWidgetsArea').dashboard('resetLayout'); }});
+    piwikHelper.modalConfirm(makeSelectorLastId('resetDashboardConfirm'), {yes:
+        function () { $('#dashboardWidgetsArea').dashboard('resetLayout');
+    }});
 }
 
 function renameDashboard() {
-    $('#newDashboardName').val($('#dashboardWidgetsArea').dashboard('getDashboardName'));
-    piwikHelper.modalConfirm('#renameDashboardConfirm', {yes: function () { $('#dashboardWidgetsArea').dashboard('setDashboardName', $('#newDashboardName').val()); }});
+    $(makeSelectorLastId('newDashboardName')).val($('#dashboardWidgetsArea').dashboard('getDashboardName'));
+
+    piwikHelper.modalConfirm(makeSelectorLastId('renameDashboardConfirm'), {yes: function () {
+        var newDashboardName = $(makeSelectorLastId('newDashboardName')).val();
+        $('#dashboardWidgetsArea').dashboard('setDashboardName', newDashboardName);
+    }});
 }
 
 function removeDashboard() {
-    $('#removeDashboardConfirm').find('h2 span').text($('#dashboardWidgetsArea').dashboard('getDashboardName'));
-    piwikHelper.modalConfirm('#removeDashboardConfirm', {yes: function () { $('#dashboardWidgetsArea').dashboard('removeDashboard'); }});
+    $(makeSelectorLastId('removeDashboardConfirm')).find('h2 span').text($('#dashboardWidgetsArea').dashboard('getDashboardName'));
+
+    piwikHelper.modalConfirm(makeSelectorLastId('removeDashboardConfirm'), {yes: function () {
+        $('#dashboardWidgetsArea').dashboard('removeDashboard');
+    }});
 }
 
 function showChangeDashboardLayoutDialog() {
     $('#columnPreview').find('>div').removeClass('choosen');
     $('#columnPreview').find('>div[layout=' + $('#dashboardWidgetsArea').dashboard('getColumnLayout') + ']').addClass('choosen');
-    piwikHelper.modalConfirm('#changeDashboardLayout', {yes: function () {
-        $('#dashboardWidgetsArea').dashboard('setColumnLayout', $('#changeDashboardLayout').find('.choosen').attr('layout'));
+
+    var id = makeSelectorLastId('changeDashboardLayout');
+    piwikHelper.modalConfirm(id, {yes: function () {
+        $('#dashboardWidgetsArea').dashboard('setColumnLayout', $(id).find('.choosen').attr('layout'));
     }});
 }
 
 function showEmptyDashboardNotification() {
-    piwikHelper.modalConfirm('#dashboardEmptyNotification', {
+    piwikHelper.modalConfirm(makeSelectorLastId('dashboardEmptyNotification'), {
         resetDashboard: function () { $('#dashboardWidgetsArea').dashboard('resetLayout'); },
         addWidget: function () { $('.dashboardSettings').trigger('click'); }
     });
 }
 
 function setAsDefaultWidgets() {
-    piwikHelper.modalConfirm('#setAsDefaultWidgetsConfirm', {
-        yes: function () { $('#dashboardWidgetsArea').dashboard('saveLayoutAsDefaultWidgetLayout'); }
+    piwikHelper.modalConfirm(makeSelectorLastId('setAsDefaultWidgetsConfirm'), {
+        yes: function () {
+            $('#dashboardWidgetsArea').dashboard('saveLayoutAsDefaultWidgetLayout');
+        }
     });
 }
 
 function copyDashboardToUser() {
-    $('#copyDashboardName').val($('#dashboardWidgetsArea').dashboard('getDashboardName'));
+    $(makeSelectorLastId('copyDashboardName')).val($('#dashboardWidgetsArea').dashboard('getDashboardName'));
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams({
         module: 'API',
@@ -109,13 +100,13 @@ function copyDashboardToUser() {
     }, 'get');
     ajaxRequest.setCallback(
         function (availableUsers) {
-            $('#copyDashboardUser').empty();
-            $('#copyDashboardUser').append(
+            $(makeSelectorLastId('copyDashboardUser')).empty();
+            $(makeSelectorLastId('copyDashboardUser')).append(
                 $('<option></option>').val(piwik.userLogin).text(piwik.userLogin)
             );
             $.each(availableUsers, function (index, user) {
                 if (user.login != 'anonymous' && user.login != piwik.userLogin) {
-                    $('#copyDashboardUser').append(
+                    $(makeSelectorLastId('copyDashboardUser')).append(
                         $('<option></option>').val(user.login).text(user.login + ' (' + user.alias + ')')
                     );
                 }
@@ -124,10 +115,10 @@ function copyDashboardToUser() {
     );
     ajaxRequest.send(true);
 
-    piwikHelper.modalConfirm('#copyDashboardToUserConfirm', {
+    piwikHelper.modalConfirm(makeSelectorLastId('copyDashboardToUserConfirm'), {
         yes: function () {
-            var copyDashboardName = $('#copyDashboardName').val();
-            var copyDashboardUser = $('#copyDashboardUser').val();
+            var copyDashboardName = $(makeSelectorLastId('copyDashboardName')).val();
+            var copyDashboardUser = $(makeSelectorLastId('copyDashboardUser')).val();
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams({
@@ -291,7 +282,7 @@ function copyDashboardToUser() {
         },
 
         isWidgetAvailable: function (widgetUniqueId) {
-            return !$('#dashboardWidgetsArea').find('[widgetId=' + widgetUniqueId + ']').length;
+            return !$('#dashboardWidgetsArea').find('[widgetId="' + widgetUniqueId + '"]').length;
         },
 
         widgetSelected: function (widget) {
@@ -301,6 +292,7 @@ function copyDashboardToUser() {
 
     DashboardManagerControl.initElements = function () {
         UIControl.initElements(this, '.dashboard-manager');
+        $('.top_controls .dashboard-manager').hide(); // initially hide the manager
     };
 
     exports.DashboardManagerControl = DashboardManagerControl;

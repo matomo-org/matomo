@@ -4,6 +4,7 @@
 	<prettyDate>1 Jan 10 - 31 Jul 10</prettyDate>
 	<metadata>
 		<category>Actions</category>
+		<subcategory>Pages</subcategory>
 		<name>Page URLs</name>
 		<module>Actions</module>
 		<action>getPageUrls</action>

@@ -18,7 +18,7 @@ abstract class Base extends \Piwik\Plugin\Report
 
     protected function init()
     {
-        $this->category = 'Goals_Goals';
+        $this->categoryId = 'Goals_Goals';
     }
 
     protected function addReportMetadataForEachGoal(&$availableReports, $infos, $goalNameFormatter)

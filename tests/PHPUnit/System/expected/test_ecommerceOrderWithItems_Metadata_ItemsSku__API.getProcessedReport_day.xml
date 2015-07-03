@@ -4,6 +4,7 @@
 	<prettyDate>Tuesday 5 April 2011</prettyDate>
 	<metadata>
 		<category>Ecommerce</category>
+		<subcategory>Products</subcategory>
 		<name>Product SKU</name>
 		<module>Goals</module>
 		<action>getItemsSku</action>

@@ -14,7 +14,6 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period;
-use Piwik\Piwik;
 
 /**
  * Arbitrary date range representation.

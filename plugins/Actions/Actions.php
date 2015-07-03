@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Actions;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Site;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;

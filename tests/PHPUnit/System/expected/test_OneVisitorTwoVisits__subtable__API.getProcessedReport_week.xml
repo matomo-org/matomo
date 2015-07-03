@@ -4,6 +4,7 @@
 	<prettyDate>Week 1 March - 7 March 2010</prettyDate>
 	<metadata>
 		<category>Actions</category>
+		<subcategory>Pages</subcategory>
 		<name>Page URLs</name>
 		<module>Actions</module>
 		<action>getPageUrls</action>

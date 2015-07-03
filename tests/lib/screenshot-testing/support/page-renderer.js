@@ -415,11 +415,11 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
                     callback();
 
                 }, timeInMsToWaitForReRenderToFinish);
-                
+
             } else {
                 callback();
             }
-            
+
         } catch (e) {
             self.webpage.clipRect = previousClipRect;
 

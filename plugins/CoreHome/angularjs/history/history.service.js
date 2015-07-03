@@ -36,6 +36,19 @@
             loadCurrentPage();
         }
 
+        function cleanHash(hash)
+        {
+            var chars = ['#', '/', '?'];
+            for (var i = 0; i != chars.length; ++i) {
+                var charToRemove = chars[i];
+                if (hash.charAt(0) == charToRemove) {
+                    hash = hash.substring(1);
+                }
+            }
+
+            return hash;
+        }
+
         // currently, the AJAX content URL is stored in $location.search(), but before it was stored in $location.path().
         // this function makes sure URLs like http://piwik.net/?...#/module=Whatever&action=whatever still work.
         function changePathToSearch() {
@@ -82,13 +95,7 @@
 
         function load(hash) {
             // make sure the hash is just the query parameter values, w/o a starting #, / or ? char. broadcast.pageload & $location.path should get neither
-            var chars = ['#', '/', '?'];
-            for (var i = 0; i != chars.length; ++i) {
-                var charToRemove = chars[i];
-                if (hash.charAt(0) == charToRemove) {
-                    hash = hash.substring(1);
-                }
-            }
+            hash = cleanHash(hash);
             
             if (location.hash === '#?' + hash) {
                 loadCurrentPage(); // it would not trigger a location change success event as URL is the same, call it manually
