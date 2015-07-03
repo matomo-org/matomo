@@ -256,7 +256,7 @@ class UserIdTest extends IntegrationTestCase
 
     private function setSuperUser()
     {
-        FakeAccess::setSuperUserAccess(true);
+        FakeAccess::$superUser = true;
     }
 
     public function provideContainerConfig()

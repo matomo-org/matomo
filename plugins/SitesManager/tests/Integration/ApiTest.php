@@ -1129,7 +1129,7 @@ class ApiTest extends IntegrationTestCase
         APIUsersManager::getInstance()->setUserAccess("user1", "view", array(1));
 
         // Make sure we're not Super user
-        FakeAccess::setSuperUserAccess(false);
+        FakeAccess::$superUser = false;
         FakeAccess::$identity = 'user1';
         $this->assertFalse(Piwik::hasUserSuperUserAccess());
 
