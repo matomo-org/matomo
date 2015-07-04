@@ -1,8 +1,6 @@
 {
     "CoreHome": {
-        "DateFormat": "%longDay% %day% %longMonth% %longYear%",
         "Default": "అప్రమేయం",
-        "LongMonthFormat": "%longYear%, %longMonth%",
         "PageOf": "%2$sలో %1$sవది"
     }
 }
