@@ -110,7 +110,7 @@ class Range extends Period
         //"30 Dec 08 - 26 Feb 09"
         $dateStart = $this->getDateStart();
         $dateEnd   = $this->getDateEnd();
-        $template  = $this->translator->translate('CoreHome_ShortDateFormatWithYear');
+        $template  = Date::DATE_FORMAT_SHORT;
 
         $shortDateStart = $dateStart->getLocalized($template);
         $shortDateEnd   = $dateEnd->getLocalized($template);
