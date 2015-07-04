@@ -97,7 +97,7 @@ class VisitorProfile
         $serverDate = $visit->getColumn('firstActionTimestamp');
         return array(
             'date'            => $serverDate,
-            'prettyDate'      => Date::factory($serverDate)->getLocalized(Piwik::translate('CoreHome_DateFormat')),
+            'prettyDate'      => Date::factory($serverDate)->getLocalized(Date::DATE_FORMAT_LONG),
             'daysAgo'         => (int)Date::secondsToDays($today->getTimestamp() - Date::factory($serverDate)->getTimestamp()),
             'referrerType'    => $visit->getColumn('referrerType'),
             'referralSummary' => self::getReferrerSummaryForVisit($visit),
