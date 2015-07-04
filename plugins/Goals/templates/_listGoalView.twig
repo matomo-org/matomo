@@ -1,0 +1,57 @@
+<div id='entityEditContainer' class="managegoals" style="display:none;">
+    <table class="dataTable entityTable">
+        <thead>
+        <tr>
+            <th class="first">Id</th>
+            <th>{{ 'Goals_GoalName'|translate }}</th>
+            <th>{{ 'Goals_GoalIsTriggeredWhen'|translate }}</th>
+            <th>{{ 'General_ColumnRevenue'|translate }}</th>
+        </tr>
+        </thead>
+        {% if goals is empty %}
+            <tr>
+                <td colspan='7'>
+                    <br/>
+                    {{ 'Goals_ThereIsNoGoalToManage'|translate(siteName)|raw }}.
+                    <br/><br/>
+                </td>
+            </tr>
+        {% else %}
+            {% for goal in goals %}
+                <tr>
+                    <td class="first">{{ goal.idgoal }}</td>
+                    <td>{{ goal.name|raw }}</td>{# NOTE: goal names are escaped in the DB #}
+                    <td><span class='matchAttribute'>{{ goal.match_attribute }}</span>
+                        {% if goal.pattern_type is defined %}
+                            <br/>
+                            {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern|raw }}
+                        {% endif %}
+                    </td>
+                    <td>{% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
+</div>
+
+<script type="text/javascript">
+    var goalTypeToTranslation = {
+        "manually": "{{ 'Goals_ManuallyTriggeredUsingJavascriptFunction'|translate }}",
+        "file": "{{ 'Goals_Download'|translate }}",
+        "url": "{{ 'Goals_VisitUrl'|translate }}",
+        "title": "{{ 'Goals_VisitPageTitle'|translate }}",
+        "external_website": "{{ 'Goals_ClickOutlink'|translate }}",
+        "event_action": "{{ 'Goals_SendEvent'|translate }} ({{ 'Events_EventAction'|translate }})",
+        "event_category": "{{ 'Goals_SendEvent'|translate }} ({{ 'Events_EventCategory'|translate }})",
+        "event_name": "{{ 'Goals_SendEvent'|translate }} ({{ 'Events_EventName'|translate }})"
+    };
+
+    $(document).ready(function () {
+        // translation of the goal "match attribute" to human readable description
+        $('.matchAttribute').each(function () {
+            var matchAttribute = $(this).text();
+            var translation = goalTypeToTranslation[matchAttribute];
+            $(this).text(translation);
+        });
+    });
+</script>
