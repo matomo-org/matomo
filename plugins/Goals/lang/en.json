@@ -78,7 +78,7 @@
         "NewVisitorsConversionRateIs": "New visitors conversion rate is %s",
         "NoGoalsNeedAccess": "Only an Administrator or a user with Super User access can manage Goals for a given website. Please ask your Piwik administrator to set up a Goal for your website. <br>Tracking Goals is a great way to help understand and maximize your website performance!",
         "NeedAccess": "Only an Administrator or a user with Super User access can manage Goals for a given website.",
-	"Optional": "(optional)",
+        "Optional": "(optional)",
         "OverallConversionRate": "%s overall conversion rate (visits with a completed goal)",
         "OverallRevenue": "%s overall revenue",
         "PageTitle": "Page Title",
