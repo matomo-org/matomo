@@ -129,7 +129,6 @@ class WeekTest extends BasePeriodTest
 
     /**
      * @group Core
-     * @group Week
      * @dataProvider getLocalizedShortStrings
      */
     public function testGetLocalizedShortString($language, $shouldBe)
@@ -159,7 +158,6 @@ class WeekTest extends BasePeriodTest
 
     /**
      * @group Core
-     * @group Week
      * @dataProvider getLocalizedLongStrings
      */
     public function testGetLocalizedLongString($language, $shouldBe)

@@ -24,13 +24,7 @@ class Week extends Period
      */
     public function getLocalizedShortString()
     {
-        //"30 Dec - 6 Jan 09"
-        $dateStart = $this->getDateStart();
-        $dateEnd   = $this->getDateEnd();
-
-        $format = $this->translator->translate('Intl_Format_Interval_Week_Short_'.$this->getMinDifference($dateStart, $dateEnd));
-        $string = $this->getTranslatedRange($format, $dateStart, $dateEnd);
-        return $string;
+        return $this->getTranslatedRange($this->getRangeFormat(true), $this->getDateStart(), $this->getDateEnd());
     }
 
     /**
@@ -40,71 +34,8 @@ class Week extends Period
      */
     public function getLocalizedLongString()
     {
-        //"30 Dec - 6 Jan 09"
-        $dateStart = $this->getDateStart();
-        $dateEnd   = $this->getDateEnd();
-
-        $format = $this->translator->translate('Intl_Format_Interval_Week_Long_'.$this->getMinDifference($dateStart, $dateEnd));
-        $string = $this->getTranslatedRange($format, $dateStart, $dateEnd);
-
+        $string = $this->getTranslatedRange($this->getRangeFormat(), $this->getDateStart(), $this->getDateEnd());
         return $this->translator->translate('Intl_PeriodWeek') . " " . $string;
-    }
-
-    protected function getMinDifference($dateFrom, $dateEnd)
-    {
-        if ($dateFrom->toString('y') != $dateEnd->toString('y')) {
-            return 'Y';
-        } elseif ($dateFrom->toString('m') != $dateEnd->toString('m')) {
-            return 'M';
-        }
-
-        return 'D';
-    }
-
-    /**
-     * @param string $format
-     * @param \Piwik\Date $dateStart
-     * @param \Piwik\Date $dateEnd
-     *
-     * @return mixed
-     */
-    protected function getTranslatedRange($format, $dateStart, $dateEnd)
-    {
-        list($formatStart, $formatEnd) = $this->explodeFormat($format);
-
-        $string = $dateStart->getLocalized($formatStart);
-        $string .= $dateEnd->getLocalized($formatEnd);
-
-        return $string;
-    }
-
-    /**
-     * Explodes the given format into two pieces. One that can be user for start date and the other for end date
-     *
-     * @param $format
-     * @return array
-     */
-    protected function explodeFormat($format)
-    {
-        $intervalTokens = array(
-            array('d', 'E', 'C'),
-            array('M', 'L'),
-            array('y')
-        );
-
-        $offset = strlen($format);
-
-        // search for first duplicate date field
-        foreach ($intervalTokens AS $tokens) {
-            if (preg_match_all('/['.implode('|', $tokens).']+/', $format, $matches, PREG_OFFSET_CAPTURE)) {
-                if (count($matches[0]) > 1 && $offset > $matches[0][1][1]) {
-                    $offset = $matches[0][1][1];
-                }
-            }
-
-        }
-
-        return array(substr($format, 0, $offset), substr($format, $offset));
     }
 
     /**

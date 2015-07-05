@@ -107,16 +107,7 @@ class Range extends Period
      */
     public function getLocalizedShortString()
     {
-        //"30 Dec 08 - 26 Feb 09"
-        $dateStart = $this->getDateStart();
-        $dateEnd   = $this->getDateEnd();
-        $template  = Date::DATE_FORMAT_SHORT;
-
-        $shortDateStart = $dateStart->getLocalized($template);
-        $shortDateEnd   = $dateEnd->getLocalized($template);
-
-        $out = "$shortDateStart - $shortDateEnd";
-        return $out;
+        return $this->getTranslatedRange($this->getRangeFormat(true), $this->getDateStart(), $this->getDateEnd());
     }
 
     /**
@@ -126,7 +117,7 @@ class Range extends Period
      */
     public function getLocalizedLongString()
     {
-        return $this->getLocalizedShortString();
+        return $this->getTranslatedRange($this->getRangeFormat(), $this->getDateStart(), $this->getDateEnd());
     }
 
     /**
