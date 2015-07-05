@@ -614,7 +614,7 @@ class Date
     /**
      * Returns a localized date string using the given template.
      * The template should contain tags that will be replaced with localized date strings.
-     * 
+     *
      * @param string $template eg. `"MMM y"`
      * @return string eg. `"Aug 2009"`
      */
@@ -642,6 +642,7 @@ class Date
 
         return $out;
     }
+
     /**
      * Replaces legacy placeholders
      *
@@ -722,11 +723,11 @@ class Date
             case "D":
                 return 1 + (int)$this->toString('z'); // 1 - 366
             case "F":
-                return (int)(((int)$this->toString('j')+6)/7);
+                return (int)(((int)$this->toString('j') + 6) / 7);
             // week in month
             case "w":
-                $weekDay=date('N',mktime(0,0,0,$this->toString('m'),1,$this->toString('y')));
-                return floor(($weekDay+(int)$this->toString('m')-2)/7)+1;
+                $weekDay = date('N', mktime(0, 0, 0, $this->toString('m'), 1, $this->toString('y')));
+                return floor(($weekDay + (int)$this->toString('m') - 2) / 7) + 1;
             // week in year
             case "W":
                 return $this->toString('N');
