@@ -28,8 +28,8 @@ class Week extends Period
         $dateStart = $this->getDateStart();
         $dateEnd   = $this->getDateEnd();
 
-        $string = $this->translator->translate('CoreHome_ShortWeekFormat');
-        $string = self::getTranslatedRange($string, $dateStart, $dateEnd);
+        $format = $this->translator->translate('Intl_Format_Interval_Week_Short_'.$this->getMinDifference($dateStart, $dateEnd));
+        $string = $this->getTranslatedRange($format, $dateStart, $dateEnd);
         return $string;
     }
 
@@ -40,10 +40,25 @@ class Week extends Period
      */
     public function getLocalizedLongString()
     {
-        $format = $this->translator->translate('CoreHome_LongWeekFormat');
-        $string = self::getTranslatedRange($format, $this->getDateStart(), $this->getDateEnd());
+        //"30 Dec - 6 Jan 09"
+        $dateStart = $this->getDateStart();
+        $dateEnd   = $this->getDateEnd();
+
+        $format = $this->translator->translate('Intl_Format_Interval_Week_Long_'.$this->getMinDifference($dateStart, $dateEnd));
+        $string = $this->getTranslatedRange($format, $dateStart, $dateEnd);
 
         return $this->translator->translate('Intl_PeriodWeek') . " " . $string;
+    }
+
+    protected function getMinDifference($dateFrom, $dateEnd)
+    {
+        if ($dateFrom->toString('y') != $dateEnd->toString('y')) {
+            return 'Y';
+        } elseif ($dateFrom->toString('m') != $dateEnd->toString('m')) {
+            return 'M';
+        }
+
+        return 'D';
     }
 
     /**
@@ -53,14 +68,43 @@ class Week extends Period
      *
      * @return mixed
      */
-    protected static function getTranslatedRange($format, $dateStart, $dateEnd)
+    protected function getTranslatedRange($format, $dateStart, $dateEnd)
     {
-        $string = str_replace('From%', '%', $format);
-        $string = $dateStart->getLocalized($string);
-        $string = str_replace('To%', '%', $string);
-        $string = $dateEnd->getLocalized($string);
+        list($formatStart, $formatEnd) = $this->explodeFormat($format);
+
+        $string = $dateStart->getLocalized($formatStart);
+        $string .= $dateEnd->getLocalized($formatEnd);
 
         return $string;
+    }
+
+    /**
+     * Explodes the given format into two pieces. One that can be user for start date and the other for end date
+     *
+     * @param $format
+     * @return array
+     */
+    protected function explodeFormat($format)
+    {
+        $intervalTokens = array(
+            array('d', 'E', 'C'),
+            array('M', 'L'),
+            array('y')
+        );
+
+        $offset = strlen($format);
+
+        // search for first duplicate date field
+        foreach ($intervalTokens AS $tokens) {
+            if (preg_match_all('/['.implode('|', $tokens).']+/', $format, $matches, PREG_OFFSET_CAPTURE)) {
+                if (count($matches[0]) > 1 && $offset > $matches[0][1][1]) {
+                    $offset = $matches[0][1][1];
+                }
+            }
+
+        }
+
+        return array(substr($format, 0, $offset), substr($format, $offset));
     }
 
     /**
