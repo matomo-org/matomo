@@ -1198,14 +1198,14 @@ class RangeTest extends BasePeriodTest
     public function testGetLocalizedShortString()
     {
         $month = new Range('range', '2000-12-09,2001-02-01');
-        $shouldBe = '9 Dec 00 - 1 Feb 01';
+        $shouldBe = 'Dec 9, 2000 – Feb 1, 2001';
         $this->assertEquals($shouldBe, $month->getLocalizedShortString());
     }
 
     public function testGetLocalizedLongString()
     {
         $month = new Range('range', '2023-05-09,2023-05-21');
-        $shouldBe = '8 May 23 - 21 May 23';
+        $shouldBe = 'May 8 – 21, 2023';
         $this->assertEquals($shouldBe, $month->getLocalizedLongString());
     }
 

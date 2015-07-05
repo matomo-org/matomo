@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Unit\Period;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period\Year;
 
@@ -64,23 +65,48 @@ class YearTest extends BasePeriodTest
         $this->assertEquals($correct, $year->toString());
     }
 
-    /**
-     * @group Core
-     */
-    public function testGetLocalizedShortString()
+    public function getLocalizedShortStrings()
     {
-        $year = new Year(Date::factory('2024-10-09'));
-        $shouldBe = '2024';
-        $this->assertEquals($shouldBe, $year->getLocalizedShortString());
+        return array(
+            array('en', '2024'),
+            array('ko', '2024년'),
+            array('zh-cn', '2024年'),
+        );
     }
 
     /**
      * @group Core
+     * @group Year
+     * @dataProvider getLocalizedShortStrings
      */
-    public function testGetLocalizedLongString()
+    public function testGetLocalizedShortString($language, $shouldBe)
     {
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
+
         $year = new Year(Date::factory('2024-10-09'));
-        $shouldBe = '2024';
+        $this->assertEquals($shouldBe, $year->getLocalizedShortString());
+    }
+
+    public function getLocalizedLongStrings()
+    {
+        return array(
+            array('en', '2024'),
+            array('ko', '2024년'),
+            array('zh-cn', '2024年'),
+        );
+    }
+
+    /**
+     * @group Core
+     * @group Year
+     * @dataProvider getLocalizedLongStrings
+     */
+
+    public function testGetLocalizedLongString($language, $shouldBe)
+    {
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
+
+        $year = new Year(Date::factory('2024-10-09'));
         $this->assertEquals($shouldBe, $year->getLocalizedLongString());
     }
 

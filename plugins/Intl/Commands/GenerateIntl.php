@@ -275,19 +275,19 @@ class GenerateIntl extends ConsoleCommand
             $translations['Intl']['Format_DateTime_Long'] = $calendarData['dateFormats']['full'] . ' ' . $calendarData['timeFormats']['medium'];
             $translations['Intl']['Format_DateTime_Short'] = $calendarData['dateFormats']['medium'] . ' ' . $calendarData['timeFormats']['medium'];
 
-            $translations['Intl']['Format_Interval_Week_Long_D'] = $this->transformDateFormat($calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['d'], array('MMMM' => 'MMM', 'LLLL' => 'LLL', 'MMM' => 'MMMM', 'LLL' => 'LLLL'));
-            $translations['Intl']['Format_Interval_Week_Long_M'] = $this->transformDateFormat($calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['M'], array('MMMM' => 'MMM', 'LLLL' => 'LLL', 'MMM' => 'MMMM', 'LLL' => 'LLLL'));
-            $translations['Intl']['Format_Interval_Week_Long_Y'] = $this->transformDateFormat($calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['y'], array('MMMM' => 'MMM', 'LLLL' => 'LLL', 'MMM' => 'MMMM', 'LLL' => 'LLLL'));
+            $translations['Intl']['Format_Interval_Long_D'] = $this->transformDateFormat($calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['d'], array('MMMM' => 'MMM', 'LLLL' => 'LLL', 'MMM' => 'MMMM', 'LLL' => 'LLLL'));
+            $translations['Intl']['Format_Interval_Long_M'] = $this->transformDateFormat($calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['M'], array('MMMM' => 'MMM', 'LLLL' => 'LLL', 'MMM' => 'MMMM', 'LLL' => 'LLLL'));
+            $translations['Intl']['Format_Interval_Long_Y'] = $this->transformDateFormat($calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['y'], array('MMMM' => 'MMM', 'LLLL' => 'LLL', 'MMM' => 'MMMM', 'LLL' => 'LLLL'));
 
             if(isset($calendarData['dateTimeFormats']['intervalFormats']['yMMMMd'])) {
-                $translations['Intl']['Format_Interval_Week_Long_D'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMMd']['d'];
-                $translations['Intl']['Format_Interval_Week_Long_M'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMMd']['M'];
-                $translations['Intl']['Format_Interval_Week_Long_Y'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMMd']['y'];
+                $translations['Intl']['Format_Interval_Long_D'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMMd']['d'];
+                $translations['Intl']['Format_Interval_Long_M'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMMd']['M'];
+                $translations['Intl']['Format_Interval_Long_Y'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMMd']['y'];
             }
 
-            $translations['Intl']['Format_Interval_Week_Short_D'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['d'];
-            $translations['Intl']['Format_Interval_Week_Short_M'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['M'];
-            $translations['Intl']['Format_Interval_Week_Short_Y'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['y'];
+            $translations['Intl']['Format_Interval_Short_D'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['d'];
+            $translations['Intl']['Format_Interval_Short_M'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['M'];
+            $translations['Intl']['Format_Interval_Short_Y'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['y'];
 
             $output->writeln('Saved calendar data for ' . $langCode);
         } catch (\Exception $e) {
