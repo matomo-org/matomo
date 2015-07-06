@@ -117,6 +117,9 @@ function bindGoalForm() {
             $('#match_attribute_section').show();
             $('#match_attribute_section2').show();
             $('#manual_trigger_section').hide();
+            // force re-run of iCheck
+            $('.entityAddContainer div.form-radio').removeClass('form-radio');
+            $(document).trigger('Goals.edit', {});
         }
     });
 
