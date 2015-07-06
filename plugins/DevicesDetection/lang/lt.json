@@ -4,8 +4,11 @@
         "BrowserFamily": "Naršyklių šeimos",
         "Browsers": "Naršyklės",
         "BrowserVersion": "Naršyklės versija",
+        "Software": "Programinė įranga",
         "ColumnBrowser": "Naršyklė",
         "ColumnOperatingSystem": "Operacinė sistema",
+        "ColumnOperatingSystemVersion": "Operacinės sistemos versija",
+        "dataTableLabelSystemVersion": "Operacinės sistemos versija",
         "dataTableLabelTypes": "Tipas",
         "OperatingSystems": "Operacinės sistemos",
         "WidgetBrowsers": "Lankytojų naršyklės"

@@ -415,6 +415,7 @@
         "NoWebsiteFound": "没有找到网站",
         "NoWebsitesShort": "没有网站",
         "PullDownToRefresh": "向下拉可以更新...",
+        "IgnoreSslError": "忽略SSL错误",
         "RatingDontRemindMe": "不要记住我",
         "RatingNotNow": "不是现在",
         "RatingNow": "好的，我会马上给它好评",

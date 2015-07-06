@@ -7,6 +7,7 @@
         "AutoArchivePreProcessed": "खंडों की रिपोर्ट पूर्व संसाधित कर रहे हैं(तेज, archive.php क्रॉन की आवश्यकता)",
         "AutoArchiveRealTime": "खंडों की रिपोर्ट के वास्तविक समय में कार्रवाई कर रहे हैं",
         "ChooseASegment": "एक खंड चुनें",
+        "DataAvailableAtLaterDate": "आपका खंडों Analytics रिपोर्ट बाद में उपलब्ध हो जाएगा। असुविधा के लिए हमें खेद है।",
         "DefaultAllVisits": "सभी का दौरा",
         "DragDropCondition": "खींचें और शर्त बताये",
         "LoadingSegmentedDataMayTakeSomeTime": "खंडों आगंतुक डेटा प्रसंस्करण में कुछ मिनट लग सकते हैं ...",

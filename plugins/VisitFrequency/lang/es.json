@@ -10,7 +10,7 @@
         "ColumnReturningVisits": "Visitante que ha vuelto",
         "ColumnSumVisitLengthReturning": "Tiempo total transcurrido por visitantes usuales (en segundos)",
         "ColumnUniqueReturningVisitors": "Visitantes únicos que regresan",
-        "ColumnReturningUsers": "Visitantes recurrentes",
+        "ColumnReturningUsers": "Usuarios que retornan",
         "PluginDescription": "Informa metricas acerca de la primera vez de los nuevos visitantes y de los visitantes recurrentes.",
         "ReturnActions": "%s acciones realizadas por los visitantes que han vuelto",
         "ReturnAverageVisitDuration": "%s duración promedio de la visita para los visitantes que han vuelto",

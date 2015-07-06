@@ -1,5 +1,6 @@
 {
     "SEO": {
+        "PluginDescription": "Dieses Plugin ermittelt SEO Metriken und zeigt diese an: Alexa Web Ranking, Google RageRank, Anzahl der indizierten Seiten sowie Backlinks der aktuell ausgewählten Webseite.",
         "AlexaRank": "Alexa Rang",
         "Bing_IndexedPages": "Bing indizierte Seiten",
         "Dmoz": "DMOZ Einträge",

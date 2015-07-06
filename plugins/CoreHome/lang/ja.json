@@ -44,6 +44,7 @@
         "ShortMonthFormat": "%longYear% %shortMonth%",
         "ShortWeekFormat": "%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%",
         "ShowJSCode": "挿入する javascript コードを表示",
+        "SkipToContent": "コンテンツへスキップ",
         "SubscribeAndBecomePiwikSupporter": "Piwik サポーターになるには、安全なクレジットカード決済 ( Paypal ) ページにお進みください !",
         "SupportPiwik": "Piwik をサポート！",
         "TableNoData": "このテーブルにはデータがありません",

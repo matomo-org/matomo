@@ -1,23 +1,23 @@
 {
     "Login": {
-        "ConfirmationLinkSent": "Un enlace de confirmación ha sido enviado a tu casilla de correo. Chequea tu e-mail y visita ese enlace para autorizar tu solicitud de cambios de contraseña.",
-        "ContactAdmin": "Posible razón: su hosting puede tener deshabilitado la función mail(). <br \/>Por favor contacte con su administrador de Piwik.",
-        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un usuario con acceso Super User no puede ser autenticado con el mecanismo '%s'.",
+        "ConfirmationLinkSent": "Un enlace de confirmación ha sido enviado a su casilla de correo. Verifique su correo electrónico y siga ese enlace para autorizar su solicitud de cambio de contraseña.",
+        "ContactAdmin": "Posible razón: su servicio de alojamiento puede tener deshabilitado la función mail(). <br \/>Por favor contáctese con su administrador de Piwik.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un usuario con acceso Super Usuario no puede ser autenticado usando el mecanismo '%s'.",
         "ExceptionPasswordMD5HashExpected": "Se espera que el parámetro contraseña sea un hash MD5 de la contraseña.",
         "InvalidNonceOrHeadersOrReferrer": "La seguridad del formulario ha fallado. Por favor actualice el formulario y compruebe que sus cookies están habilitadas. Si usa un proxy, debe %s configurar Piwik para aceptar la cabecera proxy%s que precede la cabecera Host. Compruebe también que su cabecera Referer se envía correctamente.",
-        "InvalidOrExpiredToken": "El indicio no es válido o ha caducado",
-        "InvalidUsernameEmail": "Nombre de usuario y\/o email incorrectos",
-        "LogIn": "Conectar",
-        "LoginOrEmail": "Usuario o E-mail",
-        "LoginPasswordNotCorrect": "Usuario y contraseña incorrectos",
+        "InvalidOrExpiredToken": "El Token no es válido o ha caducado",
+        "InvalidUsernameEmail": "Nombre de usuario y\/o correo electrónico incorrectos.",
+        "LogIn": "Iniciar sesión",
+        "LoginOrEmail": "Usuario o correo electrónico",
+        "LoginPasswordNotCorrect": "Usuario y contraseña incorrectos.",
         "LostYourPassword": "¿Olvidó la contraseña?",
         "MailPasswordChangeBody": "Estimado %1$s:\n\nSe ha recibido una solicitud de modificación de contraseña desde %2$s. Para confirmar el cambio y de esta manera permitir tu inicio de sesión con nuevas credenciales, visita esta enlace:\n\n%3$s\n\nNota: Este código vencerá en 24 hora.\n\n¡Y gracias por usar Piwik!",
-        "MailTopicPasswordChange": "Confirma el Cambio de Contraseña",
-        "PasswordChanged": "Tu contraseña ha sido modificada.",
+        "MailTopicPasswordChange": "Confirma el cambio de contraseña",
+        "PasswordChanged": "Su contraseña ha sido modificada.",
         "PasswordRepeat": "Contraseña (repetir)",
         "PasswordsDoNotMatch": "Las contraseñas no coinciden.",
         "PluginDescription": "Proporciona autentificación vía nombre de usuario y contraseña así como también la funcionalidad de reestablecimiento de contraseña. El método de autentificación puede ser modificado usando otro plugin de inicio de sesión, tal como LoginLdap que se encuentra disponible en el Marketplace.",
-        "RememberMe": "Recuerdeme",
-        "ResetPasswordInstructions": "Ingresa una nueva contraseña para tu cuenta."
+        "RememberMe": "Recordarme",
+        "ResetPasswordInstructions": "Introduzca una nueva contraseña para su cuenta."
     }
 }

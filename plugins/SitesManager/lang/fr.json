@@ -1,6 +1,7 @@
 {
     "SitesManager": {
         "AddSite": "Ajouter un site",
+        "AddMeasurable": "Ajouter un nouvel élément mesurable",
         "AdvancedTimezoneSupportNotFound": "Le support avancé des fuseaux horaires n'a pu être trouvé dans votre configuration de PHP (supporté dans PHP>=5.2). Vous pouvez toujours choisir manuellement un décalage UTC.",
         "AliasUrlHelp": "Il est recommandé, mais pas requis, de spécifier les URL différentes que vos utilisateurs utilisent pour accéder au site web. Les URL d'alias pour un site n’apparaîtront pas dans Référents > Sites Internet. Il n'est pas nécessaire d'entrer les URL avec et sans les www, Piwik les traite automatiquement.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Le fait de modifier votre fuseau horaire affectera uniquement les nouvelles données, ce n'est pas rétroactif.",
@@ -74,6 +75,8 @@
         "Urls": "URLs",
         "UTCTimeIs": "L'heure UTC est %s.",
         "WebsitesManagement": "Gestion des sites",
+        "XManagement": "Gérer %s",
+        "ChooseMeasurableTypeHeadline": "Que voudriez-vous mesurer ?",
         "YouCurrentlyHaveAccessToNWebsites": "Vous avez actuellement accès à %s sites web.",
         "YourCurrentIpAddressIs": "Votre adresse IP actuelle est %s"
     }

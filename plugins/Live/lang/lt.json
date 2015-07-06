@@ -1,11 +1,20 @@
 {
     "Live": {
+        "FirstVisit": "Pirmasis apsilankymas",
         "GoalType": "Tipas",
+        "HideMap": "paslėpti žemėlapį",
         "KeywordRankedOnSearchResultForThisVisitor": "Šiam lankytojui raktažodis %1$s buvo parodytas %2$s %3$s paieškos rezultatuose",
         "LastHours": "Paskutinės %s valandos",
         "LastMinutes": "Paskutinės %s minutės",
+        "LastVisit": "Paskutinis apsilankymas",
         "LinkVisitorLog": "Peržiūrėti išsamų apsilankymų žurnalą",
+        "NbVisitor": "1 lankytojas",
+        "NextVisitor": "Kitas lankytojas",
+        "PreviousVisitor": "Ankstesnis lankytojas",
         "Referrer_URL": "Persiunčiančiojo URL",
+        "ShowMap": "rodyti žemėlapį",
+        "ViewVisitorProfile": "Peržiūrėti lankytojo profilį",
+        "VisitedPages": "Aplankyti puslapiai",
         "VisitorLog": "Apsilankymų žurnalas",
         "VisitorsInRealTime": "Lankytojai realiuoju laiku"
     }
