@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "8ba4a1eebbb3c1008e1d4c9a1a57f598",
@@ -929,16 +929,16 @@
         },
         {
             "name": "piwik/referrer-spam-blacklist",
-            "version": "1.0.3",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/referrer-spam-blacklist.git",
-                "reference": "b6a76ae537111a79c0bbe966bef3446926750000"
+                "reference": "ee310007ebfe07ac7f502d85948edc56c49563c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/referrer-spam-blacklist/zipball/b6a76ae537111a79c0bbe966bef3446926750000",
-                "reference": "b6a76ae537111a79c0bbe966bef3446926750000",
+                "url": "https://api.github.com/repos/piwik/referrer-spam-blacklist/zipball/ee310007ebfe07ac7f502d85948edc56c49563c3",
+                "reference": "ee310007ebfe07ac7f502d85948edc56c49563c3",
                 "shasum": ""
             },
             "type": "library",
@@ -947,7 +947,7 @@
                 "Public Domain"
             ],
             "description": "Community-contributed list of referrer spammers",
-            "time": "2015-05-06 21:32:28"
+            "time": "2015-07-06 09:15:56"
         },
         {
             "name": "psr/log",
