@@ -68,11 +68,7 @@ class ReferrerSpamFilter
             $this->spammerList = unserialize($list);
         } else {
             // Fallback to reading the bundled list
-            if (file_exists(PIWIK_INCLUDE_PATH . '/vendor/piwik/referrer-spam-blacklist/spammers.txt')) {
-                $file = PIWIK_INCLUDE_PATH . '/vendor/piwik/referrer-spam-blacklist/spammers.txt'; // Piwik is the main project
-            } else {
-                $file = PIWIK_INCLUDE_PATH . '/../../piwik/referrer-spam-blacklist/spammers.txt'; // Piwik is installed as a dependency
-            }
+            $file = PIWIK_VENDOR_PATH . '/piwik/referrer-spam-blacklist/spammers.txt';
             $this->spammerList = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         }
 

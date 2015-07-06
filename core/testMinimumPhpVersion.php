@@ -50,8 +50,7 @@ if ($minimumPhpInvalid) {
 					To use Piwik, please ask your web host to install php5-json or install it yourself, for example on debian system: <code>sudo apt-get install php5-json</code>. <br/>Then restart your webserver and refresh this page.</p>";
     }
 
-    if (!file_exists(PIWIK_INCLUDE_PATH . '/vendor/autoload.php')
-        && !file_exists(PIWIK_INCLUDE_PATH . '/../../autoload.php')) {
+    if (!file_exists(PIWIK_VENDOR_PATH . '/autoload.php')) {
         $composerInstall = "In the piwik directory, run in the command line the following (eg. via ssh): \n\n"
             . "<pre> curl -sS https://getcomposer.org/installer | php \n\n php composer.phar install\n\n</pre> ";
         if (DIRECTORY_SEPARATOR === '\\' /* ::isWindows() */) {

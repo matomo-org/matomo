@@ -44,7 +44,7 @@ class TestsRun extends ConsoleCommand
 
         $groups = $this->getGroupsFromString($groups);
 
-        $command = '../../vendor/phpunit/phpunit/phpunit';
+        $command = PIWIK_VENDOR_PATH . '/phpunit/phpunit/phpunit';
 
         if (version_compare(PHP_VERSION, '5.4.0', '<')) {
             $command = 'php -dzend.enable_gc=0 ' . $command;
