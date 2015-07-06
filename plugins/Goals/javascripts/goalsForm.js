@@ -70,6 +70,7 @@ function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, patte
         $('select[name=trigger_type] option[value=manually]').prop('selected', true);
         $('input[name=match_attribute]').prop('disabled', true);
         $('#match_attribute_section').hide();
+        $('#match_attribute_section2').hide();
         $('#manual_trigger_section').show();
         matchAttribute = 'url';
     } else {
@@ -104,15 +105,17 @@ function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, patte
 
 function bindGoalForm() {
 
-    $('select[name=trigger_type]').click(function () {
+    $('select[name=trigger_type]').change(function () {
         var triggerTypeId = $(this).val();
         if (triggerTypeId == "manually") {
             $('input[name=match_attribute]').prop('disabled', true);
             $('#match_attribute_section').hide();
+            $('#match_attribute_section2').hide();
             $('#manual_trigger_section').show();
         } else {
             $('input[name=match_attribute]').removeProp('disabled');
             $('#match_attribute_section').show();
+            $('#match_attribute_section2').show();
             $('#manual_trigger_section').hide();
         }
     });
