@@ -5,7 +5,7 @@
         "Domain": "Dominio",
         "ErrorNotLoading": "La sesión de superposición de página no puede ser aun iniciada.",
         "ErrorNotLoadingDetails": "Tal vez la página cargada a su derecha no posee el código de rastreo Piwik. En este caso, trate de lanzar Overlay para una página diferente desde el informe de páginas.",
-        "ErrorNotLoadingDetailsSSL": "Desde que está utilizando Piwik sobre https, la causa más probable es que su sitio no provea soporte SSL. Intente utilizar Piwik sobre http.",
+        "ErrorNotLoadingDetailsSSL": "Ya que está utilizando Piwik sobre https, la causa más probable es que su sitio de internet no provea soporte SSL. Intente utilizar Piwik sobre http.",
         "ErrorNotLoadingLink": "Clic aquí para obtener más ayuda acerca de soluciones de problemas.",
         "Link": "Enlace",
         "Location": "Ubicación",

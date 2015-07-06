@@ -1,6 +1,7 @@
 {
     "SitesManager": {
         "AddSite": "Eine neue Webseite hinzufügen",
+        "AddMeasurable": "Etwas zur Messung hinzufügen",
         "AdvancedTimezoneSupportNotFound": "Erweiterte Zeitzonenunterstützung wurde in Ihrer PHP-Installation nicht gefunden (unterstützt in PHP>=5.2). Sie können jedoch manuell eine Abweichung zur UTC eintragen.",
         "AliasUrlHelp": "Es empfiehlt sich, dass Sie hier alle URLs (eine pro Zeile) angeben, über die Ihre Besucher auf diese Webseite zugreifen. Alias-URLs werden dann im Bericht nicht in als Weiterleitungen aufgeführt. Hinweis: Es ist nicht erforderlich, URLs mit und ohne \"www\" anzugeben, da dies automatisch beachtet wird.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Das Ändern Ihrer Zeitzone wirkt sich nur auf zukünftige Daten aus und wird nicht rückwirkend angepasst.",
@@ -75,6 +76,7 @@
         "UTCTimeIs": "UTC-Zeit ist %s.",
         "WebsitesManagement": "Webseitenverwaltung",
         "XManagement": "%s verwalten",
+        "ChooseMeasurableTypeHeadline": "Was möchten Sie messen?",
         "YouCurrentlyHaveAccessToNWebsites": "Sie haben derzeit Zugriff auf %s Webseiten.",
         "YourCurrentIpAddressIs": "Ihre aktuelle IP-Adresse ist %s"
     }

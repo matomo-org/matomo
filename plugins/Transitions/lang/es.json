@@ -2,7 +2,7 @@
     "Transitions": {
         "BouncesInline": "%s rebotes",
         "DirectEntries": "Ingresos directos",
-        "ErrorBack": "Regrese a la acción anterior",
+        "ErrorBack": "Regresar a la acción anterior",
         "ExitsInline": "%s salidas",
         "FromCampaigns": "Desde campañas",
         "FromPreviousPages": "Desde páginas internas",

@@ -1,5 +1,6 @@
 {
     "ZenMode": {
+        "PluginDescription": "Bleiben Sie \"Zen\" mit Piwik. Der \"Zen-Modus\" hält die Dinge einfach. Er ist verfügbar über das Icon am rechten, oberen Ende des Bildschirms.",
         "SearchForAnything": "Nach etwas suchen",
         "QuickAccessTitle": "Nach Menüeinträgen, Berichte oder Webseiten suchen",
         "HowToSearch": "Um nach Menüeinträgen, Berichten oder Webseiten zu suchen, das Suchfeld oben benutzen oder Alt+f drücken.",

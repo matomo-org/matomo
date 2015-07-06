@@ -1,12 +1,23 @@
 {
     "Dashboard": {
+        "AddAWidget": "Pridėti valdiklį",
         "AddPreviewedWidget": "Įdėti peržiūrėtą valdiklį į skydelį",
+        "ChangeDashboardLayout": "Pakeisti skydelio išdėstymą",
+        "CreateNewDashboard": "Sukurti naują skydelį",
         "Dashboard": "Skydelis",
+        "DashboardName": "Skydelio pavadinimas:",
         "DeleteWidgetConfirm": "Ar tikrai norite pašalinti šį valdiklį iš skydelio?",
         "LoadingWidget": "Įkeliamas valdiklis, luktelėkite...",
+        "ManageDashboard": "Tvarkyti skydelį",
         "Maximise": "Padidinti",
+        "RemoveDashboard": "Šalinti skydelį",
+        "RemoveDashboardConfirm": "Ar tikrai norite pašalinti skydelį \"%s\"?",
+        "RenameDashboard": "Pervadinti skydelį",
+        "ResetDashboard": "Atstatyti skydelį",
+        "SelectDashboardLayout": "Pasirinkite savo naujojo skydelio išdėstymą",
         "SelectWidget": "Pasirinkite valdiklį, kurį norite įdėti į skydelį",
         "WidgetNotFound": "Valdiklis nerastas",
-        "WidgetPreview": "Valdiklio peržiūra"
+        "WidgetPreview": "Valdiklio peržiūra",
+        "WidgetsAndDashboard": "Valdikliai ir Skydelis"
     }
 }
