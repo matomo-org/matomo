@@ -191,6 +191,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'nortonsafe.search.ask.com'      => array('Ask'),
         'safesearch.avira.com'           => array('Ask'),
         'avira.search.ask.com'           => array('Ask'),
+        'int.search.tb.ask.com'          => array('Ask'),
 
         // Atlas
         'searchatlas.centrum.cz'         => array('Atlas', 'q', '?q={k}'),
