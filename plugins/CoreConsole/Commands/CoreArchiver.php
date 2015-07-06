@@ -69,8 +69,7 @@ class CoreArchiver extends ConsoleCommand
     {
         $command->setName('core:archive');
         $command->setDescription("Runs the CLI archiver. It is an important tool for general maintenance and to keep Piwik very fast.");
-        $command->setHelp("* It is recommended to run the script with the option --url=[piwik-server-url] only. Other options are not required.
-  Try --piwik-domain if --url does not work for you.
+        $command->setHelp("* It is recommended to run the script without any option.
 * This script should be executed every hour via crontab, or as a daemon.
 * You can also run it via http:// by specifying the Super User &token_auth=XYZ as a parameter ('Web Cron'),
   but it is recommended to run it via command line/CLI instead.

@@ -21,7 +21,7 @@ var Overlay_Helper = {
 
     /** Get the url to launch overlay */
     getOverlayLink: function (idSite, period, date, link) {
-        var url = 'index.php?module=Overlay&period=' + period + '&date=' + date + '&idSite=' + idSite;
+        var url = 'index.php?module=Overlay&period=' + encodeURIComponent(period) + '&date=' + encodeURIComponent(date) + '&idSite=' + encodeURIComponent(idSite);
         if (link) {
             url += '#l=' + Overlay_Helper.encodeFrameUrl(link);
         }
