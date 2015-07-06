@@ -459,6 +459,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'www.delta-search.com'           => array('Google', 'q'),
         'www1.delta-search.com'          => array('Google', 'q'),
         'search.1und1.de'                => array('Google', 'q', 'web?q={k}'),
+        'suche.1und1.de'                 => array('Google', 'q', 'web?q={k}'),
         'search.zonealarm.com'           => array('Google'),
         'start.lenovo.com'               => array('Google', 'q', 'search/index.php?q={k}'),
         'wow.com'                        => array('Google'),
@@ -471,6 +472,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'gfsoso.com'                     => array('Google', 'q'),
         'searches.safehomepage.com'      => array('Google', 'q'),
         'searches.f-secure.com'          => array('Google', 'query', 'search?query={k}'),
+        'startgoogle.startpagina.nl'     => array('Google', 'query'),
 
         // Google Cache
         'webcache.googleusercontent.com' => array('Google', '/\/search\?q=cache:[A-Za-z0-9]+:[^+]+([^&]+)/', 'search?q={k}'),
@@ -571,7 +573,11 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'webfetch.com'                   => array('InfoSpace'),
         'webcrawler.com'                 => array('InfoSpace'),
         'search.kiwee.com'               => array('InfoSpace'),
-
+        'searches.vi-view.com'           => array('InfoSpace'),
+        'search.webssearches.com'        => array('InfoSpace'),
+        'search.fbdownloader.com'        => array('InfoSpace'),
+        'searches3.globososo.com'        => array('InfoSpace'),
+        
         // old infospace system
         'wsdsold.infospace.com'          => array('InfoSpace', '/\/[^\/]+\/ws\/results\/[^\/]+\/([^\/]+)/', 'pemonitorhosted/ws/results/Web/{k}/1/417/TopNavigation/Source/'),
 
@@ -983,6 +989,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Web.de
         'suche.web.de'                   => array('Web.de', array('su', 'q'), 'search/web/?su={k}'),
+        'm.suche.web.de'                 => array('Web.de'),
 
         // Web.nl
         'www.web.nl'                     => array('Web.nl', 'zoekwoord'),
