@@ -28,3 +28,4 @@ third-party libraries:
    - in r3694, fix ZF-10888 and ZF-10835
    - ZF-10871 - undefined variables when socket support disabled
    - fix #6980 ("Array to string conversion") in `Zend/Session/Exception.php`
+   - fix Zend/Validate using deprecated iconv_set_encoding()

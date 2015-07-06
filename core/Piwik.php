@@ -563,7 +563,9 @@ class Piwik
      */
     public static function isValidEmailString($emailAddress)
     {
-        return (preg_match('/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,}$/D', $emailAddress) > 0);
+        /** @var \Zend_Validate_EmailAddress $zendEmailValidator */
+        $zendEmailValidator = StaticContainer::get('Zend_Validate_EmailAddress');
+        return $zendEmailValidator->isValid($emailAddress);
     }
 
     /**

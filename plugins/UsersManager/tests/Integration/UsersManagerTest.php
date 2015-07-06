@@ -169,27 +169,12 @@ class UsersManagerTest extends IntegrationTestCase
     }
 
     /**
-     * Dataprovider for wrong email tests
-     */
-    public function getWrongEmailTestData()
-    {
-        return array(
-            array("geggeqgeqag", "geqgeagae", "ema'il@email.com", "alias"),
-            array("geggeqgeqag", "geqgeagae", "@email.com", "alias"),
-            array("geggeqgeqag", "geqgeagae", "email@.com", "alias"),
-            array("geggeqgeqag", "geqgeagae", "email@4.", "alias"),
-            array("geggeqgeqag", "geqgeagae", "", "alias"),
-        );
-    }
-
-    /**
-     * @dataProvider getWrongEmailTestData
      * @expectedException \Exception
      * @expectedExceptionMessage mail
      */
-    public function testAddUserWrongEmail($userLogin, $password, $email, $alias)
+    public function testAddUserWrongEmail()
     {
-        $this->api->addUser($userLogin, $password, $email, $alias);
+        $this->api->addUser('geggeqgeqag', 'geqgeagae', "ema il@email.com", 'alias');
     }
 
     /**
