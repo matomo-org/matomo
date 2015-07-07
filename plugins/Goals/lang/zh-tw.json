@@ -13,7 +13,6 @@
         "ConversionRate": "%s 轉換率",
         "Conversions": "%s 轉換數",
         "ConversionsOverview": "轉換總覽",
-        "CreateNewGOal": "建立一個新的目標",
         "DefaultRevenue": "目標預設收益是",
         "DefaultRevenueHelp": "舉例來說，訪客送出一個聯繫表單可能平均價值為 $10。Piwik 將幫助你瞭解你的訪客。",
         "DeleteGoalConfirm": "你確定要刪除目標 %s ？",
