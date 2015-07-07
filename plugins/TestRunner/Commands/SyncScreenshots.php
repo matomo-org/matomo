@@ -109,7 +109,7 @@ git pull
 git add .
 git status
 sleep 5
-git commit -m '' # Write a good commit message, eg. 'Fixed UI test failure caused by change introduced in <core or plugin commit> which caused failure by <explanation of failure>'
+git commit -m 'UI tests: ...' # Write a good commit message, eg. 'Fixed UI test failure caused by change introduced in <core or plugin commit> which caused failure by <explanation of failure>'
 git push";
 
         if(empty($plugin)) {
@@ -118,7 +118,7 @@ cd ..
 git pull
 git add expected-ui-screenshots/
 git status
-git commit -m '' # Copy paste the good commit message
+git commit -m 'UI tests: ...' # Copy paste the good commit message
 git push
 cd ../../";
         } else {
