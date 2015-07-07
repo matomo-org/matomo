@@ -33,12 +33,6 @@ class TestsRunUI extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!file_exists(PIWIK_INCLUDE_PATH . '/tests/UI/expected-ui-screenshots/README.md')) {
-            // REMOVE THIS CHECK AFTER 1st April 2015
-            $output->writeln('<error>"tests/UI/expected-ui-screenshots" does not exist. You might have to run "git submodule update --init"</error>');
-            return;
-        }
-
         $specs = $input->getArgument('specs');
         $persistFixtureData = $input->getOption("persist-fixture-data");
         $keepSymlinks = $input->getOption('keep-symlinks');
