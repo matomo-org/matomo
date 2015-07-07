@@ -10,7 +10,11 @@
 require_once __DIR__ . '/../../core/Version.php';
 
 $pluginName = $argv[1];
-$pluginJsonPath = __DIR__ . "/../../plugins/$pluginName/plugin.json";
+
+// at this point in travis the plugin to test against is not in the piwik directory. we could move it to piwik
+// beforehand, but for plugins that are also stored as submodules, this would erase the plugin or fail when git
+// submodule update is called
+$pluginJsonPath = __DIR__ . "/../../../$pluginName/plugin.json";
 
 $pluginJsonContents = file_get_contents($pluginJsonPath);
 $pluginJsonContents = json_decode($pluginJsonContents, true);
