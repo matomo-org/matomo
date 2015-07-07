@@ -107,7 +107,7 @@ class Range extends Period
      */
     public function getLocalizedShortString()
     {
-        return $this->getTranslatedRange($this->getRangeFormat(true), $this->getDateStart(), $this->getDateEnd());
+        return $this->getTranslatedRange($this->getRangeFormat(true));
     }
 
     /**
@@ -117,7 +117,7 @@ class Range extends Period
      */
     public function getLocalizedLongString()
     {
-        return $this->getTranslatedRange($this->getRangeFormat(), $this->getDateStart(), $this->getDateEnd());
+        return $this->getTranslatedRange($this->getRangeFormat());
     }
 
     /**
