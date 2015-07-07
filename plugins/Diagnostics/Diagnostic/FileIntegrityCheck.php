@@ -46,6 +46,6 @@ class FileIntegrityCheck implements Diagnostic
         $comment .= '<br/><br/><pre style="overflow-x: scroll;max-width: 600px;">'
             . implode("\n", $messages) . '</pre>';
 
-        return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $comment));
+        return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
     }
 }
