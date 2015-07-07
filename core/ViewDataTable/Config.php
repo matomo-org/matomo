@@ -121,7 +121,8 @@ class Config
         'show_pagination_control',
         'show_offset_information',
         'hide_annotations_view',
-        'export_limit'
+        'export_limit',
+        'columns_to_display'
     );
 
     /**
