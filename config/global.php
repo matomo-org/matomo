@@ -72,4 +72,7 @@ return array(
                 'tld' => false,
             ))));
     },
+
+    'tracker.request.processors' => array(),
+
 );
