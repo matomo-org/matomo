@@ -24,7 +24,7 @@ class Week extends Period
      */
     public function getLocalizedShortString()
     {
-        return $this->getTranslatedRange($this->getRangeFormat(true), $this->getDateStart(), $this->getDateEnd());
+        return $this->getTranslatedRange($this->getRangeFormat(true));
     }
 
     /**
@@ -34,7 +34,7 @@ class Week extends Period
      */
     public function getLocalizedLongString()
     {
-        $string = $this->getTranslatedRange($this->getRangeFormat(), $this->getDateStart(), $this->getDateEnd());
+        $string = $this->getTranslatedRange($this->getRangeFormat());
         return $this->translator->translate('Intl_PeriodWeek') . " " . $string;
     }
 
