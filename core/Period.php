@@ -308,12 +308,11 @@ abstract class Period
 
         // search for first duplicate date field
         foreach ($intervalTokens AS $tokens) {
-            if (preg_match_all('/['.implode('|', $tokens).']+/', $format, $matches, PREG_OFFSET_CAPTURE)) {
-                if (count($matches[0]) > 1 && $offset > $matches[0][1][1]) {
-                    $offset = $matches[0][1][1];
-                }
+            if (preg_match_all('/[' . implode('|', $tokens) . ']+/', $format, $matches, PREG_OFFSET_CAPTURE) &&
+                count($matches[0]) > 1 && $offset > $matches[0][1][1]
+            ) {
+                $offset = $matches[0][1][1];
             }
-
         }
 
         return array(substr($format, 0, $offset), substr($format, $offset));
