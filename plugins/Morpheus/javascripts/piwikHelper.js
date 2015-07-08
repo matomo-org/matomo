@@ -464,6 +464,9 @@ try {
             return value;
         };
     }
+
+    // Fix jQuery UI dialogs scrolling when click on links with tooltips
+    jQuery.ui.dialog.prototype._focusTabbable = $.noop;
+
 } catch (e) {}
 }(jQuery));
-
