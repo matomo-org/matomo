@@ -122,6 +122,9 @@ class Visit implements VisitInterface
             // on a ping request that is received before the standard visit length, we just update the visit time w/o adding a new action
             Common::printDebug("-> ping=1 request: we do not track a new action nor a new visit nor any goal.");
 
+            $action = null;
+            $this->visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', false);
+            $this->visitProperties->setRequestMetadata('Goals', 'visitIsConverted', false);
         } else {
 
             $goalManager = new GoalManager($this->request);
