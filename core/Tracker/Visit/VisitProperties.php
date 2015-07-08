@@ -19,5 +19,22 @@ class VisitProperties
      */
     public $visitorInfo = array();
 
-    // TODO
+    /**
+     * Stores plugin specific tracking request metadata. RequestProcessors can store
+     * whatever they want in this array, and other RequestProcessors can modify these
+     * values to change tracker behavior.
+     *
+     * @var string[][]
+     */
+    private $requestMetadata = array();
+
+    public function setRequestMetadata($pluginName, $key, $value)
+    {
+        $this->requestMetadata[$pluginName][$key] = $value;
+    }
+
+    public function getRequestMetadata($pluginName, $key)
+    {
+        return @$this->requestMetadata[$pluginName][$key];
+    }
 }

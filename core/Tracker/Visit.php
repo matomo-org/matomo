@@ -114,7 +114,7 @@ class Visit implements VisitInterface
         /**
          * Goals & Ecommerce conversions
          */
-        $isManualGoalConversion = $requestIsEcommerce = $visitIsConverted = $someGoalsConverted = false;
+        $isManualGoalConversion = $requestIsEcommerce = false;
         $action = null;
         $goalManager = null;
 
@@ -130,22 +130,13 @@ class Visit implements VisitInterface
             $requestIsEcommerce = $goalManager->requestIsEcommerce;
 
             if ($requestIsEcommerce) {
-                $someGoalsConverted = true;
+                $this->visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', true);
 
                 // Mark the visit as Converted only if it is an order (not for a Cart update)
                 if ($goalManager->isGoalAnOrder()) {
-                    $visitIsConverted = true;
+                    $this->visitProperties->setRequestMetadata('Goals', 'visitIsConverted', true);
                 }
-            } elseif ($isManualGoalConversion) {
-                // this request is from the JS call to piwikTracker.trackGoal()
-                $someGoalsConverted = $goalManager->detectGoalId($this->request->getIdSite());
-                $visitIsConverted = $someGoalsConverted;
-
-                // if we find a idgoal in the URL, but then the goal is not valid, this is most likely a fake request
-                if (!$someGoalsConverted) {
-                    Common::printDebug('Invalid goal tracking request for goal id = ' . $goalManager->idGoal);
-                    return;
-                }
+            } else if ($isManualGoalConversion) {
             } else {
                 // normal page view, potentially triggering a URL matching goal
                 $action = Action::factory($this->request);
@@ -153,7 +144,8 @@ class Visit implements VisitInterface
                 $action->writeDebugInfo();
 
                 $someGoalsConverted = $goalManager->detectGoalsMatchingUrl($this->request->getIdSite(), $action);
-                $visitIsConverted = $someGoalsConverted;
+                $this->visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', $someGoalsConverted);
+                $this->visitProperties->setRequestMetadata('Goals', 'visitIsConverted', $someGoalsConverted);
 
                 $action->loadIdsFromLogActionTable();
             }
@@ -171,6 +163,7 @@ class Visit implements VisitInterface
 
         $isNewVisit = $this->isVisitNew($visitor, $action);
 
+        // TODO: re-add optimization where if custom variables exist in request, don't bother selecting them in Visitor
         $this->visitorCustomVariables = $this->request->getCustomVariables($scope = 'visit');
         if (!empty($this->visitorCustomVariables)) {
             Common::printDebug("Visit level Custom Variables: ");
@@ -201,7 +194,7 @@ class Visit implements VisitInterface
                     $goalManager->detectIsThereExistingCartInVisit($this->visitProperties->visitorInfo);
                 }
 
-                $this->handleExistingVisit($visitor, $action, $visitIsConverted);
+                $this->handleExistingVisit($visitor, $action, $this->visitProperties->getRequestMetadata('Goals', 'visitIsConverted'));
 
                 if (!is_null($action)) {
                     $action->record($visitor, $idReferrerActionUrl, $idReferrerActionName);
@@ -217,7 +210,8 @@ class Visit implements VisitInterface
                 if ($isManualGoalConversion
                     || $requestIsEcommerce
                 ) {
-                    $someGoalsConverted = $visitIsConverted = false;
+                    $this->visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', false);
+                    $this->visitProperties->setRequestMetadata('Goals', 'visitIsConverted', false);
                 } // When the row wasn't found in the logs, and this is a pageview or
                 // goal matching URL, we force a new visitor
                 else {
@@ -239,7 +233,7 @@ class Visit implements VisitInterface
         // - the visitor does have the Piwik cookie but the idcookie and idvisit found in the cookie didn't match to any existing visit in the DB
         if ($isNewVisit) {
 
-            $this->handleNewVisit($visitor, $action, $visitIsConverted);
+            $this->handleNewVisit($visitor, $action, $this->visitProperties->getRequestMetadata('Goals', 'visitIsConverted'));
             if (!is_null($action)) {
                 $action->record($visitor, 0, 0);
             }
@@ -249,7 +243,7 @@ class Visit implements VisitInterface
         $this->request->setThirdPartyCookie($this->visitProperties->visitorInfo['idvisitor']);
 
         // record the goals if applicable
-        if ($someGoalsConverted) {
+        if ($this->visitProperties->getRequestMetadata('Goals', 'someGoalsConverted')) {
             $goalManager->recordGoals(
                 $visitor,
                 $this->visitProperties->visitorInfo,
