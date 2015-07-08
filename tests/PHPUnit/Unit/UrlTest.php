@@ -231,6 +231,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             array(false, 'www.example.com:8080', array('example.com'), 'host:port is valid'),
             array(true, 'www.example.com:8080', array('example.com:8080'), 'host:port is valid'),
             array(false, 'www.whatever.com', array('*.whatever.com'), 'regex char is escaped'),
+            array(false, 'www.whatever.com', array('www.whatever.com/abc'), 'with path starting with /a does not throw error'),
+            array(false, 'www.whatever.com', array('www.whatever.com/path/here'), 'with path starting with /p does not throw error'),
         );
     }
 
