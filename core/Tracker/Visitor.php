@@ -14,19 +14,20 @@ use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Piwik;
 use Piwik\Tracker;
+use Piwik\Tracker\Visit\VisitProperties;
 
 class Visitor
 {
     private $visitorKnown = false;
     private $request;
-    private $visitorInfo;
+    private $visitProperties;
     private $configId;
 
-    public function __construct(Request $request, $configId, $visitorInfo = array())
+    public function __construct(Request $request, $configId, VisitProperties $visitProperties)
     {
         $this->request = $request;
         $this->configId = $configId;
-        $this->visitorInfo = $visitorInfo;
+        $this->visitProperties = $visitProperties;
     }
 
     /**
@@ -47,7 +48,7 @@ class Visitor
         $isVisitorIdToLookup = !empty($idVisitor);
 
         if ($isVisitorIdToLookup) {
-            $this->visitorInfo['idvisitor'] = $idVisitor;
+            $this->visitProperties->visitorInfo['idvisitor'] = $idVisitor;
             Common::printDebug("Matching visitors with: visitorId=" . bin2hex($idVisitor) . " OR configId=" . bin2hex($configId));
         } else {
             Common::printDebug("Visitor doesn't have the piwik cookie...");
@@ -72,11 +73,11 @@ class Visitor
 
             // These values will be used throughout the request
             foreach ($persistedVisitAttributes as $field) {
-                $this->visitorInfo[$field] = $visitRow[$field];
+                $this->visitProperties->visitorInfo[$field] = $visitRow[$field];
             }
 
-            $this->visitorInfo['visit_last_action_time']  = strtotime($visitRow['visit_last_action_time']);
-            $this->visitorInfo['visit_first_action_time'] = strtotime($visitRow['visit_first_action_time']);
+            $this->visitProperties->visitorInfo['visit_last_action_time']  = strtotime($visitRow['visit_last_action_time']);
+            $this->visitProperties->visitorInfo['visit_first_action_time'] = strtotime($visitRow['visit_first_action_time']);
 
             // Custom Variables copied from Visit in potential later conversion
             if (!empty($numCustomVarsToRead)) {
@@ -84,23 +85,23 @@ class Visitor
                     if (isset($visitRow['custom_var_k' . $i])
                         && strlen($visitRow['custom_var_k' . $i])
                     ) {
-                        $this->visitorInfo['custom_var_k' . $i] = $visitRow['custom_var_k' . $i];
+                        $this->visitProperties->visitorInfo['custom_var_k' . $i] = $visitRow['custom_var_k' . $i];
                     }
                     if (isset($visitRow['custom_var_v' . $i])
                         && strlen($visitRow['custom_var_v' . $i])
                     ) {
-                        $this->visitorInfo['custom_var_v' . $i] = $visitRow['custom_var_v' . $i];
+                        $this->visitProperties->visitorInfo['custom_var_v' . $i] = $visitRow['custom_var_v' . $i];
                     }
                 }
             }
 
             $this->setIsVisitorKnown(true);
-            Common::printDebug("The visitor is known (idvisitor = " . bin2hex($this->visitorInfo['idvisitor']) . ",
+            Common::printDebug("The visitor is known (idvisitor = " . bin2hex($this->visitProperties->visitorInfo['idvisitor']) . ",
                     config_id = " . bin2hex($configId) . ",
-                    idvisit = {$this->visitorInfo['idvisit']},
-                    last action = " . date("r", $this->visitorInfo['visit_last_action_time']) . ",
-                    first action = " . date("r", $this->visitorInfo['visit_first_action_time']) . ",
-                    visit_goal_buyer' = " . $this->visitorInfo['visit_goal_buyer'] . ")");
+                    idvisit = {$this->visitProperties->visitorInfo['idvisit']},
+                    last action = " . date("r", $this->visitProperties->visitorInfo['visit_last_action_time']) . ",
+                    first action = " . date("r", $this->visitProperties->visitorInfo['visit_first_action_time']) . ",
+                    visit_goal_buyer' = " . $this->visitProperties->visitorInfo['visit_goal_buyer'] . ")");
         } else {
             Common::printDebug("The visitor was not matched with an existing visitor...");
         }
@@ -231,23 +232,23 @@ class Visitor
 
     public function getVisitorInfo()
     {
-        return $this->visitorInfo;
+        return $this->visitProperties->visitorInfo;
     }
 
     public function clearVisitorInfo()
     {
-        $this->visitorInfo = array();
+        $this->visitProperties->visitorInfo = array();
     }
 
     public function setVisitorColumn($column, $value)
     {
-        $this->visitorInfo[$column] = $value;
+        $this->visitProperties->visitorInfo[$column] = $value;
     }
 
     public function getVisitorColumn($column)
     {
-        if (array_key_exists($column, $this->visitorInfo)) {
-            return $this->visitorInfo[$column];
+        if (array_key_exists($column, $this->visitProperties->visitorInfo)) {
+            return $this->visitProperties->visitorInfo[$column];
         }
 
         return false;

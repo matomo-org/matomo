@@ -54,7 +54,6 @@ class Visit implements VisitInterface
      * @var Settings
      */
     protected $userSettings;
-    protected $visitorCustomVariables = array();
 
     public static $dimensions;
 
@@ -71,7 +70,7 @@ class Visit implements VisitInterface
     public function __construct()
     {
         $this->requestProcessors = StaticContainer::get('tracker.request.processors');
-        $this->visitProperties = new VisitProperties();
+        $this->visitProperties = null;
     }
 
     /**
@@ -104,6 +103,8 @@ class Visit implements VisitInterface
      */
     public function handle()
     {
+        $this->visitProperties = new VisitProperties();
+
         // TODO: add debug logging
         foreach ($this->requestProcessors as $processor) {
             $abort = $processor->processRequestParams($this->visitProperties, $this->request);
@@ -116,7 +117,7 @@ class Visit implements VisitInterface
          * Visitor recognition
          */
         $visitorId = $this->getSettingsObject()->getConfigId();
-        $visitor = new Visitor($this->request, $visitorId, $this->visitProperties->visitorInfo);
+        $visitor = new Visitor($this->request, $visitorId, $this->visitProperties);
         $visitor->recognize();
 
         $this->visitProperties->visitorInfo = $visitor->getVisitorInfo();
@@ -129,13 +130,6 @@ class Visit implements VisitInterface
         $goalManager = GoalsRequestProcessor::$goalManager;
         $isManualGoalConversion = $goalManager->isManualGoalConversion();
         $requestIsEcommerce = $goalManager->requestIsEcommerce;
-
-        // TODO: re-add optimization where if custom variables exist in request, don't bother selecting them in Visitor
-        $this->visitorCustomVariables = $this->request->getCustomVariables($scope = 'visit');
-        if (!empty($this->visitorCustomVariables)) {
-            Common::printDebug("Visit level Custom Variables: ");
-            Common::printDebug($this->visitorCustomVariables);
-        }
 
         foreach ($this->requestProcessors as $processor) {
             $abort = $processor->manipulateVisitProperties($this->visitProperties, $this->request);
@@ -214,7 +208,7 @@ class Visit implements VisitInterface
             $goalManager->recordGoals(
                 $visitor,
                 $this->visitProperties->visitorInfo,
-                $this->visitorCustomVariables,
+                $this->visitProperties->getRequestMetadata('CustomVariables', 'visitCustomVariables'),
                 $action
             );
         }
@@ -239,11 +233,11 @@ class Visit implements VisitInterface
     {
         Common::printDebug("Visit is known (IP = " . IPUtils::binaryToStringIP($this->getVisitorIp()) . ")");
 
-        $valuesToUpdate = $this->getExistingVisitFieldsToUpdate($visitor, $action, $visitIsConverted);
-
         // TODO we should not have to sync this->visitorInfo and $visitor columns.
         // TODO it should be its own dimension
         $this->setVisitorColumn($visitor, 'time_spent_ref_action', $this->getTimeSpentReferrerAction());
+
+        $valuesToUpdate = $this->getExistingVisitFieldsToUpdate($visitor, $action, $visitIsConverted);
 
         // update visitorInfo
         foreach ($valuesToUpdate as $name => $value) {
@@ -262,6 +256,10 @@ class Visit implements VisitInterface
          *                     to see what it contains.
          */
         Piwik::postEvent('Tracker.existingVisitInformation', array(&$valuesToUpdate, $this->visitProperties->visitorInfo));
+
+        foreach ($this->requestProcessors as $processor) {
+            $processor->onExistingVisit($valuesToUpdate, $this->visitProperties, $this->request);
+        }
 
         $this->updateExistingVisit($valuesToUpdate);
 
@@ -320,6 +318,10 @@ class Visit implements VisitInterface
          * @param \Piwik\Tracker\Request $request An object describing the tracking request being processed.
          */
         Piwik::postEvent('Tracker.newVisitorInformation', array(&$this->visitProperties->visitorInfo, $this->request));
+
+        foreach ($this->requestProcessors as $processor) {
+            $processor->onNewVisit($this->visitProperties, $this->request);
+        }
 
         $this->printVisitorInformation();
 
@@ -502,15 +504,10 @@ class Visit implements VisitInterface
         $configId = $this->getSettingsObject()->getConfigId();
 
         $this->visitProperties->visitorInfo = array();
-        $visitor->clearVisitorInfo();
 
         $this->setVisitorColumn($visitor, 'idvisitor', $idVisitor);
         $this->setVisitorColumn($visitor, 'config_id', $configId);
         $this->setVisitorColumn($visitor, 'location_ip', $visitorIp);
-
-        foreach ($this->visitorCustomVariables as $key => $value) {
-            $this->setVisitorColumn($visitor, $key, $value);
-        }
     }
 
     /**
@@ -537,8 +534,7 @@ class Visit implements VisitInterface
         }
 
         // Custom Variables overwrite previous values on each page view
-        //return $valuesToUpdate;
-        return array_merge($valuesToUpdate, $this->visitorCustomVariables);
+        return $valuesToUpdate;
     }
 
     /**

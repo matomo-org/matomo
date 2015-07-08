@@ -36,6 +36,22 @@ abstract class RequestProcessor
     /**
      * TODO
      */
+    public function onNewVisit(VisitProperties $visitProperties, Request $request)
+    {
+        // empty
+    }
+
+    /**
+     * TODO
+     */
+    public function onExistingVisit(&$valuesToUpdate, VisitProperties $visitProperties, Request $request)
+    {
+        // empty
+    }
+
+    /**
+     * TODO
+     */
     public function processRequest(VisitProperties $visitProperties)
     {
         // empty
