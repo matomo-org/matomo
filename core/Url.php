@@ -240,9 +240,12 @@ class Url
             return true;
         }
 
+        // Escape trusted hosts for preg_match call below
         foreach ($trustedHosts as &$trustedHost) {
             $trustedHost = preg_quote($trustedHost);
         }
+        $trustedHosts = str_replace("/", "\\/", $trustedHosts);
+
         $untrustedHost = Common::mb_strtolower($host);
         $untrustedHost = rtrim($untrustedHost, '.');
 
