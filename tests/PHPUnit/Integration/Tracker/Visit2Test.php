@@ -95,8 +95,8 @@ class FakeTrackerVisit extends Visit
     public function __construct($request)
     {
         $this->request = $request;
-        $this->visitorInfo['location_ip'] = $request->getIp();
-        $this->visitorInfo['idvisitor']   = 1;
+        $this->visitProperties->visitorInfo['location_ip'] = $request->getIp();
+        $this->visitProperties->visitorInfo['idvisitor']   = 1;
     }
 
     public function handleExistingVisit($visitor, $action, $visitIsConverted)
@@ -121,7 +121,7 @@ class FakeTrackerVisit extends Visit
 
     public function getVisitorInfo()
     {
-        return $this->visitorInfo;
+        return $this->visitProperties->visitorInfo;
     }
 
     protected function insertNewVisit($visit)
