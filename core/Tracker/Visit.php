@@ -129,15 +129,7 @@ class Visit implements VisitInterface
             $isManualGoalConversion = $goalManager->isManualGoalConversion();
             $requestIsEcommerce = $goalManager->requestIsEcommerce;
 
-            if ($requestIsEcommerce) {
-                $this->visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', true);
-
-                // Mark the visit as Converted only if it is an order (not for a Cart update)
-                if ($goalManager->isGoalAnOrder()) {
-                    $this->visitProperties->setRequestMetadata('Goals', 'visitIsConverted', true);
-                }
-            } else if ($isManualGoalConversion) {
-            } else {
+            if (!$requestIsEcommerce && !$isManualGoalConversion) {
                 // normal page view, potentially triggering a URL matching goal
                 $action = Action::factory($this->request);
 
