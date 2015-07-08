@@ -32,6 +32,8 @@ class GoalsRequestProcessor extends RequestProcessor
             $visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', $someGoalsConverted);
             $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', $someGoalsConverted);
 
+            $visitProperties->setRequestMetadata('Actions', 'action', null); // don't track actions when doing manual goal conversions
+
             // if we find a idgoal in the URL, but then the goal is not valid, this is most likely a fake request
             if (!$someGoalsConverted) {
                 Common::printDebug('Invalid goal tracking request for goal id = ' . $goalManager->idGoal);

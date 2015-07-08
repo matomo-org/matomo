@@ -29,6 +29,8 @@ class EcommerceRequestProcessor extends RequestProcessor
             if ($goalManager->isGoalAnOrder()) {
                 $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', true);
             }
+
+            $visitProperties->setRequestMetadata('Actions', 'action', null); // don't track actions when tracking ecommerce orders
         }
     }
 }

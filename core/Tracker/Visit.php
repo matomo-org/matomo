@@ -114,29 +114,16 @@ class Visit implements VisitInterface
         /**
          * Goals & Ecommerce conversions
          */
-        $isManualGoalConversion = $requestIsEcommerce = false;
-        $action = null;
-        $goalManager = null;
+        /** @var Action $action */
+        $action = $this->visitProperties->getRequestMetadata('Actions', 'action');
 
-        if($this->isPingRequest()) {
-            // on a ping request that is received before the standard visit length, we just update the visit time w/o adding a new action
-            Common::printDebug("-> ping=1 request: we do not track a new action nor a new visit nor any goal.");
+        $goalManager = new GoalManager($this->request);
+        $isManualGoalConversion = $goalManager->isManualGoalConversion();
+        $requestIsEcommerce = $goalManager->requestIsEcommerce;
 
-            $action = null;
-            $this->visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', false);
-            $this->visitProperties->setRequestMetadata('Goals', 'visitIsConverted', false);
-        } else {
-
-            $goalManager = new GoalManager($this->request);
-
-            $isManualGoalConversion = $goalManager->isManualGoalConversion();
-            $requestIsEcommerce = $goalManager->requestIsEcommerce;
+        if (!empty($action)) {
 
             if (!$requestIsEcommerce && !$isManualGoalConversion) {
-                // normal page view, potentially triggering a URL matching goal
-                $action = Action::factory($this->request);
-
-                $action->writeDebugInfo();
 
                 $someGoalsConverted = $goalManager->detectGoalsMatchingUrl($this->request->getIdSite(), $action);
                 $this->visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', $someGoalsConverted);
