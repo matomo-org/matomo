@@ -111,19 +111,6 @@ class Visit implements VisitInterface
             }
         }
 
-        foreach ($this->requestProcessors as $processor) {
-            $abort = $processor->manipulateVisitProperties($this->visitProperties);
-            if ($abort) {
-                return;
-            }
-        }
-
-        $this->visitorCustomVariables = $this->request->getCustomVariables($scope = 'visit');
-        if (!empty($this->visitorCustomVariables)) {
-            Common::printDebug("Visit level Custom Variables: ");
-            Common::printDebug($this->visitorCustomVariables);
-        }
-
         /**
          * Goals & Ecommerce conversions
          */
@@ -177,13 +164,25 @@ class Visit implements VisitInterface
          * Visitor recognition
          */
         $visitorId = $this->getSettingsObject()->getConfigId();
-        $visitor = new Visitor($this->request, $visitorId, $this->visitProperties->visitorInfo, $this->visitorCustomVariables);
+        $visitor = new Visitor($this->request, $visitorId, $this->visitProperties->visitorInfo);
         $visitor->recognize();
 
         $this->visitProperties->visitorInfo = $visitor->getVisitorInfo();
 
         $isNewVisit = $this->isVisitNew($visitor, $action);
 
+        $this->visitorCustomVariables = $this->request->getCustomVariables($scope = 'visit');
+        if (!empty($this->visitorCustomVariables)) {
+            Common::printDebug("Visit level Custom Variables: ");
+            Common::printDebug($this->visitorCustomVariables);
+        }
+
+        foreach ($this->requestProcessors as $processor) {
+            $abort = $processor->manipulateVisitProperties($this->visitProperties);
+            if ($abort) {
+                return;
+            }
+        }
 
         // Known visit when:
         // ( - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor
@@ -577,6 +576,7 @@ class Visit implements VisitInterface
         }
 
         // Custom Variables overwrite previous values on each page view
+        //return $valuesToUpdate;
         return array_merge($valuesToUpdate, $this->visitorCustomVariables);
     }
 

@@ -22,12 +22,11 @@ class Visitor
     private $visitorInfo;
     private $configId;
 
-    public function __construct(Request $request, $configId, $visitorInfo = array(), $customVariables = null)
+    public function __construct(Request $request, $configId, $visitorInfo = array())
     {
         $this->request = $request;
         $this->configId = $configId;
         $this->visitorInfo = $visitorInfo;
-        $this->customVariables = $customVariables;
     }
 
     /**
@@ -54,18 +53,13 @@ class Visitor
             Common::printDebug("Visitor doesn't have the piwik cookie...");
         }
 
-        $numCustomVarsToRead = 0;
-        if (!$this->customVariables) {
-            // No custom var were found in the request, so let's copy the previous one in a potential conversion later
-            $numCustomVarsToRead = CustomVariables::getMaxCustomVariables();
-        }
-
         $persistedVisitAttributes = $this->getVisitFieldsPersist();
+
         $shouldMatchOneFieldOnly  = $this->shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup);
         list($timeLookBack, $timeLookAhead) = $this->getWindowLookupThisVisit();
 
         $model    = $this->getModel();
-        $visitRow = $model->findVisitor($idSite, $configId, $idVisitor, $persistedVisitAttributes, $numCustomVarsToRead, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
+        $visitRow = $model->findVisitor($idSite, $configId, $idVisitor, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
 
         $isNewVisitForced = $this->request->getParam('new_visit');
         $isNewVisitForced = !empty($isNewVisitForced);
@@ -223,6 +217,12 @@ class Visitor
 
             array_unshift($fields, 'visit_first_action_time');
             array_unshift($fields, 'visit_last_action_time');
+
+            for ($index = 1; $index <= CustomVariables::getMaxCustomVariables(); $index++) {
+                $fields[] = 'custom_var_k' . $index;
+                $fields[] = 'custom_var_v' . $index;
+            }
+
             $fields = array_unique($fields);
         }
 

@@ -302,15 +302,9 @@ class Model
         return $wasInserted;
     }
 
-    public function findVisitor($idSite, $configId, $idVisitor, $fieldsToRead, $numCustomVarsToRead, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead)
+    public function findVisitor($idSite, $configId, $idVisitor, $fieldsToRead, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead)
     {
         $selectCustomVariables = '';
-
-        if ($numCustomVarsToRead) {
-            for ($index = 1; $index <= $numCustomVarsToRead; $index++) {
-                $selectCustomVariables .= ', custom_var_k' . $index . ', custom_var_v' . $index;
-            }
-        }
 
         $selectFields = implode(', ', $fieldsToRead);
 
