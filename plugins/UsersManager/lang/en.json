@@ -17,7 +17,7 @@
         "DeleteConfirm": "Are you sure you want to delete the user %s?",
         "Email": "Email",
         "EmailYourAdministrator": "%1$sE-mail your administrator about this problem%2$s.",
-        "ExceptionAccessValues": "The parameter access must have one of the following values : [ %s ]",
+        "ExceptionAccessValues": "The parameter access must have one of the following values: [ %s ]",
         "ExceptionAdminAnonymous": "You cannot grant 'admin' access to the 'anonymous' user.",
         "ExceptionDeleteDoesNotExist": "User '%s' doesn't exist therefore it can't be deleted.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Deleting user '%s' is not possible.",

@@ -44,7 +44,7 @@
         "ViewAllReferrers": "View all Referrers",
         "ViewReferrersBy": "View Referrers by %s",
         "Websites": "Websites",
-        "WebsitesDocumentation": "The visitor followed a link on antoher website that led to your site. %s See the %s report for more details.",
+        "WebsitesDocumentation": "The visitor followed a link on another website that led to your site. %s See the %s report for more details.",
         "WebsitesReportDocumentation": "In this table, you can see which websites referred visitors to your site. %s By clicking on a row in the table, you can see which URLs the links to your website were on.",
         "WidgetExternalWebsites": "Referrer Websites",
         "WidgetGetAll": "All Referrers",
