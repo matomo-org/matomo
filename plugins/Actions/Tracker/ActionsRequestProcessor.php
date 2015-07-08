@@ -28,4 +28,14 @@ class ActionsRequestProcessor extends RequestProcessor
 
         $visitProperties->setRequestMetadata('Actions', 'action', $action);
     }
+
+    public function manipulateVisitProperties(VisitProperties $visitProperties, Request $request)
+    {
+        /** @var Action $action */
+        $action = $visitProperties->getRequestMetadata('Actions', 'action');
+
+        if (!empty($action)) { // other plugins can unset the action if they want
+            $action->loadIdsFromLogActionTable();
+        }
+    }
 }

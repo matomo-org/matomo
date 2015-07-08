@@ -18,6 +18,7 @@ use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\Goals\Tracker\GoalsRequestProcessor;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
@@ -111,29 +112,6 @@ class Visit implements VisitInterface
             }
         }
 
-        /**
-         * Goals & Ecommerce conversions
-         */
-        /** @var Action $action */
-        $action = $this->visitProperties->getRequestMetadata('Actions', 'action');
-
-        $goalManager = new GoalManager($this->request);
-        $isManualGoalConversion = $goalManager->isManualGoalConversion();
-        $requestIsEcommerce = $goalManager->requestIsEcommerce;
-
-        if (!empty($action)) {
-
-            if (!$requestIsEcommerce && !$isManualGoalConversion) {
-
-                $someGoalsConverted = $goalManager->detectGoalsMatchingUrl($this->request->getIdSite(), $action);
-                $this->visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', $someGoalsConverted);
-                $this->visitProperties->setRequestMetadata('Goals', 'visitIsConverted', $someGoalsConverted);
-
-                $action->loadIdsFromLogActionTable();
-            }
-
-        }
-
         /***
          * Visitor recognition
          */
@@ -143,7 +121,14 @@ class Visit implements VisitInterface
 
         $this->visitProperties->visitorInfo = $visitor->getVisitorInfo();
 
+        /** @var Action $action */
+        $action = $this->visitProperties->getRequestMetadata('Actions', 'action');
+
         $isNewVisit = $this->isVisitNew($visitor, $action);
+
+        $goalManager = GoalsRequestProcessor::$goalManager;
+        $isManualGoalConversion = $goalManager->isManualGoalConversion();
+        $requestIsEcommerce = $goalManager->requestIsEcommerce;
 
         // TODO: re-add optimization where if custom variables exist in request, don't bother selecting them in Visitor
         $this->visitorCustomVariables = $this->request->getCustomVariables($scope = 'visit');
@@ -153,7 +138,7 @@ class Visit implements VisitInterface
         }
 
         foreach ($this->requestProcessors as $processor) {
-            $abort = $processor->manipulateVisitProperties($this->visitProperties);
+            $abort = $processor->manipulateVisitProperties($this->visitProperties, $this->request);
             if ($abort) {
                 return;
             }

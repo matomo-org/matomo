@@ -43,7 +43,7 @@ class VisitRequestProcessor extends RequestProcessor
         return false;
     }
 
-    public function manipulateVisitProperties(VisitProperties $visitProperties)
+    public function manipulateVisitProperties(VisitProperties $visitProperties, Request $request)
     {
         /**
          * Triggered after visits are tested for exclusion so plugins can modify the IP address

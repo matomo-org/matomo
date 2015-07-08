@@ -24,7 +24,12 @@ class PingRequestProcessor extends RequestProcessor
             Common::printDebug("-> ping=1 request: we do not track a new action nor a new visit nor any goal.");
 
             $visitProperties->setRequestMetadata('Actions', 'action', null);
+        }
+    }
 
+    public function manipulateVisitProperties(VisitProperties $visitProperties, Request $request)
+    {
+        if ($this->isPingRequest($request)) {
             $visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', false);
             $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', false);
         }

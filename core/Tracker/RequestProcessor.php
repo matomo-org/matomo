@@ -12,6 +12,8 @@ use Piwik\Tracker\Visit\VisitProperties;
 
 /**
  * TODO
+ *
+ * TODO: maybe we should rename manipulateVisitProperties to afterRequestProcessed and rename processRequest to handleRequest or recordLogs
  */
 abstract class RequestProcessor
 {
@@ -26,7 +28,7 @@ abstract class RequestProcessor
     /**
      * TODO
      */
-    public function manipulateVisitProperties(VisitProperties $visitProperties)
+    public function manipulateVisitProperties(VisitProperties $visitProperties, Request $request)
     {
         return false;
     }
