@@ -55,7 +55,7 @@ class GoalsRequestProcessor extends RequestProcessor
 
     public function manipulateVisitProperties(VisitProperties $visitProperties, Request $request)
     {
-        $visitsConverted = $visitProperties->getRequestMetadata('Goals', 'visitIsConverted');
+        $visitsConverted = $visitProperties->getRequestMetadata('Goals', 'visitIsConverted'); // TODO: double check, should this be visitIsConverted or someGoalsConverted?
 
         /** @var Action $action */
         $action = $visitProperties->getRequestMetadata('Actions', 'action');
@@ -69,6 +69,11 @@ class GoalsRequestProcessor extends RequestProcessor
 
             $visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', $someGoalsConverted);
             $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', $someGoalsConverted);
+        }
+
+        $someGoalsConverted = $visitProperties->getRequestMetadata('Goals', 'someGoalsConverted');
+        if ($someGoalsConverted) {
+            self::$goalManager->detectIsThereExistingCartInVisit($visitProperties->visitorInfo);
         }
     }
 
@@ -95,6 +100,7 @@ class GoalsRequestProcessor extends RequestProcessor
 
         // record the goals if there were conversions in this request (even if the visit itself was not converted)
         if ($visitProperties->getRequestMetadata('Goals', 'someGoalsConverted')) {
+            /** @var Action $action */
             $action = $visitProperties->getRequestMetadata('Actions', 'action');
 
             self::$goalManager->recordGoals(

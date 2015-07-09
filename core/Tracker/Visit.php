@@ -131,8 +131,6 @@ class Visit implements VisitInterface
             }
         }
 
-        $goalManager = GoalsRequestProcessor::$goalManager;
-
         /** @var Action $action */
         $action = $this->visitProperties->getRequestMetadata('Actions', 'action');
 
@@ -144,19 +142,8 @@ class Visit implements VisitInterface
         // AND
         // - the last page view for this visitor was less than 30 minutes ago @see isLastActionInTheSameVisit()
         if (!$isNewVisit) {
-            $idReferrerActionUrl = $this->visitProperties->visitorInfo['visit_exit_idaction_url'];
-            $idReferrerActionName = $this->visitProperties->visitorInfo['visit_exit_idaction_name'];
-
             try {
-                if($goalManager) {
-                    $goalManager->detectIsThereExistingCartInVisit($this->visitProperties->visitorInfo);
-                }
-
                 $this->handleExistingVisit($this->visitProperties->getRequestMetadata('Goals', 'visitIsConverted'));
-
-                if (!is_null($action)) {
-                    $action->record($this->makeVisitorFacade(), $idReferrerActionUrl, $idReferrerActionName); // TODO
-                }
             } catch (VisitorNotFoundInDb $e) {
                 $this->visitProperties->setRequestMetadata('CoreHome', 'visitorNotFoundInDb', true);
             }
@@ -174,11 +161,7 @@ class Visit implements VisitInterface
         // - the visitor doesn't have the Piwik cookie, and couldn't be matched in @see recognizeTheVisitor()
         // - the visitor does have the Piwik cookie but the idcookie and idvisit found in the cookie didn't match to any existing visit in the DB
         if ($isNewVisit) {
-
             $this->handleNewVisit($this->visitProperties->getRequestMetadata('Goals', 'visitIsConverted'));
-            if (!is_null($action)) {
-                $action->record($this->makeVisitorFacade(), 0, 0);
-            }
         }
 
         // update the cookie with the new visit information
