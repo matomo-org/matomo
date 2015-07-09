@@ -19,7 +19,6 @@ use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\Goals\Tracker\GoalsRequestProcessor;
-use Piwik\SettingsPiwik;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
 
@@ -67,10 +66,19 @@ class Visit implements VisitInterface
      */
     protected $visitProperties;
 
+    /**
+     * @var VisitorRecognizer
+     */
+    private $visitorRecognizer;
+
+    private $visitorId = null;
+
     public function __construct()
     {
         $this->requestProcessors = StaticContainer::get('tracker.request.processors');
+        $this->visitorRecognizer = StaticContainer::get('Piwik\Tracker\VisitorRecognizer');
         $this->visitProperties = null;
+        $this->userSettings = StaticContainer::get('Piwik\Tracker\Settings');
     }
 
     /**
@@ -116,9 +124,11 @@ class Visit implements VisitInterface
         /***
          * Visitor recognition
          */
-        $visitorId = $this->getSettingsObject()->getConfigId();
-        $visitor = new Visitor($this->request, $visitorId, $this->visitProperties);
-        $visitor->recognize();
+        $this->visitorId = $this->getSettingsObject()->getConfigId($this->request, $this->getVisitorIp());
+
+        $isKnown = $this->visitorRecognizer->findKnownVisitor($this->visitorId, $this->visitProperties, $this->request);
+
+        $visitor = new Visitor($this->request, $this->visitorId, $this->visitProperties, $isKnown);
 
         /** @var Action $action */
         $action = $this->visitProperties->getRequestMetadata('Actions', 'action');
@@ -356,11 +366,6 @@ class Visit implements VisitInterface
      */
     protected function getSettingsObject()
     {
-        if (is_null($this->userSettings)) {
-            $this->userSettings = new Settings($this->request, $this->getVisitorIp(),
-                SettingsPiwik::isSameFingerprintAcrossWebsites());
-        }
-
         return $this->userSettings;
     }
 
@@ -474,7 +479,7 @@ class Visit implements VisitInterface
     {
         $idVisitor = $this->getVisitorIdcookie($visitor);
         $visitorIp = $this->getVisitorIp();
-        $configId = $this->getSettingsObject()->getConfigId();
+        $configId = $this->visitorId;
 
         $this->visitProperties->visitorInfo = array();
 

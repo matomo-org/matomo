@@ -21,33 +21,12 @@ class Visitor
     private $visitProperties;
     private $configId;
 
-    /**
-     * @var VisitorRecognizer
-     */
-    private $visitorRecognizer;
-
     public function __construct(Request $request, $configId, VisitProperties $visitProperties, $isVisitorKnown = false)
     {
         $this->request = $request;
         $this->configId = $configId;
         $this->visitProperties = $visitProperties;
-        $this->visitorRecognizer = StaticContainer::get('Piwik\Tracker\VisitorRecognizer');
         $this->setIsVisitorKnown($isVisitorKnown);
-    }
-
-    /**
-     * This methods tries to see if the visitor has visited the website before.
-     *
-     * We have to split the visitor into one of the category
-     * - Known visitor
-     * - New visitor
-     */
-    public function recognize()
-    {
-        $this->setIsVisitorKnown(false);
-
-        $isKnown = $this->visitorRecognizer->findKnownVisitor($this->configId, $this->visitProperties, $this->request);
-        $this->setIsVisitorKnown($isKnown);
     }
 
     public function setVisitorColumn($column, $value) // TODO: remove this eventually
