@@ -13,7 +13,7 @@ use Piwik\Tracker;
 use Piwik\DeviceDetectorFactory;
 use Piwik\SettingsPiwik;
 
-class Settings
+class Settings // TODO: merge w/ visitor recognizer
 {
     const OS_BOT = 'BOT';
 

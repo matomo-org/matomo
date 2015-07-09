@@ -120,8 +120,6 @@ class Visit implements VisitInterface
         $visitor = new Visitor($this->request, $visitorId, $this->visitProperties);
         $visitor->recognize();
 
-        $this->visitProperties->visitorInfo = $visitor->getVisitorInfo();
-
         /** @var Action $action */
         $action = $this->visitProperties->getRequestMetadata('Actions', 'action');
 

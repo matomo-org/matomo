@@ -432,8 +432,7 @@ class VisitTest extends IntegrationTestCase
         $visitProperties = new Visit\VisitProperties();
         $visitProperties->visitorInfo = array('visit_last_action_time' => Date::factory($lastActionTimestamp)->getTimestamp());
 
-        $visitor = new Visitor($request, 'configid', $visitProperties);
-        $visitor->setIsVisitorKnown($isVisitorKnown);
+        $visitor = new Visitor($request, 'configid', $visitProperties, $isVisitorKnown);
 
         $action = new ActionPageview($request);
 

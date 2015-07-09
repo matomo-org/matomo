@@ -94,7 +94,10 @@ class FakeTrackerVisit extends Visit
 {
     public function __construct($request)
     {
+        parent::__construct();
+
         $this->request = $request;
+        $this->visitProperties = new Visit\VisitProperties();
         $this->visitProperties->visitorInfo['location_ip'] = $request->getIp();
         $this->visitProperties->visitorInfo['idvisitor']   = 1;
     }
@@ -151,7 +154,7 @@ class Visit2Test extends IntegrationTestCase
     public function test_handleNewVisitWithoutConversion_shouldTriggerDimensions()
     {
         $request = new Request(array());
-        $visitor = new Visitor($request, '');
+        $visitor = new Visitor($request, '', new Visit\VisitProperties());
 
         $visit = new FakeTrackerVisit($request);
         $visit->handleNewVisit($visitor, null, false);
@@ -173,7 +176,7 @@ class Visit2Test extends IntegrationTestCase
     public function test_handleNewVisitWithConversion_shouldTriggerDimensions()
     {
         $request = new Request(array());
-        $visitor = new Visitor($request, '');
+        $visitor = new Visitor($request, '', new Visit\VisitProperties());
 
         $visit = new FakeTrackerVisit($request);
         $visit->handleNewVisit($visitor, null, true);
@@ -191,7 +194,7 @@ class Visit2Test extends IntegrationTestCase
     public function test_handleExistingVisitWithoutConversion_shouldTriggerDimensions()
     {
         $request = new Request(array());
-        $visitor = new Visitor($request, '');
+        $visitor = new Visitor($request, '', new Visit\VisitProperties());
 
         $visit = new FakeTrackerVisit($request);
         $visit->handleNewVisit($visitor, null, false);
@@ -214,7 +217,7 @@ class Visit2Test extends IntegrationTestCase
     public function test_handleExistingVisitWithConversion_shouldTriggerDimensions()
     {
         $request = new Request(array());
-        $visitor = new Visitor($request, '');
+        $visitor = new Visitor($request, '', new Visit\VisitProperties());
 
         $visit = new FakeTrackerVisit($request);
         $visit->handleNewVisit($visitor, null, false);

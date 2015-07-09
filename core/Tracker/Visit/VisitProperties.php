@@ -16,6 +16,8 @@ class VisitProperties
 {
     /**
      * TODO
+     *
+     * @var array
      */
     public $visitorInfo = array();
 
