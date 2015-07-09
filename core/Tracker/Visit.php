@@ -173,10 +173,6 @@ class Visit implements VisitInterface
                 ) {
                     $this->visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', false);
                     $this->visitProperties->setRequestMetadata('Goals', 'visitIsConverted', false);
-                } // When the row wasn't found in the logs, and this is a pageview or
-                // goal matching URL, we force a new visitor
-                else {
-                    $visitor->setIsVisitorKnown(false);
                 }
             }
         }
