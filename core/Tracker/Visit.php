@@ -128,8 +128,6 @@ class Visit implements VisitInterface
         $isNewVisit = $this->isVisitNew($visitor, $action);
 
         $goalManager = GoalsRequestProcessor::$goalManager;
-        $isManualGoalConversion = $goalManager->isManualGoalConversion();
-        $requestIsEcommerce = $goalManager->requestIsEcommerce;
 
         foreach ($this->requestProcessors as $processor) {
             $abort = $processor->manipulateVisitProperties($this->visitProperties, $this->request);
@@ -146,7 +144,6 @@ class Visit implements VisitInterface
         // AND
         // - the last page view for this visitor was less than 30 minutes ago @see isLastActionInTheSameVisit()
         if (!$isNewVisit) {
-
             $idReferrerActionUrl = $this->visitProperties->visitorInfo['visit_exit_idaction_url'];
             $idReferrerActionName = $this->visitProperties->visitorInfo['visit_exit_idaction_name'];
 
@@ -161,19 +158,7 @@ class Visit implements VisitInterface
                     $action->record($visitor, $idReferrerActionUrl, $idReferrerActionName);
                 }
             } catch (VisitorNotFoundInDb $e) {
-
-                // There is an edge case when:
-                // - two manual goal conversions happen in the same second
-                // - which result in handleExistingVisit throwing the exception
-                //   because the UPDATE didn't affect any rows (one row was found, but not updated since no field changed)
-                // - the exception is caught here and will result in a new visit incorrectly
-                // In this case, we cancel the current conversion to be recorded:
-                if ($isManualGoalConversion
-                    || $requestIsEcommerce
-                ) {
-                    $this->visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', false);
-                    $this->visitProperties->setRequestMetadata('Goals', 'visitIsConverted', false);
-                }
+                $this->visitProperties->setRequestMetadata('CoreHome', 'visitorNotFoundInDb', true);
             }
         }
 
@@ -198,6 +183,10 @@ class Visit implements VisitInterface
 
         // update the cookie with the new visit information
         $this->request->setThirdPartyCookie($this->visitProperties->visitorInfo['idvisitor']);
+
+        foreach ($this->requestProcessors as $processor) {
+            $processor->processRequest($this->visitProperties);
+        }
 
         // record the goals if applicable
         if ($this->visitProperties->getRequestMetadata('Goals', 'someGoalsConverted')) {
