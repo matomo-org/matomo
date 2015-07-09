@@ -71,8 +71,6 @@ class Visit implements VisitInterface
      */
     private $visitorRecognizer;
 
-    private $visitorId = null;
-
     public function __construct()
     {
         $this->requestProcessors = StaticContainer::get('tracker.request.processors');
@@ -121,19 +119,17 @@ class Visit implements VisitInterface
             }
         }
 
-        /***
-         * Visitor recognition
-         */
-        $this->visitorId = $this->getSettingsObject()->getConfigId($this->request, $this->getVisitorIp());
-
-        $isKnown = $this->visitorRecognizer->findKnownVisitor($this->visitorId, $this->visitProperties, $this->request);
-
-        $visitor = new Visitor($this->request, $this->visitorId, $this->visitProperties, $isKnown);
+        $isKnown = $this->visitProperties->getRequestMetadata('CoreHome', 'isVisitorKnown');
+        $visitor = new Visitor($this->request, $this->visitProperties, $isKnown);
 
         /** @var Action $action */
         $action = $this->visitProperties->getRequestMetadata('Actions', 'action');
 
-        $isNewVisit = $this->isVisitNew($visitor, $action);
+        $isNewVisit = $this->visitProperties->getRequestMetadata('CoreHome', 'isNewVisit');
+        if (!$isNewVisit) {
+            $isNewVisit = $this->triggerPredicateHookOnDimensions($this->getAllVisitDimensions(), 'shouldForceNewVisit',
+                $visitor, $action);
+        }
 
         $goalManager = GoalsRequestProcessor::$goalManager;
 
@@ -369,46 +365,6 @@ class Visit implements VisitInterface
         return $this->userSettings;
     }
 
-    /**
-     * Returns true if the last action was done during the last 30 minutes
-     * @return bool
-     */
-    protected function isLastActionInTheSameVisit(Visitor $visitor)
-    {
-        $lastActionTime = $visitor->getVisitorColumn('visit_last_action_time');
-
-        return isset($lastActionTime)
-        && false !== $lastActionTime
-        && ($lastActionTime > ($this->request->getCurrentTimestamp() - Config::getInstance()->Tracker['visit_standard_length']));
-    }
-
-    /**
-     * Returns true if the last action was not today.
-     * @param Visitor $visitor
-     * @return bool
-     */
-    private function wasLastActionNotToday(Visitor $visitor)
-    {
-        $lastActionTime = $visitor->getVisitorColumn('visit_last_action_time');
-
-        if (empty($lastActionTime)) {
-            return false;
-        }
-
-        $idSite = $this->request->getIdSite();
-        $timezone = $this->getTimezoneForSite($idSite);
-
-        if (empty($timezone)) {
-            throw new UnexpectedWebsiteFoundException("An unexpected website was found: idsite was set to '$idSite'");
-        }
-
-        $date = Date::factory((int)$lastActionTime, $timezone);
-        $now = $this->request->getCurrentTimestamp();
-        $now = Date::factory((int)$now, $timezone);
-
-        return $date->toString() !== $now->toString();
-    }
-
     // is the referrer host any of the registered URLs for this website?
     public static function isHostKnownAliasHost($urlHost, $idSite)
     {
@@ -455,7 +411,7 @@ class Visit implements VisitInterface
             Common::printDebug('Updated existing visit: ' . var_export($valuesToUpdate, true));
         } else {
             throw new VisitorNotFoundInDb(
-                "The visitor with idvisitor=" . bin2hex($this->visitProperties->visitorInfo['idvisitor']) . " and idvisit=" . $this->visitProperties->visitorInfo['idvisit']
+                "The visitor with idvisitor=" . bin2hex($this->visitProperties->visitorInfo['idvisitor']) . " and idvisit=" . @$this->visitProperties->visitorInfo['idvisit']
                 . " wasn't found in the DB, we fallback to a new visitor");
         }
     }
@@ -479,7 +435,7 @@ class Visit implements VisitInterface
     {
         $idVisitor = $this->getVisitorIdcookie($visitor);
         $visitorIp = $this->getVisitorIp();
-        $configId = $this->visitorId;
+        $configId = $this->visitProperties->getRequestMetadata('CoreHome', 'visitorId');
 
         $this->visitProperties->visitorInfo = array();
 
@@ -608,44 +564,6 @@ class Visit implements VisitInterface
     protected function insertNewVisit($visit)
     {
         return $this->getModel()->createVisit($visit);
-    }
-
-    /**
-     * Determines if the tracker if the current action should be treated as the start of a new visit or
-     * an action in an existing visit.
-     *
-     * @param Visitor $visitor The current visit/visitor information.
-     * @param Action|null $action The current action being tracked.
-     * @return bool
-     */
-    public function isVisitNew(Visitor $visitor, Action $action = null)
-    {
-        if (!$visitor->isVisitorKnown()) {
-            return true;
-        }
-
-        $isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit($visitor);
-
-        if (!$isLastActionInTheSameVisit) {
-            Common::printDebug("Visitor detected, but last action was more than 30 minutes ago...");
-
-            return true;
-        }
-
-        $wasLastActionYesterday = $this->wasLastActionNotToday($visitor);
-        if ($wasLastActionYesterday) {
-            Common::printDebug("Visitor detected, but last action was yesterday...");
-
-            return true;
-        }
-
-        $shouldForceNewVisit = $this->triggerPredicateHookOnDimensions($this->getAllVisitDimensions(),
-            'shouldForceNewVisit', $visitor, $action);
-        if ($shouldForceNewVisit) {
-            return true;
-        }
-
-        return false;
     }
 
     private function markArchivedReportsAsInvalidIfArchiveAlreadyFinished()

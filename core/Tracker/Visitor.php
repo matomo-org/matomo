@@ -19,12 +19,10 @@ class Visitor
     private $visitorKnown = false;
     private $request;
     private $visitProperties;
-    private $configId;
 
-    public function __construct(Request $request, $configId, VisitProperties $visitProperties, $isVisitorKnown = false)
+    public function __construct(Request $request, VisitProperties $visitProperties, $isVisitorKnown = false)
     {
         $this->request = $request;
-        $this->configId = $configId;
         $this->visitProperties = $visitProperties;
         $this->setIsVisitorKnown($isVisitorKnown);
     }
