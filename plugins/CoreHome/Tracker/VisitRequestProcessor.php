@@ -40,11 +40,18 @@ class VisitRequestProcessor extends RequestProcessor
      */
     private $userSettings;
 
-    public function __construct(EventDispatcher $eventDispatcher, VisitorRecognizer $visitorRecognizer, Settings $userSettings)
+    /**
+     * @var int
+     */
+    private $visitStandardLength;
+
+    public function __construct(EventDispatcher $eventDispatcher, VisitorRecognizer $visitorRecognizer, Settings $userSettings,
+                                $visitStandardLength)
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->visitorRecognizer = $visitorRecognizer;
         $this->userSettings = $userSettings;
+        $this->visitStandardLength = $visitStandardLength;
     }
 
     public function processRequestParams(VisitProperties $visitProperties, Request $request)
@@ -126,7 +133,7 @@ class VisitRequestProcessor extends RequestProcessor
 
         return isset($lastActionTime)
             && false !== $lastActionTime
-            && ($lastActionTime > ($request->getCurrentTimestamp() - \Piwik\Config::getInstance()->Tracker['visit_standard_length'])); // TODO: move to DI
+            && ($lastActionTime > ($request->getCurrentTimestamp() - $this->visitStandardLength)); // TODO: move to DI
     }
 
     /**

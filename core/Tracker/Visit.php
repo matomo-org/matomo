@@ -18,7 +18,6 @@ use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\Goals\Tracker\GoalsRequestProcessor;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
 
