@@ -185,17 +185,7 @@ class Visit implements VisitInterface
         $this->request->setThirdPartyCookie($this->visitProperties->visitorInfo['idvisitor']);
 
         foreach ($this->requestProcessors as $processor) {
-            $processor->processRequest($this->visitProperties);
-        }
-
-        // record the goals if applicable
-        if ($this->visitProperties->getRequestMetadata('Goals', 'someGoalsConverted')) {
-            $goalManager->recordGoals(
-                $visitor,
-                $this->visitProperties->visitorInfo,
-                $this->visitProperties->getRequestMetadata('CustomVariables', 'visitCustomVariables'),
-                $action
-            );
+            $processor->processRequest($visitor, $this->visitProperties);
         }
 
         unset($action);
