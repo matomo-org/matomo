@@ -122,6 +122,7 @@ class Visit implements VisitInterface
         $isNewVisit = $this->visitProperties->getRequestMetadata('CoreHome', 'isNewVisit');
         if (!$isNewVisit) {
             $isNewVisit = $this->triggerPredicateHookOnDimensions($this->getAllVisitDimensions(), 'shouldForceNewVisit');
+            $this->visitProperties->setRequestMetadata('CoreHome', 'isNewVisit', $isNewVisit);
         }
 
         foreach ($this->requestProcessors as $processor) {
@@ -131,8 +132,7 @@ class Visit implements VisitInterface
             }
         }
 
-        /** @var Action $action */
-        $action = $this->visitProperties->getRequestMetadata('Actions', 'action');
+        $isNewVisit = $this->visitProperties->getRequestMetadata('CoreHome', 'isNewVisit');
 
         // Known visit when:
         // ( - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor
@@ -149,13 +149,6 @@ class Visit implements VisitInterface
             }
         }
 
-        // When a ping request is received more than 30 min after the last request/ping,
-        // we choose not to create a new visit.
-        if ($isNewVisit && $this->isPingRequest()) {
-            Common::printDebug("-> ping=1 request: we do _not_ create a new visit.");
-            return;
-        }
-
         // New visit when:
         // - the visitor has the Piwik cookie but the last action was performed more than 30 min ago @see isLastActionInTheSameVisit()
         // - the visitor doesn't have the Piwik cookie, and couldn't be matched in @see recognizeTheVisitor()
@@ -170,8 +163,6 @@ class Visit implements VisitInterface
         foreach ($this->requestProcessors as $processor) {
             $processor->processRequest($this->makeVisitorFacade(), $this->visitProperties);
         }
-
-        unset($action);
 
         $this->markArchivedReportsAsInvalidIfArchiveAlreadyFinished();
     }
@@ -574,11 +565,6 @@ class Visit implements VisitInterface
         if (!empty($site['timezone'])) {
             return $site['timezone'];
         }
-    }
-
-    private function isPingRequest()
-    {
-        return $this->request->getParam('ping') == 1;
     }
 
     private function makeVisitorFacade()
