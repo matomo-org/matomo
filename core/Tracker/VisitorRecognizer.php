@@ -201,7 +201,7 @@ class VisitorRecognizer
         $lookAheadNSeconds = $this->visitStandardLength;
         $lookBackNSeconds  = $this->visitStandardLength;
         if ($this->lookBackNSecondsCustom > $lookBackNSeconds) {
-            $lookBackNSeconds = $lookBackNSecondsCustom;
+            $lookBackNSeconds = $this->lookBackNSecondsCustom;
         }
 
         $timeLookBack  = date('Y-m-d H:i:s', $request->getCurrentTimestamp() - $lookBackNSeconds);
