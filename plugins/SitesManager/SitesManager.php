@@ -268,6 +268,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "General_OrCancel";
         $translationKeys[] = "General_Actions";
         $translationKeys[] = "General_Search";
+        $translationKeys[] = "General_Previous";
+        $translationKeys[] = "General_Next";
         $translationKeys[] = "General_Pagination";
         $translationKeys[] = "General_ClickToSearch";
         $translationKeys[] = "General_PaginationWithoutTotal";
