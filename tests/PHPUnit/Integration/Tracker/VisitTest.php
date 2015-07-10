@@ -89,7 +89,7 @@ class VisitTest extends IntegrationTestCase
     public function testIsVisitorIpExcluded($excludedIp, $tests)
     {
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
-            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIp);
+            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludeUnknownUrls = null, $excludedIp);
 
         $request = new Request(array('idsite' => $idsite));
 
@@ -99,6 +99,45 @@ class VisitTest extends IntegrationTestCase
 
             $excluded = new VisitExcluded_public($request, $testIpIsExcluded);
             $this->assertSame($expected, $excluded->public_isVisitorIpExcluded($testIpIsExcluded));
+        }
+    }
+
+    public function getExcludeByUrlData()
+    {
+        return array(
+            array(array('http://test.com'), true, array(
+                'http://test.com' => true,
+                'https://test.com' => true,
+                'http://test.com/uri' => true,
+                'http://test.com/?query' => true,
+                'http://xtest.com' => false,
+                'http://x.test.com' => false,
+                'http://x.com/test.com' => false,
+            )),
+            array(array('http://test.com', 'http://localhost'), true, array(
+                'http://test.com' => true,
+                'http://localhost' => true,
+                'http://x.com' => false,
+            )),
+            array(array('http://test.com'), false, array(
+                'http://x.com' => true,
+            )),
+        );
+    }
+
+    /**
+     * @dataProvider getExcludeByUrlData
+     */
+    public function testExcludeByUrl($siteUrls, $excludeUnknownUrls, array $urlsTracked)
+    {
+        $siteId = API::getInstance()->addSite('name', $siteUrls, $ecommerce = null, $siteSearch = null, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludeUnknownUrls);
+        foreach ($urlsTracked as $url => $isTracked) {
+            $visitExclude = new VisitExcluded(new Request(array(
+                'idsite' => $siteId,
+                'rec'    => 1,
+                'url'    => $url
+            )));
+            $this->assertSame($isTracked, !$visitExclude->isExcluded());
         }
     }
 
@@ -135,7 +174,7 @@ class VisitTest extends IntegrationTestCase
         API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
 
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
-            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIp = null,
+            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludeUnknownUrls = null, $excludedIp = null,
             $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null,
             $excludedUserAgent);
 
@@ -343,6 +382,7 @@ class VisitTest extends IntegrationTestCase
             $siteSearch = null,
             $searchKeywordParameters = null,
             $searchCategoryParameters = null,
+            $excludeUnknownUrls = null,
             $excludedIps = null,
             $excludedQueryParameters = null,
             $timezone = 'UTC+5');

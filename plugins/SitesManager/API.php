@@ -494,6 +494,7 @@ class API extends \Piwik\Plugin\API
      * @param null $siteSearch
      * @param string $searchKeywordParameters Comma separated list of search keyword parameter names
      * @param string $searchCategoryParameters Comma separated list of search category parameter names
+     * @param int|null $excludeUnknownUrls Track only URL matching one of website URLs
      * @param string $excludedIps Comma separated list of IPs to exclude from the reports (allows wildcards)
      * @param null $excludedQueryParameters
      * @param string $timezone Timezone string, eg. 'Europe/London'
@@ -515,6 +516,7 @@ class API extends \Piwik\Plugin\API
                             $siteSearch = null,
                             $searchKeywordParameters = null,
                             $searchCategoryParameters = null,
+                            $excludeUnknownUrls = null,
                             $excludedIps = null,
                             $excludedQueryParameters = null,
                             $timezone = null,
@@ -555,6 +557,7 @@ class API extends \Piwik\Plugin\API
         $bind = array('name'     => $siteName,
                       'main_url' => $url);
 
+        $bind['exclude_unknown_urls'] = $excludeUnknownUrls;
         $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
         $bind['excluded_parameters']  = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
         $bind['excluded_user_agents'] = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
@@ -1076,6 +1079,7 @@ class API extends \Piwik\Plugin\API
      * @param null|int $siteSearch Whether site search is enabled, 0 or 1
      * @param string $searchKeywordParameters Comma separated list of search keyword parameter names
      * @param string $searchCategoryParameters Comma separated list of search category parameter names
+     * @param int|null $excludeUnknownUrls Track only URL matching one of website URLs
      * @param string $excludedIps Comma separated list of IPs to exclude from being tracked (allows wildcards)
      * @param null|string $excludedQueryParameters
      * @param string $timezone Timezone
@@ -1087,11 +1091,11 @@ class API extends \Piwik\Plugin\API
      *                                   will be removed. If 0, the default global behavior will be used.
      * @param string $type The Website type, default value is "website"
      * @param array|null $settings JSON serialized settings eg {settingName: settingValue, ...}
+     * @return bool
      * @throws Exception
      * @see getKeepURLFragmentsGlobal. If null, the existing value will
      *                                   not be modified.
      *
-     * @return bool true on success
      */
     public function updateSite($idSite,
                                $siteName = null,
@@ -1100,6 +1104,7 @@ class API extends \Piwik\Plugin\API
                                $siteSearch = null,
                                $searchKeywordParameters = null,
                                $searchCategoryParameters = null,
+                               $excludeUnknownUrls = null,
                                $excludedIps = null,
                                $excludedQueryParameters = null,
                                $timezone = null,
@@ -1156,6 +1161,7 @@ class API extends \Piwik\Plugin\API
         if (!is_null($startDate)) {
             $bind['ts_created'] = Date::factory($startDate)->getDatetime();
         }
+        $bind['exclude_unknown_urls'] = $excludeUnknownUrls;
         $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
         $bind['excluded_parameters'] = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
         $bind['excluded_user_agents'] = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
@@ -1505,6 +1511,7 @@ class API extends \Piwik\Plugin\API
                               $siteSearch = null,
                               $searchKeywordParameters = null,
                               $searchCategoryParameters = null,
+                              $excludeUnknownUrls = null,
                               $excludedIps = null,
                               $excludedQueryParameters = null,
                               $timezone = null,

@@ -431,6 +431,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             $siteUrl === false ? "http://piwik.net/" : $siteUrl,
             $ecommerce,
             $siteSearch, $searchKeywordParameters, $searchCategoryParameters,
+            $excludeUnknownUrls = null,
             $ips = null,
             $excludedQueryParameters = null,
             $timezone,

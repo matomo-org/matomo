@@ -81,6 +81,7 @@ class OneVisitorTwoVisits extends Fixture
             $siteSearch = $this->useSiteSearch ? 1 : 0,
             $searchKeywordParameters = $this->useSiteSearch ? '' : null,
             $searchCategoryParameters = $this->useSiteSearch ? 'notparam' : null,
+            $excludeUnknownUrls = null,
             $excludedIps = null,
             $parameterToExclude . ',anotherParameter',
             $timezone = null,

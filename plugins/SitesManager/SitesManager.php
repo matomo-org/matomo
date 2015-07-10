@@ -117,6 +117,7 @@ class SitesManager extends \Piwik\Plugin
         $array['hosts'] = $this->getTrackerHosts($idSite);
 
         $website = API::getInstance()->getSiteFromId($idSite);
+        $array['exclude_unknown_urls'] = $website['exclude_unknown_urls'];
         $array['excluded_ips'] = $this->getTrackerExcludedIps($website);
         $array['excluded_parameters'] = self::getTrackerExcludedQueryParameters($website);
         $array['excluded_user_agents'] = self::getExcludedUserAgents($website);
@@ -283,6 +284,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_Currency";
         $translationKeys[] = "SitesManager_ShowTrackingTag";
         $translationKeys[] = "SitesManager_AliasUrlHelp";
+        $translationKeys[] = "SitesManager_OnlyMatchedUrlsAllowed";
+        $translationKeys[] = "SitesManager_OnlyMatchedUrlsAllowedHelp";
         $translationKeys[] = "SitesManager_KeepURLFragmentsLong";
         $translationKeys[] = "SitesManager_HelpExcludedIps";
         $translationKeys[] = "SitesManager_ListOfQueryParametersToExclude";

@@ -77,6 +77,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
             array("http://piwik.net"),
             $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
+            $excludeUnknownUrls = null,
             $excludedIps = "",
             $excludedQueryParameters = "",
             $timezone);
