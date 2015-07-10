@@ -27,7 +27,7 @@ class PingRequestProcessor extends RequestProcessor
         }
     }
 
-    public function manipulateVisitProperties(VisitProperties $visitProperties, Request $request)
+    public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
     {
         if ($this->isPingRequest($request)) {
             $visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', false);

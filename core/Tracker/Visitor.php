@@ -9,7 +9,6 @@
 namespace Piwik\Tracker;
 
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
@@ -17,20 +16,18 @@ use Piwik\Tracker\Visit\VisitProperties;
 class Visitor
 {
     private $visitorKnown = false;
-    private $request;
     private $visitProperties;
 
-    public function __construct(Request $request, VisitProperties $visitProperties, $isVisitorKnown = false)
+    public function __construct(VisitProperties $visitProperties, $isVisitorKnown = false)
     {
-        $this->request = $request;
         $this->visitProperties = $visitProperties;
         $this->setIsVisitorKnown($isVisitorKnown);
     }
 
-    public static function makeFromVisitProperties(VisitProperties $visitProperties, Request $request)
+    public static function makeFromVisitProperties(VisitProperties $visitProperties)
     {
         $isKnown = $visitProperties->getRequestMetadata('CoreHome', 'isVisitorKnown');
-        return new Visitor($request, $visitProperties, $isKnown);
+        return new Visitor($visitProperties, $isKnown);
     }
 
     public function setVisitorColumn($column, $value) // TODO: remove this eventually

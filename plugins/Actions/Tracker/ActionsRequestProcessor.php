@@ -30,7 +30,7 @@ class ActionsRequestProcessor extends RequestProcessor
         $visitProperties->setRequestMetadata('Actions', 'action', $action);
     }
 
-    public function manipulateVisitProperties(VisitProperties $visitProperties, Request $request)
+    public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
     {
         /** @var Action $action */
         $action = $visitProperties->getRequestMetadata('Actions', 'action');
@@ -45,7 +45,7 @@ class ActionsRequestProcessor extends RequestProcessor
         $visitProperties->setRequestMetadata('Actions', 'idReferrerActionName', @$visitProperties->visitorInfo['visit_exit_idaction_name']);
     }
 
-    public function processRequest(VisitProperties $visitProperties, Request $request)
+    public function recordLogs(VisitProperties $visitProperties)
     {
         /** @var Action $action */
         $action = $visitProperties->getRequestMetadata('Actions', 'action');
@@ -61,7 +61,7 @@ class ActionsRequestProcessor extends RequestProcessor
                 $idReferrerActionName = $visitProperties->getRequestMetadata('Actions', 'idReferrerActionName');
             }
 
-            $visitor = Visitor::makeFromVisitProperties($visitProperties, $request);
+            $visitor = Visitor::makeFromVisitProperties($visitProperties);
             $action->record($visitor, $idReferrerActionUrl, $idReferrerActionName);
         }
     }

@@ -237,7 +237,7 @@ class GoalManager
      * @param array $visitCustomVariables
      * @param Action $action
      */
-    public function recordGoals(VisitProperties $visitProperties, Request $request)
+    public function recordGoals(VisitProperties $visitProperties)
     {
         $visitorInformation = $visitProperties->visitorInfo;
         $visitCustomVariables = $visitProperties->getRequestMetadata('CustomVariables', 'visitCustomVariables');
@@ -245,7 +245,7 @@ class GoalManager
         /** @var Action $action */
         $action = $visitProperties->getRequestMetadata('Actions', 'action');
 
-        $goal = $this->getGoalFromVisitor($visitProperties, $request, $action);
+        $goal = $this->getGoalFromVisitor($visitProperties, $action);
 
         // Copy Custom Variables from Visit row to the Goal conversion
         // Otherwise, set the Custom Variables found in the cookie sent with this request
@@ -267,9 +267,9 @@ class GoalManager
 
         // some goals are converted, so must be ecommerce Order or Cart Update
         if ($this->requestIsEcommerce) {
-            $this->recordEcommerceGoal($visitProperties, $request, $goal, $action);
+            $this->recordEcommerceGoal($visitProperties, $goal, $action);
         } else {
-            $this->recordStandardGoals($visitProperties, $request, $goal, $action);
+            $this->recordStandardGoals($visitProperties, $goal, $action);
         }
     }
 
@@ -299,13 +299,13 @@ class GoalManager
      * @param Action $action
      * @param array $visitInformation
      */
-    protected function recordEcommerceGoal(VisitProperties $visitProperties, Request $request, $conversion, $action)
+    protected function recordEcommerceGoal(VisitProperties $visitProperties, $conversion, $action)
     {
         if ($this->isThereExistingCartInVisit) {
             Common::printDebug("There is an existing cart for this visit");
         }
 
-        $visitor = Visitor::makeFromVisitProperties($visitProperties, $request);
+        $visitor = Visitor::makeFromVisitProperties($visitProperties);
 
         if ($this->isGoalAnOrder) {
             $debugMessage = 'The conversion is an Ecommerce order';
@@ -674,9 +674,9 @@ class GoalManager
      * @param Action $action
      * @param $visitorInformation
      */
-    protected function recordStandardGoals(VisitProperties $visitProperties, Request $request, $goal, $action)
+    protected function recordStandardGoals(VisitProperties $visitProperties, $goal, $action)
     {
-        $visitor = Visitor::makeFromVisitProperties($visitProperties, $request);
+        $visitor = Visitor::makeFromVisitProperties($visitProperties);
 
         foreach ($this->convertedGoals as $convertedGoal) {
             $this->currentGoal = $convertedGoal;
@@ -816,7 +816,7 @@ class GoalManager
         return $valuesToUpdate;
     }
 
-    private function getGoalFromVisitor(VisitProperties $visitProperties, Request $request, $action)
+    private function getGoalFromVisitor(VisitProperties $visitProperties, $action)
     {
         $goal = array(
             'idvisit'     => $visitProperties->visitorInfo['idvisit'],
@@ -826,7 +826,7 @@ class GoalManager
 
         $visitDimensions = VisitDimension::getAllDimensions();
 
-        $visit = Visitor::makeFromVisitProperties($visitProperties, $request);
+        $visit = Visitor::makeFromVisitProperties($visitProperties);
         foreach ($visitDimensions as $dimension) {
             $value = $dimension->onAnyGoalConversion($this->request, $visit, $action);
             if (false !== $value) {

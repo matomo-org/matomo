@@ -61,7 +61,7 @@ class VisitRequestProcessor extends RequestProcessor
         // the IP is needed by isExcluded() and GoalManager->recordGoals()
         $visitProperties->visitorInfo['location_ip'] = $request->getIp();
 
-        // TODO: move VisitExcluded logic to here (or break into other request processors)
+        // TODO: move VisitExcluded logic to here (or move to service class stored in DI)
         $excluded = new VisitExcluded($request, $visitProperties->visitorInfo['location_ip']);
         if ($excluded->isExcluded()) {
             return true;
@@ -80,7 +80,7 @@ class VisitRequestProcessor extends RequestProcessor
         return false;
     }
 
-    public function manipulateVisitProperties(VisitProperties $visitProperties, Request $request)
+    public function afterRequestProcessed(VisitProperties $visitProperties)
     {
         /**
          * Triggered after visits are tested for exclusion so plugins can modify the IP address
@@ -135,7 +135,7 @@ class VisitRequestProcessor extends RequestProcessor
 
         return isset($lastActionTime)
             && false !== $lastActionTime
-            && ($lastActionTime > ($request->getCurrentTimestamp() - $this->visitStandardLength)); // TODO: move to DI
+            && ($lastActionTime > ($request->getCurrentTimestamp() - $this->visitStandardLength));
     }
 
     /**

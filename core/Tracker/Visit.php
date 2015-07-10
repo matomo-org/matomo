@@ -125,7 +125,7 @@ class Visit implements VisitInterface
         }
 
         foreach ($this->requestProcessors as $processor) {
-            $abort = $processor->manipulateVisitProperties($this->visitProperties, $this->request);
+            $abort = $processor->afterRequestProcessed($this->visitProperties, $this->request);
             if ($abort) {
                 return;
             }
@@ -160,7 +160,7 @@ class Visit implements VisitInterface
         $this->request->setThirdPartyCookie($this->visitProperties->visitorInfo['idvisitor']);
 
         foreach ($this->requestProcessors as $processor) {
-            $processor->processRequest($this->visitProperties, $this->request);
+            $processor->recordLogs($this->visitProperties, $this->request);
         }
 
         $this->markArchivedReportsAsInvalidIfArchiveAlreadyFinished();
@@ -568,6 +568,6 @@ class Visit implements VisitInterface
 
     private function makeVisitorFacade()
     {
-        return Visitor::makeFromVisitProperties($this->visitProperties, $this->request);
+        return Visitor::makeFromVisitProperties($this->visitProperties);
     }
 }

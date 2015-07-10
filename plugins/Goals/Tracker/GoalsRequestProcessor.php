@@ -14,7 +14,6 @@ use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestProcessor;
 use Piwik\Tracker\Visit\VisitProperties;
-use Piwik\Tracker\Visitor;
 
 /**
  * TODO
@@ -53,7 +52,7 @@ class GoalsRequestProcessor extends RequestProcessor
         return false;
     }
 
-    public function manipulateVisitProperties(VisitProperties $visitProperties, Request $request)
+    public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
     {
         $visitsConverted = $visitProperties->getRequestMetadata('Goals', 'visitIsConverted'); // TODO: double check, should this be visitIsConverted or someGoalsConverted?
 
@@ -77,7 +76,7 @@ class GoalsRequestProcessor extends RequestProcessor
         }
     }
 
-    public function processRequest(VisitProperties $visitProperties, Request $request)
+    public function recordLogs(VisitProperties $visitProperties)
     {
         $isManualGoalConversion = self::$goalManager->isManualGoalConversion();
         $requestIsEcommerce = self::$goalManager->requestIsEcommerce;
@@ -100,7 +99,7 @@ class GoalsRequestProcessor extends RequestProcessor
 
         // record the goals if there were conversions in this request (even if the visit itself was not converted)
         if ($visitProperties->getRequestMetadata('Goals', 'someGoalsConverted')) {
-            self::$goalManager->recordGoals($visitProperties, $request);
+            self::$goalManager->recordGoals($visitProperties);
         }
     }
 }
