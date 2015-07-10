@@ -30,7 +30,7 @@ class Visitor
         return new Visitor($visitProperties, $isKnown);
     }
 
-    public function setVisitorColumn($column, $value) // TODO: remove this eventually
+    public function setVisitorColumn($column, $value)
     {
         $this->visitProperties->visitorInfo[$column] = $value;
     }

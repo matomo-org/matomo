@@ -47,7 +47,6 @@ class Visit implements VisitInterface
      */
     protected $request;
 
-    // TODO: removed $visitorInfo, this is a BC break for those overriding VisitInterface
     /**
      * @var Settings
      */
@@ -110,10 +109,12 @@ class Visit implements VisitInterface
     {
         $this->visitProperties = new VisitProperties();
 
-        // TODO: add debug logging
         foreach ($this->requestProcessors as $processor) {
+            Common::printDebug("Executing " . get_class($processor) . "::processRequestParams()...");
+
             $abort = $processor->processRequestParams($this->visitProperties, $this->request);
             if ($abort) {
+                Common::printDebug("-> aborting due to processRequestParams method");
                 return;
             }
         }
@@ -125,8 +126,11 @@ class Visit implements VisitInterface
         }
 
         foreach ($this->requestProcessors as $processor) {
+            Common::printDebug("Executing " . get_class($processor) . "::afterRequestProcessed()...");
+
             $abort = $processor->afterRequestProcessed($this->visitProperties, $this->request);
             if ($abort) {
+                Common::printDebug("-> aborting due to afterRequestProcessed method");
                 return;
             }
         }
@@ -160,7 +164,9 @@ class Visit implements VisitInterface
         $this->request->setThirdPartyCookie($this->visitProperties->visitorInfo['idvisitor']);
 
         foreach ($this->requestProcessors as $processor) {
-            $processor->recordLogs($this->visitProperties, $this->request);
+            Common::printDebug("Executing " . get_class($processor) . "::recordLogs()...");
+
+            $processor->recordLogs($this->visitProperties);
         }
 
         $this->markArchivedReportsAsInvalidIfArchiveAlreadyFinished();

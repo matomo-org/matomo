@@ -85,7 +85,9 @@ abstract class RequestProcessor
      *
      * Derived classes should use this method to set request metadata based on the tracking
      * request alone. They should not try to access request metadata from other plugins,
-     * since they may not be set yet.@deprecated
+     * since they may not be set yet.
+     *
+     * When this method is called, `$visitProperties->visitorInfo` will be empty.
      *
      * @param VisitProperties $visitProperties
      * @param Request $request
@@ -104,7 +106,8 @@ abstract class RequestProcessor
      * tracking behavior.
      *
      * When this method is called, you can assume all available request metadata from all plugins
-     * will be initialized (but not at their final value).
+     * will be initialized (but not at their final value). Also, `$visitProperties->visitorInfo`
+     * will contain the values of the visitor's last known visit (if any).
      *
      * @param VisitProperties $visitProperties
      * @param Request $request
@@ -135,6 +138,7 @@ abstract class RequestProcessor
      *
      * Only implement this method if you cannot use a Dimension for the same thing.
      *
+     * @param array &$valuesToUpdate
      * @param VisitProperties $visitProperties
      * @param Request $request
      */
@@ -147,7 +151,9 @@ abstract class RequestProcessor
      * This method is called last. Derived classes should use this method to insert log data. They
      * should also only read request metadata, and not set it.
      *
-     * When this method is called, you can assume all request metadata have their final values.
+     * When this method is called, you can assume all request metadata have their final values. Also,
+     * `$visitProperties->visitorInfo` will contain the properties of the visitor's current visit (in
+     * other words, the values in the array were persisted to the DB before this method was called).
      *
      * @param VisitProperties $visitProperties
      */
