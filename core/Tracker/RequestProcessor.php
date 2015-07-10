@@ -52,7 +52,7 @@ abstract class RequestProcessor
     /**
      * TODO
      */
-    public function processRequest(Visitor $visitor, VisitProperties $visitProperties)
+    public function processRequest(VisitProperties $visitProperties, Request $request)
     {
         // empty
     }

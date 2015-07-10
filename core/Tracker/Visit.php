@@ -160,7 +160,7 @@ class Visit implements VisitInterface
         $this->request->setThirdPartyCookie($this->visitProperties->visitorInfo['idvisitor']);
 
         foreach ($this->requestProcessors as $processor) {
-            $processor->processRequest($this->makeVisitorFacade(), $this->visitProperties);
+            $processor->processRequest($this->visitProperties, $this->request);
         }
 
         $this->markArchivedReportsAsInvalidIfArchiveAlreadyFinished();
@@ -568,7 +568,6 @@ class Visit implements VisitInterface
 
     private function makeVisitorFacade()
     {
-        $isKnown = $this->visitProperties->getRequestMetadata('CoreHome', 'isVisitorKnown');
-        return new Visitor($this->request, $this->visitProperties, $isKnown);
+        return Visitor::makeFromVisitProperties($this->visitProperties, $this->request);
     }
 }

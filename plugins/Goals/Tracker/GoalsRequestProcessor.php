@@ -77,7 +77,7 @@ class GoalsRequestProcessor extends RequestProcessor
         }
     }
 
-    public function processRequest(Visitor $visitor, VisitProperties $visitProperties)
+    public function processRequest(VisitProperties $visitProperties, Request $request)
     {
         $isManualGoalConversion = self::$goalManager->isManualGoalConversion();
         $requestIsEcommerce = self::$goalManager->requestIsEcommerce;
@@ -100,15 +100,7 @@ class GoalsRequestProcessor extends RequestProcessor
 
         // record the goals if there were conversions in this request (even if the visit itself was not converted)
         if ($visitProperties->getRequestMetadata('Goals', 'someGoalsConverted')) {
-            /** @var Action $action */
-            $action = $visitProperties->getRequestMetadata('Actions', 'action');
-
-            self::$goalManager->recordGoals(
-                $visitor,
-                $visitProperties->visitorInfo,
-                $visitProperties->getRequestMetadata('CustomVariables', 'visitCustomVariables'),
-                $action
-            );
+            self::$goalManager->recordGoals($visitProperties, $request);
         }
     }
 }

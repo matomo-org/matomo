@@ -27,6 +27,12 @@ class Visitor
         $this->setIsVisitorKnown($isVisitorKnown);
     }
 
+    public static function makeFromVisitProperties(VisitProperties $visitProperties, Request $request)
+    {
+        $isKnown = $visitProperties->getRequestMetadata('CoreHome', 'isVisitorKnown');
+        return new Visitor($request, $visitProperties, $isKnown);
+    }
+
     public function setVisitorColumn($column, $value) // TODO: remove this eventually
     {
         $this->visitProperties->visitorInfo[$column] = $value;

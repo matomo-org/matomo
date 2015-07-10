@@ -16,6 +16,7 @@ use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tracker;
+use Piwik\Tracker\Visit\VisitProperties;
 
 /**
  */
@@ -236,9 +237,15 @@ class GoalManager
      * @param array $visitCustomVariables
      * @param Action $action
      */
-    public function recordGoals(Visitor $visitor, $visitorInformation, $visitCustomVariables, $action)
+    public function recordGoals(VisitProperties $visitProperties, Request $request)
     {
-        $goal = $this->getGoalFromVisitor($visitor, $visitorInformation, $action);
+        $visitorInformation = $visitProperties->visitorInfo;
+        $visitCustomVariables = $visitProperties->getRequestMetadata('CustomVariables', 'visitCustomVariables');
+
+        /** @var Action $action */
+        $action = $visitProperties->getRequestMetadata('Actions', 'action');
+
+        $goal = $this->getGoalFromVisitor($visitProperties, $request, $action);
 
         // Copy Custom Variables from Visit row to the Goal conversion
         // Otherwise, set the Custom Variables found in the cookie sent with this request
@@ -260,9 +267,9 @@ class GoalManager
 
         // some goals are converted, so must be ecommerce Order or Cart Update
         if ($this->requestIsEcommerce) {
-            $this->recordEcommerceGoal($goal, $visitor, $action, $visitorInformation);
+            $this->recordEcommerceGoal($visitProperties, $request, $goal, $action);
         } else {
-            $this->recordStandardGoals($goal, $visitor, $action, $visitorInformation);
+            $this->recordStandardGoals($visitProperties, $request, $goal, $action);
         }
     }
 
@@ -292,11 +299,13 @@ class GoalManager
      * @param Action $action
      * @param array $visitInformation
      */
-    protected function recordEcommerceGoal($conversion, Visitor $visitor, $action, $visitInformation)
+    protected function recordEcommerceGoal(VisitProperties $visitProperties, Request $request, $conversion, $action)
     {
         if ($this->isThereExistingCartInVisit) {
             Common::printDebug("There is an existing cart for this visit");
         }
+
+        $visitor = Visitor::makeFromVisitProperties($visitProperties, $request);
 
         if ($this->isGoalAnOrder) {
             $debugMessage = 'The conversion is an Ecommerce order';
@@ -335,13 +344,13 @@ class GoalManager
         $conversion['items'] = $itemsCount;
 
         if ($this->isThereExistingCartInVisit) {
-            $recorded = $this->getModel()->updateConversion($visitInformation['idvisit'], self::IDGOAL_CART, $conversion);
+            $recorded = $this->getModel()->updateConversion($visitProperties->visitorInfo['idvisit'], self::IDGOAL_CART, $conversion);
         } else {
-            $recorded = $this->insertNewConversion($conversion, $visitInformation);
+            $recorded = $this->insertNewConversion($conversion, $visitProperties->visitorInfo);
         }
 
         if ($recorded) {
-            $this->recordEcommerceItems($conversion, $items, $visitInformation);
+            $this->recordEcommerceItems($conversion, $items);
         }
 
         /**
@@ -355,7 +364,7 @@ class GoalManager
          * @param array $visitInformation The visit entity that we are tracking a conversion for. See what
          *                                information it contains [here](/guides/persistence-and-the-mysql-backend#visits).
          */
-        Piwik::postEvent('Tracker.recordEcommerceGoal', array($conversion, $visitInformation));
+        Piwik::postEvent('Tracker.recordEcommerceGoal', array($conversion, $visitProperties->visitorInfo));
     }
 
     /**
@@ -665,8 +674,10 @@ class GoalManager
      * @param Action $action
      * @param $visitorInformation
      */
-    protected function recordStandardGoals($goal, Visitor $visitor, $action, $visitorInformation)
+    protected function recordStandardGoals(VisitProperties $visitProperties, Request $request, $goal, $action)
     {
+        $visitor = Visitor::makeFromVisitProperties($visitProperties, $request);
+
         foreach ($this->convertedGoals as $convertedGoal) {
             $this->currentGoal = $convertedGoal;
             Common::printDebug("- Goal " . $convertedGoal['idgoal'] . " matched. Recording...");
@@ -682,12 +693,12 @@ class GoalManager
             // If multiple Goal conversions per visit, set a cache buster
             $conversion['buster'] = $convertedGoal['allow_multiple'] == 0
                 ? '0'
-                : $visitorInformation['visit_last_action_time'];
+                : $visitProperties->visitorInfo['visit_last_action_time'];
 
             $conversionDimensions = ConversionDimension::getAllDimensions();
             $conversion = $this->triggerHookOnDimensions($conversionDimensions, 'onGoalConversion', $visitor, $action, $conversion);
 
-            $this->insertNewConversion($conversion, $visitorInformation);
+            $this->insertNewConversion($conversion, $visitProperties->visitorInfo);
 
             /**
              * Triggered after successfully recording a non-ecommerce conversion.
@@ -805,18 +816,19 @@ class GoalManager
         return $valuesToUpdate;
     }
 
-    private function getGoalFromVisitor(Visitor $visitor, $visitorInformation, $action)
+    private function getGoalFromVisitor(VisitProperties $visitProperties, Request $request, $action)
     {
         $goal = array(
-            'idvisit'     => $visitorInformation['idvisit'],
-            'idvisitor'   => $visitorInformation['idvisitor'],
-            'server_time' => Date::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time'])
+            'idvisit'     => $visitProperties->visitorInfo['idvisit'],
+            'idvisitor'   => $visitProperties->visitorInfo['idvisitor'],
+            'server_time' => Date::getDatetimeFromTimestamp($visitProperties->visitorInfo['visit_last_action_time'])
         );
 
         $visitDimensions = VisitDimension::getAllDimensions();
 
+        $visit = Visitor::makeFromVisitProperties($visitProperties, $request);
         foreach ($visitDimensions as $dimension) {
-            $value = $dimension->onAnyGoalConversion($this->request, $visitor, $action);
+            $value = $dimension->onAnyGoalConversion($this->request, $visit, $action);
             if (false !== $value) {
                 $goal[$dimension->getColumnName()] = $value;
             }

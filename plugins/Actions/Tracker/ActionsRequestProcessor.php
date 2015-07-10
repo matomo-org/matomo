@@ -45,7 +45,7 @@ class ActionsRequestProcessor extends RequestProcessor
         $visitProperties->setRequestMetadata('Actions', 'idReferrerActionName', @$visitProperties->visitorInfo['visit_exit_idaction_name']);
     }
 
-    public function processRequest(Visitor $visitor, VisitProperties $visitProperties)
+    public function processRequest(VisitProperties $visitProperties, Request $request)
     {
         /** @var Action $action */
         $action = $visitProperties->getRequestMetadata('Actions', 'action');
@@ -61,6 +61,7 @@ class ActionsRequestProcessor extends RequestProcessor
                 $idReferrerActionName = $visitProperties->getRequestMetadata('Actions', 'idReferrerActionName');
             }
 
+            $visitor = Visitor::makeFromVisitProperties($visitProperties, $request);
             $action->record($visitor, $idReferrerActionUrl, $idReferrerActionName);
         }
     }
