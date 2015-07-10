@@ -26,6 +26,8 @@ use Piwik\Tracker\Visitor;
 
 /**
  * @group Core
+ *
+ * TODO: move isVisitNew tests to CoreHome plugin
  */
 class VisitTest extends IntegrationTestCase
 {

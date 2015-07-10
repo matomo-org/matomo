@@ -22,6 +22,8 @@ use Piwik\Tracker\VisitorRecognizer;
 
 /**
  * Encapsulates core tracking logic related to visits.
+ *
+ * TODO: much of the logic in this class should be moved to new service class
  */
 class VisitRequestProcessor extends RequestProcessor
 {

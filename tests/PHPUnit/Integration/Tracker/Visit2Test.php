@@ -15,7 +15,6 @@ use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\Visitor;
 use Piwik\Piwik;
-use Piwik\EventDispatcher;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -92,24 +91,24 @@ class FakeTrackerVisitDimension4 extends VisitDimension
 
 class FakeTrackerVisit extends Visit
 {
-    public function __construct($request)
+    public function __construct($request, Visit\VisitProperties $visitProperties)
     {
         parent::__construct();
 
         $this->request = $request;
-        $this->visitProperties = new Visit\VisitProperties();
+        $this->visitProperties = $visitProperties;
         $this->visitProperties->visitorInfo['location_ip'] = $request->getIp();
         $this->visitProperties->visitorInfo['idvisitor']   = 1;
     }
 
-    public function handleExistingVisit($visitor, $action, $visitIsConverted)
+    public function handleExistingVisit($visitIsConverted)
     {
-        parent::handleExistingVisit($visitor, $action, $visitIsConverted);
+        parent::handleExistingVisit($visitIsConverted);
     }
 
-    public function handleNewVisit($visitor, $action, $visitIsConverted)
+    public function handleNewVisit($visitIsConverted)
     {
-        parent::handleNewVisit($visitor, $action, $visitIsConverted);
+        parent::handleNewVisit($visitIsConverted);
     }
 
     public function getAllVisitDimensions()
@@ -154,10 +153,11 @@ class Visit2Test extends IntegrationTestCase
     public function test_handleNewVisitWithoutConversion_shouldTriggerDimensions()
     {
         $request = new Request(array());
-        $visitor = new Visitor($request, '', new Visit\VisitProperties());
+        $visitProperties = new Visit\VisitProperties();
+        $visitor = new Visitor($request, $visitProperties);
 
-        $visit = new FakeTrackerVisit($request);
-        $visit->handleNewVisit($visitor, null, false);
+        $visit = new FakeTrackerVisit($request, $visitProperties);
+        $visit->handleNewVisit(false);
 
         $info = $visit->getVisitorInfo();
 
@@ -176,10 +176,11 @@ class Visit2Test extends IntegrationTestCase
     public function test_handleNewVisitWithConversion_shouldTriggerDimensions()
     {
         $request = new Request(array());
-        $visitor = new Visitor($request, '', new Visit\VisitProperties());
+        $visitProperties = new Visit\VisitProperties();
+        $visitor = new Visitor($request, $visitProperties);
 
-        $visit = new FakeTrackerVisit($request);
-        $visit->handleNewVisit($visitor, null, true);
+        $visit = new FakeTrackerVisit($request, $visitProperties);
+        $visit->handleNewVisit(true);
 
         $info = $visit->getVisitorInfo();
 
@@ -194,11 +195,12 @@ class Visit2Test extends IntegrationTestCase
     public function test_handleExistingVisitWithoutConversion_shouldTriggerDimensions()
     {
         $request = new Request(array());
-        $visitor = new Visitor($request, '', new Visit\VisitProperties());
+        $visitProperties = new Visit\VisitProperties();
+        $visitor = new Visitor($request, $visitProperties);
 
-        $visit = new FakeTrackerVisit($request);
-        $visit->handleNewVisit($visitor, null, false);
-        $visit->handleExistingVisit($visitor, null, false);
+        $visit = new FakeTrackerVisit($request, $visitProperties);
+        $visit->handleNewVisit(false);
+        $visit->handleExistingVisit(false);
 
         $info = $visit->getVisitorInfo();
 
@@ -217,11 +219,12 @@ class Visit2Test extends IntegrationTestCase
     public function test_handleExistingVisitWithConversion_shouldTriggerDimensions()
     {
         $request = new Request(array());
-        $visitor = new Visitor($request, '', new Visit\VisitProperties());
+        $visitProperties = new Visit\VisitProperties();
+        $visitor = new Visitor($request, $visitProperties);
 
-        $visit = new FakeTrackerVisit($request);
-        $visit->handleNewVisit($visitor, null, false);
-        $visit->handleExistingVisit($visitor, null, true);
+        $visit = new FakeTrackerVisit($request, $visitProperties);
+        $visit->handleNewVisit(false);
+        $visit->handleExistingVisit(true);
 
         $info = $visit->getVisitorInfo();
 
