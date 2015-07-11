@@ -23,8 +23,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group Core
- *
- * TODO: move isVisitNew tests to CoreHome plugin
  */
 class VisitTest extends IntegrationTestCase
 {

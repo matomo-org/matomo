@@ -15,55 +15,52 @@ use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
- * TODO
+ * Tracker service that finds the last known visit for the visitor being tracked.
  */
 class VisitorRecognizer
 {
     /**
-     * TODO
+     * Local variable cache for the getVisitFieldsPersist() method.
      *
      * @var array
      */
     private $visitFieldsToSelect;
 
     /**
-     * TODO
+     * See http://piwik.org/faq/how-to/faq_175/.
      *
      * @var bool
      */
     private $trustCookiesOnly;
 
     /**
-     * TODO
+     * Length of a visit in seconds.
      *
      * @var int
      */
     private $visitStandardLength;
 
     /**
-     * TODO
+     * Number of seconds that have to pass after an action before a new action from the same visitor is
+     * considered a new visit. Defaults to $visitStandardLength.
      *
      * @var int
      */
     private $lookBackNSecondsCustom;
 
     /**
-     * TODO
+     * Forces all requests to result in new visits. For debugging only.
      *
      * @var int
      */
     private $trackerAlwaysNewVisitor;
 
     /**
-     * TODO
-     *
      * @var Model
      */
     private $model;
 
     /**
-     * TODO
-     *
      * @var EventDispatcher
      */
     private $eventDispatcher;
@@ -80,15 +77,6 @@ class VisitorRecognizer
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * This methods tries to see if the visitor has visited the website before.
-     *
-     * We have to split the visitor into one of the category
-     * - Known visitor
-     * - New visitor
-     *
-     * TODO: move docs to class docs
-     */
     public function findKnownVisitor($configId, VisitProperties $visitProperties, Request $request)
     {
         $idSite    = $request->getIdSite();
