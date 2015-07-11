@@ -15,9 +15,33 @@ use Piwik\Tracker\Visit\VisitProperties;
 use Piwik\Tracker\Visitor;
 
 /**
- * TODO
+ * Handles actions detection and recording during tracker requests.
  *
- * TODO: document request metadata here (ie, 'actions')
+ * ## Request Metadata
+ *
+ * This RequestProcessor exposes the following metadata for the **Actions** plugin:
+ *
+ * **action**: Contains the `Action` instance that represents the action being tracked for
+ *             the current tracking request.
+ *
+ *             Set in `processRequestParams()`.
+ *
+ *             Other RequestProcessors can unset this value to skip actions recording or
+ *             change the value to change how they are recorded.
+ *
+ * **idReferrerActionUrl**: The idaction of the URL action that is the referrer for the action
+ *                          being tracked.
+ *
+ *                          Set in `processRequestParams()`.
+ *
+ *                          Can be changed/unset to change the current action's referrer action.
+ *
+ * **idReferrerActionName**: The idaction of the name action that is the referrer for the action
+ *                           being tracked.
+ *
+ *                           Set in `processRequestParams()`.
+ *
+ *                           Can be changed/unset to change the current action's referrer action.
  */
 class ActionsRequestProcessor extends RequestProcessor
 {
@@ -28,6 +52,11 @@ class ActionsRequestProcessor extends RequestProcessor
         $action->writeDebugInfo();
 
         $visitProperties->setRequestMetadata('Actions', 'action', $action);
+
+        // save the exit actions of the last action in this visit as the referrer actions for the action being tracked.
+        // when the visit is updated, these columns will be changed, so we have to do this before recordLogs
+        $visitProperties->setRequestMetadata('Actions', 'idReferrerActionUrl', @$visitProperties->visitorInfo['visit_exit_idaction_url']);
+        $visitProperties->setRequestMetadata('Actions', 'idReferrerActionName', @$visitProperties->visitorInfo['visit_exit_idaction_name']);
     }
 
     public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
@@ -38,11 +67,6 @@ class ActionsRequestProcessor extends RequestProcessor
         if (!empty($action)) { // other plugins can unset the action if they want
             $action->loadIdsFromLogActionTable();
         }
-
-        // save the exit actions of the last action in this visit as the referrer actions for the action being tracked.
-        // when the visit is updated, these columns will be changed, so we have to do this before processRequest
-        $visitProperties->setRequestMetadata('Actions', 'idReferrerActionUrl', @$visitProperties->visitorInfo['visit_exit_idaction_url']);
-        $visitProperties->setRequestMetadata('Actions', 'idReferrerActionName', @$visitProperties->visitorInfo['visit_exit_idaction_name']);
     }
 
     public function recordLogs(VisitProperties $visitProperties)

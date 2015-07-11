@@ -23,10 +23,34 @@ use Piwik\Tracker\VisitorRecognizer;
 /**
  * Encapsulates core tracking logic related to visits.
  *
- * TODO: much of the logic in this class should be moved to new service class
+ * ## Request Metadata
+ *
+ * This RequestProcessor exposes the following metadata for the **CoreHome** plugin:
+ *
+ * * **visitorId**: A hash that identifies the current visitor being tracked. This value is
+ *                  calculated using the Piwik\Tracker\Settings;:getConfigId() method.
+ *
+ *                  Set in `processRequestParams()`.
+ *
+ * * **isVisitorKnown**: True if the current visitor has visited the site before. False if
+ *                       otherwise.
+ *
+ *                       Set in `processRequestParams()`.
+ *
+ * * **isNewVisit**: True if the current action is the start of a new visit, false if it
+ *                   is part of an ongoing visit.
+ *
+ *                   Set in `processRequestParams()`. Other RequestProcessors can override
+ *                   this value to force a new visit or stop a new visit.
+ *
+ * * **visitorNotFoundInDb**: True if the current visit could not be updated.
+ *
+ *                            Set by the Visit object.
  */
 class VisitRequestProcessor extends RequestProcessor
 {
+    // TODO: much of the logic in this class should be moved to new service class
+
     /**
      * @var EventDispatcher
      */

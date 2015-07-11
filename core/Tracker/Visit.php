@@ -148,7 +148,7 @@ class Visit implements VisitInterface
             try {
                 $this->handleExistingVisit($this->visitProperties->getRequestMetadata('Goals', 'visitIsConverted'));
             } catch (VisitorNotFoundInDb $e) {
-                $this->visitProperties->setRequestMetadata('CoreHome', 'visitorNotFoundInDb', true);
+                $this->visitProperties->setRequestMetadata('CoreHome', 'visitorNotFoundInDb', true); // TODO: perhaps we should just abort here?
             }
         }
 

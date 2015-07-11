@@ -14,7 +14,9 @@ use Piwik\Tracker\RequestProcessor;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
- * TODO
+ * Handles ecommerce tracking requests.
+ *
+ * Defines no new request metadata.
  */
 class EcommerceRequestProcessor extends RequestProcessor
 {

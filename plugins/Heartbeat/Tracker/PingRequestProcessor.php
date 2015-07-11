@@ -13,7 +13,9 @@ use Piwik\Tracker\RequestProcessor;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
- * TODO
+ * Handles ping tracker requests.
+ *
+ * Defines no request metadata.
  */
 class PingRequestProcessor extends RequestProcessor
 {

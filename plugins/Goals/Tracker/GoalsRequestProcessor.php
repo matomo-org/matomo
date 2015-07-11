@@ -16,9 +16,26 @@ use Piwik\Tracker\RequestProcessor;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
- * TODO
+ * Handles conversion detection and tracking for tracker requests.
  *
- * TODO: document request metadata here
+ * ## Request Metadata
+ *
+ * This processor defines the following request metadata under the **Goals**
+ * plugin:
+ *
+ * * **someGoalsConverted**: If `true`, the request triggers one or more conversions that will
+ *                           be recorded.
+ *
+ *                           Set in `processRequestParams()`.
+ *
+ *                           Plugins can set this to false to skip conversion recording.
+ *
+ * * **visitIsConverted**: If `true`, the current visit should be marked as "converted". Note:
+ *                         some goal conversions (ie, ecommerce) do not mark the visit as
+ *                         "converted", so it is possible for someGoalsConverted to be `true`
+ *                         while visitIsConverted is `false`.
+ *
+ *                         Set in `processRequestParams()`.
  */
 class GoalsRequestProcessor extends RequestProcessor
 {
@@ -54,14 +71,14 @@ class GoalsRequestProcessor extends RequestProcessor
 
     public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
     {
-        $visitsConverted = $visitProperties->getRequestMetadata('Goals', 'visitIsConverted'); // TODO: double check, should this be visitIsConverted or someGoalsConverted?
+        $someGoalsConverted = $visitProperties->getRequestMetadata('Goals', 'someGoalsConverted');
 
         /** @var Action $action */
         $action = $visitProperties->getRequestMetadata('Actions', 'action');
 
         // if the visit hasn't already been converted another way (ie, manual goal conversion or ecommerce conversion,
         // try to convert based on the action)
-        if (!$visitsConverted
+        if (!$someGoalsConverted
             && $action
         ) {
             $someGoalsConverted = self::$goalManager->detectGoalsMatchingUrl($request->getIdSite(), $action);
@@ -70,18 +87,9 @@ class GoalsRequestProcessor extends RequestProcessor
             $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', $someGoalsConverted);
         }
 
-        $someGoalsConverted = $visitProperties->getRequestMetadata('Goals', 'someGoalsConverted');
         if ($someGoalsConverted) {
             self::$goalManager->detectIsThereExistingCartInVisit($visitProperties->visitorInfo);
         }
-    }
-
-    public function recordLogs(VisitProperties $visitProperties)
-    {
-        $isManualGoalConversion = self::$goalManager->isManualGoalConversion();
-        $requestIsEcommerce = self::$goalManager->requestIsEcommerce;
-
-        $visitorNotFoundInDb = $visitProperties->getRequestMetadata('CoreHome', 'visitorNotFoundInDb');
 
         // There is an edge case when:
         // - two manual goal conversions happen in the same second
@@ -89,6 +97,10 @@ class GoalsRequestProcessor extends RequestProcessor
         //   because the UPDATE didn't affect any rows (one row was found, but not updated since no field changed)
         // - the exception is caught here and will result in a new visit incorrectly
         // In this case, we cancel the current conversion to be recorded:
+        $isManualGoalConversion = self::$goalManager->isManualGoalConversion();
+        $requestIsEcommerce = self::$goalManager->requestIsEcommerce;
+        $visitorNotFoundInDb = $visitProperties->getRequestMetadata('CoreHome', 'visitorNotFoundInDb');
+
         if ($visitorNotFoundInDb
             && ($isManualGoalConversion
                 || $requestIsEcommerce)
@@ -97,6 +109,10 @@ class GoalsRequestProcessor extends RequestProcessor
             $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', false);
         }
 
+    }
+
+    public function recordLogs(VisitProperties $visitProperties)
+    {
         // record the goals if there were conversions in this request (even if the visit itself was not converted)
         if ($visitProperties->getRequestMetadata('Goals', 'someGoalsConverted')) {
             self::$goalManager->recordGoals($visitProperties);

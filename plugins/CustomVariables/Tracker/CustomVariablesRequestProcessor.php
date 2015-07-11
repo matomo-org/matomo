@@ -14,9 +14,22 @@ use Piwik\Tracker\RequestProcessor;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
- * TODO
+ * Handles tracking of visit level custom variables.
  *
- * TODO: document request metadata
+ * ### Request Metadata
+ *
+ * Defines the following request metadata for the **CustomVariables** plugin:
+ *
+ * * **visitCustomVariables**: An array of custom variable names & values. The data is stored
+ *                             as log_visit column name/value pairs, eg,
+ *
+ *                             ```
+ *                             array(
+ *                                 'custom_var_k1' => 'the name',
+ *                                 'custom_var_v1' => 'the value',
+ *                                 ...
+ *                             )
+ *                             ```
  */
 class CustomVariablesRequestProcessor extends RequestProcessor
 {
@@ -49,6 +62,4 @@ class CustomVariablesRequestProcessor extends RequestProcessor
             $valuesToUpdate = array_merge($valuesToUpdate, $visitCustomVariables);
         }
     }
-
-
 }
