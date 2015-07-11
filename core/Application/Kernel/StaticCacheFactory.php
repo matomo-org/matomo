@@ -8,6 +8,7 @@
 
 namespace Piwik\Application\Kernel;
 
+use Doctrine\Common\Cache\ApcCache;
 use Piwik\Cache\Cache;
 use Piwik\Common;
 
@@ -30,16 +31,27 @@ class StaticCacheFactory
      */
     private $redisCache = null;
 
+    /**
+     * @var Cache
+     */
+    private $apcCache = null;
+
     public function __construct(GlobalSettingsProvider $globalSettingsProvider)
     {
         $this->globalSettingsProvider = $globalSettingsProvider;
     }
 
+    /**
+     * @param string $backendType
+     * @return \Doctrine\Common\Cache\Cache
+     */
     public function make($backendType)
     {
         switch ($backendType) {
             case 'redis':
                 return $this->buildRedisCache();
+            case 'apc':
+                return $this->buildApcCache();
             default:
                 throw new \InvalidArgumentException("Invalid 'static' cache backend '$backendType'.");
         }
@@ -59,5 +71,18 @@ class StaticCacheFactory
         }
 
         return $this->redisCache;
+    }
+
+    private function buildApcCache()
+    {
+        if ($this->apcCache === null) {
+            if (!function_exists('apc_fetch')) {
+                throw new \RuntimeException("Trying to create ApcCache, but cannot find APC functions like 'apc_fetch'!");
+            }
+
+            $this->apcCache = new ApcCache();
+        }
+
+        return $this->apcCache;
     }
 }

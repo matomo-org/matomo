@@ -30,6 +30,11 @@ return array(
     'cache.backend.null' => DI\object('Piwik\Cache\Backend\NullCache'),
     'cache.backend.array' => DI\object('Piwik\Cache\Backend\ArrayCache'),
     'cache.backend.file' => DI\object('Piwik\Cache\Backend\File')->constructor(DI\get('path.cache')),
+    'cache.backend.apc' => function (ContainerInterface $c) {
+        /** @var \Piwik\Application\Kernel\StaticCacheFactory $cacheFactory */
+        $cacheFactory = $c->get('Piwik\Application\Kernel\StaticCacheFactory');
+        return $cacheFactory->make('apc');
+    },
     // TODO: if the Redis cache class took the connection args via constructor, this could just be a definition instead of closure. Then it would be cached in the DI cache.
     'cache.backend.redis' => function (ContainerInterface $c) {
         /** @var \Piwik\Application\Kernel\StaticCacheFactory $cacheFactory */
