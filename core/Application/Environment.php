@@ -13,6 +13,7 @@ use Doctrine\Common\Cache\Cache;
 use Piwik\Application\Kernel\EnvironmentValidator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
+use Piwik\Application\Kernel\StaticCacheFactory;
 use Piwik\Cache\Backend\ArrayCache;
 use Piwik\Cache\Backend\Chained;
 use Piwik\Container\ContainerFactory;
@@ -79,6 +80,11 @@ class Environment
     private $definitionCache;
 
     /**
+     * @var StaticCacheFactory
+     */
+    private $staticCacheFactory;
+
+    /**
      * @param string $environment
      * @param array $definitions
      */
@@ -130,6 +136,8 @@ class Environment
      */
     private function createContainer()
     {
+        $this->staticCacheFactory = new StaticCacheFactory($this->getGlobalSettingsCached());
+
         $pluginList = $this->getPluginListCached();
         $settings = $this->getGlobalSettingsCached();
 
@@ -142,7 +150,11 @@ class Environment
         $environments = array_merge($environments, $this->getExtraEnvironmentsFromManipulators());
 
         $containerFactory = new ContainerFactory($pluginList, $settings, $definitionCache, $environments, $definitions);
-        return $containerFactory->create();
+        $container = $containerFactory->create();
+
+        $container->set('Piwik\Application\Kernel\StaticCacheFactory', $this->staticCacheFactory);
+
+        return $container;
     }
 
     protected function getGlobalSettingsCached()
@@ -276,10 +288,10 @@ class Environment
     {
         $cache = $this->getStaticCacheBackend();
 
-        if ($cache) {
-            return new Chained(array(new ArrayCache(), $cache));
+        if ($cache instanceof ArrayCache) {
+            return $cache;
         } else {
-            return new ArrayCache();
+            return new Chained(array(new ArrayCache(), $cache));
         }
     }
 
@@ -301,11 +313,9 @@ class Environment
         }
 
         if ($staticCacheBackend == 'array') {
-            return null;
+            return new ArrayCache();
         }
 
-        $cache = null; // TODO: somehow we have to create the cache here...
-
-        return $cache;
+        return $this->staticCacheFactory->make($staticCacheBackend);
     }
 }

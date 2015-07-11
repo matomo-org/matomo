@@ -32,15 +32,9 @@ return array(
     'cache.backend.file' => DI\object('Piwik\Cache\Backend\File')->constructor(DI\get('path.cache')),
     // TODO: if the Redis cache class took the connection args via constructor, this could just be a definition instead of closure. Then it would be cached in the DI cache.
     'cache.backend.redis' => function (ContainerInterface $c) {
-        $redisConfig = $c->get('ini.RedisCache');
-
-        if (!empty($options['timeout'])) {
-            $redisConfig['timeout'] = (float)Common::forceDotAsSeparatorForDecimalPoint($options['timeout']);
-        }
-
-        /** @var \Piwik\Cache\Backend\Factory $cacheFactory */
-        $cacheFactory = $c->get('Piwik\Cache\Backend\Factory');
-        return $cacheFactory->buildRedisCache($redisConfig);
+        /** @var \Piwik\Application\Kernel\StaticCacheFactory $cacheFactory */
+        $cacheFactory = $c->get('Piwik\Application\Kernel\StaticCacheFactory');
+        return $cacheFactory->make('redis');
     },
     'cache.backend.chained' => function (ContainerInterface $c) {
         $chainedBackendsNames = $c->get('ini.ChainedCache.backends');
