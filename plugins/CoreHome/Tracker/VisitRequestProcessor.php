@@ -104,7 +104,7 @@ class VisitRequestProcessor extends RequestProcessor
         return false;
     }
 
-    public function afterRequestProcessed(VisitProperties $visitProperties)
+    public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
     {
         /**
          * Triggered after visits are tested for exclusion so plugins can modify the IP address
@@ -121,11 +121,13 @@ class VisitRequestProcessor extends RequestProcessor
      * Determines if the tracker if the current action should be treated as the start of a new visit or
      * an action in an existing visit.
      *
+     * Note: public only for tests.
+     *
      * @param VisitProperties $visitProperties The current visit/visitor information.
      * @param Request $request
      * @return bool
      */
-    private function isVisitNew(VisitProperties $visitProperties, Request $request)
+    public function isVisitNew(VisitProperties $visitProperties, Request $request)
     {
         $isKnown = $visitProperties->getRequestMetadata('CoreHome', 'isVisitorKnown');
         if (!$isKnown) {
