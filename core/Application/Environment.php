@@ -9,9 +9,12 @@
 namespace Piwik\Application;
 
 use DI\Container;
+use Doctrine\Common\Cache\Cache;
 use Piwik\Application\Kernel\EnvironmentValidator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
+use Piwik\Cache\Backend\ArrayCache;
+use Piwik\Cache\Backend\Chained;
 use Piwik\Container\ContainerFactory;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
@@ -71,6 +74,11 @@ class Environment
     private $pluginList;
 
     /**
+     * @var Cache
+     */
+    private $definitionCache;
+
+    /**
      * @param string $environment
      * @param array $definitions
      */
@@ -128,10 +136,12 @@ class Environment
         $extraDefinitions = $this->getExtraDefinitionsFromManipulators();
         $definitions = array_merge(StaticContainer::getDefinitions(), $extraDefinitions, array($this->definitions));
 
+        $definitionCache = $this->getDefinitionCacheCached();
+
         $environments = array($this->environment);
         $environments = array_merge($environments, $this->getExtraEnvironmentsFromManipulators());
 
-        $containerFactory = new ContainerFactory($pluginList, $settings, $environments, $definitions);
+        $containerFactory = new ContainerFactory($pluginList, $settings, $definitionCache, $environments, $definitions);
         return $containerFactory->create();
     }
 
@@ -242,5 +252,60 @@ class Environment
         } else {
             return null;
         }
+    }
+
+    private function getDefinitionCacheCached()
+    {
+        if ($this->definitionCache === null) {
+            $definitionCache = $this->getDefinitionCacheOverride();
+            $this->definitionCache = $definitionCache ?: $this->getDefinitionCache();
+        }
+        return $this->definitionCache;
+    }
+
+    private function getDefinitionCacheOverride()
+    {
+        if (self::$globalEnvironmentManipulator) {
+            return self::$globalEnvironmentManipulator->makeDefinitionCache();
+        } else {
+            return null;
+        }
+    }
+
+    private function getDefinitionCache()
+    {
+        $cache = $this->getStaticCacheBackend();
+
+        if ($cache) {
+            return new Chained(array(new ArrayCache(), $cache));
+        } else {
+            return new ArrayCache();
+        }
+    }
+
+    private function getStaticCacheBackendName()
+    {
+        $settingsProvider = $this->getGlobalSettingsCached();
+        $cacheConfigSection = $settingsProvider->getSection('Cache');
+        return @$cacheConfigSection['static_cache_backend'];
+    }
+
+    private function getStaticCacheBackend()
+    {
+        $staticCacheBackend = $this->getStaticCacheBackendName();
+        if ($staticCacheBackend == 'null'
+            || $staticCacheBackend == 'file'
+            || $staticCacheBackend == 'chained'
+        ) {
+            throw new \RuntimeException("Invalid static cache type '$staticCacheBackend'. See global.ini.php for allowed values.");
+        }
+
+        if ($staticCacheBackend == 'array') {
+            return null;
+        }
+
+        $cache = null; // TODO: somehow we have to create the cache here...
+
+        return $cache;
     }
 }

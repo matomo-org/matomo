@@ -11,6 +11,7 @@ namespace Piwik\Container;
 use DI\Container;
 use DI\ContainerBuilder;
 use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\Cache;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Plugin\Manager;
@@ -43,17 +44,24 @@ class ContainerFactory
     private $definitions;
 
     /**
+     * @var Cache
+     */
+    private $definitionCache;
+
+    /**
      * @param PluginList $pluginList
      * @param GlobalSettingsProvider $settings
      * @param string[] $environment Optional environment configs to load.
      * @param array[] $definitions
      */
-    public function __construct(PluginList $pluginList, GlobalSettingsProvider $settings, array $environments = array(), array $definitions = array())
+    public function __construct(PluginList $pluginList, GlobalSettingsProvider $settings, Cache $definitionCache,
+                                array $environments = array(), array $definitions = array())
     {
         $this->pluginList = $pluginList;
         $this->settings = $settings;
         $this->environments = $environments;
         $this->definitions = $definitions;
+        $this->definitionCache = $definitionCache;
     }
 
     /**
@@ -66,7 +74,7 @@ class ContainerFactory
         $builder = new ContainerBuilder();
 
         $builder->useAnnotations(false);
-        $builder->setDefinitionCache(new ArrayCache());
+        $builder->setDefinitionCache($this->definitionCache);
 
         // INI config
         $builder->addDefinitions(new IniConfigDefinitionSource($this->settings));

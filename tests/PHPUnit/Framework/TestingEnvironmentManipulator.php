@@ -9,10 +9,10 @@
 namespace Piwik\Tests\Framework;
 
 use Interop\Container\ContainerInterface;
-use Piwik\Application\Environment;
 use Piwik\Application\EnvironmentManipulator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
+use Piwik\Cache\Backend\ArrayCache;
 use Piwik\Config;
 use Piwik\DbHelper;
 use Piwik\Option;
@@ -221,5 +221,10 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         }
 
         return $plugins;
+    }
+
+    public function makeDefinitionCache()
+    {
+        return new ArrayCache();
     }
 }

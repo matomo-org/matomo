@@ -78,6 +78,10 @@ logger_file_path = tmp/logs/piwik.log
 ; 'chained' will chain multiple cache backends. Further configuration in [ChainedCache] is needed
 backend = chained
 
+; the cache backend to use for static information (eg, DI config). the following backends are NOT allowed:
+; 'null', 'file', 'chained'
+static_cache_backend = array
+
 [ChainedCache]
 ; The chained cache will always try to read from the fastest backend first (the first listed one) to avoid requesting
 ; the same cache entry from the slowest backend multiple times in one request.

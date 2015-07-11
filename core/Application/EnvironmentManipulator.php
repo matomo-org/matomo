@@ -8,6 +8,7 @@
 
 namespace Piwik\Application;
 
+use Doctrine\Common\Cache\Cache;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
 
@@ -56,4 +57,11 @@ interface EnvironmentManipulator
      * @return string[]
      */
     public function getExtraEnvironments();
+
+    /**
+     * Return the Cache to use for DI definitions during tests.
+     *
+     * @return Cache
+     */
+    public function makeDefinitionCache();
 }
