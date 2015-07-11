@@ -3,6 +3,7 @@
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\NotFoundException;
 use Piwik\Cache\Eager;
+use Piwik\Common;
 use Piwik\SettingsServer;
 
 return array(
@@ -24,6 +25,32 @@ return array(
     },
 
     'path.cache' => DI\string('{path.tmp}/cache/tracker/'),
+
+    // cache backend definitions
+    'cache.backend.null' => DI\object('Piwik\Cache\Backend\NullCache'),
+    'cache.backend.array' => DI\object('Piwik\Cache\Backend\ArrayCache'),
+    'cache.backend.file' => DI\object('Piwik\Cache\Backend\File')->constructor(DI\get('path.cache')),
+    // TODO: if the Redis cache class took the connection args via constructor, this could just be a definition instead of closure. Then it would be cached in the DI cache.
+    'cache.backend.redis' => function (ContainerInterface $c) {
+        $redisConfig = $c->get('ini.RedisCache');
+
+        if (!empty($options['timeout'])) {
+            $redisConfig['timeout'] = (float)Common::forceDotAsSeparatorForDecimalPoint($options['timeout']);
+        }
+
+        /** @var \Piwik\Cache\Backend\Factory $cacheFactory */
+        $cacheFactory = $c->get('Piwik\Cache\Backend\Factory');
+        return $cacheFactory->buildRedisCache($redisConfig);
+    },
+    'cache.backend.chained' => function (ContainerInterface $c) {
+        $chainedBackendsNames = $c->get('ini.ChainedCache.backends');
+
+        $backends = array();
+        foreach ($chainedBackendsNames as $name) {
+            $backends[] = $c->get('cache.backend.' . $name);
+        }
+        return new \Piwik\Cache\Backend\Chained($backends);
+    },
 
     'Piwik\Cache\Eager' => function (ContainerInterface $c) {
         $backend = $c->get('Piwik\Cache\Backend');
@@ -51,7 +78,7 @@ return array(
             $backend = 'chained'; // happens if global.ini.php is not available
         }
 
-        return \Piwik\Cache::buildBackend($backend);
+        return $c->get('cache.backend.' . $backend);
     },
     'cache.eager.cache_id' => function () {
         return 'eagercache-' . str_replace(array('.', '-'), '', \Piwik\Version::VERSION) . '-';
