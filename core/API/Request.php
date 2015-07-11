@@ -323,6 +323,10 @@ class Request
 
     private static function shouldReloadAuthUsingTokenAuth($request)
     {
+        if (is_null($request)) {
+            $request = $_GET + $_POST;
+        }
+
         if (!isset($request['token_auth'])) {
             // no token is given so we just keep the current loaded user
             return false;
