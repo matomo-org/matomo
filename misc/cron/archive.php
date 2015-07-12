@@ -28,7 +28,6 @@ if (!empty($_SERVER['argv'][0])) {
 
 require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
 
-\Piwik\Common::sendHeader('Content-Type: text/plain; charset=utf-8');
 
 if (false !== strpos($callee, 'archive.php')) {
     $piwikHome = PIWIK_INCLUDE_PATH;
@@ -60,6 +59,7 @@ if (Piwik\Common::isPhpCliMode()) {
 } else { // if running via web request, use CoreAdminHome.runCronArchiving method
     $_GET['module'] = 'API';
     $_GET['method'] = 'CoreAdminHome.runCronArchiving';
+    $_GET['format'] = 'console'; // will use Content-type text/plain
 
     require_once PIWIK_INCLUDE_PATH . "/index.php";
 }
