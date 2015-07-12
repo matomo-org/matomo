@@ -682,6 +682,6 @@ class Url
      */
     public static function getLocalHostnames()
     {
-        return array('localhosts', '127.0.0.1', '::1', '[::1]');
+        return array('localhost', '127.0.0.1', '::1', '[::1]');
     }
 }
