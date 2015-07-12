@@ -77,7 +77,7 @@
             }
 
             var mapContainer = $$('.UserCountryMap_map').get(0),
-                map = self.map = $K.map(mapContainer),
+                map = self.map = Kartograph.map(mapContainer),
                 main = $$('.UserCountryMap_container'),
                 worldTotalVisits = 0,
                 width = main.width(),
