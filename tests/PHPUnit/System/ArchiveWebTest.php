@@ -74,7 +74,7 @@ class ArchiveWebTest extends SystemTestCase
         $this->assertNotContains('WARNING', $output);
 
         // Check there are enough lines in output
-        $minimumLinesInOutput = 60;
+        $minimumLinesInOutput = 30;
         $linesInOutput = count( explode(PHP_EOL, $output) );
         $this->assertGreaterThan($minimumLinesInOutput, $linesInOutput);
     }
