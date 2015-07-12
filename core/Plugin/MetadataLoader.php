@@ -49,9 +49,17 @@ class MetadataLoader
      */
     public function load()
     {
+        $defaults = $this->getDefaultPluginInformation();
+        $plugin   = $this->loadPluginInfoJson();
+
+        // use translated plugin description if available
+        if ($defaults['description'] != Piwik::translate($defaults['description'])) {
+            unset($plugin['description']);
+        }
+
         return array_merge(
-            $this->getDefaultPluginInformation(),
-            $this->loadPluginInfoJson()
+            $defaults,
+            $plugin
         );
     }
 
