@@ -151,6 +151,17 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
                 'otherRequestParameters' => array('filter_offset' => '4', 'filter_limit' => 3)
             ));
 
+            // #8324
+            // testing filter_excludelowpop and filter_excludelowpop_value
+            $apiToTest[] = array('UserCountry.getCountry', array(
+                'idSite'                 => $idSite,
+                'date'                   => $dateString,
+                'periods'                => 'month',
+                'testSuffix'             => '_getCountry_with_filter_excludelowpop',
+                'otherRequestParameters' => array('filter_excludelowpop' => 'nb_visits', 'filter_excludelowpop_value' => 5)
+            ));
+
+
         }
 
         // this also fails on all PHP versions, it seems randomly.
