@@ -10,8 +10,16 @@
 describe("BarGraph", function () {
     this.timeout(0);
 
-    var url = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
-            + "actionToWidgetize=getKeywords&viewDataTable=graphVerticalBar&isFooterExpandedInDashboard=1";
+    var tokenAuth = "9ad1de7f8b329ab919d854c556f860c1", // md5('superUserLogin' . md5('superUserPass'))
+        url = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
+            + "actionToWidgetize=getKeywords&viewDataTable=graphVerticalBar&isFooterExpandedInDashboard=1&"
+            + "token_auth=" + tokenAuth;
+
+    before(function () {
+        // use real auth + token auth to test that auth works when widgetizing reports in an iframe
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+    });
 
     it("should load correctly", function (done) {
         expect.screenshot("load").to.be.capture(function (page) {
