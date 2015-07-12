@@ -17,7 +17,7 @@
         "DeleteConfirm": "Weet u zeker dat u de volgende gebruiker wilt verwijderen: %s?",
         "Email": "E-mail",
         "EmailYourAdministrator": "%1$sE-mail de beheerder over dit probleem%2$s.",
-        "ExceptionAccessValues": "De parameter toegang moet één van de volgede waarden bevatten : [ %s ]",
+        "ExceptionAccessValues": "De parameter toegang moet één van de volgede waarden bevatten: [ %s ]",
         "ExceptionAdminAnonymous": "U kunt geen adminrechten toekennen aan de 'anonieme' gebruiker.",
         "ExceptionDeleteDoesNotExist": "Gebruiker '%s' bestaat niet en kan dus niet verwijderd worden.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Verwijderen van gebruiker '%s' is niet mogelijk.",

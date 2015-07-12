@@ -1,9 +1,11 @@
 {
     "CoreAdminHome": {
         "Administration": "Administracija",
+        "ArchivingSettings": "Nastavitve arhiviranja",
         "BrandingSettings": "Nastavitve znamke",
-        "ClickHereToOptIn": "Kliknite tu za pristop",
-        "ClickHereToOptOut": "Kliknite tu, če želite odstopiti.",
+        "CheckReleaseGetVersion": "Uporabi zadnjo beta različico",
+        "ClickHereToOptIn": "Kliknite tukaj za prijavo",
+        "ClickHereToOptOut": "Kliknite tukaj, če se želite odjaviti",
         "CustomLogoHelpText": "Piwik-ov logo lahko prilagodite po vaših željah. Spremembe bodo vidne tako v uporabniškem vmesniku, kot v email poročilih.",
         "EmailServerSettings": "Nastavitev strežnika za email",
         "ImageTracking": "Sledenje s pomočjo slike",
@@ -18,7 +20,10 @@
         "OptOutExplanation": "Piwik želi zagotoviti zasebnost na internetu. Če želite svojim obiskovalcem omogočiti 'opt-out' iz Piwik spletne analitike, potem lahko dodate naslednjo HTML kodo na vašo spletno stran, npr. na stran 'Varovanje zasebnosti'.",
         "OptOutForYourVisitors": "'Opt-out' za vaše obiskovalce",
         "UseCustomLogo": "Uporabi poseben logo",
-        "YouAreOptedIn": "Trenutno ste pridruženi.",
-        "YouAreOptedOut": "Trenutno niste pridruženi."
+        "YouAreOptedIn": "Trenutno ste prijavljeni.",
+        "YouAreOptedOut": "Trenutno niste prijavljeni.",
+        "YouMayOptOut": "Odločite se lahko, da vašemu računalniku ne dodelimo enolične številčne oznake, ki jo potrebujemo za statistično analizo podatkov na tem spletnem mestu.",
+        "YouMayOptOutBis": "Za uveljavitev te odločitve prosimo kliknite spodaj, prejeli boste piškotek v katerega se bo odločitev shranila.",
+        "OptingYouOut": "Odjavljamo vas, prosimo počakajte..."
     }
 }

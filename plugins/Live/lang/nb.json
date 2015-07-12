@@ -1,5 +1,6 @@
 {
     "Live": {
+        "ConvertedNGoals": "Konverterte %s mål",
         "FirstVisit": "Første besøk",
         "GoalType": "Type",
         "HideMap": "skjul kart",

@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "Agrega un reproductor",
+        "AddAWidget": "Agregar un reproductor",
         "AddPreviewedWidget": "Añade el reproductor al tablero",
         "ChangeDashboardLayout": "Modificar distribución del tablero",
         "CopyDashboardToUser": "Copiar tablero al usuario",
@@ -12,13 +12,13 @@
         "DashboardOf": "Tablero de %s",
         "DefaultDashboard": "Tablero por defecto - Usando la selección de reproductores y disposición de columnas por defecto",
         "DeleteWidgetConfirm": "¿Está seguro que desea borrar este reproductor de su tablero?",
-        "EmptyDashboard": "Tablero vacío - Elige tus widgets preferidos",
+        "EmptyDashboard": "Tablero vacío - Elija sus reproductores preferidos",
         "LoadingWidget": "Cargando reproductor, por favor espere...",
         "ManageDashboard": "Configurar el tablero",
         "Maximise": "Maximizar",
         "Minimise": "Minimizar",
         "NotUndo": "No podrá deshacer esta operación.",
-        "PluginDescription": "Su tablero de analítica de internet. Personalize su tablero agregando nuevos reproductores, arrastre y suelte y cambie la disposición de las columnas del tablero. Cada usuario puede administrar su propio tablero personalizado.",
+        "PluginDescription": "Su tablero de análisis de internet. Personalize su tablero agregando nuevos reproductores, arrastre y suéltelos; cambie la disposición de las columnas del tablero. Cada usuario puede administrar su propio tablero personalizado.",
         "RemoveDashboard": "Elimina el tablero",
         "RemoveDashboardConfirm": "¿Está seguro que desea eliminar el tablero \"%s\"?",
         "RenameDashboard": "Renombrar el tablero",

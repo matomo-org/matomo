@@ -1,11 +1,11 @@
 {
     "CoreHome": {
-        "CategoryNoData": "No hay datos en esta categoría. Intenta \"Incluir toda la población\".",
+        "CategoryNoData": "No hay datos en esta categoría. Intente \"Incluir toda la población\".",
         "CheckForUpdates": "Comprobar actualizaciones",
-        "CheckPiwikOut": "Compruebe Piwik fuera!",
+        "CheckPiwikOut": "Compruebe a Piwik ahora!",
         "ClickToEditX": "Clic para editar %s",
-        "CloseWidgetDirections": "Puede cerrar este widget haciendo clic en el icono \"X\" en la parte superior del widget.",
-        "DataForThisReportHasBeenPurged": "Los datos para este reporte tienen más de %s meses de antigüedad y han sido purgados.",
+        "CloseWidgetDirections": "Puede cerrar este reproductor haciendo clic en el icono \"X\" en la parte superior del mismo.",
+        "DataForThisReportHasBeenPurged": "Los datos para este informe tienen más de %s meses de antigüedad y han sido purgados.",
         "DataTableExcludeAggregateRows": "Mostrar filas acumuladas %s Ocultarlas",
         "DataTableIncludeAggregateRows": "Filas agregadas están ocultas %s Mostrarlas",
         "DateFormat": "%longDay% %day% %longMonth% %longYear%",

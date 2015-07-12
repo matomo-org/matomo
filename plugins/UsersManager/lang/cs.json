@@ -17,7 +17,7 @@
         "DeleteConfirm": "Jste si jistí, že chcete vymazat uživatele %s?",
         "Email": "E-mail",
         "EmailYourAdministrator": "%1$sPošlete administrátorovi e-mail o tomto problému%2$s.",
-        "ExceptionAccessValues": "Parametr přístupu musí mít jednu z následujících hodnot : [ %s ]",
+        "ExceptionAccessValues": "Parametr přístupu musí mít jednu z následujících hodnot: [ %s ]",
         "ExceptionAdminAnonymous": "Nemůžete dát 'admin' přístup 'anonymous' uživateli.",
         "ExceptionDeleteDoesNotExist": "Uživatel '%s' neexistuje a proto nemůže být vymazán.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Smazání uživatele %s není možné.",

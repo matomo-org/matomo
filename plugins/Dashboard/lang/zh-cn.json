@@ -18,6 +18,7 @@
         "Maximise": "最大化",
         "Minimise": "最小化",
         "NotUndo": "此操作不可撤消。",
+        "PluginDescription": "您的 Web 分析面板。如果需要自定义，您可以添加新的小工具，拖动这些小工具，和更改面板的列数和布局。每个用户都可以独立定制属于他自己的面板。",
         "RemoveDashboard": "删除面板",
         "RemoveDashboardConfirm": "确认要删除面板\"%s\"吗?",
         "RenameDashboard": "重命名面板",

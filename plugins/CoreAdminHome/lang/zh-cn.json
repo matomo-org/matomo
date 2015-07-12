@@ -3,6 +3,7 @@
         "Administration": "管理",
         "ArchivingSettings": "归档设置",
         "BrandingSettings": "图标设置",
+        "CheckReleaseGetVersion": "使用最新的测试版",
         "ClickHereToOptIn": "点这里主动加入。",
         "ClickHereToOptOut": "点这里主动退出。",
         "CustomLogoFeedbackInfo": "如果您定制 Piwik 图标，可能想在顶部菜单隐藏 %s 链接，在 %s管理插件%s 页面禁用 Feedback 插件。",

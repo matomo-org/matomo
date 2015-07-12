@@ -8,7 +8,7 @@
         "ChangeAllConfirm": "Ste si istý, že chcete zmeniť '%s' práva pre všetky webstránky?",
         "DeleteConfirm": "Ste si istý, že chcete odstrániť používateľa %s?",
         "Email": "E-mail",
-        "ExceptionAccessValues": "Parameter prístupu musí mať jednu z nasledujúcich hodnôt : [ %s ]",
+        "ExceptionAccessValues": "Parameter prístupu musí mať jednu z nasledujúcich hodnôt: [ %s ]",
         "ExceptionAdminAnonymous": "Nemôžete priradiť prístup 'admin' pre používateľa 'anonymous'.",
         "ExceptionDeleteDoesNotExist": "Používateľ '%s' neexistuje a preto nemôže byť odstránený.",
         "ExceptionEditAnonymous": "Anonymný používateľ nemôže byť odstránený alebo upravený. Piwik ho používa na definovanie používateľa, ktorý sa ešte prihlásil. Anonymného používateľa môžete použiť na zverejnenie svojich štatistík, a to priradeným mu práv na prezeranie.",

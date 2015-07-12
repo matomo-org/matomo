@@ -1,5 +1,6 @@
 {
     "Insights": {
+        "PluginDescription": "Fournit des Aperçus de votre trafic. Les aperçus sont disponibles comme gadgets pour le tableau de bord ainsi qu'en tant que nouvel icône dans les rapports pour vous permettre de voir les tendances les plus importantes au sein de vos données.",
         "ControlComparedToDescription": "Croissance comparée à",
         "ControlFilterByDescription": "Tout afficher, seulement les déplacés, seulement nouveaux ou seulement disparus",
         "DatePeriodCombinationNotSupported": "Il n'est pas possible de générer des indicateurs pour cette combinaison de date et de période.",

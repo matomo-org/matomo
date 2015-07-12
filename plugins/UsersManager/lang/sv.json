@@ -16,7 +16,7 @@
         "DeleteConfirm": "Är du säker på att du vill ta bort användaren %s?",
         "Email": "E-post",
         "EmailYourAdministrator": "%1$sE-posta din administratör om det här problemet%2$s.",
-        "ExceptionAccessValues": "Parameter-tillgången måste ha ett av följande värden : [ %s ]",
+        "ExceptionAccessValues": "Parameter-tillgången måste ha ett av följande värden: [ %s ]",
         "ExceptionAdminAnonymous": "Du kan inte bevilja 'admin' tillgång för \"anonyma\" användare.",
         "ExceptionDeleteDoesNotExist": "Användaren '%s' finns inte och kan därför inte tas bort.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Att radera användare '%s' är inte möjligt.",

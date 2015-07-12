@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "Ce composant fournit les gadgets Carte du Visiteur et Carte en temps réel. Note : requiert que le composant Pays du Visiteur soit activé.",
         "AndNOthers": "et %s autres",
         "Cities": "Villes",
         "Countries": "Pays",

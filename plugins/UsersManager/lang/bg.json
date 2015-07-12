@@ -13,7 +13,7 @@
         "DeleteConfirm": "Наистина ли искате да изтриете потребителя %s?",
         "Email": "Имейл",
         "EmailYourAdministrator": "%1$sПишете на администратора Ви за този проблем%2$s.",
-        "ExceptionAccessValues": "Този параметър може да има само един от следните параметри : [ %s ]",
+        "ExceptionAccessValues": "Този параметър може да има само един от следните параметри: [ %s ]",
         "ExceptionAdminAnonymous": "Не може да зададете 'админ' права на 'анонимен' потребител.",
         "ExceptionDeleteDoesNotExist": "Потребителя '%s' не съществува, по тази причина не може да бъде изтрит.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Изтриването на потребител '%s' не е възможно.",

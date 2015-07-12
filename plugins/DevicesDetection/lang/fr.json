@@ -1,7 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserEngine": "Moteur de rendu HTML",
-        "BrowserEngineDocumentation": "Ce tableau affiche les navigateurs de vos visiteurs regroupés par famille. %s L'information la plus importante pour les développeurs est quel type de moteur de rendu utilisent leurs visiteurs. Les labels contiennent les noms des moteurs suivis par les principaux navigateurs les utilisant entre parenthèses.",
+        "BrowserEngineDocumentation": "Ce rapport affiche les navigateurs de vos visiteurs divisés par moteurs. %s L'information la plus importante pour des développeurs web est quelle sorte de moteur de rendu utilisent les visiteurs. Les labels contiennent le nom du moteur suivit par le navigateur le plus commun utilisant ce moteur entre parenthèses.",
         "BrowserEngines": "Moteurs de rendu HTML",
         "BrowserFamily": "Famille de navigateurs",
         "Browsers": "Navigateurs",
