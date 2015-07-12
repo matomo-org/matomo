@@ -12,6 +12,8 @@ use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * Sets the test environment.
+ *
+ * For testing purposes, we don't want this class to reference PIWIK_INCLUDE_PATH or other constants.
  */
 class TestingEnvironmentVariables
 {
@@ -39,9 +41,11 @@ class TestingEnvironmentVariables
 
     public function save()
     {
-        @mkdir(PIWIK_INCLUDE_PATH . '/tmp');
+        $includePath = __DIR__ . '/../../..';
 
-        $overridePath = PIWIK_INCLUDE_PATH . '/tmp/testingPathOverride.json';
+        @mkdir($includePath . '/tmp');
+
+        $overridePath = $includePath . '/tmp/testingPathOverride.json';
         file_put_contents($overridePath, json_encode($this->behaviorOverrideProperties));
     }
 
@@ -81,7 +85,7 @@ class TestingEnvironmentVariables
 
     public function reload()
     {
-        $overridePath = PIWIK_INCLUDE_PATH . '/tmp/testingPathOverride.json';
+        $overridePath = __DIR__ . '/../../../tmp/testingPathOverride.json';
         if (file_exists($overridePath)) {
             $this->behaviorOverrideProperties = json_decode(file_get_contents($overridePath), true);
         }

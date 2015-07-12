@@ -13,7 +13,6 @@ define('PIWIK_ENABLE_SESSION_START', false);
 require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
 
-
 $environment = new \Piwik\Application\Environment(null);
 $environment->init();
 
