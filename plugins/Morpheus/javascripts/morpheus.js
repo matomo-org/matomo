@@ -25,6 +25,8 @@ $(document).ready(function () {
     $('body').on('ifClicked', 'input', function () {
         $(this).trigger('click');
     }).on('ifChanged', 'input', function () {
-        $(this).trigger('change');
+        if(this.type != 'radio' || this.checked) {
+            $(this).trigger('change');
+        }
     });
 });
