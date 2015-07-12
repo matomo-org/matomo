@@ -24,7 +24,7 @@ class ArchiveWebTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 
-    public function testWebArchiving()
+    public function test_WebArchiving()
     {
         if (self::isMysqli() && self::isTravisCI()) {
             $this->markTestSkipped('Skipping on Mysqli as it randomly fails.');
@@ -51,7 +51,7 @@ class ArchiveWebTest extends SystemTestCase
         }
 
         $this->assertWebArchivingDone($output);
-        $this->compareArchivePhpOutputAgainstExpected($output);
+
     }
 
     public function test_WebArchiveScriptCanBeRun_WithPhpCgi_AndWithoutTokenAuth()
@@ -62,21 +62,6 @@ class ArchiveWebTest extends SystemTestCase
         $this->assertWebArchivingDone($output, $checkArchivedSite = false);
     }
 
-    private function compareArchivePhpOutputAgainstExpected($output)
-    {
-        $fileName = 'test_ArchiveCronTest_archive_php_cron_output.txt';
-        list($pathProcessed, $pathExpected) = static::getProcessedAndExpectedDirs();
-
-        $expectedOutputFile = $pathExpected . $fileName;
-
-        try {
-            $this->assertTrue(is_readable($expectedOutputFile));
-            $this->assertEquals(file_get_contents($expectedOutputFile), $output);
-        } catch (Exception $ex) {
-            $this->comparisonFailures[] = $ex;
-        }
-    }
-
     private function assertWebArchivingDone($output, $checkArchivedSite = true)
     {
         $this->assertContains('Starting Piwik reports archiving...', $output);
@@ -84,6 +69,14 @@ class ArchiveWebTest extends SystemTestCase
             $this->assertContains('Archived website id = 1', $output);
         }
         $this->assertContains('Done archiving!', $output);
+
+        $this->assertNotContains('ERROR', $output);
+        $this->assertNotContains('WARNING', $output);
+
+        // Check there are enough lines in output
+        $minimumLinesInOutput = 30;
+        $linesInOutput = count( explode(PHP_EOL, $output) );
+        $this->assertGreaterThan($minimumLinesInOutput, $linesInOutput);
     }
 
     private function runArchivePhpScriptWithPhpCgi()

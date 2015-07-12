@@ -20,6 +20,8 @@ if (!defined('PIWIK_USER_PATH')) {
 define('PIWIK_ENABLE_ERROR_HANDLER', false);
 define('PIWIK_ENABLE_SESSION_START', false);
 
+require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
+
 if (!empty($_SERVER['argv'][0])) {
     $callee = $_SERVER['argv'][0];
 } else {
@@ -41,7 +43,6 @@ try 'php archive.php --url=http://your.piwik/path'
 \n\n";
 }
 
-require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
 
 if (Piwik\Common::isPhpCliMode()) {
     require_once PIWIK_INCLUDE_PATH . "/core/bootstrap.php";
@@ -57,6 +58,17 @@ if (Piwik\Common::isPhpCliMode()) {
 } else { // if running via web request, use CoreAdminHome.runCronArchiving method
     $_GET['module'] = 'API';
     $_GET['method'] = 'CoreAdminHome.runCronArchiving';
+    $_GET['format'] = 'console'; // will use Content-type text/plain
+
+    if(!isset($_GET['token_auth'])) {
+        echo "
+<b>You must specify the Super User token_auth as a parameter to this script, eg. <code>?token_auth=XYZ</code> if you wish to run this script through the browser. </b><br>
+However it is recommended to run it <a href='http://piwik.org/docs/setup-auto-archiving/'>via cron in the command line</a>, since it can take a long time to run.<br/>
+In a shell, execute for example the following to trigger archiving on the local Piwik server:<br/>
+<code>$ /path/to/php /path/to/piwik/console core:archive --url=http://your-website.org/path/to/piwik/</code>
+\n\n";
+        exit;
+    }
 
     require_once PIWIK_INCLUDE_PATH . "/index.php";
 }
