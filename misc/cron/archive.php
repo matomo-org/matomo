@@ -26,6 +26,10 @@ if (!empty($_SERVER['argv'][0])) {
     $callee = '';
 }
 
+require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
+
+\Piwik\Common::sendHeader('Content-Type: text/plain; charset=utf-8');
+
 if (false !== strpos($callee, 'archive.php')) {
     $piwikHome = PIWIK_INCLUDE_PATH;
     echo "
@@ -41,7 +45,6 @@ try 'php archive.php --url=http://your.piwik/path'
 \n\n";
 }
 
-require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
 
 if (Piwik\Common::isPhpCliMode()) {
     require_once PIWIK_INCLUDE_PATH . "/core/bootstrap.php";
