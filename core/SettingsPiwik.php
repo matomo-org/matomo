@@ -180,7 +180,7 @@ class SettingsPiwik
         $currentUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
 
         // when script is called from /misc/cron/archive.php, Piwik URL is /index.php
-        $currentUrl = str_replace("/misc/cron/", "", $currentUrl);
+        $currentUrl = str_replace("/misc/cron", "", $currentUrl);
 
         if (empty($url)
             // if URL changes, always update the cache
