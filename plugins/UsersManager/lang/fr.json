@@ -17,7 +17,7 @@
         "DeleteConfirm": "Êtes-vous sûr de vouloir supprimer l'utilisateur %s?",
         "Email": "Courriel",
         "EmailYourAdministrator": "%1$sEnvoyez un courriel à votre administrateur à propos de ce problème%2$s.",
-        "ExceptionAccessValues": "Le paramètre access doit contenir une des valeurs suivantes : [ %s ]",
+        "ExceptionAccessValues": "Le paramètre access doit contenir une des valeurs suivantes: [ %s ]",
         "ExceptionAdminAnonymous": "Vous ne pouvez pas autoriser l'accès administrateur à l'utilisateur Anonyme.",
         "ExceptionDeleteDoesNotExist": "L'utilisateur '%s' est inexistant, il n'a pu être supprimé.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Impossible de supprimer l'utilisateur \"%s\".",

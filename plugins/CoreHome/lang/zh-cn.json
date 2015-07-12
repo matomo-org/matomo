@@ -3,6 +3,7 @@
         "CategoryNoData": "该分类没有数据！ 请试试 \"包含所有数据\"！",
         "CheckForUpdates": "检查更新",
         "CheckPiwikOut": "访问 Piwik",
+        "ClickToEditX": "点击编辑 %s",
         "CloseWidgetDirections": "点击右上角的 'X' 图标可关闭这个小窗口",
         "DataForThisReportHasBeenPurged": "本报表数据超过 %s 个月已被清空。",
         "DataTableExcludeAggregateRows": "汇总行已显示 %s 隐藏汇总",
@@ -28,7 +29,9 @@
         "LongWeekFormat": "%dayFrom% %longMonthFrom% - %dayTo% %longMonthTo% %longYearTo%",
         "MakeADifference": "现在就%1$s捐款%2$s给 Piwik 2.0 !",
         "MakeOneTimeDonation": "一次性捐款",
+        "Menu": "菜单",
         "NoPrivilegesAskPiwikAdmin": "您当前登录用户是 '%s' 但是没有 Piwik 权限。%s 联系 Piwik 管理员 (点击发送邮件)%s 获得 '查看' 权限。",
+        "OnlyForSuperUserAccess": "这个小工具只对超级用户开放。",
         "PageOf": "%1$s，总共 %2$s",
         "PeriodRange": "时间段",
         "ReportGeneratedOn": "本报表生成时间 %s",
@@ -40,6 +43,7 @@
         "ShortMonthFormat": "%longYear% %shortMonth%",
         "ShortWeekFormat": "%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%",
         "ShowJSCode": "显示插入的Javascript代码",
+        "SkipToContent": "跳过，查看内容",
         "SubscribeAndBecomePiwikSupporter": "进入安全的信用卡付款页面 (Paypal) 支持 Piwik !",
         "SupportPiwik": "支持 Piwik！",
         "TableNoData": "此表格无数据",
@@ -47,6 +51,9 @@
         "UnFlattenDataTable": "本报表不分级显示 %s 改为分级显示",
         "ViewAllPiwikVideoTutorials": "查看所有的 Piwik 视频教程",
         "WebAnalyticsReports": "网站分析报表",
-        "YouAreUsingTheLatestVersion": "您正在使用最新版的 Piwik！"
+        "YouAreUsingTheLatestVersion": "您正在使用最新版的 Piwik！",
+        "ClickRowToExpandOrContract": "点击这行可以扩展或压缩小工作台。",
+        "UndoPivotBySubtable": "这个报表被 pivot 了 %s 撤销 Pivot",
+        "PivotBySubtable": "这个报表尚未 pivot %s 以 %s 的身份 pivot"
     }
 }

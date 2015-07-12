@@ -10,7 +10,7 @@
         "DataTableIncludeAggregateRows": "Súhrnné riadky sú schované %s Zobraziť ich",
         "DateFormat": "%long deň% %deň% %long mesiac% %long rok%",
         "Default": "Prednastavené",
-        "DonateCall1": "Piwik Vás nebude nikdy nič stáť, ale to neznamená, že nám to nestojí za to aby sme to robili.",
+        "DonateCall1": "Používanie projektu Piwik Vás nebude nikdy nič stáť, ale to neznamená, že jeho vývoj nič nestojí.",
         "DonateCall2": "Piwik potrebuje Vašu neustálu podporu aby rástol a prospieval.",
         "DonateCall3": "Ak máte pocit, že Piwik podstatne prispel k Vášmu biznisu alebo podnikaniu, %1$s prosím zvážte finančnú podporu!%2$s",
         "DonateFormInstructions": "Kliknite na bežec a vyberte hodnotu, potom kliknite na subscribe -prispieť- pre finančnú podporu.",

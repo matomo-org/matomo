@@ -1,8 +1,12 @@
 {
     "Live": {
         "GoalType": "Typ",
+        "LastHours": "Posledných %s hodín",
+        "LastMinutes": "Posledných %s minút",
         "LinkVisitorLog": "Zobraziť podrobný záznam návštevníkov",
         "Referrer_URL": "Referenčné URL",
-        "VisitorLog": "Záznam návštevníka"
+        "SimpleRealTimeWidget_Message": "%s a %s v posledných %s",
+        "VisitorLog": "Záznam návštevníka",
+        "VisitorsInRealTime": "Návštevníci v reálnom čase"
     }
 }

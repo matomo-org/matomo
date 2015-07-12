@@ -1,5 +1,6 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "%s priemerný čas generovania",
         "AverageVisitDuration": "%s priemerná dĺžka návštevy",
         "GenerateQueries": "spustené požiadavky: %s",
         "GenerateTime": "%s sekúnd na vygenerovanie strany",

@@ -10,7 +10,7 @@
         "ClickHereToSetTheCookieOnDomain": "Klikoni këtu që të vendoset një \"cookie\" që do të përjashtojë vizitat tuaja në site-e web të gjurmuara nga Piwik-u %s",
         "DeleteConfirm": "Jeni i sigurt se doni të fshihet përdoruesi %s?",
         "Email": "Email",
-        "ExceptionAccessValues": "Parametri duhet të ketë një nga vlerat vijuese : [ %s ]",
+        "ExceptionAccessValues": "Parametri duhet të ketë një nga vlerat vijuese: [ %s ]",
         "ExceptionAdminAnonymous": "S'mund t'i jepni hyrje 'administratori' përdoruesit 'anonim'.",
         "ExceptionDeleteDoesNotExist": "Përdoruesi '%s' s'ekziston, ndaj s'mund të bëhet fshirje.",
         "ExceptionEditAnonymous": "Përdoruesi anonim nuk mund të fshihet apo përpunohet të dhënat e tij. Përdoret nga Piwik-u për të përkufizuar një përdorues që nuk ka bërë ende hyrjen. Për shembull, mund t'i bëni statistikat tuaja publike duke lejuar hyrje për 'parje' për përdoruesin 'anonim'.",

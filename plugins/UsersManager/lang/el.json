@@ -17,7 +17,7 @@
         "DeleteConfirm": "Είστε σίγουρος ότι θέλετε να διαγράψετε τον\/ην χρήστη %s;",
         "Email": "Ηλεκτρονική Διεύθυνση",
         "EmailYourAdministrator": "%1$sΣτείλτε e-mail στον διαχειριστή σχετικά με το πρόβλημα %2$s.",
-        "ExceptionAccessValues": "Η πρόσβαση παραμέτρου πρέπει να έχει τις ακόλουθες τιμές : [ %s ]",
+        "ExceptionAccessValues": "Η πρόσβαση παραμέτρου πρέπει να έχει τις ακόλουθες τιμές: [ %s ]",
         "ExceptionAdminAnonymous": "Δεν μπορείτε να δώσετε δικαιώματα διαχειριστή στον «ανώνυμο» χρήστη.",
         "ExceptionDeleteDoesNotExist": "Ο χρήστης «%s» δεν υπάρχει και άρα δεν μπορεί να διαγραφεί.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Η διαγραφή του χρήστη '%s' δεν είναι δυνατή.",

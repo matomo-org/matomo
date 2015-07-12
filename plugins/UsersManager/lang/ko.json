@@ -11,7 +11,7 @@
         "DeleteConfirm": "사용자 %s 님을 삭제하시겠습니까?",
         "Email": "이메일",
         "EmailYourAdministrator": "%1$s이 문제를 관리자에게 이메일로 보내기%2$s.",
-        "ExceptionAccessValues": "파라미터 접근은 다음과 같은 값중에 하나여야 합니다 : [ %s ]",
+        "ExceptionAccessValues": "파라미터 접근은 다음과 같은 값중에 하나여야 합니다: [ %s ]",
         "ExceptionAdminAnonymous": "'관리자' 권한을 '익명' 사용자에게 줄 수 없습니다.",
         "ExceptionDeleteDoesNotExist": "사용자 '%s' 님은 존재하지 않아서 삭제가 불가능합니다.",
         "ExceptionEditAnonymous": "익명 사용자는 편집이나 삭제를 할 수 없습니다. Piwik에서 아직 로그인하지 않은 사용자를 골라낼 때 사용하기 때문입니다. 예를 들어, '보기' 접근을 '익명' 사용자에게 주어서 당신의 상태를 공개할 수 있습니다.",

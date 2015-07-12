@@ -1,5 +1,6 @@
 {
     "SegmentEditor": {
+        "PluginDescription": "Créez et réutilisez des Segments de visiteurs personnalisés avec l'éditeur de Segment.",
         "AddANDorORCondition": "Ajouter la condition %s",
         "AddNewSegment": "Ajouter un nouveau segment",
         "AreYouSureDeleteSegment": "Êtes vous sûr(e) de vouloir supprimer ce segment?",

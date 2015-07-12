@@ -58,6 +58,7 @@
         "SiteSetup": "Si prega di configurare il primo sito web che si desidera monitorare e analizzare con Piwik:",
         "SiteSetupFootnote": "Nota: una volta che l'installazione di Piwik è finita, si sarà in grado di aggiungere più siti web da tenere traccia!",
         "SuperUser": "Utente Super",
+        "SuperUserLogin": "Accesso super user",
         "SuperUserSetupError": "C'è stato un errore durante l'aggiunta del Super User",
         "SuperUserSetupSuccess": "Super User creato con successo!",
         "SystemCheck": "Controllo del sistema",

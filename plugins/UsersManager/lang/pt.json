@@ -10,7 +10,7 @@
         "ClickHereToSetTheCookieOnDomain": "Clique aqui para definir um cookie que excluirá todas as suas visitas de serem monitorizadas por Piwik em %s",
         "DeleteConfirm": "Tem a certeza que deseja eliminar o utilizador %s?",
         "Email": "Email",
-        "ExceptionAccessValues": "O parâmetro de acesso deve conter um dos seguinte valores : [ %s ]",
+        "ExceptionAccessValues": "O parâmetro de acesso deve conter um dos seguinte valores: [ %s ]",
         "ExceptionAdminAnonymous": "Não pode conceder acesso 'admin' ao utilizador 'anónimo'.",
         "ExceptionDeleteDoesNotExist": "O utilizador '%s' não existe de forma que não pode ser eliminado.",
         "ExceptionEditAnonymous": "O utilizador anónimo não pode ser editado ou apagado. Ele é usado pelo sistema para definir um utilizador que ainda não entrou. Por examplo, pode tornar as suas estatísticas públicas concedendo acesso 'ver' ao utilizador 'anónimo'.",

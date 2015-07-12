@@ -5,6 +5,7 @@
         "Country": "Krajina",
         "DistinctCountries": "Počet rôznych krajín: %s",
         "Location": "Miesto",
-        "SubmenuLocations": "Umiestnenie"
+        "SubmenuLocations": "Umiestnenie",
+        "UpdaterWasLastRun": "Aktualizátor bol naposledy spustený %s."
     }
 }

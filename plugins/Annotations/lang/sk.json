@@ -1,0 +1,16 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Pridať anotáciu pre %s…",
+        "AnnotationOnDate": "Anotácia na %1$s: %2$s",
+        "Annotations": "Anotácie",
+        "ClickToDelete": "Kliknutím odstránite túto anotáciu.",
+        "ClickToEdit": "Kliknutím upravíte túto anotáciu.",
+        "ClickToEditOrAdd": "Klknutím upravíte alebo pridáte anotáciu.",
+        "ClickToStarOrUnstar": "Klknutím označíte alebo odznačíte hviezdičkou anotáciu.",
+        "CreateNewAnnotation": "Vytvoriť novú anotáciu…",
+        "HideAnnotationsFor": "Skryť anotáciu pre %s…",
+        "LoginToAnnotate": "Prihláste sa pre vytvorenie anotácie.",
+        "NoAnnotations": "Pre tento časový rozsah nie sú anotácie.",
+        "ViewAndAddAnnotations": "Zobraziť a pridať anotácie pre %s…"
+    }
+}
