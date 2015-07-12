@@ -87,7 +87,7 @@ class Request
     public static function getRequestArrayFromString($request, $defaultRequest = null)
     {
         if ($defaultRequest === null) {
-            $defaultRequest = $_GET + $_POST;
+            $defaultRequest = self::getDefaultRequest();
 
             $requestRaw = self::getRequestParametersGET();
             if (!empty($requestRaw['segment'])) {
@@ -323,6 +323,10 @@ class Request
 
     private static function shouldReloadAuthUsingTokenAuth($request)
     {
+        if (is_null($request)) {
+            $request = self::getDefaultRequest();
+        }
+
         if (!isset($request['token_auth'])) {
             // no token is given so we just keep the current loaded user
             return false;
@@ -483,5 +487,13 @@ class Request
             $this->request['apiAction'] = null;
         }
         list($this->request['apiModule'], $this->request['apiAction']) = $this->getRenamedModuleAndAction($this->request['apiModule'], $this->request['apiAction']);
+    }
+
+    /**
+     * @return array
+     */
+    private static function getDefaultRequest()
+    {
+        return $_GET + $_POST;
     }
 }
