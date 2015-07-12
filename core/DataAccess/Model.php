@@ -45,34 +45,52 @@ class Model
      */
     public function getInvalidatedArchiveIdsSafeToDelete($archiveTable, array $idSites)
     {
-        // prevent error 'The SELECT would examine more than MAX_JOIN_SIZE rows'
-        Db::get()->query('SET SQL_BIG_SELECTS=1');
+        try {
+            Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
+        } catch (\Exception $ex) {
+            $this->logger->info("Could not set group_concat_max_len MySQL session variable.");
+        }
 
-        $idSites = array_values($idSites);
-        $idSitesString = Common::getSqlStringFieldsArray($idSites);
+        $idSites = array_map(function ($v) { return (int)$v; }, $idSites);
 
-        $query = 'SELECT t1.idarchive FROM `' . $archiveTable . '` t1
-                  INNER JOIN `' . $archiveTable . '` t2
-                      ON t1.name    = t2.name
-                      AND t1.idsite = t2.idsite
-                      AND t1.date1  = t2.date1
-                      AND t1.date2  = t2.date2
-                      AND t1.period = t2.period
-                  WHERE t1.value = ' . ArchiveWriter::DONE_INVALIDATED . '
-                  AND t1.idsite IN (' . $idSitesString . ')
-                  AND t2.value IN(' . ArchiveWriter::DONE_OK . ', ' . ArchiveWriter::DONE_OK_TEMPORARY . ')
-                  AND t1.ts_archived < t2.ts_archived
-                  AND t1.name LIKE \'done%\'
-        ';
+        $sql = "SELECT idsite, date1, date2, period,
+                       GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC) as archives
+                  FROM `$archiveTable`
+                 WHERE name LIKE 'done%'
+                   AND value IN (" . ArchiveWriter::DONE_INVALIDATED . ','
+            . ArchiveWriter::DONE_OK . ','
+            . ArchiveWriter::DONE_OK_TEMPORARY . ")
+                   AND idsite IN (" . implode(',', $idSites) . ")
+                 GROUP BY idsite, date1, date2, period";
 
-        $result = Db::fetchAll($query, $idSites);
+        $archiveIds = array();
 
-        $archiveIds = array_map(
-            function ($elm) {
-                return $elm['idarchive'];
-            },
-            $result
-        );
+        $rows = Db::fetchAll($sql);
+        foreach ($rows as $row) {
+            $duplicateArchives = explode(',', $row['archives']);
+
+            $firstArchive = array_shift($duplicateArchives);
+            list($firstArchiveId, $firstArchiveValue) = explode('.', $firstArchive);
+
+            // if the first archive (ie, the newest) is an 'ok' or 'ok temporary' archive, then
+            // all invalidated archives after it can be deleted
+            if ($firstArchiveValue == ArchiveWriter::DONE_OK
+                || $firstArchiveValue == ArchiveWriter::DONE_OK_TEMPORARY
+            ) {
+                foreach ($duplicateArchives as $pair) {
+                    if (strpos($pair, '.') === false) {
+                        $this->logger->info("GROUP_CONCAT cut off the query result, you may have to purge archives again.");
+                        break;
+                    }
+
+                    list($idarchive, $value) = explode('.', $pair);
+                    if ($value == ArchiveWriter::DONE_INVALIDATED) {
+                        $archiveIds[] = $idarchive;
+                    }
+                }
+            }
+        }
+
         return $archiveIds;
     }
 
