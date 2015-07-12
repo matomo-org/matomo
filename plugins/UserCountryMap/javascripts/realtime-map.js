@@ -51,7 +51,7 @@
             $('.RealTimeMap_map', $element).attr('id', this.uniqueId);
 
             // create the map
-            this.map = Kartograph.map('#' + this.uniqueId);
+            this.map = $K.map('#' + this.uniqueId);
 
             $element.focus();
         },
