@@ -157,7 +157,9 @@ class Collection
             }, $requestUrls);
             throw new Exception("Only generated $countUrls API calls to test but was expecting more for this test.\n" .
                     "Want to test APIs: " . implode(", ", $this->apiToCall) . ")\n" .
-                    "But only generated these URLs: \n" . implode("\n", $requestUrls) . ")\n"
+                    "But only generated these URLs: \n" . implode("\n", $requestUrls) . ")\n" .
+                    "Note: SystemTestCase is meant to test API methods where the method name starts with get* \n" .
+                    "If you want to test other API methods such as add* or update* or any other, please create an IntegrationTestCase instead (via `./console generate:test`)\n"
             );
         }
     }
