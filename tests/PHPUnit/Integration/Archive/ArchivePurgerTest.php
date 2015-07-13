@@ -15,6 +15,7 @@ use Piwik\Tests\Fixtures\RawArchiveDataWithTempAndInvalidated;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
+ * @group ArchivePurgerTest
  * @group Core
  */
 class ArchivePurgerTest extends IntegrationTestCase
