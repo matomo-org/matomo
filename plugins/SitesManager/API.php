@@ -557,7 +557,7 @@ class API extends \Piwik\Plugin\API
         $bind = array('name'     => $siteName,
                       'main_url' => $url);
 
-        $bind['exclude_unknown_urls'] = (bool)$excludeUnknownUrls;
+        $bind['exclude_unknown_urls'] = (int)$excludeUnknownUrls;
         $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
         $bind['excluded_parameters']  = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
         $bind['excluded_user_agents'] = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
@@ -1161,7 +1161,7 @@ class API extends \Piwik\Plugin\API
         if (!is_null($startDate)) {
             $bind['ts_created'] = Date::factory($startDate)->getDatetime();
         }
-        $bind['exclude_unknown_urls'] = (bool)$excludeUnknownUrls;
+        $bind['exclude_unknown_urls'] = (int)$excludeUnknownUrls;
         $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
         $bind['excluded_parameters'] = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
         $bind['excluded_user_agents'] = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
