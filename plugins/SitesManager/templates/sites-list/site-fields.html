@@ -87,12 +87,9 @@
                 {{ 'SitesManager_OnlyMatchedUrlsAllowedHelp' | translate }}
             </div>
             <label class="checkbox">
-                <input type="checkbox" ng-model="site.urls_only" ng-true-value="1" ng-false-value="0"> {{ 'SitesManager_OnlyMatchedUrlsAllowed' | translate:'':'' }}
+                <input type="checkbox" ng-model="site.exclude_unknown_urls" ng-true-value="1" ng-false-value="0"> {{ 'SitesManager_OnlyMatchedUrlsAllowed' | translate:'':'' }}
             </label>
         </div>
-
-        <!--<div class="form-group">-->
-        <!--</div>-->
 
         <div class="form-group">
             <label>{{ 'SitesManager_KeepURLFragmentsLong'|translate }}</label>
