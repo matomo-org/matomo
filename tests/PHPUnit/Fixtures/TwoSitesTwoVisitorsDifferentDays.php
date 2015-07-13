@@ -67,12 +67,12 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
 
         APISitesManager::getInstance()->updateSite(
             $this->idSite1, "Site 1", $urls = null, $ecommerce = null, $siteSearch = null,
-            $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null,
+            $searchKeywordParameters = null, $searchCategoryParameters = null, $excludeUnknownUrls = null, $excludedIps = null,
             $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null,
             $startDate = null, $excludedUserAgents = null, $keepURLFragments = 2); // KEEP_URL_FRAGMENT_NO No for idSite 1
         APISitesManager::getInstance()->updateSite(
             $this->idSite2, "Site 2", $urls = null, $ecommerce = null, $siteSearch = null,
-            $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null,
+            $searchKeywordParameters = null, $searchCategoryParameters = null, $excludeUnknownUrls = null, $excludedIps = null,
             $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null,
             $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1); // KEEP_URL_FRAGMENT_YES Yes for idSite 2
     }

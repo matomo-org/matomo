@@ -82,7 +82,17 @@
                 {{ 'SitesManager_AliasUrlHelp' | translate }}
             </div>
             <div sites-manager-multiline-field field="site.alias_urls" cols="25" rows="3"></div>
+
+            <div class="form-help">
+                {{ 'SitesManager_OnlyMatchedUrlsAllowedHelp' | translate }}
+            </div>
+            <label class="checkbox">
+                <input type="checkbox" ng-model="site.urls_only" ng-true-value="1" ng-false-value="0"> {{ 'SitesManager_OnlyMatchedUrlsAllowed' | translate:'':'' }}
+            </label>
         </div>
+
+        <!--<div class="form-group">-->
+        <!--</div>-->
 
         <div class="form-group">
             <label>{{ 'SitesManager_KeepURLFragmentsLong'|translate }}</label>

@@ -98,7 +98,7 @@ class ApiTest extends IntegrationTestCase
         $expectedWebsiteType = 'mobile-\'app';
         $keepUrlFragment = 1;
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 1,
-            $siteSearch = 1, $searchKeywordParameters = 'search,param', $searchCategoryParameters = 'cat,category',
+            $siteSearch = 1, $searchKeywordParameters = 'search,param', $searchCategoryParameters = 'cat,category', $excludeUnknownUrls = 0,
             $ips, $excludedQueryParameters, $timezone, $currency, $group = null, $startDate = null, $excludedUserAgents,
             $keepUrlFragment, $expectedWebsiteType);
         $siteInfo = API::getInstance()->getSiteFromId($idsite);
@@ -106,6 +106,7 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals($timezone, $siteInfo['timezone']);
         $this->assertEquals($currency, $siteInfo['currency']);
         $this->assertEquals($ecommerce, $siteInfo['ecommerce']);
+        $this->assertEquals($excludeUnknownUrls, $siteInfo['exclude_unknown_urls']);
         $this->assertTrue(Site::isEcommerceEnabledFor($idsite));
         $this->assertEquals($siteSearch, $siteInfo['sitesearch']);
         $this->assertTrue(Site::isSiteSearchEnabledFor($idsite));
@@ -257,6 +258,7 @@ class ApiTest extends IntegrationTestCase
     {
         return API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
+            $excludeUnknownUrls = null,
             $ip = null,
             $excludedQueryParameters = null,
             $timezone = null,
@@ -277,6 +279,7 @@ class ApiTest extends IntegrationTestCase
             $siteSearch = null,
             $searchKeywordParameters = null,
             $searchCategoryParameters = null,
+            $excludeUnknownUrls = null,
             $excludedIps = null,
             $excludedQueryParameters = null,
             $timezone = null,
@@ -781,7 +784,7 @@ class ApiTest extends IntegrationTestCase
 
         // Updating the group to something
         $group = 'something';
-        API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ecommerce = 0, $ss = true, $ss_kwd = null, $ss_cat = '', $ips = null, $parametersExclude = null, $timezone = null, $currency = null, $group);
+        API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ecommerce = 0, $ss = true, $ss_kwd = null, $ss_cat = '', $excludeUnknownUrls = null, $ips = null, $parametersExclude = null, $timezone = null, $currency = null, $group);
         $websites = API::getInstance()->getSitesFromGroup($group);
         $this->assertEquals(1, count($websites));
         $this->assertEquals(date('Y-m-d'), date('Y-m-d', strtotime($websites[0]['ts_created'])));
@@ -789,7 +792,7 @@ class ApiTest extends IntegrationTestCase
         // Updating the group to nothing
         $group = '';
         $type = 'mobileAppTest';
-        API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ecommerce = 0, $ss = false, $ss_kwd = '', $ss_cat = null, $ips = null, $parametersExclude = null, $timezone = null, $currency = null, $group, $startDate = '2010-01-01', $excludedUserAgent = null, $keepUrlFragment = 1, $type);
+        API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ecommerce = 0, $ss = false, $ss_kwd = '', $ss_cat = null, $excludeUnknownUrls = null, $ips = null, $parametersExclude = null, $timezone = null, $currency = null, $group, $startDate = '2010-01-01', $excludedUserAgent = null, $keepUrlFragment = 1, $excludeUnknownUrls = null, $type);
         $websites = API::getInstance()->getSitesFromGroup($group);
         $this->assertEquals(1, count($websites));
         $this->assertEquals('2010-01-01', date('Y-m-d', strtotime($websites[0]['ts_created'])));
@@ -848,7 +851,7 @@ class ApiTest extends IntegrationTestCase
 
         $groupAfter = '   GROUP After';
         API::getInstance()->updateSite($idsite, "test toto@{}", $newurls, $ecommerce = 0,
-            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
+            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludeUnknownUrls = null,
             $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $groupAfter);
 
         // no result for the group before update
@@ -988,7 +991,7 @@ class ApiTest extends IntegrationTestCase
         $groups = array('group1', ' group1 ', '', 'group2');
         $expectedGroups = array('group1', '', 'group2');
         foreach ($groups as $group) {
-            API::getInstance()->addSite("test toto@{}", 'http://example.org', $ecommerce = 1, $siteSearch = null, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group);
+            API::getInstance()->addSite("test toto@{}", 'http://example.org', $ecommerce = 1, $siteSearch = null, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludeUnknownUrls = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group);
         }
 
         $this->assertEquals($expectedGroups, API::getInstance()->getSitesGroups());
@@ -1010,7 +1013,7 @@ class ApiTest extends IntegrationTestCase
     {
         try {
             API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
-                $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $ip = '', $params = '', $timezone);
+                $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludeUnknownUrls = null, $ip = '', $params = '', $timezone);
         } catch (Exception $e) {
             return;
         }
@@ -1022,7 +1025,7 @@ class ApiTest extends IntegrationTestCase
         try {
             $invalidCurrency = '€';
             API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
-                $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, '', 'UTC', $invalidCurrency);
+                $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludeUnknownUrls = null, '', 'UTC', $invalidCurrency);
         } catch (Exception $e) {
             return;
         }
@@ -1217,10 +1220,10 @@ class ApiTest extends IntegrationTestCase
 
     public function testGetSitesFromTimezones()
     {
-        API::getInstance()->addSite("site3", array("http://piwik.org"), null, $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, null, null, 'UTC');
-        $idsite2 = API::getInstance()->addSite("site3", array("http://piwik.org"), null, $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, null, null, 'Pacific/Auckland');
-        $idsite3 = API::getInstance()->addSite("site3", array("http://piwik.org"), null, $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, null, null, 'Pacific/Auckland');
-        $idsite4 = API::getInstance()->addSite("site3", array("http://piwik.org"), null, $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, null, null, 'UTC+10');
+        API::getInstance()->addSite("site3", array("http://piwik.org"), null, $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludeUnknownUrls = null, null, null, 'UTC');
+        $idsite2 = API::getInstance()->addSite("site3", array("http://piwik.org"), null, $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludeUnknownUrls = null, null, null, 'Pacific/Auckland');
+        $idsite3 = API::getInstance()->addSite("site3", array("http://piwik.org"), null, $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludeUnknownUrls = null, null, null, 'Pacific/Auckland');
+        $idsite4 = API::getInstance()->addSite("site3", array("http://piwik.org"), null, $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludeUnknownUrls = null, null, null, 'UTC+10');
         $result = API::getInstance()->getSitesIdFromTimezones(array('UTC+10', 'Pacific/Auckland'));
         $this->assertEquals(array($idsite2, $idsite3, $idsite4), $result);
     }
