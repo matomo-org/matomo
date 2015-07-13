@@ -105,7 +105,11 @@ class ComponentDefinitionSource implements DefinitionSource
         if (count($parts) === 2) {
             return array(null, false, $parts[1]);
         } else if ($parts[1] === 'classes') {
-            return array(null, true, $parts[2]);
+            if (count($parts) === 3) {
+                return array(null, true, $parts[2]);
+            } else {
+                return array(null, true, $parts[3]);
+            }
         } else {
             return array($parts[1], false, $parts[2]);
         }

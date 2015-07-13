@@ -366,22 +366,6 @@ class Manager
         return $components;
     }
 
-    public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
-    {
-        $plugins = $this->getPluginsLoadedAndActivated();
-        $found   = array();
-
-        foreach ($plugins as $plugin) {
-            $components = $plugin->findMultipleComponents($directoryWithinPlugin, $expectedSubclass);
-
-            if (!empty($components)) {
-                $found = array_merge($found, $components);
-            }
-        }
-
-        return $found;
-    }
-
     /**
      * Uninstalls a Plugin (deletes plugin files from the disk)
      * Only deactivated plugins can be uninstalled

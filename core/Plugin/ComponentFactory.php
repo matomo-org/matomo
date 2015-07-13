@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugin;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Log;
 use Piwik\Plugin\Manager as PluginManager;
 use Exception;
@@ -51,7 +52,7 @@ class ComponentFactory
         $subnamespace = $componentTypeClass::COMPONENT_SUBNAMESPACE;
         $desiredComponentClass = 'Piwik\\Plugins\\' . $pluginName . '\\' . $subnamespace . '\\' . $componentClassSimpleName;
 
-        $components = $plugin->findMultipleComponents($subnamespace, $componentTypeClass);
+        $components = StaticContainer::get('components.classes.' . $componentTypeClass);
         foreach ($components as $class) {
             if ($class == $desiredComponentClass) {
                 return new $class();
@@ -76,19 +77,16 @@ class ComponentFactory
      */
     public static function getComponentIf($componentTypeClass, $pluginName, $predicate)
     {
-        $pluginManager = PluginManager::getInstance();
-
         // get components to search through
-        $subnamespace = $componentTypeClass::COMPONENT_SUBNAMESPACE;
         if (empty($pluginName)) {
-            $components = $pluginManager->findMultipleComponents($subnamespace, $componentTypeClass);
+            $components = StaticContainer::get('components.classes.' . $componentTypeClass);
         } else {
             $plugin = self::getActivatedPlugin(__FUNCTION__, $pluginName);
             if (empty($plugin)) {
                 return null;
             }
 
-            $components = $plugin->findMultipleComponents($subnamespace, $componentTypeClass);
+            $components = StaticContainer::get('components.classes.' . $pluginName . '.' . $componentTypeClass);
         }
 
         // find component that satisfieds predicate

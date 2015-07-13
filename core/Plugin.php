@@ -372,29 +372,6 @@ class Plugin
         return StaticContainer::get($classname);
     }
 
-    public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
-    {
-        $this->createCacheIfNeeded();
-
-        $cacheId = 'Plugin' . $this->pluginName . $directoryWithinPlugin . $expectedSubclass;
-
-        if ($this->cache->contains($cacheId)) {
-            $components = $this->cache->fetch($cacheId);
-
-            if ($this->includeComponents($components)) {
-                return $components;
-            } else {
-                // problem including one cached file, refresh cache
-            }
-        }
-
-        $components = $this->doFindMultipleComponents($directoryWithinPlugin, $expectedSubclass);
-
-        $this->cache->save($cacheId, $components);
-
-        return $components;
-    }
-
     /**
      * Detect whether there are any missing dependencies.
      *
