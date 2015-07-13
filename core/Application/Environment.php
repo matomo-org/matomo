@@ -149,7 +149,7 @@ class Environment
         $environments = array($this->environment);
         $environments = array_merge($environments, $this->getExtraEnvironmentsFromManipulators());
 
-        $containerFactory = new ContainerFactory($pluginList, $settings, $definitionCache, $environments, $definitions);
+        $containerFactory = new ContainerFactory($this, $pluginList, $settings, $definitionCache, $environments, $definitions);
         $container = $containerFactory->create();
 
         $container->set('Piwik\Application\Kernel\StaticCacheFactory', $this->staticCacheFactory);
