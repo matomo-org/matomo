@@ -117,16 +117,23 @@ class ComponentDefinitionSource implements DefinitionSource
 
     private function findComponents($pluginName, $baseClass)
     {
-        $directoryWithinPlugin = $baseClass::COMPONENT_SUBNAMESPACE;
-
         $components = array();
 
-        $baseDir = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/' . $directoryWithinPlugin;
-        $files   = Filesystem::globr($baseDir, '*.php');
+        $baseDir = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName;
+        if (defined($baseClass . '::COMPONENT_SUBNAMESPACE')) {
+            $directoryWithinPlugin = $baseClass::COMPONENT_SUBNAMESPACE;
+
+            $files = Filesystem::globr($baseDir . '/' . $directoryWithinPlugin, '*.php');
+        } else {
+            $parts = explode('\\', $baseClass);
+            $simpleClassName = end($parts);
+
+            $files = array($baseDir . '/' . $simpleClassName . '.php');
+        }
 
         foreach ($files as $file) {
             $fileName  = str_replace(array($baseDir . '/', '.php'), '', $file);
-            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $pluginName, $directoryWithinPlugin, str_replace('/', '\\', $fileName));
+            $klassName = sprintf('Piwik\\Plugins\\%s\\%s', $pluginName, str_replace('/', '\\', $fileName));
 
             if (!class_exists($klassName)) {
                 continue;

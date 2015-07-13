@@ -336,37 +336,6 @@ class Manager
     }
 
     /**
-     * Tries to find the given components such as a Menu or Tasks implemented by plugins.
-     * This method won't cache the found components. If you need to find the same component multiple times you might
-     * want to cache the result to save a tiny bit of time.
-     *
-     * @param string $componentName     The name of the component you want to look for. In case you request a
-     *                                  component named 'Menu' it'll look for a file named 'Menu.php' within the
-     *                                  root of all plugin folders that implement a class named
-     *                                  Piwik\Plugin\$PluginName\Menu.
-     * @param string $expectedSubclass  If not empty, a check will be performed whether a found file extends the
-     *                                  given subclass. If the requested file exists but does not extend this class
-     *                                  a warning will be shown to advice a developer to extend this certain class.
-     *
-     * @return \stdClass[]
-     */
-    public function findComponents($componentName, $expectedSubclass)
-    {
-        $plugins    = $this->getPluginsLoadedAndActivated();
-        $components = array();
-
-        foreach ($plugins as $plugin) {
-            $component = $plugin->findComponent($componentName, $expectedSubclass);
-
-            if (!empty($component)) {
-                $components[] = $component;
-            }
-        }
-
-        return $components;
-    }
-
-    /**
      * Uninstalls a Plugin (deletes plugin files from the disk)
      * Only deactivated plugins can be uninstalled
      *
