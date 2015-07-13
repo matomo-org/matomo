@@ -51,11 +51,6 @@ use Piwik\Network\IPUtils;
 class Url
 {
     /**
-     * List of hosts that are never checked for validity.
-     */
-    private static $alwaysTrustedHosts = array('localhost', '127.0.0.1', '::1', '[::1]');
-
-    /**
      * Returns the current URL.
      *
      * @return string eg, `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
@@ -222,7 +217,7 @@ class Url
             }
         }
         // if host is in hardcoded whitelist, assume it's valid
-        if (in_array($host, self::$alwaysTrustedHosts)) {
+        if (in_array($host, self::getAlwaysTrustedHosts())) {
             return true;
         }
 
@@ -669,6 +664,24 @@ class Url
             }
         }
 
-        return in_array($host, self::$alwaysTrustedHosts);
+        return in_array($host, self::getAlwaysTrustedHosts());
+    }
+
+    /**
+     * List of hosts that are never checked for validity.
+     *
+     * @return array
+     */
+    private static function getAlwaysTrustedHosts()
+    {
+        return self::getLocalHostnames();
+    }
+
+    /**
+     * @return array
+     */
+    public static function getLocalHostnames()
+    {
+        return array('localhost', '127.0.0.1', '::1', '[::1]');
     }
 }

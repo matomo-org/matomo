@@ -172,11 +172,8 @@ class Http
             $rangeHeader = 'Range: bytes=' . $byteRange[0] . '-' . $byteRange[1] . "\r\n";
         }
 
-        // proxy configuration
-        $proxyHost = Config::getInstance()->proxy['host'];
-        $proxyPort = Config::getInstance()->proxy['port'];
-        $proxyUser = Config::getInstance()->proxy['username'];
-        $proxyPassword = Config::getInstance()->proxy['password'];
+        list($proxyHost, $proxyPort, $proxyUser, $proxyPassword) = self::getProxyConfiguration($aUrl);
+
 
         $aUrl = trim($aUrl);
 
@@ -829,5 +826,29 @@ class Http
             }
         }
         return $modifiedSince;
+    }
+
+    /**
+     * Returns Proxy to use for connecting via HTTP to given URL
+     *
+     * @param string $url
+     * @return array
+     */
+    private static function getProxyConfiguration($url)
+    {
+        $hostname = UrlHelper::getHostFromUrl($url);
+        $localHostnames = Url::getLocalHostnames();
+
+        if(in_array($hostname, $localHostnames)) {
+            return array(null, null, null, null);
+        }
+
+        // proxy configuration
+        $proxyHost = Config::getInstance()->proxy['host'];
+        $proxyPort = Config::getInstance()->proxy['port'];
+        $proxyUser = Config::getInstance()->proxy['username'];
+        $proxyPassword = Config::getInstance()->proxy['password'];
+
+        return array($proxyHost, $proxyPort, $proxyUser, $proxyPassword);
     }
 }
