@@ -11,13 +11,13 @@
 		<sitesearch_category_parameters />
 		<timezone>UTC</timezone>
 		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
-		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>10</idsite>
@@ -30,13 +30,13 @@
 		<sitesearch_category_parameters />
 		<timezone>UTC</timezone>
 		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
-		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>11</idsite>
@@ -49,13 +49,13 @@
 		<sitesearch_category_parameters />
 		<timezone>UTC</timezone>
 		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
-		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>12</idsite>
@@ -68,13 +68,13 @@
 		<sitesearch_category_parameters />
 		<timezone>UTC</timezone>
 		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
-		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>13</idsite>
@@ -87,13 +87,13 @@
 		<sitesearch_category_parameters />
 		<timezone>UTC</timezone>
 		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
-		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>14</idsite>
@@ -106,13 +106,13 @@
 		<sitesearch_category_parameters />
 		<timezone>UTC</timezone>
 		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
-		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>15</idsite>
@@ -125,13 +125,13 @@
 		<sitesearch_category_parameters />
 		<timezone>UTC</timezone>
 		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
-		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>16</idsite>
@@ -144,13 +144,13 @@
 		<sitesearch_category_parameters />
 		<timezone>UTC</timezone>
 		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
-		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>17</idsite>
@@ -163,13 +163,13 @@
 		<sitesearch_category_parameters />
 		<timezone>UTC</timezone>
 		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
-		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>18</idsite>
@@ -182,13 +182,13 @@
 		<sitesearch_category_parameters />
 		<timezone>UTC</timezone>
 		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
-		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>19</idsite>
@@ -201,12 +201,12 @@
 		<sitesearch_category_parameters />
 		<timezone>UTC</timezone>
 		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
-		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 </result>
