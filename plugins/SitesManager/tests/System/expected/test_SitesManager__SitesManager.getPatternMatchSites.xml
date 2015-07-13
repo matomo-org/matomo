@@ -17,6 +17,7 @@
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>10</idsite>
@@ -35,6 +36,7 @@
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>11</idsite>
@@ -53,6 +55,7 @@
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>12</idsite>
@@ -71,6 +74,7 @@
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>13</idsite>
@@ -89,6 +93,7 @@
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>14</idsite>
@@ -107,6 +112,7 @@
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>15</idsite>
@@ -125,6 +131,7 @@
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>16</idsite>
@@ -143,6 +150,7 @@
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>17</idsite>
@@ -161,6 +169,7 @@
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>18</idsite>
@@ -179,6 +188,7 @@
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 	<row>
 		<idsite>19</idsite>
@@ -197,5 +207,6 @@
 		<group />
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 	</row>
 </result>

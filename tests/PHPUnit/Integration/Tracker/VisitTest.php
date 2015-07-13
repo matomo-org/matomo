@@ -99,6 +99,45 @@ class VisitTest extends IntegrationTestCase
         }
     }
 
+    public function getExcludeByUrlData()
+    {
+        return array(
+            array(array('http://test.com'), true, array(
+                'http://test.com' => true,
+                'https://test.com' => true,
+                'http://test.com/uri' => true,
+                'http://test.com/?query' => true,
+                'http://xtest.com' => false,
+                'http://x.test.com' => false,
+                'http://x.com/test.com' => false,
+            )),
+            array(array('http://test.com', 'http://localhost'), true, array(
+                'http://test.com' => true,
+                'http://localhost' => true,
+                'http://x.com' => false,
+            )),
+            array(array('http://test.com'), false, array(
+                'http://x.com' => true,
+            )),
+        );
+    }
+
+    /**
+     * @dataProvider getExcludeByUrlData
+     */
+    public function testExcludeByUrl($siteUrls, $excludeUnknownUrls, array $urlsTracked)
+    {
+        $siteId = API::getInstance()->addSite('name', $siteUrls, $ecommerce = null, $siteSearch = null, $searchKeywordParameters = null, $searchCategoryParameters = null, null, null, null, null, null, null, null, null, null, null, $excludeUnknownUrls);
+        foreach ($urlsTracked as $url => $isTracked) {
+            $visitExclude = new VisitExcluded(new Request(array(
+                'idsite' => $siteId,
+                'rec'    => 1,
+                'url'    => $url
+            )));
+            $this->assertEquals($isTracked, !$visitExclude->isExcluded());
+        }
+    }
+
     /**
      * @dataProvider getChromeDataSaverData
      */

@@ -128,6 +128,14 @@ class VisitExcluded
             }
         }
 
+        // Check if request URL is excluded
+        if (!$excluded) {
+            $excluded = $this->isUrlExcluded();
+            if ($excluded) {
+                Common::printDebug("Unknown URL is not allowed to track.");
+            }
+        }
+
         if (!$excluded) {
             if ($this->isPrefetchDetected()) {
                 $excluded = true;
@@ -269,6 +277,27 @@ class VisitExcluded
                 Common::printDebug('Visitor IP ' . $ip->toString() . ' is excluded from being tracked');
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if request URL is excluded
+     * @return bool
+     */
+    protected function isUrlExcluded()
+    {
+        $site = Cache::getCacheWebsiteAttributes($this->idSite);
+
+        if (!empty($site['exclude_unknown_urls']) && !empty($site['hosts'])) {
+            $trackingHost = parse_url($this->request->getParam('url'), PHP_URL_HOST);
+            foreach ($site['hosts'] as $siteHost) {
+                if ($trackingHost == $siteHost) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         return false;
