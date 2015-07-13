@@ -21,7 +21,7 @@ use Piwik\TCPDF;
 require_once PIWIK_INCLUDE_PATH . '/plugins/ScheduledReports/config/tcpdf_config.php';
 
 /**
- *
+ * PDF report renderer
  */
 class Pdf extends ReportRenderer
 {

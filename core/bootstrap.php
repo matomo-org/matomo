@@ -1,5 +1,10 @@
 <?php
 /**
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
  * Bootstraps the Piwik application.
  *
  * This file cannot be a class because it needs to be compatible with PHP 4.

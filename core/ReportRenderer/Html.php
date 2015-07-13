@@ -15,7 +15,7 @@ use Piwik\SettingsPiwik;
 use Piwik\View;
 
 /**
- *
+ * HTML report renderer
  */
 class Html extends ReportRenderer
 {
