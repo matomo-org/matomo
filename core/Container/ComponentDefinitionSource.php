@@ -27,6 +27,9 @@ use Piwik\Filesystem;
  * This source will also handle keys like `'components.<PluginName>.<BaseClass>'` to get
  * the components for a single plugin.
  *
+ * If the key is prefixed with **components.classes.**, then the array will only contain
+ * class names, and not actual injected instances.
+ *
  * Component base classes must have a const named COMPONENT_SUBNAMESPACE which names the
  * plugin subdirectory the components must be stored under. VisitDimension's, for example,
  * is **Columns**.
@@ -43,10 +46,16 @@ class ComponentDefinitionSource implements DefinitionSource
      */
     private $prefix;
 
-    public function __construct(Environment $environment, $prefix = 'components.')
+    /**
+     * @var string
+     */
+    private $classesSubPrefix;
+
+    public function __construct(Environment $environment, $prefix = 'components.', $classesSubPrefix = 'classes')
     {
         $this->environment = $environment;
         $this->prefix = $prefix;
+        $this->classesSubPrefix = $classesSubPrefix;
     }
 
     /**
@@ -58,7 +67,7 @@ class ComponentDefinitionSource implements DefinitionSource
             return null;
         }
 
-        list($specificPlugin, $baseClass) = $this->getBaseClassFromName($name);
+        list($specificPlugin, $classNamesOnly, $baseClass) = $this->getBaseClassFromName($name);
 
         if (!class_exists($baseClass)) {
             throw new DefinitionException("Trying to load components for base class that doesn't exist '$baseClass'.");
@@ -82,26 +91,24 @@ class ComponentDefinitionSource implements DefinitionSource
             }
         }
 
-        $components = array_map(function ($klassName) {
-            return new EntryReference($klassName);
-        }, $components);
+        if (!$classNamesOnly) {
+            $components = array_map(function ($klassName) { return new EntryReference($klassName); }, $components);
+        }
 
         return new ArrayDefinition($name, $components);
     }
 
     private function getBaseClassFromName($name)
     {
-        $parts = explode('.', $name, 2);
-        $pluginAndBaseClass = $parts[1];
+        $parts = explode('.', $name);
 
-        if (strpos($pluginAndBaseClass, '.') !== false) {
-            list($specificPlugin, $baseClass) = explode('.', $pluginAndBaseClass, 2);
+        if (count($parts) === 2) {
+            return array(null, false, $parts[1]);
+        } else if ($parts[1] === 'classes') {
+            return array(null, true, $parts[2]);
         } else {
-            $specificPlugin = null;
-            $baseClass = $pluginAndBaseClass;
+            return array($parts[1], false, $parts[2]);
         }
-
-        return array($specificPlugin, $baseClass);
     }
 
     private function findComponents($pluginName, $baseClass)

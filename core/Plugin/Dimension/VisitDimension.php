@@ -316,7 +316,7 @@ abstract class VisitDimension extends Dimension
     /**
      * @ignore
      */
-    public static function sortByRequiredFields($a, $b)
+    public static function sortByRequiredFields(VisitDimension $a, VisitDimension $b)
     {
         $fields = $a->getRequiredVisitFields();
 
