@@ -322,7 +322,8 @@ force_ssl = 0
 ; login cookie name
 login_cookie_name = piwik_auth
 
-; login cookie expiration (14 days)
+; By default, the auth cookie is set only for the duration of session.
+; if "Remember me" is checked, the auth cookie will be valid for 14 days by default
 login_cookie_expire = 1209600
 
 ; The path on the server in which the cookie will be available on.
