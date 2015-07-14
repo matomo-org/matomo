@@ -1386,7 +1386,7 @@ if (typeof Piwik !== 'object') {
             },
             hasNodeCssClass: function (node, className)
             {
-                if (node && className && node.className) {
+                if (node && className && className in node && node.className) {
                     var classes = node.className.split(' ');
                     if (-1 !== indexOfArray(classes, className)) {
                         return true;
