@@ -12,6 +12,7 @@ namespace Piwik\Updates;
 use Piwik\Filesystem;
 use Piwik\Tracker\Cache;
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  * Update for version 2.5.0-rc4.
@@ -19,7 +20,7 @@ use Piwik\Updates;
 class Updates_2_5_0_rc4 extends Updates
 {
 
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         Cache::deleteTrackerCache();
         Filesystem::clearPhpCaches();

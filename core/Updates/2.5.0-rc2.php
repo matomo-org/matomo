@@ -11,6 +11,7 @@ namespace Piwik\Updates;
 
 use Piwik\Filesystem;
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  * Update for version 2.5.0-rc2.
@@ -18,7 +19,7 @@ use Piwik\Updates;
 class Updates_2_5_0_rc2 extends Updates
 {
 
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         $files = self::getFilesToDeleteIfOld();
 

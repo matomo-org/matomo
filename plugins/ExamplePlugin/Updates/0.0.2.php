@@ -18,11 +18,25 @@ use Piwik\Updates;
  */
 class Updates_0_0_2 extends Updates
 {
+
     /**
-     * Here you can define one or multiple SQL statements that should be executed during the update.
-     * @return array
+     * Return SQL to be executed in this update.
+     *
+     * SQL queries should be defined here, instead of in `doUpdate()`, since this method is used
+     * in the `core:update` command when displaying the queries an update will run. If you execute
+     * queries directly in `doUpdate()`, they won't be displayed to the user.
+     *
+     * @param Updater $updater
+     * @return array ```
+     *               array(
+     *                   'ALTER .... ' => '1234', // if the query fails, it will be ignored if the error code is 1234
+     *                   'ALTER .... ' => false,  // if an error occurs, the update will stop and fail
+     *                                            // and user will have to manually run the query
+     *               )
+     *               ```
+     * @api
      */
-    static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         $errorCodesToIgnore = array(1060);
         $tableName = Common::prefixTable('log_visit');
@@ -34,11 +48,18 @@ class Updates_0_0_2 extends Updates
     }
 
     /**
-     * Here you can define any action that should be performed during the update. For instance executing SQL statements,
-     * renaming config entries, updating files, etc.
+     * Perform the incremental version update.
+     *
+     * This method should preform all updating logic. If you define queries in an overridden `getMigrationQueries()`
+     * method, you must call {@link Updater::executeMigrationQueries()} here.
+     *
+     * See {@link Updates} for an example.
+     *
+     * @param Updater $updater
+     * @api
      */
-    static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

@@ -14,17 +14,18 @@ use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\UpdaterErrorException;
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  */
 class Updates_2_0_4_b7 extends Updates
 {
-    public static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         return array();
     }
 
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         try {
             self::migrateExistingMobileMessagingOptions();

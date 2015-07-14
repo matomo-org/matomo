@@ -17,7 +17,7 @@ use Piwik\Updates;
 
 class Updates_2_9_0_b1 extends Updates
 {
-    public static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         $sql = array();
         $sql = self::updateBrowserEngine($sql);
@@ -25,9 +25,9 @@ class Updates_2_9_0_b1 extends Updates
         return $sql;
     }
 
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
 
         self::updateIPAnonymizationSettings();
 

@@ -10,6 +10,7 @@
 namespace Piwik\Updates;
 
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  */
@@ -20,7 +21,7 @@ class Updates_1_9_3_b10 extends Updates
         return false;
     }
 
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('Annotations');

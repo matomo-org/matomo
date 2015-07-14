@@ -14,7 +14,7 @@ use Piwik\Updates;
 
 class Updates_2_4_0_b8 extends Updates
 {
-    public static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
             "ALTER TABLE `" . Common::prefixTable('session')
@@ -22,8 +22,8 @@ class Updates_2_4_0_b8 extends Updates
         );
     }
 
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

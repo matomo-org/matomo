@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_0_4_1 extends Updates
 {
-    public static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
@@ -27,8 +27,8 @@ class Updates_0_4_1 extends Updates
         );
     }
 
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }
