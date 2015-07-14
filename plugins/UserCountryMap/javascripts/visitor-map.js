@@ -77,7 +77,7 @@
             }
 
             var mapContainer = $$('.UserCountryMap_map').get(0),
-                map = self.map = Kartograph.map(mapContainer),
+                map = self.map = $K.map(mapContainer),
                 main = $$('.UserCountryMap_container'),
                 worldTotalVisits = 0,
                 width = main.width(),
@@ -883,7 +883,7 @@
                             var is_rate = metric.substr(0, 3) != 'nb_' || metric == 'nb_actions_per_visit';
 
                             var citySymbols = map.addSymbols({
-                                type: Kartograph.LabeledBubble,
+                                type: $K.LabeledBubble,
                                 data: cities,
                                 clustering: 'noverlap',
                                 clusteringOpts: {

@@ -51,7 +51,7 @@
             $('.RealTimeMap_map', $element).attr('id', this.uniqueId);
 
             // create the map
-            this.map = Kartograph.map('#' + this.uniqueId);
+            this.map = $K.map('#' + this.uniqueId);
 
             $element.focus();
         },
@@ -376,7 +376,7 @@
                     if (firstRun) {  // if we run this the first time, we initialiize the map symbols
                         visitSymbols = map.addSymbols({
                             data: [],
-                            type: Kartograph.Bubble,
+                            type: $K.Bubble,
                             /*title: function(d) {
                              return visitRadius(d) > 15 && d.actions > 1 ? d.actions : '';
                              },
