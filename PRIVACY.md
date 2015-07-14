@@ -45,3 +45,4 @@ To hide your Piwik server URL, you can modify the Javascript Tracking code and p
 From time to time, Piwik calls `api.piwik.org` if the current version of Piwik is the latest version of Piwik. If an update is available, a notification is displayed and lets you upgrade Piwik.
 To disable the update check, deactivate the "Automatic update" feature by setting `enable_auto_update = 0` in your configuration file `config/config.ini.php`.
 
+https://github.com/piwik/piwik/pull/8283
