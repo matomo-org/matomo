@@ -192,7 +192,7 @@ class API extends \Piwik\Plugin\API
 
         $site = $this->getModel()->getSiteFromId($idSite);
 
-        Site::setSitesFromArray(array($site));
+        Site::setSiteFromArray($idSite, $site);
 
         return $site;
     }

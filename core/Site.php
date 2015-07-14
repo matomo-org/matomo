@@ -63,7 +63,7 @@ class Site
         $this->id = (int)$idsite;
         if (!isset(self::$infoSites[$this->id])) {
             $site = API::getInstance()->getSiteFromId($this->id);
-            self::setSite($this->id, $site);
+            self::setSiteFromArray($this->id, $site);
         }
     }
 
@@ -81,7 +81,7 @@ class Site
         self::triggerSetSitesEvent($sites);
 
         foreach ($sites as $idsite => $site) {
-            self::setSite($idsite, $site);
+            self::setSiteFromArray($idsite, $site);
         }
     }
 
@@ -104,7 +104,7 @@ class Site
          *
          * @param array $sites An array of website entities. [Learn more.](/guides/persistence-and-the-mysql-backend#websites-aka-sites)
          *
-         * This is not yet public as it doesn't work 100% accurately. Eg if `setSite()` is called directly this event will not be triggered.
+         * This is not yet public as it doesn't work 100% accurately. Eg if `setSiteFromArray()` is called directly this event will not be triggered.
          * @ignore
          */
         Piwik::postEvent('Site.setSites', array(&$sites));
@@ -120,10 +120,10 @@ class Site
      * @param $infoSite
      * @throws Exception if website or idsite is invalid
      */
-    protected static function setSite($idSite, $infoSite)
+    public static function setSiteFromArray($idSite, $infoSite)
     {
         if (empty($idSite) || empty($infoSite)) {
-            throw new UnexpectedWebsiteFoundException("An unexpected website was found, check idSite in the request.");
+            throw new UnexpectedWebsiteFoundException("An unexpected website was found in the request: website id was set to '$idSite' .");
         }
 
         self::$infoSites[$idSite] = $infoSite;
@@ -149,7 +149,7 @@ class Site
                 $idSite = $site['idsite'];
             }
 
-            self::setSite($idSite, $site);
+            self::setSiteFromArray($idSite, $site);
         }
     }
 
@@ -254,7 +254,7 @@ class Site
                 throw new UnexpectedWebsiteFoundException('The requested website id = ' . (int)$this->id . ' couldn\'t be found');
             }
 
-            self::setSite($this->id, $site);
+            self::setSiteFromArray($this->id, $site);
         }
         if (!isset(self::$infoSites[$this->id][$name])) {
             throw new Exception("The property $name could not be found on the website ID " . (int)$this->id);
@@ -428,7 +428,7 @@ class Site
     {
         if (!isset(self::$infoSites[$idsite])) {
             $site = API::getInstance()->getSiteFromId($idsite);
-            self::setSite($idsite, $site);
+            self::setSiteFromArray($idsite, $site);
         }
 
         return self::$infoSites[$idsite][$field];
@@ -453,7 +453,7 @@ class Site
 
         if (!isset(self::$infoSites[$idsite])) {
             $site = API::getInstance()->getSiteFromId($idsite);
-            self::setSite($idsite, $site);
+            self::setSiteFromArray($idsite, $site);
         }
 
         return self::$infoSites[$idsite];

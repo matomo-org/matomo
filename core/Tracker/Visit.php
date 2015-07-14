@@ -445,7 +445,7 @@ class Visit implements VisitInterface
         $timezone = $this->getTimezoneForSite($idSite);
 
         if (empty($timezone)) {
-            throw new UnexpectedWebsiteFoundException('An unexpected website was found, check idSite in the request');
+            throw new UnexpectedWebsiteFoundException("An unexpected website was found: idsite was set to '$idSite'");
         }
 
         $date = Date::factory((int)$lastActionTime, $timezone);
