@@ -108,8 +108,6 @@ class VisitTest extends IntegrationTestCase
                 'http://test.com/uri' => true,
                 'http://test.com/?query' => true,
                 'http://xtest.com' => false,
-                'http://x.test.com' => false,
-                'http://x.com/test.com' => false,
             )),
             array(array('http://test.com', 'http://localhost'), true, array(
                 'http://test.com' => true,
@@ -118,6 +116,16 @@ class VisitTest extends IntegrationTestCase
             )),
             array(array('http://test.com'), false, array(
                 'http://x.com' => true,
+            )),
+            array(array('http://test.com', 'http://sub.test2.com'), true, array(
+                'http://sub.test.com' => true,
+                'http://sub.sub.test.com' => true,
+                'http://subtest.com' => false,
+                'http://test.com.org' => false,
+                'http://sub.test2.com' => true,
+                'http://x.sub.test2.com' => true,
+                'http://xsub.test2.com' => false,
+                'http://sub.test2.com.org' => false,
             )),
         );
     }

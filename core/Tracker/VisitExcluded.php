@@ -293,7 +293,7 @@ class VisitExcluded
         if (!empty($site['exclude_unknown_urls']) && !empty($site['hosts'])) {
             $trackingHost = parse_url($this->request->getParam('url'), PHP_URL_HOST);
             foreach ($site['hosts'] as $siteHost) {
-                if ($trackingHost == $siteHost) {
+                if ($trackingHost == $siteHost || (substr($trackingHost, -strlen($siteHost) - 1) === ('.' . $siteHost))) {
                     return false;
                 }
             }
