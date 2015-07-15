@@ -138,7 +138,7 @@ before_script:
   - ./tests/travis/setup_webserver.sh
 
   - export GENERATE_TRAVIS_YML_COMMAND="php ./console generate:travis-yml --core --verbose"
-  - ./tests/travis/autoupdate_travis_yml.sh
+  - '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
 
   - cd tests/PHPUnit
 

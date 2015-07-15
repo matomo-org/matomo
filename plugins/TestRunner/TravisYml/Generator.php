@@ -197,6 +197,7 @@ abstract class Generator
         unset($options['github-token']);
         unset($options['artifacts-pass']);
         unset($options['dump']);
+        $options['verbose'] = true;
         return $options;
     }
 

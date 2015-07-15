@@ -166,7 +166,7 @@ before_script:
   - ./tests/travis/setup_webserver.sh
 
   - export GENERATE_TRAVIS_YML_COMMAND="{{ consoleCommand|raw }}"
-  - ./tests/travis/autoupdate_travis_yml.sh
+  - '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
 
   - cd {{ travisShCwd }}
 {% if customTravisBuildSteps.before_script.after|default is not empty %}
