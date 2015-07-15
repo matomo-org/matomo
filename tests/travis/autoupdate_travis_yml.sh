@@ -28,6 +28,16 @@ if [ "$LATEST_COMMIT_HASH" != "$CURRENT_COMMIT_HASH" ]; then
     exit;
 fi
 
+# only run auto-update for first travis job, if not a pull request and if we are latest commit
+if [ "$TRAVIS_PULL_REQUEST" != "false" ] || [[ "$TRAVIS_JOB_NUMBER" != *.1 ]]; then
+    echo "Building for pull request, old commit or not first job, so not checking .travis.yml."
+    echo ""
+    echo "TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
+    echo "TRAVIS_JOB_NUMBER=$TRAVIS_JOB_NUMBER"
+
+    exit;
+fi
+
 # if the generate:travis-yml command doesn't exist for some reason, abort auto-update w/o failing build
 if ! bash -c "$PIWIK_ROOT_DIR/console help generate:travis-yml" > /dev/null; then
     echo "The generate:travis-yml command does not exist in this Piwik, aborting auto-update."
@@ -38,13 +48,6 @@ fi
 # otherwise we just print a message and exit.
 if ! bash -c "$GENERATE_TRAVIS_YML_COMMAND -v --dump=./generated.travis.yml"; then
     echo "generate:travis-yml failed!"
-
-    # if building for 'latest_stable' ignore the error and continue build
-    if [ "$TEST_AGAINST_CORE" == 'latest_stable' ]; then
-        cd $PIWIK_ROOT_DIR
-        exit
-    fi
-
     exit 1
 fi
 
@@ -73,26 +76,17 @@ if [ "$DIFF_RESULT" -eq "1" ]; then
         if [ "$LAST_COMMIT_MESSAGE" == "" ] || [[ "$LAST_COMMIT_IS_NOT_UPDATE" -eq "0" && "$LAST_COMMIT_WITHIN_HOUR" -ne "0" ]]; then
             echo "Last commit message was '$LAST_COMMIT_MESSAGE', possible recursion or error in auto-update, aborting."
         else
+            $PIWIK_ROOT_DIR/tests/travis/configure_git.sh # re-configure in case git hasn't been configured yet
 
-            # only run auto-update for first travis job, if not a pull request and if we are latest commit
-            if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [[ "$TRAVIS_JOB_NUMBER" == *.1 ]]; then
-                $PIWIK_ROOT_DIR/tests/travis/configure_git.sh # re-configure in case git hasn't been configured yet
+            git checkout $TRAVIS_BRANCH
 
-                git checkout $TRAVIS_BRANCH
+            git add .travis.yml
+            git commit -m ".travis.yml file is out of date, auto-updating .travis.yml file."
 
-                git add .travis.yml
-                git commit -m ".travis.yml file is out of date, auto-updating .travis.yml file."
+            git remote set-url origin "https://$GITHUB_USER_TOKEN:@github.com/$TRAVIS_REPO_SLUG.git"
 
-                git remote set-url origin "https://$GITHUB_USER_TOKEN:@github.com/$TRAVIS_REPO_SLUG.git"
-
-                if ! git push origin $TRAVIS_BRANCH 2> /dev/null; then
-                    echo "Failed to push to https://github.com/$TRAVIS_REPO_SLUG.git!"
-                fi
-            else
-                echo "Building for pull request, old commit or not first job, so not pushing updated .travis.yml."
-                echo ""
-                echo "TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
-                echo "TRAVIS_JOB_NUMBER=$TRAVIS_JOB_NUMBER"
+            if ! git push origin $TRAVIS_BRANCH 2> /dev/null; then
+                echo "Failed to push to https://github.com/$TRAVIS_REPO_SLUG.git!"
             fi
         fi
 
