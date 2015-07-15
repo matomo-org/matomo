@@ -180,12 +180,12 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        if ($provider === false) {
+        if (empty($provider)) {
             $provider = LocationProvider::getCurrentProviderId();
         }
 
         $oProvider = LocationProvider::getProviderById($provider);
-        if ($oProvider === false) {
+        if (empty($oProvider)) {
             throw new Exception("Cannot find the '$provider' provider. It is either an invalid provider "
                 . "ID or the ID of a provider that is not working.");
         }

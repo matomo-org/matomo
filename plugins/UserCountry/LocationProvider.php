@@ -277,7 +277,7 @@ abstract class LocationProvider
      *
      * This function should not be called by the Tracker.
      *
-     * @return \Piwik\Plugins\UserCountry\LocationProvider
+     * @return \Piwik\Plugins\UserCountry\LocationProvider|null
      */
     public static function getCurrentProvider()
     {
@@ -307,7 +307,7 @@ abstract class LocationProvider
      * Returns a provider instance by ID or false if the ID is invalid or unavailable.
      *
      * @param string $providerId
-     * @return \Piwik\Plugins\UserCountry\LocationProvider|false
+     * @return \Piwik\Plugins\UserCountry\LocationProvider|null
      */
     public static function getProviderById($providerId)
     {
@@ -317,7 +317,7 @@ abstract class LocationProvider
             }
         }
 
-        return false;
+        return null;
     }
 
     public function getId()
