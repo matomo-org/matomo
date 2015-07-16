@@ -16,7 +16,7 @@ describe("VisitorMap", function () {
             + "actionToWidgetize=visitorMap&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1";
 
     it("should display the bounce rate metric correctly", function (done) {
-        expect.screenshot('bounce_rate').to.be.capture(function (page) {
+        expect.screenshot('bounce_rate').to.be.similar(0.002).to.capture(function (page) {
             page.load(url);
             page.evaluate(function () {
                 $('.userCountryMapSelectMetrics').val('bounce_rate').trigger('change');
@@ -26,7 +26,7 @@ describe("VisitorMap", function () {
     });
 
     it("should display the average time on site metric correctly", function (done) {
-        expect.screenshot('avg_time_on_site').to.be.capture(function (page) {
+        expect.screenshot('avg_time_on_site').to.be.similar(0.002).to.capture(function (page) {
             page.evaluate(function () {
                 $('.userCountryMapSelectMetrics').val('avg_time_on_site').trigger('change');
             });
@@ -35,7 +35,7 @@ describe("VisitorMap", function () {
     });
 
     it("should display the regions layer correctly", function (done) {
-        expect.screenshot('regions').to.be.capture(function (page) {
+        expect.screenshot('regions').to.be.similar(0.002).to.capture(function (page) {
             page.load(urlWithCities);
             page.evaluate(function () {
                 // zoom into USA
@@ -51,7 +51,7 @@ describe("VisitorMap", function () {
     });
 
     it("should display the cities layer correctly", function (done) {
-        expect.screenshot('cities').to.be.capture(function (page) {
+        expect.screenshot('cities').to.be.similar(0.002).to.capture(function (page) {
             page.click('.UserCountryMap-btn-city');
         }, done);
     });
