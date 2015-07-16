@@ -92,7 +92,7 @@ install:
 
 
 before_script:
-  - ./tests/travis/install_mysql_5.6.sh
+  - '[ ! -f ./tests/travis/install_mysql_5.6.sh ] || ./tests/travis/install_mysql_5.6.sh'
 
   - phpenv config-rm xdebug.ini;
 
