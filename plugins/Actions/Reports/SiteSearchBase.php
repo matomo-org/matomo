@@ -39,7 +39,7 @@ abstract class SiteSearchBase extends Base
     {
         $idSites = !empty($infos['idSites']) ? $infos['idSites'] : array();
 
-        if (!$this->isEnabledForIdSites($idSites, 0)) {
+        if (!$this->isEnabledForIdSites($idSites, Common::getRequestVar('idSite', 0, 'int'))) {
             return;
         }
 
