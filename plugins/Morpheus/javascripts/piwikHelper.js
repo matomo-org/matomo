@@ -468,5 +468,12 @@ try {
     // Fix jQuery UI dialogs scrolling when click on links with tooltips
     jQuery.ui.dialog.prototype._focusTabbable = $.noop;
 
+    // Fix jQuery UI tooltip displaying when dialog is closed by Esc key
+    jQuery(document).keyup(function(e) {
+      if (e.keyCode == 27) {
+          $('.ui-tooltip').hide();
+      }
+    });
+
 } catch (e) {}
 }(jQuery));
