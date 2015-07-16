@@ -58,6 +58,10 @@ class Pdf extends ReportRenderer
     private $leftSpacesBeforeLogo = 7;
     private $logoImagePosition = array(10, 40);
     private $headerTextColor;
+    private $headlineFrontPage = false;
+    private $headlineReportPages = false;
+    private $headline1stLine = '';
+    private $headline2ndLine = '';
     private $reportTextColor;
     private $tableHeaderBackgroundColor;
     private $tableHeaderTextColor;
@@ -165,17 +169,36 @@ class Pdf extends ReportRenderer
         return $this->TCPDF->Output(null, 'S');
     }
 
-    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment)
+    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment, $customization = null)
     {
         $reportTitle = $this->formatText($reportTitle);
         $dateRange = $this->formatText(Piwik::translate('General_DateRange') . " " . $prettyDate);
+
+        file_put_contents('/var/www/piwik-dev/tmp/logs/dev.log', print_r($customization, true));
+        if (isset($customization)) {
+            $this->headlineFrontPage = ($customization['headlineFrontPage'] === true);
+            $this->headlineReportPages = ($customization['headlineReportPages'] === true);
+            if (is_string($customization['headline1stLine'])) {
+                $this->headline1stLine = trim($customization['headline1stLine']);
+            }
+            if (is_string($customization['headline2ndLine'])) {
+                $this->headline2ndLine = trim($customization['headline2ndLine']);
+            }
+        }
 
         // footer
         $this->TCPDF->SetFooterFont(array($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize));
         $this->TCPDF->SetFooterContent($reportTitle . " | " . $dateRange . " | ");
 
+        // header
+        if ($this->headlineFrontPage || $this->headlineReportPages) {
+            $this->TCPDF->SetHeaderFont(array($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize));
+            $this->TCPDF->SetHeaderData(API::getInstance()->getLogoUrl(true), 13, $this->headline1stLine, $this->headline2ndLine);
+            $this->TCPDF->SetHeaderMargin(1);
+        }
+
         // add first page
-        $this->TCPDF->setPrintHeader(false);
+        $this->TCPDF->setPrintHeader($this->headlineFrontPage);
         $this->TCPDF->AddPage(self::PORTRAIT);
         $this->TCPDF->AddFont($this->reportFont, '', '', false);
         $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
@@ -263,7 +286,6 @@ class Pdf extends ReportRenderer
             )
         ) {
             $this->currentPage++;
-            $this->TCPDF->AddPage();
 
             // Table-only reports with more than 2 columns are always landscape
             if ($tableOnlyManyColumnReport) {
@@ -274,7 +296,8 @@ class Pdf extends ReportRenderer
                 $this->orientation = $graphOnlyReport ? self::PORTRAIT : ($columnCount > $this->maxColumnCountPortraitOrientation ? self::LANDSCAPE : self::PORTRAIT);
             }
 
-            $this->TCPDF->setPageOrientation($this->orientation, '', $this->bottomMargin);
+            $this->TCPDF->setPrintHeader($this->headlineReportPages);
+            $this->TCPDF->AddPage($this->orientation);
         }
 
         $graphOnlyReportCount = ($graphOnlyReport && $reportHasData) ? ($graphOnlyReportCount + 1) % self::MAX_GRAPH_REPORTS : 0;

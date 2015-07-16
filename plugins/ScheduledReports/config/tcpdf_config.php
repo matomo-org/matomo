@@ -18,7 +18,7 @@ define('K_PATH_MAIN', PIWIK_VENDOR_PATH . '/tecnick.com/tcpdf/');
 $pathTmpTCPDF = StaticContainer::get('path.tmp') . '/tcpdf/';
 
 define('K_PATH_CACHE', $pathTmpTCPDF);
-define('K_PATH_IMAGES', $pathTmpTCPDF);
+define('K_PATH_IMAGES', "/");
 
 if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 
