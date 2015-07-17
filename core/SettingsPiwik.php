@@ -405,9 +405,9 @@ class SettingsPiwik
             return false;
         }
 
-        $instanceId = @Config::getInstance()->General['instance_id'];
-        if (!empty($instanceId)) {
-            return $instanceId;
+        $configGeneral = Config::getInstance()->General;
+        if(isset($configGeneral['instance_id']) && !empty($configGeneral['instance_id'])){
+            return $configGeneral['instance_id'];
         }
 
         // do not rewrite the path as Piwik uses the standard config.ini.php file
