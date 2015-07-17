@@ -75,7 +75,7 @@ class PluginTravisYmlGenerator extends Generator
                 'vars' => "MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=minimum_required_piwik");
 
             $testsToExclude[] = array('description' => 'execute latest stable tests only w/ PHP 5.6',
-                'php' => '5.3',
+                'php' => '5.3.3',
                 'env' => 'TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=minimum_required_piwik');
         }
 
@@ -84,7 +84,7 @@ class PluginTravisYmlGenerator extends Generator
                 'vars' => "MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_PIWIK_BRANCH=\$PIWIK_LATEST_STABLE_TEST_TARGET");
 
             $testsToExclude[] = array('description' => 'execute UI tests only w/ PHP 5.6',
-                'php' => '5.3',
+                'php' => '5.3.3',
                 'env' => 'TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_PIWIK_BRANCH=$PIWIK_LATEST_STABLE_TEST_TARGET');
         }
 
@@ -124,7 +124,9 @@ class PluginTravisYmlGenerator extends Generator
 
     private function getLatestStableVersion()
     {
-        $tags = shell_exec("git tag -l " . PIWIK_INCLUDE_PATH);
+        shell_exec("cd '" . PIWIK_INCLUDE_PATH . "' && git fetch --tags");
+
+        $tags = shell_exec("cd '" . PIWIK_INCLUDE_PATH . "' && git tag -l ");
         $tags = explode("\n", $tags);
         $tags = array_map('trim', $tags);
         $tags = array_filter($tags, function ($value) {
