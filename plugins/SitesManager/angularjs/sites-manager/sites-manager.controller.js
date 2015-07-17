@@ -237,7 +237,7 @@
                 currency: $scope.globalSettings.defaultCurrency,
                 excludedIps: $scope.globalSettings.excludedIpsGlobal.join(','),
                 excludedQueryParameters: $scope.globalSettings.excludedQueryParametersGlobal.join(','),
-                excludedUserAgents: $scope.globalSettings.excludedUserAgentsGlobal.join(','),
+                excludedUserAgents: $scope.globalSettings.excludedUserAgentsGlobal.replace(/,/g, ';').join(','),
                 keepURLFragments: $scope.globalSettings.keepURLFragmentsGlobal ? 1 : 0,
                 enableSiteUserAgentExclude: $scope.globalSettings.siteSpecificUserAgentExcludeEnabled ? 1 : 0,
                 searchKeywordParameters: $scope.globalSettings.searchKeywordParametersGlobal.join(','),

@@ -271,9 +271,11 @@ class VisitExcluded
         $websiteAttributes = Cache::getCacheWebsiteAttributes($this->idSite);
 
         if (!empty($websiteAttributes['excluded_user_agents'])) {
-            foreach ($websiteAttributes['excluded_user_agents'] as $excludedUserAgent) {
-                // if the excluded user agent string part is in this visit's user agent, this visit should be excluded
-                if (stripos($this->userAgent, $excludedUserAgent) !== false) {
+            $requestUserAgentWords = array_filter(preg_split('/\W+/', strtolower($this->userAgent)), 'strlen');
+            foreach ($websiteAttributes['excluded_user_agents'] as $excludedUserAgentWords) {
+                $excludedUserAgentWords = array_filter(preg_split('/\W+/', strtolower($excludedUserAgentWords)), 'strlen');
+                // if all \w+ sub-strings of $excludedUserAgent present in $requestUserAgent
+                if (!array_diff($excludedUserAgentWords, $requestUserAgentWords)) {
                     return true;
                 }
             }

@@ -113,16 +113,24 @@ class VisitTest extends IntegrationTestCase
                 ''                => false,
                 'nlksdjfsldkjfsa' => false,
             )),
-            array('mozilla', array(
-                'this has mozilla in it' => true,
-                'this doesn\'t'          => false,
-                'partial presence: mozi' => false,
+            array('chrome mozilla ', array(
+                'Google ChromE and Mozilla' => true,
+                'Mozilla and chrome' => true,
+                'chromemozilla' => false,
+                'chrome' => false,
+                'xchrome xmozilla' => false,
+                '' => false
             )),
-            array('cHrOmE,notinthere,&^%', array(
-                'chrome is here' => true,
-                'CHROME is here' => true,
-                '12&^%345'       => true,
-                'sfasdf'         => false,
+            array('Mozilla 5.0', array(
+                'mozilla bla bla bla (5.0.23)' => true,
+                '"mozilla 5.0.23"' => true,
+                'mozilla 5.1.23' => false,
+                'opera 5.0' => false,
+            )),
+            array('a,b', array(
+                'a' => true,
+                'b' => true,
+                'c' => false,
             )),
         );
     }
