@@ -34,6 +34,7 @@ env:
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR
 {% else %}
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
+    - PIWIK_LATEST_STABLE_TEST_TARGET={{ latestStableVersion }}
 {% endif %}
 {% if extraGlobalEnvVars|default is not empty %}{% for var in extraGlobalEnvVars %}    - {{ var|raw }}
 {% endfor %}{% endif %}
