@@ -7,7 +7,7 @@
         "Engagement": "Engagement",
         "NPages": "%s Seiten",
         "OnePage": "1 Seite",
-        "PluginDescription": "Berichte über die Interessen der Besucher: Anzahl besuchte Seiten, auf der Webseite verbrachte Zeit, Tage seit dem letzten Besuch, und mehr.",
+        "PluginDescription": "Berichte über die Interessen der Besucher: Anzahl besuchte Seiten, auf der Website verbrachte Zeit, Tage seit dem letzten Besuch, und mehr.",
         "VisitNum": "Besuchsanzahl",
         "VisitsByDaysSinceLast": "Besuche pro Tage seit letztem Besuch",
         "visitsByVisitCount": "Besuche nach Besuchsanzahl",
@@ -19,6 +19,6 @@
         "WidgetPagesDocumentation": "In diesem Bericht sehen Sie, wie viele Besuche eine bestimmte Anzahl an Seitenaufrufen umfassten. Zu Beginn wird der Bericht als Tagwolke angezeigt, häufigere Anzahlen werden in einer größeren Schrift dargestellt.",
         "WidgetVisitsByDaysSinceLast": "Besuche pro Tage seit letztem Besuch",
         "WidgetVisitsByDaysSinceLastDocumentation": "In diesem Bericht sehen Sie, wie viele Besuche von Besuchern gemacht wurden, deren letzter Besuch eine bestimmte Anzahl an Tagen zuvor stattfand.",
-        "WidgetVisitsByNumDocumentation": "In diesem Bericht sehen Sie, wie viele Besuche der n-te Besuch eines Besuches waren. Das bedeutet, der Besucher hat die Webseite mindestens n Mal besucht."
+        "WidgetVisitsByNumDocumentation": "In diesem Bericht sehen Sie, wie viele Besuche der n-te Besuch eines Besuches waren. Das bedeutet, der Besucher hat die Website mindestens n Mal besucht."
     }
 }

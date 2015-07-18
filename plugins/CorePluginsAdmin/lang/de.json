@@ -9,7 +9,7 @@
         "Active": "Aktiv",
         "Activity": "Aktivität",
         "AllowedUploadFormats": "Sie können über diese Seite ein Plugin oder Theme im .zip-Format hochladen.",
-        "AuthorHomepage": "Webseite des Autors",
+        "AuthorHomepage": "Website des Autors",
         "Authors": "Autoren",
         "BackToExtendPiwik": "Zurück zum Marketplace",
         "BeCarefulUsingPlugins": "Bitte setzen Sie Plugins, die nicht vom Piwik Team entwickelt wurden mit Bedacht ein: Diese wurden nicht von uns überprüft.",
@@ -37,7 +37,7 @@
         "InstallNewThemes": "Neue Themes installieren",
         "LastCommitTime": "(letzter Commit %s)",
         "LastUpdated": "Letzte Aktualisierung",
-        "LicenseHomepage": "Lizenz-Webseite",
+        "LicenseHomepage": "Lizenz-Website",
         "PluginsExtendPiwik": "Plugins erweitern die Funktionalität von Piwik.",
         "OncePluginIsInstalledYouMayActivateHere": "Sobald ein Plugin installiert wurde, können Sie es hier aktivieren bzw. deaktivieren.",
         "Marketplace": "Marketplace",
@@ -56,7 +56,7 @@
         "Origin": "Quelle",
         "OriginCore": "Core",
         "OriginThirdParty": "Dritt-Anbieter",
-        "PluginHomepage": "Plugin-Webseite",
+        "PluginHomepage": "Plugin-Website",
         "PluginKeywords": "Suchbegriffe",
         "PluginNotCompatibleWith": "Das Plugin %1$s ist nicht kompatibel mit %2$s.",
         "PluginNotWorkingAlternative": "Wenn Sie dieses Plugin eingesetzt haben, finden Sie möglicherweise eine neuere Version im Marketplace. Wenn nicht, sollten Sie es deinstallieren.",
@@ -64,7 +64,7 @@
         "PluginsManagement": "Pluginverwaltung",
         "PluginUpdateAvailable": "Sie verwenden Version %s und eine neue Version %s is verfügbar.",
         "PluginVersionInfo": "%1$s vom %2$s",
-        "PluginWebsite": "Plugin-Webseite",
+        "PluginWebsite": "Website des Plugins",
         "Screenshots": "Screenshots",
         "SortByAlpha": "Alpha",
         "SortByNewest": "neu",
@@ -97,6 +97,6 @@
         "UploadZipFile": "Zip-Datei hochladen",
         "Version": "Version",
         "ViewRepositoryChangelog": "Änderungen ansehen",
-        "Websites": "Webseiten"
+        "Websites": "Websites"
     }
 }

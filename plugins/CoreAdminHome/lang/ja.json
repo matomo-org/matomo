@@ -63,12 +63,16 @@
         "OptOutExplanationBis": "HTML コードは、ビジターのブラウザにオプトアウト Cookie を設定する、Piwik オプトアウトリンクを含む iFrame を表示します。 iFrame で表示される内容を表示するには、%sここをクリック%sします。",
         "OptOutForYourVisitors": "ビジターの Piwik オプトアウト",
         "PiwikIsInstalledAt": "Piwikがインストールされているのは",
+        "PersonalPluginSettings": "パーソナルプラグインの設定",
         "PluginSettingChangeNotAllowed": "\"%s\" プラグインで \"%s\" 設定されている値変更は許可されていません。",
         "PluginSettingReadNotAllowed": "\"%s\" プラグインで \"%s\" 設定されている値の読み取りは許可されていません。",
+        "PluginSettings": "プラグイン設定",
         "PluginSettingsIntro": "ここでは、次のサードパーティのプラグインの設定変更ができます",
         "PluginSettingsValueNotAllowed": "\"%s\" プラグインの \"%s\" フィールドの値は許可されていません。",
+        "PluginSettingsSaveFailed": "プラグインの設定を保存できませんでした",
         "SendPluginUpdateCommunicationHelp": "使用可能な新しいプラグインのバージョンがある場合、管理者ユーザーへメールが通知されます。",
         "StableReleases": "Piwikがビジネスの重要な一部である場合、最新の安定版を使用することを推奨します。また、最新のベータ版を使用し、バグを見つけたり、提案があれば、%sこちらをご覧ください%s。",
+        "SystemPluginSettings": "システムプラグイン設定",
         "TrackAGoal": "目標の追跡",
         "TrackingCode": "トラッキングコード",
         "TrustedHostConfirm": "信頼できるPiwikのホスト名を変更しても良いですか？",
@@ -80,6 +84,7 @@
         "YouAreOptedIn": "現在はオプトインです。",
         "YouAreOptedOut": "現在はオプトアウトです。",
         "YouMayOptOut": "このウェブサイトに集められるデータの収集と解析を回避するために、あなたのコンピュータにウェブ解析 Cookie 識別番号を割り当てない選択をすることができます。",
-        "YouMayOptOutBis": "これを選択するには、オプトアウト Cookie を受信するために、次のチェックボックスにチェックを入れてください。"
+        "YouMayOptOutBis": "これを選択するには、オプトアウト Cookie を受信するために、次のチェックボックスにチェックを入れてください。",
+        "OptingYouOut": "オプトアウト中、お待ちください…"
     }
 }

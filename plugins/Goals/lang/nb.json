@@ -15,6 +15,7 @@
         "GoalConversions": "Målkonverteringer",
         "GoalName": "Målnavn",
         "Goals": "Mål",
+        "GoalsOverview": "Måloversikt",
         "GoalX": "Mål %s",
         "IsExactly": "er akuratt %s",
         "Manually": "manuelt",
@@ -28,6 +29,8 @@
         "UpdateGoal": "Oppdater mål",
         "URL": "URL",
         "ViewAndEditGoals": "Vis og rediger mål",
+        "GoalsBy": "Mål etter %s",
+        "GoalsAdjective": "Mål %s",
         "WhenVisitors": "når besøkende",
         "WhereThe": "hvor"
     }

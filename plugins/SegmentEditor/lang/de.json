@@ -14,8 +14,8 @@
         "OperatorAND": "UND",
         "OperatorOR": "ODER",
         "SaveAndApply": "Speichern & Übernehmen",
-        "SegmentDisplayedAllWebsites": "alle Webseiten",
-        "SegmentDisplayedThisWebsiteOnly": "nur diese Webseite",
+        "SegmentDisplayedAllWebsites": "alle Websites",
+        "SegmentDisplayedThisWebsiteOnly": "nur diese Website",
         "SegmentIsDisplayedForWebsite": "und wird angezeigt für",
         "SegmentNotApplied": "Segment '%s' nicht angewendet",
         "SegmentNotAppliedMessage": "Sie fragen Daten für das benutzerdefinierte Segment '%s' an, die Piwik-Konfiguration verhindert jedoch aktuell Echtzeit-Verarbeitung von Berichten aus Performance-Gründen.",
@@ -26,6 +26,6 @@
         "YouMayChangeSetting": "Alternativ können Sie die Einstellung in der Konfigurationsdatei (%s) ändern, oder ändern Sie dieses Segment und wählen '%s'.",
         "YouMustBeLoggedInToCreateSegments": "Sie müssen sich anmelden um eigene Besuchersegmente anzulegen oder zu bearbeiten.",
         "YouDontHaveAccessToCreateSegments": "Sie haben nicht die benötigten Berechtigungen um Segmente anzulegen und zu bearbeiten.",
-        "AddingSegmentForAllWebsitesDisabled": "Das Hinzufügen von Segmenten wurde für alle Webseiten deaktiviert."
+        "AddingSegmentForAllWebsitesDisabled": "Das Hinzufügen von Segmenten wurde für alle Websites deaktiviert."
     }
 }
