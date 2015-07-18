@@ -63,7 +63,7 @@ class PluginTravisYmlGenerator extends Generator
         $this->view->setGenerationMode('plugin');
         $this->view->setPlugin($this->targetPlugin);
         $this->view->setPathToCustomTravisStepsFiles($this->getPluginRootFolder() . "/tests/travis");
-        $this->view->latestStableVersion = $this->getLatestStableVersion();
+        $this->view->setLatestStable($this->getLatestStableVersion());
 
         $testsToRun = array();
         $testsToExclude = array();

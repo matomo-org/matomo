@@ -34,6 +34,7 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
         $view->setExtraGlobalEnvVars(array('secure: artifactspass', 'secure: githubtoken'));
         $view->setGenerateYmlCommand('./console generate:travis-yml \'arg1\' arg2');
         $view->setPathToCustomTravisStepsFiles(PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin/tests/travis');
+        $view->setLatestStable('2.14.0');
         $view->setTestsToRun(array(
             array('name' => "PluginTests", 'vars' => "MYSQL_ADAPTER=PDO_MYSQL"),
             array('name' => "PluginTests", 'vars' => "MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable")
@@ -127,6 +128,7 @@ class TravisYmlViewTest extends PHPUnit_Framework_TestCase
         $view->setGenerationMode('plugin');
         $view->setPlugin('ExamplePlugin');
         $view->setPhpVersions(array('5.4', '5.6', 'hhvm'));
+        $view->setLatestStable('2.14.0');
         $view->setGenerateYmlCommand('./console generate:travis-yml arg1 arg2');
         $output = $view->render();
 

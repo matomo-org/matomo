@@ -227,4 +227,9 @@ class TravisYmlView extends View
     {
         return "$rootPath/$sectionName.$type.yml";
     }
+
+    public function setLatestStable($version)
+    {
+        $this->latestStableVersion = $version;
+    }
 }
