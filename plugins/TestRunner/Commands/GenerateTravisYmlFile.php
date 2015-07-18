@@ -43,7 +43,7 @@ class GenerateTravisYmlFile extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $command = "php '" . PIWIK_INCLUDE_PATH . "/tests/travis/generator/main.php' ";
+        $command = "php '" . PIWIK_INCLUDE_PATH . "/tests/travis/generator/main.php' generate:travis-yml ";
         foreach ($input->getOptions() as $name => $value) {
             if ($value === false
                 || $value === null
