@@ -3,8 +3,8 @@
         "CategoryNoData": "Det finns ingen data i denna kategori. Försök att \"Inkludera alla träffar\".",
         "CheckForUpdates": "Sök efter uppdateringar",
         "CheckPiwikOut": "Kolla in Piwik!",
-        "ClickToEditX": "Klicka för att editera %s",
-        "CloseWidgetDirections": "Du kan stänga widgeten genom att klicka på (X)-ikonen på widgetens topp.",
+        "ClickToEditX": "Klicka för att redigera %s",
+        "CloseWidgetDirections": "Du kan stänga widgeten genom att klicka på (X) på widgetens topp.",
         "DataForThisReportHasBeenPurged": "Data för denna rapport är mer än %s månader gammal och har tagits bort.",
         "DataTableExcludeAggregateRows": "Aggregerade rader dolda %s Dölj dem",
         "DataTableIncludeAggregateRows": "Aggregerade rader dolda %s Visa dem",
@@ -37,7 +37,7 @@
         "ReportGeneratedOn": "Rapporten genererades på %s",
         "ReportGeneratedXAgo": "Rapporten genererades för %s sen",
         "SharePiwikLong": "Hej! Jag har just hittat ett fantastiskt öppet källkodsprogram: Piwik!\n\nPiwik hjälper dig spåra besökarna på din hemsida helt gratis. Du borde definitivt kolla in det!",
-        "SharePiwikShort": "Piwik! Gratis och öppen källkods webbanalys. Äg din egen data.",
+        "SharePiwikShort": "Piwik! Gratis och öppen webbstatistik. Äg din egen data.",
         "ShareThis": "Dela det här",
         "ShortDateFormat": "%shortDay% %day% %shortMonth%",
         "ShortDateFormatWithYear": "%day% %shortMonth% %shortYear%",
@@ -53,6 +53,8 @@
         "ViewAllPiwikVideoTutorials": "Visa alla videokurser för Piwik",
         "WebAnalyticsReports": "Webbanalys rapporter",
         "YouAreUsingTheLatestVersion": "Du använder den senaste versionen av Piwik!",
-        "ClickRowToExpandOrContract": "Klicka på denna rad för att visa eller dölja undertabeller."
+        "ClickRowToExpandOrContract": "Klicka på denna rad för att visa eller dölja undertabeller.",
+        "UndoPivotBySubtable": "Denna rapport har pivoterats %s Ångra pivotering",
+        "PivotBySubtable": "Denna rapport är inte pivoterad %s Pivotera med %s"
     }
 }

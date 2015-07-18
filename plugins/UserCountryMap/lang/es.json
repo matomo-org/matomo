@@ -15,7 +15,7 @@
         "Regions": "Regiones",
         "Searches": "%s búsquedas",
         "SecondsAgo": "Hace %s segundos",
-        "ShowingVisits": "Geo-ubicadas últimas visitas",
+        "ShowingVisits": "Visitas geolocalizadas desde la última vez",
         "Unlocated": "<b>%s<\/b> %p de las visitas desde %c no pudieron ser geolocalizadas.",
         "VisitorMap": "Mapa de visitantes",
         "WorldWide": "Global",

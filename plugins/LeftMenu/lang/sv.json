@@ -1,5 +1,6 @@
 {
     "LeftMenu": {
+        "PluginDescription": "Placera menyn till vänster.",
         "SettingsIntroduction": "Tillägget för vänstermeny kommer, ifall det är aktiverat, flytta rapportmenyn till den vänstra sidan. Detta är speciellt användbart för större skärmar.",
         "GlobalSettingTitle": "Vänster meny aktiverad som standard",
         "GlobalSettingDescription": "Definierar systemets standardinställning för alla dina användare.",

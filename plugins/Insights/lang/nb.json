@@ -1,5 +1,6 @@
 {
     "Insights": {
+        "ControlComparedToDescription": "Vekst sammenlignet med",
         "DayComparedToPreviousDay": "forrige dag",
         "DayComparedToPreviousWeek": "samme dag i forrige uke",
         "DayComparedToPreviousYear": "samme dag i foregående år",

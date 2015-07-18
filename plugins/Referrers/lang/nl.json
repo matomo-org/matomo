@@ -24,6 +24,7 @@
         "ReferrerName": "Verwijzer Naam",
         "Referrers": "Referrers",
         "ReferrersOverview": "Referer Overzicht",
+        "ReferrerTypes": "Referrer Types",
         "SearchEngines": "Zoekmachines",
         "SearchEnginesDocumentation": "Een bezoeker is doorverwezen naar uw website via een zoekmachine. %s Bekijk het %s rapport voor meer details.",
         "SearchEnginesReportDocumentation": "Dit rapport toont de zoekmachines die bezoekers naar uw wbsite hebben verwezen. %s Door op een rij in de tabel te klikken kunt u zien naar wat men precies op zoek was in de betreffende zoekmachine.",

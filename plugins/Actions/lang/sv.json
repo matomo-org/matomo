@@ -39,6 +39,7 @@
         "PagesReportDocumentation": "Denna rapport innehåller information om webbadresserna som har besökts. %s Tabellen ordnas hierarkiskt, webbadresserna visas som en mappstruktur.",
         "PageTitlesReportDocumentation": "Denna rapport innehåller information om titlarna på de sidor som har besökts. %s sidans titel är HTML-taggen %s som de flesta webbläsare visar i sina fönster titel.",
         "PageUrls": "Webbadress",
+        "PluginDescription": "Rapporter om sidvisningar och sidtitlar. Låter dig mäta din webbplats sökmotor. Spårar klick på externa länkar och filnedladdningar.",
         "SiteSearchCategories1": "Den här rapporten listar kategorierna som besökarna valt när dom gjort en sökning på din webbplats.",
         "SiteSearchCategories2": "T.ex. så har e-handelssidor vanligtvis kategorier som gör att besökarna kan begränsa sökningen till produkter i en vald kategori",
         "SiteSearchFollowingPagesDoc": "När besökare söker på din webbplats så letar dom efter en speciell sida, innehåll, produkt eller tjänst. Den här rapporten listar de sidor med flest klick efter en intern sökning. Med andra ord, en lista med dom mest sökta sidorna av besökare som redan hittat till din webbplats.",

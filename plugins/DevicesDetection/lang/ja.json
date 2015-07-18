@@ -29,6 +29,7 @@
         "OperatingSystemFamily": "オペレーティングシステムファミリー",
         "OperatingSystems": "オペレーティングシステム",
         "OperatingSystemVersions": "オペレーティングシステムのバージョン",
+        "PluginDescription": "ブランド ( メーカー ) 、モデル ( デバイス バージョン ) 、デバイスの種類 ( テレビ、コンソール、スマート フォン、デスクトップ ) など、ユーザー デバイスに関する拡張情報を提供します。",
         "SmartDisplay": "スマートディスプレイ",
         "Smartphone": "スマートフォン",
         "Devices": "デバイス",

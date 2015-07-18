@@ -1,6 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserEngine": "Nettleser",
+        "BrowserEngines": "Nettlesermotorer",
         "BrowserFamily": "Nettleserfamilie",
         "Browsers": "Nettlesere",
         "BrowserVersion": "Nettleserversjon",

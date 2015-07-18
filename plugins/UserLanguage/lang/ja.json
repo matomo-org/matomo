@@ -1,6 +1,7 @@
 {
     "UserLanguage": {
         "BrowserLanguage": "ブラウザの言語",
-        "LanguageCode": "言語コード"
+        "LanguageCode": "言語コード",
+        "PluginDescription": "ビジターのブラウザーで使用されている言語をレポートします。"
     }
 }

@@ -21,6 +21,7 @@
         "NextVisitor": "次のビジター",
         "NoMoreVisits": "この訪問者のさらなる訪問はありません。",
         "PageRefreshed": "このページが見られた\/更新された回数",
+        "PluginDescription": "行動中のビジターログを提供し、リアルタイムダッシュボードウェジェット内に行動中のビジターを表示します。このプラグインでは、任意のユーザーのビジタープロフィールを見ることもできます。",
         "PreviousVisitor": "前のビジター",
         "RealTimeVisitorCount": "リアルタイムのビジター数",
         "Referrer_URL": "参照元 URL",

@@ -11,6 +11,7 @@
         "Authors": "Forfattere",
         "BackToExtendPiwik": "Tilbake til markedsplassen",
         "ByXDevelopers": "av %s utviklere",
+        "CannotInstall": "Kan ikke installere (hjelp)",
         "Changelog": "Endringslogg",
         "ChangeSettingsPossible": "Du kan endre %sinnstillingene%s for dette tillegget.",
         "Deactivate": "Slå av",
