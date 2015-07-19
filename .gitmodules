@@ -44,3 +44,6 @@
     url = https://github.com/piwik/piwik-log-analytics.git
     branch = master
 
+[submodule "tests/travis"]
+	path = tests/travis
+	url = https://github.com/piwik/travis-scripts

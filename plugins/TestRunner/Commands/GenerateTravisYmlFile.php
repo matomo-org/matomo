@@ -8,15 +8,10 @@
  */
 namespace Piwik\Plugins\TestRunner\Commands;
 
-use Piwik\Plugins\TestRunner\TravisYml\Generator\CoreTravisYmlGenerator;
-use Piwik\Plugins\TestRunner\TravisYml\Generator\PiwikTestsPluginsTravisYmlGenerator;
-use Piwik\Plugins\TestRunner\TravisYml\Generator\PluginTravisYmlGenerator;
-use Piwik\View;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Exception;
 
 /**
  * Command to generate an self-updating .travis.yml file either for Piwik Core or
@@ -48,33 +43,27 @@ class GenerateTravisYmlFile extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $generator = $this->createTravisYmlGenerator($input);
-        $travisYmlContents = $generator->generate();
+        $command = "php '" . PIWIK_INCLUDE_PATH . "/tests/travis/generator/main.php' generate:travis-yml ";
+        foreach ($input->getOptions() as $name => $value) {
+            if ($value === false
+                || $value === null
+            ) {
+                continue;
+            }
 
-        $writePath = $generator->dumpTravisYmlContents($travisYmlContents);
-        $this->writeSuccessMessage($output, array("Generated .travis.yml file at '$writePath'!"));
-    }
-
-    private function createTravisYmlGenerator(InputInterface $input)
-    {
-        $allOptions = $input->getOptions();
-
-        $isCore = $input->getOption('core');
-        if ($isCore) {
-            return new CoreTravisYmlGenerator($allOptions);
+            if ($value === true) {
+                $command .= " --$name";
+            } else if (is_array($value)) {
+                foreach ($value as $arrayValue) {
+                    $command .= " --$name=\"" . addslashes($arrayValue) . "\"";
+                }
+            } else {
+                $command .= " --$name=\"" . addslashes($value) . "\"";
+            }
         }
 
-        $targetPlugin = $input->getOption('plugin');
-        if ($targetPlugin) {
-            return new PluginTravisYmlGenerator($targetPlugin, $allOptions);
-        }
+        passthru($command, $returnCode);
 
-        $piwikTestsPluginPath = $input->getOption('piwik-tests-plugins');
-        if ($piwikTestsPluginPath) {
-            return new PiwikTestsPluginsTravisYmlGenerator($piwikTestsPluginPath, $allOptions);
-        }
-
-        throw new Exception("Neither --plugin option, --core option or --piwik-tests-plugins specified; don't know what type"
-            . " of .travis.yml file to generate. Execute './console help generate:travis-yml' for more info");
+        return $returnCode;
     }
 }
