@@ -87,6 +87,8 @@ before_install:
   # do not use the Zend allocator on PHP 5.3 since it will randomly segfault after program execution
   - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && export USE_ZEND_ALLOC=0 || true'
 
+  - ./tests/travis/configure_git.sh
+
 install:
   - '[ ! -f ./tests/travis/install_mysql_5.6.sh ] || ./tests/travis/install_mysql_5.6.sh'
 
@@ -112,8 +114,6 @@ before_script:
 
   # disable opcache to avoid random failures on travis
   - echo "opcache.enable=0" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-  - ./tests/travis/configure_git.sh
 
   # print out mysql information
   - mysql --version
