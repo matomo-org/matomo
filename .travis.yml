@@ -102,7 +102,7 @@ install:
 
   - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install'
 
-  - export GENERATE_TRAVIS_YML_COMMAND="php ./console generate:travis-yml --core --verbose"
+  - export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --core --verbose"
   - '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
 
 
