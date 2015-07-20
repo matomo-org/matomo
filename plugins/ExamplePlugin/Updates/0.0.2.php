@@ -34,7 +34,6 @@ class Updates_0_0_2 extends Updates
      *                                            // and user will have to manually run the query
      *               )
      *               ```
-     * @api
      */
     public function getMigrationQueries(Updater $updater)
     {
