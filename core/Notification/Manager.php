@@ -37,6 +37,7 @@ class Manager
     {
         self::checkId($id);
 
+        self::removeOldestNotificationsIfThereAreTooMany();
         self::addNotification($id, $notification);
     }
 
@@ -110,6 +111,17 @@ class Manager
 
         $session = static::getSession();
         $session->notifications[$id] = $notification;
+    }
+
+    private static function removeOldestNotificationsIfThereAreTooMany()
+    {
+        $maxNotificationsInSession = 30;
+
+        $session = static::getSession();
+
+        while (count($session->notifications) >= $maxNotificationsInSession) {
+            array_shift($session->notifications);
+        }
     }
 
     private static function getAllNotifications()
