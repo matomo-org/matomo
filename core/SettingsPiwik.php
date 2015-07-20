@@ -406,7 +406,7 @@ class SettingsPiwik
         }
 
         $configGeneral = Config::getInstance()->General;
-        if(isset($configGeneral['instance_id']) && !empty($configGeneral['instance_id'])){
+        if(!empty($configGeneral['instance_id'])){
             return $configGeneral['instance_id'];
         }
 
