@@ -1384,11 +1384,11 @@ if (typeof Piwik !== 'object') {
 
                 return false;
             },
-            hasNodeCssClass: function (node, className)
+            hasNodeCssClass: function (node, klassName)
             {
-                if (node && className && 'className' in node && node.className) {
-                    var classes = node.className.split(' ');
-                    if (-1 !== indexOfArray(classes, className)) {
+                if (node && klassName && node.className) {
+                    var classes = typeof node.className === "string" ? node.className.split(' ') : [];
+                    if (-1 !== indexOfArray(classes, klassName)) {
                         return true;
                     }
                 }
