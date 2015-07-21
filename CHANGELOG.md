@@ -5,7 +5,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ## Piwik 2.15.0
 
 ### Breaking Changes
-* We marked the method `Dimension::getId()` as final.
+* The method `Dimension::getId()` has been set as `final`. It is not allowed to overwrite this method.
 
 ## Piwik 2.14.0
 
