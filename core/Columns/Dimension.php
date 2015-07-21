@@ -142,7 +142,7 @@ abstract class Dimension
 
     /**
      * Returns a unique string ID for this dimension. The ID is built using the namespaced class name
-     * of the dimension, but is modified to be more human readable
+     * of the dimension, but is modified to be more human readable.
      *
      * @return string eg, `"Referrers.Keywords"`
      * @throws Exception if the plugin and simple class name of this instance cannot be determined.
