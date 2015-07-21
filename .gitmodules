@@ -60,3 +60,7 @@
 
 # Note: do not add new plugin submodules here, but a few lines above
 
+[submodule "tests/travis"]
+	path = tests/travis
+	url = https://github.com/piwik/travis-scripts
+    branch = git-lfs
