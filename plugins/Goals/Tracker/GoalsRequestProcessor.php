@@ -23,16 +23,17 @@ use Piwik\Tracker\Visit\VisitProperties;
  * This processor defines the following request metadata under the **Goals**
  * plugin:
  *
- * * **someGoalsConverted**: If `true`, the request triggers one or more conversions that will
- *                           be recorded.
+ * * **goalsConverted**: The array of goals that were converted by this request. Each element
+ *                       will be an array of goal column value pairs. The ecommerce goal will
+ *                       only have the idgoal column set.
  *
- *                           Set in `processRequestParams()`.
+ *                       Set in `processRequestParams()`.
  *
- *                           Plugins can set this to false to skip conversion recording.
+ *                       Plugins can set this to empty to skip conversion recording.
  *
  * * **visitIsConverted**: If `true`, the current visit should be marked as "converted". Note:
  *                         some goal conversions (ie, ecommerce) do not mark the visit as
- *                         "converted", so it is possible for someGoalsConverted to be `true`
+ *                         "converted", so it is possible for goalsConverted to be non-empty
  *                         while visitIsConverted is `false`.
  *
  *                         Set in `processRequestParams()`.
@@ -40,28 +41,35 @@ use Piwik\Tracker\Visit\VisitProperties;
 class GoalsRequestProcessor extends RequestProcessor
 {
     /**
-     * TODO: GoalManager should be stateless and stored in DI.
-     *
      * @var GoalManager
      */
-    public static $goalManager = null;
+    public $goalManager = null;
+
+    public function __construct(GoalManager $goalManager)
+    {
+        $this->goalManager = $goalManager;
+    }
 
     public function processRequestParams(VisitProperties $visitProperties, Request $request)
     {
-        self::$goalManager = new GoalManager($request);
+        $this->goalManager = new GoalManager();
 
-        if (self::$goalManager->isManualGoalConversion()) {
+        if ($this->isManualGoalConversion($request)) {
             // this request is from the JS call to piwikTracker.trackGoal()
-            $someGoalsConverted = self::$goalManager->detectGoalId($request->getIdSite());
+            $goal = $this->goalManager->detectGoalId($request->getIdSite(), $request);
 
-            $visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', $someGoalsConverted);
-            $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', $someGoalsConverted);
+            $visitIsConverted = !empty($goal);
+            $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', $visitIsConverted);
+
+            $existingConvertedGoals = $visitProperties->getRequestMetadata('Goals', 'goalsConverted') ?: array();
+            $visitProperties->setRequestMetadata('Goals', 'goalsConverted', array_merge($existingConvertedGoals, array($goal)));
 
             $visitProperties->setRequestMetadata('Actions', 'action', null); // don't track actions when doing manual goal conversions
 
             // if we find a idgoal in the URL, but then the goal is not valid, this is most likely a fake request
-            if (!$someGoalsConverted) {
-                Common::printDebug('Invalid goal tracking request for goal id = ' . self::$goalManager->idGoal);
+            if (!$visitIsConverted) {
+                $idGoal = $request->getParam('idgoal');
+                Common::printDebug('Invalid goal tracking request for goal id = ' . $idGoal);
                 return true;
             }
         }
@@ -71,24 +79,22 @@ class GoalsRequestProcessor extends RequestProcessor
 
     public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
     {
-        $someGoalsConverted = $visitProperties->getRequestMetadata('Goals', 'someGoalsConverted');
+        $goalsConverted = $visitProperties->getRequestMetadata('Goals', 'goalsConverted');
 
         /** @var Action $action */
         $action = $visitProperties->getRequestMetadata('Actions', 'action');
 
         // if the visit hasn't already been converted another way (ie, manual goal conversion or ecommerce conversion,
         // try to convert based on the action)
-        if (!$someGoalsConverted
+        if (empty($goalsConverted)
             && $action
         ) {
-            $someGoalsConverted = self::$goalManager->detectGoalsMatchingUrl($request->getIdSite(), $action);
+            $goalsConverted = $this->goalManager->detectGoalsMatchingUrl($request->getIdSite(), $action);
 
-            $visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', $someGoalsConverted);
-            $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', $someGoalsConverted);
-        }
+            $existingGoalsConverted = $visitProperties->getRequestMetadata('Goals', 'goalsConverted') ?: array();
+            $visitProperties->setRequestMetadata('Goals', 'goalsConverted', array_merge($existingGoalsConverted, $goalsConverted));
 
-        if ($someGoalsConverted) {
-            self::$goalManager->detectIsThereExistingCartInVisit($visitProperties->visitorInfo);
+            $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', !empty($goalsConverted));
         }
 
         // There is an edge case when:
@@ -97,25 +103,32 @@ class GoalsRequestProcessor extends RequestProcessor
         //   because the UPDATE didn't affect any rows (one row was found, but not updated since no field changed)
         // - the exception is caught here and will result in a new visit incorrectly
         // In this case, we cancel the current conversion to be recorded:
-        $isManualGoalConversion = self::$goalManager->isManualGoalConversion();
-        $requestIsEcommerce = self::$goalManager->requestIsEcommerce;
+        $isManualGoalConversion = $this->isManualGoalConversion($request);
+        $requestIsEcommerce = $visitProperties->getRequestMetadata('Goals', 'isRequestEcommerce');
         $visitorNotFoundInDb = $visitProperties->getRequestMetadata('CoreHome', 'visitorNotFoundInDb');
 
         if ($visitorNotFoundInDb
             && ($isManualGoalConversion
                 || $requestIsEcommerce)
         ) {
-            $visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', false);
+            $visitProperties->setRequestMetadata('Goals', 'goalsConverted', array());
             $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', false);
         }
 
     }
 
-    public function recordLogs(VisitProperties $visitProperties)
+    public function recordLogs(VisitProperties $visitProperties, Request $request)
     {
         // record the goals if there were conversions in this request (even if the visit itself was not converted)
-        if ($visitProperties->getRequestMetadata('Goals', 'someGoalsConverted')) {
-            self::$goalManager->recordGoals($visitProperties);
+        $goalsConverted = $visitProperties->getRequestMetadata('Goals', 'goalsConverted');
+        if (!empty($goalsConverted)) {
+            $this->goalManager->recordGoals($visitProperties, $request);
         }
+    }
+
+    private function isManualGoalConversion(Request $request)
+    {
+        $idGoal = $request->getParam('idgoal');
+        return $idGoal > 0;
     }
 }

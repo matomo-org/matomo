@@ -56,7 +56,7 @@ class VisitGoalBuyer extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        return $this->getBuyerType($request);
+        return $this->getBuyerType($visitor);
     }
 
     /**
@@ -70,7 +70,7 @@ class VisitGoalBuyer extends VisitDimension
         $goalBuyer = $visitor->getVisitorColumn($this->columnName);
 
         // Ecommerce buyer status
-        $visitEcommerceStatus = $this->getBuyerType($request, $goalBuyer);
+        $visitEcommerceStatus = $this->getBuyerType($visitor, $goalBuyer);
 
         if ($visitEcommerceStatus != self::TYPE_BUYER_NONE
             // only update if the value has changed (prevents overwriting the value in case a request has
@@ -106,15 +106,15 @@ class VisitGoalBuyer extends VisitDimension
         return self::$visitEcommerceStatus[$id];
     }
 
-    private function getBuyerType(Request $request, $existingType = self::TYPE_BUYER_NONE)
+    private function getBuyerType(Visitor $visitor, $existingType = self::TYPE_BUYER_NONE)
     {
-        $goalManager = new GoalManager($request);
-
-        if (!$goalManager->requestIsEcommerce) {
+        $isRequestEcommerce = $visitor->visitProperties->getRequestMetadata('Ecommerce', 'isRequestEcommerce');
+        if (!$isRequestEcommerce) {
             return $existingType;
         }
 
-        if ($goalManager->isGoalAnOrder()) {
+        $isGoalAnOrder = $visitor->visitProperties->getRequestMetadata('Ecommerce', 'isGoalAnOrder');
+        if ($isGoalAnOrder) {
             return self::TYPE_BUYER_ORDERED;
         }
 

@@ -55,54 +55,24 @@ class GoalManager
     const INTERNAL_ITEM_PRICE = 7;
     const INTERNAL_ITEM_QUANTITY = 8;
 
-    public $idGoal;
-    public $requestIsEcommerce;
-    private $isGoalAnOrder;
-
     /**
-     * @var Action
+     * TODO: should remove this, but it is used by getGoalColumn which is used by dimensions. should replace w/ value object.
+     *
+     * @var array
      */
-    protected $action = null;
-    protected $convertedGoals = array();
-
     private $currentGoal = array();
-
-    /**
-     * @var Request
-     */
-    protected $request;
-    protected $orderId;
-
-    protected $isThereExistingCartInVisit = false;
-
-    /**
-     * Constructor
-     * @param Request $request
-     */
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-        $this->orderId = $request->getParam('ec_id');
-        $this->idGoal  = $request->getParam('idgoal');
-
-        $this->isGoalAnOrder = !empty($this->orderId);
-        $this->requestIsEcommerce = (0 == $this->idGoal);
-    }
-
-    public function isGoalAnOrder()
-    {
-        return $this->isGoalAnOrder;
-    }
 
     public function detectIsThereExistingCartInVisit($visitInformation)
     {
-        if (!empty($visitInformation['visit_goal_buyer'])) {
-            $goalBuyer = $visitInformation['visit_goal_buyer'];
-            $types     = array(GoalManager::TYPE_BUYER_OPEN_CART, GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART);
-
-            // Was there a Cart for this visit prior to the order?
-            $this->isThereExistingCartInVisit = in_array($goalBuyer, $types);
+        if (empty($visitInformation['visit_goal_buyer'])) {
+            return false;
         }
+
+        $goalBuyer = $visitInformation['visit_goal_buyer'];
+        $types     = array(GoalManager::TYPE_BUYER_OPEN_CART, GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART);
+
+        // Was there a Cart for this visit prior to the order?
+        return in_array($goalBuyer, $types);
     }
 
     public static function getGoalDefinitions($idSite)
@@ -147,17 +117,18 @@ class GoalManager
      * @param int $idSite
      * @param Action $action
      * @throws Exception
-     * @return int Number of goals matched
+     * @return array[] Goals matched
      */
     public function detectGoalsMatchingUrl($idSite, $action)
     {
         if (!Common::isGoalPluginEnabled()) {
-            return false;
+            return array();
         }
 
         $actionType = $action->getActionType();
         $goals = $this->getGoalDefinitions($idSite);
 
+        $convertedGoals = array();
         foreach ($goals as $goal) {
             $attribute = $goal['match_attribute'];
             // if the attribute to match is not the type of the current action
@@ -196,37 +167,32 @@ class GoalManager
             $match = $this->isUrlMatchingGoal($goal, $pattern_type, $url);
             if ($match) {
                 $goal['url'] = $action->getActionUrl();
-                $this->convertedGoals[] = $goal;
+                $convertedGoals[] = $goal;
             }
         }
 
-        return count($this->convertedGoals) > 0;
+        return $convertedGoals;
     }
 
-    public function isManualGoalConversion()
-    {
-        return $this->idGoal > 0;
-    }
-
-    public function detectGoalId($idSite)
+    public function detectGoalId($idSite, Request $request)
     {
         if (!Common::isGoalPluginEnabled()) {
-            return false;
+            return null;
         }
+
+        $idGoal = $request->getParam('idgoal');
 
         $goals = $this->getGoalDefinitions($idSite);
 
-        if (!isset($goals[$this->idGoal])) {
-            return false;
+        if (!isset($goals[$idGoal])) {
+            return null;
         }
 
-        $goal = $goals[$this->idGoal];
+        $goal = $goals[$idGoal];
 
-        $url         = $this->request->getParam('url');
+        $url         = $request->getParam('url');
         $goal['url'] = PageUrl::excludeQueryParametersFromUrl($url, $idSite);
-        $this->convertedGoals[] = $goal;
-
-        return true;
+        return $goal;
     }
 
     /**
@@ -237,7 +203,7 @@ class GoalManager
      * @param array $visitCustomVariables
      * @param Action $action
      */
-    public function recordGoals(VisitProperties $visitProperties)
+    public function recordGoals(VisitProperties $visitProperties, Request $request)
     {
         $visitorInformation = $visitProperties->visitorInfo;
         $visitCustomVariables = $visitProperties->getRequestMetadata('CustomVariables', 'visitCustomVariables');
@@ -245,7 +211,7 @@ class GoalManager
         /** @var Action $action */
         $action = $visitProperties->getRequestMetadata('Actions', 'action');
 
-        $goal = $this->getGoalFromVisitor($visitProperties, $action);
+        $goal = $this->getGoalFromVisitor($visitProperties, $request, $action);
 
         // Copy Custom Variables from Visit row to the Goal conversion
         // Otherwise, set the Custom Variables found in the cookie sent with this request
@@ -266,10 +232,11 @@ class GoalManager
         }
 
         // some goals are converted, so must be ecommerce Order or Cart Update
-        if ($this->requestIsEcommerce) {
-            $this->recordEcommerceGoal($visitProperties, $goal, $action);
+        $isRequestEcommerce = $visitProperties->getRequestMetadata('Ecommerce', 'isRequestEcommerce');
+        if ($isRequestEcommerce) {
+            $this->recordEcommerceGoal($visitProperties, $request, $goal, $action);
         } else {
-            $this->recordStandardGoals($visitProperties, $goal, $action);
+            $this->recordStandardGoals($visitProperties, $request, $goal, $action);
         }
     }
 
@@ -299,23 +266,27 @@ class GoalManager
      * @param Action $action
      * @param array $visitInformation
      */
-    protected function recordEcommerceGoal(VisitProperties $visitProperties, $conversion, $action)
+    protected function recordEcommerceGoal(VisitProperties $visitProperties, Request $request, $conversion, $action)
     {
-        if ($this->isThereExistingCartInVisit) {
+        $isThereExistingCartInVisit = $visitProperties->getRequestMetadata('Goals', 'isThereExistingCartInVisit');
+        if ($isThereExistingCartInVisit) {
             Common::printDebug("There is an existing cart for this visit");
         }
 
         $visitor = Visitor::makeFromVisitProperties($visitProperties);
 
-        if ($this->isGoalAnOrder) {
+        $isGoalAnOrder = $visitProperties->getRequestMetadata('Ecommerce', 'isGoalAnOrder');
+        if ($isGoalAnOrder) {
             $debugMessage = 'The conversion is an Ecommerce order';
 
-            $conversion['idorder'] = $this->orderId;
+            $orderId = $request->getParam('ec_id');
+
+            $conversion['idorder'] = $orderId;
             $conversion['idgoal']  = self::IDGOAL_ORDER;
-            $conversion['buster']  = Common::hashStringToInt($this->orderId);
+            $conversion['buster']  = Common::hashStringToInt($orderId);
 
             $conversionDimensions = ConversionDimension::getAllDimensions();
-            $conversion = $this->triggerHookOnDimensions($conversionDimensions, 'onEcommerceOrderConversion', $visitor, $action, $conversion);
+            $conversion = $this->triggerHookOnDimensions($request, $conversionDimensions, 'onEcommerceOrderConversion', $visitor, $action, $conversion);
         } // If Cart update, select current items in the previous Cart
         else {
             $debugMessage = 'The conversion is an Ecommerce Cart Update';
@@ -324,13 +295,13 @@ class GoalManager
             $conversion['idgoal'] = self::IDGOAL_CART;
 
             $conversionDimensions = ConversionDimension::getAllDimensions();
-            $conversion = $this->triggerHookOnDimensions($conversionDimensions, 'onEcommerceCartUpdateConversion', $visitor, $action, $conversion);
+            $conversion = $this->triggerHookOnDimensions($request, $conversionDimensions, 'onEcommerceCartUpdateConversion', $visitor, $action, $conversion);
         }
 
         Common::printDebug($debugMessage . ':' . var_export($conversion, true));
 
         // INSERT or Sync items in the Cart / Order for this visit & order
-        $items = $this->getEcommerceItemsFromRequest();
+        $items = $this->getEcommerceItemsFromRequest($request);
 
         if (false === $items) {
             return;
@@ -343,10 +314,10 @@ class GoalManager
 
         $conversion['items'] = $itemsCount;
 
-        if ($this->isThereExistingCartInVisit) {
+        if ($isThereExistingCartInVisit) {
             $recorded = $this->getModel()->updateConversion($visitProperties->visitorInfo['idvisit'], self::IDGOAL_CART, $conversion);
         } else {
-            $recorded = $this->insertNewConversion($conversion, $visitProperties->visitorInfo);
+            $recorded = $this->insertNewConversion($conversion, $visitProperties->visitorInfo, $request);
         }
 
         if ($recorded) {
@@ -371,9 +342,9 @@ class GoalManager
      * Returns Items read from the request string
      * @return array|bool
      */
-    private function getEcommerceItemsFromRequest()
+    private function getEcommerceItemsFromRequest(Request $request)
     {
-        $items = $this->request->getParam('ec_items');
+        $items = $request->getParam('ec_items');
 
         if (empty($items)) {
             Common::printDebug("There are no Ecommerce items in the request");
@@ -674,11 +645,12 @@ class GoalManager
      * @param Action $action
      * @param $visitorInformation
      */
-    protected function recordStandardGoals(VisitProperties $visitProperties, $goal, $action)
+    protected function recordStandardGoals(VisitProperties $visitProperties, Request $request, $goal, $action)
     {
         $visitor = Visitor::makeFromVisitProperties($visitProperties);
 
-        foreach ($this->convertedGoals as $convertedGoal) {
+        $convertedGoals = $visitProperties->getRequestMetadata('Goals', 'goalsConverted') ?: array();
+        foreach ($convertedGoals as $convertedGoal) {
             $this->currentGoal = $convertedGoal;
             Common::printDebug("- Goal " . $convertedGoal['idgoal'] . " matched. Recording...");
             $conversion = $goal;
@@ -696,9 +668,9 @@ class GoalManager
                 : $visitProperties->visitorInfo['visit_last_action_time'];
 
             $conversionDimensions = ConversionDimension::getAllDimensions();
-            $conversion = $this->triggerHookOnDimensions($conversionDimensions, 'onGoalConversion', $visitor, $action, $conversion);
+            $conversion = $this->triggerHookOnDimensions($request, $conversionDimensions, 'onGoalConversion', $visitor, $action, $conversion);
 
-            $this->insertNewConversion($conversion, $visitProperties->visitorInfo);
+            $this->insertNewConversion($conversion, $visitProperties->visitorInfo, $request);
 
             /**
              * Triggered after successfully recording a non-ecommerce conversion.
@@ -720,7 +692,7 @@ class GoalManager
      * @param array $visitInformation
      * @return bool
      */
-    protected function insertNewConversion($conversion, $visitInformation)
+    protected function insertNewConversion($conversion, $visitInformation, Request $request)
     {
         /**
          * Triggered before persisting a new [conversion entity](/guides/persistence-and-the-mysql-backend#conversions).
@@ -733,7 +705,7 @@ class GoalManager
          *                                information it contains [here](/guides/persistence-and-the-mysql-backend#visits).
          * @param \Piwik\Tracker\Request $request An object describing the tracking request being processed.
          */
-        Piwik::postEvent('Tracker.newConversionInformation', array(&$conversion, $visitInformation, $this->request));
+        Piwik::postEvent('Tracker.newConversionInformation', array(&$conversion, $visitInformation, $request));
 
         $newGoalDebug = $conversion;
         $newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);
@@ -796,10 +768,10 @@ class GoalManager
      *
      * @return array|null The updated $valuesToUpdate or null if no $valuesToUpdate given
      */
-    private function triggerHookOnDimensions($dimensions, $hook, $visitor, $action, $valuesToUpdate)
+    private function triggerHookOnDimensions(Request $request, $dimensions, $hook, $visitor, $action, $valuesToUpdate)
     {
         foreach ($dimensions as $dimension) {
-            $value = $dimension->$hook($this->request, $visitor, $action, $this);
+            $value = $dimension->$hook($request, $visitor, $action, $this);
 
             if (false !== $value) {
                 if (is_float($value)) {
@@ -816,7 +788,7 @@ class GoalManager
         return $valuesToUpdate;
     }
 
-    private function getGoalFromVisitor(VisitProperties $visitProperties, $action)
+    private function getGoalFromVisitor(VisitProperties $visitProperties, Request $request, $action)
     {
         $goal = array(
             'idvisit'     => $visitProperties->visitorInfo['idvisit'],
@@ -828,7 +800,7 @@ class GoalManager
 
         $visit = Visitor::makeFromVisitProperties($visitProperties);
         foreach ($visitDimensions as $dimension) {
-            $value = $dimension->onAnyGoalConversion($this->request, $visit, $action);
+            $value = $dimension->onAnyGoalConversion($request, $visit, $action);
             if (false !== $value) {
                 $goal[$dimension->getColumnName()] = $value;
             }

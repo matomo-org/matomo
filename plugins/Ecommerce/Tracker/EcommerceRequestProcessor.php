@@ -16,23 +16,71 @@ use Piwik\Tracker\Visit\VisitProperties;
 /**
  * Handles ecommerce tracking requests.
  *
- * Defines no new request metadata.
+ * ## Request Metadata
+ *
+ * This processor defines the following request metadata under the **Ecommerce**
+ * plugin:
+ *
+ * * **isRequestEcommerce**: If `true`, the request is for an ecommerce goal conversion.
+ *
+ *                           Set in `processRequestParams()`.
+ *
+ * * **isGoalAnOrder**: If `true` the request is tracking an ecommerce order.
+ *
+ *                      Set in `processRequestParams()`.
  */
 class EcommerceRequestProcessor extends RequestProcessor
 {
+    /**
+     * @var GoalManager
+     */
+    public $goalManager = null;
+
+    public function __construct(GoalManager $goalManager)
+    {
+        $this->goalManager = $goalManager;
+    }
+
     public function processRequestParams(VisitProperties $visitProperties, Request $request)
     {
-        $goalManager = new GoalManager($request); // TODO: GoalManager should be stateless and stored in DI.
+        $isGoalAnOrder = $this->isRequestForAnOrder($request);
+        $visitProperties->setRequestMetadata('Ecommerce', 'isGoalAnOrder', $isGoalAnOrder);
 
-        if ($goalManager->requestIsEcommerce) {
-            $visitProperties->setRequestMetadata('Goals', 'someGoalsConverted', true);
+        $isRequestEcommerce = $this->isRequestEcommerce($request);
+        $visitProperties->setRequestMetadata('Ecommerce', 'isRequestEcommerce', $isRequestEcommerce);
 
+        if ($isRequestEcommerce) {
             // Mark the visit as Converted only if it is an order (not for a Cart update)
-            if ($goalManager->isGoalAnOrder()) {
+            $idGoal = GoalManager::IDGOAL_CART;
+            if ($isGoalAnOrder) {
+                $idGoal = GoalManager::IDGOAL_ORDER;
                 $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', true);
             }
 
+            $visitProperties->setRequestMetadata('Goals', 'goalsConverted', array(array('idgoal' => $idGoal)));
+
             $visitProperties->setRequestMetadata('Actions', 'action', null); // don't track actions when tracking ecommerce orders
         }
+    }
+
+    public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
+    {
+        $goalsConverted = $visitProperties->getRequestMetadata('Goals', 'goalsConverted');
+        if (!empty($goalsConverted)) {
+            $isThereExistingCartInVisit = $this->goalManager->detectIsThereExistingCartInVisit($visitProperties->visitorInfo);
+            $visitProperties->setRequestMetadata('Goals', 'isThereExistingCartInVisit', $isThereExistingCartInVisit);
+        }
+    }
+
+    private function isRequestForAnOrder(Request $request)
+    {
+        $orderId = $request->getParam('ec_id');
+        return !empty($orderId);
+    }
+
+    private function isRequestEcommerce(Request $request)
+    {
+        $idGoal = $request->getParam('idgoal');
+        return 0 == $idGoal;
     }
 }

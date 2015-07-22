@@ -156,8 +156,9 @@ abstract class RequestProcessor
      * other words, the values in the array were persisted to the DB before this method was called).
      *
      * @param VisitProperties $visitProperties
+     * @param Request $request
      */
-    public function recordLogs(VisitProperties $visitProperties)
+    public function recordLogs(VisitProperties $visitProperties, Request $request)
     {
         // empty
     }

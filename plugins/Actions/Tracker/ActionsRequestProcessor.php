@@ -69,7 +69,7 @@ class ActionsRequestProcessor extends RequestProcessor
         }
     }
 
-    public function recordLogs(VisitProperties $visitProperties)
+    public function recordLogs(VisitProperties $visitProperties, Request $request)
     {
         /** @var Action $action */
         $action = $visitProperties->getRequestMetadata('Actions', 'action');

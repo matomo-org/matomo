@@ -166,7 +166,7 @@ class Visit implements VisitInterface
         foreach ($this->requestProcessors as $processor) {
             Common::printDebug("Executing " . get_class($processor) . "::recordLogs()...");
 
-            $processor->recordLogs($this->visitProperties);
+            $processor->recordLogs($this->visitProperties, $this->request);
         }
 
         $this->markArchivedReportsAsInvalidIfArchiveAlreadyFinished();

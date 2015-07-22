@@ -16,7 +16,7 @@ use Piwik\Tracker\Visit\VisitProperties;
 class Visitor
 {
     private $visitorKnown = false;
-    private $visitProperties;
+    public $visitProperties;
 
     public function __construct(VisitProperties $visitProperties, $isVisitorKnown = false)
     {
