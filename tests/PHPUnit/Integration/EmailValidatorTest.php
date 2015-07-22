@@ -25,11 +25,6 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->isValid('test@example.com'));
     }
 
-    public function test_isValid_unknownTld()
-    {
-        $this->assertTrue($this->isValid('test@example.unknown'));
-    }
-
     public function test_isValid_validUpperCaseLocalPart()
     {
         $this->assertTrue($this->isValid('TEST@example.com'));
