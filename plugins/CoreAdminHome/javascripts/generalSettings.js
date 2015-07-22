@@ -149,7 +149,7 @@ $(document).ready(function () {
 
         // append new row to the table
         trustedHostSettings.find('ul').append(trustedHostSettings.find('li:last').clone());
-        trustedHostSettings.find('li:last input').val('');
+        trustedHostSettings.find('li:last input').val('').focus();
         return false;
     });
 
