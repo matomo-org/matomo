@@ -51,6 +51,7 @@ class RecommendedFunctionsCheck implements Diagnostic
     private function getRecommendedFunctions()
     {
         return array(
+            'shell_exec',
             'set_time_limit',
             'mail',
             'parse_ini_file',
