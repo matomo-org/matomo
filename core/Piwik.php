@@ -73,7 +73,7 @@ class Piwik
         Common::sendHeader('Content-Type: text/html; charset=utf-8');
 
         $output = "<style>a{color:red;}</style>\n" .
-            "<div style='color:red;font-family:Georgia;font-size:120%'>" .
+            "<div style='color:red;font-size:120%'>" .
             "<p><img src='plugins/Morpheus/images/error_medium.png' style='vertical-align:middle; float:left;padding:20px' />" .
             $message .
             "</p></div>";
