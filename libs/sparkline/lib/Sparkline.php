@@ -38,8 +38,8 @@ class Sparkline extends Object {
   ////////////////////////////////////////////////////////////////////////////
   // constructor
   //
-  function Sparkline($catch_errors = true) {
-    parent::Object($catch_errors);
+  function __construct($catch_errors = true) {
+    parent::__construct($catch_errors);
 
     $this->colorList       = array();
     $this->colorBackground = 'white';
