@@ -53,6 +53,9 @@
         "CloudHosting": "クラウドホスティング",
         "Updating": "アップデート",
         "UpdateUsingHttpsFailed": "以下のエラーにより、セキュリティで保護された HTTPS 接続で Piwik の最新バージョンをダウンロードできませんでした。",
+        "UpdateUsingHttpsFailedHelpWhatToDo": "MITM 攻撃を防ぐために、セキュリティで保護された HTTPS 接続を使用してダウンロードを再試行することをお勧めします。",
+        "UsingHttps": "(推奨) セキュリティで保護された HTTPS 接続を使用してください",
+        "UsingHttp": "セキュリティ保護されていない HTTP 接続の使用",
         "UpgradeComplete": "アップグレードが完了しました！",
         "UpgradePiwik": "Piwik のアップグレード",
         "VerifyingUnpackedFiles": "展開したファイルを検証中",
@@ -61,6 +64,7 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "自動的にバージョン %s にアップデートするか、パッケージをダウンロードして手作業でインストールすることができます：",
         "YouCouldManuallyExecuteSqlQueries": "データベースのタイムアウト、ブラウザのタイムアウト、あるいはその他の問題により Piwik がアップグレードに失敗し、さらにコマンドラインアップデータを使用することができない場合は、Piwik をアップデートするために手作業で SQL クエリーを実行することができます。",
         "YouMustDownloadPackageOrFixPermissions": "Piwik が現在のインストールに上書きすることができません。 ディレクトリ／ファイルのパーミッションを修正するか、パッケージをダウンロードして手作業でバージョン %s をインストールすることができます：",
-        "YourDatabaseIsOutOfDate": "Piwik データベースが古いため、継続する前にアップグレードが必要です。"
+        "YourDatabaseIsOutOfDate": "Piwik データベースが古いため、継続する前にアップグレードが必要です。",
+        "ViewVersionChangelog": "このバージョンでの変更履歴を表示するには："
     }
 }

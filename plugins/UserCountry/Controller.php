@@ -314,8 +314,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function getLocationUsingProvider()
     {
         $providerId = Common::getRequestVar('id');
-        $provider = $provider = LocationProvider::getProviderById($providerId);
-        if ($provider === false) {
+        $provider = LocationProvider::getProviderById($providerId);
+        if (empty($provider)) {
             throw new Exception("Invalid provider ID: '$providerId'.");
         }
 

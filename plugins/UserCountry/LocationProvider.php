@@ -294,7 +294,7 @@ abstract class LocationProvider
     public static function setCurrentProvider($providerId)
     {
         $provider = self::getProviderById($providerId);
-        if ($provider === false) {
+        if (empty($provider)) {
             throw new Exception(
                 "Invalid provider ID '$providerId'. The provider either does not exist or is not available");
         }
