@@ -38,6 +38,8 @@ use Exception;
  */
 abstract class ConversionDimension extends Dimension
 {
+    const INSTALLER_PREFIX = 'log_conversion.';
+
     private $tableName = 'log_conversion';
 
     /**

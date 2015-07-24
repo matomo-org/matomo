@@ -1219,34 +1219,66 @@ class Manager
         }
 
         try {
+            $visitDimensions = VisitDimension::getAllDimensions();
+
             foreach (VisitDimension::getDimensions($plugin) as $dimension) {
-                $this->uninstallDimension($dimension);
+                $this->uninstallDimension(VisitDimension::INSTALLER_PREFIX, $dimension, $visitDimensions);
             }
         } catch (\Exception $e) {
         }
 
         try {
+            $actionDimensions = ActionDimension::getAllDimensions();
+
             foreach (ActionDimension::getDimensions($plugin) as $dimension) {
-                $this->uninstallDimension($dimension);
+                $this->uninstallDimension(ActionDimension::INSTALLER_PREFIX, $dimension, $actionDimensions);
             }
         } catch (\Exception $e) {
         }
 
         try {
+            $conversionDimensions = ConversionDimension::getAllDimensions();
+
             foreach (ConversionDimension::getDimensions($plugin) as $dimension) {
-                $this->uninstallDimension($dimension);
+                $this->uninstallDimension(ConversionDimension::INSTALLER_PREFIX, $dimension, $conversionDimensions);
             }
         } catch (\Exception $e) {
         }
     }
 
     /**
-     * @param ConversionDimension|VisitDimension|ActionDimension $dimension
+     * @param VisitDimension|ActionDimension|ConversionDimension $dimension
+     * @param VisitDimension[]|ActionDimension[]|ConversionDimension[] $allDimensions
+     * @return bool
      */
-    private function uninstallDimension(Dimension $dimension)
+    private function doesAnotherPluginDefineSameColumnWithDbEntry($dimension, $allDimensions)
     {
-        $dimension->uninstall();
-        Option::delete('version_' . $dimension->getVersion());
+        $module = $dimension->getModule();
+        $columnName = $dimension->getColumnName();
+
+        foreach ($allDimensions as $dim) {
+            if ($dim->getColumnName() === $columnName &&
+                $dim->hasColumnType() &&
+                $dim->getModule() !== $module) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $prefix column installer prefix
+     * @param ConversionDimension|VisitDimension|ActionDimension $dimension
+     * @param VisitDimension[]|ActionDimension[]|ConversionDimension[] $allDimensions
+     */
+    private function uninstallDimension($prefix, Dimension $dimension, $allDimensions)
+    {
+        if (!$this->doesAnotherPluginDefineSameColumnWithDbEntry($dimension, $allDimensions)) {
+            $dimension->uninstall();
+
+            $this->removeInstalledVersionFromOptionTable($prefix . $dimension->getColumnName());
+        }
     }
 
     /**
@@ -1259,9 +1291,10 @@ class Manager
         return in_array($pluginName, $pluginsInstalled);
     }
 
-    private function removeInstalledVersionFromOptionTable($version)
+    private function removeInstalledVersionFromOptionTable($name)
     {
-        Option::delete('version_' . $version);
+        $updater = new Updater();
+        $updater->markComponentSuccessfullyUninstalled($name);
     }
 
     private function makeSureOnlyActivatedPluginsAreLoaded()

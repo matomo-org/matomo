@@ -163,15 +163,15 @@ class Updater extends \Piwik\Updates
         $conversionColumns = DbHelper::getTableColumns(Common::prefixTable('log_conversion'));
 
         foreach ($this->visitDimensions as $dimension) {
-            $versions = $this->mixinVersions($updater, $dimension, 'log_visit.', $visitColumns, $versions);
+            $versions = $this->mixinVersions($updater, $dimension, VisitDimension::INSTALLER_PREFIX, $visitColumns, $versions);
         }
 
         foreach ($this->actionDimensions as $dimension) {
-            $versions = $this->mixinVersions($updater, $dimension, 'log_link_visit_action.', $actionColumns, $versions);
+            $versions = $this->mixinVersions($updater, $dimension, ActionDimension::INSTALLER_PREFIX, $actionColumns, $versions);
         }
 
         foreach ($this->conversionDimensions as $dimension) {
-            $versions = $this->mixinVersions($updater, $dimension, 'log_conversion.', $conversionColumns, $versions);
+            $versions = $this->mixinVersions($updater, $dimension, ConversionDimension::INSTALLER_PREFIX, $conversionColumns, $versions);
         }
 
         return $versions;

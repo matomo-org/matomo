@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Option;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater;
 use Piwik\Tests\Framework\Fixture;
@@ -69,4 +70,31 @@ class UpdaterTest extends IntegrationTestCase
             throw new \Exception("Failed to force update (nothing to update).");
         }
     }
+
+    public function testMarkComponentSuccessfullyUpdated_ShouldCreateAnOptionEntry()
+    {
+        $updater = $this->createUpdater();
+        $updater->markComponentSuccessfullyUpdated('test_entry', '0.5');
+
+        $value = Option::get('version_test_entry');
+        $this->assertEquals('0.5', $value);
+    }
+
+    /**
+     * @depends testMarkComponentSuccessfullyUpdated_ShouldCreateAnOptionEntry
+     */
+    public function testMarkComponentSuccessfullyUninstalled_ShouldCreateAnOptionEntry()
+    {
+        $updater = $this->createUpdater();
+        $updater->markComponentSuccessfullyUninstalled('test_entry');
+
+        $value = Option::get('version_test_entry');
+        $this->assertFalse($value);
+    }
+
+    private function createUpdater()
+    {
+        return new Updater();
+    }
+
 }
