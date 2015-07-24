@@ -14,17 +14,17 @@
 			<bounce_count>0</bounce_count>
 			<goals>
 				<row idgoal='1'>
-					<nb_conversions>9</nb_conversions>
+					<nb_conversions>21</nb_conversions>
 					<nb_visits_converted>9</nb_visits_converted>
-					<revenue>45</revenue>
+					<revenue>105</revenue>
 				</row>
 			</goals>
-			<nb_conversions>9</nb_conversions>
-			<revenue>45</revenue>
+			<nb_conversions>21</nb_conversions>
+			<revenue>105</revenue>
 			<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<segment>referrerName==referrer.com</segment>
-			<idsubdatatable>11252</idsubdatatable>
+			<idsubdatatable>8</idsubdatatable>
 		</row>
 	</result>
 </results>
