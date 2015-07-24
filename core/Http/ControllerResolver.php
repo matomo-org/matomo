@@ -78,7 +78,7 @@ class ControllerResolver
 
         $action = $action ?: $controller->getDefaultAction();
 
-        if (!is_callable(array($controller, $action))) {
+        if (!is_callable(array($controller, $action)) || !in_array($action, get_class_methods($controller))) {
             return null;
         }
 
