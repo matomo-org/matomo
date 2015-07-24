@@ -49,6 +49,13 @@ class CliMulti
      */
     private $runAsSuperUser = false;
 
+    /**
+     * Only used when doing synchronous curl requests.
+     *
+     * @var string
+     */
+    private $urlToPiwik = null;
+
     public function __construct()
     {
         $this->supportsAsync = $this->supportsAsync();
@@ -263,7 +270,7 @@ class CliMulti
 
     private function executeNotAsyncHttp($url, Output $output)
     {
-        $piwikUrl = SettingsPiwik::getPiwikUrl();
+        $piwikUrl = $this->urlToPiwik ?: SettingsPiwik::getPiwikUrl();
         if (empty($piwikUrl)) {
             $piwikUrl = 'http://' . Url::getHost() . '/';
         }
@@ -350,5 +357,10 @@ class CliMulti
         Piwik::postEvent('CronArchive.getTokenAuth', array(&$tokens));
 
         return $tokens;
+    }
+
+    public function setUrlToPiwik($urlToPiwik)
+    {
+        $this->urlToPiwik = $urlToPiwik;
     }
 }
