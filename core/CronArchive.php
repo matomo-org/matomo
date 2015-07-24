@@ -223,6 +223,13 @@ class CronArchive
     private $logger;
 
     /**
+     * Only used when archiving using HTTP requests.
+     *
+     * @var string
+     */
+    private $urlToPiwik = null;
+
+    /**
      * Returns the option name of the option that stores the time core:archive was last executed.
      *
      * @param int $idSite
@@ -1544,6 +1551,13 @@ class CronArchive
      */
     private function makeCliMulti()
     {
-        return StaticContainer::get('Piwik\CliMulti');
+        $cliMulti = StaticContainer::get('Piwik\CliMulti');
+        $cliMulti->setUrlToPiwik($this->urlToPiwik);
+        return $cliMulti;
+    }
+
+    public function setUrlToPiwik($url)
+    {
+        $this->urlToPiwik = $url;
     }
 }
