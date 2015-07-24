@@ -78,7 +78,7 @@ class CoreArchiver extends ConsoleCommand
 * If you have any suggestion about this script, please let the team know at feedback@piwik.org
 * Enjoy!");
         $command->addOption('url', null, InputOption::VALUE_REQUIRED,
-            "Deprecated. Forces the value of this option to be used as the URL to Piwik. If your system does not support"
+            "Forces the value of this option to be used as the URL to Piwik. \nIf your system does not support"
             . " archiving with CLI processes, you may need to set this in order for the archiving HTTP requests to use"
             . " the desired URLs.");
         $command->addOption('force-all-websites', null, InputOption::VALUE_NONE,
