@@ -484,7 +484,7 @@
         "CompareDocumentation": "Clic en el siguiente enlace y abrirá una ventana emergente que muestra una fila de la misma tabla para comparar registros múltiples.<br \/>Utilice shift-clic para seleccionar las filas a comparar sin abrir ventanas adicionales.",
         "CompareRows": "Comparar registros",
         "ComparingRecords": "Comparando %s filas",
-        "Documentation": "Cliquee en las métricas para visualizarlas en un gráfico su evolución en el tiempo. Utilice shit-clic para visualizar múltiples métricas de una vez.",
+        "Documentation": "Cliquee en las métricas para visualizarlas en un gráfico su evolución en el tiempo. Utilice shift-clic para visualizar múltiples métricas de una vez.",
         "MetricBetweenText": "entre %s y %s",
         "MetricChangeText": "%s cambio sobre el período",
         "MetricMinMax": "%1$s variaba entre %2$s y %3$s en el período",
