@@ -17,6 +17,7 @@
             </li>
         {% endfor %}
         </ul>
+        <input type="hidden" value="{{ segment }}" id="segment" />
     {% else %}
         <!-- note: the class overlayNoData is used in Piwik_Overlay.js -->
         <div class="overlayNoData">{{ 'Overlay_NoData'|translate }}</div>

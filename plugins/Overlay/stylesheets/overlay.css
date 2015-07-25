@@ -64,6 +64,7 @@ a#overlayTitle {
     color: #255792;
 }
 
+a#overlaySegmentedVisitorLog,
 a#overlayFullScreen,
 a#overlayRowEvolution,
 a#overlayTransitions {
@@ -85,11 +86,16 @@ a#overlayTransitions {
     background: url(../../Transitions/images/transitions_icon_hover.png) no-repeat 0 6px;
 }
 
+a#overlaySegmentedVisitorLog {
+    background: url(../../Live/images/visitorlog-hover.png) no-repeat 0 8px;
+}
+
 a#overlayFullScreen {
     margin-top: 20px;
     background: url(../../Morpheus/images/fullscreen.png) no-repeat 3px 8px;
 }
 
+a#overlaySegmentedVisitorLog:hover,
 a#overlayFullScreen:hover,
 a#overlayRowEvolution:hover,
 a#overlayTransitions:hover {
