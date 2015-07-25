@@ -8,13 +8,13 @@
 
 {% block content %}
     <div class="overlay-sidebar-container">
-        <a id="Overlay_Title" href="http://piwik.org/docs/page-overlay/" rel="noreferrer"  target="_blank">
+        <a id="overlayTitle" href="http://piwik.org/docs/page-overlay/" rel="noreferrer"  target="_blank">
             {{ 'Overlay_Overlay'|translate }}
             <img src="plugins/Morpheus/images/help.png" alt="Documentation"/>
         </a>
 
-        <div id="Overlay_DateRangeSelection">
-            <select id="Overlay_DateRangeSelect" name="Overlay_DateRangeSelect">
+        <div id="overlayDateRangeSelection">
+            <select id="overlayDateRangeSelect" name="overlayDateRangeSelect">
                 <option value="day;today">{{ 'Intl_Today'|translate }}</option>
                 <option value="day;yesterday">{{ 'Intl_Yesterday'|translate }}</option>
                 <option value="week;today">{{ 'General_CurrentWeek'|translate }}</option>
@@ -23,7 +23,7 @@
             </select>
         </div>
 
-        <div id="Overlay_Error_NotLoading">
+        <div id="overlayErrorNotLoading">
             <p>
                 <span>{{ 'Overlay_ErrorNotLoading'|translate }}</span>
             </p>
@@ -43,18 +43,18 @@
             </p>
         </div>
 
-        <div id="Overlay_Location">&nbsp;</div>
+        <div id="overlayLocation">&nbsp;</div>
 
-        <div id="Overlay_Loading">{{ 'General_Loading'|translate }}</div>
+        <div id="overlayLoading">{{ 'General_Loading'|translate }}</div>
 
-        <div id="Overlay_Sidebar"></div>
+        <div id="overlaySidebar"></div>
 
-        <a id="Overlay_RowEvolution">{{ 'General_RowEvolutionRowActionTooltipTitle'|translate }}</a>
-        <a id="Overlay_Transitions">{{ 'General_TransitionsRowActionTooltipTitle'|translate }}</a>
+        <a id="overlayRowEvolution">{{ 'General_RowEvolutionRowActionTooltipTitle'|translate }}</a>
+        <a id="overlayTransitions">{{ 'General_TransitionsRowActionTooltipTitle'|translate }}</a>
     </div>
 
-    <div id="Overlay_Main">
-        <iframe id="Overlay_Iframe" src="" frameborder="0"></iframe>
+    <div id="overlayMain">
+        <iframe id="overlayIframe" src="" frameborder="0"></iframe>
     </div>
 
     <script type="text/javascript">

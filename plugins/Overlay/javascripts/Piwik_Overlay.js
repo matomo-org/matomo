@@ -41,7 +41,7 @@ var Piwik_Overlay = (function () {
 
                 var $response = $(response);
 
-                var $responseLocation = $response.find('.Overlay_Location');
+                var $responseLocation = $response.find('.overlayLocation');
                 var $url = $responseLocation.find('span');
                 iframeCurrentPageNormalized = $url.data('normalizedUrl');
                 iframeCurrentActionLabel = $url.data('label');
@@ -56,7 +56,7 @@ var Piwik_Overlay = (function () {
                     $locationSpan.tooltip({
                         track: true,
                         items: '*',
-                        tooltipClass: 'Overlay_Tooltip',
+                        tooltipClass: 'overlayTooltip',
                         content: '<strong>' + Piwik_Overlay_Translations.domain + ':</strong> ' +
                                   piwikHelper.addBreakpointsToUrl(iframeDomain),
                         show: false,
@@ -66,7 +66,7 @@ var Piwik_Overlay = (function () {
 
                 $sidebar.empty().append($response).show();
 
-                if ($sidebar.find('.Overlay_NoData').size() == 0) {
+                if ($sidebar.find('.overlayNoData').size() == 0) {
                     $rowEvolutionLink.show();
                     $transitionsLink.show()
                 }
@@ -135,16 +135,16 @@ var Piwik_Overlay = (function () {
             date = pDate;
 
             $body = $('body');
-            $iframe = $('#Overlay_Iframe');
-            $sidebar = $('#Overlay_Sidebar');
-            $location = $('#Overlay_Location');
-            $main = $('#Overlay_Main');
-            $loading = $('#Overlay_Loading');
-            $errorNotLoading = $('#Overlay_Error_NotLoading');
+            $iframe = $('#overlayIframe');
+            $sidebar = $('#overlaySidebar');
+            $location = $('#overlayLocation');
+            $main = $('#overlayMain');
+            $loading = $('#overlayLoading');
+            $errorNotLoading = $('#overlayErrorNotLoading');
 
-            $rowEvolutionLink = $('#Overlay_RowEvolution');
-            $transitionsLink = $('#Overlay_Transitions');
-            $fullScreenLink = $('#Overlay_FullScreen');
+            $rowEvolutionLink = $('#overlayRowEvolution');
+            $transitionsLink = $('#overlayTransitions');
+            $fullScreenLink = $('#overlayFullScreen');
 
             adjustDimensions();
 
@@ -180,7 +180,7 @@ var Piwik_Overlay = (function () {
             }
 
             // handle date selection
-            var $select = $('select#Overlay_DateRangeSelect').change(function () {
+            var $select = $('select#overlayDateRangeSelect').change(function () {
                 var parts = $(this).val().split(';');
                 if (parts.length == 2) {
                     period = parts[0];
