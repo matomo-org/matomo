@@ -47,6 +47,7 @@
         "OnlyOneSiteAtTime": "U kunt slechts één website tegelijkertijd bewerken. Sla uw wijzigingen voor website %s op of annuleer de wijzigingen.",
         "PiwikOffersEcommerceAnalytics": "In Piwik is een geavanceerde Ecommerce Analytics tracking & rapportage mogelijk. Leer meer over %s Ecommerce Analytics%s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik sluit automatisch veelvoorkomende sessie parameters uit (%s).",
+        "PluginDescription": "Website beheer laat je toe nieuwe",
         "SearchCategoryLabel": "Categorie parameter",
         "SearchKeywordLabel": "Query parameter",
         "SearchKeywordParametersDesc": "Voer een komma gescheiden lijst in van alle query parameter namen die het site zoek sleutelwoord bevatten.",

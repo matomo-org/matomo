@@ -87,7 +87,6 @@
         "SystemCheckSummaryThereWereWarnings": "May ilang mga isyu sa iyong system. Ang Piwik ay gagana ngunit maaari kang makaranas ng ilang mga menor na problema.",
         "SystemCheckTimeLimitHelp": "Sa website na may mataas na traffic ang pagsasagawa ng archiving process ay mangangailangan ng karagdagang oras kaysa sa kasaluyang proseso. Kung ito'y kinakailangan baguhin ang max_execution_time na nasa iyong php.ini file.",
         "SystemCheckTracker": "Status ng tracker",
-        "SystemCheckTrackerHelp": "Get request sa piwik.php ay pumalya. Subukang e whitelisting ang URL na ito mula sa HTTP Authentication at huwag paganahin ang mod_security (maari mo itong hilingin sa iyong webhost)",
         "SystemCheckWarnDomHelp": "Dapat mong paganahin ang extension na \"DOM\" (hal i-install ang \"php-DOM\" at \/ o \"php-xml\" package).",
         "SystemCheckWarning": "Ang Piwik ay gagana nang normal ngunit ang ilang mga feature ay maaaring mawala.",
         "SystemCheckWarnJsonHelp": "Dapat mong paganahin ang extension na \"json\" (hal i-install ang \"php-json\" package) para sa mas magandang performance.",

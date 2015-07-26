@@ -58,7 +58,6 @@
         "SystemCheckSplHelp": "Необхідно переконфігурувати та перезібрати PHP з Standard PHP Library (SPL) топово увімкненою (by default).",
         "SystemCheckTimeLimitHelp": "На сайті з високим трафіком процес стистення даних може потребувати більше часу ніж доступно зараз в налаштуваннях PHP.<br\/>Дивіться детальніше про директиву max_execution_time у Вашому файлі php.ini.",
         "SystemCheckTracker": "Статус відслідковувача",
-        "SystemCheckTrackerHelp": "Не вдалося здійснити GET запити до piwik.php. Спробуйте занести цей URL в \"білий список\" модуля mod_security та HTTP Authentication.",
         "SystemCheckWarnDomHelp": "Необхідно увімкнути розширення \"dom\" (наприклад встановити пакунок \"php-dom\" та\/або \"php-xml\")",
         "SystemCheckWarning": "Piwik загалом буде працювати за вийнятком деяких можливостей",
         "SystemCheckWarnJsonHelp": "Необхідно увімкнути розширення \"json\" (наприклад встановити пакунок \"php-json\") для забезпечення підвищеної швидкодії.",

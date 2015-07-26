@@ -62,7 +62,7 @@
         "HowToSetupGeoIP_Step3": "Laden Sie diese Ansicht neu. Der %1$sGeoIP (PHP)%2$s Provider wird nun %3$sinstalliert%4$s. Wählen Sie ihn aus.",
         "HowToSetupGeoIP_Step4": "Und fertig! Sie haben gerade Piwik konfiguriert GeoIP zu verwenden. Dies bedeutet, dass Sie nun in der Lage sind die Regionen und Städte zusammen mit einer sehr genauen Angabe der Länder ihrer Besucher zu sehen.",
         "HowToSetupGeoIPIntro": "Anscheinend wurde die Standorterkennung noch nicht vollständig konfiguriert. Dies ist ein nützliches Feature und ohne es ist es nicht möglich, komplett vollständige und umfangreiche Informationen über die Besucher zu erhalten. Nachfolgend alle Informationen, um schnell damit zu beginnen:",
-        "HttpServerModule": "HTTP Server Modul",
+        "HttpServerModule": "HTTP-Server-Modul",
         "InvalidGeoIPUpdatePeriod": "Ungültiger Zeitraum für den GeoIP Aktualisierer: %1$s. Gültige Werte sind %2$s.",
         "IPurchasedGeoIPDBs": "Ich habe %1$sgenauere Datenbanken von MaxMind%2$s erworben und möchte automatische Aktualisierungen einrichten.",
         "ISPDatabase": "Internet Anbieter Datenbank",

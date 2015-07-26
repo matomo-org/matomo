@@ -61,7 +61,6 @@
         "SystemCheckSplHelp": "Tem de configurar e reconstruir PHP com a Standard PHP Library (SPL) activada (por pré-definição).",
         "SystemCheckTimeLimitHelp": "Em um website com tráfego elevado, executar o processo de arquivamento pode exigir mais memória do que o permitido actualmente.<br \/>Altere a directiva max_execution_time no seu ficheiro php.ini se for necessário.",
         "SystemCheckTracker": "Estado do Tracker",
-        "SystemCheckTrackerHelp": "Pedido GET para piwik.php falhou. Tente colocar este URL NA lista branca URLs de mod_security e autenticação HTTP.",
         "SystemCheckWarnDomHelp": "Você deve activar a extensão \"dom\" (por exemplo, instalar o pacote \"php-dom\" e \/ ou \"php-xml\").",
         "SystemCheckWarning": "Piwik vai funcionar normalmente mas podem faltar algumas funcionalidades",
         "SystemCheckWarnJsonHelp": "Você deve activar a extensão \"json\" (por exemplo, instalar o pacote \"php-json\") para um melhor desempenho.",

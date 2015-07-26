@@ -5,7 +5,7 @@
         "DayOfWeek": "Deň v týždni",
         "LocalTime": "Návštevníci podľa lokálneho času",
         "NHour": "%sh",
-        "PluginDescription": "Hlási miestny čas a čas servera keď si vaši návštevníci prezerajú vašu stránku alebo aplikáciu.",
+        "PluginDescription": "Hlási miestny čas a čas servera, kedy si vaši návštevníci prezerajú vašu stránku alebo aplikáciu.",
         "ServerTime": "Návštevníci podľa serverového času",
         "SubmenuTimes": "Časy",
         "VisitsByDayOfWeek": "Návštevy podľa dňa v týždni",

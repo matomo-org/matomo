@@ -76,7 +76,6 @@
         "SystemCheckSummaryThereWereWarnings": "Hi ha alguna incidència amb el vostre sistema. El Piwik funcionarà, però podeu tenir alguns problemes menors.",
         "SystemCheckTimeLimitHelp": "En un lloc web amb trànsit elevat, la creació de l'arxiu pot necessitar més temps de l'acceptada actualment.<br \/>Feu una ullada al 'max_execution_time' del vostre fitxer php.ini si és necessari.",
         "SystemCheckTracker": "Estat del rastrejador",
-        "SystemCheckTrackerHelp": "La petició GET a piwik.php ha fallat. Proveu de posar a la llista d'autentificació HTTP aquesta URL i deshabilitar mod_security (potser heu de preguntar al vostre proveïdor web)",
         "SystemCheckWarnDomHelp": "Heu d'habilitar l'extensió \"dom\" (p.e, instalar els paquets \"php-dom\" i\/o \"php-xml\").",
         "SystemCheckWarning": "El Piwik funcionarà amb normalitat, però algunes funcions potser no estaran disponibles",
         "SystemCheckWarnJsonHelp": "Heu d'instalar l'extensió \"json\" (p.e., instalar el paquet \"php-json\") per un millor rendiment.",

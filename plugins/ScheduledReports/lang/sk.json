@@ -1,6 +1,8 @@
 {
     "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "Tiež poslať správu na tieto e-maily (jeden e-mail na riadok):",
+        "CreateAndScheduleReport": "Vytvoriť na naplánovať report",
+        "CreateReport": "Vytvoriť report",
         "EmailHello": "Ahoj,",
         "EmailReports": "Reporty e-mailom",
         "EmailSchedule": "E-mail report",

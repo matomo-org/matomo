@@ -76,7 +76,6 @@
         "SystemCheckSummaryThereWereWarnings": "Są pewne problemy z systemem. Piwik będzie działać, ale mogą wystąpić drobne problemy.",
         "SystemCheckTimeLimitHelp": "Na stronach o dużym ruchu, działanie i archiwizacja może wymagać więcej czasu niż jest dostępny. Jeżeli okaże się to konieczne, zmień polecenie max_execution_time w pliku php.ini.",
         "SystemCheckTracker": "Status śledzenia",
-        "SystemCheckTrackerHelp": "Żądanie GET wymagana przez piwik.php nie zadziałało. Spróbuj dodać ten adres URL do tzw. whitelistingu z mod_security i uwierzytelniania HTTP.",
         "SystemCheckWarnDomHelp": "Rozszerzenie \"dom\" winno być włączone (np., instalując pakiety \"php-dom\" i\/lub pakiet \"php-xml\").",
         "SystemCheckWarning": "Piwik będzie działać normalnie, ale pewnie funkcje mogą być nieosiągalne",
         "SystemCheckWarnJsonHelp": "Rozszerzenie \"json\" winno byc włączone (np., instalując pakiet \"php-json\") dla uzyskania lepszej wydajności.",

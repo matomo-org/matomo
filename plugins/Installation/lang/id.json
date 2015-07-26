@@ -79,7 +79,6 @@
         "SystemCheckSummaryThereWereWarnings": "Terdapat beberapa permasalahan dalam sistem Anda. Piwik akan berjalan, tetapi Anda mungkin mengalami beberapa permasalahan kecil.",
         "SystemCheckTimeLimitHelp": "Dalam situs dengan kunjungan tinggi, mengeksekusi proses pengarsipan kemungkinan membutuhkan lebih banyak waktu daripada yang dibolehkan sekarang. Bila diperlukan, ubah nilai max_execution_time dalam berkas php.ini Anda.",
         "SystemCheckTracker": "Status Pelacak",
-        "SystemCheckTrackerHelp": "Permintaan GET ke piwik.php gagal. Coba membahkan daftar putih URL ini ke mod_security dan HTTP Authentication.",
         "SystemCheckWarnDomHelp": "Anda harus mengaktifkan ekstensi \"dom\" (misalnya, memasang paket \"php-dom\" dan\/atau \"php-xml\").",
         "SystemCheckWarning": "Piwik akan berjalan normal, tetapi beberapa fitur kemungkinan tak tersedia",
         "SystemCheckWarnJsonHelp": "Anda harus mengaktifkan ekstensi \"json\" (misalnya, memasang paket \"php-json\") untuk kinerja yang lebih baik.",

@@ -89,7 +89,6 @@
         "SystemCheckSummaryThereWereWarnings": "Există unele probleme cu sistemul dumneavoastră. Piwik va rula, dar s-ar putea confrunta cu unele probleme minore.",
         "SystemCheckTimeLimitHelp": "Pe un site cu trafic mare, executarea procesului de arhivare poate necesita mai mult timp decât este permis în prezent. Dacă este necesar, schimbați directiva max_executare_timp în fișierul dvs. php.ini",
         "SystemCheckTracker": "Stare Tracker",
-        "SystemCheckTrackerHelp": "Cererea de GET pe piwik.php nu a reușit. Încercați lista albă pentru aceasta adresă URL de autentificare HTTP și dezactiveaza mod_security (va trebui să întrebați gazda dumneavoastra).",
         "SystemCheckWarnDomHelp": "Ar trebui să se permită extinderea \"dom\" (de exemplu, instalați \"php-dom\" și \/ sau \"php-xml\" pachet).",
         "SystemCheckWarning": "Piwik va funcționa în mod normal, dar unele caracteristici pot lipsi",
         "SystemCheckWarnJsonHelp": "Ar trebui să se permită extinderea \"JSON\" (de exemplu, instalați \"php-JSON\" pachetul) pentru o performanță mai bună.",

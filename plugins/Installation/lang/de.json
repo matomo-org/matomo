@@ -103,7 +103,7 @@
         "SystemCheckSummaryThereWereWarnings": "Es gibt einige Ungereimtheiten mit Ihrem System. Piwik wird funktionieren, aber es könnten geringfügige Probleme auftauchen.",
         "SystemCheckTimeLimitHelp": "Auf einer stark frequentierten Website könnte es passieren, dass die Archivierung mehr Zeit erfordert als erlaubt. Falls erforderlich, ändern Sie den max_execution_time Wert in ihrer php.ini Datei.",
         "SystemCheckTracker": "Tracker-Status",
-        "SystemCheckTrackerHelp": "GET request zu piwik.php fehlgeschlagen. Versuchen Sie, diese URL in die Whitelist von mod_security und der HTTP Authentifizierung aufzunehmen.",
+        "SystemCheckTrackerHelp": "GET-Request zu piwik.php fehlgeschlagen. Versuchen Sie, diese URL in die Whitelist der HTTP-Authentifizierung aufzunehmen und deaktivieren Sie mod_security (ggf. müssen Sie hierzu Ihren Hoster kontaktieren). Nähere Informationen hierzu entnehmen Sie bitte dem Fehler-Log des Webservers.",
         "SystemCheckWarnDomHelp": "Sie sollten die \"dom\" Erweiterung aktivieren (z.Bsp. installieren Sie das \"php-dom\" und\/oder das \"php-xml\" Paket).",
         "SystemCheckWarning": "Piwik wird funktionieren, aber einige Funktionen werden fehlen",
         "SystemCheckWarnJsonHelp": "Für eine bessere Performance sollten Sie die \"json\" Erweiterung aktivieren (installieren Sie z.B. das \"php-json\" Paket).",

@@ -1,8 +1,8 @@
 {
     "Live": {
         "AbandonedCartSummary": "%1$s%2$s はカート %3$s と %4$s を放棄し、 はアイテム %5$s (総合 %6$s%7$s に値する)を放棄しました。",
-        "AveragePageGenerationTime": "この訪問者のロードに、各ページ平均 %1$s かかりました。",
-        "CalculatedOverNPageViews": "この訪問者の最終 %1$s ページビューを利用して計算",
+        "AveragePageGenerationTime": "このビジターのロードに、各ページ平均 %1$s かかりました。",
+        "CalculatedOverNPageViews": "このビジターの最終 %1$s ページビューを利用して計算",
         "ClickToViewMoreAboutVisit": "この訪問に関する詳細情報を見るには、クリックしてください。",
         "ConvertedNGoals": "変換された %s 目標",
         "EcommerceSummaryConversions": "%1$s%2$s は、合計 %3$s%4$s を注文し、%5$s アイテムを購入しました。",

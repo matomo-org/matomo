@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "Deze plugin verzorgt de widgets Bezoekers landkaart en Real-time landkaart. Opmerking: Vereist dat de UserCountry plugin is ingeschakeld.",
         "AndNOthers": "en %s anderen",
         "Cities": "Steden",
         "Countries": "Landen",

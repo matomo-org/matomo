@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "Spåra händelser och få rapporter om besökarnas aktiviteter.",
         "AvgEventValue": "Genomsnittligt värde för händelse är: %s",
         "AvgValue": "Genomsnittligt värde",
         "AvgValueDocumentation": "Medelvärdet för alla värden för denna händelse",

@@ -66,7 +66,7 @@
         "SiteWithoutDataTitle": "まだデータは記録されていません",
         "SiteWithoutDataDescription": "まだこのウエブサイトの分析データは追跡されていません。",
         "SiteWithoutDataSetupTracking": "あなたのウェブサイトに %1$s JavaScrip トラッキング コード %2$s を設定して、ページを更新してください。",
-        "SuperUserAccessCan": "スーパーユーザーアクセス権限を持つユーザーは、新しいウェブサイトに対しグローバル設定 %s を %s 指定することもできます。",
+        "SuperUserAccessCan": "スーパーユーザーアクセス権限を持つユーザーは、新しいウェブサイトに対し %s グローバルリストを指定 %s することもできます。",
         "Timezone": "タイムゾーン",
         "TrackingSiteSearch": "サイト内検索のトラッキング",
         "TrackingTags": "%s 用トラッキングタグ",

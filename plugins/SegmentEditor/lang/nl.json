@@ -1,5 +1,6 @@
 {
     "SegmentEditor": {
+        "PluginDescription": "Maak en hergebruik aangepaste Bezoeker segmenten met de Segment Editor.",
         "AddANDorORCondition": "Voeg %s voorwaarde toe",
         "AddNewSegment": "Voeg nieuw segment toe",
         "AreYouSureDeleteSegment": "Weet je zeker dat je dit segment wilt verwijderen?",

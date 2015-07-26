@@ -80,7 +80,6 @@
         "SystemCheckSummaryThereWereWarnings": "Има проблеми, които засягат вашата система. Piwik ще работи, но може да срещнете някои дребни трудности при работа.",
         "SystemCheckTimeLimitHelp": "За силно натоварените сайтове, времето за архивиране на данните отнема повече време. Ако е необходимо моля редактирайте max_execution_time директивата в php.ini файла.",
         "SystemCheckTracker": "Статус на проследяване",
-        "SystemCheckTrackerHelp": "GET поискването от piwik.php е неуспешно. Опитайте да \"whitelist\"-нете този URL от HTTP Authentication и изключете mod_security (може да ви се наложи да попитате вашият уеб хост).",
         "SystemCheckWarnDomHelp": "Трябва да включите \"dom\" разширенето (напр: install the \"php-dom\" и\/или \"php-xml\" пакета).",
         "SystemCheckWarning": "Piwik ще работи нормално, но някои услуги ще липсват",
         "SystemCheckWarnJsonHelp": "Трябва да включите \"json\" разширението (пр: install the \"php-json\" пакета) за по-добро представяне.",

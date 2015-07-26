@@ -70,7 +70,7 @@
         "PluginSettings": "Plugin Einstellungen",
         "PluginSettingsIntro": "Hier können Sie die Einstellungen für folgende Drittanbieter Plugins ändern:",
         "PluginSettingsValueNotAllowed": "Der Wert für die Einstellung \"%s\" im Plugin \"%s\" ist nicht erlaubt.",
-        "PluginSettingsSaveFailed": "Speichern der Plugin Einstellungen fehlgeschlagen.",
+        "PluginSettingsSaveFailed": "Speichern der Plugin-Einstellungen fehlgeschlagen.",
         "SendPluginUpdateCommunication": "Sende mir eine E-Mail wenn eine neue Plugin-Aktualisierung zur Verfügung steht",
         "SendPluginUpdateCommunicationHelp": "Der Hauptadministrator wird per E-Mail benachrichtigt, sobald eine neue Version eines Plugins zur Verfügung steht.",
         "StableReleases": "Sollte Piwik eine wichtige Komponente Ihres Unternehmens sein, empfehlen wir Ihnen den letzen stabilen Release zu verwenden. Sollten Sie die letze Beta Version verwenden und einen Fehler finden oder einen Vorschlag haben, %slesen Sie bitte hier%s.",

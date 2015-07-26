@@ -85,7 +85,6 @@
         "SystemCheckSummaryThereWereWarnings": "Existem alguns problemas com o seu sistema. Piwik será executado, mas você pode experimentar alguns problemas menores.",
         "SystemCheckTimeLimitHelp": "Em um site com alto tráfego, executar o processo de arquivamento pode exigir mais memória do que o atualmente permitido. Se necessário, altere a diretiva max_execution_time no seu arquivo php.ini.",
         "SystemCheckTracker": "Status do Rastreador",
-        "SystemCheckTrackerHelp": "Solicitação GET para piwik.php falhou. Tente whitelisting esta URL da Autenticação HTTP e desativar o mod_security (você pode ter que pedir a sua hospedagem).",
         "SystemCheckWarnDomHelp": "Você deve habilitar a extensão \"dom\" por exemplo, instalar o \"php-dom\" e\/ou o pacote \"php-xml\").",
         "SystemCheckWarning": "Piwik vai funcionar corretamente mas alguns recursos podem não estar disponíveis",
         "SystemCheckWarnJsonHelp": "Você deve habilitar a extensão \"json\" (por exemplo, instalar o pacote \"php-json\") para um melhor desempenho.",

@@ -29,7 +29,7 @@
         "ColumnPurchasedProductsDocumentation": "Die Anzahl der bestellten Produkte ist die Summe der Bestellmengen aller Bestellungen",
         "ColumnQuantityDocumentation": "Die insgesamt verkaufte Menge von %s.",
         "ColumnRevenueDocumentation": "Gesamter Umsatz generiert von %s.",
-        "ColumnRevenuePerVisitDocumentation": "Der Gesamtumsatz generiert bei %s geteilt durch die Anzahl der Besuche.",
+        "ColumnRevenuePerVisitDocumentation": "Der Gesamtumsatz generiert durch %s geteilt durch die Anzahl der Besuche.",
         "ColumnVisits": "Die Gesamtanzahl an Besuchen, unabhängig davon ob dabei ein Ziel erreicht wurde oder nicht.",
         "ColumnVisitsProductDocumentation": "Die Anzahl der Besuche auf der Produkt-\/Kategorieseite. Wird auch genutzt um die %s Konversionsrate zu berechnen.Diese Metrik ist auch im Report der Ecommerceansicht, wenn diese auf der Produkt-\/Kategorieseite eingestellt wurde.",
         "Contains": "beinhaltet %s",
