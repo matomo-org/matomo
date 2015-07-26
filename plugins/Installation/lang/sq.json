@@ -61,7 +61,6 @@
         "SystemCheckSplHelp": "Lypset të formësoni dhe krijoni PHP-në me Librarinë Standarde PHP të aktivizuar (si parazgjedhje).",
         "SystemCheckTimeLimitHelp": "Në \"site\" web me shumë trafik, përmbushja e procesit të arkivimit mund të dojë më tepër kohë se sa i është dhënë tani. Në u dashtë, ndryshojeni parametrin max_execution_time te kartela juaj php.ini.",
         "SystemCheckTracker": "Gjendje gjurmuesi",
-        "SystemCheckTrackerHelp": "Kërkesa GET te piwik.php dështoi. Provoni ta hidhni te lista e bardhë këtë URL prej mod_security dhe Mirëfilltësimit HTTP.",
         "SystemCheckWarnDomHelp": "Do të duhej të aktivizonit zgjerimin \"dom\" (p.sh., instaloni paketën \"php-dom\" dhe\/ose \"php-xml\").",
         "SystemCheckWarning": "Piwik-u do të punojë normalisht por mund t'i mungojnë disa veçori",
         "SystemCheckWarnJsonHelp": "Do të duhej të aktivizonit zgjerimin \"json\" (p.sh., instaloni paketën \"php-json\") për punim më të mirë.",

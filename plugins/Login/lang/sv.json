@@ -16,6 +16,7 @@
         "PasswordChanged": "Ditt lösenord har ändrats.",
         "PasswordRepeat": "Lösenord (bekräfta)",
         "PasswordsDoNotMatch": "Lösenorden matchar inte.",
+        "PluginDescription": "Tillhandahåller autentisering med användarnamn och lösenord samt lösenordsåterställning. Autentiseringsmetoden kan anpassas med en annan plugin som t.ex. LoginLdap från marknadsplatsen.",
         "RememberMe": "Kom ihåg mig",
         "ResetPasswordInstructions": "Skriv in ett nytt lösenord för ditt konto."
     }

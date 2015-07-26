@@ -75,7 +75,6 @@
         "SystemCheckSummaryThereWereWarnings": "چند مشکل با سیستم شما وجود دارد. پیویک اجرا خواهد شد ولی ممکن است شما با مشکلات جزئی را تجربه کنید.",
         "SystemCheckTimeLimitHelp": "در وب سایت پر ترافیک، اجرای فرایند آرشیو ممکن است زمان بیشتری از آنچه در حال حاضر اجازه داده نیاز داشته باشد. در صورت لزوم، تغییر بخشنامه max_execution_time در فایل php.ini خود را.",
         "SystemCheckTracker": "وضعیت نرم افزار",
-        "SystemCheckTrackerHelp": "درخواست به piwik.php شکست خورد. سعی کنید whitelisting این URL را از دنبال mod_security بگردید و تایید HTTP.",
         "SystemCheckWarnDomHelp": "شما باید پسوند \"DOM\" (به عنوان مثال، نصب PHP-DOM \"و \/ یا\" PHP-XML \"بسته) را فعال کنید.",
         "SystemCheckWarning": "Piwik به طور معمول کار خواهد کرد اما برخی از ویژگی های ممکن است از دست رفته",
         "SystemCheckWarnJsonHelp": "شما باید فرمت JSON \"(به عنوان مثال، نصب بسته\" پی اچ پی JSON \") برای عملکرد بهتر را فعال کنید.",

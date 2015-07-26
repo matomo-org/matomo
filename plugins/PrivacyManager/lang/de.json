@@ -1,6 +1,6 @@
 {
     "PrivacyManager": {
-        "AnonymizeIpDescription": "Wählen Sie \"Ja\", wenn Piwik nicht die komplette IP-Adresse speichern soll.",
+        "AnonymizeIpDescription": "Wählen Sie \"Ja\", wenn Piwik keine vollständigen IP-Adressen speichern soll.",
         "AnonymizeIpInlineHelp": "Um den Datenschutzbestimmungen Ihres Landes gerecht zu werden, können Sie mit diesem Plugin die letzten Bytes der IP-Adresse Ihrer Besucher anonymisieren.",
         "AnonymizeIpExtendedHelp": "Wenn Benutzer Ihre Website besuchen, wird Piwik nicht die komplette IP Adresse (so wie %s) benützen, sondern sie stattdessen zuerst anonymisieren (zu %s). Die Anonymisierung der IP Adresse ist in einigen Ländern eine gesetzliche Pflicht, zum Beispiel in Deutschland vorgegeben durch das Datenschutzrecht.",
         "AnonymizeIpMaskLengtDescription": "Wählen Sie aus, wieviele Bytes der Besucher-IP maskiert werden sollen.",

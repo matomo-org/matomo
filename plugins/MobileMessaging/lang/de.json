@@ -1,9 +1,9 @@
 {
     "MobileMessaging": {
         "Exception_UnknownProvider": "Der Anbietername '%s' ist unbekannt. Versuchen Sie stattdessen einen der folgenden: %s.",
-        "MobileReport_AdditionalPhoneNumbers": "Sie können weitere Telefonnummern hinzufügen durch besuchen",
+        "MobileReport_AdditionalPhoneNumbers": "Sie können weitere Telefonnummern hinzufügen auf",
         "MobileReport_MobileMessagingSettingsLink": "der Mobile Messaging Einstellungsseite",
-        "MobileReport_NoPhoneNumbers": "Bitte aktivieren Sie mindestens eine Telefonnummer durch besuchen",
+        "MobileReport_NoPhoneNumbers": "Bitte aktivieren Sie mindestens eine Telefonnummer auf",
         "MultiSites_Must_Be_Activated": "Um SMS-Berichte über Ihre Website-Statistiken generieren zu können, aktivieren Sie das MultiSites-Plugin in Piwik.",
         "PhoneNumbers": "Telefonnummern",
         "PluginDescription": "Erstellen Sie eigene SMS-Berichte, laden Sie diese herunter und lassen Sie diese täglich, wöchentlich oder monatlich auf Ihr Handy senden.",

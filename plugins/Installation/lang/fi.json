@@ -88,7 +88,6 @@
         "SystemCheckSummaryThereWereWarnings": "Järjestelmässä on joitakin ongelmia. Piwik ajetaan, mutta saatat kokea joitakin pienehköjä ongelmia.",
         "SystemCheckTimeLimitHelp": "Jos verkkosivuilla on paljon liikennettä, arkistointiprosessi saattaa vaatia enemmän aikaa.<br \/>Muokkaa asetusta max_execution_time php.ini-tiedostossa tarvittaessa.",
         "SystemCheckTracker": "Seurantapalvelimen tila",
-        "SystemCheckTrackerHelp": "GET-pyyntö piwik.php:n epäonnistui. Voit kokeilla poistaa tämän osoitteen mod_securitystä ja HTTP-autentikoinnista.",
         "SystemCheckWarnDomHelp": "Asenna \"dom\"-lisäosa (yleensä php-dom ja\/tai php-xml).",
         "SystemCheckWarning": "Piwik toimii normaalisti, mutta osa ominaisuuksista puuttuu",
         "SystemCheckWarnJsonHelp": "Asenna \"json\" (yleensä php-json), jos tarvitset parempaa suorituskykyä.",

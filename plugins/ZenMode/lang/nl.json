@@ -1,5 +1,6 @@
 {
     "ZenMode": {
+        "PluginDescription": "Blijf zen met Piwik. Zen mode houdt de dingen eenvoudig. Het is beschikbaar via het icoon in de rechterbovenhoek van het scherm.",
         "SearchForAnything": "Zoeken op alles",
         "QuickAccessTitle": "Zoeken op menu-items, rapporten en websites",
         "HowToSearch": "Om te zoeken op menu-items, rapporten of websites gebruik het zoekvak rechtsboven of druk op 'alt+f'.",

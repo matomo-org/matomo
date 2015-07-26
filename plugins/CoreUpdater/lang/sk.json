@@ -65,7 +65,7 @@
         "VerifyingUnpackedFiles": "Verifikácia rozbalených súborov",
         "WarningMessages": "Varovania:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Automaticky sa deaktivovali tieto moduly: %s",
-        "YouCanUpgradeAutomaticallyOrDownloadPackage": "Aktualizovať na verziu %s môžete automaticky alebo si stiahnite balíček a neinštalujte ho manuálne:",
+        "YouCanUpgradeAutomaticallyOrDownloadPackage": "Aktualizovať na verziu %s môžete automaticky alebo si stiahnite balíček a nainštalujte ho manuálne:",
         "YouCouldManuallyExecuteSqlQueries": "Ak nie ste schopný spustiť aktualizáciu z príkazového riadku a ak sa aktualizácia preruší (z dôvodu vypršania času databázy, vypršania času prehliadača alebo akejkoľvek inej záležitosti) , môžete manuálne vykonať SQL dopyty pre aktualizáciu projektu Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik nie je schopný prepísať Vašu aktuálnu inštaláciu. Môžete buďto opraviť povolenia zložky\/súboru, alebo stiahnuť balík a nainštalovať verziu %s manuálne.",
         "YourDatabaseIsOutOfDate": "Vaša Piwik databáza je zastaralá a musí byť zaktualizovaná, aby ste mohli pokračovať ďalej.",

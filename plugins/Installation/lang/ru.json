@@ -97,7 +97,6 @@
         "SystemCheckSummaryThereWereWarnings": "Есть некоторые проблемы с вашей системой. Piwik будет работать, но вы можете столкнуться с некоторыми незначительными проблемами.",
         "SystemCheckTimeLimitHelp": "На высоконагруженном сайте, процесс архивации может занять больше времени, чем разрешено в данный момент. Если необходимо, измените директиву max_execution_time в вашем php.ini файле.",
         "SystemCheckTracker": "Статус отслеживания",
-        "SystemCheckTrackerHelp": "Запрос GET к piwik.php завершился неудачей. Попробуйте этот URL занести в белый список mod_security и HTTP Authentication.",
         "SystemCheckWarnDomHelp": "Следует разрешить модуль \"dom\" (скорее всего, установить модуль \"php-dom\" и\/или \"php-xml\").",
         "SystemCheckWarning": "Piwik будет работать нормально, но некоторые функции не будут доступны",
         "SystemCheckWarnJsonHelp": "Следует разрешить модуль \"json\" (скорее всего, установить модуль \"php-json\") для лучшего быстродействия.",

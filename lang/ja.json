@@ -276,7 +276,7 @@
         "Password": "パスワード",
         "Period": "期間",
         "Piechart": "円グラフ",
-        "PiwikIsACollaborativeProjectYouCanContributeAndDonate": "%1$sPiwik%2$s は、%7$sPiwik team%8$s メンバーだけでなく世界中の他の多くの貢献者による共同プロジェクトです。もし Piwik のファンになって頂けたら、ぜひ貢献してください。: %3$sHow to participate in Piwik%4$s を読んで、Piwik 3.0 基金を助けるために %5$sdonate %6$s !",
+        "PiwikIsACollaborativeProjectYouCanContributeAndDonate": "%1$s Piwik %2$s は、%7$s Piwik team %8$s メンバーだけでなく世界中の他の多くの貢献者による共同プロジェクトです。もし Piwik のファンになって頂けたら、ぜひ貢献してください。: %3$s How to participate in Piwik%4$s を読んで、Piwik 3.0 基金にご協力ください %5$s %6$s !",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s が利用可能です。ぜひ %2$sPiwik administrator%3$s に通知してください。",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s が利用可能です。 %2$s今すぐアップデートしてください！%3$s（%4$s変更点%5$sを参照）。",
         "PleaseSpecifyValue": "'%s' の値を指定してください。",

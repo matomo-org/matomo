@@ -66,6 +66,7 @@
         "Organization": "Organisatie",
         "OrgDatabase": "Organisatie Database",
         "PiwikNotManagingGeoIPDBs": "Piwik beheert momenteel geen GeoIP databases.",
+        "PluginDescription": "Rapporteert de locatie van je bezoekers: Land, regio, stad en coördinaten (lengte- en breedtegraad)",
         "Region": "Regio",
         "SetupAutomaticUpdatesOfGeoIP": "Stel automatische updates van GeoIP databases in",
         "SubmenuLocations": "Locaties",

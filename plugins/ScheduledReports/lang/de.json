@@ -20,7 +20,7 @@
         "PersonalEmailReports": "Persönliche Email-Berichte",
         "MonthlyScheduleHelp": "Monatlich: Bericht wird immer am ersten Tag des Monats verschickt.",
         "MustBeLoggedIn": "Sie müssen angemeldet sein, um Berichte anlegen und versenden zu können.",
-        "NoRecipients": "Dieser Bericht hat keine Empfänger.",
+        "NoRecipients": "Dieser Bericht hat keine Empfänger",
         "OClock": "Uhr",
         "Pagination": "Seite %s von %s",
         "PiwikReports": "Piwik-Berichte",

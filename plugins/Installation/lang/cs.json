@@ -97,7 +97,6 @@
         "SystemCheckSummaryThereWereWarnings": "JVyskytly se problémy s vaším systémem. Piwik poběží, ale možná se nevyhnete menším problémům.",
         "SystemCheckTimeLimitHelp": "na webech s vysokým přenosem, může archivace vyžadovat více času, než je nyní povoleno.<br \/>Pokud je potřeba podívejte se na direktivu max_execution_time ve vašem souboru php.ini",
         "SystemCheckTracker": "Stav sledování",
-        "SystemCheckTrackerHelp": "GET požadavek na piwik.php selhal. Zkuste vynechat tuto URL z HTTP autentizace a zakažte mod security (možná budete muset kontaktovat správce webhostingu).",
         "SystemCheckWarnDomHelp": "Měli byste povolit \"dom\" rozšíření t. j. nainstalovat balíček \"php-dom\" nebo \"php-xml\".",
         "SystemCheckWarning": "Piwik bude pracovat normálně, ale některé funkce budou chybět",
         "SystemCheckWarnJsonHelp": "Pro lepší výkon byste měli povolit rozšíření \"json\" t. j. nainstalovat balíček \"php-json\".",

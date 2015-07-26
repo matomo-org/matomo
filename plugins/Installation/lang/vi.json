@@ -80,7 +80,6 @@
         "SystemCheckSummaryThereWereWarnings": "Có một số vấn đề với hệ thống của bạn. Piwik sẽ chạy, nhưng bạn có thể gặp một số vấn đề nhỏ.",
         "SystemCheckTimeLimitHelp": "Trên một trang web lưu lượng truy cập cao, quá trình lưu trữ bổ sung có thể đòi hỏi nhiều bộ nhớ hơn so với sự cho phép hiện nay. Nếu cần thiết, thay đổi các chỉ thị max_execution_time trong tập tin php.ini.",
         "SystemCheckTracker": "Tình trạng theo dõi",
-        "SystemCheckTrackerHelp": "GET yêu cầu piwik.php thất bại. Thử làm trắng danh sách URL này từ HTTP xác thực và vô hiệu hóa mod_security (bạn có thể phải yêu cầu lưu trữ web của bạn).",
         "SystemCheckWarnDomHelp": "Bạn nên kích hoạt \"dom\" mở rộng (ví dụ, cài đặt gói \"php-dom\" và \/ hoặc \"php-xml\").",
         "SystemCheckWarning": "Piwik sẽ làm việc bình thường nhưng một số tính năng có thể bị thiếu",
         "SystemCheckWarnJsonHelp": "Bạn nên kích hoạt \"json\" mở rộng (ví dụ, cài đặt gói \"php-json\") để có hiệu suất tốt hơn.",
