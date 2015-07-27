@@ -59,9 +59,7 @@
                         <br/>
                         {{ 'ScheduledReports_MonthlyScheduleHelp'|translate }}
                         <br/>
-                        {{ 'ScheduledReports_ReportHour'|translate }}
-                        <input type="text" id="report_hour" class="inp" size="2">
-                        {{ 'ScheduledReports_OClock'|translate }}
+                        {{ 'ScheduledReports_ReportHour'|translate('<input type="text" id="report_hour" class="inp" size="2">')|raw }}
                     </div>
                 </td>
             </tr>
