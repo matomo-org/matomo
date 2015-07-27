@@ -778,7 +778,13 @@ class Date
     );
 
     /**
-     * Parses the datetime format pattern.
+     * Parses the datetime format pattern and returns a tokenized result array
+     *
+     * Examples:
+     * Input                     Output
+     * 'dd.mm.yyyy'              array(array('dd'), '.', array('mm'), '.', array('yyyy'))
+     * 'y?M?d?EEEE ah:mm:ss'   array(array('y'), '?', array('M'), '?', array('d'), '?', array('EEEE'), ' ', array('a'), array('h'), ':', array('mm'), ':', array('ss'))
+     *
      * @param string $pattern the pattern to be parsed
      * @return array tokenized parsing result
      */
