@@ -88,7 +88,7 @@ describe("Overlay", function () {
     it("should change date range when period changed", function (done) {
         expect.screenshot("period_change").to.be.capture(function (page) {
             page.evaluate(function () {
-                $('#Overlay_DateRangeSelect').val('day;yesterday').trigger('change');
+                $('#overlayDateRangeSelect').val('day;yesterday').trigger('change');
             });
 
             removeOptOutIframe(page);
@@ -97,7 +97,7 @@ describe("Overlay", function () {
 
     it("should open row evolution popup when row evolution link clicked", function (done) {
         expect.screenshot("row_evolution").to.be.capture(function (page) {
-            page.click('#Overlay_RowEvolution');
+            page.click('#overlayRowEvolution');
             page.evaluate(function () {
                 $('.jqplot-xaxis').hide(); // xaxis will change every day so hide it
             });
@@ -109,7 +109,7 @@ describe("Overlay", function () {
     it("should open transitions popup when transitions link clicked", function (done) {
         expect.screenshot("transitions").to.be.capture(function (page) {
             page.click('button.ui-dialog-titlebar-close');
-            page.click('#Overlay_Transitions');
+            page.click('#overlayTransitions');
 
             removeOptOutIframe(page);
         }, done);

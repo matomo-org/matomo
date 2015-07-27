@@ -8,7 +8,7 @@
 var Piwik_Overlay = (function () {
 
     var $body, $iframe, $sidebar, $main, $location, $loading, $errorNotLoading;
-    var $rowEvolutionLink, $transitionsLink, $fullScreenLink;
+    var $rowEvolutionLink, $transitionsLink, $fullScreenLink, $visitorLogLink;
 
     var idSite, period, date;
 
@@ -41,7 +41,7 @@ var Piwik_Overlay = (function () {
 
                 var $response = $(response);
 
-                var $responseLocation = $response.find('.Overlay_Location');
+                var $responseLocation = $response.find('.overlayLocation');
                 var $url = $responseLocation.find('span');
                 iframeCurrentPageNormalized = $url.data('normalizedUrl');
                 iframeCurrentActionLabel = $url.data('label');
@@ -56,7 +56,7 @@ var Piwik_Overlay = (function () {
                     $locationSpan.tooltip({
                         track: true,
                         items: '*',
-                        tooltipClass: 'Overlay_Tooltip',
+                        tooltipClass: 'overlayTooltip',
                         content: '<strong>' + Piwik_Overlay_Translations.domain + ':</strong> ' +
                                   piwikHelper.addBreakpointsToUrl(iframeDomain),
                         show: false,
@@ -66,10 +66,14 @@ var Piwik_Overlay = (function () {
 
                 $sidebar.empty().append($response).show();
 
-                if ($sidebar.find('.Overlay_NoData').size() == 0) {
+                if ($sidebar.find('.overlayNoData').size() == 0) {
                     $rowEvolutionLink.show();
-                    $transitionsLink.show()
+                    $transitionsLink.show();
+                    if ($('#segment').val()) {
+                        $visitorLogLink.show();
+                    }
                 }
+
             }
         );
         ajaxRequest.setErrorCallback(function () {
@@ -96,6 +100,7 @@ var Piwik_Overlay = (function () {
         $fullScreenLink.hide();
         $rowEvolutionLink.hide();
         $transitionsLink.hide();
+        $visitorLogLink.hide();
 
         $errorNotLoading.hide();
     }
@@ -135,16 +140,17 @@ var Piwik_Overlay = (function () {
             date = pDate;
 
             $body = $('body');
-            $iframe = $('#Overlay_Iframe');
-            $sidebar = $('#Overlay_Sidebar');
-            $location = $('#Overlay_Location');
-            $main = $('#Overlay_Main');
-            $loading = $('#Overlay_Loading');
-            $errorNotLoading = $('#Overlay_Error_NotLoading');
+            $iframe = $('#overlayIframe');
+            $sidebar = $('#overlaySidebar');
+            $location = $('#overlayLocation');
+            $main = $('#overlayMain');
+            $loading = $('#overlayLoading');
+            $errorNotLoading = $('#overlayErrorNotLoading');
 
-            $rowEvolutionLink = $('#Overlay_RowEvolution');
-            $transitionsLink = $('#Overlay_Transitions');
-            $fullScreenLink = $('#Overlay_FullScreen');
+            $rowEvolutionLink = $('#overlayRowEvolution');
+            $transitionsLink = $('#overlayTransitions');
+            $fullScreenLink = $('#overlayFullScreen');
+            $visitorLogLink = $('#overlaySegmentedVisitorLog');
 
             adjustDimensions();
 
@@ -180,7 +186,7 @@ var Piwik_Overlay = (function () {
             }
 
             // handle date selection
-            var $select = $('select#Overlay_DateRangeSelect').change(function () {
+            var $select = $('select#overlayDateRangeSelect').change(function () {
                 var parts = $(this).val().split(';');
                 if (parts.length == 2) {
                     period = parts[0];
@@ -210,6 +216,12 @@ var Piwik_Overlay = (function () {
             // handle row evolution link
             $rowEvolutionLink.click(function () {
                 DataTable_RowActions_RowEvolution.launch('Actions.getPageUrls', iframeCurrentActionLabel);
+                return false;
+            });
+
+            // handle segmented visitor log link
+            $visitorLogLink.click(function () {
+                DataTable_RowActions_Registry.getActionByName('SegmentVisitorLog').createInstance({}).showVisitorLog('Actions.getPageUrls', $('#segment').val(), {});
                 return false;
             });
 
