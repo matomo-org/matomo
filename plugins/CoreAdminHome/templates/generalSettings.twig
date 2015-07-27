@@ -252,8 +252,14 @@
                     </li>
                 {% endfor %}
             </ul>
-            <div class="add-trusted-host-container">
-                <a href="#" class="btn add-trusted-host"><em>{{ 'General_Add'|translate }}</em></a>
+
+            <div class="add-trusted-host">
+                <input type="text" placeholder="Add a new trusted host" readonly/>
+
+                <a href="#" title="{{ 'General_Delete'|translate }}">
+                    <img alt="{{ 'General_Delete'|translate }}" src="plugins/Morpheus/images/add.png"/>
+                </a>
+
             </div>
         {% endif %}
     </div>
