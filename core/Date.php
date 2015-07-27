@@ -659,6 +659,10 @@ class Date
      */
     protected function replaceLegacyPlaceholders($template)
     {
+        if (strpos($template, '%') === false) {
+            return $template;
+        }
+
         $mapping = array(
             '%day%' => 'd',
             '%shortMonth%' => 'MMM',
