@@ -11,6 +11,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The method `Piwik\Plugin\Menu::configureReportingMenu` has been removed. To add something to the reporting menu you need to create widgets
 * The method `Report::configureWidget()`, `Report::getWidgetTitle()` and `Report::configureReportingMenu()` have been removed, use the new method `Report::configureWidgets()` instead.
 * The method `Report::getCategory()` does no longer return the translated category but the translation key of the category
+* The property `Report::$category` has been renamed to `Report::$categoryId`
 * The methods `Report::factory()`, `Report::getAllReportClasses()`, `Report::getAllReports` have been moved to the `Piwik\Plugin\Reports` class.
 * The properties `Report::$widgetTitle`, `Report::$widgetParams` and `Report::$menuTitle` were removed, use the method `Report::configureWidgets()` to create widgets instead
 * In the HTTP API methods `Dashboard.getDefaultDashboard` and `Dashboard.getUserDashboards` we do no longer remove not existing widgets as it is up to the client which widgets actually exist
