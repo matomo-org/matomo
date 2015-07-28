@@ -94,7 +94,9 @@ class GoalsRequestProcessor extends RequestProcessor
             $existingGoalsConverted = $visitProperties->getRequestMetadata('Goals', 'goalsConverted') ?: array();
             $visitProperties->setRequestMetadata('Goals', 'goalsConverted', array_merge($existingGoalsConverted, $goalsConverted));
 
-            $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', !empty($goalsConverted));
+            if (!empty($goalsConverted)) {
+                $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', true);
+            }
         }
 
         // There is an edge case when:
