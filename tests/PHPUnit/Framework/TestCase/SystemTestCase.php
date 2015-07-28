@@ -101,11 +101,6 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         return !empty($travis);
     }
 
-    public static function isPhpVersion53()
-    {
-        return strpos(PHP_VERSION, '5.3') === 0;
-    }
-
     public static function isPhp7orLater()
     {
         return version_compare('7.0.0-dev', PHP_VERSION) < 1;
@@ -599,13 +594,6 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     public static function deleteArchiveTables()
     {
         DbHelper::deleteArchiveTables();
-    }
-
-    protected function skipWhenPhp53()
-    {
-        if(self::isPhpVersion53()) {
-            $this->markTestSkipped('Sometimes fail on php 5.3');
-        }
     }
 
     public function assertHttpResponseText($expectedResponseText, $url, $message = '')

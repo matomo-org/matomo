@@ -124,14 +124,11 @@ abstract class ControllerAdmin extends Controller
 
     private static function notifyWhenPhpVersionIsEOL()
     {
-        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && self::isPhpVersion53();
+        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && self::isPhpVersion54();
         if (!$notifyPhpIsEOL) {
             return;
         }
-        $dateDropSupport = Date::factory('2015-05-01')->getLocalized('%longMonth% %longYear%');
-        $message = Piwik::translate('General_WarningPiwikWillStopSupportingPHPVersion', $dateDropSupport)
-            . "\n "
-            . Piwik::translate('General_WarningPhpVersionXIsTooOld', '5.3');
+        $message = Piwik::translate('General_WarningPhpVersionXIsTooOld', '5.4');
 
         $notification = new Notification($message);
         $notification->title = Piwik::translate('General_Warning');
@@ -139,7 +136,7 @@ abstract class ControllerAdmin extends Controller
         $notification->context = Notification::CONTEXT_WARNING;
         $notification->type = Notification::TYPE_TRANSIENT;
         $notification->flags = Notification::FLAG_NO_CLEAR;
-        NotificationManager::notify('PHP53VersionCheck', $notification);
+        NotificationManager::notify('PHP54VersionCheck', $notification);
     }
 
     private static function notifyWhenDebugOnDemandIsEnabled($trackerSetting)
@@ -237,11 +234,11 @@ abstract class ControllerAdmin extends Controller
     private static function checkPhpVersion($view)
     {
         $view->phpVersion = PHP_VERSION;
-        $view->phpIsNewEnough = version_compare($view->phpVersion, '5.3.0', '>=');
+        $view->phpIsNewEnough = version_compare($view->phpVersion, '5.4.0', '>=');
     }
 
-    private static function isPhpVersion53()
+    private static function isPhpVersion54()
     {
-        return strpos(PHP_VERSION, '5.3') === 0;
+        return strpos(PHP_VERSION, '5.4') === 0;
     }
 }

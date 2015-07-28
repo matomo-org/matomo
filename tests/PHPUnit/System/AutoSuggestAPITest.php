@@ -41,10 +41,6 @@ class AutoSuggestAPITest extends SystemTestCase
         // Refresh cache for CustomVariables\Model
         Cache::clearCacheGeneral();
 
-        if(self::isPhpVersion53() && self::isTravisCI()) {
-            $this->markTestSkipped("Skipping this test as it seg faults on php 5.3 (bug triggered on travis)");
-        }
-
         $this->runApiTests($api, $params);
     }
 

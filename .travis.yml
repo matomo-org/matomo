@@ -11,7 +11,7 @@ language: php
 
 php:
   - 5.6
-  - 5.3.3
+  - 5.4.0
 #  - hhvm
 
 services:
@@ -46,15 +46,15 @@ matrix:
     - php: 7
   exclude:
     # Run test suites separately only on PHP 5.6 with PDO
-    - php: 5.3.3
+    - php: 5.4.0
       env: TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.3.3
+    - php: 5.4.0
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.3.3
+    - php: 5.4.0
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
     - php: 7
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.3.3
+    - php: 5.4.0
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
       env: TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
@@ -62,7 +62,7 @@ matrix:
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
-    # run UI tests on PHP 5.3.3 only
+    # run UI tests on PHP 5.4.0 only
     - php: 5.6
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
     - php: 5.6
@@ -70,21 +70,21 @@ matrix:
     # run all tests not on PHP 5.6 and run MySQLI tests only on 5.6
     - php: 5.6
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.3.3
+    - php: 5.4.0
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
     - php: 7
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
     - php: hhvm
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
     # Javascript tests need to run only on one PHP version
-    - php: 5.3.3
+    - php: 5.4.0
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
     - php: hhvm
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
     - php: 7
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
     # AngularJS tests need to run only on one PHP version
-    - php: 5.3.3
+    - php: 5.4.0
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
     - php: hhvm
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
@@ -95,15 +95,12 @@ sudo: required
 
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 
-before_install:
-  # do not use the Zend allocator on PHP 5.3 since it will randomly segfault after program execution
-  - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && export USE_ZEND_ALLOC=0 || true'
-
 install:
   - git fetch -q
 
-  - export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --core --verbose"
-  - '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
+  # Disable it until this is in master, otherwise we have to create a branch for travis submodule
+  #- export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --core --verbose"
+  #- '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
 
   - '[ ! -f ./tests/travis/install_mysql_5.6.sh ] || ./tests/travis/install_mysql_5.6.sh'
 
