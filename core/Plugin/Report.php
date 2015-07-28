@@ -310,6 +310,25 @@ class Report
         return $view->render();
     }
 
+    /**
+     * Let's you add any amount of widgets for this report. If a report defines a {@link $categoryId} and a
+     * {@link $subcategoryId} a widget will be generated automatically.
+     *
+     * Example to add a widget manually by overwriting this method in your report:
+     * $widgetsList->addWidgetConfig($factory->createWidget());
+     *
+     * If you want to have the name and the order of the widget differently to the name and order of the report you can
+     * do the following:
+     * $widgetsList->addWidgetConfig($factory->createWidget()->setName('Custom')->setOrder(5));
+     *
+     * If you want to add a widget to any container defined by your plugin or by another plugin you can do
+     * this:
+     * $widgetsList->addToContainerWidget($containerId = 'Products', $factory->createWidget());
+     *
+     * @param WidgetsList $widgetsList
+     * @param ReportWidgetFactory $factory
+     * @api
+     */
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
     {
         if ($this->categoryId && $this->subcategoryId) {
