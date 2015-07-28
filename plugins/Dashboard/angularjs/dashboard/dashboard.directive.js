@@ -6,7 +6,7 @@
  */
 
 /**
- * <div piwik-dashboard dashboardId="5" layout="10"></div>
+ * <div piwik-dashboard dashboard-id="5"></div>
  */
 (function () {
     angular.module('piwikApp').directive('piwikDashboard', piwikDashboard);
