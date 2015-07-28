@@ -203,15 +203,16 @@ class SitesManager extends \Piwik\Plugin
      * any garbage data & trims each entry.
      *
      * @param array $website The full set of information for a site.
-     * @return array
+     * @return string[]
      */
     private static function getExcludedUserAgents($website)
     {
         $excludedUserAgents = API::getInstance()->getExcludedUserAgentsGlobal();
         if (API::getInstance()->isSiteSpecificUserAgentExcludeEnabled()) {
-            $excludedUserAgents .= ',' . $website['excluded_user_agents'];
+            $siteExcludedUserAgents = explode("\n", $website['excluded_user_agents']);
+            $excludedUserAgents = array_unique(array_merge($excludedUserAgents, $siteExcludedUserAgents));
         }
-        return self::filterBlankFromCommaSepList($excludedUserAgents);
+        return $excludedUserAgents;
     }
 
     /**

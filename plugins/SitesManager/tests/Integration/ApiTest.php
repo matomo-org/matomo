@@ -8,12 +8,14 @@
 
 namespace Piwik\Plugins\SitesManager\tests\Integration;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\MobileAppMeasurable;
 use Piwik\Plugins\MobileAppMeasurable\tests\Framework\Mock\Type;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\Model;
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Measurable\Measurable;
 use Piwik\Site;
@@ -23,8 +25,6 @@ use Exception;
 use PHPUnit_Framework_Constraint_IsType;
 
 /**
- * Class Plugins_SitesManagerTest
- *
  * @group Plugins
  * @group ApiTest
  * @group SitesManager
@@ -93,8 +93,8 @@ class ApiTest extends IntegrationTestCase
         $currency = 'EUR';
         $excludedQueryParameters = 'p1,P2, P33333';
         $expectedExcludedQueryParameters = 'p1,P2,P33333';
-        $excludedUserAgents = " p1,P2, \nP3333 ";
-        $expectedExcludedUserAgents = "p1,P2,P3333";
+        $excludedUserAgents = " p1\n P2, \nP3333 ";
+        $expectedExcludedUserAgents = "p1\nP2,\nP3333";
         $expectedWebsiteType = 'mobile-\'app';
         $keepUrlFragment = 1;
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 1,
@@ -1223,6 +1223,109 @@ class ApiTest extends IntegrationTestCase
         $idsite4 = API::getInstance()->addSite("site3", array("http://piwik.org"), null, $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, null, null, 'UTC+10');
         $result = API::getInstance()->getSitesIdFromTimezones(array('UTC+10', 'Pacific/Auckland'));
         $this->assertEquals(array($idsite2, $idsite3, $idsite4), $result);
+    }
+
+    public function testGlobalExcludedUserAgents()
+    {
+        $api = API::getInstance();
+
+        $list = <<<TXT
+Mozilla/5.0 (compatible; MSIE 10.0)
+Mozilla/5.0 (PocketBook SURFpad 3 (7,85") Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko)
+RokaSpider/Nutch-1.9 ('webmaster at katzenmaier dot net')
+"Mozilla/5.0"
+"Mozilla/5.0 (PocketBook SURFpad 3 (7,85")"
+Mozilla/5.0 (PocketBook SURFpad 3 (7,85")
+TXT;
+        $api->setGlobalExcludedUserAgents($list);
+
+        $expected = array(
+            'Mozilla/5.0 (compatible; MSIE 10.0)',
+            'Mozilla/5.0 (PocketBook SURFpad 3 (7,85") Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko)',
+            'RokaSpider/Nutch-1.9 (\'webmaster at katzenmaier dot net\')',
+            'Mozilla/5.0',
+            'Mozilla/5.0 (PocketBook SURFpad 3 (7,85")',
+        );
+        $this->assertEquals($expected, $api->getExcludedUserAgentsGlobal());
+    }
+
+    public function testWebsiteExcludedUserAgents()
+    {
+        $api = API::getInstance();
+
+        $globalList = <<<TXT
+Mozilla/5.0 (compatible; MSIE 10.0)
+Mozilla/5.0 (PocketBook SURFpad 3 (7,85")
+TXT;
+        $api->setGlobalExcludedUserAgents($globalList);
+        $api->setSiteSpecificUserAgentExcludeEnabled(true);
+
+        $websiteList = <<<TXT
+RokaSpider/Nutch-1.9
+Mozilla/5.0 (7,85")
+Mozilla/5.0 (PocketBook SURFpad 3 (7,85")
+"RokaSpider/Nutch-1.9"
+TXT;
+        $idSite = $api->addSite(
+            'foo',
+            array('http://example.com'),
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParameters = null,
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $websiteList
+        );
+
+        /** @var SitesManager $sitesManager */
+        $sitesManager = StaticContainer::get('Piwik\Plugins\SitesManager\SitesManager');
+        $website = array();
+        $sitesManager->recordWebsiteDataInCache($website, $idSite);
+
+        // The global list and website-specific list should be merged (with no duplicates)
+        $expected = array(
+            'Mozilla/5.0 (compatible; MSIE 10.0)',
+            'Mozilla/5.0 (PocketBook SURFpad 3 (7,85")',
+            'RokaSpider/Nutch-1.9',
+            'Mozilla/5.0 (7,85")',
+        );
+        $this->assertEquals($expected, $website['excluded_user_agents']);
+
+        // Test the updateSite method too
+        $updatedWebsiteList = <<<TXT
+Opera/9.80
+"Friendica,"3.3.2-1175";"
+TXT;
+        $api->updateSite(
+            $idSite,
+            'foo',
+            array('http://example.com'),
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParameters = null,
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $updatedWebsiteList
+        );
+        $sitesManager->recordWebsiteDataInCache($website, $idSite);
+
+        $expected = array(
+            'Mozilla/5.0 (compatible; MSIE 10.0)',
+            'Mozilla/5.0 (PocketBook SURFpad 3 (7,85")',
+            'Opera/9.80',
+            'Friendica,"3.3.2-1175";',
+        );
+        $this->assertEquals($expected, $website['excluded_user_agents']);
     }
 
     public function provideContainerConfig()

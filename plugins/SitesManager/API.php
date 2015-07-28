@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Log;
 use Piwik\Metrics\Formatter;
 use Piwik\Network\IPUtils;
 use Piwik\Option;
@@ -549,6 +550,10 @@ class API extends \Piwik\Plugin\API
         }
         $this->checkValidCurrency($currency);
 
+        // Revert the auto-escaping
+        // TODO remove when #4231 is fixed
+        $excludedUserAgents = Common::unsanitizeInputValue($excludedUserAgents);
+
         $url  = $urls[0];
         $urls = array_slice($urls, 1);
 
@@ -556,8 +561,8 @@ class API extends \Piwik\Plugin\API
                       'main_url' => $url);
 
         $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
-        $bind['excluded_parameters']  = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
-        $bind['excluded_user_agents'] = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
+        $bind['excluded_parameters']  = $this->ensureCommaSeparatedList($excludedQueryParameters);
+        $bind['excluded_user_agents'] = $this->ensureLineReturnsSeparatedList($excludedUserAgents);
         $bind['keep_url_fragment']    = $keepURLFragments;
         $bind['timezone']   = $timezone;
         $bind['currency']   = $currency;
@@ -892,31 +897,30 @@ class API extends \Piwik\Plugin\API
      * all websites. If a visitor's user agent string contains one of these substrings,
      * their visits will not be included.
      *
-     * @return string Comma separated list of strings.
+     * @return string[]
      */
     public function getExcludedUserAgentsGlobal()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        return Option::get(self::OPTION_EXCLUDED_USER_AGENTS_GLOBAL);
+        return explode("\n", Option::get(self::OPTION_EXCLUDED_USER_AGENTS_GLOBAL));
     }
 
     /**
      * Sets list of user agent substrings to look for when excluding visits. For more info,
      * @see getExcludedUserAgentsGlobal.
      *
-     * @param string $excludedUserAgents Comma separated list of strings. Each element is trimmed,
-     *                                   and empty strings are removed.
+     * @param string $excludedUserAgents Line-return separated list. Each element is trimmed,
+     *                                   enclosing quotes are removed and empty strings too.
      */
     public function setGlobalExcludedUserAgents($excludedUserAgents)
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        // converts html entities back to original form & removes quotes if present.
-        $excludedUserAgents = html_entity_decode($excludedUserAgents);
-        $excludedUserAgents = str_replace('"', "", $excludedUserAgents);
-        
-        // update option
-        $excludedUserAgents = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
+        // Revert the auto-escaping
+        // TODO remove when #4231 is fixed
+        $excludedUserAgents = Common::unsanitizeInputValue($excludedUserAgents);
+
+        $excludedUserAgents = $this->ensureLineReturnsSeparatedList($excludedUserAgents);
         Option::set(self::OPTION_EXCLUDED_USER_AGENTS_GLOBAL, $excludedUserAgents);
 
         // make sure tracker cache will reflect change
@@ -993,7 +997,7 @@ class API extends \Piwik\Plugin\API
     public function setGlobalExcludedQueryParameters($excludedQueryParameters)
     {
         Piwik::checkUserHasSuperUserAccess();
-        $excludedQueryParameters = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
+        $excludedQueryParameters = $this->ensureCommaSeparatedList($excludedQueryParameters);
         Option::set(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL, $excludedQueryParameters);
         Cache::deleteTrackerCache();
         return true;
@@ -1123,6 +1127,10 @@ class API extends \Piwik\Plugin\API
             throw new Exception("website id = $idSite not found");
         }
 
+        // Revert the auto-escaping
+        // TODO remove when #4231 is fixed
+        $excludedUserAgents = Common::unsanitizeInputValue($excludedUserAgents);
+
         // Build the SQL UPDATE based on specified updates to perform
         $bind = array();
 
@@ -1161,8 +1169,8 @@ class API extends \Piwik\Plugin\API
             $bind['ts_created'] = Date::factory($startDate)->getDatetime();
         }
         $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
-        $bind['excluded_parameters'] = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
-        $bind['excluded_user_agents'] = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
+        $bind['excluded_parameters'] = $this->ensureCommaSeparatedList($excludedQueryParameters);
+        $bind['excluded_user_agents'] = $this->ensureLineReturnsSeparatedList($excludedUserAgents);
 
         if (!is_null($keepURLFragments)) {
             $keepURLFragments = (int)$keepURLFragments;
@@ -1218,18 +1226,35 @@ class API extends \Piwik\Plugin\API
         $this->getModel()->updateSiteCreatedTime($idSites, $minDateSql);
     }
 
-    private function checkAndReturnCommaSeparatedStringList($parameters)
+    private function ensureCommaSeparatedList($list)
     {
-        $parameters = trim($parameters);
-        if (empty($parameters)) {
+        $list = trim($list);
+        if (empty($list)) {
             return '';
         }
 
-        $parameters = explode(',', $parameters);
-        $parameters = array_map('trim', $parameters);
-        $parameters = array_filter($parameters, 'strlen');
-        $parameters = array_unique($parameters);
-        return implode(',', $parameters);
+        $list = explode(',', $list);
+        $list = array_map('trim', $list);
+        $list = array_filter($list, 'strlen');
+        $list = array_unique($list);
+        return implode(',', $list);
+    }
+
+    private function ensureLineReturnsSeparatedList($list)
+    {
+        $list = trim($list);
+        if (empty($list)) {
+            return '';
+        }
+
+        $list = explode("\n", $list);
+        // Remove enclosing quotes
+        $list = array_map(function ($item) {
+            return trim(trim($item), '"');
+        }, $list);
+        $list = array_filter($list, 'strlen');
+        $list = array_unique($list);
+        return implode("\n", $list);
     }
 
     /**

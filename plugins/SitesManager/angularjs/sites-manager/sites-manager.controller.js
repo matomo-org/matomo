@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('SitesManagerController', SitesManagerController);
 
-    SitesManagerController.$inject = ['$scope', '$filter', 'coreAPI', 'sitesManagerAPI', 'piwikApi', 'sitesManagerAdminSitesModel', 'piwik', 'sitesManagerApiHelper', 'sitesManagerTypeModel'];
+    SitesManagerController.$inject = ['$scope', '$filter', 'coreAPI', 'sitesManagerAPI', 'sitesManagerAdminSitesModel', 'piwik', 'sitesManagerApiHelper', 'sitesManagerTypeModel'];
 
-    function SitesManagerController($scope, $filter, coreAPI, sitesManagerAPI, piwikApi, adminSites, piwik, sitesManagerApiHelper, sitesManagerTypeModel) {
+    function SitesManagerController($scope, $filter, coreAPI, sitesManagerAPI, adminSites, piwik, sitesManagerApiHelper, sitesManagerTypeModel) {
 
         var translate = $filter('translate');
 
@@ -89,7 +89,7 @@
                 $scope.globalSettings.searchCategoryParametersGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.searchCategoryParametersGlobal);
                 $scope.globalSettings.excludedIpsGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.excludedIpsGlobal);
                 $scope.globalSettings.excludedQueryParametersGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.excludedQueryParametersGlobal);
-                $scope.globalSettings.excludedUserAgentsGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.excludedUserAgentsGlobal);
+                $scope.globalSettings.excludedUserAgentsGlobal = sitesManagerApiHelper.lineReturnDelimitedFieldToArray($scope.globalSettings.excludedUserAgentsGlobal);
 
                 hideLoading();
 
@@ -237,7 +237,7 @@
                 currency: $scope.globalSettings.defaultCurrency,
                 excludedIps: $scope.globalSettings.excludedIpsGlobal.join(','),
                 excludedQueryParameters: $scope.globalSettings.excludedQueryParametersGlobal.join(','),
-                excludedUserAgents: $scope.globalSettings.excludedUserAgentsGlobal.join(','),
+                excludedUserAgents: $scope.globalSettings.excludedUserAgentsGlobal.join("\n"),
                 keepURLFragments: $scope.globalSettings.keepURLFragmentsGlobal ? 1 : 0,
                 enableSiteUserAgentExclude: $scope.globalSettings.siteSpecificUserAgentExcludeEnabled ? 1 : 0,
                 searchKeywordParameters: $scope.globalSettings.searchKeywordParametersGlobal.join(','),
