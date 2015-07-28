@@ -86,7 +86,13 @@
         var segment = getUrlParam('segment');
 
         $scope.makeUrl = function (category, subcategory) {
-            var url = 'idSite=' + idSite + '&period=' + period + '&date=' + date + '&category=' + category.id + '&subcategory=' + subcategory.id;
+
+            var url = 'idSite=' + encodeURIComponent(idSite);
+            url    += '&period=' + encodeURIComponent(period);
+            url    += '&date=' + encodeURIComponent(date);
+            url    += '&category=' + encodeURIComponent(category.id);
+            url    += '&subcategory=' + encodeURIComponent(subcategory.id);
+
             if (segment) {
                 url+= '&segment='+ segment;
             }
