@@ -101,7 +101,7 @@
                 currency: $scope.site.currency,
                 ecommerce: $scope.site.ecommerce,
                 excludedIps: $scope.site.excluded_ips.join(','),
-                excludedQueryParameters: $scope.site.excluded_parameters.join(','),
+                excludedQueryParameters: $scope.site.excluded_parameters.join("\n"),
                 excludedUserAgents: $scope.site.excluded_user_agents.join("\n"),
                 keepURLFragments: $scope.site.keep_url_fragment,
                 siteSearch: $scope.site.sitesearch,
@@ -148,7 +148,7 @@
         var initExistingSite = function() {
 
             $scope.site.excluded_ips = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.site.excluded_ips);
-            $scope.site.excluded_parameters = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.site.excluded_parameters);
+            $scope.site.excluded_parameters = sitesManagerApiHelper.lineReturnDelimitedFieldToArray($scope.site.excluded_parameters);
             $scope.site.excluded_user_agents = sitesManagerApiHelper.lineReturnDelimitedFieldToArray($scope.site.excluded_user_agents);
             $scope.site.sitesearch_keyword_parameters = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.site.sitesearch_keyword_parameters);
             $scope.site.sitesearch_category_parameters = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.site.sitesearch_category_parameters);

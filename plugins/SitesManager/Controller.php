@@ -69,7 +69,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $globalSettings['searchCategoryParametersGlobal'] = $api->getSearchCategoryParametersGlobal();
         $globalSettings['defaultTimezone'] = $api->getDefaultTimezone();
         $globalSettings['excludedIpsGlobal'] = $api->getExcludedIpsGlobal();
-        $globalSettings['excludedQueryParametersGlobal'] = $api->getExcludedQueryParametersGlobal();
+        $globalSettings['excludedQueryParametersGlobal'] = implode("\n", $api->getExcludedQueryParametersGlobal());
         $globalSettings['excludedUserAgentsGlobal'] = implode("\n", $api->getExcludedUserAgentsGlobal());
 
         return $response->getResponse($globalSettings);

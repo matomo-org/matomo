@@ -88,7 +88,7 @@
                 $scope.globalSettings.searchKeywordParametersGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.searchKeywordParametersGlobal);
                 $scope.globalSettings.searchCategoryParametersGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.searchCategoryParametersGlobal);
                 $scope.globalSettings.excludedIpsGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.excludedIpsGlobal);
-                $scope.globalSettings.excludedQueryParametersGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.excludedQueryParametersGlobal);
+                $scope.globalSettings.excludedQueryParametersGlobal = sitesManagerApiHelper.lineReturnDelimitedFieldToArray($scope.globalSettings.excludedQueryParametersGlobal);
                 $scope.globalSettings.excludedUserAgentsGlobal = sitesManagerApiHelper.lineReturnDelimitedFieldToArray($scope.globalSettings.excludedUserAgentsGlobal);
 
                 hideLoading();
@@ -236,7 +236,7 @@
                 timezone: $scope.globalSettings.defaultTimezone,
                 currency: $scope.globalSettings.defaultCurrency,
                 excludedIps: $scope.globalSettings.excludedIpsGlobal.join(','),
-                excludedQueryParameters: $scope.globalSettings.excludedQueryParametersGlobal.join(','),
+                excludedQueryParameters: $scope.globalSettings.excludedQueryParametersGlobal.join("\n"),
                 excludedUserAgents: $scope.globalSettings.excludedUserAgentsGlobal.join("\n"),
                 keepURLFragments: $scope.globalSettings.keepURLFragmentsGlobal ? 1 : 0,
                 enableSiteUserAgentExclude: $scope.globalSettings.siteSpecificUserAgentExcludeEnabled ? 1 : 0,

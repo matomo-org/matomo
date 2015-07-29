@@ -210,7 +210,7 @@ class SitesManager extends \Piwik\Plugin
         $excludedUserAgents = API::getInstance()->getExcludedUserAgentsGlobal();
         if (API::getInstance()->isSiteSpecificUserAgentExcludeEnabled()) {
             $siteExcludedUserAgents = explode("\n", $website['excluded_user_agents']);
-            $excludedUserAgents = array_unique(array_merge($excludedUserAgents, $siteExcludedUserAgents));
+            $excludedUserAgents = array_values(array_unique(array_merge($excludedUserAgents, $siteExcludedUserAgents)));
         }
         return $excludedUserAgents;
     }
@@ -219,30 +219,15 @@ class SitesManager extends \Piwik\Plugin
      * Returns the array of URL query parameters to exclude from URLs
      *
      * @param array $website
-     * @return array
+     * @return string[]
      */
     public static function getTrackerExcludedQueryParameters($website)
     {
-        $excludedQueryParameters = $website['excluded_parameters'];
-        $globalExcludedQueryParameters = API::getInstance()->getExcludedQueryParametersGlobal();
-
-        $excludedQueryParameters .= ',' . $globalExcludedQueryParameters;
-        return self::filterBlankFromCommaSepList($excludedQueryParameters);
-    }
-
-    /**
-     * Trims each element of a comma-separated list of strings, removes empty elements and
-     * returns the result (as an array).
-     *
-     * @param string $parameters The unfiltered list.
-     * @return array The filtered list of strings as an array.
-     */
-    private static function filterBlankFromCommaSepList($parameters)
-    {
-        $parameters = explode(',', $parameters);
-        $parameters = array_filter($parameters, 'strlen');
-        $parameters = array_unique($parameters);
-        return $parameters;
+        $siteExcludedParameters = explode("\n", $website['excluded_parameters']);
+        return array_values(array_unique(array_merge(
+            API::getInstance()->getExcludedQueryParametersGlobal(),
+            $siteExcludedParameters
+        )));
     }
 
     /**

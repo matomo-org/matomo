@@ -1225,6 +1225,70 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals(array($idsite2, $idsite3, $idsite4), $result);
     }
 
+    public function testGlobalExcludedQueryParameters()
+    {
+        $api = API::getInstance();
+        $api->setGlobalExcludedQueryParameters("foo\nbar");
+        $expected = array(
+            'foo',
+            'bar',
+        );
+        $this->assertEquals($expected, $api->getExcludedQueryParametersGlobal());
+    }
+
+    public function testWebsiteExcludedQueryParameters()
+    {
+        $api = API::getInstance();
+        /** @var SitesManager $sitesManager */
+        $sitesManager = StaticContainer::get('Piwik\Plugins\SitesManager\SitesManager');
+
+        // Global settings
+        $api->setGlobalExcludedQueryParameters("foo\nbar");
+        // Website settings
+        $idSite = $api->addSite(
+            'foo',
+            array('http://example.com'),
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParameters = "baz\nfoo"
+        );
+
+        $website = array();
+        $sitesManager->recordWebsiteDataInCache($website, $idSite);
+
+        // The global list and website-specific list should be merged (with no duplicates)
+        $expected = array(
+            'foo',
+            'bar',
+            'baz',
+        );
+        $this->assertEquals($expected, $website['excluded_parameters']);
+
+        // Test the updateSite method too
+        $api->updateSite(
+            $idSite,
+            'foo',
+            array('http://example.com'),
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParameters = "bim"
+        );
+        $sitesManager->recordWebsiteDataInCache($website, $idSite);
+
+        $expected = array(
+            'foo',
+            'bar',
+            'bim',
+        );
+        $this->assertEquals($expected, $website['excluded_parameters']);
+    }
+
     public function testGlobalExcludedUserAgents()
     {
         $api = API::getInstance();
@@ -1252,6 +1316,8 @@ TXT;
     public function testWebsiteExcludedUserAgents()
     {
         $api = API::getInstance();
+        /** @var SitesManager $sitesManager */
+        $sitesManager = StaticContainer::get('Piwik\Plugins\SitesManager\SitesManager');
 
         $globalList = <<<TXT
 Mozilla/5.0 (compatible; MSIE 10.0)
@@ -1282,8 +1348,6 @@ TXT;
             $websiteList
         );
 
-        /** @var SitesManager $sitesManager */
-        $sitesManager = StaticContainer::get('Piwik\Plugins\SitesManager\SitesManager');
         $website = array();
         $sitesManager->recordWebsiteDataInCache($website, $idSite);
 

@@ -19,14 +19,20 @@ class Updates_2_15_0_b1 extends Updates
 {
     public function doUpdate(Updater $updater)
     {
-        $this->reformatExcludedUserAgents();
+        $this->reformatWebsiteSettings();
     }
 
     /**
-     * Excluded user agents are now separated by line returns instead of commas
+     * Some website settings are now separated by line returns instead of commas
      */
-    private function reformatExcludedUserAgents()
+    private function reformatWebsiteSettings()
     {
+        // Excluded query parameters
+        $globalExcludedQueryParameters = Option::get(API::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL);
+        $globalExcludedQueryParameters = str_replace(',', "\n", $globalExcludedQueryParameters);
+        Option::set(API::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL, $globalExcludedQueryParameters);
+
+        // Excluded user agents
         $globalExcludedUserAgents = Option::get(API::OPTION_EXCLUDED_USER_AGENTS_GLOBAL);
         $globalExcludedUserAgents = str_replace(',', "\n", $globalExcludedUserAgents);
         Option::set(API::OPTION_EXCLUDED_USER_AGENTS_GLOBAL, $globalExcludedUserAgents);
@@ -35,6 +41,7 @@ class Updates_2_15_0_b1 extends Updates
 
         $sites = API::getInstance()->getAllSites();
         foreach ($sites as $site) {
+            $site['excluded_parameters'] = str_replace(',', "\n", $site['excluded_parameters']);
             $site['excluded_user_agents'] = str_replace(',', "\n", $site['excluded_user_agents']);
             $model->updateSite($site, $site['idsite']);
         }

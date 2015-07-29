@@ -561,7 +561,7 @@ class API extends \Piwik\Plugin\API
                       'main_url' => $url);
 
         $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
-        $bind['excluded_parameters']  = $this->ensureCommaSeparatedList($excludedQueryParameters);
+        $bind['excluded_parameters']  = $this->ensureLineReturnsSeparatedList($excludedQueryParameters);
         $bind['excluded_user_agents'] = $this->ensureLineReturnsSeparatedList($excludedUserAgents);
         $bind['keep_url_fragment']    = $keepURLFragments;
         $bind['timezone']   = $timezone;
@@ -884,12 +884,12 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the list of URL query parameters that are excluded from all websites
      *
-     * @return string Comma separated list of URL parameters
+     * @return string[]
      */
     public function getExcludedQueryParametersGlobal()
     {
         Piwik::checkUserHasSomeViewAccess();
-        return Option::get(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL);
+        return explode("\n", Option::get(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL));
     }
 
     /**
@@ -997,7 +997,7 @@ class API extends \Piwik\Plugin\API
     public function setGlobalExcludedQueryParameters($excludedQueryParameters)
     {
         Piwik::checkUserHasSuperUserAccess();
-        $excludedQueryParameters = $this->ensureCommaSeparatedList($excludedQueryParameters);
+        $excludedQueryParameters = $this->ensureLineReturnsSeparatedList($excludedQueryParameters);
         Option::set(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL, $excludedQueryParameters);
         Cache::deleteTrackerCache();
         return true;
@@ -1169,7 +1169,7 @@ class API extends \Piwik\Plugin\API
             $bind['ts_created'] = Date::factory($startDate)->getDatetime();
         }
         $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
-        $bind['excluded_parameters'] = $this->ensureCommaSeparatedList($excludedQueryParameters);
+        $bind['excluded_parameters'] = $this->ensureLineReturnsSeparatedList($excludedQueryParameters);
         $bind['excluded_user_agents'] = $this->ensureLineReturnsSeparatedList($excludedUserAgents);
 
         if (!is_null($keepURLFragments)) {
@@ -1224,20 +1224,6 @@ class API extends \Piwik\Plugin\API
         $minDateSql = $minDate->subDay(1)->getDatetime();
 
         $this->getModel()->updateSiteCreatedTime($idSites, $minDateSql);
-    }
-
-    private function ensureCommaSeparatedList($list)
-    {
-        $list = trim($list);
-        if (empty($list)) {
-            return '';
-        }
-
-        $list = explode(',', $list);
-        $list = array_map('trim', $list);
-        $list = array_filter($list, 'strlen');
-        $list = array_unique($list);
-        return implode(',', $list);
     }
 
     private function ensureLineReturnsSeparatedList($list)
