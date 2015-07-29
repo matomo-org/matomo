@@ -99,7 +99,7 @@ class DataTableGenericFilter
                       'filter_sort_column' => array('string'),
                       'filter_sort_order'  => array('string', 'desc'),
                       $naturalSort = true,
-                      $recursiveSort = false,
+                      $recursiveSort = true,
                       $doSortBySecondaryColumn = true
                   )),
             array('Truncate',
