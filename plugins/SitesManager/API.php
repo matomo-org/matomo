@@ -733,12 +733,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Checks that the submitted IPs (comma separated list) are valid
+     * Checks that the submitted IPs are valid
      * Returns the cleaned up IPs
      *
-     * @param string $excludedIps Comma separated list of IP addresses
+     * @param string $excludedIps Line return separated list of IP addresses
      * @throws Exception
-     * @return array of IPs
+     * @return string Line return separated list
      */
     private function checkAndReturnExcludedIps($excludedIps)
     {
@@ -746,7 +746,7 @@ class API extends \Piwik\Plugin\API
             return '';
         }
 
-        $ips = explode(',', $excludedIps);
+        $ips = explode("\n", $excludedIps);
         $ips = array_map('trim', $ips);
         $ips = array_filter($ips, 'strlen');
 
@@ -756,8 +756,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $ips = implode(',', $ips);
-        return $ips;
+        return implode("\n", $ips);
     }
 
     /**
@@ -1011,7 +1010,7 @@ class API extends \Piwik\Plugin\API
     public function getExcludedIpsGlobal()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        return Option::get(self::OPTION_EXCLUDED_IPS_GLOBAL);
+        return $this->lineReturnsSeparatedListToArray(Option::get(self::OPTION_EXCLUDED_IPS_GLOBAL));
     }
 
     /**

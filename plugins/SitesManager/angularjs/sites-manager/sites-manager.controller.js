@@ -87,7 +87,7 @@
 
                 $scope.globalSettings.searchKeywordParametersGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.searchKeywordParametersGlobal);
                 $scope.globalSettings.searchCategoryParametersGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.searchCategoryParametersGlobal);
-                $scope.globalSettings.excludedIpsGlobal = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.globalSettings.excludedIpsGlobal);
+                $scope.globalSettings.excludedIpsGlobal = sitesManagerApiHelper.lineReturnDelimitedFieldToArray($scope.globalSettings.excludedIpsGlobal);
                 $scope.globalSettings.excludedQueryParametersGlobal = sitesManagerApiHelper.lineReturnDelimitedFieldToArray($scope.globalSettings.excludedQueryParametersGlobal);
                 $scope.globalSettings.excludedUserAgentsGlobal = sitesManagerApiHelper.lineReturnDelimitedFieldToArray($scope.globalSettings.excludedUserAgentsGlobal);
 
@@ -235,7 +235,7 @@
             ajaxHandler.addParams({
                 timezone: $scope.globalSettings.defaultTimezone,
                 currency: $scope.globalSettings.defaultCurrency,
-                excludedIps: $scope.globalSettings.excludedIpsGlobal.join(','),
+                excludedIps: $scope.globalSettings.excludedIpsGlobal.join("\n"),
                 excludedQueryParameters: $scope.globalSettings.excludedQueryParametersGlobal.join("\n"),
                 excludedUserAgents: $scope.globalSettings.excludedUserAgentsGlobal.join("\n"),
                 keepURLFragments: $scope.globalSettings.keepURLFragmentsGlobal ? 1 : 0,

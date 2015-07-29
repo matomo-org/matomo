@@ -88,7 +88,7 @@ class ApiTest extends IntegrationTestCase
      */
     public function testAddSiteExcludedIpsAndtimezoneAndCurrencyAndExcludedQueryParametersValid()
     {
-        $ips = '1.2.3.4,1.1.1.*,1.2.*.*,1.*.*.*';
+        $ips = "1.2.3.4\n1.1.1.*\n1.2.*.*\n1.*.*.*";
         $timezone = 'Europe/Paris';
         $currency = 'EUR';
         $excludedQueryParameters = "p1\nP2\n P33333";
@@ -1036,7 +1036,7 @@ class ApiTest extends IntegrationTestCase
         // test that they return default values
         $this->assertEquals('UTC', $api->getDefaultTimezone());
         $this->assertEquals('USD', $api->getDefaultCurrency());
-        $this->assertEquals('', $api->getExcludedIpsGlobal());
+        $this->assertEquals(array(), $api->getExcludedIpsGlobal());
         $this->assertEquals(array(), $api->getExcludedQueryParametersGlobal());
 
         // test that when not specified, defaults are set as expected
@@ -1059,9 +1059,8 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals($newDefaultCurrency, $api->getDefaultCurrency());
 
         // set the global IPs to exclude and get it
-        $newGlobalExcludedIps = '1.1.1.*,1.1.*.*,150.1.1.1';
-        $api->setGlobalExcludedIps($newGlobalExcludedIps);
-        $this->assertEquals($newGlobalExcludedIps, $api->getExcludedIpsGlobal());
+        $api->setGlobalExcludedIps("1.1.1.*\n1.1.*.*\n150.1.1.1");
+        $this->assertEquals(array('1.1.1.*', '1.1.*.*', '150.1.1.1'), $api->getExcludedIpsGlobal());
 
         // set the global URL query params to exclude and get it
         $api->setGlobalExcludedQueryParameters("PHPSESSID\nblabla\n TesT");
@@ -1222,6 +1221,70 @@ class ApiTest extends IntegrationTestCase
         $idsite4 = API::getInstance()->addSite("site3", array("http://piwik.org"), null, $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, null, null, 'UTC+10');
         $result = API::getInstance()->getSitesIdFromTimezones(array('UTC+10', 'Pacific/Auckland'));
         $this->assertEquals(array($idsite2, $idsite3, $idsite4), $result);
+    }
+
+    public function testGlobalExcludedIps()
+    {
+        $api = API::getInstance();
+        $this->assertEquals(array(), $api->getExcludedIpsGlobal());
+        $api->setGlobalExcludedIps("1.2.3.4\n1.4.*.*");
+        $expected = array(
+            '1.2.3.4',
+            '1.4.*.*',
+        );
+        $this->assertEquals($expected, $api->getExcludedIpsGlobal());
+    }
+
+    public function testWebsiteExcludedIps()
+    {
+        $api = API::getInstance();
+        /** @var SitesManager $sitesManager */
+        $sitesManager = StaticContainer::get('Piwik\Plugins\SitesManager\SitesManager');
+
+        // Global settings
+        $api->setGlobalExcludedIps("1.2.3.4\n2.3.4.5");
+        // Website settings
+        $idSite = $api->addSite(
+            'foo',
+            array('http://example.com'),
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = "3.4.5.6\n4.5.6.7"
+        );
+
+        $website = array();
+        $sitesManager->recordWebsiteDataInCache($website, $idSite);
+
+        // The global list and website-specific list should be merged (with no duplicates)
+        $expected = array(
+            array('1.2.3.4', '1.2.3.4'),
+            array('2.3.4.5', '2.3.4.5'),
+            array('3.4.5.6', '3.4.5.6'),
+            array('4.5.6.7', '4.5.6.7'),
+        );
+        $this->assertEquals($expected, $website['excluded_ips']);
+
+        // Test the updateSite method too
+        $api->updateSite(
+            $idSite,
+            'foo',
+            array('http://example.com'),
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = "7.8.9.0"
+        );
+        $sitesManager->recordWebsiteDataInCache($website, $idSite);
+
+        $expected = array(
+            array('1.2.3.4', '1.2.3.4'),
+            array('2.3.4.5', '2.3.4.5'),
+            array('7.8.9.0', '7.8.9.0'),
+        );
+        $this->assertEquals($expected, $website['excluded_ips']);
     }
 
     public function testGlobalExcludedQueryParameters()

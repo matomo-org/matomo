@@ -4,8 +4,8 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
+
 namespace Piwik\Plugins\SitesManager;
 
 use Piwik\Common;
@@ -16,9 +16,6 @@ use Piwik\Measurable\Settings\Storage;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Model as TrackerModel;
 
-/**
- *
- */
 class SitesManager extends \Piwik\Plugin
 {
     const KEEP_URL_FRAGMENT_USE_DEFAULT = 0;
@@ -183,13 +180,13 @@ class SitesManager extends \Piwik\Plugin
      */
     private function getTrackerExcludedIps($website)
     {
-        $excludedIps = $website['excluded_ips'];
-        $globalExcludedIps = API::getInstance()->getExcludedIpsGlobal();
-
-        $excludedIps .= ',' . $globalExcludedIps;
+        $excludedIps = array_values(array_unique(array_merge(
+            API::getInstance()->getExcludedIpsGlobal(),
+            explode("\n", $website['excluded_ips'])
+        )));
 
         $ipRanges = array();
-        foreach (explode(',', $excludedIps) as $ip) {
+        foreach ($excludedIps as $ip) {
             $ipRange = API::getInstance()->getIpsForRange($ip);
             if ($ipRange !== false) {
                 $ipRanges[] = $ipRange;
