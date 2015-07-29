@@ -826,7 +826,7 @@ class API extends \Piwik\Plugin\API
      * Sets IPs to be excluded from all websites. IPs can contain wildcards.
      * Will also apply to websites created in the future.
      *
-     * @param string $excludedIps Comma separated list of IPs to exclude from being tracked (allows wildcards)
+     * @param string $excludedIps Line-return separated list of IPs to exclude from being tracked (allows wildcards)
      * @return bool
      */
     public function setGlobalExcludedIps($excludedIps)
@@ -990,7 +990,7 @@ class API extends \Piwik\Plugin\API
      * Sets list of URL query parameters to be excluded on all websites.
      * Will also apply to websites created in the future.
      *
-     * @param string $excludedQueryParameters Comma separated list of URL query parameters to exclude from URLs
+     * @param string $excludedQueryParameters Line-returns separated list of URL query parameters to exclude from URLs
      * @return bool
      */
     public function setGlobalExcludedQueryParameters($excludedQueryParameters)
@@ -1005,7 +1005,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the list of IPs that are excluded from all websites
      *
-     * @return string Comma separated list of IPs
+     * @return string[]
      */
     public function getExcludedIpsGlobal()
     {
