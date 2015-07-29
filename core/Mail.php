@@ -40,9 +40,11 @@ class Mail extends Zend_Mail
         /** @var Translator $translator */
         $translator = StaticContainer::get('Piwik\Translation\Translator');
 
-        if ($customLogo->isEnabled()) {
+        $fromEmailName = Config::getInstance()->General['noreply_email_name'];
+
+        if (empty($fromEmailName) && $customLogo->isEnabled()) {
             $fromEmailName = $translator->translate('CoreHome_WebAnalyticsReports');
-        } else {
+        } elseif (empty($fromEmailName)) {
             $fromEmailName = $translator->translate('ScheduledReports_PiwikReports');
         }
 
