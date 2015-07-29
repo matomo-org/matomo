@@ -24,7 +24,7 @@
         // set's the correct amount text & smiley face image based on the position of the slider
         var setSmileyFaceAndAmount = function (slider, pos) {
             // set text yearly amount
-            $('.slider-donate-amount', slider).text('$' + donateAmounts[pos] + '/' + _pk_translate('Intl_YearShort'));
+            $('.slider-donate-amount', slider).text('$' + donateAmounts[pos] + '/' + _pk_translate('Intl_Year_Short'));
 
             // set the right smiley face
             $('.slider-smiley-face').attr('src', 'plugins/Morpheus/images/smileyprog_' + pos + '.png');
