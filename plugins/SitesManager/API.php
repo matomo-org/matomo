@@ -1515,17 +1515,43 @@ class API extends \Piwik\Plugin\API
         return true;
     }
 
-    public function getPatternMatchSites($pattern)
+    /**
+     * Find websites matching the given pattern.
+     *
+     * Any website will be returned that matches the pattern in the name, URL or group.
+     * To limit the number of returned sites you can either specify `filter_limit` as usual or `limit` which is
+     * faster.
+     *
+     * @param string $pattern
+     * @param int|false $limit
+     * @return array
+     */
+    public function getPatternMatchSites($pattern, $limit = false)
     {
         $ids = $this->getSitesIdWithAtLeastViewAccess();
         if (empty($ids)) {
             return array();
         }
 
-        $limit = SettingsPiwik::getWebsitesCountToDisplay();
         $sites = $this->getModel()->getPatternMatchSites($ids, $pattern, $limit);
 
         return $sites;
+    }
+
+    /**
+     * Returns the number of websites to display per page.
+     *
+     * For example this is used in the All Websites Dashboard, in the Website Selector etc. If multiple websites are
+     * shown somewhere, one should request this method to detect how many websites should be shown per page when
+     * using paging. To use paging is always recommended since some installations have thousands of websites.
+     *
+     * @return int
+     */
+    public function getNumWebsitesToDisplayPerPage()
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        return SettingsPiwik::getWebsitesCountToDisplay();
     }
 
     /**
