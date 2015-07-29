@@ -189,7 +189,6 @@ class SettingsTest extends IntegrationTestCase
 
     public function test_getSettingsForCurrentUser_shouldReturnAllSettingsIfEnoughPermissionsAndSortThemBySettingOrder()
     {
-        $this->skipWhenPhp53();
         $this->setSuperUser();
 
         $this->addSystemSetting('mysystemsetting1', 'mytitle1');
