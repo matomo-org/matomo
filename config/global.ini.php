@@ -360,7 +360,7 @@ language_cookie_name = piwik_lang
 ; standard email address displayed when sending emails
 noreply_email_address = "noreply@{DOMAIN}"
 
-; standard email name of the sender. If not set, a default will be used.
+; standard email name displayed when sending emails. If not set, a default name will be used.
 noreply_email_name = ""
 
 ; feedback email address;
