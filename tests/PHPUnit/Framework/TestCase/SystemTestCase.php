@@ -101,6 +101,11 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         return !empty($travis);
     }
 
+    public static function isPhpVersion53()
+    {
+        return strpos(PHP_VERSION, '5.3') === 0;
+    }
+
     public static function isPhp7orLater()
     {
         return version_compare('7.0.0-dev', PHP_VERSION) < 1;
