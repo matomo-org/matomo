@@ -9,9 +9,7 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Option;
-use Piwik\Plugins\SitesManager\API;
-use Piwik\Plugins\SitesManager\Model;
+use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
 
@@ -19,31 +17,23 @@ class Updates_2_15_0_b1 extends Updates
 {
     public function doUpdate(Updater $updater)
     {
-        $this->reformatWebsiteSettings();
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 
-    /**
-     * Some website settings are now separated by line returns instead of commas
-     */
-    private function reformatWebsiteSettings()
+    public function getMigrationQueries(Updater $updater)
     {
-        // Excluded query parameters
-        $globalExcludedQueryParameters = Option::get(API::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL);
-        $globalExcludedQueryParameters = str_replace(',', "\n", $globalExcludedQueryParameters);
-        Option::set(API::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL, $globalExcludedQueryParameters);
+        $optionTable = Common::prefixTable('option');
+        $siteTable = Common::prefixTable('site');
 
-        // Excluded user agents
-        $globalExcludedUserAgents = Option::get(API::OPTION_EXCLUDED_USER_AGENTS_GLOBAL);
-        $globalExcludedUserAgents = str_replace(',', "\n", $globalExcludedUserAgents);
-        Option::set(API::OPTION_EXCLUDED_USER_AGENTS_GLOBAL, $globalExcludedUserAgents);
-
-        $model = new Model();
-
-        $sites = API::getInstance()->getAllSites();
-        foreach ($sites as $site) {
-            $site['excluded_parameters'] = str_replace(',', "\n", $site['excluded_parameters']);
-            $site['excluded_user_agents'] = str_replace(',', "\n", $site['excluded_user_agents']);
-            $model->updateSite($site, $site['idsite']);
-        }
+        return array(
+            // These settings are now separated by line returns instead of commas
+            "UPDATE `$optionTable`
+                SET `option_value` = REPLACE(`option_value`, ',', '\n')
+                WHERE `option_name` = 'SitesManager_ExcludedQueryParameters'
+                   OR `option_name` = 'SitesManager_ExcludedUserAgentsGlobal'",
+            "UPDATE `$siteTable`
+                SET `excluded_parameters` = REPLACE(`excluded_parameters`, ',', '\n'),
+                    `excluded_user_agents` = REPLACE(`excluded_user_agents`, ',', '\n')'",
+        );
     }
 }
