@@ -889,7 +889,7 @@ class API extends \Piwik\Plugin\API
     public function getExcludedQueryParametersGlobal()
     {
         Piwik::checkUserHasSomeViewAccess();
-        return explode("\n", Option::get(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL));
+        return $this->lineReturnsSeparatedListToArray(Option::get(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL));
     }
 
     /**
@@ -902,7 +902,7 @@ class API extends \Piwik\Plugin\API
     public function getExcludedUserAgentsGlobal()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        return explode("\n", Option::get(self::OPTION_EXCLUDED_USER_AGENTS_GLOBAL));
+        return $this->lineReturnsSeparatedListToArray(Option::get(self::OPTION_EXCLUDED_USER_AGENTS_GLOBAL));
     }
 
     /**
@@ -1241,6 +1241,11 @@ class API extends \Piwik\Plugin\API
         $list = array_filter($list, 'strlen');
         $list = array_unique($list);
         return implode("\n", $list);
+    }
+
+    private function lineReturnsSeparatedListToArray($list)
+    {
+        return array_filter(explode("\n", $list), 'strlen');
     }
 
     /**

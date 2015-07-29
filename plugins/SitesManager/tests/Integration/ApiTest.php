@@ -91,8 +91,8 @@ class ApiTest extends IntegrationTestCase
         $ips = '1.2.3.4,1.1.1.*,1.2.*.*,1.*.*.*';
         $timezone = 'Europe/Paris';
         $currency = 'EUR';
-        $excludedQueryParameters = 'p1,P2, P33333';
-        $expectedExcludedQueryParameters = 'p1,P2,P33333';
+        $excludedQueryParameters = "p1\nP2\n P33333";
+        $expectedExcludedQueryParameters = "p1\nP2\nP33333";
         $excludedUserAgents = " p1\n P2, \nP3333 ";
         $expectedExcludedUserAgents = "p1\nP2,\nP3333";
         $expectedWebsiteType = 'mobile-\'app';
@@ -1031,18 +1031,16 @@ class ApiTest extends IntegrationTestCase
 
     public function testSetDefaultTimezoneAndCurrencyAndExcludedQueryParametersAndExcludedIps()
     {
+        $api = API::getInstance();
+
         // test that they return default values
-        $defaultTimezone = API::getInstance()->getDefaultTimezone();
-        $this->assertEquals('UTC', $defaultTimezone);
-        $defaultCurrency = API::getInstance()->getDefaultCurrency();
-        $this->assertEquals('USD', $defaultCurrency);
-        $excludedIps = API::getInstance()->getExcludedIpsGlobal();
-        $this->assertEquals('', $excludedIps);
-        $excludedQueryParameters = API::getInstance()->getExcludedQueryParametersGlobal();
-        $this->assertEquals('', $excludedQueryParameters);
+        $this->assertEquals('UTC', $api->getDefaultTimezone());
+        $this->assertEquals('USD', $api->getDefaultCurrency());
+        $this->assertEquals('', $api->getExcludedIpsGlobal());
+        $this->assertEquals(array(), $api->getExcludedQueryParametersGlobal());
 
         // test that when not specified, defaults are set as expected
-        $idsite = API::getInstance()->addSite("site1", array('http://example.org'));
+        $idsite = $api->addSite("site1", array('http://example.org'));
         $site = new Site($idsite);
         $this->assertEquals('UTC', $site->getTimezone());
         $this->assertEquals('USD', $site->getCurrency());
@@ -1052,35 +1050,36 @@ class ApiTest extends IntegrationTestCase
 
         // set the global timezone and get it
         $newDefaultTimezone = 'UTC+5.5';
-        API::getInstance()->setDefaultTimezone($newDefaultTimezone);
-        $defaultTimezone = API::getInstance()->getDefaultTimezone();
-        $this->assertEquals($newDefaultTimezone, $defaultTimezone);
+        $api->setDefaultTimezone($newDefaultTimezone);
+        $this->assertEquals($newDefaultTimezone, $api->getDefaultTimezone());
 
         // set the default currency and get it
         $newDefaultCurrency = 'EUR';
-        API::getInstance()->setDefaultCurrency($newDefaultCurrency);
-        $defaultCurrency = API::getInstance()->getDefaultCurrency();
-        $this->assertEquals($newDefaultCurrency, $defaultCurrency);
+        $api->setDefaultCurrency($newDefaultCurrency);
+        $this->assertEquals($newDefaultCurrency, $api->getDefaultCurrency());
 
         // set the global IPs to exclude and get it
         $newGlobalExcludedIps = '1.1.1.*,1.1.*.*,150.1.1.1';
-        API::getInstance()->setGlobalExcludedIps($newGlobalExcludedIps);
-        $globalExcludedIps = API::getInstance()->getExcludedIpsGlobal();
-        $this->assertEquals($newGlobalExcludedIps, $globalExcludedIps);
+        $api->setGlobalExcludedIps($newGlobalExcludedIps);
+        $this->assertEquals($newGlobalExcludedIps, $api->getExcludedIpsGlobal());
 
         // set the global URL query params to exclude and get it
-        $newGlobalExcludedQueryParameters = 'PHPSESSID,blabla, TesT';
-        // removed the space
-        $expectedGlobalExcludedQueryParameters = 'PHPSESSID,blabla,TesT';
-        API::getInstance()->setGlobalExcludedQueryParameters($newGlobalExcludedQueryParameters);
-        $globalExcludedQueryParameters = API::getInstance()->getExcludedQueryParametersGlobal();
-        $this->assertEquals($expectedGlobalExcludedQueryParameters, $globalExcludedQueryParameters);
+        $api->setGlobalExcludedQueryParameters("PHPSESSID\nblabla\n TesT");
+        $this->assertEquals(array('PHPSESSID', 'blabla', 'TesT'), $api->getExcludedQueryParametersGlobal());
 
         // create a website and check that default currency and default timezone are set
         // however, excluded IPs and excluded query Params are not returned
-        $idsite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
-            $siteSearch = 0, $searchKeywordParameters = 'test1,test2', $searchCategoryParameters = 'test2,test1',
-            '', '', $newDefaultTimezone);
+        $idsite = $api->addSite(
+            "site1",
+            array('http://example.org'),
+            $ecommerce = 0,
+            $siteSearch = 0,
+            $searchKeywordParameters = 'test1,test2',
+            $searchCategoryParameters = 'test2,test1',
+            '',
+            '',
+            $newDefaultTimezone
+        );
         $site = new Site($idsite);
         $this->assertEquals($newDefaultTimezone, $site->getTimezone());
         $this->assertEquals(date('Y-m-d'), $site->getCreationDate()->toString());
@@ -1228,6 +1227,7 @@ class ApiTest extends IntegrationTestCase
     public function testGlobalExcludedQueryParameters()
     {
         $api = API::getInstance();
+        $this->assertEquals(array(), $api->getExcludedQueryParametersGlobal());
         $api->setGlobalExcludedQueryParameters("foo\nbar");
         $expected = array(
             'foo',
@@ -1292,6 +1292,8 @@ class ApiTest extends IntegrationTestCase
     public function testGlobalExcludedUserAgents()
     {
         $api = API::getInstance();
+
+        $this->assertEquals(array(), $api->getExcludedUserAgentsGlobal());
 
         $list = <<<TXT
 Mozilla/5.0 (compatible; MSIE 10.0)
