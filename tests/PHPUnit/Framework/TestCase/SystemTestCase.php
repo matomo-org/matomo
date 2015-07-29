@@ -594,13 +594,6 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         DbHelper::deleteArchiveTables();
     }
 
-    protected function skipWhenPhp53()
-    {
-        if(self::isPhpVersion53()) {
-            $this->markTestSkipped('Sometimes fail on php 5.3');
-        }
-    }
-
     public function assertHttpResponseText($expectedResponseText, $url, $message = '')
     {
         self::assertThat($url, new HttpResponseText($expectedResponseText), $message);
