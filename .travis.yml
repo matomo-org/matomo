@@ -11,7 +11,7 @@ language: php
 
 php:
   - 5.6
-  - 5.4.0
+  - 5.4
 #  - hhvm
 
 services:
@@ -44,13 +44,13 @@ matrix:
     - php: hhvm
   exclude:
     # Run test suites separately only on PHP 5.6 with PDO
-    - php: 5.4.0
+    - php: 5.4
       env: TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.4.0
+    - php: 5.4
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.4.0
+    - php: 5.4
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.4.0
+    - php: 5.4
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
       env: TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
@@ -58,23 +58,23 @@ matrix:
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
-    # run UI tests on PHP 5.4.0 only
+    # run UI tests on PHP 5.4 only
     - php: 5.6
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL
     # run all tests not on PHP 5.6 and run MySQLI tests only on 5.6
     - php: 5.6
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.4.0
+    - php: 5.4
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
     - php: hhvm
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
     # Javascript tests need to run only on one PHP version
-    - php: 5.4.0
+    - php: 5.4
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
     - php: hhvm
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
     # AngularJS tests need to run only on one PHP version
-    - php: 5.4.0
+    - php: 5.4
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
     - php: hhvm
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
