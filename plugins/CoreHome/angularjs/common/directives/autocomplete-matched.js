@@ -18,9 +18,9 @@
 (function () {
     angular.module('piwikApp.directive').directive('piwikAutocompleteMatched', piwikAutocompleteMatched);
 
-    piwikAutocompleteMatched.$inject = ['piwik'];
+    piwikAutocompleteMatched.$inject = ['piwik', '$sanitize'];
 
-    function piwikAutocompleteMatched(piwik) {
+    function piwikAutocompleteMatched(piwik, $sanitize) {
 
         return {
             priority: 10, // makes sure to render after other directives, otherwise the content might be overwritten again see https://github.com/piwik/piwik/pull/8467
@@ -42,7 +42,7 @@
 
                     if (-1 !== startTerm) {
                         var word = content.substr(startTerm, searchTerm.length);
-                        var escapedword = piwik.helper.escape(piwik.helper.htmlEntities(word));
+                        var escapedword = $sanitize(piwik.helper.htmlEntities(word));
                         content = content.replace(word, '<span class="autocompleteMatched">' + escapedword + '</span>');
                         element.html(content);
                     }
