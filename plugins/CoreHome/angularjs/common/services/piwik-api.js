@@ -76,7 +76,7 @@
             {
                 response = response.data;
 
-                if (!angular.isDefined(response) || response.data === null) {
+                if (!angular.isDefined(response) || response === null) {
                     return $q.reject(null);
 
                 } else if (isErrorResponse(response)) {
@@ -92,8 +92,8 @@
             function onError(response)
             {
                 var message = 'Something went wrong';
-                if (response && response.status === 0) {
-                    message = 'Request was most likely aborted';
+                if (response && (response.status === 0 || response.status === -1)) {
+                    message = 'Request was possibly aborted';
                 }
 
                 return $q.reject(message);
