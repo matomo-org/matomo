@@ -18,10 +18,12 @@
 (function () {
     angular.module('piwikApp.directive').directive('piwikAutocompleteMatched', piwikAutocompleteMatched);
 
-    function piwikAutocompleteMatched() {
+    piwikAutocompleteMatched.$inject = ['piwik'];
+
+    function piwikAutocompleteMatched(piwik) {
 
         return {
-            priority: 10,
+            priority: 10, // makes sure to render after other directives
             link: function (scope, element, attrs) {
                 var searchTerm;
 
@@ -35,12 +37,13 @@
                         return;
                     }
 
-                    var content = element.html();
+                    var content = element.text();
                     var startTerm = content.toLowerCase().indexOf(searchTerm.toLowerCase());
 
                     if (-1 !== startTerm) {
                         var word = content.substr(startTerm, searchTerm.length);
-                        content = content.replace(word, '<span class="autocompleteMatched">' + word + '</span>');
+                        var escapedword = piwik.helper.escape(piwik.helper.htmlEntities(word));
+                        content = content.replace(word, '<span class="autocompleteMatched">' + escapedword + '</span>');
                         element.html(content);
                     }
                 }
