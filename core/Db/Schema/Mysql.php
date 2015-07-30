@@ -161,8 +161,7 @@ class Mysql implements SchemaInterface
                               config_id BINARY(8) NOT NULL,
                               location_ip VARBINARY(16) NOT NULL,
                                 PRIMARY KEY(idvisit),
-                                INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time),
-                                INDEX index_idsite_datetime (idsite, visit_last_action_time),
+                                INDEX index_idsite_datetime_configid (idsite, visit_last_action_time, config_id),
                                 INDEX index_idsite_idvisitor (idsite, idvisitor)
                               ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
