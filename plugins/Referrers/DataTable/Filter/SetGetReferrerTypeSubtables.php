@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Referrers\DataTable\Filter;
 use Piwik\Common;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
+use Piwik\Period\Range;
 use Piwik\Plugins\Referrers\API;
 
 /**
@@ -68,8 +69,11 @@ class SetGetReferrerTypeSubtables extends DataTable\BaseFilter
                 if (!$this->expanded) // if we don't want the expanded datatable, then don't do any extra queries
                 {
                     $row->setNonLoadedSubtableId($typeReferrer);
-                } else // otherwise, we have to get the othe datatables
+                } else if (!Range::isMultiplePeriod($this->date, $this->period))
                 {
+                    // otherwise, we have to get the other datatables
+                    // NOTE: not yet possible to do this w/ DataTable\Map instances
+                    // (actually it would be maybe possible by using $map->mergeChildren() or so build it would be slow)
                     $subtable = API::getInstance()->getReferrerType(
                         $this->idSite, $this->period, $this->date, $this->segment, $type = false, $idSubtable = $typeReferrer
                     );
