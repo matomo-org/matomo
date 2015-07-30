@@ -136,6 +136,11 @@ class LogAggregator
     protected $segment;
 
     /**
+     * @var string
+     */
+    private $requestedPlugin;
+
+    /**
      * Constructor.
      *
      * @param \Piwik\ArchiveProcessor\Parameters $params
@@ -146,12 +151,20 @@ class LogAggregator
         $this->dateEnd = $params->getDateEnd();
         $this->segment = $params->getSegment();
         $this->sites = $params->getIdSites();
+        $this->requestedPlugin = $params->getRequestedPlugin();
     }
 
     public function generateQuery($select, $from, $where, $groupBy, $orderBy)
     {
         $bind = $this->getGeneralQueryBindParams();
         $query = $this->segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy);
+
+        $select = 'SELECT';
+        if ($this->requestedPlugin && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
+            $query['sql'] = trim($query['sql']);
+            $query['sql'] = 'SELECT /* ' . $this->requestedPlugin . ' */' . substr($query['sql'], strlen($select));
+        }
+
         return $query;
     }
 
