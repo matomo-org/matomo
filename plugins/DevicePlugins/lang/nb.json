@@ -1,5 +1,6 @@
 {
     "DevicePlugins": {
+        "BrowserWithPluginsEnabled": "%1$s med tillegg %2$s aktivert",
         "WidgetPlugins": "Liste over tillegg"
     }
 }

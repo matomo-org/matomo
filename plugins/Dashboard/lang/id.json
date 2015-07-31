@@ -30,7 +30,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Pengaturan gawit dan tata letak kolom panel kendali akan digunakan saat pengguna membuat panel kendali baru, atau saat fitur \"%s\" digunakan.",
         "TopLinkTooltip": "Tampilkn laporan Analitus Ramatraya untuk %s.",
         "WidgetNotFound": "Gawit tak ditemukan",
-        "WidgetPreview": "Pratinjau Gawit",
-        "WidgetsAndDashboard": "Gawit & Penel Kendali"
+        "WidgetPreview": "Pratinjau Gawit"
     }
 }

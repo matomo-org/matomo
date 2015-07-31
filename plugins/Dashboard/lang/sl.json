@@ -15,7 +15,6 @@
         "SelectDashboardLayout": "Prosimo, izberite vašo novo postavitev nadzorne plošče",
         "SelectWidget": "Izberite gradnik, ki ga želite dodati na kontrolno ploščo.",
         "WidgetNotFound": "Gradnik ni bil najden",
-        "WidgetPreview": "Predogled gradnika",
-        "WidgetsAndDashboard": "Gradniki & Kontrolna Plošča"
+        "WidgetPreview": "Predogled gradnika"
     }
 }

@@ -9,6 +9,7 @@
         "SegmentDisplayedAllWebsites": "alle nettsteder",
         "SegmentDisplayedThisWebsiteOnly": "kun denne nettsiden",
         "SegmentIsDisplayedForWebsite": "og vises for",
+        "SelectSegmentOfVisitors": "Velg et segment av besøkende:",
         "ThisSegmentIsVisibleTo": "Dette segmentet er synlig for:",
         "VisibleToAllUsers": "alle brukere",
         "VisibleToMe": "meg"
