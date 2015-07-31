@@ -138,7 +138,7 @@ class LogAggregator
     /**
      * @var string
      */
-    private $requestedPlugin;
+    private $queryOriginHint = '';
 
     /**
      * Constructor.
@@ -151,7 +151,11 @@ class LogAggregator
         $this->dateEnd = $params->getDateEnd();
         $this->segment = $params->getSegment();
         $this->sites = $params->getIdSites();
-        $this->requestedPlugin = $params->getRequestedPlugin();
+    }
+
+    public function setQueryOriginHint($nameOfOrigiin)
+    {
+        $this->queryOriginHint = $nameOfOrigiin;
     }
 
     public function generateQuery($select, $from, $where, $groupBy, $orderBy)
@@ -160,9 +164,9 @@ class LogAggregator
         $query = $this->segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy);
 
         $select = 'SELECT';
-        if ($this->requestedPlugin && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
+        if ($this->queryOriginHint && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
             $query['sql'] = trim($query['sql']);
-            $query['sql'] = 'SELECT /* ' . $this->requestedPlugin . ' */' . substr($query['sql'], strlen($select));
+            $query['sql'] = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($query['sql'], strlen($select));
         }
 
         return $query;
