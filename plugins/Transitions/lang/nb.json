@@ -9,6 +9,7 @@
         "FromSearchEngines": "Fra søkemotorer",
         "FromWebsites": "Fra nettsider",
         "IncomingTraffic": "Innkommende trafikk",
+        "NoDataForAction": "Det finnes ingen data for %s",
         "OutgoingTraffic": "Utgående trafikk",
         "ToFollowingPages": "Til interne sider",
         "ToFollowingPagesInline": "%s til interne sider",

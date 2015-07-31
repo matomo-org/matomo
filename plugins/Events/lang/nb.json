@@ -1,9 +1,14 @@
 {
     "Events": {
+        "AvgEventValue": "Gjennomsnittlig hendelseverdi er: %s",
         "AvgValue": "Gjennomsnittlig verdi",
         "Event": "Hendelse",
+        "EventCategory": "Hendelsekategori",
         "Events": "Hendelser",
+        "MaxValue": "Maksimumsverdi",
+        "MinValue": "Minimum verdi",
         "SwitchToSecondaryDimension": "Bytt til %s",
+        "TopEvents": "Topphendelser",
         "TotalValue": "Totalverdi",
         "ViewEvents": "Vis hendelser"
     }
