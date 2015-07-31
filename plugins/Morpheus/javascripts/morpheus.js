@@ -7,7 +7,8 @@ $(document).ready(function () {
     function initICheck()
     {
         $('input').filter(function () {
-            return !$(this).parent().is('.form-radio');
+            return !$(this).parent().is('.form-radio')
+                && !$(this).hasClass('no-icheck');
         }).iCheck({
             checkboxClass: 'form-checkbox',
             radioClass: 'form-radio',
