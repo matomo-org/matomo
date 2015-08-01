@@ -104,10 +104,10 @@
                                 {% endif %}
                             </span>
                         {% else %}
-                            {% set col = col + 1 %}
-                            {% if col >= 9 %}
-                                {% set col = 0 %}
+                            {% if folders is not empty %}
+                                {% set col = attribute(folders, action.url) %}
                             {% endif %}
+
                             <a href="{{ action.url }}" target="_blank">
                                 {% if action.type == 'action' %}
 {# white spacing matters as Chrome tooltip display whitespaces #}

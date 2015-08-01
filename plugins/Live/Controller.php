@@ -79,6 +79,39 @@ class Controller extends \Piwik\Plugin\Controller
         $view->idSite = $this->idSite;
         $api = new Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=php&serialize=0&disable_generic_filters=1");
         $visitors = $api->process();
+        $visits = array();
+        foreach ($visitors as $visitor) {
+            $actions = $visitor['actionDetails'];
+
+            foreach ($actions as $action) {
+                if ($action['type'] != "ecommerceOrder" && $action['type'] != "ecommerceAbandonedCart") {
+                    if (!empty($visits[$action['url']])) {
+                        $visits[$action['url']] += 1;
+                    }
+                    else {
+                        $visits[$action['url']] = 1;
+                    }
+                }
+            }
+        }
+
+        // Sort in reverse because foreach reads in reverse order
+        arsort($visits);
+
+        $folders = array();
+
+        $counter = 0;
+        // This will assign a unique folder color to the most visited pages
+        // The number of visits is not important
+        foreach (array_keys($visits) as $url) {
+            $folders[$url] = $counter;
+
+            if ($counter <9) {
+                $counter += 1;
+            }
+        }
+
+        $view->folders = $folders;
         $view->visitors = $visitors;
 
         return $this->render($view);
