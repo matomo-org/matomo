@@ -10,7 +10,7 @@
 				<url>http://piwik.net/</url>
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
-				<serverTimePretty>Sun 7 Apr 10:00:00</serverTimePretty>
+				<serverTimePretty>Apr 7, 2013 10:00:00 AM</serverTimePretty>
 				<pageId>1</pageId>
 				<customVariables>
 					<row>
@@ -94,10 +94,10 @@
 		<plugins />
 		<pluginsIcons />
 		<serverTimestamp>1365328800</serverTimestamp>
-		<serverTimePretty>10:00:00</serverTimePretty>
-		<serverDatePretty>Sunday 7 April 2013</serverDatePretty>
-		<serverDatePrettyFirstAction>Sunday 7 April 2013</serverDatePrettyFirstAction>
-		<serverTimePrettyFirstAction>10:00:00</serverTimePrettyFirstAction>
+		<serverTimePretty>10:00:00 AM</serverTimePretty>
+		<serverDatePretty>Sunday, April 7, 2013</serverDatePretty>
+		<serverDatePrettyFirstAction>Sunday, April 7, 2013</serverDatePrettyFirstAction>
+		<serverTimePrettyFirstAction>10:00:00 AM</serverTimePrettyFirstAction>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -109,7 +109,7 @@
 				<url>http://piwik.net/</url>
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
-				<serverTimePretty>Sat 6 Apr 11:00:00</serverTimePretty>
+				<serverTimePretty>Apr 6, 2013 11:00:00 AM</serverTimePretty>
 				<pageId>2</pageId>
 				<customVariables>
 					<row>
@@ -193,10 +193,10 @@
 		<plugins />
 		<pluginsIcons />
 		<serverTimestamp>1365246000</serverTimestamp>
-		<serverTimePretty>11:00:00</serverTimePretty>
-		<serverDatePretty>Saturday 6 April 2013</serverDatePretty>
-		<serverDatePrettyFirstAction>Saturday 6 April 2013</serverDatePrettyFirstAction>
-		<serverTimePrettyFirstAction>11:00:00</serverTimePrettyFirstAction>
+		<serverTimePretty>11:00:00 AM</serverTimePretty>
+		<serverDatePretty>Saturday, April 6, 2013</serverDatePretty>
+		<serverDatePrettyFirstAction>Saturday, April 6, 2013</serverDatePrettyFirstAction>
+		<serverTimePrettyFirstAction>11:00:00 AM</serverTimePrettyFirstAction>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -208,7 +208,7 @@
 				<url>http://piwik.net/</url>
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
-				<serverTimePretty>Fri 5 Apr 12:00:00</serverTimePretty>
+				<serverTimePretty>Apr 5, 2013 12:00:00 PM</serverTimePretty>
 				<pageId>3</pageId>
 				<customVariables>
 					<row>
@@ -292,9 +292,9 @@
 		<plugins />
 		<pluginsIcons />
 		<serverTimestamp>1365163200</serverTimestamp>
-		<serverTimePretty>12:00:00</serverTimePretty>
-		<serverDatePretty>Friday 5 April 2013</serverDatePretty>
-		<serverDatePrettyFirstAction>Friday 5 April 2013</serverDatePrettyFirstAction>
-		<serverTimePrettyFirstAction>12:00:00</serverTimePrettyFirstAction>
+		<serverTimePretty>12:00:00 PM</serverTimePretty>
+		<serverDatePretty>Friday, April 5, 2013</serverDatePretty>
+		<serverDatePrettyFirstAction>Friday, April 5, 2013</serverDatePrettyFirstAction>
+		<serverTimePrettyFirstAction>12:00:00 PM</serverTimePrettyFirstAction>
 	</row>
 </result>

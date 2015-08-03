@@ -2,6 +2,11 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+## Piwik 3.0.0
+
+### Breaking Changes
+* Handling of localized date, time and range formats has been changed. Patterns no longer contain placeholders like `%shortDay%`, but work with CLDR pattern instead. You can use one of the predefined format constants in `Date` class for using `getLocalized()`.
+
 ## Piwik 2.14.0
 
 ### Breaking Changes

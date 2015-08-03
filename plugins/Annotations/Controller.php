@@ -78,7 +78,7 @@ class Controller extends \Piwik\Plugin\Controller
             $view->selectedDate = $endDate->toString();
         }
 
-        $dateFormat = Piwik::translate('CoreHome_ShortDateFormatWithYear');
+        $dateFormat = Date::DATE_FORMAT_SHORT;
         $view->startDatePretty = $startDate->getLocalized($dateFormat);
         $view->endDatePretty = $endDate->getLocalized($dateFormat);
 

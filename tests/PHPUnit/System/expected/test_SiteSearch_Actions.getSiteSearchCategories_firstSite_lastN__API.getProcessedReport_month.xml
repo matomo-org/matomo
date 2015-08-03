@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Site 1 - Site search</website>
-	<prettyDate>1 Jan 10 - 31 Jul 10</prettyDate>
+	<prettyDate>January 1 – July 31, 2010</prettyDate>
 	<metadata>
 		<category>Site Search</category>
 		<name>Search Categories</name>
@@ -30,7 +30,7 @@
 		<exit_rate>% Search Exits</exit_rate>
 	</columns>
 	<reportData>
-		<result prettyDate="2010, January">
+		<result prettyDate="January 2010">
 			<row>
 				<label>Search Category</label>
 				<nb_visits>2</nb_visits>
@@ -52,7 +52,7 @@
 		</result>
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="2010, January" />
+		<result prettyDate="January 2010" />
 	</reportMetadata>
 	<reportTotal>
 		<nb_visits>4</nb_visits>

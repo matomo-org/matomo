@@ -91,7 +91,7 @@ class GenerateIntl extends ConsoleCommand
 
             setlocale(LC_ALL, $langCode);
 
-            $translations = (array)@json_decode(file_get_contents(sprintf($writePath, $langCode)), true);
+            $translations = array();
 
             $this->fetchLanguageData($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchTerritoryData($output, $transformedLangCode, $requestLangCode, $translations);
@@ -234,8 +234,10 @@ class GenerateIntl extends ConsoleCommand
             $calendarData = $calendarData['main'][$requestLangCode]['dates']['calendars']['gregorian'];
 
             for ($i = 1; $i <= 12; $i++) {
-                $translations['Intl']['ShortMonth_' . $i] = $this->transform($calendarData['months']['format']['abbreviated'][$i]);
-                $translations['Intl']['LongMonth_' . $i] = $this->transform($calendarData['months']['format']['wide'][$i]);
+                $translations['Intl']['Month_Short_' . $i] = $this->transform($calendarData['months']['format']['abbreviated'][$i]);
+                $translations['Intl']['Month_Long_' . $i] = $this->transform($calendarData['months']['format']['wide'][$i]);
+                $translations['Intl']['Month_Short_StandAlone_' . $i] = $this->transform($calendarData['months']['stand-alone']['abbreviated'][$i]);
+                $translations['Intl']['Month_Long_StandAlone_' . $i] = $this->transform($calendarData['months']['stand-alone']['wide'][$i]);
             }
 
             $days = array(
@@ -249,24 +251,43 @@ class GenerateIntl extends ConsoleCommand
             );
 
             foreach ($days AS $nr => $day) {
-                $translations['Intl']['ShortDay_' . $nr] = $this->transform($calendarData['days']['format']['abbreviated'][$day]);
-                $translations['Intl']['LongDay_' . $nr] = $this->transform($calendarData['days']['format']['wide'][$day]);
+                $translations['Intl']['Day_Min_' . $nr] = $this->transform($calendarData['days']['format']['short'][$day]);
+                $translations['Intl']['Day_Short_' . $nr] = $this->transform($calendarData['days']['format']['abbreviated'][$day]);
+                $translations['Intl']['Day_Long_' . $nr] = $this->transform($calendarData['days']['format']['wide'][$day]);
+                $translations['Intl']['Day_Min_StandAlone_' . $nr] = $this->transform($calendarData['days']['stand-alone']['short'][$day]);
+                $translations['Intl']['Day_Short_StandAlone_' . $nr] = $this->transform($calendarData['days']['stand-alone']['abbreviated'][$day]);
+                $translations['Intl']['Day_Long_StandAlone_' . $nr] = $this->transform($calendarData['days']['stand-alone']['wide'][$day]);
             }
 
-            $days = array(
-                'Mo' => 'mon',
-                'Tu' => 'tue',
-                'We' => 'wed',
-                'Th' => 'thu',
-                'Fr' => 'fri',
-                'Sa' => 'sat',
-                'Su' => 'sun'
-            );
+            $translations['Intl']['Time_AM'] = $calendarData['dayPeriods']['format']['wide']['am'];
+            $translations['Intl']['Time_PM'] = $calendarData['dayPeriods']['format']['wide']['pm'];
+            $translations['Intl']['Format_Time'] = $calendarData['timeFormats']['medium'];
+            $translations['Intl']['Format_Date_Long'] = $calendarData['dateFormats']['full'];
+            $translations['Intl']['Format_Date_Day_Month'] = $calendarData['dateTimeFormats']['availableFormats']['MMMEd'];
+            $translations['Intl']['Format_Date_Short'] = $calendarData['dateFormats']['medium'];
+            $translations['Intl']['Format_Month_Short'] = $calendarData['dateTimeFormats']['availableFormats']['yMMM'];
+            $translations['Intl']['Format_Month_Long'] = $this->transformDateFormat($calendarData['dateTimeFormats']['availableFormats']['yMMM'], array('MMM' => 'MMMM', 'LLL' => 'LLLL'));
+            if (isset($calendarData['dateTimeFormats']['availableFormats']['yMMMM'])) {
+                $translations['Intl']['Format_Month_Long'] = $calendarData['dateTimeFormats']['availableFormats']['yMMMM'];
+            }
+            $translations['Intl']['Format_Year'] = $calendarData['dateTimeFormats']['availableFormats']['y'];
 
-            foreach ($days AS $nr => $day) {
-                $translations['Intl']['Day' . $nr] = $this->transform($calendarData['days']['format']['short'][$day]);
+            $translations['Intl']['Format_DateTime_Long'] = $calendarData['dateFormats']['full'] . ' ' . $calendarData['timeFormats']['medium'];
+            $translations['Intl']['Format_DateTime_Short'] = $calendarData['dateFormats']['medium'] . ' ' . $calendarData['timeFormats']['medium'];
+
+            $translations['Intl']['Format_Interval_Long_D'] = $this->transformDateFormat($calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['d'], array('MMMM' => 'MMM', 'LLLL' => 'LLL', 'MMM' => 'MMMM', 'LLL' => 'LLLL'));
+            $translations['Intl']['Format_Interval_Long_M'] = $this->transformDateFormat($calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['M'], array('MMMM' => 'MMM', 'LLLL' => 'LLL', 'MMM' => 'MMMM', 'LLL' => 'LLLL'));
+            $translations['Intl']['Format_Interval_Long_Y'] = $this->transformDateFormat($calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['y'], array('MMMM' => 'MMM', 'LLLL' => 'LLL', 'MMM' => 'MMMM', 'LLL' => 'LLLL'));
+
+            if(isset($calendarData['dateTimeFormats']['intervalFormats']['yMMMMd'])) {
+                $translations['Intl']['Format_Interval_Long_D'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMMd']['d'];
+                $translations['Intl']['Format_Interval_Long_M'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMMd']['M'];
+                $translations['Intl']['Format_Interval_Long_Y'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMMd']['y'];
             }
 
+            $translations['Intl']['Format_Interval_Short_D'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['d'];
+            $translations['Intl']['Format_Interval_Short_M'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['M'];
+            $translations['Intl']['Format_Interval_Short_Y'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['y'];
 
             $output->writeln('Saved calendar data for ' . $langCode);
         } catch (\Exception $e) {
@@ -284,7 +305,7 @@ class GenerateIntl extends ConsoleCommand
             $translations['Intl']['PeriodYear'] = $dateFieldData['year']['displayName'];
             $translations['Intl']['PeriodDay'] = $dateFieldData['day']['displayName'];
             $translations['Intl']['PeriodMonth'] = $dateFieldData['month']['displayName'];
-            $translations['Intl']['YearShort'] = $dateFieldData['year-narrow']['displayName'];
+            $translations['Intl']['Year_Short'] = $dateFieldData['year-narrow']['displayName'];
             $translations['Intl']['Today'] = $this->transform($dateFieldData['day']['relative-type-0']);
             $translations['Intl']['Yesterday'] = $this->transform($dateFieldData['day']['relative-type--1']);
 
@@ -292,6 +313,15 @@ class GenerateIntl extends ConsoleCommand
         } catch (\Exception $e) {
             $output->writeln('Unable to import date fields for ' . $langCode);
         }
+    }
+
+    protected function transformDateFormat($dateFormat, $changes=array())
+    {
+        if(!empty($changes)) {
+            $dateFormat = str_replace(array_keys($changes), array_values($changes), $dateFormat);
+        }
+
+        return $dateFormat;
     }
 
     protected function fetchUnitData(OutputInterface $output, $langCode, $requestLangCode, &$translations)
