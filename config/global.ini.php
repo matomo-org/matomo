@@ -360,6 +360,9 @@ language_cookie_name = piwik_lang
 ; standard email address displayed when sending emails
 noreply_email_address = "noreply@{DOMAIN}"
 
+; standard email name displayed when sending emails. If not set, a default name will be used.
+noreply_email_name = ""
+
 ; feedback email address;
 ; when testing, use your own email address or "nobody"
 feedback_email_address = "feedback@piwik.org"

@@ -1,5 +1,6 @@
 {
     "CoreAdminHome": {
+        "AddNewTrustedHost": "Ajouter un nouvel hôte de confiance",
         "Administration": "Administration",
         "ArchivingSettings": "Paramètres d'archivage",
         "BrandingSettings": "Paramètres de l'image de marque",

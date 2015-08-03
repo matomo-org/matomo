@@ -7,6 +7,8 @@
         "DefaultCurrencyForNewWebsites": "Standard valuta for nye nettsteder",
         "DefaultTimezoneForNewWebsites": "Standard tidssone for nye nettsteder",
         "DeleteConfirm": "Er du sikker på at du ønsker å slette nettstedet %s?",
+        "DisableSiteSearch": "Ikke spor sidesøk",
+        "EnableSiteSearch": "Sporing av sidesøk aktivert",
         "ExceptionDeleteSite": "Det er ikke mulig å slette dette nettstedet, da det er det eneste registrerte nettstedet. Legg til et nytt nettsted, og deretter slett dette.",
         "ExceptionEmptyName": "Nettstedets navn kan ikke være tomt.",
         "ExceptionInvalidCurrency": "Valutaen \"%s\" er ikke gyldig. Vennligst skriv inn et gyldig valutasymbol (f.eks %s)",
@@ -26,6 +28,7 @@
         "MainDescription": "Dine analyser trenger nettsteder! Legg til, oppdater, slett websider, og vis koden som du skal legge inn på dine websider.",
         "NotFound": "Ingen nettsteder funnet for",
         "NoWebsites": "Du har ingen nettsteder å administrere",
+        "SearchCategoryLabel": "Kategori-parameter",
         "SelectACity": "Velg en by",
         "SelectDefaultCurrency": "Du kan velge standard valuta for nye nettsteder.",
         "SelectDefaultTimezone": "Du kan velge standard tidssone for nye nettsteder.",
@@ -36,6 +39,7 @@
         "Urls": "URL-er",
         "UTCTimeIs": "UTC-tid er %s.",
         "WebsitesManagement": "Administrasjon av nettsteder",
+        "XManagement": "Behandle %s",
         "YourCurrentIpAddressIs": "Din nåværende IP-adresse er %s"
     }
 }

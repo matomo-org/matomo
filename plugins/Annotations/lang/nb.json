@@ -9,6 +9,7 @@
         "CreateNewAnnotation": "Opprett en ny merknad...",
         "EnterAnnotationText": "Skriv inn merknad...",
         "HideAnnotationsFor": "Skjul merknader for %s...",
+        "IconDescHideNotes": "Skjul notater for denne datoperioden.",
         "LoginToAnnotate": "Logg inn for å opprette en merknad.",
         "ViewAndAddAnnotations": "Vis og legg til merknader for %s..."
     }

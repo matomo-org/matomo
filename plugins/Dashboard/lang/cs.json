@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Tyto widgety a jejich rozvržení budou použity vždy, když někdo vytvoří novou nástěnku nebo použije vlastnost %s.",
         "TopLinkTooltip": "Zobraz analytické hlášení webu pro %s.",
         "WidgetNotFound": "Widget nenalezen",
-        "WidgetPreview": "Náhled widgetu",
-        "WidgetsAndDashboard": "Widgety a Nástěnka"
+        "WidgetPreview": "Náhled widgetu"
     }
 }

@@ -29,7 +29,6 @@
         "SetAsDefaultWidgetsConfirm": "Ar tikrai norite nustatyti esamą valdiklių pasirinkimą ir skydelio išdėstymą kaip numatytąjį skydelio šabloną?",
         "SetAsDefaultWidgetsConfirmHelp": "Šis valdiklių pasirinkimas ir skydelio stulpelių išdėstymas bus naudojami, kai bet kuris naudotojas sukurs naują skydelį arba kai bus naudojama \"%s\" ypatybė.",
         "WidgetNotFound": "Valdiklis nerastas",
-        "WidgetPreview": "Valdiklio peržiūra",
-        "WidgetsAndDashboard": "Valdikliai ir Skydelis"
+        "WidgetPreview": "Valdiklio peržiūra"
     }
 }

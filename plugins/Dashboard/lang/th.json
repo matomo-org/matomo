@@ -23,7 +23,6 @@
         "SelectDashboardLayout": "กรุณาเลือกรูปแบบแผงควบคุมใหม่ของคุณ",
         "SelectWidget": "เลือกวิดเจ็ทเพื่อเพิ่มในแผงควบคุม",
         "WidgetNotFound": "ไม่พบวิดเจ็ท",
-        "WidgetPreview": "ตัวอย่าง Widget",
-        "WidgetsAndDashboard": "วิดเจ็ทและแผงควบคุม"
+        "WidgetPreview": "ตัวอย่าง Widget"
     }
 }

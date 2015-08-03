@@ -1,6 +1,7 @@
 {
     "CoreAdminHome": {
         "Administration": "Administravimas",
+        "ArchivingSettings": "Archyvavimo nustatymai",
         "EmailServerSettings": "El. pašto serverio nustatymai",
         "MenuGeneralSettings": "Pagrindiniai nustatymai",
         "PluginSettingsSaveFailed": "Nepavyko įrašyti papildinio nustatymų"

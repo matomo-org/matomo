@@ -27,7 +27,6 @@
         "SetAsDefaultWidgetsConfirm": "Er du sikker på at du vil setja dette utvalet av småprogram og utforming som standardmal for styringspanel?",
         "SetAsDefaultWidgetsConfirmHelp": "Dette utvalet av småprogram og kolonneutforminga vil bli brukt når ein brukar opprettar eit nytt styringspanel, eller når \"%s\"-funksjonen er brukt.",
         "WidgetNotFound": "Fann ikkje småprogrammet",
-        "WidgetPreview": "Småprogramvisning",
-        "WidgetsAndDashboard": "Småprogram og styringspanel"
+        "WidgetPreview": "Småprogramvisning"
     }
 }
