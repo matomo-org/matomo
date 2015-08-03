@@ -470,9 +470,9 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         return count($this->comparisonFailures) == 0;
     }
 
-    protected function getTestRequestsCollection($api, $testConfig, $api)
+    protected function getTestRequestsCollection($api, $testConfig, $apiToCall)
     {
-       return new Collection($api, $testConfig, $api);
+       return new Collection($api, $testConfig, $apiToCall);
     }
 
     private function printComparisonFailures()
