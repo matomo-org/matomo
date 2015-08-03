@@ -8,12 +8,14 @@
 
 namespace Piwik\Plugins\SitesManager\tests\Integration;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\MobileAppMeasurable;
 use Piwik\Plugins\MobileAppMeasurable\tests\Framework\Mock\Type;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\Model;
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Measurable\Measurable;
 use Piwik\Site;
@@ -23,8 +25,6 @@ use Exception;
 use PHPUnit_Framework_Constraint_IsType;
 
 /**
- * Class Plugins_SitesManagerTest
- *
  * @group Plugins
  * @group ApiTest
  * @group SitesManager
@@ -88,13 +88,13 @@ class ApiTest extends IntegrationTestCase
      */
     public function testAddSiteExcludedIpsAndtimezoneAndCurrencyAndExcludedQueryParametersValid()
     {
-        $ips = '1.2.3.4,1.1.1.*,1.2.*.*,1.*.*.*';
+        $ips = "1.2.3.4\n1.1.1.*\n1.2.*.*\n1.*.*.*";
         $timezone = 'Europe/Paris';
         $currency = 'EUR';
-        $excludedQueryParameters = 'p1,P2, P33333';
-        $expectedExcludedQueryParameters = 'p1,P2,P33333';
-        $excludedUserAgents = " p1,P2, \nP3333 ";
-        $expectedExcludedUserAgents = "p1,P2,P3333";
+        $excludedQueryParameters = "p1\nP2\n P33333";
+        $expectedExcludedQueryParameters = "p1\nP2\nP33333";
+        $excludedUserAgents = " p1\n P2, \nP3333 ";
+        $expectedExcludedUserAgents = "p1\nP2,\nP3333";
         $expectedWebsiteType = 'mobile-\'app';
         $keepUrlFragment = 1;
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 1,
@@ -1031,18 +1031,16 @@ class ApiTest extends IntegrationTestCase
 
     public function testSetDefaultTimezoneAndCurrencyAndExcludedQueryParametersAndExcludedIps()
     {
+        $api = API::getInstance();
+
         // test that they return default values
-        $defaultTimezone = API::getInstance()->getDefaultTimezone();
-        $this->assertEquals('UTC', $defaultTimezone);
-        $defaultCurrency = API::getInstance()->getDefaultCurrency();
-        $this->assertEquals('USD', $defaultCurrency);
-        $excludedIps = API::getInstance()->getExcludedIpsGlobal();
-        $this->assertEquals('', $excludedIps);
-        $excludedQueryParameters = API::getInstance()->getExcludedQueryParametersGlobal();
-        $this->assertEquals('', $excludedQueryParameters);
+        $this->assertEquals('UTC', $api->getDefaultTimezone());
+        $this->assertEquals('USD', $api->getDefaultCurrency());
+        $this->assertEquals(array(), $api->getExcludedIpsGlobal());
+        $this->assertEquals(array(), $api->getExcludedQueryParametersGlobal());
 
         // test that when not specified, defaults are set as expected
-        $idsite = API::getInstance()->addSite("site1", array('http://example.org'));
+        $idsite = $api->addSite("site1", array('http://example.org'));
         $site = new Site($idsite);
         $this->assertEquals('UTC', $site->getTimezone());
         $this->assertEquals('USD', $site->getCurrency());
@@ -1052,35 +1050,35 @@ class ApiTest extends IntegrationTestCase
 
         // set the global timezone and get it
         $newDefaultTimezone = 'UTC+5.5';
-        API::getInstance()->setDefaultTimezone($newDefaultTimezone);
-        $defaultTimezone = API::getInstance()->getDefaultTimezone();
-        $this->assertEquals($newDefaultTimezone, $defaultTimezone);
+        $api->setDefaultTimezone($newDefaultTimezone);
+        $this->assertEquals($newDefaultTimezone, $api->getDefaultTimezone());
 
         // set the default currency and get it
         $newDefaultCurrency = 'EUR';
-        API::getInstance()->setDefaultCurrency($newDefaultCurrency);
-        $defaultCurrency = API::getInstance()->getDefaultCurrency();
-        $this->assertEquals($newDefaultCurrency, $defaultCurrency);
+        $api->setDefaultCurrency($newDefaultCurrency);
+        $this->assertEquals($newDefaultCurrency, $api->getDefaultCurrency());
 
         // set the global IPs to exclude and get it
-        $newGlobalExcludedIps = '1.1.1.*,1.1.*.*,150.1.1.1';
-        API::getInstance()->setGlobalExcludedIps($newGlobalExcludedIps);
-        $globalExcludedIps = API::getInstance()->getExcludedIpsGlobal();
-        $this->assertEquals($newGlobalExcludedIps, $globalExcludedIps);
+        $api->setGlobalExcludedIps("1.1.1.*\n1.1.*.*\n150.1.1.1");
+        $this->assertEquals(array('1.1.1.*', '1.1.*.*', '150.1.1.1'), $api->getExcludedIpsGlobal());
 
         // set the global URL query params to exclude and get it
-        $newGlobalExcludedQueryParameters = 'PHPSESSID,blabla, TesT';
-        // removed the space
-        $expectedGlobalExcludedQueryParameters = 'PHPSESSID,blabla,TesT';
-        API::getInstance()->setGlobalExcludedQueryParameters($newGlobalExcludedQueryParameters);
-        $globalExcludedQueryParameters = API::getInstance()->getExcludedQueryParametersGlobal();
-        $this->assertEquals($expectedGlobalExcludedQueryParameters, $globalExcludedQueryParameters);
+        $api->setGlobalExcludedQueryParameters("PHPSESSID\nblabla\n TesT");
+        $this->assertEquals(array('PHPSESSID', 'blabla', 'TesT'), $api->getExcludedQueryParametersGlobal());
 
         // create a website and check that default currency and default timezone are set
         // however, excluded IPs and excluded query Params are not returned
-        $idsite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
-            $siteSearch = 0, $searchKeywordParameters = 'test1,test2', $searchCategoryParameters = 'test2,test1',
-            '', '', $newDefaultTimezone);
+        $idsite = $api->addSite(
+            "site1",
+            array('http://example.org'),
+            $ecommerce = 0,
+            $siteSearch = 0,
+            $searchKeywordParameters = 'test1,test2',
+            $searchCategoryParameters = 'test2,test1',
+            '',
+            '',
+            $newDefaultTimezone
+        );
         $site = new Site($idsite);
         $this->assertEquals($newDefaultTimezone, $site->getTimezone());
         $this->assertEquals(date('Y-m-d'), $site->getCreationDate()->toString());
@@ -1223,6 +1221,240 @@ class ApiTest extends IntegrationTestCase
         $idsite4 = API::getInstance()->addSite("site3", array("http://piwik.org"), null, $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, null, null, 'UTC+10');
         $result = API::getInstance()->getSitesIdFromTimezones(array('UTC+10', 'Pacific/Auckland'));
         $this->assertEquals(array($idsite2, $idsite3, $idsite4), $result);
+    }
+
+    public function testGlobalExcludedIps()
+    {
+        $api = API::getInstance();
+        $this->assertEquals(array(), $api->getExcludedIpsGlobal());
+        $api->setGlobalExcludedIps("1.2.3.4\n1.4.*.*");
+        $expected = array(
+            '1.2.3.4',
+            '1.4.*.*',
+        );
+        $this->assertEquals($expected, $api->getExcludedIpsGlobal());
+    }
+
+    public function testWebsiteExcludedIps()
+    {
+        $api = API::getInstance();
+        /** @var SitesManager $sitesManager */
+        $sitesManager = StaticContainer::get('Piwik\Plugins\SitesManager\SitesManager');
+
+        // Global settings
+        $api->setGlobalExcludedIps("1.2.3.4\n2.3.4.5");
+        // Website settings
+        $idSite = $api->addSite(
+            'foo',
+            array('http://example.com'),
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = "3.4.5.6\n4.5.6.7"
+        );
+
+        $website = array();
+        $sitesManager->recordWebsiteDataInCache($website, $idSite);
+
+        // The global list and website-specific list should be merged (with no duplicates)
+        $expected = array(
+            array('1.2.3.4', '1.2.3.4'),
+            array('2.3.4.5', '2.3.4.5'),
+            array('3.4.5.6', '3.4.5.6'),
+            array('4.5.6.7', '4.5.6.7'),
+        );
+        $this->assertEquals($expected, $website['excluded_ips']);
+
+        // Test the updateSite method too
+        $api->updateSite(
+            $idSite,
+            'foo',
+            array('http://example.com'),
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = "7.8.9.0"
+        );
+        $sitesManager->recordWebsiteDataInCache($website, $idSite);
+
+        $expected = array(
+            array('1.2.3.4', '1.2.3.4'),
+            array('2.3.4.5', '2.3.4.5'),
+            array('7.8.9.0', '7.8.9.0'),
+        );
+        $this->assertEquals($expected, $website['excluded_ips']);
+    }
+
+    public function testGlobalExcludedQueryParameters()
+    {
+        $api = API::getInstance();
+        $this->assertEquals(array(), $api->getExcludedQueryParametersGlobal());
+        $api->setGlobalExcludedQueryParameters("foo\nbar");
+        $expected = array(
+            'foo',
+            'bar',
+        );
+        $this->assertEquals($expected, $api->getExcludedQueryParametersGlobal());
+    }
+
+    public function testWebsiteExcludedQueryParameters()
+    {
+        $api = API::getInstance();
+        /** @var SitesManager $sitesManager */
+        $sitesManager = StaticContainer::get('Piwik\Plugins\SitesManager\SitesManager');
+
+        // Global settings
+        $api->setGlobalExcludedQueryParameters("foo\nbar");
+        // Website settings
+        $idSite = $api->addSite(
+            'foo',
+            array('http://example.com'),
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParameters = "baz\nfoo"
+        );
+
+        $website = array();
+        $sitesManager->recordWebsiteDataInCache($website, $idSite);
+
+        // The global list and website-specific list should be merged (with no duplicates)
+        $expected = array(
+            'foo',
+            'bar',
+            'baz',
+        );
+        $this->assertEquals($expected, $website['excluded_parameters']);
+
+        // Test the updateSite method too
+        $api->updateSite(
+            $idSite,
+            'foo',
+            array('http://example.com'),
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParameters = "bim"
+        );
+        $sitesManager->recordWebsiteDataInCache($website, $idSite);
+
+        $expected = array(
+            'foo',
+            'bar',
+            'bim',
+        );
+        $this->assertEquals($expected, $website['excluded_parameters']);
+    }
+
+    public function testGlobalExcludedUserAgents()
+    {
+        $api = API::getInstance();
+
+        $this->assertEquals(array(), $api->getExcludedUserAgentsGlobal());
+
+        $list = <<<TXT
+Mozilla/5.0 (compatible; MSIE 10.0)
+Mozilla/5.0 (PocketBook SURFpad 3 (7,85") Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko)
+RokaSpider/Nutch-1.9 ('webmaster at katzenmaier dot net')
+"Mozilla/5.0"
+"Mozilla/5.0 (PocketBook SURFpad 3 (7,85")"
+Mozilla/5.0 (PocketBook SURFpad 3 (7,85")
+TXT;
+        $api->setGlobalExcludedUserAgents($list);
+
+        $expected = array(
+            'Mozilla/5.0 (compatible; MSIE 10.0)',
+            'Mozilla/5.0 (PocketBook SURFpad 3 (7,85") Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko)',
+            'RokaSpider/Nutch-1.9 (\'webmaster at katzenmaier dot net\')',
+            'Mozilla/5.0',
+            'Mozilla/5.0 (PocketBook SURFpad 3 (7,85")',
+        );
+        $this->assertEquals($expected, $api->getExcludedUserAgentsGlobal());
+    }
+
+    public function testWebsiteExcludedUserAgents()
+    {
+        $api = API::getInstance();
+        /** @var SitesManager $sitesManager */
+        $sitesManager = StaticContainer::get('Piwik\Plugins\SitesManager\SitesManager');
+
+        $globalList = <<<TXT
+Mozilla/5.0 (compatible; MSIE 10.0)
+Mozilla/5.0 (PocketBook SURFpad 3 (7,85")
+TXT;
+        $api->setGlobalExcludedUserAgents($globalList);
+        $api->setSiteSpecificUserAgentExcludeEnabled(true);
+
+        $websiteList = <<<TXT
+RokaSpider/Nutch-1.9
+Mozilla/5.0 (7,85")
+Mozilla/5.0 (PocketBook SURFpad 3 (7,85")
+"RokaSpider/Nutch-1.9"
+TXT;
+        $idSite = $api->addSite(
+            'foo',
+            array('http://example.com'),
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParameters = null,
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $websiteList
+        );
+
+        $website = array();
+        $sitesManager->recordWebsiteDataInCache($website, $idSite);
+
+        // The global list and website-specific list should be merged (with no duplicates)
+        $expected = array(
+            'Mozilla/5.0 (compatible; MSIE 10.0)',
+            'Mozilla/5.0 (PocketBook SURFpad 3 (7,85")',
+            'RokaSpider/Nutch-1.9',
+            'Mozilla/5.0 (7,85")',
+        );
+        $this->assertEquals($expected, $website['excluded_user_agents']);
+
+        // Test the updateSite method too
+        $updatedWebsiteList = <<<TXT
+Opera/9.80
+"Friendica,"3.3.2-1175";"
+TXT;
+        $api->updateSite(
+            $idSite,
+            'foo',
+            array('http://example.com'),
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParameters = null,
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $updatedWebsiteList
+        );
+        $sitesManager->recordWebsiteDataInCache($website, $idSite);
+
+        $expected = array(
+            'Mozilla/5.0 (compatible; MSIE 10.0)',
+            'Mozilla/5.0 (PocketBook SURFpad 3 (7,85")',
+            'Opera/9.80',
+            'Friendica,"3.3.2-1175";',
+        );
+        $this->assertEquals($expected, $website['excluded_user_agents']);
     }
 
     public function provideContainerConfig()

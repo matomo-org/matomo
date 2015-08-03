@@ -2,6 +2,18 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+## Piwik 2.15.0
+
+### Breaking Changes
+* The following API methods are now returning an array of strings instead of a list encoded in CSV:
+    * `SitesManager.getExcludedIpsGlobal`
+    * `SitesManager.getExcludedQueryParametersGlobal`
+    * `SitesManager.getExcludedUserAgentsGlobal`
+* The following API methods now accept values separated by new lines instead of commas:
+    * `SitesManager.setGlobalExcludedIps`
+    * `SitesManager.setGlobalExcludedQueryParameters`
+    * `SitesManager.setGlobalExcludedUserAgents`
+
 ## Piwik 2.14.0
 
 ### Breaking Changes
@@ -329,4 +341,3 @@ We are using `@since` annotations in case we are introducing new API's to make i
  -->
 
 Find the general Piwik Changelogs for each release at [piwik.org/changelog](http://piwik.org/changelog/)
- 

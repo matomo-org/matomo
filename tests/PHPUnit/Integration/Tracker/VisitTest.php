@@ -118,7 +118,7 @@ class VisitTest extends IntegrationTestCase
                 'this doesn\'t'          => false,
                 'partial presence: mozi' => false,
             )),
-            array('cHrOmE,notinthere,&^%', array(
+            array("cHrOmE\nnotinthere\n&^%", array(
                 'chrome is here' => true,
                 'CHROME is here' => true,
                 '12&^%345'       => true,

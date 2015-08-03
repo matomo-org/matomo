@@ -24,7 +24,7 @@ namespace Piwik;
  *
  *     public function doUpdate(Updater $updater)
  *     {
- *         $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries());
+ *         $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
  *     }
  *
  * @example core/Updates/0.4.2.php
