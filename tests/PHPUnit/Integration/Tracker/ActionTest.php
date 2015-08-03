@@ -164,7 +164,7 @@ class ActionTest extends IntegrationTestCase
      */
     public function testExcludeQueryParametersSiteExcluded($url, $filteredUrl)
     {
-        $excludedQueryParameters = 'p4, p2, var[value][date]';
+        $excludedQueryParameters = "p4\np2\nvar[value][date]";
         $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
@@ -180,8 +180,8 @@ class ActionTest extends IntegrationTestCase
     public function testExcludeQueryParametersSiteAndGlobalExcluded($url, $filteredUrl)
     {
         // testing also that query parameters are case insensitive
-        $excludedQueryParameters = 'P2,var[value][date]';
-        $excludedGlobalParameters = 'blabla, P4';
+        $excludedQueryParameters = "P2\nvar[value][date]";
+        $excludedGlobalParameters = "blabla\nP4";
         $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
