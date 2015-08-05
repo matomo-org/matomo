@@ -42,7 +42,7 @@
 .icon-info:before {
     content: "\e624";
 }
-.icon-alert:before {
+.icon-warning:before {
     content: "\e621";
 }
 .icon-error:before {

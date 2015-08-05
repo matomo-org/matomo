@@ -1,10 +1,20 @@
 // Code taken from Bootstrap (can be removed in the future)
 .alert {
-    padding: 20px;
+    padding: 20px 20px 20px 55px;
     margin-bottom: 20px;
     border: 1px solid transparent;
     border-radius: 2px;
     font-size: 14px;
+    position: relative;
+    &:before {
+        font-family: "piwik";
+        content: "\e625";
+        font-size: 24px;
+        position: absolute;
+        left: 20px;
+        top: 13px;
+    }
+
     a {
         color: inherit;
         text-decoration: underline;
@@ -13,18 +23,35 @@
 .alert-success {
     color: #009874;
     border-color: #1AA282;
+    &:before {
+        content: "\e63d";
+        color: #1AA282;
+    }
 }
 .alert-info {
     color: #838383;
     background-color: #F5F5F5;
     font-size: 13px;
-    padding: 15px 20px;
+    padding: 15px 20px 15px 55px;
+    &:before {
+        color: #afafaf;
+        font-size: 20px;
+        top: 10px;
+    }
 }
 .alert-warning {
     color: #CA8100;
     border-color: #DF9D27;
+    &:before {
+        content: "\e621";
+        color: #DF9D27;
+    }
 }
 .alert-danger {
     color: #D4291F;
     border-color: #D73F36;
+    &:before {
+        content: "\e616";
+        color: #D73F36;
+    }
 }
