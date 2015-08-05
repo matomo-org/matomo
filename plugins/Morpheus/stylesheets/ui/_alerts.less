@@ -1,4 +1,11 @@
-// Code taken from Bootstrap (can be removed in the future)
+.alert-icon-center-vertically(@font-size) {
+    @half-height: @font-size / 2;
+    // IE8 doesn't support calc(): it's OK, the icon will just be aligned to the top
+    top: calc(~'50% - @{half-height}');
+    // phantomjs only supports -webkit-calc()
+    top: -webkit-calc(~'50% - @{half-height}');
+}
+
 .alert {
     padding: 20px 20px 20px 60px;
     margin-bottom: 20px;
@@ -9,12 +16,11 @@
     &:before {
         font-family: "piwik";
         content: "\e625";
-        font-size: 24px;
         position: absolute;
         left: 20px;
-        top: 50%;
-        // Not supported on IE8
-        transform: translateY(-50%);
+        line-height: 100%; // line-height = font-size
+        font-size: 24px;
+        .alert-icon-center-vertically(24px);
     }
 
     a {
@@ -39,6 +45,7 @@
     &:before {
         color: #afafaf;
         font-size: 20px;
+        .alert-icon-center-vertically(20px);
     }
 }
 .alert-warning {
