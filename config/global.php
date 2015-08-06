@@ -73,6 +73,7 @@ return array(
             ))));
     },
 
+    // contains RequestProcessor instances, currently used by Piwik\Tracker\Visit
     'tracker.request.processors' => array(),
 
     'Piwik\Tracker\VisitorRecognizer' => DI\object()
