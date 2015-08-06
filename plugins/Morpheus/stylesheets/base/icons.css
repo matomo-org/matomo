@@ -77,12 +77,6 @@
 .icon-arrow-collapsed:before {
     content: "\e60b";
 }
-.icon-datepicker-arr-l:before {
-    content: "\e60d";
-}
-.icon-datepicker-arr-r:before {
-    content: "\e60e";
-}
 
 /* Charts */
 .icon-chart-bar:before {
