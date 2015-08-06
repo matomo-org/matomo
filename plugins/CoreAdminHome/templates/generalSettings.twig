@@ -246,8 +246,8 @@
                 {% for hostIdx, host in trustedHosts %}
                     <li>
                         <input name="trusted_host" type="text" value="{{ host }}"/>
-                        <a href="#" class="remove-trusted-host" title="{{ 'General_Delete'|translate }}">
-                            <img alt="{{ 'General_Delete'|translate }}" src="plugins/Morpheus/images/ico_delete.png" />
+                        <a href="#" class="remove-trusted-host btn btn-flat btn-lg" title="{{ 'General_Delete'|translate }}">
+                            <span class="icon-minus"></span>
                         </a>
                     </li>
                 {% endfor %}
@@ -256,8 +256,8 @@
             <div class="add-trusted-host">
                 <input type="text" placeholder="{{ 'CoreAdminHome_AddNewTrustedHost'|translate|e('html_attr') }}" readonly/>
 
-                <a href="#" title="{{ 'General_Delete'|translate }}">
-                    <img alt="{{ 'General_Delete'|translate }}" src="plugins/Morpheus/images/add.png"/>
+                <a href="#" class="btn btn-flat btn-lg" title="{{ 'General_Add'|translate }}">
+                    <span class="icon-add"></span>
                 </a>
 
             </div>

@@ -85,3 +85,16 @@ p.next-step:first-child {
 .warning img {
     vertical-align: bottom;
 }
+
+.system-check .icon-ok {
+    color: #1AA282;
+    margin-right: 10px;
+}
+.system-check .icon-warning {
+    color: #DF9D27;
+    margin-right: 10px;
+}
+.system-check .icon-error {
+    color: #D73F36;
+    margin-right: 10px;
+}

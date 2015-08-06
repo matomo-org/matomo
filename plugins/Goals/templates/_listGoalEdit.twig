@@ -29,18 +29,18 @@
                             {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern }}
                         {% endif %}
                     </td>
-                    <td>{% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}</td>
-                    <td>
-                        <a href='#' name="linkEditGoal" id="{{ goal.idgoal }}" class="link_but withIcon">
-                            <img src='plugins/Morpheus/images/ico_edit.png' border="0"/>
-                            {{ 'General_Edit'|translate }}
-                        </a>
+                    <td class="text-center">
+                        {% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}
                     </td>
-                    <td>
-                        <a href='#' name="linkDeleteGoal" id="{{ goal.idgoal }}" class="link_but withIcon">
-                            <img src='plugins/Morpheus/images/ico_delete.png' border="0"/>
-                            {{ 'General_Delete'|translate }}
-                        </a>
+                    <td class="text-center">
+                        <button id="{{ goal.idgoal }}" class="edit-goal btn btn-flat btn-lg" title="{{ 'General_Edit'|translate }}">
+                            <span class="icon-edit"></span>
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button id="{{ goal.idgoal }}" class="delete-goal btn btn-flat btn-lg" title="{{ 'General_Delete'|translate }}">
+                            <span class="icon-delete"></span>
+                        </button>
                     </td>
                 </tr>
             {% endfor %}
@@ -48,11 +48,9 @@
     </table>
 
     {% if onlyShowAddNewGoal is not defined %}
-        <br/>
-        <div name="linkAddNewGoal" class="addrow"><img src='plugins/Morpheus/images/add.png'/> {{ 'Goals_AddNewGoal'|translate }}</div>
-        <br/>
-        <br/>
-
+        <p>
+            <button id="add-goal">{{ 'Goals_AddNewGoal'|translate }}</button>
+        </p>
     {% endif %}
 </div>
 

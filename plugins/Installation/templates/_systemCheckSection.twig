@@ -15,9 +15,9 @@
     {% set error = constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_ERROR') %}
     {% set warning = constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_WARNING') %}
 
-    {% set errorIcon %}<img src='plugins/Morpheus/images/error.png' />{% endset %}
-    {% set warningIcon %}<img src='plugins/Morpheus/images/warning.png' />{% endset %}
-    {% set okIcon %}<img src='plugins/Morpheus/images/ok.png' />{% endset %}
+    {% set errorIcon %} <span class="icon-error"></span> {% endset %}
+    {% set warningIcon %} <span class="icon-warning"></span> {% endset %}
+    {% set okIcon %} <span class="icon-ok"></span> {% endset %}
 
     {% for result in results %}
         <tr>

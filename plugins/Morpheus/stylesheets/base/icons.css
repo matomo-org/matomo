@@ -24,6 +24,9 @@
 }
 
 /* Basic icons */
+.icon-add:before {
+    content: "\e630";
+}
 .icon-edit:before {
     content: "\e622";
 }
@@ -149,7 +152,7 @@
 .icon-goal:before {
     content: "\e61d";
 }
-.icon-html:before {
+.icon-code:before {
     content: "\e620";
 }
 .icon-image:before {

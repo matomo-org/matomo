@@ -263,7 +263,7 @@ $(document).ready(function () {
         }
     );
 
-    $('.admin .user .addrow').click(function () {
+    $('.admin .user .add-user').click(function () {
         piwikHelper.hideAjaxError();
         $(this).toggle();
 
@@ -288,7 +288,7 @@ $(document).ready(function () {
         $('.cancel').click(function () {
             piwikHelper.hideAjaxError();
             $(this).parents('tr').remove();
-            $('.addrow').toggle();
+            $('.add-user').toggle();
         });
     });
 
