@@ -154,7 +154,7 @@ class Visit2Test extends IntegrationTestCase
     {
         $request = new Request(array());
         $visitProperties = new Visit\VisitProperties();
-        $visitor = new Visitor($request, $visitProperties);
+        $visitor = new Visitor($visitProperties);
 
         $visit = new FakeTrackerVisit($request, $visitProperties);
         $visit->handleNewVisit(false);
@@ -177,7 +177,7 @@ class Visit2Test extends IntegrationTestCase
     {
         $request = new Request(array());
         $visitProperties = new Visit\VisitProperties();
-        $visitor = new Visitor($request, $visitProperties);
+        $visitor = new Visitor($visitProperties);
 
         $visit = new FakeTrackerVisit($request, $visitProperties);
         $visit->handleNewVisit(true);
@@ -196,7 +196,7 @@ class Visit2Test extends IntegrationTestCase
     {
         $request = new Request(array());
         $visitProperties = new Visit\VisitProperties();
-        $visitor = new Visitor($request, $visitProperties);
+        $visitor = new Visitor($visitProperties);
 
         $visit = new FakeTrackerVisit($request, $visitProperties);
         $visit->handleNewVisit(false);
@@ -220,7 +220,7 @@ class Visit2Test extends IntegrationTestCase
     {
         $request = new Request(array());
         $visitProperties = new Visit\VisitProperties();
-        $visitor = new Visitor($request, $visitProperties);
+        $visitor = new Visitor($visitProperties);
 
         $visit = new FakeTrackerVisit($request, $visitProperties);
         $visit->handleNewVisit(false);
