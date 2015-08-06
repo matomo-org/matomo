@@ -46,7 +46,11 @@
             border: 1px solid #e3e3e3;
             border-radius: 4px;
         }
-        #icon-list .icon {
+        .icons h4 {
+            padding-top: 15px;
+            padding-bottom: 10px;
+        }
+        .icons .icon {
             font-family: monospace, monospace;
             padding-top: 5px;
             padding-bottom: 5px;
@@ -454,11 +458,7 @@
 
         <h2>Icons</h2>
 
-        <div class="demo">
-
-            <div id="icon-list" class="row">
-            </div>
-
+        <div id="icons" class="demo icons">
         </div>
         <div class="demo-code">
             <pre>&lt;span class=&quot;icon-ok&quot;&gt;&lt;/span&gt;</pre>
@@ -466,17 +466,126 @@
 
         <script>
             $(function () {
-                $.get('plugins/Morpheus/stylesheets/base/icons.css', function (data) {
-                    var classes = data.match(/\.(icon-[^:]+)/g);
-                    classes.forEach(function(icon) {
-                        var cssClass = icon.substring(1);
 
-                        var item = $('<div class="col-sm-4 icon"><span class="' + cssClass
-                                + '"></span> ' + cssClass + '</div>');
+                var icons = {
+                    'Manage': [
+                        'add',
+                        'edit',
+                        'delete',
+                        'plus',
+                        'minus',
+                    ],
+                    'Alerts': [
+                        'error',
+                        'warning',
+                        'info',
+                        'success',
+                        'help',
+                        'help-alt',
+                        'ok',
+                    ],
+                    'Navigation': [
+                        'arrow-left',
+                        'arrow-right',
+                        'arrow-top',
+                        'arrow-bottom',
+                        'arrow-collapsed',
+                        'zoom-in',
+                        'zoom-out',
+                        'show',
+                        'hide',
+                        'search',
+                    ],
+                    'Window-Widget': [
+                        'minimise',
+                        'fullscreen',
+                        'close',
+                        'maximise',
+                        'newtab',
+                        'refresh',
+                        'reload',
+                    ],
+                    'Reports': [
+                        'table',
+                        'table-more',
+                        'chart-bar',
+                        'chart-pie',
+                        'chart-line',
+                        'chart-line-details',
+                    ],
+                    'Users': [
+                        'user',
+                        'user-add',
+                        'users',
+                        'alien',
+                    ],
+                    'Date-picker': [
+                        'calendar',
+                        'datepicker-arr-l',
+                        'datepicker-arr-r',
+                    ],
+                    'Annotations': [
+                        'annotation',
+                    ],
+                    'E-commerce': [
+                        'ecommerce-order',
+                        'ecommerce-abandoned-cart',
+                    ],
+                    'Goals': [
+                        'goal',
+                    ],
+                    'Insights': [
+                        'insights',
+                    ],
+                    'Segments': [
+                        'segment',
+                    ],
+                    'Visitors': [
+                        'visitor-profile',
+                    ],
+                    'Lock': [
+                        'locked',
+                        'locked-2',
+                        'locked-3',
+                        'locked-4',
+                    ],
+                    'Other': [
+                        'configure',
+                        'document',
+                        'email',
+                        'export',
+                        'feed',
+                        'download',
+                        'image',
+                        'code',
+                        'star',
+                        'drop',
+                        'business',
+                        'finance',
+                        'folder',
+                        'folder-charts',
+                        'open-source',
+                        'puzzle',
+                        'server',
+                        'server-alt',
+                        'tag-cloud',
+                        'play',
+                    ],
+                };
 
-                        $('#icon-list').append(item);
-                    });
-                });
+                var iconsDiv = $('#icons');
+                for(var category in icons) {
+                    if (icons.hasOwnProperty(category)) {
+                        iconsDiv.append('<h4>' + category + '</h4>');
+                        var row = $('<div class="row"></div>');
+                        icons[category].forEach(function(icon) {
+                            icon = 'icon-' + icon;
+                            row.append('<div class="col-sm-4 icon"><span class="' + icon + '"></span> ' + icon + '</div>');
+                        });
+                        iconsDiv.append(row);
+                    }
+                }
+
             });
         </script>
 

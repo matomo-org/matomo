@@ -74,7 +74,7 @@
 .icon-arrow-bottom:before {
     content: "\e63b";
 }
-.icon-collapsed-arrows:before {
+.icon-arrow-collapsed:before {
     content: "\e60b";
 }
 .icon-datepicker-arr-l:before {
@@ -88,17 +88,17 @@
 .icon-chart-bar:before {
     content: "\e606";
 }
+.icon-chart-line:before {
+    content: "\e608";
+}
 .icon-chart-line-details:before {
     content: "\e607";
-}
-.icon-chart-line-edit:before {
-    content: "\e608";
 }
 .icon-chart-pie:before {
     content: "\e609";
 }
 
-.icon-annotations:before {
+.icon-annotation:before {
     content: "\e601";
 }
 .icon-business:before {
@@ -203,7 +203,7 @@
 .icon-search:before {
     content: "\e634";
 }
-.icon-segment-users:before {
+.icon-segment:before {
     content: "\e635";
 }
 .icon-server:before {
@@ -212,7 +212,7 @@
 .icon-server-alt:before {
     content: "\e636";
 }
-.icon-show-hide:before {
+.icon-hide:before {
     content: "\e638";
 }
 .icon-show:before {
@@ -236,10 +236,13 @@
 .icon-user-add:before {
     content: "\e641";
 }
-.icon-video-play:before {
+.icon-users:before {
+    content: "\e635";
+}
+.icon-play:before {
     content: "\e643";
 }
-.icon-visitors:before {
+.icon-visitor-profile:before {
     content: "\e644";
 }
 .icon-alien:before {
