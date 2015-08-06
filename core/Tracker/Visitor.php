@@ -24,9 +24,9 @@ class Visitor
         $this->setIsVisitorKnown($isVisitorKnown);
     }
 
-    public static function makeFromVisitProperties(VisitProperties $visitProperties)
+    public static function makeFromVisitProperties(VisitProperties $visitProperties, Request $request)
     {
-        $isKnown = $visitProperties->getRequestMetadata('CoreHome', 'isVisitorKnown');
+        $isKnown = $request->getMetadata('CoreHome', 'isVisitorKnown');
         return new Visitor($visitProperties, $isKnown);
     }
 

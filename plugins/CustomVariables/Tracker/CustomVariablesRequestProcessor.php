@@ -42,12 +42,12 @@ class CustomVariablesRequestProcessor extends RequestProcessor
             Common::printDebug($visitorCustomVariables);
         }
 
-        $visitProperties->setRequestMetadata('CustomVariables', 'visitCustomVariables', $visitorCustomVariables);
+        $request->setMetadata('CustomVariables', 'visitCustomVariables', $visitorCustomVariables);
     }
 
     public function onNewVisit(VisitProperties $visitProperties, Request $request)
     {
-        $visitCustomVariables = $visitProperties->getRequestMetadata('CustomVariables', 'visitCustomVariables');
+        $visitCustomVariables = $request->getMetadata('CustomVariables', 'visitCustomVariables');
 
         if (!empty($visitCustomVariables)) {
             $visitProperties->setProperties(array_merge($visitProperties->getProperties(), $visitCustomVariables));
@@ -56,7 +56,7 @@ class CustomVariablesRequestProcessor extends RequestProcessor
 
     public function onExistingVisit(&$valuesToUpdate, VisitProperties $visitProperties, Request $request)
     {
-        $visitCustomVariables = $visitProperties->getRequestMetadata('CustomVariables', 'visitCustomVariables');
+        $visitCustomVariables = $request->getMetadata('CustomVariables', 'visitCustomVariables');
 
         if (!empty($visitCustomVariables)) {
             $valuesToUpdate = array_merge($valuesToUpdate, $visitCustomVariables);

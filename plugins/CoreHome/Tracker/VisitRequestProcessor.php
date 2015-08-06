@@ -93,13 +93,13 @@ class VisitRequestProcessor extends RequestProcessor
 
         // visitor recognition
         $visitorId = $this->userSettings->getConfigId($request, $visitProperties->getProperty('location_ip'));
-        $visitProperties->setRequestMetadata('CoreHome', 'visitorId', $visitorId);
+        $request->setMetadata('CoreHome', 'visitorId', $visitorId);
 
         $isKnown = $this->visitorRecognizer->findKnownVisitor($visitorId, $visitProperties, $request);
-        $visitProperties->setRequestMetadata('CoreHome', 'isVisitorKnown', $isKnown);
+        $request->setMetadata('CoreHome', 'isVisitorKnown', $isKnown);
 
         $isNewVisit = $this->isVisitNew($visitProperties, $request);
-        $visitProperties->setRequestMetadata('CoreHome', 'isNewVisit', $isNewVisit);
+        $request->setMetadata('CoreHome', 'isNewVisit', $isNewVisit);
 
         return false;
     }
@@ -133,7 +133,7 @@ class VisitRequestProcessor extends RequestProcessor
      */
     public function isVisitNew(VisitProperties $visitProperties, Request $request)
     {
-        $isKnown = $visitProperties->getRequestMetadata('CoreHome', 'isVisitorKnown');
+        $isKnown = $request->getMetadata('CoreHome', 'isVisitorKnown');
         if (!$isKnown) {
             return true;
         }

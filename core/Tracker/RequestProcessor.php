@@ -24,7 +24,7 @@ use Piwik\Tracker\Visit\VisitProperties;
  *
  * Request metadata is shared between RequestProcessors, so RequestProcessors can tweak each others
  * behavior, and thus, the behavior of the Tracker. Request metadata can be set and get using the
- * {@link VisitProperties::setRequestMetadata()} and {@link VisitProperties::getRequestMetadata()}
+ * {@link Request::setMetadata()} and {@link Request::getMetadata()}
  * methods.
  *
  * Each RequestProcessor lists the request metadata it computes and exposes in its class

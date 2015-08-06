@@ -51,20 +51,20 @@ class ActionsRequestProcessor extends RequestProcessor
         $action = Action::factory($request);
         $action->writeDebugInfo();
 
-        $visitProperties->setRequestMetadata('Actions', 'action', $action);
+        $request->setMetadata('Actions', 'action', $action);
 
         // save the exit actions of the last action in this visit as the referrer actions for the action being tracked.
         // when the visit is updated, these columns will be changed, so we have to do this before recordLogs
-        $visitProperties->setRequestMetadata('Actions', 'idReferrerActionUrl',
+        $request->setMetadata('Actions', 'idReferrerActionUrl',
             $visitProperties->getProperty('visit_exit_idaction_url'));
-        $visitProperties->setRequestMetadata('Actions', 'idReferrerActionName',
+        $request->setMetadata('Actions', 'idReferrerActionName',
             $visitProperties->getProperty('visit_exit_idaction_name'));
     }
 
     public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
     {
         /** @var Action $action */
-        $action = $visitProperties->getRequestMetadata('Actions', 'action');
+        $action = $request->getMetadata('Actions', 'action');
 
         if (!empty($action)) { // other plugins can unset the action if they want
             $action->loadIdsFromLogActionTable();
@@ -74,20 +74,20 @@ class ActionsRequestProcessor extends RequestProcessor
     public function recordLogs(VisitProperties $visitProperties, Request $request)
     {
         /** @var Action $action */
-        $action = $visitProperties->getRequestMetadata('Actions', 'action');
+        $action = $request->getMetadata('Actions', 'action');
 
         if ($action !== null
-            && !$visitProperties->getRequestMetadata('CoreHome', 'visitorNotFoundInDb')
+            && !$request->getMetadata('CoreHome', 'visitorNotFoundInDb')
         ) {
             $idReferrerActionUrl = 0;
             $idReferrerActionName = 0;
 
-            if (!$visitProperties->getRequestMetadata('CoreHome', 'isNewVisit')) {
-                $idReferrerActionUrl = $visitProperties->getRequestMetadata('Actions', 'idReferrerActionUrl');
-                $idReferrerActionName = $visitProperties->getRequestMetadata('Actions', 'idReferrerActionName');
+            if (!$request->getMetadata('CoreHome', 'isNewVisit')) {
+                $idReferrerActionUrl = $request->getMetadata('Actions', 'idReferrerActionUrl');
+                $idReferrerActionName = $request->getMetadata('Actions', 'idReferrerActionName');
             }
 
-            $visitor = Visitor::makeFromVisitProperties($visitProperties);
+            $visitor = Visitor::makeFromVisitProperties($visitProperties, $request);
             $action->record($visitor, $idReferrerActionUrl, $idReferrerActionName);
         }
     }

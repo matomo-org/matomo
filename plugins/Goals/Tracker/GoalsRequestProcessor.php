@@ -59,12 +59,12 @@ class GoalsRequestProcessor extends RequestProcessor
             $goal = $this->goalManager->detectGoalId($request->getIdSite(), $request);
 
             $visitIsConverted = !empty($goal);
-            $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', $visitIsConverted);
+            $request->setMetadata('Goals', 'visitIsConverted', $visitIsConverted);
 
-            $existingConvertedGoals = $visitProperties->getRequestMetadata('Goals', 'goalsConverted') ?: array();
-            $visitProperties->setRequestMetadata('Goals', 'goalsConverted', array_merge($existingConvertedGoals, array($goal)));
+            $existingConvertedGoals = $request->getMetadata('Goals', 'goalsConverted') ?: array();
+            $request->setMetadata('Goals', 'goalsConverted', array_merge($existingConvertedGoals, array($goal)));
 
-            $visitProperties->setRequestMetadata('Actions', 'action', null); // don't track actions when doing manual goal conversions
+            $request->setMetadata('Actions', 'action', null); // don't track actions when doing manual goal conversions
 
             // if we find a idgoal in the URL, but then the goal is not valid, this is most likely a fake request
             if (!$visitIsConverted) {
@@ -79,10 +79,10 @@ class GoalsRequestProcessor extends RequestProcessor
 
     public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
     {
-        $goalsConverted = $visitProperties->getRequestMetadata('Goals', 'goalsConverted');
+        $goalsConverted = $request->getMetadata('Goals', 'goalsConverted');
 
         /** @var Action $action */
-        $action = $visitProperties->getRequestMetadata('Actions', 'action');
+        $action = $request->getMetadata('Actions', 'action');
 
         // if the visit hasn't already been converted another way (ie, manual goal conversion or ecommerce conversion,
         // try to convert based on the action)
@@ -91,11 +91,11 @@ class GoalsRequestProcessor extends RequestProcessor
         ) {
             $goalsConverted = $this->goalManager->detectGoalsMatchingUrl($request->getIdSite(), $action);
 
-            $existingGoalsConverted = $visitProperties->getRequestMetadata('Goals', 'goalsConverted') ?: array();
-            $visitProperties->setRequestMetadata('Goals', 'goalsConverted', array_merge($existingGoalsConverted, $goalsConverted));
+            $existingGoalsConverted = $request->getMetadata('Goals', 'goalsConverted') ?: array();
+            $request->setMetadata('Goals', 'goalsConverted', array_merge($existingGoalsConverted, $goalsConverted));
 
             if (!empty($goalsConverted)) {
-                $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', true);
+                $request->setMetadata('Goals', 'visitIsConverted', true);
             }
         }
 
@@ -106,15 +106,15 @@ class GoalsRequestProcessor extends RequestProcessor
         // - the exception is caught here and will result in a new visit incorrectly
         // In this case, we cancel the current conversion to be recorded:
         $isManualGoalConversion = $this->isManualGoalConversion($request);
-        $requestIsEcommerce = $visitProperties->getRequestMetadata('Goals', 'isRequestEcommerce');
-        $visitorNotFoundInDb = $visitProperties->getRequestMetadata('CoreHome', 'visitorNotFoundInDb');
+        $requestIsEcommerce = $request->getMetadata('Goals', 'isRequestEcommerce');
+        $visitorNotFoundInDb = $request->getMetadata('CoreHome', 'visitorNotFoundInDb');
 
         if ($visitorNotFoundInDb
             && ($isManualGoalConversion
                 || $requestIsEcommerce)
         ) {
-            $visitProperties->setRequestMetadata('Goals', 'goalsConverted', array());
-            $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', false);
+            $request->setMetadata('Goals', 'goalsConverted', array());
+            $request->setMetadata('Goals', 'visitIsConverted', false);
         }
 
     }
@@ -122,7 +122,7 @@ class GoalsRequestProcessor extends RequestProcessor
     public function recordLogs(VisitProperties $visitProperties, Request $request)
     {
         // record the goals if there were conversions in this request (even if the visit itself was not converted)
-        $goalsConverted = $visitProperties->getRequestMetadata('Goals', 'goalsConverted');
+        $goalsConverted = $request->getMetadata('Goals', 'goalsConverted');
         if (!empty($goalsConverted)) {
             $this->goalManager->recordGoals($visitProperties, $request);
         }

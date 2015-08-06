@@ -119,10 +119,10 @@ class Visit implements VisitInterface
             }
         }
 
-        $isNewVisit = $this->visitProperties->getRequestMetadata('CoreHome', 'isNewVisit');
+        $isNewVisit = $this->request->getMetadata('CoreHome', 'isNewVisit');
         if (!$isNewVisit) {
             $isNewVisit = $this->triggerPredicateHookOnDimensions($this->getAllVisitDimensions(), 'shouldForceNewVisit');
-            $this->visitProperties->setRequestMetadata('CoreHome', 'isNewVisit', $isNewVisit);
+            $this->request->setMetadata('CoreHome', 'isNewVisit', $isNewVisit);
         }
 
         foreach ($this->requestProcessors as $processor) {
@@ -135,7 +135,7 @@ class Visit implements VisitInterface
             }
         }
 
-        $isNewVisit = $this->visitProperties->getRequestMetadata('CoreHome', 'isNewVisit');
+        $isNewVisit = $this->request->getMetadata('CoreHome', 'isNewVisit');
 
         // Known visit when:
         // ( - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor
@@ -146,9 +146,9 @@ class Visit implements VisitInterface
         // - the last page view for this visitor was less than 30 minutes ago @see isLastActionInTheSameVisit()
         if (!$isNewVisit) {
             try {
-                $this->handleExistingVisit($this->visitProperties->getRequestMetadata('Goals', 'visitIsConverted'));
+                $this->handleExistingVisit($this->request->getMetadata('Goals', 'visitIsConverted'));
             } catch (VisitorNotFoundInDb $e) {
-                $this->visitProperties->setRequestMetadata('CoreHome', 'visitorNotFoundInDb', true); // TODO: perhaps we should just abort here?
+                $this->request->setMetadata('CoreHome', 'visitorNotFoundInDb', true); // TODO: perhaps we should just abort here?
             }
         }
 
@@ -157,7 +157,7 @@ class Visit implements VisitInterface
         // - the visitor doesn't have the Piwik cookie, and couldn't be matched in @see recognizeTheVisitor()
         // - the visitor does have the Piwik cookie but the idcookie and idvisit found in the cookie didn't match to any existing visit in the DB
         if ($isNewVisit) {
-            $this->handleNewVisit($this->visitProperties->getRequestMetadata('Goals', 'visitIsConverted'));
+            $this->handleNewVisit($this->request->getMetadata('Goals', 'visitIsConverted'));
         }
 
         // update the cookie with the new visit information
@@ -298,7 +298,7 @@ class Visit implements VisitInterface
      */
     protected function getVisitorIdcookie()
     {
-        $isKnown = $this->visitProperties->getRequestMetadata('CoreHome', 'isVisitorKnown');
+        $isKnown = $this->request->getMetadata('CoreHome', 'isVisitorKnown');
         if ($isKnown) {
             return $this->visitProperties->getProperty('idvisitor');
         }
@@ -407,7 +407,7 @@ class Visit implements VisitInterface
     {
         $idVisitor = $this->getVisitorIdcookie();
         $visitorIp = $this->getVisitorIp();
-        $configId = $this->visitProperties->getRequestMetadata('CoreHome', 'visitorId');
+        $configId = $this->request->getMetadata('CoreHome', 'visitorId');
 
         $this->visitProperties->clearProperties();
 
@@ -453,7 +453,7 @@ class Visit implements VisitInterface
         $visitor = $this->makeVisitorFacade();
 
         /** @var Action $action */
-        $action = $this->visitProperties->getRequestMetadata('Actions', 'action');
+        $action = $this->request->getMetadata('Actions', 'action');
 
         foreach ($dimensions as $dimension) {
             $value = $dimension->$hook($this->request, $visitor, $action);
@@ -482,7 +482,7 @@ class Visit implements VisitInterface
         $visitor = $this->makeVisitorFacade();
 
         /** @var Action $action */
-        $action = $this->visitProperties->getRequestMetadata('Actions', 'action');
+        $action = $this->request->getMetadata('Actions', 'action');
 
         foreach ($dimensions as $dimension) {
             if ($dimension->$hook($this->request, $visitor, $action)) {
@@ -577,6 +577,6 @@ class Visit implements VisitInterface
 
     private function makeVisitorFacade()
     {
-        return Visitor::makeFromVisitProperties($this->visitProperties);
+        return Visitor::makeFromVisitProperties($this->visitProperties, $this->request);
     }
 }

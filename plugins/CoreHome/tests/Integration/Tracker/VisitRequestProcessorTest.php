@@ -96,11 +96,12 @@ class VisitRequestProcessorTest extends IntegrationTestCase
     {
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
 
+        /** @var Request $request */
         list($visit, $request) = $this->prepareVisitWithRequest(array('idsite' => $idsite), $currentActionTime);
 
         $visitProperties = new VisitProperties();
         $visitProperties->setProperty('visit_last_action_time', Date::factory($lastActionTimestamp)->getTimestamp());
-        $visitProperties->setRequestMetadata('CoreHome', 'isVisitorKnown', $isVisitorKnown);
+        $request->setMetadata('CoreHome', 'isVisitorKnown', $isVisitorKnown);
 
         return array($visit, $visitProperties, $request);
     }

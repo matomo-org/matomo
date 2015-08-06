@@ -44,32 +44,32 @@ class EcommerceRequestProcessor extends RequestProcessor
     public function processRequestParams(VisitProperties $visitProperties, Request $request)
     {
         $isGoalAnOrder = $this->isRequestForAnOrder($request);
-        $visitProperties->setRequestMetadata('Ecommerce', 'isGoalAnOrder', $isGoalAnOrder);
+        $request->setMetadata('Ecommerce', 'isGoalAnOrder', $isGoalAnOrder);
 
         $isRequestEcommerce = $this->isRequestEcommerce($request);
-        $visitProperties->setRequestMetadata('Ecommerce', 'isRequestEcommerce', $isRequestEcommerce);
+        $request->setMetadata('Ecommerce', 'isRequestEcommerce', $isRequestEcommerce);
 
         if ($isRequestEcommerce) {
             // Mark the visit as Converted only if it is an order (not for a Cart update)
             $idGoal = GoalManager::IDGOAL_CART;
             if ($isGoalAnOrder) {
                 $idGoal = GoalManager::IDGOAL_ORDER;
-                $visitProperties->setRequestMetadata('Goals', 'visitIsConverted', true);
+                $request->setMetadata('Goals', 'visitIsConverted', true);
             }
 
-            $visitProperties->setRequestMetadata('Goals', 'goalsConverted', array(array('idgoal' => $idGoal)));
+            $request->setMetadata('Goals', 'goalsConverted', array(array('idgoal' => $idGoal)));
 
-            $visitProperties->setRequestMetadata('Actions', 'action', null); // don't track actions when tracking ecommerce orders
+            $request->setMetadata('Actions', 'action', null); // don't track actions when tracking ecommerce orders
         }
     }
 
     public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
     {
-        $goalsConverted = $visitProperties->getRequestMetadata('Goals', 'goalsConverted');
+        $goalsConverted = $request->getMetadata('Goals', 'goalsConverted');
         if (!empty($goalsConverted)) {
             $isThereExistingCartInVisit = $this->goalManager->detectIsThereExistingCartInVisit(
                 $visitProperties->getProperties());
-            $visitProperties->setRequestMetadata('Goals', 'isThereExistingCartInVisit', $isThereExistingCartInVisit);
+            $request->setMetadata('Goals', 'isThereExistingCartInVisit', $isThereExistingCartInVisit);
         }
     }
 
