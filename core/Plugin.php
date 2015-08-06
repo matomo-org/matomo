@@ -457,6 +457,7 @@ class Plugin
      * be detected as a tracker plugin.
      *
      * @return bool
+     * @internal
      */
     public function isTrackerPlugin()
     {
