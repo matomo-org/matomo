@@ -10,8 +10,6 @@ namespace Piwik\Tracker\Visit;
 
 /**
  * Holds temporary data for tracking requests.
- *
- * RequestProcessors
  */
 class VisitProperties
 {
@@ -21,7 +19,7 @@ class VisitProperties
      *
      * @var array
      */
-    public $visitorInfo = array();
+    private $visitInfo = array();
 
     /**
      * Stores plugin specific tracking request metadata. RequestProcessors can store
@@ -54,5 +52,55 @@ class VisitProperties
     public function getRequestMetadata($pluginName, $key)
     {
         return @$this->requestMetadata[$pluginName][$key];
+    }
+
+    /**
+     * Returns a visit property, or `null` if none is set.
+     *
+     * @param string $name The property name.
+     * @return mixed
+     */
+    public function getProperty($name)
+    {
+        return isset($this->visitInfo[$name]) ? $this->visitInfo[$name] : null;
+    }
+
+    /**
+     * Returns all visit properties by reference.
+     *
+     * @return array
+     */
+    public function &getProperties()
+    {
+        return $this->visitInfo;
+    }
+
+    /**
+     * Sets a visit property.
+     *
+     * @param string $name The property name.
+     * @param mixed $value The property value.
+     */
+    public function setProperty($name, $value)
+    {
+        $this->visitInfo[$name] = $value;
+    }
+
+    /**
+     * Unsets all visit properties.
+     */
+    public function clearProperties()
+    {
+        $this->visitInfo = array();
+    }
+
+    /**
+     * Sets all visit properties.
+     *
+     * @param array $properties
+     */
+    public function setProperties($properties)
+    {
+        $this->visitInfo = $properties;
     }
 }

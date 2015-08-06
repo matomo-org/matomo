@@ -32,13 +32,13 @@ class Visitor
 
     public function setVisitorColumn($column, $value)
     {
-        $this->visitProperties->visitorInfo[$column] = $value;
+        $this->visitProperties->setProperty($column, $value);
     }
 
     public function getVisitorColumn($column)
     {
-        if (array_key_exists($column, $this->visitProperties->visitorInfo)) {
-            return $this->visitProperties->visitorInfo[$column];
+        if (array_key_exists($column, $this->visitProperties->getProperties())) {
+            return $this->visitProperties->getProperty($column);
         }
 
         return false;

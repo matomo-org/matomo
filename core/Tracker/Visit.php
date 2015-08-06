@@ -161,7 +161,7 @@ class Visit implements VisitInterface
         }
 
         // update the cookie with the new visit information
-        $this->request->setThirdPartyCookie($this->visitProperties->visitorInfo['idvisitor']);
+        $this->request->setThirdPartyCookie($this->visitProperties->getProperty('idvisitor'));
 
         foreach ($this->requestProcessors as $processor) {
             Common::printDebug("Executing " . get_class($processor) . "::recordLogs()...");
@@ -188,13 +188,13 @@ class Visit implements VisitInterface
         Common::printDebug("Visit is known (IP = " . IPUtils::binaryToStringIP($this->getVisitorIp()) . ")");
 
         // TODO it should be its own dimension
-        $this->visitProperties->visitorInfo['time_spent_ref_action'] = $this->getTimeSpentReferrerAction();
+        $this->visitProperties->setProperty('time_spent_ref_action', $this->getTimeSpentReferrerAction());
 
         $valuesToUpdate = $this->getExistingVisitFieldsToUpdate($visitIsConverted);
 
         // update visitorInfo
         foreach ($valuesToUpdate as $name => $value) {
-            $this->visitProperties->visitorInfo[$name] = $value;
+            $this->visitProperties->setProperty($name, $value);
         }
 
         /**
@@ -208,7 +208,7 @@ class Visit implements VisitInterface
          * @param array $visit The entire visit entity. Read [this](/guides/persistence-and-the-mysql-backend#visits)
          *                     to see what it contains.
          */
-        Piwik::postEvent('Tracker.existingVisitInformation', array(&$valuesToUpdate, $this->visitProperties->visitorInfo));
+        Piwik::postEvent('Tracker.existingVisitInformation', array(&$valuesToUpdate, $this->visitProperties->getProperties()));
 
         foreach ($this->requestProcessors as $processor) {
             $processor->onExistingVisit($valuesToUpdate, $this->visitProperties, $this->request);
@@ -216,7 +216,7 @@ class Visit implements VisitInterface
 
         $this->updateExistingVisit($valuesToUpdate);
 
-        $this->visitProperties->visitorInfo['visit_last_action_time'] = $this->request->getCurrentTimestamp();
+        $this->visitProperties->setProperty('visit_last_action_time', $this->request->getCurrentTimestamp());
     }
 
     /**
@@ -224,7 +224,8 @@ class Visit implements VisitInterface
      */
     protected function getTimeSpentReferrerAction()
     {
-        $timeSpent = $this->request->getCurrentTimestamp() - $this->visitProperties->visitorInfo['visit_last_action_time'];
+        $timeSpent = $this->request->getCurrentTimestamp() -
+            $this->visitProperties->getProperty('visit_last_action_time');
         if ($timeSpent < 0) {
             $timeSpent = 0;
         }
@@ -270,7 +271,7 @@ class Visit implements VisitInterface
          *                      what information it contains.
          * @param \Piwik\Tracker\Request $request An object describing the tracking request being processed.
          */
-        Piwik::postEvent('Tracker.newVisitorInformation', array(&$this->visitProperties->visitorInfo, $this->request));
+        Piwik::postEvent('Tracker.newVisitorInformation', array($this->visitProperties->getProperties(), $this->request));
 
         foreach ($this->requestProcessors as $processor) {
             $processor->onNewVisit($this->visitProperties, $this->request);
@@ -278,11 +279,11 @@ class Visit implements VisitInterface
 
         $this->printVisitorInformation();
 
-        $idVisit = $this->insertNewVisit($this->visitProperties->visitorInfo);
+        $idVisit = $this->insertNewVisit($this->visitProperties->getProperties());
 
-        $this->visitProperties->visitorInfo['idvisit'] = $idVisit;
-        $this->visitProperties->visitorInfo['visit_first_action_time'] = $this->request->getCurrentTimestamp();
-        $this->visitProperties->visitorInfo['visit_last_action_time'] = $this->request->getCurrentTimestamp();
+        $this->visitProperties->setProperty('idvisit', $idVisit);
+        $this->visitProperties->setProperty('visit_first_action_time', $this->request->getCurrentTimestamp());
+        $this->visitProperties->setProperty('visit_last_action_time', $this->request->getCurrentTimestamp());
     }
 
     private function getModel()
@@ -299,14 +300,15 @@ class Visit implements VisitInterface
     {
         $isKnown = $this->visitProperties->getRequestMetadata('CoreHome', 'isVisitorKnown');
         if ($isKnown) {
-            return $this->visitProperties->visitorInfo['idvisitor'];
+            return $this->visitProperties->getProperty('idvisitor');
         }
 
         // If the visitor had a first party ID cookie, then we use this value
-        if (!empty($this->visitProperties->visitorInfo['idvisitor'])
-            && Tracker::LENGTH_BINARY_ID == strlen($this->visitProperties->visitorInfo['idvisitor'])
+        $idVisitor = $this->visitProperties->getProperty('idvisitor');
+        if (!empty($idVisitor)
+            && Tracker::LENGTH_BINARY_ID == strlen($this->visitProperties->getProperty('idvisitor'))
         ) {
-            return $this->visitProperties->visitorInfo['idvisitor'];
+            return $this->visitProperties->getProperty('idvisitor');
         }
 
         return Common::hex2bin($this->generateUniqueVisitorId());
@@ -327,7 +329,7 @@ class Visit implements VisitInterface
      */
     protected function getVisitorIp()
     {
-        return $this->visitProperties->visitorInfo['location_ip'];
+        return $this->visitProperties->getProperty('location_ip');
     }
 
     /**
@@ -373,7 +375,7 @@ class Visit implements VisitInterface
     protected function updateExistingVisit($valuesToUpdate)
     {
         $idSite = $this->request->getIdSite();
-        $idVisit = (int)$this->visitProperties->visitorInfo['idvisit'];
+        $idVisit = (int)$this->visitProperties->getProperty('idvisit');
 
         $wasInserted = $this->getModel()->updateVisit($idSite, $idVisit, $valuesToUpdate);
 
@@ -386,14 +388,15 @@ class Visit implements VisitInterface
             Common::printDebug('Updated existing visit: ' . var_export($valuesToUpdate, true));
         } else {
             throw new VisitorNotFoundInDb(
-                "The visitor with idvisitor=" . bin2hex($this->visitProperties->visitorInfo['idvisitor']) . " and idvisit=" . @$this->visitProperties->visitorInfo['idvisit']
+                "The visitor with idvisitor=" . bin2hex($this->visitProperties->getProperty('idvisitor'))
+                . " and idvisit=" . @$this->visitProperties->getProperty('idvisit')
                 . " wasn't found in the DB, we fallback to a new visitor");
         }
     }
 
     private function printVisitorInformation()
     {
-        $debugVisitInfo = $this->visitProperties->visitorInfo;
+        $debugVisitInfo = $this->visitProperties->getProperties();
         $debugVisitInfo['idvisitor'] = bin2hex($debugVisitInfo['idvisitor']);
         $debugVisitInfo['config_id'] = bin2hex($debugVisitInfo['config_id']);
         $debugVisitInfo['location_ip'] = IPUtils::binaryToStringIP($debugVisitInfo['location_ip']);
@@ -406,11 +409,11 @@ class Visit implements VisitInterface
         $visitorIp = $this->getVisitorIp();
         $configId = $this->visitProperties->getRequestMetadata('CoreHome', 'visitorId');
 
-        $this->visitProperties->visitorInfo = array();
+        $this->visitProperties->clearProperties();
 
-        $this->visitProperties->visitorInfo['idvisitor'] = $idVisitor;
-        $this->visitProperties->visitorInfo['config_id'] = $configId;
-        $this->visitProperties->visitorInfo['location_ip'] = $visitorIp;
+        $this->visitProperties->setProperty('idvisitor', $idVisitor);
+        $this->visitProperties->setProperty('config_id', $configId);
+        $this->visitProperties->setProperty('location_ip', $visitorIp);
     }
 
     /**
@@ -466,7 +469,7 @@ class Visit implements VisitInterface
                 if ($valuesToUpdate !== null) {
                     $valuesToUpdate[$fieldName] = $value;
                 } else {
-                    $this->visitProperties->visitorInfo[$fieldName] = $value;
+                    $this->visitProperties->setProperty($fieldName, $value);
                 }
             }
         }
@@ -519,8 +522,8 @@ class Visit implements VisitInterface
     private function setIdVisitorForExistingVisit($valuesToUpdate)
     {
         // Might update the idvisitor when it was forced or overwritten for this visit
-        if (strlen($this->visitProperties->visitorInfo['idvisitor']) == Tracker::LENGTH_BINARY_ID) {
-            $binIdVisitor = $this->visitProperties->visitorInfo['idvisitor'];
+        if (strlen($this->visitProperties->getProperty('idvisitor')) == Tracker::LENGTH_BINARY_ID) {
+            $binIdVisitor = $this->visitProperties->getProperty('idvisitor');
             $valuesToUpdate['idvisitor'] = $binIdVisitor;
         }
 
@@ -529,7 +532,7 @@ class Visit implements VisitInterface
         if ($userId) {
             $userIdHash = $this->request->getUserIdHashed($userId);
             $binIdVisitor = Common::hex2bin($userIdHash);
-            $this->visitProperties->visitorInfo['idvisitor'] = $binIdVisitor;
+            $this->visitProperties->setProperty('idvisitor', $binIdVisitor);
             $valuesToUpdate['idvisitor'] = $binIdVisitor;
         }
         return $valuesToUpdate;

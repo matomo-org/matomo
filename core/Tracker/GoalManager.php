@@ -205,7 +205,7 @@ class GoalManager
      */
     public function recordGoals(VisitProperties $visitProperties, Request $request)
     {
-        $visitorInformation = $visitProperties->visitorInfo;
+        $visitorInformation = $visitProperties->getProperties();
         $visitCustomVariables = $visitProperties->getRequestMetadata('CustomVariables', 'visitCustomVariables');
 
         /** @var Action $action */
@@ -315,9 +315,10 @@ class GoalManager
         $conversion['items'] = $itemsCount;
 
         if ($isThereExistingCartInVisit) {
-            $recorded = $this->getModel()->updateConversion($visitProperties->visitorInfo['idvisit'], self::IDGOAL_CART, $conversion);
+            $recorded = $this->getModel()->updateConversion(
+                $visitProperties->getProperty('idvisit'), self::IDGOAL_CART, $conversion);
         } else {
-            $recorded = $this->insertNewConversion($conversion, $visitProperties->visitorInfo, $request);
+            $recorded = $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request);
         }
 
         if ($recorded) {
@@ -335,7 +336,7 @@ class GoalManager
          * @param array $visitInformation The visit entity that we are tracking a conversion for. See what
          *                                information it contains [here](/guides/persistence-and-the-mysql-backend#visits).
          */
-        Piwik::postEvent('Tracker.recordEcommerceGoal', array($conversion, $visitProperties->visitorInfo));
+        Piwik::postEvent('Tracker.recordEcommerceGoal', array($conversion, $visitProperties->getProperties()));
     }
 
     /**
@@ -665,12 +666,12 @@ class GoalManager
             // If multiple Goal conversions per visit, set a cache buster
             $conversion['buster'] = $convertedGoal['allow_multiple'] == 0
                 ? '0'
-                : $visitProperties->visitorInfo['visit_last_action_time'];
+                : $visitProperties->getProperty('visit_last_action_time');
 
             $conversionDimensions = ConversionDimension::getAllDimensions();
             $conversion = $this->triggerHookOnDimensions($request, $conversionDimensions, 'onGoalConversion', $visitor, $action, $conversion);
 
-            $this->insertNewConversion($conversion, $visitProperties->visitorInfo, $request);
+            $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request);
 
             /**
              * Triggered after successfully recording a non-ecommerce conversion.
@@ -791,9 +792,9 @@ class GoalManager
     private function getGoalFromVisitor(VisitProperties $visitProperties, Request $request, $action)
     {
         $goal = array(
-            'idvisit'     => $visitProperties->visitorInfo['idvisit'],
-            'idvisitor'   => $visitProperties->visitorInfo['idvisitor'],
-            'server_time' => Date::getDatetimeFromTimestamp($visitProperties->visitorInfo['visit_last_action_time'])
+            'idvisit'     => $visitProperties->getProperty('idvisit'),
+            'idvisitor'   => $visitProperties->getProperty('idvisitor'),
+            'server_time' => Date::getDatetimeFromTimestamp($visitProperties->getProperty('visit_last_action_time')),
         );
 
         $visitDimensions = VisitDimension::getAllDimensions();

@@ -85,7 +85,7 @@ class VisitorRecognizer
         $isVisitorIdToLookup = !empty($idVisitor);
 
         if ($isVisitorIdToLookup) {
-            $visitProperties->visitorInfo['idvisitor'] = $idVisitor;
+            $visitProperties->setProperty('idvisitor', $idVisitor);
             Common::printDebug("Matching visitors with: visitorId=" . bin2hex($idVisitor) . " OR configId=" . bin2hex($configId));
         } else {
             Common::printDebug("Visitor doesn't have the piwik cookie...");
@@ -109,11 +109,11 @@ class VisitorRecognizer
 
             // These values will be used throughout the request
             foreach ($persistedVisitAttributes as $field) {
-                $visitProperties->visitorInfo[$field] = $visitRow[$field];
+                $visitProperties->setProperty($field, $visitRow[$field]);
             }
 
-            $visitProperties->visitorInfo['visit_last_action_time']  = strtotime($visitRow['visit_last_action_time']);
-            $visitProperties->visitorInfo['visit_first_action_time'] = strtotime($visitRow['visit_first_action_time']);
+            $visitProperties->setProperty('visit_last_action_time', strtotime($visitRow['visit_last_action_time']));
+            $visitProperties->setProperty('visit_first_action_time', strtotime($visitRow['visit_first_action_time']));
 
             // Custom Variables copied from Visit in potential later conversion
             if (!empty($numCustomVarsToRead)) {
@@ -121,22 +121,22 @@ class VisitorRecognizer
                     if (isset($visitRow['custom_var_k' . $i])
                         && strlen($visitRow['custom_var_k' . $i])
                     ) {
-                        $visitProperties->visitorInfo['custom_var_k' . $i] = $visitRow['custom_var_k' . $i];
+                        $visitProperties->setProperty('custom_var_k' . $i, $visitRow['custom_var_k' . $i]);
                     }
                     if (isset($visitRow['custom_var_v' . $i])
                         && strlen($visitRow['custom_var_v' . $i])
                     ) {
-                        $visitProperties->visitorInfo['custom_var_v' . $i] = $visitRow['custom_var_v' . $i];
+                        $visitProperties->setProperty('custom_var_v' . $i, $visitRow['custom_var_v' . $i]);
                     }
                 }
             }
 
-            Common::printDebug("The visitor is known (idvisitor = " . bin2hex($visitProperties->visitorInfo['idvisitor']) . ",
+            Common::printDebug("The visitor is known (idvisitor = " . bin2hex($visitProperties->getProperty('idvisitor')) . ",
                     config_id = " . bin2hex($configId) . ",
-                    idvisit = {$visitProperties->visitorInfo['idvisit']},
-                    last action = " . date("r", $visitProperties->visitorInfo['visit_last_action_time']) . ",
-                    first action = " . date("r", $visitProperties->visitorInfo['visit_first_action_time']) . ",
-                    visit_goal_buyer' = " . $visitProperties->visitorInfo['visit_goal_buyer'] . ")");
+                    idvisit = {$visitProperties->getProperty('idvisit')},
+                    last action = " . date("r", $visitProperties->getProperty('visit_last_action_time')) . ",
+                    first action = " . date("r", $visitProperties->getProperty('visit_first_action_time')) . ",
+                    visit_goal_buyer' = " . $visitProperties->getProperty('visit_goal_buyer') . ")");
 
             return true;
         } else {

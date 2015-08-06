@@ -67,7 +67,8 @@ class EcommerceRequestProcessor extends RequestProcessor
     {
         $goalsConverted = $visitProperties->getRequestMetadata('Goals', 'goalsConverted');
         if (!empty($goalsConverted)) {
-            $isThereExistingCartInVisit = $this->goalManager->detectIsThereExistingCartInVisit($visitProperties->visitorInfo);
+            $isThereExistingCartInVisit = $this->goalManager->detectIsThereExistingCartInVisit(
+                $visitProperties->getProperties());
             $visitProperties->setRequestMetadata('Goals', 'isThereExistingCartInVisit', $isThereExistingCartInVisit);
         }
     }

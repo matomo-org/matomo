@@ -83,16 +83,16 @@ class VisitRequestProcessor extends RequestProcessor
     public function processRequestParams(VisitProperties $visitProperties, Request $request)
     {
         // the IP is needed by isExcluded() and GoalManager->recordGoals()
-        $visitProperties->visitorInfo['location_ip'] = $request->getIp();
+        $visitProperties->setProperty('location_ip', $request->getIp());
 
         // TODO: move VisitExcluded logic to here (or move to service class stored in DI)
-        $excluded = new VisitExcluded($request, $visitProperties->visitorInfo['location_ip']);
+        $excluded = new VisitExcluded($request, $visitProperties->getProperty('location_ip'));
         if ($excluded->isExcluded()) {
             return true;
         }
 
         // visitor recognition
-        $visitorId = $this->userSettings->getConfigId($request, $visitProperties->visitorInfo['location_ip']);
+        $visitorId = $this->userSettings->getConfigId($request, $visitProperties->getProperty('location_ip'));
         $visitProperties->setRequestMetadata('CoreHome', 'visitorId', $visitorId);
 
         $isKnown = $this->visitorRecognizer->findKnownVisitor($visitorId, $visitProperties, $request);
@@ -106,6 +106,8 @@ class VisitRequestProcessor extends RequestProcessor
 
     public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
     {
+        $ip = $visitProperties->getProperty('location_ip');
+
         /**
          * Triggered after visits are tested for exclusion so plugins can modify the IP address
          * persisted with a visit.
@@ -114,7 +116,9 @@ class VisitRequestProcessor extends RequestProcessor
          *
          * @param string &$ip The visitor's IP address.
          */
-        $this->eventDispatcher->postEvent('Tracker.setVisitorIp', array(&$visitProperties->visitorInfo['location_ip']));
+        $this->eventDispatcher->postEvent('Tracker.setVisitorIp', array(&$ip));
+
+        $visitProperties->setProperty('location_ip', $ip);
     }
 
     /**
@@ -157,7 +161,7 @@ class VisitRequestProcessor extends RequestProcessor
      */
     protected function isLastActionInTheSameVisit(VisitProperties $visitProperties, Request $request)
     {
-        $lastActionTime = $visitProperties->visitorInfo['visit_last_action_time'];
+        $lastActionTime = $visitProperties->getProperty('visit_last_action_time');
 
         return isset($lastActionTime)
             && false !== $lastActionTime
@@ -171,7 +175,7 @@ class VisitRequestProcessor extends RequestProcessor
      */
     private function wasLastActionNotToday(VisitProperties $visitProperties, Request $request)
     {
-        $lastActionTime = $visitProperties->visitorInfo['visit_last_action_time'];
+        $lastActionTime = $visitProperties->getProperty('visit_last_action_time');
 
         if (empty($lastActionTime)) {
             return false;

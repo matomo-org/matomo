@@ -99,7 +99,7 @@ class VisitRequestProcessorTest extends IntegrationTestCase
         list($visit, $request) = $this->prepareVisitWithRequest(array('idsite' => $idsite), $currentActionTime);
 
         $visitProperties = new VisitProperties();
-        $visitProperties->visitorInfo = array('visit_last_action_time' => Date::factory($lastActionTimestamp)->getTimestamp());
+        $visitProperties->setProperty('visit_last_action_time', Date::factory($lastActionTimestamp)->getTimestamp());
         $visitProperties->setRequestMetadata('CoreHome', 'isVisitorKnown', $isVisitorKnown);
 
         return array($visit, $visitProperties, $request);

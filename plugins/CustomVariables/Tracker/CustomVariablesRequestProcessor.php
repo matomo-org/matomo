@@ -50,7 +50,7 @@ class CustomVariablesRequestProcessor extends RequestProcessor
         $visitCustomVariables = $visitProperties->getRequestMetadata('CustomVariables', 'visitCustomVariables');
 
         if (!empty($visitCustomVariables)) {
-            $visitProperties->visitorInfo = array_merge($visitProperties->visitorInfo, $visitCustomVariables);
+            $visitProperties->setProperties(array_merge($visitProperties->getProperties(), $visitCustomVariables));
         }
     }
 
