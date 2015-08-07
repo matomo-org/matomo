@@ -26,7 +26,9 @@
                                 {%- if visitorData.userId is not empty %}: <span title="{{'General_UserId'|translate}}: {{ visitorData.userId|raw }}">{{ visitorData.userId|raw }}</span>{% endif -%}
                                 <img class="loadingPiwik" style="display:none;" src="plugins/Morpheus/images/loading-blue.gif"/>
                             </h1>
-                            <a href="http://piwik.org/docs/user-profile/" class="reportDocumentationIcon" rel="noreferrer"  target="_blank" title="{{ 'General_ViewDocumentationFor'|translate("Live_VisitorProfile"|translate|ucwords) }}"></a>
+                            <a href="http://piwik.org/docs/user-profile/" class="visitorProfileHelp" rel="noreferrer"  target="_blank" title="{{ 'General_ViewDocumentationFor'|translate("Live_VisitorProfile"|translate|ucwords) }}">
+                                <span class="icon-help"></span>
+                            </a>
                             {% if visitorData.nextVisitorId is not empty %}<a class="visitor-profile-next-visitor" href="#" title="{{ 'Live_NextVisitor'|translate }}">&rarr;</a>{% endif %}
                         </div>
                         <div class="visitor-profile-latest-visit">
