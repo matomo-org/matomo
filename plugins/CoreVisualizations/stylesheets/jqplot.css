@@ -185,17 +185,6 @@
     padding: 0;
 }
 
-a.rowevolution-startmulti {
-    font-size: 12px;
-    color: #7E7363;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-a.rowevolution-startmulti:hover {
-    color: #444;
-}
-
 /**
  * SERIES PICKER FOR CHARTS
  */
