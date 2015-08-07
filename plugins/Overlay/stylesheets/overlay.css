@@ -20,15 +20,12 @@ body #logo {
 }
 
 a#overlayTitle {
-    font-size: 15px;
-    font-weight: normal;
-    color: #7e7363;
+    font-size: 12px;
     text-decoration: none;
-    vertical-align: text-bottom;
+    color: #4d4d4d;
+    margin-left: 15px;
 }
-
-#overlayTitle img {
-    vertical-align: text-bottom;
+a#overlayTitle .icon-help {
     margin-left: 4px;
 }
 
