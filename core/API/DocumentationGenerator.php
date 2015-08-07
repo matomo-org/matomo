@@ -290,6 +290,7 @@ class DocumentationGenerator
         $aParameters['pivotByColumnLimit'] = false;
         $aParameters['disable_queued_filters'] = false;
         $aParameters['disable_generic_filters'] = false;
+        $aParameters['expanded'] = false;
 
         $moduleName = Proxy::getInstance()->getModuleNameFromClassName($class);
         $aParameters = array_merge(array('module' => 'API', 'method' => $moduleName . '.' . $methodName), $aParameters);

@@ -111,18 +111,22 @@
 	<reportMetadata>
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
-				<idsubdatatable>2</idsubdatatable>
+				
+				<idsubdatatable>3205</idsubdatatable>
 			</row>
 			<row>
-				<idsubdatatable>1</idsubdatatable>
+				
+				<idsubdatatable>3204</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010">
 			<row>
-				<idsubdatatable>2</idsubdatatable>
+				
+				<idsubdatatable>3208</idsubdatatable>
 			</row>
 			<row>
-				<idsubdatatable>1</idsubdatatable>
+				
+				<idsubdatatable>3207</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Tuesday 5 January 2010" />
