@@ -165,14 +165,6 @@
     color: #f00;
 }
 
-.rowevolution-documentation {
-    font-size: 12px;
-    margin: 2px 0 5px 0;
-    padding: 5px 0 5px 23px;
-    color: #888;
-    background: url(../../Morpheus/images/help.png) no-repeat left center;
-}
-
 .rowevolution .metric-selectbox,
 .rowevolution .compare-container {
     padding: 15px 0 5px 0;
