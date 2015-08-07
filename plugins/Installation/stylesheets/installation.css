@@ -86,15 +86,19 @@ p.next-step:first-child {
     vertical-align: bottom;
 }
 
-.system-check .icon-ok {
+.system-check .icon-ok, .system-check-legend .icon-ok {
     color: #1AA282;
     margin-right: 10px;
 }
-.system-check .icon-warning {
+.system-check .icon-warning, .system-check-legend .icon-warning {
     color: #DF9D27;
     margin-right: 10px;
 }
-.system-check .icon-error {
+.system-check .icon-error, .system-check-legend .icon-error {
     color: #D73F36;
     margin-right: 10px;
+}
+
+.system-check-legend {
+    font-size: 13px;
 }
