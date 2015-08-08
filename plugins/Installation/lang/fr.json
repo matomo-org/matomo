@@ -72,6 +72,7 @@
         "SystemCheckExtensions": "Extensions requises",
         "SystemCheckFileIntegrity": "Intégrité du fichier",
         "SystemCheckFunctions": "Fonctions requises",
+        "SystemCheckFunctionHelp": "We devez activer cette fonctionnalité fournie par défaut.",
         "SystemCheckGDFreeType": "GD > 2.x + Freetype (graphiques)",
         "SystemCheckGDHelp": "Les sparklines (petits graphiques) ne fonctionneront pas.",
         "SystemCheckGlobHelp": "Cette fonction native a été désactivée sur votre hôte. Piwik va tenter de l'émuler mais il pourra rencontrer des restrictions de sécurité. Les fonctionnalités pourront en être impactées.",

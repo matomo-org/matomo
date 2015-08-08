@@ -3,6 +3,7 @@
         "PhoneNumbers": "Telefonnumre",
         "Settings_APIKey": "API-nøkkel",
         "Settings_CountryCode": "Landskode",
+        "Settings_DeleteAccountConfirm": "Er du sikker på at du vil slette denne SMS-kontoen?",
         "Settings_InvalidActivationCode": "Koden du har angitt var ikke gyldig, vennligst prøv igjen.",
         "Settings_ManagePhoneNumbers": "Administrer telefonnummer",
         "Settings_PhoneActivated": "Telefonnummer validert! Du kan nå motta SMS med dine statistikker.",
