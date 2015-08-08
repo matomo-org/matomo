@@ -269,6 +269,7 @@
         "YourChangesHaveBeenSaved": "As suas alterações foram guardadas."
     },
     "Mobile": {
+        "AboutPiwikMobile": "Acerca de Piwik Mobile",
         "AccessUrlLabel": "Endereço de Acesso Piwik",
         "AnonymousAccess": "Acesso anónimo",
         "EnableGraphsLabel": "Mostrar gráficos",
@@ -276,5 +277,8 @@
         "NetworkNotReachable": "Rede não acessível",
         "SaveSuccessError": "Por favor verifique as definições",
         "YouAreOffline": "Desculpe, encontra-se desconectado"
+    },
+    "RowEvolution": {
+        "AvailableMetrics": "Métricas disponíveis"
     }
 }

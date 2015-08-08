@@ -1,7 +1,9 @@
 {
     "Goals": {
+        "AbandonedCart": "Forlatt handlevogn",
         "AddGoal": "Legg til mål",
         "AddNewGoal": "Legg til et nytt mål",
+        "AddNewGoalOrEditExistingGoal": "%sLegg til nytt mål%s eller %sRediger%s eksisterende mål",
         "AllowMultipleConversionsPerVisit": "Tillat flere konverteringer per besøk",
         "CancelAndReturnToGoals": "Avbryt og %sreturner til listen over mål%s",
         "CategoryTextReferrers_Referrers": "Henvisere",
@@ -15,6 +17,10 @@
         "DeleteGoalConfirm": "Er du sikker på at du vil slette målet %s?",
         "DocumentationRevenueGeneratedByProductSales": "Produktsalg. Ekskluderer skatt, frakt og rabatt",
         "Download": "Last ned en fil",
+        "Ecommerce": "E-handel",
+        "EcommerceAndGoalsMenu": "E-handel og mål",
+        "EcommerceLog": "E-handel logg",
+        "EcommerceOverview": "E-handeloversikt",
         "Filename": "filnavn",
         "GoalConversion": "Målkonvertering",
         "GoalConversions": "Målkonverteringer",
