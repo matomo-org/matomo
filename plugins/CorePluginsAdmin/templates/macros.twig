@@ -187,6 +187,29 @@
                                 <a href="{{ plugin.info.homepage }}">({{ 'CorePluginsAdmin_PluginHomepage'|translate|replace({' ': '&nbsp;'})|raw }})</a>
                             </span>
                             {% endif %}
+
+                            {% if plugin.info.donate is defined and plugin.info.donate|length %}
+                                <div class="plugin-donation">
+                                    {{ 'CorePluginsAdmin_LikeThisPlugin'|translate }} <a href="javascript:;" class="plugin-donation-link" data-overlay-id="overlay-{{ name|escape('html_attr') }}">{{ 'CorePluginsAdmin_ConsiderDonating'|translate }}</a>
+                                    <div id="overlay-{{ name|escape('html_attr') }}" class="donation-overlay ui-confirm" title="{{ 'CorePluginsAdmin_LikeThisPlugin'|translate }}">
+                                        <p>{{ 'CorePluginsAdmin_CommunityContributedPlugin'|translate }}</p>
+                                        <p>{{ 'CorePluginsAdmin_ConsiderDonatingCreatorOf'|translate("<b>" ~ name ~ "</b>")|raw }}</p>
+                                        <div class="donation-links">
+                                        {% if plugin.info.donate.paypal is defined and plugin.info.donate.paypal %}
+                                            <a class="donation-link paypal" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&item_name=Piwik%20Plugin%20{{ name|escape('url') }}&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted&business={{ plugin.info.donate.paypal|escape('url') }}"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" height="30"/></a>
+                                        {% endif %}
+                                        {% if plugin.info.donate.flattr is defined and plugin.info.donate.flattr %}
+                                            <a class="donation-link flattr" target="_blank" href="{{ plugin.info.donate.flattr }}"><img class="alignnone" title="Flattr" alt="" src="https://api.flattr.com/button/flattr-badge-large.png" height="29" /></a>
+                                        {% endif %}
+                                        {% if plugin.info.donate.bitcoin is defined and plugin.info.donate.bitcoin %}
+                                            <div class="donation-link bitcoin"><a class="coinbase-button" data-height="30" data-button-style="donation_small" data-code="{{ plugin.info.donate.bitcoin|escape('html_attr') }}" href="https://coinbase.com/checkouts/{{ plugin.info.donate.bitcoin|escape('url') }}" target="_blank">Donate With Bitcoin</a></div>
+                                            <script src="https://coinbase.com/assets/button.js" type="text/javascript"></script>
+                                        {% endif %}
+                                        </div>
+                                        <input role="no" type="button" value="{{ 'General_Close'|translate }}"/>
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
                         {% if plugin.info.license is defined %}
                         <div class="plugin-license">
