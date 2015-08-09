@@ -103,5 +103,7 @@ Build status (master branch) [![Build Status](https://travis-ci.org/piwik/piwik.
 
 Code Coverage: [![Code Coverage](https://scrutinizer-ci.com/g/piwik/piwik/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master)
 
+Latest Version: [![Latest version](https://img.shields.io/github/release/piwik/piwik.svg?style=flat-square)](https://packagist.org/packages/piwik/piwik)
+
 Issue tracker metrics: [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Average time to resolve an issue") - [![Percentage of issues still open](http://isitmaintained.com/badge/open/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Percentage of issues still open")
  
