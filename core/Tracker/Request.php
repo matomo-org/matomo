@@ -145,6 +145,8 @@ class Request
                 $this->isAuthenticated = self::authenticateSuperUserOrAdmin($tokenAuth, $idSite);
                 $cache->save($cacheKey, $this->isAuthenticated);
             } catch (Exception $e) {
+                Common::printDebug("could not authenticate, caught exception: " . $e->getMessage());
+
                 $this->isAuthenticated = false;
             }
 
