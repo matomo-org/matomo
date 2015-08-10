@@ -198,6 +198,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // auone
         'search.auone.jp'                => array('auone', 'q', '?q={k}'),
+        'sp-search.auone.jp'             => array('auone'),
         'sp-image.search.auone.jp'       => array('auone Images', 'q', '?q={k}'),
 
         // Austronaut
@@ -373,13 +374,16 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Flix
         'www.flix.de'                    => array('Flix.de', 'keyword'),
 
+        // Fooooo
+        'search.fooooo.com'              => array('Fooooo', 'q', 'web/?q={k}'),
+
         // Forestle
         'forestle.org'                   => array('Forestle', 'q', 'search.php?q={k}'),
         '{}.forestle.org'                => array('Forestle'),
         'forestle.mobi'                  => array('Forestle'),
 
         // Free
-        'search.free.fr'                 => array('Free', 'q'),
+        'search.free.fr'                 => array('Free', array('q', 'qs')),
         'search1-2.free.fr'              => array('Free'),
         'search1-1.free.fr'              => array('Free'),
 
@@ -467,12 +471,14 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'search.leonardo.it'             => array('Google'),
         'www.optuszoo.com.au'            => array('Google'),
         'search.dolphin-browser.jp'      => array('Google'),
+        'netlavis.azione.jp'             => array('Google'),
+        'search.nan.so'                  => array('Google'),
+        'cgi2.nintendo.co.jp'            => array('Google', 'gsc.q'),
         'search.smt.docomo.ne.jp'        => array('Google', 'MT'),
         'image.search.smt.docomo.ne.jp'  => array('Google', 'MT'),
         'gfsoso.com'                     => array('Google', 'q'),
         'searches.safehomepage.com'      => array('Google', 'q'),
         'searches.f-secure.com'          => array('Google', 'query', 'search?query={k}'),
-        'startgoogle.startpagina.nl'     => array('Google', 'query'),
 
         // Google Cache
         'webcache.googleusercontent.com' => array('Google', '/\/search\?q=cache:[A-Za-z0-9]+:[^+]+([^&]+)/', 'search?q={k}'),
@@ -577,7 +583,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'search.webssearches.com'        => array('InfoSpace'),
         'search.fbdownloader.com'        => array('InfoSpace'),
         'searches3.globososo.com'        => array('InfoSpace'),
-        
+
         // old infospace system
         'wsdsold.infospace.com'          => array('InfoSpace', '/\/[^\/]+\/ws\/results\/[^\/]+\/([^\/]+)/', 'pemonitorhosted/ws/results/Web/{k}/1/417/TopNavigation/Source/'),
 
@@ -646,8 +652,14 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Kataweb
         'www.kataweb.it'                 => array('Kataweb', 'q'),
 
+        // Kensaq
+        'www.kensaq.com'                 => array('Kensaq', 'q', 'web?q={k}'),
+
         // Kvasir
         'www.kvasir.no'                  => array('Kvasir', 'q', 'alle?q={k}'),
+
+        // 묻지마 검색
+        'kwzf.net'                       => array('묻지마 검색', 'search', '#search={k}'),
 
         // Latne
         'www.latne.lv'                   => array('Latne', 'q', 'siets.php?q={k}'),
@@ -769,7 +781,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
     // PeopleCheck
         'extern.peoplecheck.de'            => array('PeopleCheck', 'q', 'link.php?q={k}'),
-    
+
         // Picsearch
         'www.picsearch.com'              => array('Picsearch', 'q', 'index.cgi?q={k}'),
 
@@ -793,7 +805,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Qwant
         'www.qwant.com'                 => array('Qwant', 'q'),
-        
+
         // Rakuten
         'websearch.rakuten.co.jp'        => array('Rakuten', 'qt', 'WebIS?qt={k}'),
 
@@ -840,7 +852,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Seznam
         'search.seznam.cz'               => array('Seznam', 'q', '?q={k}'),
-        
+
         // Seznam Videa (Video)
         'videa.seznam.cz'               => array('Seznam Videa', 'q', '?q={k}'),
 
@@ -1027,6 +1039,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Yahoo! Japan
         'search.yahoo.co.jp'             => array('Yahoo! Japan', array('p', 'vp'), 'search?p={k}'),
         'jp.hao123.com'                  => array('Yahoo! Japan', 'query'),
+        'home.kingsoft.jp'               => array('Yahoo! Japan', 'keyword'),
         'video.search.yahoo.co.jp'       => array('Yahoo! Japan Videos', 'p', 'search?p={k}'),
         'image.search.yahoo.co.jp'       => array('Yahoo! Japan Images', 'p', 'search?p={k}'),
 
