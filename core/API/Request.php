@@ -279,6 +279,22 @@ class Request
     }
 
     /**
+     * Detect if request is an API request. Meaning the module is 'API' and an API method having a valid format was
+     * specified.
+     *
+     * @param array $request  eg array('module' => 'API', 'method' => 'Test.getMethod')
+     * @return bool
+     * @throws Exception
+     */
+    public static function isApiRequest($request)
+    {
+        $module = Common::getRequestVar('module', '', 'string', $request);
+        $method = Common::getRequestVar('method', '', 'string', $request);
+
+        return $module === 'API' && !empty($method) && (count(explode('.', $method)) === 2);
+    }
+
+    /**
      * If the token_auth is found in the $request parameter,
      * the current session will be authenticated using this token_auth.
      * It will overwrite the previous Auth object.

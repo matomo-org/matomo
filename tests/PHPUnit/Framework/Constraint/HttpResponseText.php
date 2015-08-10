@@ -20,17 +20,10 @@ class HttpResponseText extends \PHPUnit_Framework_Constraint
         $this->value = $value;
     }
 
-    /**
-     * Evaluates the constraint for parameter $other. Returns TRUE if the
-     * constraint is met, FALSE otherwise.
-     *
-     * @param mixed $other Value or object to evaluate.
-     * @return bool
-     */
-    public function matches($other)
+    public function getResponse($url)
     {
         $options = array(
-            CURLOPT_URL            => $other,
+            CURLOPT_URL            => $url,
             CURLOPT_HEADER         => false,
             CURLOPT_TIMEOUT        => 1,
             CURLOPT_RETURNTRANSFER => true
@@ -41,7 +34,19 @@ class HttpResponseText extends \PHPUnit_Framework_Constraint
         $response = @curl_exec($ch);
         curl_close($ch);
 
-        $this->actualCode = $response;
+        return $response;
+    }
+
+    /**
+     * Evaluates the constraint for parameter $other. Returns TRUE if the
+     * constraint is met, FALSE otherwise.
+     *
+     * @param mixed $other Value or object to evaluate.
+     * @return bool
+     */
+    public function matches($other)
+    {
+        $this->actualCode = $this->getResponse($other);
 
         return $this->value === $this->actualCode;
     }
