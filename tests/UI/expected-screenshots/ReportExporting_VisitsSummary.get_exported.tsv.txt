@@ -1,0 +1,2 @@
+Date	Visits	Actions	Visits with Conversions	Bounces	Total time spent by visitors (in seconds)	Maximum actions in one visit	Bounce Rate	Actions per Visit	Avg. Visit Duration (in seconds)
+2012	312	569	249	240	69809	16	77%	1.8	00:03:44
