@@ -8,13 +8,10 @@
 
 namespace Piwik\Plugins\Installation\tests\System;
 
-use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
-use Piwik\Plugins\Installation\tests\Fixtures\SimpleFixtureTrackFewVisits;
 use Piwik\Tests\Framework\Constraint\HttpResponseText;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
-use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 /**
  * @group Installation
@@ -24,7 +21,7 @@ use Piwik\Tests\Framework\TestingEnvironmentVariables;
 class APITest extends SystemTestCase
 {
     /**
-     * @var SimpleFixtureTrackFewVisits
+     * @var Fixture
      */
     public static $fixture = null; // initialized below class definition
 
@@ -81,5 +78,3 @@ class APITest extends SystemTestCase
     }
 
 }
-
-APITest::$fixture = new SimpleFixtureTrackFewVisits();
