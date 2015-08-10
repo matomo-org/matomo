@@ -180,11 +180,24 @@ class VisitExcluded
         if ($cache->contains($key)) {
             $isInRanges = $cache->fetch($key);
         } else {
-            $isInRanges = $ip->isInRanges($this->getBotIpRanges());
+            if ($this->isChromeDataSaverUsed($ip)) {
+                $isInRanges = false;
+            } else {
+                $isInRanges = $ip->isInRanges($this->getBotIpRanges());
+            }
+
             $cache->save($key, $isInRanges);
         }
 
         return $isInRanges;
+    }
+
+    private function isChromeDataSaverUsed(IP $ip)
+    {
+        // see https://github.com/piwik/piwik/issues/7733
+        return !empty($_SERVER['HTTP_VIA'])
+            && false !== strpos(strtolower($_SERVER['HTTP_VIA']), 'chrome-compression-proxy')
+            && $ip->isInRange('66.249.80.0/20');
     }
 
     protected function getBotIpRanges()

@@ -99,6 +99,22 @@ class VisitTest extends IntegrationTestCase
         }
     }
 
+    public function testVisitShouldNotBeExcluded_IfMadeViaChromeDataSaverCompressionProxy()
+    {
+        $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
+            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null);
+
+        $request = new Request(array('idsite' => $idsite));
+
+        $testIpIsExcluded = IPUtils::stringToBinaryIP('66.249.93.251');
+
+        $_SERVER['HTTP_VIA'] = '1.1 Chrome-Compression-Proxy';
+        $excluded = new VisitExcluded_public($request, $testIpIsExcluded);
+        $isBot = $excluded->public_isNonHumanBot($testIpIsExcluded);
+        unset($_SERVER['HTTP_VIA']);
+        $this->assertFalse($isBot);
+    }
+
     /**
      * Dataprovider for testIsVisitorUserAgentExcluded.
      */
