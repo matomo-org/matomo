@@ -99,20 +99,34 @@ class VisitTest extends IntegrationTestCase
         }
     }
 
-    public function testVisitShouldNotBeExcluded_IfMadeViaChromeDataSaverCompressionProxy()
+    /**
+     * @dataProvider getChromeDataSaverData
+     */
+    public function testVisitShouldNotBeExcluded_IfMadeViaChromeDataSaverCompressionProxy($ip, $isNonHumanBot)
     {
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null);
 
         $request = new Request(array('idsite' => $idsite));
 
-        $testIpIsExcluded = IPUtils::stringToBinaryIP('66.249.93.251');
+        $testIpIsExcluded = IPUtils::stringToBinaryIP($ip);
 
         $_SERVER['HTTP_VIA'] = '1.1 Chrome-Compression-Proxy';
         $excluded = new VisitExcluded_public($request, $testIpIsExcluded);
         $isBot = $excluded->public_isNonHumanBot($testIpIsExcluded);
         unset($_SERVER['HTTP_VIA']);
-        $this->assertFalse($isBot);
+        $this->assertSame($isNonHumanBot, $isBot);
+    }
+
+    public function getChromeDataSaverData()
+    {
+        return array(
+            array('216.239.32.0', $isNonHumanBot = false), // false because google ips
+            array('66.249.93.251', $isNonHumanBot = false),
+            array('173.194.0.1', $isNonHumanBot = false),
+            array('72.30.198.1', $isNonHumanBot = true), // not a google bot, a yahoo bot
+            array('64.4.0.1', $isNonHumanBot = true), // a MSN bot
+        );
     }
 
     /**

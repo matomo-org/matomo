@@ -197,24 +197,12 @@ class VisitExcluded
         // see https://github.com/piwik/piwik/issues/7733
         return !empty($_SERVER['HTTP_VIA'])
             && false !== strpos(strtolower($_SERVER['HTTP_VIA']), 'chrome-compression-proxy')
-            && $ip->isInRange('66.249.80.0/20');
+            && $ip->isInRanges($this->getGoogleBotIpRanges());
     }
 
     protected function getBotIpRanges()
     {
-        return array(
-            // Google
-            '216.239.32.0/19',
-            '64.233.160.0/19',
-            '66.249.80.0/20',
-            '72.14.192.0/18',
-            '209.85.128.0/17',
-            '66.102.0.0/20',
-            '74.125.0.0/16',
-            '64.18.0.0/20',
-            '207.126.144.0/20',
-            '173.194.0.0/16',
-
+        return array_merge($this->getGoogleBotIpRanges(), array(
             // Live/Bing/MSN
             '64.4.0.0/18',
             '65.52.0.0/14',
@@ -233,6 +221,22 @@ class VisitExcluded
             '98.137.207.0/20',
             // Chinese bot hammering websites
             '1.202.218.8'
+        ));
+    }
+
+    private function getGoogleBotIpRanges()
+    {
+        return array(
+            '216.239.32.0/19',
+            '64.233.160.0/19',
+            '66.249.80.0/20',
+            '72.14.192.0/18',
+            '209.85.128.0/17',
+            '66.102.0.0/20',
+            '74.125.0.0/16',
+            '64.18.0.0/20',
+            '207.126.144.0/20',
+            '173.194.0.0/16'
         );
     }
 
