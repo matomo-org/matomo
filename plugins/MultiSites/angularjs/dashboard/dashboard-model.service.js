@@ -17,6 +17,7 @@
             pageSize     : 25,
             currentPage  : 0,
             totalVisits  : '?',
+            totalPageviews : '?',
             totalActions : '?',
             totalRevenue : '?',
             searchTerm   : '',
@@ -66,8 +67,9 @@
                 site.revenue_evolution   = parseInt(site.revenue_evolution, 10);
             });
 
-            model.totalActions  = report.totals.nb_pageviews;
             model.totalVisits   = report.totals.nb_visits;
+            model.totalPageviews  = report.totals.nb_pageviews;
+            model.totalActions  = report.totals.nb_actions;
             model.totalRevenue  = report.totals.revenue;
             model.lastVisits    = report.totals.nb_visits_lastdate;
             model.sites = allSites;
