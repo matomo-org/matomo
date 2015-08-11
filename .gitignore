@@ -63,7 +63,5 @@ php_errors.log
 /tests/PHPUnit/proxy/plugins
 /tests/PHPUnit/proxy/tests
 /config/*.config.ini.php
-/Vagrantfile
-/misc/vagrant
 /.vagrant
 /plugins/.gitignore

@@ -1,0 +1,12 @@
+server {
+	listen  80;
+	root    /vagrant;
+	index   index.php index.html;
+
+	location ~ \.php(/|$) {
+		include	fastcgi_params;
+		fastcgi_pass unix:/var/run/php5-fpm.sock;
+		fastcgi_read_timeout 300s;
+		fastcgi_split_path_info ^(.+\.php)(/.*)$;
+	}
+}
