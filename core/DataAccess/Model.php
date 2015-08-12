@@ -53,15 +53,15 @@ class Model
 
         $idSites = array_map(function ($v) { return (int)$v; }, $idSites);
 
-        $sql = "SELECT idsite, date1, date2, period,
+        $sql = "SELECT idsite, date1, date2, period, name,
                        GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC) as archives
                   FROM `$archiveTable`
                  WHERE name LIKE 'done%'
                    AND value IN (" . ArchiveWriter::DONE_INVALIDATED . ','
-            . ArchiveWriter::DONE_OK . ','
-            . ArchiveWriter::DONE_OK_TEMPORARY . ")
+                                   . ArchiveWriter::DONE_OK . ','
+                                   . ArchiveWriter::DONE_OK_TEMPORARY . ")
                    AND idsite IN (" . implode(',', $idSites) . ")
-                 GROUP BY idsite, date1, date2, period";
+                 GROUP BY idsite, date1, date2, period, name";
 
         $archiveIds = array();
 
