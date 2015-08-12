@@ -81,7 +81,7 @@ class Object {
   ////////////////////////////////////////////////////////////////////////////
   // constructor
   //
-  function Object($catch_errors = true) {
+  function __construct($catch_errors = true) {
     $this->isError         = false;
     $this->logFile         = null;
     $this->logDate         = '';
