@@ -439,6 +439,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Powered by Google
         'search.avg.com'                 => array('Google'),
         'isearch.avg.com'                => array('Google'),
+        'search.chedot.com'              => array('Google', 'text'),
         'www.cnn.com'                    => array('Google', 'query'),
         'darkoogle.com'                  => array('Google'),
         'search.darkoogle.com'           => array('Google'),
