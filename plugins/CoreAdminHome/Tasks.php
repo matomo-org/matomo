@@ -51,11 +51,15 @@ class Tasks extends \Piwik\Plugin\Tasks
         $this->weekly('updateSpammerBlacklist');
     }
 
+    /**
+     * @return bool `true` if the purge was executed, `false` if it was skipped.
+     * @throws \Exception
+     */
     public function purgeOutdatedArchives()
     {
         if ($this->willPurgingCausePotentialProblemInUI()) {
             $this->logger->info("Purging temporary archives: skipped (browser triggered archiving not enabled & not running after core:archive)");
-            return;
+            return false;
         }
 
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
@@ -86,6 +90,8 @@ class Tasks extends \Piwik\Plugin\Tasks
                 $this->logger->info("Skipping purging of archive tables *_{year}_{month}, year <= 1990.", array('year' => $year, 'month' => $month));
             }
         }
+
+        return true;
     }
 
     public function purgeInvalidatedArchives()
