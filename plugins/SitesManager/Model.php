@@ -80,8 +80,8 @@ class Model
     /**
      * Returns the list of the website IDs that received some visits since the specified timestamp.
      *
-     * @param \Piwik\Date $time
-     * @param \Piwik\Date $now
+     * @param string $time
+     * @param string $now
      * @return array The list of website IDs
      */
     public function getSitesWithVisits($time, $now)
