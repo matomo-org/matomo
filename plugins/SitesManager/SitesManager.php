@@ -4,8 +4,8 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
+
 namespace Piwik\Plugins\SitesManager;
 
 use Piwik\Common;
@@ -16,9 +16,6 @@ use Piwik\Measurable\Settings\Storage;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Model as TrackerModel;
 
-/**
- *
- */
 class SitesManager extends \Piwik\Plugin
 {
     const KEEP_URL_FRAGMENT_USE_DEFAULT = 0;
@@ -183,13 +180,13 @@ class SitesManager extends \Piwik\Plugin
      */
     private function getTrackerExcludedIps($website)
     {
-        $excludedIps = $website['excluded_ips'];
-        $globalExcludedIps = API::getInstance()->getExcludedIpsGlobal();
-
-        $excludedIps .= ',' . $globalExcludedIps;
+        $excludedIps = array_values(array_unique(array_merge(
+            API::getInstance()->getExcludedIpsGlobal(),
+            explode("\n", $website['excluded_ips'])
+        )));
 
         $ipRanges = array();
-        foreach (explode(',', $excludedIps) as $ip) {
+        foreach ($excludedIps as $ip) {
             $ipRange = API::getInstance()->getIpsForRange($ip);
             if ($ipRange !== false) {
                 $ipRanges[] = $ipRange;
@@ -203,45 +200,31 @@ class SitesManager extends \Piwik\Plugin
      * any garbage data & trims each entry.
      *
      * @param array $website The full set of information for a site.
-     * @return array
+     * @return string[]
      */
     private static function getExcludedUserAgents($website)
     {
         $excludedUserAgents = API::getInstance()->getExcludedUserAgentsGlobal();
         if (API::getInstance()->isSiteSpecificUserAgentExcludeEnabled()) {
-            $excludedUserAgents .= ',' . $website['excluded_user_agents'];
+            $siteExcludedUserAgents = explode("\n", $website['excluded_user_agents']);
+            $excludedUserAgents = array_values(array_unique(array_merge($excludedUserAgents, $siteExcludedUserAgents)));
         }
-        return self::filterBlankFromCommaSepList($excludedUserAgents);
+        return $excludedUserAgents;
     }
 
     /**
      * Returns the array of URL query parameters to exclude from URLs
      *
      * @param array $website
-     * @return array
+     * @return string[]
      */
     public static function getTrackerExcludedQueryParameters($website)
     {
-        $excludedQueryParameters = $website['excluded_parameters'];
-        $globalExcludedQueryParameters = API::getInstance()->getExcludedQueryParametersGlobal();
-
-        $excludedQueryParameters .= ',' . $globalExcludedQueryParameters;
-        return self::filterBlankFromCommaSepList($excludedQueryParameters);
-    }
-
-    /**
-     * Trims each element of a comma-separated list of strings, removes empty elements and
-     * returns the result (as an array).
-     *
-     * @param string $parameters The unfiltered list.
-     * @return array The filtered list of strings as an array.
-     */
-    private static function filterBlankFromCommaSepList($parameters)
-    {
-        $parameters = explode(',', $parameters);
-        $parameters = array_filter($parameters, 'strlen');
-        $parameters = array_unique($parameters);
-        return $parameters;
+        $siteExcludedParameters = explode("\n", $website['excluded_parameters']);
+        return array_values(array_unique(array_merge(
+            API::getInstance()->getExcludedQueryParametersGlobal(),
+            $siteExcludedParameters
+        )));
     }
 
     /**

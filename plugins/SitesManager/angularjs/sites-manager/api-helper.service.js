@@ -15,6 +15,7 @@
         return {
             fetch: fetch,
             commaDelimitedFieldToArray: commaDelimitedFieldToArray,
+            lineReturnDelimitedFieldToArray: lineReturnDelimitedFieldToArray,
             fetchApi: fetchApi,
             fetchAction: fetchAction,
             singleObjectAdaptor: singleObjectAdaptor,
@@ -41,12 +42,18 @@
             };
         }
 
-        function commaDelimitedFieldToArray (value) {
-
-            if(!value)
+        function commaDelimitedFieldToArray(value) {
+            if (!value) {
                 return [];
-
+            }
             return value.split(',');
+        }
+
+        function lineReturnDelimitedFieldToArray(value) {
+            if (!value) {
+                return [];
+            }
+            return value.split("\n");
         }
 
         function fetchApi(apiMethod, jsonResponseAdaptor, params) {

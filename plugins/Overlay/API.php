@@ -45,6 +45,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Get excluded query parameters for a site.
      * This information is used for client side url normalization.
+     *
+     * @return string[]
      */
     public function getExcludedQueryParameters($idSite)
     {

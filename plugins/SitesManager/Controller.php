@@ -13,7 +13,6 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
-use Piwik\Measurable\MeasurableSetting;
 use Piwik\Measurable\MeasurableSettings;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -21,9 +20,6 @@ use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Url;
 use Piwik\View;
 
-/**
- *
- */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     /**
@@ -65,15 +61,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $globalSettings = array();
 
-        $globalSettings['keepURLFragmentsGlobal'] = API::getInstance()->getKeepURLFragmentsGlobal();
-        $globalSettings['siteSpecificUserAgentExcludeEnabled'] = API::getInstance()->isSiteSpecificUserAgentExcludeEnabled();
-        $globalSettings['defaultCurrency'] = API::getInstance()->getDefaultCurrency();
-        $globalSettings['searchKeywordParametersGlobal'] = API::getInstance()->getSearchKeywordParametersGlobal();
-        $globalSettings['searchCategoryParametersGlobal'] = API::getInstance()->getSearchCategoryParametersGlobal();
-        $globalSettings['defaultTimezone'] = API::getInstance()->getDefaultTimezone();
-        $globalSettings['excludedIpsGlobal'] = API::getInstance()->getExcludedIpsGlobal();
-        $globalSettings['excludedQueryParametersGlobal'] = API::getInstance()->getExcludedQueryParametersGlobal();
-        $globalSettings['excludedUserAgentsGlobal'] = API::getInstance()->getExcludedUserAgentsGlobal();
+        $api = API::getInstance();
+        $globalSettings['keepURLFragmentsGlobal'] = $api->getKeepURLFragmentsGlobal();
+        $globalSettings['siteSpecificUserAgentExcludeEnabled'] = $api->isSiteSpecificUserAgentExcludeEnabled();
+        $globalSettings['defaultCurrency'] = $api->getDefaultCurrency();
+        $globalSettings['searchKeywordParametersGlobal'] = $api->getSearchKeywordParametersGlobal();
+        $globalSettings['searchCategoryParametersGlobal'] = $api->getSearchCategoryParametersGlobal();
+        $globalSettings['defaultTimezone'] = $api->getDefaultTimezone();
+        $globalSettings['excludedIpsGlobal'] = implode("\n", $api->getExcludedIpsGlobal());
+        $globalSettings['excludedQueryParametersGlobal'] = implode("\n", $api->getExcludedQueryParametersGlobal());
+        $globalSettings['excludedUserAgentsGlobal'] = implode("\n", $api->getExcludedUserAgentsGlobal());
 
         return $response->getResponse($globalSettings);
     }
