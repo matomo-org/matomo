@@ -46,7 +46,6 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'General_Website';
         $translations[] = 'General_ColumnNbVisits';
         $translations[] = 'General_ColumnPageviews';
-        $translations[] = 'General_Actions';
         $translations[] = 'General_ColumnRevenue';
         $translations[] = 'General_TotalVisitsPageviewsActionsRevenue';
         $translations[] = 'General_EvolutionSummaryGeneric';

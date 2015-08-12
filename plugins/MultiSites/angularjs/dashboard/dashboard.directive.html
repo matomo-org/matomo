@@ -24,10 +24,6 @@
                 <span ng-class="{multisites_asc: !model.reverse && 'nb_pageviews' == model.sortColumn, multisites_desc: model.reverse && 'nb_pageviews' == model.sortColumn}" class="arrow"></span>
                 <span class="heading">{{ 'General_ColumnPageviews'|translate }}</span>
             </th>
-            <th id="actions" class="multisites-column" ng-click="model.sortBy('nb_actions')" ng-class="{columnSorted: 'nb_actions' == model.sortColumn}">
-                <span ng-class="{multisites_asc: !model.reverse && 'nb_actions' == model.sortColumn, multisites_desc: model.reverse && 'nb_actions' == model.sortColumn}" class="arrow"></span>
-                <span class="heading">{{ 'General_Actions'|translate }}</span>
-            </th>
 
             <th ng-if="displayRevenueColumn" id="revenue" class="multisites-column" ng-click="model.sortBy('revenue')" ng-class="{columnSorted: 'revenue' == model.sortColumn}">
                 <span ng-class="{multisites_asc: !model.reverse && 'revenue' == model.sortColumn, multisites_desc: model.reverse && 'revenue' == model.sortColumn}" class="arrow"></span>
