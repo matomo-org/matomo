@@ -209,11 +209,6 @@ class ReportTotalsCalculator extends DataTableManipulator
         return $request;
     }
 
-    private function findCurrentReport()
-    {
-        return Report::factory($this->apiModule, $this->apiMethod);
-    }
-
     private function findFirstLevelReport()
     {
         foreach (Report::getAllReports() as $report) {
