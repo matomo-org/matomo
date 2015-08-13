@@ -71,8 +71,12 @@
             model.currentRequest = piwikApi.fetch({
                 method: 'SitesManager.getPatternMatchSites',
                 pattern: term
-            }).then(function (response) {
-                return updateWebsitesList(response);
+            });
+
+            model.currentRequest.then(function (response) {
+                if (angular.isDefined(response)) {
+                    return updateWebsitesList(response);
+                }
             })['finally'](function () {    // .finally() is not IE8 compatible see https://github.com/angular/angular.js/commit/f078762d48d0d5d9796dcdf2cb0241198677582c
                 model.isLoading = false;
                 model.currentRequest = null;
