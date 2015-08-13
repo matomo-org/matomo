@@ -39,7 +39,7 @@ function sendGeneralSettingsAJAX() {
         action: 'setGeneralSettings'
     }, 'GET');
     ajaxHandler.redirectOnSuccess();
-    ajaxHandler.send(true);
+    ajaxHandler.send();
 }
 function showSmtpSettings(value) {
     $('#smtpSettings').toggle(value == 1);

@@ -153,7 +153,7 @@ function ajaxDeleteGoal(idGoal) {
     ajaxRequest.addParams(parameters, 'get');
     ajaxRequest.setLoadingElement('#goalAjaxLoading');
     ajaxRequest.setCallback(function () { location.reload(); });
-    ajaxRequest.send(true);
+    ajaxRequest.send();
 }
 
 function ajaxAddGoal() {
@@ -192,7 +192,7 @@ function ajaxAddGoal() {
     ajaxRequest.setCallback(function () {
         location.reload();
     });
-    ajaxRequest.send(true);
+    ajaxRequest.send();
 }
 
 function editGoal(goalId)
