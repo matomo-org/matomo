@@ -8,10 +8,7 @@
 
 namespace Piwik\Plugins\Referrers\tests\System;
 
-use Piwik\Plugins\Referrers\tests\Fixtures\SimpleFixtureTrackFewVisits;
-use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Piwik\Tests\Fixtures\TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers;
-use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -22,7 +19,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 class ApiTest extends SystemTestCase
 {
     /**
-     * @var SimpleFixtureTrackFewVisits
+     * @var TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers
      */
     public static $fixture = null; // initialized below class definition
 
@@ -50,7 +47,8 @@ class ApiTest extends SystemTestCase
                 'apiAction'  => 'getReferrerType',
                 'date'       => '2010-01-01,2010-03-10',
                 'periods'    => array('day'),
-                'testSuffix' => 'Referrers_getReferrerType'
+                'testSuffix' => 'Referrers_getReferrerType',
+                'otherRequestParameters' => array('expanded' => 0)
             )
         );
 
