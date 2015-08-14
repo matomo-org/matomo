@@ -119,14 +119,12 @@
 
         {% set cycleIndex=cycleIndex+1 %}
             <div class="col-md-{% if displayVisitorsInOwnColumn %}3{% else %}4{% endif %}">
-                <span class="visitorLogIconWithDetails">
-                    <strong title="{% if visitor.getColumn('visitorType')=='new' %}{{ 'General_NewVisitor'|translate }}{% else %}{{ 'Live_VisitorsLastVisit'|translate(visitor.getColumn('daysSinceLastVisit')) }}{% endif %}">
-                        {{ visitor.getColumn('serverDatePrettyFirstAction') }}
-                        {% if isWidget %}<br/>{% else %}-{% endif %} {{ visitor.getColumn('serverTimePrettyFirstAction') }}</strong>
-                </span>
+                <strong class="visitorLogTooltip" title="{% if visitor.getColumn('visitorType')=='new' %}{{ 'General_NewVisitor'|translate }}{% else %}{{ 'Live_VisitorsLastVisit'|translate(visitor.getColumn('daysSinceLastVisit')) }}{% endif %}">
+                    {{ visitor.getColumn('serverDatePrettyFirstAction') }}
+                    {% if isWidget %}<br/>{% else %}-{% endif %} {{ visitor.getColumn('serverTimePrettyFirstAction') }}</strong>
                 {% if visitor.getColumn('visitIp') is not empty %}
                     <br/>
-                <span title="{% if visitor.getColumn('userId') is not empty %}{{ 'General_UserId'|translate }}: {{ visitor.getColumn('userId')|raw }}{% endif %}
+                <span class="visitorLogTooltip" title="{% if visitor.getColumn('userId') is not empty %}{{ 'General_UserId'|translate }}: {{ visitor.getColumn('userId')|raw }}{% endif %}
 
 {% if visitor.getColumn('visitorId') is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitor.getColumn('visitorId') }}{% endif -%}
 {%- if visitor.getColumn('latitude') or visitor.getColumn('longitude') %}
@@ -172,7 +170,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                         {% set name='customVariableName' ~ id %}
                         {% set value='customVariableValue' ~ id %}
                         <br/>
-                        <acronym title="{{ 'CustomVariables_CustomVariables'|translate }} (index {{ id }})">
+                        <acronym class="visitorLogTooltip" title="{{ 'CustomVariables_CustomVariables'|translate }} (index {{ id }})">
                             {{ customVariable[name]|truncate(30) }}
                         </acronym>
                     {% if customVariable[value]|length > 0 %}: {{ customVariable[value]|truncate(50) }}{% endif %}
