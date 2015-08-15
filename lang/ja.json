@@ -345,7 +345,6 @@
         "Total": "合計",
         "TotalRatioTooltip": "これは、全ての %2$s %3$s の %1$sです。",
         "TotalRevenue": "総収益",
-        "TotalVisitsPageviewsRevenue": "( 合計 : 訪問数 %s 、ページビュー %s 、利益 %s )",
         "TransitionsRowActionTooltip": "訪問者が、このページの表示前後に何をしていたか見てください",
         "TransitionsRowActionTooltipTitle": "トランジションを開く",
         "TranslatorEmail": "hello@piwik.org",

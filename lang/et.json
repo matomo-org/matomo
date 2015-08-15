@@ -260,7 +260,6 @@
         "Total": "Kokku",
         "TotalRatioTooltip": "See on %1$s kõigist %2$s %3$s.",
         "TotalRevenue": "Kogutulu",
-        "TotalVisitsPageviewsRevenue": "(Kokku: %s külastust, %s lehe vaatamist, %s tulu)",
         "TransitionsRowActionTooltip": "Vaata mida külastajad tegid enne ja peale selle lehe vaatamist",
         "TransitionsRowActionTooltipTitle": "Ava üleminekud",
         "TranslatorEmail": "aivo.koger@gmail.com, toomingas.k@gmail.com",
