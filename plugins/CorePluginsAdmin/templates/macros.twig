@@ -202,8 +202,10 @@
                                             <a class="donation-link flattr" target="_blank" href="{{ plugin.info.donate.flattr }}"><img class="alignnone" title="Flattr" alt="" src="plugins/CorePluginsAdmin/images/flattr.png" height="29" /></a>
                                         {% endif %}
                                         {% if plugin.info.donate.bitcoin is defined and plugin.info.donate.bitcoin %}
-                                            <div class="donation-link bitcoin"><a class="coinbase-button" data-height="30" data-button-style="donation_small" data-code="{{ plugin.info.donate.bitcoin|escape('html_attr') }}" href="https://coinbase.com/checkouts/{{ plugin.info.donate.bitcoin|escape('url') }}" target="_blank">Donate With Bitcoin</a></div>
-                                            <script src="https://coinbase.com/assets/button.js" type="text/javascript"></script>
+                                            <div class="donation-link bitcoin">
+                                                <span>Donate Bitcoins to:</span>
+                                                <a href="bitcoin:{{ plugin.info.donate.bitcoin|escape('url') }}">{{ plugin.info.donate.bitcoin }}</a>
+                                            </div>
                                         {% endif %}
                                         </div>
                                         <input role="no" type="button" value="{{ 'General_Close'|translate }}"/>
