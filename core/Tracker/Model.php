@@ -422,7 +422,7 @@ class Model
     private function getSqlConditionToMatchSingleAction($type = null)
     {   
     	//to preserve case insensitivy ignore the CRC32 hash field if the segment is of type pageUrl
-        return ($this->type == Action::TYPE_PAGE_URL) ? 
+        return ($type == Action::TYPE_PAGE_URL) ? 
           "( name = ? AND type = ? )" : 
           "( hash = CRC32(?) AND name = ? AND type = ? )";
 
