@@ -189,9 +189,10 @@ class Model
 
     public function getIdActionMatchingNameAndType($name, $type)
     {
+	$this->type = $type;
         $sql  = $this->getSqlSelectActionId();
-        $bind = array($name, $name, $type);
 
+        $bind = ($type == Action::TYPE_PAGE_URL) ? array($name, $type) : array($name, $name, $type);                                                  
         $idAction = $this->getDb()->fetchOne($sql, $bind);
 
         return $idAction;
@@ -421,6 +422,10 @@ class Model
 
     private function getSqlConditionToMatchSingleAction()
     {
-        return "( hash = CRC32(?) AND name = ? AND type = ? )";
+	//to preserve case insensitivy ignore the CRC32 hash field if the segment is of type pageUrl
+        return ($this->type == Action::TYPE_PAGE_URL) ? 
+          "( name = ? AND type = ? )" : 
+          "( hash = CRC32(?) AND name = ? AND type = ? )";
+
     }
 }
