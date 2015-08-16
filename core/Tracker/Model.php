@@ -176,12 +176,12 @@ class Model
         return $actionId;
     }
 
-    private function getSqlSelectActionId()
+    private function getSqlSelectActionId($type)
     {
         // it is possible for multiple actions to exist in the DB (due to rare concurrency issues), so the ORDER BY and
         // LIMIT are important
         $sql = "SELECT idaction, type, name FROM " . Common::prefixTable('log_action')
-            . "  WHERE " . $this->getSqlConditionToMatchSingleAction() . " "
+            . "  WHERE " . $this->getSqlConditionToMatchSingleAction($type) . " "
             . "ORDER BY idaction ASC LIMIT 1";
 
         return $sql;
@@ -189,8 +189,7 @@ class Model
 
     public function getIdActionMatchingNameAndType($name, $type)
     {
-	$this->type = $type;
-        $sql  = $this->getSqlSelectActionId();
+        $sql  = $this->getSqlSelectActionId($type);
 
         $bind = ($type == Action::TYPE_PAGE_URL) ? array($name, $type) : array($name, $name, $type);                                                  
         $idAction = $this->getDb()->fetchOne($sql, $bind);
@@ -420,9 +419,9 @@ class Model
         return Tracker::getDatabase();
     }
 
-    private function getSqlConditionToMatchSingleAction()
-    {
-	//to preserve case insensitivy ignore the CRC32 hash field if the segment is of type pageUrl
+    private function getSqlConditionToMatchSingleAction($type = null)
+    {   
+    	//to preserve case insensitivy ignore the CRC32 hash field if the segment is of type pageUrl
         return ($this->type == Action::TYPE_PAGE_URL) ? 
           "( name = ? AND type = ? )" : 
           "( hash = CRC32(?) AND name = ? AND type = ? )";
