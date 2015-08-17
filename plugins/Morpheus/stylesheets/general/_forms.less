@@ -89,17 +89,9 @@ select {
     }
 
     .form-help {
-        .alert;
-        .alert-info;
         float: right;
         width: 58%;
         margin-bottom: 0;
-        // Smaller padding to match input's heights
-        padding: 11px 20px 10px;
-        &:before {
-            // Remove the icon
-            content: "";
-        }
     }
 
     label .form-description {
@@ -120,6 +112,19 @@ select {
 
     .sites_autocomplete {
         position: relative;
+    }
+}
+
+// TODO Form helps are used outside of forms in UserCountry (old table layout)
+// Once this plugin uses the new form layout, move those rules back into ".form-group .form-help"
+.form-help {
+    .alert;
+    .alert-info;
+    // Smaller padding to match input's heights
+    padding: 11px 20px 10px;
+    &:before {
+        // Remove the icon
+        content: "";
     }
 }
 

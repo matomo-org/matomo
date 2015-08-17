@@ -17,7 +17,7 @@
 			<td width="150">{{ 'UserCountry_LocationDatabase'|translate }}</td>
 			<td><input type="text" id="geoip-location-db" value="{{ geoIPLocUrl }}"/></td>
 			<td width="164">
-				<div class="alert alert-info">
+				<div class="form-help">
 					{{ 'UserCountry_LocationDatabaseHint'|translate }}
 				</div>
 			</td>
@@ -40,7 +40,7 @@
 				<label for="geoip-update-period-week">{{ 'Intl_PeriodWeek'|translate }}</label>
 			</td>
 			<td width="164">
-				<div class="alert alert-info">
+				<div class="form-help">
 					{% if lastTimeUpdaterRun is defined and lastTimeUpdaterRun is not empty %}
 						{{ 'UserCountry_UpdaterWasLastRun'|translate(lastTimeUpdaterRun)|raw }}
 					{% else %}
