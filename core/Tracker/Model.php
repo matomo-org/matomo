@@ -15,8 +15,6 @@ use Piwik\Tracker;
 class Model
 {
 
-    private static $type; 
-    
     public function createAction($visitAction)
     {
         $fields = implode(", ", array_keys($visitAction));
@@ -171,6 +169,7 @@ class Model
         $sql   = "INSERT INTO $table (name, hash, type, url_prefix) VALUES (?,CRC32(?),?,?)";
 
         $db = $this->getDb();
+        $name = ($type == Action::TYPE_PAGE_URL) ? strtolower($name) : $name;
         $db->query($sql, array($name, $name, $type, $urlPrefix));
 
         $actionId = $db->lastInsertId();
@@ -191,10 +190,9 @@ class Model
 
     public function getIdActionMatchingNameAndType($name, $type)
     {
-        self::$type = $type;
         $sql  = $this->getSqlSelectActionId();
-
-        $bind = ($type == Action::TYPE_PAGE_URL) ? array($name, $type) : array($name, $name, $type);                                                  
+        $name = ($type == Action::TYPE_PAGE_URL) ? strtolower($name) : $name;
+        $bind = array($name, $name, $type);
         $idAction = $this->getDb()->fetchOne($sql, $bind);
 
         return $idAction;
@@ -424,10 +422,7 @@ class Model
 
     private function getSqlConditionToMatchSingleAction()
     {
-        //to preserve case insensitivy ignore the CRC32 hash field if the segment is of type pageUrl
-        return (self::$type == Action::TYPE_PAGE_URL) ? 
-          "( name = ? AND type = ? )" : 
-          "( hash = CRC32(?) AND name = ? AND type = ? )";
+        return "( hash = CRC32(?) AND name = ? AND type = ? )";
 
     }
 }
