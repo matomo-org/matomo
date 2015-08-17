@@ -15,6 +15,8 @@ use Piwik\Tracker;
 class Model
 {
 
+    private static $type; 
+    
     public function createAction($visitAction)
     {
         $fields = implode(", ", array_keys($visitAction));
@@ -176,12 +178,12 @@ class Model
         return $actionId;
     }
 
-    private function getSqlSelectActionId($type)
+    private function getSqlSelectActionId()
     {
         // it is possible for multiple actions to exist in the DB (due to rare concurrency issues), so the ORDER BY and
         // LIMIT are important
         $sql = "SELECT idaction, type, name FROM " . Common::prefixTable('log_action')
-            . "  WHERE " . $this->getSqlConditionToMatchSingleAction($type) . " "
+            . "  WHERE " . $this->getSqlConditionToMatchSingleAction() . " "
             . "ORDER BY idaction ASC LIMIT 1";
 
         return $sql;
@@ -189,7 +191,8 @@ class Model
 
     public function getIdActionMatchingNameAndType($name, $type)
     {
-        $sql  = $this->getSqlSelectActionId($type);
+        self::$type = $type;
+        $sql  = $this->getSqlSelectActionId();
 
         $bind = ($type == Action::TYPE_PAGE_URL) ? array($name, $type) : array($name, $name, $type);                                                  
         $idAction = $this->getDb()->fetchOne($sql, $bind);
@@ -419,10 +422,10 @@ class Model
         return Tracker::getDatabase();
     }
 
-    private function getSqlConditionToMatchSingleAction($type = null)
-    {   
-    	//to preserve case insensitivy ignore the CRC32 hash field if the segment is of type pageUrl
-        return ($type == Action::TYPE_PAGE_URL) ? 
+    private function getSqlConditionToMatchSingleAction()
+    {
+        //to preserve case insensitivy ignore the CRC32 hash field if the segment is of type pageUrl
+        return (self::$type == Action::TYPE_PAGE_URL) ? 
           "( name = ? AND type = ? )" : 
           "( hash = CRC32(?) AND name = ? AND type = ? )";
 
