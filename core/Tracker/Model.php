@@ -193,6 +193,7 @@ class Model
         $sql  = $this->getSqlSelectActionId();
         $name = ($type == Action::TYPE_PAGE_URL) ? strtolower($name) : $name;
         $bind = array($name, $name, $type);
+
         $idAction = $this->getDb()->fetchOne($sql, $bind);
 
         return $idAction;
@@ -423,6 +424,5 @@ class Model
     private function getSqlConditionToMatchSingleAction()
     {
         return "( hash = CRC32(?) AND name = ? AND type = ? )";
-
     }
 }
