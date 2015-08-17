@@ -44,7 +44,7 @@
                 });
             });
 
-            model.sites = $filter('orderBy')(sites, '+name');
+            model.sites = sortSites(sites);
 
             if (!model.firstSiteName) {
                 model.firstSiteName = model.sites[0].name;
@@ -93,14 +93,19 @@
             }
         }
 
+        function sortSites(websites)
+        {
+            return $filter('orderBy')(websites, '+name');
+        }
+
         function loadInitialSites() {
             if (initialSites) {
                 model.sites = initialSites;
                 return;
             }
 
-            searchSite('%').then(function (websites) {
-                initialSites = websites;
+            searchSite('%').then(function () {
+                initialSites = model.sites
             });
         }
     }
