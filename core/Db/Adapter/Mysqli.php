@@ -49,6 +49,17 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
         return 3306;
     }
 
+    protected function _connect()
+    {
+        if ($this->_connection) {
+            return;
+        }
+
+        parent::_connect();
+
+        $this->_connection->query('SET sql_mode = "STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_AUTO_VALUE_ON_ZERO,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE"');
+    }
+
     /**
      * Check MySQL version
      *
