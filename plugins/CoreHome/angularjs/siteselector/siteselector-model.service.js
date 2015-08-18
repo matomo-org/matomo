@@ -92,7 +92,7 @@
                 if (angular.isDefined(response)) {
                     return updateWebsitesList(response);
                 }
-            })['finally'](function () {    // .finally() is not IE8 compatible see https://github.com/angular/angular.js/commit/f078762d48d0d5d9796dcdf2cb0241198677582c
+            }).finally(function () {
                 model.isLoading = false;
                 model.currentRequest = null;
             });
