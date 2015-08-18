@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Aquesta selecció de ginys i la disposició de columnes del tauler es faran servir quan qualsevol usuari crei un nou tauler o quan s'utiltiza la funció \"%s\".",
         "TopLinkTooltip": "Mostra els informes d'analítica web per %s.",
         "WidgetNotFound": "Aquest giny no s'ha trobat",
-        "WidgetPreview": "Previsualitza el giny",
-        "WidgetsAndDashboard": "Tauler & Ginys"
+        "WidgetPreview": "Previsualitza el giny"
     }
 }

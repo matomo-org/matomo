@@ -529,6 +529,22 @@ if (typeof Piwik !== 'object') {
          * Private methods
          ************************************************************/
 
+        /**
+         * See https://github.com/piwik/piwik/issues/8413
+         * To prevent Javascript Error: Uncaught URIError: URI malformed when encoding is not UTF-8. Use this method
+         * instead of decodeWrapper if a text could contain any non UTF-8 encoded characters eg
+         * a URL like http://apache.piwik/test.html?%F6%E4%FC or a link like
+         * <a href="test-with-%F6%E4%FC/story/0">(encoded iso-8859-1 URL)</a>
+         */
+        function safeDecodeWrapper(url)
+        {
+            try {
+                return decodeWrapper(url);
+            } catch (e) {
+                return unescape(url);
+            }
+        }
+
         /*
          * Is property defined?
          */
@@ -2137,8 +2153,8 @@ if (typeof Piwik !== 'object') {
                 // Current URL and Referrer URL
                 locationArray = urlFixup(documentAlias.domain, windowAlias.location.href, getReferrer()),
                 domainAlias = domainFixup(locationArray[0]),
-                locationHrefAlias = decodeWrapper(locationArray[1]),
-                configReferrerUrl = decodeWrapper(locationArray[2]),
+                locationHrefAlias = safeDecodeWrapper(locationArray[1]),
+                configReferrerUrl = safeDecodeWrapper(locationArray[2]),
 
                 enableJSErrorTracking = false,
 
@@ -3908,7 +3924,7 @@ if (typeof Piwik !== 'object') {
                 var link = getLinkIfShouldBeProcessed(sourceElement);
 
                 if (link && link.type) {
-                    link.href = decodeWrapper(link.href);
+                    link.href = safeDecodeWrapper(link.href);
                     logLink(link.href, link.type, undefined, null, sourceElement);
                 }
             }

@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "Tento modul poskytuje widgety Mapa návštěvníků a Real-time Mapa. Poznámka: Vyžaduje povolený UserCountry plugin.",
         "AndNOthers": "a %s dalších",
         "Cities": "Města",
         "Countries": "Země",

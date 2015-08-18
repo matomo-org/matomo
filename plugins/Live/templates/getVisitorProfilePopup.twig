@@ -73,7 +73,7 @@
                         <h1>{% if visitorData.visitsAggregated == 100 %}{{ 'General_Visit'|translate }}# 100{% else %}{{ 'Live_FirstVisit'|translate }}{% endif %}</h1>
                         <div>
                             <p><strong>{{ visitorData.firstVisit.prettyDate }}</strong><span>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.firstVisit.daysAgo) }}</span></p>
-                            <p><span>{{ 'General_FromReferrer'|translate }}:</span>
+                            <p><span>{{ 'General_FromReferrer'|translate }}</span>
                             <strong {% if visitorData.firstVisit.referrerType == 'search' and '(' not in visitorData.firstVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitorData.firstVisit.referralSummary }}</strong></p>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                         <h1>{{ 'Live_LastVisit'|translate }}</h1>
                         <div>
                             <p><strong>{{ visitorData.lastVisit.prettyDate }}</strong><span>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.lastVisit.daysAgo) }}</span></p>
-                            <p><span>{{ 'General_FromReferrer'|translate }}:</span>
+                            <p><span>{{ 'General_FromReferrer'|translate }}</span>
                             <strong {% if visitorData.lastVisit.referrerType == 'search' and '(' not in visitorData.lastVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitorData.lastVisit.referralSummary }}</strong></p>
                         </div>
                     </div>

@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Esta seleção widgets e layout de colunas do painel será usado quando qualquer usuário cria um novo painel, ou quando o recurso \"%s\" é usado.",
         "TopLinkTooltip": "Ver relatórios de Análise Web para %s.",
         "WidgetNotFound": "Widget não encontrado",
-        "WidgetPreview": "Visualização do Widget",
-        "WidgetsAndDashboard": "Ferramentas e Painel."
+        "WidgetPreview": "Visualização do Widget"
     }
 }

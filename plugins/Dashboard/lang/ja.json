@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "これらのウィジェットとダッシュボードのレイアウトは、新規ダッシュボードの作成時か、あるいは %s 機能の使用時に使われれます。",
         "TopLinkTooltip": "%s のウェブ解析レポートを表示",
         "WidgetNotFound": "ウィジェットが見つかりませんでした",
-        "WidgetPreview": "ウィジェットのプレビュー",
-        "WidgetsAndDashboard": "ウィジェットとダッシュボード"
+        "WidgetPreview": "ウィジェットのプレビュー"
     }
 }

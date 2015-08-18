@@ -6,6 +6,7 @@
         "ClickToDelete": "Clique para eliminar esta anotação.",
         "ClickToEdit": "Clique para editar esta anotação.",
         "ClickToEditOrAdd": "Clique para editar ou adicionar uma nova anotação.",
+        "ClickToStarOrUnstar": "Clique para adicionar ou remover favorito da anotação.",
         "CreateNewAnnotation": "Criar uma nova anotação...",
         "EnterAnnotationText": "Introduza a sua nota...",
         "HideAnnotationsFor": "Esconder anotações para %s...",

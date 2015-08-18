@@ -161,48 +161,59 @@
 	<reportMetadata>
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
+				
 				<segment>eventAction==playTrailer</segment>
-				<idsubdatatable>8</idsubdatatable>
+				<idsubdatatable>815</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventAction==Search</segment>
-				<idsubdatatable>1</idsubdatatable>
+				<idsubdatatable>808</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventAction==play25%25</segment>
-				<idsubdatatable>3</idsubdatatable>
+				<idsubdatatable>810</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventAction==play50%25</segment>
-				<idsubdatatable>4</idsubdatatable>
+				<idsubdatatable>811</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventAction==play75%25</segment>
-				<idsubdatatable>5</idsubdatatable>
+				<idsubdatatable>812</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventAction==playEnd</segment>
-				<idsubdatatable>6</idsubdatatable>
+				<idsubdatatable>813</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventAction==rating</segment>
-				<idsubdatatable>7</idsubdatatable>
+				<idsubdatatable>814</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventAction==clickBuyNow</segment>
-				<idsubdatatable>9</idsubdatatable>
+				<idsubdatatable>816</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>11</idsubdatatable>
+				<idsubdatatable>818</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventAction==play</segment>
-				<idsubdatatable>2</idsubdatatable>
+				<idsubdatatable>809</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventAction==playStart</segment>
-				<idsubdatatable>10</idsubdatatable>
+				<idsubdatatable>817</idsubdatatable>
 			</row>
 			<row>
 				<segment>eventAction==Purchase</segment>

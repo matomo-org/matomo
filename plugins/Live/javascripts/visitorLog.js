@@ -57,6 +57,21 @@
                 });
             });
 
+            $('.visitorLogTooltip').each(function () {
+                $(this).tooltip({
+                    track: true,
+                    show: false,
+                    hide: false,
+                    tooltipClass: 'small',
+                    open: function () {
+                        tooltipIsOpened = true;
+                    },
+                    close: function () {
+                        tooltipIsOpened = false;
+                    }
+                });
+            });
+
             // Replace duplicated page views by a NX count instead of using too much vertical space
             $("ol.visitorLog").each(function () {
                 var prevelement;

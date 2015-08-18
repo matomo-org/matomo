@@ -80,16 +80,19 @@
 	<reportMetadata>
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
+				
 				<segment>eventCategory==Movie</segment>
-				<idsubdatatable>1</idsubdatatable>
+				<idsubdatatable>753</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventCategory==Music</segment>
-				<idsubdatatable>2</idsubdatatable>
+				<idsubdatatable>754</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>3</idsubdatatable>
+				<idsubdatatable>755</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010" />

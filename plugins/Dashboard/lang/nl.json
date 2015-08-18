@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Deze selectie van widgets en dashboard layout zal gebruikt worden om nieuwe dashboards te maken voor nieuwe gebruikers of als de \"%s\" functie wordt gebruikt.",
         "TopLinkTooltip": "Bekijk web anlyse rapporten voor %s.",
         "WidgetNotFound": "Widget niet gevonden",
-        "WidgetPreview": "Widget voorbeeld",
-        "WidgetsAndDashboard": "Widgets & Dashboard"
+        "WidgetPreview": "Widget voorbeeld"
     }
 }

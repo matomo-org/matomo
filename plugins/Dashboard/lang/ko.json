@@ -30,7 +30,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "위젯과 대시보드의 레이아웃은 새로운 대시보드를 만들거나 %s 기능을 사용할 때 사용됩니다.",
         "TopLinkTooltip": "%s에 대한 웹 로그 분석 보고서를 볼 수 있습니다.",
         "WidgetNotFound": "위젯을 찾지 못함",
-        "WidgetPreview": "위젯 미리보기",
-        "WidgetsAndDashboard": "위젯 및 대시보드"
+        "WidgetPreview": "위젯 미리보기"
     }
 }

@@ -30,7 +30,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Această selecţie de widget-uri şi aspectul coloanelor panoului de control va fi folosită când un utilizator creează un panou de control nou sau când este folosită caracteristica \"%s\".",
         "TopLinkTooltip": "Vizualizează rapoarte web analitică pentru %s.",
         "WidgetNotFound": "Dispozitivul nu exista",
-        "WidgetPreview": "Previzualizează widget-ul",
-        "WidgetsAndDashboard": "Widget-uri & Panoul de control"
+        "WidgetPreview": "Previzualizează widget-ul"
     }
 }

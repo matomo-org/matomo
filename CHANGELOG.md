@@ -8,6 +8,11 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * Handling of localized date, time and range formats has been changed. Patterns no longer contain placeholders like `%shortDay%`, but work with CLDR pattern instead. You can use one of the predefined format constants in `Date` class for using `getLocalized()`.
 * As we are now using CLDR formats for all languages, some time formats were even changed in english. Attributes like `prettyDate` in API responses might so have been changed slightly.
 
+## Piwik 2.15.0
+
+### Breaking Changes
+* The method `Dimension::getId()` has been set as `final`. It is not allowed to overwrite this method.
+
 ## Piwik 2.14.0
 
 ### Breaking Changes

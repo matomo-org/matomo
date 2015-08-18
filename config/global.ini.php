@@ -21,11 +21,10 @@ port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
-
 ; if charset is set to utf8, Piwik will ensure that it is storing its data using UTF8 charset.
 ; it will add a sql query SET at each page view.
-; Piwik should work correctly without this setting.
-;charset = utf8
+; Piwik should work correctly without this setting but we recommend to have a charset set.
+charset = utf8
 
 [database_tests]
 host = localhost
@@ -359,6 +358,9 @@ language_cookie_name = piwik_lang
 
 ; standard email address displayed when sending emails
 noreply_email_address = "noreply@{DOMAIN}"
+
+; standard email name displayed when sending emails. If not set, a default name will be used.
+noreply_email_name = ""
 
 ; feedback email address;
 ; when testing, use your own email address or "nobody"
@@ -774,6 +776,7 @@ Plugins[] = TestRunner
 Plugins[] = BulkTracking
 Plugins[] = Resolution
 Plugins[] = DevicePlugins
+Plugins[] = Heartbeat
 Plugins[] = Intl
 
 [PluginsInstalled]

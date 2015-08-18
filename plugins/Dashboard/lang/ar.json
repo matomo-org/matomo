@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "سيتم استخدام مجموعة التطبيقات هذه ومخطط أعمدة اللوحة عند إنشاء لوحات جديدة أو عند استخدام خاصية \"%s\".",
         "TopLinkTooltip": "عرض تقارير إحصاءات الويب لـ %s",
         "WidgetNotFound": "لم يتم العثور على الأداة",
-        "WidgetPreview": "معاينة لوحة الأداة",
-        "WidgetsAndDashboard": "اللوحة والتطبيقات"
+        "WidgetPreview": "معاينة لوحة الأداة"
     }
 }

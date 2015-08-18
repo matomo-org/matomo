@@ -1,5 +1,9 @@
 {
     "UserCountryMap": {
-        "map": "žemėlapis"
+        "DaysAgo": "Prieš %s dienų",
+        "HoursAgo": "Prieš %s valandų",
+        "map": "žemėlapis",
+        "MinutesAgo": "Prieš %s minučių",
+        "SecondsAgo": "Prieš %s sekundžių"
     }
 }

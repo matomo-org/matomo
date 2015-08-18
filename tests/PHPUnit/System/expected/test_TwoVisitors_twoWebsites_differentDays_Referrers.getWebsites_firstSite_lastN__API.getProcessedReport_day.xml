@@ -113,14 +113,16 @@
 	<reportMetadata>
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
+				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1</idsubdatatable>
+				<idsubdatatable>17067</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
+				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1</idsubdatatable>
+				<idsubdatatable>17069</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
@@ -128,14 +130,16 @@
 		<result prettyDate="Thursday, January 7, 2010" />
 		<result prettyDate="Friday, January 8, 2010">
 			<row>
+				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1</idsubdatatable>
+				<idsubdatatable>17074</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Saturday, January 9, 2010">
 			<row>
+				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1</idsubdatatable>
+				<idsubdatatable>17076</idsubdatatable>
 			</row>
 		</result>
 	</reportMetadata>

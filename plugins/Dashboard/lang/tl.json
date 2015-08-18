@@ -30,7 +30,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Ang mga widget na pagpilian at dashboard column layout ay magagamit kapag ang sinumang user na guwama ng bagong dashboard o kapag ang \"%s\" feature ay ginamit.",
         "TopLinkTooltip": "Tignan ang Ulat ng Web Analytics para sa %s.",
         "WidgetNotFound": "Hindi nakita ang Widget",
-        "WidgetPreview": "preview ng widget",
-        "WidgetsAndDashboard": "Mga Widget at Dashboard"
+        "WidgetPreview": "preview ng widget"
     }
 }

@@ -353,7 +353,7 @@
         "Total": "Gesamt",
         "TotalRatioTooltip": "Das entspricht %1$s von %2$s %3$s.",
         "TotalRevenue": "Gesamteinnahmen",
-        "TotalVisitsPageviewsRevenue": "(Gesamt: %s Besuche, %s Seitenansichten, %s Einnahmen)",
+        "TotalVisitsPageviewsActionsRevenue": "(Gesamt: %s Besuche, %s Seitenansichten, %s Aktionen, %s Einnahmen)",
         "TransitionsRowActionTooltip": "Die Aktionen vor und nach dieser Seite auswerten",
         "TransitionsRowActionTooltipTitle": "Transitions öffnen",
         "TranslatorEmail": "frank@bueltge.de, piwik@thorstentaube.de, arthur.borens@gmx.de, mail@marco-ziesing.de, andreas.just@cmsmadesimple.de, halfdan@xnorfz.de, ich@pascal90.de, christian@conlabz.de, michael.stenz@email.de, djsoldier1988@gmail.com, de@piwik.org,sebastian.gumprich@38.de",

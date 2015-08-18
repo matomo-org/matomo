@@ -116,31 +116,38 @@
 	<reportMetadata>
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
+				
 				<segment>eventName==Spirited+Away+%28%E5%8D%83%E3%81%A8%E5%8D%83%E5%B0%8B%E3%81%AE%E7%A5%9E%E9%9A%A0%E3%81%97%29</segment>
-				<idsubdatatable>3</idsubdatatable>
+				<idsubdatatable>881</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventName==La+fianc%C3%A9e+de+l%26%23039%3Beau</segment>
-				<idsubdatatable>2</idsubdatatable>
+				<idsubdatatable>880</idsubdatatable>
 			</row>
 			<row>
-				<idsubdatatable>1</idsubdatatable>
+				
+				<idsubdatatable>879</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventName==event+name+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>7</idsubdatatable>
+				<idsubdatatable>885</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventName==Ponyo+%28%E5%B4%96%E3%81%AE%E4%B8%8A%E3%81%AE%E3%83%9D%E3%83%8B%E3%83%A7%29</segment>
-				<idsubdatatable>5</idsubdatatable>
+				<idsubdatatable>883</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventName==Princess+Mononoke+%28%E3%82%82%E3%81%AE%E3%81%AE%E3%81%91%E5%A7%AB%29</segment>
-				<idsubdatatable>4</idsubdatatable>
+				<idsubdatatable>882</idsubdatatable>
 			</row>
 			<row>
+				
 				<segment>eventName==Search+query+here</segment>
-				<idsubdatatable>6</idsubdatatable>
+				<idsubdatatable>884</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010" />

@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Esta selección de reproductores y disposición de columnas del tablero será usada cuando un usuario cree un nuevo tablero o cuando sea usada la función \"%s\".",
         "TopLinkTooltip": "Ver los reportes de Análisis de internet para %s.",
         "WidgetNotFound": "Reproductor no encontrado",
-        "WidgetPreview": "Previsualización del reproductor",
-        "WidgetsAndDashboard": "Reproductores & Tablero"
+        "WidgetPreview": "Previsualización del reproductor"
     }
 }

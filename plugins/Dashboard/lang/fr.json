@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Cette sélection de gadgets et cette disposition du tableau de bord seront utilisées à chaque création de tableau de bord par n'importe quel utilisateur ou quand la fonctionnalité \"%s\" est utilisée.",
         "TopLinkTooltip": "Afficher les rapport de statistiques web pour %s.",
         "WidgetNotFound": "Widget introuvable",
-        "WidgetPreview": "Prévisualisation du Widget",
-        "WidgetsAndDashboard": "Widgets & Tableau de bord"
+        "WidgetPreview": "Prévisualisation du Widget"
     }
 }

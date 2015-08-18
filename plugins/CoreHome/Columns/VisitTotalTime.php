@@ -72,14 +72,12 @@ class VisitTotalTime extends VisitDimension
             return false;
         }
 
-        $goalManager = new GoalManager($request);
-
         $totalTime = $visitor->getVisitorColumn('visit_total_time');
 
         // If a pageview and goal conversion in the same second, with previously a goal conversion recorded
         // the request would not "update" the row since all values are the same as previous
         // therefore the request below throws exception, instead we make sure the UPDATE will affect the row
-        $totalTime = $totalTime + $goalManager->idGoal;
+        $totalTime = $totalTime + $request->getParam('idgoal');
         // +2 to offset idgoal=-1 and idgoal=0
         $totalTime = $totalTime + 2;
 
