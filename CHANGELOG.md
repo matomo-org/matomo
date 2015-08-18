@@ -5,8 +5,11 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ## Piwik 3.0.0
 
 ### Library updates
-
 * Updated AngularJS from 1.2.28 to 1.4.3
+
+### Internal change
+* Support for IE8 was dropped
+* Required PHP version was changed from 5.3 to 5.4
 
 ## Piwik 2.15.0
 
