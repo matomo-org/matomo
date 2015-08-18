@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Ta sekcja gadżetów i układ kolumn będzie używany, gdy jakikolwiek użytkownik stworzy nowy panel albo gdy funkcja \"%s\" jest w użyciu.",
         "TopLinkTooltip": "Podgląd raportów Web Analytics %s.",
         "WidgetNotFound": "Widżet nie został znaleziony",
-        "WidgetPreview": "Podgląd widżetu",
-        "WidgetsAndDashboard": "Widżety i Tablica analiz"
+        "WidgetPreview": "Podgląd widżetu"
     }
 }

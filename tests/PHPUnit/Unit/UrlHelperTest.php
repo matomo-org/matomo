@@ -215,14 +215,6 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('localhost', UrlHelper::getHostFromUrl('localhost/path'));
         $this->assertEquals('sub.localhost', UrlHelper::getHostFromUrl('sub.localhost/path'));
         $this->assertEquals('sub.localhost', UrlHelper::getHostFromUrl('http://sub.localhost/path/?query=test'));
-
-        if(SystemTestCase::isPhpVersion53()) {
-            //parse_url was fixed in 5,4,7
-            //  Fixed host recognition when scheme is omitted and a leading component separator is present.
-            // http://php.net/parse_url
-            return;
-        }
-
         $this->assertEquals('localhost', UrlHelper::getHostFromUrl('//localhost/path'));
         $this->assertEquals('localhost', UrlHelper::getHostFromUrl('//localhost/path?test=test2'));
         $this->assertEquals('example.org', UrlHelper::getHostFromUrl('//example.org/path'));

@@ -10,6 +10,7 @@
         "ClickHereToSetTheCookieOnDomain": "Klikk her for å sette en informasjonskapsel som vil ekskludere dine besøk på nettsteder som spores av Piwik på %s",
         "DeleteConfirm": "Er du sikker på at du vil slette brukeren %s?",
         "Email": "E-post",
+        "EmailYourAdministrator": "%1$sSend e-post til din administrator om dette problemet%2$s.",
         "ExceptionAccessValues": "Tilgangsparameteret må minst ha en av de følgende verdier: [ %s ]",
         "ExceptionAdminAnonymous": "Du kan ikke gi administrator-tilgang til 'anonymous'-brukeren.",
         "ExceptionDeleteDoesNotExist": "Bruker '%s' eksisterer ikke og kan derfor ikke bli slettet.",

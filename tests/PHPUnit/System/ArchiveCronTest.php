@@ -78,10 +78,6 @@ class ArchiveCronTest extends SystemTestCase
 
     public function testArchivePhpCron()
     {
-        if(self::isPhpVersion53()) {
-            $this->markTestSkipped('Fails on PHP 5.3 once in a blue moon.');
-        }
-
         $this->setLastRunArchiveOptions();
         $output = $this->runArchivePhpCron();
 

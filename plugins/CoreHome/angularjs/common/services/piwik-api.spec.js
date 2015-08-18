@@ -86,13 +86,13 @@
             $httpBackend.flush();
         });
 
-        it("should not fail when multiple aborts are issued", function (done) {
+        it("should fail when multiple aborts are issued", function (done) {
             var request = piwikApi.fetch({
                 method: "SomePlugin.action"
             }).then(function (response) {
-                done(new Error("Aborted request succeeded!"));
+                done(new Error("Aborted request succeeded but should fail!"));
             }).catch(function (ex) {
-                done(ex);
+                done();
             });
 
             request.abort();
@@ -153,8 +153,6 @@
             }).then(function (response) {
                 done(new Error("Aborted request finished!"));
             }).catch(function (ex) {
-                done(ex);
-            }).finally(function () {
                 request1Done = true;
                 finishIfBothDone();
             });
@@ -190,8 +188,6 @@
             }).then(function (response) {
                 done(new Error("Aborted request finished (request 1)!"));
             }).catch(function (ex) {
-                done(ex);
-            }).finally(function () {
                 request1Done = true;
                 finishIfBothDone();
             });
@@ -201,8 +197,6 @@
             }).then(function (response) {
                 done(new Error("Aborted request finished (request 2)!"));
             }).catch(function (ex) {
-                done(ex);
-            }).finally(function () {
                 request2Done = true;
                 finishIfBothDone();
             });

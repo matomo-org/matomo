@@ -91,7 +91,7 @@ class WriteAccessCheck implements Diagnostic
 
         if (! DbHelper::isInstalled()) {
             // at install, need /config to be writable (so we can create config.ini.php)
-            $directoriesToCheck[] = 'config/';
+            $directoriesToCheck[] = '/config/';
         }
 
         return $directoriesToCheck;

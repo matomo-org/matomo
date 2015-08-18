@@ -13,33 +13,29 @@ use Piwik\Tracker;
 use Piwik\DeviceDetectorFactory;
 use Piwik\SettingsPiwik;
 
-class Settings
+class Settings // TODO: merge w/ visitor recognizer or make it it's own service. the class name is required for BC.
 {
     const OS_BOT = 'BOT';
 
-    public function __construct(Request $request, $ip, $isSameFingerprintsAcrossWebsites)
+    /**
+     * If `true`, the config ID for a visitor will be the same no matter what site is being tracked.
+     * If `false, the config ID will be different.
+     *
+     * @var bool
+     */
+    private $isSameFingerprintsAcrossWebsites;
+
+    public function __construct($isSameFingerprintsAcrossWebsites)
     {
-        $this->request   = $request;
-        $this->ipAddress = $ip;
         $this->isSameFingerprintsAcrossWebsites = $isSameFingerprintsAcrossWebsites;
-        $this->configId  = null;
     }
 
-    public function getConfigId()
-    {
-        if (empty($this->configId)) {
-            $this->loadInfo();
-        }
-
-        return $this->configId;
-    }
-
-    protected function loadInfo()
+    public function getConfigId(Request $request, $ipAddress)
     {
         list($plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
-            $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie) = $this->request->getPlugins();
+            $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie) = $request->getPlugins();
 
-        $userAgent = $this->request->getUserAgent();
+        $userAgent = $request->getUserAgent();
 
         $deviceDetector = DeviceDetectorFactory::getInstance($userAgent);
         $aBrowserInfo   = $deviceDetector->getClient();
@@ -59,9 +55,10 @@ class Settings
             $os = empty($os['short_name']) ? 'UNK' : $os['short_name'];
         }
 
-        $browserLang = substr($this->request->getBrowserLanguage(), 0, 20); // limit the length of this string to match db
+        $browserLang = substr($request->getBrowserLanguage(), 0, 20); // limit the length of this string to match db
 
-        $this->configId = $this->getConfigHash(
+        return $this->getConfigHash(
+            $request,
             $os,
             $browserName,
             $browserVersion,
@@ -75,7 +72,7 @@ class Settings
             $plugin_Gears,
             $plugin_Silverlight,
             $plugin_Cookie,
-            $this->ipAddress,
+            $ipAddress,
             $browserLang);
     }
 
@@ -100,7 +97,10 @@ class Settings
      * @param $browserLang
      * @return string
      */
-    protected function getConfigHash($os, $browserName, $browserVersion, $plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF, $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip, $browserLang)
+    protected function getConfigHash(Request $request, $os, $browserName, $browserVersion, $plugin_Flash, $plugin_Java,
+                                     $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
+                                     $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip,
+                                     $browserLang)
     {
         // prevent the config hash from being the same, across different Piwik instances
         // (limits ability of different Piwik instances to cross-match users)
@@ -109,13 +109,14 @@ class Settings
         $configString =
               $os
             . $browserName . $browserVersion
-            . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie
+            . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF
+            . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie
             . $ip
             . $browserLang
             . $salt;
 
         if (!$this->isSameFingerprintsAcrossWebsites) {
-            $configString .= $this->request->getIdSite();
+            $configString .= $request->getIdSite();
         }
 
         $hash = md5($configString, $raw_output = true);

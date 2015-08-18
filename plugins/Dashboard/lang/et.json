@@ -23,7 +23,6 @@
         "SetAsDefaultWidgets": "Määra vaikimisi valitud vidinateks",
         "TopLinkTooltip": "Kuva veebianalüütika raport lehele %s.",
         "WidgetNotFound": "Moodulit ei leitud",
-        "WidgetPreview": "Vidina eelvaade",
-        "WidgetsAndDashboard": "Vidinad ja töölaud"
+        "WidgetPreview": "Vidina eelvaade"
     }
 }

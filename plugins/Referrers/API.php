@@ -104,10 +104,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // set subtable IDs for each row to the label (which holds the int referrer type)
-        // NOTE: not yet possible to do this w/ DataTable\Map instances
-        if (!($dataTable instanceof DataTable\Map)) {
-            $this->setGetReferrerTypeSubtables($dataTable, $idSite, $period, $date, $segment, $expanded);
-        }
+        $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\SetGetReferrerTypeSubtables', array($idSite, $period, $date, $segment, $expanded));
 
         // set referrer type column to readable value
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getReferrerTypeLabel'));
@@ -480,45 +477,6 @@ class API extends \Piwik\Plugin\API
         }
 
         return $table;
-    }
-
-    /**
-     * Utility function that sets the subtables for the getReferrerType report.
-     *
-     * If we're not getting an expanded datatable, the subtable ID is set to each parent
-     * row's referrer type (stored in the label for the getReferrerType report).
-     *
-     * If we are getting an expanded datatable, the datatable for the row's referrer
-     * type is loaded and attached to the appropriate row in the getReferrerType report.
-     *
-     * @param DataTable $dataTable
-     * @param string $idSite
-     * @param string $period
-     * @param string $date
-     * @param string $segment
-     * @param bool $expanded
-     */
-    private function setGetReferrerTypeSubtables($dataTable, $idSite, $period, $date, $segment, $expanded)
-    {
-        foreach ($dataTable->getRows() as $row) {
-            $typeReferrer = $row->getColumn('label');
-            if ($typeReferrer != Common::REFERRER_TYPE_DIRECT_ENTRY) {
-                if (!$expanded) // if we don't want the expanded datatable, then don't do any extra queries
-                {
-                    $row->setNonLoadedSubtableId($typeReferrer);
-                } else // otherwise, we have to get the othe datatables
-                {
-                    $subtable = $this->getReferrerType($idSite, $period, $date, $segment, $type = false,
-                        $idSubtable = $typeReferrer);
-
-                    if ($expanded) {
-                        $subtable->applyQueuedFilters();
-                    }
-
-                    $row->setSubtable($subtable);
-                }
-            }
-        }
     }
 
     /**

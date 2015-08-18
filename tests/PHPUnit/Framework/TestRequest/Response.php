@@ -88,6 +88,8 @@ class Response
 
     private function normalizeApiResponse($apiResponse)
     {
+        $apiResponse = $this->removeSubtableIdsFromXml($apiResponse);
+
         if ($this->shouldDeleteLiveIds()) {
             $apiResponse = $this->removeAllIdsFromXml($apiResponse);
         }
@@ -118,10 +120,6 @@ class Response
 
     private function normalizeEncodingPhp533($apiResponse)
     {
-        if (!SystemTestCase::isPhpVersion53()
-            || strpos($apiResponse, '<result') === false) {
-            return $apiResponse;
-        }
         return str_replace('&amp;#039;', "'", $apiResponse);
     }
 
@@ -254,5 +252,10 @@ class Response
         }
 
         return $apiResponse;
+    }
+
+    private function removeSubtableIdsFromXml($apiResponse)
+    {
+        return $this->removeXmlFields($apiResponse, array('idsubdatatable_in_db'));
     }
 }

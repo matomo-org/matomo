@@ -27,7 +27,7 @@ class Updater
     const PATH_TO_EXTRACT_LATEST_VERSION = '/latest/';
     const LATEST_VERSION_URL = '://builds.piwik.org/piwik.zip';
     const LATEST_BETA_VERSION_URL = '://builds.piwik.org/piwik-%s.zip';
-    const DOWNLOAD_TIMEOUT = 120;
+    const DOWNLOAD_TIMEOUT = 720;
 
     /**
      * @var Translator

@@ -73,6 +73,7 @@
         "SystemCheckExtensions": "Other required extensions",
         "SystemCheckFileIntegrity": "File integrity",
         "SystemCheckFunctions": "Required functions",
+        "SystemCheckFunctionHelp": "You need to enable this built-in function.",
         "SystemCheckGDFreeType": "GD > 2.x + Freetype (graphics)",
         "SystemCheckGDHelp": "The sparklines (small graphs) and image graphs (in Piwik Mobile app and Email reports) will not work.",
         "SystemCheckGlobHelp": "This built-in function has been disabled on your host. Piwik will attempt to emulate this function but may encounter further security restrictions. Functionality may be impacted.",

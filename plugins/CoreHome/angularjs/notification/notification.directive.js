@@ -37,7 +37,7 @@
                                               //       HTML of the node that uses the directive.
                 context: '@?',
                 type: '@?',
-                noclear: '=?'
+                noclear: '@?'
             },
             transclude: true,
             templateUrl: 'plugins/CoreHome/angularjs/notification/notification.directive.html?cb=' + piwik.cacheBuster,

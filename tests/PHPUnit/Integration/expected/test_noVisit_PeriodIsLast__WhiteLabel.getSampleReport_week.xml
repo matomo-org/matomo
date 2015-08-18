@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<result>
-	<error message="The plugin WhiteLabel is not enabled. You can activate the plugin on Settings &gt; Plugins page in Piwik.
- 
- --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php" />
-</result>
