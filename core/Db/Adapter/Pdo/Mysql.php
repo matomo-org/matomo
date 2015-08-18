@@ -12,6 +12,7 @@ use Exception;
 use PDO;
 use PDOException;
 use Piwik\Config;
+use Piwik\Db;
 use Piwik\Db\AdapterInterface;
 use Piwik\Piwik;
 use Zend_Config;
@@ -75,7 +76,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         // MYSQL_ATTR_USE_BUFFERED_QUERY will use more memory when enabled
         // $this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 
-        $this->_connection->exec('SET sql_mode = "STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_AUTO_VALUE_ON_ZERO,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE"');
+        $this->_connection->exec('SET sql_mode = "' . Db::SQL_MODE . '"');
     }
 
     /**
