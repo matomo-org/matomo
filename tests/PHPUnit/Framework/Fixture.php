@@ -461,7 +461,11 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function getRootUrl()
     {
-        $piwikUrl = Url::getCurrentUrlWithoutFileName();
+        $piwikUrl = Config::getInstance()->tests['http_host'];
+
+        if (strpos($piwikUrl, 'http://') !== 0) {
+            $piwikUrl = 'http://' . $piwikUrl . '/';
+        }
 
         $pathBeforeRoot = 'tests';
         // Running from a plugin

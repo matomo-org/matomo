@@ -8,7 +8,6 @@
         "ResetDashboard": "重置展示板",
         "SelectWidget": "請選取欲增加至展示板的組件",
         "WidgetNotFound": "找不到組件",
-        "WidgetPreview": "組件預覽",
-        "WidgetsAndDashboard": "組件與展示版"
+        "WidgetPreview": "組件預覽"
     }
 }

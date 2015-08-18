@@ -83,6 +83,9 @@ class IP
         // examine proxy headers
         foreach ($proxyHeaders as $proxyHeader) {
             if (!empty($_SERVER[$proxyHeader])) {
+                // this may be buggy if someone has proxy IPs and proxy host headers configured as
+                // `$_SERVER[$proxyHeader]` could be eg $_SERVER['HTTP_X_FORWARDED_HOST'] and
+                // include an actual host name, not an IP
                 $proxyIp = self::getLastIpFromList($_SERVER[$proxyHeader], $proxyIps);
                 if (strlen($proxyIp) && stripos($proxyIp, 'unknown') === false) {
                     return $proxyIp;

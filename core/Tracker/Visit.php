@@ -12,13 +12,14 @@ namespace Piwik\Tracker;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\SettingsPiwik;
 use Piwik\Tracker;
+use Piwik\Tracker\Visit\VisitProperties;
 
 /**
  * Class used to handle a Visit.
@@ -46,15 +47,35 @@ class Visit implements VisitInterface
      */
     protected $request;
 
-    protected $visitorInfo = array();
-
     /**
      * @var Settings
      */
     protected $userSettings;
-    protected $visitorCustomVariables = array();
 
     public static $dimensions;
+
+    /**
+     * @var RequestProcessor[]
+     */
+    protected $requestProcessors;
+
+    /**
+     * @var VisitProperties
+     */
+    protected $visitProperties;
+
+    /**
+     * @var VisitorRecognizer
+     */
+    private $visitorRecognizer;
+
+    public function __construct()
+    {
+        $this->requestProcessors = StaticContainer::get('tracker.request.processors');
+        $this->visitorRecognizer = StaticContainer::get('Piwik\Tracker\VisitorRecognizer');
+        $this->visitProperties = null;
+        $this->userSettings = StaticContainer::get('Piwik\Tracker\Settings');
+    }
 
     /**
      * @param Request $request
@@ -86,90 +107,35 @@ class Visit implements VisitInterface
      */
     public function handle()
     {
-        // the IP is needed by isExcluded() and GoalManager->recordGoals()
-        $this->visitorInfo['location_ip'] = $this->request->getIp();
+        $this->visitProperties = new VisitProperties();
 
-        $excluded = new VisitExcluded($this->request, $this->visitorInfo['location_ip']);
-        if ($excluded->isExcluded()) {
-            return;
-        }
+        foreach ($this->requestProcessors as $processor) {
+            Common::printDebug("Executing " . get_class($processor) . "::processRequestParams()...");
 
-        /**
-         * Triggered after visits are tested for exclusion so plugins can modify the IP address
-         * persisted with a visit.
-         *
-         * This event is primarily used by the **PrivacyManager** plugin to anonymize IP addresses.
-         *
-         * @param string &$ip The visitor's IP address.
-         */
-        Piwik::postEvent('Tracker.setVisitorIp', array(&$this->visitorInfo['location_ip']));
-
-        $this->visitorCustomVariables = $this->request->getCustomVariables($scope = 'visit');
-        if (!empty($this->visitorCustomVariables)) {
-            Common::printDebug("Visit level Custom Variables: ");
-            Common::printDebug($this->visitorCustomVariables);
-        }
-
-        /**
-         * Goals & Ecommerce conversions
-         */
-        $isManualGoalConversion = $requestIsEcommerce = $visitIsConverted = $someGoalsConverted = false;
-        $action = null;
-        $goalManager = null;
-
-        if($this->isPingRequest()) {
-            // on a ping request that is received before the standard visit length, we just update the visit time w/o adding a new action
-            Common::printDebug("-> ping=1 request: we do not track a new action nor a new visit nor any goal.");
-
-        } else {
-
-            $goalManager = new GoalManager($this->request);
-
-            $isManualGoalConversion = $goalManager->isManualGoalConversion();
-            $requestIsEcommerce = $goalManager->requestIsEcommerce;
-
-            if ($requestIsEcommerce) {
-                $someGoalsConverted = true;
-
-                // Mark the visit as Converted only if it is an order (not for a Cart update)
-                if ($goalManager->isGoalAnOrder()) {
-                    $visitIsConverted = true;
-                }
-            } elseif ($isManualGoalConversion) {
-                // this request is from the JS call to piwikTracker.trackGoal()
-                $someGoalsConverted = $goalManager->detectGoalId($this->request->getIdSite());
-                $visitIsConverted = $someGoalsConverted;
-
-                // if we find a idgoal in the URL, but then the goal is not valid, this is most likely a fake request
-                if (!$someGoalsConverted) {
-                    Common::printDebug('Invalid goal tracking request for goal id = ' . $goalManager->idGoal);
-                    return;
-                }
-            } else {
-                // normal page view, potentially triggering a URL matching goal
-                $action = Action::factory($this->request);
-
-                $action->writeDebugInfo();
-
-                $someGoalsConverted = $goalManager->detectGoalsMatchingUrl($this->request->getIdSite(), $action);
-                $visitIsConverted = $someGoalsConverted;
-
-                $action->loadIdsFromLogActionTable();
+            $abort = $processor->processRequestParams($this->visitProperties, $this->request);
+            if ($abort) {
+                Common::printDebug("-> aborting due to processRequestParams method");
+                return;
             }
-
         }
 
-        /***
-         * Visitor recognition
-         */
-        $visitorId = $this->getSettingsObject()->getConfigId();
-        $visitor = new Visitor($this->request, $visitorId, $this->visitorInfo, $this->visitorCustomVariables);
-        $visitor->recognize();
+        $isNewVisit = $this->request->getMetadata('CoreHome', 'isNewVisit');
+        if (!$isNewVisit) {
+            $isNewVisit = $this->triggerPredicateHookOnDimensions($this->getAllVisitDimensions(), 'shouldForceNewVisit');
+            $this->request->setMetadata('CoreHome', 'isNewVisit', $isNewVisit);
+        }
 
-        $this->visitorInfo = $visitor->getVisitorInfo();
+        foreach ($this->requestProcessors as $processor) {
+            Common::printDebug("Executing " . get_class($processor) . "::afterRequestProcessed()...");
 
-        $isNewVisit = $this->isVisitNew($visitor, $action);
+            $abort = $processor->afterRequestProcessed($this->visitProperties, $this->request);
+            if ($abort) {
+                Common::printDebug("-> aborting due to afterRequestProcessed method");
+                return;
+            }
+        }
 
+        $isNewVisit = $this->request->getMetadata('CoreHome', 'isNewVisit');
 
         // Known visit when:
         // ( - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor
@@ -179,45 +145,11 @@ class Visit implements VisitInterface
         // AND
         // - the last page view for this visitor was less than 30 minutes ago @see isLastActionInTheSameVisit()
         if (!$isNewVisit) {
-
-            $idReferrerActionUrl = $this->visitorInfo['visit_exit_idaction_url'];
-            $idReferrerActionName = $this->visitorInfo['visit_exit_idaction_name'];
-
             try {
-                if($goalManager) {
-                    $goalManager->detectIsThereExistingCartInVisit($this->visitorInfo);
-                }
-
-                $this->handleExistingVisit($visitor, $action, $visitIsConverted);
-
-                if (!is_null($action)) {
-                    $action->record($visitor, $idReferrerActionUrl, $idReferrerActionName);
-                }
+                $this->handleExistingVisit($this->request->getMetadata('Goals', 'visitIsConverted'));
             } catch (VisitorNotFoundInDb $e) {
-
-                // There is an edge case when:
-                // - two manual goal conversions happen in the same second
-                // - which result in handleExistingVisit throwing the exception
-                //   because the UPDATE didn't affect any rows (one row was found, but not updated since no field changed)
-                // - the exception is caught here and will result in a new visit incorrectly
-                // In this case, we cancel the current conversion to be recorded:
-                if ($isManualGoalConversion
-                    || $requestIsEcommerce
-                ) {
-                    $someGoalsConverted = $visitIsConverted = false;
-                } // When the row wasn't found in the logs, and this is a pageview or
-                // goal matching URL, we force a new visitor
-                else {
-                    $visitor->setIsVisitorKnown(false);
-                }
+                $this->request->setMetadata('CoreHome', 'visitorNotFoundInDb', true); // TODO: perhaps we should just abort here?
             }
-        }
-
-        // When a ping request is received more than 30 min after the last request/ping,
-        // we choose not to create a new visit.
-        if ($isNewVisit && $this->isPingRequest()) {
-            Common::printDebug("-> ping=1 request: we do _not_ create a new visit.");
-            return;
         }
 
         // New visit when:
@@ -225,27 +157,17 @@ class Visit implements VisitInterface
         // - the visitor doesn't have the Piwik cookie, and couldn't be matched in @see recognizeTheVisitor()
         // - the visitor does have the Piwik cookie but the idcookie and idvisit found in the cookie didn't match to any existing visit in the DB
         if ($isNewVisit) {
-
-            $this->handleNewVisit($visitor, $action, $visitIsConverted);
-            if (!is_null($action)) {
-                $action->record($visitor, 0, 0);
-            }
+            $this->handleNewVisit($this->request->getMetadata('Goals', 'visitIsConverted'));
         }
 
         // update the cookie with the new visit information
-        $this->request->setThirdPartyCookie($this->visitorInfo['idvisitor']);
+        $this->request->setThirdPartyCookie($this->visitProperties->getProperty('idvisitor'));
 
-        // record the goals if applicable
-        if ($someGoalsConverted) {
-            $goalManager->recordGoals(
-                $visitor,
-                $this->visitorInfo,
-                $this->visitorCustomVariables,
-                $action
-            );
+        foreach ($this->requestProcessors as $processor) {
+            Common::printDebug("Executing " . get_class($processor) . "::recordLogs()...");
+
+            $processor->recordLogs($this->visitProperties, $this->request);
         }
-
-        unset($action);
 
         $this->markArchivedReportsAsInvalidIfArchiveAlreadyFinished();
     }
@@ -261,19 +183,18 @@ class Visit implements VisitInterface
      * @param $visitIsConverted
      * @throws VisitorNotFoundInDb
      */
-    protected function handleExistingVisit($visitor, $action, $visitIsConverted)
+    protected function handleExistingVisit($visitIsConverted)
     {
         Common::printDebug("Visit is known (IP = " . IPUtils::binaryToStringIP($this->getVisitorIp()) . ")");
 
-        $valuesToUpdate = $this->getExistingVisitFieldsToUpdate($visitor, $action, $visitIsConverted);
-
-        // TODO we should not have to sync this->visitorInfo and $visitor columns.
         // TODO it should be its own dimension
-        $this->setVisitorColumn($visitor, 'time_spent_ref_action', $this->getTimeSpentReferrerAction());
+        $this->visitProperties->setProperty('time_spent_ref_action', $this->getTimeSpentReferrerAction());
+
+        $valuesToUpdate = $this->getExistingVisitFieldsToUpdate($visitIsConverted);
 
         // update visitorInfo
         foreach ($valuesToUpdate as $name => $value) {
-            $this->visitorInfo[$name] = $value;
+            $this->visitProperties->setProperty($name, $value);
         }
 
         /**
@@ -287,11 +208,15 @@ class Visit implements VisitInterface
          * @param array $visit The entire visit entity. Read [this](/guides/persistence-and-the-mysql-backend#visits)
          *                     to see what it contains.
          */
-        Piwik::postEvent('Tracker.existingVisitInformation', array(&$valuesToUpdate, $this->visitorInfo));
+        Piwik::postEvent('Tracker.existingVisitInformation', array(&$valuesToUpdate, $this->visitProperties->getProperties()));
+
+        foreach ($this->requestProcessors as $processor) {
+            $processor->onExistingVisit($valuesToUpdate, $this->visitProperties, $this->request);
+        }
 
         $this->updateExistingVisit($valuesToUpdate);
 
-        $this->setVisitorColumn($visitor, 'visit_last_action_time', $this->request->getCurrentTimestamp());
+        $this->visitProperties->setProperty('visit_last_action_time', $this->request->getCurrentTimestamp());
     }
 
     /**
@@ -299,7 +224,8 @@ class Visit implements VisitInterface
      */
     protected function getTimeSpentReferrerAction()
     {
-        $timeSpent = $this->request->getCurrentTimestamp() - $this->visitorInfo['visit_last_action_time'];
+        $timeSpent = $this->request->getCurrentTimestamp() -
+            $this->visitProperties->getProperty('visit_last_action_time');
         if ($timeSpent < 0) {
             $timeSpent = 0;
         }
@@ -321,18 +247,18 @@ class Visit implements VisitInterface
      * @param Action $action
      * @param bool $visitIsConverted
      */
-    protected function handleNewVisit($visitor, $action, $visitIsConverted)
+    protected function handleNewVisit($visitIsConverted)
     {
         Common::printDebug("New Visit (IP = " . IPUtils::binaryToStringIP($this->getVisitorIp()) . ")");
 
-        $this->setNewVisitorInformation($visitor);
+        $this->setNewVisitorInformation();
 
         $dimensions = $this->getAllVisitDimensions();
 
-        $this->triggerHookOnDimensions($dimensions, 'onNewVisit', $visitor, $action);
+        $this->triggerHookOnDimensions($dimensions, 'onNewVisit');
 
         if ($visitIsConverted) {
-            $this->triggerHookOnDimensions($dimensions, 'onConvertedVisit', $visitor, $action);
+            $this->triggerHookOnDimensions($dimensions, 'onConvertedVisit');
         }
 
         /**
@@ -345,15 +271,19 @@ class Visit implements VisitInterface
          *                      what information it contains.
          * @param \Piwik\Tracker\Request $request An object describing the tracking request being processed.
          */
-        Piwik::postEvent('Tracker.newVisitorInformation', array(&$this->visitorInfo, $this->request));
+        Piwik::postEvent('Tracker.newVisitorInformation', array($this->visitProperties->getProperties(), $this->request));
+
+        foreach ($this->requestProcessors as $processor) {
+            $processor->onNewVisit($this->visitProperties, $this->request);
+        }
 
         $this->printVisitorInformation();
 
-        $idVisit = $this->insertNewVisit($this->visitorInfo);
+        $idVisit = $this->insertNewVisit($this->visitProperties->getProperties());
 
-        $this->setVisitorColumn($visitor, 'idvisit', $idVisit);
-        $this->setVisitorColumn($visitor, 'visit_first_action_time', $this->request->getCurrentTimestamp());
-        $this->setVisitorColumn($visitor, 'visit_last_action_time', $this->request->getCurrentTimestamp());
+        $this->visitProperties->setProperty('idvisit', $idVisit);
+        $this->visitProperties->setProperty('visit_first_action_time', $this->request->getCurrentTimestamp());
+        $this->visitProperties->setProperty('visit_last_action_time', $this->request->getCurrentTimestamp());
     }
 
     private function getModel()
@@ -366,17 +296,19 @@ class Visit implements VisitInterface
      *
      * @return string  binary
      */
-    protected function getVisitorIdcookie(Visitor $visitor)
+    protected function getVisitorIdcookie()
     {
-        if ($visitor->isVisitorKnown()) {
-            return $this->visitorInfo['idvisitor'];
+        $isKnown = $this->request->getMetadata('CoreHome', 'isVisitorKnown');
+        if ($isKnown) {
+            return $this->visitProperties->getProperty('idvisitor');
         }
 
         // If the visitor had a first party ID cookie, then we use this value
-        if (!empty($this->visitorInfo['idvisitor'])
-            && Tracker::LENGTH_BINARY_ID == strlen($this->visitorInfo['idvisitor'])
+        $idVisitor = $this->visitProperties->getProperty('idvisitor');
+        if (!empty($idVisitor)
+            && Tracker::LENGTH_BINARY_ID == strlen($this->visitProperties->getProperty('idvisitor'))
         ) {
-            return $this->visitorInfo['idvisitor'];
+            return $this->visitProperties->getProperty('idvisitor');
         }
 
         return Common::hex2bin($this->generateUniqueVisitorId());
@@ -397,7 +329,7 @@ class Visit implements VisitInterface
      */
     protected function getVisitorIp()
     {
-        return $this->visitorInfo['location_ip'];
+        return $this->visitProperties->getProperty('location_ip');
     }
 
     /**
@@ -407,52 +339,7 @@ class Visit implements VisitInterface
      */
     protected function getSettingsObject()
     {
-        if (is_null($this->userSettings)) {
-            $this->userSettings = new Settings($this->request, $this->getVisitorIp(),
-                SettingsPiwik::isSameFingerprintAcrossWebsites());
-        }
-
         return $this->userSettings;
-    }
-
-    /**
-     * Returns true if the last action was done during the last 30 minutes
-     * @return bool
-     */
-    protected function isLastActionInTheSameVisit(Visitor $visitor)
-    {
-        $lastActionTime = $visitor->getVisitorColumn('visit_last_action_time');
-
-        return isset($lastActionTime)
-        && false !== $lastActionTime
-        && ($lastActionTime > ($this->request->getCurrentTimestamp() - Config::getInstance()->Tracker['visit_standard_length']));
-    }
-
-    /**
-     * Returns true if the last action was not today.
-     * @param Visitor $visitor
-     * @return bool
-     */
-    private function wasLastActionNotToday(Visitor $visitor)
-    {
-        $lastActionTime = $visitor->getVisitorColumn('visit_last_action_time');
-
-        if (empty($lastActionTime)) {
-            return false;
-        }
-
-        $idSite = $this->request->getIdSite();
-        $timezone = $this->getTimezoneForSite($idSite);
-
-        if (empty($timezone)) {
-            throw new UnexpectedWebsiteFoundException("An unexpected website was found: idsite was set to '$idSite'");
-        }
-
-        $date = Date::factory((int)$lastActionTime, $timezone);
-        $now = $this->request->getCurrentTimestamp();
-        $now = Date::factory((int)$now, $timezone);
-
-        return $date->toString() !== $now->toString();
     }
 
     // is the referrer host any of the registered URLs for this website?
@@ -477,7 +364,7 @@ class Visit implements VisitInterface
 
     private static function toCanonicalHost($host)
     {
-        $hostLower = Common::mb_strtolower($host, 'UTF-8');
+        $hostLower = Common::mb_strtolower($host);
         return str_replace('www.', '', $hostLower);
     }
 
@@ -488,7 +375,7 @@ class Visit implements VisitInterface
     protected function updateExistingVisit($valuesToUpdate)
     {
         $idSite = $this->request->getIdSite();
-        $idVisit = (int)$this->visitorInfo['idvisit'];
+        $idVisit = (int)$this->visitProperties->getProperty('idvisit');
 
         $wasInserted = $this->getModel()->updateVisit($idSite, $idVisit, $valuesToUpdate);
 
@@ -501,69 +388,55 @@ class Visit implements VisitInterface
             Common::printDebug('Updated existing visit: ' . var_export($valuesToUpdate, true));
         } else {
             throw new VisitorNotFoundInDb(
-                "The visitor with idvisitor=" . bin2hex($this->visitorInfo['idvisitor']) . " and idvisit=" . $this->visitorInfo['idvisit']
+                "The visitor with idvisitor=" . bin2hex($this->visitProperties->getProperty('idvisitor'))
+                . " and idvisit=" . @$this->visitProperties->getProperty('idvisit')
                 . " wasn't found in the DB, we fallback to a new visitor");
         }
     }
 
-    private function setVisitorColumn(Visitor $visitor, $key, $value)
-    {
-        $this->visitorInfo[$key] = $value;
-        $visitor->setVisitorColumn($key, $value);
-    }
-
     private function printVisitorInformation()
     {
-        $debugVisitInfo = $this->visitorInfo;
+        $debugVisitInfo = $this->visitProperties->getProperties();
         $debugVisitInfo['idvisitor'] = bin2hex($debugVisitInfo['idvisitor']);
         $debugVisitInfo['config_id'] = bin2hex($debugVisitInfo['config_id']);
         $debugVisitInfo['location_ip'] = IPUtils::binaryToStringIP($debugVisitInfo['location_ip']);
         Common::printDebug($debugVisitInfo);
     }
 
-    private function setNewVisitorInformation(Visitor $visitor)
+    private function setNewVisitorInformation()
     {
-        $idVisitor = $this->getVisitorIdcookie($visitor);
+        $idVisitor = $this->getVisitorIdcookie();
         $visitorIp = $this->getVisitorIp();
-        $configId = $this->getSettingsObject()->getConfigId();
+        $configId = $this->request->getMetadata('CoreHome', 'visitorId');
 
-        $this->visitorInfo = array();
-        $visitor->clearVisitorInfo();
+        $this->visitProperties->clearProperties();
 
-        $this->setVisitorColumn($visitor, 'idvisitor', $idVisitor);
-        $this->setVisitorColumn($visitor, 'config_id', $configId);
-        $this->setVisitorColumn($visitor, 'location_ip', $visitorIp);
-
-        foreach ($this->visitorCustomVariables as $key => $value) {
-            $this->setVisitorColumn($visitor, $key, $value);
-        }
+        $this->visitProperties->setProperty('idvisitor', $idVisitor);
+        $this->visitProperties->setProperty('config_id', $configId);
+        $this->visitProperties->setProperty('location_ip', $visitorIp);
     }
 
     /**
      * Gather fields=>values that needs to be updated for the existing visit in log_visit
      *
-     * @param Visitor $visitor
-     * @param Action|null $action
      * @param $visitIsConverted
      * @return array
      */
-    private function getExistingVisitFieldsToUpdate($visitor, $action, $visitIsConverted)
+    private function getExistingVisitFieldsToUpdate($visitIsConverted)
     {
         $valuesToUpdate = array();
 
-        $valuesToUpdate = $this->setIdVisitorForExistingVisit($visitor, $valuesToUpdate);
+        $valuesToUpdate = $this->setIdVisitorForExistingVisit($valuesToUpdate);
 
         $dimensions = $this->getAllVisitDimensions();
-        $valuesToUpdate = $this->triggerHookOnDimensions($dimensions, 'onExistingVisit', $visitor, $action,
-            $valuesToUpdate);
+        $valuesToUpdate = $this->triggerHookOnDimensions($dimensions, 'onExistingVisit', $valuesToUpdate);
 
         if ($visitIsConverted) {
-            $valuesToUpdate = $this->triggerHookOnDimensions($dimensions, 'onConvertedVisit', $visitor, $action,
-                $valuesToUpdate);
+            $valuesToUpdate = $this->triggerHookOnDimensions($dimensions, 'onConvertedVisit', $valuesToUpdate);
         }
 
         // Custom Variables overwrite previous values on each page view
-        return array_merge($valuesToUpdate, $this->visitorCustomVariables);
+        return $valuesToUpdate;
     }
 
     /**
@@ -575,8 +448,13 @@ class Visit implements VisitInterface
      *
      * @return array|null The updated $valuesToUpdate or null if no $valuesToUpdate given
      */
-    private function triggerHookOnDimensions($dimensions, $hook, $visitor, $action, $valuesToUpdate = null)
+    private function triggerHookOnDimensions($dimensions, $hook, $valuesToUpdate = null)
     {
+        $visitor = $this->makeVisitorFacade();
+
+        /** @var Action $action */
+        $action = $this->request->getMetadata('Actions', 'action');
+
         foreach ($dimensions as $dimension) {
             $value = $dimension->$hook($this->request, $visitor, $action);
 
@@ -591,7 +469,7 @@ class Visit implements VisitInterface
                 if ($valuesToUpdate !== null) {
                     $valuesToUpdate[$fieldName] = $value;
                 } else {
-                    $this->visitorInfo[$fieldName] = $value;
+                    $this->visitProperties->setProperty($fieldName, $value);
                 }
             }
         }
@@ -599,8 +477,13 @@ class Visit implements VisitInterface
         return $valuesToUpdate;
     }
 
-    private function triggerPredicateHookOnDimensions($dimensions, $hook, Visitor $visitor, Action $action = null)
+    private function triggerPredicateHookOnDimensions($dimensions, $hook)
     {
+        $visitor = $this->makeVisitorFacade();
+
+        /** @var Action $action */
+        $action = $this->request->getMetadata('Actions', 'action');
+
         foreach ($dimensions as $dimension) {
             if ($dimension->$hook($this->request, $visitor, $action)) {
                 return true;
@@ -636,12 +519,11 @@ class Visit implements VisitInterface
      * @param $valuesToUpdate
      * @return mixed
      */
-    private function setIdVisitorForExistingVisit($visitor, $valuesToUpdate)
+    private function setIdVisitorForExistingVisit($valuesToUpdate)
     {
         // Might update the idvisitor when it was forced or overwritten for this visit
-        if (strlen($this->visitorInfo['idvisitor']) == Tracker::LENGTH_BINARY_ID) {
-            $binIdVisitor = $this->visitorInfo['idvisitor'];
-            $visitor->setVisitorColumn('idvisitor', $binIdVisitor);
+        if (strlen($this->visitProperties->getProperty('idvisitor')) == Tracker::LENGTH_BINARY_ID) {
+            $binIdVisitor = $this->visitProperties->getProperty('idvisitor');
             $valuesToUpdate['idvisitor'] = $binIdVisitor;
         }
 
@@ -650,7 +532,7 @@ class Visit implements VisitInterface
         if ($userId) {
             $userIdHash = $this->request->getUserIdHashed($userId);
             $binIdVisitor = Common::hex2bin($userIdHash);
-            $visitor->setVisitorColumn('idvisitor', $binIdVisitor);
+            $this->visitProperties->setProperty('idvisitor', $binIdVisitor);
             $valuesToUpdate['idvisitor'] = $binIdVisitor;
         }
         return $valuesToUpdate;
@@ -659,44 +541,6 @@ class Visit implements VisitInterface
     protected function insertNewVisit($visit)
     {
         return $this->getModel()->createVisit($visit);
-    }
-
-    /**
-     * Determines if the tracker if the current action should be treated as the start of a new visit or
-     * an action in an existing visit.
-     *
-     * @param Visitor $visitor The current visit/visitor information.
-     * @param Action|null $action The current action being tracked.
-     * @return bool
-     */
-    public function isVisitNew(Visitor $visitor, Action $action = null)
-    {
-        if (!$visitor->isVisitorKnown()) {
-            return true;
-        }
-
-        $isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit($visitor);
-
-        if (!$isLastActionInTheSameVisit) {
-            Common::printDebug("Visitor detected, but last action was more than 30 minutes ago...");
-
-            return true;
-        }
-
-        $wasLastActionYesterday = $this->wasLastActionNotToday($visitor);
-        if ($wasLastActionYesterday) {
-            Common::printDebug("Visitor detected, but last action was yesterday...");
-
-            return true;
-        }
-
-        $shouldForceNewVisit = $this->triggerPredicateHookOnDimensions($this->getAllVisitDimensions(),
-            'shouldForceNewVisit', $visitor, $action);
-        if ($shouldForceNewVisit) {
-            return true;
-        }
-
-        return false;
     }
 
     private function markArchivedReportsAsInvalidIfArchiveAlreadyFinished()
@@ -723,7 +567,7 @@ class Visit implements VisitInterface
         try {
             $site = Cache::getCacheWebsiteAttributes($idSite);
         } catch (UnexpectedWebsiteFoundException $e) {
-            return;
+            return null;
         }
 
         if (!empty($site['timezone'])) {
@@ -731,8 +575,8 @@ class Visit implements VisitInterface
         }
     }
 
-    private function isPingRequest()
+    private function makeVisitorFacade()
     {
-        return $this->request->getParam('ping') == 1;
+        return Visitor::makeFromVisitProperties($this->visitProperties, $this->request);
     }
 }

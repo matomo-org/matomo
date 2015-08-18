@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "用户创建新面板时，或者使用 \"%s\" 功能时，将使用这些小工具和面板布局。",
         "TopLinkTooltip": "查看%s的统计报表",
         "WidgetNotFound": "找不到小工具",
-        "WidgetPreview": "小工具预览",
-        "WidgetsAndDashboard": "小工具和面板"
+        "WidgetPreview": "小工具预览"
     }
 }

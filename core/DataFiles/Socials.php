@@ -80,6 +80,9 @@ if (!isset($GLOBALS['Piwik_socialUrl'])) {
         // douban
         'douban.com'           => 'douban',
 
+        // dribbble
+        'dribbble.com'         => 'dribbble',
+
         // Odnoklassniki
         'odnoklassniki.ru'     => 'Odnoklassniki',
 

@@ -44,7 +44,7 @@ class Dashboard
     {
         $sites = API::getInstance()->getAll($period, $date, $segment, $_restrictSitesToLogin = false,
                                             $enhanced = true, $searchTerm = false,
-                                            $showColumns = array('nb_visits', 'nb_pageviews', 'revenue'));
+                                            $showColumns = array('nb_visits', 'nb_pageviews', 'nb_actions', 'revenue'));
         $sites->deleteRow(DataTable::ID_SUMMARY_ROW);
 
         /** @var DataTable $pastData */
@@ -101,6 +101,7 @@ class Dashboard
         return array(
             'nb_pageviews'       => $this->sitesByGroup->getMetadata('total_nb_pageviews'),
             'nb_visits'          => $this->sitesByGroup->getMetadata('total_nb_visits'),
+            'nb_actions'         => $this->sitesByGroup->getMetadata('total_nb_actions'),
             'revenue'            => $this->sitesByGroup->getMetadata('total_revenue'),
             'nb_visits_lastdate' => $this->sitesByGroup->getMetadata('total_nb_visits_lastdate') ? : 0,
         );

@@ -5,7 +5,7 @@
         {{ 'General_AllWebsitesDashboard'|translate }}
         <span class='smallTitle'
               title="{{ 'General_EvolutionSummaryGeneric'|translate:('General_NVisits'|translate:model.totalVisits):date:model.lastVisits:model.lastVisitsDate:(model.totalVisits|evolution:model.lastVisits)}}"
-              ng-bind-html="'General_TotalVisitsPageviewsRevenue' | translate:('<strong>'+model.totalVisits+'</strong>'):('<strong>'+model.totalActions+'</strong>'):('<strong>' + model.totalRevenue + '</strong>')">
+              ng-bind-html="'General_TotalVisitsPageviewsActionsRevenue' | translate:('<strong>'+model.totalVisits+'</strong>'):('<strong>'+model.totalPageviews+'</strong>'):('<strong>'+model.totalActions+'</strong>'):('<strong>' + model.totalRevenue + '</strong>')">
         </span>
     </h2>
 

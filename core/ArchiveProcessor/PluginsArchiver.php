@@ -11,6 +11,7 @@ namespace Piwik\ArchiveProcessor;
 
 use Piwik\ArchiveProcessor;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\Metrics;
 use Piwik\Plugin\Archiver;
@@ -34,6 +35,11 @@ class PluginsArchiver
     protected $params;
 
     /**
+     * @var LogAggregator
+     */
+    private $logAggregator;
+
+    /**
      * @var Archiver[] $archivers
      */
     private static $archivers = array();
@@ -45,7 +51,9 @@ class PluginsArchiver
         $this->archiveWriter = new ArchiveWriter($this->params, $isTemporaryArchive);
         $this->archiveWriter->initNewArchive();
 
-        $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter);
+        $this->logAggregator = new LogAggregator($params);
+
+        $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter, $this->logAggregator);
 
         $this->isSingleSiteDayArchive = $this->params->isSingleSiteDayArchive();
     }
@@ -57,6 +65,8 @@ class PluginsArchiver
      */
     public function callAggregateCoreMetrics()
     {
+        $this->logAggregator->setQueryOriginHint('Core');
+
         if ($this->isSingleSiteDayArchive) {
             $metrics = $this->aggregateDayVisitsMetrics();
         } else {
@@ -101,6 +111,9 @@ class PluginsArchiver
             }
 
             if ($this->shouldProcessReportsForPlugin($pluginName)) {
+
+                $this->logAggregator->setQueryOriginHint($pluginName);
+
                 $timer = new Timer();
                 if ($this->isSingleSiteDayArchive) {
                     Log::debug("PluginsArchiver::%s: Archiving day reports for plugin '%s'.", __FUNCTION__, $pluginName);
@@ -111,6 +124,8 @@ class PluginsArchiver
 
                     $archiver->aggregateMultipleReports();
                 }
+
+                $this->logAggregator->setQueryOriginHint('');
 
                 Log::debug("PluginsArchiver::%s: %s while archiving %s reports for plugin '%s'.",
                     __FUNCTION__,

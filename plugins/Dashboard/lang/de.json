@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Diese Widgetauswahl und das aktuelle Spaltenlayout werden verwendet, wenn ein neues Dashboard erstellt wird oder wenn \"%s\" verwendet wird.",
         "TopLinkTooltip": "Zeige Webanalytik Berichte für %s.",
         "WidgetNotFound": "Widget nicht gefunden",
-        "WidgetPreview": "Widget-Vorschau",
-        "WidgetsAndDashboard": "Widgets & Dashboard"
+        "WidgetPreview": "Widget-Vorschau"
     }
 }

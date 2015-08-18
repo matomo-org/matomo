@@ -15,7 +15,6 @@
         "ResetDashboard": "Nullstill oversikt",
         "SelectWidget": "Velg hvilket element som du vil legge til oversiktspanelet.",
         "WidgetNotFound": "Finner ikke element",
-        "WidgetPreview": "Forhåndsvisning av element",
-        "WidgetsAndDashboard": "Widgets- og oversiktspanel"
+        "WidgetPreview": "Forhåndsvisning av element"
     }
 }

@@ -47,9 +47,14 @@ class Mysql extends Db
         } else {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';host=' . $dbInfo['host'] . ';port=' . $dbInfo['port'];
         }
+
         $this->username = $dbInfo['username'];
         $this->password = $dbInfo['password'];
-        $this->charset = isset($dbInfo['charset']) ? $dbInfo['charset'] : null;
+
+        if (isset($dbInfo['charset'])) {
+            $this->charset = $dbInfo['charset'];
+            $this->dsn .= ';charset=' . $this->charset;
+        }
     }
 
     public function __destruct()

@@ -512,7 +512,7 @@ table.dataTable {
     }
 }
 
-div.dataTableVizHtmlTable:not(.dataTableActions), div.dataTableVizAllColumns {
+div.dataTableVizHtmlTable:not(.dataTableActions), div.dataTableVizAllColumns, div.dataTableVizGoals {
   tr.subDataTable > td:first-child:before {
     display: inline-block;
     float: left;
@@ -549,8 +549,12 @@ table.dataTable .dataTableRowActions {
 }
 
 .dataTableFooterIcons {
-  padding: 6px 8px 0px;
+  padding: 6px 12px 0px;
   border-top: 1px solid @color-silver-l90;
+}
+
+.UserCountryMap-btn-zoom {
+  padding-left: 0px;
 }
 
 div.sparkline {

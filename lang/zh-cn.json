@@ -321,7 +321,6 @@
         "TimeOnPage": "页面停留时间",
         "Total": "总额",
         "TotalRevenue": "订单总额",
-        "TotalVisitsPageviewsRevenue": "(总计: %s 次访问, %s 次页面浏览, %s 收入)",
         "TransitionsRowActionTooltip": "查看访客浏览这个页面之前和之后的活动",
         "TransitionsRowActionTooltipTitle": "显示转换分析",
         "TranslatorEmail": "admin@piwik.cn",
