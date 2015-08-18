@@ -162,7 +162,7 @@
 
             return piwikApi.fetch(params).then(function (response) {
                 updateWebsitesList(response);
-            }, onError)['finally'](function () {
+            }, onError).finally(function () {
                 model.isLoading = false;
 
                 if (model.refreshInterval && model.refreshInterval > 0) {
