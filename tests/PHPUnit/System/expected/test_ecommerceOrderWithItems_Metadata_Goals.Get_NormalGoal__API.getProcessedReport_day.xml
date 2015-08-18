@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Piwik test</website>
-	<prettyDate>Tuesday, April 5, 2011</prettyDate>
+	<prettyDate>Tuesday 5 April 2011</prettyDate>
 	<metadata>
 		<category>Goals</category>
 		<name>Goal title match, triggered ONCE</name>
