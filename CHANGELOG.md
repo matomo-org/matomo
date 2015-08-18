@@ -4,12 +4,16 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ## Piwik 3.0.0
 
-### Library updates
-* Updated AngularJS from 1.2.28 to 1.4.3
-
 ### Breaking Changes
 * Handling of localized date, time and range formats has been changed. Patterns no longer contain placeholders like `%shortDay%`, but work with CLDR pattern instead. You can use one of the predefined format constants in `Date` class for using `getLocalized()`.
 * As we are now using CLDR formats for all languages, some time formats were even changed in english. Attributes like `prettyDate` in API responses might so have been changed slightly.
+
+### Library updates
+* Updated AngularJS from 1.2.28 to 1.4.3
+
+### Internal change
+* Support for IE8 was dropped
+* Required PHP version was changed from 5.3 to 5.4
 
 ## Piwik 2.15.0
 
