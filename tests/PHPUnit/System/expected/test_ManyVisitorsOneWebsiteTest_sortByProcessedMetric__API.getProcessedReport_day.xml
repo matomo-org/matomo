@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Site 1</website>
-	<prettyDate>Sunday, January 3, 2010</prettyDate>
+	<prettyDate>Sunday 3 January 2010</prettyDate>
 	<metadata>
 		<category>Actions</category>
 		<name>Page URLs</name>
@@ -41,14 +41,6 @@
 	</columns>
 	<reportData>
 		<row>
-			<label>space</label>
-			<nb_visits>4</nb_visits>
-			<nb_hits>4</nb_hits>
-			<bounce_rate>0%</bounce_rate>
-			<avg_time_on_page>00:06:00</avg_time_on_page>
-			<exit_rate>0%</exit_rate>
-		</row>
-		<row>
 			<label>grue</label>
 			<nb_visits>4</nb_visits>
 			<nb_hits>4</nb_hits>
@@ -56,12 +48,22 @@
 			<avg_time_on_page>00:00:00</avg_time_on_page>
 			<exit_rate>100%</exit_rate>
 		</row>
+		<row>
+			<label>space</label>
+			<nb_visits>4</nb_visits>
+			<nb_hits>4</nb_hits>
+			<bounce_rate>0%</bounce_rate>
+			<avg_time_on_page>00:06:00</avg_time_on_page>
+			<exit_rate>0%</exit_rate>
+		</row>
 	</reportData>
 	<reportMetadata>
 		<row>
+
 			<idsubdatatable>2687</idsubdatatable>
 		</row>
 		<row>
+
 			<idsubdatatable>2688</idsubdatatable>
 		</row>
 	</reportMetadata>

@@ -18,19 +18,19 @@
 		</subtable>
 	</row>
 	<row>
-		<label>name</label>
+		<label>tweeted</label>
 		<nb_actions>20</nb_actions>
 		<segment>customVariableName==tweeted</segment>
 		<subtable>
 			<row>
-				<label>thing0</label>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
+				<label>n</label>
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
 			</row>
 			<row>
 				<label>Others</label>
-				<nb_visits>19</nb_visits>
-				<nb_actions>19</nb_actions>
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
 			</row>
 		</subtable>
 	</row>
