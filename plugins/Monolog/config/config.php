@@ -11,15 +11,11 @@ return array(
 
     'Psr\Log\LoggerInterface' => DI\get('Monolog\Logger'),
 
-    'log.handler.classes' => DI\factory(function (ContainerInterface $c) {
-        $classes = array(
-            'file'     => 'Piwik\Plugins\Monolog\Handler\FileHandler',
-            'screen'   => 'Piwik\Plugins\Monolog\Handler\WebNotificationHandler',
-            'database' => 'Piwik\Plugins\Monolog\Handler\DatabaseHandler',
-        );
-
-        return $classes;
-    }),
+    'log.handler.classes' => array(
+        'file'     => 'Piwik\Plugins\Monolog\Handler\FileHandler',
+        'screen'   => 'Piwik\Plugins\Monolog\Handler\WebNotificationHandler',
+        'database' => 'Piwik\Plugins\Monolog\Handler\DatabaseHandler',
+    ),
     'log.handlers' => DI\factory(function (ContainerInterface $c) {
         if ($c->has('ini.log.log_writers')) {
             $writerNames = $c->get('ini.log.log_writers');
