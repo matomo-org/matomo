@@ -27,13 +27,6 @@ class TrackerLoggingTest extends SystemTestCase
     {
         parent::setUp();
 
-        $testingEnvironment = self::$fixture->getTestEnvironment();
-        $configOverride = $testingEnvironment->configOverride;
-        $configOverride['Tracker']['debug'] = 1;
-        $configOverride['log']['log_writers'] = array('screen');
-        $testingEnvironment->configOverride = $configOverride;
-        $testingEnvironment->save();
-
         if (!Fixture::siteCreated($this->idSite)) {
             Fixture::createWebsite('2014-01-01 00:00:00');
         }
