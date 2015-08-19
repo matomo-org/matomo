@@ -6,7 +6,7 @@ return array(
 
     'Psr\Log\LoggerInterface' => function (ContainerInterface $c) {
         $trackerDebug = $c->get("ini.Tracker.debug");
-        if ($trackerDebug == 1 || $GLOBALS['PIWIK_TRACKER_DEBUG']) {
+        if ($trackerDebug == 1 || !empty($GLOBALS['PIWIK_TRACKER_DEBUG'])) {
             return $c->get('Monolog\Logger');
         } else {
             return new \Psr\Log\NullLogger();
