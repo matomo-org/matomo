@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Monolog\Test\Integration;
+namespace Piwik\Plugins\Monolog\tests\Integration;
 
 use Exception;
 use Piwik\Application\Environment;
@@ -15,7 +15,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Log;
-use Piwik\Plugins\Monolog\Test\Integration\Fixture\LoggerWrapper;
+use Piwik\Plugins\Monolog\tests\Integration\Fixture\LoggerWrapper;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
