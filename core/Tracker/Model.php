@@ -133,10 +133,20 @@ class Model
             $i++;
         }
 
-        $this->getDb()->query($sql, $bind);
-
         Common::printDebug($sql);
         Common::printDebug($bind);
+
+        try {
+            $this->getDb()->query($sql, $bind);
+        } catch (Exception $e) {
+            if ($e->getCode() == 23000 ||
+                false !== strpos($e->getMessage(), 'Duplicate entry') ||
+                false !== strpos($e->getMessage(), 'Integrity constraint violation')) {
+                Common::printDebug('Did not create ecommerce item as item was already created');
+            } else {
+                throw $e;
+            }
+        }
     }
 
     /**

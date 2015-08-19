@@ -208,9 +208,8 @@ class Mysql extends Db
             }
             return $sth;
         } catch (PDOException $e) {
-            throw new DbException("Error query: " . $e->getMessage() . "
-                                In query: $query
-                                Parameters: " . var_export($parameters, true));
+            $message = $e->getMessage() . " In query: $query Parameters: " . var_export($parameters, true);
+            throw new DbException("Error query: " . $message, (int) $e->getCode());
         }
     }
 
