@@ -570,7 +570,9 @@ use_third_party_id_cookie = 0
 debug = 0
 
 ; This option is an alternative to the debug option above. When set to 1, you can debug tracker request by adding
-; a debug=1 query paramater in the URL. All other HTTP requests will not have debug enabled.
+; a debug=1 query paramater in the URL. All other HTTP requests will not have debug enabled. For security reasons this
+; option should be only enabled if really needed and only for a short time frame. Otherwise anyone can set debug=1 and
+; see the log output as well.
 debug_on_demand = 0
 
 ; This setting is described in this FAQ: http://piwik.org/faq/how-to/faq_175/
