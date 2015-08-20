@@ -17,6 +17,7 @@ use Piwik\Metrics;
 use Piwik\Plugin\Archiver;
 use Piwik\Log;
 use Piwik\Timer;
+use Exception;
 
 /**
  * This class creates the Archiver objects found in plugins and will trigger aggregation,
@@ -114,25 +115,32 @@ class PluginsArchiver
 
                 $this->logAggregator->setQueryOriginHint($pluginName);
 
-                $timer = new Timer();
-                if ($this->isSingleSiteDayArchive) {
-                    Log::debug("PluginsArchiver::%s: Archiving day reports for plugin '%s'.", __FUNCTION__, $pluginName);
+                try {
+                    $timer = new Timer();
+                    if ($this->isSingleSiteDayArchive) {
+                        Log::debug("PluginsArchiver::%s: Archiving day reports for plugin '%s'.", __FUNCTION__, $pluginName);
 
-                    $archiver->aggregateDayReport();
-                } else {
-                    Log::debug("PluginsArchiver::%s: Archiving period reports for plugin '%s'.", __FUNCTION__, $pluginName);
+                        $archiver->aggregateDayReport();
+                    } else {
+                        Log::debug("PluginsArchiver::%s: Archiving period reports for plugin '%s'.", __FUNCTION__, $pluginName);
 
-                    $archiver->aggregateMultipleReports();
+                        $archiver->aggregateMultipleReports();
+                    }
+
+                    $this->logAggregator->setQueryOriginHint('');
+
+                    Log::debug("PluginsArchiver::%s: %s while archiving %s reports for plugin '%s'.",
+                        __FUNCTION__,
+                        $timer->getMemoryLeak(),
+                        $this->params->getPeriod()->getLabel(),
+                        $pluginName
+                    );
+                } catch (Exception $e) {
+                    $Klass = get_class($e);
+                    $exception = new $Klass($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e);
+
+                    throw $exception;
                 }
-
-                $this->logAggregator->setQueryOriginHint('');
-
-                Log::debug("PluginsArchiver::%s: %s while archiving %s reports for plugin '%s'.",
-                    __FUNCTION__,
-                    $timer->getMemoryLeak(),
-                    $this->params->getPeriod()->getLabel(),
-                    $pluginName
-                );
             } else {
                 Log::debug("PluginsArchiver::%s: Not archiving reports for plugin '%s'.", __FUNCTION__, $pluginName);
             }
