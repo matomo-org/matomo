@@ -13,7 +13,7 @@
         <div class="alert alert-danger">
             {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
             {% for message in errorMessages %}
-                <br/><strong>{{ message }}</strong>
+                <br/><strong>{{ message|striptags }}</strong>
             {% endfor %}
         </div>
         <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenError'|translate }}</p>
@@ -43,7 +43,7 @@
             <div class="alert alert-warning">
                 <p>{{ 'CoreUpdater_WarningMessages'|translate }}</p>
                 {% for message in warningMessages %}
-                    <br/><strong>{{ message }}</strong>
+                    <br/><strong>{{ message|striptags }}</strong>
                 {% endfor %}
             </div>
         {% endif %}
@@ -52,7 +52,7 @@
             <div class="alert alert-warning">
                 <p>{{ 'CoreUpdater_ErrorDuringPluginsUpdates'|translate }}</p>
                 {% for message in errorMessages %}
-                    <br/><strong>{{ message }}</strong>
+                    <br/><strong>{{ message|striptags }}</strong>
                 {% endfor %}
             </div>
             {% if deactivatedPlugins is defined and deactivatedPlugins|length > 0 %}
