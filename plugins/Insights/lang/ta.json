@@ -1,0 +1,10 @@
+{
+    "Insights": {
+        "DayComparedToPreviousDay": "நேற்று",
+        "DayComparedToPreviousWeek": "கடந்த வாரத்தில் இதே நாள்",
+        "DayComparedToPreviousYear": "கடந்த ஆண்டில் இதே நாள்",
+        "MonthComparedToPreviousMonth": "கடந்த மாதம்",
+        "MonthComparedToPreviousYear": "கடந்த ஆண்டின் இதே மாதம்",
+        "WeekComparedToPreviousWeek": "கடந்த வாரம்"
+    }
+}

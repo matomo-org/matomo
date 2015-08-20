@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Monolog\Test\Unit\Formatter;
+namespace Piwik\Plugins\Monolog\tests\Unit\Formatter;
 
 use DateTime;
 use Piwik\Plugins\Monolog\Formatter\LineMessageFormatter;

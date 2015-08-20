@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Monolog\Test\Integration\Fixture;
+namespace Piwik\Plugins\Monolog\tests\Integration\Fixture;
 
 use Piwik\Log;
 

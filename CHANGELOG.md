@@ -42,6 +42,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Breaking Changes
 * The method `Dimension::getId()` has been set as `final`. It is not allowed to overwrite this method.
 
+### Internal Change
+* The option `branch` of the console command `development:sync-system-test-processed` was removed as it is no longer needed.
+
 ## Piwik 2.14.0
 
 ### Breaking Changes
