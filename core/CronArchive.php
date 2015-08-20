@@ -446,6 +446,14 @@ class CronArchive
             return;
         }
 
+        // TODO: this is a HACK to get the purgeOutdatedArchives task to work when run below. without
+        //       it, the task will not run because we no longer run the tasks through CliMulti.
+        //       harder to implement alternatives include:
+        //       - moving CronArchive logic to DI and setting a flag in the class when the whole process
+        //         runs
+        //       - setting a new DI environment for core:archive which CoreAdminHome can use to conditionally
+        //         enable/disable the task
+        $_GET['trigger'] = 'archivephp';
         CoreAdminHomeAPI::getInstance()->runScheduledTasks();
 
         $this->logSection("");
