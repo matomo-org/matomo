@@ -58,11 +58,11 @@ class Auth implements \Piwik\Auth
         return new AuthResult(AuthResult::FAILURE, $this->login, $this->token_auth);
     }
 
-    private function authenticateWithPassword($login, $password)
+    private function authenticateWithPassword($login, $passwordHash)
     {
         $user = $this->userModel->getUser($login);
 
-        if (!empty($user['login']) && $user['password'] === $password) {
+        if (!empty($user['login']) && $user['password'] === $passwordHash) {
             return $this->authenticationSuccess($user);
         }
 
