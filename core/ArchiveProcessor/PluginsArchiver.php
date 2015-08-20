@@ -136,8 +136,8 @@ class PluginsArchiver
                         $pluginName
                     );
                 } catch (Exception $e) {
-                    $Klass = get_class($e);
-                    $exception = new $Klass($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e);
+                    $className = get_class($e);
+                    $exception = new $className($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e);
 
                     throw $exception;
                 }
