@@ -39,16 +39,29 @@ class Auth implements \Piwik\Auth
     public function authenticate()
     {
         if (!empty($this->md5Password)) { // favor authenticating by password
-            $this->token_auth = UsersManagerAPI::getInstance()->getTokenAuth($this->login, $this->getTokenAuthSecret());
-        }
-
-        if (is_null($this->login)) {
+            return $this->authenticateWithPassword($this->login, $this->getTokenAuthSecret());
+        } elseif (is_null($this->login)) {
             return $this->authenticateWithToken($this->token_auth);
         } elseif (!empty($this->login)) {
             return $this->authenticateWithTokenOrHashToken($this->token_auth, $this->login);
         }
 
         return new AuthResult(AuthResult::FAILURE, $this->login, $this->token_auth);
+    }
+
+    private function authenticateWithPassword($login, $password)
+    {
+        $model = new Model();
+        $user  = $model->getUser($login);
+
+        if (!empty($user['login']) && $user['password'] === $password) {
+            $this->setTokenAuth($user['token_auth']);
+            $code = $user['superuser_access'] ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
+
+            return new AuthResult($code, $user['login'], $user['token_auth']);
+        }
+
+        return new AuthResult(AuthResult::FAILURE, $login, null);
     }
 
     private function authenticateWithToken($token)
@@ -76,9 +89,9 @@ class Auth implements \Piwik\Auth
                 || $user['token_auth'] === $token)
         ) {
             $this->setTokenAuth($user['token_auth']);
-            $code = !empty($user['superuser_access']) ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
+            $code = $user['superuser_access'] ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
 
-            return new AuthResult($code, $login, $user['token_auth']);
+            return new AuthResult($code, $user['login'], $user['token_auth']);
         }
 
         return new AuthResult(AuthResult::FAILURE, $login, $token);

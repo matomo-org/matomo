@@ -15,17 +15,12 @@ use Piwik\Plugins\UsersManager\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-require_once PIWIK_INCLUDE_PATH . '/plugins/Login/Auth.php';
-
 /**
- * Class Plugins_LoginTest
- *
  * @group Plugins
  * @group Plugins_LoginTest
  */
 class LoginTest extends IntegrationTestCase
 {
-
     /**
      * @var Auth
      */
@@ -351,6 +346,83 @@ class LoginTest extends IntegrationTestCase
         $this->assertUserLogin($rc);
     }
 
+    /**
+     * @group Plugins
+     */
+    public function testAuthenticateSuccessWithValidPassword()
+    {
+        $user = $this->_setUpUser();
+        $this->auth->setLogin($user['login']);
+        $this->auth->setPassword($user['password']);
+
+        $rc = $this->auth->authenticate();
+        $this->assertUserLogin($rc);
+        // Check that the token auth is correct in the result
+        $this->assertEquals($user['tokenAuth'], $rc->getTokenAuth());
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function testAuthenticateSuccessWithSuperUserPassword()
+    {
+        $user = $this->_setUpUser();
+        $this->_setUpSuperUserAccessViaDb();
+
+        $this->auth->setLogin($user['login']);
+        $this->auth->setPassword($user['password']);
+
+        $rc = $this->auth->authenticate();
+        $this->assertSuperUserLogin($rc, 'user');
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function testAuthenticateFailsWithInvalidPassword()
+    {
+        $user = $this->_setUpUser();
+        $this->auth->setLogin($user['login']);
+        $this->auth->setPassword('foo bar');
+
+        $rc = $this->auth->authenticate();
+        $this->assertFailedLogin($rc);
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function testAuthenticateFirstWithPassword()
+    {
+        $user = $this->_setUpUser();
+        $this->auth->setLogin($user['login']);
+        $this->auth->setPassword($user['password']); // correct password
+        $this->auth->setTokenAuth('foo bar'); // invalid token
+
+        // Authentication should succeed because authenticating via password is favored
+        $rc = $this->auth->authenticate();
+        $this->assertUserLogin($rc);
+        // Check that the token auth is correct in the result
+        $this->assertEquals($user['tokenAuth'], $rc->getTokenAuth());
+    }
+
+    /**
+     * @group Plugins
+     * @see https://github.com/piwik/piwik/issues/8548
+     */
+    public function testAuthenticateWithPasswordIsCaseInsensitiveForLogin()
+    {
+        $user = $this->_setUpUser();
+        $this->auth->setLogin('uSeR');
+        $this->auth->setPassword($user['password']);
+
+        $rc = $this->auth->authenticate();
+        $this->assertUserLogin($rc);
+        // Check that the login + token auth is correct in the result
+        $this->assertEquals($user['login'], $rc->getIdentity());
+        $this->assertEquals($user['tokenAuth'], $rc->getTokenAuth());
+    }
+
     protected function _setUpUser()
     {
         $user = array('login'    => 'user',
@@ -393,7 +465,7 @@ class LoginTest extends IntegrationTestCase
 
     private function assertUserLogin(AuthResult $authResult, $login = 'user', $tokenLength = 32)
     {
-        $this->assertEquals(AuthResult::SUCCESS, $authResult->getCode());
+        $this->assertEquals(AuthResult::SUCCESS, $authResult->getCode(), 'Authentication failed');
         $this->assertEquals($login, $authResult->getIdentity());
         $this->assertEquals($tokenLength, strlen($authResult->getTokenAuth()));
     }
