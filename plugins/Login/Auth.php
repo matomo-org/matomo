@@ -99,7 +99,7 @@ class Auth implements \Piwik\Auth
     {
         $this->setTokenAuth($user['token_auth']);
 
-        $isSuperUser = $user['superuser_access'];
+        $isSuperUser = (int) $user['superuser_access'];
         $code = $isSuperUser ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
 
         return new AuthResult($code, $user['login'], $user['token_auth']);
