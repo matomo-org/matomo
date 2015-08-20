@@ -322,12 +322,12 @@ class ScheduledReports extends \Piwik\Plugin
             $segmentInfo = Piwik::translate('ScheduledReports_SegmentAppliedToReports', $segment['name']);
         }
 
-        $messageFindBelow = Piwik::translate('ScheduledReports_PleaseFindBelow', array($periods[$report['period']], $reportTitle));
+        $messageFindAttached = Piwik::translate('ScheduledReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
+        $messageFindBelow    = Piwik::translate('ScheduledReports_PleaseFindBelow', array($periods[$report['period']], $reportTitle));
+        $messageSentFrom     = '';
 
         $piwikUrl = SettingsPiwik::getPiwikUrl();
-        if (empty($piwikUrl)) {
-            $messageSentFrom = '';
-        } else {
+        if (!empty($piwikUrl)) {
             $messageSentFrom = Piwik::translate('ScheduledReports_SentFromX', $piwikUrl);
         }
 
@@ -336,7 +336,7 @@ class ScheduledReports extends \Piwik\Plugin
 
                 // Needed when using images as attachment with cid
                 $mail->setType(Zend_Mime::MULTIPART_RELATED);
-                $message .= "<br/>" . $messageFindBelow . "<br/>" . $messageSentFrom;
+                $message .= "<br/>$messageFindBelow<br/>$messageSentFrom";
 
                 if ($displaySegmentInfo) {
                     $message .= " " . $segmentInfo;
@@ -346,7 +346,7 @@ class ScheduledReports extends \Piwik\Plugin
                 break;
 
             case 'csv':
-                $message .= "\n" . $messageFindBelow . "\n" . $messageSentFrom;
+                $message .= "\n$messageFindAttached\n$messageSentFrom";
 
                 if ($displaySegmentInfo) {
                     $message .= " " . $segmentInfo;
@@ -364,7 +364,7 @@ class ScheduledReports extends \Piwik\Plugin
 
             default:
             case 'pdf':
-                $message .= "\n" . $messageFindBelow . "\n" . $messageSentFrom;
+                $message .= "\n$messageFindAttached\n$messageSentFrom";
 
                 if ($displaySegmentInfo) {
                     $message .= " " . $segmentInfo;
