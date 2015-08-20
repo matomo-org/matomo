@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Site 1 - Site search</website>
-	<prettyDate>January 1 – July 31, 2010</prettyDate>
+	<prettyDate>1 Jan 10 - 31 Jul 10</prettyDate>
 	<metadata>
 		<category>Site Search</category>
 		<name>Search Keywords with No Results</name>
@@ -29,28 +29,28 @@
 		<exit_rate>% Search Exits</exit_rate>
 	</columns>
 	<reportData>
-		<result prettyDate="January 2010">
+		<result prettyDate="2010, January">
 			<row>
 				<label>No Result Keyword!</label>
 				<nb_visits>2</nb_visits>
 				<exit_rate>0%</exit_rate>
 			</row>
 		</result>
-		<result prettyDate="February 2010" />
-		<result prettyDate="March 2010" />
-		<result prettyDate="April 2010" />
-		<result prettyDate="May 2010" />
-		<result prettyDate="June 2010" />
-		<result prettyDate="July 2010" />
+		<result prettyDate="2010, February" />
+		<result prettyDate="2010, March" />
+		<result prettyDate="2010, April" />
+		<result prettyDate="2010, May" />
+		<result prettyDate="2010, June" />
+		<result prettyDate="2010, July" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="January 2010" />
-		<result prettyDate="February 2010" />
-		<result prettyDate="March 2010" />
-		<result prettyDate="April 2010" />
-		<result prettyDate="May 2010" />
-		<result prettyDate="June 2010" />
-		<result prettyDate="July 2010" />
+		<result prettyDate="2010, January" />
+		<result prettyDate="2010, February" />
+		<result prettyDate="2010, March" />
+		<result prettyDate="2010, April" />
+		<result prettyDate="2010, May" />
+		<result prettyDate="2010, June" />
+		<result prettyDate="2010, July" />
 	</reportMetadata>
 	<reportTotal>
 		<nb_visits>2</nb_visits>

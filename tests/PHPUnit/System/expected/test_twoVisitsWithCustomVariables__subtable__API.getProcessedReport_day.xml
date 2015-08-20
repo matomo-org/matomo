@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Piwik test</website>
-	<prettyDate>Sunday, January 3, 2010</prettyDate>
+	<prettyDate>Sunday 3 January 2010</prettyDate>
 	<metadata>
 		<category>Visitors</category>
 		<name>Custom Variables</name>
