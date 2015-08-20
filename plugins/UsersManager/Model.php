@@ -149,6 +149,8 @@ class Model
 
     public function getUser($userLogin)
     {
+        // By default this will search with a case-insensitive comparison which is what
+        // we want: users can log in regardless of the case they use
         return $this->getDb()->fetchRow("SELECT * FROM " . $this->table . " WHERE login = ?", $userLogin);
     }
 
