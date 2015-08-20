@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Site 1 - Site search</website>
-	<prettyDate>1 Jan 10 - 31 Jul 10</prettyDate>
+	<prettyDate>January 1 – July 31, 2010</prettyDate>
 	<metadata>
 		<category>Visitors</category>
 		<subcategory>Custom Variables</subcategory>
@@ -51,7 +51,7 @@
 		<revenue>Revenue</revenue>
 	</columns>
 	<reportData>
-		<result prettyDate="2010, January">
+		<result prettyDate="January 2010">
 			<row>
 				<label>_pk_scount</label>
 				<nb_visits>7</nb_visits>
@@ -71,15 +71,15 @@
 				<revenue>$ 0</revenue>
 			</row>
 		</result>
-		<result prettyDate="2010, February" />
-		<result prettyDate="2010, March" />
-		<result prettyDate="2010, April" />
-		<result prettyDate="2010, May" />
-		<result prettyDate="2010, June" />
-		<result prettyDate="2010, July" />
+		<result prettyDate="February 2010" />
+		<result prettyDate="March 2010" />
+		<result prettyDate="April 2010" />
+		<result prettyDate="May 2010" />
+		<result prettyDate="June 2010" />
+		<result prettyDate="July 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="2010, January">
+		<result prettyDate="January 2010">
 			<row>
 				
 				<idsubdatatable>3230</idsubdatatable>
@@ -89,12 +89,12 @@
 				<idsubdatatable>3229</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="2010, February" />
-		<result prettyDate="2010, March" />
-		<result prettyDate="2010, April" />
-		<result prettyDate="2010, May" />
-		<result prettyDate="2010, June" />
-		<result prettyDate="2010, July" />
+		<result prettyDate="February 2010" />
+		<result prettyDate="March 2010" />
+		<result prettyDate="April 2010" />
+		<result prettyDate="May 2010" />
+		<result prettyDate="June 2010" />
+		<result prettyDate="July 2010" />
 	</reportMetadata>
 	<reportTotal>
 		<nb_visits>11</nb_visits>

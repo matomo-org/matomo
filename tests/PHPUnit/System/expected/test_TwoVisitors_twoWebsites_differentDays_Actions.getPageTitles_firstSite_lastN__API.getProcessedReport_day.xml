@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Site 1</website>
-	<prettyDate>3 Jan 10 - 9 Jan 10</prettyDate>
+	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
 		<category>Actions</category>
 		<subcategory>Page titles</subcategory>
@@ -55,7 +55,7 @@
 		<avg_time_generation>Avg. generation time</avg_time_generation>
 	</columns>
 	<reportData>
-		<result prettyDate="Sunday 3 January 2010">
+		<result prettyDate="Sunday, January 3, 2010">
 			<row>
 				<label> first page view</label>
 				<nb_visits>2</nb_visits>
@@ -66,7 +66,7 @@
 				<avg_time_generation>0.14s</avg_time_generation>
 			</row>
 		</result>
-		<result prettyDate="Monday 4 January 2010">
+		<result prettyDate="Monday, January 4, 2010">
 			<row>
 				<label>Page Name not defined</label>
 				<nb_visits>1</nb_visits>
@@ -77,7 +77,7 @@
 				<avg_time_generation>0.22s</avg_time_generation>
 			</row>
 		</result>
-		<result prettyDate="Tuesday 5 January 2010">
+		<result prettyDate="Tuesday, January 5, 2010">
 			<row>
 				<label>second visitor</label>
 				<nb_visits>2</nb_visits>
@@ -97,7 +97,7 @@
 				<avg_time_generation>0.45s</avg_time_generation>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 6 January 2010">
+		<result prettyDate="Wednesday, January 6, 2010">
 			<row>
 				<label>second visitor</label>
 				<nb_visits>2</nb_visits>
@@ -117,7 +117,7 @@
 				<avg_time_generation>0.45s</avg_time_generation>
 			</row>
 		</result>
-		<result prettyDate="Thursday 7 January 2010">
+		<result prettyDate="Thursday, January 7, 2010">
 			<row>
 				<label>second visitor</label>
 				<nb_visits>2</nb_visits>
@@ -137,7 +137,7 @@
 				<avg_time_generation>0.45s</avg_time_generation>
 			</row>
 		</result>
-		<result prettyDate="Friday 8 January 2010">
+		<result prettyDate="Friday, January 8, 2010">
 			<row>
 				<label>second visitor</label>
 				<nb_visits>2</nb_visits>
@@ -157,7 +157,7 @@
 				<avg_time_generation>0.45s</avg_time_generation>
 			</row>
 		</result>
-		<result prettyDate="Saturday 9 January 2010">
+		<result prettyDate="Saturday, January 9, 2010">
 			<row>
 				<label>second visitor</label>
 				<nb_visits>2</nb_visits>
@@ -179,9 +179,9 @@
 		</result>
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Sunday 3 January 2010" />
-		<result prettyDate="Monday 4 January 2010" />
-		<result prettyDate="Tuesday 5 January 2010">
+		<result prettyDate="Sunday, January 3, 2010" />
+		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Tuesday, January 5, 2010">
 			<row>
 				
 				<idsubdatatable>17148</idsubdatatable>
@@ -191,7 +191,7 @@
 				<idsubdatatable>17147</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 6 January 2010">
+		<result prettyDate="Wednesday, January 6, 2010">
 			<row>
 				
 				<idsubdatatable>17152</idsubdatatable>
@@ -201,7 +201,7 @@
 				<idsubdatatable>17151</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Thursday 7 January 2010">
+		<result prettyDate="Thursday, January 7, 2010">
 			<row>
 				
 				<idsubdatatable>17156</idsubdatatable>
@@ -211,7 +211,7 @@
 				<idsubdatatable>17155</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Friday 8 January 2010">
+		<result prettyDate="Friday, January 8, 2010">
 			<row>
 				
 				<idsubdatatable>17160</idsubdatatable>
@@ -221,7 +221,7 @@
 				<idsubdatatable>17159</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Saturday 9 January 2010">
+		<result prettyDate="Saturday, January 9, 2010">
 			<row>
 				
 				<idsubdatatable>17164</idsubdatatable>
