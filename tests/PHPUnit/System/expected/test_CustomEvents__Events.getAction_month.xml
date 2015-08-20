@@ -85,7 +85,7 @@
 		<segment>eventAction==play25%25</segment>
 		<subtable>
 			<row>
-				<label>La fiancée de l&amp;#039;eau</label>
+				<label>La fiancée de l'eau</label>
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -121,7 +121,7 @@
 		<segment>eventAction==play50%25</segment>
 		<subtable>
 			<row>
-				<label>La fiancée de l&amp;#039;eau</label>
+				<label>La fiancée de l'eau</label>
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -157,7 +157,7 @@
 		<segment>eventAction==play75%25</segment>
 		<subtable>
 			<row>
-				<label>La fiancée de l&amp;#039;eau</label>
+				<label>La fiancée de l'eau</label>
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -193,7 +193,7 @@
 		<segment>eventAction==playEnd</segment>
 		<subtable>
 			<row>
-				<label>La fiancée de l&amp;#039;eau</label>
+				<label>La fiancée de l'eau</label>
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -229,7 +229,7 @@
 		<segment>eventAction==rating</segment>
 		<subtable>
 			<row>
-				<label>La fiancée de l&amp;#039;eau</label>
+				<label>La fiancée de l'eau</label>
 				<nb_visits>2</nb_visits>
 				<nb_events>4</nb_events>
 				<nb_events_with_value>4</nb_events_with_value>
@@ -315,7 +315,7 @@
 		<segment>eventAction==play</segment>
 		<subtable>
 			<row>
-				<label>La fiancée de l&amp;#039;eau</label>
+				<label>La fiancée de l'eau</label>
 				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>

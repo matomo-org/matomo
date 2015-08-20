@@ -259,7 +259,7 @@
 				<segment>customVariableName==var2</segment>
 				<subtable>
 					<row>
-						<label>&amp;#039;looking at &quot;\profile page&quot;&amp;#039;</label>
+						<label>'looking at &quot;\profile page&quot;'</label>
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>

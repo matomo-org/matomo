@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Site 1 - Site search</website>
-	<prettyDate>3 Jan 10 - 9 Jan 10</prettyDate>
+	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
 		<category>Actions</category>
 		<subcategory>Pages</subcategory>
@@ -41,7 +41,7 @@
 		<exit_rate>Exit rate</exit_rate>
 	</columns>
 	<reportData>
-		<result prettyDate="Sunday 3 January 2010">
+		<result prettyDate="Sunday, January 3, 2010">
 			<row>
 				<label>/index.htm</label>
 				<nb_visits>1</nb_visits>
@@ -67,15 +67,15 @@
 				<exit_rate>0%</exit_rate>
 			</row>
 		</result>
-		<result prettyDate="Monday 4 January 2010" />
-		<result prettyDate="Tuesday 5 January 2010" />
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
+		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Tuesday, January 5, 2010" />
+		<result prettyDate="Wednesday, January 6, 2010" />
+		<result prettyDate="Thursday, January 7, 2010" />
+		<result prettyDate="Friday, January 8, 2010" />
+		<result prettyDate="Saturday, January 9, 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Sunday 3 January 2010">
+		<result prettyDate="Sunday, January 3, 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
 				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
@@ -89,12 +89,12 @@
 				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Frandom%3DPAGEVIEW%2C+NOT+SEARCH%26mykwd%3D%26IS_FOLLOWING_SEARCH+ONCE</segment>
 			</row>
 		</result>
-		<result prettyDate="Monday 4 January 2010" />
-		<result prettyDate="Tuesday 5 January 2010" />
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
+		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Tuesday, January 5, 2010" />
+		<result prettyDate="Wednesday, January 6, 2010" />
+		<result prettyDate="Thursday, January 7, 2010" />
+		<result prettyDate="Friday, January 8, 2010" />
+		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
 		<nb_visits>3</nb_visits>
