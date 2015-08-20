@@ -129,11 +129,11 @@
                     },
 
                     'finally': function () {
-                        return addAbortMethod(to['finally'].apply(to, arguments), deferred);
+                        return addAbortMethod(to.finally.apply(to, arguments), deferred);
                     },
 
                     'catch': function () {
-                        return addAbortMethod(to['catch'].apply(to, arguments), deferred);
+                        return addAbortMethod(to.catch.apply(to, arguments), deferred);
                     },
 
                     abort: function () {
@@ -275,7 +275,7 @@
                     }
 
                     deferred.resolve(response);
-                })['catch'](function () {
+                }).catch(function () {
                     deferred.reject.apply(deferred, arguments);
                 });
 
