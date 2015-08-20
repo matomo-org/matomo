@@ -132,7 +132,9 @@
                         scope.ajaxForm.data[name] = val;
 
                         if (!skipScopeApply) {
-                            scope.$apply();
+                            setTimeout(function () {
+                                scope.$apply();
+                            }, 0);
                         }
                     }
                 };

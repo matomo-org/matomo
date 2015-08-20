@@ -11,19 +11,20 @@ namespace Piwik\Plugin;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Cache;
-use Piwik\CacheId;
 use Piwik\Columns\Dimension;
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\Sort;
-use Piwik\Menu\MenuReporting;
 use Piwik\Metrics;
 use Piwik\Cache as PiwikCache;
 use Piwik\Piwik;
-use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\WidgetsList;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
+use Piwik\Plugin\Reports;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Exception;
+use Piwik\Widget\WidgetsList;
+use Piwik\Report\ReportWidgetFactory;
 
 /**
  * Defines a new report. This class contains all information a report defines except the corresponding API method which
@@ -82,30 +83,14 @@ class Report
      * @var string
      * @api
      */
-    protected $category;
+    protected $categoryId;
 
     /**
-     * The translation key of the widget title. If a widget title is set, the platform will automatically configure/add
-     * a widget for this report. Alternatively, this behavior can be overwritten in {@link configureWidget()}.
+     * The translation key of the subcategory the report belongs to.
      * @var string
      * @api
      */
-    protected $widgetTitle;
-
-    /**
-     * Optional widget params that will be appended to the widget URL if a {@link $widgetTitle} is set.
-     * @var array
-     * @api
-     */
-    protected $widgetParams = array();
-
-    /**
-     * The translation key of the menu title. If a menu title is set, the platform will automatically add a menu item
-     * to the reporting menu. Alternatively, this behavior can be overwritten in {@link configureReportingMenu()}.
-     * @var string
-     * @api
-     */
-    protected $menuTitle;
+    protected $subcategoryId;
 
     /**
      * An array of supported metrics. Eg `array('nb_visits', 'nb_actions', ...)`. Defaults to the platform default
@@ -204,33 +189,14 @@ class Report
     protected $defaultSortOrderDesc = true;
 
     /**
-     * @var array
-     * @ignore
-     */
-    public static $orderOfReports = array(
-        'General_MultiSitesSummary',
-        'VisitsSummary_VisitsSummary',
-        'Goals_Ecommerce',
-        'General_Actions',
-        'Events_Events',
-        'Actions_SubmenuSitesearch',
-        'Referrers_Referrers',
-        'Goals_Goals',
-        'General_Visitors',
-        'DevicesDetection_DevicesDetection',
-        'General_VisitorSettings',
-        'API'
-    );
-
-    /**
      * The constructur initializes the module, action and the default metrics. If you want to overwrite any of those
      * values or if you want to do any work during initializing overwrite the method {@link init()}.
      * @ignore
      */
     final public function __construct()
     {
-        $classname    = get_class($this);
-        $parts        = explode('\\', $classname);
+        $classname = get_class($this);
+        $parts = explode('\\', $classname);
 
         if (5 === count($parts)) {
             $this->module = $parts[2];
@@ -268,9 +234,9 @@ class Report
      * containing a message that will be displayed to the user. You can overwrite this message in case you want to
      * customize the error message. Eg.
      * ```
-     if (!$this->isEnabled()) {
-         throw new Exception('Setting XYZ is not enabled or the user has not enough permission');
-     }
+     * if (!$this->isEnabled()) {
+     * throw new Exception('Setting XYZ is not enabled or the user has not enough permission');
+     * }
      * ```
      * @throws \Exception
      * @api
@@ -325,55 +291,48 @@ class Report
      */
     public function render()
     {
+        $viewDataTable = Common::getRequestVar('viewDataTable', false, 'string');
+        $fixed = Common::getRequestVar('forceView', 0, 'int');
+
+        $module = $this->getModule();
+        $action = $this->getAction();
+
         $apiProxy = Proxy::getInstance();
 
-        if (!$apiProxy->isExistingApiAction($this->module, $this->action)) {
-            throw new Exception("Invalid action name '$this->action' for '$this->module' plugin.");
+        if (!$apiProxy->isExistingApiAction($module, $action)) {
+            throw new Exception("Invalid action name '$module' for '$action' plugin.");
         }
 
-        $apiAction = $apiProxy->buildApiActionName($this->module, $this->action);
+        $apiAction = $apiProxy->buildApiActionName($module, $action);
 
-        $view = ViewDataTableFactory::build(null, $apiAction, $this->module . '.' . $this->action);
+        $view = ViewDataTableFactory::build($viewDataTable, $apiAction, $module . '.' . $action, $fixed);
 
-        $rendered  = $view->render();
-
-        return $rendered;
+        return $view->render();
     }
 
     /**
-     * By default a widget will be configured for this report if a {@link $widgetTitle} is set. If you want to customize
-     * the way the widget is added or modify any other behavior you can overwrite this method.
-     * @param WidgetsList $widget
+     * Let's you add any amount of widgets for this report. If a report defines a {@link $categoryId} and a
+     * {@link $subcategoryId} a widget will be generated automatically.
+     *
+     * Example to add a widget manually by overwriting this method in your report:
+     * $widgetsList->addWidgetConfig($factory->createWidget());
+     *
+     * If you want to have the name and the order of the widget differently to the name and order of the report you can
+     * do the following:
+     * $widgetsList->addWidgetConfig($factory->createWidget()->setName('Custom')->setOrder(5));
+     *
+     * If you want to add a widget to any container defined by your plugin or by another plugin you can do
+     * this:
+     * $widgetsList->addToContainerWidget($containerId = 'Products', $factory->createWidget());
+     *
+     * @param WidgetsList $widgetsList
+     * @param ReportWidgetFactory $factory
      * @api
      */
-    public function configureWidget(WidgetsList $widget)
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
     {
-        if ($this->widgetTitle) {
-            $params = array();
-            if (!empty($this->widgetParams) && is_array($this->widgetParams)) {
-                $params = $this->widgetParams;
-            }
-            $widget->add($this->category, $this->widgetTitle, $this->module, $this->action, $params);
-        }
-    }
-
-    /**
-     * By default a menu item will be added to the reporting menu if a {@link $menuTitle} is set. If you want to
-     * customize the way the item is added or modify any other behavior you can overwrite this method. For instance
-     * in case you need to add additional url properties beside module and action which are added by default.
-     * @param \Piwik\Menu\MenuReporting $menu
-     * @api
-     */
-    public function configureReportingMenu(MenuReporting $menu)
-    {
-        if ($this->menuTitle) {
-            $action = $this->getMenuControllerAction();
-            if ($this->isEnabled()) {
-                $menu->addItem($this->category,
-                               $this->menuTitle,
-                               array('module' => $this->module, 'action' => $action),
-                               $this->order);
-            }
+        if ($this->categoryId && $this->subcategoryId) {
+            $widgetsList->addWidgetConfig($factory->createWidget());
         }
     }
 
@@ -549,11 +508,14 @@ class Report
      * {@link configureReportMetadata()}.
      * @return array
      * @ignore
+     *
+     * TODO we should move this out to API::getReportMetadata
      */
     protected function buildReportMetadata()
     {
         $report = array(
-            'category' => $this->getCategory(),
+            'category' => $this->getCategoryId(),
+            'subcategory' => $this->getSubcategoryId(),
             'name'     => $this->getName(),
             'module'   => $this->getModule(),
             'action'   => $this->getAction()
@@ -585,6 +547,20 @@ class Report
 
         if (true === $this->constantRowsCount) {
             $report['constantRowsCount'] = $this->constantRowsCount;
+        }
+
+        $relatedReports = $this->getRelatedReports();
+        if (!empty($relatedReports)) {
+            $report['relatedReports'] = array();
+            foreach ($relatedReports as $relatedReport) {
+                if (!empty($relatedReport)) {
+                    $report['relatedReports'][] = array(
+                        'name' => $relatedReport->getName(),
+                        'module' => $relatedReport->getModule(),
+                        'action' => $relatedReport->getAction()
+                    );
+                }
+            }
         }
 
         $report['order'] = $this->order;
@@ -625,18 +601,6 @@ class Report
     }
 
     /**
-     * Gets the translated widget title if one is defined.
-     * @return string
-     * @ignore
-     */
-    public function getWidgetTitle()
-    {
-        if ($this->widgetTitle) {
-            return Piwik::translate($this->widgetTitle);
-        }
-    }
-
-    /**
      * Get the name of the report
      * @return string
      * @ignore
@@ -666,24 +630,29 @@ class Report
         return $this->action;
     }
 
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
     /**
      * Get the translated name of the category the report belongs to.
      * @return string
      * @ignore
      */
-    public function getCategory()
+    public function getCategoryId()
     {
-        return Piwik::translate($this->category);
+        return $this->categoryId;
     }
 
     /**
-     * Get the translation key of the category the report belongs to.
+     * Get the translated name of the subcategory the report belongs to.
      * @return string
      * @ignore
      */
-    public function getCategoryKey()
+    public function getSubcategoryId()
     {
-        return $this->category;
+        return $this->subcategoryId;
     }
 
     /**
@@ -703,16 +672,6 @@ class Report
     public function getOrder()
     {
         return $this->order;
-    }
-
-    /**
-     * Get the menu title if one is defined.
-     * @return string
-     * @ignore
-     */
-    public function getMenuTitle()
-    {
-        return $this->menuTitle;
     }
 
     /**
@@ -740,7 +699,7 @@ class Report
 
         list($subtableReportModule, $subtableReportAction) = $this->getSubtableApiMethod();
 
-        $subtableReport = self::factory($subtableReportModule, $subtableReportAction);
+        $subtableReport = Reports::factory($subtableReportModule, $subtableReportAction);
         if (empty($subtableReport)) {
             return null;
         }
@@ -786,103 +745,6 @@ class Report
         return Request::processRequest($module . '.' . $action, $paramOverride);
     }
 
-    /**
-     * Get an instance of a specific report belonging to the given module and having the given action.
-     * @param  string $module
-     * @param  string $action
-     * @return null|\Piwik\Plugin\Report
-     * @api
-     */
-    public static function factory($module, $action)
-    {
-        $listApiToReport = self::getMapOfModuleActionsToReport();
-        $api = $module . '.' . ucfirst($action);
-
-        if (!array_key_exists($api, $listApiToReport)) {
-            return null;
-        }
-
-        $klassName = $listApiToReport[$api];
-
-        return new $klassName;
-    }
-
-    private static function getMapOfModuleActionsToReport()
-    {
-        $cacheId = CacheId::pluginAware('ReportFactoryMap');
-
-        $cache = Cache::getEagerCache();
-        if ($cache->contains($cacheId)) {
-            $mapApiToReport = $cache->fetch($cacheId);
-        } else {
-            $reports = self::getAllReports();
-
-            $mapApiToReport = array();
-            foreach ($reports as $report) {
-                $key = $report->getModule() . '.' . ucfirst($report->getAction());
-                $mapApiToReport[$key] = get_class($report);
-            }
-
-            $cache->save($cacheId, $mapApiToReport);
-        }
-
-        return $mapApiToReport;
-    }
-
-    /**
-     * Returns a list of all available reports. Even not enabled reports will be returned. They will be already sorted
-     * depending on the order and category of the report.
-     * @return \Piwik\Plugin\Report[]
-     * @api
-     */
-    public static function getAllReports()
-    {
-        $reports = self::getAllReportClasses();
-        $cacheId = CacheId::languageAware('Reports' . md5(implode('', $reports)));
-        $cache   = PiwikCache::getTransientCache();
-
-
-        if (!$cache->contains($cacheId)) {
-            $instances = array();
-
-            foreach ($reports as $report) {
-                $instances[] = new $report();
-            }
-
-            usort($instances, array('self', 'sort'));
-
-            $cache->save($cacheId, $instances);
-        }
-
-        return $cache->fetch($cacheId);
-    }
-
-    /**
-     * Returns class names of all Report metadata classes.
-     *
-     * @return string[]
-     * @api
-     */
-    public static function getAllReportClasses()
-    {
-        return PluginManager::getInstance()->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
-    }
-
-    /**
-     * API metadata are sorted by category/name,
-     * with a little tweak to replicate the standard Piwik category ordering
-     *
-     * @param Report $a
-     * @param Report $b
-     * @return int
-     */
-    private static function sort($a, $b)
-    {
-        return ($category = strcmp(array_search($a->category, self::$orderOfReports), array_search($b->category, self::$orderOfReports))) == 0
-            ? ($a->order < $b->order ? -1 : 1)
-            : $category;
-    }
-
     private function getMetricTranslations($metricsToTranslate)
     {
         $translations = Metrics::getDefaultMetricTranslations();
@@ -901,11 +763,6 @@ class Report
         }
 
         return $metrics;
-    }
-
-    private function getMenuControllerAction()
-    {
-        return self::PREFIX_ACTION_IN_MENU . ucfirst($this->action);
     }
 
     private function getSubtableApiMethod()

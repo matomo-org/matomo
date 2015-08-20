@@ -15,6 +15,8 @@ use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
 use Piwik\Plugins\Actions\Columns\PageUrl;
 use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 class GetPageUrls extends Base
 {
@@ -37,10 +39,13 @@ class GetPageUrls extends Base
             new AveragePageGenerationTime()
         );
 
-        $this->segmentSql = 'log_visit.visit_entry_idaction_url';
+        $this->segmentSql  = 'log_visit.visit_entry_idaction_url';
+        $this->subcategoryId = 'General_Pages';
+    }
 
-        $this->menuTitle   = 'General_Pages';
-        $this->widgetTitle = 'General_Pages';
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
+    {
+        $widgetsList->addWidgetConfig($factory->createWidget()->setName($this->subcategoryId));
     }
 
     public function getMetrics()

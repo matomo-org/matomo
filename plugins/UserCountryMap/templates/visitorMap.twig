@@ -85,7 +85,7 @@
 
     if ($('#dashboardWidgetsArea').length) {
         // dashboard mode
-        var $widgetContent = $('.UserCountryMap').parents('.widgetContent');
+        var $widgetContent = $('.UserCountryMap').parents('.widgetContent').first();
 
         $widgetContent.on('widget:create',function (evt, widget) {
             visitorMap = new UserCountryMap.VisitorMap(config, widget);

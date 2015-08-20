@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\Live\Reports;
 
-use Piwik\Menu\MenuReporting;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\Live\VisitorLog;
-use Piwik\WidgetsList;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 class GetLastVisitsDetails extends Base
 {
@@ -20,8 +20,9 @@ class GetLastVisitsDetails extends Base
     protected function init()
     {
         parent::init();
-        $this->widgetTitle = 'Live_VisitorLog';
         $this->order = 2;
+        $this->categoryId = 'General_Visitors';
+        $this->subcategoryId = 'Live_VisitorLog';
     }
 
     public function getDefaultTypeViewDataTable()
@@ -34,17 +35,14 @@ class GetLastVisitsDetails extends Base
         return true;
     }
 
-    public function configureReportingMenu(MenuReporting $menu)
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
     {
-        if ($this->isEnabled()) {
-            $url = array('module' => $this->module, 'action' => 'indexVisitorLog');
-            $menu->addVisitorsItem($this->widgetTitle, $url, $order = 5);
-        }
-    }
-
-    public function configureWidget(WidgetsList $widget)
-    {
-        $widget->add($this->category, $this->widgetTitle, $this->module, 'getVisitorLog', array('small' => 1));
+        $widget = $factory->createWidget()
+                          ->forceViewDataTable(VisitorLog::ID)
+                          ->setName('Live_VisitorLog')
+                          ->setOrder(10)
+                          ->setParameters(array('small' => 1));
+        $widgetsList->addWidgetConfig($widget);
     }
 
 }

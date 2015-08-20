@@ -12,7 +12,8 @@ describe("SegmentSelectorEditorTest", function () {
     
     this.timeout(0);
 
-    var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09";
+    var generalParams = 'idSite=1&period=year&date=2012-08-09';
+    var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
 
     it("should load correctly", function (done) {
         expect.screenshot("0_initial").to.be.captureSelector(selectorsToCapture, function (page) {
@@ -149,7 +150,9 @@ describe("SegmentSelectorEditorTest", function () {
                 });
             });
 
-            page.click('button.saveAndApply');
+            page.evaluate(function () {
+                $('button.saveAndApply').click();
+            });
 
             page.click('.segmentationContainer');
         }, done);

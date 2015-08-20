@@ -1,0 +1,31 @@
+{% import '@CoreVisualizations/macros.twig' as macros %}
+
+{% if not isWidget %}
+<div class="row">
+    <div class="col-md-6">
+{% endif %}
+
+        {% for key, sparkline in sparklines %}
+            {% if key is even %}
+                {{ macros.singleSparkline(sparkline) }}
+            {% endif %}
+        {% endfor %}
+
+{% if not isWidget %}
+    </div>
+    <div class="col-md-6">
+{% endif %}
+
+        {% for key, sparkline in sparklines %}
+            {% if key is odd %}
+                {{ macros.singleSparkline(sparkline) }}
+            {% endif %}
+        {% endfor %}
+
+{% if not isWidget %}
+    </div>
+</div>
+{% endif %}
+
+{% include "_sparklineFooter.twig" %}
+

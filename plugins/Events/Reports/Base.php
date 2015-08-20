@@ -10,19 +10,31 @@ namespace Piwik\Plugins\Events\Reports;
 
 use Piwik\Plugins\Events\API;
 use Piwik\Plugins\Events\Columns\Metrics\AverageEventValue;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 abstract class Base extends \Piwik\Plugin\Report
 {
     protected function init()
     {
-        $this->category = 'Events_Events';
+        $this->categoryId = 'General_Actions';
+        $this->subcategoryId = 'Events_Events';
+
         $this->processedMetrics = array(
             new AverageEventValue()
         );
-
-        $this->widgetParams = array(
-            'secondaryDimension' => API::getInstance()->getDefaultSecondaryDimension($this->action)
-        );
     }
+
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
+    {
+        if (!$this->isSubtableReport) {
+            $widget = $factory->createWidget()->setParameters(array(
+                'secondaryDimension' => API::getInstance()->getDefaultSecondaryDimension($this->action)
+            ));
+
+            $widgetsList->addToContainerWidget('Events', $widget);
+        }
+    }
+
 
 }

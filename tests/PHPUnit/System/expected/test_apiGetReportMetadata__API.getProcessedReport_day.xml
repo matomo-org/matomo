@@ -4,6 +4,7 @@
 	<prettyDate>Sunday 4 January 2009</prettyDate>
 	<metadata>
 		<category>Visitors</category>
+		<subcategory>Locations</subcategory>
 		<name>Country</name>
 		<module>UserCountry</module>
 		<action>getCountry</action>

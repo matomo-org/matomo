@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Dashboard;
 
 use Piwik\Db;
-use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UserPreferences;
@@ -19,24 +18,6 @@ use Piwik\Site;
  */
 class Menu extends \Piwik\Plugin\Menu
 {
-    public function configureReportingMenu(MenuReporting $menu)
-    {
-        $menu->addItem('Dashboard_Dashboard', '', $this->urlForAction('embeddedIndex', array('idDashboard' => 1)), 5);
-
-        if (!Piwik::isUserIsAnonymous()) {
-            $login = Piwik::getCurrentUserLogin();
-
-            $dashboard  = new Dashboard();
-            $dashboards = $dashboard->getAllDashboards($login);
-
-            $pos = 0;
-            foreach ($dashboards as $dashboard) {
-                $menu->addItem('Dashboard_Dashboard', $dashboard['name'], $this->urlForAction('embeddedIndex', array('idDashboard' => $dashboard['iddashboard'])), $pos);
-                $pos++;
-            }
-        }
-    }
-
     public function configureTopMenu(MenuTop $menu)
     {
         $userPreferences = new UserPreferences();

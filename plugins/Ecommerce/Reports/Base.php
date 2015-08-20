@@ -8,20 +8,17 @@
  */
 namespace Piwik\Plugins\Ecommerce\Reports;
 
-use Piwik\API\Proxy;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Site;
-use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
-use Piwik\WidgetsList;
 
 abstract class Base extends Report
 {
     protected function init()
     {
         $this->module   = 'Goals';
-        $this->category = 'Goals_Ecommerce';
+        $this->categoryId = 'Goals_Ecommerce';
     }
 
     public function isEnabled()

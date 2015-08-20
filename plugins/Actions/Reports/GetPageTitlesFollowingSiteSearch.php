@@ -15,6 +15,7 @@ use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
 use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
 use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
+use Piwik\Plugin\Reports;
 
 class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
 {
@@ -32,7 +33,8 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
             new AveragePageGenerationTime()
         );
         $this->order = 19;
-        $this->widgetTitle  = 'Actions_WidgetPageTitlesFollowingSearch';
+
+        $this->subcategoryId = 'Actions_SubmenuSitesearch';
     }
 
     public function configureView(ViewDataTable $view)
@@ -80,7 +82,7 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
     public function getRelatedReports()
     {
         return array(
-            self::factory('Actions', 'getPageUrlsFollowingSiteSearch'),
+            Reports::factory('Actions', 'getPageUrlsFollowingSiteSearch'),
         );
     }
 }

@@ -15,6 +15,9 @@ use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
 use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
 use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
+use Piwik\Plugin\Reports;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 class GetExitPageTitles extends Base
 {
@@ -37,8 +40,13 @@ class GetExitPageTitles extends Base
         $this->order   = 7;
 
         $this->actionToLoadSubTables = $this->action;
+    }
 
-        $this->widgetTitle = 'Actions_WidgetExitPageTitles';
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
+    {
+        // we have to do it manually since it's only done automatically if a subcategoryId is specified,
+        // we do not set a subcategoryId since this report is not supposed to be shown in the UI
+        $widgetsList->addWidgetConfig($factory->createWidget());
     }
 
     public function getProcessedMetrics()
@@ -86,8 +94,8 @@ class GetExitPageTitles extends Base
     public function getRelatedReports()
     {
         return array(
-            self::factory('Actions', 'getPageTitles'),
-            self::factory('Actions', 'getExitPageUrls'),
+            Reports::factory('Actions', 'getPageTitles'),
+            Reports::factory('Actions', 'getExitPageUrls'),
         );
     }
 }

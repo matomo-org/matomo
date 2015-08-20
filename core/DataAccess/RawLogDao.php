@@ -11,7 +11,6 @@ namespace Piwik\DataAccess;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\DimensionMetadataProvider;
 
 /**

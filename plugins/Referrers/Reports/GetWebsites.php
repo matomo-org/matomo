@@ -12,6 +12,8 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\Referrers\Columns\Website;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 class GetWebsites extends Base
 {
@@ -25,7 +27,8 @@ class GetWebsites extends Base
         $this->actionToLoadSubTables = 'getUrlsFromWebsiteId';
         $this->hasGoalMetrics = true;
         $this->order = 5;
-        $this->widgetTitle  = 'Referrers_WidgetExternalWebsites';
+
+        $this->subcategoryId = 'Referrers_SubmenuWebsites';
     }
 
     public function configureView(ViewDataTable $view)

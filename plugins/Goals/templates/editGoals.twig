@@ -1,12 +1,13 @@
 {% if userCanEditGoals %}
 
-    <h2 piwik-enriched-headline>{{ 'Goals_ManageGoals'|translate }}</h2>
-
     {% include "@Goals/_addEditGoal.twig" %}
 
 {% else %}
 
+<<<<<<< HEAD
     <h2>{{ 'Goals_AddNewGoal'|translate }}</h2>
+=======
+>>>>>>> generate pages instead of implementing them in each controller
     <p>
         {{ 'Goals_NoGoalsNeedAccess'|translate|raw }}
     </p>

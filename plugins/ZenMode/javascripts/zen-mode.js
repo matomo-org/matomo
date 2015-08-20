@@ -19,13 +19,6 @@ $(document).ready(function () {
 
     piwikHelper.compileAngularComponents(addedElement);
 
-    addedElement = $('.Menu--dashboard').prepend(
-          '<span piwik-zen-mode-switcher class="deactivateZenMode">'
-        + '<img src="plugins/CoreHome/images/navigation_collapse.png" >'
-        + '</span>');
-
-    piwikHelper.compileAngularComponents(addedElement);
-
     angular.element(document).injector().invoke(handleZenMode);
 
     function handleZenMode ($rootElement, $cookies) {
@@ -77,7 +70,7 @@ $(document).ready(function () {
 
     function isDashboard()
     {
-        return !!$('.Menu--dashboard').length;
+        return !!$('[piwik-reporting-menu]').length;
     }
 
     function initMenu () {
@@ -98,7 +91,6 @@ $(document).ready(function () {
 
         $('#Searchmenu').off('keydown focus', '.quick-access input', showQuickAccessMenu);
         $('#Searchmenu').off('blur', '.quick-access input', hideQuickAccessMenu);
-        menu.prototype.adaptSubMenuHeight();
     }
 
     function overMainLI () {
