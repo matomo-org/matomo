@@ -120,7 +120,7 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $class        = new ReflectionClass($className);
         $methodExists = $class->hasMethod($method);
 
-        if (-1 === version_compare($version, '3.0.0')) {
+        if (-1 === version_compare($version, '3.0.0-b0')) {
 
             $errorMessage = $className . '::' . $method . ' should still exists until 3.0 although it is deprecated.';
             $this->assertTrue($methodExists, $errorMessage);
