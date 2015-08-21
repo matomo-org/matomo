@@ -331,10 +331,13 @@ class GoalManager
          * _Note: Subscribers should be wary of doing any expensive computation here as it may slow
          * the tracker down._
          *
+         * This event is deprecated, use [Dimensions](http://developer.piwik.org/guides/dimensions) instead.
+         *
          * @param array $conversion The conversion entity that was just persisted. See what information
          *                          it contains [here](/guides/persistence-and-the-mysql-backend#conversions).
          * @param array $visitInformation The visit entity that we are tracking a conversion for. See what
          *                                information it contains [here](/guides/persistence-and-the-mysql-backend#visits).
+         * @deprecated
          */
         Piwik::postEvent('Tracker.recordEcommerceGoal', array($conversion, $visitProperties->getProperties()));
     }
@@ -679,8 +682,11 @@ class GoalManager
              * _Note: Subscribers should be wary of doing any expensive computation here as it may slow
              * the tracker down._
              *
+             * This event is deprecated, use [Dimensions](http://developer.piwik.org/guides/dimensions) instead.
+             *
              * @param array $conversion The conversion entity that was just persisted. See what information
              *                          it contains [here](/guides/persistence-and-the-mysql-backend#conversions).
+             * @deprecated
              */
             Piwik::postEvent('Tracker.recordStandardGoals', array($conversion));
         }
@@ -700,11 +706,14 @@ class GoalManager
          *
          * This event can be used to modify conversion information or to add new information to be persisted.
          *
+         * This event is deprecated, use [Dimensions](http://developer.piwik.org/guides/dimensions) instead.
+         *
          * @param array $conversion The conversion entity. Read [this](/guides/persistence-and-the-mysql-backend#conversions)
          *                          to see what it contains.
          * @param array $visitInformation The visit entity that we are tracking a conversion for. See what
          *                                information it contains [here](/guides/persistence-and-the-mysql-backend#visits).
          * @param \Piwik\Tracker\Request $request An object describing the tracking request being processed.
+         * @deprecated
          */
         Piwik::postEvent('Tracker.newConversionInformation', array(&$conversion, $visitInformation, $request));
 

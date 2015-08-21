@@ -122,6 +122,29 @@ class ModelTest extends IntegrationTestCase
         $this->assertFalse($this->model->isSiteEmpty(1));
     }
 
+    public function test_createEcommerceItems_shouldNotFail_IfWritingSameItemTwice()
+    {
+        $item = array(array(
+            'idsite' => '1',
+            'idvisitor' => 'test',
+            'server_time' => '2014-01-01 00:00:00',
+            'idvisit' => '1',
+            'idorder' => '12',
+            'idaction_sku' => '1',
+            'idaction_name' => '2',
+            'idaction_category' => '3',
+            'idaction_category2' => '4',
+            'idaction_category3' => '5',
+            'idaction_category4' => '6',
+            'idaction_category5' => '7',
+            'price' => '10.00',
+            'quantity' => '1',
+            'deleted' => '0'
+        ));
+        $this->model->createEcommerceItems($item);
+        $this->model->createEcommerceItems($item);
+    }
+
     private function assertLogActionTableContainsTestAction($idaction)
     {
         $expectedRows = array(

@@ -20,6 +20,7 @@ use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\Model as UserModel;
 use Piwik\ReportRenderer;
 use Piwik\Scheduler\Schedule\Schedule;
+use Piwik\SettingsPiwik;
 use Piwik\Tracker;
 use Piwik\View;
 use Zend_Mime;
@@ -321,12 +322,21 @@ class ScheduledReports extends \Piwik\Plugin
             $segmentInfo = Piwik::translate('ScheduledReports_SegmentAppliedToReports', $segment['name']);
         }
 
+        $messageFindAttached = Piwik::translate('ScheduledReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
+        $messageFindBelow    = Piwik::translate('ScheduledReports_PleaseFindBelow', array($periods[$report['period']], $reportTitle));
+        $messageSentFrom     = '';
+
+        $piwikUrl = SettingsPiwik::getPiwikUrl();
+        if (!empty($piwikUrl)) {
+            $messageSentFrom = Piwik::translate('ScheduledReports_SentFromX', $piwikUrl);
+        }
+
         switch ($report['format']) {
             case 'html':
 
                 // Needed when using images as attachment with cid
                 $mail->setType(Zend_Mime::MULTIPART_RELATED);
-                $message .= "<br/>" . Piwik::translate('ScheduledReports_PleaseFindBelow', array($periods[$report['period']], $reportTitle));
+                $message .= "<br/>$messageFindBelow<br/>$messageSentFrom";
 
                 if ($displaySegmentInfo) {
                     $message .= " " . $segmentInfo;
@@ -336,7 +346,7 @@ class ScheduledReports extends \Piwik\Plugin
                 break;
 
             case 'csv':
-                $message .= "\n" . Piwik::translate('ScheduledReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
+                $message .= "\n$messageFindAttached\n$messageSentFrom";
 
                 if ($displaySegmentInfo) {
                     $message .= " " . $segmentInfo;
@@ -354,7 +364,7 @@ class ScheduledReports extends \Piwik\Plugin
 
             default:
             case 'pdf':
-                $message .= "\n" . Piwik::translate('ScheduledReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
+                $message .= "\n$messageFindAttached\n$messageSentFrom";
 
                 if ($displaySegmentInfo) {
                     $message .= " " . $segmentInfo;
