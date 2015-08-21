@@ -44,7 +44,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/SettingsPiwik.php';
 require_once PIWIK_INCLUDE_PATH . '/core/SettingsServer.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Cache.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Request.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
