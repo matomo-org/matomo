@@ -13,6 +13,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
     * `Piwik\ScheduledTask`: use `Piwik\Scheduler\Task` instead
     * `Piwik\Translate`: use `Piwik\Translation\Translator` instead
     * `Piwik\Menu\MenuMain`: use `Piwik\Menu\MenuReporting` instead
+    * `Piwik\MetricsFormatter`: use `Piwik\Metrics\Formatter` instead
 * The following deprecated methods have been removed:
     * `Piwik\Common::getContinentsList()`: use `Piwik\Intl\Data\Provider\RegionDataProvider::getContinentList()` instead
     * `Piwik\Common::getCountriesList()`: use `Piwik\Intl\Data\Provider\RegionDataProvider::getCountryList()` instead
