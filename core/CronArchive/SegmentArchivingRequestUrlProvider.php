@@ -175,11 +175,16 @@ class SegmentArchivingRequestUrlProvider
             }
         }
 
-        $this->logger->debug("Earliest created time of segment '{segment}' w/ idSite = {idSite} is found to be {time}.", array(
-            'segment' => $segmentDefinition,
-            'idSite' => $idSite,
-            'time' => $earliestCreatedTime
-        ));
+        $this->logger->debug(
+            "Earliest created time of segment '{segment}' w/ idSite = {idSite} is found to be {createdTime}. Latest " .
+            "edit time is found to be {latestEditTime}.",
+            array(
+                'segment' => $segmentDefinition,
+                'idSite' => $idSite,
+                'createdTime' => $earliestCreatedTime,
+                'latestEditTime' => $latestEditTime,
+            )
+        );
 
         return array($earliestCreatedTime, $latestEditTime);
     }
