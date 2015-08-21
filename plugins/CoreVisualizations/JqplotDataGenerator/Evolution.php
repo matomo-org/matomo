@@ -12,7 +12,7 @@ use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Menu\MenuMain;
+use Piwik\Menu\MenuReporting;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Url;
 
@@ -166,7 +166,7 @@ class Evolution extends JqplotDataGenerator
         foreach ($piwikParameters as $parameter) {
             unset($queryString[$parameter]);
         }
-        if (MenuMain::getInstance()->isUrlFound($queryString)) {
+        if (MenuReporting::getInstance()->isUrlFound($queryString)) {
             return $queryString;
         }
         return false;
