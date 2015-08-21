@@ -7,12 +7,13 @@
  *
  */
 namespace Piwik\Plugins\Feedback;
+
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
 use Piwik\Mail;
 use Piwik\Piwik;
-use Piwik\Translate;
+use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\Version;
 
@@ -23,6 +24,13 @@ use Piwik\Version;
  */
 class API extends \Piwik\Plugin\API
 {
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * Sends feedback for a specific feature to the Piwik team or alternatively to the email address configured in the
      * config: "feedback_email_address".
@@ -80,11 +88,11 @@ class API extends \Piwik\Plugin\API
 
     private function getEnglishTranslationForFeatureName($featureName)
     {
-        if (Translate::getLanguageLoaded() == 'en') {
+        if ($this->translator->getCurrentLanguage() == 'en') {
             return $featureName;
         }
 
-        $translationKeyForFeature = Translate::findTranslationKeyForTranslation($featureName);
+        $translationKeyForFeature = $this->translator->findTranslationKeyForTranslation($featureName);
 
         return Piwik::translate($translationKeyForFeature, array(), 'en');
     }

@@ -9,9 +9,10 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Widgets;
-use Piwik\Translate;
+use Piwik\Translation\Translator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -93,7 +94,10 @@ class GenerateWidget extends GeneratePluginBase
             $validate($category);
         }
 
-        $translationKey = Translate::findTranslationKeyForTranslation($category);
+        // TODO use dependency injection instead
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        $translationKey = $translator->findTranslationKeyForTranslation($category);
         if (!empty($translationKey)) {
             return $translationKey;
         }

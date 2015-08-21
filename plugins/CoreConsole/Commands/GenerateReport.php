@@ -12,7 +12,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Columns\Dimension;
 use Piwik\Plugin\Manager;
 use Piwik\Plugin\Report;
-use Piwik\Translate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -204,7 +203,10 @@ class GenerateReport extends GeneratePluginBase
             $validate($category);
         }
 
-        $translationKey = Translate::findTranslationKeyForTranslation($category);
+        // TODO use dependency injection instead
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        $translationKey = $translator->findTranslationKeyForTranslation($category);
         if (!empty($translationKey)) {
             return $translationKey;
         }

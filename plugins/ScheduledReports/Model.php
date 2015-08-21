@@ -12,7 +12,6 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\ReportRenderer;
-use Piwik\Translate;
 
 class Model
 {

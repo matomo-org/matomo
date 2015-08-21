@@ -13,7 +13,6 @@ use Piwik\Config;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\Installation\Exception\DatabaseConnectionFailedException;
-use Piwik\Translate;
 use Piwik\View as PiwikView;
 
 /**

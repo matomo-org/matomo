@@ -14,14 +14,10 @@ use Piwik\Plugin;
 use Piwik\Plugins\UserCountry\Commands\AttributeHistoricalDataWithLocations;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Class AttributeHistoricalDataWithLocationsTest
- * @package Piwik\Plugins\UserCountry\Test\Integration
- *
  * @group UserCountry
  */
 class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
