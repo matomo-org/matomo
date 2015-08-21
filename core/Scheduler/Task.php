@@ -14,7 +14,7 @@ use Piwik\Scheduler\Schedule\Schedule;
 /**
  * Describes a task that should be executed on a given time.
  *
- * See the {@link TaskScheduler} docs to learn more about scheduled tasks.
+ * See the {@link Scheduler} docs to learn more about scheduled tasks.
  *
  * @api
  */

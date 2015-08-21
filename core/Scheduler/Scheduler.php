@@ -12,6 +12,9 @@ use Exception;
 use Piwik\Timer;
 use Psr\Log\LoggerInterface;
 
+// When set to true, all scheduled tasks will be triggered in all requests (careful!)
+//define('DEBUG_FORCE_SCHEDULED_TASKS', true);
+
 /**
  * Schedules task execution.
  *

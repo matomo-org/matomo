@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\UserCountry;
 
-require_once PIWIK_INCLUDE_PATH . "/core/ScheduledTask.php"; // for the tracker which doesn't include this file
+require_once PIWIK_INCLUDE_PATH . "/core/Scheduler/Task.php"; // for the tracker which doesn't include this file
 
 use Exception;
 use Piwik\Common;
