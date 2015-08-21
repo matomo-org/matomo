@@ -7,6 +7,17 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Breaking Changes
 * The method `Dimension::getId()` has been set as `final`. It is not allowed to overwrite this method.
 
+### Deprecations
+
+* The following events have been deprecated and will be removed in Piwik 3.0. Use [dimensions](http://developer.piwik.org/guides/dimensions) instead.
+ * `Tracker.existingVisitInformation`
+ * `Tracker.getVisitFieldsToPersist`
+ * `Tracker.newConversionInformation`
+ * `Tracker.newVisitorInformation`
+ * `Tracker.recordAction`
+ * `Tracker.recordEcommerceGoal`
+ * `Tracker.recordStandardGoals`
+
 ### Internal Change
 * The option `branch` of the console command `development:sync-system-test-processed` was removed as it is no longer needed.
 
