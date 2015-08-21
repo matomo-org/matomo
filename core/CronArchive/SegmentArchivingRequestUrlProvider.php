@@ -154,18 +154,23 @@ class SegmentArchivingRequestUrlProvider
             if ($this->isSegmentForSite($segment, $idSite)
                 && $segment['definition'] == $segmentDefinition
             ) {
+                // check for an earlier ts_created timestamp
                 $createdTime = Date::factory($segment['ts_created']);
                 if ($createdTime->getTimestamp() < $earliestCreatedTime->getTimestamp()) {
                     $earliestCreatedTime = $createdTime;
                 }
 
-                if (!empty($segment['ts_last_edit'])) {
-                    $lastEditTime = Date::factory($segment['ts_last_edit']);
-                    if ($latestEditTime === null
-                        || $latestEditTime->getTimestamp() < $lastEditTime->getTimestamp()
-                    ) {
-                        $latestEditTime = $lastEditTime;
-                    }
+                // if there is no ts_last_edit timestamp, initialize it to ts_created
+                if (empty($segment['ts_last_edit'])) {
+                    $segment['ts_last_edit'] = $segment['ts_created'];
+                }
+
+                // check for a later ts_last_edit timestamp
+                $lastEditTime = Date::factory($segment['ts_last_edit']);
+                if ($latestEditTime === null
+                    || $latestEditTime->getTimestamp() < $lastEditTime->getTimestamp()
+                ) {
+                    $latestEditTime = $lastEditTime;
                 }
             }
         }
