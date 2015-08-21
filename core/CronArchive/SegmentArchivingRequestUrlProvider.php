@@ -25,6 +25,7 @@ class SegmentArchivingRequestUrlProvider
 {
     const BEGINNING_OF_TIME = 'beginning_of_time';
     const CREATION_TIME = 'segment_creation_time';
+    const LAST_EDIT_TIME = 'segment_last_edit_time';
 
     /**
      * @var Model
@@ -60,9 +61,7 @@ class SegmentArchivingRequestUrlProvider
 
     public function getUrlParameterDateString($idSite, $period, $date, $segment)
     {
-        $segmentCreatedTime = $this->getCreatedTimeOfSegment($idSite, $segment);
-
-        $oldestDateToProcessForNewSegment = $this->getOldestDateToProcessForNewSegment($segmentCreatedTime);
+        $oldestDateToProcessForNewSegment = $this->getOldestDateToProcessForNewSegment($idSite, $segment);
         if (empty($oldestDateToProcessForNewSegment)) {
             return $date;
         }
@@ -96,12 +95,31 @@ class SegmentArchivingRequestUrlProvider
         return $date;
     }
 
-    private function getOldestDateToProcessForNewSegment(Date $segmentCreatedTime)
+    private function getOldestDateToProcessForNewSegment($idSite, $segment)
     {
+        /**
+         * @var Date $segmentCreatedTime
+         * @var Date $segmentLastEditedTime
+         */
+        list($segmentCreatedTime, $segmentLastEditedTime) = $this->getCreatedTimeOfSegment($idSite, $segment);
+
         if ($this->processNewSegmentsFrom == self::CREATION_TIME) {
             $this->logger->debug("process_new_segments_from set to segment_creation_time, oldest date to process is {time}", array('time' => $segmentCreatedTime));
 
             return $segmentCreatedTime;
+        } elseif ($this->processNewSegmentsFrom == self::LAST_EDIT_TIME) {
+            $this->logger->debug("process_new_segments_from set to segment_last_edit_time, segment last edit time is {time}",
+                array('time' => $segmentLastEditedTime));
+
+            if ($segmentLastEditedTime === null
+                || $segmentLastEditedTime->getTimestamp() < $segmentCreatedTime->getTimestamp()
+            ) {
+                $this->logger->debug("segment last edit time is older than created time, using created time instead");
+
+                $segmentLastEditedTime = $segmentCreatedTime;
+            }
+
+            return $segmentLastEditedTime;
         } elseif (preg_match("/^last([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
             $lastN = $matches[1];
 
@@ -122,6 +140,8 @@ class SegmentArchivingRequestUrlProvider
     {
         $segments = $this->getAllSegments();
 
+        /** @var Date $latestEditTime */
+        $latestEditTime = null;
         $earliestCreatedTime = $this->now;
         foreach ($segments as $segment) {
             if (empty($segment['ts_created'])
@@ -138,6 +158,15 @@ class SegmentArchivingRequestUrlProvider
                 if ($createdTime->getTimestamp() < $earliestCreatedTime->getTimestamp()) {
                     $earliestCreatedTime = $createdTime;
                 }
+
+                if (!empty($segment['ts_last_edit'])) {
+                    $lastEditTime = Date::factory($segment['ts_last_edit']);
+                    if ($latestEditTime === null
+                        || $latestEditTime->getTimestamp() < $lastEditTime->getTimestamp()
+                    ) {
+                        $latestEditTime = $lastEditTime;
+                    }
+                }
             }
         }
 
@@ -147,7 +176,7 @@ class SegmentArchivingRequestUrlProvider
             'time' => $earliestCreatedTime
         ));
 
-        return $earliestCreatedTime;
+        return array($earliestCreatedTime, $latestEditTime);
     }
 
     private function getAllSegments()

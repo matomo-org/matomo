@@ -28,44 +28,58 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
             array(
                 'ts_created' => '2014-01-01',
                 'definition' => 'browserName==FF',
-                'enable_only_idsite' => 1
+                'enable_only_idsite' => 1,
+                'ts_last_edit' => '2014-05-05 00:22:33',
             ),
 
             array(
                 'ts_created' => '2014-01-01',
                 'definition' => 'countryCode==us',
-                'enable_only_idsite' => 1
+                'enable_only_idsite' => 1,
+                'ts_last_edit' => '2014-02-02 00:33:44',
             ),
 
             array(
                 'ts_created' => '2012-01-01',
                 'definition' => 'countryCode==us',
-                'enable_only_idsite' => 1
+                'enable_only_idsite' => 1,
+                'ts_last_edit' => '2014-02-03',
             ),
 
             array(
                 'ts_created' => '2014-01-01',
                 'definition' => 'countryCode==ca',
-                'enable_only_idsite' => 2
+                'enable_only_idsite' => 2,
+                'ts_last_edit' => '2013-01-01',
             ),
 
             array(
                 'ts_created' => '2012-01-01',
                 'definition' => 'countryCode==ca',
-                'enable_only_idsite' => 2
+                'enable_only_idsite' => 2,
+                'ts_last_edit' => '2011-01-01',
             ),
 
             array(
                 'ts_created' => '2011-01-01',
                 'definition' => 'countryCode==ca',
-                'enable_only_idsite' => 0
+                'enable_only_idsite' => 0,
+                'ts_last_edit' => null,
             ),
 
             array(
                 'ts_created' => '2015-03-01',
                 'definition' => 'pageUrl==a',
-                'enable_only_idsite' => 1
-            )
+                'enable_only_idsite' => 1,
+                'ts_last_edit' => '2014-01-01',
+            ),
+
+            array(
+                'ts_created' => '2015-02-01',
+                'definition' => 'pageUrl==b',
+                'enable_only_idsite' => 1,
+                'ts_last_edit' => null,
+            ),
         );
     }
 
@@ -182,6 +196,51 @@ class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
                 'week',
                 'countryCode==us',
                 '2015-02-01,2015-03-01'
+            ),
+            // $idSite, $date, $period, $segment, $expected
+            array( // test segment_last_edit_time uses last edit time
+                'segment_last_edit_time',
+                1,
+                $dateRange,
+                'week',
+                'browserName==FF',
+                '2014-05-05,2015-03-01',
+            ),
+
+            array( // test segment_last_edit_time uses greatest last edit time when found
+                'segment_last_edit_time',
+                1,
+                $dateRange,
+                'week',
+                'countryCode==us',
+                '2014-02-03,2015-03-01',
+            ),
+
+            array( // test segment_last_edit_time uses last edit time when greatest last edit is newer than oldest created time
+                'segment_last_edit_time',
+                2,
+                $dateRange,
+                'week',
+                'countryCode==ca',
+                '2013-01-01,2015-03-01',
+            ),
+
+            array( // test segment_last_edit_time uses creation time when last edit time is older than creation time
+                'segment_last_edit_time',
+                1,
+                $dateRange,
+                'week',
+                'pageUrl==a',
+                '2015-03-01,2015-03-01',
+            ),
+
+            array( // test segment_last_edit_time uses creation time when last edit time is not set
+                'segment_last_edit_time',
+                1,
+                $dateRange,
+                'week',
+                'pageUrl==b',
+                '2015-02-01,2015-03-01',
             ),
         );
     }
