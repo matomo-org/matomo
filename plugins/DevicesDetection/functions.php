@@ -340,7 +340,7 @@ function getBrowserEngineName($engineName) {
     $displayNames = array(
         'Trident' => 'Trident (IE)',
         'Gecko' => 'Gecko (Firefox)',
-        'KHTML' => 'KHTML (Konquerer)',
+        'KHTML' => 'KHTML (Konqueror)',
         'Presto' => 'Presto (Opera)',
         'WebKit' => 'WebKit (Safari, Chrome)',
         'Blink' => 'Blink (Chrome, Opera)'
