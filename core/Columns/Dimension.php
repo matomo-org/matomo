@@ -9,12 +9,15 @@
 namespace Piwik\Columns;
 
 use Exception;
+use Piwik\CacheId;
 use Piwik\Plugin;
 use Piwik\Plugin\ComponentFactory;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
+use Piwik\Cache as PiwikCache;
+use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * @api
@@ -171,40 +174,35 @@ abstract class Dimension
      */
     public static function getAllDimensions()
     {
-        $dimensions = array();
+        $cacheId = CacheId::pluginAware('AllDimensions');
+        $cache   = PiwikCache::getTransientCache();
 
-        foreach (VisitDimension::getAllDimensions() as $dimension) {
-            $dimensions[] = $dimension;
+        if (!$cache->contains($cacheId)) {
+            $plugins   = PluginManager::getInstance()->getPluginsLoadedAndActivated();
+            $instances = array();
+
+            foreach ($plugins as $plugin) {
+                foreach (self::getDimensions($plugin) as $instance) {
+                    $instances[] = $instance;
+                }
+            }
+
+            $cache->save($cacheId, $instances);
         }
 
-        foreach (ActionDimension::getAllDimensions() as $dimension) {
-            $dimensions[] = $dimension;
-        }
-
-        foreach (ConversionDimension::getAllDimensions() as $dimension) {
-            $dimensions[] = $dimension;
-        }
-
-        return $dimensions;
+        return $cache->fetch($cacheId);
     }
 
     public static function getDimensions(Plugin $plugin)
     {
-        $dimensions = array();
+        $dimensions = $plugin->findMultipleComponents('Columns', '\\Piwik\\Columns\\Dimension');
+        $instances  = array();
 
-        foreach (VisitDimension::getDimensions($plugin) as $dimension) {
-            $dimensions[] = $dimension;
+        foreach ($dimensions as $dimension) {
+            $instances[] = new $dimension();
         }
 
-        foreach (ActionDimension::getDimensions($plugin) as $dimension) {
-            $dimensions[] = $dimension;
-        }
-
-        foreach (ConversionDimension::getDimensions($plugin) as $dimension) {
-            $dimensions[] = $dimension;
-        }
-
-        return $dimensions;
+        return $instances;
     }
 
     /**

@@ -49,7 +49,25 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 * The creation of settings has slightly changed to improve performance. It is now possible to create new settings via the method `$this->makeSetting()` see `Piwik\Plugins\ExampleSettingsPlugin\SystemSettings` for an example.
 * It is no possible to define an introduction text for settings.
 * If requesting multipe periods for one report, the keys that define the range are no longer translated. For example before 3.0 an API response may contain: `<result date="From 2010-02-01 to 2010-02-07">` which is now `<result date="2010-02-01,2010-02-07">`.
-
+* The following deprecated events have been removed as mentioned.
+ * `Tracker.existingVisitInformation` Use [dimensions](http://developer.piwik.org/guides/dimensions) instead of using `Tracker` events.
+ * `Tracker.getVisitFieldsToPersist`
+ * `Tracker.newConversionInformation`
+ * `Tracker.newVisitorInformation`
+ * `Tracker.recordAction`
+ * `Tracker.recordEcommerceGoal`
+ * `Tracker.recordStandardGoals`
+ * `API.getSegmentDimensionMetadata` Define segments in [Dimension](http://developer.piwik.org/guides/dimensions) instead
+ * `Menu.Admin.addItems` Create a [Menu](http://developer.piwik.org/guides/menus) instead of using `Menu` events
+ * `Menu.Reporting.addItems`
+ * `Menu.Top.addItems`
+ * `ViewDataTable.addViewDataTable` Create a [Visualization](http://developer.piwik.org/guides/visualizing-report-data) instead
+ * `ViewDataTable.getDefaultType` Specify the default type in a [Report](http://developer.piwik.org/guides/custom-reports) instead
+ * `Goals.getReportsWithGoalMetrics` Specify a report has goal metrics in a [Report](http://developer.piwik.org/guides/custom-reports) instead
+ * `Login.authenticate`  Create a custom SessionInitializer instead of using `Login` events
+ * `Login.initSession.end`
+ * `Login.authenticate.successful`
+ 
 Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration guide](https://developer.piwik.org/guides/migrate-piwik-2-to-3).
 
 ### Deprecations
@@ -67,6 +85,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
 * The JavaScript AjaxHelper has a new method `ajaxHelper.withTokenInUrl()` to easily send a token along a XHR. Within the Controller the existence of this token can be checked via `$this->checkTokenInUrl();` to prevent CSRF attacks.
 * The new class `Piwik\Updater\Migration\Factory` lets you easily create migrations that can be executed during an update. For example database or plugin related migrations. To generate a new update with migrations execute `./console generate:update`.
 * The new method `Piwik\Updater::executeMigration` lets you execute a single migration.
+* New event `ViewDataTable.filterViewDataTable` let's you filter available visualizations
 
 ### New features
 * New "Sparklines" visualization that let's you create a widget showing multiple sparklines

@@ -26,6 +26,17 @@ class HtmlTable extends Visualization
     const FOOTER_ICON       = 'icon-table';
     const FOOTER_ICON_TITLE = 'General_DisplaySimpleTable';
 
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable()
+    {
+        if (Common::getRequestVar('pivotBy', '')) {
+            $this->config->columns_to_display = $this->dataTable->getColumns();
+
+            $this->dataTable->applyQueuedFilters();
+        }
+
+        parent::beforeGenericFiltersAreAppliedToLoadedDataTable();
+    }
+
     public static function getDefaultConfig()
     {
         return new HtmlTable\Config();
@@ -70,21 +81,6 @@ class HtmlTable extends Visualization
             $dataTable = $request->process();
             $this->assignTemplateVar('siteSummary', $dataTable);
         }
-
-        if ($this->isPivoted()) {
-            $this->config->columns_to_display = $this->dataTable->getColumns();
-        }
-    }
-
-    public function beforeGenericFiltersAreAppliedToLoadedDataTable()
-    {
-        if ($this->isPivoted()) {
-            $this->config->columns_to_display = $this->dataTable->getColumns();
-
-            $this->dataTable->applyQueuedFilters();
-        }
-
-        parent::beforeGenericFiltersAreAppliedToLoadedDataTable();
     }
 
     protected function isPivoted()
