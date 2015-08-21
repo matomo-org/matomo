@@ -18,11 +18,6 @@ use Exception;
 
 
 /**
- * Piwik - free/libre analytics platform
- *
- * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  * @group UsersManagerTest
  * @group UsersManager
  * @group Plugins
@@ -144,6 +139,17 @@ class UsersManagerTest extends IntegrationTestCase
     {
         $this->api->addUser("test", "password", "email@email.com", "alias");
         $this->api->addUser("test", "password2", "em2ail@email.com", "al2ias");
+    }
+
+    /**
+     * @see https://github.com/piwik/piwik/issues/8548
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionLoginExists
+     */
+    public function testAddUserExistingLoginCaseInsensitive()
+    {
+        $this->api->addUser("test", "password", "email@email.com", "alias");
+        $this->api->addUser("TeSt", "password2", "em2ail@email.com", "al2ias");
     }
 
     /**

@@ -13,16 +13,22 @@ use Piwik\AuthResult;
 use Piwik\Db;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Session;
-use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 
-/**
- *
- */
 class Auth implements \Piwik\Auth
 {
-    protected $login = null;
-    protected $token_auth = null;
-    protected $md5Password = null;
+    protected $login;
+    protected $token_auth;
+    protected $md5Password;
+
+    /**
+     * @var Model
+     */
+    private $userModel;
+
+    public function __construct()
+    {
+        $this->userModel = new Model();
+    }
 
     /**
      * Authentication module's name, e.g., "Login"
@@ -42,34 +48,61 @@ class Auth implements \Piwik\Auth
     public function authenticate()
     {
         if (!empty($this->md5Password)) { // favor authenticating by password
-            $this->token_auth = UsersManagerAPI::getInstance()->getTokenAuth($this->login, $this->getTokenAuthSecret());
-        }
-
-        if (is_null($this->login)) {
-            $model = new Model();
-            $user  = $model->getUserByTokenAuth($this->token_auth);
-
-            if (!empty($user['login'])) {
-                $code = $user['superuser_access'] ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
-
-                return new AuthResult($code, $user['login'], $this->token_auth);
-            }
-        } else if (!empty($this->login)) {
-            $model = new Model();
-            $user  = $model->getUser($this->login);
-
-            if (!empty($user['token_auth'])
-                && ((SessionInitializer::getHashTokenAuth($this->login, $user['token_auth']) === $this->token_auth)
-                    || $user['token_auth'] === $this->token_auth)
-            ) {
-                $this->setTokenAuth($user['token_auth']);
-                $code = !empty($user['superuser_access']) ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
-
-                return new AuthResult($code, $this->login, $user['token_auth']);
-            }
+            return $this->authenticateWithPassword($this->login, $this->getTokenAuthSecret());
+        } elseif (is_null($this->login)) {
+            return $this->authenticateWithToken($this->token_auth);
+        } elseif (!empty($this->login)) {
+            return $this->authenticateWithTokenOrHashToken($this->token_auth, $this->login);
         }
 
         return new AuthResult(AuthResult::FAILURE, $this->login, $this->token_auth);
+    }
+
+    private function authenticateWithPassword($login, $passwordHash)
+    {
+        $user = $this->userModel->getUser($login);
+
+        if (!empty($user['login']) && $user['password'] === $passwordHash) {
+            return $this->authenticationSuccess($user);
+        }
+
+        return new AuthResult(AuthResult::FAILURE, $login, null);
+    }
+
+    private function authenticateWithToken($token)
+    {
+        $user = $this->userModel->getUserByTokenAuth($token);
+
+        if (!empty($user['login'])) {
+            return $this->authenticationSuccess($user);
+        }
+
+        return new AuthResult(AuthResult::FAILURE, null, $token);
+    }
+
+    private function authenticateWithTokenOrHashToken($token, $login)
+    {
+        $user = $this->userModel->getUser($login);
+
+        if (!empty($user['token_auth'])
+            // authenticate either with the token or the "hash token"
+            && ((SessionInitializer::getHashTokenAuth($login, $user['token_auth']) === $token)
+                || $user['token_auth'] === $token)
+        ) {
+            return $this->authenticationSuccess($user);
+        }
+
+        return new AuthResult(AuthResult::FAILURE, $login, $token);
+    }
+
+    private function authenticationSuccess(array $user)
+    {
+        $this->setTokenAuth($user['token_auth']);
+
+        $isSuperUser = (int) $user['superuser_access'];
+        $code = $isSuperUser ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
+
+        return new AuthResult($code, $user['login'], $user['token_auth']);
     }
 
     /**
