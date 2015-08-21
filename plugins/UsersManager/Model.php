@@ -149,9 +149,16 @@ class Model
 
     public function getUser($userLogin)
     {
-        // By default this will search with a case-insensitive comparison which is what
-        // we want: users can log in regardless of the case they use
-        return $this->getDb()->fetchRow("SELECT * FROM " . $this->table . " WHERE login = ?", $userLogin);
+        $db = $this->getDb();
+
+        // Favor case-insensitive comparison in case 2 login exist with a different case
+        $user = $db->fetchRow("SELECT * FROM " . $this->table . " WHERE BINARY login = ?", $userLogin);
+        if ($user) {
+            return $user;
+        }
+
+        // Fallback to a case-insensitive comparison: users can log in regardless of the case they use
+        return $db->fetchRow("SELECT * FROM " . $this->table . " WHERE login = ?", $userLogin);
     }
 
     public function getUserByEmail($userEmail)
