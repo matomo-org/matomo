@@ -9,16 +9,13 @@
 namespace Piwik\Plugins\Goals;
 
 use Piwik\ArchiveProcessor;
+use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugin\Reports;
 use Piwik\Tracker\GoalManager;
 use Piwik\Category\Subcategory;
 
-/**
- *
- */
 class Goals extends \Piwik\Plugin
 {
     public static function getReportsWithGoalMetrics()
