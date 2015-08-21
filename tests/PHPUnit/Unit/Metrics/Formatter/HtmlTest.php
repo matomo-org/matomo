@@ -7,15 +7,14 @@
  */
 namespace Piwik\Tests\Unit\Metrics\Formatter;
 
-use Piwik\Intl\Locale;
 use Piwik\Metrics\Formatter\Html;
-use Piwik\Translate;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
  * @group Core
  */
-class HtmlTest extends \PHPUnit_Framework_TestCase
+class HtmlTest extends IntegrationTestCase
 {
     /**
      * @var Html
@@ -35,13 +34,11 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
 
         $this->formatter = new Html();
 
-        Translate::loadAllTranslations();
         $this->setSiteManagerApiMock();
     }
 
     public function tearDown()
     {
-        Translate::reset();
         $this->unsetSiteManagerApiMock();
     }
 
@@ -100,5 +97,12 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
         });
 
         SitesManagerAPI::setSingletonInstance($mock);
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'test.vars.loadRealTranslations' => true,
+        );
     }
 }

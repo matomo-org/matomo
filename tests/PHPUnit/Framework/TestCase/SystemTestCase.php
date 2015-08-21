@@ -21,7 +21,6 @@ use Piwik\Tests\Framework\Constraint\HttpResponseText;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
 use Piwik\Tests\Framework\TestRequest\Collection;
 use Piwik\Tests\Framework\TestRequest\Response;
-use Piwik\Translate;
 use Piwik\Log;
 use PHPUnit_Framework_TestCase;
 use Piwik\Tests\Framework\Fixture;

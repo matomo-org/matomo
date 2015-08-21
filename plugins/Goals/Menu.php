@@ -14,7 +14,6 @@ use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UserPreferences;
-use Piwik\Translate;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -42,7 +41,7 @@ class Menu extends \Piwik\Plugin\Menu
 
         $group = new Group();
         foreach ($goals as $goal) {
-            $subMenuName = str_replace('%', '%%', Translate::clean($goal['name']));
+            $subMenuName = str_replace('%', '%%', $this->decode($goal['name']));
             $params      = $this->urlForAction('goalReport', array('idGoal' => $goal['idgoal']));
             $tooltip     = sprintf('%s (id = %d)', $subMenuName, $goal['idgoal']);
 
@@ -77,4 +76,8 @@ class Menu extends \Piwik\Plugin\Menu
         return $idSite;
     }
 
+    public function decode($s)
+    {
+        return html_entity_decode(trim($s), ENT_QUOTES, 'UTF-8');
+    }
 }

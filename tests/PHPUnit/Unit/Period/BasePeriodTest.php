@@ -8,21 +8,14 @@
 
 namespace Piwik\Tests\Unit\Period;
 
-use Piwik\Translate;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-abstract class BasePeriodTest extends \PHPUnit_Framework_TestCase
+abstract class BasePeriodTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function provideContainerConfig()
     {
-        parent::setUp();
-
-        Translate::loadAllTranslations();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-
-        Translate::reset();
+        return array(
+            'test.vars.loadRealTranslations' => true,
+        );
     }
 }
