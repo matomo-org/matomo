@@ -16,7 +16,7 @@ use Piwik\Updates;
 class Updates_2_11_0_b4 extends Updates
 {
 
-    public static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         $sqls = array();
 
@@ -33,7 +33,7 @@ class Updates_2_11_0_b4 extends Updates
         return $sqls;
     }
 
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
 
@@ -42,6 +42,6 @@ class Updates_2_11_0_b4 extends Updates
         } catch (\Exception $e) {
         }
 
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }
