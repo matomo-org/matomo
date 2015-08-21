@@ -9,6 +9,8 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\API\Request;
+use Piwik\API\ResponseBuilder;
 use Piwik\Container\ContainerDoesNotExistException;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 
@@ -67,7 +69,15 @@ class ExceptionHandler
 
         $message = $ex->getMessage();
 
-        if (!method_exists($ex, 'isHtmlMessage') || !$ex->isHtmlMessage()) {
+        $isHtmlMessage = method_exists($ex, 'isHtmlMessage') && $ex->isHtmlMessage();
+
+        if (!$isHtmlMessage && Request::isApiRequest($_GET)) {
+
+            $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $_GET + $_POST));
+            $response = new ResponseBuilder($outputFormat);
+            return $response->getResponseException($ex);
+
+        } elseif (!$isHtmlMessage) {
             $message = Common::sanitizeInputValue($message);
         }
 
