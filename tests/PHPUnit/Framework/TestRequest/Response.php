@@ -88,6 +88,8 @@ class Response
 
     private function normalizeApiResponse($apiResponse)
     {
+        $apiResponse = $this->removeSubtableIdsFromXml($apiResponse);
+
         if ($this->shouldDeleteLiveIds()) {
             $apiResponse = $this->removeAllIdsFromXml($apiResponse);
         }
@@ -250,5 +252,10 @@ class Response
         }
 
         return $apiResponse;
+    }
+
+    private function removeSubtableIdsFromXml($apiResponse)
+    {
+        return $this->removeXmlFields($apiResponse, array('idsubdatatable_in_db'));
     }
 }

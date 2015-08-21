@@ -353,7 +353,7 @@
         "Total": "Total",
         "TotalRatioTooltip": "C'est %1$s de %2$s %3$s.",
         "TotalRevenue": "Total des recettes",
-        "TotalVisitsPageviewsRevenue": "(Total : %s visites, %s pages vues, %s revenu)",
+        "TotalVisitsPageviewsActionsRevenue": "(Total : %s visites, %s pages vues, %s actions, %s revenu)",
         "TransitionsRowActionTooltip": "Visualisez ce que les visiteurs ont fait après avoir visité cette page",
         "TransitionsRowActionTooltipTitle": "Ouvrir les transitions",
         "TranslatorEmail": "admin@get-surf.com, piwik@ludovicevrard.be, daniel@castronovo.fr,",

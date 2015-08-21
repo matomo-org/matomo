@@ -1201,15 +1201,17 @@ class Common
                 $info = var_export($info, true);
             }
 
+            $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+
             if (is_array($info) || is_object($info)) {
                 $info = Common::sanitizeInputValues($info);
                 $out = var_export($info, true);
                 foreach (explode("\n", $out) as $line) {
-                    echo $line . "\n";
+                    $logger->debug($line);
                 }
             } else {
                 foreach (explode("\n", $info) as $line) {
-                    echo $line . "\n";
+                    $logger->debug($line);
                 }
             }
         }

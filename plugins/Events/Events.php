@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugin\Reports;
 
 class Events extends \Piwik\Plugin
 {
@@ -154,7 +155,7 @@ class Events extends \Piwik\Plugin
         $this->addRelatedReports($view, $secondaryDimension);
         $this->addTooltipEventValue($view);
 
-        $subtableReport = Report::factory('Events', $view->config->subtable_controller_action);
+        $subtableReport = Reports::factory('Events', $view->config->subtable_controller_action);
         $view->config->pivot_by_dimension = $subtableReport->getDimension()->getId();
         $view->config->pivot_by_column = 'nb_events';
     }

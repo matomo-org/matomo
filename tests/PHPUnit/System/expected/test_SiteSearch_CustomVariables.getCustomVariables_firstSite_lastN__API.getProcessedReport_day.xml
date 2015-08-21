@@ -4,6 +4,7 @@
 	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
 		<category>Visitors</category>
+		<subcategory>Custom Variables</subcategory>
 		<name>Custom Variables</name>
 		<module>CustomVariables</module>
 		<action>getCustomVariables</action>
@@ -111,18 +112,22 @@
 	<reportMetadata>
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
-				<idsubdatatable>2</idsubdatatable>
+				
+				<idsubdatatable>3205</idsubdatatable>
 			</row>
 			<row>
-				<idsubdatatable>1</idsubdatatable>
+				
+				<idsubdatatable>3204</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
-				<idsubdatatable>2</idsubdatatable>
+				
+				<idsubdatatable>3208</idsubdatatable>
 			</row>
 			<row>
-				<idsubdatatable>1</idsubdatatable>
+				
+				<idsubdatatable>3207</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />

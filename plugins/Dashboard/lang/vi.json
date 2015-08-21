@@ -30,7 +30,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Các lựa chọn Widget và bố trí các cột bảng điều khiển này sẽ được sử dụng khi bất kỳ người dùng tạo ra một bảng điều khiển mới, hoặc khi \"%s\" tính năng được sử dụng.",
         "TopLinkTooltip": "Xem báo cáo Web Analytics cho %s.",
         "WidgetNotFound": "Widget không tìm thấy",
-        "WidgetPreview": "Widget xem trước",
-        "WidgetsAndDashboard": "Các Widget & Bảng điều khiển"
+        "WidgetPreview": "Widget xem trước"
     }
 }

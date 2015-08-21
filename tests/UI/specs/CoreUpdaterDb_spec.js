@@ -17,6 +17,18 @@ describe("CoreUpdaterDb", function () {
         testEnvironment.save();
     });
 
+    function apiUpgradeTest(format) {
+        it("should start the updater when an old version of Piwik is detected in the DB", function (done) {
+            expect.file('CoreUpdater.API.ErrorMessage' + format + '.txt').to.be.pageContents(function (page) {
+                page.load('');
+                page.downloadUrl('?module=API&method=API.getPiwikVersion&format=' + format);
+            }, done);
+        });
+    }
+
+    var formats = ['CSV', 'TSV', 'XML', 'JSON', 'PHP'];
+    formats.forEach(apiUpgradeTest);
+
     it("should start the updater when an old version of Piwik is detected in the DB", function (done) {
         expect.screenshot("main").to.be.capture(function (page) {
             page.load("");

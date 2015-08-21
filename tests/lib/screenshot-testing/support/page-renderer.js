@@ -114,6 +114,10 @@ PageRenderer.prototype.downloadLink = function (selector, waitTime) {
     this.queuedEvents.push([this._downloadLink, waitTime, selector]);
 };
 
+PageRenderer.prototype.downloadUrl = function (url, waitTime) {
+    this.queuedEvents.push([this._downloadUrl, waitTime, url]);
+};
+
 PageRenderer.prototype.dragDrop = function (startSelector, endSelector, waitTime) {
     this.mousedown(startSelector, waitTime);
     this.mouseMove(endSelector, waitTime);
@@ -220,16 +224,23 @@ PageRenderer.prototype._evaluate = function (impl, callback) {
 };
 
 PageRenderer.prototype._downloadLink = function (str, callback) {
-    var response = this.webpage.evaluate(function (selector) {
-        var $ = window.jQuery,
-            url = $(selector).attr('href');
+    var url = this.webpage.evaluate(function (selector) {
+        return $(selector).attr('href');
+    }, str);
+
+    this._downloadUrl(url, callback);
+};
+
+PageRenderer.prototype._downloadUrl = function (url, callback) {
+    var response = this.webpage.evaluate(function (url) {
+        var $ = window.jQuery;
 
         return $.ajax({
             type: "GET",
             url: url,
             async: false
         }).responseText;
-    }, str);
+    }, url);
 
     this.downloadedContents = response;
 
@@ -404,11 +415,11 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
                     callback();
 
                 }, timeInMsToWaitForReRenderToFinish);
-                
+
             } else {
                 callback();
             }
-            
+
         } catch (e) {
             self.webpage.clipRect = previousClipRect;
 

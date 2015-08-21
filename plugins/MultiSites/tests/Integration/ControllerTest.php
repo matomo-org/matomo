@@ -37,9 +37,11 @@ class ControllerTest extends SystemTestCase
         $this->assertEquals(array(
             'label' => 'Site 1',
             'nb_visits' => 2,
+            'nb_actions' => 4,
             'nb_pageviews' => 3,
             'revenue' => '$ 2541',
             'visits_evolution' => '100%',
+            'actions_evolution' => '100%',
             'pageviews_evolution' => '100%',
             'revenue_evolution' => '100%',
             'idsite' => 1,
@@ -53,6 +55,7 @@ class ControllerTest extends SystemTestCase
             'totals' => array(
                 'nb_pageviews' => 8,
                 'nb_visits' => 5,
+                'nb_actions' => 12,
                 'revenue' => 5082,
                 'nb_visits_lastdate' => 0,
             ),

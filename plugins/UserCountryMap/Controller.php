@@ -144,7 +144,7 @@ class Controller extends \Piwik\Plugin\Controller
         $token_auth = Piwik::getCurrentUserTokenAuth();
         $view = new View('@UserCountryMap/realtimeMap');
 
-        $view->mapIsStandaloneNotWidget = $standalone;
+        $view->mapIsStandaloneNotWidget = !(bool) Common::getRequestVar('widget', $standalone, 'int');
 
         $view->metrics = $this->getMetrics($idSite, 'range', self::REAL_TIME_WINDOW, $token_auth);
         $view->defaultMetric = 'nb_visits';

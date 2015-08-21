@@ -21,11 +21,10 @@ port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
-
 ; if charset is set to utf8, Piwik will ensure that it is storing its data using UTF8 charset.
 ; it will add a sql query SET at each page view.
-; Piwik should work correctly without this setting.
-;charset = utf8
+; Piwik should work correctly without this setting but we recommend to have a charset set.
+charset = utf8
 
 [database_tests]
 host = localhost
@@ -360,6 +359,9 @@ language_cookie_name = piwik_lang
 ; standard email address displayed when sending emails
 noreply_email_address = "noreply@{DOMAIN}"
 
+; standard email name displayed when sending emails. If not set, a default name will be used.
+noreply_email_name = ""
+
 ; feedback email address;
 ; when testing, use your own email address or "nobody"
 feedback_email_address = "feedback@piwik.org"
@@ -568,7 +570,9 @@ use_third_party_id_cookie = 0
 debug = 0
 
 ; This option is an alternative to the debug option above. When set to 1, you can debug tracker request by adding
-; a debug=1 query paramater in the URL. All other HTTP requests will not have debug enabled.
+; a debug=1 query paramater in the URL. All other HTTP requests will not have debug enabled. For security reasons this
+; option should be only enabled if really needed and only for a short time frame. Otherwise anyone can set debug=1 and
+; see the log output as well.
 debug_on_demand = 0
 
 ; This setting is described in this FAQ: http://piwik.org/faq/how-to/faq_175/
@@ -774,6 +778,7 @@ Plugins[] = TestRunner
 Plugins[] = BulkTracking
 Plugins[] = Resolution
 Plugins[] = DevicePlugins
+Plugins[] = Heartbeat
 Plugins[] = Intl
 
 [PluginsInstalled]

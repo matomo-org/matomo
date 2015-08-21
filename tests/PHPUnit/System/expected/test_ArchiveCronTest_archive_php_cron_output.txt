@@ -10,57 +10,79 @@ try 'php archive.php --url=http://your.piwik/path'
 -------------------------------------------------------
 
 
-INFO CoreConsole[2015-03-02 06:14:01] ---------------------------
-INFO CoreConsole[2015-03-02 06:14:01] INIT
-INFO CoreConsole[2015-03-02 06:14:01] Piwik is installed at: http://localhost/tests/PHPUnit/proxy/index.php
-INFO CoreConsole[2015-03-02 06:14:01] Running Piwik 2.11.2-b1 as Super User
-INFO CoreConsole[2015-03-02 06:14:01] ---------------------------
-INFO CoreConsole[2015-03-02 06:14:01] NOTES
-INFO CoreConsole[2015-03-02 06:14:01] - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings.
-INFO CoreConsole[2015-03-02 06:14:01]   See the doc at: http://piwik.org/docs/setup-auto-archiving/
-INFO CoreConsole[2015-03-02 06:14:01] - Reports for today will be processed at most every 150 seconds. You can change this value in Piwik UI > Settings > General Settings.
-INFO CoreConsole[2015-03-02 06:14:01] - Reports for the current week/month/year will be refreshed at most every 3600 seconds.
-INFO CoreConsole[2015-03-02 06:14:01] Will invalidate archived reports for 2012-08-09 for following siteIds: 1
-INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2012-08-10 for following siteIds: 1
-INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2012-08-11 for following siteIds: 1
-INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2012-08-15 for following siteIds: 1,2
-INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2012-09-30 for following siteIds: 1
-INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2014-03-12 for following siteIds: 1
-INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2014-03-13 for following siteIds: 1
-INFO CoreConsole[2015-03-02 06:14:02] - Will process 0 websites with new visits since 7 days 0 hours
-INFO CoreConsole[2015-03-02 06:14:02] - Will process 2 other websites because some old data reports have been invalidated (eg. using the Log Import script) , IDs: 1, 2
-INFO CoreConsole[2015-03-02 06:14:02] ---------------------------
-INFO CoreConsole[2015-03-02 06:14:02] START
-INFO CoreConsole[2015-03-02 06:14:02] Starting Piwik reports archiving...
-INFO CoreConsole[2015-03-02 06:14:04] Will pre-process the following 3 Segments for this website (id = 1): browserCode==IE, visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50, visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
-INFO CoreConsole[2015-03-02 06:14:06] Archived website id = 1, period = day, 0 visits in last last52 days, 0 visits today, Time elapsed: 3.952s
-INFO CoreConsole[2015-03-02 06:14:06] Will pre-process the following 3 Segments for this website (id = 1): browserCode==IE, visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50, visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
-INFO CoreConsole[2015-03-02 06:14:34] Archived website id = 1, period = week, 40 visits in last last260 weeks, 0 visits this week, Time elapsed: 28.076s
-INFO CoreConsole[2015-03-02 06:14:34] Will pre-process the following 3 Segments for this website (id = 1): browserCode==IE, visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50, visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
-INFO CoreConsole[2015-03-02 06:14:50] Archived website id = 1, period = month, 40 visits in last last52 months, 0 visits this month, Time elapsed: 16.259s
-INFO CoreConsole[2015-03-02 06:14:50] Will pre-process the following 3 Segments for this website (id = 1): browserCode==IE, visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50, visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
-INFO CoreConsole[2015-03-02 06:14:54] Archived website id = 1, period = year, 40 visits in last last7 years, 0 visits this year, Time elapsed: 4.034s
-INFO CoreConsole[2015-03-02 06:14:54] Archived website id = 1, 16 API requests, Time elapsed: 52.330s [1/2 done]
-INFO CoreConsole[2015-03-02 06:14:56] Archived website id = 2, period = day, 0 visits in last last52 days, 0 visits today, Time elapsed: 1.674s
-INFO CoreConsole[2015-03-02 06:15:08] Archived website id = 2, period = week, 1 visits in last last260 weeks, 0 visits this week, Time elapsed: 12.328s
-INFO CoreConsole[2015-03-02 06:15:14] Archived website id = 2, period = month, 1 visits in last last52 months, 0 visits this month, Time elapsed: 5.494s
-INFO CoreConsole[2015-03-02 06:15:15] Archived website id = 2, period = year, 1 visits in last last7 years, 0 visits this year, Time elapsed: 1.276s
-INFO CoreConsole[2015-03-02 06:15:15] Archived website id = 2, 4 API requests, Time elapsed: 20.778s [2/2 done]
-INFO CoreConsole[2015-03-02 06:15:15] Done archiving!
-INFO CoreConsole[2015-03-02 06:15:15] ---------------------------
-INFO CoreConsole[2015-03-02 06:15:15] SUMMARY
-INFO CoreConsole[2015-03-02 06:15:15] Total visits for today across archived websites: 0
-INFO CoreConsole[2015-03-02 06:15:15] Archived today's reports for 2 websites
-INFO CoreConsole[2015-03-02 06:15:15] Archived week/month/year for 2 websites
-INFO CoreConsole[2015-03-02 06:15:15] Skipped 0 websites: no new visit since the last script execution
-INFO CoreConsole[2015-03-02 06:15:15] Skipped 0 websites day archiving: existing daily reports are less than 150 seconds old
-INFO CoreConsole[2015-03-02 06:15:15] Skipped 0 websites week/month/year archiving: existing periods reports are less than 3600 seconds old
-INFO CoreConsole[2015-03-02 06:15:15] Total API requests: 20
-INFO CoreConsole[2015-03-02 06:15:15] done: 2/2 100%, 0 vtoday, 2 wtoday, 2 wperiods, 20 req, 73234 ms, no error
-INFO CoreConsole[2015-03-02 06:15:15] Time elapsed: 73.235s
-INFO CoreConsole[2015-03-02 06:15:15] ---------------------------
-INFO CoreConsole[2015-03-02 06:15:15] SCHEDULED TASKS
-INFO CoreConsole[2015-03-02 06:15:15] Starting Scheduled tasks...
-INFO CoreConsole[2015-03-02 06:15:15]  No task to run
-INFO CoreConsole[2015-03-02 06:15:15] done
-INFO CoreConsole[2015-03-02 06:15:15] ---------------------------
+INFO [2015-08-20 13:41:26] ---------------------------
+INFO [2015-08-20 13:41:26] INIT
+INFO [2015-08-20 13:41:26] Running Piwik 3.0.0-b1 as Super User
+INFO [2015-08-20 13:41:26] ---------------------------
+INFO [2015-08-20 13:41:26] NOTES
+INFO [2015-08-20 13:41:26] - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings.
+INFO [2015-08-20 13:41:26]   See the doc at: http://piwik.org/docs/setup-auto-archiving/
+INFO [2015-08-20 13:41:26] - Reports for today will be processed at most every 150 seconds. You can change this value in Piwik UI > Settings > General Settings.
+INFO [2015-08-20 13:41:26] - Reports for the current week/month/year will be refreshed at most every 3600 seconds.
+INFO [2015-08-20 13:41:26] Will invalidate archived reports for 2012-08-09 for following siteIds: 1
+INFO [2015-08-20 13:41:27] Will invalidate archived reports for 2012-08-10 for following siteIds: 1
+INFO [2015-08-20 13:41:27] Will invalidate archived reports for 2012-08-11 for following siteIds: 1
+INFO [2015-08-20 13:41:27] Will invalidate archived reports for 2012-08-15 for following siteIds: 1,2
+INFO [2015-08-20 13:41:27] Will invalidate archived reports for 2012-09-30 for following siteIds: 1
+INFO [2015-08-20 13:41:27] Will invalidate archived reports for 2014-03-12 for following siteIds: 1
+INFO [2015-08-20 13:41:27] Will invalidate archived reports for 2014-03-13 for following siteIds: 1
+INFO [2015-08-20 13:41:27] - Will process 0 websites with new visits since 7 days 0 hours
+INFO [2015-08-20 13:41:27] - Will process 2 other websites because some old data reports have been invalidated (eg. using the Log Import script) , IDs: 1, 2
+INFO [2015-08-20 13:41:27] ---------------------------
+INFO [2015-08-20 13:41:27] START
+INFO [2015-08-20 13:41:27] Starting Piwik reports archiving...
+INFO [2015-08-20 13:41:27] Will pre-process for website id = 1, period = day, date = last52
+INFO [2015-08-20 13:41:27] - pre-processing all visits
+INFO [2015-08-20 13:41:29] - pre-processing segment 1/3 browserCode==IE
+INFO [2015-08-20 13:41:29] - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
+INFO [2015-08-20 13:41:29] - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
+INFO [2015-08-20 13:41:31] Archived website id = 1, period = day, 3 segments, 0 visits in last last52 days, 0 visits today, Time elapsed: 2.207s
+INFO [2015-08-20 13:41:31] Will pre-process for website id = 1, period = week, date = last260
+INFO [2015-08-20 13:41:31] - pre-processing all visits
+INFO [2015-08-20 13:41:31] - pre-processing segment 1/3 browserCode==IE
+INFO [2015-08-20 13:41:31] - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
+INFO [2015-08-20 13:41:56] - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
+INFO [2015-08-20 13:42:18] Archived website id = 1, period = week, 3 segments, 40 visits in last last260 weeks, 0 visits this week, Time elapsed: 47.002s
+INFO [2015-08-20 13:42:18] Will pre-process for website id = 1, period = month, date = last52
+INFO [2015-08-20 13:42:18] - pre-processing all visits
+INFO [2015-08-20 13:42:18] - pre-processing segment 1/3 browserCode==IE
+INFO [2015-08-20 13:42:18] - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
+INFO [2015-08-20 13:42:24] - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
+INFO [2015-08-20 13:42:29] Archived website id = 1, period = month, 3 segments, 40 visits in last last52 months, 0 visits this month, Time elapsed: 11.370s
+INFO [2015-08-20 13:42:29] Will pre-process for website id = 1, period = year, date = last7
+INFO [2015-08-20 13:42:29] - pre-processing all visits
+INFO [2015-08-20 13:42:29] - pre-processing segment 1/3 browserCode==IE
+INFO [2015-08-20 13:42:29] - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
+INFO [2015-08-20 13:42:32] - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
+INFO [2015-08-20 13:42:34] Archived website id = 1, period = year, 3 segments, 40 visits in last last7 years, 0 visits this year, Time elapsed: 4.820s
+INFO [2015-08-20 13:42:34] Archived website id = 1, 16 API requests, Time elapsed: 67.301s [1/2 done]
+INFO [2015-08-20 13:42:34] Will pre-process for website id = 2, period = day, date = last52
+INFO [2015-08-20 13:42:34] - pre-processing all visits
+INFO [2015-08-20 13:42:36] Archived website id = 2, period = day, 0 segments, 0 visits in last last52 days, 0 visits today, Time elapsed: 0.001s
+INFO [2015-08-20 13:42:36] Will pre-process for website id = 2, period = week, date = last260
+INFO [2015-08-20 13:42:36] - pre-processing all visits
+INFO [2015-08-20 13:42:51] Archived website id = 2, period = week, 0 segments, 1 visits in last last260 weeks, 0 visits this week, Time elapsed: 15.229s
+INFO [2015-08-20 13:42:51] Will pre-process for website id = 2, period = month, date = last52
+INFO [2015-08-20 13:42:51] - pre-processing all visits
+INFO [2015-08-20 13:42:55] Archived website id = 2, period = month, 0 segments, 1 visits in last last52 months, 0 visits this month, Time elapsed: 3.790s
+INFO [2015-08-20 13:42:55] Will pre-process for website id = 2, period = year, date = last7
+INFO [2015-08-20 13:42:55] - pre-processing all visits
+INFO [2015-08-20 13:42:56] Archived website id = 2, period = year, 0 segments, 1 visits in last last7 years, 0 visits this year, Time elapsed: 1.380s
+INFO [2015-08-20 13:42:56] Archived website id = 2, 4 API requests, Time elapsed: 22.132s [2/2 done]
+INFO [2015-08-20 13:42:56] Done archiving!
+INFO [2015-08-20 13:42:56] ---------------------------
+INFO [2015-08-20 13:42:56] SUMMARY
+INFO [2015-08-20 13:42:56] Total visits for today across archived websites: 0
+INFO [2015-08-20 13:42:56] Archived today's reports for 2 websites
+INFO [2015-08-20 13:42:56] Archived week/month/year for 2 websites
+INFO [2015-08-20 13:42:56] Skipped 0 websites: no new visit since the last script execution
+INFO [2015-08-20 13:42:56] Skipped 0 websites day archiving: existing daily reports are less than 150 seconds old
+INFO [2015-08-20 13:42:56] Skipped 0 websites week/month/year archiving: existing periods reports are less than 3600 seconds old
+INFO [2015-08-20 13:42:56] Total API requests: 20
+INFO [2015-08-20 13:42:56] done: 2/2 100%, 0 vtoday, 2 wtoday, 2 wperiods, 20 req, 89599 ms, no error
+INFO [2015-08-20 13:42:56] Time elapsed: 89.600s
+INFO [2015-08-20 13:42:56] ---------------------------
+INFO [2015-08-20 13:42:56] SCHEDULED TASKS
+INFO [2015-08-20 13:42:56] Starting Scheduled tasks...
+INFO [2015-08-20 13:42:56] done
+INFO [2015-08-20 13:42:56] ---------------------------

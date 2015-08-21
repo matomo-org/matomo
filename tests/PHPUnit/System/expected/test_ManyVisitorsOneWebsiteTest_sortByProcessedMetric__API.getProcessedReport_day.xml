@@ -4,6 +4,7 @@
 	<prettyDate>Sunday, January 3, 2010</prettyDate>
 	<metadata>
 		<category>Actions</category>
+		<subcategory>Pages</subcategory>
 		<name>Page URLs</name>
 		<module>Actions</module>
 		<action>getPageUrls</action>
@@ -41,14 +42,6 @@
 	</columns>
 	<reportData>
 		<row>
-			<label>grue</label>
-			<nb_visits>4</nb_visits>
-			<nb_hits>4</nb_hits>
-			<bounce_rate>100%</bounce_rate>
-			<avg_time_on_page>00:00:00</avg_time_on_page>
-			<exit_rate>100%</exit_rate>
-		</row>
-		<row>
 			<label>space</label>
 			<nb_visits>4</nb_visits>
 			<nb_hits>4</nb_hits>
@@ -56,13 +49,23 @@
 			<avg_time_on_page>00:06:00</avg_time_on_page>
 			<exit_rate>0%</exit_rate>
 		</row>
+		<row>
+			<label>grue</label>
+			<nb_visits>4</nb_visits>
+			<nb_hits>4</nb_hits>
+			<bounce_rate>100%</bounce_rate>
+			<avg_time_on_page>00:00:00</avg_time_on_page>
+			<exit_rate>100%</exit_rate>
+		</row>
 	</reportData>
 	<reportMetadata>
 		<row>
-			<idsubdatatable>1</idsubdatatable>
+			
+			<idsubdatatable>2722</idsubdatatable>
 		</row>
 		<row>
-			<idsubdatatable>2</idsubdatatable>
+			
+			<idsubdatatable>2721</idsubdatatable>
 		</row>
 	</reportMetadata>
 	<reportTotal>

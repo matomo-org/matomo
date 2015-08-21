@@ -4,6 +4,7 @@
 	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
 		<category>Visitors</category>
+		<subcategory>Engagement</subcategory>
 		<name>Returning Visits</name>
 		<module>VisitFrequency</module>
 		<action>get</action>

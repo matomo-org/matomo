@@ -12,7 +12,11 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\Referrers\Columns\ReferrerType;
+use Piwik\Widget\WidgetsList;
+use Piwik\Report\ReportWidgetFactory;
 
 class GetReferrerType extends Base
 {
@@ -32,12 +36,42 @@ class GetReferrerType extends Base
         $this->constantRowsCount = true;
         $this->hasGoalMetrics = true;
         $this->order = 1;
-        $this->widgetTitle  = 'General_Overview';
+        $this->subcategoryId = 'Referrers_WidgetGetAll';
     }
 
     public function getDefaultTypeViewDataTable()
     {
         return HtmlTable\AllColumns::ID;
+    }
+
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
+    {
+        $widgetsList->addWidgetConfig(
+            $factory->createWidget()
+                    ->setName('Referrers_ReferrerTypes')
+                    ->setSubcategoryId('Referrers_WidgetGetAll')
+        );
+
+        $widgetsList->addWidgetConfig(
+            $factory->createWidget()
+                ->setName('General_EvolutionOverPeriod')
+                ->setSubcategoryId('General_Overview')
+                ->setAction('getEvolutionGraph')
+                ->setIsNotWidgetizable()
+                ->forceViewDataTable(Evolution::ID)
+                ->addParameters(array(
+                    'columns' => $defaultColumns = array('nb_visits'),
+                ))
+        );
+
+        $widgetsList->addWidgetConfig(
+            $factory->createCustomWidget('getSparklines')
+                ->forceViewDataTable(Sparklines::ID)
+                ->setIsNotWidgetizable()
+                ->setName('Referrers_Type')
+                ->setSubcategoryId('General_Overview')
+                ->setOrder(10)
+        );
     }
 
     public function configureView(ViewDataTable $view)

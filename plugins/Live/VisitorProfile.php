@@ -133,7 +133,14 @@ class VisitorProfile
         }
 
         if ($referrerType == 'campaign') {
-            return Piwik::translate('Referrers_ColumnCampaign') . ' (' . $visit->getColumn('referrerName') . ')';
+
+            $summary = Piwik::translate('Referrers_ColumnCampaign') . ': ' . $visit->getColumn('referrerName');
+            $keyword = $visit->getColumn('referrerKeyword');
+            if (!empty($keyword)) {
+                $summary .= ' - ' . $keyword;
+            }
+
+            return $summary;
         }
 
         return $visit->getColumn('referrerName');

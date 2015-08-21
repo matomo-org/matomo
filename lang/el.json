@@ -353,7 +353,7 @@
         "Total": "Σύνολο",
         "TotalRatioTooltip": "Αυτό είναι το %1$s από όλες τις %2$s %3$s.",
         "TotalRevenue": "Συνολική Πρόσοδος",
-        "TotalVisitsPageviewsRevenue": "(Σύνολο: %s επισκέψεις, %s προβολές σελίδων, %s πρόσοδος)",
+        "TotalVisitsPageviewsActionsRevenue": "(Σύνολα: %s επισκέψεις, %s προβολές σελίδων, %s ενέργειες, %s κέρδος)",
         "TransitionsRowActionTooltip": "Δείτε τι έκαναν οι επισκέπτες πριν και μετά την προβολή αυτής της σελίδας",
         "TransitionsRowActionTooltipTitle": "Άνοιγμα Μεταβάσεων",
         "TranslatorEmail": "jimaek@hotmail.com, info@onsite.net.gr, papaz_p@yahoo.com",

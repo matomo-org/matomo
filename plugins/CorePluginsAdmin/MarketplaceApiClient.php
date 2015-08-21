@@ -18,7 +18,7 @@ use Piwik\Version;
 class MarketplaceApiClient
 {
     const CACHE_TIMEOUT_IN_SECONDS = 1200;
-    const HTTP_REQUEST_TIMEOUT = 10;
+    const HTTP_REQUEST_TIMEOUT = 60;
 
     private $domain = 'http://plugins.piwik.org';
 

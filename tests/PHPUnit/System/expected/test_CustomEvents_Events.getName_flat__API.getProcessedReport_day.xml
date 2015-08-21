@@ -3,7 +3,8 @@
 	<website>Piwik test</website>
 	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
-		<category>Events</category>
+		<category>Actions</category>
+		<subcategory>Events</subcategory>
 		<name>Event Names</name>
 		<module>Events</module>
 		<action>getName</action>
@@ -70,7 +71,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>La fiancée de l&amp;#039;eau - play</label>
+				<label>La fiancée de l'eau - play</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -79,7 +80,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>La fiancée de l&amp;#039;eau - play25%</label>
+				<label>La fiancée de l'eau - play25%</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -88,7 +89,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>La fiancée de l&amp;#039;eau - play50%</label>
+				<label>La fiancée de l'eau - play50%</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -97,7 +98,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>La fiancée de l&amp;#039;eau - play75%</label>
+				<label>La fiancée de l'eau - play75%</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -106,7 +107,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>La fiancée de l&amp;#039;eau - playEnd</label>
+				<label>La fiancée de l'eau - playEnd</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -115,7 +116,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>La fiancée de l&amp;#039;eau - rating</label>
+				<label>La fiancée de l'eau - rating</label>
 				<nb_events>4</nb_events>
 				<nb_events_with_value>4</nb_events_with_value>
 				<sum_event_value>38</sum_event_value>

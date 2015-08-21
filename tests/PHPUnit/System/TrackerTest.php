@@ -179,7 +179,11 @@ class TrackerTest extends IntegrationTestCase
 
     public function test_scheduledTasks_CanBeRunThroughTracker_WithOutputIncluded_IfDebugQueryParamUsed()
     {
-        $this->setScheduledTasksToRunInTracker();
+        $environment = $this->setScheduledTasksToRunInTracker();
+        $config = $environment->configOverride;
+        $config['log']['log_writers'] = array('screen');
+        $environment->configOverride = $config;
+        $environment->save();
 
         $urlToTest = $this->getSimpleTrackingUrl() . '&debug=1';
 
@@ -296,6 +300,8 @@ class TrackerTest extends IntegrationTestCase
         $testingEnvironment->addScheduledTask = true;
         $testingEnvironment->configOverride = array('Tracker' => array('scheduled_tasks_min_interval' => 1, 'debug_on_demand' => 1));
         $testingEnvironment->save();
+
+        return $testingEnvironment;
     }
 
     private function addFailingScheduledTaskToTracker($doFatalError)
@@ -381,4 +387,12 @@ class TrackerTest extends IntegrationTestCase
         Option::clearCachedOption(self::TASKS_STARTED_OPTION_NAME);
         $this->assertEquals(1, Option::get(self::TASKS_STARTED_OPTION_NAME));
     }
+
+    public static function provideContainerConfigBeforeClass()
+    {
+        return array(
+            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
+        );
+    }
+
 }

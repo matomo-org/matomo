@@ -4,9 +4,8 @@
 
 {% include "@CoreHome/_siteSelectHeader.twig" %}
 
-{% if (menu is defined and menu) %}
-  {% include "@CoreHome/_menu.twig" %}
-{% endif %}
+<div piwik-reporting-menu></div>
+<div class="nav_sep"></div>
 
 {% include "@CoreHome/_indexContent.twig" %}
 

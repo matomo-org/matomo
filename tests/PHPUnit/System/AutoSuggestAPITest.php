@@ -14,6 +14,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker\Cache;
+use Piwik\Cache as PiwikCache;
 
 /**
  * testing a the auto suggest API for all known segments
@@ -153,6 +154,7 @@ class AutoSuggestAPITest extends SystemTestCase
     {
         // Refresh cache for CustomVariables\Model
         Cache::clearCacheGeneral();
+        PiwikCache::getTransientCache()->flushAll();
 
         \Piwik\Plugins\CustomVariables\Model::install();
 

@@ -4,10 +4,17 @@
         "IWantTo": "Jeg vil:",
         "LearnWaysToParticipate": "Lær om alle måtene du kan %s bidra%s",
         "ManuallySendEmailTo": "Send meldingen manuelt til",
+        "RateFeatureThankYouTitle": "Takk for at du rangerer '%s'!",
+        "RateFeatureTitle": "Liker du '%s' funksjonen? Vennligst ranger og legg igjen en kommentar",
         "SendFeedback": "Send tilbakemelding",
         "ThankYou": "Takk for at du hjelper oss å lage Piwik bedre!",
         "TopLinkTooltip": "Fortell oss hva du synes eller be om profesjonell støtte.",
+        "ProfessionalHelp": "Profesjonell hjelp",
+        "PiwikProOfferIntro": "Vårt tilbud inkluderer",
+        "PiwikProOptimizationMaintenance": "Piwik optimalisering- og vedlikeholdstjenester",
         "PiwikProPhoneEmailSupport": "Telefon og e-post-støtte",
+        "PiwikProTraining": "Bruker, teknisk- og utviklertrening",
+        "PiwikProPremiumFeatures": "Premium-funksjoner",
         "ContactUs": "Kontakt oss",
         "VisitTheForums": "Besøk %sforumet%s"
     }

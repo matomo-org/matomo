@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Decompress\Tar;
 use Piwik\Development;
@@ -32,21 +33,24 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
     {
         $this->setName('development:sync-system-test-processed');
         $this->setDescription('For Piwik core devs. Copies processed system tests from travis artifacts to ' . $this->targetDir);
-        $this->addOption('branch', null, InputOption::VALUE_REQUIRED, 'The branch the tests were running on', 'master');
-        $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync.');
+        $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync, eg "14820".');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $branch      = $input->getOption('branch');
         $buildNumber = $input->getArgument('buildnumber');
         $targetDir   = PIWIK_INCLUDE_PATH . '/' . dirname($this->targetDir);
         $tmpDir      = StaticContainer::get('path.tmp');
 
         $this->validate($buildNumber, $targetDir, $tmpDir);
 
-        $filename = sprintf('processed.%s.tar.bz2', $buildNumber);
-        $urlBase  = sprintf('http://builds-artifacts.piwik.org/%s/%s/%s', $branch, $buildNumber, $filename);
+        if (Common::stringEndsWith($buildNumber, '.1')) {
+            // eg make '14820.1' to '14820' to be backwards compatible
+            $buildNumber = substr($buildNumber, 0, -2);
+        }
+
+        $filename = sprintf('system.%s.tar.bz2', $buildNumber);
+        $urlBase  = sprintf('http://builds-artifacts.piwik.org/piwik/piwik/%s', $filename);
         $tests    = Http::sendHttpRequest($urlBase, $timeout = 120);
 
         $tarFile = $tmpDir . $filename;

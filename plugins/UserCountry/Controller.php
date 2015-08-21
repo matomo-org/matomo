@@ -26,17 +26,12 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
-    public function index()
+    public function getDistinctCountries()
     {
-        $view = new View('@UserCountry/index');
+        $view = new View('@UserCountry/getDistinctCountries');
 
         $view->urlSparklineCountries = $this->getUrlSparkline('getLastDistinctCountriesGraph');
         $view->numberDistinctCountries = $this->getNumberOfDistinctCountries(true);
-
-        $view->dataTableCountry = $this->renderReport('getCountry');
-        $view->dataTableContinent = $this->renderReport('getContinent');
-        $view->dataTableRegion = $this->renderReport('getRegion');
-        $view->dataTableCity = $this->renderReport('getCity');
 
         return $view->render();
     }

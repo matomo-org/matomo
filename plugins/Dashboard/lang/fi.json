@@ -30,7 +30,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Tätä työpöytää käytetään kun kuka tahansa käyttäjistä luo uuden työpöydän tai kun ominaisuutta \"%s\" käytetään.",
         "TopLinkTooltip": "Katso analytiikkaa %s",
         "WidgetNotFound": "Vimpainta ei löydy",
-        "WidgetPreview": "Vimpaimen esikatselu",
-        "WidgetsAndDashboard": "Vimpaimet ja työpöytä"
+        "WidgetPreview": "Vimpaimen esikatselu"
     }
 }

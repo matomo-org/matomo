@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\Menu\MenuAdmin;
-use Piwik\Menu\MenuReporting;
 use Piwik\Piwik;
 
 /**
@@ -23,11 +22,5 @@ class Menu extends \Piwik\Plugin\Menu
                                      $this->urlForAction('deviceDetection'),
                                      $order = 40);
         }
-    }
-
-    public function configureReportingMenu(MenuReporting $menu)
-    {
-        $menu->addVisitorsItem('DevicesDetection_Devices', $this->urlForAction('devices'));
-        $menu->addVisitorsItem('DevicesDetection_Software', $this->urlForAction('software'));
     }
 }

@@ -12,6 +12,7 @@ use Piwik\Archive;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
+use Piwik\Plugin\Reports;
 use Piwik\SettingsPiwik;
 
 /**
@@ -29,7 +30,7 @@ class API extends \Piwik\Plugin\API
 
         $requestedColumns = Piwik::getArrayFromApiParameter($columns);
 
-        $report = Report::factory("VisitsSummary", "get");
+        $report = Reports::factory("VisitsSummary", "get");
         $columns = $report->getMetricsRequiredForReport($this->getCoreColumns($period), $requestedColumns);
 
         $dataTable = $archive->getDataTableFromNumeric($columns);

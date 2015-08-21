@@ -4,6 +4,7 @@
 	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
 		<category>Referrers</category>
+		<subcategory>Websites &amp; Social</subcategory>
 		<name>Websites</name>
 		<module>Referrers</module>
 		<action>getWebsites</action>
@@ -113,14 +114,16 @@
 	<reportMetadata>
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
+				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1</idsubdatatable>
+				<idsubdatatable>17099</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
+				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1</idsubdatatable>
+				<idsubdatatable>17101</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
@@ -128,14 +131,16 @@
 		<result prettyDate="Thursday, January 7, 2010" />
 		<result prettyDate="Friday, January 8, 2010">
 			<row>
+				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1</idsubdatatable>
+				<idsubdatatable>17106</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Saturday, January 9, 2010">
 			<row>
+				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1</idsubdatatable>
+				<idsubdatatable>17108</idsubdatatable>
 			</row>
 		</result>
 	</reportMetadata>

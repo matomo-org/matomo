@@ -451,6 +451,20 @@ class Plugin
     }
 
     /**
+     * Override this method in your plugin class if you want your plugin to be loaded during tracking.
+     *
+     * Note: If you define your own dimension or handle a tracker event, your plugin will automatically
+     * be detected as a tracker plugin.
+     *
+     * @return bool
+     * @internal
+     */
+    public function isTrackerPlugin()
+    {
+        return false;
+    }
+
+    /**
      * @param $directoryWithinPlugin
      * @param $expectedSubclass
      * @return array
@@ -466,7 +480,7 @@ class Plugin
             require_once $file;
 
             $fileName  = str_replace(array($baseDir . '/', '.php'), '', $file);
-            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, $directoryWithinPlugin, str_replace('/', '\\', $fileName));
+            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, str_replace('/', '\\', $directoryWithinPlugin), str_replace('/', '\\', $fileName));
 
             if (!class_exists($klassName)) {
                 continue;

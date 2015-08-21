@@ -136,6 +136,11 @@ class LogAggregator
     protected $segment;
 
     /**
+     * @var string
+     */
+    private $queryOriginHint = '';
+
+    /**
      * Constructor.
      *
      * @param \Piwik\ArchiveProcessor\Parameters $params
@@ -148,10 +153,22 @@ class LogAggregator
         $this->sites = $params->getIdSites();
     }
 
+    public function setQueryOriginHint($nameOfOrigiin)
+    {
+        $this->queryOriginHint = $nameOfOrigiin;
+    }
+
     public function generateQuery($select, $from, $where, $groupBy, $orderBy)
     {
         $bind = $this->getGeneralQueryBindParams();
         $query = $this->segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy);
+
+        $select = 'SELECT';
+        if ($this->queryOriginHint && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
+            $query['sql'] = trim($query['sql']);
+            $query['sql'] = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($query['sql'], strlen($select));
+        }
+
         return $query;
     }
 

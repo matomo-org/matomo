@@ -1102,6 +1102,10 @@ class Manager
             return true;
         }
 
+        if ($plugin->isTrackerPlugin()) {
+            return true;
+        }
+
         return false;
     }
 
