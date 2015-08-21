@@ -8,10 +8,7 @@
 
 namespace Piwik\Tests\Integration;
 
-use Piwik\Access;
 use Piwik\Piwik;
-use Piwik\Plugins\SitesManager\API;
-use Piwik\Translate;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**

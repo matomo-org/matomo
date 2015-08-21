@@ -14,7 +14,6 @@ use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
-use Piwik\Translate;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -36,15 +35,6 @@ class ActionTest extends IntegrationTestCase
         Config::getInstance()->Tracker = $section;
 
         PluginManager::getInstance()->loadPlugins(array('SitesManager'));
-
-        Translate::loadAllTranslations();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-
-        Translate::reset();
     }
 
     protected function setUpRootAccess()

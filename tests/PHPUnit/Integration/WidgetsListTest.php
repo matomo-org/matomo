@@ -10,7 +10,6 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;
-use Piwik\Translate;
 use Piwik\WidgetsList;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -153,8 +152,6 @@ class WidgetsListTest extends IntegrationTestCase
         // setup the access layer
         FakeAccess::$superUser = true;
 
-        Translate::loadAllTranslations();
-
         Fixture::createWebsite('2009-01-04 00:11:42', true);
 
         $_GET['idSite'] = 1;
@@ -164,8 +161,6 @@ class WidgetsListTest extends IntegrationTestCase
 
         $this->assertTrue(WidgetsList::isDefined('Actions', 'getPageUrls'));
         $this->assertFalse(WidgetsList::isDefined('Actions', 'inValiD'));
-
-        Translate::reset();
     }
 
     public function provideContainerConfig()
