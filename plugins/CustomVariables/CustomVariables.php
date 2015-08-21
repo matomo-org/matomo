@@ -9,12 +9,13 @@
 namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Piwik;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker;
 
 class CustomVariables extends \Piwik\Plugin
 {
+    const MAX_NUM_CUSTOMVARS_CACHEKEY = 'CustomVariables.MaxNumCustomVariables';
+
     /**
      * @see Piwik\Plugin::getListHooksRegistered
      */
@@ -65,7 +66,7 @@ class CustomVariables extends \Piwik\Plugin
     public static function getMaxCustomVariables()
     {
         $cache    = Cache::getCacheGeneral();
-        $cacheKey = 'CustomVariables.MaxNumCustomVariables';
+        $cacheKey = self::MAX_NUM_CUSTOMVARS_CACHEKEY;
 
         if (!array_key_exists($cacheKey, $cache)) {
 
