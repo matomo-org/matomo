@@ -55,7 +55,6 @@ class Updates_0_0_2 extends Updates
      * See {@link Updates} for an example.
      *
      * @param Updater $updater
-     * @api
      */
     public function doUpdate(Updater $updater)
     {
