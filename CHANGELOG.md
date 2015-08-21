@@ -7,6 +7,11 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Breaking Changes
 * Handling of localized date, time and range formats has been changed. Patterns no longer contain placeholders like `%shortDay%`, but work with CLDR pattern instead. You can use one of the predefined format constants in `Date` class for using `getLocalized()`.
 * As we are now using CLDR formats for all languages, some time formats were even changed in english. Attributes like `prettyDate` in API responses might so have been changed slightly.
+* The following deprecated methods have been removed:
+    * `Piwik\Common::getContinentsList()`: use `Piwik\Intl\Data\Provider\RegionDataProvider::getContinentList()` instead
+    * `Piwik\Common::getCountriesList()`: use `Piwik\Intl\Data\Provider\RegionDataProvider::getCountryList()` instead
+    * `Piwik\Common::getLanguagesList()`: use `Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageList()` instead
+    * `Piwik\Common::getLanguageToCountryList()`: use `Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageToCountryList()` instead
 
 ## Piwik 2.14.0
 
@@ -335,4 +340,3 @@ We are using `@since` annotations in case we are introducing new API's to make i
  -->
 
 Find the general Piwik Changelogs for each release at [piwik.org/changelog](http://piwik.org/changelog/)
- 
