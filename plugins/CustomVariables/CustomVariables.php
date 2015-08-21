@@ -12,6 +12,8 @@ use Piwik\Tracker\Cache;
 
 class CustomVariables extends \Piwik\Plugin
 {
+    const MAX_NUM_CUSTOMVARS_CACHEKEY = 'CustomVariables.MaxNumCustomVariables';
+
     /**
      * @see \Piwik\Plugin::registerEvents
      */
@@ -73,7 +75,7 @@ class CustomVariables extends \Piwik\Plugin
     public static function getNumUsableCustomVariables()
     {
         $cache    = Cache::getCacheGeneral();
-        $cacheKey = 'CustomVariables.NumUsableCustomVariables';
+        $cacheKey = self::MAX_NUM_CUSTOMVARS_CACHEKEY;
 
         if (!array_key_exists($cacheKey, $cache)) {
 
