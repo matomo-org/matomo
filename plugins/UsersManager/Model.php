@@ -151,14 +151,18 @@ class Model
     {
         $db = $this->getDb();
 
-        // Favor case-insensitive comparison in case 2 login exist with a different case
-        $user = $db->fetchRow("SELECT * FROM " . $this->table . " WHERE BINARY login = ?", $userLogin);
-        if ($user) {
-            return $user;
+        $matchedUsers = $db->fetchAll("SELECT * FROM " . $this->table . " WHERE login = ?", $userLogin);
+
+        // for BC in 2.15 LTS, if there is a user w/ an exact match to the requested login, return that user.
+        // this is done since before this change, login was case sensitive. until 3.0, we want to maintain
+        // this behavior.
+        foreach ($matchedUsers as $user) {
+            if ($user['login'] == $userLogin) {
+                return $user;
+            }
         }
 
-        // Fallback to a case-insensitive comparison: users can log in regardless of the case they use
-        return $db->fetchRow("SELECT * FROM " . $this->table . " WHERE login = ?", $userLogin);
+        return reset($matchedUsers);
     }
 
     public function getUserByEmail($userEmail)
