@@ -17,6 +17,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
     * `Piwik\Common::getLanguagesList()`: use `Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageList()` instead
     * `Piwik\Common::getLanguageToCountryList()`: use `Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageToCountryList()` instead
     * `Piwik\Log::setLogLevel()` and `Piwik\Log::getLogLevel()`: log levels are now handled through DI configuration
+    * `Piwik\Tracker::getDatetimeFromTimestamp()`: use `Piwik\Date::getDatetimeFromTimestamp()` instead
 
 ## Piwik 2.14.0
 
