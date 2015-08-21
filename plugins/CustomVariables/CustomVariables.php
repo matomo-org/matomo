@@ -21,8 +21,7 @@ class CustomVariables extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
-            'Live.getAllVisitorDetails'       => 'extendVisitorDetails'
+            'Live.getAllVisitorDetails' => 'extendVisitorDetails'
         );
     }
 
@@ -86,46 +85,6 @@ class CustomVariables extends \Piwik\Plugin
         }
 
         return $cache[$cacheKey];
-    }
-
-    public function getSegmentsMetadata(&$segments)
-    {
-        $maxCustomVariables = self::getMaxCustomVariables();
-
-        for ($i = 1; $i <= $maxCustomVariables; $i++) {
-            $segments[] = array(
-                'type'       => 'dimension',
-                'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableName') . ' ' . $i
-                    . ' (' . Piwik::translate('CustomVariables_ScopeVisit') . ')',
-                'segment'    => 'customVariableName' . $i,
-                'sqlSegment' => 'log_visit.custom_var_k' . $i,
-            );
-            $segments[] = array(
-                'type'       => 'dimension',
-                'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableValue') . ' ' . $i
-                    . ' (' . Piwik::translate('CustomVariables_ScopeVisit') . ')',
-                'segment'    => 'customVariableValue' . $i,
-                'sqlSegment' => 'log_visit.custom_var_v' . $i,
-            );
-            $segments[] = array(
-                'type'       => 'dimension',
-                'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableName') . ' ' . $i
-                    . ' (' . Piwik::translate('CustomVariables_ScopePage') . ')',
-                'segment'    => 'customVariablePageName' . $i,
-                'sqlSegment' => 'log_link_visit_action.custom_var_k' . $i,
-            );
-            $segments[] = array(
-                'type'       => 'dimension',
-                'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableValue') . ' ' . $i
-                    . ' (' . Piwik::translate('CustomVariables_ScopePage') . ')',
-                'segment'    => 'customVariablePageValue' . $i,
-                'sqlSegment' => 'log_link_visit_action.custom_var_v' . $i,
-            );
-        }
     }
 
 }

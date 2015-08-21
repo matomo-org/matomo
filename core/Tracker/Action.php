@@ -395,18 +395,6 @@ abstract class Action
         $visitActionDebug = $visitAction;
         $visitActionDebug['idvisitor'] = bin2hex($visitActionDebug['idvisitor']);
         Common::printDebug($visitActionDebug);
-
-        /**
-         * Triggered after successfully persisting a [visit action entity](/guides/persistence-and-the-mysql-backend#visit-actions).
-         *
-         * This event is deprecated, use [Dimensions](http://developer.piwik.org/guides/dimensions) instead.
-         *
-         * @param Action $tracker Action The Action tracker instance.
-         * @param array $visitAction The visit action entity that was persisted. Read
-         *                           [this](/guides/persistence-and-the-mysql-backend#visit-actions) to see what it contains.
-         * @deprecated
-         */
-        Piwik::postEvent('Tracker.recordAction', array($trackerAction = $this, $visitAction));
     }
 
     public function writeDebugInfo()

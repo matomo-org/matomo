@@ -102,9 +102,9 @@ namespace Piwik\Tests\Integration\Columns
             $this->assertSame('', $this->dimension->getName());
         }
 
-        public function test_getAllDimensions_shouldReturnActionVisitAndConversionDimensions()
+        public function test_getAllDimensions_shouldReturnAllKindOfDimensions()
         {
-            Manager::getInstance()->loadPlugins(array('Actions', 'Events', 'DevicesDetector', 'Goals'));
+            Manager::getInstance()->loadPlugins(array('Actions', 'Events', 'DevicesDetector', 'Goals', 'CustomVariables'));
 
             $dimensions = Dimension::getAllDimensions();
 
@@ -113,6 +113,7 @@ namespace Piwik\Tests\Integration\Columns
             $foundConversion = false;
             $foundVisit      = false;
             $foundAction     = false;
+            $foundNormal     = false;
 
             foreach ($dimensions as $dimension) {
                 if ($dimension instanceof ConversionDimension) {
@@ -121,16 +122,19 @@ namespace Piwik\Tests\Integration\Columns
                     $foundAction = true;
                 } else if ($dimension instanceof VisitDimension) {
                     $foundVisit = true;
+                } else if ($dimension instanceof Dimension) {
+                    $foundNormal = true;
                 } else {
                     $this->fail('Unexpected dimension class found');
                 }
 
-                $this->assertRegExp('/Piwik.Plugins.(Actions|Events|DevicesDetector|Goals).Columns/', get_class($dimension));
+                $this->assertRegExp('/Piwik.Plugins.(Actions|Events|DevicesDetector|Goals|CustomVariables).Columns/', get_class($dimension));
             }
 
             $this->assertTrue($foundConversion);
             $this->assertTrue($foundAction);
             $this->assertTrue($foundVisit);
+            $this->assertTrue($foundNormal);
         }
 
         public function test_getDimensions_shouldReturnAllKindOfDimensionsThatBelongToASpecificPlugin()

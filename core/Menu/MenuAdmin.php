@@ -111,12 +111,6 @@ class MenuAdmin extends MenuAbstract
     {
         if (!$this->menu) {
 
-            /**
-             * @ignore
-             * @deprecated
-             */
-            Piwik::postEvent('Menu.Admin.addItems', array());
-
             foreach ($this->getAllMenus() as $menu) {
                 $menu->configureAdminMenu($this);
             }
