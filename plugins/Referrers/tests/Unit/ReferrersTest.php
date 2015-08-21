@@ -11,10 +11,9 @@ namespace Piwik\Plugins\Referrers\tests;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Period;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/Referrers.php';
-
-class ReferrersTest extends \PHPUnit_Framework_TestCase
+class ReferrersTest extends IntegrationTestCase
 {
     /**
      * Dataprovider serving all search engine data
