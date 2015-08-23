@@ -94,7 +94,10 @@
 
     {% if userLogin != 'anonymous' %}
         <p>
-            <button id="add-report">{{ 'ScheduledReports_CreateAndScheduleReport'|translate }}</button>
+            <button id="add-report" class="btn btn-lg btn-flat">
+                <span class="icon-add"></span>
+                {{ 'ScheduledReports_CreateAndScheduleReport'|translate }}
+            </button>
         </p>
     {% endif %}
 

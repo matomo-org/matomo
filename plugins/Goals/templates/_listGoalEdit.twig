@@ -49,7 +49,10 @@
 
     {% if onlyShowAddNewGoal is not defined %}
         <p>
-            <button id="add-goal">{{ 'Goals_AddNewGoal'|translate }}</button>
+            <button id="add-goal" class="btn btn-lg btn-flat">
+                <span class="icon-add"></span>
+                {{ 'Goals_AddNewGoal'|translate }}
+            </button>
         </p>
     {% endif %}
 </div>
