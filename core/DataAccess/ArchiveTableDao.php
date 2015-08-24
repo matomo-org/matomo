@@ -8,6 +8,7 @@
 
 namespace Piwik\DataAccess;
 
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
 
@@ -16,16 +17,6 @@ use Piwik\Db;
  */
 class ArchiveTableDao
 {
-    /**
-     * @var string
-     */
-    private $tablesPrefix;
-
-    public function __construct(Config $config)
-    {
-        $this->tablesPrefix = $config->database['tables_prefix'];
-    }
-
     /**
      * Analyzes numeric & blob tables for a single table date (ie, `'2015_01'`) and returns
      * statistics including:
@@ -54,8 +45,8 @@ class ArchiveTableDao
 
         $tableDate = str_replace("`", "", $tableDate); // for sanity
 
-        $numericTable = $this->tablesPrefix . "archive_numeric_$tableDate";
-        $blobTable = $this->tablesPrefix . "archive_blob_$tableDate";
+        $numericTable = Common::prefixTable("archive_numeric_$tableDate");
+        $blobTable = Common::prefixTable("archive_blob_$tableDate");
 
         // query numeric table
         $sql = "SELECT CONCAT_WS('.', idsite, date1, date2, period) AS label,
