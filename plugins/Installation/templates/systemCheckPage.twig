@@ -4,20 +4,21 @@
 
     <h2 piwik-enriched-headline>{{ 'Installation_SystemCheck'|translate }}</h2>
 
-    <p style="margin-left:0.2em;">
-        {% if diagnosticReport.hasErrors() %}
-            <img src="plugins/Morpheus/images/error.png"/>
+    {% if diagnosticReport.hasErrors() %}
+        <div class="alert alert-danger">
             {{ 'Installation_SystemCheckSummaryThereWereErrors'|translate('<strong>','</strong>','<strong><em>','</em></strong>')|raw }}
             {{ 'Installation_SeeBelowForMoreInfo'|translate }}
-        {% elseif diagnosticReport.hasWarnings() %}
-            <img src="plugins/Morpheus/images/warning.png"/>
+        </div>
+    {% elseif diagnosticReport.hasWarnings() %}
+        <div class="alert alert-warning">
             {{ 'Installation_SystemCheckSummaryThereWereWarnings'|translate }}
             {{ 'Installation_SeeBelowForMoreInfo'|translate }}
-        {% else %}
-            <img src="plugins/Morpheus/images/ok.png"/>
+        </div>
+    {% else %}
+        <div class="alert alert-success">
             {{ 'Installation_SystemCheckSummaryNoProblems'|translate }}
-        {% endif %}
-    </p>
+        </div>
+    {% endif %}
 
     {% include "@Installation/_systemCheckSection.twig" %}
 

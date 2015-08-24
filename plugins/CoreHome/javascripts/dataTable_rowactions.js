@@ -360,7 +360,7 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
 
         if (self.dataTable !== null) {
             // remember label for multi row evolution
-            box.find('a.rowevolution-startmulti').click(function () {
+            box.find('.rowevolution-startmulti').click(function () {
                 Piwik_Popover.onClose(false); // unbind listener that resets multiEvolutionRows
                 Piwik_Popover.close();
                 return false;
