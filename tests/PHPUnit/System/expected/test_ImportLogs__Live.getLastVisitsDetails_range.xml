@@ -2170,13 +2170,13 @@
 				<revenue>5</revenue>
 				<goalPageId>71</goalPageId>
 				
-				<url>http://piwik.net/hello/from/another/world/6,681965</url>
+				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
 				<type>action</type>
-				<url>http://piwik.net/hello/from/another/world/6,681965</url>
+				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
 				<pageTitle />
 				<pageIdAction>60</pageIdAction>
 				
@@ -2289,7 +2289,7 @@
 		<actionDetails>
 			<row>
 				<type>action</type>
-				<url>http://piwik.net/Products/theProduct</url>
+				<url>http://xzy.example.com/Products/theProduct</url>
 				<pageTitle />
 				<pageIdAction>55</pageIdAction>
 				
@@ -2313,14 +2313,14 @@
 				<revenue>5</revenue>
 				<goalPageId>58</goalPageId>
 				
-				<url>http://piwik.net/Products/theProduct</url>
+				<url>http://xzy.example.com/Products/theProduct</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
 				<type>action</type>
-				<url>http://piwik.net/Topic/hw43061</url>
-				<pageTitle>301/URL = http%3A%2F%2Fpiwik.net%2FTopic%2Fhw43061</pageTitle>
+				<url>http://example.hello.com/Topic/hw43061</url>
+				<pageTitle>301/URL = http%3A%2F%2Fexample.hello.com%2FTopic%2Fhw43061</pageTitle>
 				<pageIdAction>57</pageIdAction>
 				
 				<pageId>59</pageId>
@@ -2337,7 +2337,7 @@
 			</row>
 			<row>
 				<type>action</type>
-				<url>http://piwik.net/Products/theProduct</url>
+				<url>http://xzy.example.com/Products/theProduct</url>
 				<pageTitle />
 				<pageIdAction>55</pageIdAction>
 				
@@ -2455,14 +2455,14 @@
 				<revenue>5</revenue>
 				<goalPageId>60</goalPageId>
 				
-				<url>http://piwik.net/hello/world/6,681965</url>
+				<url>http://hello.example.com/hello/world/6,681965</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
 				<type>action</type>
-				<url>http://piwik.net/hello/world/6,681965</url>
-				<pageTitle>404/URL = http%3A%2F%2Fpiwik.net%2Fhello%2Fworld%2F6%2C681965</pageTitle>
+				<url>http://hello.example.com/hello/world/6,681965</url>
+				<pageTitle>404/URL = http%3A%2F%2Fhello.example.com%2Fhello%2Fworld%2F6%2C681965</pageTitle>
 				<pageIdAction>59</pageIdAction>
 				
 				<pageId>60</pageId>
@@ -2562,8 +2562,8 @@
 		<actionDetails>
 			<row>
 				<type>action</type>
-				<url>http://piwik.net/hello/world/6,681965</url>
-				<pageTitle>404/URL = http%3A%2F%2Fpiwik.net%2Fhello%2Fworld%2F6%2C681965</pageTitle>
+				<url>http://hello.example.com/hello/world/6,681965</url>
+				<pageTitle>404/URL = http%3A%2F%2Fhello.example.com%2Fhello%2Fworld%2F6%2C681965</pageTitle>
 				<pageIdAction>59</pageIdAction>
 				
 				<pageId>70</pageId>
@@ -2594,13 +2594,13 @@
 				<revenue>5</revenue>
 				<goalPageId>61</goalPageId>
 				
-				<url>http://piwik.net/hello/from/another/world/6,681965</url>
+				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
 				<type>action</type>
-				<url>http://piwik.net/hello/from/another/world/6,681965</url>
+				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
 				<pageTitle />
 				<pageIdAction>60</pageIdAction>
 				
@@ -2706,14 +2706,14 @@
 				<revenue>5</revenue>
 				<goalPageId>69</goalPageId>
 				
-				<url>http://piwik.net/Topic/hw43061</url>
+				<url>http://example.hello.com/Topic/hw43061</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
 				<type>action</type>
-				<url>http://piwik.net/Topic/hw43061</url>
-				<pageTitle>301/URL = http%3A%2F%2Fpiwik.net%2FTopic%2Fhw43061</pageTitle>
+				<url>http://example.hello.com/Topic/hw43061</url>
+				<pageTitle>301/URL = http%3A%2F%2Fexample.hello.com%2FTopic%2Fhw43061</pageTitle>
 				<pageIdAction>57</pageIdAction>
 				
 				<pageId>69</pageId>
