@@ -48,7 +48,7 @@ class ResponseTest extends UnitTestCase
         $this->response->outputException($tracker, new Exception('My Custom Message'), 400);
         $content = $this->response->getOutput();
 
-        $this->assertEquals('{"status":"error","tracked":5,"invalid":0}', $content);
+        $this->assertEquals('{"status":"error","tracked":5,"invalid":0,"invalid_indices":[]}', $content);
     }
 
     public function test_outputException_shouldOutputDebugMessageIfEnabled()
@@ -59,7 +59,7 @@ class ResponseTest extends UnitTestCase
         $this->response->outputException($tracker, new Exception('My Custom Message'), 400);
         $content = $this->response->getOutput();
 
-        $this->assertStringStartsWith('{"status":"error","tracked":5,"invalid":0,"message":"My Custom Message\n', $content);
+        $this->assertStringStartsWith('{"status":"error","tracked":5,"invalid":0,"invalid_indices":[],"message":"My Custom Message\n', $content);
     }
 
     public function test_outputResponse_shouldOutputBulkResponse()
@@ -69,7 +69,7 @@ class ResponseTest extends UnitTestCase
         $this->response->outputResponse($tracker);
         $content = $this->response->getOutput();
 
-        $this->assertEquals('{"status":"success","tracked":5,"invalid":0}', $content);
+        $this->assertEquals('{"status":"success","tracked":5,"invalid":0,"invalid_indices":[]}', $content);
     }
 
     public function test_outputResponse_shouldNotOutputAnything_IfExceptionResponseAlreadySent()
@@ -80,18 +80,18 @@ class ResponseTest extends UnitTestCase
         $this->response->outputResponse($tracker);
         $content = $this->response->getOutput();
 
-        $this->assertEquals('{"status":"error","tracked":5,"invalid":0}', $content);
+        $this->assertEquals('{"status":"error","tracked":5,"invalid":0,"invalid_indices":[]}', $content);
     }
 
     public function test_outputResponse_shouldOutputInvalidRequests_IfInvalidCountSet()
     {
         $tracker = $this->getTrackerWithCountedRequests();
 
-        $this->response->setInvalidCount(3);
+        $this->response->setInvalidRequests(array(5, 63, 72));
         $this->response->outputResponse($tracker);
         $content = $this->response->getOutput();
 
-        $this->assertEquals('{"status":"success","tracked":5,"invalid":3}', $content);
+        $this->assertEquals('{"status":"success","tracked":5,"invalid":3,"invalid_indices":[5,63,72]}', $content);
     }
 
     private function getTrackerWithCountedRequests()

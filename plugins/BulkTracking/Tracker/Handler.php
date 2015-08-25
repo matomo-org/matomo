@@ -40,18 +40,18 @@ class Handler extends Tracker\Handler
 
     public function process(Tracker $tracker, RequestSet $requestSet)
     {
-        $invalidRequests = 0;
-        foreach ($requestSet->getRequests() as $request) {
+        $invalidRequests = array();
+        foreach ($requestSet->getRequests() as $index => $request) {
             try {
                 $tracker->trackRequest($request);
             } catch (UnexpectedWebsiteFoundException $ex) {
-                $invalidRequests += 1;
+                $invalidRequests[] = $index;
             }
         }
 
         /** @var Response $response */
         $response = $this->getResponse();
-        $response->setInvalidCount($invalidRequests);
+        $response->setInvalidRequests($invalidRequests);
     }
 
     public function onException(Tracker $tracker, RequestSet $requestSet, Exception $e)

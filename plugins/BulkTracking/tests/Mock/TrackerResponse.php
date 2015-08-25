@@ -12,9 +12,9 @@ use Piwik\Tests\Framework\Mock\Tracker\Response;
 
 class TrackerResponse extends Response
 {
-    private $invalidRequests = 0;
+    private $invalidRequests = array();
 
-    public function setInvalidCount($invalidRequests)
+    public function setInvalidRequests($invalidRequests)
     {
         $this->invalidRequests = $invalidRequests;
     }
