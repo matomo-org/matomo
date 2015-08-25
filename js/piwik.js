@@ -1245,17 +1245,23 @@ if (typeof Piwik !== 'object') {
         var query = {
             htmlCollectionToArray: function (foundNodes)
             {
-                var nodes = [], index;
 
-                if (!foundNodes || !foundNodes.length) {
+                // Old browsers such as IE8
+                if(!Array.prototype.slice) {
+                    var nodes = [], index;
+
+                    if (!foundNodes || !foundNodes.length) {
+                        return nodes;
+                    }
+
+                    for (index = 0; index < foundNodes.length; index++) {
+                        nodes.push(foundNodes[index]);
+                    }
+
                     return nodes;
                 }
 
-                for (index = 0; index < foundNodes.length; index++) {
-                    nodes.push(foundNodes[index]);
-                }
-
-                return nodes;
+                return Array.prototype.slice.call(foundNodes || []);
             },
             find: function (selector)
             {
@@ -1493,7 +1499,7 @@ if (typeof Piwik !== 'object') {
                     var foundNodes = nodeToSearch.getElementsByClassName(className);
                     return this.htmlCollectionToArray(foundNodes);
                 }
-                
+
                 var children = getChildrenFromNode(nodeToSearch);
 
                 if (!children || !children.length) {
