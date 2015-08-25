@@ -192,7 +192,7 @@ class ManySitesImportedLogs extends Fixture
      * Logs a couple visits for the site we created and two new sites that do not
      * exist yet. Visits are from Aug 12, 13 & 14 of 2012.
      */
-    public function logVisitsWithDynamicResolver()
+    public function logVisitsWithDynamicResolver($maxPayloadSize = 1)
     {
         $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_dynamic.log'; # log file
 
@@ -201,8 +201,8 @@ class ManySitesImportedLogs extends Fixture
         $opts = array('--add-sites-new-hosts'       => false,
                       '--enable-testmode'           => false,
                       '--recorders'                 => '1',
-                      '--recorder-max-payload-size' => '1');
-        self::executeLogImporter($logFile, $opts);
+                      '--recorder-max-payload-size' => $maxPayloadSize);
+        return implode("\n", self::executeLogImporter($logFile, $opts));
     }
 
     /**
