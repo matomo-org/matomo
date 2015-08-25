@@ -1138,15 +1138,7 @@ if (typeof Piwik !== 'object') {
             }
 
             function _elementInDocument(element) {
-                element = element.parentNode;
-
-                while (element) {
-                    if (element === documentAlias) {
-                        return true;
-                    }
-                    element = element.parentNode;
-                }
-                return false;
+                return documentAlias.documentElement.contains(element);
             }
 
             /**
@@ -1493,7 +1485,7 @@ if (typeof Piwik !== 'object') {
                     var foundNodes = nodeToSearch.getElementsByClassName(className);
                     return this.htmlCollectionToArray(foundNodes);
                 }
-                
+
                 var children = getChildrenFromNode(nodeToSearch);
 
                 if (!children || !children.length) {
