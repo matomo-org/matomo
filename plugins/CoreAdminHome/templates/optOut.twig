@@ -16,10 +16,11 @@
             if (loadInNewWindow) {
                 var newWindow = window.open(form.action + '&time=' + Date.now());
 
-                // when the new window loads, reload this page
-                newWindow.addEventListener('unload', function () {
-                    window.location.reload();
-                }, false);
+                setInterval(function () {
+                    if (newWindow.closed) {
+                        window.location.reload();
+                    }
+                }, 1000);
             } else {
                 form.submit();
             }
@@ -49,7 +50,8 @@
      # otherwise we try to close the window immediately.
      #}
     {% if showConfirmOnly %}
-    <p>{{ 'CoreAdminHome_OptingYouOut'|translate }}</p><script>window.close();</script>
+    <p>{{ 'CoreAdminHome_OptingYouOut'|translate }}</p>
+    <script>window.close();</script>
     <noscript>
     {% endif %}
 
@@ -68,7 +70,7 @@
     <br/><br/>
 
     {% if not showConfirmOnly %}
-    {% set loadInNewWindow = trackVisits %}
+    {% set loadInNewWindow = true %}
     <form method="post" action="?module=CoreAdminHome&amp;action=optOut{% if language %}&amp;language={{ language }}{% endif %}{% if loadInNewWindow %}&amp;setCookieInNewWindow=1{% endif %}" {% if loadInNewWindow %}target="_blank"{% endif %}>
         <input type="hidden" name="nonce" value="{{ nonce }}" />
         <input type="hidden" name="fuzz" value="{{ "now"|date }}" />
