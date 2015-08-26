@@ -6,8 +6,10 @@
             <th>{{ 'Goals_GoalName'|translate }}</th>
             <th>{{ 'Goals_GoalIsTriggeredWhen'|translate }}</th>
             <th>{{ 'General_ColumnRevenue'|translate }}</th>
-            <th>{{ 'General_Edit'|translate }}</th>
-            <th>{{ 'General_Delete'|translate }}</th>
+            {% if userCanEditGoals %}
+                <th>{{ 'General_Edit'|translate }}</th>
+                <th>{{ 'General_Delete'|translate }}</th>
+            {% endif %}
         </tr>
         </thead>
         {% if goals is empty %}
@@ -32,22 +34,24 @@
                     <td class="text-center">
                         {% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}
                     </td>
-                    <td class="text-center">
-                        <button id="{{ goal.idgoal }}" class="edit-goal btn btn-flat btn-lg" title="{{ 'General_Edit'|translate }}">
-                            <span class="icon-edit"></span>
-                        </button>
-                    </td>
-                    <td class="text-center">
-                        <button id="{{ goal.idgoal }}" class="delete-goal btn btn-flat btn-lg" title="{{ 'General_Delete'|translate }}">
-                            <span class="icon-delete"></span>
-                        </button>
-                    </td>
+                    {% if userCanEditGoals %}
+                        <td class="text-center">
+                            <button id="{{ goal.idgoal }}" class="edit-goal btn btn-flat btn-lg" title="{{ 'General_Edit'|translate }}">
+                                <span class="icon-edit"></span>
+                            </button>
+                        </td>
+                        <td class="text-center">
+                            <button id="{{ goal.idgoal }}" class="delete-goal btn btn-flat btn-lg" title="{{ 'General_Delete'|translate }}">
+                                <span class="icon-delete"></span>
+                            </button>
+                        </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         {% endif %}
     </table>
 
-    {% if onlyShowAddNewGoal is not defined %}
+    {% if userCanEditGoals and onlyShowAddNewGoal is not defined %}
         <p>
             <button id="add-goal" class="btn btn-lg btn-flat">
                 <span class="icon-add"></span>
