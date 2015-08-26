@@ -11,6 +11,7 @@
 		<sitesearch_category_parameters />
 		<timezone>UTC</timezone>
 		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />
@@ -29,6 +30,7 @@
 		<sitesearch_category_parameters />
 		<timezone>UTC</timezone>
 		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
 		<excluded_ips />
 		<excluded_parameters />
 		<excluded_user_agents />

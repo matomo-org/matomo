@@ -442,6 +442,17 @@ class ApiTest extends IntegrationTestCase
         $this->fail('Expected exception not raised');
     }
 
+    public function test_addSite_CorrectlySavesExcludeUnknownUrlsSetting()
+    {
+        $idSite = API::getInstance()->addSite("site", array("http://piwik.net"), $ecommerce = null, $siteSearch = null,
+            $searchKeywordParams = null, $searchCategoryParams = null, $excludedIps = null, $excludedQueryParams = null,
+            $timezone = null, $currency = null, $group = null, $startDate = null, $excludedUserAgents = null,
+            $keepUrlFragments = null, $type = null, $settings = null, $excludeUnknownUrls = true);
+
+        $site = API::getInstance()->getSiteFromId($idSite);
+        $this->assertEquals(1, $site['exclude_unknown_urls']);
+    }
+
     /**
      * no Id -> empty array
      */
@@ -905,6 +916,22 @@ class ApiTest extends IntegrationTestCase
         $measurable = new Measurable($idSite);
         $this->assertSame('newSiteName', $measurable->getName());
         $this->assertSame('org.piwik.mobile2', $measurable->getSettingValue('app_id'));
+    }
+
+    public function test_updateSite_CorreclySavesExcludedUnknownUrlSettings()
+    {
+        $idSite = API::getInstance()->addSite("site1", array("http://piwik.net"));
+
+        $site = API::getInstance()->getSiteFromId($idSite);
+        $this->assertEquals(0, $site['exclude_unknown_urls']);
+
+        API::getInstance()->updateSite($idSite, $siteName = null, $urls = null, $ecommerce = null, $siteSearch = null,
+            $searchKeywordParams = null, $searchCategoryParams = null, $excludedIps = null, $excludedQueryParameters = null,
+            $timzeone = null, $currency = null, $group = null, $startDate = null, $excludedUserAgents = null,
+            $keepUrlFragments = null, $type = null, $settings = null, $excludeUnknownUrls = true);
+
+        $site = API::getInstance()->getSiteFromId($idSite);
+        $this->assertEquals(1, $site['exclude_unknown_urls']);
     }
 
     /**
