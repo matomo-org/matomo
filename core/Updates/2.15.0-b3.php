@@ -14,12 +14,13 @@ use Piwik\Updater;
 use Piwik\Updates;
 
 
-class Updates_2_14_1_b2 extends Updates
+class Updates_2_15_0_b3 extends Updates
 {
     public function getMigrationQueries(Updater $updater)
     {
         $updateSql = array(
-            'ALTER TABLE `' . Common::prefixTable('site') . '` ADD COLUMN `exclude_unknown_urls` TINYINT(1) DEFAULT 0 AFTER `currency`' => array(1060)
+            'ALTER TABLE `' . Common::prefixTable('site')
+                . '` ADD COLUMN `exclude_unknown_urls` TINYINT(1) DEFAULT 0 AFTER `currency`' => array(1060)
         );
         return $updateSql;
     }
