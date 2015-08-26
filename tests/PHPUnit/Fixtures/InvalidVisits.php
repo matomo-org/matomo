@@ -97,6 +97,21 @@ class InvalidVisits extends Fixture
             self::checkResponse($t->doTrackPageView('visit from IP globally excluded'));
         }
 
+        // test unknown url exclusion works
+        $urls = array("http://piwik.net", "http://my.stuff.com/");
+        API::getInstance()->updateSite($idSite, $siteName = null, $urls, $ecommerce = null, $siteSearch = null,
+            $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null, $excludedQueryParams = null,
+            $timezone = null, $currency = null, $group = null, $startDate = null, $excludedUserAgents = null,
+            $keepUrlFragments = null, $type = null, $settings = null, $excludeUnknownUrls = 1);
+
+        $t->setIp("125.4.5.6");
+
+        $t->setUrl("http://piwik.com/to/the/moon");
+        $t->doTrackPageView("ignored, not from piwik.net");
+
+        $t->setUrl("http://their.stuff.com/back/to/the/future");
+        $t->doTrackPageView("ignored, not from my.stuff.com");
+
         try {
             @$t->setAttributionInfo(array());
             self::fail();

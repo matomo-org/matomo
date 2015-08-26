@@ -506,6 +506,7 @@ class API extends \Piwik\Plugin\API
      * @param array|null $settings JSON serialized settings eg {settingName: settingValue, ...}
      * @see getKeepURLFragmentsGlobal.
      * @param string $type The website type, defaults to "website" if not set.
+     * @param bool|null $excludeUnknownUrls Track only URL matching one of website URLs
      *
      * @return int the website ID created
      */
@@ -524,7 +525,8 @@ class API extends \Piwik\Plugin\API
                             $excludedUserAgents = null,
                             $keepURLFragments = null,
                             $type = null,
-                            $settings = null)
+                            $settings = null,
+                            $excludeUnknownUrls = null)
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -555,6 +557,7 @@ class API extends \Piwik\Plugin\API
         $bind = array('name'     => $siteName,
                       'main_url' => $url);
 
+        $bind['exclude_unknown_urls'] = (int)$excludeUnknownUrls;
         $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
         $bind['excluded_parameters']  = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
         $bind['excluded_user_agents'] = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
@@ -1087,6 +1090,7 @@ class API extends \Piwik\Plugin\API
      *                                   will be removed. If 0, the default global behavior will be used.
      * @param string $type The Website type, default value is "website"
      * @param array|null $settings JSON serialized settings eg {settingName: settingValue, ...}
+     * @param bool|null $excludeUnknownUrls Track only URL matching one of website URLs
      * @throws Exception
      * @see getKeepURLFragmentsGlobal. If null, the existing value will
      *                                   not be modified.
@@ -1109,7 +1113,8 @@ class API extends \Piwik\Plugin\API
                                $excludedUserAgents = null,
                                $keepURLFragments = null,
                                $type = null,
-                               $settings = null)
+                               $settings = null,
+                               $excludeUnknownUrls = null)
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -1156,6 +1161,7 @@ class API extends \Piwik\Plugin\API
         if (!is_null($startDate)) {
             $bind['ts_created'] = Date::factory($startDate)->getDatetime();
         }
+        $bind['exclude_unknown_urls'] = (int)$excludeUnknownUrls;
         $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
         $bind['excluded_parameters'] = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
         $bind['excluded_user_agents'] = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
