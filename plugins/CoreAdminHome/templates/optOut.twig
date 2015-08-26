@@ -68,7 +68,7 @@
     <br/><br/>
 
     {% if not showConfirmOnly %}
-    {% set loadInNewWindow = isSafari and trackVisits %}
+    {% set loadInNewWindow = trackVisits %}
     <form method="post" action="?module=CoreAdminHome&amp;action=optOut{% if language %}&amp;language={{ language }}{% endif %}{% if loadInNewWindow %}&amp;setCookieInNewWindow=1{% endif %}" {% if loadInNewWindow %}target="_blank"{% endif %}>
         <input type="hidden" name="nonce" value="{{ nonce }}" />
         <input type="hidden" name="fuzz" value="{{ "now"|date }}" />

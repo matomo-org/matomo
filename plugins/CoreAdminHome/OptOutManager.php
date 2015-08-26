@@ -151,7 +151,6 @@ class OptOutManager
         $this->view->trackVisits = $trackVisits;
         $this->view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
         $this->view->language = $lang;
-        $this->view->isSafari = $this->isUserAgentSafari();
         $this->view->showConfirmOnly = Common::getRequestVar('showConfirmOnly', false, 'int');
         $this->view->reloadUrl = $reloadUrl;
         $this->view->javascripts = $this->getJavascripts();
@@ -167,14 +166,5 @@ class OptOutManager
     protected function getDoNotTrackHeaderChecker()
     {
         return $this->doNotTrackHeaderChecker;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isUserAgentSafari()
-    {
-        $userAgent = @$_SERVER['HTTP_USER_AGENT'] ?: '';
-        return strpos($userAgent, 'Safari') !== false && strpos($userAgent, 'Chrome') === false;
     }
 }
