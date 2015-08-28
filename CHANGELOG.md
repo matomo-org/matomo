@@ -19,6 +19,10 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
  * `Tracker.recordEcommerceGoal`
  * `Tracker.recordStandardGoals`
 
+### New APIs
+
+* The JavaScript Tracker `piwik.js` got a new method `logAllContentBlocksOnPage` to log all found content blocks within a page to the console. This is useful to debug / test content tracking. It can be triggered via `_paq.push(['logAllContentBlocksOnPage'])`
+
 ### Internal Change
 * The option `branch` of the console command `development:sync-system-test-processed` was removed as it is no longer needed.
 
