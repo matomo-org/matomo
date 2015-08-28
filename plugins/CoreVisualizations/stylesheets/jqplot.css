@@ -80,6 +80,10 @@
     text-align: left;
 }
 
+#Piwik_Popover .rowevolution .alert-info {
+    margin-left: 0px;
+}
+
 .rowevolution h2 {
     font-size: 16px;
     margin: 0;
