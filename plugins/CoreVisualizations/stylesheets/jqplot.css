@@ -84,6 +84,13 @@
     margin-left: 0px;
 }
 
+a.rowevolution-startmulti {
+    color: #4183C4 !important;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
 .rowevolution h2 {
     font-size: 16px;
     margin: 0;
