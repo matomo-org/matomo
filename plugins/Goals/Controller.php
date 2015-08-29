@@ -82,6 +82,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Goals/manageGoals');
         $this->setGeneralVariablesView($view);
         $this->setEditGoalsViewVariables($view);
+        $this->setUserCanEditGoals($view);
         return $view->render();
     }
 
@@ -123,7 +124,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@Goals/addNewGoal');
         $this->setGeneralVariablesView($view);
-        $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
+        $this->setUserCanEditGoals($view);
         $view->onlyShowAddNewGoal = true;
         return $view->render();
     }
@@ -133,7 +134,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Goals/editGoals');
         $this->setGeneralVariablesView($view);
         $this->setEditGoalsViewVariables($view);
-        $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
+        $this->setUserCanEditGoals($view);
         return $view->render();
     }
 
@@ -306,15 +307,15 @@ class Controller extends \Piwik\Plugin\Controller
             $items = $dataRow->getColumn('items');
             $aov = $dataRow->getColumn('avg_order_revenue');
             $return = array_merge($return, array(
-                                                'revenue_subtotal'              => $dataRow->getColumn('revenue_subtotal'),
-                                                'revenue_tax'                   => $dataRow->getColumn('revenue_tax'),
-                                                'revenue_shipping'              => $dataRow->getColumn('revenue_shipping'),
-                                                'revenue_discount'              => $dataRow->getColumn('revenue_discount'),
+                'revenue_subtotal'              => $dataRow->getColumn('revenue_subtotal'),
+                'revenue_tax'                   => $dataRow->getColumn('revenue_tax'),
+                'revenue_shipping'              => $dataRow->getColumn('revenue_shipping'),
+                'revenue_discount'              => $dataRow->getColumn('revenue_discount'),
 
-                                                'items'                         => $items ? $items : 0,
-                                                'avg_order_revenue'             => $aov ? $aov : 0,
-                                                'urlSparklinePurchasedProducts' => $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('items'), 'idGoal' => $idGoal)),
-                                                'urlSparklineAverageOrderValue' => $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('avg_order_revenue'), 'idGoal' => $idGoal)),
+                'items'                         => $items ? $items : 0,
+                'avg_order_revenue'             => $aov ? $aov : 0,
+                'urlSparklinePurchasedProducts' => $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('items'), 'idGoal' => $idGoal)),
+                'urlSparklineAverageOrderValue' => $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('avg_order_revenue'), 'idGoal' => $idGoal)),
             ));
         }
         return $return;
@@ -370,5 +371,10 @@ class Controller extends \Piwik\Plugin\Controller
         $_GET['containerId'] = 'GoalsOverview';
 
         return FrontController::getInstance()->fetchDispatch('CoreHome', 'renderWidgetContainer');
+    }
+
+    private function setUserCanEditGoals(View $view)
+    {
+        $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
     }
 }

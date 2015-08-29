@@ -10,10 +10,11 @@ namespace Piwik\Updates;
 
 use Piwik\Plugin\Manager;
 use Piwik\Updates;
+use Piwik\Updater;
 
 class Updates_2_11_0_b5 extends Updates
 {
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         try {
             Manager::getInstance()->activatePlugin('Monolog');

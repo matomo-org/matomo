@@ -10,12 +10,13 @@ namespace Piwik\Updates;
 
 use Piwik\Filesystem;
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  */
 class Updates_2_0_a17 extends Updates
 {
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         $errors = array();
 

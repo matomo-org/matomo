@@ -37,11 +37,11 @@ function showCancel() {
 }
 
 function showCreateGoal() {
-    $("div[name=linkAddNewGoal]").show();
+    $("#add-goal").show();
 }
 
 function hideCreateGoal() {
-    $("div[name=linkAddNewGoal]").hide();
+    $("#add-goal").hide();
 }
 
 function onMatchAttributeChange(matchAttribute)
@@ -134,7 +134,7 @@ function bindGoalForm() {
         return false;
     });
 
-    $('div[name=linkAddNewGoal]').click(function () {
+    $('#add-goal').click(function () {
         initAndShowAddGoalForm();
         piwikHelper.lazyScrollTo('#goal_name');
     });
@@ -203,13 +203,13 @@ function editGoal(goalId)
 }
 
 function bindListGoalEdit() {
-    $('a[name=linkEditGoal]').click(function () {
+    $('.edit-goal').click(function () {
         var goalId = $(this).attr('id');
         editGoal(goalId);
         return false;
     });
 
-    $('a[name=linkDeleteGoal]').click(function () {
+    $('.delete-goal').click(function () {
         var goalId = $(this).attr('id');
         var goal = piwik.goals[goalId];
 

@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\SitesManager\tests\System;
 
 use Piwik\Plugins\SitesManager\tests\Fixtures\ManySites;
-use Piwik\Plugins\SitesManager\tests\Fixtures\SimpleFixtureTrackFewVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -34,12 +33,25 @@ class ApiTest extends SystemTestCase
 
     public function getApiForTesting()
     {
-        $api = array(
-            'SitesManager.getPatternMatchSites',
-        );
-
         $apiToTest   = array();
-        $apiToTest[] = array($api,
+        $apiToTest[] = array(array('SitesManager.getPatternMatchSites'),
+            array(
+                'idSite'     => 1,
+                'date'       => self::$fixture->dateTime,
+                'periods'    => array('day'),
+                'otherRequestParameters' => array('pattern' => 'SiteTest1')
+            )
+        );
+        $apiToTest[] = array(array('SitesManager.getPatternMatchSites'),
+            array(
+                'idSite'     => 1,
+                'date'       => self::$fixture->dateTime,
+                'periods'    => array('day'),
+                'otherRequestParameters' => array('pattern' => 'SiteTest1', 'limit' => 2),
+                'testSuffix' => 'withLimit'
+            )
+        );
+        $apiToTest[] = array(array('SitesManager.getNumWebsitesToDisplayPerPage'),
             array(
                 'idSite'     => 1,
                 'date'       => self::$fixture->dateTime,

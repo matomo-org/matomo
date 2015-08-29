@@ -12,6 +12,7 @@ namespace Piwik\Updates;
 use Piwik\Config;
 use Piwik\Development;
 use Piwik\Updates;
+use Piwik\Updater;
 
 class Updates_2_11_1_b4 extends Updates
 {
@@ -19,7 +20,7 @@ class Updates_2_11_1_b4 extends Updates
      * Here you can define any action that should be performed during the update. For instance executing SQL statements,
      * renaming config entries, updating files, etc.
      */
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         if (!Development::isEnabled()) {
             return;

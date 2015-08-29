@@ -1,52 +1,49 @@
 .inlineHelp {
-  display: none;
+    display: none;
 }
 
 .enrichedHeadline {
-  min-height: 22px;
+    min-height: 22px;
 
-  a.title {
-    cursor: pointer;
-  }
-
-  .title {
-    color: @color-black-piwik;
-  }
-
-  .inlineHelp {
-    display:block;
-    background: #F7F7F7;
-    font-size: 12px;
-    font-weight: normal;
-    border: 1px solid #E4E5E4;
-    margin: 10px 0 10px 0;
-    padding: 10px;
-    border-radius: 4px;
-    max-width: 500px;
-
-    .readMore {
-      margin-top: 10px;
-      display: inline-block;
-      font-weight: bold;
+    a.title {
+        cursor: pointer;
     }
-  }
 
-  .ratingIcons {
-    display:inline-block;
-    vertical-align: bottom;
-  }
+    .title {
+        color: @color-black-piwik;
+    }
 
-  .helpIcon:hover {
-    opacity: 0.9;
-  }
+    .inlineHelp {
+        display: block;
+        background: #F7F7F7;
+        font-size: 12px;
+        font-weight: normal;
+        border: 1px solid #E4E5E4;
+        margin: 10px 0 10px 0;
+        padding: 10px;
+        border-radius: 4px;
+        max-width: 500px;
 
-  .helpIcon {
-    cursor: pointer;
-    display:inline-block;
-    margin: 0px 0px -1px 4px;
-    width: 16px;
-    opacity: 0.3;
-    height: 16px;
-    background: url(plugins/CoreHome/angularjs/enrichedheadline/help.png) no-repeat;
-  }
+        .readMore {
+            margin-top: 10px;
+            display: inline-block;
+            font-weight: bold;
+        }
+    }
+
+    .ratingIcons {
+        display: inline-block;
+        vertical-align: bottom;
+    }
+
+    .helpIcon {
+        cursor: pointer;
+        display: inline-block;
+        margin: 0 0 -1px 4px;
+        opacity: 0.3;
+        font-size: 15px;
+        &:hover {
+            opacity: 0.9;
+        }
+    }
 }

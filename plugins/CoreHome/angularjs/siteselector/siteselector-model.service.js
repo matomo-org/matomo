@@ -12,6 +12,7 @@
     function siteSelectorModel(piwikApi, $filter, piwik) {
 
         var initialSites = null;
+        var limitPromise = null;
 
         var model = {
             sites : [],
@@ -63,17 +64,31 @@
             }
 
             if (model.isLoading) {
-                model.currentRequest.abort();
+                if (model.currentRequest) {
+                    model.currentRequest.abort();
+                } else if (limitPromise) {
+                    limitPromise.abort();
+                    limitPromise = null;
+                }
             }
 
             model.isLoading = true;
 
-            model.currentRequest = piwikApi.fetch({
-                method: 'SitesManager.getPatternMatchSites',
-                pattern: term
-            });
+            if (!limitPromise) {
+                limitPromise = piwikApi.fetch({method: 'SitesManager.getNumWebsitesToDisplayPerPage'});
+            }
 
-            model.currentRequest.then(function (response) {
+            return limitPromise.then(function (response) {
+                var limit = response.value;
+
+                model.currentRequest = piwikApi.fetch({
+                    method: 'SitesManager.getPatternMatchSites',
+                    limit: limit,
+                    pattern: term
+                });
+
+                return model.currentRequest;
+            }).then(function (response) {
                 if (angular.isDefined(response)) {
                     return updateWebsitesList(response);
                 }
@@ -81,8 +96,6 @@
                 model.isLoading = false;
                 model.currentRequest = null;
             });
-
-            return model.currentRequest;
         }
 
         function loadSite(idsite) {

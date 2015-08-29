@@ -18,7 +18,7 @@ use Piwik\Updates;
  */
 class Updates_0_9_1 extends Updates
 {
-    public static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         if (!SettingsServer::isTimezoneSupportEnabled()) {
             return array();
@@ -48,10 +48,10 @@ class Updates_0_9_1 extends Updates
         );
     }
 
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         if (SettingsServer::isTimezoneSupportEnabled()) {
-            Updater::updateDatabase(__FILE__, self::getSql());
+            $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
         }
     }
 }

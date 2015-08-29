@@ -92,6 +92,7 @@ class Mysql implements SchemaInterface
                             sitesearch_category_parameters TEXT NOT NULL,
                             timezone VARCHAR( 50 ) NOT NULL,
                             currency CHAR( 3 ) NOT NULL,
+                            exclude_unknown_urls TINYINT(1) DEFAULT 0,
                             excluded_ips TEXT NOT NULL,
                             excluded_parameters TEXT NOT NULL,
                             excluded_user_agents TEXT NOT NULL,

@@ -7,9 +7,15 @@
             <ul>
                 <li><span class="title">{{ 'General_Id'|translate }}:</span> {{ site.idsite }}</li>
                 <li ng-show="availableTypes.length > 1"><span class="title">Type:</span> {{ currentType.name }}</li>
+                <li ng-show="site.idsite && howToSetupUrl">
+                    <a target="{{ isInternalSetupUrl ? '_self' : '_blank' }}" title="{{ 'SitesManager_ShowTrackingTag'|translate }}"
+                       ng-href="{{ howToSetupUrl }}{{ isInternalSetupUrl ? '&idSite=' + site.idsite + '&period=' + period + '&date=' + date +'&updated=false' : ''}}">
+                        {{ 'SitesManager_ShowTrackingTag'|translate }}
+                    </a>
+                </li>
             </ul>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <ul>
                 <li><span class="title">{{ 'SitesManager_Timezone'|translate }}:</span> {{ site.timezone }}</li>
                 <li><span class="title">{{ 'SitesManager_Currency'|translate }}:</span> {{ site.currency }}</li>
@@ -41,23 +47,17 @@
                 </li>
             </ul>
         </div>
-        <div class="col-md-2 text-right">
+        <div class="col-md-1 text-right">
             <ul>
                 <li>
-                    <span class="link_but" ng-click="editSite()">
-                        <img src='plugins/Morpheus/images/ico_edit.png' title="{{ 'General_Edit'|translate }}"/>
-                        Edit
-                    </span>
+                    <button class="btn btn-flat btn-lg" ng-click="editSite()" title="{{ 'General_Edit'|translate }}">
+                        <span class="icon-edit"></span>
+                    </button>
                 </li>
                 <li>
-                    <span ng-show="site.idsite" class="link_but" ng-click="openDeleteDialog()">
-                        <img src='plugins/Morpheus/images/ico_delete.png' title="{{ 'General_Delete'|translate }}"/>
-                        Delete
-                    </span>
-                </li>
-                <li ng-show="site.idsite && howToSetupUrl">
-                    <a target="{{ isInternalSetupUrl ? '_self' : '_blank' }}" ng-href="{{ howToSetupUrl }}{{ isInternalSetupUrl ? '&idSite=' + site.idsite + '&period=' + period + '&date=' + date +'&updated=false' : ''}}">
-                        {{ 'SitesManager_ShowTrackingTag'|translate }}</a>
+                    <button class="btn btn-flat btn-lg" ng-show="site.idsite" ng-click="openDeleteDialog()" title="{{ 'General_Delete'|translate }}">
+                        <span class="icon-delete"></span>
+                    </button>
                 </li>
             </ul>
         </div>
@@ -82,6 +82,13 @@
                 {{ 'SitesManager_AliasUrlHelp' | translate }}
             </div>
             <div sites-manager-multiline-field field="site.alias_urls" cols="25" rows="3"></div>
+
+            <div class="form-help">
+                {{ 'SitesManager_OnlyMatchedUrlsAllowedHelp' | translate }}
+            </div>
+            <label class="checkbox">
+                <input type="checkbox" ng-model="site.exclude_unknown_urls" ng-true-value="1" ng-false-value="0"> {{ 'SitesManager_OnlyMatchedUrlsAllowed' | translate:'':'' }}
+            </label>
         </div>
 
         <div class="form-group">
