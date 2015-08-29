@@ -40,7 +40,7 @@ class CustomVariables extends \Piwik\Plugin
     {
         $customVariables = array();
 
-        $maxCustomVariables = self::getMaxCustomVariables();
+        $maxCustomVariables = self::getNumUsableCustomVariables();
 
         for ($i = 1; $i <= $maxCustomVariables; $i++) {
             if (!empty($details['custom_var_k' . $i])) {
@@ -63,25 +63,41 @@ class CustomVariables extends \Piwik\Plugin
         return 200;
     }
 
-    public static function getMaxCustomVariables()
+    /**
+     * Returns the number of available custom variables that can be used.
+     *
+     * "Can be used" is identifed by the minimum number of available custom variables across all relevant tables. Eg
+     * if there are 6 custom variables installed in log_visit but only 5 in log_conversion, we consider only 5 custom
+     * variables as usable.
+     * @return int
+     */
+    public static function getNumUsableCustomVariables()
     {
         $cache    = Cache::getCacheGeneral();
-        $cacheKey = 'CustomVariables.MaxNumCustomVariables';
+        $cacheKey = 'CustomVariables.NumUsableCustomVariables';
 
         if (!array_key_exists($cacheKey, $cache)) {
 
-            $maxCustomVar = 0;
+            $minCustomVar = null;
 
             foreach (Model::getScopes() as $scope) {
                 $model = new Model($scope);
                 $highestIndex = $model->getHighestCustomVarIndex();
 
-                if ($highestIndex > $maxCustomVar) {
-                    $maxCustomVar = $highestIndex;
+                if (!isset($minCustomVar)) {
+                    $minCustomVar = $highestIndex;
+                }
+
+                if ($highestIndex < $minCustomVar) {
+                    $minCustomVar = $highestIndex;
                 }
             }
 
-            $cache[$cacheKey] = $maxCustomVar;
+            if (!isset($minCustomVar)) {
+                $minCustomVar = 0;
+            }
+
+            $cache[$cacheKey] = $minCustomVar;
             Cache::setCacheGeneral($cache);
         }
 
@@ -90,7 +106,7 @@ class CustomVariables extends \Piwik\Plugin
 
     public function getSegmentsMetadata(&$segments)
     {
-        $maxCustomVariables = self::getMaxCustomVariables();
+        $maxCustomVariables = self::getNumUsableCustomVariables();
 
         for ($i = 1; $i <= $maxCustomVariables; $i++) {
             $segments[] = array(

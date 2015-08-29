@@ -216,7 +216,7 @@ class GoalManager
         // Copy Custom Variables from Visit row to the Goal conversion
         // Otherwise, set the Custom Variables found in the cookie sent with this request
         $goal += $visitCustomVariables;
-        $maxCustomVariables = CustomVariables::getMaxCustomVariables();
+        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
 
         for ($i = 1; $i <= $maxCustomVariables; $i++) {
             if (isset($visitorInformation['custom_var_k' . $i])
