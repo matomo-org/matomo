@@ -256,7 +256,7 @@ class VisitorRecognizer
             array_unshift($fields, 'visit_first_action_time');
             array_unshift($fields, 'visit_last_action_time');
 
-            for ($index = 1; $index <= CustomVariables::getMaxCustomVariables(); $index++) {
+            for ($index = 1; $index <= CustomVariables::getNumUsableCustomVariables(); $index++) {
                 $fields[] = 'custom_var_k' . $index;
                 $fields[] = 'custom_var_v' . $index;
             }

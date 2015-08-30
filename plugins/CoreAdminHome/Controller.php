@@ -292,7 +292,7 @@ class Controller extends ControllerAdmin
 
         $view->defaultReportSiteName = Site::getNameFor($view->idSite);
         $view->defaultSiteRevenue = \Piwik\Metrics\Formatter::getCurrencySymbol($view->idSite);
-        $view->maxCustomVariables = CustomVariables::getMaxCustomVariables();
+        $view->maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
 
         $allUrls = APISitesManager::getInstance()->getSiteUrlsFromId($view->idSite);
         if (isset($allUrls[1])) {

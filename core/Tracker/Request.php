@@ -540,7 +540,7 @@ class Request
         }
 
         $customVariables = array();
-        $maxCustomVars   = CustomVariables::getMaxCustomVariables();
+        $maxCustomVars   = CustomVariables::getNumUsableCustomVariables();
 
         foreach ($customVar as $id => $keyValue) {
             $id = (int)$id;
