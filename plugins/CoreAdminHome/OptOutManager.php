@@ -34,6 +34,9 @@ class OptOutManager
     /** @var View|null */
     private $view;
 
+    /** @var array */
+    private $queryParameters = array();
+
     /**
      * @param DoNotTrackHeaderChecker $doNotTrackHeaderChecker
      */
@@ -111,6 +114,57 @@ class OptOutManager
     }
 
     /**
+     * @param string $key
+     * @param string $value
+     * @param bool $override
+     *
+     * @return bool
+     */
+    public function addQueryParameter($key, $value, $override = true)
+    {
+        if (!isset($this->queryParameters[$key]) || true === $override) {
+            $this->queryParameters[$key] = $value;
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param array $items
+     * @param bool|true $override
+     */
+    public function addQueryParameters(array $items, $override = true)
+    {
+        foreach ($items as $key => $value) {
+            $this->addQueryParameter($key, $value, $override);
+        }
+    }
+
+    /**
+     * @param $key
+     */
+    public function removeQueryParameter($key)
+    {
+        unset($this->queryParameters[$key]);
+    }
+
+    /**
+     * @param bool $urlEncode
+     * @return array
+     */
+    public function getQueryParameters($urlEncode = false)
+    {
+        if (!$urlEncode) {
+            return (array) $this->queryParameters;
+        }
+
+        return array_map(function($value) {
+            return !is_array($value) ? urlencode($value) : $value;
+        }, $this->queryParameters);
+    }
+
+    /**
      * @return View
      * @throws \Exception
      */
@@ -145,6 +199,16 @@ class OptOutManager
             ? $language
             : LanguagesManager::getLanguageCodeForCurrentUser();
 
+        $this->addQueryParameters(array(
+            'module' => 'CoreAdminHome',
+            'action' => 'optOut',
+            'language' => $lang,
+        ), false);
+
+        if ($this->isUserAgentSafari() && $trackVisits) {
+            $this->addQueryParameter('setCookieInNewWindow', 1, false);
+        }
+
         $this->view = new View("@CoreAdminHome/optOut");
         $this->view->setXFrameOptions('allow');
         $this->view->dntFound = $dntFound;
@@ -157,6 +221,7 @@ class OptOutManager
         $this->view->javascripts = $this->getJavascripts();
         $this->view->stylesheets = $this->getStylesheets();
         $this->view->title = $this->getTitle();
+        $this->view->queryParameters = Url::getQueryStringFromParameters($this->getQueryParameters(true));
 
         return $this->view;
     }
