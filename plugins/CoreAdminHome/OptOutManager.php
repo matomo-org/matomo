@@ -150,18 +150,11 @@ class OptOutManager
     }
 
     /**
-     * @param bool $urlEncode
      * @return array
      */
-    public function getQueryParameters($urlEncode = false)
+    public function getQueryParameters()
     {
-        if (!$urlEncode) {
-            return (array) $this->queryParameters;
-        }
-
-        return array_map(function($value) {
-            return !is_array($value) ? urlencode($value) : $value;
-        }, $this->queryParameters);
+        return $this->queryParameters;
     }
 
     /**
@@ -221,7 +214,7 @@ class OptOutManager
         $this->view->javascripts = $this->getJavascripts();
         $this->view->stylesheets = $this->getStylesheets();
         $this->view->title = $this->getTitle();
-        $this->view->queryParameters = Url::getQueryStringFromParameters($this->getQueryParameters(true));
+        $this->view->queryParameters = $this->getQueryParameters();
 
         return $this->view;
     }
