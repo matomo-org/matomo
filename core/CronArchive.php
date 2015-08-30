@@ -612,13 +612,16 @@ class CronArchive
             $success = $periodArchiveWasSuccessful && $success;
         }
 
-        // period=range
-        $customDateRangesToPreProcessForSite = $this->getCustomDateRangeToPreProcess($idSite);
-        foreach ($customDateRangesToPreProcessForSite as $dateRange) {
-            $archiveSegments = false; // do not pre-process segments for period=range #7611
-            $periodArchiveWasSuccessful = $this->archiveReportsFor($idSite, 'range', $dateRange, $archiveSegments);
-            $success = $periodArchiveWasSuccessful && $success;
+        if ($this->shouldProcessPeriod('range')) {
+            // period=range
+            $customDateRangesToPreProcessForSite = $this->getCustomDateRangeToPreProcess($idSite);
+            foreach ($customDateRangesToPreProcessForSite as $dateRange) {
+                $archiveSegments = false; // do not pre-process segments for period=range #7611
+                $periodArchiveWasSuccessful = $this->archiveReportsFor($idSite, 'range', $dateRange, $archiveSegments);
+                $success = $periodArchiveWasSuccessful && $success;
+            }
         }
+
         return $success;
     }
 
@@ -1285,7 +1288,7 @@ class CronArchive
      */
     private function getDefaultPeriodsToProcess()
     {
-        return array('day', 'week', 'month', 'year');
+        return array('day', 'week', 'month', 'year', 'range');
     }
 
     /**
