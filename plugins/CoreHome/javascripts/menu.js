@@ -53,53 +53,40 @@ menu.prototype =
         this.menuNode.find("li:has(ul),li#Searchmenu").hover(this.overMainLI, this.outMainLI);
         this.menuNode.find("li:has(ul),li#Searchmenu").focusin(this.overMainLI);
 
-        // add id to all li menu to support menu identification.
-        // for all sub menu we want to have a unique id based on their module and action
-        // for main menu we want to add just the module as its id.
-        this.menuNode.find('li').each(function () {
-            var link = $(this).find('a');
-            if (!link) {
-                return;
-            }
-            var href = link.attr('href');
-            if (!href) {
-                return;
-            }
-            var url = href.substr(1);
-
-            var module = broadcast.getValueFromUrl('module', url);
-            var action = broadcast.getValueFromUrl('action', url);
-
-            var moduleId = broadcast.getValueFromUrl("idGoal", url) || broadcast.getValueFromUrl("idDashboard", url);
-            var main_menu = $(this).parent().hasClass('Menu-tabList') ? true : false;
-            if (main_menu) {
-                $(this).attr({id: module});
-            }
-            // if there's a idGoal or idDashboard, use this in the ID
-            else if (moduleId != '') {
-                $(this).attr({id: module + '_' + action + '_' + moduleId});
-            }
-            else {
-                $(this).attr({id: module + '_' + action});
-            }
-        });
-
         this.menuNode.find('a.menuItem').click(this.onItemClick);
 
         menu.prototype.adaptSubMenuHeight();
     },
 
-    activateMenu: function (module, action, id) {
+    activateMenu: function (module, action, params) {
+        params = params || {};
+        params.module = module;
+        params.action = action;
+
         this.menuNode.find('li').removeClass('sfHover').removeClass('sfActive');
-        var $li = this.getSubmenuID(module, id, action);
-        var mainLi = $("#" + module);
-        if (!mainLi.length) {
-            mainLi = $li.parents('li');
-        }
+        var $activeLink = this.menuNode.find('a').filter(function () {
+            var url = $(this).attr('href');
+            if (!url) {
+                return false;
+            }
 
-        mainLi.addClass('sfActive').addClass('sfHover');
+            for (var key in params) {
+                if (!params.hasOwnProperty(key)
+                    || !params[key]
+                ) {
+                    continue;
+                }
 
-        $li.addClass('sfHover');
+                if (url.indexOf(key + '=' + params[key]) === -1) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+
+        $activeLink.closest('li').addClass('sfHover');
+        $activeLink.closest('li.menuTab').addClass('sfActive').addClass('sfHover');
     },
 
     // getting the right li is a little tricky since goals uses idGoal, and overview is index.
