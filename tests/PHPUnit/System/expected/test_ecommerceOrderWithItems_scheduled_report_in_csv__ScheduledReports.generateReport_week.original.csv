@@ -93,10 +93,6 @@ label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site
 Polish (pl),4,12,75%,3,00:25:32,25%
 French (fr),1,4,100%,4,00:12:01,0%
 
-Provider
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,5,16,80%,3.2,00:22:49,20%
-
 Length of Visits
 label,nb_visits
 0-10s,0

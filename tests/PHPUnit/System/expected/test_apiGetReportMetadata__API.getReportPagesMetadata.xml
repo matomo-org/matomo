@@ -897,19 +897,6 @@
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
-			<row>
-				<name>Providers</name>
-				<module>Provider</module>
-				<action>getProvider</action>
-				<order>150</order>
-				<parameters>
-					<module>Provider</module>
-					<action>getProvider</action>
-				</parameters>
-				<uniqueId>widgetProvidergetProvider</uniqueId>
-				<viewDataTable>table</viewDataTable>
-				<isReport>1</isReport>
-			</row>
 		</widgets>
 	</row>
 	<row>
@@ -1015,13 +1002,13 @@
 				<order>10</order>
 				<parameters>
 					<forceView>1</forceView>
-					<viewDataTable>Piwik\Plugins\Live\VisitorLog</viewDataTable>
+					<viewDataTable>VisitorLog</viewDataTable>
 					<module>Live</module>
 					<action>getLastVisitsDetails</action>
 					<small>1</small>
 				</parameters>
-				<uniqueId>widgetLivegetLastVisitsDetailsforceView1viewDataTablePiwik%5CPlugins%5CLive%5CVisitorLogsmall1</uniqueId>
-				<viewDataTable>Piwik\Plugins\Live\VisitorLog</viewDataTable>
+				<uniqueId>widgetLivegetLastVisitsDetailsforceView1viewDataTableVisitorLogsmall1</uniqueId>
+				<viewDataTable>VisitorLog</viewDataTable>
 				<isReport>1</isReport>
 			</row>
 		</widgets>

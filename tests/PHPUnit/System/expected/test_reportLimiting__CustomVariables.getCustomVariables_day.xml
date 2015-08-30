@@ -20,7 +20,7 @@
 	<row>
 		<label>name</label>
 		<nb_actions>20</nb_actions>
-		<segment>customVariableName==tweeted</segment>
+		<segment>customVariableName==name</segment>
 		<subtable>
 			<row>
 				<label>thing0</label>

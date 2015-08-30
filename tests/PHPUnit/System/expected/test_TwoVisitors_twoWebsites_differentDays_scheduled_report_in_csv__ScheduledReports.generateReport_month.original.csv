@@ -103,10 +103,6 @@ label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site
 Unknown (xx),8,40,0%,5,00:15:01,0%
 French (fr),3,3,0%,1,00:00:00,100%
 
-Provider
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,11,43,0%,3.9,00:10:55,27%
-
 Length of Visits
 label,nb_visits
 0-10s,3

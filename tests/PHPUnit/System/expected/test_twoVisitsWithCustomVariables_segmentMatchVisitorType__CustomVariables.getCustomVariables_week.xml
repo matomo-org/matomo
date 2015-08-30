@@ -20,6 +20,7 @@
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>customVariableName==SET+WITH+EMPTY+VALUE</segment>
 				<subtable>
 					<row>
 						<label>Value not defined</label>
@@ -60,6 +61,7 @@
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>customVariableName==Value+will+be+VERY+long+and+truncated</segment>
 				<subtable>
 					<row>
 						<label>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrst</label>
@@ -105,6 +107,7 @@
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>customVariableName==VisitorType</segment>
 				<subtable>
 					<row>
 						<label>LoggedIn</label>
@@ -143,6 +146,7 @@
 			<row>
 				<label>Status user</label>
 				<nb_actions>3</nb_actions>
+				<segment>customVariableName==Status+user</segment>
 				<subtable>
 					<row>
 						<label>looking at &quot;profile page&quot;</label>
@@ -161,6 +165,7 @@
 			<row>
 				<label>Language</label>
 				<nb_actions>1</nb_actions>
+				<segment>customVariableName==Language</segment>
 				<subtable>
 					<row>
 						<label>FR</label>
@@ -173,6 +178,7 @@
 			<row>
 				<label>SET WITH EMPTY VALUE PAGE SCOPE</label>
 				<nb_actions>1</nb_actions>
+				<segment>customVariableName==SET+WITH+EMPTY+VALUE+PAGE+SCOPE</segment>
 				<subtable>
 					<row>
 						<label>Value not defined</label>

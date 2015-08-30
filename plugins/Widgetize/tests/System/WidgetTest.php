@@ -266,11 +266,11 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Visitor Log',
-                'uniqueId' => 'widgetLivegetLastVisitsDetailsforceView1viewDataTablePiwik%5CPlugins%5CLive%5CVisitorLogsmall1',
+                'uniqueId' => 'widgetLivegetLastVisitsDetailsforceView1viewDataTableVisitorLogsmall1',
                 'parameters' =>
                     array (
                         'forceView' => 1,
-                        'viewDataTable' => 'Piwik\\Plugins\\Live\\VisitorLog',
+                        'viewDataTable' => 'VisitorLog',
                         'module' => 'Live',
                         'action' => 'getLastVisitsDetails',
                         'small' => 1,
