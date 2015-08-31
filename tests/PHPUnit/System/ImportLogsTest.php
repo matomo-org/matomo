@@ -86,6 +86,17 @@ class ImportLogsTest extends SystemTestCase
             'otherRequestParameters' => array(
                 'filter_limit' => 1000
         )));
+
+        // imported via --replay-tracking --idsite=3  should ignore idSite from logs and use fixed idSite instead
+        $apis[] = array($apiMethods, array(
+            'idSite'  => 3,
+            'date'    => '2012-08-09,2014-04-01',
+            'periods' => 'range',
+            'otherRequestParameters' => array(
+                'filter_limit' => 1000
+            ),
+            'testSuffix' => '_siteIdThree_TrackedUsingLogReplayWithFixedSiteId'));
+
         return $apis;
     }
 

@@ -69,6 +69,11 @@ class ManySitesImportedLogs extends Fixture
             self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
                 $siteUrl = 'http://example-site-two.com');
         }
+
+        if (!self::siteCreated($idSite = 3)) {
+            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test three',
+                $siteUrl = 'http://example-site-three.com');
+        }
     }
 
     const SEGMENT_PRE_ARCHIVED = 'visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50';
@@ -236,6 +241,11 @@ class ManySitesImportedLogs extends Fixture
                       '--recorders'                 => '1',
                       '--recorder-max-payload-size' => '1',
                       '--replay-tracking'           => false);
+
+        self::executeLogImporter($logFile, $opts);
+
+        // execute again but this time with different idsite
+        $opts['--idsite'] = 3;
 
         self::executeLogImporter($logFile, $opts);
     }
