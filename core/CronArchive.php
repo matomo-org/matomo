@@ -607,8 +607,10 @@ class CronArchive
                 continue;
             }
 
+            $timer = new Timer();
+
             $date = $this->getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessedPeriods);
-            $periodArchiveWasSuccessful = $this->archiveReportsFor($idSite, $period, $date, $archiveSegments = true);
+            $periodArchiveWasSuccessful = $this->archiveReportsFor($idSite, $period, $date, $archiveSegments = true, $timer);
             $success = $periodArchiveWasSuccessful && $success;
         }
 
@@ -616,8 +618,9 @@ class CronArchive
             // period=range
             $customDateRangesToPreProcessForSite = $this->getCustomDateRangeToPreProcess($idSite);
             foreach ($customDateRangesToPreProcessForSite as $dateRange) {
+                $timer = new Timer();
                 $archiveSegments = false; // do not pre-process segments for period=range #7611
-                $periodArchiveWasSuccessful = $this->archiveReportsFor($idSite, 'range', $dateRange, $archiveSegments);
+                $periodArchiveWasSuccessful = $this->archiveReportsFor($idSite, 'range', $dateRange, $archiveSegments, $timer);
                 $success = $periodArchiveWasSuccessful && $success;
             }
         }
@@ -663,6 +666,8 @@ class CronArchive
             // skip day archiving and proceed to period processing
             return true;
         }
+
+        $timer = new Timer();
 
         // Fake that the request is already done, so that other core:archive commands
         // running do not grab the same website from the queue
@@ -742,7 +747,7 @@ class CronArchive
         $this->visitsToday += $visitsToday;
         $this->websitesWithVisitsSinceLastRun++;
 
-        $this->archiveReportsFor($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince), $archiveSegments = true);
+        $this->archiveReportsFor($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince), $archiveSegments = true, $timer);
 
         return true;
     }
@@ -777,12 +782,11 @@ class CronArchive
      * @param $period string
      * @param $date string
      * @param $archiveSegments bool Whether to pre-process all custom segments
+     * @param Timer $periodTimer
      * @return bool True on success, false if some request failed
      */
-    private function archiveReportsFor($idSite, $period, $date, $archiveSegments)
+    private function archiveReportsFor($idSite, $period, $date, $archiveSegments, Timer $periodTimer)
     {
-        $timer = new Timer();
-
         $url = $this->getVisitsRequestUrl($idSite, $period, $date, $segment = false);
         $url = $this->makeRequestUrl($url);
 
@@ -837,7 +841,7 @@ class CronArchive
             }
         }
 
-        $this->logArchivedWebsite($idSite, $period, $date, $segmentRequestsCount, $visitsInLastPeriods, $visitsLastPeriod, $timer);
+        $this->logArchivedWebsite($idSite, $period, $date, $segmentRequestsCount, $visitsInLastPeriods, $visitsLastPeriod, $periodTimer);
 
         return $success;
     }
