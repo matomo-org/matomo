@@ -64,15 +64,6 @@ class CoreTranslationsTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'General' => array(
-                        'Locale' => 'de_DE.UTF-8',
-                        'TranslatorName' => 'name',
-                    )
-                ),
-                CoreTranslations::ERRORSTATE_TRANSLATOREMAILREQUIRED
-            ),
-            array(
-                array(
-                    'General' => array(
                         'Locale' => 'invalid',
                         'TranslatorName' => 'name',
                         'TranslatorEmail' => 'emails',
