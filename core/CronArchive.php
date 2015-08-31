@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\DataAccess\RawLogDao;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory as PeriodFactory;
@@ -75,6 +76,8 @@ class CronArchive
     private $websiteDayHasFinishedSinceLastRun = array();
     private $idSitesInvalidatedOldReports = array();
     private $shouldArchiveOnlySpecificPeriods = array();
+    private $idSitesNotUsingTracker;
+
     /**
      * @var SharedSiteIds|FixedSiteIds
      */
@@ -210,6 +213,8 @@ class CronArchive
     private $processed = 0;
     private $archivedPeriodsArchivesWebsite = 0;
 
+    private $archivingStartingTime;
+
     private $formatter;
 
     /**
@@ -272,6 +277,8 @@ class CronArchive
 
     public function init()
     {
+        $this->archivingStartingTime = time();
+
         // Note: the order of methods call matters here.
         $this->initStateFromParameters();
 
@@ -339,6 +346,29 @@ class CronArchive
                 $this->logger->info("Skipped website id $idSite, found in --skip-idsites ");
                 $this->skipped++;
                 continue;
+            }
+
+            $shouldCheckIfArchivingIsNeeded    = !$this->shouldArchiveSpecifiedSites && !$this->shouldArchiveAllSites;
+            $hasWebsiteDayFinishedSinceLastRun = in_array($idSite, $this->websiteDayHasFinishedSinceLastRun);
+            $isOldReportInvalidatedForWebsite  = $this->isOldReportInvalidatedForWebsite($idSite);
+
+            if ($shouldCheckIfArchivingIsNeeded) {
+                // if not specific sites and not all websites should be archived, we check whether we actually have
+                // to process the archives for this website (only if there were visits since midnight)
+                if (!$hasWebsiteDayFinishedSinceLastRun && !$isOldReportInvalidatedForWebsite) {
+
+                    if ($this->isWebsiteUsingTheTracker($idSite) &&
+                        !$this->hadWebsiteTrafficSinceMidnightInTimezone($idSite)) {
+                        $this->logger->info("Will skip site $idSite as archiving is not needed");
+                        $this->skipped++;
+                        continue;
+                    }
+
+                } elseif ($hasWebsiteDayFinishedSinceLastRun) {
+                    $this->logger->info("Day has finished for website $idSite since last run");
+                } elseif ($isOldReportInvalidatedForWebsite) {
+                    $this->logger->info("Old report was invalidated for website $idSite");
+                }
             }
 
             /**
@@ -934,24 +964,29 @@ class CronArchive
         $this->shouldArchiveOnlySitesWithTrafficSince = $this->isShouldArchiveAllSitesWithTrafficSince();
         $this->shouldArchiveOnlySpecificPeriods = $this->getPeriodsToProcess();
 
-        if ($this->shouldArchiveOnlySitesWithTrafficSince === false) {
-            // force-all-periods is not set here
-            if (empty($this->lastSuccessRunTimestamp)) {
-                // First time we run the script
-                $this->shouldArchiveOnlySitesWithTrafficSince = self::ARCHIVE_SITES_WITH_TRAFFIC_SINCE;
-            } else {
-                // there was a previous successful run
-                $this->shouldArchiveOnlySitesWithTrafficSince = time() - $this->lastSuccessRunTimestamp;
-            }
-        } else {
+        if ($this->shouldArchiveOnlySitesWithTrafficSince !== false) {
             // force-all-periods is set here
             $this->archiveAndRespectTTL = false;
-
-            if ($this->shouldArchiveOnlySitesWithTrafficSince === true) {
-                // force-all-periods without value
-                $this->shouldArchiveOnlySitesWithTrafficSince = self::ARCHIVE_SITES_WITH_TRAFFIC_SINCE;
-            }
         }
+    }
+
+    private function getSecondsSinceLastArchive()
+    {
+        $wasNotCustomTimeRequested = $this->shouldArchiveOnlySitesWithTrafficSince === false;
+
+        if ($wasNotCustomTimeRequested && !empty($this->lastSuccessRunTimestamp)) {
+            // there was a previous successful run
+
+            return time() - $this->lastSuccessRunTimestamp;
+
+        } elseif (is_numeric($this->shouldArchiveOnlySitesWithTrafficSince)) {
+            // $shouldArchiveAllPeriodsSince was specified
+            $secondsSinceStart = time() - $this->archivingStartingTime;
+            return $this->shouldArchiveOnlySitesWithTrafficSince + $secondsSinceStart;
+        }
+
+        // force-all-periods without value
+        return self::ARCHIVE_SITES_WITH_TRAFFIC_SINCE;
     }
 
     public function filterWebsiteIds(&$websiteIds)
@@ -987,7 +1022,7 @@ class CronArchive
 
         return CoreAdminHomeAPI::getInstance();
     }
-    
+
     public function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain()
     {
         $invalidator  = new ArchiveInvalidator();
@@ -1016,17 +1051,15 @@ class CronArchive
 
             return $this->shouldArchiveSpecifiedSites;
         }
+
+        $this->findWebsiteIdsInTimezoneWithNewDay($this->allWebsites);
+        $this->findInvalidatedSitesToReprocess();
+
         if ($this->shouldArchiveAllSites) {
             $this->logger->info("- Will process all " . count($this->allWebsites) . " websites");
-            return $this->allWebsites;
         }
 
-        $websiteIds = array_merge(
-            $this->addWebsiteIdsWithVisitsSinceLastRun(),
-            $this->getInvalidatedSitesToReprocess()
-        );
-        $websiteIds = array_merge($websiteIds, $this->addWebsiteIdsInTimezoneWithNewDay($websiteIds));
-        return array_unique($websiteIds);
+        return $this->allWebsites;
     }
 
     private function updateIdSitesInvalidatedOldReports()
@@ -1042,7 +1075,7 @@ class CronArchive
      *
      * @return array
      */
-    private function getInvalidatedSitesToReprocess()
+    private function findInvalidatedSitesToReprocess()
     {
         $this->updateIdSitesInvalidatedOldReports();
 
@@ -1057,20 +1090,37 @@ class CronArchive
     }
 
     /**
-     * Returns all sites that had visits since specified time
+     * Detects whether a site had visits since midnight in the websites timezone
      *
-     * @return string
+     * @return bool
      */
-    private function addWebsiteIdsWithVisitsSinceLastRun()
+    private function hadWebsiteTrafficSinceMidnightInTimezone($idSite)
     {
-        $sitesIdWithVisits = APISitesManager::getInstance()->getSitesIdWithVisits(time() - $this->shouldArchiveOnlySitesWithTrafficSince);
-        $websiteIds = !empty($sitesIdWithVisits) ? ", IDs: " . implode(", ", $sitesIdWithVisits) : "";
-        $prettySeconds = $this->formatter->getPrettyTimeFromSeconds($this->shouldArchiveOnlySitesWithTrafficSince, true);
-        $this->logger->info("- Will process " . count($sitesIdWithVisits) . " websites with new visits since "
-            . $prettySeconds
-            . " "
-            . $websiteIds);
-        return $sitesIdWithVisits;
+        $timezone = Site::getTimezoneFor($idSite);
+
+        $nowInTimezone      = Date::factory('now', $timezone);
+        $midnightInTimezone = $nowInTimezone->setTime('00:00:00');
+
+        $secondsSinceMidnight = $nowInTimezone->getTimestamp() - $midnightInTimezone->getTimestamp();
+
+        $secondsSinceLastArchive = $this->getSecondsSinceLastArchive();
+        if ($secondsSinceLastArchive < $secondsSinceMidnight) {
+            $secondsSinceMidnight = $secondsSinceLastArchive;
+        }
+
+        $from = Date::now()->subSeconds($secondsSinceMidnight)->getDatetime();
+        $to   = Date::now()->addHour(1)->getDatetime();
+
+        $dao = new RawLogDao();
+        $hasVisits = $dao->hasSiteVisitsBetweenTimeframe($from, $to, $idSite);
+
+        if ($hasVisits) {
+            $this->logger->info("$idSite has visits between $from and $to");
+        } else {
+            $this->logger->info("$idSite has no visits between $from and $to");
+        }
+
+        return $hasVisits;
     }
 
     /**
@@ -1118,7 +1168,7 @@ class CronArchive
      * @param $websiteIds
      * @return array Website IDs
      */
-    private function addWebsiteIdsInTimezoneWithNewDay($websiteIds)
+    private function findWebsiteIdsInTimezoneWithNewDay($websiteIds)
     {
         $timezones = $this->getTimezonesHavingNewDay();
         $websiteDayHasFinishedSinceLastRun = APISitesManager::getInstance()->getSitesIdFromTimezones($timezones);
@@ -1317,6 +1367,39 @@ class CronArchive
     private function isOldReportInvalidatedForWebsite($idSite)
     {
         return in_array($idSite, $this->idSitesInvalidatedOldReports);
+    }
+
+    private function isWebsiteUsingTheTracker($idSite)
+    {
+        if (!isset($this->idSitesNotUsingTracker)) {
+            // we want to trigger event only once
+            $this->idSitesNotUsingTracker = array();
+
+            /**
+             * This event is triggered when detecting whether there are sites that do not use the tracker.
+             *
+             * By default we only archive a site when there was actually any visit since the last archiving.
+             * However, some plugins do import data from another source instead of using the tracker and therefore
+             * will never have any visits for this site. To make sure we still archive data for such a site when
+             * archiving for this site is requested, you can listen to this event and add the idSite to the list of
+             * sites that do not use the tracker.
+             *
+             * @param bool $idSitesNotUsingTracker The list of idSites that rather import data instead of using the tracker
+             */
+            Piwik::postEvent('CronArchive.getIdSitesNotUsingTracker', array(&$this->idSitesNotUsingTracker));
+
+            if (!empty($this->idSitesNotUsingTracker)) {
+                $this->logger->info("The following websites do not use the tracker: " . implode(',', $this->idSitesNotUsingTracker));
+            }
+        }
+
+        $isUsingTracker = !in_array($idSite, $this->idSitesNotUsingTracker);
+
+        if (!$isUsingTracker) {
+            $this->logger->info("The website $idSite is not using the tracker");
+        }
+
+        return $isUsingTracker;
     }
 
     private function shouldProcessPeriod($period)

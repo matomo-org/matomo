@@ -9,7 +9,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * We fixed a bug where the API method `Sites.getPatternMatchSites` only returned a very limited number of websites by default. We now return all websites by default unless a limit is specified specifically.
 
 ### Deprecations
-
+* The API method `SitesManager.getSitesIdWithVisits` has been deprecated and will be removed in Piwik 3.0
 * The following events have been deprecated and will be removed in Piwik 3.0. Use [dimensions](http://developer.piwik.org/guides/dimensions) instead.
  * `Tracker.existingVisitInformation`
  * `Tracker.getVisitFieldsToPersist`
@@ -21,6 +21,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Internal Change
 * The option `branch` of the console command `development:sync-system-test-processed` was removed as it is no longer needed.
+
+### APIs
+* There is a new event `CronArchive.getIdSitesNotUsingTracker` that allows you to set a list of idSites that do not use the Tracker API to make sure we archive these sites if needed.
 
 ## Piwik 2.14.0
 
