@@ -618,8 +618,9 @@ class CronArchive
             // period=range
             $customDateRangesToPreProcessForSite = $this->getCustomDateRangeToPreProcess($idSite);
             foreach ($customDateRangesToPreProcessForSite as $dateRange) {
+                $timer = new Timer();
                 $archiveSegments = false; // do not pre-process segments for period=range #7611
-                $periodArchiveWasSuccessful = $this->archiveReportsFor($idSite, 'range', $dateRange, $archiveSegments);
+                $periodArchiveWasSuccessful = $this->archiveReportsFor($idSite, 'range', $dateRange, $archiveSegments, $timer);
                 $success = $periodArchiveWasSuccessful && $success;
             }
         }
