@@ -13,6 +13,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
@@ -29,6 +30,7 @@ use Piwik\Settings\SystemSetting;
 use Piwik\Settings\UserSetting;
 use Piwik\Site;
 use Piwik\Translation\Translator;
+use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
 
@@ -344,6 +346,11 @@ class Controller extends ControllerAdmin
         return (bool) Config::getInstance()->General['enable_general_settings_admin'];
     }
 
+    private function makeReleaseChannels()
+    {
+        return StaticContainer::get('Piwik\Plugin\ReleaseChannels');
+    }
+
     private function saveGeneralSettings()
     {
         if (!self::isGeneralSettingsAdminEnabled()) {
@@ -357,10 +364,14 @@ class Controller extends ControllerAdmin
         Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
         Rules::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
 
+        $releaseChannels = $this->makeReleaseChannels();
+
         // update beta channel setting
-        $debug = Config::getInstance()->Debug;
-        $debug['allow_upgrades_to_beta'] = Common::getRequestVar('enableBetaReleaseCheck', '0', 'int');
-        Config::getInstance()->Debug = $debug;
+        $releaseChannel = Common::getRequestVar('releaseChannel', '', 'string');
+        if (!$releaseChannels->isValidReleaseChannelId($releaseChannel)) {
+            $releaseChannel = '';
+        }
+        $releaseChannels->setActiveReleaseChannelId($releaseChannel);
 
         // Update email settings
         $mail = array();
@@ -411,7 +422,19 @@ class Controller extends ControllerAdmin
         $view->todayArchiveTimeToLiveDefault = Rules::getTodayArchiveTimeToLiveDefault();
         $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
-        $view->enableBetaReleaseCheck = Config::getInstance()->Debug['allow_upgrades_to_beta'];
+        $releaseChannels = $this->makeReleaseChannels();
+        $activeChannelId = $releaseChannels->getActiveReleaseChannel()->getId();
+        $allChannels = array();
+        foreach ($releaseChannels->getAllReleaseChannels() as $channel) {
+            $allChannels[] = array(
+                'id'   => $channel->getId(),
+                'name' => $channel->getName(),
+                'description' => $channel->getDescription(),
+                'active' => $channel->getId() === $activeChannelId
+            );
+        }
+
+        $view->releaseChannels = $allChannels;
         $view->mail = Config::getInstance()->mail;
 
         $pluginUpdateCommunication = new UpdateCommunication();
