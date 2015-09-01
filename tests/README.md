@@ -15,19 +15,7 @@ The next section explains how you can run the test suite on your own dev machine
 
 ## How To Run Piwik Tests
 
-To run tests, you must use the Git master. Tests files are not in the Piwik zip archive.
-
-You can get the latest Git revision at: http://github.com/piwik/piwik
-
-```
-$ git clone https://github.com/piwik/piwik.git
-```
-
-Next install Composer which will lets you download the libraries used in Piwik:
-```
-$ curl -sS https://getcomposer.org/installer | php
-$ php composer.phar install
-```
+To run tests, you must install Piwik via Git and set it up for development. A guide for this is available in our [Developer Zone](http://developer.piwik.org/guides/getting-started-part-1). The part about "Creating a plugin" can be skipped.
 
 To execute the tests:
 
