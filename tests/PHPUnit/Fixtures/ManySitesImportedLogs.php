@@ -7,13 +7,11 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\Access;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\OverrideLogin;
 
 /**
  * Imports visits from several log files using the python log importer.
@@ -115,6 +113,7 @@ class ManySitesImportedLogs extends Fixture
         $this->logVisitsWithStaticResolver();
         $this->logVisitsWithAllEnabled();
         $this->replayLogFile();
+        $this->replayLogFile(array('--idsite' => 3));
         $this->logCustomFormat();
 
         if ($this->includeIisWithCustom) {
@@ -231,8 +230,10 @@ class ManySitesImportedLogs extends Fixture
     /**
      * Logs a couple visit using log entries that are tracking requests to a piwik.php file.
      * Adds two visits to idSite=1 and two to non-existant sites.
+     *
+     * @param array $additonalOptions
      */
-    private function replayLogFile()
+    private function replayLogFile($additonalOptions = array())
     {
         $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_replay.log';
 
@@ -242,10 +243,7 @@ class ManySitesImportedLogs extends Fixture
                       '--recorder-max-payload-size' => '1',
                       '--replay-tracking'           => false);
 
-        self::executeLogImporter($logFile, $opts);
-
-        // execute again but this time with different idsite
-        $opts['--idsite'] = 3;
+        $opts = array_merge($opts, $additonalOptions);
 
         self::executeLogImporter($logFile, $opts);
     }
