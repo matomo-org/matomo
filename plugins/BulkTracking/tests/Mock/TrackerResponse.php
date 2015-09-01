@@ -14,8 +14,18 @@ class TrackerResponse extends Response
 {
     private $invalidRequests = array();
 
+    /**
+     * @var bool
+     */
+    private $isAuthenticated = false;
+
     public function setInvalidRequests($invalidRequests)
     {
         $this->invalidRequests = $invalidRequests;
+    }
+
+    public function setIsAuthenticated($isAuthenticated)
+    {
+        $this->isAuthenticated = $isAuthenticated;
     }
 }

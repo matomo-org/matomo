@@ -48,7 +48,7 @@ class ResponseTest extends UnitTestCase
         $this->response->outputException($tracker, new Exception('My Custom Message'), 400);
         $content = $this->response->getOutput();
 
-        $this->assertEquals('{"status":"error","tracked":5,"invalid":0,"invalid_indices":[]}', $content);
+        $this->assertEquals('{"status":"error","tracked":5,"invalid":0}', $content);
     }
 
     public function test_outputException_shouldOutputDebugMessageIfEnabled()
@@ -59,7 +59,7 @@ class ResponseTest extends UnitTestCase
         $this->response->outputException($tracker, new Exception('My Custom Message'), 400);
         $content = $this->response->getOutput();
 
-        $this->assertStringStartsWith('{"status":"error","tracked":5,"invalid":0,"invalid_indices":[],"message":"My Custom Message\n', $content);
+        $this->assertStringStartsWith('{"status":"error","tracked":5,"invalid":0,"message":"My Custom Message\n', $content);
     }
 
     public function test_outputResponse_shouldOutputBulkResponse()
@@ -69,7 +69,7 @@ class ResponseTest extends UnitTestCase
         $this->response->outputResponse($tracker);
         $content = $this->response->getOutput();
 
-        $this->assertEquals('{"status":"success","tracked":5,"invalid":0,"invalid_indices":[]}', $content);
+        $this->assertEquals('{"status":"success","tracked":5,"invalid":0}', $content);
     }
 
     public function test_outputResponse_shouldNotOutputAnything_IfExceptionResponseAlreadySent()
@@ -80,14 +80,38 @@ class ResponseTest extends UnitTestCase
         $this->response->outputResponse($tracker);
         $content = $this->response->getOutput();
 
-        $this->assertEquals('{"status":"error","tracked":5,"invalid":0,"invalid_indices":[]}', $content);
+        $this->assertEquals('{"status":"error","tracked":5,"invalid":0}', $content);
     }
 
-    public function test_outputResponse_shouldOutputInvalidRequests_IfInvalidCountSet()
+    public function test_outputResponse_shouldIncludeInvalidIndices_IfExceptionSet_AndRequestAuthenticated()
+    {
+        $tracker = $this->getTrackerWithCountedRequests();
+
+        $this->response->setInvalidRequests(array(10, 20));
+        $this->response->setIsAuthenticated(true);
+        $this->response->outputException($tracker, new Exception('My Custom Message'), 400);
+        $content = $this->response->getOutput();
+
+        $this->assertEquals('{"status":"error","tracked":5,"invalid":2,"invalid_indices":[10,20]}', $content);
+    }
+
+    public function test_outputResponse_shouldOutputInvalidRequests_IfInvalidIndicesSet_AndRequestNotAuthenticated()
     {
         $tracker = $this->getTrackerWithCountedRequests();
 
         $this->response->setInvalidRequests(array(5, 63, 72));
+        $this->response->outputResponse($tracker);
+        $content = $this->response->getOutput();
+
+        $this->assertEquals('{"status":"success","tracked":5,"invalid":3}', $content);
+    }
+
+    public function test_outputResponse_shouldOutputInvalidRequests_IfInvalidIndicesSet_AndRequestAuthenticated()
+    {
+        $tracker = $this->getTrackerWithCountedRequests();
+
+        $this->response->setInvalidRequests(array(5, 63, 72));
+        $this->response->setIsAuthenticated(true);
         $this->response->outputResponse($tracker);
         $content = $this->response->getOutput();
 

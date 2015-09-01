@@ -9,7 +9,11 @@
 
 namespace Piwik\Plugins\BulkTracking\Tracker;
 
+use Piwik\Archiver\Request;
+use Piwik\AuthResult;
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Piwik;
 use Piwik\Tracker;
 use Piwik\Tracker\RequestSet;
 use Piwik\Tracker\TrackerConfig;
@@ -40,6 +44,12 @@ class Handler extends Tracker\Handler
 
     public function process(Tracker $tracker, RequestSet $requestSet)
     {
+        $isAuthenticated = $this->isBulkTrackingRequestAuthenticated($requestSet);
+
+        /** @var Response $response */
+        $response = $this->getResponse();
+        $response->setIsAuthenticated($isAuthenticated);
+
         $invalidRequests = array();
         foreach ($requestSet->getRequests() as $index => $request) {
             try {
@@ -49,8 +59,6 @@ class Handler extends Tracker\Handler
             }
         }
 
-        /** @var Response $response */
-        $response = $this->getResponse();
         $response->setInvalidRequests($invalidRequests);
     }
 
@@ -96,4 +104,23 @@ class Handler extends Tracker\Handler
         return (bool) TrackerConfig::getConfigValue('bulk_requests_use_transaction');
     }
 
+    private function isBulkTrackingRequestAuthenticated(RequestSet $requestSet)
+    {
+        $tokenAuth = $requestSet->getTokenAuth();
+        if (empty($tokenAuth)) {
+            return false;
+        }
+
+        Piwik::postEvent('Request.initAuthenticationObject');
+
+        /** @var \Piwik\Auth $auth */
+        $auth = StaticContainer::get('Piwik\Auth');
+        $auth->setTokenAuth($tokenAuth);
+        $auth->setLogin(null);
+        $auth->setPassword(null);
+        $auth->setPasswordHash(null);
+        $access = $auth->authenticate();
+
+        return $access->getCode() != AuthResult::FAILURE;
+    }
 }

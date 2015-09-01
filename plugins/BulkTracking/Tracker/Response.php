@@ -20,6 +20,11 @@ class Response extends Tracker\Response
     private $invalidRequests = array();
 
     /**
+     * @var bool
+     */
+    private $isAuthenticated = false;
+
+    /**
      * Echos an error message & other information, then exits.
      *
      * @param Tracker $tracker
@@ -62,8 +67,11 @@ class Response extends Tracker\Response
             'status'  => 'error',
             'tracked' => $tracker->getCountOfLoggedRequests(),
             'invalid' => count($this->invalidRequests),
-            'invalid_indices' => $this->invalidRequests,
         );
+
+        if ($this->isAuthenticated) {
+            $result['invalid_indices'] = $this->invalidRequests;
+        }
 
         // send error when in debug mode
         if ($tracker->isDebugModeEnabled()) {
@@ -75,16 +83,26 @@ class Response extends Tracker\Response
 
     private function formatResponse(Tracker $tracker)
     {
-        return array(
+        $result = array(
             'status' => 'success',
             'tracked' => $tracker->getCountOfLoggedRequests(),
             'invalid' => count($this->invalidRequests),
-            'invalid_indices' => $this->invalidRequests,
         );
+
+        if ($this->isAuthenticated) {
+            $result['invalid_indices'] = $this->invalidRequests;
+        }
+
+        return $result;
     }
 
     public function setInvalidRequests($invalidRequests)
     {
         $this->invalidRequests = $invalidRequests;
+    }
+
+    public function setIsAuthenticated($isAuthenticated)
+    {
+        $this->isAuthenticated = $isAuthenticated;
     }
 }
