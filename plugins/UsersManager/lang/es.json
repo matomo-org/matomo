@@ -63,7 +63,7 @@
         "UsersManagementMainDescription": "Cree nuevos usuarios o actualice los actuales. Luego puede configurar sus permisos.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Cuando los usuarios no están identificados y visitan Piwik, deberían poder acceder",
         "YourUsernameCannotBeChanged": "Su nombre de usuario no puede ser cambiado.",
-        "YourVisitsAreIgnoredOnDomain": "%sSus visitas son ignoradas por Piwik en %s %s (la cookie de Piwik está en su navegador).",
-        "YourVisitsAreNotIgnored": "%sSus visitas no son ignoradas por Piwik%s (la cookie de Piwik no fué hallada en su navegador)."
+        "YourVisitsAreIgnoredOnDomain": "%sSus visitas son ignoradas por Piwik en %s %s (la cookie de ignorar a Piwik fue encontrada en su navegador).",
+        "YourVisitsAreNotIgnored": "%sSus visitas no son ignoradas por Piwik%s (la cookie de ignorar a Piwik no fue encontrada en su navegador)."
     }
 }

@@ -47,6 +47,14 @@
         "UpdateHasBeenCancelledExplanation": "Piwik's Ett-klicks-uppdatering har avbrutits. Om du inte kan åtgärda ovanstående felmeddelande, rekommenderas att du manuellt uppdaterar Piwik. %1$s Kolla in %2$sUppdateringsdokumentation%3$s för att komma igång!",
         "UpdateTitle": "Uppdatera",
         "UpdateSuccessTitle": "Piwik har uppdaterats utan problem!",
+        "UpdateErrorTitle": "Uppdateringsfel",
+        "ThankYouUpdatePiwik": "Tack för att du använder Piwik och håller den uppdaterad!",
+        "PostUpdateMessage": "Piwik kommer alltid att vara fri att använda men behöver ditt stöd för att växa och utvecklas.",
+        "PostUpdateSupport": "Om du behöver hjälp att använda Piwik kan du få stöd från utvecklarna:",
+        "EnterpriseSolutions": "Enterpriselösningar",
+        "CloudHosting": "Molntjänst",
+        "Updating": "Uppdateringar",
+        "UpdateUsingHttpsFailed": "Nedladdning ac den senaste versionen av Piwik över HTTPS fungerade inte på grund av följande fel:",
         "UpgradeComplete": "Uppgradering färdig!",
         "UpgradePiwik": "Uppgradera Piwik",
         "VerifyingUnpackedFiles": "Kontrollerar uppackage filer",
@@ -55,6 +63,7 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Du kan uppdatera till den senaste versionen %s automatiskt eller ladda ner paketet och installera det manuellt:",
         "YouCouldManuallyExecuteSqlQueries": "Om du inte kan använda kommandoradsuppdateringen och om Piwik misslyckas att uppdatera (på grund av en timeout av databasen, en webbläsartimeout, eller något annat problem), kan du köra SQL-frågorna manuellt för att uppdatera Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik kunde inte skriva över din aktuella installation. Du kan antingen fixa mapp\/filrättigheterna eller ladda ner paketet och installera versionen %s manuellt:",
-        "YourDatabaseIsOutOfDate": "Din Piwik-databas är inte uppdaterad och måste därför uppgraderas innan du kan fortsätta."
+        "YourDatabaseIsOutOfDate": "Din Piwik-databas är inte uppdaterad och måste därför uppgraderas innan du kan fortsätta.",
+        "ViewVersionChangelog": "Visa ändringslogg för denna version:"
     }
 }

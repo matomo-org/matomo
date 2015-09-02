@@ -51,6 +51,7 @@ class RecommendedFunctionsCheck implements Diagnostic
     private function getRecommendedFunctions()
     {
         return array(
+            'shell_exec',
             'set_time_limit',
             'mail',
             'parse_ini_file',
@@ -62,6 +63,7 @@ class RecommendedFunctionsCheck implements Diagnostic
     private function getHelpMessage($function)
     {
         $messages = array(
+            'shell_exec'     => 'Installation_SystemCheckFunctionHelp',
             'set_time_limit' => 'Installation_SystemCheckTimeLimitHelp',
             'mail'           => 'Installation_SystemCheckMailHelp',
             'parse_ini_file' => 'Installation_SystemCheckParseIniFileHelp',

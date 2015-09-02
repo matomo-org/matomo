@@ -39,21 +39,20 @@
         "php": ">=5.3.3",
         "twig/twig": "~1.0",
         "leafo/lessphp": "~0.5.0",
-        "symfony/console": "~2.6",
+        "symfony/console": "~2.6.0",
         "tedivm/jshrink": "~0.5.1",
         "mustangostang/spyc": "~0.5.0",
         "piwik/device-detector": "~3.0",
         "piwik/decompress": "~1.0",
         "piwik/network": "~0.1.0",
         "piwik/cache": "~0.2.5",
-        "piwik/ini": "~1.0,>=1.0.3",
+        "piwik/ini": "^1.0.3",
         "php-di/php-di": "5.0.0-beta1",
         "psr/log": "~1.0",
         "monolog/monolog": "~1.11",
-        "symfony/monolog-bridge": "~2.6",
-        "symfony/event-dispatcher": "~2.6",
+        "symfony/monolog-bridge": "~2.6.0",
+        "symfony/event-dispatcher": "~2.6.0",
         "pear/pear_exception": "~1.0.0",
-        "pear/pear-core-minimal": "~1.9.5",
         "piwik/referrer-spam-blacklist": "~1.0",
         "tecnick.com/tcpdf": "~6.0"
     },
@@ -62,7 +61,8 @@
         "phpunit/phpunit": "~4.1",
         "facebook/xhprof": "dev-master",
         "phpseclib/phpseclib": "~0.3.8",
-        "symfony/var-dumper": "~2.6"
+        "symfony/var-dumper": "~2.6.0",
+        "symfony/yaml": "~2.6.0"
     },
     "repositories": [
         {

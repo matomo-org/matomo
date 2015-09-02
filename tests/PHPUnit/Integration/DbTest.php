@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -37,6 +38,30 @@ class DbTest extends IntegrationTestCase
     {
         $result = Db::isOptimizeInnoDBSupported($version);
         $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * @dataProvider getDbAdapter
+     */
+    public function test_SqlMode_IsSet_PDO($adapter, $expectedClass)
+    {
+        Db::destroyDatabaseObject();
+        Config::getInstance()->database['adapter'] = $adapter;
+        $db = Db::get();
+        // make sure test is useful and setting adapter works
+        $this->assertInstanceOf($expectedClass, $db);
+        $result = $db->fetchOne('SELECT @@SESSION.sql_mode');
+
+        $expected = 'NO_AUTO_VALUE_ON_ZERO,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+        $this->assertSame($expected, $result);
+    }
+
+    public function getDbAdapter()
+    {
+        return array(
+            array('Mysqli', 'Piwik\Db\Adapter\Mysqli'),
+            array('PDO\MYSQL', 'Piwik\Db\Adapter\Pdo\Mysql')
+        );
     }
 
     public function getIsOptimizeInnoDBTestData()

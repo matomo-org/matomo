@@ -1178,7 +1178,9 @@
 
                         // populate country select
                         $.each(countryData, function (i, country) {
-                            countrySelect.append('<option value="' + country.iso + '">' + country.name + '</option>');
+                            if (!!country.iso) {
+                                countrySelect.append('<option value="' + country.iso + '">' + country.name + '</option>');
+                            }
                         });
 
                         initUserInterface();

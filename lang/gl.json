@@ -1,11 +1,21 @@
 {
     "General": {
         "AboutPiwikX": "Acerca de Piwik %s",
+        "Action": "Acción",
         "Actions": "Accións",
+        "Add": "Engadir",
+        "AfterEntry": "despois de entrar aquí",
+        "All": "Todo",
         "AllWebsitesDashboard": "Tableiro de todas as Webs",
+        "And": "e",
         "API": "API",
+        "AveragePrice": "Prezo medio",
+        "AverageQuantity": "Cantidade media",
         "BackToPiwik": "Voltar a Piwik",
+        "Cancel": "Cancelar",
+        "ChangePassword": "Cambiar o contrasinal",
         "ChooseDate": "Escolla Data",
+        "ClickHere": "Prema aquí para máis información.",
         "Close": "Pechar",
         "ColumnActionsPerVisit": "Accións por Visita",
         "ColumnAverageTimeOnPage": "Tempo medio na pax.",
@@ -79,7 +89,6 @@
         "NoDataForGraph": "Sin datos para este Gráfico",
         "NoDataForTagCloud": "Sin datos para esta Nube",
         "NotValid": "%s non é valido",
-        "NSeconds": "%s segs",
         "NumberOfVisits": "Número de Visitas",
         "NVisits": "%s visitas",
         "Ok": "Ok",
@@ -102,11 +111,9 @@
         "Save": "Gardar",
         "SaveImageOnYourComputer": "Para grabar a imaxe no computador faga click-dereito na imaxe e seleccione \"Grabar Imaxe como..\"",
         "Search": "Procurar",
-        "Seconds": "%segs",
         "Settings": "Configuración",
         "Table": "Táboa",
         "TagCloud": "Nube de etiquetas",
-        "TranslatorEmail": "info@ousli.org",
         "TranslatorName": "OUSLI - Ourense Software Libre, Antonio Andina",
         "Unknown": "Descoñecido",
         "Username": "Usuario",
@@ -128,5 +135,18 @@
         "YouAreViewingDemoShortMessage": "Vostede esta vendo a demo de Piwik",
         "YouMustBeLoggedIn": "Debes de rexistrate para acceder a esta función.",
         "YourChangesHaveBeenSaved": "Os cambios foron grabados"
+    },
+    "Mobile": {
+        "Account": "Conta",
+        "Accounts": "Contas",
+        "AddAccount": "Engadir conta",
+        "Advanced": "Avanzado",
+        "AnonymousAccess": "Acceso anónimo",
+        "DefaultReportDate": "Data do informe",
+        "LoadingReport": "A cargar %s"
+    },
+    "RowEvolution": {
+        "CompareRows": "Comparar rexistros",
+        "ComparingRecords": "A comparar %s filas"
     }
 }

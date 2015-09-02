@@ -1,8 +1,10 @@
 {
     "CoreAdminHome": {
+        "AddNewTrustedHost": "Přidat nového důvěryhodného hostitele",
         "Administration": "Administrace",
         "ArchivingSettings": "Archivování nastavení",
         "BrandingSettings": "Nastavení označení",
+        "CheckReleaseGetVersion": "Použít nejnovější beta verzi",
         "ClickHereToOptIn": "Klikněte zde pro přihlášení.",
         "ClickHereToOptOut": "Klikněte zde pro vyloučení.",
         "CustomLogoFeedbackInfo": "Pokud přizpůsobíte logo Piwiku, možná by vás zajímalo, jak skrýt odkaz %s v horním menu, Pokud to chcete provést, zakažte plugin zpětné vazby na stránce %sSpravovat zásuvné moduly%s.",
@@ -70,6 +72,7 @@
         "PluginSettingsIntro": "Zde můžete změnit nastavení pro následující zásuvné moduly třetích stran:",
         "PluginSettingsValueNotAllowed": "Hodnota pro pole \"%s\" zásuvného modulu \"%s\" není povolena",
         "PluginSettingsSaveFailed": "Nepodařilo se uložit nastavení zásuvného modulu",
+        "SendPluginUpdateCommunication": "Pokud bude k dispozici aktualizace pluginu, odeslat e-mail.",
         "SendPluginUpdateCommunicationHelp": "Super uživatelům bude odeslán e-mail, když bude k dispozici aktualizace zásuvného modulu.",
         "StableReleases": "Piwik je důležitý nástroj pro měření, doporučujeme vždy používat nejnovější vydání. Pokud používáte nejnovější beta verzi a našli jste chyby, prosíme o jejich nahlášení %spřímo zde %s.",
         "SystemPluginSettings": "Systémová nastavení zásuvných modulů",

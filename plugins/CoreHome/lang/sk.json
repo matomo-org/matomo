@@ -8,7 +8,7 @@
         "DataForThisReportHasBeenPurged": "Dáta pre tento report sú viac ako %s mesiacov staré a boli zmazané.",
         "DataTableExcludeAggregateRows": "Súhrnné riadky sú zobrazené %s Schovať ich",
         "DataTableIncludeAggregateRows": "Súhrnné riadky sú schované %s Zobraziť ich",
-        "DateFormat": "%long deň% %deň% %long mesiac% %long rok%",
+        "DateFormat": "%longDay% %day% %longMonth% %longYear%",
         "Default": "Prednastavené",
         "DonateCall1": "Používanie projektu Piwik Vás nebude nikdy nič stáť, ale to neznamená, že jeho vývoj nič nestojí.",
         "DonateCall2": "Piwik potrebuje Vašu neustálu podporu aby rástol a prospieval.",

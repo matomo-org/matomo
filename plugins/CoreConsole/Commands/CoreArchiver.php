@@ -23,12 +23,12 @@ class CoreArchiver extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $archiver = self::makeArchiver("", $input);
+        $archiver = self::makeArchiver($input->getOption('url'), $input);
         $archiver->main();
     }
 
     // also used by another console command
-    public static function makeArchiver($url, InputInterface $input) // TODO: remove url from this function
+    public static function makeArchiver($url, InputInterface $input)
     {
         $archiver = new CronArchive();
 
@@ -56,6 +56,8 @@ class CoreArchiver extends ConsoleCommand
         $segmentIds = array_map('trim', $segmentIds);
         $archiver->setSegmentsToForceFromSegmentIds($segmentIds);
 
+        $archiver->setUrlToPiwik($url);
+
         return $archiver;
     }
 
@@ -75,7 +77,10 @@ class CoreArchiver extends ConsoleCommand
   but it is recommended to run it via command line/CLI instead.
 * If you have any suggestion about this script, please let the team know at feedback@piwik.org
 * Enjoy!");
-        $command->addOption('url', null, InputOption::VALUE_REQUIRED, "Deprecated.");
+        $command->addOption('url', null, InputOption::VALUE_REQUIRED,
+            "Forces the value of this option to be used as the URL to Piwik. \nIf your system does not support"
+            . " archiving with CLI processes, you may need to set this in order for the archiving HTTP requests to use"
+            . " the desired URLs.");
         $command->addOption('force-all-websites', null, InputOption::VALUE_NONE,
             "If specified, the script will trigger archiving on all websites.\nUse with --force-all-periods=[seconds] "
             . "to also process those websites that had visits in the last [seconds] seconds.\nLaunching several processes"
@@ -95,7 +100,7 @@ class CoreArchiver extends ConsoleCommand
         $command->addOption('force-idsites', null, InputOption::VALUE_OPTIONAL,
             'If specified, archiving will be processed only for these Sites Ids (comma separated)');
         $command->addOption('force-periods', null, InputOption::VALUE_OPTIONAL,
-            "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month)");
+            "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month,year,range)");
         $command->addOption('force-date-last-n', null, InputOption::VALUE_REQUIRED,
             "This script calls the API with period=lastN. You can force the N in lastN by specifying this value.");
         $command->addOption('force-date-range', null, InputOption::VALUE_OPTIONAL,

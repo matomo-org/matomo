@@ -66,4 +66,23 @@ return array(
 
     'Piwik\EventDispatcher' => DI\object()->constructorParameter('observers', DI\get('observers.global')),
 
+    'Zend_Validate_EmailAddress' => function () {
+        return new \Zend_Validate_EmailAddress(array(
+            'hostname' => new \Zend_Validate_Hostname(array(
+                'tld' => false,
+            ))));
+    },
+
+    // contains RequestProcessor instances, currently used by Piwik\Tracker\Visit
+    'tracker.request.processors' => array(),
+
+    'Piwik\Tracker\VisitorRecognizer' => DI\object()
+        ->constructorParameter('trustCookiesOnly', DI\get('ini.Tracker.trust_visitors_cookies'))
+        ->constructorParameter('visitStandardLength', DI\get('ini.Tracker.visit_standard_length'))
+        ->constructorParameter('lookbackNSecondsCustom', DI\get('ini.Tracker.window_look_back_for_visitor'))
+        ->constructorParameter('trackerAlwaysNewVisitor', DI\get('ini.Debug.tracker_always_new_visitor')),
+
+    'Piwik\Tracker\Settings' => DI\object()
+        ->constructorParameter('isSameFingerprintsAcrossWebsites', DI\get('ini.Tracker.enable_fingerprinting_across_websites')),
+
 );

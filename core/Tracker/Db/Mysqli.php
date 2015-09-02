@@ -213,7 +213,7 @@ class Mysqli extends Db
         } catch (Exception $e) {
             throw new DbException("Error query: " . $e->getMessage() . "
                                    In query: $query
-                                   Parameters: " . var_export($parameters, true));
+                                   Parameters: " . var_export($parameters, true), $e->getCode());
         }
     }
 

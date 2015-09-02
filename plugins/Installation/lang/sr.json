@@ -97,7 +97,6 @@
         "SystemCheckSummaryThereWereWarnings": "Postoje izvesni problemi sa vašim sistemom. Piwik će raditi ali možete iskusiti manje probleme.",
         "SystemCheckTimeLimitHelp": "Na sajtovima sa visokim saobraćajem proces arhiviranja podataka može zahtevati više vremena nego što je to trenutno dozvoljeno.<br \/>Promenite vrednost parametra max_execution_time u php.ini datoteci ukoliko je to neophodno.",
         "SystemCheckTracker": "Status trekera",
-        "SystemCheckTrackerHelp": "GET zahtev ka piwik.php nije uspeo. Pokušajte da stavite ovu adresu na belu listu za mod_security i HTTP Authentication.",
         "SystemCheckWarnDomHelp": "Trebalo bi da uključite \"dom\" proširenje (instalirajte npr. \"php-dom\" i\/ili \"php-xml\" paket).",
         "SystemCheckWarning": "Piwik će raditi normalno ali neke funkcije neće biti dostupne",
         "SystemCheckWarnJsonHelp": "Trebalo bi da uključite \"json\" proširenje (instalirajte npr. \"php-json\" paket) zarad boljih performansi",

@@ -250,7 +250,7 @@ class Visitor implements VisitorInterface
         $actionDetails = $model->queryActionsForVisit($idVisit, $actionsLimit);
 
         $formatter = new Formatter();
-        $maxCustomVariables = CustomVariables::getMaxCustomVariables();
+        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
 
         foreach ($actionDetails as $actionIdx => &$actionDetail) {
             $actionDetail =& $actionDetails[$actionIdx];

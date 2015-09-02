@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Ovi vidžeti i raspored kolona će biti upotrebljeni kada neki korisnik kreira novu konzolu ili kada se klikne na \"%s\"",
         "TopLinkTooltip": "Prikaži izveštaj za %s.",
         "WidgetNotFound": "Vidžet nije pronađen",
-        "WidgetPreview": "Prikaz vidžeta",
-        "WidgetsAndDashboard": "Vidžeti i konzola"
+        "WidgetPreview": "Prikaz vidžeta"
     }
 }

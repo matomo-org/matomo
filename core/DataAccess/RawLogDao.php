@@ -11,7 +11,6 @@ namespace Piwik\DataAccess;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\DimensionMetadataProvider;
 
 /**
@@ -206,6 +205,26 @@ class RawLogDao
         // unused action will be inserted.
         $this->deleteUnusedActions();
         Db::unlockAllTables();
+    }
+
+
+    /**
+     * Returns the list of the website IDs that received some visits between the specified timestamp.
+     *
+     * @param string $fromDateTime
+     * @param string $toDateTime
+     * @return bool true if there are visits for this site between the given timeframe, false if not
+     */
+    public function hasSiteVisitsBetweenTimeframe($fromDateTime, $toDateTime, $idSite)
+    {
+        $sites = Db::fetchOne("SELECT 1
+                FROM " . Common::prefixTable('log_visit') . "
+                WHERE idsite = ?
+                AND visit_last_action_time > ?
+                AND visit_last_action_time < ?
+                LIMIT 1", array($idSite, $fromDateTime, $toDateTime));
+
+        return (bool) $sites;
     }
 
     /**

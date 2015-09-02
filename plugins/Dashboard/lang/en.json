@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "This widgets selection and dashboard columns layout will be used when any user creates a new dashboard, or when \"%s\" feature is used.",
         "TopLinkTooltip": "View Web Analytics reports for %s.",
         "WidgetNotFound": "Widget not found",
-        "WidgetPreview": "Widget preview",
-        "WidgetsAndDashboard": "Widgets & Dashboard"
+        "WidgetPreview": "Widget preview"
     }
 }

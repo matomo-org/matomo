@@ -33,6 +33,8 @@ use Piwik\Db\Adapter;
  */
 class Db
 {
+    const SQL_MODE = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_AUTO_VALUE_ON_ZERO,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE';
+
     private static $connection = null;
 
     private static $logQueries = true;

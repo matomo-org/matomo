@@ -710,6 +710,17 @@ class Date
     }
 
     /**
+     * Subtracts `$n` seconds from `$this` date and returns the result in a new Date.
+     *
+     * @param int $n Number of seconds to subtract. Can be less than 0.
+     * @return \Piwik\Date
+     */
+    public function subSeconds($n)
+    {
+        return new Date($this->timestamp - $n, $this->timezone);
+    }
+
+    /**
      * Adds a period to `$this` date and returns the result in a new Date instance.
      *
      * @param int $n The number of periods to add. Can be negative.

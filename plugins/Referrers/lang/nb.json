@@ -13,7 +13,9 @@
         "DistinctSearchEngines": "ulike søkemotorer",
         "DistinctWebsites": "ulike nettsteder",
         "Keywords": "Nøkkelord",
+        "Referrer": "Henviser",
         "Referrers": "Henvisere",
+        "ReferrerTypes": "Henvisingstyper",
         "SearchEngines": "Søkemotorer",
         "Socials": "Sosiale nettverk",
         "SubmenuSearchEngines": "Søkemotorer og nøkkelord",
@@ -24,8 +26,11 @@
         "TypeSearchEngines": "%s fra søkemotorer",
         "TypeWebsites": "%s fra nettsteder",
         "UsingNDistinctUrls": "(bruker %s forskjellige URL-er)",
+        "ViewAllReferrers": "Vis alle henvisere",
+        "ViewReferrersBy": "Vis henvisere etter %s",
         "Websites": "Nettsteder",
         "WidgetExternalWebsites": "Liste over eksterne nettsteder",
+        "WidgetGetAll": "Alle henvisere",
         "WidgetSocials": "Liste over sosiale nettverk",
         "XPercentOfVisits": "%s%% av besøk"
     }

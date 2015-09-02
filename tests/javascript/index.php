@@ -384,6 +384,7 @@ function setupContentTrackingFixture(name, targetNode) {
   <iframe name="iframe5"></iframe>
   <iframe name="iframe6"></iframe>
   <iframe name="iframe7"></iframe>
+  <iframe name="iframe9"></iframe>
   <img id="image1" src=""/> <!-- Test require this empty source attribute before image2!! -->
   <img id="image2" data-content-piece src="img.jpg"/>
   <ul>
@@ -396,6 +397,7 @@ function setupContentTrackingFixture(name, targetNode) {
     <li><a id="click7" href="example.word" target="iframe7" class="piwik_download clicktest">download: explicit</a></li>
     <li><a id="click8" href="example.exe" target="iframe8" class="clicktest">no click handler</a></li>
     <li><a id="click9" href="example.html" target="iframe7" download class="clicktest">download: explicit (attribute)</a></li>
+    <li><a id="click11" href="http://example.co.nz/test-with-%F6%E4%FC/story/0" target="iframe9">outlink: containing iso-8859-1 encoded url</a></li>
   </ul>
   <div id="clickDiv"></div>
  </div>
@@ -723,7 +725,7 @@ function PiwikTest() {
         ok(actual.length > 11, "findNodesHavingAttribute, should find many elements within body");
 
         actual = query.findNodesHavingAttribute(_e('other'), 'href');
-        propEqual(actual, [_e('click1'), _e('click2'), _e('click3'), _e('click4'), _e('click5'), _e('click6'), _e('click7'), _e('click8'), _e('click9')], "findNodesHavingAttribute, should find many elements within node");
+        propEqual(actual, [_e('click1'), _e('click2'), _e('click3'), _e('click4'), _e('click5'), _e('click6'), _e('click7'), _e('click8'), _e('click9'), _e('click11')], "findNodesHavingAttribute, should find many elements within node");
 
         actual = query.findNodesHavingAttribute(_e('other'), 'anyAttribute');
         propEqual(actual, [], "findNodesHavingAttribute, should not find any such attribute within div");
@@ -1924,7 +1926,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(65);
+        expect(66);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -1995,6 +1997,7 @@ function PiwikTest() {
         equal( typeof tracker.trackContentImpressionsWithinNode, 'function', 'trackContentImpressionsWithinNode' );
         equal( typeof tracker.trackContentInteraction, 'function', 'trackContentInteraction' );
         equal( typeof tracker.trackContentInteractionNode, 'function', 'trackContentInteractionNode' );
+        equal( typeof tracker.logAllContentBlocksOnPage, 'function', 'logAllContentBlocksOnPage' );
         // ecommerce
         equal( typeof tracker.setEcommerceView, 'function', 'setEcommerceView' );
         equal( typeof tracker.addEcommerceItem, 'function', 'addEcommerceItem' );
@@ -2720,7 +2723,7 @@ if ($sqlite) {
     });
 
     test("tracking", function() {
-        expect(101);
+        expect(102);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -2816,7 +2819,7 @@ if ($sqlite) {
         tracker.enableLinkTracking(true);
 
         tracker.setRequestMethod("GET");
-        var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7");
+        var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7", "click11");
         for (var i=0; i < buttons.length; i++) {
             tracker.hook.test._addEventListener(_e(buttons[i]), "click", stopEvent);
             triggerEvent(_e(buttons[i]), 'click');
@@ -3012,7 +3015,7 @@ if ($sqlite) {
             xhr.open("GET", "piwik.php?requests=" + getToken(), false);
             xhr.send(null);
             results = xhr.responseText;
-            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "32", "count tracking events" );
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "33", "count tracking events" );
 
             // firing callback
             ok( trackLinkCallbackFired, "trackLink() callback fired" );
@@ -3029,6 +3032,7 @@ if ($sqlite) {
             ok( /example.us/.test( results ), "addListener()" );
 
             ok( /example.net/.test( results ), "setRequestMethod(GET), click: implicit outlink (by outbound URL)" );
+            ok( /example.co.nz/.test( results ), "setRequestMethod(GET), click: outlink with iso-8859-1 encoding" );
             ok( /example.html/.test( results ), "click: explicit outlink" );
             ok( /example.pdf/.test( results ), "click: implicit download (by file extension)" );
             ok( /example.word/.test( results ), "click: explicit download" );
@@ -3187,7 +3191,7 @@ if ($sqlite) {
     });
 
     test("trackingContent", function() {
-        expect(81);
+        expect(83);
 
         function assertTrackingRequest(actual, expectedStartsWith, message)
         {
@@ -3523,6 +3527,101 @@ if ($sqlite) {
             start();
         }, 7000);
 
+        expected =
+            [
+                {
+                    "name": "My Ad 7",
+                    "piece": "Unknown",
+                    "target": "http://img7.example.com"
+                },
+                {
+                    "name": "http://www.example.com/path/xyz.jpg",
+                    "piece": "http://www.example.com/path/xyz.jpg",
+                    "target": "http://img6.example.com"
+                },
+                {
+                    "name": "My Ad 5",
+                    "piece": "http://img5.example.com/path/xyz.jpg",
+                    "target": origin + "/anylink5"
+                },
+                {
+                    "name": "My content 4",
+                    "piece": "My content 4",
+                    "target": "http://img4.example.com"
+                },
+                {
+                    "name": toAbsolutePath("img3-en.jpg"),
+                    "piece": toAbsoluteUrl("img3-en.jpg"),
+                    "target": "http://img3.example.com"
+                },
+                {
+                    "name": "img.jpg",
+                    "piece": "img.jpg",
+                    "target": "http://img2.example.com"
+                },
+                {
+                    "name": toAbsolutePath("img1-en.jpg"),
+                    "piece": toAbsoluteUrl("img1-en.jpg"),
+                    "target": ""
+                },
+                {
+                    "name": "/tests/javascript/img1-en.jpg",
+                    "piece": toAbsoluteUrl("img1-en.jpg"),
+                    "target": ""
+                }];
+        
+        var consoleOld = console;
+        var loggedContentBlocks = [];
+        console = {log: function (content){
+            loggedContentBlocks = content;
+        }};
+        tracker.logAllContentBlocksOnPage();
+        console = consoleOld;
+        expected =
+            [
+                {
+                    "name": "My Ad 7",
+                    "piece": "Unknown",
+                    "target": "http://img7.example.com"
+                },
+                {
+                    "name": "http://www.example.com/path/xyz.jpg",
+                    "piece": "http://www.example.com/path/xyz.jpg",
+                    "target": "http://img6.example.com"
+                },
+                {
+                    "name": "My Ad 5",
+                    "piece": "http://img5.example.com/path/xyz.jpg",
+                    "target": origin + "/anylink5"
+                },
+                {
+                    "name": "My content 4",
+                    "piece": "My content 4",
+                    "target": "http://img4.example.com"
+                },
+                {
+                    "name": toAbsolutePath("img3-en.jpg"),
+                    "piece": toAbsoluteUrl("img3-en.jpg"),
+                    "target": "http://img3.example.com"
+                },
+                {
+                    "name": "img.jpg",
+                    "piece": "img.jpg",
+                    "target": "http://img2.example.com"
+                },
+                {
+                    "name": toAbsolutePath("img1-en.jpg"),
+                    "piece": toAbsoluteUrl("img1-en.jpg"),
+                    "target": ""
+                },
+                {
+                    "name": "/tests/javascript/img1-en.jpg",
+                    "piece": toAbsoluteUrl("img1-en.jpg"),
+                    "target": ""
+                }];
+
+        equal(expected.length, loggedContentBlocks.length, 'logAllContentBlocksOnPage should detect correct number of content blocks');
+        equal(JSON.stringify(expected), JSON.stringify(loggedContentBlocks), 'logAllContentBlocksOnPage should log all content blocks');
     });
 
     test("trackingContentInteractionInteractive", function() {

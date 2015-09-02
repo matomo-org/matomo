@@ -37,6 +37,8 @@ use Exception;
  */
 abstract class VisitDimension extends Dimension
 {
+    const INSTALLER_PREFIX = 'log_visit.';
+
     private $tableName = 'log_visit';
 
     /**

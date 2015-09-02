@@ -36,6 +36,8 @@ use Exception;
  */
 abstract class ActionDimension extends Dimension
 {
+    const INSTALLER_PREFIX = 'log_link_visit_action.';
+
     private $tableName = 'log_link_visit_action';
 
     /**

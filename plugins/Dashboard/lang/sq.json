@@ -13,7 +13,6 @@
         "SelectDashboardLayout": "Ju lutem, përzgjidhni skemën e re për pultin tuaj",
         "SelectWidget": "Përzgjidhni \"widget\"-in që doni të shtoni te pulti",
         "WidgetNotFound": "Nuk u gjet \"widget\"",
-        "WidgetPreview": "Paraparje \"widget\"-i",
-        "WidgetsAndDashboard": "Widget-e & Pult"
+        "WidgetPreview": "Paraparje \"widget\"-i"
     }
 }

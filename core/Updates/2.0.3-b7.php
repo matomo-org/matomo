@@ -13,12 +13,13 @@ use Piwik\Filesystem;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  */
 class Updates_2_0_3_b7 extends Updates
 {
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         $errors = array();
 

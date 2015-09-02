@@ -10,6 +10,7 @@ namespace Piwik\Db\Adapter;
 
 use Exception;
 use Piwik\Config;
+use Piwik\Db;
 use Piwik\Db\AdapterInterface;
 use Piwik\Piwik;
 use Zend_Config;
@@ -47,6 +48,17 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
     public static function getDefaultPort()
     {
         return 3306;
+    }
+
+    protected function _connect()
+    {
+        if ($this->_connection) {
+            return;
+        }
+
+        parent::_connect();
+
+        $this->_connection->query('SET sql_mode = "' . Db::SQL_MODE . '"');
     }
 
     /**

@@ -16,7 +16,7 @@
         "Searches": "%s Suchen",
         "SecondsAgo": "vor %s Sekunden",
         "ShowingVisits": "Lokalisierte Besuche der letzten",
-        "Unlocated": "<b>%s<\/b> der Besuche %p aus %c konnten nicht lokalisiert werden.",
+        "Unlocated": "<b>%s<\/b> %p der Besuche von %c konnten nicht lokalisiert werden.",
         "VisitorMap": "Besucherkarte",
         "WorldWide": "Weltweit",
         "WithUnknownRegion": "%s mit unbekannter Region",

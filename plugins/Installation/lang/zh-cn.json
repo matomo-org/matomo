@@ -100,7 +100,6 @@
         "SystemCheckSummaryThereWereWarnings": "您的系统有些问题，Piwik 可以运行，但是可能会出现些小错误。",
         "SystemCheckTimeLimitHelp": "在一个高流量的网站，数据处理需要的时间可能会超过目前系统所允许的时间！如有必要，请修改 php.ini 文件中的 max_execution_time 值！",
         "SystemCheckTracker": "跟踪状态",
-        "SystemCheckTrackerHelp": "到 piwik.php 的请求失败，试试把这个网址加入 HTTP 认证白名单，并禁用 mod_security 模块(咨询主机商)。",
         "SystemCheckWarnDomHelp": "需要启用 \"dom\" 扩展 (例如安装 \"php-dom\" 或者 \"php-xml\" 包)。",
         "SystemCheckWarning": "Piwik 将正常工作，但某些功能可能无效",
         "SystemCheckWarnJsonHelp": "为了更好的性能，您应该使 \"json\" 扩展有效 (例如安装 \"php-json\" 包)。",

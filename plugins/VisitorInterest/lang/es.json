@@ -18,7 +18,7 @@
         "WidgetPages": "Páginas por visita",
         "WidgetPagesDocumentation": "En este informe, puede observar cuantos visitantes están involucrados con un cierto número de vistas de páginas. Inicialmente, el informe se muestra como una nube de etiquetas, los números de páginas más usuales en una fuente mayor.",
         "WidgetVisitsByDaysSinceLast": "Visitas por días desde la última visita",
-        "WidgetVisitsByDaysSinceLastDocumentation": "En este informe, puede observar cuantas visitas cuya última visita fue un cierto número de días atrás.",
+        "WidgetVisitsByDaysSinceLastDocumentation": "En este informe, puede observar cuántas visitas hubo de visitantes cuya última visita fue un cierto número de días atrás.",
         "WidgetVisitsByNumDocumentation": "En este informe, puede ver el número de visitas que fueron la N visita, por ejemplo: visitantes que visitaron su sitio de internet al menos N veces"
     }
 }

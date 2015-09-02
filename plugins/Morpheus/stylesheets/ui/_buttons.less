@@ -52,17 +52,30 @@ input[type="submit"]:not(.btn),
 }
 // See http://getbootstrap.com/css/#buttons-options
 .btn.btn-link {
-    // We have to use !important unfortunately because the default button style uses it...
-    background: transparent !important;
-    color: @theme-color-link !important;
-    text-decoration: underline !important;
+    background: transparent;
+    color: @theme-color-link;
+    text-decoration: underline;
     box-shadow: none;
 }
 .btn.btn-noop {
-    // We have to use !important unfortunately because the default button style uses it...
-    background: transparent !important;
-    color: @theme-color-text !important;
+    background: transparent;
+    color: @theme-color-text;
     pointer-events: none;
     cursor: not-allowed;
     box-shadow: none;
+}
+
+.btn.btn-flat {
+    background: transparent;
+    border-radius: 0;
+    color: @theme-color-text-light;
+    box-shadow: none;
+    padding: 5px 10px;
+    &:hover {
+        background-color: #eaeaea;
+        text-decoration: none;
+    }
+    &.btn-lg {
+        padding: 12px;
+    }
 }

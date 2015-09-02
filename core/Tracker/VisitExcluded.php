@@ -128,6 +128,14 @@ class VisitExcluded
             }
         }
 
+        // Check if request URL is excluded
+        if (!$excluded) {
+            $excluded = $this->isUrlExcluded();
+            if ($excluded) {
+                Common::printDebug("Unknown URL is not allowed to track.");
+            }
+        }
+
         if (!$excluded) {
             if ($this->isPrefetchDetected()) {
                 $excluded = true;
@@ -180,28 +188,29 @@ class VisitExcluded
         if ($cache->contains($key)) {
             $isInRanges = $cache->fetch($key);
         } else {
-            $isInRanges = $ip->isInRanges($this->getBotIpRanges());
+            if ($this->isChromeDataSaverUsed($ip)) {
+                $isInRanges = false;
+            } else {
+                $isInRanges = $ip->isInRanges($this->getBotIpRanges());
+            }
+
             $cache->save($key, $isInRanges);
         }
 
         return $isInRanges;
     }
 
+    private function isChromeDataSaverUsed(IP $ip)
+    {
+        // see https://github.com/piwik/piwik/issues/7733
+        return !empty($_SERVER['HTTP_VIA'])
+            && false !== strpos(strtolower($_SERVER['HTTP_VIA']), 'chrome-compression-proxy')
+            && $ip->isInRanges($this->getGoogleBotIpRanges());
+    }
+
     protected function getBotIpRanges()
     {
-        return array(
-            // Google
-            '216.239.32.0/19',
-            '64.233.160.0/19',
-            '66.249.80.0/20',
-            '72.14.192.0/18',
-            '209.85.128.0/17',
-            '66.102.0.0/20',
-            '74.125.0.0/16',
-            '64.18.0.0/20',
-            '207.126.144.0/20',
-            '173.194.0.0/16',
-
+        return array_merge($this->getGoogleBotIpRanges(), array(
             // Live/Bing/MSN
             '64.4.0.0/18',
             '65.52.0.0/14',
@@ -220,6 +229,22 @@ class VisitExcluded
             '98.137.207.0/20',
             // Chinese bot hammering websites
             '1.202.218.8'
+        ));
+    }
+
+    private function getGoogleBotIpRanges()
+    {
+        return array(
+            '216.239.32.0/19',
+            '64.233.160.0/19',
+            '66.249.80.0/20',
+            '72.14.192.0/18',
+            '209.85.128.0/17',
+            '66.102.0.0/20',
+            '74.125.0.0/16',
+            '64.18.0.0/20',
+            '207.126.144.0/20',
+            '173.194.0.0/16'
         );
     }
 
@@ -252,6 +277,27 @@ class VisitExcluded
                 Common::printDebug('Visitor IP ' . $ip->toString() . ' is excluded from being tracked');
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if request URL is excluded
+     * @return bool
+     */
+    protected function isUrlExcluded()
+    {
+        $site = Cache::getCacheWebsiteAttributes($this->idSite);
+
+        if (!empty($site['exclude_unknown_urls']) && !empty($site['hosts'])) {
+            $trackingHost = parse_url($this->request->getParam('url'), PHP_URL_HOST);
+            foreach ($site['hosts'] as $siteHost) {
+                if ($trackingHost == $siteHost || (substr($trackingHost, -strlen($siteHost) - 1) === ('.' . $siteHost))) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         return false;

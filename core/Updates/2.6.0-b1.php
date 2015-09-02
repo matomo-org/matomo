@@ -11,6 +11,7 @@ namespace Piwik\Updates;
 
 use Piwik\Config;
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  * Update for version 2.6.0-b1.
@@ -21,7 +22,7 @@ class Updates_2_6_0_b1 extends Updates
      * Here you can define any action that should be performed during the update. For instance executing SQL statements,
      * renaming config entries, updating files, etc.
      */
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         $config = Config::getInstance();
         $config->Plugins_Tracker = array();

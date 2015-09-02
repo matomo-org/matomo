@@ -1,16 +1,16 @@
 {
     "SEO": {
-        "PluginDescription": "Este complemento extrae y muestra las métricas SEO: ranking de internet Alexa, Google Pagerank, número de páginas indexadas y enlaces de retorno del sitio de internet actualmente seleccionado.",
+        "PluginDescription": "Este complemento extrae y visualiza las métricas SEO: ranking de internet Alexa, Google Pagerank, número de páginas indexadas y enlaces de retorno del sitio de internet actualmente seleccionado.",
         "AlexaRank": "Ranking Alexa",
         "Bing_IndexedPages": "páginas indexadas por Bing",
         "Dmoz": "Entradas DMOZ",
         "DomainAge": "Edad del dominio",
-        "ExternalBacklinks": "Enlaces entrantes Externos (Majestic)",
+        "ExternalBacklinks": "Enlaces entrantes externos (Majestic)",
         "Google_IndexedPages": "Páginas indexadas por Google",
-        "Rank": "Rank",
-        "ReferrerDomains": "Dominios Referidos (Majestic)",
-        "SeoRankings": "SEO Rankings",
-        "SEORankingsFor": "SEO Rankings de %s",
-        "ViewBacklinksOnMajesticSEO": "Ver informe de Enlaces entrantes Externos en MajesticSEO.com"
+        "Rank": "Rango",
+        "ReferrerDomains": "Dominios referidos (Majestic)",
+        "SeoRankings": "Rankings SEO",
+        "SEORankingsFor": "Rankings SEO de %s",
+        "ViewBacklinksOnMajesticSEO": "Ver informe de enlaces entrantes externos en MajesticSEO.com"
     }
 }

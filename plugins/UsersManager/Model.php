@@ -149,7 +149,20 @@ class Model
 
     public function getUser($userLogin)
     {
-        return $this->getDb()->fetchRow("SELECT * FROM " . $this->table . " WHERE login = ?", $userLogin);
+        $db = $this->getDb();
+
+        $matchedUsers = $db->fetchAll("SELECT * FROM " . $this->table . " WHERE login = ?", $userLogin);
+
+        // for BC in 2.15 LTS, if there is a user w/ an exact match to the requested login, return that user.
+        // this is done since before this change, login was case sensitive. until 3.0, we want to maintain
+        // this behavior.
+        foreach ($matchedUsers as $user) {
+            if ($user['login'] == $userLogin) {
+                return $user;
+            }
+        }
+
+        return reset($matchedUsers);
     }
 
     public function getUserByEmail($userEmail)

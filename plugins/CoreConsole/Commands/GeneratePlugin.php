@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Filesystem;
+use Piwik\Plugins\ExamplePlugin\ExamplePlugin;
 use Piwik\Version;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,11 +40,15 @@ class GeneratePlugin extends GeneratePluginBase
 
         $this->generatePluginFolder($pluginName);
 
+        $plugin = new ExamplePlugin();
+        $info   = $plugin->getInformation();
+        $exampleDescription = $info['description'];
+
         if ($isTheme) {
             $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExampleTheme';
             $replace       = array(
                 'ExampleTheme'       => $pluginName,
-                'ExampleDescription' => $description,
+                $exampleDescription  => $description,
                 '0.1.0'              => $version,
                 'PIWIK_VERSION'      => Version::VERSION
             );
@@ -54,7 +59,7 @@ class GeneratePlugin extends GeneratePluginBase
             $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
             $replace       = array(
                 'ExamplePlugin'      => $pluginName,
-                'ExampleDescription' => $description,
+                $exampleDescription  => $description,
                 '0.1.0'              => $version,
                 'PIWIK_VERSION'      => Version::VERSION
             );

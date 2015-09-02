@@ -16,6 +16,7 @@
         "country_a2": "Satelitní poskytovatel",
         "country_cat": "Katalánsky mluvící země",
         "country_o1": "ostatní země",
+        "country_ti": "Tibet",
         "CurrentLocationIntro": "Podle tohoto poskytovatele je vaše aktuální umístění",
         "DefaultLocationProviderDesc1": "Výchozí poskytovatel umístění odhaduje zemi návštěvníka na základě použitého jazyka.",
         "DefaultLocationProviderDesc2": "To není příliš přesné, proto doporučujeme %1$sinstalovat a používat %2$sGEOIP%3$s.%4$s",

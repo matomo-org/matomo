@@ -95,7 +95,6 @@
         "SystemCheckSummaryThereWereWarnings": "Der er nogle problemer med dit system. Piwik vil virke, men du kan opleve nogle mindre problemer.",
         "SystemCheckTimeLimitHelp": "På en stærkt trafikeret hjemmeside, kan arkiveringsprocessen kræve mere tid end der tilladt.<br \/>Se på max_execution_time i php.ini filen hvis nødvendig.",
         "SystemCheckTracker": "Sporingsstatus",
-        "SystemCheckTrackerHelp": "GET anmodning til piwik.php mislykkedes. Prøv at whiteliste webadressen fra HTTP Authentication og deaktiver mod_security (det kan blive nødvendigt til at spørge udbyderen).",
         "SystemCheckWarnDomHelp": "Aktiver \"Dom\" udvidelsen (f.eks. installere \"php-dom\"og\/eller \"php-xml-pakken\").",
         "SystemCheckWarning": "Piwik vil virke normalt, men nogle funktioner vil måske mangle",
         "SystemCheckWarnJsonHelp": "Aktiver \"JSON\" udvidelsen (f.eks. installere \"php-JSON\" pakken) for bedre ydeevne.",

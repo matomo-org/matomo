@@ -1,6 +1,7 @@
 {
     "SitesManager": {
         "AddSite": "Voeg een nieuwe website toe",
+        "AddMeasurable": "Voeg een nieuwe meting toe",
         "AdvancedTimezoneSupportNotFound": "Geavanceerde tijdzone ondersteuning is niet gevonden in uw PHP-installatie (ondersteund vanaf versie 5.2). U kunt wel een handmatige UTC offset kiezen.",
         "AliasUrlHelp": "Het is niet verplicht, maar we raden aan om hier de diverse domeinnamen te noemen waarmee de bezoekers uit kunnen komen op uw website. Als u de alias-domeinnamen hier noemt, verschijnen ze niet in het websiterapport van de herkomst, maar als een directe binnenkomst. Het is niet nodig om URL's met of zonder WWW op te nemen, omdat Piwik dit automatisch detecteert.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Het veranderen van uw tijdszone heeft alleen effect op nieuwe data en zal niet met terugwerkende kracht gelden voor de reeds verzamelde data.",
@@ -46,6 +47,7 @@
         "OnlyOneSiteAtTime": "U kunt slechts één website tegelijkertijd bewerken. Sla uw wijzigingen voor website %s op of annuleer de wijzigingen.",
         "PiwikOffersEcommerceAnalytics": "In Piwik is een geavanceerde Ecommerce Analytics tracking & rapportage mogelijk. Leer meer over %s Ecommerce Analytics%s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik sluit automatisch veelvoorkomende sessie parameters uit (%s).",
+        "PluginDescription": "Website beheer laat je toe nieuwe",
         "SearchCategoryLabel": "Categorie parameter",
         "SearchKeywordLabel": "Query parameter",
         "SearchKeywordParametersDesc": "Voer een komma gescheiden lijst in van alle query parameter namen die het site zoek sleutelwoord bevatten.",
@@ -61,6 +63,8 @@
         "Urls": "URLs",
         "UTCTimeIs": "UTC tijd is %s",
         "WebsitesManagement": "Website manager",
+        "XManagement": "Beheer %s",
+        "ChooseMeasurableTypeHeadline": "Wat zou je graag meten?",
         "YouCurrentlyHaveAccessToNWebsites": "U heeft momenteel toegang tot %s websites .",
         "YourCurrentIpAddressIs": "Uw huidig IP-adres is %s"
     }

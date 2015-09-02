@@ -110,10 +110,10 @@ class ArchiveProcessor
      */
     private $skipUniqueVisitorsCalculationForMultipleSites = true;
 
-    public function __construct(Parameters $params, ArchiveWriter $archiveWriter)
+    public function __construct(Parameters $params, ArchiveWriter $archiveWriter, LogAggregator $logAggregator)
     {
         $this->params = $params;
-        $this->logAggregator = new LogAggregator($params);
+        $this->logAggregator = $logAggregator;
         $this->archiveWriter = $archiveWriter;
 
         $this->skipUniqueVisitorsCalculationForMultipleSites = Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites();

@@ -10,12 +10,13 @@ namespace Piwik\Updates;
 
 use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  */
 class Updates_2_3_0_rc2 extends Updates
 {
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         ServerFilesGenerator::deleteHtAccessFiles();
 

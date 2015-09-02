@@ -91,6 +91,21 @@ class Updater
     }
 
     /**
+     * Marks a component as successfully uninstalled. Deletes an option
+     * that looks like `"version_$componentName"`.
+     *
+     * @param string $name The component name. Eg, a plugin name, `'core'` or dimension column name.
+     */
+    public function markComponentSuccessfullyUninstalled($name)
+    {
+        try {
+            Option::delete(self::getNameInOptionTable($name));
+        } catch (\Exception $e) {
+            // case when the option table is not yet created (before 0.2.10)
+        }
+    }
+
+    /**
      * Returns the currently installed version of a Piwik component.
      *
      * @param string $name The component name. Eg, a plugin name, `'core'` or dimension column name.

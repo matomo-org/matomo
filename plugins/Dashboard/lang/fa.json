@@ -29,7 +29,6 @@
         "SetAsDefaultWidgetsConfirm": "آیا شما مطمئن هستید که می خواهید به مجموعه فعلی انتخاب ویدجت ها و طرح داشبورد به عنوان قالب پیش فرض داشبورد؟",
         "TopLinkTooltip": "گزارش های داده های آماری %s را ببینید.",
         "WidgetNotFound": "ابزار پیدا نشد",
-        "WidgetPreview": "پیش نمایش ابزار",
-        "WidgetsAndDashboard": "ابزارها و داشبورد"
+        "WidgetPreview": "پیش نمایش ابزار"
     }
 }

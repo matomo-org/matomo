@@ -455,7 +455,7 @@ if (typeof JSON2 !== 'object') {
     getTrackedContentImpressions, getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet,
     contentInteractionTrackingSetupDone, contains, match, pathname, piece, trackContentInteractionNode,
     trackContentInteractionNode, trackContentImpressionsWithinNode, trackContentImpression,
-    enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent,
+    enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent, logAllContentBlocksOnPage,
     trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body,
@@ -474,6 +474,7 @@ if (typeof JSON2 !== 'object') {
 /*members amd */
 /*global console:true */
 /*members error */
+/*members log */
 
 // asynchronous tracker (or proxy)
 if (typeof _paq !== 'object') {
@@ -528,6 +529,22 @@ if (typeof Piwik !== 'object') {
         /************************************************************
          * Private methods
          ************************************************************/
+
+        /**
+         * See https://github.com/piwik/piwik/issues/8413
+         * To prevent Javascript Error: Uncaught URIError: URI malformed when encoding is not UTF-8. Use this method
+         * instead of decodeWrapper if a text could contain any non UTF-8 encoded characters eg
+         * a URL like http://apache.piwik/test.html?%F6%E4%FC or a link like
+         * <a href="test-with-%F6%E4%FC/story/0">(encoded iso-8859-1 URL)</a>
+         */
+        function safeDecodeWrapper(url)
+        {
+            try {
+                return decodeWrapper(url);
+            } catch (e) {
+                return unescape(url);
+            }
+        }
 
         /*
          * Is property defined?
@@ -1384,11 +1401,11 @@ if (typeof Piwik !== 'object') {
 
                 return false;
             },
-            hasNodeCssClass: function (node, className)
+            hasNodeCssClass: function (node, klassName)
             {
-                if (node && className && node.className) {
-                    var classes = node.className.split(' ');
-                    if (-1 !== indexOfArray(classes, className)) {
+                if (node && klassName && node.className) {
+                    var classes = typeof node.className === "string" ? node.className.split(' ') : [];
+                    if (-1 !== indexOfArray(classes, klassName)) {
                         return true;
                     }
                 }
@@ -2137,8 +2154,8 @@ if (typeof Piwik !== 'object') {
                 // Current URL and Referrer URL
                 locationArray = urlFixup(documentAlias.domain, windowAlias.location.href, getReferrer()),
                 domainAlias = domainFixup(locationArray[0]),
-                locationHrefAlias = decodeWrapper(locationArray[1]),
-                configReferrerUrl = decodeWrapper(locationArray[2]),
+                locationHrefAlias = safeDecodeWrapper(locationArray[1]),
+                configReferrerUrl = safeDecodeWrapper(locationArray[2]),
 
                 enableJSErrorTracking = false,
 
@@ -3908,7 +3925,7 @@ if (typeof Piwik !== 'object') {
                 var link = getLinkIfShouldBeProcessed(sourceElement);
 
                 if (link && link.type) {
-                    link.href = decodeWrapper(link.href);
+                    link.href = safeDecodeWrapper(link.href);
                     logLink(link.href, link.type, undefined, null, sourceElement);
                 }
             }
@@ -5300,6 +5317,20 @@ if (typeof Piwik !== 'object') {
                         var request = buildContentInteractionRequestNode(domNode, contentInteraction);
                         sendRequest(request, configTrackerPause);
                     });
+                },
+
+                /**
+                 * Useful to debug content tracking. This method will log all detected content blocks to console
+                 * (if the browser supports the console). It will list the detected name, piece, and target of each
+                 * content block.
+                 */
+                logAllContentBlocksOnPage: function () {
+                    var contentNodes = content.findContentNodes();
+                    var contents = content.collectContent(contentNodes);
+
+                    if (console !== undefined && console && console.log) {
+                        console.log(contents);
+                    }
                 },
 
                 /**

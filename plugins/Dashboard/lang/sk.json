@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Tento výber miniaplikácií a stĺpcové rozvrhnutie nástenky bude použitý ak hociktorý užívateľ vytvorí nový panel, alebo keď je použitá črta \"%s\" .",
         "TopLinkTooltip": "Prezeranie reportov webovej analytiky pre %s.",
         "WidgetNotFound": "Miniaplikácia nebola nájdená",
-        "WidgetPreview": "Náhľad na miniaplikáciu",
-        "WidgetsAndDashboard": "Miniaplikácie & Nástenka"
+        "WidgetPreview": "Náhľad na miniaplikáciu"
     }
 }

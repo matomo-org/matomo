@@ -18,7 +18,7 @@ use Piwik\Updates;
  */
 class Updates_0_2_10 extends Updates
 {
-    public static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
             'CREATE TABLE `' . Common::prefixTable('option') . '` (
@@ -50,9 +50,9 @@ class Updates_0_2_10 extends Updates
         );
     }
 
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
 
         $obsoleteDirectories = array(
             '/plugins/AdminHome',

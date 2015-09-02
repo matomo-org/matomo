@@ -39,10 +39,13 @@ class SettingsTest extends IntegrationTestCase
 
     public function test_getConfigId_isSame()
     {
-        $settings1 = $this->makeSettings(array('idsite' => 1));
-        $settings2 = $this->makeSettings(array('idsite' => 1));
+        $request1 = $this->makeRequest(array('idsite' => 1));
+        $settings1 = $this->makeSettings();
 
-        $this->assertEquals($settings1->getConfigId(), $settings2->getConfigId());
+        $request2 = $this->makeRequest(array('idsite' => 1));
+        $settings2 = $this->makeSettings();
+
+        $this->assertEquals($settings1->getConfigId($request1, $this->ip), $settings2->getConfigId($request2, $this->ip));
     }
 
 
@@ -50,44 +53,59 @@ class SettingsTest extends IntegrationTestCase
     {
         $isSameFingerprintAcrossWebsites = true;
 
-        $settingsSite1 = $this->makeSettings(array('idsite' => 1), $isSameFingerprintAcrossWebsites);
-        $settingsSite2 = $this->makeSettings(array('idsite' => 2), $isSameFingerprintAcrossWebsites);
+        $request1 = $this->makeRequest(array('idsite' => 1));
+        $settingsSite1 = $this->makeSettings($isSameFingerprintAcrossWebsites);
 
-        $this->assertEquals($settingsSite1->getConfigId(), $settingsSite2->getConfigId());
+        $request2 = $this->makeRequest(array('idsite' => 2));
+        $settingsSite2 = $this->makeSettings($isSameFingerprintAcrossWebsites);
+
+        $this->assertEquals($settingsSite1->getConfigId($request1, $this->ip), $settingsSite2->getConfigId($request2, $this->ip));
     }
 
     public function test_getConfigId_isDifferent_whenConfiguredUserHasDifferentFingerprintAcrossWebsites()
     {
         $isSameFingerprintAcrossWebsites = false;
 
-        $settingsSite1 = $this->makeSettings(array('idsite' => 1), $isSameFingerprintAcrossWebsites);
-        $settingsSite2 = $this->makeSettings(array('idsite' => 2), $isSameFingerprintAcrossWebsites);
+        $request1 = $this->makeRequest(array('idsite' => 1));
+        $settingsSite1 = $this->makeSettings($isSameFingerprintAcrossWebsites);
 
-        $this->assertNotSame($settingsSite1->getConfigId(), $settingsSite2->getConfigId());
+        $request2 = $this->makeRequest(array('idsite' => 2));
+        $settingsSite2 = $this->makeSettings($isSameFingerprintAcrossWebsites);
+
+        $this->assertNotSame($settingsSite1->getConfigId($request1, $this->ip), $settingsSite2->getConfigId($request2, $this->ip));
     }
 
     public function test_getConfigId_isSame_whenBrowserSamebutDifferentUserAgent()
     {
-        $settingsFirefox = $this->makeSettings(array('ua' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0'));
-        $settingsSlightlyDifferentUserAgent = $this->makeSettings(array('ua' => 'Mozilla/5.0 (Macintosh; Extra; string; here; Hello; world; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0'));
+        $request1 = $this->makeRequest(array('ua' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0'));
+        $settingsFirefox = $this->makeSettings();
 
-        $this->assertSame($settingsSlightlyDifferentUserAgent->getConfigId(), $settingsFirefox->getConfigId());
+        $request2 = $this->makeRequest(array('ua' => 'Mozilla/5.0 (Macintosh; Extra; string; here; Hello; world; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0'));
+        $settingsSlightlyDifferentUserAgent = $this->makeSettings();
+
+        $this->assertSame($settingsSlightlyDifferentUserAgent->getConfigId($request1, $this->ip), $settingsFirefox->getConfigId($request2, $this->ip));
     }
 
     public function test_getConfigId_isDifferent_whenBrowserChanges()
     {
-        $settingsFirefox = $this->makeSettings(array('ua' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0'));
-        $settingsChrome = $this->makeSettings(array('ua' => 'Mozilla/5.0 (Linux; Android 4.0.4; Galaxy Nexus Build/IMM76B) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.133 Mobile Safari/535.19 '));
+        $request1 = $this->makeRequest(array('ua' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0'));
+        $settingsFirefox = $this->makeSettings();
 
-        $this->assertNotSame($settingsChrome->getConfigId(), $settingsFirefox->getConfigId());
+        $request2 = $this->makeRequest(array('ua' => 'Mozilla/5.0 (Linux; Android 4.0.4; Galaxy Nexus Build/IMM76B) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.133 Mobile Safari/535.19 '));
+        $settingsChrome = $this->makeSettings();
+
+        $this->assertNotSame($settingsChrome->getConfigId($request1, $this->ip), $settingsFirefox->getConfigId($request2, $this->ip));
     }
 
     public function test_getConfigId_isDifferent_whenOSChanges()
     {
-        $settingsFirefoxMac = $this->makeSettings(array('ua' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0'));
-        $settingsFirefoxLinux = $this->makeSettings(array('ua' => 'Mozilla/5.0 (Linux; rv:33.0) Gecko/20100101 Firefox/33.0'));
+        $request1 = $this->makeRequest(array('ua' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0'));
+        $settingsFirefoxMac = $this->makeSettings();
 
-        $this->assertNotSame($settingsFirefoxLinux->getConfigId(), $settingsFirefoxMac->getConfigId());
+        $request2 = $this->makeRequest(array('ua' => 'Mozilla/5.0 (Linux; rv:33.0) Gecko/20100101 Firefox/33.0'));
+        $settingsFirefoxLinux = $this->makeSettings();
+
+        $this->assertNotSame($settingsFirefoxLinux->getConfigId($request1, $this->ip), $settingsFirefoxMac->getConfigId($request2, $this->ip));
     }
 
     public function test_getConfigId_isDifferent_whenPluginChanges()
@@ -98,50 +116,52 @@ class SettingsTest extends IntegrationTestCase
             'fla' => 0,
             'idsite' => 1,
         );
-        $settingsWithoutFlash = $this->makeSettings($params);
+        $request1 = $this->makeRequest($params);
+        $settingsWithoutFlash = $this->makeSettings();
 
         // activate flash
         $params['fla'] = 1;
+        $request2 = $this->makeRequest($params);
         $settingsWithFlash = $this->makeSettings($params);
 
-        $this->assertNotSame($settingsWithoutFlash->getConfigId(), $settingsWithFlash->getConfigId());
+        $this->assertNotSame($settingsWithoutFlash->getConfigId($request1, $this->ip), $settingsWithFlash->getConfigId($request2, $this->ip));
     }
 
     public function test_getConfigId_isDifferent_whenIPIsAnonimised()
     {
-        $settingsIpIsNotAnon = $this->makeSettings(array(), true, '125.1.55.55');
-        $settingsIpIsAnon = $this->makeSettings(array(), true, '125.1.0.0');
+        $request1 = $this->makeRequest(array());
+        $settingsIpIsNotAnon = $this->makeSettings(true);
 
-        $this->assertNotSame($settingsIpIsNotAnon->getConfigId(), $settingsIpIsAnon->getConfigId());
+        $request2 = $this->makeRequest(array());
+        $settingsIpIsAnon = $this->makeSettings(true);
+
+        $this->assertNotSame($settingsIpIsNotAnon->getConfigId($request1, '125.1.55.55'), $settingsIpIsAnon->getConfigId($request2, '125.1.0.0'));
     }
 
     public function test_getConfigId_isSame_whenIPIsAnonimisedAndBothSame()
     {
-        $settingsIpIsAnon = $this->makeSettings(array(), true, '125.2.0.0');
-        $settingsIpIsAnonBis = $this->makeSettings(array(), true, '125.2.0.0');
+        $request1 = $this->makeRequest(array());
+        $settingsIpIsAnon = $this->makeSettings(true);
 
-        $this->assertSame($settingsIpIsAnonBis->getConfigId(), $settingsIpIsAnon->getConfigId());
+        $request2 = $this->makeRequest(array());
+        $settingsIpIsAnonBis = $this->makeSettings(true);
+
+        $this->assertSame($settingsIpIsAnonBis->getConfigId($request1, '125.2.0.0'), $settingsIpIsAnon->getConfigId($request2, '125.2.0.0'));
     }
 
     /**
-     * @param $params array
      * @param $isSameFingerprintAcrossWebsites
-     * @param $ip
      * @return Settings
      */
-    protected function makeSettings($params, $isSameFingerprintAcrossWebsites = false, $ip = null)
+    protected function makeSettings($isSameFingerprintAcrossWebsites = false)
     {
-        if(is_null($ip)) {
-            $ip = $this->ip;
-        }
-        $requestSite1 = $this->makeRequest($params);
-        $settingsSite1 = new Settings($requestSite1, $ip, $isSameFingerprintAcrossWebsites);
+        $settingsSite1 = new Settings($isSameFingerprintAcrossWebsites);
         return $settingsSite1;
     }
 
     /**
      * @param $extraParams array
-     * @return array
+     * @return Request
      */
     private function makeRequest($extraParams)
     {

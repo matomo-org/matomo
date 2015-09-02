@@ -53,6 +53,7 @@ class Controller extends \Piwik\Plugin\Controller
         $date = Common::getRequestVar('date');
         $currentUrl = Common::getRequestVar('currentUrl');
         $currentUrl = Common::unsanitizeInputValue($currentUrl);
+        $segment = '';
 
         $normalizedCurrentUrl = PageUrl::excludeQueryParametersFromUrl($currentUrl, $idSite);
         $normalizedCurrentUrl = Common::unsanitizeInputValue($normalizedCurrentUrl);
@@ -82,6 +83,8 @@ class Controller extends \Piwik\Plugin\Controller
             $translations = Metrics::getDefaultMetricTranslations();
             $showMetrics = array('nb_hits', 'nb_visits', 'nb_users', 'nb_uniq_visitors',
                                  'bounce_rate', 'exit_rate', 'avg_time_on_page');
+
+            $segment = $row->getMetadata('segment');
 
             foreach ($showMetrics as $metric) {
                 $value = $row->getColumn($metric);
@@ -124,6 +127,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->idSite = $idSite;
         $view->period = $period;
         $view->date = $date;
+        $view->segment = $segment;
 
         $this->outputCORSHeaders();
         return $view->render();

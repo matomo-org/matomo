@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Modul udvælgelse og kontrolpanelets udformning vil blive brugt når en bruger opretter et nyt kontrolpanel, eller når \"%s\" -funktionen bruges.",
         "TopLinkTooltip": "Vis webanalyse-rapporter for %s.",
         "WidgetNotFound": "Fandt ikke modul",
-        "WidgetPreview": "Forhåndsvisning af modul",
-        "WidgetsAndDashboard": "Kontrolpanel & moduler"
+        "WidgetPreview": "Forhåndsvisning af modul"
     }
 }

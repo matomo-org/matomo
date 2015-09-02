@@ -101,6 +101,8 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
     function Piwik_GetErrorMessagePage($message, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = false,
                                        $logoUrl = false, $faviconUrl = false, $isCli = null)
     {
+        error_log(sprintf("Error in Piwik: %s", str_replace("\n", " ", strip_tags($message))));
+
         if (!headers_sent()) {
             header('Content-Type: text/html; charset=utf-8');
 
@@ -173,8 +175,6 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         }
 
         $message .= "\n";
-
-        error_log(sprintf("Error in Piwik: %s", str_replace("\n", " ", $message)));
 
         return $message;
     }

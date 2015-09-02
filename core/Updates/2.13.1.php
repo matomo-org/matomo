@@ -22,7 +22,7 @@ class Updates_2_13_1 extends Updates
      * Here you can define one or multiple SQL statements that should be executed during the update.
      * @return array
      */
-    public static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         $optionTable = Common::prefixTable('option');
         $removeEmptyDefaultReportsSql = "delete from `$optionTable` where option_name like '%defaultReport%' and option_value=''";
@@ -36,8 +36,8 @@ class Updates_2_13_1 extends Updates
      * Here you can define any action that should be performed during the update. For instance executing SQL statements,
      * renaming config entries, updating files, etc.
      */
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

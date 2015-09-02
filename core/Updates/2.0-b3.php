@@ -22,7 +22,7 @@ class Updates_2_0_b3 extends Updates
         return true;
     }
 
-    public static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
             'ALTER TABLE ' . Common::prefixTable('log_visit')
@@ -34,9 +34,9 @@ class Updates_2_0_b3 extends Updates
         );
     }
 
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
 
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('Events');

@@ -12,6 +12,7 @@
     function siteSelectorModel(piwikApi, $filter, piwik) {
 
         var initialSites = null;
+        var limitPromise = null;
 
         var model = {
             sites : [],
@@ -44,7 +45,7 @@
                 });
             });
 
-            model.sites = $filter('orderBy')(sites, '+name');
+            model.sites = sortSites(sites);
 
             if (!model.firstSiteName) {
                 model.firstSiteName = model.sites[0].name;
@@ -63,22 +64,38 @@
             }
 
             if (model.isLoading) {
-                model.currentRequest.abort();
+                if (model.currentRequest) {
+                    model.currentRequest.abort();
+                } else if (limitPromise) {
+                    limitPromise.abort();
+                    limitPromise = null;
+                }
             }
 
             model.isLoading = true;
 
-            model.currentRequest = piwikApi.fetch({
-                method: 'SitesManager.getPatternMatchSites',
-                pattern: term
+            if (!limitPromise) {
+                limitPromise = piwikApi.fetch({method: 'SitesManager.getNumWebsitesToDisplayPerPage'});
+            }
+
+            return limitPromise.then(function (response) {
+                var limit = response.value;
+
+                model.currentRequest = piwikApi.fetch({
+                    method: 'SitesManager.getPatternMatchSites',
+                    limit: limit,
+                    pattern: term
+                });
+
+                return model.currentRequest;
             }).then(function (response) {
-                return updateWebsitesList(response);
+                if (angular.isDefined(response)) {
+                    return updateWebsitesList(response);
+                }
             })['finally'](function () {    // .finally() is not IE8 compatible see https://github.com/angular/angular.js/commit/f078762d48d0d5d9796dcdf2cb0241198677582c
                 model.isLoading = false;
                 model.currentRequest = null;
             });
-
-            return model.currentRequest;
         }
 
         function loadSite(idsite) {
@@ -89,14 +106,19 @@
             }
         }
 
+        function sortSites(websites)
+        {
+            return $filter('orderBy')(websites, '+name');
+        }
+
         function loadInitialSites() {
             if (initialSites) {
                 model.sites = initialSites;
                 return;
             }
 
-            searchSite('%').then(function (websites) {
-                initialSites = websites;
+            searchSite('%').then(function () {
+                initialSites = model.sites
             });
         }
     }

@@ -1,19 +1,29 @@
 {
     "Live": {
+        "ClickToViewMoreAboutVisit": "Klikk for å se mer informasjon om dette besøket",
         "ConvertedNGoals": "Konverterte %s mål",
         "FirstVisit": "Første besøk",
         "GoalType": "Type",
         "HideMap": "skjul kart",
         "LastHours": "Siste %s timer",
         "LastMinutes": "Siste %s minutter",
+        "LastVisit": "Siste besøk",
         "LinkVisitorLog": "Vis detaljert logg over besøkende",
         "NbVisitor": "1 besøkende",
         "NbVisitors": "%s besøkende",
+        "NextVisitor": "Neste besøkende",
+        "PreviousVisitor": "Forrige besøkende",
         "RealTimeVisitorCount": "Besøkstall i sanntid",
         "Referrer_URL": "Henvisnings-URL",
         "ShowMap": "vis kart",
         "SimpleRealTimeWidget_Message": "%s og %s i de siste %s",
+        "ViewVisitorProfile": "Vis besøksprofil",
+        "VisitedPages": "Besøkte sider",
         "VisitorLog": "Logg over besøkende",
-        "VisitsFrom": "%1$s%2$s besøk%3$s fra"
+        "VisitorProfile": "Besøksprofil",
+        "VisitorsInRealTime": "Besøkende i sanntid",
+        "VisitsFrom": "%1$s%2$s besøk%3$s fra",
+        "OnClickPause": "%s er startet. Klikk for å sette på pause.",
+        "OnClickStart": "%s er stoppet. Klikk for å starte."
     }
 }

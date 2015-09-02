@@ -22,7 +22,7 @@ use Piwik\Updates;
  */
 class Updates_2_0_4_b5 extends Updates
 {
-    public static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
             // ignore existing column name error (1060)
@@ -31,9 +31,9 @@ class Updates_2_0_4_b5 extends Updates
         );
     }
 
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
 
         try {
             self::migrateConfigSuperUserToDb();

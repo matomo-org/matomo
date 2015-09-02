@@ -84,6 +84,16 @@ class RequestTest extends IntegrationTestCase
         $this->assertTrue($this->access->hasSuperUserAccess());
     }
 
+    public function test_isApiRequest_shouldDetectIfItIsApiRequestOrNot()
+    {
+        $this->assertFalse(Request::isApiRequest(array()));
+        $this->assertFalse(Request::isApiRequest(array('module' => '', 'method' => '')));
+        $this->assertFalse(Request::isApiRequest(array('module' => 'API'))); // no method
+        $this->assertFalse(Request::isApiRequest(array('module' => 'CoreHome', 'method' => 'index.test'))); // not api
+        $this->assertFalse(Request::isApiRequest(array('module' => 'API', 'method' => 'testmethod'))); // no valid action
+        $this->assertTrue(Request::isApiRequest(array('module' => 'API', 'method' => 'test.method')));
+    }
+
     private function assertSameUserAsBeforeIsAuthenticated()
     {
         $this->assertEquals($this->userAuthToken, $this->access->getTokenAuth());

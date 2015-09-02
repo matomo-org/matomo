@@ -1,6 +1,7 @@
 {
     "UserLanguage": {
         "BrowserLanguage": "Webbläsarspråk",
-        "LanguageCode": "Språkkod"
+        "LanguageCode": "Språkkod",
+        "PluginDescription": "Språk som används i besökarens webbläsare."
     }
 }

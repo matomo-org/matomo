@@ -7,6 +7,11 @@
     margin-right: 0 !important;
 }
 
+// hide PHP is deprecated notification in UI test
+.uiTest [notification-id="PHP53VersionCheck"] {
+    display: none !important;
+}
+
 #content.admin {
     margin: 0 0 0 260px;
     padding: 0 0 40px;
@@ -165,6 +170,10 @@ table.admin tbody td:hover, table.admin tbody th:hover {
 /* trusted host styles */
 #trustedHostSettings input {
     width: 238px;
+}
+
+#trustedHostSettings li {
+    padding-bottom: 6px;
 }
 
 #trustedHostSettings .add-trusted-host-container,
