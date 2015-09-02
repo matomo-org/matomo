@@ -74,7 +74,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function test_getPrettyNumber_ReturnsCorrectResult_WhenLocaleIsEuropean($number, $expected)
     {
-        $locale = setlocale(LC_ALL, array('de', 'de_DE', 'ge', 'de_DE.utf8'));
+        $locale = setlocale(LC_ALL, array('de-AT', 'de_DE', 'de', 'ge', 'de_DE.utf8'));
         if (empty($locale)) {
             $this->markTestSkipped("de_DE locale is not present on this system");
         }
@@ -112,7 +112,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function test_getPrettyTimeFromSeconds_ReturnsCorrectResult($seconds, $expected)
     {
-        if (($seconds * 100) > PHP_INT_MAX) {
+        if (($seconds * 100) > PHP_INT_MAX || ($seconds * 100 * -1) > PHP_INT_MAX) {
             $this->markTestSkipped("Will not pass on 32-bit machine.");
         }
 
