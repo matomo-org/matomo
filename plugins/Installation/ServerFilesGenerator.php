@@ -39,7 +39,7 @@ class ServerFilesGenerator
             "</IfModule>\n\n" .
 
             "# Allow to serve static files which are safe\n" .
-            "<Files ~ \"\\.(gif|ico|jpg|png|svg|js|css|htm|html|swf|mp3|mp4|wav|ogg|avi)$\">\n" .
+            "<Files ~ \"\\.(gif|ico|jpg|png|svg|js|css|htm|html|swf|mp3|mp4|wav|ogg|avi|ttf)$\">\n" .
                  $allow . "\n" .
             "</Files>\n";
 
