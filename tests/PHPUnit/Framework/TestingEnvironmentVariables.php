@@ -43,9 +43,7 @@ class TestingEnvironmentVariables
     {
         $includePath = __DIR__ . '/../../..';
 
-        if(!file_exists($includePath . '/tmp')){
-            mkdir($includePath . '/tmp');
-        }
+        @mkdir($includePath . '/tmp');
 
         $overridePath = $includePath . '/tmp/testingPathOverride.json';
         file_put_contents($overridePath, json_encode($this->behaviorOverrideProperties));
