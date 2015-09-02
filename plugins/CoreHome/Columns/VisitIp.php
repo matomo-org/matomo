@@ -13,7 +13,8 @@ use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
 
 /**
- * TODO
+ * Dimension for the log_visit.location_ip column. This column is added in the CREATE TABLE
+ * statement, so this dimension exists only to configure a segment.
  */
 class VisitIp extends VisitDimension
 {
