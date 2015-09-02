@@ -24,7 +24,7 @@ use Piwik\View;
 
 /**
  * Login controller
- *
+ * @api
  */
 class Controller extends \Piwik\Plugin\Controller
 {

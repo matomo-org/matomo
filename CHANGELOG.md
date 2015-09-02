@@ -22,6 +22,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### New APIs
 
 * The JavaScript Tracker `piwik.js` got a new method `logAllContentBlocksOnPage` to log all found content blocks within a page to the console. This is useful to debug / test content tracking. It can be triggered via `_paq.push(['logAllContentBlocksOnPage'])`
+* The Class `Piwik\Plugins\Login\Controller` is now considered a public API.
 
 ### Internal Change
 * The option `branch` of the console command `development:sync-system-test-processed` was removed as it is no longer needed.
