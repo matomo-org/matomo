@@ -379,7 +379,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $configFile = PIWIK_INCLUDE_PATH . '/tmp/tmp.config.ini.php';
 
         if(file_exists($configFile)){
-            unlink($configFile);
+            @unlink($configFile);
         }
         copy($sourceConfigFile, $configFile);
 
@@ -389,7 +389,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(file_get_contents($sourceConfigFile), file_get_contents($configFile));
 
         if(file_exists($configFile)){
-            unlink($configFile);
+            @unlink($configFile);
         }
     }
 
