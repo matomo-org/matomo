@@ -22,7 +22,7 @@ class ScriptHandler
             return;
         }
 
-        //passthru('misc/composer/clean-xhprof.sh');
+        passthru('misc/composer/clean-xhprof.sh');
     }
 
     public static function buildXhprof()
@@ -31,6 +31,6 @@ class ScriptHandler
             return;
         }
 
-        //passthru('misc/composer/build-xhprof.sh');
+        passthru('misc/composer/build-xhprof.sh');
     }
 }
