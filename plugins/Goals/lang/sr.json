@@ -72,7 +72,6 @@
         "MatchesExpression": "je u skladu sa izrazom %s",
         "NewGoalIntro": "Praćenje ispunjenja ciljeva je jedan od najefikasnijih načina za merenje i unapređenje vaših poslovnih ciljeva.",
         "NewVisitorsConversionRateIs": "Stepen ispunjenja od strane novih posetilaca je %s",
-        "NoGoalsNeedAccess": "Samo administrator ili superkorisnik može definisati ciljeve za dati sajt. Molimo vas da zatražite od vašeg Piwik administratora da postavi ciljeve za vaš sajt.<br>Praćenje ciljeva je odličan način za razumevanje i maksimiziranje rada vašeg sajta!",
         "Optional": "(opciono)",
         "OverallConversionRate": "%s ukupan stepen ispunjenja (posete sa ispunjenim ciljem)",
         "OverallRevenue": "%s ukupna zarada",

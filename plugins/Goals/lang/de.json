@@ -76,7 +76,6 @@
         "MatchesExpression": "entspricht dem Ausdruck %s",
         "NewGoalIntro": "Tracken von Konversions-Zielen ist eine der effizientesten Möglichkeiten zur Messung und Verbesserung Ihrer geschäftlichen Ziele.",
         "NewVisitorsConversionRateIs": "Umsätze pro neuem Besucher: %s",
-        "NoGoalsNeedAccess": "Nur ein (Haupt-)Administrator kann Ziele für eine gegebene Website hinzufügen. Bitte fragen Sie ihren Piwik Administrator, um Ziele für ihre Website aufzustellen. <br> Das Aufzeichnen von Zielen ist ein großartiger Weg, ihre Website-Performance zu verstehen und zu maximieren!",
         "Optional": "(optional)",
         "OverallConversionRate": "%s Gesamtkonversionsrate (Besuche mit einem erreichten Ziel)",
         "OverallRevenue": "%s Gesamtumsatz",

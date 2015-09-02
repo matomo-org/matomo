@@ -44,8 +44,10 @@
         "PercentDone": "%s %% 已完成",
         "PleaseFixTheFollowingErrors": "请修复以下错误",
         "DefaultSettings": "默认 Piwik 设置",
+        "DefaultSettingsHelp": "Piwik自带的默认设置。现在，您可以自定义它们或稍后在管理介面上做。",
         "Requirements": "Piwik 需求",
         "RestartWebServer": "做过这个改动之后，请重新启动网络服务器。",
+        "ReusingTables": "重用的表",
         "PiwikOrgNewsletter": "邮件通知我重大的 Piwik 社区更新",
         "PiwikProNewsletter": "给我发送 %sPiwik PRO%s 的折扣和服务相关的信息",
         "SeeBelowForMoreInfo": "更详细的信息请看下面",
@@ -71,6 +73,7 @@
         "SystemCheckExtensions": "其他需要的扩展组件",
         "SystemCheckFileIntegrity": "文件完整性",
         "SystemCheckFunctions": "必需的函数",
+        "SystemCheckFunctionHelp": "您需要启用这个内置的功能。",
         "SystemCheckGDFreeType": "GD > 2.x + Freetype (graphics)",
         "SystemCheckGDHelp": "波形图 (小图) 将无法显示！",
         "SystemCheckGlobHelp": "这个内置函数在您的主机上已停用。Piwik 会尝试模拟这个功能，但可能会遇到其它的安全限制，功能可能受到影响。",
@@ -80,6 +83,7 @@
         "SystemCheckJsonHelp": "Piwik 需要 php5-json 扩展来读写 JSON 数据。",
         "SystemCheckMailHelp": "意见反馈及忘记密码信息若沒有 mail() 将无法寄送。",
         "SystemCheckMbstring": "mbstring",
+        "SystemCheckMbstringHelp": "這個mbstring扩展需要处理多字节字符的用户界面和API响应。同时请检查php.ini中的mbstring.func_overload设置为\"0\"。",
         "SystemCheckMemoryLimit": "内存限制",
         "SystemCheckMemoryLimitHelp": "在一个高流量的网站，数据处理过程中使用的内存可能超出当前系统的允许值！如果需要，请修改 php.ini文件中的 memory_limit 值！",
         "SystemCheckOpenURL": "开启网址",
@@ -100,6 +104,7 @@
         "SystemCheckSummaryThereWereWarnings": "您的系统有些问题，Piwik 可以运行，但是可能会出现些小错误。",
         "SystemCheckTimeLimitHelp": "在一个高流量的网站，数据处理需要的时间可能会超过目前系统所允许的时间！如有必要，请修改 php.ini 文件中的 max_execution_time 值！",
         "SystemCheckTracker": "跟踪状态",
+        "SystemCheckTrackerHelp": "从piwik.php请求失败。试试这个白名单网址，从HTTP验证和禁用mod_security的 (你可能要问你的虚拟主机提供商)。有关错误的详细信息，请检查您的Web服务器错误日志文件。",
         "SystemCheckWarnDomHelp": "需要启用 \"dom\" 扩展 (例如安装 \"php-dom\" 或者 \"php-xml\" 包)。",
         "SystemCheckWarning": "Piwik 将正常工作，但某些功能可能无效",
         "SystemCheckWarnJsonHelp": "为了更好的性能，您应该使 \"json\" 扩展有效 (例如安装 \"php-json\" 包)。",
@@ -129,6 +134,7 @@
         "Welcome": "欢迎使用！",
         "WelcomeHelp": "<p>Piwik 是一个让您能够轻易取得您所想要的访客信息的开放原始码页面分析软件！<\/p><p>此安装过程分为 %s 个简易的步骤，并且将仅花大约 5 分钟的时间！<\/p>",
         "WelcomeToCommunity": "欢迎来到 Piwik 社区！",
-        "CannotConnectToDb": "无法连接至数据库"
+        "CannotConnectToDb": "无法连接至数据库",
+        "CannotConnectToDbResolvingExplanation": "这可能是一个暂时的问题，请尝试 %1$s 刷新页面 %2$s。如果问题仍然存在，请联系您的Piwik管理员。"
     }
 }
