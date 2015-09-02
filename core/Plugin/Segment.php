@@ -53,6 +53,12 @@ class Segment
     private $suggestedValuesCallback;
 
     /**
+     * TODO
+     * @var bool
+     */
+    private $requiresAtLeastViewAccess = false;
+
+    /**
      * @ignore
      */
     final public function __construct()
@@ -254,5 +260,25 @@ class Segment
         }
 
         return $segment;
+    }
+
+    /**
+     * TODO
+     * @return boolean
+     * @ignore
+     */
+    public function isRequiresAtLeastViewAccess()
+    {
+        return $this->requiresAtLeastViewAccess;
+    }
+
+    /**
+     * TODO
+     * @param boolean $requiresAtLeastViewAccess
+     * @ignore
+     */
+    public function setRequiresAtLeastViewAccess($requiresAtLeastViewAccess)
+    {
+        $this->requiresAtLeastViewAccess = $requiresAtLeastViewAccess;
     }
 }
