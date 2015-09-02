@@ -129,10 +129,16 @@ class Common
         if (is_bool(self::$isCliMode)) {
             return self::$isCliMode;
         }
-
-        $remoteAddr = @$_SERVER['REMOTE_ADDR'];
-        return PHP_SAPI == 'cli' ||
-        (self::isPhpCgiType() && empty($remoteAddr));
+        
+        if(PHP_SAPI == 'cli'){
+            return true;
+        }
+        
+        if(self::isPhpCgiType() && (!isset($_SERVER['REMOTE_ADDR']) || empty($_SERVER['REMOTE_ADDR']))){
+            return true;
+        }
+        
+        return false;
     }
 
     /**
