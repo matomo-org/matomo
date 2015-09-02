@@ -76,7 +76,6 @@
         "MatchesExpression": "matchar uttrycket %s",
         "NewGoalIntro": "Att använda mål för konvertering är ett av de mest effektiva sätten att mäta och förbättra din affärsverksamhet.",
         "NewVisitorsConversionRateIs": "Nya besökares omvandlingsgrad är %s",
-        "NoGoalsNeedAccess": "Bara den som är Administratör eller har ett Superaccess konto kan lägga till mål för webbsidan. Fråga din Administratör om han eller hon kan sätta upp mål för din sida. Att ha mål är ett utmärkt sätt att få hjälp att förstå hur du maximerar din webbsidas resultat!",
         "Optional": "(frivilligt)",
         "OverallConversionRate": "%s total omvandlingsgrad (besök med ett uppnått mål)",
         "OverallRevenue": "%s totala intäkter",

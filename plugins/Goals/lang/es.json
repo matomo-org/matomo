@@ -76,7 +76,6 @@
         "MatchesExpression": "coincide con la expresión %s",
         "NewGoalIntro": "El seguimiento de las conversiones del objetivo es una de las maneras más eficaces para medir y mejorar las metas de negocio.",
         "NewVisitorsConversionRateIs": "La tasa de visitantes nuevos es %s",
-        "NoGoalsNeedAccess": "Sólo un Administrador o un usuario con acceso Super User puede añadir objetivos para un determinado sitio de internet. Pide a su administrador de Piwik que configure un objetivo para su sitio de internet.<br>El seguimiento de los objetivos es una buena manera para ayudar a entender y maximizar el rendimiento de su sitio de internet!",
         "Optional": "(opcional)",
         "OverallConversionRate": "%s tasa global de la conversión (visitas con un objetivo completado)",
         "OverallRevenue": "%s ingresos totales",

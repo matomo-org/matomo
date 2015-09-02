@@ -72,7 +72,6 @@
         "MatchesExpression": "odpovídá %s",
         "NewGoalIntro": "Sledování konverzního poměru cílů je jeden z nejefektivnějších způsobů měření a zlepšování podnikatelských zájmů.",
         "NewVisitorsConversionRateIs": "Poměr konverze nové příchozích uživatelů je %s",
-        "NoGoalsNeedAccess": "Pouze administrátor nebo uživatel s právy super uživatele může přidat cíle pro danou webovou stránku. Požádejte svého administrátora, aby cíl pro vaše webové stránky přidal. <br>Sledování cílů pomáhá porozumět a maximalizovat výkon vašich stránek.",
         "Optional": "(volitelné)",
         "OverallConversionRate": "%s celková frekvence konverzí (návštěv se splněným cílem)",
         "OverallRevenue": "%s celkový příjem",

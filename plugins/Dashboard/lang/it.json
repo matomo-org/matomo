@@ -28,7 +28,7 @@
         "SelectWidget": "Seleziona il widget da aggiungere nella dashboard",
         "SetAsDefaultWidgets": "Imposta come selezione predefinita di widget",
         "SetAsDefaultWidgetsConfirm": "Sei sicuro di voler impostare la selezione corrente di widget e il layout del pannello come modello predefinito?",
-        "SetAsDefaultWidgetsConfirmHelp": "Questa selezione widget e il layout colonne saranno utilizzate quando un utente creerà un nuovo pannello, o quando \"%s\" funzione viene utilizzata.",
+        "SetAsDefaultWidgetsConfirmHelp": "Questa selezione di widget e il layout colonne saranno utilizzate quando un utente creerà una nuova dashboard o quando verrà utilizzata la funzione \"%s\".",
         "TopLinkTooltip": "Visualizza report Web Analytics per %s.",
         "WidgetNotFound": "Widget non trovato",
         "WidgetPreview": "Anteprima del widget"
