@@ -1493,7 +1493,7 @@ if (typeof Piwik !== 'object') {
                     var foundNodes = nodeToSearch.getElementsByClassName(className);
                     return this.htmlCollectionToArray(foundNodes);
                 }
-                
+
                 var children = getChildrenFromNode(nodeToSearch);
 
                 if (!children || !children.length) {
@@ -2158,6 +2158,10 @@ if (typeof Piwik !== 'object') {
                 configReferrerUrl = safeDecodeWrapper(locationArray[2]),
 
                 enableJSErrorTracking = false,
+                enableBulkTracking = false,
+                bulkTrackingDelay = 300,
+
+                bulkTrackingCollection = [],
 
                 defaultRequestMethod = 'GET',
 
@@ -2605,10 +2609,36 @@ if (typeof Piwik !== 'object') {
                 callback();
             }
 
+            /**
+             * Send each bulk tracks to the server
+             * @return {void}
+             */
+            function sendBulkTrackingRequests() {
+
+                // Work on a local copy
+                var tmp = JSON.parse(JSON.stringify(bulkTrackingCollection));
+                bulkTrackingCollection.length = 0;
+
+                // Do a request only if we have to
+                if(tmp.length >= 1) {
+                  var bulk = '{"requests":["?' + tmp.join('","?') + '"]}';
+                  sendRequest(bulk, configTrackerPause, null, true);
+                }
+            }
+
+            setInterval(sendBulkTrackingRequests, bulkTrackingDelay);
+
             /*
              * Send request
              */
-            function sendRequest(request, delay, callback) {
+            function sendRequest(request, delay, callback, force) {
+
+
+                if(enableBulkTracking && !force) {
+                  bulkTrackingCollection.push(request);
+                  return false;
+                }
+
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                         if (configRequestMethod === 'POST') {
@@ -4701,6 +4731,14 @@ if (typeof Piwik !== 'object') {
                     configRequestMethod = method || defaultRequestMethod;
                 },
 
+                activeBulkTracking: function(active) {
+                    enableBulkTracking = !!active;
+                },
+
+                setBulkTrackingDelay: function(delay) {
+                    bulkTrackingDelay = delay;
+                },
+
                 /**
                  * Set request Content-Type header value, applicable when POST request method is used for submitting tracking events.
                  * See XMLHttpRequest Level 2 spec, section 4.7.2 for invalid headers
@@ -5342,6 +5380,8 @@ if (typeof Piwik !== 'object') {
                  * @param float value (optional) The Event's value
                  */
                 trackEvent: function (category, action, name, value) {
+
+                  console.log('Track event', category, action, name, value)
                     trackCallback(function () {
                         logEvent(category, action, name, value);
                     });
