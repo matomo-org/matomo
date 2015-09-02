@@ -98,7 +98,10 @@ class BatchInsert
         }
 
         // if all else fails, fallback to a series of INSERTs
-        @unlink($filePath);
+        if(file_exists($filePath)){
+            @unlink($filePath);
+        }
+        
         self::tableInsertBatchIterate($tableName, $fields, $values);
         return false;
     }

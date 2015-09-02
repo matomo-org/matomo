@@ -138,7 +138,7 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
         foreach ($filesToRemove as $name) {
             $path = $geoIpDirPath . '/' . $name;
             if (file_exists($path)) {
-                unlink($path);
+                @unlink($path);
             }
         }
     }

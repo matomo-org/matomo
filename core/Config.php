@@ -287,7 +287,10 @@ class Config
     public function deleteLocalConfig()
     {
         $configLocal = $this->getLocalPath();
-        unlink($configLocal);
+        
+        if(file_exists($configLocal)){
+            @unlink($configLocal);
+        }
     }
 
     /**
