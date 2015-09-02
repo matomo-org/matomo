@@ -6,31 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\PrivacyManager\tests\Unit;
+namespace Piwik\Plugins\Actions\tests\Unit;
 
 use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Action;
-use Piwik\Translate;
-
-require_once PIWIK_INCLUDE_PATH . '/plugins/Actions/Actions.php';
 
 /**
  * @group Actions
  * @group ArchiverTest
  * @group Plugins
  */
-class ArchiverTests extends \PHPUnit_Framework_TestCase
+class ArchiverTest extends IntegrationTestCase
 {
-    public function setUp()
-    {
-        Translate::loadAllTranslations();
-    }
-
-    public function tearDown()
-    {
-        Translate::reset();
-    }
-
     public function getActionNameTestData()
     {
         return array(
@@ -126,5 +114,11 @@ class ArchiverTests extends \PHPUnit_Framework_TestCase
         $processed = ArchivingHelper::getActionExplodedNames($params['name'], $params['type'], (isset($params['urlPrefix']) ? $params['urlPrefix'] : null));
         $this->assertEquals($expected, $processed);
     }
-}
 
+    public function provideContainerConfig()
+    {
+        return array(
+            'test.vars.loadRealTranslations' => true,
+        );
+    }
+}

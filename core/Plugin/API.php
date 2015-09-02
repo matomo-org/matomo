@@ -65,6 +65,7 @@ abstract class API
                 /** @var LoggerInterface $logger */
                 $logger = $container->get('Psr\Log\LoggerInterface');
 
+                // @deprecated TODO
                 // BC with API defining a protected constructor
                 $logger->notice('The API class {class} defines a protected constructor which is deprecated, make the constructor public instead', array('class' => $class));
                 self::$instances[$class] = new $class;

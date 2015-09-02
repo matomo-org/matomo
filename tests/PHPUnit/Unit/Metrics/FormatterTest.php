@@ -9,13 +9,13 @@ namespace Piwik\Tests\Unit\Metrics;
 
 use Piwik\Intl\Locale;
 use Piwik\Metrics\Formatter;
-use Piwik\Translate;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group Core
  */
-class FormatterTest extends \PHPUnit_Framework_TestCase
+class FormatterTest extends IntegrationTestCase
 {
     /**
      * @var Formatter
@@ -51,13 +51,11 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
 
         $this->formatter = new Formatter();
 
-        Translate::loadAllTranslations();
         $this->setSiteManagerApiMock();
     }
 
     public function tearDown()
     {
-        Translate::reset();
         $this->unsetSiteManagerApiMock();
     }
 
@@ -227,5 +225,12 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
         });
 
         SitesManagerAPI::setSingletonInstance($mock);
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'test.vars.loadRealTranslations' => true,
+        );
     }
 }

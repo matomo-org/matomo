@@ -10,7 +10,6 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\CacheId;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Translate;
 
 /**
  * @group Cache
@@ -18,16 +17,6 @@ use Piwik\Translate;
  */
 class CacheIdTest extends IntegrationTestCase
 {
-    public function setUp()
-    {
-        Translate::loadAllTranslations();
-    }
-
-    public function tearDown()
-    {
-        Translate::reset();
-    }
-
     public function test_languageAware_shouldAppendTheLoadedLanguage()
     {
         $result = CacheId::languageAware('myrandomkey');

@@ -45,7 +45,7 @@ use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
-use Piwik\Translate;
+use Piwik\Translation\Translator;
 use Piwik\Url;
 use PHPUnit_Framework_Assert;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
@@ -352,7 +352,10 @@ class Fixture extends \PHPUnit_Framework_Assert
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
 
         $_GET = $_REQUEST = array();
-        Translate::reset();
+
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        $translator->reset();
 
         Config::getInstance()->Plugins; // make sure Plugins exists in a config object for next tests that use Plugin\Manager
         // since Plugin\Manager uses getFromGlobalConfig which doesn't init the config object

@@ -117,7 +117,9 @@ class AssetManager extends Singleton
      */
     public function getJsInclusionDirective()
     {
-        $result = "<script type=\"text/javascript\">\n" . Translate::getJavascriptTranslations() . "\n</script>";
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+
+        $result = "<script type=\"text/javascript\">\n" . $translator->getJavascriptTranslations() . "\n</script>";
 
         if ($this->isMergedAssetsDisabled()) {
             $this->getMergedCoreJSAsset()->delete();

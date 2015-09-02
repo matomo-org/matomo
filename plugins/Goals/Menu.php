@@ -13,7 +13,6 @@ use Piwik\Menu\Group;
 use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UserPreferences;
-use Piwik\Translate;
 
 class Menu extends \Piwik\Plugin\Menu
 {

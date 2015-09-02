@@ -17,7 +17,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\ImageGraph\StaticGraph;
 use Piwik\SettingsServer;
-use Piwik\Translate;
+use Piwik\Translation\Translator;
 
 /**
  * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Piwik report.
@@ -99,6 +99,16 @@ class API extends \Piwik\Plugin\API
     const DEFAULT_NB_ROW_EVOLUTIONS = 5;
     const MAX_NB_ROW_LABELS = 10;
 
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function get(
         $idSite,
         $period,
@@ -136,9 +146,9 @@ class API extends \Piwik\Plugin\API
         $useUnicodeFont = array(
             'am', 'ar', 'el', 'fa', 'fi', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw',
         );
-        $languageLoaded = Translate::getLanguageLoaded();
+        $currentLanguage = $this->translator->getCurrentLanguage();
         $font = self::getFontPath(self::DEFAULT_FONT);
-        if (in_array($languageLoaded, $useUnicodeFont)) {
+        if (in_array($currentLanguage, $useUnicodeFont)) {
             $unicodeFontPath = self::getFontPath(self::UNICODE_FONT);
             $font = file_exists($unicodeFontPath) ? $unicodeFontPath : $font;
         }
@@ -157,7 +167,7 @@ class API extends \Piwik\Plugin\API
                 'apiModule' => $apiModule,
                 'apiAction' => $apiAction,
                 'apiParameters' => $apiParameters,
-                'language' => $languageLoaded,
+                'language' => $currentLanguage,
                 'period' => $period,
                 'date' => $date,
                 'hideMetricsDoc' => false,
@@ -303,7 +313,7 @@ class API extends \Piwik\Plugin\API
                     'label' => $labels,
                     'segment' => $segment,
                     'column' => $plottedMetric,
-                    'language' => $languageLoaded,
+                    'language' => $currentLanguage,
                     'idGoal' => $idGoal,
                     'legendAppendMetric' => $legendAppendMetric,
                     'labelUseAbsoluteUrl' => false
@@ -361,7 +371,7 @@ class API extends \Piwik\Plugin\API
                     'segment' => $segment,
                     'apiParameters' => false,
                     'idGoal' => $idGoal,
-                    'language' => $languageLoaded,
+                    'language' => $currentLanguage,
                     'showTimer' => true,
                     'hideMetricsDoc' => false,
                     'idSubtable' => $idSubtable,

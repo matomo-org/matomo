@@ -187,21 +187,6 @@ class Log extends Singleton
         self::logMessage(Logger::DEBUG, $message, array_slice(func_get_args(), 1));
     }
 
-    /**
-     * @param int $logLevel
-     * @deprecated Will be removed, log levels are now applied on each Monolog handler.
-     */
-    public function setLogLevel($logLevel)
-    {
-    }
-
-    /**
-     * @deprecated Will be removed, log levels are now applied on each Monolog handler.
-     */
-    public function getLogLevel()
-    {
-    }
-
     private function doLog($level, $message, $parameters = array())
     {
         // To ensure the compatibility with PSR-3, the message must be a string

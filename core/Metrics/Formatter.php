@@ -203,7 +203,10 @@ class Formatter
      */
     public static function getCurrencySymbol($idSite)
     {
-        $symbols  = self::getCurrencyList();
+        /** @var CurrencyDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
+        $symbols = $dataProvider->getCurrencyList();
+
         $currency = Site::getCurrencyFor($idSite);
 
         if (isset($symbols[$currency])) {
@@ -211,23 +214,6 @@ class Formatter
         }
 
         return '';
-    }
-
-    /**
-     * Returns the list of all known currency symbols.
-     *
-     * @return array An array mapping currency codes to their respective currency symbols
-     *               and a description, eg, `array('USD' => array('$', 'US dollar'))`.
-     *
-     * @deprecated Use Piwik\Intl\Data\Provider\CurrencyDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\CurrencyDataProvider::getCurrencyList()
-     * @api
-     */
-    public static function getCurrencyList()
-    {
-        /** @var CurrencyDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
-        return $dataProvider->getCurrencyList();
     }
 
     /**

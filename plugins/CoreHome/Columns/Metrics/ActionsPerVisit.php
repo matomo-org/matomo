@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CoreHome\Columns\Metrics;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
-use Piwik\Translate;
 
 /**
  * The average number of actions per visit. Calculated as:

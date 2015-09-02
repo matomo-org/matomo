@@ -9,8 +9,6 @@
 
 namespace Piwik\Plugins\LanguagesManager\TranslationWriter\Filter;
 
-use Piwik\Translate;
-
 class EncodedEntities extends FilterAbstract
 {
     /**
@@ -26,7 +24,7 @@ class EncodedEntities extends FilterAbstract
             foreach ($pluginTranslations as $key => $translation) {
 
                 // remove encoded entities
-                $decoded = Translate::clean($translation);
+                $decoded = $this->decode($translation);
                 if ($translation != $decoded) {
                     $this->filteredData[$pluginName][$key] = $translation;
                     $translations[$pluginName][$key] = $decoded;
@@ -37,5 +35,10 @@ class EncodedEntities extends FilterAbstract
         }
 
         return $translations;
+    }
+
+    public function decode($s)
+    {
+        return html_entity_decode(trim($s), ENT_QUOTES, 'UTF-8');
     }
 }

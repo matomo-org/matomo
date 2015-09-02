@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\API\Proxy;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\ExampleReport\Reports\GetExampleReport;
 use Piwik\Plugins\Actions\Columns\ExitPageUrl;
@@ -17,8 +18,9 @@ use Piwik\Metrics;
 use Piwik\Plugins\ExampleTracker\Columns\ExampleDimension;
 use Piwik\Plugins\Referrers\Columns\Keyword;
 use Piwik\Plugin\Reports;
+use Piwik\Translation\Translator;
 use Piwik\Report\ReportWidgetFactory;
-use Piwik\Translate;
+use Piwik\Menu\MenuReporting;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -155,9 +157,9 @@ class ReportTest extends IntegrationTestCase
 
     public function test_getCategory_shouldReturnTranslatedCategory()
     {
-        Translate::loadAllTranslations();
+        $this->loadTranslations();
         $this->assertEquals('Goals_Goals', $this->advancedReport->getCategoryId());
-        Translate::reset();
+        $this->resetTranslations();
     }
 
     public function test_getMetrics_shouldUseDefaultMetrics()
@@ -435,5 +437,20 @@ class ReportTest extends IntegrationTestCase
     private function unloadAllPlugins()
     {
         PluginManager::getInstance()->unloadPlugins();
+    }
+
+    private function loadTranslations()
+    {
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        $translator->addDirectory(PIWIK_INCLUDE_PATH . '/lang');
+        PluginManager::getInstance()->loadPluginTranslations();
+    }
+
+    private function resetTranslations()
+    {
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        $translator->reset();
     }
 }

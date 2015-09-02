@@ -17,7 +17,6 @@ use Piwik\Cookie;
 use Piwik\Db;
 use Piwik\Intl\Locale;
 use Piwik\Piwik;
-use Piwik\Translate;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
@@ -147,7 +146,9 @@ class LanguagesManager extends \Piwik\Plugin
             $languageCode = Common::extractLanguageCodeFromBrowserLanguage(Common::getBrowserLanguage(), API::getInstance()->getAvailableLanguages());
         }
         if (!API::getInstance()->isLanguageAvailable($languageCode)) {
-            $languageCode = Translate::getLanguageDefault();
+            /** @var Translator $translator */
+            $translator = StaticContainer::get('Piwik\Translation\Translator');
+            $languageCode = $translator->getDefaultLanguage();
         }
         return $languageCode;
     }

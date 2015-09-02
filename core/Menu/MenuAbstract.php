@@ -81,29 +81,6 @@ abstract class MenuAbstract extends Singleton
      * @param string $subMenuName The menu item's name. Can be a translation token.
      * @param string|array $url The URL the admin menu entry should link to, or an array of query parameters
      *                          that can be used to build the URL.
-     * @param boolean $displayedForCurrentUser Whether this menu entry should be displayed for the
-     *                                         current user. If false, the entry will not be added.
-     * @param int $order The order hint.
-     * @param bool|string $tooltip An optional tooltip to display or false to display the tooltip.
-     *
-     * @deprecated since 2.7.0 Use {@link addItem() instead}. Method will be removed in Piwik 3.0
-     */
-    public function add($menuName, $subMenuName, $url, $displayedForCurrentUser = true, $order = 50, $tooltip = false)
-    {
-        if (!$displayedForCurrentUser) {
-            return;
-        }
-
-        $this->addItem($menuName, $subMenuName, $url, $order, $tooltip);
-    }
-
-    /**
-     * Adds a new entry to the menu.
-     *
-     * @param string $menuName The menu's category name. Can be a translation token.
-     * @param string $subMenuName The menu item's name. Can be a translation token.
-     * @param string|array $url The URL the admin menu entry should link to, or an array of query parameters
-     *                          that can be used to build the URL.
      * @param int $order The order hint.
      * @param bool|string $tooltip An optional tooltip to display or false to display the tooltip.
      * @since 2.7.0

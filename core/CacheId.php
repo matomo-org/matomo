@@ -8,13 +8,18 @@
  */
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager;
+use Piwik\Translation\Translator;
 
 class CacheId
 {
     public static function languageAware($cacheId)
     {
-        return $cacheId . '-' . Translate::getLanguageLoaded();
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+
+        return $cacheId . '-' . $translator->getCurrentLanguage();
     }
 
     public static function pluginAware($cacheId)

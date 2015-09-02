@@ -88,6 +88,11 @@ abstract class IntegrationTestCase extends SystemTestCase
             self::restoreDbTables(self::$tableData);
         }
 
+        $container = static::$fixture->piwikEnvironment->getContainer();
+        if ($container->get('test.vars.loadRealTranslations')) {
+            \Piwik\Plugin\Manager::getInstance()->loadPluginTranslations();
+        }
+
         PiwikCache::getEagerCache()->flushAll();
         PiwikCache::getTransientCache()->flushAll();
         MenuAbstract::clearMenus();

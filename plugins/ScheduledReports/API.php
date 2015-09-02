@@ -24,7 +24,6 @@ use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Tracker;
-use Piwik\Translate;
 use Piwik\Translation\Translator;
 
 /**
@@ -272,13 +271,14 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserIsNotAnonymous();
 
-        // load specified language
-        if (empty($language)) {
-            $language = Translate::getLanguageDefault();
-        }
-
         /** @var Translator $translator */
         $translator = StaticContainer::get('Piwik\Translation\Translator');
+
+        // load specified language
+        if (empty($language)) {
+            $language = $translator->getDefaultLanguage();
+        }
+
         $translator->setCurrentLanguage($language);
 
         $reports = $this->getReports($idSite = false, $_period = false, $idReport);
