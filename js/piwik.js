@@ -2626,8 +2626,6 @@ if (typeof Piwik !== 'object') {
                 }
             }
 
-            setInterval(sendBulkTrackingRequests, bulkTrackingDelay);
-
             /*
              * Send request
              */
@@ -4733,6 +4731,10 @@ if (typeof Piwik !== 'object') {
 
                 activeBulkTracking: function(active) {
                     enableBulkTracking = !!active;
+
+                    if(enableBulkTracking) {
+                      setInterval(sendBulkTrackingRequests, bulkTrackingDelay);
+                    }
                 },
 
                 setBulkTrackingDelay: function(delay) {
@@ -5380,8 +5382,6 @@ if (typeof Piwik !== 'object') {
                  * @param float value (optional) The Event's value
                  */
                 trackEvent: function (category, action, name, value) {
-
-                  console.log('Track event', category, action, name, value)
                     trackCallback(function () {
                         logEvent(category, action, name, value);
                     });
