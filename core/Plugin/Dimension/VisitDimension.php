@@ -354,7 +354,15 @@ abstract class VisitDimension extends Dimension
             }
         }
 
+        $count = 0;
         while (count($dimensions) > 0) {
+            $count++;
+            if ($count > 1000) {
+                foreach ($dimensions as $dimension) {
+                    $sorted[] = $dimension;
+                }
+                break; // to prevent an endless loop
+            }
             foreach ($dimensions as $key => $dimension) {
                 $fields = $depenencies[$dimension->getColumnName()];
                 if (count(array_intersect($fields, $exists)) === count($fields)) {

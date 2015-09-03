@@ -25,7 +25,7 @@ class ExceptionHandler
     }
 
     /**
-     * @param Exception $exception
+     * @param Exception|\Throwable $exception
      */
     public static function handleException($exception)
     {
@@ -37,7 +37,7 @@ class ExceptionHandler
     }
 
     /**
-     * @param Exception $exception
+     * @param Exception|\Throwable $exception
      */
     public static function dieWithCliError($exception)
     {
@@ -61,7 +61,7 @@ class ExceptionHandler
     }
 
     /**
-     * @param Exception $exception
+     * @param Exception|\Throwable $exception
      */
     public static function dieWithHtmlErrorPage($exception)
     {
@@ -73,7 +73,7 @@ class ExceptionHandler
     }
 
     /**
-     * @param Exception $ex
+     * @param Exception|\Throwable $ex
      */
     private static function getErrorResponse($ex)
     {
