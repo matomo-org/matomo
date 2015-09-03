@@ -10,6 +10,9 @@ namespace Piwik\Intl;
 
 class Locale
 {
+    /**
+     * @param string|array $locale
+     */
     public static function setLocale($locale)
     {
         if(!is_array($locale)){
@@ -32,6 +35,6 @@ class Locale
 
     public static function setDefaultLocale()
     {
-        self::setLocale(['en_US.UTF-8', 'en-US']);
+        self::setLocale(array('en_US.UTF-8', 'en-US'));
     }
 }
