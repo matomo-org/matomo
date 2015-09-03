@@ -65,8 +65,9 @@ class PhpSettingsCheck implements Diagnostic
             'session.auto_start=0',
         );
 
-        if ($this->isPhpVersionAtLeast56() && ! defined("HHVM_VERSION")) {
+        if ($this->isPhpVersionAtLeast56() && ! defined("HHVM_VERSION") && !$this->isPhpVersionAtLeast70()) {
             // always_populate_raw_post_data must be -1
+            // removed in PHP 7
             $requiredSettings[] = 'always_populate_raw_post_data=-1';
         }
 
@@ -76,5 +77,10 @@ class PhpSettingsCheck implements Diagnostic
     private function isPhpVersionAtLeast56()
     {
         return version_compare(PHP_VERSION, '5.6', '>=');
+    }
+
+    private function isPhpVersionAtLeast70()
+    {
+        return version_compare(PHP_VERSION, '7.0.0-dev', '>=');
     }
 }

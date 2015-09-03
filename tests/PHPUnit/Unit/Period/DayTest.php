@@ -22,6 +22,8 @@ class DayTest extends BasePeriodTest
             new Day('Invalid Date');
         } catch (\Exception $e) {
             return;
+        } catch (\Throwable $e) {
+            return;
         }
         $this->fail('Expected Exception not raised');
     }
