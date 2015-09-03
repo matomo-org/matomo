@@ -53,6 +53,14 @@ class Segment
     private $suggestedValuesCallback;
 
     /**
+     * If true, this segment will only be visible to the user if the user has view access
+     * to one of the requested sites (see API.getSegmentsMetadata).
+     *
+     * @var bool
+     */
+    private $requiresAtLeastViewAccess = false;
+
+    /**
      * @ignore
      */
     final public function __construct()
@@ -254,5 +262,30 @@ class Segment
         }
 
         return $segment;
+    }
+
+    /**
+     * Returns true if this segment should only be visible to the user if the user has view access
+     * to one of the requested sites (see API.getSegmentsMetadata), false if it should always be
+     * visible to the user (even the anonymous user).
+     *
+     * @return boolean
+     * @ignore
+     */
+    public function isRequiresAtLeastViewAccess()
+    {
+        return $this->requiresAtLeastViewAccess;
+    }
+
+    /**
+     * Sets whether the segment should only be visible if the user requesting it has view access
+     * to one of the requested sites and if the user is not the anonymous user.
+     *
+     * @param boolean $requiresAtLeastViewAccess
+     * @ignore
+     */
+    public function setRequiresAtLeastViewAccess($requiresAtLeastViewAccess)
+    {
+        $this->requiresAtLeastViewAccess = $requiresAtLeastViewAccess;
     }
 }
