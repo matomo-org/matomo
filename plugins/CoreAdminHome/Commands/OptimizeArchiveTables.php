@@ -27,7 +27,7 @@ class OptimizeArchiveTables extends ConsoleCommand
 
     protected function configure()
     {
-        $this->setName('core:optimize-archive-tables');
+        $this->setName('database:optimize-archive-tables');
         $this->setDescription("Runs an OPTIMIZE TABLE query on the specified archive tables.");
         $this->addArgument("dates", InputArgument::IS_ARRAY | InputArgument::REQUIRED,
             "The months of the archive tables to optimize. Use '" . self::ALL_TABLES_STRING. "' for all dates or '" .
