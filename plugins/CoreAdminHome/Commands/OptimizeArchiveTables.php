@@ -15,6 +15,7 @@ use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -32,6 +33,7 @@ class OptimizeArchiveTables extends ConsoleCommand
         $this->addArgument("dates", InputArgument::IS_ARRAY | InputArgument::REQUIRED,
             "The months of the archive tables to optimize. Use '" . self::ALL_TABLES_STRING. "' for all dates or '" .
             self::CURRENT_MONTH_STRING . "' to optimize the current month only.");
+        $this->addOption('dry-run', null, InputOption::VALUE_NONE, 'For testing purposes.');
         $this->setHelp("This command can be used to ease or automate maintenance. Instead of manually running "
             . "OPTIMIZE TABLE queries, the command can be used.\n\nYou should run the command if you find your "
             . "archive tables grow and do not shrink after purging. Optimizing them will reclaim some space.");
@@ -39,20 +41,25 @@ class OptimizeArchiveTables extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $dryRun = $input->getOption('dry-run');
+
         $tableMonths = $this->getTableMonthsToOptimize($input);
 
         foreach ($tableMonths as $month) {
-            $this->optimizeTable($output, 'archive_numeric_' . $month);
-            $this->optimizeTable($output, 'archive_blob_' . $month);
+            $this->optimizeTable($output, $dryRun, 'archive_numeric_' . $month);
+            $this->optimizeTable($output, $dryRun, 'archive_blob_' . $month);
         }
     }
 
-    private function optimizeTable(OutputInterface $output, $table)
+    private function optimizeTable(OutputInterface $output, $dryRun, $table)
     {
         $output->write("Optimizing table '$table'...");
 
-        $table = Common::prefixTable($table);
-        Db::optimizeTables($table, $force = true);
+        if ($dryRun) {
+            $output->write("[dry-run, not optimising table]");
+        } else {
+            Db::optimizeTables(Common::prefixTable($table), $force = true);
+        }
 
         $output->writeln("Done.");
     }
@@ -67,14 +74,25 @@ class OptimizeArchiveTables extends ConsoleCommand
                 return $this->getAllArchiveTableMonths();
             } else if ($dateSpecifier == self::CURRENT_MONTH_STRING) {
                 $now = Date::factory('now');
-                return array($now->toString('Y') . '_' . $now->toString('m'));
+                return array(ArchiveTableCreator::getTableMonthFromDate($now));
+            } else if (strpos($dateSpecifier, 'last') === 0) {
+                $lastN = substr($dateSpecifier, 4);
+                if (!ctype_digit($lastN)) {
+                    throw new \Exception("Invalid lastN specifier '$lastN'. The end must be an integer, eg, last1 or last2.");
+                }
+
+                if ($lastN <= 0) {
+                    throw new \Exception("Invalid lastN value '$lastN'.");
+                }
+
+                return $this->getLastNTableMonths((int)$lastN);
             }
         }
 
         $tableMonths = array();
         foreach ($dateSpecifier as $date) {
             $date = Date::factory($date);
-            $tableMonths[] = $date->toString('Y') . '_' . $date->toString('m');
+            $tableMonths[] = ArchiveTableCreator::getTableMonthFromDate($date);
         }
         return $tableMonths;
     }
@@ -86,5 +104,21 @@ class OptimizeArchiveTables extends ConsoleCommand
             $tableMonths[] = ArchiveTableCreator::getDateFromTableName($table);
         }
         return $tableMonths;
+    }
+
+    /**
+     * @param int $lastN
+     * @return string[]
+     */
+    private function getLastNTableMonths($lastN)
+    {
+        $now = Date::factory('now');
+
+        $result = array();
+        for ($i = 0; $i < $lastN; ++$i) {
+            $date = $now->subMonth($i + 1);
+            $result[] = ArchiveTableCreator::getTableMonthFromDate($date);
+        }
+        return $result;
     }
 }
