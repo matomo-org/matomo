@@ -33,7 +33,8 @@ class OptimizeArchiveTables extends ConsoleCommand
             "The months of the archive tables to optimize. Use '" . self::ALL_TABLES_STRING. "' for all dates or '" .
             self::CURRENT_MONTH_STRING . "' to optimize the current month only.");
         $this->setHelp("This command can be used to ease or automate maintenance. Instead of manually running "
-            . "OPTIMIZE TABLE queries, the command can be used.");
+            . "OPTIMIZE TABLE queries, the command can be used.\n\nYou should run the command if you find your "
+            . "archive tables grow and do not shrink after purging. Optimizing them will reclaim some space.");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
