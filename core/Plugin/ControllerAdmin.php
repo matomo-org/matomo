@@ -142,21 +142,22 @@ abstract class ControllerAdmin extends Controller
         NotificationManager::notify('PHP53VersionCheck', $notification);
     }
 
-    private static function notifyWhenDebugOnDemandIsEnabled()
+    private static function notifyWhenDebugOnDemandIsEnabled($trackerSetting)
     {
         if (!Development::isEnabled()
             && Piwik::hasUserSuperUserAccess() &&
-            TrackerConfig::getConfigValue('debug_on_demand')) {
+            TrackerConfig::getConfigValue($trackerSetting)) {
 
             $message = Piwik::translate('General_WarningDebugOnDemandEnabled');
-            $message = sprintf($message, '"[Tracker]debug_on_demand"', '"0"', '"config/config.ini.php"');
+            $message = sprintf($message, '"' . $trackerSetting . '"', '"[Tracker]' .  $trackerSetting . '"', '"0"',
+                                               '"config/config.ini.php"');
             $notification = new Notification($message);
             $notification->title = Piwik::translate('General_Warning');
             $notification->priority = Notification::PRIORITY_LOW;
             $notification->context = Notification::CONTEXT_WARNING;
             $notification->type = Notification::TYPE_TRANSIENT;
             $notification->flags = Notification::FLAG_NO_CLEAR;
-            NotificationManager::notify('DebugOnDemand', $notification);
+            NotificationManager::notify('Tracker' . $trackerSetting, $notification);
         }
     }
 
@@ -205,7 +206,8 @@ abstract class ControllerAdmin extends Controller
         self::checkPhpVersion($view);
 
         self::notifyWhenPhpVersionIsEOL();
-        self::notifyWhenDebugOnDemandIsEnabled();
+        self::notifyWhenDebugOnDemandIsEnabled('debug');
+        self::notifyWhenDebugOnDemandIsEnabled('debug_on_demand');
 
         $adminMenu = MenuAdmin::getInstance()->getMenu();
         $view->adminMenu = $adminMenu;
