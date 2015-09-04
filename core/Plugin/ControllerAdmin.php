@@ -149,7 +149,7 @@ abstract class ControllerAdmin extends Controller
             TrackerConfig::getConfigValue($trackerSetting)) {
 
             $message = Piwik::translate('General_WarningDebugOnDemandEnabled');
-            $message = sprintf($message, '"' . $trackerSetting . '"', '"[Tracker]' .  $trackerSetting . '"', '"0"',
+            $message = sprintf($message, '"' . $trackerSetting . '"', '"[Tracker] ' .  $trackerSetting . '"', '"0"',
                                                '"config/config.ini.php"');
             $notification = new Notification($message);
             $notification->title = Piwik::translate('General_Warning');
