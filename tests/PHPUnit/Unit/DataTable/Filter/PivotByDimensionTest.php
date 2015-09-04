@@ -8,6 +8,8 @@
 namespace Piwik\Tests\Core\DataTable\Filter;
 
 use Piwik\API\Proxy;
+use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Tracker\Cache;
 use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
@@ -222,6 +224,8 @@ class PivotByDimensionTest extends \PHPUnit_Framework_TestCase
 
     public function test_filter_CorrectlyCreatesPivotTable_WhenSubtablesHaveNoRows()
     {
+        Cache::setCacheGeneral(array(CustomVariables::MAX_NUM_CUSTOMVARS_CACHEKEY => 5));
+
         $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
         $table = $this->getTableToFilter(false);
@@ -235,6 +239,8 @@ class PivotByDimensionTest extends \PHPUnit_Framework_TestCase
             array('label' => 'row 2'),
             array('label' => 'row 3')
         );
+
+        Cache::clearCacheGeneral();
         $this->assertTableRowsEquals($expectedRows, $table);
     }
 

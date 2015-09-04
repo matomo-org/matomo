@@ -197,22 +197,6 @@ class Visit implements VisitInterface
             $this->visitProperties->setProperty($name, $value);
         }
 
-        /**
-         * Triggered before a [visit entity](/guides/persistence-and-the-mysql-backend#visits) is updated when
-         * tracking an action for an existing visit.
-         *
-         * This event can be used to modify the visit properties that will be updated before the changes
-         * are persisted.
-         *
-         * This event is deprecated, use [Dimensions](http://developer.piwik.org/guides/dimensions) instead.
-         *
-         * @param array &$valuesToUpdate Visit entity properties that will be updated.
-         * @param array $visit The entire visit entity. Read [this](/guides/persistence-and-the-mysql-backend#visits)
-         *                     to see what it contains.
-         * @deprecated
-         */
-        Piwik::postEvent('Tracker.existingVisitInformation', array(&$valuesToUpdate, $this->visitProperties->getProperties()));
-
         foreach ($this->requestProcessors as $processor) {
             $processor->onExistingVisit($valuesToUpdate, $this->visitProperties, $this->request);
         }
@@ -263,22 +247,6 @@ class Visit implements VisitInterface
         if ($visitIsConverted) {
             $this->triggerHookOnDimensions($dimensions, 'onConvertedVisit');
         }
-
-        /**
-         * Triggered before a new [visit entity](/guides/persistence-and-the-mysql-backend#visits) is persisted.
-         *
-         * This event can be used to modify the visit entity or add new information to it before it is persisted.
-         * The UserCountry plugin, for example, uses this event to add location information for each visit.
-         *
-         * This event is deprecated, use [Dimensions](http://developer.piwik.org/guides/dimensions) instead.
-         *
-         * @param array &$visit The visit entity. Read [this](/guides/persistence-and-the-mysql-backend#visits) to see
-         *                      what information it contains.
-         * @param \Piwik\Tracker\Request $request An object describing the tracking request being processed.
-         *
-         * @deprecated
-         */
-        Piwik::postEvent('Tracker.newVisitorInformation', array($this->visitProperties->getProperties(), $this->request));
 
         foreach ($this->requestProcessors as $processor) {
             $processor->onNewVisit($this->visitProperties, $this->request);
