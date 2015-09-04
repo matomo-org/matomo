@@ -10,20 +10,16 @@
     {% endif %}
 
     <script>
-        function submitForm(event, form, loadInNewWindow) {
+        function submitForm(event, form) {
             event.preventDefault();
 
-            if (loadInNewWindow) {
-                var newWindow = window.open(form.action + '&time=' + Date.now());
+            var newWindow = window.open(form.action + '&time=' + Date.now());
 
-                setInterval(function () {
-                    if (newWindow.closed) {
-                        window.location.reload();
-                    }
-                }, 1000);
-            } else {
-                form.submit();
-            }
+            setInterval(function () {
+                if (newWindow.closed) {
+                    window.location.reload();
+                }
+            }, 1000);
         }
     </script>
 
@@ -70,11 +66,10 @@
     <br/><br/>
 
     {% if not showConfirmOnly %}
-    {% set loadInNewWindow = true %}
-    <form method="post" action="?module=CoreAdminHome&amp;action=optOut{% if language %}&amp;language={{ language }}{% endif %}{% if loadInNewWindow %}&amp;setCookieInNewWindow=1{% endif %}" {% if loadInNewWindow %}target="_blank"{% endif %}>
+    <form method="post" action="?module=CoreAdminHome&amp;action=optOut{% if language %}&amp;language={{ language }}{% endif %}&amp;setCookieInNewWindow=1" target="_blank">
         <input type="hidden" name="nonce" value="{{ nonce }}" />
         <input type="hidden" name="fuzz" value="{{ "now"|date }}" />
-        <input onclick="submitForm(event, this.form, {{ loadInNewWindow|default(0) }});" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
+        <input onclick="submitForm(event, this.form);" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
         <label for="trackVisits"><strong>
         {% if trackVisits %}
             {{ 'CoreAdminHome_YouAreOptedIn'|translate }} {{ 'CoreAdminHome_ClickHereToOptOut'|translate }}
