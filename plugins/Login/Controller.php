@@ -31,17 +31,17 @@ class Controller extends \Piwik\Plugin\Controller
     /**
      * @var PasswordResetter
      */
-    protected $passwordResetter;
+    private $passwordResetter;
 
     /**
      * @var Auth
      */
-    protected $auth;
+    private $auth;
 
     /**
      * @var SessionInitializer
      */
-    protected $sessionInitializer;
+    private $sessionInitializer;
 
     /**
      * Constructor.
@@ -124,7 +124,7 @@ class Controller extends \Piwik\Plugin\Controller
      *
      * @param View $view
      */
-    protected function configureView($view)
+    private function configureView($view)
     {
         $this->setBasicVariablesView($view);
 
@@ -261,7 +261,7 @@ class Controller extends \Piwik\Plugin\Controller
      * @param QuickForm2 $form
      * @return array Error message(s) if an error occurs.
      */
-    protected function resetPasswordFirstStep($form)
+    private function resetPasswordFirstStep($form)
     {
         $loginMail = $form->getSubmitValue('form_login');
         $password  = $form->getSubmitValue('form_password');
