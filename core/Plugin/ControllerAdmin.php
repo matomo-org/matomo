@@ -11,12 +11,14 @@ namespace Piwik\Plugin;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
+use Piwik\Tracker\TrackerConfig;
 use Piwik\Url;
 use Piwik\Version;
 use Piwik\View;
@@ -140,6 +142,24 @@ abstract class ControllerAdmin extends Controller
         NotificationManager::notify('PHP53VersionCheck', $notification);
     }
 
+    private static function notifyWhenDebugOnDemandIsEnabled()
+    {
+        if (!Development::isEnabled()
+            && Piwik::hasUserSuperUserAccess() &&
+            TrackerConfig::getConfigValue('debug_on_demand')) {
+
+            $message = Piwik::translate('General_WarningDebugOnDemandEnabled');
+            $message = sprintf($message, '"[Tracker]debug_on_demand"', '"0"', '"config/config.ini.php"');
+            $notification = new Notification($message);
+            $notification->title = Piwik::translate('General_Warning');
+            $notification->priority = Notification::PRIORITY_LOW;
+            $notification->context = Notification::CONTEXT_WARNING;
+            $notification->type = Notification::TYPE_TRANSIENT;
+            $notification->flags = Notification::FLAG_NO_CLEAR;
+            NotificationManager::notify('DebugOnDemand', $notification);
+        }
+    }
+
     /**
      * Assigns view properties that would be useful to views that render admin pages.
      *
@@ -185,6 +205,7 @@ abstract class ControllerAdmin extends Controller
         self::checkPhpVersion($view);
 
         self::notifyWhenPhpVersionIsEOL();
+        self::notifyWhenDebugOnDemandIsEnabled();
 
         $adminMenu = MenuAdmin::getInstance()->getMenu();
         $view->adminMenu = $adminMenu;
