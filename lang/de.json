@@ -388,6 +388,7 @@
         "WarningFileIntegrityNoManifestDeployingFromGit": "Wenn Sie Piwik von Git deployen ist diese Nachricht normal.",
         "WarningFileIntegrityNoMd5file": "Durch die fehlende md5_file() Funktion konnte die Integritätsprüfung nicht durchgeführt werden.",
         "WarningPasswordStored": "%sWarnung:%s Dieses Passwort wird in der Konfigurationsdatei gespeichert und ist so für jeden sichtbar, der auf diese Datei Zugriff hat.",
+        "WarningDebugOnDemandEnabled": "Der Tracker befindet sich im %s Modus. Aus Sicherheitsgründen sollte dieser nur für einen kurzen Zeitraum aktiv sein. Um Ihn zu deaktivieren setzen Sie %s auf %s in %s",
         "Website": "Website",
         "Weekly": "Wöchentlich",
         "WeeklyReport": "wöchentlich",
