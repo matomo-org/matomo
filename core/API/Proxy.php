@@ -37,10 +37,7 @@ class Proxy extends Singleton
     // when a parameter doesn't have a default value we use this
     private $noDefaultValue;
 
-    /**
-     * protected constructor
-     */
-    protected function __construct()
+    public function __construct()
     {
         $this->noDefaultValue = new NoDefaultValue();
     }

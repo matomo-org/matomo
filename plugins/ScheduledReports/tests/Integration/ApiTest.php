@@ -8,12 +8,18 @@
 
 namespace Piwik\Plugins\ScheduledReports\tests;
 
+use Piwik\API\Proxy;
+use Piwik\DataTable;
+use Piwik\Date;
+use Piwik\Plugins\API\API;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\Menu;
+use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\ScheduledReports\Tasks;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\ReportRenderer;
 use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\Scheduler\Task;
@@ -41,7 +47,8 @@ class ApiTest extends IntegrationTestCase
 
         // setup the access layer
         self::setSuperUser();
-        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('API', 'UserCountry', 'ScheduledReports', 'MobileMessaging'));
+        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('API', 'UserCountry', 'ScheduledReports',
+            'MobileMessaging', 'VisitsSummary', 'Referrers'));
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
 
         APISitesManager::getInstance()->addSite("Test", array("http://piwik.net"));
@@ -424,6 +431,56 @@ class ApiTest extends IntegrationTestCase
         list($reportSubject, $reportTitle) = $getReportSubjectAndReportTitle->invoke( APIScheduledReports::getInstance(), $websiteName, $reports);
         $this->assertEquals($expectedReportSubject, $reportSubject);
         $this->assertEquals($expectedReportTitle, $reportTitle);
+    }
+
+    public function test_generateReport_CatchesIndividualReportProcessExceptions_WithoutFailingToGenerateWholeReport()
+    {
+        $realProxy = new Proxy();
+
+        $mockProxy = $this->getMock('Piwik\API\Proxy', array('call'));
+        $mockProxy->expects($this->any())->method('call')->willReturnCallback(function ($className, $methodName, $parametersRequest) use ($realProxy) {
+            switch ($className) {
+                case '\Piwik\Plugins\VisitsSummary\API':
+                    $result = new DataTable();
+                    $result->addRowFromSimpleArray(array('label' => 'visits label', 'nb_visits' => 1));
+                    return $result;
+                case '\Piwik\Plugins\UserCountry\API':
+                    throw new \Exception("error");
+                case '\Piwik\Plugins\Referrers\API':
+                    $result = new DataTable();
+                    $result->addRowFromSimpleArray(array('label' => 'referrers label', 'nb_visits' => 1));
+                    return $result;
+                case '\Piwik\Plugins\API\API':
+                    return $realProxy->call($className, $methodName, $parametersRequest);
+                default:
+                    throw new \Exception("Unexpected method $className::$methodName.");
+            }
+        });
+        Proxy::setSingletonInstance($mockProxy);
+
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
+        );
+
+        ob_start();
+        $result = APIScheduledReports::getInstance()->generateReport($idReport, Date::factory('now')->toString(),
+            $language = false, $outputType = APIScheduledReports::OUTPUT_RETURN);
+        ob_end_clean();
+
+        $this->assertContains('id="VisitsSummary_get"', $result);
+        $this->assertContains('id="Referrers_getWebsites"', $result);
+        $this->assertNotContains('id="UserCountry_getCountry"', $result);
     }
 
     private function assertReportsEqual($report, $data)
