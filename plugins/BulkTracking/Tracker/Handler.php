@@ -121,6 +121,6 @@ class Handler extends Tracker\Handler
         $auth->setPasswordHash(null);
         $access = $auth->authenticate();
 
-        return $access->getCode() != AuthResult::FAILURE;
+        return $access->getCode() == AuthResult::SUCCESS_SUPERUSER_AUTH_CODE;
     }
 }
