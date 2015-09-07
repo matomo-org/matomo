@@ -69,9 +69,7 @@ class Response extends Tracker\Response
             'invalid' => count($this->invalidRequests),
         );
 
-        if ($this->isAuthenticated) {
-            $result['invalid_indices'] = $this->invalidRequests;
-        }
+        $this->addInvalidIndicesIfAuthenticated($result);
 
         // send error when in debug mode
         if ($tracker->isDebugModeEnabled()) {
@@ -89,9 +87,7 @@ class Response extends Tracker\Response
             'invalid' => count($this->invalidRequests),
         );
 
-        if ($this->isAuthenticated) {
-            $result['invalid_indices'] = $this->invalidRequests;
-        }
+        $this->addInvalidIndicesIfAuthenticated($result);
 
         return $result;
     }
@@ -104,5 +100,12 @@ class Response extends Tracker\Response
     public function setIsAuthenticated($isAuthenticated)
     {
         $this->isAuthenticated = $isAuthenticated;
+    }
+
+    private function addInvalidIndicesIfAuthenticated(&$result)
+    {
+        if ($this->isAuthenticated) {
+            $result['invalid_indices'] = $this->invalidRequests;
+        }
     }
 }
