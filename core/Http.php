@@ -426,7 +426,9 @@ class Http
 
             // save to file
             if (is_resource($file)) {
-                $handle = fopen($aUrl, 'rb', false, $ctx);
+                if (!($handle = fopen($aUrl, 'rb', false, $ctx))) {
+                    throw new Exception("Unable to open $aUrl");
+                }
                 while (!feof($handle)) {
                     $response = fread($handle, 8192);
                     $fileLength += strlen($response);
