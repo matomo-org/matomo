@@ -151,7 +151,11 @@ abstract class ReportRenderer extends BaseFactory
         $outputFilename = StaticContainer::get('path.tmp') . '/assets/' . $filename;
 
         @chmod($outputFilename, 0600);
-        @unlink($outputFilename);
+        
+        if(file_exists($outputFilename)){
+            @unlink($outputFilename);
+        }
+        
         return $outputFilename;
     }
 
