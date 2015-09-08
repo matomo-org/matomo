@@ -78,7 +78,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function redirect()
     {
         $url = Common::getRequestVar('url', '', 'string', $_GET);
-	if (!UrlHelper::isLookLikeUrl($url)) {
+        if (!UrlHelper::isLookLikeUrl($url)) {
             die('Please check the &url= parameter: it should to be a valid URL');
         }
         // validate referrer
