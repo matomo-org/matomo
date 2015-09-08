@@ -280,6 +280,8 @@ class Controller extends ControllerAdmin
      */
     public function trackingCodeGenerator()
     {
+        Piwik::checkUserHasSomeViewAccess();
+        
         $view = new View('@CoreAdminHome/trackingCodeGenerator');
         $this->setBasicVariablesView($view);
         $view->topMenu  = MenuTop::getInstance()->getMenu();
