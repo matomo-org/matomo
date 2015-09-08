@@ -38,6 +38,9 @@
         "VisitSummary": "Strávil celkem %1$s%2$s na stránkách%3$s a %4$szobrazil %5$s stránek za %6$s návštěv.%7$s",
         "RowActionTooltipDefault": "Zobrazit záznam návštěvníků rozdělený podle tohoto řádku",
         "RowActionTooltipWithDimension": "Zobrazit záznam návštěvníků rozdělený podle %s",
-        "RowActionTooltipTitle": "Otevřít rozdělený záznam návštěvníků"
+        "RowActionTooltipTitle": "Otevřít rozdělený záznam návštěvníků",
+        "SegmentedVisitorLogTitle": "Záznam návštěvníků, zobrazující návštěvy, kde %s je \"%s\"",
+        "OnClickPause": "%s běží. Klikněte pro pozastavení.",
+        "OnClickStart": "%s je zastaven. Klikněte pro spuštění."
     }
 }

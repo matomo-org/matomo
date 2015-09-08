@@ -24,6 +24,7 @@
         "Pagination": "Page %s sur %s",
         "PiwikReports": "Rapports Piwik",
         "PleaseFindAttachedFile": "Veuillez trouver en pièce jointe votre rapport %1$s pour %2$s.",
+        "SentFromX": "Envoyé depuis %s.",
         "PleaseFindBelow": "Veuillez trouver ci-dessous votre %1$s rapport pour %2$s.",
         "PluginDescription": "Créez des rapports personnalisés et planifiez de les envoyer par courriel quotidiennement, hebdomadairement ou mensuellement à une ou plusieurs personnes. Plusieurs formats de rapports sont supportés (html, pdf, csv, images).",
         "ReportFormat": "Format du rapport",

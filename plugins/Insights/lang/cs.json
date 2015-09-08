@@ -1,5 +1,6 @@
 {
     "Insights": {
+        "PluginDescription": "Poskytuje vhledy o vašem provozu. Vhledy jsou dostupné buď jako widgety na nástěnce, nebo jako nová ikona v hlášeních, která zobrazuje nejdůležitější trendy v datech.",
         "ControlComparedToDescription": "Růst ve srovnání s",
         "ControlFilterByDescription": "Zobrazit všechny, pouze hybatele, pouze nové nebo ztracené",
         "DatePeriodCombinationNotSupported": "Pro tuto kombinaci období a data není možné vytvořit vhledy.",

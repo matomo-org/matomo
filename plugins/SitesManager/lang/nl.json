@@ -48,6 +48,7 @@
         "PiwikOffersEcommerceAnalytics": "In Piwik is een geavanceerde Ecommerce Analytics tracking & rapportage mogelijk. Leer meer over %s Ecommerce Analytics%s.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik sluit automatisch veelvoorkomende sessie parameters uit (%s).",
         "PluginDescription": "Website beheer laat je toe nieuwe",
+        "SearchCategoryDesc": "Piwik kan ook de zoekcategorieën bijhouden voor elk zoekwoord gebruikt op de lokale zoekmachine.",
         "SearchCategoryLabel": "Categorie parameter",
         "SearchKeywordLabel": "Query parameter",
         "SearchKeywordParametersDesc": "Voer een komma gescheiden lijst in van alle query parameter namen die het site zoek sleutelwoord bevatten.",
