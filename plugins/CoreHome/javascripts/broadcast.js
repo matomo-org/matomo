@@ -410,18 +410,21 @@ var broadcast = {
     loadAjaxContent: function (urlAjax) {
         if (typeof piwikMenu !== 'undefined') {
             // we have to use a $timeout since menu groups are displayed using an angular directive, and on initial
-            // page load, the dropdown will not be completely rendered at this point.
+            // page load, the dropdown will not be completely rendered at this point. using 2 $timeouts (to push
+            // the menu activation logic to the end of the event queue twice), seems to work.
             angular.element(document).injector().invoke(function ($timeout) {
                 $timeout(function () {
-                    piwikMenu.activateMenu(
-                        broadcast.getParamValue('module', urlAjax),
-                        broadcast.getParamValue('action', urlAjax),
-                        {
-                            idGoal: broadcast.getParamValue('idGoal', urlAjax),
-                            idDashboard: broadcast.getParamValue('idDashboard', urlAjax)
-                        }
-                    );
-                }, 1);
+                    $timeout(function () {
+                        piwikMenu.activateMenu(
+                            broadcast.getParamValue('module', urlAjax),
+                            broadcast.getParamValue('action', urlAjax),
+                            {
+                                idGoal: broadcast.getParamValue('idGoal', urlAjax),
+                                idDashboard: broadcast.getParamValue('idDashboard', urlAjax)
+                            }
+                        );
+                    });
+                });
             });
         }
 
