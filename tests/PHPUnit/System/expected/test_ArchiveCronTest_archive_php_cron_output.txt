@@ -20,13 +20,13 @@ INFO CoreConsole[2015-03-02 06:14:01] - If you execute this script at least once
 INFO CoreConsole[2015-03-02 06:14:01]   See the doc at: http://piwik.org/docs/setup-auto-archiving/
 INFO CoreConsole[2015-03-02 06:14:01] - Reports for today will be processed at most every 150 seconds. You can change this value in Piwik UI > Settings > General Settings.
 INFO CoreConsole[2015-03-02 06:14:01] - Reports for the current week/month/year will be refreshed at most every 3600 seconds.
-INFO CoreConsole[2015-03-02 06:14:01] Will invalidate archived reports for 2012-08-09 for following siteIds: 1
-INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2012-08-10 for following siteIds: 1
-INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2012-08-11 for following siteIds: 1
-INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2012-08-15 for following siteIds: 1,2
-INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2012-09-30 for following siteIds: 1
-INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2014-03-12 for following siteIds: 1
-INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2014-03-13 for following siteIds: 1
+INFO CoreConsole[2015-03-02 06:14:01] Will invalidate archived reports for 2012-08-09 for following website ids: 1
+INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2012-08-10 for following website ids: 1
+INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2012-08-11 for following website ids: 1
+INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2012-08-15 for following website ids: 1,2
+INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2012-09-30 for following website ids: 1
+INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2014-03-12 for following website ids: 1
+INFO CoreConsole[2015-03-02 06:14:02] Will invalidate archived reports for 2014-03-13 for following website ids: 1
 INFO CoreConsole[2015-03-02 06:14:02] - Will process 0 websites with new visits since 7 days 0 hours
 INFO CoreConsole[2015-03-02 06:14:02] - Will process 2 other websites because some old data reports have been invalidated (eg. using the Log Import script) , IDs: 1, 2
 INFO CoreConsole[2015-03-02 06:14:02] ---------------------------
