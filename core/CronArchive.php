@@ -277,6 +277,8 @@ class CronArchive
 
     public function init()
     {
+        SettingsServer::setMaxExecutionTime(0);
+
         $this->archivingStartingTime = time();
 
         // Note: the order of methods call matters here.
