@@ -97,7 +97,7 @@
             {% set searchName %}{{ visitor.getColumn('referrerName') }}{% endset %}
             {% set position %}#{{ visitor.getColumn('referrerKeywordPosition') }}{% endset %}
             {% if visitor.getColumn('referrerKeywordPosition') %}
-                <span title='{{ 'Live_KeywordRankedOnSearchResultForThisVisitor'|translate(keyword,position,searchName) }}' class='visitorRank'>
+                <span title='{{ 'Live_KeywordRankedOnSearchResultForThisVisitor'|translate(keyword,position,searchName) }}' class='visitorRank visitorLogTooltip'>
                                 <span class='hash'>#</span>
                     {{ visitor.getColumn('referrerKeywordPosition') }}
                             </span>
