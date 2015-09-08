@@ -312,6 +312,8 @@ class Update extends ConsoleCommand
                 $dimensions[] = $componentName;
             }
         }
+
+        sort($dimensions);
         return $dimensions;
     }
 
