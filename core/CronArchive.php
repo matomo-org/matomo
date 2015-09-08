@@ -330,6 +330,8 @@ class CronArchive
         $this->logSection("START");
         $this->logger->info("Starting Piwik reports archiving...");
 
+        Piwik::postEvent('CronArchive.start', array($timer));
+
         do {
             $idSite = $this->websites->getNextSiteId();
 
@@ -418,6 +420,9 @@ class CronArchive
                 ? self::NO_ERROR
                 : (count($this->errors) . " errors."))
         );
+
+        Piwik::postEvent('CronArchive.end', array($timer));
+
         $this->logger->info($timer->__toString());
     }
 
