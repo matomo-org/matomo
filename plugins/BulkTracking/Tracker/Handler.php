@@ -9,7 +9,11 @@
 
 namespace Piwik\Plugins\BulkTracking\Tracker;
 
+use Piwik\Archiver\Request;
+use Piwik\AuthResult;
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Piwik;
 use Piwik\Tracker;
 use Piwik\Tracker\RequestSet;
 use Piwik\Tracker\TrackerConfig;
@@ -40,18 +44,22 @@ class Handler extends Tracker\Handler
 
     public function process(Tracker $tracker, RequestSet $requestSet)
     {
-        $invalidRequests = 0;
-        foreach ($requestSet->getRequests() as $request) {
-            try {
-                $tracker->trackRequest($request);
-            } catch (UnexpectedWebsiteFoundException $ex) {
-                $invalidRequests += 1;
-            }
-        }
+        $isAuthenticated = $this->isBulkTrackingRequestAuthenticated($requestSet);
 
         /** @var Response $response */
         $response = $this->getResponse();
-        $response->setInvalidCount($invalidRequests);
+        $response->setIsAuthenticated($isAuthenticated);
+
+        $invalidRequests = array();
+        foreach ($requestSet->getRequests() as $index => $request) {
+            try {
+                $tracker->trackRequest($request);
+            } catch (UnexpectedWebsiteFoundException $ex) {
+                $invalidRequests[] = $index;
+            }
+        }
+
+        $response->setInvalidRequests($invalidRequests);
     }
 
     public function onException(Tracker $tracker, RequestSet $requestSet, Exception $e)
@@ -96,4 +104,23 @@ class Handler extends Tracker\Handler
         return (bool) TrackerConfig::getConfigValue('bulk_requests_use_transaction');
     }
 
+    private function isBulkTrackingRequestAuthenticated(RequestSet $requestSet)
+    {
+        $tokenAuth = $requestSet->getTokenAuth();
+        if (empty($tokenAuth)) {
+            return false;
+        }
+
+        Piwik::postEvent('Request.initAuthenticationObject');
+
+        /** @var \Piwik\Auth $auth */
+        $auth = StaticContainer::get('Piwik\Auth');
+        $auth->setTokenAuth($tokenAuth);
+        $auth->setLogin(null);
+        $auth->setPassword(null);
+        $auth->setPasswordHash(null);
+        $access = $auth->authenticate();
+
+        return $access->getCode() == AuthResult::SUCCESS_SUPERUSER_AUTH_CODE;
+    }
 }

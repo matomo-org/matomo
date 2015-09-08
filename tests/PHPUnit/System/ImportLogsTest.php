@@ -8,11 +8,14 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Access;
+use Piwik\Common;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
+use Piwik\Tracker\Request;
+use Piwik\Tracker\RequestSet;
 
 /**
  * Tests the log importer.
@@ -103,10 +106,15 @@ class ImportLogsTest extends SystemTestCase
     /**
      * NOTE: This test must be last since the new sites that get added are added in
      *       random order.
+     * NOTE: This test combines two tests in order to avoid executing the log importer another time.
+     *       If the log importer were refactored, the invalid requests test could be a unit test in
+     *       python.
      */
-    public function testDynamicResolverSitesCreated()
+    public function test_LogImporter_CreatesSitesWhenDynamicResolverUsed_AndReportsOnInvalidRequests()
     {
-        self::$fixture->logVisitsWithDynamicResolver();
+        $this->simulateInvalidTrackerRequest();
+
+        $output = self::$fixture->logVisitsWithDynamicResolver($maxPayloadSize = 3);
 
         // reload access so new sites are viewable
         Access::getInstance()->setSuperUserAccess(true);
@@ -120,6 +128,10 @@ class ImportLogsTest extends SystemTestCase
 
         $whateverDotCom = API::getInstance()->getSitesIdFromSiteUrl('http://whatever.com');
         $this->assertEquals(1, count($whateverDotCom));
+
+        // make sure invalid requests are reported correctly
+        $this->assertContains('The Piwik tracker identified 2 invalid requests on lines: 10, 11', $output);
+        $this->assertContains("The following lines were not tracked by Piwik, either due to a malformed tracker request or error in the tracker:\n\n10, 11", $output);
     }
 
     public function test_LogImporter_RetriesWhenServerFails()
@@ -163,23 +175,53 @@ class ImportLogsTest extends SystemTestCase
     {
         $testingEnvironment = new TestingEnvironmentVariables();
         $testingEnvironment->_triggerTrackerFailure = null;
+        $testingEnvironment->_triggerInvalidRequests = null;
         $testingEnvironment->save();
+    }
+
+    private function simulateInvalidTrackerRequest()
+    {
+        $testEnvironment = new TestingEnvironmentVariables();
+        $testEnvironment->_triggerInvalidRequests = true;
+        $testEnvironment->save();
     }
 
     public static function provideContainerConfigBeforeClass()
     {
         $result = array();
+        $observers = array();
 
         $testingEnvironment = new TestingEnvironmentVariables();
         if ($testingEnvironment->_triggerTrackerFailure) {
-            $result['observers.global'] = \DI\add(array(
-                array('Tracker.newHandler', function () {
-                    @http_response_code(500);
+            $observers[] = array('Tracker.newHandler', function () {
+                @http_response_code(500);
 
-                    throw new \Exception("injected exception");
-                })
-            ));
+                throw new \Exception("injected exception");
+            });
         }
+
+        if ($testingEnvironment->_triggerInvalidRequests) {
+            // we trigger an invalid request by checking for triggerInvalid=1 in a request, and if found replacing the
+            // request w/ a request that has an nonexistent idsite
+            $observers[] = array('Tracker.initRequestSet', function (RequestSet $requestSet) {
+                $requests = $requestSet->getRequests();
+                foreach ($requests as $index => $request) {
+                    $url = $request->getParam('url');
+                    if (strpos($url, 'triggerInvalid=1') !== false) {
+                        $newParams = $request->getParams();
+                        $newParams['idsite'] = 1000;
+
+                        $requests[$index] = new Request($newParams);
+                    }
+                }
+                $requestSet->setRequests($requests);
+            });
+        }
+
+        if (!empty($observers)) {
+            $result['observers.global'] = \DI\add($observers);
+        }
+
         return $result;
     }
 }

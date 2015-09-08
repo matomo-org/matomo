@@ -80,9 +80,9 @@ class BulkTrackingTestCase extends IntegrationTestCase
         return $requestSet;
     }
 
-    protected function getDummyRequest($token = null)
+    protected function getDummyRequest($token = null, $idSites = array(1, 2))
     {
-        $params = array(array('idsite' => '1', 'rec' => '1'), array('idsite' => '2', 'rec' => '1'));
+        $params = array(array('idsite' => $idSites[0], 'rec' => '1'), array('idsite' => $idSites[1], 'rec' => '1'));
         $params = array('requests' => $params);
 
         if (!is_null($token)) {
