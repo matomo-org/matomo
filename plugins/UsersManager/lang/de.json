@@ -60,7 +60,7 @@
         "TypeYourPasswordAgain": "Geben Sie Ihr Passwort nochmals ein.",
         "User": "Benutzer",
         "UsersManagement": "Benutzerverwaltung",
-        "UsersManagementMainDescription": "Neue Benutzer erstellen oder bereits existierende Benutzer aktualisieren. Die Berechtigungen können dann oben gesetzt werden.",
+        "UsersManagementMainDescription": "Erstellen Sie neue Benutzer oder aktualisieren Sie bereits existierende Benutzer. Die Berechtigungen können dann oben gesetzt werden.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Wenn Benutzer nicht angemeldet sind und Piwik besuchen, sollten sie Zugriff haben auf",
         "YourUsernameCannotBeChanged": "Ihr Benutzername kann nicht geändert werden.",
         "YourVisitsAreIgnoredOnDomain": "%sIhre Besuche auf %s werden von Piwik ignoriert %s (das Piwik-Cookie zum Ignorieren von Besuchen wurde in Ihrem Browser gefunden).",

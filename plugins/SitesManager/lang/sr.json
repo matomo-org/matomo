@@ -1,6 +1,7 @@
 {
     "SitesManager": {
         "AddSite": "Dodavanje novog sajta",
+        "AddMeasurable": "Dodavanje novog parametra za merenje",
         "AdvancedTimezoneSupportNotFound": "Napredna podrška za vremenske zone nije pronađena u vašoj PHP instalaciji (podržana u PHP>=5.2). Kako bilo, još uvek možete ručno izabrati UTC pomeraj.",
         "AliasUrlHelp": "Savetuje se ali nije neophodno da navedete više adresa, po jednu u svakoj liniji, koje korisnici koriste kako bi pristupili ovom sajtu. Alias adrese se neće pojaviti u izveštaju Reference > Sajtovi. Imajte na umu da nije neophodno navesti adrese sa i bez 'www' zato što Piwik automatski vodi računa o obe.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Promena vremenske zone će uticati samo na potonje podatke i neće se primenjivati retroaktivno.",
@@ -73,7 +74,11 @@
         "TrackingTags": "Kod za praćenje za %s",
         "Urls": "Adresa",
         "UTCTimeIs": "UTC vreme je %s.",
+        "OnlyMatchedUrlsAllowed": "Prati posete i akcije samo kada URL akcije počinje sa nekom od sledećih adresa.",
+        "OnlyMatchedUrlsAllowedHelp": "Ukoliko uključite ovu opciju, Pivik će pratiti samo akcije koje imaju neke veze sa adresama vašeg sajta. Na taj način ćete sprečiti spemovanje vaše analitike adresama drugih sajtova.",
         "WebsitesManagement": "Upravljanje sajtovima",
+        "XManagement": "Upravljanje sa %s",
+        "ChooseMeasurableTypeHeadline": "Šta biste voleli da merite?",
         "YouCurrentlyHaveAccessToNWebsites": "Broj sajtova na koje trenutno imate pristup: %s",
         "YourCurrentIpAddressIs": "Vaša trenutna IP adresa je %s"
     }

@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "Pratite događaje i dobijajte izveštaje o aktivnostima vaših posetilaca.",
         "AvgEventValue": "Prosečna vrednost događaja je: %s",
         "AvgValue": "Prosečna vrednost",
         "AvgValueDocumentation": "Prosek svih vrednosti ovog događaja",

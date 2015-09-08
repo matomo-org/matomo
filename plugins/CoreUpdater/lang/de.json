@@ -59,7 +59,7 @@
         "UpdateUsingHttpsFailedHelp": "Warum hat das nicht funktioniert? Der Download der aktuellen Piwik Version (über eine sichere HTTPS Verbindung) kann aus verschiedenen Gründen misslingen, zum Beispiel wegen einem Netzwerkfehler, langsamer Internetverbindung oder falscher Systemkonfiguration. Beachten Sie, dass Ihr Server auch Ziel einer Man-in-the-Middle Attacke sein könnte und jemand versucht, das Update mit einer schadhaften Version von Piwik zu ersetzen.",
         "UpdateUsingHttpsFailedHelpWhatToDo": "Es ist empfohlen den Download erneut mit einer sicheren HTTPS-Verbindung zu versuchen, da dies MITM-Attacken verhindert.",
         "UsingHttps": "die sichere HTTPS Verbindung nützen (empfohlen)",
-        "UsingHttp": "die nicht sichere HTTP Verbindung nützen",
+        "UsingHttp": "die nicht sichere HTTP-Verbindung verwenden",
         "UpgradeComplete": "Aktualisierung abgeschlossen!",
         "UpgradePiwik": "Piwik aktualisieren",
         "VerifyingUnpackedFiles": "Die entpackten Dateien werden überprüft",

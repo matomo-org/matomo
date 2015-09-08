@@ -56,6 +56,8 @@
         "CloudHosting": "Hostování v Cloudu",
         "Updating": "Aktualizuji",
         "UpdateUsingHttpsFailed": "Stažení nejnovější verze Piwik pomocí zabezpečeného HTTPS připojení se nezdařilo kvůli následující chybě:",
+        "UpdateUsingHttpsFailedHelp": "Proč to selhalo? Stažení poslední verze Piwiku přes bezpečné HTTPS spojení mohlo selhat z mnoha důvodů, například kvůli chybě sítě, pomalému připojení, nebo špatné systémové konfiguraci. Mějte na vědomí, že to může rovněž znamenat, že váš server je cílem MITM útoku a někdo se pokouší podvrhnout aktualizaci škodlivou verzí Piwiku.",
+        "UpdateUsingHttpsFailedHelpWhatToDo": "Doporučuje se zkusit stažení pomocí zabezpečeného HTTPS spojení, protože brání MITM útokům.",
         "UsingHttps": "za použití zabezpečeného HTTPS připojení (doporučeno)",
         "UsingHttp": "za použití nezabezpečeného HTTP připojení",
         "UpgradeComplete": "Aktualizace je kompletní!",

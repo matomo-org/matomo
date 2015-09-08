@@ -87,6 +87,7 @@
         "YouAreOptedIn": "Aktuálně nejste vyloučen.",
         "YouAreOptedOut": "Aktuálně jste vyloučen.",
         "YouMayOptOut": "Zde se můžete rozhodnout, zda se smí ve Vašem prohlížeči ukládat jedinečná analytická data “ Cookies” , a zda umožníte provozovateli webové stránky shromažďovat a analyzovat různé statistické údaje.",
-        "YouMayOptOutBis": "Pokud jste se rozhodli že ne, klikněte na přiložený odkaz pro uložení deaktivačního Cookie ve Vašem prohlížeči."
+        "YouMayOptOutBis": "Pokud jste se rozhodli že ne, klikněte na přiložený odkaz pro uložení deaktivačního Cookie ve Vašem prohlížeči.",
+        "OptingYouOut": "Vylučování, prosím čekejte..."
     }
 }

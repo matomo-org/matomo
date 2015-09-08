@@ -30,6 +30,7 @@
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth verwacht een MD5-hash wachtwoord (32 tekens lange reeks). Vraag de md5()functie op het wachtwoord op alvorens deze methode aan te roepen.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Het verwijderen van de Super User rechten van gebruiker '%s' is niet toegestaan.",
         "ExceptionUserDoesNotExist": "Gebruiker '%s' bestaat niet.",
+        "ExceptionYouMustGrantSuperUserAccessFirst": "Er moet minimaal één gebruiker zijn met Super User rechten. Geef eerst een gebruiker Super User rechten.",
         "ExcludeVisitsViaCookie": "Sluit uw bezoeken uit met een cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Voor anonieme gebruikers, Standaard rapport datum bij laden pagina.",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Als u het wachtwoord wilt wijzigen, geef dan een nieuwe op. Laat het anders leeg.",

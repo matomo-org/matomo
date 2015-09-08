@@ -1,5 +1,6 @@
 {
     "LeftMenu": {
+        "PluginDescription": "Postavi meni za konzolu na levu stranu.",
         "SettingsIntroduction": "Dodatak za levi meni će pomeriti meni za izveštaje sa vrha na levu stranu. Ovo je praktično od velikih monitora.",
         "GlobalSettingTitle": "Levi meni je podrazumevano uključen",
         "GlobalSettingDescription": "Postavljanje podrazumevanih vrednosti za sve korisnike.",
