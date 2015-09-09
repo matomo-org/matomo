@@ -56,7 +56,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
  *
  *     class MyPlugin extends Plugin
  *     {
- *         public function getListHooksRegistered()
+ *         public function registerEvents()
  *         {
  *             return array(
  *                 'API.getReportMetadata' => 'getReportMetadata',
@@ -192,7 +192,7 @@ class Plugin
     }
 
     /**
-     * Returns a list of hooks with associated event observers.
+     * Returns a list of events with associated event observers.
      *
      * Derived classes should use this method to associate callbacks with events.
      *
@@ -209,10 +209,20 @@ class Plugin
      *                                                      'before'   => true // execute before callbacks w/o ordering
      *                                                  )
      *                   )
+     * @since 2.15.0
+     */
+    public function registerEvents()
+    {
+        return array();
+    }
+
+    /**
+     * @deprecated since 2.15.0 use {@link registerEvents()} instead.
+     * @return array
      */
     public function getListHooksRegistered()
     {
-        return array();
+        return $this->registerEvents();
     }
 
     /**

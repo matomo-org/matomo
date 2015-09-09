@@ -18,9 +18,9 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 class DevicesDetection extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'Live.getAllVisitorDetails' => 'extendVisitorDetails'

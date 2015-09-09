@@ -26,9 +26,9 @@ use Piwik\Version;
 class CoreUpdater extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'Request.dispatchCoreAndPluginUpdatesScreen' => 'dispatch',

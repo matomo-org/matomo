@@ -383,7 +383,6 @@ class Visitor implements VisitorInterface
         }
 
         $actions = array_merge($actionDetails, $goalDetails, $ecommerceDetails);
-
         usort($actions, array('static', 'sortByServerTime'));
 
         foreach ($actions as &$action) {

@@ -11,7 +11,7 @@ namespace Piwik\Plugins\LeftMenu;
 
 class LeftMenu extends \Piwik\Plugin
 {
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getStylesheetFiles' => array('function' => 'getStylesheetFiles', 'after' => true),

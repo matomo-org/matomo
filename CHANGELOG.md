@@ -10,6 +10,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Deprecations
 * The API method `SitesManager.getSitesIdWithVisits` has been deprecated and will be removed in Piwik 3.0
+* The API method `\Piwik\Plugin::getListHooksRegistered()` has been deprecated and will be removed in Piwik 3.0. Use `\Piwik\Plugin::registerEvents()` instead.
 * The following events have been deprecated and will be removed in Piwik 3.0. Use [dimensions](http://developer.piwik.org/guides/dimensions) instead.
  * `Tracker.existingVisitInformation`
  * `Tracker.getVisitFieldsToPersist`
@@ -18,6 +19,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
  * `Tracker.recordAction`
  * `Tracker.recordEcommerceGoal`
  * `Tracker.recordStandardGoals`
+
 
 ### New APIs
 

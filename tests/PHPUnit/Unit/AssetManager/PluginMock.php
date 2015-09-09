@@ -45,7 +45,7 @@ class PluginMock extends Plugin
         $this->pluginName = $name;
     }
 
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',

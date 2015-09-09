@@ -23,9 +23,9 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
 class Referrers extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'Insights.addReportToOverview'      => 'addReportToInsightsOverview',
