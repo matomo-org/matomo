@@ -77,7 +77,8 @@ menu.prototype =
                     continue;
                 }
 
-                if (url.indexOf(key + '=' + params[key]) === -1) {
+                var actual = broadcast.getValueFromHash(key, url);
+                if (actual != params[key]) {
                     return false;
                 }
             }
