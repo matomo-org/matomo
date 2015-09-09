@@ -140,7 +140,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         $diConfigs = array($testVarDefinitionSource);
         if ($this->vars->testCaseClass) {
             $testCaseClass = $this->vars->testCaseClass;
-            if (class_exists($testCaseClass)) {
+            if ($this->classExists($testCaseClass)) {
                 $testCase = new $testCaseClass();
 
                 // Apply DI config from the fixture
@@ -159,7 +159,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         } else if ($this->vars->fixtureClass) {
             $fixtureClass = $this->vars->fixtureClass;
 
-            if (class_exists($fixtureClass)) {
+            if ($this->classExists($fixtureClass)) {
                 $fixture = new $fixtureClass();
 
                 if (method_exists($fixture, 'provideContainerConfig')) {
@@ -221,5 +221,17 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         }
 
         return $plugins;
+    }
+
+    private function classExists($klass)
+    {
+        if (class_exists($klass)) {
+            return true;
+        } else if (empty($klass)) {
+            return false;
+        } else {
+            throw new \Exception("TestingEnvironmentManipulator: Autoloader cannot find class '$klass'. "
+                . "Is the namespace correct? Is the file in the correct folder?");
+        }
     }
 }
