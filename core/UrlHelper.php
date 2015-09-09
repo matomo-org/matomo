@@ -107,8 +107,8 @@ class UrlHelper
      */
     public static function isLookLikeUrl($url)
     {
-        return preg_match('~^((ftp|news|http|https)?:)?//(.*)$~D', $url, $matches) !== 0
-        && strlen($matches[3]) > 0;
+        return preg_match('~^(([[:alpha:]][[:alnum:]+.-]*)?:)?//(.*)$~D', $url, $matches) !== 0
+            && strlen($matches[3]) > 0;
     }
 
     /**
