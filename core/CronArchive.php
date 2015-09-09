@@ -450,7 +450,7 @@ class CronArchive
         $this->logFatalError($summary);
 
         /**
-         * This event is triggered after archivization.
+         * This event is triggered after archiving.
          *
          * @param CronArchive $this
          */
