@@ -66,7 +66,7 @@ abstract class Base extends VisitDimension
      * @param int $idSite
      * @return array
      */
-    protected function getReferrerInformation($referrerUrl, $currentUrl, $idSite)
+    protected function getReferrerInformation($referrerUrl, $currentUrl, $idSite, Request $request)
     {
         $cacheKey = $referrerUrl . $currentUrl . $idSite;
 
@@ -98,7 +98,7 @@ abstract class Base extends VisitDimension
             $this->referrerHost = $this->referrerUrlParse['host'];
         }
 
-        $referrerDetected = $this->detectReferrerCampaign();
+        $referrerDetected = $this->detectReferrerCampaign($request);
 
         if (!$referrerDetected) {
             if ($this->detectReferrerDirectEntry()
@@ -130,7 +130,7 @@ abstract class Base extends VisitDimension
         $referrerUrl = $request->getParam('urlref');
         $currentUrl  = $request->getParam('url');
 
-        return $this->getReferrerInformation($referrerUrl, $currentUrl, $request->getIdSite());
+        return $this->getReferrerInformation($referrerUrl, $currentUrl, $request->getIdSite(), $request);
     }
 
     /**
@@ -222,6 +222,25 @@ abstract class Base extends VisitDimension
         }
     }
 
+
+    protected function detectReferrerCampaignFromTrackerParams(Request $request)
+    {
+        $campaignName = $this->getReferrerCampaignQueryParam($request, '_rcn');
+        if (empty($campaignName)) {
+            return false;
+        }
+
+        $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_CAMPAIGN;
+        $this->nameReferrerAnalyzed = $campaignName;
+
+        $keyword = $this->getReferrerCampaignQueryParam($request, '_rck');
+        if (!empty($keyword)) {
+            $this->keywordReferrerAnalyzed = $keyword;
+        }
+
+        return true;
+    }
+
     /**
      * We have previously tried to detect the campaign variables in the URL
      * so at this stage, if the referrer host is the current host,
@@ -301,9 +320,13 @@ abstract class Base extends VisitDimension
     /**
      * @return bool
      */
-    protected function detectReferrerCampaign()
+    protected function detectReferrerCampaign(Request $request)
     {
-        $this->detectReferrerCampaignFromLandingUrl();
+        $isCampaign = $this->detectReferrerCampaignFromTrackerParams($request);
+        if (!$isCampaign) {
+            $this->detectReferrerCampaignFromLandingUrl();
+        }
+
         $this->detectCampaignKeywordFromReferrerUrl();
 
         if ($this->typeReferrerAnalyzed != Common::REFERRER_TYPE_CAMPAIGN) {
@@ -329,8 +352,8 @@ abstract class Base extends VisitDimension
     {
         $referrerTimestamp       = $request->getParam('_refts');
         $referrerUrl             = $request->getParam('_ref');
-        $referrerCampaignName    = trim(urldecode($request->getParam('_rcn')));
-        $referrerCampaignKeyword = trim(urldecode($request->getParam('_rck')));
+        $referrerCampaignName    = $this->getReferrerCampaignQueryParam($request, '_rcn');
+        $referrerCampaignKeyword = $this->getReferrerCampaignQueryParam($request, '_rck');
 
         // Attributing the correct Referrer to this conversion.
         // Priority order is as follows:
@@ -365,7 +388,7 @@ abstract class Base extends VisitDimension
         elseif (!empty($referrerUrl)) {
 
             $idSite   = $request->getIdSite();
-            $referrer = $this->getReferrerInformation($referrerUrl, $currentUrl = '', $idSite);
+            $referrer = $this->getReferrerInformation($referrerUrl, $currentUrl = '', $idSite, $request);
 
             // if the parsed referrer is interesting enough, ie. website or search engine
             if (in_array($referrer['referer_type'], array(Common::REFERRER_TYPE_SEARCH_ENGINE, Common::REFERRER_TYPE_WEBSITE))) {
@@ -431,5 +454,10 @@ abstract class Base extends VisitDimension
     protected function doesLastActionHaveSameReferrer(Visitor $visitor, $referrerType)
     {
         return $visitor->getVisitorColumn('referer_type') == $referrerType;
+    }
+
+    protected function getReferrerCampaignQueryParam(Request $request, $paramName)
+    {
+        return trim(urldecode($request->getParam($paramName)));
     }
 }

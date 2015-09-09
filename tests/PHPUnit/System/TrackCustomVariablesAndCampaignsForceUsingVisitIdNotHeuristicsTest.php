@@ -19,6 +19,9 @@ use Piwik\Tests\Fixtures\SomeVisitsCustomVariablesCampaignsNotHeuristics;
  */
 class TrackCustomVariablesAndCampaignsForceUsingVisitIdNotHeuristicsTest extends SystemTestCase
 {
+    /**
+     * @var SomeVisitsCustomVariablesCampaignsNotHeuristics
+     */
     public static $fixture = null; // initialized below class definition
 
     /**
