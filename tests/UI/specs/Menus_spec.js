@@ -23,13 +23,13 @@ describe("Menus", function () {
 
     it('should change the menu when a upper menu item is clicked in the main menu', function (done) {
         expect.screenshot('mainmenu_upper_clicked').to.be.captureSelector('.Menu--dashboard,.nav_sep', function (page) {
-            page.click('#VisitsSummary>a');
+            page.click('.Menu-tabList > li:eq(1) > a');
         }, done);
     });
 
     it('should change the menu when a lower menu item is clicked in the main menu', function (done) {
         expect.screenshot('mainmenu_lower_clicked').to.be.captureSelector('.Menu--dashboard,.nav_sep', function (page) {
-            page.click('#Live_indexVisitorLog>a');
+            page.click('.Menu-tabList > li:eq(1) > ul > li:eq(1) > a');
         }, done);
     });
 
