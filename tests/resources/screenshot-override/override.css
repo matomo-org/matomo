@@ -1,5 +1,5 @@
-#header_message>.header_short {
-    display:none;
+#header_message>.title {
+    visibility: hidden;
 }
 
 .visitor-profile-widget-link>strong {

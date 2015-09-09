@@ -30,6 +30,7 @@ abstract class MenuAbstract extends Singleton
     protected $edits = array();
     protected $renames = array();
     protected $orderingApplied = false;
+    protected $menuIcons = array();
     protected static $menus = array();
 
     /**
@@ -46,6 +47,11 @@ abstract class MenuAbstract extends Singleton
         $this->applyRemoves();
         $this->applyOrdering();
         return $this->menu;
+    }
+
+    public function registerMenuIcon($menuName, $icon)
+    {
+        $this->menuIcons[$menuName] = $icon;
     }
 
     /**
@@ -164,6 +170,11 @@ abstract class MenuAbstract extends Singleton
             $this->menu[$menuName]['_order'] = $order;
             $this->menu[$menuName]['_name']  = $menuName;
             $this->menu[$menuName]['_tooltip'] = $tooltip;
+            if (!empty($this->menuIcons[$menuName])) {
+                $this->menu[$menuName]['_icon'] = $this->menuIcons[$menuName];
+            } else {
+                $this->menu[$menuName]['_icon'] = 'icon-arrow-right';
+            }
         }
         if (!empty($subMenuName)) {
             $this->menu[$menuName][$subMenuName]['_url'] = $url;

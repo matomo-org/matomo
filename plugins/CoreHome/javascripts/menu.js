@@ -16,46 +16,76 @@ menu.prototype =
 {
     resetTimer: null,
 
-    adaptSubMenuHeight: function() {
-        var subNavHeight = $('.sfHover > ul').outerHeight();
-        $('.nav_sep').height(subNavHeight);
-    },
-
-    overMainLI: function () {
-        var $this = $(this);
-        $this.siblings().removeClass('sfHover');
-        $this.addClass('sfHover');
-        menu.prototype.adaptSubMenuHeight();
-        clearTimeout(menu.prototype.resetTimer);
-    },
-
-    outMainLI: function () {
-        clearTimeout(menu.prototype.resetTimer);
-        menu.prototype.resetTimer = setTimeout(function() {
-            $('.Menu-tabList > .sfHover', this.menuNode).removeClass('sfHover');
-            $('.Menu-tabList > .sfActive', this.menuNode).addClass('sfHover');
-            menu.prototype.adaptSubMenuHeight();
-        }, 2000);
-    },
-
     onItemClick: function (e) {
         if (e.which === 2) {
             return;
         }
-        $('.Menu--dashboard').trigger('piwikSwitchPage', this);
-        broadcast.propagateAjax( $(this).attr('href').substr(1) );
-        return false;
+
+        $('#secondNavBar').trigger('piwikSwitchPage', this);
+        $('#secondNavBar').removeClass('open fadeInLeft');
+
+        if (!$('#content.admin').size()) {
+            broadcast.propagateAjax( $(this).attr('href').substr(1) );
+
+            return false;
+        }
+
+        var href = $(this).attr('href');
+        return !!href;
+    },
+
+    isAdmin: function () {
+      return !!$('#content.admin').size();
     },
 
     init: function () {
-        this.menuNode = $('.Menu--dashboard');
+        this.menuNode = $('#secondNavBar');
 
-        this.menuNode.find("li:has(ul),li#Searchmenu").hover(this.overMainLI, this.outMainLI);
-        this.menuNode.find("li:has(ul),li#Searchmenu").focusin(this.overMainLI);
+        // add id to all li menu to support menu identification.
+        // for all sub menu we want to have a unique id based on their module and action
+        // for main menu we want to add just the module as its id.
+        this.menuNode.find('li').each(function () {
+            var $this = $(this);
+            var link = $this.find('a');
 
-        this.menuNode.find('a.menuItem').click(this.onItemClick);
+            var main_menu = $this.parent().hasClass('navbar') ? true : false;
 
-        menu.prototype.adaptSubMenuHeight();
+            if (!link) {
+                return;
+            }
+
+            var href = link.attr('href');
+            if (!href) {
+                if (main_menu && !$this.find('li').length) {
+                    $this.hide(); // no link and no child menu items -> hide it
+                }
+                return;
+            }
+            var url = href.substr(1);
+
+            var module = broadcast.getValueFromUrl('module', url);
+            var action = broadcast.getValueFromUrl('action', url);
+
+            var moduleId = broadcast.getValueFromUrl("idGoal", url) || broadcast.getValueFromUrl("idDashboard", url);
+
+            if (main_menu) {
+                $this.attr({id: module});
+            }
+            // if there's a idGoal or idDashboard, use this in the ID
+            else if (moduleId != '') {
+                $(this).attr({id: module + '_' + action + '_' + moduleId});
+            }
+            else {
+                $(this).attr({id: module + '_' + action});
+            }
+        });
+
+        this.menuNode.find('a.item').click(this.onItemClick);
+
+        var self = this;
+        $('#header .toggle-second-menu').click(function () {
+            self.menuNode.toggleClass('open fadeInLeft');
+        });
     },
 
     activateMenu: function (module, action, params) {
@@ -63,13 +93,17 @@ menu.prototype =
         params.module = module;
         params.action = action;
 
-        this.menuNode.find('li').removeClass('sfHover').removeClass('sfActive');
+        this.menuNode.find('li').removeClass('sfActive');
+
+        var isAdmin = this.isAdmin();
+
         var $activeLink = this.menuNode.find('a').filter(function () {
             var url = $(this).attr('href');
             if (!url) {
                 return false;
             }
 
+            var found = false;
             for (var key in params) {
                 if (!params.hasOwnProperty(key)
                     || !params[key]
@@ -77,17 +111,27 @@ menu.prototype =
                     continue;
                 }
 
-                var actual = broadcast.getValueFromHash(key, url);
+                var actual;
+
+                if (isAdmin) {
+                    actual = broadcast.getValueFromUrl(key, url);
+                } else {
+                    actual = broadcast.getValueFromHash(key, url);
+                }
+
                 if (actual != params[key]) {
                     return false;
                 }
+
+                found = true;
+                // at least one param must match. Otherwise all menu items might be highlighted if params[key] = null;
             }
 
-            return true;
+            return found;
         });
 
-        $activeLink.closest('li').addClass('sfHover');
-        $activeLink.closest('li.menuTab').addClass('sfActive').addClass('sfHover');
+        $activeLink.closest('li').addClass('sfActive');
+        $activeLink.closest('li.menuTab').addClass('sfActive');
     },
 
     // getting the right li is a little tricky since goals uses idGoal, and overview is index.
@@ -108,7 +152,7 @@ menu.prototype =
 
     loadFirstSection: function () {
         if (broadcast.isHashExists() == false) {
-            $('li:first a:first', this.menuNode).click().addClass('sfHover').addClass('sfActive');
+            $('li:first a:first', this.menuNode).click().addClass('sfActive');
         }
     }
 };

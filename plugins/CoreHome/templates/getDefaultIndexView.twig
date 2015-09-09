@@ -1,14 +1,20 @@
 {% extends "dashboard.twig" %}
-{% block notification %}{% endblock %}
+{% import 'ajaxMacros.twig' as ajax %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+    {% include "@CoreHome/_periodSelect.twig" %}
+    {{ postEvent("Template.nextToCalendar") }}
+    {% render dashboardSettingsControl %}
+    {% include "@CoreHome/_headerMessage.twig" %}
+{% endblock %}
+
 {% block content %}
+    {{ ajax.requestErrorDiv(emailSuperUser|default('')) }}
+    {{ ajax.loadingDiv() }}
 
-{% include "@CoreHome/_siteSelectHeader.twig" %}
-
-{% if (menu is defined and menu) %}
-  {% include "@CoreHome/_menu.twig" %}
-{% endif %}
-
-{% include "@CoreHome/_indexContent.twig" %}
-
+    <div id="content" class="home">
+        {% if content %}{{ content }}{% endif %}
+    </div>
 {% endblock %}
 

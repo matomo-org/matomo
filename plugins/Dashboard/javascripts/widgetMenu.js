@@ -227,7 +227,12 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
 
                 if ($('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).length) {
                     var position = $('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).position().top -
-                        $('.' + settings.categorylistClass, widgetPreview).position().top;
+                        $('.' + settings.categorylistClass, widgetPreview).position().top +
+                        $('.dashboard-manager .addWidget').outerHeight();
+
+                    if (!$('#content.admin').length) {
+                        position += 10; // + padding defined in dashboard view
+                    }
 
                     $('.' + settings.widgetlistClass, widgetPreview).css('top', position);
                     $('.' + settings.widgetlistClass, widgetPreview).css('marginBottom', position);
@@ -281,6 +286,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 $('li:not(.' + settings.unavailableClass + ')', widgetList).on('click', function () {
                     if (!$('.widgetLoading', widgetPreview).length) {
                         settings.onSelect($(this).attr('uniqueid'));
+                        $(widgetPreview).closest('.dashboard-manager').removeClass('expanded');
                         if (settings.resetOnSelect) {
                             resetWidgetPreview(widgetPreview);
                         }
@@ -341,6 +347,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                     settings.onPreviewLoaded(widgetUniqueId, widgetElement);
                     $('.' + settings.widgetpreviewClass + ' .widgetTop', widgetPreview).on('click', function () {
                         settings.onSelect(widgetUniqueId);
+                        $(widgetPreview).closest('.dashboard-manager').removeClass('expanded');
                         if (settings.resetOnSelect) {
                             resetWidgetPreview(widgetPreview);
                         }

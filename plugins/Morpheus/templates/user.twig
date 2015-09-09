@@ -6,7 +6,7 @@
 
 {% block body %}
     {% if userIsAnonymous %}
-        {% set topMenuModule = 'Feedback' %}
+        {% set topMenuModule = 'ScheduledReports' %}
         {% set topMenuAction = 'index' %}
     {% else %}
         {% if currentModule != 'Feedback' %}
@@ -24,24 +24,33 @@
     {{ ajax.requestErrorDiv(emailSuperUser|default('')) }}
     {{ postEvent("Template.beforeContent", "user", currentModule) }}
 
-    <div id="container">
+    <div class="page">
 
         {% if showMenu is not defined or showMenu %}
-            {% include "@CoreHome/_userMenu.twig" %}
+            {% import '@CoreHome/_menu.twig' as menu %}
+            {{ menu.menu(userMenu, false, 'Menu--admin') }}
         {% endif %}
 
-        <div id="content" class="admin user">
+        <div class="pageWrap">
 
-            {% include "@CoreHome/_notifications.twig" %}
-
-            <div class="ui-confirm" id="alert">
-                <h2></h2>
-                <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
+            <div class="top_controls">
+                {% block topcontrols %}
+                {% endblock %}
             </div>
 
-            {% block content %}
-            {% endblock %}
+            <div id="content" class="admin user">
 
+                {% include "@CoreHome/_notifications.twig" %}
+
+                <div class="ui-confirm" id="alert">
+                    <h2></h2>
+                    <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
+                </div>
+
+                {% block content %}
+                {% endblock %}
+
+            </div>
         </div>
     </div>
 {% endblock %}

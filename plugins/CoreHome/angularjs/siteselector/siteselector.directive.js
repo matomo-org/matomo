@@ -26,9 +26,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikSiteselector', piwikSiteselector);
 
-    piwikSiteselector.$inject = ['$document', 'piwik', '$filter'];
+    piwikSiteselector.$inject = ['$document', 'piwik', '$filter', '$timeout'];
 
-    function piwikSiteselector($document, piwik, $filter){
+    function piwikSiteselector($document, piwik, $filter, $timeout){
         var defaults = {
             name: '',
             siteid: piwik.idSite,
@@ -84,6 +84,10 @@
 
                     scope.$watch('view.showSitesList', function (newValue) {
                         element.toggleClass('expanded', !! newValue);
+                    });
+
+                    $timeout(function () {
+                        initTopControls();
                     });
                 };
             }

@@ -27,24 +27,24 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         if (Plugin\Manager::getInstance()->isPluginActivated('Feedback')) {
-            $menu->addItem('General_Help', null, array('module' => 'Feedback', 'action' => 'index'));
+            $menu->addItem('icon-help', null, array('module' => 'Feedback', 'action' => 'index'), $order = 990, Piwik::translate('General_Help'));
         }
 
         if (Piwik::isUserIsAnonymous()) {
-            if (Plugin\Manager::getInstance()->isPluginActivated('Feedback')) {
-                $menu->addItem($login, null, array('module' => 'Feedback', 'action' => 'index'), 998);
+            if (Plugin\Manager::getInstance()->isPluginActivated('ScheduledReports')) {
+                $menu->addItem('icon-user', null, array('module' => 'ScheduledReports', 'action' => 'index'), 970, $login);
             } else {
-                $menu->addItem($login, null, array('module' => 'API', 'action' => 'listAllAPI'), 998);
+                $menu->addItem('icon-user', null, array('module' => 'API', 'action' => 'listAllAPI'), 970, $login);
             }
         } else {
-            $menu->addItem($login, null, array('module' => 'UsersManager', 'action' => 'userSettings'), 998);
+            $menu->addItem('icon-user', null, array('module' => 'UsersManager', 'action' => 'userSettings'), 970, $login);
         }
 
         $module = $this->getLoginModule();
         if (Piwik::isUserIsAnonymous()) {
-            $menu->addItem('Login_LogIn', null, array('module' => $module, 'action' => false), 999);
+            $menu->addItem('icon-sign-in', null, array('module' => $module, 'action' => false), 1000, Piwik::translate('Login_LogIn'));
         } else {
-            $menu->addItem('General_Logout', null, array('module' => $module, 'action' => 'logout', 'idSite' => null), 999);
+            $menu->addItem('icon-sign-out', null, array('module' => $module, 'action' => 'logout', 'idSite' => null), 1000, Piwik::translate('General_Logout'));
         }
     }
 

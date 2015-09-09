@@ -45,15 +45,8 @@ body {
 }
 
 #Dashboard > ul > li:hover,
-#Dashboard > ul > li:hover a,
-#Dashboard > ul > li.sfHover,
-#Dashboard > ul > li.sfHover a {
+#Dashboard > ul > li:hover a {
     color: #e87500;
-}
-
-#Dashboard > ul > li.sfHover,
-#Dashboard > ul > li.sfHover a {
-    font-weight: bold;
 }
 
 .top_controls > #Dashboard,

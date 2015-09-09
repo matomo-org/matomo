@@ -49,7 +49,7 @@ class Menu extends \Piwik\Plugin\Menu
 
         if (Piwik::hasUserSuperUserAccess() && CorePluginsAdmin::isMarketplaceEnabled()) {
             $menu->addManageItem('CorePluginsAdmin_Marketplace',
-                $this->urlForAction('browsePlugins', array('activated' => '')),
+                $this->urlForAction('marketplace', array('activated' => '', 'mode' => 'admin')),
                 $order = 12);
         }
     }
@@ -66,7 +66,7 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if ($this->isAllowedToSeeMarketPlace()) {
             $menu->addPlatformItem('CorePluginsAdmin_Marketplace',
-                                   $this->urlForAction('userBrowsePlugins', array('activated' => '')),
+                                   $this->urlForAction('marketplace', array('activated' => '', 'mode' => 'user')),
                                    $order = 5);
         }
     }
