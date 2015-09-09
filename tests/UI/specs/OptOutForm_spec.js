@@ -53,6 +53,7 @@ describe("OptOutForm", function () {
             page.evaluate(function () {
                 $('iframe#optOutIframe').contents().find('input#trackVisits').click();
             });
+            page.wait(1000); // wait for iframe to reload
             page.load(siteUrl); // reload to check that cookie was set
         }, done);
     });
