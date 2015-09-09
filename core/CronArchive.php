@@ -277,6 +277,13 @@ class CronArchive
 
     public function init()
     {
+        /**
+         * This event is triggered during initializing archiving.
+         *
+         * @param CronArchive $this
+         */
+        Piwik::postEvent('CoreArchive.run.start', array($this));
+
         SettingsServer::setMaxExecutionTime(0);
 
         $this->archivingStartingTime = time();
@@ -329,8 +336,6 @@ class CronArchive
 
         $this->logSection("START");
         $this->logger->info("Starting Piwik reports archiving...");
-
-        Piwik::postEvent('CronArchive.start', array($timer));
 
         do {
             $idSite = $this->websites->getNextSiteId();
@@ -421,8 +426,6 @@ class CronArchive
                 : (count($this->errors) . " errors."))
         );
 
-        Piwik::postEvent('CronArchive.end', array($timer));
-
         $this->logger->info($timer->__toString());
     }
 
@@ -445,6 +448,13 @@ class CronArchive
 
         $summary = count($this->errors) . " total errors during this script execution, please investigate and try and fix these errors.";
         $this->logFatalError($summary);
+
+        /**
+         * This event is triggered after archivization.
+         *
+         * @param CronArchive $this
+         */
+        Piwik::postEvent('CoreArchive.run.finish', array($this));
     }
 
     public function logFatalError($m)
