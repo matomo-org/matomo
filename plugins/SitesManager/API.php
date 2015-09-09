@@ -1483,7 +1483,10 @@ class API extends \Piwik\Plugin\API
 
         foreach ($urls as &$url) {
             $url = $this->removeTrailingSlash($url);
-            if (strpos($url, 'http') !== 0) {
+            $scheme = parse_url($url, PHP_URL_SCHEME);
+            if (empty($scheme)
+                && strpos($url, '://') === false
+            ) {
                 $url = 'http://' . $url;
             }
             $url = trim($url);
