@@ -77,7 +77,7 @@
         "StableReleases": "Sollte Piwik eine wichtige Komponente Ihres Unternehmens sein, empfehlen wir Ihnen den letzen stabilen Release zu verwenden. Sollten Sie die letze Beta Version verwenden und einen Fehler finden oder einen Vorschlag haben, %slesen Sie bitte hier%s.",
         "SystemPluginSettings": "Globale Plugin Einstellungen",
         "TrackAGoal": "Ein Ziel aufzeichnen",
-        "TrackingCode": "Tracking Code",
+        "TrackingCode": "Tracking-Code",
         "TrustedHostConfirm": "Wollen Sie wirklich den Vertrauten Piwik Hostnamen ändern?",
         "TrustedHostSettings": "Vertrauter Piwik Hostname",
         "UpdateSettings": "Aktualisierungseinstellungen",

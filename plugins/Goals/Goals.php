@@ -68,9 +68,9 @@ class Goals extends \Piwik\Plugin
     }
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         $hooks = array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',

@@ -4,6 +4,7 @@
         "ColumnCustomVariableValue": "Hodnota vlastní proměnné",
         "CustomVariables": "Vlastní proměnné",
         "CustomVariablesReportDocumentation": "Toto hlášení obsahuje informace o vašich vlastních proměnných. Klikněte na proměnnou pro zobrazení distribuce hodnot. %s Pro více informací si přečtěte %sdokumentaci o vlastních proměnných na piwik.org%s",
+        "PluginDescription": "Vlastní proměnné jsou páry (jméno, hodnota), které můžete nastavit návštěvníkovi, nebo libovolné akci, pomocí javascriptového API. Piwik potom ohlásí, kolik návštěv, stránek, konverzí bylo pro každé z těchto jmen a hodnot. Prohlédněte si detailně tyto proměnné pro každého uživatele a akci v záznamu návštěvníků.<br \/>Vyžadováno, pokud chcete použít <a href=\"http:\/\/piwik.org\/docs\/ecommerce-analytics\/\">analýzu E-obchodu<\/a>!",
         "ScopePage": "rozsah stránky",
         "ScopeVisit": "rozsah návštěvy"
     }

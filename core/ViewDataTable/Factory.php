@@ -149,10 +149,6 @@ class Factory
             return self::createViewDataTableInstance($visualizations[$type], $controllerAction, $apiAction, $params);
         }
 
-        if (class_exists($type)) {
-            return self::createViewDataTableInstance($type, $controllerAction, $apiAction, $params);
-        }
-
         if (array_key_exists($defaultType, $visualizations)) {
             return self::createViewDataTableInstance($visualizations[$defaultType], $controllerAction, $apiAction, $params);
         }

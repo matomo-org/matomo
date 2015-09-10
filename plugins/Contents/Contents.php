@@ -11,9 +11,9 @@ namespace Piwik\Plugins\Contents;
 class Contents extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',

@@ -26,9 +26,9 @@ class SitesManager extends \Piwik\Plugin
     const KEEP_URL_FRAGMENT_NO = 2;
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',

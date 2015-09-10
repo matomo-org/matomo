@@ -7,7 +7,7 @@
  *
  */
 
-namespace Piwik\Plugins\Live\VisitorLog;
+namespace Piwik\Plugins\Live\Visualizations\VisitorLog;
 
 use Piwik\ViewDataTable\Config as VisualizationConfig;
 

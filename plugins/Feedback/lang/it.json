@@ -1,9 +1,9 @@
 {
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Hai un bug da segnalare o una richiesta di funzionalità?",
-        "HowToCreateTicket": "Si prega di leggere le raccomandazioni per scrivere un buon %1$srapporto bug%2$s o una %3$srichiesta di funzionalità%4$s. Poi registrati o accedi al nostro %5$stracker dei problemi%6$s e crea un %7$snuovo problema%8$s.",
+        "HowToCreateTicket": "Si prega di leggere le raccomandazioni per scrivere un buon %1$srapporto bug%2$s o una %3$srichiesta di funzionalità%4$s. Poi registrati o accedi al nostro %5$stracker dei problemi%6$s e segnala un %7$snuovo problema%8$s.",
         "IWantTo": "Vorrei:",
-        "LearnWaysToParticipate": "Impara tutti i modi attraverso i quali puoi %s partecipare %s",
+        "LearnWaysToParticipate": "Impara tutti i modi attraverso i quali puoi %s partecipare%s",
         "ManuallySendEmailTo": "Perfavore invia manualmente il messaggio a",
         "PluginDescription": "Invia un Feedback al Team di Piwik. Condividi idee e suggerimenti per rendere Piwik la migliore piattaforma al mondo di statistiche web!",
         "PrivacyClaim": "Piwik rispetta la tua %1$sprivacy%2$s e ti dà il pieno controllo sui tuoi dati.",
@@ -29,6 +29,6 @@
         "PiwikProCustomDevelopment": "Sviluppo personalizzato su commissione",
         "PiwikProAnalystConsulting": "Consulenza di analisti",
         "ContactUs": "Contattaci",
-        "VisitTheForums": "Visita il %s Forum %s"
+        "VisitTheForums": "Visita i %s Forum%s e ottieni aiuto dalla comunità degli utenti Piwik"
     }
 }

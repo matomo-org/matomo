@@ -18,9 +18,9 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 class DevicePlugins extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',

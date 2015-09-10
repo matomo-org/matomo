@@ -10,19 +10,21 @@
     {% endif %}
 
     <script>
-        function submitForm(event, form, loadInNewWindow) {
-            event.preventDefault();
-
-            if (loadInNewWindow) {
-                var newWindow = window.open(form.action + '&time=' + Date.now());
-
-                // when the new window loads, reload this page
-                newWindow.addEventListener('unload', function () {
-                    window.location.reload();
-                }, false);
-            } else {
-                form.submit();
+        function submitForm(e, form) {
+            if (e.preventDefault) { // IE8 and below do not support preventDefault
+                e.preventDefault();
             }
+
+            var now = Date.now ? Date.now() : (+(new Date())), // Date.now does not exist in < IE8
+                newWindow = window.open(form.action + '&time=' + now);
+
+            setInterval(function () {
+                if (newWindow.closed) {
+                    window.location.reload();
+                }
+            }, 1000);
+
+            return false;
         }
     </script>
 
@@ -49,7 +51,8 @@
      # otherwise we try to close the window immediately.
      #}
     {% if showConfirmOnly %}
-    <p>{{ 'CoreAdminHome_OptingYouOut'|translate }}</p><script>window.close();</script>
+    <p>{{ 'CoreAdminHome_OptingYouOut'|translate }}</p>
+    <script>window.close();</script>
     <noscript>
     {% endif %}
 
@@ -68,11 +71,10 @@
     <br/><br/>
 
     {% if not showConfirmOnly %}
-    {% set loadInNewWindow = isSafari and trackVisits %}
-    <form method="post" action="?module=CoreAdminHome&amp;action=optOut{% if language %}&amp;language={{ language }}{% endif %}{% if loadInNewWindow %}&amp;setCookieInNewWindow=1{% endif %}" {% if loadInNewWindow %}target="_blank"{% endif %}>
+    <form method="post" action="?module=CoreAdminHome&amp;action=optOut{% if language %}&amp;language={{ language }}{% endif %}&amp;setCookieInNewWindow=1" target="_blank">
         <input type="hidden" name="nonce" value="{{ nonce }}" />
         <input type="hidden" name="fuzz" value="{{ "now"|date }}" />
-        <input onclick="submitForm(event, this.form, {{ loadInNewWindow|default(0) }});" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
+        <input onclick="submitForm(event, this.form);" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
         <label for="trackVisits"><strong>
         {% if trackVisits %}
             {{ 'CoreAdminHome_YouAreOptedIn'|translate }} {{ 'CoreAdminHome_ClickHereToOptOut'|translate }}

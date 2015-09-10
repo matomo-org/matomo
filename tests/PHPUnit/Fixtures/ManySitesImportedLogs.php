@@ -7,13 +7,11 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\Access;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\OverrideLogin;
 
 /**
  * Imports visits from several log files using the python log importer.
@@ -69,6 +67,11 @@ class ManySitesImportedLogs extends Fixture
             self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
                 $siteUrl = 'http://example-site-two.com');
         }
+
+        if (!self::siteCreated($idSite = 3)) {
+            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test three',
+                $siteUrl = 'http://example-site-three.com');
+        }
     }
 
     const SEGMENT_PRE_ARCHIVED = 'visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50';
@@ -110,6 +113,7 @@ class ManySitesImportedLogs extends Fixture
         $this->logVisitsWithStaticResolver();
         $this->logVisitsWithAllEnabled();
         $this->replayLogFile();
+        $this->replayLogFile(array('--idsite' => 3));
         $this->logCustomFormat();
 
         if ($this->includeIisWithCustom) {
@@ -188,7 +192,7 @@ class ManySitesImportedLogs extends Fixture
      * Logs a couple visits for the site we created and two new sites that do not
      * exist yet. Visits are from Aug 12, 13 & 14 of 2012.
      */
-    public function logVisitsWithDynamicResolver()
+    public function logVisitsWithDynamicResolver($maxPayloadSize = 1)
     {
         $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_dynamic.log'; # log file
 
@@ -197,8 +201,8 @@ class ManySitesImportedLogs extends Fixture
         $opts = array('--add-sites-new-hosts'       => false,
                       '--enable-testmode'           => false,
                       '--recorders'                 => '1',
-                      '--recorder-max-payload-size' => '1');
-        self::executeLogImporter($logFile, $opts);
+                      '--recorder-max-payload-size' => $maxPayloadSize);
+        return implode("\n", self::executeLogImporter($logFile, $opts));
     }
 
     /**
@@ -226,8 +230,10 @@ class ManySitesImportedLogs extends Fixture
     /**
      * Logs a couple visit using log entries that are tracking requests to a piwik.php file.
      * Adds two visits to idSite=1 and two to non-existant sites.
+     *
+     * @param array $additonalOptions
      */
-    private function replayLogFile()
+    private function replayLogFile($additonalOptions = array())
     {
         $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_replay.log';
 
@@ -236,6 +242,8 @@ class ManySitesImportedLogs extends Fixture
                       '--recorders'                 => '1',
                       '--recorder-max-payload-size' => '1',
                       '--replay-tracking'           => false);
+
+        $opts = array_merge($opts, $additonalOptions);
 
         self::executeLogImporter($logFile, $opts);
     }

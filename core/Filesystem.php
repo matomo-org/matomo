@@ -135,7 +135,7 @@ class Filesystem
 
             $output = @shell_exec($command);
             if ($output) {
-                $output = explode("\n", $output);
+                $output = explode("\n", trim($output));
 
                 $commandFailed = (false !== strpos($output, "no file systems processed"));
                 if (!$commandFailed

@@ -20,10 +20,12 @@
         "EvolutionDocumentationMoreInfo": "不同的来源分类详情请看 %s 表的文档.",
         "Keywords": "关键词",
         "KeywordsReportDocumentation": "本报表显示访客搜索哪些关键字后来到了您的网站。%s 点击表中的一行，可查看用于搜索该关键字的搜索引擎列表。",
+        "PluginDescription": "报告引荐数据：搜索引擎，关键词，网站，广告活动，社会化媒体，直接进入。",
         "Referrer": "来源分析",
         "ReferrerName": "来源名称",
         "Referrers": "来源分析",
         "ReferrersOverview": "来源总表",
+        "ReferrerTypes": "引荐类型",
         "SearchEngines": "搜索引擎",
         "SearchEnginesDocumentation": "访客来自搜索引擎。%s 查看 %s 报表了解详情。",
         "SearchEnginesReportDocumentation": "本报表显示哪些搜索引擎给您带来了访客。%s 点击表中的一行，可查看访客使用该搜索引擎搜索的内容。",
@@ -47,6 +49,7 @@
         "WidgetExternalWebsites": "来源网站",
         "WidgetGetAll": "所有来源",
         "WidgetSocials": "社交网络",
-        "WidgetTopKeywordsForPages": "主要关键词"
+        "WidgetTopKeywordsForPages": "主要关键词",
+        "XPercentOfVisits": "%s%% 个访问"
     }
 }

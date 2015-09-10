@@ -72,7 +72,6 @@
         "MatchesExpression": "matcher udtrykket %s",
         "NewGoalIntro": "Sporing af målkonvertering er et af de mest effektive måder at måle og forbedre dine forretningsmæssige målsætninger.",
         "NewVisitorsConversionRateIs": "Nye besøgendes konverteringsrate er %s",
-        "NoGoalsNeedAccess": "Kun en administrator eller en bruger med superbruger adgang kan tilføje mål for et bestemt websted. Spørg din Piwik administratore om at opstille et mål for dit websted. <br>Sporing mål er en fantastisk måde til at forstå og maksimere dit websteds effektivitet!",
         "Optional": "(valgfri)",
         "OverallConversionRate": "%s samlet konverteringsrate (besøg med et færdigt mål)",
         "OverallRevenue": "%s samlede indtægter",

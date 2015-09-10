@@ -83,15 +83,39 @@ class ResponseTest extends UnitTestCase
         $this->assertEquals('{"status":"error","tracked":5,"invalid":0}', $content);
     }
 
-    public function test_outputResponse_shouldOutputInvalidRequests_IfInvalidCountSet()
+    public function test_outputResponse_shouldIncludeInvalidIndices_IfExceptionSet_AndRequestAuthenticated()
     {
         $tracker = $this->getTrackerWithCountedRequests();
 
-        $this->response->setInvalidCount(3);
+        $this->response->setInvalidRequests(array(10, 20));
+        $this->response->setIsAuthenticated(true);
+        $this->response->outputException($tracker, new Exception('My Custom Message'), 400);
+        $content = $this->response->getOutput();
+
+        $this->assertEquals('{"status":"error","tracked":5,"invalid":2,"invalid_indices":[10,20]}', $content);
+    }
+
+    public function test_outputResponse_shouldOutputInvalidRequests_IfInvalidIndicesSet_AndRequestNotAuthenticated()
+    {
+        $tracker = $this->getTrackerWithCountedRequests();
+
+        $this->response->setInvalidRequests(array(5, 63, 72));
         $this->response->outputResponse($tracker);
         $content = $this->response->getOutput();
 
         $this->assertEquals('{"status":"success","tracked":5,"invalid":3}', $content);
+    }
+
+    public function test_outputResponse_shouldOutputInvalidRequests_IfInvalidIndicesSet_AndRequestAuthenticated()
+    {
+        $tracker = $this->getTrackerWithCountedRequests();
+
+        $this->response->setInvalidRequests(array(5, 63, 72));
+        $this->response->setIsAuthenticated(true);
+        $this->response->outputResponse($tracker);
+        $content = $this->response->getOutput();
+
+        $this->assertEquals('{"status":"success","tracked":5,"invalid":3,"invalid_indices":[5,63,72]}', $content);
     }
 
     private function getTrackerWithCountedRequests()

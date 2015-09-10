@@ -30,7 +30,8 @@ env:
     # All tests after another
     - TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
-    - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL
+    - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
+    - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-second-half-only"
   global:
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR
     - SKIP_INSTALL_MYSQL_56=1
@@ -60,7 +61,9 @@ matrix:
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
     # run UI tests on PHP 5.5 only
     - php: 5.6
-      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL
+      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
+    - php: 5.6
+      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-second-half-only"
     # run all tests not on PHP 5.6 and run MySQLI tests only on 5.6
     - php: 5.6
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL

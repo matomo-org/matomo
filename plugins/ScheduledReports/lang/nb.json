@@ -14,6 +14,7 @@
         "Pagination": "Side %s av %s",
         "PiwikReports": "Piwik-rapporter",
         "PleaseFindAttachedFile": "I den vedlagte filen finner du din %1$s rapport for %2$s.",
+        "SentFromX": "Sendt fra %s.",
         "PleaseFindBelow": "Nedenfor finner du din %1$s rapport for %2$s.",
         "ReportFormat": "Rapportformat",
         "ReportHour": "Send rapport klokken %s",

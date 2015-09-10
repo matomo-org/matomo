@@ -17,9 +17,9 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 class Resolution extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'Live.getAllVisitorDetails'            => 'extendVisitorDetails',

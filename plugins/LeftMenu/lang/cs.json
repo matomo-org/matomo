@@ -1,5 +1,6 @@
 {
     "LeftMenu": {
+        "PluginDescription": "Umístit menu nástěnky nalevo.",
         "SettingsIntroduction": "Zásuvný modul levé menu přesune menu hlášení na levou stranu (je-li povolen). To je především užitečné na velkých displejích.",
         "GlobalSettingTitle": "Levé menu je ve výchozím stavu povoleno",
         "GlobalSettingDescription": "Definuje systémovou výchozí hodnotu pro všechny uživatele.",

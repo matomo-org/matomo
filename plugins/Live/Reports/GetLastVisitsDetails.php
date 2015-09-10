@@ -8,8 +8,7 @@
  */
 namespace Piwik\Plugins\Live\Reports;
 
-use Piwik\Plugin\Report;
-use Piwik\Plugins\Live\VisitorLog;
+use Piwik\Plugins\Live\Visualizations\VisitorLog;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
 

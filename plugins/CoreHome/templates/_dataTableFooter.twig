@@ -31,7 +31,7 @@
                 {% for footerIconGroup in footerIcons %}
                     <div class="tableIconsGroup">
                     <span class="{{ footerIconGroup.class }}">
-                    {% for footerIcon in footerIconGroup.buttons %}
+                    {% for footerIcon in footerIconGroup.buttons if footerIcon.icon %}
                         {% set isActiveEcommerceView = clientSideParameters.abandonedCarts is defined and
                                 ((footerIcon.id == 'ecommerceOrder' and clientSideParameters.abandonedCarts == 0) or
                                  (footerIcon.id == 'ecommerceAbandonedCart' and clientSideParameters.abandonedCarts == 1)) %}

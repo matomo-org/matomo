@@ -78,7 +78,9 @@ class Controller extends \Piwik\Plugin\Controller
     public function redirect()
     {
         $url = Common::getRequestVar('url', '', 'string', $_GET);
-
+        if (!UrlHelper::isLookLikeUrl($url)) {
+            die('Please check the &url= parameter: it should to be a valid URL');
+        }
         // validate referrer
         $referrer = Url::getReferrer();
         if (empty($referrer) || !Url::isLocalUrl($referrer)) {
@@ -92,9 +94,6 @@ class Controller extends \Piwik\Plugin\Controller
         // mask visits to *.piwik.org
         if (!self::isPiwikUrl($url)) {
             Piwik::checkUserHasSomeViewAccess();
-        }
-        if (!UrlHelper::isLookLikeUrl($url)) {
-            die('Please check the &url= parameter: it should to be a valid URL');
         }
         Common::sendHeader('Content-Type: text/html; charset=utf-8');
         echo '<html><head><meta http-equiv="refresh" content="0;url=' . $url . '" /></head></html>';

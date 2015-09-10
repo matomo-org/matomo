@@ -21,9 +21,9 @@ class CoreHome extends \Piwik\Plugin
     const WIDGET_CONTAINER_LAYOUT_BY_DIMENSION = 'ByDimension';
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',

@@ -8,8 +8,11 @@
 namespace Piwik\Tests\System;
 
 use Piwik\API\Request;
+use Piwik\Application\Environment;
+use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Plugins\CustomVariables\Model;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tests\Framework\Fixture;
@@ -42,15 +45,12 @@ class AutoSuggestAPITest extends SystemTestCase
 
     public function getApiForTesting()
     {
-        // we will test all segments from all plugins
-        Fixture::loadAllPlugins();
-
         $idSite = self::$fixture->idSite;
-        $apiForTesting = array();
+        $segments = self::getSegmentsMetadata();
 
-        $segments = \Piwik\Plugins\API\API::getInstance()->getSegmentsMetadata(self::$fixture->idSite);
+        $apiForTesting = array();
         foreach ($segments as $segment) {
-            $apiForTesting[] = $this->getApiForTestingForSegment($idSite, $segment['segment']);
+            $apiForTesting[] = $this->getApiForTestingForSegment($idSite, $segment);
         }
 
         if (self::isMysqli() || self::isTravisCI()) {
@@ -116,11 +116,11 @@ class AutoSuggestAPITest extends SystemTestCase
 
     public function getAnotherApiForTesting()
     {
-        $segments = self::getSegmentsMetadata(self::$fixture->idSite);
+        $segments = self::getSegmentsMetadata();
 
         $apiForTesting = array();
         foreach ($segments as $segment) {
-            if(self::isTravisCI() && $segment['segment'] == 'deviceType') {
+            if(self::isTravisCI() && $segment == 'deviceType') {
                 // test started failing after bc19503 and I cannot understand why
                 continue;
             }
@@ -128,8 +128,8 @@ class AutoSuggestAPITest extends SystemTestCase
                                      array('idSite'            => self::$fixture->idSite,
                                            'date'              => date("Y-m-d", strtotime(self::$fixture->dateTime)) . ',today',
                                            'period'            => 'range',
-                                           'testSuffix'        => '_' . $segment['segment'],
-                                           'segmentToComplete' => $segment['segment']));
+                                           'testSuffix'        => '_' . $segment,
+                                           'segmentToComplete' => $segment));
         }
         return $apiForTesting;
     }
@@ -150,16 +150,46 @@ class AutoSuggestAPITest extends SystemTestCase
         $this->assertGreaterThan($minimumSegmentsToTest, self::$processed, $message);
     }
 
-    public static function getSegmentsMetadata($idSite)
+    public static function getSegmentsMetadata()
     {
         // Refresh cache for CustomVariables\Model
         Cache::clearCacheGeneral();
         PiwikCache::getTransientCache()->flushAll();
 
-        \Piwik\Plugins\CustomVariables\Model::install();
+        $segments = array();
 
-        // Segment matching NONE
-        $segments = \Piwik\Plugins\API\API::getInstance()->getSegmentsMetadata($idSite);
+        $environment = new Environment(null);
+
+        $exception = null;
+        try {
+            $environment->init();
+            $environment->getContainer()->get('Piwik\Plugin\Manager')->loadActivatedPlugins();
+
+            foreach (Dimension::getAllDimensions() as $dimension) {
+                foreach ($dimension->getSegments() as $segment) {
+                    $segments[] = $segment->getSegment();
+                }
+            }
+
+            // add CustomVariables manually since the data provider may not have access to the DB
+            for ($i = 1; $i != Model::DEFAULT_CUSTOM_VAR_COUNT + 1; ++$i) {
+                $segments[] = 'customVariableName' . $i;
+                $segments[] = 'customVariableValue' . $i;
+                $segments[] = 'customVariablePageName' . $i;
+                $segments[] = 'customVariablePageValue' . $i;
+            }
+        } catch (\Exception $ex) {
+            $exception = $ex;
+
+            echo $ex->getMessage()."\n".$ex->getTraceAsString()."\n";
+        }
+
+        $environment->destroy();
+
+        if (!empty($exception)) {
+            throw $exception;
+        }
+
         return $segments;
     }
 }

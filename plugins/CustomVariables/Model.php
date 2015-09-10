@@ -18,6 +18,7 @@ class Model
     const SCOPE_PAGE = 'log_link_visit_action';
     const SCOPE_VISIT = 'log_visit';
     const SCOPE_CONVERSION = 'log_conversion';
+    const DEFAULT_CUSTOM_VAR_COUNT = 5;
 
     private $scope = null;
 
@@ -159,7 +160,7 @@ class Model
             $model = new Model($scope);
 
             try {
-                $maxCustomVars   = 5;
+                $maxCustomVars   = self::DEFAULT_CUSTOM_VAR_COUNT;
                 $customVarsToAdd = $maxCustomVars - $model->getCurrentNumCustomVars();
 
                 for ($index = 0; $index < $customVarsToAdd; $index++) {

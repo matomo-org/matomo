@@ -39,6 +39,7 @@
         "GeoIpLocationProviderDesc_ServerBased1": "本地理位置服务商使用已经安装在 HTTP 服务器上的 GeoIP 模块。本服务商速度快也更精确，但是 %1$s只能使用一般的浏览器跟踪。%2$s",
         "GeoIpLocationProviderDesc_ServerBased2": "如果您需要导入日志文件，或者需要设置 IP 地址的操作，使用 %1$sPECL GeoIP 方案 (推荐)%2$s 或者 %3$sPHP GeoIP 方案%4$s。",
         "GeoIpLocationProviderDesc_ServerBasedAnonWarn": "提示: IP 屏蔽对这个服务商的报表无效。在使用它和 IP 屏蔽前，请确认这不违反您当地的隐私保护法规。",
+        "GeoIpLocationProviderNotRecomnended": "地理位置的工作，但你不使用推荐的供应商之一。",
         "GeoIPNoServerVars": "Piwik 没有找到 GeoIP %s 变量。",
         "GeoIPPeclCustomDirNotSet": "%s PHP ini 选项没有设置。",
         "GeoIPServerVarsFound": "Piwik 检测到以下 GeoIP %s 变量",
@@ -79,6 +80,7 @@
         "PeclGeoIPNoDBDir": "PECL 模块在 %1$s 中查找数据库，但这个目录不存在，请改正并把 GeoIP 数据库加入。另外，您也可以在 php.ini 文件中设置 %2$s 为正确的目录。",
         "PeclGeoLiteError": "您在 %1$s 中的GeoIP 数据库名称为 %2$s。但是 PECL 模块无法识别这个名称，请改名为 %3$s。",
         "PiwikNotManagingGeoIPDBs": "Piwik 目前没有任何 GeoIP 数据库。",
+        "PluginDescription": "报告访问者的位置：国家，地区，城市和地理坐标(纬度\/经度)。",
         "Region": "地区",
         "SetupAutomaticUpdatesOfGeoIP": "设置自动更新 GeoIP 数据库",
         "SubmenuLocations": "所在地",
@@ -87,7 +89,10 @@
         "ToGeolocateOldVisits": "要获得以前访问的地理数据，请使用 %1$s这里%2$s的脚步。",
         "UnsupportedArchiveType": "不支持的文件类型 %1$s。",
         "UpdaterHasNotBeenRun": "更新程序从未运行。",
+        "UpdaterIsNotScheduledToRun": "它不计划在将来运行。",
+        "UpdaterScheduledForNextRun": "它计划在未来的cron核心在运行：归档命令执行。",
         "UpdaterWasLastRun": "更新程序最后运行时间 %s。",
+        "UpdaterWillRunNext": "这是下一个计划在 %s 运行。",
         "WidgetLocation": "访客位置"
     }
 }

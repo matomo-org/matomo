@@ -1,5 +1,6 @@
 {
     "Insights": {
+        "PluginDescription": "Omogućuje tzv. uvide u vaš saobraćaj. Uvidi su na raspolaganju u vidu vidžeta za konzolu i kao sličice u izveštajima i preko njih možete videti najbitnije trendove vaših podataka.",
         "ControlComparedToDescription": "Rast u poređenju sa",
         "ControlFilterByDescription": "Prikaži sve, samo movers, samo nove ili samo one koji su nestali",
         "DatePeriodCombinationNotSupported": "Nije moguće generisati uvid za datu kombinaciju datuma i perioda.",

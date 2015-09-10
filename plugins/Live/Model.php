@@ -33,7 +33,7 @@ class Model
      */
     public function queryActionsForVisit($idVisit, $actionsLimit)
     {
-        $maxCustomVariables = CustomVariables::getMaxCustomVariables();
+        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
 
         $sqlCustomVariables = '';
         for ($i = 1; $i <= $maxCustomVariables; $i++) {

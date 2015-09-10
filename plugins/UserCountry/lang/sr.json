@@ -16,6 +16,7 @@
         "country_a2": "Satelitski provajder",
         "country_cat": "Katalonske zajednice",
         "country_o1": "Ostale zemlje",
+        "country_ti": "Tibet",
         "CurrentLocationIntro": "Sudeći po ovom provajderu, vaša trenutna lokacija je",
         "DefaultLocationProviderDesc1": "Podrazumevani provajder lokacija nagađa zemlju posetioca na osnovu jezika koji oni koriste.",
         "DefaultLocationProviderDesc2": "Ovo nije veoma precizno tako da %1$spreporučujemo da instalirate %2$sGeoIP%3$s.%4$s",

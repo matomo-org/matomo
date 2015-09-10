@@ -338,7 +338,7 @@ class Controller extends \Piwik\Plugin\Controller
         // HTML
         $api = SettingsPiwik::getPiwikUrl()
             . '?module=API&method=Referrers.getKeywordsForPageUrl'
-            . '&format=php'
+            . '&format=json'
             . '&filter_limit=10'
             . '&token_auth=' . Piwik::getCurrentUserTokenAuth();
 
@@ -353,7 +353,8 @@ function DisplayTopKeywords($url = "")
 	// Get the Keywords data
 	$url = empty($url) ? "http://". $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] : $url;
 	$api = "' . $api . '&url=" . urlencode($url);
-	$keywords = @unserialize(file_get_contents($api));
+	$keywords = @json_decode(file_get_contents($api), $assoc = true);
+	Common::sendHeader(\'Content-Type: text/html; charset=utf-8\', true);
 	if ($keywords === false || isset($keywords["result"])) {
 		// DEBUG ONLY: uncomment for troubleshooting an empty output (the URL output reveals the token_auth)
 		// echo "Error while fetching the <a href=\'$api\'>Top Keywords from Piwik</a>";
@@ -390,7 +391,8 @@ function DisplayTopKeywords($url = "")
             // Get the Keywords data
             $url = empty($url) ? "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] : $url;
             $api = $api . "&url=" . urlencode($url);
-            $keywords = @unserialize(file_get_contents($api));
+            $keywords = @json_decode(file_get_contents($api), $assoc = true);
+            Common::sendHeader('Content-Type: text/html; charset=utf-8', true);
             if ($keywords === false || isset($keywords["result"])) {
                 // DEBUG ONLY: uncomment for troubleshooting an empty output (the URL output reveals the token_auth)
                 //echo "Error while fetching the <a href=\'".$api."\'>Top Keywords from Piwik</a>";

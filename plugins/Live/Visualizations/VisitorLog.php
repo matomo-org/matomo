@@ -6,10 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\Live;
+namespace Piwik\Plugins\Live\Visualizations;
 
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
 use Piwik\View;
 
@@ -20,8 +21,10 @@ use Piwik\View;
  */
 class VisitorLog extends Visualization
 {
-    const ID = 'Piwik\Plugins\Live\VisitorLog';
+    const ID = 'VisitorLog';
     const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
+    const FOOTER_ICON_TITLE = '';
+    const FOOTER_ICON = '';
 
     public static function getDefaultConfig()
     {
@@ -89,5 +92,10 @@ class VisitorLog extends Visualization
                 )
             )
         );
+    }
+
+    public static function canDisplayViewDataTable(ViewDataTable $view)
+    {
+        return ($view->requestConfig->getApiModuleToRequest() === 'Live');
     }
 }

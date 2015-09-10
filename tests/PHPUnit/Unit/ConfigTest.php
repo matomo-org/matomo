@@ -378,7 +378,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $sourceConfigFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
         $configFile = PIWIK_INCLUDE_PATH . '/tmp/tmp.config.ini.php';
 
-        @unlink($configFile);
+        if(file_exists($configFile)){
+            @unlink($configFile);
+        }
         copy($sourceConfigFile, $configFile);
 
         $config = new Config(new GlobalSettingsProvider($sourceConfigFile, $configFile));
@@ -386,7 +388,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(file_get_contents($sourceConfigFile), file_get_contents($configFile));
 
-        @unlink($configFile);
+        if(file_exists($configFile)){
+            @unlink($configFile);
+        }
     }
 
     public function testFromGlobalConfig()

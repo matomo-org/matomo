@@ -1,6 +1,7 @@
 {
     "SitesManager": {
         "AddSite": "Přídat nový web",
+        "AddMeasurable": "Přidat nové měření",
         "AdvancedTimezoneSupportNotFound": "Pokročilá podpora časových zón nebyla ve vašem PHP (podporována v PHP >=5.2) nalezena. Stále můžete použít ruční UTF offset.",
         "AliasUrlHelp": "Je doporučeno, ale ne vyžadováno, specifikovat různé URL, jednu na řádku, které vaší návštěvníci používají pro přístup ke stránkám. Aliasy se neobjeví hlášení Odkazující stránky>WWW. Všimněte si, že není nutné zadávat URL s a bez 'www'. Piwik automaticky rozezná obě.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Změna vaší časové zóny se projeví pouze v nových datech a nebude aplikována zpětně.",
@@ -66,13 +67,18 @@
         "SiteSearchUse": "Piwik můžete použít ke sledování a hlášení toho, co návštěvníci hledají pomocí interního vyhledávače.",
         "SiteWithoutDataTitle": "Zatím nebyla zaznamenána žádná data",
         "SiteWithoutDataDescription": "Pro tuto stránku nebyla zatím zaznamenána žádná analytická data.",
+        "SiteWithoutDataSetupTracking": "Prosím, nastavte %1$ssledovací javascriptový kód %2$s na vašich webových stránkách, a pak stránku obnovte.",
         "SuperUserAccessCan": "eUživatel se super uživatelským přístupem může také %sspecifikovat globální nastavení%s pro nové webové stránky.",
         "Timezone": "Časová zóna",
         "TrackingSiteSearch": "Sledování interního vyhledávání na stránkách",
         "TrackingTags": "Zaznamenávací tagy pro %s",
         "Urls": "URL",
         "UTCTimeIs": "UTC čas je %s",
+        "OnlyMatchedUrlsAllowed": "Sledovat návštěvy a akce pouze tehdy, když URL akce začíná jednou z výše uvedených URL.",
+        "OnlyMatchedUrlsAllowedHelp": "Pokud je povoleno, Piwik bude sledovat interní akce pouze tehdy, když je URL stránky jednou ze známých URL vašich webových stránek. To zabrání lidem, aby zahltili analýzu URL jiných stránek.",
         "WebsitesManagement": "Nastavení Web sídel",
+        "XManagement": "Spravovat %s",
+        "ChooseMeasurableTypeHeadline": "Co byste chtěl měřit?",
         "YouCurrentlyHaveAccessToNWebsites": "Momentálně máte přístup k %s stránce\/stránkám.",
         "YourCurrentIpAddressIs": "Vaše současná IP adresa je %s"
     }

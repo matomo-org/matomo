@@ -17,9 +17,9 @@ use Piwik\Plugin\Reports;
 class Events extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',

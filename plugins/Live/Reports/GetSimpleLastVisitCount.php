@@ -13,7 +13,6 @@ use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\Live\Controller;
-use Piwik\Plugins\Live\VisitorLog;
 use Piwik\API\Request;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\View;

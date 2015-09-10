@@ -65,7 +65,6 @@
         "MatchesExpression": "se portiveşte cu expresia %s",
         "NewGoalIntro": "Urmărirebiectiv conversie este una dintre cele mai eficiente modalități de a măsura și îmbunătăți obiectivele de afaceri.",
         "NewVisitorsConversionRateIs": "Rata de conversie pentru vizitatorii noi este %s",
-        "NoGoalsNeedAccess": "Numai un administrator sau un utilizator cu acces de Super utilizator poate adăuga Obiective pentru un anumit site web. Vă rugăm să întrebați administratorul Piwik pentru a configura un obiectiv pentru site-ul dumneavoastră. cui Urmărire Obiective este o modalitate foarte bună de a ajuta să înțeleagă și să maximizeze performanța site-ul dvs.!",
         "Optional": "(opţional)",
         "OverallConversionRate": "%s Rata de conversie globală (vizite cu un gol)",
         "OverallRevenue": "%s venit global",

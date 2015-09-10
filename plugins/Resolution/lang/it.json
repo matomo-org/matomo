@@ -5,7 +5,7 @@
         "Configurations": "Configurazioni",
         "PluginDescription": "Restituisce la risoluzione di schermo dei tuoi visitatori.",
         "Resolutions": "Risoluzioni",
-        "WidgetGlobalVisitors": "Riepilogo configurazione visitatori",
+        "WidgetGlobalVisitors": "Configurazione visitatori",
         "WidgetGlobalVisitorsDocumentation": "Questo report mostra le configurazioni globali più comuni che i visitatori avevano. Una configurazione è la combinazione di un sistema operativo, un tipo browser e una risoluzione di schermo.",
         "WidgetResolutions": "Risoluzione schermo"
     }

@@ -1,5 +1,6 @@
 {
     "SEO": {
+        "PluginDescription": "这个插件提取和显示的搜索引擎优化指标：Alexa的网站排名，谷歌的PageRank，索引和反向当前选择的网站数。",
         "AlexaRank": "Alexa 排名",
         "Bing_IndexedPages": "Bing 索引页面",
         "Dmoz": "DMOZ 条目",

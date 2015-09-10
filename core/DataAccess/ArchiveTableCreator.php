@@ -33,7 +33,7 @@ class ArchiveTableCreator
     protected static function getTable(Date $date, $type)
     {
         $tableNamePrefix = "archive_" . $type;
-        $tableName = $tableNamePrefix . "_" . $date->toString('Y_m');
+        $tableName = $tableNamePrefix . "_" . self::getTableMonthFromDate($date);
         $tableName = Common::prefixTable($tableName);
 
         self::createArchiveTablesIfAbsent($tableName, $tableNamePrefix);
@@ -98,6 +98,11 @@ class ArchiveTableCreator
         $date      = str_replace(array('archive_numeric_', 'archive_blob_'), '', $tableName);
 
         return $date;
+    }
+
+    public static function getTableMonthFromDate(Date $date)
+    {
+        return $date->toString('Y_m');
     }
 
     public static function getTypeFromTableName($tableName)

@@ -263,6 +263,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param bool|int $timestamp
      * @return array The list of website IDs
+     * @deprecated since 2.15 This method will be removed in Piwik 3.0, there is no replacement.
      */
     public function getSitesIdWithVisits($timestamp = false)
     {

@@ -1,6 +1,6 @@
 {
     "SEO": {
-        "PluginDescription": "Questo plugin estrae e visualizza le metriche SEO. Alexa web ranking, Google Pagerank, numero di pagine indicizzate e i backlink del sito al momento selezionato.",
+        "PluginDescription": "Questo plugin estrae e visualizza le metriche SEO: Alexa web ranking, Google Pagerank, numero di pagine indicizzate e i backlink del sito al momento selezionato.",
         "AlexaRank": "Alexa Rank",
         "Bing_IndexedPages": "Pagine indicizzate da Bing",
         "Dmoz": "Voci DMOZ",
