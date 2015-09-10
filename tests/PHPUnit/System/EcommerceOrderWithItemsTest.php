@@ -52,7 +52,8 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
         $processedReportApi = array('API.getProcessedReport');
 
         $apiWithSegments = array(
-            'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'
+            'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory', 'Goals.get',
+
         );
 
         // Normal standard goal
