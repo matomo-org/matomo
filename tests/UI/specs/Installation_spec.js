@@ -112,8 +112,10 @@ describe("Installation", function () {
     it("should display the javascript tracking page when correct information is entered in the setup website page and next is clicked", function (done) {
         expect.screenshot("js_tracking").to.be.capture(function (page) {
             page.sendKeys('input[name=siteName]', 'Serenity');
-            page.sendKeys('input[name=url]', 'serenity.com');
             page.evaluate(function () {
+                // cannot use sendKeys since quickform does not use placeholder attribute
+                $('input[name=url]').val('serenity.com');
+                
                 $('select[name=timezone]').val('Europe/Paris');
                 $('select[name=ecommerce]').val('1');
             });
