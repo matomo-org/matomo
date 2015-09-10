@@ -464,6 +464,10 @@ class Fixture extends \PHPUnit_Framework_Assert
         $piwikUrl = Config::getInstance()->tests['http_host'];
         $piwikUri = Config::getInstance()->tests['request_uri'];
 
+        if($piwikUri == '@REQUEST_URI@') {
+            throw new Exception("Piwik is mis-configured. Remove (or fix) the 'request_uri' entry below [tests] section in your config.ini.php. ");
+        }
+
         if (strpos($piwikUrl, 'http://') !== 0) {
             $piwikUrl = 'http://' . $piwikUrl . '/';
         }
