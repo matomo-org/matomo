@@ -224,7 +224,7 @@ class GoalManager
     public function recordGoals(VisitProperties $visitProperties, Request $request)
     {
         $visitorInformation = $visitProperties->getProperties();
-        $visitCustomVariables = $request->getMetadata('CustomVariables', 'visitCustomVariables');
+        $visitCustomVariables = $request->getMetadata('CustomVariables', 'visitCustomVariables') ?: array();
 
         /** @var Action $action */
         $action = $request->getMetadata('Actions', 'action');
