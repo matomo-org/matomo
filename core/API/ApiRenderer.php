@@ -21,6 +21,8 @@ use Piwik\Plugin;
  */
 abstract class ApiRenderer
 {
+    const COMPONENT_SUBNAMESPACE = 'Renderer';
+
     protected $request;
 
     final public function __construct($request)
@@ -106,7 +108,7 @@ abstract class ApiRenderer
         $formatToCheck = '\\' . ucfirst(strtolower($format));
 
         // TODO: should these be just class names or should we get instances?
-        $rendererClassnames = StaticContainer::get('components.classes.Piwik\API\Renderer');
+        $rendererClassnames = StaticContainer::get('components.classes.Piwik\API\ApiRenderer');
 
         foreach ($rendererClassnames as $klassName) {
             if (Common::stringEndsWith($klassName, $formatToCheck)) {
