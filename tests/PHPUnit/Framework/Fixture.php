@@ -488,7 +488,9 @@ class Fixture extends \PHPUnit_Framework_Assert
         $piwikUrl = str_replace("https://", "http://", $piwikUrl);
 
         // append REQUEST_URI (eg. when Piwik runs at http://localhost/piwik/)
-        $piwikUrl .= $piwikUri;
+        if($piwikUri != '/') {
+            $piwikUrl .= $piwikUri;
+        }
 
         return $piwikUrl;
     }
