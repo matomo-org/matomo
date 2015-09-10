@@ -71,7 +71,7 @@
     <br/><br/>
 
     {% if not showConfirmOnly %}
-    <form method="post" action="?{{ queryParameters|url_encode }}" target="_blank">
+    <form method="post" action="?{{ queryParameters|url_encode|raw }}" target="_blank">
         <input type="hidden" name="nonce" value="{{ nonce }}" />
         <input type="hidden" name="fuzz" value="{{ "now"|date }}" />
         <input onclick="submitForm(event, this.form);" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
