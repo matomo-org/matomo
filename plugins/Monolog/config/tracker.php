@@ -2,16 +2,10 @@
 
 use Interop\Container\ContainerInterface;
 
-function isTrackerDebugEnabled(ContainerInterface $c)
-{
-    $trackerDebug = $c->get("ini.Tracker.debug");
-    return ($trackerDebug == 1 || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']));
-}
-
 return array(
 
     'Psr\Log\LoggerInterface' => function (ContainerInterface $c) {
-        if (isTrackerDebugEnabled($c)) {
+        if (\Piwik\SettingsServer::isTrackerDebugEnabled($c)) {
             return $c->get('Monolog\Logger');
         } else {
             return new \Psr\Log\NullLogger();
@@ -27,7 +21,7 @@ return array(
     }),
 
     'log.level' => DI\decorate(function ($previous, ContainerInterface $c) {
-        if (isTrackerDebugEnabled($c)) {
+        if (\Piwik\SettingsServer::isTrackerDebugEnabled($c)) {
             return \Monolog\Logger::DEBUG;
         }
 
