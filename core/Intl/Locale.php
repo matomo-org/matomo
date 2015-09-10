@@ -10,16 +10,31 @@ namespace Piwik\Intl;
 
 class Locale
 {
+    /**
+     * @param string|array $locale
+     */
     public static function setLocale($locale)
     {
-        $localeVariant = str_replace('UTF-8', 'UTF8', $locale);
-
-        setlocale(LC_ALL, $locale, $localeVariant);
+        if(!is_array($locale)){
+            $locale = array($locale);
+        }
+        
+        $newLocale = array();
+        foreach($locale as $localePart){
+            $newLocale[] = $localePart;
+            
+            $localeVariant = str_replace('UTF-8', 'UTF8', $localePart);
+            if($localeVariant != $localePart){
+                $newLocale[] = $localeVariant;
+            }
+        }
+        
+        setlocale(LC_ALL, $newLocale);
         setlocale(LC_CTYPE, '');
     }
 
     public static function setDefaultLocale()
     {
-        self::setLocale('en_US.UTF-8');
+        self::setLocale(array('en_US.UTF-8', 'en-US'));
     }
 }

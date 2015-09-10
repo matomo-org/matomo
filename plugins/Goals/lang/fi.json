@@ -67,7 +67,6 @@
         "MatchesExpression": "täsmää lausekkeseen %s",
         "NewGoalIntro": "Konversion seuranta on yksi tehokkaimmista tavoista mitata ja kehittää yrityksesi päämääriä.",
         "NewVisitorsConversionRateIs": "Uusien kävijöiden siirtymäaste on %s",
-        "NoGoalsNeedAccess": "Vain Ylläpitäjä tai Superkäyttäjä voi lisätä Tavoitteita tietylle verkkosivulle. Pyydä Ylläpitäjää asettamaan Tavoite verkkosivullesi. <br>Tavoitteiden seuranta on loistava tapa ymmärtää sekä maksimoida verkkosivusi suoritus!",
         "Optional": "(vapaavalintainen)",
         "OverallConversionRate": "%s yleinen siirtymisaste (käynti jossa täytetään tavoite)",
         "OverallRevenue": "%s yleistuotto",

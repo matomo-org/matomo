@@ -12,10 +12,20 @@ use Piwik\Tests\Framework\Mock\Tracker\Response;
 
 class TrackerResponse extends Response
 {
-    private $invalidRequests = 0;
+    private $invalidRequests = array();
 
-    public function setInvalidCount($invalidRequests)
+    /**
+     * @var bool
+     */
+    private $isAuthenticated = false;
+
+    public function setInvalidRequests($invalidRequests)
     {
         $this->invalidRequests = $invalidRequests;
+    }
+
+    public function setIsAuthenticated($isAuthenticated)
+    {
+        $this->isAuthenticated = $isAuthenticated;
     }
 }

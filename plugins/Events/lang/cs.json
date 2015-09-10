@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "Sledujte události a získejte hlášení o aktivitě vašich návštěvníků",
         "AvgEventValue": "Průměrná hodnota události je %s",
         "AvgValue": "Průměrná hodnota",
         "AvgValueDocumentation": "Průměr všech hodnot pro tuto událost",

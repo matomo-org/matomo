@@ -118,7 +118,7 @@ class BulkTrackingTest extends BulkTrackingTestCase
         $this->assertNull($handler);
     }
 
-    public function test_getListHooksRegistered_shouldListenToNewTrackerEventAndCreateBulkHandler_IfBulkRequest()
+    public function test_registerEvents_shouldListenToNewTrackerEventAndCreateBulkHandler_IfBulkRequest()
     {
         $this->injectRawDataToBulk($this->getDummyRequest());
 
@@ -127,14 +127,14 @@ class BulkTrackingTest extends BulkTrackingTestCase
         $this->assertTrue($handler instanceof Handler);
     }
 
-    public function test_getListHooksRegistered_shouldListenToNewTrackerEventAndNotCreateBulkHandler_IfNotBulkRequest()
+    public function test_registerEvents_shouldListenToNewTrackerEventAndNotCreateBulkHandler_IfNotBulkRequest()
     {
         $handler = DefaultHandler\Factory::make();
 
         $this->assertTrue($handler instanceof DefaultHandler);
     }
 
-    public function test_getListHooksRegistered_shouldListenToInitRequestSetEventAndInit_IfBulkRequest()
+    public function test_registerEvents_shouldListenToInitRequestSetEventAndInit_IfBulkRequest()
     {
         $this->injectRawDataToBulk($this->getDummyRequest());
 

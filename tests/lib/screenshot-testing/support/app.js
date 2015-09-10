@@ -66,6 +66,10 @@ Application.prototype.printHelpAndExit = function () {
     console.log("  --screenshot-repo:        Specifies the github repository that contains the expected screenshots");
     console.log("                            to link to in the diffviewer. For use with travis build.");
     console.log("  --core:                   Only execute UI tests that are for Piwik core or Piwik core plugins.");
+    console.log("  --first-half:             Only execute first half of all the test suites. Will be only applied if no")
+    console.log("                            specific plugin or test-files requested");
+    console.log("  --second-half:            Only execute second half of all the test suites. Will be only applied if no")
+    console.log("                            specific plugin or test-files requested");
 
     phantom.exit(0);
 };
@@ -128,6 +132,24 @@ Application.prototype.loadTestModules = function () {
     if (options.plugin) {
         mocha.suite.suites = mocha.suite.suites.filter(function (suite) {
             return suite.baseDirectory.match(new RegExp("\/plugins\/" + options.plugin + "\/"));
+        });
+    }
+
+    var specificTestsRequested = options.plugin || options.tests.length;
+
+    if ((options['run-first-half-only'] || options['run-second-half-only']) && !specificTestsRequested) {
+        // run only first 50% of the test suites or only run last 50% of the test suites.
+        // we apply this option only if not a specific plugin or test suite was requested. Only there for travis to
+        // split tests into multiple jobs.
+        var numTestsFirstHalf = Math.round(mocha.suite.suites.length / 2);
+        numTestsFirstHalf += 5; // run a few more test suits in first half as UiIntegrationTests contain many tests
+        mocha.suite.suites = mocha.suite.suites.filter(function (suite, index) {
+            if (options['run-first-half-only'] && index < numTestsFirstHalf) {
+                return true;
+            } else if (options['run-second-half-only'] && index >= numTestsFirstHalf) {
+                return true;
+            }
+            return false;
         });
     }
 

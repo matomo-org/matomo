@@ -19,9 +19,9 @@ class BulkTracking extends \Piwik\Plugin
     private $requests;
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'Tracker.newHandler' => 'setHandlerIfBulkRequest',

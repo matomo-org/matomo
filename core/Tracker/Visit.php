@@ -264,6 +264,8 @@ class Visit implements VisitInterface
             $this->triggerHookOnDimensions($dimensions, 'onConvertedVisit');
         }
 
+        $properties = &$this->visitProperties->getProperties();
+
         /**
          * Triggered before a new [visit entity](/guides/persistence-and-the-mysql-backend#visits) is persisted.
          *
@@ -278,7 +280,7 @@ class Visit implements VisitInterface
          *
          * @deprecated
          */
-        Piwik::postEvent('Tracker.newVisitorInformation', array($this->visitProperties->getProperties(), $this->request));
+        Piwik::postEvent('Tracker.newVisitorInformation', array(&$properties, $this->request));
 
         foreach ($this->requestProcessors as $processor) {
             $processor->onNewVisit($this->visitProperties, $this->request);

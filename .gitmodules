@@ -29,6 +29,10 @@
 [submodule "tests/UI/expected-ui-screenshots"]
     path = tests/UI/expected-ui-screenshots
     url = https://github.com/piwik/piwik-ui-tests.git
+[submodule "tests/travis"]
+    path = tests/travis
+    url = https://github.com/piwik/travis-scripts
+    branch = master
 
 # Note: when you add a submodule that SHOULD be left in the packaged release such as the few submodules below,
 #       then you MUST add these submodules names in the SUBMODULES_PACKAGED_WITH_CORE variable in:
@@ -43,7 +47,3 @@
     path = misc/log-analytics
     url = https://github.com/piwik/piwik-log-analytics.git
     branch = master
-
-[submodule "tests/travis"]
-	path = tests/travis
-	url = https://github.com/piwik/travis-scripts

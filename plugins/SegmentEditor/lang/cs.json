@@ -1,5 +1,6 @@
 {
     "SegmentEditor": {
+        "PluginDescription": "Vytvářejte a znovu použijte vlastní segmenty návštěvníků za použití editoru segmentů.",
         "AddANDorORCondition": "Přidat podmínku %s",
         "AddNewSegment": "Přidat nový segment",
         "AreYouSureDeleteSegment": "Opravdu chcete odstranit tento segment?",

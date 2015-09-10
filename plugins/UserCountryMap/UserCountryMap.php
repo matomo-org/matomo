@@ -29,7 +29,7 @@ class UserCountryMap extends \Piwik\Plugin
         $out .= FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap');
     }
 
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         $hooks = array(
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',

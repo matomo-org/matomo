@@ -26,9 +26,9 @@ class Actions extends \Piwik\Plugin
     const ACTIONS_REPORT_ROWS_DISPLAY = 100;
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'ViewDataTable.configure'         => 'configureViewDataTable',

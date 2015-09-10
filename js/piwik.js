@@ -455,7 +455,7 @@ if (typeof JSON2 !== 'object') {
     getTrackedContentImpressions, getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet,
     contentInteractionTrackingSetupDone, contains, match, pathname, piece, trackContentInteractionNode,
     trackContentInteractionNode, trackContentImpressionsWithinNode, trackContentImpression,
-    enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent,
+    enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent, logAllContentBlocksOnPage,
     trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body,
@@ -474,6 +474,7 @@ if (typeof JSON2 !== 'object') {
 /*members amd */
 /*global console:true */
 /*members error */
+/*members log */
 
 // asynchronous tracker (or proxy)
 if (typeof _paq !== 'object') {
@@ -5316,6 +5317,20 @@ if (typeof Piwik !== 'object') {
                         var request = buildContentInteractionRequestNode(domNode, contentInteraction);
                         sendRequest(request, configTrackerPause);
                     });
+                },
+
+                /**
+                 * Useful to debug content tracking. This method will log all detected content blocks to console
+                 * (if the browser supports the console). It will list the detected name, piece, and target of each
+                 * content block.
+                 */
+                logAllContentBlocksOnPage: function () {
+                    var contentNodes = content.findContentNodes();
+                    var contents = content.collectContent(contentNodes);
+
+                    if (console !== undefined && console && console.log) {
+                        console.log(contents);
+                    }
                 },
 
                 /**

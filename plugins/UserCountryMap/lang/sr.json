@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "Ovaj dodatak donosi vidžete Mapa posetilaca i Mapa u realnom vremenu. Zahteva UserCountry dodatak.",
         "AndNOthers": "i %s ostalih",
         "Cities": "Gradovi",
         "Countries": "Države",

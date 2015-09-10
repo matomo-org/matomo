@@ -12,9 +12,9 @@ namespace Piwik\Plugins\Overlay;
 class Overlay extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    function getListHooksRegistered()
+    function registerEvents()
     {
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',

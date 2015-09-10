@@ -268,6 +268,23 @@ class DateTest extends \PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
+    public function testSubSeconds()
+    {
+        $date = Date::factory('2010-03-01 00:01:25');
+        $dateExpected = Date::factory('2010-03-01 00:00:54');
+
+        $date = $date->subSeconds(31);
+        $this->assertSame($dateExpected->getTimestamp(), $date->getTimestamp());
+
+        $date = Date::factory('2010-03-01 00:01:25');
+        $dateExpected = Date::factory('2010-03-01 00:01:36');
+        $date = $date->subSeconds(-11);
+        $this->assertSame($dateExpected->getTimestamp(), $date->getTimestamp());
+    }
+
+    /**
+     * @group Core
+     */
     public function testAddPeriodMonthRespectsMaxDaysInMonth()
     {
         $date = Date::factory('2014-07-31');

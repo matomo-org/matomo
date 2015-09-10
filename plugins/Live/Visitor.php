@@ -250,7 +250,7 @@ class Visitor implements VisitorInterface
         $actionDetails = $model->queryActionsForVisit($idVisit, $actionsLimit);
 
         $formatter = new Formatter();
-        $maxCustomVariables = CustomVariables::getMaxCustomVariables();
+        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
 
         foreach ($actionDetails as $actionIdx => &$actionDetail) {
             $actionDetail =& $actionDetails[$actionIdx];
@@ -383,7 +383,6 @@ class Visitor implements VisitorInterface
         }
 
         $actions = array_merge($actionDetails, $goalDetails, $ecommerceDetails);
-
         usort($actions, array('static', 'sortByServerTime'));
 
         foreach ($actions as &$action) {

@@ -63,7 +63,7 @@ class TrackerCodeGenerator
         if ($mergeSubdomains || $mergeAliasUrls) {
             $options .= $this->getJavascriptTagOptions($idSite, $mergeSubdomains, $mergeAliasUrls);
         }
-        $maxCustomVars = CustomVariables::getMaxCustomVariables();
+        $maxCustomVars = CustomVariables::getNumUsableCustomVariables();
 
         if ($visitorCustomVariables && count($visitorCustomVariables) > 0) {
             $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each visitor' . PHP_EOL;

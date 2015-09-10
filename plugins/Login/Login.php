@@ -23,9 +23,9 @@ use Piwik\Session;
 class Login extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         $hooks = array(
             'Request.initAuthenticationObject' => 'initAuthenticationObject',

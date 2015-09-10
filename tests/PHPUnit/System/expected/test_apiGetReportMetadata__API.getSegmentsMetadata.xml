@@ -198,7 +198,7 @@
 		<category>Visit</category>
 		<name>Visit ID</name>
 		<segment>visitId</segment>
-		<acceptedValues>Any integer. </acceptedValues>
+		<acceptedValues>Any integer.</acceptedValues>
 		<permission>1</permission>
 	</row>
 	<row>

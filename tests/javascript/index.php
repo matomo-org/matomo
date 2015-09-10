@@ -1926,7 +1926,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(65);
+        expect(66);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -1997,6 +1997,7 @@ function PiwikTest() {
         equal( typeof tracker.trackContentImpressionsWithinNode, 'function', 'trackContentImpressionsWithinNode' );
         equal( typeof tracker.trackContentInteraction, 'function', 'trackContentInteraction' );
         equal( typeof tracker.trackContentInteractionNode, 'function', 'trackContentInteractionNode' );
+        equal( typeof tracker.logAllContentBlocksOnPage, 'function', 'logAllContentBlocksOnPage' );
         // ecommerce
         equal( typeof tracker.setEcommerceView, 'function', 'setEcommerceView' );
         equal( typeof tracker.addEcommerceItem, 'function', 'addEcommerceItem' );
@@ -3190,7 +3191,7 @@ if ($sqlite) {
     });
 
     test("trackingContent", function() {
-        expect(81);
+        expect(83);
 
         function assertTrackingRequest(actual, expectedStartsWith, message)
         {
@@ -3526,6 +3527,101 @@ if ($sqlite) {
             start();
         }, 7000);
 
+        expected =
+            [
+                {
+                    "name": "My Ad 7",
+                    "piece": "Unknown",
+                    "target": "http://img7.example.com"
+                },
+                {
+                    "name": "http://www.example.com/path/xyz.jpg",
+                    "piece": "http://www.example.com/path/xyz.jpg",
+                    "target": "http://img6.example.com"
+                },
+                {
+                    "name": "My Ad 5",
+                    "piece": "http://img5.example.com/path/xyz.jpg",
+                    "target": origin + "/anylink5"
+                },
+                {
+                    "name": "My content 4",
+                    "piece": "My content 4",
+                    "target": "http://img4.example.com"
+                },
+                {
+                    "name": toAbsolutePath("img3-en.jpg"),
+                    "piece": toAbsoluteUrl("img3-en.jpg"),
+                    "target": "http://img3.example.com"
+                },
+                {
+                    "name": "img.jpg",
+                    "piece": "img.jpg",
+                    "target": "http://img2.example.com"
+                },
+                {
+                    "name": toAbsolutePath("img1-en.jpg"),
+                    "piece": toAbsoluteUrl("img1-en.jpg"),
+                    "target": ""
+                },
+                {
+                    "name": "/tests/javascript/img1-en.jpg",
+                    "piece": toAbsoluteUrl("img1-en.jpg"),
+                    "target": ""
+                }];
+        
+        var consoleOld = console;
+        var loggedContentBlocks = [];
+        console = {log: function (content){
+            loggedContentBlocks = content;
+        }};
+        tracker.logAllContentBlocksOnPage();
+        console = consoleOld;
+        expected =
+            [
+                {
+                    "name": "My Ad 7",
+                    "piece": "Unknown",
+                    "target": "http://img7.example.com"
+                },
+                {
+                    "name": "http://www.example.com/path/xyz.jpg",
+                    "piece": "http://www.example.com/path/xyz.jpg",
+                    "target": "http://img6.example.com"
+                },
+                {
+                    "name": "My Ad 5",
+                    "piece": "http://img5.example.com/path/xyz.jpg",
+                    "target": origin + "/anylink5"
+                },
+                {
+                    "name": "My content 4",
+                    "piece": "My content 4",
+                    "target": "http://img4.example.com"
+                },
+                {
+                    "name": toAbsolutePath("img3-en.jpg"),
+                    "piece": toAbsoluteUrl("img3-en.jpg"),
+                    "target": "http://img3.example.com"
+                },
+                {
+                    "name": "img.jpg",
+                    "piece": "img.jpg",
+                    "target": "http://img2.example.com"
+                },
+                {
+                    "name": toAbsolutePath("img1-en.jpg"),
+                    "piece": toAbsoluteUrl("img1-en.jpg"),
+                    "target": ""
+                },
+                {
+                    "name": "/tests/javascript/img1-en.jpg",
+                    "piece": toAbsoluteUrl("img1-en.jpg"),
+                    "target": ""
+                }];
+
+        equal(expected.length, loggedContentBlocks.length, 'logAllContentBlocksOnPage should detect correct number of content blocks');
+        equal(JSON.stringify(expected), JSON.stringify(loggedContentBlocks), 'logAllContentBlocksOnPage should log all content blocks');
     });
 
     test("trackingContentInteractionInteractive", function() {

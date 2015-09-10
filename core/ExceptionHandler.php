@@ -56,7 +56,7 @@ class ExceptionHandler
 
     public static function dieWithHtmlErrorPage(Exception $exception)
     {
-        Common::sendHeader('Content-Type: text/html; char1set=utf-8');
+        Common::sendHeader('Content-Type: text/html; charset=utf-8');
 
         echo self::getErrorResponse($exception);
 

@@ -18,6 +18,22 @@
 			<main_url>http://piwik.net</main_url>
 		</row>
 		<row>
+			<label>Piwik test three</label>
+			<nb_visits>3</nb_visits>
+			<nb_actions>5</nb_actions>
+			<nb_pageviews>5</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<visits_evolution>100%</visits_evolution>
+			<actions_evolution>100%</actions_evolution>
+			<pageviews_evolution>100%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>3</idsite>
+			<group />
+			<main_url>http://example-site-three.com</main_url>
+		</row>
+		<row>
 			<label>Piwik test two</label>
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
@@ -67,6 +83,22 @@
 			<group />
 			<main_url>http://example-site-two.com</main_url>
 		</row>
+		<row>
+			<label>Piwik test three</label>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<visits_evolution>-100%</visits_evolution>
+			<actions_evolution>-100%</actions_evolution>
+			<pageviews_evolution>-100%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>3</idsite>
+			<group />
+			<main_url>http://example-site-three.com</main_url>
+		</row>
 	</result>
 	<result date="2012-10">
 		<row>
@@ -100,6 +132,22 @@
 			<idsite>2</idsite>
 			<group />
 			<main_url>http://example-site-two.com</main_url>
+		</row>
+		<row>
+			<label>Piwik test three</label>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>3</idsite>
+			<group />
+			<main_url>http://example-site-three.com</main_url>
 		</row>
 	</result>
 	<result date="2012-11">
@@ -135,6 +183,22 @@
 			<group />
 			<main_url>http://example-site-two.com</main_url>
 		</row>
+		<row>
+			<label>Piwik test three</label>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>3</idsite>
+			<group />
+			<main_url>http://example-site-three.com</main_url>
+		</row>
 	</result>
 	<result date="2012-12">
 		<row>
@@ -168,6 +232,22 @@
 			<idsite>2</idsite>
 			<group />
 			<main_url>http://example-site-two.com</main_url>
+		</row>
+		<row>
+			<label>Piwik test three</label>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>3</idsite>
+			<group />
+			<main_url>http://example-site-three.com</main_url>
 		</row>
 	</result>
 	<result date="2013-01">
@@ -203,6 +283,22 @@
 			<group />
 			<main_url>http://example-site-two.com</main_url>
 		</row>
+		<row>
+			<label>Piwik test three</label>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>3</idsite>
+			<group />
+			<main_url>http://example-site-three.com</main_url>
+		</row>
 	</result>
 	<result date="2013-02">
 		<row>
@@ -236,6 +332,22 @@
 			<idsite>2</idsite>
 			<group />
 			<main_url>http://example-site-two.com</main_url>
+		</row>
+		<row>
+			<label>Piwik test three</label>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_pageviews>0</nb_pageviews>
+			<revenue>0</revenue>
+			<nb_conversions>0</nb_conversions>
+			<visits_evolution>0%</visits_evolution>
+			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<nb_conversions_evolution>0%</nb_conversions_evolution>
+			<idsite>3</idsite>
+			<group />
+			<main_url>http://example-site-three.com</main_url>
 		</row>
 	</result>
 </results>

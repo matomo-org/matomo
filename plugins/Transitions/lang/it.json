@@ -14,7 +14,7 @@
         "IncomingTraffic": "Traffico entrante",
         "LoopsInline": "%s pagine ricaricate",
         "NoDataForAction": "Non ci sono dati per %s",
-        "NoDataForActionDetails": "O l'azione non ha avuto pagine viste durante il periodo di%s o non è valida.",
+        "NoDataForActionDetails": "O l'azione non ha avuto pagine viste durante il periodo di %s o non è valida.",
         "OutgoingTraffic": "Traffico uscente",
         "PluginDescription": "Restituisce le azioni precedenti e seguenti per ciascun URL di pagina in un nuovo report Transizioni, disponibile tra i report Azioni con una nuova icona.",
         "ShareOfAllPageviews": "Questa pagina ha %s visualizzazioni (%s di tutte le visualizzazioni)",

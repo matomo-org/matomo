@@ -115,6 +115,30 @@ class TrackerTest extends BulkTrackingTestCase
         $this->assertEmpty($this->getIdVisit(3));
     }
 
+    public function test_main_shouldReportInvalidIndices_IfInvalidRequestsIncluded_AndRequestAuthenticated()
+    {
+        $this->injectRawDataToBulk($this->getDummyRequest($token = Fixture::getTokenAuth(), $idSite = array(1, -100)));
+
+        $handler = $this->getHandler();
+        $handler->setResponse(new Response());
+
+        $response = $this->tracker->main($handler, $this->getEmptyRequestSet());
+
+        $this->assertEquals('{"status":"success","tracked":1,"invalid":1,"invalid_indices":[1]}', $response);
+    }
+
+    public function test_main_shouldReportInvalidCount_IfInvalidRequestsIncluded_AndRequestNotAuthenticated()
+    {
+        $this->injectRawDataToBulk($this->getDummyRequest($token = null, $idSite = array(1, -100)));
+
+        $handler = $this->getHandler();
+        $handler->setResponse(new Response());
+
+        $response = $this->tracker->main($handler, $this->getEmptyRequestSet());
+
+        $this->assertEquals('{"status":"success","tracked":1,"invalid":1}', $response);
+    }
+
     private function getHandler()
     {
         return Tracker\Handler\Factory::make();
@@ -130,4 +154,10 @@ class TrackerTest extends BulkTrackingTestCase
         return Tracker::getDatabase()->fetchRow("SELECT * FROM " . Common::prefixTable('log_visit') . " WHERE idvisit = ?", array($idVisit));
     }
 
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+
+        $fixture->createSuperUser = true;
+    }
 }

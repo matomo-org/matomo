@@ -125,53 +125,71 @@ class GoalManager
             return array();
         }
 
-        $actionType = $action->getActionType();
         $goals = $this->getGoalDefinitions($idSite);
 
         $convertedGoals = array();
         foreach ($goals as $goal) {
-            $attribute = $goal['match_attribute'];
-            // if the attribute to match is not the type of the current action
-            if ((($attribute == 'url' || $attribute == 'title') && $actionType != Action::TYPE_PAGE_URL)
-              || ($attribute == 'file' && $actionType != Action::TYPE_DOWNLOAD)
-              || ($attribute == 'external_website' && $actionType != Action::TYPE_OUTLINK)
-              || ($attribute == 'manually')
-              || in_array($attribute, array('event_action', 'event_name', 'event_category')) && $actionType != Action::TYPE_EVENT
-            ) {
-                continue;
-            }
-
-
-            switch ($attribute) {
-                case 'title':
-                    // Matching on Page Title
-                    $url = $action->getActionName();
-                    break;
-                case 'event_action':
-                    $url = $action->getEventAction();
-                    break;
-                case 'event_name':
-                    $url = $action->getEventName();
-                    break;
-                case 'event_category':
-                    $url = $action->getEventCategory();
-                    break;
-                // url, external_website, file, manually...
-                default:
-                    $url = $action->getActionUrlRaw();
-                    break;
-            }
-
-            $pattern_type = $goal['pattern_type'];
-
-            $match = $this->isUrlMatchingGoal($goal, $pattern_type, $url);
-            if ($match) {
-                $goal['url'] = $action->getActionUrl();
-                $convertedGoals[] = $goal;
+            $convertedUrl = $this->detectGoalMatch($goal, $action);
+            if (!empty($convertedUrl)) {
+                $convertedGoals[] = array('url' => $convertedUrl) + $goal;
             }
         }
-
         return $convertedGoals;
+    }
+
+    /**
+     * Detects if an Action matches a given goal. If it does, the URL that triggered the goal
+     * is returned. Otherwise null is returned.
+     *
+     * @param array $goal
+     * @param Action $action
+     * @return string|null
+     */
+    public function detectGoalMatch($goal, Action $action)
+    {
+        $actionType = $action->getActionType();
+
+        $attribute = $goal['match_attribute'];
+
+        // if the attribute to match is not the type of the current action
+        if ((($attribute == 'url' || $attribute == 'title') && $actionType != Action::TYPE_PAGE_URL)
+          || ($attribute == 'file' && $actionType != Action::TYPE_DOWNLOAD)
+          || ($attribute == 'external_website' && $actionType != Action::TYPE_OUTLINK)
+          || ($attribute == 'manually')
+          || in_array($attribute, array('event_action', 'event_name', 'event_category')) && $actionType != Action::TYPE_EVENT
+        ) {
+            return null;
+        }
+
+
+        switch ($attribute) {
+            case 'title':
+                // Matching on Page Title
+                $url = $action->getActionName();
+                break;
+            case 'event_action':
+                $url = $action->getEventAction();
+                break;
+            case 'event_name':
+                $url = $action->getEventName();
+                break;
+            case 'event_category':
+                $url = $action->getEventCategory();
+                break;
+            // url, external_website, file, manually...
+            default:
+                $url = $action->getActionUrlRaw();
+                break;
+        }
+
+        $pattern_type = $goal['pattern_type'];
+
+        $match = $this->isUrlMatchingGoal($goal, $pattern_type, $url);
+        if (!$match) {
+            return null;
+        }
+
+        return $action->getActionUrl();
     }
 
     public function detectGoalId($idSite, Request $request)
@@ -216,7 +234,7 @@ class GoalManager
         // Copy Custom Variables from Visit row to the Goal conversion
         // Otherwise, set the Custom Variables found in the cookie sent with this request
         $goal += $visitCustomVariables;
-        $maxCustomVariables = CustomVariables::getMaxCustomVariables();
+        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
 
         for ($i = 1; $i <= $maxCustomVariables; $i++) {
             if (isset($visitorInformation['custom_var_k' . $i])

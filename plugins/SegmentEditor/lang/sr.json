@@ -1,5 +1,6 @@
 {
     "SegmentEditor": {
+        "PluginDescription": "Kreiranje segmentiranih izveštaja.",
         "AddANDorORCondition": "Dodavanje uslova %s",
         "AddNewSegment": "Dodavanje novog segmenta",
         "AreYouSureDeleteSegment": "Da li ste sigurni da želite da obrišete ovaj segment?",

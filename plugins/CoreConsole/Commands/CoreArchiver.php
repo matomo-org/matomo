@@ -100,7 +100,7 @@ class CoreArchiver extends ConsoleCommand
         $command->addOption('force-idsites', null, InputOption::VALUE_OPTIONAL,
             'If specified, archiving will be processed only for these Sites Ids (comma separated)');
         $command->addOption('force-periods', null, InputOption::VALUE_OPTIONAL,
-            "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month)");
+            "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month,year,range)");
         $command->addOption('force-date-last-n', null, InputOption::VALUE_REQUIRED,
             "This script calls the API with period=lastN. You can force the N in lastN by specifying this value.");
         $command->addOption('force-date-range', null, InputOption::VALUE_OPTIONAL,

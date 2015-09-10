@@ -339,6 +339,9 @@ abstract class Base extends VisitDimension
         // 2) Referrer URL stored in the _ref cookie
         // 3) If no info from the cookie, attribute to the current visit referrer
 
+
+        Common::printDebug("Attributing a referrer to this Goal...");
+
         // 3) Default values: current referrer
         $type    = $visitor->getVisitorColumn('referer_type');
         $name    = $visitor->getVisitorColumn('referer_name');
@@ -351,11 +354,13 @@ abstract class Base extends VisitDimension
             && !empty($name)
         ) {
             // Use default values per above
+            Common::printDebug("Invalid Referrer information found: current visitor seems to have used a campaign, but campaign name was not found in the request.");
         } // 1) Campaigns from 1st party cookie
         elseif (!empty($referrerCampaignName)) {
             $type    = Common::REFERRER_TYPE_CAMPAIGN;
             $name    = $referrerCampaignName;
             $keyword = $referrerCampaignKeyword;
+            Common::printDebug("Campaign information from 1st party cookie is used.");
         } // 2) Referrer URL parsing
         elseif (!empty($referrerUrl)) {
 
@@ -367,7 +372,13 @@ abstract class Base extends VisitDimension
                 $type    = $referrer['referer_type'];
                 $name    = $referrer['referer_name'];
                 $keyword = $referrer['referer_keyword'];
+
+                Common::printDebug("Referrer URL (search engine or website) is used.");
+            } else {
+                Common::printDebug("No referrer attribution found for this user. Current user's visit referrer is used.");
             }
+        } else {
+            Common::printDebug("No referrer attribution found for this user. Current user's visit referrer is used.");
         }
 
         $this->setCampaignValuesToLowercase($type, $name, $keyword);

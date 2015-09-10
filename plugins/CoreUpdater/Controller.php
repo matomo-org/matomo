@@ -246,6 +246,8 @@ class Controller extends \Piwik\Plugin\Controller
         }
         Filesystem::deleteAllCacheOnUpdate();
 
+        sort($dimensionsToUpdate);
+
         $view->coreError = $this->coreError;
         $view->warningMessages = $this->warningMessages;
         $view->errorMessages = $this->errorMessages;
