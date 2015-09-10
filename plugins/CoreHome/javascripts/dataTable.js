@@ -1370,6 +1370,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 action: 'saveViewDataTableParameters',
                 report_id: reportId
             }, 'get');
+            ajaxRequest.withTokenInUrl();
             ajaxRequest.addParams({
                 parameters: JSON.stringify(parameters)
             }, 'post');

@@ -166,6 +166,7 @@
                 action: 'resetLayout',
                 idDashboard: dashboardId
             }, 'get');
+            ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(
                 function () {
                     methods.loadDashboard.apply(this, [dashboardId])
@@ -546,6 +547,7 @@
             module: 'Dashboard',
             action: 'getAllDashboards'
         }, 'get');
+        ajaxRequest.withTokenInUrl();
         ajaxRequest.setCallback(success);
         ajaxRequest.send();
     }
@@ -598,6 +600,8 @@
                     }
                 }
             );
+
+            ajaxRequest.withTokenInUrl();
             ajaxRequest.setFormat('html');
             ajaxRequest.send(false);
         }
@@ -624,6 +628,7 @@
                 methods.loadDashboard.apply(this, [1]);
             }
         );
+        ajaxRequest.withTokenInUrl();
         ajaxRequest.setFormat('html');
         ajaxRequest.send(true);
     }

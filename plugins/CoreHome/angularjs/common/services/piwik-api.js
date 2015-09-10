@@ -34,6 +34,15 @@
             }
         }
 
+        function withTokenInUrl()
+        {
+            postParams['token_auth'] = piwik.token_auth;
+        }
+
+        function isRequestToApiMethod() {
+            return getParams && getParams['module'] === 'API' && getParams['method'];
+        }
+
         function reset () {
             getParams  = {};
             postParams = {};
@@ -158,7 +167,10 @@
          * @private
          */
         function getPostParams (params) {
-            params.token_auth = piwik.token_auth;
+            if (isRequestToApiMethod()) {
+                params.token_auth = piwik.token_auth;
+            }
+
             return params;
         }
 
@@ -283,6 +295,7 @@
         }
 
         return {
+            withTokenInUrl: withTokenInUrl,
             bulkFetch: bulkFetch,
             post: post,
             fetch: fetch,

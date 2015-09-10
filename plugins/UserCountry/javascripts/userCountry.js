@@ -23,6 +23,7 @@ $(document).ready(function () {
             action: 'setCurrentLocationProvider',
             id: $(this).val()
         }, 'get');
+        ajaxRequest.withTokenInUrl();
         ajaxRequest.setCallback(
             function () {
                 var UI = require('piwik/UI');
@@ -81,6 +82,7 @@ $(document).ready(function () {
 
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.addParams(data, 'post');
+        ajaxRequest.withTokenInUrl();
         ajaxRequest.setCallback(function (response) {
             if (!response || response.error) {
                 callback(response);
@@ -204,6 +206,7 @@ $(document).ready(function () {
                 isp_db: $('#geoip-isp-db').val(),
                 org_db: $('#geoip-org-db').val()
             }, 'post');
+            ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(updateGeoIPSuccess);
             ajaxRequest.send(false);
         }

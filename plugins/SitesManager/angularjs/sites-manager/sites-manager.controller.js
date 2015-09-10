@@ -243,7 +243,7 @@
                 searchKeywordParameters: $scope.globalSettings.searchKeywordParametersGlobal.join(','),
                 searchCategoryParameters: $scope.globalSettings.searchCategoryParametersGlobal.join(',')
             }, 'POST');
-
+            ajaxHandler.withTokenInUrl();
             ajaxHandler.redirectOnSuccess($scope.redirectParams);
             ajaxHandler.setLoadingElement();
             ajaxHandler.send(true);
