@@ -23,12 +23,16 @@ class LineMessageFormatter implements FormatterInterface
      */
     private $logMessageFormat;
 
+    private $allowInlineLineBreaks;
+
     /**
      * @param string $logMessageFormat
+     * @param bool $allowInlineLineBreaks If disabled, a log message will be created for each line
      */
-    public function __construct($logMessageFormat)
+    public function __construct($logMessageFormat, $allowInlineLineBreaks = true)
     {
         $this->logMessageFormat = $logMessageFormat;
+        $this->allowInlineLineBreaks = $allowInlineLineBreaks;
     }
 
     public function format(array $record)
@@ -36,18 +40,34 @@ class LineMessageFormatter implements FormatterInterface
         $class = isset($record['extra']['class']) ? $record['extra']['class'] : '';
         $date = $record['datetime']->format('Y-m-d H:i:s');
 
-        $message = $this->prefixMessageWithRequestId($record);
+        $message = $record['message'];
 
+        if ($this->allowInlineLineBreaks) {
+            $message  = str_replace("\n", "\n  ", $message); // intend lines
+            $messages = array($message);
+        } else {
+            $messages = explode("\n", $message);
+        }
+
+        $total = '';
+
+        foreach ($messages as $message) {
+            $message = $this->prefixMessageWithRequestId($record, $message);
+            $total  .= $this->formatMessage($class, $message, $date, $record);
+        }
+
+        return $total;
+    }
+
+    private function formatMessage($class, $message, $date, $record)
+    {
         $message = str_replace(
             array('%tag%', '%message%', '%datetime%', '%level%'),
             array($class, $message, $date, $record['level_name']),
             $this->logMessageFormat
         );
 
-        $message = str_replace("\n", "\n  ", $message);
-
         $message .= "\n";
-
         return $message;
     }
 
@@ -60,11 +80,11 @@ class LineMessageFormatter implements FormatterInterface
         return $records;
     }
 
-    private function prefixMessageWithRequestId(array $record)
+    private function prefixMessageWithRequestId(array $record, $message)
     {
         $requestId = isset($record['extra']['request_id']) ? $record['extra']['request_id'] : '';
 
-        $message = trim($record['message']);
+        $message = trim($message);
 
         if ($requestId) {
             $message = '[' . $requestId . '] ' . $message;
