@@ -38,6 +38,8 @@
 
         function getDashboardLayout(dashboardId)
         {
+            piwikApi.withTokenInUrl();
+
             return piwikApi.fetch({module: 'Dashboard', action: 'getDashboardLayout', idDashboard: dashboardId});
         }
 

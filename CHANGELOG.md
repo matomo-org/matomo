@@ -26,6 +26,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The new class `Piwik\Category\Subcategory` let you change the name and order of menu items
 * New HTTP API method `API.getWidgetMetadata` to get a list of available widgets
 * New HTTP API method `API.getReportPagesMetadata` to get a list of all available pages that exist including the widgets they include
+* The JavaScript AjaxHelper has a new method `ajaxHelper.withTokenInUrl()` to easily send a token along a XHR. Within the Controller the existence of this token can be checked via `$this->checkTokenInUrl();` to prevent CSRF attacks.
 
 ### New features
 * New "Sparklines" visualization that let's you create a widget showing multiple sparklines

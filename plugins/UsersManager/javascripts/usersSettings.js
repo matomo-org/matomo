@@ -45,6 +45,7 @@ function sendUserSettingsAJAX() {
         format: 'json',
         action: 'recordUserSettings'
     }, 'GET');
+    ajaxHandler.withTokenInUrl();
     ajaxHandler.addParams(postParams, 'POST');
     ajaxHandler.redirectOnSuccess(params);
     ajaxHandler.setLoadingElement('#ajaxLoadingUserSettings');
@@ -64,6 +65,7 @@ function sendAnonymousUserSettingsAJAX() {
         format: 'json',
         action: 'recordAnonymousUserSettings'
     }, 'GET');
+    ajaxHandler.withTokenInUrl();
     ajaxHandler.addParams({
         anonymousDefaultReport: anonymousDefaultReport,
         anonymousDefaultDate: anonymousDefaultDate

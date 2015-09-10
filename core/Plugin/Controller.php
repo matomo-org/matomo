@@ -901,6 +901,9 @@ abstract class Controller
      * This is a protection against CSRF and should be used in all controller
      * methods that modify Piwik or any user settings.
      *
+     * If called from JavaScript by using the `ajaxHelper` you have to call `ajaxHelper.withTokenInUrl();` before
+     * `ajaxHandler.send();` to send the token along with the request.
+     *
      * **The token_auth should never appear in the browser's address bar.**
      *
      * @throws \Piwik\NoAccessException If the token doesn't match.

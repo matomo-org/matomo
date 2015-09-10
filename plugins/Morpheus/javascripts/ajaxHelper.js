@@ -99,6 +99,8 @@ function ajaxHelper() {
      */
     this.errorCallback =  this.defaultErrorCallback;
 
+    this.withToken = false;
+
     /**
      * Callback function to be executed on complete (after error or success)
      */
@@ -169,6 +171,10 @@ function ajaxHelper() {
                 this.postParams[key] = params[key];
             }
         }
+    };
+
+    this.withTokenInUrl = function () {
+        this.withToken = true;
     };
 
     /**
@@ -432,6 +438,9 @@ function ajaxHelper() {
         return $.ajax(ajaxCall);
     };
 
+    this._isRequestToApiMethod = function () {
+        return this.getParams && this.getParams['module'] === 'API' && this.getParams['method'];
+    }
     this._getDefaultPostParams = function () {
         return {
             token_auth: piwik.token_auth

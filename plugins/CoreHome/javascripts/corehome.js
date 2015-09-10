@@ -27,6 +27,7 @@
                 module: 'CoreHome',
                 action: 'checkForUpdates'
             }, 'get');
+            ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(function (response) {
                 headerMessage.fadeOut('slow', function () {
                     response = $(response);

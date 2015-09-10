@@ -14,6 +14,7 @@ function createDashboard() {
 
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.setLoadingElement();
+        ajaxRequest.withTokenInUrl();
         ajaxRequest.addParams({
             module: 'Dashboard',
             action: 'createNewDashboard'
@@ -136,6 +137,7 @@ function copyDashboardToUser() {
                     piwikHelper.modalConfirm('#alert', {});
                 }
             );
+            ajaxRequest.withTokenInUrl();
             ajaxRequest.send(true);
         }
     });
