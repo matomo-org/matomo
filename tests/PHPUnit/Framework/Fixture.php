@@ -462,6 +462,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     public static function getRootUrl()
     {
         $piwikUrl = Config::getInstance()->tests['http_host'];
+        $piwikUri = Config::getInstance()->tests['request_uri'];
 
         if (strpos($piwikUrl, 'http://') !== 0) {
             $piwikUrl = 'http://' . $piwikUrl . '/';
@@ -481,6 +482,9 @@ class Fixture extends \PHPUnit_Framework_Assert
         // in case force_ssl=1, or assume_secure_protocol=1, is set in tests
         // we don't want to require Travis CI or devs to setup HTTPS on their local machine
         $piwikUrl = str_replace("https://", "http://", $piwikUrl);
+
+        // append REQUEST_URI (eg. when Piwik runs at http://localhost/piwik/)
+        $piwikUrl .= $piwikUri;
 
         return $piwikUrl;
     }
