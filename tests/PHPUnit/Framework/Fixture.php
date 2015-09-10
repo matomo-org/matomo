@@ -40,6 +40,7 @@ use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\ReportRenderer;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
+use Piwik\Singleton;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -350,6 +351,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         PiwikCache::getEagerCache()->flushAll();
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
+        Singleton::clearAll();
 
         $_GET = $_REQUEST = array();
         Translate::reset();

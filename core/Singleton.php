@@ -63,4 +63,12 @@ class Singleton
         $class = get_called_class();
         self::$instances[$class] = $instance;
     }
+
+    /**
+     * @ignore
+     */
+    public static function clearAll()
+    {
+        self::$instances = array();
+    }
 }
