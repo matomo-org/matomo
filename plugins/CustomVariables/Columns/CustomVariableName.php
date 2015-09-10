@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\CustomVariables\Columns;
 
-use Piwik\Columns\Dimension;
 use Piwik\Piwik;
+use Piwik\Plugin\Dimension\VisitDimension;
 
-class CustomVariableName extends Dimension
+class CustomVariableName extends VisitDimension
 {
     public function getName()
     {
