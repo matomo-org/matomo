@@ -442,7 +442,24 @@ var broadcast = {
 
         urlAjax = urlAjax.match(/^\?/) ? urlAjax : "?" + urlAjax;
         broadcast.lastUrlRequested = urlAjax;
-        function sectionLoaded(content) {
+
+        function sectionLoaded(content, status, request) {
+            if (request) {
+                var responseHeader = request.getResponseHeader('Content-Type');
+                if (responseHeader && 0 <= responseHeader.toLowerCase().indexOf('json')) {
+                    var message = 'JSON cannot be displayed for';
+                    if (this.getParams && this.getParams['module']) {
+                        message += ' module=' +  this.getParams['module'];
+                    }
+                    if (this.getParams && this.getParams['action']) {
+                        message += ' action=' +  this.getParams['action'];
+                    }
+                    $('#content').text(message);
+                    piwikHelper.hideAjaxLoading();
+                    return;
+                }
+            }
+
             // if content is whole HTML document, do not show it, otherwise recursive page load could occur
             var htmlDocType = '<!DOCTYPE';
             if (content.substring(0, htmlDocType.length) == htmlDocType) {
@@ -468,6 +485,9 @@ var broadcast = {
 
         var ajax = new ajaxHelper();
         ajax.setUrl(urlAjax);
+        ajax._getDefaultPostParams = function () {
+            return {};
+        };
         ajax.setErrorCallback(broadcast.customAjaxHandleError);
         ajax.setCallback(sectionLoaded);
         ajax.setFormat('html');
