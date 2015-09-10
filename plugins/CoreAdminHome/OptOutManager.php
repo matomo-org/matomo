@@ -196,11 +196,8 @@ class OptOutManager
             'module' => 'CoreAdminHome',
             'action' => 'optOut',
             'language' => $lang,
+            'setCookieInNewWindow' => 1
         ), false);
-
-        if ($this->isUserAgentSafari() && $trackVisits) {
-            $this->addQueryParameter('setCookieInNewWindow', 1, false);
-        }
 
         $this->view = new View("@CoreAdminHome/optOut");
         $this->view->setXFrameOptions('allow');
