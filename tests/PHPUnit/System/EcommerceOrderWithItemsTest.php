@@ -57,7 +57,7 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
         );
 
         // Normal standard goal
-        $apiWithSegments_visitConvertedGoal = array_merge($apiWithSegments , array('Goals.get', 'VisitsSummary.get'));
+        $apiWithSegments_visitConvertedGoal = array_merge($apiWithSegments , array('VisitsSummary.get'));
         return array_merge(array(
 
                 // Segment: This will match the first visit of the fixture only
