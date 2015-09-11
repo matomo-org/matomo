@@ -189,12 +189,12 @@ class API extends \Piwik\Plugin\API
                 unset($segment['sqlFilter']);
                 unset($segment['sqlFilterValue']);
                 unset($segment['sqlSegment']);
-            }
 
-            if (isset($segment['suggestedValuesCallback'])
-                && !is_string($segment['suggestedValuesCallback'])
-            ) {
-                unset($segment['suggestedValuesCallback']);
+                if (isset($segment['suggestedValuesCallback'])
+                    && !is_string($segment['suggestedValuesCallback'])
+                ) {
+                    unset($segment['suggestedValuesCallback']);
+                }
             }
         }
 
