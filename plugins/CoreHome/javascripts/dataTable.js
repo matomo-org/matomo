@@ -1422,19 +1422,23 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleExpandFooter: function (domElem) {
-        if (this.isWithinDialog(domElem)) {
-            return;
-        }
-
         var footerIcons = $('.dataTableFooterIcons', domElem);
 
         if (!footerIcons.length) {
             return;
         }
 
+        if (this.isWithinDialog(domElem)) {
+            $('.dataTableFeatures', domElem).addClass('expanded');
+        }
+
         var self = this;
         function toggleFooter(event)
         {
+            if (self.isWithinDialog(domElem)) {
+                return;
+            }
+
             var icons = $('.dataTableFooterIcons', domElem);
             $('.dataTableFeatures', domElem).toggleClass('expanded');
 
