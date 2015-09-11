@@ -67,7 +67,7 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                         'date' => $dateTime,
                         'periods' => array('day', 'week'),
                         'otherRequestParameters' => array('_leavePiwikCoreVariables' => 1),
-                        'segment' => 'pageUrl=@Another%20Product%20page',
+                        'segment' => 'pageUrl=@example.org%2Findex.htm',
                         'testSuffix' => '_SegmentPageUrlContains'
                     )
                 ),
