@@ -64,7 +64,7 @@ class LogQueryBuilder
 
         // make sure the tables are joined in the right order
         // base table first, then action before conversion
-        // this way, conversions can be joined on idlink_va
+        // this way, conversions can be left joined on idvisit
         $actionIndex = array_search("log_link_visit_action", $tables);
         $conversionIndex = array_search("log_conversion", $tables);
         if ($actionIndex > 0 && $conversionIndex > 0 && $actionIndex > $conversionIndex) {
