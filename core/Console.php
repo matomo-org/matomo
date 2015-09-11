@@ -105,7 +105,7 @@ class Console extends Application
     private function getAvailableCommands()
     {
         $commands = $this->getDefaultPiwikCommands();
-        $detected = PluginManager::getInstance()->findMultipleComponents('Commands', 'Piwik\\Plugin\\ConsoleCommand');
+        $detected = $this->environment->getContainer()->get('components.classes.Piwik\Plugin\ConsoleCommand');
 
         $commands = array_merge($commands, $detected);
 

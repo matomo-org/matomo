@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Manager;
@@ -128,7 +129,7 @@ abstract class Action
         static $actions;
 
         if (is_null($actions)) {
-            $actions = Manager::getInstance()->findMultipleComponents('Actions', '\\Piwik\\Tracker\\Action');
+            $actions = StaticContainer::get('components.classes.Piwik\Tracker\Action');
         }
 
         $instances = array();

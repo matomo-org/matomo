@@ -19,6 +19,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ConsoleCommand extends SymfonyCommand
 {
+    const COMPONENT_SUBNAMESPACE = 'Commands';
+
     public function writeSuccessMessage(OutputInterface $output, $messages)
     {
         $lengths = array_map('strlen', $messages);

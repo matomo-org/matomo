@@ -11,6 +11,7 @@ namespace Piwik\Plugin\Dimension;
 use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Segment;
 use Piwik\Common;
@@ -215,23 +216,7 @@ abstract class ActionDimension extends Dimension
      */
     public static function getAllDimensions()
     {
-        $cacheId = CacheId::pluginAware('ActionDimensions');
-        $cache   = PiwikCache::getTransientCache();
-
-        if (!$cache->contains($cacheId)) {
-            $plugins   = PluginManager::getInstance()->getPluginsLoadedAndActivated();
-            $instances = array();
-
-            foreach ($plugins as $plugin) {
-                foreach (self::getDimensions($plugin) as $instance) {
-                    $instances[] = $instance;
-                }
-            }
-
-            $cache->save($cacheId, $instances);
-        }
-
-        return $cache->fetch($cacheId);
+        return StaticContainer::get('components.Piwik\Plugin\Dimension\ActionDimension');
     }
 
     /**
@@ -242,13 +227,6 @@ abstract class ActionDimension extends Dimension
      */
     public static function getDimensions(Plugin $plugin)
     {
-        $dimensions = $plugin->findMultipleComponents('Columns', '\\Piwik\\Plugin\\Dimension\\ActionDimension');
-        $instances  = array();
-
-        foreach ($dimensions as $dimension) {
-            $instances[] = new $dimension();
-        }
-
-        return $instances;
+        return StaticContainer::get('components.' . $plugin->getPluginName() . '.Piwik\Plugin\Dimension\ActionDimension');
     }
 }

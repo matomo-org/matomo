@@ -10,6 +10,7 @@ namespace Piwik\ViewDataTable;
 
 use Piwik\Cache;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
@@ -73,10 +74,10 @@ class Manager
             return $dataTables;
         }
 
-        $klassToExtend = '\\Piwik\\Plugin\\ViewDataTable';
+        $klassToExtend = 'Piwik\\Plugin\\ViewDataTable';
 
         /** @var string[] $visualizations */
-        $visualizations = PluginManager::getInstance()->findMultipleComponents('Visualizations', $klassToExtend);
+        $visualizations = StaticContainer::get('components.classes.' . $klassToExtend);
 
         /**
          * Triggered when gathering all available DataTable visualizations.

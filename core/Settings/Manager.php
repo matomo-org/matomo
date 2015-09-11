@@ -9,6 +9,7 @@
 
 namespace Piwik\Settings;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
 
 /**
@@ -37,7 +38,7 @@ class Manager
         }
 
         if (empty(static::$settings)) {
-            $settings = PluginManager::getInstance()->findComponents('Settings', 'Piwik\\Plugin\\Settings');
+            $settings = StaticContainer::get('components.Piwik\Plugin\Settings');
             $byPluginName = array();
 
             foreach ($settings as $setting) {
@@ -69,7 +70,8 @@ class Manager
         }
 
         $plugin   = $pluginManager->loadPlugin($pluginName);
-        $settings = $plugin->findComponent('Settings', 'Piwik\\Plugin\\Settings');
+        $settings = StaticContainer::get('components.classes.' . $plugin->getPluginName() . '.Piwik\Plugin\Settings');
+        $settings = reset($settings);
 
         if (!empty($settings)) {
             $settings->removeAllPluginSettings();

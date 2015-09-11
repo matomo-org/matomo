@@ -12,6 +12,7 @@ use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Segment;
@@ -300,15 +301,10 @@ abstract class VisitDimension extends Dimension
         $cache   = PiwikCache::getTransientCache();
 
         if (!$cache->contains($cacheId)) {
-            $plugins   = PluginManager::getInstance()->getPluginsLoadedAndActivated();
-            $instances = array();
+            $instances = StaticContainer::get('components.Piwik\Plugin\Dimension\VisitDimension');
 
-            foreach ($plugins as $plugin) {
-                foreach (self::getDimensions($plugin) as $instance) {
-                    $instances[] = $instance;
-                }
-            }
-
+            // TODO: this should be part of the definition so we don't need the cache above, but I'm not sure how to add it
+            // via php-di
             usort($instances, array('self', 'sortByRequiredFields'));
 
             $cache->save($cacheId, $instances);
@@ -320,7 +316,7 @@ abstract class VisitDimension extends Dimension
     /**
      * @ignore
      */
-    public static function sortByRequiredFields($a, $b)
+    public static function sortByRequiredFields(VisitDimension $a, VisitDimension $b)
     {
         $fields = $a->getRequiredVisitFields();
 
@@ -343,13 +339,6 @@ abstract class VisitDimension extends Dimension
      */
     public static function getDimensions(Plugin $plugin)
     {
-        $dimensions = $plugin->findMultipleComponents('Columns', '\\Piwik\\Plugin\\Dimension\\VisitDimension');
-        $instances  = array();
-
-        foreach ($dimensions as $dimension) {
-            $instances[] = new $dimension();
-        }
-
-        return $instances;
+        return StaticContainer::get('components.' . $plugin->getPluginName() . '.Piwik\Plugin\Dimension\VisitDimension');
     }
 }

@@ -8,9 +8,9 @@
  */
 namespace Piwik\Menu;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Singleton;
-use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * Base class for classes that manage one of Piwik's menus.
@@ -30,7 +30,6 @@ abstract class MenuAbstract extends Singleton
     protected $edits = array();
     protected $renames = array();
     protected $orderingApplied = false;
-    protected static $menus = array();
 
     /**
      * Builds the menu, applies edits, renames
@@ -55,13 +54,7 @@ abstract class MenuAbstract extends Singleton
      */
     protected function getAllMenus()
     {
-        if (!empty(self::$menus)) {
-            return self::$menus;
-        }
-
-        self::$menus = PluginManager::getInstance()->findComponents('Menu', 'Piwik\\Plugin\\Menu');
-
-        return self::$menus;
+        return StaticContainer::get('components.classes.Piwik\Plugin\Menu');
     }
 
     /**
@@ -71,7 +64,7 @@ abstract class MenuAbstract extends Singleton
      */
     public static function clearMenus()
     {
-        self::$menus = array();
+        // empty
     }
 
     /**

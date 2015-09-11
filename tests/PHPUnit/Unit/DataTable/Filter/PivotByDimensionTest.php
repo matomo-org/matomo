@@ -5,7 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\Core\DataTable\Filter;
+namespace Piwik\Tests\Unit\DataTable\Filter;
 
 use Piwik\API\Proxy;
 use Piwik\Config;

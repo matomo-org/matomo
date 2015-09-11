@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugin;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\WidgetsList;
@@ -114,7 +115,7 @@ class Widgets
      */
     public static function getAllWidgets()
     {
-        return PluginManager::getInstance()->findComponents('Widgets', 'Piwik\\Plugin\\Widgets');
+        return StaticContainer::get('components.Piwik\Plugin\Widgets');
     }
 
     /**
@@ -140,8 +141,10 @@ class Widgets
             return;
         }
 
+        $widgets = StaticContainer::get('components.' . $plugin->getPluginName() . '.Piwik\Plugin\Widgets');
+
         /** @var Widgets $widgetContainer */
-        $widgetContainer = $plugin->findComponent('Widgets', 'Piwik\\Plugin\\Widgets');
+        $widgetContainer = reset($widgets);
 
         if (empty($widgetContainer)) {
             // plugin does not define any widgets, we cannot do anything

@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik;
+use Interop\Container\ContainerInterface;
 
 /**
  * Contains helper methods that can be used to get information regarding the
@@ -223,5 +224,11 @@ class SettingsServer
         // in the event one or the other is disabled...
         @ini_set('max_execution_time', $executionTime);
         @set_time_limit($executionTime);
+    }
+
+    public static function isTrackerDebugEnabled(ContainerInterface $c)
+    {
+        $trackerDebug = $c->get("ini.Tracker.debug");
+        return ($trackerDebug == 1 || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']));
     }
 }

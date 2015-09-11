@@ -10,9 +10,8 @@ return array(
     // Disable logging
     'Psr\Log\LoggerInterface' => DI\object('Psr\Log\NullLogger'),
 
-    'Piwik\Cache\Backend' => function () {
-        return \Piwik\Cache::buildBackend('file');
-    },
+    'Piwik\Cache\Backend' => DI\get('cache.backend.file'),
+
     'cache.eager.cache_id' => 'eagercache-test-',
 
     // Disable loading core translations

@@ -8,7 +8,7 @@
  */
 namespace Piwik\Measurable\Type;
 
-use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Container\StaticContainer;
 use Piwik\Measurable\Type;
 
 class TypeManager
@@ -18,7 +18,7 @@ class TypeManager
      */
     public function getAllTypes()
     {
-        return PluginManager::getInstance()->findComponents('Type', '\\Piwik\\Measurable\\Type');
+        return StaticContainer::get('components.classes.Piwik\Measurable\Type');
     }
 
     /**

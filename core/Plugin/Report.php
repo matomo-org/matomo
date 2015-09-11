@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Columns\Dimension;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\Sort;
 use Piwik\Menu\MenuReporting;
@@ -865,7 +866,7 @@ class Report
      */
     public static function getAllReportClasses()
     {
-        return PluginManager::getInstance()->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
+        return StaticContainer::get('components.classes.Piwik\Plugin\Report');
     }
 
     /**

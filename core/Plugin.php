@@ -8,7 +8,6 @@
  */
 namespace Piwik;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Dependency;
 use Piwik\Plugin\MetadataLoader;
 
@@ -107,15 +106,6 @@ class Plugin
     private $pluginInformation;
 
     /**
-     * As the cache is used quite often we avoid having to create instances all the time. We reuse it which is not
-     * perfect but efficient. If the cache is used we need to make sure to call setId() before usage as there
-     * is maybe a different key set since last usage.
-     *
-     * @var \Piwik\Cache\Eager
-     */
-    private $cache;
-
-    /**
      * Constructor.
      *
      * @param string|bool $pluginName A plugin name to force. If not supplied, it is set
@@ -145,13 +135,6 @@ class Plugin
             }
 
             $cache->save($cacheId, $this->pluginInformation);
-        }
-    }
-
-    private function createCacheIfNeeded()
-    {
-        if (is_null($this->cache)) {
-            $this->cache = Cache::getEagerCache();
         }
     }
 
@@ -313,89 +296,6 @@ class Plugin
     }
 
     /**
-     * Tries to find a component such as a Menu or Tasks within this plugin.
-     *
-     * @param string $componentName      The name of the component you want to look for. In case you request a
-     *                                   component named 'Menu' it'll look for a file named 'Menu.php' within the
-     *                                   root of the plugin folder that implements a class named
-     *                                   Piwik\Plugin\$PluginName\Menu . If such a file exists but does not implement
-     *                                   this class it'll silently ignored.
-     * @param string $expectedSubclass   If not empty, a check will be performed whether a found file extends the
-     *                                   given subclass. If the requested file exists but does not extend this class
-     *                                   a warning will be shown to advice a developer to extend this certain class.
-     *
-     * @return \stdClass|null  Null if the requested component does not exist or an instance of the found
-     *                         component.
-     */
-    public function findComponent($componentName, $expectedSubclass)
-    {
-        $this->createCacheIfNeeded();
-
-        $cacheId = 'Plugin' . $this->pluginName . $componentName . $expectedSubclass;
-
-        $componentFile = sprintf('%s/plugins/%s/%s.php', PIWIK_INCLUDE_PATH, $this->pluginName, $componentName);
-
-        if ($this->cache->contains($cacheId)) {
-            $classname = $this->cache->fetch($cacheId);
-
-            if (empty($classname)) {
-                return null; // might by "false" in case has no menu, widget, ...
-            }
-
-            if (file_exists($componentFile)) {
-                include_once $componentFile;
-            }
-        } else {
-            $this->cache->save($cacheId, false); // prevent from trying to load over and over again for instance if there is no Menu for a plugin
-
-            if (!file_exists($componentFile)) {
-                return null;
-            }
-
-            require_once $componentFile;
-
-            $classname = sprintf('Piwik\\Plugins\\%s\\%s', $this->pluginName, $componentName);
-
-            if (!class_exists($classname)) {
-                return null;
-            }
-
-            if (!empty($expectedSubclass) && !is_subclass_of($classname, $expectedSubclass)) {
-                Log::warning(sprintf('Cannot use component %s for plugin %s, class %s does not extend %s',
-                    $componentName, $this->pluginName, $classname, $expectedSubclass));
-                return null;
-            }
-
-            $this->cache->save($cacheId, $classname);
-        }
-
-        return StaticContainer::get($classname);
-    }
-
-    public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
-    {
-        $this->createCacheIfNeeded();
-
-        $cacheId = 'Plugin' . $this->pluginName . $directoryWithinPlugin . $expectedSubclass;
-
-        if ($this->cache->contains($cacheId)) {
-            $components = $this->cache->fetch($cacheId);
-
-            if ($this->includeComponents($components)) {
-                return $components;
-            } else {
-                // problem including one cached file, refresh cache
-            }
-        }
-
-        $components = $this->doFindMultipleComponents($directoryWithinPlugin, $expectedSubclass);
-
-        $this->cache->save($cacheId, $components);
-
-        return $components;
-    }
-
-    /**
      * Detect whether there are any missing dependencies.
      *
      * @param null $piwikVersion Defaults to the current Piwik version
@@ -472,59 +372,5 @@ class Plugin
     public function isTrackerPlugin()
     {
         return false;
-    }
-
-    /**
-     * @param $directoryWithinPlugin
-     * @param $expectedSubclass
-     * @return array
-     */
-    private function doFindMultipleComponents($directoryWithinPlugin, $expectedSubclass)
-    {
-        $components = array();
-
-        $baseDir = PIWIK_INCLUDE_PATH . '/plugins/' . $this->pluginName . '/' . $directoryWithinPlugin;
-        $files   = Filesystem::globr($baseDir, '*.php');
-
-        foreach ($files as $file) {
-            require_once $file;
-
-            $fileName  = str_replace(array($baseDir . '/', '.php'), '', $file);
-            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, $directoryWithinPlugin, str_replace('/', '\\', $fileName));
-
-            if (!class_exists($klassName)) {
-                continue;
-            }
-
-            if (!empty($expectedSubclass) && !is_subclass_of($klassName, $expectedSubclass)) {
-                continue;
-            }
-
-            $klass = new \ReflectionClass($klassName);
-
-            if ($klass->isAbstract()) {
-                continue;
-            }
-
-            $components[$file] = $klassName;
-        }
-        return $components;
-    }
-
-    /**
-     * @param $components
-     * @return bool true if all files were included, false if any file cannot be read
-     */
-    private function includeComponents($components)
-    {
-        foreach ($components as $file => $klass) {
-            if (!is_readable($file)) {
-                return false;
-            }
-        }
-        foreach ($components as $file => $klass) {
-            include_once $file;
-        }
-        return true;
     }
 }

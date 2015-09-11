@@ -10,6 +10,7 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
 use Piwik\Piwik;
@@ -20,6 +21,8 @@ use Piwik\Plugin;
  */
 abstract class ApiRenderer
 {
+    const COMPONENT_SUBNAMESPACE = 'Renderer';
+
     protected $request;
 
     final public function __construct($request)
@@ -104,7 +107,8 @@ abstract class ApiRenderer
     {
         $formatToCheck = '\\' . ucfirst(strtolower($format));
 
-        $rendererClassnames = Plugin\Manager::getInstance()->findMultipleComponents('Renderer', 'Piwik\\API\\ApiRenderer');
+        // TODO: should these be just class names or should we get instances?
+        $rendererClassnames = StaticContainer::get('components.classes.Piwik\API\ApiRenderer');
 
         foreach ($rendererClassnames as $klassName) {
             if (Common::stringEndsWith($klassName, $formatToCheck)) {
