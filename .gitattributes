@@ -34,3 +34,7 @@
 *.png binary
 *.jpg binary
 *.gif binary
+*.gz binary
+*.bz2 binary
+*.pdf binary
+*.jar binary
