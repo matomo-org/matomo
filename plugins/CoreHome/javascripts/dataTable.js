@@ -1428,10 +1428,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return;
         }
 
-        if (this.isWithinDialog(domElem)) {
-            $('.dataTableFeatures', domElem).addClass('expanded');
-        }
-
         var self = this;
         function toggleFooter(event)
         {
