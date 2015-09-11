@@ -592,9 +592,19 @@ class API extends \Piwik\Plugin\API
 
     private function doesSuggestedValuesCallbackNeedData($suggestedValuesCallback)
     {
-        $methodMetadata = new \ReflectionFunction($suggestedValuesCallback);
-        $parametersCount = $methodMetadata->getNumberOfParameters();
-        return $parametersCount >= 3;
+        if (is_string($suggestedValuesCallback)
+            && strpos($suggestedValuesCallback, '::') !== false
+        ) {
+            $suggestedValuesCallback = explode('::', $suggestedValuesCallback);
+        }
+
+        if (is_array($suggestedValuesCallback)) {
+            $methodMetadata = new \ReflectionMethod($suggestedValuesCallback[0], $suggestedValuesCallback[1]);
+        } else {
+            $methodMetadata = new \ReflectionFunction($suggestedValuesCallback);
+        }
+
+        return $methodMetadata->getNumberOfParameters() >= 3;
     }
 }
 
