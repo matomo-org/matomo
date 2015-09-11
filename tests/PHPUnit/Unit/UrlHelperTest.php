@@ -30,6 +30,11 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
             array('https://www.tëteâ.org', true),
             array('http://汉语/漢語.cn', true), //chinese
 
+            array('rtp://whatever.com', true),
+            array('testhttp://test.com', true),
+            array('cylon://3.hmn', true),
+            array('://something.com', true),
+
             // valid network-path reference RFC3986
             array('//piwik.org', true),
             array('//piwik/hello?world=test&test', true),
@@ -45,7 +50,7 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
             array('jmleslangues.php', false),
             array('http://', false),
             array(' http://', false),
-            array('testhttp://test.com', false),
+            array('2fer://', false),
         );
     }
 
