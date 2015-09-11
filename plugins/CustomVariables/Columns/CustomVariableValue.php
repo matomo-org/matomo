@@ -9,10 +9,14 @@
 namespace Piwik\Plugins\CustomVariables\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugin\Dimension\VisitDimension;
 
-class CustomVariableValue extends VisitDimension
+class CustomVariableValue extends Base
 {
+    protected function configureSegments()
+    {
+        $this->configureSegmentsFor('custom_var_v', 'Value');
+    }
+
     public function getName()
     {
         return Piwik::translate('CustomVariables_ColumnCustomVariableValue');

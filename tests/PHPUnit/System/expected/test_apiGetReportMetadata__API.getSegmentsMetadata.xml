@@ -279,6 +279,12 @@
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
+		<name>Custom Variable name</name>
+		<segment>customVariableName</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
 		<name>Custom Variable name 1 (scope visit)</name>
 		<segment>customVariableName1</segment>
 	</row>
@@ -305,6 +311,12 @@
 		<category>Custom Variables</category>
 		<name>Custom Variable name 5 (scope visit)</name>
 		<segment>customVariableName5</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name (scope page)</name>
+		<segment>customVariablePageName</segment>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -339,6 +351,12 @@
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
+		<name>Custom Variable value (scope page)</name>
+		<segment>customVariablePageValue</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
 		<name>Custom Variable value 1 (scope page)</name>
 		<segment>customVariablePageValue1</segment>
 	</row>
@@ -365,6 +383,12 @@
 		<category>Custom Variables</category>
 		<name>Custom Variable value 5 (scope page)</name>
 		<segment>customVariablePageValue5</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value</name>
+		<segment>customVariableValue</segment>
 	</row>
 	<row>
 		<type>dimension</type>

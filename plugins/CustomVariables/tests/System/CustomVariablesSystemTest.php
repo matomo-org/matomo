@@ -43,8 +43,8 @@ class CustomVariablesSystemTest extends SystemTestCase
             array($apiToCall, array(
                 'idSite'  => self::$fixture->idSite,
                 'date'    => self::$fixture->dateTime,
-                'periods' => array('day'))
-            )
+                'periods' => array('day'),
+            )),
         );
     }
 

@@ -145,7 +145,7 @@ class SegmentExpression
             $operand = $this->getSqlMatchFromDefinition($operandDefinition, $availableTables);
 
             if ($operand[1] !== null) {
-                $this->valuesBind[] = $operand[1];
+                $this->valuesBind = array_merge($this->valuesBind, $operand[1]);
             }
 
             $operand = $operand[0];
@@ -172,12 +172,12 @@ class SegmentExpression
      */
     protected function getSqlMatchFromDefinition($def, &$availableTables)
     {
-        $field     = $def[0];
+        $fields    = $def[0];
         $matchType = $def[1];
         $value     = $def[2];
 
         // Segment::getCleanedExpression() may return array(null, $matchType, null)
-        $operandWillNotMatchAnyRow = is_null($field) && is_null($value);
+        $operandWillNotMatchAnyRow = empty($fields) && is_null($value);
         if($operandWillNotMatchAnyRow) {
             if($matchType == self::MATCH_EQUAL) {
                 // eg. pageUrl==DoesNotExist
@@ -196,44 +196,48 @@ class SegmentExpression
             return array($sqlExpression, $value = null);
         }
 
+        if (!is_array($fields)) {
+            $fields = array($fields);
+        }
+
         $alsoMatchNULLValues = false;
         switch ($matchType) {
             case self::MATCH_EQUAL:
-                $sqlMatch = '=';
+                $sqlMatch = '%s =';
                 break;
             case self::MATCH_NOT_EQUAL:
-                $sqlMatch = '<>';
+                $sqlMatch = '%s <>';
                 $alsoMatchNULLValues = true;
                 break;
             case self::MATCH_GREATER:
-                $sqlMatch = '>';
+                $sqlMatch = '%s >';
                 break;
             case self::MATCH_LESS:
-                $sqlMatch = '<';
+                $sqlMatch = '%s <';
                 break;
             case self::MATCH_GREATER_OR_EQUAL:
-                $sqlMatch = '>=';
+                $sqlMatch = '%s >=';
                 break;
             case self::MATCH_LESS_OR_EQUAL:
-                $sqlMatch = '<=';
+                $sqlMatch = '%s <=';
                 break;
             case self::MATCH_CONTAINS:
-                $sqlMatch = 'LIKE';
+                $sqlMatch = '%s LIKE';
                 $value    = '%' . $this->escapeLikeString($value) . '%';
                 break;
             case self::MATCH_DOES_NOT_CONTAIN:
-                $sqlMatch = 'NOT LIKE';
+                $sqlMatch = '%s NOT LIKE';
                 $value    = '%' . $this->escapeLikeString($value) . '%';
                 $alsoMatchNULLValues = true;
                 break;
 
             case self::MATCH_IS_NOT_NULL_NOR_EMPTY:
-                $sqlMatch = 'IS NOT NULL AND (' . $field . ' <> \'\' OR ' . $field . ' = 0)';
+                $sqlMatch = '%s IS NOT NULL AND (%s <> \'\' OR %s = 0)';
                 $value    = null;
                 break;
 
             case self::MATCH_IS_NULL_OR_EMPTY:
-                $sqlMatch = 'IS NULL OR ' . $field . ' = \'\' ';
+                $sqlMatch = '%s IS NULL OR %s = \'\' ';
                 $value    = null;
                 break;
 
@@ -242,7 +246,7 @@ class SegmentExpression
                 // (it won't be matched in self::parseSubExpressions())
                 // it can be used internally to inject sub-expressions into the query.
                 // see Segment::getCleanedExpression()
-                $sqlMatch = 'IN (' . $value['SQL'] . ')';
+                $sqlMatch = '%s IN (' . $value['SQL'] . ')';
                 $value    = $this->escapeLikeString($value['bind']);
                 break;
             default:
@@ -253,21 +257,38 @@ class SegmentExpression
         // We match NULL values when rows are excluded only when we are not doing a
         $alsoMatchNULLValues = $alsoMatchNULLValues && !empty($value);
 
-        if ($matchType === self::MATCH_ACTIONS_CONTAINS
-            || is_null($value)
-        ) {
-            $sqlExpression = "( $field $sqlMatch )";
-        } else {
-            if ($alsoMatchNULLValues) {
-                $sqlExpression = "( $field IS NULL OR $field $sqlMatch ? )";
+        $sqlExpressions = array();
+        $values = array();
+        foreach ($fields as $field) {
+            $sqlMatchReplaced = str_replace('%s', $field, $sqlMatch);
+
+            if ($matchType === self::MATCH_ACTIONS_CONTAINS
+                || is_null($value)
+            ) {
+                $sqlExpression = "( $sqlMatchReplaced )";
             } else {
-                $sqlExpression = "$field $sqlMatch ?";
+                if ($alsoMatchNULLValues) {
+                    $sqlExpression = "( $field IS NULL OR $sqlMatchReplaced ? )";
+                } else {
+                    $sqlExpression = "$sqlMatchReplaced ?";
+                }
             }
+
+            $sqlExpressions[] = $sqlExpression;
+            if ($value !== null) {
+                $values[] = $value;
+            }
+
+            $this->checkFieldIsAvailable($field, $availableTables);
         }
 
-        $this->checkFieldIsAvailable($field, $availableTables);
+        if (count($fields) == 1) {
+            $sqlExpression = reset($sqlExpressions);
+        } else {
+            $sqlExpression = '((' . implode(") OR (", $sqlExpressions) . '))';
+        }
 
-        return array($sqlExpression, $value);
+        return array($sqlExpression, $values);
     }
 
     /**
