@@ -245,6 +245,49 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
+    public function test_getSelectQuery_whenJoinConversionOnAction_segmentUsesPageUrl()
+    {
+        $this->insertPageUrlAsAction('example.com/anypage');
+        $this->insertPageUrlAsAction('example.com/anypage_bis');
+        $pageUrlFoundInDb = 'example.com/page.html?hello=world';
+        $actionIdFoundInDb = $this->insertPageUrlAsAction($pageUrlFoundInDb);
+
+        $select = 'log_conversion.idgoal AS `idgoal`,
+			count(*) AS `1`,
+			count(distinct log_conversion.idvisit) AS `3`,
+			ROUND(SUM(log_conversion.revenue),2) AS `2`,
+			SUM(log_conversion.items) AS `8`';
+
+        $from = 'log_conversion';
+        $where = 'log_conversion.idsite IN (?)';
+        $bind = array(1);
+
+        $segment = 'pageUrl==' . urlencode($pageUrlFoundInDb);
+
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+
+        $expected = array(
+            "sql"  => "
+                SELECT
+                    log_conversion.idgoal AS `idgoal`,
+                    count(*) AS `1`,
+                    count(distinct log_conversion.idvisit) AS `3`,
+                    ROUND(SUM(log_conversion.revenue),2) AS `2`,
+                    SUM(log_conversion.items) AS `8`
+                FROM
+                    " . Common::prefixTable('log_conversion') . " AS log_conversion
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_conversion.idlink_va = log_link_visit_action.idlink_va
+                WHERE
+                    ( log_conversion.idsite IN (?) )
+                    AND
+                    ( log_link_visit_action.idaction_url = ? )",
+            "bind" => array(1, $actionIdFoundInDb));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
     public function test_getSelectQuery_whenJoinActionOnConversion()
     {
         $select = '*';
