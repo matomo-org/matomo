@@ -360,9 +360,16 @@ class RowEvolution
         unset($metadata['logos']);
 
         $subDataTables = $dataTable->getDataTables();
+        if (empty($subDataTables)) {
+            throw new \Exception("Unexpected state: row evolution API call returned empty DataTable\\Map.");
+        }
+
         $firstDataTable = reset($subDataTables);
+        $this->checkDataTableInstance($firstDataTable);
         $firstDataTableRow = $firstDataTable->getFirstRow();
+
         $lastDataTable = end($subDataTables);
+        $this->checkDataTableInstance($lastDataTable);
         $lastDataTableRow = $lastDataTable->getFirstRow();
 
         // Process min/max values
@@ -532,5 +539,12 @@ class RowEvolution
         $label = str_replace(LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
         $label = SafeDecodeLabel::decodeLabelSafe($label);
         return $label;
+    }
+
+    private function checkDataTableInstance($lastDataTable)
+    {
+        if (!($lastDataTable instanceof DataTable)) {
+            throw new \Exception("Unexpected state: row evolution returned DataTable\\Map w/ incorrect child table type: " . get_class($lastDataTable));
+        }
     }
 }
