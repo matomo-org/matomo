@@ -15,6 +15,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -24,6 +25,7 @@
 				
 				<pageId>61</pageId>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -89,6 +91,8 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -104,8 +108,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-		</customVariables>
 		
 		
 		
@@ -127,6 +129,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -138,6 +141,7 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>search</type>
@@ -155,6 +159,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -165,6 +170,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -177,6 +183,7 @@
 				<eventName>Name8</eventName>
 				<eventValue>353.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -242,6 +249,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 8</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 8</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -257,16 +274,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 8</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 8</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -288,6 +295,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -307,6 +315,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -372,6 +381,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 8</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 8</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -387,16 +406,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 8</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 8</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -418,6 +427,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -429,6 +439,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -439,6 +450,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -451,6 +463,7 @@
 				<eventName>Name7</eventName>
 				<eventValue>352.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -516,6 +529,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 7</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 7</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -531,16 +554,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 7</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 7</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -562,6 +575,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -581,6 +595,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -646,6 +661,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 7</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 7</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -661,16 +686,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 7</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 7</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -692,6 +707,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -703,6 +719,7 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>search</type>
@@ -720,6 +737,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -730,6 +748,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -742,6 +761,7 @@
 				<eventName>Name6</eventName>
 				<eventValue>351.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -807,6 +827,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 6</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -822,16 +852,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 6</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -853,6 +873,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -872,6 +893,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -937,6 +959,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 6</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -952,16 +984,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 6</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 6</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -983,6 +1005,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -994,6 +1017,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -1004,6 +1028,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1016,6 +1041,7 @@
 				<eventName>Name5</eventName>
 				<eventValue>350.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -1081,6 +1107,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 5</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 5</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -1096,16 +1132,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 5</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 5</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -1127,6 +1153,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1146,6 +1173,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1211,6 +1239,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 5</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 5</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -1226,16 +1264,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 5</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 5</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -1257,6 +1285,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1268,6 +1297,7 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>search</type>
@@ -1285,6 +1315,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -1295,6 +1326,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1307,6 +1339,7 @@
 				<eventName>Name4</eventName>
 				<eventValue>349.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -1372,6 +1405,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 4</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 4</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -1387,16 +1430,6 @@
 		<provider>awesomeisp.com</provider>
 		<providerName>Awesomeisp</providerName>
 		<providerUrl>http://www.awesomeisp.com/</providerUrl>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 4</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 4</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -1418,6 +1451,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1437,6 +1471,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1502,6 +1537,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 4</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 4</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -1517,16 +1562,6 @@
 		<provider>awesomeisp.com</provider>
 		<providerName>Awesomeisp</providerName>
 		<providerUrl>http://www.awesomeisp.com/</providerUrl>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 4</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 4</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -1548,6 +1583,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1559,6 +1595,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -1569,6 +1606,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1581,6 +1619,7 @@
 				<eventName>Name3</eventName>
 				<eventValue>348.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -1646,6 +1685,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -1661,16 +1710,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -1692,6 +1731,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1703,6 +1743,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -1713,6 +1754,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1725,6 +1767,7 @@
 				<eventName>Name3</eventName>
 				<eventValue>348.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -1790,6 +1833,8 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -1805,8 +1850,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-		</customVariables>
 		
 		
 		
@@ -1828,6 +1871,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1847,6 +1891,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1912,6 +1957,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -1927,16 +1982,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -1958,6 +2003,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -1977,6 +2023,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2042,6 +2089,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -2057,16 +2114,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -2088,6 +2135,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -2099,6 +2147,7 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>search</type>
@@ -2116,6 +2165,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -2126,6 +2176,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -2138,6 +2189,7 @@
 				<eventName>Name2</eventName>
 				<eventValue>347.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -2203,6 +2255,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -2218,16 +2280,6 @@
 		<provider>comcast.net</provider>
 		<providerName>Comcast</providerName>
 		<providerUrl>http://www.comcast.net/</providerUrl>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -2249,6 +2301,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -2260,6 +2313,7 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>search</type>
@@ -2277,6 +2331,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -2287,6 +2342,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -2299,6 +2355,7 @@
 				<eventName>Name2</eventName>
 				<eventValue>347.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -2364,6 +2421,8 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -2379,8 +2438,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-		</customVariables>
 		
 		
 		
@@ -2402,6 +2459,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -2421,6 +2479,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2486,6 +2545,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -2501,16 +2570,6 @@
 		<provider>comcast.net</provider>
 		<providerName>Comcast</providerName>
 		<providerUrl>http://www.comcast.net/</providerUrl>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -2532,6 +2591,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -2551,6 +2611,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -2616,6 +2677,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -2631,16 +2702,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -2662,6 +2723,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -2673,6 +2735,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -2683,6 +2746,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -2695,6 +2759,7 @@
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -2760,6 +2825,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -2775,16 +2850,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -2806,6 +2871,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -2817,6 +2883,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -2827,6 +2894,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -2839,6 +2907,7 @@
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -2904,6 +2973,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -2919,16 +2998,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -2950,6 +3019,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -2961,6 +3031,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -2971,6 +3042,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -2983,6 +3055,7 @@
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -3048,6 +3121,8 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -3063,8 +3138,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-		</customVariables>
 		
 		
 		
@@ -3086,6 +3159,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -3097,6 +3171,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -3107,6 +3182,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -3119,6 +3195,7 @@
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -3184,6 +3261,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -3199,16 +3286,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -3230,6 +3307,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -3249,6 +3327,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3314,6 +3393,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -3329,16 +3418,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -3360,6 +3439,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -3379,6 +3459,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3444,6 +3525,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -3459,16 +3550,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -3490,6 +3571,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -3509,6 +3591,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3574,6 +3657,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -3589,16 +3682,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -3620,6 +3703,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -3639,6 +3723,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -3704,6 +3789,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -3719,16 +3814,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 1</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 1</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -3750,6 +3835,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -3761,6 +3847,7 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>search</type>
@@ -3778,6 +3865,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -3788,6 +3876,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -3800,6 +3889,7 @@
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -3865,6 +3955,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -3880,16 +3980,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -3911,6 +4001,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -3922,6 +4013,7 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>search</type>
@@ -3939,6 +4031,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -3949,6 +4042,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -3961,6 +4055,7 @@
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -4026,6 +4121,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -4041,16 +4146,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -4072,6 +4167,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -4083,6 +4179,7 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>search</type>
@@ -4100,6 +4197,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -4110,6 +4208,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -4122,6 +4221,7 @@
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -4187,6 +4287,8 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -4202,8 +4304,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-		</customVariables>
 		
 		
 		
@@ -4225,6 +4325,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -4236,6 +4337,7 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
 			</row>
 			<row>
 				<type>search</type>
@@ -4253,6 +4355,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				
 			</row>
 			<row>
 				<type>goal</type>
@@ -4263,6 +4366,7 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -4275,6 +4379,7 @@
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<icon>plugins/Morpheus/images/event.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -4340,6 +4445,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -4355,16 +4470,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -4386,6 +4491,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -4405,6 +4511,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4470,6 +4577,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -4485,16 +4602,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -4516,6 +4623,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -4535,6 +4643,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4600,6 +4709,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -4615,16 +4734,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -4646,6 +4755,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -4665,6 +4775,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4730,6 +4841,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -4745,16 +4866,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		
@@ -4776,6 +4887,7 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -4795,6 +4907,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -4860,6 +4973,16 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
+			</row>
+		</customVariables>
 		<resolution>1024x768</resolution>
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
@@ -4875,16 +4998,6 @@
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl />
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 0</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 0</customVariableValue5>
-			</row>
-		</customVariables>
 		
 		
 		

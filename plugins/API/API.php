@@ -487,8 +487,14 @@ class API extends \Piwik\Plugin\API
         }
 
         // if segment has suggested values callback then return result from it instead
+        $suggestedValuesCallbackRequiresTable = false;
         if (isset($segmentFound['suggestedValuesCallback'])) {
-            return call_user_func($segmentFound['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn);
+            $suggestedValuesCallbackRequiresTable = $this->doesSuggestedValuesCallbackNeedData(
+                $segmentFound['suggestedValuesCallback']);
+
+            if (!$suggestedValuesCallbackRequiresTable) {
+                return call_user_func($segmentFound['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn);
+            }
         }
 
         // if period=range is disabled, do not proceed
@@ -523,12 +529,16 @@ class API extends \Piwik\Plugin\API
             throw new \Exception("There was no data to suggest for $segmentName");
         }
 
-        // Cleanup data to return the top suggested (non empty) labels for this segment
-        $values = $table->getColumn($segmentName);
+        if ($suggestedValuesCallbackRequiresTable) {
+            $values = call_user_func($segmentFound['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn, $table);
+        } else {
+            // Cleanup data to return the top suggested (non empty) labels for this segment
+            $values = $table->getColumn($segmentName);
 
-        // Select also flattened keys (custom variables "page" scope, page URLs for one visit, page titles for one visit)
-        $valuesBis = $table->getColumnsStartingWith($segmentName . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
-        $values = array_merge($values, $valuesBis);
+            // Select also flattened keys (custom variables "page" scope, page URLs for one visit, page titles for one visit)
+            $valuesBis = $table->getColumnsStartingWith($segmentName . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
+            $values = array_merge($values, $valuesBis);
+        }
 
         $values = $this->getMostFrequentValues($values);
 
@@ -578,6 +588,13 @@ class API extends \Piwik\Plugin\API
         arsort($values);
         $values = array_keys($values);
         return $values;
+    }
+
+    private function doesSuggestedValuesCallbackNeedData($suggestedValuesCallback)
+    {
+        $methodMetadata = new \ReflectionFunction($suggestedValuesCallback);
+        $parametersCount = $methodMetadata->getNumberOfParameters();
+        return $parametersCount >= 3;
     }
 }
 

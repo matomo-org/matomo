@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\CustomVariables\Columns;
 
+use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
@@ -25,6 +26,9 @@ class Base extends VisitDimension
         $segment->setName($this->getName());
         $segment->setCategory('CustomVariables_CustomVariables');
         $segment->setSqlSegment($this->getSegmentColumns('log_visit.' . $fieldPrefix, $numCustomVariables));
+        $segment->setSuggestedValuesCallback(function ($idSite, $ignore, DataTable $table) use ($segmentNameSuffix) {
+            return $table->getColumnsStartingWith('customVariable' . $segmentNameSuffix);
+        });
         $this->addSegment($segment);
 
         $segment = new Segment();
@@ -33,6 +37,9 @@ class Base extends VisitDimension
         $segment->setName($this->getName() . ' (' . Piwik::translate('CustomVariables_ScopePage') . ')');
         $segment->setCategory('CustomVariables_CustomVariables');
         $segment->setSqlSegment($this->getSegmentColumns('log_link_visit_action.' . $fieldPrefix, $numCustomVariables));
+        $segment->setSuggestedValuesCallback(function ($idSite, $ignore, DataTable $table) use ($segmentNameSuffix) {
+            return $table->getColumnsStartingWith('customVariablePage' . $segmentNameSuffix);
+        });
         $this->addSegment($segment);
     }
 
