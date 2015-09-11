@@ -52,12 +52,11 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
         $processedReportApi = array('API.getProcessedReport');
 
         $apiWithSegments = array(
-            'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory', 'Goals.get',
-
+            'Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory'
         );
 
         // Normal standard goal
-        $apiWithSegments_visitConvertedGoal = array_merge($apiWithSegments , array('VisitsSummary.get'));
+        $apiWithSegments_visitConvertedGoal = array_merge($apiWithSegments , array('Goals.get', 'VisitsSummary.get'));
         return array_merge(array(
 
                 // Segment: This will match the first visit of the fixture only
@@ -70,6 +69,19 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                         'otherRequestParameters' => array('_leavePiwikCoreVariables' => 1),
                         'segment' => 'pageUrl=@Another%20Product%20page',
                         'testSuffix' => '_SegmentPageUrlContains'
+                    )
+                ),
+
+                // Goals.get for Ecommerce, with Page Title segment
+                array(
+                    'Goals.get',
+                    array(
+                        'idSite' => $idSite,
+                        'date' => $dateTime,
+                        'periods' => array('day', 'week'),
+                        'idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,
+                        'segment' => 'pageTitle==Looking%20at%20product%20page',
+                        'testSuffix' => '_EcommerceOrderGoal_SegmentPageUrlContains'
                     )
                 ),
 

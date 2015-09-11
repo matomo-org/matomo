@@ -71,6 +71,8 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
         self::assertEquals(array('_pkc', $category), $t->getCustomVariable(5, 'page'));
         self::assertEquals(array('_pkp', $price), $t->getCustomVariable(2, 'page'));
         self::assertEquals(array('VisitorType', 'NewLoggedOut'), $t->getCustomVariable(5, 'visit'));
+
+        // this is also a goal conversion (visitConvertedGoalId==1)
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
