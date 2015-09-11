@@ -235,7 +235,7 @@ class SegmentTest extends IntegrationTestCase
                     *
                 FROM
                     " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
-                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
+                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_link_visit_action.idvisit
                 WHERE
                     ( log_link_visit_action.idvisit = ? )
                     AND
@@ -263,7 +263,7 @@ class SegmentTest extends IntegrationTestCase
                     *
                 FROM
                     " . Common::prefixTable('log_conversion') . " AS log_conversion
-                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_conversion.idlink_va = log_link_visit_action.idlink_va
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_conversion.idvisit = log_link_visit_action.idvisit
                 WHERE
                     ( log_conversion.idvisit = ? )
                     AND
@@ -386,7 +386,7 @@ class SegmentTest extends IntegrationTestCase
                 FROM
                     " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
                     LEFT JOIN " . Common::prefixTable('log_visit') . " AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
-                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
+                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_link_visit_action.idvisit
                 WHERE
                      HOUR(log_visit.visit_last_action_time) = ? AND log_conversion.idgoal = ? ",
             "bind" => array(12, 1));
@@ -421,7 +421,7 @@ class SegmentTest extends IntegrationTestCase
                 FROM
                     " . Common::prefixTable('log_visit') . " AS log_visit
                     LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
+                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_link_visit_action.idvisit
                 WHERE
                      log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.custom_var_k1 = ?
                       AND (
@@ -433,6 +433,43 @@ class SegmentTest extends IntegrationTestCase
                 ORDER BY NULL
                     ) AS log_inner",
             "bind" => array(1, 12, 'Test'));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function test_getSelectQuery_whenJoinConversionOnAction_segmentUsesPageUrl()
+    {
+        $this->insertPageUrlAsAction('example.com/anypage');
+        $this->insertPageUrlAsAction('example.com/anypage_bis');
+        $pageUrlFoundInDb = 'example.com/page.html?hello=world';
+        $actionIdFoundInDb = $this->insertPageUrlAsAction($pageUrlFoundInDb);
+
+        $select = 'log_conversion.idgoal AS `idgoal`,
+			SUM(log_conversion.items) AS `8`';
+
+        $from = 'log_conversion';
+        $where = 'log_conversion.idsite IN (?)';
+        $bind = array(1);
+
+        $segment = 'pageUrl==' . urlencode($pageUrlFoundInDb);
+
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+
+        $expected = array(
+            "sql"  => "
+                SELECT
+                    log_conversion.idgoal AS `idgoal`,
+                    SUM(log_conversion.items) AS `8`
+                FROM
+                    " . Common::prefixTable('log_conversion') . " AS log_conversion
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_conversion.idvisit = log_link_visit_action.idvisit
+                WHERE
+                    ( log_conversion.idsite IN (?) )
+                    AND
+                    ( log_link_visit_action.idaction_url = ? )",
+            "bind" => array(1, $actionIdFoundInDb));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }

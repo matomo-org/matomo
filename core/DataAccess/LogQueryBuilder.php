@@ -64,7 +64,7 @@ class LogQueryBuilder
 
         // make sure the tables are joined in the right order
         // base table first, then action before conversion
-        // this way, conversions can be joined on idlink_va
+        // this way, conversions can be left joined on idvisit
         $actionIndex = array_search("log_link_visit_action", $tables);
         $conversionIndex = array_search("log_conversion", $tables);
         if ($actionIndex > 0 && $conversionIndex > 0 && $actionIndex > $conversionIndex) {
@@ -101,9 +101,8 @@ class LogQueryBuilder
                 $sql .= $tableSql;
             } else {
                 if ($actionsAvailable && $table == "log_conversion") {
-                    // have actions, need conversions => join on idlink_va
-                    $join = "log_conversion.idlink_va = log_link_visit_action.idlink_va "
-                        . "AND log_conversion.idsite = log_link_visit_action.idsite";
+                    // have actions, need conversions => join on idvisit
+                    $join = "log_conversion.idvisit = log_link_visit_action.idvisit";
                 } elseif ($actionsAvailable && $table == "log_visit") {
                     // have actions, need visits => join on idvisit
                     $join = "log_visit.idvisit = log_link_visit_action.idvisit";
@@ -113,8 +112,8 @@ class LogQueryBuilder
                     $joinWithSubSelect = true;
                     $join = "log_link_visit_action.idvisit = log_visit.idvisit";
                 } elseif ($conversionsAvailable && $table == "log_link_visit_action") {
-                    // have conversions, need actions => join on idlink_va
-                    $join = "log_conversion.idlink_va = log_link_visit_action.idlink_va";
+                    // have conversions, need actions => join on idvisit
+                    $join = "log_conversion.idvisit = log_link_visit_action.idvisit";
                 } elseif (($visitsAvailable && $table == "log_conversion")
                     || ($conversionsAvailable && $table == "log_visit")
                 ) {
