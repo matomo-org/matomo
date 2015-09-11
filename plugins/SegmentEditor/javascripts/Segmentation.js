@@ -1102,7 +1102,7 @@ $(document).ready(function() {
         this.changeSegmentList = function () {};
 
         var cleanupSegmentDefinition = function(definition) {
-            definition = definition.replace("'", "%29");
+            definition = definition.replace("'", "%27");
             definition = definition.replace("&", "%26");
             return definition;
         };
