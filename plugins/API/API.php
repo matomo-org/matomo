@@ -190,6 +190,12 @@ class API extends \Piwik\Plugin\API
                 unset($segment['sqlFilterValue']);
                 unset($segment['sqlSegment']);
             }
+
+            if (isset($segment['suggestedValuesCallback'])
+                && !is_string($segment['suggestedValuesCallback'])
+            ) {
+                unset($segment['suggestedValuesCallback']);
+            }
         }
 
         usort($segments, array($this, 'sortSegments'));
