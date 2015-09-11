@@ -366,7 +366,7 @@ function ajaxHelper() {
                     that.errorCallback.apply(this, arguments);
                 }
             },
-            success:  function (response) {
+            success:  function (response, status, request) {
                 if (that.loadingElement) {
                     $(that.loadingElement).hide();
                 }
@@ -395,7 +395,7 @@ function ajaxHelper() {
                     }
 
                 } else {
-                    that.callback(response);
+                    that.callback(response, status, request);
                 }
 
                 --globalAjaxQueue.active;
@@ -416,6 +416,12 @@ function ajaxHelper() {
         return $.ajax(ajaxCall);
     };
 
+    this._getDefaultPostParams = function () {
+        return {
+            token_auth: piwik.token_auth
+        };
+    }
+
     /**
      * Mixin the default parameters to send as POST
      *
@@ -425,9 +431,7 @@ function ajaxHelper() {
      */
     this._mixinDefaultPostParams = function (params) {
 
-        var defaultParams = {
-            token_auth: piwik.token_auth
-        };
+        var defaultParams = this._getDefaultPostParams();
 
         for (var index in defaultParams) {
 
