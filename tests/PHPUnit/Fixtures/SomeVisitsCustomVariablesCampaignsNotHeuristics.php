@@ -51,6 +51,10 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
             API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
         }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 2)) {
+            API::getInstance()->addGoal($this->idSite, 'view act', 'url', 'http://mutantregistration.com/act.html', 'exact');
+        }
     }
 
     private function trackVisits()
@@ -177,6 +181,29 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         $t4->setUrlReferrer('http://mutantregistration.com');
         $t4->setUrl('http://example.org/index.html');
         self::checkResponse($t4->doTrackPageView('העלא וועלט'));
+
+        // test campaigns that are specified through _rcn
+        $t5 = self::getTracker($idSite, $dateTime);
+        $t5->setUrlReferrer('http://xavierinstitute.org');
+        $t5->setUrl('http://mutantregistration.com/act.html');
+        $t5->setAttributionInfo(json_encode(array('Gifted Search'))); // rcn supplied, nothing else
+        self::checkResponse($t5->doTrackPageView('Mutant Registration'));
+
+        $t5->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->getDatetime());
+        $t5->setUrlReferrer('http://mutantrights.org');
+        $t5->setUrl('http://asteroidm.com');
+        // all params suppplied, one that differs from url referrer
+        $t5->setAttributionInfo(json_encode(array('Recruiting Drive', 'am i a mutant?',
+            Date::factory($dateTime)->addHour(1)->getDatetime(), 'http://sentinelwatch.org')));
+        self::checkResponse($t5->doTrackPageView('Fighting Back'));
+
+        $t5->setForceVisitDateTime(Date::factory($dateTime)->addHour(2)->getDatetime());
+        $t5->setUrlReferrer('http://apocalypsenow.org');
+        $t5->setUrl('http://mutantrights.org');
+        // params supplied, for existing campaign
+        $t5->setAttributionInfo(json_encode(array('GA Campaign', 'some keyword',
+            Date::factory($dateTime)->addHour(2)->getDatetime())));
+        self::checkResponse($t5->doTrackPageView('Mutant Registration'));
     }
 
     // see updateDomainHash() in piwik.js

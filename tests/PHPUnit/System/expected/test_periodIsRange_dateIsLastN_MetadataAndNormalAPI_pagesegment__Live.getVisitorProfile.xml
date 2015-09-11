@@ -32,15 +32,15 @@
 		
 		
 		<daysAgo>0</daysAgo>
-		<referrerType>direct</referrerType>
-		<referralSummary>Direct Entry</referralSummary>
+		<referrerType>campaign</referrerType>
+		<referralSummary>Campaign: campaign name - yeah! - campaign keyword - right...</referralSummary>
 	</firstVisit>
 	<lastVisit>
 		
 		
 		<daysAgo>0</daysAgo>
-		<referrerType>direct</referrerType>
-		<referralSummary>Direct Entry</referralSummary>
+		<referrerType>campaign</referrerType>
+		<referralSummary>Campaign: campaign name - yeah! - campaign keyword - right...</referralSummary>
 	</lastVisit>
 	<visitsAggregated>2</visitsAggregated>
 	
@@ -85,10 +85,10 @@
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
-			<referrerType>direct</referrerType>
-			<referrerTypeName>Direct Entry</referrerTypeName>
-			<referrerName />
-			<referrerKeyword />
+			<referrerType>campaign</referrerType>
+			<referrerTypeName>Campaigns</referrerTypeName>
+			<referrerName>campaign name - yeah!</referrerName>
+			<referrerKeyword>campaign keyword - right...</referrerKeyword>
 			<referrerKeywordPosition />
 			<referrerUrl />
 			<referrerSearchEngineUrl />
@@ -207,10 +207,10 @@
 			<visitDurationPretty>6 min 1s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
-			<referrerType>direct</referrerType>
-			<referrerTypeName>Direct Entry</referrerTypeName>
-			<referrerName />
-			<referrerKeyword />
+			<referrerType>campaign</referrerType>
+			<referrerTypeName>Campaigns</referrerTypeName>
+			<referrerName>campaign name - yeah!</referrerName>
+			<referrerKeyword>campaign keyword - right...</referrerKeyword>
 			<referrerKeywordPosition />
 			<referrerUrl />
 			<referrerSearchEngineUrl />

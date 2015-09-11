@@ -39,10 +39,10 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
+		<referrerType>campaign</referrerType>
+		<referrerTypeName>Campaigns</referrerTypeName>
+		<referrerName>campaign name - yeah!</referrerName>
+		<referrerKeyword>campaign keyword - right...</referrerKeyword>
 		<referrerKeywordPosition />
 		<referrerUrl />
 		<referrerSearchEngineUrl />
@@ -161,10 +161,10 @@
 		<visitDurationPretty>6 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
+		<referrerType>campaign</referrerType>
+		<referrerTypeName>Campaigns</referrerTypeName>
+		<referrerName>campaign name - yeah!</referrerName>
+		<referrerKeyword>campaign keyword - right...</referrerKeyword>
 		<referrerKeywordPosition />
 		<referrerUrl />
 		<referrerSearchEngineUrl />
