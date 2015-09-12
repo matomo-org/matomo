@@ -7,12 +7,14 @@
  */
 namespace Piwik\Tests\Framework\TestAspect;
 
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Ini\IniReader;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestAspect;
+use Piwik\Tests\Framework\TestCase\PiwikTestCase;
 use Piwik\Tracker;
 
 /**
@@ -26,6 +28,16 @@ class TestWithDatabase extends TestAspect
      * @var Fixture
      */
     private $fixture;
+
+    /**
+     * @var array
+     */
+    private $tableData;
+
+    public static function isMethodAspect()
+    {
+        return false;
+    }
 
     public function setUpBeforeClass($testCaseClass)
     {
@@ -73,14 +85,20 @@ class TestWithDatabase extends TestAspect
 
     public function tearDownAfterClass($testCaseClass)
     {
+        $this->tableData = array();
+
         if ($this->fixture->dropDatabaseInTearDown) {
             $this->dropDatabase($this->fixture->dbName);
         }
     }
 
-    public static function isMethodAspect()
+    public function setUp(PiwikTestCase $testCase)
     {
-        return false;
+        if (empty($this->tableData)) {
+            $this->tableData = $this->getDbTablesWithData();
+        } else {
+            $this->restoreDbTables($this->tableData);
+        }
     }
 
     /**
@@ -122,5 +140,64 @@ class TestWithDatabase extends TestAspect
         } else {
             return $testCaseClass::$fixture;
         }
+    }
+
+    private function restoreDbTables($tables)
+    {
+        $db = Db::fetchOne("SELECT DATABASE()");
+        if (empty($db)) {
+            Db::exec("USE " . Config::getInstance()->database_tests['dbname']);
+        }
+
+        DbHelper::truncateAllTables();
+
+        // insert data
+        $existingTables = DbHelper::getTablesInstalled();
+        foreach ($tables as $table => $rows) {
+            // create table if it's an archive table
+            if (strpos($table, 'archive_') !== false && !in_array($table, $existingTables)) {
+                $tableType = strpos($table, 'archive_numeric') !== false ? 'archive_numeric' : 'archive_blob';
+
+                $createSql = DbHelper::getTableCreateSql($tableType);
+                $createSql = str_replace(Common::prefixTable($tableType), $table, $createSql);
+                Db::query($createSql);
+            }
+
+            if (empty($rows)) {
+                continue;
+            }
+
+            $rowsSql = array();
+            $bind = array();
+            foreach ($rows as $row) {
+                $values = array();
+                foreach ($row as $value) {
+                    if (is_null($value)) {
+                        $values[] = 'NULL';
+                    } else if (is_numeric($value)) {
+                        $values[] = $value;
+                    } else if (!ctype_print($value)) {
+                        $values[] = "x'" . bin2hex($value) . "'";
+                    } else {
+                        $values[] = "?";
+                        $bind[] = $value;
+                    }
+                }
+
+                $rowsSql[] = "(" . implode(',', $values) . ")";
+            }
+
+            $sql = "INSERT INTO `$table` VALUES " . implode(',', $rowsSql);
+            Db::query($sql, $bind);
+        }
+    }
+
+    private function getDbTablesWithData()
+    {
+        $result = array();
+        foreach (DbHelper::getTablesInstalled() as $tableName) {
+            $result[$tableName] = Db::fetchAll("SELECT * FROM `$tableName`");
+        }
+        return $result;
     }
 }

@@ -31,7 +31,6 @@ abstract class IntegrationTestCase extends SystemTestCase
      * @var Fixture
      */
     public static $fixture;
-    public static $tableData;
 
     /**
      * Implementation details:
@@ -60,13 +59,6 @@ abstract class IntegrationTestCase extends SystemTestCase
         static::configureFixture(static::$fixture);
         parent::setUpBeforeClass();
         static::beforeTableDataCached();
-
-        self::$tableData = self::getDbTablesWithData();
-    }
-
-    public static function tearDownAfterClass()
-    {
-        self::$tableData = array();
     }
 
     /**
@@ -84,10 +76,6 @@ abstract class IntegrationTestCase extends SystemTestCase
 
         Access::getInstance()->setSuperUserAccess(true);
         
-        if (!empty(self::$tableData)) {
-            self::restoreDbTables(self::$tableData);
-        }
-
         PiwikCache::getEagerCache()->flushAll();
         PiwikCache::getTransientCache()->flushAll();
         MenuAbstract::clearMenus();
@@ -112,6 +100,9 @@ abstract class IntegrationTestCase extends SystemTestCase
         $fixture->extraTestEnvVars['loadRealTranslations'] = false;
     }
 
+    /**
+     * @deprecated
+     */
     protected static function beforeTableDataCached()
     {
         // empty

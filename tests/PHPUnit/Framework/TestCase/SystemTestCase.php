@@ -87,6 +87,8 @@ abstract class SystemTestCase extends PiwikTestCase
         }
 
         $fixture->performTearDown();
+
+        parent::tearDownAfterClass();
     }
 
     /**
@@ -514,76 +516,6 @@ abstract class SystemTestCase extends PiwikTestCase
         $up = DIRECTORY_SEPARATOR . '..';
 
         return dirname(__FILE__) . $up . $up . DIRECTORY_SEPARATOR . 'System';
-    }
-
-    /**
-     * Returns an array associating table names w/ lists of row data.
-     *
-     * @return array
-     */
-    protected static function getDbTablesWithData()
-    {
-        $result = array();
-        foreach (DbHelper::getTablesInstalled() as $tableName) {
-            $result[$tableName] = Db::fetchAll("SELECT * FROM `$tableName`");
-        }
-        return $result;
-    }
-
-    /**
-     * Truncates all tables then inserts the data in $tables into each
-     * mapped table.
-     *
-     * @param array $tables Array mapping table names with arrays of row data.
-     */
-    protected static function restoreDbTables($tables)
-    {
-        $db = Db::fetchOne("SELECT DATABASE()");
-        if (empty($db)) {
-            Db::exec("USE " . Config::getInstance()->database_tests['dbname']);
-        }
-
-        DbHelper::truncateAllTables();
-
-        // insert data
-        $existingTables = DbHelper::getTablesInstalled();
-        foreach ($tables as $table => $rows) {
-            // create table if it's an archive table
-            if (strpos($table, 'archive_') !== false && !in_array($table, $existingTables)) {
-                $tableType = strpos($table, 'archive_numeric') !== false ? 'archive_numeric' : 'archive_blob';
-
-                $createSql = DbHelper::getTableCreateSql($tableType);
-                $createSql = str_replace(Common::prefixTable($tableType), $table, $createSql);
-                Db::query($createSql);
-            }
-
-            if (empty($rows)) {
-                continue;
-            }
-
-            $rowsSql = array();
-            $bind = array();
-            foreach ($rows as $row) {
-                $values = array();
-                foreach ($row as $value) {
-                    if (is_null($value)) {
-                        $values[] = 'NULL';
-                    } else if (is_numeric($value)) {
-                        $values[] = $value;
-                    } else if (!ctype_print($value)) {
-                        $values[] = "x'" . bin2hex($value) . "'";
-                    } else {
-                        $values[] = "?";
-                        $bind[] = $value;
-                    }
-                }
-
-                $rowsSql[] = "(" . implode(',', $values) . ")";
-            }
-
-            $sql = "INSERT INTO `$table` VALUES " . implode(',', $rowsSql);
-            Db::query($sql, $bind);
-        }
     }
 
     /**

@@ -37,7 +37,12 @@ class PiwikTestCase extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $thisClass = get_class($this);
-        $testAspects = self::getTestAspects($thisClass, $this->getName(false));
+
+        /** @var TestAspect[] $testAspects */
+        $testAspects = array_merge(
+            self::getTestAspects($thisClass),
+            self::getTestAspects($thisClass, $this->getName(false))
+        );
 
         foreach ($testAspects as $aspect) {
             $aspect->setUp($this);
@@ -47,7 +52,12 @@ class PiwikTestCase extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $thisClass = get_class($this);
-        $testAspects = self::getTestAspects($thisClass, $this->getName(false));
+
+        /** @var TestAspect[] $testAspects */
+        $testAspects = array_merge(
+            self::getTestAspects($thisClass),
+            self::getTestAspects($thisClass, $this->getName(false))
+        );
 
         foreach ($testAspects as $aspect) {
             $aspect->tearDown($this);
@@ -79,15 +89,13 @@ class PiwikTestCase extends \PHPUnit_Framework_TestCase
         if (empty(self::$testCaseAspects[$key])) {
             $annotations = \PHPUnit_Util_Test::parseTestMethodAnnotations($thisClass, $methodName);
 
-            $classAspects = self::getTestAspectsFromAnnotations($annotations['class'], $typeToGet = 'class');
-            self::$testCaseAspects[$thisClass] = $classAspects;
+            if (empty(self::$testCaseAspects[$thisClass])) {
+                $classAspects = self::getTestAspectsFromAnnotations($annotations['class'], $typeToGet = 'class');
+                self::$testCaseAspects[$thisClass] = $classAspects;
+            }
 
             if (!empty($methodName)) {
-                $methodAspects = array_merge(
-                    self::getTestAspectsFromAnnotations($annotations['class'], $typeToGet = 'method'),
-                    self::getTestAspectsFromAnnotations($annotations['method'], $typeToGet = 'method')
-                );
-
+                $methodAspects = self::getTestAspectsFromAnnotations($annotations['method'], $typeToGet = 'method');
                 self::$testCaseAspects[$thisClass . '.' . $methodName] = $methodAspects;
             }
         }
