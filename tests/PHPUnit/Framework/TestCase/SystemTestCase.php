@@ -21,9 +21,6 @@ use Piwik\Tests\Framework\Constraint\HttpResponseText;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
 use Piwik\Tests\Framework\TestRequest\Collection;
 use Piwik\Tests\Framework\TestRequest\Response;
-use Piwik\Translate;
-use Piwik\Log;
-use PHPUnit_Framework_TestCase;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Translation\Translator;
 
@@ -35,8 +32,9 @@ require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
  * Provides helpers to track data and then call API get* methods to check outputs automatically.
  *
  * @since 2.8.0
+ * @testWithDatabase
  */
-abstract class SystemTestCase extends PHPUnit_Framework_TestCase
+abstract class SystemTestCase extends PiwikTestCase
 {
     /**
      * Identifies the last language used in an API/Controller call.
@@ -55,7 +53,9 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        Log::debug("Setting up " . get_called_class());
+        parent::setUpBeforeClass();
+
+        // Log::debug("Setting up " . get_called_class()); TODO: move this to PiwikTestCase
 
         if (!isset(static::$fixture)) {
             $fixture = new Fixture();
@@ -78,7 +78,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        Log::debug("Tearing down " . get_called_class());
+        // Log::debug("Tearing down " . get_called_class()); TODO: move this to PiwikTestCase
 
         if (!isset(static::$fixture)) {
             $fixture = new Fixture();

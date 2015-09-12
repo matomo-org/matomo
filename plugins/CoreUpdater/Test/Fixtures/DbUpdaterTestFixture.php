@@ -16,7 +16,6 @@ class DbUpdaterTestFixture extends SqlDump
     {
         $this->dumpUrl = PIWIK_INCLUDE_PATH . "/tests/UI/resources/piwik1.0.sql.gz";
         $this->dropDatabaseInSetUp = true;
-        $this->resetPersistedFixture = true;
 
         parent::performSetUp($setupEnvironmentOnly);
     }

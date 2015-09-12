@@ -1,0 +1,130 @@
+<?php
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+namespace Piwik\Tests\Framework\TestCase;
+
+use Piwik\Tests\Framework\TestAspect;
+
+/**
+ * TODO
+ */
+class PiwikTestCase extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var TestAspect[][]
+     */
+    private static $testCaseAspects = array();
+
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+
+        $thisClass = get_called_class();
+        $testAspects = self::getTestAspects($thisClass);
+
+        foreach ($testAspects as $aspect) {
+            $aspect->setUpBeforeClass($thisClass);
+        }
+    }
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $thisClass = get_class($this);
+        $testAspects = self::getTestAspects($thisClass, $this->getName(false));
+
+        foreach ($testAspects as $aspect) {
+            $aspect->setUp($this);
+        }
+    }
+
+    protected function tearDown()
+    {
+        $thisClass = get_class($this);
+        $testAspects = self::getTestAspects($thisClass, $this->getName(false));
+
+        foreach ($testAspects as $aspect) {
+            $aspect->tearDown($this);
+        }
+
+        parent::tearDown();
+    }
+
+    public static function tearDownAfterClass()
+    {
+        $thisClass = get_called_class();
+        $testAspects = self::getTestAspects($thisClass);
+
+        foreach ($testAspects as $aspect) {
+            $aspect->tearDownAfterClass($thisClass);
+        }
+
+        parent::tearDownAfterClass();
+    }
+
+    /**
+     * @param $thisClass
+     * @param string $methodName
+     * @return \Piwik\Tests\Framework\TestAspect[]
+     */
+    private static function getTestAspects($thisClass, $methodName = '')
+    {
+        $key = empty($methodName) ? $thisClass : ($thisClass . '.' . $methodName);
+        if (empty(self::$testCaseAspects[$key])) {
+            $annotations = \PHPUnit_Util_Test::parseTestMethodAnnotations($thisClass, $methodName);
+
+            $classAspects = self::getTestAspectsFromAnnotations($annotations['class'], $typeToGet = 'class');
+            self::$testCaseAspects[$thisClass] = $classAspects;
+
+            if (!empty($methodName)) {
+                $methodAspects = array_merge(
+                    self::getTestAspectsFromAnnotations($annotations['class'], $typeToGet = 'method'),
+                    self::getTestAspectsFromAnnotations($annotations['method'], $typeToGet = 'method')
+                );
+
+                self::$testCaseAspects[$thisClass . '.' . $methodName] = $methodAspects;
+            }
+        }
+
+        $result = self::$testCaseAspects[$key];
+
+        $baseClass = get_parent_class($thisClass);
+        if (!empty($baseClass)
+            && $baseClass != 'PHPUnit_Framework_TestCase'
+        ) {
+            $result = array_merge($result, self::getTestAspects($baseClass, $methodName));
+        }
+
+        return $result;
+    }
+
+    private static function getTestAspectsFromAnnotations($annotations, $typeToGet)
+    {
+        $testAspects = array();
+
+        foreach ($annotations as $annotation => $values) {
+            $testAspectClass = 'Piwik\Tests\Framework\TestAspect\\' . ucfirst($annotation);
+            if (!class_exists($testAspectClass)) {
+                continue;
+            }
+
+            $useAspect = $typeToGet == 'class' ? $testAspectClass::isClassAspect() : $testAspectClass::isMethodAspect();
+            if (!$useAspect) {
+                continue;
+            }
+
+            $values = array_filter($values);
+
+            $reflectionClass = new \ReflectionClass($testAspectClass);
+            $testAspects[] = $reflectionClass->newInstanceArgs($values);
+        }
+
+        return $testAspects;
+    }
+}
