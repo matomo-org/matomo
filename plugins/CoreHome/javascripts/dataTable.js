@@ -781,9 +781,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                         ;
 
                     var annotationsCss = {left: 6}; // padding-left of .jqplot-graph element (in _dataTableViz_jqplotGraph.tpl)
-                    if (self.isWithinDialog(domElem)) {
-                        annotationsCss['top'] = -datatableFeatures.height() - annotationAxisHeight + noteSize / 2;
-                    }
 
                     // set position of evolution annotation icons
                     annotations.css(annotationsCss);
