@@ -205,27 +205,14 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $this->createEnvironmentInstance();
 
-        Manager::getInstance()->unloadPlugins();
-
-        include "DataFiles/SearchEngines.php";
-        include "DataFiles/Socials.php";
-        include "DataFiles/Providers.php";
-
         // We need to be SU to create websites for tests
         Access::getInstance()->setSuperUserAccess();
 
         Cache::deleteTrackerCache();
 
         static::loadAllPlugins($this->getTestEnvironment(), $this->testCaseClass, $this->extraPluginsToLoad);
-
-        self::updateDatabase();
-
         self::installAndActivatePlugins();
-
-        $_GET = $_REQUEST = array();
-        $_SERVER['HTTP_REFERER'] = '';
-
-        FakeAccess::$superUserLogin = 'superUserLogin';
+        self::updateDatabase();
 
         File::$invalidateOpCacheBeforeRead = true;
 
@@ -245,8 +232,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         SettingsPiwik::overwritePiwikUrl(self::getRootUrl() . 'tests/PHPUnit/proxy/');
-
-        PiwikCache::getTransientCache()->flushAll();
 
         if ($this->overwriteExisting
             || !$this->isFixtureSetUp()
@@ -290,8 +275,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         // Note: avoid run SQL in the *tearDown() metohds because it randomly fails on Travis CI
         // with error Error while sending QUERY packet. PID=XX
         $this->tearDown();
-
-        self::unloadAllPlugins();
 
         $this->clearInMemoryCaches();
 

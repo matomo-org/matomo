@@ -8,10 +8,13 @@
 
 namespace Piwik\Tests\Framework\TestCase;
 
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestAspect;
 
 /**
  * TODO
+ *
+ * @testWithPiwikEnvironment
  */
 class PiwikTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -106,7 +109,7 @@ class PiwikTestCase extends \PHPUnit_Framework_TestCase
         if (!empty($baseClass)
             && $baseClass != 'PHPUnit_Framework_TestCase'
         ) {
-            $result = array_merge($result, self::getTestAspects($baseClass, $methodName));
+            $result = array_merge(self::getTestAspects($baseClass, $methodName), $result);
         }
 
         return $result;
@@ -134,5 +137,14 @@ class PiwikTestCase extends \PHPUnit_Framework_TestCase
         }
 
         return $testAspects;
+    }
+
+    public static function getTestCaseFixture($testCaseClass)
+    {
+        if (!isset($testCaseClass::$fixture)) {
+            return new Fixture();
+        } else {
+            return $testCaseClass::$fixture;
+        }
     }
 }

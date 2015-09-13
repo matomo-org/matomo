@@ -13,7 +13,7 @@ use Piwik\Tests\Framework\TestAspect;
 /**
  * TODO
  */
-class GetProviderConfig extends TestAspect
+class ProvideContainerConfig extends TestAspect
 {
     /**
      * @var string

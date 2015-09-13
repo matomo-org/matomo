@@ -43,7 +43,7 @@ class TestWithDatabase extends TestAspect
     {
         parent::setUpBeforeClass($testCaseClass);
 
-        $fixture = $this->getTestCaseFixture($testCaseClass);
+        $fixture = PiwikTestCase::getTestCaseFixture($testCaseClass);
         $this->fixture = $fixture;
 
         $dbName = $fixture->getDbName();
@@ -130,15 +130,6 @@ class TestWithDatabase extends TestAspect
             DbHelper::dropDatabase($dbName);
         } catch (\Exception $e) {
             printf("Dropping database %s failed: %s\n", $dbName, $e->getMessage());
-        }
-    }
-
-    private function getTestCaseFixture($testCaseClass)
-    {
-        if (!isset($testCaseClass::$fixture)) {
-            return new Fixture();
-        } else {
-            return $testCaseClass::$fixture;
         }
     }
 
