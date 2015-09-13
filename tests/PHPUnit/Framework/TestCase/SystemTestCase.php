@@ -9,15 +9,19 @@
 namespace Piwik\Tests\Framework\TestCase;
 
 use Exception;
+use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Cache as PiwikCache;
 use Piwik\DbHelper;
+use Piwik\Menu\MenuAbstract;
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\Constraint\ResponseCode;
 use Piwik\Tests\Framework\Constraint\HttpResponseText;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
 use Piwik\Tests\Framework\TestRequest\Collection;
 use Piwik\Tests\Framework\TestRequest\Response;
@@ -51,8 +55,12 @@ abstract class SystemTestCase extends PiwikTestCase
      */
     public static $fixture;
 
+    private static $isFirstSetUp = true;
+
     public static function setUpBeforeClass()
     {
+        self::$isFirstSetUp = true;
+
         parent::setUpBeforeClass();
 
         // Log::debug("Setting up " . get_called_class()); TODO: move this to PiwikTestCase
@@ -76,6 +84,33 @@ abstract class SystemTestCase extends PiwikTestCase
         }
     }
 
+    /**
+     * Setup the database and create the base tables for all tests
+     */
+    public function setUp()
+    {
+        static::$fixture->extraDefinitions = array_merge(static::provideContainerConfigBeforeClass(), $this->provideContainerConfig());
+
+        parent::setUp();
+
+        if (self::$isFirstSetUp) {
+            self::$isFirstSetUp = false;
+        } else {
+            static::$fixture->createEnvironmentInstance();
+
+            Db::createDatabaseObject();
+            Fixture::loadAllPlugins(new TestingEnvironmentVariables(), get_class($this), self::$fixture->extraPluginsToLoad);
+
+            \Piwik\Plugin\Manager::getInstance()->loadPluginTranslations();
+        }
+
+        Access::getInstance()->setSuperUserAccess(true);
+
+        PiwikCache::getEagerCache()->flushAll();
+        PiwikCache::getTransientCache()->flushAll();
+        MenuAbstract::clearMenus();
+    }
+
     public static function tearDownAfterClass()
     {
         // Log::debug("Tearing down " . get_called_class()); TODO: move this to PiwikTestCase
@@ -89,6 +124,17 @@ abstract class SystemTestCase extends PiwikTestCase
         $fixture->performTearDown();
 
         parent::tearDownAfterClass();
+    }
+
+    /**
+     * Resets all caches and drops the database
+     */
+    public function tearDown()
+    {
+        static::$fixture->clearInMemoryCaches();
+        static::$fixture->destroyEnvironment();
+
+        parent::tearDown();
     }
 
     /**
@@ -560,6 +606,17 @@ abstract class SystemTestCase extends PiwikTestCase
      * @return array
      */
     public static function provideContainerConfigBeforeClass()
+    {
+        return array();
+    }
+
+    /**
+     * Use this method to return custom container configuration that you want to apply for the tests.
+     * This configuration will override Fixture config and config specified in SystemTestCase::provideContainerConfig().
+     *
+     * @return array
+     */
+    public function provideContainerConfig()
     {
         return array();
     }
