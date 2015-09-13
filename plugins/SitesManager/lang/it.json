@@ -74,6 +74,8 @@
         "TrackingTags": "Codice traking per %s",
         "Urls": "Indirizzi",
         "UTCTimeIs": "Tempo UTC è %s.",
+        "OnlyMatchedUrlsAllowed": "Traccia visite e azioni solo quando l'URL del visitatore comincia con uno degli URL qui sopra.",
+        "OnlyMatchedUrlsAllowedHelp": "Quando abilitato, Piwik traccerà le azioni interne solo quando l'URL Pagina è una delle URL conosciute del sito. Questo evita che la gente spammi le tue statistiche con URL di altri siti web.",
         "WebsitesManagement": "Gestisci siti web",
         "XManagement": "Gestione %s",
         "ChooseMeasurableTypeHeadline": "Cosa intendi misurare",

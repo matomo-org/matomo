@@ -39,6 +39,7 @@
         "PagesReportDocumentation": "Laporan ini mengandung informasi tentang URL halaman yang dikunjungi. %s Tabel diatur berurutan, URL ditampilkan sebagai struktur map.",
         "PageTitlesReportDocumentation": "Laporan ini mengandung informasi tentang judul halaman yang telah dikunjungi. %s Judul halaman merupakan Etiket %s HTML yang kebanyakan peramban ditampilkan di judul jendela.",
         "PageUrls": "URL Halaman",
+        "PluginDescription": "Laporan mengenai tampilan dan judul halaman. Membantu Anda mengukur mesin pencarian internal situs web Anda. Pelacakan klik otomatis dalam tautan eksternal dan berkas unduhan.",
         "SiteSearchCategories1": "Lapotan ini mendaftar Kategori dipilih oleh pengunjung ketika membuat Pencarian di situs Anda.",
         "SiteSearchCategories2": "Misalnya, situs Niaga-E biasanya memiliki pemilih \"Kategori\" yang membatasi pencarian pengunjung terhadap seluruh produk dalam Kategori tertentu.",
         "SiteSearchFollowingPagesDoc": "Ketika pengnjung melakukan pencarian di situs Anda, mereka mencari sebagian halaman, isi, produk, atau layanan. Laporan ini mendaftar halaman paling banyak diklik dalam pencarian dalam. Dengan kata lain, daftar halaman paling dicari oleh pengunjung telah tersedia di situs Anda.",

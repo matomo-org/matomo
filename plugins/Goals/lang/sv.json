@@ -7,7 +7,7 @@
         "AllowGoalConvertedMoreThanOncePerVisit": "Tillåt att mål omvandlas mer än en gång per besök",
         "AllowMultipleConversionsPerVisit": "Tillåt flera omvandlingar per besök",
         "BestCountries": "Dina bäst omvandlade länder är:",
-        "BestKeywords": "Dina bäst omvandlade sökord är:",
+        "BestKeywords": "Dina bäst omvandlade nyckelord är:",
         "BestReferrers": "Dina bäst omvandlade hänvisningsadresser är:",
         "CaseSensitive": "Skiftlägeskänslig matchning",
         "CancelAndReturnToGoals": "Avbryt och %såtergå till listan av mål%s",

@@ -54,7 +54,7 @@
         "ReportToLoadByDefault": "Rapport som laddas som standard",
         "SuperUserAccessManagement": "Hantera Superanvändare access",
         "SuperUserAccessManagementGrantMore": "Du kan få Superanvändarbehörighet till andra Piwikanvändare här. Använd den behörigheten med försiktighet.",
-        "SuperUserAccessManagementMainDescription": "Super användaren har fullständig åtkomst. De kan utföra alla administrativa uppgifter. Tillexempel lägga till en ny webbsida för analys, lägga till användare, ändra användaråtkomst, aktivera och avaktivera plugins och installera nya plugins från butiken.",
+        "SuperUserAccessManagementMainDescription": "Superanvändaren har fullständig åtkomst. De kan utföra alla administrativa uppgifter. Till exempel lägga till en ny webbsida för analys, lägga till användare, ändra användaråtkomst, aktivera och avaktivera plugins och installera nya plugins från Butiken.",
         "TheLoginScreen": "Inloggningsrutan",
         "ThereAreCurrentlyNRegisteredUsers": "Det finns just nu %s registrerade användare.",
         "TypeYourPasswordAgain": "Bekräfta lösenordet genom att skriva in det igen.",

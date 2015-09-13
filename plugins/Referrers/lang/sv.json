@@ -1,6 +1,6 @@
 {
     "Referrers": {
-        "AllReferrersReportDocumentation": "Den här rapporten visar all din hänvisningstrafik i en sammanslagen rapport, den listar alla webbsidor, sökord och kampanjer som dina besökare har använt sig av för att hitta din webbsida.",
+        "AllReferrersReportDocumentation": "Den här rapporten visar all din hänvisningstrafik i en sammanslagen rapport, den listar alla webbsidor, nyckelord och kampanjer som dina besökare har använt sig av för att hitta din webbsida.",
         "Campaigns": "Kampanjer",
         "CampaignsDocumentation": "Besökare som kom till din webbplats som resulterades av en kampanj. %s Se rapporten %s för mer information.",
         "CampaignsReportDocumentation": "Rapporten visar vilka kampanjer som har lett besökare till din webbplats. %s För mer information om hur du spårar kampanjer, läs %skampanjernas dokumentation på piwik.org%s",
@@ -13,13 +13,13 @@
         "DirectEntryDocumentation": "En besökare har skrivit in webbadressen i sin webbläsare och började surfa på din webbplats - han gick in på hemsidan direkt.",
         "Distinct": "Distinkta hänvisningar av den refererande typen",
         "DistinctCampaigns": "distinkta kampanjer",
-        "DistinctKeywords": "distinkta sökord",
+        "DistinctKeywords": "distinkta nyckelord",
         "DistinctSearchEngines": "distinkta sökmotorer",
         "DistinctWebsites": "distinkta webbplatser",
         "EvolutionDocumentation": "Detta är en översikt av hänvisningsadresserna som ledde besökarna till din webbplats.",
         "EvolutionDocumentationMoreInfo": "Mer information om de olika hänvisningsadressernas typer finns i dokumentationen för %s tabell.",
         "Keywords": "Nyckelord",
-        "KeywordsReportDocumentation": "Rapporten visar vilka sökord som användarna sökte efter innan de hänvisades till din webbplats. %s Genom att klicka på en rad i tabellen kan du se fördelningen av sökmotorer som användes för sökordet.",
+        "KeywordsReportDocumentation": "Rapporten visar vilka nyckelord som användarna sökte efter innan de hänvisades till din webbplats. %s Genom att klicka på en rad i tabellen kan du se fördelningen av sökmotorer som användes för nyckelordet.",
         "PluginDescription": "Visar hänvisningsdata: sökmotorer, nyckelord, webbplatser, kampanjer, sociala medier, direktbesök.",
         "Referrer": "Hänvisningar",
         "ReferrerName": "Hänvisningsadress Namn",
@@ -32,7 +32,7 @@
         "SocialFooterMessage": "Det här är en delmängd av webbplatsrapporten till vänster. Den filtrerar bort andra webbplatser så du kan jämföra hänvisningarna från sociala nätverk.",
         "Socials": "Sociala Nätverk",
         "SocialsReportDocumentation": "Den här rapporten visar vilka sociala nätverk som tagit besökare till din webbplatser.<br \/>Genom att klicka på en rad i tabellen kan du se vilken sida på det sociala nätverket besökarna kom ifrån.",
-        "SubmenuSearchEngines": "Sökmotorer och sökord",
+        "SubmenuSearchEngines": "Sökmotorer och nyckelord",
         "SubmenuWebsites": "Webbplatser",
         "Type": "Typ av källa",
         "TypeCampaigns": "%s från kampanjer",
@@ -49,7 +49,7 @@
         "WidgetExternalWebsites": "Lista på externa webbsidor",
         "WidgetGetAll": "Alla hänvisningar",
         "WidgetSocials": "Lista över sociala nätverk",
-        "WidgetTopKeywordsForPages": "Toppsökord för sid-URL",
+        "WidgetTopKeywordsForPages": "Toppnyckelord för sid-URL",
         "XPercentOfVisits": "%s%% av besökare"
     }
 }

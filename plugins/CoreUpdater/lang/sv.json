@@ -38,7 +38,7 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik databasen kommer att uppgraderas från version %1$s till den nya versionen %2$s.",
         "ReadyToGo": "Redo att köra?",
         "TheFollowingPluginsWillBeUpgradedX": "Följande plugins kommer att uppdateras: %s.",
-        "ThereIsNewPluginVersionAvailableForUpdate": "Vissa tillägg som du använder har uppdaterats på Marketplace:",
+        "ThereIsNewPluginVersionAvailableForUpdate": "Vissa tillägg som du använder har uppdaterats i Butiken:",
         "ThereIsNewVersionAvailableForUpdate": "Det finns en ny version av Piwik tillgänglig för uppdatering",
         "TheUpgradeProcessMayFailExecuteCommand": "Om du har en stor Piwik databas, kanske uppdateringar tar för lång tid att köra i webbläsaren. I denna situation, kan du köra uppdateringar från din kommandorad: %s",
         "TheUpgradeProcessMayTakeAWhilePleaseBePatient": "Databasuppgraderingen kan ta en stund, vänligen ha tålamod.",
