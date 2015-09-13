@@ -94,7 +94,7 @@ class Controller extends ControllerAdmin
             $view->creditLeft = $mobileMessagingAPI->getCreditLeft();
         }
 
-        $view->smsProviders = SMSProvider::$availableSMSProviders;
+        $view->smsProviders = SMSProvider::getAvailableSMSProviders();
 
         // construct the list of countries from the lang files
         $countries = array();
