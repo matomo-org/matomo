@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Exception;
+use Piwik\Development;
 use Piwik\Piwik;
 use Piwik\BaseFactory;
 
@@ -23,7 +24,7 @@ abstract class SMSProvider extends BaseFactory
     const MAX_UCS2_CHARS_IN_ONE_UNIQUE_SMS = 70;
     const MAX_UCS2_CHARS_IN_ONE_CONCATENATED_SMS = 67;
 
-    public static $availableSMSProviders = array(
+    protected static $availableSMSProviders = array(
         'Clockwork' => 'You can use <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/platforms/piwik/"><img src="plugins/MobileMessaging/images/Clockwork.png"/></a> to send SMS Reports from Piwik.<br/>
 			<ul>
 			<li> First, <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/platforms/piwik/">get an API Key from Clockwork</a> (Signup is free!)
@@ -46,8 +47,24 @@ abstract class SMSProvider extends BaseFactory
     protected static function getInvalidClassIdExceptionMessage($id)
     {
         return Piwik::translate('MobileMessaging_Exception_UnknownProvider',
-            array($id, implode(', ', array_keys(self::$availableSMSProviders)))
+            array($id, implode(', ', array_keys(self::getAvailableSMSProviders())))
         );
+    }
+
+    /**
+     * Returns all available SMS Providers
+     * 
+     * @return array
+     */
+    public static function getAvailableSMSProviders()
+    {
+        $smsProviders = self::$availableSMSProviders;
+
+        if (Development::isEnabled()) {
+            $smsProviders['Development'] = 'Development SMS Provider<br />All sent SMS will be displayed as Notification';
+        }
+
+        return $smsProviders;
     }
 
     /**
@@ -65,7 +82,7 @@ abstract class SMSProvider extends BaseFactory
             throw new Exception(
                 Piwik::translate(
                     'MobileMessaging_Exception_UnknownProvider',
-                    array($providerName, implode(', ', array_keys(self::$availableSMSProviders)))
+                    array($providerName, implode(', ', array_keys(self::getAvailableSMSProviders())))
                 )
             );
         }
