@@ -13,8 +13,6 @@ use Piwik\Tests\Framework\TestAspect;
 
 /**
  * TODO
- *
- * @testWithPiwikEnvironment
  */
 class PiwikTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -146,5 +144,24 @@ class PiwikTestCase extends \PHPUnit_Framework_TestCase
         } else {
             return $testCaseClass::$fixture;
         }
+    }
+
+    protected function getTestAspect($annotation)
+    {
+        $testAspectClass = 'Piwik\Tests\Framework\TestAspect\\' . ucfirst($annotation);
+
+        // TODO: code redundancy
+        $aspects = array_merge(
+            self::getTestAspects(get_class($this)),
+            self::getTestAspects(get_class($this), $this->getName(false))
+        );
+
+        foreach ($aspects as $aspect) {
+            if (get_class($aspect) == $testAspectClass) {
+                return $aspect;
+            }
+        }
+
+        return null;
     }
 }

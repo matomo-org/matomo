@@ -26,17 +26,22 @@ use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
 use Piwik\Tests\Framework\TestRequest\Collection;
 use Piwik\Tests\Framework\TestRequest\Response;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Translate;
 use Piwik\Translation\Translator;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
-
+/*
+ * @testWithPiwikEnvironment
+ *   => container, plugins
+ */
 /**
  * Base class for System tests.
  *
  * Provides helpers to track data and then call API get* methods to check outputs automatically.
  *
  * @since 2.8.0
- * @testWithDatabase
+ *
+ * @testWithPiwikDatabase
  */
 abstract class SystemTestCase extends PiwikTestCase
 {
@@ -61,27 +66,19 @@ abstract class SystemTestCase extends PiwikTestCase
     {
         self::$isFirstSetUp = true;
 
-        parent::setUpBeforeClass();
-
-        // Log::debug("Setting up " . get_called_class()); TODO: move this to PiwikTestCase
-
         if (!isset(static::$fixture)) {
             $fixture = new Fixture();
         } else {
             $fixture = static::$fixture;
         }
 
-        $fixture->testCaseClass = get_called_class();
-
         if (!array_key_exists('loadRealTranslations', $fixture->extraTestEnvVars)) {
             $fixture->extraTestEnvVars['loadRealTranslations'] = true; // load real translations by default for system tests
         }
 
-        try {
-            $fixture->performSetUp();
-        } catch (Exception $e) {
-            static::fail("Failed to setup fixture: " . $e->getMessage() . "\n" . $e->getTraceAsString());
-        }
+        parent::setUpBeforeClass();
+
+        // Log::debug("Setting up " . get_called_class()); TODO: move this to PiwikTestCase
     }
 
     /**
@@ -93,6 +90,8 @@ abstract class SystemTestCase extends PiwikTestCase
 
         parent::setUp();
 
+        static::$fixture->clearInMemoryCaches();
+
         if (self::$isFirstSetUp) {
             self::$isFirstSetUp = false;
         } else {
@@ -100,15 +99,12 @@ abstract class SystemTestCase extends PiwikTestCase
 
             Db::createDatabaseObject();
             Fixture::loadAllPlugins(new TestingEnvironmentVariables(), get_class($this), self::$fixture->extraPluginsToLoad);
-
-            \Piwik\Plugin\Manager::getInstance()->loadPluginTranslations();
         }
 
-        Access::getInstance()->setSuperUserAccess(true);
+        Translate::loadCoreTranslation();
+        \Piwik\Plugin\Manager::getInstance()->loadPluginTranslations();
 
-        PiwikCache::getEagerCache()->flushAll();
-        PiwikCache::getTransientCache()->flushAll();
-        MenuAbstract::clearMenus();
+        Access::getInstance()->setSuperUserAccess(true);
     }
 
     public static function tearDownAfterClass()

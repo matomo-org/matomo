@@ -7,6 +7,7 @@
  */
 
 namespace Piwik\Tests\Framework;
+
 use Piwik\Tests\Framework\TestCase\PiwikTestCase;
 
 /**

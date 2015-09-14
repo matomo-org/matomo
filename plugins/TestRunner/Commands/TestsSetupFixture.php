@@ -127,6 +127,7 @@ class TestsSetupFixture extends ConsoleCommand
             $this->createSymbolicLinksForUITests();
         }
 
+        /** @var Fixture $fixture */
         $fixture = $this->createFixture($input, $allowSave = !empty($configDomainToSave));
 
         $this->setupDatabaseOverrides($input, $fixture);
@@ -136,7 +137,13 @@ class TestsSetupFixture extends ConsoleCommand
             $fixture->getTestEnvironment()->save();
             $fixture->performTearDown();
         } else {
-            $fixture->performSetUp();
+            $isNewFixtureSetup = $fixture->performSetUp();
+
+            if ($isNewFixtureSetup) {
+                $output->writeln("Database {$fixture->dbName} marked as successfully set up.");
+            } else {
+                $output->writeln("Using existing database {$fixture->dbName}.");
+            }
         }
 
         $this->writeSuccessMessage($output, array("Fixture successfully setup!"));

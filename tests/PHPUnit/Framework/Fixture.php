@@ -23,11 +23,11 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Ini\IniReader;
 use Piwik\Log;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
@@ -82,7 +82,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     const ADMIN_USER_LOGIN = 'superUserLogin';
     const ADMIN_USER_PASSWORD = 'superUserPass';
 
-    public $dbName = false;
+    public $dbName = false; // TODO: deprecate & remove use
 
     /**
      * @deprecated has no effect now.
@@ -123,6 +123,9 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public $extraDefinitions = array();
 
+    /**
+     * @deprecated
+     */
     public $extraTestEnvVars = array();
 
     /**
@@ -189,59 +192,15 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public function performSetUp($setupEnvironmentOnly = false)
     {
-        // TODO: don't use static var, use test env var for this
-        TestingEnvironmentManipulator::$extraPluginsToLoad = $this->extraPluginsToLoad;
-
-        $testEnv = $this->getTestEnvironment();
-        $testEnv->testCaseClass = $this->testCaseClass;
-        $testEnv->fixtureClass = get_class($this);
-        $testEnv->dbName = $this->dbName;
-
-        foreach ($this->extraTestEnvVars as $name => $value) {
-            $testEnv->$name = $value;
-        }
-
-        $testEnv->save();
-
-        $this->createEnvironmentInstance();
-
-        // We need to be SU to create websites for tests
-        Access::getInstance()->setSuperUserAccess();
-
-        Cache::deleteTrackerCache();
-
-        static::loadAllPlugins($this->getTestEnvironment(), $this->testCaseClass, $this->extraPluginsToLoad);
-        self::installAndActivatePlugins();
-        self::updateDatabase();
-
-        File::$invalidateOpCacheBeforeRead = true;
-
-        if ($this->configureComponents) {
-            IPAnonymizer::deactivate();
-            $dntChecker = new DoNotTrackHeaderChecker();
-            $dntChecker->deactivate();
-        }
-
-        if ($this->createSuperUser) {
-            self::createSuperUser($this->removeExistingSuperUser);
-            if (!(Access::getInstance() instanceof FakeAccess)) {
-                $this->loginAsSuperUser();
-            }
-
-            APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
-        }
-
-        SettingsPiwik::overwritePiwikUrl(self::getRootUrl() . 'tests/PHPUnit/proxy/');
-
         if ($this->overwriteExisting
             || !$this->isFixtureSetUp()
         ) {
             $this->setUp();
 
             $this->markFixtureSetUp();
-            $this->log("Database {$this->dbName} marked as successfully set up.");
+            return true;
         } else {
-            $this->log("Using existing database {$this->dbName}.");
+            return false;
         }
     }
 
@@ -295,6 +254,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
         Singleton::clearAll();
+        MenuAbstract::clearMenus();
 
         $_GET = $_REQUEST = array();
         Translate::reset();
@@ -876,6 +836,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     {
         $this->piwikEnvironment = new Environment($environment = null, $this->extraDefinitions);
         $this->piwikEnvironment->init();
+        return $this->piwikEnvironment;
     }
 
     public function destroyEnvironment()
