@@ -6,15 +6,16 @@
     <td>
     <div class="entityInlineHelp">
     {% if phoneNumbers|length == 0 %}
-        {{ 'MobileMessaging_MobileReport_NoPhoneNumbers'|translate }}
+        <div><span class="icon-info"></span> {{ 'MobileMessaging_MobileReport_NoPhoneNumbers'|translate }}
     {% else %}
+        <ul class="clearfix">
         {% for phoneNumber in phoneNumbers %}
-        <label><input name='phoneNumbers' type='checkbox' id='{{ phoneNumber }}'/>{{ phoneNumber }}</label>
-        <br/>
+            <li class="clear"><label><input name='phoneNumbers' type='checkbox' id='{{ phoneNumber }}'/>{{ phoneNumber }}</label></li>
         {% endfor %}
-        {{ 'MobileMessaging_MobileReport_AdditionalPhoneNumbers'|translate }}
+        </ul>
+        <div><span class="icon-info"></span> {{ 'MobileMessaging_MobileReport_AdditionalPhoneNumbers'|translate }}
     {% endif %}
-        <a href='{{ linkTo({'module':"MobileMessaging", 'action': 'index', 'updated':null}) }}'>{{ 'MobileMessaging_MobileReport_MobileMessagingSettingsLink'|translate }}</a>
+        <a href="{{ linkTo({'module':"MobileMessaging", 'action': 'index', 'updated':null}) }}">{{ 'MobileMessaging_MobileReport_MobileMessagingSettingsLink'|translate }}</a></div>
     </div>
     <script>
     $(function () {
