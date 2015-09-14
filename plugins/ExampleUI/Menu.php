@@ -34,7 +34,7 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureUserMenu(MenuUser $menu)
     {
-        $menu->addPlatformItem('UI Notifications', $this->urlForAction('notifications'), $order = 3);
+        $menu->addPlatformItem('UI Notifications', $this->urlForAction('notifications'), $order = 10);
     }
 
     private function addSubMenu(MenuReporting $menu, $subMenu, $action, $order)

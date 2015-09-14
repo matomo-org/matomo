@@ -476,7 +476,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // Notifications
     it('should load the notifications page correctly', function (done) {
-        expect.screenshot('notifications').to.be.capture(function (page) {
+        expect.screenshot('notifications').to.be.captureSelector('#content', function (page) {
             page.load("?" + generalParams + "&module=ExampleUI&action=notifications&idSite=1&period=day&date=yesterday");
             page.evaluate(function () {
                 $('#header').hide();
@@ -516,13 +516,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // CustomAlerts plugin TODO: move to CustomAlerts plugin
     it('should load the custom alerts list correctly', function (done) {
-        expect.screenshot('customalerts_list').to.be.capture(function (page) {
+        expect.screenshot('customalerts_list').to.be.captureSelector('#content', function (page) {
             page.load("?" + generalParams + "&module=CustomAlerts&action=index&idSite=1&period=day&date=yesterday&tests_hide_piwik_version=1");
         }, done);
     });
 
     it('should load the triggered custom alerts list correctly', function (done) {
-        expect.screenshot('customalerts_list_triggered').to.be.capture(function (page) {
+        expect.screenshot('customalerts_list_triggered').to.be.captureSelector('#content', function (page) {
             page.load("?" + generalParams + "&module=CustomAlerts&action=historyTriggeredAlerts&idSite=1&period=day&date=yesterday&tests_hide_piwik_version=1");
         }, done);
     });
@@ -546,7 +546,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the email reports page correctly', function (done) {
-        expect.screenshot('email_reports').to.be.capture(function (page) {
+        expect.screenshot('email_reports').to.be.captureSelector('#content', function (page) {
             page.load("?" + generalParams + "&module=ScheduledReports&action=index");
             page.evaluate(function () {
                 $('#header').hide();
@@ -555,7 +555,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the feedback form when the feedback form link is clicked', function (done) {
-        expect.screenshot('feedback_form').to.be.capture(function (page) {
+        expect.screenshot('feedback_form').to.be.captureSelector('#content', function (page) {
 
             page.load("?" + generalParams + "&module=Feedback&action=index");
 
