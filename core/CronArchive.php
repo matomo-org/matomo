@@ -418,16 +418,16 @@ class CronArchive
         $this->logger->info("Archived today's reports for {$this->websitesWithVisitsSinceLastRun} websites");
         $this->logger->info("Archived week/month/year for {$this->archivedPeriodsArchivesWebsite} websites");
         $this->logger->info("Skipped {$this->skipped} websites");
-        $this->logger->info("- Skipped {$this->skippedDayNoRecentData} websites: no new visit since the last script execution");
-        $this->logger->info("- Skipped {$this->skippedDayArchivesWebsites} websites: existing daily reports are less than {$this->todayArchiveTimeToLive} seconds old");
-        $this->logger->info("- Skipped {$this->skippedPeriodsArchivesWebsite} websites: existing week/month/year periods reports are less than {$this->processPeriodsMaximumEverySeconds} seconds old");
+        $this->logger->info("- {$this->skippedDayNoRecentData} skipped because no new visit since the last script execution");
+        $this->logger->info("- {$this->skippedDayArchivesWebsites} skipped because existing daily reports are less than {$this->todayArchiveTimeToLive} seconds old");
+        $this->logger->info("- {$this->skippedPeriodsArchivesWebsite} skipped because existing week/month/year periods reports are less than {$this->processPeriodsMaximumEverySeconds} seconds old");
 
         if($this->skippedPeriodsNoDataInPeriod) {
-            $this->logger->info("- Skipped {$this->skippedPeriodsNoDataInPeriod} websites week/month/year archiving: no visit in recent days");
+            $this->logger->info("- {$this->skippedPeriodsNoDataInPeriod} skipped periods archiving because no visit in recent days");
         }
 
         if($this->skippedDayOnApiError) {
-            $this->logger->info("- Skipped {$this->skippedDayOnApiError} websites: got an error while querying reporting API");
+            $this->logger->info("- {$this->skippedDayOnApiError} skipped because got an error while querying reporting API");
         }
         $this->logger->info("Total API requests: {$this->requests}");
 
