@@ -43,12 +43,13 @@ window.initializeSparklines = function () {
         // try to find sparklines and add them clickable behaviour
         graph.parent().find('div.sparkline').each(function () {
 
-            $(this).addClass('linked');
-
             // find the sparkline and get it's src attribute
             var sparklineUrl = $('img', this).attr('data-src');
 
             if (sparklineUrl != "") {
+
+                $(this).addClass('linked');
+
                 var params = broadcast.getValuesFromUrl(sparklineUrl);
                 for (var i = 0; i != sparklineUrlParamsToIgnore.length; ++i) {
                     delete params[sparklineUrlParamsToIgnore[i]];
