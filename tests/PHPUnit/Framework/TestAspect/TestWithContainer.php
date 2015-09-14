@@ -62,6 +62,8 @@ class TestWithContainer extends TestAspect
 
     public function destroyEnvironment()
     {
-        $this->environment->destroy();
+        if ($this->environment != null) {
+            $this->environment->destroy();
+        }
     }
 }

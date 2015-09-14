@@ -9,9 +9,12 @@
 namespace Piwik\Tests\Framework\TestAspect;
 
 use Piwik\Access;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestAspect;
 use Piwik\Tests\Framework\TestCase\PiwikTestCase;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Piwik\Tracker\Cache;
+use Piwik\Cache as PiwikCache;
 
 /**
  * TODO
@@ -23,9 +26,15 @@ class TestWithPiwikEnvironment extends TestAspect
      */
     private $testWithContainer;
 
-    public function __construct()
+    /**
+     * @var Fixture
+     */
+    private $fixture;
+
+    public function __construct(Fixture $fixture = null)
     {
         $this->testWithContainer = new TestWithContainer();
+        $this->fixture = $fixture;
     }
 
     public function setUp(PiwikTestCase $testCase)
@@ -33,6 +42,7 @@ class TestWithPiwikEnvironment extends TestAspect
         $this->initializeTestEnvironmentVariables($testCase);
 
         $this->testWithContainer->setUp($testCase);
+        $this->getFixture(get_class($testCase))->piwikEnvironment = $this->testWithContainer->getEnvironment();
 
         Cache::deleteTrackerCache();
         \Piwik\Plugin\Manager::getInstance()->loadActivatedPlugins();
@@ -43,23 +53,41 @@ class TestWithPiwikEnvironment extends TestAspect
 
     public function tearDown(PiwikTestCase $testCase)
     {
+        PiwikCache::getEagerCache()->flushAll();
+
         $this->testWithContainer->tearDown($testCase);
     }
 
     private function initializeTestEnvironmentVariables(PiwikTestCase $testCase)
     {
-        // TODO: don't use static var, use test env var for this
-        TestingEnvironmentManipulator::$extraPluginsToLoad = $fixture->extraPluginsToLoad; // TODO: change this
+        $testCaseClass = get_class($testCase);
 
-        $testEnv = $fixture->getTestEnvironment();
-        $testEnv->testCaseClass = get_class($testCase);
-        $testEnv->fixtureClass = get_class($fixture); // TODO: should be done else where
+        $fixture = $this->getFixture($testCaseClass);
 
-        if ($testEnv->loadRealTranslations !== null) {
-            $testEnv->loadRealTranslations = true;
+        $testVars = new TestingEnvironmentVariables();
+        $testVars->delete();
+
+        $testVars->testCaseClass = $testCaseClass;
+        $testVars->fixtureClass = get_class($fixture); // TODO: should only be done for UI tests
+        $testVars->pluginsToLoad = $fixture->extraPluginsToLoad;
+
+        if (getenv('PIWIK_USE_XHPROF') == 1) {
+            $testVars->useXhprof = true;
         }
 
-        $testEnv->save();
-        // TODO
+        if ($testVars->loadRealTranslations !== null) {
+            $testVars->loadRealTranslations = true;
+        }
+
+        $testVars->save();
+    }
+
+    private function getFixture($testCaseClass)
+    {
+        if ($this->fixture) {
+            return $this->fixture;
+        }
+
+        return PiwikTestCase::getTestCaseFixture($testCaseClass);
     }
 }

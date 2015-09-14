@@ -111,14 +111,6 @@ abstract class SystemTestCase extends PiwikTestCase
     {
         // Log::debug("Tearing down " . get_called_class()); TODO: move this to PiwikTestCase
 
-        if (!isset(static::$fixture)) {
-            $fixture = new Fixture();
-        } else {
-            $fixture = static::$fixture;
-        }
-
-        $fixture->performTearDown();
-
         parent::tearDownAfterClass();
     }
 
@@ -128,7 +120,6 @@ abstract class SystemTestCase extends PiwikTestCase
     public function tearDown()
     {
         static::$fixture->clearInMemoryCaches();
-        static::$fixture->destroyEnvironment();
 
         parent::tearDown();
     }

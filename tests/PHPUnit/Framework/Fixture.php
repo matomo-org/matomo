@@ -124,6 +124,8 @@ class Fixture extends \PHPUnit_Framework_Assert
     public $extraDefinitions = array();
 
     /**
+     * No longer used.
+     *
      * @deprecated
      */
     public $extraTestEnvVars = array();
@@ -206,15 +208,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function getTestEnvironment()
     {
-        if ($this->testEnvironment === null) {
-            $this->testEnvironment = new TestingEnvironmentVariables();
-            $this->testEnvironment->delete();
-
-            if (getenv('PIWIK_USE_XHPROF') == 1) {
-                $this->testEnvironment->useXhprof = true;
-            }
-        }
-        return $this->testEnvironment;
+        return new TestingEnvironmentVariables();
     }
 
     public function isFixtureSetUp()
@@ -249,8 +243,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         Option::clearCache();
         Site::clearCache();
         Cache::deleteTrackerCache();
-        PiwikCache::getTransientCache()->flushAll();
-        PiwikCache::getEagerCache()->flushAll();
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
         Singleton::clearAll();

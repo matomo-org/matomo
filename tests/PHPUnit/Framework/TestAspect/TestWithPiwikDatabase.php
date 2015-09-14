@@ -39,11 +39,25 @@ class TestWithPiwikDatabase extends TestAspect
      */
     private $testWithDatabase;
 
+    /**
+     * @var TestWithPiwikEnvironment
+     */
+    private $testWithPiwikEnvironment;
+
+    /**
+     * @var Fixture
+     */
+    private $fixture;
+
     private $isFixtureSetup = false;
 
-    public function __construct()
+    private $isNewFixtureSetup = false;
+
+    public function __construct(Fixture $fixture = null)
     {
         $this->testWithDatabase = new TestWithDatabase();
+        $this->testWithPiwikEnvironment = new TestWithPiwikEnvironment($fixture);
+        $this->fixture = $fixture;
     }
 
     public static function isMethodAspect()
@@ -58,40 +72,27 @@ class TestWithPiwikDatabase extends TestAspect
 
     public function setUp(PiwikTestCase $testCase)
     {
+        $this->testWithPiwikEnvironment->setUp($testCase);
+
         if (!$this->isFixtureSetup) {
-            $this->setUpFixture(get_class($testCase));
+            $this->isNewFixtureSetup = $this->setUpFixture(get_class($testCase));
             $this->isFixtureSetup = true;
         }
 
         $this->testWithDatabase->setUp($testCase);
     }
 
+    public function tearDown(PiwikTestCase $testCase)
+    {
+        $this->testWithDatabase->tearDown($testCase);
+        $this->testWithPiwikEnvironment->tearDown($testCase);
+    }
+
     public function setUpFixture($testCaseClass)
     {
         File::$invalidateOpCacheBeforeRead = true; // TODO: move this setting to DI
 
-        $fixture = PiwikTestCase::getTestCaseFixture($testCaseClass);
-
-        // TODO: don't use static var, use test env var for this
-        TestingEnvironmentManipulator::$extraPluginsToLoad = $fixture->extraPluginsToLoad;
-
-        $testEnv = $fixture->getTestEnvironment();
-        $testEnv->testCaseClass = $testCaseClass;
-        $testEnv->fixtureClass = get_class($this);
-
-        if ($testEnv->loadRealTranslations !== null) {
-            $testEnv->loadRealTranslations = true;
-        }
-
-        $testEnv->save();
-
-        $this->environment = $fixture->createEnvironmentInstance();
-
-        Cache::deleteTrackerCache();
-        \Piwik\Plugin\Manager::getInstance()->loadActivatedPlugins();
-
-        // We need to be SU to create websites for tests
-        Access::getInstance()->setSuperUserAccess();
+        $fixture = $this->getFixture($testCaseClass);
 
         DbHelper::createTables();
         Fixture::installAndActivatePlugins();
@@ -115,12 +116,30 @@ class TestWithPiwikDatabase extends TestAspect
 
         SettingsPiwik::overwritePiwikUrl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/');
 
-        $fixture->performSetUp();
+        return $fixture->performSetUp();
     }
 
     public function tearDownAfterClass($testCaseClass)
     {
-        $this->environment->destroy();
-        $this->environment = null;
+        $this->getFixture($testCaseClass)->performTearDown();
+
+        $this->testWithDatabase->tearDownAfterClass($testCaseClass);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isNewFixtureSetup()
+    {
+        return $this->isNewFixtureSetup;
+    }
+
+    private function getFixture($testCaseClass)
+    {
+        if ($this->fixture) {
+            return $this->fixture;
+        }
+
+        return PiwikTestCase::getTestCaseFixture($testCaseClass);
     }
 }
