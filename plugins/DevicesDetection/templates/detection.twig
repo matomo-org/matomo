@@ -1,5 +1,7 @@
 {% extends 'admin.twig' %}
 
+{% set title %}{{ 'DevicesDetection_DeviceDetection'|translate }}{% endset %}
+
 {% block content %}
 
     <script type="text/javascript">
@@ -41,7 +43,7 @@
         }
     </style>
 
-    <h2>{{ 'DevicesDetection_DeviceDetection'|translate }}</h2>
+    <h2>{{ title }}</h2>
 
     <h3>{{ 'DevicesDetection_UserAgent'|translate }}</h3>
 

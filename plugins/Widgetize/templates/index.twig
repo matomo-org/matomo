@@ -1,5 +1,7 @@
 {% extends 'user.twig' %}
 
+{% set title %}{{ 'General_Widgets'|translate }}{% endset %}
+
 {% block content %}
 
 <div>
@@ -26,7 +28,7 @@
     });
 </script>
 
-<h2 piwik-enriched-headline>{{ 'General_Widgets'|translate }}</h2>
+<h2 piwik-enriched-headline>{{ title }}</h2>
 
 {% include "@CoreHome/_siteSelectHeader.twig" %}
 

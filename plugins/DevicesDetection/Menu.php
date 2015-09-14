@@ -20,7 +20,7 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
             $menu->addDiagnosticItem('DevicesDetection_DeviceDetection',
-                                     $this->urlForAction('deviceDetection'),
+                                     $this->urlForAction('detection'),
                                      $order = 40);
         }
     }

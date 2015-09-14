@@ -1,8 +1,10 @@
 {% extends 'admin.twig' %}
 
+{% set title %}{{ 'DBStats_DatabaseUsage'|translate }}{% endset %}
+
 {% block content %}
 
-<h2 id="databaseUsageSummary">{{ 'DBStats_DatabaseUsage'|translate }}</h2>
+<h2 id="databaseUsageSummary">{{ title }}</h2>
 <p>
     {{ 'DBStats_MainDescription'|translate(totalSpaceUsed) }}<br/>
     {{ 'DBStats_LearnMore'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>Piwik Auto Archiving</a>")|raw }}

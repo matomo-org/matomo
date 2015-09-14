@@ -1,5 +1,7 @@
 {% extends 'layout.twig' %}
 
+{% set title %}Piwik UI demo{% endset %}
+
 {% block head %}
     {{ parent() }}
 
@@ -62,7 +64,7 @@
 
     <div class="container">
 
-        <h1>Piwik UI demo</h1>
+        <h1>{{ title }}</h1>
         <p>
             This page is intended to show all the UI components and styles available to use in Piwik.
         </p>

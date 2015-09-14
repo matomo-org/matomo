@@ -2,10 +2,12 @@
 
 {% import '@MobileMessaging/macros.twig' as macro %}
 
+{% set title %}{{ 'MobileMessaging_SettingsMenu'|translate }}{% endset %}
+
 {% block content %}
 
     {% if isSuperUser %}
-        <h2>{{ 'General_Settings'|translate }}</h2>
+        <h2>{{ title }}</h2>
 
         <div class="form-group">
             <label>{{ 'MobileMessaging_Settings_LetUsersManageAPICredential'|translate }}</label>

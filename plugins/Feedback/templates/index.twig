@@ -3,12 +3,14 @@
 {% set test_piwikUrl='http://demo.piwik.org/' %}
 {% set isPiwikDemo %}{{ piwikUrl == 'http://demo.piwik.org/' or piwikUrl == 'https://demo.piwik.org/'}}{% endset %}
 
+{% set title %}{{ 'General_AboutPiwikX'|translate(piwikVersion) }}{% endset %}
+
 {% block content %}
 
     <div id="feedback-faq" class="admin">
         <h2 piwik-enriched-headline
             feature-name="{{ 'General_Help'|translate }}"
-            >{{ 'General_AboutPiwikX'|translate(piwikVersion) }}</h2>
+            >{{ title }}</h2>
 
         <div class="header_full">
             <p>{{ 'General_PiwikIsACollaborativeProjectYouCanContributeAndDonate'|translate(

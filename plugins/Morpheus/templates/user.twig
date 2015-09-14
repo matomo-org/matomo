@@ -1,6 +1,6 @@
 {% extends 'layout.twig' %}
 
-{% block pageTitle %}{% if not isCustomLogo %}Piwik &rsaquo; {% endif %}{{ 'CoreAdminHome_Administration'|translate }}{% endblock %}
+{% set categoryTitle %}{{ 'CoreAdminHome_Administration'|translate }}{% endset %}
 
 {% set bodyClass = postEvent('Template.bodyClass', 'admin') %}
 

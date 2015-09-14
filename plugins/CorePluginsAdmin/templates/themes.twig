@@ -2,10 +2,12 @@
 
 {% import '@CorePluginsAdmin/macros.twig' as plugins %}
 
+{% set title %}{{ 'CorePluginsAdmin_ThemesManagement'|translate }}{% endset %}
+
 {% block content %}
 <div style="max-width:980px;">
 
-    <h2 piwik-enriched-headline>{{ 'CorePluginsAdmin_ThemesManagement'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ title }}</h2>
 
     <p>{{ 'CorePluginsAdmin_ThemesDescription'|translate }}
     {% if otherUsersCount > 0 %}

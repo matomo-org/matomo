@@ -1,5 +1,7 @@
 {% extends 'user.twig' %}
 
+{% set title %}{{ 'MobileMessaging_Settings_SMSProvider'|translate }}{% endset %}
+
 {% block content %}
 
     {% import 'ajaxMacros.twig' as ajax %}
@@ -11,8 +13,7 @@
     {% import '@MobileMessaging/macros.twig' as macro %}
 
     {% if accountManagedByCurrentUser and delegatedManagement %}
-        <h2 piwik-enriched-headline
-                >{{ 'MobileMessaging_Settings_SMSProvider'|translate }}</h2>
+        <h2 piwik-enriched-headline>{{ title }}</h2>
 
         {{ macro.manageSmsApi(credentialSupplied, creditLeft, smsProviders, provider) }}
     {% endif %}

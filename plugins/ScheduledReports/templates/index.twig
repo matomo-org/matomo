@@ -1,10 +1,12 @@
 {% extends 'user.twig' %}
 
+
+{% set title %}{{ 'ScheduledReports_PersonalEmailReports'|translate }}{% endset %}
+
 {% block content %}
 
 <div class="emailReports">
-    <h2 piwik-enriched-headline
-        help-url="http://piwik.org/docs/email-reports/">{{ 'ScheduledReports_PersonalEmailReports'|translate }}</h2>
+    <h2 piwik-enriched-headline help-url="http://piwik.org/docs/email-reports/">{{ title }}</h2>
 
     {% include "@CoreHome/_siteSelectHeader.twig" %}
 

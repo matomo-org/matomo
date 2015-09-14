@@ -6,12 +6,15 @@
     <script type="text/javascript" src="plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js"></script>
 {% endblock %}
 
+
+{% set title %}{{ 'CoreAdminHome_JavaScriptTracking'|translate }}{% endset %}
+
 {% block content %}
 <div id="js-tracking-generator-data" max-custom-variables="{{ maxCustomVariables|e('html_attr') }}" data-currencies="{{ currencySymbols|json_encode }}"></div>
 
 <h2 piwik-enriched-headline
     feature-name="{{ 'CoreAdminHome_TrackingCode'|translate }}"
-    help-url="http://piwik.org/docs/tracking-api/">{{ 'CoreAdminHome_JavaScriptTracking'|translate }}</h2>
+    help-url="http://piwik.org/docs/tracking-api/">{{ title }}</h2>
 
 <div id="js-code-options">
 

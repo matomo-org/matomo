@@ -1,8 +1,10 @@
 {% extends 'user.twig' %}
 
+{% set title %}{{ 'UsersManager_PersonalSettings'|translate }}{% endset %}
+
 {% block content %}
 
-<h2 piwik-enriched-headline>{{ 'UsersManager_PersonalSettings'|translate }}</h2>
+<h2 piwik-enriched-headline>{{ title }}</h2>
 
 <div class="ui-confirm" id="confirmPasswordChange">
     <h2>{{ 'UsersManager_ChangePasswordConfirm'|translate }}</h2>
