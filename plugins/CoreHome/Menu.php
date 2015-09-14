@@ -37,7 +37,7 @@ class Menu extends \Piwik\Plugin\Menu
                 $menu->addItem($login, null, array('module' => 'API', 'action' => 'listAllAPI'), 998);
             }
         } else {
-            $menu->addItem($login, null, array('module' => 'UsersManager', 'action' => 'userSettings'), 998);
+            $menu->addItem($login, null, array('module' => $this->getUsersManagerModule(), 'action' => 'userSettings'), 998);
         }
 
         $module = $this->getLoginModule();
@@ -60,4 +60,8 @@ class Menu extends \Piwik\Plugin\Menu
         return Piwik::getLoginPluginName();
     }
 
+    protected function getUsersManagerModule()
+    {
+        return Piwik::getUsersManagerPluginName();
+    }
 }
