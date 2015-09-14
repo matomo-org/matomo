@@ -68,29 +68,6 @@ abstract class SMSProvider extends BaseFactory
     }
 
     /**
-     * Return the SMSProvider associated to the provider name $providerName
-     *
-     * @throws Exception If the provider is unknown
-     * @param string $providerName
-     * @return \Piwik\Plugins\MobileMessaging\SMSProvider
-     */
-    public static function factory($providerName)
-    {
-        $className = __NAMESPACE__ . '\\SMSProvider\\' . $providerName;
-
-        if (!class_exists($className)) {
-            throw new Exception(
-                Piwik::translate(
-                    'MobileMessaging_Exception_UnknownProvider',
-                    array($providerName, implode(', ', array_keys(self::getAvailableSMSProviders())))
-                )
-            );
-        }
-
-        return new $className;
-    }
-
-    /**
      * Assert whether a given String contains UCS2 characters
      *
      * @param string $string
