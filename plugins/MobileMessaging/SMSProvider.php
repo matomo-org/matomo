@@ -39,6 +39,25 @@ abstract class SMSProvider extends BaseFactory
 			',
     );
 
+    /**
+     * Creates a new instance of a class using a string ID.
+     *
+     * @param string $classId The ID of the class.
+     * @return BaseFactory
+     * @throws Exception if $classId is invalid.
+     */
+    public static function factory($classId)
+    {
+        $className = static::getClassNameFromClassId($classId);
+
+        if(class_exists($className) &&
+            !is_subclass_of($className, __NAMESPACE__ . '\\SMSProvider')) {
+            throw new Exception("SMS Provider $classId must inherit SMSProvider class.");
+        }
+
+        return parent::factory($classId);
+    }
+
     protected static function getClassNameFromClassId($id)
     {
         return __NAMESPACE__ . '\\SMSProvider\\' . $id;
