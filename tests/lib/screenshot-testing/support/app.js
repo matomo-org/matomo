@@ -160,7 +160,7 @@ Application.prototype.loadTestModules = function () {
 
     // configure suites (auto-add fixture setup/teardown)
     mocha.suite.suites.forEach(function (suite) {
-        var fixture = typeof suite.fixture === 'undefined' ? 'UITestFixture' : suite.fixture;
+        var fixture = typeof suite.fixture === 'undefined' ? "Piwik\\Tests\\Fixtures\\UITestFixture" : suite.fixture;
 
         suite.beforeAll(function (done) {
             var oldOptions = JSON.parse(JSON.stringify(options));

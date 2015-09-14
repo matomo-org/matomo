@@ -10,6 +10,8 @@
 var fs = require('fs'),
     testingEnvironmentOverridePath = path.join(PIWIK_INCLUDE_PATH, '/tmp/testingPathOverride.json');
 
+var DEFAULT_UI_TEST_FIXTURE_NAME = "Piwik\\Tests\\Fixtures\\UITestFixture";
+
 var TestingEnvironment = function () {
     this.reload();
 };
@@ -140,7 +142,11 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
 
     this.deleteAndSave();
 
-    var args = [fixtureClass || "UITestFixture", '--set-phantomjs-symlinks', '--server-global=' + JSON.stringify(config.phpServer)];
+    var args = [
+        fixtureClass || DEFAULT_UI_TEST_FIXTURE_NAME,
+        '--set-phantomjs-symlinks',
+        '--server-global=' + JSON.stringify(config.phpServer)
+    ];
 
     if (options['persist-fixture-data']) {
         args.push('--persist-fixture-data');
@@ -215,7 +221,7 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
     console.log();
     console.log("    Tearing down fixture " + fixtureClass + "...");
 
-    var args = [fixtureClass || "UITestFixture", "--teardown", '--server-global=' + JSON.stringify(config.phpServer)];
+    var args = [fixtureClass || DEFAULT_UI_TEST_FIXTURE_NAME, "--teardown", '--server-global=' + JSON.stringify(config.phpServer)];
     this.executeConsoleCommand('tests:setup-fixture', args, function (code) {
         if (code) {
             done(new Error("Failed to teardown fixture " + fixtureClass + " (error code = " + code + ")"));

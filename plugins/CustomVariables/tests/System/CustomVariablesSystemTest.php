@@ -6,8 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\CustomVariables\tests;
+namespace Piwik\Plugins\CustomVariables\tests\System;
 
+use Piwik\Plugins\CustomVariables\tests\Fixtures\VisitWithManyCustomVariables;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -18,7 +19,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 class CustomVariablesSystemTest extends SystemTestCase
 {
     /**
-     * @var Fixtures\VisitWithManyCustomVariables
+     * @var VisitWithManyCustomVariables
      */
     public static $fixture = null; // initialized below class definition
 
@@ -57,4 +58,4 @@ class CustomVariablesSystemTest extends SystemTestCase
     }
 }
 
-CustomVariablesSystemTest::$fixture = new Fixtures\VisitWithManyCustomVariables();
+CustomVariablesSystemTest::$fixture = new VisitWithManyCustomVariables();
