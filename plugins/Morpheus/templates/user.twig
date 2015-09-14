@@ -10,7 +10,7 @@
         {% set topMenuAction = 'index' %}
     {% else %}
         {% if currentModule != 'Feedback' %}
-            {% set topMenuModule = 'UsersManager' %}
+            {% set topMenuModule = getUsersManagerPluginName() %}
             {% set topMenuAction = 'userSettings' %}
         {% endif %}
     {% endif %}
