@@ -1493,7 +1493,7 @@ if (typeof Piwik !== 'object') {
                     var foundNodes = nodeToSearch.getElementsByClassName(className);
                     return this.htmlCollectionToArray(foundNodes);
                 }
-                
+
                 var children = getChildrenFromNode(nodeToSearch);
 
                 if (!children || !children.length) {
@@ -2442,17 +2442,59 @@ if (typeof Piwik !== 'object') {
 
                 return false;
             }
+            /**
+             * Build a compatibility callback system for piwik
+             * @param  {Function} cb Can be an object too for newer version of piwik
+             * @return {Object}      {success,error}
+             */
+            function getCallBacksRequest(cb) {
+                /*property
+                    success,error
+                */
+
+                // prevent jslint error "Unexpected /*property*/ 'success'."
+                var _callBack = {
+                    success: function () {},
+                    error: function () {}
+                };
+
+                if(cb) {
+                    // compatibility with older piwik
+                    if ('function' === typeof cb) {
+                        _callBack.success = _callBack.error = cb;
+                    }
+
+                    if ('object' === typeof cb) {
+
+                        if ('function' === typeof cb.success) {
+                            _callBack.success = cb.success;
+                        }
+
+                        if ('function' === typeof cb.error) {
+                            _callBack.error = cb.error;
+                        }
+
+                    }
+                }
+                return _callBack;
+            }
 
             /*
              * Send image request to Piwik server using GET.
              * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
              */
             function getImage(request, callback) {
+                var cb = getCallBacksRequest(callback);
                 var image = new Image(1, 1);
 
                 image.onload = function () {
                     iterator = 0; // To avoid JSLint warning of empty block
-                    if (typeof callback === 'function') { callback(); }
+                    cb.success();
+                };
+
+                image.onerror = function () {
+                    iterator = 0; // To avoid JSLint warning of empty block
+                    cb.error();
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
@@ -2463,6 +2505,35 @@ if (typeof Piwik !== 'object') {
             function sendXmlHttpRequest(request, callback, fallbackToGet) {
                 if (!isDefined(fallbackToGet) || null === fallbackToGet) {
                     fallbackToGet = true;
+                }
+
+                var aborted = false;
+                var cb = getCallBacksRequest(callback);
+
+                /**
+                 * Trigger after the request
+                 * Callbacks available:
+                 *     - success
+                 *     - error
+                 * @param  {XMLHttpRequest} xhr
+                 * @param  {String} type Type of cb to execute
+                 * @return {void}
+                 */
+                function onEndCb(xhr, type) {
+
+                    /*property
+                        abort
+                    */
+                    if(aborted) {
+                        return;
+                    }
+
+                    // XHR callbacks has one argument: isXHR set to true
+                    cb[type](true);
+
+                    // Because without it onreadystatechange is triggered 3 times
+                    aborted = true;
+                    xhr.abort();
                 }
 
                 try {
@@ -2479,10 +2550,17 @@ if (typeof Piwik !== 'object') {
 
                     // fallback on error
                     xhr.onreadystatechange = function () {
+
+                        // Aborted request should return status === 0
+                        if (!this.status) {
+                            return;
+                        }
+
                         if (this.readyState === 4 && !(this.status >= 200 && this.status < 300) && fallbackToGet) {
-                            getImage(request, callback);
+                            onEndCb(xhr, 'error');
+                            getImage(request, cb);
                         } else {
-                            if (typeof callback === 'function') { callback(); }
+                            onEndCb(xhr, 'success');
                         }
                     };
 
@@ -2492,7 +2570,7 @@ if (typeof Piwik !== 'object') {
                 } catch (e) {
                     if (fallbackToGet) {
                         // fallback
-                        getImage(request, callback);
+                        getImage(request, cb);
                     }
                 }
             }
@@ -2609,12 +2687,15 @@ if (typeof Piwik !== 'object') {
              * Send request
              */
             function sendRequest(request, delay, callback) {
+
+                var cb = getCallBacksRequest(callback);
+
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                         if (configRequestMethod === 'POST') {
-                            sendXmlHttpRequest(request, callback);
+                            sendXmlHttpRequest(request, cb);
                         } else {
-                            getImage(request, callback);
+                            getImage(request, cb);
                         }
 
                         setExpireDateTime(delay);
@@ -3782,7 +3863,7 @@ if (typeof Piwik !== 'object') {
             /*
              * Log the event
              */
-            function logEvent(category, action, name, value, customData)
+            function logEvent(category, action, name, value, customData, callback)
             {
                 // Category and Action are required parameters
                 if (String(category).length === 0 || String(action).length === 0) {
@@ -3794,27 +3875,27 @@ if (typeof Piwik !== 'object') {
                         'event'
                     );
 
-                sendRequest(request, configTrackerPause);
+                sendRequest(request, configTrackerPause, callback);
             }
 
             /*
              * Log the site search request
              */
-            function logSiteSearch(keyword, category, resultsCount, customData) {
+            function logSiteSearch(keyword, category, resultsCount, customData, callback) {
                 var request = getRequest('search=' + encodeWrapper(keyword)
                                 + (category ? '&search_cat=' + encodeWrapper(category) : '')
                                 + (isDefined(resultsCount) ? '&search_count=' + resultsCount : ''), customData, 'sitesearch');
 
-                sendRequest(request, configTrackerPause);
+                sendRequest(request, configTrackerPause, callback);
             }
 
             /*
              * Log the goal with the server
              */
-            function logGoal(idGoal, customRevenue, customData) {
+            function logGoal(idGoal, customRevenue, customData, callback) {
                 var request = getRequest('idgoal=' + idGoal + (customRevenue ? '&revenue=' + customRevenue : ''), customData, 'goal');
 
-                sendRequest(request, configTrackerPause);
+                sendRequest(request, configTrackerPause, callback);
             }
 
             /*
@@ -5084,9 +5165,9 @@ if (typeof Piwik !== 'object') {
                  * @param int|float customRevenue
                  * @param mixed customData
                  */
-                trackGoal: function (idGoal, customRevenue, customData) {
+                trackGoal: function (idGoal, customRevenue, customData, callback) {
                     trackCallback(function () {
-                        logGoal(idGoal, customRevenue, customData);
+                        logGoal(idGoal, customRevenue, customData, callback);
                     });
                 },
 
@@ -5340,10 +5421,11 @@ if (typeof Piwik !== 'object') {
                  * @param string action The Event's Action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...)
                  * @param string name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
                  * @param float value (optional) The Event's value
+                 * @param {Object} callback {success,error}
                  */
-                trackEvent: function (category, action, name, value) {
+                trackEvent: function (category, action, name, value, callback) {
                     trackCallback(function () {
-                        logEvent(category, action, name, value);
+                        logEvent(category, action, name, value, callback);
                     });
                 },
 
@@ -5353,10 +5435,11 @@ if (typeof Piwik !== 'object') {
                  * @param string keyword
                  * @param string category
                  * @param int resultsCount
+                 * @param {Object} callback {success,error}
                  */
-                trackSiteSearch: function (keyword, category, resultsCount) {
+                trackSiteSearch: function (keyword, category, resultsCount, callback) {
                     trackCallback(function () {
-                        logSiteSearch(keyword, category, resultsCount);
+                        logSiteSearch(keyword, category, resultsCount, callback);
                     });
                 },
 
