@@ -23,7 +23,7 @@ class Base extends VisitDimension
         $segment = new Segment();
         $segment->setType('dimension');
         $segment->setSegment('customVariable' . $segmentNameSuffix);
-        $segment->setName($this->getName());
+        $segment->setName($this->getName() . ' (' . Piwik::translate('CustomVariables_ScopeVisit') . ')');
         $segment->setCategory('CustomVariables_CustomVariables');
         $segment->setSqlSegment($this->getSegmentColumns('log_visit.' . $fieldPrefix, $numCustomVariables));
         $segment->setSuggestedValuesCallback(function ($idSite, $ignore, DataTable $table) use ($segmentNameSuffix) {

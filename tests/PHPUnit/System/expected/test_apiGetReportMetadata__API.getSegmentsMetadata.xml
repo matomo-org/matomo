@@ -279,7 +279,7 @@
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
-		<name>Custom Variable name</name>
+		<name>Custom Variable name (scope visit)</name>
 		<segment>customVariableName</segment>
 	</row>
 	<row>
@@ -387,7 +387,7 @@
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
-		<name>Custom Variable value</name>
+		<name>Custom Variable value (scope visit)</name>
 		<segment>customVariableValue</segment>
 	</row>
 	<row>
