@@ -419,8 +419,8 @@ class CronArchive
         $this->logger->info("Archived week/month/year for {$this->archivedPeriodsArchivesWebsite} websites");
         $this->logger->info("Skipped {$this->skipped} websites");
         $this->logger->info("- Skipped {$this->skippedDayNoRecentData} websites: no new visit since the last script execution");
-        $this->logger->info("- Skipped {$this->skippedDayArchivesWebsites} websites day archiving: existing daily reports are less than {$this->todayArchiveTimeToLive} seconds old");
-        $this->logger->info("- Skipped {$this->skippedPeriodsArchivesWebsite} websites week/month/year archiving: existing periods reports are less than {$this->processPeriodsMaximumEverySeconds} seconds old");
+        $this->logger->info("- Skipped {$this->skippedDayArchivesWebsites} websites: existing daily reports are less than {$this->todayArchiveTimeToLive} seconds old");
+        $this->logger->info("- Skipped {$this->skippedPeriodsArchivesWebsite} websites: existing week/month/year periods reports are less than {$this->processPeriodsMaximumEverySeconds} seconds old");
 
         if($this->skippedPeriodsNoDataInPeriod) {
             $this->logger->info("- Skipped {$this->skippedPeriodsNoDataInPeriod} websites week/month/year archiving: no visit in recent days");
