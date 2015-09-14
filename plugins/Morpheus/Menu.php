@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Morpheus;
 
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
+use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 
 class Menu extends \Piwik\Plugin\Menu
@@ -17,7 +18,13 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureAdminMenu(MenuAdmin $menu)
     {
         if (Development::isEnabled() && Piwik::isUserHasSomeAdminAccess()) {
-            $menu->addDevelopmentItem('UI demo', $this->urlForAction('demo'));
+            $menu->addDevelopmentItem('UI Demo', $this->urlForAction('demo'));
+        }
+    }
+    public function configureUserMenu(MenuUser $menu)
+    {
+        if (Development::isEnabled() && Piwik::isUserHasSomeAdminAccess()) {
+            $menu->addPlatformItem('UI Demo', $this->urlForAction('demo'), $order = 15);
         }
     }
 }
