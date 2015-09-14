@@ -16,6 +16,7 @@ use Piwik\Version;
 use ReflectionClass;
 
 /**
+ * @group DeprecatedMethodsTest
  * @group Core
  */
 class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
@@ -70,6 +71,7 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Menu\MenuAbstract', 'add');
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Archive', 'getDataTableFromArchive');
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Plugin', 'getListHooksRegistered');
+        $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Plugins\API\API', 'getLastDate');
     }
 
     private function assertDeprecatedMethodIsRemoved($className, $method, $removalDate)

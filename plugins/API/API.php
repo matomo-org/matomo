@@ -413,6 +413,9 @@ class API extends \Piwik\Plugin\API
             $language, $idGoal, $legendAppendMetric, $labelUseAbsoluteUrl);
     }
 
+    /**
+     * @deprecated
+     */
     public function getLastDate($date, $period)
     {
         $lastDate = Range::getLastDate($date, $period);
