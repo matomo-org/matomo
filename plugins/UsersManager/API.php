@@ -38,12 +38,12 @@ class API extends \Piwik\Plugin\API
     /**
      * @var Model
      */
-    private $model;
+    protected $model;
 
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
 
-    private static $instance = null;
+    protected static $instance = null;
 
     public function __construct(Model $model)
     {
@@ -68,14 +68,14 @@ class API extends \Piwik\Plugin\API
                 // Exception is caught below and corrected
                 throw new Exception('UsersManager_API must inherit API');
             }
-            self::$instance = $instance;
+            static::$instance = $instance;
             
         } catch (Exception $e) {
-            self::$instance = StaticContainer::get('Piwik\Plugins\UsersManager\API');
-            StaticContainer::getContainer()->set('UsersManager_API', self::$instance);
+            static::$instance = StaticContainer::get(get_called_class());
+            StaticContainer::getContainer()->set('UsersManager_API', static::$instance);
         }
 
-        return self::$instance;
+        return static::$instance;
     }
 
     /**
@@ -147,7 +147,7 @@ class API extends \Piwik\Plugin\API
             $preferences = Option::getLike($optionNameMatchAllUsers);
 
             foreach($preferences as $optionName => $optionValue) {
-                $lastUnderscore = strrpos($optionName, self::OPTION_NAME_PREFERENCE_SEPARATOR);
+                $lastUnderscore = strrpos($optionName, static::OPTION_NAME_PREFERENCE_SEPARATOR);
                 $userName = substr($optionName, 0, $lastUnderscore);
                 $preference = substr($optionName, $lastUnderscore + 1);
                 $userPreferences[$userName][$preference] = $optionValue;
@@ -156,29 +156,29 @@ class API extends \Piwik\Plugin\API
         return $userPreferences;
     }
 
-    private function getPreferenceId($login, $preference)
+    protected function getPreferenceId($login, $preference)
     {
-        if(false !== strpos($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
+        if(false !== strpos($preference, static::OPTION_NAME_PREFERENCE_SEPARATOR)) {
             throw new Exception("Preference name cannot contain underscores.");
         }
-        return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
+        return $login . static::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
     }
 
-    private function getPreferenceValue($userLogin, $preferenceName)
+    protected function getPreferenceValue($userLogin, $preferenceName)
     {
         return Option::get($this->getPreferenceId($userLogin, $preferenceName));
     }
 
-    private function getDefaultUserPreference($preferenceName, $login)
+    protected function getDefaultUserPreference($preferenceName, $login)
     {
         switch ($preferenceName) {
-            case self::PREFERENCE_DEFAULT_REPORT:
+            case static::PREFERENCE_DEFAULT_REPORT:
                 $viewableSiteIds = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAtLeastViewAccess($login);
                 if (!empty($viewableSiteIds)) {
                     return reset($viewableSiteIds);
                 }
                 return false;
-            case self::PREFERENCE_DEFAULT_REPORT_DATE:
+            case static::PREFERENCE_DEFAULT_REPORT_DATE:
                 return Config::getInstance()->General['default_day'];
             default:
                 return false;
@@ -354,7 +354,7 @@ class API extends \Piwik\Plugin\API
         return $this->model->getUserByEmail($userEmail);
     }
 
-    private function checkLogin($userLogin)
+    protected function checkLogin($userLogin)
     {
         if ($this->userExists($userLogin)) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExists', $userLogin));
@@ -363,7 +363,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkValidLoginString($userLogin);
     }
 
-    private function checkEmail($email)
+    protected function checkEmail($email)
     {
         if ($this->userEmailExists($email)) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExists', $email));
@@ -374,7 +374,7 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    private function getCleanAlias($alias, $userLogin)
+    protected function getCleanAlias($alias, $userLogin)
     {
         if (empty($alias)) {
             $alias = $userLogin;
@@ -680,7 +680,7 @@ class API extends \Piwik\Plugin\API
      * @param string $userLogin user login
      * @throws Exception if the user doesn't exist
      */
-    private function checkUserExists($userLogin)
+    protected function checkUserExists($userLogin)
     {
         if (!$this->userExists($userLogin)) {
             throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userLogin));
@@ -693,28 +693,28 @@ class API extends \Piwik\Plugin\API
      * @param string $userEmail user email
      * @throws Exception if the user doesn't exist
      */
-    private function checkUserEmailExists($userEmail)
+    protected function checkUserEmailExists($userEmail)
     {
         if (!$this->userEmailExists($userEmail)) {
             throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userEmail));
         }
     }
 
-    private function checkUserIsNotAnonymous($userLogin)
+    protected function checkUserIsNotAnonymous($userLogin)
     {
         if ($userLogin == 'anonymous') {
             throw new Exception(Piwik::translate("UsersManager_ExceptionEditAnonymous"));
         }
     }
 
-    private function checkUserHasNotSuperUserAccess($userLogin)
+    protected function checkUserHasNotSuperUserAccess($userLogin)
     {
         if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
             throw new Exception(Piwik::translate("UsersManager_ExceptionSuperUserAccess"));
         }
     }
 
-    private function checkAccessType($access)
+    protected function checkAccessType($access)
     {
         $accessList = Access::getListAccess();
 
@@ -726,7 +726,7 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    private function isUserTheOnlyUserHavingSuperUserAccess($userLogin)
+    protected function isUserTheOnlyUserHavingSuperUserAccess($userLogin)
     {
         $superUsers = $this->getUsersHavingSuperUserAccess();
 

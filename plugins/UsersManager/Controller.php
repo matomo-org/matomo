@@ -33,7 +33,7 @@ class Controller extends ControllerAdmin
     /**
      * @var Translator
      */
-    private $translator;
+    protected $translator;
 
     public function __construct(Translator $translator)
     {
@@ -139,7 +139,7 @@ class Controller extends ControllerAdmin
         return $view->render();
     }
 
-    private function hasAnonymousUserViewAccess($usersAccessByWebsite)
+    protected function hasAnonymousUserViewAccess($usersAccessByWebsite)
     {
         $anonymousHasViewAccess = false;
 
@@ -203,7 +203,7 @@ class Controller extends ControllerAdmin
             throw new Exception("some metadata is missing in getDefaultDates()");
         }
 
-        $allowedPeriods = self::getEnabledPeriodsInUI();
+        $allowedPeriods = static::getEnabledPeriodsInUI();
         $allowedDates = array_intersect($mappingDatesToPeriods, $allowedPeriods);
         $dates = array_intersect_key($dates, $allowedDates);
 
@@ -400,7 +400,7 @@ class Controller extends ControllerAdmin
         return $toReturn;
     }
 
-    private function noAdminAccessToWebsite($idSiteSelected, $defaultReportSiteName, $message)
+    protected function noAdminAccessToWebsite($idSiteSelected, $defaultReportSiteName, $message)
     {
         $view = new View('@UsersManager/noWebsiteAdminAccess');
 
@@ -412,7 +412,7 @@ class Controller extends ControllerAdmin
         return $view->render();
     }
 
-    private function processPasswordChange($userLogin)
+    protected function processPasswordChange($userLogin)
     {
         $alias = Common::getRequestVar('alias');
         $email = Common::getRequestVar('email');
@@ -453,7 +453,7 @@ class Controller extends ControllerAdmin
     /**
      * @return string
      */
-    private function getIgnoreCookieSalt()
+    protected function getIgnoreCookieSalt()
     {
         return md5(SettingsPiwik::getSalt());
     }
