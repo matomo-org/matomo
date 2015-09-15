@@ -15,6 +15,7 @@
 				
 				<url>http://localhost</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>
@@ -58,6 +59,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>

@@ -12,6 +12,8 @@ use Piwik\Application\Environment;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Plugins\CustomVariables\Columns\CustomVariableName;
+use Piwik\Plugins\CustomVariables\Columns\CustomVariableValue;
 use Piwik\Plugins\CustomVariables\Model;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
@@ -168,6 +170,12 @@ class AutoSuggestAPITest extends SystemTestCase
             $environment->getContainer()->get('Piwik\Plugin\Manager')->loadActivatedPlugins();
 
             foreach (Dimension::getAllDimensions() as $dimension) {
+                if ($dimension instanceof CustomVariableName
+                    || $dimension instanceof CustomVariableValue
+                ) {
+                    continue; // added manually below
+                }
+
                 foreach ($dimension->getSegments() as $segment) {
                     $segments[] = $segment->getSegment();
                 }
@@ -175,11 +183,9 @@ class AutoSuggestAPITest extends SystemTestCase
 
             // add CustomVariables manually since the data provider may not have access to the DB
             for ($i = 1; $i != Model::DEFAULT_CUSTOM_VAR_COUNT + 1; ++$i) {
-                $segments[] = 'customVariableName' . $i;
-                $segments[] = 'customVariableValue' . $i;
-                $segments[] = 'customVariablePageName' . $i;
-                $segments[] = 'customVariablePageValue' . $i;
+                $segments = array_merge($segments, self::getCustomVariableSegments($i));
             }
+            $segments = array_merge($segments, self::getCustomVariableSegments());
         } catch (\Exception $ex) {
             $exception = $ex;
 
@@ -193,6 +199,24 @@ class AutoSuggestAPITest extends SystemTestCase
         }
 
         return $segments;
+    }
+
+    private static function getCustomVariableSegments($columnIndex = null)
+    {
+        $result = array(
+            'customVariableName',
+            'customVariableValue',
+            'customVariablePageName',
+            'customVariablePageValue',
+        );
+
+        if ($columnIndex !== null) {
+            foreach ($result as &$name) {
+                $name = $name . $columnIndex;
+            }
+        }
+
+        return $result;
     }
 }
 
