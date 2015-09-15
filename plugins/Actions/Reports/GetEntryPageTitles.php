@@ -54,7 +54,7 @@ class GetEntryPageTitles extends Base
     protected function getMetricsDocumentation()
     {
         $metrics = parent::getMetricsDocumentation();
-        $metrics['bounce_rate'] = Piwik::translate('General_ColumnBounceRateForPageDocumentation');
+        $metrics['bounce_rate'] = Piwik::translate('General_ColumnPageBounceRateDocumentation');
 
         // remove these metrics from API.getProcessedReport version of this report
         unset($metrics['avg_time_on_page']);

@@ -26,10 +26,16 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureUserMenu(MenuUser $menu)
     {
-        $apiUrlParams = $this->urlForAction('listAllAPI', array('segment' => false));
-        $tooltip      = Piwik::translate('API_TopLinkTooltip');
+        $menu->addPlatformItem('General_API',
+            $this->urlForAction('listAllAPI', array('segment' => false)),
+            6,
+            Piwik::translate('API_TopLinkTooltip')
+        );
 
-        $menu->addPlatformItem('General_API', $apiUrlParams, 6, $tooltip);
+        $menu->addPlatformItem('API_Glossary',
+            $this->urlForAction('glossary', array('segment' => false)),
+            50
+        );
     }
 
     private function addTopMenuMobileApp(MenuTop $menu)

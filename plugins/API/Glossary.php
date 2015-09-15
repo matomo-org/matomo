@@ -1,0 +1,102 @@
+<?php
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ */
+
+namespace Piwik\Plugins\API;
+
+class Glossary
+{
+    function __construct($idSite)
+    {
+        $this->metadata = API::getInstance()->getReportMetadata($idSite);
+    }
+
+    public function reportsGlossary()
+    {
+        $reports = array();
+        foreach ($this->metadata as $report) {
+            if (isset($report['documentation'])) {
+                $reports[] = array(
+                    'name' => sprintf("%s (%s)", $report['name'], $report['category']),
+                    'documentation' => $report['documentation']
+                );
+            }
+        }
+
+        usort($reports, function ($a, $b) {
+            return strcmp($a['name'], $b['name']);
+        });
+
+        return $reports;
+    }
+
+    public function metricsGlossary()
+    {
+        $metrics = array();
+        foreach ($this->metadata as $report) {
+            if (!isset($report['metricsDocumentation'])) {
+                continue;
+            }
+
+            foreach ($report['metricsDocumentation'] as $metricId => $metricDocumentation) {
+
+                $metricKey = $metricId;
+
+                if(empty($report['metrics'][$metricId])
+                    && empty($report['processedMetrics'][$metricId])) {
+                    continue;
+                }
+
+                $metricName = isset($report['metrics'][$metricId]) ? $report['metrics'][$metricId] : $report['processedMetrics'][$metricId];
+
+
+                // Already one metric with same name, but different documentation...
+                if (isset($metrics[$metricKey])
+                    && $metrics[$metricKey]['documentation'] !== $metricDocumentation) {
+
+                    // Don't show nb_hits in glossary since it duplicates others, eg. nb_downloads,
+                    if($metricKey == 'nb_hits') {
+                        continue;
+                    }
+
+                    $metricName = sprintf("%s (%s)", $metricName, $report['category']);
+                    $metricKey = $metricName;
+
+                    if (isset($metrics[$metricKey]) && $metrics[$metricKey]['documentation'] !== $metricDocumentation) {
+                        throw new \Exception(sprintf("Metric %s has two different documentations: \n(1) %s \n(2) %s",
+                                $metricKey,
+                                $metrics[$metricKey]['documentation'],
+                                $metricDocumentation)
+                        );
+                    }
+                } else {
+
+                    if (!isset($report['metrics'][$metricId])
+                        && !isset($report['processedMetrics'][$metricId])
+                    ) {
+                        // $metricId metric name not found in  $report['dimension'] report
+                        // it will be set in another one
+                        continue;
+                    }
+
+                }
+
+                $metrics[$metricKey] = array(
+                    'name' => $metricName,
+                    'id' => $metricId,
+                    'documentation' => $metricDocumentation
+                );
+            }
+        }
+
+        usort($metrics, function ($a, $b) {
+            return strcmp($a['name'], $b['name']);
+        });
+        return $metrics;
+    }
+}
