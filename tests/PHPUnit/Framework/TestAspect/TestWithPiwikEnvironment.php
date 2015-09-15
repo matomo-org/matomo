@@ -80,6 +80,8 @@ class TestWithPiwikEnvironment extends TestAspect
         }
 
         $testVars->save();
+
+        $fixture->testEnvironment = $testVars;
     }
 
     private function getFixture($testCaseClass)
