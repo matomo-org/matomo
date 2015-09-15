@@ -1,8 +1,10 @@
 {% extends 'admin.twig' %}
 
+{% set title %}{{ 'Installation_SystemCheck'|translate }}{% endset %}
+
 {% block content %}
 
-    <h2 piwik-enriched-headline>{{ 'Installation_SystemCheck'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ title }}</h2>
 
     {% if diagnosticReport.hasErrors() %}
         <div class="alert alert-danger">

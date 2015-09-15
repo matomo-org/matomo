@@ -8,7 +8,8 @@
     <![endif]-->
 {% endblock %}
 
-{% block pageTitle %}{{ siteName|raw }} - {% if not isCustomLogo %}Piwik &rsaquo;{% endif %} {{ 'CoreHome_WebAnalyticsReports'|translate }}{% endblock %}
+{% set title %}{{ siteName|raw }} - {{ 'CoreHome_WebAnalyticsReports'|translate }}{% endset %}
+
 {% block pageDescription %}Web Analytics report for {{ siteName|escape("html_attr") }} - Piwik{% endblock %}
 
 {% set bodyClass = postEvent('Template.bodyClass', 'dashboard') %}

@@ -1,12 +1,14 @@
 {% extends mode is defined and mode == 'user' ? "user.twig" : "admin.twig" %}
 {% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
 
+{% set title %}{{ 'CorePluginsAdmin_Marketplace'|translate }}{% endset %}
+
 {% block content %}
 
     <div class="marketplace">
 
         <h2 piwik-enriched-headline feature-name="{{ 'CorePluginsAdmin_Marketplace'|translate }}">
-            {{ 'CorePluginsAdmin_Marketplace'|translate }}
+            {{ title }}
         </h2>
 
         <ul class="nav nav-pills">

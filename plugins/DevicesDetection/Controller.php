@@ -59,7 +59,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function deviceDetection()
+    public function detection()
     {
         Piwik::checkUserHasSomeAdminAccess();
 

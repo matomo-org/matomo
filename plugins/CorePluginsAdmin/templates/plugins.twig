@@ -2,6 +2,8 @@
 
 {% import '@CorePluginsAdmin/macros.twig' as plugins %}
 
+{% set title %}{{ 'CorePluginsAdmin_PluginsManagement'|translate }}{% endset %}
+
 {% block content %}
 <div class="pluginsManagement">
 
@@ -13,7 +15,7 @@
         {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, activateNonce, 0) }}
     {% endif %}
 
-    <h2 piwik-enriched-headline>{{ 'CorePluginsAdmin_PluginsManagement'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ title }}</h2>
 
     <p>{{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
         {{ 'CorePluginsAdmin_OncePluginIsInstalledYouMayActivateHere'|translate }}

@@ -1,9 +1,11 @@
 {% extends 'admin.twig' %}
 
+{% set title %}{{ 'UsersManager_MenuAnonymousUserSettings'|translate }}{% endset %}
+
 {% block content %}
 {% if isSuperUser %}
 
-    <h2 piwik-enriched-headline>{{ 'UsersManager_MenuAnonymousUserSettings'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ title }}</h2>
 
     {% if anonymousSites|length == 0 %}
 

@@ -23,7 +23,8 @@
     </script>
 {% endblock %}
 
-{% block pageTitle %}{% if isCustomLogo == false %}Piwik &rsaquo; {% endif %}{{ 'Login_LogIn'|translate }}{% endblock %}
+{% set title %}{{ 'Login_LogIn'|translate }}{% endset %}
+
 {% block pageDescription %}{{ 'General_OpenSourceWebAnalytics'|translate }}{% endblock %}
 
 {% set bodyId = 'loginPage' %}

@@ -3,7 +3,13 @@
     <head>
         {% block head %}
             <meta charset="utf-8">
-            <title>{% block pageTitle %}Piwik{% endblock %}</title>
+            <title>
+                {%- block pageTitle -%}
+                    {%- if title is defined %}{{ title }} - {% endif %}
+                    {%- if categoryTitle is defined %}{{ categoryTitle }} - {% endif %}
+                    {%- if not isCustomLogo %}Piwik{% endif %}
+                {%- endblock -%}
+            </title>
             <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1"/>
             <meta name="viewport" content="initial-scale=1.0"/>
             <meta name="generator" content="Piwik - free/libre analytics platform"/>

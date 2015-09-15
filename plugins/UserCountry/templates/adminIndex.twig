@@ -1,11 +1,13 @@
 {% extends 'admin.twig' %}
 
+{% set title %}{{ 'UserCountry_Geolocation'|translate }}{% endset %}
+
 {% block content %}
 {% import 'macros.twig' as piwik %}
 
 <h2 piwik-enriched-headline
     help-url="http://piwik.org/docs/geo-locate/"
-    id="location-providers">{{ 'UserCountry_Geolocation'|translate }}</h2>
+    id="location-providers">{{ title }}</h2>
 
 <div style="width:900px;">
 

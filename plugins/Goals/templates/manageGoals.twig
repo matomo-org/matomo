@@ -1,5 +1,7 @@
 {% extends 'user.twig' %}
 
+{% set title %}{{ 'Goals_ManageGoals'|translate }}{% endset %}
+
 {% block content %}
 
     <h2 piwik-enriched-headline>
@@ -15,7 +17,7 @@
                 {% endset %}
                 {{ 'Goals_Optional'|translate }} {{ 'Goals_Ecommerce'|translate }}: {{ 'Goals_YouCanEnableEcommerceReports'|translate(ecommerceReportText,websiteManageText)|raw }}
             {% endif %}</div>
-        {{ 'Goals_ManageGoals'|translate }}
+        {{ title }}
     </h2>
 
     {% include "@CoreHome/_siteSelectHeader.twig" %}
