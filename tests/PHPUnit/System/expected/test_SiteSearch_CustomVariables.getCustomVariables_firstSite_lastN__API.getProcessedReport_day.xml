@@ -112,20 +112,24 @@
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
 				
+				<segment>customVariableName==_pk_scount</segment>
 				<idsubdatatable>3205</idsubdatatable>
 			</row>
 			<row>
 				
+				<segment>customVariableName==_pk_scat</segment>
 				<idsubdatatable>3204</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010">
 			<row>
 				
+				<segment>customVariableName==_pk_scount</segment>
 				<idsubdatatable>3208</idsubdatatable>
 			</row>
 			<row>
 				
+				<segment>customVariableName==_pk_scat</segment>
 				<idsubdatatable>3207</idsubdatatable>
 			</row>
 		</result>

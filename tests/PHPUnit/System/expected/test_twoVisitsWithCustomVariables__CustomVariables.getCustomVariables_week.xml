@@ -25,6 +25,7 @@
 				<revenue>1000</revenue>
 				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>customVariableName==VisitorType</segment>
 				<subtable>
 					<row>
 						<label>LoggedIn</label>
@@ -89,6 +90,7 @@
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>customVariableName==SET+WITH+EMPTY+VALUE</segment>
 				<subtable>
 					<row>
 						<label>Value not defined</label>
@@ -129,6 +131,7 @@
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>customVariableName==Value+will+be+VERY+long+and+truncated</segment>
 				<subtable>
 					<row>
 						<label>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrst</label>
@@ -154,6 +157,7 @@
 			<row>
 				<label>Status user</label>
 				<nb_actions>3</nb_actions>
+				<segment>customVariableName==Status+user</segment>
 				<subtable>
 					<row>
 						<label>looking at &quot;profile page&quot;</label>
@@ -187,6 +191,7 @@
 				<revenue>1000</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>customVariableName==Othercustom+value+which+should+be+truncated+abcdefghijklmnopqrstuvwxyz</segment>
 				<subtable>
 					<row>
 						<label>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</label>
@@ -212,6 +217,7 @@
 			<row>
 				<label>Language</label>
 				<nb_actions>1</nb_actions>
+				<segment>customVariableName==Language</segment>
 				<subtable>
 					<row>
 						<label>FR</label>
@@ -224,6 +230,7 @@
 			<row>
 				<label>SET WITH EMPTY VALUE PAGE SCOPE</label>
 				<nb_actions>1</nb_actions>
+				<segment>customVariableName==SET+WITH+EMPTY+VALUE+PAGE+SCOPE</segment>
 				<subtable>
 					<row>
 						<label>Value not defined</label>
@@ -236,6 +243,7 @@
 			<row>
 				<label>var1</label>
 				<nb_actions>1</nb_actions>
+				<segment>customVariableName==var1</segment>
 				<subtable>
 					<row>
 						<label>looking at &quot;profile page&quot;</label>
@@ -248,6 +256,7 @@
 			<row>
 				<label>var2</label>
 				<nb_actions>1</nb_actions>
+				<segment>customVariableName==var2</segment>
 				<subtable>
 					<row>
 						<label>&amp;#039;looking at &quot;\profile page&quot;&amp;#039;</label>
@@ -260,6 +269,7 @@
 			<row>
 				<label>var3</label>
 				<nb_actions>1</nb_actions>
+				<segment>customVariableName==var3</segment>
 				<subtable>
 					<row>
 						<label>\looking at &quot;\profile page&quot;\</label>

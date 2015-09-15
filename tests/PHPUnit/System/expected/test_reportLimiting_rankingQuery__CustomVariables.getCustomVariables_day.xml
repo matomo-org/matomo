@@ -3,6 +3,7 @@
 	<row>
 		<label>liked</label>
 		<nb_actions>20</nb_actions>
+		<segment>customVariableName==liked</segment>
 		<subtable>
 			<row>
 				<label>y</label>
@@ -19,6 +20,7 @@
 	<row>
 		<label>tweeted</label>
 		<nb_actions>20</nb_actions>
+		<segment>customVariableName==tweeted</segment>
 		<subtable>
 			<row>
 				<label>n</label>

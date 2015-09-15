@@ -6,6 +6,7 @@
 				<label>_pk_scount</label>
 				<nb_visits>4</nb_visits>
 				<nb_actions>6</nb_actions>
+				<segment>customVariableName==_pk_scount</segment>
 				<subtable>
 					<row>
 						<label>0</label>
@@ -23,6 +24,7 @@
 				<label>_pk_scat</label>
 				<nb_visits>2</nb_visits>
 				<nb_actions>3</nb_actions>
+				<segment>customVariableName==_pk_scat</segment>
 				<subtable>
 					<row>
 						<label>Search Category</label>
@@ -37,6 +39,7 @@
 				<label>_pk_scount</label>
 				<nb_visits>3</nb_visits>
 				<nb_actions>3</nb_actions>
+				<segment>customVariableName==_pk_scount</segment>
 				<subtable>
 					<row>
 						<label>0</label>
@@ -59,6 +62,7 @@
 				<label>_pk_scat</label>
 				<nb_visits>2</nb_visits>
 				<nb_actions>2</nb_actions>
+				<segment>customVariableName==_pk_scat</segment>
 				<subtable>
 					<row>
 						<label>Bad No Result Category :(</label>
@@ -85,6 +89,7 @@
 				<label>_pk_scount</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>2</nb_actions>
+				<segment>customVariableName==_pk_scount</segment>
 				<subtable>
 					<row>
 						<label>0</label>
@@ -97,6 +102,7 @@
 				<label>_pk_scat</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
+				<segment>customVariableName==_pk_scat</segment>
 				<subtable>
 					<row>
 						<label>Bad No Result Category bis :(</label>
@@ -124,6 +130,7 @@
 				<sum_visit_length>541</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<segment>customVariableName==test+cvar+name</segment>
 				<subtable>
 					<row>
 						<label>test cvar value</label>
