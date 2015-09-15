@@ -4,13 +4,13 @@
 		<label>foo</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>6</nb_hits>
-		<sum_time_spent>2160</sum_time_spent>
+		<sum_time_spent>2520</sum_time_spent>
 		<entry_nb_visits>1</entry_nb_visits>
-		<entry_nb_actions>6</entry_nb_actions>
+		<entry_nb_actions>8</entry_nb_actions>
 		<entry_sum_visit_length>2161</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<avg_time_on_page>540</avg_time_on_page>
+		<avg_time_on_page>630</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>25%</exit_rate>
 		<subtable>
@@ -22,7 +22,7 @@
 				<sum_time_spent>1080</sum_time_spent>
 				<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
 				<entry_nb_visits>1</entry_nb_visits>
-				<entry_nb_actions>6</entry_nb_actions>
+				<entry_nb_actions>8</entry_nb_actions>
 				<entry_sum_visit_length>2161</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<avg_time_on_page>1080</avg_time_on_page>
@@ -46,8 +46,8 @@
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>360</sum_time_spent>
-				<avg_time_on_page>360</avg_time_on_page>
+				<sum_time_spent>720</sum_time_spent>
+				<avg_time_on_page>720</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>http://www.example.org/foo/bar3.html</url>
@@ -66,5 +66,29 @@
 				<url>https://example.org/foo/bar4.html</url>
 			</row>
 		</subtable>
+	</row>
+	<row>
+		<label>/?emoji=�l&amp;param=test</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<url>https://make.wordpress.org/?emoji=�l&amp;param=test</url>
+		<segment>pageUrl==https%3A%2F%2Fmake.wordpress.org%2F%3Femoji%3D%EF%BF%BDl%26param%3Dtest</segment>
+	</row>
+	<row>
+		<label>/ꟽ碌㒧䊶亄ﶆⅅขκもኸόσशμεޖृ</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>360</sum_time_spent>
+		<avg_time_on_page>360</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<url>http://www.my.url/ꟽ碌㒧䊶亄ﶆⅅขκもኸόσशμεޖृ</url>
+		<segment>pageUrl==http%3A%2F%2Fwww.my.url%2F%EA%9F%BD%EF%A4%BB%E3%92%A7%E4%8A%B6%E4%BA%84%EF%B6%86%E2%85%85%E0%B8%82%CE%BA%E3%82%82%E1%8A%B8%E1%BD%B9%CF%83%E0%A4%B6%CE%BC%CE%B5%DE%96%E0%A5%83</segment>
 	</row>
 </result>
