@@ -750,7 +750,7 @@
 		<metricsDocumentation>
 			<entry_nb_visits>Number of visits that started on this page.</entry_nb_visits>
 			<entry_bounce_count>Number of visits that started and ended on this page. This means that the visitor left the website after viewing only this page.</entry_bounce_count>
-			<bounce_rate>Percentage of visits that started and ended on this page.</bounce_rate>
+			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
 			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
 		</metricsDocumentation>
 		<processedMetrics>
