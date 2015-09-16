@@ -12,6 +12,7 @@
         "DeleteDataDescription": "Você pode configurar Piwik para regularmente excluir logs de visitantes antigos e\/ou relatórios processados para manter seu banco de dados pequeno.",
         "DeleteDataDescription2": "Se desejar, ​​relatórios pré-processados não serão excluídos, apenas visitas, pageview e dados de registro de conversão serão apagados. Ou, os relatórios pré-processados ​​podem ser excluídos e os dados de registro podem ser mantidos.",
         "DeleteDataInterval": "Excluir dados antigoa a cada",
+        "DeleteOldVisitorLogs": "Apagar logs de antigos visitantes",
         "DeleteLogDescription2": "Quando você habilitar a exclusão automática de log, você deve garantir que todos os relatórios anteriores diários tenham sido processados​​, de modo que nenhum dado seja perdido.",
         "DeleteLogInfo": "Logs das seguintes tabelas serão deletados: %s",
         "DeleteLogsConfirm": "Você está prestes a permitir a exclusão de dados de log. Se os dados de log antigos são removidos, e os relatórios não tenham sido já criados, você não será capaz de ver dados históricos análises do passadas. Tem certeza de que quer fazer isto?",

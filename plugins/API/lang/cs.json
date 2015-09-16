@@ -5,7 +5,6 @@
         "LoadedAPIs": "Úspěšně načteno %s API",
         "MoreInformation": "Pro více informací o API Piwiku se podívejte na %s Úvod do API Piwiku %s a %s Referenci API Piwiku %s",
         "PluginDescription": "Všechna data v Piwiku jsou dostupná pomocí jednoduchých API. Tento zásuvný modul je vstupním bodem těchto webových služeb, který vám umožňuje získat vaše analitická data jako XML, JSON, CSV, PHP atd.",
-        "QuickDocumentationTitle": "Rychlá dokumentace API",
         "TopLinkTooltip": "Zpřístupněte Vaše Webové analýzy programově skrze jednoduché API pomocí json, xml a dalších.",
         "UserAuthentication": "Autentifikace uživatele",
         "UsingTokenAuth": "Pokud chcete %s načíst data ze skriptu, cronu, atd. %s Potřebujete přidat parametr %s k voláním API, které vyžadují přihlášení"

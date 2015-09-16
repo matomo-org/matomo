@@ -4,9 +4,21 @@
         "IWantTo": "Eu quero:",
         "LearnWaysToParticipate": "Aprenda sobre todas as maneiras que você pode %s participar %s",
         "ManuallySendEmailTo": "Por favor envie manualmente sua mensagem para",
+        "RateFeatureThankYouTitle": "Obrigado por avaliar '%s'!",
         "SendFeedback": "Envie FeedBack",
         "ThankYou": "Obrigado por nos ajudar a fazer o Piwik melhor!",
         "TopLinkTooltip": "Diga-nos o que você pensa, ou suporte.",
+        "CommunityHelp": "Ajuda da Comunidade",
+        "ProfessionalHelp": "Suporte Profissional",
+        "PiwikProOfferIntro": "Nossa oferta inclui",
+        "PiwikProReviewPiwikSetup": "Um exame da sua configuração Piwik",
+        "PiwikProOptimizationMaintenance": "Serviços de otimização & manutenção Piwik",
+        "PiwikProPhoneEmailSupport": "Suporte por telefone e e-mail",
+        "PiwikProTraining": "Treinamento de Desenvolvedores, Técnicos e Usuários",
+        "PiwikProPremiumFeatures": "Características Premium",
+        "PiwikProCustomDevelopment": "Serviços de Desenvolvimento Personalizados",
+        "PiwikProAnalystConsulting": "Serviços de Consulturia Analítica",
+        "ContactUs": "Contato",
         "VisitTheForums": "Visite o %s Foruns %s"
     }
 }

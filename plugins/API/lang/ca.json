@@ -4,7 +4,6 @@
         "KeepTokenSecret": "El token_auth es tan secret com el vostre usuari i la vostra contrasenya, %s no compartiu el seu %s!",
         "LoadedAPIs": "S'ha carregat correctament un total de %s API",
         "MoreInformation": "Per mes informació sobre les APIs de Piwik, siusplau reviseu %s Introducció a l'API de Piwik %s i %s la Referència de l'API de Piwik %s.",
-        "QuickDocumentationTitle": "Documentació ràpida de la API",
         "TopLinkTooltip": "Accediu a la vostra informació de l'anàlisis Web d'una forma programada a través d'una API simple en json, xml, etc.",
         "UserAuthentication": "Autentificació de l'usuari",
         "UsingTokenAuth": "Si voleu %s obtenir informació a través d'un script, un crontab, etc %s heu d'afegir el paràmetre %s a les crides a la APU per les URLs que requereixen autentificació."

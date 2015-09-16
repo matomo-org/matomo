@@ -1,6 +1,7 @@
 {
     "SitesManager": {
         "AddSite": "Adicionar novo Site",
+        "AddMeasurable": "Adicionar um novo mensurável",
         "AdvancedTimezoneSupportNotFound": "Suporte a fusos-horários avançados não encontrado em seu PHP (suportado no PHP >=5.2). Você pode ainda escolher um offset de UTC manual.",
         "AliasUrlHelp": "É recomendado, mas não necessário, especificar as várias URLs que seus visitantes usam para acessar esse site, uma por linha. Pseudônimos de URLs para websites não aparecerão em Referencias > relatórios de websites. Note que não é necessário especificar as URLs com ou sem 'www' como o Piwik considera automaticamente ambos.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Ao mudar seu fuso-horário apenas afetará os dados que vierem depois, não será aplicado retroativamente.",
@@ -62,7 +63,7 @@
         "SelectDefaultTimezone": "Você pode selecionar o fuso-horário para ser selecionado como padrão pra novos websites.",
         "ShowTrackingTag": "mostra tag de rastreamento",
         "Sites": "Websites",
-        "SiteSearchUse": "Você pode usar Piwik para acompanhar e relatar o que os visitantes estão procurando no motor de seu site de pesquisa interna.",
+        "SiteSearchUse": "Você pode utilizar o Piwik para acompanhar e informar o que os visitantes estão procurando no motor de pesquisa interna do seu site.",
         "SuperUserAccessCan": "Um usuário com privilégio de Super Usuário também pode %s especificar configurações globais%s para novos sites.",
         "Timezone": "Fuso horário",
         "TrackingSiteSearch": "Acompanhamento de pesquisa interna do site",

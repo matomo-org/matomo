@@ -4,7 +4,6 @@
         "KeepTokenSecret": "הtoken_auth סודי ביותר כמו שם המשתמש והסיסמה, %s אין לשתף אף אחד בפרטים אלו%s!",
         "LoadedAPIs": "%s APIים נטענו בהצלחה",
         "MoreInformation": "למידע נוסף עבור הAPIים של Piwik, מומלץ להציץ ב%sהיכרות עם הAPI של Piwik%s וגם ב%sהעמקה אודות הAPI של Piwik%s.",
-        "QuickDocumentationTitle": "מדריך מקוצר ל-API",
         "UserAuthentication": "אימות משתמש",
         "UsingTokenAuth": "אם ברצונך %s לדרוש מידע מתוך סקריטפ, עבודה כרונית וכד' %s יש צורך להוסיף את הפרמטר %s לכל קריאת API מהURLים שדורשים אימות."
     }

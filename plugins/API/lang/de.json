@@ -5,7 +5,7 @@
         "LoadedAPIs": "%s APIs erfolgreich geladen",
         "MoreInformation": "Für weitere Informationen über die Piwik-APIs lesen Sie bitte %s Einführung in die Piwik-API %s und die %s Piwik-API-Referenz %s.",
         "PluginDescription": "Alle Daten in Piwik sind über einfache APIs verfügbar. Dieses Plugin ist der Web Service Eingangspunkt, welchen Sie nutzen können um Daten der Webanalyse in XML, JSON, PHP, CSV usw. abzufragen.",
-        "QuickDocumentationTitle": "API-Kurzdokumentation",
+        "ReportingApiReference": "Reporting-API-Referenz",
         "TopLinkTooltip": "Greife auf die Webanalytikdaten über eine einfache API mit json, xml, usw. zu.",
         "UserAuthentication": "Benutzerauthentifizierung",
         "UsingTokenAuth": "Wenn Sie %s Daten mit einem Script, einem Crontab, etc. abrufen wollen, %s müssen Sie den Parameter %s an die URLs anhängen, deren API-Aufrufe eine Authentifizierung benötigen."
