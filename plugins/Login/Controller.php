@@ -114,7 +114,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->infoMessage = nl2br($infoMessage);
         $view->addForm($form);
         $this->configureView($view);
-        self::setHostValidationVariablesView($view);
+        static::setHostValidationVariablesView($view);
 
         return $view->render();
     }
@@ -337,7 +337,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function logout()
     {
-        self::clearSession();
+        static::clearSession();
 
         $logoutUrl = @Config::getInstance()->General['login_logout_url'];
         if (empty($logoutUrl)) {
