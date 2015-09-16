@@ -1,0 +1,7 @@
+{
+    "Ecommerce": {
+        "Sales": "Vendas",
+        "SalesBy": "Vendas por %s",
+        "SalesAdjective": "Vendas %s"
+    }
+}

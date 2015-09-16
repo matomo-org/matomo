@@ -4,7 +4,6 @@
         "KeepTokenSecret": "Šis token_auth yra slaptas kaip ir naudotojo vardas bei slaptažodis, %s neviešinkite jo%s!",
         "LoadedAPIs": "Sėkmingai įkrautos API sąsajos (%s).",
         "MoreInformation": "Norinčius gauti daugiau informacijos apie Piwik API sąsajas, prašome žvilgtelėti į %s Įvadas į Piwik API %s ir %s Piwik API informacija %s.",
-        "QuickDocumentationTitle": "API trumpa dokumentacija",
         "UserAuthentication": "Naudotojo autentifikavimas",
         "UsingTokenAuth": "Jei norite %s gauti duomenis scenarijų, crontab ir pan. įrankių pagalba, %s turite pridėti parametrus %s į API užklausų URLs, kurios reikalauja autentifikacijos."
     }

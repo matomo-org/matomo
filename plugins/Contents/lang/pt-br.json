@@ -1,5 +1,6 @@
 {
     "Contents": {
+        "PluginDescription": "O rastreamento de conteúdo e banner permite que meça o desempenho (visualizações, cliques, CTR) de qualquer parte do conteúdo em suas páginas (Banner de anúncio, imagem, qualquer item).",
         "Impressions": "Impressões",
         "Interactions": "Interações",
         "Interaction": "Interação",

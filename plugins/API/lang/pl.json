@@ -4,7 +4,6 @@
         "KeepTokenSecret": "Ten token_auth jest tak samo tajny jak twój login i hasło, %s nie upowszechniaj go%s!",
         "LoadedAPIs": "Środowisko API załadowano %s pomyślnie",
         "MoreInformation": "Aby uzyskać więcej informacji o interfejsie API statystyk Piwik, prosimy przeczytać %s Wprowadzenie do interfejsu API w Piwik%s, a także na stronie opracowania %s Piwik API Reference%s.",
-        "QuickDocumentationTitle": "Skrócony przewodnik po interfejsie API",
         "TopLinkTooltip": "Dostęp do twoich danych analitycznych programistycznie poprzez proste API w formatach json, xml itp.",
         "UserAuthentication": "Uwierzytelnianie użytkownika",
         "UsingTokenAuth": "Jeżeli wysuniesz żądanie %s ujęcia pewnych danych w statystyce za pomocą crontab, %s musisz dodać poniższy parametr %s do interfejsu API, wywołując URL-e które wymagają uwierzytelniania."

@@ -1,9 +1,18 @@
 {
     "Events": {
+        "PluginDescription": "Acompanhe Eventos e obtenha relatórios sobre as atividades dos seus visitantes.",
+        "AvgEventValue": "O valor médio do Evento é: %s",
+        "AvgValue": "Valor médio",
+        "AvgValueDocumentation": "A média de todos os valores para este evento",
         "Event": "Evento",
+        "EventAction": "Ação do Evento",
+        "EventActions": "Ações do Evento",
+        "EventCategories": "Categorias do Evento",
         "EventCategory": "Categoria do Evento",
         "EventName": "Nome do Evento",
+        "EventNames": "Nomes dos Eventos",
         "Events": "Eventos",
+        "EventsWithValue": "Eventos com um valor",
         "EventValue": "Valor do Evento"
     }
 }

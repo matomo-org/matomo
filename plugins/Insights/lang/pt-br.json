@@ -1,10 +1,26 @@
 {
     "Insights": {
+        "PluginDescription": "Fornece Insights sobre o seu tráfego. Insights estão disponíveis como widgets do painel de controle e também como um novo ícone em relatórios para que você possa ver as tendências mais importantes em seus dados.",
+        "ControlComparedToDescription": "Aumento comparado com",
+        "ControlFilterByDescription": "Mostrar todos, apenas movedores, apenas novos ou apenas desaparecidos",
+        "DatePeriodCombinationNotSupported": "não é possível gerar insights para esta combinação de período e data",
         "DayComparedToPreviousDay": "dia anterior",
         "DayComparedToPreviousWeek": "mesmo dia na semana anterior",
         "DayComparedToPreviousYear": "mesmo dia no ano anterior",
+        "Filter": "Filtro",
+        "FilterIncreaserAndDecreaser": "Aumentador & diminuidor",
+        "FilterOnlyDecreaser": "Apenas diminuidor",
+        "FilterOnlyDisappeared": "Apenas desaparecido",
+        "FilterOnlyIncreaser": "Apenas aumentador",
+        "FilterOnlyMovers": "Apenas movedores",
+        "FilterOnlyNew": "Apenas novos",
         "MonthComparedToPreviousMonth": "mês anterior",
         "MonthComparedToPreviousYear": "mesmo mês no ano anterior",
-        "WeekComparedToPreviousWeek": "semana anterior"
+        "MoversAndShakersWidgetTitle": "Movedores e Agitadores",
+        "NoResultMatchesCriteria": "Nenhuma linha corresponde ao critério",
+        "OverviewWidgetTitle": "Visão Geral Insights",
+        "WeekComparedToPreviousWeek": "semana anterior",
+        "WidgetCategory": "Insights",
+        "YearComparedToPreviousYear": "ano anterior"
     }
 }
