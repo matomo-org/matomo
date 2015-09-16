@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Log;
@@ -149,6 +150,9 @@ class Model
         }
     }
 
+    /**
+     * @deprecated use 'Piwik\Plugins\CustomVariables\Model.all' DI entry instead
+     */
     public static function getScopes()
     {
         return array(self::SCOPE_PAGE, self::SCOPE_VISIT, self::SCOPE_CONVERSION);
@@ -156,9 +160,9 @@ class Model
 
     public static function install()
     {
-        foreach (self::getScopes() as $scope) {
-            $model = new Model($scope);
-
+        /** @var Model[] $models */
+        $models = StaticContainer::get('Piwik\Plugins\CustomVariables\Model.all');
+        foreach ($models as $model) {
             try {
                 $maxCustomVars   = self::DEFAULT_CUSTOM_VAR_COUNT;
                 $customVarsToAdd = $maxCustomVars - $model->getCurrentNumCustomVars();
@@ -174,14 +178,12 @@ class Model
 
     public static function uninstall()
     {
-        foreach (self::getScopes() as $scope) {
-            $model = new Model($scope);
-
+        /** @var Model[] $models */
+        $models = StaticContainer::get('Piwik\Plugins\CustomVariables\Model.all');
+        foreach ($models as $model) {
             while ($model->getHighestCustomVarIndex()) {
                 $model->removeCustomVariable();
             }
         }
     }
-
 }
-
