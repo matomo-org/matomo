@@ -25,6 +25,10 @@
         return service;
 
         function init() {
+            if ($location.path() != '/') {
+                changePathToSearch();
+            }
+
             $rootScope.$on('$locationChangeSuccess', function () {
                 loadCurrentPage();
             });
@@ -32,9 +36,33 @@
             loadCurrentPage();
         }
 
+        // currently, the AJAX content URL is stored in $location.search(), but before it was stored in $location.path().
+        // this function makes sure URLs like http://piwik.net/?...#/module=Whatever&action=whatever still work.
+        function changePathToSearch() {
+            var path = $location.path();
+            if (!path
+                || path == '/'
+            ) {
+                return;
+            }
+
+            var searchParams = broadcast.getValuesFromUrl('?' + path.substring(1));
+            // NOTE: we don't need to decode the parameters since $location.path() will decode the string itself
+
+            $location.search(searchParams);
+            $location.path('');
+        }
+
         function loadCurrentPage() {
+            var searchObject = $location.search(),
+                searchString = [];
+            for (var name in searchObject) {
+                searchString.push(name + '=' + encodeURIComponent(searchObject[name]));
+            }
+            searchString = searchString.join('&');
+
             // the location hash will have a / prefix, which broadcast.pageload doesn't want
-            broadcast.pageload($location.path().substring(1));
+            broadcast.pageload(searchString);
         }
 
         function load(hash) {
@@ -47,7 +75,7 @@
                 }
             }
 
-            $location.path(hash);
+            $location.search(hash);
 
             setTimeout(function () { $rootScope.$apply(); }, 1);
         }
