@@ -178,8 +178,6 @@ class AutoSuggestAPITest extends SystemTestCase
             }
         } catch (\Exception $ex) {
             $exception = $ex;
-
-            echo $ex->getMessage()."\n".$ex->getTraceAsString()."\n";
         }
 
         $environment->destroy();
