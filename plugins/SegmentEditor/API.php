@@ -23,6 +23,16 @@ use Piwik\Segment;
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * @var Model
+     */
+    private $model;
+
+    public function __construct(Model $model)
+    {
+        $this->model = $model;
+    }
+
     protected function checkSegmentValue($definition, $idSite)
     {
         // unsanitize so we don't record the HTML entitied segment
@@ -201,7 +211,7 @@ class API extends \Piwik\Plugin\API
 
     private function getModel()
     {
-        return new Model();
+        return $this->model;
     }
 
     /**
