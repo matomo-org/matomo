@@ -51,13 +51,14 @@ class Model
         $bind = array();
 
         $whereIdSite = '';
-        if (!empty($idSite)) {
-            $whereIdSite = 'enable_only_idsite = ? OR ';
+        if (empty($idSite)) {
+            $whereIdSite .= 'enable_only_idsite = 0 AND';
+        } else if ($idSite != 'all') {
+            $whereIdSite = '(enable_only_idsite = ? OR enable_only_idsite = 0) AND';
             $bind[] = $idSite;
         }
 
-        $sql = $this->buildQuerySortedByName("($whereIdSite enable_only_idsite = 0)
-                                              AND deleted = 0 AND auto_archive = 1");
+        $sql = $this->buildQuerySortedByName("$whereIdSite deleted = 0 AND auto_archive = 1");
 
         $segments = $this->getDb()->fetchAll($sql, $bind);
 
