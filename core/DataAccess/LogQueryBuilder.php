@@ -15,20 +15,16 @@ use Piwik\Segment\SegmentExpression;
 
 class LogQueryBuilder
 {
-    public function __construct(SegmentExpression $segmentExpression)
-    {
-        $this->segmentExpression = $segmentExpression;
-    }
-
-    public function getSelectQueryString($select, $from, $where, $bind, $groupBy, $orderBy, $limit)
+    public function getSelectQueryString(SegmentExpression $segmentExpression, $select, $from, $where, $bind, $groupBy,
+                                         $orderBy, $limit)
     {
         if (!is_array($from)) {
             $from = array($from);
         }
 
-        if (!$this->segmentExpression->isEmpty()) {
-            $this->segmentExpression->parseSubExpressionsIntoSqlExpressions($from);
-            $segmentSql = $this->segmentExpression->getSql();
+        if (!$segmentExpression->isEmpty()) {
+            $segmentExpression->parseSubExpressionsIntoSqlExpressions($from);
+            $segmentSql = $segmentExpression->getSql();
             $where = $this->getWhereMatchBoth($where, $segmentSql['where']);
             $bind = array_merge($bind, $segmentSql['bind']);
         }

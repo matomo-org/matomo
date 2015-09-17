@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\API\API;
 use Piwik\Segment\SegmentExpression;
@@ -72,6 +73,11 @@ class Segment
     protected $idSites = null;
 
     /**
+     * @var LogQueryBuilder
+     */
+    private $segmentQueryBuilder;
+
+    /**
      * Truncate the Segments to 8k
      */
     const SEGMENT_TRUNCATE_LIMIT = 8192;
@@ -86,6 +92,8 @@ class Segment
      */
     public function __construct($segmentCondition, $idSites)
     {
+        $this->segmentQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
+
         $segmentCondition = trim($segmentCondition);
         if (!SettingsPiwik::isSegmentationEnabled()
             && !empty($segmentCondition)
@@ -253,8 +261,8 @@ class Segment
             $limit = (int) $offset . ', ' . (int) $limit;
         }
 
-        $segmentQuery = new LogQueryBuilder($segmentExpression);
-        return $segmentQuery->getSelectQueryString($select, $from, $where, $bind, $groupBy, $orderBy, $limit);
+        return $this->segmentQueryBuilder->getSelectQueryString($segmentExpression, $select, $from, $where, $bind,
+            $groupBy, $orderBy, $limit);
     }
 
     /**
