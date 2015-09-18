@@ -8,7 +8,9 @@
 
 namespace Piwik\Tests\Integration\Plugin;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Http\ControllerResolver;
 use Piwik\Plugin;
 use Piwik\Settings\Storage;
 use Piwik\Cache as PiwikCache;
@@ -82,6 +84,29 @@ class ManagerTest extends IntegrationTestCase
         $this->assertTrue($this->manager->isPluginActivated('ExampleTheme'));
         $this->manager->deactivatePlugin('ExampleTheme');
         $this->assertFalse($this->manager->isPluginActivated('ExampleTheme'));
+    }
+
+    /** @see Issue https://github.com/piwik/piwik/issues/8422 */
+    public function test_ListenNotToControllerMethodEventsThatDoesNotExists()
+    {
+        foreach ($this->manager->getLoadedPlugins() as $plugin) {
+            $hooks = $plugin->getListHooksRegistered();
+            foreach ($hooks as $hook => $callback) {
+                if (0 === strpos($hook, 'Controller.')) {
+                    list($controller, $module, $action) = explode('.', $hook);
+
+                    try {
+                        $resolver   = new ControllerResolver(StaticContainer::getContainer());
+                        $params = array();
+                        $controller = $resolver->getController($module, $action, $params);
+                    } catch (\Exception $e) {
+                        $this->fail("$hook is listening to a controller method that does not exist");
+                    }
+
+                    $this->assertNotEmpty($controller);
+                }
+            }
+        }
     }
 
     private function getCacheForTrackerPlugins()
