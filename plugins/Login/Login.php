@@ -57,11 +57,11 @@ class Login extends \Piwik\Plugin
         $frontController = FrontController::getInstance();
 
         if (Common::isXmlHttpRequest()) {
-            echo $frontController->dispatch('Login', 'ajaxNoAccess', array($exception->getMessage()));
+            echo $frontController->dispatch(Piwik::getLoginPluginName(), 'ajaxNoAccess', array($exception->getMessage()));
             return;
         }
 
-        echo $frontController->dispatch('Login', 'login', array($exception->getMessage()));
+        echo $frontController->dispatch(Piwik::getLoginPluginName(), 'login', array($exception->getMessage()));
     }
 
     /**
