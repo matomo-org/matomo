@@ -751,7 +751,6 @@ Plugins[] = VisitTime
 Plugins[] = VisitorInterest
 Plugins[] = ExampleAPI
 Plugins[] = ExampleRssWidget
-Plugins[] = Provider
 Plugins[] = Feedback
 Plugins[] = Monolog
 
