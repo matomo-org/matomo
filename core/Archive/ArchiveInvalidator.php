@@ -9,6 +9,7 @@
 
 namespace Piwik\Archive;
 
+use Piwik\Archive\ArchiveInvalidator\InvalidationResultInfo;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
@@ -45,10 +46,6 @@ use Piwik\Period\Week;
  */
 class ArchiveInvalidator
 {
-    private $warningDates = array();
-    private $processedDates = array();
-    private $minimumDateWithLogs = false;
-
     private $rememberArchivedReportIdStart = 'report_to_invalidate_';
 
     public function rememberToInvalidateArchivedReportsLater($idSite, Date $date)
@@ -120,14 +117,15 @@ class ArchiveInvalidator
      * @param $idSites int[]
      * @param $dates Date[]
      * @param $period string
-     * @return array
+     * @return InvalidationResultInfo
      * @throws \Exception
      */
     public function markArchivesAsInvalidated(array $idSites, $dates, $period)
     {
-        $dates = $this->removeDatesThatHaveBeenPurged($dates);
+        $invalidationInfo = new InvalidationResultInfo();
 
-        $datesByMonth = $this->getDatesByYearMonth($dates);
+        $dates = $this->removeDatesThatHaveBeenPurged($dates);
+        $datesByMonth = $this->getDatesByYearMonth($dates, $invalidationInfo);
 
         $this->markArchivesInvalidatedFor($idSites, $period, $datesByMonth);
         $this->persistInvalidatedArchives($idSites, $datesByMonth);
@@ -138,7 +136,7 @@ class ArchiveInvalidator
             }
         }
 
-        return $this->makeOutputLogs();
+        return $invalidationInfo;
     }
 
     /**
@@ -197,7 +195,7 @@ class ArchiveInvalidator
     {
         // If using the feature "Delete logs older than N days"...
         $purgeDataSettings = PrivacyManager::getPurgeDataSettings();
-        $logsDeletedWhenOlderThanDays = $purgeDataSettings['delete_logs_older_than'];
+        $logsDeletedWhenOlderThanDays = (int)$purgeDataSettings['delete_logs_older_than'];
         $logsDeleteEnabled = $purgeDataSettings['delete_logs_enable'];
 
         if ($logsDeleteEnabled
@@ -213,11 +211,11 @@ class ArchiveInvalidator
      * @param $datesToInvalidate Date[]
      * @return array
      */
-    private function getDatesByYearMonth(array $datesToInvalidate)
+    private function getDatesByYearMonth($datesToInvalidate, InvalidationResultInfo $invalidationInfo)
     {
         $datesByMonth = array();
         foreach ($datesToInvalidate as $date) {
-            $this->processedDates[] = $date->toString();
+            $invalidationInfo->processedDates[] = $date->toString();
 
             $month = $date->toString('Y_m');
             // For a given date, we must invalidate in the monthly archive table
@@ -234,23 +232,6 @@ class ArchiveInvalidator
             $datesByMonth[$weekAsString][] = $date->toString();
         }
         return $datesByMonth;
-    }
-
-    /**
-     * @return array
-     */
-    private function makeOutputLogs()
-    {
-        $output = array();
-        if ($this->warningDates) {
-            $output[] = 'Warning: the following Dates have not been invalidated, because they are earlier than your Log Deletion limit: ' .
-                implode(", ", $this->warningDates) .
-                "\n The last day with logs is " . $this->minimumDateWithLogs . ". " .
-                "\n Please disable 'Delete old Logs' or set it to a higher deletion threshold (eg. 180 days or 365 years).'.";
-        }
-
-        $output[] = "Success. The following dates were invalidated successfully: " . implode(", ", $this->processedDates);
-        return $output;
     }
 
     /**

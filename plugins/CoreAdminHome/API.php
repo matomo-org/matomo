@@ -19,7 +19,6 @@ use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Site;
-use Psr\Log\LoggerInterface;
 
 /**
  * @method static \Piwik\Plugins\CoreAdminHome\API getInstance()
@@ -31,9 +30,15 @@ class API extends \Piwik\Plugin\API
      */
     private $scheduler;
 
-    public function __construct(Scheduler $scheduler)
+    /**
+     * @var ArchiveInvalidator
+     */
+    private $invalidator;
+
+    public function __construct(Scheduler $scheduler, ArchiveInvalidator $invalidator)
     {
         $this->scheduler = $scheduler;
+        $this->invalidator = $invalidator;
     }
 
     /**
@@ -82,9 +87,9 @@ class API extends \Piwik\Plugin\API
 
         list($dateObjects, $invalidDates) = $this->getDatesToInvalidateFromString($dates);
 
-        $invalidator = new ArchiveInvalidator();
-        $output = $invalidator->markArchivesAsInvalidated($idSites, $dateObjects, $period);
+        $invalidationResult = $this->invalidator->markArchivesAsInvalidated($idSites, $dateObjects, $period);
 
+        $output = $invalidationResult->makeOutputLogs();
         if ($invalidDates) {
             $output[] = 'Warning: some of the Dates to invalidate were invalid: ' .
                 implode(", ", $invalidDates) . ". Piwik simply ignored those and proceeded with the others.";
@@ -92,7 +97,7 @@ class API extends \Piwik\Plugin\API
 
         Site::clearCache();
 
-        return $output;
+        return $invalidationResult->makeOutputLogs();
     }
 
     /**
