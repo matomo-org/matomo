@@ -47,6 +47,8 @@ class InvalidateReportData extends ConsoleCommand
             . 'falls partly outside of a date range, then --cascade will also invalidate data for child periods '
             . 'outside the date range. For example, if --dates=2015-09-14,2015-09-15 & --periods=week, --cascade will'
             . ' also invalidate all days within 2015-09-13,2015-09-19, even those outside the date range.');
+        $this->addOption('dry-run', null, InputOption::VALUE_NONE, 'For tests. Runs the command w/o actually '
+            . 'invalidating anything.');
         $this->setHelp('Invalidate archived report data by date range, site and period. Invalidated archive data will '
             . 'be re-archived during the next core:archive run. If your log data has changed for some reason, this '
             . 'command can be used to make sure reports are generated using the new, changed log data.');
