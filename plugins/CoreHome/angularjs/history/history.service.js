@@ -75,7 +75,15 @@
                 }
             }
 
-            $location.search(hash);
+            if (hash) {
+                $location.search(hash);
+            } else {
+                // NOTE: this works around a bug in angularjs. when unsetting the hash (ie, removing in the URL),
+                // angular will enter an infinite loop of digests. this is because $locationWatch will trigger
+                // $locationChangeStart if $browser.url() != $location.absUrl(), and $browser.url() will contain
+                // the '#' character and $location.absUrl() will not. so the watch continues to trigger the event.
+                $location.search('_=');
+            }
 
             setTimeout(function () { $rootScope.$apply(); }, 1);
         }
