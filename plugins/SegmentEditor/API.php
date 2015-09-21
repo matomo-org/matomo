@@ -370,7 +370,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns stored segments that are set to be archived during cron archiving.
      *
-     * @param bool|false $idSite
+     * @param int|bool $idSite
      * @return array
      */
     public function getSegmentsToAutoArchive($idSite = false)
@@ -380,6 +380,8 @@ class API extends \Piwik\Plugin\API
         } else {
             Piwik::checkUserHasSuperUserAccess();
         }
+
+        $idSite = (int)$idSite;
 
         $cacheKey = 'SegmentEditor.getSegmentsToAutoArchive_' . (!empty($idSite) ? $idSite : 'enabled_all');
         if (!$this->transientCache->contains($cacheKey)) {
