@@ -14,6 +14,7 @@ use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 
 /**
  * TODO: This could be a unit test if we could inject the ArchiveTableDao in the command
+ * @group AnalyzeArchiveTableTest
  */
 class AnalyzeArchiveTableTest extends ConsoleCommandTestCase
 {
@@ -40,12 +41,12 @@ Statistics for the archive_numeric_2010_03 and archive_blob_2010_03 tables:
 +-------------------------------------------+------------+---------------+-------------+---------+-----------+----------------+-------------+
 | Group                                     | # Archives | # Invalidated | # Temporary | # Error | # Segment | # Numeric Rows | # Blob Rows |
 +-------------------------------------------+------------+---------------+-------------+---------+-----------+----------------+-------------+
-| week[2010-03-01 - 2010-03-07] idSite = 1  | 3          | 0             | 0           | 0       | 2         | 36             | 64          |
-| month[2010-03-01 - 2010-03-31] idSite = 1 | 3          | 0             | 0           | 0       | 2         | 36             | 64          |
+| week[2010-03-01 - 2010-03-07] idSite = 1  | 3          | 0             | 0           | 0       | 2         | 36             | 63          |
+| month[2010-03-01 - 2010-03-31] idSite = 1 | 3          | 0             | 0           | 0       | 2         | 36             | 63          |
 | day[2010-03-03 - 2010-03-03] idSite = 1   | 3          | 0             | 0           | 0       | 2         | 0              | 0           |
 | day[2010-03-04 - 2010-03-04] idSite = 1   | 3          | 0             | 0           | 0       | 2         | 0              | 0           |
 | day[2010-03-05 - 2010-03-05] idSite = 1   | 3          | 0             | 0           | 0       | 2         | 0              | 0           |
-| day[2010-03-06 - 2010-03-06] idSite = 1   | 3          | 0             | 0           | 0       | 2         | 36             | 52          |
+| day[2010-03-06 - 2010-03-06] idSite = 1   | 3          | 0             | 0           | 0       | 2         | 36             | 51          |
 | day[2010-03-07 - 2010-03-07] idSite = 1   | 3          | 0             | 0           | 0       | 2         | 0              | 0           |
 | day[2010-03-08 - 2010-03-08] idSite = 1   | 3          | 0             | 0           | 0       | 2         | 0              | 0           |
 | week[2010-03-08 - 2010-03-14] idSite = 1  | 3          | 0             | 0           | 0       | 2         | 0              | 0           |
