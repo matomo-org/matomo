@@ -285,7 +285,7 @@ class CronArchive
          *
          * @param CronArchive $this
          */
-        Piwik::postEvent('CoreArchive.run.start', array($this));
+        Piwik::postEvent('CoreArchive.init.start', array($this));
 
         SettingsServer::setMaxExecutionTime(0);
 
@@ -457,8 +457,8 @@ class CronArchive
          *
          * @param CronArchive $this
          */
-        Piwik::postEvent('CoreArchive.run.finish', array($this));
-        
+        Piwik::postEvent('CoreArchive.end', array($this));
+
         if (empty($this->errors)) {
             // No error -> Logs the successful script execution until completion
             Option::set(self::OPTION_ARCHIVING_FINISHED_TS, time());
