@@ -267,9 +267,6 @@
 		<visitLocalTime>08:10:38</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 		</customVariables>
 		<resolution>unknown</resolution>
@@ -384,9 +381,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName5>VisitorType</customVariableName5>
@@ -506,9 +500,6 @@
 		<visitLocalTime>20:15:41</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
@@ -637,9 +628,6 @@
 		<visitLocalTime>19:12:40</visitLocalTime>
 		<visitLocalHour>19</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
@@ -775,9 +763,6 @@
 		<visitLocalTime>18:10:38</visitLocalTime>
 		<visitLocalHour>18</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
@@ -888,9 +873,6 @@
 		<visitLocalTime>17:48:08</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Bot</customVariableName1>
@@ -1001,9 +983,6 @@
 		<visitLocalTime>17:48:07</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
@@ -1103,9 +1082,6 @@
 		<visitLocalTime>17:46:03</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
@@ -1216,9 +1192,6 @@
 		<visitLocalTime>16:11:30</visitLocalTime>
 		<visitLocalHour>16</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
@@ -1329,9 +1302,6 @@
 		<visitLocalTime>16:10:38</visitLocalTime>
 		<visitLocalHour>16</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>

@@ -82,17 +82,17 @@
 			<row>
 				
 				<segment>eventCategory==Movie</segment>
-				<idsubdatatable>753</idsubdatatable>
+				<idsubdatatable>745</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==Music</segment>
-				<idsubdatatable>754</idsubdatatable>
+				<idsubdatatable>746</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>755</idsubdatatable>
+				<idsubdatatable>747</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010" />
