@@ -267,6 +267,8 @@ class CronArchive
 
         $processNewSegmentsFrom = $processNewSegmentsFrom ?: StaticContainer::get('ini.General.process_new_segments_from');
         $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom);
+
+        $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
     }
 
     /**
