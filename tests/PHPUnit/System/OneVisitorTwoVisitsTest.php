@@ -35,12 +35,16 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         Proxy::getInstance()->setHideIgnoredFunctions(false);
     }
 
     public function tearDown()
     {
         Proxy::getInstance()->setHideIgnoredFunctions(true);
+
+        parent::tearDown();
     }
 
     public static function getOutputPrefix()

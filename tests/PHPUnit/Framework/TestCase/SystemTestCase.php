@@ -9,34 +9,41 @@
 namespace Piwik\Tests\Framework\TestCase;
 
 use Exception;
+use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Cache as PiwikCache;
 use Piwik\DbHelper;
+use Piwik\Menu\MenuAbstract;
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\Constraint\ResponseCode;
 use Piwik\Tests\Framework\Constraint\HttpResponseText;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
 use Piwik\Tests\Framework\TestRequest\Collection;
 use Piwik\Tests\Framework\TestRequest\Response;
-use Piwik\Translate;
-use Piwik\Log;
-use PHPUnit_Framework_TestCase;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Translate;
 use Piwik\Translation\Translator;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
-
+/*
+ * @testWithPiwikEnvironment
+ *   => container, plugins
+ */
 /**
  * Base class for System tests.
  *
  * Provides helpers to track data and then call API get* methods to check outputs automatically.
  *
  * @since 2.8.0
+ *
+ * @testWithPiwikDatabase
  */
-abstract class SystemTestCase extends PHPUnit_Framework_TestCase
+abstract class SystemTestCase extends PiwikTestCase
 {
     /**
      * Identifies the last language used in an API/Controller call.
@@ -53,40 +60,68 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
      */
     public static $fixture;
 
+    private static $isFirstSetUp = true;
+
     public static function setUpBeforeClass()
     {
-        Log::debug("Setting up " . get_called_class());
+        self::$isFirstSetUp = true;
 
         if (!isset(static::$fixture)) {
             $fixture = new Fixture();
         } else {
             $fixture = static::$fixture;
         }
-
-        $fixture->testCaseClass = get_called_class();
 
         if (!array_key_exists('loadRealTranslations', $fixture->extraTestEnvVars)) {
             $fixture->extraTestEnvVars['loadRealTranslations'] = true; // load real translations by default for system tests
         }
 
-        try {
-            $fixture->performSetUp();
-        } catch (Exception $e) {
-            static::fail("Failed to setup fixture: " . $e->getMessage() . "\n" . $e->getTraceAsString());
+        parent::setUpBeforeClass();
+
+        // Log::debug("Setting up " . get_called_class()); TODO: move this to PiwikTestCase
+    }
+
+    /**
+     * Setup the database and create the base tables for all tests
+     */
+    public function setUp()
+    {
+        static::$fixture->extraDefinitions = array_merge(static::provideContainerConfigBeforeClass(), $this->provideContainerConfig());
+
+        parent::setUp();
+
+        static::$fixture->clearInMemoryCaches();
+
+        if (self::$isFirstSetUp) {
+            self::$isFirstSetUp = false;
+        } else {
+            static::$fixture->createEnvironmentInstance();
+
+            Db::createDatabaseObject();
+            Fixture::loadAllPlugins(new TestingEnvironmentVariables(), get_class($this), self::$fixture->extraPluginsToLoad);
         }
+
+        Translate::loadCoreTranslation();
+        \Piwik\Plugin\Manager::getInstance()->loadPluginTranslations();
+
+        Access::getInstance()->setSuperUserAccess(true);
     }
 
     public static function tearDownAfterClass()
     {
-        Log::debug("Tearing down " . get_called_class());
+        // Log::debug("Tearing down " . get_called_class()); TODO: move this to PiwikTestCase
 
-        if (!isset(static::$fixture)) {
-            $fixture = new Fixture();
-        } else {
-            $fixture = static::$fixture;
-        }
+        parent::tearDownAfterClass();
+    }
 
-        $fixture->performTearDown();
+    /**
+     * Resets all caches and drops the database
+     */
+    public function tearDown()
+    {
+        static::$fixture->clearInMemoryCaches();
+
+        parent::tearDown();
     }
 
     /**
@@ -517,76 +552,6 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Returns an array associating table names w/ lists of row data.
-     *
-     * @return array
-     */
-    protected static function getDbTablesWithData()
-    {
-        $result = array();
-        foreach (DbHelper::getTablesInstalled() as $tableName) {
-            $result[$tableName] = Db::fetchAll("SELECT * FROM `$tableName`");
-        }
-        return $result;
-    }
-
-    /**
-     * Truncates all tables then inserts the data in $tables into each
-     * mapped table.
-     *
-     * @param array $tables Array mapping table names with arrays of row data.
-     */
-    protected static function restoreDbTables($tables)
-    {
-        $db = Db::fetchOne("SELECT DATABASE()");
-        if (empty($db)) {
-            Db::exec("USE " . Config::getInstance()->database_tests['dbname']);
-        }
-
-        DbHelper::truncateAllTables();
-
-        // insert data
-        $existingTables = DbHelper::getTablesInstalled();
-        foreach ($tables as $table => $rows) {
-            // create table if it's an archive table
-            if (strpos($table, 'archive_') !== false && !in_array($table, $existingTables)) {
-                $tableType = strpos($table, 'archive_numeric') !== false ? 'archive_numeric' : 'archive_blob';
-
-                $createSql = DbHelper::getTableCreateSql($tableType);
-                $createSql = str_replace(Common::prefixTable($tableType), $table, $createSql);
-                Db::query($createSql);
-            }
-
-            if (empty($rows)) {
-                continue;
-            }
-
-            $rowsSql = array();
-            $bind = array();
-            foreach ($rows as $row) {
-                $values = array();
-                foreach ($row as $value) {
-                    if (is_null($value)) {
-                        $values[] = 'NULL';
-                    } else if (is_numeric($value)) {
-                        $values[] = $value;
-                    } else if (!ctype_print($value)) {
-                        $values[] = "x'" . bin2hex($value) . "'";
-                    } else {
-                        $values[] = "?";
-                        $bind[] = $value;
-                    }
-                }
-
-                $rowsSql[] = "(" . implode(',', $values) . ")";
-            }
-
-            $sql = "INSERT INTO `$table` VALUES " . implode(',', $rowsSql);
-            Db::query($sql, $bind);
-        }
-    }
-
-    /**
      * Drops all archive tables.
      */
     public static function deleteArchiveTables()
@@ -628,6 +593,17 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
      * @return array
      */
     public static function provideContainerConfigBeforeClass()
+    {
+        return array();
+    }
+
+    /**
+     * Use this method to return custom container configuration that you want to apply for the tests.
+     * This configuration will override Fixture config and config specified in SystemTestCase::provideContainerConfig().
+     *
+     * @return array
+     */
+    public function provideContainerConfig()
     {
         return array();
     }

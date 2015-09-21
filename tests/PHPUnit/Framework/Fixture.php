@@ -23,11 +23,11 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Ini\IniReader;
 use Piwik\Log;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
@@ -43,6 +43,7 @@ use Piwik\SettingsServer;
 use Piwik\Singleton;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
+use Piwik\Tests\Framework\TestAspect\TestWithDatabase;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
@@ -81,7 +82,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     const ADMIN_USER_LOGIN = 'superUserLogin';
     const ADMIN_USER_PASSWORD = 'superUserPass';
 
-    public $dbName = false;
+    public $dbName = false; // TODO: deprecate & remove use
 
     /**
      * @deprecated has no effect now.
@@ -101,7 +102,12 @@ class Fixture extends \PHPUnit_Framework_Assert
     public $overwriteExisting = true;
     public $configureComponents = true;
     public $persistFixtureData = false;
+
+    /**
+     * @deprecated
+     */
     public $resetPersistedFixture = false;
+
     public $printToScreen = false;
 
     public $testCaseClass = false;
@@ -117,6 +123,11 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public $extraDefinitions = array();
 
+    /**
+     * No longer used.
+     *
+     * @deprecated
+     */
     public $extraTestEnvVars = array();
 
     /**
@@ -177,136 +188,27 @@ class Fixture extends \PHPUnit_Framework_Assert
         return Config::getInstance()->database_tests['dbname'];
     }
 
+    /**
+     * @param bool|false $setupEnvironmentOnly DEPRECATED
+     * @throws Exception
+     */
     public function performSetUp($setupEnvironmentOnly = false)
     {
-        // TODO: don't use static var, use test env var for this
-        TestingEnvironmentManipulator::$extraPluginsToLoad = $this->extraPluginsToLoad;
-
-        $this->dbName = $this->getDbName();
-
-        if ($this->persistFixtureData) {
-            $this->dropDatabaseInSetUp = false;
-            $this->dropDatabaseInTearDown = false;
-            $this->overwriteExisting = false;
-            $this->removeExistingSuperUser = false;
-        }
-
-        $testEnv = $this->getTestEnvironment();
-        $testEnv->testCaseClass = $this->testCaseClass;
-        $testEnv->fixtureClass = get_class($this);
-        $testEnv->dbName = $this->dbName;
-
-        foreach ($this->extraTestEnvVars as $name => $value) {
-            $testEnv->$name = $value;
-        }
-
-        $testEnv->save();
-
-        $this->createEnvironmentInstance();
-
-        if ($this->dbName === false) { // must be after test config is created
-            $this->dbName = Config::getInstance()->database['dbname'];
-        }
-
-        try {
-            static::connectWithoutDatabase();
-
-            if ($this->dropDatabaseInSetUp
-                || $this->resetPersistedFixture
-            ) {
-                $this->dropDatabase();
-            }
-
-            DbHelper::createDatabase($this->dbName);
-            DbHelper::disconnectDatabase();
-            Tracker::disconnectCachedDbConnection();
-
-            // reconnect once we're sure the database exists
-            Config::getInstance()->database['dbname'] = $this->dbName;
-            Db::createDatabaseObject();
-
-            Db::get()->query("SET wait_timeout=28800;");
-
-            DbHelper::createTables();
-
-            Manager::getInstance()->unloadPlugins();
-
-        } catch (Exception $e) {
-            static::fail("TEST INITIALIZATION FAILED: " . $e->getMessage() . "\n" . $e->getTraceAsString());
-        }
-
-        include "DataFiles/SearchEngines.php";
-        include "DataFiles/Socials.php";
-        include "DataFiles/Providers.php";
-
-        if (!$this->isFixtureSetUp()) {
-            DbHelper::truncateAllTables();
-        }
-
-        // We need to be SU to create websites for tests
-        Access::getInstance()->setSuperUserAccess();
-
-        Cache::deleteTrackerCache();
-
-        static::loadAllPlugins($this->getTestEnvironment(), $this->testCaseClass, $this->extraPluginsToLoad);
-
-        self::updateDatabase();
-
-        self::installAndActivatePlugins();
-
-        $_GET = $_REQUEST = array();
-        $_SERVER['HTTP_REFERER'] = '';
-
-        FakeAccess::$superUserLogin = 'superUserLogin';
-
-        File::$invalidateOpCacheBeforeRead = true;
-
-        if ($this->configureComponents) {
-            IPAnonymizer::deactivate();
-            $dntChecker = new DoNotTrackHeaderChecker();
-            $dntChecker->deactivate();
-        }
-
-        if ($this->createSuperUser) {
-            self::createSuperUser($this->removeExistingSuperUser);
-            if (!(Access::getInstance() instanceof FakeAccess)) {
-                $this->loginAsSuperUser();
-            }
-
-            APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
-        }
-
-        SettingsPiwik::overwritePiwikUrl(self::getRootUrl() . 'tests/PHPUnit/proxy/');
-
-        if ($setupEnvironmentOnly) {
-            return;
-        }
-
-        PiwikCache::getTransientCache()->flushAll();
-
         if ($this->overwriteExisting
             || !$this->isFixtureSetUp()
         ) {
             $this->setUp();
 
             $this->markFixtureSetUp();
-            $this->log("Database {$this->dbName} marked as successfully set up.");
+            return true;
         } else {
-            $this->log("Using existing database {$this->dbName}.");
+            return false;
         }
     }
 
     public function getTestEnvironment()
     {
-        if ($this->testEnvironment === null) {
-            $this->testEnvironment = new TestingEnvironmentVariables();
-            $this->testEnvironment->delete();
-
-            if (getenv('PIWIK_USE_XHPROF') == 1) {
-                $this->testEnvironment->useXhprof = true;
-            }
-        }
-        return $this->testEnvironment;
+        return new TestingEnvironmentVariables();
     }
 
     public function isFixtureSetUp()
@@ -327,12 +229,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         // with error Error while sending QUERY packet. PID=XX
         $this->tearDown();
 
-        self::unloadAllPlugins();
-
-        if ($this->dropDatabaseInTearDown) {
-            $this->dropDatabase();
-        }
-
         $this->clearInMemoryCaches();
 
         Log::unsetInstance();
@@ -347,11 +243,10 @@ class Fixture extends \PHPUnit_Framework_Assert
         Option::clearCache();
         Site::clearCache();
         Cache::deleteTrackerCache();
-        PiwikCache::getTransientCache()->flushAll();
-        PiwikCache::getEagerCache()->flushAll();
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
         Singleton::clearAll();
+        MenuAbstract::clearMenus();
 
         $_GET = $_REQUEST = array();
         Translate::reset();
@@ -849,17 +744,11 @@ class Fixture extends \PHPUnit_Framework_Assert
     }
 
     /**
-     * Connects to MySQL w/o specifying a database.
+     * @deprecated
      */
     public static function connectWithoutDatabase()
     {
-        $dbConfig = Config::getInstance()->database;
-        $oldDbName = $dbConfig['dbname'];
-        $dbConfig['dbname'] = null;
-
-        Db::createDatabaseObject($dbConfig);
-
-        $dbConfig['dbname'] = $oldDbName;
+        TestWithDatabase::connectWithoutDatabase();
     }
 
     /**
@@ -869,26 +758,14 @@ class Fixture extends \PHPUnit_Framework_Assert
     {
     }
 
+    /**
+     * @deprecated
+     */
     public function dropDatabase($dbName = null)
     {
         $dbName = $dbName ?: $this->dbName ?: Config::getInstance()->database_tests['dbname'];
 
-        $this->log("Dropping database '$dbName'...");
-
-        $iniReader = new IniReader();
-        $config = $iniReader->readFile(PIWIK_INCLUDE_PATH . '/config/config.ini.php');
-        $originalDbName = $config['database']['dbname'];
-        if ($dbName == $originalDbName
-            && $dbName != 'piwik_tests'
-        ) { // santity check
-            throw new \Exception("Trying to drop original database '$originalDbName'. Something's wrong w/ the tests.");
-        }
-
-        try {
-            DbHelper::dropDatabase($dbName);
-        } catch (Exception $e) {
-            printf("Dropping database %s failed: %s\n", $dbName, $e->getMessage());
-        }
+        TestWithDatabase::dropDatabase($dbName);
     }
 
     public function log($message)
@@ -951,6 +828,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     {
         $this->piwikEnvironment = new Environment($environment = null, $this->extraDefinitions);
         $this->piwikEnvironment->init();
+        return $this->piwikEnvironment;
     }
 
     public function destroyEnvironment()

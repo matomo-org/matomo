@@ -13,7 +13,6 @@ use Piwik\Plugin\Manager;
 
 /**
  * @group Core
- * @group Only2
  */
 class ApiRendererTest extends \PHPUnit_Framework_TestCase
 {

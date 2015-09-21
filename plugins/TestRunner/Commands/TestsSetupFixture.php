@@ -11,6 +11,8 @@ namespace Piwik\Plugins\TestRunner\Commands;
 use Piwik\Application\Environment;
 use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Tests\Framework\TestAspect\TestWithPiwikDatabase;
+use Piwik\Tests\Framework\TestCase\PiwikTestCase;
 use Piwik\Tests\Framework\TestingEnvironmentManipulator;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Piwik\Url;
@@ -127,16 +129,30 @@ class TestsSetupFixture extends ConsoleCommand
             $this->createSymbolicLinksForUITests();
         }
 
+        /** @var Fixture $fixture */
         $fixture = $this->createFixture($input, $allowSave = !empty($configDomainToSave));
 
         $this->setupDatabaseOverrides($input, $fixture);
 
+        $testAspect = new TestWithPiwikDatabase($fixture);
+        $dummyTestCase = new PiwikTestCase();
+
         // perform setup and/or teardown
         if ($input->getOption('teardown')) {
             $fixture->getTestEnvironment()->save();
-            $fixture->performTearDown();
+
+            $testAspect->tearDown($dummyTestCase);
+            $testAspect->tearDownAfterClass(get_class($dummyTestCase));
         } else {
-            $fixture->performSetUp();
+            $testAspect->setUpBeforeClass(get_class($dummyTestCase));
+            $testAspect->setUp($dummyTestCase);
+            $isNewFixtureSetup = $testAspect->isNewFixtureSetup();
+
+            if ($isNewFixtureSetup) {
+                $output->writeln("Database {$fixture->dbName} marked as successfully set up.");
+            } else {
+                $output->writeln("Using existing database {$fixture->dbName}.");
+            }
         }
 
         $this->writeSuccessMessage($output, array("Fixture successfully setup!"));

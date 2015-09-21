@@ -60,9 +60,10 @@ class SqlDump extends Fixture
         $user = Config::getInstance()->database['username'];
         $password = Config::getInstance()->database['password'];
         $host = Config::getInstance()->database['host'];
+        $dbName = Config::getInstance()->database['dbname'];
         Config::getInstance()->database['tables_prefix'] = $this->tablesPrefix;
 
-        $cmd = "mysql -h \"$host\" -u \"$user\" \"--password=$password\" {$this->dbName} < \"" . $deflatedDumpPath . "\" 2>&1";
+        $cmd = "mysql -h \"$host\" -u \"$user\" \"--password=$password\" {$dbName} < \"" . $deflatedDumpPath . "\" 2>&1";
         exec($cmd, $output, $return);
         if ($return !== 0) {
             throw new Exception("Failed to load sql dump: " . implode("\n", $output));
