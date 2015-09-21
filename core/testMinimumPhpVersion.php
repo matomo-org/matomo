@@ -159,8 +159,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         $content = '<h2>' . $message . '</h2>
                     <p>'
             . $optionalLinkBack
-            . ' | <a href="index.php">Go to Piwik</a> |
-                       <a href="index.php?module=Login">Login</a>'
+            . ' | <a href="index.php">Go to Piwik</a>'
             . '</p>'
             . ' ' . (Piwik_ShouldPrintBackTraceWithMessage() ? $optionalTrace : '')
             . ' ' . $optionalLinks;
