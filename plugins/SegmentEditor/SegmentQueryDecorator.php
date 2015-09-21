@@ -53,7 +53,7 @@ class SegmentQueryDecorator extends LogQueryBuilder
 
         $idSegments = array();
         foreach ($allSegments as $segment) {
-            if ($segmentExpression->getSegmentString() == $segment['definition']) {
+            if ($segmentExpression->getSegmentDefinition() == $segment['definition']) {
                 $idSegments[] = $segment['idsegment'];
             }
         }

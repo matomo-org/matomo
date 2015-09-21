@@ -49,7 +49,7 @@ class SegmentExpression
         $this->tree = $this->parseTree();
     }
 
-    public function getSegmentString()
+    public function getSegmentDefinition()
     {
         return $this->string;
     }
