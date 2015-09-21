@@ -14,6 +14,7 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Site;
 use Piwik\Period\Factory as PeriodFactory;
 use Symfony\Component\Console\Input\InputInterface;
@@ -59,6 +60,7 @@ class InvalidateReportData extends ConsoleCommand
         $invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
         $cascade = $input->getOption('cascade');
+        $dryRun = $input->getOption('dry-run');
 
         $sites = $this->getSitesToInvalidateFor($input);
         $periodTypes = $this->getPeriodTypesToInvalidateFor($input);
@@ -73,10 +75,15 @@ class InvalidateReportData extends ConsoleCommand
                 $output->writeln("  [ dates = " . implode(', ', $dates) . " ]");
             }
 
-            $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType);
+            if ($dryRun) {
+                $output->writeln("[Dry-run] invalidating archives for site = [ " . implode(', ', $sites)
+                    . " ], dates = [ " . implode(', ', $dates) . " ], period = [ $periodType ]");
+            } else {
+                $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType);
 
-            if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                $output->writeln($invalidationResult->makeOutputLogs());
+                if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+                    $output->writeln($invalidationResult->makeOutputLogs());
+                }
             }
         }
     }
@@ -84,11 +91,20 @@ class InvalidateReportData extends ConsoleCommand
     private function getSitesToInvalidateFor(InputInterface $input)
     {
         $sites = $input->getOption('sites');
-        if (empty($sites)) {
-            throw new \InvalidArgumentException("Invalid value given for --sites option: '$sites'.");
+
+        $siteIds = Site::getIdSitesFromIdSitesString($sites);
+        if (empty($siteIds)) {
+            throw new \InvalidArgumentException("Invalid --sites value: '$sites'.");
         }
 
-        return Site::getIdSitesFromIdSitesString($sites);
+        $allSiteIds = SitesManagerAPI::getInstance()->getAllSitesId();
+        foreach ($siteIds as $idSite) {
+            if (!in_array($idSite, $allSiteIds)) {
+                throw new \InvalidArgumentException("Invalid --sites value: '$sites', there are no sites with IDs = $idSite");
+            }
+        }
+
+        return $siteIds;
     }
 
     private function getPeriodTypesToInvalidateFor(InputInterface $input)
@@ -109,7 +125,8 @@ class InvalidateReportData extends ConsoleCommand
 
         foreach ($periods as $periodIdentifier) {
             if ($periodIdentifier == 'range') {
-                throw new \InvalidArgumentException("Invalidating range periods is not currently supported.");
+                throw new \InvalidArgumentException(
+                    "Invalid period type: invalidating range periods is not currently supported.");
             }
 
             if (!isset(Piwik::$idPeriods[$periodIdentifier])) {
@@ -142,17 +159,15 @@ class InvalidateReportData extends ConsoleCommand
             }
 
             // validate dates
-            Date::factory($parts[0]);
-            Date::factory($parts[1]);
+            $startDate = $this->validateDate($parts[0]);
+            $endDate = $this->validateDate($parts[1]);
 
-            $result[] = array($parts[0], $parts[1]);
+            $result[] = array($startDate, $endDate);
         }
         return $result;
     }
 
     /**
-     * TODO test in a unit test
-     *
      * @param string[] $periodTypes
      * @param Date[][] $dateRanges
      * @param bool $cascade
@@ -180,7 +195,7 @@ class InvalidateReportData extends ConsoleCommand
 
                 if ($cascade) {
                     $realStartDate = reset($subperiods)->getDateStart()->toString();
-                    $realEndDate = reset($subperiods)->getDateEnd()->toString();
+                    $realEndDate = end($subperiods)->getDateEnd()->toString();
 
                     $this->addPeriodsToCascadeOn($result, $type, $realStartDate, $realEndDate);
                 }
@@ -242,6 +257,16 @@ class InvalidateReportData extends ConsoleCommand
                 return 'day';
             default:
                 return null;
+        }
+    }
+
+    private function validateDate($dateString)
+    {
+        try {
+            return Date::factory($dateString)->toString(); // remove time specifier if present
+        } catch (\Exception $ex) {
+            throw new \InvalidArgumentException("Invalid date range specifier: $dateString, " . $ex->getMessage(),
+                $code = 0, $ex);
         }
     }
 }
