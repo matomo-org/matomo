@@ -64,7 +64,7 @@ class LineMessageFormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function it_should_indent_multiline_message()
     {
-        $formatter = new LineMessageFormatter('%message%');
+        $formatter = new LineMessageFormatter('%level% %message%');
 
         $record = array(
             'message'    => "Hello world\ntest\ntest",
@@ -73,9 +73,33 @@ class LineMessageFormatterTest extends \PHPUnit_Framework_TestCase
         );
 
         $formatted = <<<LOG
-Hello world
+ERROR Hello world
   test
   test
+
+LOG;
+
+        $this->assertEquals($formatted, $formatter->format($record));
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_split_inline_line_breaks_into_many_messages_if_disabled()
+    {
+        $formatter = new LineMessageFormatter('%level% %message%', $allowInlineLineBreaks = false);
+
+        $record = array(
+            'message'    => "Hello world\ntest\ntest",
+            'datetime'   => DateTime::createFromFormat('U', 0),
+            'level_name' => 'ERROR',
+            'extra'      => array('request_id' => '1234')
+        );
+
+        $formatted = <<<LOG
+ERROR [1234] Hello world
+ERROR [1234] test
+ERROR [1234] test
 
 LOG;
 
