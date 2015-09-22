@@ -15,6 +15,7 @@
         "DatabaseSetupLogin": "login",
         "DatabaseSetupServer": "servidor de banco de dados",
         "DatabaseSetupTablePrefix": "prefixo da tabela",
+        "Email": "E-mail",
         "Extension": "extensão",
         "Filesystem": "Sistema de arquivos",
         "GetInvolved": "Se você gosta do que você vê, você pode %1$sparticipar%2$s.",

@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "Este plugin fornece os widgets Mapa de Visitantes e o Mapa Tempo-Real. Nota: Requer o plugin UserCountry habilitado.",
         "AndNOthers": "e %s outros",
         "Cities": "Cidades",
         "Countries": "Países",

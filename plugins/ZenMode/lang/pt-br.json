@@ -1,7 +1,10 @@
 {
     "ZenMode": {
+        "PluginDescription": "Fique Zen com Piwik. Modo Zen mantém as coisas simples. Ele está disponível através do ícone no canto superior direito da tela.",
         "SearchForAnything": "Buscar por qualquer coisa",
         "QuickAccessTitle": "Pesquisar por entradas do menu, relatórios e websites",
+        "HowToSearch": "Para procurar itens do menu, relatórios ou sites utilize a caixa de pesquisa no canto superior direito ou pressione 'alt+f'.",
+        "HowToToggleZenMode": "Para sair ou entrar no modo zen clique na seta no canto superior direito ou pressione 'alt+z'.",
         "Activated": "Modo Zen ativado"
     }
 }

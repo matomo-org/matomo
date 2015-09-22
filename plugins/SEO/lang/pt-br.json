@@ -1,5 +1,6 @@
 {
     "SEO": {
+        "PluginDescription": "Este plugin extratai e exibe métricas de SEO: Web Ranking Alexa, Google PageRank, número de páginas indexadas e backlinks do site selecionado.",
         "AlexaRank": "Rank Alexa",
         "Bing_IndexedPages": "Páginas indexadas no Bing",
         "Dmoz": "Entradas DMOZ",
@@ -7,7 +8,7 @@
         "ExternalBacklinks": "Backlinks externos (Majestoso)",
         "Google_IndexedPages": "Páginas indexadas pelo Google",
         "Rank": "Classificação",
-        "ReferrerDomains": "Domínios Encaminhadores (Majestic)",
+        "ReferrerDomains": "Domínios Referenciadores (Majestic)",
         "SeoRankings": "Ranking SEO",
         "SEORankingsFor": "Ranking SEO para %s",
         "ViewBacklinksOnMajesticSEO": "Ver relatório Backlinks externo em MajesticSEO.com"
