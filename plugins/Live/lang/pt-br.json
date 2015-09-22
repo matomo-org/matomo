@@ -23,7 +23,7 @@
         "PageRefreshed": "Número de vezes que esta página foi vista\/atualizada em um registro.",
         "PreviousVisitor": "Visitante anterior",
         "RealTimeVisitorCount": "Contagem de visitantes em tempo real",
-        "Referrer_URL": "URL de encaminhamento",
+        "Referrer_URL": "URL do Referenciador",
         "ShowMap": "mostrar mapa",
         "SimpleRealTimeWidget_Message": "%s e %s na última %s.",
         "ViewVisitorProfile": "Ver o perfil do visitante",

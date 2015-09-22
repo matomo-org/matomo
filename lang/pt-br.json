@@ -312,7 +312,7 @@
         "Reports": "Relatórios",
         "ReportsContainingTodayWillBeProcessedAtMostEvery": "Arquivar relatórios no máximo a cada X segundos",
         "RearchiveTimeIntervalOnlyForTodayReports": "Isso afeta apenas relatórios para hoje (ou qualquer outro Intervalo de Tempo incluindo hoje)",
-        "ReportsWillBeProcessedAtMostEveryHour": "Os relatórios irão então ser processados no máximo a cada hora.",
+        "ReportsWillBeProcessedAtMostEveryHour": "Os relatórios então serão processados a cada hora no máximo.",
         "RequestTimedOut": "O pedido de informação %s expirou. Por favor tente novamente.",
         "Required": "%s necessário",
         "ReturningVisitor": "Retorno do Visitante",

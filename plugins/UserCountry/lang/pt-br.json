@@ -16,6 +16,7 @@
         "country_a2": "Provedor de satélite",
         "country_cat": "Comunidades Catalães",
         "country_o1": "Outro país",
+        "country_ti": "Tibet",
         "CurrentLocationIntro": "De acordo com este provedor, sua localização é",
         "DefaultLocationProviderDesc1": "Detecta a localização padrão de um visitante baseando-se no idioma que ele usa",
         "DefaultLocationProviderDesc2": "Isso não é muito preciso, então %1$s nós recomendamos a instalação e utilização de %2$s GeoIP %3$s.%4$s",

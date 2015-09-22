@@ -1,6 +1,7 @@
 {
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Você tem algum bug pra relatar ou alguma caracteristica para pedir?",
+        "HowToCreateTicket": "Por favor, leia as recomendações de como escrever um bom %1$sbug relatório%2$s ou %3$sfunção requerimento%4$s. Então, registre-se ou faço seu login em %5$snosso questões tracker%6$s e crie uma %7$snova questão%8$s.",
         "IWantTo": "Eu quero:",
         "LearnWaysToParticipate": "Aprenda sobre todas as maneiras que você pode %s participar %s",
         "ManuallySendEmailTo": "Por favor envie manualmente sua mensagem para",

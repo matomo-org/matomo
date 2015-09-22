@@ -3,7 +3,7 @@
         "AddSite": "Adicionar novo Site",
         "AddMeasurable": "Adicionar um novo mensurável",
         "AdvancedTimezoneSupportNotFound": "Suporte a fusos-horários avançados não encontrado em seu PHP (suportado no PHP >=5.2). Você pode ainda escolher um offset de UTC manual.",
-        "AliasUrlHelp": "É recomendado, mas não necessário, especificar as várias URLs que seus visitantes usam para acessar esse site, uma por linha. Pseudônimos de URLs para websites não aparecerão em Referencias > relatórios de websites. Note que não é necessário especificar as URLs com ou sem 'www' como o Piwik considera automaticamente ambos.",
+        "AliasUrlHelp": "É recomendado, mas não necessário, especificar as várias URLs, uma por linha, que seus visitantes usam para acessar esse site. Pseudônimos de URLs para websites não aparecerão nos relatórios Referenciadores > Websites. Note que não é necessário especificar as URLs com ou sem 'www', pois Piwik considera ambas automaticamente.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Ao mudar seu fuso-horário apenas afetará os dados que vierem depois, não será aplicado retroativamente.",
         "ChooseCityInSameTimezoneAsYou": "Escolha uma cidade no mesmo fuso-horário que você",
         "Currency": "Moeda Corrente",
