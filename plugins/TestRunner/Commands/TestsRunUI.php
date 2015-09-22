@@ -35,6 +35,8 @@ class TestsRunUI extends ConsoleCommand
         $this->addOption('plugin', null, InputOption::VALUE_REQUIRED, "Execute all tests for a plugin.");
         $this->addOption('core', null, InputOption::VALUE_NONE, "Execute only tests for Piwik core & core plugins.");
         $this->addOption('skip-delete-assets', null, InputOption::VALUE_NONE, "Skip deleting of merged assets (will speed up a test run, but not by a lot).");
+        $this->addOption('screenshot-repo', null, InputOption::VALUE_NONE, "For tests");
+        $this->addOption('store-in-ui-tests-repo', null, InputOption::VALUE_NONE, "For tests");
         $this->addOption('extra-options', null, InputOption::VALUE_REQUIRED, "Extra options to pass to phantomjs.");
     }
 
@@ -50,6 +52,8 @@ class TestsRunUI extends ConsoleCommand
         $skipDeleteAssets = $input->getOption('skip-delete-assets');
         $core = $input->getOption('core');
         $extraOptions = $input->getOption('extra-options');
+        $storeInUiTestsRepo = $input->getOption('store-in-ui-tests-repo');
+        $screenshotRepo = $input->getOption('screenshot-repo');
 
         if (!$skipDeleteAssets) {
             AssetManager::getInstance()->removeMergedAssets();
@@ -84,6 +88,14 @@ class TestsRunUI extends ConsoleCommand
 
         if ($core) {
             $options[] = "--core";
+        }
+
+        if ($storeInUiTestsRepo) {
+            $options[] = "--store-in-ui-tests-repo";
+        }
+
+        if ($screenshotRepo) {
+            $options[] = "--screenshot-repo";
         }
 
         if ($extraOptions) {
