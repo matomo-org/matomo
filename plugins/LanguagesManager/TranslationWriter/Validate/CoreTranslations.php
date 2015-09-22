@@ -39,7 +39,7 @@ class CoreTranslations extends ValidateAbstract
     /**
      * Validates the given translations
      *  * There need to be more than 250 translations present
-     *  * Locale, TranslatorName and TranslatorEmail needs to be set in plugin General
+     *  * Locale and TranslatorName needs to be set in plugin General
      *  * Locale must be valid (format, language & country)
      *
      * @param array $translations

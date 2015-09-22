@@ -141,7 +141,6 @@ class API extends \Piwik\Plugin\API
                                   'name'                => $translations['Intl']['OriginalLanguageName'],
                                   'english_name'        => $translations['Intl']['EnglishLanguageName'],
                                   'translators'         => $translations['General']['TranslatorName'],
-                                  'translators_email'   => $translations['General']['TranslatorEmail'],
                                   'percentage_complete' => $percentageComplete . '%',
             );
             $languagesInfo[] = $languageInfo;
