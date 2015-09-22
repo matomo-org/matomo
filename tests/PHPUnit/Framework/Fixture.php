@@ -10,6 +10,7 @@ namespace Piwik\Tests\Framework;
 use Piwik\Access;
 use Piwik\Application\Environment;
 use Piwik\Archive;
+use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\Auth;
 use Piwik\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
@@ -352,6 +353,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
         Singleton::clearAll();
+        PluginsArchiver::$archivers = array();
 
         $_GET = $_REQUEST = array();
         Translate::reset();
