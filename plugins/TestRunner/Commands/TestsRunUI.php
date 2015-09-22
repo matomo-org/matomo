@@ -128,7 +128,7 @@ exports.phpServer = {
     REMOTE_ADDR: '127.0.0.1'
 };
 JS;
-
+echo "JS: $js\n\n";
         file_put_contents(PIWIK_INCLUDE_PATH . '/tests/UI/config.js', $js);
     }
 }
