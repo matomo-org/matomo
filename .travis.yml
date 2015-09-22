@@ -25,6 +25,8 @@ addons:
     - python2.6
     - python2.6-dev
     - mysql-server-5.6
+    - nginx
+    - realpath
 
 # Separate different test suites
 env:
