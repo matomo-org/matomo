@@ -111,14 +111,19 @@ var Piwik_Overlay = (function () {
         $fullScreenLink.show();
     }
 
-    /** $.history callback for hash change */
-    function hashChangeCallback(urlHash) {
+    function getOverlayLocationFromHash(urlHash) {
         var location = broadcast.getParamValue('l', urlHash);
 
         // angular will encode the value again since it is added as the fragment path, not the fragment query parameter,
         // so we have to decode it again after getParamValue
         location = decodeURIComponent(location);
 
+        return location;
+    }
+
+    /** $.history callback for hash change */
+    function hashChangeCallback(urlHash) {
+        var location = getOverlayLocationFromHash(urlHash);
         location = Overlay_Helper.decodeFrameUrl(location);
 
         if (!updateComesFromInsideFrame) {
@@ -248,7 +253,7 @@ var Piwik_Overlay = (function () {
             var locationParts = location.href.split('#');
             var currentLocation = '';
             if (locationParts.length > 1) {
-                currentLocation = broadcast.getParamValue('l', locationParts[1]);
+                currentLocation = getOverlayLocationFromHash(locationParts[1]);
             }
 
             var newLocation = Overlay_Helper.encodeFrameUrl(currentUrl);

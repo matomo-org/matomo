@@ -215,7 +215,7 @@ var broadcast = {
         }
 
         if (disableHistory) {
-            var newLocation = window.location.href.split('#')[0] + '#' + currentHashStr;
+            var newLocation = window.location.href.split('#')[0] + '#?' + currentHashStr;
             // window.location.replace changes the current url without pushing it on the browser's history stack
             window.location.replace(newLocation);
         }
