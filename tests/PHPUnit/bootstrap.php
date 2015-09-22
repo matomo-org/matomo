@@ -82,6 +82,7 @@ function prepareServerVariables(Config $config)
     $_SERVER['HTTP_HOST']   = $testConfig['http_host'];
     $_SERVER['REQUEST_URI'] = $testConfig['request_uri'];
     $_SERVER['REMOTE_ADDR'] = $testConfig['remote_addr'];
+    $_SERVER['SERVER_PORT'] = $testConfig['port'];
 }
 
 function prepareTestDatabaseConfig(Config $config)
