@@ -103,13 +103,6 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit Location</category>
-		<name>Provider</name>
-		<segment>provider</segment>
-		<acceptedValues>comcast.net, proxad.net, etc.</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit Location</category>
 		<name>Region</name>
 		<segment>regionCode</segment>
 		<acceptedValues>01 02, OR, P8, etc.&lt;br/&gt;eg. region=A1;country=fr</acceptedValues>

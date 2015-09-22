@@ -37,7 +37,6 @@ class BlobReportLimitingTest extends SystemTestCase
 
     public function getApiForTesting()
     {
-        // TODO: test Provider plugin? Not sure if it's possible.
         $apiToCall = array(
             'Actions.getPageUrls', 'Actions.getPageTitles', 'Actions.getDownloads', 'Actions.getOutlinks',
             'CustomVariables.getCustomVariables',
@@ -70,6 +69,8 @@ class BlobReportLimitingTest extends SystemTestCase
                                                'date'    => $dateTime,
                                                'periods' => array('day'))),
 
+            // TODO these system tests need to be moved to Provider plugin
+            /*
             array('Provider.getProvider', array('idSite'  => $idSite,
                                                 'date'    => $dateTime,
                                                 'periods' => array('month'))),
@@ -79,6 +80,7 @@ class BlobReportLimitingTest extends SystemTestCase
                                                 'periods'    => array('month'),
                                                 'segment'    => 'provider==comcast.net',
                                                 'testSuffix' => '_segment_provider')),
+            */
 
             // test getDownloads w/ period=range & flat=1
             array('Actions.getDownloads', array('idSite'                 => $idSite,

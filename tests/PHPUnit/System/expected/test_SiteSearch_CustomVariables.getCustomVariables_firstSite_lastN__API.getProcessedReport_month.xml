@@ -82,12 +82,12 @@
 			<row>
 				
 				<segment>customVariableName==_pk_scount</segment>
-				<idsubdatatable>3230</idsubdatatable>
+				<idsubdatatable>3198</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>customVariableName==_pk_scat</segment>
-				<idsubdatatable>3229</idsubdatatable>
+				<idsubdatatable>3197</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="2010, February" />

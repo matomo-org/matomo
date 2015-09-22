@@ -38,7 +38,8 @@ class PluginList
         'ExamplePluginTemplate',
         'ExampleTracker',
         'ExampleReport',
-        'MobileAppMeasurable'
+        'MobileAppMeasurable',
+        'Provider'
     );
 
     // Themes bundled with core package, disabled by default

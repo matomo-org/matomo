@@ -462,10 +462,6 @@ Returning Visits
 nb_uniq_visitors_returning,nb_users_returning,nb_visits_returning,nb_actions_returning,max_actions_returning,bounce_rate_returning,nb_actions_per_visit_returning,avg_time_on_site_returning
 1,0,4,12,6,25%,3,00:25:32
 
-Provider
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,5,16,80%,3.2,00:22:49,20%
-
 Device type
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Desktop,5,16,80%,3.2,00:22:49,20%
