@@ -27,6 +27,7 @@ addons:
     - mysql-server-5.6
     - nginx
     - realpath
+    - lftp
 
 # Separate different test suites
 env:
