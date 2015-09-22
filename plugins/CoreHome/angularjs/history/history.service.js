@@ -57,6 +57,16 @@
             var searchObject = $location.search(),
                 searchString = [];
             for (var name in searchObject) {
+                if (!searchObject.hasOwnProperty(name)) {
+                    continue;
+                }
+
+                // if more than one query parameter of the same name is supplied, angular will return all of them as
+                // an array. we only want to use the last one, though.
+                if (searchObject[name] instanceof Array) {
+                    searchObject[name] = searchObject[name][searchObject[name].length - 1];
+                }
+
                 searchString.push(name + '=' + encodeURIComponent(searchObject[name]));
             }
             searchString = searchString.join('&');
