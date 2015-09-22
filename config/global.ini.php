@@ -115,9 +115,6 @@ enable_measure_piwik_usage_in_idsite = 0
 ; If set to 1, all requests to piwik.php will be forced to be 'new visitors'
 tracker_always_new_visitor = 0
 
-; Allow automatic upgrades to Beta or RC releases
-allow_upgrades_to_beta = 0
-
 ; if set to 1, all SQL queries will be logged using the DEBUG log level
 log_sql_queries = 0
 
@@ -163,6 +160,10 @@ enabled_periods_API = "day,week,month,year,range"
 ; when set to 1, all requests to Piwik will return a maintenance message without connecting to the DB
 ; this is useful when upgrading using the shell command, to prevent other users from accessing the UI while Upgrade is in progress
 maintenance_mode = 0
+
+; Defines the release channel that shall be used. Currently available values are:
+; "latest_stable", "latest_beta", "latest_2x_stable", "latest_2x_beta"
+release_channel = "latest_stable"
 
 ; character used to automatically create categories in the Actions > Pages, Outlinks and Downloads reports
 ; for example a URL like "example.com/blog/development/first-post" will create
