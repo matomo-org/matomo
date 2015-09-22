@@ -523,6 +523,7 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function getTracker($idSite, $dateTime, $defaultInit = true, $useLocal = false)
     {
+        echo "Found tracker URL to be: " . self::getTrackerUrl() . "\n";
         if ($useLocal) {
             require_once PIWIK_INCLUDE_PATH . '/tests/LocalTracker.php';
             $t = new Piwik_LocalTracker($idSite, self::getTrackerUrl());
