@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "500550a2b3c6f91d0a34461f2e6f8654",
@@ -785,16 +785,16 @@
         },
         {
             "name": "piwik/decompress",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/component-decompress.git",
-                "reference": "54d8a6f83b367d1fa7823a342b154c895528f818"
+                "reference": "deca40d71d29d6140aad39db007aea82676b7631"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-decompress/zipball/54d8a6f83b367d1fa7823a342b154c895528f818",
-                "reference": "54d8a6f83b367d1fa7823a342b154c895528f818",
+                "url": "https://api.github.com/repos/piwik/component-decompress/zipball/deca40d71d29d6140aad39db007aea82676b7631",
+                "reference": "deca40d71d29d6140aad39db007aea82676b7631",
                 "shasum": ""
             },
             "require": {
@@ -817,7 +817,7 @@
             "license": [
                 "LGPL-3.0"
             ],
-            "time": "2015-03-05 22:22:48"
+            "time": "2015-09-22 10:58:19"
         },
         {
             "name": "piwik/device-detector",
@@ -1232,6 +1232,7 @@
                 "pdf417",
                 "qrcode"
             ],
+            "abandoned": "tecnickcom/tcpdf",
             "time": "2015-08-02 12:30:27"
         },
         {
@@ -1486,7 +1487,7 @@
                 "performance",
                 "profiling"
             ],
-            "time": "2014-08-28 17:34:52"
+            "time": "2015-02-26 14:37:51"
         },
         {
             "name": "guzzle/guzzle",
