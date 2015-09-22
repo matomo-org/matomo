@@ -39,7 +39,13 @@ class Adapter
 
         $className = self::getAdapterClassName($adapterName);
 
-        $adapter   = new $className($dbInfos);
+        // make sure not to pass any references otherwise they will modify $dbInfos
+        $infos = array();
+        foreach ($dbInfos as $key => $val) {
+            $infos[$key] = $val;
+        }
+
+        $adapter   = new $className($infos);
 
         if ($connect) {
             $adapter->getConnection();
