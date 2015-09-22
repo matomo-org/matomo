@@ -11,6 +11,7 @@ namespace Piwik\Tests\Framework\TestRequest;
 use Piwik\API\Request;
 use PHPUnit_Framework_Assert as Asserts;
 use Exception;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -114,6 +115,7 @@ class Response
         $apiResponse = $this->normalizeDecimalFields($apiResponse);
         $apiResponse = $this->normalizeEncodingPhp533($apiResponse);
         $apiResponse = $this->normalizeSpaces($apiResponse);
+        $apiResponse = $this->removePiwikUrl($apiResponse);
 
         return $apiResponse;
     }
@@ -261,5 +263,10 @@ class Response
     private function removeSubtableIdsFromXml($apiResponse)
     {
         return $this->removeXmlFields($apiResponse, array('idsubdatatable_in_db'));
+    }
+
+    private function removePiwikUrl($apiResponse)
+    {
+        return str_replace(Fixture::getRootUrl(), "", $apiResponse);
     }
 }
