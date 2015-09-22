@@ -141,6 +141,11 @@ class Fixture extends \PHPUnit_Framework_Assert
         return 'python';
     }
 
+    public static function getTestRootUrl()
+    {
+        return self::getRootUrl() . 'tests/PHPUnit/proxy/';
+    }
+
     public function loginAsSuperUser()
     {
         /** @var Auth $auth */
@@ -277,7 +282,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
         }
 
-        SettingsPiwik::overwritePiwikUrl(self::getRootUrl() . 'tests/PHPUnit/proxy/');
+        SettingsPiwik::overwritePiwikUrl(self::getTestRootUrl());
 
         if ($setupEnvironmentOnly) {
             return;
@@ -513,7 +518,7 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function getTrackerUrl()
     {
-        return self::getRootUrl() . 'tests/PHPUnit/proxy/piwik.php';
+        return self::getTestRootUrl() . 'piwik.php';
     }
 
     /**
@@ -820,7 +825,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         $cmd = $python
             . ' "' . PIWIK_INCLUDE_PATH . '/misc/log-analytics/import_logs.py" ' # script loc
             . '-ddd ' // debug
-            . '--url="' . self::getRootUrl() . 'tests/PHPUnit/proxy/" ' # proxy so that piwik uses test config files
+            . '--url="' . self::getTestRootUrl() . '" ' # proxy so that piwik uses test config files
         ;
 
         foreach ($options as $name => $values) {
