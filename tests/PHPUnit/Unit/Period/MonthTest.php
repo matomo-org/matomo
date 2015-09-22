@@ -334,7 +334,7 @@ class MonthTest extends BasePeriodTest
     {
         return array(
             array('en', 'October 2024'),
-            array('lt', '2024 Spalis'),
+            array('lt', '2024 m. Spalis'),
             array('zh-cn', '2024年10月'),
         );
     }
