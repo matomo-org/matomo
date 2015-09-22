@@ -468,9 +468,14 @@ class Fixture extends \PHPUnit_Framework_Assert
     {
         $piwikUrl = Config::getInstance()->tests['http_host'];
         $piwikUri = Config::getInstance()->tests['request_uri'];
+        $piwikPort = Config::getInstance()->tests['port'];
 
         if($piwikUri == '@REQUEST_URI@') {
             throw new Exception("Piwik is mis-configured. Remove (or fix) the 'request_uri' entry below [tests] section in your config.ini.php. ");
+        }
+
+        if (!empty($piwikPort)) {
+            $piwikUrl = $piwikUrl . ':' . $piwikPort;
         }
 
         if (strpos($piwikUrl, 'http://') !== 0) {
@@ -523,7 +528,6 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function getTracker($idSite, $dateTime, $defaultInit = true, $useLocal = false)
     {
-        echo "Found tracker URL to be: " . self::getTrackerUrl() . "\n";
         if ($useLocal) {
             require_once PIWIK_INCLUDE_PATH . '/tests/LocalTracker.php';
             $t = new Piwik_LocalTracker($idSite, self::getTrackerUrl());
