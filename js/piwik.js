@@ -1138,7 +1138,19 @@ if (typeof Piwik !== 'object') {
             }
 
             function _elementInDocument(element) {
-                return documentAlias.documentElement.contains(element);
+                if (documentAlias.documentElement.contains) {
+                    return documentAlias.documentElement.contains(element);
+                }
+                // Polyfill if document.contains dos not exist
+                element = element.parentNode;
+
+                while (element) {
+                    if (element === documentAlias) {
+                        return true;
+                    }
+                    element = element.parentNode;
+                }
+                return false;
             }
 
             /**
