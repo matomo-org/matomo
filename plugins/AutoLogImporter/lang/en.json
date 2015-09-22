@@ -1,0 +1,26 @@
+{
+    "AutoLogImporter": {
+        "ScheduledFiles": "Log files that will be imported next",
+        "ScheduledFilesDescription": "These files should be imported as soon as the import task runs the next time.",
+        "NoScheduledFiles": "No file is scheduled to be imported.",
+        "ImportingFiles": "Log files currently importing",
+        "NoImportingFiles": "No log file is currently being imported.",
+        "ImportedFiles": "Imported log files",
+        "ImportedFilesDescription": "The following table shows the latest %d imported files.",
+        "NoImportedFile": "No log file has been imported yet.",
+        "ToConfigurePluginGoToSettings": "To configure this plugin go to %s%s%s.",
+        "File": "File",
+        "StartDate": "Start date",
+        "InProcessSince": "In process since",
+        "NumLogLines": "Log lines count",
+        "FileSize": "File size",
+        "Imported": "Imported",
+        "TimeTaken": "Time taken",
+        "ImportDetails": "Exit code: '%s', output: '%s'",
+        "HashFile": "Hash file",
+        "ExitCode": "Exit Code",
+        "FileDetails": "'%s' via '%s'. Hash of file is '%s'",
+        "InvalidFilesDescription": "The following files do not match the expected hash. This usually indicates a not successfully copied log file. These files won't be imported. If a file was already imported either remove the hash file, update the expected hash file with the actual hash or copy the log file again if it was not copied correctly.",
+        "InvalidFileDetails": "'%s' should match hash '%s' in '%s' but matches '%s'."
+    }
+}

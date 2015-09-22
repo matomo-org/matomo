@@ -1,0 +1,117 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+
+{% if filesWithInvalidHashes|length %}
+    {% set invalidFiles %}
+        {{ 'AutoLogImporter_InvalidFilesDescription'|translate }}
+
+        <ul class="autoLogImportInvalidFiles">
+        {% for fileWithInvalidHashes in filesWithInvalidHashes %}
+            <li>{{ 'AutoLogImporter_InvalidFileDetails'|translate(fileWithInvalidHashes.file, fileWithInvalidHashes.verify_hash, fileWithInvalidHashes.verify_file, fileWithInvalidHashes.hash) }}</li>
+        {% endfor %}
+        </ul>
+    {% endset %}
+
+    {{ invalidFiles|notification({'noclear': true, 'raw': true, 'context': 'error'}) }}
+{% endif %}
+
+
+<h2>{{ 'AutoLogImporter_ImportingFiles'|translate }}</h2>
+
+<p>{{ 'AutoLogImporter_ToConfigurePluginGoToSettings'|translate('<a href="' ~ linkTo({'module': 'CoreAdminHome', 'action': 'adminPluginSettings'}) ~ '#AutoLogImporter">', ('CoreAdminHome_PluginSettings'|translate), '</a>')|raw }}</p>
+
+<div id="listImportingFiles">
+    <table class="entityTable dataTable">
+        <thead>
+        <tr>
+            <th class="filename">{{ 'AutoLogImporter_File'|translate }}</th>
+            <th>{{ 'AutoLogImporter_StartDate'|translate }}</th>
+            <th>{{ 'AutoLogImporter_InProcessSince'|translate }}</th>
+            <th>{{ 'AutoLogImporter_FileSize'|translate }}</th>
+            <th>{{ 'AutoLogImporter_NumLogLines'|translate }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if importingFiles|length %}
+            {% for importingFile in importingFiles %}
+                <tr>
+                    <td class="filename" title="{{ 'AutoLogImporter_FileDetails'|translate(importingFile.file, importingFile.command, importingFile.file_hash) }}">{{ importingFile.filename }}</td>
+                    <td class="date_field">{{ importingFile.start_date }}</td>
+                    <td>{{ importingFile.time_ago }}</td>
+                    <td>{{ importingFile.size_human }}</td>
+                    <td>{{ importingFile.num_log_lines }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr><td colspan="5">{{ 'AutoLogImporter_NoImportingFiles'|translate }}</td></tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+
+<h2>{{ 'AutoLogImporter_ScheduledFiles'|translate }}</h2>
+
+<p>{{ 'AutoLogImporter_ScheduledFilesDescription'|translate }}</p>
+
+<div id="listScheduledFiles">
+    <table class="entityTable dataTable">
+        <thead>
+        <tr>
+            <th class="filename">{{ 'AutoLogImporter_File'|translate }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if scheduledFiles|length %}
+            {% for scheduledFile in scheduledFiles %}
+                <tr>
+                    <td>{{ scheduledFile }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr><td colspan="5">{{ 'AutoLogImporter_NoScheduledFiles'|translate }}</td></tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+
+
+<h2>{{ 'AutoLogImporter_ImportedFiles'|translate }}</h2>
+<p>{{ 'AutoLogImporter_ImportedFilesDescription'|translate(limit) }}</p>
+<div id="listImportedFiles">
+    <table class="entityTable dataTable">
+        <thead>
+        <tr>
+            <th class="filename">{{ 'AutoLogImporter_File'|translate }}</th>
+            <th>{{ 'General_Date'|translate }}</th>
+            <th>{{ 'AutoLogImporter_TimeTaken'|translate }}</th>
+            <th>{{ 'AutoLogImporter_FileSize'|translate }}</th>
+            <th>{{ 'AutoLogImporter_NumLogLines'|translate }}</th>
+            <th>{{ 'AutoLogImporter_Imported'|translate }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if importedFiles|length %}
+            {% for importedFile in importedFiles %}
+                <tr>
+                    <td class="filename" title="{{ 'AutoLogImporter_FileDetails'|translate(importedFile.file, importedFile.command, importedFile.file_hash) }}">{{ importedFile.filename }}</td>
+                    <td class="date_field" title="{{ importedFile.start_date|e('html_attr') }} - {{ importedFile.end_date|e('html_attr') }}">{{ importedFile.date }}</td>
+                    <td>{{ importedFile.duration }}s</td>
+                    <td>{{ importedFile.size_human }}</td>
+                    <td>{{ importedFile.num_log_lines }}</td>
+                    <td title="{{ 'AutoLogImporter_ImportDetails'|translate(importedFile.exit_code, importedFile.output)|e('html_attr') }}">
+                        {% if importedFile.exit_code == 0 %}
+                            <span class="icon-success"></span>
+                        {% else %}
+                            <span class="icon-error"></span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr><td colspan="6">{{ 'AutoLogImporter_NoImportedFile'|translate }}</td></tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

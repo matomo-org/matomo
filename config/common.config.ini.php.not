@@ -1,0 +1,62 @@
+; <?php exit; ?> DO NOT REMOVE THIS LINE
+; Configuration settings which are applied to all Piwik instances.
+; This file here is not read by Piwik: the EnterpriseAdmin installer will ask to copy it to config/common.config.ini.php
+;
+; The config files are read in this order:
+; 1) global.ini.php
+; 2) common.config.ini.php
+; 3) $instanceHostname.config.ini.php
+;
+; Settings found here will apply to all instances, unless they are overriden in the customer config file
+
+[General]
+; Disable Super User features or features requiring internet access
+enable_marketplace = 0
+enable_plugins_admin = 0
+enable_geolocation_admin = 0
+enable_delete_old_data_settings_admin = 0
+enable_general_settings_admin = 0
+enable_auto_update = 0
+enable_update_communication = 0
+
+; Disable other features that are enabled in global.ini.php
+enable_load_data_infile = 0
+
+; Bypass the Custom Logo "is writable" check as we are writing the logo file to another backend
+enable_custom_logo_check = 0
+
+; Default timeout for archives (overrides the default 10 seconds)
+time_before_today_archive_considered_outdated = 60
+
+; Disable browser trigger archiving for all users by default
+enable_browser_archiving_triggering = 0
+
+; Uncomment to make sure that API requests with a &segment= parameter will not trigger archiving
+; browser_archiving_disabled_enforce = 1
+
+; Uncomment to make sure that all new Custom Segments created in the future
+; will be set to "Pre-processed (faster, requires cron core:archive command)"
+; enable_create_realtime_segments = 0
+
+; Email addresses
+noreply_email_address                 = "robot@piwik.pro"
+login_password_recovery_email_address = "robot@piwik.pro"
+login_password_recovery_email_name    = "Password recovery (Piwik PRO)"
+login_password_recovery_replyto_email_address = "noreply@{DOMAIN}"
+login_password_recovery_replyto_email_name = "Password recovery (Piwik PRO)"
+
+feedback_email_address                = contact@piwik.pro
+scheduled_reports_replyto_is_user_email_and_alias = 1
+
+; Enable Database storage of sessions
+session_save_handler = dbtable
+
+; Force SSL everywhere
+force_ssl = 1
+
+; Disable OPTIMIZE queries
+enable_sql_optimize_queries = 0
+
+process_new_segments_from = "segment_creation_time"
+
+

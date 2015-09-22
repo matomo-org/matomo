@@ -1,0 +1,16 @@
+{
+  "name": "AutoLogImporter",
+  "version": "0.1.0",
+  "description": "Imports log files automatically",
+  "theme": false,
+    "require": {
+      "piwik": ">=2.15.0-b4"
+    },
+  "authors": [
+    {
+      "name": "Piwik",
+      "email": "",
+      "homepage": ""
+    }
+  ]
+}
