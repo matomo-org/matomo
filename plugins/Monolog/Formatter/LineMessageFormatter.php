@@ -40,7 +40,7 @@ class LineMessageFormatter implements FormatterInterface
         $class = isset($record['extra']['class']) ? $record['extra']['class'] : '';
         $date = $record['datetime']->format('Y-m-d H:i:s');
 
-        $message = $record['message'];
+        $message = trim($record['message']);
 
         if ($this->allowInlineLineBreaks) {
             $message  = str_replace("\n", "\n  ", $message); // intend lines
