@@ -24,6 +24,7 @@ addons:
     packages:
     - python2.6
     - python2.6-dev
+    - mysql-server-5.6
 
 # Separate different test suites
 env:
@@ -112,8 +113,6 @@ install:
 
   - export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --core --verbose"
   #- '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
-
-  - '[ ! -f ./tests/travis/install_mysql_5.6.sh ] || ./tests/travis/install_mysql_5.6.sh'
 
   - ./tests/travis/configure_git.sh
 
