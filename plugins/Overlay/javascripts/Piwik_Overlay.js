@@ -114,6 +114,11 @@ var Piwik_Overlay = (function () {
     /** $.history callback for hash change */
     function hashChangeCallback(urlHash) {
         var location = broadcast.getParamValue('l', urlHash);
+
+        // angular will encode the value again since it is added as the fragment path, not the fragment query parameter,
+        // so we have to decode it again after getParamValue
+        location = decodeURIComponent(location);
+
         location = Overlay_Helper.decodeFrameUrl(location);
 
         if (!updateComesFromInsideFrame) {
