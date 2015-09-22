@@ -111,7 +111,9 @@ class TestsRunUI extends ConsoleCommand
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
         $output->writeln('');
 
-        passthru($cmd);
+        passthru($cmd, $returnCode);
+
+        return $returnCode;
     }
 
     /**
