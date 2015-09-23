@@ -25,7 +25,7 @@ class OutputTest extends IntegrationTestCase
 
     public function setUp()
     {
-        parent::setup();
+        parent::setUp();
 
         File::reset();
         Url::setHost(false);
