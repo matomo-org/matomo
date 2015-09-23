@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor\tests\Unit;
 
 use Piwik\Plugins\SegmentEditor\SegmentQueryDecorator;
+use Piwik\Plugins\SegmentEditor\Services\StoredSegmentService;
 use Piwik\Segment\SegmentExpression;
 
 /**
@@ -33,8 +34,9 @@ class SegmentQueryDecoratorTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $mockApi = $this->getMockSegmentEditorApi();
-        $this->decorator = new SegmentQueryDecorator($mockApi);
+        /** @var StoredSegmentService $service */
+        $service = $this->getMockSegmentEditorService();
+        $this->decorator = new SegmentQueryDecorator($service);
     }
 
     public function test_getSelectQueryString_DoesNotDecorateSql_WhenNoSegmentUsed()
@@ -77,7 +79,7 @@ class SegmentQueryDecoratorTest extends \PHPUnit_Framework_TestCase
         $this->assertStringStartsWith('/* idSegments = [2, 4] */', $query['sql']);
     }
 
-    private function getMockSegmentEditorApi()
+    private function getMockSegmentEditorService()
     {
         $mock = $this->getMock('Piwik\Plugins\SegmentEditor\Services\StoredSegmentService',
             array('getSegmentsToAutoArchive'), array(), '', $callOriginalConstructor = false);
