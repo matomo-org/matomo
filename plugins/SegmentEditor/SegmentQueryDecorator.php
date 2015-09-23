@@ -8,8 +8,8 @@
 
 namespace Piwik\Plugins\SegmentEditor;
 
-use Piwik\Access;
 use Piwik\DataAccess\LogQueryBuilder;
+use Piwik\Plugins\SegmentEditor\Services\StoredSegmentService;
 use Piwik\Segment\SegmentExpression;
 
 /**
@@ -21,13 +21,13 @@ use Piwik\Segment\SegmentExpression;
 class SegmentQueryDecorator extends LogQueryBuilder
 {
     /**
-     * @var API
+     * @var StoredSegmentService
      */
-    private $segmentEditorApi;
+    private $storedSegmentService;
 
-    public function __construct(API $segmentEditorApi)
+    public function __construct(StoredSegmentService $storedSegmentService)
     {
-        $this->segmentEditorApi = $segmentEditorApi;
+        $this->storedSegmentService = $storedSegmentService;
     }
 
     public function getSelectQueryString(SegmentExpression $segmentExpression, $select, $from, $where, $bind, $groupBy,
@@ -46,10 +46,7 @@ class SegmentQueryDecorator extends LogQueryBuilder
 
     private function getSegmentIdOfExpression(SegmentExpression $segmentExpression)
     {
-        $segmentEditorApi = $this->segmentEditorApi;
-        $allSegments = Access::doAsSuperUser(function () use ($segmentEditorApi) {
-            return $segmentEditorApi->getSegmentsToAutoArchive('all');
-        });
+        $allSegments = $this->storedSegmentService->getSegmentsToAutoArchive('all');
 
         $idSegments = array();
         foreach ($allSegments as $segment) {

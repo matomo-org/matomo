@@ -29,15 +29,9 @@ class API extends \Piwik\Plugin\API
      */
     private $model;
 
-    /**
-     * @var TransientCache
-     */
-    private $transientCache;
-
-    public function __construct(Model $model, TransientCache $transientCache)
+    public function __construct(Model $model)
     {
         $this->model = $model;
-        $this->transientCache = $transientCache;
     }
 
     protected function checkSegmentValue($definition, $idSite)
@@ -365,31 +359,6 @@ class API extends \Piwik\Plugin\API
         }
 
         return $segments;
-    }
-
-    /**
-     * Returns stored segments that are set to be archived during cron archiving.
-     *
-     * @param int|bool $idSite
-     * @return array
-     */
-    public function getSegmentsToAutoArchive($idSite = false)
-    {
-        if (!empty($idSite)) {
-            Piwik::checkUserHasAdminAccess($idSite);
-        } else {
-            Piwik::checkUserHasSuperUserAccess();
-        }
-
-        $idSite = (int)$idSite;
-
-        $cacheKey = 'SegmentEditor.getSegmentsToAutoArchive_' . (!empty($idSite) ? $idSite : 'enabled_all');
-        if (!$this->transientCache->contains($cacheKey)) {
-            $result = $this->model->getSegmentsToAutoArchive($idSite);
-
-            $this->transientCache->save($cacheKey, $result);
-        }
-        return $this->transientCache->fetch($cacheKey);
     }
 
     /**
