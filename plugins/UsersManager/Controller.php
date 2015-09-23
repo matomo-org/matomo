@@ -54,7 +54,7 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $view = new View('@UsersManager/index');
+        $view = new View('@' . Piwik::getUsersManagerPluginName() . '/index');
 
         $IdSitesAdmin = APISitesManager::getInstance()->getSitesIdWithAdminAccess();
         $idSiteSelected = 1;
@@ -225,7 +225,7 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $view = new View('@UsersManager/userSettings');
+        $view = new View('@' . Piwik::getUsersManagerPluginName() . '/userSettings');
 
         $userLogin = Piwik::getCurrentUserLogin();
         $user = APIUsersManager::getInstance()->getUser($userLogin);
@@ -273,7 +273,7 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        $view = new View('@UsersManager/anonymousSettings');
+        $view = new View('@' . Piwik::getUsersManagerPluginName() . '/anonymousSettings');
 
         $view->availableDefaultDates = $this->getDefaultDates();
 
@@ -402,7 +402,7 @@ class Controller extends ControllerAdmin
 
     protected function noAdminAccessToWebsite($idSiteSelected, $defaultReportSiteName, $message)
     {
-        $view = new View('@UsersManager/noWebsiteAdminAccess');
+        $view = new View('@' . Piwik::getUsersManagerPluginName() . '/noWebsiteAdminAccess');
 
         $view->idSiteSelected = $idSiteSelected;
         $view->defaultReportSiteName = $defaultReportSiteName;
