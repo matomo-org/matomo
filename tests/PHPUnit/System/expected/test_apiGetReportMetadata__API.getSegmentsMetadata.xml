@@ -211,17 +211,17 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>Visitor ID</name>
-		<segment>visitorId</segment>
-		<acceptedValues>34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()</acceptedValues>
-		<permission>1</permission>
+		<name>Visit type</name>
+		<segment>visitorType</segment>
+		<acceptedValues>new, returning, returningCustomer. For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain &quot;&amp;segment=visitorType==returning,visitorType==returningCustomer&quot;</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>Visit type</name>
-		<segment>visitorType</segment>
-		<acceptedValues>new, returning, returningCustomer. For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain &quot;&amp;segment=visitorType==returning,visitorType==returningCustomer&quot;</acceptedValues>
+		<name>Visitor ID</name>
+		<segment>visitorId</segment>
+		<acceptedValues>34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()</acceptedValues>
+		<permission>1</permission>
 	</row>
 	<row>
 		<type>dimension</type>
