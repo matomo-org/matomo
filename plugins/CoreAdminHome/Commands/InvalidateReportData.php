@@ -186,17 +186,8 @@ class InvalidateReportData extends ConsoleCommand
             foreach ($periodTypes as $type) {
                 /** @var Range $periodObj */
                 $periodObj = PeriodFactory::build($type, $startDate . ',' . $endDate);
-
-                $subperiods = $periodObj->getSubperiods();
-                foreach ($subperiods as $subperiod) {
-                    $result[$type][] = $subperiod->getDateStart()->toString();
-                }
-
-                if ($cascade) {
-                    $realStartDate = reset($subperiods)->getDateStart()->toString();
-                    $realEndDate = end($subperiods)->getDateEnd()->toString();
-
-                    $this->addPeriodsToCascadeOn($result, $subperiods, $realStartDate, $realEndDate);
+                foreach ($periodObj->getAllOverlappingChildPeriods($cascade) as $subperiod) {
+                    $result[$subperiod->getLabel()][] = $subperiod->getDateStart()->toString();
                 }
             }
         }
@@ -206,41 +197,6 @@ class InvalidateReportData extends ConsoleCommand
         }
 
         return $result;
-    }
-
-    /**
-     * @param Date[][] $result
-     * @param Period[] $periods
-     * @param string $startDate
-     * @param string $endDate
-     */
-    private function addPeriodsToCascadeOn(&$result, $periods, $startDate, $endDate)
-    {
-        $childPeriodType = reset($periods)->getImmediateChildPeriodLabel();
-        if (empty($childPeriodType)) {
-            return;
-        }
-
-        $childPeriods = PeriodFactory::build($childPeriodType, $startDate . ',' . $endDate);
-
-        $subperiods = $childPeriods->getSubperiods();
-        foreach ($subperiods as $childPeriod) {
-            $result[$childPeriod->getLabel()][] = $childPeriod->getDateStart()->toString();
-        }
-
-        /** @var Date $realStartDate */
-        $realStartDate = reset($subperiods)->getDateStart();
-        if ($realStartDate->isEarlier(Date::factory($startDate))) {
-            $startDate = $realStartDate->toString();
-        }
-
-        /** @var Date $realEndDate */
-        $realEndDate = end($subperiods)->getDateEnd();
-        if ($realEndDate->isLater(Date::factory($endDate))) {
-            $endDate = $realEndDate->toString();
-        }
-
-        $this->addPeriodsToCascadeOn($result, $subperiods, $startDate, $endDate);
     }
 
     private function makeDateObjectFromString($dateString)

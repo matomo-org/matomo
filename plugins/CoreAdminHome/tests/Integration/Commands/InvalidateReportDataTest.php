@@ -132,6 +132,26 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
     {
         return array(
 
+            array( // no cascade, single site + single day
+                array('2012-01-01'),
+                'day',
+                '1',
+                false,
+                array(
+                    '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2012-01-01 ], period = [ day ]',
+                ),
+            ),
+
+            array( // no cascade, single site + single day
+                array('2012-01-01'),
+                'day',
+                '1',
+                true,
+                array(
+                    '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2012-01-01 ], period = [ day ]',
+                ),
+            ),
+
             array( // no cascade, single site, date, period
                 array('2012-01-01'),
                 'week',

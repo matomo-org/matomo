@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Period\Factory;
 use Piwik\Period\Range;
 use Piwik\Translation\Translator;
 
@@ -281,6 +282,10 @@ abstract class Period
     /**
      * Returns the label of the period type that is one size smaller than this one, or null if
      * it's the smallest.
+     *
+     * Range periods and other such 'period collections' are not considered as separte from
+     * the value type of the collection. So a range period will return the result of the
+     * subperiod's `getImmediateChildPeriodLabel()` method.
      *
      * @ignore
      * @return string|null

@@ -516,6 +516,50 @@ class Range extends Period
 
     public function getImmediateChildPeriodLabel()
     {
-        return 'day'; // ranges are made up of a collection of days
+        $subperiods = $this->getSubperiods();
+        return reset($subperiods)->getImmediateChildPeriodLabel();
+    }
+
+    /**
+     * Returns all child periods that exist within this periods entire date range.
+     *
+     * @param bool $cascade If `true`, will cascade downwards over all period types that
+     *                      are smaller than this one. For example, month periods
+     *                      will cascade to week and day periods and year periods
+     *                      will cascade to month, week and day periods.
+     *
+     *                      The method will return periods that are outside the range
+     *                      of this period if cascading and a child period for the start/end
+     *                      date encompasses dates outside the range. For example,
+     *                      cascading on a month will return the week period for the 1st of
+     *                      the month. The week period might include days before the 1st.
+     *                      When cascading further, those days will be included the result.
+     * @return Period[]
+     * @ignore
+     */
+    public function getAllOverlappingChildPeriods($cascade = false)
+    {
+        $result = array();
+
+        $subperiods = $this->getSubperiods();
+        foreach ($subperiods as $subperiod) {
+            $result[] = $subperiod;
+        }
+
+        if (!$cascade) {
+            return $result;
+        }
+
+        $childPeriodType = $this->getImmediateChildPeriodLabel();
+        if (empty($childPeriodType)) {
+            return $result;
+        }
+
+        $startDate = reset($subperiods)->getDateStart()->toString();
+        $endDate = end($subperiods)->getDateEnd()->toString();
+
+        $childPeriods = Factory::build($childPeriodType, $startDate . ',' . $endDate);
+
+        return array_merge($subperiods, $childPeriods->getAllOverlappingChildPeriods($cascade));
     }
 }
