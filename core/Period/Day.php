@@ -99,4 +99,9 @@ class Day extends Period
     {
         return $this->toString();
     }
+
+    public function getImmediateChildPeriodLabel()
+    {
+        return null;
+    }
 }

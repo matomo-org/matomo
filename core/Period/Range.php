@@ -513,4 +513,9 @@ class Range extends Period
 
         return $dateStart->toString("Y-m-d") . "," . $dateEnd->toString("Y-m-d");
     }
+
+    public function getImmediateChildPeriodLabel()
+    {
+        return 'day'; // ranges are made up of a collection of days
+    }
 }

@@ -158,9 +158,8 @@ class InvalidateReportData extends ConsoleCommand
                 throw new \InvalidArgumentException("Invalid date range specifier: '$dateRangeString'.");
             }
 
-            // validate dates
-            $startDate = $this->validateDate($parts[0]);
-            $endDate = $this->validateDate($parts[1]);
+            $startDate = $this->makeDateObjectFromString($parts[0]);
+            $endDate = $this->makeDateObjectFromString($parts[1]);
 
             $result[] = array($startDate, $endDate);
         }
@@ -197,7 +196,7 @@ class InvalidateReportData extends ConsoleCommand
                     $realStartDate = reset($subperiods)->getDateStart()->toString();
                     $realEndDate = end($subperiods)->getDateEnd()->toString();
 
-                    $this->addPeriodsToCascadeOn($result, $type, $realStartDate, $realEndDate);
+                    $this->addPeriodsToCascadeOn($result, $subperiods, $realStartDate, $realEndDate);
                 }
             }
         }
@@ -210,16 +209,14 @@ class InvalidateReportData extends ConsoleCommand
     }
 
     /**
-     * TODO
-     *
      * @param Date[][] $result
-     * @param string $periodType
+     * @param Period[] $periods
      * @param string $startDate
      * @param string $endDate
      */
-    private function addPeriodsToCascadeOn(&$result, $periodType, $startDate, $endDate)
+    private function addPeriodsToCascadeOn(&$result, $periods, $startDate, $endDate)
     {
-        $childPeriodType = $this->getChildPeriod($periodType);
+        $childPeriodType = reset($periods)->getImmediateChildPeriodLabel();
         if (empty($childPeriodType)) {
             return;
         }
@@ -243,24 +240,10 @@ class InvalidateReportData extends ConsoleCommand
             $endDate = $realEndDate->toString();
         }
 
-        $this->addPeriodsToCascadeOn($result, $childPeriodType, $startDate, $endDate);
+        $this->addPeriodsToCascadeOn($result, $subperiods, $startDate, $endDate);
     }
 
-    private function getChildPeriod($periodType)
-    {
-        switch ($periodType) {
-            case 'year':
-                return 'month';
-            case 'month':
-                return 'week';
-            case 'week':
-                return 'day';
-            default:
-                return null;
-        }
-    }
-
-    private function validateDate($dateString)
+    private function makeDateObjectFromString($dateString)
     {
         try {
             return Date::factory($dateString)->toString(); // remove time specifier if present

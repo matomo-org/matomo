@@ -77,4 +77,9 @@ class Week extends Period
             $currentDay = $currentDay->addDay(1);
         }
     }
+
+    public function getImmediateChildPeriodLabel()
+    {
+        return 'day';
+    }
 }

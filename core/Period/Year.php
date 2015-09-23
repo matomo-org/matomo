@@ -87,4 +87,9 @@ class Year extends Period
 
         return $stringMonth;
     }
+
+    public function getImmediateChildPeriodLabel()
+    {
+        return 'month';
+    }
 }

@@ -279,6 +279,15 @@ abstract class Period
     abstract public function getLocalizedLongString();
 
     /**
+     * Returns the label of the period type that is one size smaller than this one, or null if
+     * it's the smallest.
+     *
+     * @ignore
+     * @return string|null
+     */
+    abstract public function getImmediateChildPeriodLabel();
+
+    /**
      * Returns the date range string comprising two dates
      *
      * @return string eg, `'2012-01-01,2012-01-31'`.

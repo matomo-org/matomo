@@ -111,4 +111,9 @@ class Month extends Period
             $startDate = $startDate->addDay(1);
         }
     }
+
+    public function getImmediateChildPeriodLabel()
+    {
+        return 'week';
+    }
 }
