@@ -69,6 +69,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             $fixture->extraTestEnvVars['loadRealTranslations'] = true; // load real translations by default for system tests
         }
 
+        $fixture->extraDefinitions = static::provideContainerConfigBeforeClass();
+
         try {
             $fixture->performSetUp();
         } catch (Exception $e) {
