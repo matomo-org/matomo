@@ -86,6 +86,7 @@ class Twig
         $this->addFilter_percentage();
         $this->addFilter_prettyDate();
         $this->addFilter_safeDecodeRaw();
+        $this->addFilter_number();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
         $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
         $this->twig->addFilter(new Twig_SimpleFilter('lcfirst', 'lcfirst'));
@@ -272,9 +273,21 @@ class Twig
     protected function addFilter_percentage()
     {
         $percentage = new Twig_SimpleFilter('percentage', function ($string, $totalValue, $precision = 1) {
-            return Piwik::getPercentageSafe($string, $totalValue, $precision) . '%';
+            return NumberFormatter::getInstance()->formatPercent(Piwik::getPercentageSafe($string, $totalValue, $precision), $precision);
         });
         $this->twig->addFilter($percentage);
+    }
+
+    protected function addFilter_number()
+    {
+        $formatter = new Twig_SimpleFilter('number', function ($string, $minFractionDigits = 0, $maxFractionDigits = 0) {
+            // if a leading/trailing percent sign is found, format as percent number
+            if ($string != trim($string, '%')) {
+                return NumberFormatter::getInstance()->formatPercent($string, $minFractionDigits, $maxFractionDigits);
+            }
+            return NumberFormatter::getInstance()->format($string, $minFractionDigits, $maxFractionDigits);
+        });
+        $this->twig->addFilter($formatter);
     }
 
     protected function addFilter_truncate()
