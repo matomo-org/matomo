@@ -771,6 +771,10 @@ class Fixture extends \PHPUnit_Framework_Assert
         echo "Geoip database $outfileName is not found. Downloading from $url...\n";
 
         $dump = fopen($url, 'rb');
+        if($dump === false){
+            throw new Exception('Could not download Geoip database from ' . $url);
+        }
+        
         $outfile = fopen($outfileName, 'wb');
         if(!$outfile) {
             throw new Exception("Failed to create file $outfileName - please check permissions");

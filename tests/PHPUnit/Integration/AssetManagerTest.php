@@ -348,11 +348,7 @@ class AssetManagerTest extends IntegrationTestCase
      */
     private function adjustExpectedJsContent($expectedJsContent)
     {
-        $expectedJsContent = str_replace("\n", "\r\n", $expectedJsContent);
-
-        $expectedJsContent = $this->specifyCacheBusterInExpectedContent($expectedJsContent, $this->cacheBuster->piwikVersionBasedCacheBuster());
-
-        return $expectedJsContent;
+        return $this->specifyCacheBusterInExpectedContent($expectedJsContent, $this->cacheBuster->piwikVersionBasedCacheBuster());
     }
 
     /**
@@ -409,9 +405,9 @@ class AssetManagerTest extends IntegrationTestCase
     private function getJsTranslationScript()
     {
         return
-            '<script type="text/javascript">' . PHP_EOL .
-            'var translations = [];' . PHP_EOL .
-            'if (typeof(piwik_translations) == \'undefined\') { var piwik_translations = new Object; }for(var i in translations) { piwik_translations[i] = translations[i];} ' . PHP_EOL .
+            '<script type="text/javascript">' . "\n" .
+            'var translations = [];' . "\n" .
+            'if (typeof(piwik_translations) == \'undefined\') { var piwik_translations = new Object; }for(var i in translations) { piwik_translations[i] = translations[i];} ' . "\n" .
             '</script>';
     }
 
@@ -471,7 +467,7 @@ class AssetManagerTest extends IntegrationTestCase
 
         $this->triggerGetMergedNonCoreJavaScript();
 
-        $expectedContent = $this->adjustExpectedJsContent('/* Piwik Javascript - cb={{{CACHE-BUSTER-JS}}}*/' . PHP_EOL);
+        $expectedContent = $this->adjustExpectedJsContent('/* Piwik Javascript - cb={{{CACHE-BUSTER-JS}}}*/' . "\n");
 
         $this->validateExpectedContent($expectedContent);
     }
@@ -597,7 +593,7 @@ class AssetManagerTest extends IntegrationTestCase
      */
     public function test_getCssInclusionDirective()
     {
-        $expectedCssInclusionDirective = '<link rel="stylesheet" type="text/css" href="index.php?module=Proxy&action=getCss" />' . PHP_EOL;
+        $expectedCssInclusionDirective = '<link rel="stylesheet" type="text/css" href="index.php?module=Proxy&action=getCss" />' . "\n";
 
         $this->assertEquals($expectedCssInclusionDirective, $this->assetManager->getCssInclusionDirective());
     }
@@ -611,10 +607,10 @@ class AssetManagerTest extends IntegrationTestCase
 
         $expectedJsInclusionDirective =
             $this->getJsTranslationScript() .
-            '<script type="text/javascript" src="tests/PHPUnit/Unit/AssetManager/scripts/SimpleObject.js"></script>' . PHP_EOL .
-            '<script type="text/javascript" src="tests/PHPUnit/Unit/AssetManager/scripts/SimpleArray.js"></script>' . PHP_EOL .
-            '<script type="text/javascript" src="tests/PHPUnit/Unit/AssetManager/scripts/SimpleComments.js"></script>' . PHP_EOL .
-            '<script type="text/javascript" src="tests/PHPUnit/Unit/AssetManager/scripts/SimpleAlert.js"></script>' . PHP_EOL;
+            '<script type="text/javascript" src="tests/PHPUnit/Unit/AssetManager/scripts/SimpleObject.js"></script>' . "\n" .
+            '<script type="text/javascript" src="tests/PHPUnit/Unit/AssetManager/scripts/SimpleArray.js"></script>' . "\n" .
+            '<script type="text/javascript" src="tests/PHPUnit/Unit/AssetManager/scripts/SimpleComments.js"></script>' . "\n" .
+            '<script type="text/javascript" src="tests/PHPUnit/Unit/AssetManager/scripts/SimpleAlert.js"></script>' . "\n";
 
         $this->assertEquals($expectedJsInclusionDirective, $this->assetManager->getJsInclusionDirective());
     }
@@ -626,8 +622,8 @@ class AssetManagerTest extends IntegrationTestCase
     {
         $expectedJsInclusionDirective =
             $this->getJsTranslationScript() .
-            '<script type="text/javascript" src="index.php?module=Proxy&action=getCoreJs"></script>' . PHP_EOL .
-            '<script type="text/javascript" src="index.php?module=Proxy&action=getNonCoreJs"></script>' . PHP_EOL;
+            '<script type="text/javascript" src="index.php?module=Proxy&action=getCoreJs"></script>' . "\n" .
+            '<script type="text/javascript" src="index.php?module=Proxy&action=getNonCoreJs"></script>' . "\n";
 
         $this->assertEquals($expectedJsInclusionDirective, $this->assetManager->getJsInclusionDirective());
     }
