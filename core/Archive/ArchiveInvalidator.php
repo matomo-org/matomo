@@ -14,6 +14,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
@@ -124,11 +125,11 @@ class ArchiveInvalidator
      */
     public function markArchivesAsInvalidated(array $idSites, $dates, $period)
     {
-        $this->findOlderDateWithLogs();
+        $dates = $this->removeDatesThatHaveBeenPurged($dates);
 
         $datesByMonth = $this->getDatesByYearMonth($dates);
-        $this->markArchivesInvalidatedFor($idSites, $period, $datesByMonth);
 
+        $this->markArchivesInvalidatedFor($idSites, $period, $datesByMonth);
         $this->persistInvalidatedArchives($idSites, $datesByMonth);
 
         foreach ($idSites as $idSite) {
@@ -169,6 +170,29 @@ class ArchiveInvalidator
         }
     }
 
+    /**
+     * @param Date[] $dates
+     * @return Date[]
+     */
+    private function removeDatesThatHaveBeenPurged($dates)
+    {
+        $this->findOlderDateWithLogs();
+
+        $result = array();
+        foreach ($dates as $date) {
+            // we should only delete reports for dates that are more recent than N days
+            if ($this->minimumDateWithLogs
+                && $date->isEarlier($this->minimumDateWithLogs)
+            ) {
+                $this->warningDates[] = $date->toString();
+                continue;
+            }
+
+            $result[] = $date;
+        }
+        return $result;
+    }
+
     private function findOlderDateWithLogs()
     {
         // If using the feature "Delete logs older than N days"...
@@ -193,14 +217,6 @@ class ArchiveInvalidator
     {
         $datesByMonth = array();
         foreach ($datesToInvalidate as $date) {
-            // we should only delete reports for dates that are more recent than N days
-            if ($this->minimumDateWithLogs
-                && $date->isEarlier($this->minimumDateWithLogs)
-            ) {
-                $this->warningDates[] = $date->toString();
-                continue;
-            }
-
             $this->processedDates[] = $date->toString();
 
             $month = $date->toString('Y_m');
@@ -239,15 +255,11 @@ class ArchiveInvalidator
 
     /**
      * @param $period
-     * @return bool|int
+     * @return int|null
      */
     private function getPeriodId($period)
     {
-        if (!empty($period)) {
-            $period = Period\Factory::build($period, Date::today());
-        }
-        $invalidateForPeriod = $period ? $period->getId() : false;
-        return $invalidateForPeriod;
+        return isset(Piwik::$idPeriods[$period]) ? Piwik::$idPeriods[$period] : null;
     }
 
     /**
