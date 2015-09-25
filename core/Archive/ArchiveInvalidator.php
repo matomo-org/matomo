@@ -18,8 +18,6 @@ use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
 use Piwik\Period\Week;
-use Piwik\Plugins\SitesManager\Model as SitesManagerModel;
-use Piwik\Site;
 
 /**
  * Service that can be used to invalidate archives or add archive references to a list so they will
@@ -129,9 +127,6 @@ class ArchiveInvalidator
     {
         $this->findOlderDateWithLogs();
         $datesToInvalidate = $this->getDatesToInvalidateFromString($dates);
-        $minDate = $this->getMinimumDateToInvalidate($datesToInvalidate);
-
-        $this->updateSiteCreatedTime($idSites, $minDate);
 
         $datesByMonth = $this->getDatesByYearMonth($datesToInvalidate);
         $this->markArchivesInvalidatedFor($idSites, $period, $datesByMonth);
@@ -145,38 +140,6 @@ class ArchiveInvalidator
         }
 
         return $this->makeOutputLogs();
-    }
-
-    private function updateSiteCreatedTime($idSites, Date $minDate)
-    {
-        $idSites    = Site::getIdSitesFromIdSitesString($idSites);
-        $minDateSql = $minDate->subDay(1)->getDatetime();
-
-        $model = new SitesManagerModel();
-        $model->updateSiteCreatedTime($idSites, $minDateSql);
-    }
-
-    /**
-     * @param $toInvalidate
-     * @return bool|Date
-     * @throws \Exception
-     */
-    private function getMinimumDateToInvalidate($toInvalidate)
-    {
-        /* @var $date Date */
-        $minDate = false;
-        foreach ($toInvalidate as $date) {
-            // Keep track of the minimum date for each website
-            if ($minDate === false
-                || $date->isEarlier($minDate)
-            ) {
-                $minDate = $date;
-            }
-        }
-        if (empty($minDate)) {
-            throw new \Exception("Check the 'dates' parameter is a valid date.");
-        }
-        return $minDate;
     }
 
     /**
