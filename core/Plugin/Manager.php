@@ -73,7 +73,6 @@ class Manager
         'CoreVisualizations',
         'Installation',
         'SitesManager',
-        'UsersManager',
         'Intl',
         'API',
         'Proxy',

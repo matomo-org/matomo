@@ -96,6 +96,7 @@ class Twig
         $this->addFunction_postEvent();
         $this->addFunction_isPluginLoaded();
         $this->addFunction_getJavascriptTranslations();
+        $this->addFunction_getUsersManagerPluginName();
 
         $this->twig->addTokenParser(new RenderTokenParser());
 
@@ -111,6 +112,14 @@ class Twig
             }
         );
         $this->twig->addTest($test);
+    }
+
+    protected function addFunction_getUsersManagerPluginName()
+    {
+        $getUsersManagerPluginName = new Twig_SimpleFunction('getUsersManagerPluginName', function () {
+            return Piwik::getUsersManagerPluginName();
+        });
+        $this->twig->addFunction($getUsersManagerPluginName);
     }
 
     protected function addFunction_getJavascriptTranslations()

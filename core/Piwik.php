@@ -482,6 +482,20 @@ class Piwik
     }
 
     /**
+     * Returns the name of the UsersManager plugin currently being used.
+     * Must be used since it is not allowed to hardcode 'UsersManager' in URLs
+     * in case another UsersManager plugin is being used.
+     *
+     * @return string
+     * @api
+     */
+    public static function getUsersManagerPluginName()
+    {
+        $pluginName = explode('\\', get_class(StaticContainer::get('UsersManager_API')));
+        return $pluginName[2];
+    }
+
+    /**
      * Returns the plugin currently being used to display the page
      *
      * @return Plugin

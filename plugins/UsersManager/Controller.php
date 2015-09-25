@@ -33,7 +33,7 @@ class Controller extends ControllerAdmin
     /**
      * @var Translator
      */
-    private $translator;
+    protected $translator;
 
     public function __construct(Translator $translator)
     {
@@ -54,7 +54,7 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $view = new View('@UsersManager/index');
+        $view = new View('@' . Piwik::getUsersManagerPluginName() . '/index');
 
         $IdSitesAdmin = APISitesManager::getInstance()->getSitesIdWithAdminAccess();
         $idSiteSelected = 1;
@@ -139,7 +139,7 @@ class Controller extends ControllerAdmin
         return $view->render();
     }
 
-    private function hasAnonymousUserViewAccess($usersAccessByWebsite)
+    protected function hasAnonymousUserViewAccess($usersAccessByWebsite)
     {
         $anonymousHasViewAccess = false;
 
@@ -203,7 +203,7 @@ class Controller extends ControllerAdmin
             throw new Exception("some metadata is missing in getDefaultDates()");
         }
 
-        $allowedPeriods = self::getEnabledPeriodsInUI();
+        $allowedPeriods = static::getEnabledPeriodsInUI();
         $allowedDates = array_intersect($mappingDatesToPeriods, $allowedPeriods);
         $dates = array_intersect_key($dates, $allowedDates);
 
@@ -225,7 +225,7 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $view = new View('@UsersManager/userSettings');
+        $view = new View('@' . Piwik::getUsersManagerPluginName() . '/userSettings');
 
         $userLogin = Piwik::getCurrentUserLogin();
         $user = APIUsersManager::getInstance()->getUser($userLogin);
@@ -273,7 +273,7 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        $view = new View('@UsersManager/anonymousSettings');
+        $view = new View('@' . Piwik::getUsersManagerPluginName() . '/anonymousSettings');
 
         $view->availableDefaultDates = $this->getDefaultDates();
 
@@ -400,9 +400,9 @@ class Controller extends ControllerAdmin
         return $toReturn;
     }
 
-    private function noAdminAccessToWebsite($idSiteSelected, $defaultReportSiteName, $message)
+    protected function noAdminAccessToWebsite($idSiteSelected, $defaultReportSiteName, $message)
     {
-        $view = new View('@UsersManager/noWebsiteAdminAccess');
+        $view = new View('@' . Piwik::getUsersManagerPluginName() . '/noWebsiteAdminAccess');
 
         $view->idSiteSelected = $idSiteSelected;
         $view->defaultReportSiteName = $defaultReportSiteName;
@@ -412,7 +412,7 @@ class Controller extends ControllerAdmin
         return $view->render();
     }
 
-    private function processPasswordChange($userLogin)
+    protected function processPasswordChange($userLogin)
     {
         $alias = Common::getRequestVar('alias');
         $email = Common::getRequestVar('email');
@@ -453,7 +453,7 @@ class Controller extends ControllerAdmin
     /**
      * @return string
      */
-    private function getIgnoreCookieSalt()
+    protected function getIgnoreCookieSalt()
     {
         return md5(SettingsPiwik::getSalt());
     }

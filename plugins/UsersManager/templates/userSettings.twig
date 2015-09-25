@@ -14,6 +14,8 @@
 
 <form id="userSettingsTable">
 
+    {% block settingsTable %}
+
     <div class="form-group">
         <label for="username">{{ 'General_Username'|translate }}</label>
         <div class="form-help">{{ 'UsersManager_YourUsernameCannotBeChanged'|translate }}</div>
@@ -99,6 +101,8 @@
             {% if not isSuperUser %}{{ 'UsersManager_EmailYourAdministrator'|translate(invalidHostMailLinkStart,'</a>')|raw }}{% endif %}
         </div>
     {% endif %}
+
+    {% endblock %}
 
     {% import 'ajaxMacros.twig' as ajax %}
     {{ ajax.errorDiv('ajaxErrorUserSettings') }}
