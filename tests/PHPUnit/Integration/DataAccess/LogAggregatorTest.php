@@ -64,7 +64,7 @@ class LogAggregatorTest extends IntegrationTestCase
 				1=1
 			ORDER BY
 				5',
-            'bind' => Array (
+            'bind' => array (
                 0 => '2012-01-01 00:00:00',
                 1 => '2012-01-31 23:59:59',
                 2 => 1
@@ -87,7 +87,7 @@ class LogAggregatorTest extends IntegrationTestCase
 				1=1
 			ORDER BY
 				5',
-            'bind' => Array (
+            'bind' => array (
                 0 => '2012-01-01 00:00:00',
                 1 => '2012-01-31 23:59:59',
                 2 => 1
