@@ -34,11 +34,6 @@ class SitesManagerRequestProcessor extends RequestProcessor
     {
         // if we successfully record some data and the date is older than the site's created time,
         // update the created time so the data will be viewable in the UI
-        $visitorNotFoundInDb = $request->getMetadata('CoreHome', 'visitorNotFoundInDb');
-        if ($visitorNotFoundInDb) {
-            return;
-        }
-
         $idSite = $request->getIdSite();
 
         $createdTimeTimestamp = $this->getSiteCreatedTime($idSite);
