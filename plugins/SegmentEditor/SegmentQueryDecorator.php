@@ -49,7 +49,7 @@ class SegmentQueryDecorator extends LogQueryBuilder
         }
 
         if (!empty($prefixParts)) {
-            $result['sql'] = "/* " . implode(', ', $prefixParts) . " */\n";
+            $result['sql'] = "/* " . implode(', ', $prefixParts) . " */\n" . $result['sql'];
         }
 
         return $result;

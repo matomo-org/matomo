@@ -82,8 +82,8 @@ class SegmentQueryDecoratorTest extends \PHPUnit_Framework_TestCase
     private function getMockSegmentEditorService()
     {
         $mock = $this->getMock('Piwik\Plugins\SegmentEditor\Services\StoredSegmentService',
-            array('getSegmentsToAutoArchive'), array(), '', $callOriginalConstructor = false);
-        $mock->expects($this->any())->method('getSegmentsToAutoArchive')->willReturn(self::$storedSegments);
+            array('getAllSegmentsAndIgnoreVisibility'), array(), '', $callOriginalConstructor = false);
+        $mock->expects($this->any())->method('getAllSegmentsAndIgnoreVisibility')->willReturn(self::$storedSegments);
         return $mock;
     }
 }
