@@ -42,8 +42,18 @@ class SitesManagerRequestProcessor extends RequestProcessor
         $idSite = $request->getIdSite();
 
         $createdTimeTimestamp = $this->getSiteCreatedTime($idSite);
-        if ($request->getCurrentTimestamp() < $createdTimeTimestamp) {
-            $this->updateSiteCreatedTime($idSite, $request->getCurrentTimestamp());
+        $requestTimestamp = Date::factory($request->getCurrentTimestamp());
+
+        // replicating old Piwik logic, see:
+        // https://github.com/piwik/piwik/blob/baa6da86266c7c44bc2d65821c7ffe042c2f4716/core/Archive/ArchiveInvalidator.php#L150
+        // before when this was done during archive invalidation, the date would not have an attached time and
+        // one extra day was subtracted from the minimum.
+        // I am not sure why this is required or if it is still required, but some tests that check the contents
+        // of archive tables will fail w/o this.
+        $requestTimestamp = $requestTimestamp->subDay(1)->setTime('00:00:00');
+
+        if ($requestTimestamp->isEarlier($createdTimeTimestamp)) {
+            $this->updateSiteCreatedTime($idSite, $requestTimestamp);
         }
     }
 
@@ -51,12 +61,12 @@ class SitesManagerRequestProcessor extends RequestProcessor
     {
         $attributes = Cache::getCacheWebsiteAttributes($idSite);
         $tsCreated = isset($attributes['ts_created']) ? $attributes['ts_created'] : 0;
-        return Date::factory($tsCreated)->getTimestamp();
+        return Date::factory($tsCreated);
     }
 
-    private function updateSiteCreatedTime($idSite, $timestamp)
+    private function updateSiteCreatedTime($idSite, Date $timestamp)
     {
-        $this->sitesManagerModel->updateSiteCreatedTime(array($idSite), Date::factory($timestamp)->getDatetime());
+        $this->sitesManagerModel->updateSiteCreatedTime(array($idSite), $timestamp->getDatetime());
         Cache::deleteCacheWebsiteAttributes($idSite);
     }
 }
