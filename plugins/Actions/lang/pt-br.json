@@ -44,7 +44,7 @@
         "SiteSearchCategories2": "Por exemplo: os sites de comércio eletrônico têm tipicamente uma \"Categoria\" seletora de modo que os visitantes podem restringir suas pesquisas a todos os produtos de uma categoria específica.",
         "SiteSearchFollowingPagesDoc": "Quando os visitantes pesquisam em seu site, eles estão à procura de uma determinada página, conteúdo, produto ou serviço. Este relatório lista as páginas que foram mais clicadas depois de uma procura interna. Em outras palavras, a lista de páginas mais procuradas pelos visitantes já no seu site.",
         "SiteSearchIntro": "Acompanhamento de pesquisas que os visitantes fazem em seu site é uma forma muito eficaz de aprender mais sobre o que o seu público está procurando, ele pode ajudar a encontrar idéias de novos conteúdos, novos produtos de comércio eletrônico que potenciais clientes podem estar procurando, e em geral, melhorar as visitas ' experiência em seu site.",
-        "SiteSearchKeyword": "Palavra Chave (Pesquisa no SIte)",
+        "SiteSearchKeyword": "Palavra-Chave (Pesquisa no SIte)",
         "SiteSearchKeywordsDocumentation": "Este relatório lista as Palavras Chave de Pesquisa que os visitantes procuraram em seu Motor de Busca interno.",
         "SiteSearchKeywordsNoResultDocumentation": "Este relatório lista as Palavras Chave de Pesquisa que não retornaram nenhum resultado de pesquisa: talvez o algoritmo do motor de busca possa ser melhorado, ou talvez seus visitantes estão procurando por conteúdo que não estão (ainda) em seu site?",
         "SubmenuPagesEntry": "Páginas de entrada",
@@ -59,7 +59,7 @@
         "WidgetPageTitlesFollowingSearch": "Títulos da página seguindo uma pesquisa no site",
         "WidgetPageUrlsFollowingSearch": "Seguintes páginas contêm uma pesquisa no site",
         "WidgetSearchCategories": "Categorias de busca",
-        "WidgetSearchKeywords": "Busca local por Palavras-chave",
-        "WidgetSearchNoResultKeywords": "Palavras-chave buscadas sem resultados"
+        "WidgetSearchKeywords": "Busca local por Palavras-Chave",
+        "WidgetSearchNoResultKeywords": "Palavras-Chave buscadas sem resultados"
     }
 }

@@ -42,8 +42,6 @@
         "JSTrackingIntro3": "DI kebanyakan situs, Sistem Manajemen Konten (SMK), dan lain-lain, Anda dapat menggunakan pengaya prabuat untuk melakukan tindakan teknis untuk Anda. (Lihat %1$sdaftar pengaya terpadu Piwik%2$s dari kami.) Bila tidak ada pengaya tersedia Anda dapat menyunting tata letak situs Anda dan tambahkan kode ini dalam berkas \"kaki\".",
         "JSTrackingIntro4": "Bila Anda tidak ingin menggunakan JavaScript untuk melacak pengunjung, %1$sbuat sebuah gambar pelacakan di tautan berikut%2$s.",
         "JSTrackingIntro5": "Bila Anda berkeinginan lebih dari melacak tampilan halaman, harap periksa %1$sDokumentas Pelacakan Javascript Piwik%2$s untuk daftar fungsi yang tersedia. Gunakan funsi tersebut untuk melacak tujuan Anda, variabel kustom, pemesanan niaga-e, keranjang dibuang, dan lebih.",
-        "LatestBetaRelease": "Rilis beta terkini",
-        "LatestStableRelease": "Rilis stabil terkini",
         "LogoUpload": "Pilih Logo untuk diunggah",
         "LogoUploadHelp": "Harap mengunggah berkas dalam bentuk %s dengan tinggi minimal %s pixel.",
         "MenuDiagnostic": "Diagnosis",

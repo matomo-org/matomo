@@ -240,7 +240,6 @@
         "Visitors": "Látogatók",
         "VisitsWith": "Látogatások ezzel: %s",
         "VisitorSettings": "Látogatók adatai",
-        "VisitType": "Látogató típusa",
         "VisitTypeExample": "Például azoknak a látogatóknak a kiválasztására, akik visszatértek a weboldalra, köztük azok, akik vásároltak valamit a korábbi látogatásaik során, az API lekérés ezt tartalmazná: %s",
         "Warning": "Figyelmeztetés",
         "WarningFileIntegrityNoManifest": "A fájlintegritás-ellenőrzés nem hajtható végre, mivel hiányzik a manifest.inc.php fájl.",

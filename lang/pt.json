@@ -256,7 +256,6 @@
         "Visitors": "Visitantes",
         "VisitsWith": "Visitas com %s",
         "VisitorSettings": "Definições do Visitante",
-        "VisitType": "Tipo de Visitante",
         "VisitTypeExample": "Por exemplo, para selecionar todos os visitantes que voltaram ao website, incluindo aqueles que compraram algo nas visitas anteriores, o pedido API contem %s",
         "Warning": "Aviso",
         "WarningFileIntegrityNoManifest": "A verificação da integridade dos ficheiros não pode ser executada devido a faltar manifest.inc.php.",

@@ -354,7 +354,6 @@
         "Visitors": "Vizitatori",
         "VisitsWith": "Vizite cu %s",
         "VisitorSettings": "Setări vizitatori",
-        "VisitType": "Tip vizitator",
         "VisitTypeExample": "De exemplu, pentru a selecta toti vizitatorii care s-au intors pe site, inclusiv cei care au cumparat in trecut, cererea catre API ar include %s",
         "Warning": "Atentie",
         "WarningFileIntegrityNoManifest": "Verificare integritatii fisierelor nu a putut fi efectuata din cauza lipsei manifest.inc.php.",

@@ -43,8 +43,6 @@
         "JSTrackingIntro3": "Trong hầu hết các websites, blogs, hệ quản trị nội dung (CMS), vv..., bạn có thể sử dụng những plugin đã dược tạo dựng trước để thực hiện những tác vụ kỹ thuật cho bạn. (Xem %1$s danh sách plugins được sử dụng trong Piwik%2$s.). Nếu không có plugin nào, bạn có thể chỉnh sửa file template của website của bạn (trang master ...) và thêm đoạn mã này trong \"footer\" của file.",
         "JSTrackingIntro4": "Nếu bạn không muốn sử dụng JavaScript để theo dõi khách truy cập, %1$s tạo ra một liên kết theo dõi hình ảnh dưới đây %2$s.",
         "JSTrackingIntro5": "Nếu bạn muốn thực hiện các tác vụ khác theo dõi page view, vui lòng tham khảo %1$sTài liệu Piwik Javascript Tracking%2$s để xem danh sách những chức năng được cung cấp. Sử dụng những chức năng này, bạn có thể theo dõi goals, thông số thiết lập, đơn hàng thương mại điện tử, giỏ hàng bị từ chối và nhiều hơn thế nữa.",
-        "LatestBetaRelease": "Phiên bản beta mới nhất",
-        "LatestStableRelease": "Phiên bản ổn định mới nhất",
         "LogoUpload": "Chọn một logo để tải lên",
         "LogoUploadHelp": "Xin vui lòng tải lên file dưới định dạng %s với chiều cao tối thiểu là %s pixels",
         "MenuDiagnostic": "chẩn đoán",

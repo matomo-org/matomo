@@ -61,7 +61,7 @@
         "OriginCore": "Core",
         "OriginThirdParty": "Terceiro",
         "PluginHomepage": "Página do Plugin",
-        "PluginKeywords": "Palavras-chave",
+        "PluginKeywords": "Palavras-Chave",
         "PluginNotCompatibleWith": "O plugin %1$s não é compatível com %2$s.",
         "PluginNotWorkingAlternative": "Se você estiver usando este plugin, talvez você possa encontrar uma versão mais recente no Marketplace. Se não, você pode querer desinstalá-lo.",
         "PluginRequirement": "%1$s requer %2$s.",

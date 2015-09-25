@@ -343,7 +343,6 @@
         "Visitors": "Các khách truy cập",
         "VisitsWith": "Các khách truy cập với %s",
         "VisitorSettings": "Thiết lập khách truy cập",
-        "VisitType": "kiểu khách truy cập",
         "VisitTypeExample": "Lấy ví dụ, để chọn tất cả những người truy cập đã quay lại website, bao gồm cả những người đã mua thứ gì đó trong những lượt truy cập trước, yêu cầu API có thể chứa %s",
         "Warning": "Cảnh báo",
         "WarningFileIntegrityNoManifest": "Tập tin kiểm tra tính toàn vẹn không thể thực hiện do thiếu manifest.inc.php.",

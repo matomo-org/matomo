@@ -45,8 +45,6 @@
         "JSTrackingIntro3": "Useimmilla verkkosivuilla, blogeisss CMS-käyttöjärjestelmissä jne voit käyttää valmista liitännäistä, joka tekee teknisen työn puolestasi. (Katso %1$slista Piwikin kanssa käytetyistä liitännäisistä%2$s.) Jos et löydä liitännäistä, voit muokata verkkosivusi malleja ja lisätä koodin alatunnisteeseen.",
         "JSTrackingIntro4": "Mikäli et halua käyttää JavaScriptiä kävijöiden seuraamiseksi, %1$sluo kuvaseurantalinkki alapuolella%2$s.",
         "JSTrackingIntro5": "Jos haluat seurata enemmän kuin vain kävijöiden määrää, lue %1$sPiwikin Javascript seurannan dokumentaatio%2$s, joka sisältää listan mahdollisista toiminnoista. Voit seurata tavoitteita, mukauttaa muuttujia, verkkokaupan tilauksia, hylättyjä ostoskoreja ja muuta.",
-        "LatestBetaRelease": "Uusin beta-julkaisu",
-        "LatestStableRelease": "Uusin vakaa julkaisu",
         "LogoNotWriteableInstruction": "Käyttääksesi omaa logoa Piwikin oletuslogon sijasta, anna tälle hakemistolle kirjoitusoikeus: %1$s Piwik tarvitsee kirjoitusoikeuden logoillesi tiedostoissa %2$s.",
         "FileUploadDisabled": "Tiedostojen lähettämistä ei ole sallittu PHP-asetuksissasi. Vaihda %s php.ini:ssä ja käynnistä web-serverisi uudelleen ensin.",
         "LogoUpload": "Valitse tallennettava logo",

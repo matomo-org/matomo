@@ -379,7 +379,6 @@
         "Visitors": "Bezoekers",
         "VisitsWith": "Bezoeken met %s",
         "VisitorSettings": "Bezoeker Instellingen",
-        "VisitType": "Type bezoeker",
         "VisitTypeExample": "Om bijvoorbeeld het aantal terugkerende bezoekers (inclusief die bezoekers die iets gekocht hebben) te selecteren moet de API %s bevatten",
         "Warning": "Let op",
         "WarningPhpVersionXIsTooOld": "Je gebruikt PHP versie %s. Deze heeft de status 'End of Life (OEL)'. We adviseren je ten zeerste om te upgraden naar de recente versie van PHP, omdat de versie die nu gebruikt beveiligingslekken en bugs kan bevatten, welke in meer recente versies van PHP opgelost zijn.",

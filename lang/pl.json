@@ -345,7 +345,6 @@
         "Visitors": "Oglądający",
         "VisitsWith": "Odwiedzin z %s",
         "VisitorSettings": "Konfiguracje użytkownika",
-        "VisitType": "Typ oglądającego",
         "VisitTypeExample": "Przykładowo, aby wybrać wszystkich odwiedzających, którzy powrócili na serwis, włączając tych, którzy zakupili coś podczas poprzednich wizyt, zapytanie API będzie zawierać %s",
         "Warning": "Ostrzeżenie",
         "WarningPiwikWillStopSupportingPHPVersion": "Piwik przestanie wspierać tą wersję PHP w %s. Zauktualizuj wersję PHP zanim będzie za późno!",

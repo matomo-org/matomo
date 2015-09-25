@@ -379,7 +379,6 @@
         "Visitors": "Návštěvníci",
         "VisitsWith": "Návštěv s %s",
         "VisitorSettings": "Nastavení návštěvníků",
-        "VisitType": "Typ návštěvníka",
         "VisitTypeExample": "Například pro výběr všech návštěvníků, kteří se vrátili na stránky včetně těch, co si v předcchozích návštěvách něco koupili, by API požadavek obsahoval %s",
         "Warning": "Varování",
         "WarningPhpVersionXIsTooOld": "PHP verze %s, kterou používáte již není podporována (EOL). Důrazně doporučujeme aktualizovat na novější verzi, protože stávající může obsahovat bezpečnostní a další problémy, které byly opraveny v novějších verzích PHP.",

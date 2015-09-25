@@ -369,7 +369,6 @@
         "Visitors": "Vizitorë",
         "VisitsWith": "Vizita me %s",
         "VisitorSettings": "Rregullimet për Vizitor",
-        "VisitType": "Lloj vizitori",
         "VisitTypeExample": "Për shembull, për përzgjedhjen e krejt vizitorëve që janë rikthyer te site-i web, përfshi ata që kanë blerë diçka gjatë vizitash të mëparshme, kërkesa API do të duhej të përmbante %s",
         "Warning": "Sinjalizim",
         "WarningPhpVersionXIsTooOld": "The PHP version %s you are using has reached its End of Life (EOL). You are strongly urged to upgrade to a current version, as using this version may expose you to security vulnerabilities and bugs that have been fixed in more recent versions of PHP.",

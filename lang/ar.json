@@ -232,7 +232,6 @@
         "VisitorIP": "عنوان IP للزائر",
         "Visitors": "الزوار",
         "VisitorSettings": "إعدادات الزوار",
-        "VisitType": "نوع الزائر",
         "Warning": "تنبيه",
         "WarningFileIntegrityNoManifest": "لم يمكن إجراء فحص سلامة الملفات بسبب فقد ملف manifest.inc.php.",
         "WarningFileIntegrityNoMd5file": "لم يمكن إتمام فحص سلامة الملفات بسبب فقد دالة md5_file().",

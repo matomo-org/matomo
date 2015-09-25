@@ -11,6 +11,7 @@
         "ColumnSumVisitLengthReturning": "O tempo total gasto por visitantes de retorno (em segundos)",
         "ColumnUniqueReturningVisitors": "Visitantes únicos que retornaram",
         "ColumnReturningUsers": "Usuários que Voltaram",
+        "PluginDescription": "Informa métricas sobre sua primeira vez, novos visitantes e visitantes que voltaram.",
         "ReturnActions": "%s ações por visitante de retorno",
         "ReturnAverageVisitDuration": "%s média da duração da visita para visitantes que retornam",
         "ReturnAvgActions": "%s ações por visita retornada",

@@ -44,8 +44,6 @@
         "JSTrackingIntro3": "A legtöbb weboldalhoz, bloghoz, CMShez, stb. létezik egy beépülő, ami elvégzi a szükséges technikai dolgokat. (%1$sA lista a Piwiket integráló beépülőkről%2$s.) Ha nincs elérhető beépülő, akkor a kód manuálisan is beilleszthető a weboldal sablonjának \"lábléc\" részébe.",
         "JSTrackingIntro4": "JavaScript követés helyett lehetőség van kép alapú követés használatára is, mely %1$saz alábbi linkre kattintva generálható%2$s.",
         "JSTrackingIntro5": "Ha az oldalmegtekintések követése nem elég, tekintse meg a %1$sPiwik Javascript Követés dokumentációt%2$s a további funkciókért. Ezek használatával lehetőség van egyéni célok, saját változók, ecommerce rendelések, otthagyott bevásárló kosarak, stb, követésére.",
-        "LatestBetaRelease": "Legfirssebb béta kiadás",
-        "LatestStableRelease": "Legfrissebb stabil kiadás",
         "LogoNotWriteableInstruction": "Egyedi logó használatához írási jogosultságra van szükség a következő könyvtárhoz: %1$s A logók tárolásához a következőfájlokhoz írási jogosultság szükséges: %2$s.",
         "FileUploadDisabled": "A fájlfeltöltés nincs engedélyezve a PHP konfigurációban. Egyedi logó feltöltéséhez be kell állítani a php.ini fájlban a következőt: %s. A webszerver újraindítása is szükséges lehet.",
         "LogoUpload": "Válasszon egy logót a feltöltéshez",

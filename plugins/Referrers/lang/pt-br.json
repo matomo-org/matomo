@@ -13,7 +13,7 @@
         "DirectEntryDocumentation": "Um visitante entrou a URL no seu navegador e começou a navegar em seu site - ele entrou no site diretamente.",
         "Distinct": "Referenciadores Distintos por Tipo de Referenciador",
         "DistinctCampaigns": "Campanhas distintas",
-        "DistinctKeywords": "Palavras chave distintas",
+        "DistinctKeywords": "Palavras-chave distintas",
         "DistinctSearchEngines": "Motores de busca distintos",
         "DistinctWebsites": "Websites distintos",
         "EvolutionDocumentation": "Esta é uma visão geral dos referenciadores que levaram visitantes ao seu site.",
@@ -32,7 +32,7 @@
         "SocialFooterMessage": "Este é um subconjunto do relatório de Websites listados a esquerda. Ele filtra outros sites para que você possa comparar diretamente os referenciadores de suas redes sociais .",
         "Socials": "Redes Sociais",
         "SocialsReportDocumentation": "Este relatório mostra quais as redes sociais levaram visitantes ao seu site. <br \/> Ao clicar em uma linha na tabela, você pode ver de quais páginas os visitantes de redes sociais vieram para o seu site.",
-        "SubmenuSearchEngines": "Motores de Busca & Palavras Chaves",
+        "SubmenuSearchEngines": "Motores de Busca & Palavras-Chave",
         "SubmenuWebsites": "Websites & Social",
         "Type": "Tipo de Referenciador",
         "TypeCampaigns": "%s de campanhas",
@@ -49,7 +49,7 @@
         "WidgetExternalWebsites": "Websites Referenciadores",
         "WidgetGetAll": "Todos os Referenciadores",
         "WidgetSocials": "Lista de redes sociais",
-        "WidgetTopKeywordsForPages": "Principais palavras-chaves para a URL da página",
+        "WidgetTopKeywordsForPages": "Principais Palavras-Chave para a URL da página",
         "XPercentOfVisits": "%s%% de visitas"
     }
 }

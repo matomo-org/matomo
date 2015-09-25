@@ -370,7 +370,6 @@
         "Visitors": "Obiskovalci",
         "VisitsWith": "Obiski z\/s %s",
         "VisitorSettings": "Nastavitve obiskovalcev",
-        "VisitType": "Vrsta obiskovalca",
         "VisitTypeExample": "Na primer, če želite zbrati vse obiskovalce, ki so se vrnili na spletno stran, vključno s tistimi, ki so v prejšnjih obiskih kaj kupili, bi API zahteva vsebovala %s",
         "Warning": "Opozorilo",
         "WarningPhpVersionXIsTooOld": "Različica PHP %s, ki jo uporabljate, ni več podprta! Priporočamo čim prejšnjo nadgradnjo na zadnjo stabilno različico, saj ste z nadaljnjo uporabo trenutne različice lahko izpostavljeni varnostnim ranljivostim in napakam, ki so odpravljene v novejših različicah PHP.",

@@ -368,7 +368,6 @@
         "Visitors": "Besøgende",
         "VisitsWith": "Besøg med %s",
         "VisitorSettings": "Besøgendes indstillinger",
-        "VisitType": "Besøgstype",
         "VisitTypeExample": "F. eks., for at vælge alle besøgende, som er vendt tilbage til hjemmesiden, herunder dem, der har købt noget i deres tidligere besøg, vil API-anmodningen indeholde %s",
         "Warning": "Advarsel",
         "WarningPhpVersionXIsTooOld": "PHP version %s har nået slutningen af ​​sin levetid (EOL). Du opfordres kraftigt til at opgradere til den aktuelle version, fordi brug af denne version kan udsætte dig for sikkerhedshuller og fejl, som er blevet rettet i nyere versioner af PHP.",

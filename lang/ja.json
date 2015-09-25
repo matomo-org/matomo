@@ -370,7 +370,6 @@
         "Visitors": "ビジター",
         "VisitsWith": "%s のビジット",
         "VisitorSettings": "ビジターの環境",
-        "VisitType": "ビジター種類",
         "VisitTypeExample": "例えば、前回のビジットで何かを購入した訪問者を含む、全てのリピーターを選択するためのAPIリクエストは %s を含むものとなります。",
         "Warning": "警告",
         "WarningPhpVersionXIsTooOld": "ご利用の PHP バージョン %s は、利用期間が終了( EOL )しています。セキュリティの脆弱性と、最新の PHP バージョンで既に修正されたバグに対するリスクを避けるため、必ず最新バージョンへアップグレードしてください。",

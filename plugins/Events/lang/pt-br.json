@@ -13,7 +13,20 @@
         "EventNames": "Nomes dos Eventos",
         "Events": "Eventos",
         "EventsWithValue": "Eventos com um valor",
+        "EventsWithValueDocumentation": "Número de eventos onde foi configurado um valor Event",
         "EventValue": "Valor do Evento",
-        "MaxValue": "Valor máximo"
+        "EventValueTooltip": "O valor total de Evento é a soma de %s valores de eventos %s entre o mínimo de %s e o máximo de %s.",
+        "MaxValue": "Valor máximo",
+        "MaxValueDocumentation": "O valor máximo para este evento",
+        "MinValue": "Valor mínimo",
+        "MinValueDocumentation": "O valor mínimo para este evento",
+        "SecondaryDimension": "Dimensão secundária é %s.",
+        "SwitchToSecondaryDimension": "Mudar para %s",
+        "TopEvents": "Eventos Top",
+        "TotalEvents": "Total de Eventos",
+        "TotalEventsDocumentation": "Número total de eventos",
+        "TotalValue": "Valor total",
+        "TotalValueDocumentation": "A soma dos valores de evento",
+        "ViewEvents": "Ver Eventos"
     }
 }

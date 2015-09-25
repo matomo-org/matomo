@@ -7,7 +7,7 @@
         "NHour": "%sh",
         "PluginDescription": "Restituisce l'ora locale e del server di quando i visitatori hanno visto il tuo sito o l'app.",
         "ServerTime": "Visite per ora del server",
-        "SubmenuTimes": "Visite per orario",
+        "SubmenuTimes": "Volte",
         "VisitsByDayOfWeek": "Visite per giorno della settimana",
         "WidgetByDayOfWeekDocumentation": "Il grafico mostra il numero di visite che il tuo sito ha ricevuto in ciascun giorno della settimana.",
         "WidgetLocalTime": "Visite per ora locale",

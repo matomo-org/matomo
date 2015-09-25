@@ -369,7 +369,6 @@
         "Visitors": "Kävijät",
         "VisitsWith": "Käynnit %s:n kanssa",
         "VisitorSettings": "Kävijöiden asetukset",
-        "VisitType": "Kävijän tyyppi",
         "VisitTypeExample": "Voit esimerkiksi valita kaikki kävijät jotka palasivat sivulle ja ostivat edellisellä käynnillä. Esimerkki pyynnöstä on %s",
         "Warning": "Varoitus",
         "WarningPhpVersionXIsTooOld": "Käyttämäsi PHP versio %s on ohittanut EOL (End of Life) ajankohdan. Suosittelemme vakavasti ohjelmiston päivittämistä uudempaan versioon, sillä käyttämäsi versio voi altistaa sivuston tietoturva-aukoille ja virheille, jotka ovat korjattu PHP:n uudemmissa versioissa.",
