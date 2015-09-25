@@ -14,6 +14,7 @@ use Monolog\Logger;
 use Piwik\Container\StaticContainer;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\CronArchive;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Scheduler\Scheduler;
@@ -73,15 +74,21 @@ class API extends \Piwik\Plugin\API
     public function invalidateArchivedReports($idSites, $dates, $period = false)
     {
         $idSites = Site::getIdSitesFromIdSitesString($idSites);
-
         if (empty($idSites)) {
             throw new Exception("Specify a value for &idSites= as a comma separated list of website IDs, for which your token_auth has 'admin' permission");
         }
 
         Piwik::checkUserHasAdminAccess($idSites);
 
+        list($dateObjects, $invalidDates) = $this->getDatesToInvalidateFromString($dates);
+
         $invalidator = new ArchiveInvalidator();
-        $output = $invalidator->markArchivesAsInvalidated($idSites, $dates, $period);
+        $output = $invalidator->markArchivesAsInvalidated($idSites, $dateObjects, $period);
+
+        if ($invalidDates) {
+            $output[] = 'Warning: some of the Dates to invalidate were invalid: ' .
+                implode(", ", $invalidDates) . ". Piwik simply ignored those and proceeded with the others.";
+        }
 
         Site::clearCache();
 
@@ -106,5 +113,38 @@ class API extends \Piwik\Plugin\API
 
         $archiver = new CronArchive();
         $archiver->main();
+    }
+
+    /**
+     * Ensure the specified dates are valid.
+     * Store invalid date so we can log them
+     * @param array $dates
+     * @return Date[]
+     */
+    private function getDatesToInvalidateFromString($dates)
+    {
+        $toInvalidate = array();
+        $invalidDates = array();
+
+        $dates = explode(',', trim($dates));
+        $dates = array_unique($dates);
+
+        foreach ($dates as $theDate) {
+            $theDate = trim($theDate);
+            try {
+                $date = Date::factory($theDate);
+            } catch (\Exception $e) {
+                $invalidDates[] = $theDate;
+                continue;
+            }
+
+            if ($date->toString() == $theDate) {
+                $toInvalidate[] = $date;
+            } else {
+                $invalidDates[] = $theDate;
+            }
+        }
+
+        return array($toInvalidate, $invalidDates);
     }
 }

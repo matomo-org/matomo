@@ -135,7 +135,12 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->rememberReportsForManySitesAndDates();
 
         $idSites = array(2, 10, 7, 5);
-        $dates   = '2014-04-05,2014-04-08,2010-10-10';
+        $dates = array(
+            Date::factory('2014-04-05'),
+            Date::factory('2014-04-08'),
+            Date::factory('2010-10-10'),
+        );
+
         $this->invalidator->markArchivesAsInvalidated($idSites, $dates, false);
         $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 

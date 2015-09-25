@@ -14,12 +14,11 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
 use Piwik\Period\Week;
-use Piwik\Plugins\SitesManager\Model as SitesManagerModel;
-use Piwik\Site;
 
 /**
  * Service that can be used to invalidate archives or add archive references to a list so they will
@@ -49,7 +48,6 @@ class ArchiveInvalidator
     private $warningDates = array();
     private $processedDates = array();
     private $minimumDateWithLogs = false;
-    private $invalidDates = array();
 
     private $rememberArchivedReportIdStart = 'report_to_invalidate_';
 
@@ -119,64 +117,28 @@ class ArchiveInvalidator
     }
 
     /**
-     * @param $idSites array
-     * @param $dates string
+     * @param $idSites int[]
+     * @param $dates Date[]
      * @param $period string
      * @return array
      * @throws \Exception
      */
     public function markArchivesAsInvalidated(array $idSites, $dates, $period)
     {
-        $this->findOlderDateWithLogs();
-        $datesToInvalidate = $this->getDatesToInvalidateFromString($dates);
-        $minDate = $this->getMinimumDateToInvalidate($datesToInvalidate);
+        $dates = $this->removeDatesThatHaveBeenPurged($dates);
 
-        $this->updateSiteCreatedTime($idSites, $minDate);
+        $datesByMonth = $this->getDatesByYearMonth($dates);
 
-        $datesByMonth = $this->getDatesByYearMonth($datesToInvalidate);
         $this->markArchivesInvalidatedFor($idSites, $period, $datesByMonth);
-
         $this->persistInvalidatedArchives($idSites, $datesByMonth);
 
         foreach ($idSites as $idSite) {
-            foreach ($datesToInvalidate as $date) {
+            foreach ($dates as $date) {
                 $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
             }
         }
 
         return $this->makeOutputLogs();
-    }
-
-    private function updateSiteCreatedTime($idSites, Date $minDate)
-    {
-        $idSites    = Site::getIdSitesFromIdSitesString($idSites);
-        $minDateSql = $minDate->subDay(1)->getDatetime();
-
-        $model = new SitesManagerModel();
-        $model->updateSiteCreatedTime($idSites, $minDateSql);
-    }
-
-    /**
-     * @param $toInvalidate
-     * @return bool|Date
-     * @throws \Exception
-     */
-    private function getMinimumDateToInvalidate($toInvalidate)
-    {
-        /* @var $date Date */
-        $minDate = false;
-        foreach ($toInvalidate as $date) {
-            // Keep track of the minimum date for each website
-            if ($minDate === false
-                || $date->isEarlier($minDate)
-            ) {
-                $minDate = $date;
-            }
-        }
-        if (empty($minDate)) {
-            throw new \Exception("Check the 'dates' parameter is a valid date.");
-        }
-        return $minDate;
     }
 
     /**
@@ -209,34 +171,26 @@ class ArchiveInvalidator
     }
 
     /**
-     * Ensure the specified dates are valid.
-     * Store invalid date so we can log them
-     * @param array $dates
+     * @param Date[] $dates
      * @return Date[]
      */
-    private function getDatesToInvalidateFromString($dates)
+    private function removeDatesThatHaveBeenPurged($dates)
     {
-        $toInvalidate = array();
+        $this->findOlderDateWithLogs();
 
-        $dates = explode(',', trim($dates));
-        $dates = array_unique($dates);
-
-        foreach ($dates as $theDate) {
-            $theDate = trim($theDate);
-            try {
-                $date = Date::factory($theDate);
-            } catch (\Exception $e) {
-                $this->invalidDates[] = $theDate;
+        $result = array();
+        foreach ($dates as $date) {
+            // we should only delete reports for dates that are more recent than N days
+            if ($this->minimumDateWithLogs
+                && $date->isEarlier($this->minimumDateWithLogs)
+            ) {
+                $this->warningDates[] = $date->toString();
                 continue;
             }
-            if ($date->toString() == $theDate) {
-                $toInvalidate[] = $date;
-            } else {
-                $this->invalidDates[] = $theDate;
-            }
-        }
 
-        return $toInvalidate;
+            $result[] = $date;
+        }
+        return $result;
     }
 
     private function findOlderDateWithLogs()
@@ -259,18 +213,10 @@ class ArchiveInvalidator
      * @param $datesToInvalidate Date[]
      * @return array
      */
-    private function getDatesByYearMonth($datesToInvalidate)
+    private function getDatesByYearMonth(array $datesToInvalidate)
     {
         $datesByMonth = array();
         foreach ($datesToInvalidate as $date) {
-            // we should only delete reports for dates that are more recent than N days
-            if ($this->minimumDateWithLogs
-                && $date->isEarlier($this->minimumDateWithLogs)
-            ) {
-                $this->warningDates[] = $date->toString();
-                continue;
-            }
-
             $this->processedDates[] = $date->toString();
 
             $month = $date->toString('Y_m');
@@ -302,10 +248,6 @@ class ArchiveInvalidator
                 "\n The last day with logs is " . $this->minimumDateWithLogs . ". " .
                 "\n Please disable 'Delete old Logs' or set it to a higher deletion threshold (eg. 180 days or 365 years).'.";
         }
-        if ($this->invalidDates) {
-            $output[] = 'Warning: some of the Dates to invalidate were invalid: ' .
-                implode(", ", $this->invalidDates) . ". Piwik simply ignored those and proceeded with the others.";
-        }
 
         $output[] = "Success. The following dates were invalidated successfully: " . implode(", ", $this->processedDates);
         return $output;
@@ -313,15 +255,11 @@ class ArchiveInvalidator
 
     /**
      * @param $period
-     * @return bool|int
+     * @return int|null
      */
     private function getPeriodId($period)
     {
-        if (!empty($period)) {
-            $period = Period\Factory::build($period, Date::today());
-        }
-        $invalidateForPeriod = $period ? $period->getId() : false;
-        return $invalidateForPeriod;
+        return isset(Piwik::$idPeriods[$period]) ? Piwik::$idPeriods[$period] : null;
     }
 
     /**
