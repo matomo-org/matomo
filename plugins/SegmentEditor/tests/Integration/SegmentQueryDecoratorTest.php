@@ -44,7 +44,7 @@ class SegmentQueryDecoratorTest extends IntegrationTestCase
         $segmentEditorApi->add('segment 3', 'visitCount<2', 1, $autoArchive = true);
         $segmentEditorApi->add('segment 4', 'visitCount<2', 2, $autoArchive = true);
 
-        // test that segments w/ auto archive == false aren't included
+        // test that segments w/ auto archive == false are included
         $segmentEditorApi->add('segment 5', 'visitCount<2', 3, $autoArchive = false);
         $segmentEditorApi->add('segment 6', 'countryCode!=fr', 3, $autoArchive = false);
     }
@@ -52,8 +52,12 @@ class SegmentQueryDecoratorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForSegmentSqlTest
      */
-    public function test_SegmentSql_IsCorrectlyDecoratedWithIdSegment($segment, $expectedPrefix)
+    public function test_SegmentSql_IsCorrectlyDecoratedWithIdSegment($segment, $triggerValue, $expectedPrefix)
     {
+        if (!empty($triggerValue)) {
+            $_GET['trigger'] = $triggerValue;
+        }
+
         $segment = new Segment($segment, array());
 
         $query = $segment->getSelectQuery('*', 'log_visit');
@@ -69,10 +73,16 @@ class SegmentQueryDecoratorTest extends IntegrationTestCase
     public function getTestDataForSegmentSqlTest()
     {
         return array(
-            array('countryCode==fr', '/* idSegments = [2] */'),
-            array('visitCount<2', '/* idSegments = [1, 3, 4] */'),
-            array('', null),
-            array('countryCode!=fr', null),
+            array('countryCode==fr', null, '/* idSegments = [2] */'),
+            array('visitCount<2', null, '/* idSegments = [1, 3, 4, 5] */'),
+            array('', null, null),
+            array('countryCode!=fr', null, '/* idSegments = [6] */'),
+
+            array('', 'archivephp', '/* trigger = CronArchive */'),
+            array('countryCode!=fr', 'archivephp', '/* trigger = CronArchive, idSegments = [6] */'),
+
+            array('', 'garbage', null),
+            array('countryCode!=fr', 'garbage', '/* idSegments = [6] */'),
         );
     }
 }

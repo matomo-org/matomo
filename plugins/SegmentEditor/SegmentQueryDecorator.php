@@ -11,6 +11,7 @@ namespace Piwik\Plugins\SegmentEditor;
 use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\SegmentEditor\Services\StoredSegmentService;
 use Piwik\Segment\SegmentExpression;
+use Piwik\SettingsServer;
 
 /**
  * Decorates segment sub-queries in archiving queries w/ the idSegment of the segment, if
@@ -36,9 +37,19 @@ class SegmentQueryDecorator extends LogQueryBuilder
         $result = parent::getSelectQueryString($segmentExpression, $select, $from, $where, $bind, $groupBy, $orderBy,
             $limit);
 
+        $prefixParts = array();
+
+        if (SettingsServer::isArchivePhpTriggered()) {
+            $prefixParts[] = 'trigger = CronArchive';
+        }
+
         $idSegments = $this->getSegmentIdOfExpression($segmentExpression);
         if (!empty($idSegments)) {
-            $result['sql'] = "/* idSegments = [" . implode(', ', $idSegments) . "] */\n" . $result['sql'];
+            $prefixParts[] = "idSegments = [" . implode(', ', $idSegments) . "]";
+        }
+
+        if (!empty($prefixParts)) {
+            $result['sql'] = "/* " . implode(', ', $prefixParts) . " */\n";
         }
 
         return $result;
@@ -46,7 +57,7 @@ class SegmentQueryDecorator extends LogQueryBuilder
 
     private function getSegmentIdOfExpression(SegmentExpression $segmentExpression)
     {
-        $allSegments = $this->storedSegmentService->getSegmentsToAutoArchive('all');
+        $allSegments = $this->storedSegmentService->getAllSegmentsAndIgnoreVisibility();
 
         $idSegments = array();
         foreach ($allSegments as $segment) {

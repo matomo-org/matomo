@@ -34,20 +34,15 @@ class StoredSegmentService
     }
 
     /**
-     * Returns stored segments that are set to be archived during cron archiving.
+     * Returns all stored segments that haven't been deleted.
      *
-     * @param int|bool $idSite
      * @return array
      */
-    public function getSegmentsToAutoArchive($idSite = false)
+    public function getAllSegmentsAndIgnoreVisibility()
     {
-        if ($idSite != 'all') {
-            $idSite = (int)$idSite;
-        }
-
-        $cacheKey = 'SegmentEditor.getSegmentsToAutoArchive_' . (!empty($idSite) ? $idSite : 'enabled_all');
+        $cacheKey = 'SegmentEditor.getAllSegmentsAndIgnoreVisibility';
         if (!$this->transientCache->contains($cacheKey)) {
-            $result = $this->model->getSegmentsToAutoArchive($idSite);
+            $result = $this->model->getAllSegmentsAndIgnoreVisibility();
 
             $this->transientCache->save($cacheKey, $result);
         }
