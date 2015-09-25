@@ -32,7 +32,7 @@ class TrackingTest extends IntegrationTestCase
         Fixture::checkResponse($t->doTrackPageView('page view'));
 
         $createdTime = $this->getSiteCreatedTime($idSite = 1);
-        $this->assertEquals('2014-05-05 05:05:05', $createdTime);
+        $this->assertEquals('2014-05-04 00:00:00', $createdTime);
     }
 
     public function test_TrackingOldVisit_ThatIsExcluded_DoesNotResetCreatedTime()
