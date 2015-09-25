@@ -42,7 +42,7 @@ class SitesManagerRequestProcessor extends RequestProcessor
         $idSite = $request->getIdSite();
 
         $createdTimeTimestamp = $this->getSiteCreatedTime($idSite);
-        $requestTimestamp = Date::factory($request->getCurrentTimestamp());
+        $requestTimestamp = Date::factory((int) $request->getCurrentTimestamp());
 
         // replicating old Piwik logic, see:
         // https://github.com/piwik/piwik/blob/baa6da86266c7c44bc2d65821c7ffe042c2f4716/core/Archive/ArchiveInvalidator.php#L150
