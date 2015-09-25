@@ -47,7 +47,6 @@ class ArchiveInvalidator
     private $warningDates = array();
     private $processedDates = array();
     private $minimumDateWithLogs = false;
-    private $invalidDates = array();
 
     private $rememberArchivedReportIdStart = 'report_to_invalidate_';
 
@@ -117,8 +116,8 @@ class ArchiveInvalidator
     }
 
     /**
-     * @param $idSites array
-     * @param $dates string
+     * @param $idSites int[]
+     * @param $dates Date[]
      * @param $period string
      * @return array
      * @throws \Exception
@@ -126,15 +125,14 @@ class ArchiveInvalidator
     public function markArchivesAsInvalidated(array $idSites, $dates, $period)
     {
         $this->findOlderDateWithLogs();
-        $datesToInvalidate = $this->getDatesToInvalidateFromString($dates);
 
-        $datesByMonth = $this->getDatesByYearMonth($datesToInvalidate);
+        $datesByMonth = $this->getDatesByYearMonth($dates);
         $this->markArchivesInvalidatedFor($idSites, $period, $datesByMonth);
 
         $this->persistInvalidatedArchives($idSites, $datesByMonth);
 
         foreach ($idSites as $idSite) {
-            foreach ($datesToInvalidate as $date) {
+            foreach ($dates as $date) {
                 $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
             }
         }
@@ -171,37 +169,6 @@ class ArchiveInvalidator
         }
     }
 
-    /**
-     * Ensure the specified dates are valid.
-     * Store invalid date so we can log them
-     * @param array $dates
-     * @return Date[]
-     */
-    private function getDatesToInvalidateFromString($dates)
-    {
-        $toInvalidate = array();
-
-        $dates = explode(',', trim($dates));
-        $dates = array_unique($dates);
-
-        foreach ($dates as $theDate) {
-            $theDate = trim($theDate);
-            try {
-                $date = Date::factory($theDate);
-            } catch (\Exception $e) {
-                $this->invalidDates[] = $theDate;
-                continue;
-            }
-            if ($date->toString() == $theDate) {
-                $toInvalidate[] = $date;
-            } else {
-                $this->invalidDates[] = $theDate;
-            }
-        }
-
-        return $toInvalidate;
-    }
-
     private function findOlderDateWithLogs()
     {
         // If using the feature "Delete logs older than N days"...
@@ -222,7 +189,7 @@ class ArchiveInvalidator
      * @param $datesToInvalidate Date[]
      * @return array
      */
-    private function getDatesByYearMonth($datesToInvalidate)
+    private function getDatesByYearMonth(array $datesToInvalidate)
     {
         $datesByMonth = array();
         foreach ($datesToInvalidate as $date) {
@@ -264,10 +231,6 @@ class ArchiveInvalidator
                 implode(", ", $this->warningDates) .
                 "\n The last day with logs is " . $this->minimumDateWithLogs . ". " .
                 "\n Please disable 'Delete old Logs' or set it to a higher deletion threshold (eg. 180 days or 365 years).'.";
-        }
-        if ($this->invalidDates) {
-            $output[] = 'Warning: some of the Dates to invalidate were invalid: ' .
-                implode(", ", $this->invalidDates) . ". Piwik simply ignored those and proceeded with the others.";
         }
 
         $output[] = "Success. The following dates were invalidated successfully: " . implode(", ", $this->processedDates);

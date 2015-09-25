@@ -554,7 +554,7 @@ class Archive
             }
 
             try {
-                $invalidator->markArchivesAsInvalidated($siteIdsToActuallyInvalidate, $date, false);
+                $invalidator->markArchivesAsInvalidated($siteIdsToActuallyInvalidate, array(Date::factory($date)), false);
             } catch (\Exception $e) {
                 Site::clearCache();
                 throw $e;
