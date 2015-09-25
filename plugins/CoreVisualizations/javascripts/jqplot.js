@@ -114,7 +114,7 @@
                 axes: {
                     yaxis: {
                         tickOptions: {
-                            formatString: '%d',
+                            formatString: '%s',
                             formatter: $.jqplot.NumberFormatter
                         }
                     }
@@ -529,7 +529,7 @@
             var axisId = this.jqplotParams.series[seriesIndex].yaxis;
             var formatString = this.jqplotParams.axes[axisId].tickOptions.formatString;
 
-            return formatString.replace('%s', value);
+            return $.jqplot.NumberFormatter(formatString, value);
         },
 
         /**
@@ -794,14 +794,14 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
     var minimumFractionDigits = 0;
     var maximumFractionDigits = 2;
 
-    $.jqplot.NumberFormatter = function (format, value) {
+    $.jqplot.NumberFormatter = function (format, value, pattern) {
 
         if (!$.isNumeric(value)) {
-            return value;
+            return format.replace(/%s/, value);
         }
         // Ensure that the value is positive and has the right number of digits.
         var negative = value < 0;
-        var pattern = negative ? piwik.numbers.patternNegative : piwik.numbers.patternPositive;
+        pattern = pattern || (negative ? piwik.numbers.patternNegative : piwik.numbers.patternPositive);
         var signMultiplier = negative ? '-1' : '1';
         value = value * signMultiplier;
         // Split the number into major and minor digits.
@@ -839,7 +839,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         value = pattern.replace(/#(?:[\.,]#+)*0(?:[,\.][0#]+)*/, value);
         // Localize the number.
         value = replaceSymbols(value);
-        return value;
+        return format.replace(/%s/, value);
     }
 
 })(jQuery);

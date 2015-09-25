@@ -62,7 +62,7 @@
             var percentage = '';
             if (typeof this.tooltip.percentages != 'undefined') {
                 percentage = this.tooltip.percentages[seriesIndex][valueIndex];
-                percentage = ' (' + percentage + '%)';
+                percentage = ' (' + $.jqplot.NumberFormatter('%s', percentage, piwik.numbers.patternPercent) + ')';
             }
 
             var label = this.jqplotParams.axes.xaxis.labels[valueIndex];
