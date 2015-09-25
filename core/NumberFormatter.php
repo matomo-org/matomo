@@ -142,7 +142,6 @@ class NumberFormatter extends Singleton
      */
     protected function formatNumberWithPattern($pattern, $value, $maximumFractionDigits=0, $minimumFractionDigits=0)
     {
-        $orig = $value;
         if (!is_numeric($value)) {
             return $value;
         }
@@ -160,7 +159,7 @@ class NumberFormatter extends Singleton
             // Reverse the major digits, since they are grouped from the right.
             $majorDigits = array_reverse(str_split($majorDigits));
             // Group the major digits.
-            $groups = [];
+            $groups = array();
             $groups[] = array_splice($majorDigits, 0, $this->primaryGroupSize);
             while (!empty($majorDigits)) {
                 $groups[] = array_splice($majorDigits, 0, $this->secondaryGroupSize);
@@ -203,13 +202,13 @@ class NumberFormatter extends Singleton
      */
     protected function replaceSymbols($value)
     {
-        $replacements = [
+        $replacements = array(
             '.' => $this->symbolDecimal,
             ',' => $this->symbolGroup,
             '+' => $this->symbolPlus,
             '-' => $this->symbolMinus,
             '%' => $this->symbolPercent,
-        ];
+        );
         return strtr($value, $replacements);
     }
 }
