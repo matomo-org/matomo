@@ -681,6 +681,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'piwikorg'  => $newsletterPiwikORG,
             'piwikpro'  => $newsletterPiwikPRO,
             'url'       => Url::getCurrentUrlWithoutQueryString(),
+            'language'  => StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage(),
         );
         if ($params['piwikorg'] == '1'
             || $params['piwikpro'] == '1'
