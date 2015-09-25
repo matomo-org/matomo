@@ -53,6 +53,23 @@ class TrackingTest extends IntegrationTestCase
         $this->assertEquals('2014-12-31 00:00:00', $createdTime);
     }
 
+    public function test_TrackingOldVisit_ForSiteWithNoTsCreatedTime_DoesNotResetCreatedTime()
+    {
+        Fixture::createWebsite('2015-01-01 00:00:00');
+
+        $this->unsetCreatedTime($idSite = 1);
+
+        $createdTime = $this->getSiteCreatedTime($idSite = 1);
+        $this->assertEquals(null, $createdTime);
+
+        $t = $this->getLocalTracker();
+        $t->setForceVisitDateTime('2014-08-06 07:53:09');
+        Fixture::checkResponse($t->doTrackPageView('page view'));
+
+        $createdTime = $this->getSiteCreatedTime($idSite = 1);
+        $this->assertEquals(null, $createdTime);
+    }
+
     private function getLocalTracker()
     {
         return self::$fixture->getTracker($idSite = 1, '2015-01-01', $defaultInit = true, $useLocalTracker = true);
@@ -61,6 +78,11 @@ class TrackingTest extends IntegrationTestCase
     private function getSiteCreatedTime($idSite)
     {
         return Db::fetchOne("SELECT ts_created FROM " . Common::prefixTable('site') . " WHERE idsite = ?", array($idSite));
+    }
+
+    private function unsetCreatedTime($idSite)
+    {
+        Db::query("UPDATE " . Common::prefixTable('site') . " SET ts_created = NULL WHERE idsite = ?", array($idSite));
     }
 
     protected static function configureFixture($fixture)

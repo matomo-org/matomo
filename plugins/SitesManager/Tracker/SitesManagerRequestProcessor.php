@@ -42,6 +42,10 @@ class SitesManagerRequestProcessor extends RequestProcessor
         $idSite = $request->getIdSite();
 
         $createdTimeTimestamp = $this->getSiteCreatedTime($idSite);
+        if (empty($createdTimeTimestamp)) {
+            return;
+        }
+
         $requestTimestamp = Date::factory((int) $request->getCurrentTimestamp());
 
         // replicating old Piwik logic, see:
@@ -60,8 +64,11 @@ class SitesManagerRequestProcessor extends RequestProcessor
     private function getSiteCreatedTime($idSite)
     {
         $attributes = Cache::getCacheWebsiteAttributes($idSite);
-        $tsCreated = isset($attributes['ts_created']) ? $attributes['ts_created'] : 0;
-        return Date::factory($tsCreated);
+        if (!isset($attributes['ts_created'])) {
+            return null;
+        }
+
+        return Date::factory($attributes['ts_created']);
     }
 
     private function updateSiteCreatedTime($idSite, Date $timestamp)
