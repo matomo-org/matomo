@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Unit\Metrics;
 
-use Piwik\Intl\Locale;
+use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter;
 use Piwik\Translate;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
@@ -57,6 +57,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
+        StaticContainer::get('Piwik\NumberFormatter')->unsetInstance();
         Translate::reset();
         $this->unsetSiteManagerApiMock();
     }
@@ -74,13 +75,8 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function test_getPrettyNumber_ReturnsCorrectResult_WhenLocaleIsEuropean($number, $expected)
     {
-        $locale = setlocale(LC_ALL, array('de-AT', 'de_DE', 'de', 'ge', 'de_DE.utf8'));
-        if (empty($locale)) {
-            $this->markTestSkipped("de_DE locale is not present on this system");
-        }
-
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage('de');
         $this->assertEquals($expected, $this->formatter->getPrettyNumber($number, 2));
-        Locale::setDefaultLocale();
     }
 
     /**
@@ -137,12 +133,11 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     public function getPrettyNumberLocaleTestData()
     {
         return array(
-            array(0.14, '0,14'),
-            array(0.14567, '0,15'),
-            array(100.1234, '100,12'),
-            // Those last two are commented because locales are platform dependent, on some platforms the separator is '' instead of '.'
-//            array(1000.45, '1.000,45'),
-//            array(23456789.00, '23.456.789,00'),
+            array(0.14, '0.14'),
+            array(0.14567, '0.15'),
+            array(100.1234, '100.12'),
+            array(1000.45, '1,000.45'),
+            array(23456789.00, '23,456,789.00'),
         );
     }
 

@@ -753,19 +753,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 // ------------------------------------------------------------
 (function($){
 
-    var usesGrouping = (piwik.numbers.patternPositive.indexOf(',') != -1);
-    // if pattern has number groups, parse them.
-    if (usesGrouping) {
-        var primaryGroupMatches = piwik.numbers.patternPositive.match(/#+0/);
-        var primaryGroupSize = primaryGroupMatches[0].length;
-        var secondaryGroupSize = primaryGroupMatches[0].length;
-        var numberGroups = piwik.numbers.patternPositive.split(',');
-        // check for distinct secondary group size.
-        if (numberGroups.length > 2) {
-            secondaryGroupSize = numberGroups[1].length;
-        }
-    }
-
     function replaceSymbols(value) {
         var replacements = {
             '.': piwik.numbers.symbolDecimal,
@@ -799,9 +786,31 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         if (!$.isNumeric(value)) {
             return format.replace(/%s/, value);
         }
+        pattern = pattern || piwik.numbers.patternNumber;
+
+        var patterns = pattern.split(';');
+        if (patterns.length == 1) {
+            // No explicit negative pattern was provided, construct it.
+            patterns.push('-' + patterns[0])
+        }
+
         // Ensure that the value is positive and has the right number of digits.
         var negative = value < 0;
-        pattern = pattern || (negative ? piwik.numbers.patternNegative : piwik.numbers.patternPositive);
+        pattern = negative ? patterns[1] : patterns[0];
+
+        var usesGrouping = (pattern.indexOf(',') != -1);
+        // if pattern has number groups, parse them.
+        if (usesGrouping) {
+            var primaryGroupMatches = pattern.match(/#+0/);
+            var primaryGroupSize = primaryGroupMatches[0].length;
+            var secondaryGroupSize = primaryGroupMatches[0].length;
+            var numberGroups = pattern.split(',');
+            // check for distinct secondary group size.
+            if (numberGroups.length > 2) {
+                secondaryGroupSize = numberGroups[1].length;
+            }
+        }
+
         var signMultiplier = negative ? '-1' : '1';
         value = value * signMultiplier;
         // Split the number into major and minor digits.

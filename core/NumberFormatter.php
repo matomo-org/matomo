@@ -17,11 +17,8 @@ use Piwik\Container\StaticContainer;
  */
 class NumberFormatter extends Singleton
 {
-    /** @var string language specific pattern for positive numbers */
-    protected $patternPositive;
-
-    /** @var string language specific pattern for negative numbers */
-    protected $patternNegative;
+    /** @var string language specific patterns for numbers */
+    protected $patternNumber;
 
     /** @var string language specific pattern for percent numbers */
     protected $patternPercent;
@@ -51,38 +48,33 @@ class NumberFormatter extends Singleton
     protected $secondaryGroupSize;
 
     /**
-     * @return NumberFormatter
-     */
-    public static function getInstance()
-    {
-        return StaticContainer::get('Piwik\NumberFormatter');
-    }
-
-    /**
      * Loads all required data from Intl plugin
      */
     public function __construct()
     {
-        $this->patternPositive = Piwik::translate('Intl_NumberFormat');
-        $this->patternNegative = Piwik::translate('Intl_NumberFormatNegative');
+        $this->patternNumber = Piwik::translate('Intl_NumberFormatNumber');
         $this->patternPercent = Piwik::translate('Intl_NumberFormatPercent');
         $this->symbolPlus = Piwik::translate('Intl_NumberSymbolPlus');
         $this->symbolMinus = Piwik::translate('Intl_NumberSymbolMinus');
         $this->symbolPercent = Piwik::translate('Intl_NumberSymbolPercent');
         $this->symbolGroup = Piwik::translate('Intl_NumberSymbolGroup');
         $this->symbolDecimal = Piwik::translate('Intl_NumberSymbolDecimal');
+    }
 
-        $this->usesGrouping = (strpos($this->patternPositive, ',') !== false);
-        // if pattern has number groups, parse them.
-        if ($this->usesGrouping) {
-            preg_match('/#+0/', $this->patternPositive, $primaryGroupMatches);
-            $this->primaryGroupSize = $this->secondaryGroupSize = strlen($primaryGroupMatches[0]);
-            $numberGroups = explode(',', $this->patternPositive);
-            // check for distinct secondary group size.
-            if (count($numberGroups) > 2) {
-                $this->secondaryGroupSize = strlen($numberGroups[1]);
-            }
+    /**
+     * Parses the given pattern and returns patterns for positive and negative numbers
+     *
+     * @param string $pattern
+     * @return array
+     */
+    protected function parsePattern($pattern)
+    {
+        $patterns = explode(';', $pattern);
+        if (!isset($patterns[1])) {
+            // No explicit negative pattern was provided, construct it.
+            $patterns[1] = '-' . $patterns[0];
         }
+        return $patterns;
     }
 
     /**
@@ -95,8 +87,14 @@ class NumberFormatter extends Singleton
      */
     public function format($value, $maximumFractionDigits=0, $minimumFractionDigits=0)
     {
+        static $positivePattern, $negativePattern;
+
+        if (empty($positivePatter) || empty($negativePattern)) {
+            list($positivePattern, $negativePattern) = $this->parsePattern($this->patternNumber);
+        }
         $negative = (bccomp('0', $value, 12) == 1);
-        $pattern = $negative ? $this->patternNegative : $this->patternPositive;
+        $pattern = $negative ? $negativePattern : $positivePattern;
+
         return $this->formatNumberWithPattern($pattern, $value, $maximumFractionDigits, $minimumFractionDigits);
     }
 
@@ -124,11 +122,21 @@ class NumberFormatter extends Singleton
      */
     public function formatPercent($value, $maximumFractionDigits=0, $minimumFractionDigits=0)
     {
+        static $positivePattern, $negativePattern;
+
+        if (empty($positivePatter) || empty($negativePattern)) {
+            list($positivePattern, $negativePattern) = $this->parsePattern($this->patternPercent);
+        }
+
         $newValue =  trim($value, " \0\x0B%");
         if (!is_numeric($newValue)) {
             return $value;
         }
-        return $this->formatNumberWithPattern($this->patternPercent, $newValue, $maximumFractionDigits, $minimumFractionDigits);
+
+        $negative = (bccomp('0', $value, 12) == 1);
+        $pattern = $negative ? $negativePattern : $positivePattern;
+
+        return $this->formatNumberWithPattern($pattern, $newValue, $maximumFractionDigits, $minimumFractionDigits);
     }
 
     /**
@@ -145,6 +153,19 @@ class NumberFormatter extends Singleton
         if (!is_numeric($value)) {
             return $value;
         }
+
+        $this->usesGrouping = (strpos($pattern, ',') !== false);
+        // if pattern has number groups, parse them.
+        if ($this->usesGrouping) {
+            preg_match('/#+0/', $pattern, $primaryGroupMatches);
+            $this->primaryGroupSize = $this->secondaryGroupSize = strlen($primaryGroupMatches[0]);
+            $numberGroups = explode(',', $pattern);
+            // check for distinct secondary group size.
+            if (count($numberGroups) > 2) {
+                $this->secondaryGroupSize = strlen($numberGroups[1]);
+            }
+        }
+
         // Ensure that the value is positive and has the right number of digits.
         $negative = (bccomp('0', $value, 12) == 1);
         $signMultiplier = $negative ? '-1' : '1';

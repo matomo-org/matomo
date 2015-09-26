@@ -13,6 +13,7 @@ use Piwik\Period;
 use Piwik\Plugins\MultiSites\Dashboard;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Translate;
 
 /**
  * @group MultiSites
@@ -36,6 +37,8 @@ class DashboardTest extends IntegrationTestCase
         for ($i = 1; $i <= $this->numSitesToCreate; $i++) {
             Fixture::createWebsite('2012-12-12 00:00:00', $ecommerce = 0, 'Site ' . $i);
         }
+
+        Translate::loadAllTranslations();
 
         $this->dashboard = $this->getMockBuilder('Piwik\Plugins\MultiSites\Dashboard')
                                 ->setMethods(null)

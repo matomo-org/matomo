@@ -335,15 +335,13 @@ class GenerateIntl extends ConsoleCommand
             $unitsData = $unitsData['main'][$requestLangCode]['numbers'];
 
             $numberingSystem = $unitsData['defaultNumberingSystem'];
-            $numberFormats   = explode(';', $unitsData['decimalFormats-numberSystem-' . $numberingSystem]['standard']);
 
             $translations['Intl']['NumberSymbolDecimal']  = $unitsData['symbols-numberSystem-' . $numberingSystem]['decimal'];
             $translations['Intl']['NumberSymbolGroup']    = $unitsData['symbols-numberSystem-' . $numberingSystem]['group'];
             $translations['Intl']['NumberSymbolPercent']  = $unitsData['symbols-numberSystem-' . $numberingSystem]['percentSign'];
             $translations['Intl']['NumberSymbolPlus']     = $unitsData['symbols-numberSystem-' . $numberingSystem]['plusSign'];
             $translations['Intl']['NumberSymbolMinus']    = $unitsData['symbols-numberSystem-' . $numberingSystem]['minusSign'];
-            $translations['Intl']['NumberFormat']         = $numberFormats[0];
-            $translations['Intl']['NumberFormatNegative'] = isset($numberFormats[1]) ? $numberFormats[1] : ('-'.$numberFormats[0]);
+            $translations['Intl']['NumberFormatNumber']   = $unitsData['decimalFormats-numberSystem-' . $numberingSystem]['standard'];
             $translations['Intl']['NumberFormatPercent']  = $unitsData['percentFormats-numberSystem-' . $numberingSystem]['standard'];
 
             $output->writeln('Saved number formatting data for ' . $langCode);
