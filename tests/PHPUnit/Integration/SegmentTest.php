@@ -644,7 +644,7 @@ class SegmentTest extends IntegrationTestCase
     public function test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withoutCache()
     {
         $this->disableSubqueryCache();
-        $this->assertCacheIsNotUsed();
+        $this->assertCacheWasHit($hit = 0);
 
         list($pageUrlFoundInDb, $actionIdFoundInDb) = $this->insertActions();
 
@@ -701,11 +701,11 @@ class SegmentTest extends IntegrationTestCase
 
         $cache = new TableLogAction\Cache();
         $this->assertTrue( empty($cache->enable) );
-        $this->assertCacheIsNotUsed();
+        $this->assertCacheWasHit($hit = 0);
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheIsEmpty()
+    public function test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave()
     {
         $this->enableSubqueryCache();
 
@@ -778,16 +778,16 @@ class SegmentTest extends IntegrationTestCase
     public function test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheisHit()
     {
         $this->enableSubqueryCache();
-        $this->assertCacheIsNotUsed();
+        $this->assertCacheWasHit($hits = 0);
 
-        $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheIsEmpty();
-        $this->assertCacheWasUsed($hits = 4);
+        $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
+        $this->assertCacheWasHit($hits = 0);
 
-        $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheIsEmpty();
-        $this->assertCacheWasUsed($hits = 4 + 4);
+        $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
+        $this->assertCacheWasHit($hits = 4);
 
-        $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheIsEmpty();
-        $this->assertCacheWasUsed($hits = 4 + 4 + 4);
+        $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
+        $this->assertCacheWasHit($hits = 4 + 4);
     }
 
     public function provideContainerConfig()
@@ -828,14 +828,9 @@ class SegmentTest extends IntegrationTestCase
         return array($pageUrlFoundInDb, $actionIdFoundInDb);
     }
 
-    private function assertCacheIsNotUsed()
+    private function assertCacheWasHit($expectedHits)
     {
-        $this->assertTrue(TableLogAction\Cache::$hits == 0, "expected cache was not used, but cache was hit " . TableLogAction\Cache::$hits . " times");
-    }
-
-    private function assertCacheWasUsed($expectedHits)
-    {
-        $this->assertTrue(TableLogAction\Cache::$hits == $expectedHits, "expected cache was used $expectedHits times, but got " . TableLogAction\Cache::$hits . " cache hits instead");
+        $this->assertTrue(TableLogAction\Cache::$hits == $expectedHits, "expected cache was hit $expectedHits time(s), but got " . TableLogAction\Cache::$hits . " cache hits instead.");
     }
 
     private function disableSubqueryCache()

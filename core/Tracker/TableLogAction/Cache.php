@@ -42,8 +42,8 @@ class Cache
 
         $ids = self::getIdsFromCache($valueToMatch, $sql);
 
-        if(is_null($ids)) {
-            return $ids;
+        if(count($ids) == 0) {
+            return null;
         }
 
         $sql = Common::getSqlStringFieldsArray($ids);
@@ -73,7 +73,7 @@ class Cache
             return $cache->fetch($cacheKey);
         }
 
-        $ids = $this->fetchIdsFromDb($valueToMatch, $sql);
+        $ids = $this->fetchActionIdsFromDb($valueToMatch, $sql);
 
         $cache->save($cacheKey, $ids, $this->lifetime);
 
@@ -103,7 +103,7 @@ class Cache
      * @return array|null
      * @throws \Exception
      */
-    private function fetchIdsFromDb($valueToMatch, $sql)
+    private function fetchActionIdsFromDb($valueToMatch, $sql)
     {
         $idActions = \Piwik\Db::fetchAll($sql, $valueToMatch);
 
@@ -112,11 +112,6 @@ class Cache
             $ids[] = $idAction['idaction'];
         }
 
-        if (!empty($ids)) {
-            return $ids;
-        }
-
-        // no action was found for CONTAINS / DOES NOT CONTAIN
-        return null;
+        return $ids;
     }
 }
