@@ -49,6 +49,11 @@ class SegmentExpression
         $this->tree = $this->parseTree();
     }
 
+    public function getSegmentDefinition()
+    {
+        return $this->string;
+    }
+
     public function isEmpty()
     {
         return count($this->tree) == 0;
