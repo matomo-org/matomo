@@ -16,6 +16,7 @@ class Cache
 {
     public $enable;
     protected $lifetime;
+    static public $hits = 0;
 
     public function __construct()
     {
@@ -68,6 +69,7 @@ class Cache
         $cacheKey = $this->getCacheKey($valueToMatch, $sql);
 
         if ($cache->contains($cacheKey) === true) {
+            self::$hits++;
             return $cache->fetch($cacheKey);
         }
 
