@@ -293,6 +293,13 @@ abstract class Period
     abstract public function getImmediateChildPeriodLabel();
 
     /**
+     * TODO
+     *
+     * @ignore
+     */
+    abstract public function getParentPeriodLabel();
+
+    /**
      * Returns the date range string comprising two dates
      *
      * @return string eg, `'2012-01-01,2012-01-31'`.
@@ -304,7 +311,6 @@ abstract class Period
 
         return $dateStart->toString("Y-m-d") . "," . $dateEnd->toString("Y-m-d");
     }
-
 
     /**
      * @param string $format
@@ -366,5 +372,82 @@ abstract class Period
                 $short ? 'Short' : 'Long',
                 $maxDifference
             ));
+    }
+
+    /**
+     * Returns all child periods that exist within this periods entire date range. Cascades
+     * downwards over all period types that are smaller than this one. For example, month periods
+     * will cascade to week and day periods and year periods will cascade to month, week and day
+     * periods.
+     *
+     * The method will return periods that are outside the range of this period
+     * and a child period for the start/end date encompasses dates outside the range. For example,
+     * cascading on a month will return the week period for the 1st of the month. The week period
+     * might include days before the 1st. When cascading further, those days will be included in
+     * the result.
+     *
+     * @return Period[]
+     * @ignore
+     */
+    public function getAllOverlappingChildPeriods()
+    {
+        $result = array();
+
+        $childPeriodType = $this->getImmediateChildPeriodLabel();
+        if (empty($childPeriodType)) {
+            return $result;
+        }
+
+        $subperiods = $this->getSubperiods();
+
+        $startDate = reset($subperiods)->getDateStart()->toString();
+        $endDate = end($subperiods)->getDateEnd()->toString();
+
+        $childPeriods = Factory::build($childPeriodType, $startDate . ',' . $endDate);
+
+        return array_merge($childPeriods->getSubperiods(), $childPeriods->getAllOverlappingChildPeriods());
+    }
+
+    /**
+     * Returns all periods of a larger type that contain this period. For example,
+     * for a week, this will return the month and year containing it. For a day, it will
+     * return the week, month and year containing it.
+     *
+     * @return Period[]
+     * @ignore
+     */
+    public function getAllParentPeriods()
+    {
+        $parentPeriods = $this->getAllParentPeriodsSet();
+        return array_values($parentPeriods);
+    }
+
+    /**
+     * Helper method required for recursion.
+     *
+     * @return Period[]
+     * @ignore
+     */
+    private function getAllParentPeriodsSet()
+    {
+        $parentPeriodType = $this->getParentPeriodLabel();
+        if (empty($parentPeriodType)) {
+            return array();
+        }
+
+        $startPeriod = Factory::build($parentPeriodType, $this->getDateStart());
+        $endPeriod = Factory::build($parentPeriodType, $this->getDateEnd());
+
+        $result = array();
+
+        $result[$startPeriod->getRangeString()] = $startPeriod;
+        $result = $result + $startPeriod->getAllParentPeriodsSet();
+
+        if ($startPeriod->getRangeString() != $endPeriod->getRangeString()) {
+            $result[$endPeriod->getRangeString()] = $endPeriod;
+            $result = $result + $endPeriod->getAllParentPeriodsSet();
+        }
+
+        return $result;
     }
 }

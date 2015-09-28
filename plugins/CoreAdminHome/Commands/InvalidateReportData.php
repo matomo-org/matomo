@@ -66,23 +66,22 @@ class InvalidateReportData extends ConsoleCommand
         $periodTypes = $this->getPeriodTypesToInvalidateFor($input);
         $dateRanges = $this->getDateRangesToInvalidateFor($input);
 
-        $datesByPeriod = $this->getPeriodsToInvalidateFor($periodTypes, $dateRanges, $cascade);
+        foreach ($periodTypes as $periodType) {
+            foreach ($dateRanges as $dateRange) {
+                $output->writeln("Invalidating $periodType periods in $dateRange...");
 
-        foreach ($datesByPeriod as $periodType => $dates) {
-            $output->writeln("Invalidating $periodType periods...");
+                $dates = $this->getPeriodDates($periodType, $dateRange);
 
-            if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                $output->writeln("  [ dates = " . implode(', ', $dates) . " ]");
-            }
+                if ($dryRun) {
+                    $output->writeln("[Dry-run] invalidating archives for site = [ " . implode(', ', $sites)
+                        . " ], dates = [ " . implode(', ', $dates) . " ], period = [ $periodType ], cascade = [ "
+                        . (int)$cascade . " ]");
+                } else {
+                    $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType, $cascade);
 
-            if ($dryRun) {
-                $output->writeln("[Dry-run] invalidating archives for site = [ " . implode(', ', $sites)
-                    . " ], dates = [ " . implode(', ', $dates) . " ], period = [ $periodType ]");
-            } else {
-                $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType);
-
-                if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                    $output->writeln($invalidationResult->makeOutputLogs());
+                    if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+                        $output->writeln($invalidationResult->makeOutputLogs());
+                    }
                 }
             }
         }
@@ -148,64 +147,29 @@ class InvalidateReportData extends ConsoleCommand
             throw new \InvalidArgumentException("The --dates option is required.");
         }
 
-        $result = array();
-        foreach ($dateRanges as $dateRangeString) {
-            $parts = explode(',', $dateRangeString);
-
-            if (count($parts) == 1) {
-                $parts[1] = $parts[0];
-            } else if (count($parts) > 2) {
-                throw new \InvalidArgumentException("Invalid date range specifier: '$dateRangeString'.");
-            }
-
-            $startDate = $this->makeDateObjectFromString($parts[0]);
-            $endDate = $this->makeDateObjectFromString($parts[1]);
-
-            $result[] = array($startDate, $endDate);
-        }
-        return $result;
+        return $dateRanges;
     }
 
-    /**
-     * @param string[] $periodTypes
-     * @param Date[][] $dateRanges
-     * @param bool $cascade
-     * @return Date[][]
-     */
-    public function getPeriodsToInvalidateFor($periodTypes, $dateRanges, $cascade)
+    private function getPeriodDates($periodType, $dateRange)
     {
-        $result = array();
-
-        foreach ($dateRanges as $range) {
-            /**
-             *  @var Date $startDate
-             *  @var Date $endDate
-             */
-            list($startDate, $endDate) = $range;
-
-            foreach ($periodTypes as $type) {
-                /** @var Range $periodObj */
-                $periodObj = PeriodFactory::build($type, $startDate . ',' . $endDate);
-                foreach ($periodObj->getAllOverlappingChildPeriods($cascade) as $subperiod) {
-                    $result[$subperiod->getLabel()][] = $subperiod->getDateStart()->toString();
-                }
-            }
+        if (!isset(Piwik::$idPeriods[$periodType])) {
+            throw new \InvalidArgumentException("Invalid period type '$periodType'.");
         }
 
-        foreach ($result as $periodType => $dates) {
-            $result[$periodType] = array_unique($dates);
-        }
-
-        return $result;
-    }
-
-    private function makeDateObjectFromString($dateString)
-    {
         try {
-            return Date::factory($dateString)->toString(); // remove time specifier if present
+            $period = PeriodFactory::build($periodType, $dateRange);
         } catch (\Exception $ex) {
-            throw new \InvalidArgumentException("Invalid date range specifier: $dateString, " . $ex->getMessage(),
-                $code = 0, $ex);
+            throw new \InvalidArgumentException("Invalid date or date range specifier '$dateRange'", $code = 0, $ex);
         }
+
+        $result = array();
+        if ($period instanceof Range) {
+            foreach ($period->getSubperiods() as $subperiod) {
+                $result[] = $subperiod->getDateStart();
+            }
+        } else {
+            $result[] = $period->getDateStart();
+        }
+        return $result;
     }
 }

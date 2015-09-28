@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Period;
 use Piwik\Sequence;
 use Psr\Log\LoggerInterface;
 
@@ -95,39 +96,38 @@ class Model
     }
 
     /**
-     * @param $archiveTable
-     * @param $idSites
-     * @param $periodId
-     * @param $datesToDelete
+     * @param string $archiveTable Prefixed table name
+     * @param int[] $idSites
+     * @param Period[][] $periodsByType
+     * @return \Zend_Db_Statement
      * @throws Exception
      */
-    public function updateArchiveAsInvalidated($archiveTable, $idSites, $periodId, $datesToDelete)
+    public function updateArchiveAsInvalidated($archiveTable, $idSites, $periodsByType)
     {
-        $sql = $bind = array();
-        $datesToDelete = array_unique($datesToDelete);
-        foreach ($datesToDelete as $dateToDelete) {
-            $sql[] = '(date1 <= ? AND ? <= date2 AND name LIKE \'done%\')';
-            $bind[] = $dateToDelete;
-            $bind[] = $dateToDelete;
+        $idSites = array_map('intval', $idSites);
+
+        $bind = array();
+
+        $periodConditions = array();
+        foreach ($periodsByType as $periodType => $periods) {
+            $dateConditions = array();
+
+            $bind[] = $periodType;
+
+            foreach ($periods as $period) {
+                $dateConditions[] = "(date1 <= ? AND ? <= date2)";
+                $bind[] = $period->getDateStart()->toString();
+            }
+
+            $periodConditions[] = "(period = ? AND (" . implode(" OR ", $dateConditions) . "))";
         }
-        $sql = implode(" OR ", $sql);
 
-        $idSites = array_values($idSites);
-        $sqlSites = " AND idsite IN (" . Common::getSqlStringFieldsArray($idSites) . ")";
-        $bind = array_merge($bind, $idSites);
+        $sql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_INVALIDATED
+             . " WHERE name LIKE 'done%'
+                   AND idsite IN (" . implode(", ", $idSites) . ")
+                   AND (" . implode(" OR ", $periodConditions) . ")";
 
-        $sqlPeriod = "";
-        if ($periodId) {
-            $sqlPeriod = " AND period = ? ";
-            $bind[] = $periodId;
-        }
-
-        $query = "UPDATE $archiveTable " .
-            " SET value = " . ArchiveWriter::DONE_INVALIDATED .
-            " WHERE ( $sql ) " .
-            $sqlSites .
-            $sqlPeriod;
-        Db::query($query, $bind);
+        return Db::query($sql, $bind);
     }
 
 
@@ -157,7 +157,7 @@ class Model
             // Individual blob tables could be missing
             $this->logger->debug("Unable to delete archives by period from {blobTable}.", array(
                 'blobTable' => $blobTable,
-                'exception' => $e
+                'exception' => $e,
             ));
         }
 
@@ -179,7 +179,7 @@ class Model
             // Individual blob tables could be missing
             $this->logger->debug("Unable to delete archive IDs from {blobTable}.", array(
                 'blobTable' => $blobTable,
-                'exception' => $e
+                'exception' => $e,
             ));
         }
 

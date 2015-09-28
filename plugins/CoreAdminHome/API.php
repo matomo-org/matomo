@@ -95,7 +95,7 @@ class API extends \Piwik\Plugin\API
                 implode(", ", $invalidDates) . ". Piwik simply ignored those and proceeded with the others.";
         }
 
-        Site::clearCache();
+        Site::clearCache(); // TODO: is this needed? it shouldn't be needed...
 
         return $invalidationResult->makeOutputLogs();
     }

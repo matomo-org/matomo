@@ -82,4 +82,9 @@ class Week extends Period
     {
         return 'day';
     }
+
+    public function getParentPeriodLabel()
+    {
+        return 'month';
+    }
 }

@@ -104,4 +104,9 @@ class Day extends Period
     {
         return null;
     }
+
+    public function getParentPeriodLabel()
+    {
+        return 'week';
+    }
 }

@@ -116,4 +116,9 @@ class Month extends Period
     {
         return 'week';
     }
+
+    public function getParentPeriodLabel()
+    {
+        return 'year';
+    }
 }

@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
-use Piwik\Access;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 
@@ -42,7 +41,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertNotEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("Invalid date range specifier", $this->applicationTester->getDisplay());
+        $this->assertContains("Invalid date or date range specifier", $this->applicationTester->getDisplay());
     }
 
     public function getInvalidDateRanges()
@@ -168,8 +167,12 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 '1,3',
                 false,
                 array(
-                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-01, 2012-02-01, 2013-03-01 ], period = [ month ]',
-                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2011-12-26, 2012-01-02, 2012-01-09, 2012-01-16, 2012-01-23, 2012-01-30, 2013-03-18 ], period = [ week ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-01, 2012-02-01 ], period = [ month ], cascade = [ 0 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-01 ], period = [ month ], cascade = [ 0 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2013-03-01 ], period = [ month ], cascade = [ 0 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2011-12-26, 2012-01-02, 2012-01-09, 2012-01-16, 2012-01-23, 2012-01-30 ], period = [ week ], cascade = [ 0 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-23 ], period = [ week ], cascade = [ 0 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2013-03-18 ], period = [ week ], cascade = [ 0 ]',
                 ),
             ),
 
@@ -179,10 +182,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 '2',
                 true,
                 array(
-                    '[Dry-run] invalidating archives for site = [ 2 ], dates = [ 2012-01-30, 2012-02-06 ], period = [ week ]',
-                    '[Dry-run] invalidating archives for site = [ 2 ], dates = [ 2012-01-30, 2012-01-31, 2012-02-01, 2012-02-02, '
-                    . '2012-02-03, 2012-02-04, 2012-02-05, 2012-02-06, 2012-02-07, 2012-02-08, 2012-02-09, 2012-02-10, '
-                    . '2012-02-11, 2012-02-12 ], period = [ day ]',
+                    '[Dry-run] invalidating archives for site = [ 2 ], dates = [ 2012-01-30, 2012-02-06 ], period = [ week ], cascade = [ 1 ]',
                 ),
             ),
 
@@ -192,17 +192,12 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 'all',
                 true,
                 array(
-                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-02-01, 2012-03-01 ], period = [ month ]',
-                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-01-30, 2012-02-06, 2012-02-13, 2012-02-20, 2012-02-27, 2012-03-05, 2012-03-12, 2012-03-19, 2012-03-26 ], period = [ week ]',
-                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-01-30, 2012-01-31, 2012-02-01,'
-                    . ' 2012-02-02, 2012-02-03, 2012-02-04, 2012-02-05, 2012-02-06, 2012-02-07, 2012-02-08, 2012-02-09, '
-                    . '2012-02-10, 2012-02-11, 2012-02-12, 2012-02-13, 2012-02-14, 2012-02-15, 2012-02-16, 2012-02-17, '
-                    . '2012-02-18, 2012-02-19, 2012-02-20, 2012-02-21, 2012-02-22, 2012-02-23, 2012-02-24, 2012-02-25, '
-                    . '2012-02-26, 2012-02-27, 2012-02-28, 2012-02-29, 2012-03-01, 2012-03-02, 2012-03-03, 2012-03-04, '
-                    . '2012-03-05, 2012-03-06, 2012-03-07, 2012-03-08, 2012-03-09, 2012-03-10, 2012-03-11, 2012-03-12, '
-                    . '2012-03-13, 2012-03-14, 2012-03-15, 2012-03-16, 2012-03-17, 2012-03-18, 2012-03-19, 2012-03-20, '
-                    . '2012-03-21, 2012-03-22, 2012-03-23, 2012-03-24, 2012-03-25, 2012-03-26, 2012-03-27, 2012-03-28, '
-                    . '2012-03-29, 2012-03-30, 2012-03-31, 2012-04-01 ], period = [ day ]'
+                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-02-01 ], period = [ month ], cascade = [ 1 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-03-01 ], period = [ month ], cascade = [ 1 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-01-30 ], period = [ week ], cascade = [ 1 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-03-12 ], period = [ week ], cascade = [ 1 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-02-03, 2012-02-04 ], period = [ day ], cascade = [ 1 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-03-15 ], period = [ day ], cascade = [ 1 ]',
                 ),
             ),
 

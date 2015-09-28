@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration\DataAccess;
 
+use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -29,7 +30,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->invalidator = new ArchiveInvalidator();
+        $this->invalidator = new ArchiveInvalidator(new Model());
     }
 
     public function test_rememberToInvalidateArchivedReportsLater_shouldCreateAnEntryInCaseThereIsNoneYet()
@@ -182,5 +183,30 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->rememberReport(7, '2014-04-05');
         $this->rememberReport(7, '2014-05-08');
         $this->rememberReport(7, '2014-04-08');
+    }
+
+    public function test_markArchivesAsInvalidated_DoesNotInvalidateDatesBeforePurgeThreshold()
+    {
+        // TODO
+    }
+
+    public function test_markArchivesAsInvalidated_CorrectlyModifiesDistributedLists()
+    {
+        // TODO
+    }
+
+    /**
+     * @dataProvider getTestDataForMarkArchivesAsInvalidated
+     */
+    public function test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated()
+    {
+        // TODO
+    }
+
+    private function getTestDataForMarkArchivesAsInvalidated()
+    {
+        return array(
+            // TODO
+        );
     }
 }

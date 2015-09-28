@@ -92,4 +92,9 @@ class Year extends Period
     {
         return 'month';
     }
+
+    public function getParentPeriodLabel()
+    {
+        return null;
+    }
 }
