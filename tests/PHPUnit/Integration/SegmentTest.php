@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Exception;
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
@@ -35,6 +36,8 @@ class SegmentTest extends IntegrationTestCase
     public function tearDown()
     {
         parent::tearDown();
+
+        Cache::getLazyCache()->flushAll();
     }
 
     static public function removeExtraWhiteSpaces($valueToFilter)
@@ -774,7 +777,6 @@ class SegmentTest extends IntegrationTestCase
     public function test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheisHit()
     {
         $this->enableSubqueryCache();
-        TableLogAction\Cache::$hits = 0;
         $this->assertCacheIsNotUsed();
 
         $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheIsEmpty();
