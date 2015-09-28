@@ -38,6 +38,7 @@ class SegmentTest extends IntegrationTestCase
         parent::tearDown();
 
         Cache::getLazyCache()->flushAll();
+        TableLogAction\Cache::$hits = 0;
     }
 
     static public function removeExtraWhiteSpaces($valueToFilter)
