@@ -19,7 +19,7 @@ use Piwik\Tracker\TableLogAction;
 
 /**
  * @group Core
- * @group SegmentTest
+ * @group Segment
  */
 class SegmentTest extends IntegrationTestCase
 {
@@ -651,8 +651,9 @@ class SegmentTest extends IntegrationTestCase
          * pageUrl!=abcdefg                          -- Matches all
          * pageUrl=@does-not-exist                   -- Matches none
          * pageUrl=='.urlencode($pageUrlFoundInDb)   -- Matches one
+         * pageUrl!@found                            -- Matches all
          */
-        $segment = 'visitServerHour==12,pageUrl==xyz;pageUrl!=abcdefg,pageUrl=@does-not-exist,pageUrl=='.urlencode($pageUrlFoundInDb);
+        $segment = 'visitServerHour==12,pageUrl==xyz;pageUrl!=abcdefg,pageUrl=@does-not-exist,pageUrl=='.urlencode($pageUrlFoundInDb).',pageUrl!@found';
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -672,14 +673,17 @@ class SegmentTest extends IntegrationTestCase
                         OR (1 = 0))
                       AND ((1 = 1)
                         OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )
-                        OR   log_link_visit_action.idaction_url = ? )
+                        OR   log_link_visit_action.idaction_url = ?
+                        OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) )
+                        )
                 GROUP BY log_visit.idvisit
                 ORDER BY NULL
                     ) AS log_inner",
             "bind" => array(
                 12,
                 "does-not-exist",
-                $actionIdFoundInDb
+                $actionIdFoundInDb,
+                "found"
             ));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
