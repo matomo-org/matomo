@@ -42,7 +42,7 @@ class Cache
     {
         $this->isEnabled = (bool)Config::getInstance()->General['enable_segments_subquery_cache'];
         $this->limitActionIds = Config::getInstance()->General['segments_subquery_cache_limit'];
-        $this->lifetime = 60 * 10;
+        $this->lifetime = Config::getInstance()->General['segments_subquery_cache_ttl'];
         $this->logger = StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
