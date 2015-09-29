@@ -157,6 +157,14 @@ enable_processing_unique_visitors_multiple_sites = 0
 enabled_periods_UI = "day,week,month,year,range"
 enabled_periods_API = "day,week,month,year,range"
 
+; whether to enable subquery cache for Custom Segment archiving queries
+enable_segments_subquery_cache = 0
+; Any segment subquery that matches more than segments_subquery_cache_limit IDs will not be cached,
+; and the original subquery executed instead.
+segments_subquery_cache_limit  = 100000
+; TTL: Time to live for cache files, in seconds. Default to 60 minutes
+segments_subquery_cache_ttl  = 3600
+
 ; when set to 1, all requests to Piwik will return a maintenance message without connecting to the DB
 ; this is useful when upgrading using the shell command, to prevent other users from accessing the UI while Upgrade is in progress
 maintenance_mode = 0

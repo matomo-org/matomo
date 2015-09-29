@@ -10,6 +10,7 @@
 namespace Piwik\Tracker;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Segment\SegmentExpression;
 
 /**
@@ -188,11 +189,8 @@ class TableLogAction
         // special case
         $sql = TableLogAction::getSelectQueryWhereNameContains($matchType, $actionType);
 
-        return array(
-            // mark that the returned value is an sql-expression instead of a literal value
-            'SQL'  => $sql,
-            'bind' => $valueToMatch,
-        );
+        $cache = new TableLogAction\Cache();
+        return $cache->getIdActionFromSegment($valueToMatch, $sql);
     }
 
     /**
