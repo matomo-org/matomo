@@ -788,6 +788,73 @@ class SegmentTest extends IntegrationTestCase
 
         $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
         $this->assertCacheWasHit($hits = 4 + 4);
+
+    }
+
+
+    public function test_getSelectQuery_withTwoSegments_subqueryNotCached_whenResultsetTooLarge()
+    {
+        $this->enableSubqueryCache();
+
+        // do not cache when more than 3 idactions returned by subquery
+        Config::getInstance()->General['segments_subquery_cache_limit'] = 2;
+
+        list($pageUrlFoundInDb, $actionIdFoundInDb) = $this->insertActions();
+        $select = 'log_visit.*';
+        $from = 'log_visit';
+        $where = false;
+        $bind = array();
+
+        /**
+         * pageUrl=@found-in-db-bis                  -- Will be cached
+         * pageUrl!@not-found                        -- Too big to cache
+         */
+        $segment = 'pageUrl=@found-in-db-bis;pageUrl!@not-found';
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+
+        $expected = array(
+            "sql"  => "
+                SELECT
+                    log_inner.*
+                FROM
+                    (
+                SELECT
+                    log_visit.*
+                FROM
+                    " . Common::prefixTable('log_visit') . " AS log_visit
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                WHERE
+                           ( log_link_visit_action.idaction_url IN (?) )" . // pageUrl=@found-in-db-bis
+                "
+                        AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) " . // pageUrl!@not-found
+                "GROUP BY log_visit.idvisit
+                ORDER BY NULL
+                    ) AS log_inner",
+            "bind" => array(
+                2, // pageUrl=@found-in-db-bis
+                "not-found", // pageUrl!@not-found
+            ));
+
+        $cache = new TableLogAction\Cache();
+        $this->assertTrue( !empty($cache->isEnabled) );
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+
+    public function test_getSelectQuery_withTwoSegments_partiallyCached()
+    {
+        $this->assertCacheWasHit($hits = 0);
+
+        // this will create the caches for both segments
+        $this->test_getSelectQuery_withTwoSegments_subqueryNotCached_whenResultsetTooLarge();
+        $this->assertCacheWasHit($hits = 0);
+
+        // this will hit caches for both segments
+        $this->test_getSelectQuery_withTwoSegments_subqueryNotCached_whenResultsetTooLarge();
+        $this->assertCacheWasHit($hits = 2);
     }
 
     public function provideContainerConfig()

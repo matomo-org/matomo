@@ -41,6 +41,7 @@ class Cache
     public function __construct()
     {
         $this->isEnabled = (bool)Config::getInstance()->General['enable_segments_subquery_cache'];
+        $this->limitActionIds = Config::getInstance()->General['segments_subquery_cache_limit'];
         $this->lifetime = 60 * 10;
         $this->logger = StaticContainer::get('Psr\Log\LoggerInterface');
     }
@@ -63,9 +64,18 @@ class Cache
 
         $ids = self::getIdsFromCache($valueToMatch, $sql);
 
+        if(is_null($ids)) {
+            // Too Big To Cache, issue SQL as subquery instead
+            return array(
+                'SQL' => $sql,
+                'bind' => $valueToMatch,
+            );
+        }
+
         if(count($ids) == 0) {
             return null;
         }
+
 
         $sql = Common::getSqlStringFieldsArray($ids);
         $bind = $ids;
@@ -81,7 +91,7 @@ class Cache
     /**
      * @param $valueToMatch
      * @param $sql
-     * @return array|bool|float|int|string
+     * @return array of IDs, or null if the returnset is too big to cache
      */
     private function getIdsFromCache($valueToMatch, $sql)
     {
@@ -95,6 +105,12 @@ class Cache
         }
 
         $ids = $this->fetchActionIdsFromDb($valueToMatch, $sql);
+
+        if($this->isTooBigToCache($ids)) {
+            $this->logger->debug("Segment subquery cache SKIPPED SAVE (too many IDs returned by subquery: %s ids)'", array(count($ids)));
+            $cache->save($cacheKey, $ids = null, $this->lifetime);
+            return null;
+        }
 
         $cache->save($cacheKey, $ids, $this->lifetime);
         $this->logger->debug("Segment subquery cache SAVE (for '$valueToMatch' and SQL '$sql')'");
@@ -143,5 +159,14 @@ class Cache
     private function buildCache()
     {
         return \Piwik\Cache::getLazyCache();
+    }
+
+    /**
+     * @param $ids
+     * @return bool
+     */
+    private function isTooBigToCache($ids)
+    {
+        return count($ids) > $this->limitActionIds;
     }
 }
