@@ -700,7 +700,7 @@ class SegmentTest extends IntegrationTestCase
             ));
 
         $cache = new TableLogAction\Cache();
-        $this->assertTrue( empty($cache->enable) );
+        $this->assertTrue( empty($cache->isEnabled) );
         $this->assertCacheWasHit($hit = 0);
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
@@ -770,7 +770,7 @@ class SegmentTest extends IntegrationTestCase
             ));
 
         $cache = new TableLogAction\Cache();
-        $this->assertTrue( !empty($cache->enable) );
+        $this->assertTrue( !empty($cache->isEnabled) );
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
