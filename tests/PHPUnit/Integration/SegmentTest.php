@@ -37,7 +37,6 @@ class SegmentTest extends IntegrationTestCase
     {
         parent::tearDown();
 
-        Cache::getLazyCache()->flushAll();
         TableLogAction\Cache::$hits = 0;
     }
 
