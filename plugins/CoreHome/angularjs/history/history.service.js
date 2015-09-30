@@ -57,7 +57,7 @@
             var searchObject = $location.search(),
                 searchString = [];
             for (var name in searchObject) {
-                if (!searchObject.hasOwnProperty(name)) {
+                if (!searchObject.hasOwnProperty(name) || name == '_') {
                     continue;
                 }
 
