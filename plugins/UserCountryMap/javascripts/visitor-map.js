@@ -536,7 +536,14 @@
                             return UserCountryMap.countriesByIso[pd.iso] === undefined;
                         },
                         tooltips: function (pd) {
-                            return '<h3>' + pd.name + '</h3>' + _.no_visit;
+                            var countryName = pd.name;
+                            for (var iso in self.config.countryNames) {
+                                if (UserCountryMap.ISO2toISO3[iso.toUpperCase()] == pd.iso) {
+                                    countryName = self.config.countryNames[iso];
+                                    break;
+                                }
+                            }
+                            return '<h3>' + countryName + '</h3>' + _.no_visit;
                         }
                     });
 

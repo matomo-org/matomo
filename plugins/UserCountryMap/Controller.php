@@ -12,6 +12,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
@@ -106,6 +107,16 @@ class Controller extends \Piwik\Plugin\Controller
         $config['mapCssPath'] = 'plugins/UserCountryMap/stylesheets/map.css';
         $view->config = json_encode($config);
         $view->noData = empty($config['visitsSummary']['nb_visits']);
+
+        $countriesByIso = array();
+        $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+        $countries = array_keys($regionDataProvider->getCountryList());
+
+        foreach ($countries AS $country) {
+            $countriesByIso[strtoupper($country)] = Piwik::translate('Intl_Country_'.strtoupper($country));
+        }
+
+        $view->countriesByIso = $countriesByIso;
 
         $view->continents = array(
             'AF' => \Piwik\Plugins\UserCountry\continentTranslate('afr'),
