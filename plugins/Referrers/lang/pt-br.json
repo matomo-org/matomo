@@ -1,6 +1,6 @@
 {
     "Referrers": {
-        "AllReferrersReportDocumentation": "Este relatório mostra todos os seus referenciadores em um relatório unificado, listando todos os sites, palavras-chave de pesquisa e campanhas usados ​​por seus visitantes para encontrar seu site.",
+        "AllReferrersReportDocumentation": "Este relatório mostra todos os seus Referenciadores em um relatório unificado, listando todos os Websites, Palavras-Chave de Pesquisa e Campanhas utilizadas ​​por seus visitantes para encontrar seu website.",
         "Campaigns": "Campanhas",
         "CampaignsDocumentation": "Os visitantes que vieram para o seu site como o resultado de uma campanha. %s Ver relatório %s para mais detalhes.",
         "CampaignsReportDocumentation": "Este relatório mostra quais as campanhas lideradas visitantes para o seu site. %s para mais informações sobre as campanhas de monitoramento, leia a documentação %s campanhas em piwik.org %s",
@@ -29,7 +29,7 @@
         "SearchEngines": "Motores de Busca",
         "SearchEnginesDocumentation": "Um visitante foi encaminhado para o seu site por um motor de busca. %s Ver o relatório %s para mais detalhes.",
         "SearchEnginesReportDocumentation": "Este relatório mostra quais motores de busca encaminhou usuários ao seu site. %s Ao clicar em uma linha na tabela, você pode ver o que os usuários estavam procurando utilizando um motor de busca específico.",
-        "SocialFooterMessage": "Este é um subconjunto do relatório de Websites listados a esquerda. Ele filtra outros sites para que você possa comparar diretamente os referenciadores de suas redes sociais .",
+        "SocialFooterMessage": "Este é um subconjunto do relatório de Websites listados à esquerda. Filtra outros websites para que você possa comparar diretamente os referenciadores de suas redes sociais .",
         "Socials": "Redes Sociais",
         "SocialsReportDocumentation": "Este relatório mostra quais as redes sociais levaram visitantes ao seu site. <br \/> Ao clicar em uma linha na tabela, você pode ver de quais páginas os visitantes de redes sociais vieram para o seu site.",
         "SubmenuSearchEngines": "Motores de Busca & Palavras-Chave",
@@ -49,7 +49,7 @@
         "WidgetExternalWebsites": "Websites Referenciadores",
         "WidgetGetAll": "Todos os Referenciadores",
         "WidgetSocials": "Lista de redes sociais",
-        "WidgetTopKeywordsForPages": "Principais Palavras-Chave para a URL da página",
+        "WidgetTopKeywordsForPages": "Principais Palavras-chave para a URL da página",
         "XPercentOfVisits": "%s%% de visitas"
     }
 }

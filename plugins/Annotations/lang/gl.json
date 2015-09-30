@@ -1,0 +1,11 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Engadir anotación para %s...",
+        "Annotations": "Anotacións",
+        "ClickToDelete": "Prema para eliminar esta anotación.",
+        "ClickToEdit": "Prema para editar esta anotación.",
+        "ClickToEditOrAdd": "Prema para editar ou engadir unha anotación nova.",
+        "CreateNewAnnotation": "Crear unha anotación nova...",
+        "EnterAnnotationText": "Introduza a súa nota..."
+    }
+}

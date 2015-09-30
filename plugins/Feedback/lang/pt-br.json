@@ -1,6 +1,6 @@
 {
     "Feedback": {
-        "DoYouHaveBugReportOrFeatureRequest": "Você tem algum bug pra relatar ou alguma caracteristica para pedir?",
+        "DoYouHaveBugReportOrFeatureRequest": "Você tem algum bug para relatar ou alguma função para pedir?",
         "HowToCreateTicket": "Por favor, leia as recomendações de como escrever um bom %1$sbug relatório%2$s ou %3$sfunção requerimento%4$s. Então, registre-se ou faço seu login em %5$snosso questões tracker%6$s e crie uma %7$snova questão%8$s.",
         "IWantTo": "Eu quero:",
         "LearnWaysToParticipate": "Aprenda sobre todas as maneiras que você pode %s participar %s",
@@ -16,8 +16,10 @@
         "ThankYou": "Obrigado por nos ajudar a fazer o Piwik melhor!",
         "TopLinkTooltip": "Diga-nos o que você pensa, ou suporte.",
         "ViewAnswersToFAQ": "Ver respostas para %sPerguntas Frequentes%s",
+        "ViewUserGuides": "Saiba como configurar o Piwik e como efetivamente analisar seus dados com o nosso %1$sguias do usuário%2$s",
         "CommunityHelp": "Ajuda da Comunidade",
         "ProfessionalHelp": "Suporte Profissional",
+        "PiwikProIntro": "Piwik PRO fornece suporte especializado e consultoria para clientes que hospedam Piwik em suas próprias infra-estruturas.",
         "PiwikProOfferIntro": "Nossa oferta inclui",
         "PiwikProReviewPiwikSetup": "Um exame da sua configuração Piwik",
         "PiwikProOptimizationMaintenance": "Serviços de otimização & manutenção Piwik",

@@ -1,6 +1,6 @@
 {
     "PrivacyManager": {
-        "AnonymizeIpDescription": "Selecione \"Sim\" se você quer que o Piwik não restreie os IPs totalmente.",
+        "AnonymizeIpDescription": "Selecione \"Sim\" se você quer que o Piwik não restreie os endereços de IP totalmente qualificados.",
         "AnonymizeIpInlineHelp": "Anonimize o último byte do endereço IP dos visitantes para obedecer suas leis\/guias locais de privacidade.",
         "AnonymizeIpExtendedHelp": "Quando usuários visitarem o seu site, Piwik não vai usar o endereço de IP completo (como %s), pelo contrário, Piwik vai anonimizá-los primeiro (para %s). Anonimização de endereço de IP é um dos requisitos estabelecidos pelas leis de privacidade em alguns países como a Alemanha.",
         "AnonymizeIpMaskLengtDescription": "Selecione quantos bytes de IPs dos visitantes deve ser mascarado.",
@@ -60,6 +60,7 @@
         "Teaser": "Nesta página, você pode personalizar Piwik para torná-lo compatível com as legislações de privacidade existentes, através: %s Esconder o IP do visitante %s,%s automaticamente remover registos de visitantes antigos do banco de dados%s, e, %s proporcionando um mecanismo de Opt-out para o seu site %s.",
         "TeaserHeadline": "Configurações de privacidade",
         "UseAnonymizedIpForVisitEnrichment": "Utilize também o endereço de IP Anonimizado ao enriquecer visitas.",
+        "UseAnonymizedIpForVisitEnrichmentNote": "Plugins como o de Geo Localização via IP e o Provedor melhoraram os metadados do visitante. Por padrão, esses plugins usam endereços IP anónimos. Se você selecionar \"Não\", então o endereço IP não-anónimos completo será usado, resultando em menos privacidade, mas melhor precisão dos dados.",
         "UseAnonymizeIp": "Anonimizar endereços IP dos visitantes",
         "UseDeleteLog": "Exclua regularmente logs de visitantes antigos do banco de dados",
         "UseDeleteReports": "Exclua regularmente relatórios antigos do banco de dados"

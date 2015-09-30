@@ -1,6 +1,6 @@
 {
     "Transitions": {
-        "BouncesInline": "%s saltos",
+        "BouncesInline": "%s rejeições",
         "DirectEntries": "Entradas diretas",
         "ErrorBack": "Voltar para a ação anterior",
         "ExitsInline": "%s saídas",

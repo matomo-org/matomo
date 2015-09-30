@@ -315,7 +315,7 @@
         "ReportsWillBeProcessedAtMostEveryHour": "Die Berichte werden hierfür etwa jede Stunde erzeugt.",
         "RequestTimedOut": "Die Datenabfrage an %s dauerte zu lange. Bitte versuchen Sie es noch einmal.",
         "Required": "%s benötigt",
-        "ReturningVisitor": "Wiederkehrender Besucher",
+        "ReturningVisitor": "Wiederkehrender Besuch",
         "ReturningVisitorAllVisits": "Alle Besuche ansehen",
         "RowEvolutionRowActionTooltip": "Sehen Sie wie sich die Metriken im Laufe der Zeit geändert haben",
         "RowEvolutionRowActionTooltipTitle": "Zeilenentwicklung öffnen",

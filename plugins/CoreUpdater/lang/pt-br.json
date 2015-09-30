@@ -1,6 +1,6 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "Clique aqui para ver e copiar a lista de queries SQL que serão executadas",
+        "ClickHereToViewSqlQueries": "Clique aqui para ver e copiar a lista de consultas - queries SQL que serão executadas",
         "CriticalErrorDuringTheUpgradeProcess": "Erro crítico durante o processo de atualização:",
         "DatabaseUpgradeRequired": "Atualização do banco de dados requerida",
         "DisablingIncompatiblePlugins": "Desabilitar plugins incompatíveis: %s",
