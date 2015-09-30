@@ -379,6 +379,7 @@
         "Visitors": "Visitatori",
         "VisitsWith": "Visite con %s",
         "VisitorSettings": "Impostazioni visitatori",
+        "VisitType": "Tipo di visita",
         "VisitTypeExample": "Ad esempio, per selezionare tutti i visitatori che sono ritornati al sito Web, compresi quelli che hanno comprato qualcosa nelle loro precedenti visite, la richiesta di API dovrebbe contenere %s",
         "Warning": "Attenzione",
         "WarningPhpVersionXIsTooOld": "La versione %s di PHP che stai utilizzando ha raggiunto il fine vita (EOL). Si invita caldamente ad aggiornare con urgenza all'ultima versione, perché l'uso di questa versione può esporti a vulnerabilità nella sicurezza e ai bug che sono stati corretti nelle versioni più recenti di PHP.",

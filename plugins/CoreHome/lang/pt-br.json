@@ -1,6 +1,6 @@
 {
     "CoreHome": {
-        "CategoryNoData": "Sem dados nesta categoria. Tente o \"Incluir toda a população\".",
+        "CategoryNoData": "Sem dados nesta categoria. Tente \"Incluir toda a população\".",
         "CheckForUpdates": "Verificar atualizações",
         "CheckPiwikOut": "Verificar saída do Piwik",
         "ClickToEditX": "Clique para editar %s",

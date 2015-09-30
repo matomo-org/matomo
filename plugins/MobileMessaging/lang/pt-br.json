@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Provedor '%s' desconhecido. Tente um dos seguintes em vez: %s.",
+        "Exception_UnknownProvider": "Nome do provedor '%s' desconhecido. Tente um dos seguintes: %s.",
         "MobileReport_AdditionalPhoneNumbers": "Você pode adicionar mais números de telefone, acessando",
         "MobileReport_MobileMessagingSettingsLink": "Página de configurações de Mensagens móveis",
         "MobileReport_NoPhoneNumbers": "Por favor ative pelo menos um número de telefone acessando",
