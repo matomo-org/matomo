@@ -247,14 +247,18 @@ class Controller extends \Piwik\Plugin\Controller
         $metaData = unserialize($request->process());
 
         $metrics = array();
-        foreach ($metaData[0]['metrics'] as $id => $val) {
-            // todo: should use SettingsPiwik::isUniqueVisitorsEnabled ?
-            if (Common::getRequestVar('period') == 'day' || $id != 'nb_uniq_visitors') {
-                $metrics[] = array($id, $val);
+        if (!empty($metaData[0]['metrics']) && is_array($metaData[0]['metrics'])) {
+            foreach ($metaData[0]['metrics'] as $id => $val) {
+                // todo: should use SettingsPiwik::isUniqueVisitorsEnabled ?
+                if (Common::getRequestVar('period') == 'day' || $id != 'nb_uniq_visitors') {
+                    $metrics[] = array($id, $val);
+                }
             }
         }
-        foreach ($metaData[0]['processedMetrics'] as $id => $val) {
-            $metrics[] = array($id, $val);
+        if (!empty($metaData[0]['processedMetrics']) && is_array($metaData[0]['processedMetrics'])) {
+            foreach ($metaData[0]['processedMetrics'] as $id => $val) {
+                $metrics[] = array($id, $val);
+            }
         }
         return $metrics;
     }
