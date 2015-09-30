@@ -113,7 +113,7 @@ class CreatePull extends TranslationBase
 
         $stats = shell_exec('git diff --numstat HEAD');
 
-        preg_match_all('/([0-9]+)\t([0-9]+)\t[a-zA-Z\/]*lang\/([a-z]{2,3})\.json/', $stats, $lineChanges);
+        preg_match_all('/([0-9]+)\t([0-9]+)\t[a-zA-Z\/]*lang\/([a-z]{2,3}(?:-[a-z]{2,3})?)\.json/', $stats, $lineChanges);
 
         $addedLinesSum = 0;
         if (!empty($lineChanges[1])) {
@@ -126,8 +126,8 @@ class CreatePull extends TranslationBase
             @$linesSumByLang[$lineChanges[3][$i]] += $lineChanges[1][$i];
         }
 
-        preg_match_all('/M  [a-zA-Z\/]*lang\/([a-z]{2,3})\.json/', $changes, $modifiedFiles);
-        preg_match_all('/A  [a-zA-Z\/]*lang\/([a-z]{2,3})\.json/', $changes, $addedFiles);
+        preg_match_all('/M  [a-zA-Z\/]*lang\/([a-z]{2,3}(?:-[a-z]{2,3})?)\.json/', $changes, $modifiedFiles);
+        preg_match_all('/A  [a-zA-Z\/]*lang\/([a-z]{2,3}(?:-[a-z]{2,3})?)\.json/', $changes, $addedFiles);
 
         $messages = array();
 
