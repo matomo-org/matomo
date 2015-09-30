@@ -13,7 +13,7 @@ $(document).ready(function () {
         watch: 'window'
     });
 
-    $('.marketplace').on('click', '.plugin-details', function (event) {
+    $('a.plugin-details[data-pluginName]').on('click', function (event) {
         event.preventDefault();
 
         var pluginName = $(this).attr('data-pluginName');
