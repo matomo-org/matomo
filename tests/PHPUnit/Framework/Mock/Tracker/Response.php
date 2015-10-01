@@ -47,5 +47,4 @@ class Response extends \Piwik\Tracker\Response
     {
         $this->isResponseOutput = true;
     }
-
 }

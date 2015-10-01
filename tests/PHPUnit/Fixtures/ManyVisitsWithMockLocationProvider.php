@@ -197,12 +197,12 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         if ($actionType == 'pageview') {
             self::checkResponse($t->doTrackPageView(
                 is_null($actionNum) ? "title_$visitorCounter" : "title_$visitorCounter / title_$actionNum"));
-        } else if ($actionType == 'download') {
+        } elseif ($actionType == 'download') {
             $root = is_null($actionNum) ? "http://cloudsite$visitorCounter.com"
                 : "http://cloudsite$visitorCounter.com/$actionNum";
 
             self::checkResponse($t->doTrackAction("$root/download", 'download'));
-        } else if ($actionType == 'outlink') {
+        } elseif ($actionType == 'outlink') {
             self::checkResponse($t->doTrackAction(is_null($actionNum) ? "http://othersite$visitorCounter.com/"
                 : "http://othersite$visitorCounter.com/$actionNum/", 'link'));
         }

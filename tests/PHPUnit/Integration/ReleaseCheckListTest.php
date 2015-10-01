@@ -92,7 +92,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         // Check the index.php has "backtrace disabled"
         $content = file_get_contents(PIWIK_INCLUDE_PATH . "/index.php");
         $expected = "define('PIWIK_PRINT_ERROR_BACKTRACE', false);";
-        $this->assertTrue( false !== strpos($content, $expected), 'index.php should contain: ' . $expected);
+        $this->assertTrue(false !== strpos($content, $expected), 'index.php should contain: ' . $expected);
     }
 
     private function _checkEqual($key, $valueExpected)
@@ -130,7 +130,6 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
                 throw new Exception("Plugin $pluginName is enabled by default but shouldn't.");
             }
         }
-
     }
 
     /**
@@ -159,7 +158,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.php');
 
-        foreach($files as $file) {
+        foreach ($files as $file) {
             // skip files in these folders
             if (strpos($file, '/libs/') !== false) {
                 continue;
@@ -169,17 +168,17 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             $expectedStart = "<?php";
 
             $isIniFile = strpos($file, ".ini.php") !== false || strpos($file, ".ini.travis.php") !== false;
-            if($isIniFile) {
+            if ($isIniFile) {
                 $expectedStart = "; <?php exit;";
             }
 
             $skipStartFileTest = $this->isSkipPhpFileStartWithPhpBlock($file, $isIniFile);
 
-            if($skipStartFileTest) {
+            if ($skipStartFileTest) {
                 continue;
             }
 
-            $start = fgets($handle, strlen($expectedStart) + 1 );
+            $start = fgets($handle, strlen($expectedStart) + 1);
             $this->assertEquals($start, $expectedStart, "File $file does not start with $expectedStart");
         }
     }
@@ -190,7 +189,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
         $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pluginsPath), RecursiveIteratorIterator::SELF_FIRST);
         $paths = array();
-        foreach($objects as $name => $object){
+        foreach ($objects as $name => $object) {
             if (is_dir($name)
                 && strpos($name, "/.") === false) {
                 $paths[] = $name;
@@ -201,14 +200,14 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
         // to prevent errors with un-readable assets,
         // we ensure all directories in plugins/* are added to git with CHMOD 755
-        foreach($paths as $pathToTest) {
-
+        foreach ($paths as $pathToTest) {
             $chmod = substr(decoct(fileperms($pathToTest)), -3);
             $valid = array('777', '775', '755');
             $command = "find $pluginsPath -type d -exec chmod 755 {} +";
             $this->assertTrue(in_array($chmod, $valid),
                     "Some directories within plugins/ are not chmod 755 \n\nGot: $chmod for : $pathToTest \n\n".
-                    "Run this command to set all directories to 755: \n$command\n");;
+                    "Run this command to set all directories to 755: \n$command\n");
+            ;
         }
     }
 
@@ -226,12 +225,12 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
         $plugins = _glob(Manager::getPluginsDirectory() . '*', GLOB_ONLYDIR);
         $count = 1;
-        foreach($plugins as $pluginPath) {
+        foreach ($plugins as $pluginPath) {
             $pluginName = basename($pluginPath);
 
             $addedToGit = $this->isPathAddedToGit($pluginPath);
 
-            if(!$addedToGit) {
+            if (!$addedToGit) {
                 // if not added to git, then it is not part of the release checklist.
                 continue;
             }
@@ -244,7 +243,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
             $enabled = in_array($pluginName, $pluginsBundledWithPiwik);
 
-            $this->assertTrue( $enabled + $disabled === 1,
+            $this->assertTrue($enabled + $disabled === 1,
                 "Plugin $pluginName should be either enabled (in global.ini.php) or disabled (in Piwik\\Plugin\\Manager).
                 It is currently (enabled=".(int)$enabled. ", disabled=" . (int)$disabled . ")"
             );
@@ -382,7 +381,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
      */
     public function test_TotalPiwikFilesSize_isWithinReasonnableSize()
     {
-        if(!SystemTestCase::isTravisCI()) {
+        if (!SystemTestCase::isTravisCI()) {
             // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
             $this->markTestSkipped("Skipped this test on local dev environment.");
         }
@@ -417,27 +416,27 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
      */
     private function isFileIncludedInFinalRelease($file)
     {
-        if(is_dir($file)) {
+        if (is_dir($file)) {
             return false;
         }
 
         // in build-package.sh we have: `find ./ -iname 'tests' -type d -prune -exec rm -rf {} \;`
-        if(stripos($file, "/tests/") !== false) {
+        if (stripos($file, "/tests/") !== false) {
             return false;
         }
-        if(strpos($file, PIWIK_INCLUDE_PATH . "/tmp/") !== false) {
-            return false;
-        }
-
-        if($this->isPluginSubmoduleAndThereforeNotFoundInFinalRelease($file)) {
+        if (strpos($file, PIWIK_INCLUDE_PATH . "/tmp/") !== false) {
             return false;
         }
 
-        if($this->isFileBelongToComposerDevelopmentPackage($file)) {
+        if ($this->isPluginSubmoduleAndThereforeNotFoundInFinalRelease($file)) {
             return false;
         }
 
-        if($this->isFileDeletedFromPackage($file)) {
+        if ($this->isFileBelongToComposerDevelopmentPackage($file)) {
+            return false;
+        }
+
+        if ($this->isFileDeletedFromPackage($file)) {
             return false;
         }
 
@@ -453,7 +452,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
      */
     private function isPluginSubmoduleAndThereforeNotFoundInFinalRelease($file)
     {
-        if(strpos($file, PIWIK_INCLUDE_PATH . "/plugins/") === false) {
+        if (strpos($file, PIWIK_INCLUDE_PATH . "/plugins/") === false) {
             return false;
         }
 
@@ -466,7 +465,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $notInPackagedRelease = $pluginManager->isPluginOfficialAndNotBundledWithCore($pluginName);
 
         // test that the submodule check works
-        if($pluginName == 'VisitorGenerator') {
+        if ($pluginName == 'VisitorGenerator') {
             $this->assertTrue($notInPackagedRelease, "Expected isPluginOfficialAndNotBundledWithCore to return true for VisitorGenerator plugin");
         }
         return $notInPackagedRelease;
@@ -572,7 +571,6 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
         $filesizes = array();
         foreach ($files as $file) {
-
             if (!$this->isFileIncludedInFinalRelease($file)) {
                 continue;
             }

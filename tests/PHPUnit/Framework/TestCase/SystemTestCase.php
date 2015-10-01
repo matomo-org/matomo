@@ -330,7 +330,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
     public static function assertApiResponseHasNoError($response)
     {
-        if(!is_string($response)) {
+        if (!is_string($response)) {
             $response = json_encode($response);
         }
         self::assertTrue(stripos($response, 'error') === false, "error in $response");
@@ -479,7 +479,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
     protected function getTestRequestsCollection($api, $testConfig, $apiToCall)
     {
-       return new Collection($api, $testConfig, $apiToCall);
+        return new Collection($api, $testConfig, $apiToCall);
     }
 
     private function printComparisonFailures()
@@ -575,9 +575,9 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                 foreach ($row as $value) {
                     if (is_null($value)) {
                         $values[] = 'NULL';
-                    } else if (is_numeric($value)) {
+                    } elseif (is_numeric($value)) {
                         $values[] = $value;
-                    } else if (!ctype_print($value)) {
+                    } elseif (!ctype_print($value)) {
                         $values[] = "x'" . bin2hex($value) . "'";
                     } else {
                         $values[] = "?";
@@ -603,7 +603,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
     protected function skipWhenPhp53()
     {
-        if(self::isPhpVersion53()) {
+        if (self::isPhpVersion53()) {
             $this->markTestSkipped('Sometimes fail on php 5.3');
         }
     }

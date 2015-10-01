@@ -231,7 +231,6 @@ class Fixture extends \PHPUnit_Framework_Assert
             DbHelper::createTables();
 
             Manager::getInstance()->unloadPlugins();
-
         } catch (Exception $e) {
             static::fail("TEST INITIALIZATION FAILED: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
@@ -379,12 +378,12 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         // Install plugins
         $messages = $pluginsManager->installLoadedPlugins();
-        if(!empty($messages)) {
+        if (!empty($messages)) {
             Log::info("Plugin loading messages: %s", implode(" --- ", $messages));
         }
 
         // Activate them
-        foreach($pluginsManager->getLoadedPlugins() as $plugin) {
+        foreach ($pluginsManager->getLoadedPlugins() as $plugin) {
             $name = $plugin->getPluginName();
             if (!$pluginsManager->isPluginActivated($name)) {
                 $pluginsManager->activatePlugin($name);
@@ -427,7 +426,7 @@ class Fixture extends \PHPUnit_Framework_Assert
                                          $siteSearch = 1, $searchKeywordParameters = null,
                                          $searchCategoryParameters = null, $timezone = null, $type = null)
     {
-        if($siteName === false) {
+        if ($siteName === false) {
             $siteName = self::DEFAULT_SITE_NAME;
         }
         $idSite = APISitesManager::getInstance()->addSite(
@@ -468,7 +467,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         $piwikUrl = Config::getInstance()->tests['http_host'];
         $piwikUri = Config::getInstance()->tests['request_uri'];
 
-        if($piwikUri == '@REQUEST_URI@') {
+        if ($piwikUri == '@REQUEST_URI@') {
             throw new Exception("Piwik is mis-configured. Remove (or fix) the 'request_uri' entry below [tests] section in your config.ini.php. ");
         }
 
@@ -492,7 +491,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         $piwikUrl = str_replace("https://", "http://", $piwikUrl);
 
         // append REQUEST_URI (eg. when Piwik runs at http://localhost/piwik/)
-        if($piwikUri != '/') {
+        if ($piwikUri != '/') {
             $piwikUrl .= $piwikUri;
         }
 
@@ -571,13 +570,14 @@ class Fixture extends \PHPUnit_Framework_Assert
      *
      * @param $response
      */
-    public static function checkBulkTrackingResponse($response) {
+    public static function checkBulkTrackingResponse($response)
+    {
         $data = json_decode($response, true);
         if (!is_array($data) || empty($response)) {
             throw new Exception("Bulk tracking response (".$response.") is not an array: " . var_export($data, true) . "\n");
         }
-        if(!isset($data['status'])) {
-            throw new Exception("Returned data didn't have a status: " . var_export($data,true));
+        if (!isset($data['status'])) {
+            throw new Exception("Returned data didn't have a status: " . var_export($data, true));
         }
 
         self::assertArrayHasKey('status', $data);
@@ -731,8 +731,8 @@ class Fixture extends \PHPUnit_Framework_Assert
         $gdInfo = gd_info();
         return
             stristr(php_uname(), self::IMAGES_GENERATED_ONLY_FOR_OS) &&
-            strpos( phpversion(), self::IMAGES_GENERATED_FOR_PHP) !== false &&
-            strpos( $gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD) !== false;
+            strpos(phpversion(), self::IMAGES_GENERATED_FOR_PHP) !== false &&
+            strpos($gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD) !== false;
     }
 
     public static $geoIpDbUrl = 'http://piwik-team.s3.amazonaws.com/GeoIP.dat.gz';
@@ -758,7 +758,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         if (file_exists($deflatedOut)) {
             $filesize = filesize($deflatedOut);
-            if($filesize == 0) {
+            if ($filesize == 0) {
                 throw new Exception("The file $deflatedOut is empty. Suggestion: delete it and try again.");
             }
 
@@ -771,12 +771,12 @@ class Fixture extends \PHPUnit_Framework_Assert
         echo "Geoip database $outfileName is not found. Downloading from $url...\n";
 
         $dump = fopen($url, 'rb');
-        if($dump === false){
+        if ($dump === false) {
             throw new Exception('Could not download Geoip database from ' . $url);
         }
         
         $outfile = fopen($outfileName, 'wb');
-        if(!$outfile) {
+        if (!$outfile) {
             throw new Exception("Failed to create file $outfileName - please check permissions");
         }
 

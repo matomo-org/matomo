@@ -285,6 +285,4 @@ class DependencyTest extends IntegrationTestCase
 
         $this->assertEquals($expectedMissing, $missing);
     }
-
 }
-

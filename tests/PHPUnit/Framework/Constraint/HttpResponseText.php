@@ -60,4 +60,4 @@ class HttpResponseText extends \PHPUnit_Framework_Constraint
     {
         return 'does not return response text ' . $this->exporter->export($this->value) . ' it is ' . $this->actualCode;
     }
-}?>
+}

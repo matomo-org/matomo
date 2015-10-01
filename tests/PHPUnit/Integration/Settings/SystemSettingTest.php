@@ -18,7 +18,6 @@ use Piwik\Settings\SystemSetting;
  */
 class SystemSettingTest extends IntegrationTestCase
 {
-
     public function test_constructor_shouldNotEstablishADatabaseConnection()
     {
         $this->assertNotDbConnectionCreated();

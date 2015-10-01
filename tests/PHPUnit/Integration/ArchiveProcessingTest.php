@@ -112,7 +112,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $siteTimezone = 'UTC+10';
         $now = time();
         // this test fails in the last 10 hours of the last day of the month
-        if(date('m', $now) != date('m', $now + 10 * 3600)) {
+        if (date('m', $now) != date('m', $now + 10 * 3600)) {
             $this->markTestSkipped('testInitCurrentMonth will fail in the last hours of the month, skipping...');
         }
 
@@ -131,9 +131,9 @@ class ArchiveProcessingTest extends IntegrationTestCase
 
     private function compareTimestamps($expected, $processed)
     {
-//        $messageIfFails = Date::factory($expected)->getDatetime() . " != " . Date::factory($processed)->getDatetime();
+        //        $messageIfFails = Date::factory($expected)->getDatetime() . " != " . Date::factory($processed)->getDatetime();
         $messageIfFails = "Expected [$expected] but got [$processed]";
-        $this->assertTrue( abs($expected-$processed) <=4 , $messageIfFails);
+        $this->assertTrue(abs($expected-$processed) <=4, $messageIfFails);
     }
 
     /**
@@ -201,7 +201,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
 
         // we look at anything processed within the time to live range
         $dateMinArchived = $now - Rules::getTodayArchiveTimeToLive();
-        $this->compareTimestamps($dateMinArchived, $archiveProcessor->public_getMinTimeArchiveProcessed() );
+        $this->compareTimestamps($dateMinArchived, $archiveProcessor->public_getMinTimeArchiveProcessed());
         $this->assertTrue($archiveProcessor->public_isArchiveTemporary());
 
         // when browsers don't trigger archives...
@@ -277,7 +277,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
 
         // we look at anything processed within the time to live range
         $dateMinArchived = $now - Rules::getTodayArchiveTimeToLive();
-        $this->compareTimestamps($dateMinArchived, $archiveProcessor->public_getMinTimeArchiveProcessed() );
+        $this->compareTimestamps($dateMinArchived, $archiveProcessor->public_getMinTimeArchiveProcessed());
         $this->assertTrue($archiveProcessor->public_isArchiveTemporary());
 
         // when browsers don't trigger archives...
@@ -307,7 +307,6 @@ class ArchiveProcessingTest extends IntegrationTestCase
                 array('idsite', 'url'),
                 $data,
                 $throwException = true);
-
         } catch (Exception $e) {
             $didWeUseBulk = $e->getMessage();
         }

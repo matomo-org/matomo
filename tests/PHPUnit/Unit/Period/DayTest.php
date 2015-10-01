@@ -57,7 +57,6 @@ class DayTest extends BasePeriodTest
      */
     public function testDayIsFinishedYesterday()
     {
-
         $period = new Day(Date::yesterday());
         $this->assertEquals(date("Y-m-d", time() - 86400), $period->toString());
         $this->assertEquals(array(), $period->getSubperiods());

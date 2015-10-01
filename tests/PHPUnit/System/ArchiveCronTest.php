@@ -41,8 +41,6 @@ class ArchiveCronTest extends SystemTestCase
                                                           'periods'    => array('day', 'week', 'month', 'year'),
                                                           'segment'    => $info['definition'],
                                                           'testSuffix' => '_' . $segmentName));
-
-
         }
 
         // API Call Without segments
@@ -59,7 +57,7 @@ class ArchiveCronTest extends SystemTestCase
         $segments = array(ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED,
                           ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED
         );
-        foreach($segments as $segment) {
+        foreach ($segments as $segment) {
             // Test with a pre-processed segment
             $results[] = array(array('VisitsSummary.get', 'Live.getLastVisitsDetails', 'VisitFrequency.get'),
                                array('idSite'     => '1',
@@ -78,7 +76,7 @@ class ArchiveCronTest extends SystemTestCase
 
     public function testArchivePhpCron()
     {
-        if(self::isPhpVersion53()) {
+        if (self::isPhpVersion53()) {
             $this->markTestSkipped('Fails on PHP 5.3 once in a blue moon.');
         }
 
@@ -88,7 +86,6 @@ class ArchiveCronTest extends SystemTestCase
         $this->compareArchivePhpOutputAgainstExpected($output);
 
         foreach ($this->getApiForTesting() as $testInfo) {
-
             list($api, $params) = $testInfo;
 
             if (!isset($params['testSuffix'])) {

@@ -13,7 +13,6 @@ use Piwik\Theme;
 
 class ThemeMock extends Theme
 {
-
     /**
      * @var string[]
      */
@@ -32,7 +31,7 @@ class ThemeMock extends Theme
     /**
      * @param Plugin $plugin
      */
-    function __construct($plugin)
+    public function __construct($plugin)
     {
         $this->plugin = $plugin;
     }

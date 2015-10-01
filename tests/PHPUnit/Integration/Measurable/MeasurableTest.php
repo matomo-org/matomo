@@ -68,7 +68,8 @@ class MeasurableTest extends IntegrationTestCase
      * @expectedExceptionMessage does not exist
      */
     public function testGetSettingValue_shouldThrowException_IfSettingDoesNotExist()
-    {;
+    {
+        ;
         $this->measurable->getSettingValue('NoTeXisTenT');
     }
 
@@ -89,5 +90,4 @@ class MeasurableTest extends IntegrationTestCase
             'Piwik\Plugins\MobileAppMeasurable\Type' => new Type()
         );
     }
-
 }

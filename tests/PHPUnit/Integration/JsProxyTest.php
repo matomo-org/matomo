@@ -49,7 +49,7 @@ class JsProxyTest extends \PHPUnit_Framework_TestCase
 
     public function testPiwikPhp()
     {
-        if(IntegrationTestCase::isMysqli()) {
+        if (IntegrationTestCase::isMysqli()) {
             $this->markTestSkipped('Sometimes fails with 500 error');
         }
         $curlHandle = curl_init();
@@ -72,7 +72,6 @@ class JsProxyTest extends \PHPUnit_Framework_TestCase
             $processed,
             'checking for image content' . "\n\n\n\nRaw content: \n\n\n" . $fullResponse
         );
-
     }
 
     /**

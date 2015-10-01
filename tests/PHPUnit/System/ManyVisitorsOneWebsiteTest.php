@@ -116,8 +116,7 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
         );
 
         // Randomly fails on 5.3
-        if(!self::isPhpVersion53()) {
-
+        if (!self::isPhpVersion53()) {
             $apiToTest[] = array('Live.getLastVisitsDetails', array(
                 'idSite'                 => $idSite,
                 'date'                   => $dateString,
@@ -160,8 +159,6 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
                 'testSuffix'             => '_getCountry_with_filter_excludelowpop',
                 'otherRequestParameters' => array('filter_excludelowpop' => 'nb_visits', 'filter_excludelowpop_value' => 5)
             ));
-
-
         }
 
         // this also fails on all PHP versions, it seems randomly.

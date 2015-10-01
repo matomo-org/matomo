@@ -24,5 +24,4 @@ class ScheduledTasksRunner extends Tracker\ScheduledTasksRunner
     {
         $this->ranScheduledTasks = true;
     }
-
 }

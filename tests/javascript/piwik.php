@@ -3,10 +3,11 @@
 
 require_once(dirname(__FILE__).'/SQLite.php');
 
-function sendWebBug() {
-	$trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-	header("Content-type: image/gif");
-	print(base64_decode($trans_gif_64));
+function sendWebBug()
+{
+    $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+    header("Content-type: image/gif");
+    print(base64_decode($trans_gif_64));
 }
 
 function isPost()
@@ -15,19 +16,19 @@ function isPost()
 }
 
 if (!file_exists("enable_sqlite")) {
-	sendWebBug();
-	exit;
+    sendWebBug();
+    exit;
 }
 
 if (!class_exists('SQLite')) {
-	sendWebBug();
-	exit;
+    sendWebBug();
+    exit;
 }
 
-$sqlite = new SQLite( 'unittest2.dbf' );
+$sqlite = new SQLite('unittest2.dbf');
 if (!$sqlite) {
-	header("HTTP/1.0 500 Internal Server Error");
-	exit;
+    header("HTTP/1.0 500 Internal Server Error");
+    exit;
 }
 
 function getNextRequestId($sqlite, $token)
@@ -41,17 +42,17 @@ function getNextRequestId($sqlite, $token)
     return count($requests) + 1;
 }
 
-if (filesize(dirname(__FILE__).'/unittest2.dbf') == 0)
-{
-	try {
-		$query = @$sqlite->exec( 'CREATE TABLE requests (requestid TEXT, token TEXT, ip TEXT, ts TEXT, uri TEXT, referer TEXT, ua TEXT)' );
-	} catch (Exception $e) {
-		header("HTTP/1.0 500 Internal Server Error");
-		exit;
-	}
+if (filesize(dirname(__FILE__).'/unittest2.dbf') == 0) {
+    try {
+        $query = @$sqlite->exec('CREATE TABLE requests (requestid TEXT, token TEXT, ip TEXT, ts TEXT, uri TEXT, referer TEXT, ua TEXT)');
+    } catch (Exception $e) {
+        header("HTTP/1.0 500 Internal Server Error");
+        exit;
+    }
 }
 
-function logRequest($sqlite, $uri, $data) {
+function logRequest($sqlite, $uri, $data)
+{
     $ip = $_SERVER['REMOTE_ADDR'];
     $ts = $_SERVER['REQUEST_TIME'];
 
@@ -70,29 +71,27 @@ function logRequest($sqlite, $uri, $data) {
 }
 
 if (isset($_GET['requests'])) {
-	$token = htmlentities($_GET['requests']);
-	$ua = $_SERVER['HTTP_USER_AGENT'];
+    $token = htmlentities($_GET['requests']);
+    $ua = $_SERVER['HTTP_USER_AGENT'];
 
-	echo "<html><head><title>$token</title></head><body>\n";
+    echo "<html><head><title>$token</title></head><body>\n";
 
 //	$result = $sqlite->query_array("SELECT uri FROM requests");
-	$result = @$sqlite->query_array("SELECT uri FROM requests WHERE token = \"$token\" AND ua = \"$ua\" ORDER BY ts ASC, requestid ASC");
-	if ($result !== false) {
-		$nofRows = count($result);
-		echo "<span>$nofRows</span>\n";
+    $result = @$sqlite->query_array("SELECT uri FROM requests WHERE token = \"$token\" AND ua = \"$ua\" ORDER BY ts ASC, requestid ASC");
+    if ($result !== false) {
+        $nofRows = count($result);
+        echo "<span>$nofRows</span>\n";
 
-		foreach ($result as $entry) {
-			echo "<span>". $entry['uri'] ."</span>\n";
-		}
-	}
+        foreach ($result as $entry) {
+            echo "<span>". $entry['uri'] ."</span>\n";
+        }
+    }
 
-	echo "</body></html>\n";
+    echo "</body></html>\n";
 } else {
-
-	if (!isset($_REQUEST['data'])) {
+    if (!isset($_REQUEST['data'])) {
         header("HTTP/1.0 400 Bad Request");
-	} else {
-
+    } else {
         $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 
         $input    = file_get_contents("php://input");
@@ -110,7 +109,6 @@ if (isset($_GET['requests'])) {
                 $query = $query && logRequest($sqlite, $uri . $request, $data);
             }
         } else {
-
             if (isPost()) {
                 $uri .= '?' . file_get_contents('php://input');
             }
@@ -118,13 +116,13 @@ if (isset($_GET['requests'])) {
             $query = logRequest($sqlite, $uri, $data);
         }
 
-		if (!$query) {
-			header("HTTP/1.0 500 Internal Server Error");
-		} else {
-//			echo 'Number of rows modified: ', $sqlite->changes();
-			sendWebBug();
-		}
-	}
+        if (!$query) {
+            header("HTTP/1.0 500 Internal Server Error");
+        } else {
+            //			echo 'Number of rows modified: ', $sqlite->changes();
+            sendWebBug();
+        }
+    }
 }
 
 $sqlite->close();

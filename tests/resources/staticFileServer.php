@@ -13,7 +13,7 @@ use Piwik\Common;
 use Piwik\ProxyHttp;
 
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__).'/../../');
-if(file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
+if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
     require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
 }
 if (!defined('PIWIK_INCLUDE_PATH')) {

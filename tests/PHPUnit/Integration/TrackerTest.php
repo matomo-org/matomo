@@ -50,7 +50,7 @@ class TrackerTest extends IntegrationTestCase
     {
         $this->restoreConfigFile();
         
-        if($this->tracker) {
+        if ($this->tracker) {
             $this->tracker->disconnectDatabase();
         }
         
@@ -413,7 +413,7 @@ class TrackerTest extends IntegrationTestCase
     
     protected function restoreConfigFile()
     {
-        if(file_exists($this->getLocalConfigPathMoved())){
+        if (file_exists($this->getLocalConfigPathMoved())) {
             rename($this->getLocalConfigPathMoved(), $this->getLocalConfigPath());
         }
     }

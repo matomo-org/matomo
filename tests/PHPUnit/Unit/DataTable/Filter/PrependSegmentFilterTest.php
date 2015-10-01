@@ -16,7 +16,7 @@ use Piwik\DataTable\Row;
  * @group DataTable
  * @group Filter
  */
-class PrependSegmentTest extends \PHPUnit_Framework_TestCase
+class PrependSegmentFilterTest extends \PHPUnit_Framework_TestCase
 {
     private $filter = 'PrependSegment';
 

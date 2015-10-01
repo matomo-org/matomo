@@ -78,7 +78,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $expectedArray = array('value1', 'value2');
         $array = $config->TestArrayOnlyInGlobalFile;
         $this->assertEquals($expectedArray, $array['my_array']);
-
     }
 
     public function test_CommonConfig_Overrides()
@@ -92,7 +91,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("valueCommon", $config->Category['key2'], var_export($config->Category['key2'], true));
         $this->assertEquals("test", $config->GeneralSection['password']);
         $this->assertEquals("commonValue", $config->TestOnlyInCommon['value']);
-
     }
 
     public function testWritingConfigWithSpecialCharacters()
@@ -346,7 +344,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 $header . "[General]\nkey = \"&#36;value\"\nkey2 = \"&#36;{value}\"\n\n[CommonCategory]\nnewSetting = \"newValue\"\n\n",
             )),
         );
-
     }
 
     /**
@@ -378,7 +375,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $sourceConfigFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
         $configFile = PIWIK_INCLUDE_PATH . '/tmp/tmp.config.ini.php';
 
-        if(file_exists($configFile)){
+        if (file_exists($configFile)) {
             @unlink($configFile);
         }
         copy($sourceConfigFile, $configFile);
@@ -388,7 +385,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(file_get_contents($sourceConfigFile), file_get_contents($configFile));
 
-        if(file_exists($configFile)){
+        if (file_exists($configFile)) {
             @unlink($configFile);
         }
     }

@@ -23,7 +23,6 @@ use Piwik\Tracker\SettingsStorage;
  */
 class FactoryTest extends IntegrationTestCase
 {
-
     public function test_make_shouldCreateDefaultInstance()
     {
         $storage = Factory::make('PluginName');

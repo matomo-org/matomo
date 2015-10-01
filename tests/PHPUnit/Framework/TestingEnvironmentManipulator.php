@@ -156,7 +156,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                     $diConfigs[] = $testCase->provideContainerConfig();
                 }
             }
-        } else if ($this->vars->fixtureClass) {
+        } elseif ($this->vars->fixtureClass) {
             $fixtureClass = $this->vars->fixtureClass;
 
             if ($this->classExists($fixtureClass)) {
@@ -227,7 +227,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     {
         if (class_exists($klass)) {
             return true;
-        } else if (empty($klass)) {
+        } elseif (empty($klass)) {
             return false;
         } else {
             throw new \Exception("TestingEnvironmentManipulator: Autoloader cannot find class '$klass'. "

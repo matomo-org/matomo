@@ -27,7 +27,6 @@ class OneVisitorTwoVisitsWithCookieSupportTest extends SystemTestCase
     public function testApi($api, $params)
     {
         $this->runApiTests($api, $params);
-
     }
 
     public function getApiForTesting()

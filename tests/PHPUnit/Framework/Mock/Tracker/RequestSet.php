@@ -28,5 +28,4 @@ class RequestSet extends \Piwik\Tracker\RequestSet
 
         parent::initRequestsAndTokenAuth();
     }
-
 }

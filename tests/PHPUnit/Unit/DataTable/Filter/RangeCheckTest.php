@@ -16,7 +16,7 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
 /**
  * @group DataTableTest
  */
-class DataTable_Filter_RangeCheckTest extends \PHPUnit_Framework_TestCase
+class RangeCheckTest extends \PHPUnit_Framework_TestCase
 {
     public function testRangeCheckNormalDataTable()
     {

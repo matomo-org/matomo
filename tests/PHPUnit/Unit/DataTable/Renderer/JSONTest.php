@@ -17,7 +17,7 @@ use Piwik\DataTable\Simple;
 /**
  * @group DataTableTest
  */
-class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
+class JSONTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -397,5 +397,4 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $render->render());
     }
-
 }

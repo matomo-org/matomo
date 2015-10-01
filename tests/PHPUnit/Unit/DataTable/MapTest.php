@@ -11,7 +11,7 @@ use Piwik\Tests\Framework\Mock\TestConfig;
 /**
  * @group DataTableTest
  */
-class Test_DataTable_Map extends \PHPUnit_Framework_TestCase
+class MapTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {

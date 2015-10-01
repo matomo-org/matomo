@@ -104,7 +104,7 @@ class ManyVisitsWithGeoIP extends Fixture
         }
         $t->setTokenAuth(self::getTokenAuth());
         for ($i = 0; $i != $visitorCount; ++$i) {
-            $t->setVisitorId( substr(md5($i + $calledCounter * 1000), 0, $t::LENGTH_VISITOR_ID));
+            $t->setVisitorId(substr(md5($i + $calledCounter * 1000), 0, $t::LENGTH_VISITOR_ID));
             if ($setIp) {
                 $t->setIp(current($this->ips));
                 next($this->ips);
@@ -116,8 +116,8 @@ class ManyVisitsWithGeoIP extends Fixture
             $date = Date::factory($dateTime)->addDay($i);
             $t->setForceVisitDateTime($date->getDatetime());
             $t->setUrl("http://piwik.net/grue/lair");
-            $t->setCustomVariable(1, 'Cvar 1 name', 'Cvar1 value is ' .$i , 'visit');
-            $t->setCustomVariable(5, 'Cvar 5 name', 'Cvar5 value is ' .$i , 'visit');
+            $t->setCustomVariable(1, 'Cvar 1 name', 'Cvar1 value is ' .$i, 'visit');
+            $t->setCustomVariable(5, 'Cvar 5 name', 'Cvar5 value is ' .$i, 'visit');
             $t->setCustomVariable(2, 'Cvar 2 PAGE name', 'Cvar2 PAGE value is ' .$i, 'page');
             $t->setCustomVariable(5, 'Cvar 5 PAGE name', 'Cvar5 PAGE value is ' .$i, 'page');
 
@@ -148,7 +148,7 @@ class ManyVisitsWithGeoIP extends Fixture
             // Only for half visitors so they don't all have a "site search" as last action and some of them have a standard page view as last action
             $date = $date->addHour(0.1);
             $t->setForceVisitDateTime($date->getDatetime());
-            if( ($i % 2) == 0) {
+            if (($i % 2) == 0) {
                 $r = $t->doTrackSiteSearch('Bring on the party', 'CAT');
             }
 
@@ -165,12 +165,11 @@ class ManyVisitsWithGeoIP extends Fixture
 
             $date = $date->addHour(0.05);
             $t->setForceVisitDateTime($date->getDatetime());
-            $r = $t->doTrackEvent('Cat' . $i, 'Action' . $i, 'Name' . $i, 345.678 + $i );
+            $r = $t->doTrackEvent('Cat' . $i, 'Action' . $i, 'Name' . $i, 345.678 + $i);
 
             if (!$doBulk) {
                 self::checkResponse($r);
             }
-
         }
         if ($doBulk) {
             self::checkBulkTrackingResponse($t->doBulkTrack());
@@ -255,12 +254,12 @@ class ManyVisitsWithGeoIP extends Fixture
         return;
 
         // this randomly fails on PHP 5.3
-        if(strpos(PHP_VERSION, '5.3') === 0) {
+        if (strpos(PHP_VERSION, '5.3') === 0) {
             return;
         }
         try {
             LocationProvider::setCurrentProvider('default');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             // ignore error
         }
     }

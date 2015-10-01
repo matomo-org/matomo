@@ -156,7 +156,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             array('https://example.org/', true, 'example.org', '/'),
             array('https://example.net/piwik/', 'on', 'example.net', '/piwik/'),
         );
-
     }
 
     /**

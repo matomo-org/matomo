@@ -16,7 +16,7 @@ use Piwik\DataTable\Row;
  * @group DataTable
  * @group Filter
  */
-class AddSegmentByLabelTest extends \PHPUnit_Framework_TestCase
+class AddSegmentFilterTest extends \PHPUnit_Framework_TestCase
 {
     private $filter = 'AddSegmentByLabel';
 

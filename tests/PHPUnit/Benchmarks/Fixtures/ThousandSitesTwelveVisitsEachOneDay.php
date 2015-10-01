@@ -59,4 +59,3 @@ class Piwik_Test_Fixture_ThousandSitesTwelveVisitsEachOneDay
         }
     }
 }
-

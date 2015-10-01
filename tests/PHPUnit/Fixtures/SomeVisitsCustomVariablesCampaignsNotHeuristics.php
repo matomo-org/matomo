@@ -211,7 +211,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
     {
         $host = \Piwik\Url::getHost();
         $cookiePath = PiwikTracker::DEFAULT_COOKIE_PATH;
-        return substr(sha1( $host . $cookiePath), 0, 4);
+        return substr(sha1($host . $cookiePath), 0, 4);
     }
 
     /**

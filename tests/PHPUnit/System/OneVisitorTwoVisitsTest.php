@@ -141,7 +141,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
                                                   'otherRequestParameters' => array(
                                                       'hideColumns' => 'nb_visits_converted,xyzaug,entry_nb_visits,' .
                                                           'bounce_rate,nb_hits,nb_visits,avg_time_on_page,' .
-														  'avg_time_generation,nb_hits_with_time_generation'
+                                                          'avg_time_generation,nb_hits_with_time_generation'
                                                   ))),
 
             array('API.getProcessedReport', array('idSite'                 => $idSite, 'date' => $dateTime,
@@ -199,14 +199,11 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
      */
     public function testArchiveSitesWhenRestrictingToLogin()
     {
-        try
-        {
+        try {
             Archive::build(
                 'all', 'day', self::$fixture->dateTime, $segment = false, $_restrictToLogin = 'anotherLogin');
             $this->fail("Restricting sites to invalid login did not return 0 sites.");
-        }
-        catch (Exception $ex)
-        {
+        } catch (Exception $ex) {
             // pass
         }
     }

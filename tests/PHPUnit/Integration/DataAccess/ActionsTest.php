@@ -33,7 +33,7 @@ class ActionsTest extends IntegrationTestCase
 
     public function test_delete_DeletesSpecifiedActions()
     {
-        $this->actionsAccess->delete(array(2,3,4,5));
+        $this->actionsAccess->delete(array(2, 3, 4, 5));
 
         $expectedActions = array(
             array('name' => 'action1')

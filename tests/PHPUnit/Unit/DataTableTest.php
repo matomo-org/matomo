@@ -126,7 +126,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
      */
     public function testCountRowsSimple()
     {
-
         $table = new DataTable;
         $idcol = Row::COLUMNS;
         $rows = array(
@@ -226,7 +225,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($columns, $row->getColumns());
         $this->assertEquals($metadata, $row->getMetadata());
         $this->assertNull($row->getIdSubDataTable());
-
     }
 
     /**
@@ -416,7 +414,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
          * create some fake tables to make sure that the serialized array of the first TABLE
          * does not take in consideration those tables
          */
-        $useless1 = $this->createDataTable(array(array(13,)));
+        $useless1 = $this->createDataTable(array(array(13, )));
         /*
          * end fake tables
          */
@@ -433,7 +431,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
          * does not take in consideration those tables
          * -> we check that the DataTable_Manager is not impacting DataTable
          */
-        $useless1->addRowFromArray(array(Row::COLUMNS => array(8487,),));
+        $useless1->addRowFromArray(array(Row::COLUMNS => array(8487, ), ));
         $useless3 = $this->createDataTable(array(array(8487)));
         /*
          * end fake tables
@@ -444,10 +442,10 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $row = new Row($row);
 
         $table->addRow($row);
-        $table->addRowFromArray(array(Row::COLUMNS  => array(0 => 1554, 1 => 42,),
+        $table->addRowFromArray(array(Row::COLUMNS  => array(0 => 1554, 1 => 42, ),
                                       Row::METADATA => array('url' => 'piwik.org')));
 
-        $table->addRowFromArray(array(Row::COLUMNS              => array(0 => 787877888787,),
+        $table->addRowFromArray(array(Row::COLUMNS              => array(0 => 787877888787, ),
                                       Row::METADATA             => array('url' => 'OUPLA ADDED'),
                                       Row::DATATABLE_ASSOCIATED => $subtable));
 
@@ -474,11 +472,11 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
          */
         $subsubtable = new DataTable;
         $subsubtable->addRowFromArray(array(Row::COLUMNS  => array(245),
-                                            Row::METADATA => array('yes' => 'subsubmetadata1'),)
+                                            Row::METADATA => array('yes' => 'subsubmetadata1'), )
         );
 
-        $subsubtable->addRowFromArray(array(Row::COLUMNS  => array(13,),
-                                            Row::METADATA => array('yes' => 'subsubmetadata2'),)
+        $subsubtable->addRowFromArray(array(Row::COLUMNS  => array(13, ),
+                                            Row::METADATA => array('yes' => 'subsubmetadata2'), )
         );
 
         $row = array(Row::COLUMNS              => array(0 => 666666666666666,),
@@ -575,7 +573,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
                 if ($row[Row::COLUMNS]['label'] === DataTable::LABEL_SUMMARY_ROW) {
                     $this->assertNull($subtableId);
                 } else {
-
                     $this->assertLessThanOrEqual($sumSubTables, $subtableId); // make sure row was actually updated
                     $this->assertGreaterThanOrEqual(0, $subtableId);
                     $subrows = unserialize($tables[$subtableId]);
@@ -673,7 +670,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddSimpleSomeCommonRow()
     {
-
         $idcol = Row::COLUMNS;
 
         $rows = array(
@@ -945,5 +941,4 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         );
         return $rows;
     }
-
 }

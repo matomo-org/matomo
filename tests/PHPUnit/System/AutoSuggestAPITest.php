@@ -41,7 +41,7 @@ class AutoSuggestAPITest extends SystemTestCase
         // Refresh cache for CustomVariables\Model
         Cache::clearCacheGeneral();
 
-        if(self::isPhpVersion53() && self::isTravisCI()) {
+        if (self::isPhpVersion53() && self::isTravisCI()) {
             $this->markTestSkipped("Skipping this test as it seg faults on php 5.3 (bug triggered on travis)");
         }
 
@@ -68,7 +68,6 @@ class AutoSuggestAPITest extends SystemTestCase
                                            'date'   => '1998-07-12,today',
                                            'period' => 'range',
                                            'otherRequestParameters' => array('filter_limit' => 1000)));
-
         }
         return $apiForTesting;
     }
@@ -116,7 +115,6 @@ class AutoSuggestAPITest extends SystemTestCase
         } else {
             self::$skipped[] = $params['segmentToComplete'];
         }
-
     }
 
     public function getAnotherApiForTesting()
@@ -125,7 +123,7 @@ class AutoSuggestAPITest extends SystemTestCase
 
         $apiForTesting = array();
         foreach ($segments as $segment) {
-            if(self::isTravisCI() && $segment == 'deviceType') {
+            if (self::isTravisCI() && $segment == 'deviceType') {
                 // test started failing after bc19503 and I cannot understand why
                 continue;
             }
@@ -146,7 +144,7 @@ class AutoSuggestAPITest extends SystemTestCase
     {
         // Check that only a few haven't been tested specifically (these are all custom variables slots since we only test slot 1, 2, 5 (see the fixture) and example dimension slots)
         $maximumSegmentsToSkip = 16;
-        $this->assertLessThan($maximumSegmentsToSkip, count(self::$skipped) , 'SKIPPED ' . count(self::$skipped) . ' segments --> some segments had no "auto-suggested values"
+        $this->assertLessThan($maximumSegmentsToSkip, count(self::$skipped), 'SKIPPED ' . count(self::$skipped) . ' segments --> some segments had no "auto-suggested values"
             but we should try and test the autosuggest for all new segments. Segments skipped were: ' . implode(', ', self::$skipped));
 
         // and check that most others have been tested

@@ -87,7 +87,6 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $methodExists = $class->hasMethod($method);
 
         if (!$now->isLater($removalDate)) {
-
             $errorMessage = $className . '::' . $method . ' should still exists until ' . $removalDate . ' although it is deprecated.';
             $this->assertTrue($methodExists, $errorMessage);
             return;
@@ -106,7 +105,6 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $classExists = class_exists($className);
 
         if (!$now->isLater($removalDate)) {
-
             $errorMessage = $className . ' should still exists until ' . $removalDate . ' although it is deprecated.';
             $this->assertTrue($classExists, $errorMessage);
             return;
@@ -124,7 +122,6 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $methodExists = $class->hasMethod($method);
 
         if (-1 === version_compare($version, '3.0.0')) {
-
             $errorMessage = $className . '::' . $method . ' should still exists until 3.0 although it is deprecated.';
             $this->assertTrue($methodExists, $errorMessage);
             return;

@@ -100,7 +100,7 @@ class TwoVisitsWithCustomVariablesSegmentMatchVisitorTypeTest extends SystemTest
             $sql = "SELECT count(*) FROM " . Common::prefixTable($table);
             $countBlobs = Db::get()->fetchOne($sql);
 
-            if($expectedRows != $countBlobs) {
+            if ($expectedRows != $countBlobs) {
                 $output = Db::get()->fetchAll("SELECT * FROM " . Common::prefixTable($table) . " ORDER BY name, idarchive ASC");
                 var_export('This is debug output from ' . __CLASS__ . ' in case of an error: ');
                 var_export($output);

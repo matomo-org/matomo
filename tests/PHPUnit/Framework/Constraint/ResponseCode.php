@@ -56,4 +56,4 @@ class ResponseCode extends \PHPUnit_Framework_Constraint
     {
         return 'does not return response code ' . $this->exporter->export($this->value) . ' it is ' . $this->actualCode;
     }
-}?>
+}

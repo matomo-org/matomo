@@ -51,7 +51,6 @@ class ArchiveWebTest extends SystemTestCase
         }
 
         $this->assertWebArchivingDone($output);
-
     }
 
     public function test_WebArchiveScriptCanBeRun_WithPhpCgi_AndWithoutTokenAuth()
@@ -75,7 +74,7 @@ class ArchiveWebTest extends SystemTestCase
 
         // Check there are enough lines in output
         $minimumLinesInOutput = 30;
-        $linesInOutput = count( explode(PHP_EOL, $output) );
+        $linesInOutput = count(explode(PHP_EOL, $output));
         $this->assertGreaterThan($minimumLinesInOutput, $linesInOutput);
     }
 
