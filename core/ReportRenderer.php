@@ -152,7 +152,7 @@ abstract class ReportRenderer extends BaseFactory
 
         @chmod($outputFilename, 0600);
         
-        if(file_exists($outputFilename)){
+        if (file_exists($outputFilename)) {
             @unlink($outputFilename);
         }
         

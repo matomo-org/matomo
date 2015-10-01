@@ -17,7 +17,6 @@ use Piwik\Updates;
  */
 class Updates_1_8_4_b1 extends Updates
 {
-
     public static function isMajorUpdate()
     {
         return true;

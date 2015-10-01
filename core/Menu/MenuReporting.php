@@ -34,7 +34,6 @@ use Piwik\Plugin\Report;
  */
 class MenuReporting extends MenuAbstract
 {
-
     /**
      * See {@link add()}. Adds a new menu item to the visitors section of the reporting menu.
      * @param string $menuName

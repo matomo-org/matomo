@@ -190,7 +190,7 @@ class Segment
             if (isset($segment['sqlFilter'])) {
                 $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
 
-                if(is_null($value)) { // null is returned in TableLogAction::getIdActionFromSegment()
+                if (is_null($value)) { // null is returned in TableLogAction::getIdActionFromSegment()
                     return array(null, $matchType, null);
                 }
 

@@ -183,16 +183,16 @@ class SegmentExpression
 
         // Segment::getCleanedExpression() may return array(null, $matchType, null)
         $operandWillNotMatchAnyRow = empty($fields) && is_null($value);
-        if($operandWillNotMatchAnyRow) {
-            if($matchType == self::MATCH_EQUAL) {
+        if ($operandWillNotMatchAnyRow) {
+            if ($matchType == self::MATCH_EQUAL) {
                 // eg. pageUrl==DoesNotExist
                 // Equal to NULL means it will match none
                 $sqlExpression = self::SQL_WHERE_DO_NOT_MATCH_ANY_ROW;
-            } elseif($matchType == self::MATCH_NOT_EQUAL) {
+            } elseif ($matchType == self::MATCH_NOT_EQUAL) {
                 // eg. pageUrl!=DoesNotExist
                 // Not equal to NULL means it matches all rows
                 $sqlExpression = self::SQL_WHERE_MATCHES_ALL_ROWS;
-            } elseif($matchType == self::MATCH_CONTAINS
+            } elseif ($matchType == self::MATCH_CONTAINS
                   || $matchType == self::MATCH_DOES_NOT_CONTAIN) {
                 // no action was found for CONTAINS / DOES NOT CONTAIN
                 // eg. pageUrl=@DoesNotExist -> matches no row
@@ -288,7 +288,7 @@ class SegmentExpression
             $sqlExpressions[] = $sqlExpression;
 
             if ($value !== null) {
-                if(is_array($value)) {
+                if (is_array($value)) {
                     $values = array_merge($values, $value);
                 } else {
                     $values[] = $value;
@@ -443,4 +443,3 @@ class SegmentExpression
         );
     }
 }
-

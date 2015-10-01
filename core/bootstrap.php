@@ -20,11 +20,11 @@ error_reporting(E_ALL | E_NOTICE);
 @ini_set('magic_quotes_runtime', 0);
 
 if (!defined('PIWIK_VENDOR_PATH')) {
-	if (is_dir(PIWIK_INCLUDE_PATH . '/vendor')) {
-		define('PIWIK_VENDOR_PATH', PIWIK_INCLUDE_PATH . '/vendor'); // Piwik is the main project
-	} else {
-		define('PIWIK_VENDOR_PATH', PIWIK_INCLUDE_PATH . '/../..'); // Piwik is installed as a Composer dependency
-	}
+    if (is_dir(PIWIK_INCLUDE_PATH . '/vendor')) {
+        define('PIWIK_VENDOR_PATH', PIWIK_INCLUDE_PATH . '/vendor'); // Piwik is the main project
+    } else {
+        define('PIWIK_VENDOR_PATH', PIWIK_INCLUDE_PATH . '/../..'); // Piwik is installed as a Composer dependency
+    }
 }
 
 // NOTE: the code above must be PHP 4 compatible

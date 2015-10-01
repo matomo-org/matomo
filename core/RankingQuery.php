@@ -41,7 +41,6 @@ use Exception;
  */
 class RankingQuery
 {
-
     /**
      * Contains the labels of the inner query.
      * Format: "label" => true (to make sure labels don't appear twice)

@@ -103,7 +103,7 @@ class Factory
 
         $params = array();
 
-        if(is_null($loadViewDataTableParametersForUser)) {
+        if (is_null($loadViewDataTableParametersForUser)) {
             $loadViewDataTableParametersForUser = ('0' == Common::getRequestVar('widget', '0', 'string'));
         }
         if ($loadViewDataTableParametersForUser) {
@@ -240,7 +240,7 @@ class Factory
             $params = array();
         }
 
-        if(!is_subclass_of($klass, 'Piwik\View\ViewInterface')) {
+        if (!is_subclass_of($klass, 'Piwik\View\ViewInterface')) {
             throw new \Exception("viewDataTable $klass must implement Piwik\View\ViewInterface interface.");
         }
 

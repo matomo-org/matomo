@@ -19,7 +19,6 @@ use Piwik\Settings\Storage;
  */
 class StaticStorage extends Storage
 {
-
     protected function loadSettings()
     {
         return array();

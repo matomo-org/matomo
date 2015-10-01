@@ -36,4 +36,3 @@ class TypeManager
         return new Type();
     }
 }
-

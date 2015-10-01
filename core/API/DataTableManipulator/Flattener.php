@@ -21,7 +21,6 @@ use Piwik\DataTable\Row;
  */
 class Flattener extends DataTableManipulator
 {
-
     private $includeAggregateRows = false;
 
     /**

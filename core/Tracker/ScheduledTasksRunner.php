@@ -17,7 +17,6 @@ use Piwik\Tracker;
 
 class ScheduledTasksRunner
 {
-
     public function shouldRun(Tracker $tracker)
     {
         if (Common::isPhpCliMode()) {

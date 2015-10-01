@@ -17,7 +17,6 @@ use Piwik\Measurable\Type\TypeManager;
 
 class MeasurableSettings extends Settings
 {
-
     /**
      * @var int
      */
@@ -98,6 +97,4 @@ class MeasurableSettings extends Settings
 
         $this->storage->save();
     }
-
 }
-

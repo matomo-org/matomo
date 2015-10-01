@@ -9,7 +9,6 @@
 
 namespace Piwik\ViewDataTable;
 
-
 /**
  * Contains base request properties for {@link Piwik\Plugin\ViewDataTable} instances. Manipulating
  * these properties will change the way a {@link Piwik\Plugin\ViewDataTable} loads report data.

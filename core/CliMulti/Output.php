@@ -12,7 +12,6 @@ use Piwik\Filesystem;
 
 class Output
 {
-
     private $tmpFile  = '';
     private $outputId = null;
 

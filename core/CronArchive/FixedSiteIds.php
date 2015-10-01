@@ -8,7 +8,6 @@
  */
 namespace Piwik\CronArchive;
 
-
 class FixedSiteIds
 {
     private $siteIds = array();

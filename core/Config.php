@@ -288,7 +288,7 @@ class Config
     {
         $configLocal = $this->getLocalPath();
         
-        if(file_exists($configLocal)){
+        if (file_exists($configLocal)) {
             @unlink($configLocal);
         }
     }

@@ -17,7 +17,6 @@ use Piwik\Site;
  */
 class Measurable extends Site
 {
-
     public function getSettingValue($name)
     {
         $settings = new MeasurableSettings($this->id, $this->getType());

@@ -114,7 +114,6 @@ class PluginsArchiver
             }
 
             if ($this->shouldProcessReportsForPlugin($pluginName)) {
-
                 $this->logAggregator->setQueryOriginHint($pluginName);
 
                 try {

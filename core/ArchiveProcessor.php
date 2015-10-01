@@ -17,6 +17,7 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Map;
 use Piwik\DataTable\Row;
+
 /**
  * Used by {@link Piwik\Plugin\Archiver} instances to insert and aggregate archive data.
  *

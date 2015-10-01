@@ -20,7 +20,6 @@ use Piwik\Plugins\Dashboard\Model as DashboardModel;
  */
 class Updates_2_11_0_b2 extends Updates
 {
-
     public function getMigrationQueries(Updater $updater)
     {
         $sqls = array();

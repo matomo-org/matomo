@@ -7,7 +7,6 @@
  */
 namespace Piwik\Plugin;
 
-
 /**
  * Base type for metric metadata classes that describe aggregated metrics. These metrics are
  * computed in the backend data store and are aggregated in PHP when Piwik archives period reports.

@@ -84,11 +84,9 @@ class ExceptionHandler
         $isHtmlMessage = method_exists($ex, 'isHtmlMessage') && $ex->isHtmlMessage();
 
         if (!$isHtmlMessage && Request::isApiRequest($_GET)) {
-
             $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $_GET + $_POST));
             $response = new ResponseBuilder($outputFormat);
             return $response->getResponseException($ex);
-
         } elseif (!$isHtmlMessage) {
             $message = Common::sanitizeInputValue($message);
         }

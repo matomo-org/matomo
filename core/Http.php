@@ -549,7 +549,7 @@ class Http
                 while (substr($response, 0, 5) == "HTTP/") {
                     $split = explode("\r\n\r\n", $response, 2);
 
-                    if(count($split) == 2) {
+                    if (count($split) == 2) {
                         list($header, $response) = $split;
                     } else {
                         $response = '';
@@ -841,7 +841,7 @@ class Http
         $hostname = UrlHelper::getHostFromUrl($url);
         $localHostnames = Url::getLocalHostnames();
 
-        if(in_array($hostname, $localHostnames)) {
+        if (in_array($hostname, $localHostnames)) {
             return array(null, null, null, null);
         }
 

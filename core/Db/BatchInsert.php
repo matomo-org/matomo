@@ -98,7 +98,7 @@ class BatchInsert
         }
 
         // if all else fails, fallback to a series of INSERTs
-        if(file_exists($filePath)){
+        if (file_exists($filePath)) {
             @unlink($filePath);
         }
         

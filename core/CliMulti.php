@@ -18,7 +18,6 @@ use Piwik\Container\StaticContainer;
  */
 class CliMulti
 {
-
     /**
      * If set to true or false it will overwrite whether async is supported or not.
      *
