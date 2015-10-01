@@ -350,6 +350,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         Cache::deleteTrackerCache();
         PiwikCache::getTransientCache()->flushAll();
         PiwikCache::getEagerCache()->flushAll();
+        PiwikCache::getLazyCache()->flushAll();
         ArchiveTableCreator::clear();
         \Piwik\Plugins\ScheduledReports\API::$cache = array();
         Singleton::clearAll();
