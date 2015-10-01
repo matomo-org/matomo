@@ -16,7 +16,6 @@ use Piwik\Plugins\MobileMessaging\SMSProvider;
  */
 class StubbedProvider extends SMSProvider
 {
-
     public function verifyCredential($apiKey)
     {
         return true;

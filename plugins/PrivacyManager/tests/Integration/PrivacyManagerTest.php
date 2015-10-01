@@ -82,5 +82,4 @@ class PrivacyManagerTest extends IntegrationTestCase
         );
         return $expected;
     }
-
 }

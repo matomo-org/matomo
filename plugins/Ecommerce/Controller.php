@@ -120,5 +120,4 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         $view->goalReportsByDimension = $reportsByDimension;
         return $view->render();
     }
-
 }

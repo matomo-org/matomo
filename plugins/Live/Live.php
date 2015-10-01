@@ -15,7 +15,6 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
  */
 class Live extends \Piwik\Plugin
 {
-
     /**
      * @see Piwik\Plugin::registerEvents
      */

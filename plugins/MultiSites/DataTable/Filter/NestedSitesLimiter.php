@@ -76,7 +76,6 @@ class NestedSitesLimiter extends BaseFilter
         $lastGroupFromPreviousPage = null;
 
         foreach ($table->getRows() as $row) {
-
             $this->addRowIfNeeded($row, $numRows);
             $numRows++;
 

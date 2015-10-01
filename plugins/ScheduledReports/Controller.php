@@ -78,7 +78,6 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->segmentEditorActivated = false;
         if (API::isSegmentEditorActivated()) {
-
             $savedSegmentsById = array();
             foreach (APISegmentEditor::getInstance()->getAll($this->idSite) as $savedSegment) {
                 $savedSegmentsById[$savedSegment['idsegment']] = $savedSegment['name'];

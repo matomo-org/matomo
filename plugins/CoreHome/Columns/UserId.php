@@ -129,5 +129,4 @@ class UserId extends VisitDimension
 
         return !empty($numUsers);
     }
-
 }

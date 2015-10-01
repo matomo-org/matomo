@@ -17,7 +17,6 @@ use Piwik\Settings\Manager as SettingsManager;
 
 class Menu extends \Piwik\Plugin\Menu
 {
-
     public function configureAdminMenu(MenuAdmin $menu)
     {
         $hasAdminAccess = Piwik::isUserHasSomeAdminAccess();
@@ -69,5 +68,4 @@ class Menu extends \Piwik\Plugin\Menu
             }
         }
     }
-
 }

@@ -69,7 +69,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *
      * @return string function name
      */
-    function getDefaultAction()
+    public function getDefaultAction()
     {
         $steps = array_keys($this->steps);
         return $steps[0];
@@ -80,7 +80,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *
      * Can also display an error message when there is a failure early (eg. DB connection failed)
      */
-    function welcome()
+    public function welcome()
     {
         // Delete merged js/css files to force regenerations based on updated activated plugin list
         Filesystem::deleteAllCacheOnUpdate();
@@ -99,7 +99,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Installation Step 2: System Check
      */
-    function systemCheck()
+    public function systemCheck()
     {
         $this->checkPiwikIsNotInstalled();
 
@@ -128,7 +128,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * Installation Step 3: Database Set-up
      * @throws Exception|Zend_Db_Adapter_Exception
      */
-    function databaseSetup()
+    public function databaseSetup()
     {
         $this->checkPiwikIsNotInstalled();
 
@@ -165,7 +165,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Installation Step 4: Table Creation
      */
-    function tablesCreation()
+    public function tablesCreation()
     {
         $this->checkPiwikIsNotInstalled();
 
@@ -201,7 +201,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 }
             });
         } else {
-
             DbHelper::createTables();
             DbHelper::createAnonymousUser();
 
@@ -216,7 +215,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view->render();
     }
 
-    function reuseTables()
+    public function reuseTables()
     {
         $this->checkPiwikIsNotInstalled();
 
@@ -250,7 +249,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Installation Step 5: General Set-up (superuser login/password/email and subscriptions)
      */
-    function setupSuperUser()
+    public function setupSuperUser()
     {
         $this->checkPiwikIsNotInstalled();
 
@@ -271,7 +270,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $form = new FormSuperUser();
 
         if ($form->validate()) {
-
             try {
                 $this->createSuperUser($form->getSubmitValue('login'),
                                        $form->getSubmitValue('password'),
@@ -282,7 +280,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $newsletterPiwikPRO = $form->getSubmitValue('subscribe_newsletter_piwikpro');
                 $this->registerNewsletter($email, $newsletterPiwikORG, $newsletterPiwikPRO);
                 $this->redirectToNextStep(__FUNCTION__);
-
             } catch (Exception $e) {
                 $view->errorMessage = $e->getMessage();
             }
@@ -622,7 +619,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $trustedHosts = array_unique($trustedHosts);
         if (count($trustedHosts)) {
-
             $general = Config::getInstance()->General;
             $general['trusted_hosts'] = $trustedHosts;
             Config::getInstance()->General = $general;

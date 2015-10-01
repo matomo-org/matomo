@@ -28,5 +28,4 @@ class GetVisitsUntilConversionAbandonedCart extends Base
 
         $this->parameters =  array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART);
     }
-
 }

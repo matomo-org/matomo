@@ -155,7 +155,6 @@ class Marketplace
 
         if (!empty($plugin['activity']['lastCommitDate'])
             && false === strpos($plugin['activity']['lastCommitDate'], '0000')) {
-
             $dateFormat = Piwik::translate('CoreHome_DateFormat');
             $plugin['activity']['lastCommitDate'] = Date::factory($plugin['activity']['lastCommitDate'])->getLocalized($dateFormat);
         } else {
@@ -163,7 +162,6 @@ class Marketplace
         }
 
         if (!empty($plugin['versions'])) {
-
             $dateFormat = Piwik::translate('CoreHome_DateFormat');
 
             foreach ($plugin['versions'] as $index => $version) {

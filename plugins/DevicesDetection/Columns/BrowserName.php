@@ -47,7 +47,6 @@ class BrowserName extends Base
         $aBrowserInfo = $parser->getClient();
 
         if (!empty($aBrowserInfo['short_name'])) {
-
             return $aBrowserInfo['short_name'];
         }
 

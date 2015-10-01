@@ -182,5 +182,4 @@ class MarketplaceApiClient
 
         return $this->domain . $downloadUrl . '?coreVersion=' . Version::VERSION;
     }
-
 }

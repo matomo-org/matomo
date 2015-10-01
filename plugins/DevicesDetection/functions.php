@@ -10,9 +10,9 @@
 namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\Piwik;
-use DeviceDetector\Parser\OperatingSystem AS OperatingSystemParser;
-use DeviceDetector\Parser\Device\DeviceParserAbstract AS DeviceParser;
-use DeviceDetector\Parser\Client\Browser AS BrowserParser;
+use DeviceDetector\Parser\OperatingSystem as OperatingSystemParser;
+use DeviceDetector\Parser\Device\DeviceParserAbstract as DeviceParser;
+use DeviceDetector\Parser\Client\Browser as BrowserParser;
 
 function getBrandLogo($label)
 {
@@ -84,7 +84,6 @@ function getBrowserLogo($short)
 
     // If name is given instead of short code, try to find matching shortcode
     if (strlen($short) > 2) {
-
         if (in_array($short, BrowserParser::getAvailableBrowsers())) {
             $flippedBrowsers = array_flip(BrowserParser::getAvailableBrowsers());
             $short = $flippedBrowsers[$short];
@@ -100,13 +99,10 @@ function getBrowserLogo($short)
     if (!empty($short) &&
         array_key_exists($short, BrowserParser::getAvailableBrowsers()) &&
         file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $short))) {
-
         return sprintf($path, $short);
-
     } elseif (!empty($short) &&
         array_key_exists($family, $browserFamilies) &&
         file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $browserFamilies[$family][0]))) {
-
         return sprintf($path, $browserFamilies[$family][0]);
     }
     return sprintf($path, 'UNK');
@@ -142,9 +138,8 @@ function getDeviceTypeLabel($label)
     if (is_numeric($label) &&
         in_array($label, $deviceTypes) &&
         isset($translations[array_search($label, $deviceTypes)])) {
-
         return Piwik::translate($translations[array_search($label, $deviceTypes)]);
-    } else if (isset($translations[$label])) {
+    } elseif (isset($translations[$label])) {
         return Piwik::translate($translations[$label]);
     } else {
         return Piwik::translate('General_Unknown');
@@ -159,7 +154,7 @@ function getDeviceTypeLogo($label)
 
     $label = strtolower($label);
 
-    $deviceTypeLogos = Array(
+    $deviceTypeLogos = array(
         "desktop"       => "normal.gif",
         "smartphone"    => "smartphone.png",
         "tablet"        => "tablet.png",
@@ -204,7 +199,7 @@ function getOSFamilyFullName($label)
 
     if ($label == 'unknown') {
         $label = Piwik::translate('General_Unknown');
-    } else if ($label == 'Gaming Console') {
+    } elseif ($label == 'Gaming Console') {
         $label = Piwik::translate('DevicesDetection_Console');
     }
 
@@ -288,7 +283,6 @@ function getOsLogo($short)
 
     // If name is given instead of short code, try to find matching shortcode
     if (strlen($short) > 3) {
-
         if (in_array($short, OperatingSystemParser::getAvailableOperatingSystems())) {
             $short = array_search($short, OperatingSystemParser::getAvailableOperatingSystems());
         } else {
@@ -302,13 +296,10 @@ function getOsLogo($short)
     if (!empty($short) &&
         array_key_exists($short, OperatingSystemParser::getAvailableOperatingSystems()) &&
         file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $short))) {
-
         return sprintf($path, $short);
-
     } elseif (!empty($family) &&
         array_key_exists($family, $osFamilies) &&
         file_exists(PIWIK_INCLUDE_PATH.'/'.sprintf($path, $osFamilies[$family][0]))) {
-
         return sprintf($path, $osFamilies[$family][0]);
     }
     return sprintf($path, 'UNK');
@@ -321,7 +312,8 @@ function getOsLogo($short)
  *
  * @return string
  */
-function getBrowserEngineName($engineName) {
+function getBrowserEngineName($engineName)
+{
     /*
      * Map leagcy types to engines
      */

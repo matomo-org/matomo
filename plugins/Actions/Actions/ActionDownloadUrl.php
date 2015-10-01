@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\Plugins\Actions\Actions;
+
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 
@@ -37,5 +38,4 @@ class ActionDownloadUrl extends Action
             'idaction_url' => array($this->getActionUrl(), $this->getActionType())
         );
     }
-
 }

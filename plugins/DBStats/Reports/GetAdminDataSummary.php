@@ -20,7 +20,6 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
  */
 class GetAdminDataSummary extends Base
 {
-
     public function configureView(ViewDataTable $view)
     {
         $this->addBaseDisplayProperties($view);

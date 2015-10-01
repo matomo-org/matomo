@@ -141,7 +141,6 @@ class SetNumberOfCustomVariables extends ConsoleCommand
         $output->writeln(sprintf('Scope "%s"', $scopeName));
 
         if ($numVarsToSet > $numCurrentCustomVars) {
-
             $indexes = $highestIndex + 1;
             if (1 !== $numVarsDifference) {
                 $indexes .= ' - ' . ($highestIndex + $numVarsDifference);
@@ -150,9 +149,7 @@ class SetNumberOfCustomVariables extends ConsoleCommand
             $output->writeln(
                 sprintf('%s new custom variables having the index(es) %s will be ADDED', $numVarsDifference, $indexes)
             );
-
         } elseif ($numVarsToSet < $numCurrentCustomVars) {
-
             $indexes = $highestIndex - $numVarsDifference + 1;
 
             if (1 !== $numVarsDifference) {

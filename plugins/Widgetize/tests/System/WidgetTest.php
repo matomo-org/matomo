@@ -106,738 +106,737 @@ class WidgetTest extends SystemTestCase
      */
     public function getWidgetsThatAreAPI()
     {
-        return array (
-                array (
+        return array(
+                array(
                     'name' => 'Visits by Server Time',
                     'uniqueId' => 'widgetVisitTimegetVisitInformationPerServerTime',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'VisitTime',
                             'action' => 'getVisitInformationPerServerTime',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visits by Local Time',
                     'uniqueId' => 'widgetVisitTimegetVisitInformationPerLocalTime',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'VisitTime',
                             'action' => 'getVisitInformationPerLocalTime',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visits by Day of Week',
                     'uniqueId' => 'widgetVisitTimegetByDayOfWeek',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'VisitTime',
                             'action' => 'getByDayOfWeek',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visits Over Time',
                     'uniqueId' => 'widgetVisitsSummarygetEvolutionGraphcolumnsArray',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'VisitsSummary',
                             'action' => 'getEvolutionGraph',
                             'columns' =>
-                                array (
+                                array(
                                     0 => 'nb_visits',
                                 ),
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visits Overview',
                     'uniqueId' => 'widgetVisitsSummarygetSparklines',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'VisitsSummary',
                             'action' => 'getSparklines',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visits Overview (with graph)',
                     'uniqueId' => 'widgetVisitsSummaryindex',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'VisitsSummary',
                             'action' => 'index',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Real-time Map',
                     'uniqueId' => 'widgetUserCountryMaprealtimeMap',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'UserCountryMap',
                             'action' => 'realtimeMap',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visitor Log',
                     'uniqueId' => 'widgetLivegetVisitorLogsmall1',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Live',
                             'action' => 'getVisitorLog',
                             'small' => 1,
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Real Time Visitor Count',
                     'uniqueId' => 'widgetLivegetSimpleLastVisitCount',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Live',
                             'action' => 'getSimpleLastVisitCount',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visitors in Real-time',
                     'uniqueId' => 'widgetLivewidget',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Live',
                             'action' => 'widget',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visitor profile',
                     'uniqueId' => 'widgetLivegetVisitorProfilePopup',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Live',
                             'action' => 'getVisitorProfilePopup',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visitor Map',
                     'uniqueId' => 'widgetUserCountryMapvisitorMap',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'UserCountryMap',
                             'action' => 'visitorMap',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visitor Location (Country)',
                     'uniqueId' => 'widgetUserCountrygetCountry',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'UserCountry',
                             'action' => 'getCountry',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visitor Location (Continent)',
                     'uniqueId' => 'widgetUserCountrygetContinent',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'UserCountry',
                             'action' => 'getContinent',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visitor Location (Region)',
                     'uniqueId' => 'widgetUserCountrygetRegion',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'UserCountry',
                             'action' => 'getRegion',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visitor Location (City)',
                     'uniqueId' => 'widgetUserCountrygetCity',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'UserCountry',
                             'action' => 'getCity',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Custom Variables',
                     'uniqueId' => 'widgetCustomVariablesgetCustomVariables',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'CustomVariables',
                             'action' => 'getCustomVariables',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Length of Visits',
                     'uniqueId' => 'widgetVisitorInterestgetNumberOfVisitsPerVisitDuration',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'VisitorInterest',
                             'action' => 'getNumberOfVisitsPerVisitDuration',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Pages per Visit',
                     'uniqueId' => 'widgetVisitorInterestgetNumberOfVisitsPerPage',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'VisitorInterest',
                             'action' => 'getNumberOfVisitsPerPage',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visits by Visit Number',
                     'uniqueId' => 'widgetVisitorInterestgetNumberOfVisitsByVisitCount',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'VisitorInterest',
                             'action' => 'getNumberOfVisitsByVisitCount',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visits by Days Since Last Visit',
                     'uniqueId' => 'widgetVisitorInterestgetNumberOfVisitsByDaysSinceLast',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'VisitorInterest',
                             'action' => 'getNumberOfVisitsByDaysSinceLast',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Frequency Overview',
                     'uniqueId' => 'widgetVisitFrequencygetSparklines',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'VisitFrequency',
                             'action' => 'getSparklines',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Returning Visits Over Time',
                     'uniqueId' => 'widgetVisitFrequencygetEvolutionGraphcolumnsArray',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'VisitFrequency',
                             'action' => 'getEvolutionGraph',
                             'columns' =>
-                                array (
+                                array(
                                     0 => 'nb_visits_returning',
                                 ),
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Screen Resolution',
                     'uniqueId' => 'widgetResolutiongetResolution',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Resolution',
                             'action' => 'getResolution',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Browser Plugins',
                     'uniqueId' => 'widgetDevicePluginsgetPlugin',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'DevicePlugins',
                             'action' => 'getPlugin',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visitor Configuration',
                     'uniqueId' => 'widgetResolutiongetConfiguration',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Resolution',
                             'action' => 'getConfiguration',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Browser language',
                     'uniqueId' => 'widgetUserLanguagegetLanguage',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'UserLanguage',
                             'action' => 'getLanguage',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Language code',
                     'uniqueId' => 'widgetUserLanguagegetLanguageCode',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'UserLanguage',
                             'action' => 'getLanguageCode',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Device type',
                     'uniqueId' => 'widgetDevicesDetectiongetType',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'DevicesDetection',
                             'action' => 'getType',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Device brand',
                     'uniqueId' => 'widgetDevicesDetectiongetBrand',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'DevicesDetection',
                             'action' => 'getBrand',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visitor Browser',
                     'uniqueId' => 'widgetDevicesDetectiongetBrowsers',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'DevicesDetection',
                             'action' => 'getBrowsers',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Device model',
                     'uniqueId' => 'widgetDevicesDetectiongetModel',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'DevicesDetection',
                             'action' => 'getModel',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Browser version',
                     'uniqueId' => 'widgetDevicesDetectiongetBrowserVersions',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'DevicesDetection',
                             'action' => 'getBrowserVersions',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Operating System families',
                     'uniqueId' => 'widgetDevicesDetectiongetOsFamilies',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'DevicesDetection',
                             'action' => 'getOsFamilies',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Operating System versions',
                     'uniqueId' => 'widgetDevicesDetectiongetOsVersions',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'DevicesDetection',
                             'action' => 'getOsVersions',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Browser engines',
                     'uniqueId' => 'widgetDevicesDetectiongetBrowserEngines',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'DevicesDetection',
                             'action' => 'getBrowserEngines',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Pages',
                     'uniqueId' => 'widgetActionsgetPageUrls',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Actions',
                             'action' => 'getPageUrls',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Entry Pages',
                     'uniqueId' => 'widgetActionsgetEntryPageUrls',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Actions',
                             'action' => 'getEntryPageUrls',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Exit Pages',
                     'uniqueId' => 'widgetActionsgetExitPageUrls',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Actions',
                             'action' => 'getExitPageUrls',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Page Titles',
                     'uniqueId' => 'widgetActionsgetPageTitles',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Actions',
                             'action' => 'getPageTitles',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Entry Page Titles',
                     'uniqueId' => 'widgetActionsgetEntryPageTitles',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Actions',
                             'action' => 'getEntryPageTitles',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Exit Page Titles',
                     'uniqueId' => 'widgetActionsgetExitPageTitles',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Actions',
                             'action' => 'getExitPageTitles',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Outlinks',
                     'uniqueId' => 'widgetActionsgetOutlinks',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Actions',
                             'action' => 'getOutlinks',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Downloads',
                     'uniqueId' => 'widgetActionsgetDownloads',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Actions',
                             'action' => 'getDownloads',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Content Name',
                     'uniqueId' => 'widgetContentsgetContentNames',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Contents',
                             'action' => 'getContentNames',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Content Piece',
                     'uniqueId' => 'widgetContentsgetContentPieces',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Contents',
                             'action' => 'getContentPieces',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Event Categories',
                     'uniqueId' => 'widgetEventsgetCategorysecondaryDimensioneventAction',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Events',
                             'action' => 'getCategory',
                             'secondaryDimension' => 'eventAction',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Event Actions',
                     'uniqueId' => 'widgetEventsgetActionsecondaryDimensioneventName',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Events',
                             'action' => 'getAction',
                             'secondaryDimension' => 'eventName',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Event Names',
                     'uniqueId' => 'widgetEventsgetNamesecondaryDimensioneventAction',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Events',
                             'action' => 'getName',
                             'secondaryDimension' => 'eventAction',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Site Search Keywords',
                     'uniqueId' => 'widgetActionsgetSiteSearchKeywords',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Actions',
                             'action' => 'getSiteSearchKeywords',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Search Keywords with No Results',
                     'uniqueId' => 'widgetActionsgetSiteSearchNoResultKeywords',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Actions',
                             'action' => 'getSiteSearchNoResultKeywords',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Search Categories',
                     'uniqueId' => 'widgetActionsgetSiteSearchCategories',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Actions',
                             'action' => 'getSiteSearchCategories',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Pages Following a Site Search',
                     'uniqueId' => 'widgetActionsgetPageUrlsFollowingSiteSearch',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Actions',
                             'action' => 'getPageUrlsFollowingSiteSearch',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Page Titles Following a Site Search',
                     'uniqueId' => 'widgetActionsgetPageTitlesFollowingSiteSearch',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Actions',
                             'action' => 'getPageTitlesFollowingSiteSearch',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Overview',
                     'uniqueId' => 'widgetReferrersgetReferrerType',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Referrers',
                             'action' => 'getReferrerType',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'All Referrers',
                     'uniqueId' => 'widgetReferrersgetAll',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Referrers',
                             'action' => 'getAll',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Keywords',
                     'uniqueId' => 'widgetReferrersgetKeywords',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Referrers',
                             'action' => 'getKeywords',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Referrer Websites',
                     'uniqueId' => 'widgetReferrersgetWebsites',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Referrers',
                             'action' => 'getWebsites',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Search Engines',
                     'uniqueId' => 'widgetReferrersgetSearchEngines',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Referrers',
                             'action' => 'getSearchEngines',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Campaigns',
                     'uniqueId' => 'widgetReferrersgetCampaigns',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Referrers',
                             'action' => 'getCampaigns',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'List of social networks',
                     'uniqueId' => 'widgetReferrersgetSocials',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Referrers',
                             'action' => 'getSocials',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Goals Overview',
                     'uniqueId' => 'widgetGoalswidgetGoalsOverview',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Goals',
                             'action' => 'widgetGoalsOverview',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Download Software',
                     'uniqueId' => 'widgetGoalswidgetGoalReportidGoal1',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Goals',
                             'action' => 'widgetGoalReport',
                             'idGoal' => '1',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Download Software2',
                     'uniqueId' => 'widgetGoalswidgetGoalReportidGoal2',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Goals',
                             'action' => 'widgetGoalReport',
                             'idGoal' => '2',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Opens Contact Form',
                     'uniqueId' => 'widgetGoalswidgetGoalReportidGoal3',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Goals',
                             'action' => 'widgetGoalReport',
                             'idGoal' => '3',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Visit Docs',
                     'uniqueId' => 'widgetGoalswidgetGoalReportidGoal4',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Goals',
                             'action' => 'widgetGoalReport',
                             'idGoal' => '4',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Product SKU',
                     'uniqueId' => 'widgetGoalsgetItemsSku',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Goals',
                             'action' => 'getItemsSku',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Product Name',
                     'uniqueId' => 'widgetGoalsgetItemsName',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Goals',
                             'action' => 'getItemsName',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Product Category',
                     'uniqueId' => 'widgetGoalsgetItemsCategory',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Goals',
                             'action' => 'getItemsCategory',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Overview',
                     'uniqueId' => 'widgetEcommercewidgetGoalReportidGoalecommerceOrder',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Ecommerce',
                             'action' => 'widgetGoalReport',
                             'idGoal' => 'ecommerceOrder',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Ecommerce Log',
                     'uniqueId' => 'widgetEcommercegetEcommerceLog',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Ecommerce',
                             'action' => 'getEcommerceLog',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Insights Overview',
                     'uniqueId' => 'widgetInsightsgetInsightsOverview',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Insights',
                             'action' => 'getInsightsOverview',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Movers and Shakers',
                     'uniqueId' => 'widgetInsightsgetOverallMoversAndShakers',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Insights',
                             'action' => 'getOverallMoversAndShakers',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Top Keywords for Page URL',
                     'uniqueId' => 'widgetReferrersgetKeywordsForPage',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'Referrers',
                             'action' => 'getKeywordsForPage',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'SEO Rankings',
                     'uniqueId' => 'widgetSEOgetRank',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'SEO',
                             'action' => 'getRank',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Support Piwik!',
                     'uniqueId' => 'widgetCoreHomegetDonateForm',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'CoreHome',
                             'action' => 'getDonateForm',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Welcome!',
                     'uniqueId' => 'widgetCoreHomegetPromoVideo',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'CoreHome',
                             'action' => 'getPromoVideo',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Piwik.org Blog',
                     'uniqueId' => 'widgetExampleRssWidgetrssPiwik',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'ExampleRssWidget',
                             'action' => 'rssPiwik',
                         ),
                 ),
-                array (
+                array(
                     'name' => 'Piwik Changelog',
                     'uniqueId' => 'widgetExampleRssWidgetrssChangelog',
                     'parameters' =>
-                        array (
+                        array(
                             'module' => 'ExampleRssWidget',
                             'action' => 'rssChangelog',
                         ),
                 ),
         );
     }
-
 }
 
 

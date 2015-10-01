@@ -26,7 +26,7 @@ class Controller extends \Piwik\Plugin\Controller
     private function getLeftMenuReports()
     {
         $reports = new View\ReportsByDimension('Events');
-        foreach(Events::getLabelTranslations() as $apiAction => $translations) {
+        foreach (Events::getLabelTranslations() as $apiAction => $translations) {
             // 'getCategory' is the API method, but we are loading 'indexCategory' which displays <h2>
             $count = 1;
             $controllerAction = str_replace("get", "index", $apiAction, $count);

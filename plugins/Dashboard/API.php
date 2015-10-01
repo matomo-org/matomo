@@ -71,7 +71,6 @@ class API extends \Piwik\Plugin\API
         $dashboards = array();
 
         foreach ($userDashboards as $userDashboard) {
-
             if ($this->hasDashboardColumns($userDashboard)) {
                 $widgets = $this->getExistingWidgetsWithinDashboard($userDashboard);
                 $dashboards[] = $this->buildDashboard($userDashboard, $widgets);
@@ -90,7 +89,6 @@ class API extends \Piwik\Plugin\API
 
         foreach ($columns as $column) {
             foreach ($column as $widget) {
-
                 if ($this->widgetIsNotHidden($widget) && $this->widgetExists($widget)) {
                     $module = $widget->parameters->module;
                     $action = $widget->parameters->action;
@@ -106,7 +104,6 @@ class API extends \Piwik\Plugin\API
     private function getColumnsFromDashboard($dashboard)
     {
         if (is_array($dashboard['layout'])) {
-
             return $dashboard['layout'];
         }
 
@@ -116,7 +113,6 @@ class API extends \Piwik\Plugin\API
     private function hasDashboardColumns($dashboard)
     {
         if (is_array($dashboard['layout'])) {
-
             return !empty($dashboard['layout']);
         }
 

@@ -226,16 +226,18 @@ abstract class LocationProvider
                 }
             } else {
                 $workingOrError = $provider->isWorking();
-                if ($workingOrError === true) // if the implementation is configured correctly, get the location
-                {
+                if ($workingOrError === true) {
+                    // if the implementation is configured correctly, get the location
+
                     $locInfo = array('ip'                => IP::getIpFromHeader(),
                                      'lang'              => Common::getBrowserLanguage(),
                                      'disable_fallbacks' => true);
 
                     $location = $provider->getLocation($locInfo);
                     $location = self::prettyFormatLocation($location, $newline, $includeExtra);
-                } else // otherwise set an error message describing why
-                {
+                } else {
+                    // otherwise set an error message describing why
+
                     $status = self::BROKEN;
                     $statusMessage = $workingOrError;
                 }
@@ -411,7 +413,7 @@ abstract class LocationProvider
 
         if (!empty($locationInfo[self::REGION_CODE_KEY])) {
             $cityState[] = $locationInfo[self::REGION_CODE_KEY];
-        } else if (!empty($locationInfo[self::REGION_NAME_KEY])) {
+        } elseif (!empty($locationInfo[self::REGION_NAME_KEY])) {
             $cityState[] = $locationInfo[self::REGION_NAME_KEY];
         }
 
@@ -427,7 +429,7 @@ abstract class LocationProvider
         // add country line
         if (!empty($locationInfo[self::COUNTRY_NAME_KEY])) {
             $lines[] = $locationInfo[self::COUNTRY_NAME_KEY];
-        } else if (!empty($locationInfo[self::COUNTRY_CODE_KEY])) {
+        } elseif (!empty($locationInfo[self::COUNTRY_CODE_KEY])) {
             $lines[] = $locationInfo[self::COUNTRY_CODE_KEY];
         }
 
@@ -465,4 +467,3 @@ abstract class LocationProvider
         }
     }
 }
-

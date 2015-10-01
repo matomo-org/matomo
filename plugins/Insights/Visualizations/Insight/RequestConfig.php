@@ -40,5 +40,4 @@ class RequestConfig extends VisualizationRequestConfig
         $this->addPropertiesThatShouldBeAvailableClientSide($properties);
         $this->addPropertiesThatCanBeOverwrittenByQueryParams($properties);
     }
-
 }

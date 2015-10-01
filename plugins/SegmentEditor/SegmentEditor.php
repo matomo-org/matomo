@@ -31,7 +31,7 @@ class SegmentEditor extends \Piwik\Plugin
         );
     }
 
-    function getSegmentEditorHtml(&$out)
+    public function getSegmentEditorHtml(&$out)
     {
         $selector = new SegmentSelectorControl();
         $out .= $selector->render();

@@ -76,7 +76,7 @@ class Controller extends \Piwik\Plugin\Controller
      * @param none
      * @return string
      */
-    function index()
+    public function index()
     {
         return $this->login();
     }
@@ -89,7 +89,7 @@ class Controller extends \Piwik\Plugin\Controller
      * @internal param string $currentUrl Current URL
      * @return string
      */
-    function login($messageNoAccess = null, $infoMessage = false)
+    public function login($messageNoAccess = null, $infoMessage = false)
     {
         $form = new FormLogin();
         $form->removeAttribute('action'); // remove action attribute, otherwise hash part will be lost
@@ -140,7 +140,7 @@ class Controller extends \Piwik\Plugin\Controller
      * @throws Exception
      * @return void
      */
-    function logme()
+    public function logme()
     {
         $password = Common::getRequestVar('password', null, 'string');
 
@@ -226,7 +226,7 @@ class Controller extends \Piwik\Plugin\Controller
      *
      * @param none
      */
-    function resetPassword()
+    public function resetPassword()
     {
         $infoMessage = null;
         $formErrors = null;

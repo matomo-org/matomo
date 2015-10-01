@@ -15,7 +15,6 @@ use Piwik\DataTable;
 
 class Console extends ApiRenderer
 {
-
     public function renderException($message, \Exception $exception)
     {
         self::sendHeader();
@@ -27,5 +26,4 @@ class Console extends ApiRenderer
     {
         Common::sendHeader('Content-Type: text/plain; charset=utf-8');
     }
-
 }

@@ -48,7 +48,6 @@ class BrowserEngine extends Base
         $aBrowserInfo = $parser->getClient();
 
         if (!empty($aBrowserInfo['engine'])) {
-
             return $aBrowserInfo['engine'];
         }
 

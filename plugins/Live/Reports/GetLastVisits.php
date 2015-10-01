@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Live\Reports;
 
-
 class GetLastVisits extends Base
 {
     // this class only exists to disable the default sort column
@@ -18,5 +17,4 @@ class GetLastVisits extends Base
     {
         // do not add this report as metadata
     }
-
 }

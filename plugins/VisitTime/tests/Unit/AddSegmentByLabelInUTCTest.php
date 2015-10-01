@@ -109,5 +109,4 @@ class AddSegmentByLabelInUTCTest extends \PHPUnit_Framework_TestCase
         $segmentValues = $this->table->getRowsMetadata('segmentValue');
         $this->assertSame($expectedSegmentValues, $segmentValues);
     }
-
 }

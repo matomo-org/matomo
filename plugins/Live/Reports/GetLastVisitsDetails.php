@@ -46,5 +46,4 @@ class GetLastVisitsDetails extends Base
     {
         $widget->add($this->category, $this->widgetTitle, $this->module, 'getVisitorLog', array('small' => 1));
     }
-
 }

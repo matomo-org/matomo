@@ -53,9 +53,7 @@ class GeneratePlugin extends GeneratePluginBase
                 'PIWIK_VERSION'      => Version::VERSION
             );
             $whitelistFiles = array();
-
         } else {
-
             $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
             $replace       = array(
                 'ExamplePlugin'      => $pluginName,
@@ -196,5 +194,4 @@ class GeneratePlugin extends GeneratePluginBase
 
         return $version;
     }
-
 }

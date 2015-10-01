@@ -55,5 +55,4 @@ class GenerateArchiver extends GeneratePluginBase
 
         return $this->askPluginNameAndValidate($input, $output, $pluginNames, $invalidName);
     }
-
 }

@@ -43,7 +43,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         if ($idSite >= 1) {
             Piwik::checkUserHasAdminAccess($idSite);
-        } else if ($idSite === 0) {
+        } elseif ($idSite === 0) {
             Piwik::checkUserHasSomeAdminAccess();
         } else {
             throw new Exception('Invalid idSite parameter. IdSite has to be zero or higher');
@@ -119,7 +119,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * Displays the admin UI page showing all tracking tags
      * @return string
      */
-    function displayJavascriptCode()
+    public function displayJavascriptCode()
     {
         $idSite = Common::getRequestVar('idSite');
         Piwik::checkUserHasViewAccess($idSite);
@@ -137,7 +137,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      *  User will download a file called PiwikTracker.php that is the content of the actual script
      */
-    function downloadPiwikTracker()
+    public function downloadPiwikTracker()
     {
         $path = PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/';
         $filename = 'PiwikTracker.php';

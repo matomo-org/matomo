@@ -17,5 +17,4 @@ class DownloadUrl extends ActionDimension
     {
         return Piwik::translate('Actions_ColumnDownloadURL');
     }
-
 }

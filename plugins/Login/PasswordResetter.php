@@ -364,7 +364,7 @@ class PasswordResetter
             $user = null;
             if ($usersManager->userExists($loginOrMail)) {
                 $user = $usersManager->getUser($loginOrMail);
-            } else if ($usersManager->userEmailExists($loginOrMail)) {
+            } elseif ($usersManager->userEmailExists($loginOrMail)) {
                 $user = $usersManager->getUserByEmail($loginOrMail);
             }
             return $user;

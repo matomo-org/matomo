@@ -9,17 +9,15 @@
 
 namespace Piwik\Plugins\Goals;
 
-
 use Piwik\Piwik;
 
 class TranslationHelper
 {
-
     public function translateGoalMetricCategory($category)
     {
         // Return either "Goals by %s" or "Goals %s", depending on the category
         if ($category === 'General_Visit') {
-                return Piwik::translate('Goals_GoalsAdjective', Piwik::translate('Goals_CategoryText' . $category));
+            return Piwik::translate('Goals_GoalsAdjective', Piwik::translate('Goals_CategoryText' . $category));
         }
         return Piwik::translate('Goals_GoalsBy', Piwik::translate('Goals_CategoryText' . $category));
     }
@@ -28,7 +26,7 @@ class TranslationHelper
     {
         // Return either "Sales by %s" or "Sales %s", depending on the category
         if ($category === 'General_Visit') {
-                return Piwik::translate('Ecommerce_SalesAdjective', Piwik::translate('Goals_CategoryText' . $category));
+            return Piwik::translate('Ecommerce_SalesAdjective', Piwik::translate('Goals_CategoryText' . $category));
         }
         return Piwik::translate('Ecommerce_SalesBy', Piwik::translate('Goals_CategoryText' . $category));
     }
@@ -36,7 +34,7 @@ class TranslationHelper
     public function getTranslationForCompleteDescription($match, $patternType, $pattern)
     {
         $description = $this->getTranslationForMatchAttribute($match);
-        if($this->isPatternUsedForMatchAttribute($match)) {
+        if ($this->isPatternUsedForMatchAttribute($match)) {
             $description = sprintf(
                 '%s %s',
                 $description,

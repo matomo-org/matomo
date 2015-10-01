@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\UserLanguage\tests\System;
 
-
 use Piwik\Plugins\UserLanguage\tests\Fixtures\LanguageFixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -19,8 +18,8 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
  * @group Plugins
  * @group UserLanguage
  */
-class GetLanguageSystemTest extends SystemTestCase {
-
+class GetLanguageSystemTest extends SystemTestCase
+{
     public static $fixture = null;
 
     public static function getOutputPrefix()
@@ -68,7 +67,6 @@ class GetLanguageSystemTest extends SystemTestCase {
     {
         return dirname(__FILE__);
     }
-
 }
 
 GetLanguageSystemTest::$fixture = new LanguageFixture();

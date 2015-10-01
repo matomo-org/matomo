@@ -145,7 +145,7 @@ You can also pass any argument to the command and they will be forwarded to the 
     private function getCurrentGitHash()
     {
         // we should not use 'git' executable unless we are in a git clone
-        if(!SettingsPiwik::isGitDeployment()) {
+        if (!SettingsPiwik::isGitDeployment()) {
             return 'WARN: it does not look like a Piwik repository clone - you must setup Piwik from git to proceed';
         }
         return trim(`git rev-parse HEAD`);
@@ -174,5 +174,4 @@ You can also pass any argument to the command and they will be forwarded to the 
 
         return $file;
     }
-
 }

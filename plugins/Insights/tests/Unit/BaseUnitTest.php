@@ -46,5 +46,4 @@ abstract class BaseUnitTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(count($rowsWithValues), $this->table->getRowsCount());
     }
-
 }

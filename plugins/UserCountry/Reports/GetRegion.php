@@ -37,5 +37,4 @@ class GetRegion extends Base
 
         $this->checkIfNoDataForGeoIpReport($view);
     }
-
 }

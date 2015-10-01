@@ -107,16 +107,16 @@ class API extends \Piwik\Plugin\API
 
         // if real-time segments are disabled, then allow user to create pre-processed report
         $realTimeSegmentsDisabled = !Config::getInstance()->General['enable_create_realtime_segments'];
-        if($realTimeSegmentsDisabled) {
+        if ($realTimeSegmentsDisabled) {
             // User is at least view
-            if(!Piwik::isUserHasViewAccess($idSite)) {
+            if (!Piwik::isUserHasViewAccess($idSite)) {
                 throw $exception;
             }
             return $autoArchive;
         }
 
         // pre-processed segment for a given website requires admin access
-        if(!Piwik::isUserHasAdminAccess($idSite)) {
+        if (!Piwik::isUserHasAdminAccess($idSite)) {
             throw $exception;
         }
 
@@ -319,11 +319,9 @@ class API extends \Piwik\Plugin\API
             return false;
         }
         try {
-
             if (!$segment['enable_all_users']) {
                 Piwik::checkUserHasSuperUserAccessOrIsTheUser($segment['login']);
             }
-
         } catch (Exception $e) {
             throw new Exception($this->getMessageCannotEditSegmentCreatedBySuperUser());
         }

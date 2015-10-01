@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik\Plugins\Insights\DataTable\Filter;
+
 use Piwik\DataTable\BaseFilter;
 
 /**
@@ -32,22 +33,18 @@ class Limit extends BaseFilter
         $countDecreaser = 0;
 
         foreach ($table->getRows() as $key => $row) {
-
             if ($row->getColumn($this->columnToRead) >= 0) {
-
                 $countIncreaser++;
 
                 if ($countIncreaser > $this->limitPositive) {
                     $table->deleteRow($key);
                 }
-
             } else {
                 $countDecreaser++;
 
                 if ($countDecreaser > $this->limitNegative) {
                     $table->deleteRow($key);
                 }
-
             }
         }
     }

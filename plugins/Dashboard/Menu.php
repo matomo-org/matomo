@@ -47,4 +47,3 @@ class Menu extends \Piwik\Plugin\Menu
         $menu->addItem('Dashboard_Dashboard', null, $urlParams, 1, $tooltip);
     }
 }
-

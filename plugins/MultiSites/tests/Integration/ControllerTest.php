@@ -123,7 +123,6 @@ class ControllerTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 ControllerTest::$fixture = new ManySitesWithVisits();

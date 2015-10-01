@@ -26,12 +26,12 @@ use Zend_Db_Adapter_Exception;
  */
 class FormDatabaseSetup extends QuickForm2
 {
-    function __construct($id = 'databasesetupform', $method = 'post', $attributes = null, $trackSubmit = false)
+    public function __construct($id = 'databasesetupform', $method = 'post', $attributes = null, $trackSubmit = false)
     {
         parent::__construct($id, $method, $attributes = array('autocomplete' => 'off'), $trackSubmit);
     }
 
-    function init()
+    public function init()
     {
         HTML_QuickForm2_Factory::registerRule('checkValidFilename', 'Piwik\Plugins\Installation\FormDatabaseSetup_Rule_checkValidFilename');
         HTML_QuickForm2_Factory::registerRule('checkUserPrivileges', 'Piwik\Plugins\Installation\Rule_checkUserPrivileges');
@@ -74,7 +74,7 @@ class FormDatabaseSetup extends QuickForm2
         $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn btn-lg'));
 
         $defaultDatabaseType = Config::getInstance()->database['type'];
-        $this->addElement( 'hidden', 'type')->setLabel('Database engine');
+        $this->addElement('hidden', 'type')->setLabel('Database engine');
 
         // default values
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
@@ -93,8 +93,9 @@ class FormDatabaseSetup extends QuickForm2
     public function createDatabaseObject()
     {
         $dbname = $this->getSubmitValue('dbname');
-        if (empty($dbname)) // disallow database object creation w/ no selected database
-        {
+        if (empty($dbname)) {
+            // disallow database object creation w/ no selected database
+
             throw new Exception("No database name");
         }
 
@@ -117,7 +118,7 @@ class FormDatabaseSetup extends QuickForm2
             // unix_socket=/path/sock.n
             $dbInfos['port'] = substr($dbInfos['host'], $portIndex);
             $dbInfos['host'] = '';
-        } else if (($portIndex = strpos($dbInfos['host'], ':')) !== false) {
+        } elseif (($portIndex = strpos($dbInfos['host'], ':')) !== false) {
             // host:port
             $dbInfos['port'] = substr($dbInfos['host'], $portIndex + 1);
             $dbInfos['host'] = substr($dbInfos['host'], 0, $portIndex);
@@ -307,11 +308,10 @@ class Rule_checkUserPrivileges extends HTML_QuickForm2_Rule
  */
 class FormDatabaseSetup_Rule_checkValidFilename extends HTML_QuickForm2_Rule
 {
-    function validateOwner()
+    public function validateOwner()
     {
         $prefix = $this->owner->getValue();
         return empty($prefix)
         || Filesystem::isValidFilename($prefix);
     }
 }
-

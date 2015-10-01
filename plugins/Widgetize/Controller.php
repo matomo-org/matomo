@@ -35,7 +35,7 @@ class Controller extends \Piwik\Plugin\Controller
         $controllerName = Common::getRequestVar('moduleToWidgetize');
         $actionName     = Common::getRequestVar('actionToWidgetize');
 
-        if($controllerName == 'API') {
+        if ($controllerName == 'API') {
             throw new \Exception("Widgetizing API requests is not supported for security reasons. Please change query parameter 'moduleToWidgetize'.");
         }
 

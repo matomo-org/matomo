@@ -42,8 +42,7 @@ class DoNotTrackHeaderChecker
 
         $exclude = $this->isDoNotTrackFound();
 
-        if($exclude) {
-
+        if ($exclude) {
             $trackingCookie = IgnoreCookie::getTrackingCookie();
             $trackingCookie->delete();
 
@@ -124,7 +123,7 @@ class DoNotTrackHeaderChecker
     protected function isUserAgentWithDoNotTrackAlwaysEnabled($userAgent)
     {
         $browsersWithDnt = $this->getBrowsersWithDNTAlwaysEnabled();
-        foreach($browsersWithDnt as $userAgentBrowserFragment) {
+        foreach ($browsersWithDnt as $userAgentBrowserFragment) {
             if (stripos($userAgent, $userAgentBrowserFragment) !== false) {
                 return true;
             }

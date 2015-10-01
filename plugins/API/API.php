@@ -210,7 +210,9 @@ class API extends \Piwik\Plugin\API
         foreach ($columns as $column) {
             // Keep segments ordered alphabetically inside categories..
             $type = -1;
-            if ($column == 'name') $type = 1;
+            if ($column == 'name') {
+                $type = 1;
+            }
 
             $compare = $type * strcmp($row1[$column], $row2[$column]);
 

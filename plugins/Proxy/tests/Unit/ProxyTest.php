@@ -45,4 +45,3 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, Controller::isPiwikUrl($url));
     }
 }
-

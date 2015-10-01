@@ -26,5 +26,4 @@ class VisitTime extends \Piwik\Plugin
         $visitor['visitLocalTime'] = $details['visitor_localtime'];
         $visitor['visitLocalHour'] = date('G', strtotime('2012-12-21 ' . $details['visitor_localtime']));
     }
-
 }

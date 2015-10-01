@@ -52,5 +52,4 @@ class DevelopmentEnable extends ConsoleCommand
 
         $this->writeSuccessMessage($output, array($message));
     }
-
 }

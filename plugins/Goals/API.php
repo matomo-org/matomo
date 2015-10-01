@@ -323,7 +323,7 @@ class API extends \Piwik\Plugin\API
     {
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
             return GoalManager::IDGOAL_ORDER;
-        } else if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+        } elseif ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
             return GoalManager::IDGOAL_CART;
         } else {
             return $idGoal;
@@ -407,7 +407,6 @@ class API extends \Piwik\Plugin\API
         $shouldAddAverageOrderRevenue = (in_array('avg_order_revenue', $requestedColumns) || empty($requestedColumns)) && $isEcommerceGoal;
 
         if ($shouldAddAverageOrderRevenue && !empty($requestedColumns)) {
-
             $avgOrder = new AverageOrderRevenue();
             $metricsToAdd = $avgOrder->getDependentMetrics();
 

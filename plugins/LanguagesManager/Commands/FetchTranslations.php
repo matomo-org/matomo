@@ -65,7 +65,7 @@ class FetchTranslations extends TranslationBase
             $languageCodes[] = $languageInfo['code'];
         }
 
-        $languageCodes = array_filter($languageCodes, function($code) {
+        $languageCodes = array_filter($languageCodes, function ($code) {
             return !in_array($code, array('en', 'dev'));
         });
 

@@ -20,12 +20,12 @@ use Piwik\QuickForm2;
  */
 class FormSuperUser extends QuickForm2
 {
-    function __construct($id = 'generalsetupform', $method = 'post', $attributes = null, $trackSubmit = false)
+    public function __construct($id = 'generalsetupform', $method = 'post', $attributes = null, $trackSubmit = false)
     {
         parent::__construct($id, $method, $attributes = array('autocomplete' => 'off'), $trackSubmit);
     }
 
-    function init()
+    public function init()
     {
         HTML_QuickForm2_Factory::registerRule('checkLogin', 'Piwik\Plugins\Installation\Rule_isValidLoginString');
         HTML_QuickForm2_Factory::registerRule('checkEmail', 'Piwik\Plugins\Installation\Rule_isValidEmailString');
@@ -81,7 +81,7 @@ class FormSuperUser extends QuickForm2
  */
 class Rule_isValidLoginString extends HTML_QuickForm2_Rule
 {
-    function validateOwner()
+    public function validateOwner()
     {
         try {
             $login = $this->owner->getValue();
@@ -102,7 +102,7 @@ class Rule_isValidLoginString extends HTML_QuickForm2_Rule
  */
 class Rule_isValidEmailString extends HTML_QuickForm2_Rule
 {
-    function validateOwner()
+    public function validateOwner()
     {
         return Piwik::isValidEmailString($this->owner->getValue());
     }

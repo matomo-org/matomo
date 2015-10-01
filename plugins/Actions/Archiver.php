@@ -40,7 +40,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected $actionsTablesByType = null;
     protected $isSiteSearchEnabled = false;
 
-    function __construct($processor)
+    public function __construct($processor)
     {
         parent::__construct($processor);
         $this->isSiteSearchEnabled = $processor->getParams()->getSite()->isSiteSearchEnabled();

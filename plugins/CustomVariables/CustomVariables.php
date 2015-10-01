@@ -77,7 +77,6 @@ class CustomVariables extends \Piwik\Plugin
         $cacheKey = 'CustomVariables.NumUsableCustomVariables';
 
         if (!array_key_exists($cacheKey, $cache)) {
-
             $minCustomVar = null;
 
             foreach (Model::getScopes() as $scope) {
@@ -143,5 +142,4 @@ class CustomVariables extends \Piwik\Plugin
             );
         }
     }
-
 }

@@ -38,5 +38,4 @@ class GetKeywords extends Base
             $view->config->disable_subtable_when_show_goals = true;
         }
     }
-
 }

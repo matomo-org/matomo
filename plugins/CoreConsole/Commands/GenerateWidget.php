@@ -116,5 +116,4 @@ class GenerateWidget extends GeneratePluginBase
 
         return $this->askPluginNameAndValidate($input, $output, $pluginNames, $invalidName);
     }
-
 }

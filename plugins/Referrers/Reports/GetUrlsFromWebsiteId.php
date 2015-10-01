@@ -31,5 +31,4 @@ class GetUrlsFromWebsiteId extends Base
         $view->config->tooltip_metadata_name       = 'url';
         $view->config->addTranslation('label', $this->dimension->getName());
     }
-
 }

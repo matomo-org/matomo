@@ -23,5 +23,4 @@ class Widgets extends \Piwik\Plugin\Widgets
             $this->addWidget('Live_VisitorProfile', 'getVisitorProfilePopup');
         }
     }
-
 }

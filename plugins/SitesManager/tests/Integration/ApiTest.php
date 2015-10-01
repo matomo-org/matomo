@@ -184,7 +184,6 @@ class ApiTest extends IntegrationTestCase
 
         $siteInfo = API::getInstance()->getSiteFromId($idsite);
         $this->assertEquals($name, $siteInfo['name']);
-
     }
 
     /**
@@ -773,7 +772,6 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals($newMainUrl, $allUrls[0]);
         $aliasUrls = array_slice($allUrls, 1);
         $this->assertEquals(array(), $aliasUrls);
-
     }
 
     /**
@@ -853,7 +851,6 @@ class ApiTest extends IntegrationTestCase
 
         try {
             $this->updateSiteSettings($idSite, 'newSiteName', array('app_id' => str_pad('t', 589, 't')));
-
         } catch (Exception $e) {
             // verify nothing was updated (not even the name)
             $measurable = new Measurable($idSite);
@@ -1213,5 +1210,4 @@ class ApiTest extends IntegrationTestCase
             'Piwik\Plugins\MobileAppMeasurable\Type' => new Type()
         );
     }
-
 }

@@ -95,7 +95,6 @@ class PrivacyManager extends Plugin
         ) {
             // if range, only look at the first date
             if ($strPeriod == 'range') {
-
                 $idSite = Common::getRequestVar('idSite', '');
 
                 if (intval($idSite) != 0) {
@@ -107,13 +106,11 @@ class PrivacyManager extends Plugin
 
                 $period     = new Range('range', $strDate, $timezone);
                 $reportDate = $period->getDateStart();
-
             } elseif (Period::isMultiplePeriod($strDate, $strPeriod)) {
 
                 // if a multiple period, this function is irrelevant
                 return false;
-
-            }  else {
+            } else {
                 // otherwise, use the date as given
                 $reportDate = Date::factory($strDate);
             }
@@ -436,8 +433,9 @@ class PrivacyManager extends Plugin
             // for each goal metric, there's a different name for each goal, including the overview,
             // the order report & cart report
             foreach ($goalMetricsToKeep as $metric) {
-                for ($i = 1; $i <= $maxGoalId; ++$i) // maxGoalId can be 0
-                {
+                for ($i = 1; $i <= $maxGoalId; ++$i) {
+                    // maxGoalId can be 0
+
                     $metricsToKeep[] = Archiver::getRecordName($metric, $i);
                 }
 
@@ -472,13 +470,14 @@ class PrivacyManager extends Plugin
             ($lastDelete !== false && ((int)$lastDelete + $deleteIntervalSeconds) <= time())
         ) {
             return true;
-        } else // not time to run data purge
-        {
+        } else {
+            // not time to run data purge
+
             return false;
         }
     }
 
-    function getDeleteIntervalInSeconds($deleteInterval)
+    public function getDeleteIntervalInSeconds($deleteInterval)
     {
         return (int)$deleteInterval * 24 * 60 * 60;
     }

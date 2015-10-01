@@ -52,5 +52,4 @@ class GetDatabaseUsageSummary extends Base
 
         $view->config->filters[] = array('ColumnCallbackReplace', array('label', $translateSummaryLabel), $isPriority = true);
     }
-
 }

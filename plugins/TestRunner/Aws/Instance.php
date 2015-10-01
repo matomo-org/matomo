@@ -17,7 +17,6 @@ use Aws\Ec2\Ec2Client;
 
 class Instance
 {
-
     /**
      * @var Config
      */
@@ -134,7 +133,7 @@ class Instance
             $hasAlarms = $awsCloudWatch->hasAssignedAlarms($instanceIds);
 
             if (!$hasAlarms) { // declare it as failed if it still does not work
-                throw new \Exception('Failed to assign alarms for InstanceIds: ' . implode(', ' , $instanceIds));
+                throw new \Exception('Failed to assign alarms for InstanceIds: ' . implode(', ', $instanceIds));
             }
         }
     }
@@ -159,7 +158,6 @@ class Instance
                     if (!empty($this->testSuite)
                         && $tag['Key'] === 'TestSuite'
                         && $tag['Value'] === $this->testSuite) {
-
                         $instanceToUse = $instance;
                     }
                 }

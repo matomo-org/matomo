@@ -32,5 +32,4 @@ class Tasks extends \Piwik\Plugin\Tasks
             $updateCommunication->sendNotificationIfUpdatesAvailable();
         }
     }
-
 }

@@ -38,5 +38,4 @@ class Contents extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/Contents/stylesheets/datatable.less";
     }
-
 }

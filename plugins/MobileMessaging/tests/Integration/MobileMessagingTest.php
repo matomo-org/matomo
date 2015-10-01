@@ -84,7 +84,6 @@ class MobileMessagingTest extends IntegrationTestCase
      */
     public function getTruncateTestCases()
     {
-
         $stdGSMx459 = str_repeat('a', 459);
 
         $extGSMx229 = str_repeat('€', 229);

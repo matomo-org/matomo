@@ -59,5 +59,4 @@ class Menu extends \Piwik\Plugin\Menu
     {
         return Piwik::getLoginPluginName();
     }
-
 }

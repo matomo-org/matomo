@@ -30,6 +30,4 @@ class LeftMenu extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/LeftMenu/stylesheets/theme.less";
     }
-
 }
-

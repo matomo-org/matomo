@@ -27,9 +27,7 @@ class Widgets extends \Piwik\Plugin\Widgets
             $rss->showDescription(true);
 
             return $rss->get();
-
         } catch (\Exception $e) {
-
             return $this->error($e);
         }
     }
@@ -43,9 +41,7 @@ class Widgets extends \Piwik\Plugin\Widgets
             $rss->showContent(false);
 
             return $rss->get();
-
         } catch (\Exception $e) {
-
             return $this->error($e);
         }
     }

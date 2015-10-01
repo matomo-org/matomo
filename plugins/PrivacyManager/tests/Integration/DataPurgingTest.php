@@ -40,7 +40,7 @@ class DataPurgingTest_RawLogDao extends RawLogDao
         if ($olderThan && $this->insertActionsOlderThanCallback) {
             $callback = $this->insertActionsOlderThanCallback;
             $callback();
-        } else if ($this->insertActionsNewerThanCallback) {
+        } elseif ($this->insertActionsNewerThanCallback) {
             $callback = $this->insertActionsNewerThanCallback;
             $callback();
         }
@@ -154,7 +154,7 @@ class DataPurgingTest extends IntegrationTestCase
         $this->_checkNoDataChanges();
 
         // Check it does not run
-        $this->assertFalse( $this->instance->deleteLogData() );
+        $this->assertFalse($this->instance->deleteLogData());
 
         // check that initial option is set
         $this->assertEquals(1, Option::get(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
@@ -168,7 +168,7 @@ class DataPurgingTest extends IntegrationTestCase
      */
     public function testDeleteReportDataInitialRun()
     {
-        $this->assertFalse($this->instance->deleteReportData() );
+        $this->assertFalse($this->instance->deleteReportData());
 
         // check that initial option is set
         $this->assertEquals(1, Option::get(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
@@ -187,8 +187,8 @@ class DataPurgingTest extends IntegrationTestCase
         Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
         Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS, $yesterdaySecs);
         Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_REPORTS, $yesterdaySecs);
-        $this->assertFalse( $this->instance->deleteLogData() );
-        $this->assertFalse( $this->instance->deleteReportData() );
+        $this->assertFalse($this->instance->deleteLogData());
+        $this->assertFalse($this->instance->deleteReportData());
 
         // perform checks
         $this->_checkNoDataChanges();
@@ -217,8 +217,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
@@ -247,7 +247,7 @@ class DataPurgingTest extends IntegrationTestCase
         self::_addReportData();
 
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
+        $this->assertTrue($this->instance->deleteLogData());
 
         $this->checkLogDataPurged();
 
@@ -275,7 +275,7 @@ class DataPurgingTest extends IntegrationTestCase
         $this->_setTimeToRun();
         $hasDeleted = $this->instance->deleteLogData();
         $this->assertFalse($hasDeleted);
-        $this->assertFalse($this->instance->deleteReportData() );
+        $this->assertFalse($this->instance->deleteReportData());
 
         // perform checks
         $this->_checkNoDataChanges();
@@ -298,9 +298,9 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
+        $this->assertTrue($this->instance->deleteLogData());
 
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->assertEquals(0, $this->_getTableCount('log_visit'));
@@ -342,8 +342,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
@@ -397,8 +397,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
@@ -432,8 +432,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
@@ -467,8 +467,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
@@ -502,8 +502,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
@@ -567,8 +567,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
@@ -603,8 +603,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
@@ -647,8 +647,9 @@ class DataPurgingTest extends IntegrationTestCase
         $t->enableBulkTracking();
         $t->setTokenAuth(Fixture::getTokenAuth());
 
-        for ($daysAgo = self::$daysAgoStart; $daysAgo >= 0; $daysAgo -= 5) // one visit every 5 days
-        {
+        for ($daysAgo = self::$daysAgoStart; $daysAgo >= 0; $daysAgo -= 5) {
+            // one visit every 5 days
+
             $dateTime = $start->subDay($daysAgo)->toString();
 
             $t->setForceVisitDateTime($dateTime);
@@ -705,8 +706,9 @@ class DataPurgingTest extends IntegrationTestCase
         APIVisitorInterest::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'year', $date);
 
         // months are added via the 'year' period, but weeks must be done manually
-        for ($daysAgo = self::$daysAgoStart; $daysAgo > 0; $daysAgo -= 7) // every week
-        {
+        for ($daysAgo = self::$daysAgoStart; $daysAgo > 0; $daysAgo -= 7) {
+            // every week
+
             $dateTime = $date->subDay($daysAgo);
 
             $archive = Archive::build(self::$idSite, 'week', $dateTime);
@@ -855,8 +857,9 @@ class DataPurgingTest extends IntegrationTestCase
     public function addReferenceToUnusedAction()
     {
         $unusedIdAction = $this->unusedIdAction;
-        if (empty($unusedIdAction)) // make sure we only do this for one test case
-        {
+        if (empty($unusedIdAction)) {
+            // make sure we only do this for one test case
+
             return;
         }
 

@@ -17,7 +17,6 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         foreach (API::getInstance()->getReports() as $report) {
             if (!$report['deleted'] && $report['period'] != Schedule::PERIOD_NEVER) {
-
                 $timezone = Site::getTimezoneFor($report['idsite']);
 
                 $schedule = Schedule::getScheduledTimeForPeriod($report['period']);

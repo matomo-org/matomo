@@ -17,7 +17,6 @@ use Piwik\Plugins\MobileMessaging\SMSProvider;
  */
 class Development extends SMSProvider
 {
-
     public function verifyCredential($apiKey)
     {
         return true;

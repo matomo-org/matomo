@@ -19,7 +19,6 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-
     public function __construct()
     {
         $idSite = Common::getRequestVar('idSite', null, 'int');
@@ -46,7 +45,6 @@ class Controller extends \Piwik\Plugin\Controller
     private function prepareWidgetView($template)
     {
         if (!$this->canGenerateInsights()) {
-
             $view = new View('@Insights/cannotDisplayReport.twig');
             $this->setBasicVariablesView($view);
             return $view;

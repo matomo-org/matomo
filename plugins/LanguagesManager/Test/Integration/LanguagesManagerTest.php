@@ -25,7 +25,7 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
  */
 class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
 {
-    function getTestDataForLanguageFiles()
+    public function getTestDataForLanguageFiles()
     {
         // we also test that none of the language php files outputs any character on the screen (eg. space before the <?php)
         $languages = API::getInstance()->getAvailableLanguages();
@@ -35,9 +35,7 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
         $pluginsWithTranslation = array();
 
         foreach ($plugins as $plugin) {
-
             if (API::getInstance()->getPluginTranslationsForLanguage($plugin, 'en')) {
-
                 $pluginsWithTranslation[] = $plugin;
             }
         }
@@ -48,7 +46,6 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
                 $return[] = array($language, null);
 
                 foreach ($pluginsWithTranslation as $plugin) {
-
                     $return[] = array($language, $plugin);
                 }
             }
@@ -64,7 +61,7 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider getTestDataForLanguageFiles
      */
-    function testGetTranslationsForLanguages($language, $plugin)
+    public function testGetTranslationsForLanguages($language, $plugin)
     {
         $translationWriter = new Writer($language, $plugin);
 
@@ -93,7 +90,6 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($translationWriter->isValid(), $translationWriter->getValidationMessage());
 
         if ($translationWriter->wasFiltered()) {
-
             $translationWriter->saveTemporary();
             $this->markTestSkipped(implode("\n", $translationWriter->getFilterMessages()) . "\n"
                 . 'Translation file errors detected in ' . $language . "...\n"
@@ -110,7 +106,7 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException Exception
      */
-    function testWriterInvalidPlugin()
+    public function testWriterInvalidPlugin()
     {
         new Writer('de', 'iNvaLiDPluGin'); // invalid plugin throws exception
     }
@@ -120,7 +116,7 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
      *
      * @group Plugins
      */
-    function testGetTranslationsForLanguagesNot()
+    public function testGetTranslationsForLanguagesNot()
     {
         $this->assertFalse(API::getInstance()->getTranslationsForLanguage("../no-language"));
     }
@@ -130,7 +126,7 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
      *
      * @group Plugins
      */
-    function testGetLanguageNamesInEnglish()
+    public function testGetLanguageNamesInEnglish()
     {
         $languages = API::getInstance()->getAvailableLanguages();
 

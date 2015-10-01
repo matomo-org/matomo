@@ -230,10 +230,11 @@ class ProcessedReport
                 $availableReport['processedMetrics'] = Metrics::getDefaultProcessedMetrics();
             }
 
-            if ($hideMetricsDoc) // remove metric documentation if it's not wanted
-            {
+            if ($hideMetricsDoc) {
+                // remove metric documentation if it's not wanted
+
                 unset($availableReport['metricsDocumentation']);
-            } else if (!isset($availableReport['metricsDocumentation'])) {
+            } elseif (!isset($availableReport['metricsDocumentation'])) {
                 // set metric documentation to default if it's not set
                 // can be removed once we remove hook API.getReportMetadata
                 $availableReport['metricsDocumentation'] = Metrics::getDefaultMetricsDocumentation();
@@ -396,7 +397,9 @@ class ProcessedReport
                                                        'idSubtable' => $idSubtable,
                                                   ));
 
-        if (!empty($segment)) $parameters['segment'] = $segment;
+        if (!empty($segment)) {
+            $parameters['segment'] = $segment;
+        }
 
         if (!empty($reportMetadata['processedMetrics'])
             && !empty($reportMetadata['metrics']['nb_visits'])
@@ -604,8 +607,9 @@ class ProcessedReport
             foreach ($columns as $name => $ignore) {
                 // if the current column should not be kept, remove it
                 $idx = array_search($name, $columnsToKeep);
-                if ($idx === false) // if $name is not in $columnsToKeep
-                {
+                if ($idx === false) {
+                    // if $name is not in $columnsToKeep
+
                     unset($columns[$name]);
                 }
             }
@@ -691,7 +695,7 @@ class ProcessedReport
                     }
                     $enhancedRow->addColumn($columnName, $prettyValue);
                 } // For example the Maps Widget requires the raw metrics to do advanced datavis
-                else if ($returnRawMetrics) {
+                elseif ($returnRawMetrics) {
                     if (!isset($columnValue)) {
                         $columnValue = 0;
                     }
@@ -731,7 +735,6 @@ class ProcessedReport
         $metadataTotals = $simpleDataTable->getMetadata('totals');
 
         if (empty($metadataTotals)) {
-
             return $totals;
         }
 
@@ -829,10 +832,10 @@ class ProcessedReport
         }
 
         // Display time in human readable
-		if (strpos($columnName, 'time_generation') !== false) {
-			return $formatter->getPrettyTimeFromSeconds($value, true);
-		} 
-		if (strpos($columnName, 'time') !== false) {
+        if (strpos($columnName, 'time_generation') !== false) {
+            return $formatter->getPrettyTimeFromSeconds($value, true);
+        }
+        if (strpos($columnName, 'time') !== false) {
             return $formatter->getPrettyTimeFromSeconds($value);
         }
 

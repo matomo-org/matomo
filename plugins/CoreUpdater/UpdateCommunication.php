@@ -22,7 +22,6 @@ use Piwik\Version;
  */
 class UpdateCommunication
 {
-
     /**
      * Checks whether update communciation in general is enabled or not.
      *

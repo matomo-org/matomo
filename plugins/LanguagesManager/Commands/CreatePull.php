@@ -33,7 +33,6 @@ class CreatePull extends TranslationBase
         $changes = shell_exec('git status --porcelain -uno');
 
         if (!empty($changes)) {
-
             $output->writeln("You have uncommited changes. Creating pull request is only available with a clean working directory");
             return;
         }
@@ -41,7 +40,6 @@ class CreatePull extends TranslationBase
         $unpushedCommits = shell_exec('git log origin/master..HEAD');
 
         if (!empty($unpushedCommits)) {
-
             $output->writeln("You have unpushed commits. Creating pull request is only available with a clean working directory");
             return;
         }
@@ -57,7 +55,6 @@ class CreatePull extends TranslationBase
 
         $plugin = $input->getOption('plugin');
         if (!empty($plugin)) {
-
             chdir(PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$plugin);
             shell_exec('
                 git checkout master > /dev/null 2>&1
@@ -69,7 +66,6 @@ class CreatePull extends TranslationBase
         $branch = shell_exec('git branch | grep translationupdates');
 
         if (empty($branch)) {
-
             shell_exec('git checkout -b translationupdates origin/translationupdates');
         }
 
@@ -103,7 +99,6 @@ class CreatePull extends TranslationBase
         $changes = shell_exec('git status --porcelain -uno');
 
         if (empty($changes)) {
-
             $output->writeln("Nothing changed. Everything is already up to date.");
             shell_exec('git checkout master > /dev/null 2>&1');
             return;
@@ -182,7 +177,6 @@ class CreatePull extends TranslationBase
         $dialog = $this->getHelperSet()->get('dialog');
 
         while (true) {
-
             $username = $dialog->ask($output, 'Please provide your github username (to create a pull request using Github API): ');
 
             $returnCode = shell_exec('curl \

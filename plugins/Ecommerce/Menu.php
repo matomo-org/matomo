@@ -19,7 +19,6 @@ use Piwik\Url;
  */
 class Menu extends \Piwik\Plugin\Menu
 {
-
     public function configureReportingMenu(MenuReporting $menu)
     {
         $idSite = Common::getRequestVar('idSite', null, 'int');
@@ -36,6 +35,5 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addItem('Goals_Ecommerce', 'Goals_Products', $this->urlForAction('products', $ecommerceParams), 3);
             $menu->addItem('Goals_Ecommerce', 'Ecommerce_Sales', $this->urlForAction('sales', $ecommerceParams), 4);
         }
-
     }
 }

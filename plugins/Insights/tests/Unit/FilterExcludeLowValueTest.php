@@ -81,5 +81,4 @@ class FilterExcludeLowValueTest extends BaseUnitTest
         $filter = new ExcludeLowValue($this->table, 'growth', $minimumValue, $columnToCheck);
         $filter->filter($this->table);
     }
-
 }

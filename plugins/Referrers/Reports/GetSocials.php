@@ -51,5 +51,4 @@ class GetSocials extends Base
             $view->config->show_footer_message = Piwik::translate('Referrers_SocialFooterMessage');
         }
     }
-
 }

@@ -19,7 +19,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class RowEvolutionTest extends IntegrationTestCase
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -42,5 +41,4 @@ class RowEvolutionTest extends IntegrationTestCase
         $table = $rowEvolution->getRowEvolution(1, 'day', 'last7', 'Actions', 'getPageUrls');
         $this->assertNotEmpty($table);
     }
-
 }

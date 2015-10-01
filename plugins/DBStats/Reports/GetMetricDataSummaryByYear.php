@@ -38,5 +38,4 @@ class GetMetricDataSummaryByYear extends Base
             self::factory('DBStats', 'getMetricDataSummary'),
         );
     }
-
 }

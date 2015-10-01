@@ -380,4 +380,3 @@ class Php extends GeoIp
         return empty($this->geoIpCache[$key]) ? false : $this->geoIpCache[$key];
     }
 }
-

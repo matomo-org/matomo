@@ -7,6 +7,7 @@
  */
 
 namespace Piwik\Plugins\SitesManager\tests\Integration;
+
 use Piwik\Cache;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\SiteUrls;

@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\Plugins\TestRunner\Aws;
+
 use Symfony\Component\Console\Output\OutputInterface;
 use Crypt_RSA;
 use Net_SSH2;
@@ -46,7 +47,7 @@ class Ssh extends Net_SSH2
 
         $output->writeln("Executing <comment>$command</comment>");
 
-        return parent::exec($command, function($tempOutput) use ($output) {
+        return parent::exec($command, function ($tempOutput) use ($output) {
             if ($output) {
                 $output->write($tempOutput);
             }

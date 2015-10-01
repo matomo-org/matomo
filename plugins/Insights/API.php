@@ -339,5 +339,4 @@ class API extends \Piwik\Plugin\API
         $request = new ApiRequest($params);
         return $request->process();
     }
-
 }

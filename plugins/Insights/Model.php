@@ -21,7 +21,6 @@ use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
  */
 class Model
 {
-
     public function requestReport($idSite, $period, $date, $reportUniqueId, $metric, $segment)
     {
         $report = $this->getReportByUniqueId($idSite, $reportUniqueId);

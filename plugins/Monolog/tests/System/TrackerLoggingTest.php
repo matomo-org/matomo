@@ -96,5 +96,4 @@ DEBUG:   'apiv' => '1',", $response);
             'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
         );
     }
-
 }

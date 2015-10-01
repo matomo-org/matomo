@@ -19,7 +19,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Actions/Actions.php';
  * @group ArchiverTest
  * @group Plugins
  */
-class ArchiverTests extends \PHPUnit_Framework_TestCase
+class ArchiverTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -127,4 +127,3 @@ class ArchiverTests extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $processed);
     }
 }
-

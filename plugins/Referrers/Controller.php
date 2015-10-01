@@ -277,7 +277,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $this->renderView($view);
     }
 
-    function getKeywordsForPage()
+    public function getKeywordsForPage()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
 
@@ -292,7 +292,8 @@ class Controller extends \Piwik\Plugin\Controller
         $request = new Request($topPageUrlRequest);
         $request = $request->process();
         /** @var $request Map */
-        $tables = $request->getDataTables();;
+        $tables = $request->getDataTables();
+        ;
 
         $topPageUrl = false;
         $first = key($tables);

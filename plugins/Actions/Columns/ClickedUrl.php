@@ -17,5 +17,4 @@ class ClickedUrl extends ActionDimension
     {
         return Piwik::translate('Actions_ColumnClickedURL');
     }
-
 }

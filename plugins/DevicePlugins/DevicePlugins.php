@@ -44,5 +44,4 @@ class DevicePlugins extends \Piwik\Plugin
 
         $translations = array_merge($translations, $metrics);
     }
-
 }

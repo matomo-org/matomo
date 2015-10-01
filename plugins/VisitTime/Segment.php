@@ -14,7 +14,7 @@ namespace Piwik\Plugins\VisitTime;
  */
 class Segment extends \Piwik\Plugin\Segment
 {
-    protected  function init()
+    protected function init()
     {
         $this->setCategory('Visit');
     }

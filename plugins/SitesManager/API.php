@@ -269,7 +269,9 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        if (empty($timestamp)) $timestamp = time();
+        if (empty($timestamp)) {
+            $timestamp = time();
+        }
 
         $time   = Date::factory((int)$timestamp)->getDatetime();
         $now    = Date::now()->addHour(1)->getDatetime();
@@ -385,7 +387,6 @@ class API extends \Piwik\Plugin\API
             && (Piwik::hasUserSuperUserAccessOrIsTheUser($_restrictSitesToLogin)
                 || $scheduler->isRunningTask())
         ) {
-
             if (Piwik::hasTheUserSuperUserAccess($_restrictSitesToLogin)) {
                 return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
             }
@@ -1365,7 +1366,7 @@ class API extends \Piwik\Plugin\API
             foreach ($urls as $url) {
                 try {
                     $this->getModel()->insertSiteUrl($idSite, $url);
-                } catch(Exception $e) {
+                } catch (Exception $e) {
                     // See bug #4149
                 }
             }

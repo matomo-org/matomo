@@ -13,7 +13,6 @@ namespace Piwik\Plugins\Feedback;
  */
 class Feedback extends \Piwik\Plugin
 {
-
     /**
      * @see Piwik\Plugin::registerEvents
      */

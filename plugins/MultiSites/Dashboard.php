@@ -126,7 +126,6 @@ class Dashboard
     private function nestedSearch(DataTable $sitesByGroup, $pattern)
     {
         foreach ($sitesByGroup->getRows() as $index => $site) {
-
             $label = strtolower($site->getColumn('label'));
             $labelMatches = false !== strpos($label, $pattern);
 
@@ -138,7 +137,6 @@ class Dashboard
                     // we keep the group if at least one site within the group matches the pattern
                     $sitesByGroup->deleteRow($index);
                 }
-
             } elseif (!$labelMatches) {
                 $group = $site->getMetadata('group');
 
@@ -188,7 +186,6 @@ class Dashboard
         $sitesByGroup->enableRecursiveFilters(); // we need to make sure filters get applied to subtables (groups)
 
         foreach ($sites->getRows() as $site) {
-
             $group = $site->getMetadata('group');
 
             if (!empty($group) && !array_key_exists($group, $groups)) {

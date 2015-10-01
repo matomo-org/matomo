@@ -18,7 +18,6 @@ use Piwik\DataTable\Row;
  */
 class API extends \Piwik\Plugin\API
 {
-
     /**
      * Another example method that returns a data table.
      * @param int    $idSite

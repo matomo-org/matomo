@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik\Plugins\Feedback;
+
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;

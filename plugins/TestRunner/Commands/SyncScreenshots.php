@@ -171,13 +171,13 @@ cd ../../../../../";
         }
 
         $downloadTo = PIWIK_DOCUMENT_ROOT . "/plugins/$plugin/tests/UI/expected-ui-screenshots/";
-        if(is_dir($downloadTo)) {
+        if (is_dir($downloadTo)) {
             return $downloadTo;
         }
 
         // Maybe the plugin is using folder "Test/" instead of "tests/"
         $downloadTo = str_replace("tests/", "Test/", $downloadTo);
-        if(is_dir($downloadTo)) {
+        if (is_dir($downloadTo)) {
             return $downloadTo;
         }
         throw new \Exception("Download to path could not be found: $downloadTo");

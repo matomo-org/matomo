@@ -10,5 +10,4 @@ namespace Piwik\Plugins\Intl;
 
 class Intl extends \Piwik\Plugin
 {
-
 }

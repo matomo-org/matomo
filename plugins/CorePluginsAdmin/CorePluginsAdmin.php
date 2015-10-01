@@ -56,5 +56,4 @@ class CorePluginsAdmin extends \Piwik\Plugin
     {
         $translations[] = 'CorePluginsAdmin_NoZipFileSelected';
     }
-
 }

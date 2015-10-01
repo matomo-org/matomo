@@ -181,7 +181,6 @@ class ModelTest extends SystemTestCase
         $table->setMetadata('totals', array('nb_visits' => $total));
         return $table;
     }
-
 }
 
 ModelTest::$fixture = new SomeVisitsDifferentPathsOnTwoDays();

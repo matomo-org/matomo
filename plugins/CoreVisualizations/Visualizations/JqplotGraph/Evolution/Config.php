@@ -37,5 +37,4 @@ class Config extends JqplotGraphConfig
         $this->addPropertiesThatShouldBeAvailableClientSide(array('show_line_graph'));
         $this->addPropertiesThatCanBeOverwrittenByQueryParams(array('show_line_graph'));
     }
-
 }

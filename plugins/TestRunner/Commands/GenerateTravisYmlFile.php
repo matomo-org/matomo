@@ -54,7 +54,7 @@ class GenerateTravisYmlFile extends ConsoleCommand
 
             if ($value === true) {
                 $command .= " --$name";
-            } else if (is_array($value)) {
+            } elseif (is_array($value)) {
                 foreach ($value as $arrayValue) {
                     $command .= " --$name=\"" . addslashes($arrayValue) . "\"";
                 }

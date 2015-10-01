@@ -45,5 +45,4 @@ class VisitsByDaysSinceLastVisit extends VisitDimension
     {
         return $request->getDaysSinceLastVisit();
     }
-
 }

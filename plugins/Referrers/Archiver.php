@@ -36,7 +36,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected $arrays = array();
     protected $distinctUrls = array();
 
-    function __construct($processor)
+    public function __construct($processor)
     {
         parent::__construct($processor);
         $this->columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;

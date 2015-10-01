@@ -49,5 +49,4 @@ class GetPlugin extends Base
         $view->requestConfig->filter_sort_order  = 'desc';
         $view->requestConfig->filter_limit       = 10;
     }
-
 }

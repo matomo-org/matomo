@@ -103,7 +103,9 @@ abstract class SMSProvider extends BaseFactory
         $maxCharsAllowed = self::maxCharsAllowed($maximumNumberOfConcatenatedSMS, $smsContentContainsUCS2Chars);
         $sizeOfSMSContent = self::sizeOfSMSContent($string, $smsContentContainsUCS2Chars);
 
-        if ($sizeOfSMSContent <= $maxCharsAllowed) return $string;
+        if ($sizeOfSMSContent <= $maxCharsAllowed) {
+            return $string;
+        }
 
         $smsContentContainsUCS2Chars = $smsContentContainsUCS2Chars || self::containsUCS2Characters($appendedString);
         $maxCharsAllowed = self::maxCharsAllowed($maximumNumberOfConcatenatedSMS, $smsContentContainsUCS2Chars);
@@ -129,7 +131,9 @@ abstract class SMSProvider extends BaseFactory
 
     private static function sizeOfSMSContent($smsContent, $containsUCS2Chars)
     {
-        if ($containsUCS2Chars) return mb_strlen($smsContent, 'UTF-8');
+        if ($containsUCS2Chars) {
+            return mb_strlen($smsContent, 'UTF-8');
+        }
 
         $sizeOfSMSContent = 0;
         foreach (self::mb_str_split($smsContent) as $char) {

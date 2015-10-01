@@ -32,5 +32,4 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(2, 1+1);
     }
-
 }

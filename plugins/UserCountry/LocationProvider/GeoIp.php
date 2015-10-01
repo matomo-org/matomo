@@ -271,4 +271,3 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/GeoIp/P
  * @see plugins/UserCountry/LocationProvider/GeoIp/Pecl.php
  */
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/GeoIp/Pecl.php';
-

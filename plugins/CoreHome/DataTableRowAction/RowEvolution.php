@@ -27,7 +27,6 @@ use Piwik\ViewDataTable\Factory;
  */
 class RowEvolution
 {
-
     /** The current site id */
     protected $idSite;
 
@@ -84,7 +83,9 @@ class RowEvolution
     public function __construct($idSite, $date, $graphType = 'graphEvolution')
     {
         $this->apiMethod = Common::getRequestVar('apiMethod', '', 'string');
-        if (empty($this->apiMethod)) throw new Exception("Parameter apiMethod not set.");
+        if (empty($this->apiMethod)) {
+            throw new Exception("Parameter apiMethod not set.");
+        }
 
         $this->label = DataTablePostProcessor::getLabelFromRequest($_GET);
         if (!is_array($this->label)) {
@@ -92,7 +93,9 @@ class RowEvolution
         }
         $this->label = $this->label[0];
 
-        if ($this->label === '') throw new Exception("Parameter label not set.");
+        if ($this->label === '') {
+            throw new Exception("Parameter label not set.");
+        }
 
         $this->period = Common::getRequestVar('period', '', 'string');
         PeriodFactory::checkPeriodIsEnabled($this->period);
@@ -238,7 +241,7 @@ class RowEvolution
                 if (substr($change, 0, 1) == '+') {
                     $changeClass = $lowerIsBetter ? 'bad' : 'good';
                     $changeImage = $lowerIsBetter ? 'arrow_up_red' : 'arrow_up';
-                } else if (substr($change, 0, 1) == '-') {
+                } elseif (substr($change, 0, 1) == '-') {
                     $changeClass = $lowerIsBetter ? 'good' : 'bad';
                     $changeImage = $lowerIsBetter ? 'arrow_down_green' : 'arrow_down';
                 } else {
@@ -342,7 +345,7 @@ class RowEvolution
     {
         // By default, use the specified label
         $rowLabel = Common::sanitizeInputValue($report['label']);
-        $rowLabel = str_replace('/', '<wbr>/', str_replace('&', '<wbr>&', $rowLabel ));
+        $rowLabel = str_replace('/', '<wbr>/', str_replace('&', '<wbr>&', $rowLabel));
 
         // If the dataTable specifies a label_html, use this instead
         /** @var $dataTableMap \Piwik\DataTable\Map */

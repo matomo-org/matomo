@@ -96,5 +96,4 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
         $this->assertEquals(232, $content['PrivacyManager.ipAddressMaskLength']);
     }
-
 }

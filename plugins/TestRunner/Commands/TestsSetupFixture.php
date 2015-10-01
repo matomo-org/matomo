@@ -102,7 +102,7 @@ class TestsSetupFixture extends ConsoleCommand
             $_SERVER = json_decode($serverGlobal, true);
         }
 
-        if(Config::getInstance()->database_tests['tables_prefix'] !== '') {
+        if (Config::getInstance()->database_tests['tables_prefix'] !== '') {
             throw new \Exception("To generate OmniFixture for the UI tests, you must set an empty tables_prefix in [database_tests]");
         }
         $this->requireFixtureFiles($input);
@@ -247,7 +247,7 @@ class TestsSetupFixture extends ConsoleCommand
             '/plugins/*/Test/Fixtures/*.php',
         );
 
-        foreach($fixturesToLoad as $fixturePath) {
+        foreach ($fixturesToLoad as $fixturePath) {
             foreach (glob(PIWIK_INCLUDE_PATH . $fixturePath) as $file) {
                 require_once $file;
             }
@@ -257,7 +257,7 @@ class TestsSetupFixture extends ConsoleCommand
         if ($file) {
             if (is_file($file)) {
                 require_once $file;
-            } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $file)) {
+            } elseif (is_file(PIWIK_INCLUDE_PATH . '/' . $file)) {
                 require_once PIWIK_INCLUDE_PATH . '/' . $file;
             } else {
                 throw new \Exception("Cannot find --file option file '$file'.");

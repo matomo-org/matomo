@@ -76,5 +76,4 @@ class APITest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }

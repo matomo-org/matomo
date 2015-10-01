@@ -20,7 +20,6 @@ use Piwik\UrlHelper;
 
 abstract class Base extends VisitDimension
 {
-
     // @see detect*() referrer methods
     protected $typeReferrerAnalyzed;
     protected $nameReferrerAnalyzed;
@@ -294,7 +293,6 @@ abstract class Base extends VisitDimension
             if (!empty($value)) {
                 $parsedAdsenseReferrerUrl = parse_url($value);
                 if (!empty($parsedAdsenseReferrerUrl['host'])) {
-
                     if (empty($this->nameReferrerAnalyzed)) {
                         $type = $this->getParameterValueFromReferrerUrl('ad_type');
                         $type = $type ? " ($type)" : '';
@@ -305,7 +303,6 @@ abstract class Base extends VisitDimension
                 }
             }
         }
-
     }
 
     /**
@@ -386,7 +383,6 @@ abstract class Base extends VisitDimension
             Common::printDebug("Campaign information from 1st party cookie is used.");
         } // 2) Referrer URL parsing
         elseif (!empty($referrerUrl)) {
-
             $idSite   = $request->getIdSite();
             $referrer = $this->getReferrerInformation($referrerUrl, $currentUrl = '', $idSite, $request);
 

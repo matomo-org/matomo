@@ -235,7 +235,7 @@ class ActionSiteSearch extends Action
                 // array($url, $actionName, $categoryName, $count);
                 $searchInfo = $this->detectSiteSearchFromUrl($website, $parsedUrl);
                 if (!empty($searchInfo)) {
-                    list ($url, $actionName, $categoryName, $count) = $searchInfo;
+                    list($url, $actionName, $categoryName, $count) = $searchInfo;
                 }
             }
         }
@@ -266,5 +266,4 @@ class ActionSiteSearch extends Action
             $count
         );
     }
-
 }

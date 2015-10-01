@@ -51,5 +51,4 @@ class Widgets extends \Piwik\Plugin\Widgets
 
         return $view->render();
     }
-
 }

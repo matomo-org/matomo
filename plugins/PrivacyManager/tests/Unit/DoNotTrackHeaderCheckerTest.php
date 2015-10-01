@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests;
 
-
 use Piwik\Plugins\PrivacyManager\Config;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 
@@ -34,8 +33,8 @@ class DoNotTrackHeaderCheckerTest extends \PHPUnit_Framework_TestCase
     {
         $dntChecker = $this->makeDntHeaderChecker();
 
-        $this->assertFalse( $dntChecker->isActive() );
-        $this->assertFalse( $dntChecker->isDoNotTrackFound() );
+        $this->assertFalse($dntChecker->isActive());
+        $this->assertFalse($dntChecker->isDoNotTrackFound());
     }
 
     public function getHeader_DntIsActivated()
@@ -66,7 +65,7 @@ class DoNotTrackHeaderCheckerTest extends \PHPUnit_Framework_TestCase
         $dntChecker = $this->makeDntHeaderCheckerEnabled();
 
         $_SERVER[$headerName] = $headerValue;
-        $this->assertTrue( $dntChecker->isDoNotTrackFound() );
+        $this->assertTrue($dntChecker->isDoNotTrackFound());
     }
 
     /**
@@ -77,7 +76,7 @@ class DoNotTrackHeaderCheckerTest extends \PHPUnit_Framework_TestCase
         $dntChecker = $this->makeDntHeaderCheckerEnabled();
 
         $_SERVER[$headerName] = $headerValue;
-        $this->assertFalse( $dntChecker->isDoNotTrackFound() );
+        $this->assertFalse($dntChecker->isDoNotTrackFound());
     }
 
     public function getUserAgents_whereDNTIsAlwaysEnabled()
@@ -162,4 +161,3 @@ class DoNotTrackHeaderCheckerTest extends \PHPUnit_Framework_TestCase
         $_SERVER['HTTP_DNT'] = '1';
     }
 }
- 

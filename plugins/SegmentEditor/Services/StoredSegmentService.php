@@ -11,7 +11,6 @@ namespace Piwik\Plugins\SegmentEditor\Services;
 use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Cache\Transient as TransientCache;
 
-
 /**
  * Service layer class for stored segments.
  */

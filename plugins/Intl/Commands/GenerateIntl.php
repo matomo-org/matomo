@@ -65,8 +65,7 @@ class GenerateIntl extends ConsoleCommand
 
         $writePath = Filesystem::getPathToPiwikRoot() . '/plugins/Intl/lang/%s.json';
 
-        foreach ($piwikLanguages AS $langCode) {
-
+        foreach ($piwikLanguages as $langCode) {
             if ($langCode == 'dev') {
                 continue;
             }
@@ -140,7 +139,7 @@ class GenerateIntl extends ConsoleCommand
                 throw new \Exception();
             }
 
-            foreach ($languageCodes AS $code) {
+            foreach ($languageCodes as $code) {
                 if (!empty($languageData[$code]) && $languageData[$code] != $code) {
                     $translations['Intl']['Language_' . $code] = $this->transform($languageData[$code]);
                 }
@@ -148,7 +147,7 @@ class GenerateIntl extends ConsoleCommand
 
             if (array_key_exists($langCode, $languageData) && $languageData[$langCode] != $langCode) {
                 $translations['Intl']['OriginalLanguageName'] = $this->transform($languageData[$langCode]);
-            } else if (array_key_exists($requestLangCode, $languageData) && $languageData[$requestLangCode] != $requestLangCode) {
+            } elseif (array_key_exists($requestLangCode, $languageData) && $languageData[$requestLangCode] != $requestLangCode) {
                 $translations['Intl']['OriginalLanguageName'] = $this->transform($languageData[$requestLangCode]);
             }
             $translations['Intl']['EnglishLanguageName'] = $this->getEnglishLanguageName($langCode) ? $this->getEnglishLanguageName($langCode) : $this->getEnglishLanguageName($requestLangCode);
@@ -206,7 +205,7 @@ class GenerateIntl extends ConsoleCommand
             $territoryData = json_decode($territoryData, true);
             $territoryData = $territoryData['main'][$requestLangCode]['localeDisplayNames']['territories'];
 
-            foreach ($countryCodes AS $code) {
+            foreach ($countryCodes as $code) {
                 if (!empty($territoryData[$code]) && $territoryData[$code] != $code) {
                     $translations['Intl']['Country_' . $code] = $this->transform($territoryData[$code]);
                 }
@@ -248,7 +247,7 @@ class GenerateIntl extends ConsoleCommand
                 7 => 'sun'
             );
 
-            foreach ($days AS $nr => $day) {
+            foreach ($days as $nr => $day) {
                 $translations['Intl']['ShortDay_' . $nr] = $this->transform($calendarData['days']['format']['abbreviated'][$day]);
                 $translations['Intl']['LongDay_' . $nr] = $this->transform($calendarData['days']['format']['wide'][$day]);
             }
@@ -263,7 +262,7 @@ class GenerateIntl extends ConsoleCommand
                 'Su' => 'sun'
             );
 
-            foreach ($days AS $nr => $day) {
+            foreach ($days as $nr => $day) {
                 $translations['Intl']['Day' . $nr] = $this->transform($calendarData['days']['format']['short'][$day]);
             }
 
@@ -352,5 +351,4 @@ class GenerateIntl extends ConsoleCommand
     {
         return str_replace('{0}', $replacement, $string);
     }
-
 }

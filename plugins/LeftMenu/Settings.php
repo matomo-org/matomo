@@ -63,5 +63,4 @@ class Settings extends \Piwik\Plugin\Settings
     {
         return Piwik::translate('LeftMenu_' . $key);
     }
-
 }

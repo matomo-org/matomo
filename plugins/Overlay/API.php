@@ -39,7 +39,7 @@ class API extends \Piwik\Plugin\API
             'link'             => 'Overlay_Link'
         );
 
-        return array_map(array('\\Piwik\\Piwik','translate'), $translations);
+        return array_map(array('\\Piwik\\Piwik', 'translate'), $translations);
     }
 
     /**

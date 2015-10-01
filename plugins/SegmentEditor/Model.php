@@ -157,5 +157,4 @@ class Model
 
         DbHelper::createTable(self::$rawPrefix, $segmentTable);
     }
-
 }

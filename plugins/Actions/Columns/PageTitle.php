@@ -29,5 +29,4 @@ class PageTitle extends ActionDimension
     {
         return Piwik::translate('Actions_ColumnPageName');
     }
-
 }

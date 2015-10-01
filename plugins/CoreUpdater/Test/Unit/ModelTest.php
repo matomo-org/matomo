@@ -57,5 +57,4 @@ class ModelTest extends \PHPUnit_Framework_TestCase
             $this->assertTrue(12 <= strlen($plugin)); // make sure it does not return something like '/plugins'.
         }
     }
-
 }

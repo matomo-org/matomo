@@ -133,7 +133,6 @@ class VisitorProfile
         }
 
         if ($referrerType == 'campaign') {
-
             $summary = Piwik::translate('Referrers_ColumnCampaign') . ': ' . $visit->getColumn('referrerName');
             $keyword = $visit->getColumn('referrerKeyword');
             if (!empty($keyword)) {
@@ -163,7 +162,7 @@ class VisitorProfile
             ++$this->profile['totalEcommerceConversions'];
             $this->profile['totalEcommerceRevenue'] += $action['revenue'];
             $this->profile['totalEcommerceItems'] += $action['items'];
-        } else if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+        } elseif ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
             ++$this->profile['totalAbandonedCarts'];
             $this->profile['totalAbandonedCartsRevenue'] += $action['revenue'];
             $this->profile['totalAbandonedCartsItems'] += $action['items'];
@@ -265,7 +264,6 @@ class VisitorProfile
         $this->profile['countries'] = $this->profile['continents'] = $this->profile['searches'] = array();
 
         foreach ($this->countries as $countryCode => $nbVisits) {
-
             $countryInfo = array('country' => $countryCode,
                 'nb_visits' => $nbVisits,
                 'flag' => \Piwik\Plugins\UserCountry\getFlagFromCode($countryCode),

@@ -42,7 +42,7 @@ class Controller extends ControllerAdmin
         parent::__construct();
     }
 
-    static function orderByName($a, $b)
+    public static function orderByName($a, $b)
     {
         return strcmp($a['name'], $b['name']);
     }
@@ -50,7 +50,7 @@ class Controller extends ControllerAdmin
     /**
      * The "Manage Users and Permissions" Admin UI screen
      */
-    function index()
+    public function index()
     {
         Piwik::checkUserIsNotAnonymous();
 
@@ -244,7 +244,6 @@ class Controller extends ControllerAdmin
         $view->defaultReport = $defaultReport;
 
         if ($defaultReport == 'MultiSites') {
-
             $defaultSiteId = $userPreferences->getDefaultWebsiteId();
 
             $view->defaultReportIdSite   = $defaultSiteId;

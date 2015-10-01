@@ -55,7 +55,7 @@ class ManagePlugin extends ConsoleCommand
         $fn = $this->operations[$operation];
 
 
-        if($fn == 'listPlugins') {
+        if ($fn == 'listPlugins') {
             call_user_func(array($this, $fn), $input, $output);
         } else {
             $this->applyOperationToEachPlugin($input, $output, $plugins, $fn);

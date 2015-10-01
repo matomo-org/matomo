@@ -110,4 +110,3 @@ class DefaultProvider extends LocationProvider
         return array('id' => self::ID, 'title' => self::TITLE, 'description' => $desc, 'order' => 1);
     }
 }
-

@@ -126,5 +126,4 @@ class Provider extends \Piwik\Plugin
             }
         }
     }
-
 }
