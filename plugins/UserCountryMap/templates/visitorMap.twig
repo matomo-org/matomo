@@ -80,6 +80,7 @@
     config = JSON.parse('{{ config|e('js') }}');
     config._ = JSON.parse('{{ localeJSON|e('js') }}');
     config.reqParams = JSON.parse('{{ reqParamsJSON|e('js') }}');
+    config.countryNames = JSON.parse('{{ countriesByIso|json_encode|e('js') }}');
 
     $('.UserCountryMap').addClass('dataTable');
 
