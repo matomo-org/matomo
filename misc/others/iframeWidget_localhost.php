@@ -55,7 +55,6 @@ foreach ($widgets as $category => $widgetsInCategory) {
 
         echo '<div id="widgetIframe"><iframe width="500" height="350"
 			src="' . $widgetUrl . '" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>';
-
     }
 }
 ?>

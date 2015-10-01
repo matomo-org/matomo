@@ -69,7 +69,6 @@ try {
     if (!is_null($response)) {
         echo $response;
     }
-
 } catch (Exception $e) {
     echo "Error:" . $e->getMessage();
     exit(1);
