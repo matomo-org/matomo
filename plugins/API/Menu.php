@@ -32,10 +32,12 @@ class Menu extends \Piwik\Plugin\Menu
             Piwik::translate('API_TopLinkTooltip')
         );
 
-        $menu->addPlatformItem('API_Glossary',
-            $this->urlForAction('glossary', array('segment' => false)),
-            50
-        );
+        if(Piwik::isUserIsAnonymous()) {
+            $menu->addPlatformItem('API_Glossary',
+                $this->urlForAction('glossary', array('segment' => false)),
+                50
+            );
+        }
     }
 
     private function addTopMenuMobileApp(MenuTop $menu)
