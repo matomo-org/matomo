@@ -12,10 +12,9 @@ namespace Piwik\Plugins\API;
 class Glossary
 {
     protected $metadata = array();
-    
+
     public function setIdSite($idSite)
     {
-        $this->idSite = $idSite;
         $this->metadata = API::getInstance()->getReportMetadata($idSite);
     }
 

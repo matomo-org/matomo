@@ -556,6 +556,32 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * A glossary of all reports and their definition
+     *
+     * @param $idSite
+     * @return array
+     */
+    public function getGlossaryReports($idSite)
+    {
+        $glossary = StaticContainer::get('Piwik\Plugins\API\Glossary');
+        $glossary->setIdSite($idSite);
+        return $glossary->reportsGlossary();
+    }
+
+    /**
+     * A glossary of all metrics and their definition
+     *
+     * @param $idSite
+     * @return array
+     */
+    public function getGlossaryMetrics($idSite)
+    {
+        $glossary = StaticContainer::get('Piwik\Plugins\API\Glossary');
+        $glossary->setIdSite($idSite);
+        return $glossary->metricsGlossary();
+    }
+
+    /**
      * @param $segmentName
      * @return bool
      */

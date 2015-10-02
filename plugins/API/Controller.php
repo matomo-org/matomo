@@ -143,11 +143,9 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $glossary = StaticContainer::get('Piwik\Plugins\API\Glossary');
-        $glossary->setIdSite($this->idSite);
         return $this->renderTemplate('glossary', array(
-            'reports' => $glossary->reportsGlossary(),
-            'metrics' => $glossary->metricsGlossary(),
+            'reports' => Request::processRequest('API', array('method' => 'API.getGlossaryReports')),
+            'metrics' => Request::processRequest('API', array('method' => 'API.getGlossaryMetrics')),
         ));
     }
 }
