@@ -23,7 +23,6 @@ use Piwik\Tests\Framework\Mock\Site;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Period\Factory as PeriodFactory;
 
-
 /**
  * @group ChunksTest
  * @group Chunks

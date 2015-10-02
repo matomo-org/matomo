@@ -15,9 +15,8 @@ use Piwik\DataTable\Row;
 /**
  * @group DataTableTest
  */
-class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
+class SortTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testNormalSortDescending()
     {
         $table = new DataTable();

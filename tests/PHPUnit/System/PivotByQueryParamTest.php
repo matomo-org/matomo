@@ -122,7 +122,6 @@ class PivotByQueryParamTest extends SystemTestCase
     // of city, region & country dimensions, so the segment to get an intersected table needs all 3 of those.
     public function SHOULD_test_PivotByParam_PlaysNiceWithQueuedFilters()
     {
-
         $this->markTestSkipped("Not working right now.");
 
         $this->assertApiResponseEqualsExpected("DevicesDetection.getBrowsers", array( // should have logo metadata in output
@@ -198,7 +197,7 @@ class PivotByQueryParamTest extends SystemTestCase
     }
     public function assertApiResponseEqualsExpected($apiMethod, $queryParams)
     {
-        if(self::isPhpVersion53()) {
+        if (self::isPhpVersion53()) {
             // 5.3.3 space encoding fail eg. https://travis-ci.org/piwik/piwik/jobs/35920420
             $this->markTestSkipped();
         }

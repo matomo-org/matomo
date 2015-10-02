@@ -50,7 +50,6 @@ class OmniFixture extends Fixture
                 && $className != "Piwik\\Tests\\Fixtures\\UpdaterTestFixture"
                 && $className != "Piwik\\Tests\\Fixtures\\UITestFixture"
             ) {
-
                 $klassReflect = new ReflectionClass($className);
                 if (!strpos($klassReflect->getFilename(), "tests/PHPUnit/Fixtures")
                     && $className != "CustomAlerts"

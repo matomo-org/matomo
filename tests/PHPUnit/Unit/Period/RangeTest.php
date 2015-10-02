@@ -101,7 +101,6 @@ class RangeTest extends BasePeriodTest
     // test range date1,date2
     public function testRangeComma1()
     {
-
         $range = new Range('day', '2008-01-01,2008-01-03');
 
         $correct = array(
@@ -117,7 +116,6 @@ class RangeTest extends BasePeriodTest
     // test range date1,date2
     public function testRangeComma2()
     {
-
         $rangeString = '2007-12-22,2008-01-03';
         $range = new Range('day', $rangeString);
 
@@ -194,7 +192,7 @@ class RangeTest extends BasePeriodTest
         $this->assertEquals(count($correct), $range2->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
         $this->assertEquals($correct, $range2->toString());
-        $this->assertEquals('2007-12-17,2008-01-06' , $range2->getRangeString());
+        $this->assertEquals('2007-12-17,2008-01-06', $range2->getRangeString());
     }
 
     // test range date1,date2
@@ -570,7 +568,7 @@ class RangeTest extends BasePeriodTest
         $correct = array(
             '2005-12-17',
             '2005-12-18',
-            array (
+            array(
                 "2005-12-19",
                 "2005-12-20",
                 "2005-12-21",

@@ -15,7 +15,7 @@ use Piwik\DataTable\Row;
 /**
  * @group DataTableTest
  */
-class DataTable_Filter_LimitTest extends \PHPUnit_Framework_TestCase
+class LimitTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Returns table used for the tests
@@ -304,5 +304,4 @@ class DataTable_Filter_LimitTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(array_values($expectedtable->getRows()), array_values($table->getRows()));
     }
-
 }

@@ -181,9 +181,9 @@ class UserSettingTest extends IntegrationTestCase
         $this->setUser();
         $setting = $this->addUserSetting('myusersetting', 'mytitle');
         $setting->type = PluginSettings::TYPE_ARRAY;
-        $setting->setValue(array(2,3,4));
+        $setting->setValue(array(2, 3, 4));
 
-        $this->assertSettingHasValue($setting, array(2,3,4));
+        $this->assertSettingHasValue($setting, array(2, 3, 4));
     }
 
     /**
@@ -245,5 +245,4 @@ class UserSettingTest extends IntegrationTestCase
         $setting->removeValue();
         $this->assertSettingHasValue($setting, null);
     }
-
 }

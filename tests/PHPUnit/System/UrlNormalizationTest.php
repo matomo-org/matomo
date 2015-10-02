@@ -28,7 +28,7 @@ class UrlNormalizationTest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
-        if(self::isMysqli()) {
+        if (self::isMysqli()) {
             $this->markTestSkipped('Sometimes fail on MYSQLI (at random)');
         }
         $this->runApiTests($api, $params);

@@ -15,9 +15,8 @@ use Piwik\DataTable\Row;
 /**
  * @group DataTableTest
  */
-class DataTable_Filter_TruncateTest extends \PHPUnit_Framework_TestCase
+class TruncateTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testUnrelatedDataTableNotFiltered()
     {
         // remark: this unit test would become invalid and would need to be rewritten if
@@ -153,7 +152,6 @@ class DataTable_Filter_TruncateTest extends \PHPUnit_Framework_TestCase
 
         $table1->addDataTable($table2);
         $this->assertTrue(DataTable::isEqual($expectedTable, $table1));
-
     }
 
 

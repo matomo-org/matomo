@@ -78,7 +78,6 @@ class VisitsTwoWebsitesWithAdditionalVisits extends Fixture
         self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/Contact/ThankYou');
         self::checkResponse($t->doTrackPageView('Hello'));
-
     }
 
 

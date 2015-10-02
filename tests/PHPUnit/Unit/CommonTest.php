@@ -147,7 +147,6 @@ class CommonTest extends PHPUnit_Framework_TestCase
     {
         $_GET['test'] = 1413.431413;
         $this->assertEquals($_GET['test'], Common::getRequestVar('test'));
-
     }
 
     public function testGetRequestVar_GetStringFloatGiven()
@@ -186,7 +185,6 @@ class CommonTest extends PHPUnit_Framework_TestCase
             return;
         }
         $this->fail('Expected exception not raised');
-
     }
 
     /**
@@ -372,7 +370,6 @@ class CommonTest extends PHPUnit_Framework_TestCase
      */
     public function getCountryCodeTestDataInfer()
     {
-
         return array( // browser language, valid countries, expected result (non-guess vs guess)
             array("fr,en-us", array("us" => 'amn', "ca" => 'amn'), "us", "fr"),
             array("fr,en-us", array("fr" => 'eur', "us" => 'amn', "ca" => 'amn'), "us", "fr"),
@@ -488,7 +485,6 @@ class CommonTest extends PHPUnit_Framework_TestCase
                 if (is_string($info[3])) {
                     $this->assertTrue(trim($info[3]) !== '', $host . ' encoding cannot be an empty string');
                     $this->assertTrue(strpos($info[3], ' ') === false, $host . ' encoding cannot contain spaces');
-
                 }
 
                 if (is_array($info[3])) {
@@ -499,5 +495,4 @@ class CommonTest extends PHPUnit_Framework_TestCase
             }
         }
     }
-
 }

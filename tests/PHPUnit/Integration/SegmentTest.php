@@ -41,7 +41,7 @@ class SegmentTest extends IntegrationTestCase
         TableLogAction\Cache::$hits = 0;
     }
 
-    static public function removeExtraWhiteSpaces($valueToFilter)
+    public static function removeExtraWhiteSpaces($valueToFilter)
     {
         if (is_array($valueToFilter)) {
             foreach ($valueToFilter as $key => $value) {
@@ -700,7 +700,7 @@ class SegmentTest extends IntegrationTestCase
             ));
 
         $cache = new TableLogAction\Cache();
-        $this->assertTrue( empty($cache->isEnabled) );
+        $this->assertTrue(empty($cache->isEnabled));
         $this->assertCacheWasHit($hit = 0);
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
@@ -770,7 +770,7 @@ class SegmentTest extends IntegrationTestCase
             ));
 
         $cache = new TableLogAction\Cache();
-        $this->assertTrue( !empty($cache->isEnabled) );
+        $this->assertTrue(!empty($cache->isEnabled));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
@@ -788,7 +788,6 @@ class SegmentTest extends IntegrationTestCase
 
         $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
         $this->assertCacheWasHit($hits = 4 + 4);
-
     }
 
 
@@ -838,7 +837,7 @@ class SegmentTest extends IntegrationTestCase
             ));
 
         $cache = new TableLogAction\Cache();
-        $this->assertTrue( !empty($cache->isEnabled) );
+        $this->assertTrue(!empty($cache->isEnabled));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }

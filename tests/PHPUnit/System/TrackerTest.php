@@ -235,7 +235,7 @@ class TrackerTest extends IntegrationTestCase
         $output = implode("", $output);
         $this->assertStringStartsWith('{"status":', $output);
 
-        if($expectTrackingToSucceed) {
+        if ($expectTrackingToSucceed) {
             $this->assertNotContains('error', $output);
             $this->assertContains('success', $output);
         } else {
@@ -394,5 +394,4 @@ class TrackerTest extends IntegrationTestCase
             'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
         );
     }
-
 }

@@ -363,7 +363,7 @@ class AccessTest extends IntegrationTestCase
 
         $mock->expects($this->at(0))
             ->method('getRawSitesWithSomeViewAccess')
-            ->will($this->returnValue($this->buildAdminAccessForSiteIds(array(1,2,3,4))));
+            ->will($this->returnValue($this->buildAdminAccessForSiteIds(array(1, 2, 3, 4))));
 
         $mock->expects($this->at(1))
             ->method('getRawSitesWithSomeViewAccess')
@@ -380,7 +380,6 @@ class AccessTest extends IntegrationTestCase
             $mock->checkUserHasAdminAccess('1,3');
             $this->fail('An expected exception has not been triggered. Permissions were not resetted');
         } catch (NoAccessException $e) {
-
         }
 
         $mock->checkUserHasAdminAccess('1'); // it should have access to site "1"
@@ -418,8 +417,7 @@ class AccessTest extends IntegrationTestCase
             });
 
             $this->fail("Exception was not propagated by doAsSuperUser.");
-        } catch (Exception $ex)
-        {
+        } catch (Exception $ex) {
             // pass
         }
 
@@ -516,5 +514,4 @@ class AccessTest extends IntegrationTestCase
 
         return $mock;
     }
-
 }

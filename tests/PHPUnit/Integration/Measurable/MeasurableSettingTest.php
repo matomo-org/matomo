@@ -78,5 +78,4 @@ class MeasurableSettingTest extends IntegrationTestCase
             'Piwik\Access' => new FakeAccess()
         );
     }
-
 }

@@ -78,7 +78,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
         // note: not sure why I have to manually activate plugin in order for `./console tests:run BackwardsCompatibility1XTest` to work
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('DevicesDetection');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
 
         $this->runApiTests($api, $params);

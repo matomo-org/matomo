@@ -41,7 +41,6 @@ class DailyTest extends \PHPUnit_Framework_TestCase
         try {
             $dailySchedule = Schedule::factory('daily');
             $dailySchedule->setHour(-1);
-
         } catch (Exception $e) {
             return;
         }

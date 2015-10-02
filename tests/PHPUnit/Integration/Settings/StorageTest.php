@@ -158,5 +158,4 @@ class StorageTest extends IntegrationTestCase
     {
         return Option::get($this->storage->getOptionKey());
     }
-
 }

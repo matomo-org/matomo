@@ -18,7 +18,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 /**
  * @group Core
  */
-class ReportingTest extends IntegrationTestCase
+class MenuReportingTest extends IntegrationTestCase
 {
     /**
      * @var MenuReporting

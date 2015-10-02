@@ -7,7 +7,7 @@
 <?php
 require_once(dirname(__FILE__).'/SQLite.php');
 
-if(file_exists("stub.tpl")) {
+if (file_exists("stub.tpl")) {
     echo file_get_contents("stub.tpl");
 }
 ?>
@@ -29,11 +29,11 @@ if (file_exists("enable_sqlite")) {
     }
 }
 
-if(!$sqlite) {
+if (!$sqlite) {
     echo 'alert("WARNING: Javascript integration tests require sqlite, \n1) ensure this PHP extension is enabled to make sure you run all tests \napt-get install php5-sqlite \n2) Then please create an empty file enable_sqlite in tests/javascript/enable_sqlite \n3) Re-execute this page and make sure this popup does not display ");';
 }
 if ($sqlite) {
-  echo '
+    echo '
 var _paq = _paq || [];
 
 function testCallingTrackPageViewBeforeSetTrackerUrlWorks() {
@@ -438,7 +438,7 @@ function PiwikTest() {
         expect(1);
         var src = '<?php
             $src = file_get_contents('../../js/piwik.js');
-            $src = strtr($src, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
+            $src = strtr($src, array('\\'=>'\\\\', "'"=>"\\'", '"'=>'\\"', "\r"=>'\\r', "\n"=>'\\n', '</'=>'<\/'));
             echo "$src"; ?>';
 
         var result = JSLINT(src);
@@ -3766,6 +3766,7 @@ if ($sqlite) {
         }, 4000);
     });
     <?php
+
 }
 ?>
 }

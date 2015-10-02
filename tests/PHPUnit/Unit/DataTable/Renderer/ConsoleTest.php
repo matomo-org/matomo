@@ -16,7 +16,7 @@ use Piwik\DataTable\Row;
 /**
  * @group DataTableTest
  */
-class DataTable_Renderer_ConsoleTest extends \PHPUnit_Framework_TestCase
+class ConsoleTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -35,7 +35,7 @@ class DataTable_Renderer_ConsoleTest extends \PHPUnit_Framework_TestCase
     {
         $table = new DataTable;
         $table->addRowFromArray(array(Row::COLUMNS  => array('visits' => 245, 'visitors' => 245),
-                                      Row::METADATA => array('logo' => 'test.png'),)
+                                      Row::METADATA => array('logo' => 'test.png'), )
 
         );
 
@@ -54,7 +54,7 @@ class DataTable_Renderer_ConsoleTest extends \PHPUnit_Framework_TestCase
 
         $subtable2 = new DataTable;
         $idsubtable2 = $subtable2->getId();
-        $subtable2->addRowFromArray(array(Row::COLUMNS => array('visits' => 5),));
+        $subtable2->addRowFromArray(array(Row::COLUMNS => array('visits' => 5), ));
 
         $table->addRowFromArray(array(Row::COLUMNS              => array('visits' => 9),
                                       Row::DATATABLE_ASSOCIATED => $subtable2)
@@ -79,7 +79,7 @@ class DataTable_Renderer_ConsoleTest extends \PHPUnit_Framework_TestCase
     {
         $table = new DataTable;
         $table->addRowFromArray(array(Row::COLUMNS  => array('visits' => 245, 'visitors' => 245),
-                                      Row::METADATA => array('logo' => 'test.png'),)
+                                      Row::METADATA => array('logo' => 'test.png'), )
 
         );
 

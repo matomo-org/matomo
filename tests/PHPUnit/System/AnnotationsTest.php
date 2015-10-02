@@ -276,7 +276,6 @@ class AnnotationsTest extends SystemTestCase
         } else {
             $request = new Request($request);
             $request->process();
-
         }
     }
 }

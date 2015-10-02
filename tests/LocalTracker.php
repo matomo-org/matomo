@@ -124,4 +124,3 @@ class Piwik_LocalTracker extends PiwikTracker
         return $args;
     }
 }
-

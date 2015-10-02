@@ -15,7 +15,7 @@ use Piwik\DataTable\Row;
 /**
  * @group DataTableTest
  */
-class DataTable_Filter_ExcludeLowPopulationTest extends \PHPUnit_Framework_TestCase
+class ExcludeLowPopulationTest extends \PHPUnit_Framework_TestCase
 {
     protected function getTestDataTable()
     {
@@ -87,7 +87,6 @@ class DataTable_Filter_ExcludeLowPopulationTest extends \PHPUnit_Framework_TestC
     */
     public function testFilterLowpop1()
     {
-
         $idcol = Row::COLUMNS;
 
         $table = new DataTable();

@@ -30,7 +30,6 @@ class Archive extends PiwikArchive
     {
         return parent::get($archiveNames, $archiveDataType, $idSubtable);
     }
-
 }
 
 /**

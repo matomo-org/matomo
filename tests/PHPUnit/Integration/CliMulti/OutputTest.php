@@ -34,7 +34,7 @@ class OutputTest extends IntegrationTestCase
 
     public function tearDown()
     {
-        if(is_object($this->output)){
+        if (is_object($this->output)) {
             $this->output->destroy();
         }
         

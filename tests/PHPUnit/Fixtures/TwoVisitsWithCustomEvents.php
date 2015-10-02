@@ -58,7 +58,6 @@ class TwoVisitsWithCustomEvents extends Fixture
         $this->trackMusicPlaying($vis2);
         $this->trackMusicRatings($vis2);
         $this->trackMovieWatchingIncludingInterval($vis2);
-
     }
 
     private function moveTimeForward(PiwikTracker $vis, $minutes)

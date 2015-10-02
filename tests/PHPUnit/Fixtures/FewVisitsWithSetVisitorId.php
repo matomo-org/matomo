@@ -75,7 +75,6 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
         $t->setUrl('http://example.org/index3.htm');
         self::checkResponse($t->doTrackPageView('incredible title!'));
-
     }
 
     private function trackVisits_setUserId()
@@ -167,7 +166,6 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t->setUrl('http://nsa.gov/buy/prism');
         $t->addEcommerceItem('sku-007-PRISM', 'My secret spy tech', 'Surveillance', '10000000000');
         $t->doTrackEcommerceCartUpdate(10000000000 + 500 /* add some for shipping PRISM */);
-
     }
 
     private function trackVisits_oneWeekLater_setUserId()
@@ -189,7 +187,6 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t->setVisitorId('6ccebef4faef4969'); // this should be ignored and User ID prevail
         self::checkResponse($t->doTrackPageView('A page view by ' . $userId));
         $t->setForceVisitDateTime($oneWeekLater->addHour(0.8)->getDatetime());
-
     }
 
     private function settingInvalidVisitorIdShouldThrow(PiwikTracker $t)

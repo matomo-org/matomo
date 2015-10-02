@@ -43,7 +43,7 @@ class TestingEnvironmentVariables
     {
         $includePath = __DIR__ . '/../../..';
 
-        if(!file_exists($includePath . '/tmp')){
+        if (!file_exists($includePath . '/tmp')) {
             mkdir($includePath . '/tmp');
         }
 

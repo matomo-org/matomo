@@ -10,11 +10,10 @@ namespace Piwik\Tests\Integration\Settings;
 
 use Piwik\Settings\Setting;
 
-class CorePluginTestSettings extends \Piwik\Plugins\ExampleSettingsPlugin\Settings {
-
+class CorePluginTestSettings extends \Piwik\Plugins\ExampleSettingsPlugin\Settings
+{
     public function init()
     {
-
     }
 
     public function addSetting(Setting $setting)
@@ -22,4 +21,3 @@ class CorePluginTestSettings extends \Piwik\Plugins\ExampleSettingsPlugin\Settin
         parent::addSetting($setting);
     }
 }
-

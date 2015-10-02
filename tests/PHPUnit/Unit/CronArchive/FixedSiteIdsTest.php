@@ -22,7 +22,7 @@ class FixedSiteIdsTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->fixedSiteIds = new FixedSiteIds(array(1,2,5,9));
+        $this->fixedSiteIds = new FixedSiteIds(array(1, 2, 5, 9));
     }
 
     public function test_construct_withEmptyValue()

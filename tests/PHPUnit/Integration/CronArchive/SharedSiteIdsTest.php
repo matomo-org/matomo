@@ -31,7 +31,7 @@ class SharedSiteIdsTest extends IntegrationTestCase
             return;
         }
 
-        $this->sharedSiteIds = new SharedSiteIds(array(1,2,5,9));
+        $this->sharedSiteIds = new SharedSiteIds(array(1, 2, 5, 9));
     }
 
     public function tearDown()
@@ -70,7 +70,7 @@ class SharedSiteIdsTest extends IntegrationTestCase
 
     public function test_getAllSiteIdsToArchive()
     {
-        $this->assertEquals(array(1,2,5,9), $this->sharedSiteIds->getAllSiteIdsToArchive());
+        $this->assertEquals(array(1, 2, 5, 9), $this->sharedSiteIds->getAllSiteIdsToArchive());
     }
 
     public function test_getNumProcessedWebsites_getNextSiteId()
@@ -95,21 +95,21 @@ class SharedSiteIdsTest extends IntegrationTestCase
 
     public function test_usingMultipleSharedSiteIds()
     {
-        $second = new SharedSiteIds(array(7,9,11,6,1,2));
+        $second = new SharedSiteIds(array(7, 9, 11, 6, 1, 2));
 
         // should ignore his queue and help processing the existing queue
         $this->assertEquals(4, $second->getNumSites());
         $this->assertEquals(4, $this->sharedSiteIds->getNumSites());
 
-        $this->assertEquals(array(1,2,5,9), $second->getAllSiteIdsToArchive());
+        $this->assertEquals(array(1, 2, 5, 9), $second->getAllSiteIdsToArchive());
         $this->assertEquals(1, $second->getNextSiteId());
         $this->assertEquals(1, $second->getNumProcessedWebsites());
 
-        $this->assertEquals(array(2,5,9), $this->sharedSiteIds->getAllSiteIdsToArchive());
+        $this->assertEquals(array(2, 5, 9), $this->sharedSiteIds->getAllSiteIdsToArchive());
         $this->assertEquals(2, $this->sharedSiteIds->getNextSiteId());
         $this->assertEquals(2, $this->sharedSiteIds->getNumProcessedWebsites());
 
-        $this->assertEquals(array(5,9), $second->getAllSiteIdsToArchive());
+        $this->assertEquals(array(5, 9), $second->getAllSiteIdsToArchive());
         $this->assertEquals(5, $second->getNextSiteId());
         $this->assertEquals(3, $second->getNumProcessedWebsites());
 

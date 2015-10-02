@@ -21,7 +21,6 @@ use Piwik\Tracker\SettingsStorage;
  */
 class SettingsStorageTest extends StorageTest
 {
-
     public function test_storageShouldLoadSettingsFromCacheIfPossible()
     {
         $this->setSettingValueInCache('my0815RandomName');
@@ -114,5 +113,4 @@ class SettingsStorageTest extends StorageTest
         $storage = $this->buildStorage();
         $storage->getValue($this->setting); // force creation of cache by loading settings
     }
-
 }

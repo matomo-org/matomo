@@ -349,5 +349,4 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNull($size);
     }
-
 }

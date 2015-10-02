@@ -33,7 +33,7 @@ class ProcessTest extends IntegrationTestCase
 
     public function tearDown()
     {
-        if(is_object($this->process)){
+        if (is_object($this->process)) {
             $this->process->finishProcess();
         }
         File::reset();
