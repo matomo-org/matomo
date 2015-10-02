@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Piwik test</website>
-	<prettyDate>1 Jan 10 - 10 Mar 10</prettyDate>
+	<prettyDate>January 1 &#x2013; March 10, 2010</prettyDate>
 	<metadata>
 		<category>Referrers</category>
 		<name>Referrer Type</name>
@@ -54,41 +54,41 @@
 		<revenue>Revenue</revenue>
 	</columns>
 	<reportData>
-		<result prettyDate="Friday 1 January 2010" />
-		<result prettyDate="Saturday 2 January 2010" />
-		<result prettyDate="Sunday 3 January 2010" />
-		<result prettyDate="Monday 4 January 2010" />
-		<result prettyDate="Tuesday 5 January 2010" />
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
-		<result prettyDate="Sunday 10 January 2010" />
-		<result prettyDate="Monday 11 January 2010" />
-		<result prettyDate="Tuesday 12 January 2010" />
-		<result prettyDate="Wednesday 13 January 2010" />
-		<result prettyDate="Thursday 14 January 2010" />
-		<result prettyDate="Friday 15 January 2010" />
-		<result prettyDate="Saturday 16 January 2010" />
-		<result prettyDate="Sunday 17 January 2010" />
-		<result prettyDate="Monday 18 January 2010" />
-		<result prettyDate="Tuesday 19 January 2010" />
-		<result prettyDate="Wednesday 20 January 2010" />
-		<result prettyDate="Thursday 21 January 2010" />
-		<result prettyDate="Friday 22 January 2010" />
-		<result prettyDate="Saturday 23 January 2010" />
-		<result prettyDate="Sunday 24 January 2010" />
-		<result prettyDate="Monday 25 January 2010" />
-		<result prettyDate="Tuesday 26 January 2010" />
-		<result prettyDate="Wednesday 27 January 2010" />
-		<result prettyDate="Thursday 28 January 2010" />
-		<result prettyDate="Friday 29 January 2010" />
-		<result prettyDate="Saturday 30 January 2010" />
-		<result prettyDate="Sunday 31 January 2010" />
-		<result prettyDate="Monday 1 February 2010" />
-		<result prettyDate="Tuesday 2 February 2010" />
-		<result prettyDate="Wednesday 3 February 2010" />
-		<result prettyDate="Thursday 4 February 2010">
+		<result prettyDate="Friday, January 1, 2010"/>
+		<result prettyDate="Saturday, January 2, 2010"/>
+		<result prettyDate="Sunday, January 3, 2010"/>
+		<result prettyDate="Monday, January 4, 2010"/>
+		<result prettyDate="Tuesday, January 5, 2010"/>
+		<result prettyDate="Wednesday, January 6, 2010"/>
+		<result prettyDate="Thursday, January 7, 2010"/>
+		<result prettyDate="Friday, January 8, 2010"/>
+		<result prettyDate="Saturday, January 9, 2010"/>
+		<result prettyDate="Sunday, January 10, 2010"/>
+		<result prettyDate="Monday, January 11, 2010"/>
+		<result prettyDate="Tuesday, January 12, 2010"/>
+		<result prettyDate="Wednesday, January 13, 2010"/>
+		<result prettyDate="Thursday, January 14, 2010"/>
+		<result prettyDate="Friday, January 15, 2010"/>
+		<result prettyDate="Saturday, January 16, 2010"/>
+		<result prettyDate="Sunday, January 17, 2010"/>
+		<result prettyDate="Monday, January 18, 2010"/>
+		<result prettyDate="Tuesday, January 19, 2010"/>
+		<result prettyDate="Wednesday, January 20, 2010"/>
+		<result prettyDate="Thursday, January 21, 2010"/>
+		<result prettyDate="Friday, January 22, 2010"/>
+		<result prettyDate="Saturday, January 23, 2010"/>
+		<result prettyDate="Sunday, January 24, 2010"/>
+		<result prettyDate="Monday, January 25, 2010"/>
+		<result prettyDate="Tuesday, January 26, 2010"/>
+		<result prettyDate="Wednesday, January 27, 2010"/>
+		<result prettyDate="Thursday, January 28, 2010"/>
+		<result prettyDate="Friday, January 29, 2010"/>
+		<result prettyDate="Saturday, January 30, 2010"/>
+		<result prettyDate="Sunday, January 31, 2010"/>
+		<result prettyDate="Monday, February 1, 2010"/>
+		<result prettyDate="Tuesday, February 2, 2010"/>
+		<result prettyDate="Wednesday, February 3, 2010"/>
+		<result prettyDate="Thursday, February 4, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -112,7 +112,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Friday 5 February 2010">
+		<result prettyDate="Friday, February 5, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -136,7 +136,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Saturday 6 February 2010">
+		<result prettyDate="Saturday, February 6, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -160,7 +160,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Sunday 7 February 2010">
+		<result prettyDate="Sunday, February 7, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -184,7 +184,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Monday 8 February 2010">
+		<result prettyDate="Monday, February 8, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -208,7 +208,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Tuesday 9 February 2010">
+		<result prettyDate="Tuesday, February 9, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -232,7 +232,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 10 February 2010">
+		<result prettyDate="Wednesday, February 10, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -256,7 +256,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Thursday 11 February 2010">
+		<result prettyDate="Thursday, February 11, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -280,7 +280,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Friday 12 February 2010">
+		<result prettyDate="Friday, February 12, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -304,7 +304,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Saturday 13 February 2010">
+		<result prettyDate="Saturday, February 13, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -328,7 +328,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Sunday 14 February 2010">
+		<result prettyDate="Sunday, February 14, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -352,7 +352,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Monday 15 February 2010">
+		<result prettyDate="Monday, February 15, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -376,7 +376,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Tuesday 16 February 2010">
+		<result prettyDate="Tuesday, February 16, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -400,7 +400,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 17 February 2010">
+		<result prettyDate="Wednesday, February 17, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -424,7 +424,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Thursday 18 February 2010">
+		<result prettyDate="Thursday, February 18, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -448,7 +448,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Friday 19 February 2010">
+		<result prettyDate="Friday, February 19, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -472,7 +472,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Saturday 20 February 2010">
+		<result prettyDate="Saturday, February 20, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -496,7 +496,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Sunday 21 February 2010">
+		<result prettyDate="Sunday, February 21, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -520,7 +520,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Monday 22 February 2010">
+		<result prettyDate="Monday, February 22, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -544,7 +544,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Tuesday 23 February 2010">
+		<result prettyDate="Tuesday, February 23, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -568,7 +568,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 24 February 2010">
+		<result prettyDate="Wednesday, February 24, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -592,7 +592,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Thursday 25 February 2010">
+		<result prettyDate="Thursday, February 25, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -616,7 +616,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Friday 26 February 2010">
+		<result prettyDate="Friday, February 26, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -640,7 +640,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Saturday 27 February 2010">
+		<result prettyDate="Saturday, February 27, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -664,7 +664,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Sunday 28 February 2010">
+		<result prettyDate="Sunday, February 28, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -688,7 +688,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Monday 1 March 2010">
+		<result prettyDate="Monday, March 1, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -712,7 +712,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Tuesday 2 March 2010">
+		<result prettyDate="Tuesday, March 2, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -736,7 +736,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 3 March 2010">
+		<result prettyDate="Wednesday, March 3, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -760,7 +760,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Thursday 4 March 2010">
+		<result prettyDate="Thursday, March 4, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -784,7 +784,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Friday 5 March 2010">
+		<result prettyDate="Friday, March 5, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -808,7 +808,7 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Saturday 6 March 2010">
+		<result prettyDate="Saturday, March 6, 2010">
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -832,47 +832,55 @@
 				<bounce_rate>100%</bounce_rate>
 			</row>
 		</result>
-		<result prettyDate="Sunday 7 March 2010" />
-		<result prettyDate="Monday 8 March 2010" />
-		<result prettyDate="Tuesday 9 March 2010" />
-		<result prettyDate="Wednesday 10 March 2010" />
+		<result prettyDate="Sunday, March 7, 2010"/>
+		<result prettyDate="Monday, March 8, 2010"/>
+		<result prettyDate="Tuesday, March 9, 2010"/>
+		<result prettyDate="Wednesday, March 10, 2010"/>
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Friday 1 January 2010" />
-		<result prettyDate="Saturday 2 January 2010" />
-		<result prettyDate="Sunday 3 January 2010" />
-		<result prettyDate="Monday 4 January 2010" />
-		<result prettyDate="Tuesday 5 January 2010" />
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
-		<result prettyDate="Sunday 10 January 2010" />
-		<result prettyDate="Monday 11 January 2010" />
-		<result prettyDate="Tuesday 12 January 2010" />
-		<result prettyDate="Wednesday 13 January 2010" />
-		<result prettyDate="Thursday 14 January 2010" />
-		<result prettyDate="Friday 15 January 2010" />
-		<result prettyDate="Saturday 16 January 2010" />
-		<result prettyDate="Sunday 17 January 2010" />
-		<result prettyDate="Monday 18 January 2010" />
-		<result prettyDate="Tuesday 19 January 2010" />
-		<result prettyDate="Wednesday 20 January 2010" />
-		<result prettyDate="Thursday 21 January 2010" />
-		<result prettyDate="Friday 22 January 2010" />
-		<result prettyDate="Saturday 23 January 2010" />
-		<result prettyDate="Sunday 24 January 2010" />
-		<result prettyDate="Monday 25 January 2010" />
-		<result prettyDate="Tuesday 26 January 2010" />
-		<result prettyDate="Wednesday 27 January 2010" />
-		<result prettyDate="Thursday 28 January 2010" />
-		<result prettyDate="Friday 29 January 2010" />
-		<result prettyDate="Saturday 30 January 2010" />
-		<result prettyDate="Sunday 31 January 2010" />
-		<result prettyDate="Monday 1 February 2010" />
-		<result prettyDate="Tuesday 2 February 2010" />
-		<result prettyDate="Wednesday 3 February 2010" />
-		<result prettyDate="Thursday 4 February 2010">
+		<result prettyDate="Friday, January 1, 2010"/>
+		<result prettyDate="Saturday, January 2, 2010"/>
+		<result prettyDate="Sunday, January 3, 2010"/>
+		<result prettyDate="Monday, January 4, 2010"/>
+		<result prettyDate="Tuesday, January 5, 2010"/>
+		<result prettyDate="Wednesday, January 6, 2010"/>
+		<result prettyDate="Thursday, January 7, 2010"/>
+		<result prettyDate="Friday, January 8, 2010"/>
+		<result prettyDate="Saturday, January 9, 2010"/>
+		<result prettyDate="Sunday, January 10, 2010"/>
+		<result prettyDate="Monday, January 11, 2010"/>
+		<result prettyDate="Tuesday, January 12, 2010"/>
+		<result prettyDate="Wednesday, January 13, 2010"/>
+		<result prettyDate="Thursday, January 14, 2010"/>
+		<result prettyDate="Friday, January 15, 2010"/>
+		<result prettyDate="Saturday, January 16, 2010"/>
+		<result prettyDate="Sunday, January 17, 2010"/>
+		<result prettyDate="Monday, January 18, 2010"/>
+		<result prettyDate="Tuesday, January 19, 2010"/>
+		<result prettyDate="Wednesday, January 20, 2010"/>
+		<result prettyDate="Thursday, January 21, 2010"/>
+		<result prettyDate="Friday, January 22, 2010"/>
+		<result prettyDate="Saturday, January 23, 2010"/>
+		<result prettyDate="Sunday, January 24, 2010"/>
+		<result prettyDate="Monday, January 25, 2010"/>
+		<result prettyDate="Tuesday, January 26, 2010"/>
+		<result prettyDate="Wednesday, January 27, 2010"/>
+		<result prettyDate="Thursday, January 28, 2010"/>
+		<result prettyDate="Friday, January 29, 2010"/>
+		<result prettyDate="Saturday, January 30, 2010"/>
+		<result prettyDate="Sunday, January 31, 2010"/>
+		<result prettyDate="Monday, February 1, 2010"/>
+		<result prettyDate="Tuesday, February 2, 2010"/>
+		<result prettyDate="Wednesday, February 3, 2010"/>
+		<result prettyDate="Thursday, February 4, 2010">
+		<row>
+				<idsubdatatable>2</idsubdatatable>
+			</row>
+			<row>
+				<idsubdatatable>3</idsubdatatable>
+			</row>
+		</result>
+		<result prettyDate="Friday, February 5, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -880,7 +888,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Friday 5 February 2010">
+		<result prettyDate="Saturday, February 6, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -888,7 +896,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Saturday 6 February 2010">
+		<result prettyDate="Sunday, February 7, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -896,7 +904,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Sunday 7 February 2010">
+		<result prettyDate="Monday, February 8, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -904,7 +912,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Monday 8 February 2010">
+		<result prettyDate="Tuesday, February 9, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -912,7 +920,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Tuesday 9 February 2010">
+		<result prettyDate="Wednesday, February 10, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -920,7 +928,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 10 February 2010">
+		<result prettyDate="Thursday, February 11, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -928,7 +936,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Thursday 11 February 2010">
+		<result prettyDate="Friday, February 12, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -936,7 +944,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Friday 12 February 2010">
+		<result prettyDate="Saturday, February 13, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -944,7 +952,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Saturday 13 February 2010">
+		<result prettyDate="Sunday, February 14, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -952,7 +960,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Sunday 14 February 2010">
+		<result prettyDate="Monday, February 15, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -960,7 +968,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Monday 15 February 2010">
+		<result prettyDate="Tuesday, February 16, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -968,7 +976,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Tuesday 16 February 2010">
+		<result prettyDate="Wednesday, February 17, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -976,7 +984,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 17 February 2010">
+		<result prettyDate="Thursday, February 18, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -984,7 +992,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Thursday 18 February 2010">
+		<result prettyDate="Friday, February 19, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -992,7 +1000,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Friday 19 February 2010">
+		<result prettyDate="Saturday, February 20, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -1000,7 +1008,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Saturday 20 February 2010">
+		<result prettyDate="Sunday, February 21, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -1008,7 +1016,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Sunday 21 February 2010">
+		<result prettyDate="Monday, February 22, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -1016,7 +1024,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Monday 22 February 2010">
+		<result prettyDate="Tuesday, February 23, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -1024,7 +1032,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Tuesday 23 February 2010">
+		<result prettyDate="Wednesday, February 24, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -1032,7 +1040,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 24 February 2010">
+		<result prettyDate="Thursday, February 25, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -1040,7 +1048,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Thursday 25 February 2010">
+		<result prettyDate="Friday, February 26, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -1048,7 +1056,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Friday 26 February 2010">
+		<result prettyDate="Saturday, February 27, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -1056,7 +1064,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Saturday 27 February 2010">
+		<result prettyDate="Sunday, February 28, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -1064,7 +1072,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Sunday 28 February 2010">
+		<result prettyDate="Monday, March 1, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -1072,7 +1080,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Monday 1 March 2010">
+		<result prettyDate="Tuesday, March 2, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -1080,7 +1088,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Tuesday 2 March 2010">
+		<result prettyDate="Wednesday, March 3, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -1088,7 +1096,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 3 March 2010">
+		<result prettyDate="Thursday, March 4, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -1096,7 +1104,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Thursday 4 March 2010">
+		<result prettyDate="Friday, March 5, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -1104,7 +1112,7 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Friday 5 March 2010">
+		<result prettyDate="Saturday, March 6, 2010">
 			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
@@ -1112,18 +1120,10 @@
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Saturday 6 March 2010">
-			<row>
-				<idsubdatatable>2</idsubdatatable>
-			</row>
-			<row>
-				<idsubdatatable>3</idsubdatatable>
-			</row>
-		</result>
-		<result prettyDate="Sunday 7 March 2010" />
-		<result prettyDate="Monday 8 March 2010" />
-		<result prettyDate="Tuesday 9 March 2010" />
-		<result prettyDate="Wednesday 10 March 2010" />
+		<result prettyDate="Sunday, March 7, 2010" />
+		<result prettyDate="Monday, March 8, 2010" />
+		<result prettyDate="Tuesday, March 9, 2010" />
+		<result prettyDate="Wednesday, March 10, 2010" />
 	</reportMetadata>
 	<reportTotal>
 		<nb_visits>62</nb_visits>

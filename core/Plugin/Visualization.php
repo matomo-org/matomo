@@ -471,7 +471,7 @@ class Visualization extends ViewDataTable
             return Piwik::translate('CoreHome_ReportGeneratedXAgo', $timeAgo);
         }
 
-        $prettyDate = $date->getLocalized("%longYear%, %longMonth% %day%") . $date->toString('S');
+        $prettyDate = $date->getLocalized(Date::DATE_FORMAT_SHORT);
 
         return Piwik::translate('CoreHome_ReportGeneratedOn', $prettyDate);
     }

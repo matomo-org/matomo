@@ -271,4 +271,67 @@ abstract class Period
 
         return $dateStart->toString("Y-m-d") . "," . $dateEnd->toString("Y-m-d");
     }
+
+
+    /**
+     * @param string $format
+     *
+     * @return mixed
+     */
+    protected function getTranslatedRange($format)
+    {
+        $dateStart = $this->getDateStart();
+        $dateEnd = $this->getDateEnd();
+        list($formatStart, $formatEnd) = $this->explodeFormat($format);
+
+        $string = $dateStart->getLocalized($formatStart);
+        $string .= $dateEnd->getLocalized($formatEnd);
+
+        return $string;
+    }
+
+    /**
+     * Explodes the given format into two pieces. One that can be user for start date and the other for end date
+     *
+     * @param $format
+     * @return array
+     */
+    protected function explodeFormat($format)
+    {
+        $intervalTokens = array(
+            array('d', 'E', 'C'),
+            array('M', 'L'),
+            array('y')
+        );
+
+        $offset = strlen($format);
+
+        // search for first duplicate date field
+        foreach ($intervalTokens AS $tokens) {
+            if (preg_match_all('/[' . implode('|', $tokens) . ']+/', $format, $matches, PREG_OFFSET_CAPTURE) &&
+                count($matches[0]) > 1 && $offset > $matches[0][1][1]
+            ) {
+                $offset = $matches[0][1][1];
+            }
+        }
+
+        return array(substr($format, 0, $offset), substr($format, $offset));
+    }
+
+    protected function getRangeFormat($short = false)
+    {
+        $maxDifference = 'D';
+        if ($this->getDateStart()->toString('y') != $this->getDateEnd()->toString('y')) {
+            $maxDifference = 'Y';
+        } elseif ($this->getDateStart()->toString('m') != $this->getDateEnd()->toString('m')) {
+            $maxDifference = 'M';
+        }
+
+        return $this->translator->translate(
+            sprintf(
+                'Intl_Format_Interval_%s_%s',
+                $short ? 'Short' : 'Long',
+                $maxDifference
+            ));
+    }
 }
