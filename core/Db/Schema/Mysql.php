@@ -23,33 +23,6 @@ class Mysql implements SchemaInterface
     private $tablesInstalled = null;
 
     /**
-     * Is this MySQL storage engine available?
-     *
-     * @param string $engineName
-     * @return bool  True if available and enabled; false otherwise
-     */
-    private static function hasStorageEngine($engineName)
-    {
-        $db = Db::get();
-        $allEngines = $db->fetchAssoc('SHOW ENGINES');
-        if (array_key_exists($engineName, $allEngines)) {
-            $support = $allEngines[$engineName]['Support'];
-            return $support == 'DEFAULT' || $support == 'YES';
-        }
-        return false;
-    }
-
-    /**
-     * Is this schema available?
-     *
-     * @return bool  True if schema is available; false otherwise
-     */
-    public static function isAvailable()
-    {
-        return self::hasStorageEngine('InnoDB');
-    }
-
-    /**
      * Get the SQL to create Piwik tables
      *
      * @return array  array of strings containing SQL
