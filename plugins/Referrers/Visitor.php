@@ -53,9 +53,7 @@ class Visitor
     {
         if ($this->getReferrerType() == 'search') {
             if ($this->details['referer_keyword'] == API::LABEL_KEYWORD_NOT_DEFINED) {
-
                 return 'http://piwik.org/faq/general/#faq_144';
-
             } // Case URL is google.XX/url.... then we rewrite to the search result page url
             elseif ($this->getReferrerName() == 'Google'
                 && strpos($this->details['referer_url'], '/url')
@@ -84,13 +82,11 @@ class Visitor
         ) {
             $url = @parse_url($this->details['referer_url']);
             if (empty($url['query'])) {
-
                 return null;
             }
 
             $position = UrlHelper::getParameterFromQueryString($url['query'], 'cd');
             if (!empty($position)) {
-
                 return $position;
             }
         }
@@ -108,7 +104,6 @@ class Visitor
         if ($this->getReferrerType() == 'search'
             && !empty($this->details['referer_name'])
         ) {
-
             return getSearchEngineUrlFromName($this->details['referer_name']);
         }
 
@@ -120,11 +115,9 @@ class Visitor
         $searchEngineUrl = $this->getSearchEngineUrl();
 
         if (!is_null($searchEngineUrl)) {
-
             return getSearchEngineLogoFromUrl($searchEngineUrl);
         }
 
         return null;
     }
-
 }

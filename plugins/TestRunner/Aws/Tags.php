@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\Plugins\TestRunner\Aws;
+
 use Aws\Ec2\Ec2Client;
 
 class Tags

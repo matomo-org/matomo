@@ -79,5 +79,4 @@ class Get extends \Piwik\Plugin\Report
             $dataTable->deleteColumn($this->usersColumn, true);
         }
     }
-
 }

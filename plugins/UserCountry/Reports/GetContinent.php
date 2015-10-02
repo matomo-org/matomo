@@ -37,5 +37,4 @@ class GetContinent extends Base
         $view->config->documentation = $this->documentation;
         $view->config->addTranslation('label', $this->dimension->getName());
     }
-
 }

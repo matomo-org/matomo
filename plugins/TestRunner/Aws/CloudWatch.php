@@ -124,5 +124,4 @@ class CloudWatch
             'arn:aws:sns:' . $this->config->getRegion() . ':682510200394:TerminateInstanceBecauseIdle'
         );
     }
-
 }

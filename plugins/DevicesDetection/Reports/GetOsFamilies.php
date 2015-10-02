@@ -38,5 +38,4 @@ class GetOsFamilies extends Base
             self::factory('DevicesDetection', 'getOsVersions'),
         );
     }
-
 }

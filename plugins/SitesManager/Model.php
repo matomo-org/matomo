@@ -119,7 +119,7 @@ class Model
                     WHERE url IN ( ' . Common::getSqlStringFieldsArray($urls) . ') ',
 
             // Bind
-            array_merge( $urls, $urls)
+            array_merge($urls, $urls)
         );
 
         return $ids;
@@ -149,7 +149,7 @@ class Model
             'AND idsite IN (' . $sqlAccessSite . ')',
 
             // Bind
-            array_merge(    $urls,
+            array_merge($urls,
                             array( $login ),
                             $urls,
                             array( $login )

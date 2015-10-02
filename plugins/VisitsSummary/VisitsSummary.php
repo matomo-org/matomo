@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik\Plugins\VisitsSummary;
+
 use Piwik\DataTable;
 use Piwik\Plugins\CoreHome\Columns\UserId;
 use Piwik\Plugins\VisitsSummary\Reports\Get;
@@ -69,6 +70,4 @@ class VisitsSummary extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/VisitsSummary/stylesheets/datatable.less";
     }
-
 }
-

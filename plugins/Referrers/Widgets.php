@@ -20,5 +20,4 @@ class Widgets extends \Piwik\Plugin\Widgets
             $this->addWidget('Referrers_WidgetTopKeywordsForPages', 'getKeywordsForPage');
         }
     }
-
 }

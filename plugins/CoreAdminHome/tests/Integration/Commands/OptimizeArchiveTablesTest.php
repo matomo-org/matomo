@@ -12,7 +12,6 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 
-
 /**
  * @group Core
  */

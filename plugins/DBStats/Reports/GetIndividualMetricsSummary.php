@@ -32,5 +32,4 @@ class GetIndividualMetricsSummary extends Base
 
         $this->setIndividualSummaryFooterMessage($view);
     }
-
 }

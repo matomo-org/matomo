@@ -96,5 +96,4 @@ class FilterOrderByTest extends BaseUnitTest
         $filter = new OrderBy($this->table, 'growth', 'nb_visits');
         $filter->filter($this->table);
     }
-
 }

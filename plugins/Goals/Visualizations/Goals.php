@@ -65,11 +65,11 @@ class Goals extends HtmlTable
             $this->setPropertiesForEcommerceView();
 
             $goalsToProcess = array($idGoal);
-        } else if (AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE == $idGoal) {
+        } elseif (AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE == $idGoal) {
             $this->setPropertiesForGoals($idSite, 'all');
 
             $goalsToProcess = $this->getAllGoalIds($idSite);
-        } else if (AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW == $idGoal) {
+        } elseif (AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW == $idGoal) {
             $this->setPropertiesForGoalsOverview($idSite);
 
             $goalsToProcess = $this->getAllGoalIds($idSite);

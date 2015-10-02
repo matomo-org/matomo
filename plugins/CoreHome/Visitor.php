@@ -22,12 +22,12 @@ class Visitor
         $this->metricsFormatter = new Formatter();
     }
 
-    function getTimestampFirstAction()
+    public function getTimestampFirstAction()
     {
         return strtotime($this->details['visit_first_action_time']);
     }
 
-    function getVisitEcommerceStatusIcon()
+    public function getVisitEcommerceStatusIcon()
     {
         $status = $this->getVisitEcommerceStatus();
 
@@ -40,34 +40,34 @@ class Visitor
         return null;
     }
 
-    function getVisitEcommerceStatus()
+    public function getVisitEcommerceStatus()
     {
         return VisitGoalBuyer::getVisitEcommerceStatusFromId($this->details['visit_goal_buyer']);
     }
 
-    function isVisitorGoalConverted()
+    public function isVisitorGoalConverted()
     {
         return $this->details['visit_goal_converted'];
     }
 
-    function getVisitorGoalConvertedIcon()
+    public function getVisitorGoalConvertedIcon()
     {
         return $this->isVisitorGoalConverted()
             ? "plugins/Morpheus/images/goal.png"
             : null;
     }
 
-    function getDaysSinceFirstVisit()
+    public function getDaysSinceFirstVisit()
     {
         return $this->details['visitor_days_since_first'];
     }
 
-    function getDaysSinceLastEcommerceOrder()
+    public function getDaysSinceLastEcommerceOrder()
     {
         return $this->details['visitor_days_since_order'];
     }
 
-    function getVisitorReturning()
+    public function getVisitorReturning()
     {
         $type = $this->details['visitor_returning'];
         return $type == 2
@@ -77,7 +77,7 @@ class Visitor
                 : 'new');
     }
 
-    function getVisitorReturningIcon()
+    public function getVisitorReturningIcon()
     {
         $type = $this->getVisitorReturning();
         if ($type == 'returning'
@@ -88,22 +88,22 @@ class Visitor
         return null;
     }
 
-    function getVisitCount()
+    public function getVisitCount()
     {
         return $this->details['visitor_count_visits'];
     }
 
-    function getVisitLength()
+    public function getVisitLength()
     {
         return $this->details['visit_total_time'];
     }
 
-    function getVisitLengthPretty()
+    public function getVisitLengthPretty()
     {
         return $this->metricsFormatter->getPrettyTimeFromSeconds($this->details['visit_total_time'], true);
     }
 
-    function getUserId()
+    public function getUserId()
     {
         if (isset($this->details['user_id'])
             && strlen($this->details['user_id']) > 0) {

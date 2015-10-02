@@ -149,7 +149,7 @@ class API extends \Piwik\Plugin\API
  */
 class MagicObject
 {
-    function Incredible()
+    public function Incredible()
     {
         return 'Incroyable';
     }

@@ -38,5 +38,4 @@ class GetReportDataSummaryByYear extends Base
             self::factory('DBStats', 'getReportDataSummary'),
         );
     }
-
 }

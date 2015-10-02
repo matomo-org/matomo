@@ -381,7 +381,7 @@ class RowEvolution
                 $value = $firstRow ? floatval($firstRow->getColumn($metric)) : 0;
                 if ($value > 0) {
                     $firstNonZeroFound[$metric] = true;
-                } else if (!isset($firstNonZeroFound[$metric])) {
+                } elseif (!isset($firstNonZeroFound[$metric])) {
                     continue;
                 }
                 if (!isset($metricsResult[$metric]['min'])

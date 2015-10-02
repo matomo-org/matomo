@@ -68,7 +68,6 @@ class Menu extends \Piwik\Plugin\Menu
         if (Piwik::isUserHasAdminAccess($idSite)) {
             $menu->addManageItem('Goals_Goals', $this->urlForAction('manage', array('idSite' => $idSite)), 1);
         }
-
     }
 
     private function getIdSite($default = null)
@@ -76,5 +75,4 @@ class Menu extends \Piwik\Plugin\Menu
         $idSite = Common::getRequestVar('idSite', $default, 'int');
         return $idSite;
     }
-
 }

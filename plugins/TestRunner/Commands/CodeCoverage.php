@@ -33,7 +33,6 @@ class CodeCoverage extends ConsoleCommand
         $phpCovPath = trim(shell_exec('which phpcov'));
 
         if (empty($phpCovPath)) {
-
             $output->writeln('phpcov not installed. please install pear.phpunit.de/phpcov.');
             return;
         }
@@ -64,7 +63,6 @@ class CodeCoverage extends ConsoleCommand
 
         // force xdebug usage for coverage options
         if (!extension_loaded('xdebug')) {
-
             $output->writeln('<info>xdebug extension required for code coverage.</info>');
 
             $output->writeln('<info>searching for xdebug extension...</info>');
@@ -73,14 +71,12 @@ class CodeCoverage extends ConsoleCommand
             $xdebugFile   = trim($extensionDir) . DIRECTORY_SEPARATOR . 'xdebug.so';
 
             if (!file_exists($xdebugFile)) {
-
                 $dialog = $this->getHelperSet()->get('dialog');
 
-                $xdebugFile = $dialog->askAndValidate($output, 'xdebug not found. Please provide path to xdebug.so', function($xdebugFile) {
+                $xdebugFile = $dialog->askAndValidate($output, 'xdebug not found. Please provide path to xdebug.so', function ($xdebugFile) {
                     return file_exists($xdebugFile);
                 });
             } else {
-
                 $output->writeln('<info>xdebug extension found in extension path.</info>');
             }
 
@@ -93,5 +89,4 @@ class CodeCoverage extends ConsoleCommand
 
         passthru(sprintf('cd %1$s && %2$s --merge --html tests/results/coverage/ --whitelist ./core/ --whitelist ./plugins/ --add-uncovered %1$s/tests/results/logs/', PIWIK_DOCUMENT_ROOT, $command));
     }
-
 }

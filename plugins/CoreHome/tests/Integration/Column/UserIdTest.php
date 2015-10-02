@@ -84,14 +84,14 @@ class UserIdTest extends IntegrationTestCase
     {
         $this->trackPageviewsWithUsers();
 
-        $this->assertUsedInAtLeastOneSite($idSites = array(1,2), 'day', $this->date);
+        $this->assertUsedInAtLeastOneSite($idSites = array(1, 2), 'day', $this->date);
     }
 
     public function test_isUsedInAtLeastOneSite_shouldDetectUserIdWasNotUsedInAtLeastOneSite_WhenMultipleSitesGiven()
     {
         $this->trackPageviewsWithoutUsers();
 
-        $this->assertNotUsedInAtLeastOneSite($idSites = array(1,2), 'day', $this->date);
+        $this->assertNotUsedInAtLeastOneSite($idSites = array(1, 2), 'day', $this->date);
     }
 
     public function test_isUsedInAtLeastOneSite_shouldDetectUserIdWasNotUsed_WhenOneSiteGiven()

@@ -88,9 +88,9 @@ class API extends \Piwik\Plugin\API
         foreach ($this->metadataProvider->getAllTablesStatus() as $status) {
             if ($this->isNumericArchiveTable($status['Name'])) {
                 $rowToAddTo = & $rows['metric_data'];
-            } else if ($this->isBlobArchiveTable($status['Name'])) {
+            } elseif ($this->isBlobArchiveTable($status['Name'])) {
                 $rowToAddTo = & $rows['report_data'];
-            } else if ($this->isTrackerTable($status['Name'])) {
+            } elseif ($this->isTrackerTable($status['Name'])) {
                 $rowToAddTo = & $rows['tracker_data'];
             } else {
                 $rowToAddTo = & $rows['other_data'];

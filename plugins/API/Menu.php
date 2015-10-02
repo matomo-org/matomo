@@ -47,7 +47,6 @@ class Menu extends \Piwik\Plugin\Menu
         $parsedOS = $ua->parse();
 
         if (!empty($parsedOS['short_name']) && in_array($parsedOS['short_name'], array(self::DD_SHORT_NAME_ANDROID, self::DD_SHORT_NAME_IOS))) {
-
             $url = $this->urlForModuleAction('Proxy', 'redirect', array('url' => 'http://piwik.org/mobile/'));
 
             if ($url) {
@@ -55,5 +54,4 @@ class Menu extends \Piwik\Plugin\Menu
             }
         }
     }
-
 }

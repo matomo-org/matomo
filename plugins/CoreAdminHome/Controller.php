@@ -162,7 +162,6 @@ class Controller extends ControllerAdmin
     {
         $names = array();
         foreach ($pluginsSettings as $pluginName => $pluginSettings) {
-
             foreach ($pluginSettings->getSettingsForCurrentUser() as $setting) {
                 if ($setting instanceof \Piwik\Settings\SystemSetting) {
                     $names[$pluginName] = $setting->getName();
@@ -191,10 +190,8 @@ class Controller extends ControllerAdmin
         $pluginsSettings = SettingsManager::getPluginSettingsForCurrentUser();
 
         try {
-
             foreach ($pluginsSettings as $pluginName => $pluginSetting) {
                 foreach ($pluginSetting->getSettingsForCurrentUser() as $setting) {
-
                     $value = $this->findSettingValueFromRequest($pluginName, $setting->getKey());
 
                     if (!is_null($value)) {
@@ -202,7 +199,6 @@ class Controller extends ControllerAdmin
                     }
                 }
             }
-
         } catch (Exception $e) {
             $message = $e->getMessage();
 
@@ -441,5 +437,4 @@ class Controller extends ControllerAdmin
         $view->canUpdateCommunication              = $pluginUpdateCommunication->canBeEnabled();
         $view->enableSendPluginUpdateCommunication = $pluginUpdateCommunication->isEnabled();
     }
-
 }

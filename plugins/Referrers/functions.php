@@ -38,9 +38,7 @@ function getSocialMainUrl($url)
 {
     $social  = getSocialNetworkFromDomain($url);
     foreach (Common::getSocialUrls() as $domain => $name) {
-
         if ($name == $social) {
-
             return $domain;
         }
     }
@@ -56,9 +54,7 @@ function getSocialMainUrl($url)
 function getSocialNetworkFromDomain($url)
 {
     foreach (Common::getSocialUrls() as $domain => $name) {
-
         if (preg_match('/(^|[\.\/])'.$domain.'([\.\/]|$)/', $url)) {
-
             return $name;
         }
     }
@@ -77,9 +73,7 @@ function getSocialNetworkFromDomain($url)
 function isSocialUrl($url, $socialName = false)
 {
     foreach (Common::getSocialUrls() as $domain => $name) {
-
         if (preg_match('/(^|[\.\/])'.$domain.'([\.\/]|$)/', $url) && ($socialName === false || $name == $socialName)) {
-
             return true;
         }
     }

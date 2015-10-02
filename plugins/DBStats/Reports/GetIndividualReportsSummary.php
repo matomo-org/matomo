@@ -37,5 +37,4 @@ class GetIndividualReportsSummary extends Base
 
         $this->setIndividualSummaryFooterMessage($view);
     }
-
 }

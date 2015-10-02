@@ -13,7 +13,7 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\UnnecassaryWhitespac
 /**
  * @group LanguagesManager
  */
-class UnnecassaryWhitepsacesTest extends \PHPUnit_Framework_TestCase
+class UnnecassaryWhitespacesTest extends \PHPUnit_Framework_TestCase
 {
     public function getFilterTestData()
     {

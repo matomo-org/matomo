@@ -39,7 +39,7 @@ class GitPush extends ConsoleCommand
 
     private function hasUnpushedCommits()
     {
-        $cmd = sprintf('cd %s && git log @{u}..',PIWIK_DOCUMENT_ROOT);
+        $cmd = sprintf('cd %s && git log @{u}..', PIWIK_DOCUMENT_ROOT);
         $hasUnpushedCommits = shell_exec($cmd);
         $hasUnpushedCommits = trim($hasUnpushedCommits);
 

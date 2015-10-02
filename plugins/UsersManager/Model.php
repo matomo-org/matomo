@@ -288,5 +288,4 @@ class Model
     {
         return Db::get();
     }
-
 }

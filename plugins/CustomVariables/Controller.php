@@ -11,4 +11,3 @@ namespace Piwik\Plugins\CustomVariables;
 class Controller extends \Piwik\Plugin\Controller
 {
 }
-

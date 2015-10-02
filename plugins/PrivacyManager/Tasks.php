@@ -10,7 +10,6 @@ namespace Piwik\Plugins\PrivacyManager;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
-
     public function schedule()
     {
         $this->daily('deleteReportData', null, self::LOW_PRIORITY);

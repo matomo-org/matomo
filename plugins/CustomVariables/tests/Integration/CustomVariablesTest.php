@@ -7,6 +7,7 @@
  */
 
 namespace Piwik\Plugins\CustomVariables\tests;
+
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\CustomVariables\Model;
 use Piwik\Tracker\Cache;
@@ -98,6 +99,4 @@ class CustomVariablesTest extends IntegrationTestCase
     {
         Cache::clearCacheGeneral();
     }
-
-
 }

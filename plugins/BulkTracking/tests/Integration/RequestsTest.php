@@ -123,5 +123,4 @@ class RequestsTest extends IntegrationTestCase
     {
         return new Request(array('idsite' => '1'), $token);
     }
-
 }

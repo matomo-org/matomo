@@ -13,7 +13,6 @@ use Piwik\DataTable;
 
 class MergeDataTables
 {
-
     /**
      * Merge the columns of two data tables.
      * Manipulates the first table.
@@ -51,5 +50,4 @@ class MergeDataTables
             $firstRow1->setColumn($metric, $value);
         }
     }
-
 }

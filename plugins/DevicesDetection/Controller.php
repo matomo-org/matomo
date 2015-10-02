@@ -13,7 +13,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
-use Piwik\Plugin\Manager AS PluginManager;
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Report;
 use Piwik\View;
 

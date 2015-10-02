@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\Plugins\ExampleRssWidget;
+
 use Piwik\Http;
 
 /**

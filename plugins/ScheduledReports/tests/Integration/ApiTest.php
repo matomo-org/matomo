@@ -137,7 +137,6 @@ class ApiTest extends IntegrationTestCase
                 $period = false,
                 self::addReport(self::getDailyPDFReportData($this->idSite))
             );
-
         } catch (Exception $e) {
             return;
         }
@@ -366,7 +365,7 @@ class ApiTest extends IntegrationTestCase
         \Piwik\Plugins\ScheduledReports\API::setSingletonInstance($stubbedAPIScheduledReports);
 
         // initialize sites 1 and 2
-        Site::setSites( array(
+        Site::setSites(array(
             1 => array('timezone' => 'Europe/Paris'),
             2 => array('timezone' => 'UTC-6.5'),
         ));
@@ -401,7 +400,6 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals($expectedTasks, $tasks);
 
         \Piwik\Plugins\ScheduledReports\API::unsetInstance();
-
     }
 
     /**
@@ -428,7 +426,7 @@ class ApiTest extends IntegrationTestCase
         );
         $getReportSubjectAndReportTitle->setAccessible(true);
 
-        list($reportSubject, $reportTitle) = $getReportSubjectAndReportTitle->invoke( APIScheduledReports::getInstance(), $websiteName, $reports);
+        list($reportSubject, $reportTitle) = $getReportSubjectAndReportTitle->invoke(APIScheduledReports::getInstance(), $websiteName, $reports);
         $this->assertEquals($expectedReportSubject, $reportSubject);
         $this->assertEquals($expectedReportTitle, $reportTitle);
     }
@@ -486,7 +484,9 @@ class ApiTest extends IntegrationTestCase
     private function assertReportsEqual($report, $data)
     {
         foreach ($data as $key => $value) {
-            if ($key == 'description') $value = substr($value, 0, 250);
+            if ($key == 'description') {
+                $value = substr($value, 0, 250);
+            }
             $this->assertEquals($value, $report[$key], "Error for $key for report " . var_export($report, true) . " and data " . var_export($data, true));
         }
     }

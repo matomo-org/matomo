@@ -312,7 +312,6 @@ class InsightReportTest extends \PHPUnit_Framework_TestCase
         // increase by 1600% --> minGrowth 1640%
         $report = $this->generateMoverAndShaker(1600, 100);
         $this->assertOrder($report, array('val11', 'val6', 'val107', 'val9'));
-
     }
 
     private function assertMoversAndShakers(DataTable $report, $movers, $nonMovers)

@@ -11,8 +11,8 @@ namespace Piwik\Plugins\TestRunner\Runner;
 
 use Piwik\Plugins\TestRunner\Aws\Instance;
 
-class InstanceLauncher {
-
+class InstanceLauncher
+{
     /**
      * @var Instance
      */
@@ -49,5 +49,4 @@ class InstanceLauncher {
 
         return $host;
     }
-
 }

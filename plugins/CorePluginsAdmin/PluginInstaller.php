@@ -48,9 +48,7 @@ class PluginInstaller
             $this->copyPluginToDestination($tmpPluginFolder);
 
             Filesystem::deleteAllCacheOnUpdate($this->pluginName);
-
         } catch (\Exception $e) {
-
             $this->removeFileIfExists($tmpPluginZip);
             $this->removeFolderIfExists($tmpPluginFolder);
 
@@ -79,9 +77,7 @@ class PluginInstaller
             $this->copyPluginToDestination($tmpPluginFolder);
 
             Filesystem::deleteAllCacheOnUpdate($this->pluginName);
-
         } catch (\Exception $e) {
-
             $this->removeFileIfExists($pathToZip);
             $this->removeFolderIfExists($tmpPluginFolder);
 
@@ -111,11 +107,9 @@ class PluginInstaller
         try {
             $marketplace->download($this->pluginName, $pluginZipTargetFile);
         } catch (\Exception $e) {
-
             try {
                 $downloadUrl = $marketplace->getDownloadUrl($this->pluginName);
                 $errorMessage = sprintf('Failed to download plugin from %s: %s', $downloadUrl, $e->getMessage());
-
             } catch (\Exception $ex) {
                 $errorMessage = sprintf('Failed to download plugin: %s', $e->getMessage());
             }
@@ -173,7 +167,6 @@ class PluginInstaller
                     $params   = array(ucfirst($dep['requirement']), $dep['actualVersion'], $dep['requiredVersion']);
                     $message .= Piwik::translate('CorePluginsAdmin_MissingRequirementsNotice', $params);
                 }
-
             }
 
             throw new PluginInstallerException($message);
@@ -301,5 +294,4 @@ class PluginInstaller
             throw new PluginInstallerException('This plugin was not found in the Marketplace.');
         }
     }
-
 }

@@ -147,7 +147,7 @@ class RssRendererTest extends IntegrationTestCase
 
         unset($_GET['period']);
 
-        $response = preg_replace(array('/<pubDate>(.*)<\/pubDate>/','/<lastBuildDate>(.*)<\/lastBuildDate>/'), '', $response);
+        $response = preg_replace(array('/<pubDate>(.*)<\/pubDate>/', '/<lastBuildDate>(.*)<\/lastBuildDate>/'), '', $response);
 
         $this->assertEquals('<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">

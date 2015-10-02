@@ -7,6 +7,7 @@
  */
 
 namespace Piwik\Plugins\CustomVariables\tests;
+
 use Piwik\Db;
 use Piwik\Plugins\CustomVariables\Model;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -118,16 +119,16 @@ class ModelTest extends IntegrationTestCase
 
     public function test_getCustomVarIndexes()
     {
-        $this->assertEquals(array(1,2,3,4,5), $this->getPageScope()->getCustomVarIndexes());
-        $this->assertEquals(array(1,2,3,4,5), $this->getVisitScope()->getCustomVarIndexes());
-        $this->assertEquals(array(1,2,3,4,5), $this->getConversionScope()->getCustomVarIndexes());
+        $this->assertEquals(array(1, 2, 3, 4, 5), $this->getPageScope()->getCustomVarIndexes());
+        $this->assertEquals(array(1, 2, 3, 4, 5), $this->getVisitScope()->getCustomVarIndexes());
+        $this->assertEquals(array(1, 2, 3, 4, 5), $this->getConversionScope()->getCustomVarIndexes());
 
         $this->getPageScope()->addCustomVariable();
         $this->getConversionScope()->removeCustomVariable();
 
-        $this->assertEquals(array(1,2,3,4,5,6), $this->getPageScope()->getCustomVarIndexes());
-        $this->assertEquals(array(1,2,3,4,5), $this->getVisitScope()->getCustomVarIndexes());
-        $this->assertEquals(array(1,2,3,4), $this->getConversionScope()->getCustomVarIndexes());
+        $this->assertEquals(array(1, 2, 3, 4, 5, 6), $this->getPageScope()->getCustomVarIndexes());
+        $this->assertEquals(array(1, 2, 3, 4, 5), $this->getVisitScope()->getCustomVarIndexes());
+        $this->assertEquals(array(1, 2, 3, 4), $this->getConversionScope()->getCustomVarIndexes());
     }
 
     public function test_getHighestCustomVarIndex_addCustomVariable_removeCustomVariable()
@@ -195,5 +196,4 @@ class ModelTest extends IntegrationTestCase
     {
         return new Model(Model::SCOPE_CONVERSION);
     }
-
 }

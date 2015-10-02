@@ -36,7 +36,6 @@ class MinGrowth extends BaseFilter
         }
 
         foreach ($table->getRows() as $key => $row) {
-
             $growthNumeric = $row->getColumn($this->columnToRead);
 
             if ($growthNumeric >= $this->minPositiveValue && $growthNumeric >= 0) {

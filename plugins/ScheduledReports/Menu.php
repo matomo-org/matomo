@@ -32,11 +32,12 @@ class Menu extends \Piwik\Plugin\Menu
         );
     }
 
-    function getTopMenuTranslationKey()
+    public function getTopMenuTranslationKey()
     {
         // if MobileMessaging is not activated, display 'Email reports'
-        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MobileMessaging'))
+        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MobileMessaging')) {
             return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+        }
 
         if (Piwik::isUserIsAnonymous()) {
             return self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
@@ -53,7 +54,7 @@ class Menu extends \Piwik\Plugin\Menu
                 return APIMobileMessaging::getInstance()->areSMSAPICredentialProvided() ?
                     self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY : self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
         }
 
@@ -72,5 +73,4 @@ class Menu extends \Piwik\Plugin\Menu
 
         return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
     }
-
 }

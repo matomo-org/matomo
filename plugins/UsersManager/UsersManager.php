@@ -72,7 +72,7 @@ class UsersManager extends \Piwik\Plugin
         $model      = new Model();
         $superUsers = $model->getUsersHavingSuperUserAccess();
 
-        foreach($superUsers as $superUser) {
+        foreach ($superUsers as $superUser) {
             $tokens[] = $superUser['token_auth'];
         }
     }

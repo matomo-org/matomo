@@ -79,6 +79,4 @@ class Archiver extends \Piwik\Plugin\Archiver
         $report = $table->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS);
         return $this->getProcessor()->insertBlobRecord($recordName, $report);
     }
-
 }
-

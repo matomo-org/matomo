@@ -23,12 +23,12 @@ use Piwik\QuickForm2;
  */
 class FormFirstWebsiteSetup extends QuickForm2
 {
-    function __construct($id = 'websitesetupform', $method = 'post', $attributes = null, $trackSubmit = false)
+    public function __construct($id = 'websitesetupform', $method = 'post', $attributes = null, $trackSubmit = false)
     {
         parent::__construct($id, $method, $attributes, $trackSubmit);
     }
 
-    function init()
+    public function init()
     {
         HTML_QuickForm2_Factory::registerRule('checkTimezone', 'Piwik\Plugins\Installation\Rule_isValidTimezone');
 
@@ -76,7 +76,7 @@ class FormFirstWebsiteSetup extends QuickForm2
  */
 class Rule_isValidTimezone extends HTML_QuickForm2_Rule
 {
-    function validateOwner()
+    public function validateOwner()
     {
         try {
             $timezone = $this->owner->getValue();

@@ -48,5 +48,4 @@ class DevicesDetection extends \Piwik\Plugin
         $visitor['browserCode']              = $instance->getBrowserCode();
         $visitor['browserVersion']           = $instance->getBrowserVersion();
     }
-
 }

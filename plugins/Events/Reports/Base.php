@@ -24,5 +24,4 @@ abstract class Base extends \Piwik\Plugin\Report
             'secondaryDimension' => API::getInstance()->getDefaultSecondaryDimension($this->action)
         );
     }
-
 }

@@ -61,7 +61,6 @@ class Update extends TranslationBase
         }
 
         foreach ($pluginList as $plugin) {
-
             $output->writeln("");
 
             // fetch base or specific plugin
@@ -82,13 +81,11 @@ class Update extends TranslationBase
             $progress->start($output, count($files));
 
             foreach ($files as $filename) {
-
                 $progress->advance();
 
                 $code = basename($filename, '.json');
 
                 if (!in_array($code, $languageCodes)) {
-
                     if (!empty($plugin)) {
                         continue; # never create a new language for plugin only
                     }
@@ -165,7 +162,6 @@ class Update extends TranslationBase
      */
     protected function fetchTranslations(InputInterface $input, OutputInterface $output, $plugin)
     {
-
         $command = $this->getApplication()->find('translations:fetch');
         $arguments = array(
             'command' => 'translations:fetch',

@@ -39,7 +39,6 @@ abstract class Base extends \Piwik\Plugin\Report
         }
 
         if (Request::shouldLoadExpanded()) {
-
             if ($view->isViewDataTableId(HtmlTable::ID)) {
                 $view->config->show_expanded = true;
             }

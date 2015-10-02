@@ -215,7 +215,6 @@ class Archiver extends \Piwik\Plugin\Archiver
     private function insertDayReports()
     {
         foreach ($this->arrays as $recordName => $dataArray) {
-
             $dataTable = $dataArray->asDataTable();
 
             foreach ($dataTable->getRows() as $row) {
@@ -226,7 +225,6 @@ class Archiver extends \Piwik\Plugin\Archiver
                         $row->addMetadata($name, $value);
                     }
                 }
-
             }
             $blob = $dataTable->getSerialized(
                 $this->maximumRowsInDataTable,
@@ -316,5 +314,4 @@ class Archiver extends \Piwik\Plugin\Archiver
         // there can be many different targets
         $this->metadata[$mainLabel]['contentTarget'] = $target;
     }
-
 }

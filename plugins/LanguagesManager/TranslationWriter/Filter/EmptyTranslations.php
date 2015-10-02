@@ -23,7 +23,6 @@ class EmptyTranslations extends FilterAbstract
         $translationsBefore = $translations;
 
         foreach ($translations as $plugin => &$pluginTranslations) {
-
             $pluginTranslations = array_filter($pluginTranslations, function ($value) {
                 return !empty($value) && '' != trim($value);
             });

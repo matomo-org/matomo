@@ -16,7 +16,7 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    function index()
+    public function index()
     {
         $view = new View('@Feedback/index');
         $this->setGeneralVariablesView($view);

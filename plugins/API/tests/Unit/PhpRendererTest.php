@@ -194,7 +194,7 @@ class PhpRendererTest extends \PHPUnit_Framework_TestCase
 
         $builder  = $this->makeBuilder(array());
         $actual = $builder->renderArray($input);
-        $this->assertSame( serialize($input), $actual);
+        $this->assertSame(serialize($input), $actual);
     }
 
     public function test_renderArray_ShouldConvertMultiDimensionalAssociativeArrayToJson()

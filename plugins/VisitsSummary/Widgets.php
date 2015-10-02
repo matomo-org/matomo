@@ -18,5 +18,4 @@ class Widgets extends \Piwik\Plugin\Widgets
         $this->addWidget('VisitsSummary_WidgetVisits', 'getSparklines');
         $this->addWidget('VisitsSummary_WidgetOverviewGraph', 'index');
     }
-
 }

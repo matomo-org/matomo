@@ -29,5 +29,4 @@ class GetLanguageCode extends GetLanguage
             self::factory('UserLanguage', 'getLanguage'),
         );
     }
-
 }

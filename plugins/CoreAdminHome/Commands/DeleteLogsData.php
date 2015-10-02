@@ -72,7 +72,7 @@ class DeleteLogsData extends ConsoleCommand
         $idSite = $this->getSiteToDeleteFrom($input);
         $step = $this->getRowIterationStep($input);
 
-        $output->writeln( sprintf(
+        $output->writeln(sprintf(
                 "<info>Preparing to delete all visits belonging to %s between $from and $to.</info>",
                 $idSite ? "website $idSite" : "ALL websites"
         ));
@@ -142,7 +142,7 @@ class DeleteLogsData extends ConsoleCommand
     {
         $idSite = $input->getOption('idsite');
 
-        if(is_null($idSite)) {
+        if (is_null($idSite)) {
             return $idSite;
         }
         // validate the site ID
@@ -185,7 +185,7 @@ class DeleteLogsData extends ConsoleCommand
 
             $done = Db::optimizeTables($prefixedTable);
 
-            if($done) {
+            if ($done) {
                 $output->writeln("done. <comment>" . $timer . "</comment>");
             } else {
                 $output->writeln("skipped! <comment>" . $timer . "</comment>");

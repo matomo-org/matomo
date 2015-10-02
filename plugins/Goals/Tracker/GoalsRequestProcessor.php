@@ -116,7 +116,6 @@ class GoalsRequestProcessor extends RequestProcessor
             $request->setMetadata('Goals', 'goalsConverted', array());
             $request->setMetadata('Goals', 'visitIsConverted', false);
         }
-
     }
 
     public function recordLogs(VisitProperties $visitProperties, Request $request)

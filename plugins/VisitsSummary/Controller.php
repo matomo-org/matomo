@@ -218,6 +218,5 @@ class Controller extends \Piwik\Plugin\Controller
                 $view->urlSparklineNbActions = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_actions')));
             }
         }
-
     }
 }

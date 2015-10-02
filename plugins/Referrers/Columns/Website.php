@@ -52,6 +52,5 @@ class Website extends Base
         }
 
         return false;
-
     }
 }

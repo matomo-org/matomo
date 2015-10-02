@@ -13,5 +13,4 @@ namespace Piwik\Plugins\CorePluginsAdmin;
  */
 class MarketplaceApiException extends \Exception
 {
-
 }

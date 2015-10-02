@@ -24,7 +24,6 @@ use Piwik\Tracker\GoalManager;
 
 class Model
 {
-
     /**
      * @param $idVisit
      * @param $actionsLimit
@@ -493,4 +492,4 @@ class Model
         }
         return array($whereBind, $where);
     }
-} 
+}

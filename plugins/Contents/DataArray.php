@@ -72,5 +72,4 @@ class DataArray extends \Piwik\DataArray
         }
         $this->doSumContentsInteractionMetrics($row, $this->dataTwoLevels[$parentLabel][$label]);
     }
-
 }

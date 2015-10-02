@@ -58,5 +58,4 @@ class GetNumberOfVisitsPerPage extends Base
             $view->config->max_graph_elements = 10;
         }
     }
-
 }

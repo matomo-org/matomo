@@ -73,7 +73,6 @@ class API extends \Piwik\Plugin\API
      */
     public function getByDayOfWeek($idSite, $period, $date, $segment = false)
     {
-
         Piwik::checkUserHasViewAccess($idSite);
 
         // metrics to query

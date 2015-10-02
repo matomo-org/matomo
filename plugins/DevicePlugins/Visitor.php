@@ -21,7 +21,7 @@ class Visitor
         $this->details = $details;
     }
 
-    function getPlugins()
+    public function getPlugins()
     {
         $plugins = array(
             'config_pdf',
@@ -46,7 +46,7 @@ class Visitor
         return implode(self::DELIMITER_PLUGIN_NAME, $pluginShortNames);
     }
 
-    function getPluginIcons()
+    public function getPluginIcons()
     {
         $pluginNames = $this->getPlugins();
         if (!empty($pluginNames)) {

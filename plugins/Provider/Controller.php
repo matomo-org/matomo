@@ -14,4 +14,3 @@ namespace Piwik\Plugins\Provider;
 class Controller extends \Piwik\Plugin\Controller
 {
 }
-

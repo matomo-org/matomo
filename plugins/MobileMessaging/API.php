@@ -281,7 +281,6 @@ class API extends \Piwik\Plugin\API
 
         if (isset($phoneNumbers[$phoneNumber])) {
             if ($verificationCode == $phoneNumbers[$phoneNumber]) {
-
                 $phoneNumbers[$phoneNumber] = null;
                 $this->savePhoneNumbers($phoneNumbers);
                 return true;

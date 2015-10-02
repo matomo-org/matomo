@@ -93,9 +93,7 @@ class Controller extends Plugin\ControllerAdmin
         try {
             $pluginInstaller = new PluginInstaller($pluginName);
             $pluginInstaller->installOrUpdatePluginFromMarketplace();
-
         } catch (\Exception $e) {
-
             $notification = new Notification($e->getMessage());
             $notification->context = Notification::CONTEXT_ERROR;
             Notification\Manager::notify('CorePluginsAdmin_InstallPlugin', $notification);
@@ -266,7 +264,7 @@ class Controller extends Plugin\ControllerAdmin
                 $pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate(true);
                 $themesHavingUpdate  = $marketplace->getPluginsHavingUpdate(false);
                 $view->pluginsHavingUpdate    = $pluginsHavingUpdate + $themesHavingUpdate;
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 // curl exec connection error (ie. server not connected to internet)
             }
         }
@@ -309,7 +307,6 @@ class Controller extends Plugin\ControllerAdmin
         $plugins = $pluginManager->loadAllPluginsAndGetTheirInfo();
 
         foreach ($plugins as $pluginName => &$plugin) {
-
             $plugin['isCorePlugin'] = $pluginManager->isPluginBundledWithCore($pluginName);
 
             if (!empty($plugin['info']['description'])) {
@@ -317,7 +314,6 @@ class Controller extends Plugin\ControllerAdmin
             }
 
             if (!isset($plugin['info'])) {
-
                 $suffix = $this->translator->translate('CorePluginsAdmin_PluginNotWorkingAlternative');
                 // If the plugin has been renamed, we do not show message to ask user to update plugin
                 list($pluginNameRenamed, $methodName) = Request::getRenamedModuleAndAction($pluginName, 'index');
@@ -346,7 +342,6 @@ class Controller extends Plugin\ControllerAdmin
     {
         $pluginsFiltered = array();
         foreach ($plugins as $name => $thisPlugin) {
-
             $isTheme = false;
             if (!empty($thisPlugin['info']['theme'])) {
                 $isTheme = (bool)$thisPlugin['info']['theme'];
@@ -376,7 +371,6 @@ class Controller extends Plugin\ControllerAdmin
         $outputFormat = strtolower($outputFormat);
 
         if (!empty($outputFormat) && 'html' !== $outputFormat) {
-
             $errorMessage = $lastError['message'];
 
             if (Piwik::isUserIsAnonymous()) {
@@ -518,7 +512,7 @@ class Controller extends Plugin\ControllerAdmin
         // error again
         try {
             Filesystem::deleteAllCacheOnUpdate();
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
     }
-
 }

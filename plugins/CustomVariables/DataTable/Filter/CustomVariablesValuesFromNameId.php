@@ -15,7 +15,6 @@ use Piwik\Piwik;
 
 class CustomVariablesValuesFromNameId extends BaseFilter
 {
-
     /**
      * Constructor.
      *

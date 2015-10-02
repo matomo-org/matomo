@@ -217,7 +217,7 @@ class GeoIPAutoUpdater extends Task
             $fd = fopen($outputPath, 'wb');
             fwrite($fd, $unzipped);
             fclose($fd);
-        } else if (substr($path, -3, 3) == '.gz') {
+        } elseif (substr($path, -3, 3) == '.gz') {
             $unzip = Unzip::factory('gz', $path);
             $success = $unzip->extract($outputPath);
 
@@ -233,8 +233,9 @@ class GeoIPAutoUpdater extends Task
         try {
             // test that the new archive is a valid GeoIP database
             $dbType = GeoIp::getGeoIPDatabaseTypeFromFilename($dbFilename);
-            if ($dbType === false) // sanity check
-            {
+            if ($dbType === false) {
+                // sanity check
+
                 throw new Exception("Unexpected GeoIP archive file name '$path'.");
             }
 
@@ -545,7 +546,7 @@ class GeoIPAutoUpdater extends Task
             if (self::$unzipPhpError !== null) {
                 list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
 
-                if($logErrors) {
+                if ($logErrors) {
                     Log::error("GeoIPAutoUpdater: Encountered PHP error when performing redundant tests on GeoIP "
                         . "%s database: %s: %s on line %s of %s.", $type, $errno, $errstr, $errline, $errfile);
                 }
@@ -685,7 +686,7 @@ class GeoIPAutoUpdater extends Task
 
         if ($updaterPeriod == self::SCHEDULE_PERIOD_WEEKLY) {
             return Date::factory($rescheduledTime)->subWeek(1);
-        } else if ($updaterPeriod == self::SCHEDULE_PERIOD_MONTHLY) {
+        } elseif ($updaterPeriod == self::SCHEDULE_PERIOD_MONTHLY) {
             return Date::factory($rescheduledTime)->subMonth(1);
         }
         throw new Exception("Unknown GeoIP updater period found in database: %s", $updaterPeriod);

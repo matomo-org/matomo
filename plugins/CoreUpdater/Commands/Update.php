@@ -67,8 +67,7 @@ class Update extends ConsoleCommand
             } else {
                 $this->writeSuccessMessage($output, array('Database upgrade not executed.'));
             }
-
-        } catch(NoUpdatesFoundException $e) {
+        } catch (NoUpdatesFoundException $e) {
             // Do not fail if no updates were found
             $this->writeSuccessMessage($output, array($e->getMessage()));
         }
@@ -269,7 +268,7 @@ class Update extends ConsoleCommand
 
     private function getUpdateHelpMessage()
     {
-        return Piwik::translate('CoreUpdater_HelpMessageContent', array('[',']',"\n    *"));
+        return Piwik::translate('CoreUpdater_HelpMessageContent', array('[', ']', "\n    *"));
     }
 
     private function isUpdatingCore($componentsWithUpdateFile)

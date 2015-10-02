@@ -123,8 +123,7 @@ class API extends \Piwik\Plugin\API
         $idSubtable = false,
         $legendAppendMetric = true,
         $segment = false
-    )
-    {
+    ) {
         Piwik::checkUserHasViewAccess($idSite);
 
         // Health check - should we also test for GD2 only?
@@ -384,8 +383,9 @@ class API extends \Piwik\Plugin\API
 
                 $i = 0;
                 // $reportData instanceof DataTable
-                foreach ($reportData->getRows() as $row) // Row[]
-                {
+                foreach ($reportData->getRows() as $row) {
+                    // Row[]
+
                     // $row instanceof Row
                     $rowData = $row->getColumns(); // Associative Array
                     $abscissaSeries[] = Common::unsanitizeInputValue($rowData['label']);
@@ -411,8 +411,9 @@ class API extends \Piwik\Plugin\API
                     }
                     $i++;
                 }
-            } else // if the report has no dimension we have multiple reports each with only one row within the reportData
-            {
+            } else {
+                // if the report has no dimension we have multiple reports each with only one row within the reportData
+
                 // $periodsData instanceof Simple[]
                 $periodsData = array_values($reportData->getDataTables());
                 $periodsCount = count($periodsData);
@@ -429,7 +430,7 @@ class API extends \Piwik\Plugin\API
                         $rowData = $rows[0]->getColumns(); // associative Array
 
                         foreach ($ordinateColumns as $column) {
-                            if(!isset($rowData[$column])) {
+                            if (!isset($rowData[$column])) {
                                 continue;
                             }
                             $ordinateValue = $rowData[$column];
@@ -486,7 +487,6 @@ class API extends \Piwik\Plugin\API
             // render graph
             $graph->renderGraph();
         } catch (\Exception $e) {
-
             $graph = new \Piwik\Plugins\ImageGraph\StaticGraph\Exception();
             $graph->setWidth($width);
             $graph->setHeight($height);

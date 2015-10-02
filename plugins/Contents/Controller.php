@@ -13,7 +13,6 @@ use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
 {
-
     public function index()
     {
         $reportsView = new View\ReportsByDimension('Contents');
@@ -23,7 +22,7 @@ class Controller extends \Piwik\Plugin\Controller
         $contentPieces = Report::factory($this->pluginName, 'getContentPieces');
         $reports = array($contentNames, $contentPieces);
 
-        foreach($reports as $report) {
+        foreach ($reports as $report) {
             $reportsView->addReport(
                 $report->getCategory(),
                 $report->getName(),
@@ -47,5 +46,4 @@ class Controller extends \Piwik\Plugin\Controller
 
         return View::singleReport($report->getName(), $report->render());
     }
-
 }

@@ -478,7 +478,7 @@ class API extends \Piwik\Plugin\API
         list($reportSubject, $reportTitle) = self::getReportSubjectAndReportTitle(Common::unsanitizeInputValue(Site::getNameFor($idSite)), $report['reports']);
 
         // if reporting for a segment, use the segment's name in the title
-        if(is_array($segment) && strlen($segment['name'])) {
+        if (is_array($segment) && strlen($segment['name'])) {
             $reportTitle .= " - ".$segment['name'];
         }
         $filename = "$reportTitle - $prettyDate - $description";
@@ -741,13 +741,10 @@ class API extends \Piwik\Plugin\API
     private static function validateIdSegment(&$idSegment)
     {
         if (empty($idSegment) || (is_numeric($idSegment) && $idSegment == 0)) {
-
             $idSegment = null;
         } elseif (!is_numeric($idSegment)) {
-
             throw new Exception('Invalid segment identifier. Should be an integer.');
         } elseif (self::getSegment($idSegment) == null) {
-
             throw new Exception('Segment with id ' . $idSegment . ' does not exist or SegmentEditor is not activated.');
         }
     }
@@ -915,7 +912,6 @@ class API extends \Piwik\Plugin\API
     public static function getSegment($idSegment)
     {
         if (self::isSegmentEditorActivated() && !empty($idSegment)) {
-
             $segment = APISegmentEditor::getInstance()->get($idSegment);
 
             if ($segment) {

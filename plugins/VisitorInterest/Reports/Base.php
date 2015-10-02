@@ -14,5 +14,4 @@ abstract class Base extends \Piwik\Plugin\Report
     {
         $this->category = 'General_Visitors';
     }
-
 }

@@ -25,5 +25,4 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addActionsItem('Actions_SubmenuSitesearch', $this->urlForAction('indexSiteSearch'), 5);
         }
     }
-
 }

@@ -16,7 +16,6 @@ use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Exception;
 
-
 /**
  * @group UsersManagerTest
  * @group UsersManager

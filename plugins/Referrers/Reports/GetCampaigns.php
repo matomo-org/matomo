@@ -35,5 +35,4 @@ class GetCampaigns extends Base
 
         $view->requestConfig->filter_limit = 25;
     }
-
 }

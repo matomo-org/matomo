@@ -75,7 +75,7 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     protected $arrays = array();
 
-    function __construct($processor)
+    public function __construct($processor)
     {
         parent::__construct($processor);
         $this->columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;
@@ -263,5 +263,4 @@ class Archiver extends \Piwik\Plugin\Archiver
             $dataArray->sumMetricsEventsPivot($mainLabel, $subLabel, $row);
         }
     }
-
 }

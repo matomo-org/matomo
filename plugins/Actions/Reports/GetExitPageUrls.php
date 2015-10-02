@@ -100,5 +100,4 @@ class GetExitPageUrls extends Base
             self::factory('Actions', 'getExitPageTitles'),
         );
     }
-
 }

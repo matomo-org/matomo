@@ -330,8 +330,9 @@ class API extends \Piwik\Plugin\API
 
             $startDate = $oPeriod->getDateStart();
             $endDate = $oPeriod->getDateEnd();
-        } else // if the range includes the last N periods
-        {
+        } else {
+            // if the range includes the last N periods
+
             list($date, $lastN) = EvolutionViz::getDateRangeAndLastN($period, $date, $lastN);
             list($startDate, $endDate) = explode(',', $date);
 

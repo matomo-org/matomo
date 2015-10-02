@@ -55,5 +55,4 @@ class GenerateSettings extends GeneratePluginBase
 
         return $this->askPluginNameAndValidate($input, $output, $pluginNames, $invalidName);
     }
-
 }

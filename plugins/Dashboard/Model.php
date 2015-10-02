@@ -172,13 +172,10 @@ class Model
         $newColumns = array();
 
         foreach ($dashboardLayout->columns as $id => $column) {
-
             $newColumn = array();
 
             foreach ($column as $widget) {
-
-                foreach ($oldWidgets AS $pos => $oldWidgetData) {
-
+                foreach ($oldWidgets as $pos => $oldWidgetData) {
                     $oldWidgetId = WidgetsList::getWidgetUniqueId($oldWidgetData['module'], $oldWidgetData['action'], $oldWidgetData['params']);
 
                     if (empty($newWidgets[$pos])) {
@@ -188,7 +185,6 @@ class Model
                     $newWidget = $newWidgets[$pos];
 
                     if ($widget->uniqueId == $oldWidgetId) {
-
                         $newWidgetId = WidgetsList::getWidgetUniqueId($newWidget['module'], $newWidget['action'], $newWidget['params']);
 
                         // is new widget already is on dashboard just remove the old one
@@ -231,9 +227,7 @@ class Model
         }
 
         foreach ($dashboardLayout->columns as $id => $column) {
-
             foreach ($column as $widget) {
-
                 if ($widget->uniqueId == $widgetId) {
                     return true;
                 }

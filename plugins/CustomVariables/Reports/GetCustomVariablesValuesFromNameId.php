@@ -35,5 +35,4 @@ class GetCustomVariablesValuesFromNameId extends Base
         $view->requestConfig->filter_sort_column = 'nb_actions';
         $view->requestConfig->filter_sort_order  = 'desc';
     }
-
 }

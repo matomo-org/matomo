@@ -49,5 +49,4 @@ class EntryPageUrl extends VisitDimension
     {
         return Piwik::translate('Actions_ColumnEntryPageURL');
     }
-
 }

@@ -96,7 +96,6 @@ class API extends \Piwik\Plugin\API
         // merge with plugin translations if any
         $pluginFiles = glob(sprintf('%s/plugins/*/lang/en.json', PIWIK_INCLUDE_PATH));
         foreach ($pluginFiles as $file) {
-
             $data = file_get_contents($file);
             $pluginTranslations = json_decode($data, true);
             $englishTranslation = array_merge_recursive($englishTranslation, $pluginTranslations);
@@ -111,7 +110,6 @@ class API extends \Piwik\Plugin\API
             // merge with plugin translations if any
             $pluginFiles = glob(sprintf('%s/plugins/*/lang/%s.json', PIWIK_INCLUDE_PATH, $filename));
             foreach ($pluginFiles as $file) {
-
                 $data = file_get_contents($file);
                 $pluginTranslations = json_decode($data, true);
                 $translations = array_merge_recursive($translations, $pluginTranslations);

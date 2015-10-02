@@ -47,7 +47,6 @@ class BrowserVersion extends Base
         $aBrowserInfo = $parser->getClient();
 
         if (!empty($aBrowserInfo['version'])) {
-
             return $aBrowserInfo['version'];
         }
 

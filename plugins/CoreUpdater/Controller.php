@@ -68,7 +68,8 @@ class Controller extends \Piwik\Plugin\Controller
                 $marketplace = new Marketplace();
                 $marketplacePlugins = $marketplace->getAllAvailablePluginNames();
             }
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
 
         $view->marketplacePlugins = $marketplacePlugins;
         $view->incompatiblePlugins = $incompatiblePlugins;
@@ -152,7 +153,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         try {
             return $this->runUpdaterAndExit();
-        } catch(NoUpdatesFoundException $e) {
+        } catch (NoUpdatesFoundException $e) {
             Piwik::redirectToModule('CoreHome');
         }
     }

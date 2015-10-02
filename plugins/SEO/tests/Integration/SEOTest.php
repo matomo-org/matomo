@@ -48,7 +48,7 @@ class SEOTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $dataTable = API::getInstance()->getRank('http://www.microsoft.com/');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->markTestSkipped('A SEO http request failed, Skipping this test for now. Error was: '.$e->getMessage());
         }
         $renderer = Renderer::factory('php');
@@ -56,7 +56,7 @@ class SEOTest extends \PHPUnit_Framework_TestCase
         $ranks = $renderer->render($dataTable);
         foreach ($ranks as $rank) {
             $message = $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . ']';
-            if(empty($rank['rank'])) {
+            if (empty($rank['rank'])) {
                 $this->markTestSkipped("Skipped to avoid random build failure: " . $message);
             }
             $this->assertNotEmpty($rank['rank'], $message);

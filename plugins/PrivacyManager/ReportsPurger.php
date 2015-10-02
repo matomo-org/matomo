@@ -287,8 +287,9 @@ class ReportsPurger
     private function getBlobTableWhereExpr($oldNumericTables, $table)
     {
         $where = "";
-        if (!empty($this->reportPeriodsToKeep)) // if keeping reports
-        {
+        if (!empty($this->reportPeriodsToKeep)) {
+            // if keeping reports
+
             $where = "period NOT IN (" . implode(',', $this->reportPeriodsToKeep) . ")";
 
             // if not keeping segments make sure segments w/ kept periods are also deleted
@@ -387,4 +388,3 @@ class ReportsPurger
         return $keepReportPeriods;
     }
 }
-

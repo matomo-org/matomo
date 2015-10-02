@@ -8,6 +8,6 @@
  */
 namespace Piwik\Plugins\CoreUpdater;
 
-class NoUpdatesFoundException extends \Exception {
-
+class NoUpdatesFoundException extends \Exception
+{
 }

@@ -35,5 +35,4 @@ class Widgets extends \Piwik\Plugin\Widgets
     {
         return Common::getRequestVar('idSite', null, 'int');
     }
-
 }

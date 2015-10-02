@@ -91,7 +91,6 @@ class Evolution extends JqplotGraph
                 // overwrite last_n param using the date range
                 $oPeriod = new Range($period, $originalDate);
                 $lastN   = count($oPeriod->getSubperiods());
-
             } else {
 
                 // if not a multiple period

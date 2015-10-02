@@ -29,12 +29,12 @@ class Visitor implements VisitorInterface
 
     private $details = array();
 
-    function __construct($visitorRawData)
+    public function __construct($visitorRawData)
     {
         $this->details = $visitorRawData;
     }
 
-    function getAllVisitorDetails()
+    public function getAllVisitorDetails()
     {
         $visitor = array(
             'idSite'                      => $this->getIdSite(),
@@ -77,7 +77,7 @@ class Visitor implements VisitorInterface
         return $visitor;
     }
 
-    function getVisitorId()
+    public function getVisitorId()
     {
         if (isset($this->details['idvisitor'])) {
             return bin2hex($this->details['idvisitor']);
@@ -85,17 +85,17 @@ class Visitor implements VisitorInterface
         return false;
     }
 
-    function getVisitServerHour()
+    public function getVisitServerHour()
     {
         return date('G', strtotime($this->details['visit_last_action_time']));
     }
 
-    function getServerDate()
+    public function getServerDate()
     {
         return date('Y-m-d', strtotime($this->details['visit_last_action_time']));
     }
 
-    function getIp()
+    public function getIp()
     {
         if (isset($this->details['location_ip'])) {
             return IPUtils::binaryToStringIP($this->details['location_ip']);
@@ -103,22 +103,22 @@ class Visitor implements VisitorInterface
         return null;
     }
 
-    function getIdVisit()
+    public function getIdVisit()
     {
         return $this->details['idvisit'];
     }
 
-    function getIdSite()
+    public function getIdSite()
     {
         return $this->details['idsite'];
     }
 
-    function getTimestampLastAction()
+    public function getTimestampLastAction()
     {
         return strtotime($this->details['visit_last_action_time']);
     }
 
-    function getDateTimeLastAction()
+    public function getDateTimeLastAction()
     {
         return date('Y-m-d H:i:s', strtotime($this->details['visit_last_action_time']));
     }
@@ -200,7 +200,7 @@ class Visitor implements VisitorInterface
 
             // API.getSuggestedValuesForSegment
             $flatten = array( 'pageTitle', 'siteSearchKeyword', 'eventCategory', 'eventAction', 'eventName', 'eventValue');
-            foreach($flatten as $toFlatten) {
+            foreach ($flatten as $toFlatten) {
                 if (!empty($action[$toFlatten])) {
                     $flattenedKeyName = $toFlatten . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
                     $visitorDetailsArray[$flattenedKeyName] = $action[$toFlatten];
@@ -273,10 +273,8 @@ class Visitor implements VisitorInterface
             }
 
             if ($actionDetail['type'] == Action::TYPE_CONTENT) {
-
                 unset($actionDetails[$actionIdx]);
                 continue;
-
             } elseif ($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
                 // Handle Event
                 if (strlen($actionDetail['pageTitle']) > 0) {
@@ -284,8 +282,7 @@ class Visitor implements VisitorInterface
                 }
 
                 unset($actionDetail['pageTitle']);
-
-            } else if ($actionDetail['type'] == Action::TYPE_SITE_SEARCH) {
+            } elseif ($actionDetail['type'] == Action::TYPE_SITE_SEARCH) {
                 // Handle Site Search
                 $actionDetail['siteSearchKeyword'] = $actionDetail['pageTitle'];
                 unset($actionDetail['pageTitle']);
@@ -352,7 +349,7 @@ class Visitor implements VisitorInterface
         }
 
         // Enrich with time spent per action
-        foreach($actionDetails as $actionIdx => &$actionDetail) {
+        foreach ($actionDetails as $actionIdx => &$actionDetail) {
 
             // Set the time spent for this action (which is the timeSpentRef of the next action)
             $nextActionFound = isset($actionDetails[$actionIdx + 1]);
@@ -369,17 +366,16 @@ class Visitor implements VisitorInterface
                 $timeSpentOnPage = $timeOfLastActionOrPingInVisitRow - $timeOfLastAction;
 
                 // Safe net, we assume the time is correct when it's more than 10 seconds
-                if($timeSpentOnPage > 10) {
+                if ($timeSpentOnPage > 10) {
                     $actionDetail['timeSpent'] = $timeSpentOnPage;
                 }
             }
 
-            if(isset($actionDetail['timeSpent'])) {
+            if (isset($actionDetail['timeSpent'])) {
                 $actionDetail['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($actionDetail['timeSpent'], true);
             }
 
             unset($actionDetails[$actionIdx]['timeSpentRef']); // not needed after timeSpent is added
-
         }
 
         $actions = array_merge($actionDetails, $goalDetails, $ecommerceDetails);
@@ -457,7 +453,7 @@ class Visitor implements VisitorInterface
 
         if ($ta == $tb) {
             if ($a['idlink_va'] > $b['idlink_va']) {
-               return 1;
+                return 1;
             }
 
             return -1;

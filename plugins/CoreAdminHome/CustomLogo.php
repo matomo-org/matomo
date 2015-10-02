@@ -102,7 +102,8 @@ class CustomLogo
         $directoryWritable = is_writable($directoryWritingTo);
         $logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT . '/' . $pathUserLogo)
             && is_writeable(PIWIK_DOCUMENT_ROOT . '/' . $this->getPathUserSvgLogo())
-            && is_writeable(PIWIK_DOCUMENT_ROOT . '/' . $this->getPathUserLogoSmall());;
+            && is_writeable(PIWIK_DOCUMENT_ROOT . '/' . $this->getPathUserLogoSmall());
+        ;
 
         $isCustomLogoWritable = ($logoFilesWriteable || $directoryWritable) && $this->isFileUploadEnabled();
 
@@ -116,7 +117,7 @@ class CustomLogo
         $logo = $defaultLogo;
 
         $theme = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled();
-        if(!$theme) {
+        if (!$theme) {
             $themeName = Manager::DEFAULT_THEME;
         } else {
             $themeName = $theme->getPluginName();
@@ -202,7 +203,7 @@ class CustomLogo
                 $image = imagecreatefrompng($file);
                 break;
             case 'image/gif':
-                $image = imagecreatefromgif ($file);
+                $image = imagecreatefromgif($file);
                 break;
             default:
                 return false;
@@ -224,5 +225,4 @@ class CustomLogo
         imagepng($newImage, PIWIK_DOCUMENT_ROOT . '/' . $userPath, 3);
         return true;
     }
-
 }

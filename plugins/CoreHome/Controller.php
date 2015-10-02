@@ -85,7 +85,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $widget->$method();
     }
 
-    function redirectToCoreHomeIndex()
+    public function redirectToCoreHomeIndex()
     {
         $defaultReport = API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), API::PREFERENCE_DEFAULT_REPORT);
         $module = 'CoreHome';
@@ -111,7 +111,7 @@ class Controller extends \Piwik\Plugin\Controller
         $controllerName = Common::getRequestVar('moduleToLoad');
         $actionName     = Common::getRequestVar('actionToLoad', 'index');
 
-        if($controllerName == 'API') {
+        if ($controllerName == 'API') {
             throw new Exception("Showing API requests in context is not supported for security reasons. Please change query parameter 'moduleToLoad'.");
         }
         if ($actionName == 'showInContext') {
@@ -151,7 +151,6 @@ class Controller extends \Piwik\Plugin\Controller
         $websiteId = Common::getRequestVar('idSite', false, 'int');
 
         if ($websiteId) {
-
             $website = new Site($websiteId);
             $datetimeCreationDate      = $website->getCreationDate()->getDatetime();
             $creationDateLocalTimezone = Date::factory($datetimeCreationDate, $website->getTimezone())->toString('Y-m-d');

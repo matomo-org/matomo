@@ -41,7 +41,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     $enable = Common::getRequestVar("anonymizeIPEnable", 0);
                     if ($enable == 1) {
                         IPAnonymizer::activate();
-                    } else if ($enable == 0) {
+                    } elseif ($enable == 0) {
                         IPAnonymizer::deactivate();
                     } else {
                         // pass
@@ -218,8 +218,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     // if dropping the table
                     if ($deletedDataSummary[$tableName] === ReportsPurger::DROP_TABLE) {
                         $totalAfterPurge -= $tableTotalBytes;
-                    } else // if just deleting rows
-                    {
+                    } else {
+                        // if just deleting rows
+
                         if ($status['Rows'] > 0) {
                             $totalAfterPurge -= ($tableTotalBytes / $status['Rows']) * $deletedDataSummary[$tableName];
                         }
@@ -279,7 +280,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $deleteDataInfos["nextScheduleTime"] = $nextPossibleSchedule;
         } else {
             $deleteDataInfos["lastRun"] = $optionTable;
-                $deleteDataInfos["lastRunPretty"] = Date::factory((int)$optionTable)->getLocalized('%day% %shortMonth% %longYear%');
+            $deleteDataInfos["lastRunPretty"] = Date::factory((int)$optionTable)->getLocalized('%day% %shortMonth% %longYear%');
 
             //Calculate next run based on last run + interval
             $nextScheduleRun = (int)($deleteDataInfos["lastRun"] + $deleteDataInfos["config"]["delete_logs_schedule_lowest_interval"] * 24 * 60 * 60);

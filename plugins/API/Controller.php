@@ -23,7 +23,7 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    function index()
+    public function index()
     {
         $token = 'token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string');
 

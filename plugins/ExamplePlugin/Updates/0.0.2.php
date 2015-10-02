@@ -18,7 +18,6 @@ use Piwik\Updates;
  */
 class Updates_0_0_2 extends Updates
 {
-
     /**
      * Return SQL to be executed in this update.
      *

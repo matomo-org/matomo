@@ -15,7 +15,6 @@ use Piwik\DataTable;
 
 class Rss extends ApiRenderer
 {
-
     public function renderException($message, \Exception $exception)
     {
         self::sendHeader('plain');
@@ -46,6 +45,4 @@ class Rss extends ApiRenderer
     {
         Common::sendHeader('Content-Type: text/' . $type . '; charset=utf-8');
     }
-
-
 }

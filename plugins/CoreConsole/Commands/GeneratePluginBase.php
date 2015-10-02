@@ -155,7 +155,6 @@ abstract class GeneratePluginBase extends ConsoleCommand
     private function toJson($value)
     {
         if (defined('JSON_PRETTY_PRINT')) {
-
             return json_encode($value, JSON_PRETTY_PRINT);
         }
 
@@ -220,7 +219,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
         }
 
         $newClassCode = '';
-        foreach(new \LimitIterator($file) as $index => $line) {
+        foreach (new \LimitIterator($file) as $index => $line) {
             if ($index == $methodLine) {
                 $newClassCode .= $methodCode;
             }
@@ -270,7 +269,6 @@ abstract class GeneratePluginBase extends ConsoleCommand
 
                 $this->createFileWithinPluginIfNotExists($pluginName, $fileNamePlugin, $template);
             }
-
         }
     }
 
@@ -344,5 +342,4 @@ abstract class GeneratePluginBase extends ConsoleCommand
 
         return $contentToReplace;
     }
-
 }

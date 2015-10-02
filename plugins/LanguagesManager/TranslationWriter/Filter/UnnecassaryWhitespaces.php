@@ -34,7 +34,6 @@ class UnnecassaryWhitespaces extends FilterAbstract
     {
         foreach ($translations as $pluginName => $pluginTranslations) {
             foreach ($pluginTranslations as $key => $translation) {
-
                 $baseTranslation = '';
                 if (isset($this->baseTranslations[$pluginName][$key])) {
                     $baseTranslation = $this->baseTranslations[$pluginName][$key];

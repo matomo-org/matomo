@@ -35,7 +35,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected $maximumRowsInSubDataTable;
     protected $newEmptyRow;
 
-    function __construct($processor)
+    public function __construct($processor)
     {
         parent::__construct($processor);
 
@@ -224,5 +224,4 @@ class Archiver extends \Piwik\Plugin\Archiver
             }
         }
     }
-
 }

@@ -14,7 +14,6 @@ use Piwik\Tracker;
 
 class Type extends \Piwik\Plugins\MobileAppMeasurable\Type
 {
-
     public function configureMeasurableSettings(MeasurableSettings $settings)
     {
         $appId = new MeasurableSetting('app_id', 'App-ID');

@@ -38,7 +38,6 @@ class ReferrerName extends Base
         $information = $this->getReferrerInformationFromRequest($request);
 
         if (!empty($information['referer_name'])) {
-
             return substr($information['referer_name'], 0, 70);
         }
 

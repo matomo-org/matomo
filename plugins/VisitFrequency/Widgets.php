@@ -19,5 +19,4 @@ class Widgets extends \Piwik\Plugin\Widgets
                          'getEvolutionGraph',
                          array('columns' => array('nb_visits_returning')));
     }
-
 }

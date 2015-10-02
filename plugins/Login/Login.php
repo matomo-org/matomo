@@ -42,7 +42,7 @@ class Login extends \Piwik\Plugin
         $jsFiles[] = "plugins/Login/javascripts/login.js";
     }
 
-   public function getStylesheetFiles(&$stylesheetFiles)
+    public function getStylesheetFiles(&$stylesheetFiles)
     {
         $stylesheetFiles[] = "plugins/Login/stylesheets/login.less";
         $stylesheetFiles[] = "plugins/Login/stylesheets/variables.less";
@@ -86,7 +86,7 @@ class Login extends \Piwik\Plugin
      * Initializes the authentication object.
      * Listens to Request.initAuthenticationObject hook.
      */
-    function initAuthenticationObject($activateCookieAuth = false)
+    public function initAuthenticationObject($activateCookieAuth = false)
     {
         $this->initAuthenticationFromCookie(StaticContainer::getContainer()->get('Piwik\Auth'), $activateCookieAuth);
     }
@@ -113,5 +113,4 @@ class Login extends \Piwik\Plugin
         $auth->setLogin($defaultLogin);
         $auth->setTokenAuth($defaultTokenAuth);
     }
-
 }

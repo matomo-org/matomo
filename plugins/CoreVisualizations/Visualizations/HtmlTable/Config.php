@@ -16,7 +16,6 @@ use Piwik\ViewDataTable\Config as VisualizationConfig;
  */
 class Config extends VisualizationConfig
 {
-
     /**
      * If this property is set to true, subtables will be shown as embedded in the original table.
      * If false, subtables will be shown as whole tables between rows.
@@ -115,5 +114,4 @@ class Config extends VisualizationConfig
             'highlight_summary_row',
         ));
     }
-
 }

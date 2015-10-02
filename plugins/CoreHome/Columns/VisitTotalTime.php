@@ -105,5 +105,4 @@ class VisitTotalTime extends VisitDimension
 
         return $t;
     }
-
 }

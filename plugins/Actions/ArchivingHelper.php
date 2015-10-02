@@ -257,7 +257,6 @@ class ArchivingHelper
             $limit = 100000;
         }
         return $limit;
-
     }
 
     /**
@@ -272,11 +271,10 @@ class ArchivingHelper
             $config = $metricsConfig[$columnName];
 
             if (!empty($config['aggregation'])) {
-
                 if ($config['aggregation'] == 'min') {
                     if (empty($alreadyValue)) {
                         $newValue = $value;
-                    } else if (empty($value)) {
+                    } elseif (empty($value)) {
                         $newValue = $alreadyValue;
                     } else {
                         $newValue = min($alreadyValue, $value);
@@ -446,7 +444,7 @@ class ArchivingHelper
         $name = self::parseNameFromPageUrl($name, $type, $urlPrefix);
 
         // outlinks and downloads
-        if(is_array($name)) {
+        if (is_array($name)) {
             return $name;
         }
         $split = self::splitNameByDelimiter($name, $type);
@@ -556,7 +554,7 @@ class ArchivingHelper
 
     private static function splitNameByDelimiter($name, $type)
     {
-        if(is_array($name)) {
+        if (is_array($name)) {
             return $name;
         }
         if ($type == Action::TYPE_PAGE_TITLE) {

@@ -41,5 +41,4 @@ class ManySites extends Fixture
             }
         }
     }
-
 }

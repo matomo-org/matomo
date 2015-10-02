@@ -22,7 +22,7 @@ class Controller extends \Piwik\Plugin\Controller
 {
     const SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY = 'live_widget_visitor_count_last_minutes';
 
-    function index()
+    public function index()
     {
         return $this->widget();
     }

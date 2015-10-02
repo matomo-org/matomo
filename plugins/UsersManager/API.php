@@ -69,7 +69,6 @@ class API extends \Piwik\Plugin\API
                 throw new Exception('UsersManager_API must inherit API');
             }
             self::$instance = $instance;
-            
         } catch (Exception $e) {
             self::$instance = StaticContainer::get('Piwik\Plugins\UsersManager\API');
             StaticContainer::getContainer()->set('UsersManager_API', self::$instance);
@@ -142,11 +141,11 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         $userPreferences = array();
-        foreach($preferenceNames as $preferenceName) {
+        foreach ($preferenceNames as $preferenceName) {
             $optionNameMatchAllUsers = $this->getPreferenceId('%', $preferenceName);
             $preferences = Option::getLike($optionNameMatchAllUsers);
 
-            foreach($preferences as $optionName => $optionValue) {
+            foreach ($preferences as $optionName => $optionValue) {
                 $lastUnderscore = strrpos($optionName, self::OPTION_NAME_PREFERENCE_SEPARATOR);
                 $userName = substr($optionName, 0, $lastUnderscore);
                 $preference = substr($optionName, $lastUnderscore + 1);
@@ -158,7 +157,7 @@ class API extends \Piwik\Plugin\API
 
     private function getPreferenceId($login, $preference)
     {
-        if(false !== strpos($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
+        if (false !== strpos($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
             throw new Exception("Preference name cannot contain underscores.");
         }
         return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
@@ -316,7 +315,6 @@ class API extends \Piwik\Plugin\API
                     'site' => $site['idsite'],
                     'access' => 'admin'
                 );
-
             }
             return $return;
         }
@@ -480,7 +478,7 @@ class API extends \Piwik\Plugin\API
 
         $users = $this->model->getUsersHavingSuperUserAccess();
 
-        foreach($users as &$user) {
+        foreach ($users as &$user) {
             // remove token_auth in API response
             unset($user['token_auth']);
         }

@@ -209,7 +209,7 @@ class ServerFilesGenerator
      */
     protected static function getDenyHtaccessContent()
     {
-# Source: https://github.com/phpbb/phpbb/pull/2386/files#diff-f72a38c4bec79cc6ded3f8e435d6bd55L11
+        # Source: https://github.com/phpbb/phpbb/pull/2386/files#diff-f72a38c4bec79cc6ded3f8e435d6bd55L11
 # With Apache 2.4 the "Order, Deny" syntax has been deprecated and moved from
 # module mod_authz_host to a new module called mod_access_compat (which may be
 # disabled) and a new "Require" syntax has been introduced to mod_authz_host.
@@ -299,5 +299,4 @@ HTACCESS_ALLOW;
             }
         }
     }
-
 }
