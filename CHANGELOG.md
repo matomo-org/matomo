@@ -9,6 +9,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * We fixed a bug where the API method `Sites.getPatternMatchSites` only returned a very limited number of websites by default. We now return all websites by default unless a limit is specified specifically.
 * Handling of localized date, time and range formats has been changed. Patterns no longer contain placeholders like %shortDay%, but work with CLDR pattern instead. You can use one of the predefined format constants in Date class for using getLocalized().
 * As we are now using CLDR formats for all languages, some time formats were even changed in english. Attributes like prettyDate in API responses might so have been changed slightly.
+* The config `enable_measure_piwik_usage_in_idsite` which is used to track the Piwik usage with Piwik was removed and replaced by a new plugin `AnonymousPiwikUsageMeasurement`
 
 ### Deprecations
 * The HTTP API method `SitesManager.getSitesIdWithVisits` has been deprecated and will be removed in Piwik 3.0

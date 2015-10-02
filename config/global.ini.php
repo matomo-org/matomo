@@ -107,11 +107,6 @@ always_archive_data_range = 0;
 ; NOTE: you must also set [log] log_writers[] = "screen" to enable the profiler to print on screen
 enable_sql_profiler = 0
 
-; if set to > 0, a Piwik tracking code will be included in the Piwik UI footer and will track visits, pages, etc.
-; data will be stored for idSite = enable_measure_piwik_usage_in_idsite
-; this is useful for Piwik developers as an easy way to create data in their local Piwik
-enable_measure_piwik_usage_in_idsite = 0
-
 ; If set to 1, all requests to piwik.php will be forced to be 'new visitors'
 tracker_always_new_visitor = 0
 

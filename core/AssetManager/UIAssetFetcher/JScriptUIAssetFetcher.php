@@ -72,6 +72,8 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
             'libs/jquery/jquery.browser.js',
             'libs/',
+            'js/',
+            'piwik.js',
             'plugins/CoreHome/javascripts/require.js',
             'plugins/Morpheus/javascripts/piwikHelper.js',
             'plugins/Morpheus/javascripts/jquery.icheck.min.js',
