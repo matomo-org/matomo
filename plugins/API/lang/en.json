@@ -8,6 +8,8 @@
         "ReportingApiReference": "Reporting API Reference",
         "TopLinkTooltip": "Access your Web Analytics data programmatically through a simple API in json, xml, etc.",
         "UserAuthentication": "User authentication",
-        "UsingTokenAuth": "If you want to %s request data within a script, a crontab, etc. %s you need to add the parameter %s to the API calls URLs that require authentication."
+        "UsingTokenAuth": "If you want to %s request data within a script, a crontab, etc. %s you need to add the parameter %s to the API calls URLs that require authentication.",
+        "Glossary": "Glossary",
+        "LearnAboutCommonlyUsedTerms": "Learn about the commonly used terms to make the most of Piwik Analytics: %s and %s."
     }
 }

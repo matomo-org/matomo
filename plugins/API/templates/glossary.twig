@@ -1,0 +1,43 @@
+{% extends isWidget ? 'empty.twig' : 'user.twig' %}
+
+{% set title %}{{ 'API_Glossary'|translate }}{% endset %}
+
+{% block content %}
+    <h2 piwik-enriched-headline>{{ title }}</h2>
+
+    {{ 'API_LearnAboutCommonlyUsedTerms'|translate(
+                '<a href="#metrics">'~ 'General_Metrics'|translate ~ '</a>',
+                '<a href="#reports">' ~ 'General_Reports'|translate ~ '</a>')|raw
+    }}
+
+    <!-- {{ metrics|length }} metrics, {{ reports|length }} reports -->
+
+    <a id="metrics"></a>
+    <h2>{{ 'General_Metrics'|translate }}</h2>
+    <table>
+    {% for metric in metrics %}
+        <tr>
+            <td>
+                <h3>{{ metric.name }}</h3>
+            </td>
+            <td>
+                {{ metric.documentation|raw }}
+
+                <br/><span style="color: #bbb;">{{ metric.id }} (API)</span>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    <a id="reports"></a>
+    <h2>{{ 'General_Reports'|translate }}</h2>
+
+
+    {% for report in reports %}
+        <h3>{{ report.name }}</h3>
+        <p>{{ report.documentation|raw }}</p>
+    {% endfor %}
+
+
+
+{% endblock %}
