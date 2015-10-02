@@ -1,15 +1,8 @@
-{% extends 'user.twig' %}
+{% extends isWidget ? 'empty.twig' : 'user.twig' %}
 
 {% set title %}{{ 'API_Glossary'|translate }}{% endset %}
 
 {% block content %}
-    {% include "@CoreHome/_siteSelectHeader.twig" %}
-
-    <div class="top_controls">
-        {% include "@CoreHome/_periodSelect.twig" %}
-    </div>
-
-
     <h2 piwik-enriched-headline>{{ title }}</h2>
 
     {{ 'API_LearnAboutCommonlyUsedTerms'|translate(
