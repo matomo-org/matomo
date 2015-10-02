@@ -22,7 +22,7 @@ function sendUpdateUserAJAX(row) {
     ajaxHandler.addParams(parameters, 'POST');
     ajaxHandler.redirectOnSuccess();
     ajaxHandler.setLoadingElement();
-    ajaxHandler.send(true);
+    ajaxHandler.send();
 }
 
 function sendDeleteUserAJAX(login) {
@@ -36,7 +36,7 @@ function sendDeleteUserAJAX(login) {
     ajaxHandler.redirectOnSuccess();
     ajaxHandler.setLoadingElement('#ajaxLoadingUsersManagement');
     ajaxHandler.setErrorElement('#ajaxErrorUsersManagement');
-    ajaxHandler.send(true);
+    ajaxHandler.send();
 }
 
 function sendAddUserAJAX(row) {
@@ -56,7 +56,7 @@ function sendAddUserAJAX(row) {
     ajaxHandler.redirectOnSuccess();
     ajaxHandler.setLoadingElement('#ajaxLoadingUsersManagement');
     ajaxHandler.setErrorElement('#ajaxErrorUsersManagement');
-    ajaxHandler.send(true);
+    ajaxHandler.send();
 }
 
 function getIdSites() {
@@ -79,7 +79,7 @@ function sendUpdateUserAccess(login, access, successCallback) {
     ajaxHandler.setCallback(successCallback);
     ajaxHandler.setLoadingElement('#ajaxLoadingUsersManagement');
     ajaxHandler.setErrorElement('#ajaxErrorUsersManagement');
-    ajaxHandler.send(true);
+    ajaxHandler.send();
 }
 
 function submitOnEnter(e) {
@@ -128,7 +128,7 @@ function updateSuperUserAccess(login, hasSuperUserAccess)
     });
     ajaxHandler.setLoadingElement('#ajaxErrorSuperUsersManagement');
     ajaxHandler.setErrorElement('#ajaxErrorSuperUsersManagement');
-    ajaxHandler.send(true);
+    ajaxHandler.send();
 }
 
 function bindUpdateSuperUserAccess() {

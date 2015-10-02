@@ -1135,7 +1135,7 @@ $(document).ready(function() {
                     self.changeSegmentList(self.props.availableSegments);
                 }
             });
-            ajaxHandler.send(true);
+            ajaxHandler.send();
         };
 
         var updateSegment = function(params){
@@ -1174,7 +1174,7 @@ $(document).ready(function() {
                     self.changeSegmentList(self.props.availableSegments);
                 }
             });
-            ajaxHandler.send(true);
+            ajaxHandler.send();
         };
 
         var deleteSegment = function(params){
@@ -1214,7 +1214,7 @@ $(document).ready(function() {
                 }
             });
 
-            ajaxHandler.send(true);
+            ajaxHandler.send();
         };
 
         var segmentFromRequest = encodeURIComponent(self.props.selectedSegment)
