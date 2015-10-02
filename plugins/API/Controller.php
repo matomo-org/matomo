@@ -13,6 +13,7 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Url;
@@ -142,8 +143,8 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $glossary = new Glossary($this->idSite);
-
+        $glossary = StaticContainer::get('Piwik\Plugins\API\Glossary');
+        $glossary->setIdSite($this->idSite);
         return $this->renderTemplate('glossary', array(
             'reports' => $glossary->reportsGlossary(),
             'metrics' => $glossary->metricsGlossary(),
