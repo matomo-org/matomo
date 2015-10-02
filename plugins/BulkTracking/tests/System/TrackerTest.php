@@ -53,12 +53,18 @@ class TrackerTest extends SystemTestCase
         $this->tracker->setIdSite(1);
         $this->tracker->doTrackPageView('Test');
 
+        // test skipping invalid request parameter errors
+        $this->tracker->setDebugStringAppend('cid=abc');
+        $this->tracker->doTrackPageView('Test');
+
+        $this->tracker->DEBUG_APPEND_URL = '';
+
         // another invalid one to further test the invalid request indices in the result
         $this->tracker->setIdSite(7);
         $this->tracker->doTrackPageView('Test');
 
         $response = $this->tracker->doBulkTrack();
 
-        $this->assertEquals('{"status":"success","tracked":3,"invalid":2,"invalid_indices":[2,4]}', $response);
+        $this->assertEquals('{"status":"success","tracked":3,"invalid":3,"invalid_indices":[2,4,5]}', $response);
     }
 }
