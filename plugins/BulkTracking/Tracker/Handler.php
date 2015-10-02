@@ -12,6 +12,7 @@ namespace Piwik\Plugins\BulkTracking\Tracker;
 use Piwik\Archiver\Request;
 use Piwik\AuthResult;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
 use Piwik\Tracker;
@@ -55,6 +56,8 @@ class Handler extends Tracker\Handler
             try {
                 $tracker->trackRequest($request);
             } catch (UnexpectedWebsiteFoundException $ex) {
+                $invalidRequests[] = $index;
+            } catch (InvalidRequestParameterException $ex) {
                 $invalidRequests[] = $index;
             }
         }
