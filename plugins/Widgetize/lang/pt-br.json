@@ -1,6 +1,7 @@
 {
     "Widgetize": {
-        "OpenInNewWindow": "Abre uma nova janela",
+        "OpenInNewWindow": "Abrir em uma nova janela",
+        "PluginDescription": "Exibe qualquer relatório Piwik no seu site ou aplicativo com uma simples tag HTML Embed.",
         "TopLinkTooltip": "Exportar relatórios Piwik como widgets do Dashboard e incorporar em seu aplicativo como um iframe."
     }
 }

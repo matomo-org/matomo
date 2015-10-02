@@ -293,7 +293,6 @@
         "VisitorIP": "IP posjetioca",
         "Visitors": "Posjetioci",
         "VisitsWith": "Posjete sa %s",
-        "VisitType": "Tip posjetioca",
         "VisitTypeExample": "Na primjer, da izabrete sve posjetioce koji su se vratili na stranicu uključujući one koji su kupili nesto u prethodnoj posjeti, API zahtjev bi sadržavao %s",
         "Warning": "Upozorenje",
         "WarningFileIntegrityNoManifest": "Provjera integracije fajlova nije mogla biti pokrenuta zbog nedostatka manifest.inc.php.",

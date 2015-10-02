@@ -5,7 +5,6 @@
         "LoadedAPIs": "%s API chargées avec succès",
         "MoreInformation": "Pour plus d'informations à propos de l'API de Piwik, merci de visiter %s l'introduction à Piwik %s et %s la référence de l'API Piwik %s.",
         "PluginDescription": "Toutes les données de Piwik sont disponibles via des API simples. Ce composant est le service web que vous pouvez appeler afin d'obtenir vos données d'analyse web en xml, json, php, csv, etc",
-        "QuickDocumentationTitle": "Documentation rapide de l'API.",
         "TopLinkTooltip": "Accédez à vos données de statistiques web depuis votre code via une API simple en JSON, XML, Etc.",
         "UserAuthentication": "Authentification de l'utilisateur",
         "UsingTokenAuth": "Si vous souhaitez %s récupérer des données depuis un script, un crontab, etc %s vous devez ajouter le paramètre %s aux appels d'URLs de l'API qui requièrent une authentification."

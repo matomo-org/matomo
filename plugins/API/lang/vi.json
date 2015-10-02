@@ -4,7 +4,8 @@
         "KeepTokenSecret": "token_auth này chặt chẽ như mật khẩu đăng nhập của bạn, %s không thể chia sẻ nó %s!",
         "LoadedAPIs": "Nạp thành công API %s",
         "MoreInformation": "Để biết thêm thông tin về các API của Piwik, vui lòng xem ở Giới thiệu %s về %s API Piwik và API %s Piwik Reference %s",
-        "QuickDocumentationTitle": "Tài liệu hướng dẫn nhanh API",
+        "PluginDescription": "Tất cả dữ liệu của Piwik đều tủy cập được thông qua API. Plugin này là 1 web service, từ đó bạn có thể gọi để truy cập dữ liệu dưới dạng xml, json, csv,...",
+        "ReportingApiReference": "Tham chiếu API báo cáo",
         "TopLinkTooltip": "Truy cập dữ liệu lập trình Web Analytics của bạn thông qua một API đơn giản trong JSON, xml, vv",
         "UserAuthentication": "Xác thực người dùng",
         "UsingTokenAuth": "Nếu bạn muốn %s truy vấn dữ liệu trong script hoặc crontab, ... %s bạn cần phải thêm tham số %s vào các API call URL yêu cầu xác thực."

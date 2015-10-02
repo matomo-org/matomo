@@ -43,8 +43,6 @@
         "JSTrackingIntro3": "Pe majoritatea siteurilor, bloguri, CMS, etc. poti folosi un plugin deja existent pentru a face partea tehnica in locul tau.(Vezi %1$slista noastra de pluginuri folosite pentru a integra Piwik%2$s.) Daca nu exista nici un plugin poti edita template-urile siteului tau si adauga acest cod in fisierul \"footer\".",
         "JSTrackingIntro4": "Daca nu doresti sa folosesti JavaScript pentru a contoriza vizitatorii, %1$sgenereaza un link tip imagine mai jos%2$s.",
         "JSTrackingIntro5": "Daca doresti mai mult decat a contoriza vizualizarile de pagini, te rugam sa te uiti la %1$sdocumentatia Piwik Javascript Tracking%2$s pentru lista cu functionalitatile disponibile. Folosind aceste functionalitati poti contoriza obiectivele (goals), variabile custom, comenzile pentru magazinul online, cosul de cumparaturi abandonat si altele.",
-        "LatestBetaRelease": "Ultima versiune beta",
-        "LatestStableRelease": "Ultima versiune stabilă",
         "LogoNotWriteableInstruction": "Pentru a folosi logo-ul tau custom in loc de logo-ul default Piwik, trebuie sa pui permisiuni de scriere pe acest director. %1$s Piwik are nevoie de drept de scriere pentru logo-urile tale salvate in fisiere %2$s.",
         "LogoUpload": "Alege logo-ul pentru încărcare",
         "FaviconUpload": "Alege un favicon pentru a fi încărcat",

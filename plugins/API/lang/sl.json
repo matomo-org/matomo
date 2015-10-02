@@ -4,7 +4,6 @@
         "KeepTokenSecret": "Ta žeton je skriven, kot vaše uporabniško ime in geslo, %s ne delite ga z drugimi %s!",
         "LoadedAPIs": "Uspešno naloženih %s API-jev",
         "MoreInformation": "Za več informacij o Piwik API-ju, si oglejte %sNavodila za uporabo Piwik API-ja %s in %s Piwik API Reference %s.",
-        "QuickDocumentationTitle": "API hitra dokumentacija",
         "UserAuthentication": "Overitev uporabnika",
         "UsingTokenAuth": "Če želite %s zahtevati podatke preko skripte, crontaba, itd. %s potem morate dodati parameter %s v URL API klica za overitev."
     }

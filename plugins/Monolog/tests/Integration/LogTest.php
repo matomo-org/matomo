@@ -201,6 +201,8 @@ class LogTest extends IntegrationTestCase
             $fileContents = file_get_contents(self::getLogFileLocation());
             $fileContents = $this->removePathsFromBacktrace($fileContents);
 
+            $expectedMessage = str_replace("\n ", "\n[Monolog]", $expectedMessage);
+
             $this->assertEquals($expectedMessage . "\n", $fileContents);
         } else if ($backend == 'database') {
             $queryLog = Db::isQueryLogEnabled();

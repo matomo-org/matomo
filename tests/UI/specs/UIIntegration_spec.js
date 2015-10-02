@@ -614,5 +614,28 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    // extra segment tests
+    it('should load the row evolution page correctly when a segment is selected', function (done) {
+        var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?module=CustomVariables&action=menuGetCustomVariables&idSite=1&period=year&date=2012-01-13";
+        expect.page(url).contains('.ui-dialog > .ui-dialog-content > div.rowevolution:visible', 'segmented_rowevolution', function (page) {
+            page.click('.segmentationTitle');
+            page.click('.segname:contains(From Europe)');
 
+            page.mouseMove('table.dataTable tbody tr:first-child');
+            page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
+            page.click('a.actionRowEvolution:visible');
+        }, done);
+    });
+
+    it('should load the segmented visitor log correctly when a segment is selected', function (done) {
+        var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?module=CustomVariables&action=menuGetCustomVariables&idSite=1&period=year&date=2012-01-13";
+        expect.page(url).contains('.ui-dialog > .ui-dialog-content > div.dataTableVizVisitorLog:visible', 'segmented_visitorlog', function (page) {
+            page.click('.segmentationTitle');
+            page.click('.segname:contains(From Europe)');
+
+            page.mouseMove('table.dataTable tbody tr:first-child');
+            page.mouseMove('a.actionSegmentVisitorLog:visible'); // necessary to get popover to display
+            page.click('a.actionSegmentVisitorLog:visible');
+        }, done);
+    });
 });

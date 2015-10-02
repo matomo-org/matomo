@@ -24,7 +24,10 @@ class ExceptionHandler
         set_exception_handler(array('Piwik\ExceptionHandler', 'handleException'));
     }
 
-    public static function handleException(Exception $exception)
+    /**
+     * @param Exception|\Throwable $exception
+     */
+    public static function handleException($exception)
     {
         if (Common::isPhpCliMode()) {
             self::dieWithCliError($exception);
@@ -33,7 +36,10 @@ class ExceptionHandler
         self::dieWithHtmlErrorPage($exception);
     }
 
-    public static function dieWithCliError(Exception $exception)
+    /**
+     * @param Exception|\Throwable $exception
+     */
+    public static function dieWithCliError($exception)
     {
         $message = $exception->getMessage();
 
@@ -54,7 +60,10 @@ class ExceptionHandler
         exit(1);
     }
 
-    public static function dieWithHtmlErrorPage(Exception $exception)
+    /**
+     * @param Exception|\Throwable $exception
+     */
+    public static function dieWithHtmlErrorPage($exception)
     {
         Common::sendHeader('Content-Type: text/html; charset=utf-8');
 
@@ -63,7 +72,10 @@ class ExceptionHandler
         exit(1);
     }
 
-    private static function getErrorResponse(Exception $ex)
+    /**
+     * @param Exception|\Throwable $ex
+     */
+    private static function getErrorResponse($ex)
     {
         $debugTrace = $ex->getTraceAsString();
 

@@ -350,7 +350,6 @@
         "Visitors": "Besøkende",
         "VisitsWith": "Besøk med %s",
         "VisitorSettings": "Besøkendes innstillinger",
-        "VisitType": "Type besøkende",
         "Warning": "Advarsel",
         "WarningPiwikWillStopSupportingPHPVersion": "Piwik kutter støtte for denne PHP-versjonen i %s. Oppgrader din PHP-versjon før det er for sent.",
         "WarningFileIntegrityNoManifest": "Klarte ikke utføre integritetskontroll av filer fordi manifest.inc.php mangler.",

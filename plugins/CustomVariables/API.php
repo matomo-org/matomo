@@ -73,6 +73,8 @@ class API extends \Piwik\Plugin\API
 
         if ($flat) {
             $dataTable->filterSubtables('Piwik\Plugins\CustomVariables\DataTable\Filter\CustomVariablesValuesFromNameId');
+        } else {
+            $dataTable->filter('AddSegmentByLabel', array('customVariableName'));
         }
 
         return $dataTable;

@@ -49,12 +49,15 @@ class TrackerTest extends IntegrationTestCase
     public function tearDown()
     {
         $this->restoreConfigFile();
+        
         if($this->tracker) {
             $this->tracker->disconnectDatabase();
         }
+        
         if (array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS)) {
             unset($GLOBALS['PIWIK_TRACKER_DEBUG']);
         }
+        
         parent::tearDown();
     }
 
@@ -134,13 +137,9 @@ class TrackerTest extends IntegrationTestCase
         Tracker::loadTrackerEnvironment();
 
         $this->assertTrue(SettingsServer::isTrackerApiRequest());
-    }
-
-    protected function restoreConfigFile()
-    {
-        $backupConfig = $this->getLocalConfigPathMoved();
-        $localConfig = $this->getLocalConfigPath();
-        @shell_exec("mv $backupConfig $localConfig 2> /dev/null");
+        
+        //always reset on the test itself
+        $this->restoreConfigFile();
     }
 
     public function test_isDatabaseConnected_shouldReturnFalse_IfNotConnected()
@@ -396,7 +395,7 @@ class TrackerTest extends IntegrationTestCase
      */
     protected function getLocalConfigPath()
     {
-        return PIWIK_USER_PATH . "/config/config.ini.php ";
+        return PIWIK_USER_PATH . '/config/config.ini.php';
     }
 
     /**
@@ -404,18 +403,19 @@ class TrackerTest extends IntegrationTestCase
      */
     protected function getLocalConfigPathMoved()
     {
-        return PIWIK_USER_PATH . "/config/tmp-config.ini.php";
+        return PIWIK_USER_PATH . '/config/tmp-config.ini.php';
     }
 
-    /**
-     * @return array
-     */
     protected function removeConfigFile()
     {
-        $localConfig = $this->getLocalConfigPath();
-        $backupConfig = $this->getLocalConfigPathMoved();
-        shell_exec("mv $localConfig $backupConfig");
-        return array($localConfig, $backupConfig);
+        rename($this->getLocalConfigPath(), $this->getLocalConfigPathMoved());
+    }
+    
+    protected function restoreConfigFile()
+    {
+        if(file_exists($this->getLocalConfigPathMoved())){
+            rename($this->getLocalConfigPathMoved(), $this->getLocalConfigPath());
+        }
     }
 }
 

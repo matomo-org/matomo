@@ -25,7 +25,7 @@ class ProcessTest extends IntegrationTestCase
 
     public function setUp()
     {
-        parent::setup();
+        parent::setUp();
 
         File::reset();
         $this->process = new Process('testPid');
@@ -33,7 +33,9 @@ class ProcessTest extends IntegrationTestCase
 
     public function tearDown()
     {
-        $this->process->finishProcess();
+        if(is_object($this->process)){
+            $this->process->finishProcess();
+        }
         File::reset();
     }
 

@@ -347,7 +347,6 @@
         "Visitors": "访客分析",
         "VisitsWith": "有%s的访客",
         "VisitorSettings": "访客设置",
-        "VisitType": "访客类型",
         "VisitTypeExample": "例如，要选择所有回头访客，包括那些以前购买过产品的，API 请求需要包含 %s",
         "Warning": "警告",
         "WarningFileIntegrityNoManifest": "缺少 manifest.inc.php，所以文件完整性检查无法完成。",

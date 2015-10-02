@@ -8,7 +8,7 @@
 function sendGeneralSettingsAJAX() {
     var enableBrowserTriggerArchiving = $('input[name=enableBrowserTriggerArchiving]:checked').val();
     var enablePluginUpdateCommunication = $('input[name=enablePluginUpdateCommunication]:checked').val();
-    var enableBetaReleaseCheck = $('input[name=enableBetaReleaseCheck]:checked').val();
+    var releaseChannel = $('input[name=releaseChannel]:checked').val();
     var todayArchiveTimeToLive = $('#todayArchiveTimeToLive').val();
 
     var trustedHosts = [];
@@ -22,7 +22,7 @@ function sendGeneralSettingsAJAX() {
         format: 'json',
         enableBrowserTriggerArchiving: enableBrowserTriggerArchiving,
         enablePluginUpdateCommunication: enablePluginUpdateCommunication,
-        enableBetaReleaseCheck: enableBetaReleaseCheck,
+        releaseChannel: releaseChannel,
         todayArchiveTimeToLive: todayArchiveTimeToLive,
         mailUseSmtp: isSmtpEnabled(),
         mailPort: $('#mailPort').val(),

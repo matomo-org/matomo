@@ -1,5 +1,6 @@
 {
     "Live": {
+        "AbandonedCartSummary": "%1$s%2$s carrinhos abandonados%3$s e %4$s itens abandonados %5$svalem um total de %6$s%7$s.",
         "AveragePageGenerationTime": "Cada página levou em média %1$s para carregar para este visitante.",
         "CalculatedOverNPageViews": "Calculado usando as últimas %1$s exibições de página deste visitante.",
         "ClickToViewMoreAboutVisit": "Clique para ver mais informações sobre esta visita",
@@ -19,10 +20,11 @@
         "NbVisitors": "%s visitantes",
         "NextVisitor": "Próximo visitante",
         "NoMoreVisits": "Não existem mais visitas para este visitante.",
-        "PageRefreshed": "Número de vezes que esta página foi vista\/atualizada em um registro.",
+        "PageRefreshed": "Número de vezes que esta página foi vista \/ recarregada em uma linha.",
+        "PluginDescription": "Fornece o Registro de Visitantes em tempo real e permite que você assista seus visitantes ao vivo no widget do painel. O plugin também permite que você veja o perfil de Visitante de qualquer usuário.",
         "PreviousVisitor": "Visitante anterior",
         "RealTimeVisitorCount": "Contagem de visitantes em tempo real",
-        "Referrer_URL": "URL de encaminhamento",
+        "Referrer_URL": "URL do Referenciador",
         "ShowMap": "mostrar mapa",
         "SimpleRealTimeWidget_Message": "%s e %s na última %s.",
         "ViewVisitorProfile": "Ver o perfil do visitante",
@@ -33,6 +35,12 @@
         "VisitorsInRealTime": "Visitantes em tempo real",
         "VisitorsLastVisit": "A última visita deste visitante foi a %s dias atrás.",
         "VisitsFrom": "%1$s%2$s visitas%3$s de",
-        "VisitSummary": "Passou um total de %1$s%2$s no site%3$s, e %4$spáginas %5$s vistas em %6$s visitas.%7$s"
+        "VisitSummary": "Passou um total de %1$s%2$s no site%3$s, e %4$spáginas %5$s vistas em %6$s visitas.%7$s",
+        "RowActionTooltipDefault": "Mostrar Log de Visitantes segmentado por esta linha",
+        "RowActionTooltipWithDimension": "Mostrar Log de Visitantes segmentado por este %s",
+        "RowActionTooltipTitle": "Abrir Log de Visitantes segmentado",
+        "SegmentedVisitorLogTitle": "Log de Visitantes mostrando visitas onde %s é \"%s\"",
+        "OnClickPause": "%s iniciou. Clique para pausar.",
+        "OnClickStart": "%s parou. Clique para iniciar."
     }
 }

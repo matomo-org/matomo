@@ -5,7 +5,6 @@
         "LoadedAPIs": "%s APIs indlæst",
         "MoreInformation": "Mere information om Piwik API'er, findes på %sIntroduktion til Piwik API%s og %sPiwik API Reference%s.",
         "PluginDescription": "Alle data i Piwik er tilgængelig gennem enkle API'er. Denne udvidelse er en webservice indgang, som kaldes for at få Web Analytics-data i xml, JSON, php, csv etc.",
-        "QuickDocumentationTitle": "API - hurtig i gang dokumentation",
         "TopLinkTooltip": "Få adgang til dine webanalyse data programmeringsmæssigt gennem en simpel API i JSON, XML, etc.",
         "UserAuthentication": "Brugergodkendelse",
         "UsingTokenAuth": "Hvis du ønsker at %s hente data i et script, med crontab, m.m. %s skal du tilføje parameteren %s til API-kaldes netadresse, som kræver godkendelse."

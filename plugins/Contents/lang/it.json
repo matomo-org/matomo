@@ -6,6 +6,8 @@
         "Interaction": "Interazione",
         "InteractionRate": "Rapporto di Interazioni",
         "ContentName": "Nome Contenuto",
+        "ContentPiece": "Pezzo del Contenuto",
+        "ContentTarget": "Obiettivo del Contenuto",
         "Contents": "Contenuti"
     }
 }

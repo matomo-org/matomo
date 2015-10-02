@@ -170,11 +170,16 @@
          * @private
          */
         function _mixinDefaultGetParams (getParamsToMixin) {
+            var segment = piwik.broadcast.getValueFromHash('segment', $window.location.href.split('#')[1]);
+
+            // we have to decode the value manually because broadcast will not decode anything itself. if we don't,
+            // angular will encode it again before sending the value in an HTTP request.
+            segment = decodeURIComponent(segment);
 
             var defaultParams = {
                 idSite:  piwik.idSite || piwik.broadcast.getValueFromUrl('idSite'),
                 period:  piwik.period || piwik.broadcast.getValueFromUrl('period'),
-                segment: piwik.broadcast.getValueFromHash('segment', $window.location.href.split('#')[1])
+                segment: segment
             };
 
             // never append token_auth to url

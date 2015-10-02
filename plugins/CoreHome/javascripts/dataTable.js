@@ -781,9 +781,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                         ;
 
                     var annotationsCss = {left: 6}; // padding-left of .jqplot-graph element (in _dataTableViz_jqplotGraph.tpl)
-                    if (self.isWithinDialog(domElem)) {
-                        annotationsCss['top'] = -datatableFeatures.height() - annotationAxisHeight + noteSize / 2;
-                    }
 
                     // set position of evolution annotation icons
                     annotations.css(annotationsCss);
@@ -1422,19 +1419,23 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleExpandFooter: function (domElem) {
-        if (this.isWithinDialog(domElem)) {
-            return;
-        }
-
         var footerIcons = $('.dataTableFooterIcons', domElem);
 
         if (!footerIcons.length) {
             return;
         }
 
+        if (this.isWithinDialog(domElem)) {
+            $('.dataTableFeatures', domElem).addClass('expanded');
+        }
+
         var self = this;
         function toggleFooter(event)
         {
+            if (self.isWithinDialog(domElem)) {
+                return;
+            }
+
             var icons = $('.dataTableFooterIcons', domElem);
             $('.dataTableFeatures', domElem).toggleClass('expanded');
 

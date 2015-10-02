@@ -312,7 +312,6 @@
         "Visitors": "방문",
         "VisitsWith": "%s의 방문",
         "VisitorSettings": "방문자 설정",
-        "VisitType": "방문자 유형",
         "VisitTypeExample": "예를 들어, 이전 방문에서 무언가를 구입한 방문자를 포함한 모든 리피터를 선택하기 위한 API 요청 %s를 포함합니다.",
         "Warning": "경고",
         "WarningFileIntegrityNoManifest": "manifest.inc.php가 없기 때문에, 파일의 무결성 검사를 수행할 수 없습니다.",

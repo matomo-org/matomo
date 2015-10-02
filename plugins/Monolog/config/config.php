@@ -46,7 +46,10 @@ return array(
 
     'Piwik\Plugins\Monolog\Handler\FileHandler' => DI\object()
         ->constructor(DI\get('log.file.filename'), DI\get('log.level'))
-        ->method('setFormatter', DI\get('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')),
+        ->method('setFormatter', DI\get('log.lineMessageFormatter.file')),
+
+    'log.lineMessageFormatter.file' => DI\object('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
+        ->constructorParameter('allowInlineLineBreaks', false),
 
     'Piwik\Plugins\Monolog\Handler\DatabaseHandler' => DI\object()
         ->constructor(DI\get('log.level'))

@@ -282,7 +282,6 @@
         "Visitors": "Ziyaretçiler",
         "VisitsWith": "%s ile Ziyaretler",
         "VisitorSettings": "Ziyaretçi Ayarlari",
-        "VisitType": "Ziyaretçi Türü",
         "Warning": "Uyarı",
         "WarningFileIntegrityNoManifest": "manifest.inc.php dosyası bulunamadığı için dosya bütünlük kontrolü gerçekleştirilemedi.",
         "WarningFileIntegrityNoMd5file": "md5_file() fonksiyonu bulunamadığı için dosya bütünlük kontrolü tamamlanamadı.",

@@ -1,0 +1,8 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "Comércio Eletrônico permite que você controle quando os usuários adicionam produtos nos carrinhos, e quando eles convertem em uma venda de comércio eletrônico. Controla também os produtos e categorias de produtos, visualizações e carrinhos abandonados.",
+        "Sales": "Vendas",
+        "SalesBy": "Vendas por %s",
+        "SalesAdjective": "Vendas %s"
+    }
+}

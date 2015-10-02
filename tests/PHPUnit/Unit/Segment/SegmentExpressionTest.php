@@ -10,6 +10,10 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\Segment\SegmentExpression;
 
+/**
+ * @group SegmentExpressionTest
+ * @group Segment
+ */
 class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
 {
     /**

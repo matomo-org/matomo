@@ -38,8 +38,6 @@
         "JSTrackingIntro2": "Piwik ile izlemek istediğiniz sitenin tüm sayfalarına Javascript izleme kodunu yapıştırmanız gerekmektedir.",
         "JSTrackingIntro4": "Eğer Javascript izleme kodu kullanmak istemiyorsanız aşağıdaki%2$s linke tıklayarak izleme resmi oluşturabilirsiniz%1$s.",
         "JSTrackingIntro5": "Eğer daha fazla sayfa görüntülenme sayısını takip etmek istiyorsanız, lütfen %1$sPiwik javascript izleme dökümantasyonunda %2$s listelenen uygun fonksiyonlara göz gezdirin. Bu fonksiyonları kullanarak hedefleri, özel değerleri, e-ticaret siparişlerini, terkedilen sepetler ve daha fazlasını takip edebilirsiniz.",
-        "LatestBetaRelease": "En son beta sürümü",
-        "LatestStableRelease": "En son kararlı sürüm",
         "LogoUpload": "Yüklemek için logo seçiniz",
         "FaviconUpload": "Yüklemek için Favicon seçin",
         "LogoUploadHelp": "Lütfen %s formatlarında ve minimum %s piksel yüksekliğinde bir dosya yükleyin.",

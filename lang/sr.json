@@ -379,7 +379,6 @@
         "Visitors": "Posetioci",
         "VisitsWith": "Posete sa %s",
         "VisitorSettings": "Parametri posetilaca",
-        "VisitType": "Tip posetioca",
         "VisitTypeExample": "Na primer, kako biste obeležili sve posetioce koji su se vratili na sajt, uključujući i one koji su već nešto kupili, API zahtev bi sadržao %s",
         "Warning": "Upozorenje",
         "WarningPhpVersionXIsTooOld": "PHP verzija %s koju koristite je zastarela. Molimo vas da hitno nadogradite PHP na najnoviju verziju jer ukoliko nastavite da koristite postojeću, izlažete se sigurnosnim rizicima i bagovima koji su već ispravljeni u novijim verzijama PHP-a.",

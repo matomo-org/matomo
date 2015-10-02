@@ -45,8 +45,6 @@
         "JSTrackingIntro3": "De fleste hjemmesider, blogs, CMS, mv. kan bruge et foruddefineret modul til at gøre det tekniske arbejde for dig. (Se %1$slisten med moduler, der kan bruges til at integrere Piwik%2$s). Hvis der ikke findes et modul, kan du redigere hjemmeside skabelonen og tilføje denne kode i \"sidefoden\".",
         "JSTrackingIntro4": "Hvis du ikke ønsker at bruge JavaScript til at spore besøgende,%1$sgenerere et billed sporingslink herunder%2$s.",
         "JSTrackingIntro5": "Hvis du vil gøre mere end at spore sidevisninger, kan du checke %1$sPiwik Javascript sporingsdokumentation%2$s for listen over tilgængelige funktioner. Ved hjælp af disse funktioner kan du spore mål, brugerdefinerede variabler, e-handels ordrer, afbrudte ordrer og meget mere.",
-        "LatestBetaRelease": "Den nyeste beta release",
-        "LatestStableRelease": "Den seneste stabile udgave",
         "LogoNotWriteableInstruction": "Hvis du vil bruge din brugerdefinerede logo i stedet for standard Piwik logoet, giver skriverettigheder til denne mappe: %1$s Piwik brug skriveadgang til dine logoer gemt i filer %2$s.",
         "FileUploadDisabled": "Overførelse af filer er ikke aktiveret i PHP-konfiguration. For at overføre dit brugerdefinerede logo skal du indstille %s i php.ini og genstarte webserveren.",
         "LogoUpload": "Vælg et logo til overførelse",

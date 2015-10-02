@@ -336,7 +336,6 @@
         "Visitors": "Pengunjung",
         "VisitsWith": "Kunjungan dengan %s",
         "VisitorSettings": "Pengaturan Pengunjung",
-        "VisitType": "Jenis pengunjung",
         "VisitTypeExample": "Sebagai contoh, untuk memilih semua pengunjung yang telah kembali ke situs, termasuk yang telah membeli sesuatu saat kunjungan sebelumnya, permintaan API akan mengandung %s",
         "Warning": "Peringatan",
         "WarningFileIntegrityNoManifest": "Pemeriksaan integritas berkas tak dapat dilakukan sebab berkas manifest.inc.php tak ditemukan.",

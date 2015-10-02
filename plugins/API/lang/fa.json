@@ -2,7 +2,6 @@
     "API": {
         "KeepTokenSecret": "این token_auth برای رمزعبور و ورود شما مثل یک راز است , %s آن را به کسی نگویید %s!",
         "LoadedAPIs": "API های %s با موفقیت بارگزاری شدند",
-        "QuickDocumentationTitle": "مستندات API",
         "TopLinkTooltip": "با استفاده از یک API ساده به اطلاعات آماری وب خود از طریق کدنویسی در فرمت های json و xml و غیره دسترسی پیدا کنید.",
         "UserAuthentication": "تأیید هویت کاربر"
     }

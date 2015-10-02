@@ -331,7 +331,6 @@
         "Visitors": "Visitants",
         "VisitsWith": "Visites amb %s",
         "VisitorSettings": "Configuració del visitant",
-        "VisitType": "Tipus de visitant",
         "VisitTypeExample": "Per exemple, per seleccionar tots els visitants que han retornat al lloc web, incloent els que han comprat alguna cosa en anteriors visites, la petició de l'API tindria %s",
         "Warning": "Avís",
         "WarningFileIntegrityNoManifest": "La verificació de la integritat dels fitxers no s'ha pogut fer perquè falta el manifest.inc.php.",

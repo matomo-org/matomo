@@ -203,7 +203,6 @@
         "VisitorID": "מספר מבקר",
         "VisitorIP": "IP מבקר",
         "Visitors": "מבקרים",
-        "VisitType": "סוג מבקר",
         "Warning": "אזהרה",
         "WarningFileIntegrityNoManifest": "לא ניתן לבצע בדיקת תקינות קבצים מכיוון שהקובץ manifest.inc.php חסר.",
         "WarningFileIntegrityNoMd5file": "לא ניתן לבצע בדיקת תקינות קבצים מכיוון שהפונקציה md5_file() חסרה.",

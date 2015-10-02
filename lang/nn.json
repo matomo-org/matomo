@@ -258,7 +258,6 @@
         "Visitors": "Vitjarar",
         "VisitsWith": "Vitjingar med %s",
         "VisitorSettings": "Vitjarinnstillingar",
-        "VisitType": "Vitjar-type",
         "VisitTypeExample": "Døme: For å velja alle vitjarar som kjem attende til vevstaden, inkludert dei som har kjøpt noko førre gong, vil API-førespurnaden innehalde %s",
         "Warning": "Åtvaring",
         "WarningFileIntegrityNoManifest": "Sjekking av filintegritet kunne ikkje bli utført av di manifest.inc.php manglar.",

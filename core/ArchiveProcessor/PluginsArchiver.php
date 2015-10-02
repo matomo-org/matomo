@@ -41,9 +41,11 @@ class PluginsArchiver
     private $logAggregator;
 
     /**
+     * Public only for tests. Won't be necessary after DI changes are complete.
+     *
      * @var Archiver[] $archivers
      */
-    private static $archivers = array();
+    public static $archivers = array();
 
     public function __construct(Parameters $params, $isTemporaryArchive)
     {

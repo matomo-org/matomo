@@ -4,7 +4,6 @@
         "KeepTokenSecret": "Acest token_auth este secret cum sunt login-ul si parola, %s nu le fa publice%s!",
         "LoadedAPIs": "%s API-uri încarcate cu succes",
         "MoreInformation": "Pentru mai multe informatii despre API-urile Piwik, va rugam sa va uitati la %s Introducere la Piwik API %s si la %s Referinte Piwik API %s.",
-        "QuickDocumentationTitle": "Demonstrare rapida API",
         "TopLinkTooltip": "Acceseaza datele tale de Web Analytics in mod organizat prin intermediul unui simplu API in json, xml, etc.",
         "UserAuthentication": "Identificare utilizator",
         "UsingTokenAuth": "Daca vrei sa %s preiei date printr-un script, crontab etc. %s este necesar sa adaugi parametrul %s la URL-urile API care cer autentificare."

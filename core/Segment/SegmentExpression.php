@@ -49,6 +49,11 @@ class SegmentExpression
         $this->tree = $this->parseTree();
     }
 
+    public function getSegmentDefinition()
+    {
+        return $this->string;
+    }
+
     public function isEmpty()
     {
         return count($this->tree) == 0;
@@ -187,6 +192,12 @@ class SegmentExpression
                 // eg. pageUrl!=DoesNotExist
                 // Not equal to NULL means it matches all rows
                 $sqlExpression = self::SQL_WHERE_MATCHES_ALL_ROWS;
+            } elseif($matchType == self::MATCH_CONTAINS
+                  || $matchType == self::MATCH_DOES_NOT_CONTAIN) {
+                // no action was found for CONTAINS / DOES NOT CONTAIN
+                // eg. pageUrl=@DoesNotExist -> matches no row
+                // eg. pageUrl!@DoesNotExist -> matches no rows
+                $sqlExpression = self::SQL_WHERE_DO_NOT_MATCH_ANY_ROW;
             } else {
                 // it is not expected to reach this code path
                 throw new Exception("Unexpected match type $matchType for your segment. " .
@@ -275,8 +286,13 @@ class SegmentExpression
             }
 
             $sqlExpressions[] = $sqlExpression;
+
             if ($value !== null) {
-                $values[] = $value;
+                if(is_array($value)) {
+                    $values = array_merge($values, $value);
+                } else {
+                    $values[] = $value;
+                }
             }
 
             $this->checkFieldIsAvailable($field, $availableTables);

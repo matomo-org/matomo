@@ -201,7 +201,7 @@ class VisitDimensionTest extends IntegrationTestCase
         $this->assertEquals(Segment::TYPE_METRIC, $segments[1]->getType());
     }
 
-    public function test_sortByRequiredFields_ShouldResolveDependencies()
+    public function test_sortDimensions_ShouldResolveDependencies()
     {
         $dimension1 = new FakeVisitDimension();
         $dimension1->set('columnName', 'column1');
@@ -221,7 +221,36 @@ class VisitDimensionTest extends IntegrationTestCase
 
         $instances = array($dimension1, $dimension2, $dimension3, $dimension4);
 
-        usort($instances, array('\Piwik\Plugin\Dimension\VisitDimension', 'sortByRequiredFields'));
+        $instances = VisitDimension::sortDimensions($instances);
+
+        $this->assertSame(array($dimension3, $dimension4, $dimension2, $dimension1), $instances);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage  Circular reference detected for required field column4 in dimension column2
+     */
+    public function test_sortDimensions_ShouldThrowAnException_IfCircularReferenceDetected()
+    {
+        $dimension1 = new FakeVisitDimension();
+        $dimension1->set('columnName', 'column1');
+        $dimension1->requiredFields = array('column3');
+
+        $dimension2 = new FakeVisitDimension();
+        $dimension2->set('columnName', 'column2');
+        $dimension2->requiredFields = array('column3', 'column4');
+
+        $dimension3 = new FakeVisitDimension();
+        $dimension3->set('columnName', 'column3');
+        $dimension3->requiredFields = array();
+
+        $dimension4 = new FakeVisitDimension();
+        $dimension4->set('columnName', 'column4');
+        $dimension4->requiredFields = array('column2');
+
+        $instances = array($dimension1, $dimension2, $dimension3, $dimension4);
+
+        $instances = VisitDimension::sortDimensions($instances);
 
         $this->assertSame(array($dimension3, $dimension4, $dimension2, $dimension1), $instances);
     }

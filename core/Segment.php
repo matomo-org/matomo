@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\API\API;
 use Piwik\Segment\SegmentExpression;
@@ -72,6 +73,11 @@ class Segment
     protected $idSites = null;
 
     /**
+     * @var LogQueryBuilder
+     */
+    private $segmentQueryBuilder;
+
+    /**
      * Truncate the Segments to 8k
      */
     const SEGMENT_TRUNCATE_LIMIT = 8192;
@@ -86,6 +92,8 @@ class Segment
      */
     public function __construct($segmentCondition, $idSites)
     {
+        $this->segmentQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
+
         $segmentCondition = trim($segmentCondition);
         if (!SettingsPiwik::isSegmentationEnabled()
             && !empty($segmentCondition)
@@ -169,30 +177,31 @@ class Segment
                 throw new NoAccessException("You do not have enough permission to access the segment " . $name);
             }
 
-            if ($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
-                && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
-                if (isset($segment['sqlFilterValue'])) {
-                    $value = call_user_func($segment['sqlFilterValue'], $value);
+            if ($matchType == SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
+                || $matchType == SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
+                break;
+            }
+
+            if (isset($segment['sqlFilterValue'])) {
+                $value = call_user_func($segment['sqlFilterValue'], $value);
+            }
+
+            // apply presentation filter
+            if (isset($segment['sqlFilter'])) {
+                $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
+
+                if(is_null($value)) { // null is returned in TableLogAction::getIdActionFromSegment()
+                    return array(null, $matchType, null);
                 }
 
-                // apply presentation filter
-                if (isset($segment['sqlFilter'])) {
-                    $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
-
-                    if(is_null($value)) { // null is returned in TableLogAction::getIdActionFromSegment()
-                        return array(null, $matchType, null);
-                    }
-
-                    // sqlFilter-callbacks might return arrays for more complex cases
-                    // e.g. see TableLogAction::getIdActionFromSegment()
-                    if (is_array($value) && isset($value['SQL'])) {
-                        // Special case: returned value is a sub sql expression!
-                        $matchType = SegmentExpression::MATCH_ACTIONS_CONTAINS;
-                    }
-
-
+                // sqlFilter-callbacks might return arrays for more complex cases
+                // e.g. see TableLogAction::getIdActionFromSegment()
+                if (is_array($value) && isset($value['SQL'])) {
+                    // Special case: returned value is a sub sql expression!
+                    $matchType = SegmentExpression::MATCH_ACTIONS_CONTAINS;
                 }
             }
+
             break;
         }
 
@@ -253,8 +262,8 @@ class Segment
             $limit = (int) $offset . ', ' . (int) $limit;
         }
 
-        $segmentQuery = new LogQueryBuilder($segmentExpression);
-        return $segmentQuery->getSelectQueryString($select, $from, $where, $bind, $groupBy, $orderBy, $limit);
+        return $this->segmentQueryBuilder->getSelectQueryString($segmentExpression, $select, $from, $where, $bind,
+            $groupBy, $orderBy, $limit);
     }
 
     /**

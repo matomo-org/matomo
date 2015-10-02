@@ -69,6 +69,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             $fixture->extraTestEnvVars['loadRealTranslations'] = true; // load real translations by default for system tests
         }
 
+        $fixture->extraDefinitions = static::provideContainerConfigBeforeClass();
+
         try {
             $fixture->performSetUp();
         } catch (Exception $e) {
@@ -102,6 +104,11 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     public static function isPhpVersion53()
     {
         return strpos(PHP_VERSION, '5.3') === 0;
+    }
+
+    public static function isPhp7orLater()
+    {
+        return version_compare('7.0.0-dev', PHP_VERSION) < 1;
     }
 
     public static function isMysqli()

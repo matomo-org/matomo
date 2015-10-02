@@ -25,6 +25,10 @@
         return service;
 
         function init() {
+            if ($location.path() != '/') {
+                changePathToSearch();
+            }
+
             $rootScope.$on('$locationChangeSuccess', function () {
                 loadCurrentPage();
             });
@@ -32,9 +36,43 @@
             loadCurrentPage();
         }
 
+        // currently, the AJAX content URL is stored in $location.search(), but before it was stored in $location.path().
+        // this function makes sure URLs like http://piwik.net/?...#/module=Whatever&action=whatever still work.
+        function changePathToSearch() {
+            var path = $location.path();
+            if (!path
+                || path == '/'
+            ) {
+                return;
+            }
+
+            var searchParams = broadcast.getValuesFromUrl('?' + path.substring(1));
+            // NOTE: we don't need to decode the parameters since $location.path() will decode the string itself
+
+            $location.search(searchParams);
+            $location.path('');
+        }
+
         function loadCurrentPage() {
+            var searchObject = $location.search(),
+                searchString = [];
+            for (var name in searchObject) {
+                if (!searchObject.hasOwnProperty(name) || name == '_') {
+                    continue;
+                }
+
+                // if more than one query parameter of the same name is supplied, angular will return all of them as
+                // an array. we only want to use the last one, though.
+                if (searchObject[name] instanceof Array) {
+                    searchObject[name] = searchObject[name][searchObject[name].length - 1];
+                }
+
+                searchString.push(name + '=' + encodeURIComponent(searchObject[name]));
+            }
+            searchString = searchString.join('&');
+
             // the location hash will have a / prefix, which broadcast.pageload doesn't want
-            broadcast.pageload($location.path().substring(1));
+            broadcast.pageload(searchString);
         }
 
         function load(hash) {
@@ -47,7 +85,15 @@
                 }
             }
 
-            $location.path(hash);
+            if (hash) {
+                $location.search(hash);
+            } else {
+                // NOTE: this works around a bug in angularjs. when unsetting the hash (ie, removing in the URL),
+                // angular will enter an infinite loop of digests. this is because $locationWatch will trigger
+                // $locationChangeStart if $browser.url() != $location.absUrl(), and $browser.url() will contain
+                // the '#' character and $location.absUrl() will not. so the watch continues to trigger the event.
+                $location.search('_=');
+            }
 
             setTimeout(function () { $rootScope.$apply(); }, 1);
         }

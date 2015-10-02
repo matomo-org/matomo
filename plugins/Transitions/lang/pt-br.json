@@ -1,6 +1,6 @@
 {
     "Transitions": {
-        "BouncesInline": "%s saltos",
+        "BouncesInline": "%s rejeições",
         "DirectEntries": "Entradas diretas",
         "ErrorBack": "Voltar para a ação anterior",
         "ExitsInline": "%s saídas",
@@ -16,7 +16,7 @@
         "NoDataForAction": "Não há dados para %s",
         "NoDataForActionDetails": "Ou a ação não tinha visualizações de página durante o período de %s ou é inválido.",
         "OutgoingTraffic": "O tráfego de saída",
-        "PluginDescription": "Relatórios anteriores e seguintes ações para cada URL da página em um novo relatório Transições, disponível nos relatórios de Ações através de um novo ícone.",
+        "PluginDescription": "Informa ações anteriores e seguintes para cada URL da página em um novo relatório de Transições, disponível nos relatórios de Ações através de um novo ícone.",
         "ShareOfAllPageviews": "Esta página teve %s exibições (%s de todos as exibições)",
         "ToFollowingPages": "Para páginas internas",
         "ToFollowingPagesInline": "%s para páginas internas",

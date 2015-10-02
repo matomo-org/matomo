@@ -1,0 +1,13 @@
+{
+    "Contents": {
+        "PluginDescription": "Chức năng theo dõi nội dung và banner cho phép bạn đánh giá được hiệu quả (lượt xem, click, CTR) của bất kỳ trang web nào.",
+        "Impressions": "Lượt hiển thị cho người dùng",
+        "Interactions": "Tương tác",
+        "Interaction": "Tương tác",
+        "InteractionRate": "Tỷ lệ tương tác",
+        "ContentName": "Tên nội dung",
+        "ContentPiece": "Thành phần nội dung",
+        "ContentTarget": "Đối tượng nội dung",
+        "Contents": "Nội dung"
+    }
+}

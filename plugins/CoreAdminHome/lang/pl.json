@@ -45,8 +45,6 @@
         "JSTrackingIntro3": "W większości stron, na blogach i CMS itd. możesz używać pluginu, który załatwi stronę techniczną za Ciebie (sprawdź naszą %1$slistę pluginów do integracji z Piwik%2$s). Jeżeli nie ma żadnych pluginów możesz wyedytować swoją stronę i dodać ten kod w pliku \"footer\".",
         "JSTrackingIntro4": "Jeśli nie chcesz używać JavaScript'u do śledzenia odwiedzających, %1$swygeneruj link śledzenia obrazkiem poniżej%2$s.",
         "JSTrackingIntro5": "Jeśli chcesz zrobić więcej niż śledzić odwiedziny stron, sprawdz listę dostępnych funkcji w %1$sdokumentacji Piwik Śledzenie Javascript%2$s. Przy użyciu tych funkcji możesz śledzić cele, własne zmienne, zamówienia biznesowe i inne.",
-        "LatestBetaRelease": "Ostatnie wydanie beta",
-        "LatestStableRelease": "Ostatnie stabilne wydanie",
         "LogoNotWriteableInstruction": "Aby użyć swojego własnego logo zamiast domyślnego loga Piwik, nadaj uprawnienia do zapisu do katalogu: %1$s Piwik potrzebuje tych uprawnień aby zapisać Twoje loga do pliku %2$s.",
         "FileUploadDisabled": "Przesyłanie plików nie jest włączone w konfiguracji PHP. Aby przesłać własne logo należy ustawić %s w pliku php.ini i ponownie uruchomić serwer WWW.",
         "LogoUpload": "Wybierz logo",

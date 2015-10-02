@@ -285,7 +285,7 @@ class CronArchive
          *
          * @param CronArchive $this
          */
-        Piwik::postEvent('CoreArchive.run.start', array($this));
+        Piwik::postEvent('CronArchive.init.start', array($this));
 
         SettingsServer::setMaxExecutionTime(0);
 
@@ -452,6 +452,13 @@ class CronArchive
      */
     public function end()
     {
+        /**
+         * This event is triggered after archiving.
+         *
+         * @param CronArchive $this
+         */
+        Piwik::postEvent('CronArchive.end', array($this));
+
         if (empty($this->errors)) {
             // No error -> Logs the successful script execution until completion
             Option::set(self::OPTION_ARCHIVING_FINISHED_TS, time());
@@ -466,13 +473,6 @@ class CronArchive
 
         $summary = count($this->errors) . " total errors during this script execution, please investigate and try and fix these errors.";
         $this->logFatalError($summary);
-
-        /**
-         * This event is triggered after archiving.
-         *
-         * @param CronArchive $this
-         */
-        Piwik::postEvent('CoreArchive.run.finish', array($this));
     }
 
     public function logFatalError($m)

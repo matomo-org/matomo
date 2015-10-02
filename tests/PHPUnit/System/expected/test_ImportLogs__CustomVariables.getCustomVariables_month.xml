@@ -3,6 +3,7 @@
 	<row>
 		<label>HTTP-code</label>
 		<nb_actions>43</nb_actions>
+		<segment>customVariableName==HTTP-code</segment>
 		<subtable>
 			<row>
 				<label>200</label>
@@ -60,6 +61,7 @@
 		<revenue>25</revenue>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>customVariableName==Not-Bot</segment>
 		<subtable>
 			<row>
 				<label>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</label>
@@ -149,6 +151,7 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segment>customVariableName==User+Name</segment>
 		<subtable>
 			<row>
 				<label>user1</label>
@@ -193,6 +196,7 @@
 	<row>
 		<label>Generation Time</label>
 		<nb_actions>4</nb_actions>
+		<segment>customVariableName==Generation+Time</segment>
 		<subtable>
 			<row>
 				<label>359</label>
@@ -217,6 +221,7 @@
 	<row>
 		<label>Windows Status Code</label>
 		<nb_actions>4</nb_actions>
+		<segment>customVariableName==Windows+Status+Code</segment>
 		<subtable>
 			<row>
 				<label>24</label>
@@ -262,6 +267,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>customVariableName==Bot</segment>
 		<subtable>
 			<row>
 				<label>Googlebot/2.1 ( http://www.googlebot.com/bot.html)</label>
@@ -302,6 +308,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>customVariableName==Forum+status</segment>
 		<subtable>
 			<row>
 				<label>Anonymous</label>
@@ -342,6 +349,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>customVariableName==VisitorType</segment>
 		<subtable>
 			<row>
 				<label>NewLoggedOut</label>

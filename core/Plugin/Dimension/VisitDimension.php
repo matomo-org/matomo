@@ -309,7 +309,7 @@ abstract class VisitDimension extends Dimension
                 }
             }
 
-            usort($instances, array('self', 'sortByRequiredFields'));
+            $instances = self::sortDimensions($instances);
 
             $cache->save($cacheId, $instances);
         }
@@ -319,20 +319,61 @@ abstract class VisitDimension extends Dimension
 
     /**
      * @ignore
+     * @param VisitDimension[] $dimensions
      */
-    public static function sortByRequiredFields($a, $b)
+    public static function sortDimensions($dimensions)
     {
-        $fields = $a->getRequiredVisitFields();
+        $sorted = array();
+        $exists = array();
 
-        if (empty($fields)) {
-            return -1;
+        // we first handle all the once without dependency
+        foreach ($dimensions as $index => $dimension) {
+            $fields = $dimension->getRequiredVisitFields();
+            if (empty($fields)) {
+                $sorted[] = $dimension;
+                $exists[] = $dimension->getColumnName();
+                unset($dimensions[$index]);
+            }
         }
 
-        if (in_array($b->columnName, $fields)) {
-            return 1;
+        // find circular references
+        // and remove dependencies whose column cannot be resolved because it is not installed / does not exist / is defined by core
+        $depenencies = array();
+        foreach ($dimensions as $dimension) {
+            $depenencies[$dimension->getColumnName()] = $dimension->getRequiredVisitFields();
         }
 
-        return 0;
+        foreach ($depenencies as $column => $fields) {
+            foreach ($fields as $key => $field) {
+                if (empty($depenencies[$field]) && !in_array($field, $exists)) {
+                    // we cannot resolve that dependency as it does not exist
+                    unset($depenencies[$column][$key]);
+                } elseif (!empty($depenencies[$field]) && in_array($column, $depenencies[$field])) {
+                    throw new Exception("Circular reference detected for required field $field in dimension $column");
+                }
+            }
+        }
+
+        $count = 0;
+        while (count($dimensions) > 0) {
+            $count++;
+            if ($count > 1000) {
+                foreach ($dimensions as $dimension) {
+                    $sorted[] = $dimension;
+                }
+                break; // to prevent an endless loop
+            }
+            foreach ($dimensions as $key => $dimension) {
+                $fields = $depenencies[$dimension->getColumnName()];
+                if (count(array_intersect($fields, $exists)) === count($fields)) {
+                    $sorted[] = $dimension;
+                    $exists[] = $dimension->getColumnName();
+                    unset($dimensions[$key]);
+                }
+            }
+        }
+
+        return $sorted;
     }
 
     /**

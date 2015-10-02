@@ -44,8 +44,6 @@
         "JSTrackingIntro3": "Maaari mong gamitin sa karamihan ng website, blog, CMS, atbp. ang isang pre-made na plugin upang gawin ang mga teknikal na trabaho para sa iyo. (Tingnan ang aming %1$s na listahan ng mga plugin na ginamit upang i-integrate ang Piwik %2$s.) Kung walang plugin na nag-eexist maaari mong i-edit ang template ng iyong website at idagdag ang code na ito sa \"footer\" file.",
         "JSTrackingIntro4": "Kung ayaw mong gamitin ang JavaScript upang masubaybayan ang mga bisita,%1$s gumawa ng link upang sumubaybay sa image sa ibaba %2$s.",
         "JSTrackingIntro5": "Kung gusto mong gawin nang higit pa kaysa sa pagsubaybay ng page view, mangyaring tingnan ang %1$s Tracking Piwik Javascript na dokumentasyon %2$s para sa listahan ng mga available na function. Sa paggamit ng mga function na ito maaari mong subaybayan ang mga layunin, mga custom variable, mga ecommerce order, mga inabandunang cart at marami pa.",
-        "LatestBetaRelease": "Ang pinakabagong beta release",
-        "LatestStableRelease": "Ang pinakabagong matatag na release",
         "LogoNotWriteableInstruction": "Upang gamitin ang iyong pasadyang logo sa halip na ang default na Piwik logo, bigyan ng pahintulot na magsulat sa direktoryong ito: %1$s kailangan ng Piwik ng write access para sa iyong mga logo na naka-imbak sa mga file ng %2$s.",
         "LogoUpload": "Piliin ang Logo na i-upload",
         "FaviconUpload": "Pumili ng Favicon upang i-upload",
