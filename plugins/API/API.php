@@ -564,8 +564,7 @@ class API extends \Piwik\Plugin\API
     public function getGlossaryReports($idSite)
     {
         $glossary = StaticContainer::get('Piwik\Plugins\API\Glossary');
-        $glossary->setIdSite($idSite);
-        return $glossary->reportsGlossary();
+        return $glossary->reportsGlossary($idSite);
     }
 
     /**
@@ -577,8 +576,7 @@ class API extends \Piwik\Plugin\API
     public function getGlossaryMetrics($idSite)
     {
         $glossary = StaticContainer::get('Piwik\Plugins\API\Glossary');
-        $glossary->setIdSite($idSite);
-        return $glossary->metricsGlossary();
+        return $glossary->metricsGlossary($idSite);
     }
 
     /**

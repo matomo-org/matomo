@@ -13,15 +13,17 @@ class Glossary
 {
     protected $metadata = array();
 
-    public function setIdSite($idSite)
+    public function __construct(API $api)
     {
-        $this->metadata = API::getInstance()->getReportMetadata($idSite);
+        $this->api = $api;
     }
 
-    public function reportsGlossary()
+    public function reportsGlossary($idSite)
     {
+        $metadata = $this->api->getReportMetadata($idSite);
+
         $reports = array();
-        foreach ($this->metadata as $report) {
+        foreach ($metadata as $report) {
             if (isset($report['documentation'])) {
                 $reports[] = array(
                     'name' => sprintf("%s (%s)", $report['name'], $report['category']),
@@ -37,10 +39,12 @@ class Glossary
         return $reports;
     }
 
-    public function metricsGlossary()
+    public function metricsGlossary($idSite)
     {
+        $metadata = $this->api->getReportMetadata($idSite);
+
         $metrics = array();
-        foreach ($this->metadata as $report) {
+        foreach ($metadata as $report) {
             if (!isset($report['metricsDocumentation'])) {
                 continue;
             }
