@@ -23,6 +23,7 @@
 *.jpg binary
 *.gif binary
 *.gz binary
+*.gzip binary
 *.bz2 binary
 *.pdf binary
 *.jar binary
