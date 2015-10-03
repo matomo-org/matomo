@@ -539,6 +539,7 @@
         "NMinutesShort": "%s ደቂቃ",
         "NSeconds": "%s ሰከንዶች",
         "NSecondsShort": "%s ሰ",
+        "NumberFormatCurrency": "¤#,##0.00",
         "NumberFormatNumber": "#,##0.###",
         "NumberFormatPercent": "#,##0%",
         "NumberSymbolDecimal": ".",

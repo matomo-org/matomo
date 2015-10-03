@@ -536,6 +536,7 @@
         "NMinutesShort": "%s წთ",
         "NSeconds": "%s წამი",
         "NSecondsShort": "%sწმ",
+        "NumberFormatCurrency": "#,##0.00 ¤",
         "NumberFormatNumber": "#,##0.###",
         "NumberFormatPercent": "#,##0 %",
         "NumberSymbolDecimal": ",",

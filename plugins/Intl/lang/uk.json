@@ -555,6 +555,7 @@
         "NMinutesShort": "%s хв",
         "NSeconds": "%s секунди",
         "NSecondsShort": "%s с",
+        "NumberFormatCurrency": "#,##0.00 ¤",
         "NumberFormatNumber": "#,##0.###",
         "NumberFormatPercent": "#,##0%",
         "NumberSymbolDecimal": ",",

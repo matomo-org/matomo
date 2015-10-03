@@ -549,6 +549,7 @@
         "NMinutesShort": "%s mun",
         "NSeconds": "%s eiliad",
         "NSecondsShort": "%s eil",
+        "NumberFormatCurrency": "¤#,##0.00",
         "NumberFormatNumber": "#,##0.###",
         "NumberFormatPercent": "#,##0%",
         "NumberSymbolDecimal": ".",

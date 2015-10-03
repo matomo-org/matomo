@@ -342,6 +342,7 @@ class GenerateIntl extends ConsoleCommand
             $translations['Intl']['NumberSymbolPlus']     = $unitsData['symbols-numberSystem-' . $numberingSystem]['plusSign'];
             $translations['Intl']['NumberSymbolMinus']    = $unitsData['symbols-numberSystem-' . $numberingSystem]['minusSign'];
             $translations['Intl']['NumberFormatNumber']   = $unitsData['decimalFormats-numberSystem-' . $numberingSystem]['standard'];
+            $translations['Intl']['NumberFormatCurrency']   = $unitsData['currencyFormats-numberSystem-' . $numberingSystem]['standard'];
             $translations['Intl']['NumberFormatPercent']  = $unitsData['percentFormats-numberSystem-' . $numberingSystem]['standard'];
 
             $output->writeln('Saved number formatting data for ' . $langCode);
