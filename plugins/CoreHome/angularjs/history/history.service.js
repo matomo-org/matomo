@@ -84,8 +84,10 @@
                     hash = hash.substring(1);
                 }
             }
-
-            if (hash) {
+            
+            if (location.hash === '#?' + hash) {
+                loadCurrentPage(); // it would not trigger a location change success event as URL is the same, call it manually
+            } else if (hash) {
                 $location.search(hash);
             } else {
                 // NOTE: this works around a bug in angularjs. when unsetting the hash (ie, removing in the URL),
