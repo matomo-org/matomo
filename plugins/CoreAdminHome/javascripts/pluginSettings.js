@@ -17,6 +17,8 @@ $(document).ready(function () {
 
     function updatePluginSettings()
     {
+        $submit.prop('disabled', true);
+
         var $nonce = $('[name="setpluginsettingsnonce"]');
         var nonceValue = '';
 
@@ -34,7 +36,10 @@ $(document).ready(function () {
         ajaxHandler.redirectOnSuccess();
         ajaxHandler.setLoadingElement(getLoadingElement());
         ajaxHandler.setErrorElement(getErrorElement());
-        ajaxHandler.send(true);
+        ajaxHandler.setCompleteCallback(function () {
+            $submit.prop('disabled', false);
+        });
+        ajaxHandler.send();
     }
 
     function getSettings()
