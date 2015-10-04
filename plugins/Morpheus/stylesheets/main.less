@@ -559,11 +559,14 @@ table.dataTable .dataTableRowActions {
 
 div.sparkline {
     display: block;
-    width: 100%;
     border-bottom: 0;
     margin-bottom: 10px;
-    &:hover {
-        border-bottom: 0;
+    &.linked {
+        border-bottom: 1px solid transparent;
+        &:hover {
+            cursor: pointer;
+            border-bottom: 1px dashed #c3c3c3;
+        }
     }
 }
 
