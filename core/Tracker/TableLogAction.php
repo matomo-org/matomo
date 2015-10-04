@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Segment\SegmentExpression;
 
 /**
@@ -189,7 +190,7 @@ class TableLogAction
         // special case
         $sql = TableLogAction::getSelectQueryWhereNameContains($matchType, $actionType);
 
-        $cache = new TableLogAction\Cache();
+        $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
         return $cache->getIdActionFromSegment($valueToMatch, $sql);
     }
 
