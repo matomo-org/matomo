@@ -67,7 +67,12 @@
                     searchObject[name] = searchObject[name][searchObject[name].length - 1];
                 }
 
-                searchString.push(name + '=' + encodeURIComponent(searchObject[name]));
+                var value = searchObject[name];
+                if (name != 'columns') { // the columns query parameter is not urldecoded in PHP code. TODO: this should be fixed in 3.0
+                    value = encodeURIComponent(value);
+                }
+
+                searchString.push(name + '=' + value);
             }
             searchString = searchString.join('&');
 
