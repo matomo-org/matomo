@@ -67,7 +67,12 @@
                     searchObject[name] = searchObject[name][searchObject[name].length - 1];
                 }
 
-                searchString.push(name + '=' + encodeURIComponent(searchObject[name]));
+                var value = searchObject[name];
+                if (name != 'columns') { // the columns query parameter is not urldecoded in PHP code. TODO: this should be fixed in 3.0
+                    value = encodeURIComponent(value);
+                }
+
+                searchString.push(name + '=' + value);
             }
             searchString = searchString.join('&');
 
@@ -84,8 +89,10 @@
                     hash = hash.substring(1);
                 }
             }
-
-            if (hash) {
+            
+            if (location.hash === '#?' + hash) {
+                loadCurrentPage(); // it would not trigger a location change success event as URL is the same, call it manually
+            } else if (hash) {
                 $location.search(hash);
             } else {
                 // NOTE: this works around a bug in angularjs. when unsetting the hash (ie, removing in the URL),

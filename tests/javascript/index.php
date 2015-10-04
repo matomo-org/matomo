@@ -439,10 +439,14 @@ function PiwikTest() {
         var src = '<?php
             $src = file_get_contents('../../js/piwik.js');
             $src = strtr($src, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
+            $src = substr($src, strpos($src, '/* startjslint */'));
             echo "$src"; ?>';
 
         var result = JSLINT(src);
         ok( result, "JSLint" );
+        if (console && console.log && !result) {
+            console.log('JSLINT errors', JSLINT.errors);
+        }
 //      alert(JSLINT.report(true));
     });
 

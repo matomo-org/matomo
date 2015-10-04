@@ -60,18 +60,6 @@ function setupRootContainer() {
 
 setupRootContainer(); // do it in a function so it doesn't appear in $_GLOBALS and so PHPUnit won't try to serialize it.
 
-// require test fixtures
-$fixturesToLoad = array(
-    '/tests/UI/Fixtures/*.php',
-    '/plugins/*/tests/Fixtures/*.php',
-    '/plugins/*/Test/Fixtures/*.php',
-);
-foreach($fixturesToLoad as $fixturePath) {
-    foreach (glob(PIWIK_INCLUDE_PATH . $fixturePath) as $file) {
-        require_once $file;
-    }
-}
-
 Locale::setDefaultLocale();
 
 function prepareServerVariables(Config $config)

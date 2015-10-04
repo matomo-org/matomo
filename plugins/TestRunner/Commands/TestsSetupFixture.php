@@ -240,19 +240,6 @@ class TestsSetupFixture extends ConsoleCommand
     {
         require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
-        $fixturesToLoad = array(
-            '/tests/PHPUnit/Fixtures/*.php',
-            '/tests/UI/Fixtures/*.php',
-            '/plugins/*/tests/Fixtures/*.php',
-            '/plugins/*/Test/Fixtures/*.php',
-        );
-
-        foreach($fixturesToLoad as $fixturePath) {
-            foreach (glob(PIWIK_INCLUDE_PATH . $fixturePath) as $file) {
-                require_once $file;
-            }
-        }
-
         $file = $input->getOption('file');
         if ($file) {
             if (is_file($file)) {
