@@ -34,7 +34,7 @@ class UpdaterMock extends Updater
         return true;
     }
 
-    public function getArchiveUrl()
+    public function getArchiveUrl($version, $https = true)
     {
         return 'http://builds.piwik.org/piwik.zip';
     }
