@@ -86,13 +86,13 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should add an OR condition when a segment dimension is dragged to the OR placeholder section", function (done) {
         expect.screenshot("drag_or_condition").to.be.captureSelector(selectorsToCapture, function (page) {
-            page.dragDrop('.segmentEditorPanel li[data-metric=entryPageTitle]', '.segmentEditorPanel .segment-add-or .ui-droppable');
+            page.dragDrop('.segmentEditorPanel li[data-metric=outlinkUrl]', '.segmentEditorPanel .segment-add-or .ui-droppable');
         }, done);
     });
 
     it("should add an AND condition when a segment dimension is dragged to the AND placeholder section", function (done) {
         expect.screenshot("drag_and_condition").to.be.captureSelector(selectorsToCapture, function (page) {
-            page.dragDrop('.segmentEditorPanel li[data-metric=pageTitle]', '.segmentEditorPanel .segment-add-row .ui-droppable');
+            page.dragDrop('.segmentEditorPanel li[data-metric=outlinkUrl]', '.segmentEditorPanel .segment-add-row .ui-droppable');
         }, done);
     });
 
