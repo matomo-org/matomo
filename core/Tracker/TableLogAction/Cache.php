@@ -38,13 +38,12 @@ class Cache
      */
     static public $hits = 0;
 
-    public function __construct($logger = null, $config = null)
+    public function __construct(LoggerInterface $logger, Config $config)
     {
-        $config = $config ?: Config::getInstance();
         $this->isEnabled = (bool)$config->General['enable_segments_subquery_cache'];
         $this->limitActionIds = $config->General['segments_subquery_cache_limit'];
         $this->lifetime = $config->General['segments_subquery_cache_ttl'];
-        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = $logger;
     }
 
     /**
