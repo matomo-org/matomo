@@ -43,7 +43,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "De gemiddelde tijd van een bezoek.",
         "ColumnBounceRate": "Bounce Ratio",
         "ColumnBounceRateDocumentation": "Het percentage bezoekers dat maar 1 pagina bekeken heeft. Dit betekend dus dat de bezoekers de website direct verlaten hebben vanaf de pagina waarop ze binnen zijn gekomen.",
-        "ColumnBounceRateForPageDocumentation": "Percentage bezoeken dat op deze pagina begonnen en geëindigd is.",
         "ColumnBounces": "Bounces",
         "ColumnBouncesDocumentation": "Het aantal bezoeken dat geëindigd is op deze pagina. Dit betekent dat de bezoeker de website heeft verlaten nadat deze alleen deze pagina bekeken heeft.",
         "ColumnConversionRate": "Conversie ratio",

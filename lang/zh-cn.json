@@ -42,7 +42,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "平均停留时间。",
         "ColumnBounceRate": "跳出率",
         "ColumnBounceRateDocumentation": "只查看单个页面的百分比，即访客直接从入口页面离开网站。",
-        "ColumnBounceRateForPageDocumentation": "以该页为起始页和退出页的百分比。",
         "ColumnBounces": "跳出次数",
         "ColumnBouncesDocumentation": "从这个页面开始并结束的访问次数。说明访客只查看该页面后就离开网站。",
         "ColumnConversionRate": "转化率",

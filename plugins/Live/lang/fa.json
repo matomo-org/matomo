@@ -18,7 +18,7 @@
         "NextVisitor": "دیدن کننده بعدی",
         "NoMoreVisits": "این بازدید کننده، بازدید دیگری نداشته است.",
         "PageRefreshed": "تعداد بار این صفحه \/ مشاهده شده در یک ردیف تجدید شد.",
-        "PreviousVisitor": "دیدن کننده قبلی",
+        "PreviousVisitor": "بازدید کننده قبلی",
         "RealTimeVisitorCount": "زمان واقعی تعداد بازدید کنندگان",
         "Referrer_URL": "URL بازگشتی",
         "ShowMap": "نمایش نقشه",
@@ -29,6 +29,7 @@
         "VisitorProfile": "مشخصات بازدید کننده",
         "VisitorsInRealTime": "بازدیدهای زنده",
         "VisitorsLastVisit": "بازدید گذشته ی این بازدیدکننده %s روز پیش بوده است.",
-        "VisitsFrom": "%1$s%2$s بازدیدکننده%3$s از"
+        "VisitsFrom": "%1$s%2$s بازدیدکننده%3$s از",
+        "OnClickStart": "%s متوقف شد, اینجا کلیک کنید"
     }
 }

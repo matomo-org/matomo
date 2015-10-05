@@ -30,7 +30,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Vidējais apmeklējuma laiks",
         "ColumnBounceRate": "Atlēcienu biežums",
         "ColumnBounceRateDocumentation": "Apmeklējumu daļa, kuru laikā bija tikai viens lapas skatījums. Tas nozīmē, ka apmeklētājs pameta vietni uzreiz pēc ierašanās tajā.",
-        "ColumnBounceRateForPageDocumentation": "Apmeklējumu daļa, kas sākās un beidzās šajā lapā.",
         "ColumnBounces": "Atlēcieni",
         "ColumnBouncesDocumentation": "To apmeklējumu skaits, kuri sākās un beidzās šajā lapā. T.i. apmeklētājs, apskatījis tikai šo lapu, pameta vietni.",
         "ColumnConversionRate": "Konversijas likme",

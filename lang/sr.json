@@ -43,7 +43,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Prosečna dužina posete.",
         "ColumnBounceRate": "Stopa odbijanja",
         "ColumnBounceRateDocumentation": "Procenat poseta koje imaju samo jednu prikazanu stranicu. To su slučajevi u kojima posetioc napusti sajt sa stranice na koju je ušao.",
-        "ColumnBounceRateForPageDocumentation": "Procenat poseta koje su počele i okončale se na ovoj stranici.",
         "ColumnBounces": "Odbijanja",
         "ColumnBouncesDocumentation": "Broj poseta koje su počele i okončale se na ovoj stranici. To su slučajevi u kojima posetioc napusti sajt nakon što je video samo ovu stranicu.",
         "ColumnConversionRate": "Stepen konverzije",

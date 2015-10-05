@@ -43,7 +43,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Rerata lama tiap kunjungan.",
         "ColumnBounceRate": "Tingkat Pentalan",
         "ColumnBounceRateDocumentation": "Persentase kunjungan yang hanya melihat satu halaman. Ini berarti, bahwa pengunjung meninggalkan situs langsung dari halaman awal.",
-        "ColumnBounceRateForPageDocumentation": "Persentase kunjungan yang dimulai dan berakhir pada halaman ini.",
         "ColumnBounces": "Pentalan",
         "ColumnBouncesDocumentation": "Jumlah kunjungan yang mulai dan berakhir pada halaman ini. Ini berarti bahwa pengunjung meninggalkan situs setelah melihat hanya halaman ini.",
         "ColumnConversionRate": "Tingkat Tayangan",

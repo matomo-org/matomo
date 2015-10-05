@@ -34,7 +34,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "ระยะเวลาเฉลี่ยของการเข้าชม",
         "ColumnBounceRate": "อัตราการตีกลับ",
         "ColumnBounceRateDocumentation": "เปอร์เซ็นต์การเข้าชมที่มีมุมมองหน้าเดียว ซึ่งหมายความว่า ที่ผู้เข้าชมเว็บไซต์ที่ยังเหลือได้โดยตรงจากหน้าทางเข้า",
-        "ColumnBounceRateForPageDocumentation": "ร้อยละของการเข้าชมที่เริ่มต้นและสิ้นสุดในหน้านี้",
         "ColumnBounces": "ตีกลับ",
         "ColumnBouncesDocumentation": "จำนวนการเข้าชมที่เริ่มต้นและสิ้นสุดในหน้านี้ ซึ่งหมายความว่าผู้เข้าชมเว็บไซต์ที่ยังเหลือหลังจากที่ได้ดูเพียงหน้านี้",
         "ColumnConversionRate": "อัตราการแปลง",

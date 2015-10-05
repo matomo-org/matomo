@@ -42,7 +42,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Priemerná dĺžka návštevy",
         "ColumnBounceRate": "Miera odchodov",
         "ColumnBounceRateDocumentation": "Percento návštev len s jednou zobrazenou stránkou. To znamená, že návštevník opustil webové sídlo hneď zo vstupnej stránky.",
-        "ColumnBounceRateForPageDocumentation": "Percento návštev so začiatkom aj koncom na tejto stránke.",
         "ColumnBounces": "Odchody",
         "ColumnBouncesDocumentation": "Počet návštev so začiatkom aj koncom na tejto stránke. To znamená, že návštevník opustil webové sídlo hneď po zhliadnutí tejto jednej stránky.",
         "ColumnConversionRate": "Miera konverzie",

@@ -41,7 +41,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Durata medie a unei vizite (in secunde)",
         "ColumnBounceRate": "Rata crestere",
         "ColumnBounceRateDocumentation": "Procentajul de vizite care au avut o singura afisare. Vizitatorul a parasit site-ul direct de la pagina de intrare",
-        "ColumnBounceRateForPageDocumentation": "Procentajul de vizite care au inceput si s-au terminat pe aceasta pagina",
         "ColumnBounces": "Iesiri",
         "ColumnBouncesDocumentation": "Numarul de vizite care au inceput si s-au terminat pe aceasta pagina. Vizitatorul a parasit site-ul dupa ce a vazut aceasta pagina.",
         "ColumnConversionRate": "Rata de conversie",

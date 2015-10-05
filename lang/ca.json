@@ -38,7 +38,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "La durada mitja de una visita.",
         "ColumnBounceRate": "Raó de rebots",
         "ColumnBounceRateDocumentation": "El percentatge de visites que només han vist una pàgina. Això significa, que el visitant ha marxat del lloc web directament per la pàgina d'entrada.",
-        "ColumnBounceRateForPageDocumentation": "El percentatge de visites que han acabat en aquesta pàgina.",
         "ColumnBounces": "Rebots",
         "ColumnBouncesDocumentation": "El número de visites que han començat i acabat en aquesta pàgina. Això significa que la visita ha deixat el lloc web després de veure només aquesta pàgina.",
         "ColumnConversionRate": "Tarifa de conversió",

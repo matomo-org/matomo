@@ -41,7 +41,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Ang average na tagal ng isang pagbisita.",
         "ColumnBounceRate": "Bounce Rate",
         "ColumnBounceRateDocumentation": "Ang porsyento ng mga pagbisita na may isang pageview. Na nangangahulugan na ang mga bumisita sa website ay umalis mula sa pahina kung saan sila pumasok.",
-        "ColumnBounceRateForPageDocumentation": "Porsyento ng mga pagbisita na nagsimula at natapos sa pahinang ito.",
         "ColumnBounces": "Mga Bounce",
         "ColumnBouncesDocumentation": "Ang bilang ng mga pagbisita namula at natapos sa pahinang ito. Nangangahulugan ito na umalis ang mga bisita matapos makita ang pahinang ito.",
         "ColumnConversionRate": "Rate ng Conversion",

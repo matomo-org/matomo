@@ -35,7 +35,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Prosječno trajanje posjete",
         "ColumnBounceRate": "Bounce stopa",
         "ColumnBounceRateDocumentation": "Postotak posjetioca koji su pregledali samo jednu stranicu. To znači da je posjetioc napustio stranicu direktno sa ulazne stranice.",
-        "ColumnBounceRateForPageDocumentation": "Postotak posjeta koji su započeli i završili na ovoj stranici.",
         "ColumnBounces": "Bounces (odskakivanja)",
         "ColumnBouncesDocumentation": "Broj posjeta koji je započeo i završio na ovoj stranici. To znači da je posjetnik napustio stranicu odmah nakon pregleda te iste stranice.",
         "ColumnConversionRate": "Stopa konverzije",

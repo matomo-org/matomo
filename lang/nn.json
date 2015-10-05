@@ -32,7 +32,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Gjennomsnittleg lengd av ei vitjing.",
         "ColumnBounceRate": "Hoppfrekvens",
         "ColumnBounceRateDocumentation": "Prosenten av vitjarar med berre éi sidevisning. Dette tyder at vitjaren forsvann frå nettstaden frå inngangssida.",
-        "ColumnBounceRateForPageDocumentation": "Prosenten av vitjingar som starta og slutta på denne sida.",
         "ColumnBounces": "Hopp",
         "ColumnBouncesDocumentation": "Talet på vitjingar som starta og slutta på denne sida. Dette tyder at vitjaren forsvann frå nettstaden etter å ha sett berre denne sida.",
         "ColumnEntrances": "Inngangar",

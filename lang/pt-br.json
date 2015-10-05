@@ -43,7 +43,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "A duração média de uma visita.",
         "ColumnBounceRate": "Taxa de Rejeição",
         "ColumnBounceRateDocumentation": "A porcentagem de visitas que só teve uma única exibição de página. Isto significa que o visitante deixou o website diretamente a partir da página de entrada.",
-        "ColumnBounceRateForPageDocumentation": "Porcentagem de visitas que começou e terminou nesta página.",
         "ColumnBounces": "Rejeições",
         "ColumnBouncesDocumentation": "Número de visitas que começou e terminou nesta página. Significa que o visitante deixou o site depois de ver somente esta página.",
         "ColumnConversionRate": "Taxa de conversão",

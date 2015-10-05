@@ -42,7 +42,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Käynnin keskimääräinen kesto.",
         "ColumnBounceRate": "Lähtemissuhde",
         "ColumnBounceRateDocumentation": "Käynnit, joilla avattiin vain yksi sivu. Toisin sanoen kävijät, jotka poistuivat heti ensimmäisen sivun avaamisen jälkeen.",
-        "ColumnBounceRateForPageDocumentation": "% käynneistä jotka alkoivat ja päättyivät tällä sivulla.",
         "ColumnBounces": "Poistumiset",
         "ColumnBouncesDocumentation": "Tältä sivulta alkaneiden ja päättyneiden käyntien määrä. Tämä on niiden käyttäjien määrä, jotka kävivät vain tällä sivulla.",
         "ColumnConversionRate": "Siirtymisaste",
