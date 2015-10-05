@@ -9,9 +9,10 @@
 namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Piwik;
+use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Actions\Segment;
 
-class ClickedUrl extends PageUrl
+class ClickedUrl extends ActionDimension
 {
     public function getName()
     {
@@ -23,6 +24,7 @@ class ClickedUrl extends PageUrl
         $segment = new Segment();
         $segment->setSegment('outlinkUrl');
         $segment->setName('Actions_ColumnClickedURL');
+        $segment->setSqlSegment('log_link_visit_action.idaction_url');
         $this->addSegment($segment);
     }
 

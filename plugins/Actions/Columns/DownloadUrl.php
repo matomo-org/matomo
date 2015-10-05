@@ -9,9 +9,10 @@
 namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Piwik;
+use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Actions\Segment;
 
-class DownloadUrl extends PageUrl
+class DownloadUrl extends ActionDimension
 {
     public function getName()
     {
@@ -23,6 +24,7 @@ class DownloadUrl extends PageUrl
         $segment = new Segment();
         $segment->setSegment('downloadUrl');
         $segment->setName('Actions_ColumnDownloadURL');
+        $segment->setSqlSegment('log_link_visit_action.idaction_url');
         $this->addSegment($segment);
     }
 
