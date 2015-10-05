@@ -23,6 +23,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  * @package Piwik\Plugins\UserCountry\Test\Integration
  *
  * @group UserCountry
+ * @group AttributeHistoricalDataWithLocations
  */
 class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
 {

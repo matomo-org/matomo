@@ -416,6 +416,12 @@
 	<row>
 		<type>dimension</type>
 		<category>Actions</category>
+		<name>Clicked URL</name>
+		<segment>outlinkUrl</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
 		<name>Content Name</name>
 		<segment>contentName</segment>
 		<acceptedValues>The name of a content block, for instance &quot;Ad Sale&quot;</acceptedValues>
@@ -433,6 +439,12 @@
 		<name>Content Target</name>
 		<segment>contentTarget</segment>
 		<acceptedValues>For instance the URL of a landing page: &quot;http://landingpage.example.com&quot;</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Download URL</name>
+		<segment>downloadUrl</segment>
 	</row>
 	<row>
 		<type>dimension</type>

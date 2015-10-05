@@ -165,6 +165,20 @@ class ManyVisitsWithGeoIP extends Fixture
 
             $date = $date->addHour(0.05);
             $t->setForceVisitDateTime($date->getDatetime());
+            $t->doTrackAction('http://example.org/path/file' . $i . '.zip', "download" );
+            if (!$doBulk) {
+                self::checkResponse($r);
+            }
+
+            $date = $date->addHour(0.05);
+            $t->setForceVisitDateTime($date->getDatetime());
+            $r = $t->doTrackAction('http://example-outlink.org/' . $i . '.html', "link" );
+            if (!$doBulk) {
+                self::checkResponse($r);
+            }
+
+            $date = $date->addHour(0.05);
+            $t->setForceVisitDateTime($date->getDatetime());
             $r = $t->doTrackEvent('Cat' . $i, 'Action' . $i, 'Name' . $i, 345.678 + $i );
 
             if (!$doBulk) {

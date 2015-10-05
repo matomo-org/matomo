@@ -202,6 +202,8 @@ class TableLogAction
     private static function guessActionTypeFromSegment($segmentName)
     {
         $exactMatch = array(
+            'outlinkUrl'         => Action::TYPE_OUTLINK,
+            'downloadUrl'        => Action::TYPE_DOWNLOAD,
             'eventAction'        => Action::TYPE_EVENT_ACTION,
             'eventCategory'      => Action::TYPE_EVENT_CATEGORY,
             'eventName'          => Action::TYPE_EVENT_NAME,

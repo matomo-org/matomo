@@ -193,12 +193,21 @@ class Visitor implements VisitorInterface
         // Flatten Page Titles/URLs
         $count = 1;
         foreach ($visitorDetailsArray['actionDetails'] as $action) {
-            if (!empty($action['url'])) {
-                $flattenedKeyName = 'pageUrl' . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
-                $visitorDetailsArray[$flattenedKeyName] = $action['url'];
-            }
 
             // API.getSuggestedValuesForSegment
+            $flattenForActionType = array(
+                'outlink' => 'outlinkUrl',
+                'download' => 'downloadUrl',
+                'action' => 'pageUrl'
+            );
+            foreach($flattenForActionType as $actionType => $flattenedKeyPrefix) {
+                if (!empty($action['url'])
+                    && $action['type'] == $actionType) {
+                    $flattenedKeyName = $flattenedKeyPrefix . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
+                    $visitorDetailsArray[$flattenedKeyName] = $action['url'];
+                }
+            }
+
             $flatten = array( 'pageTitle', 'siteSearchKeyword', 'eventCategory', 'eventAction', 'eventName', 'eventValue');
             foreach($flatten as $toFlatten) {
                 if (!empty($action[$toFlatten])) {

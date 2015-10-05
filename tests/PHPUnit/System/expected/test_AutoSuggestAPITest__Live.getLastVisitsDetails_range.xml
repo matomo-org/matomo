@@ -11,7 +11,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>61</goalPageId>
+				<goalPageId>95</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -23,7 +23,7 @@
 				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>61</pageId>
+				<pageId>95</pageId>
 				<icon />
 				
 			</row>
@@ -105,9 +105,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -121,26 +118,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>30</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>30</pageId>
+				<pageId>46</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>46</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -148,7 +145,7 @@
 				<url />
 				<pageIdAction />
 				
-				<pageId>31</pageId>
+				<pageId>47</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
@@ -173,11 +170,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file8.zip</url>
+				<pageTitle />
+				<pageIdAction>46</pageIdAction>
+				
+				<pageId>48</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/8.html</url>
+				<pageTitle />
+				<pageIdAction>47</pageIdAction>
+				
+				<pageId>49</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>32</pageId>
+				<pageId>50</pageId>
 				<eventCategory>Cat8</eventCategory>
 				<eventAction>Action8</eventAction>
 				<eventName>Name8</eventName>
@@ -204,10 +225,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
-		<actions>3</actions>
+		<actions>5</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -271,9 +292,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -291,7 +309,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>29</goalPageId>
+				<goalPageId>45</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -303,7 +321,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>29</pageId>
+				<pageId>45</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -403,9 +421,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -419,26 +434,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>27</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>27</pageId>
+				<pageId>41</pageId>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>41</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -453,11 +468,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file7.zip</url>
+				<pageTitle />
+				<pageIdAction>41</pageIdAction>
+				
+				<pageId>42</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/7.html</url>
+				<pageTitle />
+				<pageIdAction>42</pageIdAction>
+				
+				<pageId>43</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>28</pageId>
+				<pageId>44</pageId>
 				<eventCategory>Cat7</eventCategory>
 				<eventAction>Action7</eventAction>
 				<eventName>Name7</eventName>
@@ -484,10 +523,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
-		<actions>2</actions>
+		<actions>4</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -551,9 +590,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -571,7 +607,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>26</goalPageId>
+				<goalPageId>40</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -583,7 +619,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>26</pageId>
+				<pageId>40</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -683,9 +719,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -699,26 +732,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>23</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>23</pageId>
+				<pageId>35</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>35</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -726,7 +759,7 @@
 				<url />
 				<pageIdAction />
 				
-				<pageId>24</pageId>
+				<pageId>36</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
@@ -751,11 +784,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file6.zip</url>
+				<pageTitle />
+				<pageIdAction>36</pageIdAction>
+				
+				<pageId>37</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/6.html</url>
+				<pageTitle />
+				<pageIdAction>37</pageIdAction>
+				
+				<pageId>38</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>25</pageId>
+				<pageId>39</pageId>
 				<eventCategory>Cat6</eventCategory>
 				<eventAction>Action6</eventAction>
 				<eventName>Name6</eventName>
@@ -782,10 +839,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
-		<actions>3</actions>
+		<actions>5</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -849,9 +906,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -869,7 +923,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>22</goalPageId>
+				<goalPageId>34</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -881,7 +935,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>22</pageId>
+				<pageId>34</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -981,9 +1035,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -997,26 +1048,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>20</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>20</pageId>
+				<pageId>30</pageId>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>30</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -1031,11 +1082,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file5.zip</url>
+				<pageTitle />
+				<pageIdAction>31</pageIdAction>
+				
+				<pageId>31</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/5.html</url>
+				<pageTitle />
+				<pageIdAction>32</pageIdAction>
+				
+				<pageId>32</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>21</pageId>
+				<pageId>33</pageId>
 				<eventCategory>Cat5</eventCategory>
 				<eventAction>Action5</eventAction>
 				<eventName>Name5</eventName>
@@ -1062,10 +1137,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
-		<actions>2</actions>
+		<actions>4</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1129,9 +1204,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -1149,7 +1221,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>19</goalPageId>
+				<goalPageId>29</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -1161,7 +1233,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>19</pageId>
+				<pageId>29</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -1261,9 +1333,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -1277,26 +1346,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>16</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>16</pageId>
+				<pageId>24</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>24</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -1304,7 +1373,7 @@
 				<url />
 				<pageIdAction />
 				
-				<pageId>17</pageId>
+				<pageId>25</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
@@ -1329,11 +1398,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file4.zip</url>
+				<pageTitle />
+				<pageIdAction>26</pageIdAction>
+				
+				<pageId>26</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/4.html</url>
+				<pageTitle />
+				<pageIdAction>27</pageIdAction>
+				
+				<pageId>27</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>18</pageId>
+				<pageId>28</pageId>
 				<eventCategory>Cat4</eventCategory>
 				<eventAction>Action4</eventAction>
 				<eventName>Name4</eventName>
@@ -1360,10 +1453,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
-		<actions>3</actions>
+		<actions>5</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1427,9 +1520,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>awesomeisp.com</provider>
-		<providerName>Awesomeisp</providerName>
-		<providerUrl>http://www.awesomeisp.com/</providerUrl>
 		
 		
 		
@@ -1447,7 +1537,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>15</goalPageId>
+				<goalPageId>23</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -1459,7 +1549,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>15</pageId>
+				<pageId>23</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -1559,9 +1649,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>awesomeisp.com</provider>
-		<providerName>Awesomeisp</providerName>
-		<providerUrl>http://www.awesomeisp.com/</providerUrl>
 		
 		
 		
@@ -1575,26 +1662,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>13</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>13</pageId>
+				<pageId>19</pageId>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>19</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -1609,11 +1696,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file3.zip</url>
+				<pageTitle />
+				<pageIdAction>21</pageIdAction>
+				
+				<pageId>20</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/3.html</url>
+				<pageTitle />
+				<pageIdAction>22</pageIdAction>
+				
+				<pageId>21</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>14</pageId>
+				<pageId>22</pageId>
 				<eventCategory>Cat3</eventCategory>
 				<eventAction>Action3</eventAction>
 				<eventName>Name3</eventName>
@@ -1640,10 +1751,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
-		<actions>2</actions>
+		<actions>4</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1707,9 +1818,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -1723,26 +1831,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>52</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>52</pageId>
+				<pageId>80</pageId>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>80</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -1757,11 +1865,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file3.zip</url>
+				<pageTitle />
+				<pageIdAction>21</pageIdAction>
+				
+				<pageId>81</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/3.html</url>
+				<pageTitle />
+				<pageIdAction>22</pageIdAction>
+				
+				<pageId>82</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>53</pageId>
+				<pageId>83</pageId>
 				<eventCategory>Cat3</eventCategory>
 				<eventAction>Action3</eventAction>
 				<eventName>Name3</eventName>
@@ -1788,10 +1920,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
-		<actions>2</actions>
+		<actions>4</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1847,9 +1979,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -1860,6 +1989,630 @@
 		<idSite>1</idSite>
 		<idVisit>7</idVisit>
 		<visitIp>1.2.4.3</visitIp>
+		
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>18</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/grue/lair</url>
+				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				<pageId>18</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
+						<customVariablePageValue2>Cvar2 PAGE value is 3</customVariablePageValue2>
+					</row>
+					<row>
+						<customVariablePageName5>Cvar 5 PAGE name</customVariablePageName5>
+						<customVariablePageValue5>Cvar5 PAGE value is 3</customVariablePageValue5>
+					</row>
+				</customVariables>
+				<icon />
+				
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<userId />
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>5</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>101</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>XP</operatingSystemVersion>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<region>London, City of</region>
+		<regionCode>H9</regionCode>
+		<city>London</city>
+		<location>London, London, City of, United Kingdom</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
+			</row>
+		</customVariables>
+		<resolution>1024x768</resolution>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>29</idVisit>
+		<visitIp>113.62.1.1</visitIp>
+		
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>79</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/grue/lair</url>
+				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				<pageId>79</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
+						<customVariablePageValue2>Cvar2 PAGE value is 3</customVariablePageValue2>
+					</row>
+					<row>
+						<customVariablePageName5>Cvar 5 PAGE name</customVariablePageName5>
+						<customVariablePageValue5>Cvar5 PAGE value is 3</customVariablePageValue5>
+					</row>
+				</customVariables>
+				<icon />
+				
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<userId />
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>5</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>101</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Unknown</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemName>Unknown</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemVersion>UNK</operatingSystemVersion>
+		<browserFamily />
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
+		<events>0</events>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Tibet</country>
+		<countryCode>ti</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/ti.png</countryFlag>
+		<region>Unknown</region>
+		<regionCode>1</regionCode>
+		<city>Lhasa</city>
+		<location>Lhasa, Unknown, Tibet</location>
+		<latitude>29.650000</latitude>
+		<longitude>91.099998</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>11</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
+			</row>
+		</customVariables>
+		<resolution>1024x768</resolution>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>6</idVisit>
+		<visitIp>1.2.4.2</visitIp>
+		
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageTitle>Space Quest XII</pageTitle>
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>13</pageId>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>13</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
+			</row>
+			<row>
+				<type>search</type>
+				<url />
+				<pageIdAction />
+				
+				<pageId>14</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName4>Search Category</customVariablePageName4>
+						<customVariablePageValue4>CAT</customVariablePageValue4>
+					</row>
+				</customVariables>
+				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>two</goalName>
+				<goalId>2</goalId>
+				<revenue>5</revenue>
+				<goalPageId />
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
+			</row>
+			<row>
+				<type>download</type>
+				<url>http://example.org/path/file2.zip</url>
+				<pageTitle />
+				<pageIdAction>16</pageIdAction>
+				
+				<pageId>15</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/2.html</url>
+				<pageTitle />
+				<pageIdAction>17</pageIdAction>
+				
+				<pageId>16</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
+				<type>event</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>17</pageId>
+				<eventCategory>Cat2</eventCategory>
+				<eventAction>Action2</eventAction>
+				<eventName>Name2</eventName>
+				<eventValue>347.678</eventValue>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				
+			</row>
+		</actionDetails>
+		<goalConversions>2</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<userId />
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>5</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>100</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
+		<searches>1</searches>
+		<actions>5</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>XP</operatingSystemVersion>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<events>1</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<region>Warwickshire</region>
+		<regionCode>P3</regionCode>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
+		<latitude>124.456001</latitude>
+		<longitude>22.231001</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Cvar 1 name</customVariableName1>
+				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName5>Cvar 5 name</customVariableName5>
+				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
+			</row>
+		</customVariables>
+		<resolution>1024x768</resolution>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>28</idVisit>
+		<visitIp>2001:db8:85a3::8a2e:370:7334</visitIp>
+		
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageTitle>Space Quest XII</pageTitle>
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>74</pageId>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>74</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
+			</row>
+			<row>
+				<type>search</type>
+				<url />
+				<pageIdAction />
+				
+				<pageId>75</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName4>Search Category</customVariablePageName4>
+						<customVariablePageValue4>CAT</customVariablePageValue4>
+					</row>
+				</customVariables>
+				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>two</goalName>
+				<goalId>2</goalId>
+				<revenue>5</revenue>
+				<goalPageId />
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
+			</row>
+			<row>
+				<type>download</type>
+				<url>http://example.org/path/file2.zip</url>
+				<pageTitle />
+				<pageIdAction>16</pageIdAction>
+				
+				<pageId>76</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/2.html</url>
+				<pageTitle />
+				<pageIdAction>17</pageIdAction>
+				
+				<pageId>77</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
+				<type>event</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageIdAction>4</pageIdAction>
+				
+				<pageId>78</pageId>
+				<eventCategory>Cat2</eventCategory>
+				<eventAction>Action2</eventAction>
+				<eventName>Name2</eventName>
+				<eventValue>347.678</eventValue>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				
+			</row>
+		</actionDetails>
+		<goalConversions>2</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<userId />
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>5</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>100</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
+		<searches>1</searches>
+		<actions>5</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Unknown</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Unknown</operatingSystem>
+		<operatingSystemName>Unknown</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemCode>UNK</operatingSystemCode>
+		<operatingSystemVersion>UNK</operatingSystemVersion>
+		<browserFamily />
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion />
+		<events>1</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>United States</location>
+		<latitude>38</latitude>
+		<longitude>-97</longitude>
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>10</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
+		<resolution>1024x768</resolution>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>5</idVisit>
+		<visitIp>1.2.4.2</visitIp>
 		
 		<actionDetails>
 			<row>
@@ -1883,594 +2636,6 @@
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
-						<customVariablePageValue2>Cvar2 PAGE value is 3</customVariablePageValue2>
-					</row>
-					<row>
-						<customVariablePageName5>Cvar 5 PAGE name</customVariablePageName5>
-						<customVariablePageValue5>Cvar5 PAGE value is 3</customVariablePageValue5>
-					</row>
-				</customVariables>
-				<icon />
-				
-			</row>
-		</actionDetails>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<userId />
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitCount>5</visitCount>
-		
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>101</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<languageCode>fr</languageCode>
-		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
-		<events>0</events>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>United Kingdom</country>
-		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
-		<region>London, City of</region>
-		<regionCode>H9</regionCode>
-		<city>London</city>
-		<location>London, London, City of, United Kingdom</location>
-		<latitude />
-		<longitude />
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
-			</row>
-		</customVariables>
-		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		
-		
-		
-		
-		
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>29</idVisit>
-		<visitIp>113.62.1.1</visitIp>
-		
-		<actionDetails>
-			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>51</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
-				<pageIdAction>2</pageIdAction>
-				
-				<pageId>51</pageId>
-				<customVariables>
-					<row>
-						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
-						<customVariablePageValue2>Cvar2 PAGE value is 3</customVariablePageValue2>
-					</row>
-					<row>
-						<customVariablePageName5>Cvar 5 PAGE name</customVariablePageName5>
-						<customVariablePageValue5>Cvar5 PAGE value is 3</customVariablePageValue5>
-					</row>
-				</customVariables>
-				<icon />
-				
-			</row>
-		</actionDetails>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<userId />
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitCount>5</visitCount>
-		
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>101</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<languageCode />
-		<language>Unknown</language>
-		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemName>Unknown</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemVersion>UNK</operatingSystemVersion>
-		<browserFamily />
-		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
-		<events>0</events>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Tibet</country>
-		<countryCode>ti</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ti.png</countryFlag>
-		<region>Unknown</region>
-		<regionCode>1</regionCode>
-		<city>Lhasa</city>
-		<location>Lhasa, Unknown, Tibet</location>
-		<latitude>29.650000</latitude>
-		<longitude>91.099998</longitude>
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		<daysSinceLastVisit>11</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 3</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 3</customVariableValue5>
-			</row>
-		</customVariables>
-		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		
-		
-		
-		
-		
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>6</idVisit>
-		<visitIp>1.2.4.2</visitIp>
-		
-		<actionDetails>
-			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>9</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/space/quest/iv</url>
-				<pageTitle>Space Quest XII</pageTitle>
-				<pageIdAction>4</pageIdAction>
-				
-				<pageId>9</pageId>
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon />
-				
-			</row>
-			<row>
-				<type>search</type>
-				<url />
-				<pageIdAction />
-				
-				<pageId>10</pageId>
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>CAT</customVariablePageValue4>
-					</row>
-				</customVariables>
-				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/search_ico.png</icon>
-				
-			</row>
-			<row>
-				<type>goal</type>
-				<goalName>two</goalName>
-				<goalId>2</goalId>
-				<revenue>5</revenue>
-				<goalPageId />
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
-				<type>event</type>
-				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
-				
-				<pageId>11</pageId>
-				<eventCategory>Cat2</eventCategory>
-				<eventAction>Action2</eventAction>
-				<eventName>Name2</eventName>
-				<eventValue>347.678</eventValue>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
-			</row>
-		</actionDetails>
-		<goalConversions>2</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<userId />
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitCount>5</visitCount>
-		
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>100</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
-		<searches>1</searches>
-		<actions>3</actions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<languageCode>fr</languageCode>
-		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
-		<events>1</events>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>United Kingdom</country>
-		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
-		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
-		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
-		<latitude>124.456001</latitude>
-		<longitude>22.231001</longitude>
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Cvar 1 name</customVariableName1>
-				<customVariableValue1>Cvar1 value is 2</customVariableValue1>
-			</row>
-			<row>
-				<customVariableName5>Cvar 5 name</customVariableName5>
-				<customVariableValue5>Cvar5 value is 2</customVariableValue5>
-			</row>
-		</customVariables>
-		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
-		<provider>comcast.net</provider>
-		<providerName>Comcast</providerName>
-		<providerUrl>http://www.comcast.net/</providerUrl>
-		
-		
-		
-		
-		
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>28</idVisit>
-		<visitIp>2001:db8:85a3::8a2e:370:7334</visitIp>
-		
-		<actionDetails>
-			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>48</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/space/quest/iv</url>
-				<pageTitle>Space Quest XII</pageTitle>
-				<pageIdAction>4</pageIdAction>
-				
-				<pageId>48</pageId>
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon />
-				
-			</row>
-			<row>
-				<type>search</type>
-				<url />
-				<pageIdAction />
-				
-				<pageId>49</pageId>
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>CAT</customVariablePageValue4>
-					</row>
-				</customVariables>
-				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/search_ico.png</icon>
-				
-			</row>
-			<row>
-				<type>goal</type>
-				<goalName>two</goalName>
-				<goalId>2</goalId>
-				<revenue>5</revenue>
-				<goalPageId />
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
-				<type>event</type>
-				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
-				
-				<pageId>50</pageId>
-				<eventCategory>Cat2</eventCategory>
-				<eventAction>Action2</eventAction>
-				<eventName>Name2</eventName>
-				<eventValue>347.678</eventValue>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
-			</row>
-		</actionDetails>
-		<goalConversions>2</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<userId />
-		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitCount>5</visitCount>
-		
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>100</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
-		<searches>1</searches>
-		<actions>3</actions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<languageCode />
-		<language>Unknown</language>
-		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemName>Unknown</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemVersion>UNK</operatingSystemVersion>
-		<browserFamily />
-		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
-		<events>1</events>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>United States</location>
-		<latitude>38</latitude>
-		<longitude>-97</longitude>
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		<daysSinceLastVisit>10</daysSinceLastVisit>
-		<customVariables>
-		</customVariables>
-		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
-		
-		
-		
-		
-		
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>5</idVisit>
-		<visitIp>1.2.4.2</visitIp>
-		
-		<actionDetails>
-			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>8</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
-				<pageIdAction>2</pageIdAction>
-				
-				<pageId>8</pageId>
-				<customVariables>
-					<row>
-						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
 						<customVariablePageValue2>Cvar2 PAGE value is 2</customVariablePageValue2>
 					</row>
 					<row>
@@ -2567,9 +2732,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>comcast.net</provider>
-		<providerName>Comcast</providerName>
-		<providerUrl>http://www.comcast.net/</providerUrl>
 		
 		
 		
@@ -2587,7 +2749,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>47</goalPageId>
+				<goalPageId>73</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -2599,7 +2761,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>47</pageId>
+				<pageId>73</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -2699,9 +2861,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -2715,26 +2874,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>6</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>6</pageId>
+				<pageId>8</pageId>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>8</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -2749,11 +2908,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file1.zip</url>
+				<pageTitle />
+				<pageIdAction>11</pageIdAction>
+				
+				<pageId>9</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/1.html</url>
+				<pageTitle />
+				<pageIdAction>12</pageIdAction>
+				
+				<pageId>10</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>7</pageId>
+				<pageId>11</pageId>
 				<eventCategory>Cat1</eventCategory>
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
@@ -2780,10 +2963,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
-		<actions>2</actions>
+		<actions>4</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -2847,9 +3030,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -2863,26 +3043,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>38</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>38</pageId>
+				<pageId>58</pageId>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>58</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -2897,11 +3077,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file1.zip</url>
+				<pageTitle />
+				<pageIdAction>11</pageIdAction>
+				
+				<pageId>59</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/1.html</url>
+				<pageTitle />
+				<pageIdAction>12</pageIdAction>
+				
+				<pageId>60</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>39</pageId>
+				<pageId>61</pageId>
 				<eventCategory>Cat1</eventCategory>
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
@@ -2928,10 +3132,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
-		<actions>2</actions>
+		<actions>4</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -2995,9 +3199,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -3011,26 +3212,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>45</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>45</pageId>
+				<pageId>69</pageId>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>69</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -3045,11 +3246,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file1.zip</url>
+				<pageTitle />
+				<pageIdAction>11</pageIdAction>
+				
+				<pageId>70</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/1.html</url>
+				<pageTitle />
+				<pageIdAction>12</pageIdAction>
+				
+				<pageId>71</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>46</pageId>
+				<pageId>72</pageId>
 				<eventCategory>Cat1</eventCategory>
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
@@ -3076,10 +3301,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
-		<actions>2</actions>
+		<actions>4</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3135,9 +3360,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -3151,26 +3373,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>59</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>59</pageId>
+				<pageId>91</pageId>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>91</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -3185,11 +3407,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file1.zip</url>
+				<pageTitle />
+				<pageIdAction>11</pageIdAction>
+				
+				<pageId>92</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/1.html</url>
+				<pageTitle />
+				<pageIdAction>12</pageIdAction>
+				
+				<pageId>93</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>60</pageId>
+				<pageId>94</pageId>
 				<eventCategory>Cat1</eventCategory>
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
@@ -3216,10 +3462,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
-		<actions>2</actions>
+		<actions>4</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3283,9 +3529,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -3303,7 +3546,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>5</goalPageId>
+				<goalPageId>7</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -3315,7 +3558,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>5</pageId>
+				<pageId>7</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -3415,9 +3658,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -3435,7 +3675,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>37</goalPageId>
+				<goalPageId>57</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -3447,7 +3687,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>37</pageId>
+				<pageId>57</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -3547,9 +3787,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -3567,7 +3804,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>44</goalPageId>
+				<goalPageId>68</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -3579,7 +3816,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>44</pageId>
+				<pageId>68</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -3679,9 +3916,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -3699,7 +3933,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>58</goalPageId>
+				<goalPageId>90</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -3711,7 +3945,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>58</pageId>
+				<pageId>90</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -3811,9 +4045,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -3827,17 +4058,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>2</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
@@ -3847,6 +4067,17 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>2</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -3879,11 +4110,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file0.zip</url>
+				<pageTitle />
+				<pageIdAction>6</pageIdAction>
+				
+				<pageId>4</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/0.html</url>
+				<pageTitle />
+				<pageIdAction>7</pageIdAction>
+				
+				<pageId>5</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>4</pageId>
+				<pageId>6</pageId>
 				<eventCategory>Cat0</eventCategory>
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
@@ -3910,10 +4165,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
-		<actions>3</actions>
+		<actions>5</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3977,9 +4232,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -3993,26 +4245,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>34</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>34</pageId>
+				<pageId>52</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>52</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -4020,7 +4272,7 @@
 				<url />
 				<pageIdAction />
 				
-				<pageId>35</pageId>
+				<pageId>53</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
@@ -4045,11 +4297,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file0.zip</url>
+				<pageTitle />
+				<pageIdAction>6</pageIdAction>
+				
+				<pageId>54</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/0.html</url>
+				<pageTitle />
+				<pageIdAction>7</pageIdAction>
+				
+				<pageId>55</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>36</pageId>
+				<pageId>56</pageId>
 				<eventCategory>Cat0</eventCategory>
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
@@ -4076,10 +4352,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
-		<actions>3</actions>
+		<actions>5</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -4143,9 +4419,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -4159,26 +4432,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>41</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>41</pageId>
+				<pageId>63</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>63</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -4186,7 +4459,7 @@
 				<url />
 				<pageIdAction />
 				
-				<pageId>42</pageId>
+				<pageId>64</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
@@ -4211,11 +4484,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file0.zip</url>
+				<pageTitle />
+				<pageIdAction>6</pageIdAction>
+				
+				<pageId>65</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/0.html</url>
+				<pageTitle />
+				<pageIdAction>7</pageIdAction>
+				
+				<pageId>66</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>43</pageId>
+				<pageId>67</pageId>
 				<eventCategory>Cat0</eventCategory>
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
@@ -4242,10 +4539,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
-		<actions>3</actions>
+		<actions>5</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -4301,9 +4598,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -4317,26 +4611,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>55</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>55</pageId>
+				<pageId>85</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>85</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -4344,7 +4638,7 @@
 				<url />
 				<pageIdAction />
 				
-				<pageId>56</pageId>
+				<pageId>86</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
@@ -4369,11 +4663,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file0.zip</url>
+				<pageTitle />
+				<pageIdAction>6</pageIdAction>
+				
+				<pageId>87</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/0.html</url>
+				<pageTitle />
+				<pageIdAction>7</pageIdAction>
+				
+				<pageId>88</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>57</pageId>
+				<pageId>89</pageId>
 				<eventCategory>Cat0</eventCategory>
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
@@ -4400,10 +4718,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
-		<actions>3</actions>
+		<actions>5</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -4467,9 +4785,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -4599,9 +4914,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -4619,7 +4931,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>33</goalPageId>
+				<goalPageId>51</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -4631,7 +4943,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>33</pageId>
+				<pageId>51</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -4731,9 +5043,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -4751,7 +5060,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>40</goalPageId>
+				<goalPageId>62</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -4763,7 +5072,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>40</pageId>
+				<pageId>62</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -4863,9 +5172,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
@@ -4883,7 +5189,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>54</goalPageId>
+				<goalPageId>84</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -4895,7 +5201,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>54</pageId>
+				<pageId>84</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -4995,9 +5301,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		
 		
 		
