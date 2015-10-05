@@ -41,7 +41,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "平均滞在時間",
         "ColumnBounceRate": "直帰率",
         "ColumnBounceRateDocumentation": "1ページのみのページビューの割合。これは訪問者が入口ページから直接離脱したことを意味します。",
-        "ColumnBounceRateForPageDocumentation": "このページで閲覧を開始して終了したビジットの割合",
         "ColumnBounces": "直帰数",
         "ColumnBouncesDocumentation": "このページで閲覧を開始して終了したビジットの数。これは訪問者がこのページだけを見て離脱したことを意味します。",
         "ColumnConversionRate": "コンバージョン率",

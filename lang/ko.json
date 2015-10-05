@@ -37,7 +37,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "평균 머문 시간입니다.",
         "ColumnBounceRate": "반송률",
         "ColumnBounceRateDocumentation": "한 페이지의 페이지 뷰 비율. 이것은 방문자가 첫 페이지에서 바로 이탈한 것을 의미합니다.",
-        "ColumnBounceRateForPageDocumentation": "이 페이지에서 검색을 시작하고 종료한 방문 비율입니다.",
         "ColumnBounces": "반송",
         "ColumnBouncesDocumentation": "이 페이지에서 검색을 시작하고 종료한 방문수입니다. 이것은 방문자가 이 페이지만 보고 이탈한 것을 의미합니다.",
         "ColumnConversionRate": "전환율",

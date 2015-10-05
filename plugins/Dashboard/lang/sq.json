@@ -1,18 +1,18 @@
 {
     "Dashboard": {
         "AddAWidget": "Shtoni një widget",
-        "AddPreviewedWidget": "Shtoje \"widget\"-in e paraparë te pulti",
+        "AddPreviewedWidget": "Klikojeni që të shtohet widget-i te pulti",
         "ChangeDashboardLayout": "Ndryshoni skemën e pultit",
         "Dashboard": "Pulti",
         "DeleteWidgetConfirm": "Jeni i sigurt se doni të fshihet ky \"widget\" prej pulti?",
-        "LoadingWidget": "\"Widget\"-i po ngarkohet, ju lutem prisni...",
+        "LoadingWidget": "Widget-i po ngarkohet, ju lutemi, pritni...",
         "Maximise": "Maksimizoje",
         "Minimise": "Minimizoje",
         "ResetDashboard": "Riktheje pultin te parazgjedhjet",
         "ResetDashboardConfirm": "Doni vërtet ta riktheni skemën e pultit tuaj te përzgjedhja parazgjedhje për Widget-et?",
-        "SelectDashboardLayout": "Ju lutem, përzgjidhni skemën e re për pultin tuaj",
-        "SelectWidget": "Përzgjidhni \"widget\"-in që doni të shtoni te pulti",
+        "SelectDashboardLayout": "Ju lutemi, përzgjidhni skemën e re për pultin tuaj",
+        "SelectWidget": "Përzgjidhni widget-in që doni të shtohet te pulti",
         "WidgetNotFound": "Nuk u gjet \"widget\"",
-        "WidgetPreview": "Paraparje \"widget\"-i"
+        "WidgetPreview": "Paraparje widget-i"
     }
 }

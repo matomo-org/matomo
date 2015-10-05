@@ -41,7 +41,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Średni czas trwania wizyty.",
         "ColumnBounceRate": "Współczynnik rezygnacji",
         "ColumnBounceRateDocumentation": "Procent wizyt, które zakończyły się jedną odsłoną. Oznacza to, ze odwiedzający opuścił serwis po zobaczeniu tylko strony wejściowej.",
-        "ColumnBounceRateForPageDocumentation": "Procent wizyt, które rozpoczęły się i zakończyły na tej stronie.",
         "ColumnBounces": "Rezygnujący",
         "ColumnBouncesDocumentation": "Liczba wizyt, które zaczęły się i skończyły na tej stronie. Oznacza to, że odwiedzający opuścił serwis oglądając tylko tą jedną podstronę.",
         "ColumnConversionRate": "Współczynnik przetwarzania",

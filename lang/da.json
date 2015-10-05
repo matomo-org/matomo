@@ -41,7 +41,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Gennemsnitlig varighed af et besøg.",
         "ColumnBounceRate": "Afvisnings %",
         "ColumnBounceRateDocumentation": "Procentdel af besøg, der kun havde en enkelt sidevisning. Det betyder, at den besøgende forlod webstedet direkte fra indgangen side.",
-        "ColumnBounceRateForPageDocumentation": "Procentdel af besøg, der startede og sluttede på denne side.",
         "ColumnBounces": "Afvisninger",
         "ColumnBouncesDocumentation": "Antal besøg, der startede og sluttede på siden. Det betyder, at den besøgende forlod hjemmesiden efter kun at have set denne side.",
         "ColumnConversionRate": "Omregningsfrekvens",

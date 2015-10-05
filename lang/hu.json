@@ -32,7 +32,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Egy látogatás átlagos időtartama.",
         "ColumnBounceRate": "Visszafordulási arány",
         "ColumnBounceRateDocumentation": "Látogatások százaléka, mely során csak egy weblapot tekintettek meg. Ez azt jelenti, hogy a látogató a belépési oldalról közvetlenül elhagyta a webhelyet.",
-        "ColumnBounceRateForPageDocumentation": "Látogatások százaléka, mely ezen a weblapon kezdődött és végződött.",
         "ColumnBounces": "Visszafordulások",
         "ColumnBouncesDocumentation": "Látogatások száma, mely ezen a weblapon kezdődött és végződött. Ez azt jelenti, hogy a látogató elhagyta a webhelyet, miután megtekintette ezt a weblapot.",
         "ColumnConversionRate": "Konverziós arány",

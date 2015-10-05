@@ -42,7 +42,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Povprečno trajanje obiska.",
         "ColumnBounceRate": "Odbojno razmerje",
         "ColumnBounceRateDocumentation": "Delež obiskov, ki je vseboval zgolj en sam ogled strani. To pomeni, da je obiskovalec zapustil spletno stran direktno z vhodne strani.",
-        "ColumnBounceRateForPageDocumentation": "Delež obiskov, ki se tako začeli, kot tudi končali na tej strani.",
         "ColumnBounces": "Odbojev",
         "ColumnBouncesDocumentation": "Število obiskov, ki so se začeli in končali na tej strani. To pomeni, da je obiskovalec odšel po ogledu ene same strani.",
         "ColumnConversionRate": "Pretvorbeno razmerje",

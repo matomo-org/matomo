@@ -43,7 +43,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "La duración promedio de una visita.",
         "ColumnBounceRate": "Porcentaje de rebote",
         "ColumnBounceRateDocumentation": "El porcentaje de visitas que únicamente han observado una página. Esto significa que el visitante salió del sitio de internet directamente desde la página principal.",
-        "ColumnBounceRateForPageDocumentation": "El porcentaje de visitas que empezaron y acabaron en esta página.",
         "ColumnBounces": "Rebotes",
         "ColumnBouncesDocumentation": "Número de visitas que empezaron y acabaron en esta página. Esto quiere decir que el visitante dejó el sitio después de ver solamente esta página.",
         "ColumnConversionRate": "Porcentaje de conversión",

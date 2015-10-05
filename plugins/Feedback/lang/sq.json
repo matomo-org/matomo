@@ -4,8 +4,19 @@
         "IWantTo": "Dua të:",
         "LearnWaysToParticipate": "Njihuni me krejt mënyrat përmes të cilave mund të %s merrni pjesë%s",
         "ManuallySendEmailTo": "Ju lutem, dërgojeni mesazhin tuaj dorazi te",
+        "RateFeatureLeaveMessageDislike": "Na vjen keq që dëgjojmë se s’ju pëlqen! Ju lutemi, na thoni se si mund ta përmirësojmë.",
+        "RateFeatureLeaveMessageLike": "Gëzohemi që ju pëlqen! Ju lutemi, na thoni se çfarë ju pëlqeu më shumë ose nëse keni ndonjë kërkesë për veçori të re.",
+        "RateFeatureThankYouTitle": "Faleminderit për vlerësimin e '%s'!",
+        "RateFeatureTitle": "Ju pëlqen veçoria '%s'? Ju lutemi, vlerësojeni dhe lini një koment",
         "SendFeedback": "Dërgoji Përshtypjet",
         "ThankYou": "Faleminderit që na ndihmoni ta bëjmë më të mirë Piwik-un!",
+        "TopLinkTooltip": "Na thoni se ç’mendim keni, ose kërkoni Asistencë Profesionale.",
+        "ViewAnswersToFAQ": "Shihni përgjigjet te %sPyetje të Bëra Shpesh%s",
+        "CommunityHelp": "Ndihmë nga Bashkësia",
+        "ProfessionalHelp": "Ndihmë Profesionale",
+        "PiwikProOfferIntro": "Në ofertën tonë përfshihet",
+        "PiwikProPhoneEmailSupport": "Asistencë Telefonike dhe me Email",
+        "PiwikProPremiumFeatures": "Veçori Me Pagesë",
         "VisitTheForums": "Vizitoni %s Forumet%s"
     }
 }

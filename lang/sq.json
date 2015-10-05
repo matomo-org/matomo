@@ -43,7 +43,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Zgjatje mesatare e një vizite.",
         "ColumnBounceRate": "Mesatare Kthimesh",
         "ColumnBounceRateDocumentation": "Përqindja e vizitave gjatë të cilave pati vetëm një parje faqeje. Kjo do të thotë, që vizitori e braktisi sajtin drejt e pas faqes hyrëse.",
-        "ColumnBounceRateForPageDocumentation": "Përqindje vizitash që zunë fill dhe përfunduan me këtë faqe.",
         "ColumnBounces": "Kthime",
         "ColumnBouncesDocumentation": "Numër vizitash që filluan dhe mbaruan me këtë faqe. Kjo do të thotë që vizitori e braktisi sajtin pasi pa vetëm këtë faqe.",
         "ColumnConversionRate": "Koeficient Shndërrimi",

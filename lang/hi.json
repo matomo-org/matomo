@@ -43,7 +43,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "एक यात्रा की औसत अवधि.",
         "ColumnBounceRate": "वापिस आने की दर",
         "ColumnBounceRateDocumentation": "केवल एक ही पृष्ठ अवलोकन कि यात्राओं का प्रतिशत.इसका मतलब है कि, आगंतुक ने प्रवेश पृष्ठ से ही सीधे वेबसाइट को छोड़ दिया",
-        "ColumnBounceRateForPageDocumentation": "यात्राओं का प्रतिशत जो कि इस पृष्ठ पर शुरू और समाप्त हुआ",
         "ColumnBounces": "वापिस आना",
         "ColumnBouncesDocumentation": "इस पृष्ठ पर शुरू और समाप्त हुई यात्राओं की संख्या. इस का मतलब है, कि आगंतुक ने केवल इस पृष्ठ को देखने के बाद वेबसाइट छोड़ दिया",
         "ColumnConversionRate": "रूपांतरण दर",

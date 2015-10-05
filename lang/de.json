@@ -43,7 +43,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Durchschnittslänge eines Besuches.",
         "ColumnBounceRate": "Absprungsrate",
         "ColumnBounceRateDocumentation": "Der Anteil der Besuche, bei denen nur eine Seite aufgerufen wurde. Dies bedeutet, dass der Besucher die Website auf der Eingangsseite sofort wieder verlassen hat.",
-        "ColumnBounceRateForPageDocumentation": "Prozentsatz der Besuche, die auf dieser Seite starteten und zugleich endeten.",
         "ColumnBounces": "Absprünge",
         "ColumnBouncesDocumentation": "Anzahl der Besuche, die auf dieser Seite begannen und endeten. D.h. der Besucher verließ die Website nach dem Aufruf dieser einen Seite wieder.",
         "ColumnConversionRate": "Konversionsrate",

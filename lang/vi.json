@@ -43,7 +43,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Thời gian trung bình của một lượt truy cập.",
         "ColumnBounceRate": "Tỷ lệ thoát",
         "ColumnBounceRateDocumentation": "Tỷ lệ truy cập mà chỉ có một lần xem trang duy nhất. Điều này có nghĩa, người truy cập rời khỏi trang web trực tiếp từ trang truy cập.",
-        "ColumnBounceRateForPageDocumentation": "Tỷ lệ phần trăm số lần truy cập bắt đầu và kết thúc trên trang này.",
         "ColumnBounces": "Phục hồi lại",
         "ColumnBouncesDocumentation": "Số lần truy cập bắt đầu và kết thúc trên trang này. Điều này có nghĩa là khách truy cập rời khỏi trang web sau khi chỉ xem trang này.",
         "ColumnConversionRate": "Tỷ lệ chuyển đổi",

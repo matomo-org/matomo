@@ -43,7 +43,6 @@
         "ColumnAvgTimeOnSiteDocumentation": "Den genomsnittliga längden på ett besök.",
         "ColumnBounceRate": "Avvisningsfrekvens",
         "ColumnBounceRateDocumentation": "Andelen besök som bara hade en enda sidvisning. Detta innebär att besökaren lämnat webbplatsen direkt från målsidan.",
-        "ColumnBounceRateForPageDocumentation": "Andelen besök som startade och slutade på denna sida.",
         "ColumnBounces": "Avvisningar",
         "ColumnBouncesDocumentation": "Antal besök som började och slutade på denna sida. Detta innebär att besökaren lämnat webbplatsen efter att ha besökt denna sidan.",
         "ColumnConversionRate": "Omvandlingsgrad",
