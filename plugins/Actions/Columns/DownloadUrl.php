@@ -9,13 +9,21 @@
 namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugins\Actions\Segment;
 
-class DownloadUrl extends ActionDimension
+class DownloadUrl extends PageUrl
 {
     public function getName()
     {
         return Piwik::translate('Actions_ColumnDownloadURL');
+    }
+
+    protected function configureSegments()
+    {
+        $segment = new Segment();
+        $segment->setSegment('downloadUrl');
+        $segment->setName('Actions_ColumnDownloadURL');
+        $this->addSegment($segment);
     }
 
 }
