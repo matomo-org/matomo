@@ -21,6 +21,7 @@
 *.xlsx binary
 *.png binary
 *.jpg binary
+*.ico binary
 *.gif binary
 *.gz binary
 *.gzip binary
