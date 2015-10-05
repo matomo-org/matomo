@@ -60,11 +60,11 @@
 	<reportMetadata>
 		<row>
 			
-			<idsubdatatable>2687</idsubdatatable>
+			<idsubdatatable>2711</idsubdatatable>
 		</row>
 		<row>
 			
-			<idsubdatatable>2688</idsubdatatable>
+			<idsubdatatable>2712</idsubdatatable>
 		</row>
 	</reportMetadata>
 	<reportTotal>
@@ -72,7 +72,7 @@
 		<nb_hits>8</nb_hits>
 		<entry_bounce_count>4</entry_bounce_count>
 		<entry_nb_visits>8</entry_nb_visits>
-		<entry_nb_actions>16</entry_nb_actions>
+		<entry_nb_actions>24</entry_nb_actions>
 		<exit_nb_visits>4</exit_nb_visits>
 	</reportTotal>
 </result>

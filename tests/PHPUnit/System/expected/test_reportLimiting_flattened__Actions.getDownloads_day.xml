@@ -58,6 +58,7 @@
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 		<exit_nb_visits>1</exit_nb_visits>
 		<url>http://cloudsite5.com/20/download</url>
+		<segment>downloadUrl==http%3A%2F%2Fcloudsite5.com%2F20%2Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite6.com/24/download</label>
@@ -73,6 +74,7 @@
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 		<exit_nb_visits>1</exit_nb_visits>
 		<url>http://cloudsite6.com/24/download</url>
+		<segment>downloadUrl==http%3A%2F%2Fcloudsite6.com%2F24%2Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite7.com/28/download</label>
@@ -88,5 +90,6 @@
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 		<exit_nb_visits>1</exit_nb_visits>
 		<url>http://cloudsite7.com/28/download</url>
+		<segment>downloadUrl==http%3A%2F%2Fcloudsite7.com%2F28%2Fdownload</segment>
 	</row>
 </result>

@@ -11,7 +11,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>61</goalPageId>
+				<goalPageId>95</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -23,7 +23,7 @@
 				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>61</pageId>
+				<pageId>95</pageId>
 				<icon />
 				
 			</row>
@@ -118,26 +118,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>30</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>30</pageId>
+				<pageId>46</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>46</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -145,7 +145,7 @@
 				<url />
 				<pageIdAction />
 				
-				<pageId>31</pageId>
+				<pageId>47</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
@@ -170,11 +170,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file8.zip</url>
+				<pageTitle />
+				<pageIdAction>46</pageIdAction>
+				
+				<pageId>48</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/8.html</url>
+				<pageTitle />
+				<pageIdAction>47</pageIdAction>
+				
+				<pageId>49</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>32</pageId>
+				<pageId>50</pageId>
 				<eventCategory>Cat8</eventCategory>
 				<eventAction>Action8</eventAction>
 				<eventName>Name8</eventName>
@@ -201,10 +225,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
-		<actions>3</actions>
+		<actions>5</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -285,7 +309,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>29</goalPageId>
+				<goalPageId>45</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -297,7 +321,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>29</pageId>
+				<pageId>45</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -410,26 +434,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>27</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>27</pageId>
+				<pageId>41</pageId>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>41</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -444,11 +468,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file7.zip</url>
+				<pageTitle />
+				<pageIdAction>41</pageIdAction>
+				
+				<pageId>42</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/7.html</url>
+				<pageTitle />
+				<pageIdAction>42</pageIdAction>
+				
+				<pageId>43</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>28</pageId>
+				<pageId>44</pageId>
 				<eventCategory>Cat7</eventCategory>
 				<eventAction>Action7</eventAction>
 				<eventName>Name7</eventName>
@@ -475,10 +523,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
-		<actions>2</actions>
+		<actions>4</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -559,7 +607,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>26</goalPageId>
+				<goalPageId>40</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -571,7 +619,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>26</pageId>
+				<pageId>40</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -684,26 +732,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>23</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>23</pageId>
+				<pageId>35</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>35</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -711,7 +759,7 @@
 				<url />
 				<pageIdAction />
 				
-				<pageId>24</pageId>
+				<pageId>36</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
@@ -736,11 +784,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file6.zip</url>
+				<pageTitle />
+				<pageIdAction>36</pageIdAction>
+				
+				<pageId>37</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/6.html</url>
+				<pageTitle />
+				<pageIdAction>37</pageIdAction>
+				
+				<pageId>38</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>25</pageId>
+				<pageId>39</pageId>
 				<eventCategory>Cat6</eventCategory>
 				<eventAction>Action6</eventAction>
 				<eventName>Name6</eventName>
@@ -767,10 +839,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
-		<actions>3</actions>
+		<actions>5</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -851,7 +923,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>22</goalPageId>
+				<goalPageId>34</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -863,7 +935,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>22</pageId>
+				<pageId>34</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -976,26 +1048,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>20</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>20</pageId>
+				<pageId>30</pageId>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>30</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -1010,11 +1082,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file5.zip</url>
+				<pageTitle />
+				<pageIdAction>31</pageIdAction>
+				
+				<pageId>31</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/5.html</url>
+				<pageTitle />
+				<pageIdAction>32</pageIdAction>
+				
+				<pageId>32</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>21</pageId>
+				<pageId>33</pageId>
 				<eventCategory>Cat5</eventCategory>
 				<eventAction>Action5</eventAction>
 				<eventName>Name5</eventName>
@@ -1041,10 +1137,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
-		<actions>2</actions>
+		<actions>4</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1125,7 +1221,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>19</goalPageId>
+				<goalPageId>29</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -1137,7 +1233,7 @@
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>19</pageId>
+				<pageId>29</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -1250,26 +1346,26 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>16</goalPageId>
-				
-				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>16</pageId>
+				<pageId>24</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>24</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
@@ -1277,7 +1373,7 @@
 				<url />
 				<pageIdAction />
 				
-				<pageId>17</pageId>
+				<pageId>25</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
@@ -1302,11 +1398,35 @@
 				
 			</row>
 			<row>
+				<type>download</type>
+				<url>http://example.org/path/file4.zip</url>
+				<pageTitle />
+				<pageIdAction>26</pageIdAction>
+				
+				<pageId>26</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://example-outlink.org/4.html</url>
+				<pageTitle />
+				<pageIdAction>27</pageIdAction>
+				
+				<pageId>27</pageId>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon>plugins/Morpheus/images/link.gif</icon>
+				
+			</row>
+			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>18</pageId>
+				<pageId>28</pageId>
 				<eventCategory>Cat4</eventCategory>
 				<eventAction>Action4</eventAction>
 				<eventName>Name4</eventName>
@@ -1333,10 +1453,10 @@
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1261</visitDuration>
-		<visitDurationPretty>21 min 1s</visitDurationPretty>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
-		<actions>3</actions>
+		<actions>5</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
