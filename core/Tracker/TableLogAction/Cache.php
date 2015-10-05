@@ -11,7 +11,6 @@ namespace Piwik\Tracker\TableLogAction;
 
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Psr\Log\LoggerInterface;
 
 class Cache

@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Segment;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -698,7 +699,7 @@ class SegmentTest extends IntegrationTestCase
                 "found",
             ));
 
-        $cache = new TableLogAction\Cache();
+        $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
         $this->assertTrue( empty($cache->isEnabled) );
         $this->assertCacheWasHit($hit = 0);
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -768,7 +769,7 @@ class SegmentTest extends IntegrationTestCase
                 3, // pageUrl!@not-found
             ));
 
-        $cache = new TableLogAction\Cache();
+        $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
         $this->assertTrue( !empty($cache->isEnabled) );
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -836,7 +837,7 @@ class SegmentTest extends IntegrationTestCase
                 "not-found", // pageUrl!@not-found
             ));
 
-        $cache = new TableLogAction\Cache();
+        $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
         $this->assertTrue( !empty($cache->isEnabled) );
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
