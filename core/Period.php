@@ -90,6 +90,24 @@ abstract class Period
     }
 
     /**
+     * Checks the given date format whether it is a correct date format and if not, throw an exception.
+     *
+     * For valid date formats have a look at the {@link \Piwik\Date::factory()} method and
+     * {@link isMultiplePeriod()} method.
+     *
+     * @param string $dateString
+     * @throws \Exception If `$dateString` is in an invalid format or if the time is before
+     *                   Tue, 06 Aug 1991.
+     */
+    public static function checkDateFormat($dateString)
+    {
+        if (self::isMultiplePeriod($dateString, 'day')) {
+            return;
+        }
+        Date::factory($dateString);
+    }
+
+    /**
      * Returns the first day of the period.
      *
      * @return Date

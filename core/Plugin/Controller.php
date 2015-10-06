@@ -595,7 +595,9 @@ abstract class Controller
         $maxDate = Date::factory('now', $siteTimezone);
         $this->setMaxDateView($maxDate, $view);
 
-        $rawDate   = Common::getRequestVar('date');
+        $rawDate = Common::getRequestVar('date');
+        Period::checkDateFormat($rawDate);
+
         $periodStr = Common::getRequestVar('period');
 
         if ($periodStr != 'range') {
