@@ -14,7 +14,6 @@ use Piwik\Tracker;
 
 class Model
 {
-
     public function createAction($visitAction)
     {
         $fields = implode(", ", array_keys($visitAction));

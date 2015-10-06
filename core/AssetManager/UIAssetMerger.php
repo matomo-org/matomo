@@ -8,7 +8,6 @@
  */
 namespace Piwik\AssetManager;
 
-
 abstract class UIAssetMerger
 {
     /**

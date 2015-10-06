@@ -17,7 +17,6 @@ use Piwik\Updater;
  */
 class Updates_2_10_0_b4 extends Updates
 {
-
     public function doUpdate(Updater $updater)
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();

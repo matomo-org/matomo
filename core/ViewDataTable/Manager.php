@@ -325,8 +325,8 @@ class Manager
         $viewDataTable = self::makeTemporaryViewDataTableInstance($controllerAction, $params);
         $nonOverridableParams = $viewDataTable->getNonOverridableParams($params);
 
-        foreach($params as $key => $value) {
-            if(in_array($key, $nonOverridableParams)) {
+        foreach ($params as $key => $value) {
+            if (in_array($key, $nonOverridableParams)) {
                 unset($params[$key]);
             }
         }
@@ -420,5 +420,4 @@ class Manager
 
         return $graphViewIcons;
     }
-
 }

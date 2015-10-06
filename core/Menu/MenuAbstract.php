@@ -23,7 +23,6 @@ use Piwik\Plugin\Manager as PluginManager;
  */
 abstract class MenuAbstract extends Singleton
 {
-
     protected $menu = null;
     protected $menuEntries = array();
     protected $menuEntriesToRemove = array();

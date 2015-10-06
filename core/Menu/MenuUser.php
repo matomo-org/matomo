@@ -30,7 +30,6 @@ namespace Piwik\Menu;
  */
 class MenuUser extends MenuAbstract
 {
-
     /**
      * See {@link add()}. Adds a new menu item to the manage section of the user menu.
      * @param string $menuName

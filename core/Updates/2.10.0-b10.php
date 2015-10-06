@@ -15,7 +15,6 @@ use Piwik\Updates;
 
 class Updates_2_10_0_b10 extends Updates
 {
-
     public function getMigrationQueries(Updater $updater)
     {
         $sqls = array();

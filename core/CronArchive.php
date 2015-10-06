@@ -368,10 +368,8 @@ class CronArchive
                 // if not specific sites and not all websites should be archived, we check whether we actually have
                 // to process the archives for this website (only if there were visits since midnight)
                 if (!$hasWebsiteDayFinishedSinceLastRun && !$isOldReportInvalidatedForWebsite) {
-
                     if ($this->isWebsiteUsingTheTracker($idSite)) {
-
-                        if(!$this->hadWebsiteTrafficSinceMidnightInTimezone($idSite)) {
+                        if (!$this->hadWebsiteTrafficSinceMidnightInTimezone($idSite)) {
                             $this->logger->info("Skipped website id $idSite as archiving is not needed");
 
                             $this->skippedDayNoRecentData++;
@@ -379,9 +377,8 @@ class CronArchive
                             continue;
                         }
                     } else {
-                       $this->logger->info("- website id $idSite is not using the tracker");
+                        $this->logger->info("- website id $idSite is not using the tracker");
                     }
-
                 } elseif ($hasWebsiteDayFinishedSinceLastRun) {
                     $this->logger->info("Day has finished for website id $idSite since last run");
                 } elseif ($isOldReportInvalidatedForWebsite) {
@@ -422,11 +419,11 @@ class CronArchive
         $this->logger->info("- {$this->skippedDayArchivesWebsites} skipped because existing daily reports are less than {$this->todayArchiveTimeToLive} seconds old");
         $this->logger->info("- {$this->skippedPeriodsArchivesWebsite} skipped because existing week/month/year periods reports are less than {$this->processPeriodsMaximumEverySeconds} seconds old");
 
-        if($this->skippedPeriodsNoDataInPeriod) {
+        if ($this->skippedPeriodsNoDataInPeriod) {
             $this->logger->info("- {$this->skippedPeriodsNoDataInPeriod} skipped periods archiving because no visit in recent days");
         }
 
-        if($this->skippedDayOnApiError) {
+        if ($this->skippedDayOnApiError) {
             $this->logger->info("- {$this->skippedDayOnApiError} skipped because got an error while querying reporting API");
         }
         $this->logger->info("Total API requests: {$this->requests}");
@@ -1022,7 +1019,6 @@ class CronArchive
             // there was a previous successful run
 
             return time() - $this->lastSuccessRunTimestamp;
-
         } elseif (is_numeric($this->shouldArchiveOnlySitesWithTrafficSince)) {
             // $shouldArchiveAllPeriodsSince was specified
             $secondsSinceStart = time() - $this->archivingStartingTime;

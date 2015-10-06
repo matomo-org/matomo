@@ -18,7 +18,6 @@ use Piwik\Option;
  */
 class Storage implements StorageInterface
 {
-
     /**
      * Array containing all plugin settings values: Array( [setting-key] => [setting-value] ).
      *

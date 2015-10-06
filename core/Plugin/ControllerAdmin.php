@@ -147,7 +147,6 @@ abstract class ControllerAdmin extends Controller
         if (!Development::isEnabled()
             && Piwik::hasUserSuperUserAccess() &&
             TrackerConfig::getConfigValue($trackerSetting)) {
-
             $message = Piwik::translate('General_WarningDebugOnDemandEnabled');
             $message = sprintf($message, '"' . $trackerSetting . '"', '"[Tracker] ' .  $trackerSetting . '"', '"0"',
                                                '"config/config.ini.php"');

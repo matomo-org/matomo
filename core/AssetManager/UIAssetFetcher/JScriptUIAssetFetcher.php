@@ -13,7 +13,6 @@ use Piwik\Piwik;
 
 class JScriptUIAssetFetcher extends UIAssetFetcher
 {
-
     protected function retrieveFileLocations()
     {
         if (!empty($this->plugins)) {

@@ -13,7 +13,6 @@ use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
 
-
 class Updates_2_15_0_b3 extends Updates
 {
     public function getMigrationQueries(Updater $updater)

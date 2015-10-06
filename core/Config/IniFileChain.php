@@ -141,9 +141,9 @@ class IniFileChain
 
         $configToWrite = array();
         foreach ($this->mergedSettings as $sectionName => $changedSection) {
-            if(isset($existingMutableSettings[$sectionName])){
+            if (isset($existingMutableSettings[$sectionName])) {
                 $existingMutableSection = $existingMutableSettings[$sectionName];
-            } else{
+            } else {
                 $existingMutableSection = array();
             }
 

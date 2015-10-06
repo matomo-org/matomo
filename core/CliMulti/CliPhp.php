@@ -11,7 +11,6 @@ use Piwik\Common;
 
 class CliPhp
 {
-
     public function findPhpBinary()
     {
         if (defined('PHP_BINARY')) {
