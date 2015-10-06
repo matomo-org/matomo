@@ -583,7 +583,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                     $('#period_id_range').click();
                     $('#inputCalendarFrom').val('2012-08-02');
                     $('#inputCalendarTo').val('2012-08-12');
-                    setTimeout(function () {$('#calendarRangeApply').click();}, 500);
+                    setTimeout(function () {$('#calendarApply').click();}, 500);
                 });
             });
         }, done);

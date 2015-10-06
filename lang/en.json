@@ -11,7 +11,7 @@
         "AllWebsitesDashboard": "All Websites dashboard",
         "And": "and",
         "API": "API",
-        "ApplyDateRange": "Apply Date Range",
+        "Apply": "Apply",
         "ArchivingInlineHelp": "For medium to high traffic websites, it is recommended to disable Piwik archiving to trigger from the browser. Instead, we recommend that you setup a cron job to process Piwik reports every hour.",
         "ArchivingTriggerDescription": "Recommended for larger Piwik installs, you need to %ssetup a cron job%s to process the reports automatically.",
         "AuthenticationMethodSmtp": "Authentication method for SMTP",
