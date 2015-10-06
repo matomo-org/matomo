@@ -31,18 +31,17 @@ class Cache
     private $logger;
 
     /**
-     * for tests
-     *
-     * @var int
+     * @var \Piwik\Cache\Lazy
      */
-    static public $hits = 0;
+    private $cache;
 
-    public function __construct(LoggerInterface $logger, Config $config)
+    public function __construct(LoggerInterface $logger, Config $config, \Piwik\Cache\Lazy $cache)
     {
         $this->isEnabled = (bool)$config->General['enable_segments_subquery_cache'];
         $this->limitActionIds = $config->General['segments_subquery_cache_limit'];
         $this->lifetime = $config->General['segments_subquery_cache_ttl'];
         $this->logger = $logger;
+        $this->cache = $cache;
     }
 
     /**
@@ -94,24 +93,22 @@ class Cache
      */
     private function getIdsFromCache($valueToMatch, $sql)
     {
-        $cache = $this->buildCache();
         $cacheKey = $this->getCacheKey($valueToMatch, $sql);
 
-        if ($cache->contains($cacheKey) === true) {
-            self::$hits++;
+        if ($this->cache->contains($cacheKey) === true) { // TODO: hits
             $this->logger->debug("Segment subquery cache HIT (for '$valueToMatch' and SQL '$sql)");
-            return $cache->fetch($cacheKey);
+            return $this->cache->fetch($cacheKey);
         }
 
         $ids = $this->fetchActionIdsFromDb($valueToMatch, $sql);
 
         if($this->isTooBigToCache($ids)) {
             $this->logger->debug("Segment subquery cache SKIPPED SAVE (too many IDs returned by subquery: %s ids)'", array(count($ids)));
-            $cache->save($cacheKey, $ids = null, $this->lifetime);
+            $this->cache->save($cacheKey, $ids = null, $this->lifetime);
             return null;
         }
 
-        $cache->save($cacheKey, $ids, $this->lifetime);
+        $this->cache->save($cacheKey, $ids, $this->lifetime);
         $this->logger->debug("Segment subquery cache SAVE (for '$valueToMatch' and SQL '$sql')'");
 
         return $ids;
@@ -150,14 +147,6 @@ class Cache
         }
 
         return $ids;
-    }
-
-    /**
-     * @return \Piwik\Cache\Lazy
-     */
-    private function buildCache()
-    {
-        return \Piwik\Cache::getLazyCache();
     }
 
     /**
