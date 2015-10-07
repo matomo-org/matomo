@@ -284,6 +284,10 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'day',
                 true,
                 array(
+                    '2014_01' => array(
+                        '1.2014-01-01.2014-12-31.4.done',
+                        '2.2014-01-01.2014-12-31.4.done',
+                    ),
                     '2015_03' => array(),
                     '2015_04' => array(
                         '1.2015-04-30.2015-04-30.1.done',
@@ -327,6 +331,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'month',
                 false,
                 array(
+                    '2014_01' => array(),
                     '2014_12' => array(),
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-31.3.done',
@@ -345,6 +350,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'month',
                 true,
                 array(
+                    '2014_01' => array(),
                     '2014_12' => array(
                         '1.2014-12-29.2015-01-04.2.done',
                     ),
@@ -400,6 +406,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'week',
                 true,
                 array(
+                    '2014_01' => array(
+                        '1.2014-01-01.2014-12-31.4.done',
+                    ),
                     '2014_12' => array(
                         '1.2014-12-29.2014-12-29.1.done',
                         '1.2014-12-30.2014-12-30.1.done',
@@ -426,6 +435,28 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-02-01.2015-02-28.3.done',
                     ),
                     '2015_03' => array(),
+                    '2015_04' => array(),
+                    '2015_05' => array(),
+                ),
+            ),
+
+            // range period, one site, cascade = true
+            array(
+                array(1),
+                array('2015-01-02', '2015-03-05'),
+                'range',
+                true,
+                array(
+                    '2014_01' => array(),
+                    '2014_12' => array(),
+                    '2015_01' => array(
+                        '1.2015-01-01.2015-01-10.5.done',
+                    ),
+                    '2015_02' => array(),
+                    '2015_03' => array(
+                        '1.2015-03-04.2015-03-05.5.done',
+                        '1.2015-03-05.2015-03-10.5.done',
+                    ),
                     '2015_04' => array(),
                     '2015_05' => array(),
                 ),
@@ -474,22 +505,27 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         foreach ($periods as $periodLabel) {
             for ($date = $startDate; $date->isEarlier($endDate); $date = $date->addPeriod(1, $periodLabel)) {
                 foreach ($sites as $idSite) {
-                    $this->insertArchiveRow($idSite, $date, $periodLabel);
+                    $this->insertArchiveRow($idSite, $date->toString(), $periodLabel);
                 }
             }
         }
+
+        $rangePeriods = array('2015-03-04,2015-03-05', '2014-12-05,2015-01-01', '2015-03-05,2015-03-10', '2015-01-01,2015-01-10');
+        foreach ($rangePeriods as $dateRange) {
+            $this->insertArchiveRow($idSite = 1, $dateRange, 'range');
+        }
     }
 
-    private function insertArchiveRow($idSite, Date $date, $periodLabel)
+    private function insertArchiveRow($idSite, $date, $periodLabel)
     {
-        $table = ArchiveTableCreator::getNumericTable($date);
+        $periodObject = \Piwik\Period\Factory::build($periodLabel, $date);
+        $dateStart = $periodObject->getDateStart();
+        $dateEnd = $periodObject->getDateEnd();
+
+        $table = ArchiveTableCreator::getNumericTable($dateStart);
 
         $idArchive = (int) Db::fetchOne("SELECT MAX(idarchive) FROM $table WHERE name LIKE 'done%'");
         $idArchive = $idArchive + 1;
-
-        $periodObject = \Piwik\Period\Factory::build($periodLabel, $date->toString());
-        $dateStart = $periodObject->getDateStart();
-        $dateEnd = $periodObject->getDateEnd();
 
         $periodId = Piwik::$idPeriods[$periodLabel];
 

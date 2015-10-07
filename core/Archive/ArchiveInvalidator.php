@@ -124,7 +124,7 @@ class ArchiveInvalidator
     /**
      * @param $idSites int[]
      * @param $dates Date[]
-     * @param $period string TODO: make multiple
+     * @param $period string
      * @param bool $cascadeDown
      * @return InvalidationResultInfo
      * @throws \Exception
@@ -162,6 +162,10 @@ class ArchiveInvalidator
         $periodsToInvalidate = array();
 
         foreach ($dates as $date) {
+            if ($periodType == 'range') {
+                $date = $date . ',' . $date;
+            }
+
             $period = Period\Factory::build($periodType, $date);
             $periodsToInvalidate[] = $period;
 
@@ -207,7 +211,7 @@ class ArchiveInvalidator
 
     /**
      * @param int[] $idSites
-     * @param Period[][] $periods
+     * @param Period[][][] $periods
      * @throws \Exception
      */
     private function markArchivesInvalidated($idSites, $periods)
