@@ -49,9 +49,15 @@ abstract class MenuAbstract extends Singleton
         return $this->menu;
     }
 
-    public function registerMenuIcon($menuName, $icon)
+    /**
+     * Let's you register a menu icon for a certain menu category to replace the default arrow icon.
+     *
+     * @param string $menuName The translation key of a main menu category, eg 'Dashboard_Dashboard'
+     * @param string $iconCssClass   The css class name of an icon, eg 'icon-user'
+     */
+    public function registerMenuIcon($menuName, $iconCssClass)
     {
-        $this->menuIcons[$menuName] = $icon;
+        $this->menuIcons[$menuName] = $iconCssClass;
     }
 
     /**
@@ -173,7 +179,7 @@ abstract class MenuAbstract extends Singleton
             if (!empty($this->menuIcons[$menuName])) {
                 $this->menu[$menuName]['_icon'] = $this->menuIcons[$menuName];
             } else {
-                $this->menu[$menuName]['_icon'] = 'icon-arrow-right';
+                $this->menu[$menuName]['_icon'] = '';
             }
         }
         if (!empty($subMenuName)) {

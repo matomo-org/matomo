@@ -27,24 +27,29 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         if (Plugin\Manager::getInstance()->isPluginActivated('Feedback')) {
-            $menu->addItem('icon-help', null, array('module' => 'Feedback', 'action' => 'index'), $order = 990, Piwik::translate('General_Help'));
+            $menu->registerMenuIcon('General_Help', 'icon-help');
+            $menu->addItem('General_Help', null, array('module' => 'Feedback', 'action' => 'index'), $order = 990, Piwik::translate('General_Help'));
         }
+
+        $menu->registerMenuIcon($login, 'icon-user');
 
         if (Piwik::isUserIsAnonymous()) {
             if (Plugin\Manager::getInstance()->isPluginActivated('ScheduledReports')) {
-                $menu->addItem('icon-user', null, array('module' => 'ScheduledReports', 'action' => 'index'), 970, $login);
+                $menu->addItem($login, null, array('module' => 'ScheduledReports', 'action' => 'index'), 970, $login);
             } else {
-                $menu->addItem('icon-user', null, array('module' => 'API', 'action' => 'listAllAPI'), 970, $login);
+                $menu->addItem($login, null, array('module' => 'API', 'action' => 'listAllAPI'), 970, $login);
             }
         } else {
-            $menu->addItem('icon-user', null, array('module' => 'UsersManager', 'action' => 'userSettings'), 970, $login);
+            $menu->addItem($login, null, array('module' => 'UsersManager', 'action' => 'userSettings'), 970, $login);
         }
 
         $module = $this->getLoginModule();
         if (Piwik::isUserIsAnonymous()) {
-            $menu->addItem('icon-sign-in', null, array('module' => $module, 'action' => false), 1000, Piwik::translate('Login_LogIn'));
+            $menu->registerMenuIcon('Login_LogIn', 'icon-sign-in');
+            $menu->addItem('Login_LogIn', null, array('module' => $module, 'action' => false), 1000, Piwik::translate('Login_LogIn'));
         } else {
-            $menu->addItem('icon-sign-out', null, array('module' => $module, 'action' => 'logout', 'idSite' => null), 1000, Piwik::translate('General_Logout'));
+            $menu->registerMenuIcon('General_Logout', 'icon-sign-out');
+            $menu->addItem('General_Logout', null, array('module' => $module, 'action' => 'logout', 'idSite' => null), 1000, Piwik::translate('General_Logout'));
         }
     }
 

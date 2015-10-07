@@ -180,7 +180,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Hide';
         $translationKeys[] = 'General_Website';
         $translationKeys[] = 'General_ChooseWebsite';
-        $translationKeys[] = 'Intl_YearShort';
+        $translationKeys[] = 'Intl_Year_Short';
         $translationKeys[] = 'General_MultiSitesSummary';
         $translationKeys[] = 'General_SearchNoResults';
         $translationKeys[] = 'CoreHome_YouAreUsingTheLatestVersion';

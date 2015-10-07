@@ -1,9 +1,9 @@
 {{ postEvent("Template.beforeTopBar", userAlias, userLogin, topMenu, userMenu) }}
 <ul class="navbar-right">
 
-    {% macro menuItemLabel(label) %}
-        {% if label starts with 'icon-' %}
-            <span class="{{ label|striptags }}"></span>
+    {% macro menuItemLabel(label, icon) %}
+        {% if icon is defined and icon and icon starts with 'icon-' %}
+            <span class="{{ icon|striptags }}"></span>
         {% else %}
             {{ label|translate }}
         {% endif %}
@@ -16,7 +16,7 @@
             <a {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}
                class="topBarElem {% if (menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}active{% endif %}"
                id="topmenu-{{ menu._url.module|lower }}"
-               href="index.php{{ menu._url|urlRewriteWithParameters }}">{{ _self.menuItemLabel(label) }}</a>
+               href="index.php{{ menu._url|urlRewriteWithParameters }}">{{ _self.menuItemLabel(label, menu._icon) }}</a>
         {% endif %}
     {% endmacro %}
 
