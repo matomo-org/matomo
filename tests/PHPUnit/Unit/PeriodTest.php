@@ -203,7 +203,6 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
                     array('week', '2015-09-14,2015-09-20'),
                     array('week', '2015-09-21,2015-09-27'),
                     array('week', '2015-09-28,2015-10-04'),
-                    array('day', '2015-08-31,2015-08-31'),
                     array('day', '2015-09-01,2015-09-01'),
                     array('day', '2015-09-02,2015-09-02'),
                     array('day', '2015-09-03,2015-09-03'),
@@ -234,10 +233,6 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
                     array('day', '2015-09-28,2015-09-28'),
                     array('day', '2015-09-29,2015-09-29'),
                     array('day', '2015-09-30,2015-09-30'),
-                    array('day', '2015-10-01,2015-10-01'),
-                    array('day', '2015-10-02,2015-10-02'),
-                    array('day', '2015-10-03,2015-10-03'),
-                    array('day', '2015-10-04,2015-10-04'),
                 ),
             ),
 

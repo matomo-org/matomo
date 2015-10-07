@@ -380,16 +380,17 @@ abstract class Period
      * will cascade to week and day periods and year periods will cascade to month, week and day
      * periods.
      *
-     * The method will return periods that are outside the range of this period
-     * and a child period for the start/end date encompasses dates outside the range. For example,
-     * cascading on a month will return the week period for the 1st of the month. The week period
-     * might include days before the 1st. When cascading further, those days will be included in
-     * the result.
+     * The method will not return periods that are outside the range of this period.
      *
      * @return Period[]
      * @ignore
      */
     public function getAllOverlappingChildPeriods()
+    {
+        return $this->getAllOverlappingChildPeriodsInRange($this->getDateStart(), $this->getDateEnd());
+    }
+
+    private function getAllOverlappingChildPeriodsInRange(Date $dateStart, Date $dateEnd)
     {
         $result = array();
 
@@ -398,8 +399,8 @@ abstract class Period
             return $result;
         }
 
-        $childPeriods = Factory::build($childPeriodType, $this->getRangeString());
-        return array_merge($childPeriods->getSubperiods(), $childPeriods->getAllOverlappingChildPeriods());
+        $childPeriods = Factory::build($childPeriodType, $dateStart->toString() . ',' . $dateEnd->toString());
+        return array_merge($childPeriods->getSubperiods(), $childPeriods->getAllOverlappingChildPeriodsInRange($dateStart, $dateEnd));
     }
 
     /**

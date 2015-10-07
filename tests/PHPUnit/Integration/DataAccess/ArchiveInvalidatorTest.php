@@ -346,9 +346,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 true,
                 array(
                     '2014_12' => array(
-                        '1.2014-12-29.2014-12-29.1.done',
-                        '1.2014-12-30.2014-12-30.1.done',
-                        '1.2014-12-31.2014-12-31.1.done',
                         '1.2014-12-29.2015-01-04.2.done',
                     ),
                     '2015_01' => array(
@@ -389,9 +386,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-01-26.2015-02-01.2.done',
                         '1.2015-01-01.2015-01-31.3.done',
                     ),
-                    '2015_02' => array(
-                        '1.2015-02-01.2015-02-01.1.done',
-                    ),
+                    '2015_02' => array(),
                     '2015_03' => array(),
                     '2015_04' => array(),
                     '2015_05' => array(),
