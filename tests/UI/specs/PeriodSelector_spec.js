@@ -83,7 +83,7 @@ describe("PeriodSelector", function () {
         expect.screenshot("date_range_selected").to.be.captureSelector('#periodString', function (page) {
             page.click('#calendarFrom .ui-datepicker-calendar a:contains(10)');
             page.click('#calendarTo .ui-datepicker-calendar a:contains(18)');
-            page.mouseMove('#calendarRangeApply');
+            page.mouseMove('#calendarApply');
         }, done);
     });
 });

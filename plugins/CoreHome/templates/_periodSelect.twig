@@ -26,7 +26,7 @@
                 <br/>
             {% endfor %}
 			</span>
-            <input tabindex="3" type="submit" value="{{ 'General_ApplyDateRange'|translate }}" id="calendarRangeApply" class="btn"/>
+            <input tabindex="3" type="submit" value="{{ 'General_Apply'|translate }}" id="calendarApply" class="btn"/>
             {% import 'ajaxMacros.twig' as ajax %}
             {{ ajax.loadingDiv('ajaxLoadingCalendar') }}
         </div>

@@ -294,7 +294,6 @@
         var togglePeriodPickers = function (showSingle) {
             $('#periodString').find('.period-date').toggle(showSingle);
             $('#periodString').find('.period-range').toggle(!showSingle);
-            $('#calendarRangeApply').toggle(!showSingle);
         };
 
         //
@@ -382,6 +381,40 @@
             var id = $(e.target).attr('for');
             changePeriodOnClick($('#' + id));
         });
+
+        $("#otherPeriods").find("label,input").on('dblclick', function (e) {
+            var id = $(e.target).attr('for');
+            changePeriodOnClick($('#' + id));
+        });
+
+        // Apply date range button will reload the page with the selected range
+        $('#calendarApply')
+            .on('click', function () {
+                var $selectedPeriod = $('#periodMore [name=period]:checked');
+
+                if (!$selectedPeriod.is('#period_id_range')) {
+                    changePeriodOnClick($selectedPeriod);
+                    return true;
+                }
+
+                var dateFrom = $('#inputCalendarFrom').val(),
+                    dateTo = $('#inputCalendarTo').val(),
+                    oDateFrom = $.datepicker.parseDate('yy-mm-dd', dateFrom),
+                    oDateTo = $.datepicker.parseDate('yy-mm-dd', dateTo);
+
+                if (!isValidDate(oDateFrom)
+                    || !isValidDate(oDateTo)
+                    || oDateFrom > oDateTo) {
+                    $('#alert').find('h2').text(_pk_translate('General_InvalidDateRange'));
+                    piwikHelper.modalConfirm('#alert', {});
+                    return false;
+                }
+                piwikHelper.showAjaxLoading('ajaxLoadingCalendar');
+                broadcast.propagateNewPage('period=range&date=' + dateFrom + ',' + dateTo);
+            })
+            .show();
+
+
 
         // when non-range period is clicked, change the period & refresh the date picker
         $("#otherPeriods").find("input").on('click', function (e) {
@@ -487,27 +520,6 @@
             // If not called, the first date appears light brown instead of dark brown
             $('.ui-state-hover').removeClass('ui-state-hover');
 
-            // Apply date range button will reload the page with the selected range
-            $('#calendarRangeApply')
-                .on('click', function () {
-                    var request_URL = $(e.target).val();
-                    var dateFrom = $('#inputCalendarFrom').val(),
-                        dateTo = $('#inputCalendarTo').val(),
-                        oDateFrom = $.datepicker.parseDate('yy-mm-dd', dateFrom),
-                        oDateTo = $.datepicker.parseDate('yy-mm-dd', dateTo);
-
-                    if (!isValidDate(oDateFrom)
-                        || !isValidDate(oDateTo)
-                        || oDateFrom > oDateTo) {
-                        $('#alert').find('h2').text(_pk_translate('General_InvalidDateRange'));
-                        piwikHelper.modalConfirm('#alert', {});
-                        return false;
-                    }
-                    piwikHelper.showAjaxLoading('ajaxLoadingCalendar');
-                    broadcast.propagateNewPage('period=range&date=' + dateFrom + ',' + dateTo);
-                })
-                .show();
-
             // Bind the input fields to update the calendar's date when date is manually changed
             $('#inputCalendarFrom, #inputCalendarTo')
                 .keyup(function (e) {
@@ -520,7 +532,7 @@
                     }
                     $("#calendar" + fromOrTo).datepicker("setDate", newDate);
                     if (e.keyCode == 13) {
-                        $('#calendarRangeApply').click();
+                        $('#calendarApply').click();
                     }
                 });
             return true;

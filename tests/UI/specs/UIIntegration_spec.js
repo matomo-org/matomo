@@ -580,10 +580,15 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.evaluate(function () {
                 $(document).ready(function () {
                     $('#date').click();
-                    $('#period_id_range').click();
+                });
+            });
+            // we need to make sure there to wait for a bit till date is opened and period selected
+            page.click('#period_id_range');
+            page.evaluate(function () {
+                $(document).ready(function () {
                     $('#inputCalendarFrom').val('2012-08-02');
                     $('#inputCalendarTo').val('2012-08-12');
-                    setTimeout(function () {$('#calendarRangeApply').click();}, 500);
+                    setTimeout(function () {$('#calendarApply').click();}, 500);
                 });
             });
         }, done);
