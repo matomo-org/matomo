@@ -9,11 +9,13 @@
 namespace Piwik\DataAccess;
 
 use Exception;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Period;
+use Piwik\Segment;
 use Piwik\Sequence;
 use Psr\Log\LoggerInterface;
 
@@ -99,10 +101,11 @@ class Model
      * @param string $archiveTable Prefixed table name
      * @param int[] $idSites
      * @param Period[][] $periodsByType
+     * @param Segment $segment
      * @return \Zend_Db_Statement
      * @throws Exception
      */
-    public function updateArchiveAsInvalidated($archiveTable, $idSites, $periodsByType)
+    public function updateArchiveAsInvalidated($archiveTable, $idSites, $periodsByType, Segment $segment = null)
     {
         $idSites = array_map('intval', $idSites);
 
@@ -112,19 +115,23 @@ class Model
         foreach ($periodsByType as $periodType => $periods) {
             $dateConditions = array();
 
-            $bind[] = $periodType;
-
             foreach ($periods as $period) {
                 $dateConditions[] = "(date1 <= ? AND ? <= date2)";
                 $bind[] = $period->getDateStart()->toString();
                 $bind[] = $period->getDateStart()->toString();
             }
 
-            $periodConditions[] = "(period = ? AND (" . implode(" OR ", $dateConditions) . "))";
+            $periodConditions[] = "(period = " . (int)$periodType . " AND (" . implode(" OR ", $dateConditions) . "))";
+        }
+
+        if ($segment) {
+            $nameCondition = "name LIKE '" . Rules::getDoneFlagArchiveContainsAllPlugins($segment) . "%'";
+        } else {
+            $nameCondition = "name LIKE 'done%'";
         }
 
         $sql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_INVALIDATED
-             . " WHERE name LIKE 'done%'
+             . " WHERE $nameCondition
                    AND idsite IN (" . implode(", ", $idSites) . ")
                    AND (" . implode(" OR ", $periodConditions) . ")";
 

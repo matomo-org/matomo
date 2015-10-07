@@ -105,10 +105,26 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         );
     }
 
+    public function test_Command_FailsWhenAnInvalidSegmentIsUsed()
+    {
+        $code = $this->applicationTester->run(array(
+            'command' => 'core:invalidate-report-data',
+            '--dates' => '2012-01-01',
+            '--periods' => 'day',
+            '--sites' => '1',
+            '--segment' => array('ablksdjfdslkjf'),
+            '--dry-run' => true,
+            '-vvv' => true,
+        ));
+
+        $this->assertNotEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+        $this->assertContains("The segment 'ablksdjfdslkjf' is not valid", $this->applicationTester->getDisplay());
+    }
+
     /**
      * @dataProvider getTestDataForSuccessTests
      */
-    public function test_Command_InvalidatesCorrectSitesAndDates($dates, $periods, $sites, $cascade, $expectedOutputs)
+    public function test_Command_InvalidatesCorrectSitesAndDates($dates, $periods, $sites, $cascade, $segments, $expectedOutputs)
     {
         $code = $this->applicationTester->run(array(
             'command' => 'core:invalidate-report-data',
@@ -116,6 +132,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             '--periods' => $periods,
             '--sites' => $sites,
             '--cascade' => $cascade,
+            '--segment' => $segments ?: array(),
             '--dry-run' => true,
             '-vvv' => true,
         ));
@@ -136,8 +153,9 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 'day',
                 '1',
                 false,
+                null,
                 array(
-                    '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2012-01-01 ], period = [ day ]',
+                    '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2012-01-01 ], period = [ day ], segment = [  ]',
                 ),
             ),
 
@@ -146,8 +164,9 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 'day',
                 '1',
                 true,
+                null,
                 array(
-                    '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2012-01-01 ], period = [ day ]',
+                    '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2012-01-01 ], period = [ day ], segment = [  ]',
                 ),
             ),
 
@@ -156,8 +175,9 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 'week',
                 '1',
                 false,
+                null,
                 array(
-                    '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2011-12-26 ], period = [ week ]',
+                    '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2011-12-26 ], period = [ week ], segment = [  ]',
                 ),
             ),
 
@@ -166,13 +186,14 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 'month,week',
                 '1,3',
                 false,
+                null,
                 array(
-                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-01, 2012-02-01 ], period = [ month ], cascade = [ 0 ]',
-                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-01 ], period = [ month ], cascade = [ 0 ]',
-                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2013-03-01 ], period = [ month ], cascade = [ 0 ]',
-                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2011-12-26, 2012-01-02, 2012-01-09, 2012-01-16, 2012-01-23, 2012-01-30 ], period = [ week ], cascade = [ 0 ]',
-                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-23 ], period = [ week ], cascade = [ 0 ]',
-                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2013-03-18 ], period = [ week ], cascade = [ 0 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-01, 2012-02-01 ], period = [ month ], segment = [  ], cascade = [ 0 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-01 ], period = [ month ], segment = [  ], cascade = [ 0 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2013-03-01 ], period = [ month ], segment = [  ], cascade = [ 0 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2011-12-26, 2012-01-02, 2012-01-09, 2012-01-16, 2012-01-23, 2012-01-30 ], period = [ week ], segment = [  ], cascade = [ 0 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-23 ], period = [ week ], segment = [  ], cascade = [ 0 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2013-03-18 ], period = [ week ], segment = [  ], cascade = [ 0 ]',
                 ),
             ),
 
@@ -181,8 +202,9 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 'week',
                 '2',
                 true,
+                null,
                 array(
-                    '[Dry-run] invalidating archives for site = [ 2 ], dates = [ 2012-01-30, 2012-02-06 ], period = [ week ], cascade = [ 1 ]',
+                    '[Dry-run] invalidating archives for site = [ 2 ], dates = [ 2012-01-30, 2012-02-06 ], period = [ week ], segment = [  ], cascade = [ 1 ]',
                 ),
             ),
 
@@ -191,16 +213,27 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 'month,week,day',
                 'all',
                 true,
+                null,
                 array(
-                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-02-01 ], period = [ month ], cascade = [ 1 ]',
-                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-03-01 ], period = [ month ], cascade = [ 1 ]',
-                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-01-30 ], period = [ week ], cascade = [ 1 ]',
-                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-03-12 ], period = [ week ], cascade = [ 1 ]',
-                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-02-03, 2012-02-04 ], period = [ day ], cascade = [ 1 ]',
-                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-03-15 ], period = [ day ], cascade = [ 1 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-02-01 ], period = [ month ], segment = [  ], cascade = [ 1 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-03-01 ], period = [ month ], segment = [  ], cascade = [ 1 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-01-30 ], period = [ week ], segment = [  ], cascade = [ 1 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-03-12 ], period = [ week ], segment = [  ], cascade = [ 1 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-02-03, 2012-02-04 ], period = [ day ], segment = [  ], cascade = [ 1 ]',
+                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-03-15 ], period = [ day ], segment = [  ], cascade = [ 1 ]',
                 ),
             ),
 
+            array( // cascade, one week, date & period + segment
+                array('2012-01-01,2012-01-14'),
+                'week',
+                'all',
+                true,
+                array('browserCode==FF'),
+                array(
+                    '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2011-12-26, 2012-01-02, 2012-01-09 ], period = [ week ], segment = [ browserCode==FF ], cascade = [ 1 ]',
+                ),
+            ),
         );
     }
 }

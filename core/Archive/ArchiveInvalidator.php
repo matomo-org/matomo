@@ -18,6 +18,7 @@ use Piwik\Option;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
+use Piwik\Segment;
 
 /**
  * Service that can be used to invalidate archives or add archive references to a list so they will
@@ -125,11 +126,12 @@ class ArchiveInvalidator
      * @param $idSites int[]
      * @param $dates Date[]
      * @param $period string
+     * @param $segment Segment
      * @param bool $cascadeDown
      * @return InvalidationResultInfo
      * @throws \Exception
      */
-    public function markArchivesAsInvalidated(array $idSites, array $dates, $period, $cascadeDown = false)
+    public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false)
     {
         $invalidationInfo = new InvalidationResultInfo();
 
@@ -137,7 +139,7 @@ class ArchiveInvalidator
 
         $periods = $this->getPeriodsToInvalidate($datesToInvalidate, $period, $cascadeDown);
         $periods = $this->getPeriodsByYearMonthAndType($periods);
-        $this->markArchivesInvalidated($idSites, $periods);
+        $this->markArchivesInvalidated($idSites, $periods, $segment);
 
         $yearMonths = array_keys($periods);
         $this->markInvalidatedArchivesForReprocessAndPurge($idSites, $yearMonths);
@@ -214,7 +216,7 @@ class ArchiveInvalidator
      * @param Period[][][] $periods
      * @throws \Exception
      */
-    private function markArchivesInvalidated($idSites, $periods)
+    private function markArchivesInvalidated($idSites, $periods, Segment $segment = null)
     {
         $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
         foreach ($archiveNumericTables as $table) {
@@ -223,7 +225,7 @@ class ArchiveInvalidator
                 continue;
             }
 
-            $this->model->updateArchiveAsInvalidated($table, $idSites, $periods[$tableDate]);
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $periods[$tableDate], $segment);
         }
     }
 

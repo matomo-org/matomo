@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration\DataAccess;
 
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
@@ -20,6 +21,7 @@ use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Segment;
 
 /**
  * @group Archiver
@@ -28,10 +30,32 @@ use Piwik\Archive\ArchiveInvalidator;
  */
 class ArchiveInvalidatorTest extends IntegrationTestCase
 {
+    const TEST_SEGMENT_1 = 'browserCode==FF';
+    const TEST_SEGMENT_2 = 'countryCode==uk';
+
     /**
      * @var ArchiveInvalidator
      */
     private $invalidator;
+
+    /**
+     * @var Segment
+     */
+    private static $segment1;
+
+    /**
+     * @var Segment
+     */
+    private static $segment2;
+
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+
+        // these are static because it takes a long time to create new Segment instances (for some reason)
+        self::$segment1 = new Segment(self::TEST_SEGMENT_1, array());
+        self::$segment2 = new Segment(self::TEST_SEGMENT_2, array());
+    }
 
     public function setUp()
     {
@@ -257,16 +281,20 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForMarkArchivesAsInvalidated
      */
-    public function test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated($idSites, $dates, $period, $cascadeDown,
+    public function test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown,
                                                                                      $expectedIdArchives)
     {
         $dates = array_map(array('Piwik\Date', 'factory'), $dates);
 
         $this->insertArchiveRowsForTest();
 
+        if (!empty($segment)) {
+            $segment = new Segment($segment, $idSites);
+        }
+
         /** @var ArchiveInvalidator $archiveInvalidator */
         $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
-        $result = $archiveInvalidator->markArchivesAsInvalidated($idSites, $dates, $period, $cascadeDown);
+        $result = $archiveInvalidator->markArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown);
 
         $this->assertEquals($dates, $result->processedDates);
 
@@ -282,44 +310,45 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 array(1, 2),
                 array('2015-01-01', '2015-02-05', '2015-04-30'),
                 'day',
+                null,
                 true,
                 array(
                     '2014_01' => array(
-                        '1.2014-01-01.2014-12-31.4.done',
-                        '2.2014-01-01.2014-12-31.4.done',
+                        '1.2014-01-01.2014-12-31.4.done3736b708e4d20cfc10610e816a1b2341',
+                        '2.2014-01-01.2014-12-31.4.done.VisitsSummary',
                     ),
                     '2015_03' => array(),
                     '2015_04' => array(
-                        '1.2015-04-30.2015-04-30.1.done',
-                        '2.2015-04-30.2015-04-30.1.done',
+                        '1.2015-04-30.2015-04-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '2.2015-04-30.2015-04-30.1.done5447835b0a861475918e79e932abdfd8',
                         '1.2015-04-27.2015-05-03.2.done',
-                        '2.2015-04-27.2015-05-03.2.done',
-                        '1.2015-04-01.2015-04-30.3.done',
-                        '2.2015-04-01.2015-04-30.3.done',
+                        '2.2015-04-27.2015-05-03.2.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-04-01.2015-04-30.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '2.2015-04-01.2015-04-30.3.done5447835b0a861475918e79e932abdfd8',
                     ),
                     '2014_12' => array(
-                        '1.2014-12-29.2015-01-04.2.done',
-                        '2.2014-12-29.2015-01-04.2.done',
-                        '1.2014-12-01.2014-12-31.3.done',
+                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
+                        '2.2014-12-29.2015-01-04.2.done.VisitsSummary',
+                        '1.2014-12-01.2014-12-31.3.done5447835b0a861475918e79e932abdfd8',
                         '2.2014-12-01.2014-12-31.3.done',
                     ),
                     '2015_01' => array(
-                        '1.2015-01-01.2015-01-01.1.done',
-                        '2.2015-01-01.2015-01-01.1.done',
-                        '1.2015-01-01.2015-01-31.3.done',
-                        '2.2015-01-01.2015-01-31.3.done',
+                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '2.2015-01-01.2015-01-01.1.done.VisitsSummary',
+                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                        '2.2015-01-01.2015-01-31.3.done.VisitsSummary',
                     ),
                     '2015_02' => array(
-                        '1.2015-02-05.2015-02-05.1.done',
-                        '2.2015-02-05.2015-02-05.1.done',
+                        '1.2015-02-05.2015-02-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '2.2015-02-05.2015-02-05.1.done5447835b0a861475918e79e932abdfd8',
                         '1.2015-02-02.2015-02-08.2.done',
-                        '2.2015-02-02.2015-02-08.2.done',
-                        '1.2015-02-01.2015-02-28.3.done',
-                        '2.2015-02-01.2015-02-28.3.done',
+                        '2.2015-02-02.2015-02-08.2.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
+                        '2.2015-02-01.2015-02-28.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                     ),
                     '2015_05' => array(
-                        '1.2015-05-01.2015-05-31.3.done',
-                        '2.2015-05-01.2015-05-31.3.done',
+                        '1.2015-05-01.2015-05-31.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '2.2015-05-01.2015-05-31.3.done5447835b0a861475918e79e932abdfd8',
                     ),
                 ),
             ),
@@ -329,12 +358,13 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 array(1),
                 array('2015-01-01'),
                 'month',
+                null,
                 false,
                 array(
                     '2014_01' => array(),
                     '2014_12' => array(),
                     '2015_01' => array(
-                        '1.2015-01-01.2015-01-31.3.done',
+                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
                     ),
                     '2015_02' => array(),
                     '2015_03' => array(),
@@ -348,49 +378,50 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 array(1),
                 array('2015-01-15'),
                 'month',
+                null,
                 true,
                 array(
                     '2014_01' => array(),
                     '2014_12' => array(
-                        '1.2014-12-29.2015-01-04.2.done',
+                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
                     ),
                     '2015_01' => array(
-                        '1.2015-01-01.2015-01-01.1.done',
-                        '1.2015-01-02.2015-01-02.1.done',
-                        '1.2015-01-03.2015-01-03.1.done',
+                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-02.2015-01-02.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-03.2015-01-03.1.done.VisitsSummary',
                         '1.2015-01-04.2015-01-04.1.done',
-                        '1.2015-01-05.2015-01-05.1.done',
-                        '1.2015-01-06.2015-01-06.1.done',
-                        '1.2015-01-07.2015-01-07.1.done',
-                        '1.2015-01-08.2015-01-08.1.done',
+                        '1.2015-01-05.2015-01-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-06.2015-01-06.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-07.2015-01-07.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-08.2015-01-08.1.done.VisitsSummary',
                         '1.2015-01-09.2015-01-09.1.done',
-                        '1.2015-01-10.2015-01-10.1.done',
-                        '1.2015-01-11.2015-01-11.1.done',
-                        '1.2015-01-12.2015-01-12.1.done',
-                        '1.2015-01-13.2015-01-13.1.done',
+                        '1.2015-01-10.2015-01-10.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-11.2015-01-11.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-12.2015-01-12.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-13.2015-01-13.1.done.VisitsSummary',
                         '1.2015-01-14.2015-01-14.1.done',
-                        '1.2015-01-15.2015-01-15.1.done',
-                        '1.2015-01-16.2015-01-16.1.done',
-                        '1.2015-01-17.2015-01-17.1.done',
-                        '1.2015-01-18.2015-01-18.1.done',
+                        '1.2015-01-15.2015-01-15.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-16.2015-01-16.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-17.2015-01-17.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-18.2015-01-18.1.done.VisitsSummary',
                         '1.2015-01-19.2015-01-19.1.done',
-                        '1.2015-01-20.2015-01-20.1.done',
-                        '1.2015-01-21.2015-01-21.1.done',
-                        '1.2015-01-22.2015-01-22.1.done',
-                        '1.2015-01-23.2015-01-23.1.done',
+                        '1.2015-01-20.2015-01-20.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-21.2015-01-21.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-22.2015-01-22.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-23.2015-01-23.1.done.VisitsSummary',
                         '1.2015-01-24.2015-01-24.1.done',
-                        '1.2015-01-25.2015-01-25.1.done',
-                        '1.2015-01-26.2015-01-26.1.done',
-                        '1.2015-01-27.2015-01-27.1.done',
-                        '1.2015-01-28.2015-01-28.1.done',
+                        '1.2015-01-25.2015-01-25.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-27.2015-01-27.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-28.2015-01-28.1.done.VisitsSummary',
                         '1.2015-01-29.2015-01-29.1.done',
-                        '1.2015-01-30.2015-01-30.1.done',
-                        '1.2015-01-31.2015-01-31.1.done',
-                        '1.2015-01-05.2015-01-11.2.done',
-                        '1.2015-01-12.2015-01-18.2.done',
+                        '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-05.2015-01-11.2.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-12.2015-01-18.2.done.VisitsSummary',
                         '1.2015-01-19.2015-01-25.2.done',
-                        '1.2015-01-26.2015-02-01.2.done',
-                        '1.2015-01-01.2015-01-31.3.done',
+                        '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
                     ),
                     '2015_02' => array(),
                     '2015_03' => array(),
@@ -404,35 +435,36 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 array(1),
                 array('2015-01-02', '2015-01-03', '2015-01-31'),
                 'week',
+                null,
                 true,
                 array(
                     '2014_01' => array(
-                        '1.2014-01-01.2014-12-31.4.done',
+                        '1.2014-01-01.2014-12-31.4.done3736b708e4d20cfc10610e816a1b2341',
                     ),
                     '2014_12' => array(
                         '1.2014-12-29.2014-12-29.1.done',
-                        '1.2014-12-30.2014-12-30.1.done',
-                        '1.2014-12-31.2014-12-31.1.done',
-                        '1.2014-12-29.2015-01-04.2.done',
-                        '1.2014-12-01.2014-12-31.3.done',
+                        '1.2014-12-30.2014-12-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2014-12-31.2014-12-31.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2014-12-01.2014-12-31.3.done5447835b0a861475918e79e932abdfd8',
                     ),
                     '2015_01' => array(
-                        '1.2015-01-01.2015-01-01.1.done',
-                        '1.2015-01-02.2015-01-02.1.done',
-                        '1.2015-01-03.2015-01-03.1.done',
+                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-02.2015-01-02.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-03.2015-01-03.1.done.VisitsSummary',
                         '1.2015-01-04.2015-01-04.1.done',
-                        '1.2015-01-26.2015-01-26.1.done',
-                        '1.2015-01-27.2015-01-27.1.done',
-                        '1.2015-01-28.2015-01-28.1.done',
+                        '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-27.2015-01-27.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-28.2015-01-28.1.done.VisitsSummary',
                         '1.2015-01-29.2015-01-29.1.done',
-                        '1.2015-01-30.2015-01-30.1.done',
-                        '1.2015-01-31.2015-01-31.1.done',
-                        '1.2015-01-26.2015-02-01.2.done',
-                        '1.2015-01-01.2015-01-31.3.done',
+                        '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
                     ),
                     '2015_02' => array(
-                        '1.2015-02-01.2015-02-01.1.done',
-                        '1.2015-02-01.2015-02-28.3.done',
+                        '1.2015-02-01.2015-02-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
                     ),
                     '2015_03' => array(),
                     '2015_04' => array(),
@@ -445,18 +477,55 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 array(1),
                 array('2015-01-02', '2015-03-05'),
                 'range',
+                null,
                 true,
                 array(
                     '2014_01' => array(),
                     '2014_12' => array(),
                     '2015_01' => array(
-                        '1.2015-01-01.2015-01-10.5.done',
+                        '1.2015-01-01.2015-01-10.5.done5447835b0a861475918e79e932abdfd8',
                     ),
                     '2015_02' => array(),
                     '2015_03' => array(
-                        '1.2015-03-04.2015-03-05.5.done',
-                        '1.2015-03-05.2015-03-10.5.done',
+                        '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
+                        '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                     ),
+                    '2015_04' => array(),
+                    '2015_05' => array(),
+                ),
+            ),
+
+            // week period, one site, cascade = true, segment
+            array(
+                array(1),
+                array('2015-01-05'),
+                'month',
+                self::TEST_SEGMENT_1,
+                true,
+                array(
+                    '2014_01' => array(),
+                    '2014_12' => array(
+                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
+                    ),
+                    '2015_01' => array(
+                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-05.2015-01-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-06.2015-01-06.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-10.2015-01-10.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-11.2015-01-11.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-15.2015-01-15.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-16.2015-01-16.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-20.2015-01-20.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-21.2015-01-21.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-25.2015-01-25.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                    ),
+                    '2015_02' => array(),
+                    '2015_03' => array(),
                     '2015_04' => array(),
                     '2015_05' => array(),
                 ),
@@ -530,10 +599,14 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $periodId = Piwik::$idPeriods[$periodLabel];
 
         $doneFlag = 'done';
-        if ($doneFlag % 3 == 1) {
-            $doneFlag .= "09348lakdjfslfjasldfjwaekht";
-        } else if ($doneFlag % 3 == 2) {
+        if ($idArchive % 5 == 1) {
+            $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(self::$segment1);
+        } else if ($idArchive % 5 == 2) {
             $doneFlag .= '.VisitsSummary';
+        } else if ($idArchive % 5 == 3) {
+            $doneFlag = Rules::getDoneFlagArchiveContainsOnePlugin(self::$segment1, 'UserCountry');
+        } else if ($idArchive % 5 == 4) {
+            $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(self::$segment2);
         }
 
         $sql = "INSERT INTO $table (idarchive, name, idsite, date1, date2, period, ts_archived)

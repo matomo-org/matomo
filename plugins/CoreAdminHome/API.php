@@ -17,6 +17,7 @@ use Piwik\CronArchive;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Segment;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Site;
 
@@ -65,6 +66,7 @@ class API extends \Piwik\Plugin\API
      *                            The command will automatically cascade up, invalidating reports for parent periods as
      *                            well. So invalidating a day will invalidate the week it's in, the month it's in and the
      *                            year it's in, since those periods will need to be recomputed too.
+     * @param string|bool $segment Optional. The segment to invalidate reports for.
      * @param bool $cascadeDown If true, child periods will be invalidated as well. So if it is requested to invalidate
      *                          a month, then all the weeks and days within that month will also be invalidated. But only
      *                          if this parameter is set.
@@ -72,7 +74,7 @@ class API extends \Piwik\Plugin\API
      * @return array
      * @hideExceptForSuperUser
      */
-    public function invalidateArchivedReports($idSites, $dates, $period = false, $cascadeDown = false)
+    public function invalidateArchivedReports($idSites, $dates, $period = false, $segment = false, $cascadeDown = false)
     {
         $idSites = Site::getIdSitesFromIdSitesString($idSites);
         if (empty($idSites)) {
@@ -81,9 +83,15 @@ class API extends \Piwik\Plugin\API
 
         Piwik::checkUserHasAdminAccess($idSites);
 
+        if (!empty($segment)) {
+            $segment = new Segment($segment, $idSites);
+        } else {
+            $segment = null;
+        }
+
         list($dateObjects, $invalidDates) = $this->getDatesToInvalidateFromString($dates);
 
-        $invalidationResult = $this->invalidator->markArchivesAsInvalidated($idSites, $dateObjects, $period, (bool)$cascadeDown);
+        $invalidationResult = $this->invalidator->markArchivesAsInvalidated($idSites, $dateObjects, $period, $segment, (bool)$cascadeDown);
 
         $output = $invalidationResult->makeOutputLogs();
         if ($invalidDates) {

@@ -13,6 +13,7 @@ use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Segment;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Site;
@@ -41,6 +42,8 @@ class InvalidateReportData extends ConsoleCommand
             'List of period types to invalidate report data for. Can be one or more of the following values: day, '
             . 'week, month, year or "all" for all of them.',
             self::ALL_OPTION_VALUE);
+        $this->addOption('segment', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+            'List of segments to invalidate report data for.');
         $this->addOption('cascade', null, InputOption::VALUE_NONE,
             'If supplied, invalidation will cascade, invalidating child period types even if they aren\'t specified in'
             . ' --periods. For example, if --periods=week, --cascade will cause the days within those weeks to be '
@@ -65,22 +68,27 @@ class InvalidateReportData extends ConsoleCommand
         $sites = $this->getSitesToInvalidateFor($input);
         $periodTypes = $this->getPeriodTypesToInvalidateFor($input);
         $dateRanges = $this->getDateRangesToInvalidateFor($input);
+        $segments = $this->getSegmentsToInvalidateFor($input, $sites);
 
         foreach ($periodTypes as $periodType) {
             foreach ($dateRanges as $dateRange) {
-                $output->writeln("Invalidating $periodType periods in $dateRange...");
+                foreach ($segments as $segment) {
+                    $segmentStr = $segment ? $segment->getString() : '';
 
-                $dates = $this->getPeriodDates($periodType, $dateRange);
+                    $output->writeln("Invalidating $periodType periods in $dateRange [segment = $segmentStr]...");
 
-                if ($dryRun) {
-                    $output->writeln("[Dry-run] invalidating archives for site = [ " . implode(', ', $sites)
-                        . " ], dates = [ " . implode(', ', $dates) . " ], period = [ $periodType ], cascade = [ "
-                        . (int)$cascade . " ]");
-                } else {
-                    $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType, $cascade);
+                    $dates = $this->getPeriodDates($periodType, $dateRange);
 
-                    if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                        $output->writeln($invalidationResult->makeOutputLogs());
+                    if ($dryRun) {
+                        $output->writeln("[Dry-run] invalidating archives for site = [ " . implode(', ', $sites)
+                            . " ], dates = [ " . implode(', ', $dates) . " ], period = [ $periodType ], segment = [ "
+                            . "$segmentStr ], cascade = [ " . (int)$cascade . " ]");
+                    } else {
+                        $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType, $segment, $cascade);
+
+                        if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+                            $output->writeln($invalidationResult->makeOutputLogs());
+                        }
                     }
                 }
             }
@@ -169,6 +177,23 @@ class InvalidateReportData extends ConsoleCommand
             }
         } else {
             $result[] = $period->getDateStart();
+        }
+        return $result;
+    }
+
+    private function getSegmentsToInvalidateFor(InputInterface $input, $idSites)
+    {
+        $segments = $input->getOption('segment');
+        $segments = array_map('trim', $segments);
+        $segments = array_unique($segments);
+
+        if (empty($segments)) {
+            return array(null);
+        }
+
+        $result = array();
+        foreach ($segments as $segmentString) {
+            $result[] = new Segment($segmentString, $idSites);
         }
         return $result;
     }
