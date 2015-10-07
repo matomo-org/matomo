@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<category>Visitor Settings</category>
+		<name>Browser Plugins</name>
+		<module>DevicePlugins</module>
+		<action>getPlugin</action>
+		<dimension>Plugin</dimension>
+		<documentation>This report shows which browser plugins your visitors had enabled. This information might be important for choosing the right way to deliver your content.</documentation>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+		</metricsDocumentation>
+		<processedMetrics>
+			<nb_visits_percentage>% Visits</nb_visits_percentage>
+		</processedMetrics>
+		<constantRowsCount>1</constantRowsCount>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicePlugins&amp;apiAction=getPlugin&amp;period=day&amp;date=2010-03-06</imageGraphUrl>
+		<uniqueId>DevicePlugins_getPlugin</uniqueId>
+	</row>
+</result>

@@ -23,7 +23,8 @@ class DevicesDetection extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'Live.getAllVisitorDetails' => 'extendVisitorDetails'
+            'Live.getAllVisitorDetails' => 'extendVisitorDetails',
+            'Request.getRenamedModuleAndAction' => 'renameUserSettingsModuleAndAction',
         );
     }
 
@@ -49,4 +50,33 @@ class DevicesDetection extends \Piwik\Plugin
         $visitor['browserVersion']           = $instance->getBrowserVersion();
     }
 
+    public function renameUserSettingsModuleAndAction(&$module, &$action)
+    {
+        $movedMethods = array(
+            'index' => 'software',
+            'getBrowser' => 'getBrowsers',
+            'getBrowserVersion' => 'getBrowserVersions',
+            'getMobileVsDesktop' => 'getType',
+            'getOS' => 'getOsVersions',
+            'getOSFamily' => 'getOsFamilies',
+            'getBrowserType' => 'getBrowserEngines',
+        );
+
+        if ($module == 'UserSettings' && array_key_exists($action, $movedMethods)) {
+            $module = 'DevicesDetection';
+            $action = $movedMethods[$action];
+        }
+
+        if ($module == 'UserSettings' && ($action == 'getResolution' || $action == 'getConfiguration')) {
+            $module = 'Resolution';
+        }
+
+        if ($module == 'UserSettings' && ($action == 'getLanguage' || $action == 'getLanguageCode')) {
+            $module = 'UserLanguage';
+        }
+
+        if ($module == 'UserSettings' && $action == 'getPlugin') {
+            $module = 'DevicePlugins';
+        }
+    }
 }
