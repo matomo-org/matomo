@@ -117,6 +117,7 @@ class Model
             foreach ($periods as $period) {
                 $dateConditions[] = "(date1 <= ? AND ? <= date2)";
                 $bind[] = $period->getDateStart()->toString();
+                $bind[] = $period->getDateStart()->toString();
             }
 
             $periodConditions[] = "(period = ? AND (" . implode(" OR ", $dateConditions) . "))";

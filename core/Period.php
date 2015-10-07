@@ -398,13 +398,7 @@ abstract class Period
             return $result;
         }
 
-        $subperiods = $this->getSubperiods();
-
-        $startDate = reset($subperiods)->getDateStart()->toString();
-        $endDate = end($subperiods)->getDateEnd()->toString();
-
-        $childPeriods = Factory::build($childPeriodType, $startDate . ',' . $endDate);
-
+        $childPeriods = Factory::build($childPeriodType, $this->getRangeString());
         return array_merge($childPeriods->getSubperiods(), $childPeriods->getAllOverlappingChildPeriods());
     }
 

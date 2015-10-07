@@ -136,6 +136,7 @@ class ArchiveInvalidator
         $datesToInvalidate = $this->removeDatesThatHaveBeenPurged($dates, $invalidationInfo);
 
         $periods = $this->getPeriodsToInvalidate($datesToInvalidate, $period, $cascadeDown);
+        $periods = $this->getPeriodsByYearMonthAndType($periods);
         $this->markArchivesInvalidated($idSites, $periods);
 
         $yearMonths = array_keys($periods);
@@ -206,13 +207,11 @@ class ArchiveInvalidator
 
     /**
      * @param int[] $idSites
-     * @param Period[] $periods
+     * @param Period[][] $periods
      * @throws \Exception
      */
     private function markArchivesInvalidated($idSites, $periods)
     {
-        $periods = $this->getPeriodsByYearMonthAndType($periods);
-
         $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
         foreach ($archiveNumericTables as $table) {
             $tableDate = ArchiveTableCreator::getDateFromTableName($table);
@@ -244,6 +243,7 @@ class ArchiveInvalidator
             }
 
             $result[] = $date;
+            $invalidationInfo->processedDates[] = $date->toString();
         }
         return $result;
     }
@@ -264,7 +264,7 @@ class ArchiveInvalidator
 
     /**
      * @param array $idSites
-     * @param $periodsByTableMonths
+     * @param array $yearMonths
      */
     private function markInvalidatedArchivesForReprocessAndPurge(array $idSites, $yearMonths)
     {
