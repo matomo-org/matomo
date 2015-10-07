@@ -412,6 +412,9 @@ class Request
             return array();
         }
         $GET = UrlHelper::getArrayFromQueryString($_SERVER['QUERY_STRING']);
+        foreach ($GET as $name => $value) {
+            $GET[$name] = urldecode($value);
+        }
         return $GET;
     }
 
