@@ -50,7 +50,6 @@ class Aggregator implements MetricsProvider
             $container->get('Piwik\Plugins\SEO\Metric\Bing'),
             $container->get('Piwik\Plugins\SEO\Metric\Alexa'),
             $container->get('Piwik\Plugins\SEO\Metric\DomainAge'),
-            $container->get('Piwik\Plugins\SEO\Metric\Majestic'),
             $container->get('Piwik\Plugins\SEO\Metric\Dmoz'),
         );
 
