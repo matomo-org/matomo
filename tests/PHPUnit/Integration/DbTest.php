@@ -52,8 +52,7 @@ class DbTest extends IntegrationTestCase
         $this->assertInstanceOf($expectedClass, $db);
         $result = $db->fetchOne('SELECT @@SESSION.sql_mode');
 
-        $expected = 'NO_AUTO_VALUE_ON_ZERO,
-        NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER';
+        $expected = 'NO_AUTO_VALUE_ON_ZERO,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER';
         $this->assertSame($expected, $result);
     }
 
