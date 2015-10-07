@@ -36,6 +36,13 @@ class NfsDiskCheck implements Diagnostic
         if (! Filesystem::checkIfFileSystemIsNFS()) {
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
         }
+        
+        $config = Config::getInstance();
+
+        // @see https://github.com/piwik/piwik/issues/8498
+        if($config->General['session_save_handler'] == 'dbtable'){
+            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
+        }
 
         $isPiwikInstalling = !Config::getInstance()->existsLocalConfig();
         if ($isPiwikInstalling) {
