@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Segment;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -25,19 +26,14 @@ use Piwik\Tracker\TableLogAction;
  */
 class SegmentTest extends IntegrationTestCase
 {
+    public $tableLogActionCacheHits = 0;
+
     public function setUp()
     {
         parent::setUp();
 
         // setup the access layer (required in Segment contrustor testing if anonymous is allowed to use segments)
         FakeAccess::$superUser = true;
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-
-        TableLogAction\Cache::$hits = 0;
     }
 
     static public function removeExtraWhiteSpaces($valueToFilter)
@@ -698,7 +694,7 @@ class SegmentTest extends IntegrationTestCase
                 "found",
             ));
 
-        $cache = new TableLogAction\Cache();
+        $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
         $this->assertTrue( empty($cache->isEnabled) );
         $this->assertCacheWasHit($hit = 0);
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -768,7 +764,7 @@ class SegmentTest extends IntegrationTestCase
                 3, // pageUrl!@not-found
             ));
 
-        $cache = new TableLogAction\Cache();
+        $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
         $this->assertTrue( !empty($cache->isEnabled) );
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -836,7 +832,7 @@ class SegmentTest extends IntegrationTestCase
                 "not-found", // pageUrl!@not-found
             ));
 
-        $cache = new TableLogAction\Cache();
+        $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
         $this->assertTrue( !empty($cache->isEnabled) );
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -854,13 +850,6 @@ class SegmentTest extends IntegrationTestCase
         // this will hit caches for both segments
         $this->test_getSelectQuery_withTwoSegments_subqueryNotCached_whenResultsetTooLarge();
         $this->assertCacheWasHit($hits = 2);
-    }
-
-    public function provideContainerConfig()
-    {
-        return array(
-            'Piwik\Access' => new FakeAccess()
-        );
     }
 
     /**
@@ -896,7 +885,9 @@ class SegmentTest extends IntegrationTestCase
 
     private function assertCacheWasHit($expectedHits)
     {
-        $this->assertTrue(TableLogAction\Cache::$hits == $expectedHits, "expected cache was hit $expectedHits time(s), but got " . TableLogAction\Cache::$hits . " cache hits instead.");
+        $hits = $this->tableLogActionCacheHits;
+        $this->assertEquals($expectedHits, $hits,
+            "expected cache was hit $expectedHits time(s), but got $hits cache hits instead.");
     }
 
     private function disableSubqueryCache()
@@ -907,5 +898,44 @@ class SegmentTest extends IntegrationTestCase
     private function enableSubqueryCache()
     {
         Config::getInstance()->General['enable_segments_subquery_cache'] = 1;
+    }
+
+    public function provideContainerConfig()
+    {
+        $self = $this;
+
+        $cacheProxy = $this->getMock('Piwik\Cache\Lazy', array('fetch', 'contains', 'save', 'delete', 'flushAll'),
+            array(), '', $callOriginalConstructor = false);
+        $cacheProxy->expects($this->any())->method('fetch')->willReturnCallback(function ($id) {
+            $realCache = StaticContainer::get('Piwik\Cache\Lazy');
+            return $realCache->fetch($id);
+        });
+        $cacheProxy->expects($this->any())->method('contains')->willReturnCallback(function ($id) use ($self) {
+            $realCache = StaticContainer::get('Piwik\Cache\Lazy');
+
+            $result = $realCache->contains($id);
+            if ($result) {
+                ++$self->tableLogActionCacheHits;
+            }
+
+            return $result;
+        });
+        $cacheProxy->expects($this->any())->method('save')->willReturnCallback(function ($id, $data, $lifetime = 0) {
+            $realCache = StaticContainer::get('Piwik\Cache\Lazy');
+            return $realCache->save($id, $data, $lifetime);
+        });
+        $cacheProxy->expects($this->any())->method('delete')->willReturnCallback(function ($id) {
+            $realCache = StaticContainer::get('Piwik\Cache\Lazy');
+            return $realCache->delete($id);
+        });
+        $cacheProxy->expects($this->any())->method('flushAll')->willReturnCallback(function () {
+            $realCache = StaticContainer::get('Piwik\Cache\Lazy');
+            return $realCache->flushAll();
+        });
+
+        return array(
+            'Piwik\Access' => new FakeAccess(),
+            'Piwik\Tracker\TableLogAction\Cache' => \DI\object()->constructorParameter('cache', $cacheProxy),
+        );
     }
 }
