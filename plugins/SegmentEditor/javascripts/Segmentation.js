@@ -210,7 +210,7 @@ Segmentation = (function($) {
                     if(!$.browser.mozilla) {
                         checkSelected = encodeURIComponent(checkSelected);
                     }
-                    
+
                     if( checkSelected == self.currentSegmentStr){
                         injClass = 'class="segmentSelected"';
                     }
@@ -258,7 +258,7 @@ Segmentation = (function($) {
 
         var closeAllOpenLists = function() {
             $(".segmentationContainer", self.target).each(function() {
-                if($(this).closest('.segmentEditorPanel').hasClass("visible"))
+                if($(this).closest('.segmentEditorPanel').hasClass("expanded"))
                     $(this).trigger("click");
             });
         };
@@ -370,7 +370,7 @@ Segmentation = (function($) {
         var bindEvents = function () {
             self.target.on('click', '.segmentationContainer', function (e) {
                 // hide all other modals connected with this widget
-                if (self.content.closest('.segmentEditorPanel').hasClass("visible")) {
+                if (self.content.closest('.segmentEditorPanel').hasClass("expanded")) {
                     if ($(e.target).hasClass("jspDrag") === true
                         || $(e.target).hasClass("segmentFilterContainer") === true
                         || $(e.target).parents().hasClass("segmentFilterContainer") === true
@@ -378,12 +378,12 @@ Segmentation = (function($) {
                         e.stopPropagation();
                     } else {
                         self.jscroll.destroy();
-                        self.target.closest('.segmentEditorPanel').removeClass('visible');
+                        self.target.closest('.segmentEditorPanel').removeClass('expanded');
                     }
                 } else {
                     // for each visible segmentationContainer -> trigger click event to close and kill scrollpane - very important !
                     closeAllOpenLists();
-                    self.target.closest('.segmentEditorPanel').addClass('visible');
+                    self.target.closest('.segmentEditorPanel').addClass('expanded');
                     self.target.find('.segmentFilter').val(self.translations['General_Search']).trigger('keyup');
                     self.jscroll = self.target.find(".segmentList").jScrollPane({
                         autoReinitialise: true,
@@ -1250,7 +1250,7 @@ $(document).ready(function() {
             }
 
             if ($(e.target).closest('.segmentListContainer').length === 0
-                && self.$element.hasClass("visible")
+                && self.$element.hasClass("expanded")
             ) {
                 $(".segmentationContainer", self.$element).trigger("click");
             }
@@ -1258,8 +1258,6 @@ $(document).ready(function() {
 
         $('body').on('mouseup', this.onMouseUp);
 
-        // re-initialize top controls since the size of the control is not the same after it's
-        // initialized.
         initTopControls();
     };
 

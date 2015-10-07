@@ -2,6 +2,10 @@
 
 {% set title %}{{ 'Goals_ManageGoals'|translate }}{% endset %}
 
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+{% endblock %}
+
 {% block content %}
 
     <h2 piwik-enriched-headline>
@@ -19,8 +23,6 @@
             {% endif %}</div>
         {{ title }}
     </h2>
-
-    {% include "@CoreHome/_siteSelectHeader.twig" %}
 
     {% include "@Goals/_addEditGoal.twig" %}
 

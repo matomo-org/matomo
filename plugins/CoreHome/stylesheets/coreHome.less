@@ -1,8 +1,7 @@
 .home {
     h2 {
         font-size: 18px;
-        padding: 12px 0 7px 0;
-        clear: both;
+        padding: 16px 0 16px 0;
         border: none;
         margin: 0;
     }
@@ -18,21 +17,19 @@
     }
 }
 
-.nav_sep {
-    height: 39px;
-    border-radius: 0 4px 0 0;
-    border: 1px solid #DDD;
-}
-
-.pageWrap {
-    margin-top: 15px;
-    font-size: 13px;
-}
-
 /* Content */
 #content.home {
-    padding-top: 5px;
     font-size: 14px;
+    display: inline-block;
+    width: 100%;
+
+    > h2:first-child {
+        padding-top: 7px;
+    }
+}
+
+#content.admin {
+    display: inline-block;
 }
 
 /* 2 columns reports */
@@ -203,10 +200,6 @@ a.Piwik_Popover_Error_Back {
     margin: 10px auto 5px !important;
 }
 
-.header_short #updateCheckLinkContainer .icon {
-  display: none;
-}
-
 .header_full #updateCheckLinkContainer {
   margin-top: -2px;
 }
@@ -220,39 +213,6 @@ a.Piwik_Popover_Error_Back {
 #userMenu .items {
   margin-left: -117px;
   width: 160px;
-}
-
-#updateCheckLinkContainer {
-  opacity: 0.7;
-}
-
-#updateCheckLinkContainer:hover {
-  opacity: 1;
-}
-
-#updateCheckLinkContainer {
-    float: right;
-    cursor: pointer;
-}
-
-#updateCheckLinkContainer>* {
-    vertical-align: middle;
-}
-
-#header_message #checkForUpdates {
-    font-size: 10px;
-    line-height: 16px;
-    display: inline-block;
-    vertical-align: middle;
-    text-transform: uppercase;
-}
-
-#header_message #checkForUpdates {
-  text-decoration: none;
-}
-
-#header_message #checkForUpdates:hover {
-    text-decoration: underline;
 }
 
 /* Used to link within content text, without adding visual clutter */

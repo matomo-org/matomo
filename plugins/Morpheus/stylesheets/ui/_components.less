@@ -45,20 +45,15 @@
 .segment-element {
     background: @color-white;
     border-color: @color-silver-l80;
+    line-height: 1.33;
 
     .segment-add-row {
         .border-radius(5px);
     }
 
-    .segment-nav {
-        h4.visits {
-            background: url('plugins/Morpheus/images/segment-users.png') no-repeat 3px 0px;
-        }
-    }
-
     .custom_select_search {
         input {
-            margin-top: -10px;
+            margin-top: 1px;
         }
     }
 
@@ -96,13 +91,13 @@
             li {
                 padding: 3px 0;
                 &:hover {
-                    background: #f2f2f2;
+                    background: @theme-color-background-tinyContrast;
                     border: 0;
                     padding: 4px 0 3px;
 
                     a {
                         border: 0;
-                        background-color: #f2f2f2;
+                        background-color: @theme-color-background-tinyContrast;
                         padding-right: 15px;
 
                     }
@@ -129,11 +124,13 @@
         }
 
         a.dropdown {
+            display: inline;
             color: @theme-color-text;
             background: url('plugins/Morpheus/images/sort_subtable_desc.png') 100% -2px no-repeat;
             &.ui-autocomplete-input {
                 background-position: 100% -2px;
             }
+            .font-default(10px, 12px);
         }
     }
     .segment-footer {
@@ -155,23 +152,10 @@
 }
 
 #periodString {
-    border: 1px solid @theme-color-background-lowContrast;
-    .border-radius(0px);
-    background: @theme-color-background-base;
-    &:hover {
-        background: @theme-color-background-base;
-        border-color: @color-silver-l80;
-    }
-
     select {
         min-height: 0;
         background-position: 140%;
         padding-left: 5px;
-    }
-
-    .calendar-icon {
-        width: 17px;
-        height: 17px;
     }
 
     label.selected-period-label {
@@ -191,34 +175,17 @@
             }
         }
     }
-
-    #date {
-        .border-radius(0px);
-        padding: 8px 10px;
-        color: @theme-color-text-lighter;
-        text-transform: uppercase;
-        .font-default(10px, 12px);
-
-        strong {
-            color: @theme-color-text;
-
-        }
-    }
 }
 
 #header_message {
-    border: 1px solid @theme-color-background-lowContrast;
-    padding: 8px 10px 8px 10px;
     height: auto;
-    background: @theme-color-background-base;
     .border-radius(0px);
-    .header_short {
-        .font-default(10px, 12px);
-        text-transform: uppercase;
-    }
 
-    .header_full {
-        .font-default(12px, 18px);
+    &.isPiwikDemo {
+        text-align: right;
+        position: absolute;
+        right: 0;
+        top: 8px;
     }
 }
 
@@ -235,7 +202,7 @@
 
 .loadingPiwikBelow,
 .loadingPiwik {
-    .font-default(10px, 12px);
+    .font-default(13px, 13px);
     color: @color-silver-l60;
     font-weight: normal;
 }
@@ -256,7 +223,7 @@
     .border-radius(6px);
 
     h2 {
-        background: #f2f2f2;
+        background: @theme-color-background-tinyContrast;
         border-bottom: 1px solid @color-gray;
         padding: 11px 15px 10px;
     }

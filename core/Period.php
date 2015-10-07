@@ -104,6 +104,7 @@ abstract class Period
         if (self::isMultiplePeriod($dateString, 'day')) {
             return;
         }
+
         Date::factory($dateString);
     }
 

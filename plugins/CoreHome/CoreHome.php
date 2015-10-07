@@ -61,7 +61,6 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
         $stylesheets[] = "plugins/Morpheus/stylesheets/main.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/coreHome.less";
-        $stylesheets[] = "plugins/CoreHome/stylesheets/menu.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/dataTable.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/cloud.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css";
@@ -72,9 +71,12 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/notification.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/zen-mode.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/layout.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/dialogtoggler/ngdialog.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/notification/notification.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/selector/selector.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -163,6 +165,11 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/quick-access/quick-access.controller.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/selector/selector.directive.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -171,8 +178,11 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Loading';
         $translationKeys[] = 'General_Show';
         $translationKeys[] = 'General_Hide';
+        $translationKeys[] = 'General_Website';
+        $translationKeys[] = 'General_ChooseWebsite';
         $translationKeys[] = 'Intl_Year_Short';
         $translationKeys[] = 'General_MultiSitesSummary';
+        $translationKeys[] = 'General_SearchNoResults';
         $translationKeys[] = 'CoreHome_YouAreUsingTheLatestVersion';
         $translationKeys[] = 'CoreHome_IncludeRowsWithLowPopulation';
         $translationKeys[] = 'CoreHome_ExcludeRowsWithLowPopulation';
@@ -184,6 +194,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_UnFlattenDataTable';
         $translationKeys[] = 'CoreHome_ExternalHelp';
         $translationKeys[] = 'CoreHome_ClickToEditX';
+        $translationKeys[] = 'CoreHome_Menu';
         $translationKeys[] = 'SitesManager_NotFound';
         $translationKeys[] = 'Annotations_ViewAndAddAnnotations';
         $translationKeys[] = 'General_RowEvolutionRowActionTooltipTitle';
@@ -255,8 +266,10 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_LoadingData';
         $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = 'General_YourChangesHaveBeenSaved';
+        $translationKeys[] = 'General_LearnMore';
         $translationKeys[] = 'CoreHome_UndoPivotBySubtable';
         $translationKeys[] = 'CoreHome_PivotBySubtable';
-        $translationKeys[] = 'General_LearnMore';
+        $translationKeys[] = 'CoreHome_QuickAccessTitle';
+        $translationKeys[] = 'CoreHome_Segments';
     }
 }

@@ -1,14 +1,17 @@
 {% extends isWidgetized ? 'empty.twig' : 'dashboard.twig' %}
 
-{% block content %}
-{% if not isWidgetized %}
-    <div class="top_controls">
-        {% include "@CoreHome/_periodSelect.twig" %}
-        {% include "@CoreHome/_headerMessage.twig" %}
-    </div>
-{% endif %}
+{% block topcontrols %}
+    {% if not isWidgetized %}
+        <div class="top_controls">
+            {% include "@CoreHome/_periodSelect.twig" %}
+            {% include "@CoreHome/_headerMessage.twig" %}
+        </div>
+    {% endif %}
+{% endblock %}
 
-<div class="pageWrap container" id="multisites">
+{% block content %}
+<div class="container" id="multisites">
+
     <div id="main">
         <div piwik-multisites-dashboard
              display-revenue-column="{% if displayRevenueColumn %}true{% else %}false{%endif%}"

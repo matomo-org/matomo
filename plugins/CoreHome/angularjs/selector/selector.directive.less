@@ -1,0 +1,59 @@
+.piwikSelector {
+  display: inline-block;
+  line-height: 0;
+
+  span.title,
+  a.title {
+    .font-default(11px, 12px);
+    display: inline-block;
+    width: 100%;
+    padding: 11px 19px 10px;
+    white-space: nowrap;
+    cursor: pointer;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: @theme-color-text;
+
+    &.activityIndicator {
+      background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat right 9px;
+
+      .icon {
+        visibility: hidden;
+      }
+    }
+
+    .icon {
+      padding-left: 6px;
+      display: inline-block;
+      vertical-align: top;
+
+      &.iconHidden {
+        visibility: hidden;
+      }
+    }
+
+    .icon:not(.icon-fixed) {
+      float: right;
+      &:after {
+        clear:right;
+        content: ' ';
+      }
+    }
+
+    &:hover, &:focus {
+      text-decoration: none;
+    }
+  }
+
+  .dropdown {
+    .font-default(11px, 15px);
+    display: none;
+    padding: 5px 19px 11px 19px;
+  }
+
+  &.expanded {
+    .dropdown {
+      display: block;
+    }
+  }
+}

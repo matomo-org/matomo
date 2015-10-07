@@ -23,10 +23,10 @@ class Menu extends \Piwik\Plugin\Menu
         $hasAdminAccess = Piwik::isUserHasSomeAdminAccess();
 
         if ($hasAdminAccess) {
-            $menu->addManageItem(null, "", $order = 1);
-            $menu->addSettingsItem(null, "", $order = 5);
-            $menu->addDiagnosticItem(null, "", $order = 10);
-            $menu->addDevelopmentItem(null, "", $order = 15);
+            $menu->addManageItem(null, array(), $order = 1);
+            $menu->addSettingsItem(null, array(), $order = 5);
+            $menu->addDiagnosticItem(null, array(), $order = 10);
+            $menu->addDevelopmentItem(null, array(), $order = 15);
 
             if (Piwik::hasUserSuperUserAccess()) {
                 $menu->addSettingsItem('General_General',
@@ -51,7 +51,8 @@ class Menu extends \Piwik\Plugin\Menu
                 $url = $this->urlForAction('generalSettings');
             }
 
-            $menu->addItem('CoreAdminHome_Administration', null, $url, 10);
+            $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-configure');
+            $menu->addItem('CoreAdminHome_Administration', null, $url, 980, Piwik::translate('CoreAdminHome_Administration'));
         }
     }
 

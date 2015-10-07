@@ -22,7 +22,7 @@ describe("SiteSelector", function () {
 
     it("should display expanded when clicked", function (done) {
         expect.screenshot("expanded").to.be.captureSelector(selectorToCapture, function (page) {
-            page.click('.sites_autocomplete');
+            page.click('.sites_autocomplete .title');
         }, done);
     });
 

@@ -22,13 +22,13 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should open selector when control clicked", function (done) {
         expect.screenshot("1_selector_open").to.be.captureSelector(selectorsToCapture, function (page) {
-            page.click('.segmentationContainer');
+            page.click('.segmentationContainer .title');
         }, done);
     });
 
     it("should open segment editor when edit link clicked for existing segment", function (done) {
         expect.screenshot("2_segment_editor_update").to.be.captureSelector(selectorsToCapture, function (page) {
-            page.click('.segmentList .editSegment');
+            page.click('.segmentList .editSegment:first');
         }, done);
     });
 
@@ -65,7 +65,7 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should open blank segment editor when create new segment link is clicked", function (done) {
         expect.screenshot("8_segment_editor_create").to.be.captureSelector(selectorsToCapture, function (page) {
-            page.click('.segmentationContainer');
+            page.click('.segmentationContainer .title');
             page.click('.add_new_segment');
         }, done);
     });
@@ -120,7 +120,7 @@ describe("SegmentSelectorEditorTest", function () {
     it("should show the new segment after page reload", function (done) {
         expect.screenshot("saved").to.be.captureSelector("saved_reload", selectorsToCapture, function (page) {
             page.reload();
-            page.click('.segmentationContainer');
+            page.click('.segmentationContainer .title');
         }, done);
     });
 
@@ -158,7 +158,7 @@ describe("SegmentSelectorEditorTest", function () {
     it("should show the updated segment after page reload", function (done) {
         expect.screenshot("updated").to.be.captureSelector("updated_reload", selectorsToCapture, function (page) {
             page.reload();
-            page.click('.segmentationContainer');
+            page.click('.segmentationContainer .title');
         }, done);
     });
 
@@ -178,14 +178,14 @@ describe("SegmentSelectorEditorTest", function () {
         expect.screenshot('deleted').to.be.captureSelector(selectorsToCapture + ',.ui-dialog', function (page) {
             page.click('.ui-dialog button>span:contains(Yes):visible');
 
-            page.click('.segmentationContainer');
+            page.click('.segmentationContainer .title');
         }, done);
     });
 
     it("should not show the deleted segment after page reload", function (done) {
         expect.screenshot('deleted').to.be.captureSelector('deleted_reload', selectorsToCapture, function (page) {
             page.reload();
-            page.click('.segmentationContainer');
+            page.click('.segmentationContainer .title');
         }, done);
     });
 });

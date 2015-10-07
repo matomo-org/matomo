@@ -23,7 +23,7 @@ a#overlayTitle {
     font-size: 12px;
     text-decoration: none;
     color: #4d4d4d;
-    margin-left: 15px;
+    margin-left: 10px;
 }
 a#overlayTitle .icon-help {
     margin-left: 4px;
@@ -146,10 +146,16 @@ body .ui-tooltip.overlayTooltip {
     font-weight: bold;
 }
 
-#topBars {
+.navbar .navbar-right {
+    display: none;
+}
+
+.top_controls {
     display: none;
 }
 
 .overlay-sidebar-container {
     width: 220px;
+    margin-left: -16px;
+    margin-top: 10px;
 }

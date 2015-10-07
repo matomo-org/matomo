@@ -57,11 +57,14 @@
         },
 
         _initStandaloneMap: function () {
-            $('.top_controls').hide();
-            $('.Menu--dashboard').on('piwikSwitchPage', function (event, item) {
-                var clickedMenuIsNotMap = ($(item).attr('href').indexOf('module=UserCountryMap&action=realtimeWorldMap') == -1);
+            $('#periodString').hide();
+            initTopControls();
+            $('#secondNavBar').on('piwikSwitchPage', function (event, item) {
+                var href = $(item).attr('href');
+                var clickedMenuIsNotMap = (href.indexOf('module=UserCountryMap&action=realtimeWorldMap') == -1);
                 if (clickedMenuIsNotMap) {
-                    $('.top_controls').show();
+                    $('#periodString').show();
+                    initTopControls();
                 }
             });
             $('.realTimeMap_overlay').css('top', '0px');

@@ -23,18 +23,29 @@ class Menu extends \Piwik\Plugin\Menu
     {
         $menu->addItem('Dashboard_Dashboard', '', $this->urlForAction('embeddedIndex', array('idDashboard' => 1)), 5);
 
-        if (!Piwik::isUserIsAnonymous()) {
+        if (Piwik::isUserIsAnonymous()) {
+            $this->addDefaultDashboard($menu);
+        } else {
             $login = Piwik::getCurrentUserLogin();
 
             $dashboard  = new Dashboard();
             $dashboards = $dashboard->getAllDashboards($login);
 
-            $pos = 0;
-            foreach ($dashboards as $dashboard) {
-                $menu->addItem('Dashboard_Dashboard', $dashboard['name'], $this->urlForAction('embeddedIndex', array('idDashboard' => $dashboard['iddashboard'])), $pos);
-                $pos++;
+            if (empty($dashboards)) {
+                $this->addDefaultDashboard($menu);
+            } else {
+                $pos = 0;
+                foreach ($dashboards as $dashboard) {
+                    $menu->addItem('Dashboard_Dashboard', $dashboard['name'], $this->urlForAction('embeddedIndex', array('idDashboard' => $dashboard['iddashboard'])), $pos);
+                    $pos++;
+                }
             }
         }
+    }
+
+    private function addDefaultDashboard(MenuReporting $menu)
+    {
+        $menu->addItem('Dashboard_Dashboard', 'Dashboard_Dashboard', $this->urlForAction('embeddedIndex', array('idDashboard' => 1)));
     }
 
     public function configureTopMenu(MenuTop $menu)
