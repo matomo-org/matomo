@@ -28,11 +28,9 @@
 {% set seoLink %}{% if rank.logo_link is not empty %}<a class="linkContent" href="?module=Proxy&action=redirect&url={{ rank.logo_link|url_encode }}"
                                                     target="_blank"
                          {% if rank.logo_tooltip is not empty %}title="{{ rank.logo_tooltip }}"{% endif %}>{% endif %}{% endset %}
-                            {% set majesticLink %}{{ seoLink }}Majestic</a>{% endset %}
                             <td>{% if rank.logo_link is not empty %}{{ seoLink|raw }}{% endif %}<img
                                             style='vertical-align:middle;margin-right:6px;' src='{{ rank.logo }}' border='0'
-                                            alt="{{ rank.label }}">{% if rank.logo_link is not empty %}</a>{% endif %} {{ rank.label|replace({"Majestic":
-                                majesticLink})|raw }}
+                                            alt="{{ rank.label }}">{% if rank.logo_link is not empty %}</a>{% endif %} {{ rank.label|raw }}
                             </td>
                             <td>
                                 <div style="margin-left:15px;">
