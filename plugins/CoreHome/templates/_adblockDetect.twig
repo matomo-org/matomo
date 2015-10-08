@@ -1,31 +1,36 @@
+<div id="bottomAd" style="font-size: 2px;">&nbsp;</div>
 <script type="text/javascript">
     if ('undefined' === (typeof hasBlockedContent) || hasBlockedContent !== false) {
+        {# if hasBlockedContent was "false" most likely nothing was blocked #}
         (function () {
             {# most likely jQuery is not available, have to use vanilla JS here #}
-
-            {% if not isDevelopmentModeEnabled %}
-               {# if development mode is disabled it is most likely blocked because having piwik in pathname #}
-               {# if development mode is enabled it might be as well blocked because of not loaded piwik-api.js #}
-                if (location && location.pathname && -1 === location.pathname.indexOf('piwik')) {
-                    // it is most likely not an issue related to ad blocker, maybe failed to load from server
-                    return;
-                }
-            {% endif %}
-
             var body = document.getElementsByTagName('body');
 
             if (!body || !body[0]) {
                 return;
             }
 
-            var warning = document.createElement('h3');
-            warning.innerHTML = '{{ 'CoreHome_AdblockIsMaybeUsed'|translate|e('js') }}';
+            var bottomAd = document.getElementById('bottomAd');
+            var wasMostLikelyCausedByAdblock = false;
 
-            body[0].appendChild(warning);
-            warning.style.color = 'red';
-            warning.style.fontWeight = 'bold';
-            warning.style.marginLeft = '16px';
-            warning.style.marginBottom = '16px';
+            if (!bottomAd) {
+                wasMostLikelyCausedByAdblock = true;
+            } else if (bottomAd.style && bottomAd.style.display === 'none') {
+                wasMostLikelyCausedByAdblock = true;
+            } else if ('undefined' !== (typeof bottomAd.clientHeight) && bottomAd.clientHeight === 0) {
+                wasMostLikelyCausedByAdblock = true;
+            }
+
+            if (wasMostLikelyCausedByAdblock) {
+                var warning = document.createElement('h3');
+                warning.innerHTML = '{{ 'CoreHome_AdblockIsMaybeUsed'|translate|e('js') }}';
+
+                body[0].appendChild(warning);
+                warning.style.color = 'red';
+                warning.style.fontWeight = 'bold';
+                warning.style.marginLeft = '16px';
+                warning.style.marginBottom = '16px';
+            }
         })();
     }
 </script>
