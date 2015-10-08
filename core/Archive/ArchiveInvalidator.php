@@ -137,11 +137,16 @@ class ArchiveInvalidator
 
         $datesToInvalidate = $this->removeDatesThatHaveBeenPurged($dates, $invalidationInfo);
 
-        $periods = $this->getPeriodsToInvalidate($datesToInvalidate, $period, $cascadeDown);
-        $periods = $this->getPeriodsByYearMonthAndType($periods);
-        $this->markArchivesInvalidated($idSites, $periods, $segment);
+        if (empty($period)) {
+            // if the period is empty, we don't need to cascade in any way, since we'll remove all periods
+            $periodDates = $this->getDatesByYearMonthAndPeriodType($dates);
+        } else {
+            $periods = $this->getPeriodsToInvalidate($datesToInvalidate, $period, $cascadeDown);
+            $periodDates = $this->getPeriodDatesByYearMonthAndPeriodType($periods);
+        }
+        $this->markArchivesInvalidated($idSites, $periodDates, $segment);
 
-        $yearMonths = array_keys($periods);
+        $yearMonths = array_keys($periodDates);
         $this->markInvalidatedArchivesForReprocessAndPurge($idSites, $yearMonths);
 
         foreach ($idSites as $idSite) {
@@ -197,35 +202,57 @@ class ArchiveInvalidator
 
     /**
      * @param Period[] $periods
-     * @return Period[][][]
+     * @return string[][][]
      */
-    private function getPeriodsByYearMonthAndType($periods)
+    private function getPeriodDatesByYearMonthAndPeriodType($periods)
     {
         $result = array();
         foreach ($periods as $period) {
-            $yearMonth = ArchiveTableCreator::getTableMonthFromDate($period->getDateStart());
+            $date = $period->getDateStart();
             $periodType = $period->getId();
 
-            $result[$yearMonth][$periodType][] = $period;
+            $yearMonth = ArchiveTableCreator::getTableMonthFromDate($date);
+            $result[$yearMonth][$periodType][] = $date->toString();
+        }
+        return $result;
+    }
+
+    /**
+     * Called when deleting all periods.
+     *
+     * @param Date[] $dates
+     * @return string[][][]
+     */
+    private function getDatesByYearMonthAndPeriodType($dates)
+    {
+        $result = array();
+        foreach ($dates as $date) {
+            $yearMonth = ArchiveTableCreator::getTableMonthFromDate($date);
+            $result[$yearMonth][null][] = $date->toString();
+
+            // since we're removing all periods, we must make sure to remove year periods as well.
+            // this means we have to make sure the january table is processed.
+            $janYearMonth = $date->toString('Y') . '_01';
+            $result[$janYearMonth][null][] = $date->toString();
         }
         return $result;
     }
 
     /**
      * @param int[] $idSites
-     * @param Period[][][] $periods
+     * @param string[][][] $dates
      * @throws \Exception
      */
-    private function markArchivesInvalidated($idSites, $periods, Segment $segment = null)
+    private function markArchivesInvalidated($idSites, $dates, Segment $segment = null)
     {
         $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
         foreach ($archiveNumericTables as $table) {
             $tableDate = ArchiveTableCreator::getDateFromTableName($table);
-            if (empty($periods[$tableDate])) {
+            if (empty($dates[$tableDate])) {
                 continue;
             }
 
-            $this->model->updateArchiveAsInvalidated($table, $idSites, $periods[$tableDate], $segment);
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $dates[$tableDate], $segment);
         }
     }
 

@@ -100,28 +100,33 @@ class Model
     /**
      * @param string $archiveTable Prefixed table name
      * @param int[] $idSites
-     * @param Period[][] $periodsByType
+     * @param string[][] $datesByPeriodType
      * @param Segment $segment
      * @return \Zend_Db_Statement
      * @throws Exception
      */
-    public function updateArchiveAsInvalidated($archiveTable, $idSites, $periodsByType, Segment $segment = null)
+    public function updateArchiveAsInvalidated($archiveTable, $idSites, $datesByPeriodType, Segment $segment = null)
     {
         $idSites = array_map('intval', $idSites);
 
         $bind = array();
 
         $periodConditions = array();
-        foreach ($periodsByType as $periodType => $periods) {
+        foreach ($datesByPeriodType as $periodType => $dates) {
             $dateConditions = array();
 
-            foreach ($periods as $period) {
+            foreach ($dates as $date) {
                 $dateConditions[] = "(date1 <= ? AND ? <= date2)";
-                $bind[] = $period->getDateStart()->toString();
-                $bind[] = $period->getDateStart()->toString();
+                $bind[] = $date;
+                $bind[] = $date;
             }
 
-            $periodConditions[] = "(period = " . (int)$periodType . " AND (" . implode(" OR ", $dateConditions) . "))";
+            $dateConditionsSql = implode(" OR ", $dateConditions);
+            if (empty($periodType)) { // remove all periods
+                $periodConditions[] = "($dateConditionsSql)";
+            } else {
+                $periodConditions[] = "(period = " . (int)$periodType . " AND ($dateConditionsSql))";
+            }
         }
 
         if ($segment) {
