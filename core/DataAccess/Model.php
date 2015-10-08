@@ -122,10 +122,16 @@ class Model
             }
 
             $dateConditionsSql = implode(" OR ", $dateConditions);
-            if (empty($periodType)) { // remove all periods
+            if (empty($periodType)
+                || $periodType == Period\Day::PERIOD_ID
+            ) {
+                // invalidate all periods if no period supplied or period is day
                 $periodConditions[] = "($dateConditionsSql)";
+            } else if ($periodType == Period\Range::PERIOD_ID) {
+                $periodConditions[] = "(period = " . Period\Range::PERIOD_ID . " AND ($dateConditionsSql))";
             } else {
-                $periodConditions[] = "(period = " . (int)$periodType . " AND ($dateConditionsSql))";
+                // for non-day periods, invalidate greater periods, but not range periods
+                $periodConditions[] = "(period >= " . (int)$periodType . " AND period < " . Period\Range::PERIOD_ID . " AND ($dateConditionsSql))";
             }
         }
 

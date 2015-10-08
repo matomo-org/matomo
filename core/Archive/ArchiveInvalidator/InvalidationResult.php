@@ -13,7 +13,7 @@ use Piwik\Date;
 /**
  * Information about the result of an archive invalidation operation.
  */
-class InvalidationResultInfo
+class InvalidationResult
 {
     /**
      * Dates that couldn't be invalidated because they are earlier than the configured log

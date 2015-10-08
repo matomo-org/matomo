@@ -402,47 +402,4 @@ abstract class Period
         $childPeriods = Factory::build($childPeriodType, $dateStart->toString() . ',' . $dateEnd->toString());
         return array_merge($childPeriods->getSubperiods(), $childPeriods->getAllOverlappingChildPeriodsInRange($dateStart, $dateEnd));
     }
-
-    /**
-     * Returns all periods of a larger type that contain this period. For example,
-     * for a week, this will return the month and year containing it. For a day, it will
-     * return the week, month and year containing it.
-     *
-     * @return Period[]
-     * @ignore
-     */
-    public function getAllParentPeriods()
-    {
-        $parentPeriods = $this->getAllParentPeriodsSet();
-        return array_values($parentPeriods);
-    }
-
-    /**
-     * Helper method required for recursion.
-     *
-     * @return Period[]
-     * @ignore
-     */
-    private function getAllParentPeriodsSet()
-    {
-        $parentPeriodType = $this->getParentPeriodLabel();
-        if (empty($parentPeriodType)) {
-            return array();
-        }
-
-        $startPeriod = Factory::build($parentPeriodType, $this->getDateStart());
-        $endPeriod = Factory::build($parentPeriodType, $this->getDateEnd());
-
-        $result = array();
-
-        $result[$startPeriod->getRangeString()] = $startPeriod;
-        $result = $result + $startPeriod->getAllParentPeriodsSet();
-
-        if ($startPeriod->getRangeString() != $endPeriod->getRangeString()) {
-            $result[$endPeriod->getRangeString()] = $endPeriod;
-            $result = $result + $endPeriod->getAllParentPeriodsSet();
-        }
-
-        return $result;
-    }
 }

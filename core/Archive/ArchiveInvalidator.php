@@ -9,7 +9,7 @@
 
 namespace Piwik\Archive;
 
-use Piwik\Archive\ArchiveInvalidator\InvalidationResultInfo;
+use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
@@ -128,12 +128,12 @@ class ArchiveInvalidator
      * @param $period string
      * @param $segment Segment
      * @param bool $cascadeDown
-     * @return InvalidationResultInfo
+     * @return InvalidationResult
      * @throws \Exception
      */
     public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false)
     {
-        $invalidationInfo = new InvalidationResultInfo();
+        $invalidationInfo = new InvalidationResult();
 
         $datesToInvalidate = $this->removeDatesThatHaveBeenPurged($dates, $invalidationInfo);
 
@@ -144,6 +144,8 @@ class ArchiveInvalidator
             $periods = $this->getPeriodsToInvalidate($datesToInvalidate, $period, $cascadeDown);
             $periodDates = $this->getPeriodDatesByYearMonthAndPeriodType($periods);
         }
+
+        $periodDates = $this->getUniqueDates($periodDates);
         $this->markArchivesInvalidated($idSites, $periodDates, $segment);
 
         $yearMonths = array_keys($periodDates);
@@ -156,6 +158,21 @@ class ArchiveInvalidator
         }
 
         return $invalidationInfo;
+    }
+
+    /**
+     * @param string[][][] $periodDates
+     * @return string[][][]
+     */
+    private function getUniqueDates($periodDates)
+    {
+        $result = array();
+        foreach ($periodDates as $yearMonth => $periodsByYearMonth) {
+            foreach ($periodsByYearMonth as $periodType => $periods) {
+                $result[$yearMonth][$periodType] = array_unique($periods);
+            }
+        }
+        return $result;
     }
 
     /**
@@ -176,28 +193,18 @@ class ArchiveInvalidator
             $period = Period\Factory::build($periodType, $date);
             $periodsToInvalidate[] = $period;
 
-            // cascade up since parent archives will no longer be valid
-            $periodsToInvalidate = array_merge($periodsToInvalidate, $period->getAllParentPeriods());
-
             if ($cascadeDown) {
                 $periodsToInvalidate = array_merge($periodsToInvalidate, $period->getAllOverlappingChildPeriods());
             }
+
+            if ($periodType != 'year'
+                && $periodType != 'range'
+            ) {
+                $periodsToInvalidate[] = Period\Factory::build('year', $date);
+            }
         }
 
-        return $this->getUniquePeriods($periodsToInvalidate);
-    }
-
-    /**
-     * @param Period[] $periods
-     * @return Period[]
-     */
-    private function getUniquePeriods($periods)
-    {
-        $result = array();
-        foreach ($periods as $period) {
-            $result[$period->getRangeString()] = $period;
-        }
-        return array_values($result);
+        return $periodsToInvalidate;
     }
 
     /**
@@ -258,10 +265,10 @@ class ArchiveInvalidator
 
     /**
      * @param Date[] $dates
-     * @param InvalidationResultInfo $invalidationInfo
+     * @param InvalidationResult $invalidationInfo
      * @return \Piwik\Date[]
      */
-    private function removeDatesThatHaveBeenPurged($dates, InvalidationResultInfo $invalidationInfo)
+    private function removeDatesThatHaveBeenPurged($dates, InvalidationResult $invalidationInfo)
     {
         $this->findOlderDateWithLogs($invalidationInfo);
 
@@ -281,7 +288,7 @@ class ArchiveInvalidator
         return $result;
     }
 
-    private function findOlderDateWithLogs(InvalidationResultInfo $info)
+    private function findOlderDateWithLogs(InvalidationResult $info)
     {
         // If using the feature "Delete logs older than N days"...
         $purgeDataSettings = PrivacyManager::getPurgeDataSettings();

@@ -15,6 +15,8 @@ use Piwik\Period;
  */
 class Month extends Period
 {
+    const PERIOD_ID = 3;
+
     protected $label = 'month';
 
     /**

@@ -10,6 +10,11 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Container\StaticContainer;
+use Piwik\Period\Day;
+use Piwik\Period\Month;
+use Piwik\Period\Range;
+use Piwik\Period\Week;
+use Piwik\Period\Year;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Translation\Translator;
 
@@ -31,11 +36,11 @@ class Piwik
      * @var array
      */
     public static $idPeriods = array(
-        'day'   => 1,
-        'week'  => 2,
-        'month' => 3,
-        'year'  => 4,
-        'range' => 5,
+        'day'   => Day::PERIOD_ID,
+        'week'  => Week::PERIOD_ID,
+        'month' => Month::PERIOD_ID,
+        'year'  => Year::PERIOD_ID,
+        'range' => Range::PERIOD_ID,
     );
 
     /**

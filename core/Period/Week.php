@@ -15,6 +15,8 @@ use Piwik\Piwik;
  */
 class Week extends Period
 {
+    const PERIOD_ID = 2;
+
     protected $label = 'week';
 
     /**

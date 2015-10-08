@@ -316,10 +316,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 null,
                 true,
                 array(
-                    '2014_01' => array(
-                        '1.2014-01-01.2014-12-31.4.done3736b708e4d20cfc10610e816a1b2341',
-                        '2.2014-01-01.2014-12-31.4.done.VisitsSummary',
-                    ),
+                    '2014_01' => array(),
                     '2015_03' => array(),
                     '2015_04' => array(
                         '1.2015-04-30.2015-04-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
@@ -329,12 +326,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-04-01.2015-04-30.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                         '2.2015-04-01.2015-04-30.3.done5447835b0a861475918e79e932abdfd8',
                     ),
-                    '2014_12' => array(
-                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
-                        '2.2014-12-29.2015-01-04.2.done.VisitsSummary',
-                        '1.2014-12-01.2014-12-31.3.done5447835b0a861475918e79e932abdfd8',
-                        '2.2014-12-01.2014-12-31.3.done',
-                    ),
+                    '2014_12' => array(),
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
                         '2.2015-01-01.2015-01-01.1.done.VisitsSummary',
@@ -342,6 +334,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '2.2015-01-01.2015-01-31.3.done.VisitsSummary',
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
                         '2.2015-01-01.2015-12-31.4.done',
+                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
                     ),
                     '2015_02' => array(
                         '1.2015-02-05.2015-02-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
@@ -351,10 +344,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
                         '2.2015-02-01.2015-02-28.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                     ),
-                    '2015_05' => array(
-                        '1.2015-05-01.2015-05-31.3.done3736b708e4d20cfc10610e816a1b2341',
-                        '2.2015-05-01.2015-05-31.3.done.VisitsSummary',
-                    ),
+                    '2015_05' => array(),
                     '2015_06' => array(),
                 ),
             ),
@@ -392,6 +382,10 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     '2014_01' => array(),
                     '2014_12' => array(
                         '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
+
+                        // doesn't need to be invalidated since the month won't use the week above, but very difficult
+                        // to keep it valid, while keeping invalidation logic simple.
+                        '1.2014-12-01.2014-12-31.3.done5447835b0a861475918e79e932abdfd8',
                     ),
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
@@ -431,6 +425,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                         '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
                     ),
                     '2015_02' => array(),
                     '2015_03' => array(),
@@ -448,15 +443,14 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 null,
                 true,
                 array(
-                    '2014_01' => array(
-                        '1.2014-01-01.2014-12-31.4.done3736b708e4d20cfc10610e816a1b2341',
-                    ),
+                    '2014_01' => array(),
                     '2014_12' => array(
                         '1.2014-12-29.2014-12-29.1.done',
                         '1.2014-12-30.2014-12-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                         '1.2014-12-31.2014-12-31.1.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2014-12-01.2014-12-31.3.done5447835b0a861475918e79e932abdfd8',
+                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
                     ),
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
@@ -472,6 +466,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                         '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
                     ),
                     '2015_02' => array(
                         '1.2015-02-01.2015-02-01.1.done3736b708e4d20cfc10610e816a1b2341',

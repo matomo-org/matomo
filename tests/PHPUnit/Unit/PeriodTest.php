@@ -125,60 +125,6 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getTestDataForGetAllParentPeriods
-     */
-    public function test_getAllParentPeriods_ReturnsCorrectContainingPeriods($periodType, $dateRange, $expectedParentPeriodRanges)
-    {
-        $period = Period\Factory::build($periodType, $dateRange);
-
-        $parentPeriods = $period->getAllParentPeriods();
-        $parentPeriods = $this->getPeriodInfoForAssert($parentPeriods);
-
-        $this->assertEquals($expectedParentPeriodRanges, $parentPeriods);
-    }
-
-    public function getTestDataForGetAllParentPeriods()
-    {
-        return array(
-            array(
-                'day',
-                '2015-01-01',
-                array(
-                    array('week', '2014-12-29,2015-01-04'),
-                    array('month', '2014-12-01,2014-12-31'),
-                    array('year', '2014-01-01,2014-12-31'),
-                    array('month', '2015-01-01,2015-01-31'),
-                    array('year', '2015-01-01,2015-12-31'),
-                ),
-            ),
-
-            array(
-                'week',
-                '2015-09-01',
-                array(
-                    array('month', '2015-08-01,2015-08-31'),
-                    array('year', '2015-01-01,2015-12-31'),
-                    array('month', '2015-09-01,2015-09-30'),
-                ),
-            ),
-
-            array(
-                'month',
-                '2015-09-10',
-                array(
-                    array('year', '2015-01-01,2015-12-31'),
-                ),
-            ),
-
-            array(
-                'year',
-                '2015-09-10',
-                array(),
-            ),
-        );
-    }
-
-    /**
      * @dataProvider getTestDataForGetAllOverlappingChildPeriods
      */
     public function test_getAllOverlappingChildPeriods_ReturnsTheCorrectChildPeriods($periodType, $dateRange, $expectedChildPeriodRanges)
