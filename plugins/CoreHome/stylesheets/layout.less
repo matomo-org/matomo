@@ -159,12 +159,18 @@
 
     .top_controls {
       height: auto;
-    }
 
-    .top_controls .piwikTopControl {
-      position: static !important;
-      margin: 0 0 10px;
-      float: none;
+      .isPiwikDemo,
+      .piwikTopControl {
+        position: static !important;
+        margin: 0 0 10px;
+        float: none;
+        display: inline-block;
+      }
+      
+      .isPiwikDemo {
+        margin-top: 8px;
+      }
     }
 
     .icon-menu-hamburger {
