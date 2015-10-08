@@ -77,6 +77,30 @@ class ArchiveTableCreatorTest extends \PHPUnit_Framework_TestCase
                 'qewroufsjdlf',
                 array(),
             ),
+
+            array(
+                '',
+                array(
+                    'archive_numeric_2015_02',
+                    'archive_blob_2015_05',
+                    'archive_numeric_2014_03',
+                    'archive_blob_2015_01',
+                    'archive_blob_2015_02',
+                    'prefixed_archive_numeric_2012_01',
+                ),
+            ),
+
+            array(
+                null,
+                array(
+                    'archive_numeric_2015_02',
+                    'archive_blob_2015_05',
+                    'archive_numeric_2014_03',
+                    'archive_blob_2015_01',
+                    'archive_blob_2015_02',
+                    'prefixed_archive_numeric_2012_01',
+                ),
+            ),
         );
     }
 }
