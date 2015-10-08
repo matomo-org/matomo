@@ -66,17 +66,5 @@ class DevicesDetection extends \Piwik\Plugin
             $module = 'DevicesDetection';
             $action = $movedMethods[$action];
         }
-
-        if ($module == 'UserSettings' && ($action == 'getResolution' || $action == 'getConfiguration')) {
-            $module = 'Resolution';
-        }
-
-        if ($module == 'UserSettings' && ($action == 'getLanguage' || $action == 'getLanguageCode')) {
-            $module = 'UserLanguage';
-        }
-
-        if ($module == 'UserSettings' && $action == 'getPlugin') {
-            $module = 'DevicePlugins';
-        }
     }
 }

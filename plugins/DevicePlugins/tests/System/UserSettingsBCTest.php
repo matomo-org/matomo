@@ -6,14 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\DevicesDetection\tests\System;
+namespace Piwik\Plugins\DevicePlugins\tests\System;
 
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
- * @group DevicesDetection
- * @group DevicesDetection_System
+ * @group DevicePlugins
+ * @group DevicePlugins_System
  */
 class UserSettingsBCTest extends SystemTestCase
 {
@@ -36,12 +36,7 @@ class UserSettingsBCTest extends SystemTestCase
         $dateTime = self::$fixture->dateTime;
 
         $api = array(
-            'UserSettings.getBrowser',
-            'UserSettings.getBrowserVersion',
-            'UserSettings.getMobileVsDesktop',
-            'UserSettings.getOS',
-            'UserSettings.getOSFamily',
-            'UserSettings.getBrowserType',
+            'UserSettings.getPlugin',
         );
 
         $result = array();
@@ -51,8 +46,8 @@ class UserSettingsBCTest extends SystemTestCase
             list($module, $action) = explode('.', $method);
 
             // api test (uses hack to test UserSettings which doesn't exist anymore. we say we're testing
-            // against DevicesDetection & overwrite the module & action w/ otherRequestParameters)
-            $result[] = array('DevicesDetection.getBrowsers', array('idSite' => $idSite,
+            // against DevicePlugins & overwrite the module & action w/ otherRequestParameters)
+            $result[] = array('DevicePlugins.getPlugin', array('idSite' => $idSite,
                 'date' => $dateTime,
                 'periods' => array('day'),
                 'testSuffix' => $module . '_' . $method . '_',
