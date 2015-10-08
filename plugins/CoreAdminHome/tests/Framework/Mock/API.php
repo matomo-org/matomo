@@ -14,7 +14,7 @@ class API extends \Piwik\Plugins\CoreAdminHome\API
 {
     private $invalidatedReports = array();
 
-    public function invalidateArchivedReports($idSites, $dates, $period = false)
+    public function invalidateArchivedReports($idSites, $dates, $period = false, $segment = false, $cascadeDown = false)
     {
         $this->invalidatedReports[] = func_get_args();
     }
