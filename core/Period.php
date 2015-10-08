@@ -283,7 +283,7 @@ abstract class Period
      * Returns the label of the period type that is one size smaller than this one, or null if
      * it's the smallest.
      *
-     * Range periods and other such 'period collections' are not considered as separte from
+     * Range periods and other such 'period collections' are not considered as separate from
      * the value type of the collection. So a range period will return the result of the
      * subperiod's `getImmediateChildPeriodLabel()` method.
      *
@@ -293,7 +293,12 @@ abstract class Period
     abstract public function getImmediateChildPeriodLabel();
 
     /**
-     * TODO
+     * Returns the label of the period type that is one size bigger than this one, or null
+     * if it's the biggest.
+     *
+     * Range periods and other such 'period collections' are not considered as separate from
+     * the value type of the collection. So a range period will return the result of the
+     * subperiod's `getParentPeriodLabel()` method.
      *
      * @ignore
      */
