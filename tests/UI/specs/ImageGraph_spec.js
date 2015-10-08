@@ -23,7 +23,7 @@ describe("ImageGraph", function () {
 
     it("should render horizontal bar graphs correctly", function (done) {
         expect.screenshot('horizontal_bar').to.be.similar(.95).to.capture(function (page) {
-            page.load(getImageGraphUrl('DevicesDetection', 'getBrowsers', 'horizontalBar', 'year', '2012-01-01'));
+            page.load(getImageGraphUrl('UserSettings', 'getBrowser', 'horizontalBar', 'year', '2012-01-01'));
         }, done);
     });
 

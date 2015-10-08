@@ -23,6 +23,7 @@ class Resolution extends \Piwik\Plugin
     {
         return array(
             'Live.getAllVisitorDetails'            => 'extendVisitorDetails',
+            'Request.getRenamedModuleAndAction' => 'renameUserSettingsModuleAndAction',
         );
     }
 
@@ -31,5 +32,12 @@ class Resolution extends \Piwik\Plugin
         $instance = new Visitor($details);
 
         $visitor['resolution']               = $instance->getResolution();
+    }
+
+    public function renameUserSettingsModuleAndAction(&$module, &$action)
+    {
+        if ($module == 'UserSettings' && ($action == 'getResolution' || $action == 'getConfiguration')) {
+            $module = 'Resolution';
+        }
     }
 }
