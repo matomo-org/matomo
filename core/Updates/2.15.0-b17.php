@@ -14,14 +14,10 @@ use Piwik\Updater;
 use Piwik\Updates;
 
 /**
- * Update for version 2.15.0-b14.
+ * Update for version 2.15.0-b17.
  */
-class Updates_2_15_0_b14 extends Updates
+class Updates_2_15_0_b17 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
-    {
-    }
-
     /**
      * Perform the incremental version update.
      *
