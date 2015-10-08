@@ -9,7 +9,7 @@
 namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Cache;
-use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Network\IPUtils;
 use Piwik\Plugin\Manager;
@@ -411,7 +411,7 @@ class VisitTest extends IntegrationTestCase
 
         $visit->handle();
 
-        $archive = new ArchiveInvalidator();
+        $archive = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
         $remembered = $archive->getRememberedArchivedReportsThatShouldBeInvalidated();
 
         $this->assertSame($expectedRemeberedArchivedReports, $remembered);

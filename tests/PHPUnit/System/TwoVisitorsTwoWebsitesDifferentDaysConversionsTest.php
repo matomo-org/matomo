@@ -9,9 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\Archive;
 use Piwik\Cache;
-use Piwik\Archive\ArchiveInvalidator;
-use Piwik\Option;
-use Piwik\Plugins\Goals\Archiver;
+use Piwik\Container\StaticContainer;
 use Piwik\Segment;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
@@ -172,7 +170,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
         $this->assertEquals(array(self::$fixture->idSite1, self::$fixture->idSite2),
                             $cache->fetch('Archive.SiteIdsOfRememberedReportsInvalidated'));
 
-        $invalidator = new ArchiveInvalidator();
+        $invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
         self::$fixture->trackVisits();
 
