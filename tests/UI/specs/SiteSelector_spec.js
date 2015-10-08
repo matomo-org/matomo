@@ -8,7 +8,7 @@
  */
 
 describe("SiteSelector", function () {
-    var selectorToCapture = '[piwik-siteselector],[piwik-siteselector] .custom_select';
+    var selectorToCapture = '[piwik-siteselector],[piwik-siteselector] .dropdown';
 
     this.timeout(0);
 
