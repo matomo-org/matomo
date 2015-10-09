@@ -137,6 +137,8 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
             }
 
             if (!testInfo.expected) {
+                app.appendMissingExpected(screenName);
+
                 fail("No expected screenshot found for " + screenshotFileName + ".");
                 return;
             }
