@@ -11,7 +11,6 @@
         "AllWebsitesDashboard": "Painel de Todos os sites",
         "And": "e",
         "API": "API",
-        "ApplyDateRange": "Aplicar para este período",
         "ArchivingInlineHelp": "Para sites com tráfego de médio a alto, é recomendado desabilitar a trigger que salva do navegador. Em vez disso, nós recomendamos que instale um cron job para processar os relatorios Piwik a cada hora.",
         "ArchivingTriggerDescription": "Recomendado para instalações maiores do Piwik, precisa de %s configurar um cron job%s para processar os relatórios automaticamente.",
         "AuthenticationMethodSmtp": "Método de autenticação para SMTP",
@@ -402,7 +401,6 @@
         "YearsDays": "%1$s anos %2$s dias",
         "Yes": "Sim",
         "YouAreCurrentlyUsing": "Você está usando atualmente Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Você está vendo a demonstração do Piwik",
         "YouMustBeLoggedIn": "Tem de estar ligado para aceder a essa funcionalidade.",
         "YourChangesHaveBeenSaved": "Suas alterações foram salvas"
     },

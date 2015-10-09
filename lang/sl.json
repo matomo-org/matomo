@@ -11,7 +11,6 @@
         "AllWebsitesDashboard": "Vse nadzorne plošče spletnih strani",
         "And": "in",
         "API": "API",
-        "ApplyDateRange": "Uveljavi Datumski Razpon",
         "ArchivingInlineHelp": "Za srednje velike in velike spletne strani izklopite arhiviranje preko spletnega brskalnika. Namesto tega vam priporočamo, da nastavite \"cron job\" tako, da bodo poročila ustvarjena vsako uro.",
         "ArchivingTriggerDescription": "Priporočamo za večje namestitve. %sNastavite \"cron job\"%s za avtomatsko procesiranje.",
         "AuthenticationMethodSmtp": "Metoda potrditve verodostojnosti za SMTP",
@@ -389,7 +388,6 @@
         "YearsDays": "%1$s let %2$s dni",
         "Yes": "Da",
         "YouAreCurrentlyUsing": "Trenutno uporabljate Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Trenutno si ogledujete Piwik v demo načinu",
         "YouMustBeLoggedIn": "Za uporabo te funkcije morate biti vpisani.",
         "YourChangesHaveBeenSaved": "Vaše spremembe so bile shranjene."
     },

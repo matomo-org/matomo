@@ -11,7 +11,6 @@
         "AllWebsitesDashboard": "Panel Kendali semua Situs",
         "And": "dan",
         "API": "API",
-        "ApplyDateRange": "Terapkan Rentang Tanggal",
         "ArchivingInlineHelp": "Untuk kunjungan situs menengah hingga tinggi, disarankan untuk mematikan pengarsipan Piwik ketika laporan ditampilkan. Kami lebih menyarankan untuk mengatur tugas Cron untuk mengolah laporan pada tiap jam.",
         "ArchivingTriggerDescription": "Disarankan untuk instalasi Piwik besar untuk %smengatur tugas Cron%s untuk mengolah laporan otomatis.",
         "AuthenticationMethodSmtp": "Metode otentikasi untuk SMTP",
@@ -350,7 +349,6 @@
         "YearsDays": "%1$s tahun %2$s hari",
         "Yes": "Ya",
         "YouAreCurrentlyUsing": "Anda saat ini menggunakan Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Anda sedanng melihat demostrasi Piwik",
         "YouMustBeLoggedIn": "Anda harus masuk untuk mengakses fungsi ini.",
         "YourChangesHaveBeenSaved": "Perubahan Anda telah tersimpan."
     },

@@ -10,7 +10,6 @@
         "AllWebsitesDashboard": "Panoul de control pentru toate site-urile",
         "And": "şi",
         "API": "API",
-        "ApplyDateRange": "Aplica interval",
         "ArchivingInlineHelp": "Pentru site-uri cu trafic mediu sau mare, este recomandata dezactivarea arhivari Piwik din browser. Recomandat sa faceti setup la un cron job pentru a procesa rapoarte Piwik in fiecare ora",
         "ArchivingTriggerDescription": "Recomandat pentru instalari mari, trebuie sa %ssetup un cron job%s pentru procesarea automata a rapoartelor",
         "AuthenticationMethodSmtp": "Metoda autentificare pentru SMTP",
@@ -372,7 +371,6 @@
         "YearsDays": "%1$s ani %2$s zile",
         "Yes": "Da",
         "YouAreCurrentlyUsing": "Foloseşti Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Vizualizati o versiune demo a Piwik",
         "YouMustBeLoggedIn": "Trebuie sa fiti logat pentru a accesa aceasta functionalitate.",
         "YourChangesHaveBeenSaved": "Schimbarile au fost salvate"
     },

@@ -11,7 +11,6 @@
         "AllWebsitesDashboard": "Pult për krejt sajtet",
         "And": "dhe",
         "API": "API",
-        "ApplyDateRange": "Zbato Intervalin e Datave",
         "ArchivingInlineHelp": "Për sajte me trafik mesatar ose të shumtë këshillohet të çaktivizohet vënia në punë e arkivimit nga Piwik-u prej shfletuesit. Në vend të kësaj këshillojmë të rregulloni një akt cron që të përpunoni raporte Piwik-u çdo orë.",
         "ArchivingTriggerDescription": "E këshilluar për instalime më të ngarkuara të Piwik-ut, lypset të %s rregulloni një akt cron-i%s që të përpunohen raportet automatikisht.",
         "AuthenticationMethodSmtp": "Metodë mirëfilltësimi për SMTP",
@@ -395,7 +394,6 @@
         "YearsDays": "%1$s vite %2$s ditë",
         "Yes": "Po",
         "YouAreCurrentlyUsing": "Jeni duke përdorur Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Hëpërhë jeni duke parë një demonstrim të Piwik-ut",
         "YouMustBeLoggedIn": "Që të përdorni këtë funksion, duhet të keni bërë hyrjen.",
         "YourChangesHaveBeenSaved": "Ndryshimet tuaja u ruajtën."
     },

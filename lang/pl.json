@@ -11,7 +11,6 @@
         "AllWebsitesDashboard": "Tablica analiz wszystkich stron",
         "And": "i",
         "API": "API",
-        "ApplyDateRange": "Zastosuj dla tego zakresu dat",
         "ArchivingInlineHelp": "Dla serwisów o średnim i wysokim natężeniu ruchu, zalecane jest wyłączenie archiwizacji danych Piwik podczas przeglądania raportów w przeglądarce. Zamiast tego zaleca się skonfigurowanie żądania cron, by przetwarzanie raportów Piwik następowało co godzinę.",
         "ArchivingTriggerDescription": "Zalecany dla większych instalacji Piwik, musisz %sskonfigurować crona%s do przetwarzania raportów automatycznie.",
         "AuthenticationMethodSmtp": "Metoda uwierzytelnienie dla SMTP",
@@ -364,7 +363,6 @@
         "YearsDays": "%1$s lat %2$s dni",
         "Yes": "Tak",
         "YouAreCurrentlyUsing": "Aktualnie używasz Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Aktualnie oglądasz wersję demonstracyjną statystyk Piwik",
         "YouMustBeLoggedIn": "Musisz się zalogować, by uzyskać dostęp do funkcji zasobów.",
         "YourChangesHaveBeenSaved": "Twoje modyfikacje zostały zapisane pomyślnie."
     },

@@ -11,7 +11,6 @@
         "AllWebsitesDashboard": "所有网站报表",
         "And": "和",
         "API": "API",
-        "ApplyDateRange": "应用时间段",
         "ArchivingInlineHelp": "对于中高流量的网站，建议禁用Piwik浏览器触发处理。最好是设置定时任务(Cron job)，每小时处理一次Piwik报表。",
         "ArchivingTriggerDescription": "适合大型的Piwik安装，需要%s设置定时任务(Cron job) %s来自动处理报表。",
         "AuthenticationMethodSmtp": "SMTP 验证方法",
@@ -365,7 +364,6 @@
         "YearsDays": "%1$s 年 %2$s 天",
         "Yes": "是",
         "YouAreCurrentlyUsing": "您正在使用 Piwik %s.",
-        "YouAreViewingDemoShortMessage": "您正在浏览 Piwik 演示",
         "YouMustBeLoggedIn": "您必须登录才能存取这个功能。",
         "YourChangesHaveBeenSaved": "修改已保存。"
     },

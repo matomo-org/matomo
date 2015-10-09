@@ -8,7 +8,6 @@
         "AllWebsitesDashboard": "Visų svetainių skydelis",
         "And": "ir",
         "API": "API sąsaja",
-        "ApplyDateRange": "Patvirtinti datos intervalą",
         "ArchivingInlineHelp": "Vidutinio ir didelio srauto svetainėms rekomenduojama išjungti Piwik archyvavimo trigerį. Vietoj to, rekomenduojame nustatyti cron job Piwik ataskaitų generavimui kas valandą.",
         "ArchivingTriggerDescription": "Rekomenduojama didesniems Piwik diegimams. Jums reikia %snustatyti cron job%s automatiniam ataskaitų generavimui.",
         "AuthenticationMethodSmtp": "SMTP autentifikacijos metodas",
@@ -244,7 +243,6 @@
         "YearsDays": "%1$s metai %2$s dienos",
         "Yes": "Taip",
         "YouAreCurrentlyUsing": "Šiuo metu jūs naudojate Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Šiuo metu Jūs stebite Piwik demonstraciją",
         "YouMustBeLoggedIn": "Pirmiausia turite prisijungti.",
         "YourChangesHaveBeenSaved": "Jūsų atlikti pakeitimai išsaugoti."
     },

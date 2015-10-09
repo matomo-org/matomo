@@ -8,6 +8,8 @@
         "ReportingApiReference": "Reference API hlášení",
         "TopLinkTooltip": "Zpřístupněte Vaše Webové analýzy programově skrze jednoduché API pomocí json, xml a dalších.",
         "UserAuthentication": "Autentifikace uživatele",
-        "UsingTokenAuth": "Pokud chcete %s načíst data ze skriptu, cronu, atd. %s Potřebujete přidat parametr %s k voláním API, které vyžadují přihlášení"
+        "UsingTokenAuth": "Pokud chcete %s načíst data ze skriptu, cronu, atd. %s Potřebujete přidat parametr %s k voláním API, které vyžadují přihlášení",
+        "Glossary": "Glosář",
+        "LearnAboutCommonlyUsedTerms": "Zjistěte víc o nejčastějších termínech, abyste mohli využít Piwik naplno %s a %s."
     }
 }

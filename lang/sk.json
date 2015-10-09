@@ -10,7 +10,6 @@
         "AllWebsitesDashboard": "Nástenka pre všetky weby",
         "And": "a",
         "API": "API",
-        "ApplyDateRange": "Použiť časový rozsah",
         "ArchivingInlineHelp": "Pre stredné až vysoké návštevnosti webových stránok, sa odporúča vypnúť v Piwiku archiváciu spúšťanú prezeraním z prehliadača. Namiesto toho odporúčame nastaviť cron úlohu na spracovanie Piwik reportov každú hodinu.",
         "ArchivingTriggerDescription": "Odporúča sa pre väčšie inštalácie Piwiku, musíte %s nastaviť cron %s aby spracovával reporty automaticky.",
         "AuthenticationMethodSmtp": "Metóda overovania pre SMTP",
@@ -396,7 +395,6 @@
         "YearsDays": "%1$s rokov %2$s dní",
         "Yes": "Áno",
         "YouAreCurrentlyUsing": "Aktuálne používate Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Momentálne vidíte demo Piwiku",
         "YouMustBeLoggedIn": "Musíte byť prihlásený pre prístup k tejto functionnality.",
         "YourChangesHaveBeenSaved": "Vaše zmeny boli uložené."
     },

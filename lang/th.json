@@ -8,7 +8,6 @@
         "AfterEntry": "หลังจากที่กรอกลงที่นี่",
         "AllWebsitesDashboard": "แผงควบคุมเว็บไซต์ทั้งหมด",
         "API": "API",
-        "ApplyDateRange": "ช่วงวันที่สมัคร",
         "ArchivingInlineHelp": "เหมาะสำหรับเว็บไซต์ที่มีการจราจรสูง เราแนะนำให้ปิดการใช้งาน Piwik ในการเรียกเก็บจากเบราว์เซอร์ แต่เราขอแนะนำให้คุณติดตั้ง Cron job ในการประมวลผลเพื่อรายงาน Piwik ทุกชั่วโมง",
         "ArchivingTriggerDescription": "แนะนำสำหรับการติดตั้ง Piwik ขนาดใหญ่ที่คุณจะต้อง %s ติดตั้ง Cron job%s เพื่อดำเนินการรายงานโดยอัตโนมัติ",
         "AuthenticationMethodSmtp": "วิธีการตรวจสอบข้อมูลของ SMTP",
@@ -292,7 +291,6 @@
         "YearsDays": "%1$s ปี %2$s วัน",
         "Yes": "ใช่",
         "YouAreCurrentlyUsing": "คุณกำลังใช้ Piwik %s",
-        "YouAreViewingDemoShortMessage": "คุณกำลังดูการสาธิตของ Piwik",
         "YouMustBeLoggedIn": "คุณจะต้องเข้าสู่ระบบเพื่อเจ้าจัดการฟังก์ชั่นนี้",
         "YourChangesHaveBeenSaved": "บันทึกการเปลี่ยนแปลงของคุณแล้ว"
     },

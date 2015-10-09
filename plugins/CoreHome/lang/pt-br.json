@@ -48,6 +48,8 @@
         "YouAreUsingTheLatestVersion": "Você está usando a última versão do Piwik!",
         "ClickRowToExpandOrContract": "Clique nesta linha para expandir ou contrair a subtabela.",
         "UndoPivotBySubtable": "Este relatório foi articulado %s desfazer articulação",
-        "PivotBySubtable": "Este relatório não foi articulado %s Articular por %s"
+        "PivotBySubtable": "Este relatório não foi articulado %s Articular por %s",
+        "QuickAccessTitle": "Procurar por entradas do menu, segmentos e websites. Atalho: Pressione 'f' para pesquisar.",
+        "Segments": "Segmentos"
     }
 }

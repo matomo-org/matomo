@@ -10,7 +10,6 @@
         "AllWebsitesDashboard": "لوحة التحكم لكافة المواقع",
         "And": "و",
         "API": "واجهة تحكم التطبيقات",
-        "ApplyDateRange": "تطبيق مدى التاريخ",
         "ArchivingInlineHelp": "للمواقع المتوسطة وعالية الزيارات، من المفضل تعطيل إطلاق الأرشفة من المتصفح. بدلاً من ذلك، فنحن نفضل ضبط Cron job لمعالجة Piwik كل ساعة.",
         "ArchivingTriggerDescription": "مفضل في حالة مواقع Piwik الكبيرة أن تقوم %sبضبط وظيفة %s لمعالجة التقارير آلياً.",
         "AuthenticationMethodSmtp": "أسلوب المصادقة لمزود SMTP",
@@ -241,7 +240,6 @@
         "Widgets": "الإضافات",
         "YearsDays": "%1$s سنة %2$s أيام",
         "Yes": "نعم",
-        "YouAreViewingDemoShortMessage": "أنت تشاهد حالياً نسخة عرض من Piwik",
         "YouMustBeLoggedIn": "يجب عليك تسجيل الدخول للوصول إلى هذه الخاصية.",
         "YourChangesHaveBeenSaved": "تم حفظ التغييرات."
     },
