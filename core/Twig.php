@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Metrics\Formatter;
+use Piwik\Tracker\GoalManager;
 use Piwik\View\RenderTokenParser;
 use Piwik\Visualization\Sparkline;
 use Twig_Environment;
@@ -312,7 +313,8 @@ class Twig
             }
             $idSite = func_get_args();
             $idSite = $idSite[1];
-            return $formatter->getPrettyMoney($amount, $idSite);
+            $currencySymbol = Formatter::getCurrencySymbol($idSite);
+            return NumberFormatter::getInstance()->formatCurrency($amount, $currencySymbol, GoalManager::REVENUE_PRECISION);
         });
         $this->twig->addFilter($moneyFilter);
     }

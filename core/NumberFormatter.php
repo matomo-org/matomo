@@ -23,6 +23,9 @@ class NumberFormatter extends Singleton
     /** @var string language specific pattern for percent numbers */
     protected $patternPercent;
 
+    /** @var string language specific pattern for currency numbers */
+    protected $patternCurrency;
+
     /** @var string language specific plus sign */
     protected $symbolPlus;
 
@@ -53,6 +56,7 @@ class NumberFormatter extends Singleton
     public function __construct()
     {
         $this->patternNumber = Piwik::translate('Intl_NumberFormatNumber');
+        $this->patternCurrency = Piwik::translate('Intl_NumberFormatCurrency');
         $this->patternPercent = Piwik::translate('Intl_NumberFormatPercent');
         $this->symbolPlus = Piwik::translate('Intl_NumberSymbolPlus');
         $this->symbolMinus = Piwik::translate('Intl_NumberSymbolMinus');
@@ -137,6 +141,40 @@ class NumberFormatter extends Singleton
         $pattern = $negative ? $negativePattern : $positivePattern;
 
         return $this->formatNumberWithPattern($pattern, $newValue, $maximumFractionDigits, $minimumFractionDigits);
+    }
+
+    /**
+     * Formats given number as percent value
+     * @param string|int|float $value
+     * @param string $currency
+     * @param int $precision
+     * @return mixed|string
+     */
+    public function formatCurrency($value, $currency, $precision=2)
+    {
+        static $positivePattern, $negativePattern;
+
+        if (empty($positivePatter) || empty($negativePattern)) {
+            list($positivePattern, $negativePattern) = $this->parsePattern($this->patternCurrency);
+        }
+
+        $newValue =  trim($value, " \0\x0B$currency");
+        if (!is_numeric($newValue)) {
+            return $value;
+        }
+
+        $negative = (bccomp('0', $value, 12) == 1);
+        $pattern = $negative ? $negativePattern : $positivePattern;
+
+        if ($newValue == round($newValue)) {
+            // if no fraction digits available, don't show any
+            $value = $this->formatNumberWithPattern($pattern, $newValue, 0, 0);
+        } else {
+            // show given count of fraction digits otherwise
+            $value = $this->formatNumberWithPattern($pattern, $newValue, $precision, $precision);
+        }
+
+        return str_replace('¤', $currency, $value);
     }
 
     /**
