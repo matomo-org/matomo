@@ -11,7 +11,7 @@
         "AllWebsitesDashboard": "Le dashboard di tutti i siti",
         "And": "e",
         "API": "API",
-        "ApplyDateRange": "Applica intervallo di date",
+        "Apply": "Applica",
         "ArchivingInlineHelp": "Per i siti da medi a grandi, è raccomandabile disabilitare l'attivazione di Piwik dal browser. Raccomandiamo piuttosto di configurare un cron job per elaborare i report di Piwik ogni ora.",
         "ArchivingTriggerDescription": "Raccomandato per installazioni di Piwik grandi, devi %sconfigurare un cron job%s per elaborare i report automaticamente.",
         "AuthenticationMethodSmtp": "Metodo di autenticazione per SMTP",
@@ -402,7 +402,7 @@
         "YearsDays": "%1$s anni %2$s giorni",
         "Yes": "Sì",
         "YouAreCurrentlyUsing": "Stai utilizzando Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Stai attualmente guardando la demo di Piwik",
+        "YouAreViewingDemoShortMessage": "Stai vedendo una demo di Piwik",
         "YouMustBeLoggedIn": "Devi essere loggato per accedere a questa funzionalità.",
         "YourChangesHaveBeenSaved": "Le impostazioni sono state salvate."
     },

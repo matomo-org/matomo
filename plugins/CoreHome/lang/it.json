@@ -48,6 +48,8 @@
         "YouAreUsingTheLatestVersion": "Stai utilizzando l'ultima versione di Piwik!",
         "ClickRowToExpandOrContract": "Clicca su questa riga per espandere o restringere la sotto-tabella.",
         "UndoPivotBySubtable": "Questo report è stato imperniato al Pivot %s Undo",
-        "PivotBySubtable": "Questo report non è imperniato al Pivot %s da %s"
+        "PivotBySubtable": "Questo report non è imperniato al Pivot %s da %s",
+        "QuickAccessTitle": "Ricerca selezioni da menù, segmenti e siti web. Scorciatoia: Premi 'f' per la ricerca.",
+        "Segments": "Segmenti"
     }
 }

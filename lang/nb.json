@@ -11,7 +11,6 @@
         "AllWebsitesDashboard": "Oversiktspanel for alle nettsteder",
         "And": "og",
         "API": "API",
-        "ApplyDateRange": "Bruk datointervall",
         "ArchivingInlineHelp": "For nettsteder med medium til høy trafikk, er det anbefalt å slå av at nettleseren kan utløse Piwik-arkivering. I stedet anbefaler vi at du setter opp en cron-jobb som prosesserer Piwik-rapporter hver time.",
         "ArchivingTriggerDescription": "For større Piwik-installasjoner anbefales det at du setter opp en %scron-jobb%s for å behandle rapporter automatisk.",
         "AuthenticationMethodSmtp": "Autentiseringsmetode for SMTP",
@@ -369,7 +368,6 @@
         "YearsDays": "%1$s år %2$s dager",
         "Yes": "Ja",
         "YouAreCurrentlyUsing": "Du bruker for øyeblikket Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Du ser for øyeblikket på Piwik-demoen",
         "YouMustBeLoggedIn": "Du må være innlogget for å bruke denne funksjonaliteten.",
         "YourChangesHaveBeenSaved": "Din endringer er lagret."
     },

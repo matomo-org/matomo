@@ -10,7 +10,6 @@
         "AllWebsitesDashboard": "Painel de Controlo de Todos os Websites",
         "And": "e",
         "API": "API",
-        "ApplyDateRange": "Aplicar Intervalo de Datas",
         "ArchivingInlineHelp": "Para websites de tráfego médio ou elevado, é recomendado desactivar o arquivar de Piwik de ser accionado quando os relatórios são vistos no navegador. Em vez disso, recomendamos que configure uma tarefa cron para processar os relatórios de Piwik cada hora.",
         "ArchivingTriggerDescription": "Recomendado para instalações Piwik maiores, tem que %sconfigurar uma tarefa cron%s para processar os relatórios automaticamente.",
         "AuthenticationMethodSmtp": "Método de autenticação SMTP",
@@ -293,7 +292,6 @@
         "YearlyReports": "Relatórios Anuais",
         "YearsDays": "%1$s anos %2$s dias",
         "Yes": "Sim",
-        "YouAreViewingDemoShortMessage": "Está actualmente a visualizar a demo de Piwik.",
         "YouMustBeLoggedIn": "Tem que estar ligado para aceder a esta funcionalidade.",
         "YourChangesHaveBeenSaved": "As suas alterações foram guardadas."
     },

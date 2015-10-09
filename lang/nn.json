@@ -7,7 +7,6 @@
         "AfterEntry": "etter inngang her",
         "AllWebsitesDashboard": "Styringspanel for alle nettstadene",
         "API": "API",
-        "ApplyDateRange": "Set periode",
         "ArchivingInlineHelp": "For nettstader med middels til høg trafikk, er det tilrådd å slå av arkivering via nettlesaren. Me oppmodar deg heller til å setja opp ein cron-jobb for å handsama rapportane til Piwik kvar time.",
         "ArchivingTriggerDescription": "For større installasjonar av Piwik er det tilrådd at du %ssett opp ein cron-jobb%s for å handsama rapportane automatisk.",
         "AuthenticationMethodSmtp": "Godkjenningsmetode for SMTP",
@@ -270,7 +269,6 @@
         "YearsDays": "%1$s år %2$s dagar",
         "Yes": "Ja",
         "YouAreCurrentlyUsing": "Du bruker no Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Dette er ein demo av Piwik",
         "YouMustBeLoggedIn": "Du må vera innlogga for å bruka denne funksjonen.",
         "YourChangesHaveBeenSaved": "Endringane dine er lagra."
     }

@@ -11,7 +11,6 @@
         "AllWebsitesDashboard": "Dashboard van alle websites",
         "And": "en",
         "API": "API",
-        "ApplyDateRange": "Voer datumbereik in",
         "ArchivingInlineHelp": "Voor middelgrote tot grote websites, is het aan te raden Piwik archivering voor de browser uit te schakelen. Als alternatief raden we aan om een cronjob te maken om piwik om het uur rapporten te laten genereren.",
         "ArchivingTriggerDescription": "Aangeraden voor grote Piwik installaties, gebruik een %scronjob%s om automatisch rapporten te genereren.",
         "AuthenticationMethodSmtp": "Authenticatie methode voor SMTP",
@@ -401,7 +400,6 @@
         "YearsDays": "%1$s jaren %2$s dagen",
         "Yes": "Ja",
         "YouAreCurrentlyUsing": "U gebruikt momenteel Piwik %s.",
-        "YouAreViewingDemoShortMessage": "U bekijkt momenteel de demo versie van Piwik.",
         "YouMustBeLoggedIn": "U moet ingelogd zijn om deze functionaliteit te gebruiken.",
         "YourChangesHaveBeenSaved": "De wijzigingen zijn opgeslagen."
     },

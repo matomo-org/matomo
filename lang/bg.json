@@ -11,7 +11,6 @@
         "AllWebsitesDashboard": "Табло за всички сайтове",
         "And": "и",
         "API": "API",
-        "ApplyDateRange": "Прилагане на периода от време",
         "ArchivingInlineHelp": "За сайтовете със среден или висок трафик, препоръчваме да изключите Piwik архивиране след гледане от браузър. Съветваме ви в този случай да използвате cron job за Вашите доклади на всеки час.",
         "ArchivingTriggerDescription": "За по-големи Piwik инсталации, се препоръчва %scron job%s за автоматични доклади.",
         "AuthenticationMethodSmtp": "Удостоверен метод за SMTP",
@@ -388,7 +387,6 @@
         "YearsDays": "%1$s години %2$s дни",
         "Yes": "Да",
         "YouAreCurrentlyUsing": "Вие използвате Piwik %s.",
-        "YouAreViewingDemoShortMessage": "В момента Вие разглеждате демо версия на Piwik",
         "YouMustBeLoggedIn": "Трябва да сте влязъл, за да имате достъп до тази функционалност.",
         "YourChangesHaveBeenSaved": "Промените бяха запазени."
     },

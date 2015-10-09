@@ -11,7 +11,7 @@
         "AllWebsitesDashboard": "Dashboard aller Websites",
         "And": "und",
         "API": "API",
-        "ApplyDateRange": "Zeitraum anwenden",
+        "Apply": "Anwenden",
         "ArchivingInlineHelp": "Für Websites mit mittlerem bis hohem Verkehrsaufkommen wird empfohlen, die durch den Browser ausgelöste Archivierung zu deaktivieren. Stattdessen wird empfohlen, dass Sie einen Cronjob aufsetzen, der die Berichte einmal pro Stunde abarbeitet.",
         "ArchivingTriggerDescription": "Für größere Piwik-Installationen sollten Sie %seinen Cronjob erstellen%s, der die Berichte automatisch abarbeitet.",
         "AuthenticationMethodSmtp": "Authentifizierungsmethode für SMTP",

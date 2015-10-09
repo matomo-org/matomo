@@ -7,7 +7,6 @@
         "AfterEntry": "pēc nonākšanas šeit",
         "AllWebsitesDashboard": "Visu vietņu panelis",
         "API": "API",
-        "ApplyDateRange": "Apstiprināt datumu diapozonu",
         "ArchivingInlineHelp": "Vidēja un augsta apmeklējuma vietnēm rekomendējam atslēgt pārlūka izsauktu Piwik arhivēšanu. Tā vietā iesakam lietot cron darbu, kas arhivē Piwik katru stundu.",
         "ArchivingTriggerDescription": "Apjomīgām Piwik instalācijām iesakam %siestatīt cron darbu%s, kas apstrādās atskaites automātiski.",
         "AuthenticationMethodSmtp": "SMTP autentifikācijas metode",
@@ -245,7 +244,6 @@
         "Widgets": "Logdaļas",
         "YearsDays": "%1$s gadi, %2$s dienas",
         "Yes": "Jā",
-        "YouAreViewingDemoShortMessage": "Jūs pašlaik skatāties Piwik demonstrāciju",
         "YouMustBeLoggedIn": "Lai tiktu pie šīs funkcionalitātes, Jums jāpiesakās.",
         "YourChangesHaveBeenSaved": "Izmaiņas saglabātas."
     },

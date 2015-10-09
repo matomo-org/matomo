@@ -11,7 +11,6 @@
         "AllWebsitesDashboard": "داشبورد همه وبسايت‌ها",
         "And": "و",
         "API": "API",
-        "ApplyDateRange": "استفاده از بازه زمانی",
         "ArchivingInlineHelp": "توصیه می‌شود برای وبسایت‌های با ترافیک متوسط یا بالا گزینه آرشیو پیویک از مرورگر غیر فعال شود. بجای آن توصیه می‌کنیم تا یک cron job برای پردازش گزارش‌ها هر یک ساعت راه‌اندازی شود.",
         "ArchivingTriggerDescription": "شما به %sراه‌اندازی یک cron job%s برای پردازش خودکار گزارش‌ها نیاز دارید.",
         "AuthenticationMethodSmtp": "روش تایید هویت برای SMTP",
@@ -355,7 +354,6 @@
         "YearsDays": "%1$s سال ها %2$s روز ها",
         "Yes": "بلی",
         "YouAreCurrentlyUsing": "شما هم اکنون از پیوک %s استفاده می کنید.",
-        "YouAreViewingDemoShortMessage": "شما هم اکنون در حال مشاهده نسخه نمایشی پیویک هستید",
         "YouMustBeLoggedIn": "برای دسترسی به این قابلیت شما باید وارد سیستم شوید.",
         "YourChangesHaveBeenSaved": "تغییرات شما دخیره شد."
     },

@@ -10,7 +10,6 @@
         "AllWebsitesDashboard": "Kõigi veebilehtede töölaud",
         "And": "ja",
         "API": "API",
-        "ApplyDateRange": "Rakenda kuupäeva vahemik",
         "AuthenticationMethodSmtp": "SMTP serveri autentimismeetod",
         "AverageOrderValue": "Keskmine tellimuse väärtus",
         "AveragePrice": "Keskmine hind",
@@ -299,7 +298,6 @@
         "YearsDays": "%1$s aastat %2$s päeva",
         "Yes": "Jah",
         "YouAreCurrentlyUsing": "Kasutad hetkel Piwik versiooni %s.",
-        "YouAreViewingDemoShortMessage": "Hetkel asud Piwiku demo keskkonnas",
         "YouMustBeLoggedIn": "Antud funktsionaalsusele ligipääsuks pead olema sisselogitud.",
         "YourChangesHaveBeenSaved": "Sinu muudatused on salvestatud."
     },
