@@ -22,7 +22,6 @@
 
             {% include "@CoreHome/_favicon.twig" %}
             {% include "_jsGlobalVariables.twig" %}
-            {% include "_piwikTag.twig" %}
             {% include "_jsCssIncludes.twig" %}
 
             <!--[if IE]>
@@ -49,5 +48,6 @@
 
     {% endblock %}
 
+        {% include "@CoreHome/_adblockDetect.twig" %}
     </body>
 </html>
