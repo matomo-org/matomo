@@ -82,7 +82,7 @@ class NumberFormatter extends Singleton
     }
 
     /**
-     * Formats a given number
+     * Formats a given number or percent value (if $value starts or ends with a %)
      *
      * @param string|int|float $value
      * @param int $maximumFractionDigits
@@ -91,15 +91,11 @@ class NumberFormatter extends Singleton
      */
     public function format($value, $maximumFractionDigits=0, $minimumFractionDigits=0)
     {
-        static $positivePattern, $negativePattern;
-
-        if (empty($positivePatter) || empty($negativePattern)) {
-            list($positivePattern, $negativePattern) = $this->parsePattern($this->patternNumber);
+        if (trim($value, '%') != $value) {
+            return $this->formatPercent($value);
         }
-        $negative = (bccomp('0', $value, 12) == 1);
-        $pattern = $negative ? $negativePattern : $positivePattern;
 
-        return $this->formatNumberWithPattern($pattern, $value, $maximumFractionDigits, $minimumFractionDigits);
+        return $this->formatNumber($value, $maximumFractionDigits, $minimumFractionDigits);
     }
 
     /**
@@ -114,7 +110,16 @@ class NumberFormatter extends Singleton
      */
     public function formatNumber($value, $maximumFractionDigits=0, $minimumFractionDigits=0)
     {
-        return $this->format($value, $maximumFractionDigits, $minimumFractionDigits);
+
+        static $positivePattern, $negativePattern;
+
+        if (empty($positivePatter) || empty($negativePattern)) {
+            list($positivePattern, $negativePattern) = $this->parsePattern($this->patternNumber);
+        }
+        $negative = (bccomp('0', $value, 12) == 1);
+        $pattern = $negative ? $negativePattern : $positivePattern;
+
+        return $this->formatNumberWithPattern($pattern, $value, $maximumFractionDigits, $minimumFractionDigits);
     }
 
     /**
