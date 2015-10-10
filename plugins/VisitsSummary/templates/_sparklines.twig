@@ -5,14 +5,14 @@
 
         <div class="sparkline">
             {{ sparkline(urlSparklineNbVisits)|raw }}
-            {{ 'General_NVisits'|translate("<strong>"~nbVisits~"</strong>")|raw }}{% if displayUniqueVisitors %},
-                {{ 'VisitsSummary_NbUniqueVisitors'|translate("<strong>"~nbUniqVisitors~"</strong>")|raw }}{% endif %}
+            {{ 'General_NVisits'|translate("<strong>"~nbVisits|number~"</strong>")|raw }}{% if displayUniqueVisitors %},
+                {{ 'VisitsSummary_NbUniqueVisitors'|translate("<strong>"~nbUniqVisitors|number~"</strong>")|raw }}{% endif %}
         </div>
         {% if nbUsers > 0 %}
             {# Most of users will not have used `setUserId` so this would be confusingly zero #}
             <div class="sparkline">
                 {{ sparkline(urlSparklineNbUsers)|raw }}
-                {{ 'General_NUsers'|translate("<strong>"~nbUsers~"</strong>")|raw }}
+                {{ 'General_NUsers'|translate("<strong>"~nbUsers|number~"</strong>")|raw }}
             </div>
         {% endif %}
         <div class="sparkline">
@@ -22,11 +22,11 @@
         </div>
         <div class="sparkline">
             {{ sparkline(urlSparklineBounceRate)|raw }}
-            {{ 'VisitsSummary_NbVisitsBounced'|translate("<strong>"~bounceRate~"</strong>")|raw }}
+            {{ 'VisitsSummary_NbVisitsBounced'|translate("<strong>"~bounceRate|percent~"</strong>")|raw }}
         </div>
         <div class="sparkline">
             {{ sparkline(urlSparklineActionsPerVisit)|raw }}
-            {{ 'VisitsSummary_NbActionsPerVisit'|translate("<strong>"~nbActionsPerVisit~"</strong>")|raw }}
+            {{ 'VisitsSummary_NbActionsPerVisit'|translate("<strong>"~nbActionsPerVisit|number(1)~"</strong>")|raw }}
         </div>
         {% if showActionsPluginReports|default(false) %}
         <div class="sparkline">
@@ -45,36 +45,36 @@
             {% if showOnlyActions %}
                 <div class="sparkline">
                     {{ sparkline(urlSparklineNbActions)|raw }}
-                    {{ 'VisitsSummary_NbActionsDescription'|translate("<strong>"~nbActions~"</strong>")|raw }}
+                    {{ 'VisitsSummary_NbActionsDescription'|translate("<strong>"~nbActions|number~"</strong>")|raw }}
                 </div>
             {% else %}
                 <div class="sparkline">
                     {{ sparkline(urlSparklineNbPageviews)|raw }}
-                    {{ 'VisitsSummary_NbPageviewsDescription'|translate("<strong>"~nbPageviews~"</strong>")|trim|raw }},
-                    {{ 'VisitsSummary_NbUniquePageviewsDescription'|translate("<strong>"~nbUniquePageviews~"</strong>")|raw }}
+                    {{ 'VisitsSummary_NbPageviewsDescription'|translate("<strong>"~nbPageviews|number~"</strong>")|trim|raw }},
+                    {{ 'VisitsSummary_NbUniquePageviewsDescription'|translate("<strong>"~nbUniquePageviews|number~"</strong>")|raw }}
                 </div>
                 {% if displaySiteSearch %}
                     <div class="sparkline">
                         {{ sparkline(urlSparklineNbSearches)|raw }}
-                        {{ 'VisitsSummary_NbSearchesDescription'|translate("<strong>"~nbSearches~"</strong>")|trim|raw }},
-                        {{ 'VisitsSummary_NbKeywordsDescription'|translate("<strong>"~nbKeywords~"</strong>")|raw }}
+                        {{ 'VisitsSummary_NbSearchesDescription'|translate("<strong>"~nbSearches|number~"</strong>")|trim|raw }},
+                        {{ 'VisitsSummary_NbKeywordsDescription'|translate("<strong>"~nbKeywords|number~"</strong>")|raw }}
                     </div>
                 {% endif %}
                 <div class="sparkline">
                         {{ sparkline(urlSparklineNbDownloads)|raw }}
-                        {{ 'VisitsSummary_NbDownloadsDescription'|translate("<strong>"~nbDownloads~"</strong>")|trim|raw }},
-                        {{ 'VisitsSummary_NbUniqueDownloadsDescription'|translate("<strong>"~nbUniqueDownloads~"</strong>")|raw }}
+                        {{ 'VisitsSummary_NbDownloadsDescription'|translate("<strong>"~nbDownloads|number~"</strong>")|trim|raw }},
+                        {{ 'VisitsSummary_NbUniqueDownloadsDescription'|translate("<strong>"~nbUniqueDownloads|number~"</strong>")|raw }}
                 </div>
                 <div class="sparkline">
                         {{ sparkline(urlSparklineNbOutlinks)|raw }}
-                        {{ 'VisitsSummary_NbOutlinksDescription'|translate("<strong>"~nbOutlinks~"</strong>")|trim|raw }},
-                        {{ 'VisitsSummary_NbUniqueOutlinksDescription'|translate("<strong>"~nbUniqueOutlinks~"</strong>")|raw }}
+                        {{ 'VisitsSummary_NbOutlinksDescription'|translate("<strong>"~nbOutlinks|number~"</strong>")|trim|raw }},
+                        {{ 'VisitsSummary_NbUniqueOutlinksDescription'|translate("<strong>"~nbUniqueOutlinks|number~"</strong>")|raw }}
                 </div>
                 {% endif %}
         {% endif %}
         <div class="sparkline">
                 {{ sparkline(urlSparklineMaxActions)|raw }}
-                {{ 'VisitsSummary_MaxNbActions'|translate("<strong>"~maxActions~"</strong>")|raw }}
+                {{ 'VisitsSummary_MaxNbActions'|translate("<strong>"~maxActions|number~"</strong>")|raw }}
         </div>
 
         {{ postEvent('Template.VisitsSummaryOverviewSparklines') }}

@@ -50,6 +50,6 @@
         "WidgetGetAll": "全参照元",
         "WidgetSocials": "ソーシャルネットワークのリスト",
         "WidgetTopKeywordsForPages": "ページ URL のトップキーワード",
-        "XPercentOfVisits": "訪問の %s%%"
+        "XPercentOfVisits": "訪問の %s"
     }
 }

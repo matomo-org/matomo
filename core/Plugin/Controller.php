@@ -24,6 +24,7 @@ use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 use Piwik\NoAccessException;
 use Piwik\Notification\Manager as NotificationManager;
+use Piwik\NumberFormatter;
 use Piwik\Period\Month;
 use Piwik\Period;
 use Piwik\Period\PeriodValidator;
@@ -983,6 +984,9 @@ abstract class Controller
             $img = "arrow_up.png";
             $titleEvolutionPercent = '+' . $titleEvolutionPercent;
         }
+
+        $currentValue = NumberFormatter::getInstance()->format($currentValue);
+        $pastValue    = NumberFormatter::getInstance()->format($pastValue);
 
         $title = Piwik::translate('General_EvolutionSummaryGeneric', array(
                                                                          Piwik::translate('General_NVisits', $currentValue),

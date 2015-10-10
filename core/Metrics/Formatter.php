@@ -11,6 +11,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Intl\Data\Provider\CurrencyDataProvider;
+use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Metric;
 use Piwik\Plugin\ProcessedMetric;
@@ -98,7 +99,7 @@ class Formatter
 
         $seconds   = $minusDaysAndHours - $minutes * 60;
         $precision = ($seconds > 0 && $seconds < 0.01 ? 3 : 2);
-        $seconds   = round($seconds, $precision);
+        $seconds   = NumberFormatter::getInstance()->formatNumber(round($seconds, $precision), $precision);
 
         if ($years > 0) {
             $return = sprintf(Piwik::translate('General_YearsDays'), $years, $days);

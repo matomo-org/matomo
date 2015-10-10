@@ -13,14 +13,14 @@
 <div id='leftcolumn' style="clear:both;{% if not isWidget and ecommerce is defined %}width:33%;'{% endif %}">
     <div class="sparkline">{{ sparkline(urlSparklineConversions) }}
         {% if ecommerce is defined %}
-            <strong>{{ nb_conversions }}</strong>
+            <strong>{{ nb_conversions|number }}</strong>
             {{ 'General_EcommerceOrders'|translate }}
             <img src='plugins/Morpheus/images/ecommerceOrder.gif'>
         {% else %}
-            {{ 'Goals_Conversions'|translate("<strong>"~nb_conversions~"</strong>")|raw }}
+            {{ 'Goals_Conversions'|translate("<strong>"~nb_conversions|number~"</strong>")|raw }}
         {% endif %}
         {% if goalAllowMultipleConversionsPerVisit is defined and goalAllowMultipleConversionsPerVisit %}
-            ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>")|raw }})
+            ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted|number~"</strong>")|raw }})
         {% endif %}
     </div>
     {% if revenue != 0 or ecommerce is defined %}
@@ -46,14 +46,14 @@
     <div class="sparkline">{{ sparkline(urlSparklineConversionRate) }}
         {% if ecommerce is defined %}
             {% set ecommerceOrdersText %}{{ 'General_EcommerceOrders'|translate }}{% endset %}
-            {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate~"</strong> "~ecommerceOrdersText)|raw }}
+            {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate|percent~"</strong> "~ecommerceOrdersText)|raw }}
         {% else %}
-            {{ 'Goals_OverallConversionRate'|translate("<strong>"~conversion_rate~"</strong>")|raw }}
+            {{ 'Goals_OverallConversionRate'|translate("<strong>"~conversion_rate|percent~"</strong>")|raw }}
         {% endif %}
     </div>
     {% if ecommerce is defined %}
         <div class="sparkline">{{ sparkline(urlSparklinePurchasedProducts) }}
-            <strong>{{ items }}</strong> {{ 'General_PurchasedProducts'|translate }}</div>
+            <strong>{{ items|number }}</strong> {{ 'General_PurchasedProducts'|translate }}</div>
     {% endif %}
 </div>
 {% if ecommerce is defined %}
@@ -65,7 +65,7 @@
         <div class="sparkline">
             {{ sparkline(cart_urlSparklineConversions) }}
             {% set ecommerceAbandonedCartsText %}{{ 'Goals_AbandonedCart'|translate }}{% endset %}
-            <strong>{{ cart_nb_conversions }}</strong> {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
+            <strong>{{ cart_nb_conversions|number }}</strong> {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
         </div>
 
         <div class="sparkline">
@@ -77,7 +77,7 @@
 
         <div class="sparkline">
             {{ sparkline(cart_urlSparklineConversionRate) }}
-            <strong>{{ cart_conversion_rate }}</strong>
+            <strong>{{ cart_conversion_rate|percent }}</strong>
             {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
         </div>
     </div>
