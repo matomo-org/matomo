@@ -67,7 +67,7 @@
 
             var label = this.data[0][valueIndex][0];
 
-            var text = '<strong>' + $.jqplot.NumberFormatter('%s', percentage, piwik.numbers.patternPercent) + '</strong> (' + value + ' ' + series + ')';
+            var text = '<strong>' + NumberFormatter.formatPercent(percentage) + '</strong> (' + value + ' ' + series + ')';
             $(element).tooltip({
                 track:   true,
                 items:   '*',
