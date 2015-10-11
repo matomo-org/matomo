@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Metrics\Formatter;
+use Piwik\Tracker\GoalManager;
 use Piwik\View\RenderTokenParser;
 use Piwik\Visualization\Sparkline;
 use Twig_Environment;
@@ -84,8 +85,11 @@ class Twig
         $this->addFilter_truncate();
         $this->addFilter_notification();
         $this->addFilter_percentage();
+        $this->addFilter_percent();
+        $this->addFilter_percentEvolution();
         $this->addFilter_prettyDate();
         $this->addFilter_safeDecodeRaw();
+        $this->addFilter_number();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
         $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
         $this->twig->addFilter(new Twig_SimpleFilter('lcfirst', 'lcfirst'));
@@ -272,9 +276,37 @@ class Twig
     protected function addFilter_percentage()
     {
         $percentage = new Twig_SimpleFilter('percentage', function ($string, $totalValue, $precision = 1) {
-            return Piwik::getPercentageSafe($string, $totalValue, $precision) . '%';
+            return NumberFormatter::getInstance()->formatPercent(Piwik::getPercentageSafe($string, $totalValue, $precision), $precision);
         });
         $this->twig->addFilter($percentage);
+    }
+
+    protected function addFilter_percent()
+    {
+        $percentage = new Twig_SimpleFilter('percent', function ($string, $precision = 1) {
+            return NumberFormatter::getInstance()->formatPercent($string, $precision);
+        });
+        $this->twig->addFilter($percentage);
+    }
+
+    protected function addFilter_percentEvolution()
+    {
+        $percentage = new Twig_SimpleFilter('percentEvolution', function ($string) {
+            return NumberFormatter::getInstance()->formatPercentEvolution($string);
+        });
+        $this->twig->addFilter($percentage);
+    }
+
+    protected function addFilter_number()
+    {
+        $formatter = new Twig_SimpleFilter('number', function ($string, $minFractionDigits = 0, $maxFractionDigits = 0) {
+            // if a leading/trailing percent sign is found, format as percent number
+            if ($string != trim($string, '%')) {
+                return NumberFormatter::getInstance()->formatPercent($string, $minFractionDigits, $maxFractionDigits);
+            }
+            return NumberFormatter::getInstance()->format($string, $minFractionDigits, $maxFractionDigits);
+        });
+        $this->twig->addFilter($formatter);
     }
 
     protected function addFilter_truncate()
@@ -299,7 +331,8 @@ class Twig
             }
             $idSite = func_get_args();
             $idSite = $idSite[1];
-            return $formatter->getPrettyMoney($amount, $idSite);
+            $currencySymbol = Formatter::getCurrencySymbol($idSite);
+            return NumberFormatter::getInstance()->formatCurrency($amount, $currencySymbol, GoalManager::REVENUE_PRECISION);
         });
         $this->twig->addFilter($moneyFilter);
     }

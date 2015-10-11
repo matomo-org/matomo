@@ -11,6 +11,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Intl\Data\Provider\CurrencyDataProvider;
+use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Metric;
 use Piwik\Plugin\ProcessedMetric;
@@ -98,7 +99,7 @@ class Formatter
 
         $seconds   = $minusDaysAndHours - $minutes * 60;
         $precision = ($seconds > 0 && $seconds < 0.01 ? 3 : 2);
-        $seconds   = round($seconds, $precision);
+        $seconds   = NumberFormatter::getInstance()->formatNumber(round($seconds, $precision), $precision);
 
         if ($years > 0) {
             $return = sprintf(Piwik::translate('General_YearsDays'), $years, $days);
@@ -149,21 +150,16 @@ class Formatter
     public function getPrettyMoney($value, $idSite)
     {
         $space = ' ';
-
         $currencySymbol = self::getCurrencySymbol($idSite);
-
         $currencyBefore =  $currencySymbol . $space;
         $currencyAfter = '';
-
         // (maybe more currencies prefer this notation?)
         $currencySymbolToAppend = array('€', 'kr', 'zł');
-
         // manually put the currency symbol after the amount
         if (in_array($currencySymbol, $currencySymbolToAppend)) {
             $currencyAfter = $space . $currencySymbol;
             $currencyBefore = '';
         }
-
         // if the input is a number (it could be a string or INPUT form),
         // and if this number is not an int, we round to precision 2
         if (is_numeric($value)) {
@@ -175,7 +171,6 @@ class Formatter
                 $value = sprintf("%01." . $precision . "f", $value);
             }
         }
-
         $prettyMoney = $currencyBefore . $value . $currencyAfter;
         return $prettyMoney;
     }

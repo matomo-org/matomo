@@ -231,10 +231,10 @@ Piwik_Transitions.prototype.preparePopover = function () {
             var totalNbPageviews = self.model.getTotalNbPageviews();
             if (totalNbPageviews > 0) {
 
-                var share = Math.round(self.model.pageviews / totalNbPageviews * 1000) / 10;
+                var share = NumberFormatter.formatPercent(Math.round(self.model.pageviews / totalNbPageviews * 1000) / 10);
 
                 var text = Piwik_Transitions_Translations.ShareOfAllPageviews;
-                text = text.replace(/%s/, self.model.pageviews).replace(/%s/, share + '%');
+                text = text.replace(/%s/, NumberFormatter.formatNumber(self.model.pageviews)).replace(/%s/, share);
                 text += '<br /><em>' + Piwik_Transitions_Translations.DateRange + ' ' + self.model.date + '</em>';
 
                 var title = '<h3>' + piwikHelper.addBreakpointsToUrl(self.actionName) + '</h3>';
@@ -341,12 +341,12 @@ Piwik_Transitions.prototype.renderCenterBox = function () {
     var box = this.centerBox;
 
     Piwik_Transitions_Util.replacePlaceholderInHtml(
-        box.find('.Transitions_Pageviews'), this.model.pageviews);
+        box.find('.Transitions_Pageviews'), NumberFormatter.formatNumber(this.model.pageviews));
 
     var self = this;
     var showMetric = function (cssClass, modelProperty, highlightCurveOnSide, groupCanBeExpanded) {
         var el = box.find('.Transitions_' + cssClass);
-        Piwik_Transitions_Util.replacePlaceholderInHtml(el, self.model[modelProperty]);
+        Piwik_Transitions_Util.replacePlaceholderInHtml(el, NumberFormatter.formatNumber(self.model[modelProperty]));
 
         if (self.model[modelProperty] == 0) {
             el.addClass('Transitions_Value0');
@@ -404,7 +404,7 @@ Piwik_Transitions.prototype.renderLoops = function () {
     }
 
     var loops = this.popover.find('#Transitions_Loops').show();
-    Piwik_Transitions_Util.replacePlaceholderInHtml(loops, this.model.loops);
+    Piwik_Transitions_Util.replacePlaceholderInHtml(loops, NumberFormatter.formatNumber(this.model.loops));
 
     this.addTooltipShowingPercentageOfAllPageviews(loops, 'loops');
 
@@ -562,7 +562,7 @@ Piwik_Transitions.prototype.renderOpenGroup = function (groupName, side, onlyBg)
             boxText: label,
             boxTextTooltip: isOthers || !shortened ? false : fullLabel,
             boxTextNumLines: 3,
-            curveText: data.percentage + '%',
+            curveText: NumberFormatter.formatPercent(data.percentage),
             curveTextTooltip: tooltip,
             onClick: onClick
         });
@@ -1375,8 +1375,9 @@ Piwik_Transitions_Model.prototype.getPercentage = function (metric, formatted) {
     var percentage = (this.pageviews == 0 ? 0 : this[metric] / this.pageviews);
 
     if (formatted) {
+
         percentage = this.roundPercentage(percentage);
-        percentage += '%';
+        return NumberFormatter.formatPercent(percentage);
     }
 
     return percentage;

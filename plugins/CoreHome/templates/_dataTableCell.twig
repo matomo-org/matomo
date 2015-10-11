@@ -25,7 +25,7 @@
 
     {% if siteTotal and siteTotal > reportTotal %}
         {% set totalPercentage   = row.getColumn(column)|percentage(siteTotal, 1) %}
-        {% set totalRatioTooltip = 'General_TotalRatioTooltip'|translate(totalPercentage, siteTotal, metricTitle) %}
+        {% set totalRatioTooltip = 'General_TotalRatioTooltip'|translate(totalPercentage, siteTotal|number(2,0), metricTitle) %}
     {% else %}
         {% set totalRatioTooltip = '' %}
     {% endif %}
@@ -41,7 +41,7 @@
         {{ piwik.logoHtml(row.getMetadata(), row.getColumn('label')) }}
         {% if row.getMetadata('html_label_prefix') %}<span class='label-prefix'>{{ row.getMetadata('html_label_prefix') | raw }}&nbsp;</span>{% endif -%}
         {%- if row.getMetadata('html_label_suffix') %}<span class='label-suffix'>{{ row.getMetadata('html_label_suffix') | raw }}</span>{% endif -%}
-{% endif %}<span class="value">{% if row.getColumn(column) %}{{- row.getColumn(column)|raw -}}{% else %}-{% endif %}</span>
+{% endif %}<span class="value">{% if row.getColumn(column) %}{{- row.getColumn(column)|number(2,0)|raw -}}{% else %}-{% endif %}</span>
 {% if column=='label' %}</span>{% endif %}
 {% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
     </a>

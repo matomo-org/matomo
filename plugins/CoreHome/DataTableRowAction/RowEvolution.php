@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
+use Piwik\NumberFormatter;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
@@ -231,7 +232,10 @@ class RowEvolution
             $change = isset($metricData['change']) ? $metricData['change'] : false;
 
             list($first, $last) = $this->getFirstAndLastDataPointsForMetric($metric);
-            $details = Piwik::translate('RowEvolution_MetricBetweenText', array($first, $last));
+            $details = Piwik::translate('RowEvolution_MetricBetweenText', array(
+                NumberFormatter::getInstance()->format($first),
+                NumberFormatter::getInstance()->format($last)
+            ));
 
             if ($change !== false) {
                 $lowerIsBetter = Metrics::isLowerValueBetter($metric);
@@ -258,7 +262,11 @@ class RowEvolution
             $min = isset($metricData['min']) ? $metricData['min'] : 0;
             $min .= $unit;
             $max .= $unit;
-            $minmax = Piwik::translate('RowEvolution_MetricMinMax', array($metricData['name'], $min, $max));
+            $minmax = Piwik::translate('RowEvolution_MetricMinMax', array(
+                $metricData['name'],
+                NumberFormatter::getInstance()->formatNumber($min),
+                NumberFormatter::getInstance()->formatNumber($max)
+            ));
 
             $newMetric = array(
                 'label'     => $metricData['name'],

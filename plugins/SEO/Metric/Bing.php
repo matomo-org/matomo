@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SEO\Metric;
 
 use Piwik\Http;
+use Piwik\NumberFormatter;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -36,7 +37,7 @@ class Bing implements MetricsProvider
             $response = str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
 
             if (preg_match('#([0-9\,]+) results#i', $response, $p)) {
-                $pageCount = (int)str_replace(',', '', $p[1]);
+                $pageCount = NumberFormatter::getInstance()->formatNumber((int)str_replace(',', '', $p[1]));
             } else {
                 $pageCount = 0;
             }
