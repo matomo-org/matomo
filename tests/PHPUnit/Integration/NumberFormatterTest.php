@@ -82,6 +82,7 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
             array('en', 5.299, 3, 0, '5.299%'),
             array('en', -50, 3, 3, '-50.000%'),
             array('en', 5000, 0, 0, '5,000%'),
+            array('en', +5000, 0, 0, '5,000%'),
             array('en', 5000000, 0, 0, '5,000,000%'),
             array('en', -5000000, 0, 0, '-5,000,000%'),
 
@@ -92,6 +93,31 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
             array('bn', 152551239.56, 3, 0, '15,25,51,239.56%'),
             array('hi', 152551239.56, 0, 0, '15,25,51,239%'),
             array('lt', -152551239.56, 0, 0, '−152 551 239 %'),
+        );
+    }
+
+    /**
+     * @dataProvider getPercentNumberEvolutionFormattingTestData
+     */
+    public function testPercentEvolutionNumberFormatting($language, $value, $expected)
+    {
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
+        $formatter = NumberFormatter::getInstance();
+        $this->assertEquals($expected, $formatter->formatPercentEvolution($value));
+    }
+
+    public function getPercentNumberEvolutionFormattingTestData()
+    {
+        return array(
+            // english formats
+            array('en', 5, '+5%'),
+            array('en', -5, '-5%'),
+            array('en', 5.299, '+5%'),
+            array('en', -50, '-50%'),
+            array('en', 5000, '+5,000%'),
+            array('en', +5000, '+5,000%'),
+            array('en', 5000000, '+5,000,000%'),
+            array('en', -5000000, '-5,000,000%'),
         );
     }
 }

@@ -86,6 +86,7 @@ class Twig
         $this->addFilter_notification();
         $this->addFilter_percentage();
         $this->addFilter_percent();
+        $this->addFilter_percentEvolution();
         $this->addFilter_prettyDate();
         $this->addFilter_safeDecodeRaw();
         $this->addFilter_number();
@@ -284,6 +285,14 @@ class Twig
     {
         $percentage = new Twig_SimpleFilter('percent', function ($string, $precision = 1) {
             return NumberFormatter::getInstance()->formatPercent($string, $precision);
+        });
+        $this->twig->addFilter($percentage);
+    }
+
+    protected function addFilter_percentEvolution()
+    {
+        $percentage = new Twig_SimpleFilter('percentEvolution', function ($string) {
+            return NumberFormatter::getInstance()->formatPercentEvolution($string);
         });
         $this->twig->addFilter($percentage);
     }

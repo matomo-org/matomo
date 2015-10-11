@@ -8,8 +8,6 @@
  */
 namespace Piwik;
 
-use Piwik\Container\StaticContainer;
-
 /**
  * Class NumberFormatter
  *
@@ -146,6 +144,25 @@ class NumberFormatter extends Singleton
         $pattern = $negative ? $negativePattern : $positivePattern;
 
         return $this->formatNumberWithPattern($pattern, $newValue, $maximumFractionDigits, $minimumFractionDigits);
+    }
+
+
+    /**
+     * Formats given number as percent value, but keep the leading + sign if found
+     *
+     * @param $value
+     * @return string
+     */
+    public function formatPercentEvolution($value)
+    {
+        $isPositiveEvolution = !empty($value) && ($value > 0 || $value[0] == '+');
+
+        $formatted = self::formatPercent($value);
+
+        if($isPositiveEvolution) {
+            return '+' . $formatted;
+        }
+        return $formatted;
     }
 
     /**
