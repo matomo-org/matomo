@@ -25,6 +25,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\WidgetsList;
 use Piwik\Tests\Framework\OverrideLogin;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 
 /**
  * Fixture for UI tests.
@@ -67,6 +68,9 @@ class UITestFixture extends SqlDump
         // create non super user
         UsersManagerAPI::getInstance()->addUser('oliverqueen', 'smartypants', 'oli@queenindustries.com');
         UsersManagerAPI::getInstance()->setUserAccess('oliverqueen', 'view', array(1));
+
+        // launch archiving so UI test requests don't launch it
+        VisitsSummaryAPI::getInstance()->get('all', 'year', '2012-08-09');
     }
 
     public function performSetUp($setupEnvironmentOnly = false)
