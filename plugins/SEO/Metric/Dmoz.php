@@ -36,7 +36,7 @@ class Dmoz implements MetricsProvider
         try {
             $response = Http::sendHttpRequest(self::URL . urlencode($domain), $timeout = 10, @$_SERVER['HTTP_USER_AGENT']);
 
-            preg_match('#Open Directory Sites[^\(]+\([0-9]-[0-9]+ of ([0-9]+)\)#', $response, $p);
+            preg_match('#DMOZ Sites[^\(]+\([0-9]-[0-9]+ of ([0-9]+)\)#', $response, $p);
             if (!empty($p[1])) {
                 $value = (int)$p[1];
             } else {
