@@ -160,7 +160,7 @@ class NumberFormatter extends Singleton
         $formatted = self::formatPercent($value);
 
         if($isPositiveEvolution) {
-            return '+' . $formatted;
+            return $this->symbolPlus . $formatted;
         }
         return $formatted;
     }
