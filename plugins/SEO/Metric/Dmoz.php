@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SEO\Metric;
 
 use Piwik\Http;
+use Piwik\NumberFormatter;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -38,7 +39,7 @@ class Dmoz implements MetricsProvider
 
             preg_match('#Open Directory Sites[^\(]+\([0-9]-[0-9]+ of ([0-9]+)\)#', $response, $p);
             if (!empty($p[1])) {
-                $value = (int)$p[1];
+                $value = NumberFormatter::getInstance()->formatNumber((int)$p[1]);
             } else {
                 $value = 0;
             }

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SEO\Metric;
 
 use Piwik\Http;
+use Piwik\NumberFormatter;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -35,7 +36,7 @@ class Alexa implements MetricsProvider
             $response = Http::sendHttpRequest(self::URL . urlencode($domain), $timeout = 10, @$_SERVER['HTTP_USER_AGENT']);
 
             $xml = @simplexml_load_string($response);
-            $value = $xml ? (string)$xml->SD->POPULARITY['TEXT'] : null;
+            $value = $xml ? NumberFormatter::getInstance()->formatNumber((int)$xml->SD->POPULARITY['TEXT']) : null;
         } catch (\Exception $e) {
             $this->logger->warning('Error while getting Alexa SEO stats: {message}', array('message' => $e->getMessage()));
             $value = null;
