@@ -34,7 +34,7 @@
 
         {% if (menu is defined and menu) %}
             {% import '@CoreHome/_menu.twig' as menuMacro %}
-            {{ menuMacro.menu(menu, true, 'Menu--dashboard', true) }}
+            {{ menuMacro.menu(menu, true, 'Menu--dashboard') }}
         {% endif %}
 
         <div class="pageWrap">
