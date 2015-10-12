@@ -16,12 +16,8 @@
         var headerMessageParent = $('#header_message').parent();
 
         // when 'check for updates...' link is clicked, force a check & display the result
-        headerMessageParent.on('click', '.title', function (e) {
+        headerMessageParent.on('click', '#updateCheckLinkContainer', function (e) {
             e.preventDefault();
-
-            if (!$(this).find('#updateCheckLinkContainer').length) {
-                return;
-            }
 
             var headerMessage = $(this).closest('#header_message');
 
