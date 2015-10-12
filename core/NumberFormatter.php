@@ -114,7 +114,7 @@ class NumberFormatter extends Singleton
         if (empty($positivePatter) || empty($negativePattern)) {
             list($positivePattern, $negativePattern) = $this->parsePattern($this->patternNumber);
         }
-        $negative = (bccomp('0', $value, 12) == 1);
+        $negative = $this->isNegative($value);
         $pattern = $negative ? $negativePattern : $positivePattern;
 
         return $this->formatNumberWithPattern($pattern, $value, $maximumFractionDigits, $minimumFractionDigits);
@@ -140,7 +140,7 @@ class NumberFormatter extends Singleton
             return $value;
         }
 
-        $negative = (bccomp('0', $value, 12) == 1);
+        $negative = $this->isNegative($value);
         $pattern = $negative ? $negativePattern : $positivePattern;
 
         return $this->formatNumberWithPattern($pattern, $newValue, $maximumFractionDigits, $minimumFractionDigits);
@@ -185,7 +185,7 @@ class NumberFormatter extends Singleton
             return $value;
         }
 
-        $negative = (bccomp('0', $value, 12) == 1);
+        $negative = $this->isNegative($value);
         $pattern = $negative ? $negativePattern : $positivePattern;
 
         if ($newValue == round($newValue)) {
@@ -227,7 +227,7 @@ class NumberFormatter extends Singleton
         }
 
         // Ensure that the value is positive and has the right number of digits.
-        $negative = (bccomp('0', $value, 12) == 1);
+        $negative = $this->isNegative($value);
         $signMultiplier = $negative ? '-1' : '1';
         $value = bcdiv($value, $signMultiplier, $maximumFractionDigits);
         // Split the number into major and minor digits.
@@ -291,5 +291,14 @@ class NumberFormatter extends Singleton
             '%' => $this->symbolPercent,
         );
         return strtr($value, $replacements);
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    protected function isNegative($value)
+    {
+        return $value < 0;
     }
 }
