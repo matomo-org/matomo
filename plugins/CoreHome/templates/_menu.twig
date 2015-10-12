@@ -34,31 +34,44 @@
     {%- endif %}
 {%- endmacro %}
 
-{% macro menu(menu, anchorlink, cssClass) %}
+{% macro menu(menu, anchorlink, cssClass, hideCategoriesWithNoMenuItems) %}
     <div id="secondNavBar" class="{{ cssClass }}">
         <div id="search">
             <div piwik-quick-access class="borderedControl"></div>
         </div>
         <ul class="navbar">
             {% for level1,level2 in menu %}
-                <li id="{% if level2._url is defined and level2._url is not empty %}{{ _self.getId(level2._url) }}{% endif %}" class="menuTab">
+                {% set hasMainCategoryUrl = level2._url is defined and level2._url is not empty %}
 
-                    <a class="item" {% if level2._url is defined and level2._url is not empty %}href="{% if anchorlink %}#{% else %}index.php?{% endif %}{{ _self.getFirstUrl(level2._url) }}"{% endif %}>
-                        <span class="menu-icon {{ level2._icon|default('icon-arrow-right') }}"></span>{{ level1|translate }}
-                        <span class="hidden">
-                         {{ 'CoreHome_Menu'|translate }}
-                       </span>
-                    </a>
-                    <ul>
-                        {% for name,urlParameters in level2 %}
-                            {% if urlParameters._url is defined and urlParameters._url is not iterable %}
-                                {{ _self.groupedItem(name,urlParameters._url, anchorlink) }}
-                            {% elseif name|slice(0,1) != '_' %}
-                                {{ _self.submenuItem(name,urlParameters._url, anchorlink) }}
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </li>
+                {% set hasSubmenuItem = false %}
+                {% for name,urlParameters in level2 %}
+                    {% if urlParameters._url is defined and urlParameters._url is not iterable %}
+                        {% set hasSubmenuItem = true %}
+                    {% elseif name|slice(0,1) != '_' %}
+                        {% set hasSubmenuItem = true %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if hasMainCategoryUrl or hasSubmenuItem %}
+                    <li id="{% if level2._url is defined and level2._url is not empty %}{{ _self.getId(level2._url) }}{% endif %}" class="menuTab">
+
+                        <a class="item" {% if hasMainCategoryUrl %}href="{% if anchorlink %}#{% else %}index.php?{% endif %}{{ _self.getFirstUrl(level2._url) }}"{% endif %}>
+                            <span class="menu-icon {{ level2._icon|default('icon-arrow-right') }}"></span>{{ level1|translate }}
+                            <span class="hidden">
+                             {{ 'CoreHome_Menu'|translate }}
+                           </span>
+                        </a>
+                        <ul>
+                            {% for name,urlParameters in level2 %}
+                                {% if urlParameters._url is defined and urlParameters._url is not iterable %}
+                                    {{ _self.groupedItem(name,urlParameters._url, anchorlink) }}
+                                {% elseif name|slice(0,1) != '_' %}
+                                    {{ _self.submenuItem(name,urlParameters._url, anchorlink) }}
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
             {% endfor %}
         </ul>
     </div>
