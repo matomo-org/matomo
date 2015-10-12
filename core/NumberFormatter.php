@@ -229,7 +229,8 @@ class NumberFormatter extends Singleton
         // Ensure that the value is positive and has the right number of digits.
         $negative = $this->isNegative($value);
         $signMultiplier = $negative ? '-1' : '1';
-        $value = bcdiv($value, $signMultiplier, $maximumFractionDigits);
+        $value = $value / $signMultiplier;
+        $value = round($value, $maximumFractionDigits);
         // Split the number into major and minor digits.
         $valueParts = explode('.', $value);
         $majorDigits = $valueParts[0];
