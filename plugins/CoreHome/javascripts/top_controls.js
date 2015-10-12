@@ -26,6 +26,8 @@ function initTopControls() {
     var $topControlsContainer = $('.top_controls'),
         left = 0;
 
+    var allRendered = true;
+
     if ($topControlsContainer.length) {
         $('.piwikTopControl').each(function () {
             var $control = $(this);
@@ -34,9 +36,21 @@ function initTopControls() {
             }
 
             $control.css('left', left);
+            var width = $control.outerWidth(true);
 
-            left += $control.outerWidth(true);
+            var isControlFullyRendered = width >= 30;
+            if (!isControlFullyRendered) {
+                allRendered = false;
+            }
+
+            left += width;
         });
+
+        if (allRendered) {
+            // we make top controls visible only after all selectors are rendered
+            $('.top_controls').css('visibility', 'visible');
+            $('.top_controls').css('opacity', '1');
+        }
 
         var header = $('#header_message.isPiwikDemo');
         if (header.length) {

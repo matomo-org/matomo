@@ -15,12 +15,13 @@ $(function () {
         initTopControls();
     }
 
-    if(isPageIsAdmin) {
+    if (isPageIsAdmin) {
         // don't use broadcast in admin page
         initTopControls();
         return;
     }
-    if(isPageHasMenu) {
+
+    if (isPageHasMenu) {
         broadcast.init();
     } else {
         broadcast.init(true);
