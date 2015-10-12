@@ -99,7 +99,7 @@
         "DateRange": "Date range:",
         "DateRangeFrom": "From",
         "DateRangeFromTo": "From %s to %s",
-        "DateRangeInPeriodList": "Date range",
+        "DateRangeInPeriodList": "date range",
         "DateRangeTo": "To",
         "DaysHours": "%1$s days %2$s hours",
         "DaysSinceFirstVisit": "Days since first visit",
