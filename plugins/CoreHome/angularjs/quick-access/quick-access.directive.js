@@ -15,9 +15,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikQuickAccess', QuickAccessDirective);
 
-    QuickAccessDirective.$inject = ['$rootElement', '$timeout', 'piwik'];
+    QuickAccessDirective.$inject = ['$rootElement', '$timeout', 'piwik', '$filter'];
 
-    function QuickAccessDirective ($rootElement, $timeout, piwik) {
+    function QuickAccessDirective ($rootElement, $timeout, piwik, $filter) {
 
         return {
             restrict: 'A',
@@ -33,7 +33,31 @@
                 var leftMenuItems = []; // cache for left menu items
                 var segmentItems = []; // cache for segment items
                 var hasSegmentSelector = angular.element('.segmentEditorPanel').length;
-                scope.hasSitesSelector = angular.element('[piwik-siteselector]').length;
+                scope.hasSitesSelector = angular.element('.top_controls [piwik-siteselector]').length;
+
+
+                var translate = $filter('translate');
+                var searchAreasTitle = '';
+                var searchAreas = [translate('CoreHome_MenuEntries')]
+
+                if (hasSegmentSelector) {
+                    searchAreas.push(translate('CoreHome_Segments'))
+                }
+
+                if (scope.hasSitesSelector) {
+                    searchAreas.push(translate('SitesManager_Sites'))
+                }
+
+                while (searchAreas.length) {
+                    searchAreasTitle += searchAreas.shift();
+                    if (searchAreas.length >= 2) {
+                        searchAreasTitle += ', ';
+                    } else if (searchAreas.length === 1) {
+                        searchAreasTitle += ' ' + translate('General_And') + ' ';
+                    }
+                }
+
+                scope.quickAccessTitle = translate('CoreHome_QuickAccessTitle', searchAreasTitle);
 
                 function trim(str) {
                     return str.replace(/^\s+|\s+$/g,'');

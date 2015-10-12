@@ -250,6 +250,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'Intl_Day_Min_StandAlone_5';
         $translationKeys[] = 'Intl_Day_Min_StandAlone_6';
         $translationKeys[] = 'Intl_Day_Min_StandAlone_7';
+        $translationKeys[] = 'General_And';
         $translationKeys[] = 'General_Search';
         $translationKeys[] = 'General_Clear';
         $translationKeys[] = 'General_MoreDetails';
@@ -272,5 +273,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_PivotBySubtable';
         $translationKeys[] = 'CoreHome_QuickAccessTitle';
         $translationKeys[] = 'CoreHome_Segments';
+        $translationKeys[] = 'CoreHome_MenuEntries';
+        $translationKeys[] = 'SitesManager_Sites';
     }
 }

@@ -49,7 +49,8 @@
         "ClickRowToExpandOrContract": "Click this row to expand or contract the subtable.",
         "UndoPivotBySubtable": "This report has been pivoted %s Undo pivot",
         "PivotBySubtable": "This report is not pivoted %s Pivot by %s",
-        "QuickAccessTitle": "Search for menu entries, segments and websites. Shortcut: Press 'f' to search.",
+        "QuickAccessTitle": "Search for %s. Shortcut: Press 'f' to search.",
+        "MenuEntries": "Menu entries",
         "Segments": "Segments",
         "AdblockIsMaybeUsed": "In case you are using an ad blocker, please disable it for this site to make sure Piwik works without any issues."
     }
