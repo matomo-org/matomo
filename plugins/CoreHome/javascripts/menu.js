@@ -56,9 +56,6 @@ menu.prototype =
 
             var href = link.attr('href');
             if (!href) {
-                if (main_menu && !$this.find('li').length) {
-                    $this.hide(); // no link and no child menu items -> hide it
-                }
                 return;
             }
             var url = href.substr(1);
