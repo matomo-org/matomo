@@ -356,9 +356,25 @@ class ProcessedReport
                 $order[] = Piwik::translate($category);
             }
         }
-        return ($category = strcmp(array_search($a['category'], $order), array_search($b['category'], $order))) == 0
-            ? (@$a['order'] < @$b['order'] ? -1 : 1)
-            : $category;
+
+        $posA = array_search($a['category'], $order);
+        $posB = array_search($b['category'], $order);
+
+        if ($posA === false && $posB === false) {
+            return strcmp($a['category'], $b['category']);
+        } elseif ($posA === false) {
+            return 1;
+        } elseif ($posB === false) {
+            return -1;
+        }
+
+        $category = strcmp($posA, $posB);
+
+        if ($category == 0) {
+            return (@$a['order'] < @$b['order'] ? -1 : 1);
+        }
+
+        return $category;
     }
 
     public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false,
