@@ -4,6 +4,11 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ## Piwik 2.15.0 
 
+### New commands
+ *  New diagnostic command `diagnostics:analyze-archive-table` that analyzes archive tables
+ *  New command `database:optimize-archive-tables` to optimize archive tables and possibly save disk space (even if on InnoDB)
+ *  New Command `core:invalidate-report-data` to invalidate archive data (w/ period cascading) ([FAQ](https://piwik.org/faq/how-to/faq_155/))
+
 ### Breaking Changes
 * The method `Dimension::getId()` has been set as `final`. It is not allowed to overwrite this method.
 * We fixed a bug where the API method `Sites.getPatternMatchSites` only returned a very limited number of websites by default. We now return all websites by default unless a limit is specified specifically.
@@ -25,17 +30,14 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
  * `Tracker.recordStandardGoals`
 
 ### Internal change
+* `piwik.js` can now be configured with "Content Security Policy" ([CSP FAQ](https://piwik.org/faq/general/faq_20904/))
 * In `piwik.js` we replaced [JSON2](https://github.com/douglascrockford/JSON-js) with [JSON3](https://bestiejs.github.io/json3/) to implement CSP (Content Security Policy) as JSON3 does not use `eval()`. JSON3 will be used if a browser does not provide a native JSON API. We are using `JSON3` in a way that it will not conflict if your website is using `JSON3` as well.
+* The option `branch` of the console command `development:sync-system-test-processed` was removed as it is no longer needed.
 
 ### New APIs
 * The JavaScript Tracker `piwik.js` got a new method `logAllContentBlocksOnPage` to log all found content blocks within a page to the console. This is useful to debug / test content tracking. It can be triggered via `_paq.push(['logAllContentBlocksOnPage'])`
 * The Class `Piwik\Plugins\Login\Controller` is now considered a public API.
 * The new method `Piwik\Menu\MenuAbstract::registerMenuIcon()` can be used to define an icon for a menu category to replace the default arrow icon.
-
-### Internal Change
-* The option `branch` of the console command `development:sync-system-test-processed` was removed as it is no longer needed.
-
-### APIs
 * New event `CronArchive.getIdSitesNotUsingTracker` that allows you to set a list of idSites that do not use the Tracker API to make sure we archive these sites if needed.
 * New events `CronArchive.init.start` which is triggered when the CLI archiver starts and `CronArchive.end` when the archiver ended.
 
