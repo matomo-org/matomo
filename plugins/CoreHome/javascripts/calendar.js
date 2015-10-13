@@ -354,7 +354,24 @@
         });
 
         var reloading = false;
-        var changePeriodOnClick = function (periodInput) {
+
+        var changePeriodWithPageReload = function (periodInput) {
+            var url = periodInput.val(),
+                period = broadcast.getValueFromUrl('period', url);
+
+            // if clicking on the selected period, change the period but not the date
+            if (period != 'range' && !reloading) {
+                // only reload if current period is different from selected
+                reloading = true;
+                selectedPeriod = period;
+                updateDate(piwik.currentDateString);
+                return true;
+            }
+
+            return false;
+        };
+
+        var changePeriodOnClickIfPeriodChanged = function (periodInput) {
             if (reloading) // if a click event resulted in reloading, don't reload again
             {
                 return;
@@ -366,11 +383,10 @@
             // if clicking on the selected period, change the period but not the date
             if (selectedPeriod == period && selectedPeriod != 'range') {
                 // only reload if current period is different from selected
-                if (piwik.period != selectedPeriod && !reloading) {
-                    reloading = true;
-                    selectedPeriod = period;
-                    updateDate(piwik.currentDateString);
+                if (piwik.period != selectedPeriod) {
+                    return changePeriodWithPageReload(periodInput);
                 }
+
                 return true;
             }
 
@@ -379,12 +395,12 @@
 
         $("#otherPeriods").find("label,input").on('dblclick', function (e) {
             var id = $(e.target).attr('for');
-            changePeriodOnClick($('#' + id));
+            changePeriodOnClickIfPeriodChanged($('#' + id));
         });
 
         $("#otherPeriods").find("label,input").on('dblclick', function (e) {
             var id = $(e.target).attr('for');
-            changePeriodOnClick($('#' + id));
+            changePeriodOnClickIfPeriodChanged($('#' + id));
         });
 
         // Apply date range button will reload the page with the selected range
@@ -393,7 +409,7 @@
                 var $selectedPeriod = $('#periodMore [name=period]:checked');
 
                 if (!$selectedPeriod.is('#period_id_range')) {
-                    changePeriodOnClick($selectedPeriod);
+                    changePeriodWithPageReload($selectedPeriod);
                     return true;
                 }
 
@@ -422,7 +438,7 @@
                 period = broadcast.getValueFromUrl('period', request_URL),
                 lastPeriod = selectedPeriod;
 
-            if (changePeriodOnClick($(e.target))) {
+            if (changePeriodOnClickIfPeriodChanged($(e.target))) {
                 return true;
             }
 
