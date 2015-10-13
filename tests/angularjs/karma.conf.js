@@ -30,7 +30,10 @@ module.exports = function(config) {
         'plugins/CoreHome/angularjs/common/directives/directive.module.js',
         'plugins/CoreHome/angularjs/piwikApp.js',
         'plugins/*/angularjs/**/*.js',
-        'plugins/*/angularjs/**/*.spec.js'
+        'piwik.js',
+        'plugins/AnonymousPiwikUsageMeasurement/javascripts/url.js',
+        'plugins/AnonymousPiwikUsageMeasurement/javascripts/tracking.js',
+        'plugins/*/**/*.spec.js'
     ],
 
     // list of files to exclude
