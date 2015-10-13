@@ -377,7 +377,9 @@ Segmentation = (function($) {
                         || $(e.target).hasClass("filterNoResults")) {
                         e.stopPropagation();
                     } else {
-                        self.jscroll.destroy();
+                        if (self.jscroll) {
+                            self.jscroll.destroy();
+                        }
                         self.target.closest('.segmentEditorPanel').removeClass('expanded');
                     }
                 } else {
