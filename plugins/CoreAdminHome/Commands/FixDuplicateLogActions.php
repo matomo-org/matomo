@@ -76,7 +76,7 @@ class FixDuplicateLogActions extends ConsoleCommand
     {
         parent::__construct();
 
-        $this->archiveInvalidator = $invalidator ?: new ArchiveInvalidator();
+        $this->archiveInvalidator = $invalidator ?: StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
         $this->duplicateActionRemover = $duplicateActionRemover ?: new DuplicateActionRemover();
         $this->actionsAccess = $actionsAccess ?: new Actions();
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');

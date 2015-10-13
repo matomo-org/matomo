@@ -31,6 +31,8 @@ use Piwik\Piwik;
  */
 class Range extends Period
 {
+    const PERIOD_ID = 5;
+
     protected $label = 'range';
     protected $today;
 
@@ -512,5 +514,16 @@ class Range extends Period
         $dateEnd   = $this->getDateEnd();
 
         return $dateStart->toString("Y-m-d") . "," . $dateEnd->toString("Y-m-d");
+    }
+
+    public function getImmediateChildPeriodLabel()
+    {
+        $subperiods = $this->getSubperiods();
+        return reset($subperiods)->getImmediateChildPeriodLabel();
+    }
+
+    public function getParentPeriodLabel()
+    {
+        return null;
     }
 }

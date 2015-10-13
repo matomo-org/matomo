@@ -9,10 +9,13 @@
 namespace Piwik\DataAccess;
 
 use Exception;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Period;
+use Piwik\Segment;
 use Piwik\Sequence;
 use Psr\Log\LoggerInterface;
 
@@ -95,39 +98,55 @@ class Model
     }
 
     /**
-     * @param $archiveTable
-     * @param $idSites
-     * @param $periodId
-     * @param $datesToDelete
+     * @param string $archiveTable Prefixed table name
+     * @param int[] $idSites
+     * @param string[][] $datesByPeriodType
+     * @param Segment $segment
+     * @return \Zend_Db_Statement
      * @throws Exception
      */
-    public function updateArchiveAsInvalidated($archiveTable, $idSites, $periodId, $datesToDelete)
+    public function updateArchiveAsInvalidated($archiveTable, $idSites, $datesByPeriodType, Segment $segment = null)
     {
-        $sql = $bind = array();
-        $datesToDelete = array_unique($datesToDelete);
-        foreach ($datesToDelete as $dateToDelete) {
-            $sql[] = '(date1 <= ? AND ? <= date2 AND name LIKE \'done%\')';
-            $bind[] = $dateToDelete;
-            $bind[] = $dateToDelete;
+        $idSites = array_map('intval', $idSites);
+
+        $bind = array();
+
+        $periodConditions = array();
+        foreach ($datesByPeriodType as $periodType => $dates) {
+            $dateConditions = array();
+
+            foreach ($dates as $date) {
+                $dateConditions[] = "(date1 <= ? AND ? <= date2)";
+                $bind[] = $date;
+                $bind[] = $date;
+            }
+
+            $dateConditionsSql = implode(" OR ", $dateConditions);
+            if (empty($periodType)
+                || $periodType == Period\Day::PERIOD_ID
+            ) {
+                // invalidate all periods if no period supplied or period is day
+                $periodConditions[] = "($dateConditionsSql)";
+            } else if ($periodType == Period\Range::PERIOD_ID) {
+                $periodConditions[] = "(period = " . Period\Range::PERIOD_ID . " AND ($dateConditionsSql))";
+            } else {
+                // for non-day periods, invalidate greater periods, but not range periods
+                $periodConditions[] = "(period >= " . (int)$periodType . " AND period < " . Period\Range::PERIOD_ID . " AND ($dateConditionsSql))";
+            }
         }
-        $sql = implode(" OR ", $sql);
 
-        $idSites = array_values($idSites);
-        $sqlSites = " AND idsite IN (" . Common::getSqlStringFieldsArray($idSites) . ")";
-        $bind = array_merge($bind, $idSites);
-
-        $sqlPeriod = "";
-        if ($periodId) {
-            $sqlPeriod = " AND period = ? ";
-            $bind[] = $periodId;
+        if ($segment) {
+            $nameCondition = "name LIKE '" . Rules::getDoneFlagArchiveContainsAllPlugins($segment) . "%'";
+        } else {
+            $nameCondition = "name LIKE 'done%'";
         }
 
-        $query = "UPDATE $archiveTable " .
-            " SET value = " . ArchiveWriter::DONE_INVALIDATED .
-            " WHERE ( $sql ) " .
-            $sqlSites .
-            $sqlPeriod;
-        Db::query($query, $bind);
+        $sql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_INVALIDATED
+             . " WHERE $nameCondition
+                   AND idsite IN (" . implode(", ", $idSites) . ")
+                   AND (" . implode(" OR ", $periodConditions) . ")";
+
+        return Db::query($sql, $bind);
     }
 
 
@@ -157,7 +176,7 @@ class Model
             // Individual blob tables could be missing
             $this->logger->debug("Unable to delete archives by period from {blobTable}.", array(
                 'blobTable' => $blobTable,
-                'exception' => $e
+                'exception' => $e,
             ));
         }
 
@@ -179,7 +198,7 @@ class Model
             // Individual blob tables could be missing
             $this->logger->debug("Unable to delete archive IDs from {blobTable}.", array(
                 'blobTable' => $blobTable,
-                'exception' => $e
+                'exception' => $e,
             ));
         }
 

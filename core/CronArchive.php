@@ -238,6 +238,11 @@ class CronArchive
     private $urlToPiwik = null;
 
     /**
+     * @var ArchiveInvalidator
+     */
+    private $invalidator;
+
+    /**
      * Returns the option name of the option that stores the time core:archive was last executed.
      *
      * @param int $idSite
@@ -262,6 +267,8 @@ class CronArchive
 
         $processNewSegmentsFrom = $processNewSegmentsFrom ?: StaticContainer::get('ini.General.process_new_segments_from');
         $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom);
+
+        $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
     }
 
     /**
@@ -1069,8 +1076,7 @@ class CronArchive
 
     public function invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain()
     {
-        $invalidator  = new ArchiveInvalidator();
-        $sitesPerDays = $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
+        $sitesPerDays = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
         foreach ($sitesPerDays as $date => $siteIds) {
             $listSiteIds = implode(',', $siteIds);

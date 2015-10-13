@@ -71,24 +71,27 @@ class ArchiveTableCreator
     /**
      * Returns all table names archive_*
      *
+     * @param string $type The type of table to return. Either `self::NUMERIC_TABLE` or `self::BLOB_TABLE`.
      * @return array
      */
-    public static function getTablesArchivesInstalled()
+    public static function getTablesArchivesInstalled($type = null)
     {
         if (is_null(self::$tablesAlreadyInstalled)) {
             self::refreshTableList();
         }
 
-        $archiveTables = array();
+        if (empty($type)) {
+            $tableMatchRegex = '/archive_(numeric|blob)_/';
+        } else {
+            $tableMatchRegex = '/archive_' . preg_quote($type) . '_/';
+        }
 
+        $archiveTables = array();
         foreach (self::$tablesAlreadyInstalled as $table) {
-            if (strpos($table, 'archive_numeric_') !== false
-                || strpos($table, 'archive_blob_') !== false
-            ) {
+            if (preg_match($tableMatchRegex, $table)) {
                 $archiveTables[] = $table;
             }
         }
-
         return $archiveTables;
     }
 

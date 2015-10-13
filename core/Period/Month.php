@@ -15,6 +15,8 @@ use Piwik\Period;
  */
 class Month extends Period
 {
+    const PERIOD_ID = 3;
+
     protected $label = 'month';
 
     /**
@@ -110,5 +112,15 @@ class Month extends Period
             $this->addSubperiod(new Day($startDate));
             $startDate = $startDate->addDay(1);
         }
+    }
+
+    public function getImmediateChildPeriodLabel()
+    {
+        return 'week';
+    }
+
+    public function getParentPeriodLabel()
+    {
+        return 'year';
     }
 }

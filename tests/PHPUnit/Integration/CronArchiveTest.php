@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Archiver\Request;
 use Piwik\CliMulti;
+use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Date;
@@ -31,7 +32,7 @@ class CronArchiveTest extends IntegrationTestCase
         Fixture::createWebsite('2014-12-12 00:01:02');
         Fixture::createWebsite('2014-12-12 00:01:02');
 
-        $ar = new ArchiveInvalidator();
+        $ar = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
         $ar->rememberToInvalidateArchivedReportsLater(1, Date::factory('2014-04-05'));
         $ar->rememberToInvalidateArchivedReportsLater(2, Date::factory('2014-04-05'));
         $ar->rememberToInvalidateArchivedReportsLater(2, Date::factory('2014-04-06'));

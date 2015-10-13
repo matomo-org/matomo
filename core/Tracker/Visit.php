@@ -69,12 +69,18 @@ class Visit implements VisitInterface
      */
     private $visitorRecognizer;
 
+    /**
+     * @var ArchiveInvalidator
+     */
+    private $invalidator;
+
     public function __construct()
     {
         $this->requestProcessors = StaticContainer::get('tracker.request.processors');
         $this->visitorRecognizer = StaticContainer::get('Piwik\Tracker\VisitorRecognizer');
         $this->visitProperties = null;
         $this->userSettings = StaticContainer::get('Piwik\Tracker\Settings');
+        $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
     }
 
     /**
@@ -566,8 +572,7 @@ class Visit implements VisitInterface
         $date = Date::factory((int)$time, $timezone);
 
         if (!$date->isToday()) { // we don't have to handle in case date is in future as it is not allowed by tracker
-            $invalidReport = new ArchiveInvalidator();
-            $invalidReport->rememberToInvalidateArchivedReportsLater($idSite, $date);
+            $this->invalidator->rememberToInvalidateArchivedReportsLater($idSite, $date);
         }
     }
 
