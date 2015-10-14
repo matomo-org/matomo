@@ -18,6 +18,7 @@
         return {
             restrict: 'A',
             link: function(scope, element, attr) {
+
                 element.find('.title').on('click', function () {
                     element.toggleClass('expanded');
                 });
