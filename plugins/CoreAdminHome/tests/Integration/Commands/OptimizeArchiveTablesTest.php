@@ -87,6 +87,11 @@ class OptimizeArchiveTablesTest extends ConsoleCommandTestCase
                     Date::factory('now')->subMonth(5)->toString('Y_m'),
                 ),
             ),
+
+            array(
+                array('2015-01-01'),
+                array('2015_01'),
+            ),
         );
     }
 }
