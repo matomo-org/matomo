@@ -7,6 +7,7 @@
         "Engagement": "Vizite repetate",
         "NPages": "%s pagini",
         "OnePage": "1 pagina",
+        "PluginDescription": "Rapoarte despre interesul vizitatorilor: numarul paginilor vazute, timpul petrecut pe site, zilele de la ultima vizita, si mai multe.",
         "VisitNum": "Numărul de vizite",
         "VisitsByDaysSinceLast": "Vizite ordonate după zile de la ultima vizită",
         "visitsByVisitCount": "VIzite ordonate după numărul de vizite",

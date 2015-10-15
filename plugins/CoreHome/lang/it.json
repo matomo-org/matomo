@@ -49,7 +49,9 @@
         "ClickRowToExpandOrContract": "Clicca su questa riga per espandere o restringere la sotto-tabella.",
         "UndoPivotBySubtable": "Questo report è stato imperniato al Pivot %s Undo",
         "PivotBySubtable": "Questo report non è imperniato al Pivot %s da %s",
-        "QuickAccessTitle": "Ricerca selezioni da menù, segmenti e siti web. Scorciatoia: Premi 'f' per la ricerca.",
-        "Segments": "Segmenti"
+        "QuickAccessTitle": "Cerca %s. Shortcut: Premi 'f' per la ricerca.",
+        "MenuEntries": "Ingressi da menù",
+        "Segments": "Segmenti",
+        "AdblockIsMaybeUsed": "Se stai utilizzando un plugin di blocco della pubblicità, disabilitalo per questo sito, per essere sicuro che Piwik lavori senza problemi."
     }
 }
