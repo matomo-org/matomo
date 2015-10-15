@@ -75,8 +75,8 @@ if (!isset($GLOBALS['Piwik_socialUrl'])) {
         'github.com'           => 'Github',
 
         // Google+
-        'url.google.com'       => 'Google%2B',
         'plus.google.com'      => 'Google%2B',
+        'url.google.com'       => 'Google%2B',
 
         // douban
         'douban.com'           => 'douban',
