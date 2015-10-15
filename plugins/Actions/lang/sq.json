@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Mesatare e bazuar në %s hit(s) %s mes %s dhe %s",
+        "AvgGenerationTimeTooltip": "Mesatare e bazuar në %s klikim(e) %s mes %s dhe %s",
         "ColumnClickedURL": "URL të klikuara",
         "ColumnClicks": "Klikime",
         "ColumnClicksDocumentation": "Sa herë është klikuar kjo lidhje.",

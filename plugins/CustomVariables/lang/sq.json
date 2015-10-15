@@ -4,6 +4,7 @@
         "ColumnCustomVariableValue": "Vlerë Ndryshoreje të Personalizueshme",
         "CustomVariables": "Ndryshore të Personalizueshme",
         "CustomVariablesReportDocumentation": "Ky raport përmban të dhëna rreth Ndryshoreve tuaja të Personalizuara. Klikoni mbi një emër ndryshoreje që të shihni shpërndarjen e vlerave. %s Për më tepër të dhëna rreth Ndryshoresh të Personalizuara në përgjithësi, lexoni %sdokumentimin e Ndryshoreve të Personalizuara te piwik.org%s",
+        "PluginDescription": "Ndryshoret e Personalizueshme janë çifte (emër, vlerë) që mund t’ua vini në përshoqërim vizitorëve tuaj apo çfarëdo veprimi prej tyre, duke përdorur API-n për Javascript-in. Piwik-u mandej do të raportojë sa vizita, faqe, shndërrime ka për secilin prej këtyre emrave dhe vlerave të personalizuara. Ndryshoret e Personalizueshme në hollësi për çdo përdorues dhe veprim i gjeni te Regjistri i Vizitorëve.<br \/>E domosdoshme për përdorim të veçorisë <a href=\"http:\/\/piwik.org\/docs\/ecommerce-analytics\/\">Analiza E-tregti<\/a>!",
         "ScopePage": "faqe me qëllim",
         "ScopeVisit": "vizitë me qëllim"
     }

@@ -96,7 +96,6 @@
         "DateRange": "报表时间:",
         "DateRangeFrom": "从",
         "DateRangeFromTo": "从 %s 至 %s",
-        "DateRangeInPeriodList": "时间段",
         "DateRangeTo": "至",
         "DaysHours": "%1$s 天 %2$s 小时",
         "DaysSinceFirstVisit": "第一次访问至今的天数",

@@ -49,7 +49,9 @@
         "ClickRowToExpandOrContract": "Clique nesta linha para expandir ou contrair a subtabela.",
         "UndoPivotBySubtable": "Este relatório foi articulado %s desfazer articulação",
         "PivotBySubtable": "Este relatório não foi articulado %s Articular por %s",
-        "QuickAccessTitle": "Procurar por entradas do menu, segmentos e websites. Atalho: Pressione 'f' para pesquisar.",
-        "Segments": "Segmentos"
+        "QuickAccessTitle": "Buscar por %s. Atalho: Tecle 'f' para buscar.",
+        "MenuEntries": "Itens do menu",
+        "Segments": "Segmentos",
+        "AdblockIsMaybeUsed": "Caso você esteja usando um bloqueador de anúncios, por favor desative-o para este site, pois assim poderá certificar-se de que o Piwik funciona sem qualquer problema."
     }
 }

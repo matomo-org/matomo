@@ -2,13 +2,17 @@
     "VisitTime": {
         "ColumnLocalTime": "Kohë vendore",
         "ColumnServerTime": "Kohë shërbyesi",
+        "DayOfWeek": "Ditë e javës",
         "LocalTime": "Vizita sipas kohës vendore",
         "NHour": "%sh",
+        "PluginDescription": "Raporton kohën vendore dhe atë të shërbyesit kur vizitorët tuaj shohin sajtin ose aplikacionin tuaj.",
         "ServerTime": "Vizita sipas kohës së shërbyesit",
         "SubmenuTimes": "Kohë",
+        "VisitsByDayOfWeek": "Vizita sipas Ditëve të Javës",
+        "WidgetByDayOfWeekDocumentation": "Ky grafik shfaq numrin e vizitave që pati sajti juaj në çdo ditë të javës.",
         "WidgetLocalTime": "Vizita sipas kohës vendore",
         "WidgetLocalTimeDocumentation": "Ky grafik shfaq kohën sipas %s zonës kohore të vizitorit %s kur ka ndodhur një vizitë.",
-        "WidgetServerTime": "Vizita sipas kohës së shërbyesit",
+        "WidgetServerTime": "Vizita sipas Kohës së Shërbyesit",
         "WidgetServerTimeDocumentation": "Ky grafik shfaq kohën sipas %s zonës kohore të shërbyesit %s kur ka ndodhur një vizitë."
     }
 }
