@@ -13,8 +13,8 @@
 
     <input ng-if="inputName" type="hidden" name="{{ inputName }}" ng-value="selectedSite.id"/>
 
-    <a ng-click="view.showSitesList=!view.showSitesList; view.showSitesList && model.loadInitialSites();"
-       piwik-onenter="view.showSitesList=!view.showSitesList; view.showSitesList && model.loadInitialSites();"
+    <a ng-click="view.showSitesList=!view.showSitesList; view.showSitesList && !model.isLoading && model.loadInitialSites();"
+       piwik-onenter="view.showSitesList=!view.showSitesList; view.showSitesList && !model.isLoading && model.loadInitialSites();"
        href="javascript:void(0)"
        title="{{ 'General_ChooseWebsite'|translate }}"
        ng-class="{'loading': model.isLoading}"
