@@ -75,9 +75,16 @@ class Url
      */
     public static function getCurrentUrlWithoutQueryString($checkTrustedHost = true)
     {
-        return self::getCurrentScheme() . '://'
-        . self::getCurrentHost($default = 'unknown', $checkTrustedHost)
-        . self::getCurrentScriptName(false);
+        $result = self::getCurrentScheme() . '://'
+                . self::getCurrentHost($default = 'unknown', $checkTrustedHost);
+
+        $port = self::getServerPort();
+        if ($port !== null) {
+            $result .= ':' . $port;
+        }
+
+        $result .= self::getCurrentScriptName(false);
+        return $result;
     }
 
     /**
@@ -90,9 +97,16 @@ class Url
      */
     public static function getCurrentUrlWithoutFileName()
     {
-        return self::getCurrentScheme() . '://'
-        . self::getCurrentHost()
-        . self::getCurrentScriptPath();
+        $result = self::getCurrentScheme() . '://'
+                . self::getCurrentHost();
+
+        $port = self::getServerPort();
+        if ($port !== null) {
+            $result .= ':' . $port;
+        }
+
+        $result .= self::getCurrentScriptPath();
+        return $result;
     }
 
     /**
@@ -683,5 +697,10 @@ class Url
     public static function getLocalHostnames()
     {
         return array('localhost', '127.0.0.1', '::1', '[::1]');
+    }
+
+    private static function getServerPort()
+    {
+        return isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : null;
     }
 }

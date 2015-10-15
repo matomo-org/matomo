@@ -330,22 +330,4 @@ class UITestFixture extends SqlDump
         APISegmentEditor::getInstance()->add(
             "Multiple actions", "actions>=2", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
     }
-
-    public function provideContainerConfig()
-    {
-        if (isset($_SERVER['HTTP_HOST'])) {
-            // phantomjs sends the port in HTTP_HOST which causes some UI tests to fail. so if it's present, we remove it here.
-            $_SERVER['HTTP_HOST'] = $this->removePortIfPresent($_SERVER['HTTP_HOST']);
-        }
-
-        return array();
-    }
-
-    private function removePortIfPresent($host)
-    {
-        if (preg_match("/(.*[^:]):[0-9]+/", $host, $matches)) {
-            return $matches[1];
-        }
-        return $host;
-    }
 }
