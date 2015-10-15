@@ -331,7 +331,7 @@ class Twig
             }
             $idSite = func_get_args();
             $idSite = $idSite[1];
-            $currencySymbol = Formatter::getCurrencySymbol($idSite);
+            $currencySymbol = Site::getCurrencySymbolFor($idSite);
             return NumberFormatter::getInstance()->formatCurrency($amount, $currencySymbol, GoalManager::REVENUE_PRECISION);
         });
         $this->twig->addFilter($moneyFilter);

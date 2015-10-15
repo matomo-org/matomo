@@ -10,7 +10,9 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Intl\Data\Provider\CurrencyDataProvider;
 use Piwik\Plugins\SitesManager\API;
 
 /**
@@ -556,6 +558,42 @@ class Site
     public static function getCurrencyFor($idsite)
     {
         return self::getFor($idsite, 'currency');
+    }
+
+    /**
+     * Returns the currency of the site with the specified ID.
+     *
+     * @param int $idsite The site ID.
+     * @return string
+     */
+    public static function getCurrencySymbolFor($idsite)
+    {
+        $currency = self::getCurrencyFor($idsite);
+        $symbols  = self::getCurrencyList();
+
+        if (isset($symbols[$currency])) {
+            return $symbols[$currency][0];
+        }
+
+        return '';
+    }
+
+
+    /**
+     * Returns the list of all known currency symbols.
+     *
+     * @return array An array mapping currency codes to their respective currency symbols
+     *               and a description, eg, `array('USD' => array('$', 'US dollar'))`.
+     *
+     * @deprecated Use Piwik\Intl\Data\Provider\CurrencyDataProvider instead.
+     * @see \Piwik\Intl\Data\Provider\CurrencyDataProvider::getCurrencyList()
+     * @api
+     */
+    public static function getCurrencyList()
+    {
+        /** @var CurrencyDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
+        return $dataProvider->getCurrencyList();
     }
 
     /**
