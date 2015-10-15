@@ -15,7 +15,7 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->addActionsItem('', $this->urlForAction('menuGetPageUrls'), 15);
+        $menu->addActionsItem('', array(), 15);
 
         $idSite  = Common::getRequestVar('idSite', 0, 'int');
         $idSites = Common::getRequestVar('idSites', '', 'string');
