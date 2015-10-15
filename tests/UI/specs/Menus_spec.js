@@ -28,13 +28,13 @@ describe("Menus", function () {
 
     it('should change the menu when a upper menu item is clicked in the main menu', function (done) {
         expect.screenshot('mainmenu_upper_clicked').to.be.captureSelector('#secondNavBar', function (page) {
-            page.click('#secondNavBar .navbar a:contains:contains(Visitors)');
+            openMenuItem(page, 'Visitors');
         }, done);
     });
 
     it('should change the menu when a lower menu item is clicked in the main menu', function (done) {
         expect.screenshot('mainmenu_lower_clicked').to.be.captureSelector('#secondNavBar', function (page) {
-            page.click('#secondNavBar .navbar a:contains:contains(Visitor Log)');
+            openMenuItem(page, 'Visitor Log');
         }, done);
     });
 
