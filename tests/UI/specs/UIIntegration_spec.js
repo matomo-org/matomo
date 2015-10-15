@@ -436,6 +436,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load the Manage > Tracking Code admin page correctly', function (done) {
         expect.screenshot('admin_manage_tracking_code').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CoreAdminHome&action=trackingCodeGenerator");
+
+            // remove the port from URLs if any so UI tests won't fail if the port isn't 80
+            page.evaluate(function () {
+                $('textarea').each(function () {
+                    var val = $(this).val().replace(/localhost\:[0-9]+/g, 'localhost');
+                    $(this).val(val);
+                });
+            });
         }, done);
     });
 
