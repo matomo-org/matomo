@@ -12,6 +12,11 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period\Week;
 
+/**
+ * Class WeekTest
+ * @package Piwik\Tests\Unit\Period
+ * @group WeekTest
+ */
 class WeekTest extends BasePeriodTest
 {
     /**
@@ -122,7 +127,7 @@ class WeekTest extends BasePeriodTest
     {
         return array(
             array('en', array('Oct 7 – 13, 2024', 'Nov 25 – Dec 1, 2024', 'Dec 30, 2024 – Jan 5, 2025')),
-            array('lt', array('2024-10-07 – 2024-10-13', '2024-11-25 – 2024-12-01', '2024-12-30 – 2025-1-05')),
+            array('lt', array('2024 Spal. 7–13', '2024 Lapkr. 25 – Gruod. 1', '2024 Gruod. 30 – 2025 Saus. 5')),
             array('zh-cn', array('2024年10月7日至13日', '2024年11月25日至12月1日', '2024年12月30日至2025年01月5日')),
         );
     }
@@ -150,8 +155,8 @@ class WeekTest extends BasePeriodTest
     public function getLocalizedLongStrings()
     {
         return array(
-            array('en', array('Week October 7 – 13, 2024', 'Week November 25 – December 1, 2024', 'Week December 30, 2024 – January 5, 2025')),
-            array('lt', array('Savaitė 2024 Spalio 7–13', 'Savaitė 2024 Lapkričio 25 – Gruodžio 1', 'Savaitė 2024 Gruodžio 30 – 2025 Sausio 5')),
+            array('en', array('week October 7 – 13, 2024', 'week November 25 – December 1, 2024', 'week December 30, 2024 – January 5, 2025')),
+            array('lt', array('savaitė 2024 Spalio 7–13', 'savaitė 2024 Lapkričio 25 – Gruodžio 1', 'savaitė 2024 Gruodžio 30 – 2025 Sausio 5')),
             array('zh-cn', array('周 2024年10月7日至13日', '周 2024年11月25日至12月1日', '周 2024年12月30日至2025年01月5日')),
         );
     }

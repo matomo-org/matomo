@@ -15,9 +15,15 @@
         {
             angular.forEach(menuModel.menu, function (cat) {
                 cat.active = false;
-                cat.hover = false;
                 angular.forEach(cat.subcategories, function (subcat) {
                     subcat.active = false;
+
+                    if (subcat.isGroup && subcat.subcategories) {
+                        angular.forEach(subcat.subcategories, function (sub) {
+                            sub.active = false;
+                        });
+
+                    }
                 });
             });
         }
@@ -33,42 +39,8 @@
 
         $scope.menuModel = menuModel;
 
-        var timeoutPromise = null;
-
-        // show subcategories of the currently hovered category
-        $scope.enterCategory = function (category) {
-
-            if (timeoutPromise) {
-                $timeout.cancel(timeoutPromise);
-            }
-
-            angular.forEach(menuModel.menu, function (cat) {
-                cat.hover = false;
-            });
-
-            category.hover = true;
-        };
-
-        // show subcategories of the current active category again (after 2 sec max)
-        $scope.leaveCategory = function (category) {
-
-            if (timeoutPromise) {
-                $timeout.cancel(timeoutPromise);
-            }
-
-            timeoutPromise = $timeout(function () {
-                angular.forEach(menuModel.menu, function (cat) {
-                    if (cat.active) {
-                        cat.hover = true;
-                    } else {
-                        cat.hover = false;
-                    }
-                });
-            }, 2000);
-        };
-
         // highlight the currently hovered subcategory (and category)
-        $scope.enterSubcategory = function (category, subcategory) {
+        function enterSubcategory(category, subcategory) {
             if (!category || !subcategory) {
                 return;
             }
@@ -76,7 +48,6 @@
             markAllCategoriesAsInactive();
 
             category.active = true;
-            category.hover = true;
             subcategory.active = true;
         };
 
@@ -110,7 +81,7 @@
         menuModel.fetchMenuItems().then(function (menu) {
             if (!$location.search().subcategory) {
                 // load first, initial page if no subcategory is present
-                $scope.enterSubcategory(menu[0], menu[0].subcategories[0]);
+                enterSubcategory(menu[0], menu[0].subcategories[0]);
                 $location.search($scope.makeUrl(menu[0], menu[0].subcategories[0]));
             }
         });
@@ -124,7 +95,7 @@
             }
 
             var found = menuModel.findSubcategory(category, subcategory);
-            $scope.enterSubcategory(found.category, found.subcategory);
+            enterSubcategory(found.category, found.subcategory);
         });
 
     }

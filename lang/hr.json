@@ -9,7 +9,6 @@
         "AllWebsitesDashboard": "Upravljačka ploča za sve stranice",
         "And": "i",
         "API": "API",
-        "ApplyDateRange": "Odredi vremenski raspon",
         "ArchivingInlineHelp": "Preporučljivo je isključiti pokretanje arhiviranja pri posjeti za stranice sa srednjom i visokom posjećenošću.Umjesto toga savjetujemo da postavite cron job koji će obraditi Piwik izvještaje svakih sat vremena.",
         "ArchivingTriggerDescription": "Za veće Piwik instalacije preporučamo %spostavljanje cron joba %s za automatsku obradu izvještaja.",
         "AuthenticationMethodSmtp": "Način SMTP autorizacije",
@@ -289,7 +288,6 @@
         "Widgets": "Widgeti",
         "YearsDays": "%1$s godina\/e %2$s dan(a)",
         "Yes": "Da",
-        "YouAreViewingDemoShortMessage": "Trenutno gledate demonstraciju Piwika",
         "YouMustBeLoggedIn": "Moraš biti prijavljen za pristup ovoj funkciji.",
         "YourChangesHaveBeenSaved": "Tvoje su izmjene spremljene"
     },

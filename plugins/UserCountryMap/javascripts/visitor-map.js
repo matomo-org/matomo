@@ -156,11 +156,13 @@
 
                 var val = data[metric] % 1 === 0 || Number(data[metric]) != data[metric] ? data[metric] : data[metric].toFixed(1);
                 if (metric == 'bounce_rate') {
-                    val += '%';
+                    val = NumberFormatter.formatPercent(val);
                 } else if (metric == 'avg_time_on_site') {
                     val = new Date(0, 0, 0, val / 3600, val % 3600 / 60, val % 60)
                         .toTimeString()
                         .replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
+                } else {
+                    val = NumberFormatter.formatNumber(val);
                 }
 
                 var v = _[metric].replace('%s', '<strong>' + val + '</strong>');
@@ -266,8 +268,10 @@
             }
 
             function formatPercentage(val) {
-                if (val < 0.001) return '< 0.1%';
-                return Math.round(1000 * val) / 10 + '%';
+                if (val < 0.001) {
+                    return '< ' + NumberFormatter.formatPercent(0.1);
+                }
+                return NumberFormatter.formatPercent(Math.round(1000 * val) / 10);
             }
 
             /*

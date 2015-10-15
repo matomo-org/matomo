@@ -114,7 +114,8 @@
                 axes: {
                     yaxis: {
                         tickOptions: {
-                            formatString: '%d'
+                            formatString: '%s',
+                            formatter: $.jqplot.NumberFormatter
                         }
                     }
                 }
@@ -384,7 +385,7 @@
             // TODO: this code destroys plots when a page is switched. there must be a better way of managing memory.
             if (typeof $.jqplot.visiblePlots == 'undefined') {
                 $.jqplot.visiblePlots = [];
-                $('.nav').on('piwikSwitchPage', function () {
+                $('#secondNavBar').on('piwikSwitchPage', function () {
                     for (var i = 0; i < $.jqplot.visiblePlots.length; i++) {
                         if ($.jqplot.visiblePlots[i] == null) {
                             continue;
@@ -528,7 +529,7 @@
             var axisId = this.jqplotParams.series[seriesIndex].yaxis;
             var formatString = this.jqplotParams.axes[axisId].tickOptions.formatString;
 
-            return formatString.replace('%s', value);
+            return $.jqplot.NumberFormatter(formatString, value);
         },
 
         /**
@@ -745,6 +746,22 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         }
     }
 };
+
+// ------------------------------------------------------------
+//  PIWIK NUMBERFORMATTER PLUGIN FOR JQPLOT
+// ------------------------------------------------------------
+(function($){
+
+    $.jqplot.NumberFormatter = function (format, value) {
+
+        if (!$.isNumeric(value)) {
+            return format.replace(/%s/, value);
+        }
+        return format.replace(/%s/, NumberFormatter.formatNumber(value));
+    }
+
+})(jQuery);
+
 
 // ------------------------------------------------------------
 //  PIWIK TICKS PLUGIN FOR JQPLOT

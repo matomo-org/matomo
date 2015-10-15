@@ -1,7 +1,7 @@
 <div class="SegmentEditor" style="display:none;">
-    <div class="segmentationContainer listHtml">
-        <span class="segmentationTitle"></span>
-        <div class="dropdown-body">
+    <div class="segmentationContainer listHtml" title="{{ 'SegmentEditor_ChooseASegment'|translate|e('html_attr') }}">
+        <a class="title"><span class="icon icon-segment"></span><span class="segmentationTitle"></span></a>
+        <div class="dropdown dropdown-body">
             <div class="segmentFilterContainer">
                 <input class="segmentFilter" type="text" value="{{ 'General_Search'|translate }}"/>
                 <span/>
@@ -86,9 +86,10 @@
             <a href="#">+ {{ 'SegmentEditor_AddANDorORCondition'|translate(andCondition)|raw }}</a>
         </div>
     </div>
-    <div class="segment-element">
+    <div class="segment-element borderedControl expanded">
         <div class="segment-nav">
-            <h4 class="visits"><span class="available_segments"><strong>
+            <h4 class="visits">
+                <span class="icon-segment"></span><span class="available_segments"><strong>
                 <select class="available_segments_select"></select>
             </strong></span></h4>
             <div class="scrollable">

@@ -125,7 +125,8 @@ var piwikHelper = {
     compileAngularComponents: function (selector) {
         var $element = $(selector);
 
-        if (!$element || !$element.length) {
+        if (!$element.length) {
+
             return;
         }
 
@@ -133,6 +134,18 @@ var piwikHelper = {
             var scope = angular.element($element).scope();
             $compile($element)(scope);
         });
+    },
+
+    /**
+     * Detection works currently only for directives defining an isolated scope. Functionality might need to be
+     * extended if needed. Under circumstances you might call this method before calling compileAngularComponents()
+     * to avoid compiling the same element twice.
+     * @param selector
+     */
+    isAlreadyCompiledAngularComponent: function (selector) {
+        var $element = $(selector);
+
+        return ($element.length && $element.hasClass('ng-isolate-scope'));
     },
 
     /**

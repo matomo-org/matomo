@@ -161,7 +161,7 @@ function copyDashboardToUser() {
         // on menu item click, trigger action event on this
         var self = this;
         this.$element.on('click', 'ul.submenu li[data-action]', function (e) {
-            self.$element.toggleClass('visible');
+            self.$element.toggleClass('expanded');
 
             $(self).trigger($(this).attr('data-action'));
         });
@@ -169,7 +169,7 @@ function copyDashboardToUser() {
         // open manager on open
         this.$element.on('click', function (e) {
             if ($(e.target).is('.dashboardSettings,.dashboardSettings>span')) {
-                self.$element.toggleClass('visible');
+                self.$element.toggleClass('expanded');
 
                 // fix position
                 self.$element
@@ -186,7 +186,7 @@ function copyDashboardToUser() {
                 && !$(e.target).is('.dashboardSettings')
             ) {
                 self.$element.widgetPreview('reset');
-                self.$element.removeClass('visible');
+                self.$element.removeClass('expanded');
             }
         };
 
@@ -199,7 +199,7 @@ function copyDashboardToUser() {
             },
             onSelect: function (widgetUniqueId) {
                 var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
-                self.$element.removeClass('visible');
+                self.$element.removeClass('expanded');
 
                 self.widgetSelected(widget);
             },
@@ -280,7 +280,7 @@ function copyDashboardToUser() {
         },
 
         hide: function () {
-            this.$element.removeClass('visible');
+            this.$element.removeClass('expanded');
         },
 
         isWidgetAvailable: function (widgetUniqueId) {

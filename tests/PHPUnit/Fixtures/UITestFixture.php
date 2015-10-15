@@ -23,6 +23,7 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 
 /**
  * Fixture for UI tests.
@@ -65,6 +66,9 @@ class UITestFixture extends SqlDump
         // create non super user
         UsersManagerAPI::getInstance()->addUser('oliverqueen', 'smartypants', 'oli@queenindustries.com');
         UsersManagerAPI::getInstance()->setUserAccess('oliverqueen', 'view', array(1));
+
+        // launch archiving so UI test requests don't launch it
+        VisitsSummaryAPI::getInstance()->get('all', 'year', '2012-08-09');
     }
 
     public function performSetUp($setupEnvironmentOnly = false)

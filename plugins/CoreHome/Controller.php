@@ -131,6 +131,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@CoreHome/getDefaultIndexView');
         $this->setGeneralVariablesView($view);
+        $view->showMenu = true;
         $view->dashboardSettingsControl = new DashboardManagerControl();
         $view->content = '';
         return $view;

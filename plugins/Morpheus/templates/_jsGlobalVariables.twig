@@ -3,6 +3,18 @@
     piwik.token_auth = "{{ token_auth }}";
     piwik.piwik_url = "{{ piwikUrl }}";
     piwik.cacheBuster = "{{ cacheBuster }}";
+
+    piwik.numbers = {
+        patternNumber: "{{ 'Intl_NumberFormatNumber'|translate }}",
+        patternPercent: "{{ 'Intl_NumberFormatPercent'|translate }}",
+        patternCurrency: "{{ 'Intl_NumberFormatCurrency'|translate }}",
+        symbolPlus: "{{ 'Intl_NumberSymbolPlus'|translate }}",
+        symbolMinus: "{{ 'Intl_NumberSymbolMinus'|translate }}",
+        symbolPercent: "{{ 'Intl_NumberSymbolPercent'|translate }}",
+        symbolGroup: "{{ 'Intl_NumberSymbolGroup'|translate }}",
+        symbolDecimal: "{{ 'Intl_NumberSymbolDecimal'|translate }}"
+    };
+
     {% if userLogin %}piwik.userLogin = "{{ userLogin|e('js')}}";{% endif %}
 
     {% if idSite is defined %}piwik.idSite = "{{ idSite }}";{% endif %}

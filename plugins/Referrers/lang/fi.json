@@ -48,6 +48,6 @@
         "WidgetGetAll": "Kaikki viittaukset",
         "WidgetSocials": "Sosiaalisten verkostojen lista",
         "WidgetTopKeywordsForPages": "Käytetyimmät avainsanat sivun URL:lle",
-        "XPercentOfVisits": "%s%% kävijöistä"
+        "XPercentOfVisits": "%s kävijöistä"
     }
 }

@@ -23,10 +23,6 @@
     {% include "@CoreHome/_warningInvalidHost.twig" %}
     {% include "@CoreHome/_topScreen.twig" %}
 
-    {% block notification %}
-        {% include "@CoreHome/_notifications.twig" %}
-    {% endblock %}
-
     <div class="ui-confirm" id="alert">
         <h2></h2>
         <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
@@ -34,6 +30,37 @@
 
     {{ postEvent("Template.beforeContent", "dashboard", currentModule) }}
 
-    {% block content %}
-    {% endblock %}
+    <div class="page">
+
+        {% if showMenu is defined and showMenu %}
+            <div id="secondNavBar" class="Menu--dashboard">
+                <div id="search">
+                    <div piwik-quick-access class="borderedControl"></div>
+                </div>
+                <div piwik-reporting-menu></div>
+            </div>
+        {% endif %}
+
+        <div class="pageWrap">
+
+            <a name="main"></a>
+
+            <div class="top_controls">
+                {% block topcontrols %}
+                {% endblock %}
+            </div>
+
+            {% block notification %}
+                {% include "@CoreHome/_notifications.twig" %}
+            {% endblock %}
+
+            <div piwik-popover></div>
+
+            {% block content %}
+            {% endblock %}
+
+            <div class="clear"></div>
+        </div>
+
+    </div>
 {% endblock %}

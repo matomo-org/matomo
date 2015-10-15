@@ -11,7 +11,6 @@
         "AllWebsitesDashboard": "Alla webbplatsers instrumentpanel",
         "And": "och",
         "API": "API",
-        "ApplyDateRange": "Verkställ datumintervall",
         "ArchivingInlineHelp": "För webbplatser med medelhög till hög trafik rekommenderas det att du stänger av Piwik's funktion för arkivering att aktiveras från denna webbläsare.",
         "ArchivingTriggerDescription": "För större Piwik-installationer rekommenderas det att du %ssätta upp ett cron job%s för att behandla rapporterna automatiskt.",
         "AuthenticationMethodSmtp": "Autentiseringsmetod för SMTP",
@@ -401,7 +400,6 @@
         "YearsDays": "%1$s år %2$s dagar",
         "Yes": "Ja",
         "YouAreCurrentlyUsing": "Du använder för närvarande Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Du ser just nu en demo av Piwik",
         "YouMustBeLoggedIn": "Du måste vara inloggad för att komma åt denna funktion.",
         "YourChangesHaveBeenSaved": "Dina ändringar har sparats."
     },

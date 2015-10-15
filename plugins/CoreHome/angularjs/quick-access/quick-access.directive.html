@@ -1,0 +1,36 @@
+<div class="quick-access" title="{{ quickAccessTitle }}"
+     ng-class="{active: view.searchActive, expanded: view.searchActive}"
+     piwik-focus-anywhere-but-here="view.searchActive = false;">
+    <span class="icon-search" ng-hide="search.term || view.searchActive"
+          ng-mouseenter="view.searchActive=true"></span>
+    <input ng-keydown="quickAccess.onKeypress($event)"
+           ng-change="view.searchActive=true;quickAccess.searchMenu(search.term)"
+           ng-focus="view.searchActive=true"
+           ng-model="search.term" piwik-focus-if="view.searchActive"
+           type="text"/>
+    <ul ng-hide="!search.term || !view.searchActive || (quickAccess.numMenuItems > 0) || (quickAccess.sitesModel.sites | length)">
+        <li class="no-result">{{ 'General_SearchNoResults' | translate }}</li>
+    </ul>
+    <ul ng-show="search.term && view.searchActive" ng-repeat="subcategory in quickAccess.menuItems">
+        <li class="quick-access-category"
+            ng-click="search.term = subcategory.title;quickAccess.searchMenu(search.term)">{{ subcategory.title }}</li>
+        <li class="result"
+            ng-class="{selected: submenuEntry.menuIndex == search.index}"
+            ng-mouseenter="search.index=submenuEntry.menuIndex"
+            ng-click="quickAccess.selectMenuItem(submenuEntry.index)"
+            ng-repeat="submenuEntry in subcategory.items"><a>{{ submenuEntry.name | trim }}</a></li>
+    </ul>
+    <ul ng-show="search.term && view.searchActive">
+        <li class="quick-access-category websiteCategory"
+            ng-show="hasSitesSelector && ((quickAccess.sitesModel.sites | length) || quickAccess.sitesModel.isLoading)"
+                >{{ 'SitesManager_Sites' | translate }}</li>
+        <li class="no-result"
+            ng-show="hasSitesSelector && quickAccess.sitesModel.isLoading">{{ 'MultiSites_LoadingWebsites' | translate }}</li>
+        <li class="result"
+            ng-show="hasSitesSelector && !quickAccess.sitesModel.isLoading"
+            ng-mouseenter="search.index=(quickAccess.numMenuItems + $index)"
+            ng-class="{selected: (quickAccess.numMenuItems + $index) == search.index}"
+            ng-click="quickAccess.selectSite(site.idsite)"
+            ng-repeat="site in quickAccess.sitesModel.sites"><a ng-bind-html="site.name"></a></li>
+    </ul>
+</div>

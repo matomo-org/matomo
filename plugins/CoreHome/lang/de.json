@@ -48,6 +48,9 @@
         "YouAreUsingTheLatestVersion": "Sie verwenden die aktuelle Version von Piwik!",
         "ClickRowToExpandOrContract": "Klicken Sie auf diese Zeile um die Untertabelle anzuzeigen oder zu verbergen.",
         "UndoPivotBySubtable": "Pivot erstellt für diesen Bericht %s Pivot rückgängig machen",
-        "PivotBySubtable": "Kein Pivot erstellt für diesen Bericht %s Pivot erstellen mit %s"
+        "PivotBySubtable": "Kein Pivot erstellt für diesen Bericht %s Pivot erstellen mit %s",
+        "QuickAccessTitle": "Suche nach Menüeinträgen, Segmenten und Websites. Tastenkürzel: Drücken Sie 'f' um zu suchen.",
+        "Segments": "Segmente",
+        "AdblockIsMaybeUsed": "Für den Fall, dass Sie einen Ad-Blocker verwenden, deaktivieren Sie diesen bitte für diese Seite um sicherzustellen, dass Piwik problemlos läuft."
     }
 }

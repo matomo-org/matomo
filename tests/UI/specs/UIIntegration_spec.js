@@ -110,6 +110,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should redirect the old UserSettings index to visitors > software', function (done) {
+        expect.screenshot('usersettings_index').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+            page.load("?" + urlBase + "#" + generalParams + "&module=UserSettings&action=index");
+        }, done);
+    });
+
     it('should load the visitors > times page correctly', function (done) {
         expect.screenshot("visitors_times").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
@@ -236,8 +242,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // goals pages
+    it('should load the goals > ecommerce page correctly', function (done) {
+        expect.screenshot('goals_ecommerce').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer,.dataTable', function (page) {
+            page.load( "?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=General_Overview")
+        }, done);
+    });
+
     it('should load the goals > overview page correctly', function (done) {
-        expect.screenshot('goals_overview').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+        expect.screenshot('goals_overview').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer,.dataTable', function (page) {
             page.load( "?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=General_Overview");
         }, done);
     });
@@ -250,7 +262,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the goals > single goal page correctly', function (done) {
-        expect.screenshot('goals_individual_goal').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+        expect.screenshot('goals_individual_goal').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer,.dataTable', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=1");
         }, done);
     });
@@ -343,7 +355,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // Ecommerce
     it('should load the ecommerce overview page', function (done) {
-        expect.screenshot('ecommerce_overview').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+        expect.screenshot('ecommerce_overview').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer,.dataTable', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
         }, done);
     });
@@ -355,20 +367,20 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the ecommerce products page', function (done) {
-        expect.screenshot('ecommerce_products').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+        expect.screenshot('ecommerce_products').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer,.dataTable', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_Products");
         }, done);
     });
 
     it('should load the ecommerce sales page', function (done) {
-        expect.screenshot('ecommerce_sales').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+        expect.screenshot('ecommerce_sales').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer,.dataTable', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Ecommerce_Sales");
         }, done);
     });
 
     // Admin user settings (plugins not displayed)
     it('should load the Manage > Websites admin page correctly', function (done) {
-        expect.screenshot('admin_manage_websites').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('admin_manage_websites').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=SitesManager&action=index");
             page.evaluate(function () {
                 $('.form-help:contains(UTC time is)').hide();
@@ -377,7 +389,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the Manage > Users admin page correctly', function (done) {
-        expect.screenshot('admin_manage_users').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('admin_manage_users').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=UsersManager&action=index");
 
             // remove token auth which can be random
@@ -393,25 +405,25 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the user settings admin page correctly', function (done) {
-        expect.screenshot('admin_user_settings').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('admin_user_settings').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=UsersManager&action=userSettings");
         }, done);
     });
 
     it('should load the Manage > Tracking Code admin page correctly', function (done) {
-        expect.screenshot('admin_manage_tracking_code').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('admin_manage_tracking_code').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CoreAdminHome&action=trackingCodeGenerator");
         }, done);
     });
 
     it('should load the Settings > General Settings admin page correctly', function (done) {
-        expect.screenshot('admin_settings_general').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('admin_settings_general').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CoreAdminHome&action=generalSettings");
         }, done);
     });
 
     it('should load the Settings > Privacy admin page correctly', function (done) {
-        expect.screenshot('admin_privacy_settings').to.be.captureSelector('#content,.ui-inline-help', function (page) {
+        expect.screenshot('admin_privacy_settings').to.be.captureSelector('.pageWrap,.ui-inline-help', function (page) {
             page.load("?" + generalParams + "&module=PrivacyManager&action=privacySettings");
         }, done);
     });
@@ -423,43 +435,43 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the Settings > Mobile Messaging admin page correctly', function (done) {
-        expect.screenshot('admin_settings_mobilemessaging').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('admin_settings_mobilemessaging').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=MobileMessaging&action=index");
         }, done);
     });
 
     it('should load the Settings > Mobile Messaging user page correctly', function (done) {
-        expect.screenshot('user_settings_mobilemessaging').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('user_settings_mobilemessaging').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=MobileMessaging&action=userSettings");
         }, done);
     });
 
     it('should load the themes admin page correctly', function (done) {
-        expect.screenshot('admin_themes').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('admin_themes').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CorePluginsAdmin&action=themes");
         }, done);
     });
 
     it('should load the plugins admin page correctly', function (done) {
-        expect.screenshot('admin_plugins').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('admin_plugins').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
         }, done);
     });
 
     it('should load the plugin settings admin page correctly', function (done) {
-        expect.screenshot('admin_plugin_settings').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('admin_plugin_settings').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CoreAdminHome&action=adminPluginSettings");
         }, done);
     });
 
     it('should load the plugin settings user page correctly', function (done) {
-        expect.screenshot('user_plugin_settings').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('user_plugin_settings').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CoreAdminHome&action=userPluginSettings");
         }, done);
     });
 
     it('should load the Settings > Visitor Generator admin page correctly', function (done) {
-        expect.screenshot('admin_visitor_generator').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('admin_visitor_generator').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=VisitorGenerator&action=index");
 
             page.evaluate(function () {
@@ -471,7 +483,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // Notifications
     it('should load the notifications page correctly', function (done) {
-        expect.screenshot('notifications').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('notifications').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=ExampleUI&action=notifications&idSite=1&period=day&date=yesterday");
             page.evaluate(function () {
                 $('#header').hide();
@@ -511,20 +523,20 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // CustomAlerts plugin TODO: move to CustomAlerts plugin
     it('should load the custom alerts list correctly', function (done) {
-        expect.screenshot('customalerts_list').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('customalerts_list').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CustomAlerts&action=index&idSite=1&period=day&date=yesterday&tests_hide_piwik_version=1");
         }, done);
     });
 
     it('should load the triggered custom alerts list correctly', function (done) {
-        expect.screenshot('customalerts_list_triggered').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('customalerts_list_triggered').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CustomAlerts&action=historyTriggeredAlerts&idSite=1&period=day&date=yesterday&tests_hide_piwik_version=1");
         }, done);
     });
 
     // top bar pages
     it('should load the widgets listing page correctly', function (done) {
-        expect.screenshot('widgets_listing').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('widgets_listing').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=Widgetize&action=index");
             page.mouseMove('.widgetpreview-categorylist>li:contains(Visitors)');
             page.mouseMove('li[uniqueid="widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution"]');
@@ -532,7 +544,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the API listing page correctly', function (done) {
-        expect.screenshot('api_listing').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('api_listing').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=API&action=listAllAPI");
             page.evaluate(function () { // remove token_auth since it can change on each test run
                 $('span#token_auth>strong').text('dummytokenauth');
@@ -541,7 +553,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the email reports page correctly', function (done) {
-        expect.screenshot('email_reports').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('email_reports').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=ScheduledReports&action=index");
             page.evaluate(function () {
                 $('#header').hide();
@@ -550,7 +562,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the feedback form when the feedback form link is clicked', function (done) {
-        expect.screenshot('feedback_form').to.be.captureSelector('#content', function (page) {
+        expect.screenshot('feedback_form').to.be.captureSelector('.pageWrap', function (page) {
 
             page.load("?" + generalParams + "&module=Feedback&action=index");
 
@@ -571,13 +583,15 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should reload to the correct date when a date range is selected in the period selector', function (done) {
         expect.screenshot('period_select_date_range_click').to.be.capture(function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
+            page.wait(1000);
+            page.click('#date.title');
+            // we need to make sure there to wait for a bit till date is opened and period selected
+            page.click('#period_id_range');
             page.evaluate(function () {
                 $(document).ready(function () {
-                    $('#date').click();
-                    $('#period_id_range').click();
                     $('#inputCalendarFrom').val('2012-08-02');
                     $('#inputCalendarTo').val('2012-08-12');
-                    setTimeout(function () {$('#calendarRangeApply').click();}, 500);
+                    setTimeout(function () {$('#calendarApply').click();}, 500);
                 });
             });
         }, done);

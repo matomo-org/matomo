@@ -11,7 +11,6 @@
         "AllWebsitesDashboard": "Svi sajtovi",
         "And": "i",
         "API": "API",
-        "ApplyDateRange": "Primeni opseg datuma",
         "ArchivingInlineHelp": "Za srednje i velike sajtove preporuka je da isključite ovu opciju i da podesite cron koji će procesirati Piwik izveštaje svaki sat",
         "ArchivingTriggerDescription": "Preporučljivo za velike Piwik instalacije; potrebno je da %spodesite cron%s da procesira izveštaje automatski",
         "AuthenticationMethodSmtp": "Način autentikacije za SMTP",
@@ -401,7 +400,6 @@
         "YearsDays": "%1$s godine %2$s dani",
         "Yes": "Da",
         "YouAreCurrentlyUsing": "Trenutno koristite Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Trenutno koristite demo verziju programa Piwik",
         "YouMustBeLoggedIn": "Morate se prijaviti da biste pristupili ovim funkcijama",
         "YourChangesHaveBeenSaved": "Vaše izmene su sačuvane"
     },

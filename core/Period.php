@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Period\Factory;
 use Piwik\Period\Range;
 use Piwik\Translation\Translator;
 
@@ -104,6 +105,7 @@ abstract class Period
         if (self::isMultiplePeriod($dateString, 'day')) {
             return;
         }
+
         Date::factory($dateString);
     }
 
@@ -278,6 +280,31 @@ abstract class Period
     abstract public function getLocalizedLongString();
 
     /**
+     * Returns the label of the period type that is one size smaller than this one, or null if
+     * it's the smallest.
+     *
+     * Range periods and other such 'period collections' are not considered as separate from
+     * the value type of the collection. So a range period will return the result of the
+     * subperiod's `getImmediateChildPeriodLabel()` method.
+     *
+     * @ignore
+     * @return string|null
+     */
+    abstract public function getImmediateChildPeriodLabel();
+
+    /**
+     * Returns the label of the period type that is one size bigger than this one, or null
+     * if it's the biggest.
+     *
+     * Range periods and other such 'period collections' are not considered as separate from
+     * the value type of the collection. So a range period will return the result of the
+     * subperiod's `getParentPeriodLabel()` method.
+     *
+     * @ignore
+     */
+    abstract public function getParentPeriodLabel();
+
+    /**
      * Returns the date range string comprising two dates
      *
      * @return string eg, `'2012-01-01,2012-01-31'`.
@@ -289,7 +316,6 @@ abstract class Period
 
         return $dateStart->toString("Y-m-d") . "," . $dateEnd->toString("Y-m-d");
     }
-
 
     /**
      * @param string $format
@@ -351,5 +377,34 @@ abstract class Period
                 $short ? 'Short' : 'Long',
                 $maxDifference
             ));
+    }
+
+    /**
+     * Returns all child periods that exist within this periods entire date range. Cascades
+     * downwards over all period types that are smaller than this one. For example, month periods
+     * will cascade to week and day periods and year periods will cascade to month, week and day
+     * periods.
+     *
+     * The method will not return periods that are outside the range of this period.
+     *
+     * @return Period[]
+     * @ignore
+     */
+    public function getAllOverlappingChildPeriods()
+    {
+        return $this->getAllOverlappingChildPeriodsInRange($this->getDateStart(), $this->getDateEnd());
+    }
+
+    private function getAllOverlappingChildPeriodsInRange(Date $dateStart, Date $dateEnd)
+    {
+        $result = array();
+
+        $childPeriodType = $this->getImmediateChildPeriodLabel();
+        if (empty($childPeriodType)) {
+            return $result;
+        }
+
+        $childPeriods = Factory::build($childPeriodType, $dateStart->toString() . ',' . $dateEnd->toString());
+        return array_merge($childPeriods->getSubperiods(), $childPeriods->getAllOverlappingChildPeriodsInRange($dateStart, $dateEnd));
     }
 }

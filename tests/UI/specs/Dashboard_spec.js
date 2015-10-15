@@ -84,7 +84,7 @@ describe("Dashboard", function () {
     });
 
     it("should refresh widget when widget refresh icon clicked", function (done) {
-        expect.screenshot("widget_move").to.be.capture("widget_refresh", function (page) {
+        expect.screenshot("widget_move_refresh").to.be.capture(function (page) {
             page.mouseMove('.widgetTop');
             page.click('.button#refresh');
             page.mouseMove('.dashboard-manager'); // let widget top hide again
@@ -99,7 +99,7 @@ describe("Dashboard", function () {
     });
 
     it("should unminimise widget when widget maximise icon is clicked after being minimised", function (done) {
-        expect.screenshot("widget_move").to.be.capture("widget_unminimised", function (page) {
+        expect.screenshot("widget_move_unminimised").to.be.capture(function (page) {
             page.mouseMove('.widgetTop');
             page.click('.button#maximise');
             page.mouseMove('.dashboard-manager'); // let widget top hide again
@@ -114,7 +114,7 @@ describe("Dashboard", function () {
     });
 
     it("should close maximise dialog when minimise icon is clicked", function (done) {
-        expect.screenshot("widget_move").to.be.capture("widget_unmaximise", function (page) {
+        expect.screenshot("widget_move_unmaximise").to.be.capture(function (page) {
             page.mouseMove('.widgetTop');
             page.click('.button#minimise');
             page.mouseMove('.dashboard-manager'); // let widget top hide again
@@ -123,7 +123,7 @@ describe("Dashboard", function () {
 
     it("should add a widget when a widget is selected in the dashboard manager", function (done) {
         expect.screenshot("widget_add_widget").to.be.capture(function (page) {
-            page.click('.dashboard-manager');
+            page.click('.dashboard-manager .title');
 
             page.mouseMove('.widgetpreview-categorylist>li:contains(Live!)'); // have to mouse move twice... otherwise Live! will just be highlighted
             page.mouseMove('.widgetpreview-categorylist>li:contains(Times):first');
@@ -140,6 +140,7 @@ describe("Dashboard", function () {
 
             page.mouseMove(widget + ' .widgetTop');
             page.click(widget + ' .button#close');
+
             page.click('.ui-dialog button>span:contains(Yes)');
             page.mouseMove('.dashboard-manager');
         }, done);
@@ -147,7 +148,7 @@ describe("Dashboard", function () {
 
     it("should change dashboard layout when new layout is selected", function (done) {
         expect.screenshot("change_layout").to.be.capture(function (page) {
-            page.click('.dashboard-manager');
+            page.click('.dashboard-manager .title');
             page.click('li[data-action=showChangeDashboardLayoutDialog]');
             page.click('div[layout=50-50]');
             page.click('.ui-dialog button>span:contains(Save)');
@@ -156,7 +157,7 @@ describe("Dashboard", function () {
 
     it("should rename dashboard when dashboard rename process completed", function (done) {
         expect.screenshot("rename").to.be.capture(function (page) {
-            page.click('.dashboard-manager');
+            page.click('.dashboard-manager .title');
             page.click('li[data-action=renameDashboard]');
             page.evaluate(function () {
                 $('#newDashboardName:visible').val('newname'); // don't use sendKeys or click, since in this test it appears to trigger a seg fault on travis
@@ -167,7 +168,7 @@ describe("Dashboard", function () {
 
     it("should copy dashboard successfully when copy dashboard process completed", function (done) {
         expect.screenshot("copied").to.be.capture(function (page) {
-            page.click('.dashboard-manager');
+            page.click('.dashboard-manager .title');
             page.click('li[data-action=copyDashboardToUser]');
             page.evaluate(function () {
                 $('[id=copyDashboardName]:last').val('');
@@ -184,7 +185,7 @@ describe("Dashboard", function () {
 
     it("should reset dashboard when reset dashboard process completed", function (done) {
         expect.screenshot("reset").to.be.capture(function (page) {
-            page.click('.dashboard-manager');
+            page.click('.dashboard-manager .title');
             page.click('li[data-action=resetDashboard]');
             page.click('.ui-dialog button>span:contains(Yes)', 4000);
             page.mouseMove('.dashboard-manager');
@@ -193,7 +194,7 @@ describe("Dashboard", function () {
 
     it("should remove dashboard when remove dashboard process completed", function (done) {
         expect.screenshot("removed").to.be.capture(function (page) {
-            page.click('.dashboard-manager');
+            page.click('.dashboard-manager .title');
             page.click('li[data-action=removeDashboard]');
             page.click('.ui-dialog[aria-describedby=removeDashboardConfirm] button>span:contains(Yes)');
             page.mouseMove('.dashboard-manager');
@@ -206,7 +207,7 @@ describe("Dashboard", function () {
     it("should not fail when default widget selection changed", function (done) {
         expect.screenshot("default_widget_selection_changed").to.be.capture(function (page) {
             page.load(url);
-            page.click('.dashboard-manager');
+            page.click('.dashboard-manager .title');
             page.click('li[data-action=setAsDefaultWidgets]');
             page.click('.ui-dialog button>span:contains(Yes)');
         }, done);
@@ -214,7 +215,7 @@ describe("Dashboard", function () {
 
     it("should create new dashboard with new default widget selection when create dashboard process completed", function (done) {
         expect.screenshot("create_new").to.be.capture(function (page) {
-            page.click('.dashboard-manager');
+            page.click('.dashboard-manager .title');
             page.click('li[data-action=createDashboard]');
             page.sendKeys('#createDashboardName:visible', 'newdash2');
             page.click('.ui-dialog[aria-describedby=createDashboardConfirm] button>span:contains(Yes)');

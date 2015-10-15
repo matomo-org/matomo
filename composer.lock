@@ -937,16 +937,16 @@
         },
         {
             "name": "piwik/referrer-spam-blacklist",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/referrer-spam-blacklist.git",
-                "reference": "ee310007ebfe07ac7f502d85948edc56c49563c3"
+                "reference": "5414a855511c7bc761347a3091276c30ba30311d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/referrer-spam-blacklist/zipball/ee310007ebfe07ac7f502d85948edc56c49563c3",
-                "reference": "ee310007ebfe07ac7f502d85948edc56c49563c3",
+                "url": "https://api.github.com/repos/piwik/referrer-spam-blacklist/zipball/5414a855511c7bc761347a3091276c30ba30311d",
+                "reference": "5414a855511c7bc761347a3091276c30ba30311d",
                 "shasum": ""
             },
             "type": "library",
@@ -955,7 +955,7 @@
                 "Public Domain"
             ],
             "description": "Community-contributed list of referrer spammers",
-            "time": "2015-07-06 09:15:56"
+            "time": "2015-10-07 10:17:59"
         },
         {
             "name": "psr/log",

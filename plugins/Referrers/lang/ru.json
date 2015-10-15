@@ -48,6 +48,6 @@
         "WidgetGetAll": "Все источники трафика",
         "WidgetSocials": "Список социальных сетей",
         "WidgetTopKeywordsForPages": "Топ ключевых слов для страницы URL",
-        "XPercentOfVisits": "%s%% посещений"
+        "XPercentOfVisits": "%s посещений"
     }
 }

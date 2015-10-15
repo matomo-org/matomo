@@ -14,4 +14,5 @@ class ActionsCategory extends Category
 {
     protected $id = 'General_Actions';
     protected $order = 10;
+    protected $icon = 'icon-reporting-actions';
 }

@@ -11,7 +11,6 @@
         "AllWebsitesDashboard": "Bảng điều khiển tất cả các Website",
         "And": "và",
         "API": "API",
-        "ApplyDateRange": "Giới hạn thời gian",
         "ArchivingInlineHelp": "Đối với những trang web có mức độ truy cập trung bình và cao, chúng tôi khuyến cáo bạn bỏ chế độ cập nhật lên Piwik dựa vào trigger phía trình duyệt. Thay vào đó, bạn nên thiết lập lịch cho Piwik tự xử lý báo cáo sau mỗi giờ đồng hồ (để tránh quá tải server).",
         "ArchivingTriggerDescription": "Đề nghị cho cài đặt Piwik lớn hơn, bạn cần phải %s thiết lập một cron %s để xử lý các báo cáo tự động.",
         "AuthenticationMethodSmtp": "Phương thức xác thực SMTP",
@@ -368,7 +367,6 @@
         "YearsDays": "%1$s năm %2$s ngày",
         "Yes": "Có",
         "YouAreCurrentlyUsing": "Bạn đang sử dụng Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Bạn đang xem phần giới thiệu Piwik",
         "YouMustBeLoggedIn": "Bạn phải đăng nhập để truy cập chức năng này.",
         "YourChangesHaveBeenSaved": "Các thay đổi của bạn đã được lưu."
     },

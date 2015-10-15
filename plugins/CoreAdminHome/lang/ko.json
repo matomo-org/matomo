@@ -1,7 +1,9 @@
 {
     "CoreAdminHome": {
         "Administration": "관리",
+        "ArchivingSettings": "아카이브 설정",
         "BrandingSettings": "브랜딩 설정",
+        "ReleaseChannel": "릴리즈 채널",
         "ClickHereToOptIn": "클릭하여 허용합니다.",
         "ClickHereToOptOut": "클릭하여 차단합니다.",
         "CustomLogoFeedbackInfo": "Piwik 로고를 변경하거나 상단 메뉴의 %s 링크도 숨길 수 있습니다. %s 플러그인 관리 %s 페이지에서 피드백 플러그인을 비활성화세요.",
@@ -21,10 +23,13 @@
         "OptOutExplanationBis": "HTML 코드는 방문자의 브라우저에 차단 Cookie를 설정하는 Piwik 차단 링크를 ​​포함 iFrame을 표시합니다. iFrame에서 표시되는 내용을 표시하려면 %s여기를 클릭%s합니다.",
         "OptOutForYourVisitors": "방문자의 Piwik 차단",
         "PiwikIsInstalledAt": "Piwik가 설치되어 있습니다",
+        "PluginSettings": "플러그인 설정",
+        "SystemPluginSettings": "시스템 플러그인 설정",
         "TrackAGoal": "목표 추적",
         "TrackingCode": "추적 코드",
         "TrustedHostConfirm": "신뢰할 수 있는 Piwik 호스트네임으로 변경하시겠습니까?",
         "TrustedHostSettings": "신뢰할 수 있는 Piwik 호스트네임",
+        "UpdateSettings": "업데이트 설정",
         "UseCustomLogo": "로고 변경하기",
         "ValidPiwikHostname": "유효한 Piwik 호스트네임",
         "YouAreOptedIn": "허용된 상태입니다.",

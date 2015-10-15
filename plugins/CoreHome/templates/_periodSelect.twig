@@ -1,7 +1,9 @@
-<div id="periodString" class="piwikTopControl periodSelector">
-    <div id="date">{{ 'General_DateRange'|translate }} <strong>{{ prettyDate }}</strong></div>
-    <div class="calendar-icon"></div>
-    <div id="periodMore">
+<div id="periodString" piwik-expand-on-click class="piwikTopControl piwikSelector borderedControl periodSelector">
+    <a id="date" class="title" title="{{ 'General_ChooseDate'|translate|e('html_attr') }}">
+        <span class="icon icon-calendar"></span>
+        {{ prettyDate }}
+    </a>
+    <div id="periodMore" class="dropdown">
         <div class="period-date">
             <div id="datepicker"></div>
         </div>
@@ -26,7 +28,7 @@
                 <br/>
             {% endfor %}
 			</span>
-            <input tabindex="3" type="submit" value="{{ 'General_ApplyDateRange'|translate }}" id="calendarRangeApply" class="btn"/>
+            <input tabindex="3" type="submit" value="{{ 'General_Apply'|translate }}" id="calendarApply" class="btn"/>
             {% import 'ajaxMacros.twig' as ajax %}
             {{ ajax.loadingDiv('ajaxLoadingCalendar') }}
         </div>

@@ -17,12 +17,23 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureAdminMenu(MenuAdmin $menu)
     {
+        $menu->registerMenuIcon('CoreAdminHome_MenuDevelopment', 'icon-admin-development');
+        $menu->registerMenuIcon('CoreAdminHome_MenuDiagnostic', 'icon-admin-diagnostic');
+        $menu->registerMenuIcon('CorePluginsAdmin_MenuPlatform', 'icon-admin-platform');
+        $menu->registerMenuIcon('General_Settings', 'icon-admin-settings');
+        $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-admin-administration');
+
         if (Development::isEnabled() && Piwik::isUserHasSomeAdminAccess()) {
             $menu->addDevelopmentItem('UI Demo', $this->urlForAction('demo'));
         }
     }
+
     public function configureUserMenu(MenuUser $menu)
     {
+        $menu->registerMenuIcon('UsersManager_MenuPersonal', 'icon-user-personal');
+        $menu->registerMenuIcon('CoreAdminHome_MenuManage', 'icon-user-manage');
+        $menu->registerMenuIcon('CorePluginsAdmin_MenuPlatform', 'icon-user-platform');
+
         if (Development::isEnabled() && Piwik::isUserHasSomeAdminAccess()) {
             $menu->addPlatformItem('UI Demo', $this->urlForAction('demo'), $order = 15);
         }

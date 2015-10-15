@@ -9,7 +9,6 @@
         "All": "Tots",
         "AllWebsitesDashboard": "Tauler de tots els llocs web",
         "API": "API",
-        "ApplyDateRange": "Aplicar un rang de dates",
         "ArchivingInlineHelp": "Per llocs amb transit entre mig i alt, es recomana desactivar l'arxivat del Piwik des del navegador. En canvi, recomanem que configureu una tasca de cron per processar els informes de Piwik cada hora.",
         "ArchivingTriggerDescription": "Recomanat per instal·lacions grans de Piwik, es pot %sconfigurar una %stasca programada per processar les entrades automàticament.",
         "AuthenticationMethodSmtp": "Mètode d'autenticació SMTP",
@@ -347,7 +346,6 @@
         "YearsDays": "%1$s anys %2$s dies",
         "Yes": "Sí",
         "YouAreCurrentlyUsing": "Ara mateix estàs fent servir el Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Ara mateix estàs veient la demo del Piwik",
         "YouMustBeLoggedIn": "Has d'entrar per accedir a aquesta funcionalitat.",
         "YourChangesHaveBeenSaved": "Els vostres canvis s'han guardat"
     },

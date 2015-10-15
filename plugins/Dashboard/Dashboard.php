@@ -35,33 +35,71 @@ class Dashboard extends \Piwik\Plugin
 
     public function addWidgetConfigs(&$widgets)
     {
-        $dashboards = API::getInstance()->getDashboards();
+        if (Piwik::isUserIsAnonymous()) {
+            $this->addDefaultDashboard($widgets);
+        } else {
+            $dashboards = API::getInstance()->getDashboards();
 
-        foreach ($dashboards as $dashboard) {
-            $config = new WidgetConfig();
-            $config->setIsNotWidgetizable();
-            $config->setModule('Dashboard');
-            $config->setAction('embeddedIndex');
-            $config->setCategoryId('Dashboard_Dashboard');
-            $config->setSubcategoryId($dashboard['id']);
-            $config->setParameters(array('idDashboard' => $dashboard['id']));
-            $widgets[] = $config;
+            if (empty($dashboards)) {
+                $this->addDefaultDashboard($widgets);
+            } else {
+                foreach ($dashboards as $dashboard) {
+                    $config = new WidgetConfig();
+                    $config->setIsNotWidgetizable();
+                    $config->setModule('Dashboard');
+                    $config->setAction('embeddedIndex');
+                    $config->setCategoryId('Dashboard_Dashboard');
+                    $config->setSubcategoryId($dashboard['id']);
+                    $config->setParameters(array('idDashboard' => $dashboard['id']));
+                    $widgets[] = $config;
+                }
+            }
         }
+    }
+
+    private function addDefaultDashboard(&$widgets)
+    {
+        $config = new WidgetConfig();
+        $config->setIsNotWidgetizable();
+        $config->setModule('Dashboard');
+        $config->setAction('embeddedIndex');
+        $config->setCategoryId('Dashboard_Dashboard');
+        $config->setSubcategoryId('1');
+        $config->setParameters(array('idDashboard' => 1));
+        $widgets[] = $config;
     }
 
     public function addSubcategories(&$subcategories)
     {
-        $dashboards = API::getInstance()->getDashboards();
+        if (Piwik::isUserIsAnonymous()) {
+            $this->addDefaultSubcategory($subcategories);
+        } else {
+            $dashboards = API::getInstance()->getDashboards();
 
-        $order = 0;
-        foreach ($dashboards as $dashboard) {
-            $subcategory = new Subcategory();
-            $subcategory->setName($dashboard['name']);
-            $subcategory->setCategoryId('Dashboard_Dashboard');
-            $subcategory->setId($dashboard['id']);
-            $subcategory->setOrder($order++);
-            $subcategories[] = $subcategory;
+            if (empty($dashboards)) {
+                $this->addDefaultSubcategory($subcategories);
+            } else {
+                $order = 0;
+                foreach ($dashboards as $dashboard) {
+                    $subcategory = new Subcategory();
+                    $subcategory->setName($dashboard['name']);
+                    $subcategory->setCategoryId('Dashboard_Dashboard');
+                    $subcategory->setId($dashboard['id']);
+                    $subcategory->setOrder($order++);
+                    $subcategories[] = $subcategory;
+                }
+            }
         }
+    }
+
+    private function addDefaultSubcategory(&$subcategories)
+    {
+        $subcategory = new Subcategory();
+        $subcategory->setName('Dashboard_Dashboard');
+        $subcategory->setCategoryId('Dashboard_Dashboard');
+        $subcategory->setId('1');
+        $subcategory->setOrder(1);
+        $subcategories[] = $subcategory;
     }
 
     /**
@@ -258,6 +296,7 @@ class Dashboard extends \Piwik\Plugin
         $translationKeys[] = 'Dashboard_LoadingWidget';
         $translationKeys[] = 'Dashboard_WidgetNotFound';
         $translationKeys[] = 'Dashboard_DashboardCopied';
+        $translationKeys[] = 'Dashboard_Dashboard';
         $translationKeys[] = 'General_Close';
         $translationKeys[] = 'General_Refresh';
     }

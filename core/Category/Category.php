@@ -37,6 +37,12 @@ class Category
     protected $order = 99;
 
     /**
+     * The icon for this category, eg 'icon-user'
+     * @var int
+     */
+    protected $icon = '';
+
+    /**
      * @param int $order
      * @return static
      */
@@ -97,4 +103,16 @@ class Category
     {
         return !empty($this->subcategories);
     }
+
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+        return $this;
+    }
+
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
 }

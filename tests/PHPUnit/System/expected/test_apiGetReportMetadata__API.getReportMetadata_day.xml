@@ -1296,6 +1296,53 @@
 	<row>
 		<category>Actions</category>
 		<subcategory>Events</subcategory>
+		<name>Content Name</name>
+		<module>Contents</module>
+		<action>getContentNames</action>
+		<dimension>Content Name</dimension>
+		<metrics>
+			<nb_impressions>Impressions</nb_impressions>
+			<nb_interactions>Interactions</nb_interactions>
+		</metrics>
+		<metricsDocumentation>
+			<nb_impressions>The number of times a content block, such as a banner or an ad, was displayed on a page.</nb_impressions>
+			<nb_interactions>The number of times a content block was interacted with (eg, a 'click' on a banner or ad).</nb_interactions>
+			<interaction_rate>The ratio of content impressions to interactions.</interaction_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<interaction_rate>Interaction Rate</interaction_rate>
+		</processedMetrics>
+		<actionToLoadSubTables>getContentNames</actionToLoadSubTables>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentNames&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentNames&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Contents_getContentNames</uniqueId>
+	</row>
+	<row>
+		<category>Actions</category>
+		<name>Content Piece</name>
+		<module>Contents</module>
+		<action>getContentPieces</action>
+		<dimension>Content Piece</dimension>
+		<metrics>
+			<nb_impressions>Impressions</nb_impressions>
+			<nb_interactions>Interactions</nb_interactions>
+		</metrics>
+		<metricsDocumentation>
+			<nb_impressions>The number of times a content block, such as a banner or an ad, was displayed on a page.</nb_impressions>
+			<nb_interactions>The number of times a content block was interacted with (eg, a 'click' on a banner or ad).</nb_interactions>
+			<interaction_rate>The ratio of content impressions to interactions.</interaction_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<interaction_rate>Interaction Rate</interaction_rate>
+		</processedMetrics>
+		<actionToLoadSubTables>getContentPieces</actionToLoadSubTables>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentPieces&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentPieces&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Contents_getContentPieces</uniqueId>
+	</row>
+	<row>
+		<category>Events</category>
+>>>>>>> master
 		<name>Event Categories</name>
 		<module>Events</module>
 		<action>getCategory</action>

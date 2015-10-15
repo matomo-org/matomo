@@ -1,40 +1,21 @@
 #dashboard {
-  margin: 0 -7px;
+  margin: 0 -6px;
 }
 
-#root>.top_controls {
-  margin-left:15px;
-  margin-right:15px;
-}
-.top_controls {
-  position: relative;
-  height: 32px;
-  clear: left;
+#standalone #dashboard {
+  margin: -10px -6px 0;
 }
 
-@media all and (max-width: 749px) {
-  .top_controls {
-    height: auto;
-  }
-
-  .top_controls #periodString,
-  .top_controls .dashboardSettings,
-  .top_controls .segmentEditorPanel {
-    position: static !important;
-    margin: 0 0 10px;
-    float: none;
-  }
-}
 
 #dashboard {
   .col {
     min-height: 100px;
     // Customize Bootstrap gutter between columns
-    padding-right: 7px;
-    padding-left: 7px;
+    padding-right: 6px;
+    padding-left: 6px;
 
     >.sortable {
-      padding: 5px 0 10px 0;
+      padding: 5px 0 8px 0;
     }
   }
 }
@@ -152,10 +133,8 @@
   z-index: 120;
   background: #f7f7f7;
   border: 1px solid #e4e5e4;
-  padding: 5px 10px 6px 10px;
   border-radius: 4px;
   color: @theme-color-text-light;
-  font-size: 14px;
   cursor: pointer;
   overflow: hidden;
 }
@@ -165,9 +144,9 @@
   border-color: #a9a399;
 }
 
-.dashboardSettings.visible {
+.dashboardSettings.expanded {
   z-index: 1020; /* More than .jqplot-seriespicker-popover (1010) */
-  min-width: 700px;
+  min-width: 800px;
 }
 
 .dashboardSettings > span {
@@ -182,10 +161,9 @@
   float: left;
 }
 
-.dashboardSettings.visible ul.submenu {
+.dashboardSettings.expanded ul.submenu {
   display: block;
   list-style: square outside none;
-  margin-left: 15px;
 }
 
 .dashboardSettings > ul.submenu > li {
@@ -328,7 +306,6 @@ div.widgetpreview-preview {
   min-height: 0;
   height: auto;
   margin-right: 10px;
-  min-width: 180px;
 }
 
 .dashboardSettings .submenu {
@@ -372,8 +349,8 @@ div.widgetpreview-preview {
   display: none;
 }
 
-.dashboardSettings.visible .widgetpreview-widgetlist,
-.dashboardSettings.visible .widgetpreview-preview {
+.dashboardSettings.expanded .widgetpreview-widgetlist,
+.dashboardSettings.expanded .widgetpreview-preview {
   display: block;
 }
 
@@ -416,7 +393,7 @@ div.widgetpreview-preview {
 }
 
 #dashboardWidgetsArea {
-  margin-top: 5px;
+  margin-top: -5px;
 }
 
 @media all and (max-width: 749px) {

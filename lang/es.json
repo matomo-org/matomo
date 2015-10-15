@@ -11,7 +11,6 @@
         "AllWebsitesDashboard": "Panel de todos los sitios de internet",
         "And": "y",
         "API": "API",
-        "ApplyDateRange": "Aplicar el rango de fecha",
         "ArchivingInlineHelp": "Para sitios de internet de medio o alto tráfico, se recomienda deshabilitar el archivado de Piwik al ingresar con el navegador. En su lugar, le recomendamos que configure una tarea cron para procesar los informes de Piwik cada hora.",
         "ArchivingTriggerDescription": "Recomendado para grandes instalaciones de Piwik, necesita %sconfigurar una tarea de cron %s para procesar los reportes automáticamente.",
         "AuthenticationMethodSmtp": "Método de autenticación SMTP",
@@ -399,7 +398,6 @@
         "YearsDays": "%1$s años %2$s días",
         "Yes": "Sí",
         "YouAreCurrentlyUsing": "Actualmente está utilizando Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Actualmente está viendo la demo de Piwik",
         "YouMustBeLoggedIn": "Debe ingresar para acceder a esta funcionalidad.",
         "YourChangesHaveBeenSaved": "Se han guardado los cambios."
     },

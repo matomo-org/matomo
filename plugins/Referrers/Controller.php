@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable\Map;
 use Piwik\Metrics;
+use Piwik\NumberFormatter;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
@@ -499,13 +500,16 @@ function DisplayTopKeywords($url = "")
             $currentValue = $currentValues[$name];
             $evolutionName = $name . 'Evolution';
 
+            $currentValueFormatted = NumberFormatter::getInstance()->format($currentValue);
+            $pastValueFormatted    = NumberFormatter::getInstance()->format($pastValue);
+
             $currentValues[$evolutionName] = array(
                 'currentValue' => $currentValue,
                 'pastValue' => $pastValue,
                 'tooltip' => Piwik::translate('General_EvolutionSummaryGeneric', array(
-                    Piwik::translate('General_NVisits', $currentValue),
+                    Piwik::translate('General_NVisits', $currentValueFormatted),
                     $date,
-                    Piwik::translate('General_NVisits', $pastValue),
+                    Piwik::translate('General_NVisits', $pastValueFormatted),
                     $lastPeriodDate,
                     CalculateEvolutionFilter::calculate($currentValue, $pastValue, $precision = 1)
                 ))

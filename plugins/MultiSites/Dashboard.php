@@ -12,6 +12,7 @@ use Piwik\API\DataTablePostProcessor;
 use Piwik\API\ResponseBuilder;
 use Piwik\Config;
 use Piwik\Metrics\Formatter;
+use Piwik\NumberFormatter;
 use Piwik\Period;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
@@ -36,6 +37,12 @@ class Dashboard
     private $numSites = 0;
 
     /**
+     * Array of metrics that will be displayed and will be number formatted
+     * @var array
+     */
+    private $displayedMetricColumns = array('nb_visits', 'nb_pageviews', 'nb_actions', 'revenue');
+
+    /**
      * @param string $period
      * @param string $date
      * @param string|false $segment
@@ -44,7 +51,7 @@ class Dashboard
     {
         $sites = API::getInstance()->getAll($period, $date, $segment, $_restrictSitesToLogin = false,
                                             $enhanced = true, $searchTerm = false,
-                                            $showColumns = array('nb_visits', 'nb_pageviews', 'nb_actions', 'revenue'));
+                                            $this->displayedMetricColumns);
         $sites->deleteRow(DataTable::ID_SUMMARY_ROW);
 
         /** @var DataTable $pastData */
@@ -98,14 +105,31 @@ class Dashboard
 
     public function getTotals()
     {
-        return array(
+        $totals = array(
             'nb_pageviews'       => $this->sitesByGroup->getMetadata('total_nb_pageviews'),
             'nb_visits'          => $this->sitesByGroup->getMetadata('total_nb_visits'),
             'nb_actions'         => $this->sitesByGroup->getMetadata('total_nb_actions'),
             'revenue'            => $this->sitesByGroup->getMetadata('total_revenue'),
             'nb_visits_lastdate' => $this->sitesByGroup->getMetadata('total_nb_visits_lastdate') ? : 0,
         );
+        $this->formatMetrics($totals);
+        return $totals;
     }
+
+    private function formatMetrics(&$metrics)
+    {
+        $formatter = new NumberFormatter();
+        foreach($metrics as $metricName => &$value) {
+            if(in_array($metricName, $this->displayedMetricColumns)) {
+
+                if( strpos($metricName, 'revenue') !== false) {
+                    continue;
+                }
+                $value = $formatter->format($value);
+            }
+        }
+    }
+
 
     public function getNumSites()
     {
@@ -312,6 +336,8 @@ class Dashboard
                 $site['revenue']  = $formatter->getPrettyMoney($site['revenue'], $site['idsite']);
             }
             $site['main_url'] = Site::getMainUrlFor($site['idsite']);
+
+            $this->formatMetrics($site);
         }
 
         return $sites;

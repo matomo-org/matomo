@@ -5,12 +5,9 @@
         "Bing_IndexedPages": "Páginas indexadas no Bing",
         "Dmoz": "Entradas DMOZ",
         "DomainAge": "Idade de Domínio",
-        "ExternalBacklinks": "Backlinks externos (Majestic)",
         "Google_IndexedPages": "Páginas indexadas pelo Google",
         "Rank": "Classificação",
-        "ReferrerDomains": "Domínios Referenciadores (Majestic)",
         "SeoRankings": "Ranking SEO",
-        "SEORankingsFor": "Ranking SEO para %s",
-        "ViewBacklinksOnMajesticSEO": "Ver relatório de Backlinks Externos em MajesticSEO.com"
+        "SEORankingsFor": "Ranking SEO para %s"
     }
 }

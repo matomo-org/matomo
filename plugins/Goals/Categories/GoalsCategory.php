@@ -14,4 +14,5 @@ class GoalsCategory extends Category
 {
     protected $id = 'Goals_Goals';
     protected $order = 25;
+    protected $icon = 'icon-reporting-goal';
 }

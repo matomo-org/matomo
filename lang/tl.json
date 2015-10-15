@@ -10,7 +10,6 @@
         "AllWebsitesDashboard": "Lahat ng dashboard Websites",
         "And": "at",
         "API": "API",
-        "ApplyDateRange": "I-apply ang petsa",
         "ArchivingInlineHelp": "Para sa katam-tamang dami ng traffic websites inirerekomenda na huwag paganahin ang Piwik-archive upang ma-trigger mula sa browser. Sa halip aming nirerekomenda na mag setup ng cron job upang i-proseso ang mga ulat kada oras.",
         "ArchivingTriggerDescription": "Inirerekomenda para sa mas malakihang pag-install ng Piwik kailangan mong %ssetup ang cron job%s upang awtomatikong iproseso ang mga ulat.",
         "AuthenticationMethodSmtp": "Authentication method para sa SMTP",

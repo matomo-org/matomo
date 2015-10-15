@@ -67,7 +67,6 @@
                 if (activeCategory && category.id === activeCategory) {
                     // this doesn't really belong here but placed it here for convenience
                     category.active = true;
-                    category.hover  = true;
                 }
 
                 category.subcategories = [];
@@ -94,6 +93,7 @@
 
                             if (subcategory.active) {
                                 goalsGroup.name = subcategory.name;
+                                goalsGroup.active = true;
                             }
 
                             var goalId = page.subcategory.id;

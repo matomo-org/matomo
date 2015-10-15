@@ -10,7 +10,6 @@
         "AllWebsitesDashboard": "全ウェブサイトのダッシュボード",
         "And": "そして",
         "API": "API",
-        "ApplyDateRange": "期間を適用する",
         "ArchivingInlineHelp": "比較的トラフィックの高いウェブサイトでは、ブラウザでの表示をトリガーとする Piwik アーカイブ処理を無効にすることをお勧めします。 代わりに、1時間ごとに Piwik リポートを処理する cron ジョブをセットアップすることをお勧めします。",
         "ArchivingTriggerDescription": "比較的トラフィックの高いウェブサイトに推奨します。 自動リポート処理には %scron ジョブのセットアップ%sが必要となります。",
         "AuthenticationMethodSmtp": "SMTP の認証方法",
@@ -391,7 +390,6 @@
         "YearsDays": "%1$s 年 %2$s 日",
         "Yes": "はい",
         "YouAreCurrentlyUsing": "現在Piwik %s を利用しています",
-        "YouAreViewingDemoShortMessage": "現在、Piwik のデモを表示しています",
         "YouMustBeLoggedIn": "この機能にアクセスするにはログインする必要があります。",
         "YourChangesHaveBeenSaved": "変更は保存されました。"
     },

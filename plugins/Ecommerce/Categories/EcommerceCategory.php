@@ -14,4 +14,5 @@ class EcommerceCategory extends Category
 {
     protected $id = 'Goals_Ecommerce';
     protected $order = 20;
+    protected $icon = 'icon-reporting-ecommerce';
 }

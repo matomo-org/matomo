@@ -42,8 +42,8 @@ var isCorePlugin = function (pathToPlugin) {
 var Application = function () {
     this.runner = null;
 
-    var diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', config.screenshotDiffDir);
-    this.diffViewerGenerator = new DiffViewerGenerator(diffviewerDir);
+    this.diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', config.screenshotDiffDir);
+    this.diffViewerGenerator = new DiffViewerGenerator(this.diffviewerDir);
 };
 
 Application.prototype.printHelpAndExit = function () {
@@ -257,6 +257,11 @@ Application.prototype.doRunTests = function () {
 
 Application.prototype.finish = function () {
     phantom.exit(this.runner ? this.runner.failures : -1);
+};
+
+Application.prototype.appendMissingExpected = function (screenName) {
+    var missingExpectedFilePath = path.join(this.diffviewerDir, 'missing-expected.list');
+    fs.write(missingExpectedFilePath, screenName + "\n", "a");
 };
 
 exports.Application = new Application();

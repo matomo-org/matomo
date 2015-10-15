@@ -9,7 +9,6 @@
         "AllWebsitesDashboard": "פאנל סקירה לכל האתרים",
         "And": "ו",
         "API": "API",
-        "ApplyDateRange": "יישום טווח תאריכים",
         "ArchivingInlineHelp": "עבור אתרים בעלי תעבורה בינוניתעד גבוהה, מומלץ לבטל את ארכיון Piwik בעת צפייה דרך הדפדפן בדוחות. במקום זאת, מומלץ להגדיר עבודה כרונית (cron job) שתעבד דוחות Piwik בכל שעה.",
         "ArchivingTriggerDescription": "מומלץ להתקנות גדולות יותר של Piwik, צריך %sלהגדיר עבודה כרונית%s שתעבד את הדוחות אוטומטית.",
         "AuthenticationMethodSmtp": "שיטת אימות עבור SMTP",
@@ -216,7 +215,6 @@
         "YearlyReports": "דוחות שנתיים",
         "YearsDays": "%1$s שנים ו-%2$s ימים",
         "Yes": "כן",
-        "YouAreViewingDemoShortMessage": "הנך צופה בגרסת ההדגמה של Piwik",
         "YouMustBeLoggedIn": "חובה להתחבר למערכת בכדי לבצע פעולה זו.",
         "YourChangesHaveBeenSaved": "השינויים נשמרו."
     },

@@ -13,6 +13,11 @@
 			<nb_impressions>Impressions</nb_impressions>
 			<nb_interactions>Interactions</nb_interactions>
 		</metrics>
+		<metricsDocumentation>
+			<nb_impressions>The number of times a content block, such as a banner or an ad, was displayed on a page.</nb_impressions>
+			<nb_interactions>The number of times a content block was interacted with (eg, a 'click' on a banner or ad).</nb_interactions>
+			<interaction_rate>The ratio of content impressions to interactions.</interaction_rate>
+		</metricsDocumentation>
 		<processedMetrics>
 			<interaction_rate>Interaction Rate</interaction_rate>
 		</processedMetrics>

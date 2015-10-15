@@ -14,4 +14,5 @@ class VisitorsCategory extends Category
 {
     protected $id = 'General_Visitors';
     protected $order = 5;
+    protected $icon = 'icon-reporting-visitors';
 }

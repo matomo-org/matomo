@@ -2,6 +2,11 @@
 
 {% set title %}{{ 'General_Widgets'|translate }}{% endset %}
 
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+    {% include "@CoreHome/_periodSelect.twig" %}
+{% endblock %}
+
 {% block content %}
 
 <div>
@@ -29,8 +34,6 @@
 
 <h2 piwik-enriched-headline>{{ title }}</h2>
 
-{% include "@CoreHome/_siteSelectHeader.twig" %}
-
 <div class="widgetize">
     <p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click.
 
@@ -57,10 +60,6 @@
 
     <h2>Widgetize reports</h2>
     <p>Select a report, and copy paste in your page the embed code below the widget:
-
-    <div class="top_controls">
-        {% include "@CoreHome/_periodSelect.twig" %}
-    </div>
 
     <div id="widgetPreview"></div>
 

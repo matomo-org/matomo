@@ -10,7 +10,6 @@
         "AllWebsitesDashboard": "Kaikkien verkkosivujen työpöytä",
         "And": "ja",
         "API": "API",
-        "ApplyDateRange": "Ota käyttöön",
         "ArchivingInlineHelp": "Keskikokoisilla ja vilkkailla sivulla on suositeltavaa kieltää arkistointi selaimesta. Parempi vaihtoehto on käyttää cron-työtä arkistointiin joka tunti.",
         "ArchivingTriggerDescription": "Suositeltavaa suuremmissa Piwik-asennuksissa. Sinun täytyy %sasentaa cron-työ%s, jotta raportit käsitellään oikein.",
         "AuthenticationMethodSmtp": "SMTP:n autentikointimenetelmä",
@@ -390,7 +389,6 @@
         "YearsDays": "%1$s vuotta %2$s päivää",
         "Yes": "Kyllä",
         "YouAreCurrentlyUsing": "Käytät Piwik %s:ää",
-        "YouAreViewingDemoShortMessage": "Katselet demoversiota Piwikistä",
         "YouMustBeLoggedIn": "Sinun täytyy kirjautua sisään ennen tämän toiminnallisuuden käyttämistä.",
         "YourChangesHaveBeenSaved": "Muutokset on tallennettu"
     },

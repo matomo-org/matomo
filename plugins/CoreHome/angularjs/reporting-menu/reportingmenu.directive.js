@@ -23,6 +23,7 @@
 
         return {
             restrict: 'A',
+            replace: true,
             scope: {},
             templateUrl: 'plugins/CoreHome/angularjs/reporting-menu/reportingmenu.directive.html?cb=' + piwik.cacheBuster,
             controller: 'ReportingMenuController'

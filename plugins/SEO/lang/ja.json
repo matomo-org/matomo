@@ -4,12 +4,9 @@
         "Bing_IndexedPages": "Bing インデックスページ",
         "Dmoz": "DMOZ エントリー",
         "DomainAge": "ドメインエイジ",
-        "ExternalBacklinks": "外部バックリンク (Majestic)",
         "Google_IndexedPages": "Google インデックスページ",
         "Rank": "ランク",
-        "ReferrerDomains": "参照元ドメイン (Majestic)",
         "SeoRankings": "SEO ランキング",
-        "SEORankingsFor": "%s の SEO ランキング",
-        "ViewBacklinksOnMajesticSEO": "MajesticSEO.com の外部バックリンクレポートを表示"
+        "SEORankingsFor": "%s の SEO ランキング"
     }
 }

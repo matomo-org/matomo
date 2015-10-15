@@ -14,4 +14,5 @@ class ReferrersCategory extends Category
 {
     protected $id = 'Referrers_Referrers';
     protected $order = 15;
+    protected $icon = 'icon-reporting-referer';
 }

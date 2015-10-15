@@ -47,9 +47,9 @@ class Updater extends \Piwik\Updates
      */
     public function __construct(array $visitDimensions = null, array $actionDimensions = null, array $conversionDimensions = null)
     {
-        $this->visitDimensions = $visitDimensions === null ? VisitDimension::getAllDimensions() : $visitDimensions;
-        $this->actionDimensions = $actionDimensions === null ? ActionDimension::getAllDimensions() : $actionDimensions;
-        $this->conversionDimensions = $conversionDimensions === null ? ConversionDimension::getAllDimensions() : $conversionDimensions;
+        $this->visitDimensions = $visitDimensions;
+        $this->actionDimensions = $actionDimensions;
+        $this->conversionDimensions = $conversionDimensions;
     }
 
     public function getMigrationQueries(PiwikUpdater $updater)
@@ -74,6 +74,36 @@ class Updater extends \Piwik\Updates
         $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 
+    private function getVisitDimensions()
+    {
+        // see eg https://github.com/piwik/piwik/issues/8399 we fetch them only on demand to improve performance
+        if (!isset($this->visitDimensions)) {
+            $this->visitDimensions = VisitDimension::getAllDimensions();
+        }
+
+        return $this->visitDimensions;
+    }
+
+    private function getActionDimensions()
+    {
+        // see eg https://github.com/piwik/piwik/issues/8399 we fetch them only on demand to improve performance
+        if (!isset($this->actionDimensions)) {
+            $this->actionDimensions = ActionDimension::getAllDimensions();
+        }
+
+        return $this->actionDimensions;
+    }
+
+    private function getConversionDimensions()
+    {
+        // see eg https://github.com/piwik/piwik/issues/8399 we fetch them only on demand to improve performance
+        if (!isset($this->conversionDimensions)) {
+            $this->conversionDimensions = ConversionDimension::getAllDimensions();
+        }
+
+        return $this->conversionDimensions;
+    }
+
     private function getUpdates(PiwikUpdater $updater)
     {
         $visitColumns      = DbHelper::getTableColumns(Common::prefixTable('log_visit'));
@@ -82,17 +112,17 @@ class Updater extends \Piwik\Updates
 
         $allUpdatesToRun = array();
 
-        foreach ($this->visitDimensions as $dimension) {
+        foreach ($this->getVisitDimensions() as $dimension) {
             $updates         = $this->getUpdatesForDimension($updater, $dimension, 'log_visit.', $visitColumns, $conversionColumns);
             $allUpdatesToRun = $this->mixinUpdates($allUpdatesToRun, $updates);
         }
 
-        foreach ($this->actionDimensions as $dimension) {
+        foreach ($this->getActionDimensions() as $dimension) {
             $updates         = $this->getUpdatesForDimension($updater, $dimension, 'log_link_visit_action.', $actionColumns);
             $allUpdatesToRun = $this->mixinUpdates($allUpdatesToRun, $updates);
         }
 
-        foreach ($this->conversionDimensions as $dimension) {
+        foreach ($this->getConversionDimensions() as $dimension) {
             $updates         = $this->getUpdatesForDimension($updater, $dimension, 'log_conversion.', $conversionColumns);
             $allUpdatesToRun = $this->mixinUpdates($allUpdatesToRun, $updates);
         }
@@ -162,15 +192,15 @@ class Updater extends \Piwik\Updates
         $actionColumns     = DbHelper::getTableColumns(Common::prefixTable('log_link_visit_action'));
         $conversionColumns = DbHelper::getTableColumns(Common::prefixTable('log_conversion'));
 
-        foreach ($this->visitDimensions as $dimension) {
+        foreach ($this->getVisitDimensions() as $dimension) {
             $versions = $this->mixinVersions($updater, $dimension, VisitDimension::INSTALLER_PREFIX, $visitColumns, $versions);
         }
 
-        foreach ($this->actionDimensions as $dimension) {
+        foreach ($this->getActionDimensions() as $dimension) {
             $versions = $this->mixinVersions($updater, $dimension, ActionDimension::INSTALLER_PREFIX, $actionColumns, $versions);
         }
 
-        foreach ($this->conversionDimensions as $dimension) {
+        foreach ($this->getConversionDimensions() as $dimension) {
             $versions = $this->mixinVersions($updater, $dimension, ConversionDimension::INSTALLER_PREFIX, $conversionColumns, $versions);
         }
 

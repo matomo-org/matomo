@@ -191,6 +191,9 @@ class ScheduledReports extends \Piwik\Plugin
         $filteredReportMetadata = array();
         foreach ($availableReportMetadata as $reportMetadata) {
             // removing reports from the API category and MultiSites.getOne
+            if (empty($reportMetadata['category'])) {
+                var_dump($reportMetadata);exit;
+            }
             if (
                 $reportMetadata['category'] == 'API' ||
                 $reportMetadata['category'] == Piwik::translate('General_MultiSitesSummary') && $reportMetadata['name'] == Piwik::translate('General_SingleWebsitesDashboard')

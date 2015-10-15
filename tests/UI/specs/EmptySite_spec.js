@@ -15,7 +15,7 @@ describe("EmptySite", function () {
     it('should show the tracking code if the website has no recorded data', function (done) {
         var urlToTest = "?" + generalParams + "&module=CoreHome&action=index";
 
-        expect.screenshot('emptySiteDashboard').to.be.captureSelector('.site-without-data', function (page) {
+        expect.screenshot('emptySiteDashboard').to.be.captureSelector('.page', function (page) {
             page.load(urlToTest);
         }, done);
     });

@@ -81,6 +81,21 @@
 		<documentation>Number of visits that ended on this page.</documentation>
 	</row>
 	<row>
+		<name>Impressions</name>
+		<id>nb_impressions</id>
+		<documentation>The number of times a content block, such as a banner or an ad, was displayed on a page.</documentation>
+	</row>
+	<row>
+		<name>Interaction Rate</name>
+		<id>interaction_rate</id>
+		<documentation>The ratio of content impressions to interactions.</documentation>
+	</row>
+	<row>
+		<name>Interactions</name>
+		<id>nb_interactions</id>
+		<documentation>The number of times a content block was interacted with (eg, a 'click' on a banner or ad).</documentation>
+	</row>
+	<row>
 		<name>Maximum value</name>
 		<id>max_event_value</id>
 		<documentation>The maximum value for this event</documentation>

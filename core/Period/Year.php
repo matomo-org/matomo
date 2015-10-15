@@ -15,6 +15,8 @@ use Piwik\Period;
  */
 class Year extends Period
 {
+    const PERIOD_ID = 4;
+
     protected $label = 'year';
 
     /**
@@ -86,5 +88,15 @@ class Year extends Period
         }
 
         return $stringMonth;
+    }
+
+    public function getImmediateChildPeriodLabel()
+    {
+        return 'month';
+    }
+
+    public function getParentPeriodLabel()
+    {
+        return null;
     }
 }

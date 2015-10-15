@@ -22,27 +22,37 @@
     {{ ajax.requestErrorDiv(emailSuperUser|default('')) }}
     {{ postEvent("Template.beforeContent", "admin", currentModule) }}
 
-    <div id="container">
+    <div class="page">
 
         {% if showMenu is not defined or showMenu %}
-            {% include "@CoreAdminHome/_menu.twig" %}
+            {% import '@CoreHome/_menu.twig' as menu %}
+            {{ menu.menu(adminMenu, false, 'Menu--admin', currentModule, currentAction) }}
         {% endif %}
 
-        <div id="content" class="admin">
+        <div class="pageWrap">
 
-            {% include "@CoreHome/_headerMessage.twig" %}
-            {% include "@CoreHome/_notifications.twig" %}
+            <div class="top_controls">
+                {% block topcontrols %}
+                {% endblock %}
 
-            <div class="ui-confirm" id="alert">
-                <h2></h2>
-                <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
+                {% include "@CoreHome/_headerMessage.twig" %}
             </div>
 
-            {% include "@CoreHome/_warningInvalidHost.twig" %}
+            <div class="admin" id="content">
+                {% include "@CoreHome/_notifications.twig" %}
+                {% include "@CoreHome/_warningInvalidHost.twig" %}
 
-            {% block content %}
-            {% endblock %}
+                <div class="ui-confirm" id="alert">
+                    <h2></h2>
+                    <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
+                </div>
 
+                {% block content %}
+                {% endblock %}
+
+            </div>
         </div>
     </div>
+
+
 {% endblock %}

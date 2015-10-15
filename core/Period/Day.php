@@ -16,6 +16,8 @@ use Piwik\Period;
  */
 class Day extends Period
 {
+    const PERIOD_ID = 1;
+
     protected $label = 'day';
 
     /**
@@ -97,5 +99,15 @@ class Day extends Period
     public function __toString()
     {
         return $this->toString();
+    }
+
+    public function getImmediateChildPeriodLabel()
+    {
+        return null;
+    }
+
+    public function getParentPeriodLabel()
+    {
+        return 'week';
     }
 }

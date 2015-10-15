@@ -98,6 +98,7 @@ class GenerateIntl extends ConsoleCommand
             $this->fetchCalendarData($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchLayoutDirection($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchUnitData($output, $transformedLangCode, $requestLangCode, $translations);
+            $this->fetchNumberFormattingData($output, $transformedLangCode, $requestLangCode, $translations);
 
             ksort($translations['Intl']);
 
@@ -322,6 +323,32 @@ class GenerateIntl extends ConsoleCommand
         }
 
         return $dateFormat;
+    }
+
+    protected function fetchNumberFormattingData(OutputInterface $output, $langCode, $requestLangCode, &$translations)
+    {
+        $unitsUrl = 'https://raw.githubusercontent.com/unicode-cldr/cldr-numbers-full/master/main/%s/numbers.json';
+
+        try {
+            $unitsData = Http::fetchRemoteFile(sprintf($unitsUrl, $requestLangCode));
+            $unitsData = json_decode($unitsData, true);
+            $unitsData = $unitsData['main'][$requestLangCode]['numbers'];
+
+            $numberingSystem = $unitsData['defaultNumberingSystem'];
+
+            $translations['Intl']['NumberSymbolDecimal']  = $unitsData['symbols-numberSystem-' . $numberingSystem]['decimal'];
+            $translations['Intl']['NumberSymbolGroup']    = $unitsData['symbols-numberSystem-' . $numberingSystem]['group'];
+            $translations['Intl']['NumberSymbolPercent']  = $unitsData['symbols-numberSystem-' . $numberingSystem]['percentSign'];
+            $translations['Intl']['NumberSymbolPlus']     = $unitsData['symbols-numberSystem-' . $numberingSystem]['plusSign'];
+            $translations['Intl']['NumberSymbolMinus']    = $unitsData['symbols-numberSystem-' . $numberingSystem]['minusSign'];
+            $translations['Intl']['NumberFormatNumber']   = $unitsData['decimalFormats-numberSystem-' . $numberingSystem]['standard'];
+            $translations['Intl']['NumberFormatCurrency']   = $unitsData['currencyFormats-numberSystem-' . $numberingSystem]['standard'];
+            $translations['Intl']['NumberFormatPercent']  = $unitsData['percentFormats-numberSystem-' . $numberingSystem]['standard'];
+
+            $output->writeln('Saved number formatting data for ' . $langCode);
+        } catch (\Exception $e) {
+            $output->writeln('Unable to import number formatting data for ' . $langCode);
+        }
     }
 
     protected function fetchUnitData(OutputInterface $output, $langCode, $requestLangCode, &$translations)

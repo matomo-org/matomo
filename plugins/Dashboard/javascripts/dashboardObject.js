@@ -509,24 +509,26 @@
                 return $(this).attr('id').indexOf('Dashboard_embeddedIndex') == 0;
             }).remove();
 
+            if (dashboards.length === 0) {
+                dashboards = [{iddashboard: 1, name: _pk_translate('Dashboard_Dashboard')}];
+            }
+
             if (dashboards.length > 1
                 || dashboardMenuListItems.length >= 1
             ) {
                 var items = [];
                 for (var i = 0; i < dashboards.length; i++) {
-                    var $link = $('<a/>').attr('data-idDashboard', dashboards[i].iddashboard).text(dashboards[i].name);
+                    var $link = $('<a/>').attr('data-idDashboard', dashboards[i].iddashboard).text(dashboards[i].name).addClass('item title');
                     var $li = $('<li/>').attr('id', 'Dashboard_embeddedIndex_' + dashboards[i].iddashboard)
                         .addClass('dashboardMenuItem').append($link);
                     items.push($li);
 
                     if (dashboards[i].iddashboard == dashboardId) {
                         dashboardName = dashboards[i].name;
-                        $li.addClass('sfHover');
+                        $li.addClass('active');
                     }
                 }
                 dashboardMenuList.prepend(items);
-            } else {
-                dashboardMenuList.hide();
             }
 
             dashboardMenuList.find('a[data-idDashboard]').click(function (e) {

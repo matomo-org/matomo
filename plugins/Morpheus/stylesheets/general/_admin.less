@@ -1,39 +1,3 @@
-.Menu--admin {
-    .Menu-tabList {
-        .border-radius(0px);
-        border-color: @theme-color-background-lowContrast;
-        background-image: none;
-        padding-left: 0;
-        border-top: 0;
-        > li:first-child span {
-          border-bottom: 3px solid @theme-color-brand;
-        }
-        > li {
-            padding-bottom: 0px;
-            > span {
-                color: @theme-color-text;
-                .font-default(18px, 26px);
-                border-top: 1px solid @theme-color-background-lowContrast;
-                border-bottom: 1px solid @theme-color-background-lowContrast;
-                padding: 12px 15px;
-            }
-            ul {
-                background-color: @theme-color-menu-contrast-background;
-
-                li {
-                    a {
-                        color: @theme-color-text-lighter !important;
-                        padding: 0.8em 1.1em;
-                        &:hover {
-                            color: @theme-color-text;
-                            text-decoration: none;
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
 
 .ui-state-highlight {
     border-color: @color-silver-l80 !important;
@@ -52,24 +16,10 @@
         cursor: pointer;
         min-height: 30px;
     }
-
-    .sites_autocomplete {
-        position: static !important;
-    }
 }
 
 .sites_autocomplete  {
     vertical-align: middle;
-}
-
-#loadingError {
-    color: @theme-color-brand;
-    font-weight: normal;
-}
-
-.sites_autocomplete .custom_select .custom_select_block .custom_select_container .custom_select_ul_list {
-    margin-top: 5px;
-    padding-bottom: 0;
 }
 
 .adminTable a {

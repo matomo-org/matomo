@@ -15,7 +15,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
@@ -25,6 +24,7 @@ use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 use Piwik\NoAccessException;
 use Piwik\Notification\Manager as NotificationManager;
+use Piwik\NumberFormatter;
 use Piwik\Period\Month;
 use Piwik\Period;
 use Piwik\Period\PeriodValidator;
@@ -667,8 +667,6 @@ abstract class Controller
      *
      * The following variables assigned:
      *
-     * **enableMeasurePiwikForSiteId** - The value of the `[Debug] enable_measure_piwik_usage_in_idsite`
-     *                                     INI config option.
      * **isSuperUser** - True if the current user is the Super User, false if otherwise.
      * **hasSomeAdminAccess** - True if the current user has admin access to at least one site,
      *                          false if otherwise.
@@ -688,7 +686,6 @@ abstract class Controller
     protected function setBasicVariablesView($view)
     {
         $view->clientSideConfig = PiwikConfig::getInstance()->getClientSideOptions();
-        $view->enableMeasurePiwikForSiteId = PiwikConfig::getInstance()->Debug['enable_measure_piwik_usage_in_idsite'];
         $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->hasSomeViewAccess  = Piwik::isUserHasSomeViewAccess();

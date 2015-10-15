@@ -4,7 +4,7 @@ body {
 
 /* Header */
 .header {
-    padding: 50px 0 12px;
+    padding: 50px 0 22px;
     margin-bottom: 40px;
     border-bottom: solid 1px #ccc;
 }
@@ -20,7 +20,7 @@ body {
 }
 .language-selector {
     float: left;
-    margin-left: 15px;
+    margin-left: 20px;
     margin-top: 10px;
 }
 .installation-progress {

@@ -24,7 +24,7 @@ describe("DashboardManager", function () {
 
     it("should expand when clicked", function (done) {
         expect.screenshot("expanded").to.be.captureSelector(selectorToCapture, function (page) {
-            page.click('.dashboard-manager');
+            page.click('.dashboard-manager .title');
         }, done);
     });
 

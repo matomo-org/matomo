@@ -6,7 +6,8 @@
         "Add": "新增",
         "AfterEntry": "在這裡之後輸入",
         "All": "全部",
-        "AllWebsitesDashboard": "所有網站展示板",
+        "AllWebsitesDashboard": "所有網站的控制台",
+        "And": "和",
         "API": "API",
         "ArchivingInlineHelp": "對於中或高流量的網站，建議停用 Piwik 彙整觸發瀏覽器。反之，我們建議你設定一個工作排程(Cron job)，每小時處理 Piwik 報告。",
         "ArchivingTriggerDescription": "推薦大型的 Piwik 安裝，你需要%s設定一個工作排程(Cron job)%s來自動處理報告。",
@@ -197,7 +198,6 @@
         "Widgets": "組件",
         "YearsDays": "%1$s 年 %2$s 天",
         "Yes": "是",
-        "YouAreViewingDemoShortMessage": "你正在瀏覽 Piwik 範例",
         "YouMustBeLoggedIn": "您必須登入才能存取這個功能！",
         "YourChangesHaveBeenSaved": "您的變更已儲存！"
     },
@@ -208,15 +208,26 @@
         "Accounts": "帳號",
         "AddAccount": "新增帳號",
         "AddPiwikDemo": "增加 Piwik 示範",
+        "Advanced": "進階",
         "AnonymousAccess": "匿名存取",
+        "AnonymousTracking": "匿名追蹤",
+        "ChooseHttpTimeout": "選擇HTTP多久之後超時",
+        "ChooseReport": "選擇一個報表",
         "EnableGraphsLabel": "顯示圖表",
         "MultiChartLabel": "顯示 sparklines",
         "NetworkNotReachable": "網路無法訪問",
+        "NoVisitorsShort": "沒有任何訪問者",
+        "NoWebsiteFound": "沒有網站",
+        "NoWebsitesShort": "沒有任何網站",
         "SaveSuccessError": "請確認設定",
         "YouAreOffline": "抱歉，您目前為離線狀態"
     },
     "RowEvolution": {
         "AvailableMetrics": "可用指標",
-        "CompareRows": "比較紀錄"
+        "CompareRows": "比較紀錄",
+        "ComparingRecords": "正在比較 %s 行",
+        "MetricBetweenText": "從 %s 到 %s",
+        "MetricChangeText": "在這段時間改變了 %s",
+        "PickAnotherRow": "選擇其他行來進行比較"
     }
 }

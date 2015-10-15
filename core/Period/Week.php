@@ -14,6 +14,8 @@ use Piwik\Period;
  */
 class Week extends Period
 {
+    const PERIOD_ID = 2;
+
     protected $label = 'week';
 
     /**
@@ -75,5 +77,15 @@ class Week extends Period
             $this->addSubperiod(new Day($currentDay));
             $currentDay = $currentDay->addDay(1);
         }
+    }
+
+    public function getImmediateChildPeriodLabel()
+    {
+        return 'day';
+    }
+
+    public function getParentPeriodLabel()
+    {
+        return 'month';
     }
 }
