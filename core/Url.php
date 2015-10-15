@@ -59,7 +59,7 @@ class Url
     public static function getCurrentUrl()
     {
         return self::getCurrentScheme() . '://'
-        . self::getCurrentHost()
+        . self::getCurrentHostWithPort()
         . self::getCurrentScriptName(false)
         . self::getCurrentQueryString();
     }
@@ -75,16 +75,9 @@ class Url
      */
     public static function getCurrentUrlWithoutQueryString($checkTrustedHost = true)
     {
-        $result = self::getCurrentScheme() . '://'
-                . self::getCurrentHost($default = 'unknown', $checkTrustedHost);
-
-        $port = self::getServerPort();
-        if ($port !== null) {
-            $result .= ':' . $port;
-        }
-
-        $result .= self::getCurrentScriptName(false);
-        return $result;
+        return self::getCurrentScheme() . '://'
+        . self::getCurrentHostWithPort($default = 'unknown', $checkTrustedHost)
+        . self::getCurrentScriptName(false);
     }
 
     /**
@@ -97,16 +90,9 @@ class Url
      */
     public static function getCurrentUrlWithoutFileName()
     {
-        $result = self::getCurrentScheme() . '://'
-                . self::getCurrentHost();
-
-        $port = self::getServerPort();
-        if ($port !== null) {
-            $result .= ':' . $port;
-        }
-
-        $result .= self::getCurrentScriptPath();
-        return $result;
+        return self::getCurrentScheme() . '://'
+        . self::getCurrentHostWithPort()
+        . self::getCurrentScriptPath();
     }
 
     /**
@@ -350,6 +336,18 @@ class Url
      * @api
      */
     public static function getCurrentHost($default = 'unknown', $checkTrustedHost = true)
+    {
+        $host = self::getCurrentHostWithPort($default, $checkTrustedHost);
+
+        $colonIndex = strrpos($host, ':');
+        if ($colonIndex !== false) {
+            $host = substr(0, $colonIndex);
+        }
+
+        return $host;
+    }
+
+    public static function getCurrentHostWithPort($default = 'unknown', $checkTrustedHost = true)
     {
         $hostHeaders = array();
 

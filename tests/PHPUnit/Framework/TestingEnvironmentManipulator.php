@@ -55,8 +55,6 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     {
         $this->vars = $testingEnvironment;
         $this->globalObservers = $globalObservers;
-
-        $this->removePortIfPresentInHttpHeader();
     }
 
     public function makeGlobalSettingsProvider(GlobalSettingsProvider $original)
@@ -234,17 +232,6 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         } else {
             throw new \Exception("TestingEnvironmentManipulator: Autoloader cannot find class '$klass'. "
                 . "Is the namespace correct? Is the file in the correct folder?");
-        }
-    }
-
-    private function removePortIfPresentInHttpHeader()
-    {
-        if (isset($_SERVER['HTTP_HOST'])
-            && preg_match("/(.*[^:]):([0-9]+)/", $_SERVER['HTTP_HOST'], $matches)
-        ) {
-            // phantomjs sends the port in HTTP_HOST which causes some UI tests to fail. so if it's present, we remove it here.
-            $_SERVER['HTTP_HOST'] = $matches[1];
-            $_SERVER['SERVER_PORT'] = $matches[2];
         }
     }
 }
