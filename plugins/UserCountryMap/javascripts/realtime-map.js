@@ -61,7 +61,7 @@
             initTopControls();
             $('#secondNavBar').on('piwikSwitchPage', function (event, item) {
                 var href = $(item).attr('href');
-                var clickedMenuIsNotMap = (href.indexOf('module=UserCountryMap&action=realtimeWorldMap') == -1);
+                var clickedMenuIsNotMap = !href || (href.indexOf('module=UserCountryMap&action=realtimeWorldMap') == -1);
                 if (clickedMenuIsNotMap) {
                     $('#periodString').show();
                     initTopControls();

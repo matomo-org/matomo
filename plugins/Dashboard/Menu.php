@@ -21,7 +21,7 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->addItem('Dashboard_Dashboard', '', $this->urlForAction('embeddedIndex', array('idDashboard' => 1)), 5);
+        $menu->addItem('Dashboard_Dashboard', '', array(), 5);
 
         if (Piwik::isUserIsAnonymous()) {
             $this->addDefaultDashboard($menu);

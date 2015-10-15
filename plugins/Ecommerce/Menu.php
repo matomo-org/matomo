@@ -28,10 +28,9 @@ class Menu extends \Piwik\Plugin\Menu
 
         if ($site->isEcommerceEnabled()) {
             $ecommerceParams = array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
-            $ecommerceUrl    = $this->urlForAction('ecommerceReport', $ecommerceParams);
 
-            $menu->addItem('Goals_Ecommerce', '', $ecommerceUrl, 24);
-            $menu->addItem('Goals_Ecommerce', 'General_Overview', $ecommerceUrl, 1);
+            $menu->addItem('Goals_Ecommerce', '', array(), 24);
+            $menu->addItem('Goals_Ecommerce', 'General_Overview', $this->urlForAction('ecommerceReport', $ecommerceParams), 1);
             $menu->addItem('Goals_Ecommerce', 'Goals_EcommerceLog', $this->urlForAction('ecommerceLogReport'), 2);
             $menu->addItem('Goals_Ecommerce', 'Goals_Products', $this->urlForAction('products', $ecommerceParams), 3);
             $menu->addItem('Goals_Ecommerce', 'Ecommerce_Sales', $this->urlForAction('sales', $ecommerceParams), 4);
