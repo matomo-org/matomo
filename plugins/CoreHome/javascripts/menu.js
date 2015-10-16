@@ -30,8 +30,13 @@ menu.prototype =
         if (!$('#content.admin').size()) {
             if (!href && $link.parent().is('.menuTab')) {
                 var $li = $link.parents('li').first();
-                $li.siblings().removeClass('sfActive');
-                $li.addClass('sfActive');
+
+                if ($li.hasClass('sfActive')) {
+                    $li.removeClass('sfActive');
+                } else {
+                    $li.siblings().removeClass('sfActive');
+                    $li.addClass('sfActive');
+                }
 
             } else if (href) {
                 broadcast.propagateAjax(href.substr(1));
