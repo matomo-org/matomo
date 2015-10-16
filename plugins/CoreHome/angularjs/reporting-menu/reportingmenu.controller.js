@@ -15,6 +15,13 @@
         {
             angular.forEach(menuModel.menu, function (cat) {
                 cat.active = false;
+            });
+        }
+
+        function markAllCategoriesAndChildrenInactive()
+        {
+            angular.forEach(menuModel.menu, function (cat) {
+                cat.active = false;
                 angular.forEach(cat.subcategories, function (subcat) {
                     subcat.active = false;
 
@@ -40,15 +47,19 @@
         $scope.menuModel = menuModel;
 
         // highlight the currently hovered subcategory (and category)
-        function enterSubcategory(category, subcategory) {
+        function enterSubcategory(category, subcategory, subsubcategory) {
             if (!category || !subcategory) {
                 return;
             }
 
-            markAllCategoriesAsInactive();
+            markAllCategoriesAndChildrenInactive();
 
             category.active = true;
             subcategory.active = true;
+
+            if (subsubcategory) {
+                subsubcategory.active = true;
+            }
         };
 
         var idSite = getUrlParam('idSite');
@@ -69,6 +80,11 @@
             }
             return url;
         }
+
+        $scope.loadCategory = function (category) {
+            markAllCategoriesAsInactive();
+            category.active = true;
+        };
 
         $scope.loadSubcategory = function (category, subcategory) {
             if (subcategory && subcategory.active) {
@@ -95,7 +111,7 @@
             }
 
             var found = menuModel.findSubcategory(category, subcategory);
-            enterSubcategory(found.category, found.subcategory);
+            enterSubcategory(found.category, found.subcategory, found.subsubcategory);
         });
 
     }

@@ -20,10 +20,11 @@
             $('.dashboardSettings').show();
             initTopControls();
 
-            // Embed dashboard
+            // Embed dashboard / exported as widget
             if (!$('#topBars').length) {
                 $('.dashboardSettings').after($('#Dashboard'));
-                $('#Dashboard_embeddedIndex_' + dashboardId).addClass('sfHover');
+                $('#Dashboard ul li').removeClass('active');
+                $('#Dashboard_embeddedIndex_' + dashboardId).addClass('active');
             }
 
             widgetsHelper.getAvailableWidgets();

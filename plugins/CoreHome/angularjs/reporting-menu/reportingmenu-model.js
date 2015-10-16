@@ -30,6 +30,7 @@
         {
             var foundCategory = null;
             var foundSubcategory = null;
+            var foundSubSubcategory = null;
 
             angular.forEach(model.menu, function (category) {
                 if (category.id !== categoryId) {
@@ -40,10 +41,20 @@
                         foundCategory = category;
                         foundSubcategory = subcategory;
                     }
+
+                    if (subcategory.isGroup) {
+                        angular.forEach(subcategory.subcategories, function (subcat) {
+                            if (subcat.id === subcategoryId) {
+                                foundCategory = category;
+                                foundSubcategory = subcategory;
+                                foundSubSubcategory = subcat;
+                            }
+                        });
+                    }
                 });
             });
 
-            return {category: foundCategory, subcategory: foundSubcategory};
+            return {category: foundCategory, subcategory: foundSubcategory, subsubcategory: foundSubSubcategory};
         }
 
         function buildMenuFromPages(pages)
@@ -77,7 +88,7 @@
                     if (page.category.id === categoryId) {
                         var subcategory = page.subcategory;
 
-                        if (subcategory.id === activeSubcategory) {
+                        if (subcategory.id === activeSubcategory && categoryId === activeCategory) {
                             subcategory.active = true;
                         }
 

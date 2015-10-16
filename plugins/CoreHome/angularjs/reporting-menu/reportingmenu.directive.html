@@ -3,8 +3,8 @@
         class="menuTab"
         ng-class="{'active': category.active}">
         <a class="item"
-           ng-href="#?{{ makeUrl(category,category.subcategories[0]) }}"
-           ng-click="loadSubcategory(category, category.subcategories[0])">
+           href=""
+           ng-click="loadCategory(category)">
             <span class="menu-icon {{ category.icon ? category.icon : 'icon-arrow-right' }}"></span>{{ category.name }}
             <span class="hidden">
              {{ 'CoreHome_Menu'|translate }}

@@ -9,11 +9,9 @@
 namespace Piwik\Plugins\Goals;
 
 use Piwik\Common;
-use Piwik\Menu\Group;
 use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UserPreferences;
-use Piwik\Translate;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -25,7 +23,6 @@ class Menu extends \Piwik\Plugin\Menu
         if (Piwik::isUserHasAdminAccess($idSite)) {
             $menu->addManageItem('Goals_Goals', $this->urlForAction('manage', array('idSite' => $idSite)), 1);
         }
-
     }
 
     private function getIdSite($default = null)

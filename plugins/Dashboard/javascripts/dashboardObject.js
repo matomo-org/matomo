@@ -536,11 +536,11 @@
 
                 var idDashboard = $(this).attr('data-idDashboard');
 
-                $('#Dashboard ul li').removeClass('sfHover');
+                $('#Dashboard ul li').removeClass('active');
 
                 methods.loadDashboard.apply(_self, [idDashboard]);
 
-                $(this).closest('li').addClass('sfHover');
+                $(this).closest('li').addClass('active');
             });
         };
 

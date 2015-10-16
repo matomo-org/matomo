@@ -19,9 +19,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikWidgetLoader', piwikWidgetLoader);
 
-    piwikWidgetLoader.$inject = ['piwik', 'piwikUrl', '$http', '$compile', '$q'];
+    piwikWidgetLoader.$inject = ['piwik', 'piwikUrl', '$http', '$compile', '$q', '$location'];
 
-    function piwikWidgetLoader(piwik, piwikUrl, $http, $compile, $q){
+    function piwikWidgetLoader(piwik, piwikUrl, $http, $compile, $q, $location){
         return {
             restrict: 'A',
             transclude: true,
@@ -60,17 +60,18 @@
 
                         var url = $.param(parameters);
 
-                        var idSite  = piwikUrl.getSearchParam('idSite');
-                        var period  = piwikUrl.getSearchParam('period');
-                        var date    = piwikUrl.getSearchParam('date');
-                        var segment = piwikUrl.getSearchParam('segment');
+                        var $urlParams = $location.search();
+                        $urlParams = angular.copy($urlParams);
+                        delete $urlParams['category'];
+                        delete $urlParams['subcategory'];
 
-                        url += '&idSite=' + idSite + '&period=' + period;
-                        url += '&date=' + date + '&random=' + parseInt(Math.random() * 10000);
+                        angular.forEach($urlParams, function (value, key) {
+                            if (!(key in parameters)) {
+                                url += '&' + key + '=' + piwikUrl.getSearchParam(key);
+                            }
+                        });
 
-                        if (segment) {
-                            url += '&segment=' + segment;
-                        }
+                        url += '&random=' + parseInt(Math.random() * 10000);
 
                         return '?' + url;
                     }
