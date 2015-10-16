@@ -150,7 +150,7 @@ class Formatter
     public function getPrettyMoney($value, $idSite)
     {
         $space = ' ';
-        $currencySymbol = self::getCurrencySymbol($idSite);
+        $currencySymbol = Site::getCurrencySymbolFor($idSite);
         $currencyBefore =  $currencySymbol . $space;
         $currencyAfter = '';
         // (maybe more currencies prefer this notation?)
@@ -187,42 +187,6 @@ class Formatter
     {
         $result = ($value * 100) . '%';
         return Common::forceDotAsSeparatorForDecimalPoint($result);
-    }
-
-    /**
-     * Returns the currency symbol for a site.
-     *
-     * @param int $idSite The ID of the site to return the currency symbol for.
-     * @return string eg, `'$'`.
-     * @api
-     */
-    public static function getCurrencySymbol($idSite)
-    {
-        $symbols  = self::getCurrencyList();
-        $currency = Site::getCurrencyFor($idSite);
-
-        if (isset($symbols[$currency])) {
-            return $symbols[$currency][0];
-        }
-
-        return '';
-    }
-
-    /**
-     * Returns the list of all known currency symbols.
-     *
-     * @return array An array mapping currency codes to their respective currency symbols
-     *               and a description, eg, `array('USD' => array('$', 'US dollar'))`.
-     *
-     * @deprecated Use Piwik\Intl\Data\Provider\CurrencyDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\CurrencyDataProvider::getCurrencyList()
-     * @api
-     */
-    public static function getCurrencyList()
-    {
-        /** @var CurrencyDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
-        return $dataProvider->getCurrencyList();
     }
 
     /**

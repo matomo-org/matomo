@@ -118,11 +118,13 @@ class Dashboard
 
     private function formatMetrics(&$metrics)
     {
-        $formatter = new NumberFormatter();
+        $formatter = NumberFormatter::getInstance();
         foreach($metrics as $metricName => &$value) {
             if(in_array($metricName, $this->displayedMetricColumns)) {
 
                 if( strpos($metricName, 'revenue') !== false) {
+                    $currency = isset($metrics['idsite']) ? Site::getCurrencySymbolFor($metrics['idsite']) : '';
+                    $value  = $formatter->formatCurrency($value, $currency);
                     continue;
                 }
                 $value = $formatter->format($value);
@@ -325,16 +327,11 @@ class Dashboard
 
     private function enrichValues($sites)
     {
-        $formatter = new Formatter();
-
         foreach ($sites as &$site) {
             if (!isset($site['idsite'])) {
                 continue;
             }
 
-            if (isset($site['revenue'])) {
-                $site['revenue']  = $formatter->getPrettyMoney($site['revenue'], $site['idsite']);
-            }
             $site['main_url'] = Site::getMainUrlFor($site['idsite']);
 
             $this->formatMetrics($site);
