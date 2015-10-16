@@ -110,12 +110,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should redirect the old UserSettings index to visitors > software', function (done) {
-        expect.screenshot('usersettings_index').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=UserSettings&action=index");
-        }, done);
-    });
-
     it('should load the visitors > times page correctly', function (done) {
         expect.screenshot("visitors_times").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
