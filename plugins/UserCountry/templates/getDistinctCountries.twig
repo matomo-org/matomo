@@ -1,5 +1,5 @@
 <div class="sparkline">
     {{ sparkline(urlSparklineCountries) }}
-    {{ 'UserCountry_DistinctCountries'|translate("<strong>"~numberDistinctCountries~"</strong>")|raw }}
+    {{ 'UserCountry_DistinctCountries'|translate("<strong>"~numberDistinctCountries|number~"</strong>")|raw }}
 </div>
 <br style="clear:left"/>
