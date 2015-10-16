@@ -82,15 +82,10 @@
 
         function load(hash) {
             // make sure the hash is just the query parameter values, w/o a starting #, / or ? char. broadcast.pageload & $location.path should get neither
-            var chars = ['#', '/', '?'];
-            for (var i = 0; i != chars.length; ++i) {
-                var charToRemove = chars[i];
-                if (hash.charAt(0) == charToRemove) {
-                    hash = hash.substring(1);
-                }
-            }
-            
-            if (location.hash === '#?' + hash) {
+            hash = normalizeHash(hash);
+
+            var currentHash = normalizeHash(location.hash);
+            if (currentHash === hash) {
                 loadCurrentPage(); // it would not trigger a location change success event as URL is the same, call it manually
             } else if (hash) {
                 $location.search(hash);
@@ -103,6 +98,17 @@
             }
 
             setTimeout(function () { $rootScope.$apply(); }, 1);
+        }
+
+        function normalizeHash(hash) {
+            var chars = ['#', '/', '?'];
+            for (var i = 0; i != chars.length; ++i) {
+                var charToRemove = chars[i];
+                if (hash.charAt(0) == charToRemove) {
+                    hash = hash.substring(1);
+                }
+            }
+            return hash;
         }
     }
 })(window, jQuery, broadcast);

@@ -82,7 +82,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load visitors > overview page correctly', function (done) {
         expect.screenshot("visitors_overview").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
             // use columns query param to make sure columns works when supplied in URL fragment
-            page.load("?" + urlBase + "#" + generalParams + "&module=VisitsSummary&action=index&columns=nb_visits,nb_actions");
+            page.load("?" + urlBase + "#/?" + generalParams + "&module=VisitsSummary&action=index&columns=nb_visits,nb_actions");
+        }, done);
+    });
+
+    it('should reload the visitors > overview page when clicking on the visitors overview page element again', function (done) {
+        expect.screenshot("visitors_overview").to.be.captureSelector("visitors_overview_reloaded", '.pageWrap,.expandDataTableFooterDrawer', function (page) {
+            page.click('#VisitsSummary_index > a.item');
         }, done);
     });
 
