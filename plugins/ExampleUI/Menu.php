@@ -18,7 +18,7 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->addItem('UI Framework', '', $this->urlForAction('dataTables'), 30);
+        $menu->addItem('UI Framework', '', array(), 30);
 
         $this->addSubMenu($menu, 'Data tables', 'dataTables', 1);
         $this->addSubMenu($menu, 'Bar graph', 'barGraph', 2);

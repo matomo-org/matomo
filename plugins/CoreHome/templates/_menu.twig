@@ -28,12 +28,6 @@
     {%- endif %}
 {%- endmacro %}
 
-{% macro getFirstUrl(urlParameters) -%}
-    {% if urlParameters is iterable -%}
-        {{ urlParameters|urlRewriteWithParameters|slice(1)  }}
-    {%- endif %}
-{%- endmacro %}
-
 {% macro menu(menu, anchorlink, cssClass) %}
     <div id="secondNavBar" class="{{ cssClass }}">
         <div id="search">
@@ -41,8 +35,6 @@
         </div>
         <ul class="navbar">
             {% for level1,level2 in menu %}
-                {% set hasMainCategoryUrl = level2._url is defined and level2._url is not empty %}
-
                 {% set hasSubmenuItem = false %}
                 {% for name,urlParameters in level2 %}
                     {% if urlParameters._url is defined and urlParameters._url is not iterable %}
@@ -52,10 +44,10 @@
                     {% endif %}
                 {% endfor %}
 
-                {% if hasMainCategoryUrl or hasSubmenuItem %}
+                {% if hasSubmenuItem %}
                     <li id="{% if level2._url is defined and level2._url is not empty %}{{ _self.getId(level2._url) }}{% endif %}" class="menuTab">
 
-                        <a class="item" {% if hasMainCategoryUrl %}href="{% if anchorlink %}#{% else %}index.php?{% endif %}{{ _self.getFirstUrl(level2._url) }}"{% endif %}>
+                        <a class="item" href="">
                             <span class="menu-icon {{ level2._icon|default('icon-arrow-right') }}"></span>{{ level1|translate }}
                             <span class="hidden">
                              {{ 'CoreHome_Menu'|translate }}

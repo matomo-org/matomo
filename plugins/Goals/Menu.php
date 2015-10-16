@@ -28,7 +28,7 @@ class Menu extends \Piwik\Plugin\Menu
             $linkToAddNewGoal = $this->urlForAction('addNewGoal', array(
                 'idGoal' => null,
             ));
-            $menu->addItem($mainGoalMenu, '', $linkToAddNewGoal, 25);
+            $menu->addItem($mainGoalMenu, '', array(), 25);
             $menu->addItem($mainGoalMenu, 'Goals_AddNewGoal', $linkToAddNewGoal, 1);
             return;
         }

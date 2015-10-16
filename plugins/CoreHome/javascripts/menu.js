@@ -24,13 +24,22 @@ menu.prototype =
         $('#secondNavBar').trigger('piwikSwitchPage', this);
         $('#secondNavBar').removeClass('open fadeInLeft');
 
+        var $link = $(this);
+        var href = $link.attr('href');
+
         if (!$('#content.admin').size()) {
-            broadcast.propagateAjax( $(this).attr('href').substr(1) );
+            if (!href && $link.parent().is('.menuTab')) {
+                var $li = $link.parents('li').first();
+                $li.siblings().removeClass('sfActive');
+                $li.addClass('sfActive');
+
+            } else if (href) {
+                broadcast.propagateAjax(href.substr(1));
+            }
 
             return false;
         }
 
-        var href = $(this).attr('href');
         return !!href;
     },
 
@@ -149,7 +158,7 @@ menu.prototype =
 
     loadFirstSection: function () {
         if (broadcast.isHashExists() == false) {
-            $('li:first a:first', this.menuNode).click().addClass('sfActive');
+            $('.navbar li:first ul a:first', this.menuNode).click().addClass('sfActive');
         }
     }
 };
