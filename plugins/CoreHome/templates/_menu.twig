@@ -30,7 +30,7 @@
 
 {% macro menu(menu, anchorlink, cssClass) %}
     <div id="secondNavBar" class="{{ cssClass }}">
-        <div id="search">
+        <div id="search" ng-cloak>
             <div piwik-quick-access class="borderedControl"></div>
         </div>
         <ul class="navbar">
