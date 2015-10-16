@@ -5,19 +5,19 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ## Piwik 2.15.0 
 
 ### New commands
- *  New diagnostic command `diagnostics:analyze-archive-table` that analyzes archive tables
+ *  New command `diagnostics:analyze-archive-table` that analyzes archive tables
  *  New command `database:optimize-archive-tables` to optimize archive tables and possibly save disk space (even if on InnoDB)
  *  New Command `core:invalidate-report-data` to invalidate archive data (w/ period cascading) ([FAQ](https://piwik.org/faq/how-to/faq_155/))
 
 ### New APIs and features
-* Piwik 2.15.0 is now mostly compatible with PHP7 and can be used in production. 
+* Piwik 2.15.0 is now mostly compatible with PHP7. 
 * The JavaScript Tracker `piwik.js` got a new method `logAllContentBlocksOnPage` to log all found content blocks within a page to the console. This is useful to debug / test content tracking. It can be triggered via `_paq.push(['logAllContentBlocksOnPage'])`
 * The Class `Piwik\Plugins\Login\Controller` is now considered a public API.
 * The new method `Piwik\Menu\MenuAbstract::registerMenuIcon()` can be used to define an icon for a menu category to replace the default arrow icon.
 * New event `CronArchive.getIdSitesNotUsingTracker` that allows you to set a list of idSites that do not use the Tracker API to make sure we archive these sites if needed.
 * New events `CronArchive.init.start` which is triggered when the CLI archiver starts and `CronArchive.end` when the archiver ended.
-* Piwik tracker can now be configured with strict Content Security Policy ([CSP FAQ](https://piwik.org/faq/general/faq_20904/))
-* You can now choose to use the latest stable release or latest Long Term Support release 
+* Piwik tracker can now be configured with strict Content Security Policy ([CSP FAQ](https://piwik.org/faq/general/faq_20904/)).
+* Super Users can choose whether to use the latest stable release or latest Long Term Support release. 
 
 ### Breaking Changes
 * The method `Dimension::getId()` has been set as `final`. It is not allowed to overwrite this method.
