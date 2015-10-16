@@ -32,6 +32,11 @@ menu.prototype =
                 var $li = $link.parents('li').first();
                 $li.siblings().removeClass('sfActive');
                 $li.addClass('sfActive');
+                
+                var $children = $li.find('ul li > .item');
+                if ($children.length === 1) {
+                    $children.first().click();
+                }
 
             } else if (href) {
                 broadcast.propagateAjax(href.substr(1));
