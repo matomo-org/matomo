@@ -177,11 +177,6 @@ function copyDashboardToUser() {
         // open manager on open
         this.$element.on('click', function (e) {
             if ($(e.target).is('.dashboardSettings') || $(e.target).closest('.dashboardSettings').length) {
-                // fix position
-                self.$element
-                    .find('.widgetpreview-widgetlist')
-                    .css('paddingTop', self.$element.find('.widgetpreview-categorylist').parent('li').position().top);
-
                 self.onOpen();
             }
         });
