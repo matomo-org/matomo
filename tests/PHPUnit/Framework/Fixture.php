@@ -107,6 +107,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public $testCaseClass = false;
     public $extraPluginsToLoad = array();
+    public $extraDiEnvironments = array();
 
     public $testEnvironment = null;
 
@@ -201,6 +202,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         $testEnv->testCaseClass = $this->testCaseClass;
         $testEnv->fixtureClass = get_class($this);
         $testEnv->dbName = $this->dbName;
+        $testEnv->extraDiEnvironments = $this->extraDiEnvironments;
 
         foreach ($this->extraTestEnvVars as $name => $value) {
             $testEnv->$name = $value;

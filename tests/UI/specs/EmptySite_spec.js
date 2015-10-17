@@ -17,15 +17,6 @@ describe("EmptySite", function () {
 
         expect.screenshot('emptySiteDashboard').to.be.captureSelector('.page', function (page) {
             page.load(urlToTest);
-
-            // remove the port from URLs if any so UI tests won't fail if the port isn't 80
-            // TODO: code redundancy w/ UIIntegrationTest. can be fixed w/ new UI test DI environment type.
-            page.evaluate(function () {
-                $('pre').each(function () {
-                    var html = $(this).html().replace(/localhost\:[0-9]+/g, 'localhost');
-                    $(this).html(html);
-                });
-            });
         }, done);
     });
 });

@@ -212,6 +212,7 @@ class TestsSetupFixture extends ConsoleCommand
             throw new \Exception("Cannot find fixture class '$fixtureClass'.");
         }
 
+        /** @var Fixture $fixture */
         $fixture = new $fixtureClass();
         $fixture->printToScreen = true;
 
@@ -232,6 +233,8 @@ class TestsSetupFixture extends ConsoleCommand
         if ($extraPluginsToLoad) {
             $fixture->extraPluginsToLoad = explode(',', $extraPluginsToLoad);
         }
+
+        $fixture->extraDiEnvironments = array('ui-test');
 
         return $fixture;
     }
