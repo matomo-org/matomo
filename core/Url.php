@@ -216,6 +216,9 @@ class Url
                 return true;
             }
         }
+
+        $host = self::removePortFromHost($host);
+
         // if host is in hardcoded whitelist, assume it's valid
         if (in_array($host, self::getAlwaysTrustedHosts())) {
             return true;
@@ -338,12 +341,7 @@ class Url
     public static function getCurrentHost($default = 'unknown', $checkTrustedHost = true)
     {
         $host = self::getCurrentHostWithPort($default, $checkTrustedHost);
-
-        $colonIndex = strrpos($host, ':');
-        if ($colonIndex !== false) {
-            $host = substr(0, $colonIndex);
-        }
-
+        $host = self::removePortFromHost($host);
         return $host;
     }
 
@@ -697,8 +695,12 @@ class Url
         return array('localhost', '127.0.0.1', '::1', '[::1]');
     }
 
-    private static function getServerPort()
+    private static function removePortFromHost($host)
     {
-        return isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : null;
+        $colonIndex = strrpos($host, ':');
+        if ($colonIndex !== false) {
+            $host = substr(0, $colonIndex);
+        }
+        return $host;
     }
 }
