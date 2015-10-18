@@ -49,6 +49,14 @@ describe("Overlay", function () {
             });
             page.sendMouseEvent('mousemove', pos);
 
+            page.evaluate(function () {
+                $('div#PIS_StatusBar', $('iframe').contents()).each(function () {
+                    var html = $(this).html();
+                    html = html.replace(/localhost\:[0-9]+/g, 'localhost');
+                    $(this).html(html);
+                });
+            });
+
             removeOptOutIframe(page);
         }, done);
     });

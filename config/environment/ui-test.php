@@ -20,6 +20,12 @@ return array(
                 return;
             }
 
+            if (!empty($request['module']) && $request['module'] == 'Overlay'
+                && !empty($request['action']) && $request['action'] == 'renderSidebar'
+            ) {
+                return;
+            }
+
             $config = \Piwik\Config::getInstance();
             $host = $config->tests['http_host'];
             $port = $config->tests['port'];
