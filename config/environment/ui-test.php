@@ -7,7 +7,7 @@ return array(
         return $config;
     }),
 
-    'observers.global' => array(
+    'observers.global' => \DI\add(array(
 
         array('Request.dispatch.end', function (&$result) {
             $config = \Piwik\Config::getInstance();
@@ -26,6 +26,6 @@ return array(
         array('Controller.ExampleRssWidget.rssPiwik.end', function (&$result, $parameters) {
             $result = "";
         }),
-    ),
+    )),
 
 );
