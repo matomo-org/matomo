@@ -563,6 +563,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.load("?" + generalParams + "&module=Widgetize&action=index");
             page.mouseMove('.widgetpreview-categorylist>li:contains(Visits Summary)');
             page.mouseMove('li[uniqueid=widgetVisitsSummarygetEvolutionGraphcolumnsArray]');
+            page.evaluate(function () {
+                $('.formEmbedCode').each(function () {
+                    var val = $(this).val();
+                    val = val.replace(/localhost\:[0-9]+/g, 'localhost');
+                    $(this).val(val);
+                });
+            });
         }, done);
     });
 
