@@ -59,7 +59,7 @@ class Url
     public static function getCurrentUrl()
     {
         return self::getCurrentScheme() . '://'
-        . self::getCurrentHostWithPort()
+        . self::getCurrentHost()
         . self::getCurrentScriptName(false)
         . self::getCurrentQueryString();
     }
@@ -76,7 +76,7 @@ class Url
     public static function getCurrentUrlWithoutQueryString($checkTrustedHost = true)
     {
         return self::getCurrentScheme() . '://'
-        . self::getCurrentHostWithPort($default = 'unknown', $checkTrustedHost)
+        . self::getCurrentHost($default = 'unknown', $checkTrustedHost)
         . self::getCurrentScriptName(false);
     }
 
@@ -91,7 +91,7 @@ class Url
     public static function getCurrentUrlWithoutFileName()
     {
         return self::getCurrentScheme() . '://'
-        . self::getCurrentHostWithPort()
+        . self::getCurrentHost()
         . self::getCurrentScriptPath();
     }
 
@@ -339,13 +339,6 @@ class Url
      * @api
      */
     public static function getCurrentHost($default = 'unknown', $checkTrustedHost = true)
-    {
-        $host = self::getCurrentHostWithPort($default, $checkTrustedHost);
-        $host = self::removePortFromHost($host);
-        return $host;
-    }
-
-    public static function getCurrentHostWithPort($default = 'unknown', $checkTrustedHost = true)
     {
         $hostHeaders = array();
 
@@ -699,7 +692,7 @@ class Url
     {
         $colonIndex = strrpos($host, ':');
         if ($colonIndex !== false) {
-            $host = substr(0, $colonIndex);
+            $host = substr($host, 0, $colonIndex);
         }
         return $host;
     }
