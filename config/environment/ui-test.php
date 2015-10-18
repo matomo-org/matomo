@@ -2,6 +2,11 @@
 
 return array(
 
+    'Piwik\Config' => \DI\decorate(function (\Piwik\Config $config) {
+        $config->General['cors_domains'][] = '*';
+        return $config;
+    }),
+
     'observers.global' => array(
 
         array('Request.dispatch.end', function (&$result) {
