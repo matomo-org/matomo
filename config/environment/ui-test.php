@@ -10,6 +10,16 @@ return array(
     'observers.global' => \DI\add(array(
 
         array('Request.dispatch.end', function (&$result) {
+            $request = $_GET + $_POST;
+
+            // Overlay needs the full URLs in order to find the links in the embedded page (otherwise the %
+            // tooltips don't show up)
+            if (!empty($request['method'])
+                && $request['method'] == 'Overlay.getFollowingPages'
+            ) {
+                return;
+            }
+
             $config = \Piwik\Config::getInstance();
             $host = $config->tests['http_host'];
             $port = $config->tests['port'];
