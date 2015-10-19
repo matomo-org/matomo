@@ -6,6 +6,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>General_Downloads</id>
@@ -34,6 +35,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuPagesEntry</id>
@@ -62,6 +64,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuPagesExit</id>
@@ -90,6 +93,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>General_Outlinks</id>
@@ -118,6 +122,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>General_Pages</id>
@@ -146,6 +151,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuPageTitles</id>
@@ -174,6 +180,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuSitesearch</id>
@@ -254,6 +261,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Events_Events</id>
@@ -281,6 +289,7 @@
 							<id>General_Actions</id>
 							<name>Actions</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Events_Events</id>
@@ -305,6 +314,7 @@
 							<id>General_Actions</id>
 							<name>Actions</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Events_Events</id>
@@ -329,6 +339,7 @@
 							<id>General_Actions</id>
 							<name>Actions</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Events_Events</id>
@@ -357,6 +368,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Contents_Contents</id>
@@ -384,6 +396,7 @@
 							<id>General_Actions</id>
 							<name>Actions</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Contents_Contents</id>
@@ -407,6 +420,7 @@
 							<id>General_Actions</id>
 							<name>Actions</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Contents_Contents</id>
@@ -434,6 +448,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Devices</id>
@@ -501,6 +516,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>VisitorInterest_Engagement</id>
@@ -600,6 +616,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Software</id>
@@ -707,6 +724,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
@@ -752,6 +770,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>UserCountry_SubmenuLocations</id>
@@ -803,6 +822,7 @@
 							<id>General_Visitors</id>
 							<name>Visitors</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>UserCountry_SubmenuLocations</id>
@@ -826,6 +846,7 @@
 							<id>General_Visitors</id>
 							<name>Visitors</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>UserCountry_SubmenuLocations</id>
@@ -905,6 +926,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>VisitTime_SubmenuTimes</id>
@@ -962,6 +984,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>UserCountryMap_RealTimeMap</id>
@@ -988,6 +1011,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>Live_VisitorLog</id>
@@ -1019,6 +1043,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>CustomVariables_CustomVariables</id>
@@ -1047,6 +1072,7 @@
 			<id>Dashboard_Dashboard</id>
 			<name>Dashboard</name>
 			<order>0</order>
+			<icon>icon-reporting-dashboard</icon>
 		</category>
 		<subcategory>
 			<id>1</id>
@@ -1074,6 +1100,7 @@
 			<id>Referrers_Referrers</id>
 			<name>Referrers</name>
 			<order>15</order>
+			<icon>icon-reporting-referer</icon>
 		</category>
 		<subcategory>
 			<id>Referrers_WidgetGetAll</id>
@@ -1117,6 +1144,7 @@
 			<id>Referrers_Referrers</id>
 			<name>Referrers</name>
 			<order>15</order>
+			<icon>icon-reporting-referer</icon>
 		</category>
 		<subcategory>
 			<id>Referrers_Campaigns</id>
@@ -1145,6 +1173,7 @@
 			<id>Referrers_Referrers</id>
 			<name>Referrers</name>
 			<order>15</order>
+			<icon>icon-reporting-referer</icon>
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
@@ -1193,6 +1222,7 @@
 			<id>Referrers_Referrers</id>
 			<name>Referrers</name>
 			<order>15</order>
+			<icon>icon-reporting-referer</icon>
 		</category>
 		<subcategory>
 			<id>Referrers_SubmenuSearchEngines</id>
@@ -1234,6 +1264,7 @@
 			<id>Referrers_Referrers</id>
 			<name>Referrers</name>
 			<order>15</order>
+			<icon>icon-reporting-referer</icon>
 		</category>
 		<subcategory>
 			<id>Referrers_SubmenuWebsites</id>
@@ -1276,6 +1307,7 @@
 			<id>Goals_Goals</id>
 			<name>Goals</name>
 			<order>25</order>
+			<icon>icon-reporting-goal</icon>
 		</category>
 		<subcategory>
 			<id>1</id>
@@ -1303,6 +1335,7 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>1</id>
@@ -1329,6 +1362,7 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>1</id>
@@ -1356,6 +1390,7 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>1</id>
@@ -1406,6 +1441,7 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -1432,6 +1468,7 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -1458,6 +1495,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -1484,6 +1522,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -1510,6 +1549,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -1536,6 +1576,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -1562,6 +1603,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -1588,6 +1630,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -1614,6 +1657,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -1640,6 +1684,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -1666,6 +1711,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -1692,6 +1738,7 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -1717,6 +1764,7 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -1746,6 +1794,7 @@
 			<id>Goals_Goals</id>
 			<name>Goals</name>
 			<order>25</order>
+			<icon>icon-reporting-goal</icon>
 		</category>
 		<subcategory>
 			<id>2</id>
@@ -1773,6 +1822,7 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>2</id>
@@ -1799,6 +1849,7 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>2</id>
@@ -1826,6 +1877,7 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>2</id>
@@ -1876,6 +1928,7 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -1902,6 +1955,7 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -1928,6 +1982,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -1954,6 +2009,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -1980,6 +2036,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2006,6 +2063,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2032,6 +2090,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2058,6 +2117,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2084,6 +2144,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2110,6 +2171,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2136,6 +2198,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2162,6 +2225,7 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -2187,6 +2251,7 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -2216,6 +2281,7 @@
 			<id>Goals_Goals</id>
 			<name>Goals</name>
 			<order>25</order>
+			<icon>icon-reporting-goal</icon>
 		</category>
 		<subcategory>
 			<id>3</id>
@@ -2243,6 +2309,7 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>3</id>
@@ -2269,6 +2336,7 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>3</id>
@@ -2296,6 +2364,7 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>3</id>
@@ -2346,6 +2415,7 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -2372,6 +2442,7 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -2398,6 +2469,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2424,6 +2496,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2450,6 +2523,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2476,6 +2550,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2502,6 +2577,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2528,6 +2604,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2554,6 +2631,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2580,6 +2658,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2606,6 +2685,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2632,6 +2712,7 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -2657,6 +2738,7 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -2686,6 +2768,7 @@
 			<id>Goals_Goals</id>
 			<name>Goals</name>
 			<order>25</order>
+			<icon>icon-reporting-goal</icon>
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
@@ -2713,6 +2796,7 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
@@ -2738,6 +2822,7 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
@@ -2763,6 +2848,7 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
@@ -2791,6 +2877,7 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
@@ -2819,6 +2906,7 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
@@ -2867,6 +2955,7 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -2893,6 +2982,7 @@
 							<id>Goals by User attribute</id>
 							<name>Goals by User attribute</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -2919,6 +3009,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2945,6 +3036,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2971,6 +3063,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2997,6 +3090,7 @@
 							<id>Goals by User location</id>
 							<name>Goals by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -3023,6 +3117,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -3049,6 +3144,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -3075,6 +3171,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -3101,6 +3198,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -3127,6 +3225,7 @@
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -3153,6 +3252,7 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -3178,6 +3278,7 @@
 							<id>Goals engagement</id>
 							<name>Goals engagement</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -3207,6 +3308,7 @@
 			<id>Goals_Goals</id>
 			<name>Goals</name>
 			<order>25</order>
+			<icon>icon-reporting-goal</icon>
 		</category>
 		<subcategory>
 			<id>Goals_ManageGoals</id>
@@ -3233,6 +3335,7 @@
 			<id>Goals_Ecommerce</id>
 			<name>Ecommerce</name>
 			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
 		</category>
 		<subcategory>
 			<id>Goals_EcommerceLog</id>
@@ -3259,6 +3362,7 @@
 			<id>Goals_Ecommerce</id>
 			<name>Ecommerce</name>
 			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
@@ -3286,6 +3390,7 @@
 							<id>Goals_Ecommerce</id>
 							<name>Ecommerce</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
@@ -3312,6 +3417,7 @@
 							<id>Goals_Ecommerce</id>
 							<name>Ecommerce</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
@@ -3338,6 +3444,7 @@
 							<id>Goals_Goals</id>
 							<name>Goals</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>ecommerceOrder</id>
@@ -3371,6 +3478,7 @@
 			<id>Goals_Ecommerce</id>
 			<name>Ecommerce</name>
 			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
 		</category>
 		<subcategory>
 			<id>Goals_Products</id>
@@ -3398,6 +3506,7 @@
 							<id>Goals_Ecommerce</id>
 							<name>Ecommerce</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals_Products</id>
@@ -3421,6 +3530,7 @@
 							<id>Goals_Ecommerce</id>
 							<name>Ecommerce</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals_Products</id>
@@ -3444,6 +3554,7 @@
 							<id>Goals_Ecommerce</id>
 							<name>Ecommerce</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Goals_Products</id>
@@ -3471,6 +3582,7 @@
 			<id>Goals_Ecommerce</id>
 			<name>Ecommerce</name>
 			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
 		</category>
 		<subcategory>
 			<id>Ecommerce_Sales</id>
@@ -3499,6 +3611,7 @@
 							<id>Sales by User attribute</id>
 							<name>Sales by User attribute</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Sales by User attribute</id>
@@ -3525,6 +3638,7 @@
 							<id>Sales by User attribute</id>
 							<name>Sales by User attribute</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Sales by User attribute</id>
@@ -3551,6 +3665,7 @@
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
@@ -3577,6 +3692,7 @@
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
@@ -3603,6 +3719,7 @@
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
@@ -3629,6 +3746,7 @@
 							<id>Sales by User location</id>
 							<name>Sales by User location</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
@@ -3655,6 +3773,7 @@
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
@@ -3681,6 +3800,7 @@
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
@@ -3707,6 +3827,7 @@
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
@@ -3733,6 +3854,7 @@
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
@@ -3759,6 +3881,7 @@
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
@@ -3785,6 +3908,7 @@
 							<id>Sales engagement</id>
 							<name>Sales engagement</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Sales engagement</id>
@@ -3810,6 +3934,7 @@
 							<id>Sales engagement</id>
 							<name>Sales engagement</name>
 							<order>99</order>
+							<icon />
 						</category>
 						<subcategory>
 							<id>Sales engagement</id>
@@ -3839,6 +3964,7 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
+			<icon />
 		</category>
 		<subcategory>
 			<id>ExampleUI_GetTemperaturesDataTable</id>
@@ -3867,6 +3993,7 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
+			<icon />
 		</category>
 		<subcategory>
 			<id>Bar graph</id>
@@ -3897,6 +4024,7 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
+			<icon />
 		</category>
 		<subcategory>
 			<id>Treemap</id>
@@ -3927,6 +4055,7 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
+			<icon />
 		</category>
 		<subcategory>
 			<id>Sparklines</id>
@@ -3957,6 +4086,7 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
+			<icon />
 		</category>
 		<subcategory>
 			<id>Evolution Graph</id>
@@ -3991,6 +4121,7 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
+			<icon />
 		</category>
 		<subcategory>
 			<id>Pie graph</id>
@@ -4020,6 +4151,7 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
+			<icon />
 		</category>
 		<subcategory>
 			<id>Tag clouds</id>

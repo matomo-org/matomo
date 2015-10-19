@@ -59,6 +59,13 @@
 		<permission>1</permission>
 	</row>
 	<row>
+		<type>metric</type>
+		<category>Visit</category>
+		<name>Visitor IP</name>
+		<segment>visitIp</segment>
+		<acceptedValues>13.54.122.1. &lt;/code&gt;Select IP ranges with notation: &lt;code&gt;visitIp&gt;13.54.122.0;visitIp&lt;13.54.122.255</acceptedValues>
+	</row>
+	<row>
 		<type>dimension</type>
 		<category>Visit Location</category>
 		<name>City</name>
@@ -182,6 +189,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
+		<name>User ID</name>
+		<segment>userId</segment>
+		<acceptedValues>any non empty unique string identifying the user (such as an email address or a username).</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
 		<name>Visit Ecommerce status at the end of the visit</name>
 		<segment>visitEcommerceStatus</segment>
 		<acceptedValues>none, ordered, abandonedCart, orderedThenAbandonedCart. For example, to select all visits that have made an Ecommerce order, the API request would contain &quot;&amp;segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart&quot;</acceptedValues>
@@ -192,6 +206,13 @@
 		<name>Visit ID</name>
 		<segment>visitId</segment>
 		<acceptedValues>Any integer.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
+		<name>Visit ID</name>
+		<segment>visitId</segment>
+		<acceptedValues>Any integer. </acceptedValues>
 		<permission>1</permission>
 	</row>
 	<row>
@@ -222,6 +243,13 @@
 		<segment>visitorId</segment>
 		<acceptedValues>34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()</acceptedValues>
 		<permission>1</permission>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
+		<name>Visitor ID</name>
+		<segment>visitorId</segment>
+		<acceptedValues>34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

@@ -81,12 +81,12 @@ class Get extends \Piwik\Plugin\Report
 
                     $value = $firstRow->getColumn('nb_actions_returning');
                     if (false !== $value) {
-                        $firstRow->setColumn('nb_actions_returning', $numberFormatter->formatNumber($value, 1));
+                        $firstRow->setColumn('nb_actions_returning', $numberFormatter->formatNumber($value));
                     }
 
                     $value = $firstRow->getColumn('nb_actions_per_visit_returning');
                     if (false !== $value) {
-                        $firstRow->setColumn('nb_actions_per_visit_returning', $numberFormatter->formatNumber($value));
+                        $firstRow->setColumn('nb_actions_per_visit_returning', $numberFormatter->formatNumber($value, 1));
                     }
 
                     $value = $firstRow->getColumn('bounce_rate_returning');

@@ -12,6 +12,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Translate;
 
 /**
  * @group CoreVisualizations
@@ -35,6 +36,15 @@ class SparklinesConfigTest extends IntegrationTestCase
         }
 
         $this->config = new Config();
+
+        Translate::loadAllTranslations();
+    }
+
+    public function tearDown()
+    {
+        Translate::reset();
+
+        parent::tearDown();
     }
 
     public function test_addSparkline_shouldAddAMinimalSparklineWithOneValueAndUseDefaultOrder()

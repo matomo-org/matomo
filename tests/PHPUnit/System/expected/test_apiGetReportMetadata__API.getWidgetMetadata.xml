@@ -6,6 +6,7 @@
 			<id>Live!</id>
 			<name>Live!</name>
 			<order>2</order>
+			<icon />
 		</category>
 		<subcategory />
 		<module>Live</module>
@@ -23,6 +24,7 @@
 			<id>Live!</id>
 			<name>Live!</name>
 			<order>2</order>
+			<icon />
 		</category>
 		<subcategory />
 		<module>Live</module>
@@ -42,6 +44,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
@@ -67,6 +70,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
@@ -92,6 +96,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>Live_VisitorLog</id>
@@ -118,6 +123,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>CustomVariables_CustomVariables</id>
@@ -141,6 +147,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Devices</id>
@@ -164,6 +171,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Devices</id>
@@ -187,6 +195,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Devices</id>
@@ -210,6 +219,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Devices</id>
@@ -233,6 +243,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Software</id>
@@ -256,6 +267,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Software</id>
@@ -279,6 +291,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Software</id>
@@ -302,6 +315,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Software</id>
@@ -325,6 +339,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Software</id>
@@ -348,6 +363,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Software</id>
@@ -372,6 +388,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Software</id>
@@ -395,6 +412,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory />
 		<module>CoreHome</module>
@@ -415,6 +433,7 @@
 					<id>General_Visitors</id>
 					<name>Visitors</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>General_Overview</id>
@@ -440,6 +459,7 @@
 					<id>General_Visitors</id>
 					<name>Visitors</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>General_Overview</id>
@@ -467,6 +487,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>UserCountry_SubmenuLocations</id>
@@ -490,6 +511,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>UserCountry_SubmenuLocations</id>
@@ -513,6 +535,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>UserCountry_SubmenuLocations</id>
@@ -536,6 +559,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>UserCountry_SubmenuLocations</id>
@@ -559,6 +583,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>UserCountry_SubmenuLocations</id>
@@ -580,6 +605,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>UserCountry_SubmenuLocations</id>
@@ -603,6 +629,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>UserCountry_SubmenuLocations</id>
@@ -626,6 +653,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>VisitorInterest_Engagement</id>
@@ -651,6 +679,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>VisitorInterest_Engagement</id>
@@ -675,6 +704,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>VisitorInterest_Engagement</id>
@@ -698,6 +728,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory />
 		<module>Live</module>
@@ -715,6 +746,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>VisitorInterest_Engagement</id>
@@ -738,6 +770,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>VisitorInterest_Engagement</id>
@@ -763,6 +796,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>VisitorInterest_Engagement</id>
@@ -787,6 +821,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>VisitTime_SubmenuTimes</id>
@@ -811,6 +846,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>VisitTime_SubmenuTimes</id>
@@ -835,6 +871,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>VisitTime_SubmenuTimes</id>
@@ -859,6 +896,7 @@
 			<id>General_Visitors</id>
 			<name>Visitors</name>
 			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
 		</category>
 		<subcategory>
 			<id>UserCountryMap_RealTimeMap</id>
@@ -880,6 +918,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>General_Pages</id>
@@ -903,6 +942,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuPagesEntry</id>
@@ -926,6 +966,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuPagesExit</id>
@@ -949,6 +990,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuPageTitles</id>
@@ -972,6 +1014,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuSitesearch</id>
@@ -995,6 +1038,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuSitesearch</id>
@@ -1018,6 +1062,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuSitesearch</id>
@@ -1041,6 +1086,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuSitesearch</id>
@@ -1064,6 +1110,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuSitesearch</id>
@@ -1087,6 +1134,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>General_Outlinks</id>
@@ -1110,6 +1158,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>General_Downloads</id>
@@ -1133,6 +1182,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Events_Events</id>
@@ -1157,6 +1207,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Events_Events</id>
@@ -1181,6 +1232,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Events_Events</id>
@@ -1205,6 +1257,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Events_Events</id>
@@ -1229,6 +1282,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Events_Events</id>
@@ -1253,6 +1307,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory />
 		<module>Actions</module>
@@ -1272,6 +1327,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Events_Events</id>
@@ -1296,6 +1352,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Contents_Contents</id>
@@ -1319,6 +1376,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Contents_Contents</id>
@@ -1342,6 +1400,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory />
 		<module>Actions</module>
@@ -1361,6 +1420,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Contents_Contents</id>
@@ -1384,6 +1444,7 @@
 			<id>General_Actions</id>
 			<name>Actions</name>
 			<order>10</order>
+			<icon>icon-reporting-actions</icon>
 		</category>
 		<subcategory>
 			<id>Contents_Contents</id>
@@ -1407,6 +1468,7 @@
 			<id>Referrers_Referrers</id>
 			<name>Referrers</name>
 			<order>15</order>
+			<icon>icon-reporting-referer</icon>
 		</category>
 		<subcategory>
 			<id>Referrers_WidgetGetAll</id>
@@ -1431,6 +1493,7 @@
 			<id>Referrers_Referrers</id>
 			<name>Referrers</name>
 			<order>15</order>
+			<icon>icon-reporting-referer</icon>
 		</category>
 		<subcategory>
 			<id>Referrers_WidgetGetAll</id>
@@ -1455,6 +1518,7 @@
 			<id>Referrers_Referrers</id>
 			<name>Referrers</name>
 			<order>15</order>
+			<icon>icon-reporting-referer</icon>
 		</category>
 		<subcategory>
 			<id>Referrers_SubmenuSearchEngines</id>
@@ -1478,6 +1542,7 @@
 			<id>Referrers_Referrers</id>
 			<name>Referrers</name>
 			<order>15</order>
+			<icon>icon-reporting-referer</icon>
 		</category>
 		<subcategory>
 			<id>Referrers_SubmenuSearchEngines</id>
@@ -1501,6 +1566,7 @@
 			<id>Referrers_Referrers</id>
 			<name>Referrers</name>
 			<order>15</order>
+			<icon>icon-reporting-referer</icon>
 		</category>
 		<subcategory>
 			<id>Referrers_SubmenuWebsites</id>
@@ -1525,6 +1591,7 @@
 			<id>Referrers_Referrers</id>
 			<name>Referrers</name>
 			<order>15</order>
+			<icon>icon-reporting-referer</icon>
 		</category>
 		<subcategory>
 			<id>Referrers_SubmenuWebsites</id>
@@ -1548,6 +1615,7 @@
 			<id>Referrers_Referrers</id>
 			<name>Referrers</name>
 			<order>15</order>
+			<icon>icon-reporting-referer</icon>
 		</category>
 		<subcategory>
 			<id>Referrers_Campaigns</id>
@@ -1571,6 +1639,7 @@
 			<id>Goals_Ecommerce</id>
 			<name>Ecommerce</name>
 			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
@@ -1595,6 +1664,7 @@
 					<id>Goals_Ecommerce</id>
 					<name>Ecommerce</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>General_Overview</id>
@@ -1621,6 +1691,7 @@
 					<id>Goals_Ecommerce</id>
 					<name>Ecommerce</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>General_Overview</id>
@@ -1647,6 +1718,7 @@
 					<id>Goals_Goals</id>
 					<name>Goals</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>ecommerceOrder</id>
@@ -1678,6 +1750,7 @@
 			<id>Goals_Ecommerce</id>
 			<name>Ecommerce</name>
 			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
 		</category>
 		<subcategory>
 			<id>Goals_EcommerceLog</id>
@@ -1699,6 +1772,7 @@
 			<id>Goals_Ecommerce</id>
 			<name>Ecommerce</name>
 			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
 		</category>
 		<subcategory>
 			<id>Goals_Products</id>
@@ -1722,6 +1796,7 @@
 			<id>Goals_Ecommerce</id>
 			<name>Ecommerce</name>
 			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
 		</category>
 		<subcategory>
 			<id>Goals_Products</id>
@@ -1745,6 +1820,7 @@
 			<id>Goals_Ecommerce</id>
 			<name>Ecommerce</name>
 			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
 		</category>
 		<subcategory>
 			<id>Goals_Products</id>
@@ -1768,6 +1844,7 @@
 			<id>Goals_Ecommerce</id>
 			<name>Ecommerce</name>
 			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
 		</category>
 		<subcategory>
 			<id>Goals_Products</id>
@@ -1791,6 +1868,7 @@
 			<id>Goals_Ecommerce</id>
 			<name>Ecommerce</name>
 			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
 		</category>
 		<subcategory>
 			<id>Goals_Products</id>
@@ -1814,6 +1892,7 @@
 			<id>Goals_Ecommerce</id>
 			<name>Ecommerce</name>
 			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
 		</category>
 		<subcategory>
 			<id>Goals_Products</id>
@@ -1837,6 +1916,7 @@
 			<id>Goals_Goals</id>
 			<name>Goals</name>
 			<order>25</order>
+			<icon>icon-reporting-goal</icon>
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
@@ -1861,6 +1941,7 @@
 					<id>Goals_Goals</id>
 					<name>Goals</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>General_Overview</id>
@@ -1886,6 +1967,7 @@
 					<id>Goals_Goals</id>
 					<name>Goals</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>General_Overview</id>
@@ -1911,6 +1993,7 @@
 					<id>Goals_Goals</id>
 					<name>Goals</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>General_Overview</id>
@@ -1939,6 +2022,7 @@
 					<id>Goals_Goals</id>
 					<name>Goals</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>General_Overview</id>
@@ -1967,6 +2051,7 @@
 					<id>Goals_Goals</id>
 					<name>Goals</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>General_Overview</id>
@@ -1997,6 +2082,7 @@
 			<id>Goals_Goals</id>
 			<name>Goals</name>
 			<order>25</order>
+			<icon>icon-reporting-goal</icon>
 		</category>
 		<subcategory>
 			<id>1</id>
@@ -2021,6 +2107,7 @@
 					<id>Goals_Goals</id>
 					<name>Goals</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>1</id>
@@ -2047,6 +2134,7 @@
 					<id>Goals_Goals</id>
 					<name>Goals</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>1</id>
@@ -2074,6 +2162,7 @@
 					<id>Goals_Goals</id>
 					<name>Goals</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>1</id>
@@ -2105,6 +2194,7 @@
 			<id>Goals_Goals</id>
 			<name>Goals</name>
 			<order>25</order>
+			<icon>icon-reporting-goal</icon>
 		</category>
 		<subcategory>
 			<id>2</id>
@@ -2129,6 +2219,7 @@
 					<id>Goals_Goals</id>
 					<name>Goals</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>2</id>
@@ -2155,6 +2246,7 @@
 					<id>Goals_Goals</id>
 					<name>Goals</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>2</id>
@@ -2182,6 +2274,7 @@
 					<id>Goals_Goals</id>
 					<name>Goals</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>2</id>
@@ -2213,6 +2306,7 @@
 			<id>Goals_Goals</id>
 			<name>Goals</name>
 			<order>25</order>
+			<icon>icon-reporting-goal</icon>
 		</category>
 		<subcategory>
 			<id>3</id>
@@ -2237,6 +2331,7 @@
 					<id>Goals_Goals</id>
 					<name>Goals</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>3</id>
@@ -2263,6 +2358,7 @@
 					<id>Goals_Goals</id>
 					<name>Goals</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>3</id>
@@ -2290,6 +2386,7 @@
 					<id>Goals_Goals</id>
 					<name>Goals</name>
 					<order>99</order>
+					<icon />
 				</category>
 				<subcategory>
 					<id>3</id>
@@ -2321,6 +2418,7 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
+			<icon />
 		</category>
 		<subcategory>
 			<id>ExampleUI_GetTemperaturesDataTable</id>
@@ -2344,6 +2442,7 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
+			<icon />
 		</category>
 		<subcategory>
 			<id>Bar graph</id>
@@ -2369,6 +2468,7 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
+			<icon />
 		</category>
 		<subcategory>
 			<id>Treemap</id>
@@ -2394,6 +2494,7 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
+			<icon />
 		</category>
 		<subcategory>
 			<id>Evolution Graph</id>
@@ -2423,6 +2524,7 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
+			<icon />
 		</category>
 		<subcategory>
 			<id>Sparklines</id>
@@ -2448,6 +2550,7 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
+			<icon />
 		</category>
 		<subcategory>
 			<id>Tag clouds</id>
@@ -2472,6 +2575,7 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
+			<icon />
 		</category>
 		<subcategory>
 			<id>Tag clouds</id>
@@ -2497,6 +2601,7 @@
 			<id>ExampleUI_UiFramework</id>
 			<name>UI Framework</name>
 			<order>90</order>
+			<icon />
 		</category>
 		<subcategory>
 			<id>Pie graph</id>
@@ -2521,6 +2626,7 @@
 			<id>SEO</id>
 			<name>SEO</name>
 			<order>99</order>
+			<icon />
 		</category>
 		<subcategory />
 		<module>Referrers</module>
@@ -2538,6 +2644,7 @@
 			<id>Insights_WidgetCategory</id>
 			<name>Insights</name>
 			<order>99</order>
+			<icon />
 		</category>
 		<subcategory />
 		<module>Insights</module>
@@ -2555,6 +2662,7 @@
 			<id>Example Widgets</id>
 			<name>Example Widgets</name>
 			<order>99</order>
+			<icon />
 		</category>
 		<subcategory />
 		<module>ExamplePlugin</module>
@@ -2572,6 +2680,7 @@
 			<id>Insights_WidgetCategory</id>
 			<name>Insights</name>
 			<order>99</order>
+			<icon />
 		</category>
 		<subcategory />
 		<module>Insights</module>
@@ -2589,6 +2698,7 @@
 			<id>SEO</id>
 			<name>SEO</name>
 			<order>99</order>
+			<icon />
 		</category>
 		<subcategory />
 		<module>SEO</module>
@@ -2606,6 +2716,7 @@
 			<id>Example Widgets</id>
 			<name>Example Widgets</name>
 			<order>99</order>
+			<icon />
 		</category>
 		<subcategory />
 		<module>ExampleRssWidget</module>
@@ -2623,6 +2734,7 @@
 			<id>Example Widgets</id>
 			<name>Example Widgets</name>
 			<order>99</order>
+			<icon />
 		</category>
 		<subcategory />
 		<module>CoreHome</module>
@@ -2640,6 +2752,7 @@
 			<id>Example Widgets</id>
 			<name>Example Widgets</name>
 			<order>99</order>
+			<icon />
 		</category>
 		<subcategory />
 		<module>ExampleRssWidget</module>
@@ -2657,6 +2770,7 @@
 			<id>Example Widgets</id>
 			<name>Example Widgets</name>
 			<order>99</order>
+			<icon />
 		</category>
 		<subcategory />
 		<module>CoreHome</module>
