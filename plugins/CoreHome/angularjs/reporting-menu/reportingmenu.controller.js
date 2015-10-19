@@ -82,8 +82,25 @@
         }
 
         $scope.loadCategory = function (category) {
-            markAllCategoriesAsInactive();
-            category.active = true;
+            if (category.active) {
+                category.active = false;
+            } else {
+                markAllCategoriesAsInactive();
+                category.active = true;
+            }
+
+            if (category.active && category.subcategories && category.subcategories.length === 1) {
+                var subcategory = category.subcategories[0];
+
+                if (subcategory.active) {
+                    // we need to manually trigger change as URL would not change and therefore page would not be
+                    // reloaded
+                    $scope.loadSubcategory(category, subcategory);
+                } else {
+                    var url = $scope.makeUrl(category, subcategory);
+                    $location.search(url);
+                }
+            }
         };
 
         $scope.loadSubcategory = function (category, subcategory) {
