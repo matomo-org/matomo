@@ -1,6 +1,6 @@
 <div id='leftcolumn' style="clear:both;{% if not isWidget %}width:33%;'{% endif %}">
     <div class="sparkline">{{ sparkline(urlSparklineConversions) }}
-        <strong>{{ nb_conversions }}</strong>
+        <strong>{{ nb_conversions|number }}</strong>
         {{ 'General_EcommerceOrders'|translate }}
         <img src='plugins/Morpheus/images/ecommerceOrder.gif'>
 
@@ -23,10 +23,10 @@
 <div id='leftcolumn' {% if not isWidget %}style='width:33%;'{% endif %}>
     <div class="sparkline">{{ sparkline(urlSparklineConversionRate) }}
         {% set ecommerceOrdersText %}{{ 'General_EcommerceOrders'|translate }}{% endset %}
-        {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate~"</strong> "~ecommerceOrdersText)|raw }}
+        {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate|percent~"</strong> "~ecommerceOrdersText)|raw }}
     </div>
     <div class="sparkline">{{ sparkline(urlSparklinePurchasedProducts) }}
-    <strong>{{ items }}</strong> {{ 'General_PurchasedProducts'|translate }}</div>
+    <strong>{{ items|number }}</strong> {{ 'General_PurchasedProducts'|translate }}</div>
 </div>
 <div id='rightcolumn' {% if not isWidget %}style='width:30%;'{% endif %}>
     <div>
@@ -36,7 +36,7 @@
     <div class="sparkline">
         {{ sparkline(cart_urlSparklineConversions) }}
         {% set ecommerceAbandonedCartsText %}{{ 'Goals_AbandonedCart'|translate }}{% endset %}
-        <strong>{{ cart_nb_conversions }}</strong> {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
+        <strong>{{ cart_nb_conversions|number }}</strong> {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
     </div>
 
     <div class="sparkline">
@@ -48,7 +48,7 @@
 
     <div class="sparkline">
         {{ sparkline(cart_urlSparklineConversionRate) }}
-        <strong>{{ cart_conversion_rate }}</strong>
+        <strong>{{ cart_conversion_rate|percent }}</strong>
         {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
     </div>
 </div>

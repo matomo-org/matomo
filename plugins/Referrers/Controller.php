@@ -44,6 +44,8 @@ class Controller extends \Piwik\Plugin\Controller
         $metrics = $this->getReferrersVisitorsByType();
         $distinctMetrics = $this->getDistinctReferrersMetrics();
 
+        $numberFormatter = NumberFormatter::getInstance();
+
         $totalVisits = array_sum($metrics);
         foreach ($metrics as $name => $value) {
 
@@ -77,10 +79,12 @@ class Controller extends \Piwik\Plugin\Controller
         $view = ViewDataTable\Factory::build(Sparklines::ID, $api = false, $controller = false, $force = true, $loadUserParams = false);
 
         // DIRECT ENTRY
+        $metrics['visitorsFromDirectEntry'] = $numberFormatter->formatNumber($metrics['visitorsFromDirectEntry']);
         $values = array($metrics['visitorsFromDirectEntry']);
         $descriptions = array(Piwik::translate('Referrers_TypeDirectEntries'));
 
         if (!empty($metrics['visitorsFromDirectEntryPercent'])) {
+            $metrics['visitorsFromDirectEntryPercent'] = $numberFormatter->formatPercent($metrics['visitorsFromDirectEntryPercent'], $precision = 1);
             $values[] = $metrics['visitorsFromDirectEntryPercent'];
             $descriptions[] = Piwik::translate('Referrers_XPercentOfVisits');
         }
@@ -91,10 +95,12 @@ class Controller extends \Piwik\Plugin\Controller
 
 
         // WEBSITES
+        $metrics['visitorsFromWebsites'] = $numberFormatter->formatNumber($metrics['visitorsFromWebsites']);
         $values = array($metrics['visitorsFromWebsites']);
         $descriptions = array(Piwik::translate('Referrers_TypeWebsites'));
 
         if (!empty($metrics['visitorsFromWebsitesPercent'])) {
+            $metrics['visitorsFromWebsitesPercent'] = $numberFormatter->formatPercent($metrics['visitorsFromWebsitesPercent'], $precision = 1);
             $values[] = $metrics['visitorsFromWebsitesPercent'];
             $descriptions[] = Piwik::translate('Referrers_XPercentOfVisits');
         }
@@ -105,10 +111,12 @@ class Controller extends \Piwik\Plugin\Controller
 
 
         // SEARCH ENGINES
+        $metrics['visitorsFromSearchEngines'] = $numberFormatter->formatNumber($metrics['visitorsFromSearchEngines']);
         $values = array($metrics['visitorsFromSearchEngines']);
         $descriptions = array(Piwik::translate('Referrers_TypeSearchEngines'));
 
         if (!empty($metrics['visitorsFromSearchEnginesPercent'])) {
+            $metrics['visitorsFromSearchEnginesPercent'] = $numberFormatter->formatPercent($metrics['visitorsFromSearchEnginesPercent'], $precision = 1);
             $values[] = $metrics['visitorsFromSearchEnginesPercent'];
             $descriptions[] = Piwik::translate('Referrers_XPercentOfVisits');
         }
@@ -118,10 +126,12 @@ class Controller extends \Piwik\Plugin\Controller
 
 
         // CAMPAIGNS
+        $metrics['visitorsFromCampaigns'] = $numberFormatter->formatNumber($metrics['visitorsFromCampaigns']);
         $values = array($metrics['visitorsFromCampaigns']);
         $descriptions = array(Piwik::translate('Referrers_TypeCampaigns'));
 
         if (!empty($metrics['visitorsFromCampaignsPercent'])) {
+            $metrics['visitorsFromCampaignsPercent'] = $numberFormatter->formatPercent($metrics['visitorsFromCampaignsPercent'], $precision = 1);
             $values[] = $metrics['visitorsFromCampaignsPercent'];
             $descriptions[] = Piwik::translate('Referrers_XPercentOfVisits');
         }
@@ -134,6 +144,7 @@ class Controller extends \Piwik\Plugin\Controller
         // DISTINCT SEARCH ENGINES
         $sparklineParams = $this->getDistinctSparklineUrlParams('getLastDistinctSearchEnginesGraph');
         $value = $distinctMetrics['numberDistinctSearchEngines'];
+        $value = $numberFormatter->formatNumber($value);
         $description = Piwik::translate('Referrers_DistinctSearchEngines');
 
         $view->config->addSparkline($sparklineParams, $value, $description, @$distinctMetrics['numberDistinctSearchEnginesEvolution']);
@@ -141,6 +152,10 @@ class Controller extends \Piwik\Plugin\Controller
 
         // DISTINCT WEBSITES
         $sparklineParams = $this->getDistinctSparklineUrlParams('getLastDistinctWebsitesGraph');
+
+        $distinctMetrics['numberDistinctWebsites'] = $numberFormatter->formatNumber($distinctMetrics['numberDistinctWebsites']);
+        $distinctMetrics['numberDistinctWebsitesUrls'] = $numberFormatter->formatNumber($distinctMetrics['numberDistinctWebsitesUrls']);
+
         $values = array($distinctMetrics['numberDistinctWebsites'], $distinctMetrics['numberDistinctWebsitesUrls']);
         $descriptions = array(Piwik::translate('Referrers_DistinctWebsites'), Piwik::translate('Referrers_UsingNDistinctUrls'));
 
@@ -150,6 +165,7 @@ class Controller extends \Piwik\Plugin\Controller
         // DISTINCT KEYWORDS
         $sparklineParams = $this->getDistinctSparklineUrlParams('getLastDistinctKeywordsGraph');
         $value = $distinctMetrics['numberDistinctKeywords'];
+        $value = $numberFormatter->formatNumber($value);
         $description = Piwik::translate('Referrers_DistinctKeywords');
 
         $view->config->addSparkline($sparklineParams, $value, $description, @$distinctMetrics['numberDistinctKeywordsEvolution']);
@@ -158,6 +174,7 @@ class Controller extends \Piwik\Plugin\Controller
         // DISTINCT CAMPAIGNS
         $sparklineParams = $this->getDistinctSparklineUrlParams('getLastDistinctCampaignsGraph');
         $value = $distinctMetrics['numberDistinctCampaigns'];
+        $value = $numberFormatter->formatNumber($value);
         $description = Piwik::translate('Referrers_DistinctCampaigns');
 
         $view->config->addSparkline($sparklineParams, $value, $description, @$distinctMetrics['numberDistinctCampaignsEvolution']);

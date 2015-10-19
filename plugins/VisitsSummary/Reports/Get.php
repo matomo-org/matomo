@@ -13,6 +13,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Metrics\Formatter;
+use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ActionsPerVisit;
@@ -80,7 +81,9 @@ class Get extends \Piwik\Plugin\Report
             $view->requestConfig->apiMethodToRequestDataTable = 'API.get';
             $this->addSparklineColumns($view);
             $view->config->addTranslations($this->getSparklineTranslations());
-            $view->config->filters[] = function (DataTable $table) use ($view) {
+
+            $numberFormatter = NumberFormatter::getInstance();
+            $view->config->filters[] = function (DataTable $table) use ($view, $numberFormatter) {
                 $firstRow = $table->getFirstRow();
 
                 if (($firstRow->getColumn('nb_pageviews')
@@ -107,6 +110,24 @@ class Get extends \Piwik\Plugin\Report
                     $formatter = StaticContainer::get('Piwik\Metrics\Formatter');
                     $avgGenerationTime = $formatter->getPrettyTimeFromSeconds($avgGenerationTime, true);
                     $firstRow->setColumn('avg_time_generation', $avgGenerationTime);
+                }
+
+                $numberMetrics = array('nb_visits', 'nb_uniq_visitors', 'nb_uniq_visitors', 'nb_users', 'nb_actions',
+                                       'nb_pageviews', 'nb_uniq_pageviews', 'nb_searches', 'nb_keywords', 'nb_downloads',
+                                       'nb_uniq_downloads', 'nb_outlinks', 'nb_uniq_outlinks', 'max_actions');
+                foreach ($numberMetrics as $metric) {
+                    $value = $firstRow->getColumn($metric);
+                    if (false !== $value) {
+                        $firstRow->setColumn($metric, $numberFormatter->formatNumber($value));
+                    }
+                }
+                $value = $firstRow->getColumn('bounce_rate');
+                if (false !== $value) {
+                    $firstRow->setColumn('bounce_rate', $numberFormatter->formatPercent($value, $precision = 1));
+                }
+                $value = $firstRow->getColumn('nb_actions_per_visit');
+                if (false !== $value) {
+                    $firstRow->setColumn('nb_actions_per_visit', $numberFormatter->formatNumber($value, $maxFraction = 1));
                 }
             };
         }
