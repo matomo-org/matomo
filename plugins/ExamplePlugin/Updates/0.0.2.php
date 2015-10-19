@@ -7,16 +7,16 @@
  *
  */
 
-namespace Piwik\Plugins\ExamplePlugin;
+namespace Piwik\Plugins\ExamplePlugin\Updates;
 
 use Piwik\Common;
 use Piwik\Updater;
-use Piwik\Updates;
+use Piwik\Updates as PiwikUpdates;
 
 /**
  * Update for version 0.0.2.
  */
-class Updates_0_0_2 extends Updates
+class Updates_0_0_2 extends PiwikUpdates
 {
 
     /**
