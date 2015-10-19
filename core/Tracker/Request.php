@@ -394,6 +394,12 @@ class Request
         return $this->paramsCache[$name];
     }
 
+    public function setParam($name, $value)
+    {
+        $this->params[$name] = $value;
+        unset($this->paramsCache[$name]);
+    }
+
     private function hasParam($name)
     {
         return isset($this->params[$name]);

@@ -35,12 +35,15 @@ use Piwik\Tracker\Visit\VisitProperties;
  * When Piwik handles a single tracking request, it gathers all available RequestProcessors and
  * invokes their methods in sequence.
  *
- * The first method called is {@link self::processRequestParams()}. RequestProcessors should use
+ * The first method called is {@link self::manipulateRequest()}. By default this is a no-op, but
+ * RequestProcessors can use it to manipulate tracker requests before they are processed.
+ *
+ * The second method called is {@link self::processRequestParams()}. RequestProcessors should use
  * this method to compute request metadata and set visit properties using the tracking request.
  * An example includes the ActionRequestProcessor, which uses this method to determine the action
  * being tracked.
  *
- * The second method called is {@link self::afterRequestProcessed()}. RequestProcessors should
+ * The third method called is {@link self::afterRequestProcessed()}. RequestProcessors should
  * use this method to either compute request metadata/visit properties using other plugins'
  * request metadata, OR override other plugins' request metadata to tweak tracker behavior.
  * An example of the former can be seen in the GoalsRequestProcessor which uses the action
@@ -48,7 +51,7 @@ use Piwik\Tracker\Visit\VisitProperties;
  * conversions. An example of the latter can be seen in the PingRequestProcessor, which on
  * ping requests, aborts conversion recording and new visit recording.
  *
- * After these two methods are called, either {@link self::onNewVisit()} or {@link self::onExistingVisit()}
+ * After these methods are called, either {@link self::onNewVisit()} or {@link self::onExistingVisit()}
  * is called. Generally, plugins should favor defining Dimension classes instead of using these methods,
  * however sometimes it is not possible (as is the case with the CustomVariables plugin).
  *
@@ -83,6 +86,19 @@ abstract class RequestProcessor
     /**
      * This is the first method called when processing a tracker request.
      *
+     * Derived classes can use this method to manipulate a tracker request before the request
+     * is handled. Plugins could change the URL, add custom variables, etc.
+     *
+     * @param Request $request
+     */
+    public function manipulateRequest(Request $request)
+    {
+        // empty
+    }
+
+    /**
+     * This is the second method called when processing a tracker request.
+     *
      * Derived classes should use this method to set request metadata based on the tracking
      * request alone. They should not try to access request metadata from other plugins,
      * since they may not be set yet.
@@ -99,7 +115,7 @@ abstract class RequestProcessor
     }
 
     /**
-     * This is the second method called when processing a tracker request.
+     * This is the third method called when processing a tracker request.
      *
      * Derived classes should use this method to set request metadata that needs request metadata
      * from other plugins, or to override request metadata from other plugins to change
