@@ -504,12 +504,7 @@ class API extends \Piwik\Plugin\API
         if ($suggestedValuesCallbackRequiresTable) {
             $values = call_user_func($segmentFound['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn, $table);
         } else {
-            // Cleanup data to return the top suggested (non empty) labels for this segment
-            $values = $table->getColumn($segmentName);
-
-            // Select also flattened keys (custom variables "page" scope, page URLs for one visit, page titles for one visit)
-            $valuesBis = $table->getColumnsStartingWith($segmentName . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
-            $values = array_merge($values, $valuesBis);
+            $values = $this->getSegmentValuesFromVisitorLog($segmentName, $table);
         }
 
         $values = $this->getMostFrequentValues($values);

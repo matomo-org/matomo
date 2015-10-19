@@ -64,6 +64,7 @@
 		<name>Visitor IP</name>
 		<segment>visitIp</segment>
 		<acceptedValues>13.54.122.1. &lt;/code&gt;Select IP ranges with notation: &lt;code&gt;visitIp&gt;13.54.122.0;visitIp&lt;13.54.122.255</acceptedValues>
+		<permission>1</permission>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -192,6 +193,7 @@
 		<name>User ID</name>
 		<segment>userId</segment>
 		<acceptedValues>any non empty unique string identifying the user (such as an email address or a username).</acceptedValues>
+		<permission>1</permission>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -206,6 +208,7 @@
 		<name>Visit ID</name>
 		<segment>visitId</segment>
 		<acceptedValues>Any integer.</acceptedValues>
+		<permission>1</permission>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -250,6 +253,7 @@
 		<name>Visitor ID</name>
 		<segment>visitorId</segment>
 		<acceptedValues>34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()</acceptedValues>
+		<permission>1</permission>
 	</row>
 	<row>
 		<type>dimension</type>
