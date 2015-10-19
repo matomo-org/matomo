@@ -15,14 +15,15 @@ use Piwik\Plugins\Events\Columns\EventName;
 /**
  * Report metadata class for the Events.getNameFromActionId class.
  */
-class GetNameFromActionId extends Report
+class GetNameFromActionId extends Base
 {
     protected function init()
     {
-        $this->category = 'Events_Events';
-        $this->processedMetrics = false;
+        parent::init();
+
         $this->dimension     = new EventName();
         $this->name          = Piwik::translate('Events_Names');
         $this->isSubtableReport = true;
+        $this->widgetParams = array();
     }
 }
