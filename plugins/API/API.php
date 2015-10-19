@@ -553,8 +553,10 @@ class API extends \Piwik\Plugin\API
     {
         // If you update this, also update flattenVisitorDetailsArray
         $segmentsNeedActionsInfo = array('visitConvertedGoalId',
-                                         'pageUrl', 'pageTitle', 'siteSearchKeyword',
-                                         'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl');
+            'pageUrl', 'pageTitle', 'siteSearchKeyword',
+            'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl',
+            'outlinkUrl', 'downloadUrl'
+        );
         $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
         $isEventSegment = stripos($segmentName, 'event') !== false;
         $isContentSegment = stripos($segmentName, 'content') !== false;

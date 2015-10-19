@@ -19,6 +19,10 @@ class SegmentMetadata
 
         foreach (Dimension::getAllDimensions() as $dimension) {
             foreach ($dimension->getSegments() as $segment) {
+                if ($segment->isRequiresAtLeastViewAccess()) {
+                    $segment->setPermission($isAuthenticatedWithViewAccess);
+                }
+
                 $segments[] = $segment->toArray();
             }
         }
