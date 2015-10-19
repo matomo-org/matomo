@@ -135,7 +135,7 @@ describe("Dashboard", function () {
     });
 
     it("should remove widget when remove widget icon is clicked", function (done) {
-        expect.screenshot("widget_move").to.be.capture("widget_removed", function (page) {
+        expect.screenshot("widget_move").to.be.capture("widget_move_removed", function (page) {
             var widget = '[id="widgetVisitTimegetVisitInformationPerLocalTimeviewDataTablegraphVerticalBar"]';
 
             page.mouseMove(widget + ' .widgetTop');
