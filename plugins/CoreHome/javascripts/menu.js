@@ -21,7 +21,6 @@ menu.prototype =
             return;
         }
 
-        $('#secondNavBar').trigger('piwikSwitchPage', this);
         $('#secondNavBar').removeClass('open fadeInLeft');
 
         var $link = $(this);
@@ -45,6 +44,8 @@ menu.prototype =
 
 
             } else if (href) {
+                $('#secondNavBar').trigger('piwikSwitchPage', this);
+
                 broadcast.propagateAjax(href.substr(1));
             }
 
