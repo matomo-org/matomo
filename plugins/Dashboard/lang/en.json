@@ -21,6 +21,7 @@
         "PluginDescription": "Your Web Analytics Dashboard. Customise your dashboard by adding new widgets, drag and drop them around, and change the dashboard column layout. Each user can manage their own custom dashboard.",
         "RemoveDashboard": "Remove dashboard",
         "RemoveDashboardConfirm": "Are you sure you want to remove the dashboard \"%s\"?",
+        "RemoveDefaultDashboardNotPossible": "The default dashboard cannot be removed",
         "RenameDashboard": "Rename dashboard",
         "ResetDashboard": "Reset dashboard",
         "ResetDashboardConfirm": "Are you sure you want to reset your dashboard layout to the default Widgets selection?",

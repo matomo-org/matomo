@@ -97,7 +97,6 @@
         "DateRange": "Временной период:",
         "DateRangeFrom": "От",
         "DateRangeFromTo": "С %s по %s",
-        "DateRangeInPeriodList": "Период",
         "DateRangeTo": "До",
         "DaysHours": "%1$s дн. %2$s час",
         "DaysSinceFirstVisit": "Дней прошло с момента первого посещения",

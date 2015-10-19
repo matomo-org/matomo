@@ -74,7 +74,6 @@
         "DateRange": "Kuupäeva vahemik:",
         "DateRangeFrom": "Alates",
         "DateRangeFromTo": "Alates %s kuni %s",
-        "DateRangeInPeriodList": "Kuupäeva vahemik",
         "DateRangeTo": "Kuni",
         "DaysHours": "%1$s päeva %2$s tundi",
         "DaysSinceFirstVisit": "Päevi esmasest külastusest",

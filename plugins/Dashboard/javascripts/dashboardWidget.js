@@ -118,9 +118,12 @@
             var self = this, currentWidget = this.element;
 
             function onWidgetLoadedReplaceElementWithContent(loadedContent) {
-                $('.widgetContent', currentWidget).html(loadedContent);
-                $('.widgetContent', currentWidget).removeClass('loading');
-                $('.widgetContent', currentWidget).trigger('widget:create', [self]);
+                var $widgetContent = $('.widgetContent', currentWidget);
+
+                $widgetContent.html(loadedContent);
+                piwikHelper.compileAngularComponents($widgetContent);
+                $widgetContent.removeClass('loading');
+                $widgetContent.trigger('widget:create', [self]);
             }
 
             // Reading segment from hash tag (standard case) or from the URL (when embedding dashboard)

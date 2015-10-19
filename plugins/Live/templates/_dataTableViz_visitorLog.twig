@@ -88,7 +88,7 @@
             {% if visitor.getColumn('searchEngineIcon') %}
                 <img src="{{ visitor.getColumn('searchEngineIcon') }}" alt="{{ visitor.getColumn('referrerName') }}"/>
             {% endif %}
-            <span {% if not showKeyword %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitor.getColumn('referrerName') }}</span>
+            <span {% if not showKeyword %}title="{{ keywordNotDefined }}" class="visitorLogTooltip"{% endif %}>{{ visitor.getColumn('referrerName') }}</span>
             {% if showKeyword %}{{ 'Referrers_Keywords'|translate }}:
                 <a href="{{ visitor.getColumn('referrerUrl') }}" rel="noreferrer" target="_blank" style="text-decoration:underline;">
                     "{{ visitor.getColumn('referrerKeyword') }}"</a>

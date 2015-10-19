@@ -1,6 +1,7 @@
+
 {% macro menu(menu, anchorlink, cssClass, currentModule, currentAction) %}
     <div id="secondNavBar" class="{{ cssClass }}">
-        <div id="search">
+        <div id="search" ng-cloak>
             <div piwik-quick-access class="borderedControl"></div>
         </div>
         <ul class="navbar">
@@ -26,7 +27,7 @@
                             {% for name,urlParameters in level2 %}
                                 {% if name|slice(0,1) != '_' %}
                                     <li {% if urlParameters._url.module is defined and urlParameters._url.module == currentModule and urlParameters._url.action is defined and urlParameters._url.action == currentAction %}class="active"{% endif %}
-                                        >
+                                            >
                                         <a class="item"
                                            href="index.php?{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}">
                                             {{ name|translate }}

@@ -129,7 +129,7 @@
       margin-left: 45px;
     }
 
-    #secondNavBar {
+    #secondNavBar:not(.standalone) {
       z-index: 9999;
       position: absolute;
       border-right: 1px solid @theme-color-background-tinyContrast;
@@ -380,7 +380,9 @@
       font-size: 11px;
     }
   }
+}
 
+#root, #standalone, .ui-dialog, .ngdialog {
   .borderedControl {
     background-color: @theme-color-background-base;
     border: 1px solid @theme-color-background-tinyContrast;

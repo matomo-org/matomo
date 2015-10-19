@@ -86,6 +86,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should reload the visitors > overview page when clicking on the visitors overview page element again', function (done) {
+        expect.screenshot("visitors_overview").to.be.captureSelector("visitors_overview_reloaded", '.pageWrap,.expandDataTableFooterDrawer', function (page) {
+            page.click('#VisitsSummary_index > a.item');
+        }, done);
+    });
+
     it('should load visitors > visitor log page correctly', function (done) {
         expect.screenshot("visitors_visitorlog").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog");

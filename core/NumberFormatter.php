@@ -50,6 +50,8 @@ class NumberFormatter extends Singleton
 
     /**
      * Loads all required data from Intl plugin
+     *
+     * @return NumberFormatter
      */
     public function __construct()
     {

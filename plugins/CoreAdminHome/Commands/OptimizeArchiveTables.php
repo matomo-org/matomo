@@ -66,9 +66,9 @@ class OptimizeArchiveTables extends ConsoleCommand
 
     private function getTableMonthsToOptimize(InputInterface $input)
     {
-        $dateSpecifier = $input->getArgument('dates');
-        if (count($dateSpecifier) === 1) {
-            $dateSpecifier = reset($dateSpecifier);
+        $dateSpecifiers = $input->getArgument('dates');
+        if (count($dateSpecifiers) === 1) {
+            $dateSpecifier = reset($dateSpecifiers);
 
             if ($dateSpecifier == self::ALL_TABLES_STRING) {
                 return $this->getAllArchiveTableMonths();
@@ -90,7 +90,7 @@ class OptimizeArchiveTables extends ConsoleCommand
         }
 
         $tableMonths = array();
-        foreach ($dateSpecifier as $date) {
+        foreach ($dateSpecifiers as $date) {
             $date = Date::factory($date);
             $tableMonths[] = ArchiveTableCreator::getTableMonthFromDate($date);
         }

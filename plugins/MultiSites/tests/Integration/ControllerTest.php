@@ -36,10 +36,10 @@ class ControllerTest extends SystemTestCase
         $this->assertSame(15, count($sites['sites']));
         $this->assertEquals(array(
             'label' => 'Site 1',
-            'nb_visits' => 2,
-            'nb_actions' => 4,
-            'nb_pageviews' => 3,
-            'revenue' => '$ 2541',
+            'nb_visits' => '2',
+            'nb_actions' => '4',
+            'nb_pageviews' => '3',
+            'revenue' => '$2,541',
             'visits_evolution' => '100%',
             'actions_evolution' => '100%',
             'pageviews_evolution' => '100%',
@@ -56,7 +56,7 @@ class ControllerTest extends SystemTestCase
                 'nb_pageviews' => 8,
                 'nb_visits' => 5,
                 'nb_actions' => 12,
-                'revenue' => 5082,
+                'revenue' => '5,082',
                 'nb_visits_lastdate' => 0,
             ),
             'lastDate' => '2013-01-22'

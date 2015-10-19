@@ -81,7 +81,6 @@
         "DateRange": "ช่วงวันที่:",
         "DateRangeFrom": "จาก",
         "DateRangeFromTo": "จาก %s ไปยัง %s",
-        "DateRangeInPeriodList": "ช่วงวันที่",
         "DateRangeTo": "ถึง",
         "DaysHours": "%1$s วัน %2$s ชั่วโมง",
         "DaysSinceFirstVisit": "นับตั้งแต่ครั้งแรก",

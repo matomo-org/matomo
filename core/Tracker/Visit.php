@@ -113,6 +113,12 @@ class Visit implements VisitInterface
      */
     public function handle()
     {
+        foreach ($this->requestProcessors as $processor) {
+            Common::printDebug("Executing " . get_class($processor) . "::manipulateRequest()...");
+
+            $processor->manipulateRequest($this->request);
+        }
+
         $this->visitProperties = new VisitProperties();
 
         foreach ($this->requestProcessors as $processor) {
