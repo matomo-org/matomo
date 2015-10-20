@@ -1,5 +1,6 @@
 {
     "Ecommerce": {
-        "Sales": "売り上げ"
+        "Sales": "売り上げ",
+        "SalesAdjective": "売り上げ %s"
     }
 }

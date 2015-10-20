@@ -48,6 +48,7 @@
         "YouAreUsingTheLatestVersion": "Du bruker den nyeste versjonen av Piwik!",
         "ClickRowToExpandOrContract": "Klikk denne raden for utvide eller slå sammen undertabellen.",
         "UndoPivotBySubtable": "Denne rapporten er pivotert %s Angre pivot",
-        "PivotBySubtable": "Denne rapporten er ikke pivotert %s Pivot etter %s"
+        "PivotBySubtable": "Denne rapporten er ikke pivotert %s Pivot etter %s",
+        "Segments": "Segmenter"
     }
 }

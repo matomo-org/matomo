@@ -21,6 +21,7 @@
         "PluginDescription": "ユーザーの Web Analytics のダッシュ ボード。新しいウィジェットを追加することによって、ダッシュ ボードをカスタマイズ、ドラッグ アンドドロップしでダッシュ ボードのカラムのレイアウトを変更します。各ユーザーは、独自のカスタム ダッシュ ボードを管理できます。",
         "RemoveDashboard": "ダッシュボードの削除",
         "RemoveDashboardConfirm": "本当にダッシュボード \"%s\" を削除しますか？",
+        "RemoveDefaultDashboardNotPossible": "既定のダッシュ ボードを削除できません。",
         "RenameDashboard": "ダッシュボードの名称変更",
         "ResetDashboard": "ダッシュボードのリセット",
         "ResetDashboardConfirm": "ダッシュボードのレイアウトをリセットしてデフォルトのウィジェットに戻しますか？",

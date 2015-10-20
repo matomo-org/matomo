@@ -21,6 +21,7 @@
         "PluginDescription": "La tua Dashboard delle Statistiche Web. Personalizzala aggiungendo nuovi widgets, trascinandoli e spostandoli e cambiando l'aspetto delle colonne. Ciascun utente può gestire una propria dashboard.",
         "RemoveDashboard": "Rimuovi la dashboard",
         "RemoveDashboardConfirm": "Sei sicuro di voler rimuovere la dashboard \"%s\"?",
+        "RemoveDefaultDashboardNotPossible": "La dashboard predefinita non può essere eliminata",
         "RenameDashboard": "Rinomina dashboard",
         "ResetDashboard": "Reimposta la dashboard",
         "ResetDashboardConfirm": "Sei sicuro di voler ripristinare il layout della dashboard alla selezione di widget predefinita?",

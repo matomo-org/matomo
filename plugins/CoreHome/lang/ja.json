@@ -48,6 +48,9 @@
         "YouAreUsingTheLatestVersion": "Piwik の最新バージョンを使用しています ！",
         "ClickRowToExpandOrContract": "サブテーブルを拡大または縮小するには、この列をクリックしてください。",
         "UndoPivotBySubtable": "このレポートは、%s 元に戻すピボットを旋回しました。",
-        "PivotBySubtable": "このレポートは、%s が %s ピボット を旋回していません。"
+        "PivotBySubtable": "このレポートは、%s が %s ピボット を旋回していません。",
+        "QuickAccessTitle": "%s を検索。ショートカット: ' f' キーを押して検索します。",
+        "MenuEntries": "メニュー エントリー",
+        "Segments": "セグメント"
     }
 }

@@ -1,6 +1,7 @@
 {
     "API": {
         "LoadedAPIs": "Lastet %s API",
-        "UserAuthentication": "Brukerautentisering"
+        "UserAuthentication": "Brukerautentisering",
+        "Glossary": "Ordliste"
     }
 }
