@@ -57,7 +57,6 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        StaticContainer::get('Piwik\NumberFormatter')->unsetInstance();
         Translate::reset();
         $this->unsetSiteManagerApiMock();
     }
