@@ -10,7 +10,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Container\StaticContainer;
 use Piwik\NumberFormatter;
-use Piwik\Translate;
+use Piwik\Translation\Translator;
 
 /**
  * @group Core
@@ -18,15 +18,48 @@ use Piwik\Translate;
  */
 class NumberFormatterTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Translator
+     */
+    private $translator;
+
     public function setUp()
     {
-        Translate::loadAllTranslations();
+        \Piwik\Plugin\Manager::getInstance()->loadPluginTranslations();
+
+        $this->translator = StaticContainer::get('Piwik\Translation\Translator');
     }
 
     public function tearDown()
     {
-        StaticContainer::get('Piwik\NumberFormatter')->unsetInstance();
-        Translate::reset();
+        $this->translator->reset();
+    }
+
+    /**
+     * @dataProvider getFormatMethodTestData
+     */
+    public function test_format_CorrectlyFormatsValueAsNumberOrPercent(
+        $language, $value, $maximumFractionDigits, $minimumFractionDigits, $expected)
+    {
+        $this->translator->setCurrentLanguage($language);
+        $numberFormatter = new NumberFormatter($this->translator);
+        $this->assertEquals($expected, $numberFormatter->format($value, $maximumFractionDigits,$minimumFractionDigits));
+    }
+
+    public function getFormatMethodTestData()
+    {
+        return array(
+            // number formatting
+            array('en', 5, 0, 0, '5'),
+            array('en', -5, 0, 3, '-5'),
+            array('en', 5.299, 0, 0, '5'),
+            array('en', 5.299, 3, 0, '5.299'),
+            array('en', sqrt(33), 2, 0, '5.74'),
+
+            // percent formatting
+            array('en', '5.299%', 0, 0, '5%'),
+            array('en', '5.299%', 3, 0, '5.299%'),
+        );
     }
 
     /**
@@ -34,9 +67,10 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function testNumberFormatting($language, $value, $maximumFractionDigits, $minimumFractionDigits, $expected)
     {
-        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
-        $formatter = NumberFormatter::getInstance();
-        $this->assertEquals($expected, $formatter->formatNumber($value, $maximumFractionDigits, $minimumFractionDigits));
+        $this->translator->setCurrentLanguage($language);
+        $numberFormatter = new NumberFormatter($this->translator);
+
+        $this->assertEquals($expected, $numberFormatter->formatNumber($value, $maximumFractionDigits, $minimumFractionDigits));
     }
 
     public function getNumberFormattingTestData()
@@ -67,9 +101,9 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function testPercentNumberFormatting($language, $value, $maximumFractionDigits, $minimumFractionDigits, $expected)
     {
-        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
-        $formatter = NumberFormatter::getInstance();
-        $this->assertEquals($expected, $formatter->formatPercent($value, $maximumFractionDigits, $minimumFractionDigits));
+        $this->translator->setCurrentLanguage($language);
+        $numberFormatter = new NumberFormatter($this->translator);
+        $this->assertEquals($expected, $numberFormatter->formatPercent($value, $maximumFractionDigits, $minimumFractionDigits));
     }
 
     public function getPercentNumberFormattingTestData()
@@ -101,9 +135,9 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function testPercentEvolutionNumberFormatting($language, $value, $expected)
     {
-        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
-        $formatter = NumberFormatter::getInstance();
-        $this->assertEquals($expected, $formatter->formatPercentEvolution($value));
+        $this->translator->setCurrentLanguage($language);
+        $numberFormatter = new NumberFormatter($this->translator);
+        $this->assertEquals($expected, $numberFormatter->formatPercentEvolution($value));
     }
 
     public function getPercentNumberEvolutionFormattingTestData()

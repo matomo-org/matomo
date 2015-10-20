@@ -90,7 +90,7 @@ class Get extends Base
                 if ($firstRow) {
 
                     $revenue = $firstRow->getColumn('revenue');
-                    $currencySymbol = Formatter::getCurrencySymbol($idSite);
+                    $currencySymbol = Site::getCurrencySymbolFor($idSite);
                     $revenue = $numberFormatter->formatCurrency($revenue, $currencySymbol, GoalManager::REVENUE_PRECISION);
                     $firstRow->setColumn('revenue', $revenue);
 

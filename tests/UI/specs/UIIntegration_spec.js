@@ -267,6 +267,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    // Events pages
+    it('should load the Events > index page correctly', function (done) {
+        expect.screenshot('events_overview').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer,.dataTable', function (page) {
+            page.load("?" + urlBase + "#" + generalParams + "&module=Events&action=index");
+        }, done);
+    });
+
     // one page w/ segment
     it('should load the visitors > overview page correctly when a segment is specified', function (done) {
         expect.screenshot('visitors_overview_segment').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {

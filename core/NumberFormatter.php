@@ -7,13 +7,15 @@
  *
  */
 namespace Piwik;
+use Piwik\Container\StaticContainer;
+use Piwik\Translation\Translator;
 
 /**
  * Class NumberFormatter
  *
  * Used to format numbers according to current language
  */
-class NumberFormatter extends Singleton
+class NumberFormatter
 {
     /** @var string language specific patterns for numbers */
     protected $patternNumber;
@@ -51,18 +53,23 @@ class NumberFormatter extends Singleton
     /**
      * Loads all required data from Intl plugin
      *
+     * TODO: instead of going directly through Translator, there should be a specific class
+     * that gets needed characters (ie, NumberFormatSource). The default implementation
+     * can use the Translator. This will make it easier to unit test NumberFormatter,
+     * w/o needing the Piwik Environment.
+     *
      * @return NumberFormatter
      */
-    public function __construct()
+    public function __construct(Translator $translator)
     {
-        $this->patternNumber = Piwik::translate('Intl_NumberFormatNumber');
-        $this->patternCurrency = Piwik::translate('Intl_NumberFormatCurrency');
-        $this->patternPercent = Piwik::translate('Intl_NumberFormatPercent');
-        $this->symbolPlus = Piwik::translate('Intl_NumberSymbolPlus');
-        $this->symbolMinus = Piwik::translate('Intl_NumberSymbolMinus');
-        $this->symbolPercent = Piwik::translate('Intl_NumberSymbolPercent');
-        $this->symbolGroup = Piwik::translate('Intl_NumberSymbolGroup');
-        $this->symbolDecimal = Piwik::translate('Intl_NumberSymbolDecimal');
+        $this->patternNumber = $translator->translate('Intl_NumberFormatNumber');
+        $this->patternCurrency = $translator->translate('Intl_NumberFormatCurrency');
+        $this->patternPercent = $translator->translate('Intl_NumberFormatPercent');
+        $this->symbolPlus = $translator->translate('Intl_NumberSymbolPlus');
+        $this->symbolMinus = $translator->translate('Intl_NumberSymbolMinus');
+        $this->symbolPercent = $translator->translate('Intl_NumberSymbolPercent');
+        $this->symbolGroup = $translator->translate('Intl_NumberSymbolGroup');
+        $this->symbolDecimal = $translator->translate('Intl_NumberSymbolDecimal');
     }
 
     /**
@@ -91,8 +98,10 @@ class NumberFormatter extends Singleton
      */
     public function format($value, $maximumFractionDigits=0, $minimumFractionDigits=0)
     {
-        if (trim($value, '%') != $value) {
-            return $this->formatPercent($value);
+        if (is_string($value)
+            && trim($value, '%') != $value
+        ) {
+            return $this->formatPercent($value, $maximumFractionDigits, $minimumFractionDigits);
         }
 
         return $this->formatNumber($value, $maximumFractionDigits, $minimumFractionDigits);
@@ -303,5 +312,14 @@ class NumberFormatter extends Singleton
     protected function isNegative($value)
     {
         return $value < 0;
+    }
+
+    /**
+     * @deprecated
+     * @return self
+     */
+    public static function getInstance()
+    {
+        return StaticContainer::get('Piwik\NumberFormatter');
     }
 }

@@ -9,18 +9,17 @@
 namespace Piwik\Plugins\Events\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugins\Events\Columns\EventCategory;
 
 /**
  * Report metadata class for the Events.getCategoryFromActionId class.
  */
-class GetCategoryFromActionId extends Report
+class GetCategoryFromActionId extends Base
 {
     protected function init()
     {
-        $this->categoryId = 'Events_Events';
-        $this->processedMetrics = false;
+        parent::init();
+
         $this->dimension     = new EventCategory();
         $this->name          = Piwik::translate('Events_EventCategories');
         $this->isSubtableReport = true;

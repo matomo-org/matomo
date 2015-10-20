@@ -19,6 +19,7 @@ use Piwik\Tracker\Settings;
 use Piwik\Tracker\Visit\VisitProperties;
 use Piwik\Tracker\VisitExcluded;
 use Piwik\Tracker\VisitorRecognizer;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 
 /**
  * Encapsulates core tracking logic related to visits.
@@ -91,8 +92,15 @@ class VisitRequestProcessor extends RequestProcessor
             return true;
         }
 
+        $privacyConfig = new PrivacyManagerConfig();
+
+        $ip = $request->getIpString();
+        if ($privacyConfig->useAnonymizedIpForVisitEnrichment) {
+            $ip = $visitProperties->getProperty('location_ip');
+        }
+
         // visitor recognition
-        $visitorId = $this->userSettings->getConfigId($request, $visitProperties->getProperty('location_ip'));
+        $visitorId = $this->userSettings->getConfigId($request, $ip);
         $request->setMetadata('CoreHome', 'visitorId', $visitorId);
 
         $isKnown = $this->visitorRecognizer->findKnownVisitor($visitorId, $visitProperties, $request);
