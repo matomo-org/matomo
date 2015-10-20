@@ -44,6 +44,7 @@
         "MarketplaceSellPluginSubject": "マーケットプレイス - プラグインの販売",
         "MenuPlatform": "プラットフォーム",
         "MissingRequirementsNotice": "%1$s %3$s が必要です。 %1$s %2$s を最新バージョンにアップデートしてください。",
+        "NewVersion": "新しいバージョン",
         "NoPluginsFound": "プラグインは見つかりませんでした",
         "NotAllowedToBrowseMarketplacePlugins": "Piwik プラットフォームのカスタマイズまたは拡張のために、インストール可能なプラグインのリストを閲覧することができます。もしこれらのいづれかのインストールが必要な場合は、管理者にお問い合わせください。",
         "NotAllowedToBrowseMarketplaceThemes": "Piwik プラットフォームの外観をカスタマイズするのにインストール可能な Piwik テーマのリストをご確認ください。これらのいづれかをインストールしたい場合は、管理者にお問い合わせください。",

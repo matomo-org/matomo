@@ -35,6 +35,7 @@
         "VisitorsInRealTime": "リアルタイムのビジター",
         "VisitorsLastVisit": "このビジターの最新のビジットは %s 日前です。",
         "VisitsFrom": "から %1$s%2$s が %3$s を訪問",
-        "VisitSummary": "ウェブサイト %3$s で、合計 %1$s%2$s を消費し、%4$s は %6$s 訪問で、%5$s ページ閲覧しました。%7$s"
+        "VisitSummary": "ウェブサイト %3$s で、合計 %1$s%2$s を消費し、%4$s は %6$s 訪問で、%5$s ページ閲覧しました。%7$s",
+        "RowActionTooltipTitle": "セグメントビジターログを表示"
     }
 }

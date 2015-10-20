@@ -1,8 +1,10 @@
 {
     "CoreAdminHome": {
+        "AddNewTrustedHost": "新しい信頼できるホストを追加します。",
         "Administration": "管理",
         "ArchivingSettings": "アーカイブ設定",
         "BrandingSettings": "ブランディング設定",
+        "ReleaseChannel": "リリース チャネル",
         "ClickHereToOptIn": "クリックしてオプトイン。",
         "ClickHereToOptOut": "クリックしてオプトアウト。",
         "CustomLogoFeedbackInfo": "Piwikのロゴをカスタマイズする場合、トップメニューの %s のリンクも隠したいと思うかもしれません。それには %sプラグインの管理%s のページでフィードバックプラグインを無効にします。",
@@ -68,8 +70,10 @@
         "PluginSettingsIntro": "ここでは、次のサードパーティのプラグインの設定変更ができます",
         "PluginSettingsValueNotAllowed": "\"%s\" プラグインの \"%s\" フィールドの値は許可されていません。",
         "PluginSettingsSaveFailed": "プラグインの設定を保存できませんでした",
+        "SendPluginUpdateCommunication": "プラグインの更新が利用可能なときにメールを送信します。",
         "SendPluginUpdateCommunicationHelp": "使用可能な新しいプラグインのバージョンがある場合、管理者ユーザーへメールが通知されます。",
         "StableReleases": "Piwikがビジネスの重要な一部である場合、最新の安定版を使用することを推奨します。また、最新のベータ版を使用し、バグを見つけたり、提案があれば、%sこちらをご覧ください%s。",
+        "LtsReleases": "LTS (長期サポート) のバージョンは、セキュリティとバグ修正のみ受信します。",
         "SystemPluginSettings": "システムプラグイン設定",
         "TrackAGoal": "目標の追跡",
         "TrackingCode": "トラッキングコード",

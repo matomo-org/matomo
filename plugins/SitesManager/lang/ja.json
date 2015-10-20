@@ -73,6 +73,8 @@
         "Urls": "URL",
         "UTCTimeIs": "UTC 時間は %s です。",
         "WebsitesManagement": "ウェブサイトの管理",
+        "XManagement": "管理 %s",
+        "ChooseMeasurableTypeHeadline": "何を測定しますか？",
         "YouCurrentlyHaveAccessToNWebsites": "現在 %s つのウェブサイトに接続しています。",
         "YourCurrentIpAddressIs": "あなたの現在の IP アドレスは %s です。"
     }
