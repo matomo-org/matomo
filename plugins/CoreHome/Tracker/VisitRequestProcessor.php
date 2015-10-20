@@ -92,7 +92,7 @@ class VisitRequestProcessor extends RequestProcessor
         }
 
         // visitor recognition
-        $visitorId = $this->userSettings->getConfigId($request, $visitProperties->getProperty('location_ip'));
+        $visitorId = $this->userSettings->getConfigId($request, $request->getIpString());
         $request->setMetadata('CoreHome', 'visitorId', $visitorId);
 
         $isKnown = $this->visitorRecognizer->findKnownVisitor($visitorId, $visitProperties, $request);
