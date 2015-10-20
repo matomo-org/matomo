@@ -270,7 +270,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     // Events pages
     it('should load the Events > index page correctly', function (done) {
         expect.screenshot('events_overview').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer,.dataTable', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Events&action=index");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Events_Events");
         }, done);
     });
 
