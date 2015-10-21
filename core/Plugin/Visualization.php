@@ -359,7 +359,7 @@ class Visualization extends ViewDataTable
             $this->metadata = $this->dataTable->getAllTableMetadata();
 
             if (isset($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
-                $this->config->report_last_updated_message = $this->makePrettyArchivedOnText();
+                $this->reportLastUpdatedMessage = $this->makePrettyArchivedOnText();
             }
         }
 
