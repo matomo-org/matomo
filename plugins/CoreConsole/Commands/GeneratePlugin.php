@@ -28,7 +28,8 @@ class GeneratePlugin extends GeneratePluginBase
             ->setDescription('Generates a new plugin/theme including all needed files')
             ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Plugin name ([a-Z0-9_-])')
             ->addOption('description', null, InputOption::VALUE_REQUIRED, 'Plugin description, max 150 characters')
-            ->addOption('pluginversion', null, InputOption::VALUE_OPTIONAL, 'Plugin version');
+            ->addOption('pluginversion', null, InputOption::VALUE_OPTIONAL, 'Plugin version')
+            ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Generate even if plugin directory already exists.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -115,9 +116,11 @@ class GeneratePlugin extends GeneratePluginBase
      */
     protected function getPluginName(InputInterface $input, OutputInterface $output)
     {
+        $overwrite = $input->getOption('overwrite');
+
         $self = $this;
 
-        $validate = function ($pluginName) use ($self) {
+        $validate = function ($pluginName) use ($self, $overwrite) {
             if (empty($pluginName)) {
                 throw new \RuntimeException('You have to enter a plugin name');
             }
@@ -128,7 +131,9 @@ class GeneratePlugin extends GeneratePluginBase
 
             $pluginPath = $self->getPluginPath($pluginName);
 
-            if (file_exists($pluginPath)) {
+            if (file_exists($pluginPath)
+                && !$overwrite
+            ) {
                 throw new \RuntimeException('A plugin with this name already exists');
             }
 
