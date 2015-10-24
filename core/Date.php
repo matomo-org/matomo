@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\LanguagesManager\Model as LanguagesManagerModel;
 
 /**
  * Utility class that wraps date/time related PHP functions. Using this class can
@@ -626,6 +627,31 @@ class Date
             $translator = StaticContainer::get('Piwik\Translation\Translator');
             $template = $translator->translate($template);
         }
+
+        if (strpos($template, '{time}') !== false) {
+
+            static $use12HourClock = null;
+
+            if (is_null($use12HourClock)) {
+
+                $model = new LanguagesManagerModel();
+
+                $use12HourClock = $model->uses12HourClock(Piwik::getCurrentUserLogin());
+            }
+
+            $timeFormat = 'Intl_Format_Time_24';
+
+            if ($use12HourClock) {
+                $timeFormat = 'Intl_Format_Time_12';
+
+            }
+
+            $translator = StaticContainer::get('Piwik\Translation\Translator');
+            $replacement = $translator->translate($timeFormat);
+
+            $template = str_replace('{time}', $replacement, $template);
+        }
+
 
         $tokens = self::parseFormat($template);
 

@@ -138,6 +138,19 @@ class LanguagesManager extends \Piwik\Plugin
     }
 
     /**
+     * @return boolean
+     */
+    public static function uses12HourClockForCurrentUser()
+    {
+        try {
+            $currentUser = Piwik::getCurrentUserLogin();
+            return API::getInstance()->uses12HourClockForUser($currentUser);
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
      * @return string Two letters language code, eg. "fr"
      */
     public static function getLanguageCodeForCurrentUser()
