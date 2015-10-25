@@ -11,7 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Container\StaticContainer;
-use Piwik\Plugins\LanguagesManager\Model as LanguagesManagerModel;
+use Piwik\Plugins\LanguagesManager\LanguagesManager;
 
 /**
  * Utility class that wraps date/time related PHP functions. Using this class can
@@ -612,6 +612,38 @@ class Date
         return new Date($result, $this->timezone);
     }
 
+    protected static $use12HourClock;
+
+    protected function getTimeFormat()
+    {
+        if (is_null(self::$use12HourClock)) {
+            self::$use12HourClock = LanguagesManager::uses12HourClockForCurrentUser();
+        }
+
+        $timeFormat = 'Intl_Format_Time_24';
+
+        if (self::$use12HourClock) {
+            $timeFormat = 'Intl_Format_Time_12';
+
+        }
+
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        $template = $translator->translate($timeFormat);
+
+        return $template;
+    }
+
+    /**
+     * For testing purpose only: Overwrites time format
+     *
+     * @param bool $use12HourClock
+     */
+    public static function forceTimeFormat($use12HourClock = false)
+    {
+        self::$use12HourClock = $use12HourClock;
+    }
+
+
     /**
      * Returns a localized date string using the given template.
      * The template should contain tags that will be replaced with localized date strings.
@@ -629,29 +661,8 @@ class Date
         }
 
         if (strpos($template, '{time}') !== false) {
-
-            static $use12HourClock = null;
-
-            if (is_null($use12HourClock)) {
-
-                $model = new LanguagesManagerModel();
-
-                $use12HourClock = $model->uses12HourClock(Piwik::getCurrentUserLogin());
-            }
-
-            $timeFormat = 'Intl_Format_Time_24';
-
-            if ($use12HourClock) {
-                $timeFormat = 'Intl_Format_Time_12';
-
-            }
-
-            $translator = StaticContainer::get('Piwik\Translation\Translator');
-            $replacement = $translator->translate($timeFormat);
-
-            $template = str_replace('{time}', $replacement, $template);
+            $template = str_replace('{time}', $this->getTimeFormat(), $template);
         }
-
 
         $tokens = self::parseFormat($template);
 
