@@ -33,7 +33,7 @@
 [submodule "tests/travis"]
     path = tests/travis
     url = https://github.com/piwik/travis-scripts
-    branch = master
+    branch = git-lfs
 [submodule "plugins/LogViewer"]
 	path = plugins/LogViewer
 	url = https://github.com/piwik/plugin-LogViewer.git
@@ -59,8 +59,3 @@
     branch = master
 
 # Note: do not add new plugin submodules here, but a few lines above
-
-[submodule "tests/travis"]
-	path = tests/travis
-	url = https://github.com/piwik/travis-scripts
-    branch = git-lfs
