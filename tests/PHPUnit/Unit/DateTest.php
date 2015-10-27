@@ -356,7 +356,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         Translate::loadAllTranslations();
         StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
-        Date::forceTimeFormat($use12HourClock);
+        StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider')->forceTimeFormat($use12HourClock);
 
         $date = Date::factory($time);
 
