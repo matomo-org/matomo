@@ -4,6 +4,8 @@ return array(
 
     'Piwik\Config' => \DI\decorate(function (\Piwik\Config $config) {
         $config->General['cors_domains'][] = '*';
+        $config->trusted_hosts[] = $config->tests['http_host'];
+        $config->trusted_hosts[] = $config->tests['http_host'] . ':' . $config->tests['port'];
         return $config;
     }),
 

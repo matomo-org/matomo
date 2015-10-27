@@ -217,8 +217,6 @@ class Url
             }
         }
 
-        $host = self::removePortFromHost($host);
-
         // if host is in hardcoded whitelist, assume it's valid
         if (in_array($host, self::getAlwaysTrustedHosts())) {
             return true;
@@ -686,14 +684,5 @@ class Url
     public static function getLocalHostnames()
     {
         return array('localhost', '127.0.0.1', '::1', '[::1]');
-    }
-
-    private static function removePortFromHost($host)
-    {
-        $colonIndex = strrpos($host, ':');
-        if ($colonIndex !== false) {
-            $host = substr($host, 0, $colonIndex);
-        }
-        return $host;
     }
 }
