@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\LanguagesManager;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -144,7 +145,7 @@ class LanguagesManager extends \Piwik\Plugin
     {
         try {
             $currentUser = Piwik::getCurrentUserLogin();
-            return API::getInstance()->uses12HourClockForUser($currentUser);
+            return Request::processRequest('LanguagesManager.uses12HourClockForUser', array('login' => $currentUser));
         } catch (Exception $e) {
             return false;
         }
