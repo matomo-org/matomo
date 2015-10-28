@@ -7,7 +7,7 @@
  *
  */
 
-namespace Piwik\Updates;
+namespace Piwik\Plugins\LanguagesManager;
 
 use Piwik\Common;
 use Piwik\Updater;
