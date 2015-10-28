@@ -16,7 +16,7 @@ use Piwik\Plugins\LanguagesManager\LanguagesManager;
  */
 class DateTimeFormatProvider extends \Piwik\Intl\Data\Provider\DateTimeFormatProvider
 {
-    protected static $use12HourClock;
+    protected $use12HourClock;
 
     /**
      * Returns the format pattern for the given format type
@@ -97,13 +97,13 @@ class DateTimeFormatProvider extends \Piwik\Intl\Data\Provider\DateTimeFormatPro
 
     protected function getTimeFormat()
     {
-        if (is_null(self::$use12HourClock)) {
-            self::$use12HourClock = LanguagesManager::uses12HourClockForCurrentUser();
+        if (is_null($this->use12HourClock)) {
+            $this->use12HourClock = LanguagesManager::uses12HourClockForCurrentUser();
         }
 
         $timeFormat = 'Intl_Format_Time_24';
 
-        if (self::$use12HourClock) {
+        if ($this->use12HourClock) {
             $timeFormat = 'Intl_Format_Time_12';
         }
 
@@ -120,6 +120,6 @@ class DateTimeFormatProvider extends \Piwik\Intl\Data\Provider\DateTimeFormatPro
      */
     public function forceTimeFormat($use12HourClock = false)
     {
-        self::$use12HourClock = $use12HourClock;
+        $this->use12HourClock = $use12HourClock;
     }
 }
