@@ -8,8 +8,8 @@
 
 namespace Piwik\Plugins\Intl;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Translation\Translator;
 
 /**
  * Provides date and time formats.
@@ -17,6 +17,16 @@ use Piwik\Plugins\LanguagesManager\LanguagesManager;
 class DateTimeFormatProvider extends \Piwik\Intl\Data\Provider\DateTimeFormatProvider
 {
     protected $use12HourClock;
+
+    /**
+     * @var Translator
+     */
+    protected $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
 
     /**
      * Returns the format pattern for the given format type
@@ -27,43 +37,42 @@ class DateTimeFormatProvider extends \Piwik\Intl\Data\Provider\DateTimeFormatPro
      */
     public function getFormatPattern($format)
     {
-        $translator = StaticContainer::get('Piwik\Translation\Translator');
 
         switch ($format) {
             case self::DATETIME_FORMAT_LONG:
-                $pattern = $translator->translate('Intl_Format_DateTime_Long');
+                $pattern = $this->translator->translate('Intl_Format_DateTime_Long');
                 break;
 
             case self::DATETIME_FORMAT_SHORT:
-                $pattern = $translator->translate('Intl_Format_DateTime_Short');
+                $pattern = $this->translator->translate('Intl_Format_DateTime_Short');
                 break;
 
             case self::DATE_FORMAT_LONG:
-                $pattern = $translator->translate('Intl_Format_Date_Long');
+                $pattern = $this->translator->translate('Intl_Format_Date_Long');
                 break;
 
             case self::DATE_FORMAT_DAY_MONTH:
-                $pattern = $translator->translate('Intl_Format_Date_Day_Month');
+                $pattern = $this->translator->translate('Intl_Format_Date_Day_Month');
                 break;
 
             case self::DATE_FORMAT_SHORT:
-                $pattern = $translator->translate('Intl_Format_Date_Short');
+                $pattern = $this->translator->translate('Intl_Format_Date_Short');
                 break;
 
             case self::DATE_FORMAT_MONTH_SHORT:
-                $pattern = $translator->translate('Intl_Format_Month_Short');
+                $pattern = $this->translator->translate('Intl_Format_Month_Short');
                 break;
 
             case self::DATE_FORMAT_MONTH_LONG:
-                $pattern = $translator->translate('Intl_Format_Month_Long');
+                $pattern = $this->translator->translate('Intl_Format_Month_Long');
                 break;
 
             case self::DATE_FORMAT_YEAR:
-                $pattern = $translator->translate('Intl_Format_Year');
+                $pattern = $this->translator->translate('Intl_Format_Year');
                 break;
 
             case self::TIME_FORMAT:
-                $pattern = $translator->translate('Intl_Format_Time');
+                $pattern = $this->translator->translate('Intl_Format_Time');
                 break;
 
             default:
@@ -87,7 +96,7 @@ class DateTimeFormatProvider extends \Piwik\Intl\Data\Provider\DateTimeFormatPro
      */
     public function getRangeFormatPattern($short=false, $maxDifference='Y')
     {
-        return StaticContainer::get('Piwik\Translation\Translator')->translate(
+        return $this->translator->translate(
             sprintf(
                 'Intl_Format_Interval_%s_%s',
                 $short ? 'Short' : 'Long',
@@ -107,8 +116,7 @@ class DateTimeFormatProvider extends \Piwik\Intl\Data\Provider\DateTimeFormatPro
             $timeFormat = 'Intl_Format_Time_12';
         }
 
-        $translator = StaticContainer::get('Piwik\Translation\Translator');
-        $template = $translator->translate($timeFormat);
+        $template = $this->translator->translate($timeFormat);
 
         return $template;
     }
