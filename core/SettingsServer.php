@@ -127,9 +127,14 @@ class SettingsServer
     {
         static $gd = null;
         if (is_null($gd)) {
+            $gd = false;
+
             $extensions = @get_loaded_extensions();
-            $gd = in_array('gd', $extensions) && function_exists('imageftbbox');
+            if (is_array($extensions)) {
+                $gd = in_array('gd', $extensions) && function_exists('imageftbbox');
+            }
         }
+
         return $gd;
     }
 
