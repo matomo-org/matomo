@@ -6,9 +6,9 @@ return array(
 
     // UI tests will remove the port from all URLs to the test server. if a test
     // requires the ports in UI tests (eg, Overlay), add the api/controller methods
-    // to one of these whitelists
-    'tests.ui.url_normalizer_whitelist.api' => array(),
-    'tests.ui.url_normalizer_whitelist.controller' => array(),
+    // to one of these blacklists
+    'tests.ui.url_normalizer_blacklist.api' => array(),
+    'tests.ui.url_normalizer_blacklist.controller' => array(),
 
     'Piwik\Config' => \DI\decorate(function (\Piwik\Config $config) {
         $config->General['cors_domains'][] = '*';
@@ -24,19 +24,19 @@ return array(
         array('Request.dispatch.end', function (&$result) {
             $request = $_GET + $_POST;
 
-            $apiWhitelist = StaticContainer::get('tests.ui.url_normalizer_whitelist.api');
+            $apiblacklist = StaticContainer::get('tests.ui.url_normalizer_blacklist.api');
             if (!empty($request['method'])
-                && in_array($request['method'], $apiWhitelist)
+                && in_array($request['method'], $apiblacklist)
             ) {
                 return;
             }
 
-            $controllerActionWhitelist = StaticContainer::get('tests.ui.url_normalizer_whitelist.controller');
+            $controllerActionblacklist = StaticContainer::get('tests.ui.url_normalizer_blacklist.controller');
             if (!empty($request['module'])
                 && !empty($request['action'])
             ) {
                 $controllerAction = $request['module'] . '.' . $request['action'];
-                if (in_array($controllerAction, $controllerActionWhitelist)) {
+                if (in_array($controllerAction, $controllerActionblacklist)) {
                     return;
                 }
             }
