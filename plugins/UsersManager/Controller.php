@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -70,7 +71,7 @@ class Controller extends ControllerAdmin
         } else {
             $defaultReportSiteName = Site::getNameFor($idSiteSelected);
             try {
-                $usersAccessByWebsite = APIUsersManager::getInstance()->getUsersAccessFromSite($idSiteSelected);
+                $usersAccessByWebsite = Request::processRequest('UsersManager.getUsersAccessFromSite', array('idSite' => $idSiteSelected));
             } catch (NoAccessException $e) {
                 return $this->noAdminAccessToWebsite($idSiteSelected, $defaultReportSiteName, $e->getMessage());
             }
