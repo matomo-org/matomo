@@ -1,5 +1,7 @@
 {
     "General": {
+        "12HourClock": "12-hour clock",
+        "24HourClock": "24-hour clock",
         "AbandonedCarts": "Abandoned Carts",
         "AboutPiwikX": "About Piwik %s",
         "Action": "Action",
@@ -348,6 +350,7 @@
         "TagCloud": "Tag Cloud",
         "Tax": "Tax",
         "TimeAgo": "%s ago",
+        "TimeFormat": "Time format",
         "TimeOnPage": "Time on page",
         "Total": "Total",
         "TotalRatioTooltip": "This is %1$s of all %2$s %3$s.",

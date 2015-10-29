@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\LanguagesManager;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -135,6 +136,19 @@ class LanguagesManager extends \Piwik\Plugin
     public function uninstall()
     {
         Model::uninstall();
+    }
+
+    /**
+     * @return boolean
+     */
+    public static function uses12HourClockForCurrentUser()
+    {
+        try {
+            $currentUser = Piwik::getCurrentUserLogin();
+            return Request::processRequest('LanguagesManager.uses12HourClockForUser', array('login' => $currentUser));
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

@@ -371,12 +371,9 @@ abstract class Period
             $maxDifference = 'M';
         }
 
-        return $this->translator->translate(
-            sprintf(
-                'Intl_Format_Interval_%s_%s',
-                $short ? 'Short' : 'Long',
-                $maxDifference
-            ));
+        $dateTimeFormatProvider = StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider');
+
+        return $dateTimeFormatProvider->getRangeFormatPattern($short, $maxDifference);
     }
 
     /**
