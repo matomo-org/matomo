@@ -115,7 +115,7 @@ class Response
         $apiResponse = $this->normalizeDecimalFields($apiResponse);
         $apiResponse = $this->normalizeEncodingPhp533($apiResponse);
         $apiResponse = $this->normalizeSpaces($apiResponse);
-        $apiResponse = $this->removePiwikUrl($apiResponse);
+        $apiResponse = $this->replacePiwikUrl($apiResponse);
 
         return $apiResponse;
     }
@@ -265,8 +265,17 @@ class Response
         return $this->removeXmlFields($apiResponse, array('idsubdatatable_in_db'));
     }
 
-    private function removePiwikUrl($apiResponse)
+    /**
+     * To allow tests to pass no matter what port Piwik is on, we replace the test URL w/ another
+     * one in the response. We don't remove the URL outright, because then we would not be able
+     * to detect regressions where the root URL went missing.
+     *
+     * @param $apiResponse
+     * @return mixed
+     * @throws Exception
+     */
+    private function replacePiwikUrl($apiResponse)
     {
-        return str_replace(Fixture::getRootUrl(), "", $apiResponse);
+        return str_replace(Fixture::getRootUrl(), "http://example.com/piwik/", $apiResponse);
     }
 }
