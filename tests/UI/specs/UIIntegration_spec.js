@@ -530,7 +530,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should fail correctly when db information in config is incorrect', function (done) {
         testEnvironment.configOverride = {
             database: {
-                host: 'localhost',
+                host: phpServer.REMOTE_ADDR,
                 username: 'slkdfjsdlkfj',
                 password: 'slkdfjsldkfj',
                 dbname: 'abcdefg',
