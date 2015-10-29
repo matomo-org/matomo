@@ -1,6 +1,14 @@
 <?php
 
+use Piwik\Container\StaticContainer;
+
 return array(
+
+    // UI tests will remove the port from all URLs to the test server. if a test
+    // requires the ports in UI tests (eg, Overlay), add the api/controller methods
+    // to one of these whitelists
+    'tests.ui.url_normalizer_whitelist.api' => array(),
+    'tests.ui.url_normalizer_whitelist.controller' => array(),
 
     'Piwik\Config' => \DI\decorate(function (\Piwik\Config $config) {
         $config->General['cors_domains'][] = '*';
@@ -11,21 +19,26 @@ return array(
 
     'observers.global' => \DI\add(array(
 
+        // removes port from all URLs to the test Piwik server so UI tests will pass no matter
+        // what port is used
         array('Request.dispatch.end', function (&$result) {
             $request = $_GET + $_POST;
 
-            // Overlay needs the full URLs in order to find the links in the embedded page (otherwise the %
-            // tooltips don't show up)
+            $apiWhitelist = StaticContainer::get('tests.ui.url_normalizer_whitelist.api');
             if (!empty($request['method'])
-                && $request['method'] == 'Overlay.getFollowingPages'
+                && in_array($request['method'], $apiWhitelist)
             ) {
                 return;
             }
 
-            if (!empty($request['module']) && $request['module'] == 'Overlay'
-                && !empty($request['action']) && $request['action'] == 'renderSidebar'
+            $controllerActionWhitelist = StaticContainer::get('tests.ui.url_normalizer_whitelist.controller');
+            if (!empty($request['module'])
+                && !empty($request['action'])
             ) {
-                return;
+                $controllerAction = $request['module'] . '.' . $request['action'];
+                if (in_array($controllerAction, $controllerActionWhitelist)) {
+                    return;
+                }
             }
 
             $config = \Piwik\Config::getInstance();
