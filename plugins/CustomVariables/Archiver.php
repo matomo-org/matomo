@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\CustomVariables;
 
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
@@ -34,6 +33,9 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected $maximumRowsInDataTableLevelZero;
     protected $maximumRowsInSubDataTable;
     protected $newEmptyRow;
+
+    private $metadata = array();
+    private $metadataFlat = array();
 
     function __construct($processor)
     {
@@ -74,6 +76,16 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->removeVisitsMetricsFromActionsAggregate();
         $this->dataArray->enrichMetricsWithConversions();
         $table = $this->dataArray->asDataTable();
+
+        foreach ($table->getRows() as $row) {
+            $label = $row->getColumn('label');
+            if (!empty($this->metadata[$label])) {
+                foreach ($this->metadata[$label] as $name => $value) {
+                    $row->addMetadata($name, $value);
+                }
+            }
+        }
+
         $blob = $table->getSerialized(
             $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
             $columnToSort = Metrics::INDEX_NB_VISITS
@@ -118,6 +130,8 @@ class Archiver extends \Piwik\Plugin\Archiver
             $key = $row[$keyField];
             $value = $this->cleanCustomVarValue($row[$valueField]);
 
+            $this->addMetadata($keyField, $key, Model::SCOPE_VISIT);
+
             $this->dataArray->sumMetricsVisits($key, $row);
             $this->dataArray->sumMetricsVisitsPivot($key, $value, $row);
         }
@@ -137,11 +151,29 @@ class Archiver extends \Piwik\Plugin\Archiver
             $key = $row[$keyField];
             $value = $this->cleanCustomVarValue($row[$valueField]);
 
+            $this->addMetadata($keyField, $key, Model::SCOPE_PAGE);
+
             $alreadyAggregated = $this->aggregateEcommerceCategories($key, $value, $row);
             if (!$alreadyAggregated) {
                 $this->aggregateActionByKeyAndValue($key, $value, $row);
                 $this->dataArray->sumMetricsActions($key, $row);
             }
+        }
+    }
+
+    private function addMetadata($keyField, $label, $scope)
+    {
+        $index = (int) str_replace('custom_var_k', '', $keyField);
+
+        if (!array_key_exists($label, $this->metadata)) {
+            $this->metadata[$label] = array('slots' => array());
+        }
+
+        $uniqueId = $label . 'scope' . $scope . 'index' . $index;
+
+        if (!isset($this->metadataFlat[$uniqueId])) {
+            $this->metadata[$label]['slots'][] = array('scope' => $scope, 'index' => $index);
+            $this->metadataFlat[$uniqueId] = true;
         }
     }
 
@@ -205,6 +237,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
         while ($row = $query->fetch()) {
             $key = $row[$keyField];
+
             $value = $this->cleanCustomVarValue($row[$valueField]);
             $this->dataArray->sumMetricsGoals($key, $row);
             $this->dataArray->sumMetricsGoalsPivot($key, $value, $row);

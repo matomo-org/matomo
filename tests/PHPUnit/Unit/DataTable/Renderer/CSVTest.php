@@ -96,6 +96,22 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
         return $table;
     }
 
+    protected function _getDataTableHavingAnArrayInRowMetadata()
+    {
+        $array = array(
+            array(Row::COLUMNS => array('label' => 'sub1', 'count' => 1)),
+            array(Row::COLUMNS => array('label' => 'sub2', 'count' => 2), Row::METADATA => array('test' => 'render')),
+            array(Row::COLUMNS => array('label' => 'sub3', 'count' => 2), Row::METADATA => array('test' => 'renderMe', 'testArray' => 'ignore')),
+            array(Row::COLUMNS => array('label' => 'sub4', 'count' => 6), Row::METADATA => array('testArray' => array('do not render'))),
+            array(Row::COLUMNS => array('label' => 'sub5', 'count' => 2), Row::METADATA => array('testArray' => 'do ignore', 'mymeta' => 'should be rendered')),
+            array(Row::COLUMNS => array('label' => 'sub6', 'count' => 3), Row::METADATA => array('mymeta' => 'renderrrrrr')),
+        );
+
+        $table = new DataTable();
+        $table->addRowsFromArray($array);
+
+        return $table;
+    }
 
     public function testCSVTest1()
     {
@@ -184,6 +200,25 @@ class DataTable_Renderer_CSVTest extends \PHPUnit_Framework_TestCase
 "val""1","val"",2"';
         $actual = $render->render();
         $this->assertEquals($expected, $actual);
+    }
+
+    public function testCSVTest7_shouldNotRenderMetadataThatContainsAnArray()
+    {
+        $dataTable = $this->_getDataTableHavingAnArrayInRowMetadata();
+        $render = new Csv();
+        $render->setTable($dataTable);
+        $render->convertToUnicode = false;
+
+        // the column "testArray" should be ignored and not rendered, all other columns should be assigned correctly
+        $expected = "label,count,metadata_test,metadata_mymeta
+sub1,1,,
+sub2,2,render,
+sub3,2,renderMe,
+sub4,6,,
+sub5,2,,should be rendered
+sub6,3,,renderrrrrr";
+        $rendered = $render->render();
+        $this->assertEquals($expected, $rendered);
     }
 
     /**

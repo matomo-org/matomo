@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\CustomVariables\Tracker;
 
 use Piwik\Common;
+use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Plugins\CustomVariables\Model;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestProcessor;
 use Piwik\Tracker\Visit\VisitProperties;
@@ -36,7 +38,7 @@ class CustomVariablesRequestProcessor extends RequestProcessor
     public function processRequestParams(VisitProperties $visitProperties, Request $request)
     {
         // TODO: re-add optimization where if custom variables exist in request, don't bother selecting them in Visitor
-        $visitorCustomVariables = $request->getCustomVariables($scope = 'visit');
+        $visitorCustomVariables = $request->getCustomVariables($scope = Model::SCOPE_VISIT);
         if (!empty($visitorCustomVariables)) {
             Common::printDebug("Visit level Custom Variables: ");
             Common::printDebug($visitorCustomVariables);
