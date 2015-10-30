@@ -17,6 +17,18 @@ php:
 services:
   - redis-server
 
+addons:
+  apt:
+    sources:
+      - deadsnakes
+
+    packages:
+      - python2.6
+      - python2.6-dev
+      - nginx
+      - realpath
+      - lftp
+
 # Separate different test suites
 env:
   matrix:
@@ -91,7 +103,7 @@ matrix:
     - php: 7
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
 
-sudo: required
+sudo: false
 
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 
@@ -102,13 +114,8 @@ before_install:
 install:
   - git fetch -q
 
-  - export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --core --verbose"
+  - export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --core --sudo-false --verbose"
   - '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
-
-  - '[ ! -f ./tests/travis/install_mysql_5.6.sh ] || ./tests/travis/install_mysql_5.6.sh'
-
-  # Make sure we use Python 2.6
-  - '[ ! -f ./tests/travis/install_python_2.6.sh ] || ./tests/travis/install_python_2.6.sh'
 
   - ./tests/travis/configure_git.sh
 

@@ -654,6 +654,7 @@ PageRenderer.prototype._removeUrlFromQueue = function (url) {
     }
 };
 
+var linkObject = document.createElement('a');
 PageRenderer.prototype._setupWebpageEvents = function () {
     var self = this;
     this.webpage.onError = function (message, trace) {
@@ -669,11 +670,31 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         self._logMessage(msgStack.join('\n'));
     };
 
+    linkObject.setAttribute('href', config.piwikUrl);
+    var piwikHost = linkObject.hostname,
+        piwikPort = linkObject.port;
+
     this.webpage.onResourceRequested = function (requestData, networkRequest) {
-        self._addUrlToQueue(requestData.url);
+        var url = requestData.url;
+
+        // replaces the requested URL to the piwik URL w/ a port, if it does not have one.  This allows us to run UI
+        // tests when Piwik is on a port, w/o having to have different UI screenshots. (This is one half of the
+        // solution, the other half is in config/environment/ui-test.php, where we remove all ports from Piwik URLs.)
+        if (piwikPort) {
+            linkObject.setAttribute('href', url);
+
+            if (linkObject.hostname == piwikHost && (!linkObject.port || linkObject.port == 0 || linkObject.port == 80)) {
+                linkObject.port = piwikPort;
+                url = linkObject.href;
+
+                networkRequest.changeUrl(url);
+            }
+        }
+
+        self._addUrlToQueue(url);
 
         if (VERBOSE) {
-            self._logMessage('Requesting resource (#' + requestData.id + 'URL:' + requestData.url + ')');
+            self._logMessage('Requesting resource (#' + requestData.id + 'URL:' + url + ')');
         }
     };
 

@@ -14,6 +14,7 @@ tables_prefix =
 
 [tests]
 request_uri = "/"
+port = 3000
 
 [database_tests]
 host = 127.0.0.1

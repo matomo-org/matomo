@@ -79,17 +79,17 @@ class ContainerFactory
 
         // Development config
         if ($this->isDevelopmentModeEnabled()) {
-            $builder->addDefinitions(PIWIK_USER_PATH . '/config/environment/dev.php');
-        }
-
-        // User config
-        if (file_exists(PIWIK_USER_PATH . '/config/config.php')) {
-            $builder->addDefinitions(PIWIK_USER_PATH . '/config/config.php');
+            $this->addEnvironmentConfig($builder, 'dev');
         }
 
         // Environment config
         foreach ($this->environments as $environment) {
             $this->addEnvironmentConfig($builder, $environment);
+        }
+
+        // User config
+        if (file_exists(PIWIK_USER_PATH . '/config/config.php')) {
+            $builder->addDefinitions(PIWIK_USER_PATH . '/config/config.php');
         }
 
         if (!empty($this->definitions)) {

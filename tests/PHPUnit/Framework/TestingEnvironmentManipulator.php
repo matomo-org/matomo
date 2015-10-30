@@ -190,7 +190,12 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function getExtraEnvironments()
     {
-        return array('test');
+        $result = array('test');
+
+        $extraEnvironments = $this->vars->extraDiEnvironments ?: array();
+        $result = array_merge($result, $extraEnvironments);
+
+        return $result;
     }
 
     private function getPluginsToLoadDuringTest()

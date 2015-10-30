@@ -18,7 +18,7 @@ describe("CoreUpdaterDb", function () {
     });
 
     function apiUpgradeTest(format) {
-        it("should start the updater when an old version of Piwik is detected in the DB", function (done) {
+        it("should start the updater when an old version of Piwik is detected in the DB with format " + format, function (done) {
             expect.file('CoreUpdater.API.ErrorMessage' + format + '.txt').to.be.pageContents(function (page) {
                 page.load('');
                 page.downloadUrl('?module=API&method=API.getPiwikVersion&format=' + format);

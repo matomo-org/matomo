@@ -216,6 +216,7 @@ class Url
                 return true;
             }
         }
+
         // if host is in hardcoded whitelist, assume it's valid
         if (in_array($host, self::getAlwaysTrustedHosts())) {
             return true;

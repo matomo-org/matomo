@@ -121,6 +121,15 @@ describe("Installation", function () {
             });
             page.click('.btn');
             page.wait(3000);
+
+            // manually remove port in tracking code, since ui-test.php won't be using the correct INI config file
+            page.evaluate(function () {
+                $('pre').each(function () {
+                    var html = $(this).html();
+                    html = html.replace(/localhost\:[0-9]+/g, 'localhost');
+                    $(this).html(html);
+                });
+            });
         }, done);
     });
 

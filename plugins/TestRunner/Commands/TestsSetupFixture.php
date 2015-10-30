@@ -154,7 +154,7 @@ class TestsSetupFixture extends ConsoleCommand
     private function createSymbolicLinksForUITests()
     {
         // make sure symbolic links exist (phantomjs doesn't support symlink-ing yet)
-        foreach (array('libs', 'plugins', 'tests', 'piwik.js') as $linkName) {
+        foreach (array('libs', 'plugins', 'tests', 'misc', 'piwik.js') as $linkName) {
             $linkPath = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/' . $linkName;
             if (!file_exists($linkPath)) {
                 symlink(PIWIK_INCLUDE_PATH . '/' . $linkName, $linkPath);
@@ -212,6 +212,7 @@ class TestsSetupFixture extends ConsoleCommand
             throw new \Exception("Cannot find fixture class '$fixtureClass'.");
         }
 
+        /** @var Fixture $fixture */
         $fixture = new $fixtureClass();
         $fixture->printToScreen = true;
 
@@ -232,6 +233,8 @@ class TestsSetupFixture extends ConsoleCommand
         if ($extraPluginsToLoad) {
             $fixture->extraPluginsToLoad = explode(',', $extraPluginsToLoad);
         }
+
+        $fixture->extraDiEnvironments = array('ui-test');
 
         return $fixture;
     }
