@@ -816,32 +816,6 @@ class Common
     }
 
     /**
-     * Returns list of social networks by URL
-     *
-     * @see core/DataFiles/Socials.php
-     *
-     * @return array  Array of ( URL => Social Network Name )
-     */
-    public static function getSocialUrls()
-    {
-        $cacheId = 'Common.getSocialUrls';
-        $cache = Cache::getTransientCache();
-        $socialUrls = $cache->fetch($cacheId);
-
-        if (empty($socialUrls)) {
-            require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
-
-            $socialUrls = $GLOBALS['Piwik_socialUrl'];
-
-            Piwik::postEvent('Referrer.addSocialUrls', array(&$socialUrls));
-
-            $cache->save($cacheId, $socialUrls);
-        }
-
-        return $socialUrls;
-    }
-
-    /**
      * Returns list of provider names
      *
      * @see core/DataFiles/Providers.php

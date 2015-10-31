@@ -28,89 +28,6 @@ function getPathFromUrl($url)
 }
 
 /**
- * Returns the main url of the social network the given url matches
- *
- * @param string  $url
- *
- * @return string
- */
-function getSocialMainUrl($url)
-{
-    $social  = getSocialNetworkFromDomain($url);
-    foreach (Common::getSocialUrls() as $domain => $name) {
-
-        if ($name == $social) {
-
-            return $domain;
-        }
-    }
-    return $url;
-}
-
-/**
- * Get's social network name from URL.
- *
- * @param string $url
- * @return string
- */
-function getSocialNetworkFromDomain($url)
-{
-    foreach (Common::getSocialUrls() as $domain => $name) {
-
-        if (preg_match('/(^|[\.\/])'.$domain.'([\.\/]|$)/', $url)) {
-
-            return $name;
-        }
-    }
-
-    return Piwik::translate('General_Unknown');
-}
-
-/**
- * Returns true if a URL belongs to a social network, false if otherwise.
- *
- * @param string $url The URL to check.
- * @param string|bool $socialName The social network's name to check for, or false to check
- *                                 for any.
- * @return bool
- */
-function isSocialUrl($url, $socialName = false)
-{
-    foreach (Common::getSocialUrls() as $domain => $name) {
-
-        if (preg_match('/(^|[\.\/])'.$domain.'([\.\/]|$)/', $url) && ($socialName === false || $name == $socialName)) {
-
-            return true;
-        }
-    }
-
-    return false;
-}
-
-/**
- * Return social network logo path by URL
- *
- * @param string $domain
- * @return string path
- * @see plugins/Referrers/images/socials/
- */
-function getSocialsLogoFromUrl($domain)
-{
-    $social = getSocialNetworkFromDomain($domain);
-    $socialNetworks = Common::getSocialUrls();
-
-    $filePattern = 'plugins/Referrers/images/socials/%s.png';
-
-    foreach ($socialNetworks as $domainKey => $name) {
-        if ($social == $socialNetworks[$domainKey] && file_exists(PIWIK_INCLUDE_PATH . '/' . sprintf($filePattern, $domainKey))) {
-            return sprintf($filePattern, $domainKey);
-        }
-    }
-
-    return sprintf($filePattern, 'xx');
-}
-
-/**
  * Return search engine URL by name
  *
  * @see core/DataFiles/SearchEnginges.php
@@ -223,7 +140,6 @@ function getSearchEngineUrlFromKeywordAndUrl($keyword, $url)
  */
 function getReferrerTypeLabel($label)
 {
-    $indexTranslation = '';
     switch ($label) {
         case Common::REFERRER_TYPE_DIRECT_ENTRY:
             $indexTranslation = 'Referrers_DirectEntry';
