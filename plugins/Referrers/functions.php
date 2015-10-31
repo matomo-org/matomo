@@ -120,7 +120,7 @@ function getSocialsLogoFromUrl($domain)
  */
 function getSearchEngineUrlFromName($name)
 {
-    $searchEngineNames = Common::getSearchEngineNames();
+    $searchEngineNames = SearchEngine::getInstance()->getSearchEngineNames();
     if (isset($searchEngineNames[$name])) {
         $url = 'http://' . $searchEngineNames[$name];
     } else {
@@ -190,10 +190,10 @@ function getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
     if ($keyword === API::LABEL_KEYWORD_NOT_DEFINED) {
         return 'http://piwik.org/faq/general/#faq_144';
     }
-    $searchEngineUrls = Common::getSearchEngineUrls();
+    $searchEngineUrls = SearchEngine::getInstance()->getSearchEngineDefinitions();
     $keyword = urlencode($keyword);
     $keyword = str_replace(urlencode('+'), urlencode(' '), $keyword);
-    $path = @$searchEngineUrls[getSearchEngineHostPathFromUrl($url)][2];
+    $path = @$searchEngineUrls[getSearchEngineHostPathFromUrl($url)]['backlink'];
     if (empty($path)) {
         return false;
     }

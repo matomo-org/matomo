@@ -150,32 +150,6 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Dataprovider for testExtractSearchEngineInformationFromUrl
-     */
-    public function getSearchEngineUrls()
-    {
-        return Spyc::YAMLLoad(PIWIK_PATH_TEST_TO_ROOT .'/tests/resources/extractSearchEngineInformationFromUrlTests.yml');
-    }
-
-    /**
-     * @dataProvider getSearchEngineUrls
-     * @group Core
-     */
-    public function testExtractSearchEngineInformationFromUrl($url, $engine, $keywords)
-    {
-        $this->includeDataFilesForSearchEngineTest();
-        $returnedValue = UrlHelper::extractSearchEngineInformationFromUrl($url);
-
-        $exptectedValue = false;
-
-        if (!empty($engine)) {
-            $exptectedValue = array('name' => $engine, 'keywords' => $keywords);
-        }
-
-        $this->assertEquals($exptectedValue, $returnedValue);
-    }
-
-    /**
      * Dataprovider for testGetLossyUrl
      */
     public function getLossyUrls()
@@ -201,11 +175,6 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
     public function testGetLossyUrl($input, $expected)
     {
         $this->assertEquals($expected, UrlHelper::getLossyUrl($input));
-    }
-
-    private function includeDataFilesForSearchEngineTest()
-    {
-        include "DataFiles/SearchEngines.php";
     }
 
     /**

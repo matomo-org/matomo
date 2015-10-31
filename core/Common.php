@@ -816,60 +816,6 @@ class Common
     }
 
     /**
-     * Returns list of search engines by URL
-     *
-     * @see core/DataFiles/SearchEngines.php
-     *
-     * @return array  Array of ( URL => array( searchEngineName, keywordParameter, path, charset ) )
-     */
-    public static function getSearchEngineUrls()
-    {
-        $cacheId = 'Common.getSearchEngineUrls';
-        $cache = Cache::getTransientCache();
-        $searchEngines = $cache->fetch($cacheId);
-
-        if (empty($searchEngines)) {
-            require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
-
-            $searchEngines = $GLOBALS['Piwik_SearchEngines'];
-
-            Piwik::postEvent('Referrer.addSearchEngineUrls', array(&$searchEngines));
-
-            $cache->save($cacheId, $searchEngines);
-        }
-
-        return $searchEngines;
-    }
-
-    /**
-     * Returns list of search engines by name
-     *
-     * @see core/DataFiles/SearchEngines.php
-     *
-     * @return array  Array of ( searchEngineName => URL )
-     */
-    public static function getSearchEngineNames()
-    {
-        $cacheId = 'Common.getSearchEngineNames';
-        $cache = Cache::getTransientCache();
-        $nameToUrl = $cache->fetch($cacheId);
-
-        if (empty($nameToUrl)) {
-            $searchEngines = self::getSearchEngineUrls();
-
-            $nameToUrl = array();
-            foreach ($searchEngines as $url => $info) {
-                if (!isset($nameToUrl[$info[0]])) {
-                    $nameToUrl[$info[0]] = $url;
-                }
-            }
-            $cache->save($cacheId, $nameToUrl);
-        }
-
-        return $nameToUrl;
-    }
-
-    /**
      * Returns list of social networks by URL
      *
      * @see core/DataFiles/Socials.php

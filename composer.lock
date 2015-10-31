@@ -959,6 +959,17 @@
             "time": "2015-10-07 10:17:59"
         },
         {
+            "name": "piwik/searchengine-and-social-definitions",
+            "version": "master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sgiehl/searchengine-and-social-definitions",
+                "reference": "master"
+            },
+            "type": "library",
+            "time": "2015-10-31 15:36:36"
+        },
+        {
             "name": "psr/log",
             "version": "1.0.0",
             "source": {
@@ -2645,6 +2656,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "php-di/php-di": 10,
+        "piwik/searchengine-and-social-definitions": 20,
         "facebook/xhprof": 20
     },
     "prefer-stable": false,

@@ -54,7 +54,8 @@
         "symfony/event-dispatcher": "~2.6.0",
         "pear/pear_exception": "~1.0.0",
         "piwik/referrer-spam-blacklist": "~1.0",
-        "tecnickcom/tcpdf": "~6.0"
+        "tecnickcom/tcpdf": "~6.0",
+        "piwik/searchengine-and-social-definitions": "dev-master"
     },
     "require-dev": {
         "aws/aws-sdk-php": "2.7.1",
@@ -90,8 +91,20 @@
                     "reference": "master"
                 }
             }
-        }
-    ],
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "piwik/searchengine-and-social-definitions",
+                "type": "library",
+                "version": "master",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/sgiehl/searchengine-and-social-definitions",
+                    "reference": "master"
+                }
+            }
+        }    ],
     "scripts": {
         "pre-update-cmd": [
             "Piwik\\Composer\\ScriptHandler::cleanXhprof"

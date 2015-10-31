@@ -49,6 +49,7 @@ class Tasks extends \Piwik\Plugin\Tasks
         $this->daily('optimizeArchiveTable', null, self::LOWEST_PRIORITY);
 
         $this->weekly('updateSpammerBlacklist');
+        $this->weekly('updateSearchEnginesAndSocials');
     }
 
     /**

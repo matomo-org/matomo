@@ -11,20 +11,32 @@ namespace Piwik\Plugins\Referrers\tests;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Period;
+use Piwik\Plugins\Referrers\SearchEngine;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/Referrers.php';
 
+/**
+ * @group Referererer
+ */
 class ReferrersTest extends \PHPUnit_Framework_TestCase
 {
+
+    public static function setUpBeforeClass()
+    {
+        // inject definitions to avoid database usage
+        $yml = file_get_contents(PIWIK_INCLUDE_PATH . SearchEngine::DEFINITION_FILE);
+        SearchEngine::getInstance()->loadYmlData($yml);
+
+        parent::setUpBeforeClass();
+    }
+
     /**
      * Dataprovider serving all search engine data
      */
     public function getSearchEngines()
     {
-        include PIWIK_PATH_TEST_TO_ROOT . '/core/DataFiles/SearchEngines.php';
-
         $searchEngines = array();
-        foreach ($GLOBALS['Piwik_SearchEngines'] as $url => $searchEngine) {
+        foreach (SearchEngine::getInstance()->getSearchEngineDefinitions() as $url => $searchEngine) {
             $searchEngines[] = array($url, $searchEngine);
         }
         return $searchEngines;
@@ -43,10 +55,10 @@ class ReferrersTest extends \PHPUnit_Framework_TestCase
         static $searchEngines = array();
 
         $name = parse_url('http://' . $url);
-        if (!array_key_exists($searchEngine[0], $searchEngines)) {
-            $searchEngines[$searchEngine[0]] = $url;
+        if (!array_key_exists($searchEngine['name'], $searchEngines)) {
+            $searchEngines[$searchEngine['name']] = $url;
 
-            $this->assertTrue(!empty($searchEngine[1]), $name['host']);
+            $this->assertTrue(!empty($searchEngine['params']), $name['host']);
         }
     }
 
@@ -66,8 +78,8 @@ class ReferrersTest extends \PHPUnit_Framework_TestCase
         static $searchEngines = array();
 
         $name = parse_url('http://' . $url);
-        if (!array_key_exists($searchEngine[0], $searchEngines)) {
-            $searchEngines[$searchEngine[0]] = $url;
+        if (!array_key_exists($searchEngine['name'], $searchEngines)) {
+            $searchEngines[$searchEngine['name']] = $url;
 
             $this->assertTrue(in_array($name['host'] . '.png', $favicons), $name['host']);
         }
@@ -80,11 +92,9 @@ class ReferrersTest extends \PHPUnit_Framework_TestCase
      */
     public function testObsoleteSearchEngineIcons()
     {
-        include PIWIK_PATH_TEST_TO_ROOT . '/core/DataFiles/SearchEngines.php';
-
         // Get list of search engines and first appearing URL
         $searchEngines = array();
-        foreach ($GLOBALS['Piwik_SearchEngines'] as $url => $searchEngine) {
+        foreach (SearchEngine::getInstance()->getSearchEngineDefinitions() as $url => $searchEngine) {
             $name = parse_url('http://' . $url);
             if (!array_key_exists($name['host'], $searchEngines)) {
                 $searchEngines[$name['host']] = true;
@@ -142,7 +152,6 @@ class ReferrersTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSearchEngineUrlFromUrlAndKeyword($url, $keyword, $expected)
     {
-        include PIWIK_PATH_TEST_TO_ROOT . '/core/DataFiles/SearchEngines.php';
         $this->assertEquals($expected, \Piwik\Plugins\Referrers\getSearchEngineUrlFromUrlAndKeyword($url, $keyword));
     }
 
