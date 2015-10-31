@@ -161,6 +161,22 @@ class SearchEngine extends Singleton
     }
 
     /**
+     * Returns defined backlink for the given search engine host
+     * @param string $host
+     * @return string|null
+     */
+    public function getBackLinkPatternByHost($host)
+    {
+        $definition = $this->getDefinitionByHost($host);
+
+        if (empty($definition['backlink'])) {
+            return null;
+        }
+
+        return $definition['backlink'];
+    }
+
+    /**
      * Returns defined charsets for given search engine host
      *
      * @param string $host
@@ -394,4 +410,83 @@ class SearchEngine extends Singleton
         );
     }
 
+    /**
+     * Return search engine URL by name
+     *
+     * @see core/DataFiles/SearchEnginges.php
+     *
+     * @param string $name
+     * @return string URL
+     */
+    public function getUrlFromName($name)
+    {
+        $searchEngineNames = $this->getSearchEngineNames();
+        if (isset($searchEngineNames[$name])) {
+            $url = 'http://' . $searchEngineNames[$name];
+        } else {
+            $url = 'URL unknown!';
+        }
+        return $url;
+    }
+
+    /**
+     * Return search engine host in URL
+     *
+     * @param string $url
+     * @return string host
+     */
+    private function getHostFromUrl($url)
+    {
+        if (strpos($url, '//')) {
+            $url = substr($url, strpos($url, '//') + 2);
+        }
+        if (($p = strpos($url, '/')) !== false) {
+            $url = substr($url, 0, $p);
+        }
+        return $url;
+    }
+
+
+    /**
+     * Return search engine logo path by URL
+     *
+     * @param string $url
+     * @return string path
+     * @see plugins/Referrers/images/searchEnginges/
+     */
+    public function getLogoFromUrl($url)
+    {
+        $pathInPiwik = 'plugins/Referrers/images/searchEngines/%s.png';
+        $pathWithCode = sprintf($pathInPiwik, $this->getHostFromUrl($url));
+        $absolutePath = PIWIK_INCLUDE_PATH . '/' . $pathWithCode;
+        if (file_exists($absolutePath)) {
+            return $pathWithCode;
+        }
+        return sprintf($pathInPiwik, 'xx');
+    }
+
+    /**
+     * Return search engine URL for URL and keyword
+     *
+     * @see core/DataFiles/SearchEnginges.php
+     *
+     * @param string $url Domain name, e.g., search.piwik.org
+     * @param string $keyword Keyword, e.g., web+analytics
+     * @return string URL, e.g., http://search.piwik.org/q=web+analytics
+     */
+    public function getBackLinkFromUrlAndKeyword($url, $keyword)
+    {
+        if ($keyword === API::LABEL_KEYWORD_NOT_DEFINED) {
+            return 'http://piwik.org/faq/general/#faq_144';
+        }
+        $keyword = urlencode($keyword);
+        $keyword = str_replace(urlencode('+'), urlencode(' '), $keyword);
+        $host = substr($url, strpos($url, '//') + 2);
+        $path = SearchEngine::getInstance()->getBackLinkPatternByHost($host);
+        if (empty($path)) {
+            return false;
+        }
+        $path = str_replace("{k}", $keyword, $path);
+        return $url . (substr($url, -1) != '/' ? '/' : '') . $path;
+    }
 }

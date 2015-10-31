@@ -113,48 +113,6 @@ class ReferrersTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * get search engine host from url
-     *
-     * @group Plugins
-     */
-    public function testGetSearchEngineHostFromUrl()
-    {
-        $data = array(
-            'http://www.google.com/cse' => array('www.google.com', 'www.google.com/cse'),
-            'http://www.google.com'     => array('www.google.com', 'www.google.com'),
-        );
-
-        foreach ($data as $url => $expected) {
-            $this->assertEquals($expected[0], \Piwik\Plugins\Referrers\getSearchEngineHostFromUrl($url));
-            $this->assertEquals($expected[1], \Piwik\Plugins\Referrers\getSearchEngineHostPathFromUrl($url));
-        }
-    }
-
-    /**
-     * Dataprovider for testGetSearchEngineUrlFromUrlAndKeyword
-     */
-    public function getSearchEngineUrlFromUrlAndKeywordTestData()
-    {
-        return array(
-            array('http://apollo.lv/portal/search/', 'piwik', 'http://apollo.lv/portal/search/?cof=FORID%3A11&q=piwik&search_where=www'),
-            array('http://bing.com/images/search', 'piwik', 'http://bing.com/images/search/?q=piwik'),
-            array('http://google.com', 'piwik', 'http://google.com/search?q=piwik'),
-        );
-    }
-
-    /**
-     * get search engine url from name and keyword
-     *
-     * @group Plugins
-     *
-     * @dataProvider getSearchEngineUrlFromUrlAndKeywordTestData
-     */
-    public function testGetSearchEngineUrlFromUrlAndKeyword($url, $keyword, $expected)
-    {
-        $this->assertEquals($expected, \Piwik\Plugins\Referrers\getSearchEngineUrlFromUrlAndKeyword($url, $keyword));
-    }
-
     public function removeUrlProtocolTestData()
     {
         return array(

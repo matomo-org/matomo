@@ -78,4 +78,26 @@ class SearchEngineTest extends \PHPUnit_Framework_TestCase
             }
         }
     }
+
+    /**
+     * Dataprovider for testGetBackLinkFromUrlAndKeyword
+     */
+    public function getBackLinkFromUrlAndKeywordTestData()
+    {
+        return array(
+            array('http://apollo.lv/portal/search/', 'piwik', 'http://apollo.lv/portal/search/?cof=FORID%3A11&q=piwik&search_where=www'),
+            array('http://bing.com/images/search', 'piwik', 'http://bing.com/images/search/?q=piwik'),
+            array('http://google.com', 'piwik', 'http://google.com/search?q=piwik'),
+        );
+    }
+
+    /**
+     * get search engine url from name and keyword
+     *
+     * @dataProvider getBackLinkFromUrlAndKeywordTestData
+     */
+    public function testGetBackLinkFromUrlAndKeyword($url, $keyword, $expected)
+    {
+        $this->assertEquals($expected, SearchEngine::getInstance()->getBackLinkFromUrlAndKeyword($url, $keyword));
+    }
 }

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\SEO\Metric;
 
 use Piwik\Http;
 use Piwik\NumberFormatter;
+use Piwik\Plugins\Referrers\SearchEngine;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -53,7 +54,7 @@ class Dmoz implements MetricsProvider
             $value = null;
         }
 
-        $logo = \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://dmoz.org');
+        $logo = SearchEngine::getInstance()->getLogoFromUrl('http://dmoz.org');
 
         return array(
             new Metric('dmoz', 'SEO_Dmoz', $value, $logo)

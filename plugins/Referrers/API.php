@@ -230,14 +230,14 @@ class API extends \Piwik\Plugin\API
         $dataTable = Archive::createDataTableFromArchive(Archiver::SEARCH_ENGINES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
 
         if ($flat) {
-            $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\getSearchEngineUrlFromName'));
-            $dataTable->filter('MetadataCallbackAddMetadata', array('url', 'logo', __NAMESPACE__ . '\getSearchEngineLogoFromUrl'));
+            $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', function ($url) { return SearchEngine::getInstance()->getUrlFromName($url); }));
+            $dataTable->filter('MetadataCallbackAddMetadata', array('url', 'logo', function ($url) { return SearchEngine::getInstance()->getLogoFromUrl($url); }));
             $dataTable->filterSubtables('Piwik\Plugins\Referrers\DataTable\Filter\KeywordsFromSearchEngineId', array($dataTable));
         } else {
             $dataTable->filter('AddSegmentByLabel', array('referrerName'));
             $dataTable->queueFilter('PrependSegment', array('referrerType==search;'));
-            $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\getSearchEngineUrlFromName'));
-            $dataTable->queueFilter('MetadataCallbackAddMetadata', array('url', 'logo', __NAMESPACE__ . '\getSearchEngineLogoFromUrl'));
+            $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', function ($url) { return SearchEngine::getInstance()->getUrlFromName($url); }));
+            $dataTable->queueFilter('MetadataCallbackAddMetadata', array('url', 'logo', function ($url) { return SearchEngine::getInstance()->getLogoFromUrl($url); }));
         }
 
         return $dataTable;
