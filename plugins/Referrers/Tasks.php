@@ -30,7 +30,7 @@ class Tasks extends \Piwik\Plugin\Tasks
         $url = 'https://raw.githubusercontent.com/piwik/searchengine-and-social-definitions/master/SearchEngines.yml';
         $list = Http::sendHttpRequest($url, 30);
         $searchEngines = SearchEngine::getInstance()->loadYmlData($list);
-        Option::set(SearchEngine::OPTION_STORAGE_NAME, serialize($searchEngines));
+        Option::set(SearchEngine::OPTION_STORAGE_NAME, base64_encode(serialize($searchEngines)));
     }
 
     /**
@@ -42,7 +42,7 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         $url = 'https://raw.githubusercontent.com/piwik/searchengine-and-social-definitions/master/Socials.yml';
         $list = Http::sendHttpRequest($url, 30);
-        $searchEngines = SearchEngine::getInstance()->loadYmlData($list);
-        Option::set(SearchEngine::OPTION_STORAGE_NAME, serialize($searchEngines));
+        $socials = Social::getInstance()->loadYmlData($list);
+        Option::set(Social::OPTION_STORAGE_NAME, base64_encode(serialize($socials)));
     }
 }

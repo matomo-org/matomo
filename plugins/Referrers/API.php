@@ -334,7 +334,7 @@ class API extends \Piwik\Plugin\API
      * @param string $date
      * @param bool|string $segment
      * @param bool|int $idSubtable This ID does not reference a real DataTable record. Instead, it
-     *                              is the array index of an item in the /core/DataFiles/Socials.php file.
+     *                              is the array index of an item in the Socials list file.
      *                              The urls are filtered by the social network at this index.
      *                              If false, no filtering is done and every social URL is returned.
      * @return DataTable
@@ -344,7 +344,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true);
 
         // get the social network domain referred to by $idSubtable
-        $socialNetworks = Social::getInstance()->getSocialDefinitions();
+        $socialNetworks = Social::getInstance()->getDefinitions();
 
         $social = false;
         if ($idSubtable !== false) {
@@ -428,7 +428,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Sets the subtable IDs for the DataTable returned by getSocial.
      *
-     * The IDs are int indexes into the array in /core/DataFiles/Socials.php.
+     * The IDs are int indexes into the array in of defined socials.
      *
      * @param DataTable $dataTable
      */
@@ -443,7 +443,7 @@ class API extends \Piwik\Plugin\API
                 $socialName = $row->getColumn('label');
 
                 $i = 1; // start at one because idSubtable=0 is equivalent to idSubtable=false
-                foreach (Social::getInstance()->getSocialDefinitions() as $name) {
+                foreach (Social::getInstance()->getDefinitions() as $name) {
                     if ($name == $socialName) {
                         $row->setNonLoadedSubtableId($i);
                         break;

@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Referrers\Columns;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\Referrers\SearchEngine;
+use Piwik\Plugins\Referrers\SearchEngine AS SearchEngineDetection;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
@@ -140,7 +140,7 @@ abstract class Base extends VisitDimension
      */
     protected function detectReferrerSearchEngine()
     {
-        $searchEngineInformation = SearchEngine::getInstance()->extractInformationFromUrl($this->referrerUrl);
+        $searchEngineInformation = SearchEngineDetection::getInstance()->extractInformationFromUrl($this->referrerUrl);
 
         /**
          * Triggered when detecting the search engine of a referrer URL.
@@ -278,7 +278,7 @@ abstract class Base extends VisitDimension
 
         // Set the Campaign keyword to the keyword found in the Referrer URL if any
         if (!empty($this->nameReferrerAnalyzed)) {
-            $referrerUrlInfo = SearchEngine::getInstance()->extractInformationFromUrl($this->referrerUrl);
+            $referrerUrlInfo = SearchEngineDetection::getInstance()->extractInformationFromUrl($this->referrerUrl);
             if (!empty($referrerUrlInfo['keywords'])) {
                 $this->keywordReferrerAnalyzed = $referrerUrlInfo['keywords'];
             }

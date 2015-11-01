@@ -16,23 +16,21 @@ use Spyc;
  */
 class SearchEngineTest extends \PHPUnit_Framework_TestCase
 {
+    public static function setUpBeforeClass()
+    {
+        // inject definitions to avoid database usage
+        $yml = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . SearchEngine::DEFINITION_FILE);
+        SearchEngine::getInstance()->loadYmlData($yml);
+        parent::setUpBeforeClass();
+    }
+
     public function getSearchEngineUrls()
     {
         return Spyc::YAMLLoad(PIWIK_PATH_TEST_TO_ROOT .'/tests/resources/extractSearchEngineInformationFromUrlTests.yml');
     }
 
-    public static function setUpBeforeClass()
-    {
-        // inject definitions to avoid database usage
-        $yml = file_get_contents(PIWIK_INCLUDE_PATH . SearchEngine::DEFINITION_FILE);
-        SearchEngine::getInstance()->loadYmlData($yml);
-
-        parent::setUpBeforeClass();
-    }
-
     /**
      * @dataProvider getSearchEngineUrls
-     * @group Core
      */
     public function testExtractInformationFromUrl($url, $engine, $keywords)
     {
@@ -50,7 +48,7 @@ class SearchEngineTest extends \PHPUnit_Framework_TestCase
     public function testSearchEnginesDefinedCorrectly()
     {
         $searchEngines = array();
-        foreach (SearchEngine::getInstance()->getSearchEngineDefinitions() as $host => $info) {
+        foreach (SearchEngine::getInstance()->getDefinitions() as $host => $info) {
             if (isset($info['backlink']) && $info['backlink'] !== false) {
                 $this->assertTrue(strrpos($info['backlink'], "{k}") !== false, $host . " search URL is not defined correctly, must contain the macro {k}");
             }
@@ -99,5 +97,77 @@ class SearchEngineTest extends \PHPUnit_Framework_TestCase
     public function testGetBackLinkFromUrlAndKeyword($url, $keyword, $expected)
     {
         $this->assertEquals($expected, SearchEngine::getInstance()->getBackLinkFromUrlAndKeyword($url, $keyword));
+    }
+
+    /**
+     * Dataprovider serving all search engine data
+     */
+    public function getAllSearchEngines()
+    {
+        $yml = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . SearchEngine::DEFINITION_FILE);
+        SearchEngine::getInstance()->loadYmlData($yml);
+        $searchEngines = array();
+        foreach (SearchEngine::getInstance()->getDefinitions() as $url => $searchEngine) {
+            $searchEngines[] = array($url, $searchEngine);
+        }
+        return $searchEngines;
+    }
+
+    /**
+     * search engine has at least one keyword
+     *
+     * @dataProvider getAllSearchEngines
+     */
+    public function testMissingSearchEngineKeyword($url, $searchEngine)
+    {
+        $name = parse_url('http://' . $url);
+        $this->assertTrue(!empty($searchEngine['params']), $name['host']);
+    }
+
+    /**
+     * search engine is defined but there's no favicon
+     *
+     * @dataProvider getAllSearchEngines
+     */
+    public function testMissingSearchEngineIcons($url, $searchEngine)
+    {
+        // Get list of existing favicons
+        $favicons = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/Referrers/images/searchEngines/');
+
+        // Get list of search engines and first appearing URL
+        static $searchEngines = array();
+
+        $name = parse_url('http://' . $url);
+        if (!array_key_exists($searchEngine['name'], $searchEngines)) {
+            $searchEngines[$searchEngine['name']] = $url;
+
+            $this->assertTrue(in_array($name['host'] . '.png', $favicons), $name['host']);
+        }
+    }
+
+    /**
+     * favicon exists but there's no corresponding search engine defined
+     */
+    public function testObsoleteSearchEngineIcons()
+    {
+        // Get list of search engines and first appearing URL
+        $searchEngines = array();
+        foreach (SearchEngine::getInstance()->getDefinitions() as $url => $searchEngine) {
+            $name = parse_url('http://' . $url);
+            if (!array_key_exists($name['host'], $searchEngines)) {
+                $searchEngines[$name['host']] = true;
+            }
+        }
+
+        // Get list of existing favicons
+        $favicons = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/Referrers/images/searchEngines/');
+        foreach ($favicons as $name) {
+            if ($name[0] == '.' || strpos($name, 'xx.') === 0) {
+                continue;
+            }
+
+            $host = substr($name, 0, -4);
+            $this->assertTrue(array_key_exists($host, $searchEngines), $host);
+        }
     }
 }

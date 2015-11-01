@@ -31,7 +31,7 @@ class Social extends Singleton
      *
      * @return array  Array of ( URL => array( searchEngineName, keywordParameter, path, charset ) )
      */
-    public function getSocialDefinitions()
+    public function getDefinitions()
     {
         $cache = Cache::getEagerCache();
         $cacheId = 'Social-' . self::OPTION_STORAGE_NAME;
@@ -39,27 +39,26 @@ class Social extends Singleton
         if ($cache->contains($cacheId)) {
             $list = $cache->fetch($cacheId);
         } else {
-            $list = $this->loadSocialDefinitions();
+            $list = $this->loadDefinitions();
             $cache->save($cacheId, $list);
         }
 
         return $list;
     }
 
-    private function loadSocialDefinitions()
+    private function loadDefinitions()
     {
         if ($this->definitionList === null) {
             // Read first from the auto-updated list in database
             $list = Option::get(self::OPTION_STORAGE_NAME);
 
             if ($list) {
-                $this->definitionList = unserialize($list);
+                $this->definitionList = unserialize(base64_decode($list));
             } else {
                 // Fallback to reading the bundled list
                 $yml = file_get_contents(PIWIK_INCLUDE_PATH . self::DEFINITION_FILE);
                 $this->definitionList = $this->loadYmlData($yml);
-                Option::set(self::OPTION_STORAGE_NAME, serialize($this->definitionList));
-
+                Option::set(self::OPTION_STORAGE_NAME, base64_encode(serialize($this->definitionList)));
             }
         }
 
@@ -104,7 +103,7 @@ class Social extends Singleton
      */
     public function isSocialUrl($url, $socialName = false)
     {
-        foreach ($this->getSocialDefinitions() as $domain => $name) {
+        foreach ($this->getDefinitions() as $domain => $name) {
 
             if (preg_match('/(^|[\.\/])'.$domain.'([\.\/]|$)/', $url) && ($socialName === false || $name == $socialName)) {
 
@@ -124,7 +123,7 @@ class Social extends Singleton
      */
     public function getSocialNetworkFromDomain($url)
     {
-        foreach ($this->getSocialDefinitions() as $domain => $name) {
+        foreach ($this->getDefinitions() as $domain => $name) {
 
             if (preg_match('/(^|[\.\/])'.$domain.'([\.\/]|$)/', $url)) {
 
@@ -145,7 +144,7 @@ class Social extends Singleton
     public function getMainUrl($url)
     {
         $social  = $this->getSocialNetworkFromDomain($url);
-        foreach ($this->getSocialDefinitions() as $domain => $name) {
+        foreach ($this->getDefinitions() as $domain => $name) {
 
             if ($name == $social) {
 
@@ -165,8 +164,8 @@ class Social extends Singleton
      */
     public function getLogoFromUrl($domain)
     {
-        $social = Social::getInstance()->getSocialNetworkFromDomain($domain);
-        $socialNetworks = Social::getInstance()->getSocialDefinitions();
+        $social = $this->getSocialNetworkFromDomain($domain);
+        $socialNetworks = $this->getDefinitions();
 
         $filePattern = 'plugins/Referrers/images/socials/%s.png';
 

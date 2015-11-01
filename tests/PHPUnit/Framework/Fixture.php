@@ -243,7 +243,6 @@ class Fixture extends \PHPUnit_Framework_Assert
             static::fail("TEST INITIALIZATION FAILED: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
 
-        include "DataFiles/Socials.php";
         include "DataFiles/Providers.php";
 
         if (!$this->isFixtureSetUp()) {
