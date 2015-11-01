@@ -385,7 +385,7 @@
         "VisitTypeExample": "For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain %s",
         "Warning": "Warning",
         "WarningPhpVersionXIsTooOld": "The PHP version %s you are using has reached its End of Life (EOL). You are strongly urged to upgrade to a current version, as using this version may expose you to security vulnerabilities and bugs that have been fixed in more recent versions of PHP.",
-        "WarningPiwikWillStopSupportingPHPVersion": "Piwik will stop supporting this PHP version in %s. Upgrade your PHP version before it's too late!",
+        "WarningPiwikWillStopSupportingPHPVersion": "Piwik will stop supporting PHP 5.3 in the next major version. Upgrade your PHP version before it's too late!",
         "WarningFileIntegrityNoManifest": "File integrity check could not be performed due to missing manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "If you are deploying Piwik from Git, this message is normal.",
         "WarningFileIntegrityNoMd5file": "File integrity check could not be completed due to missing md5_file() function.",
