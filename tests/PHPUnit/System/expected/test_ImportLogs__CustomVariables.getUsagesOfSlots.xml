@@ -96,6 +96,11 @@
 		<scope>page</scope>
 		<index>3</index>
 		<usages>
+			<row>
+				<name>HTTP-code</name>
+				<nb_visits>0</nb_visits>
+				<nb_actions>69</nb_actions>
+			</row>
 		</usages>
 	</row>
 	<row>
