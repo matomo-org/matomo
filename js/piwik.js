@@ -28,7 +28,7 @@
 
 /*global JSON2:true */
 
-if (typeof JSON2 !== 'object' && window.JSON) {
+if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.stringify && window.JSON.parse) {
     JSON2 = window.JSON;
 } else {
     (function () {
