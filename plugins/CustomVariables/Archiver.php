@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CustomVariables;
 use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
+use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker;
@@ -52,7 +53,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateMultipleReports()
     {
-        $columnsAggregationOperation = null;
+        $columnsAggregationOperation = array('slots' => 'uniquearraymerge');
 
         $this->getProcessor()->aggregateDataTableRecords(
             self::CUSTOM_VARIABLE_RECORD_NAME,

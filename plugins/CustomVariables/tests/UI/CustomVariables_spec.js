@@ -22,10 +22,4 @@ describe("CustomVariables", function () {
         expect.screenshot('link_in_menu').to.be.captureSelector('li:contains(Manage)', function (page) {
         }, done);
     });
-
-    it('should show custom variable creation command in dialog', function (done) {
-        expect.screenshot('create').to.be.captureSelector('.ui-dialog', function (page) {
-            page.click('.manageCustomVars .addCustomVar')
-        }, done);
-    });
 });

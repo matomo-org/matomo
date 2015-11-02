@@ -27,7 +27,7 @@ class Menu extends \Piwik\Plugin\Menu
         $idSite = Common::getRequestVar('idSite', $default, 'int');
 
         if (Piwik::isUserHasAdminAccess($idSite)) {
-            $menu->addManageItem('Custom Variables', $this->urlForAction('manage'), $orderId = 30);
+            $menu->addManageItem('Custom Variables', $this->urlForAction('manage'), $orderId = 15);
         }
     }
 }

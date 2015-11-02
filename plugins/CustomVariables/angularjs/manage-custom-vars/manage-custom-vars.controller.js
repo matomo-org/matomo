@@ -13,23 +13,7 @@
         manageCustomVarsModel.fetchUsages();
 
         this.model = manageCustomVarsModel;
-        this.createCustomVariableSlot = function () {
-            var highestIndex = 5;
-            angular.forEach(manageCustomVarsModel.customVariables, function (customVar) {
-                if (customVar.index > highestIndex) {
-                    highestIndex = customVar.index;
-                }
-            });
-
-            var translate = $filter('translate');
-
-            var command = './console customvariables:set-max-custom-variables ' + (highestIndex + 1);
-            var text = translate('CustomVariables_CreatingCustomVariableTakesTime');
-            text += '<br /><br />' + translate('CustomVariables_CurrentAvailableCustomVariables', '<strong>' + highestIndex + '</strong>');
-            text += '<br /><br />' + translate('CustomVariables_ToCreateCustomVarExecute');
-            text += '<br /><br /><code>' + command + '</code>';
-
-            piwik.helper.modalConfirm('<div class="ui-confirm" title="' + translate('CustomVariables_CreateNewSlot') + '">' + text + '<br /><br /></div>');
-        }
+        this.siteName = piwik.siteName;
+        this.scopes = ['visit', 'page'];
     }
 })();

@@ -15,7 +15,8 @@
             customVariables : [],
             extractions : [],
             isLoading: false,
-            fetchUsages: fetchUsages
+            fetchUsages: fetchUsages,
+            numSlotsAvailable: 5,
         };
 
         return model;
@@ -27,6 +28,13 @@
             piwikApi.fetch({method: 'CustomVariables.getUsagesOfSlots'})
                 .then(function (customVariables) {
                     model.customVariables = customVariables;
+
+                    angular.forEach(customVariables, function (customVar) {
+                        if (customVar.index > model.numSlotsAvailable) {
+                            model.numSlotsAvailable = customVar.index;
+                        }
+                    });
+
                 })['finally'](function () {    // .finally() is not IE8 compatible see https://github.com/angular/angular.js/commit/f078762d48d0d5d9796dcdf2cb0241198677582c
                 model.isLoading = false;
             });

@@ -151,7 +151,7 @@ class CustomVariables extends \Piwik\Plugin
     {
         $translationKeys[] = 'CustomVariables_CustomVariables';
         $translationKeys[] = 'CustomVariables_ManageDescription';
-        $translationKeys[] = 'CustomVariables_Scope';
+        $translationKeys[] = 'CustomVariables_ScopeX';
         $translationKeys[] = 'CustomVariables_Index';
         $translationKeys[] = 'CustomVariables_Usages';
         $translationKeys[] = 'CustomVariables_Unused';
