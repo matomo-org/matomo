@@ -49,6 +49,7 @@
         "ClickRowToExpandOrContract": "Klikk denne raden for utvide eller slå sammen undertabellen.",
         "UndoPivotBySubtable": "Denne rapporten er pivotert %s Angre pivot",
         "PivotBySubtable": "Denne rapporten er ikke pivotert %s Pivot etter %s",
+        "QuickAccessTitle": "Søk etter %s. Snarvei: Trykk 'f' for å søke.",
         "Segments": "Segmenter"
     }
 }

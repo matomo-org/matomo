@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "Pengaya ini menyediakan gawit Peta Pengunjung dan Peta Waktu-Nyata. Catatan: Membutuhkan pengaya NegaraPengguna diaktifkan.",
         "AndNOthers": "dan %s lain",
         "Cities": "Kita",
         "Countries": "Negara",
@@ -17,6 +18,8 @@
         "ShowingVisits": "Kunjungan Lokasi-Geo terakhir",
         "Unlocated": "<b>%s<\/b> %p kunjungan dari %c lokasi-geo tidak diketahui.",
         "VisitorMap": "Peta Pengunjung",
-        "WorldWide": "Seluruh Dunia"
+        "WorldWide": "Seluruh Dunia",
+        "WithUnknownRegion": "%s dengan wilayah tidak dikenal",
+        "WithUnknownCity": "%s dengan kota tidak dikenal"
     }
 }

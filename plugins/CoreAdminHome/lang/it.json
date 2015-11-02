@@ -56,7 +56,7 @@
         "MenuGeneralSettings": "Impostazioni generali",
         "MenuManage": "Gestione",
         "MenuDevelopment": "Sviluppo",
-        "OptOutComplete": "Opt-out completato; le tue visite a questo sito non verranno registrate dallo strumento di Web Analytics.",
+        "OptOutComplete": "Opt-out completato. Le tue visite a questo sito non verranno registrate dallo strumento di Web Analytics.",
         "OptOutCompleteBis": "Nota che se cancelli i tuoi cookie, cancelli anche il cookie di opt-out, e se cambi computer o browser web, devi fare la procedura di opt-out nuovamente.",
         "OptOutDntFound": "Non vieni tracciato poiché il tuo browser comunica che non lo desideri. Questa è un'impostazione del tuo browser, dunque non potrai effettuare l'opt-in finchè non disabiliti la funzionalità \"Non Tracciare\".",
         "OptOutExplanation": "Piwik è impegnato ad assicurare la riservatezza su Internet. Per dare ai tuoi ospiti la possibilità di escludersi dalle Statistiche Web Piwik, è possibile aggiungere il seguente codice HTML in una pagina del tuo sito web, ad esempio in una pagina sulla privacy.",

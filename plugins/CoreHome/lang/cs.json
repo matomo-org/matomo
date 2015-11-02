@@ -48,6 +48,10 @@
         "YouAreUsingTheLatestVersion": "Používáte nejnovější verzi Piwiku.",
         "ClickRowToExpandOrContract": "Klikněte na tento řádek pro rozbalení nebo zbalení podtabulky.",
         "UndoPivotBySubtable": "Toto hlášení bylo zaměřeno %s Vrátit zpět",
-        "PivotBySubtable": "Toto hlášení není zaměřené %s Zaměřit na %s"
+        "PivotBySubtable": "Toto hlášení není zaměřené %s Zaměřit na %s",
+        "QuickAccessTitle": "Najít zástupce %s: Pro hledání stiskněte 'f'.",
+        "MenuEntries": "Položky menu",
+        "Segments": "Segmenty",
+        "AdblockIsMaybeUsed": "Pokud používáte blokovač reklam, zakažte ho pro tyto stránky, aby Piwik správně fungoval."
     }
 }

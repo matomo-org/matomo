@@ -369,7 +369,6 @@
         "VisitTypeExample": "Voit esimerkiksi valita kaikki kävijät jotka palasivat sivulle ja ostivat edellisellä käynnillä. Esimerkki pyynnöstä on %s",
         "Warning": "Varoitus",
         "WarningPhpVersionXIsTooOld": "Käyttämäsi PHP versio %s on ohittanut EOL (End of Life) ajankohdan. Suosittelemme vakavasti ohjelmiston päivittämistä uudempaan versioon, sillä käyttämäsi versio voi altistaa sivuston tietoturva-aukoille ja virheille, jotka ovat korjattu PHP:n uudemmissa versioissa.",
-        "WarningPiwikWillStopSupportingPHPVersion": "Piwik ei tue tätä versiota PHP:stä %s. Päivitä PHP:n versio ennen kuin se on liian myöhäistä!",
         "WarningFileIntegrityNoManifest": "Tiedostojen eheystarkistusta ei voida suorittaa, tiedosto manifest.inc.php puuttuu",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Jos olet ottanut Piwikin käyttöön Git-järjestelmän kautta, tämä viesti on normaali.",
         "WarningFileIntegrityNoMd5file": "Tiedostojen eheystarkistusta ei voi suorittaa, funktio md5_file() puuttuu.",

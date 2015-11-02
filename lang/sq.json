@@ -379,7 +379,6 @@
         "VisitTypeExample": "Për shembull, për përzgjedhjen e krejt vizitorëve që janë rikthyer te sajti, përfshi ata që kanë blerë diçka gjatë vizitash të mëparshme, kërkesa API do të duhej të përmbante %s",
         "Warning": "Sinjalizim",
         "WarningPhpVersionXIsTooOld": "Versioni PHP %s që po përdorni ka mbërritur në fund të ciklit të vet (EOL). Ftoheni me forcë ta përmirësoni me një version të tanishëm, ngaqë përdorimi i këtij versioni mund t’ju lërë zbuluar kundrejt cenimesh sigurie dhe të metash që janë ndrequr në versione më të rinj të PHP-së.",
-        "WarningPiwikWillStopSupportingPHPVersion": "Piwik-u do të reshtë mbulimin e këtij versioni të PHP-së në %s. Përmirësoni versionin e PHP-së tuaj, para se të jetë tepër vonë!",
         "WarningFileIntegrityNoManifest": "Kontrolli i pacenueshmërisë së kartelës s’u krye dot, për shkak të mungesës së manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Nëse po krijoni një instalim të Piwik-ut prej Git-i, ky mesazh është normal.",
         "WarningFileIntegrityNoMd5file": "Kontrolli i pacenueshmërisë së kartelës s’u plotësua dot, për shkak të mungesës së funksionit md5_file().",

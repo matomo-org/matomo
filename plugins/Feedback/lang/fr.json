@@ -1,7 +1,7 @@
 {
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Avez-vous un bug à rapporter ou une fonctionnalité à demander ?",
-        "HowToCreateTicket": "Veuillez consulter les recommandations sur la rédaction d'un bon %1$srapport de bug%2$s ou %3$sdemande de fonctionnalité%4$s. Puis s'enregistrer ou se connecter sur %5$snotre système de suivit des incidents%6$s et créer un %7$snouvel incident%8$s.",
+        "HowToCreateTicket": "Veuillez consulter les recommandations sur la rédaction d'un bon %1$srapport de bug%2$s ou %3$sdemande de fonctionnalité%4$s. Puis s'enregistrer ou se connecter sur %5$snotre système de suivi des incidents%6$s et créer un %7$snouvel incident%8$s.",
         "IWantTo": "Je veux:",
         "LearnWaysToParticipate": "Renseignez vous sur les manières dont vous pouvez %s participer%s",
         "ManuallySendEmailTo": "Merci d'envoyer manuellement votre message à",
