@@ -101,7 +101,7 @@ class IP
      *
      * @param string $csv Comma separated list of elements.
      * @param array $excludedIps Optional list of excluded IP addresses (or IP address ranges).
-     * @return string Last (non-excluded) IP address in the list.
+     * @return string Last (non-excluded) IP address in the list or an empty string if all given IPs are excluded.
      */
     public static function getLastIpFromList($csv, $excludedIps = null)
     {
@@ -115,6 +115,8 @@ class IP
                     return $element;
                 }
             }
+
+            return '';
         }
         return trim(Common::sanitizeInputValue($csv));
     }
