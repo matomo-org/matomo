@@ -680,7 +680,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         // replaces the requested URL to the piwik URL w/ a port, if it does not have one.  This allows us to run UI
         // tests when Piwik is on a port, w/o having to have different UI screenshots. (This is one half of the
         // solution, the other half is in config/environment/ui-test.php, where we remove all ports from Piwik URLs.)
-        if (piwikPort) {
+        if (piwikPort && piwikPort != 0) {
             linkObject.setAttribute('href', url);
 
             if (linkObject.hostname == piwikHost && (!linkObject.port || linkObject.port == 0 || linkObject.port == 80)) {
