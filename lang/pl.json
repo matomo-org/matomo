@@ -344,7 +344,6 @@
         "VisitorSettings": "Konfiguracje użytkownika",
         "VisitTypeExample": "Przykładowo, aby wybrać wszystkich odwiedzających, którzy powrócili na serwis, włączając tych, którzy zakupili coś podczas poprzednich wizyt, zapytanie API będzie zawierać %s",
         "Warning": "Ostrzeżenie",
-        "WarningPiwikWillStopSupportingPHPVersion": "Piwik przestanie wspierać tą wersję PHP w %s. Zauktualizuj wersję PHP zanim będzie za późno!",
         "WarningFileIntegrityNoManifest": "Weryfikacja integralności plików nie mogła zostać przeprowadzona z powodu braku pliku manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "W przypadku wdrażania Piwik z Git, komunikat ten jest prawidłowy.",
         "WarningFileIntegrityNoMd5file": "Weryfikacja integralności plików nie mogła zostać zakończona z powodu braku funkcji md5_file().",

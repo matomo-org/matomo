@@ -379,7 +379,6 @@
         "VisitTypeExample": "Na primer, kako biste obeležili sve posetioce koji su se vratili na sajt, uključujući i one koji su već nešto kupili, API zahtev bi sadržao %s",
         "Warning": "Upozorenje",
         "WarningPhpVersionXIsTooOld": "PHP verzija %s koju koristite je zastarela. Molimo vas da hitno nadogradite PHP na najnoviju verziju jer ukoliko nastavite da koristite postojeću, izlažete se sigurnosnim rizicima i bagovima koji su već ispravljeni u novijim verzijama PHP-a.",
-        "WarningPiwikWillStopSupportingPHPVersion": "Piwik će prestati sa podrškom ove PHP verzije %s. Nadogradite vaš PHP pre nego što postane kasno!",
         "WarningFileIntegrityNoManifest": "Proveru integriteta datoteka nije moguće sprovesti zato što nedostaje datoteka manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Ukoliko podižete Piwik iz Git-a, ova poruka je sasvim prirodna.",
         "WarningFileIntegrityNoMd5file": "Proveru integriteta datoteka nije moguće okončati zato što nedostaje funkcija md5_file().",

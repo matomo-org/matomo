@@ -21,6 +21,7 @@
         "PluginDescription": "Vaša nástenka webovej analýzy. Prispôsobte si svoj panel pridaním nových miniaplikácií, popresúvajte ich, a zmeňte rozvrhnutie stĺpcov panela. Každý používateľ môže spravovať svoju vlastnú nástenku.",
         "RemoveDashboard": "Odstrániť nástenku",
         "RemoveDashboardConfirm": "Naozaj chcete odstrániť panel \"%s\"?",
+        "RemoveDefaultDashboardNotPossible": "Štandardnú nástenku nie je možné odstrániť.",
         "RenameDashboard": "Premenovať nástenku",
         "ResetDashboard": "Resetovať nástenku",
         "ResetDashboardConfirm": "Naozaj chcete resetovať rozvrhnutie vašej nástenky na výber prednastavených miniaplikácií?",

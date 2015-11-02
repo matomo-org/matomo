@@ -48,6 +48,7 @@
         "YouAreUsingTheLatestVersion": "Vous utilisez la dernière version de Piwik!",
         "ClickRowToExpandOrContract": "Cliquez sur cette rangée pour afficher ou masquer le sous-tableau",
         "UndoPivotBySubtable": "Ce rapport a été pivoté %s Annuler le pivot",
-        "PivotBySubtable": "Ce rapport n'a pas été pivoté %s Pivoter par %s"
+        "PivotBySubtable": "Ce rapport n'a pas été pivoté %s Pivoter par %s",
+        "Segments": "Segments"
     }
 }

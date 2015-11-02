@@ -22,7 +22,7 @@
         "HelpMessageContent": "Allez voir la %1$s FAQ Piwik %2$s qui explique les erreurs courantes lors de la mise à jour. %3$s Demandez à votre administrateur système - il pourra être à même avec cette erreur qui est très probablement liée à la configuration de votre serveur MySQL.",
         "HelpMessageIntroductionWhenError": "Ci-dessus est le message d'erreur du noyau. Cela devrait expliquer la cause, mais si vous nécessitez davantage d'aide merci de :",
         "HelpMessageIntroductionWhenWarning": "La mise à jour a été complétée avec succès. Cependant, des problèmes sont survenus. Lisez la description ci-dessus pour plus de détails. Pour davantage d'aide :",
-        "HighTrafficPiwikServerEnableMaintenance": "Si vous gérez un serveur Piwik à haut traffic, nous recommandons de %sdésactiver momentanément le suivit des visiteurs et de mettre l'interface utilisateur de Piwik en mode de maintenance%s.",
+        "HighTrafficPiwikServerEnableMaintenance": "Si vous gérez un serveur Piwik à haut traffic, nous recommandons de %sdésactiver momentanément le suivi des visiteurs et de mettre l'interface utilisateur de Piwik en mode de maintenance%s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Note : certains plugins ne sont pas compatbles avec Piwik %s. Ils seront désactivés lorsque vous mettrez à jour :",
         "InstallingTheLatestVersion": "Installation de la dernière version",
         "LatestBetaRelease": "Dernière version beta",

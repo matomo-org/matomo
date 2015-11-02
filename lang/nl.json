@@ -379,7 +379,6 @@
         "VisitTypeExample": "Om bijvoorbeeld het aantal terugkerende bezoekers (inclusief die bezoekers die iets gekocht hebben) te selecteren moet de API %s bevatten",
         "Warning": "Let op",
         "WarningPhpVersionXIsTooOld": "Je gebruikt PHP versie %s. Deze heeft de status 'End of Life (OEL)'. We adviseren je ten zeerste om te upgraden naar de recente versie van PHP, omdat de versie die nu gebruikt beveiligingslekken en bugs kan bevatten, welke in meer recente versies van PHP opgelost zijn.",
-        "WarningPiwikWillStopSupportingPHPVersion": "Piwik stopt de ondersteuning van deze PHP versie in %s. Upgrade je PHP versie voor het te laat is!",
         "WarningFileIntegrityNoManifest": "Bestand integriteits controle kon niet worden uitgevoerd vanwege ontbrekend manifest.inc.php",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Als je Piwik vanuit Git deployed, dan is deze melding normaal.",
         "WarningFileIntegrityNoMd5file": "Bestand integriteit controle kon niet worden voltooid vanwege ontbrekende md5_file() functie.",

@@ -1,5 +1,7 @@
 {
     "General": {
+        "12HourClock": "12-hodinový formát",
+        "24HourClock": "24-hodinový formát",
         "AbandonedCarts": "Neobjednané košíky",
         "AboutPiwikX": "O Piwiku %s",
         "Action": "Akce",
@@ -11,6 +13,7 @@
         "AllWebsitesDashboard": "Nástěnka pro všechny weby",
         "And": "a",
         "API": "API",
+        "Apply": "Použít",
         "ArchivingInlineHelp": "Pro web stránky se střední nebo vysokou návštěvností je doporučeno zakázat archivování Piwiku z webového prohlížeče. Místo toho doporučujeme vytvoření úlohy pro cron",
         "ArchivingTriggerDescription": "Doporučeno pro větší instalace Piwiku, potřebujete %snastavit cron úlohu%s na automatické spracování hlášení.",
         "AuthenticationMethodSmtp": "Autentizační metoda SMTP",
@@ -98,6 +101,7 @@
         "DateRange": "Rozsah:",
         "DateRangeFrom": "Od",
         "DateRangeFromTo": "Od %s do %s",
+        "DateRangeInPeriodList": "Rozsah datumů",
         "DateRangeTo": "Do",
         "DaysHours": "%1$s dní %2$s hodin",
         "DaysSinceFirstVisit": "Dnů od první návštěvy",
@@ -346,6 +350,7 @@
         "TagCloud": "Oblak tagů",
         "Tax": "Daň",
         "TimeAgo": "Před %s",
+        "TimeFormat": "Formát času",
         "TimeOnPage": "Čas na stránce",
         "Total": "Celkem",
         "TotalRatioTooltip": "Toto je %1$s ze všech %2$s %3$s.",
@@ -380,7 +385,7 @@
         "VisitTypeExample": "Například pro výběr všech návštěvníků, kteří se vrátili na stránky včetně těch, co si v předcchozích návštěvách něco koupili, by API požadavek obsahoval %s",
         "Warning": "Varování",
         "WarningPhpVersionXIsTooOld": "PHP verze %s, kterou používáte již není podporována (EOL). Důrazně doporučujeme aktualizovat na novější verzi, protože stávající může obsahovat bezpečnostní a další problémy, které byly opraveny v novějších verzích PHP.",
-        "WarningPiwikWillStopSupportingPHPVersion": "Piwik tuto verzi PHP přestane podporovat za %s. Aktualizujte, dokud je čas!",
+        "WarningPiwikWillStopSupportingPHPVersion": "Piwik v následující velké aktualizaci přestane podporovat PHP 5.3. Aktualizujte, dokud je čas!",
         "WarningFileIntegrityNoManifest": "Test integrity nemůže být proveden z důvodů chybějícího souboru manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Pokud nasazujete Piwik z Gitu, pak je tato zpráva normální.",
         "WarningFileIntegrityNoMd5file": "Test integrity nemůže být dokončen z důvodů chybějící funkce md5_file().",
@@ -400,6 +405,7 @@
         "YearsDays": "%1$s roků %2$s dní",
         "Yes": "Ano",
         "YouAreCurrentlyUsing": "Používáte Piwik verze %s.",
+        "YouAreViewingDemoShortMessage": "Díváte se na demo Piwiku",
         "YouMustBeLoggedIn": "Abyste mohli využívat tyto funkce musíte být přihlášeni",
         "YourChangesHaveBeenSaved": "Vaše změny byly uloženy"
     },

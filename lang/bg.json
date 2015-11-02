@@ -367,7 +367,6 @@
         "VisitorSettings": "Настройки на посетителя",
         "VisitTypeExample": "Например, ако изберете всички посетители, които са се завърнали на сайта, включително тези, които са купили нещо при предишните посещения, API заявката ще съдържа %s",
         "Warning": "Предупреждение",
-        "WarningPiwikWillStopSupportingPHPVersion": "Piwik ще спре поддръжката на тази PHP версия на %s. Обновете вашата PHP версия преди крайният срок да е изтекъл!",
         "WarningFileIntegrityNoManifest": "Цялостната проверка на файла не може да бъде изпълнена поради липсата на manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "В случай, че Piwik се внедрява посредством Git, е нормално това съобщение да се появява.",
         "WarningFileIntegrityNoMd5file": "Цялостната проверка не може да бъде осъществена поради липсата на md5_file() функцията.",

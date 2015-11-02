@@ -76,7 +76,7 @@
         "MatchesExpression": "correspond à l'expression %s",
         "NewGoalIntro": "Le suivi de la conversion des objectifs et une des manières les plus efficaces de mesurer et améliorer vos objectifs d'affaires.",
         "NewVisitorsConversionRateIs": "Le taux de conversion des nouveaux visiteurs est %s",
-        "NoGoalsNeedAccess": "Uniquement un Administrateur ou un utilisateur avec un accès Super Utilisateur peut gérer les Objectifs d'un site web donné. Veuillez demander à votre administrateur Piwik de mettre en place un Objectif pour votre site web. <br \/>Le suivit d'Objectifs est une bonne manière de mieux comprendre et de maximiser les performances de votre site web!",
+        "NoGoalsNeedAccess": "Uniquement un Administrateur ou un utilisateur avec un accès Super Utilisateur peut gérer les Objectifs d'un site web donné. Veuillez demander à votre administrateur Piwik de mettre en place un Objectif pour votre site web. <br \/>Le suivi d'objectifs est une bonne manière de mieux comprendre et de maximiser les performances de votre site web!",
         "NeedAccess": "Uniquement un administrateur ou un utilisateur avec le rôle super utilisateur peut gérer les objectifs pour un site web.",
         "Optional": "(optionnel)",
         "OverallConversionRate": "%s taux de conversion global (visites avec un objectif rempli)",
