@@ -16,7 +16,7 @@
     <a ng-click="view.showSitesList=!view.showSitesList; view.showSitesList && !model.isLoading && model.loadInitialSites();"
        piwik-onenter="view.showSitesList=!view.showSitesList; view.showSitesList && !model.isLoading && model.loadInitialSites();"
        href="javascript:void(0)"
-       title="{{ 'General_ChooseWebsite'|translate }}"
+       title="{{ 'CoreHome_ChangeCurrentWebsite'|translate:((selectedSite.name || model.firstSiteName)|htmldecode) }}"
        ng-class="{'loading': model.isLoading}"
        class="title">
         <span class="icon icon-arrow-bottom"
@@ -37,6 +37,7 @@
                     ng-hide="!showSelectedSite && activeSiteId==site.idsite">
                     <a piwik-ignore-click href="{{ getUrlForSiteId(site.idsite) }}"
                        piwik-autocomplete-matched="view.searchTerm"
+                       title="{{ site.name|htmldecode }}"
                        ng-bind-html="site.name"></a>
                 </li>
             </ul>
