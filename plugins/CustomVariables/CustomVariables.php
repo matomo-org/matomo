@@ -160,6 +160,7 @@ class CustomVariables extends \Piwik\Plugin
         $translationKeys[] = 'CustomVariables_CurrentAvailableCustomVariables';
         $translationKeys[] = 'CustomVariables_ToCreateCustomVarExecute';
         $translationKeys[] = 'CustomVariables_CreatingCustomVariableTakesTime';
+        $translationKeys[] = 'CustomVariables_SlotsReportIsGeneratedOverTime';
         $translationKeys[] = 'General_Loading';
     }
 

@@ -5,6 +5,10 @@
         <span ng-bind-html="'CustomVariables_ManageDescription'|translate:manageCustomVars.siteName"></span>
     </p>
 
+    <div class="alert alert-info" ng-show="!manageCustomVars.model.isLoading && manageCustomVars.model.hasCustomVariablesInGeneral && !manageCustomVars.model.hasAtLeastOneUsage">
+        {{ 'CustomVariables_SlotsReportIsGeneratedOverTime'|translate }}
+    </div>
+
     <div ng-repeat="scope in manageCustomVars.scopes">
         <h2 class="secondary">{{ 'CustomVariables_ScopeX'|translate:(scope|ucfirst) }}</h2>
         <table class="dataTable entityTable">

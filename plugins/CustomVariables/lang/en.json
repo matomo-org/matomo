@@ -16,6 +16,7 @@
         "UsageDetails": "%s visits and %s actions since creation of this website.",
         "CreatingCustomVariableTakesTime": "Creating a new custom variable slot can take a long time depending on the size of your database. Therefore it is only possible to do this via a command which needs to be executed on the command line.",
         "CurrentAvailableCustomVariables": "Currently you can use up to %s Custom Variables per site.",
-        "ToCreateCustomVarExecute": "To create a new custom variable slot execute the following command within your Piwik installation: "
+        "ToCreateCustomVarExecute": "To create a new custom variable slot execute the following command within your Piwik installation: ",
+        "SlotsReportIsGeneratedOverTime": "Data for this report will be populated over time. It may take a day or two to see any data and a few weeks until the report is fully accurate."
     }
 }
