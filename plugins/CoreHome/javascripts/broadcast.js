@@ -214,6 +214,10 @@ var broadcast = {
             currentHashStr = broadcast.updateParamValue('idDashboard=', currentHashStr);
         }
 
+        if (module != 'CustomDimensions') {
+            currentHashStr = broadcast.updateParamValue('idDimension=', currentHashStr);
+        }
+
         if (disableHistory) {
             var newLocation = window.location.href.split('#')[0] + '#?' + currentHashStr;
             // window.location.replace changes the current url without pushing it on the browser's history stack
@@ -420,7 +424,8 @@ var broadcast = {
                             broadcast.getParamValue('action', urlAjax),
                             {
                                 idGoal: broadcast.getParamValue('idGoal', urlAjax),
-                                idDashboard: broadcast.getParamValue('idDashboard', urlAjax)
+                                idDashboard: broadcast.getParamValue('idDashboard', urlAjax),
+                                idDimension: broadcast.getParamValue('idDimension', urlAjax)
                             }
                         );
                     });

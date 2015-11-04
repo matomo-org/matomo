@@ -26,6 +26,7 @@ use Piwik\WidgetsList;
 use Piwik\Tests\Framework\OverrideLogin;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
+use Piwik\Config as PiwikConfig;
 
 /**
  * Fixture for UI tests.
@@ -46,7 +47,9 @@ class UITestFixture extends SqlDump
 
         parent::setUp();
 
+        self::resetPluginsInstalledConfig();
         self::updateDatabase();
+        self::installAndActivatePlugins($this->getTestEnvironment());
 
         // make sure site has an early enough creation date (for period selector tests)
         Db::get()->update(Common::prefixTable("site"),

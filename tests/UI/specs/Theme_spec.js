@@ -20,18 +20,14 @@ describe("Theme", function () {
         testEnvironment.pluginsToLoad = ['ExampleTheme'];
 
         // Enable development mode to be able to see the UI demo page
-        testEnvironment.configOverride = {
-            Development: {
-                enabled: true
-            }
-        };
-
+        testEnvironment.overrideConfig('Development', 'enabled', true);
         testEnvironment.save();
 
         clearAssets();
     });
 
     after(function () {
+        
         clearAssets();
     });
 

@@ -192,10 +192,7 @@ class TestsSetupFixture extends ConsoleCommand
         );
         foreach ($optionsToOverride as $configOption => $value) {
             if ($value) {
-                $configOverride = $testingEnvironment->configOverride;
-                $configOverride['database_tests'][$configOption] = $configOverride['database'][$configOption] = $value;
-                $testingEnvironment->configOverride = $configOverride;
-
+                $testingEnvironment->overrideConfig('database_tests', $configOption, $value);
                 Config::getInstance()->database[$configOption] = $value;
             }
         }

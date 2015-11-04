@@ -152,7 +152,15 @@ abstract class DataTableManipulator
                 $idSite = 'all';
             }
 
-            $meta = API::getInstance()->getMetadata($idSite, $this->apiModule, $this->apiMethod);
+            $apiParameters = array();
+            if (!empty($request['idDimension'])) {
+                $apiParameters['idDimension'] = $request['idDimension'];
+            }
+            if (!empty($request['idGoal'])) {
+                $apiParameters['idGoal'] = $request['idGoal'];
+            }
+
+            $meta = API::getInstance()->getMetadata($idSite, $this->apiModule, $this->apiMethod, $apiParameters);
 
             if (empty($meta)) {
                 throw new Exception(sprintf(

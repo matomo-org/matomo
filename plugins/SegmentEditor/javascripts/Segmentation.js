@@ -85,7 +85,7 @@ Segmentation = (function($) {
                     var name = $(foundItems).first().find("span.segname").text();
                     title.text(name);
                 } else {
-                    title.text("Custom Segment");
+                    title.text(_pk_translate('SegmentEditor_CustomSegment'));
                 }
                 segmentationTitle.html(title);
             }

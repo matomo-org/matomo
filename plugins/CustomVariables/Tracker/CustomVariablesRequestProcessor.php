@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CustomVariables\Tracker;
 
 use Piwik\Common;
 use Piwik\Plugins\CustomVariables\Model;
+use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestProcessor;
 use Piwik\Tracker\Visit\VisitProperties;
@@ -62,5 +63,26 @@ class CustomVariablesRequestProcessor extends RequestProcessor
         if (!empty($visitCustomVariables)) {
             $valuesToUpdate = array_merge($valuesToUpdate, $visitCustomVariables);
         }
+    }
+
+    public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
+    {
+        $action = $request->getMetadata('Actions', 'action');
+
+        if (empty($action) || !($action instanceof Action)) {
+            return;
+        }
+
+        $customVariables = $action->getCustomVariables();
+
+        if (!empty($customVariables)) {
+            Common::printDebug("Page level Custom Variables: ");
+            Common::printDebug($customVariables);
+
+            foreach ($customVariables as $field => $value) {
+                $action->setCustomField($field, $value);
+            }
+        }
+
     }
 }

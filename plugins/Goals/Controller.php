@@ -459,8 +459,14 @@ class Controller extends \Piwik\Plugin\Controller
                     }
                     $customParams['viewDataTable'] = $report['viewDataTable'];
 
+                    if (!empty($report['parameters'])) {
+                        $params = array_merge($customParams, $report['parameters']);
+                    } else {
+                        $params = $customParams;
+                    }
+
                     $goalReportsByDimension->addReport(
-                        $categoryText, $report['name'], $report['module'] . '.' . $report['action'], $customParams);
+                        $categoryText, $report['name'], $report['module'] . '.' . $report['action'], $params);
                 }
             }
         }

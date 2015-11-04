@@ -162,6 +162,8 @@ class CustomVariables extends \Piwik\Plugin
         $translationKeys[] = 'CustomVariables_CreatingCustomVariableTakesTime';
         $translationKeys[] = 'CustomVariables_SlotsReportIsGeneratedOverTime';
         $translationKeys[] = 'General_Loading';
+        $translationKeys[] = 'General_TrackingScopeVisit';
+        $translationKeys[] = 'General_TrackingScopePage';
     }
 
     public function getStylesheetFiles(&$stylesheets)

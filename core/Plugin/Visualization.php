@@ -272,7 +272,18 @@ class Visualization extends ViewDataTable
         $idSite  = Common::getRequestVar('idSite', null, 'string', $request);
         $module  = $this->requestConfig->getApiModuleToRequest();
         $action  = $this->requestConfig->getApiMethodToRequest();
-        $metadata = ApiApi::getInstance()->getMetadata($idSite, $module, $action);
+
+        $apiParameters = array();
+        $idDimension = Common::getRequestVar('idDimension', 0, 'int');
+        $idGoal = Common::getRequestVar('idGoal', 0, 'int');
+        if ($idDimension > 0) {
+            $apiParameters['idDimension'] = $idDimension;
+        }
+        if ($idGoal > 0) {
+            $apiParameters['idGoal'] = $idGoal;
+        }
+
+        $metadata = ApiApi::getInstance()->getMetadata($idSite, $module, $action, $apiParameters);
 
         if (!empty($metadata)) {
             return array_shift($metadata);

@@ -6,7 +6,7 @@
         "AreYouSureDeleteSegment": "Are you sure you want to delete this segment?",
         "AutoArchivePreProcessed": "segmented reports are pre-processed (faster, requires cron)",
         "AutoArchiveRealTime": "segmented reports are processed in real time",
-        "ChooseASegment": "Choose a segment",
+        "ChooseASegment": "Choose a segment, currently selected segment: %s",
         "DataAvailableAtLaterDate": "Your segmented analytics reports will be available later. We apologize for the inconvenience.",
         "DefaultAllVisits": "All visits",
         "DragDropCondition": "Drag & Drop condition",
@@ -27,6 +27,9 @@
         "YouMustBeLoggedInToCreateSegments": "You must be logged in to create and edit custom visitor segments.",
         "YouDontHaveAccessToCreateSegments": "You don't have the required access level to create and edit segments.",
         "AddingSegmentForAllWebsitesDisabled": "Adding segments for all websites has been disabled.",
-        "SegmentXIsAUnionOf": "%s is a union of these segments:"
+        "SegmentXIsAUnionOf": "%s is a union of these segments:",
+        "CustomSegment": "Custom Segment",
+        "SegmentOperatorIsNullOrEmpty": "is null or empty",
+        "SegmentOperatorIsNotNullNorEmpty": "is not null nor empty"
     }
 }

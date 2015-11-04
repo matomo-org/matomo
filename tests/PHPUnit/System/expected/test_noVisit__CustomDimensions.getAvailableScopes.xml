@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<name>visit</name>
+		<numSlotsAvailable>5</numSlotsAvailable>
+		<numSlotsUsed>0</numSlotsUsed>
+		<numSlotsLeft>5</numSlotsLeft>
+	</row>
+	<row>
+		<name>action</name>
+		<numSlotsAvailable>5</numSlotsAvailable>
+		<numSlotsUsed>0</numSlotsUsed>
+		<numSlotsLeft>5</numSlotsLeft>
+	</row>
+</result>

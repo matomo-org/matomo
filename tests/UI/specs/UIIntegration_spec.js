@@ -30,7 +30,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     beforeEach(function () {
-        delete testEnvironment.configOverride;
+        if (testEnvironment.configOverride.database) {
+            delete testEnvironment.configOverride.database;
+        }
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
@@ -528,15 +530,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // DB error message
     it('should fail correctly when db information in config is incorrect', function (done) {
-        testEnvironment.configOverride = {
-            database: {
-                host: config.phpServer.REMOTE_ADDR,
-                username: 'slkdfjsdlkfj',
-                password: 'slkdfjsldkfj',
-                dbname: 'abcdefg',
-                tables_prefix: 'gfedcba'
-            }
-        };
+
+        testEnvironment.overrideConfig('database', {
+            host: config.phpServer.REMOTE_ADDR,
+            username: 'slkdfjsdlkfj',
+            password: 'slkdfjsldkfj',
+            dbname: 'abcdefg',
+            tables_prefix: 'gfedcba'
+        });
         testEnvironment.save();
 
         expect.screenshot('db_connect_error').to.be.capture(function (page) {

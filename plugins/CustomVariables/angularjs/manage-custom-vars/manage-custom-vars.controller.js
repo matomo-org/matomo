@@ -14,6 +14,9 @@
 
         this.model = manageCustomVarsModel;
         this.siteName = piwik.siteName;
-        this.scopes = ['visit', 'page'];
+        this.scopes = [
+            {value: 'visit', name: _pk_translate('General_TrackingScopeVisit')},
+            {value: 'page', name: _pk_translate('General_TrackingScopePage')}
+        ];
     }
 })();

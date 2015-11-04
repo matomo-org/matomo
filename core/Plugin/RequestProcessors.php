@@ -14,7 +14,8 @@ class RequestProcessors
 {
     public function getRequestProcessors()
     {
-        $processors = Manager::getInstance()->findMultipleComponents('Tracker', 'Piwik\\Tracker\\RequestProcessor');
+        $manager    = Manager::getInstance();
+        $processors = $manager->findMultipleComponents('Tracker', 'Piwik\\Tracker\\RequestProcessor');
 
         $instances = array();
         foreach ($processors as $processor) {

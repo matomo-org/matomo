@@ -1069,6 +1069,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 var segment = self.param.segment;
                 var label = self.param.label;
                 var idGoal = self.param.idGoal;
+                var idDimension = self.param.idDimension;
                 var param_date = self.param.date;
                 var date = $(this).attr('date');
                 if (typeof date != 'undefined') {
@@ -1136,6 +1137,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 if (typeof idGoal != 'undefined'
                     && idGoal != '-1') {
                     str += '&idGoal=' + idGoal;
+                }
+                // Export Dimension specific reports
+                if (typeof idDimension != 'undefined'
+                    && idDimension != '-1') {
+                    str += '&idDimension=' + idDimension;
                 }
                 if (label) {
                     label = label.split(',');

@@ -12,6 +12,7 @@ use Piwik\Access;
 use Piwik\Cache;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
+use Piwik\Metrics;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreHome\Columns\UserId;
 use Piwik\Tests\Framework\Fixture;
@@ -161,6 +162,17 @@ class UserIdTest extends IntegrationTestCase
     {
         $this->assertNotDataTableHasUsers($this->getDataTableWithoutUsersColumn());
         $this->assertNotDataTableHasUsers($this->getDataTableWithZeroUsers());
+        $this->assertDataTableHasUsers($this->getDataTableWithUsers());
+    }
+
+    public function test_hasDataTableUsers_shouldBeAbleToDetectIfNbUsersMetricIdIsused()
+    {
+        $table = $this->getDataTableWithZeroUsers();
+        $table->renameColumn('nb_users', Metrics::INDEX_NB_USERS);
+        $this->assertNotDataTableHasUsers($table);
+
+        $table = $this->getDataTableWithUsers();
+        $table->renameColumn('nb_users', Metrics::INDEX_NB_USERS);
         $this->assertDataTableHasUsers($this->getDataTableWithUsers());
     }
 

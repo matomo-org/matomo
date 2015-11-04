@@ -25,6 +25,7 @@ TestingEnvironment.prototype.reload = function () {
     this['useOverrideJs'] = true;
     this['loadRealTranslations'] = true; // UI tests should test w/ real translations, not translation keys
     this['testUseMockAuth'] = true;
+    this['configOverride'] = {};
 
     if (fs.exists(testingEnvironmentOverridePath)) {
         var data = JSON.parse(fs.read(testingEnvironmentOverridePath));
@@ -32,6 +33,33 @@ TestingEnvironment.prototype.reload = function () {
             this[key] = data[key];
         }
     }
+};
+
+/**
+ * Overrides a config entry.
+ *
+ * You can use this method either to set one specific config value `overrideConfig(group, name, value)`
+ * or you can set a whole group of values `overrideConfig(group, valueObject)`.
+ */
+TestingEnvironment.prototype.overrideConfig = function (group, name, value) {
+    if (!name) {
+        return;
+    }
+
+    if (!this['configOverride']) {
+        this['configOverride'] = {};
+    }
+
+    if ((typeof value) === 'undefined') {
+        this['configOverride'][group] = name;
+        return;
+    }
+
+    if (!this['configOverride'][group]) {
+        this['configOverride'][group] = {};
+    }
+
+    this['configOverride'][group][name] = value;
 };
 
 TestingEnvironment.prototype.save = function () {
