@@ -1,7 +1,31 @@
 <?php
 // piwik.php test harness
 
-require_once(dirname(__FILE__).'/SQLite.php');
+if (!defined('PIWIK_DOCUMENT_ROOT')) {
+	define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) . '/../..');
+}
+
+define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
+
+
+require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
+
+$environment = new \Piwik\Application\Environment(null);
+$environment->init();
+$dbConfig = Piwik\Config::getInstance()->database_tests;
+$dbConfig['dbname'] = 'tracker_tests';
+
+try {
+	Piwik\Db::createDatabaseObject($dbConfig);
+} catch (Exception $e) {
+	$dbInfosConnectOnly = $dbConfig;
+	$dbInfosConnectOnly['dbname'] = null;
+	Piwik\Db::createDatabaseObject($dbInfosConnectOnly);
+	Piwik\DbHelper::createDatabase($dbConfig['dbname']);
+	Piwik\Db::createDatabaseObject($dbConfig);
+}
+
+$db = Piwik\Db::get();
 
 function sendWebBug() {
 	$trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
@@ -14,25 +38,14 @@ function isPost()
     return $_SERVER['REQUEST_METHOD'] == 'POST';
 }
 
-if (!file_exists("enable_sqlite")) {
+if (!Piwik\Db::hasDatabaseObject()) {
 	sendWebBug();
 	exit;
 }
 
-if (!class_exists('SQLite')) {
-	sendWebBug();
-	exit;
-}
-
-$sqlite = new SQLite( 'unittest2.dbf' );
-if (!$sqlite) {
-	header("HTTP/1.0 500 Internal Server Error");
-	exit;
-}
-
-function getNextRequestId($sqlite, $token)
+function getNextRequestId($db, $token)
 {
-    $requests = $sqlite->query_array("SELECT uri FROM requests WHERE token = \"$token\"");
+    $requests = $db->fetchAll("SELECT uri FROM requests WHERE token = \"$token\"");
 
     if (empty($requests)) {
         return 1;
@@ -41,17 +54,14 @@ function getNextRequestId($sqlite, $token)
     return count($requests) + 1;
 }
 
-if (filesize(dirname(__FILE__).'/unittest2.dbf') == 0)
-{
-	try {
-		$query = @$sqlite->exec( 'CREATE TABLE requests (requestid TEXT, token TEXT, ip TEXT, ts TEXT, uri TEXT, referer TEXT, ua TEXT)' );
-	} catch (Exception $e) {
-		header("HTTP/1.0 500 Internal Server Error");
-		exit;
-	}
+try {
+	$db->query( 'CREATE TABLE IF NOT EXISTS `requests` (requestid TEXT, token TEXT, ip TEXT, ts TEXT, uri TEXT, referer TEXT, ua TEXT) DEFAULT CHARSET=utf8' );
+} catch (Exception $e) {
+	header("HTTP/1.0 500 Internal Server Error");
+	exit;
 }
 
-function logRequest($sqlite, $uri, $data) {
+function logRequest($db, $uri, $data) {
     $ip = $_SERVER['REMOTE_ADDR'];
     $ts = $_SERVER['REQUEST_TIME'];
 
@@ -62,9 +72,9 @@ function logRequest($sqlite, $uri, $data) {
 
     $token = isset($data['token']) ? $data['token'] : '';
 
-    $id = getNextRequestId($sqlite, $token);
+    $id = getNextRequestId($db, $token);
 
-    $query = $sqlite->exec("INSERT INTO requests (requestid, token, ip, ts, uri, referer, ua) VALUES (\"$id\", \"$token\", \"$ip\", \"$ts\", \"$uri\", \"$referrer\", \"$ua\")");
+    $query = $db->query("INSERT INTO requests (requestid, token, ip, ts, uri, referer, ua) VALUES (\"$id\", \"$token\", \"$ip\", \"$ts\", \"$uri\", \"$referrer\", \"$ua\")");
 
     return $query;
 }
@@ -76,7 +86,7 @@ if (isset($_GET['requests'])) {
 	echo "<html><head><title>$token</title></head><body>\n";
 
 //	$result = $sqlite->query_array("SELECT uri FROM requests");
-	$result = @$sqlite->query_array("SELECT uri FROM requests WHERE token = \"$token\" AND ua = \"$ua\" ORDER BY ts ASC, requestid ASC");
+	$result = @$db->fetchAll("SELECT uri FROM requests WHERE token = \"$token\" AND ua = \"$ua\" ORDER BY ts ASC, requestid ASC");
 	if ($result !== false) {
 		$nofRows = count($result);
 		echo "<span>$nofRows</span>\n";
@@ -107,7 +117,7 @@ if (isset($_GET['requests'])) {
                     $data = array('token' => $matches[1]);
                 }
 
-                $query = $query && logRequest($sqlite, $uri . $request, $data);
+                $query = $query && logRequest($db, $uri . $request, $data);
             }
         } else {
 
@@ -115,16 +125,13 @@ if (isset($_GET['requests'])) {
                 $uri .= '?' . file_get_contents('php://input');
             }
 
-            $query = logRequest($sqlite, $uri, $data);
+            $query = logRequest($db, $uri, $data);
         }
 
 		if (!$query) {
 			header("HTTP/1.0 500 Internal Server Error");
 		} else {
-//			echo 'Number of rows modified: ', $sqlite->changes();
 			sendWebBug();
 		}
 	}
 }
-
-$sqlite->close();
