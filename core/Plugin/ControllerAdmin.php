@@ -124,13 +124,23 @@ abstract class ControllerAdmin extends Controller
 
     private static function notifyWhenPhpVersionIsEOL()
     {
-        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && self::isPhpVersion53();
+        $deprecatedMajorPhpVersion = null;
+        if(self::isPhpVersion53()) {
+            $deprecatedMajorPhpVersion = '5.3';
+        } elseif(self::isPhpVersion54()) {
+            $deprecatedMajorPhpVersion = '5.4';
+        }
+
+        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && $deprecatedMajorPhpVersion;
         if (!$notifyPhpIsEOL) {
             return;
         }
-        $message = Piwik::translate('General_WarningPiwikWillStopSupportingPHPVersion')
+
+        $nextRequiredMinimumPHP = '5.5';
+
+        $message = Piwik::translate('General_WarningPiwikWillStopSupportingPHPVersion', array($deprecatedMajorPhpVersion, $nextRequiredMinimumPHP))
             . "\n "
-            . Piwik::translate('General_WarningPhpVersionXIsTooOld', '5.3');
+            . Piwik::translate('General_WarningPhpVersionXIsTooOld', $deprecatedMajorPhpVersion);
 
         $notification = new Notification($message);
         $notification->title = Piwik::translate('General_Warning');
@@ -138,7 +148,7 @@ abstract class ControllerAdmin extends Controller
         $notification->context = Notification::CONTEXT_WARNING;
         $notification->type = Notification::TYPE_TRANSIENT;
         $notification->flags = Notification::FLAG_NO_CLEAR;
-        NotificationManager::notify('PHP53VersionCheck', $notification);
+        NotificationManager::notify('DeprecatedPHPVersionCheck', $notification);
     }
 
     private static function notifyWhenDebugOnDemandIsEnabled($trackerSetting)
@@ -242,5 +252,10 @@ abstract class ControllerAdmin extends Controller
     private static function isPhpVersion53()
     {
         return strpos(PHP_VERSION, '5.3') === 0;
+    }
+
+    private static function isPhpVersion54()
+    {
+        return strpos(PHP_VERSION, '5.4') === 0;
     }
 }
