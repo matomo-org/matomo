@@ -134,6 +134,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/trim.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/pretty-url.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/htmldecode.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/ucfirst.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/autocomplete-matched.js";

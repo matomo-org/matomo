@@ -61,7 +61,7 @@ class Menu extends \Piwik\Plugin\Menu
         if (!Piwik::isUserIsAnonymous()) {
             $menu->addManageItem('CoreAdminHome_TrackingCode',
                 $this->urlForAction('trackingCodeGenerator'),
-                $order = 10);
+                $order = 20);
 
             if (SettingsManager::hasUserPluginsSettingsForCurrentUser()) {
                 $menu->addPersonalItem('CoreAdminHome_PluginSettings',

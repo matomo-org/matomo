@@ -8,10 +8,12 @@
  */
 namespace Piwik\Plugins\CustomVariables;
 
+use Piwik\API\Request;
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 
 /**
@@ -71,6 +73,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+
         if ($flat) {
             $dataTable->filterSubtables('Piwik\Plugins\CustomVariables\DataTable\Filter\CustomVariablesValuesFromNameId');
         } else {
@@ -109,9 +112,62 @@ class API extends \Piwik\Plugin\API
             // Hack Ecommerce product price tracking to display correctly
             $dataTable->renameColumn('price_viewed', 'price');
         }
+
         $dataTable->filter('Piwik\Plugins\CustomVariables\DataTable\Filter\CustomVariablesValuesFromNameId');
 
         return $dataTable;
+    }
+
+    /**
+     * Get a list of all available custom variable slots (scope + index) and which names have been used so far in
+     * each slot since the beginning of the website.
+     *
+     * @param int $idSite
+     * @return array
+     */
+    public function getUsagesOfSlots($idSite)
+    {
+        Piwik::checkUserHasAdminAccess($idSite);
+
+        $numVars = CustomVariables::getNumUsableCustomVariables();
+
+        $usedCustomVariables = array(
+            'visit' => array_fill(1, $numVars, array()),
+            'page'  => array_fill(1, $numVars, array()),
+        );
+
+        /** @var DataTable $customVarUsages */
+        $customVarUsages = Request::processRequest('CustomVariables.getCustomVariables',
+            array('idSite' => $idSite, 'period' => 'range', 'date' => '2008-12-12,today',
+                  'format' => 'original', 'serialize' => '0')
+        );
+
+        foreach ($customVarUsages->getRows() as $row) {
+            $slots = $row->getMetadata('slots');
+
+            if (!empty($slots)) {
+                foreach ($slots as $slot) {
+                    $usedCustomVariables[$slot['scope']][$slot['index']][] = array(
+                        'name' => $row->getColumn('label'),
+                        'nb_visits' => $row->getColumn('nb_visits'),
+                        'nb_actions' => $row->getColumn('nb_actions'),
+                    );
+                }
+            }
+        }
+
+        $grouped = array();
+        foreach ($usedCustomVariables as $scope => $scopes) {
+            foreach ($scopes as $index => $cvars) {
+                $grouped[] = array(
+                    'scope' => $scope,
+                    'index' => $index,
+                    'usages' => $cvars
+                );
+            }
+        }
+
+        return $grouped;
     }
 }
 

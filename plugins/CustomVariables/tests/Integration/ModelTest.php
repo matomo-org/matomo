@@ -19,7 +19,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ModelTest extends IntegrationTestCase
 {
-    private static $cvarScopes = array('log_link_visit_action', 'log_visit', 'log_conversion');
+    private static $cvarScopes = array('page', 'visit', 'conversion');
 
     public function setUp()
     {

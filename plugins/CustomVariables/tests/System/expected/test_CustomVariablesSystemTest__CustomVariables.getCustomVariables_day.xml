@@ -3,6 +3,12 @@
 	<row>
 		<label>Name_PAGE_1</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>1</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_PAGE_1</segment>
 		<subtable>
 			<row>
@@ -15,6 +21,12 @@
 	<row>
 		<label>Name_PAGE_2</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>2</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_PAGE_2</segment>
 		<subtable>
 			<row>
@@ -27,6 +39,12 @@
 	<row>
 		<label>Name_PAGE_3</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>3</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_PAGE_3</segment>
 		<subtable>
 			<row>
@@ -39,6 +57,12 @@
 	<row>
 		<label>Name_PAGE_4</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>4</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_PAGE_4</segment>
 		<subtable>
 			<row>
@@ -51,6 +75,12 @@
 	<row>
 		<label>Name_PAGE_5</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>5</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_PAGE_5</segment>
 		<subtable>
 			<row>
@@ -63,6 +93,12 @@
 	<row>
 		<label>Name_PAGE_6</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>6</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_PAGE_6</segment>
 		<subtable>
 			<row>
@@ -75,6 +111,12 @@
 	<row>
 		<label>Name_PAGE_7</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>7</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_PAGE_7</segment>
 		<subtable>
 			<row>
@@ -87,6 +129,12 @@
 	<row>
 		<label>Name_PAGE_8</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>8</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_PAGE_8</segment>
 		<subtable>
 			<row>
@@ -113,6 +161,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>1</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_VISIT_1</segment>
 		<subtable>
 			<row>
@@ -152,6 +206,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>2</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_VISIT_2</segment>
 		<subtable>
 			<row>
@@ -191,6 +251,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>3</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_VISIT_3</segment>
 		<subtable>
 			<row>
@@ -230,6 +296,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>4</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_VISIT_4</segment>
 		<subtable>
 			<row>
@@ -269,6 +341,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>5</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_VISIT_5</segment>
 		<subtable>
 			<row>
@@ -308,6 +386,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>6</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_VISIT_6</segment>
 		<subtable>
 			<row>
@@ -347,6 +431,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>7</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_VISIT_7</segment>
 		<subtable>
 			<row>
@@ -386,6 +476,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>8</index>
+			</row>
+		</slots>
 		<segment>customVariableName==Name_VISIT_8</segment>
 		<subtable>
 			<row>
