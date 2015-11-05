@@ -873,7 +873,7 @@
 		<result prettyDate="Tuesday, February 2, 2010"/>
 		<result prettyDate="Wednesday, February 3, 2010"/>
 		<result prettyDate="Thursday, February 4, 2010">
-		<row>
+			<row>
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
