@@ -85,7 +85,6 @@ if (isset($_GET['requests'])) {
 
 	echo "<html><head><title>$token</title></head><body>\n";
 
-//	$result = $sqlite->query_array("SELECT uri FROM requests");
 	$result = @$db->fetchAll("SELECT uri FROM requests WHERE token = \"$token\" AND ua = \"$ua\" ORDER BY ts ASC, requestid ASC");
 	if ($result !== false) {
 		$nofRows = count($result);
