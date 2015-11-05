@@ -2,7 +2,7 @@
     {% if name|slice(0,1) != '_' %}
         <li role="menuitem" title="{{ name|translate|e('html_attr') }}">
             <a class="item" href="{% if anchorlink %}#{% else %}index.php?{% endif %}{{ url|urlRewriteWithParameters|slice(1) }}">
-                {{ name|translate|e('html_attr') }}
+                {{ name|translate }}
             </a>
         </li>
     {% endif %}
@@ -15,7 +15,7 @@
                 <a class="item menuItem"
                    href='{% if anchorlink %}#?{% else %}index.php?{% endif %}{{ item.url|urlRewriteWithParameters|slice(1) }}'
                    {% if item.tooltip %}title="{{ item.tooltip|e('html_attr') }}"{% endif %}>
-                    {{ item.name|translate|e('html_attr') }}
+                    {{ item.name|translate }}
                 </a>
             {% endfor %}
         </div>
@@ -47,8 +47,7 @@
                 {% if hasSubmenuItem %}
                     <li role="menuitem" class="menuTab" title="{{ level1|translate|e('html_attr') }}" id="{% if level2._url is defined and level2._url is not empty %}{{ _self.getId(level2._url) }}{% endif %}">
                         <a class="item" href="">
-                            <span class="menu-icon {{ level2._icon|default('icon-arrow-right') }}"></span>
-                            {{ level1|translate|e('html_attr') }}
+                            <span class="menu-icon {{ level2._icon|default('icon-arrow-right') }}"></span>{{ level1|translate }}
                         </a>
 
                         <ul role="menu" title="{{ level1|translate|e('html_attr') }}">
