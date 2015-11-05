@@ -499,7 +499,7 @@ class Manager
     {
         $existingPlugins = $this->readPluginsDirectory();
         $isPluginInFilesystem = array_search($pluginName, $existingPlugins) !== false;
-        return Filesystem::isValidFilename($pluginName)
+        return $this->isValidPluginName($pluginName)
         && $isPluginInFilesystem;
     }
 
@@ -896,6 +896,11 @@ class Manager
         return $newPlugin;
     }
 
+    public function isValidPluginName($pluginName)
+    {
+        return (bool) preg_match('/^[a-zA-Z]([a-zA-Z0-9]*)$/D', $pluginName);
+    }
+
     /**
      * @param $pluginName
      * @return Plugin
@@ -906,8 +911,8 @@ class Manager
         $pluginFileName = sprintf("%s/%s.php", $pluginName, $pluginName);
         $pluginClassName = $pluginName;
 
-        if (!Filesystem::isValidFilename($pluginName)) {
-            throw new \Exception(sprintf("The plugin filename '%s' is not a valid filename", $pluginFileName));
+        if (!$this->isValidPluginName($pluginName)) {
+            throw new \Exception(sprintf("The plugin filename '%s' is not a valid plugin name", $pluginFileName));
         }
 
         $path = self::getPluginsDirectory() . $pluginFileName;

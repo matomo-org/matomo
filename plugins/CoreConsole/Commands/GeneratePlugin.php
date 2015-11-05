@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Filesystem;
 use Piwik\Plugins\ExamplePlugin\ExamplePlugin;
 use Piwik\Version;
+use Piwik\Plugin;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -125,8 +126,8 @@ class GeneratePlugin extends GeneratePluginBase
                 throw new \RuntimeException('You have to enter a plugin name');
             }
 
-            if (!Filesystem::isValidFilename($pluginName)) {
-                throw new \RuntimeException(sprintf('The plugin name %s is not valid', $pluginName));
+            if (!Plugin\Manager::getInstance()->isValidPluginName($pluginName)) {
+                throw new \RuntimeException(sprintf('The plugin name %s is not valid. The name must start with a letter and is only allowed to contain numbers and letters.', $pluginName));
             }
 
             $pluginPath = $self->getPluginPath($pluginName);
