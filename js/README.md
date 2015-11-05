@@ -48,9 +48,6 @@ The js/ folder contains:
 * In a production environment, the tests/javascript folder is not used and can
   be removed (if present).
 
-  Note: if the file "js/tests/enable_sqlite" exists, additional unit tests
-  (requires the sqlite extension) are enabled.
-
 * We use /*! to include Piwik's license header in the minified source. Read
   Stallman's "The JavaScript Trap" for more information.
 
