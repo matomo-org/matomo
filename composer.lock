@@ -959,15 +959,26 @@
             "time": "2015-10-07 10:17:59"
         },
         {
-            "name": "piwik/searchengine-and-social-definitions",
-            "version": "master",
+            "name": "piwik/searchengine-and-social-list",
+            "version": "1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sgiehl/searchengine-and-social-definitions",
-                "reference": "master"
+                "url": "https://github.com/piwik/searchengine-and-social-list.git",
+                "reference": "e2b97a1cd9ed2dde735de49f8ef9afc26b3df80b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/piwik/searchengine-and-social-list/zipball/e2b97a1cd9ed2dde735de49f8ef9afc26b3df80b",
+                "reference": "e2b97a1cd9ed2dde735de49f8ef9afc26b3df80b",
+                "shasum": ""
             },
             "type": "library",
-            "time": "2015-10-31 15:36:36"
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Public Domain"
+            ],
+            "description": "Search engine and social network definitions used by Piwik",
+            "time": "2015-11-06 21:32:51"
         },
         {
             "name": "psr/log",
@@ -2656,7 +2667,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "php-di/php-di": 10,
-        "piwik/searchengine-and-social-definitions": 20,
         "facebook/xhprof": 20
     },
     "prefer-stable": false,
