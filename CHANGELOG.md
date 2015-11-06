@@ -5,6 +5,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ## Piwik 2.15.1
 
 ### Internal change
+ * When generating a new plugin skeleton via `generate:plugin` command, plugin name must now contain only letters and numbers.
  * JavaScript Tracker tests no longer require `SQLite`. The existing MySQL configuration for tests is used now. In order to run the tests make sure Piwik is installed and `[database_tests]` is configured in `config/config.ini.php`.
  
  
