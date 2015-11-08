@@ -247,7 +247,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
         $view->pluginsInfo = $this->getPluginsInfo($themesOnly);
 
-        $users = \Piwik\Plugins\UsersManager\API::getInstance()->getUsers();
+        $users = Request::processRequest('UsersManager.getUsers');
         $view->otherUsersCount = count($users) - 1;
         $view->themeEnabled = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled()->getPluginName();
 

@@ -106,7 +106,7 @@ class Controller extends ControllerAdmin
         if (Piwik::isUserHasSomeAdminAccess()) {
             $view->showLastSeen = true;
 
-            $users = APIUsersManager::getInstance()->getUsers();
+            $users = Request::processRequest('UsersManager.getUsers');
             foreach ($users as $index => $user) {
                 $usersAliasByLogin[$user['login']] = $user['alias'];
 
