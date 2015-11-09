@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\ArchiveProcessor;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker;
@@ -80,25 +81,8 @@ class CustomVariables extends \Piwik\Plugin
         $cacheKey = 'CustomVariables.NumUsableCustomVariables';
 
         if (!array_key_exists($cacheKey, $cache)) {
-
-            $minCustomVar = null;
-
-            foreach (Model::getScopes() as $scope) {
-                $model = new Model($scope);
-                $highestIndex = $model->getHighestCustomVarIndex();
-
-                if (!isset($minCustomVar)) {
-                    $minCustomVar = $highestIndex;
-                }
-
-                if ($highestIndex < $minCustomVar) {
-                    $minCustomVar = $highestIndex;
-                }
-            }
-
-            if (!isset($minCustomVar)) {
-                $minCustomVar = 0;
-            }
+            $metadataProvider = StaticContainer::get('Piwik\Plugins\CustomVariables\CustomVariablesMetadataProvider');
+            $minCustomVar = $metadataProvider->getNumUsableCustomVariables();
 
             $cache[$cacheKey] = $minCustomVar;
             Cache::setCacheGeneral($cache);

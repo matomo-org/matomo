@@ -162,34 +162,22 @@ class AutoSuggestAPITest extends SystemTestCase
 
         $segments = array();
 
-        $environment = new Environment(null);
+        $environment = new Environment(null, self::provideContainerConfigBeforeClass());
 
         $exception = null;
         try {
             $environment->init();
             $environment->getContainer()->get('Piwik\Plugin\Manager')->loadActivatedPlugins();
 
-            foreach (Dimension::getAllDimensions() as $dimension) {
-                if ($dimension instanceof CustomVariableName
-                    || $dimension instanceof CustomVariableValue
-                ) {
-                    continue; // added manually below
-                }
+            /** @var \Piwik\Plugins\API\API $api */
+            $api = $environment->getContainer()->get('Piwik\Plugins\API\API');
 
-                foreach ($dimension->getSegments() as $segment) {
-                    $segments[] = $segment->getSegment();
-                }
+            $segments = array();
+            foreach ($api->getSegmentsMetadata(self::$fixture->idSite) as $segmentInfo) {
+                $segments[] = $segmentInfo['segment'];
             }
-
-            // add CustomVariables manually since the data provider may not have access to the DB
-            for ($i = 1; $i != Model::DEFAULT_CUSTOM_VAR_COUNT + 1; ++$i) {
-                $segments = array_merge($segments, self::getCustomVariableSegments($i));
-            }
-            $segments = array_merge($segments, self::getCustomVariableSegments());
         } catch (\Exception $ex) {
             $exception = $ex;
-
-            echo $ex->getMessage()."\n".$ex->getTraceAsString()."\n";
         }
 
         $environment->destroy();
@@ -201,22 +189,14 @@ class AutoSuggestAPITest extends SystemTestCase
         return $segments;
     }
 
-    private static function getCustomVariableSegments($columnIndex = null)
+    public static function provideContainerConfigBeforeClass()
     {
-        $result = array(
-            'customVariableName',
-            'customVariableValue',
-            'customVariablePageName',
-            'customVariablePageValue',
+        return array(
+
+            'Piwik\Plugins\CustomVariables\CustomVariablesMetadataProvider' =>
+                \DI\get('Piwik\Plugins\CustomVariables\tests\Mock\CustomVariablesMetadataProvider'),
+
         );
-
-        if ($columnIndex !== null) {
-            foreach ($result as &$name) {
-                $name = $name . $columnIndex;
-            }
-        }
-
-        return $result;
     }
 }
 

@@ -26,21 +26,11 @@ class Cache
     private static $cacheIdGeneral = 'general';
 
     /**
-     * Public for tests only
-     * @var \Piwik\Cache\Lazy
-     */
-    public static $cache;
-
-    /**
      * @return \Piwik\Cache\Lazy
      */
     private static function getCache()
     {
-        if (is_null(self::$cache)) {
-            self::$cache = PiwikCache::getLazyCache();
-        }
-
-        return self::$cache;
+        return PiwikCache::getLazyCache();
     }
 
     private static function getTtl()
