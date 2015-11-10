@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\API\Request;
 use Piwik\Archive;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
@@ -137,8 +138,10 @@ class API extends \Piwik\Plugin\API
         );
 
         /** @var DataTable $customVarUsages */
+        $today = StaticContainer::get('CustomVariables.today');
+        $date = '2008-12-12,' . $today;
         $customVarUsages = Request::processRequest('CustomVariables.getCustomVariables',
-            array('idSite' => $idSite, 'period' => 'range', 'date' => '2008-12-12,today',
+            array('idSite' => $idSite, 'period' => 'range', 'date' => $date,
                   'format' => 'original', 'serialize' => '0')
         );
 
