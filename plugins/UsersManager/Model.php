@@ -245,11 +245,14 @@ class Model
     public function addUserAccess($userLogin, $access, $idSites)
     {
         foreach ($idSites as $idsite) {
-            $this->getDb()->insert(Common::prefixTable("access"),
-                array("idsite" => $idsite,
-                      "login"  => $userLogin,
-                      "access" => $access)
-            );
+            $count = $this->getDb()->fetchOne("SELECT count(*) FROM " . Common::prefixTable("site"). " WHERE idsite = ?",$idsite);
+            if($count != 0){
+                 $this->getDb()->insert(Common::prefixTable("access"),
+                    array("idsite" => $idsite,
+                         "login"  => $userLogin,
+                         "access" => $access)
+                );
+            }
         }
     }
 
