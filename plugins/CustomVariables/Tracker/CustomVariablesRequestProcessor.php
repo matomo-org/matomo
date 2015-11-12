@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\CustomVariables\Tracker;
 
 use Piwik\Common;
-use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\CustomVariables\Model;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestProcessor;
