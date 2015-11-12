@@ -115,7 +115,7 @@
         "SystemCheckZlibHelp": "Vous devez reconfigurer et recompiler PHP avec le support zlib, --with-zlib.",
         "SystemCheckCronArchiveProcess": "Tâche Cron d'archivage",
         "SystemCheckCronArchiveProcessCLI": "Gestion des processus via la ligne de commande",
-        "SystemCheckPhpSetting": "Pour éviter certaines erreurs critique, vous devez définier les entrées suivantes dans votre fichier php.ini : %s",
+        "SystemCheckPhpSetting": "Pour éviter certaines erreurs critique, vous devez définir les entrées suivantes dans votre fichier php.ini : %s",
         "SystemCheckUpdateHttps": "Mettre à jour via HTTPS",
         "SystemCheckUpdateHttpsNotSupported": "Piwik ne peut pas utiliser du HTTPS pour se mettre à jour, il va rétrograder vers une mise à jour utilisant du HTTP non sécurisé. Vérifiez que CURL ou allow_url_fopen est supporté et que l'extesion PHP openssl est installée: http:\/\/piwik.org\/faq\/troubleshooting\/faq_177\/",
         "NotSupported": "non supporté",
