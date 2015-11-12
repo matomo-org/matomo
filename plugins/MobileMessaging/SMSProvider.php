@@ -37,6 +37,12 @@ abstract class SMSProvider extends BaseFactory
 			</li>
 			</ul>
 			',
+		'FreeMobile' => 'You can use your Free Mobile contract to send SMS Reports from Piwik to yourself.<br/>
+			<ul><li>First, activate option on your account settings</li>
+			<li>Enter your FreeMobile user and password on API key input. They must be enter in this form "user pass"</li></ul>
+			<br/><em>About Free Mobile</em><ul>
+			<li>Free Mobile can be send SMS only to contract owner</li>
+			<li>Free Mobile are French Network Operator</li></ul>',
     );
 
     protected static function getClassNameFromClassId($id)
