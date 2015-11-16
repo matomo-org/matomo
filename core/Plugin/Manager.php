@@ -440,16 +440,10 @@ class Manager
     public function installLoadedPlugins()
     {
         Log::debug("Loaded plugins: " . implode(", ", array_keys($this->getLoadedPlugins())));
-        $messages = array();
+        
         foreach ($this->getLoadedPlugins() as $plugin) {
-            try {
-                $this->installPluginIfNecessary($plugin);
-            } catch (\Exception $e) {
-                $messages[] = $e->getMessage();
-            }
+            $this->installPluginIfNecessary($plugin);
         }
-
-        return $messages;
     }
 
     /**
