@@ -1535,6 +1535,14 @@ if (typeof Piwik !== 'object') {
          * Fix-up URL when page rendered from search engine cache or translated page
          */
         function urlFixup(hostName, href, referrer) {
+            if (!hostName) {
+                hostName = '';
+            }
+
+            if (!href) {
+                href = '';
+            }
+
             if (hostName === 'translate.googleusercontent.com') {       // Google
                 if (referrer === '') {
                     referrer = href;
