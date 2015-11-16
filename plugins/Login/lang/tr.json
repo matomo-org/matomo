@@ -1,13 +1,18 @@
 {
     "Login": {
+        "ConfirmationLinkSent": "Onaylama bağlantısı gelen kutunuza gönderildi. Şifre değişikliğinı onaylamak için e-posta hesabınızı kontrol edin ve bağlantıyı ziyaret edin.",
+        "ContactAdmin": "Olası nedeni: Sunucunuzda mail() fonksiyonunu devre dışı bırakmış olabilir. <br \/>Lütfen Piwik yöneticinizle iletişime geçiniz.",
         "InvalidOrExpiredToken": "Güvenlik kodu yanlış yada süresi dolmuş.",
         "InvalidUsernameEmail": "Geçersiz kullanıcı adı ve\/veya e-posta adresi",
         "LogIn": "Oturum aç",
         "LoginOrEmail": "Giriş veya E-posta",
         "LoginPasswordNotCorrect": "Kullanıcı adı & Şifre yanlış",
         "LostYourPassword": "Şifrenizi mi unuttunuz?",
+        "MailTopicPasswordChange": "Parola Değişikliğini Onayla",
+        "PasswordChanged": "Parolanız değiştirildi.",
         "PasswordRepeat": "Şifre (Tekrar)",
         "PasswordsDoNotMatch": "Şifre eşleşmedi",
-        "RememberMe": "Beni Hatırla"
+        "RememberMe": "Beni Hatırla",
+        "ResetPasswordInstructions": "Hesabınız için yeni parolanızı giriniz."
     }
 }

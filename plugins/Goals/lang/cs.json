@@ -64,7 +64,7 @@
         "Goals": "Cíle",
         "ManageGoals": "Spravovat cíle",
         "GoalsOverview": "Přehled cílů",
-        "GoalsOverviewDocumentation": "Toto je přehled vašich konverzí cílů. VNe vchozím stavu graf zobrazuje součet všech konverzí. %s Pod grafem jsou zobrazena hlášení pro každý cíl. Můžete je zvětšit kliknutím, pokud chcete.",
+        "GoalsOverviewDocumentation": "Toto je přehled vašich konverzí cílů. Ve výchozím stavu graf zobrazuje součet všech konverzí. %s Pod grafem jsou zobrazena hlášení pro každý cíl. Můžete je zvětšit kliknutím, pokud chcete.",
         "GoalX": "Cíl: %s",
         "HelpOneConversionPerVisit": "Pokud byla stránka odpovídající cíli při návštěvě obnovena nebo zobrazena vícekrát, bude cíl započítán pouze jednou a to při prvním zobrazení.",
         "IsExactly": "je přesně %s",
@@ -86,7 +86,7 @@
         "PluginDescription": "Vytvořte cíle a sledujte detailní hlášení o jejich konverzích: vývoj v čase, příjem za návštěvu, konverze prro referrer, pro klíčové slovo a více.",
         "ProductCategory": "Kategorie produktu",
         "ProductName": "Název produktu",
-        "Products": "Produktů",
+        "Products": "Produkty",
         "ProductSKU": "SKU produktu",
         "ReturningVisitorsConversionRateIs": "Poměr konverze navracejících se uživatelů je %s",
         "SingleGoalOverviewDocumentation": "Toto je přehled konverzí jednoho cíle. %s Linky lze zvětšit kliknutím na ně.",
@@ -101,7 +101,7 @@
         "VisitUrl": "Navštívít zadanou URL (stránku, nebo skupiny stránek)",
         "WhenVisitors": "když návštěvníci",
         "WhereThe": "když",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "kde návštívená stránka obsahuhe volání metody JavaScriptu piwikTracker.trackGoal() (%svíce%s)",
-        "YouCanEnableEcommerceReports": "Pro tyto stránky můžete %s povolit na stránce %s."
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "kde navštívená stránka obsahuhe volání metody JavaScriptu 'trackGoal' (%svíce%s)",
+        "YouCanEnableEcommerceReports": "Pro tyto stránky můžete povolit %s na stránce %s."
     }
 }

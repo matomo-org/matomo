@@ -20,7 +20,7 @@
         "IncludeRowsWithLowPopulation": "Řádky s nízkou populací jsou skryty %s Zobrazit všechny řádky",
         "InjectedHostEmailBody": "Ahoj. Dnes jsem se snažil dostat do \\Piwiku a dostal jsem varování o neznámém ménu hostitele.",
         "InjectedHostEmailSubject": "K piwiku bylo přistupováno s neznámým jménem hostitele %s",
-        "InjectedHostNonSuperUserWarning": "%1$sKlikněte zde pro bezpečný přístup k Piwiku%2$s a odstranění tohoto varování. Pokud chcete upozornit administrátora na tento problém, %3$sklikněte zde pro odeslání e-mailu%4$s.",
+        "InjectedHostNonSuperUserWarning": "%1$sKlikněte zde pro bezpečný přístup k Piwiku%2$s a odstranění tohoto varování. Pokud chcete upozornit administrátora na tento problém, %3$sklikněte zde pro odeslání emailu%4$s.",
         "InjectedHostSuperUserWarning": "Piwik může být špatně nakonfigurován, například pokud byl přesunut na nový server nebo URL. Můžete %1$skliknout zde a přidat %2$s jako platné jméno hostitele Piwiku (pokud mu důvěřujete)%3$s, nebo %4$s klikněte zde%5$s pro bezpečný přístup k Piwiku%6$s.",
         "InjectedHostWarningIntro": "Nyní přistupujete k Piwiku z %1$s, ale byl nakonfigurován, aby naslouchal na následující adrese: %2$s.",
         "JavascriptDisabled": "Musíte mít zapnutý JavaScript, jinak Piwik nezobrazíte.<br \/> Nebo jen není Váš prohlížeč mezi podporovanými.<br \/>Pro běžné zobrazení zapněte JavaScript ve svém prohlížeči, poté %1$szkuste znovu%2$s.<br \/>",
@@ -52,6 +52,7 @@
         "QuickAccessTitle": "Najít zástupce %s: Pro hledání stiskněte 'f'.",
         "MenuEntries": "Položky menu",
         "Segments": "Segmenty",
-        "AdblockIsMaybeUsed": "Pokud používáte blokovač reklam, zakažte ho pro tyto stránky, aby Piwik správně fungoval."
+        "AdblockIsMaybeUsed": "Pokud používáte blokovač reklam, zakažte ho pro tyto stránky, aby Piwik správně fungoval.",
+        "ChangeCurrentWebsite": "Vybrat webovou stránku, aktuálně vybraná stránka: %s"
     }
 }
