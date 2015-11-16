@@ -10,6 +10,7 @@
         "MetricDataByYear": "연별 통계 표",
         "MetricTables": "통계표",
         "OtherTables": "기타 표",
+        "PluginDescription": "자세한 MySQL 데이터베이스 사용 보고서를 제공합니다. 진단 상황에서 슈퍼 유저만이 사용할 수 있습니다.",
         "ReportDataByYear": "연별 보고표",
         "ReportTables": "보고표",
         "RowCount": "행 수",

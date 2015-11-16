@@ -1,5 +1,6 @@
 {
     "Widgetize": {
-        "OpenInNewWindow": "Åpne i nytt vindu"
+        "OpenInNewWindow": "Åpne i nytt vindu",
+        "TopLinkTooltip": "Eksporter Piwik-rapporter som widgeter og bygg dem inn kontrollpanelet i din app som en iframe."
     }
 }

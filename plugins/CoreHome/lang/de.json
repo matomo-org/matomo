@@ -52,6 +52,7 @@
         "QuickAccessTitle": "Suche nach %s. Tastenkürzel: Drücken Sie 'f' um zu suchen.",
         "MenuEntries": "Menüeinträge",
         "Segments": "Segmente",
-        "AdblockIsMaybeUsed": "Für den Fall, dass Sie einen Ad-Blocker verwenden, deaktivieren Sie diesen bitte für diese Seite um sicherzustellen, dass Piwik problemlos läuft."
+        "AdblockIsMaybeUsed": "Für den Fall, dass Sie einen Ad-Blocker verwenden, deaktivieren Sie diesen bitte für diese Seite um sicherzustellen, dass Piwik problemlos läuft.",
+        "ChangeCurrentWebsite": "Wählen Sie eine Webseite, aktuell gewählte Webseite: %s"
     }
 }

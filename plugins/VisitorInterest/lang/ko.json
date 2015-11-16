@@ -7,6 +7,7 @@
         "Engagement": "이용상황",
         "NPages": "%s페이지",
         "OnePage": "1페이지",
+        "PluginDescription": "방문자의 관심에 대한 보고서: 읽은 페이지 수, 웹사이트 방문 시간, 지난 마지막 방문으로부터 며칠 등",
         "VisitNum": "방문 횟수",
         "VisitsByDaysSinceLast": "마지막 방문일로부터 방문",
         "visitsByVisitCount": "방문 빈도",

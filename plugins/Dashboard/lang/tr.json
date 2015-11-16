@@ -19,6 +19,7 @@
         "NotUndo": "Bu eylemi geri alamazsınız.",
         "RemoveDashboard": "Paneli kaldır",
         "RemoveDashboardConfirm": "\"%s\" panelini kaldırmak istediğinize emin misiniz?",
+        "RemoveDefaultDashboardNotPossible": "Varsayılan pano silinemez",
         "RenameDashboard": "Panel yeniden adlandır",
         "ResetDashboard": "Paneli sıfırla",
         "ResetDashboardConfirm": "Kontrol paneli şablonunuzu varsayılan widget seçimlerine sıfırlamak istediğinizden emin misiniz?",

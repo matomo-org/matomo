@@ -3,7 +3,7 @@
         "AllReferrersReportDocumentation": "Toto hlášení zobrazuje všechny referrery v jednom uceleném hlášení, kde zobrazuje všechny webové stránky, klíčová slova a kampaně, které vaši návštěvníci při hledání vašich webových stránek použili.",
         "Campaigns": "Kampaně",
         "CampaignsDocumentation": "Návštěvníci, kteří přišli na vaše webové stránky jako výsledek kampaně. %s Pro více informací si prohlédněte hlášení %s.",
-        "CampaignsReportDocumentation": "Toto hlášení zobrazuje, jaké kampaně přivedly návštěvníky na vaše stránky. %s Pro více informací o sledování kampaní si %spřečtěte dokumentaci kampaní na piwik.org%s.",
+        "CampaignsReportDocumentation": "Toto hlášení zobrazuje, které kampaně přivedly návštěvníky na vaše stránky. %s Pro více informací o sledování kampaní si %spřečtěte dokumentaci kampaní na piwik.org%s.",
         "ColumnCampaign": "Kampaň",
         "ColumnSearchEngine": "Vyhledávací stroj",
         "ColumnSocial": "Sociální síť",
