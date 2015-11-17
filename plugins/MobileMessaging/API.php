@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\MobileMessaging;
 
-use Piwik\Common;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
@@ -25,15 +24,6 @@ class API extends \Piwik\Plugin\API
 {
     const VERIFICATION_CODE_LENGTH = 5;
     const SMS_FROM = 'Piwik';
-
-    /**
-     * @param string $provider
-     * @return SMSProvider
-     */
-    private static function getSMSProviderInstance($provider)
-    {
-        return SMSProvider::factory($provider);
-    }
 
     /**
      * determine if SMS API credential are available for the current user
@@ -83,7 +73,7 @@ class API extends \Piwik\Plugin\API
     {
         $this->checkCredentialManagementRights();
 
-        $smsProviderInstance = self::getSMSProviderInstance($provider);
+        $smsProviderInstance = SMSProvider::factory($provider);
         $smsProviderInstance->verifyCredential($apiKey);
 
         $settings = $this->getCredentialManagerSettings();
@@ -160,7 +150,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserIsNotAnonymous();
 
         $credential = $this->getSMSAPICredential();
-        $SMSProvider = self::getSMSProviderInstance($credential[MobileMessaging::PROVIDER_OPTION]);
+        $SMSProvider = SMSProvider::factory($credential[MobileMessaging::PROVIDER_OPTION]);
         $SMSProvider->sendSMS(
             $credential[MobileMessaging::API_KEY_OPTION],
             $content,
@@ -183,7 +173,7 @@ class API extends \Piwik\Plugin\API
         $this->checkCredentialManagementRights();
 
         $credential = $this->getSMSAPICredential();
-        $SMSProvider = self::getSMSProviderInstance($credential[MobileMessaging::PROVIDER_OPTION]);
+        $SMSProvider = SMSProvider::factory($credential[MobileMessaging::PROVIDER_OPTION]);
         return $SMSProvider->getCreditLeft(
             $credential[MobileMessaging::API_KEY_OPTION]
         );
