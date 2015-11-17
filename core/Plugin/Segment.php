@@ -51,6 +51,7 @@ class Segment
     private $acceptValues;
     private $permission;
     private $suggestedValuesCallback;
+    private $unionOfSegments;
 
     /**
      * If true, this segment will only be visible to the user if the user has view access
@@ -168,6 +169,27 @@ class Segment
     }
 
     /**
+     * Set a list of segments that should be used instead of fetching the values from a single column.
+     * All set segments will be applied via an OR operator.
+     *
+     * @param array $segments
+     * @api
+     */
+    public function setUnionOfSegments($segments)
+    {
+        $this->unionOfSegments = $segments;
+    }
+
+    /**
+     * @return array
+     * @ignore
+     */
+    public function getUnionOfSegments()
+    {
+        return $this->unionOfSegments;
+    }
+
+    /**
      * @return string
      * @ignore
      */
@@ -193,6 +215,15 @@ class Segment
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * @return string
+     * @ignore
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -240,6 +271,10 @@ class Segment
             'segment'    => $this->segment,
             'sqlSegment' => $this->sqlSegment,
         );
+
+        if (!empty($this->unionOfSegments)) {
+            $segment['unionOfSegments'] = $this->unionOfSegments;
+        }
 
         if (!empty($this->sqlFilter)) {
             $segment['sqlFilter'] = $this->sqlFilter;

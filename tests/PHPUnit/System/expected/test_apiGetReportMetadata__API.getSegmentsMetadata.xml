@@ -416,6 +416,17 @@
 	<row>
 		<type>dimension</type>
 		<category>Actions</category>
+		<name>Action URL</name>
+		<segment>actionUrl</segment>
+		<unionOfSegments>
+			<row>pageUrl</row>
+			<row>downloadUrl</row>
+			<row>outlinkUrl</row>
+		</unionOfSegments>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
 		<name>Clicked URL</name>
 		<segment>outlinkUrl</segment>
 	</row>

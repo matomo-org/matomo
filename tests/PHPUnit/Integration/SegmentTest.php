@@ -446,6 +446,32 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
+    public function test_getSelectQuery_whenUnionOfSegmentsAreUsed()
+    {
+        $select = 'log_visit.*';
+        $from = 'log_visit';
+        $where = false;
+        $bind = array();
+
+        $segment = 'actionUrl=@myTestUrl';
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+
+        $expected = array(
+            "sql"  => " SELECT log_inner.* FROM (
+                          SELECT log_visit.* FROM log_visit AS log_visit
+                          LEFT JOIN log_link_visit_action AS log_link_visit_action
+                            ON log_link_visit_action.idvisit = log_visit.idvisit
+                          WHERE (( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )
+                                OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 3 )) )
+                                OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 2 )) ) )
+                        GROUP BY log_visit.idvisit ORDER BY NULL ) AS log_inner",
+            "bind" => array('myTestUrl', 'myTestUrl', 'myTestUrl'));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
     public function test_getSelectQuery_whenJoinConversionOnAction_segmentUsesPageUrl()
     {
         $this->insertPageUrlAsAction('example.com/anypage');
