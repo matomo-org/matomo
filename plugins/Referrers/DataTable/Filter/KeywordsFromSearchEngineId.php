@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Referrers\DataTable\Filter;
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
+use Piwik\Plugins\Referrers\SearchEngine;
 
 class KeywordsFromSearchEngineId extends BaseFilter
 {
@@ -47,7 +48,7 @@ class KeywordsFromSearchEngineId extends BaseFilter
 
         if (!empty($subTableRow)) {
             $searchEngineUrl = $subTableRow->getMetadata('url');
-            $table->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', 'Piwik\Plugins\Referrers\getSearchEngineUrlFromKeywordAndUrl', array($searchEngineUrl)));
+            $table->queueFilter('ColumnCallbackAddMetadata', array('label', 'url',  function ($keyword, $url) { return SearchEngine::getInstance()->getBackLinkFromUrlAndKeyword($url, $keyword); }, array($searchEngineUrl)));
             $table->queueFilter(function (DataTable $table) {
                 $row = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);
                 if ($row) {
