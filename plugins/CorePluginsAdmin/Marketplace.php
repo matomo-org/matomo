@@ -129,9 +129,7 @@ class Marketplace
 
         // remove plugins that have updates but for some reason are not loaded
         foreach ($pluginsHavingUpdate as $key => $updatePlugin) {
-            if (empty($updatePlugin['currentVersion'])
-                || empty($updatePlugin['isActivated'])
-            ) {
+            if (empty($updatePlugin['currentVersion'])) {
                 unset($pluginsHavingUpdate[$key]);
             }
         }
