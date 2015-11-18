@@ -158,11 +158,14 @@ class SegmentExpression
             $operator = $leaf[self::INDEX_BOOL_OPERATOR];
             $operandDefinition = $leaf[self::INDEX_OPERAND];
 
-
             $operand = $this->getSqlMatchFromDefinition($operandDefinition, $availableTables);
 
             if ($operand[self::INDEX_OPERAND_OPERATOR] !== null) {
-                $this->valuesBind = array_merge($this->valuesBind, $operand[1]);
+                if (is_array($operand[self::INDEX_OPERAND_OPERATOR])) {
+                    $this->valuesBind = array_merge($this->valuesBind, $operand[self::INDEX_OPERAND_OPERATOR]);
+                } else {
+                    $this->valuesBind[] = $operand[self::INDEX_OPERAND_OPERATOR];
+                }
             }
 
             $operand = $operand[self::INDEX_OPERAND_NAME];
@@ -189,12 +192,12 @@ class SegmentExpression
      */
     protected function getSqlMatchFromDefinition($def, &$availableTables)
     {
-        $fields    = $def[0];
+        $field     = $def[0];
         $matchType = $def[1];
         $value     = $def[2];
 
         // Segment::getCleanedExpression() may return array(null, $matchType, null)
-        $operandWillNotMatchAnyRow = empty($fields) && is_null($value);
+        $operandWillNotMatchAnyRow = empty($field) && is_null($value);
         if($operandWillNotMatchAnyRow) {
             if($matchType == self::MATCH_EQUAL) {
                 // eg. pageUrl==DoesNotExist
@@ -219,10 +222,6 @@ class SegmentExpression
             }
 
             return array($sqlExpression, $value = null);
-        }
-
-        if (!is_array($fields)) {
-            $fields = array($fields);
         }
 
         $alsoMatchNULLValues = false;
@@ -289,44 +288,23 @@ class SegmentExpression
 
         // We match NULL values when rows are excluded only when we are not doing a
         $alsoMatchNULLValues = $alsoMatchNULLValues && !empty($value);
+        $sqlMatch = str_replace('%s', $field, $sqlMatch);
 
-        $sqlExpressions = array();
-        $values = array();
-        foreach ($fields as $field) {
-            $sqlMatchReplaced = str_replace('%s', $field, $sqlMatch);
-
-            if ($matchType === self::MATCH_ACTIONS_CONTAINS
-                || is_null($value)
-            ) {
-                $sqlExpression = "( $sqlMatchReplaced )";
-            } else {
-                if ($alsoMatchNULLValues) {
-                    $sqlExpression = "( $field IS NULL OR $sqlMatchReplaced ? )";
-                } else {
-                    $sqlExpression = "$sqlMatchReplaced ?";
-                }
-            }
-
-            $sqlExpressions[] = $sqlExpression;
-
-            if ($value !== null) {
-                if(is_array($value)) {
-                    $values = array_merge($values, $value);
-                } else {
-                    $values[] = $value;
-                }
-            }
-
-            $this->checkFieldIsAvailable($field, $availableTables);
-        }
-
-        if (count($fields) == 1) {
-            $sqlExpression = reset($sqlExpressions);
+        if ($matchType === self::MATCH_ACTIONS_CONTAINS
+            || is_null($value)
+        ) {
+            $sqlExpression = "( $sqlMatch )";
         } else {
-            $sqlExpression = '((' . implode(") OR (", $sqlExpressions) . '))';
+            if ($alsoMatchNULLValues) {
+                $sqlExpression = "( $field IS NULL OR $sqlMatch ? )";
+            } else {
+                $sqlExpression = "$sqlMatch ?";
+            }
         }
 
-        return array($sqlExpression, $values);
+        $this->checkFieldIsAvailable($field, $availableTables);
+
+        return array($sqlExpression, $value);
     }
 
     /**

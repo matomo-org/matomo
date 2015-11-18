@@ -14,7 +14,7 @@ class CustomVariableName extends Base
 {
     protected function configureSegments()
     {
-        $this->configureSegmentsFor('custom_var_k', 'Name');
+        $this->configureSegmentsFor('Name');
     }
 
     public function getName()
