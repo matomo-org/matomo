@@ -99,7 +99,17 @@
                     <a class="metric_category" href="#">{{ category }}</a>
                     <ul style="display:none;">
                         {% for segmentInCategory in segmentsInCategory %}
-                            <li data-metric="{{ segmentInCategory.segment }}"><a class="ddmetric" href="#">{{ segmentInCategory.name }}</a></li>
+                            {% set title = segmentInCategory.name %}
+                            {% if segmentInCategory.unionOfSegments is defined and segmentInCategory.unionOfSegments %}
+                                {% set title = 'SegmentEditor_SegmentXIsAUnionOf'|translate(title) %}
+                                {% for unionSegment in segmentInCategory.unionOfSegments %}
+                                    {% set title = title ~ ' ' ~ unionSegment %}
+                                    {% if not loop.last  %}
+                                        {% set title = title ~ ',' %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            <li data-metric="{{ segmentInCategory.segment }}" title="{{ title|e('html_attr') }}"><a class="ddmetric" href="#">{{ segmentInCategory.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
