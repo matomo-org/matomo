@@ -264,6 +264,8 @@
         "OperationIsNot": "Is not",
         "OperationLessThan": "Less than",
         "OperationNotEquals": "Not Equals",
+        "OperationStartsWith": "Starts with",
+        "OperationEndsWith": "Ends with",
         "OptionalSmtpPort": "Optional. Defaults to 25 for unencrypted and TLS SMTP, and 465 for SSL SMTP.",
         "Options": "Options",
         "OrCancel": "or %s Cancel %s",

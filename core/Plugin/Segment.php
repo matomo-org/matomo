@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik\Plugin;
+use Exception;
 
 /**
  * Creates a new segment that can be used for instance within the {@link \Piwik\Columns\Dimension::configureSegment()}
@@ -123,6 +124,7 @@ class Segment
     public function setSegment($segment)
     {
         $this->segment = $segment;
+        $this->check();
     }
 
     /**
@@ -166,6 +168,7 @@ class Segment
     public function setSqlSegment($sqlSegment)
     {
         $this->sqlSegment = $sqlSegment;
+        $this->check();
     }
 
     /**
@@ -178,6 +181,7 @@ class Segment
     public function setUnionOfSegments($segments)
     {
         $this->unionOfSegments = $segments;
+        $this->check();
     }
 
     /**
@@ -322,5 +326,16 @@ class Segment
     public function setRequiresAtLeastViewAccess($requiresAtLeastViewAccess)
     {
         $this->requiresAtLeastViewAccess = $requiresAtLeastViewAccess;
+    }
+
+    private function check()
+    {
+        if ($this->sqlSegment && $this->unionOfSegments) {
+            throw new Exception(sprintf('Union of segments and SQL segment is set for segment "%s", use only one of them', $this->name));
+        }
+
+        if ($this->segment && $this->unionOfSegments && in_array($this->segment, $this->unionOfSegments, true)) {
+            throw new Exception(sprintf('The segment %s contains a union segment to itself', $this->name));
+        }
     }
 }

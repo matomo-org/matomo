@@ -129,14 +129,6 @@ class API extends \Piwik\Plugin\API
                     $segment->setPermission($isAuthenticatedWithViewAccess);
                 }
 
-                if ($segment->getSqlSegment() && $segment->getUnionOfSegments()) {
-                    throw new \Exception(sprintf('Union of segments and SQL segment is set for segment "%s", use only one of them', $segment->getName()));
-                }
-
-                if ($segment->getUnionOfSegments() && in_array($segment->getSegment(), $segment->getUnionOfSegments(), true)) {
-                    throw new \Exception(sprintf('The segment %s contains a union segment to itself', $segment->getName()));
-                }
-
                 $segments[] = $segment->toArray();
             }
         }
