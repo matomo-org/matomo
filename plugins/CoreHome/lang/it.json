@@ -52,6 +52,7 @@
         "QuickAccessTitle": "Cerca %s. Shortcut: Premi 'f' per la ricerca.",
         "MenuEntries": "Ingressi da menù",
         "Segments": "Segmenti",
-        "AdblockIsMaybeUsed": "Se stai utilizzando un plugin di blocco della pubblicità, disabilitalo per questo sito, per essere sicuro che Piwik lavori senza problemi."
+        "AdblockIsMaybeUsed": "Se stai utilizzando un plugin di blocco della pubblicità, disabilitalo per questo sito, per essere sicuro che Piwik lavori senza problemi.",
+        "ChangeCurrentWebsite": "Scegli un sito, attualmente è selezionato: %s"
     }
 }

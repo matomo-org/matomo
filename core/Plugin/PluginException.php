@@ -8,14 +8,28 @@
 
 namespace Piwik\Plugin;
 
+use Piwik\Common;
+
 class PluginException extends \Exception
 {
     public function __construct($pluginName, $message)
     {
-        parent::__construct("There was a problem installing the plugin " . $pluginName . ": " . $message . "
-				If this plugin has already been installed, and if you want to hide this message</b>, you must add the following line under the
-				[PluginsInstalled]
-				entry in your config/config.ini.php file:
-				PluginsInstalled[] = $pluginName");
+        $pluginName = Common::sanitizeInputValue($pluginName);
+        $message = Common::sanitizeInputValue($message);
+
+        parent::__construct("There was a problem installing the plugin $pluginName: <br /><br />
+                $message
+                <br /><br />
+                If you want to hide this message you must remove the following line under the [Plugins] entry in your
+                'config/config.ini.php' file to disable this plugin.<br />
+                Plugins[] = $pluginName
+                <br /><br />If this plugin has already been installed, you must add the following line under the
+                [PluginsInstalled] entry in your 'config/config.ini.php' file:<br />
+                PluginsInstalled[] = $pluginName");
+    }
+
+    public function isHtmlMessage()
+    {
+        return true;
     }
 }

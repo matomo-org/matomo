@@ -1,5 +1,6 @@
 {
     "SEO": {
+        "PluginDescription": "이 플러그인은 Alexa 웹 랭킹, 구글 페이지랭크, 색인된 페이지 수, 선택된 웹사이트의 백링크와 같은 SEO 측정 기준을 추출하고 보여줍니다.",
         "AlexaRank": "Alexa 랭크",
         "Bing_IndexedPages": "Bing에 색인된 페이지",
         "Dmoz": "DMOZ 항목",

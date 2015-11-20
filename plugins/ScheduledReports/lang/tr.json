@@ -1,8 +1,12 @@
 {
     "ScheduledReports": {
+        "AggregateReportsFormat": "Ekran seçenekleri (isteğe bağlı)",
         "CreateReport": "Rapor Oluştur",
         "EmailHello": "Merhaba,",
         "EmailReports": "Raporları epostala",
+        "ReportFormat": "Rapor Formatı",
+        "ReportUpdated": "Rapor güncellendi",
+        "SendReportNow": "Raporu şimdi gönder",
         "TableOfContent": "Rapor listesi",
         "TopOfReport": "Başa dön",
         "UpdateReport": "Raporu Güncelle"

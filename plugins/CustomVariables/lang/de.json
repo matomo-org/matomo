@@ -6,6 +6,17 @@
         "CustomVariablesReportDocumentation": "Dieser Bericht enthält Informationen über Ihre benutzerdefinierten Variablen. Klicken Sie auf einen Variablennamen, um die Verteilung der Werte zu sehen. %s Für mehr Informationen über benutzerdefinierte Variablen, lesen Sie die %sDokumentation auf piwik.org%s",
         "PluginDescription": "Benutzerdefinierte Variablen sind (Namen-, Wert-) Paare, welche Sie mit Hilfe der Javascript API auf Besucher oder deren Aktionen festlegen können. Piwik wird Sie dann über die Menge an Besuchen, Seiten, Konversionen für jede der benutzerdefinierten Variablen und Werte informieren. Die detaillierten benutzerdefinierten Variablen für jeden Benutzer und Aktionen im Besucher-Log einsehbar.<br \/>Benötigt um das Feature <a href=\"http:\/\/piwik.org\/docs\/ecommerce-analytics\/\">Ecommerce Analyse<\/a>nutzen zu können.",
         "ScopePage": "Anwendungsbereich Seite",
-        "ScopeVisit": "Anwendungsbereich Besuch"
+        "ScopeVisit": "Anwendungsbereich Besuch",
+        "ManageDescription": "Diese Übersicht zeigt alle benutzerdefinierten Variablen und deren Gebrauch für Webseite %s. Die Namen auf jeder Position sind danach sortiert, wie oft sie insgesamt benützt wurden.",
+        "ScopeX": "Anwendungsbereich %s",
+        "Index": "Index",
+        "Usages": "Verwendungen",
+        "Unused": "Unbenutzt",
+        "CreateNewSlot": "Die Anzahl verfügbarer benutzerdefinierter Variablen erhöhen",
+        "UsageDetails": "%s Besuche und %s Aktionen seit der Erstellung dieser Webseite.",
+        "CreatingCustomVariableTakesTime": "Neue benutzerdefinierte Variablen zu erstellen kann viel Zeit beanspruchen, abhängig von der Grösse Ihrer Datenbank. Deshalb ist dieser Vorgang nur über Kommandozeilen verfügbar.",
+        "CurrentAvailableCustomVariables": "Aktuell können Sie bis zu %s benutzerdefinierte Variablen pro Seite einsetzen.",
+        "ToCreateCustomVarExecute": "Um eine neue benutzerdefinierte Variable zu erstellen, führen Sie in Ihrer Piwik Installation folgende Befehle aus:",
+        "SlotsReportIsGeneratedOverTime": "Daten für diesen Bericht werden periodisch veröffentlicht. Es mag ein oder zwei Tage dauern, bis Daten sichtbar sind und einige Wochen bis der Bericht vollständig aussagekräftig ist."
     }
 }

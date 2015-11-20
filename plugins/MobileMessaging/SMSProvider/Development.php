@@ -10,13 +10,30 @@ namespace Piwik\Plugins\MobileMessaging\SMSProvider;
 
 use Piwik\Notification;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
+use Piwik\Development as PiwikDevelopment;
 
 /**
  * Used for development only
  *
+ * @ignore
  */
 class Development extends SMSProvider
 {
+
+    public function getId()
+    {
+        return 'Development';
+    }
+
+    public function getDescription()
+    {
+        return 'Development SMS Provider<br />All sent SMS will be displayed as Notification';
+    }
+
+    public function isAvailable()
+    {
+        return PiwikDevelopment::isEnabled();
+    }
 
     public function verifyCredential($apiKey)
     {

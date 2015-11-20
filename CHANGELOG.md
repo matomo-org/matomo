@@ -7,7 +7,10 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Internal change
  * When generating a new plugin skeleton via `generate:plugin` command, plugin name must now contain only letters and numbers.
  * JavaScript Tracker tests no longer require `SQLite`. The existing MySQL configuration for tests is used now. In order to run the tests make sure Piwik is installed and `[database_tests]` is configured in `config/config.ini.php`.
- 
+ * The definitions for search engine and social network detection have been moved from bundled data files to a separate package (see [https://github.com/piwik/searchengine-and-social-list](https://github.com/piwik/searchengine-and-social-list)).
+
+### New APIs
+ * Add your own SMS/Text provider by creating a new class in the `SMSProvider` directory of your plugin. The class has to extend `Piwik\Plugins\MobileMessaging\SMSProvider` and implement the required methods.
  
 ## Piwik 2.15.0 
 

@@ -73,9 +73,6 @@ return array(
             ))));
     },
 
-    // contains RequestProcessor instances, currently used by Piwik\Tracker\Visit
-    'tracker.request.processors' => array(),
-
     'Piwik\Tracker\VisitorRecognizer' => DI\object()
         ->constructorParameter('trustCookiesOnly', DI\get('ini.Tracker.trust_visitors_cookies'))
         ->constructorParameter('visitStandardLength', DI\get('ini.Tracker.visit_standard_length'))

@@ -54,6 +54,7 @@
         "symfony/event-dispatcher": "~2.6.0",
         "pear/pear_exception": "~1.0.0",
         "piwik/referrer-spam-blacklist": "~1.0",
+        "piwik/searchengine-and-social-list": "~1.0",
         "tecnickcom/tcpdf": "~6.0"
     },
     "require-dev": {

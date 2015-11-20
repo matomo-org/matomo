@@ -52,6 +52,7 @@
         "QuickAccessTitle": "Buscar por %s. Atalho: Tecle 'f' para buscar.",
         "MenuEntries": "Itens do menu",
         "Segments": "Segmentos",
-        "AdblockIsMaybeUsed": "Caso você esteja usando um bloqueador de anúncios, por favor desative-o para este site, pois assim poderá certificar-se de que o Piwik funciona sem qualquer problema."
+        "AdblockIsMaybeUsed": "Caso você esteja usando um bloqueador de anúncios, por favor desative-o para este site, pois assim poderá certificar-se de que o Piwik funciona sem qualquer problema.",
+        "ChangeCurrentWebsite": "Escolha um website; website atualmente selecionado: %s"
     }
 }

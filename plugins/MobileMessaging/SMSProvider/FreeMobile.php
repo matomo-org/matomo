@@ -28,7 +28,7 @@ class FreeMobile extends SMSProvider
         $account = explode(" ", $apiKey);
         if (2 != count($account)) {
             throw new APIException(
-                'API key must to contain the user and password separate by space.'
+                'API key must to contain the username and password separated by space.'
             );
         }
 
