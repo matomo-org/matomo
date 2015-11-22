@@ -26,6 +26,7 @@
         "YouMayChangeSetting": "Alternatively you may change the setting in the config file (%s), or edit this Segment and choose '%s'.",
         "YouMustBeLoggedInToCreateSegments": "You must be logged in to create and edit custom visitor segments.",
         "YouDontHaveAccessToCreateSegments": "You don't have the required access level to create and edit segments.",
-        "AddingSegmentForAllWebsitesDisabled": "Adding segments for all websites has been disabled."
+        "AddingSegmentForAllWebsitesDisabled": "Adding segments for all websites has been disabled.",
+        "SegmentXIsAUnionOf": "%s is a union of these segments:"
     }
 }

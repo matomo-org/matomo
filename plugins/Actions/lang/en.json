@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Average based on %s hit(s) %s between %s and %s",
         "ColumnClickedURL": "Clicked URL",
+        "ColumnActionURL": "Action URL",
         "ColumnClicks": "Clicks",
         "ColumnClicksDocumentation": "The number of times this link was clicked.",
         "ColumnDownloadURL": "Download URL",

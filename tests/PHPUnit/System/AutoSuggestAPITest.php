@@ -17,7 +17,6 @@ use Piwik\Plugins\CustomVariables\Columns\CustomVariableValue;
 use Piwik\Plugins\CustomVariables\Model;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
-use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker\Cache;
 
 /**

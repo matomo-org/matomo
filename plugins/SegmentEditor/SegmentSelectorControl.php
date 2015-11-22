@@ -115,6 +115,8 @@ class SegmentSelectorControl extends UIControl
             'General_OperationGreaterThan',
             'General_OperationContains',
             'General_OperationDoesNotContain',
+            'General_OperationStartsWith',
+            'General_OperationEndsWith',
             'General_OperationIs',
             'General_OperationIsNot',
             'General_OperationContains',

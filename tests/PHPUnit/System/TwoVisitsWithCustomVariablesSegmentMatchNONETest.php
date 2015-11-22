@@ -67,7 +67,7 @@ class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends SystemTestCase
             $matchNone = $segment . '!=' . $value;
 
             // deviceType != campaign matches ALL visits, but we want to match None
-            if($segment == 'deviceType') {
+            if ($segment == 'deviceType') {
                 $matchNone = $segment . '==car%20browser';
             }
             $segmentExpression[] = $matchNone;

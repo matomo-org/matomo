@@ -48,6 +48,13 @@ class TwoVisitsWithCustomVariablesSegmentContainsTest extends SystemTestCase
             array("pageTitle=@Profile pa", '_SegmentPageTitleContains', $api),
             array("pageUrl!@user/profile", '_SegmentPageUrlExcludes', $api),
             array("pageTitle!@Profile pa", '_SegmentPageTitleExcludes', $api),
+            // starts with
+            array('pageUrl=^example.org/home', '_SegmentPageUrlStartsWith', array('Actions.getPageUrls')),
+            array('pageTitle=^Profile pa', '_SegmentPageTitleStartsWith', array('Actions.getPageTitles')),
+
+            // ends with
+            array('pageUrl=$er/profile', '_SegmentPageUrlEndsWith', array('Actions.getPageUrls')),
+            array('pageTitle=$page', '_SegmentPageTitleEndsWith', array('Actions.getPageTitles')),
         );
 
         foreach ($segmentsToTest as $segment) {

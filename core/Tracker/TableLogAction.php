@@ -65,12 +65,20 @@ class TableLogAction
         $sql = 'SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE %s AND type = ' . $actionType . ' )';
 
         switch ($matchType) {
-            case '=@':
+            case SegmentExpression::MATCH_CONTAINS:
                 // use concat to make sure, no %s occurs because some plugins use %s in their sql
                 $where = '( name LIKE CONCAT(\'%\', ?, \'%\') ';
                 break;
-            case '!@':
+            case SegmentExpression::MATCH_DOES_NOT_CONTAIN:
                 $where = '( name NOT LIKE CONCAT(\'%\', ?, \'%\') ';
+                break;
+            case SegmentExpression::MATCH_STARTS_WITH:
+                // use concat to make sure, no %s occurs because some plugins use %s in their sql
+                $where = '( name LIKE CONCAT(?, \'%\') ';
+                break;
+            case SegmentExpression::MATCH_ENDS_WITH:
+                // use concat to make sure, no %s occurs because some plugins use %s in their sql
+                $where = '( name LIKE CONCAT(\'%\', ?) ';
                 break;
             default:
                 throw new \Exception("This match type $matchType is not available for action-segments.");

@@ -493,9 +493,60 @@ class API extends \Piwik\Plugin\API
         if (empty(Config::getInstance()->General['enable_segment_suggested_values'])) {
             return array();
         }
+
         Piwik::checkUserHasViewAccess($idSite);
 
         $maxSuggestionsToReturn = 30;
+        $segment = $this->findSegment($segmentName, $idSite);
+
+        // if segment has suggested values callback then return result from it instead
+        $suggestedValuesCallbackRequiresTable = false;
+        if (isset($segment['suggestedValuesCallback'])) {
+            $suggestedValuesCallbackRequiresTable = $this->doesSuggestedValuesCallbackNeedData(
+                $segment['suggestedValuesCallback']);
+
+            if (!$suggestedValuesCallbackRequiresTable) {
+                return call_user_func($segment['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn);
+            }
+        }
+
+        // if period=range is disabled, do not proceed
+        if (!Period\Factory::isPeriodEnabledForAPI('range')) {
+            return array();
+        }
+
+        if (!empty($segment['unionOfSegments'])) {
+            $values = array();
+            foreach ($segment['unionOfSegments'] as $unionSegmentName) {
+                $unionSegment = $this->findSegment($unionSegmentName, $idSite);
+
+                try {
+                    $result = $this->getSuggestedValuesForSegmentName($idSite, $unionSegment, $maxSuggestionsToReturn);
+                    if (!empty($result)) {
+                        $values = array_merge($result, $values);
+                    }
+                } catch (\Exception $e) {
+                    // we ignore if there was no data found for $unionSegmentName
+                }
+            }
+
+            if (empty($values)) {
+                throw new \Exception("There was no data to suggest for $segmentName");
+            }
+
+        } else {
+            $values = $this->getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn);
+        }
+
+        $values = $this->getMostFrequentValues($values);
+        $values = array_slice($values, 0, $maxSuggestionsToReturn);
+        $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
+
+        return $values;
+    }
+
+    private function findSegment($segmentName, $idSite)
+    {
         $segmentsMetadata = $this->getSegmentsMetadata($idSite, $_hideImplementationData = false);
 
         $segmentFound = false;
@@ -505,26 +556,16 @@ class API extends \Piwik\Plugin\API
                 break;
             }
         }
+
         if (empty($segmentFound)) {
-            throw new \Exception("Requested segment not found.");
+            throw new \Exception("Requested segment $segmentName not found.");
         }
 
-        // if segment has suggested values callback then return result from it instead
-        $suggestedValuesCallbackRequiresTable = false;
-        if (isset($segmentFound['suggestedValuesCallback'])) {
-            $suggestedValuesCallbackRequiresTable = $this->doesSuggestedValuesCallbackNeedData(
-                $segmentFound['suggestedValuesCallback']);
+        return $segmentFound;
+    }
 
-            if (!$suggestedValuesCallbackRequiresTable) {
-                return call_user_func($segmentFound['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn);
-            }
-        }
-
-        // if period=range is disabled, do not proceed
-        if (!Period\Factory::isPeriodEnabledForAPI('range')) {
-            return array();
-        }
-
+    private function getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn)
+    {
         $startDate = Date::now()->subDay(60)->toString();
         $requestLastVisits = "method=Live.getLastVisitsDetails
         &idSite=$idSite
@@ -533,6 +574,8 @@ class API extends \Piwik\Plugin\API
         &format=original
         &serialize=0
         &flat=1";
+
+        $segmentName = $segment['segment'];
 
         // Select non empty fields only
         // Note: this optimization has only a very minor impact
@@ -548,21 +591,17 @@ class API extends \Piwik\Plugin\API
 
         $request = new Request($requestLastVisits);
         $table = $request->process();
+
         if (empty($table)) {
             throw new \Exception("There was no data to suggest for $segmentName");
         }
 
-        if ($suggestedValuesCallbackRequiresTable) {
-            $values = call_user_func($segmentFound['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn, $table);
+        if (isset($segment['suggestedValuesCallback']) &&
+            $this->doesSuggestedValuesCallbackNeedData($segment['suggestedValuesCallback'])) {
+            $values = call_user_func($segment['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn, $table);
         } else {
             $values = $this->getSegmentValuesFromVisitorLog($segmentName, $table);
         }
-
-        $values = $this->getMostFrequentValues($values);
-
-        $values = array_slice($values, 0, $maxSuggestionsToReturn);
-
-        $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
 
         return $values;
     }

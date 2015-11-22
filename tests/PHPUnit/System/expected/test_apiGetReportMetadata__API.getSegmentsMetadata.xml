@@ -274,6 +274,13 @@
 		<category>Custom Variables</category>
 		<name>Custom Variable name (scope visit)</name>
 		<segment>customVariableName</segment>
+		<unionOfSegments>
+			<row>customVariableName1</row>
+			<row>customVariableName2</row>
+			<row>customVariableName3</row>
+			<row>customVariableName4</row>
+			<row>customVariableName5</row>
+		</unionOfSegments>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -310,6 +317,13 @@
 		<category>Custom Variables</category>
 		<name>Custom Variable name (scope page)</name>
 		<segment>customVariablePageName</segment>
+		<unionOfSegments>
+			<row>customVariablePageName1</row>
+			<row>customVariablePageName2</row>
+			<row>customVariablePageName3</row>
+			<row>customVariablePageName4</row>
+			<row>customVariablePageName5</row>
+		</unionOfSegments>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -346,6 +360,13 @@
 		<category>Custom Variables</category>
 		<name>Custom Variable value (scope page)</name>
 		<segment>customVariablePageValue</segment>
+		<unionOfSegments>
+			<row>customVariablePageValue1</row>
+			<row>customVariablePageValue2</row>
+			<row>customVariablePageValue3</row>
+			<row>customVariablePageValue4</row>
+			<row>customVariablePageValue5</row>
+		</unionOfSegments>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -382,6 +403,13 @@
 		<category>Custom Variables</category>
 		<name>Custom Variable value (scope visit)</name>
 		<segment>customVariableValue</segment>
+		<unionOfSegments>
+			<row>customVariableValue1</row>
+			<row>customVariableValue2</row>
+			<row>customVariableValue3</row>
+			<row>customVariableValue4</row>
+			<row>customVariableValue5</row>
+		</unionOfSegments>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -412,6 +440,17 @@
 		<category>Custom Variables</category>
 		<name>Custom Variable value 5 (scope visit)</name>
 		<segment>customVariableValue5</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Action URL</name>
+		<segment>actionUrl</segment>
+		<unionOfSegments>
+			<row>pageUrl</row>
+			<row>downloadUrl</row>
+			<row>outlinkUrl</row>
+		</unionOfSegments>
 	</row>
 	<row>
 		<type>dimension</type>
