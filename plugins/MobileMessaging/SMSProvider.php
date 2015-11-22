@@ -26,6 +26,30 @@ abstract class SMSProvider
     const MAX_UCS2_CHARS_IN_ONE_UNIQUE_SMS = 70;
     const MAX_UCS2_CHARS_IN_ONE_CONCATENATED_SMS = 67;
 
+<<<<<<< HEAD
+    protected static $availableSMSProviders = array(
+        'Clockwork' => 'You can use <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/platforms/piwik/"><img src="plugins/MobileMessaging/images/Clockwork.png"/></a> to send SMS Reports from Piwik.<br/>
+			<ul>
+			<li> First, <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/platforms/piwik/">get an API Key from Clockwork</a> (Signup is free!)
+			</li><li> Enter your Clockwork API Key on this page. </li>
+			</ul>
+			<br/><em>About Clockwork: </em><ul>
+			<li>Clockwork gives you fast, reliable high quality worldwide SMS delivery, over 450 networks in every corner of the globe.
+			</li><li>Cost per SMS message is around ~0.08USD (0.06EUR).
+			</li><li>Most countries and networks are supported but we suggest you check the latest position on their coverage map <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/sms-coverage/">here</a>.
+			</li>
+			</ul>
+			',
+		'FreeMobile' => 'You can use your Free Mobile contract to send SMS Reports from Piwik to yourself.<br/>
+			<ul><li>First, activate option on your account settings</li>
+			<li>Enter your FreeMobile user and password on API key input. They must be enter in this form "user pass"</li></ul>
+			<br/><em>About Free Mobile</em><ul>
+			<li>Free Mobile can be send SMS only to contract owner</li>
+			<li>Free Mobile are French Network Operator</li></ul>',
+    );
+
+    protected static function getClassNameFromClassId($id)
+=======
     /**
      * Get the ID of the SMS Provider. Eg 'Clockwork' or 'FreeMobile'
      * @return string
@@ -77,6 +101,7 @@ abstract class SMSProvider
      * @return bool
      */
     public function isAvailable()
+>>>>>>> upstream/master
     {
         return true;
     }
