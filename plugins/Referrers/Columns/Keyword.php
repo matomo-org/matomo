@@ -44,7 +44,11 @@ class Keyword extends Base
         $information = $this->getReferrerInformationFromRequest($request);
 
         if (!empty($information['referer_keyword'])) {
-            return substr($information['referer_keyword'], 0, 255);
+            if (function_exists('mb_substr')) {
+                return mb_substr($information['referer_keyword'], 0, 255, 'UTF-8');
+            } else {  
+                return substr($information['referer_keyword'], 0, 255);
+            }
         }
 
         return $information['referer_keyword'];
