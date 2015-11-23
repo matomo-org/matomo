@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Referrers\Columns;
 
+use Piwik\Common;
 use Piwik\Plugins\Referrers\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -38,10 +39,8 @@ class ReferrerName extends Base
         $information = $this->getReferrerInformationFromRequest($request);
 
         if (!empty($information['referer_name'])) {
-
-            return substr($information['referer_name'], 0, 70);
+            return Common::mb_substr($information['referer_name'], 0, 70);
         }
-
         return $information['referer_name'];
     }
 
