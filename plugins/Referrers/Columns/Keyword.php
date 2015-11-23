@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Referrers\Columns;
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\Referrers\Segment;
 use Piwik\Tracker\Request;
@@ -44,11 +45,7 @@ class Keyword extends Base
         $information = $this->getReferrerInformationFromRequest($request);
 
         if (!empty($information['referer_keyword'])) {
-            if (function_exists('mb_substr')) {
-                return mb_substr($information['referer_keyword'], 0, 255, 'UTF-8');
-            } else {  
-                return substr($information['referer_keyword'], 0, 255);
-            }
+            return Common::mb_substr($information['referer_keyword'], 0, 255);
         }
 
         return $information['referer_keyword'];
