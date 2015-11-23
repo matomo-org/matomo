@@ -269,6 +269,8 @@ class TableLogAction
         $actionsTypesStoredUnsanitized = array(
             $actionType == Action::TYPE_DOWNLOAD,
             $actionType == Action::TYPE_OUTLINK,
+            $actionType == Action::TYPE_PAGE_URL,
+            $actionType == Action::TYPE_CONTENT,
         );
 
         return in_array($actionType, $actionsTypesStoredUnsanitized);
