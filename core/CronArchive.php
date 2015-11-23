@@ -367,7 +367,7 @@ class CronArchive
                 continue;
             }
 
-            $shouldCheckIfArchivingIsNeeded    = !$this->shouldArchiveSpecifiedSites && !$this->shouldArchiveAllSites;
+            $shouldCheckIfArchivingIsNeeded    = !$this->shouldArchiveSpecifiedSites && !$this->shouldArchiveAllSites && !$this->dateLastForced;
             $hasWebsiteDayFinishedSinceLastRun = in_array($idSite, $this->websiteDayHasFinishedSinceLastRun);
             $isOldReportInvalidatedForWebsite  = $this->isOldReportInvalidatedForWebsite($idSite);
 
