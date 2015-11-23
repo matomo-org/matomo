@@ -27,6 +27,11 @@ class LocationProvider extends CountryLocationProvider
         if (isset($this->ipToLocations[$ip])) {
             $result = $this->ipToLocations[$ip];
         } else {
+            if (!isset(self::$locations[$this->currentLocation])) {
+                throw new \Exception("Unknown location index in mock LocationProvider {$this->currentLocation}. This "
+                    . "shouldn't ever happen, it is likely something is using the mock LocationProvider when it should be using a real one.");
+            }
+
             $result = self::$locations[$this->currentLocation];
             $this->currentLocation = ($this->currentLocation + 1) % count(self::$locations);
 

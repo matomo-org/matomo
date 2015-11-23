@@ -32,11 +32,29 @@ class OmniFixture extends Fixture
 
     public $fixtures = array();
 
+    private function requireAllFixtures()
+    {
+        $fixturesToLoad = array(
+            '/tests/PHPUnit/Fixtures/*.php',
+            '/tests/UI/Fixtures/*.php',
+            '/plugins/*/tests/Fixtures/*.php',
+            '/plugins/*/Test/Fixtures/*.php',
+        );
+
+        foreach($fixturesToLoad as $fixturePath) {
+            foreach (glob(PIWIK_INCLUDE_PATH . $fixturePath) as $file) {
+                require_once $file;
+            }
+        }
+    }
+
     /**
      * Constructor.
      */
     public function __construct()
     {
+        $this->requireAllFixtures();
+
         $date = $this->month . '-01';
 
         $classes = get_declared_classes();
@@ -94,6 +112,8 @@ class OmniFixture extends Fixture
     public function setUp()
     {
         foreach ($this->fixtures as $fixture) {
+            echo "Setting up " . get_class($fixture) . "...\n";
+
             $fixture->setUp();
         }
 
@@ -108,6 +128,8 @@ class OmniFixture extends Fixture
     public function tearDown()
     {
         foreach ($this->fixtures as $fixture) {
+            echo "Tearing down " . get_class($fixture) . "...\n";
+
             $fixture->tearDown();
         }
     }
