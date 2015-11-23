@@ -58,6 +58,10 @@ class ReferrerSpamFilter
             $cache->save($cacheId, $list);
         }
 
+        if(!is_array($list)) {
+            Common::printDebug('Warning: could not read list of spammers from cache.');
+            return array();
+        }
         return $list;
     }
 
