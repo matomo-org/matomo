@@ -90,11 +90,11 @@ matrix:
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
     # Javascript tests need to run only on one PHP version
     - php: 5.3.3
-      env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
+      env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
-      env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
+      env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
     - php: 7
-      env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
+      env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
     # AngularJS tests need to run only on one PHP version
     - php: 5.3.3
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
