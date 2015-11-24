@@ -19,8 +19,8 @@
 		<processedMetrics>
 			<exit_rate>% Search Exits</exit_rate>
 		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchNoResultKeywords&amp;period=range&amp;date=2010-01-03,2010-07-03</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchNoResultKeywords&amp;period=month&amp;date=2010-01-03,2010-07-03</imageGraphEvolutionUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchNoResultKeywords&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=range&amp;date=2010-01-03,2010-07-03</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchNoResultKeywords&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=month&amp;date=2010-01-03,2010-07-03</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getSiteSearchNoResultKeywords</uniqueId>
 	</metadata>
 	<columns>

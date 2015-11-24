@@ -80,4 +80,12 @@
 		<referrerName>referrer.com</referrerName>
 		<events>0</events>
 	</row>
+	<row>
+		<lastActionDateTime>2010-01-03 12:22:33</lastActionDateTime>
+		<visitConverted>1</visitConverted>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerName />
+		<events>0</events>
+	</row>
 </result>

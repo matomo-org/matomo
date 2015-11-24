@@ -1,2 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<result>Keyword not defined</result>
+<result>
+	<error message="The method 'getKeywordNotDefinedString' does not exist or is not available in the module '\Piwik\Plugins\Referrers\API'." />
+</result>

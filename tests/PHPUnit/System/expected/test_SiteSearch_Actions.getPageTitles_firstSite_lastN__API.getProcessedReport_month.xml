@@ -27,8 +27,8 @@
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=range&amp;date=2010-01-03,2010-07-03</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=month&amp;date=2010-01-03,2010-07-03</imageGraphEvolutionUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=range&amp;date=2010-01-03,2010-07-03</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=month&amp;date=2010-01-03,2010-07-03</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getPageTitles</uniqueId>
 	</metadata>
 	<columns>

@@ -27,8 +27,8 @@
 			<avg_event_value>The average of all values for this event</avg_event_value>
 		</processedMetrics>
 		<actionToLoadSubTables>getActionFromCategoryId</actionToLoadSubTables>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getCategory&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getCategory&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getCategory&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getCategory&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>Events_getCategory</uniqueId>
 	</metadata>
 	<columns>
@@ -82,17 +82,17 @@
 			<row>
 				
 				<segment>eventCategory==Movie</segment>
-				<idsubdatatable>745</idsubdatatable>
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==Music</segment>
-				<idsubdatatable>746</idsubdatatable>
+				<idsubdatatable>3</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>747</idsubdatatable>
+				<idsubdatatable>4</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010" />

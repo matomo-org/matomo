@@ -31,8 +31,8 @@
 			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 			<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
 		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>MultiSites_getAll</uniqueId>
 	</metadata>
 	<columns>

@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<row>_pks</row>
-	<row>_pkn</row>
-	<row>_pkc</row>
-	<row>_pkp</row>
-	<row>_pk_scount</row>
-	<row>_pk_scat</row>
+	<error message="The method 'getReservedCustomVariableKeys' does not exist or is not available in the module '\Piwik\Plugins\CustomVariables\API'." />
 </result>

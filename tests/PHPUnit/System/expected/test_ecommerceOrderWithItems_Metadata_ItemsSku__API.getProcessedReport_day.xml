@@ -19,8 +19,8 @@
 			<avg_quantity>Average Quantity</avg_quantity>
 			<conversion_rate>Product Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2011-04-05</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphEvolutionUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=day&amp;date=2011-04-05</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphEvolutionUrl>
 		<uniqueId>Goals_getItemsSku</uniqueId>
 	</metadata>
 	<columns>
