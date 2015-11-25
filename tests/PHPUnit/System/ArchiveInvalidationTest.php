@@ -8,10 +8,13 @@
 namespace Piwik\Tests\System;
 
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
-use Piwik\Date;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DbHelper;
 use Piwik\Tests\Fixtures\VisitsTwoWebsitesWithAdditionalVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 /**
  * Track visits before website creation date and test that Piwik handles them correctly.
@@ -79,7 +82,6 @@ class ArchiveInvalidationTest extends SystemTestCase
     }
 
     /**
-     * @depends      testApi
      * @dataProvider getApiForTesting
      */
     public function testSameApi($api, $params)
@@ -92,8 +94,6 @@ class ArchiveInvalidationTest extends SystemTestCase
     }
 
     /**
-     * @depends      testApi
-     * @depends      testSameApi
      * @dataProvider getAnotherApiForTesting
      */
     public function testAnotherApi($api, $params)
@@ -125,6 +125,12 @@ class ArchiveInvalidationTest extends SystemTestCase
 
     protected function setBrowserArchivingTriggering($value)
     {
+        $testEnvironment = new TestingEnvironmentVariables();
+        $testEnvironment->overrideConfig('General', 'enable_browser_archiving_triggering', $value);
+        $testEnvironment->save();
+
+        Rules::setBrowserTriggerArchiving((bool)$value);
+
         Config::getInstance()->General['enable_browser_archiving_triggering'] = $value;
     }
 
@@ -141,10 +147,14 @@ class ArchiveInvalidationTest extends SystemTestCase
 
     private function invalidateTestArchive($idSite, $period, $dateTime, $cascadeDown = false)
     {
+        ArchiveTableCreator::$tablesAlreadyInstalled = null;
+        DbHelper::getTablesInstalled($forceReload = true);
+
         $dates = new \DateTime($dateTime);
         $dates = $dates->format('Y-m-d');
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&period=$period&idSites=$idSite&dates=$dates&cascadeDown=" . (int)$cascadeDown);
-        $this->assertApiResponseHasNoError($r->process());
+        $output = $r->process();
+        $this->assertApiResponseHasNoError($output);
     }
 }
 
