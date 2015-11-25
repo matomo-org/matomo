@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Framework\Mock;
 
 use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
@@ -94,6 +95,11 @@ class TestConfig extends Config
 
         if ($testingEnvironment->dbName) {
             $database['dbname'] = $testingEnvironment->dbName;
+        }
+
+        if ($testingEnvironment->disableBrowserArchiving) {
+            Rules::$archivingDisabledByTests = true;
+            $general['browser_archiving_disabled_enforce'] = 1;
         }
 
         if ($testingEnvironment->configOverride) {

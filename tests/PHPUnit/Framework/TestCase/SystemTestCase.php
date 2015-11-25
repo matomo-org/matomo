@@ -19,6 +19,7 @@ use Piwik\Http;
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\Constraint\ResponseCode;
 use Piwik\Tests\Framework\Constraint\HttpResponseText;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
 use Piwik\Tests\Framework\TestRequest\Collection;
 use Piwik\Tests\Framework\TestRequest\Response;
@@ -443,13 +444,13 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         $this->missingExpectedFiles = array();
         $this->comparisonFailures = array();
 
+        $testEnvironment = new TestingEnvironmentVariables();
         if ($testConfig->disableArchiving) {
-            Rules::$archivingDisabledByTests = true;
-            Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
+            $testEnvironment->disableBrowserArchiving = true;
         } else {
-            Rules::$archivingDisabledByTests = false;
-            Config::getInstance()->General['browser_archiving_disabled_enforce'] = 0;
+            $testEnvironment->disableBrowserArchiving = false;
         }
+        $testEnvironment->save();
 
         if ($testConfig->language) {
             $this->changeLanguage($testConfig->language);
