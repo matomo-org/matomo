@@ -97,7 +97,7 @@ class TestConfig extends Config
             $database['dbname'] = $testingEnvironment->dbName;
         }
 
-        if ($testingEnvironment->disableBrowserArchiving) {
+        if ($testingEnvironment->disableArchiving) {
             Rules::$archivingDisabledByTests = true;
             $general['browser_archiving_disabled_enforce'] = 1;
         }

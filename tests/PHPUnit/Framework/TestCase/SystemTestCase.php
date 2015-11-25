@@ -446,9 +446,9 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
         $testEnvironment = new TestingEnvironmentVariables();
         if ($testConfig->disableArchiving) {
-            $testEnvironment->disableBrowserArchiving = true;
+            $testEnvironment->disableArchiving = true;
         } else {
-            $testEnvironment->disableBrowserArchiving = false;
+            $testEnvironment->disableArchiving = false;
         }
         $testEnvironment->save();
 
