@@ -105,6 +105,7 @@ class Actions extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/Actions/javascripts/actionsDataTable.js";
+        $jsFiles[] = "plugins/Actions/javascripts/rowactions.js";
     }
 
     public function isSiteSearchEnabled($idSites, $idSite)

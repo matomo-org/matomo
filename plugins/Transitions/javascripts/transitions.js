@@ -30,44 +30,25 @@ DataTable_RowActions_Transitions.isPageTitleReport = function (module, action) {
     return module == 'Actions' && (action == 'getPageTitles' || action == 'getPageTitlesFollowingSiteSearch');
 };
 
-DataTable_RowActions_Transitions.isActionCustomDimensionReport = function (params) {
-    return params.module == 'CustomDimensions' && params.action == 'getCustomDimension' && params.scopeOfDimension && params.scopeOfDimension === 'action';
-};
+DataTable_RowActions_Transitions.registeredReports = [];
+DataTable_RowActions_Transitions.registerReport = function (handler) {
+    DataTable_RowActions_Transitions.registeredReports.push(handler);
+}
 
 DataTable_RowActions_Transitions.prototype.trigger = function (tr, e, subTableLabel) {
-    var link = tr.find('> td:first > a').attr('href');
-    link = $('<textarea>').html(link).val(); // remove html entities
-
-    var module = this.dataTable.param.module;
-    var action = this.dataTable.param.action;
-    if (DataTable_RowActions_Transitions.isPageUrlReport(module, action)) {
-        this.openPopover('url:' + link);
-    } else if (DataTable_RowActions_Transitions.isPageTitleReport(module, action)) {
-        DataTable_RowAction.prototype.trigger.apply(this, [tr, e, subTableLabel]);
-    } else if (DataTable_RowActions_Transitions.isActionCustomDimensionReport(this.dataTable.param)) {
-
-        var label = this.getLabelFromTr(tr);
-        if (label && label.substr(0, 1) === '@') {
-            label = label.substr(1);
+    var i = 0;
+    for (i; i < DataTable_RowActions_Transitions.registeredReports.length; i++) {
+        var report = DataTable_RowActions_Transitions.registeredReports[i];
+        if (report
+            && report.trigger
+            && report.isAvailableOnReport
+            && report.isAvailableOnReport(this.dataTable.param)) {
+            report.trigger.apply(this, arguments);
+            return;
         }
-
-        var subtable = tr.closest('table');
-        if (subtable.is('.subDataTable')) {
-            var prev = subtable.closest('tr').prev();
-            var segment = prev.attr('data-segment-filter');
-            if (segment) {
-                label = unescape(label);
-                if (this.transitions === null) {
-                    this.transitions = new Piwik_Transitions('url', label, this, segment);
-                } else {
-                    this.transitions.reset('url', label, segment);
-                }
-                this.transitions.showPopover();
-            }
-        }
-    } else {
-        alert('Transitions can\'t be used on this report.');
     }
+
+    alert('Transitions can\'t be used on this report.');
 };
 
 DataTable_RowActions_Transitions.prototype.performAction = function (label, tr, e) {
@@ -118,11 +99,17 @@ DataTable_RowActions_Registry.register({
     },
 
     isAvailableOnReport: function (dataTableParams) {
-        return (
-            DataTable_RowActions_Transitions.isPageUrlReport(dataTableParams.module, dataTableParams.action) ||
-                DataTable_RowActions_Transitions.isPageTitleReport(dataTableParams.module, dataTableParams.action) ||
-                DataTable_RowActions_Transitions.isActionCustomDimensionReport(dataTableParams)
-            );
+        var i = 0;
+        for (i; i < DataTable_RowActions_Transitions.registeredReports.length; i++) {
+            var report = DataTable_RowActions_Transitions.registeredReports[i];
+            if (report
+                && report.isAvailableOnReport
+                && report.isAvailableOnReport(dataTableParams)) {
+                return true;
+            }
+        }
+
+        return false;
     },
 
     isAvailableOnRow: function (dataTableParams, tr) {
@@ -130,16 +117,18 @@ DataTable_RowActions_Registry.register({
             // not available on groups (i.e. folders)
             return false;
         }
-        if (DataTable_RowActions_Transitions.isPageUrlReport(dataTableParams.module, dataTableParams.action)
-            && !tr.find('> td:first span.label').parent().is('a')) {
-            // not on page url without link (i.e. "Page URL not defined")
-            return false;
+
+        var i = 0;
+        for (i; i < DataTable_RowActions_Transitions.registeredReports.length; i++) {
+            var report = DataTable_RowActions_Transitions.registeredReports[i];
+            if (report
+                && report.isAvailableOnRow
+                && report.isAvailableOnReport
+                && report.isAvailableOnReport(dataTableParams)) {
+                return report.isAvailableOnRow(dataTableParams, tr);
+            }
         }
-        if (DataTable_RowActions_Transitions.isActionCustomDimensionReport(dataTableParams)
-            && !tr.parents('table').first().hasClass('subDataTable')) {
-            // only show it in subtables of custom dimensions
-            return false;
-        }
+
         return true;
     }
 
