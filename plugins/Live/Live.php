@@ -54,5 +54,7 @@ class Live extends \Piwik\Plugin
         $translationKeys[] = "Live_RowActionTooltipDefault";
         $translationKeys[] = "Live_RowActionTooltipWithDimension";
         $translationKeys[] = "Live_SegmentedVisitorLogTitle";
+        $translationKeys[] = "General_Segment";
+        $translationKeys[] = "General_And";
     }
 }

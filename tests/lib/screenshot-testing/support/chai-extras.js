@@ -181,6 +181,7 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
                 child.on("exit", function (code) {
                     if (testFailure) {
                         testFailure = 'Processed screenshot does not match expected for ' + screenshotFileName + ' ' + testFailure;
+                        testFailure += 'TestEnvironment was ' + JSON.stringify(testEnvironment);
                     }
 
                     if (code == 0 && !testFailure) {

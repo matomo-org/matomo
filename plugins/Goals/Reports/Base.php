@@ -33,7 +33,7 @@ abstract class Base extends \Piwik\Plugin\Report
             $this->parameters = array('idGoal' => $goal['idgoal']);
             $this->order      = $this->orderGoal + $goal['idgoal'] * 3;
 
-            $availableReports[] = $this->buildReportMetadata($availableReports, $infos);
+            $availableReports[] = $this->buildReportMetadata();
         }
 
         $this->init();

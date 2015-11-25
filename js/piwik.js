@@ -979,8 +979,8 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
     setCustomRequestProcessing,
-    setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie,
-    setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
+    setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie, setCustomDimension, getCustomDimension,
+    deleteCustomDimension, setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle,
     setDownloadClasses, setLinkClasses,
@@ -1141,6 +1141,23 @@ if (typeof Piwik !== 'object') {
          */
         function isString(property) {
             return typeof property === 'string' || property instanceof String;
+        }
+
+        function isObjectEmpty(property)
+        {
+            if (!property) {
+                return true;
+            }
+
+            var i;
+            var isEmpty = true;
+            for (i in property) {
+                if (Object.prototype.hasOwnProperty.call(property, i)) {
+                    isEmpty = false;
+                }
+            }
+
+            return isEmpty;
         }
 
         /*
@@ -2656,7 +2673,7 @@ if (typeof Piwik !== 'object') {
 
             // check whether we were redirected from the piwik overlay plugin
             var referrerRegExp = new RegExp('index\\.php\\?module=Overlay&action=startOverlaySession'
-                               + '&idSite=([0-9]+)&period=([^&]+)&date=([^&]+)$');
+                               + '&idSite=([0-9]+)&period=([^&]+)&date=([^&]+)(&segment=.*)?$');
 
             var match = referrerRegExp.exec(documentAlias.referrer);
 
@@ -2670,15 +2687,22 @@ if (typeof Piwik !== 'object') {
 
                 // store overlay session info in window name
                 var period = match[2],
-                    date = match[3];
+                    date = match[3],
+                    segment = match[4];
 
-                windowAlias.name = windowName + '###' + period + '###' + date;
+                if (!segment) {
+                    segment = '';
+                } else if (segment.indexOf('&segment=') === 0) {
+                    segment = segment.substr('&segment='.length);
+                }
+
+                windowAlias.name = windowName + '###' + period + '###' + date + '###' + segment;
             }
 
             // retrieve and check data from window name
             var windowNameParts = windowAlias.name.split('###');
 
-            return windowNameParts.length === 3 && windowNameParts[0] === windowName;
+            return windowNameParts.length === 4 && windowNameParts[0] === windowName;
         }
 
         /*
@@ -2688,12 +2712,13 @@ if (typeof Piwik !== 'object') {
             var windowNameParts = windowAlias.name.split('###'),
                 period = windowNameParts[1],
                 date = windowNameParts[2],
+                segment = windowNameParts[3],
                 piwikUrl = getPiwikUrlForOverlay(configTrackerUrl, configApiUrl);
 
             loadScript(
                 piwikUrl + 'plugins/Overlay/client/client.js?v=1',
                 function () {
-                    Piwik_Overlay_Client.initialize(piwikUrl, configTrackerSiteId, period, date);
+                    Piwik_Overlay_Client.initialize(piwikUrl, configTrackerSiteId, period, date, segment);
                 }
             );
         }
@@ -2855,6 +2880,9 @@ if (typeof Piwik !== 'object') {
 
                 // Custom Variables, scope "event"
                 customVariablesEvent = {},
+
+                // Custom Dimensions (can be any scope)
+                customDimensions = {},
 
                 // Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
                 customVariableMaximumLength = 200,
@@ -3683,6 +3711,34 @@ if (typeof Piwik !== 'object') {
                 for (i in browserFeatures) {
                     if (Object.prototype.hasOwnProperty.call(browserFeatures, i)) {
                         request += '&' + i + '=' + browserFeatures[i];
+                    }
+                }
+
+                var customDimensionIdsAlreadyHandled = [];
+                if (customData) {
+                    for (i in customData) {
+                        if (Object.prototype.hasOwnProperty.call(customData, i) && /^dimension\d+$/.test(i)) {
+                            var index = i.replace('dimension', '');
+                            customDimensionIdsAlreadyHandled.push(parseInt(index, 10));
+                            customDimensionIdsAlreadyHandled.push(String(index));
+                            request += '&' + i + '=' + customData[i];
+                            delete customData[i];
+                        }
+                    }
+                }
+
+                if (customData && isObjectEmpty(customData)) {
+                    customData = null;
+                    // we deleted all keys from custom data
+                }
+
+                // custom dimensions
+                for (i in customDimensions) {
+                    if (Object.prototype.hasOwnProperty.call(customDimensions, i)) {
+                        var isNotSetYet = (-1 === customDimensionIdsAlreadyHandled.indexOf(i));
+                        if (isNotSetYet) {
+                            request += '&dimension' + i + '=' + customDimensions[i];
+                        }
                     }
                 }
 
@@ -5101,6 +5157,50 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
+                 * Set Custom Dimensions. Any set Custom Dimension will be cleared after a tracked pageview. Make
+                 * sure to set them again if needed.
+                 *
+                 * @param int index A Custom Dimension index
+                 * @param string value
+                 */
+                setCustomDimension: function (customDimensionId, value) {
+                    customDimensionId = parseInt(customDimensionId, 10);
+                    if (customDimensionId > 0) {
+                        if (!isDefined(value)) {
+                            value = '';
+                        }
+                        if (!isString(value)) {
+                            value = String(value);
+                        }
+                        customDimensions[customDimensionId] = value;
+                    }
+                },
+
+                /**
+                 * Get a stored value for a specific Custom Dimension index.
+                 *
+                 * @param int index A Custom Dimension index
+                 */
+                getCustomDimension: function (customDimensionId) {
+                    customDimensionId = parseInt(customDimensionId, 10);
+                    if (customDimensionId > 0 && Object.prototype.hasOwnProperty.call(customDimensions, customDimensionId)) {
+                        return customDimensions[customDimensionId];
+                    }
+                },
+
+                /**
+                 * Delete a custom dimension.
+                 *
+                 * @param int index Custom dimension Id
+                 */
+                deleteCustomDimension: function (customDimensionId) {
+                    customDimensionId = parseInt(customDimensionId, 10);
+                    if (customDimensionId > 0) {
+                        delete customDimensions[customDimensionId];
+                    }
+                },
+
+                /**
                  * Set custom variable within this visit
                  *
                  * @param int index Custom variable slot ID from 1-5
@@ -5173,6 +5273,7 @@ if (typeof Piwik !== 'object') {
                  * Delete custom variable
                  *
                  * @param int index Custom variable slot ID from 1-5
+                 * @param string scope
                  */
                 deleteCustomVariable: function (index, scope) {
                     // Only delete if it was there already
@@ -5912,10 +6013,11 @@ if (typeof Piwik !== 'object') {
                  * @param string action The Event's Action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...)
                  * @param string name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
                  * @param float value (optional) The Event's value
+                 * @param mixed customData
                  */
-                trackEvent: function (category, action, name, value) {
+                trackEvent: function (category, action, name, value, customData) {
                     trackCallback(function () {
-                        logEvent(category, action, name, value);
+                        logEvent(category, action, name, value, customData);
                     });
                 },
 
@@ -5925,10 +6027,11 @@ if (typeof Piwik !== 'object') {
                  * @param string keyword
                  * @param string category
                  * @param int resultsCount
+                 * @param mixed customData
                  */
-                trackSiteSearch: function (keyword, category, resultsCount) {
+                trackSiteSearch: function (keyword, category, resultsCount, customData) {
                     trackCallback(function () {
-                        logSiteSearch(keyword, category, resultsCount);
+                        logSiteSearch(keyword, category, resultsCount, customData);
                     });
                 },
 

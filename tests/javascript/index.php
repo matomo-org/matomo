@@ -1928,7 +1928,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(66);
+        expect(69);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -1957,6 +1957,9 @@ function PiwikTest() {
         equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
         equal( typeof tracker.getCustomData, 'function', 'getCustomData' );
         equal( typeof tracker.setCustomRequestProcessing, 'function', 'setCustomRequestProcessing' );
+        equal( typeof tracker.setCustomDimension, 'function', 'setCustomDimension' );
+        equal( typeof tracker.getCustomDimension, 'function', 'getCustomDimension' );
+        equal( typeof tracker.deleteCustomDimension, 'function', 'deleteCustomDimension' );
         equal( typeof tracker.setCustomVariable, 'function', 'setCustomVariable' );
         equal( typeof tracker.getCustomVariable, 'function', 'getCustomVariable' );
         equal( typeof tracker.deleteCustomVariable, 'function', 'deleteCustomVariable' );
@@ -2725,7 +2728,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(102);
+        expect(114);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -2781,6 +2784,21 @@ if ($mysql) {
         deepEqual( tracker.getCustomVariable(5), ["new name", ""], "getting a custom variable with no value" );
         tracker.deleteCustomVariable(5);
 
+        equal(tracker.getCustomDimension(94), null, "if no custom dimension for this index is specified should return null");
+        equal(tracker.getCustomDimension(-1), null, "if custom dimension index is invalid should return null");
+        equal(tracker.getCustomDimension('not valid'), null, "if custom dimension index is invalid should return null");
+        tracker.setCustomDimension(1, 5);
+        equal(tracker.getCustomDimension(1), "5", "set custom dimension should convert any value to a string" );
+        tracker.setCustomDimension(1, "my custom value");
+        equal(tracker.getCustomDimension(1), "my custom value", "should get stored custom dimension value" );
+        tracker.setCustomDimension(2, undefined);
+        equal(tracker.getCustomDimension(2), "", "setCustomDimension should convert undefined to an empty string" );
+
+        tracker.setCustomDimension(3, 'my third value');
+        equal(tracker.getCustomDimension(3), "my third value", "deleteCustomDimension verify a value is set for this dimension" );
+        tracker.deleteCustomDimension(3);
+        equal(tracker.getCustomDimension(3), null, "deleteCustomDimension verify value was removed" );
+
         tracker.setDocumentTitle("PiwikTest");
 
         var referrerUrl = "http://referrer.example.com/page/sub?query=test&test2=test3";
@@ -2789,7 +2807,10 @@ if ($mysql) {
         referrerTimestamp = Math.round(new Date().getTime() / 1000);
         tracker.trackPageView();
 
-        tracker.trackPageView("CustomTitleTest");
+        equal(tracker.getCustomDimension(1), "my custom value", "custom dimensions should not be cleared after a tracked pageview");
+        equal(tracker.getCustomDimension(2), "", "custom dimensions should not be cleared after a tracked pageview");
+
+        tracker.trackPageView("CustomTitleTest", {dimension2: 'my new value', dimension5: 'another dimension'});
 
         var customUrlShouldNotChangeCampaign = "http://localhost.localdomain/?utm_campaign=NONONONONONONO&utm_term=PLEASE NO!";
         tracker.setCustomUrl(customUrl);
@@ -3053,6 +3074,12 @@ if ($mysql) {
 
             // Test Custom variables
             ok( /SaveCustomVariableCookie.*&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%7D.*&_cvar=%7B%221%22%3A%5B%22cookiename%22%2C%22cookievalue%22%5D%2C%222%22%3A%5B%22cookiename2%22%2C%22cookievalue2%22%5D%7D/.test(results), "test custom vars are set");
+
+            // Test CustomDimension (persistent ones across requests)
+            ok( /dimension1=my%20custom%20value&dimension2=&/.test(results), "test custom dimensions are set");
+
+            // send along a page view and ony valid for this pageview (dimension 2 overwrites another one)
+            ok( /dimension2=my%20new%20value&dimension5=another%20dimension&dimension1=my%20custom%20value&data=%7B%22token/.test( results ), "trackPageView(customTitle, customData)" );
 
             // Test campaign parameters set
             ok( /&_rcn=YEAH&_rck=RIGHT!/.test( results), "Test campaign parameters found");

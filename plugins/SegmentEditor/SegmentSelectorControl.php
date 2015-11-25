@@ -8,8 +8,10 @@
  */
 namespace Piwik\Plugins\SegmentEditor;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as APIMetadata;
 use Piwik\View\UIControl;
@@ -36,6 +38,9 @@ class SegmentSelectorControl extends UIControl
         $this->idSite = $idSite ?: Common::getRequestVar('idSite', false, 'int');
 
         $this->selectedSegment = Common::getRequestVar('segment', false, 'string');
+
+        $formatter = StaticContainer::get('Piwik\Plugins\SegmentEditor\SegmentFormatter');
+        $this->segmentDescription = $formatter->getHumanReadable(Request::getRawSegmentFromRequest(), $this->idSite);
 
         $this->isAddingSegmentsForAllWebsitesEnabled = SegmentEditor::isAddingSegmentsForAllWebsitesEnabled();
 

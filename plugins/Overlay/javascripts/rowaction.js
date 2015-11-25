@@ -19,12 +19,34 @@ DataTable_RowActions_Overlay.prototype.onClick = function (actionA, tr, e) {
     if (!actionA.data('overlay-manipulated')) {
         actionA.data('overlay-manipulated', 1);
 
-        var link = tr.find('> td:first > a').attr('href');
-        link = $('<textarea>').html(link).val(); // remove html entities
+        var segment, link;
+
+        if (DataTable_RowActions_Transitions.isActionCustomDimensionReport(this.dataTable.param)) {
+
+            link = this.getLabelFromTr(tr);
+            if (link && link.substr(0, 1) === '@') {
+                link = link.substr(1);
+            }
+
+            link = 'http://' + unescape(link);
+
+            var subtable = tr.closest('table');
+            if (subtable.is('.subDataTable')) {
+                var prev = subtable.closest('tr').prev();
+                segment = prev.attr('data-segment-filter');
+            }
+        } else {
+
+            link = tr.find('> td:first > a').attr('href');
+            link = $('<textarea>').html(link).val(); // remove html entities
+        }
+
+
+        var href = Overlay_Helper.getOverlayLink(this.dataTable.param.idSite, 'month', 'today', segment, link);
 
         actionA.attr({
             target: '_blank',
-            href: Overlay_Helper.getOverlayLink(this.dataTable.param.idSite, 'month', 'today', link)
+            href: href
         });
     }
 
@@ -54,6 +76,11 @@ DataTable_RowActions_Registry.register({
         if (!window.DataTable_RowActions_Transitions) {
             return false;
         }
+
+        if (DataTable_RowActions_Transitions.isActionCustomDimensionReport(dataTableParams)) {
+            return true;
+        }
+
         return DataTable_RowActions_Transitions.isPageUrlReport(dataTableParams.module, dataTableParams.action);
     },
 

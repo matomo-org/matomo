@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreHome\Columns;
 use Piwik\Cache;
 use Piwik\DataTable;
 use Piwik\DataTable\Map;
+use Piwik\Metrics;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -124,7 +125,14 @@ class UserId extends VisitDimension
             return false;
         }
 
-        $numUsers = $result->getColumn('nb_users');
+        $firstRow = $result->getFirstRow();
+        if ($firstRow instanceof DataTable\Row && $firstRow->hasColumn(Metrics::INDEX_NB_USERS)) {
+            $metric = Metrics::INDEX_NB_USERS;
+        } else {
+            $metric = 'nb_users';
+        }
+
+        $numUsers = $result->getColumn($metric);
         $numUsers = array_sum($numUsers);
 
         return !empty($numUsers);

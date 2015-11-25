@@ -1070,11 +1070,20 @@ class Manager
 
         if ($saveConfig) {
             PiwikConfig::getInstance()->forceSave();
+            $this->clearCache($pluginName);
         }
     }
 
     public function isTrackerPlugin(Plugin $plugin)
     {
+        if (!$this->isPluginInstalled($plugin->getPluginName())) {
+            return false;
+        }
+        
+        if ($plugin->isTrackerPlugin()) {
+            return true;
+        }
+
         $dimensions = VisitDimension::getDimensions($plugin);
         if (!empty($dimensions)) {
             return true;
@@ -1098,10 +1107,6 @@ class Manager
 
         $dimensions = ConversionDimension::getDimensions($plugin);
         if (!empty($dimensions)) {
-            return true;
-        }
-
-        if ($plugin->isTrackerPlugin()) {
             return true;
         }
 

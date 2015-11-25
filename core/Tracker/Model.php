@@ -289,7 +289,7 @@ class Model
 
     public function updateVisit($idSite, $idVisit, $valuesToUpdate)
     {
-        list($updateParts, $sqlBind) = $this->visitFieldsToQuery($valuesToUpdate);
+        list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
 
         $parts = implode($updateParts, ', ');
         $table = Common::prefixTable('log_visit');
@@ -305,6 +305,34 @@ class Model
 
         if (!$wasInserted) {
             Common::printDebug("Visitor with this idvisit wasn't found in the DB.");
+            Common::printDebug("$sqlQuery --- ");
+            Common::printDebug($sqlBind);
+        }
+
+        return $wasInserted;
+    }
+
+    public function updateAction($idLinkVa, $valuesToUpdate)
+    {
+        if (empty($idLinkVa)) {
+            return;
+        }
+
+        list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
+
+        $parts = implode($updateParts, ', ');
+        $table = Common::prefixTable('log_link_visit_action');
+
+        $sqlQuery = "UPDATE $table SET $parts WHERE idlink_va = ?";
+
+        $sqlBind[] = $idLinkVa;
+
+        $db          = $this->getDb();
+        $result      = $db->query($sqlQuery, $sqlBind);
+        $wasInserted = $db->rowCount($result) != 0;
+
+        if (!$wasInserted) {
+            Common::printDebug("Action with this idLinkVa wasn't found in the DB.");
             Common::printDebug("$sqlQuery --- ");
             Common::printDebug($sqlBind);
         }
@@ -396,7 +424,7 @@ class Model
         return $result == null;
     }
 
-    private function visitFieldsToQuery($valuesToUpdate)
+    private function fieldsToQuery($valuesToUpdate)
     {
         $updateParts = array();
         $sqlBind     = array();

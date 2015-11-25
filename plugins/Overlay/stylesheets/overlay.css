@@ -35,10 +35,18 @@ a#overlayTitle .icon-help {
     margin: 20px 10px;
 }
 
-#overlayLocation {
+#overlayLocation, .overlaySegment {
     width: 200px;
-    margin: 0 0 30px 10px;
     font-size: 12px;
+}
+
+#overlayLocation {
+    margin: 0 0 10px 10px;
+}
+
+.overlaySegment {
+    margin: 0 0 30px 0;
+    word-break: break-all;
 }
 
 #overlayLoading {

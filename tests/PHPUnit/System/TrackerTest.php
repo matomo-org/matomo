@@ -180,9 +180,7 @@ class TrackerTest extends IntegrationTestCase
     public function test_scheduledTasks_CanBeRunThroughTracker_WithOutputIncluded_IfDebugQueryParamUsed()
     {
         $environment = $this->setScheduledTasksToRunInTracker();
-        $config = $environment->configOverride;
-        $config['log']['log_writers'] = array('screen');
-        $environment->configOverride = $config;
+        $environment->overrideConfig('log', 'log_writers', array('screen'));
         $environment->save();
 
         $urlToTest = $this->getSimpleTrackingUrl() . '&debug=1';
@@ -298,7 +296,8 @@ class TrackerTest extends IntegrationTestCase
         $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
         $testingEnvironment->testCaseClass = 'Piwik\Tests\System\TrackerTest';
         $testingEnvironment->addScheduledTask = true;
-        $testingEnvironment->configOverride = array('Tracker' => array('scheduled_tasks_min_interval' => 1, 'debug_on_demand' => 1));
+        $testingEnvironment->overrideConfig('Tracker', array('scheduled_tasks_min_interval' => 1, 'debug_on_demand' => 1));
+        $testingEnvironment->overrideConfig('log', array());
         $testingEnvironment->save();
 
         return $testingEnvironment;

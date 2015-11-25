@@ -10,7 +10,7 @@
     </div>
 
     <div ng-repeat="scope in manageCustomVars.scopes">
-        <h2 class="secondary">{{ 'CustomVariables_ScopeX'|translate:(scope|ucfirst) }}</h2>
+        <h2 class="secondary">{{ 'CustomVariables_ScopeX'|translate:(scope.name) }}</h2>
         <table class="dataTable entityTable">
             <thead>
             <tr>
@@ -22,7 +22,7 @@
             <tr>
                 <td colspan="3" ng-show="manageCustomVars.model.isLoading">{{ 'General_Loading'|translate }}</td>
             </tr>
-            <tr ng-repeat="customVariables in manageCustomVars.model.customVariables|filter:{scope: scope}">
+            <tr ng-repeat="customVariables in manageCustomVars.model.customVariables|filter:{scope: scope.value}">
                 <td class="index">{{ customVariables.index }}</td>
                 <td>
                     <span ng-show="(customVariables.usages|length) === 0"
