@@ -149,7 +149,7 @@ abstract class Dimension
      *                   This would only happen if the dimension is located in the wrong directory.
      * @api
      */
-    final public function getId()
+    public function getId()
     {
         $className = get_class($this);
 
