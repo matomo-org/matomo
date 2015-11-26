@@ -252,6 +252,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'Intl_Day_Min_StandAlone_6';
         $translationKeys[] = 'Intl_Day_Min_StandAlone_7';
         $translationKeys[] = 'General_And';
+        $translationKeys[] = 'General_All';
         $translationKeys[] = 'General_Search';
         $translationKeys[] = 'General_Clear';
         $translationKeys[] = 'General_MoreDetails';
