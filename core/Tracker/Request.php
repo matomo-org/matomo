@@ -288,6 +288,15 @@ class Request
             'i' => (string)Common::getRequestVar('m', $this->getCurrentDate("i"), 'int', $this->params),
             's' => (string)Common::getRequestVar('s', $this->getCurrentDate("s"), 'int', $this->params)
         );
+        if($localTimes['h'] < 0 || $localTimes['h'] > 23) {
+            $localTimes['h'] = 0;
+        }
+        if($localTimes['i'] < 0 || $localTimes['i'] > 59) {
+            $localTimes['i'] = 0;
+        }
+        if($localTimes['s'] < 0 || $localTimes['s'] > 59) {
+            $localTimes['s'] = 0;
+        }
         foreach ($localTimes as $k => $time) {
             if (strlen($time) == 1) {
                 $localTimes[$k] = '0' . $time;
