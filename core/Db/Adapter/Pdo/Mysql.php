@@ -246,4 +246,19 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         $this->cachePreparedStatement[$sql] = $stmt;
         return $stmt;
     }
+
+    /**
+     * Override _dsn() to ensure host and port to not be passed along
+     * if unix_socket is set since setting both causes unexpected behaviour
+     * @see http://php.net/manual/en/ref.pdo-mysql.connection.php
+     */
+    protected function _dsn()
+    {
+        if (!empty($this->_config['unix_socket'])) {
+            unset($this->_config['host']);
+            unset($this->_config['port']);
+        }
+
+        return parent::_dsn();
+    }
 }
