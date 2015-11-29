@@ -1,5 +1,5 @@
 {{ postEvent("Template.beforeTopBar", userAlias, userLogin, topMenu, userMenu) }}
-<ul class="navbar-right">
+<ul role="menubar" class="navbar-right">
 
     {% macro menuItemLabel(label, icon) %}
         {% if icon is defined and icon and icon starts with 'icon-' %}
@@ -27,7 +27,7 @@
 
     {% spaceless %}
         {% for label,menu in topMenu %}
-            <li>{{ _self.topMenuItem(label, menu, topMenuModule, topMenuAction) }}</li>
+            <li role="menuitem">{{ _self.topMenuItem(label, menu, topMenuModule, topMenuAction) }}</li>
         {% endfor %}
     {% endspaceless %}
 
