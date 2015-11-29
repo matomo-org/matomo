@@ -17,8 +17,12 @@ function DataTable_RowActions_Transitions(dataTable) {
 DataTable_RowActions_Transitions.prototype = new DataTable_RowAction;
 
 /** Static helper method to launch transitions from anywhere */
-DataTable_RowActions_Transitions.launchForUrl = function (url) {
-    broadcast.propagateNewPopoverParameter('RowAction', 'Transitions:url:' + url);
+DataTable_RowActions_Transitions.launchForUrl = function (url, segment) {
+    var value = 'Transitions:url:' + url;
+    if (segment) {
+        value += ':segment:' + segment;
+    }
+    broadcast.propagateNewPopoverParameter('RowAction', value);
 };
 
 DataTable_RowActions_Transitions.isPageUrlReport = function (module, action) {
@@ -63,6 +67,15 @@ DataTable_RowActions_Transitions.prototype.performAction = function (label, tr, 
 };
 
 DataTable_RowActions_Transitions.prototype.doOpenPopover = function (link) {
+    var posSegment = (link+'').indexOf(':segment:');
+    var segment = null;
+
+    // handle and remove ':segment:$SEGMENT' from link
+    if (posSegment && posSegment > 0) {
+        segment = link.substring(posSegment + (':segment:'.length));
+        link = link.substring(0, posSegment);
+    }
+
     var parts = link.split(':');
     if (parts.length < 2) {
         return;
@@ -73,9 +86,9 @@ DataTable_RowActions_Transitions.prototype.doOpenPopover = function (link) {
     var actionName = parts.join(':');
 
     if (this.transitions === null) {
-        this.transitions = new Piwik_Transitions(actionType, actionName, this);
+        this.transitions = new Piwik_Transitions(actionType, actionName, this, segment);
     } else {
-        this.transitions.reset(actionType, actionName);
+        this.transitions.reset(actionType, actionName, segment);
     }
     this.transitions.showPopover();
 };
