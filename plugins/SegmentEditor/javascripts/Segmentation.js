@@ -82,7 +82,8 @@ Segmentation = (function($) {
                 var foundItems = $(selector, this.target);
                 var title = $('<strong></strong>');
                 if( foundItems.length > 0) {
-                    var name = $(foundItems).first().find("span.segname").text();
+                    var idSegment = $(foundItems).first().attr('data-idsegment');
+                    var name = getSegmentNameEnrichedWithUsername( getSegmentFromId(idSegment));
                     title.text(name);
                 } else {
                     title.text(_pk_translate('SegmentEditor_CustomSegment'));
@@ -203,10 +204,38 @@ Segmentation = (function($) {
                             + ' data-definition=""><span class="segname">' + self.translations['SegmentEditor_DefaultAllVisits']
                             + ' ' + self.translations['General_DefaultAppended']
                             + '</span></li> ';
+
+            var isVisibleToSuperUserNoticeAlreadyDisplayedOnce = false;
+            var isVisibleToSuperUserNoticeShouldBeClosed = false;
+
+            var isSharedWithMeBySuperUserNoticeAlreadyDisplayedOnce = false;
+            var isSharedWithMeBySuperUserNoticeShouldBeClosed = false;
+
             if(self.availableSegments.length > 0) {
+
                 for(var i = 0; i < self.availableSegments.length; i++)
                 {
                     segment = self.availableSegments[i];
+
+                    if(isSegmentSharedWithMeBySuperUser(segment) && !isSharedWithMeBySuperUserNoticeAlreadyDisplayedOnce) {
+                        isSharedWithMeBySuperUserNoticeAlreadyDisplayedOnce = true;
+                        isSharedWithMeBySuperUserNoticeShouldBeClosed = true;
+                        listHtml += '<span class="segmentsSharedWithMeBySuperUser"><hr> ' + _pk_translate('SegmentEditor_SharedWithYou') + ':<br/><br/>';
+                    }
+
+                    if(isSegmentVisibleToSuperUserOnly(segment) && !isVisibleToSuperUserNoticeAlreadyDisplayedOnce) {
+                        // close <span class="segmentsSharedWithMeBySuperUser">
+                        if(isSharedWithMeBySuperUserNoticeShouldBeClosed) {
+                            isSharedWithMeBySuperUserNoticeShouldBeClosed = false;
+                            listHtml += '</span>';
+                        }
+
+                        isVisibleToSuperUserNoticeAlreadyDisplayedOnce = true;
+                        isVisibleToSuperUserNoticeShouldBeClosed = true;
+                        listHtml += '<span class="segmentsVisibleToSuperUser"><hr> ' + _pk_translate('SegmentEditor_VisibleToSuperUser') + ':<br/><br/>';
+                    }
+
+
                     injClass = "";
                     var checkSelected = segment.definition;
                     if(!$.browser.mozilla) {
@@ -217,12 +246,21 @@ Segmentation = (function($) {
                         injClass = 'class="segmentSelected"';
                     }
                     listHtml += '<li data-idsegment="'+segment.idsegment+'" data-definition="'+ (segment.definition).replace(/"/g, '&quot;') +'" '
-                                +injClass+' title="'+segment.name+'"><span class="segname">'+segment.name+'</span>';
+                                +injClass+' title="'+ getSegmentTooltipEnrichedWithUsername(segment) +'"><span class="segname">'+getSegmentNameEnrichedWithUsername(segment)+'</span>';
                     if(self.segmentAccess == "write") {
                         listHtml += '<span class="editSegment" title="'+ self.translations['General_Edit'].toLocaleLowerCase() +'"></span>';
                     }
                     listHtml += '</li>';
                 }
+
+                if(isVisibleToSuperUserNoticeShouldBeClosed) {
+                    listHtml += '</span>';
+                }
+
+                if(isSharedWithMeBySuperUserNoticeShouldBeClosed) {
+                    listHtml += '</span>';
+                }
+
                 $(html).find(".segmentList > ul").append(listHtml);
                 if(self.segmentAccess === "write"){
                     $(html).find(".add_new_segment").html(self.translations['SegmentEditor_AddNewSegment']);
@@ -238,6 +276,43 @@ Segmentation = (function($) {
             return html;
         };
 
+        var isSegmentVisibleToSuperUserOnly = function(segment) {
+            return hasSuperUserAccessAndSegmentCreatedByAnotherUser(segment)
+                && segment.enable_all_users == 0;
+        };
+
+        var isSegmentSharedWithMeBySuperUser = function(segment) {
+            return segment.login != piwik.userLogin
+                && segment.enable_all_users == 1;
+        };
+
+        var hasSuperUserAccessAndSegmentCreatedByAnotherUser = function(segment) {
+            return piwik.hasSuperUserAccess && segment.login != piwik.userLogin;
+        };
+
+        var getSegmentTooltipEnrichedWithUsername = function(segment) {
+            var segmentName = segment.name;
+            if(hasSuperUserAccessAndSegmentCreatedByAnotherUser(segment)) {
+                segmentName += ' (';
+                segmentName += _pk_translate('General_CreatedByUser', [segment.login]);
+
+                if(segment.enable_all_users == 0) {
+                    segmentName += ', ' + _pk_translate('SegmentEditor_VisibleToSuperUser');
+                }
+
+                segmentName += ')';
+            }
+            return segmentName;
+        };
+
+        var getSegmentNameEnrichedWithUsername = function(segment) {
+            var segmentName = segment.name;
+            if(hasSuperUserAccessAndSegmentCreatedByAnotherUser(segment)) {
+                segmentName += ' ('  + _pk_translate('General_CreatedByUser', [segment.login]) + ')';
+            }
+            return segmentName;
+        };
+
         var getFormHtml = function() {
             var html = self.editorTemplate.find("> .segment-element").clone();
             // set left margin to center form
@@ -251,7 +326,7 @@ Segmentation = (function($) {
             for(var i = 0; i < self.availableSegments.length; i++)
             {
                 segment = self.availableSegments[i];
-                newOption = '<option data-idsegment="'+segment.idsegment+'" data-definition="'+(segment.definition).replace(/"/g, '&quot;')+'" title="'+segment.name+'">'+segment.name+'</option>';
+                newOption = '<option data-idsegment="'+segment.idsegment+'" data-definition="'+(segment.definition).replace(/"/g, '&quot;')+'" title="'+getSegmentTooltipEnrichedWithUsername(segment)+'">'+getSegmentNameEnrichedWithUsername(segment)+'</option>';
                 segmentsDropdown.append(newOption);
             }
             $(html).find(".segment-content > h3").after(getInitialStateRowsHtml()).show();
@@ -327,7 +402,7 @@ Segmentation = (function($) {
             $(self.form).find(".segment-content > h3 > span").text(segment.name);
             $(self.form).find('.available_segments_select > option[data-idsegment="'+segment.idsegment+'"]').prop("selected",true);
 
-            $(self.form).find('.available_segments a.dropList').text(segment.name);
+            $(self.form).find('.available_segments a.dropList').text(getSegmentNameEnrichedWithUsername(segment));
 
             if(segment.definition != ""){
                 revokeInitialStateRows();
@@ -360,6 +435,13 @@ Segmentation = (function($) {
                 $(self.target).find(".segmentList li:first")
                     .before("<li class=\"filterNoResults grayed\">" + self.translations['General_SearchNoResults'] + "</li>");
             }
+
+            if ($(self.target).find(".segmentList .segmentsVisibleToSuperUser li:visible").length == 0) {
+                $(self.target).find(".segmentList .segmentsVisibleToSuperUser").hide();
+            }
+            if ($(self.target).find(".segmentList .segmentsSharedWithMeBySuperUser li:visible").length == 0) {
+                $(self.target).find(".segmentList .segmentsSharedWithMeBySuperUser").hide();
+            }
         }
 
         var clearFilterSegmentList = function () {
@@ -367,6 +449,8 @@ Segmentation = (function($) {
             $(self.target).find(".segmentList li").each(function () {
                 $(this).show();
             });
+            $(self.target).find(".segmentList .segmentsVisibleToSuperUser").show();
+            $(self.target).find(".segmentList .segmentsSharedWithMeBySuperUser").show();
         }
 
         var bindEvents = function () {
@@ -407,15 +491,14 @@ Segmentation = (function($) {
 
             self.target.on("click", ".segmentList li", function (e) {
                 if ($(e.currentTarget).hasClass("grayed") !== true) {
-                    var segment = {};
-                    segment.idsegment = $(this).attr("data-idsegment");
-                    segment.definition = $(this).data("definition");
-                    segment.name = $(this).attr("title");
+                    var idsegment = $(this).attr("data-idsegment");
+                    var segmentExtra = getSegmentFromId(idsegment);
+                    segmentDefinition = $(this).data("definition");
 
-                    self.setSegment(segment.definition);
+                    self.setSegment(segmentDefinition);
                     self.markCurrentSegment();
-                    self.segmentSelectMethod( segment.definition );
-                    toggleLoadingMessage(segment.definition.length);
+                    self.segmentSelectMethod( segmentDefinition );
+                    toggleLoadingMessage(segmentDefinition.length);
                 }
             });
 
@@ -748,20 +831,11 @@ Segmentation = (function($) {
         };
 
         function openEditFormGivenSegment(option) {
-            var segment = {};
-            segment.idsegment = option.attr("data-idsegment");
+            var idsegment = option.attr("data-idsegment");
 
-            var segmentExtra = getSegmentFromId(segment.idsegment);
-            for(var item in segmentExtra)
-            {
-                segment[item] = segmentExtra[item];
-            }
+            var segmentExtra = getSegmentFromId(idsegment);
 
-            segment.name = option.attr("title");
-
-            segment.definition = option.data("definition");
-
-            openEditForm(segment);
+            openEditForm(segmentExtra);
         }
 
         var doDragDropBindings = function(){
@@ -900,7 +974,12 @@ Segmentation = (function($) {
             placeSegmentationFormControls();
 
             if(mode == "edit") {
-                $(self.form).find('.enable_all_users_select > option[value="'+segment.enable_all_users+'"]').prop("selected",true);
+                var userSelector = $(self.form).find('.enable_all_users_select > option[value="' + segment.enable_all_users + '"]').prop("selected",true);
+
+                // Replace "Visible to me" by "Visible to $login" when user is super user
+                if(hasSuperUserAccessAndSegmentCreatedByAnotherUser(segment)) {
+                    $(self.form).find('.enable_all_users_select > option[value="' + 0 + '"]').text(segment.login);
+                }
                 $(self.form).find('.visible_to_website_select > option[value="'+segment.enable_only_idsite+'"]').prop("selected",true);
                 $(self.form).find('.auto_archive_select > option[value="'+segment.auto_archive+'"]').prop("selected",true);
 
@@ -1166,7 +1245,7 @@ $(document).ready(function() {
                         }
                     }
 
-                    self.props.availableSegments[idx] = params;
+                    $.extend( self.props.availableSegments[idx], params);
                     self.rebuild();
 
                     self.impl.setSegment(params.definition);
