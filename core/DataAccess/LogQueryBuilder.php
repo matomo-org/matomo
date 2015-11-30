@@ -51,10 +51,10 @@ class LogQueryBuilder
      * @throws Exception if tables can't be joined
      * @return array
      */
-    private function generateJoinsString($tables)
+    private function generateJoinsString(&$tables)
     {
-        $knownTables = array("log_visit", "log_link_visit_action", "log_conversion", "log_conversion_item");
-        $visitsAvailable = $actionsAvailable = $conversionsAvailable = $conversionItemAvailable = false;
+        $knownTables = array("log_action", "log_visit", "log_link_visit_action", "log_conversion", "log_conversion_item");
+        $visitsAvailable = $linkVisitActionsTableAvailable = $conversionsAvailable = $conversionItemAvailable = $actionsTableAvailable = false;
         $joinWithSubSelect = false;
         $sql = '';
 
@@ -74,6 +74,20 @@ class LogQueryBuilder
         if ($actionIndex > 0 && $visitIndex > 0 && $actionIndex > $visitIndex) {
             $tables[$actionIndex] = "log_visit";
             $tables[$visitIndex] = "log_link_visit_action";
+        }
+
+        // we need to add log_link_visit_action dynamically to join eg visit with action
+        $linkVisitAction = array_search("log_link_visit_action", $tables);
+        $actionIndex     = array_search("log_action", $tables);
+        if ($linkVisitAction === false && $actionIndex > 0) {
+            $tables[] = "log_link_visit_action";
+        }
+
+        $linkVisitAction = array_search("log_link_visit_action", $tables);
+        $actionIndex     = array_search("log_action", $tables);
+        if ($linkVisitAction > 0 && $actionIndex > 0 && $linkVisitAction > $actionIndex) {
+            $tables[$actionIndex] = "log_link_visit_action";
+            $tables[$linkVisitAction] = "log_action";
         }
 
         foreach ($tables as $i => $table) {
@@ -96,10 +110,13 @@ class LogQueryBuilder
                 // first table
                 $sql .= $tableSql;
             } else {
-                if ($actionsAvailable && $table == "log_conversion") {
+
+                if ($linkVisitActionsTableAvailable && $table === 'log_action') {
+                    $join = "log_link_visit_action.idaction_url = log_action.idaction";
+                } elseif ($linkVisitActionsTableAvailable && $table == "log_conversion") {
                     // have actions, need conversions => join on idvisit
                     $join = "log_conversion.idvisit = log_link_visit_action.idvisit";
-                } elseif ($actionsAvailable && $table == "log_visit") {
+                } elseif ($linkVisitActionsTableAvailable && $table == "log_visit") {
                     // have actions, need visits => join on idvisit
                     $join = "log_visit.idvisit = log_link_visit_action.idvisit";
                 } elseif ($visitsAvailable && $table == "log_link_visit_action") {
@@ -138,7 +155,8 @@ class LogQueryBuilder
 
             // remember which tables are available
             $visitsAvailable = ($visitsAvailable || $table == "log_visit");
-            $actionsAvailable = ($actionsAvailable || $table == "log_link_visit_action");
+            $linkVisitActionsTableAvailable = ($linkVisitActionsTableAvailable || $table == "log_link_visit_action");
+            $actionsTableAvailable = ($actionsTableAvailable || $table == "log_action");
             $conversionsAvailable = ($conversionsAvailable || $table == "log_conversion");
             $conversionItemAvailable = ($conversionItemAvailable || $table == "log_conversion_item");
         }

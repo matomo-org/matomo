@@ -286,7 +286,7 @@ class Visitor implements VisitorInterface
                 unset($actionDetails[$actionIdx]);
                 continue;
 
-            } elseif ($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
+            } elseif ($actionDetail['type'] == Action::TYPE_EVENT) {
                 // Handle Event
                 if (strlen($actionDetail['pageTitle']) > 0) {
                     $actionDetail['eventName'] = $actionDetail['pageTitle'];

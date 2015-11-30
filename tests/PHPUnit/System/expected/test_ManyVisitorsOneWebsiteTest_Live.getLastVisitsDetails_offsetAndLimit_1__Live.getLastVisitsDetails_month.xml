@@ -62,7 +62,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file8.zip</url>
 				<pageTitle />
-				<pageIdAction>46</pageIdAction>
+				<pageIdAction>47</pageIdAction>
 				
 				<pageId>48</pageId>
 				<timeSpent>180</timeSpent>
@@ -74,7 +74,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/8.html</url>
 				<pageTitle />
-				<pageIdAction>47</pageIdAction>
+				<pageIdAction>48</pageIdAction>
 				
 				<pageId>49</pageId>
 				<timeSpent>180</timeSpent>
@@ -85,7 +85,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>50</pageId>
 				<eventCategory>Cat8</eventCategory>
@@ -360,7 +360,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file7.zip</url>
 				<pageTitle />
-				<pageIdAction>41</pageIdAction>
+				<pageIdAction>42</pageIdAction>
 				
 				<pageId>42</pageId>
 				<timeSpent>180</timeSpent>
@@ -372,7 +372,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/7.html</url>
 				<pageTitle />
-				<pageIdAction>42</pageIdAction>
+				<pageIdAction>43</pageIdAction>
 				
 				<pageId>43</pageId>
 				<timeSpent>180</timeSpent>
@@ -383,7 +383,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>44</pageId>
 				<eventCategory>Cat7</eventCategory>
