@@ -88,6 +88,12 @@ class SegmentFormatterTest extends IntegrationTestCase
         $this->assertSame('Browser version is not null nor empty', $readable);
     }
 
+    public function test_getHumanReadable_ShouldHandleAUrlDecodedSegment()
+    {
+        $readable = $this->formatter->getHumanReadable($segment = 'pageUrl%3D%40piwik%2CvisitId!%3D1', $this->idSite);
+        $this->assertSame('Page URL contains "piwik" or Visit ID is not "1"', $readable);
+    }
+
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage The segment 'noTexisTinG' does not exist

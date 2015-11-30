@@ -59,8 +59,13 @@ class SegmentFormatter
             return Piwik::translate('SegmentEditor_DefaultAllVisits');
         }
 
-        $segment = new SegmentExpression($segmentString);
-        $expressions = $segment->parseSubExpressions();
+        try {
+            $segment = new SegmentExpression(urldecode($segmentString));
+            $expressions = $segment->parseSubExpressions();
+        } catch (Exception $e) {
+            $segment = new SegmentExpression($segmentString);
+            $expressions = $segment->parseSubExpressions();
+        }
 
         $readable = '';
         foreach ($expressions as $expression) {
