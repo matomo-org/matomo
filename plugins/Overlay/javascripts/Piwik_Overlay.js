@@ -236,7 +236,11 @@ var Piwik_Overlay = (function () {
 
             // handle transitions link
             $transitionsLink.click(function () {
-                DataTable_RowActions_Transitions.launchForUrl(iframeCurrentPageNormalized);
+                var unescapedSegment = null;
+                if (segment) {
+                    unescapedSegment = unescape(segment);
+                }
+                DataTable_RowActions_Transitions.launchForUrl(iframeCurrentPageNormalized, unescapedSegment);
                 return false;
             });
 
