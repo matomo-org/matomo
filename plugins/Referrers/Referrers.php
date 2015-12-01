@@ -12,6 +12,7 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugins\SitesManager\SiteUrls;
 
 /**
  * @see plugins/Referrers/functions.php
@@ -31,7 +32,16 @@ class Referrers extends \Piwik\Plugin
             'Insights.addReportToOverview'      => 'addReportToInsightsOverview',
             'Live.getAllVisitorDetails'         => 'extendVisitorDetails',
             'Request.getRenamedModuleAndAction' => 'renameDeprecatedModuleAndAction',
+            'Tracker.setTrackerCacheGeneral'    => 'setTrackerCacheGeneral'
         );
+    }
+
+    public function setTrackerCacheGeneral(&$cacheContent)
+    {
+        $siteUrls = new SiteUrls();
+        $urls = $siteUrls->getAllCachedSiteUrls();
+
+        return $cacheContent['allUrlsByHostAndIdSite'] = $siteUrls->groupUrlsByHost($urls);
     }
 
     public function renameDeprecatedModuleAndAction(&$module, &$action)

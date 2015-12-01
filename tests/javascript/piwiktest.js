@@ -20,11 +20,13 @@ Piwik.addPlugin('testPlugin', {
 				'_isObject : isObject,' +
 				'_isString : isString,' +
 				'_isSiteHostName : isSiteHostName,' +
+				'_isSiteHostPath : isSiteHostPath,' +
 				'_getClassesRegExp : getClassesRegExp,' +
 				'_hasCookies : hasCookies,' +
 				'_getCookie : getCookie,' +
 				'_getCookieName : getCookieName,' +
 				'_setCookie : setCookie,' +
+				'_getLinkIfShouldBeProcessed : getLinkIfShouldBeProcessed,' +
 				'_encode : encodeWrapper,' +
 				'_decode : decodeWrapper,' +
 				'_urldecode : urldecode,' +

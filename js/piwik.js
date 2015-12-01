@@ -1021,7 +1021,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
     trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body,
-    getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout,
+    getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains,
     newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
@@ -1591,6 +1591,10 @@ if (typeof Piwik !== 'object') {
             // remove leading '*'
             if (domain.slice(0, 2) === '*.') {
                 domain = domain.slice(1);
+            }
+
+            if (domain.indexOf('/') !== -1) {
+                domain = domain.substr(0, domain.indexOf('/'));
             }
 
             return domain;
@@ -3012,10 +3016,110 @@ if (typeof Piwik !== 'object') {
                 return baseUrl + url;
             }
 
+            function isSameHost (hostName, alias) {
+                var offset;
+
+                hostName = String(hostName).toLowerCase();
+                alias = String(alias).toLowerCase();
+
+                if (hostName === alias) {
+                    return true;
+                }
+
+                if (alias.slice(0, 1) === '.') {
+                    if (hostName === alias.slice(1)) {
+                        return true;
+                    }
+
+                    offset = hostName.length - alias.length;
+
+                    if ((offset > 0) && (hostName.slice(offset) === alias)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            function stringEndsWith(str, suffix) {
+                str = String(str);
+                return str.indexOf(suffix, str.length - suffix.length) !== -1;
+            }
+
+            /*
+             * Extract pathname from URL. element.pathname is actually supported by pretty much all browsers including
+             * IE6 apart from some rare very old ones
+             */
+            function getPathName(url) {
+                var parser = document.createElement('a');
+                if (url.indexOf('//') !== 0 && url.indexOf('http') !== 0) {
+                    url = 'http://' + url;
+                }
+
+                parser.href = content.toAbsoluteUrl(url);
+                if (parser.pathname) {
+                    return parser.pathname;
+                }
+
+                return '';
+            }
+
+            function isSitePath (path, pathAlias)
+            {
+                var matchesAnyPath = (!pathAlias || pathAlias === '/');
+
+                if (matchesAnyPath) {
+                    return true;
+                }
+
+                if (path === pathAlias) {
+                    return true;
+                }
+
+                if (!path) {
+                    return false;
+                }
+
+                pathAlias = String(pathAlias).toLowerCase();
+                path = String(path).toLowerCase();
+
+                // we need to append slashes so /foobarbaz won't match a site /foobar
+                if (!stringEndsWith(path, '/')) {
+                    path += '/';
+                }
+
+                if (!stringEndsWith(pathAlias, '/')) {
+                    pathAlias += '/';
+                }
+
+                return path.indexOf(pathAlias) === 0;
+            }
+
+            function isSiteHostPath(host, path)
+            {
+                var i,
+                    alias,
+                    configAlias,
+                    aliasHost,
+                    aliasPath;
+
+                for (i = 0; i < configHostsAlias.length; i++) {
+                    aliasHost = domainFixup(configHostsAlias[i]);
+                    aliasPath = getPathName(configHostsAlias[i]);
+
+                    if (isSameHost(host, aliasHost) && isSitePath(path, aliasPath)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
             /*
              * Is the host local? (i.e., not an outlink)
              */
             function isSiteHostName(hostName) {
+
                 var i,
                     alias,
                     offset;
@@ -4004,6 +4108,8 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
+                var originalSourcePath = sourceElement.pathname || getPathName(sourceElement.href);
+
                 // browsers, such as Safari, don't downcase hostname and href
                 var originalSourceHostName = sourceElement.hostname || getHostName(sourceElement.href);
                 var sourceHostName = originalSourceHostName.toLowerCase();
@@ -4014,7 +4120,7 @@ if (typeof Piwik !== 'object') {
 
                 if (!scriptProtocol.test(sourceHref)) {
                     // track outlinks and all downloads
-                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName), query.hasNodeAttribute(sourceElement, 'download'));
+                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostPath(sourceHostName, originalSourcePath), query.hasNodeAttribute(sourceElement, 'download'));
 
                     if (linkType) {
                         return {
@@ -4917,6 +5023,9 @@ if (typeof Piwik !== 'object') {
                 internalIsNodeVisible: isVisible,
                 isNodeAuthorizedToTriggerInteraction: isNodeAuthorizedToTriggerInteraction,
                 replaceHrefIfInternalLink: replaceHrefIfInternalLink,
+                getDomains: function () {
+                    return configHostsAlias;
+                },
                 getConfigDownloadExtensions: function () {
                     return configDownloadExtensions;
                 },
@@ -5347,13 +5456,31 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Set array of domains to be treated as local
+                 * Set array of domains to be treated as local. Also supports path, eg '.piwik.org/subsite1'. In this
+                 * case all links that don't go to '*.piwik.org/subsite1/ *' would be treated as outlinks.
+                 * For example a link to 'piwik.org/' or 'piwik.org/subsite2' both would be treated as outlinks
                  *
                  * @param string|array hostsAlias
                  */
                 setDomains: function (hostsAlias) {
                     configHostsAlias = isString(hostsAlias) ? [hostsAlias] : hostsAlias;
-                    configHostsAlias.push(domainAlias);
+
+                    var hasDomainAliasAlready = false, i;
+                    for (i in configHostsAlias) {
+                        if (Object.prototype.hasOwnProperty.call(configHostsAlias, i)
+                            && isSameHost(domainAlias, domainFixup(configHostsAlias[i]))) {
+                            hasDomainAliasAlready = true;
+                            break;
+                        }
+                    }
+
+                    if (!hasDomainAliasAlready) {
+                        /**
+                         * eg if domainAlias = 'piwik.org' and someone set hostsAlias = ['piwik.org/foo'] then we should
+                         * not add piwik.org as it would increase the allowed scope.
+                         */
+                        configHostsAlias.push(domainAlias);
+                    }
                 },
 
                 /**

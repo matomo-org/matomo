@@ -12,6 +12,8 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\Referrers\SearchEngine AS SearchEngineDetection;
+use Piwik\Plugins\SitesManager\SiteUrls;
+use Piwik\Tracker\Cache;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
@@ -251,20 +253,34 @@ abstract class Base extends VisitDimension
      */
     protected function detectReferrerDirectEntry()
     {
-        if (!empty($this->referrerHost)) {
-            // is the referrer host the current host?
-            if (isset($this->currentUrlParse['host'])) {
-                $currentHost = Common::mb_strtolower($this->currentUrlParse['host'], 'UTF-8');
-                if ($currentHost == Common::mb_strtolower($this->referrerHost, 'UTF-8')) {
-                    $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
-                    return true;
-                }
+        if (empty($this->referrerHost)) {
+            return false;
+        }
+
+        $cache = Cache::getCacheGeneral();
+
+        if (!empty($cache['allUrlsByHostAndIdSite'])) {
+            $directEntry   = new SiteUrls();
+            $matchingSites = $directEntry->getIdSitesMatchingUrl($this->referrerUrlParse, $cache['allUrlsByHostAndIdSite']);
+
+            if (isset($matchingSites) && is_array($matchingSites) && in_array($this->idsite, $matchingSites)) {
+                $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
+                return true;
+            } elseif (isset($matchingSites)) {
+                return false;
             }
-            if (Visit::isHostKnownAliasHost($this->referrerHost, $this->idsite)) {
+        }
+
+        // fallback logic if the referrer domain is not known to any site to not break BC
+        if (isset($this->currentUrlParse['host'])) {
+            // this might be actually buggy if first thing tracked is eg an outlink and referrer is from that site
+            $currentHost = Common::mb_strtolower($this->currentUrlParse['host']);
+            if ($currentHost == Common::mb_strtolower($this->referrerHost)) {
                 $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
                 return true;
             }
         }
+
         return false;
     }
 

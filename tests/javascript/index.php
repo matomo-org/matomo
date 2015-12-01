@@ -2242,12 +2242,46 @@ function PiwikTest() {
         }
     });
 
-    test("Tracker setDomains() and isSiteHostName()", function() {
-        expect(13);
+    test("Tracker setDomains(), isSiteHostName(), isSiteHostPath() and getLinkIfShouldBeProcessed()", function() {
+        expect(102);
 
         var tracker = Piwik.getTracker();
+        var initialDomains = tracker.getDomains();
+        var domainAlias = initialDomains[0];
 
         equal( typeof tracker.hook.test._isSiteHostName, 'function', "isSiteHostName" );
+        equal( typeof tracker.hook.test._isSiteHostPath, 'function', "isSiteHostPath" );
+        equal( typeof tracker.hook.test._getLinkIfShouldBeProcessed, 'function', "getLinkIfShouldBeProcessed" );
+
+        var isSiteHostName = tracker.hook.test._isSiteHostName;
+        var isSiteHostPath = tracker.hook.test._isSiteHostPath;
+        var getLinkIfShouldBeProcessed = tracker.hook.test._getLinkIfShouldBeProcessed;
+
+        // tracker.setDomain()
+
+        // test wildcards
+        tracker.setDomains( ['*.Example.com'] );
+        propEqual(["*.Example.com", domainAlias], tracker.getDomains()), 'should add domainAlias';
+
+        tracker.setDomains( '*.Example.org' );
+        propEqual(["*.Example.org", domainAlias], tracker.getDomains()), 'should handle a string';
+
+        tracker.setDomains( ['*.Example.com', '*.example.ORG'] );
+        propEqual(["*.Example.com", '*.example.ORG', domainAlias], tracker.getDomains()), 'should be able to set many domains';
+
+        tracker.setDomains( [] );
+        propEqual([domainAlias], tracker.getDomains()), 'setting an empty array should reset the list';
+
+        tracker.setDomains( ['*.Example.com', domainAlias + '/path', '*.example.ORG'] );
+        propEqual(['*.Example.com', domainAlias + '/path', '*.example.ORG'], tracker.getDomains()), 'if domain alias is already given should not add domainAlias';
+
+        tracker.setDomains( ['.' + domainAlias + '/path'] );
+        propEqual(['.' + domainAlias + '/path'], tracker.getDomains()), 'if domain alias with subdomain is already given should not add domainAlias';
+
+
+        /**
+         * isSiteHostName ()
+         */
 
         // test wildcards
         tracker.setDomains( ['*.Example.com'] );
@@ -2255,21 +2289,129 @@ function PiwikTest() {
         // skip test if testing on localhost
         ok( window.location.hostname != 'localhost' ? !tracker.hook.test._isSiteHostName('localhost') : true, '!isSiteHostName("localhost")' );
 
-        ok( !tracker.hook.test._isSiteHostName('google.com'), '!isSiteHostName("google.com")' );
-        ok( tracker.hook.test._isSiteHostName('example.com'), 'isSiteHostName("example.com")' );
-        ok( tracker.hook.test._isSiteHostName('www.example.com'), 'isSiteHostName("www.example.com")' );
-        ok( tracker.hook.test._isSiteHostName('www.sub.example.com'), 'isSiteHostName("www.sub.example.com")' );
+        ok( !isSiteHostName('google.com'), '!isSiteHostName("google.com")' );
+        ok( isSiteHostName('example.com'), 'isSiteHostName("example.com")' );
+        ok( isSiteHostName('www.example.com'), 'isSiteHostName("www.example.com")' );
+        ok( isSiteHostName('www.sub.example.com'), 'isSiteHostName("www.sub.example.com")' );
 
         tracker.setDomains( 'dev.piwik.org' );
-        ok( !tracker.hook.test._isSiteHostName('piwik.org'), '!isSiteHostName("piwik.org")' );
-        ok( tracker.hook.test._isSiteHostName('dev.piwik.org'), 'isSiteHostName("dev.piwik.org")' );
-        ok( !tracker.hook.test._isSiteHostName('piwik.example.org'), '!isSiteHostName("piwik.example.org")');
-        ok( !tracker.hook.test._isSiteHostName('dev.piwik.org.com'), '!isSiteHostName("dev.piwik.org.com")');
+        ok( !isSiteHostName('piwik.org'), '!isSiteHostName("piwik.org")' );
+        ok( isSiteHostName('dev.piwik.org'), 'isSiteHostName("dev.piwik.org")' );
+        ok( !isSiteHostName('piwik.example.org'), '!isSiteHostName("piwik.example.org")');
+        ok( !isSiteHostName('dev.piwik.org.com'), '!isSiteHostName("dev.piwik.org.com")');
 
         tracker.setDomains( '.piwik.org' );
-        ok( tracker.hook.test._isSiteHostName('piwik.org'), 'isSiteHostName("piwik.org")' );
-        ok( tracker.hook.test._isSiteHostName('dev.piwik.org'), 'isSiteHostName("dev.piwik.org")' );
-        ok( !tracker.hook.test._isSiteHostName('piwik.org.com'), '!isSiteHostName("piwik.org.com")');
+        ok( isSiteHostName('piwik.org'), 'isSiteHostName("piwik.org")' );
+        ok( isSiteHostName('dev.piwik.org'), 'isSiteHostName("dev.piwik.org")' );
+        ok( !isSiteHostName('piwik.org.com'), '!isSiteHostName("piwik.org.com")');
+
+        /**
+         * isSiteHostPath ()
+         */
+
+        // with path
+        tracker.setDomains( '.piwik.org/path' );
+        ok( isSiteHostPath('piwik.org', '/path'), 'isSiteHostPath("piwik.org", "/path")' );
+        ok( isSiteHostPath('piwik.org', '/path/'), 'isSiteHostPath("piwik.org", "/path/")' );
+        ok( isSiteHostPath('piwik.org', '/path/test'), 'isSiteHostPath("piwik.org", "/path/test)' );
+        ok( isSiteHostPath('dev.piwik.org', '/path'), 'isSiteHostPath("dev.piwik.org", "/path")' );
+        ok( !isSiteHostPath('piwik.org', '/pat'), '!isSiteHostPath("piwik.org", "/pat")');
+        ok( !isSiteHostPath('piwik.org', '.com'), '!isSiteHostPath("piwik.org", ".com")');
+        ok( !isSiteHostPath('piwik.com', '/path'), '!isSiteHostPath("piwik.com", "/path")');
+        ok( !isSiteHostPath('piwik.com', '/path/test'), '!isSiteHostPath("piwik.com", "/path/test")');
+        ok( !isSiteHostPath('piwik.com', ''), '!isSiteHostPath("piwik.com", "/path/test")');
+
+        // no path
+        var domains = ['.piwik.org', 'piwik.org', '*.piwik.org', '.piwik.org/'];
+        for (var i in domains) {
+            var domain = domains[i];
+            tracker.setDomains( domain );
+            ok( isSiteHostPath('piwik.org', '/path'), 'isSiteHostPath("piwik.org", "/path"), domain: ' + domain );
+            ok( isSiteHostPath('piwik.org', '/path/'), 'isSiteHostPath("piwik.org", "/path/"), domain: ' + domain );
+            ok( isSiteHostPath('piwik.org', '/path/test'), 'isSiteHostPath("piwik.org", "/path/test), domain: ' + domain );
+
+            if (domain === 'piwik.org') {
+                ok( !isSiteHostPath('dev.piwik.org', '/path'), 'isSiteHostPath("dev.piwik.org", "/path"), domain: ' + domain );
+            } else {
+                ok( isSiteHostPath('dev.piwik.org', '/path'), 'isSiteHostPath("dev.piwik.org", "/path"), domain: ' + domain );
+            }
+            ok( isSiteHostPath('piwik.org', '/pat'), '!isSiteHostPath("piwik.org", "/pat"), domain: ' + domain );
+            ok( isSiteHostPath('piwik.org', '.com'), '!isSiteHostPath("piwik.org", ".com"), domain: ' + domain);
+            ok( isSiteHostPath('piwik.org', '/foo'), '!isSiteHostPath("piwik.com", "/foo"), domain: ' + domain);
+            ok( !isSiteHostPath('piwik.com', '/path'), '!isSiteHostPath("piwik.com", "/path"), domain: ' + domain);
+            ok( !isSiteHostPath('piwik.com', '/path/test'), '!isSiteHostPath("piwik.com", "/path/test"), domain: ' + domain);
+            ok( !isSiteHostPath('piwik.com', ''), '!isSiteHostPath("piwik.com", "/path/test"), domain: ' + domain);
+        }
+
+        // multiple paths / domains
+        tracker.setDomains( ['piwik.org/path', 'piwik.org/foo', 'piwik.org/bar/baz', '.piwik.pro/test'] );
+        ok( isSiteHostPath('piwik.pro', '/test/bar'), 'isSiteHostPath("piwik.pro", "/test/bar")' );
+        ok( !isSiteHostPath('piwik.org', '/foobar/'), 'isSiteHostPath("piwik.org", "/foobar/")' );
+        ok( isSiteHostPath('piwik.org', '/foo/bar'), 'isSiteHostPath("piwik.org", "/foo/bar")' );
+        ok( isSiteHostPath('piwik.org', '/bar/baz/foo'), 'isSiteHostPath("piwik.org", "/bar/baz/foo/")' );
+        ok( !isSiteHostPath('piwik.org', '/bar/ba'), 'isSiteHostPath("piwik.org", "/bar/ba")' );
+        ok( isSiteHostPath('piwik.org', '/path/test'), 'isSiteHostPath("piwik.org", "/path/test)' );
+        ok( isSiteHostPath('dev.piwik.pro', '/test'), 'isSiteHostPath("dev.piwik.pro", "/test")' );
+        ok( !isSiteHostPath('dev.piwik.pro', '/'), 'isSiteHostPath("dev.piwik.pro", "/")' );
+        ok( !isSiteHostPath('piwik.pro', '/'), 'isSiteHostPath("piwik.pro", "/")' );
+        ok( !isSiteHostPath('piwik.org', '/'), 'isSiteHostPath("piwik.org", "/")' );
+        ok( !isSiteHostPath('piwik.org', '/anythingelse'), 'isSiteHostPath("piwik.org", "/anythingelse")' );
+
+        // all is compared lower case
+        tracker.setDomains( '.piwik.oRg/PaTh' );
+        ok( isSiteHostPath('piwiK.org', '/pAth'), 'isSiteHostPath("piwik.org", "/path")' );
+        ok( isSiteHostPath('piwik.org', '/patH/'), 'isSiteHostPath("piwik.org", "/path/")' );
+        ok( isSiteHostPath('Piwik.ORG', '/PATH/TEST'), 'isSiteHostPath("piwik.org", "/path/test)' );
+
+        /**
+         * getLinkIfShouldBeProcessed ()
+         */
+        var getLinkIfShouldBeProcessed = tracker.hook.test._getLinkIfShouldBeProcessed;
+        function createLink(url) {
+            var link = document.createElement('a');
+            link.href = url;
+            return link;
+        }
+
+        tracker.setDomains( ['.piwik.org/path', '.piwik.org/foo', '.piwik.org/bar/baz', '.piwik.pro/test'] );
+
+        // they should not be detected as outlink as they match one of the domains
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foo/bar')), 'getLinkIfShouldBeProcessed http://www.piwik.org/foo/bar matches .piwik.org/foo')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://piwik.org/foo/bar')), 'getLinkIfShouldBeProcessed http://piwik.org/foo/bar matches .piwik.org/foo')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('piwik.org/foo/bar')), 'getLinkIfShouldBeProcessed missing protocol only domain given')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('//piwik.org/foo/bar')), 'getLinkIfShouldBeProcessed no protcol but url starts with //')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foo?x=1')), 'getLinkIfShouldBeProcessed url with query parameter should detect correct path')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foo')), 'getLinkIfShouldBeProcessed path is same as allowed path')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foo/')), 'getLinkIfShouldBeProcessed path is same as allowed path but with appended slash')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/bar/baz/')), 'getLinkIfShouldBeProcessed multiple directories with appended slash')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/bar/baz')), 'getLinkIfShouldBeProcessed multiple directories')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://WWW.PIWIK.ORG/BAR/BAZ')), 'getLinkIfShouldBeProcessed should test everything lowercase')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/bar/baz/x/y/z')), 'getLinkIfShouldBeProcessed many appended paths')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/bar/baz?test=1&foo=bar')), 'getLinkIfShouldBeProcessed another test with query parameter and multiple directories')
+        propEqual({
+                "href": "http://www.piwik.org/foo/download.apk",
+                "type": "download"
+        }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foo/download.apk')), 'getLinkIfShouldBeProcessed should detect download even if it is link to same domain')
+        propEqual({
+            "href": "http://www.piwik.org/foobar/download.apk",
+            "type": "download"
+        }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foobar/download.apk')), 'getLinkIfShouldBeProcessed should detect download even if it goes to different domain/path')
+        propEqual({
+            "href": "http://www.piwik.com/foobar/download.apk",
+            "type": "download"
+        }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.com/foobar/download.apk')), 'getLinkIfShouldBeProcessed should detect download even if it goes to different domain')
+        propEqual({
+            "href": "http://www.piwik.pro/foo/",
+            "type": "link"
+        }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.pro/foo/')), 'getLinkIfShouldBeProcessed path matches but domain not so outlink')
+        propEqual({
+            "href": "http://www.piwik.org/bar",
+            "type": "link"
+        }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/bar')), 'getLinkIfShouldBeProcessed domain matches but path not so outlink')
+        propEqual({
+            "href": "http://www.piwik.org/footer",
+            "type": "link"
+        }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/footer')), 'getLinkIfShouldBeProcessed http://www.piwik.org/footer and there is domain piwik.org/foo but it should be outlink as path is different')
     });
 
     test("Tracker getClassesRegExp()", function() {
