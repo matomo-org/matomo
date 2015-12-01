@@ -388,6 +388,7 @@ class Request
     {
         $params = array();
         $params['format'] = 'original';
+        $params['serialize'] = '0';
         $params['module'] = 'API';
         $params['method'] = $method;
         $params = $paramOverride + $params;

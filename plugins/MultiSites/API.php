@@ -147,7 +147,6 @@ class API extends \Piwik\Plugin\API
                       'limit'       => SettingsPiwik::getWebsitesCountToDisplay(),
                       'showColumns' => '',
                       'hideColumns' => '',
-                      'serialize'   => 0,
                       'format'      => 'original'));
 
             if (!empty($sites)) {
