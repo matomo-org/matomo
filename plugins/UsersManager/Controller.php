@@ -20,7 +20,6 @@ use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Login\SessionInitializer;
-use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -57,7 +56,7 @@ class Controller extends ControllerAdmin
 
         $view = new View('@UsersManager/index');
 
-        $IdSitesAdmin = APISitesManager::getInstance()->getSitesIdWithAdminAccess();
+        $IdSitesAdmin = Request::processRequest('SitesManager.getSitesIdWithAdminAccess');
         $idSiteSelected = 1;
 
         if (count($IdSitesAdmin) > 0) {
@@ -79,7 +78,7 @@ class Controller extends ControllerAdmin
 
         // we dont want to display the user currently logged so that the user can't change his settings from admin to view...
         $currentlyLogged = Piwik::getCurrentUserLogin();
-        $usersLogin = APIUsersManager::getInstance()->getUsersLogin();
+        $usersLogin = Request::processRequest('UsersManager.getUsersLogin');
         foreach ($usersLogin as $login) {
             if (!isset($usersAccessByWebsite[$login])) {
                 $usersAccessByWebsite[$login] = 'noaccess';
@@ -132,7 +131,8 @@ class Controller extends ControllerAdmin
         $view->usersAliasByLogin = $usersAliasByLogin;
         $view->usersCount = count($users) - 1;
         $view->usersAccessByWebsite = $usersAccessByWebsite;
-        $websites = APISitesManager::getInstance()->getSitesWithAdminAccess();
+
+        $websites = Request::processRequest('SitesManager.getSitesWithAdminAccess');
         uasort($websites, array('Piwik\Plugins\UsersManager\Controller', 'orderByName'));
         $view->websites = $websites;
         $this->setBasicVariablesView($view);
@@ -229,7 +229,7 @@ class Controller extends ControllerAdmin
         $view = new View('@UsersManager/userSettings');
 
         $userLogin = Piwik::getCurrentUserLogin();
-        $user = APIUsersManager::getInstance()->getUser($userLogin);
+        $user = Request::processRequest('UsersManager.getUser', array('userLogin' => $userLogin));
         $view->userAlias = $user['alias'];
         $view->userEmail = $user['email'];
 
@@ -311,11 +311,13 @@ class Controller extends ControllerAdmin
         $userLogin = 'anonymous';
 
         // Which websites are available to the anonymous users?
-        $anonymousSitesAccess = APIUsersManager::getInstance()->getSitesAccessFromUser($userLogin);
+
+        $anonymousSitesAccess = Request::processRequest('UsersManager.getSitesAccessFromUser', array('userLogin' => $userLogin));
         $anonymousSites = array();
         foreach ($anonymousSitesAccess as $info) {
             $idSite = $info['site'];
-            $site = APISitesManager::getInstance()->getSiteFromId($idSite);
+
+            $site = Request::processRequest('SitesManager.getSiteFromId', array('idSite' => $idSite));
             // Work around manual website deletion
             if (!empty($site)) {
                 $anonymousSites[$idSite] = $site;
@@ -324,7 +326,7 @@ class Controller extends ControllerAdmin
         $view->anonymousSites = $anonymousSites;
 
         // Which report is displayed by default to the anonymous user?
-        $anonymousDefaultReport = APIUsersManager::getInstance()->getUserPreference($userLogin, APIUsersManager::PREFERENCE_DEFAULT_REPORT);
+        $anonymousDefaultReport = Request::processRequest('UsersManager.getUserPreference', array('userLogin' => $userLogin, 'preferenceName' => APIUsersManager::PREFERENCE_DEFAULT_REPORT));
         if ($anonymousDefaultReport === false) {
             if (empty($anonymousSites)) {
                 $anonymousDefaultReport = Piwik::getLoginPluginName();
