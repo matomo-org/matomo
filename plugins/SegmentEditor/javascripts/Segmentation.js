@@ -492,7 +492,6 @@ Segmentation = (function($) {
             self.target.on("click", ".segmentList li", function (e) {
                 if ($(e.currentTarget).hasClass("grayed") !== true) {
                     var idsegment = $(this).attr("data-idsegment");
-                    var segmentExtra = getSegmentFromId(idsegment);
                     segmentDefinition = $(this).data("definition");
 
                     self.setSegment(segmentDefinition);
@@ -834,6 +833,10 @@ Segmentation = (function($) {
             var idsegment = option.attr("data-idsegment");
 
             var segmentExtra = getSegmentFromId(idsegment);
+
+            // this is important
+            segmentExtra.name = option.attr("title");
+            segmentExtra.definition = option.data("definition");
 
             openEditForm(segmentExtra);
         }
