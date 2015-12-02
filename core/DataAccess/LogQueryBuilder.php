@@ -45,6 +45,21 @@ class LogQueryBuilder
     }
 
 
+    private function hasJoinedTableAlreadyManually($tableToFind, $joinToFind, $tables)
+    {
+        foreach ($tables as $index => $table) {
+            if (is_array($table)
+                && !empty($table['table'])
+                && $table['table'] === $tableToFind
+                && (!isset($table['tableAlias']) || $table['tableAlias'] === $tableToFind)
+                && isset($table['joinOn']) && $table['joinOn'] === $joinToFind) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Generate the join sql based on the needed tables
      * @param array $tables tables to join
@@ -113,6 +128,12 @@ class LogQueryBuilder
 
                 if ($linkVisitActionsTableAvailable && $table === 'log_action') {
                     $join = "log_link_visit_action.idaction_url = log_action.idaction";
+
+                    if ($this->hasJoinedTableAlreadyManually($table, $join, $tables)) {
+                        $actionsTableAvailable = true;
+                        continue;
+                    }
+
                 } elseif ($linkVisitActionsTableAvailable && $table == "log_conversion") {
                     // have actions, need conversions => join on idvisit
                     $join = "log_conversion.idvisit = log_link_visit_action.idvisit";

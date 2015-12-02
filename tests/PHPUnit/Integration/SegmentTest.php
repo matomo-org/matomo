@@ -371,6 +371,53 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
+    public function test_getSelectQuery_whenJoinLogLinkVisitActionOnActionOnVisit_WithSameTableAlias()
+    {
+        $actionType = 3;
+        $idSite = 1;
+        $select = 'log_link_visit_action.custom_dimension_1,
+                  log_action.name as url,
+                  sum(log_link_visit_action.time_spent) as `13`,
+                  sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`';
+        $from  = array(
+            'log_link_visit_action',
+            array('table' => 'log_visit', 'joinOn' => 'log_visit.idvisit = log_link_visit_action.idvisit'),
+            array('table' => 'log_action', 'joinOn' => 'log_link_visit_action.idaction_url = log_action.idaction')
+        );
+        $where = 'log_link_visit_action.server_time >= ?
+                  AND log_link_visit_action.server_time <= ?
+                  AND log_link_visit_action.idsite = ?';
+        $bind = array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite);
+
+        $segment = 'actionType==' . $actionType;
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+
+        $logVisitTable = Common::prefixTable('log_visit');
+        $logActionTable = Common::prefixTable('log_action');
+        $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+
+        $expected = array(
+            "sql"  => "
+             SELECT log_link_visit_action.custom_dimension_1,
+                    log_action.name as url,
+                    sum(log_link_visit_action.time_spent) as `13`,
+                    sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
+             FROM $logLinkVisitActionTable AS log_link_visit_action
+                  LEFT JOIN $logVisitTable AS log_visit
+                       ON log_visit.idvisit = log_link_visit_action.idvisit
+                  LEFT JOIN $logActionTable AS log_action
+                       ON log_link_visit_action.idaction_url = log_action.idaction
+             WHERE ( log_link_visit_action.server_time >= ?
+                 AND log_link_visit_action.server_time <= ?
+                 AND log_link_visit_action.idsite = ? )
+                 AND ( log_action.type = ? )",
+            "bind" => array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite, $actionType));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
     /**
      * visit is joined on action, then conversion is joined
      * make sure that conversion is joined on action not visit
