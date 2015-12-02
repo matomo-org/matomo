@@ -44,50 +44,6 @@ class LogQueryBuilder
         );
     }
 
-    private function getIndexIfTableInTables($tableToFind, $tables)
-    {
-        $index = array_search($tableToFind, $tables);
-        
-        if (false !== $index) {
-            return $index;
-        }
-
-        foreach ($tables as $index => $table) {
-            if (is_array($table)
-                && !empty($table['table'])
-                && $table['table'] === $tableToFind
-                && (!isset($table['tableAlias']) || $table['tableAlias'] === $tableToFind)) {
-                return $index;
-            }
-        }
-
-        return false;
-    }
-
-    private function swapPositionOfTableEntries($tables, $index1, $index2)
-    {
-        $table1 = $tables[$index1];
-        $table2 = $tables[$index2];
-
-        $tables[$index1] = $table2;
-        $tables[$index2] = $table1;
-
-        return $tables;
-    }
-
-    private function hasJoinedTableAlreadyManually($tableToFind, $tables)
-    {
-        foreach ($tables as $index => $table) {
-            if (is_array($table)
-                && !empty($table['table'])
-                && $table['table'] === $tableToFind
-                && (!isset($table['tableAlias']) || $table['tableAlias'] === $tableToFind)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     /**
      * Generate the join sql based on the needed tables
@@ -97,7 +53,7 @@ class LogQueryBuilder
      */
     private function generateJoinsString(&$tables)
     {
-        $knownTables = array('log_action', 'log_visit', 'log_link_visit_action', 'log_conversion', 'log_conversion_item');
+        $knownTables = array("log_action", "log_visit", "log_link_visit_action", "log_conversion", "log_conversion_item");
         $visitsAvailable = $linkVisitActionsTableAvailable = $conversionsAvailable = $conversionItemAvailable = $actionsTableAvailable = false;
         $joinWithSubSelect = false;
         $sql = '';
@@ -105,30 +61,33 @@ class LogQueryBuilder
         // make sure the tables are joined in the right order
         // base table first, then action before conversion
         // this way, conversions can be left joined on idvisit
-        $actionIndex = $this->getIndexIfTableInTables("log_link_visit_action", $tables);
-        $conversionIndex = $this->getIndexIfTableInTables("log_conversion", $tables);
+        $actionIndex = array_search("log_link_visit_action", $tables);
+        $conversionIndex = array_search("log_conversion", $tables);
         if ($actionIndex > 0 && $conversionIndex > 0 && $actionIndex > $conversionIndex) {
-            $tables = $this->swapPositionOfTableEntries($tables, $actionIndex, $conversionIndex);
+            $tables[$actionIndex] = "log_conversion";
+            $tables[$conversionIndex] = "log_link_visit_action";
         }
 
         // same as above: action before visit
-        $actionIndex = $this->getIndexIfTableInTables("log_link_visit_action", $tables);
-        $visitIndex = $this->getIndexIfTableInTables("log_visit", $tables);
+        $actionIndex = array_search("log_link_visit_action", $tables);
+        $visitIndex = array_search("log_visit", $tables);
         if ($actionIndex > 0 && $visitIndex > 0 && $actionIndex > $visitIndex) {
-            $tables = $this->swapPositionOfTableEntries($tables, $actionIndex, $visitIndex);
+            $tables[$actionIndex] = "log_visit";
+            $tables[$visitIndex] = "log_link_visit_action";
         }
 
         // we need to add log_link_visit_action dynamically to join eg visit with action
-        $linkVisitAction = $this->getIndexIfTableInTables("log_link_visit_action", $tables);
-        $actionIndex     = $this->getIndexIfTableInTables("log_action", $tables);
+        $linkVisitAction = array_search("log_link_visit_action", $tables);
+        $actionIndex     = array_search("log_action", $tables);
         if ($linkVisitAction === false && $actionIndex > 0) {
             $tables[] = "log_link_visit_action";
         }
 
-        $linkVisitAction = $this->getIndexIfTableInTables("log_link_visit_action", $tables);
-        $actionIndex     = $this->getIndexIfTableInTables("log_action", $tables);
+        $linkVisitAction = array_search("log_link_visit_action", $tables);
+        $actionIndex     = array_search("log_action", $tables);
         if ($linkVisitAction > 0 && $actionIndex > 0 && $linkVisitAction > $actionIndex) {
-            $tables = $this->swapPositionOfTableEntries($tables, $linkVisitAction, $actionIndex);
+            $tables[$actionIndex] = "log_link_visit_action";
+            $tables[$linkVisitAction] = "log_action";
         }
 
         foreach ($tables as $i => $table) {
@@ -150,7 +109,8 @@ class LogQueryBuilder
             if ($i == 0) {
                 // first table
                 $sql .= $tableSql;
-            } elseif (!$this->hasJoinedTableAlreadyManually($table, $tables)) {
+            } else {
+
                 if ($linkVisitActionsTableAvailable && $table === 'log_action') {
                     $join = "log_link_visit_action.idaction_url = log_action.idaction";
                 } elseif ($linkVisitActionsTableAvailable && $table == "log_conversion") {
