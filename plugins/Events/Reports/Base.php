@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\Events\Reports;
 
-use Piwik\Plugins\Events\API;
+use Piwik\API\Request;
 use Piwik\Plugins\Events\Columns\Metrics\AverageEventValue;
 
 abstract class Base extends \Piwik\Plugin\Report
@@ -20,8 +20,10 @@ abstract class Base extends \Piwik\Plugin\Report
             new AverageEventValue()
         );
 
+        $secondaryDimensions = Request::processRequest('Events.getDefaultSecondaryDimension', array('apiMethod' => $this->action));
+
         $this->widgetParams = array(
-            'secondaryDimension' => API::getInstance()->getDefaultSecondaryDimension($this->action)
+            'secondaryDimension' => $secondaryDimensions
         );
     }
 

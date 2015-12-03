@@ -10,6 +10,7 @@ namespace Piwik\Plugins\UsersManager;
 
 use Exception;
 use Piwik\Access;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -173,7 +174,7 @@ class API extends \Piwik\Plugin\API
     {
         switch ($preferenceName) {
             case self::PREFERENCE_DEFAULT_REPORT:
-                $viewableSiteIds = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAtLeastViewAccess($login);
+                $viewableSiteIds = Request::processRequest('SitesManager.getSitesIdWithAtLeastViewAccess', array('_restrictSitesToLogin' => $login));
                 if (!empty($viewableSiteIds)) {
                     return reset($viewableSiteIds);
                 }
@@ -642,7 +643,7 @@ class API extends \Piwik\Plugin\API
 
         // in case idSites is all we grant access to all the websites on which the current connected user has an 'admin' access
         if ($idSites === 'all') {
-            $idSites = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAdminAccess();
+            $idSites = Request::processRequest('SitesManager.getSitesIdWithAdminAccess', array('filter_limit' => '-1'));
         } // in case the idSites is an integer we build an array
         else {
             $idSites = Site::getIdSitesFromIdSitesString($idSites);

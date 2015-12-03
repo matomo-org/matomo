@@ -9,11 +9,11 @@
 namespace Piwik\Plugins\SitesManager;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
-use Piwik\Measurable\MeasurableSetting;
 use Piwik\Measurable\MeasurableSettings;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -64,16 +64,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $response = new ResponseBuilder(Common::getRequestVar('format'));
 
         $globalSettings = array();
-
-        $globalSettings['keepURLFragmentsGlobal'] = API::getInstance()->getKeepURLFragmentsGlobal();
-        $globalSettings['siteSpecificUserAgentExcludeEnabled'] = API::getInstance()->isSiteSpecificUserAgentExcludeEnabled();
-        $globalSettings['defaultCurrency'] = API::getInstance()->getDefaultCurrency();
-        $globalSettings['searchKeywordParametersGlobal'] = API::getInstance()->getSearchKeywordParametersGlobal();
-        $globalSettings['searchCategoryParametersGlobal'] = API::getInstance()->getSearchCategoryParametersGlobal();
-        $globalSettings['defaultTimezone'] = API::getInstance()->getDefaultTimezone();
-        $globalSettings['excludedIpsGlobal'] = API::getInstance()->getExcludedIpsGlobal();
-        $globalSettings['excludedQueryParametersGlobal'] = API::getInstance()->getExcludedQueryParametersGlobal();
-        $globalSettings['excludedUserAgentsGlobal'] = API::getInstance()->getExcludedUserAgentsGlobal();
+        $globalSettings['keepURLFragmentsGlobal'] = Request::processRequest('SitesManager.getKeepURLFragmentsGlobal');
+        $globalSettings['siteSpecificUserAgentExcludeEnabled'] = Request::processRequest('SitesManager.isSiteSpecificUserAgentExcludeEnabled');
+        $globalSettings['defaultCurrency'] = Request::processRequest('SitesManager.getDefaultCurrency');
+        $globalSettings['searchKeywordParametersGlobal'] = Request::processRequest('SitesManager.getSearchKeywordParametersGlobal');
+        $globalSettings['searchCategoryParametersGlobal'] = Request::processRequest('SitesManager.getSearchCategoryParametersGlobal');
+        $globalSettings['defaultTimezone'] = Request::processRequest('SitesManager.getDefaultTimezone');
+        $globalSettings['excludedIpsGlobal'] = Request::processRequest('SitesManager.getExcludedIpsGlobal');
+        $globalSettings['excludedQueryParametersGlobal'] = Request::processRequest('SitesManager.getExcludedQueryParametersGlobal');
+        $globalSettings['excludedUserAgentsGlobal'] = Request::processRequest('SitesManager.getExcludedUserAgentsGlobal');
 
         return $response->getResponse($globalSettings);
     }
@@ -97,15 +96,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $enableSiteUserAgentExclude = Common::getRequestVar('enableSiteUserAgentExclude', $default = 0);
             $keepURLFragments = Common::getRequestVar('keepURLFragments', $default = 0);
 
-            $api = API::getInstance();
-            $api->setDefaultTimezone($timezone);
-            $api->setDefaultCurrency($currency);
-            $api->setGlobalExcludedQueryParameters($excludedQueryParameters);
-            $api->setGlobalExcludedIps($excludedIps);
-            $api->setGlobalExcludedUserAgents($excludedUserAgents);
-            $api->setGlobalSearchParameters($searchKeywordParameters, $searchCategoryParameters);
-            $api->setSiteSpecificUserAgentExcludeEnabled($enableSiteUserAgentExclude == 1);
-            $api->setKeepURLFragmentsGlobal($keepURLFragments);
+            Request::processRequest('SitesManager.setDefaultTimezone', array('defaultTimezone' => $timezone));
+            Request::processRequest('SitesManager.setDefaultCurrency', array('defaultCurrency' => $currency));
+            Request::processRequest('SitesManager.setGlobalExcludedQueryParameters', array('excludedQueryParameters' => $excludedQueryParameters));
+            Request::processRequest('SitesManager.setGlobalExcludedIps', array('excludedIps' => $excludedIps));
+            Request::processRequest('SitesManager.setGlobalExcludedUserAgents', array('excludedUserAgents' => $excludedUserAgents));
+            Request::processRequest('SitesManager.setGlobalSearchParameters', array('searchKeywordParameters' => $searchKeywordParameters, 'searchCategoryParameters' => $searchCategoryParameters));
+            Request::processRequest('SitesManager.setSiteSpecificUserAgentExcludeEnabled', array('enabled' => $enableSiteUserAgentExclude == 1));
+            Request::processRequest('SitesManager.setKeepURLFragmentsGlobal', array('enabled' => $keepURLFragments));
 
             $toReturn = $response->getResponse();
         } catch (Exception $e) {

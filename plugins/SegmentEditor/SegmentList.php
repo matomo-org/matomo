@@ -19,7 +19,7 @@ class SegmentList
     public function findSegment($segmentName, $idSite)
     {
         $segments = Request::processRequest('API.getSegmentsMetadata', array(
-            'idSites' => array($idSite),
+            'idSites' => array($idSite), 'filter_limit' => '-1'
         ));
 
         foreach ($segments as $segment) {

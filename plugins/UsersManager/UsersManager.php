@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Db;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -57,7 +58,7 @@ class UsersManager extends \Piwik\Plugin
     public function recordAdminUsersInCache(&$attributes, $idSite)
     {
         // add the 'hosts' entry in the website array
-        $users = API::getInstance()->getUsersWithSiteAccess($idSite, 'admin');
+        $users = Request::processRequest('UsersManager.getUsersWithSiteAccess', array('idSite' => $idSite, 'access' => 'admin', 'filter_limit' => '-1'));
 
         $tokens = array();
         foreach ($users as $user) {

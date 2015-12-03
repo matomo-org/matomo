@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\SEO;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\Site;
@@ -39,7 +40,7 @@ class Widgets extends \Piwik\Plugin\Widgets
             $url = $site->getMainUrl();
         }
 
-        $dataTable = API::getInstance()->getRank($url);
+        $dataTable = Request::processRequest('SEO.getRank', array('url' => $url));
 
         $view = new View('@SEO/getRank');
         $view->urlToRank = Url::getHostFromUrl($url);

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Goals\Reports;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\Goals\Goals;
@@ -58,6 +59,6 @@ abstract class Base extends \Piwik\Plugin\Report
             return array();
         }
 
-        return API::getInstance()->getGoals($idSite);
+        return Request::processRequest('Goals.getGoals', array('idSite' => $idSite, 'filter_limit' => '-1'));
     }
 }

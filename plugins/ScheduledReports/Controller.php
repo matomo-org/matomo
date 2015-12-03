@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\ScheduledReports;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -27,7 +28,8 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@ScheduledReports/index');
         $this->setGeneralVariablesView($view);
 
-        $view->countWebsites = count(APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess());
+        $websites = Request::processRequest('SitesManager.getSitesIdWithAtLeastViewAccess', array('filter_limit' => '-1'));
+        $view->countWebsites = count($websites);
 
         // get report types
         $reportTypes = API::getReportTypes();

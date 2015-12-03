@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\UsersManager;
 
+use Piwik\API\Request;
 use Piwik\Config;
 use Piwik\Period\PeriodValidator;
 use Piwik\Piwik;
@@ -42,7 +43,7 @@ class UserPreferences
             return $defaultReport;
         }
 
-        $sitesId = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
+        $sitesId = Request::processRequest('SitesManager.getSitesIdWithAtLeastViewAccess', array('filter_limit' => '-1'));
 
         if (!empty($sitesId)) {
             return $sitesId[0];

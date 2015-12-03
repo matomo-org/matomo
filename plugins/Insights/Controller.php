@@ -73,7 +73,9 @@ class Controller extends \Piwik\Plugin\Controller
         $date    = Common::getRequestVar('date', null, 'string');
         $segment = Request::getRawSegmentFromRequest();
 
-        return API::getInstance()->$apiReport($idSite, $period, $date, $segment);
+        return Request::processRequest('Insights.' . $apiReport, array(
+            'idSite' => $idSite, 'period' => $period, 'date' => $date, 'segment' => $segment, 'filter_limit' => '-1')
+        );
     }
 
     private function canGenerateInsights()
@@ -81,6 +83,6 @@ class Controller extends \Piwik\Plugin\Controller
         $period = Common::getRequestVar('period', null, 'string');
         $date   = Common::getRequestVar('date', null, 'string');
 
-        return API::getInstance()->canGenerateInsights($date, $period);
+        return Request::processRequest('Insights.canGenerateInsights', array('date' => $date, 'period' => $period));
     }
 }

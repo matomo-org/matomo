@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\SitesManager;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Container\StaticContainer;
@@ -117,7 +118,7 @@ class SitesManager extends \Piwik\Plugin
         // add the 'hosts' entry in the website array
         $array['hosts'] = $this->getTrackerHosts($idSite);
 
-        $website = API::getInstance()->getSiteFromId($idSite);
+        $website = Request::processRequest('SitesManager.getSiteFromId', array('idSite' => $idSite));
         $array['exclude_unknown_urls'] = $website['exclude_unknown_urls'];
         $array['excluded_ips'] = $this->getTrackerExcludedIps($website);
         $array['excluded_parameters'] = self::getTrackerExcludedQueryParameters($website);
@@ -157,14 +158,14 @@ class SitesManager extends \Piwik\Plugin
             return false;
         }
 
-        return API::getInstance()->getKeepURLFragmentsGlobal();
+        return Request::processRequest('SitesManager.getKeepURLFragmentsGlobal');
     }
 
     private function getTrackerSearchKeywordParameters($website)
     {
         $searchParameters = $website['sitesearch_keyword_parameters'];
         if (empty($searchParameters)) {
-            $searchParameters = API::getInstance()->getSearchKeywordParametersGlobal();
+            $searchParameters = Request::processRequest('SitesManager.getSearchKeywordParametersGlobal');
         }
         return explode(",", $searchParameters);
     }
@@ -173,7 +174,7 @@ class SitesManager extends \Piwik\Plugin
     {
         $searchParameters = $website['sitesearch_category_parameters'];
         if (empty($searchParameters)) {
-            $searchParameters = API::getInstance()->getSearchCategoryParametersGlobal();
+            $searchParameters = Request::processRequest('SitesManager.getSearchCategoryParametersGlobal');
         }
         return explode(",", $searchParameters);
     }
@@ -187,13 +188,13 @@ class SitesManager extends \Piwik\Plugin
     private function getTrackerExcludedIps($website)
     {
         $excludedIps = $website['excluded_ips'];
-        $globalExcludedIps = API::getInstance()->getExcludedIpsGlobal();
+        $globalExcludedIps = Request::processRequest('SitesManager.getExcludedIpsGlobal');
 
         $excludedIps .= ',' . $globalExcludedIps;
 
         $ipRanges = array();
         foreach (explode(',', $excludedIps) as $ip) {
-            $ipRange = API::getInstance()->getIpsForRange($ip);
+            $ipRange = Request::processRequest('SitesManager.getIpsForRange', array('ipRange' => $ip));
             if ($ipRange !== false) {
                 $ipRanges[] = $ipRange;
             }
@@ -210,8 +211,8 @@ class SitesManager extends \Piwik\Plugin
      */
     private static function getExcludedUserAgents($website)
     {
-        $excludedUserAgents = API::getInstance()->getExcludedUserAgentsGlobal();
-        if (API::getInstance()->isSiteSpecificUserAgentExcludeEnabled()) {
+        $excludedUserAgents = Request::processRequest('SitesManager.getExcludedUserAgentsGlobal');
+        if (Request::processRequest('SitesManager.isSiteSpecificUserAgentExcludeEnabled')) {
             $excludedUserAgents .= ',' . $website['excluded_user_agents'];
         }
         return self::filterBlankFromCommaSepList($excludedUserAgents);
@@ -226,7 +227,7 @@ class SitesManager extends \Piwik\Plugin
     public static function getTrackerExcludedQueryParameters($website)
     {
         $excludedQueryParameters = $website['excluded_parameters'];
-        $globalExcludedQueryParameters = API::getInstance()->getExcludedQueryParametersGlobal();
+        $globalExcludedQueryParameters = Request::processRequest('SitesManager.getExcludedQueryParametersGlobal');
 
         $excludedQueryParameters .= ',' . $globalExcludedQueryParameters;
         return self::filterBlankFromCommaSepList($excludedQueryParameters);
@@ -254,7 +255,7 @@ class SitesManager extends \Piwik\Plugin
      */
     private function getTrackerHosts($idSite)
     {
-        $urls = API::getInstance()->getSiteUrlsFromId($idSite);
+        $urls = Request::processRequest('SitesManager.getSiteUrlsFromId', array('idSite' => $idSite, 'filter_limit' => '-1'));
         $hosts = array();
         foreach ($urls as $url) {
             $url = parse_url($url);

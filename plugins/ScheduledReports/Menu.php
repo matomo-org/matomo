@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\ScheduledReports;
 
+use Piwik\API\Request;
 use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
@@ -43,14 +44,15 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         try {
-            $reports = API::getInstance()->getReports();
+            $reports = Request::processRequest('ScheduledReports.getReports', array('filter_limit' => '-1'));
             $reportCount = count($reports);
 
             // if there are no reports and the mobile account is
             //  - not configured: display 'Email reports'
             //  - configured: display 'Email & SMS reports'
             if ($reportCount == 0) {
-                return APIMobileMessaging::getInstance()->areSMSAPICredentialProvided() ?
+                $areProvided = Request::processRequest('MobileMessaging.areSMSAPICredentialProvided');
+                return $areProvided ?
                     self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY : self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
             }
         } catch(\Exception $e) {

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
@@ -289,7 +290,7 @@ class Controller extends ControllerAdmin
         $view->topMenu  = MenuTop::getInstance()->getMenu();
         $view->userMenu = MenuUser::getInstance()->getMenu();
 
-        $viewableIdSites = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
+        $viewableIdSites = Request::processRequest('SitesManager.getSitesIdWithAtLeastViewAccess', array('filter_limit' => '-1'));
 
         $defaultIdSite = reset($viewableIdSites);
         $view->idSite = Common::getRequestVar('idSite', $defaultIdSite, 'int');
@@ -298,7 +299,7 @@ class Controller extends ControllerAdmin
         $view->defaultSiteRevenue = Site::getCurrencySymbolFor($view->idSite);
         $view->maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
 
-        $allUrls = APISitesManager::getInstance()->getSiteUrlsFromId($view->idSite);
+        $allUrls = Request::processRequest('SitesManager.getSiteUrlsFromId', array('idSite' => $view->idSite, 'filter_limit' => '-1'));
         if (isset($allUrls[1])) {
             $aliasUrl = $allUrls[1];
         } else {
@@ -310,7 +311,7 @@ class Controller extends ControllerAdmin
         $view->defaultReportSiteDomain = @parse_url($mainUrl, PHP_URL_HOST);
 
         // get currencies for each viewable site
-        $view->currencySymbols = APISitesManager::getInstance()->getCurrencySymbols();
+        $view->currencySymbols = Request::processRequest('SitesManager.getCurrencySymbols', array('filter_limit' => '-1'));
 
         $dntChecker = new DoNotTrackHeaderChecker();
         $view->serverSideDoNotTrackEnabled = $dntChecker->isActive();

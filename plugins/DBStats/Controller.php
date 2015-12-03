@@ -11,6 +11,7 @@ namespace Piwik\Plugins\DBStats;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\View;
+use Piwik\API\Request;
 
 /**
  */
@@ -35,7 +36,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->reportDataSummary    = $this->renderReport('getReportDataSummary');
         $view->adminDataSummary     = $this->renderReport('getAdminDataSummary');
 
-        list($siteCount, $userCount, $totalSpaceUsed) = API::getInstance()->getGeneralInformation();
+        list($siteCount, $userCount, $totalSpaceUsed) = Request::processRequest('DBStats.getGeneralInformation');
 
         $formatter = new Formatter();
         $view->siteCount      = $formatter->getPrettyNumber($siteCount);

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Live;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable;
@@ -300,7 +301,7 @@ class API extends \Piwik\Plugin\API
             $website        = new Site($idSite);
             $timezone       = $website->getTimezone();
             $currency       = $website->getCurrency();
-            $currencies     = APISitesManager::getInstance()->getCurrencySymbols();
+            $currencies     = Request::processRequest('SitesManager.getCurrencySymbols', array('filter_limit' => '-1'));
 
             // live api is not summable, prevents errors like "Unexpected ECommerce status value"
             $table->deleteRow(DataTable::ID_SUMMARY_ROW);

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreHome;
 
+use Piwik\API\Request;
 use Piwik\Db;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
@@ -20,7 +21,7 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureTopMenu(MenuTop $menu)
     {
         $login = Piwik::getCurrentUserLogin();
-        $user  = APIUsersManager::getInstance()->getUser($login);
+        $user  = Request::processRequest('UsersManager.getUser', array('userLogin' => $login));
 
         if (!empty($user['alias'])) {
             $login = $user['alias'];

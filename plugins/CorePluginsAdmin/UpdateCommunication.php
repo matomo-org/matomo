@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
 
+use Piwik\API\Request;
 use Piwik\Config;
 use Piwik\Mail;
 use Piwik\Option;
@@ -123,7 +124,7 @@ class UpdateCommunication
      */
     protected function sendEmailNotification($subject, $message)
     {
-        $superUsers = UsersManagerApi::getInstance()->getUsersHavingSuperUserAccess();
+        $superUsers = Request::processRequest('UsersManager.getUsersHavingSuperUserAccess', array('filter_limit' => '-1'));
 
         foreach ($superUsers as $superUser) {
             $mail = new Mail();

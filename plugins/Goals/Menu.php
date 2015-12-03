@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Goals;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Menu\Group;
 use Piwik\Menu\MenuReporting;
@@ -21,7 +22,7 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureReportingMenu(MenuReporting $menu)
     {
         $idSite = $this->getIdSite();
-        $goals  = API::getInstance()->getGoals($idSite);
+        $goals  = Request::processRequest('Goals.getGoals', array('idSite' => $idSite, 'filter_limit' => '-1'));
         $mainGoalMenu = 'Goals_Goals';
 
         if (count($goals) == 0) {

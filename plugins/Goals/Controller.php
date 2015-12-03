@@ -78,7 +78,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->translationHelper = $translationHelper;
 
         $this->idSite = Common::getRequestVar('idSite', null, 'int');
-        $this->goals = API::getInstance()->getGoals($this->idSite);
+        $this->goals = Request::processRequest('Goals.getGoals', array('idSite' => $this->idSite, 'filter_limit' => '-1'));
     }
 
     public function widgetGoalReport()

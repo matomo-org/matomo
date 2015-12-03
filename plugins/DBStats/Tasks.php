@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\DBStats;
 
+use Piwik\API\Request;
 use Piwik\Date;
 use Piwik\Option;
 
@@ -24,9 +25,8 @@ class Tasks extends \Piwik\Plugin\Tasks
      */
     public function cacheDataByArchiveNameReports()
     {
-        $api = API::getInstance();
-        $api->getIndividualReportsSummary(true);
-        $api->getIndividualMetricsSummary(true);
+        Request::processRequest('DBStats.getIndividualReportsSummary', array('forceCache' => true));
+        Request::processRequest('DBStats.getIndividualMetricsSummary', array('forceCache' => true));
 
         $now = Date::now()->getLocalized(Date::DATE_FORMAT_SHORT);
         Option::set(DBStats::TIME_OF_LAST_TASK_RUN_OPTION, $now);

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Goals;
 
+use Piwik\API\Request;
 use Piwik\Common;
 
 class Widgets extends \Piwik\Plugin\Widgets
@@ -19,7 +20,7 @@ class Widgets extends \Piwik\Plugin\Widgets
         $this->addWidget('Goals_GoalsOverview', 'widgetGoalsOverview');
 
         $idSite = $this->getIdSite();
-        $goals  = API::getInstance()->getGoals($idSite);
+        $goals  = Request::processRequest('Goals.getGoals', array('idSite' => $idSite, 'filter_limit' => '-1'));
 
         if (count($goals) > 0) {
             foreach ($goals as $goal) {

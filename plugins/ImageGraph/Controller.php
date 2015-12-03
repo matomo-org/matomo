@@ -8,9 +8,9 @@
  */
 namespace Piwik\Plugins\ImageGraph;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugins\API\API as APIPlugins;
 use Piwik\SettingsPiwik;
 use Piwik\View;
 
@@ -27,7 +27,9 @@ class Controller extends \Piwik\Plugin\Controller
         $period = Common::getRequestVar('period', 'day', 'string');
         $date = Common::getRequestVar('date', 'today', 'string');
         $_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();
-        $reports = APIPlugins::getInstance()->getReportMetadata($idSite, $period, $date);
+        $reports = Request::processRequest('API.getReportMetadata', array(
+            'idSites' => $idSite, 'period' => $period, 'date' => $date, 'filter_limit' => '-1'
+        ));
         $plot = array();
         foreach ($reports as $report) {
             if (!empty($report['imageGraphUrl'])) {
@@ -56,7 +58,10 @@ class Controller extends \Piwik\Plugin\Controller
         $date = Common::getRequestVar('date', 'today', 'string');
 
         $_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();
-        $availableReports = APIPlugins::getInstance()->getReportMetadata($this->idSite, $period, $date);
+
+        $availableReports = Request::processRequest('API.getReportMetadata', array(
+            'idSites' => $this->idSite, 'period' => $period, 'date' => $date, 'filter_limit' => '-1'
+        ));
         $view->availableReports = $availableReports;
         $view->graphTypes = array(
             '', // default graph type

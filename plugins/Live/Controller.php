@@ -12,7 +12,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
-use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Url;
 use Piwik\View;
 
@@ -33,7 +32,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->idSite = $this->idSite;
         $view = $this->setCounters($view);
         $view->liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
-        $view->visitors = $this->getLastVisitsStart($fetchPlease = true);
+        $view->visitors = $this->getLastVisitsStart();
         $view->liveTokenAuth = Piwik::getCurrentUserTokenAuth();
         return $this->render($view);
     }
@@ -87,10 +86,21 @@ class Controller extends \Piwik\Plugin\Controller
     private function setCounters($view)
     {
         $segment = Request::getRawSegmentFromRequest();
-        $last30min = API::getInstance()->getCounters($this->idSite, $lastMinutes = 30, $segment, array('visits', 'actions'));
+
+        $params = array(
+            'idSite' => $this->idSite,
+            'lastMinutes' => 30,
+            'segment' => $segment,
+            'showColumns' => array('visits', 'actions')
+        );
+
+        $last30min = Request::processRequest('Live.getCounters', $params);
         $last30min = $last30min[0];
-        $today = API::getInstance()->getCounters($this->idSite, $lastMinutes = 24 * 60, $segment, array('visits', 'actions'));
+
+        $params['lastMinutes'] = 24 * 60;
+        $today = Request::processRequest('Live.getCounters', $params);
         $today = $today[0];
+
         $view->visitorsCountHalfHour = $last30min['visits'];
         $view->visitorsCountToday = $today['visits'];
         $view->pisHalfhour = $last30min['actions'];
@@ -107,7 +117,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = new View('@Live/getVisitorProfilePopup.twig');
         $view->idSite = $idSite;
-        $view->goals = APIGoals::getInstance()->getGoals($idSite);
+        $view->goals = Request::processRequest('Goals.getGoals', array('idSite' => $idSite, 'filter_limit' => '-1'));
         $view->visitorData = Request::processRequest('Live.getVisitorProfile');
         $view->exportLink = $this->getVisitorProfileExportLink();
 

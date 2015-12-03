@@ -44,7 +44,7 @@ class SegmentSelectorControl extends UIControl
 
         $this->isAddingSegmentsForAllWebsitesEnabled = SegmentEditor::isAddingSegmentsForAllWebsitesEnabled();
 
-        $segments = APIMetadata::getInstance()->getSegmentsMetadata($this->idSite);
+        $segments = Request::processRequest('API.getSegmentsMetadata', array('idSites' => $this->idSite, 'filter_limit' => '-1'));
 
         $segmentsByCategory = array();
         foreach ($segments as $segment) {

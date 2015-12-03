@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Intl\Commands;
 
+use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Filesystem;
@@ -56,7 +57,7 @@ class GenerateIntl extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $piwikLanguages = \Piwik\Plugins\LanguagesManager\API::getInstance()->getAvailableLanguages();
+        $piwikLanguages = Request::processRequest('LanguagesManager.getAvailableLanguages', array('filter_limit' => '-1'));
 
         $aliasesUrl = 'https://raw.githubusercontent.com/unicode-cldr/cldr-core/master/supplemental/aliases.json';
         $aliasesData = Http::fetchRemoteFile($aliasesUrl);

@@ -14,7 +14,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -161,7 +160,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->defaultMetric = 'nb_visits';
         $liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
 
-        $goals = APIGoals::getInstance()->getGoals($idSite);
+        $goals = Request::processRequest('Goals.getGoals', array('idSite' => $idSite, 'filter_limit' => '-1'));
         $site = new Site($idSite);
         $hasGoals = !empty($goals) || $site->isEcommerceEnabled();
 

@@ -56,7 +56,7 @@ class Controller extends ControllerAdmin
 
         $view = new View('@UsersManager/index');
 
-        $IdSitesAdmin = Request::processRequest('SitesManager.getSitesIdWithAdminAccess');
+        $IdSitesAdmin = Request::processRequest('SitesManager.getSitesIdWithAdminAccess', array('filter_limit' => '-1'));
         $idSiteSelected = 1;
 
         if (count($IdSitesAdmin) > 0) {
@@ -70,7 +70,7 @@ class Controller extends ControllerAdmin
         } else {
             $defaultReportSiteName = Site::getNameFor($idSiteSelected);
             try {
-                $usersAccessByWebsite = Request::processRequest('UsersManager.getUsersAccessFromSite', array('idSite' => $idSiteSelected));
+                $usersAccessByWebsite = Request::processRequest('UsersManager.getUsersAccessFromSite', array('idSite' => $idSiteSelected, 'filter_limit' => '-1'));
             } catch (NoAccessException $e) {
                 return $this->noAdminAccessToWebsite($idSiteSelected, $defaultReportSiteName, $e->getMessage());
             }
@@ -105,7 +105,7 @@ class Controller extends ControllerAdmin
         if (Piwik::isUserHasSomeAdminAccess()) {
             $view->showLastSeen = true;
 
-            $users = Request::processRequest('UsersManager.getUsers');
+            $users = Request::processRequest('UsersManager.getUsers', array('filter_limit' => '-1'));
             foreach ($users as $index => $user) {
                 $usersAliasByLogin[$user['login']] = $user['alias'];
 
@@ -132,7 +132,7 @@ class Controller extends ControllerAdmin
         $view->usersCount = count($users) - 1;
         $view->usersAccessByWebsite = $usersAccessByWebsite;
 
-        $websites = Request::processRequest('SitesManager.getSitesWithAdminAccess');
+        $websites = Request::processRequest('SitesManager.getSitesWithAdminAccess', array('filter_limit' => '-1'));
         uasort($websites, array('Piwik\Plugins\UsersManager\Controller', 'orderByName'));
         $view->websites = $websites;
         $this->setBasicVariablesView($view);
@@ -163,7 +163,9 @@ class Controller extends ControllerAdmin
      */
     protected function getDefaultDateForUser($user)
     {
-        return APIUsersManager::getInstance()->getUserPreference($user, APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
+        return Request::processRequest('UsersManager.getUserPreference', array(
+            'userLogin' => $user, 'preferenceName' => APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE)
+        );
     }
 
     /**
@@ -258,7 +260,7 @@ class Controller extends ControllerAdmin
         $view->defaultDate = $this->getDefaultDateForUser($userLogin);
         $view->availableDefaultDates = $this->getDefaultDates();
 
-        $view->languages = APILanguagesManager::getInstance()->getAvailableLanguageNames();
+        $view->languages = Request::processRequest('LanguagesManager.getAvailableLanguageNames');
         $view->currentLanguageCode = LanguagesManager::getLanguageCodeForCurrentUser();
         $view->currentTimeformat = LanguagesManager::uses12HourClockForCurrentUser();
         $view->ignoreCookieSet = IgnoreCookie::isIgnoreCookieFound();
@@ -312,7 +314,7 @@ class Controller extends ControllerAdmin
 
         // Which websites are available to the anonymous users?
 
-        $anonymousSitesAccess = Request::processRequest('UsersManager.getSitesAccessFromUser', array('userLogin' => $userLogin));
+        $anonymousSitesAccess = Request::processRequest('UsersManager.getSitesAccessFromUser', array('userLogin' => $userLogin, 'filter_limit' => '-1'));
         $anonymousSites = array();
         foreach ($anonymousSitesAccess as $info) {
             $idSite = $info['site'];
@@ -356,18 +358,24 @@ class Controller extends ControllerAdmin
             $anonymousDefaultReport = Common::getRequestVar('anonymousDefaultReport');
             $anonymousDefaultDate = Common::getRequestVar('anonymousDefaultDate');
             $userLogin = 'anonymous';
-            APIUsersManager::getInstance()->setUserPreference($userLogin,
-                APIUsersManager::PREFERENCE_DEFAULT_REPORT,
-                $anonymousDefaultReport);
-            APIUsersManager::getInstance()->setUserPreference($userLogin,
-                APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
-                $anonymousDefaultDate);
+
+            $this->setUserPreference($userLogin, APIUsersManager::PREFERENCE_DEFAULT_REPORT, $anonymousDefaultReport);
+            $this->setUserPreference($userLogin, APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE, $anonymousDefaultDate);
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
         }
 
         return $toReturn;
+    }
+
+    private function setUserPreference($userLogin, $name, $value)
+    {
+        Request::processRequest('UsersManager.setUserPreference', array(
+            'userLogin' => $userLogin,
+            'preferenceName' => $name,
+            'preferenceValue' => $value
+        ));
     }
 
     /**
@@ -392,12 +400,9 @@ class Controller extends ControllerAdmin
             APILanguagesManager::getInstance()->setLanguageForUser($userLogin, $language);
             APILanguagesManager::getInstance()->set12HourClockForUser($userLogin, $timeFormat);
 
-            APIUsersManager::getInstance()->setUserPreference($userLogin,
-                APIUsersManager::PREFERENCE_DEFAULT_REPORT,
-                $defaultReport);
-            APIUsersManager::getInstance()->setUserPreference($userLogin,
-                APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
-                $defaultDate);
+            $this->setUserPreference($userLogin, APIUsersManager::PREFERENCE_DEFAULT_REPORT, $defaultReport);
+            $this->setUserPreference($userLogin, APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE, $defaultDate);
+
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
@@ -441,7 +446,10 @@ class Controller extends ControllerAdmin
             throw new Exception("Cannot change password with untrusted hostname!");
         }
 
-        APIUsersManager::getInstance()->updateUser($userLogin, $newPassword, $email, $alias);
+        Request::processRequest('UsersManager.updateUser', array(
+            'userLogin' => $userLogin, 'password' => $newPassword, 'email' => $email, 'alias' => $alias)
+        );
+
         if ($newPassword !== false) {
             $newPassword = Common::unsanitizeInputValue($newPassword);
         }

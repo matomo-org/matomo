@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Events;
 
+use Piwik\API\Request;
 use Piwik\View;
 
 /**
@@ -31,7 +32,7 @@ class Controller extends \Piwik\Plugin\Controller
             $count = 1;
             $controllerAction = str_replace("get", "index", $apiAction, $count);
             $params = array(
-                'secondaryDimension' => API::getInstance()->getDefaultSecondaryDimension($apiAction)
+                'secondaryDimension' => Request::processRequest('Events.getDefaultSecondaryDimension', array('apiMethod' => $apiAction))
             );
             $reports->addReport('Events_TopEvents', $translations[0], 'Events.' . $controllerAction, $params);
         }

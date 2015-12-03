@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Goals;
 
+use Piwik\API\Request;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Db;
@@ -259,7 +260,7 @@ class Goals extends \Piwik\Plugin
     public function fetchGoalsFromDb(&$array, $idSite)
     {
         // add the 'goal' entry in the website array
-        $array['goals'] = API::getInstance()->getGoals($idSite);
+        $array['goals'] = Request::processRequest('Goals.getGoals', array('idSite' => $idSite, 'filter_limit' => '-1'));
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

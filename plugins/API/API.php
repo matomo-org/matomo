@@ -375,7 +375,7 @@ class API extends \Piwik\Plugin\API
 
         // find out which columns belong to which plugin
         $columnsByPlugin = array();
-        $meta = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite, $period, $date);
+        $meta = Request::processRequest('API.getReportMetadata', array('idSites' => $idSite, 'period' => $period, 'date' => $date, 'filter_limit' => '-1'));
         foreach ($meta as $reportMeta) {
             // scan all *.get reports
             if ($reportMeta['action'] == 'get'

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\ScheduledReports;
 
+use Piwik\API\Request;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\Site;
 
@@ -15,7 +16,8 @@ class Tasks extends \Piwik\Plugin\Tasks
 {
     public function schedule()
     {
-        foreach (API::getInstance()->getReports() as $report) {
+        $reports = Request::processRequest('ScheduledReports.getReports', array('filter_limit' => '-1'));
+        foreach ($reports as $report) {
             if (!$report['deleted'] && $report['period'] != Schedule::PERIOD_NEVER) {
 
                 $timezone = Site::getTimezoneFor($report['idsite']);

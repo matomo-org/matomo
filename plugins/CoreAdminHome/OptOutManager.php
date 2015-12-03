@@ -8,9 +8,9 @@
  */
 namespace Piwik\Plugins\CoreAdminHome;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Nonce;
-use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Tracker\IgnoreCookie;
@@ -188,7 +188,8 @@ class OptOutManager
         }
 
         $language = Common::getRequestVar('language', '');
-        $lang = APILanguagesManager::getInstance()->isLanguageAvailable($language)
+        $isLanguageAvailable = Request::processRequest('LanguagesManager.isLanguageAvailable', array('languageCode' => $language));
+        $lang = $isLanguageAvailable
             ? $language
             : LanguagesManager::getLanguageCodeForCurrentUser();
 

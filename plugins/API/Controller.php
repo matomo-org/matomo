@@ -63,7 +63,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function listSegments()
     {
-        $segments = API::getInstance()->getSegmentsMetadata($this->idSite);
+        $segments = Request::processRequest('API.getSegmentsMetadata', array('idSites' => $this->idSite, 'filter_limit' => '-1'));
 
         $tableDimensions = $tableMetrics = '';
         $customVariables = 0;

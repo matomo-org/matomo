@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Events;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
@@ -169,7 +170,7 @@ class Events extends \Piwik\Plugin
         $view->config->show_related_reports = true;
 
         $apiMethod = $view->requestConfig->getApiMethodToRequest();
-        $secondaryDimensions = API::getInstance()->getSecondaryDimensions($apiMethod);
+        $secondaryDimensions = Request::processRequest('Events.getSecondaryDimensions', array('apiMethod' => $apiMethod));
 
         if (empty($secondaryDimensions)) {
             return;

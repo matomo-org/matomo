@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\CoreUpdater;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Http;
-use Piwik\Plugins\SitesManager\API;
 use Piwik\Url;
 use Piwik\Version;
 use Piwik\UpdateCheck\ReleaseChannel as BaseReleaseChannel;
@@ -26,7 +26,7 @@ abstract class ReleaseChannel extends BaseReleaseChannel
             'release_channel' => $this->getId(),
             'url'             => Url::getCurrentUrlWithoutQueryString(),
             'trigger'         => Common::getRequestVar('module', '', 'string'),
-            'timezone'        => API::getInstance()->getDefaultTimezone(),
+            'timezone'        => Request::processRequest('SitesManager.getDefaultTimezone'),
         );
 
         $url = Config::getInstance()->General['api_service_url']

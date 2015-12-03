@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\Goals\Visualizations;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
@@ -171,7 +172,7 @@ class Goals extends HtmlTable
             }
 
             // add the site's goals (and escape all goal names)
-            $siteGoals = APIGoals::getInstance()->getGoals($idSite);
+            $siteGoals = Request::processRequest('Goals.getGoals', array('idSite' => $idSite, 'filter_limit' => '-1'));
 
             foreach ($siteGoals as &$goal) {
                 $goal['name'] = Common::sanitizeInputValue($goal['name']);
