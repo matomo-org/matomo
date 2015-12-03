@@ -449,7 +449,7 @@ abstract class Base extends VisitDimension
 
     protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
     {
-        return Common::mb_strtolower($visitor->getVisitorColumn($infoName)) != $information[$infoName];
+        return Common::mb_strtolower($visitor->getVisitorColumn($infoName)) != Common::mb_strtolower($information[$infoName]);
     }
 
     protected function doesLastActionHaveSameReferrer(Visitor $visitor, $referrerType)
