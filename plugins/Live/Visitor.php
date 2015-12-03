@@ -301,7 +301,7 @@ class Visitor implements VisitorInterface
             }
 
             // Event value / Generation time
-            if ($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
+            if ($actionDetail['type'] == Action::TYPE_EVENT) {
                 if (strlen($actionDetail['custom_float']) > 0) {
                     $actionDetail['eventValue'] = round($actionDetail['custom_float'], self::EVENT_VALUE_PRECISION);
                 }
@@ -310,7 +310,7 @@ class Visitor implements VisitorInterface
             }
             unset($actionDetail['custom_float']);
 
-            if ($actionDetail['type'] != Action::TYPE_EVENT_CATEGORY) {
+            if ($actionDetail['type'] != Action::TYPE_EVENT) {
                 unset($actionDetail['eventCategory']);
                 unset($actionDetail['eventAction']);
             }
@@ -423,7 +423,7 @@ class Visitor implements VisitorInterface
                     $details['type'] = 'search';
                     $details['icon'] = 'plugins/Morpheus/images/search_ico.png';
                     break;
-                case Action::TYPE_EVENT_CATEGORY:
+                case Action::TYPE_EVENT:
                     $details['type'] = 'event';
                     $details['icon'] = 'plugins/Morpheus/images/event.png';
                     break;
