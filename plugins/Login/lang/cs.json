@@ -9,7 +9,7 @@
         "InvalidUsernameEmail": "Neplatné uživatelské jméno a\/nebo emailová adresa",
         "LogIn": "Přihlásit",
         "LoginOrEmail": "Uživatelské jméno nebo Email",
-        "LoginPasswordNotCorrect": "Uživatelské jméno & heslo nejsou správné",
+        "LoginPasswordNotCorrect": "Chybná kombinace uživatelského jména a hesla.",
         "LostYourPassword": "Zapomněli jste vaše heslo?",
         "MailPasswordChangeBody": "Ahoj %1$s,\n\nZ %2$s byl zaslán požadavek o změnu hesla. Pro potvrzení nových přihlašovacích údajů navštivte následující odkaz:\n\n%3$s\n\nPoznámka: Tento token je platný 24 hodin.\n\nA díky za používání Piwiku!",
         "MailTopicPasswordChange": "Potvrďte změnu hesla",

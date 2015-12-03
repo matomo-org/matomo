@@ -7,6 +7,7 @@
         "Engagement": "利用状況",
         "NPages": "%s ページ",
         "OnePage": "1 ページ",
+        "PluginDescription": "ビジターの関心についてのレポート：閲覧したページ数、ウェブサイトに費やされた時間、最後の訪問以来の日数、その他",
         "VisitNum": "訪問回数",
         "VisitsByDaysSinceLast": "最後の訪問からの日数別のビジット",
         "visitsByVisitCount": "訪問回数別のビジット",

@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "%s ～ %s の間の %s のヒット %s に基づく平均",
         "ColumnClickedURL": "クリックされた URL",
+        "ColumnActionURL": "アクション URL",
         "ColumnClicks": "クリック数",
         "ColumnClicksDocumentation": "このリンクがクリックされた回数",
         "ColumnDownloadURL": "ダウンロード URL",

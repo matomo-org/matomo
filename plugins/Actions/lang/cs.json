@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Průměr dle %s přístupů %s mezi %s a %s",
         "ColumnClickedURL": "URL prokliku",
+        "ColumnActionURL": "URL akce",
         "ColumnClicks": "Prokliků",
         "ColumnClicksDocumentation": "Počet kliknutí na odkaz v závislosti na čase.",
         "ColumnDownloadURL": "URL stažení",
@@ -42,7 +43,7 @@
         "PluginDescription": "Podává hlášení o zobrazení a titulcích stránek. Umožňuje měřit váš interní vyhledávač. Automaticky sleduje kliky na externí odkazy a soubory ke stažení.",
         "SiteSearchCategories1": "Toto hlášení shrnuje kategorie, které návštěvníci vybrali při vyhledávání na stránkách.",
         "SiteSearchCategories2": "Například elektronické obchody mívají filtr kategorií, aby mohli uzákazníci zvolit, ve které kategorii bude provedeno hledání.",
-        "SiteSearchFollowingPagesDoc": "Když návštěvníci hledají na vašich stránkách, snaží se nalézt určitou stránku, obhsa, produkt, nebo službu. Toto hlášení zobrazuje stránky, na které bylo klikáno nejčastěji po interním vyhledávání. Jinak řečeno, jedná se o stránky, které byly nejvíce hledány návštěvníky, kteří už byli na vašich stránkách.",
+        "SiteSearchFollowingPagesDoc": "Když návštěvníci hledají na vašich stránkách, snaží se nalézt určitou stránku, obsah, produkt, nebo službu. Toto hlášení zobrazuje stránky, na které bylo klikáno nejčastěji po interním vyhledávání. Jinak řečeno, jedná se o stránky, které byly nejvíce hledány návštěvníky, kteří už byli na vašich stránkách.",
         "SiteSearchIntro": "Sledování vyhledávání na vašich stránkách je velmi efektivní způsob, jak se dozvědět více o tom, co vaši návštěvníci na stránkách hledají, jaký obsah by je mohl zajímat, jaké produkty by si mohli chtít koupit, a jak jim obecně zpříjemnit pobyt na vašich stránkách.",
         "SiteSearchKeyword": "Klíčová slova (Vyhledávání)",
         "SiteSearchKeywordsDocumentation": "Toto hlášení shrnuje klíčová slova, která byla použita návštěvníky při hledání pomocí interního vyhledávače.",

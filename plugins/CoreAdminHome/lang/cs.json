@@ -85,7 +85,7 @@
         "WithOptionalRevenue": "s volitelným příjmem",
         "YouAreOptedIn": "Aktuálně nejste vyloučen.",
         "YouAreOptedOut": "Aktuálně jste vyloučeni.",
-        "YouMayOptOut": "Zde se můžete rozhodnout, zda se smí ve Vašem prohlížeči ukládat jedinečná analytická data “cookies”, a zda umožníte provozovateli webové stránky shromažďovat a analyzovat různé statistické údaje.",
+        "YouMayOptOut": "Zde se můžete zakázat uložení cookie s identifikačním číslem přiděleným vašemu počítači a tím zamezit provozovateli této webové stránky shromažďovat a analyzovat statistické údaje.",
         "YouMayOptOutBis": "Pokud jste se rozhodli že ne, klikněte na přiložený odkaz pro uložení deaktivačního cookie ve svém prohlížeči.",
         "OptingYouOut": "Vylučování, prosím čekejte..."
     }

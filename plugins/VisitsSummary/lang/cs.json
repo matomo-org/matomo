@@ -6,7 +6,7 @@
         "GenerateTime": "%s sekund k vygenerování stránky",
         "MaxNbActions": "%s maximální počet akcí na návštěvu",
         "NbActionsDescription": "%s akcí (zobrazení stránek, stažení a odchodů)",
-        "NbActionsPerVisit": "%s akcí za návštěvu",
+        "NbActionsPerVisit": "%s akcí (zobrazení stránek, stažení, odkazů a vyhledávání) na návštěvu",
         "NbDownloadsDescription": "%s stažení",
         "NbKeywordsDescription": "%s unikátní klíčová slova",
         "NbOutlinksDescription": "%s externích odkazů",

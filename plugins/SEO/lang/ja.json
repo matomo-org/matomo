@@ -1,5 +1,6 @@
 {
     "SEO": {
+        "PluginDescription": "このプラグインは SEO メトリクスを抽出し、表示します。： Alexa web ランキング, Google ページランク,インデックスされたページ数やバックリンクの数。",
         "AlexaRank": "Alexa ランク",
         "Bing_IndexedPages": "Bing インデックスページ",
         "Dmoz": "DMOZ エントリー",

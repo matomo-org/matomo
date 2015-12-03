@@ -49,6 +49,7 @@
         "LeastMonthsInput": "月数は %s より大きい数を指定してください。",
         "MenuPrivacySettings": "プライバシー",
         "NextDelete": "次回の削除まで",
+        "PluginDescription": "ユーザーのプライバシーを増強し、Piwik インスタンス プライバシーを地域の法律に準拠させます。",
         "PurgeNow": "今DBを削除する",
         "PurgeNowConfirm": "データベースから永久にデータを削除しようとしています。続けますか？",
         "PurgingData": "データを削除しています...",
