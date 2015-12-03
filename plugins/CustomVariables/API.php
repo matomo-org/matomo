@@ -142,7 +142,7 @@ class API extends \Piwik\Plugin\API
         $date = '2008-12-12,' . $today;
         $customVarUsages = Request::processRequest('CustomVariables.getCustomVariables',
             array('idSite' => $idSite, 'period' => 'range', 'date' => $date,
-                  'format' => 'original', 'serialize' => '0')
+                  'format' => 'original')
         );
 
         foreach ($customVarUsages->getRows() as $row) {
