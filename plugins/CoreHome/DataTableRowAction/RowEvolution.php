@@ -91,7 +91,7 @@ class RowEvolution
         if (!is_array($this->label)) {
             throw new Exception("Expected label to be an array, got instead: " . $this->label);
         }
-        $this->label = $this->label[0];
+        $this->label = Common::unsanitizeInputValue($this->label[0]);
 
         if ($this->label === '') throw new Exception("Parameter label not set.");
 
