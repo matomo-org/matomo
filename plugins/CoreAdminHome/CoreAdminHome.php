@@ -76,11 +76,12 @@ class CoreAdminHome extends \Piwik\Plugin
             $isHttps = 'false';
         }
 
-        $out .= "piwik.hasServerDetectedHttps = $isHttps;";
+        $out .= "piwik.hasServerDetectedHttps = $isHttps;\n";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'CoreAdminHome_ProtocolNotDetectedCorrectly';
+        $translationKeys[] = 'CoreAdminHome_ProtocolNotDetectedCorrectlySolution';
     }
 }

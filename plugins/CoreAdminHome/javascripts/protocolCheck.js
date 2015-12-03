@@ -32,10 +32,10 @@ $(document).ready(function () {
         '"config/config.ini.php"',
         '"assume_secure_protocol=1"',
         '"[General]"',
-        '<a href="https://piwik.org/faq/how-to-install/faq_98/" target="_blank">',
+        '<a href="?module=Proxy&action=redirect&url=https://piwik.org/faq/how-to-install/faq_98/" target="_blank">',
         '</a>'
     ];
-    var message = _pk_translate('CoreAdminHome_ProtocolNotDetectedCorrectly', params);
+    var message = _pk_translate('CoreAdminHome_ProtocolNotDetectedCorrectly') + " " + _pk_translate('CoreAdminHome_ProtocolNotDetectedCorrectlySolution', params);
 
     var UI = require('piwik/UI');
     var notification = new UI.Notification();

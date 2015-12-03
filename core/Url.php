@@ -181,11 +181,12 @@ class Url
         } catch (Exception $e) {
             $assume_secure_protocol = false;
         }
-        if ($assume_secure_protocol
-            || (isset($_SERVER['HTTPS'])
-                && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true))
-            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
-        ) {
+        if ($assume_secure_protocol) {
+            return 'https';
+        }
+        if(    (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true))
+            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')){
+
             return 'https';
         }
         return 'http';
