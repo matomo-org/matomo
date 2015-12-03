@@ -166,6 +166,34 @@
         margin: 0 0 10px;
         float: none;
         display: inline-block;
+        width: 100%;
+
+        .segmentationContainer {
+          .submenu {
+            width: 100%;
+          }
+          .segmentFilterContainer {
+            width:100%;
+            > input[type="text"] {
+              width: 100%;
+            }
+          }
+          .segmentList {
+            max-width: none;
+          }
+        }
+
+        .siteSelector {
+          width: 100%;
+
+          .custom_select_all a,
+          .custom_select_ul_list li a,
+          a.title,
+          a.title > span,
+          .dropdown {
+            max-width: none;
+          }
+        }
       }
       
       .isPiwikDemo {
