@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Μέσος όρος βάσει των %s επισκέψεων %s μεταξύ %s και %s",
         "ColumnClickedURL": "URL επιλογής",
+        "ColumnActionURL": "Διεύθυνση URL ενέργειας",
         "ColumnClicks": "Κλικ",
         "ColumnClicksDocumentation": "Οι φορές που πατήθηκε αυτός ο σύνδεσμος.",
         "ColumnDownloadURL": "URL λήψης",

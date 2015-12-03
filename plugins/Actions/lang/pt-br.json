@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Média baseada em %s visita(s) %s entre %s e %s",
         "ColumnClickedURL": "URL clicado",
+        "ColumnActionURL": "URL Ação",
         "ColumnClicks": "Cliques",
         "ColumnClicksDocumentation": "O número de vezes que link foi clicado.",
         "ColumnDownloadURL": "URL do Download",

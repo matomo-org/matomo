@@ -1,5 +1,6 @@
 {
     "SegmentEditor": {
+        "PluginDescription": "セグメントエディターでカスタム ユーザー セグメントを作成、編集できます。",
         "AddANDorORCondition": "%s の条件を追加",
         "AddNewSegment": "新しいセグメントを追加",
         "AreYouSureDeleteSegment": "このセグメントを削除してもよろしいですか？",
@@ -25,6 +26,7 @@
         "YouMayChangeSetting": "別の方法としては設定ファイル (%s) で設定を変更するか、このセグメント '%s' を選択し編集することができます。",
         "YouMustBeLoggedInToCreateSegments": "ビジターのカスタムセグメントの作成と編集にはログインが必要です。",
         "YouDontHaveAccessToCreateSegments": "セグメントの作成および編集に必要なレベルのアクセス権限を持っていません。",
-        "AddingSegmentForAllWebsitesDisabled": "全ウェブサイトに対するセグメントは追加できませんでした。"
+        "AddingSegmentForAllWebsitesDisabled": "全ウェブサイトに対するセグメントは追加できませんでした。",
+        "CustomSegment": "カスタムセグメント"
     }
 }

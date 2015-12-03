@@ -74,7 +74,7 @@
         "TrackingTags": "Zaznamenávací tagy pro %s",
         "Urls": "URL",
         "UTCTimeIs": "UTC čas je %s",
-        "OnlyMatchedUrlsAllowed": "Sledovat návštěvy a akce pouze tehdy, když URL akce začíná jednou z výše uvedených URL.",
+        "OnlyMatchedUrlsAllowed": "Sledovat návštěvy a akce pouze tehdy, pokud URL akce začíná jednou z výše uvedených URL.",
         "OnlyMatchedUrlsAllowedHelp": "Pokud je povoleno, Piwik bude sledovat interní akce pouze tehdy, když je URL stránky jednou ze známých URL vašich webových stránek. To zabrání lidem, aby zahltili analýzu URL jiných stránek.",
         "WebsitesManagement": "Nastavení Web sídel",
         "XManagement": "Spravovat %s",

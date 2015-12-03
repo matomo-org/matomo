@@ -61,7 +61,7 @@
         "User": "Uživatel",
         "UsersManagement": "Správa uživatelů",
         "UsersManagementMainDescription": "Vytvořte nové uživatele, nebo aktualizujte existující. Níže můžete nastavit jejich oprávnění.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Když uživatelé nejsou přihlášení do Piwiku, můžou mít přístup k",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Když uživatelé nejsou přihlášeni do Piwiku, mohou přistupovat k",
         "YourUsernameCannotBeChanged": "Vaše uživatelské jméno nemůže být změněno",
         "YourVisitsAreIgnoredOnDomain": "%sVaše návštěvy jsou vynechávány Piwikem na %s %s (cookie pro vynechání byla nalezena ve vašem prohlížeči).",
         "YourVisitsAreNotIgnored": "%sVaše návštěvy nejsou vynechávány Piwikem%s (cookie pro vynechání nebyla nalezena ve vašem prohlížeči)."

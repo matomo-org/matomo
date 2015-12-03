@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ColumnClickedURL": "조회한 URL",
+        "ColumnActionURL": "활동 URL",
         "ColumnClicks": "조회수",
         "ColumnClicksDocumentation": "이 링크를 클릭 한 횟수입니다.",
         "ColumnDownloadURL": "다운로드 URL",

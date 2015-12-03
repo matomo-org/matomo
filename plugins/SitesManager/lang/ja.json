@@ -1,6 +1,7 @@
 {
     "SitesManager": {
         "AddSite": "新しいサイトの追加",
+        "AddMeasurable": "新規の測定対象を追加",
         "AdvancedTimezoneSupportNotFound": "このサーバーの PHP では拡張タイムゾーンがサポートされていません（PHP>=5.2 でサポート）。 手作業で UTC オフセットを指定します。",
         "AliasUrlHelp": "これは推奨されますが、必須ではありません。 ビジターがこのウェブサイトのアクセスに使用するさまざまな URL を指定するには、1行に1つの URL を入力します。 ウェブサイトの URL エイリアスは、[参照元]>[ウェブサイト]のリポートには表示されません。 URL の 'www' の有無は、Piwik が両方とも考慮するため、指定する必要がないことに注意してください。",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "タイムゾーンの変更は、今後のデータにのみ反映され、過去のデータには適用されません。",
@@ -49,6 +50,7 @@
         "OnlyOneSiteAtTime": "一度にウェブサイトは一つだけ編集できます。ウェブサイト %s への変更を保存するか、キャンセルしてください。",
         "PiwikOffersEcommerceAnalytics": "Piwikは、高度なeコマース分析、トラッキング＆リポーティング、が可能になります。%s eコマース分析 %s について詳しく知る。",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "一般的なセッションパラメータ(%s)は、Piwik が自動的に除外します。",
+        "PluginDescription": "Web サイト管理では、新しい web サイトを追加し、既存の web サイトを編集することができます。",
         "SearchCategoryDesc": "Piwik は、各内部サイト内検索キーワードに対する検索カテゴリを追跡することもできます。",
         "SearchCategoryLabel": "カテゴリーパラメーター",
         "SearchCategoryParametersDesc": "検索カテゴリを指定するクエリパラメーターリストを、コンマ区切りで入力できます。",
@@ -72,6 +74,8 @@
         "TrackingTags": "%s 用トラッキングタグ",
         "Urls": "URL",
         "UTCTimeIs": "UTC 時間は %s です。",
+        "OnlyMatchedUrlsAllowed": "アクション URL は、上記のいずれかの URLで始まる場合にのみビジットやアクションを追跡します。",
+        "OnlyMatchedUrlsAllowedHelp": "有効にすると、Piwik はページ URL があなたのウェブサイトの URL として知られたものである時に内部のアクションを追跡します。これは他のウェブサイトの URL を使用して分析をスパムすることから人々を防ぎます。",
         "WebsitesManagement": "ウェブサイトの管理",
         "XManagement": "管理 %s",
         "ChooseMeasurableTypeHeadline": "何を測定しますか？",
