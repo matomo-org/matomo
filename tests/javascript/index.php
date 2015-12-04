@@ -2242,8 +2242,8 @@ function PiwikTest() {
         }
     });
 
-    test("Tracker setDomains(), isSiteHostName(), isSiteHostPath() and getLinkIfShouldBeProcessed()", function() {
-        expect(102);
+    test("Tracker setDomains(), isSiteHostName(), isSiteHostPath(), findConfigCookiePathToUse() and getLinkIfShouldBeProcessed()", function() {
+        expect(117);
 
         var tracker = Piwik.getTracker();
         var initialDomains = tracker.getDomains();
@@ -2252,10 +2252,12 @@ function PiwikTest() {
         equal( typeof tracker.hook.test._isSiteHostName, 'function', "isSiteHostName" );
         equal( typeof tracker.hook.test._isSiteHostPath, 'function', "isSiteHostPath" );
         equal( typeof tracker.hook.test._getLinkIfShouldBeProcessed, 'function', "getLinkIfShouldBeProcessed" );
+        equal( typeof tracker.hook.test._findConfigCookiePathToUse, 'function', "findConfigCookiePathToUse" );
 
         var isSiteHostName = tracker.hook.test._isSiteHostName;
         var isSiteHostPath = tracker.hook.test._isSiteHostPath;
         var getLinkIfShouldBeProcessed = tracker.hook.test._getLinkIfShouldBeProcessed;
+        var findConfigCookiePathToUse = tracker.hook.test._findConfigCookiePathToUse;
 
         // tracker.setDomain()
 
@@ -2412,6 +2414,46 @@ function PiwikTest() {
             "href": "http://www.piwik.org/footer",
             "type": "link"
         }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/footer')), 'getLinkIfShouldBeProcessed http://www.piwik.org/footer and there is domain piwik.org/foo but it should be outlink as path is different')
+
+
+        /**
+         * findConfigCookiePathToUse ()
+         */
+
+        tracker.setDomains( ['.piwik.org', '.piwik.pro/foo/bar', '.piwik.pro/foo', '.piwik.com/test/foo', 'example.com/foo'] );
+
+        equal(null, findConfigCookiePathToUse('.piwik.org/test', 'http://piwik.org/test/two'), 'findConfigCookiePathToUse no cookiePath because there is a domain alias given allowing them all');
+        equal('/foo', findConfigCookiePathToUse('.piwik.pro/foo', 'http://piwik.pro/foo/bar/test'), 'findConfigCookiePathToUse should find a match');
+        equal('/foo', findConfigCookiePathToUse('.piwik.pro/foo/bar/test', 'http://piwik.pro/foo/bar/test'), 'findConfigCookiePathToUse should find a less restrictive path automatically');
+        equal('/foo', findConfigCookiePathToUse('.piwik.pro/foo/bar/test', 'http://piwik.pro/foo'), 'findConfigCookiePathToUse should find a less restrictive path automatically, urlPath===domainPath');
+        equal('/test/bar/test', findConfigCookiePathToUse('.piwik.com/test/bar/test', 'http://piwik.com/test/bar/test/'), 'findConfigCookiePathToUse should use exactly given path if no less restrictive version is available');
+        equal('/test/foo', findConfigCookiePathToUse('.piwik.com/test/foo/test', 'http://piwik.com/test/foo/test'), 'findConfigCookiePathToUse should find a less restrictive path automatically, configAlias === currentUrl');
+        equal('/test/foo', findConfigCookiePathToUse('.piwik.com/test/foo', 'http://piwik.com/test/foo/test'), 'findConfigCookiePathToUse should find a less restrictive path automatically');
+        equal(null, findConfigCookiePathToUse('.piwik.pro/foo', 'http://piwik.pro/test'), 'findConfigCookiePathToUse should not return a path when user is actually not on that path');
+        equal(null, findConfigCookiePathToUse('.piwik.pro/foo', 'http://piwik.pro'), 'findConfigCookiePathToUse when there is no path set we cannot use a configPath');
+
+        /**
+         * Test sets a good cookie path automatically
+         */
+        tracker.setCookiePath(null);
+        tracker.setDomains( ['.' + domainAlias + '/tests'] );
+        equal('/tests', tracker.getConfigCookiePath()), 'should set a cookie path automatically';
+
+        tracker.setCookiePath(null);
+        tracker.setDomains( ['.' + domainAlias + '/tests/javascript'] );
+        equal('/tests/javascript', tracker.getConfigCookiePath()), 'should set a cookie path automatically, multiple directories';
+
+        tracker.setCookiePath(null);
+        tracker.setDomains( ['.' + domainAlias + '/tests/javascript', '.' + domainAlias + '/tests'] );
+        equal('/tests', tracker.getConfigCookiePath()), 'should find shortest path for possible cookie path';
+
+        tracker.setCookiePath(null);
+        tracker.setDomains( ['.' + domainAlias + '/tests/javascript', '.example.com/tests'] );
+        equal('/tests/javascript', tracker.getConfigCookiePath()), 'should not find a shorter path when no other domain matches';
+
+        tracker.setCookiePath(null);
+        tracker.setDomains( ['.' + domainAlias + '/another/one', '.example.org/tests/javascript', '.example.com/tests'] );
+        equal(null, tracker.getConfigCookiePath()), 'should not set a path when no domain and no path matches';
     });
 
     test("Tracker getClassesRegExp()", function() {

@@ -3046,6 +3046,11 @@ if (typeof Piwik !== 'object') {
                 return str.indexOf(suffix, str.length - suffix.length) !== -1;
             }
 
+            function removeCharactersFromEndOfString(str, numCharactersToRemove) {
+                str = String(str);
+                return str.substr(0, str.length - numCharactersToRemove);
+            }
+
             /*
              * Extract pathname from URL. element.pathname is actually supported by pretty much all browsers including
              * IE6 apart from some rare very old ones
@@ -4886,6 +4891,59 @@ if (typeof Piwik !== 'object') {
                 });
             }
 
+            /**
+             * Note: While we check whether the user is on a configHostAlias path we do not check whether the user is
+             * actually on the configHostAlias domain. This is already done where this method is called and for
+             * simplicity we do not check this again.
+             *
+             * Also we currently assume that all configHostAlias domains start with the same wild card of '*.', '.' or
+             * none. Eg either all like '*.piwik.org' or '.piwik.org' or 'piwik.org'. Piwik always adds '*.' so it
+             * should be fine.
+             */
+            function findConfigCookiePathToUse(configHostAlias, currentUrl)
+            {
+                var aliasPath   = getPathName(configHostAlias);
+                var currentPath = getPathName(currentUrl);
+
+                if (!aliasPath || aliasPath === '/' || !currentPath || currentPath === '/') {
+                    // no path set that would be useful for cookiePath
+                    return;
+                }
+
+                var aliasDomain = domainFixup(configHostAlias);
+
+                if (isSiteHostPath(aliasDomain, '/')) {
+                    // there is another configHostsAlias having same domain that allows all paths
+                    // eg this alias is for piwik.org/support but there is another alias allowing
+                    // piwik.org
+                    return;
+                }
+
+                if (stringEndsWith(aliasPath, '/')) {
+                    aliasPath = removeCharactersFromEndOfString(aliasPath, 1);
+                }
+
+                // eg if we're in the case of "apache.piwik/foo/bar" we check whether there is maybe
+                // also a config alias allowing "apache.piwik/foo". In this case we're not allowed to set
+                // the cookie for "/foo/bar" but "/foo"
+                var pathAliasParts = aliasPath.split('/');
+                for (var i = 2; i < pathAliasParts.length; i++) {
+                    var lessRestrctivePath = pathAliasParts.slice(0, i).join('/');
+                    if (isSiteHostPath(aliasDomain, lessRestrctivePath)) {
+                        aliasPath = lessRestrctivePath;
+                        break;
+                    }
+                }
+
+                if (!isSitePath(currentPath, aliasPath)) {
+                    // current path of current URL does not match the alias
+                    // eg user is on piwik.org/demo but configHostAlias is for piwik.org/support
+                    return;
+                }
+
+                return aliasPath;
+            }
+
             /*
              * Browser features (plugins, resolution, cookies)
              */
@@ -5025,6 +5083,9 @@ if (typeof Piwik !== 'object') {
                 replaceHrefIfInternalLink: replaceHrefIfInternalLink,
                 getDomains: function () {
                     return configHostsAlias;
+                },
+                getConfigCookiePath: function () {
+                    return configCookiePath;
                 },
                 getConfigDownloadExtensions: function () {
                     return configDownloadExtensions;
@@ -5467,10 +5528,20 @@ if (typeof Piwik !== 'object') {
 
                     var hasDomainAliasAlready = false, i;
                     for (i in configHostsAlias) {
+                        var configHostAliasDomain = domainFixup(String(configHostsAlias[i]));
+
                         if (Object.prototype.hasOwnProperty.call(configHostsAlias, i)
-                            && isSameHost(domainAlias, domainFixup(configHostsAlias[i]))) {
+                            && isSameHost(domainAlias, configHostAliasDomain)) {
                             hasDomainAliasAlready = true;
-                            break;
+
+                            if (!configCookiePath) {
+                                var path = findConfigCookiePathToUse(configHostsAlias[i], locationHrefAlias);
+                                if (path) {
+                                    this.setCookiePath(path);
+                                }
+
+                                break;
+                            }
                         }
                     }
 
@@ -6322,7 +6393,7 @@ if (typeof Piwik !== 'object') {
 
         asyncTracker = new Tracker();
 
-        var applyFirst  = ['disableCookies', 'setTrackerUrl', 'setAPIUrl', 'setCookiePath', 'setCookieDomain', 'setUserId', 'setSiteId', 'enableLinkTracking'];
+        var applyFirst  = ['disableCookies', 'setTrackerUrl', 'setAPIUrl', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
         _paq = applyMethodsInOrder(_paq, applyFirst);
 
         // apply the queue of actions
