@@ -279,7 +279,7 @@ class SegmentExpression
                 // it can be used internally to inject sub-expressions into the query.
                 // see Segment::getCleanedExpression()
                 $sqlMatch = '%s IN (' . $value['SQL'] . ')';
-                $value    = $this->escapeLikeString($value['bind']);
+                $value    = $value['bind'];
                 break;
             default:
                 throw new Exception("Filter contains the match type '" . $matchType . "' which is not supported");
@@ -337,8 +337,14 @@ class SegmentExpression
      */
     private function escapeLikeString($str)
     {
-        $str = str_replace("%", "\%", $str);
-        $str = str_replace("_", "\_", $str);
+        if (false !== strpos($str, '%')) {
+            $str = str_replace("%", "\%", $str);
+        }
+
+        if (false !== strpos($str, '_')) {
+            $str = str_replace("_", "\_", $str);
+        }
+        
         return $str;
     }
 
