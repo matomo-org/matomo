@@ -44,7 +44,6 @@ class LogQueryBuilder
         );
     }
 
-
     private function hasJoinedTableAlreadyManually($tableToFind, $joinToFind, $tables)
     {
         foreach ($tables as $index => $table) {
@@ -60,6 +59,25 @@ class LogQueryBuilder
         return false;
     }
 
+    private function findIndexOfManuallyAddedTable($tableToFind, $tables)
+    {
+        foreach ($tables as $index => $table) {
+            if (is_array($table)
+                && !empty($table['table'])
+                && $table['table'] === $tableToFind
+                && (!isset($table['tableAlias']) || $table['tableAlias'] === $tableToFind)) {
+                return $index;
+            }
+        }
+    }
+
+    private function hasTableAddedManually($tableToFind, $tables)
+    {
+        $table = $this->findIndexOfManuallyAddedTable($tableToFind, $tables);
+
+        return isset($table);
+    }
+
     /**
      * Generate the join sql based on the needed tables
      * @param array $tables tables to join
@@ -70,6 +88,8 @@ class LogQueryBuilder
     {
         $knownTables = array("log_action", "log_visit", "log_link_visit_action", "log_conversion", "log_conversion_item");
         $visitsAvailable = $linkVisitActionsTableAvailable = $conversionsAvailable = $conversionItemAvailable = $actionsTableAvailable = false;
+        $defaultLogActionJoin = "log_link_visit_action.idaction_url = log_action.idaction";
+
         $joinWithSubSelect = false;
         $sql = '';
 
@@ -96,6 +116,15 @@ class LogQueryBuilder
         $actionIndex     = array_search("log_action", $tables);
         if ($linkVisitAction === false && $actionIndex > 0) {
             $tables[] = "log_link_visit_action";
+        }
+
+        if ($actionIndex > 0
+            && $this->hasTableAddedManually('log_action', $tables)
+            && !$this->hasJoinedTableAlreadyManually('log_action', $defaultLogActionJoin, $tables)) {
+            // we cannot join the same table with same alias twice, therefore we need to combine the join via AND
+            $tableIndex = $this->findIndexOfManuallyAddedTable('log_action', $tables);
+            $defaultLogActionJoin = '(' . $tables[$tableIndex]['joinOn'] . ' AND ' . $defaultLogActionJoin . ')';
+            unset($tables[$tableIndex]);
         }
 
         $linkVisitAction = array_search("log_link_visit_action", $tables);
@@ -127,7 +156,7 @@ class LogQueryBuilder
             } else {
 
                 if ($linkVisitActionsTableAvailable && $table === 'log_action') {
-                    $join = "log_link_visit_action.idaction_url = log_action.idaction";
+                    $join = $defaultLogActionJoin;
 
                     if ($this->hasJoinedTableAlreadyManually($table, $join, $tables)) {
                         $actionsTableAvailable = true;
