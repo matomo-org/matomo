@@ -4905,7 +4905,7 @@ if (typeof Piwik !== 'object') {
                 var aliasPath   = getPathName(configHostAlias);
                 var currentPath = getPathName(currentUrl);
 
-                if (!aliasPath || aliasPath === '/' || !currentPath || currentPath === '/') {
+                if (!aliasPath || aliasPath === '/' || !currentPath || currentPath === '/') {
                     // no path set that would be useful for cookiePath
                     return;
                 }
