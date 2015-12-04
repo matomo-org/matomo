@@ -119,6 +119,130 @@ class SiteUrlsTest extends IntegrationTestCase
         $this->assertEquals($urlsToFake, $actual);
     }
 
+    public function test_groupUrlsByHost_shouldReturnEmptyArray_WhenNoUrlsGiven()
+    {
+        $this->assertSame(array(), $this->siteUrls->groupUrlsByHost(array()));
+        $this->assertSame(array(), $this->siteUrls->groupUrlsByHost(null));
+    }
+
+    public function test_groupUrlsByHost_shouldGroupByHost_WithOneSiteAndDifferentDomains_shouldRemoveWwwAndDefaultToPathSlash()
+    {
+        $idSite = 1;
+        $oneSite = array(
+            $idSite => array(
+                'http://apache.piwik',
+                'http://www.example.com',  // should remove www.
+                'https://example.org',     // should handle https or other protocol
+                'http://apache.piwik/',    // same as initial one but with slash at the end, should not add idsite twice
+                'http://third.www.com'     // should not remove www. in the middle of a domain
+            )
+        );
+
+        $expected = array(
+            'apache.piwik'  => array('/' => array($idSite)),
+            'example.com'   => array('/' => array($idSite)),
+            'example.org'   => array('/' => array($idSite)),
+            'third.www.com' => array('/' => array($idSite)),
+        );
+
+        $this->assertSame($expected, $this->siteUrls->groupUrlsByHost($oneSite));
+    }
+
+    public function test_groupUrlsByHost_shouldGroupByHost_WithDifferentDomainsAndPathsShouldListPathByNumberOfDirectoriesAndConvertToLowerCase()
+    {
+        $idSite = 1;
+        $idSite2 = 2;
+        $idSite3 = 3;
+        $idSite4 = 4;
+        $idSite5 = 5;
+
+        $urls = array(
+            $idSite => array(
+                'http://apache.piwik/test', 'http://apache.piWik', 'http://apache.piwik/foo/bAr/', 'http://apache.piwik/Foo/SECOND'
+            ),
+            $idSite2 => array(
+                'http://apache.piwik/test/', 'http://example.oRg', 'http://apache.piwik/foo/secOnd'
+            ),
+            $idSite3 => array(
+                'http://apache.piwik/', 'http://apache.piwik/third', 'http://exampLe.com', 'http://example.org/foo/test/two'
+            ),
+            $idSite4 => array(),
+            $idSite5 => array('invalidUrl', 'ftp://example.org/'),
+        );
+
+        $expected = array(
+            'apache.piwik' => array(
+                '/foo/second/' => array($idSite, $idSite2),
+                '/foo/bar/' => array($idSite),
+                '/third/' => array($idSite3),
+                '/test/' => array($idSite, $idSite2),
+                '/' => array($idSite, $idSite3)
+            ),
+            'example.org' => array(
+                '/foo/test/two/' => array($idSite3),
+                '/' => array($idSite2, $idSite5)
+            ),
+            'example.com' => array(
+                '/' => array($idSite3)
+            ),
+        );
+
+        $this->assertSame($expected, $this->siteUrls->groupUrlsByHost($urls));
+    }
+
+    /**
+     * @dataProvider getTestIdSitesMatchingUrl
+     */
+    public function test_getIdSitesMatchingUrl($expectedMatchSites, $parsedUrl)
+    {
+        $urlsGroupedByHost = array(
+            'apache.piwik' => array(
+                '/foo/second/' => array(2),
+                '/foo/sec/' => array(4),
+                '/foo/bar/' => array(1),
+                '/third/' => array(3),
+                '/test/' => array(1, 2),
+                '/' => array(1, 3)
+            ),
+            'example.org' => array(
+                '/foo/test/two/' => array(3),
+                '/foo/second/' => array(6),
+                '/' => array(2, 5)
+            ),
+            'example.com' => array(
+                '/' => array(3)
+            ),
+        );
+        $matchedSites = $this->siteUrls->getIdSitesMatchingUrl($parsedUrl, $urlsGroupedByHost);
+
+        $this->assertSame($expectedMatchSites, $matchedSites);
+    }
+
+    public function getTestIdSitesMatchingUrl()
+    {
+        return array(
+            array(array(1,3), array('host' => 'apache.piwik')),
+            array(array(1,3), array('host' => 'apache.piwik', 'path' => '/')),
+            array(array(1,3), array('host' => 'apache.piwik', 'path' => 'nomatch')), // no other URL matches a site so we fall back to domain match
+            array(array(1,3), array('host' => 'apache.piwik', 'path' => '/nomatch')),
+            array(array(2), array('host' => 'apache.piwik', 'path' => '/foo/second')),
+            array(array(2), array('host' => 'apache.piwik', 'path' => '/foo/second/')), // it shouldn't matter if slash is at end or not
+            array(array(2), array('host' => 'apache.piwik', 'path' => '/foo/second/test')), // it should find best match
+            array(array(4), array('host' => 'apache.piwik', 'path' => '/foo/sec/test')), // it should not use /foo/second for these
+            array(array(4), array('host' => 'apache.piwik', 'path' => '/foo/sec/')),
+            array(array(4), array('host' => 'apache.piwik', 'path' => '/foo/sec')),
+            array(array(1,3), array('host' => 'apache.piwik', 'path' => '/foo')),
+            array(array(2,5), array('host' => 'example.org')),
+            array(array(2,5), array('host' => 'example.org', 'path' => '/')),
+            array(array(2,5), array('host' => 'example.org', 'path' => 'any/nonmatching/path')),
+            array(array(6), array('host' => 'example.org', 'path' => '/foo/second')),
+            array(array(6), array('host' => 'example.org', 'path' => '/foo/second/test')),
+            array(array(3), array('host' => 'example.com')),
+            array(null, array('host' => 'example.pro')),
+            array(null, array('host' => 'example.pro', 'path' => '/any')),
+        );
+    }
+
     private function assertSiteUrls($expectedUrls)
     {
         $urls = $this->siteUrls->getAllSiteUrls();

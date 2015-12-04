@@ -1021,7 +1021,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
     trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body,
-    getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout,
+    getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
     newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
@@ -1591,6 +1591,10 @@ if (typeof Piwik !== 'object') {
             // remove leading '*'
             if (domain.slice(0, 2) === '*.') {
                 domain = domain.slice(1);
+            }
+
+            if (domain.indexOf('/') !== -1) {
+                domain = domain.substr(0, domain.indexOf('/'));
             }
 
             return domain;
@@ -3012,10 +3016,115 @@ if (typeof Piwik !== 'object') {
                 return baseUrl + url;
             }
 
+            function isSameHost (hostName, alias) {
+                var offset;
+
+                hostName = String(hostName).toLowerCase();
+                alias = String(alias).toLowerCase();
+
+                if (hostName === alias) {
+                    return true;
+                }
+
+                if (alias.slice(0, 1) === '.') {
+                    if (hostName === alias.slice(1)) {
+                        return true;
+                    }
+
+                    offset = hostName.length - alias.length;
+
+                    if ((offset > 0) && (hostName.slice(offset) === alias)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            function stringEndsWith(str, suffix) {
+                str = String(str);
+                return str.indexOf(suffix, str.length - suffix.length) !== -1;
+            }
+
+            function removeCharactersFromEndOfString(str, numCharactersToRemove) {
+                str = String(str);
+                return str.substr(0, str.length - numCharactersToRemove);
+            }
+
+            /*
+             * Extract pathname from URL. element.pathname is actually supported by pretty much all browsers including
+             * IE6 apart from some rare very old ones
+             */
+            function getPathName(url) {
+                var parser = document.createElement('a');
+                if (url.indexOf('//') !== 0 && url.indexOf('http') !== 0) {
+                    url = 'http://' + url;
+                }
+
+                parser.href = content.toAbsoluteUrl(url);
+                if (parser.pathname) {
+                    return parser.pathname;
+                }
+
+                return '';
+            }
+
+            function isSitePath (path, pathAlias)
+            {
+                var matchesAnyPath = (!pathAlias || pathAlias === '/');
+
+                if (matchesAnyPath) {
+                    return true;
+                }
+
+                if (path === pathAlias) {
+                    return true;
+                }
+
+                if (!path) {
+                    return false;
+                }
+
+                pathAlias = String(pathAlias).toLowerCase();
+                path = String(path).toLowerCase();
+
+                // we need to append slashes so /foobarbaz won't match a site /foobar
+                if (!stringEndsWith(path, '/')) {
+                    path += '/';
+                }
+
+                if (!stringEndsWith(pathAlias, '/')) {
+                    pathAlias += '/';
+                }
+
+                return path.indexOf(pathAlias) === 0;
+            }
+
+            function isSiteHostPath(host, path)
+            {
+                var i,
+                    alias,
+                    configAlias,
+                    aliasHost,
+                    aliasPath;
+
+                for (i = 0; i < configHostsAlias.length; i++) {
+                    aliasHost = domainFixup(configHostsAlias[i]);
+                    aliasPath = getPathName(configHostsAlias[i]);
+
+                    if (isSameHost(host, aliasHost) && isSitePath(path, aliasPath)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
             /*
              * Is the host local? (i.e., not an outlink)
              */
             function isSiteHostName(hostName) {
+
                 var i,
                     alias,
                     offset;
@@ -4004,6 +4113,8 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
+                var originalSourcePath = sourceElement.pathname || getPathName(sourceElement.href);
+
                 // browsers, such as Safari, don't downcase hostname and href
                 var originalSourceHostName = sourceElement.hostname || getHostName(sourceElement.href);
                 var sourceHostName = originalSourceHostName.toLowerCase();
@@ -4014,7 +4125,7 @@ if (typeof Piwik !== 'object') {
 
                 if (!scriptProtocol.test(sourceHref)) {
                     // track outlinks and all downloads
-                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName), query.hasNodeAttribute(sourceElement, 'download'));
+                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostPath(sourceHostName, originalSourcePath), query.hasNodeAttribute(sourceElement, 'download'));
 
                     if (linkType) {
                         return {
@@ -4780,6 +4891,60 @@ if (typeof Piwik !== 'object') {
                 });
             }
 
+            /**
+             * Note: While we check whether the user is on a configHostAlias path we do not check whether the user is
+             * actually on the configHostAlias domain. This is already done where this method is called and for
+             * simplicity we do not check this again.
+             *
+             * Also we currently assume that all configHostAlias domains start with the same wild card of '*.', '.' or
+             * none. Eg either all like '*.piwik.org' or '.piwik.org' or 'piwik.org'. Piwik always adds '*.' so it
+             * should be fine.
+             */
+            function findConfigCookiePathToUse(configHostAlias, currentUrl)
+            {
+                var aliasPath   = getPathName(configHostAlias);
+                var currentPath = getPathName(currentUrl);
+
+                if (!aliasPath || aliasPath === '/' || !currentPath || currentPath === '/') {
+                    // no path set that would be useful for cookiePath
+                    return;
+                }
+
+                var aliasDomain = domainFixup(configHostAlias);
+
+                if (isSiteHostPath(aliasDomain, '/')) {
+                    // there is another configHostsAlias having same domain that allows all paths
+                    // eg this alias is for piwik.org/support but there is another alias allowing
+                    // piwik.org
+                    return;
+                }
+
+                if (stringEndsWith(aliasPath, '/')) {
+                    aliasPath = removeCharactersFromEndOfString(aliasPath, 1);
+                }
+
+                // eg if we're in the case of "apache.piwik/foo/bar" we check whether there is maybe
+                // also a config alias allowing "apache.piwik/foo". In this case we're not allowed to set
+                // the cookie for "/foo/bar" but "/foo"
+                var pathAliasParts = aliasPath.split('/');
+                var i;
+                for (i = 2; i < pathAliasParts.length; i++) {
+                    var lessRestrctivePath = pathAliasParts.slice(0, i).join('/');
+                    if (isSiteHostPath(aliasDomain, lessRestrctivePath)) {
+                        aliasPath = lessRestrctivePath;
+                        break;
+                    }
+                }
+
+                if (!isSitePath(currentPath, aliasPath)) {
+                    // current path of current URL does not match the alias
+                    // eg user is on piwik.org/demo but configHostAlias is for piwik.org/support
+                    return;
+                }
+
+                return aliasPath;
+            }
+
             /*
              * Browser features (plugins, resolution, cookies)
              */
@@ -4917,6 +5082,12 @@ if (typeof Piwik !== 'object') {
                 internalIsNodeVisible: isVisible,
                 isNodeAuthorizedToTriggerInteraction: isNodeAuthorizedToTriggerInteraction,
                 replaceHrefIfInternalLink: replaceHrefIfInternalLink,
+                getDomains: function () {
+                    return configHostsAlias;
+                },
+                getConfigCookiePath: function () {
+                    return configCookiePath;
+                },
                 getConfigDownloadExtensions: function () {
                     return configDownloadExtensions;
                 },
@@ -5347,13 +5518,44 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Set array of domains to be treated as local
+                 * Set array of domains to be treated as local. Also supports path, eg '.piwik.org/subsite1'. In this
+                 * case all links that don't go to '*.piwik.org/subsite1/ *' would be treated as outlinks.
+                 * For example a link to 'piwik.org/' or 'piwik.org/subsite2' both would be treated as outlinks.
+                 *
+                 * We might automatically set a cookieConfigPath to avoid creating several cookies under one domain
+                 * if there is a hostAlias defined with a path. Say a user is visiting 'http://piwik.org/subsite1'
+                 * and '.piwik.org/subsite1' is set as a hostsAlias. Piwik will automatically use '/subsite1' as
+                 * cookieConfigPath.
                  *
                  * @param string|array hostsAlias
                  */
                 setDomains: function (hostsAlias) {
                     configHostsAlias = isString(hostsAlias) ? [hostsAlias] : hostsAlias;
-                    configHostsAlias.push(domainAlias);
+
+                    var hasDomainAliasAlready = false, i;
+                    for (i in configHostsAlias) {
+                        if (Object.prototype.hasOwnProperty.call(configHostsAlias, i)
+                            && isSameHost(domainAlias, domainFixup(String(configHostsAlias[i])))) {
+                            hasDomainAliasAlready = true;
+
+                            if (!configCookiePath) {
+                                var path = findConfigCookiePathToUse(configHostsAlias[i], locationHrefAlias);
+                                if (path) {
+                                    this.setCookiePath(path);
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!hasDomainAliasAlready) {
+                        /**
+                         * eg if domainAlias = 'piwik.org' and someone set hostsAlias = ['piwik.org/foo'] then we should
+                         * not add piwik.org as it would increase the allowed scope.
+                         */
+                        configHostsAlias.push(domainAlias);
+                    }
                 },
 
                 /**
@@ -6195,7 +6397,7 @@ if (typeof Piwik !== 'object') {
 
         asyncTracker = new Tracker();
 
-        var applyFirst  = ['disableCookies', 'setTrackerUrl', 'setAPIUrl', 'setCookiePath', 'setCookieDomain', 'setUserId', 'setSiteId', 'enableLinkTracking'];
+        var applyFirst  = ['disableCookies', 'setTrackerUrl', 'setAPIUrl', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
         _paq = applyMethodsInOrder(_paq, applyFirst);
 
         // apply the queue of actions
