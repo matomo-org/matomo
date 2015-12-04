@@ -174,29 +174,34 @@ class TableLogAction
      */
     public static function getIdActionFromSegment($valueToMatch, $sqlField, $matchType, $segmentName)
     {
-        $actionType = self::guessActionTypeFromSegment($segmentName);
-
-        if ($actionType == Action::TYPE_PAGE_URL) {
-            // for urls trim protocol and www because it is not recorded in the db
-            $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
-        }
-
-        $valueToMatch = self::normaliseActionString($actionType, $valueToMatch);
-
-        if ($matchType == SegmentExpression::MATCH_EQUAL
-            || $matchType == SegmentExpression::MATCH_NOT_EQUAL
-        ) {
-            $idAction = self::getModel()->getIdActionMatchingNameAndType($valueToMatch, $actionType);
-            // Action is not found (eg. &segment=pageTitle==Větrnásssssss)
-            if (empty($idAction)) {
-                $idAction = null;
+        if ($segmentName === 'actionType') {
+            $actionType   = (int) $valueToMatch;
+            $valueToMatch = array();
+            $sql = 'SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE type = ' . $actionType . ' )';
+        } else {
+            $actionType = self::guessActionTypeFromSegment($segmentName);
+            if ($actionType == Action::TYPE_PAGE_URL) {
+                // for urls trim protocol and www because it is not recorded in the db
+                $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
             }
-            return $idAction;
+
+            $valueToMatch = self::normaliseActionString($actionType, $valueToMatch);
+            if ($matchType == SegmentExpression::MATCH_EQUAL
+                || $matchType == SegmentExpression::MATCH_NOT_EQUAL
+            ) {
+                $idAction = self::getModel()->getIdActionMatchingNameAndType($valueToMatch, $actionType);
+                // Action is not found (eg. &segment=pageTitle==Větrnásssssss)
+                if (empty($idAction)) {
+                    $idAction = null;
+                }
+                return $idAction;
+            }
+
+            // "name contains $string" match can match several idaction so we cannot return yet an idaction
+            // special case
+            $sql = self::getSelectQueryWhereNameContains($matchType, $actionType);
         }
 
-        // "name contains $string" match can match several idaction so we cannot return yet an idaction
-        // special case
-        $sql = TableLogAction::getSelectQueryWhereNameContains($matchType, $actionType);
 
         $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
         return $cache->getIdActionFromSegment($valueToMatch, $sql);

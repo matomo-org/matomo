@@ -46,9 +46,10 @@ class SegmentSelectorControl extends UIControl
 
         $segments = APIMetadata::getInstance()->getSegmentsMetadata($this->idSite);
 
+        $visitTitle = Piwik::translate('General_Visit');
         $segmentsByCategory = array();
         foreach ($segments as $segment) {
-            if ($segment['category'] == Piwik::translate('General_Visit')
+            if ($segment['category'] == $visitTitle
                 && ($segment['type'] == 'metric' && $segment['segment'] != 'visitIp')
             ) {
                 $metricsLabel = Piwik::translate('General_Metrics');
@@ -57,7 +58,6 @@ class SegmentSelectorControl extends UIControl
             }
             $segmentsByCategory[$segment['category']][] = $segment;
         }
-        uksort($segmentsByCategory, array($this, 'sortSegmentCategories'));
 
         $this->createRealTimeSegmentsIsEnabled = Config::getInstance()->General['enable_create_realtime_segments'];
         $this->segmentsByCategory   = $segmentsByCategory;
@@ -98,15 +98,6 @@ class SegmentSelectorControl extends UIControl
         }
 
         return (bool) $savedSegment['auto_archive'];
-    }
-
-    public function sortSegmentCategories($a, $b)
-    {
-        // Custom Variables last
-        if ($a == Piwik::translate('CustomVariables_CustomVariables')) {
-            return 1;
-        }
-        return 0;
     }
 
     private function getTranslations()
