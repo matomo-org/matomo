@@ -21,7 +21,7 @@ class SetConfigTest extends ConsoleCommandTestCase
     public function test_Command_SucceedsWhenOptionsUsed()
     {
         $code = $this->applicationTester->run(array(
-            'command' => 'core:set-config',
+            'command' => 'config:set',
             '--section' => 'MySection',
             '--key' => 'setting',
             '--value' => 'myvalue',
@@ -42,7 +42,7 @@ class SetConfigTest extends ConsoleCommandTestCase
     public function test_Command_FailsWhenInvalidArgumentsUsed($invalidArgument)
     {
         $code = $this->applicationTester->run(array(
-            'command' => 'core:set-config',
+            'command' => 'config:set',
             'assignment' => array($invalidArgument),
             '-vvv' => false,
         ));
@@ -68,7 +68,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         $config->General['trusted_hosts'] = array('www.trustedhost.com');
 
         $code = $this->applicationTester->run(array(
-            'command' => 'core:set-config',
+            'command' => 'config:set',
             'assignment' => array(
                 'General.action_url_category_delimiter="+"',
                 'General.trusted_hosts[]="www.trustedhost2.com"',

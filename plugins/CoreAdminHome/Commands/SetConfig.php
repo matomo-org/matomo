@@ -20,16 +20,14 @@ class SetConfig extends ConsoleCommand
 {
     protected function configure()
     {
-        $this->setName('core:set-config');
-        $this->setDescription('Set one or more config settings for a particular Piwik instance.');
+        $this->setName('config:set');
+        $this->setDescription('Set one or more config settings in the file config/config.ini.php');
         $this->addArgument('assignment', InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
             "List of config setting assignments, eg, Section.key=1 or Section.array_key[]=value");
         $this->addOption('section', null, InputOption::VALUE_REQUIRED, 'The section the INI config setting belongs to.');
         $this->addOption('key', null, InputOption::VALUE_REQUIRED, 'The name of the INI config setting.');
         $this->addOption('value', null, InputOption::VALUE_REQUIRED, 'The value of the setting.');
         $this->setHelp("This command can be used to set INI config settings on a Piwik instance.
-
-Use the --piwik-domain option to specify which instance to modify.
 
 You can set config values two ways, via --section, --key, --value or by command arguments.
 
@@ -41,7 +39,11 @@ To use arguments, supply one or more arguments in the following format: Section.
 NOTE: 'value' must be JSON encoded, so Section.config_setting_name=\"value\" would work but
 Section.config_setting_name=value would not.
 
-To append to an array setting, supply an argument like this: Section.config_setting_name[]=\"value to append\"");
+To append to an array setting, supply an argument like this: Section.config_setting_name[]=\"value to append\"
+
+Use the --piwik-domain option to specify which instance to modify.
+
+");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -66,7 +68,7 @@ To append to an array setting, supply an argument like this: Section.config_sett
         foreach ($manipulations as $manipulation) {
             $manipulation->manipulate($config);
 
-            $output->writeln("Setting [{$manipulation->getSectionName()}] {$manipulation->getName()} = {$manipulation->getValueString()}");
+            $output->writeln("<info>Setting [{$manipulation->getSectionName()}] {$manipulation->getName()} = {$manipulation->getValueString()}</info>");
         }
 
         $this->writeSuccessMessage($output, array("Done."));
