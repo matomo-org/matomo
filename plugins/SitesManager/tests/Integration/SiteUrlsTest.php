@@ -158,7 +158,7 @@ class SiteUrlsTest extends IntegrationTestCase
 
         $urls = array(
             $idSite => array(
-                'http://apache.piwik/test', 'http://apache.piWik', 'http://apache.piwik/foo/bAr/'
+                'http://apache.piwik/test', 'http://apache.piWik', 'http://apache.piwik/foo/bAr/', 'http://apache.piwik/Foo/SECOND'
             ),
             $idSite2 => array(
                 'http://apache.piwik/test/', 'http://example.oRg', 'http://apache.piwik/foo/secOnd'
@@ -172,7 +172,7 @@ class SiteUrlsTest extends IntegrationTestCase
 
         $expected = array(
             'apache.piwik' => array(
-                '/foo/second/' => array($idSite2),
+                '/foo/second/' => array($idSite, $idSite2),
                 '/foo/bar/' => array($idSite),
                 '/third/' => array($idSite3),
                 '/test/' => array($idSite, $idSite2),

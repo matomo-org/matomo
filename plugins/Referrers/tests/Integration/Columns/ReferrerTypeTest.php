@@ -72,6 +72,7 @@ class ReferrerTypeTest extends IntegrationTestCase
         $url = 'http://piwik.org/foo/bar';
         $referrer = 'http://piwik.org';
 
+        // $expectedType,                             $idSite,        $url, $referrerUrl
         return array(
             // domain matches but path does not match for idsite1
             array(Common::REFERRER_TYPE_WEBSITE,      $this->idSite1, $url, $referrer),
@@ -86,8 +87,13 @@ class ReferrerTypeTest extends IntegrationTestCase
             array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite1, $url, $referrer . '/foo/bar/baz'),
             array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite1, $url, $referrer . '/foo/bar/baz/'),
             array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite1, $url, $referrer . '/foo/bar/baz?x=5'),
+            // /not/xyz belongs to different website
+            array(Common::REFERRER_TYPE_WEBSITE,      $this->idSite1, $url, $referrer . '/not/xyz'),
+            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite2, $url, $referrer . '/not/xyz'),
+
             // /foo/bar/baz belongs to different website
             array(Common::REFERRER_TYPE_WEBSITE,      $this->idSite2, $url, $referrer . '/foo/bar/baz'),
+
             // website as it is from different domain anyway
             array(Common::REFERRER_TYPE_WEBSITE,      $this->idSite3, $url, $referrer . '/foo/bar/baz'),
 
