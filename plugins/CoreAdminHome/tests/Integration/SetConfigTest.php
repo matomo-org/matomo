@@ -80,6 +80,8 @@ class SetConfigTest extends ConsoleCommandTestCase
 
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
 
+        $config->clear();
+
         $this->assertEquals('+', $config->General['action_url_category_delimiter']);
         $this->assertEquals(array('www.trustedhost.com', 'www.trustedhost2.com'), $config->General['trusted_hosts']);
         $this->assertEquals(array('abc', 'def'), $config->MySection['array_value']);
