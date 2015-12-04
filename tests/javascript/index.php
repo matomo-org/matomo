@@ -2454,6 +2454,8 @@ function PiwikTest() {
         tracker.setCookiePath(null);
         tracker.setDomains( ['.' + domainAlias + '/another/one', '.example.org/tests/javascript', '.example.com/tests'] );
         equal(null, tracker.getConfigCookiePath()), 'should not set a path when no domain and no path matches';
+
+        tracker.setCookiePath(null);
     });
 
     test("Tracker getClassesRegExp()", function() {

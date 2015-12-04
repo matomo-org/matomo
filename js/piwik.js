@@ -1021,7 +1021,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
     trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body,
-    getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains,
+    getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
     newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
@@ -4927,7 +4927,8 @@ if (typeof Piwik !== 'object') {
                 // also a config alias allowing "apache.piwik/foo". In this case we're not allowed to set
                 // the cookie for "/foo/bar" but "/foo"
                 var pathAliasParts = aliasPath.split('/');
-                for (var i = 2; i < pathAliasParts.length; i++) {
+                var i;
+                for (i = 2; i < pathAliasParts.length; i++) {
                     var lessRestrctivePath = pathAliasParts.slice(0, i).join('/');
                     if (isSiteHostPath(aliasDomain, lessRestrctivePath)) {
                         aliasPath = lessRestrctivePath;
@@ -5528,10 +5529,8 @@ if (typeof Piwik !== 'object') {
 
                     var hasDomainAliasAlready = false, i;
                     for (i in configHostsAlias) {
-                        var configHostAliasDomain = domainFixup(String(configHostsAlias[i]));
-
                         if (Object.prototype.hasOwnProperty.call(configHostsAlias, i)
-                            && isSameHost(domainAlias, configHostAliasDomain)) {
+                            && isSameHost(domainAlias, domainFixup(String(configHostsAlias[i])))) {
                             hasDomainAliasAlready = true;
 
                             if (!configCookiePath) {
