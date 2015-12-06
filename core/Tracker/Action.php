@@ -248,12 +248,12 @@ abstract class Action
 
     public function getIdActionUrlForEntryAndExitIds()
     {
-        return $this->getIdActionUrl();
+        return false;
     }
 
     public function getIdActionNameForEntryAndExitIds()
     {
-        return $this->getIdActionName();
+        return false;
     }
 
     public function getIdActionName()
