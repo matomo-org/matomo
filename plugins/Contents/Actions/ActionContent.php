@@ -40,15 +40,4 @@ class ActionContent extends Action
         );
     }
 
-    // Do not track this Event URL as Entry/Exit Page URL (leave the existing entry/exit)
-    public function getIdActionUrlForEntryAndExitIds()
-    {
-        return false;
-    }
-
-    // Do not track this Event Name as Entry/Exit Page Title (leave the existing entry/exit)
-    public function getIdActionNameForEntryAndExitIds()
-    {
-        return false;
-    }
 }

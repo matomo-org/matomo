@@ -79,8 +79,9 @@ class VisitTotalActions extends VisitDimension
         }
 
         $actionType = $action->getActionType();
+        $types = array(Action::TYPE_SITE_SEARCH, Action::TYPE_EVENT, Action::TYPE_OUTLINK, Action::TYPE_DOWNLOAD);
 
-        if (in_array($actionType, array(Action::TYPE_SITE_SEARCH, Action::TYPE_EVENT))) {
+        if (in_array($actionType, $types)) {
             return $increment;
         }
 
