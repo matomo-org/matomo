@@ -114,6 +114,14 @@ abstract class Base extends VisitDimension
         if (!$referrerDetected && !empty($this->referrerHost)) {
             $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_WEBSITE;
             $this->nameReferrerAnalyzed = Common::mb_strtolower($this->referrerHost);
+
+            $urlsByHost = $this->getCachedUrlsByHostAndIdSite();
+
+            $directEntry = new SiteUrls();
+            $path = $directEntry->getPathMatchingUrl($this->referrerUrlParse, $urlsByHost);
+            if (!empty($path) && $path !== '/') {
+                $this->nameReferrerAnalyzed .= rtrim($path, '/');
+            }
         }
 
         $referrerInformation = array(
@@ -244,6 +252,17 @@ abstract class Base extends VisitDimension
         return true;
     }
 
+    private function getCachedUrlsByHostAndIdSite()
+    {
+        $cache = Cache::getCacheGeneral();
+
+        if (!empty($cache['allUrlsByHostAndIdSite'])) {
+            return $cache['allUrlsByHostAndIdSite'];
+        }
+
+        return array();
+    }
+
     /**
      * We have previously tried to detect the campaign variables in the URL
      * so at this stage, if the referrer host is the current host,
@@ -257,18 +276,16 @@ abstract class Base extends VisitDimension
             return false;
         }
 
-        $cache = Cache::getCacheGeneral();
+        $urlsByHost = $this->getCachedUrlsByHostAndIdSite();
 
-        if (!empty($cache['allUrlsByHostAndIdSite'])) {
-            $directEntry   = new SiteUrls();
-            $matchingSites = $directEntry->getIdSitesMatchingUrl($this->referrerUrlParse, $cache['allUrlsByHostAndIdSite']);
+        $directEntry   = new SiteUrls();
+        $matchingSites = $directEntry->getIdSitesMatchingUrl($this->referrerUrlParse, $urlsByHost);
 
-            if (isset($matchingSites) && is_array($matchingSites) && in_array($this->idsite, $matchingSites)) {
-                $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
-                return true;
-            } elseif (isset($matchingSites)) {
-                return false;
-            }
+        if (isset($matchingSites) && is_array($matchingSites) && in_array($this->idsite, $matchingSites)) {
+            $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
+            return true;
+        } elseif (isset($matchingSites)) {
+            return false;
         }
 
         // fallback logic if the referrer domain is not known to any site to not break BC

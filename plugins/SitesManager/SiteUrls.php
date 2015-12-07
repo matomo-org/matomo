@@ -110,6 +110,27 @@ class SiteUrls
         return $matchingSites;
     }
 
+    public function getPathMatchingUrl($parsedUrl, $urlsGroupedByHost)
+    {
+        if (empty($parsedUrl['host'])) {
+            return null;
+        }
+
+        $urlHost = $this->toCanonicalHost($parsedUrl['host']);
+        $urlPath = $this->getCanonicalPathFromParsedUrl($parsedUrl);
+
+        $matchingSites = null;
+        if (isset($urlsGroupedByHost[$urlHost])) {
+            $paths = $urlsGroupedByHost[$urlHost];
+
+            foreach ($paths as $path => $idSites) {
+                if (0 === strpos($urlPath, $path)) {
+                    return $path;
+                }
+            }
+        }
+    }
+
     public function getAllCachedSiteUrls()
     {
         $cache    = $this->getCache();

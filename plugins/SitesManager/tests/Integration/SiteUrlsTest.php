@@ -243,6 +243,52 @@ class SiteUrlsTest extends IntegrationTestCase
         );
     }
 
+    /**
+     * @dataProvider getTestPathMatchingUrl
+     */
+    public function test_getPathMatchingUrl($expectedMatchSites, $parsedUrl)
+    {
+        $urlsGroupedByHost = array(
+            'apache.piwik' => array(
+                '/foo/second/' => array(2),
+                '/foo/sec/' => array(4),
+                '/foo/bar/' => array(1),
+                '/third/' => array(3),
+                '/test/' => array(1, 2),
+                '/' => array(1, 3)
+            ),
+            'example.org' => array(
+                '/foo/test/two/' => array(3),
+                '/foo/second/' => array(6),
+                '/' => array(2, 5)
+            ),
+        );
+        $matchedSites = $this->siteUrls->getPathMatchingUrl($parsedUrl, $urlsGroupedByHost);
+
+        $this->assertSame($expectedMatchSites, $matchedSites);
+    }
+
+    public function getTestPathMatchingUrl()
+    {
+        return array(
+            array('/', array('host' => 'apache.piwik')),
+            array('/', array('host' => 'apache.piwik', 'path' => '/')),
+            array('/', array('host' => 'apache.piwik', 'path' => '')),
+            array(null, array('host' => 'test.piwik')),
+            array(null, array('host' => 'test.apache.piwik')), // we do not match subdomains, only exact domain match
+
+            array('/foo/bar/', array('host' => 'apache.piwik', 'path' => '/foo/bar')),
+            array('/foo/bar/', array('host' => 'apache.piwik', 'path' => '/foo/bar/')),
+            array('/foo/bar/', array('host' => 'apache.piwik', 'path' => '/foo/bar/baz/')),
+            array('/', array('host' => 'apache.piwik', 'path' => '/foo/baz/bar/')),
+            array('/third/', array('host' => 'apache.piwik', 'path' => '/third/bar/baz/')),
+
+            array('/foo/second/', array('host' => 'example.org', 'path' => '/foo/second/')),
+            array('/', array('host' => 'example.org', 'path' => '/foo/secon')),
+            array(null, array('host' => 'example.pro', 'path' => '/foo/second/')),
+        );
+    }
+
     private function assertSiteUrls($expectedUrls)
     {
         $urls = $this->siteUrls->getAllSiteUrls();
