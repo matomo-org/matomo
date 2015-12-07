@@ -142,7 +142,7 @@ var Piwik_Popover = (function () {
 
         /** Set the title of the popover */
         setTitle: function (titleHtml) {
-            var titleText = $('<div>' + titleHtml + '</div>').text();
+            var titleText = piwikHelper.htmlDecode(titleHtml);
             if (titleText.length > 60) {
                 titleHtml = $('<span>').attr('class', 'tooltip').attr('title', titleText).html(titleHtml);
             }
