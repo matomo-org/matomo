@@ -104,7 +104,8 @@
             "Piwik\\Composer\\ScriptHandler::buildXhprof"
         ],
         "post-install-cmd": [
-            "Piwik\\Composer\\ScriptHandler::buildXhprof"
+            "Piwik\\Composer\\ScriptHandler::buildXhprof",
+            "which git > /dev/null && git submodule update --init --recursive || echo 'Please install git or manually install `libs/PiwikTracker`'"
         ]
     }
 }
