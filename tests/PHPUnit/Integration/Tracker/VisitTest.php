@@ -118,14 +118,36 @@ class VisitTest extends IntegrationTestCase
                 'http://x.com' => true,
             )),
             array(array('http://test.com', 'http://sub.test2.com'), true, array(
-                'http://sub.test.com' => true,
-                'http://sub.sub.test.com' => true,
+                'http://sub.test.com' => false, // we do not match subdomains
+                'http://sub.sub.test.com' => false,
                 'http://subtest.com' => false,
                 'http://test.com.org' => false,
+                'http://test2.com' => false,
                 'http://sub.test2.com' => true,
-                'http://x.sub.test2.com' => true,
+                'http://test.com' => true,
+                'http://x.sub.test2.com' => false,
                 'http://xsub.test2.com' => false,
                 'http://sub.test2.com.org' => false,
+            )),
+            array(array('http://test.com/path', 'http://test2.com/sub/dir'), true, array(
+                'http://test.com/path' => true, // test matching path
+                'http://test.com/path/' => true,
+                'http://test.com/path/test' => true,
+
+                'http://test.com/path1' => false,
+                'http://test.com/' => false,
+                'http://test.com' => false,
+                'http://test.com/foo' => false,
+                'http://sub.test.com/path' => false,  // we still do not match subdomains
+
+                'http://test2.com/sub/dir' => true,
+                'http://test2.com/sub/dir/' => true,
+                'http://test2.com/sub/dir/test' => true,
+
+                'http://test2.com/sub/foo/' => false,
+                'http://test2.com/sub/' => false,
+                'http://test2.com/' => false,
+                'http://test2.com/dir/sub' => false,
             )),
         );
     }
@@ -142,7 +164,7 @@ class VisitTest extends IntegrationTestCase
                 'rec'    => 1,
                 'url'    => $url
             )));
-            $this->assertEquals($isTracked, !$visitExclude->isExcluded());
+            $this->assertEquals($isTracked, !$visitExclude->isExcluded(), $url . ' is not returning expected result');
         }
     }
 

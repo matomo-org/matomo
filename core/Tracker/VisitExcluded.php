@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\DeviceDetectorFactory;
 use Piwik\Network\IP;
 use Piwik\Piwik;
+use Piwik\Plugins\SitesManager\SiteUrls;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
 
 /**
@@ -290,14 +291,17 @@ class VisitExcluded
     {
         $site = Cache::getCacheWebsiteAttributes($this->idSite);
 
-        if (!empty($site['exclude_unknown_urls']) && !empty($site['hosts'])) {
-            $trackingHost = parse_url($this->request->getParam('url'), PHP_URL_HOST);
-            foreach ($site['hosts'] as $siteHost) {
-                if ($trackingHost == $siteHost || (substr($trackingHost, -strlen($siteHost) - 1) === ('.' . $siteHost))) {
-                    return false;
-                }
-            }
-            return true;
+        if (!empty($site['exclude_unknown_urls']) && !empty($site['urls'])) {
+            $url = $this->request->getParam('url');
+            $parsedUrl = parse_url($url);
+
+            $trackingUrl = new SiteUrls();
+            $urls = $trackingUrl->groupUrlsByHost(array($this->idSite => $site['urls']));
+
+            $idSites = $trackingUrl->getIdSitesMatchingUrl($parsedUrl, $urls);
+            $isUrlExcluded = !isset($idSites) || !in_array($this->idSite, $idSites);
+
+            return $isUrlExcluded;
         }
 
         return false;
