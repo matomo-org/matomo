@@ -9,7 +9,6 @@
 namespace Piwik\Tracker;
 
 use Piwik\Config;
-use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
 
@@ -47,6 +46,11 @@ class Visitor
     public function isVisitorKnown()
     {
         return $this->visitorKnown === true;
+    }
+
+    public function isNewVisit()
+    {
+        return !$this->isVisitorKnown();
     }
 
     private function setIsVisitorKnown($isVisitorKnown)

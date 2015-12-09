@@ -74,7 +74,7 @@ class ReferrerNameTest extends IntegrationTestCase
         $url = 'http://piwik.org/foo/bar';
         $referrer = 'http://piwik.org';
 
-        $directEntryReferrerName = '';
+        $directEntryReferrerName = null;
 
         return array(
             // domain matches but path does not match for idsite1
