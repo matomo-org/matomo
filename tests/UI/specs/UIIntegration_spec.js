@@ -30,7 +30,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     beforeEach(function () {
-        delete testEnvironment.configOverride;
+        if (testEnvironment.configOverride.database) {
+            delete testEnvironment.configOverride.database;
+        }
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
@@ -40,6 +42,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
+
 
     // dashboard tests
     it("should load dashboard1 correctly", function (done) {
@@ -146,6 +149,15 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load the actions > pages page correctly', function (done) {
         expect.screenshot('actions_pages').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
+        }, done);
+    });
+
+    // actions pages
+    it('should load the actions > pages help tooltip, including the "Report generated time"', function (done) {
+        expect.screenshot('actions_pages_tooltip_help').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+            page.load("?" + urlBase + "#" + generalParams + "&module=Actions&action=menuGetPageUrls");
+            page.mouseMove('h2[piwik-enriched-headline]');
+            page.click(".helpIcon");
         }, done);
     });
 
@@ -512,15 +524,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // DB error message
     it('should fail correctly when db information in config is incorrect', function (done) {
-        testEnvironment.configOverride = {
-            database: {
-                host: '127.50.50.50',
-                username: 'slkdfjsdlkfj',
-                password: 'slkdfjsldkfj',
-                dbname: 'abcdefg',
-                tables_prefix: 'gfedcba'
-            }
-        };
+
+        testEnvironment.overrideConfig('database', {
+            host: config.phpServer.REMOTE_ADDR,
+            username: 'slkdfjsdlkfj',
+            password: 'slkdfjsldkfj',
+            dbname: 'abcdefg',
+            tables_prefix: 'gfedcba'
+        });
         testEnvironment.save();
 
         expect.screenshot('db_connect_error').to.be.capture(function (page) {
@@ -545,8 +556,16 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load the widgets listing page correctly', function (done) {
         expect.screenshot('widgets_listing').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=Widgetize&action=index");
+
             page.mouseMove('.widgetpreview-categorylist>li:contains(Visitors)');
             page.mouseMove('li[uniqueid="widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution"]');
+            page.evaluate(function () {
+                $('.formEmbedCode').each(function () {
+                    var val = $(this).val();
+                    val = val.replace(/localhost\:[0-9]+/g, 'localhost');
+                    $(this).val(val);
+                });
+            });
         }, done);
     });
 

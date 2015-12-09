@@ -265,9 +265,6 @@ class ManyVisitsWithGeoIP extends Fixture
 
     public static function unsetLocationProvider()
     {
-        // also fails on other PHP, is it really needed?
-        return;
-
         try {
             LocationProvider::setCurrentProvider('default');
         } catch(Exception $e) {

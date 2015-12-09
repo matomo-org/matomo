@@ -292,8 +292,14 @@ class Pages
                     $report['viewDataTable'] = 'tableGoals';
                 }
 
+                if (!empty($report['parameters'])) {
+                    $params = array_merge($customParams, $report['parameters']);
+                } else {
+                    $params = $customParams;
+                }
+
                 $widget = $this->createWidgetForReport($report['module'], $report['action']);
-                $widget->setParameters($customParams);
+                $widget->setParameters($params);
                 $widget->setCategoryId($categoryText);
                 $widget->setSubcategoryId($categoryText);
                 $widget->setOrder($order);

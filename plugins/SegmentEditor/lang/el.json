@@ -7,6 +7,7 @@
         "AutoArchivePreProcessed": "οι αναφορές τμημάτων προεπεξεργάζονται (γρηγορότερα, απαιτείται το archive.php με cron)",
         "AutoArchiveRealTime": "οι αναφορές τμημάτων επεξεργάζονται σε πραγματικό χρόνο",
         "ChooseASegment": "Επιλέξτε ένα τμήμα",
+        "CurrentlySelectedSegment": "Επιλεγμένο τμήμα αυτή τη στιγμή: %s",
         "DataAvailableAtLaterDate": "Οι τμηματικές αναφορές αναλυτικών θα είναι αργότερα διαθέσιμες. Ζητούμε συγγνώμη για την ταλαιπωρία.",
         "DefaultAllVisits": "Όλες οι επισκέψεις",
         "DragDropCondition": "Συνθήκη με Σύρε & Άσε",
@@ -26,6 +27,10 @@
         "YouMayChangeSetting": "Εναλλακτικά, μπορείτε να αλλάξετε τη ρύθμιση στο αρχείο ρυθμίσεων (%s), ή να τροποποιήσετε το Τμήμα αυτό και να επιλέξετε '%s'.",
         "YouMustBeLoggedInToCreateSegments": "Θα πρέπει να έχετε κάνει είσοδο για να δημιουργήσετε και να επεξεργαστείτε προσαρμοσμένα τμήματα επισκεπτών.",
         "YouDontHaveAccessToCreateSegments": "Δεν διαθέτετε την απαιτούμενη πρόσβαση ασφαλείας για να δημιουργείτε και να τροποποιείτε τμήματα.",
-        "AddingSegmentForAllWebsitesDisabled": "Η προσθήκη τμημάτων έχει απενεργοποιηθεί για όλους τους ιστοτόπους."
+        "AddingSegmentForAllWebsitesDisabled": "Η προσθήκη τμημάτων έχει απενεργοποιηθεί για όλους τους ιστοτόπους.",
+        "SegmentXIsAUnionOf": "Το %s είναι η ένωση αυτών των τμημάτων:",
+        "CustomSegment": "Προσαρμοσμένο τμήμα",
+        "SegmentOperatorIsNullOrEmpty": "είναι άκυρο (null) ή κενό",
+        "SegmentOperatorIsNotNullNorEmpty": "δεν είναι άκυρο (null) ή άδειο"
     }
 }

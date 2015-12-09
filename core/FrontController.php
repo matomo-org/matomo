@@ -66,6 +66,11 @@ class FrontController extends Singleton
     public static $enableDispatch = true;
 
     /**
+     * @var bool
+     */
+    private $initialized = false;
+
+    /**
      * Executes the requested plugin controller method.
      *
      * @throws Exception|\Piwik\PluginDeactivatedException in case the plugin doesn't exist, the action doesn't exist,
@@ -197,11 +202,11 @@ class FrontController extends Singleton
      */
     public function init()
     {
-        static $initialized = false;
-        if ($initialized) {
+        if ($this->initialized) {
             return;
         }
-        $initialized = true;
+
+        $this->initialized = true;
 
         $tmpPath = StaticContainer::get('path.tmp');
 

@@ -1,5 +1,7 @@
 {
     "General": {
+        "12HourClock": "Système horaire sur 12 heures",
+        "24HourClock": "Système horaire sur 24 heures",
         "AbandonedCarts": "Paniers abandonnés",
         "AboutPiwikX": "À propos de Piwik %s",
         "Action": "Action",
@@ -11,6 +13,7 @@
         "AllWebsitesDashboard": "Tableau de bord de tous les sites",
         "And": "et",
         "API": "API",
+        "Apply": "Appliquer",
         "ArchivingInlineHelp": "Pour les sites à trafic moyen et fort, il est recommandé de désactiver l'archivage de Piwik depuis le navigateur. Nous vous recommandons de mettre en place une tâche planifiée (cron job) qui génère les rapports toutes les heures.",
         "ArchivingTriggerDescription": "Recommandé pour les installations importantes de Piwik, vous devriez %s mettre en place une tâche planifiée (cron) %s pour générer les rapports automatiquement.",
         "AuthenticationMethodSmtp": "Méthode d'authentification pour le serveur SMTP",
@@ -98,6 +101,7 @@
         "DateRange": "Période :",
         "DateRangeFrom": "Du",
         "DateRangeFromTo": "De %s à %s",
+        "DateRangeInPeriodList": "période",
         "DateRangeTo": "Au",
         "DaysHours": "%1$s jours %2$s heures",
         "DaysSinceFirstVisit": "Jours depuis la première visite",
@@ -346,6 +350,7 @@
         "TagCloud": "Nuage de tags",
         "Tax": "Taxes",
         "TimeAgo": "il y a %s",
+        "TimeFormat": "Format horaire",
         "TimeOnPage": "Temps sur la page",
         "Total": "Total",
         "TotalRatioTooltip": "C'est %1$s de %2$s %3$s.",
@@ -380,7 +385,7 @@
         "VisitTypeExample": "Par exemple, pour sélectionner tous les visiteurs qui sont retournés sur le site web, en incluant ceux qui ont acheté quelque chose lors de leur dernière visite, la requête à l'API contiendrait %s",
         "Warning": "Attention",
         "WarningPhpVersionXIsTooOld": "La version de PHP que vous utilisez (%s) est en fin de support. Nous vous incitons vivement à upgrader vers une version plus récente. Votre version actuelle vous expose à des failles de sécurité et des bugs qui ont été corrigés dans les versions les plus récentes de PHP.",
-        "WarningPiwikWillStopSupportingPHPVersion": "Piwik va arrêter le support de cette version de PHP en %s. Mettez à jour votre version de PHP avant qu'il ne soit trop tard !",
+        "WarningPiwikWillStopSupportingPHPVersion": "Piwik ne prendra plus en charge PHP %1$s dans la prochaine version majeure. Mettez à jour votre PHP au minimum avec une version %2$s avant qu'il ne soit trop tard !",
         "WarningFileIntegrityNoManifest": "Le contrôle d'intégrité n'a pu être effectué car le fichier manifest.inc.php est manquant.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Si vous déployez Piwik depuis Git, ce message est normal.",
         "WarningFileIntegrityNoMd5file": "Le contrôle d'intégrité n'a pu être effectué car la fonction md5_file() est manquante.",
@@ -400,6 +405,7 @@
         "YearsDays": "%1$s années %2$s jours",
         "Yes": "Oui",
         "YouAreCurrentlyUsing": "Vous utilisez actuellement Piwik %s",
+        "YouAreViewingDemoShortMessage": "Vous visionnez la démonstration de Piwik",
         "YouMustBeLoggedIn": "Vous devez être connecté(e) pour accéder à cette fonctionnalité.",
         "YourChangesHaveBeenSaved": "Vos modifications ont été enregistrées."
     },

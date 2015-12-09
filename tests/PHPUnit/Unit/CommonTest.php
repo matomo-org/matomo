@@ -102,14 +102,6 @@ class CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testSanitizeInputValues($input, $output)
     {
-        if (version_compare(PHP_VERSION, '5.4') < 0) {
-            $this->assertTrue(@set_magic_quotes_runtime(1));
-            $this->assertEquals(1, @get_magic_quotes_runtime());
-            $this->assertEquals($output, Common::sanitizeInputValues($input));
-
-            $this->assertTrue(@set_magic_quotes_runtime(0));
-            $this->assertEquals(0, @get_magic_quotes_runtime());
-        }
         $this->assertEquals($output, Common::sanitizeInputValues($input));
     }
 
@@ -465,39 +457,4 @@ class CommonTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($expected, Common::extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages), "test with {$browserLanguage} failed, expected {$expected}");
     }
-
-    public function testSearchEnginesDefinedCorrectly()
-    {
-        include "DataFiles/SearchEngines.php";
-
-        $searchEngines = array();
-        foreach ($GLOBALS['Piwik_SearchEngines'] as $host => $info) {
-            if (isset($info[2]) && $info[2] !== false) {
-                $this->assertTrue(strrpos($info[2], "{k}") !== false, $host . " search URL is not defined correctly, must contain the macro {k}");
-            }
-
-            if (!array_key_exists($info[0], $searchEngines)) {
-                $searchEngines[$info[0]] = true;
-
-                $this->assertTrue(strpos($host, '{}') === false, $host . " search URL is the master record and should not contain {}");
-            }
-
-            if (isset($info[3]) && $info[3] !== false) {
-                $this->assertTrue(is_array($info[3]) || is_string($info[3]), $host . ' encoding must be either a string or an array');
-
-                if (is_string($info[3])) {
-                    $this->assertTrue(trim($info[3]) !== '', $host . ' encoding cannot be an empty string');
-                    $this->assertTrue(strpos($info[3], ' ') === false, $host . ' encoding cannot contain spaces');
-
-                }
-
-                if (is_array($info[3])) {
-                    $this->assertTrue(count($info[3]) > 0, $host . ' encodings cannot be an empty array');
-                    $this->assertTrue(strpos(serialize($info[3]), '""') === false, $host . ' encodings in array cannot be empty stringss');
-                    $this->assertTrue(strpos(serialize($info[3]), ' ') === false, $host . ' encodings in array cannot contain spaces');
-                }
-            }
-        }
-    }
-
 }

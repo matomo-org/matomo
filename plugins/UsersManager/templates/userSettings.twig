@@ -45,6 +45,14 @@
     </div>
 
     <div class="form-group">
+        <label for="timeformat">{{ 'General_TimeFormat'|translate }}</label>
+        <select name="timeformat" id="timeformat">
+            <option value="1" {% if currentTimeformat == 1 %}selected="selected"{% endif %} title="{{ 'General_12HourClock'|translate }}">{{ 'General_12HourClock'|translate }}</option>
+            <option value="0" {% if currentTimeformat == 0 %}selected="selected"{% endif %} title="{{ 'General_24HourClock'|translate }}">{{ 'General_24HourClock'|translate }}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
         <label>{{ 'UsersManager_ReportToLoadByDefault'|translate }}</label>
         <label class="radio">
             <input id="defaultReportRadioAll" type="radio" value="MultiSites"
@@ -57,6 +65,7 @@
             {{ 'General_DashboardForASpecificWebsite'|translate }}
         </label>
         <div piwik-siteselector
+             show-selected-site="true"
              class="sites_autocomplete"
              siteid="{{ defaultReportIdSite }}"
              sitename="{{ defaultReportSiteName }}"

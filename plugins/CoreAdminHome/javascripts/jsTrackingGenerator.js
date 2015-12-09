@@ -302,7 +302,7 @@
         $('#javascript-text>textarea,#image-tracking-text>textarea').click(function () {
             $(this).select();
         });
-
+        
         // initial generation
         getSiteData(
             $('#js-tracker-website').attr('siteid'),

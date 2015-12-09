@@ -50,6 +50,18 @@ class Metrics
     public static function getActionMetrics()
     {
         $metricsConfig = array(
+            PiwikMetrics::INDEX_NB_VISITS => array(
+                'aggregation' => 'sum',
+                'query' => "count(distinct log_link_visit_action.idvisit)"
+            ),
+            PiwikMetrics::INDEX_NB_UNIQ_VISITORS => array(
+                'aggregation' => false,
+                'query' => "count(distinct log_link_visit_action.idvisitor)"
+            ),
+            PiwikMetrics::INDEX_PAGE_NB_HITS => array(
+                'aggregation' => 'sum',
+                'query' => "count(*)"
+            ),
             PiwikMetrics::INDEX_PAGE_SUM_TIME_GENERATION => array(
                 'aggregation' => 'sum',
                 'query' => "sum(

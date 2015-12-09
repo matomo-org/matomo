@@ -3,6 +3,12 @@
 	<row>
 		<label>liked</label>
 		<nb_actions>20</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>4</index>
+			</row>
+		</slots>
 		<segment>customVariableName==liked</segment>
 		<subtable>
 			<row>
@@ -20,6 +26,12 @@
 	<row>
 		<label>name</label>
 		<nb_actions>20</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>1</index>
+			</row>
+		</slots>
 		<segment>customVariableName==name</segment>
 		<subtable>
 			<row>

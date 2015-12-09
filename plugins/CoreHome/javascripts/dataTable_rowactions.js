@@ -386,6 +386,17 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
     requestParams.action = 'getRowEvolutionPopover';
     requestParams.colors = JSON.stringify(piwik.getSparklineColors());
 
+    var idDimension;
+    if (broadcast.getValueFromUrl('module') === 'Widgetize') {
+        idDimension = broadcast.getValueFromUrl('idDimension');
+    } else {
+        idDimension = broadcast.getValueFromHash('idDimension');
+    }
+
+    if (idDimension) {
+        requestParams.idDimension = parseInt(idDimension, 10);
+    }
+
     $.extend(requestParams, extraParams);
 
     var ajaxRequest = new ajaxHelper();

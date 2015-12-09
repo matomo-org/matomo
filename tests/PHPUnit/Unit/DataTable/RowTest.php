@@ -362,6 +362,65 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->row->hasColumn('test'));
     }
 
+    public function test_sumRowMetadata_shouldSumMetadataAccordingToAggregationOperations()
+    {
+        $this->row->setColumn('nb_visits', 10);
+        $this->row->setMetadata('my_sum', 5);
+        $this->row->setMetadata('my_max', 4);
+        $this->row->setMetadata('my_array', array(array('test' => 1, 'value' => 1), array('test' => 2, 'value' => 2)));
+
+
+        $row = $this->getTestRowWithNoSubDataTable();
+        $row->setColumn('nb_visits', 15);
+        $row->setMetadata('my_sum', 7);
+        $row->setMetadata('my_max', 2);
+        $row->setMetadata('my_array', array(array('test' => 3, 'value' => 3), array('test' => 2, 'value' => 2)));
+
+
+        $aggregations = array(
+            'nosuchcolumn' => 'max', // this metadata name does not exist and should be ignored
+            'my_sum' => 'sum',
+            'my_max' => 'max',
+            'my_array' => 'uniquearraymerge'
+        );
+        $this->row->sumRowMetadata($row, $aggregations);
+
+        $metadata = $this->row->getMetadata();
+        $expected = array(
+            'my_sum' => 12,
+            'my_max' => 4,
+            'my_array' => array(array('test' => 1, 'value' => 1), array('test' => 2, 'value' => 2), array('test' => 3, 'value' => 3))
+        );
+        $this->assertSame($expected, $metadata);
+    }
+
+    public function test_sumRowMetadata_uniquearraymergeShouldUseArrayFromOtherRow_IfNoMetadataForThisRowSpecified()
+    {
+        $row = $this->getTestRowWithNoSubDataTable();
+        $arrayValue = array(array('test' => 3, 'value' => 3), array('test' => 2, 'value' => 2));
+        $row->setMetadata('my_array', $arrayValue);
+
+        $aggregations = array('my_array' => 'uniquearraymerge');
+
+        $this->row->sumRowMetadata($row, $aggregations);
+
+        $this->assertSame(array('my_array' => $arrayValue), $this->row->getMetadata());
+    }
+
+    public function test_sumRowMetadata_uniquearraymergeShouldUseArrayFromThisRow_IfNoMetadataForOtherRowSpecified()
+    {
+        $row = $this->getTestRowWithNoSubDataTable();
+
+        $arrayValue = array(array('test' => 3, 'value' => 3), array('test' => 2, 'value' => 2));
+        $this->row->setMetadata('my_array', $arrayValue);
+
+        $aggregations = array('my_array' => 'uniquearraymerge');
+
+        $this->row->sumRowMetadata($row, $aggregations);
+
+        $this->assertSame(array('my_array' => $arrayValue), $this->row->getMetadata());
+    }
+
     private function assertColumnSavesValue($expectedValue, $columnName, $valueToSet)
     {
         $this->row->setColumn($columnName, $valueToSet);

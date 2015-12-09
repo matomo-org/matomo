@@ -81,11 +81,23 @@
 	<reportMetadata>
 		<result prettyDate="January 2010">
 			<row>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>5</index>
+					</row>
+				</slots>
 				
 				<segment>customVariableName==_pk_scount</segment>
 				<idsubdatatable>3198</idsubdatatable>
 			</row>
 			<row>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>4</index>
+					</row>
+				</slots>
 				
 				<segment>customVariableName==_pk_scat</segment>
 				<idsubdatatable>3197</idsubdatatable>

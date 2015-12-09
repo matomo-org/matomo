@@ -1,5 +1,7 @@
 {
     "General": {
+        "12HourClock": "12-urni prikaz časa",
+        "24HourClock": "24-urni prikaz časa",
         "AbandonedCarts": "Opuščeni Vozički",
         "AboutPiwikX": "O Piwik %s",
         "Action": "Dejanje",
@@ -11,6 +13,7 @@
         "AllWebsitesDashboard": "Vse nadzorne plošče spletnih strani",
         "And": "in",
         "API": "API",
+        "Apply": "Uveljavi",
         "ArchivingInlineHelp": "Za srednje velike in velike spletne strani izklopite arhiviranje preko spletnega brskalnika. Namesto tega vam priporočamo, da nastavite \"cron job\" tako, da bodo poročila ustvarjena vsako uro.",
         "ArchivingTriggerDescription": "Priporočamo za večje namestitve. %sNastavite \"cron job\"%s za avtomatsko procesiranje.",
         "AuthenticationMethodSmtp": "Metoda potrditve verodostojnosti za SMTP",
@@ -370,7 +373,6 @@
         "VisitTypeExample": "Na primer, če želite zbrati vse obiskovalce, ki so se vrnili na spletno stran, vključno s tistimi, ki so v prejšnjih obiskih kaj kupili, bi API zahteva vsebovala %s",
         "Warning": "Opozorilo",
         "WarningPhpVersionXIsTooOld": "Različica PHP %s, ki jo uporabljate, ni več podprta! Priporočamo čim prejšnjo nadgradnjo na zadnjo stabilno različico, saj ste z nadaljnjo uporabo trenutne različice lahko izpostavljeni varnostnim ranljivostim in napakam, ki so odpravljene v novejših različicah PHP.",
-        "WarningPiwikWillStopSupportingPHPVersion": "Ta različica PHP ne bo več podprta v Piwiku %s. Čim prej nadgradite PHP!",
         "WarningFileIntegrityNoManifest": "Pregleda integritete datotek ni bilo mogoče izvesti, saj manjka manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Če nameščate Piwik iz Git repozitorija, je to sporočilo normalno.",
         "WarningFileIntegrityNoMd5file": "Ne morem preveriti integritete datoteke, ker manjka funkcija md5_file().",
@@ -436,6 +438,7 @@
         "NoWebsitesShort": "Ni spletnih mest",
         "PullDownToRefresh": "Potegnite navzdol za osvežitev...",
         "PossibleSslError": "Možna napaka SSL certifikata",
+        "PossibleSslErrorExplanation": "Prišlo je do napake. Vzrok zanjo je lahko neveljavno ali samopodpisano digitalno potrdilo: \"%s\". Prijava je vseeno mogoča, če prezrete SSL preverjanje, vendar je manj varna. SSL preverjanje lahko vključite\/izključite kadarkoli v nastavitvah vašega brskalnika.",
         "IgnoreSslError": "Prezri SSL napako",
         "RatingDontRemindMe": "Ne spomni me",
         "RatingNotNow": "Ne zdaj",

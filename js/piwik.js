@@ -28,7 +28,7 @@
 
 /*global JSON2:true */
 
-if (typeof JSON2 !== 'object' && window.JSON) {
+if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.stringify && window.JSON.parse) {
     JSON2 = window.JSON;
 } else {
     (function () {
@@ -979,8 +979,8 @@ if (typeof JSON2 !== 'object' && window.JSON) {
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
     setCustomRequestProcessing,
-    setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie,
-    setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
+    setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie, setCustomDimension, getCustomDimension,
+    deleteCustomDimension, setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle,
     setDownloadClasses, setLinkClasses,
@@ -1021,7 +1021,7 @@ if (typeof JSON2 !== 'object' && window.JSON) {
     trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body,
-    getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout,
+    getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
     newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
@@ -1141,6 +1141,23 @@ if (typeof Piwik !== 'object') {
          */
         function isString(property) {
             return typeof property === 'string' || property instanceof String;
+        }
+
+        function isObjectEmpty(property)
+        {
+            if (!property) {
+                return true;
+            }
+
+            var i;
+            var isEmpty = true;
+            for (i in property) {
+                if (Object.prototype.hasOwnProperty.call(property, i)) {
+                    isEmpty = false;
+                }
+            }
+
+            return isEmpty;
         }
 
         /*
@@ -1535,6 +1552,14 @@ if (typeof Piwik !== 'object') {
          * Fix-up URL when page rendered from search engine cache or translated page
          */
         function urlFixup(hostName, href, referrer) {
+            if (!hostName) {
+                hostName = '';
+            }
+
+            if (!href) {
+                href = '';
+            }
+
             if (hostName === 'translate.googleusercontent.com') {       // Google
                 if (referrer === '') {
                     referrer = href;
@@ -1566,6 +1591,10 @@ if (typeof Piwik !== 'object') {
             // remove leading '*'
             if (domain.slice(0, 2) === '*.') {
                 domain = domain.slice(1);
+            }
+
+            if (domain.indexOf('/') !== -1) {
+                domain = domain.substr(0, domain.indexOf('/'));
             }
 
             return domain;
@@ -2648,7 +2677,7 @@ if (typeof Piwik !== 'object') {
 
             // check whether we were redirected from the piwik overlay plugin
             var referrerRegExp = new RegExp('index\\.php\\?module=Overlay&action=startOverlaySession'
-                               + '&idSite=([0-9]+)&period=([^&]+)&date=([^&]+)$');
+                               + '&idSite=([0-9]+)&period=([^&]+)&date=([^&]+)(&segment=.*)?$');
 
             var match = referrerRegExp.exec(documentAlias.referrer);
 
@@ -2662,15 +2691,22 @@ if (typeof Piwik !== 'object') {
 
                 // store overlay session info in window name
                 var period = match[2],
-                    date = match[3];
+                    date = match[3],
+                    segment = match[4];
 
-                windowAlias.name = windowName + '###' + period + '###' + date;
+                if (!segment) {
+                    segment = '';
+                } else if (segment.indexOf('&segment=') === 0) {
+                    segment = segment.substr('&segment='.length);
+                }
+
+                windowAlias.name = windowName + '###' + period + '###' + date + '###' + segment;
             }
 
             // retrieve and check data from window name
             var windowNameParts = windowAlias.name.split('###');
 
-            return windowNameParts.length === 3 && windowNameParts[0] === windowName;
+            return windowNameParts.length === 4 && windowNameParts[0] === windowName;
         }
 
         /*
@@ -2680,12 +2716,13 @@ if (typeof Piwik !== 'object') {
             var windowNameParts = windowAlias.name.split('###'),
                 period = windowNameParts[1],
                 date = windowNameParts[2],
+                segment = windowNameParts[3],
                 piwikUrl = getPiwikUrlForOverlay(configTrackerUrl, configApiUrl);
 
             loadScript(
                 piwikUrl + 'plugins/Overlay/client/client.js?v=1',
                 function () {
-                    Piwik_Overlay_Client.initialize(piwikUrl, configTrackerSiteId, period, date);
+                    Piwik_Overlay_Client.initialize(piwikUrl, configTrackerSiteId, period, date, segment);
                 }
             );
         }
@@ -2848,6 +2885,9 @@ if (typeof Piwik !== 'object') {
                 // Custom Variables, scope "event"
                 customVariablesEvent = {},
 
+                // Custom Dimensions (can be any scope)
+                customDimensions = {},
+
                 // Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
                 customVariableMaximumLength = 200,
 
@@ -2976,10 +3016,115 @@ if (typeof Piwik !== 'object') {
                 return baseUrl + url;
             }
 
+            function isSameHost (hostName, alias) {
+                var offset;
+
+                hostName = String(hostName).toLowerCase();
+                alias = String(alias).toLowerCase();
+
+                if (hostName === alias) {
+                    return true;
+                }
+
+                if (alias.slice(0, 1) === '.') {
+                    if (hostName === alias.slice(1)) {
+                        return true;
+                    }
+
+                    offset = hostName.length - alias.length;
+
+                    if ((offset > 0) && (hostName.slice(offset) === alias)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            function stringEndsWith(str, suffix) {
+                str = String(str);
+                return str.indexOf(suffix, str.length - suffix.length) !== -1;
+            }
+
+            function removeCharactersFromEndOfString(str, numCharactersToRemove) {
+                str = String(str);
+                return str.substr(0, str.length - numCharactersToRemove);
+            }
+
+            /*
+             * Extract pathname from URL. element.pathname is actually supported by pretty much all browsers including
+             * IE6 apart from some rare very old ones
+             */
+            function getPathName(url) {
+                var parser = document.createElement('a');
+                if (url.indexOf('//') !== 0 && url.indexOf('http') !== 0) {
+                    url = 'http://' + url;
+                }
+
+                parser.href = content.toAbsoluteUrl(url);
+                if (parser.pathname) {
+                    return parser.pathname;
+                }
+
+                return '';
+            }
+
+            function isSitePath (path, pathAlias)
+            {
+                var matchesAnyPath = (!pathAlias || pathAlias === '/');
+
+                if (matchesAnyPath) {
+                    return true;
+                }
+
+                if (path === pathAlias) {
+                    return true;
+                }
+
+                if (!path) {
+                    return false;
+                }
+
+                pathAlias = String(pathAlias).toLowerCase();
+                path = String(path).toLowerCase();
+
+                // we need to append slashes so /foobarbaz won't match a site /foobar
+                if (!stringEndsWith(path, '/')) {
+                    path += '/';
+                }
+
+                if (!stringEndsWith(pathAlias, '/')) {
+                    pathAlias += '/';
+                }
+
+                return path.indexOf(pathAlias) === 0;
+            }
+
+            function isSiteHostPath(host, path)
+            {
+                var i,
+                    alias,
+                    configAlias,
+                    aliasHost,
+                    aliasPath;
+
+                for (i = 0; i < configHostsAlias.length; i++) {
+                    aliasHost = domainFixup(configHostsAlias[i]);
+                    aliasPath = getPathName(configHostsAlias[i]);
+
+                    if (isSameHost(host, aliasHost) && isSitePath(path, aliasPath)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
             /*
              * Is the host local? (i.e., not an outlink)
              */
             function isSiteHostName(hostName) {
+
                 var i,
                     alias,
                     offset;
@@ -3678,6 +3823,34 @@ if (typeof Piwik !== 'object') {
                     }
                 }
 
+                var customDimensionIdsAlreadyHandled = [];
+                if (customData) {
+                    for (i in customData) {
+                        if (Object.prototype.hasOwnProperty.call(customData, i) && /^dimension\d+$/.test(i)) {
+                            var index = i.replace('dimension', '');
+                            customDimensionIdsAlreadyHandled.push(parseInt(index, 10));
+                            customDimensionIdsAlreadyHandled.push(String(index));
+                            request += '&' + i + '=' + customData[i];
+                            delete customData[i];
+                        }
+                    }
+                }
+
+                if (customData && isObjectEmpty(customData)) {
+                    customData = null;
+                    // we deleted all keys from custom data
+                }
+
+                // custom dimensions
+                for (i in customDimensions) {
+                    if (Object.prototype.hasOwnProperty.call(customDimensions, i)) {
+                        var isNotSetYet = (-1 === customDimensionIdsAlreadyHandled.indexOf(i));
+                        if (isNotSetYet) {
+                            request += '&dimension' + i + '=' + customDimensions[i];
+                        }
+                    }
+                }
+
                 // custom data
                 if (customData) {
                     request += '&data=' + encodeWrapper(JSON2.stringify(customData));
@@ -3940,6 +4113,8 @@ if (typeof Piwik !== 'object') {
                     return;
                 }
 
+                var originalSourcePath = sourceElement.pathname || getPathName(sourceElement.href);
+
                 // browsers, such as Safari, don't downcase hostname and href
                 var originalSourceHostName = sourceElement.hostname || getHostName(sourceElement.href);
                 var sourceHostName = originalSourceHostName.toLowerCase();
@@ -3950,7 +4125,7 @@ if (typeof Piwik !== 'object') {
 
                 if (!scriptProtocol.test(sourceHref)) {
                     // track outlinks and all downloads
-                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName), query.hasNodeAttribute(sourceElement, 'download'));
+                    var linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostPath(sourceHostName, originalSourcePath), query.hasNodeAttribute(sourceElement, 'download'));
 
                     if (linkType) {
                         return {
@@ -4716,6 +4891,60 @@ if (typeof Piwik !== 'object') {
                 });
             }
 
+            /**
+             * Note: While we check whether the user is on a configHostAlias path we do not check whether the user is
+             * actually on the configHostAlias domain. This is already done where this method is called and for
+             * simplicity we do not check this again.
+             *
+             * Also we currently assume that all configHostAlias domains start with the same wild card of '*.', '.' or
+             * none. Eg either all like '*.piwik.org' or '.piwik.org' or 'piwik.org'. Piwik always adds '*.' so it
+             * should be fine.
+             */
+            function findConfigCookiePathToUse(configHostAlias, currentUrl)
+            {
+                var aliasPath   = getPathName(configHostAlias);
+                var currentPath = getPathName(currentUrl);
+
+                if (!aliasPath || aliasPath === '/' || !currentPath || currentPath === '/') {
+                    // no path set that would be useful for cookiePath
+                    return;
+                }
+
+                var aliasDomain = domainFixup(configHostAlias);
+
+                if (isSiteHostPath(aliasDomain, '/')) {
+                    // there is another configHostsAlias having same domain that allows all paths
+                    // eg this alias is for piwik.org/support but there is another alias allowing
+                    // piwik.org
+                    return;
+                }
+
+                if (stringEndsWith(aliasPath, '/')) {
+                    aliasPath = removeCharactersFromEndOfString(aliasPath, 1);
+                }
+
+                // eg if we're in the case of "apache.piwik/foo/bar" we check whether there is maybe
+                // also a config alias allowing "apache.piwik/foo". In this case we're not allowed to set
+                // the cookie for "/foo/bar" but "/foo"
+                var pathAliasParts = aliasPath.split('/');
+                var i;
+                for (i = 2; i < pathAliasParts.length; i++) {
+                    var lessRestrctivePath = pathAliasParts.slice(0, i).join('/');
+                    if (isSiteHostPath(aliasDomain, lessRestrctivePath)) {
+                        aliasPath = lessRestrctivePath;
+                        break;
+                    }
+                }
+
+                if (!isSitePath(currentPath, aliasPath)) {
+                    // current path of current URL does not match the alias
+                    // eg user is on piwik.org/demo but configHostAlias is for piwik.org/support
+                    return;
+                }
+
+                return aliasPath;
+            }
+
             /*
              * Browser features (plugins, resolution, cookies)
              */
@@ -4853,6 +5082,12 @@ if (typeof Piwik !== 'object') {
                 internalIsNodeVisible: isVisible,
                 isNodeAuthorizedToTriggerInteraction: isNodeAuthorizedToTriggerInteraction,
                 replaceHrefIfInternalLink: replaceHrefIfInternalLink,
+                getDomains: function () {
+                    return configHostsAlias;
+                },
+                getConfigCookiePath: function () {
+                    return configCookiePath;
+                },
                 getConfigDownloadExtensions: function () {
                     return configDownloadExtensions;
                 },
@@ -5093,6 +5328,50 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
+                 * Set Custom Dimensions. Any set Custom Dimension will be cleared after a tracked pageview. Make
+                 * sure to set them again if needed.
+                 *
+                 * @param int index A Custom Dimension index
+                 * @param string value
+                 */
+                setCustomDimension: function (customDimensionId, value) {
+                    customDimensionId = parseInt(customDimensionId, 10);
+                    if (customDimensionId > 0) {
+                        if (!isDefined(value)) {
+                            value = '';
+                        }
+                        if (!isString(value)) {
+                            value = String(value);
+                        }
+                        customDimensions[customDimensionId] = value;
+                    }
+                },
+
+                /**
+                 * Get a stored value for a specific Custom Dimension index.
+                 *
+                 * @param int index A Custom Dimension index
+                 */
+                getCustomDimension: function (customDimensionId) {
+                    customDimensionId = parseInt(customDimensionId, 10);
+                    if (customDimensionId > 0 && Object.prototype.hasOwnProperty.call(customDimensions, customDimensionId)) {
+                        return customDimensions[customDimensionId];
+                    }
+                },
+
+                /**
+                 * Delete a custom dimension.
+                 *
+                 * @param int index Custom dimension Id
+                 */
+                deleteCustomDimension: function (customDimensionId) {
+                    customDimensionId = parseInt(customDimensionId, 10);
+                    if (customDimensionId > 0) {
+                        delete customDimensions[customDimensionId];
+                    }
+                },
+
+                /**
                  * Set custom variable within this visit
                  *
                  * @param int index Custom variable slot ID from 1-5
@@ -5165,6 +5444,7 @@ if (typeof Piwik !== 'object') {
                  * Delete custom variable
                  *
                  * @param int index Custom variable slot ID from 1-5
+                 * @param string scope
                  */
                 deleteCustomVariable: function (index, scope) {
                     // Only delete if it was there already
@@ -5238,13 +5518,44 @@ if (typeof Piwik !== 'object') {
                 },
 
                 /**
-                 * Set array of domains to be treated as local
+                 * Set array of domains to be treated as local. Also supports path, eg '.piwik.org/subsite1'. In this
+                 * case all links that don't go to '*.piwik.org/subsite1/ *' would be treated as outlinks.
+                 * For example a link to 'piwik.org/' or 'piwik.org/subsite2' both would be treated as outlinks.
+                 *
+                 * We might automatically set a cookieConfigPath to avoid creating several cookies under one domain
+                 * if there is a hostAlias defined with a path. Say a user is visiting 'http://piwik.org/subsite1'
+                 * and '.piwik.org/subsite1' is set as a hostsAlias. Piwik will automatically use '/subsite1' as
+                 * cookieConfigPath.
                  *
                  * @param string|array hostsAlias
                  */
                 setDomains: function (hostsAlias) {
                     configHostsAlias = isString(hostsAlias) ? [hostsAlias] : hostsAlias;
-                    configHostsAlias.push(domainAlias);
+
+                    var hasDomainAliasAlready = false, i;
+                    for (i in configHostsAlias) {
+                        if (Object.prototype.hasOwnProperty.call(configHostsAlias, i)
+                            && isSameHost(domainAlias, domainFixup(String(configHostsAlias[i])))) {
+                            hasDomainAliasAlready = true;
+
+                            if (!configCookiePath) {
+                                var path = findConfigCookiePathToUse(configHostsAlias[i], locationHrefAlias);
+                                if (path) {
+                                    this.setCookiePath(path);
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!hasDomainAliasAlready) {
+                        /**
+                         * eg if domainAlias = 'piwik.org' and someone set hostsAlias = ['piwik.org/foo'] then we should
+                         * not add piwik.org as it would increase the allowed scope.
+                         */
+                        configHostsAlias.push(domainAlias);
+                    }
                 },
 
                 /**
@@ -5904,10 +6215,11 @@ if (typeof Piwik !== 'object') {
                  * @param string action The Event's Action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...)
                  * @param string name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
                  * @param float value (optional) The Event's value
+                 * @param mixed customData
                  */
-                trackEvent: function (category, action, name, value) {
+                trackEvent: function (category, action, name, value, customData) {
                     trackCallback(function () {
-                        logEvent(category, action, name, value);
+                        logEvent(category, action, name, value, customData);
                     });
                 },
 
@@ -5917,10 +6229,11 @@ if (typeof Piwik !== 'object') {
                  * @param string keyword
                  * @param string category
                  * @param int resultsCount
+                 * @param mixed customData
                  */
-                trackSiteSearch: function (keyword, category, resultsCount) {
+                trackSiteSearch: function (keyword, category, resultsCount, customData) {
                     trackCallback(function () {
-                        logSiteSearch(keyword, category, resultsCount);
+                        logSiteSearch(keyword, category, resultsCount, customData);
                     });
                 },
 
@@ -6084,7 +6397,7 @@ if (typeof Piwik !== 'object') {
 
         asyncTracker = new Tracker();
 
-        var applyFirst  = ['disableCookies', 'setTrackerUrl', 'setAPIUrl', 'setCookiePath', 'setCookieDomain', 'setUserId', 'setSiteId', 'enableLinkTracking'];
+        var applyFirst  = ['disableCookies', 'setTrackerUrl', 'setAPIUrl', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
         _paq = applyMethodsInOrder(_paq, applyFirst);
 
         // apply the queue of actions

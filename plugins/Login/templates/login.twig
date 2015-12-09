@@ -1,11 +1,11 @@
 {% extends '@Morpheus/layout.twig' %}
 
+{% block meta %}
+    <meta name="robots" content="index,follow">
+{% endblock %}
+
 {% block head %}
     {{ parent() }}
-
-    {% block meta %}
-        <meta name="robots" content="index,follow">
-    {% endblock %}
 
     <script type="text/javascript" src="libs/bower_components/jquery-placeholder/jquery.placeholder.js"></script>
     <!--[if lt IE 9]>

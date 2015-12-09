@@ -30,7 +30,7 @@ class GenerateArchiver extends GeneratePluginBase
         $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
 
         $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
-        $replace        = array('ExamplePlugin' => ucfirst($pluginName), 'EXAMPLEPLUGIN' => strtoupper($pluginName));
+        $replace        = array('ExamplePlugin' => $pluginName, 'EXAMPLEPLUGIN' => strtoupper($pluginName));
         $whitelistFiles = array('/Archiver.php');
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);

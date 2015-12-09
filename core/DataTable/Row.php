@@ -480,7 +480,7 @@ class Row extends \ArrayObject
         }
 
         if ($enableCopyMetadata) {
-            $this->sumRowMetadata($rowToSum);
+            $this->sumRowMetadata($rowToSum, $aggregationOperations);
         }
     }
 
@@ -507,6 +507,19 @@ class Row extends \ArrayObject
             case 'sum':
                 $newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue);
                 break;
+            case 'uniquearraymerge':
+                if (is_array($thisColumnValue) && is_array($columnToSumValue)) {
+                    foreach ($columnToSumValue as $columnSum) {
+                        if (!in_array($columnSum, $thisColumnValue)) {
+                            $thisColumnValue[] = $columnSum;
+                        }
+                    }
+                } elseif (!is_array($thisColumnValue) && is_array($columnToSumValue)) {
+                    $thisColumnValue = $columnToSumValue;
+                }
+
+                $newValue = $thisColumnValue;
+                break;
             default:
                 throw new Exception("Unknown operation '$operation'.");
         }
@@ -517,12 +530,29 @@ class Row extends \ArrayObject
      * Sums the metadata in `$rowToSum` with the metadata in `$this` row.
      *
      * @param Row $rowToSum
+     * @param array $aggregationOperations
      */
-    public function sumRowMetadata($rowToSum)
+    public function sumRowMetadata($rowToSum, $aggregationOperations = array())
     {
         if (!empty($rowToSum->metadata)
             && !$this->isSummaryRow()
         ) {
+            $aggregatedMetadata = array();
+
+            if (is_array($aggregationOperations)) {
+                // we need to aggregate value before value is overwritten by maybe another row
+                foreach ($aggregationOperations as $columnn => $operation) {
+                    $thisMetadata = $this->getMetadata($columnn);
+                    $sumMetadata  = $rowToSum->getMetadata($columnn);
+
+                    if ($thisMetadata === false && $sumMetadata === false) {
+                        continue;
+                    }
+
+                    $aggregatedMetadata[$columnn] = $this->getColumnValuesMerged($operation, $thisMetadata, $sumMetadata);
+                }
+            }
+
             // We shall update metadata, and keep the metadata with the _most visits or pageviews_, rather than first or last seen
             $visits = max($rowToSum->getColumn(Metrics::INDEX_PAGE_NB_HITS) || $rowToSum->getColumn(Metrics::INDEX_NB_VISITS),
                 // Old format pre-1.2, @see also method doSumVisitsMetrics()
@@ -532,6 +562,11 @@ class Row extends \ArrayObject
             ) {
                 $this->maxVisitsSummed = $visits;
                 $this->metadata = $rowToSum->metadata;
+            }
+
+            foreach ($aggregatedMetadata as $column => $value) {
+                // we need to make sure aggregated value is used, and not metadata from $rowToSum
+                $this->setMetadata($column, $value);
             }
         }
     }

@@ -27,6 +27,12 @@ class SegmentExpression
     const MATCH_LESS = '<';
     const MATCH_CONTAINS = '=@';
     const MATCH_DOES_NOT_CONTAIN = '!@';
+    const MATCH_STARTS_WITH = '=^';
+    const MATCH_ENDS_WITH = '=$';
+
+    const BOOL_OPERATOR_OR = 'OR';
+    const BOOL_OPERATOR_AND = 'AND';
+    const BOOL_OPERATOR_END = '';
 
     // Note: you can't write this in the API, but access this feature
     // via field!=        <- IS NOT NULL
@@ -39,6 +45,10 @@ class SegmentExpression
 
     const INDEX_BOOL_OPERATOR = 0;
     const INDEX_OPERAND = 1;
+
+    const INDEX_OPERAND_NAME = 0;
+    const INDEX_OPERAND_OPERATOR = 1;
+    const INDEX_OPERAND_VALUE = 2;
 
     const SQL_WHERE_DO_NOT_MATCH_ANY_ROW = "(1 = 0)";
     const SQL_WHERE_MATCHES_ALL_ROWS = "(1 = 1)";
@@ -89,7 +99,9 @@ class SegmentExpression
                 . self::MATCH_LESS_OR_EQUAL . '|'
                 . self::MATCH_LESS . '|'
                 . self::MATCH_CONTAINS . '|'
-                . self::MATCH_DOES_NOT_CONTAIN
+                . self::MATCH_DOES_NOT_CONTAIN . '|'
+                . preg_quote(self::MATCH_STARTS_WITH) . '|'
+                . preg_quote(self::MATCH_ENDS_WITH)
                 . '){1}(.*)/';
             $match = preg_match($pattern, $operand, $matches);
             if ($match == 0) {
@@ -115,9 +127,9 @@ class SegmentExpression
             $parsedSubExpressions[] = array(
                 self::INDEX_BOOL_OPERATOR => $operator,
                 self::INDEX_OPERAND       => array(
-                    $leftMember,
-                    $operation,
-                    $valueRightMember,
+                    self::INDEX_OPERAND_NAME => $leftMember,
+                    self::INDEX_OPERAND_OPERATOR => $operation,
+                    self::INDEX_OPERAND_VALUE => $valueRightMember,
                 ));
         }
         $this->parsedSubExpressions = $parsedSubExpressions;
@@ -146,14 +158,17 @@ class SegmentExpression
             $operator = $leaf[self::INDEX_BOOL_OPERATOR];
             $operandDefinition = $leaf[self::INDEX_OPERAND];
 
-
             $operand = $this->getSqlMatchFromDefinition($operandDefinition, $availableTables);
 
-            if ($operand[1] !== null) {
-                $this->valuesBind = array_merge($this->valuesBind, $operand[1]);
+            if ($operand[self::INDEX_OPERAND_OPERATOR] !== null) {
+                if (is_array($operand[self::INDEX_OPERAND_OPERATOR])) {
+                    $this->valuesBind = array_merge($this->valuesBind, $operand[self::INDEX_OPERAND_OPERATOR]);
+                } else {
+                    $this->valuesBind[] = $operand[self::INDEX_OPERAND_OPERATOR];
+                }
             }
 
-            $operand = $operand[0];
+            $operand = $operand[self::INDEX_OPERAND_NAME];
 
             $sqlSubExpressions[] = array(
                 self::INDEX_BOOL_OPERATOR => $operator,
@@ -177,12 +192,12 @@ class SegmentExpression
      */
     protected function getSqlMatchFromDefinition($def, &$availableTables)
     {
-        $fields    = $def[0];
+        $field     = $def[0];
         $matchType = $def[1];
         $value     = $def[2];
 
         // Segment::getCleanedExpression() may return array(null, $matchType, null)
-        $operandWillNotMatchAnyRow = empty($fields) && is_null($value);
+        $operandWillNotMatchAnyRow = empty($field) && is_null($value);
         if($operandWillNotMatchAnyRow) {
             if($matchType == self::MATCH_EQUAL) {
                 // eg. pageUrl==DoesNotExist
@@ -193,7 +208,9 @@ class SegmentExpression
                 // Not equal to NULL means it matches all rows
                 $sqlExpression = self::SQL_WHERE_MATCHES_ALL_ROWS;
             } elseif($matchType == self::MATCH_CONTAINS
-                  || $matchType == self::MATCH_DOES_NOT_CONTAIN) {
+                  || $matchType == self::MATCH_DOES_NOT_CONTAIN
+                  || $matchType == self::MATCH_STARTS_WITH
+                  || $matchType == self::MATCH_ENDS_WITH) {
                 // no action was found for CONTAINS / DOES NOT CONTAIN
                 // eg. pageUrl=@DoesNotExist -> matches no row
                 // eg. pageUrl!@DoesNotExist -> matches no rows
@@ -205,10 +222,6 @@ class SegmentExpression
             }
 
             return array($sqlExpression, $value = null);
-        }
-
-        if (!is_array($fields)) {
-            $fields = array($fields);
         }
 
         $alsoMatchNULLValues = false;
@@ -241,6 +254,14 @@ class SegmentExpression
                 $value    = '%' . $this->escapeLikeString($value) . '%';
                 $alsoMatchNULLValues = true;
                 break;
+            case self::MATCH_STARTS_WITH:
+                $sqlMatch = '%s LIKE';
+                $value    = $this->escapeLikeString($value) . '%';
+                break;
+            case self::MATCH_ENDS_WITH:
+                $sqlMatch = '%s LIKE';
+                $value    = '%' . $this->escapeLikeString($value);
+                break;
 
             case self::MATCH_IS_NOT_NULL_NOR_EMPTY:
                 $sqlMatch = '%s IS NOT NULL AND (%s <> \'\' OR %s = 0)';
@@ -258,7 +279,7 @@ class SegmentExpression
                 // it can be used internally to inject sub-expressions into the query.
                 // see Segment::getCleanedExpression()
                 $sqlMatch = '%s IN (' . $value['SQL'] . ')';
-                $value    = $this->escapeLikeString($value['bind']);
+                $value    = $value['bind'];
                 break;
             default:
                 throw new Exception("Filter contains the match type '" . $matchType . "' which is not supported");
@@ -267,44 +288,23 @@ class SegmentExpression
 
         // We match NULL values when rows are excluded only when we are not doing a
         $alsoMatchNULLValues = $alsoMatchNULLValues && !empty($value);
+        $sqlMatch = str_replace('%s', $field, $sqlMatch);
 
-        $sqlExpressions = array();
-        $values = array();
-        foreach ($fields as $field) {
-            $sqlMatchReplaced = str_replace('%s', $field, $sqlMatch);
-
-            if ($matchType === self::MATCH_ACTIONS_CONTAINS
-                || is_null($value)
-            ) {
-                $sqlExpression = "( $sqlMatchReplaced )";
-            } else {
-                if ($alsoMatchNULLValues) {
-                    $sqlExpression = "( $field IS NULL OR $sqlMatchReplaced ? )";
-                } else {
-                    $sqlExpression = "$sqlMatchReplaced ?";
-                }
-            }
-
-            $sqlExpressions[] = $sqlExpression;
-
-            if ($value !== null) {
-                if(is_array($value)) {
-                    $values = array_merge($values, $value);
-                } else {
-                    $values[] = $value;
-                }
-            }
-
-            $this->checkFieldIsAvailable($field, $availableTables);
-        }
-
-        if (count($fields) == 1) {
-            $sqlExpression = reset($sqlExpressions);
+        if ($matchType === self::MATCH_ACTIONS_CONTAINS
+            || is_null($value)
+        ) {
+            $sqlExpression = "( $sqlMatch )";
         } else {
-            $sqlExpression = '((' . implode(") OR (", $sqlExpressions) . '))';
+            if ($alsoMatchNULLValues) {
+                $sqlExpression = "( $field IS NULL OR $sqlMatch ? )";
+            } else {
+                $sqlExpression = "$sqlMatch ?";
+            }
         }
 
-        return array($sqlExpression, $values);
+        $this->checkFieldIsAvailable($field, $availableTables);
+
+        return array($sqlExpression, $value);
     }
 
     /**
@@ -337,8 +337,14 @@ class SegmentExpression
      */
     private function escapeLikeString($str)
     {
-        $str = str_replace("%", "\%", $str);
-        $str = str_replace("_", "\_", $str);
+        if (false !== strpos($str, '%')) {
+            $str = str_replace("%", "\%", $str);
+        }
+
+        if (false !== strpos($str, '_')) {
+            $str = str_replace("_", "\_", $str);
+        }
+        
         return $str;
     }
 
@@ -372,15 +378,15 @@ class SegmentExpression
                     $operand = substr($operand, 0, -1);
                 }
                 $operand .= $char;
-                $tree[] = array(self::INDEX_BOOL_OPERATOR => '', self::INDEX_OPERAND => $operand);
+                $tree[] = array(self::INDEX_BOOL_OPERATOR => self::BOOL_OPERATOR_END, self::INDEX_OPERAND => $operand);
                 break;
             }
 
             if ($isAND && !$isBackslash) {
-                $tree[] = array(self::INDEX_BOOL_OPERATOR => 'AND', self::INDEX_OPERAND => $operand);
+                $tree[] = array(self::INDEX_BOOL_OPERATOR => self::BOOL_OPERATOR_AND, self::INDEX_OPERAND => $operand);
                 $operand = '';
             } elseif ($isOR && !$isBackslash) {
-                $tree[] = array(self::INDEX_BOOL_OPERATOR => 'OR', self::INDEX_OPERAND => $operand);
+                $tree[] = array(self::INDEX_BOOL_OPERATOR => self::BOOL_OPERATOR_OR, self::INDEX_OPERAND => $operand);
                 $operand = '';
             } else {
                 if ($isBackslash && ($isAND || $isOR)) {
@@ -413,7 +419,7 @@ class SegmentExpression
             $operator = $expression[self::INDEX_BOOL_OPERATOR];
             $operand = $expression[self::INDEX_OPERAND];
 
-            if ($operator == 'OR'
+            if ($operator == self::BOOL_OPERATOR_OR
                 && !$subExpression
             ) {
                 $sql .= ' (';
@@ -424,7 +430,7 @@ class SegmentExpression
 
             $sql .= $operand;
 
-            if ($operator == 'AND'
+            if ($operator == self::BOOL_OPERATOR_AND
                 && $subExpression
             ) {
                 $sql .= ')';

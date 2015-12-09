@@ -262,7 +262,9 @@ class GenerateIntl extends ConsoleCommand
 
             $translations['Intl']['Time_AM'] = $calendarData['dayPeriods']['format']['wide']['am'];
             $translations['Intl']['Time_PM'] = $calendarData['dayPeriods']['format']['wide']['pm'];
-            $translations['Intl']['Format_Time'] = $calendarData['timeFormats']['medium'];
+            $translations['Intl']['Format_Time'] = '{time}';
+            $translations['Intl']['Format_Time_12'] = $calendarData['dateTimeFormats']['availableFormats']['hms'];
+            $translations['Intl']['Format_Time_24'] = $calendarData['dateTimeFormats']['availableFormats']['Hms'];
             $translations['Intl']['Format_Date_Long'] = $calendarData['dateFormats']['full'];
             $translations['Intl']['Format_Date_Day_Month'] = $calendarData['dateTimeFormats']['availableFormats']['MMMEd'];
             $translations['Intl']['Format_Date_Short'] = $calendarData['dateFormats']['medium'];
@@ -273,8 +275,8 @@ class GenerateIntl extends ConsoleCommand
             }
             $translations['Intl']['Format_Year'] = $calendarData['dateTimeFormats']['availableFormats']['y'];
 
-            $translations['Intl']['Format_DateTime_Long'] = $calendarData['dateFormats']['full'] . ' ' . $calendarData['timeFormats']['medium'];
-            $translations['Intl']['Format_DateTime_Short'] = $calendarData['dateFormats']['medium'] . ' ' . $calendarData['timeFormats']['medium'];
+            $translations['Intl']['Format_DateTime_Long'] = $calendarData['dateFormats']['full'] . ' {time}';
+            $translations['Intl']['Format_DateTime_Short'] = $calendarData['dateFormats']['medium'] . ' {time}';
 
             $translations['Intl']['Format_Interval_Long_D'] = $this->transformDateFormat($calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['d'], array('MMMM' => 'MMM', 'LLLL' => 'LLL', 'MMM' => 'MMMM', 'LLL' => 'LLLL'));
             $translations['Intl']['Format_Interval_Long_M'] = $this->transformDateFormat($calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['M'], array('MMMM' => 'MMM', 'LLLL' => 'LLL', 'MMM' => 'MMMM', 'LLL' => 'LLLL'));

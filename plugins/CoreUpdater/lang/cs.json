@@ -19,7 +19,7 @@
         "ExceptionArchiveIncompatible": "Nekompatibilní archiv: %s",
         "ExceptionArchiveIncomplete": "Archiv je nekompletní: některé soubory chybí (např.: %s).",
         "FeedbackRequest": "Zde můžete s týmem Piwiku sdílet nápady a návrhy:",
-        "HelpMessageContent": "Zkontrolujte %1$s Piwik FAQ %2$s , kde jsou vysvětleny nejčastější chybi při aktualizaci. %3$s Požádejte vašeho systémového administrátora - může vám pomoct s chybou, která je nejčastěji způsobena nastavením serveru MySQL.",
+        "HelpMessageContent": "Zkontrolujte %1$s Piwik FAQ %2$s , kde jsou vysvětleny nejčastější chybi při aktualizaci. %3$s Požádejte svéo systémového administrátora - může vám pomoci s chybou, která je nejčastěji způsobena nastavením serveru MySQL.",
         "HelpMessageIntroductionWhenError": "Níže je hlavní chybová hláška. Pomůže vám zjistit příčinu, ale pokud budete potřebovat další pomoc:",
         "HelpMessageIntroductionWhenWarning": "Aktualizace proběhla v pořádku, ale byly zaznamenány problémy. Prosím přečtěte si jejich popis výše. Pro další pomoc:",
         "HighTrafficPiwikServerEnableMaintenance": "Pokud provozujete Piwik server s velkým provozem, doporučujeme %sna chvíli zakázat sledování návštěvníků a přepnout uživatelské rozhraní do režimu údržby%s.",

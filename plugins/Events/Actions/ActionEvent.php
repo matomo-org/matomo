@@ -60,9 +60,17 @@ class ActionEvent extends Action
 
     protected function getActionsToLookup()
     {
-        return array(
-            'idaction_url' => $this->getUrlAndType()
-        );
+        $actionUrl = false;
+
+        $url = $this->getActionUrl();
+
+        if (!empty($url)) {
+            // normalize urls by stripping protocol and www
+            $url = Tracker\PageUrl::normalizeUrl($url);
+            $actionUrl = array($url['url'], $this->getActionType(), $url['prefixId']);
+        }
+
+        return array('idaction_url' => $actionUrl);
     }
 
     // Do not track this Event URL as Entry/Exit Page URL (leave the existing entry/exit)

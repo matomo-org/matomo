@@ -20,11 +20,17 @@ var Overlay_Helper = {
     },
 
     /** Get the url to launch overlay */
-    getOverlayLink: function (idSite, period, date, link) {
+    getOverlayLink: function (idSite, period, date, segment, link) {
         var url = 'index.php?module=Overlay&period=' + encodeURIComponent(period) + '&date=' + encodeURIComponent(date) + '&idSite=' + encodeURIComponent(idSite);
+
+        if (segment) {
+            url += '&segment=' + encodeURIComponent(segment);
+        }
+
         if (link) {
             url += '#?l=' + Overlay_Helper.encodeFrameUrl(link);
         }
+
         return url;
     }
 

@@ -17,6 +17,7 @@ use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
@@ -76,7 +77,8 @@ class Visit implements VisitInterface
 
     public function __construct()
     {
-        $this->requestProcessors = StaticContainer::get('tracker.request.processors');
+        $requestProcessors = StaticContainer::get('Piwik\Plugin\RequestProcessors');
+        $this->requestProcessors = $requestProcessors->getRequestProcessors();
         $this->visitorRecognizer = StaticContainer::get('Piwik\Tracker\VisitorRecognizer');
         $this->visitProperties = null;
         $this->userSettings = StaticContainer::get('Piwik\Tracker\Settings');

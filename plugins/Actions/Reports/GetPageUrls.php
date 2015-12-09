@@ -39,7 +39,6 @@ class GetPageUrls extends Base
             new AveragePageGenerationTime()
         );
 
-        $this->segmentSql  = 'log_visit.visit_entry_idaction_url';
         $this->subcategoryId = 'General_Pages';
     }
 

@@ -40,6 +40,10 @@ class Insight extends Visualization
         $report = $this->requestConfig->apiMethodToRequestDataTable;
         $report = str_replace('.', '_', $report);
 
+        if (!empty($this->requestConfig->request_parameters_to_modify['reportUniqueId'])) {
+            $report = $this->requestConfig->request_parameters_to_modify['reportUniqueId'];
+        }
+
         $this->requestConfig->apiMethodToRequestDataTable = 'Insights.getInsights';
 
         $this->requestConfig->request_parameters_to_modify = array(

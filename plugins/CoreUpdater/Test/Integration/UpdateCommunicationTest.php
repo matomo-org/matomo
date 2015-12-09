@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreUpdater\Test;
 use Piwik\Config;
 use Piwik\Option;
 use Piwik\Plugins\CoreUpdater\UpdateCommunication;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\UpdateCheck;
 use Piwik\Version;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -67,33 +68,35 @@ class UpdateCommunicationTest extends IntegrationTestCase
 
     public function test_sendNotifications_shouldSentCorrectEmail()
     {
-        $message = 'ScheduledReports_EmailHello
+        $rootUrl = Fixture::getTestRootUrl();
+        $message = "ScheduledReports_EmailHello
 
 CoreUpdater_ThereIsNewVersionAvailableForUpdate
 
 CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
-http://localhost/tests/PHPUnit/proxy/index.php?module=CoreUpdater&action=newVersionAvailable
+{$rootUrl}index.php?module=CoreUpdater&action=newVersionAvailable
 
 CoreUpdater_ViewVersionChangelog
 http://piwik.org/changelog/piwik-33-0-0/
 
 CoreUpdater_FeedbackRequest
-http://piwik.org/contact/';
+http://piwik.org/contact/";
 
         $this->assertEmailForVersion('33.0.0', $message);
     }
 
     public function test_sendNotifications_shouldNotIncludeChangelogIfNotMajorVersionUpdate()
     {
-        $message = 'ScheduledReports_EmailHello
+        $rootUrl = Fixture::getTestRootUrl();
+        $message = "ScheduledReports_EmailHello
 
 CoreUpdater_ThereIsNewVersionAvailableForUpdate
 
 CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
-http://localhost/tests/PHPUnit/proxy/index.php?module=CoreUpdater&action=newVersionAvailable
+{$rootUrl}index.php?module=CoreUpdater&action=newVersionAvailable
 
 CoreUpdater_FeedbackRequest
-http://piwik.org/contact/';
+http://piwik.org/contact/";
 
         $this->assertEmailForVersion('33.0.0-b1', $message);
     }

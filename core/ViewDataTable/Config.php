@@ -10,6 +10,7 @@
 namespace Piwik\ViewDataTable;
 
 use Piwik\API\Request as ApiRequest;
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics;
@@ -486,7 +487,28 @@ class Config
     {
         $this->metrics_documentation = array();
 
-        $report = API::getInstance()->getMetadata(0, $this->controllerName, $this->controllerAction);
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
+
+        if ($idSite < 1) {
+            return;
+        }
+
+        $apiParameters = array();
+        $idDimension = Common::getRequestVar('idDimension', 0, 'int');
+        $idGoal = Common::getRequestVar('idGoal', 0, 'int');
+        if ($idDimension > 0) {
+            $apiParameters['idDimension'] = $idDimension;
+        }
+        if ($idGoal > 0) {
+            $apiParameters['idGoal'] = $idGoal;
+        }
+
+        $report = API::getInstance()->getMetadata($idSite, $this->controllerName, $this->controllerAction, $apiParameters);
+
+        if (empty($report)) {
+            return;
+        }
+
         $report = $report[0];
 
         if (isset($report['metricsDocumentation'])) {
@@ -554,6 +576,17 @@ class Config
         }
 
         $this->columns_to_display = array_filter($columnsToDisplay);
+    }
+
+    public function removeColumnToDisplay($columnToRemove)
+    {
+        if (!empty($this->columns_to_display)) {
+
+            $key = array_search($columnToRemove, $this->columns_to_display);
+            if (false !== $key) {
+                unset($this->columns_to_display[$key]);
+            }
+        }
     }
 
     /**

@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "このプラグインでは、ビジターマップとリアルタイムマップウィジェットを提供します。注：利用可能なユーザーカントリープラグインが必要。",
         "AndNOthers": "と、%s ほか",
         "Cities": "都市",
         "Countries": "国",

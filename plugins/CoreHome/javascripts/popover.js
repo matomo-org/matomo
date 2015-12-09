@@ -142,7 +142,17 @@ var Piwik_Popover = (function () {
 
         /** Set the title of the popover */
         setTitle: function (titleHtml) {
+            var titleText = piwikHelper.htmlDecode(titleHtml);
+            if (titleText.length > 60) {
+                titleHtml = $('<span>').attr('class', 'tooltip').attr('title', titleText).html(titleHtml);
+            }
             container.dialog('option', 'title', titleHtml);
+            try {
+                $('.tooltip', container.parentNode).tooltip('destroy');
+            } catch (e) {}
+            if (titleText.length > 60) {
+                $('.tooltip', container.parentNode).tooltip({track: true, items: '.tooltip'});
+            }
         },
 
         /** Set inner HTML of the popover */

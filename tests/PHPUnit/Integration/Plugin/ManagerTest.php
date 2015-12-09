@@ -15,6 +15,7 @@ use Piwik\Plugin;
 use Piwik\Settings\Storage;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tests\Integration\Settings\IntegrationTestCase;
+use Piwik\Widget\WidgetsList;
 
 /**
  * @group Plugin
@@ -96,7 +97,7 @@ class ManagerTest extends IntegrationTestCase
                     list($controller, $module, $action) = explode('.', $hook);
 
                     try {
-                        $resolver   = new ControllerResolver(StaticContainer::getContainer());
+                        $resolver   = new ControllerResolver(StaticContainer::getContainer(), new Plugin\Widgets($this->manager));
                         $params = array();
                         $controller = $resolver->getController($module, $action, $params);
                     } catch (\Exception $e) {
@@ -107,6 +108,36 @@ class ManagerTest extends IntegrationTestCase
                 }
             }
         }
+    }
+
+    /**
+     * @dataProvider getPluginNameProvider
+     */
+    public function test_isValidPluginName($expectedIsValid, $pluginName)
+    {
+        $valid = $this->manager->isValidPluginName($pluginName);
+        $this->assertSame($expectedIsValid, $valid);
+    }
+
+    public function getPluginNameProvider()
+    {
+        return array(
+            array(true, 'a'),
+            array(true, 'a0'),
+            array(true, 'pluginNameTest'),
+            array(true, 'PluginNameTest'),
+            array(true, 'PluginNameTest92323232eerwrwere938'),
+            array(false, ''),
+            array(false, '0'),
+            array(false, '0a'),
+            array(false, 'a.'),
+            array(false, 'a-'),
+            array(false, 'a_'),
+            array(false, 'a-ererer'),
+            array(false, 'a_ererer'),
+            array(false, '..'),
+            array(false, '/'),
+        );
     }
 
     private function getCacheForTrackerPlugins()

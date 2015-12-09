@@ -15,17 +15,47 @@ function DataTable_RowActions_Overlay(dataTable) {
 
 DataTable_RowActions_Overlay.prototype = new DataTable_RowAction;
 
+DataTable_RowActions_Overlay.registeredReports = [];
+DataTable_RowActions_Overlay.registerReport = function (handler) {
+    DataTable_RowActions_Overlay.registeredReports.push(handler);
+}
+
+
 DataTable_RowActions_Overlay.prototype.onClick = function (actionA, tr, e) {
     if (!actionA.data('overlay-manipulated')) {
         actionA.data('overlay-manipulated', 1);
 
-        var link = tr.find('> td:first > a').attr('href');
-        link = $('<textarea>').html(link).val(); // remove html entities
+        var segment, link;
 
-        actionA.attr({
-            target: '_blank',
-            href: Overlay_Helper.getOverlayLink(this.dataTable.param.idSite, 'month', 'today', link)
-        });
+        var i = 0;
+        for (i; i < DataTable_RowActions_Overlay.registeredReports.length; i++) {
+            var report = DataTable_RowActions_Overlay.registeredReports[i];
+            if (report
+                && report.onClick
+                && report.isAvailableOnReport
+                && report.isAvailableOnReport(this.dataTable.param)) {
+                var result = report.onClick.apply(this, arguments);
+
+                if (!result || !result.link) {
+                    return;
+                }
+
+                link = result.link;
+                if (result.segment) {
+                    segment = result.segment;
+                }
+                break;
+            }
+        }
+
+        if (link) {
+            var href = Overlay_Helper.getOverlayLink(this.dataTable.param.idSite, 'month', 'today', segment, link);
+
+            actionA.attr({
+                target: '_blank',
+                href: href
+            });
+        }
     }
 
     return true;
@@ -54,7 +84,18 @@ DataTable_RowActions_Registry.register({
         if (!window.DataTable_RowActions_Transitions) {
             return false;
         }
-        return DataTable_RowActions_Transitions.isPageUrlReport(dataTableParams.module, dataTableParams.action);
+
+        var i = 0;
+        for (i; i < DataTable_RowActions_Overlay.registeredReports.length; i++) {
+            var report = DataTable_RowActions_Overlay.registeredReports[i];
+            if (report
+                && report.isAvailableOnReport
+                && report.isAvailableOnReport(dataTableParams)) {
+                return true;
+            }
+        }
+
+        return false;
     },
 
     isAvailableOnRow: function (dataTableParams, tr) {

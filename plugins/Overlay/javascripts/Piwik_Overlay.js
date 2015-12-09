@@ -10,7 +10,7 @@ var Piwik_Overlay = (function () {
     var $body, $iframe, $sidebar, $main, $location, $loading, $errorNotLoading;
     var $rowEvolutionLink, $transitionsLink, $fullScreenLink, $visitorLogLink;
 
-    var idSite, period, date;
+    var idSite, period, date, segment;
 
     var iframeSrcBase;
     var iframeDomain = '';
@@ -28,13 +28,19 @@ var Piwik_Overlay = (function () {
         iframeCurrentPage = currentUrl;
         iframeDomain = currentUrl.match(/http(s)?:\/\/(www\.)?([^\/]*)/i)[3];
 
-        globalAjaxQueue.abort();
-        var ajaxRequest = new ajaxHelper();
-        ajaxRequest.addParams({
+        var params = {
             module: 'Overlay',
             action: 'renderSidebar',
             currentUrl: currentUrl
-        }, 'get');
+        };
+
+        if (segment) {
+            params.segment = segment;
+        }
+
+        globalAjaxQueue.abort();
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.addParams(params, 'get');
         ajaxRequest.setCallback(
             function (response) {
                 hideLoading();
@@ -111,6 +117,16 @@ var Piwik_Overlay = (function () {
         $fullScreenLink.show();
     }
 
+    function getOverlaySegment(url) {
+        var location = broadcast.getParamValue('segment', url);
+
+        // angular will encode the value again since it is added as the fragment path, not the fragment query parameter,
+        // so we have to decode it again after getParamValue
+        location = decodeURIComponent(location);
+
+        return location;
+    }
+
     function getOverlayLocationFromHash(urlHash) {
         var location = broadcast.getParamValue('l', urlHash);
 
@@ -143,11 +159,12 @@ var Piwik_Overlay = (function () {
     return {
 
         /** This method is called when Overlay loads  */
-        init: function (iframeSrc, pIdSite, pPeriod, pDate) {
+        init: function (iframeSrc, pIdSite, pPeriod, pDate, pSegment) {
             iframeSrcBase = iframeSrc;
             idSite = pIdSite;
             period = pPeriod;
             date = pDate;
+            segment = pSegment;
 
             $body = $('body');
             $iframe = $('#overlayIframe');
@@ -201,7 +218,7 @@ var Piwik_Overlay = (function () {
                 if (parts.length == 2) {
                     period = parts[0];
                     date = parts[1];
-                    window.location.href = Overlay_Helper.getOverlayLink(idSite, period, date, iframeCurrentPage);
+                    window.location.href = Overlay_Helper.getOverlayLink(idSite, period, date, segment, iframeCurrentPage);
                 }
             });
 
@@ -219,7 +236,11 @@ var Piwik_Overlay = (function () {
 
             // handle transitions link
             $transitionsLink.click(function () {
-                DataTable_RowActions_Transitions.launchForUrl(iframeCurrentPageNormalized);
+                var unescapedSegment = null;
+                if (segment) {
+                    unescapedSegment = unescape(segment);
+                }
+                DataTable_RowActions_Transitions.launchForUrl(iframeCurrentPageNormalized, unescapedSegment);
                 return false;
             });
 

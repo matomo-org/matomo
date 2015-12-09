@@ -70,6 +70,8 @@ class Csv extends Renderer
      */
     const NO_DATA_AVAILABLE = 'No data available';
 
+    private $unsupportedColumns = array();
+
     /**
      * Computes the dataTable output and returns the string/binary
      *
@@ -213,6 +215,12 @@ class Csv extends Renderer
      */
     private function getHeaderLine($columnMetrics)
     {
+        foreach ($columnMetrics as $index => $value) {
+            if (in_array($value, $this->unsupportedColumns)) {
+                unset($columnMetrics[$index]);
+            }
+        }
+
         if ($this->translateColumnNames) {
             $columnMetrics = $this->translateColumnNames($columnMetrics);
         }
@@ -391,12 +399,23 @@ class Csv extends Renderer
                         $name = 'metadata_' . $name;
                     }
 
-                    $csvRow[$name] = $value;
+                    if (is_array($value)) {
+                        if (!in_array($name, $this->unsupportedColumns)) {
+                            $this->unsupportedColumns[] = $name;
+                        }
+                    } else {
+                        $csvRow[$name] = $value;
+                    }
+
                 }
             }
 
             foreach ($csvRow as $name => $value) {
-                $allColumns[$name] = true;
+                if (in_array($name, $this->unsupportedColumns)) {
+                    unset($allColumns[$name]);
+                } else {
+                    $allColumns[$name] = true;
+                }
             }
 
             if ($this->exportIdSubtable) {
@@ -410,6 +429,15 @@ class Csv extends Renderer
 
             $csv[] = $csvRow;
         }
+
+        if (!empty($this->unsupportedColumns)) {
+            foreach ($this->unsupportedColumns as $unsupportedColumn) {
+                foreach ($csv as $index => $row) {
+                    unset($row[$index][$unsupportedColumn]);
+                }
+            }
+        }
+
         return $csv;
     }
 

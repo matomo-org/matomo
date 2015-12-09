@@ -191,7 +191,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file6.zip</url>
 				<pageTitle />
-				<pageIdAction>36</pageIdAction>
+				<pageIdAction>37</pageIdAction>
 				
 				<pageId>37</pageId>
 				<timeSpent>180</timeSpent>
@@ -203,7 +203,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/6.html</url>
 				<pageTitle />
-				<pageIdAction>37</pageIdAction>
+				<pageIdAction>38</pageIdAction>
 				
 				<pageId>38</pageId>
 				<timeSpent>180</timeSpent>
@@ -214,7 +214,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>39</pageId>
 				<eventCategory>Cat6</eventCategory>

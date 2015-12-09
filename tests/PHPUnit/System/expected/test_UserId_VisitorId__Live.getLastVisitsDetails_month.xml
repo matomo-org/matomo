@@ -9,7 +9,7 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<serverTimePretty>Mar 6, 2010 11:22:33 AM</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 11:22:33</serverTimePretty>
 				<pageId>1</pageId>
 				<icon />
 				<timestamp>1267874553</timestamp>
@@ -28,7 +28,7 @@
 				<url>http://example.org/index2.htm</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>3</pageIdAction>
-				<serverTimePretty>Mar 6, 2010 11:25:33 AM</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 11:25:33</serverTimePretty>
 				<pageId>2</pageId>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
@@ -40,7 +40,7 @@
 				<url>http://example.org/index3.htm</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>4</pageIdAction>
-				<serverTimePretty>Mar 6, 2010 11:28:33 AM</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 11:28:33</serverTimePretty>
 				<pageId>3</pageId>
 				<icon />
 				<timestamp>1267874913</timestamp>
@@ -59,7 +59,7 @@
 				<url>http://example.org/no-user-id-set-but-should-appear-in-user-id-visit</url>
 				<pageTitle>no User Id set but it should appear in email@example.com!</pageTitle>
 				<pageIdAction>6</pageIdAction>
-				<serverTimePretty>Mar 6, 2010 1:16:33 PM</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 13:16:33</serverTimePretty>
 				<pageId>4</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
@@ -71,7 +71,7 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<serverTimePretty>Mar 6, 2010 1:22:33 PM</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 13:22:33</serverTimePretty>
 				<pageId>5</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
@@ -83,7 +83,7 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>second page</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<serverTimePretty>Mar 6, 2010 1:28:33 PM</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 13:28:33</serverTimePretty>
 				<pageId>6</pageId>
 				<icon />
 				<timestamp>1267882113</timestamp>
@@ -102,7 +102,7 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>a new user id was set -&gt; new visit</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<serverTimePretty>Mar 6, 2010 1:34:33 PM</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 13:34:33</serverTimePretty>
 				<pageId>7</pageId>
 				<icon />
 				<timestamp>1267882473</timestamp>
@@ -121,7 +121,7 @@
 				<url>http://example.org/home</url>
 				<pageTitle>pageview - should not be tracked by our user id but in a new visit</pageTitle>
 				<pageIdAction>10</pageIdAction>
-				<serverTimePretty>Mar 6, 2010 4:28:33 PM</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 16:28:33</serverTimePretty>
 				<pageId>10</pageId>
 				<icon />
 				<timestamp>1267892913</timestamp>
@@ -140,7 +140,7 @@
 				<url>http://example.org/home</url>
 				<pageTitle>same user id was set -&gt; this is the same unique user</pageTitle>
 				<pageIdAction>10</pageIdAction>
-				<serverTimePretty>Mar 6, 2010 4:22:33 PM</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 16:22:33</serverTimePretty>
 				<pageId>8</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
@@ -152,7 +152,7 @@
 				<url>http://example.org/home</url>
 				<pageTitle>second pageview - by this user id</pageTitle>
 				<pageIdAction>10</pageIdAction>
-				<serverTimePretty>Mar 6, 2010 4:28:33 PM</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 16:28:33</serverTimePretty>
 				<pageId>9</pageId>
 				<timeSpent>720</timeSpent>
 				<timeSpentPretty>12 min 0s</timeSpentPretty>
@@ -165,7 +165,7 @@
 				<goalId>1</goalId>
 				<revenue>0</revenue>
 				<goalPageId />
-				<serverTimePretty>Mar 6, 2010 4:34:33 PM</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 16:34:33</serverTimePretty>
 				<url>http://example.org/home</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<timestamp>1267893273</timestamp>
@@ -174,7 +174,7 @@
 				<type>ecommerceAbandonedCart</type>
 				<revenue>10000000000</revenue>
 				<items>1</items>
-				<serverTimePretty>Mar 6, 2010 4:40:33 PM</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 16:40:33</serverTimePretty>
 				<itemDetails>
 					<row>
 						<itemSKU>sku-007-PRISM</itemSKU>
@@ -201,7 +201,7 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Page view by email@example.com</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<serverTimePretty>Mar 14, 2010 11:22:33 AM</serverTimePretty>
+				<serverTimePretty>Mar 14, 2010 11:22:33</serverTimePretty>
 				<pageId>11</pageId>
 				<icon />
 				<timestamp>1268565753</timestamp>
@@ -220,7 +220,7 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>A page view by new-user-id@one-weeklater</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<serverTimePretty>Mar 14, 2010 11:46:33 AM</serverTimePretty>
+				<serverTimePretty>Mar 14, 2010 11:46:33</serverTimePretty>
 				<pageId>12</pageId>
 				<icon />
 				<timestamp>1268567193</timestamp>

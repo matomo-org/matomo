@@ -72,10 +72,15 @@ class Formatter
 
         // Display 01:45:17 time format
         if ($displayTimeAsSentence === false) {
-            $hours   = floor($numberOfSeconds / 3600);
-            $minutes = floor(($reminder = ($numberOfSeconds - $hours * 3600)) / 60);
+            $days    = floor($numberOfSeconds / 86400);
+            $hours   = floor(($reminder = ($numberOfSeconds - $days * 86400)) / 3600);
+            $minutes = floor(($reminder = ($reminder - $hours * 3600)) / 60);
             $seconds = floor($reminder - $minutes * 60);
-            $time    = sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
+            if ($days == 0) {
+                $time    = sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
+            } else {    
+                $time    = sprintf(Piwik::translate('Intl_NDays'), $days) . " " . sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
+            }
             $centiSeconds = ($numberOfSeconds * 100) % 100;
             if ($centiSeconds) {
                 $time .= '.' . sprintf("%02s", $centiSeconds);

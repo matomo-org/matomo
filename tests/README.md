@@ -31,7 +31,7 @@ To execute the tests:
 
 1. 	To install PHPUnit, run `php composer.phar install --dev` in the Piwik root directory.
 
-2.	Ensure the `[database_tests]` section in `piwik/config/config.php.ini` is set up correctly,
+2.	Ensure the `[database_tests]` section in `piwik/config/config.ini.php` is set up correctly,
 	i.e. with the correct password to prevent the following error:
 	`SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO)`
 

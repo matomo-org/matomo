@@ -49,6 +49,8 @@ Segmentation = (function($) {
         self.availableMatches["dimension"]["!="] = self.translations['General_OperationIsNot'];
         self.availableMatches["dimension"]["=@"] = self.translations['General_OperationContains'];
         self.availableMatches["dimension"]["!@"] = self.translations['General_OperationDoesNotContain'];
+        self.availableMatches["dimension"]["=^"] = self.translations['General_OperationStartsWith'];
+        self.availableMatches["dimension"]["=$"] = self.translations['General_OperationEndsWith'];
 
         segmentation.prototype.setAvailableSegments = function (segments) {
             this.availableSegments = segments;
@@ -83,7 +85,7 @@ Segmentation = (function($) {
                     var name = $(foundItems).first().find("span.segname").text();
                     title.text(name);
                 } else {
-                    title.text("Custom Segment");
+                    title.text(_pk_translate('SegmentEditor_CustomSegment'));
                 }
                 segmentationTitle.html(title);
             }
@@ -264,7 +266,7 @@ Segmentation = (function($) {
         };
 
         var findAndExplodeByMatch = function(metric){
-            var matches = ["==" , "!=" , "<=", ">=", "=@" , "!@","<",">"];
+            var matches = ["==" , "!=" , "<=", ">=", "=@" , "!@","<",">", "=^", "=$"];
             var newMetric = {};
             var minPos = metric.length;
             var match, index;

@@ -91,8 +91,9 @@ class API extends \Piwik\Plugin\API
      * are not visible in the UI and not present in the API meta data. These columns are
      * translated here.
      * @return array
+     * @deprecated since Piwik 2.15.1
      */
-    public static function getDefaultMetricTranslations()
+    public function getDefaultMetricTranslations()
     {
         return Metrics::getDefaultMetricTranslations();
     }
@@ -105,6 +106,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getAvailableMeasurableTypes()
     {
+        Piwik::checkUserHasSomeViewAccess();
+
         $typeManager = new TypeManager();
         $types = $typeManager->getAllTypes();
 
@@ -123,11 +126,17 @@ class API extends \Piwik\Plugin\API
 
     public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true)
     {
-        $isAuthenticatedWithViewAccess = Piwik::isUserHasViewAccess($idSites) && !Piwik::isUserIsAnonymous();
+        if (empty($idSites)) {
+            Piwik::checkUserHasSomeViewAccess();
+        } else {
+            Piwik::checkUserHasViewAccess($idSites);
+        }
+
+        $isNotAnonymous = !Piwik::isUserIsAnonymous();
 
         $sites   = (is_array($idSites) ? implode('.', $idSites) : (int) $idSites);
         $cache   = Cache::getTransientCache();
-        $cachKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isAuthenticatedWithViewAccess;
+        $cachKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isNotAnonymous;
         $cachKey = CacheId::pluginAware($cachKey);
 
         if ($cache->contains($cachKey)) {
@@ -135,7 +144,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $metadata = new SegmentMetadata();
-        $segments = $metadata->getSegmentsMetadata($idSites, $_hideImplementationData, $isAuthenticatedWithViewAccess);
+        $segments = $metadata->getSegmentsMetadata($idSites, $_hideImplementationData, $isNotAnonymous);
 
         $cache->save($cachKey, $segments);
 
@@ -164,6 +173,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param bool $pathOnly If true, returns path relative to doc root. Otherwise, returns a URL.
      * @return string
+     * @deprecated since Piwik 2.15.1
      */
     public function getLogoUrl($pathOnly = false)
     {
@@ -176,6 +186,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param bool $pathOnly If true, returns path relative to doc root. Otherwise, returns a URL.
      * @return string
+     * @deprecated since Piwik 2.15.1
      */
     public function getHeaderLogoUrl($pathOnly = false)
     {
@@ -214,6 +225,8 @@ class API extends \Piwik\Plugin\API
     public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false,
                                 $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         if ($language) {
             /** @var Translator $translator */
             $translator = StaticContainer::get('Piwik\Translation\Translator');
@@ -239,6 +252,8 @@ class API extends \Piwik\Plugin\API
     public function getReportMetadata($idSites = '', $period = false, $date = false, $hideMetricsDoc = false,
                                       $showSubtableReports = false)
     {
+        Piwik::checkUserHasViewAccess($idSites);
+
         $reporter = new ProcessedReport();
         $metadata = $reporter->getReportMetadata($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
@@ -247,11 +262,13 @@ class API extends \Piwik\Plugin\API
     public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false,
                                        $apiParameters = false, $idGoal = false, $language = false,
                                        $showTimer = true, $hideMetricsDoc = false, $idSubtable = false, $showRawMetrics = false,
-                                       $format_metrics = null)
+                                       $format_metrics = null, $idDimension = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $reporter = new ProcessedReport();
         $processed = $reporter->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment,
-            $apiParameters, $idGoal, $language, $showTimer, $hideMetricsDoc, $idSubtable, $showRawMetrics, $format_metrics);
+            $apiParameters, $idGoal, $language, $showTimer, $hideMetricsDoc, $idSubtable, $showRawMetrics, $format_metrics, $idDimension);
 
         return $processed;
     }
@@ -296,6 +313,8 @@ class API extends \Piwik\Plugin\API
      */
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $columns = Piwik::getArrayFromApiParameter($columns);
 
         // build columns map for faster checks later on
@@ -376,13 +395,16 @@ class API extends \Piwik\Plugin\API
      * @param bool|int $idGoal
      * @param bool|string $legendAppendMetric
      * @param bool|string $labelUseAbsoluteUrl
+     * @param bool|int $idDimension
      * @return array
      */
-    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true)
+    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $rowEvolution = new RowEvolution();
         return $rowEvolution->getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $column,
-            $language, $idGoal, $legendAppendMetric, $labelUseAbsoluteUrl);
+            $language, $idGoal, $legendAppendMetric, $labelUseAbsoluteUrl, $idDimension);
     }
 
     /**
@@ -442,9 +464,60 @@ class API extends \Piwik\Plugin\API
         if (empty(Config::getInstance()->General['enable_segment_suggested_values'])) {
             return array();
         }
+
         Piwik::checkUserHasViewAccess($idSite);
 
         $maxSuggestionsToReturn = 30;
+        $segment = $this->findSegment($segmentName, $idSite);
+
+        // if segment has suggested values callback then return result from it instead
+        $suggestedValuesCallbackRequiresTable = false;
+        if (isset($segment['suggestedValuesCallback'])) {
+            $suggestedValuesCallbackRequiresTable = $this->doesSuggestedValuesCallbackNeedData(
+                $segment['suggestedValuesCallback']);
+
+            if (!$suggestedValuesCallbackRequiresTable) {
+                return call_user_func($segment['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn);
+            }
+        }
+
+        // if period=range is disabled, do not proceed
+        if (!Period\Factory::isPeriodEnabledForAPI('range')) {
+            return array();
+        }
+
+        if (!empty($segment['unionOfSegments'])) {
+            $values = array();
+            foreach ($segment['unionOfSegments'] as $unionSegmentName) {
+                $unionSegment = $this->findSegment($unionSegmentName, $idSite);
+
+                try {
+                    $result = $this->getSuggestedValuesForSegmentName($idSite, $unionSegment, $maxSuggestionsToReturn);
+                    if (!empty($result)) {
+                        $values = array_merge($result, $values);
+                    }
+                } catch (\Exception $e) {
+                    // we ignore if there was no data found for $unionSegmentName
+                }
+            }
+
+            if (empty($values)) {
+                throw new \Exception("There was no data to suggest for $segmentName");
+            }
+
+        } else {
+            $values = $this->getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn);
+        }
+
+        $values = $this->getMostFrequentValues($values);
+        $values = array_slice($values, 0, $maxSuggestionsToReturn);
+        $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
+
+        return $values;
+    }
+
+    private function findSegment($segmentName, $idSite)
+    {
         $segmentsMetadata = $this->getSegmentsMetadata($idSite, $_hideImplementationData = false);
 
         $segmentFound = false;
@@ -454,26 +527,16 @@ class API extends \Piwik\Plugin\API
                 break;
             }
         }
+
         if (empty($segmentFound)) {
-            throw new \Exception("Requested segment not found.");
+            throw new \Exception("Requested segment $segmentName not found.");
         }
 
-        // if segment has suggested values callback then return result from it instead
-        $suggestedValuesCallbackRequiresTable = false;
-        if (isset($segmentFound['suggestedValuesCallback'])) {
-            $suggestedValuesCallbackRequiresTable = $this->doesSuggestedValuesCallbackNeedData(
-                $segmentFound['suggestedValuesCallback']);
+        return $segmentFound;
+    }
 
-            if (!$suggestedValuesCallbackRequiresTable) {
-                return call_user_func($segmentFound['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn);
-            }
-        }
-
-        // if period=range is disabled, do not proceed
-        if (!Period\Factory::isPeriodEnabledForAPI('range')) {
-            return array();
-        }
-
+    private function getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn)
+    {
         $startDate = Date::now()->subDay(60)->toString();
         $requestLastVisits = "method=Live.getLastVisitsDetails
         &idSite=$idSite
@@ -482,6 +545,8 @@ class API extends \Piwik\Plugin\API
         &format=original
         &serialize=0
         &flat=1";
+
+        $segmentName = $segment['segment'];
 
         // Select non empty fields only
         // Note: this optimization has only a very minor impact
@@ -497,21 +562,17 @@ class API extends \Piwik\Plugin\API
 
         $request = new Request($requestLastVisits);
         $table = $request->process();
+
         if (empty($table)) {
             throw new \Exception("There was no data to suggest for $segmentName");
         }
 
-        if ($suggestedValuesCallbackRequiresTable) {
-            $values = call_user_func($segmentFound['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn, $table);
+        if (isset($segment['suggestedValuesCallback']) &&
+            $this->doesSuggestedValuesCallbackNeedData($segment['suggestedValuesCallback'])) {
+            $values = call_user_func($segment['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn, $table);
         } else {
             $values = $this->getSegmentValuesFromVisitorLog($segmentName, $table);
         }
-
-        $values = $this->getMostFrequentValues($values);
-
-        $values = array_slice($values, 0, $maxSuggestionsToReturn);
-
-        $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
 
         return $values;
     }

@@ -366,7 +366,6 @@ class API extends \Piwik\Plugin\API
                 'date'    => $date,
                 'idGoal'  => $idGoal,
                 'columns' => $columns,
-                'serialize' => '0',
                 'format_metrics' => 'bc'
             ));
 

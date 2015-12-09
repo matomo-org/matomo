@@ -25,7 +25,7 @@
         "PiwikReports": "Report di Piwik",
         "PleaseFindAttachedFile": "Potete trovare nel file allegato il tuo %1$s report per %2$s.",
         "SentFromX": "Inviato da %s",
-        "PleaseFindBelow": "Di seguito trovi il tuo %1$s report per %2$s.",
+        "PleaseFindBelow": "Di seguito trovi il tuo report %1$s per %2$s.",
         "PluginDescription": "Crea dei report personalizzati e li programma per l'invio tramite email ogni giorno, settimana o mese a una o più persone. Sono supportati svariati formati (html, pdf, csv, immagini).",
         "ReportFormat": "Formato report",
         "ReportHour": "Invia report alle %s",

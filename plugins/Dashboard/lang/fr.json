@@ -21,6 +21,7 @@
         "PluginDescription": "Votre tableau de bord, personnalisez le en ajoutant des widgets, en les déplaçant et en modifiant la disposition des colonnes. Chaque utilisateur possède son propre tableau de bord.",
         "RemoveDashboard": "Supprimer le tableau de bord",
         "RemoveDashboardConfirm": "Êtes vous sûr(e) de vouloir supprimer le tableau de bord \"%s\" ?",
+        "RemoveDefaultDashboardNotPossible": "Le tableau de bord par défaut ne peut pas être supprimé",
         "RenameDashboard": "Renommer le tableau de bord",
         "ResetDashboard": "Restaurer le tableau de bord",
         "ResetDashboardConfirm": "Voulez-vous vraiment restaurer votre tableau de bord avec les widgets par défaut ?",

@@ -112,11 +112,23 @@
 	<reportMetadata>
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>5</index>
+					</row>
+				</slots>
 				
 				<segment>customVariableName==_pk_scount</segment>
 				<idsubdatatable>3173</idsubdatatable>
 			</row>
 			<row>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>4</index>
+					</row>
+				</slots>
 				
 				<segment>customVariableName==_pk_scat</segment>
 				<idsubdatatable>3172</idsubdatatable>
@@ -124,11 +136,23 @@
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>5</index>
+					</row>
+				</slots>
 				
 				<segment>customVariableName==_pk_scount</segment>
 				<idsubdatatable>3176</idsubdatatable>
 			</row>
 			<row>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>4</index>
+					</row>
+				</slots>
 				
 				<segment>customVariableName==_pk_scat</segment>
 				<idsubdatatable>3175</idsubdatatable>

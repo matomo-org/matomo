@@ -35,6 +35,12 @@
         "VisitorsInRealTime": "リアルタイムのビジター",
         "VisitorsLastVisit": "このビジターの最新のビジットは %s 日前です。",
         "VisitsFrom": "から %1$s%2$s が %3$s を訪問",
-        "VisitSummary": "ウェブサイト %3$s で、合計 %1$s%2$s を消費し、%4$s は %6$s 訪問で、%5$s ページ閲覧しました。%7$s"
+        "VisitSummary": "ウェブサイト %3$s で、合計 %1$s%2$s を消費し、%4$s は %6$s 訪問で、%5$s ページ閲覧しました。%7$s",
+        "RowActionTooltipDefault": "この行で分割されたビジターログを表示",
+        "RowActionTooltipWithDimension": "この %s で分割されたビジターログを表示",
+        "RowActionTooltipTitle": "セグメントビジターログを表示",
+        "SegmentedVisitorLogTitle": "%s が \" %s \" のビジットを示すビジターログ",
+        "OnClickPause": "%s が開始されました。クリックして一時停止します。",
+        "OnClickStart": "%s は停止しています。クリックして開始します。"
     }
 }

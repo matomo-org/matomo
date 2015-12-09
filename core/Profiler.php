@@ -209,13 +209,9 @@ class Profiler
             return;
         }
 
-        $xhProfPath = PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/extension/modules/xhprof.so';
-        if (!file_exists($xhProfPath)) {
-            throw new Exception("Cannot find xhprof, run 'composer install --dev' and build the extension.");
-        }
-
         if (!function_exists('xhprof_enable')) {
-            throw new Exception("Cannot find xhprof_enable, make sure to add 'extension=$xhProfPath' to your php.ini.");
+            $xhProfPath = PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/extension/modules/xhprof.so';
+            throw new Exception("Cannot find xhprof_enable, make sure to 1) install xhprof: run 'composer install --dev' and build the extension, and 2) add 'extension=$xhProfPath' to your php.ini.");
         }
 
         $outputDir = ini_get("xhprof.output_dir");

@@ -83,10 +83,8 @@ DEBUG:   'apiv' => '1',", $response);
     private function setTrackerConfig($trackerConfig)
     {
         $testingEnvironment = self::$fixture->getTestEnvironment();
-        $configOverride = $testingEnvironment->configOverride;
-        $configOverride['Tracker'] = $trackerConfig;
-        $configOverride['log']['log_writers'] = array('screen');
-        $testingEnvironment->configOverride = $configOverride;
+        $testingEnvironment->overrideConfig('Tracker', $trackerConfig);
+        $testingEnvironment->overrideConfig('log', 'log_writers', array('screen'));
         $testingEnvironment->save();
     }
 

@@ -22,7 +22,10 @@ class CustomVariables extends \Piwik\Plugin
     {
         return array(
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
-            'Live.getAllVisitorDetails'       => 'extendVisitorDetails'
+            'Live.getAllVisitorDetails'       => 'extendVisitorDetails',
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
         );
     }
 
@@ -142,6 +145,37 @@ class CustomVariables extends \Piwik\Plugin
                 'sqlSegment' => 'log_link_visit_action.custom_var_v' . $i,
             );
         }
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'CustomVariables_CustomVariables';
+        $translationKeys[] = 'CustomVariables_ManageDescription';
+        $translationKeys[] = 'CustomVariables_ScopeX';
+        $translationKeys[] = 'CustomVariables_Index';
+        $translationKeys[] = 'CustomVariables_Usages';
+        $translationKeys[] = 'CustomVariables_Unused';
+        $translationKeys[] = 'CustomVariables_CreateNewSlot';
+        $translationKeys[] = 'CustomVariables_UsageDetails';
+        $translationKeys[] = 'CustomVariables_CurrentAvailableCustomVariables';
+        $translationKeys[] = 'CustomVariables_ToCreateCustomVarExecute';
+        $translationKeys[] = 'CustomVariables_CreatingCustomVariableTakesTime';
+        $translationKeys[] = 'CustomVariables_SlotsReportIsGeneratedOverTime';
+        $translationKeys[] = 'General_Loading';
+        $translationKeys[] = 'General_TrackingScopeVisit';
+        $translationKeys[] = 'General_TrackingScopePage';
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/CustomVariables/angularjs/manage-custom-vars/manage-custom-vars.directive.less";
+    }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = "plugins/CustomVariables/angularjs/manage-custom-vars/manage-custom-vars.model.js";
+        $jsFiles[] = "plugins/CustomVariables/angularjs/manage-custom-vars/manage-custom-vars.controller.js";
+        $jsFiles[] = "plugins/CustomVariables/angularjs/manage-custom-vars/manage-custom-vars.directive.js";
     }
 
 }

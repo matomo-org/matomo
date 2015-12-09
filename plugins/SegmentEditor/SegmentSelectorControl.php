@@ -8,8 +8,10 @@
  */
 namespace Piwik\Plugins\SegmentEditor;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as APIMetadata;
 use Piwik\View\UIControl;
@@ -37,13 +39,17 @@ class SegmentSelectorControl extends UIControl
 
         $this->selectedSegment = Common::getRequestVar('segment', false, 'string');
 
+        $formatter = StaticContainer::get('Piwik\Plugins\SegmentEditor\SegmentFormatter');
+        $this->segmentDescription = $formatter->getHumanReadable(Request::getRawSegmentFromRequest(), $this->idSite);
+
         $this->isAddingSegmentsForAllWebsitesEnabled = SegmentEditor::isAddingSegmentsForAllWebsitesEnabled();
 
         $segments = APIMetadata::getInstance()->getSegmentsMetadata($this->idSite);
 
+        $visitTitle = Piwik::translate('General_Visit');
         $segmentsByCategory = array();
         foreach ($segments as $segment) {
-            if ($segment['category'] == Piwik::translate('General_Visit')
+            if ($segment['category'] == $visitTitle
                 && ($segment['type'] == 'metric' && $segment['segment'] != 'visitIp')
             ) {
                 $metricsLabel = Piwik::translate('General_Metrics');
@@ -52,7 +58,6 @@ class SegmentSelectorControl extends UIControl
             }
             $segmentsByCategory[$segment['category']][] = $segment;
         }
-        uksort($segmentsByCategory, array($this, 'sortSegmentCategories'));
 
         $this->createRealTimeSegmentsIsEnabled = Config::getInstance()->General['enable_create_realtime_segments'];
         $this->segmentsByCategory   = $segmentsByCategory;
@@ -95,15 +100,6 @@ class SegmentSelectorControl extends UIControl
         return (bool) $savedSegment['auto_archive'];
     }
 
-    public function sortSegmentCategories($a, $b)
-    {
-        // Custom Variables last
-        if ($a == Piwik::translate('CustomVariables_CustomVariables')) {
-            return 1;
-        }
-        return 0;
-    }
-
     private function getTranslations()
     {
         $translationKeys = array(
@@ -115,6 +111,8 @@ class SegmentSelectorControl extends UIControl
             'General_OperationGreaterThan',
             'General_OperationContains',
             'General_OperationDoesNotContain',
+            'General_OperationStartsWith',
+            'General_OperationEndsWith',
             'General_OperationIs',
             'General_OperationIsNot',
             'General_OperationContains',

@@ -8,17 +8,17 @@
         "NPages": "%s stránek",
         "OnePage": "1 stránka",
         "PluginDescription": "Hlásí zájem vašich návštěvníků: počet zobrazených stránek, čas na stránkách, dny od poslední návštěvy aj.",
-        "VisitNum": "Číslo návstěvníka",
-        "VisitsByDaysSinceLast": "Návstěv po dnech od poslední návštěvy",
+        "VisitNum": "Číslo návštěvníka",
+        "VisitsByDaysSinceLast": "Návštěvy po dnech od posledního navštívení",
         "visitsByVisitCount": "Návstěvy podle pořadí",
-        "VisitsPerDuration": "Návštěv za dobu návštěvy",
-        "VisitsPerNbOfPages": "Návštěv za počet stránek",
+        "VisitsPerDuration": "Doba zobrazení na návštěvníka",
+        "VisitsPerNbOfPages": "Počet stránek na návštěvníka",
         "WidgetLengths": "Doba návštěv",
         "WidgetLengthsDocumentation": "V tomto hlášení vidíte, kolik návštěv mělo určitou celkovou délku. Nejdříve je toto hlášení zobrazeno jako tag cloud, častější doby jsou větším písmem.",
         "WidgetPages": "Stránek za návštěvu",
         "WidgetPagesDocumentation": "V tomto hlášení je zobrazeno, kolik návštěv provedlo určité množství zobrazení stránek. Nejdříve je toto hlášení zobrazeno jako tag cloud, častější čísla mají větší písmo.",
         "WidgetVisitsByDaysSinceLast": "Návštěvy podle dnů od poslední návštěvy",
-        "WidgetVisitsByDaysSinceLastDocumentation": "V hlášení můžete vidět kolik návstěv bylo od návstěvníků, kteří již v minulosti po několika dnech stránku navstívili.",
+        "WidgetVisitsByDaysSinceLastDocumentation": "V tomto hlášení vidíte kolik návštěv provedli návštěvníci, kteří v minulosti stránku navštívili opakovaně.",
         "WidgetVisitsByNumDocumentation": "V tomto hlášení vidíte, kolik návštěv bylo n-tou návštěvou, t. j. návštěvníky, kteří navštívili vaše stránky aspoň n-krát."
     }
 }

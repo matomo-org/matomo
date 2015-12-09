@@ -72,6 +72,7 @@ class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
             array('A==B,C==D', array('where' => " (A = ? OR C = ? )", 'bind' => array('B', 'D'))),
             array('A!=B;C==D', array('where' => " ( A IS NULL OR A <> ? ) AND C = ? ", 'bind' => array('B', 'D'))),
             array('A!=B;C==D,E!=Hello World!=', array('where' => " ( A IS NULL OR A <> ? ) AND (C = ? OR ( E IS NULL OR E <> ? ) )", 'bind' => array('B', 'D', 'Hello World!='))),
+            array('A=@B;C=$D', array('where' => " A LIKE ? AND C LIKE ? ", 'bind' => array('%B%', '%D'))),
 
             array('A>B', array('where' => " A > ? ", 'bind' => array('B'))),
             array('A<B', array('where' => " A < ? ", 'bind' => array('B'))),
@@ -83,6 +84,8 @@ class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
 
             array('A=@B_', array('where' => " A LIKE ? ", 'bind' => array('%B\_%'))),
             array('A!@B%', array('where' => " ( A IS NULL OR A NOT LIKE ? ) ", 'bind' => array('%B\%%'))),
+            array('A=$B%', array('where' => " A LIKE ? ", 'bind' => array('%B\%'))),
+            array('A=^B%', array('where' => " A LIKE ? ", 'bind' => array('B\%%'))),
         );
     }
 

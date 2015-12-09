@@ -16,14 +16,26 @@ use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Plugins\SegmentEditor\SegmentFormatter;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\ProxyHttp;
+use Piwik\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
 {
+    /**
+     * @var SegmentFormatter
+     */
+    private $segmentFormatter;
+
+    public function __construct(SegmentFormatter $segmentFormatter)
+    {
+        $this->segmentFormatter = $segmentFormatter;
+        parent::__construct();
+    }
 
     /** The index of the plugin */
     public function index()
@@ -38,6 +50,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View($template);
 
         $this->setGeneralVariablesView($view);
+        $view->segment = Request::getRawSegmentFromRequest();
 
         $view->ssl = ProxyHttp::isHttps();
 
@@ -52,8 +65,9 @@ class Controller extends \Piwik\Plugin\Controller
         $period = Common::getRequestVar('period');
         $date = Common::getRequestVar('date');
         $currentUrl = Common::getRequestVar('currentUrl');
+        $segment = Request::getRawSegmentFromRequest();
         $currentUrl = Common::unsanitizeInputValue($currentUrl);
-        $segment = '';
+        $segmentSidebar = '';
 
         $normalizedCurrentUrl = PageUrl::excludeQueryParametersFromUrl($currentUrl, $idSite);
         $normalizedCurrentUrl = Common::unsanitizeInputValue($normalizedCurrentUrl);
@@ -63,16 +77,21 @@ class Controller extends \Piwik\Plugin\Controller
         $path = ArchivingHelper::getActionExplodedNames($normalizedCurrentUrl, Action::TYPE_PAGE_URL);
         $path = array_map('urlencode', $path);
         $label = implode('>', $path);
-        $request = new Request(
-            'method=Actions.getPageUrls'
-            . '&idSite=' . urlencode($idSite)
-            . '&date=' . urlencode($date)
-            . '&period=' . urlencode($period)
-            . '&label=' . urlencode($label)
-            . '&format=original'
-            . '&format_metrics=0'
+
+        $params = array(
+            'idSite' => $idSite,
+            'date' => $date,
+            'period' => $period,
+            'label' => $label,
+            'format' => 'original',
+            'format_metrics' => 0,
         );
-        $dataTable = $request->process();
+
+        if (!empty($segment)) {
+            $params['segment'] = $segment;
+        }
+
+        $dataTable = Request::processRequest('Actions.getPageUrls', $params);
 
         $formatter = new Metrics\Formatter\Html();
 
@@ -84,7 +103,10 @@ class Controller extends \Piwik\Plugin\Controller
             $showMetrics = array('nb_hits', 'nb_visits', 'nb_users', 'nb_uniq_visitors',
                                  'bounce_rate', 'exit_rate', 'avg_time_on_page');
 
-            $segment = $row->getMetadata('segment');
+            $segmentSidebar = $row->getMetadata('segment');
+            if (!empty($segmentSidebar) && !empty($segment)) {
+                $segmentSidebar = $segment . ';' . $segmentSidebar;
+            }
 
             foreach ($showMetrics as $metric) {
                 $value = $row->getColumn($metric);
@@ -127,7 +149,8 @@ class Controller extends \Piwik\Plugin\Controller
         $view->idSite = $idSite;
         $view->period = $period;
         $view->date = $date;
-        $view->segment = $segment;
+        $view->segment = $segmentSidebar;
+        $view->segmentDescription = $this->segmentFormatter->getHumanReadable($segment, $idSite);
 
         $this->outputCORSHeaders();
         return $view->render();
@@ -142,64 +165,20 @@ class Controller extends \Piwik\Plugin\Controller
         $idSite = Common::getRequestVar('idSite', 0, 'int');
         Piwik::checkUserHasViewAccess($idSite);
 
+        $view = new View('@Overlay/startOverlaySession');
+
         $sitesManager = APISitesManager::getInstance();
         $site = $sitesManager->getSiteFromId($idSite);
         $urls = $sitesManager->getSiteUrlsFromId($idSite);
 
+        $view->isHttps   = ProxyHttp::isHttps();
+        $view->knownUrls = json_encode($urls);
+        $view->mainUrl   = $site['main_url'];
+
         $this->outputCORSHeaders();
         Common::sendHeader('Content-Type: text/html; charset=UTF-8');
-        return '
-			<html><head><title></title></head><body>
-			<script type="text/javascript">
-				function handleProtocol(url) {
-					if (' . (ProxyHttp::isHttps() ? 'true' : 'false') . ') {
-						return url.replace(/http:\/\//i, "https://");
-					} else {
-						return url.replace(/https:\/\//i, "http://");
-					}
-				}
 
-				function removeUrlPrefix(url) {
-					return url.replace(/http(s)?:\/\/(www\.)?/i, "");
-				}
-
-				if (window.location.hash) {
-					var match = false;
-
-					var urlToRedirect = window.location.hash.substr(1);
-					var urlToRedirectWithoutPrefix = removeUrlPrefix(urlToRedirect);
-
-					var knownUrls = ' . json_encode($urls) . ';
-					for (var i = 0; i < knownUrls.length; i++) {
-						var testUrl = removeUrlPrefix(knownUrls[i]);
-						if (urlToRedirectWithoutPrefix.substr(0, testUrl.length) == testUrl) {
-							match = true;
-							if (navigator.appName == "Microsoft Internet Explorer") {
-								// internet explorer loses the referrer if we use window.location.href=X
-								var referLink = document.createElement("a");
-								referLink.href = handleProtocol(urlToRedirect);
-								document.body.appendChild(referLink);
-								referLink.click();
-							} else {
-								window.location.href = handleProtocol(urlToRedirect);
-							}
-							break;
-						}
-					}
-
-					if (!match) {
-						var idSite = window.location.href.match(/idSite=([0-9]+)/i)[1];
-						window.location.href = "index.php?module=Overlay&action=showErrorWrongDomain"
-							+ "&idSite=" + idSite
-							+ "&url=" + encodeURIComponent(urlToRedirect);
-					}
-				}
-				else {
-					window.location.href = handleProtocol("' . $site['main_url'] . '");
-				};
-			</script>
-			</body></html>
-		';
+        return $view->render();
     }
 
     /**

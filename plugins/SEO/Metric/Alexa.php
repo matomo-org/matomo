@@ -10,6 +10,7 @@ namespace Piwik\Plugins\SEO\Metric;
 
 use Piwik\Http;
 use Piwik\NumberFormatter;
+use Piwik\Plugins\Referrers\SearchEngine;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -42,7 +43,7 @@ class Alexa implements MetricsProvider
             $value = null;
         }
 
-        $logo = \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://alexa.com');
+        $logo = SearchEngine::getInstance()->getLogoFromUrl('http://alexa.com');
         $link = self::LINK . urlencode($domain);
 
         return array(

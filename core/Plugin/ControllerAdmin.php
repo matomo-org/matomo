@@ -124,12 +124,13 @@ abstract class ControllerAdmin extends Controller
 
     private static function notifyWhenPhpVersionIsEOL()
     {
-        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && self::isPhpVersion54();
+        return; // no supported version (5.5+) has currently ended support
+        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && self::isPhpVersionAtLeast55();
         if (!$notifyPhpIsEOL) {
             return;
         }
-        $message = Piwik::translate('General_WarningPhpVersionXIsTooOld', '5.4');
 
+        $message = Piwik::translate('General_WarningPhpVersionXIsTooOld', '5.5');
         $notification = new Notification($message);
         $notification->title = Piwik::translate('General_Warning');
         $notification->priority = Notification::PRIORITY_LOW;
@@ -234,11 +235,11 @@ abstract class ControllerAdmin extends Controller
     private static function checkPhpVersion($view)
     {
         $view->phpVersion = PHP_VERSION;
-        $view->phpIsNewEnough = version_compare($view->phpVersion, '5.4.0', '>=');
+        $view->phpIsNewEnough = self::isPhpVersionAtLeast55();
     }
 
-    private static function isPhpVersion54()
+    private static function isPhpVersionAtLeast55()
     {
-        return strpos(PHP_VERSION, '5.4') === 0;
+        return version_compare(PHP_VERSION, '5.5', '>=');
     }
 }

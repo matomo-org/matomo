@@ -19,6 +19,12 @@
 				</goals>
 				<nb_conversions>1</nb_conversions>
 				<revenue>0</revenue>
+				<slots>
+					<row>
+						<scope>visit</scope>
+						<index>2</index>
+					</row>
+				</slots>
 				<segment>customVariableName==SET+WITH+EMPTY+VALUE</segment>
 				<subtable>
 					<row>
@@ -42,6 +48,33 @@
 				</subtable>
 			</row>
 			<row>
+				<label>Status user</label>
+				<nb_actions>3</nb_actions>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>4</index>
+					</row>
+					<row>
+						<scope>page</scope>
+						<index>5</index>
+					</row>
+				</slots>
+				<segment>customVariableName==Status+user</segment>
+				<subtable>
+					<row>
+						<label>looking at &quot;profile page&quot;</label>
+						<nb_visits>2</nb_visits>
+						<nb_actions>2</nb_actions>
+					</row>
+					<row>
+						<label>Loggedin</label>
+						<nb_visits>1</nb_visits>
+						<nb_actions>1</nb_actions>
+					</row>
+				</subtable>
+			</row>
+			<row>
 				<label>Value will be VERY long and truncated</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>3</nb_actions>
@@ -58,6 +91,12 @@
 				</goals>
 				<nb_conversions>1</nb_conversions>
 				<revenue>0</revenue>
+				<slots>
+					<row>
+						<scope>visit</scope>
+						<index>3</index>
+					</row>
+				</slots>
 				<segment>customVariableName==Value+will+be+VERY+long+and+truncated</segment>
 				<subtable>
 					<row>
@@ -102,6 +141,12 @@
 				</goals>
 				<nb_conversions>2</nb_conversions>
 				<revenue>0</revenue>
+				<slots>
+					<row>
+						<scope>visit</scope>
+						<index>1</index>
+					</row>
+				</slots>
 				<segment>customVariableName==VisitorType</segment>
 				<subtable>
 					<row>
@@ -138,25 +183,14 @@
 				</subtable>
 			</row>
 			<row>
-				<label>Status user</label>
-				<nb_actions>3</nb_actions>
-				<segment>customVariableName==Status+user</segment>
-				<subtable>
-					<row>
-						<label>looking at &quot;profile page&quot;</label>
-						<nb_visits>2</nb_visits>
-						<nb_actions>2</nb_actions>
-					</row>
-					<row>
-						<label>Loggedin</label>
-						<nb_visits>1</nb_visits>
-						<nb_actions>1</nb_actions>
-					</row>
-				</subtable>
-			</row>
-			<row>
 				<label>Language</label>
 				<nb_actions>1</nb_actions>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>1</index>
+					</row>
+				</slots>
 				<segment>customVariableName==Language</segment>
 				<subtable>
 					<row>
@@ -169,6 +203,12 @@
 			<row>
 				<label>SET WITH EMPTY VALUE PAGE SCOPE</label>
 				<nb_actions>1</nb_actions>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>2</index>
+					</row>
+				</slots>
 				<segment>customVariableName==SET+WITH+EMPTY+VALUE+PAGE+SCOPE</segment>
 				<subtable>
 					<row>

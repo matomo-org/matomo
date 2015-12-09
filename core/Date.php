@@ -11,6 +11,8 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Container\StaticContainer;
+use Piwik\Intl\Data\Provider\DateTimeFormatProvider;
+use Piwik\Plugins\LanguagesManager\LanguagesManager;
 
 /**
  * Utility class that wraps date/time related PHP functions. Using this class can
@@ -41,15 +43,15 @@ class Date
     /** The default date time string format. */
     const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
-    const DATETIME_FORMAT_LONG    = 'Intl_Format_DateTime_Long';
-    const DATETIME_FORMAT_SHORT   = 'Intl_Format_DateTime_Short';
-    const DATE_FORMAT_LONG        = 'Intl_Format_Date_Long';
-    const DATE_FORMAT_DAY_MONTH   = 'Intl_Format_Date_Day_Month';
-    const DATE_FORMAT_SHORT       = 'Intl_Format_Date_Short';
-    const DATE_FORMAT_MONTH_SHORT = 'Intl_Format_Month_Short';
-    const DATE_FORMAT_MONTH_LONG  = 'Intl_Format_Month_Long';
-    const DATE_FORMAT_YEAR        = 'Intl_Format_Year';
-    const TIME_FORMAT             = 'Intl_Format_Time';
+    const DATETIME_FORMAT_LONG    = DateTimeFormatProvider::DATE_FORMAT_LONG;
+    const DATETIME_FORMAT_SHORT   = DateTimeFormatProvider::DATETIME_FORMAT_SHORT;
+    const DATE_FORMAT_LONG        = DateTimeFormatProvider::DATE_FORMAT_LONG;
+    const DATE_FORMAT_DAY_MONTH   = DateTimeFormatProvider::DATE_FORMAT_DAY_MONTH;
+    const DATE_FORMAT_SHORT       = DateTimeFormatProvider::DATE_FORMAT_SHORT;
+    const DATE_FORMAT_MONTH_SHORT = DateTimeFormatProvider::DATE_FORMAT_MONTH_SHORT;
+    const DATE_FORMAT_MONTH_LONG  = DateTimeFormatProvider::DATE_FORMAT_MONTH_LONG;
+    const DATE_FORMAT_YEAR        = DateTimeFormatProvider::DATE_FORMAT_YEAR;
+    const TIME_FORMAT             = DateTimeFormatProvider::TIME_FORMAT;
 
     /**
      * Max days for months (non-leap-year). See {@link addPeriod()} implementation.
@@ -622,10 +624,9 @@ class Date
     {
         $template = $this->replaceLegacyPlaceholders($template);
 
-        if (substr($template, 0, 5) == 'Intl_') {
-            $translator = StaticContainer::get('Piwik\Translation\Translator');
-            $template = $translator->translate($template);
-        }
+        $dateTimeFormatProvider = StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider');
+
+        $template = $dateTimeFormatProvider->getFormatPattern($template);
 
         $tokens = self::parseFormat($template);
 

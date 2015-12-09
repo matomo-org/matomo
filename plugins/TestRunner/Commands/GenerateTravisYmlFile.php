@@ -39,7 +39,10 @@ class GenerateTravisYmlFile extends ConsoleCommand
              ->addOption('php-versions', null, InputOption::VALUE_OPTIONAL,
                 "List of PHP versions to test against, ie, 5.4,5.5,5.6. Defaults to: 5.3.3,5.4,5.5,5.6.")
              ->addOption('dump', null, InputOption::VALUE_REQUIRED, "Debugging option. Saves the output .travis.yml to the specified file.")
-             ->addOption('repo-root-dir', null, InputOption::VALUE_REQUIRED, "Path to the repo for whom a .travis.yml file will be generated for.");
+             ->addOption('repo-root-dir', null, InputOption::VALUE_REQUIRED, "Path to the repo for whom a .travis.yml file will be generated for.")
+             ->addOption('force-php-tests', null, InputOption::VALUE_NONE, "Forces the presence of the PHP tests jobs for plugin builds.")
+             ->addOption('force-ui-tests', null, InputOption::VALUE_NONE, "Forces the presence of the UI tests jobs for plugin builds.")
+             ->addOption('sudo-false', null, InputOption::VALUE_NONE, "If supplied, the .travis.yml file will use travis' new infrastructure.");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

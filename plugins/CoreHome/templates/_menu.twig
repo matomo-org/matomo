@@ -1,10 +1,9 @@
-
 {% macro menu(menu, anchorlink, cssClass, currentModule, currentAction) %}
     <div id="secondNavBar" class="{{ cssClass }}">
         <div id="search" ng-cloak>
             <div piwik-quick-access class="borderedControl"></div>
         </div>
-        <ul class="navbar">
+        <ul class="navbar" role="menu">
             {% for level1,level2 in menu %}
 
                 {% set hasSubmenuItem = false %}
@@ -15,7 +14,7 @@
                 {% endfor %}
 
                 {% if hasSubmenuItem %}
-                    <li class="menuTab">
+                    <li class="menuTab" role="menuitem">
 
                         <a class="item">
                             <span class="menu-icon {{ level2._icon|default('icon-arrow-right') }}"></span>{{ level1|translate }}
@@ -23,12 +22,14 @@
                              {{ 'CoreHome_Menu'|translate }}
                            </span>
                         </a>
-                        <ul>
+                        <ul role="menu">
                             {% for name,urlParameters in level2 %}
                                 {% if name|slice(0,1) != '_' %}
                                     <li {% if urlParameters._url.module is defined and urlParameters._url.module == currentModule and urlParameters._url.action is defined and urlParameters._url.action == currentAction %}class="active"{% endif %}
-                                            >
+                                        role="menuitem"
+                                    >
                                         <a class="item"
+                                           title="{{ urlParameters._tooltip|default(name)|translate|e('html_attr') }}"
                                            href="index.php?{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}">
                                             {{ name|translate }}
                                         </a>

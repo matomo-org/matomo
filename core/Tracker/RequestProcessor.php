@@ -68,14 +68,7 @@ use Piwik\Tracker\Visit\VisitProperties;
  * a {@link Dimension} class._
  *
  * To create a new RequestProcessor, create a new class that derives from this one, and implement the
- * methods you need. Then in your plugin's DI config file (located at
- * `/path/to/piwik/plugins/YourPlugin/config/config.php`), add the following to the array:
- *
- * ```
- *     'tracker.request.processors' => DI\add(array(
- *         DI\get('Piwik\Plugins\Goals\Tracker\GoalsRequestProcessor'),
- *     )),
- * ```
+ * methods you need. Then put this class inside the `Tracker` directory of your plugin.
  *
  * Final note: RequestProcessors are shared between tracking requests, and so, should ideally be
  * stateless. They are stored in DI, so they can contain references to other objects in DI, but

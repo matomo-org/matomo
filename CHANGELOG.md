@@ -37,7 +37,22 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Internal change
 * Support for IE8 was dropped. This affects only the Piwik UI, not the Piwik.js Tracker.
-* Required PHP version was changed from 5.3 to 5.4
+* Required PHP version was changed from 5.3 to 5.5
+
+## Piwik 2.15.1
+
+### New features
+ * New segment `actionType` lets you segment all actions of a given type, eg. `actionType==events` or `actionType==downloads`. Action types values are: `pageviews`, `contents`, `sitesearches`, `events`, `outlinks`, `downloads`
+
+### Internal change
+ * When generating a new plugin skeleton via `generate:plugin` command, plugin name must now contain only letters and numbers.
+ * JavaScript Tracker tests no longer require `SQLite`. The existing MySQL configuration for tests is used now. In order to run the tests make sure Piwik is installed and `[database_tests]` is configured in `config/config.ini.php`.
+ * The definitions for search engine and social network detection have been moved from bundled data files to a separate package (see [https://github.com/piwik/searchengine-and-social-list](https://github.com/piwik/searchengine-and-social-list)).
+ * In [UI screenshot tests](https://developer.piwik.org/guides/tests-ui), a test environment `configOverride` setting should be no longer overwritten. Instead new values should be added to the existing `configOverride` array in PHP or JavaScript. For example instead of `testEnvironment.configOverride = {group: {name: 1}}` use `testEnvironment.overrideConfig('group', 'name', '1')`.
+
+### New APIs
+ * Add your own SMS/Text provider by creating a new class in the `SMSProvider` directory of your plugin. The class has to extend `Piwik\Plugins\MobileMessaging\SMSProvider` and implement the required methods.
+ * Segments can now be composed by a union of multiple segments. To do this set an array of segments that shall be used for that segment `$segment->setUnionOfSegments(array('outlinkUrl', 'downloadUrl'))` instead of defining a SQL column.
 
 ## Piwik 2.15.0 
 

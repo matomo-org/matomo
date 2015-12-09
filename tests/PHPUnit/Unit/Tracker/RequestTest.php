@@ -470,6 +470,25 @@ class RequestTest extends UnitTestCase
         $this->assertContains($needle, $cookie . '');
     }
 
+    public function test_getLocalTime()
+    {
+        $request = $this->buildRequest(array('h' => '12', 'm' => '34', 's' => '3'));
+        $this->assertSame('12:34:03', $request->getLocalTime());
+
+
+        $request = $this->buildRequest(array('h' => '23', 'm' => '59', 's' => '59'));
+        $this->assertSame('23:59:59', $request->getLocalTime());
+    }
+
+    public function test_getLocalTime_shouldReturnValidTime_whenTimeWasInvalid()
+    {
+        $request = $this->buildRequest(array('h' => '26', 'm' => '60', 's' => '333'));
+        $this->assertSame('00:00:00', $request->getLocalTime());
+
+        $request = $this->buildRequest(array('h' => '-26', 'm' => '-60', 's' => '-333'));
+        $this->assertSame('00:00:00', $request->getLocalTime());
+    }
+
     public function test_getIdSite()
     {
         $request = $this->buildRequest(array('idsite' => '14'));

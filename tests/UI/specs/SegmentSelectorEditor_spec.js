@@ -74,7 +74,7 @@ describe("SegmentSelectorEditorTest", function () {
     it("should add new segment expression when segment dimension drag dropped", function (done) {
         expect.screenshot("dimension_drag_drop").to.be.captureSelector(selectorsToCapture, function (page) {
             page.click('.segmentEditorPanel .metric_category:contains(Actions)');
-            page.dragDrop('.segmentEditorPanel li[data-metric=entryPageUrl]', '.segmentEditorPanel .ui-droppable');
+            page.dragDrop('.segmentEditorPanel li[data-metric=actionUrl]', '.segmentEditorPanel .ui-droppable');
         }, done);
     });
 

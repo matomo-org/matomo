@@ -22,7 +22,8 @@
 // IN THE SOFTWARE
 
 var fs  = require("fs");
-var url = 'http://localhost/tests/javascript/';
+var system = require("system");
+var url = system.args[1] || 'http://localhost/tests/javascript/';
 
 function printError(message) {
    console.error(message + "\n");

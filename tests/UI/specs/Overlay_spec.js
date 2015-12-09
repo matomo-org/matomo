@@ -12,6 +12,7 @@ describe("Overlay", function () {
     this.timeout(0);
 
     var url = null;
+    var urlWithSegment;
 
     function removeOptOutIframe(page) {
         page.evaluate(function () {
@@ -20,8 +21,12 @@ describe("Overlay", function () {
     }
 
     before(function (done) {
-        url = "?module=Overlay&period=year&date=today&idSite=3#?l=" + encodeURIComponent(testEnvironment.overlayUrl).replace(/[%]/g, "$");
-        
+        var baseUrl = '?module=Overlay&period=year&date=today&idSite=3';
+        var hash = '#?l=' + encodeURIComponent(testEnvironment.overlayUrl).replace(/[%]/g, "$");
+
+        url = baseUrl + hash;
+        urlWithSegment = baseUrl + '&segment=' + encodeURIComponent('visitIp==20.56.34.67') + hash;
+
         testEnvironment.callApi("SitesManager.addSiteAliasUrls", {idSite: 3, urls: [config.piwikUrl]}, done);
     });
 
@@ -48,6 +53,14 @@ describe("Overlay", function () {
                 };
             });
             page.sendMouseEvent('mousemove', pos);
+
+            page.evaluate(function () {
+                $('div#PIS_StatusBar', $('iframe').contents()).each(function () {
+                    var html = $(this).html();
+                    html = html.replace(/localhost\:[0-9]+/g, 'localhost');
+                    $(this).html(html);
+                });
+            });
 
             removeOptOutIframe(page);
         }, done);
@@ -110,6 +123,14 @@ describe("Overlay", function () {
         expect.screenshot("transitions").to.be.capture(function (page) {
             page.click('button.ui-dialog-titlebar-close');
             page.click('#overlayTransitions');
+
+            removeOptOutIframe(page);
+        }, done);
+    });
+
+    it("should load an overlay with segment", function (done) {
+        expect.screenshot("loaded_with_segment").to.be.capture(function (page) {
+            page.load(urlWithSegment);
 
             removeOptOutIframe(page);
         }, done);

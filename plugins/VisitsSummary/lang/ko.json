@@ -1,5 +1,6 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "%s 평균 페이지 생성 시간",
         "AverageVisitDuration": "%s 방문의 평균 지속 시간",
         "GenerateQueries": "%s 쿼리 실행됨",
         "GenerateTime": "페이지 생성에 %s 초 걸림",
@@ -16,6 +17,7 @@
         "NbUniquePageviewsDescription": "%s 고유 페이지뷰",
         "NbUniqueVisitors": "%s 고유 방문자",
         "NbVisitsBounced": "%s 반송률 (첫 페이지에서 이탈)",
+        "PluginDescription": "보고서 기본 분석 측정 기준: 방문횟수, 고유 방문자, 활동 횟수, 반송률 등",
         "VisitsSummary": "방문 개요",
         "VisitsSummaryDocumentation": "방문 추이 개요입니다.",
         "WidgetLastVisits": "최근 방문 그래프",

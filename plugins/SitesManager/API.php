@@ -585,7 +585,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if (!empty($settings)) {
-            $this->validateMeasurableSettings($bind['type'], $settings);
+            $this->validateMeasurableSettings(0, $bind['type'], $settings);
         }
 
         $idSite = $this->getModel()->createSite($bind);
@@ -611,9 +611,9 @@ class API extends \Piwik\Plugin\API
         return (int) $idSite;
     }
 
-    private function validateMeasurableSettings($idType, $settings)
+    private function validateMeasurableSettings($idSite, $idType, $settings)
     {
-        $measurableSettings = new MeasurableSettings(0, $idType);
+        $measurableSettings = new MeasurableSettings($idSite, $idType);
 
         foreach ($measurableSettings->getSettingsForCurrentUser() as $measurableSetting) {
             $name = $measurableSetting->getName();
@@ -645,6 +645,7 @@ class API extends \Piwik\Plugin\API
     {
         Site::clearCache();
         Cache::regenerateCacheWebsiteAttributes($idSite);
+        Cache::clearCacheGeneral();
         SiteUrls::clearSitesCache();
     }
 
@@ -1184,7 +1185,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if (!empty($settings)) {
-            $this->validateMeasurableSettings(Site::getTypeFor($idSite), $settings);
+            $this->validateMeasurableSettings($idSite, Site::getTypeFor($idSite), $settings);
         }
 
         $this->getModel()->updateSite($bind, $idSite);

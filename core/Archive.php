@@ -619,7 +619,7 @@ class Archive
             if ($isNumeric) {
                 $row['value'] = $this->formatNumericValue($row['value']);
             } else {
-                $result->addMetadata($row['idsite'], $periodStr, 'ts_archived', $row['ts_archived']);
+                $result->addMetadata($row['idsite'], $periodStr, DataTable::ARCHIVED_DATE_METADATA_NAME, $row['ts_archived']);
             }
 
             $result->set($row['idsite'], $periodStr, $row['name'], $row['value']);

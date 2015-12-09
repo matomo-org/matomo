@@ -10,6 +10,7 @@ namespace Piwik\Plugins\SEO\Metric;
 
 use Piwik\Http;
 use Piwik\NumberFormatter;
+use Piwik\Plugins\Referrers\SearchEngine;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -46,7 +47,7 @@ class Bing implements MetricsProvider
             $pageCount = null;
         }
 
-        $logo = \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://bing.com');
+        $logo = SearchEngine::getInstance()->getLogoFromUrl('http://bing.com');
 
         return array(
             new Metric('bing-index', 'SEO_Bing_IndexedPages', $pageCount, $logo, null, null, 'General_Pages')

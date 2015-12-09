@@ -21,6 +21,7 @@
         "PluginDescription": "Seu Painel de Análise da Rede. Personalize seu painel adicionando novos widgets, arrastando para suas posições, e mudando o leiaute das colunas do painel. Cada usuário pode gerenciar seus próprios painéis personalizados.",
         "RemoveDashboard": "Remover painel",
         "RemoveDashboardConfirm": "Tem certeza de que deseja remover o painel \"%s\"?",
+        "RemoveDefaultDashboardNotPossible": "O painel padrão não pode ser removido",
         "RenameDashboard": "Renomear painel",
         "ResetDashboard": "Resetar o painel",
         "ResetDashboardConfirm": "Tem certeza de que deseja redefinir o layout do painel para a seleção Widgets padrão?",

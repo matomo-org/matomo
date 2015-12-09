@@ -150,6 +150,12 @@
             var segmentName  = getDimensionFromApiMethod(apiMethod);
             var segmentValue = findTitleOfRowHavingRawSegmentValue(apiMethod, segment);
 
+            if (!segmentName || (segment && segment.indexOf(';') > 0)) {
+                segmentName = _pk_translate('General_Segment');
+                var segmentParts = segment.split(';');
+                segmentValue = segmentParts.join(' ' + _pk_translate('General_And') + ' ');
+            }
+
             segmentName  = piwikHelper.escape(segmentName);
             segmentName  = piwikHelper.htmlEntities(segmentName);
             segmentValue = piwikHelper.escape(segmentValue);

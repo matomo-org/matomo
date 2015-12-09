@@ -38,11 +38,7 @@ describe("Dashboard", function () {
 
     var setup = function (done) {
         // make sure live widget doesn't refresh constantly for UI tests
-        testEnvironment.configOverride = {
-            General: {
-                'live_widget_refresh_after_seconds': 1000000
-            }
-        };
+        testEnvironment.overrideConfig('General', 'live_widget_refresh_after_seconds', 1000000);
         testEnvironment.save();
 
         // save empty layout for dashboard ID = 5
