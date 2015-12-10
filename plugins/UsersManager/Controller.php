@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
@@ -123,6 +124,7 @@ class Controller extends ControllerAdmin
             }
         }
 
+        $view->hasOnlyAdminAccess = Piwik::isUserHasSomeAdminAccess() && !Piwik::hasUserSuperUserAccess();
         $view->anonymousHasViewAccess = $this->hasAnonymousUserViewAccess($usersAccessByWebsite);
         $view->idSiteSelected = $idSiteSelected;
         $view->defaultReportSiteName = $defaultReportSiteName;
