@@ -71,6 +71,8 @@ Use the --piwik-domain option to specify which instance to modify.
             $output->writeln("<info>Setting [{$manipulation->getSectionName()}] {$manipulation->getName()} = {$manipulation->getValueString()}</info>");
         }
 
+        $config->forceSave();
+
         $this->writeSuccessMessage($output, array("Done."));
     }
 

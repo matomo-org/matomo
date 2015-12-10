@@ -8,6 +8,8 @@
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
+use Interop\Container\ContainerInterface;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 use Piwik\Url;
@@ -18,6 +20,22 @@ use Piwik\Url;
  */
 class SetConfigTest extends ConsoleCommandTestCase
 {
+    const TEST_CONFIG_PATH = '/tmp/test.config.ini.php';
+
+    public static function setUpBeforeClass()
+    {
+        self::removeTestConfigFile();
+
+        parent::setUpBeforeClass();
+    }
+
+    public function setUp()
+    {
+        self::removeTestConfigFile();
+
+        parent::setUp();
+    }
+
     public function test_Command_SucceedsWhenOptionsUsed()
     {
         $code = $this->applicationTester->run(array(
@@ -30,7 +48,7 @@ class SetConfigTest extends ConsoleCommandTestCase
 
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
 
-        $config = Config::getInstance();
+        $config = $this->makeNewConfig();
         $this->assertEquals(array('setting' => 'myvalue'), $config->MySection);
 
         $this->assertContains('Setting [MySection] setting = "myvalue"', $this->applicationTester->getDisplay());
@@ -80,13 +98,52 @@ class SetConfigTest extends ConsoleCommandTestCase
 
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
 
-        $config->clear();
+        $config = self::makeNewConfig(); // create a new config instance so we read what's in the file
 
         $this->assertEquals('+', $config->General['action_url_category_delimiter']);
         $this->assertEquals(array('www.trustedhost.com', 'www.trustedhost2.com'), $config->General['trusted_hosts']);
         $this->assertEquals(array('abc', 'def'), $config->MySection['array_value']);
-        $this->assertEquals(array('abc' => 'def'), $config->MySection['object_value']);
+        $this->assertEquals(array('def'), $config->MySection['object_value']);
 
         $this->assertContains("Done.", $this->applicationTester->getDisplay());
+    }
+
+    private static function getTestConfigFilePath()
+    {
+        return PIWIK_INCLUDE_PATH . self::TEST_CONFIG_PATH;
+    }
+
+    public static function provideContainerConfigBeforeClass()
+    {
+        return array(
+            // use a config instance that will save to a test INI file
+            'Piwik\Config' => function (ContainerInterface $c) {
+                /** @var GlobalSettingsProvider $actualGlobalSettingsProvider */
+                $actualGlobalSettingsProvider = $c->get('Piwik\Application\Kernel\GlobalSettingsProvider');
+
+                $config = SetConfigTest::makeNewConfig();
+
+                // copy over sections required for tests
+                $config->tests = $actualGlobalSettingsProvider->getSection('tests');
+                $config->database = $actualGlobalSettingsProvider->getSection('database');
+                $config->database_tests = $actualGlobalSettingsProvider->getSection('database_tests');
+
+                return $config;
+            },
+        );
+    }
+
+    private static function makeNewConfig()
+    {
+        $settings = new GlobalSettingsProvider(null, SetConfigTest::getTestConfigFilePath());
+        return new Config($settings);
+    }
+
+    private static function removeTestConfigFile()
+    {
+        $configPath = self::getTestConfigFilePath();
+        if (file_exists($configPath)) {
+            unlink($configPath);
+        }
     }
 }
