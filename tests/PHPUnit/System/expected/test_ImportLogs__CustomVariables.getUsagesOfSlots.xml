@@ -11,8 +11,8 @@
 			</row>
 			<row>
 				<name>Not-Bot</name>
-				<nb_visits>7</nb_visits>
-				<nb_actions>10</nb_actions>
+				<nb_visits>8</nb_visits>
+				<nb_actions>11</nb_actions>
 			</row>
 			<row>
 				<name>User Name</name>
@@ -72,7 +72,7 @@
 			<row>
 				<name>HTTP-code</name>
 				<nb_visits>0</nb_visits>
-				<nb_actions>69</nb_actions>
+				<nb_actions>70</nb_actions>
 			</row>
 			<row>
 				<name>Generation Time</name>
@@ -99,7 +99,7 @@
 			<row>
 				<name>HTTP-code</name>
 				<nb_visits>0</nb_visits>
-				<nb_actions>69</nb_actions>
+				<nb_actions>70</nb_actions>
 			</row>
 		</usages>
 	</row>
