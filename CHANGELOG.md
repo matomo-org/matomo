@@ -6,7 +6,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### New features
  * New segment `actionType` lets you segment all actions of a given type, eg. `actionType==events` or `actionType==downloads`. Action types values are: `pageviews`, `contents`, `sitesearches`, `events`, `outlinks`, `downloads`
-* The JavaScript Tracker method `PiwikTracker.setDomains()` can now handle paths. This means when setting eg `_paq.push(['setDomains, '*.piwik.org/website1'])` all link that goes to the same domain `piwik.org` but to any other path than `website1/*` will be treated as outlink.
+ * The JavaScript Tracker method `PiwikTracker.setDomains()` can now handle paths. This means when setting eg `_paq.push(['setDomains, '*.piwik.org/website1'])` all link that goes to the same domain `piwik.org` but to any other path than `website1/*` will be treated as outlink.
 
 ### Internal change
  * When generating a new plugin skeleton via `generate:plugin` command, plugin name must now contain only letters and numbers.
@@ -21,6 +21,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Deprecations
  * The method `DB::tableExists` was un-used and has been removed.
  
+### New commands
+ * New command `config:set` lets you set INI config options from the command line. This command can be used for convenience or for automation.
+
 ## Piwik 2.15.0 
 
 ### New commands
