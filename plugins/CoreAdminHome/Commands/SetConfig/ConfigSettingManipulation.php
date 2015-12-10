@@ -59,33 +59,42 @@ class ConfigSettingManipulation
      */
     public function manipulate(Config $config)
     {
-        $setting =& $this->getSettingToManipulate($config);
-
         if ($this->isArrayAppend) {
-            if ($setting !== null
-                && !is_array($setting)
-            ) {
-                throw new \Exception("Trying to append to non-array setting value " . $this->getSettingString() . ".");
-            }
-
-            $setting[] = $this->value;
+            $this->appendToArraySetting($config);
         } else {
-            if (is_array($setting)
-                && !is_array($this->value)
-            ) {
-                throw new \Exception("Trying to set non-array value to array setting " . $this->getSettingString() . ".");
-            }
-
-            $setting = $this->value;
+            $this->setSingleConfigValue($config);
         }
     }
 
-    private function &getSettingToManipulate(Config $config)
+    private function setSingleConfigValue(Config $config)
     {
         $sectionName = $this->sectionName;
-        $section =& $config->__get($sectionName);
-        $value =& $section[$this->name];
-        return $value;
+        $section = $config->$sectionName;
+
+        if (isset($section[$this->name])
+            && is_array($section[$this->name])
+            && !is_array($this->value)
+        ) {
+            throw new \Exception("Trying to set non-array value to array setting " . $this->getSettingString() . ".");
+        }
+
+        $section[$this->name] = $this->value;
+        $config->$sectionName = $section;
+    }
+
+    private function appendToArraySetting(Config $config)
+    {
+        $sectionName = $this->sectionName;
+        $section = $config->$sectionName;
+
+        if (isset($section[$this->name])
+            && !is_array($section[$this->name])
+        ) {
+            throw new \Exception("Trying to append to non-array setting value " . $this->getSettingString() . ".");
+        }
+
+        $section[$this->name][] = $this->value;
+        $config->$sectionName = $section;
     }
 
     /**

@@ -33,6 +33,11 @@ class DumbMockConfig extends \Piwik\Config
         $result =& $this->mockConfigData[$sectionName];
         return $result;
     }
+
+    public function __set($sectionName, $section)
+    {
+        $this->mockConfigData[$sectionName] = $section;
+    }
 }
 
 /**
