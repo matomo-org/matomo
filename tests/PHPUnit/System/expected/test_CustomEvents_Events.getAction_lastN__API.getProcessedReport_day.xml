@@ -27,8 +27,8 @@
 			<avg_event_value>The average of all values for this event</avg_event_value>
 		</processedMetrics>
 		<actionToLoadSubTables>getNameFromActionId</actionToLoadSubTables>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getAction&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getAction&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getAction&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getAction&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>Events_getAction</uniqueId>
 	</metadata>
 	<columns>
@@ -163,57 +163,57 @@
 			<row>
 				
 				<segment>eventAction==playTrailer</segment>
-				<idsubdatatable>807</idsubdatatable>
+				<idsubdatatable>9</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==Search</segment>
-				<idsubdatatable>800</idsubdatatable>
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==play25%25</segment>
-				<idsubdatatable>802</idsubdatatable>
+				<idsubdatatable>4</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==play50%25</segment>
-				<idsubdatatable>803</idsubdatatable>
+				<idsubdatatable>5</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==play75%25</segment>
-				<idsubdatatable>804</idsubdatatable>
+				<idsubdatatable>6</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==playEnd</segment>
-				<idsubdatatable>805</idsubdatatable>
+				<idsubdatatable>7</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==rating</segment>
-				<idsubdatatable>806</idsubdatatable>
+				<idsubdatatable>8</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==clickBuyNow</segment>
-				<idsubdatatable>808</idsubdatatable>
+				<idsubdatatable>10</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>810</idsubdatatable>
+				<idsubdatatable>12</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==play</segment>
-				<idsubdatatable>801</idsubdatatable>
+				<idsubdatatable>3</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==playStart</segment>
-				<idsubdatatable>809</idsubdatatable>
+				<idsubdatatable>11</idsubdatatable>
 			</row>
 			<row>
 				<segment>eventAction==Purchase</segment>

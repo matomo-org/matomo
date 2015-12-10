@@ -27,8 +27,8 @@
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
 		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2010-01-03</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2009-12-05,2010-01-03</imageGraphEvolutionUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=day&amp;date=2010-01-03</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=day&amp;date=2009-12-05,2010-01-03</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getPageUrls</uniqueId>
 	</metadata>
 	<columns>
@@ -60,11 +60,11 @@
 	<reportMetadata>
 		<row>
 			
-			<idsubdatatable>2711</idsubdatatable>
+			<idsubdatatable>2</idsubdatatable>
 		</row>
 		<row>
 			
-			<idsubdatatable>2712</idsubdatatable>
+			<idsubdatatable>3</idsubdatatable>
 		</row>
 	</reportMetadata>
 	<reportTotal>

@@ -34,8 +34,8 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Valeur par Visite</revenue_per_visit>
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=year&amp;date=2000-01-01,2009-12-31</imageGraphEvolutionUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=year&amp;date=2000-01-01,2009-12-31</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getCountry</uniqueId>
 	</metadata>
 	<columns>

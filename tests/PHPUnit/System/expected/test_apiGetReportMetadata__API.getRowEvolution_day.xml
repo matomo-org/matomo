@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<error message="Row evolutions can not be processed with this combination of \'date\' and \'period\' parameters.
- 
- --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php" />
+	<error message="Row evolutions can not be processed with this combination of \'date\' and \'period\' parameters." />
 </result>

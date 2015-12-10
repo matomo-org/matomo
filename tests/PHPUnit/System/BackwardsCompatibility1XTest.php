@@ -31,6 +31,10 @@ class BackwardsCompatibility1XTest extends SystemTestCase
     {
         parent::setUpBeforeClass();
 
+        $testEnvironmentVars = new TestingEnvironmentVariables();
+        $testEnvironmentVars->testUseMockAuth = 1;
+        $testEnvironmentVars->save();
+
         // note: not sure why I have to manually install plugin
         \Piwik\Plugin\Manager::getInstance()->loadPlugin('CustomAlerts')->install();
         \Piwik\Plugin\Manager::getInstance()->loadPlugin('CustomDimensions')->install();

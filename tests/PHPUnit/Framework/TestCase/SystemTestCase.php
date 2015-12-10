@@ -15,9 +15,11 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Http;
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\Constraint\ResponseCode;
 use Piwik\Tests\Framework\Constraint\HttpResponseText;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
 use Piwik\Tests\Framework\TestRequest\Collection;
 use Piwik\Tests\Framework\TestRequest\Response;
@@ -26,6 +28,7 @@ use Piwik\Log;
 use PHPUnit_Framework_TestCase;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Translation\Translator;
+use Piwik\Url;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -296,7 +299,11 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         $_GET = $requestUrl;
         unset($_GET['serialize']);
 
-        $processedResponse = Response::loadFromApi($params, $requestUrl);
+        $requestUrl['token_auth'] = Fixture::getTokenAuth();
+
+        $response = $this->getResponseFromHttpAPI($requestUrl);
+        $processedResponse = new Response($response, $params, $requestUrl);
+
         if (empty($compareAgainst)) {
             $processedResponse->save($processedFilePath);
         }
@@ -437,13 +444,13 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         $this->missingExpectedFiles = array();
         $this->comparisonFailures = array();
 
+        $testEnvironment = new TestingEnvironmentVariables();
         if ($testConfig->disableArchiving) {
-            Rules::$archivingDisabledByTests = true;
-            Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
+            $testEnvironment->disableArchiving = true;
         } else {
-            Rules::$archivingDisabledByTests = false;
-            Config::getInstance()->General['browser_archiving_disabled_enforce'] = 0;
+            $testEnvironment->disableArchiving = false;
         }
+        $testEnvironment->save();
 
         if ($testConfig->language) {
             $this->changeLanguage($testConfig->language);
@@ -637,6 +644,20 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array();
+    }
+
+    /**
+     * @param $requestUrl
+     * @return string
+     * @throws Exception
+     */
+    protected function getResponseFromHttpAPI($requestUrl)
+    {
+        $queryString = Url::getQueryStringFromParameters($requestUrl);
+        $hostAndPath = Fixture::getTestRootUrl();
+        $url = $hostAndPath . '?' . $queryString;
+        $response = Http::sendHttpRequest($url, $timeout = 300);
+        return $response;
     }
 }
 

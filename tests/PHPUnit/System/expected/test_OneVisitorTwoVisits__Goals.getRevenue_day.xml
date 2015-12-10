@@ -1,2 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<result>43</result>
+<result>
+	<error message="The method 'getRevenue' does not exist or is not available in the module '\Piwik\Plugins\Goals\API'." />
+</result>

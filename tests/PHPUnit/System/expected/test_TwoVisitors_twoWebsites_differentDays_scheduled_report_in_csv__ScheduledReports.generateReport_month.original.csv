@@ -344,4 +344,3 @@ label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site
 Unknown,8,40,0%,5,00:15:01,0%
 Gecko (Firefox),2,2,0%,1,00:00:00,100%
 Presto (Opera),1,1,0%,1,00:00:00,100%
-

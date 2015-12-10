@@ -34,8 +34,8 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=range&amp;date=</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=</imageGraphEvolutionUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=range&amp;date=&amp;segment=pageUrl%21%3Dhttp%3A%2F%2Funknown%2Fnot%2Fviewed</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;token_auth=9ad1de7f8b329ab919d854c556f860c1&amp;period=day&amp;date=&amp;segment=pageUrl%21%3Dhttp%3A%2F%2Funknown%2Fnot%2Fviewed</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getCountry</uniqueId>
 	</metadata>
 	<columns>
