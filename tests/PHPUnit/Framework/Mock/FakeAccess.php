@@ -128,7 +128,7 @@ class FakeAccess extends Access
     public function checkUserHasSomeViewAccess()
     {
         if (!self::$superUser) {
-            if (count(self::$idSitesView) == 0) {
+            if (count(array_merge(self::$idSitesView, self::$idSitesAdmin)) == 0) {
                 throw new NoAccessException("checkUserHasSomeViewAccess Fake exception // string not to be tested");
             }
         } else {
@@ -137,14 +137,20 @@ class FakeAccess extends Access
     }
 
     //means at least view access
+    public function isUserHasSomeAdminAccess()
+    {
+        if (self::$superUser) {
+            return true;
+        }
+
+        return count(self::$idSitesAdmin) > 0;
+    }
+
+    //means at least view access
     public function checkUserHasSomeAdminAccess()
     {
-        if (!self::$superUser) {
-            if (count(self::$idSitesAdmin) == 0) {
-                throw new NoAccessException("checkUserHasSomeAdminAccess Fake exception // string not to be tested");
-            }
-        } else {
-            return; //Super User has some admin rights
+        if (!$this->isUserHasSomeAdminAccess()) {
+            throw new NoAccessException("checkUserHasSomeAdminAccess Fake exception // string not to be tested");
         }
     }
 

@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Http;
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\Constraint\ResponseCode;
 use Piwik\Tests\Framework\Constraint\HttpResponseText;
@@ -26,6 +27,7 @@ use Piwik\Log;
 use PHPUnit_Framework_TestCase;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Translation\Translator;
+use Piwik\Url;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -287,6 +289,65 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         return $apiCalls;
     }
 
+    /**
+     * While {@link runApiTests()} lets you run test for many API methods at once this one tests only one specific
+     * API method and it goes via HTTP. While the other method lets you test only some methods starting with 'get'
+     * this one lets you actually test any API method.
+     */
+    protected function runAnyApiTest($apiMethod, $apiId, $requestParams, $options = array())
+    {
+        $requestParams['module'] = 'API';
+        $requestParams['format'] = 'XML';
+        $requestParams['method'] = $apiMethod;
+
+        $apiId = $apiMethod . '_' . $apiId . '.xml';
+        $testName = 'test_' . static::getOutputPrefix();
+
+        list($processedFilePath, $expectedFilePath) =
+            $this->getProcessedAndExpectedPaths($testName, $apiId, $format = null, $compareAgainst = false);
+
+        if (!array_key_exists('token_auth', $requestParams)) {
+            $requestParams['token_auth'] = Fixture::getTokenAuth();
+        }
+
+        $response = $this->getResponseFromHttpAPI($requestParams);
+        $processedResponse = new Response($response, $options, $requestParams);
+
+        if (empty($compareAgainst)) {
+            $processedResponse->save($processedFilePath);
+        }
+
+        try {
+            $expectedResponse = Response::loadFromFile($expectedFilePath, $options, $requestParams);
+        } catch (Exception $ex) {
+            $this->handleMissingExpectedFile($expectedFilePath, $processedResponse);
+            return;
+        }
+
+        try {
+            $errorMessage = get_class($this) . ": Differences with expected in '$processedFilePath'";
+            Response::assertEquals($expectedResponse, $processedResponse, $errorMessage);
+        } catch (Exception $ex) {
+            $this->comparisonFailures[] = $ex;
+        }
+
+        $this->printApiTestFailures();
+    }
+
+    /**
+     * @param $requestUrl
+     * @return string
+     * @throws Exception
+     */
+    protected function getResponseFromHttpAPI($requestUrl)
+    {
+        $queryString = Url::getQueryStringFromParameters($requestUrl);
+        $hostAndPath = Fixture::getTestRootUrl();
+        $url = $hostAndPath . '?' . $queryString;
+        $response = Http::sendHttpRequest($url, $timeout = 300);
+        return $response;
+    }
+
     protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $params = array())
     {
         list($processedFilePath, $expectedFilePath) =
@@ -460,6 +521,13 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             $this->changeLanguage('en');
         }
 
+        $this->printApiTestFailures();
+
+        return count($this->comparisonFailures) == 0;
+    }
+
+    private function printApiTestFailures()
+    {
         if (!empty($this->missingExpectedFiles)) {
             $expectedDir = dirname(reset($this->missingExpectedFiles));
             $this->fail(" ERROR: Could not find expected API output '"
@@ -473,8 +541,6 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             $this->printComparisonFailures();
             throw reset($this->comparisonFailures);
         }
-
-        return count($this->comparisonFailures) == 0;
     }
 
     protected function getTestRequestsCollection($api, $testConfig, $apiToCall)
