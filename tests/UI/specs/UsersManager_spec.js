@@ -93,4 +93,18 @@ describe("UsersManager", function () {
             submitGiveAccessForm(page);
         });
     });
+
+    it("should ask for confirmation when all sites selected", function (done) {
+        assertScreenshotEquals("adminuser_all_users_loaded", done, function (page) {
+            page.load(url + '&idSite=all');
+        });
+    });
+
+    it("should ask for confirmation when all sites selected", function (done) {
+        assertScreenshotEquals("adminuser_all_users_confirmation", done, function (page) {
+            openGiveAccessForm(page);
+            setLoginOrEmailForGiveAccessForm(page, 'login5@example.com');
+            submitGiveAccessForm(page);
+        });
+    });
 });
