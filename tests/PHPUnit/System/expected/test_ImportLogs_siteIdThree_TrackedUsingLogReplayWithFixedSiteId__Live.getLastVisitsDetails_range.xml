@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<idSite>3</idSite>
-		<idVisit>55</idVisit>
+		<idVisit>56</idVisit>
 		<visitIp>174.97.139.63</visitIp>
 		
 		<actionDetails>
@@ -12,7 +12,7 @@
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
 				
-				<pageId>68</pageId>
+				<pageId>69</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -117,7 +117,7 @@
 	</row>
 	<row>
 		<idSite>3</idSite>
-		<idVisit>48</idVisit>
+		<idVisit>49</idVisit>
 		<visitIp>206.190.75.8</visitIp>
 		
 		<actionDetails>
@@ -127,7 +127,7 @@
 				<pageTitle>Changelog Archive - Analytics - Piwik</pageTitle>
 				<pageIdAction>44</pageIdAction>
 				
-				<pageId>59</pageId>
+				<pageId>60</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -145,7 +145,7 @@
 				<pageTitle>Contact the Piwik team - Analytics - Piwik</pageTitle>
 				<pageIdAction>55</pageIdAction>
 				
-				<pageId>67</pageId>
+				<pageId>68</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -236,7 +236,7 @@
 	</row>
 	<row>
 		<idSite>3</idSite>
-		<idVisit>54</idVisit>
+		<idVisit>55</idVisit>
 		<visitIp>193.159.20.129</visitIp>
 		
 		<actionDetails>
@@ -246,7 +246,7 @@
 				<pageTitle>demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</pageTitle>
 				<pageIdAction>53</pageIdAction>
 				
-				<pageId>66</pageId>
+				<pageId>67</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -363,7 +363,7 @@
 	</row>
 	<row>
 		<idSite>3</idSite>
-		<idVisit>52</idVisit>
+		<idVisit>53</idVisit>
 		<visitIp>50.244.17.130</visitIp>
 		
 		<actionDetails>
@@ -373,7 +373,7 @@
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
 				
-				<pageId>63</pageId>
+				<pageId>64</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -391,7 +391,7 @@
 				<pageTitle>What is Piwik? - Analytics - Piwik</pageTitle>
 				<pageIdAction>51</pageIdAction>
 				
-				<pageId>65</pageId>
+				<pageId>66</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -499,7 +499,7 @@
 	</row>
 	<row>
 		<idSite>3</idSite>
-		<idVisit>53</idVisit>
+		<idVisit>54</idVisit>
 		<visitIp>84.194.72.21</visitIp>
 		
 		<actionDetails>
@@ -509,7 +509,7 @@
 				<pageTitle />
 				<pageIdAction>49</pageIdAction>
 				
-				<pageId>64</pageId>
+				<pageId>65</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -617,7 +617,7 @@
 	</row>
 	<row>
 		<idSite>3</idSite>
-		<idVisit>51</idVisit>
+		<idVisit>52</idVisit>
 		<visitIp>108.211.181.12</visitIp>
 		
 		<actionDetails>
@@ -627,7 +627,7 @@
 				<pageTitle>Integrate Piwik into your Rails Application - Analytics - Piwik</pageTitle>
 				<pageIdAction>48</pageIdAction>
 				
-				<pageId>62</pageId>
+				<pageId>63</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -744,7 +744,7 @@
 	</row>
 	<row>
 		<idSite>3</idSite>
-		<idVisit>50</idVisit>
+		<idVisit>51</idVisit>
 		<visitIp>219.101.46.222</visitIp>
 		
 		<actionDetails>
@@ -754,7 +754,7 @@
 				<pageTitle>Log Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>42</pageIdAction>
 				
-				<pageId>61</pageId>
+				<pageId>62</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -858,7 +858,7 @@
 	</row>
 	<row>
 		<idSite>3</idSite>
-		<idVisit>49</idVisit>
+		<idVisit>50</idVisit>
 		<visitIp>80.136.160.65</visitIp>
 		
 		<actionDetails>
@@ -868,7 +868,7 @@
 				<pageTitle>Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</pageTitle>
 				<pageIdAction>46</pageIdAction>
 				
-				<pageId>60</pageId>
+				<pageId>61</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -965,7 +965,7 @@
 	</row>
 	<row>
 		<idSite>3</idSite>
-		<idVisit>47</idVisit>
+		<idVisit>48</idVisit>
 		<visitIp>188.107.238.9</visitIp>
 		
 		<actionDetails>
@@ -975,7 +975,7 @@
 				<pageTitle>Log Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>42</pageIdAction>
 				
-				<pageId>58</pageId>
+				<pageId>59</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -1092,7 +1092,7 @@
 	</row>
 	<row>
 		<idSite>3</idSite>
-		<idVisit>45</idVisit>
+		<idVisit>46</idVisit>
 		<visitIp>93.80.130.163</visitIp>
 		
 		<actionDetails>
@@ -1102,7 +1102,7 @@
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
 				
-				<pageId>54</pageId>
+				<pageId>55</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -1121,7 +1121,7 @@
 				<pageTitle>Download - Analytics - Piwik</pageTitle>
 				<pageIdAction>39</pageIdAction>
 				
-				<pageId>56</pageId>
+				<pageId>57</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -1140,7 +1140,7 @@
 				<pageTitle />
 				<pageIdAction>40</pageIdAction>
 				
-				<pageId>57</pageId>
+				<pageId>58</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -1240,7 +1240,7 @@
 	</row>
 	<row>
 		<idSite>3</idSite>
-		<idVisit>46</idVisit>
+		<idVisit>47</idVisit>
 		<visitIp>176.41.226.154</visitIp>
 		
 		<actionDetails>
@@ -1250,7 +1250,7 @@
 				<pageTitle>Hello Installing Piwik - Analytics - Piwik</pageTitle>
 				<pageIdAction>37</pageIdAction>
 				
-				<pageId>55</pageId>
+				<pageId>56</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -1359,7 +1359,7 @@
 	</row>
 	<row>
 		<idSite>3</idSite>
-		<idVisit>44</idVisit>
+		<idVisit>45</idVisit>
 		<visitIp>84.194.72.21</visitIp>
 		
 		<actionDetails>
@@ -1369,7 +1369,7 @@
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
 				
-				<pageId>53</pageId>
+				<pageId>54</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -1478,7 +1478,7 @@
 	</row>
 	<row>
 		<idSite>3</idSite>
-		<idVisit>42</idVisit>
+		<idVisit>43</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
 		<actionDetails>
@@ -1488,7 +1488,7 @@
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>29</pageIdAction>
 				
-				<pageId>49</pageId>
+				<pageId>50</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -1596,7 +1596,7 @@
 	</row>
 	<row>
 		<idSite>3</idSite>
-		<idVisit>43</idVisit>
+		<idVisit>44</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
 		<actionDetails>
@@ -1606,7 +1606,7 @@
 				<pageTitle>Piwik Forums</pageTitle>
 				<pageIdAction>31</pageIdAction>
 				
-				<pageId>50</pageId>
+				<pageId>51</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -1722,7 +1722,7 @@
 	</row>
 	<row>
 		<idSite>3</idSite>
-		<idVisit>29</idVisit>
+		<idVisit>30</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
 		<actionDetails>
@@ -1732,7 +1732,7 @@
 				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
 				<pageIdAction>29</pageIdAction>
 				
-				<pageId>32</pageId>
+				<pageId>33</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
@@ -1750,7 +1750,7 @@
 				<pageTitle>Another Product page with no category</pageTitle>
 				<pageIdAction>29</pageIdAction>
 				
-				<pageId>51</pageId>
+				<pageId>52</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -1772,7 +1772,7 @@
 				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
 				<pageIdAction>29</pageIdAction>
 				
-				<pageId>52</pageId>
+				<pageId>53</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>

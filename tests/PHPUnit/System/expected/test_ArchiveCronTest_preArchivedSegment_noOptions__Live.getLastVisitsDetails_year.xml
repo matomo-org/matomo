@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>56</idVisit>
+		<idVisit>57</idVisit>
 		<visitIp>175.41.192.40</visitIp>
 		
 		<actionDetails>
@@ -12,7 +12,7 @@
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
 				
-				<pageId>69</pageId>
+				<pageId>70</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -30,7 +30,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>69</goalPageId>
+				<goalPageId>70</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -42,7 +42,7 @@
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
 				
-				<pageId>73</pageId>
+				<pageId>74</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -61,7 +61,7 @@
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
 				
-				<pageId>77</pageId>
+				<pageId>78</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -80,7 +80,7 @@
 				<pageTitle />
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>70</pageId>
+				<pageId>71</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -99,7 +99,7 @@
 				<pageTitle />
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>74</pageId>
+				<pageId>75</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -118,7 +118,7 @@
 				<pageTitle />
 				<pageIdAction>2</pageIdAction>
 				
-				<pageId>78</pageId>
+				<pageId>79</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -137,7 +137,7 @@
 				<pageTitle />
 				<pageIdAction>3</pageIdAction>
 				
-				<pageId>71</pageId>
+				<pageId>72</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -156,7 +156,7 @@
 				<pageTitle />
 				<pageIdAction>3</pageIdAction>
 				
-				<pageId>75</pageId>
+				<pageId>76</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -175,7 +175,7 @@
 				<pageTitle />
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>72</pageId>
+				<pageId>73</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -194,7 +194,7 @@
 				<pageTitle />
 				<pageIdAction>4</pageIdAction>
 				
-				<pageId>76</pageId>
+				<pageId>77</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
@@ -280,7 +280,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>26</idVisit>
+		<idVisit>27</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
 		<actionDetails>
@@ -289,7 +289,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>29</goalPageId>
+				<goalPageId>30</goalPageId>
 				
 				<url>http://example.org/index.htm</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -301,7 +301,7 @@
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>29</pageIdAction>
 				
-				<pageId>29</pageId>
+				<pageId>30</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -497,6 +497,116 @@
 		<regionCode />
 		<city />
 		<location>Japan</location>
+		<visitLocalTime>20:15:41</visitLocalTime>
+		<visitLocalHour>20</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>Not-Bot</customVariableName1>
+				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
+			</row>
+		</customVariables>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>26</idVisit>
+		<visitIp>::ffff:123.45.67.89</visitIp>
+		
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>29</goalPageId>
+				
+				<url>http://piwik.net/blog/category/meta/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/blog/category/meta/</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				
+				<pageId>29</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<icon />
+				
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Mac 10.6</operatingSystem>
+		<operatingSystemName>Mac</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemVersion>10.6</operatingSystemVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>RockMelt 0.9</browser>
+		<browserName>RockMelt</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserCode>RM</browserCode>
+		<browserVersion>0.9</browserVersion>
+		<events>0</events>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>South Korea</country>
+		<countryCode>kr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/kr.png</countryFlag>
+		<region>Seoul-t'ukpyolsi</region>
+		<regionCode>11</regionCode>
+		<city>Seoul</city>
+		<location>Seoul, Seoul-t'ukpyolsi, South Korea</location>
 		<visitLocalTime>20:15:41</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -1196,116 +1306,6 @@
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Mozilla/5.0 (Linux; U; Android 2.3.5; en-us; HTC Vision Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1</customVariableValue1>
-			</row>
-		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
-		
-		
-		
-		
-		
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>19</idVisit>
-		<visitIp>175.41.192.41</visitIp>
-		
-		<actionDetails>
-			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>19</goalPageId>
-				
-				<url>http://piwik.net/blog/category/meta/</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/blog/category/meta/</url>
-				<pageTitle />
-				<pageIdAction>1</pageIdAction>
-				
-				<pageId>19</pageId>
-				<customVariables>
-					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
-					</row>
-				</customVariables>
-				<icon />
-				
-			</row>
-		</actionDetails>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitCount>1</visitCount>
-		
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<languageCode />
-		<language>Unknown</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Mac 10.6</operatingSystem>
-		<operatingSystemName>Mac</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
-		<operatingSystemCode>MAC</operatingSystemCode>
-		<operatingSystemVersion>10.6</operatingSystemVersion>
-		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browser>RockMelt 0.9</browser>
-		<browserName>RockMelt</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
-		<browserCode>RM</browserCode>
-		<browserVersion>0.9</browserVersion>
-		<events>0</events>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Japan</location>
-		<visitLocalTime>16:10:38</visitLocalTime>
-		<visitLocalHour>16</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Not-Bot</customVariableName1>
-				<customVariableValue1>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</customVariableValue1>
 			</row>
 		</customVariables>
 		<resolution>unknown</resolution>
