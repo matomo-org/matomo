@@ -91,6 +91,17 @@ class Db
     }
 
     /**
+     * For tests only.
+     * @param $connection
+     * @ignore
+     * @internal
+     */
+    public static function setDatabaseObject($connection)
+    {
+        self::$connection = $connection;
+    }
+
+    /**
      * Connects to the database.
      *
      * Shouldn't be called directly, use {@link get()} instead.
@@ -638,9 +649,14 @@ class Db
      * @param string $lockName The lock name.
      * @param int $maxRetries The max number of times to retry.
      * @return bool `true` if the lock was obtained, `false` if otherwise.
+     * @throws \Exception if Lock name is too long
      */
     public static function getDbLock($lockName, $maxRetries = 30)
     {
+        if (strlen($lockName) > 64) {
+            throw new \Exception('DB lock name has to be 64 characters or less for MySQL 5.7 compatibility.');
+        }
+
         /*
          * the server (e.g., shared hosting) may have a low wait timeout
          * so instead of a single GET_LOCK() with a 30 second timeout,
@@ -652,7 +668,8 @@ class Db
         $db = self::get();
 
         while ($maxRetries > 0) {
-            if ($db->fetchOne($sql, array($lockName)) == '1') {
+            $result = $db->fetchOne($sql, array($lockName));
+            if ($result == '1') {
                 return true;
             }
             $maxRetries--;
