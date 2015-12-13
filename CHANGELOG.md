@@ -18,6 +18,9 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
  * Add your own SMS/Text provider by creating a new class in the `SMSProvider` directory of your plugin. The class has to extend `Piwik\Plugins\MobileMessaging\SMSProvider` and implement the required methods.
  * Segments can now be composed by a union of multiple segments. To do this set an array of segments that shall be used for that segment `$segment->setUnionOfSegments(array('outlinkUrl', 'downloadUrl'))` instead of defining a SQL column.
 
+### Deprecations
+ * The method `DB::tableExists` was un-used and has been removed.
+ 
 ## Piwik 2.15.0 
 
 ### New commands
