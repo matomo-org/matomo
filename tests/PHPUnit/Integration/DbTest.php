@@ -85,12 +85,6 @@ class DbTest extends IntegrationTestCase
         Db::destroyDatabaseObject();
     }
 
-    public function test_tableExists()
-    {
-        $this->assertFalse(Db::tableExists('noTExistIngTable'));
-        $this->assertTrue(Db::tableExists(Common::prefixTable('log_visit')));
-    }
-
     public function getDbAdapter()
     {
         return array(

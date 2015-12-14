@@ -632,17 +632,6 @@ class Db
     }
 
     /**
-     * Returns `true` if a table in the database, `false` if otherwise.
-     *
-     * @param string $tableName The name of the table to check for. Must be prefixed.
-     * @return bool
-     */
-    public static function tableExists($tableName)
-    {
-        return self::query("SHOW TABLES LIKE ?", $tableName)->rowCount() > 0;
-    }
-
-    /**
      * Attempts to get a named lock. This function uses a timeout of 1s, but will
      * retry a set number of times.
      *
