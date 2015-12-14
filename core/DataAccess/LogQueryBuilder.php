@@ -22,6 +22,8 @@ class LogQueryBuilder
             $from = array($from);
         }
 
+        $fromInitially = $from;
+
         if (!$segmentExpression->isEmpty()) {
             $segmentExpression->parseSubExpressionsIntoSqlExpressions($from);
             $segmentSql = $segmentExpression->getSql();
@@ -33,7 +35,16 @@ class LogQueryBuilder
         $joinWithSubSelect = $joins['joinWithSubSelect'];
         $from = $joins['sql'];
 
-        if ($joinWithSubSelect) {
+        // hack for https://github.com/piwik/piwik/issues/9194#issuecomment-164321612
+        $useSpecialConversionGroupBy = (!empty($segmentSql)
+            && strpos($groupBy, 'log_conversion.idgoal') !== false
+            && $fromInitially == array('log_conversion')
+            && strpos($from, 'log_link_visit_action') !== false);
+
+        if ($useSpecialConversionGroupBy) {
+            $innerGroupBy = "concat(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)";
+            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit, $innerGroupBy);
+        } elseif ($joinWithSubSelect) {
             $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit);
         } else {
             $sql = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit);
@@ -239,10 +250,11 @@ class LogQueryBuilder
      * @param string $groupBy
      * @param string $orderBy
      * @param string $limit
+     * @param null|string $innerGroupBy  If given, this inner group by will be used. If not, we try to detect one
      * @throws Exception
      * @return string
      */
-    private function buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit)
+    private function buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit, $innerGroupBy = null)
     {
         $matchTables = "(log_visit|log_conversion_item|log_conversion|log_action)";
         preg_match_all("/". $matchTables ."\.[a-z0-9_\*]+/", $select, $matches);
@@ -253,12 +265,20 @@ class LogQueryBuilder
                 . "Please use a table prefix.");
         }
 
+        preg_match_all("/". $matchTables . "/", $from, $matchesFrom);
+
         $innerSelect = implode(", \n", $neededFields);
         $innerFrom = $from;
         $innerWhere = $where;
 
         $innerLimit = $limit;
-        $innerGroupBy = "log_visit.idvisit";
+
+        if (!isset($innerGroupBy) && in_array('log_visit', $matchesFrom[1])) {
+            $innerGroupBy = "log_visit.idvisit";
+        } elseif (!isset($innerGroupBy)) {
+            throw new Exception('Cannot use subselect for join as no group by rule is specified');
+        }
+
         $innerOrderBy = "NULL";
         if ($innerLimit && $orderBy) {
             // only When LIMITing we can apply to the inner query the same ORDER BY as the parent query
