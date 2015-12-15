@@ -60,6 +60,7 @@
         "WidgetPageUrlsFollowingSearch": "페이지별 사이트 검색",
         "WidgetSearchCategories": "검색 카테고리",
         "WidgetSearchKeywords": "사이트 검색어",
-        "WidgetSearchNoResultKeywords": "검색 결과 없음"
+        "WidgetSearchNoResultKeywords": "검색 결과 없음",
+        "ActionType": "활동 종류"
     }
 }

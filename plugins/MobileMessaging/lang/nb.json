@@ -17,6 +17,6 @@
         "Settings_VerificationCodeJustSent": "Vi har nettopp sendt en SMS til dette nummeret med en kode: Skriv inn denne koden ovenfor og klikk \"Valider\".",
         "SettingsMenu": "Meldingstjenester",
         "SMS_Content_Too_Long": "[for lang]",
-        "TopMenu": "E-post og SMS-rapporter"
+        "TopMenu": "E-post- og SMS-rapporter"
     }
 }

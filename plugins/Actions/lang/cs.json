@@ -61,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Stránky po hledání na stránce",
         "WidgetSearchCategories": "Vyhledávání kategorií",
         "WidgetSearchKeywords": "Klíčová slova hledané stránky",
-        "WidgetSearchNoResultKeywords": "Hledaná Klíčová slova bez výsledku hledání"
+        "WidgetSearchNoResultKeywords": "Hledaná Klíčová slova bez výsledku hledání",
+        "ActionType": "Typ akce"
     }
 }

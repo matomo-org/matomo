@@ -1,10 +1,16 @@
 {
     "Contents": {
+        "PluginDescription": "Innholds- og bannersporing lar deg måle ytelsen (visninger, klikk, CTR) til deler av innholdet på dine sider (banner-annonser, bilder, eller hva som helst).",
+        "Impressions": "Visninger",
         "Interactions": "Interaksjoner",
         "Interaction": "Interaksjon",
+        "InteractionRate": "Interaksjonsrate",
         "ContentName": "Innholdsnavn",
         "ContentPiece": "Innholdsdel",
         "ContentTarget": "Innholdsmål",
-        "Contents": "Innhold"
+        "Contents": "Innhold",
+        "InteractionsMetricDocumentation": "Antall ganger en innholdsdel ble interagert med (f.eks. et klikk på en banner eller annonse).",
+        "ImpressionsMetricDocumentation": "Antall ganger en innholdsdel, som en banner eller annonse, ble vist på en side.",
+        "InteractionRateMetricDocumentation": "Ratioen mellom visninger og interaksjoner."
     }
 }
