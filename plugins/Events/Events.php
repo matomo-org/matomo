@@ -9,9 +9,11 @@
 namespace Piwik\Plugins\Events;
 
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\AllColumns;
 
 class Events extends \Piwik\Plugin
 {
@@ -145,8 +147,18 @@ class Events extends \Piwik\Plugin
         }
 
         $view->config->show_flatten_table = true;
-        $view->config->show_table_all_columns = false;
         $view->requestConfig->filter_sort_column = 'nb_events';
+
+        if ($view->isViewDataTableId(AllColumns::ID)) {
+            $view->config->filters[] = function (DataTable $table) use ($view) {
+                $view->config->columns_to_display = array('label', 'nb_events', 'sum_event_value', 'avg_event_value', 'min_event_value', 'max_event_value');
+
+                if (!in_array($view->requestConfig->filter_sort_column, $view->config->columns_to_display)) {
+                    $view->requestConfig->filter_sort_column = 'nb_events';
+                }
+            };
+            $view->config->show_pivot_by_subtable = false;
+        }
 
         $labelTranslation = $this->getColumnTranslation($apiMethod);
         $view->config->addTranslation('label', $labelTranslation);
