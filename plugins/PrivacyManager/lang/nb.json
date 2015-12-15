@@ -1,6 +1,6 @@
 {
     "PrivacyManager": {
-        "AnonymizeIpMaskLength": "%s byte(s) - f.eks %s",
+        "AnonymizeIpMaskLength": "%s byte(s) – f.eks %s",
         "ClickHereSettings": "Klikk her for å få tilgang til %s-innstillingene.",
         "CurrentDBSize": "Nåværende databasestørrelse",
         "DeleteDataDescription": "Du kan sette opp Piwik til å regelmessig slette gamle besøkslogger og\/eller behandlede rapporter for å holde databasen din liten.",

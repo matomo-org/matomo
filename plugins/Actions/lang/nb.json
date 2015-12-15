@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Gjennomsnitt basert på %s treff %s mellom %s og %s",
         "ColumnClickedURL": "Klikket URL",
+        "ColumnActionURL": "Handlings-URL",
         "ColumnClicks": "Klikk",
         "ColumnClicksDocumentation": "Antall klikk på denne lenken",
         "ColumnDownloadURL": "Nedlastings-URL",
@@ -27,7 +28,7 @@
         "ColumnUniqueOutlinks": "Unike utlenker",
         "DownloadsReportDocumentation": "I denne rapporten kan du se hvilke filer de besøkende har lastet ned. %s Hva Piwik teller som en nedlasting, er klikket på en nedlastingslink. Om nedlastingen ble fullført eller ikke er ikke kjent for Piwik.",
         "EntryPagesReportDocumentation": "Denne rapporten inneholder informasjon om inngangssidene som ble brukt i løpet av den angitte perioden. En inngangsside er den første siden en bruker ser i løpet av besøket. %s Inngangs-URLen vises som en mappestruktur.",
-        "EntryPageTitles": "Inngangssidetitler",
+        "EntryPageTitles": "Titler på inngangssider",
         "EntryPageTitlesReportDocumentation": "Denne rapporten inneholder informasjon om titler på inngangssider som ble brukt i løpet av den angitte perioden.",
         "ExitPagesReportDocumentation": "Denne rapporten inneholder informasjon om utgangssidene som ble brukt i den angitte perioden. En utgangsside er den siste siden en bruker ser i løpet av besøket. %s Utgangs-URLene vises som en mappestruktur.",
         "ExitPageTitles": "Titler på utgangssider",
@@ -60,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Sider som følger etter et nettstedssøk",
         "WidgetSearchCategories": "Søkekategorier",
         "WidgetSearchKeywords": "Nøkkelord for sidesøk",
-        "WidgetSearchNoResultKeywords": "Nøkkelord uten resultater"
+        "WidgetSearchNoResultKeywords": "Nøkkelord uten resultater",
+        "ActionType": "Handlingstype"
     }
 }

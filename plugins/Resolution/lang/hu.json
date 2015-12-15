@@ -3,8 +3,10 @@
         "ColumnConfiguration": "Konfiguráció",
         "ColumnResolution": "Felbontás",
         "Configurations": "Konfigurációk",
+        "PluginDescription": "Jelentés a látogatók képernyőfelbontásairól.",
         "Resolutions": "Képernyőfelbontások",
         "WidgetGlobalVisitors": "Globális látogatói beállítások",
+        "WidgetGlobalVisitorsDocumentation": "Ez a jelentés megmutatja, az általános beállításokat, melyet a látogatók használnak. A konfiguráció egy kombináció, amely tartalmazza a látogató operációs rendszerét, böngészőjének típusát és a képernyőfelbontását.",
         "WidgetResolutions": "Képernyőfelbontások"
     }
 }

@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ColumnClickedURL": "Kattintott URL",
+        "ColumnActionURL": "Akció URL",
         "ColumnClicks": "Kattintások",
         "ColumnClicksDocumentation": "Erre a linkre történt kattintások száma.",
         "ColumnDownloadURL": "Letöltött URL",
@@ -11,6 +12,7 @@
         "ColumnNoResultKeyword": "Kulcszó keresőtalálat nélkül",
         "ColumnPageName": "Weblap címe",
         "ColumnPagesPerSearch": "Kereső találati oldalak",
+        "ColumnPagesPerSearchDocumentation": "Látogatók keresni fognak az ön weboldalán és néha rákattintanak a \"következő\" gombra a további találatok miatt. Ez az átlagosan megtekintett keresési találatok száma erre a kulcsszóra.",
         "ColumnPageURL": "Weblap URL-je",
         "ColumnSearchCategory": "Kategória keresés",
         "ColumnSearches": "Keresések",
@@ -40,6 +42,8 @@
         "WidgetPagesExit": "Kilépési lapok",
         "WidgetPageTitles": "Oldalak címe",
         "WidgetSearchCategories": "Keresés kategóriák",
-        "WidgetSearchKeywords": "Oldal keresés kulcsszavak"
+        "WidgetSearchKeywords": "Oldal keresés kulcsszavak",
+        "WidgetSearchNoResultKeywords": "Kulcsszavak, melyekre nincs találat",
+        "ActionType": "Akció típusa"
     }
 }

@@ -282,6 +282,7 @@
         "Remove": "제거",
         "Report": "보고서",
         "ReportGeneratedFrom": "이 보고서는 %s의 데이터를 사용하여 생성되었습니다.",
+        "ReportRatioTooltip": "'%1$s'은 %5$s에서 %4$s %3$s번으로 %2$s에 해당한다.",
         "Reports": "보고서",
         "ReportsContainingTodayWillBeProcessedAtMostEvery": "보고서 아카이브를 몇 초에 한 번씩 수행",
         "RearchiveTimeIntervalOnlyForTodayReports": "이것은 오늘의 보고서(혹은 오늘이 포함된 기간)에만 영향을 줍니다.",
