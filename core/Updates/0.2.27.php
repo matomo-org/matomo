@@ -24,7 +24,7 @@ class Updates_0_2_27 extends Updates
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 				ADD `visit_goal_converted` VARCHAR( 1 ) NOT NULL AFTER `visit_total_time`'           => 1060,
             // 0.2.27 [826]
-            'ALTER IGNORE TABLE `' . Common::prefixTable('log_visit') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 				CHANGE `visit_goal_converted` `visit_goal_converted` TINYINT(1) NOT NULL'            => 1060,
 
             'CREATE TABLE `' . Common::prefixTable('goal') . "` (
