@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ab862f8d87513f76161fb7aed61b226a",
+    "hash": "15e909bee11271e304ee16ad4f649eb3",
+    "content-hash": "cba24c49efb5efab04417cc3bd0fba18",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -822,16 +823,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.4.2",
+            "version": "3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "fcb61cc9e669653febdce2cd1a1f0833b569fbb6"
+                "reference": "97ef3468d0802b75c989467c7e3a9d22374c74b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/fcb61cc9e669653febdce2cd1a1f0833b569fbb6",
-                "reference": "fcb61cc9e669653febdce2cd1a1f0833b569fbb6",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/97ef3468d0802b75c989467c7e3a9d22374c74b0",
+                "reference": "97ef3468d0802b75c989467c7e3a9d22374c74b0",
                 "shasum": ""
             },
             "require": {
@@ -869,7 +870,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2015-09-09 20:28:18"
+            "time": "2015-12-17 21:03:35"
         },
         {
             "name": "piwik/ini",
@@ -1509,7 +1510,7 @@
                 "performance",
                 "profiling"
             ],
-            "time": "2014-08-28 17:34:52"
+            "time": "2015-02-26 14:37:51"
         },
         {
             "name": "guzzle/guzzle",
