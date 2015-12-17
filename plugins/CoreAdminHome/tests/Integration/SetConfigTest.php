@@ -108,6 +108,47 @@ class SetConfigTest extends ConsoleCommandTestCase
         $this->assertContains("Done.", $this->applicationTester->getDisplay());
     }
 
+    /**
+     * @dataProvider getOptionsForSettingValueToZeroTests
+     */
+    public function test_Command_SucceedsWhenSettingValueToZero($options)
+    {
+        $config = Config::getInstance();
+        $config->Tracker['debug'] = 1;
+        $config->forceSave();
+
+        $code = $this->applicationTester->run($options);
+
+        $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+
+        $config = self::makeNewConfig();
+
+        $this->assertEquals(0, $config->Tracker['debug']);
+        $this->assertContains("Done.", $this->applicationTester->getDisplay());
+    }
+
+    public function getOptionsForSettingValueToZeroTests()
+    {
+        return array(
+            array(
+                array(
+                    'command' => 'config:set',
+                    '--section' => 'Tracker',
+                    '--key' => 'debug',
+                    '--value' => 0,
+                ),
+            ),
+            array(
+                array(
+                    'command' => 'config:set',
+                    'assignment' => array(
+                        'Tracker.debug=0',
+                    ),
+                ),
+            ),
+        );
+    }
+
     private static function getTestConfigFilePath()
     {
         return PIWIK_INCLUDE_PATH . self::TEST_CONFIG_PATH;

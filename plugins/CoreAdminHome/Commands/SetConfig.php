@@ -54,7 +54,7 @@ Use the --piwik-domain option to specify which instance to modify.
 
         $manipulations = $this->getAssignments($input);
 
-        $isSingleAssignment = !empty($section) && !empty($key) && !empty($value);
+        $isSingleAssignment = !empty($section) && !empty($key) && $value !== false;
         if ($isSingleAssignment) {
             $manipulations[] = new ConfigSettingManipulation($section, $key, $value);
         }
