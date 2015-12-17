@@ -26,7 +26,7 @@ class SetConfig extends ConsoleCommand
             "List of config setting assignments, eg, Section.key=1 or Section.array_key[]=value");
         $this->addOption('section', null, InputOption::VALUE_REQUIRED, 'The section the INI config setting belongs to.');
         $this->addOption('key', null, InputOption::VALUE_REQUIRED, 'The name of the INI config setting.');
-        $this->addOption('value', null, InputOption::VALUE_REQUIRED, 'The value of the setting.');
+        $this->addOption('value', null, InputOption::VALUE_REQUIRED, 'The value of the setting. (Not JSON encoded)');
         $this->setHelp("This command can be used to set INI config settings on a Piwik instance.
 
 You can set config values two ways, via --section, --key, --value or by command arguments.
@@ -40,6 +40,11 @@ NOTE: 'value' must be JSON encoded, so Section.config_setting_name=\"value\" wou
 Section.config_setting_name=value would not.
 
 To append to an array setting, supply an argument like this: Section.config_setting_name[]=\"value to append\"
+
+To reset an array setting, supply an argument like this: Section.config_setting_name=[]
+Resetting an array will not work if the array has default values in global.ini.php (such as, [log] log_writers).
+In this case the values in global.ini.php will be used, since there is no way to explicitly set an
+array setting to empty in INI config.
 
 Use the --piwik-domain option to specify which instance to modify.
 

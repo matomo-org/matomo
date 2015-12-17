@@ -84,6 +84,8 @@ class SetConfigTest extends ConsoleCommandTestCase
     {
         $config = Config::getInstance();
         $config->General['trusted_hosts'] = array('www.trustedhost.com');
+        $config->MySection['other_array_value'] = array('1', '2');
+        $config->forceSave();
 
         $code = $this->applicationTester->run(array(
             'command' => 'config:set',
@@ -92,6 +94,7 @@ class SetConfigTest extends ConsoleCommandTestCase
                 'General.trusted_hosts[]="www.trustedhost2.com"',
                 'MySection.array_value=["abc","def"]',
                 'MySection.object_value={"abc":"def"}',
+                'MySection.other_array_value=[]',
             ),
             '-vvv' => false,
         ));
@@ -104,6 +107,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         $this->assertEquals(array('www.trustedhost.com', 'www.trustedhost2.com'), $config->General['trusted_hosts']);
         $this->assertEquals(array('abc', 'def'), $config->MySection['array_value']);
         $this->assertEquals(array('def'), $config->MySection['object_value']);
+        $this->assertArrayNotHasKey('other_array_value', $config->MySection);
 
         $this->assertContains("Done.", $this->applicationTester->getDisplay());
     }
