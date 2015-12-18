@@ -13,7 +13,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
  * JavaScript Tracker tests no longer require `SQLite`. The existing MySQL configuration for tests is used now. In order to run the tests make sure Piwik is installed and `[database_tests]` is configured in `config/config.ini.php`.
  * The definitions for search engine and social network detection have been moved from bundled data files to a separate package (see [https://github.com/piwik/searchengine-and-social-list](https://github.com/piwik/searchengine-and-social-list)).
  * In [UI screenshot tests](https://developer.piwik.org/guides/tests-ui), a test environment `configOverride` setting should be no longer overwritten. Instead new values should be added to the existing `configOverride` array in PHP or JavaScript. For example instead of `testEnvironment.configOverride = {group: {name: 1}}` use `testEnvironment.overrideConfig('group', 'name', '1')`.
- 
+
 ### New APIs
  * Add your own SMS/Text provider by creating a new class in the `SMSProvider` directory of your plugin. The class has to extend `Piwik\Plugins\MobileMessaging\SMSProvider` and implement the required methods.
  * Segments can now be composed by a union of multiple segments. To do this set an array of segments that shall be used for that segment `$segment->setUnionOfSegments(array('outlinkUrl', 'downloadUrl'))` instead of defining a SQL column.
@@ -23,6 +23,10 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
  
 ### New commands
  * New command `config:set` lets you set INI config options from the command line. This command can be used for convenience or for automation.
+
+### Breaking changes
+ * In Administration > Websites, for each website, there is a checkbox "Only track visits and actions when the action URL starts with one of the above URLs". In Piwik 2.14.0, any action URL starting with one of the Alias URLs or starting with a subdomain of the Alias URL would be tracked. As of Piwik 2.15.0, when this checkbox is enabled, it may track less data: action URLs on an Alias URL subdomain will not be tracked anymore (you must specify each sub-domain as Alias URL).  
+
 
 ## Piwik 2.15.0 
 
