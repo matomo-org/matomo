@@ -346,6 +346,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     ),
                     '2015_05' => array(),
                     '2015_06' => array(),
+                    '2015_07' => array(),
                 ),
             ),
 
@@ -368,6 +369,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     '2015_04' => array(),
                     '2015_05' => array(),
                     '2015_06' => array(),
+                    '2015_07' => array(),
                 ),
             ),
 
@@ -432,6 +434,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     '2015_04' => array(),
                     '2015_05' => array(),
                     '2015_06' => array(),
+                    '2015_07' => array(),
                 ),
             ),
 
@@ -476,6 +479,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     '2015_04' => array(),
                     '2015_05' => array(),
                     '2015_06' => array(),
+                    '2015_07' => array(),
                 ),
             ),
 
@@ -500,6 +504,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     '2015_04' => array(),
                     '2015_05' => array(),
                     '2015_06' => array(),
+                    '2015_07' => array(),
                 ),
             ),
 
@@ -537,6 +542,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     '2015_04' => array(),
                     '2015_05' => array(),
                     '2015_06' => array(),
+                    '2015_07' => array(),
                 ),
             ),
 
@@ -562,6 +568,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-05-01.2015-05-31.3.done3736b708e4d20cfc10610e816a1b2341',
                     ),
                     '2015_06' => array(),
+                    '2015_07' => array(),
                 ),
             ),
         );
