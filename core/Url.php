@@ -176,20 +176,10 @@ class Url
      */
     public static function getCurrentScheme()
     {
-        try {
-            $assume_secure_protocol = @Config::getInstance()->General['assume_secure_protocol'];
-        } catch (Exception $e) {
-            $assume_secure_protocol = false;
-        }
-        if ($assume_secure_protocol) {
+        if (self::isPiwikServerAssumeSecureConnectionIsUsed()) {
             return 'https';
         }
-        if(    (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true))
-            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')){
-
-            return 'https';
-        }
-        return 'http';
+        return self::getCurrentSchemeFromRequestHeader();
     }
 
     /**
@@ -685,5 +675,32 @@ class Url
     public static function getLocalHostnames()
     {
         return array('localhost', '127.0.0.1', '::1', '[::1]');
+    }
+
+    /**
+     * @return string
+     */
+    public static function getCurrentSchemeFromRequestHeader()
+    {
+        if ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true))
+            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
+        ) {
+
+            return 'https';
+        }
+        return 'http';
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isPiwikServerAssumeSecureConnectionIsUsed()
+    {
+        try {
+            $assume_secure_protocol = @Config::getInstance()->General['assume_secure_protocol'];
+        } catch (Exception $e) {
+            $assume_secure_protocol = false;
+        }
+        return $assume_secure_protocol;
     }
 }
