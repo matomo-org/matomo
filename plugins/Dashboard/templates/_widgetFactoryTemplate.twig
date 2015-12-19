@@ -1,17 +1,19 @@
 <div id="widgetTemplate" style="display:none;">
     <div class="widget">
         <div class="widgetTop">
-            <div class="button" id="close">
-                <span class="icon-close" title="{{ 'General_Close'|translate }}"></span>
-            </div>
-            <div class="button" id="maximise">
-                <span class="icon-fullscreen" title="{{ 'Dashboard_Maximise'|translate }}"></span>
-            </div>
-            <div class="button" id="minimise">
-                <span class="icon-minimise" title="{{ 'Dashboard_Minimise'|translate }}"></span>
-            </div>
-            <div class="button" id="refresh">
-                <span class="icon-reload" title="{{ 'General_Refresh'|translate }}"></span>
+            <div class="buttons">
+                <div class="button" id="close">
+                    <span class="icon-close" title="{{ 'General_Close'|translate }}"></span>
+                </div>
+                <div class="button" id="maximise">
+                    <span class="icon-fullscreen" title="{{ 'Dashboard_Maximise'|translate }}"></span>
+                </div>
+                <div class="button" id="minimise">
+                    <span class="icon-minimise" title="{{ 'Dashboard_Minimise'|translate }}"></span>
+                </div>
+                <div class="button" id="refresh">
+                    <span class="icon-reload" title="{{ 'General_Refresh'|translate }}"></span>
+                </div>
             </div>
             <h3 class="widgetName">{% if widgetName is defined %}{{ widgetName }}{% endif %}
                 <div class="widgetNameOffScreen">
