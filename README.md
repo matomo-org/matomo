@@ -1,5 +1,12 @@
 # Piwik - piwik.org
 
+[![Build Status](https://api.travis-ci.org/piwik/piwik.svg?branch=master)](https://travis-ci.org/piwik/piwik)
+[![Latest Stable Version](https://poser.pugx.org/piwik/piwik/v/stable)](https://packagist.org/packages/piwik/piwik)
+[![Latest Unstable Version](https://poser.pugx.org/piwik/piwik/v/unstable)](https://packagist.org/packages/piwik/piwik)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/piwik/piwik.svg)](https://scrutinizer-ci.com/g/piwik/piwik?branch=master)
+[![Total Downloads](https://poser.pugx.org/piwik/piwik/downloads)](https://packagist.org/packages/piwik/piwik)
+[![License](https://poser.pugx.org/piwik/piwik/license)](https://packagist.org/packages/piwik/piwik)
+
 ## Description
 
 Piwik is the leading Free/Libre open analytics platform.
