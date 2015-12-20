@@ -176,7 +176,7 @@ class Url
      */
     public static function getCurrentScheme()
     {
-        if (self::isPiwikServerAssumeSecureConnectionIsUsed()) {
+        if (self::isPiwikConfiguredToAssumeSecureConnection()) {
             return 'https';
         }
         return self::getCurrentSchemeFromRequestHeader();
@@ -677,10 +677,25 @@ class Url
         return array('localhost', '127.0.0.1', '::1', '[::1]');
     }
 
+
+    /**
+     * @return bool
+     */
+    public static function isSecureConnectionAssumedByPiwikButNotForcedYet()
+    {
+        $isSecureConnectionLikelyNotUsed = Url::isSecureConnectionLikelyNotUsed();
+        $hasSessionCookieSecureFlag = ProxyHttp::isHttps();
+        $isSecureConnectionAssumedByPiwikButNotForcedYet = Url::isPiwikConfiguredToAssumeSecureConnection() && !SettingsPiwik::isHttpsForced();
+
+        return     $isSecureConnectionLikelyNotUsed
+                && $hasSessionCookieSecureFlag
+                && $isSecureConnectionAssumedByPiwikButNotForcedYet;
+    }
+
     /**
      * @return string
      */
-    public static function getCurrentSchemeFromRequestHeader()
+    protected static function getCurrentSchemeFromRequestHeader()
     {
         if ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true))
             || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
@@ -691,16 +706,17 @@ class Url
         return 'http';
     }
 
+    protected static function isSecureConnectionLikelyNotUsed()
+    {
+        return  Url::getCurrentSchemeFromRequestHeader() == 'http';
+    }
+
     /**
      * @return bool
      */
-    public static function isPiwikServerAssumeSecureConnectionIsUsed()
+    protected static function isPiwikConfiguredToAssumeSecureConnection()
     {
-        try {
-            $assume_secure_protocol = @Config::getInstance()->General['assume_secure_protocol'];
-        } catch (Exception $e) {
-            $assume_secure_protocol = false;
-        }
-        return $assume_secure_protocol;
+        $assume_secure_protocol = @Config::getInstance()->General['assume_secure_protocol'];
+        return (bool) $assume_secure_protocol;
     }
 }

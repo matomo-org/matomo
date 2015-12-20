@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
-use Piwik\Auth as AuthInterface;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -17,10 +16,8 @@ use Piwik\Cookie;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
-use Piwik\ProxyHttp;
 use Piwik\QuickForm2;
 use Piwik\Session;
-use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\View;
 
@@ -219,7 +216,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $message = Piwik::translate('Login_InvalidNonceOrHeadersOrReferrer', array('<a href="?module=Proxy&action=redirect&url=' . urlencode('http://piwik.org/faq/how-to-install/#faq_98') . '" target="_blank">', '</a>'));
 
-        $message .= $this->getMessageExceptionNoAccessWhenInsecureConnectionMayBeUsed($message);
+        $message .= $this->getMessageExceptionNoAccessWhenInsecureConnectionMayBeUsed();
 
         return $message;
     }
@@ -228,21 +225,12 @@ class Controller extends \Piwik\Plugin\Controller
      * The Session cookie is set to a secure cookie, when SSL is mis-configured, it can cause the PHP session cookie ID to change on each page view.
      * Indicate to user how to solve this particular use case by forcing secure connections.
      *
-     * @param $message
      * @return string
      */
-    protected function getMessageExceptionNoAccessWhenInsecureConnectionMayBeUsed($message)
+    protected function getMessageExceptionNoAccessWhenInsecureConnectionMayBeUsed()
     {
         $message = '';
-
-        $isSecureConnectionLikelyNotUsed = Url::getCurrentSchemeFromRequestHeader() == 'http';
-        $hasSessionCookieSecureFlag = ProxyHttp::isHttps();
-        $isSecureConnectionAssumedByPiwikButNotForcedYet = Url::isPiwikServerAssumeSecureConnectionIsUsed() && !SettingsPiwik::isHttpsForced();
-        if (   $isSecureConnectionLikelyNotUsed
-            && $hasSessionCookieSecureFlag
-            && $isSecureConnectionAssumedByPiwikButNotForcedYet
-        ) {
-
+        if(Url::isSecureConnectionAssumedByPiwikButNotForcedYet()) {
             $message = '<br/><br/>' . Piwik::translate('Login_InvalidNonceSSLMisconfigured',
                     array(
                         '<a href="?module=Proxy&action=redirect&url=' . urlencode('<a href="http://piwik.org/faq/how-to/faq_91/">') . '">',
@@ -381,5 +369,4 @@ class Controller extends \Piwik\Plugin\Controller
             Url::redirectToUrl($logoutUrl);
         }
     }
-
 }
