@@ -45,18 +45,24 @@
         .button {
             margin: 16px 8px 0 0;
             opacity: 0.8;
-            visibility: hidden;
-            display:none;
             cursor: pointer;
             float: right;
         }
-    }
-    // TODO those 2 should probably be simplified eventually...
-    .widgetTop:hover .button {
-        visibility: visible;
-    }
-    .widgetTop.widgetTopHover .button {
-        display:block;
+        .buttons {
+            float: right;
+            position: absolute;
+            padding-left: 50px;
+            right: 8px;
+            display: none;
+            background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
+            background: -webkit-linear-gradient(left,rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='@{theme-color-widget-title-background}',GradientType=1 );
+        }
+
+        &:hover .buttons {
+            display:block;
+        }
     }
 
     .widgetText {
