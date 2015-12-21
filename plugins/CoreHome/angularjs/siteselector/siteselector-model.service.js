@@ -19,6 +19,7 @@
             hasMultipleWebsites : false,
             isLoading : false,
             firstSiteName : '',
+            onlySitesWithAdminAccess: false,
             updateWebsitesList: updateWebsitesList,
             searchSite: searchSite,
             loadSite: loadSite,
@@ -81,8 +82,13 @@
             return limitPromise.then(function (response) {
                 var limit = response.value;
 
+                var methodToCall = 'SitesManager.getPatternMatchSites';
+                if (model.onlySitesWithAdminAccess) {
+                    methodToCall = 'SitesManager.getSitesWithAdminAccess';
+                }
+
                 model.currentRequest = piwikApi.fetch({
-                    method: 'SitesManager.getPatternMatchSites',
+                    method: methodToCall,
                     limit: limit,
                     pattern: term
                 });
