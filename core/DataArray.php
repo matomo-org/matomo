@@ -265,7 +265,7 @@ class DataArray
             Metrics::INDEX_EVENT_NB_HITS            => 0,
             Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE => 0,
             Metrics::INDEX_EVENT_SUM_EVENT_VALUE    => 0,
-            Metrics::INDEX_EVENT_MIN_EVENT_VALUE    => 0,
+            Metrics::INDEX_EVENT_MIN_EVENT_VALUE    => false,
             Metrics::INDEX_EVENT_MAX_EVENT_VALUE    => 0,
         );
     }
