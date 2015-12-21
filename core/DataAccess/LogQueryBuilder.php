@@ -42,7 +42,7 @@ class LogQueryBuilder
             && strpos($from, 'log_link_visit_action') !== false);
 
         if ($useSpecialConversionGroupBy) {
-            $innerGroupBy = "concat(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)";
+            $innerGroupBy = "CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)";
             $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit, $innerGroupBy);
         } elseif ($joinWithSubSelect) {
             $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit);

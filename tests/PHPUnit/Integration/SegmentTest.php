@@ -1174,7 +1174,7 @@ class SegmentTest extends IntegrationTestCase
                           AND log_conversion.server_time <= ?
                           AND log_conversion.idsite IN (?) )
                           AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
-                      GROUP BY concat(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
+                      GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
                       ORDER BY NULL )
                 AS log_inner GROUP BY log_inner.idgoal",
             "bind" => $expectedBind);
@@ -1225,7 +1225,7 @@ class SegmentTest extends IntegrationTestCase
                           AND log_conversion.server_time <= ?
                           AND log_conversion.idsite IN (?) )
                           AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
-                      GROUP BY concat(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
+                      GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
                       ORDER BY NULL )
                 AS log_inner GROUP BY log_inner.idgoal, log_inner.referer_type, log_inner.referer_name, log_inner.referer_keyword",
             "bind" => $expectedBind);
@@ -1273,7 +1273,7 @@ class SegmentTest extends IntegrationTestCase
                         AND ( (log_visit.visitor_returning = ?
                         OR log_visit.visitor_returning = ?)
                         AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
-                    GROUP BY concat(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
+                    GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
                     ORDER BY NULL )
                 AS log_inner
                 GROUP BY log_inner.idgoal",
