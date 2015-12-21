@@ -26,7 +26,8 @@ class Events extends \Piwik\Plugin
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'ViewDataTable.configure'   => 'configureViewDataTable',
-            'Live.getAllVisitorDetails' => 'extendVisitorDetails'
+            'Live.getAllVisitorDetails' => 'extendVisitorDetails',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         );
     }
 
@@ -151,7 +152,18 @@ class Events extends \Piwik\Plugin
 
         if ($view->isViewDataTableId(AllColumns::ID)) {
             $view->config->filters[] = function (DataTable $table) use ($view) {
-                $view->config->columns_to_display = array('label', 'nb_events', 'sum_event_value', 'avg_event_value', 'min_event_value', 'max_event_value');
+                $columsToDisplay = array('label');
+
+                $columns = $table->getColumns();
+                if (in_array('nb_visits', $columns)) {
+                    $columsToDisplay[] = 'nb_visits';
+                }
+
+                if (in_array('nb_uniq_visitors', $columns)) {
+                    $columsToDisplay[] = 'nb_uniq_visitors';
+                }
+
+                $view->config->columns_to_display = array_merge($columsToDisplay, array('nb_events', 'sum_event_value', 'avg_event_value', 'min_event_value', 'max_event_value'));
 
                 if (!in_array($view->requestConfig->filter_sort_column, $view->config->columns_to_display)) {
                     $view->requestConfig->filter_sort_column = 'nb_events';
@@ -245,5 +257,10 @@ class Events extends \Piwik\Plugin
     public function getSecondaryDimensionFromRequest()
     {
         return Common::getRequestVar('secondaryDimension', false, 'string');
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/Events/stylesheets/datatable.less";
     }
 }
