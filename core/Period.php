@@ -349,10 +349,12 @@ abstract class Period
         );
 
         $offset = strlen($format);
+        // replace string literals encapsulated by ' with same country of *
+        $cleanedFormat = preg_replace_callback('/(\'[^\']+\')/', array($this, 'replaceWithStars'), $format);
 
         // search for first duplicate date field
         foreach ($intervalTokens AS $tokens) {
-            if (preg_match_all('/[' . implode('|', $tokens) . ']+/', $format, $matches, PREG_OFFSET_CAPTURE) &&
+            if (preg_match_all('/[' . implode('|', $tokens) . ']+/', $cleanedFormat, $matches, PREG_OFFSET_CAPTURE) &&
                 count($matches[0]) > 1 && $offset > $matches[0][1][1]
             ) {
                 $offset = $matches[0][1][1];
@@ -360,6 +362,11 @@ abstract class Period
         }
 
         return array(substr($format, 0, $offset), substr($format, $offset));
+    }
+
+    private function replaceWithStars($matches)
+    {
+        return str_repeat("*", strlen($matches[0]));
     }
 
     protected function getRangeFormat($short = false)

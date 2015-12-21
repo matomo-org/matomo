@@ -172,13 +172,23 @@ class TrackerCodeGenerator
         }
         // We need to parse_url to isolate hosts
         $websiteHosts = array();
+        $firstHost = null;
         foreach ($websiteUrls as $site_url) {
             $referrerParsed = parse_url($site_url);
-            $websiteHosts[] = $referrerParsed['host'];
+
+            if (!isset($firstHost)) {
+                $firstHost = $referrerParsed['host'];
+            }
+
+            $url = $referrerParsed['host'];
+            if (!empty($referrerParsed['path'])) {
+                $url .= $referrerParsed['path'];
+            }
+            $websiteHosts[] = $url;
         }
         $options = '';
-        if ($mergeSubdomains && !empty($websiteHosts)) {
-            $options .= '  _paq.push(["setCookieDomain", "*.' . $websiteHosts[0] . '"]);' . "\n";
+        if ($mergeSubdomains && !empty($firstHost)) {
+            $options .= '  _paq.push(["setCookieDomain", "*.' . $firstHost . '"]);' . "\n";
         }
         if ($mergeAliasUrls && !empty($websiteHosts)) {
             $urls = '["*.' . implode('","*.', $websiteHosts) . '"]';

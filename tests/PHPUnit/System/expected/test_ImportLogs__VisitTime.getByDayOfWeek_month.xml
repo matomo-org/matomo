@@ -51,13 +51,13 @@
 	</row>
 	<row>
 		<label>Saturday</label>
-		<nb_visits>10</nb_visits>
-		<nb_uniq_visitors>10</nb_uniq_visitors>
-		<nb_actions>13</nb_actions>
+		<nb_visits>11</nb_visits>
+		<nb_uniq_visitors>11</nb_uniq_visitors>
+		<nb_actions>14</nb_actions>
 		<nb_users>0</nb_users>
 		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>8</bounce_count>
-		<nb_visits_converted>8</nb_visits_converted>
+		<bounce_count>9</bounce_count>
+		<nb_visits_converted>9</nb_visits_converted>
 		<day_of_week>6</day_of_week>
 	</row>
 	<row>

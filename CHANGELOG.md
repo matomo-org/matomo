@@ -6,6 +6,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### New features
  * New segment `actionType` lets you segment all actions of a given type, eg. `actionType==events` or `actionType==downloads`. Action types values are: `pageviews`, `contents`, `sitesearches`, `events`, `outlinks`, `downloads`
+ * The JavaScript Tracker method `PiwikTracker.setDomains()` can now handle paths. This means when setting eg `_paq.push(['setDomains, '*.piwik.org/website1'])` all link that goes to the same domain `piwik.org` but to any other path than `website1/*` will be treated as outlink.
 
 ### Internal change
  * When generating a new plugin skeleton via `generate:plugin` command, plugin name must now contain only letters and numbers.
@@ -16,6 +17,16 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### New APIs
  * Add your own SMS/Text provider by creating a new class in the `SMSProvider` directory of your plugin. The class has to extend `Piwik\Plugins\MobileMessaging\SMSProvider` and implement the required methods.
  * Segments can now be composed by a union of multiple segments. To do this set an array of segments that shall be used for that segment `$segment->setUnionOfSegments(array('outlinkUrl', 'downloadUrl'))` instead of defining a SQL column.
+
+### Deprecations
+ * The method `DB::tableExists` was un-used and has been removed.
+ 
+### New commands
+ * New command `config:set` lets you set INI config options from the command line. This command can be used for convenience or for automation.
+
+### Breaking changes
+ * In Administration > Websites, for each website, there is a checkbox "Only track visits and actions when the action URL starts with one of the above URLs". In Piwik 2.14.0, any action URL starting with one of the Alias URLs or starting with a subdomain of the Alias URL would be tracked. As of Piwik 2.15.0, when this checkbox is enabled, it may track less data: action URLs on an Alias URL subdomain will not be tracked anymore (you must specify each sub-domain as Alias URL).  
+
 
 ## Piwik 2.15.0 
 

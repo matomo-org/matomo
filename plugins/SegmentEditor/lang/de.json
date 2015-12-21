@@ -7,6 +7,7 @@
         "AutoArchivePreProcessed": "Segmentierte Berichte werden im Voraus verarbeitet (schneller, benötigt archive.php Cron)",
         "AutoArchiveRealTime": "Segmentierte Berichte werden in Echtzeit verarbeitet.",
         "ChooseASegment": "Segment auswählen",
+        "CurrentlySelectedSegment": "Aktuell ausgewähltes Segment: %s",
         "DataAvailableAtLaterDate": "Ihre segmentierten Analytik-Berichte stehen später zur Verfügung. Wir entschuldigen uns für die Unannehmlichkeit.",
         "DefaultAllVisits": "Alle Besuche",
         "DragDropCondition": "Bedingung durch Drag & Drop hinzufügen",

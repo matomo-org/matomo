@@ -382,7 +382,8 @@ class SegmentTest extends IntegrationTestCase
         $from  = array(
             'log_link_visit_action',
             array('table' => 'log_visit', 'joinOn' => 'log_visit.idvisit = log_link_visit_action.idvisit'),
-            array('table' => 'log_action', 'joinOn' => 'log_link_visit_action.idaction_url = log_action.idaction')
+            array('table' => 'log_action', 'joinOn' => 'log_link_visit_action.idaction_url = log_action.idaction'),
+            'log_visit'
         );
         $where = 'log_link_visit_action.server_time >= ?
                   AND log_link_visit_action.server_time <= ?

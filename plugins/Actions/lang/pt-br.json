@@ -61,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Seguintes páginas contêm uma pesquisa no site",
         "WidgetSearchCategories": "Categorias de busca",
         "WidgetSearchKeywords": "Busca local por Palavras-Chave",
-        "WidgetSearchNoResultKeywords": "Palavras-Chave de Pesquisas Sem Resultados"
+        "WidgetSearchNoResultKeywords": "Palavras-Chave de Pesquisas Sem Resultados",
+        "ActionType": "Tipo de Ação"
     }
 }

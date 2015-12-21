@@ -61,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Σελίδες που Ακολουθούν μια Αναζήτηση Ιστοσελίδας",
         "WidgetSearchCategories": "Κατηγορίες Αναζήτησης",
         "WidgetSearchKeywords": "Λέξεις-κλειδιά Αναζήτησης Ιστοσελίδας",
-        "WidgetSearchNoResultKeywords": "Λέξεις-κλειδιά Χωρίς Αποτελέσματα"
+        "WidgetSearchNoResultKeywords": "Λέξεις-κλειδιά Χωρίς Αποτελέσματα",
+        "ActionType": "Τύπος Ενέργειας"
     }
 }

@@ -2,13 +2,13 @@
 <result>
 	<row>
 		<label>Desktop</label>
-		<nb_visits>30</nb_visits>
-		<nb_actions>35</nb_actions>
+		<nb_visits>31</nb_visits>
+		<nb_actions>36</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>549</sum_visit_length>
-		<bounce_count>26</bounce_count>
-		<nb_visits_converted>29</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>28</sum_daily_nb_uniq_visitors>
+		<bounce_count>27</bounce_count>
+		<nb_visits_converted>30</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>29</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<segment>deviceType==desktop</segment>
 		<logo>plugins/DevicesDetection/images/screens/normal.gif</logo>

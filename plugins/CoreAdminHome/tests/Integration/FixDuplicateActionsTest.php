@@ -10,9 +10,8 @@ namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 use Piwik\Common;
 use Piwik\Console;
 use Piwik\Db;
-use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreAdminHome\tests\Fixture\DuplicateActions;
-use Piwik\Plugins\QueuedTracking\tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Symfony\Component\Console\Tester\ApplicationTester;
 
 /**

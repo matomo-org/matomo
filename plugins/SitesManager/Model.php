@@ -286,6 +286,22 @@ class Model
         return $urls;
     }
 
+    /**
+     * Returns the list of alias URLs registered for the given idSite.
+     * The website ID must be valid when calling this method!
+     *
+     * @param int $idSite
+     * @return array list of alias URLs
+     */
+    public function getAllKnownUrlsForAllSites()
+    {
+        $db        = $this->getDb();
+        $mainUrls  = $db->fetchAll("SELECT idsite, main_url as url FROM " . Common::prefixTable("site"));
+        $aliasUrls = $db->fetchAll("SELECT idsite, url FROM " . Common::prefixTable("site_url"));
+
+        return array_merge($mainUrls, $aliasUrls);
+    }
+
     public function updateSite($site, $idSite)
     {
         $idSite = (int) $idSite;

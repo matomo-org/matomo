@@ -1,5 +1,6 @@
 {
     "Ecommerce": {
+        "PluginDescription": "E-handel lar deg spore nåt brukere legger til produkter til handlevogner og når de konverterer til et e-salg. Spor også visninger av produkter og produktkategorier, i tillegg til forlatte handlevogner.",
         "Sales": "Salg",
         "SalesBy": "Salg etter %s",
         "SalesAdjective": "Salg %s"

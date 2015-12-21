@@ -87,6 +87,8 @@
         "YouAreOptedOut": "Aktuálně jste vyloučeni.",
         "YouMayOptOut": "Zde se můžete zakázat uložení cookie s identifikačním číslem přiděleným vašemu počítači a tím zamezit provozovateli této webové stránky shromažďovat a analyzovat statistické údaje.",
         "YouMayOptOutBis": "Pokud jste se rozhodli že ne, klikněte na přiložený odkaz pro uložení deaktivačního cookie ve svém prohlížeči.",
-        "OptingYouOut": "Vylučování, prosím čekejte..."
+        "OptingYouOut": "Vylučování, prosím čekejte...",
+        "ProtocolNotDetectedCorrectly": "Nyní si prohlížíte Piwik zabezpečeným SSL spojením za použití HTTPS, ale Piwik na serveru detekoval pouze nezabezpečené připojení.",
+        "ProtocolNotDetectedCorrectlySolution": "Abyste zajistili, že bude Piwik získávat a poskytovat obsah přes bezpečné HTTPS spojení, můžete upravit váš soubor %s a buď nastavit proxy, nebo přidat řádek %s pod sekci %s. %sDozvědět se více%s"
     }
 }

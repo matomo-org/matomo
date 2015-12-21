@@ -102,7 +102,6 @@ class LogQueryBuilder
             $tables[$actionIndex] = "log_conversion";
             $tables[$conversionIndex] = "log_link_visit_action";
         }
-
         // same as above: action before visit
         $actionIndex = array_search("log_link_visit_action", $tables);
         $visitIndex = array_search("log_visit", $tables);
@@ -169,11 +168,23 @@ class LogQueryBuilder
                 } elseif ($linkVisitActionsTableAvailable && $table == "log_visit") {
                     // have actions, need visits => join on idvisit
                     $join = "log_visit.idvisit = log_link_visit_action.idvisit";
+
+                    if ($this->hasJoinedTableAlreadyManually($table, $join, $tables)) {
+                        $visitsAvailable = true;
+                        continue;
+                    }
+
                 } elseif ($visitsAvailable && $table == "log_link_visit_action") {
                     // have visits, need actions => we have to use a more complex join
                     // we don't hande this here, we just return joinWithSubSelect=true in this case
                     $joinWithSubSelect = true;
                     $join = "log_link_visit_action.idvisit = log_visit.idvisit";
+
+                    if ($this->hasJoinedTableAlreadyManually($table, $join, $tables)) {
+                        $linkVisitActionsTableAvailable = true;
+                        continue;
+                    }
+
                 } elseif ($conversionsAvailable && $table == "log_link_visit_action") {
                     // have conversions, need actions => join on idvisit
                     $join = "log_conversion.idvisit = log_link_visit_action.idvisit";

@@ -12,6 +12,8 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\Referrers\SearchEngine AS SearchEngineDetection;
+use Piwik\Plugins\SitesManager\SiteUrls;
+use Piwik\Tracker\Cache;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
@@ -112,6 +114,14 @@ abstract class Base extends VisitDimension
         if (!$referrerDetected && !empty($this->referrerHost)) {
             $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_WEBSITE;
             $this->nameReferrerAnalyzed = Common::mb_strtolower($this->referrerHost);
+
+            $urlsByHost = $this->getCachedUrlsByHostAndIdSite();
+
+            $directEntry = new SiteUrls();
+            $path = $directEntry->getPathMatchingUrl($this->referrerUrlParse, $urlsByHost);
+            if (!empty($path) && $path !== '/') {
+                $this->nameReferrerAnalyzed .= rtrim($path, '/');
+            }
         }
 
         $referrerInformation = array(
@@ -242,6 +252,17 @@ abstract class Base extends VisitDimension
         return true;
     }
 
+    private function getCachedUrlsByHostAndIdSite()
+    {
+        $cache = Cache::getCacheGeneral();
+
+        if (!empty($cache['allUrlsByHostAndIdSite'])) {
+            return $cache['allUrlsByHostAndIdSite'];
+        }
+
+        return array();
+    }
+
     /**
      * We have previously tried to detect the campaign variables in the URL
      * so at this stage, if the referrer host is the current host,
@@ -251,20 +272,32 @@ abstract class Base extends VisitDimension
      */
     protected function detectReferrerDirectEntry()
     {
-        if (!empty($this->referrerHost)) {
-            // is the referrer host the current host?
-            if (isset($this->currentUrlParse['host'])) {
-                $currentHost = Common::mb_strtolower($this->currentUrlParse['host'], 'UTF-8');
-                if ($currentHost == Common::mb_strtolower($this->referrerHost, 'UTF-8')) {
-                    $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
-                    return true;
-                }
-            }
-            if (Visit::isHostKnownAliasHost($this->referrerHost, $this->idsite)) {
+        if (empty($this->referrerHost)) {
+            return false;
+        }
+
+        $urlsByHost = $this->getCachedUrlsByHostAndIdSite();
+
+        $directEntry   = new SiteUrls();
+        $matchingSites = $directEntry->getIdSitesMatchingUrl($this->referrerUrlParse, $urlsByHost);
+
+        if (isset($matchingSites) && is_array($matchingSites) && in_array($this->idsite, $matchingSites)) {
+            $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
+            return true;
+        } elseif (isset($matchingSites)) {
+            return false;
+        }
+
+        // fallback logic if the referrer domain is not known to any site to not break BC
+        if (isset($this->currentUrlParse['host'])) {
+            // this might be actually buggy if first thing tracked is eg an outlink and referrer is from that site
+            $currentHost = Common::mb_strtolower($this->currentUrlParse['host']);
+            if ($currentHost == Common::mb_strtolower($this->referrerHost)) {
                 $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
                 return true;
             }
         }
+
         return false;
     }
 

@@ -6,6 +6,7 @@
         "PageOf": "%1$s — %2$s",
         "ShowJSCode": "Mutasd a JavaScript kódot a beillesztéshez",
         "ThereIsNoDataForThisReport": "Nincs adat ehhez a jelentéshez.",
-        "WebAnalyticsReports": "Webanalitikai jelentések"
+        "WebAnalyticsReports": "Webanalitikai jelentések",
+        "Segments": "Szegmensek"
     }
 }
