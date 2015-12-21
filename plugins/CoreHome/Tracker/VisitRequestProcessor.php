@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreHome\Tracker;
 
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Config;
 use Piwik\EventDispatcher;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Tracker\Cache;
