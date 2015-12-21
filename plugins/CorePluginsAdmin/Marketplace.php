@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Date;
-use Piwik\Piwik;
 use Piwik\Plugin\Dependency as PluginDependency;
 
 /**

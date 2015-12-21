@@ -15,7 +15,6 @@ use Piwik\Common;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\DataTable;
-use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Period;

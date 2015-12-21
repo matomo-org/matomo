@@ -14,7 +14,6 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Period;
-use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Site;
 

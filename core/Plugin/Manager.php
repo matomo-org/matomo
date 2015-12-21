@@ -18,7 +18,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Log;
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\PluginDeactivatedException;

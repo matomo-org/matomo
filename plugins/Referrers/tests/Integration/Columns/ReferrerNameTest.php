@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\Referrers\tests\Integration\Columns;
 
-use Piwik\Common;
 use Piwik\Plugins\Referrers\Columns\ReferrerName;
 use Piwik\Plugins\Referrers\Columns\ReferrerType;
 use Piwik\Tests\Framework\Fixture;

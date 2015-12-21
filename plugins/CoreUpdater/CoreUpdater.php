@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
-use Piwik\Access;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Filesystem;
@@ -17,7 +16,6 @@ use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\UpdateCheck;
 use Piwik\Updater as PiwikCoreUpdater;
-use Piwik\UpdaterErrorException;
 use Piwik\Version;
 
 /**

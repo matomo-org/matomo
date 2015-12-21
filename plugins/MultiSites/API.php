@@ -19,7 +19,6 @@ use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Plugins\SitesManager\Model as ModelSitesManager;
 use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsPiwik;
 use Piwik\Site;

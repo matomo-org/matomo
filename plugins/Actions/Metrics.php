@@ -11,9 +11,7 @@ namespace Piwik\Plugins\Actions;
 use Piwik\DataTable;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Piwik;
-use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
-use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 
 /**
  * Class encapsulating logic to process Day/Period Archiving for the Actions reports

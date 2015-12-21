@@ -12,7 +12,6 @@ use Piwik\Config;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CoreHome\Segment;
 use Piwik\Tracker\Action;
-use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 

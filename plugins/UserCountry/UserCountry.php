@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\UserCountry;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
