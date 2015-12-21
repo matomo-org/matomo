@@ -88,7 +88,14 @@ $(document).ready(function () {
             idSite: idSites
         }, 'GET');
         ajaxHandler.setCallback(function (users) {
-            if (users && users[0] && users[0][userLogin]) {
+            var userLogins = [];
+            if (users && users[0]) {
+                userLogins = $.map(users[0], function (val, key) {
+                    return (''+ key).toLowerCase();
+                });
+            }
+
+            if (-1 !== userLogins.indexOf(userLogin.toLowerCase())) {
                 showErrorNotification(_pk_translate('UsersManager_ExceptionUserHasViewAccessAlready'));
             } else {
                 sendViewAccess(userLogin);
