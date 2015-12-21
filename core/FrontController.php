@@ -418,10 +418,6 @@ class FrontController extends Singleton
         if (Common::isPhpCliMode()) {
             return;
         }
-        // Only enable this feature after Piwik is already installed
-        if (!SettingsPiwik::isPiwikInstalled()) {
-            return;
-        }
         // proceed only when force_ssl = 1
         if (!SettingsPiwik::isHttpsForced()) {
             return;
