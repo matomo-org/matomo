@@ -10,6 +10,9 @@
 		<row idgoal="1">1</row>
 	</totalConversionsByGoal>
 	<hasLatLong>0</hasLatLong>
+	<totalRevenueByGoal>
+		<row idgoal="1">1000</row>
+	</totalRevenueByGoal>
 	<searches>
 	</searches>
 	<continents>
@@ -164,7 +167,7 @@
 					<type>goal</type>
 					<goalName>triggered js</goalName>
 					<goalId>1</goalId>
-					<revenue>0</revenue>
+					<revenue>1000</revenue>
 					<goalPageId />
 					
 					<url>http://example.org/homepage</url>
