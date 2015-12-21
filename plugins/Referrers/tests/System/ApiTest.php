@@ -8,7 +8,10 @@
 
 namespace Piwik\Plugins\Referrers\tests\System;
 
+use Piwik\API\Request;
+use Piwik\DataTable;
 use Piwik\Tests\Fixtures\TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -53,6 +56,56 @@ class ApiTest extends SystemTestCase
         );
 
         return $apiToTest;
+    }
+
+    public function test_forceNewVisit_shouldNotForceANewVisitWhenNoKeywordIsSetAndNoReferrerWasSetInitially()
+    {
+        $dateTime = '2015-01-02';
+        $idSite = self::$fixture->idSite;
+
+        $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
+        // track a campaign that was opened directly (no referrer)
+        $t->setUrlReferrer('');
+        $t->setUrl('http://piwik.net/?pk_campaign=adwbuccc');
+        $t->doTrackPageView('My Title');
+
+        // navigate to next page on same page
+        $t->setUrlReferrer('http://piwik.net/?pk_campaign=adwbuccc');
+        $t->setCustomTrackingParameter('_rcn', 'adwbuccc'); // this parameter would be set by piwik.js from cookie / attributionInfo
+        $t->setCustomTrackingParameter('_rck', ''); // no keyword was used in previous tracking request
+        $t->setUrl('http://piwik.net/page1');
+        $t->doTrackPageView('Page 1');
+
+        /** @var DataTable $visits */
+        $visits = Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+
+        $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
+        $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
+    }
+
+    public function test_forceNewVisit_shouldNotForceANewVisitWhenNoKeywordIsSetAndReferrerHostChanges()
+    {
+        $dateTime = '2015-01-03';
+        $idSite = self::$fixture->idSite;
+
+        $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
+        // track a campaign that was opened directly (no referrer)
+        $t->setUrlReferrer('http://www.google.com');
+        $t->setUrl('http://piwik.net/?pk_campaign=adwbuccc');
+        $t->doTrackPageView('My Title');
+
+        // navigate to next page on same page
+        $t->setUrlReferrer('http://piwik.net/?pk_campaign=adwbuccc');
+        $t->setCustomTrackingParameter('_rcn', 'adwbuccc'); // this parameter would be set by piwik.js from cookie / attributionInfo
+        $t->setCustomTrackingParameter('_rck', ''); // no keyword was used in previous tracking request
+        $t->setUrl('http://piwik.net/page1');
+        $t->doTrackPageView('Page 1');
+
+        /** @var DataTable $visits */
+        $visits = Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+
+        $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
+        $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
     }
 
     public static function getOutputPrefix()
