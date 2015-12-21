@@ -427,6 +427,10 @@ class SettingsPiwik
      */
     public static function isHttpsForced()
     {
+        if (!SettingsPiwik::isPiwikInstalled()) {
+            // Only enable this feature after Piwik is already installed
+            return false;
+        }
         return Config::getInstance()->General['force_ssl'] == 1;
     }
 

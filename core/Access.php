@@ -336,19 +336,29 @@ class Access
     }
 
     /**
+     * Returns `true` if the current user has admin access to at least one site.
+     *
+     * @return bool
+     */
+    public function isUserHasSomeAdminAccess()
+    {
+        if ($this->hasSuperUserAccess()) {
+            return true;
+        }
+
+        $idSitesAccessible = $this->getSitesIdWithAdminAccess();
+
+        return count($idSitesAccessible) > 0;
+    }
+
+    /**
      * If the user doesn't have an ADMIN access for at least one website, throws an exception
      *
      * @throws \Piwik\NoAccessException
      */
     public function checkUserHasSomeAdminAccess()
     {
-        if ($this->hasSuperUserAccess()) {
-            return;
-        }
-
-        $idSitesAccessible = $this->getSitesIdWithAdminAccess();
-
-        if (count($idSitesAccessible) == 0) {
+        if (!$this->isUserHasSomeAdminAccess()) {
             throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('admin')));
         }
     }

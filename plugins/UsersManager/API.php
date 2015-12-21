@@ -40,14 +40,20 @@ class API extends \Piwik\Plugin\API
      */
     private $model;
 
+    /**
+     * @var UserAccessFilter
+     */
+    private $userFilter;
+
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
 
     private static $instance = null;
 
-    public function __construct(Model $model)
+    public function __construct(Model $model, UserAccessFilter $filter)
     {
         $this->model = $model;
+        $this->userFilter = $filter;
     }
 
     /**
@@ -201,6 +207,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $users = $this->model->getUsers($logins);
+        $users = $this->userFilter->filterUsers($users);
 
         // Non Super user can only access login & alias
         if (!Piwik::hasUserSuperUserAccess()) {
@@ -221,7 +228,10 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        return $this->model->getUsersLogin();
+        $logins = $this->model->getUsersLogin();
+        $logins = $this->userFilter->filterLogins($logins);
+
+        return $logins;
     }
 
     /**
@@ -244,7 +254,10 @@ class API extends \Piwik\Plugin\API
 
         $this->checkAccessType($access);
 
-        return $this->model->getUsersSitesFromAccess($access);
+        $userSites = $this->model->getUsersSitesFromAccess($access);
+        $userSites = $this->userFilter->filterLoginIndexedArray($userSites);
+
+        return $userSites;
     }
 
     /**
@@ -266,7 +279,10 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
-        return $this->model->getUsersAccessFromSite($idSite);
+        $usersAccess = $this->model->getUsersAccessFromSite($idSite);
+        $usersAccess = $this->userFilter->filterLoginIndexedArray($usersAccess);
+
+        return $usersAccess;
     }
 
     public function getUsersWithSiteAccess($idSite, $access)
@@ -280,6 +296,7 @@ class API extends \Piwik\Plugin\API
             return array();
         }
 
+        $logins = $this->userFilter->filterLogins($logins);
         $logins = implode(',', $logins);
 
         return $this->getUsers($logins);
@@ -336,7 +353,9 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserExists($userLogin);
 
-        return $this->model->getUser($userLogin);
+        $user = $this->model->getUser($userLogin);
+
+        return $this->userFilter->filterUser($user);
     }
 
     /**
@@ -351,7 +370,9 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserEmailExists($userEmail);
 
-        return $this->model->getUserByEmail($userEmail);
+        $user = $this->model->getUserByEmail($userEmail);
+
+        return $this->userFilter->filterUser($user);
     }
 
     private function checkLogin($userLogin)
@@ -485,6 +506,9 @@ class API extends \Piwik\Plugin\API
             unset($user['token_auth']);
         }
 
+        // we do not filter these users by access and return them all since we need to print this information in the
+        // UI and they are allowed to see this.
+
         return $users;
     }
 
@@ -607,8 +631,30 @@ class API extends \Piwik\Plugin\API
     public function userEmailExists($userEmail)
     {
         Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
 
         return $this->model->userEmailExists($userEmail);
+    }
+
+    /**
+     * Returns the first login name of an existing user that has the given email address. If no user can be found for
+     * this user an error will be returned.
+     *
+     * @param string $userEmail
+     * @return bool true if the user is known
+     */
+    public function getUserLoginFromUserEmail($userEmail)
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeAdminAccess();
+
+        $this->checkUserEmailExists($userEmail);
+
+        $user = $this->model->getUserByEmail($userEmail);
+
+        // any user with some admin access is allowed to find any user by email, no need to filter by access here
+
+        return $user['login'];
     }
 
     /**

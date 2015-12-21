@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
@@ -53,6 +54,7 @@ class Controller extends ControllerAdmin
     function index()
     {
         Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeAdminAccess();
 
         $view = new View('@UsersManager/index');
 
@@ -68,6 +70,12 @@ class Controller extends ControllerAdmin
             $usersAccessByWebsite = array();
             $defaultReportSiteName = $this->translator->translate('UsersManager_ApplyToAllWebsites');
         } else {
+
+            if (!Piwik::isUserHasAdminAccess($idSiteSelected) && count($IdSitesAdmin) > 0) {
+                // make sure to show a website where user actually has admin access
+                $idSiteSelected = $IdSitesAdmin[0];
+            }
+
             $defaultReportSiteName = Site::getNameFor($idSiteSelected);
             try {
                 $usersAccessByWebsite = Request::processRequest('UsersManager.getUsersAccessFromSite', array('idSite' => $idSiteSelected));
@@ -123,6 +131,7 @@ class Controller extends ControllerAdmin
             }
         }
 
+        $view->hasOnlyAdminAccess = Piwik::isUserHasSomeAdminAccess() && !Piwik::hasUserSuperUserAccess();
         $view->anonymousHasViewAccess = $this->hasAnonymousUserViewAccess($usersAccessByWebsite);
         $view->idSiteSelected = $idSiteSelected;
         $view->defaultReportSiteName = $defaultReportSiteName;

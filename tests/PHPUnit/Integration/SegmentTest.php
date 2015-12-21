@@ -1140,6 +1140,148 @@ class SegmentTest extends IntegrationTestCase
         $this->assertCacheWasHit($hits = 2);
     }
 
+    // se https://github.com/piwik/piwik/issues/9194
+    public function test_getSelectQuery_whenQueryingLogConversionWithSegmentThatUsesLogLinkVisitAction_shouldUseSubselect()
+    {
+        $select = 'log_conversion.idgoal AS `idgoal`,
+			       count(*) AS `1`,
+			       count(distinct log_conversion.idvisit) AS `3`,
+			       ROUND(SUM(log_conversion.revenue),2) AS `2`,
+			       SUM(log_conversion.items) AS `8`';
+        $from = 'log_conversion';
+        $where = 'log_conversion.server_time >= ? AND log_conversion.server_time <= ? AND log_conversion.idsite IN (?)';
+        $groupBy = 'log_conversion.idgoal';
+        $bind = array('2015-10-14 11:00:00', '2015-10-15 10:59:59', 1);
+
+        $segment = 'pageUrl=@/';
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy = false, $groupBy);
+
+        $logConversionTable = Common::prefixTable('log_conversion');
+        $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+
+        $expectedBind = $bind;
+        $expectedBind[] = '/';
+        $expected = array(
+            "sql"  => "
+                SELECT log_inner.idgoal AS `idgoal`, count(*) AS `1`, count(distinct log_inner.idvisit) AS `3`, ROUND(SUM(log_inner.revenue),2) AS `2`, SUM(log_inner.items) AS `8`
+                FROM (
+                      SELECT log_conversion.idgoal, log_conversion.idvisit, log_conversion.revenue, log_conversion.items
+                      FROM $logConversionTable AS log_conversion
+                        LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_conversion.idvisit = log_link_visit_action.idvisit
+                      WHERE ( log_conversion.server_time >= ?
+                          AND log_conversion.server_time <= ?
+                          AND log_conversion.idsite IN (?) )
+                          AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
+                      GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
+                      ORDER BY NULL )
+                AS log_inner GROUP BY log_inner.idgoal",
+            "bind" => $expectedBind);
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    // se https://github.com/piwik/piwik/issues/9194
+    public function test_getSelectQuery_whenQueryingLogConversionWithSegmentThatUsesLogLinkVisitActionAndGroupsForUsageInConversionsByTypeOfVisit_shouldUseSubselect()
+    {
+        $select = 'log_conversion.idgoal AS `idgoal`,
+                   log_conversion.referer_type AS `referer_type`,
+                   log_conversion.referer_name AS `referer_name`,
+                   log_conversion.referer_keyword AS `referer_keyword`,
+                   count(*) AS `1`,
+                   count(distinct log_conversion.idvisit) AS `3`,
+                   ROUND(SUM(log_conversion.revenue),2) AS `2`';
+
+        $from = 'log_conversion';
+        $where = 'log_conversion.server_time >= ? AND log_conversion.server_time <= ? AND log_conversion.idsite IN (?)';
+        $groupBy = 'log_conversion.idgoal, log_conversion.referer_type, log_conversion.referer_name, log_conversion.referer_keyword';
+        $bind = array('2015-10-14 11:00:00', '2015-10-15 10:59:59', 1);
+
+        $segment = 'pageUrl=@/';
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy = false, $groupBy);
+
+        $logConversionTable = Common::prefixTable('log_conversion');
+        $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+
+        $expectedBind = $bind;
+        $expectedBind[] = '/';
+        $expected = array(
+            "sql"  => "
+                SELECT log_inner.idgoal AS `idgoal`,
+                   log_inner.referer_type AS `referer_type`,
+                   log_inner.referer_name AS `referer_name`,
+                   log_inner.referer_keyword AS `referer_keyword`,
+                   count(*) AS `1`,
+                   count(distinct log_inner.idvisit) AS `3`,
+                   ROUND(SUM(log_inner.revenue),2) AS `2`
+                FROM (
+                      SELECT log_conversion.idgoal, log_conversion.referer_type, log_conversion.referer_name, log_conversion.referer_keyword, log_conversion.idvisit, log_conversion.revenue
+                      FROM $logConversionTable AS log_conversion
+                        LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_conversion.idvisit = log_link_visit_action.idvisit
+                      WHERE ( log_conversion.server_time >= ?
+                          AND log_conversion.server_time <= ?
+                          AND log_conversion.idsite IN (?) )
+                          AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
+                      GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
+                      ORDER BY NULL )
+                AS log_inner GROUP BY log_inner.idgoal, log_inner.referer_type, log_inner.referer_name, log_inner.referer_keyword",
+            "bind" => $expectedBind);
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    // se https://github.com/piwik/piwik/issues/9194
+    public function test_getSelectQuery_whenQueryingLogConversionWithSegmentThatUsesLogLinkVisitActionAndLogVisit_shouldUseSubselectGroupedByIdVisitAndBuster()
+    {
+        $select = 'log_conversion.idgoal AS `idgoal`,
+			       count(*) AS `1`,
+			       count(distinct log_conversion.idvisit) AS `3`,
+			       ROUND(SUM(log_conversion.revenue),2) AS `2`';
+
+        $from = 'log_conversion';
+        $where = 'log_conversion.server_time >= ? AND log_conversion.server_time <= ? AND log_conversion.idsite IN (?)';
+        $groupBy = 'log_conversion.idgoal';
+        $bind = array('2015-10-14 11:00:00', '2015-10-15 10:59:59', 1);
+
+        $segment = 'visitorType==returning,visitorType==returningCustomer;pageUrl=@/';
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy = false, $groupBy);
+
+        $logConversionTable = Common::prefixTable('log_conversion');
+        $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+        $logVisitTable = Common::prefixTable('log_visit');
+
+        $expectedBind = $bind;
+        $expectedBind[] = 1;
+        $expectedBind[] = 2;
+        $expectedBind[] = '/';
+        $expected = array(
+            "sql"  => "
+                SELECT log_inner.idgoal AS `idgoal`, count(*) AS `1`, count(distinct log_inner.idvisit) AS `3`, ROUND(SUM(log_inner.revenue),2) AS `2`
+                FROM (
+                    SELECT log_conversion.idgoal, log_conversion.idvisit, log_conversion.revenue
+                    FROM $logConversionTable AS log_conversion
+                       LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_conversion.idvisit = log_link_visit_action.idvisit
+                       LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
+                    WHERE ( log_conversion.server_time >= ?
+                        AND log_conversion.server_time <= ?
+                        AND log_conversion.idsite IN (?) )
+                        AND ( (log_visit.visitor_returning = ?
+                        OR log_visit.visitor_returning = ?)
+                        AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
+                    GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
+                    ORDER BY NULL )
+                AS log_inner
+                GROUP BY log_inner.idgoal",
+            "bind" => $expectedBind);
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
     /**
      * @param $pageUrlFoundInDb
      * @return string
