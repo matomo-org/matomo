@@ -118,7 +118,7 @@
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<goalId>1</goalId>
-				<revenue>0</revenue>
+				<revenue>1000</revenue>
 				<goalPageId />
 				
 				<url>http://example.org/homepage</url>
