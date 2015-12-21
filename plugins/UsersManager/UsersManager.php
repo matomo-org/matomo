@@ -94,6 +94,7 @@ class UsersManager extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/UsersManager/javascripts/usersManager.js";
         $jsFiles[] = "plugins/UsersManager/javascripts/usersSettings.js";
+        $jsFiles[] = "plugins/UsersManager/javascripts/giveViewAccess.js";
     }
 
     /**
@@ -165,5 +166,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "UsersManager_ConfirmGrantSuperUserAccess";
         $translationKeys[] = "UsersManager_ConfirmProhibitOtherUsersSuperUserAccess";
         $translationKeys[] = "UsersManager_ConfirmProhibitMySuperUserAccess";
+        $translationKeys[] = "UsersManager_ExceptionUserHasViewAccessAlready";
+        $translationKeys[] = "UsersManager_ExceptionNoValueForUsernameOrEmail";
     }
 }

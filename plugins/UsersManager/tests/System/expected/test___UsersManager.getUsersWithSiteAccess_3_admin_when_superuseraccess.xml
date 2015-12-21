@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<login>login5</login>
+		<password>5f4dcc3b5aa765d61d8327deb882cf99</password>
+		<alias>login5</alias>
+		<email>login5@example.com</email>
+		<token_auth>4550293427ba5d0a0c96d6123429e9d3</token_auth>
+		<superuser_access>0</superuser_access>
+		
+	</row>
+	<row>
+		<login>login6</login>
+		<password>5f4dcc3b5aa765d61d8327deb882cf99</password>
+		<alias>login6</alias>
+		<email>login6@example.com</email>
+		<token_auth>2cafd6512d8b2739a7b2b01ab6609272</token_auth>
+		<superuser_access>0</superuser_access>
+		
+	</row>
+</result>
