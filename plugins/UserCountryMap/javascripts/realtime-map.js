@@ -519,7 +519,7 @@
                     }
                 });
                 if (currentMap.length==3){
-					 map.addLayer('regions', {
+				    map.addLayer('regions', {
                         styles: {
                             stroke: colors['region-stroke-color']
                         }
