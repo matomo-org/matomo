@@ -198,11 +198,18 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite Site ID
      * @param bool|false|string $visitorId The ID of the visitor whose profile to retrieve.
      * @param bool|false|string $segment
+     * @param bool|false|int $limitVisits
      * @return array
      */
-    public function getVisitorProfile($idSite, $visitorId = false, $segment = false)
+    public function getVisitorProfile($idSite, $visitorId = false, $segment = false, $limitVisits = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
+
+        if ($limitVisits === false) {
+            $limitVisits = VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW;
+        } else {
+            $limitVisits = (int) $limitVisits;
+        }
 
         if ($visitorId === false) {
             $visitorId = $this->getMostRecentVisitorId($idSite, $segment);
@@ -220,7 +227,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $profile = new VisitorProfile($idSite);
-        $result = $profile->makeVisitorProfile($visits, $visitorId, $segment);
+        $result = $profile->makeVisitorProfile($visits, $visitorId, $segment, $limitVisits);
 
         /**
          * Triggered in the Live.getVisitorProfile API method. Plugins can use this event
