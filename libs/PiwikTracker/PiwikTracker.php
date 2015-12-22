@@ -13,3 +13,7 @@
 if (!class_exists('PiwikTracker')) {
     require_once __DIR__ . '/../../vendor/piwik/piwik-php-tracker/PiwikTracker.php';
 }
+
+if (PiwikTracker::VERSION !== 1) {
+    throw new Exception("Expected PiwikTracker in libs/PiwikTracker/PiwikTracker.php to be version 1 for keeping backward compatibility.");
+}
