@@ -505,9 +505,9 @@
                     },
                     click: function (d, p, evt) {
                         evt.stopPropagation();
-						if (currentMap.length == 2){   // zoom to country
+                        if (currentMap.length == 2){   // zoom to country
                             updateMap(d.iso);
-						} else if (currentMap != 'world') {  // zoom out if zoomed in
+                        } else if (currentMap != 'world') {  // zoom out if zoomed in
                             updateMap('world');
                         } else {  // or zoom to continent view otherwise
                             updateMap(UserCountryMap.ISO3toCONT[d.iso]);
@@ -524,7 +524,7 @@
                             stroke: colors['region-stroke-color']
                         }
                     });
-				}
+                }
                 var lastVisitId = -1,
                     lastReport = [];
                 refreshVisits(true);
