@@ -12,7 +12,6 @@ use Piwik\Cache;
 use Piwik\DataTable;
 use Piwik\DataTable\Map;
 use Piwik\Metrics;
-use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;

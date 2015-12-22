@@ -292,8 +292,7 @@ $(document).ready(function () {
         });
     });
 
-    $('#access .updateAccess')
-        .click(bindUpdateAccess);
+    $('#access .updateAccess').click(bindUpdateAccess);
 
     $('#superUserAccess .accessGranted, #superUserAccess .updateAccess').click(bindUpdateSuperUserAccess);
 

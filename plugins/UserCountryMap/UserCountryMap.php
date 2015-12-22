@@ -10,7 +10,6 @@ namespace Piwik\Plugins\UserCountryMap;
 
 use Piwik\FrontController;
 use Piwik\Piwik;
-use Piwik\Version;
 use Piwik\WidgetsList;
 use Piwik\Plugin\Manager as PluginManager;
 

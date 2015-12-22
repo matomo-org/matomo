@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Referrers\tests;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Period;
-use Piwik\Plugins\Referrers\SearchEngine;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/Referrers.php';
 

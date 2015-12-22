@@ -13,7 +13,7 @@
  * <div piwik-siteselector
  *      show-selected-site="true" show-all-sites-item="true" switch-site-on-select="true"
  *      all-sites-location="top|bottom" all-sites-text="test" show-selected-site="true"
- *      show-all-sites-item="true">
+ *      show-all-sites-item="true" only-sites-with-admin-access="true">
  *
  * Within a form
  * <div piwik-siteselector input-name="siteId">
@@ -37,7 +37,8 @@
             allSitesText: $filter('translate')('General_MultiSitesSummary'),
             showSelectedSite: 'false',
             showAllSitesItem: 'true',
-            switchSiteOnSelect: 'true'
+            switchSiteOnSelect: 'true',
+            onlySitesWithAdminAccess: 'false'
         };
 
         return {
@@ -46,6 +47,7 @@
                 showSelectedSite: '=',
                 showAllSitesItem: '=',
                 switchSiteOnSelect: '=',
+                onlySitesWithAdminAccess: '=',
                 inputName: '@name',
                 allSitesText: '@',
                 allSitesLocation: '@'
@@ -63,6 +65,7 @@
 
                 return function (scope, element, attrs, ngModel) {
                     scope.selectedSite = {id: attrs.siteid, name: attrs.sitename};
+                    scope.model.onlySitesWithAdminAccess = scope.onlySitesWithAdminAccess;
                     scope.model.loadInitialSites();
 
                     if (ngModel) {

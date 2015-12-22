@@ -1,5 +1,6 @@
 {
     "SEO": {
+        "PluginDescription": "Denne utvidelsen ekstraherer og viser SEO-tall: Alexa web-rangering, Google Pagerank, antall indekserte sider og tilbakelenker til det valgte nettstedet.",
         "AlexaRank": "Alexa-rangering",
         "Bing_IndexedPages": "Indekserte sider hos Bing",
         "Dmoz": "DMOZ-oppføringer",

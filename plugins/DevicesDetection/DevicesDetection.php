@@ -11,7 +11,6 @@ namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\ArchiveProcessor;
 use Piwik\Db;
-use Piwik\Piwik;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 

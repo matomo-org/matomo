@@ -87,6 +87,8 @@
         "YouAreOptedOut": "Al momento non hai accettato il programma (opt-out).",
         "YouMayOptOut": "Puoi scegliere di non avere un cookie univoco di identificazione per web analytics assegnato al tuo computer al fine di evitare l'aggregazione e l'analisi dei dati raccolti su questo sito web.",
         "YouMayOptOutBis": "Per fare questa scelta, clicca qui di seguito per ricevere un cookie di opt-out.",
-        "OptingYouOut": "Sto acquisendo la tua rinuncia, attendi..."
+        "OptingYouOut": "Sto acquisendo la tua rinuncia, attendi...",
+        "ProtocolNotDetectedCorrectly": "Al momento stai guardando Piwik tramite una connessione sicura SSL (uso di https) ma Piwik ha potuto rilevare sul server solo una connessione non protetta.",
+        "ProtocolNotDetectedCorrectlySolution": "Per assicurarti che Piwik richieda e offra con sicurezza il tuo contenuto tramite HTTPS, puoi modificare il file %s e configurare le impostazioni del proxy, o puoi aggiungere la riga %s sotto la sezione %s. %sLeggi di più%s"
     }
 }

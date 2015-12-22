@@ -2,9 +2,11 @@
     "Resolution": {
         "ColumnConfiguration": "Konfigurasjon",
         "ColumnResolution": "Oppløsning",
-        "Configurations": "Konfigurasjon",
+        "Configurations": "Konfigurasjoner",
+        "PluginDescription": "Rapporterer skjermoppløsningen til dine besøkere.",
         "Resolutions": "Oppløsninger",
         "WidgetGlobalVisitors": "Besøkendes konfigurasjon",
+        "WidgetGlobalVisitorsDocumentation": "Denne rapporten viser de mest vanlige konfigurasjonene som dine besøkere har. En konfigurasjon er kombinasjonen av operativsystem, nettlesertype og skjermoppløsning.",
         "WidgetResolutions": "Skjermoppløsninger"
     }
 }

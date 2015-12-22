@@ -61,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Pagine risultanti da una Ricerca sul Sito",
         "WidgetSearchCategories": "Categorie di Ricerca",
         "WidgetSearchKeywords": "Parole Chiave di Ricerca sul Sito",
-        "WidgetSearchNoResultKeywords": "Parole Chiave di Ricerca senza risultati"
+        "WidgetSearchNoResultKeywords": "Parole Chiave di Ricerca senza risultati",
+        "ActionType": "Tipo di Azione"
     }
 }

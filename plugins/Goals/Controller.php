@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Goals;
 
-use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;

@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Annotations;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Date;
-use Piwik\Piwik;
 use Piwik\View;
 
 /**
