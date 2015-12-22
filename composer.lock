@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "15e909bee11271e304ee16ad4f649eb3",
-    "content-hash": "cba24c49efb5efab04417cc3bd0fba18",
+    "hash": "09112ef01f28686b387148c407503c7c",
+    "content-hash": "ff9b83524f413ac80daad8eb47099042",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -300,6 +300,7 @@
                 "phpdoc",
                 "reflection"
             ],
+            "abandoned": "php-di/phpdoc-reader",
             "time": "2014-08-21 08:20:45"
         },
         {
@@ -936,6 +937,46 @@
                 "LGPL-3.0"
             ],
             "time": "2014-10-23 03:30:23"
+        },
+        {
+            "name": "piwik/piwik-php-tracker",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/piwik/piwik-php-tracker.git",
+                "reference": "ac3e26bb3e2c8a428ccbf6ca663c2ef37fa47a5e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/piwik/piwik-php-tracker/zipball/ac3e26bb3e2c8a428ccbf6ca663c2ef37fa47a5e",
+                "reference": "ac3e26bb3e2c8a428ccbf6ca663c2ef37fa47a5e",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "."
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "The Piwik Team",
+                    "email": "hello@piwik.org",
+                    "homepage": "http://piwik.org/the-piwik-team/"
+                }
+            ],
+            "description": "PHP Client for Piwik Analytics Tracking API",
+            "homepage": "http://piwik.org",
+            "keywords": [
+                "analytics",
+                "piwik",
+                "tracker"
+            ],
+            "time": "2015-11-11 02:55:37"
         },
         {
             "name": "piwik/referrer-spam-blacklist",
