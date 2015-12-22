@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Contents\Reports;
 
-use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;

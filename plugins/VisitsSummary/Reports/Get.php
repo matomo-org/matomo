@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\VisitsSummary\Reports;
 
-use Piwik\DataTable\DataTableInterface;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ActionsPerVisit;
 use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;

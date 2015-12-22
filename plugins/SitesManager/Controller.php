@@ -13,7 +13,6 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
-use Piwik\Measurable\MeasurableSetting;
 use Piwik\Measurable\MeasurableSettings;
 use Piwik\SettingsPiwik;
 use Piwik\Site;

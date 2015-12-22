@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
-use Piwik\Development;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\SettingsPiwik;
 use Symfony\Component\Console\Input\InputInterface;

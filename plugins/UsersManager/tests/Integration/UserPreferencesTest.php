@@ -12,7 +12,6 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
-use Piwik\Access;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;

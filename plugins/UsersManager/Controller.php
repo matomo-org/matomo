@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
-use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;

@@ -7,12 +7,10 @@
  */
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Symfony\Component\Console\Helper\QuestionHelper;
 
 /**

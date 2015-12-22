@@ -12,7 +12,6 @@ namespace Piwik;
 use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\DateTimeFormatProvider;
-use Piwik\Plugins\LanguagesManager\LanguagesManager;
 
 /**
  * Utility class that wraps date/time related PHP functions. Using this class can
