@@ -395,7 +395,7 @@ class FrontController extends Singleton
         } catch (Exception $ex) {
         }
         $logoUrl = $logoUrl ?: 'plugins/Morpheus/images/logo-header.png';
-        $faviconUrl = $faviconUrl ?: 'plugins/CoreHome/images/favicon.ico';
+        $faviconUrl = $faviconUrl ?: 'plugins/CoreHome/images/favicon.png';
 
         $page = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/maintenance.tpl');
         $page = str_replace('%logoUrl%', $logoUrl, $page);
