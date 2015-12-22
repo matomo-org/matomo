@@ -654,6 +654,10 @@ create_new_visit_when_campaign_changes = 1
 ; absent before, but is present now.
 create_new_visit_when_website_referrer_changes = 0
 
+; ONLY CHANGE THIS VALUE WHEN YOU DO NOT USE PIWIK ARCHIVING, SINCE THIS COULD CAUSE PARTIALLY MISSING ARCHIVE DATA
+; Whether to force a new visit at midnight for every visitor. Default 1.
+create_new_visit_after_midnight = 1
+
 ; maximum length of a Page Title or a Page URL recorded in the log_action.name table
 page_maximum_length = 1024;
 
