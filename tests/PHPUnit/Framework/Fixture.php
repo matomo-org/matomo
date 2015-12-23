@@ -199,6 +199,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         $testEnv = $this->getTestEnvironment();
+        $testEnv->delete();
         $testEnv->testCaseClass = $this->testCaseClass;
         $testEnv->fixtureClass = get_class($this);
         $testEnv->dbName = $this->dbName;
@@ -307,7 +308,6 @@ class Fixture extends \PHPUnit_Framework_Assert
     {
         if ($this->testEnvironment === null) {
             $this->testEnvironment = new TestingEnvironmentVariables();
-            $this->testEnvironment->delete();
 
             if (getenv('PIWIK_USE_XHPROF') == 1) {
                 $this->testEnvironment->useXhprof = true;
