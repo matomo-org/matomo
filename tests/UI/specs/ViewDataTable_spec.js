@@ -53,7 +53,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should load bar graph when bar graph footer icon clicked", function (done) {
         expect.screenshot('6_bar_graph').to.be.capture(function (page) {
-            page.mouseMove('.tableIconsGroup:nth-child(2)');
+            page.mouseMove('.tableIconsGroup:nth-child(3)');
             page.click('.tableIcon[data-footer-icon-id=graphVerticalBar]');
         }, done);
     });
@@ -67,7 +67,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should load a tag cloud when tag cloud footer icon clicked", function (done) {
         expect.screenshot('8_tag_cloud').to.be.capture(function (page) {
-            page.mouseMove('.tableIconsGroup:nth-child(2)');
+            page.mouseMove('.tableIconsGroup:nth-child(3)');
             page.click('.tableIcon[data-footer-icon-id=cloud]');
         }, done);
     });
