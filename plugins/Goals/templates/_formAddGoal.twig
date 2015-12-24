@@ -13,6 +13,11 @@
              title="{{ 'Goals_GoalName'|translate|e('html_attr') }}">
         </div>
 
+        <div piwik-field uicontrol="text" name="goal_description"
+             ng-model="manageGoals.goal.description"
+             title="{{ 'General_Description'|translate|e('html_attr') }}">
+        </div>
+
         <div class="row goalIsTriggeredWhen">
             <div class="col s12">
                 <h3>{{ 'Goals_GoalIsTriggered'|translate|e('html_attr') }}</h3>

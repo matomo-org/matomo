@@ -27,10 +27,11 @@
             });
         }
 
-        function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, pattern, patternType, caseSensitive, revenue, allowMultiple, goalId) {
+        function initGoalForm(goalMethodAPI, submitText, goalName, description, matchAttribute, pattern, patternType, caseSensitive, revenue, allowMultiple, goalId) {
 
             self.goal = {};
             self.goal.name = goalName;
+            self.goal.description = description;
 
             if (matchAttribute == 'manually') {
                 self.goal.triggerType = 'manually';
@@ -75,6 +76,7 @@
 
             var parameters = {};
             parameters.name = encodeURIComponent(this.goal.name);
+            parameters.description = encodeURIComponent(this.goal.description);
 
             if (this.isManuallyTriggered()) {
                 parameters.matchAttribute = 'manually';
@@ -146,7 +148,7 @@
         this.editGoal = function (goalId) {
             this.showAddEditForm();
             var goal = piwik.goals[goalId];
-            initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal'), goal.name, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive != '0'), goal.revenue, goal.allow_multiple, goalId);
+            initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal'), goal.name, goal.description, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive != '0'), goal.revenue, goal.allow_multiple, goalId);
             scrollToTop();
         };
 
