@@ -101,20 +101,23 @@ class API extends \Piwik\Plugin\API
      * @param bool|float $revenue If set, default revenue to assign to conversions
      * @param bool $allowMultipleConversionsPerVisit By default, multiple conversions in the same visit will only record the first conversion.
      *                         If set to true, multiple conversions will all be recorded within a visit (useful for Ecommerce goals)
+     * @param string $description
      * @return int ID of the new goal
      */
-    public function addGoal($idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false)
+    public function addGoal($idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '')
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
-        $name    = $this->checkName($name);
-        $pattern = $this->checkPattern($pattern);
+        $name        = $this->checkName($name);
+        $pattern     = $this->checkPattern($pattern);
+        $description = $this->checkDescription($description);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
         $goal = array(
             'name'            => $name,
+            'description'     => $description,
             'match_attribute' => $matchAttribute,
             'pattern'         => $pattern,
             'pattern_type'    => $patternType,
@@ -151,20 +154,23 @@ class API extends \Piwik\Plugin\API
      * @param bool $caseSensitive
      * @param bool|float $revenue
      * @param bool $allowMultipleConversionsPerVisit
+     * @param string $description
      * @return void
      */
-    public function updateGoal($idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false)
+    public function updateGoal($idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '')
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
-        $name    = $this->checkName($name);
-        $pattern = $this->checkPattern($pattern);
+        $name        = $this->checkName($name);
+        $description = $this->checkDescription($description);
+        $pattern     = $this->checkPattern($pattern);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
         $this->getModel()->updateGoal($idSite, $idGoal, array(
             'name'            => $name,
+            'description'     => $description,
             'match_attribute' => $matchAttribute,
             'pattern'         => $pattern,
             'pattern_type'    => $patternType,
@@ -191,6 +197,11 @@ class API extends \Piwik\Plugin\API
     private function checkName($name)
     {
         return urldecode($name);
+    }
+
+    private function checkDescription($description)
+    {
+        return urldecode($description);
     }
 
     private function checkPattern($pattern)

@@ -33,3 +33,8 @@ ul.ulGoalTopElements {
     border-bottom: 1px dotted #0033CC;
     line-height: 2em;
 }
+
+.goalDescription {
+    padding-bottom: 12px;
+    color: #999;
+}

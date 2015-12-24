@@ -8,6 +8,11 @@
         {% endif %}
        >{% if headline is defined %}{{ headline }}{% elseif goalName is defined %}{{ 'Goals_GoalX'|translate(goalName) }}{% else %}{{ 'General_EvolutionOverPeriod'|translate }}{% endif %}</h2>
 {% endif %}
+
+{% if goalDescription is defined and goalDescription %}
+    <div class="goalDescription">{{ goalDescription }}</div>
+{% endif %}
+
 {{ graphEvolution|raw }}
 
 <div id='leftcolumn' style="clear:both;{% if not isWidget and ecommerce is defined %}width:33%;'{% endif %}">

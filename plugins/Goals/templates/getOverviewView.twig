@@ -9,7 +9,7 @@
     {% set conversion_rate=goal.conversion_rate %}
     {% set name=goal.name %}
     <div class="goalEntry" style="clear:both">
-        <h2>
+        <h2 {% if goal.description %}title="{{ goal.description }}"{% endif %}>
             <a href="javascript:broadcast.propagateAjax('module=Goals&action=goalReport&idGoal={{ goal.id }}')">
                 {{ 'Goals_GoalX'|translate("'"~name~"'") }}
             </a>

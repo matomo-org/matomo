@@ -4,6 +4,7 @@
         <tr>
             <th class="first">Id</th>
             <th>{{ 'Goals_GoalName'|translate }}</th>
+            <th>{{ 'General_Description'|translate }}</th>
             <th>{{ 'Goals_GoalIsTriggeredWhen'|translate }}</th>
             <th>{{ 'General_ColumnRevenue'|translate }}</th>
             {% if userCanEditGoals %}
@@ -14,7 +15,7 @@
         </thead>
         {% if goals is empty %}
             <tr>
-                <td colspan='7'>
+                <td colspan='8'>
                     <br/>
                     {{ 'Goals_ThereIsNoGoalToManage'|translate(siteName)|raw }}.
                     <br/><br/>
@@ -25,6 +26,7 @@
                 <tr>
                     <td class="first">{{ goal.idgoal }}</td>
                     <td>{{ goal.name }}</td>
+                    <td>{{ goal.description }}</td>
                     <td><span class='matchAttribute'>{{ goal.match_attribute }}</span>
                         {% if goal.pattern_type is defined %}
                             <br/>
