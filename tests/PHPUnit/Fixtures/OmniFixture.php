@@ -21,15 +21,24 @@ use Piwik\Tests\Framework\OverrideLogin;
  */
 class OmniFixture extends Fixture
 {
+    const DEFAULT_SEGMENT = "browserCode==FF";
+
     public $month = '2012-01';
     public $idSite = 'all';
     public $dateTime = '2012-02-01';
+
+    /**
+     * @var Date
+     */
     public $now = null;
-    public $segment = "browserCode==FF";
+    public $segment = self::DEFAULT_SEGMENT;
 
     // Visitor profile screenshot test needs visitor id
     public $visitorIdDeterministic = null;
 
+    /**
+     * @var Fixture[]
+     */
     public $fixtures = array();
 
     private function requireAllFixtures()
@@ -118,11 +127,6 @@ class OmniFixture extends Fixture
         }
 
         Option::set("Tests.forcedNowTimestamp", $this->now->getTimestamp());
-
-        // launch archiving so tests don't run out of time
-        $date = Date::factory($this->dateTime)->toString();
-        VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date);
-        VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date, urlencode($this->segment));
     }
 
     public function tearDown()

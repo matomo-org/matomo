@@ -304,6 +304,12 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
     }
 
+    /**
+     * NOTE: This method should not be used to get a TestingEnvironmentVariables instance.
+     * Instead just create a new instance.
+     *
+     * @return null|\Piwik\Tests\Framework\TestingEnvironmentVariables
+     */
     public function getTestEnvironment()
     {
         if ($this->testEnvironment === null) {
