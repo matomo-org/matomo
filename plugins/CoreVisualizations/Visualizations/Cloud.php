@@ -174,6 +174,8 @@ class Cloud extends Visualization
      */
     private function truncateWordIfNeeded($word)
     {
+        $word = Common::unsanitizeInputValue($word);
+
         if (Common::mb_strlen($word) > $this->truncatingLimit) {
             return Common::mb_substr($word, 0, $this->truncatingLimit - 3) . '...';
         }
