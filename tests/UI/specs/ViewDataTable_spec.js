@@ -75,6 +75,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     it("should load normal table when normal table footer icon clicked", function (done) {
         expect.screenshot('9_normal_table').to.be.capture(function (page) {
             page.click('.tableIcon[data-footer-icon-id=table]');
+            page.mouseMove({x: -10, y: -10}); // mae sure no row is highlighted
         }, done);
     });
 
