@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\API\Request;
 use Piwik\Date;
 use Piwik\Option;
 use ReflectionClass;
@@ -150,26 +151,24 @@ class OmniFixture extends Fixture
     private function restoreSitesProperties($initialSitesProperties)
     {
         foreach ($initialSitesProperties as $idSite => $properties) {
-            SitesManagerAPI::getInstance()->updateSite(
-                $idSite,
-                $siteName = $properties['name'],
-                $urls = $properties[''],
-                $ecommerce = $properties['ecommerce'],
-                $siteSearch = $properties['sitesearch'],
-                $searchKeywordParameters = $properties['sitesearch_keyword_parameters'],
-                $searchCategoryParameters = $properties['sitesearch_category_parameters'],
-                $excludedIps = $properties['excluded_ips'],
-                $excludedQueryParameters = $properties['excluded_parameters'],
-                $timezone = $properties['timezone'],
-                $currency = $properties['currency'],
-                $group = $properties['group'],
-                $startDate = $properties['ts_created'],
-                $excludedUserAgents = $properties['excluded_user_agents'],
-                $keepURLFragments = $properties['keep_url_fragment'],
-                $type = $properties['type'],
-                $settings = null,
-                $excludeUnknownUrls = $properties['exclude_unknown_urls']
-            );
+            Request::processRequest('SitesManager.updateSite', array(
+                'idSite' => $idSite,
+                'siteName' => $properties['name'],
+                'ecommerce' => $properties['ecommerce'],
+                'siteSearch' => $properties['sitesearch'],
+                'searchKeywordParameters' => $properties['sitesearch_keyword_parameters'],
+                'searchCategoryParameters' => $properties['sitesearch_category_parameters'],
+                'excludedIps' => $properties['excluded_ips'],
+                'excludedQueryParameters' => $properties['excluded_parameters'],
+                'timezone' => $properties['timezone'],
+                'currency' => $properties['currency'],
+                'group' => $properties['group'],
+                'startDate' => $properties['ts_created'],
+                'excludedUserAgents' => $properties['excluded_user_agents'],
+                'keepURLFragments' => $properties['keep_url_fragment'],
+                'type' => $properties['type'],
+                'excludeUnknownUrls' => $properties['exclude_unknown_urls']
+            ));
         }
     }
 }
