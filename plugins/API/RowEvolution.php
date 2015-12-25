@@ -12,7 +12,6 @@ use Exception;
 use Piwik\API\DataTableManipulator\LabelFilter;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
-use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;

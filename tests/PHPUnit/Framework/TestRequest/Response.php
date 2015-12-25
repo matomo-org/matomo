@@ -145,6 +145,7 @@ class Response
             'lastActionDateTime',
             'serverTimestamp',
             'serverTimePretty',
+            'daysAgo',
             'serverDatePretty',
             'serverDatePrettyFirstAction',
             'serverTimePrettyFirstAction',

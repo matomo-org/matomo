@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\ImageGraph;
 
-use Exception;
 use pData;
 use pImage;
 use Piwik\Container\StaticContainer;

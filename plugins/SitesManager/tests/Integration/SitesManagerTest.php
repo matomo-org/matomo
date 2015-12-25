@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\SitesManager\tests\Integration;
 
-use Piwik\Access;
 use Piwik\Cache;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Container\StaticContainer;

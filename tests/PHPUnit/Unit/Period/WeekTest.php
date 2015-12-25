@@ -156,6 +156,7 @@ class WeekTest extends BasePeriodTest
     {
         return array(
             array('en', array('week October 7 – 13, 2024', 'week November 25 – December 1, 2024', 'week December 30, 2024 – January 5, 2025')),
+            array('es', array('semana 7–13 de Octubre de 2024', 'semana 25 de Noviembre–1 de Diciembre de 2024', 'semana 30 de Diciembre de 2024–5 de Enero de 2025')),
             array('lt', array('savaitė 2024 Spalio 7–13', 'savaitė 2024 Lapkričio 25 – Gruodžio 1', 'savaitė 2024 Gruodžio 30 – 2025 Sausio 5')),
             array('zh-cn', array('周 2024年10月7日至13日', '周 2024年11月25日至12月1日', '周 2024年12月30日至2025年01月5日')),
         );

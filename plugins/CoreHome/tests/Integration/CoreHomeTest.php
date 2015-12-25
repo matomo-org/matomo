@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\CoreHome\tests\Integration;
 
 use Piwik\Piwik;
-use Piwik\Plugins\CoreHome\CoreHome;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**

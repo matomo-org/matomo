@@ -6,11 +6,17 @@
         "ClickToDelete": "Klikk for å slette denne merknaden.",
         "ClickToEdit": "Klikk for å redigere denne merknaden.",
         "ClickToEditOrAdd": "Klikk for å redigere eller legge til en ny merknad.",
+        "ClickToStarOrUnstar": "Klikk for å merke eller ikke merke denne merknaden som favoritt.",
         "CreateNewAnnotation": "Opprett en ny merknad...",
         "EnterAnnotationText": "Skriv inn merknad...",
         "HideAnnotationsFor": "Skjul merknader for %s...",
-        "IconDescHideNotes": "Skjul notater for denne datoperioden.",
+        "IconDesc": "Se merknader for dette datoområdet.",
+        "IconDescHideNotes": "Skjul merknader for denne datoperioden.",
+        "InlineQuickHelp": "Du kan lage merknader for å markere spesielle hendelser (som et nytt blogginnlegg eller et redesign), for å bruke i dataanalyser eller for å lagre det du mener er viktig.",
         "LoginToAnnotate": "Logg inn for å opprette en merknad.",
-        "ViewAndAddAnnotations": "Vis og legg til merknader for %s..."
+        "NoAnnotations": "Det er ingen merknader i dette datoområdet.",
+        "PluginDescription": "Lar deg knytte merknader til ulike datoer for å huske endringer på ditt nettsted, lagre tanker du gjør om dine data og dele dine tanker med kollegaer. Ved å merke dine data vil du være sikker på å huske hvorfor dine data ser ut som de gjør.",
+        "ViewAndAddAnnotations": "Vis og legg til merknader for %s...",
+        "YouCannotModifyThisNote": "Du kan ikke redigere denne merknaden fordi du ikke laget den, eller du har ikke admintilgang for dette nettstedet."
     }
 }

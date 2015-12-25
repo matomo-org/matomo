@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "Denne utvidelsen gir deg widgetene Kart over besøkende og Sanntidskart. Merk: krever at UserCountry-utvidelsen er aktivert.",
         "AndNOthers": "og %s andre",
         "Cities": "Byer",
         "Countries": "Land",
@@ -14,6 +15,8 @@
         "Regions": "Regioner",
         "Searches": "%s søk",
         "SecondsAgo": "%s sekunder siden",
+        "ShowingVisits": "Stedsbestemte besøk siste",
+        "Unlocated": "<b>%s<\/b> %p av besøkene fra %c kunne ikke stedsbestemmes.",
         "VisitorMap": "Kart over besøkende",
         "WorldWide": "Verdensbasis",
         "WithUnknownRegion": "%s med ukjent region",

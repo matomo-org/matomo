@@ -1,6 +1,9 @@
 {
     "Provider": {
-        "ColumnProvider": "Tilbyder",
-        "WidgetProviders": "Tilbydere"
+        "ColumnProvider": "Internett-leverandør",
+        "PluginDescription": "Rapporterer internett-leverandøren (ISP-en) til besøkere.",
+        "ProviderReportDocumentation": "Denne rapporten viser hvilken internett-leverandør (ISP) dine besøkere bruker for å besøke nettstedet. Du kan klikke på et ISP-navn for flere detaljer. %s Hvis Piwik ikke kan finne en besøkers ISP, listes den som IP.",
+        "WidgetProviders": "Internett-leverandører",
+        "ProviderReportFooter": "Ukjent internett-leverandør betyr at IP-adressen ikke kunne slås opp."
     }
 }

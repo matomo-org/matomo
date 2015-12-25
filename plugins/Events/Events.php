@@ -9,10 +9,12 @@
 namespace Piwik\Plugins\Events;
 
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Reports;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\AllColumns;
 
 class Events extends \Piwik\Plugin
 {
@@ -25,7 +27,8 @@ class Events extends \Piwik\Plugin
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'ViewDataTable.configure'   => 'configureViewDataTable',
-            'Live.getAllVisitorDetails' => 'extendVisitorDetails'
+            'Live.getAllVisitorDetails' => 'extendVisitorDetails',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         );
     }
 
@@ -146,8 +149,29 @@ class Events extends \Piwik\Plugin
         }
 
         $view->config->show_flatten_table = true;
-        $view->config->show_table_all_columns = false;
         $view->requestConfig->filter_sort_column = 'nb_events';
+
+        if ($view->isViewDataTableId(AllColumns::ID)) {
+            $view->config->filters[] = function (DataTable $table) use ($view) {
+                $columsToDisplay = array('label');
+
+                $columns = $table->getColumns();
+                if (in_array('nb_visits', $columns)) {
+                    $columsToDisplay[] = 'nb_visits';
+                }
+
+                if (in_array('nb_uniq_visitors', $columns)) {
+                    $columsToDisplay[] = 'nb_uniq_visitors';
+                }
+
+                $view->config->columns_to_display = array_merge($columsToDisplay, array('nb_events', 'sum_event_value', 'avg_event_value', 'min_event_value', 'max_event_value'));
+
+                if (!in_array($view->requestConfig->filter_sort_column, $view->config->columns_to_display)) {
+                    $view->requestConfig->filter_sort_column = 'nb_events';
+                }
+            };
+            $view->config->show_pivot_by_subtable = false;
+        }
 
         $labelTranslation = $this->getColumnTranslation($apiMethod);
         $view->config->addTranslation('label', $labelTranslation);
@@ -234,5 +258,10 @@ class Events extends \Piwik\Plugin
     public function getSecondaryDimensionFromRequest()
     {
         return Common::getRequestVar('secondaryDimension', false, 'string');
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/Events/stylesheets/datatable.less";
     }
 }

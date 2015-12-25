@@ -15,7 +15,6 @@ use Piwik\Plugins\BulkTracking\tests\Framework\TestCase\BulkTrackingTestCase;
 use Piwik\Plugins\BulkTracking\Tracker\Handler;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker;
-use Piwik\Translate;
 use Piwik\Tests\Framework\Mock\Tracker\RequestSet;
 
 class TestIntegrationTracker extends Tracker {

@@ -5000,8 +5000,9 @@ if (typeof Piwik !== 'object') {
                     browserFeatures.cookie = hasCookies();
                 }
 
-                // screen resolution
-                browserFeatures.res = screenAlias.width * devicePixelRatio + 'x' + screenAlias.height * devicePixelRatio;
+                var width = parseInt(screenAlias.width, 10) * devicePixelRatio;
+                var height = parseInt(screenAlias.height, 10) * devicePixelRatio;
+                browserFeatures.res = parseInt(width, 10) + 'x' + parseInt(height, 10);
             }
 
 /*<DEBUG>*/

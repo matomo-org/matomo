@@ -11,7 +11,6 @@ namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Development;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Translate;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

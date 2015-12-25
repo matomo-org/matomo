@@ -13,7 +13,6 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Url;

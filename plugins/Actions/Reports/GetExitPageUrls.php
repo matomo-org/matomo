@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Actions\Reports;
 
-use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\API\Request;

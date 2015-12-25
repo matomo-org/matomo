@@ -8,15 +8,12 @@
  */
 namespace Piwik\Plugins\MultiSites;
 
-use Piwik\API\Request;
-use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\Piwik;
 use Piwik\Translation\Translator;
 use Piwik\View;

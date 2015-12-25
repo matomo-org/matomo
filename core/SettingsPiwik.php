@@ -310,7 +310,7 @@ class SettingsPiwik
             $fetched = "ERROR fetching: " . $e->getMessage();
         }
         // this will match when Piwik not installed yet, or favicon not customised
-        $expectedStringAlt = 'plugins/CoreHome/images/favicon.ico';
+        $expectedStringAlt = 'plugins/CoreHome/images/favicon.png';
 
         // this will match when Piwik is installed and favicon has been customised
         $expectedString = 'misc/user/';
@@ -427,6 +427,10 @@ class SettingsPiwik
      */
     public static function isHttpsForced()
     {
+        if (!SettingsPiwik::isPiwikInstalled()) {
+            // Only enable this feature after Piwik is already installed
+            return false;
+        }
         return Config::getInstance()->General['force_ssl'] == 1;
     }
 

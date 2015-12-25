@@ -8,6 +8,9 @@
         "ContentName": "Nom du contenu",
         "ContentPiece": "Partie du contenu",
         "ContentTarget": "Cible du contenu",
-        "Contents": "Contenus"
+        "Contents": "Contenus",
+        "InteractionsMetricDocumentation": "Nombre de fois où un bloc de contenu a subi une interaction (ex un click sur une bannière ou sur une publicité).",
+        "ImpressionsMetricDocumentation": "Le nombre de fois qu'un bloc de contenu tel qu'une bannière ou une publicité a été affiché sur la page.",
+        "InteractionRateMetricDocumentation": "Le ratio entre les impressions de contenu et les interactions."
     }
 }

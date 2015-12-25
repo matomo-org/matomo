@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\Referrers\tests\Integration\Columns;
 
-use Piwik\Common;
 use Piwik\Plugins\Referrers\Columns\ReferrerName;
 use Piwik\Plugins\Referrers\Columns\ReferrerType;
 use Piwik\Tests\Framework\Fixture;
@@ -74,7 +73,7 @@ class ReferrerNameTest extends IntegrationTestCase
         $url = 'http://piwik.org/foo/bar';
         $referrer = 'http://piwik.org';
 
-        $directEntryReferrerName = '';
+        $directEntryReferrerName = null;
 
         return array(
             // domain matches but path does not match for idsite1

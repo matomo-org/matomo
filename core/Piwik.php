@@ -394,12 +394,7 @@ class Piwik
      */
     public static function isUserHasSomeAdminAccess()
     {
-        try {
-            self::checkUserHasSomeAdminAccess();
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
+        return Access::getInstance()->isUserHasSomeAdminAccess();
     }
 
     /**

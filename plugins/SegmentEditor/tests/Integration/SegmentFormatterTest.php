@@ -11,7 +11,6 @@ namespace Piwik\Plugins\SegmentEditor\tests\Integration;
 use Piwik\Plugins\SegmentEditor\SegmentFormatter;
 use Piwik\Plugins\SegmentEditor\SegmentList;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Translate;
 use Exception;

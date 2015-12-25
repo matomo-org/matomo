@@ -36,7 +36,7 @@ class ReferrerName extends Base
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $information = $this->getReferrerInformationFromRequest($request);
+        $information = $this->getReferrerInformationFromRequest($request, $visitor);
 
         if (!empty($information['referer_name'])) {
             return Common::mb_substr($information['referer_name'], 0, 70);

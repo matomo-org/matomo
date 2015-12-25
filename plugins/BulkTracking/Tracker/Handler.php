@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\BulkTracking\Tracker;
 
-use Piwik\Archiver\Request;
 use Piwik\AuthResult;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\InvalidRequestParameterException;

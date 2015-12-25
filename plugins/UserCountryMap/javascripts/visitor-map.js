@@ -1256,12 +1256,18 @@
          */
         resize: function () {
             var ratio, w, h,
-                map = this.map,
-                maxHeight = $(window).height() - (this.theWidget && this.theWidget.isMaximised ? 150 : 79);
+                map = this.map;
+
             ratio = map.viewAB.width / map.viewAB.height;
             w = map.container.width();
             h = w / ratio;
-            h = Math.min(maxHeight, h);
+
+            // special handling for widgetize mode
+            if (!this.theWidget && map.container.parents('.widget').length) {
+                var maxHeight = $(window).height() - ($('html').height() - map.container.height());
+                h = Math.min(maxHeight, h);
+            }
+
             map.container.height(h - 2);
             map.resize(w, h);
 

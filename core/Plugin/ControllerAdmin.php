@@ -10,7 +10,6 @@ namespace Piwik\Plugin;
 
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
-use Piwik\Date;
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;

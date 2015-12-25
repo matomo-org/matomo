@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\Common;
-use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Date;
 use Piwik\Db;

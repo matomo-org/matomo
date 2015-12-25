@@ -117,7 +117,7 @@
 				<nb_events>2</nb_events>
 				<nb_events_with_value>2</nb_events_with_value>
 				<sum_event_value>19.32</sum_event_value>
-				<min_event_value>0</min_event_value>
+				<min_event_value>9.66</min_event_value>
 				<max_event_value>9.66</max_event_value>
 				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 				<avg_event_value>9.66</avg_event_value>
@@ -197,7 +197,7 @@
 				<nb_events>4</nb_events>
 				<nb_events_with_value>4</nb_events_with_value>
 				<sum_event_value>38</sum_event_value>
-				<min_event_value>0</min_event_value>
+				<min_event_value>9</min_event_value>
 				<max_event_value>10</max_event_value>
 				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 				<avg_event_value>9.5</avg_event_value>
@@ -210,7 +210,7 @@
 		<nb_events>2</nb_events>
 		<nb_events_with_value>2</nb_events_with_value>
 		<sum_event_value>19.32</sum_event_value>
-		<min_event_value>0</min_event_value>
+		<min_event_value>9.66</min_event_value>
 		<max_event_value>9.66</max_event_value>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<avg_event_value>9.66</avg_event_value>
@@ -222,7 +222,7 @@
 				<nb_events>2</nb_events>
 				<nb_events_with_value>2</nb_events_with_value>
 				<sum_event_value>19.32</sum_event_value>
-				<min_event_value>0</min_event_value>
+				<min_event_value>9.66</min_event_value>
 				<max_event_value>9.66</max_event_value>
 				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 				<avg_event_value>9.66</avg_event_value>

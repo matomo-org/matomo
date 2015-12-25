@@ -122,7 +122,7 @@
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<goalId>1</goalId>
-				<revenue>0</revenue>
+				<revenue>42</revenue>
 				<goalPageId />
 				
 				<url>http://example.org/this%20is%20cool!?filter=&lt;script&gt;alert(1);&lt;/script&gt;{&quot;place&quot;:{&quot;place&quot;:&quot;0c5b2444-70a0-4932-980c-b4dc0d3f02b5&quot;}}</url>

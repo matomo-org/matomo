@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
-use Piwik\Cache\Transient as TransientCache;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;

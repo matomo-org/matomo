@@ -25,6 +25,18 @@
 		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
 	</row>
 	<row>
+		<label>RockMelt</label>
+		<nb_visits>6</nb_visits>
+		<nb_actions>9</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>305</sum_visit_length>
+		<bounce_count>4</bounce_count>
+		<nb_visits_converted>5</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
+	</row>
+	<row>
 		<label>Epiphany</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>5</nb_actions>
@@ -35,18 +47,6 @@
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/browsers/EP.gif</logo>
-	</row>
-	<row>
-		<label>RockMelt</label>
-		<nb_visits>5</nb_visits>
-		<nb_actions>8</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>3</bounce_count>
-		<nb_visits_converted>4</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
 	<row>
 		<label>Unknown</label>

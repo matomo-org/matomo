@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreHome\Tracker;
 
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Config;
 use Piwik\EventDispatcher;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Tracker\Cache;
@@ -154,7 +155,9 @@ class VisitRequestProcessor extends RequestProcessor
         }
 
         $wasLastActionYesterday = $this->wasLastActionNotToday($visitProperties, $request);
-        if ($wasLastActionYesterday) {
+        $forceNewVisitAtMidnight = (bool) Config::getInstance()->Tracker['create_new_visit_after_midnight'];
+
+        if ($wasLastActionYesterday && $forceNewVisitAtMidnight) {
             Common::printDebug("Visitor detected, but last action was yesterday...");
 
             return true;

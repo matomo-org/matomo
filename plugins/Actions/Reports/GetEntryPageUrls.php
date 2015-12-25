@@ -8,10 +8,8 @@
  */
 namespace Piwik\Plugins\Actions\Reports;
 
-use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\API\Request;
 use Piwik\Plugins\Actions\Columns\EntryPageUrl;
 use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;

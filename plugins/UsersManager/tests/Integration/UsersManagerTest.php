@@ -378,6 +378,21 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertEquals(array($user1, $user2), $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag,geggeqge632ge56a4qag')));
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage checkUserHasSomeAdminAccess Fake exception
+     */
+    public function testGetUsers_withViewAccess_shouldThrowAnException()
+    {
+        $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        $this->api->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com", "alias");
+        $this->api->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
+
+        FakeAccess::clearAccess($superUser = false, $admin = array(), $view = array(1), 'gegg4564eqgeqag');
+
+        $this->api->getUsers();
+    }
+
     protected function _removeNonTestableFieldsFromUsers($users)
     {
         foreach ($users as &$user) {
@@ -399,6 +414,37 @@ class UsersManagerTest extends IntegrationTestCase
         $logins = $this->api->getUsersLogin();
 
         $this->assertEquals(array("gegg4564eqgeqag", "geggeqge632ge56a4qag", "geggeqgeqagqegg"), $logins);
+    }
+
+    public function testGetUserLoginFromUserEmail()
+    {
+        $this->api->addUser('gegg4564eqgeqag', 'geqgegagae', 'tegst@tesgt.com', 'alias');
+        $this->api->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com", "alias");
+        $this->api->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
+
+        $this->assertSame('gegg4564eqgeqag', $this->api->getUserLoginFromUserEmail('tegst@tesgt.com'));
+        $this->assertSame('geggeqge632ge56a4qag', $this->api->getUserLoginFromUserEmail('tesggt@tesgt.com'));
+        // test camel case should still find user
+        $this->assertSame('geggeqge632ge56a4qag', $this->api->getUserLoginFromUserEmail('teSGgT@tesgt.com'));
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
+     */
+    public function testGetUserLoginFromUserEmail_shouldThrowException_IfUserDoesNotExist()
+    {
+        $this->api->getUserLoginFromUserEmail('unknownUser@teSsgt.com');
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage checkUserHasSomeAdminAccess Fake exception
+     */
+    public function testGetUserLoginFromUserEmail_shouldThrowException_IfUserDoesNotHaveAtLeastAdminPermission()
+    {
+        FakeAccess::clearAccess($superUser = false, $admin =array(), $view = array(1));
+        $this->api->getUserLoginFromUserEmail('tegst@tesgt.com');
     }
 
     /**

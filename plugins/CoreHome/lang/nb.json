@@ -32,7 +32,7 @@
         "PageOf": "%1$s av %2$s",
         "PeriodRange": "Periode",
         "ReportGeneratedOn": "Rapport generert %s",
-        "ReportGeneratedXAgo": "Rapport generert %s siden",
+        "ReportGeneratedXAgo": "Rapport generert for %s siden",
         "SharePiwikLong": "Hei! Jeg har nettopp funnet et bra stykke fri programvare: Piwik!\n\nPiwik lar deg spore besøkende på ditt nettsted gratis. Du bør definitivt prøve det ut.",
         "SharePiwikShort": "Piwik! Gratis og åpen kildekode for nettstatistikk. Du eier dataene.",
         "ShareThis": "Del dette",

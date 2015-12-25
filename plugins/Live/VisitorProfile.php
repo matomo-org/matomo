@@ -38,10 +38,11 @@ class VisitorProfile
      * @param $visits
      * @param $visitorId
      * @param $segment
+     * @param $numLastVisits
      * @return array
      * @throws Exception
      */
-    public function makeVisitorProfile(DataTable $visits, $visitorId, $segment)
+    public function makeVisitorProfile(DataTable $visits, $visitorId, $segment, $numLastVisits)
     {
         $this->initVisitorProfile();
 
@@ -75,7 +76,7 @@ class VisitorProfile
         $this->handleAdjacentVisitorIds($visits, $visitorId, $segment);
 
         // use N most recent visits for last_visits
-        $visits->deleteRowsOffset(self::VISITOR_PROFILE_MAX_VISITS_TO_SHOW);
+        $visits->deleteRowsOffset($numLastVisits);
 
         $this->profile['lastVisits'] = $visits;
 

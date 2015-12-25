@@ -559,7 +559,7 @@ class Common
 
         list($usec, $sec) = explode(" ", microtime());
         $seed = ((float)$sec + (float)$usec) * 100000;
-        mt_srand($seed);
+        mt_srand((int) $seed);
 
         for ($i = 0; $i < $length; $i++) {
             $rand_key = mt_rand(0, strlen($chars) - 1);
