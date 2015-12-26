@@ -44,6 +44,7 @@ class GenerateTest extends GeneratePluginBase
 
         $whitelistFiles = $this->getTestFilesWhitelist($testType);
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
+        $this->addTravisJobsIfRequired($output, $testType, $pluginName);
 
         $messages = array(
             sprintf('Test %s for plugin %s generated.', $testName, $pluginName),
@@ -192,5 +193,87 @@ class GenerateTest extends GeneratePluginBase
             '/tests/Unit',
             '/tests/Unit/SimpleTest.php'
         );
+    }
+
+    private function addTravisJobsIfRequired(OutputInterface $output, $testType, $pluginName)
+    {
+        $travisYmlFile = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/.travis.yml';
+        if (!file_exists($travisYmlFile)) {
+            $output->writeln("Plugin '$pluginName' has no .travis.yml file, skipping travis job addition.");
+            return;
+        }
+
+        $travisYmlFileContents = file_get_contents($travisYmlFile);
+
+        $testVarEnvVar = $this->findTestEnvVarInTravisYml($travisYmlFileContents);
+        if (empty($testVarEnvVar)) {
+            $output->writeln("<error>Cannot find test target environment variable in $travisYmlFile, skipping travis job addition.</error>");
+            return;
+        }
+
+        $testType = strtolower($testType);
+
+        $travisJobsToAdd = array();
+        if ($testType == 'ui') {
+            $travisJobsToAdd[] = "- TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_PIWIK_BRANCH=\$$testVarEnvVar";
+        } else {
+            $travisJobsToAdd[] = "- TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_PIWIK_BRANCH=\$$testVarEnvVar";
+            $travisJobsToAdd[] = "- TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=minimum_required_piwik";
+        }
+
+        $jobAdded = false;
+        foreach ($travisJobsToAdd as $line) {
+            if (strpos($travisYmlFileContents, $line) !== false) {
+                continue;
+            }
+
+            if (!$this->doesMatrixSectionExist($travisYmlFileContents)) {
+                $travisYmlFileContents = $this->addInitialEnvMatrixWithJob($travisYmlFileContents, $line);
+            } else if ($this->isMatrixEnvSectionEmpty($travisYmlFileContents)) {
+                $travisYmlFileContents = $this->addJobToEmptyMatrix($travisYmlFileContents, $line);
+            } else {
+                $travisYmlFileContents = $this->addJobToNonEmptyMatrix($travisYmlFileContents, $line);
+            }
+
+            $jobAdded = true;
+        }
+
+        if ($jobAdded) {
+            file_put_contents($travisYmlFile, $travisYmlFileContents);
+        }
+    }
+
+    private function findTestEnvVarInTravisYml($travisYmlFileContents)
+    {
+        preg_match('/([a-zA-Z0-9_]+)=(master|(?:\d+\.\d+\.\d+(?:\-[\dA-Za-z\-\.]+)?[\dA-Za-z\-\.]*))/', $travisYmlFileContents, $matches);
+        if (empty($matches[1])) {
+            return null;
+        }
+        return $matches[1];
+    }
+
+    private function doesMatrixSectionExist($travisYmlFileContents)
+    {
+        return preg_match("/\n +matrix:/", $travisYmlFileContents);
+    }
+
+    private function isMatrixEnvSectionEmpty($travisYmlFileContents)
+    {
+        return preg_match("/\n\\s*matrix:\n(?:(?:\\s*?\n)|[^\\s])/", $travisYmlFileContents);
+    }
+
+    private function addInitialEnvMatrixWithJob($travisYmlFileContents, $line)
+    {
+        return preg_replace("/\nenv:\n(\\s*)global:\n(?:\\s*- .*?\n)*(?=(?:\\s*?\n)|[^\\s])/", "$0$1matrix:\n$1  $line\n", $travisYmlFileContents);;
+    }
+
+    private function addJobToEmptyMatrix($travisYmlFileContents, $line)
+    {
+        return preg_replace("/\n(\\s+)matrix:\n/", "\n$1matrix:\n$1  $line\n", $travisYmlFileContents);
+    }
+
+    private function addJobToNonEmptyMatrix($travisYmlFileContents, $line)
+    {
+        return preg_replace("/ matrix:\n(\\s*)/", " matrix:\n$1$line\n$1", $travisYmlFileContents);
     }
 }
