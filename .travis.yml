@@ -35,15 +35,15 @@ addons:
 env:
   matrix:
     # PDO Mysql
-    - TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
-    - TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
-    - TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
+    #- TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
+    #- TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
+    #- TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
     # Javascript tests
-    - TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
-    - TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
+    #- TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
+    #- TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
     # All tests after another
-    - TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
-    - TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
+    #- TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
+    #- TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
     - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
     - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-second-half-only"
   global:
@@ -117,7 +117,7 @@ install:
   - git fetch -q
 
   - export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --core --verbose"
-  - '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
+  #- '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
 
   - ./tests/travis/configure_git.sh
 
