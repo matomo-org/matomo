@@ -82,10 +82,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // visitors pages
-    it('should load visitors > overview page correctly', function (done) {
+    it.only('should load visitors > overview page correctly', function (done) {
         expect.screenshot("visitors_overview").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
             // use columns query param to make sure columns works when supplied in URL fragment
-            page.load("?" + urlBase + "#/?" + generalParams + "&module=VisitsSummary&action=index&columns=nb_visits,nb_actions");
+            page.load("?" + urlBase + "#/?" + generalParams + "&module=VisitsSummary&action=index");
         }, done);
     });
 
