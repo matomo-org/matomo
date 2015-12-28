@@ -547,6 +547,8 @@
         if (piwik.period == 'range') {
             $("#period_id_range").click();
         }
+
+        initTopControls();
     });
 
 }(jQuery));

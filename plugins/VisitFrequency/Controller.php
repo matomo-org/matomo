@@ -8,9 +8,10 @@
  */
 namespace Piwik\Plugins\VisitFrequency;
 
-use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
@@ -28,31 +29,22 @@ class Controller extends \Piwik\Plugin\Controller
         parent::__construct();
     }
 
-    public function index()
-    {
-        $view = new View('@VisitFrequency/index');
-        $this->setGeneralVariablesView($view);
-
-        $view->graphEvolutionVisitFrequency = $this->getEvolutionGraph(array(), array('nb_visits_returning'));
-        $this->setSparklinesAndNumbers($view);
-
-        return $view->render();
-    }
-
+    /**
+     * @deprecated used to be a widgetized URL. There to not break widget URLs
+     */
     public function getSparklines()
     {
-        $view = new View('@VisitFrequency/getSparklines');
-        $this->setSparklinesAndNumbers($view);
-        return $view->render();
+        $_GET['forceView'] = '1';
+        $_GET['viewDataTable'] = Sparklines::ID;
+
+        return FrontController::getInstance()->fetchDispatch('VisitFrequency', 'get');
     }
 
-    public function getEvolutionGraph(array $columns = array(), array $defaultColumns = array())
+    public function getEvolutionGraph()
     {
-        if (empty($columns)) {
-            $columns = Common::getRequestVar('columns', false);
-            if (false !== $columns) {
-                $columns = Piwik::getArrayFromApiParameter($columns);
-            }
+        $columns = Common::getRequestVar('columns', false);
+        if (false !== $columns) {
+            $columns = Piwik::getArrayFromApiParameter($columns);
         }
 
         $documentation = $this->translator->translate('VisitFrequency_ReturningVisitsDocumentation') . '<br />'
@@ -89,35 +81,10 @@ class Controller extends \Piwik\Plugin\Controller
         $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns,
             $selectableColumns, $documentation);
 
-        if (empty($view->config->columns_to_display) && !empty($defaultColumns)) {
-            $view->config->columns_to_display = $defaultColumns;
+        if (empty($view->config->columns_to_display)) {
+            $view->config->columns_to_display = array('nb_visits_returning');
         }
 
         return $this->renderView($view);
-    }
-
-    protected function setSparklinesAndNumbers($view)
-    {
-        $view->urlSparklineNbVisitsReturning = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_visits_returning')));
-        $view->urlSparklineNbActionsReturning = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_actions_returning')));
-        $view->urlSparklineActionsPerVisitReturning = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_actions_per_visit_returning')));
-        $view->urlSparklineAvgVisitDurationReturning = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('avg_time_on_site_returning')));
-        $view->urlSparklineBounceRateReturning = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('bounce_rate_returning')));
-
-        $dataTableFrequency = $this->getSummary();
-        $dataRow = $dataTableFrequency->getFirstRow();
-        $nbVisitsReturning = $dataRow->getColumn('nb_visits_returning');
-        $view->nbVisitsReturning = $nbVisitsReturning;
-        $view->nbActionsReturning = $dataRow->getColumn('nb_actions_returning');
-        $view->nbActionsPerVisitReturning = $dataRow->getColumn('nb_actions_per_visit_returning');
-        $view->avgVisitDurationReturning = $dataRow->getColumn('avg_time_on_site_returning');
-        $view->bounceRateReturning = $dataRow->getColumn('bounce_rate_returning');
-    }
-
-    protected function getSummary()
-    {
-        $requestString = "method=VisitFrequency.get&format=original";
-        $request = new Request($requestString);
-        return $request->process();
     }
 }

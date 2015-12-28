@@ -263,8 +263,9 @@
               }
             }
 
-            &.sfActive {
-              .item {
+            &.active {
+              > .menuDropdown,
+              > .item {
                 background-color: @theme-color-background-base;
                 decoration: none;
               }
@@ -275,6 +276,7 @@
 
 
       .menuDropdown {
+        width: 100%;
 
         .items {
           width: 224px;
@@ -328,7 +330,7 @@
         }
       }
 
-      &.sfActive {
+      &.active {
         ul {
           display: block;
         }

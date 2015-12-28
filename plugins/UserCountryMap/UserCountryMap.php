@@ -10,8 +10,6 @@ namespace Piwik\Plugins\UserCountryMap;
 
 use Piwik\FrontController;
 use Piwik\Piwik;
-use Piwik\WidgetsList;
-use Piwik\Plugin\Manager as PluginManager;
 
 /**
  */
@@ -33,21 +31,9 @@ class UserCountryMap extends \Piwik\Plugin
         $hooks = array(
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Platform.initialized' => array(
-                'after'    => true,
-                'function' => 'registerWidgets'
-            )
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
         return $hooks;
-    }
-
-    public function registerWidgets()
-    {
-        if (PluginManager::getInstance()->isPluginActivated('UserCountry')) {
-            WidgetsList::add('General_Visitors', Piwik::translate('UserCountryMap_VisitorMap'), 'UserCountryMap', 'visitorMap');
-            WidgetsList::add('Live!', Piwik::translate('UserCountryMap_RealTimeMap'), 'UserCountryMap', 'realtimeMap');
-        }
     }
 
     public function getJsFiles(&$jsFiles)

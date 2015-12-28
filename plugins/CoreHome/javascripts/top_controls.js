@@ -62,6 +62,5 @@ function initTopControls() {
                 header.css('right', (Math.abs(overlap) + 18) * -1);
             }
         }
-
     }
 }

@@ -7,7 +7,7 @@ use Piwik\Tracker\Cache;
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Db.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Db.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/IgnoreCookie.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Visit.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/GoalManager.php';

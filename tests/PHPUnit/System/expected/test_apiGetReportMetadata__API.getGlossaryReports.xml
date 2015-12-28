@@ -5,12 +5,16 @@
 		<documentation>This report shows all your Referrers in one unified report, listing all Websites, Search keywords and Campaigns used by your visitors to find your website.</documentation>
 	</row>
 	<row>
-		<name>Browser Plugins (Visitor Settings)</name>
+		<name>Browser Plugins (Visitors)</name>
 		<documentation>This report shows which browser plugins your visitors had enabled. This information might be important for choosing the right way to deliver your content.</documentation>
 	</row>
 	<row>
-		<name>Browser engines (Visitor Devices)</name>
+		<name>Browser engines (Visitors)</name>
 		<documentation>This report shows your visitors' browsers broken down into browser engines. &lt;br /&gt; The most important information for web developers is what kind of rendering engine their visitors are using. The labels contain the names of the engines followed by the most common browser using that engine in brackets.</documentation>
+	</row>
+	<row>
+		<name>Browsers (Visitors)</name>
+		<documentation>This report contains information about what kind of browser your visitors were using. Each browser version is listed separately.</documentation>
 	</row>
 	<row>
 		<name>Campaigns (Referrers)</name>
@@ -19,6 +23,10 @@
 	<row>
 		<name>City (Visitors)</name>
 		<documentation>This report shows the cities your visitors were in when they accessed your website.&lt;br/&gt;In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial &lt;a rel=&quot;noreferrer&quot;  target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;Maxmind&lt;/a&gt; GeoIP databases are more accurate than the free ones. To see how accurate they are, click &lt;a rel=&quot;noreferrer&quot;  target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;here&lt;/a&gt;.</documentation>
+	</row>
+	<row>
+		<name>Configurations (Visitors)</name>
+		<documentation>This report shows the most common overall configurations that your visitors had. A configuration is the combination of an operating system, a browser type and a screen resolution.</documentation>
 	</row>
 	<row>
 		<name>Continent (Visitors)</name>
@@ -65,7 +73,7 @@
 		<documentation>This report shows a hierarchical list of outlink URLs that were clicked by your visitors. An outlink is a link that leads the visitor away from your website (to another domain).&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
 	<row>
-		<name>Page Titles Following a Site Search (Site Search)</name>
+		<name>Page Titles Following a Site Search (Actions)</name>
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
 	<row>
@@ -77,7 +85,7 @@
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 	</row>
 	<row>
-		<name>Pages Following a Site Search (Site Search)</name>
+		<name>Pages Following a Site Search (Actions)</name>
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
 	<row>
@@ -93,7 +101,7 @@
 		<documentation>This report shows which region your visitors were in when they accessed your website.&lt;br/&gt;In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial &lt;a rel=&quot;noreferrer&quot;  target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;Maxmind&lt;/a&gt; GeoIP databases are more accurate than the free ones. To see how accurate they are, click &lt;a rel=&quot;noreferrer&quot;  target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;here&lt;/a&gt;.</documentation>
 	</row>
 	<row>
-		<name>Search Categories (Site Search)</name>
+		<name>Search Categories (Actions)</name>
 		<documentation>This report lists the Categories that visitors selected when they made a Search on your website.&lt;br/&gt;For example, Ecommerce websites typically have a &quot;Category&quot; selector so that visitors can restrict their searches to all products in a specific Category.</documentation>
 	</row>
 	<row>
@@ -101,11 +109,11 @@
 		<documentation>This report shows which search engines referred users to your website. &lt;br /&gt; By clicking on a row in the table, you can see what users were searching for using a specific search engine.</documentation>
 	</row>
 	<row>
-		<name>Search Keywords with No Results (Site Search)</name>
+		<name>Search Keywords with No Results (Actions)</name>
 		<documentation>Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br /&gt;&lt;br /&gt;This report lists the Search Keywords that did not return any Search result: maybe the search engine algorithm can be improved, or maybe your visitors are looking for content that is not (yet) on your website?</documentation>
 	</row>
 	<row>
-		<name>Site Search Keywords (Site Search)</name>
+		<name>Site Search Keywords (Actions)</name>
 		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;http://piwik.org/docs/site-search/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Learn more about Tracking how your visitors use your Search engine.&lt;/a&gt;</documentation>
 	</row>
 	<row>
@@ -113,24 +121,8 @@
 		<documentation>In this table, you can see which websites referred visitors to your site. &lt;br /&gt; By clicking on a row in the table, you can see which URLs the links to your website were on.</documentation>
 	</row>
 	<row>
-		<name>Visitor Browser (Visitor Devices)</name>
-		<documentation>This report contains information about what kind of browser your visitors were using. Each browser version is listed separately.</documentation>
-	</row>
-	<row>
-		<name>Visitor Configuration (Visitor Settings)</name>
-		<documentation>This report shows the most common overall configurations that your visitors had. A configuration is the combination of an operating system, a browser type and a screen resolution.</documentation>
-	</row>
-	<row>
-		<name>Visits by Day of Week (Visits Summary)</name>
+		<name>Visits by Day of Week (Visitors)</name>
 		<documentation>This graph shows the number of visits your website received on each day of the week.</documentation>
-	</row>
-	<row>
-		<name>Visits by Local Time (Visits Summary)</name>
-		<documentation>This graph shows what time it was in the &lt;strong&gt; visitors' time zones &lt;/strong&gt; during their visits.</documentation>
-	</row>
-	<row>
-		<name>Visits by Server Time (Visits Summary)</name>
-		<documentation>This graph shows what time it was in the &lt;strong&gt; server's time zone &lt;/strong&gt; during the visits.</documentation>
 	</row>
 	<row>
 		<name>Visits by Visit Number (Visitors)</name>
@@ -139,6 +131,14 @@
 	<row>
 		<name>Visits by days since last visit (Visitors)</name>
 		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
+	</row>
+	<row>
+		<name>Visits per local time (Visitors)</name>
+		<documentation>This graph shows what time it was in the &lt;strong&gt; visitors' time zones &lt;/strong&gt; during their visits.</documentation>
+	</row>
+	<row>
+		<name>Visits per server time (Visitors)</name>
+		<documentation>This graph shows what time it was in the &lt;strong&gt; server's time zone &lt;/strong&gt; during the visits.</documentation>
 	</row>
 	<row>
 		<name>Websites (Referrers)</name>

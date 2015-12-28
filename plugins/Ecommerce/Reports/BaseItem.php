@@ -9,15 +9,18 @@
 namespace Piwik\Plugins\Ecommerce\Reports;
 
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
-use Piwik\Plugins\Goals\Goals;
 use Piwik\Plugins\Goals\Columns\Metrics\AveragePrice;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageQuantity;
 use Piwik\Plugins\Goals\Columns\Metrics\ProductConversionRate;
+use Piwik\Plugins\Goals\Conversions;
+use Piwik\Plugins\Goals\Model;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 abstract class BaseItem extends Base
 {
@@ -46,7 +49,8 @@ abstract class BaseItem extends Base
 
     public function getMetricsDocumentation()
     {
-        if ($this->isAbandonedCart()) {
+        // we do not check whether it is abondon carts if not set re performance improvements
+        if ($this->isAbandonedCart($fetchIfNotSet = false)) {
             return array(
                 'revenue'         => Piwik::translate('Goals_ColumnRevenueDocumentation',
                                             Piwik::translate('Goals_DocumentationRevenueGeneratedByProductSales')),
@@ -60,6 +64,11 @@ abstract class BaseItem extends Base
         }
 
         return array();
+    }
+
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
+    {
+        $widgetsList->addToContainerWidget('Products', $factory->createWidget());
     }
 
     public function configureView(ViewDataTable $view)
@@ -100,7 +109,7 @@ abstract class BaseItem extends Base
             $view->config->custom_parameters['viewDataTable'] = 'table';
             $abandonedCart = true;
         } else {
-            $abandonedCart = $this->isAbandonedCart();
+            $abandonedCart = $this->isAbandonedCart($fetchIfNotSet = true);
         }
 
         if ($abandonedCart) {
@@ -127,8 +136,32 @@ abstract class BaseItem extends Base
         $view->config->columns_to_display = $columnsOrdered;
     }
 
-    private function isAbandonedCart()
+    private function isAbandonedCart($fetchIfNotSet)
     {
-        return Common::getRequestVar('abandonedCarts', '0', 'string') == 1;
+        $abandonedCarts = Common::getRequestVar('abandonedCarts', '', 'string');
+
+        if ($abandonedCarts === '') {
+            if ($fetchIfNotSet) {
+
+                $idSite = Common::getRequestVar('idSite', 0, 'int');
+                $period = Common::getRequestVar('period', '', 'string');
+                $date   = Common::getRequestVar('date', '', 'string');
+
+                $conversion = new Conversions();
+                $conversions = $conversion->getConversionForGoal(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER, $idSite, $period, $date);
+                $cartNbConversions = $conversion->getConversionForGoal(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART, $idSite, $period, $date);
+                $preloadAbandonedCart = $cartNbConversions !== false && $conversions == 0;
+
+                if ($preloadAbandonedCart) {
+                    $abandonedCarts = '1';
+                } else {
+                    $abandonedCarts = '0';
+                }
+            } else {
+                $abandonedCarts = '0';
+            }
+        }
+
+        return $abandonedCarts == '1';
     }
 }

@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\AssetManager;
 use Piwik\Access;
 use Piwik\Common;
@@ -22,9 +23,6 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\WidgetsList;
-use Piwik\Tests\Framework\OverrideLogin;
-use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\Config as PiwikConfig;
 
@@ -229,10 +227,10 @@ class UITestFixture extends SqlDump
         $_GET['token_auth'] = Fixture::getTokenAuth();
 
         // collect widgets & sort them so widget order is not important
-        $allWidgets = array();
-        foreach (WidgetsList::get() as $category => $widgets) {
-            $allWidgets = array_merge($allWidgets, $widgets);
-        }
+        $allWidgets = Request::processRequest('API.getWidgetMetadata', array(
+            'idSite' => 1
+        ));
+
         usort($allWidgets, function ($lhs, $rhs) {
             return strcmp($lhs['uniqueId'], $rhs['uniqueId']);
         });
@@ -297,11 +295,12 @@ class UITestFixture extends SqlDump
         $dashboard = array(
             array(
                 array(
-                    'uniqueId' => "widgetVisitsSummarygetEvolutionGraphcolumnsArray",
+                    'uniqueId' => "widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution",
                     'parameters' => array(
                         'module' => 'VisitsSummary',
                         'action' => 'getEvolutionGraph',
-                        'columns' => 'nb_visits'
+                        'forceView' => '1',
+                        'viewDataTable' => 'graphEvolution'
                     )
                 )
             ),

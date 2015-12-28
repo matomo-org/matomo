@@ -15,6 +15,8 @@
 
         var headerMessageParent = $('#header_message').parent();
 
+        initTopControls();
+
         // when 'check for updates...' link is clicked, force a check & display the result
         headerMessageParent.on('click', '#updateCheckLinkContainer', function (e) {
             e.preventDefault();
@@ -28,8 +30,11 @@
                 action: 'checkForUpdates'
             }, 'get');
 
+            ajaxRequest.withTokenInUrl();
+
             var $titleElement = $(this);
             $titleElement.addClass('activityIndicator');
+
             ajaxRequest.setCallback(function (response) {
                 headerMessage.fadeOut('slow', function () {
                     response = $(response);

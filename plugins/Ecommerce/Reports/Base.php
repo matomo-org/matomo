@@ -18,7 +18,7 @@ abstract class Base extends Report
     protected function init()
     {
         $this->module   = 'Goals';
-        $this->category = 'Goals_Ecommerce';
+        $this->categoryId = 'Goals_Ecommerce';
     }
 
     public function isEnabled()

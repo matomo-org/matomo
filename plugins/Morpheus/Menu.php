@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Morpheus;
 
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
-use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 
@@ -38,15 +37,5 @@ class Menu extends \Piwik\Plugin\Menu
         if (Development::isEnabled() && Piwik::isUserHasSomeAdminAccess()) {
             $menu->addPlatformItem('UI Demo', $this->urlForAction('demo'), $order = 15);
         }
-    }
-
-    public function configureReportingMenu(MenuReporting $menu)
-    {
-        $menu->registerMenuIcon('General_Visitors', 'icon-reporting-visitors');
-        $menu->registerMenuIcon('General_Actions', 'icon-reporting-actions');
-        $menu->registerMenuIcon('Referrers_Referrers', 'icon-reporting-referer');
-        $menu->registerMenuIcon('Goals_Goals', 'icon-reporting-goal');
-        $menu->registerMenuIcon('Goals_Ecommerce', 'icon-reporting-ecommerce');
-        $menu->registerMenuIcon('Dashboard_Dashboard', 'icon-reporting-dashboard');
     }
 }

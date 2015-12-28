@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Events\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugins\Events\Columns\EventCategory;
 
 /**
@@ -24,6 +23,5 @@ class GetCategoryFromNameId extends Base
         $this->dimension     = new EventCategory();
         $this->name          = Piwik::translate('Events_EventCategories');
         $this->isSubtableReport = true;
-        $this->widgetParams = array();
     }
 }

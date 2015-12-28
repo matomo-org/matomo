@@ -12,7 +12,9 @@ describe("DashboardManager", function () {
     this.timeout(0);
 
     var selectorToCapture = '.dashboard-manager';
-    var url = "?module=CoreHome&action=index&idSite=1&period=day&date=2012-01-01";
+
+    var generalParams = 'idSite=1&period=day&date=2012-01-01';
+    var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=Dashboard_Dashboard&subcategory=5';
 
     it("should load correctly", function (done) {
         expect.screenshot("loaded").to.be.captureSelector(selectorToCapture, function (page) {
@@ -29,7 +31,7 @@ describe("DashboardManager", function () {
     it("should show widget for a category when category label hovered", function (done) {
         expect.screenshot("widget_list_shown").to.be.captureSelector(selectorToCapture, function (page) {
             page.mouseMove('.widgetpreview-categorylist>li:contains(Live!)'); // have to mouse move twice... otherwise Live! will just be highlighted
-            page.mouseMove('.widgetpreview-categorylist>li:contains(Visits Summary)');
+            page.mouseMove('.widgetpreview-categorylist>li:contains(Visitors):first');
         }, done);
     });
 

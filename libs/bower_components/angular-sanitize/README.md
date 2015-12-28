@@ -14,20 +14,11 @@ You can install this package either with `npm` or with `bower`.
 npm install angular-sanitize
 ```
 
-Add a `<script>` to your `index.html`:
-
-```html
-<script src="/node_modules/angular-sanitize/angular-sanitize.js"></script>
-```
-
 Then add `ngSanitize` as a dependency for your app:
 
 ```javascript
-angular.module('myApp', ['ngSanitize']);
+angular.module('myApp', [require('angular-sanitize')]);
 ```
-
-Note that this package is not in CommonJS format, so doing `require('angular-sanitize')` will
-return `undefined`.
 
 ### bower
 
@@ -56,7 +47,7 @@ Documentation is available on the
 
 The MIT License
 
-Copyright (c) 2010-2012 Google, Inc. http://angularjs.org
+Copyright (c) 2010-2015 Google, Inc. http://angularjs.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

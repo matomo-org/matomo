@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<category>Visitor Devices</category>
+		<category>Visitors</category>
+		<subcategory>Devices</subcategory>
 		<name>Device type</name>
 		<module>DevicesDetection</module>
 		<action>getType</action>

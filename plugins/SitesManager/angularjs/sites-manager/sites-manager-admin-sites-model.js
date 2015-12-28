@@ -102,7 +102,7 @@
 
                 setSites(sites);
 
-            }, onError)['finally'](function () {
+            }, onError).finally(function () {
                 if (callback) {
                     callback();
                 }

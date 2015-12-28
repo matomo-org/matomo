@@ -13,12 +13,22 @@ use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Contents\Dimensions;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 abstract class Base extends Report
 {
     protected function init()
     {
-        $this->category = 'General_Actions';
+        $this->categoryId = 'General_Actions';
+        $this->subcategoryId = 'Contents_Contents';
+    }
+
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
+    {
+        $widget = $factory->createWidget();
+
+        $widgetsList->addToContainerWidget('Contents', $widget);
     }
 
     /**

@@ -74,7 +74,7 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
 
         processedScreenshotPath = getProcessedScreenshotPath(screenName);
 
-        screenshotDiffDir = path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.screenshotDiffDir);
+    screenshotDiffDir = path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.screenshotDiffDir);
 
     if (!fs.isDirectory(screenshotDiffDir)) {
         fs.makeTree(screenshotDiffDir);
@@ -170,7 +170,7 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
                         } else {
                             testFailure += "(image magick error: " + numPxDifference;
                         }
-                        
+
                         testFailure += ")\n";
                     }
                 }
@@ -379,7 +379,7 @@ chai.Assertion.addChainableMethod('contains', function () {
                 stack += indent + "View the captured screenshot at '" + capturePath + "'.";
             } else {
                 stack += indent + "NOTE: No screenshot name was supplied to this '.contains(' assertion. If the second argument is a screenshot name, "
-                      + "the screenshot will be saved so you can debug this failure.";
+                + "the screenshot will be saved so you can debug this failure.";
             }
 
             stack += getPageLogsString(pageRenderer.pageLogs, indent);

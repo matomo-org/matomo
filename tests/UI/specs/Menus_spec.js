@@ -22,19 +22,19 @@ describe("Menus", function () {
     // main menu tests
     it('should load the main reporting menu correctly', function (done) {
         expect.screenshot('mainmenu_loaded').to.be.captureSelector('#secondNavBar', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Actions&action=menuGetPageUrls");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
         }, done);
     });
 
     it('should change the menu when a upper menu item is clicked in the main menu', function (done) {
         expect.screenshot('mainmenu_upper_clicked').to.be.captureSelector('#secondNavBar', function (page) {
-            page.click('#secondNavBar .navbar > li:eq(1) > a');
+            openMenuItem(page, 'Visitors');
         }, done);
     });
 
     it('should change the menu when a lower menu item is clicked in the main menu', function (done) {
         expect.screenshot('mainmenu_lower_clicked').to.be.captureSelector('#secondNavBar', function (page) {
-            page.click('#secondNavBar .navbar > li:eq(1) > ul > li:eq(1) > a');
+            openMenuItem(page, 'Visitor Log');
         }, done);
     });
 

@@ -32,9 +32,13 @@
 
     <div class="page">
 
-        {% if (menu is defined and menu) %}
-            {% import '@CoreHome/_menu.twig' as menuMacro %}
-            {{ menuMacro.menu(menu, true, 'Menu--dashboard') }}
+        {% if showMenu is defined and showMenu %}
+            <div id="secondNavBar" class="Menu--dashboard">
+                <div id="search">
+                    <div piwik-quick-access class="borderedControl"></div>
+                </div>
+                <div piwik-reporting-menu></div>
+            </div>
         {% endif %}
 
         <div class="pageWrap">
@@ -49,6 +53,8 @@
             {% block notification %}
                 {% include "@CoreHome/_notifications.twig" %}
             {% endblock %}
+
+            <div piwik-popover></div>
 
             {% block content %}
             {% endblock %}

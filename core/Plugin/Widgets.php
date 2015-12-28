@@ -8,191 +8,162 @@
  */
 namespace Piwik\Plugin;
 
-use Piwik\Development;
-use Piwik\Plugin\Manager as PluginManager;
-use Piwik\WidgetsList;
+use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
+use Piwik\Plugin;
+use Exception;
+use Piwik\Widget\Widget;
+use Piwik\Widget\WidgetConfig;
+use Piwik\Widget\WidgetContainerConfig;
 
 /**
- * Base class of all plugin widget providers. Plugins that define their own widgets can extend this class to easily
- * add new widgets or to remove widgets defined by other plugins.
- *
- * For an example, see the {@link https://github.com/piwik/piwik/blob/master/plugins/ExamplePlugin/Widgets.php} plugin.
- *
- * @api
+ * Get widgets that are defined by plugins.
  */
 class Widgets
 {
-    protected $category = '';
-    protected $widgets  = array();
-
-    public function __construct()
-    {
-        // Constructor kept for BC (because called in implementations)
-    }
-
     /**
-     * @ignore
+     * @var Plugin\Manager
      */
-    public function getCategory()
-    {
-        return $this->category;
-    }
+    private $pluginManager;
 
-    private function getModule()
+    public function __construct(Plugin\Manager $pluginManager)
     {
-        $className = get_class($this);
-        $className = explode('\\', $className);
-
-        return $className[2];
+        $this->pluginManager = $pluginManager;
     }
 
     /**
-     * Adds a widget. You can add a widget by calling this method and passing the name of the widget as well as a method
-     * name that will be executed to render the widget. The method can be defined either directly here in this widget
-     * class or in the controller in case you want to reuse the same action for instance in the menu etc.
-     * @api
-     */
-    protected function addWidget($name, $method, $parameters = array())
-    {
-        $this->addWidgetWithCustomCategory($this->category, $name, $method, $parameters);
-    }
-
-    /**
-     * Adds a widget with a custom category. By default all widgets that you define in your class will be added under
-     * the same category which is defined in the {@link $category} property. Sometimes you may have a widget that
-     * belongs to a different category where this method comes handy. It does the same as {@link addWidget()} but
-     * allows you to define the category name as well.
-     * @api
-     */
-    protected function addWidgetWithCustomCategory($category, $name, $method, $parameters = array())
-    {
-        $this->checkIsValidWidget($name, $method);
-
-        $this->widgets[] = array('category' => $category,
-                                 'name'     => $name,
-                                 'params'   => $parameters,
-                                 'method'   => $method,
-                                 'module'   => $this->getModule());
-    }
-
-    /**
-     * Here you can add one or multiple widgets. To do so call the method {@link addWidget()} or
-     * {@link addWidgetWithCustomCategory()}.
-     * @api
-     */
-    protected function init()
-    {
-    }
-
-    /**
-     * @ignore
-     */
-    public function getWidgets()
-    {
-        $this->widgets = array();
-
-        $this->init();
-
-        return $this->widgets;
-    }
-
-    /**
-     * Allows you to configure previously added widgets.
-     * For instance you can remove any widgets defined by any plugin by calling the
-     * {@link \Piwik\WidgetsList::remove()} method.
+     * Get all existing widget configs.
      *
-     * @param WidgetsList $widgetsList
-     * @api
+     * @return WidgetConfig[]
      */
-    public function configureWidgetsList(WidgetsList $widgetsList)
+    public function getWidgetConfigs()
     {
+        $widgetClasses = $this->getAllWidgetClassNames();
+
+        $configs = array();
+
+        /**
+         * Triggered to add custom widget configs. To filder widgets have a look at the {@hook Widget.filterWidgets}
+         * event.
+         *
+         * **Example**
+         *
+         *     public function addWidgetConfigs(&$configs)
+         *     {
+         *         $config = new WidgetConfig();
+         *         $config->setModule('PluginName');
+         *         $config->setAction('renderDashboard');
+         *         $config->setCategoryId('Dashboard_Dashboard');
+         *         $config->setSubcategoryId('dashboardId');
+         *         $configs[] = $config;
+         *     }
+         *
+         * @param array &$configs An array containing a list of widget config entries.
+         */
+        Piwik::postEvent('Widget.addWidgetConfigs', array(&$configs));
+
+        foreach ($widgetClasses as $widgetClass) {
+            $configs[] = $this->getWidgetConfigForClassName($widgetClass);
+        }
+
+        return $configs;
     }
 
     /**
-     * @return \Piwik\Plugin\Widgets[]
-     * @ignore
+     * Get all existing widget container configs.
+     * @return WidgetContainerConfig[]
      */
-    public static function getAllWidgets()
+    public function getWidgetContainerConfigs()
     {
-        return PluginManager::getInstance()->findComponents('Widgets', 'Piwik\\Plugin\\Widgets');
+        $configs = array();
+
+        $widgetContainerConfigs = $this->getAllWidgetContainerConfigClassNames();
+        foreach ($widgetContainerConfigs as $widgetClass) {
+            $configs[] = StaticContainer::get($widgetClass);
+        }
+
+        return $configs;
     }
 
     /**
-     * @ignore
-     * @return Widgets|null
+     * Get the widget defined by the given module and action.
+     *
+     * @param string $module Aka plugin name, eg 'CoreHome'
+     * @param string $action An action eg 'renderMe'
+     * @return Widget|null
+     * @throws \Exception Throws an exception if the widget is not enabled.
      */
-    public static function factory($module, $action)
+    public function factory($module, $action)
     {
         if (empty($module) || empty($action)) {
             return;
         }
 
-        $pluginManager = PluginManager::getInstance();
-
         try {
-            if (!$pluginManager->isPluginActivated($module)) {
+            if (!$this->pluginManager->isPluginActivated($module)) {
                 return;
             }
 
-            $plugin = $pluginManager->getLoadedPlugin($module);
+            $plugin = $this->pluginManager->getLoadedPlugin($module);
         } catch (\Exception $e) {
             // we are not allowed to use possible widgets, plugin is not active
             return;
         }
 
-        /** @var Widgets $widgetContainer */
-        $widgetContainer = $plugin->findComponent('Widgets', 'Piwik\\Plugin\\Widgets');
+        /** @var Widget[] $widgetContainer */
+        $widgets = $plugin->findMultipleComponents('Widgets', 'Piwik\\Widget\\Widget');
 
-        if (empty($widgetContainer)) {
-            // plugin does not define any widgets, we cannot do anything
-            return;
+        foreach ($widgets as $widgetClass) {
+            $config = $this->getWidgetConfigForClassName($widgetClass);
+            if ($config->getAction() === $action) {
+                $config->checkIsEnabled();
+                return StaticContainer::get($widgetClass);
+            }
         }
-
-        if (!is_callable(array($widgetContainer, $action))) {
-            // widget does not implement such a method, we cannot do anything
-            return;
-        }
-
-        // the widget class implements such an action, but we have to check whether it is actually exposed and whether
-        // it was maybe disabled by another plugin, this is only possible by checking the widgetslist, unfortunately
-        if (!WidgetsList::isDefined($module, $action)) {
-            return;
-        }
-
-        return $widgetContainer;
     }
 
-    private function checkIsValidWidget($name, $method)
+    private function getWidgetConfigForClassName($widgetClass)
     {
-        if (!Development::isEnabled()) {
-            return;
+        /** @var string|Widget $widgetClass */
+        $config = new WidgetConfig();
+        $config->setModule($this->getModuleFromWidgetClassName($widgetClass));
+        $config->setAction($this->getActionFromWidgetClassName($widgetClass));
+        $widgetClass::configure($config);
+
+        return $config;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getAllWidgetClassNames()
+    {
+        return $this->pluginManager->findMultipleComponents('Widgets', 'Piwik\\Widget\\Widget');
+    }
+
+    private function getModuleFromWidgetClassName($widgetClass)
+    {
+        $parts = explode('\\', $widgetClass);
+
+        return $parts[2];
+    }
+
+    private function getActionFromWidgetClassName($widgetClass)
+    {
+        $parts = explode('\\', $widgetClass);
+
+        if (count($parts) >= 4) {
+            return lcfirst(end($parts));
         }
 
-        if (empty($name)) {
-            Development::error('No name is defined for added widget having method "' . $method . '" in ' . get_class($this));
-        }
+        return '';
+    }
 
-        if (Development::isCallableMethod($this, $method)) {
-            return;
-        }
-
-        $controllerClass = 'Piwik\\Plugins\\' . $this->getModule() . '\\Controller';
-
-        if (!Development::methodExists($this, $method) &&
-            !Development::methodExists($controllerClass, $method)) {
-            Development::error('The added method "' . $method . '" neither exists in "' . get_class($this) . '" nor "' . $controllerClass . '". Make sure to define such a method.');
-        }
-
-        $definedInClass = get_class($this);
-
-        if (Development::methodExists($controllerClass, $method)) {
-            if (Development::isCallableMethod($controllerClass, $method)) {
-                return;
-            }
-
-            $definedInClass = $controllerClass;
-        }
-
-        Development::error('The method "' . $method . '" is not callable on "' . $definedInClass . '". Make sure the method is public.');
+    /**
+     * @return string[]
+     */
+    private function getAllWidgetContainerConfigClassNames()
+    {
+        return $this->pluginManager->findMultipleComponents('Widgets', 'Piwik\\Widget\\WidgetContainerConfig');
     }
 }

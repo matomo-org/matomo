@@ -10,9 +10,7 @@ namespace Piwik\Tests\System;
 use Piwik\Archive\Chunk;
 use Piwik\Common;
 use Piwik\Archive\ArchiveInvalidator;
-use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\Db;
-use Piwik\Piwik;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 

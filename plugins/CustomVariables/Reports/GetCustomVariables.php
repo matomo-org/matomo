@@ -23,8 +23,8 @@ class GetCustomVariables extends Base
                                array('<br />', '<a href="http://piwik.org/docs/custom-variables/" rel="noreferrer"  target="_blank">', '</a>'));
         $this->actionToLoadSubTables = 'getCustomVariablesValuesFromNameId';
         $this->order = 10;
-        $this->widgetTitle  = 'CustomVariables_CustomVariables';
-        $this->menuTitle    = 'CustomVariables_CustomVariables';
+
+        $this->subcategoryId    = 'CustomVariables_CustomVariables';
         $this->hasGoalMetrics = true;
     }
 

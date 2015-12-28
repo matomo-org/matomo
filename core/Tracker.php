@@ -12,7 +12,6 @@ use Exception;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Config;
-use Piwik\Tracker\Db as TrackerDb;
 use Piwik\Tracker\Db\DbException;
 use Piwik\Tracker\Handler;
 use Piwik\Tracker\Request;
@@ -30,11 +29,6 @@ use Piwik\Plugin\Manager as PluginManager;
  */
 class Tracker
 {
-    /**
-     * @var Db
-     */
-    private static $db = null;
-
     // We use hex ID that are 16 chars in length, ie. 64 bits IDs
     const LENGTH_HEX_ID_STRING = 16;
     const LENGTH_BINARY_ID = 8;
@@ -200,27 +194,22 @@ class Tracker
 
     public function isDatabaseConnected()
     {
-        return !is_null(self::$db);
+        return Db::isDatabaseConnected();
     }
 
     public static function getDatabase()
     {
-        if (is_null(self::$db)) {
-            try {
-                self::$db = TrackerDb::connectPiwikTrackerDb();
-            } catch (Exception $e) {
-                throw new DbException($e->getMessage(), $e->getCode());
-            }
+        try {
+            return Db::get();
+        } catch (Exception $e) {
+            throw new DbException($e->getMessage(), $e->getCode());
         }
-
-        return self::$db;
     }
 
     protected function disconnectDatabase()
     {
         if ($this->isDatabaseConnected()) { // note: I think we do this only for the tests
-            self::$db->disconnect();
-            self::$db = null;
+            Db::destroyDatabaseObject();
         }
     }
 
@@ -229,8 +218,7 @@ class Tracker
     {
         // code redundancy w/ above is on purpose; above disconnectDatabase depends on method that can potentially be overridden
         if (!is_null(self::$db)) {
-            self::$db->disconnect();
-            self::$db = null;
+            Db::destroyDatabaseObject();
         }
     }
 

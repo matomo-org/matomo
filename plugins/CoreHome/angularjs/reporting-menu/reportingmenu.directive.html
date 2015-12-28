@@ -1,0 +1,38 @@
+<ul class="navbar"role="menu">
+    <li ng-repeat="category in menuModel.menu"
+        class="menuTab"
+        role="menuitem"
+        ng-class="{'active': category.active}">
+        <a class="item"
+           href=""
+           ng-click="loadCategory(category)">
+            <span class="menu-icon {{ category.icon ? category.icon : 'icon-arrow-right' }}"></span>{{ category.name }}
+            <span class="hidden">
+             {{ 'CoreHome_Menu'|translate }}
+           </span>
+        </a>
+        <ul role="menu">
+            <li ng-repeat="subcategory in category.subcategories"
+                role="menuitem"
+                ng-class="{'active': subcategory.active}">
+                <div ng-if="subcategory.isGroup" piwik-menudropdown show-search="true" menu-title="{{ subcategory.name|escape }}">
+                    <a class="item"
+                       ng-repeat="subcat in subcategory.subcategories"
+                       title="{{ subcat.tooltip }}"
+                       ng-class="{'active': subcat.active}"
+                       ng-href="#?{{ makeUrl(category,subcat) }}"
+                       ng-click='loadSubcategory(category, subcat)'>
+                        {{ subcat.name }}
+                    </a>
+                </div>
+
+                <a ng-if="!subcategory.isGroup"
+                   ng-href="#?{{ makeUrl(category,subcategory) }}"
+                   class="item"
+                   ng-click='loadSubcategory(category, subcategory)'>
+                    {{ subcategory.name }}
+                </a>
+            </li>
+        </ul>
+    </li>
+</ul>

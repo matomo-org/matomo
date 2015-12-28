@@ -178,6 +178,7 @@ $(document).ready(function () {
                     module: 'PrivacyManager',
                     action: 'executeDataPurge'
                 }, 'get');
+                ajaxRequest.withTokenInUrl();
                 ajaxRequest.setCallback(
                     function () {
                         // force reload

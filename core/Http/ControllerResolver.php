@@ -10,8 +10,10 @@ namespace Piwik\Http;
 
 use DI\FactoryInterface;
 use Exception;
+use Piwik\Plugin;
 use Piwik\Plugin\Controller;
-use Piwik\Plugin\Report;
+use Piwik\Plugin\Reports;
+use Piwik\Session;
 use Piwik\Plugin\Widgets;
 
 /**
@@ -26,9 +28,15 @@ class ControllerResolver
      */
     private $abstractFactory;
 
-    public function __construct(FactoryInterface $abstractFactory)
+    /**
+     * @var Widgets
+     */
+    private $widgets;
+
+    public function __construct(FactoryInterface $abstractFactory, Widgets $widgets)
     {
         $this->abstractFactory = $abstractFactory;
+        $this->widgets = $widgets;
     }
 
     /**
@@ -55,11 +63,6 @@ class ControllerResolver
             return $controller;
         }
 
-        $controller = $this->createReportMenuController($module, $action, $parameters);
-        if ($controller) {
-            return $controller;
-        }
-
         throw new Exception(sprintf("Action '%s' not found in the module '%s'", $action, $module));
     }
 
@@ -75,7 +78,7 @@ class ControllerResolver
 
         $action = $action ?: $controller->getDefaultAction();
 
-        if (!is_callable(array($controller, $action))) {
+        if (!is_callable(array($controller, $action)) || !in_array($action, get_class_methods($controller))) {
             return null;
         }
 
@@ -84,21 +87,20 @@ class ControllerResolver
 
     private function createWidgetController($module, $action, array &$parameters)
     {
-        $widget = Widgets::factory($module, $action);
+        $widget = $this->widgets->factory($module, $action);
 
         if (!$widget) {
-            return null;
+            return;
         }
 
         $parameters['widget'] = $widget;
-        $parameters['method'] = $action;
 
         return array($this->createCoreHomeController(), 'renderWidget');
     }
 
     private function createReportController($module, $action, array &$parameters)
     {
-        $report = Report::factory($module, $action);
+        $report = Reports::factory($module, $action);
 
         if (!$report) {
             return null;
@@ -107,31 +109,6 @@ class ControllerResolver
         $parameters['report'] = $report;
 
         return array($this->createCoreHomeController(), 'renderReportWidget');
-    }
-
-    private function createReportMenuController($module, $action, array &$parameters)
-    {
-        if (!$this->isReportMenuAction($action)) {
-            return null;
-        }
-
-        $action = lcfirst(substr($action, 4)); // menuGetPageUrls => getPageUrls
-        $report = Report::factory($module, $action);
-
-        if (!$report) {
-            return null;
-        }
-
-        $parameters['report'] = $report;
-
-        return array($this->createCoreHomeController(), 'renderReportMenu');
-    }
-
-    private function isReportMenuAction($action)
-    {
-        $startsWithMenu = (Report::PREFIX_ACTION_IN_MENU === substr($action, 0, strlen(Report::PREFIX_ACTION_IN_MENU)));
-
-        return !empty($action) && $startsWithMenu;
     }
 
     private function createCoreHomeController()
