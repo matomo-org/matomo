@@ -46,10 +46,6 @@ class Db
      */
     public static function get()
     {
-        if (SettingsServer::isTrackerApiRequest()) {
-            return Tracker::getDatabase();
-        }
-
         if (!self::hasDatabaseObject()) {
             self::createDatabaseObject();
         }
@@ -771,5 +767,10 @@ class Db
 
         $semanticVersion = strstr($version, '-', $beforeNeedle = true);
         return version_compare($semanticVersion, '10.1.1', '>=');
+    }
+
+    public static function isDatabaseConnected()
+    {
+        return self::$connection != null;
     }
 }

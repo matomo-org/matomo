@@ -45,7 +45,7 @@ class Model
         $result = $db->query($sql, $bind);
 
         // If a record was inserted, we return true
-        return $db->rowCount($result) > 0;
+        return $result->rowCount() > 0;
     }
 
     public function updateConversion($idVisit, $idGoal, $newConversion)
@@ -301,7 +301,7 @@ class Model
 
         $db          = $this->getDb();
         $result      = $db->query($sqlQuery, $sqlBind);
-        $wasInserted = $db->rowCount($result) != 0;
+        $wasInserted = $result->rowCount() != 0;
 
         if (!$wasInserted) {
             Common::printDebug("Visitor with this idvisit wasn't found in the DB.");
@@ -329,7 +329,8 @@ class Model
 
         $db          = $this->getDb();
         $result      = $db->query($sqlQuery, $sqlBind);
-        $wasInserted = $db->rowCount($result) != 0;
+        $wasInserted = $result->rowCount() != 0;
+
 
         if (!$wasInserted) {
             Common::printDebug("Action with this idLinkVa wasn't found in the DB.");
@@ -404,7 +405,7 @@ class Model
                 ORDER BY visit_last_action_time DESC
                 LIMIT 1";
 
-        $visitRow = $this->getDb()->fetch($sql, $bindSql);
+        $visitRow = $this->getDb()->fetchRow($sql, $bindSql);
 
         return $visitRow;
     }
