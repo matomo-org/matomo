@@ -2,17 +2,17 @@
 <result>
 	<row>
 		<label>Page Name not defined</label>
-		<nb_visits>28</nb_visits>
-		<nb_hits>38</nb_hits>
+		<nb_visits>29</nb_visits>
+		<nb_hits>39</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<nb_hits_with_time_generation>16</nb_hits_with_time_generation>
+		<nb_hits_with_time_generation>17</nb_hits_with_time_generation>
 		<min_time_generation>0.001</min_time_generation>
 		<max_time_generation>1.324</max_time_generation>
-		<sum_daily_nb_uniq_visitors>27</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>28</sum_daily_nb_uniq_visitors>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<avg_time_generation>0.3</avg_time_generation>
+		<avg_time_generation>0.283</avg_time_generation>
 	</row>
 	<row>
 		<label> Liberate Web Analytics - Analytics - Piwik</label>
