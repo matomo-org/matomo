@@ -24,7 +24,6 @@
         "JavaScriptTracking": "Suivi par JavaScript",
         "JSTracking_CampaignKwdParam": "Paramètre de la campagne de mot-clé",
         "JSTracking_CampaignNameParam": "Paramètre nom de la campagne",
-        "JSTracking_CodeNote": "Assurez-vous que ce code est sur toutes les pages de votre site web avant la balise %1$s.",
         "JSTracking_CustomCampaignQueryParam": "Utilisez des paramètres de requête personnalisés pour le nom et le mot-clé de la campagne",
         "JSTracking_CustomCampaignQueryParamDesc": "Note : %1$sPiwik détectera automatiquement les paramètres de Google Analytics.%2$s",
         "JSTracking_DisableCookies": "Désactiver tous les cookies de suivi",

@@ -67,7 +67,6 @@
         "SiteSearchUse": "Možete koristiti Piwik za praćenje i kreiranje izveštaja o tome šta posetioci traže na vašem sajtu koristeći polje za pretragu.",
         "SiteWithoutDataTitle": "Nikakvi podaci do sad nisu zabeleženi",
         "SiteWithoutDataDescription": "Još uvek nema analitičkih podataka za ova sajt.",
-        "SiteWithoutDataSetupTracking": "Molimo vas da podesite %1$sJavaScript kod za praćenje%2$s na vašem sajtu i da ponovo učitate stranicu.",
         "SuperUserAccessCan": "Korisnik sa superkorisničkim nivoom pristupa može i da %spostavi globalna podešavanja%s za nove sajtove.",
         "Timezone": "Vremenska zona",
         "TrackingSiteSearch": "Praćenje pretraživanja sajta",

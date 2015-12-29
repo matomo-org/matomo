@@ -3,7 +3,6 @@
         "BrowserWithNoPluginsEnabled": "%1$s sense connectors activats",
         "BrowserWithPluginsEnabled": "%1$s amb els connectors %2$s activats",
         "PluginDescription": "Mostra la llista de connectors que suporten els navegadors dels visitants",
-        "PluginDetectionDoesNotWorkInIE": "Nota: La detecció de connectors no funciona amb Internet Explorer. L'informe es basa nomes amb navegadors diferents de l'Internet Explorer",
         "WidgetPlugins": "Llistat de connectors",
         "WidgetPluginsDocumentation": "Aquest informe mostra quins connectors tenen els vostres visitants activades. Aquesta informació pot ser important per determinar la forma correcta de mostrar el contingut."
     }

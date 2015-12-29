@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Gjennomsnitt basert på %s treff %s mellom %s og %s",
+        "AvgGenerationTimeTooltip": "Gjennomsnitt basert på %1$s treff %2$s mellom %3$s og %4$s",
         "ColumnClickedURL": "Klikket URL",
         "ColumnActionURL": "Handlings-URL",
         "ColumnClicks": "Klikk",

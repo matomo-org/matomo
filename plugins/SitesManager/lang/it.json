@@ -67,7 +67,6 @@
         "SiteSearchUse": "È possibile utilizzare Piwik per monitorare e creare dei report su ciò che i visitatori stanno cercando nel motore di ricerca interno del tuo sito web.",
         "SiteWithoutDataTitle": "Non è stato ancora registrato alcun dato",
         "SiteWithoutDataDescription": "Per questo sito non sono ancora stati tracciati dati statistici.",
-        "SiteWithoutDataSetupTracking": "Imposta il %1$scodice di tracciamento JavaScript%2$s nel sito e ricarica la pagina.",
         "SuperUserAccessCan": "Un utente con accesso Super User può anche %sspecificare le impostazioni globali%s per i nuovi siti.",
         "Timezone": "Fuso orario",
         "TrackingSiteSearch": "Tracciamento Ricerca Interna Sito",

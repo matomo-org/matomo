@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Medel baseras på %s träff(ar) %s mellan %s och %s",
+        "AvgGenerationTimeTooltip": "Medel baseras på %1$s träff(ar) %2$s mellan %3$s och %4$s",
         "ColumnClickedURL": "Klickad URL",
         "ColumnClicks": "Klick",
         "ColumnClicksDocumentation": "Antalet gånger som denna länk klickades på.",

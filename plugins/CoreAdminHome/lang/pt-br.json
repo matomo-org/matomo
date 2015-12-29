@@ -24,7 +24,7 @@
         "JavaScriptTracking": "Rastreamento de JavaScript",
         "JSTracking_CampaignKwdParam": "Parâmetro de Palavra-Chave da campanha",
         "JSTracking_CampaignNameParam": "Parâmetro Nome da Campanha",
-        "JSTracking_CodeNote": "Certifique-se de que este código estará em todas as páginas do seu website antes da tag %1$s.",
+        "JSTracking_CodeNoteBeforeClosingHead": "Certifique-se de que este código está em cada página do seu site. Recomendamos colá-lo imediatamente antes de fechar a tag %1$s .",
         "JSTracking_CustomCampaignQueryParam": "Utilizar nomes de parâmetros de consultas personalizados para o nome da campanha e a palavra-chave.",
         "JSTracking_CustomCampaignQueryParamDesc": "Nota: %1$sPiwik irá detectar automaticamente os parâmetros do Google Analytics.%2$s",
         "JSTracking_DisableCookies": "Desabilitar todos os cookies de rastreamento",

@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Moyenne basée sur %s entrée(s) sur %s entre %s et %s",
         "ColumnClickedURL": "URL cliquées",
         "ColumnActionURL": "URL d'action",
         "ColumnClicks": "Clics",

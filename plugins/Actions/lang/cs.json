@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Průměr dle %s přístupů %s mezi %s a %s",
+        "AvgGenerationTimeTooltip": "Průměr dle %1$s přístupů %2$s mezi %3$s a %4$s",
         "ColumnClickedURL": "URL prokliku",
         "ColumnActionURL": "URL akce",
         "ColumnClicks": "Prokliků",

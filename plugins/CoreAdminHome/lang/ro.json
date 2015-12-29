@@ -22,7 +22,6 @@
         "JavaScriptTracking": "Urmărire prin JavaScript",
         "JSTracking_CampaignKwdParam": "Parametru Campanie Cuvânt Cheie",
         "JSTracking_CampaignNameParam": "Parametrul Nume Campanie (Campaign Name)",
-        "JSTracking_CodeNote": "Asigura-te ca acest cod este pe fiecare pagina a siteului tau inainte de tagul %1$s.",
         "JSTracking_CustomCampaignQueryParam": "Foloseste nume customizate pentru parametrii de cautare, pentru numele campaniei & cuvant.",
         "JSTracking_CustomCampaignQueryParamDesc": "Notă: %1$sPiwik va detecta automat parametrii Google Analytics.%2$s",
         "JSTracking_EnableDoNotTrack": "Activeaza detectia DoNotTrack pentru vizitatori (client side).",

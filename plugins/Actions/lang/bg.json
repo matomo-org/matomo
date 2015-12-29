@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Средно базирано на %s посещение(я) %s между %s и %s",
+        "AvgGenerationTimeTooltip": "Средно базирано на %1$s посещение(я) %2$s между %3$s и %4$s",
         "ColumnClickedURL": "Посетена връзка",
         "ColumnClicks": "Щраквания",
         "ColumnClicksDocumentation": "Брой щраквания на тази връзка",

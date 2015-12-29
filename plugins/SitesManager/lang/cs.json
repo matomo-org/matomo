@@ -67,7 +67,6 @@
         "SiteSearchUse": "Piwik můžete použít ke sledování a hlášení toho, co návštěvníci hledají pomocí interního vyhledávače.",
         "SiteWithoutDataTitle": "Zatím nebyla zaznamenána žádná data",
         "SiteWithoutDataDescription": "Pro tuto stránku nebyla zatím zaznamenána žádná analytická data.",
-        "SiteWithoutDataSetupTracking": "Prosím, nastavte %1$ssledovací javascriptový kód %2$s na vašich webových stránkách, a pak stránku obnovte.",
         "SuperUserAccessCan": "Uživatel se super uživatelským přístupem může také %sspecifikovat globální nastavení%s pro nové webové stránky.",
         "Timezone": "Časová zóna",
         "TrackingSiteSearch": "Sledování interního vyhledávání na stránkách",

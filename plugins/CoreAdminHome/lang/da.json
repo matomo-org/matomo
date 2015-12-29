@@ -22,7 +22,6 @@
         "JavaScriptTracking": "Sporing med JavaScript",
         "JSTracking_CampaignKwdParam": "Kampagne nøgleord parameter",
         "JSTracking_CampaignNameParam": "Kampagnenavn parameter",
-        "JSTracking_CodeNote": "Sørg for, at koden er på hver side af hjemmesiden, før %1$s tag.",
         "JSTracking_CustomCampaignQueryParam": "Brug brugerdefineret forespørgsel parameternavne for kampagnenavnet & søgeord",
         "JSTracking_CustomCampaignQueryParamDesc": "Note: %1$sPiwik registrerer automatisk Google Analytics parametre.%2$s",
         "JSTracking_DisableCookies": "Deaktivere alle sporingscookies",

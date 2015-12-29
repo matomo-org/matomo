@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Prosijek baziran na %s pogodak(a) %s između %s i %s",
+        "AvgGenerationTimeTooltip": "Prosijek baziran na %1$s pogodak(a) %2$s između %3$s i %4$s",
         "ColumnClickedURL": "Kliknut URL",
         "ColumnClicks": "Klikovi",
         "ColumnClicksDocumentation": "Broj klikova na ovaj link",

@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "میانگین بر اساس %s کلیک %s بین %s و %s",
+        "AvgGenerationTimeTooltip": "میانگین بر اساس %1$s کلیک %2$s بین %3$s و %4$s",
         "ColumnClickedURL": "آدرس کلیک شده",
         "ColumnClicks": "کلیک ها",
         "ColumnClicksDocumentation": "تعداد دفعاتی که بر روی این لینک کلیک شده است.",

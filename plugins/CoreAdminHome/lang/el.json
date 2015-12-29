@@ -24,7 +24,7 @@
         "JavaScriptTracking": "Παρακολούθηση με JavaScript",
         "JSTracking_CampaignKwdParam": "Παράμετρος Κλειδιού Καμπάνιας",
         "JSTracking_CampaignNameParam": "Παράμετρος Όνομα Καμπάνιας",
-        "JSTracking_CodeNote": "Βεβαιωθείτε ότι ο κώδικας αυτός είναι σε κάθε σελίδα της ιστοσελίδας σας πριν από την ετικέτα %1$s.",
+        "JSTracking_CodeNoteBeforeClosingHead": "Βεβαιωθείτε ότι ο κώδικας αυτός υπάρχει σε κάθε σελίδα του ιστοτόπου σας. Προτείνεται να τον επικολλήσετε προτού κλείσει η σήμανση %1$s.",
         "JSTracking_CustomCampaignQueryParam": "Χρήση προσαρμοσμένων ονομάτων παραμέτρων αναζητήσεων για το όνομα της καμπάνιας και τις λέξεις-κλειδιά",
         "JSTracking_CustomCampaignQueryParamDesc": "Σημείωση: %1$sΤο Piwik θα ανιχνεύσει αυτόματα τις παραμέτρους του Google Analytics.%2$s",
         "JSTracking_DisableCookies": "Απενεργοποίηση όλων των cookies παρακολούθησης",

@@ -1,5 +1,6 @@
 {
     "Actions": {
+        "AvgGenerationTimeTooltip": "Pamantayan batay sa mga %1$s ng mga hit %2$s sa pagitan ng %3$s at %4$s",
         "ColumnClickedURL": "Na-click na URL",
         "ColumnClicks": "Mga Click",
         "ColumnClicksDocumentation": "Kung ilang beses na na-click ang link na ito.",

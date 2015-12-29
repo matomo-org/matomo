@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Keskiarvo %s osumasta %s %s - %s",
+        "AvgGenerationTimeTooltip": "Keskiarvo %1$s osumasta %2$s %3$s - %4$s",
         "ColumnClickedURL": "Klikattu URL",
         "ColumnClicks": "Klikkaukset",
         "ColumnClicksDocumentation": "Tämän linkin klikkausten määrä.",

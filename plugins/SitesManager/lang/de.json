@@ -67,7 +67,6 @@
         "SiteSearchUse": "Piwik kann auswerten, wonach Besucher in der internen Suche der Website suchen.",
         "SiteWithoutDataTitle": "Bisher wurden keine Daten aufgezeichnet",
         "SiteWithoutDataDescription": "Für diese Website wurden bisher noch keine Analysedaten aufgezeichnet.",
-        "SiteWithoutDataSetupTracking": "Bitte den %1$sJavaScript Tracking Code%2$s auf Ihrer Website einrichten und die Seite neu laden.",
         "SuperUserAccessCan": "Ein Nutzer mit Hauptadministrator-Berechtigung kann ebenfalls %sglobale Einstellungen%s für neue Websites vornehmen.",
         "Timezone": "Zeitzone",
         "TrackingSiteSearch": "Die interne Suche auswerten",

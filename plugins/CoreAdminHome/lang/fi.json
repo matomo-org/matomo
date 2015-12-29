@@ -22,7 +22,6 @@
         "JavaScriptTracking": "JavaScript seuranta",
         "JSTracking_CampaignKwdParam": "Kampanjan avainsanojen parametri",
         "JSTracking_CampaignNameParam": "Kampanjan nimen parametri",
-        "JSTracking_CodeNote": "Varmista, että tämä koodi löytyy jokaiselta verkkosivusi sivulta ennen %1$s tagia.",
         "JSTracking_CustomCampaignQueryParam": "Käytä omia parametrejä kampanjoiden nimille ja avainsanoille",
         "JSTracking_CustomCampaignQueryParamDesc": "Huomaa: %1$sPiwik jäljittää automaattisesti Google Analytics parametrejä.%2$s",
         "JSTracking_DisableCookies": "Poista kaikki seurantakeksit käytöstä",

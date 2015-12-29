@@ -67,7 +67,6 @@
         "SiteSearchUse": "Du kan bruke Piwik for å spore og rapportere hva besøkere søker etter i ditt nettsteds interne søkemotor.",
         "SiteWithoutDataTitle": "Ingen data har blitt samlet inn ennå",
         "SiteWithoutDataDescription": "Ingen analysedata har blitt sporet for dette nettstedet ennå.",
-        "SiteWithoutDataSetupTracking": "Vennligst sett opp %1$sJavaScript-sporingskoden%2$s på ditt nettsted og last inn siden på nytt.",
         "SuperUserAccessCan": "En bruker med superbrukertilgang kan også %s spesifisere globale innstillinger%s for nye nettster.",
         "Timezone": "Tidssone",
         "TrackingSiteSearch": "Sporer interne nettstedssøk",

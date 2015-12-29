@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "ממוצע מבוסס על %s מופע(ים) %s בין %s ו-%s",
+        "AvgGenerationTimeTooltip": "ממוצע מבוסס על %1$s מופע(ים) %2$s בין %3$s ו-%4$s",
         "ColumnClickedURL": "כתובת שנלחצה",
         "ColumnClicks": "לחיצות",
         "ColumnClicksDocumentation": "מספר הפעמים שקישור זה נלחץ",

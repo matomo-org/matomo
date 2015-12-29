@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Gemiddelde gebaseerd op %s hit(s) %s tussen %s en %s",
+        "AvgGenerationTimeTooltip": "Gemiddelde gebaseerd op %1$s hit(s) %2$s tussen %3$s en %4$s",
         "ColumnClickedURL": "Aangeklikte URL",
         "ColumnClicks": "Kliks",
         "ColumnClicksDocumentation": "Aantal keer dat er op deze link geklikt is.",

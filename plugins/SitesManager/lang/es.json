@@ -67,7 +67,6 @@
         "SiteSearchUse": "Puede utilizar Piwik para rastrear y obtener un informe que es lo que están buscando sus visitantes en el motor de búsqueda interno de su sitio de internet.",
         "SiteWithoutDataTitle": "Aun no se han grabado datos",
         "SiteWithoutDataDescription": "Aun no se han registrado datos analíticos para este sitio de internet.",
-        "SiteWithoutDataSetupTracking": "Por favor configure el %1$scódigo de seguimiento JavaScript%2$s para su sitio de internet y actualice la página.",
         "SuperUserAccessCan": "Un usuario con acceso Super Usuario también puede %s especificar la configuración global%s para nuevos sitios de internet.",
         "Timezone": "Zona Horaria",
         "TrackingSiteSearch": "Seguimiento en el Buscador interno del sitio",

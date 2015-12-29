@@ -2,6 +2,7 @@
     "Live": {
         "CalculatedOverNPageViews": "해당 방문자의 %1$s 번 페이지 방문을 통해 계산되었습니다.",
         "ClickToViewMoreAboutVisit": "이 방문에 대해 더 자세한 정보를 보기 위해서 클릭하세요.",
+        "ConvertedNGoals": "변환된 %s 목표",
         "FirstVisit": "첫 방문",
         "GoalType": "유형",
         "HideMap": "지도 숨기기",

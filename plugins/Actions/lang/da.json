@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Gennemsnit baseret på %s hits %s mellem %s og %s",
+        "AvgGenerationTimeTooltip": "Gennemsnit baseret på %1$s hits %2$s mellem %3$s og %4$s",
         "ColumnClickedURL": "Klikkede URL",
         "ColumnClicks": "Klik",
         "ColumnClicksDocumentation": "Antal gange linket blev klikket på.",

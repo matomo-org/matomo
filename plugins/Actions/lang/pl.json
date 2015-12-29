@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Średnia podstawa dla %s trafień %s pomiędzy %s i %s",
+        "AvgGenerationTimeTooltip": "Średnia podstawa dla %1$s trafień %2$s pomiędzy %3$s i %4$s",
         "ColumnClickedURL": "Kliknięty link URL",
         "ColumnClicks": "Kliknięcia",
         "ColumnClicksDocumentation": "Ile razy ten link został kliknięty.",

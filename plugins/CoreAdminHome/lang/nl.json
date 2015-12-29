@@ -23,7 +23,6 @@
         "JavaScriptTracking": "JavaScript Tracking",
         "JSTracking_CampaignKwdParam": "Campagne sleutelwoord parameter",
         "JSTracking_CampaignNameParam": "Campagna naam parameter",
-        "JSTracking_CodeNote": "Zorg dat deze code is geplaatst voor de %1$s tag op elke pagina op uw website.",
         "JSTracking_CustomCampaignQueryParam": "Gebruik aangepaste query parameter namen voor de campagne naam & sleutelwoorden",
         "JSTracking_CustomCampaignQueryParamDesc": "Opmerking: %1$s Piwik detecteert automatisch Google Analytics parameters.%2$s",
         "JSTracking_DisableCookies": "Schakel alle tracking cookies uit",

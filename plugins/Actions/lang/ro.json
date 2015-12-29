@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Media bazata pe %s hit(uri) %s intre %s si %s",
+        "AvgGenerationTimeTooltip": "Media bazata pe %1$s hit(uri) %2$s intre %3$s si %4$s",
         "ColumnClickedURL": "URL-uri accesate",
         "ColumnClicks": "Click-uri",
         "ColumnClicksDocumentation": "Numărul de ori link-ul a fost click-uit.",

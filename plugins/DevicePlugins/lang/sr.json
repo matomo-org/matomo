@@ -3,7 +3,6 @@
         "BrowserWithNoPluginsEnabled": "%1$s sa isključenim dodacima",
         "BrowserWithPluginsEnabled": "%1$s sa uključenim dodacima %2$s",
         "PluginDescription": "Prikazuje spisak dodataka koji su podržani u brauzerima posetilaca.",
-        "PluginDetectionDoesNotWorkInIE": "Pažnja: detekcija dodataka ne radi kod Internet Explorera. Ovaj izveštaj se odnosi samo na brauzere koji nisu Internet Exlorer",
         "WidgetPlugins": "Lista dodataka",
         "WidgetPluginsDocumentation": "Ovaj izveštaj prikazuje koje dodatke za brauzere vaši posetioci imaju uključene. Ova informacija može biti od značaja prilikom odabira pravog načina prikaza sadržaja na vašem sajtu."
     }
