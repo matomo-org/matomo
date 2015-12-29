@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "متوسط على أساس %s كبسة %s ما بين %s و %s",
+        "AvgGenerationTimeTooltip": "متوسط على أساس %1$s كبسة %2$s ما بين %3$s و %4$s",
         "ColumnClickedURL": "الرابط المتبوع",
         "ColumnClicks": "النقرات",
         "ColumnClicksDocumentation": "عدد مرات النقر على هذا الرابط.",

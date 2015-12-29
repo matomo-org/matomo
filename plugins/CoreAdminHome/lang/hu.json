@@ -23,7 +23,6 @@
         "JavaScriptTracking": "JavaScript Követés",
         "JSTracking_CampaignKwdParam": "Kampány Kulcsszó paraméter",
         "JSTracking_CampaignNameParam": "Kampány Név paraméter",
-        "JSTracking_CodeNote": "Győződjön meg róla, hogy a kód minden oldalon szerepel a %1$s tag előtt.",
         "JSTracking_CustomCampaignQueryParam": "Saját paraméter nevek használata a kampány név és a kulcsszó mezőkhöz",
         "JSTracking_CustomCampaignQueryParamDesc": "Megjegyzés: A %1$sPiwik automatikusan felismeri a Googly Analytics paramétereket.%2$s",
         "JSTracking_DisableCookies": "Minden követő süti tiltása",

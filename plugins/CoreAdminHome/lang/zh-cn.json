@@ -22,7 +22,6 @@
         "JavaScriptTracking": "JavaScript 跟踪",
         "JSTracking_CampaignKwdParam": "广告关键词参数",
         "JSTracking_CampaignNameParam": "广告名称参数",
-        "JSTracking_CodeNote": "确认这段代码在网站所有页面的 %1$s 标签之前。",
         "JSTracking_CustomCampaignQueryParam": "广告名称和关键词使用自定义搜索参数名",
         "JSTracking_CustomCampaignQueryParamDesc": "提示: %1$sPiwik 会自动检测 Google 分析参数。%2$s",
         "JSTracking_EnableDoNotTrack": "启用访客 DoNotTrack 检测",

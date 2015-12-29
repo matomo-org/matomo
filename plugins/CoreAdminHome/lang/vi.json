@@ -22,7 +22,6 @@
         "JavaScriptTracking": "Theo dõi JavaScript",
         "JSTracking_CampaignKwdParam": "Chiến dịch từ khóa",
         "JSTracking_CampaignNameParam": "tên chiến dịch",
-        "JSTracking_CodeNote": "Chắc chắn rằng mã này trên mỗi trang của trang web của bạn trước khi %1$s tag",
         "JSTracking_CustomCampaignQueryParam": "Sử dụng tên truy vấn tùy chỉnh cho các tên và từ khóa chiến dịch",
         "JSTracking_CustomCampaignQueryParamDesc": "Lưu ý:.%1$s Piwik sẽ tự động phát hiện các thông số Google Analytics. %2$s",
         "JSTracking_EnableDoNotTrack": "Cho phép máy khách phát hiện DoNotTrack",

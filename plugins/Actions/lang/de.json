@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Durchschnitt basierend auf %s Aufruf(en) %s zwischen %s und %s",
+        "AvgGenerationTimeTooltip": "Durchschnitt basierend auf %1$s Aufruf(en) %2$s zwischen %3$s und %4$s",
         "ColumnClickedURL": "Angeklickte URL",
         "ColumnActionURL": "Aktions-URL",
         "ColumnClicks": "Klicks",
@@ -61,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Besuchte Seiten nach einer internen Suche",
         "WidgetSearchCategories": "Suchkategorien",
         "WidgetSearchKeywords": "Suchbegriffe (interne Suche)",
-        "WidgetSearchNoResultKeywords": "Suchbegriffe ohne Ergebnisse"
+        "WidgetSearchNoResultKeywords": "Suchbegriffe ohne Ergebnisse",
+        "ActionType": "Typ der Aktion"
     }
 }

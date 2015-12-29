@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Ortalama %s hit, %s arasında %s \/ %s 'e dayalı",
+        "AvgGenerationTimeTooltip": "Ortalama %1$s hit, %2$s arasında %3$s \/ %4$s 'e dayalı",
         "ColumnClickedURL": "Tıklanan Sayfa Adresleri",
         "ColumnClicks": "Tıklamalar",
         "ColumnClicksDocumentation": "Tıklama sayısı",

@@ -1,6 +1,5 @@
 {
     "DevicePlugins": {
-        "PluginDetectionDoesNotWorkInIE": "Piezīme: spraudņu noteikšana nedarbojas Internet Explorer pārlūkā. Šī atskaite ir bāzēta tikai uz ne-IE pārlūkiem.",
         "WidgetPlugins": "Spraudņu saraksts",
         "WidgetPluginsDocumentation": "Šajā atskaitē ir redzami pārlūku spraudņi, kuri bija ieslēgti apmeklētāju pārlūkos. Šī informācija ir svarīga, lai izvēlētos vislabāko veidu kā piegādāt saturu apmeklētājiem."
     }

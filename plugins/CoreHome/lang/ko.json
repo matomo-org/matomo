@@ -47,6 +47,8 @@
         "WebAnalyticsReports": "웹 분석 보고서",
         "YouAreUsingTheLatestVersion": "Piwik 최신 버전을 사용하고 있습니다!",
         "ClickRowToExpandOrContract": "하위 테이블의 행을 확장하거나 축소하기 위해 클릭하세요.",
+        "UndoPivotBySubtable": "이 보고서는 %s Undo pivot에 의해 결정되었습니다.",
+        "PivotBySubtable": "이 보고서는 %s Pivot이 %s에 의해 결정되지 않았습니다.",
         "QuickAccessTitle": "%s 검색하기. 단축키: 검색을 하려면 'f'를 누르세요.",
         "MenuEntries": "메뉴",
         "Segments": "세그멘트",

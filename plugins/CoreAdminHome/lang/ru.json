@@ -20,7 +20,6 @@
         "InvalidPluginsWarning": "Следующие плагины не совместимы с %1$s и не могут быть загружены: %2$s.",
         "InvalidPluginsYouCanUninstall": "Вы можете обновить или удалить эти плагины на странице %1$sУправления плагинами%2$s.",
         "JavaScriptTracking": "JavaScript-отслеживание",
-        "JSTracking_CodeNote": "Удостоверьтесь, что этот код содержится на каждой странице вашего сайта перед тегом %1$s.",
         "JSTracking_CustomCampaignQueryParam": "Использовать пользовательские имена параметров в запросе для названия кампании и ключевого слова",
         "JSTracking_CustomCampaignQueryParamDesc": "Примечание: %1$sPiwik автоматически определит параметры Google Analytics.%2$s",
         "JSTracking_DisableCookies": "Отключить все отслеживания cookies",

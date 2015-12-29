@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Media basata su %s hits %s tra %s e %s",
+        "AvgGenerationTimeTooltip": "Media basata su %1$s hits %2$s tra %3$s e %4$s",
         "ColumnClickedURL": "URL Cliccate",
         "ColumnActionURL": "URL dell'azione",
         "ColumnClicks": "Click",

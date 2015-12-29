@@ -21,7 +21,6 @@
         "JavaScriptTracking": "Pelacakan JavaScript",
         "JSTracking_CampaignKwdParam": "Parameter Kata Kunci Kampanye",
         "JSTracking_CampaignNameParam": "Parameter Nama Kampanye",
-        "JSTracking_CodeNote": "Pastikan bahwa kode ini berada dalam setiap halaman Anda sebelum etiket %1$s.",
         "JSTracking_CustomCampaignQueryParam": "Gunakan nama parameter kueri kustom untuk untuk nama kampanye dan kata kunci",
         "JSTracking_CustomCampaignQueryParamDesc": "Catatan: %1$sPiwik akan secara otomastis mendeteksi parameter Google Analytics.%2$s",
         "JSTracking_EnableDoNotTrack": "Mengaktifkan pendeteksian Jangan-Lacak sisi klien",

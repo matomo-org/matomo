@@ -2,7 +2,6 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s na may plugins na hindi pinapagana",
         "BrowserWithPluginsEnabled": "%1$s na may mga plugin %2$s na naka-enable",
-        "PluginDetectionDoesNotWorkInIE": "Tandaan: Ang pagtingin ng Plugin ay hindi gumagana sa Internet Explorer. Ang ulat na ito ay batay lamang sa mga browser na hindi-IE.",
         "WidgetPlugins": "Browser Plugins",
         "WidgetPluginsDocumentation": "Ang ulat na ito ay ipinapakita kung anong browser plugis ang gumagana sa iyong bisita. Ang impormasyon na ito may maaring mahalaga sa pagpili kung paanu ihahatid ang nilalaman nito."
     }

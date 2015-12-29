@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "%s தடவை(கள்) அடிப்படையில் சராசரி %s க்கும் %s க்கும் %s இடையில்",
         "ColumnClickedURL": "சொடுக்கபட்ட URL",
         "ColumnClicks": "சொடுக்குகள்",
         "ColumnClicksDocumentation": "இந்த இணைப்பு சொடுக்குகளின் எண்ணிக்கை",

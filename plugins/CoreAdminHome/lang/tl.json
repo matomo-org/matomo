@@ -21,7 +21,6 @@
         "JavaScriptTracking": "Pagsubaybay ng JavaScript",
         "JSTracking_CampaignKwdParam": "Keyword na Parametero ng Kampanya",
         "JSTracking_CampaignNameParam": "Pangalang Parametero ng Kampanya",
-        "JSTracking_CodeNote": "Siguraduhin na ang code na ito ay nasa bawat pahina ng iyong website bago ang %1$s na tag.",
         "JSTracking_CustomCampaignQueryParam": "Gamitin ang custom query na parametro ng mga pangalan para sa pangalan ng kampanya at keyword",
         "JSTracking_CustomCampaignQueryParamDesc": "Tandaan: Awtomatikong makikita ng %1$sPiwik ang mga parametro ng Google Analytics. %2$s",
         "JSTracking_DisableCookies": "I-disable ang lahat ng mga cookies na sumusubaybay.",

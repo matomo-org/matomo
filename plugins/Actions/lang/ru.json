@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "В среднем по %s хит(ов) %s между %s и %s",
+        "AvgGenerationTimeTooltip": "В среднем по %1$s хит(ов) %2$s между %3$s и %4$s",
         "ColumnClickedURL": "URL кликов",
         "ColumnClicks": "Клики",
         "ColumnClicksDocumentation": "Количество кликов по этой ссылке.",
