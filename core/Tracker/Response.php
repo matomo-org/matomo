@@ -84,13 +84,7 @@ class Response
 
         Common::printDebug("End of the page.");
 
-        if ($tracker->isDebugModeEnabled()
-            && $tracker->isDatabaseConnected()
-            && TrackerDb::isProfilingEnabled()) {
-            $db = Tracker::getDatabase();
-            $db->recordProfiling();
-            Profiler::displayDbTrackerProfile($db);
-        }
+        // TODO: removed tracker db profiling, still needed?
 
         if ($tracker->isDebugModeEnabled()) {
             Common::printDebug($_COOKIE);
