@@ -133,15 +133,6 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    /**
-     * test that the profiler is disabled (mandatory on a production server)
-     */
-    public function testProfilingDisabledInProduction()
-    {
-        require_once 'Tracker/Db.php';
-        $this->assertTrue(\Piwik\Tracker\Db::isProfilingEnabled() === false, 'SQL profiler should be disabled in production! See Db::$profiling');
-    }
-
     public function testPiwikTrackerDebugIsOff()
     {
         $this->assertTrue(!isset($GLOBALS['PIWIK_TRACKER_DEBUG']));

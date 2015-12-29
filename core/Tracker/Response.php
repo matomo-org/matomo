@@ -27,8 +27,6 @@ class Response
 
         if ($tracker->isDebugModeEnabled()) {
             $this->timer = new Timer();
-
-            TrackerDb::enableProfiling();
         }
     }
 

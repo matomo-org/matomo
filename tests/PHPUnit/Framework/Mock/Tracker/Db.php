@@ -8,9 +8,7 @@
 
 namespace Piwik\Tests\Framework\Mock\Tracker;
 
-use Piwik\Tracker\Db\Pdo\Mysql;
-
-class Db extends Mysql
+class Db
 {
     public $commitTransactionId = false;
     public $rollbackTransactionId = false;
