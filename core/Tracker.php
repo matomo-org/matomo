@@ -217,7 +217,7 @@ class Tracker
     public static function disconnectCachedDbConnection()
     {
         // code redundancy w/ above is on purpose; above disconnectDatabase depends on method that can potentially be overridden
-        if (!is_null(self::$db)) {
+        if (Db::isDatabaseConnected()) {
             Db::destroyDatabaseObject();
         }
     }
