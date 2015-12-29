@@ -35,6 +35,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         if (defined('PDO::MYSQL_ATTR_LOCAL_INFILE')) {
             $config['driver_options'][PDO::MYSQL_ATTR_LOCAL_INFILE] = true;
         }
+        $config['driver_options'][PDO::MYSQL_ATTR_FOUND_ROWS] = true;
         parent::__construct($config);
     }
 
