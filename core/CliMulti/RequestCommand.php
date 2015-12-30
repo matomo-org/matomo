@@ -123,6 +123,5 @@ class RequestCommand extends ConsoleCommand
     private function resetDatabase()
     {
         Option::clearCache();
-        Db::destroyDatabaseObject();
     }
 }

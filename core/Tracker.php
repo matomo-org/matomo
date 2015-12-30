@@ -94,10 +94,8 @@ class Tracker
         }
 
         Piwik::postEvent('Tracker.end');
+
         $response = $handler->finish($this, $requestSet);
-
-        $this->disconnectDatabase();
-
         return $response;
     }
 
@@ -203,22 +201,6 @@ class Tracker
             return Db::get();
         } catch (Exception $e) {
             throw new DbException($e->getMessage(), $e->getCode());
-        }
-    }
-
-    protected function disconnectDatabase()
-    {
-        if ($this->isDatabaseConnected()) { // note: I think we do this only for the tests
-            Db::destroyDatabaseObject();
-        }
-    }
-
-    // for tests
-    public static function disconnectCachedDbConnection()
-    {
-        // code redundancy w/ above is on purpose; above disconnectDatabase depends on method that can potentially be overridden
-        if (Db::isDatabaseConnected()) {
-            Db::destroyDatabaseObject();
         }
     }
 

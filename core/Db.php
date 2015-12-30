@@ -36,10 +36,6 @@ class Db
 {
     const SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
 
-    private static $connection = null;
-
-    private static $logQueries = true;
-
     /**
      * Returns the database connection and creates it if it hasn't been already.
      *
@@ -56,17 +52,6 @@ class Db
     }
 
     /**
-     * For tests only.
-     * @param $connection
-     * @ignore
-     * @internal
-     */
-    public static function setDatabaseObject($connection)
-    {
-        self::$connection = $connection;
-    }
-
-    /**
      * Connects to the database.
      *
      * Shouldn't be called directly, use {@link get()} instead.
@@ -79,27 +64,6 @@ class Db
     public static function createDatabaseObject($dbConfig = null)
     {
         throw new \Exception("No longer supported.");
-    }
-
-    /**
-     * Detect whether a database object is initialized / created or not.
-     *
-     * @internal
-     */
-    public static function hasDatabaseObject()
-    {
-        return isset(self::$connection);
-    }
-
-    /**
-     * Disconnects and destroys the database connection.
-     *
-     * For tests.
-     */
-    public static function destroyDatabaseObject()
-    {
-        DbHelper::disconnectDatabase();
-        self::$connection = null;
     }
 
     /**
@@ -636,22 +600,6 @@ class Db
         return self::$lockPrivilegeGranted;
     }
 
-    /**
-     * @param bool $enable
-     */
-    public static function enableQueryLog($enable)
-    {
-        self::$logQueries = $enable;
-    }
-
-    /**
-     * @return boolean
-     */
-    public static function isQueryLogEnabled()
-    {
-        return self::$logQueries;
-    }
-
     public static function isOptimizeInnoDBSupported($version = null)
     {
         if ($version === null) {
@@ -666,10 +614,5 @@ class Db
 
         $semanticVersion = strstr($version, '-', $beforeNeedle = true);
         return version_compare($semanticVersion, '10.1.1', '>=');
-    }
-
-    public static function isDatabaseConnected()
-    {
-        return self::$connection != null;
     }
 }

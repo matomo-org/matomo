@@ -16,6 +16,8 @@ require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
 /**
  * Tracker that uses core/Tracker.php directly.
+ *
+ * TODO: make sure to re-use super container's DB connection
  */
 class Piwik_LocalTracker extends PiwikTracker
 {

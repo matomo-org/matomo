@@ -18,6 +18,8 @@ use Zend_Db_Adapter_Abstract;
  */
 class Connection
 {
+    private static $queryLogEnabled = false;
+
     /**
      * @var \Zend_Db_Adapter_Abstract
      */
@@ -175,7 +177,9 @@ class Connection
 
     private function logSql($functionName, $sql, $parameters = array())
     {
-        if (!$this->logSqlQueries) {
+        if (!self::$queryLogEnabled
+            || !$this->logSqlQueries
+        ) {
             return;
         }
 
@@ -217,5 +221,15 @@ class Connection
     public function getImpl() // TODO: remove this method eventually
     {
         return $this->adapter;
+    }
+
+    public static function isQueryLogEnabled()
+    {
+        return self::$queryLogEnabled;
+    }
+
+    public static function enableQueryLog($value)
+    {
+        self::$queryLogEnabled = $value;
     }
 }

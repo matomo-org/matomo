@@ -49,11 +49,7 @@ class TrackerTest extends IntegrationTestCase
     public function tearDown()
     {
         $this->restoreConfigFile();
-        
-        if($this->tracker) {
-            $this->tracker->disconnectDatabase();
-        }
-        
+
         if (array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS)) {
             unset($GLOBALS['PIWIK_TRACKER_DEBUG']);
         }
@@ -142,13 +138,6 @@ class TrackerTest extends IntegrationTestCase
         $this->restoreConfigFile();
     }
 
-    public function test_isDatabaseConnected_shouldReturnFalse_IfNotConnected()
-    {
-        $this->tracker->disconnectDatabase();
-
-        $this->assertFalse($this->tracker->isDatabaseConnected());
-    }
-
     public function test_getDatabase_shouldReturnDbInstance()
     {
         $this->markTestSkipped("Skip this test until DbConnection class is created.");
@@ -160,16 +149,6 @@ class TrackerTest extends IntegrationTestCase
         $this->assertNotEmpty($db);
 
         $this->assertTrue($this->tracker->isDatabaseConnected());
-    }
-
-    public function test_disconnectDatabase_shouldDisconnectDb()
-    {
-        $this->tracker->getDatabase(); // make sure connected
-        $this->assertTrue($this->tracker->isDatabaseConnected());
-
-        $this->tracker->disconnectDatabase();
-
-        $this->assertFalse($this->tracker->isDatabaseConnected());
     }
 
     public function test_trackRequest_shouldNotTrackAnything_IfRequestIsEmpty()
@@ -428,11 +407,6 @@ class TestTracker extends Tracker
     public function setIsNotInstalled()
     {
         $this->isInstalled = false;
-    }
-
-    public function disconnectDatabase()
-    {
-        parent::disconnectDatabase();
     }
 
     public function shouldRecordStatistics()

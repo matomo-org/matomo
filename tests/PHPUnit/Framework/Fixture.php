@@ -197,7 +197,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             if ($this->dropDatabaseInSetUp
                 || $this->resetPersistedFixture
             ) {
-                $this->dropDatabase($dbName, $tempConnection); // TODO: must use tempConnection
+                $this->dropDatabase($dbName, $tempConnection);
             }
 
             $tempConnection->createDatabase($dbName);
@@ -245,16 +245,10 @@ class Fixture extends \PHPUnit_Framework_Assert
             $this->dbName = self::getConfig()->database['dbname'];
         }
 
-        try {
-            Db::get()->query("SET wait_timeout=28800;");
+        Db::get()->exec("SET wait_timeout=28800;");
+        DbHelper::createTables();
 
-            DbHelper::createTables();
-
-            self::getPluginManager()->unloadPlugins();
-
-        } catch (Exception $e) {
-            static::fail("TEST INITIALIZATION FAILED: " . $e->getMessage() . "\n" . $e->getTraceAsString());
-        }
+        self::getPluginManager()->unloadPlugins();
 
         include "DataFiles/Providers.php";
 
