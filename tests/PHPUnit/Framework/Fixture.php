@@ -217,7 +217,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         try {
-            static::connectWithoutDatabase();
+            //static::connectWithoutDatabase(); TODO: should remove this stuff
 
             if ($this->dropDatabaseInSetUp
                 || $this->resetPersistedFixture
@@ -226,12 +226,10 @@ class Fixture extends \PHPUnit_Framework_Assert
             }
 
             DbHelper::createDatabase($this->dbName);
-            DbHelper::disconnectDatabase();
-            Tracker::disconnectCachedDbConnection();
 
             // reconnect once we're sure the database exists
             self::getConfig()->database['dbname'] = $this->dbName;
-            Db::createDatabaseObject();
+            Db::get()->exec("USE {$this->dbName}");
 
             Db::get()->query("SET wait_timeout=28800;");
 

@@ -123,6 +123,7 @@ class FormDatabaseSetup extends QuickForm2
             $dbInfos['host'] = substr($dbInfos['host'], 0, $portIndex);
         }
 
+        // TODO: modify this later to use new Connect(...);
         try {
             @Db::createDatabaseObject($dbInfos);
         } catch (Zend_Db_Adapter_Exception $e) {

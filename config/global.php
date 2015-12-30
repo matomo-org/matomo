@@ -82,4 +82,11 @@ return array(
     'Piwik\Tracker\Settings' => DI\object()
         ->constructorParameter('isSameFingerprintsAcrossWebsites', DI\get('ini.Tracker.enable_fingerprinting_across_websites')),
 
+    'Zend_Db_Adapter_Abstract' => function () {
+        return \Piwik\Db::get();
+    },
+
+    'Piwik\Db\Connection' => DI\object()
+        ->constructorParameter('logSqlQueries', DI\get('ini.Debug.log_sql_queries')),
+
 );
