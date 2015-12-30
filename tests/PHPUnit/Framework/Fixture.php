@@ -184,6 +184,33 @@ class Fixture extends \PHPUnit_Framework_Assert
         return self::getConfig()->database_tests['dbname'];
     }
 
+    private function setUpTestDatabase()
+    {
+        $dbConfig = self::getConfig()->database;
+
+        $dbName = $dbConfig['dbname'];
+        $dbConfig['dbname'] = null;
+
+        $tempConnection = new Db\Connection($dbConfig);
+
+        try {
+            if ($this->dropDatabaseInSetUp
+                || $this->resetPersistedFixture
+            ) {
+                $this->dropDatabase($dbName, $tempConnection); // TODO: must use tempConnection
+            }
+
+            $tempConnection->createDatabase($dbName);
+
+            Db::get()->exec("USE $dbName");
+
+            $tempConnection->disconnect();
+        } catch (\Exception $ex) {
+            $tempConnection->disconnect();
+            throw $ex;
+        }
+    }
+
     public function performSetUp($setupEnvironmentOnly = false)
     {
         // TODO: don't use static var, use test env var for this
@@ -210,6 +237,8 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $testEnv->save();
 
+        $this->setUpTestDatabase();
+
         $this->createEnvironmentInstance();
 
         if ($this->dbName === false) { // must be after test config is created
@@ -217,20 +246,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         try {
-            //static::connectWithoutDatabase(); TODO: should remove this stuff
-
-            if ($this->dropDatabaseInSetUp
-                || $this->resetPersistedFixture
-            ) {
-                $this->dropDatabase();
-            }
-
-            DbHelper::createDatabase($this->dbName);
-
-            // reconnect once we're sure the database exists
-            self::getConfig()->database['dbname'] = $this->dbName;
-            Db::get()->exec("USE {$this->dbName}");
-
             Db::get()->query("SET wait_timeout=28800;");
 
             DbHelper::createTables();
@@ -899,28 +914,18 @@ class Fixture extends \PHPUnit_Framework_Assert
     }
 
     /**
-     * Connects to MySQL w/o specifying a database.
-     */
-    public static function connectWithoutDatabase()
-    {
-        $dbConfig = self::getConfig()->database;
-        $oldDbName = $dbConfig['dbname'];
-        $dbConfig['dbname'] = null;
-
-        Db::createDatabaseObject($dbConfig);
-
-        $dbConfig['dbname'] = $oldDbName;
-    }
-
-    /**
      * @deprecated
      */
     public static function createAccessInstance()
     {
     }
 
-    public function dropDatabase($dbName = null)
+    public function dropDatabase($dbName = null, Db\Connection $connection = null)
     {
+        if ($connection === null) {
+            $connection = $this->piwikEnvironment->getContainer()->get('Piwik\Db\Connection');
+        }
+
         $dbName = $dbName ?: $this->dbName ?: self::getConfig()->database_tests['dbname'];
 
         $this->log("Dropping database '$dbName'...");
@@ -935,7 +940,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         try {
-            DbHelper::dropDatabase($dbName);
+            $connection->exec("DROP DATABASE $dbName");
         } catch (Exception $e) {
             printf("Dropping database %s failed: %s\n", $dbName, $e->getMessage());
         }

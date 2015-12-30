@@ -33,9 +33,9 @@ class Connection
      */
     private $logSqlQueries;
 
-    public function __construct(Zend_Db_Adapter_Abstract $adapter, LoggerInterface $logger, $logSqlQueries = false)
+    public function __construct($dbConfig, LoggerInterface $logger = null, $logSqlQueries = false)
     {
-        $this->adapter = $adapter;
+        $this->adapter = Adapter::factory($dbConfig['adapter'], $dbConfig);
         $this->logger = $logger;
         $this->logSqlQueries = $logSqlQueries;
     }
@@ -165,9 +165,17 @@ class Connection
         }
     }
 
+    /**
+     * TODO
+     */
+    public function disconnect()
+    {
+        $this->adapter->closeConnection();
+    }
+
     private function logSql($functionName, $sql, $parameters = array())
     {
-        if ($this->logSqlQueries) {
+        if (!$this->logSqlQueries) {
             return;
         }
 
@@ -195,5 +203,19 @@ class Connection
         } catch(\Exception $e) {
             //  1227 Access denied; you need (at least one of) the PROCESS privilege(s) for this operation
         }
+    }
+
+    public function createDatabase($dbName)
+    {
+        $this->exec("CREATE DATABASE IF NOT EXISTS " . $dbName . " DEFAULT CHARACTER SET utf8");
+    }
+
+    /**
+     * @return AdapterInterface|Zend_Db_Adapter_Abstract
+     * @deprecated
+     */
+    public function getImpl() // TODO: remove this method eventually
+    {
+        return $this->adapter;
     }
 }

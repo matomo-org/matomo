@@ -47,44 +47,12 @@ class Db
      */
     public static function get()
     {
-        if (!self::hasDatabaseObject()) {
-            self::createDatabaseObject();
-        }
-
-        return self::$connection;
+        return self::fromContainer()->getImpl();
     }
 
     public static function getDatabaseConfig($dbConfig = null)
     {
-        $config = Config::getInstance();
-
-        if (is_null($dbConfig)) {
-            $dbConfig = $config->database;
-        }
-
-        /**
-         * Triggered before a database connection is established.
-         *
-         * This event can be used to change the settings used to establish a connection.
-         *
-         * @param array *$dbInfos Reference to an array containing database connection info,
-         *                        including:
-         *
-         *                        - **host**: The host name or IP address to the MySQL database.
-         *                        - **username**: The username to use when connecting to the
-         *                                        database.
-         *                        - **password**: The password to use when connecting to the
-         *                                       database.
-         *                        - **dbname**: The name of the Piwik MySQL database.
-         *                        - **port**: The MySQL database port to use.
-         *                        - **adapter**: either `'PDO\MYSQL'` or `'MYSQLI'`
-         *                        - **type**: The MySQL engine to use, for instance 'InnoDB'
-         */
-        Piwik::postEvent('Db.getDatabaseConfig', array(&$dbConfig));
-
-        $dbConfig['profiler'] = @$config->Debug['enable_sql_profiler'];
-
-        return $dbConfig;
+        return StaticContainer::get('db.config');
     }
 
     /**
@@ -105,14 +73,12 @@ class Db
      *
      * @param array|null $dbConfig Connection parameters in an array. Defaults to the `[database]`
      *                             INI config section.
+     *
+     * TODO: Remove this method
      */
     public static function createDatabaseObject($dbConfig = null)
     {
-        $dbConfig = self::getDatabaseConfig($dbConfig);
-
-        $db = @Adapter::factory($dbConfig['adapter'], $dbConfig);
-
-        self::$connection = $db;
+        throw new \Exception("No longer supported.");
     }
 
     /**

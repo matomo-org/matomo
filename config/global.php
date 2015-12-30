@@ -3,6 +3,8 @@
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\NotFoundException;
 use Piwik\Cache\Eager;
+use Piwik\Config;
+use Piwik\EventDispatcher;
 use Piwik\SettingsServer;
 
 return array(
@@ -82,11 +84,44 @@ return array(
     'Piwik\Tracker\Settings' => DI\object()
         ->constructorParameter('isSameFingerprintsAcrossWebsites', DI\get('ini.Tracker.enable_fingerprinting_across_websites')),
 
-    'Zend_Db_Adapter_Abstract' => function () {
-        return \Piwik\Db::get();
+    'db.config' => function (ContainerInterface $c) {
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $c->get('Piwik\EventDispatcher');
+
+        /** @var Config $config */
+        $config = $c->get('Piwik\Config');
+
+        $dbConfig = $config->database;
+
+        /**
+         * Triggered before a database connection is established.
+         *
+         * This event can be used to change the settings used to establish a connection.
+         *
+         * @param array *$dbInfos Reference to an array containing database connection info,
+         *                        including:
+         *
+         *                        - **host**: The host name or IP address to the MySQL database.
+         *                        - **username**: The username to use when connecting to the
+         *                                        database.
+         *                        - **password**: The password to use when connecting to the
+         *                                       database.
+         *                        - **dbname**: The name of the Piwik MySQL database.
+         *                        - **port**: The MySQL database port to use.
+         *                        - **adapter**: either `'PDO\MYSQL'` or `'MYSQLI'`
+         *                        - **type**: The MySQL engine to use, for instance 'InnoDB'
+         *
+         * TODO: deprecate or remove this event, if db config is in DI, shouldn't need an event to override it in a plugin or test.
+         */
+        $dispatcher->postEvent('Db.getDatabaseConfig', array(&$dbConfig));
+
+        $dbConfig['profiler'] = $config->Debug['enable_sql_profiler'];
+        return $dbConfig;
     },
 
     'Piwik\Db\Connection' => DI\object()
+        ->constructorParameter('dbConfig', DI\get('db.config'))
+        ->constructorParameter('logger', DI\get('Psr\Log\LoggerInterface'))
         ->constructorParameter('logSqlQueries', DI\get('ini.Debug.log_sql_queries')),
 
 );

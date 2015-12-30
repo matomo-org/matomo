@@ -368,6 +368,7 @@ class Mysql implements SchemaInterface
      */
     public function createDatabase($dbName = null)
     {
+        // TODO: use DbConnection's exec method
         if (is_null($dbName)) {
             $dbName = $this->getDbName();
         }

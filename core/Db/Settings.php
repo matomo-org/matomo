@@ -8,6 +8,7 @@
  */
 namespace Piwik\Db;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 
 /**
@@ -36,7 +37,7 @@ class Settings
 
     private function getDbSetting($key)
     {
-        $dbInfos = Db::getDatabaseConfig();
+        $dbInfos = StaticContainer::get('db.config');
         $engine  = $dbInfos[$key];
 
         return $engine;
