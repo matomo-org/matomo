@@ -21,7 +21,7 @@ use Exception;
 
 class Handler extends Tracker\Handler
 {
-    private $transactionId = null;
+    private $inTransaction = false;
 
     public function __construct()
     {
@@ -72,24 +72,25 @@ class Handler extends Tracker\Handler
 
     private function beginTransaction()
     {
-        if (empty($this->transactionId)) {
-            $this->transactionId = $this->getDb()->beginTransaction();
+        if (!$this->inTransaction) {
+            $this->getDb()->beginTransaction();
+            $this->inTransaction = true;
         }
     }
 
     private function commitTransaction()
     {
-        if (!empty($this->transactionId)) {
-            $this->getDb()->commit($this->transactionId);
-            $this->transactionId = null;
+        if ($this->inTransaction) {
+            $this->getDb()->commit();
+            $this->inTransaction = false;
         }
     }
 
     private function rollbackTransaction()
     {
-        if (!empty($this->transactionId)) {
-            $this->getDb()->rollback($this->transactionId);
-            $this->transactionId = null;
+        if ($this->transactionId) {
+            $this->getDb()->rollback();
+            $this->inTransaction = false;
         }
     }
 

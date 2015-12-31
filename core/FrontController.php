@@ -230,7 +230,6 @@ class FrontController extends Singleton
 
         // try to connect to the database
         try {
-            Db::createDatabaseObject();
             Db::fetchAll("SELECT DATABASE()");
         } catch (Exception $exception) {
             if (self::shouldRethrowException()) {

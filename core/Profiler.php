@@ -58,7 +58,7 @@ class Profiler
      */
     public static function displayDbProfileReport()
     {
-        $profiler = Db::get()->getProfiler();
+        $profiler = Db::get()->getImpl()->getProfiler();
 
         if (!$profiler->getEnabled()) {
             // To display the profiler you should enable enable_sql_profiler on your config/config.ini.php file
@@ -155,7 +155,7 @@ class Profiler
      */
     public static function getDbElapsedSecs()
     {
-        $profiler = Db::get()->getProfiler();
+        $profiler = Db::get()->getImpl()->getProfiler();
         return $profiler->getTotalElapsedSecs();
     }
 
@@ -166,7 +166,7 @@ class Profiler
      */
     public static function getQueryCount()
     {
-        $profiler = Db::get()->getProfiler();
+        $profiler = Db::get()->getImpl()->getProfiler();
         return $profiler->getTotalNumQueries();
     }
 

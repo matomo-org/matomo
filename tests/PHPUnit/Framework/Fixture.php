@@ -917,7 +917,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     public function dropDatabase($dbName = null, Db\Connection $connection = null)
     {
         if ($connection === null) {
-            $connection = $this->piwikEnvironment->getContainer()->get('Piwik\Db\Connection');
+            $connection = StaticContainer::get('Piwik\Db\Connection');
         }
 
         $dbName = $dbName ?: $this->dbName ?: self::getConfig()->database_tests['dbname'];
@@ -934,7 +934,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         try {
-            $connection->exec("DROP DATABASE $dbName");
+            $connection->exec("DROP DATABASE IF EXISTS $dbName");
         } catch (Exception $e) {
             printf("Dropping database %s failed: %s\n", $dbName, $e->getMessage());
         }

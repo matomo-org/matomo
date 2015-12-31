@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\TableMetadata;
 use Piwik\Db\Adapter;
+use Piwik\Db\Connection;
 
 /**
  * Contains SQL related helper functions for Piwik's MySQL database.
@@ -39,16 +40,11 @@ class Db
     /**
      * Returns the database connection and creates it if it hasn't been already.
      *
-     * @return \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db
+     * @return Connection
      */
     public static function get()
     {
-        return self::fromContainer()->getImpl();
-    }
-
-    public static function getDatabaseConfig($dbConfig = null)
-    {
-        return StaticContainer::get('db.config');
+        return self::fromContainer();
     }
 
     /**

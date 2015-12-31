@@ -28,7 +28,6 @@ class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\IntegrationTes
     public function setUp()
     {
         parent::setUp();
-        Db::destroyDatabaseObject();
         $this->settings = $this->createSettingsInstance();
     }
 

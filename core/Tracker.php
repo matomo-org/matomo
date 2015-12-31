@@ -150,11 +150,7 @@ class Tracker
             Access::getInstance();
             Config::getInstance();
 
-            try {
-                Db::get();
-            } catch (Exception $e) {
-                Db::createDatabaseObject();
-            }
+            Db::get();
 
             PluginManager::getInstance()->loadCorePluginsDuringTracker();
         }

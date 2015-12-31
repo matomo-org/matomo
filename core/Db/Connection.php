@@ -155,7 +155,7 @@ class Connection
      * @return array
      * @throws \Exception
      */
-    public function fetchAssoc($sql, $parameters)
+    public function fetchAssoc($sql, $parameters = array())
     {
         try {
             $this->logSql(__FUNCTION__, $sql, $parameters);
@@ -169,10 +169,102 @@ class Connection
 
     /**
      * TODO
+     *
+     * @param $sql
+     * @param array $parameters
+     * @return array
+     * @throws \Exception
+     */
+    public function fetchCol($sql, $parameters = array())
+    {
+        try {
+            $this->logSql(__FUNCTION__, $sql, $parameters);
+
+            return $this->adapter->fetchCol($sql, $parameters);
+        } catch (\Exception $ex) {
+            $this->logExtraInfoIfDeadlock($ex);
+            throw $ex;
+        }
+    }
+
+    /**
+     * TODO
+     *
+     * @return string
+     */
+    public function lastInsertId()
+    {
+        return $this->adapter->lastInsertId();
+    }
+
+    /**
+     * TODO
      */
     public function disconnect()
     {
         $this->adapter->closeConnection();
+    }
+
+    /**
+     * TODO
+     *
+     * @return bool
+     */
+    public function isConnected()
+    {
+        return $this->adapter->isConnected();
+    }
+
+    // TODO: helper methods like these (insert/update) seem to be a mistake to me. they couple the interface w/ Zend_Db, better to use value objects.
+    //       either way, this shouldn't be in a Connection class. Maybe in a DAO base class?
+    public function insert($table, array $bind)
+    {
+        return $this->adapter->insert($table, $bind);
+    }
+
+    public function update($table, array $bind, $where = '')
+    {
+        return $this->adapter->update($table, $bind, $where);
+    }
+
+    public function hasBlobDataType()
+    {
+        return $this->adapter->hasBlobDataType();
+    }
+
+    public function hasBulkLoader()
+    {
+        return $this->adapter->hasBulkLoader();
+    }
+
+    public function isConnectionUTF8()
+    {
+        return $this->adapter->isConnectionUTF8();
+    }
+
+    public function createDatabase($dbName)
+    {
+        $this->exec("CREATE DATABASE IF NOT EXISTS " . $dbName . " DEFAULT CHARACTER SET utf8");
+    }
+
+    public function isErrNo(\Exception $e, $errno)
+    {
+        return $this->adapter->isErrNo($e, $errno);
+    }
+
+    public function beginTransaction()
+    {
+        $this->adapter->beginTransaction();
+    }
+
+    public function commit()
+    {
+        $this->adapter->commit();
+    }
+
+    public function rollback()
+    {
+        $this->adapter->rollBack();
     }
 
     private function logSql($functionName, $sql, $parameters = array())
@@ -207,11 +299,6 @@ class Connection
         } catch(\Exception $e) {
             //  1227 Access denied; you need (at least one of) the PROCESS privilege(s) for this operation
         }
-    }
-
-    public function createDatabase($dbName)
-    {
-        $this->exec("CREATE DATABASE IF NOT EXISTS " . $dbName . " DEFAULT CHARACTER SET utf8");
     }
 
     /**
