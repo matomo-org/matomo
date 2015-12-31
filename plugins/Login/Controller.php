@@ -48,7 +48,7 @@ class Controller extends \Piwik\Plugin\Controller
      * @param PasswordResetter $passwordResetter
      * @param AuthInterface $auth
      * @param SessionInitializer $authenticatedSessionFactory
-\     */
+     */
     public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null)
     {
         parent::__construct();
