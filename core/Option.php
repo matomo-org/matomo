@@ -8,6 +8,9 @@
  */
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
+use Piwik\Db\Connection;
+
 /**
  * Convenient key-value storage for user specified options and temporary
  * data that needs to be persisted beyond one request.
@@ -106,11 +109,10 @@ class Option
      * @return void
      * @ignore
      */
-    public static function clearCache()
+    public function clearCache()
     {
-        $option = self::getInstance();
-        $option->loaded = false;
-        $option->all = array();
+        $this->loaded = false;
+        $this->all = array();
     }
 
     /**
@@ -124,59 +126,41 @@ class Option
     private $loaded = false;
 
     /**
-     * Singleton instance
-     * @var \Piwik\Option
+     * @var Connection
      */
-    private static $instance = null;
+    private $connection;
 
     /**
      * Returns Singleton instance
      *
      * @return \Piwik\Option
      */
-    private static function getInstance()
+    public static function getInstance()
     {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-
-        return self::$instance;
+        return StaticContainer::get('Piwik\Option');
     }
 
-    /**
-     * Sets the singleton instance. For testing purposes.
-     *
-     * @param mixed
-     * @ignore
-     */
-    public static function setSingletonInstance($instance)
+    public function __construct(Connection $connection)
     {
-        self::$instance = $instance;
+        $this->connection = $connection;
     }
 
-    /**
-     * Private Constructor
-     */
-    private function __construct()
-    {
-    }
-
-    protected function clearCachedOptionByName($name)
+    public function clearCachedOptionByName($name)
     {
         if (isset($this->all[$name])) {
             unset($this->all[$name]);
         }
     }
 
-    protected function getValue($name)
+    public function getValue($name)
     {
         $this->autoload();
         if (isset($this->all[$name])) {
             return $this->all[$name];
         }
 
-        $value = Db::fetchOne('SELECT option_value FROM `' . Common::prefixTable('option') . '` ' .
-                              'WHERE option_name = ?', $name);
+        $value = $this->connection->fetchOne('SELECT option_value FROM `' . Common::prefixTable('option') . '` ' .
+            'WHERE option_name = ?', $name);
 
         if ($value === false) {
             return false;
@@ -186,7 +170,7 @@ class Option
         return $value;
     }
 
-    protected function setValue($name, $value, $autoLoad = 0)
+    public function setValue($name, $value, $autoLoad = 0)
     {
         $autoLoad = (int)$autoLoad;
 
@@ -195,12 +179,12 @@ class Option
                 ' ON DUPLICATE KEY UPDATE option_value = ?';
         $bind = array($name, $value, $autoLoad, $value);
 
-        Db::query($sql, $bind);
+        $this->connection->query($sql, $bind);
 
         $this->all[$name] = $value;
     }
 
-    protected function deleteValue($name, $value)
+    public function deleteValue($name, $value)
     {
         $sql    = 'DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name = ?';
         $bind[] = $name;
@@ -210,12 +194,12 @@ class Option
             $bind[] = $value;
         }
 
-        Db::query($sql, $bind);
+        $this->connection->query($sql, $bind);
 
         $this->clearCache();
     }
 
-    protected function deleteNameLike($name, $value = null)
+    public function deleteNameLike($name, $value = null)
     {
         $sql    = 'DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?';
         $bind[] = $name;
@@ -225,16 +209,16 @@ class Option
             $bind[] = $value;
         }
 
-        Db::query($sql, $bind);
+        $this->connection->query($sql, $bind);
 
         $this->clearCache();
     }
 
-    protected function getNameLike($name)
+    public function getNameLike($name)
     {
         $sql  = 'SELECT option_name, option_value FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?';
         $bind = array($name);
-        $rows = Db::fetchAll($sql, $bind);
+        $rows = $this->connection->fetchAll($sql, $bind);
 
         $result = array();
         foreach ($rows as $row) {
@@ -257,7 +241,7 @@ class Option
 
         $table = Common::prefixTable('option');
         $sql   = 'SELECT option_value, option_name FROM `' . $table . '` WHERE autoload = 1';
-        $all   = Db::fetchAll($sql);
+        $all   = $this->connection->fetchAll($sql);
 
         foreach ($all as $option) {
             $this->all[$option['option_name']] = $option['option_value'];

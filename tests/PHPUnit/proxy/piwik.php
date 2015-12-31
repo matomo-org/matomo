@@ -27,7 +27,6 @@ try {
         array('Environment.bootstrapped', function () {
             Tracker::setTestEnvironment();
             Manager::getInstance()->deleteAll();
-            Option::clearCache();
             Site::clearCache();
         })
     );

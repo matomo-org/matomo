@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Option;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -32,7 +33,7 @@ class OptionTest extends IntegrationTestCase
         $this->assertSame('1', Option::get('anonymous_defaultReport'));
 
         // force cache reload, expect false (i.e., not found)
-        Option::clearCache();
+        StaticContainer::get('Piwik\Option')->clearCache();
         $this->assertFalse(Option::get('anonymous_defaultReport'));
     }
 
@@ -50,7 +51,7 @@ class OptionTest extends IntegrationTestCase
         $this->assertSame('1', Option::get('anonymous_defaultReport'));
 
         // force cache reload, expect false (i.e., not found)
-        Option::clearCache();
+        StaticContainer::get('Piwik\Option')->clearCache();
         $this->assertFalse(Option::get('anonymous_defaultReport'));
     }
 

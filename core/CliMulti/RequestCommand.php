@@ -119,9 +119,4 @@ class RequestCommand extends ConsoleCommand
         $this->environment = new Environment(null);
         $this->environment->init();
     }
-
-    private function resetDatabase()
-    {
-        Option::clearCache();
-    }
 }

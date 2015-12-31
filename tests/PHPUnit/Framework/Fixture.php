@@ -367,7 +367,6 @@ class Fixture extends \PHPUnit_Framework_Assert
     {
         Archive::clearStaticCache();
         DataTableManager::getInstance()->deleteAll();
-        Option::clearCache();
         Site::clearCache();
         Cache::deleteTrackerCache();
         PiwikCache::getTransientCache()->flushAll();
@@ -971,7 +970,8 @@ class Fixture extends \PHPUnit_Framework_Assert
     public static function updateDatabase($force = false)
     {
         Cache::deleteTrackerCache();
-        Option::clearCache();
+
+        StaticContainer::get('Piwik\Option')->clearCache();
 
         if ($force) {
             // remove version options to force update
