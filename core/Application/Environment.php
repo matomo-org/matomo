@@ -103,6 +103,9 @@ class Environment
      */
     public function destroy()
     {
+        $connection = $this->container->get('Piwik\Db\Connection');
+        $connection->disconnect();
+
         StaticContainer::pop();
     }
 
