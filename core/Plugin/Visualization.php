@@ -13,6 +13,7 @@ use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Proxy;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Log;
@@ -296,7 +297,8 @@ class Visualization extends ViewDataTable
     private function overrideSomeConfigPropertiesIfNeeded()
     {
         if (empty($this->config->footer_icons)) {
-            $this->config->footer_icons = ViewDataTableManager::configureFooterIcons($this);
+            $viewDataTableManager = StaticContainer::get('Piwik\ViewDataTable\Manager');
+            $this->config->footer_icons = $viewDataTableManager->configureFooterIcons($this);
         }
 
         if (!$this->isPluginActivated('Goals')) {

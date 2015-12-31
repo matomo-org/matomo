@@ -56,6 +56,17 @@ return array(
         }
     }),
 
+    'Piwik\ViewDataTable\Manager' => DI\decorate(function (\Piwik\ViewDataTable\Manager $previous, ContainerInterface $c) {
+        if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
+            try {
+                $previous->clearAllViewDataTableParameters();
+            } catch (\Exception $ex) {
+                // ignore (in case DB is not setup)
+            }
+        }
+        return $previous;
+    }),
+
     'observers.global' => DI\add(array(
 
         array('AssetManager.getStylesheetFiles', function (&$stylesheets) {

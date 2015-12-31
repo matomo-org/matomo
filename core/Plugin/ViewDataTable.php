@@ -10,6 +10,7 @@ namespace Piwik\Plugin;
 
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -357,7 +358,8 @@ abstract class ViewDataTable implements ViewInterface
      */
     public function isViewDataTableId($viewDataTableId)
     {
-        $myIds = ViewDataTableManager::getIdsWithInheritance(get_called_class());
+        $viewDataTableManager = StaticContainer::get('Piwik\ViewDataTable\Manager');
+        $myIds = $viewDataTableManager->getIdsWithInheritance(get_called_class());
 
         return in_array($viewDataTableId, $myIds);
     }

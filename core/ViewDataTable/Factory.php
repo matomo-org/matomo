@@ -9,6 +9,7 @@
 namespace Piwik\ViewDataTable;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
@@ -96,6 +97,8 @@ class Factory
      */
     public static function build($defaultType = null, $apiAction = false, $controllerAction = false, $forceDefault = false, $loadViewDataTableParametersForUser = null)
     {
+        $viewDataTableManager = StaticContainer::get('Piwik\ViewDataTable\Manager');
+
         if (false === $controllerAction) {
             $controllerAction = $apiAction;
         }
@@ -111,7 +114,7 @@ class Factory
         }
         if ($loadViewDataTableParametersForUser) {
             $login  = Piwik::getCurrentUserLogin();
-            $params = Manager::getViewDataTableParameters($login, $controllerAction);
+            $params = $viewDataTableManager->getViewDataTableParameters($login, $controllerAction);
         }
 
         if (!self::isDefaultViewTypeForReportFixed($report)) {
@@ -143,7 +146,7 @@ class Factory
 
         $params['viewDataTable'] = $type;
 
-        $visualizations = Manager::getAvailableViewDataTables();
+        $visualizations = $viewDataTableManager->getAvailableViewDataTables();
 
         if (array_key_exists($type, $visualizations)) {
             return self::createViewDataTableInstance($visualizations[$type], $controllerAction, $apiAction, $params);

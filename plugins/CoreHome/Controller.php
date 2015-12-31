@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreHome;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
 use Piwik\FrontController;
@@ -269,6 +270,7 @@ class Controller extends \Piwik\Plugin\Controller
         $parameters = (array) Common::getRequestVar('parameters', null, 'json');
         $login      = Piwik::getCurrentUserLogin();
 
-        ViewDataTableManager::saveViewDataTableParameters($login, $reportId, $parameters);
+        $viewDataTableManager = StaticContainer::get('Piwik\ViewDataTable\Manager');
+        $viewDataTableManager->saveViewDataTableParameters($login, $reportId, $parameters);
     }
 }

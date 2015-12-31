@@ -98,7 +98,7 @@ return array(
          *
          * This event can be used to change the settings used to establish a connection.
          *
-         * @param array *$dbInfos Reference to an array containing database connection info,
+         * @param array &$dbInfos Reference to an array containing database connection info,
          *                        including:
          *
          *                        - **host**: The host name or IP address to the MySQL database.
@@ -123,5 +123,21 @@ return array(
         ->constructorParameter('dbConfig', DI\get('db.config'))
         ->constructorParameter('logger', DI\get('Psr\Log\LoggerInterface'))
         ->constructorParameter('logSqlQueries', DI\get('ini.Debug.log_sql_queries')),
+
+    'Piwik\Db\SchemaInterface' => function (ContainerInterface $c) {
+        $config = $c->get('Piwik\Config');
+        $schema = $config->database['schema'];
+
+        // Upgrade from pre 2.0.4
+        if (strtolower($schema) == 'myisam'
+            || empty($schema)
+        ) {
+            $schema = 'Mysql';
+        }
+
+        $className = str_replace(' ', '\\', ucwords(str_replace('_', ' ', strtolower($schema))));
+        $className = 'Piwik\Db\Schema\\' . $className;
+        return $c->get($className);
+    },
 
 );

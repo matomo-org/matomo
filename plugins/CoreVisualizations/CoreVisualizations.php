@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreVisualizations;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator.php';
@@ -36,7 +37,8 @@ class CoreVisualizations extends \Piwik\Plugin
 
     public function deleteUser($userLogin)
     {
-        ViewDataTableManager::clearUserViewDataTableParameters($userLogin);
+        $viewDataTableManager = StaticContainer::get('Piwik\ViewDataTable\Manager');
+        $viewDataTableManager->clearUserViewDataTableParameters($userLogin);
     }
 
     public function addViewDataTable(&$viewDataTable)

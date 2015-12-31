@@ -11,8 +11,8 @@ namespace Piwik\Db\Schema;
 use Exception;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Db\Connection;
 use Piwik\Db\SchemaInterface;
-use Piwik\Db;
 use Piwik\DbHelper;
 
 /**
@@ -21,6 +21,16 @@ use Piwik\DbHelper;
 class Mysql implements SchemaInterface
 {
     private $tablesInstalled = null;
+
+    /**
+     * @var Connection
+     */
+    private $connection;
+
+    public function __construct(Connection $connection)
+    {
+        $this->connection = $connection;
+    }
 
     /**
      * Get the SQL to create Piwik tables
@@ -373,7 +383,7 @@ class Mysql implements SchemaInterface
             $dbName = $this->getDbName();
         }
 
-        Db::exec("CREATE DATABASE IF NOT EXISTS " . $dbName . " DEFAULT CHARACTER SET utf8");
+        $this->connection->exec("CREATE DATABASE IF NOT EXISTS " . $dbName . " DEFAULT CHARACTER SET utf8");
     }
 
     /**
@@ -392,7 +402,7 @@ class Mysql implements SchemaInterface
                              $this->getTableEngine());
 
         try {
-            Db::exec($statement);
+            $this->connection->exec($statement);
         } catch (Exception $e) {
             // mysql code error 1050:table already exists
             // see bug #153 https://github.com/piwik/piwik/issues/153
@@ -408,7 +418,7 @@ class Mysql implements SchemaInterface
     public function dropDatabase($dbName = null)
     {
         $dbName = $dbName ?: $this->getDbName();
-        Db::exec("DROP DATABASE IF EXISTS " . $dbName);
+        $this->connection->exec("DROP DATABASE IF EXISTS " . $dbName);
     }
 
     /**
@@ -451,7 +461,7 @@ class Mysql implements SchemaInterface
     {
         $tables = $this->getAllExistingTables();
         foreach ($tables as $table) {
-            Db::query("TRUNCATE `$table`");
+            $this->connection->query("TRUNCATE `$table`");
         }
     }
 
@@ -467,12 +477,12 @@ class Mysql implements SchemaInterface
 
     private function getDb()
     {
-        return Db::get();
+        return $this->connection;
     }
 
     private function getDbSettings()
     {
-        return new Db\Settings();
+        return new \Piwik\Db\Settings();
     }
 
     private function getDbName()
@@ -486,7 +496,7 @@ class Mysql implements SchemaInterface
             $prefixTables = $this->getTablePrefixEscaped();
         }
 
-        return Db::get()->fetchCol("SHOW TABLES LIKE '" . $prefixTables . "%'");
+        return $this->connection->fetchCol("SHOW TABLES LIKE '" . $prefixTables . "%'");
     }
 
     private function getTablePrefixEscaped()

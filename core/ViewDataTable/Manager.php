@@ -10,6 +10,7 @@ namespace Piwik\ViewDataTable;
 
 use Piwik\Cache;
 use Piwik\Common;
+use Piwik\EventDispatcher;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
@@ -29,6 +30,29 @@ use Piwik\Plugin\Manager as PluginManager;
 class Manager
 {
     /**
+     * @var Cache\Transient
+     */
+    private $transientCache;
+
+    /**
+     * @var EventDispatcher
+     */
+    private $eventDispatcher;
+
+    /**
+     * @var PluginManager
+     */
+    private $pluginManager;
+
+    public function __construct(Cache\Transient $transientCache, EventDispatcher $eventDispatcher,
+                                PluginManager $pluginManager)
+    {
+        $this->transientCache = $transientCache;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->pluginManager = $pluginManager;
+    }
+
+    /**
      * Returns the viewDataTable IDs of a visualization's class lineage.
      *
      * @see self::getVisualizationClassLineage
@@ -37,7 +61,7 @@ class Manager
      *
      * @return array
      */
-    public static function getIdsWithInheritance($klass)
+    public function getIdsWithInheritance($klass)
     {
         $klasses = Common::getClassLineage($klass);
 
@@ -63,11 +87,10 @@ class Manager
      *                   is found.
      * @return array
      */
-    public static function getAvailableViewDataTables()
+    public function getAvailableViewDataTables()
     {
-        $cache = Cache::getTransientCache();
         $cacheId = 'ViewDataTable.getAvailableViewDataTables';
-        $dataTables = $cache->fetch($cacheId);
+        $dataTables = $this->transientCache->fetch($cacheId);
 
         if (!empty($dataTables)) {
             return $dataTables;
@@ -76,7 +99,7 @@ class Manager
         $klassToExtend = '\\Piwik\\Plugin\\ViewDataTable';
 
         /** @var string[] $visualizations */
-        $visualizations = PluginManager::getInstance()->findMultipleComponents('Visualizations', $klassToExtend);
+        $visualizations = $this->pluginManager->findMultipleComponents('Visualizations', $klassToExtend);
 
         /**
          * Triggered when gathering all available DataTable visualizations.
@@ -95,7 +118,7 @@ class Manager
          * @ignore
          * @deprecated since 2.5.0 Place visualization in a "Visualizations" directory instead.
          */
-        Piwik::postEvent('ViewDataTable.addViewDataTable', array(&$visualizations));
+        $this->eventDispatcher->postEvent('ViewDataTable.addViewDataTable', array(&$visualizations));
 
         $result = array();
 
@@ -117,7 +140,7 @@ class Manager
             $result[$vizId] = $viz;
         }
 
-        $cache->save($cacheId, $result);
+        $this->transientCache->save($cacheId, $result);
 
         return $result;
     }
@@ -127,11 +150,11 @@ class Manager
      *
      * @return array Array mapping visualization IDs with their associated visualization classes.
      */
-    public static function getNonCoreViewDataTables()
+    public function getNonCoreViewDataTables()
     {
         $result = array();
 
-        foreach (static::getAvailableViewDataTables() as $vizId => $vizClass) {
+        foreach ($this->getAvailableViewDataTables() as $vizId => $vizClass) {
             if (false === strpos($vizClass, 'Piwik\\Plugins\\CoreVisualizations')
                 && false === strpos($vizClass, 'Piwik\\Plugins\\Goals\\Visualizations\\Goals')) {
                 $result[$vizId] = $vizClass;
@@ -164,7 +187,7 @@ class Manager
      * )
      * ```
      */
-    public static function configureFooterIcons(ViewDataTable $view)
+    public function configureFooterIcons(ViewDataTable $view)
     {
         $result = array();
 
@@ -182,7 +205,7 @@ class Manager
 
         $graphViewIcons = self::getGraphViewIcons($view);
 
-        $nonCoreVisualizations = static::getNonCoreViewDataTables();
+        $nonCoreVisualizations = $this->getNonCoreViewDataTables();
 
         foreach ($nonCoreVisualizations as $id => $klass) {
             if ($klass::canDisplayViewDataTable($view)) {
@@ -217,12 +240,12 @@ class Manager
      *
      * @return array
      */
-    private static function getFooterIconFor($viewDataTableId)
+    private function getFooterIconFor($viewDataTableId)
     {
-        $tables = static::getAvailableViewDataTables();
+        $tables = $this->getAvailableViewDataTables();
 
         if (!array_key_exists($viewDataTableId, $tables)) {
-            return;
+            return null;
         }
 
         $klass = $tables[$viewDataTableId];
@@ -234,17 +257,17 @@ class Manager
         );
     }
 
-    public static function clearAllViewDataTableParameters()
+    public function clearAllViewDataTableParameters()
     {
         Option::deleteLike('viewDataTableParameters_%');
     }
 
-    public static function clearUserViewDataTableParameters($userLogin)
+    public function clearUserViewDataTableParameters($userLogin)
     {
         Option::deleteLike('viewDataTableParameters_' . $userLogin . '_%');
     }
 
-    public static function getViewDataTableParameters($login, $controllerAction)
+    public function getViewDataTableParameters($login, $controllerAction)
     {
         $paramsKey = self::buildViewDataTableParametersOptionKey($login, $controllerAction);
         $params    = Option::get($paramsKey);
@@ -276,9 +299,9 @@ class Manager
      * @param $parametersToOverride
      * @throws \Exception
      */
-    public static function saveViewDataTableParameters($login, $controllerAction, $parametersToOverride)
+    public function saveViewDataTableParameters($login, $controllerAction, $parametersToOverride)
     {
-        $params = self::getViewDataTableParameters($login, $controllerAction);
+        $params = $this->getViewDataTableParameters($login, $controllerAction);
 
         foreach ($parametersToOverride as $key => $value) {
             if ($key === 'viewDataTable'
@@ -295,15 +318,15 @@ class Manager
             $params[$key] = $value;
         }
 
-        $paramsKey = self::buildViewDataTableParametersOptionKey($login, $controllerAction);
+        $paramsKey = $this->buildViewDataTableParametersOptionKey($login, $controllerAction);
 
         // when setting an invalid parameter, we fail and let user know
-        self::errorWhenSettingNonOverridableParameter($controllerAction, $params);
+        $this->errorWhenSettingNonOverridableParameter($controllerAction, $params);
 
         Option::set($paramsKey, json_encode($params));
     }
 
-    private static function buildViewDataTableParametersOptionKey($login, $controllerAction)
+    private function buildViewDataTableParametersOptionKey($login, $controllerAction)
     {
         return sprintf('viewDataTableParameters_%s_%s', $login, $controllerAction);
     }
@@ -314,15 +337,15 @@ class Manager
      * @param $params
      * @throws
      */
-    private static function errorWhenSettingNonOverridableParameter($controllerAction, $params)
+    private function errorWhenSettingNonOverridableParameter($controllerAction, $params)
     {
-        $viewDataTable = self::makeTemporaryViewDataTableInstance($controllerAction, $params);
+        $viewDataTable = $this->makeTemporaryViewDataTableInstance($controllerAction, $params);
         $viewDataTable->throwWhenSettingNonOverridableParameter($params);
     }
 
-    private static function removeNonOverridableParameters($controllerAction, $params)
+    private function removeNonOverridableParameters($controllerAction, $params)
     {
-        $viewDataTable = self::makeTemporaryViewDataTableInstance($controllerAction, $params);
+        $viewDataTable = $this->makeTemporaryViewDataTableInstance($controllerAction, $params);
         $nonOverridableParams = $viewDataTable->getNonOverridableParams($params);
 
         foreach($params as $key => $value) {
@@ -339,7 +362,7 @@ class Manager
      * @return ViewDataTable
      * @throws \Exception
      */
-    private static function makeTemporaryViewDataTableInstance($controllerAction, $params)
+    private function makeTemporaryViewDataTableInstance($controllerAction, $params)
     {
         $report = new Report();
         $viewDataTableType = isset($params['viewDataTable']) ? $params['viewDataTable'] : $report->getDefaultTypeViewDataTable();
@@ -350,7 +373,7 @@ class Manager
         return $viewDataTable;
     }
 
-    private static function getNormalViewIcons(ViewDataTable $view)
+    private function getNormalViewIcons(ViewDataTable $view)
     {
         // add normal view icons (eg, normal table, all columns, goals)
         $normalViewIcons = array(
@@ -359,15 +382,15 @@ class Manager
         );
 
         if ($view->config->show_table) {
-            $normalViewIcons['buttons'][] = static::getFooterIconFor(HtmlTable::ID);
+            $normalViewIcons['buttons'][] = $this->getFooterIconFor(HtmlTable::ID);
         }
 
         if ($view->config->show_table_all_columns) {
-            $normalViewIcons['buttons'][] = static::getFooterIconFor(HtmlTable\AllColumns::ID);
+            $normalViewIcons['buttons'][] = $this->getFooterIconFor(HtmlTable\AllColumns::ID);
         }
 
         if ($view->config->show_goals) {
-            $goalButton = static::getFooterIconFor(Goals::ID);
+            $goalButton = $this->getFooterIconFor(Goals::ID);
             if (Common::getRequestVar('idGoal', false) == 'ecommerceOrder') {
                 $goalButton['icon'] = 'plugins/Morpheus/images/ecommerceOrder.gif';
             }
@@ -396,7 +419,7 @@ class Manager
         return $normalViewIcons;
     }
 
-    private static function getGraphViewIcons(ViewDataTable $view)
+    private function getGraphViewIcons(ViewDataTable $view)
     {
         // add graph views
         $graphViewIcons = array(
@@ -406,15 +429,15 @@ class Manager
 
         if ($view->config->show_all_views_icons) {
             if ($view->config->show_bar_chart) {
-                $graphViewIcons['buttons'][] = static::getFooterIconFor(Bar::ID);
+                $graphViewIcons['buttons'][] = $this->getFooterIconFor(Bar::ID);
             }
 
             if ($view->config->show_pie_chart) {
-                $graphViewIcons['buttons'][] = static::getFooterIconFor(Pie::ID);
+                $graphViewIcons['buttons'][] = $this->getFooterIconFor(Pie::ID);
             }
 
             if ($view->config->show_tag_cloud) {
-                $graphViewIcons['buttons'][] = static::getFooterIconFor(Cloud::ID);
+                $graphViewIcons['buttons'][] = $this->getFooterIconFor(Cloud::ID);
             }
         }
 

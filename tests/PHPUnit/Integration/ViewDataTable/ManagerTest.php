@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration\ViewDataTable;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -18,11 +19,23 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ManagerTest extends IntegrationTestCase
 {
+    /**
+     * @var ViewDataTableManager
+     */
+    private $viewDataTableManager;
+    
+    public function setUp()
+    {
+        parent::setUp();
+        
+        $this->viewDataTableManager = StaticContainer::get('Piwik\ViewDataTable\Manager');
+    }
+    
     public function test_getViewDataTableParameters_shouldReturnEmptyArray_IfNothingPersisted()
     {
         $login        = 'mylogin';
         $method       = 'API.get';
-        $storedParams = ViewDataTableManager::getViewDataTableParameters($login, $method);
+        $storedParams = $this->viewDataTableManager->getViewDataTableParameters($login, $method);
 
         $this->assertEquals(array(), $storedParams);
     }
@@ -31,13 +44,13 @@ class ManagerTest extends IntegrationTestCase
     {
         $params = $this->addParameters();
 
-        $storedParams = ViewDataTableManager::getViewDataTableParameters('WroNgLogIn', $params['method']);
+        $storedParams = $this->viewDataTableManager->getViewDataTableParameters('WroNgLogIn', $params['method']);
         $this->assertEquals(array(), $storedParams);
 
-        $storedParams = ViewDataTableManager::getViewDataTableParameters($params['login'], 'API.wRoNg');
+        $storedParams = $this->viewDataTableManager->getViewDataTableParameters($params['login'], 'API.wRoNg');
         $this->assertEquals(array(), $storedParams);
 
-        $storedParams = ViewDataTableManager::getViewDataTableParameters($params['login'], $params['method']);
+        $storedParams = $this->viewDataTableManager->getViewDataTableParameters($params['login'], $params['method']);
         $this->assertEquals($params['params'], $storedParams);
     }
 
@@ -55,7 +68,7 @@ class ManagerTest extends IntegrationTestCase
             'viewDataTable' => 'tableAllColumns'
         );
 
-        ViewDataTableManager::saveViewDataTableParameters($login, $method, $params);
+        $this->viewDataTableManager->saveViewDataTableParameters($login, $method, $params);
     }
 
     /**
@@ -72,7 +85,7 @@ class ManagerTest extends IntegrationTestCase
             'viewDataTable' => 'tableAllColumns'
         );
 
-        ViewDataTableManager::saveViewDataTableParameters($login, $method, $params);
+        $this->viewDataTableManager->saveViewDataTableParameters($login, $method, $params);
     }
 
     /**
@@ -89,7 +102,7 @@ class ManagerTest extends IntegrationTestCase
             'viewDataTable' => 'tableAllColumns'
         );
 
-        ViewDataTableManager::saveViewDataTableParameters($login, $method, $params);
+        $this->viewDataTableManager->saveViewDataTableParameters($login, $method, $params);
     }
 
     public function test_getViewDataTableParameters_removesNonOverridableParameter()
@@ -114,55 +127,55 @@ class ManagerTest extends IntegrationTestCase
         Option::set($paramsKey, json_encode($params));
 
         // check the invalid list is fetched without the overridable parameter
-        $processed = ViewDataTableManager::getViewDataTableParameters($login, $controllerAction);
+        $processed = $this->viewDataTableManager->getViewDataTableParameters($login, $controllerAction);
         $this->assertEquals($paramsExpectedWhenFetched, $processed);
 
     }
 
     public function test_clearAllViewDataTableParameters_shouldRemoveAllPersistedParameters()
     {
-        ViewDataTableManager::saveViewDataTableParameters('mylogin1', 'API.get1', array('flat' => 1));
-        ViewDataTableManager::saveViewDataTableParameters('mylogin1', 'API.get2', array('flat' => 1));
-        ViewDataTableManager::saveViewDataTableParameters('mylogin2', 'API.get3', array('flat' => 1));
-        ViewDataTableManager::saveViewDataTableParameters('mylogin1', 'API.get4', array('flat' => 1));
-        ViewDataTableManager::saveViewDataTableParameters('mylogin3', 'API.get5', array('flat' => 1));
+        $this->viewDataTableManager->saveViewDataTableParameters('mylogin1', 'API.get1', array('flat' => 1));
+        $this->viewDataTableManager->saveViewDataTableParameters('mylogin1', 'API.get2', array('flat' => 1));
+        $this->viewDataTableManager->saveViewDataTableParameters('mylogin2', 'API.get3', array('flat' => 1));
+        $this->viewDataTableManager->saveViewDataTableParameters('mylogin1', 'API.get4', array('flat' => 1));
+        $this->viewDataTableManager->saveViewDataTableParameters('mylogin3', 'API.get5', array('flat' => 1));
 
-        $this->assertNotEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin1', 'API.get1'));
-        $this->assertNotEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin1', 'API.get2'));
-        $this->assertNotEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin2', 'API.get3'));
-        $this->assertNotEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin1', 'API.get4'));
-        $this->assertNotEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin3', 'API.get5'));
+        $this->assertNotEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin1', 'API.get1'));
+        $this->assertNotEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin1', 'API.get2'));
+        $this->assertNotEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin2', 'API.get3'));
+        $this->assertNotEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin1', 'API.get4'));
+        $this->assertNotEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin3', 'API.get5'));
 
-        ViewDataTableManager::clearAllViewDataTableParameters();
+        $this->viewDataTableManager->clearAllViewDataTableParameters();
 
-        $this->assertEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin1', 'API.get1'));
-        $this->assertEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin1', 'API.get2'));
-        $this->assertEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin2', 'API.get3'));
-        $this->assertEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin1', 'API.get4'));
-        $this->assertEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin3', 'API.get5'));
+        $this->assertEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin1', 'API.get1'));
+        $this->assertEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin1', 'API.get2'));
+        $this->assertEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin2', 'API.get3'));
+        $this->assertEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin1', 'API.get4'));
+        $this->assertEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin3', 'API.get5'));
     }
 
     public function test_clearUserViewDataTableParameters_shouldOnlyRemoveAUsersParameters()
     {
-        ViewDataTableManager::saveViewDataTableParameters('mylogin1', 'API.get1', array('flat' => 1));
-        ViewDataTableManager::saveViewDataTableParameters('mylogin1', 'API.get2', array('flat' => 1));
-        ViewDataTableManager::saveViewDataTableParameters('mylogin2', 'API.get3', array('flat' => 1));
-        ViewDataTableManager::saveViewDataTableParameters('mylogin1', 'API.get4', array('flat' => 1));
-        ViewDataTableManager::saveViewDataTableParameters('mylogin3', 'API.get5', array('flat' => 1));
+        $this->viewDataTableManager->saveViewDataTableParameters('mylogin1', 'API.get1', array('flat' => 1));
+        $this->viewDataTableManager->saveViewDataTableParameters('mylogin1', 'API.get2', array('flat' => 1));
+        $this->viewDataTableManager->saveViewDataTableParameters('mylogin2', 'API.get3', array('flat' => 1));
+        $this->viewDataTableManager->saveViewDataTableParameters('mylogin1', 'API.get4', array('flat' => 1));
+        $this->viewDataTableManager->saveViewDataTableParameters('mylogin3', 'API.get5', array('flat' => 1));
 
-        $this->assertNotEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin1', 'API.get1'));
-        $this->assertNotEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin1', 'API.get2'));
-        $this->assertNotEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin2', 'API.get3'));
-        $this->assertNotEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin1', 'API.get4'));
-        $this->assertNotEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin3', 'API.get5'));
+        $this->assertNotEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin1', 'API.get1'));
+        $this->assertNotEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin1', 'API.get2'));
+        $this->assertNotEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin2', 'API.get3'));
+        $this->assertNotEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin1', 'API.get4'));
+        $this->assertNotEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin3', 'API.get5'));
 
-        ViewDataTableManager::clearUserViewDataTableParameters('mylogin1');
+        $this->viewDataTableManager->clearUserViewDataTableParameters('mylogin1');
 
-        $this->assertEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin1', 'API.get1'));
-        $this->assertEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin1', 'API.get2'));
-        $this->assertEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin1', 'API.get4'));
-        $this->assertNotEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin2', 'API.get3'));
-        $this->assertNotEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin3', 'API.get5'));
+        $this->assertEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin1', 'API.get1'));
+        $this->assertEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin1', 'API.get2'));
+        $this->assertEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin1', 'API.get4'));
+        $this->assertNotEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin2', 'API.get3'));
+        $this->assertNotEmpty($this->viewDataTableManager->getViewDataTableParameters('mylogin3', 'API.get5'));
     }
 
     private function addParameters()
@@ -171,7 +184,7 @@ class ManagerTest extends IntegrationTestCase
         $method = 'API.get';
         $params = array('flat' => '0', 'expanded' => 1, 'viewDataTable' => 'tableAllColumns');
 
-        ViewDataTableManager::saveViewDataTableParameters($login, $method, $params);
+        $this->viewDataTableManager->saveViewDataTableParameters($login, $method, $params);
 
         return array('login' => $login, 'method' => $method, 'params' => $params);
     }

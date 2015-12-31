@@ -9,7 +9,7 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Db\Schema;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 
 /**
@@ -25,7 +25,7 @@ class DbHelper
      */
     public static function getTablesInstalled($forceReload = true)
     {
-        return Schema::getInstance()->getTablesInstalled($forceReload);
+        return self::getSchema()->getTablesInstalled($forceReload);
     }
 
     /**
@@ -37,7 +37,7 @@ class DbHelper
      */
     public static function getTableColumns($tableName)
     {
-        return Schema::getInstance()->getTableColumns($tableName);
+        return self::getSchema()->getTableColumns($tableName);
     }
 
     /**
@@ -58,7 +58,7 @@ class DbHelper
      */
     public static function createTable($nameWithoutPrefix, $createDefinition)
     {
-        Schema::getInstance()->createTable($nameWithoutPrefix, $createDefinition);
+        self::getSchema()->createTable($nameWithoutPrefix, $createDefinition);
     }
 
     /**
@@ -71,7 +71,7 @@ class DbHelper
     public static function isInstalled()
     {
         try {
-            return Schema::getInstance()->hasTables();
+            return self::getSchema()->hasTables();
         } catch (Exception $e) {
             return false;
         }
@@ -82,7 +82,7 @@ class DbHelper
      */
     public static function truncateAllTables()
     {
-        Schema::getInstance()->truncateAllTables();
+        self::getSchema()->truncateAllTables();
     }
 
     /**
@@ -90,7 +90,7 @@ class DbHelper
      */
     public static function createAnonymousUser()
     {
-        Schema::getInstance()->createAnonymousUser();
+        self::getSchema()->createAnonymousUser();
     }
 
     /**
@@ -98,7 +98,7 @@ class DbHelper
      */
     public static function createTables()
     {
-        Schema::getInstance()->createTables();
+        self::getSchema()->createTables();
     }
 
     /**
@@ -107,7 +107,7 @@ class DbHelper
     public static function dropDatabase($dbName = null)
     {
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
-            Schema::getInstance()->dropDatabase($dbName);
+            self::getSchema()->dropDatabase($dbName);
         }
     }
 
@@ -149,7 +149,7 @@ class DbHelper
      */
     public static function createDatabase($dbName = null)
     {
-        Schema::getInstance()->createDatabase($dbName);
+        self::getSchema()->createDatabase($dbName);
     }
 
     /**
@@ -159,7 +159,7 @@ class DbHelper
      */
     public static function getTablesCreateSql()
     {
-        return Schema::getInstance()->getTablesCreateSql();
+        return self::getSchema()->getTablesCreateSql();
     }
 
     /**
@@ -170,7 +170,7 @@ class DbHelper
      */
     public static function getTableCreateSql($tableName)
     {
-        return Schema::getInstance()->getTableCreateSql($tableName);
+        return self::getSchema()->getTableCreateSql($tableName);
     }
 
     /**
@@ -185,5 +185,10 @@ class DbHelper
         }
 
         ArchiveTableCreator::refreshTableList($forceReload = true);
+    }
+
+    private static function getSchema()
+    {
+        return StaticContainer::get('Piwik\Db\SchemaInterface');
     }
 }

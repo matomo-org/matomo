@@ -47,7 +47,7 @@ interface SchemaInterface
     /**
      * Drop database
      */
-    public function dropDatabase();
+    public function dropDatabase($dbName = null);
 
     /**
      * Create all tables

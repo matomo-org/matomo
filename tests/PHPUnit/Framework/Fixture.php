@@ -136,6 +136,11 @@ class Fixture extends \PHPUnit_Framework_Assert
     private static $testDbConnection;
 
     /**
+     * @var Db\SchemaInterface
+     */
+    private static $schema;
+
+    /**
      * @return string
      */
     protected static function getPythonBinary()
@@ -211,6 +216,10 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function performSetUp($setupEnvironmentOnly = false)
     {
+        // get db related instances from the root test environment, so they aren't created in the test environment
+        // used for individual tests
+        Fixture::$schema = StaticContainer::get('Piwik\Db\SchemaInterface');
+
         // TODO: don't use static var, use test env var for this
         TestingEnvironmentManipulator::$extraPluginsToLoad = $this->extraPluginsToLoad;
 
@@ -244,14 +253,14 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         self::getTestDbConnection()->exec("SET wait_timeout=28800;");
-        DbHelper::createTables();
+        self::$schema->createTables();
 
         self::getPluginManager()->unloadPlugins();
 
         include "DataFiles/Providers.php";
 
         if (!$this->isFixtureSetUp()) {
-            DbHelper::truncateAllTables();
+            self::$schema->truncateAllTables();
         }
 
         // We need to be SU to create websites for tests
@@ -399,7 +408,7 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function loadAllPlugins(TestingEnvironmentVariables $testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
     {
-        DbHelper::createTables();
+        self::$schema->createTables();
         self::getPluginManager()->loadActivatedPlugins();
     }
 

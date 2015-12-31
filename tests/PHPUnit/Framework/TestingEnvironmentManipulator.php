@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Framework;
 
 use Interop\Container\ContainerInterface;
-use Piwik\Application\Environment;
 use Piwik\Application\EnvironmentManipulator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
@@ -104,14 +103,6 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     // TODO: none of the methods in this class should connect to the database
     public function onEnvironmentBootstrapped()
     {
-        if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
-            try {
-                \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
-            } catch (\Exception $ex) {
-                // ignore (in case DB is not setup)
-            }
-        }
-
         if ($this->vars->optionsOverride) {
             try {
                 foreach ($this->vars->optionsOverride as $name => $value) {
