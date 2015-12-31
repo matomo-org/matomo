@@ -93,7 +93,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      *
      * @return int
      */
-    public static function getDefaultPort()
+    public function getDefaultPort()
     {
         return 3306;
     }
@@ -136,7 +136,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      *
      * @return bool
      */
-    public static function isEnabled()
+    public function isEnabled()
     {
         return extension_loaded('PDO') && extension_loaded('pdo_mysql') && in_array('mysql', PDO::getAvailableDrivers());
     }
@@ -168,7 +168,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * @param string $errno
      * @return bool
      */
-    public function isErrNo($e, $errno)
+    public function isErrNo(Exception $e, $errno)
     {
         if (preg_match('/(?:\[|\s)([0-9]{4})(?:\]|\s)/', $e->getMessage(), $match)) {
             return $match[1] == $errno;

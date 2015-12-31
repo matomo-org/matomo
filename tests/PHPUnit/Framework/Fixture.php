@@ -361,7 +361,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $this->destroyEnvironment();
 
-        self::getTestDbConnection()->disconnect();
+        self::getTestDbConnection()->closeConnection();
     }
 
     public function clearInMemoryCaches()

@@ -45,7 +45,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      *
      * @return int
      */
-    public static function getDefaultPort()
+    public function getDefaultPort()
     {
         return 3306;
     }
@@ -99,7 +99,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      *
      * @return bool
      */
-    public static function isEnabled()
+    public function isEnabled()
     {
         $extensions = @get_loaded_extensions();
         return in_array('mysqli', $extensions);
@@ -132,7 +132,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      * @param string $errno
      * @return bool
      */
-    public function isErrNo($e, $errno)
+    public function isErrNo(Exception $e, $errno)
     {
         if (is_null($this->_connection)) {
             if (preg_match('/(?:\[|\s)([0-9]{4})(?:\]|\s)/', $e->getMessage(), $match)) {

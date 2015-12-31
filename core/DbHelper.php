@@ -139,7 +139,7 @@ class DbHelper
      */
     public static function disconnectDatabase()
     {
-        Db::get()->disconnect();
+        Db::get()->closeConnection();
     }
 
     /**

@@ -33,7 +33,7 @@ class Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements AdapterInterface
      *
      * @return int
      */
-    public static function getDefaultPort()
+    public function getDefaultPort()
     {
         return 5432;
     }
@@ -65,7 +65,7 @@ class Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements AdapterInterface
      *
      * @return bool
      */
-    public static function isEnabled()
+    public function isEnabled()
     {
         return extension_loaded('PDO') && extension_loaded('pdo_pgsql');
     }
@@ -106,7 +106,7 @@ class Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements AdapterInterface
      * @param string $errno
      * @return bool
      */
-    public function isErrNo($e, $errno)
+    public function isErrNo(Exception $e, $errno)
     {
         // map MySQL driver-specific error codes to PostgreSQL SQLSTATE
         $map = array(

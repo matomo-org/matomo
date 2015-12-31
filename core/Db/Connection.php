@@ -8,15 +8,14 @@
 
 namespace Piwik\Db;
 
+use Exception;
 use Psr\Log\LoggerInterface;
 use Zend_Db_Adapter_Abstract;
 
 /**
  * TODO
- *
- * @api
  */
-class Connection
+class Connection implements AdapterInterface
 {
     private static $queryLogEnabled = false;
 
@@ -199,14 +198,6 @@ class Connection
 
     /**
      * TODO
-     */
-    public function disconnect()
-    {
-        $this->adapter->closeConnection();
-    }
-
-    /**
-     * TODO
      *
      * @return bool
      */
@@ -237,6 +228,14 @@ class Connection
         return $this->adapter->hasBulkLoader();
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function isErrNo(Exception $e, $errno)
+    {
+        return $this->adapter->isErrNo($e, $errno);
+    }
+
     public function isConnectionUTF8()
     {
         return $this->adapter->isConnectionUTF8();
@@ -245,11 +244,6 @@ class Connection
     public function createDatabase($dbName)
     {
         $this->exec("CREATE DATABASE IF NOT EXISTS " . $dbName . " DEFAULT CHARACTER SET utf8");
-    }
-
-    public function isErrNo(\Exception $e, $errno)
-    {
-        return $this->adapter->isErrNo($e, $errno);
     }
 
     public function beginTransaction()
@@ -265,6 +259,54 @@ class Connection
     public function rollback()
     {
         $this->adapter->rollBack();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function resetConfig()
+    {
+        $this->adapter->resetConfig();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultPort()
+    {
+        return $this->adapter->getDefaultPort();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function checkServerVersion()
+    {
+        return $this->adapter->checkServerVersion();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEnabled()
+    {
+        return $this->adapter->isEnabled();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProfiler()
+    {
+        return $this->adapter->getProfiler();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function closeConnection()
+    {
+        $this->adapter->closeConnection();
     }
 
     private function logSql($functionName, $sql, $parameters = array())

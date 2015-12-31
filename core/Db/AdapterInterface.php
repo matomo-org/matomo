@@ -25,7 +25,7 @@ interface AdapterInterface
      *
      * @return int
      */
-    public static function getDefaultPort();
+    public function getDefaultPort();
 
     /**
      * Check database server version
@@ -39,7 +39,7 @@ interface AdapterInterface
      *
      * @return bool
      */
-    public static function isEnabled();
+    public function isEnabled();
 
     /**
      * Returns true if this adapter supports blobs as fields
@@ -62,7 +62,7 @@ interface AdapterInterface
      * @param string $errno
      * @return bool
      */
-    public function isErrNo($e, $errno);
+    public function isErrNo(Exception $e, $errno);
 
     /**
      * Is the connection character set equal to utf8?

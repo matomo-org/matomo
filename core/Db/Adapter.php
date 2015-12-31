@@ -45,6 +45,7 @@ class Adapter
             $infos[$key] = $val;
         }
 
+        /** @var AdapterInterface $adapter */
         $adapter   = new $className($infos);
 
         if ($connect) {
