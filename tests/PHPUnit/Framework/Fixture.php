@@ -127,6 +127,15 @@ class Fixture extends \PHPUnit_Framework_Assert
     public $piwikEnvironment;
 
     /**
+     * This Connection instance is used by Fixture to access the database instead of the
+     * Connection instance in DI. We do this so tests can trigger creation of the
+     * Connection instance and test that certain bits of code don't access the DB.
+     *
+     * @var Db\Connection
+     */
+    private static $testDbConnection;
+
+    /**
      * @return string
      */
     protected static function getPythonBinary()
@@ -186,29 +195,18 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     private function setUpTestDatabase()
     {
-        $dbConfig = self::getConfig()->database;
+        $dbName = self::getConfig()->database['dbname'];
 
-        $dbName = $dbConfig['dbname'];
-        $dbConfig['dbname'] = null;
+        $testDbConnection = self::getTestDbConnection();
 
-        $tempConnection = new Db\Connection($dbConfig);
-
-        try {
-            if ($this->dropDatabaseInSetUp
-                || $this->resetPersistedFixture
-            ) {
-                $this->dropDatabase($dbName, $tempConnection);
-            }
-
-            $tempConnection->createDatabase($dbName);
-
-            Db::get()->exec("USE $dbName");
-
-            $tempConnection->disconnect();
-        } catch (\Exception $ex) {
-            $tempConnection->disconnect();
-            throw $ex;
+        if ($this->dropDatabaseInSetUp
+            || $this->resetPersistedFixture
+        ) {
+            $this->dropDatabase($dbName);
         }
+
+        $testDbConnection->createDatabase($dbName);
+        $testDbConnection->exec("USE $dbName");
     }
 
     public function performSetUp($setupEnvironmentOnly = false)
@@ -245,7 +243,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             $this->dbName = self::getConfig()->database['dbname'];
         }
 
-        Db::get()->exec("SET wait_timeout=28800;");
+        self::getTestDbConnection()->exec("SET wait_timeout=28800;");
         DbHelper::createTables();
 
         self::getPluginManager()->unloadPlugins();
@@ -352,6 +350,8 @@ class Fixture extends \PHPUnit_Framework_Assert
         Log::unsetInstance();
 
         $this->destroyEnvironment();
+
+        self::getTestDbConnection()->disconnect();
     }
 
     public function clearInMemoryCaches()
@@ -493,7 +493,8 @@ class Fixture extends \PHPUnit_Framework_Assert
         );
 
         // Manually set the website creation date to a day earlier than the earliest day we record stats for
-        Db::get()->update(Common::prefixTable("site"),
+        $connection = self::getTestDbConnection();
+        $connection->update(Common::prefixTable("site"),
             array('ts_created' => Date::factory($dateTime)->subDay(1)->getDatetime()),
             "idsite = $idSite"
         );
@@ -899,12 +900,14 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public static function siteCreated($idSite)
     {
-        return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('site') . " WHERE idsite = ?", array($idSite)) != 0;
+        $connection = self::getTestDbConnection();
+        return $connection->fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('site') . " WHERE idsite = ?", array($idSite)) != 0;
     }
 
     public static function goalExists($idSite, $idGoal)
     {
-        return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('goal') . " WHERE idgoal = ? AND idsite = ?", array($idGoal, $idSite)) != 0;
+        $connection = self::getTestDbConnection();
+        return $connection->fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('goal') . " WHERE idgoal = ? AND idsite = ?", array($idGoal, $idSite)) != 0;
     }
 
     /**
@@ -914,11 +917,9 @@ class Fixture extends \PHPUnit_Framework_Assert
     {
     }
 
-    public function dropDatabase($dbName = null, Db\Connection $connection = null)
+    public function dropDatabase($dbName = null)
     {
-        if ($connection === null) {
-            $connection = StaticContainer::get('Piwik\Db\Connection');
-        }
+        $connection = self::getTestDbConnection();
 
         $dbName = $dbName ?: $this->dbName ?: self::getConfig()->database_tests['dbname'];
 
@@ -1010,5 +1011,17 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $this->piwikEnvironment->destroy();
         $this->piwikEnvironment = null;
+    }
+
+    private static function getTestDbConnection()
+    {
+        if (self::$testDbConnection === null) {
+            $dbConfig = self::getConfig()->database;
+            $dbConfig['dbname'] = null;
+
+            self::$testDbConnection = new Db\Connection($dbConfig);
+        }
+
+        return self::$testDbConnection;
     }
 }

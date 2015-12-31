@@ -148,7 +148,7 @@ class TrackerTest extends IntegrationTestCase
         $db = $this->tracker->getDatabase(); // make sure connected
         $this->assertNotEmpty($db);
 
-        $this->assertTrue($this->tracker->isDatabaseConnected());
+        $this->assertDbConnectionCreated();
     }
 
     public function test_trackRequest_shouldNotTrackAnything_IfRequestIsEmpty()

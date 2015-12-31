@@ -186,11 +186,6 @@ class Tracker
         return Date::getDatetimeFromTimestamp($timestamp);
     }
 
-    public function isDatabaseConnected()
-    {
-        return Db::isDatabaseConnected();
-    }
-
     public static function getDatabase()
     {
         try {

@@ -25,8 +25,6 @@ class SettingsTest extends IntegrationTestCase
 
     public function test_constructor_shouldNotEstablishADatabaseConnection()
     {
-        Db::destroyDatabaseObject();
-
         $this->assertNotDbConnectionCreated();
 
         $this->createSettingsInstance();

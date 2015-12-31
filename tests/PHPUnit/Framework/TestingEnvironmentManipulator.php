@@ -101,6 +101,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
     }
 
+    // TODO: none of the methods in this class should connect to the database
     public function onEnvironmentBootstrapped()
     {
         if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
