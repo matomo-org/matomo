@@ -4,6 +4,7 @@ use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\NotFoundException;
 use Piwik\Cache\Eager;
 use Piwik\Config;
+use Piwik\Db\Adapter;
 use Piwik\EventDispatcher;
 use Piwik\SettingsServer;
 
@@ -84,7 +85,7 @@ return array(
     'Piwik\Tracker\Settings' => DI\object()
         ->constructorParameter('isSameFingerprintsAcrossWebsites', DI\get('ini.Tracker.enable_fingerprinting_across_websites')),
 
-    'db.config' => function (ContainerInterface $c) {
+    'db.config' => DI\factory(function (ContainerInterface $c) {
         /** @var EventDispatcher $dispatcher */
         $dispatcher = $c->get('Piwik\EventDispatcher');
 
@@ -117,10 +118,14 @@ return array(
 
         $dbConfig['profiler'] = $config->Debug['enable_sql_profiler'];
         return $dbConfig;
+    })->scope(\DI\Scope::PROTOTYPE),
+
+    'Piwik\Db\AdapterInterface' => function (ContainerInterface $c) {
+        $dbConfig = $c->get('db.config');
+        return Adapter::factory($dbConfig['adapter'], $dbConfig);
     },
 
     'Piwik\Db\Connection' => DI\object()
-        ->constructorParameter('dbConfig', DI\get('db.config'))
         ->constructorParameter('logger', DI\get('Psr\Log\LoggerInterface'))
         ->constructorParameter('logSqlQueries', DI\get('ini.Debug.log_sql_queries')),
 

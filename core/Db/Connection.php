@@ -21,7 +21,7 @@ class Connection
     private static $queryLogEnabled = false;
 
     /**
-     * @var \Zend_Db_Adapter_Abstract
+     * @var AdapterInterface
      */
     private $adapter;
 
@@ -35,9 +35,9 @@ class Connection
      */
     private $logSqlQueries;
 
-    public function __construct($dbConfig, LoggerInterface $logger = null, $logSqlQueries = false)
+    public function __construct(AdapterInterface $adapter, LoggerInterface $logger = null, $logSqlQueries = false)
     {
-        $this->adapter = Adapter::factory($dbConfig['adapter'], $dbConfig);
+        $this->adapter = $adapter;
         $this->logger = $logger;
         $this->logSqlQueries = $logSqlQueries;
     }

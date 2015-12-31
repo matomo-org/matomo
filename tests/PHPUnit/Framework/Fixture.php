@@ -21,6 +21,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Adapter;
 use Piwik\DbHelper;
 use Piwik\Ini\IniReader;
 use Piwik\Log;
@@ -216,10 +217,6 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function performSetUp($setupEnvironmentOnly = false)
     {
-        // get db related instances from the root test environment, so they aren't created in the test environment
-        // used for individual tests
-        Fixture::$schema = StaticContainer::get('Piwik\Db\SchemaInterface');
-
         // TODO: don't use static var, use test env var for this
         TestingEnvironmentManipulator::$extraPluginsToLoad = $this->extraPluginsToLoad;
 
@@ -245,6 +242,10 @@ class Fixture extends \PHPUnit_Framework_Assert
         $testEnv->save();
 
         $this->setUpTestDatabase();
+
+        // get db related instances from the root test environment, so they aren't created in the test environment
+        // used for individual tests
+        Fixture::$schema = StaticContainer::get('Piwik\Db\SchemaInterface');
 
         $this->createEnvironmentInstance();
 
@@ -1028,7 +1029,8 @@ class Fixture extends \PHPUnit_Framework_Assert
             $dbConfig = self::getConfig()->database;
             $dbConfig['dbname'] = null;
 
-            self::$testDbConnection = new Db\Connection($dbConfig);
+            $adapter = Adapter::factory($dbConfig['adapter'], $dbConfig);
+            self::$testDbConnection = new Db\Connection($adapter);
         }
 
         return self::$testDbConnection;

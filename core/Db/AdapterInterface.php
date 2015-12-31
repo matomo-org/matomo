@@ -70,4 +70,128 @@ interface AdapterInterface
      * @return bool
      */
     public function isConnectionUTF8();
+
+    /**
+     * @return \Zend_Db_Profiler
+     */
+    public function getProfiler();
+
+    /**
+     * TODO
+     *
+     * @param string $sql
+     * @return mixed
+     */
+    public function exec($sql);
+
+    /**
+     * TODO
+     *
+     * @param $sql
+     * @param $parameters
+     * @return mixed
+     */
+    public function query($sql, $parameters = array());
+
+    /**
+     * TODO
+     *
+     * @param $sql
+     * @param $parameters
+     * @return mixed
+     */
+    public function fetchAll($sql, $parameters = array());
+
+    /**
+     * TODO
+     *
+     * @param $sql
+     * @param $parameters
+     * @return mixed
+     */
+    public function fetchRow($sql, $parameters = array());
+
+    /**
+     * TODO
+     *
+     * @param $sql
+     * @param $parameters
+     * @return mixed
+     */
+    public function fetchOne($sql, $parameters = array());
+
+    /**
+     * TODO
+     *
+     * @param $sql
+     * @param $parameters
+     * @return mixed
+     */
+    public function fetchAssoc($sql, $parameters = array());
+
+    /**
+     * TODO
+     *
+     * @param $sql
+     * @param $parameters
+     * @return mixed
+     */
+    public function fetchCol($sql, $parameters = array());
+
+    /**
+     * TODO
+     *
+     * @return string
+     */
+    public function lastInsertId();
+
+    /**
+     * TODO
+     */
+    public function closeConnection();
+
+    /**
+     * TODO
+     *
+     * @return bool
+     */
+    public function isConnected();
+
+    /**
+     * TODO
+     *
+     * @param $table
+     * @param array $bind
+     */
+    public function insert($table, array $bind);
+
+    /**
+     * TODO
+     *
+     * @param $table
+     * @param array $bind
+     * @param string $where
+     */
+    public function update($table, array $bind, $where = '');
+
+    /**
+     * TODO
+     *
+     * @return mixed
+     */
+    public function beginTransaction();
+
+    /**
+     * TODO
+     *
+     * @return mixed
+     */
+    public function commit();
+
+    /**
+     * TODO
+     *
+     * @return mixed
+     */
+    public function rollBack();
 }
