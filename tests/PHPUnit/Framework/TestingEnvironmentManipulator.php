@@ -13,9 +13,11 @@ use Piwik\Application\EnvironmentManipulator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Config;
+use Piwik\Db\AdapterInterface;
 use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Plugin;
+use Piwik\Tests\Framework\Mock\Db\TestAdapterWrapper;
 
 class FakePluginList extends PluginList
 {
@@ -174,6 +176,10 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                 $config->Plugins['Plugins'] = $plugins;
 
                 return $config;
+            }),
+
+            'Piwik\Db\AdapterInterface' => \DI\decorate(function (AdapterInterface $adapter) {
+                return new TestAdapterWrapper($adapter);
             }),
         );
 

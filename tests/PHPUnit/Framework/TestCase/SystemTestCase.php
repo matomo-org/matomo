@@ -52,13 +52,6 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     protected $comparisonFailures = array();
 
     /**
-     * NOTE: public only for use in closure.
-     *
-     * @var boolean
-     */
-    public static $dbConnectionCreated = false;
-
-    /**
      * @var Fixture
      */
     public static $fixture;
@@ -79,10 +72,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             $fixture->extraTestEnvVars['loadRealTranslations'] = true; // load real translations by default for system tests
         }
 
-        $fixture->extraDefinitions = array_merge(
-            static::provideContainerConfigBeforeClass(),
-            self::getForcedContainerConfigOverrides()
-        );
+        $fixture->extraDefinitions = static::provideContainerConfigBeforeClass();
 
         try {
             $fixture->performSetUp();
@@ -102,13 +92,6 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         }
 
         $fixture->performTearDown();
-    }
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        self::$dbConnectionCreated = false;
     }
 
     /**
@@ -697,12 +680,14 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
     public function assertNotDbConnectionCreated($message = 'A database connection was created but should not.')
     {
-        self::assertFalse(self::$dbConnectionCreated, $message);
+        $adapter = StaticContainer::get('Piwik\Db\AdapterInterface');
+        self::assertFalse($adapter->isConnected(), $message);
     }
 
     public function assertDbConnectionCreated($message = 'A database connection was not created but should.')
     {
-        self::assertTrue(self::$dbConnectionCreated, $message);
+        $adapter = StaticContainer::get('Piwik\Db\AdapterInterface');
+        self::assertTrue($adapter->isConnected(), $message);
     }
 
     /**
@@ -714,25 +699,6 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array();
-    }
-
-    /**
-     * Returns DI config that is forced for tests. Returns DI config necessary for things
-     * like asserts.
-     *
-     * Should only return DI\decorate from this method, otherwise tests will not be able
-     * to provide their own overrides for whatever's defined here.
-     *
-     * @return array
-     */
-    private static function getForcedContainerConfigOverrides()
-    {
-        return array(
-            'Piwik\Db\AdapterWrapper' => \DI\decorate(function ($previous, ContainerInterface $c) {
-                SystemTestCase::$dbConnectionCreated = true;
-                return $previous;
-            }),
-        );
     }
 }
 
