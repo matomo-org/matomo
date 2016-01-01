@@ -21,13 +21,6 @@ interface AdapterInterface
     public function resetConfig();
 
     /**
-     * Return default port.
-     *
-     * @return int
-     */
-    public function getDefaultPort();
-
-    /**
      * Check database server version
      *
      * @throws Exception if database version is less than required version

@@ -22,7 +22,7 @@ class Adapter
      * @param bool $connect
      * @return AdapterInterface
      */
-    public static function factory($adapterName, & $dbInfos, $connect = true)
+    public static function factory($adapterName, & $dbInfos, $connect = false)
     {
         if ($connect) {
             if ($dbInfos['port'][0] == '/') {

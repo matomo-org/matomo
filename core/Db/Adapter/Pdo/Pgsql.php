@@ -33,7 +33,7 @@ class Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements AdapterInterface
      *
      * @return int
      */
-    public function getDefaultPort()
+    public static function getDefaultPort()
     {
         return 5432;
     }

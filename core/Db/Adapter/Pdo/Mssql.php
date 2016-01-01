@@ -122,7 +122,7 @@ class Mssql extends Zend_Db_Adapter_Pdo_Mssql implements AdapterInterface
      *
      * @return int
      */
-    public function getDefaultPort()
+    public static function getDefaultPort()
     {
         return 1433;
     }
