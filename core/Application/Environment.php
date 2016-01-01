@@ -14,6 +14,7 @@ use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Container\ContainerFactory;
 use Piwik\Container\StaticContainer;
+use Piwik\Db\AdapterInterface;
 use Piwik\Db\AdapterWrapper;
 use Piwik\Piwik;
 
@@ -104,8 +105,8 @@ class Environment
      */
     public function destroy()
     {
-        /** @var AdapterWrapper $connection */
-        $connection = $this->container->get('Piwik\Db\AdapterWrapper');
+        /** @var AdapterInterface $connection */
+        $connection = $this->container->get('Piwik\Db\AdapterInterface');
         $connection->closeConnection();
 
         StaticContainer::pop();

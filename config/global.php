@@ -120,14 +120,17 @@ return array(
         return $dbConfig;
     })->scope(\DI\Scope::PROTOTYPE),
 
-    'Piwik\Db\AdapterInterface' => function (ContainerInterface $c) {
+    'db.adapter.impl' => function (ContainerInterface $c) {
         $dbConfig = $c->get('db.config');
         return Adapter::factory($dbConfig['adapter'], $dbConfig);
     },
 
     'Piwik\Db\AdapterWrapper' => DI\object()
+        ->constructorParameter('adapter', DI\get('db.adapter.impl'))
         ->constructorParameter('logger', DI\get('Psr\Log\LoggerInterface'))
         ->constructorParameter('logSqlQueries', DI\get('ini.Debug.log_sql_queries')),
+
+    'Piwik\Db\AdapterInterface' => DI\get('Piwik\Db\AdapterWrapper'),
 
     'Piwik\Db\SchemaInterface' => function (ContainerInterface $c) {
         $config = $c->get('Piwik\Config');

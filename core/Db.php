@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\TableMetadata;
 use Piwik\Db\Adapter;
+use Piwik\Db\AdapterInterface;
 use Piwik\Db\AdapterWrapper;
 
 /**
@@ -40,7 +41,7 @@ class Db
     /**
      * Returns the database connection and creates it if it hasn't been already.
      *
-     * @return AdapterWrapper
+     * @return AdapterInterface
      */
     public static function get()
     {
@@ -63,11 +64,11 @@ class Db
     }
 
     /**
-     * @return Db\AdapterWrapper
+     * @return AdapterInterface
      */
     private static function fromContainer()
     {
-        return StaticContainer::get('Piwik\Db\AdapterWrapper');
+        return StaticContainer::get('Piwik\Db\AdapterInterface');
     }
 
     /**
