@@ -16,7 +16,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
-use Piwik\Db\Adapter;
+use Piwik\Db\AdapterFactory;
 use Piwik\DbHelper;
 use Piwik\Filesystem;
 use Piwik\Http;

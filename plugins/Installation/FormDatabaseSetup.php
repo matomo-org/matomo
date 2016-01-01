@@ -14,7 +14,7 @@ use HTML_QuickForm2_Factory;
 use HTML_QuickForm2_Rule;
 use Piwik\Config;
 use Piwik\Db;
-use Piwik\Db\Adapter;
+use Piwik\Db\AdapterFactory;
 use Piwik\DbHelper;
 use Piwik\Filesystem;
 use Piwik\Piwik;
@@ -36,7 +36,7 @@ class FormDatabaseSetup extends QuickForm2
         HTML_QuickForm2_Factory::registerRule('checkValidFilename', 'Piwik\Plugins\Installation\FormDatabaseSetup_Rule_checkValidFilename');
         HTML_QuickForm2_Factory::registerRule('checkUserPrivileges', 'Piwik\Plugins\Installation\Rule_checkUserPrivileges');
 
-        $availableAdapters = Adapter::getAdapters();
+        $availableAdapters = AdapterFactory::getAdapters();
         $adapters = array();
         foreach ($availableAdapters as $adapter => $port) {
             $adapters[$adapter] = $adapter;
@@ -99,7 +99,7 @@ class FormDatabaseSetup extends QuickForm2
         }
 
         $adapter = $this->getSubmitValue('adapter');
-        $port = Adapter::getDefaultPortForAdapter($adapter);
+        $port = AdapterFactory::getDefaultPortForAdapter($adapter);
 
         $dbInfos = array(
             'host'          => $this->getSubmitValue('host'),
@@ -127,7 +127,7 @@ class FormDatabaseSetup extends QuickForm2
         try {
             @Db::createDatabaseObject($dbInfos);
         } catch (Zend_Db_Adapter_Exception $e) {
-            $db = Adapter::factory($adapter, $dbInfos, $connect = false);
+            $db = AdapterFactory::factory($adapter, $dbInfos, $connect = false);
 
             // database not found, we try to create  it
             if ($db->isErrNo($e, '1049')) {

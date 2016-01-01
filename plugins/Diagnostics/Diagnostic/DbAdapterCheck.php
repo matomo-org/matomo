@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
-use Piwik\Db\Adapter;
+use Piwik\Db\AdapterFactory;
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 
@@ -52,7 +52,7 @@ class DbAdapterCheck implements Diagnostic
     private function checkDbAdapters()
     {
         $results = array();
-        $adapters = Adapter::getAdapters();
+        $adapters = AdapterFactory::getAdapters();
 
         foreach ($adapters as $adapter => $port) {
             $label = $adapter . ' ' . $this->translator->translate('Installation_Extension');

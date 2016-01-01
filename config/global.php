@@ -4,7 +4,7 @@ use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\NotFoundException;
 use Piwik\Cache\Eager;
 use Piwik\Config;
-use Piwik\Db\Adapter;
+use Piwik\Db\AdapterFactory;
 use Piwik\EventDispatcher;
 use Piwik\SettingsServer;
 
@@ -122,7 +122,10 @@ return array(
 
     'db.adapter.impl' => function (ContainerInterface $c) {
         $dbConfig = $c->get('db.config');
-        return Adapter::factory($dbConfig['adapter'], $dbConfig);
+
+        /** @var AdapterFactory $adapterFactory */
+        $adapterFactory = $c->get('Piwik\Db\AdapterFactory');
+        return $adapterFactory->factory($dbConfig['adapter'], $dbConfig);
     },
 
     'Piwik\Db\AdapterWrapper' => DI\object()

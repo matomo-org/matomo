@@ -11,7 +11,7 @@ namespace Piwik;
 use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\TableMetadata;
-use Piwik\Db\Adapter;
+use Piwik\Db\AdapterFactory;
 use Piwik\Db\AdapterInterface;
 use Piwik\Db\AdapterWrapper;
 

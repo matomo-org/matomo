@@ -12,7 +12,7 @@ use Zend_Db_Table;
 
 /**
  */
-class Adapter
+class AdapterFactory
 {
     /**
      * Create adapter
@@ -22,7 +22,7 @@ class Adapter
      * @param bool $connect
      * @return AdapterInterface
      */
-    public static function factory($adapterName, & $dbInfos, $connect = false)
+    public function factory($adapterName, & $dbInfos, $connect = true)
     {
         if ($connect) {
             if ($dbInfos['port'][0] == '/') {
@@ -46,12 +46,13 @@ class Adapter
         }
 
         /** @var AdapterInterface $adapter */
-        $adapter   = new $className($infos);
+        $adapter = new $className($infos);
 
         if ($connect) {
             $adapter->getConnection();
 
             Zend_Db_Table::setDefaultAdapter($adapter);
+
             // we don't want the connection information to appear in the logs
             $adapter->resetConfig();
         }

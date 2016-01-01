@@ -21,7 +21,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Db\Adapter;
+use Piwik\Db\AdapterFactory;
 use Piwik\DbHelper;
 use Piwik\Ini\IniReader;
 use Piwik\Log;
@@ -1029,7 +1029,10 @@ class Fixture extends \PHPUnit_Framework_Assert
             $dbConfig = self::getConfig()->database;
             $dbConfig['dbname'] = null;
 
-            $adapter = Adapter::factory($dbConfig['adapter'], $dbConfig);
+            /** @var AdapterFactory $adapterFactory */
+            $adapterFactory = new AdapterFactory();
+            $adapter = $adapterFactory->factory($dbConfig['adapter'], $dbConfig);
+
             self::$testDbConnection = new Db\AdapterWrapper($adapter);
         }
 
