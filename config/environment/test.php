@@ -2,6 +2,8 @@
 
 use Interop\Container\ContainerInterface;
 use Piwik\Common;
+use Piwik\Db\AdapterInterface;
+use Piwik\Tests\Framework\Mock\Db\TestAdapterWrapper;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\Mock\TestConfig;
 
@@ -65,6 +67,12 @@ return array(
             }
         }
         return $previous;
+    }),
+
+    'Piwik\Db\AdapterFactory' => \DI\get('Piwik\Tests\Framework\Mock\Db\TestAdapterFactory'),
+
+    'Piwik\Db\AdapterInterface' => \DI\decorate(function (AdapterInterface $adapter) {
+        return new TestAdapterWrapper($adapter);
     }),
 
     'observers.global' => DI\add(array(

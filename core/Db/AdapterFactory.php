@@ -47,11 +47,10 @@ class AdapterFactory
 
         /** @var AdapterInterface $adapter */
         $adapter = new $className($infos);
+        Zend_Db_Table::setDefaultAdapter($adapter);
 
         if ($connect) {
             $adapter->getConnection();
-
-            Zend_Db_Table::setDefaultAdapter($adapter);
 
             // we don't want the connection information to appear in the logs
             $adapter->resetConfig();

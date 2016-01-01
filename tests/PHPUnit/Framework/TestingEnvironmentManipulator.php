@@ -178,9 +178,6 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                 return $config;
             }),
 
-            'Piwik\Db\AdapterInterface' => \DI\decorate(function (AdapterInterface $adapter) {
-                return new TestAdapterWrapper($adapter);
-            }),
         );
 
         return $diConfigs;

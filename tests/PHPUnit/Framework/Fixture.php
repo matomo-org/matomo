@@ -217,6 +217,11 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function performSetUp($setupEnvironmentOnly = false)
     {
+        if (self::$testDbConnection !== null) {
+            self::$testDbConnection->closeConnection();
+        }
+        self::$testDbConnection = null;
+
         // TODO: don't use static var, use test env var for this
         TestingEnvironmentManipulator::$extraPluginsToLoad = $this->extraPluginsToLoad;
 
@@ -1031,7 +1036,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
             /** @var AdapterFactory $adapterFactory */
             $adapterFactory = new AdapterFactory();
-            $adapter = $adapterFactory->factory($dbConfig['adapter'], $dbConfig);
+            $adapter = $adapterFactory->factory($dbConfig['adapter'], $dbConfig, false);
 
             self::$testDbConnection = new Db\AdapterWrapper($adapter);
         }
