@@ -728,7 +728,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     private static function getForcedContainerConfigOverrides()
     {
         return array(
-            'Piwik\Db\Connection' => \DI\decorate(function ($previous, ContainerInterface $c) {
+            'Piwik\Db\AdapterWrapper' => \DI\decorate(function ($previous, ContainerInterface $c) {
                 SystemTestCase::$dbConnectionCreated = true;
                 return $previous;
             }),

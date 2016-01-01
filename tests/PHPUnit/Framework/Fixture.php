@@ -128,11 +128,11 @@ class Fixture extends \PHPUnit_Framework_Assert
     public $piwikEnvironment;
 
     /**
-     * This Connection instance is used by Fixture to access the database instead of the
-     * Connection instance in DI. We do this so tests can trigger creation of the
-     * Connection instance and test that certain bits of code don't access the DB.
+     * This AdapterWrapper instance is used by Fixture to access the database instead of the
+     * AdapterWrapper instance in DI. We do this so tests can trigger creation of the
+     * AdapterWrapper instance and test that certain bits of code don't access the DB.
      *
-     * @var Db\Connection
+     * @var Db\AdapterWrapper
      */
     private static $testDbConnection;
 
@@ -1030,7 +1030,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             $dbConfig['dbname'] = null;
 
             $adapter = Adapter::factory($dbConfig['adapter'], $dbConfig);
-            self::$testDbConnection = new Db\Connection($adapter);
+            self::$testDbConnection = new Db\AdapterWrapper($adapter);
         }
 
         return self::$testDbConnection;

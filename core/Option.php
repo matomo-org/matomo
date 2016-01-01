@@ -9,7 +9,7 @@
 namespace Piwik;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Db\Connection;
+use Piwik\Db\AdapterInterface;
 
 /**
  * Convenient key-value storage for user specified options and temporary
@@ -126,7 +126,7 @@ class Option
     private $loaded = false;
 
     /**
-     * @var Connection
+     * @var AdapterInterface
      */
     private $connection;
 
@@ -140,7 +140,7 @@ class Option
         return StaticContainer::get('Piwik\Option');
     }
 
-    public function __construct(Connection $connection)
+    public function __construct(AdapterInterface $connection)
     {
         $this->connection = $connection;
     }

@@ -47,7 +47,7 @@ class DbTest extends IntegrationTestCase
     {
         Config::getInstance()->database['adapter'] = $adapter;
 
-        $connection = new Db\Connection(Config::getInstance()->database);
+        $connection = new Db\AdapterWrapper(Config::getInstance()->database);
         $db = $connection->getImpl();
 
         // make sure test is useful and setting adapter works

@@ -15,7 +15,7 @@ use Zend_Db_Adapter_Abstract;
 /**
  * TODO
  */
-class Connection implements AdapterInterface
+class AdapterWrapper implements AdapterInterface
 {
     private static $queryLogEnabled = false;
 
@@ -207,7 +207,7 @@ class Connection implements AdapterInterface
     }
 
     // TODO: helper methods like these (insert/update) seem to be a mistake to me. they couple the interface w/ Zend_Db, better to use value objects.
-    //       either way, this shouldn't be in a Connection class. Maybe in a DAO base class?
+    //       either way, this shouldn't be in a AdapterWrapper class. Maybe in a DAO base class?
     public function insert($table, array $bind)
     {
         return $this->adapter->insert($table, $bind);

@@ -125,7 +125,7 @@ return array(
         return Adapter::factory($dbConfig['adapter'], $dbConfig);
     },
 
-    'Piwik\Db\Connection' => DI\object()
+    'Piwik\Db\AdapterWrapper' => DI\object()
         ->constructorParameter('logger', DI\get('Psr\Log\LoggerInterface'))
         ->constructorParameter('logSqlQueries', DI\get('ini.Debug.log_sql_queries')),
 

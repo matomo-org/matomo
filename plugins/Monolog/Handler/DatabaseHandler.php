@@ -24,8 +24,8 @@ class DatabaseHandler extends AbstractProcessingHandler
             Common::prefixTable('logger_message')
         );
 
-        $queryLog = Db\Connection::isQueryLogEnabled();
-        Db\Connection::enableQueryLog(false);
+        $queryLog = Db\AdapterWrapper::isQueryLogEnabled();
+        Db\AdapterWrapper::enableQueryLog(false);
 
         Db::query($sql, array(
             $record['extra']['class'],
@@ -34,6 +34,6 @@ class DatabaseHandler extends AbstractProcessingHandler
             trim($record['formatted'])
         ));
 
-        Db\Connection::enableQueryLog($queryLog);
+        Db\AdapterWrapper::enableQueryLog($queryLog);
     }
 }

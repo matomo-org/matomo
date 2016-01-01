@@ -21,13 +21,13 @@ class Storage extends \Piwik\Settings\Storage
     private $idSite = null;
 
     /**
-     * @var Db\Connection
+     * @var Db\AdapterInterface
      */
     private $db = null;
 
     private $toBeDeleted = array();
 
-    public function __construct(Db\Connection $db, $idSite)
+    public function __construct(Db\AdapterInterface $db, $idSite)
     {
         $this->db     = $db;
         $this->idSite = $idSite;

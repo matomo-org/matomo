@@ -12,7 +12,7 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\TableMetadata;
 use Piwik\Db\Adapter;
-use Piwik\Db\Connection;
+use Piwik\Db\AdapterWrapper;
 
 /**
  * Contains SQL related helper functions for Piwik's MySQL database.
@@ -40,7 +40,7 @@ class Db
     /**
      * Returns the database connection and creates it if it hasn't been already.
      *
-     * @return Connection
+     * @return AdapterWrapper
      */
     public static function get()
     {
@@ -52,7 +52,7 @@ class Db
      *
      * Shouldn't be called directly, use {@link get()} instead.
      *
-     * @param array|null $dbConfig Connection parameters in an array. Defaults to the `[database]`
+     * @param array|null $dbConfig AdapterWrapper parameters in an array. Defaults to the `[database]`
      *                             INI config section.
      *
      * TODO: Remove this method
@@ -63,11 +63,11 @@ class Db
     }
 
     /**
-     * @return Db\Connection
+     * @return Db\AdapterWrapper
      */
     private static function fromContainer()
     {
-        return StaticContainer::get('Piwik\Db\Connection');
+        return StaticContainer::get('Piwik\Db\AdapterWrapper');
     }
 
     /**

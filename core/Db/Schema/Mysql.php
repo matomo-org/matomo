@@ -11,7 +11,7 @@ namespace Piwik\Db\Schema;
 use Exception;
 use Piwik\Common;
 use Piwik\Date;
-use Piwik\Db\Connection;
+use Piwik\Db\AdapterWrapper;
 use Piwik\Db\SchemaInterface;
 use Piwik\DbHelper;
 
@@ -23,11 +23,11 @@ class Mysql implements SchemaInterface
     private $tablesInstalled = null;
 
     /**
-     * @var Connection
+     * @var AdapterWrapper
      */
     private $connection;
 
-    public function __construct(Connection $connection)
+    public function __construct(AdapterWrapper $connection)
     {
         $this->connection = $connection;
     }
