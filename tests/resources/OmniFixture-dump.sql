@@ -179,6 +179,7 @@ CREATE TABLE `goal` (
   `idsite` int(11) NOT NULL,
   `idgoal` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `description` VARCHAR(255) NOT NULL DEFAULT '',
   `match_attribute` varchar(20) NOT NULL,
   `pattern` varchar(255) NOT NULL,
   `pattern_type` varchar(10) NOT NULL,
@@ -196,7 +197,7 @@ CREATE TABLE `goal` (
 
 LOCK TABLES `goal` WRITE;
 /*!40000 ALTER TABLE `goal` DISABLE KEYS */;
-INSERT INTO `goal` VALUES (1,1,'<script>$(\'body\').html(\'goal name XSS!\');</script>','url','http','contains',0,1,5,0),(1,2,'two','url','xxxxxxxxxxxxx','contains',0,0,5,0),(1,3,'click event','event_action','click','contains',0,0,0,0),(1,4,'category event','event_category','The_Category','exact',1,0,0,0),(1,5,'name event','event_name','<the_\'\"name>','exact',0,0,0,0);
+INSERT INTO `goal` VALUES (1,1,'<script>$(\'body\').html(\'goal name XSS!\');</script>','<script>$(\'body\').html(\'goal description XSS!\');</script>','url','http','contains',0,1,5,0),(1,2,'two','twodesc','url','xxxxxxxxxxxxx','contains',0,0,5,0),(1,3,'click event','','event_action','click','contains',0,0,0,0),(1,4,'category event','categorydesc','event_category','The_Category','exact',1,0,0,0),(1,5,'name event','eventdesc','event_name','<the_\'\"name>','exact',0,0,0,0);
 /*!40000 ALTER TABLE `goal` ENABLE KEYS */;
 UNLOCK TABLES;
 
