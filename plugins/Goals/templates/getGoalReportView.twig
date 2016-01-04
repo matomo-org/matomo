@@ -37,6 +37,10 @@
             </li>
         {% endif %}
     </ul>
+
+    <a href="javascript:;" class="segmentedlog" onclick="DataTable_RowActions_Registry.getActionByName('SegmentVisitorLog').createInstance({}).showVisitorLog('Goals.getMetrics', 'visitConvertedGoalId=={{ idGoal }}', {})">
+        {{ 'Live_RowActionTooltipWithDimension'|translate('General_Goal'|translate) }}
+    </a>
 {% endif %}
 
 <script type="text/javascript">
