@@ -123,6 +123,13 @@ $(document).ready(function () {
                 var frameContent = $(uploadFrame.contents()).find('body').html();
                 frameContent = $.trim(frameContent);
 
+                if ('0' === frameContent) {
+                    $('.uploaderror').show();
+                    setTimeout(function(){
+                        $('.uploaderror').fadeOut();
+                    }, 5000);
+                }
+
                 if ('1' === frameContent || '0' === frameContent) {
                     uploadFrame.remove();
                 }

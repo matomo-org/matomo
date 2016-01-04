@@ -49,6 +49,7 @@
         "JSTrackingIntro5": "If you want to do more than track page views, please check out the %1$sPiwik Javascript Tracking documentation%2$s for the list of available functions. Using these functions you can track goals, custom variables, ecommerce orders, abandoned carts and more.",
         "LogoNotWriteableInstruction": "To use your custom logo instead of the default Piwik logo, give write permission to this directory: %1$s Piwik needs write access for your logos stored in the files %2$s.",
         "FileUploadDisabled": "Uploading files is not enabled in your PHP configuration. To upload your custom logo please set %s in php.ini and restart your webserver.",
+        "LogoUploadFailed": "The uploaded file couldn't be processed. Please check if the file has a valid format.",
         "LogoUpload": "Select a Logo to upload",
         "FaviconUpload": "Select a Favicon to upload",
         "LogoUploadHelp": "Please upload a file in %s formats with a minimum height of %s pixels.",
