@@ -22,6 +22,13 @@ The js/ folder contains:
   attempt to block tracking, you can change your tracking code to use "js/"
   instead of "piwik.js" and "piwik.php", respectively.
 
+  Note that in order for [Page Overlay](https://piwik.org/docs/page-overlay/) to work, the Piwik tracker method `setAPIUrl()` needs to be called with its parameter pointing to the root directory of Piwik. E.g.:
+
+  ```js
+  _paq.push(['setAPIUrl', u]);
+
+  ```
+
 ## Deployment
 
 * piwik.js is minified using YUICompressor 2.4.2.
