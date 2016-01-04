@@ -95,6 +95,7 @@ class Mysql implements SchemaInterface
                               `idsite` int(11) NOT NULL,
                               `idgoal` int(11) NOT NULL,
                               `name` varchar(50) NOT NULL,
+                              `description` varchar(255) NOT NULL DEFAULT '',
                               `match_attribute` varchar(20) NOT NULL,
                               `pattern` varchar(255) NOT NULL,
                               `pattern_type` varchar(10) NOT NULL,
