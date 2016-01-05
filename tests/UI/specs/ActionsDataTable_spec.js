@@ -38,8 +38,7 @@ describe("ActionsDataTable", function () {
         }, done);
     });
 
-    // Test is skipped as it randomly fails http://builds-artifacts.piwik.org/ui-tests.master/2433.1/screenshot-diffs/diffviewer.html
-    it.skip("should exclude low population rows when exclude low population link clicked", function (done) {
+    it("should exclude low population rows when exclude low population link clicked", function (done) {
         expect.screenshot('exclude_low_population').to.be.capture(function (page) {
             page.mouseMove('.tableConfiguration');
             page.click('.dataTableExcludeLowPopulation');
@@ -48,10 +47,6 @@ describe("ActionsDataTable", function () {
 
     it("should load normal view when switch to view hierarchical view link is clicked", function (done) {
         expect.screenshot('unflattened').to.be.capture(function (page) {
-            // exclude low population (copied from exclude_low_population test above as it was 'skipped')
-            page.mouseMove('.tableConfiguration');
-            page.click('.dataTableExcludeLowPopulation');
-
             page.mouseMove('.tableConfiguration');
             page.click('.dataTableFlatten');
         }, done);
