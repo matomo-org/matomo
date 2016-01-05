@@ -106,6 +106,15 @@ class API extends \Piwik\Plugin\API
         // set subtable IDs for each row to the label (which holds the int referrer type)
         $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\SetGetReferrerTypeSubtables', array($idSite, $period, $date, $segment, $expanded));
 
+        $dataTable->filter('AddSegmentByLabelMapping', array(
+            'referrerType',
+            array(
+                Common::REFERRER_TYPE_DIRECT_ENTRY  => 'direct',
+                Common::REFERRER_TYPE_CAMPAIGN      => 'campaign',
+                Common::REFERRER_TYPE_SEARCH_ENGINE => 'search',
+                Common::REFERRER_TYPE_WEBSITE       => 'website',
+            )
+        ));
         // set referrer type column to readable value
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getReferrerTypeLabel'));
 
@@ -218,9 +227,12 @@ class API extends \Piwik\Plugin\API
     public function getSearchEnginesFromKeywordId($idSite, $period, $date, $idSubtable, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::KEYWORDS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        $keywords  = $this->getKeywords($idSite, $period, $date, $segment);
+        $keyword   = $keywords->getRowFromIdSubDataTable($idSubtable)->getColumn('label');
 
-        $keywords = $this->getKeywords($idSite, $period, $date, $segment);
         $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\SearchEnginesFromKeywordId', array($keywords, $idSubtable));
+        $dataTable->filter('AddSegmentByLabel', array('referrerName'));
+        $dataTable->queueFilter('PrependSegment', array('referrerKeyword=='.$keyword.';referrerType==search;'));
 
         return $dataTable;
     }
@@ -250,8 +262,11 @@ class API extends \Piwik\Plugin\API
         // get the search engine and create the URL to the search result page
         $searchEngines = $this->getSearchEngines($idSite, $period, $date, $segment);
         $searchEngines->applyQueuedFilters();
+        $searchEngine  = $searchEngines->getRowFromIdSubDataTable($idSubtable)->getColumn('label');
 
         $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\KeywordsFromSearchEngineId', array($searchEngines, $idSubtable));
+        $dataTable->filter('AddSegmentByLabel', array('referrerKeyword'));
+        $dataTable->queueFilter('PrependSegment', array('referrerName=='.$searchEngine.';referrerType==search;'));
 
         return $dataTable;
     }
@@ -268,7 +283,13 @@ class API extends \Piwik\Plugin\API
 
     public function getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment = false)
     {
+        $campaigns = $this->getCampaigns($idSite, $period, $date, $segment);
+        $campaigns->applyQueuedFilters();
+        $campaign  = $campaigns->getRowFromIdSubDataTable($idSubtable)->getColumn('label');
+
         $dataTable = $this->getDataTable(Archiver::CAMPAIGNS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        $dataTable->filter('AddSegmentByLabel', array('referrerKeyword'));
+        $dataTable->queueFilter('PrependSegment', array('referrerName=='.$campaign.';referrerType==campaign;'));
         return $dataTable;
     }
 
@@ -289,6 +310,7 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsFromWebsiteId');
+        $dataTable->filter('AddSegmentByLabel', array('referrerUrl'));
 
         return $dataTable;
     }
@@ -369,6 +391,7 @@ class API extends \Piwik\Plugin\API
         // merge the datatable's subtables which contain the individual URLs
         $dataTable = $dataTable->mergeSubtables();
 
+        $dataTable->filter('AddSegmentByLabel', array('referrerUrl'));
         $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial', array($expanded));
 
         return $dataTable;
