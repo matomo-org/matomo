@@ -139,6 +139,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
+		<name>Device brand</name>
+		<segment>deviceBrand</segment>
+		<acceptedValues>3Q, Acer, Ainol, Airness, Alcatel, Altech UEC, Arnova, Amazon, Amoi, Apple, Archos, ARRIS, Airties, Asus, Avvio, Audiovox, Axxion, BBK, Becker, Bird, Beetel, Bmobile, Barnes &amp; Noble, BangOlufsen, BenQ, BenQ-Siemens, Blu, Boway, bq, Brondi, CUBOT, Casio, Cat, Celkon, ConCorde, Changhong, Cherry Mobile, Cricket, Crosscall, Compal, CnM, Crius Mea, CreNova, Capitel, Compaq, Coolpad, Cowon, Cube, Coby Kyros, Danew, Denver, Dbtel, DoCoMo, Dicam, Dell, DMM, Doogee, Doov, Dopod, Dune HD, E-Boda, Ericsson, ECS, Ezio, Elephone, Easypix, Ericy, eTouch, Evertek, Ezze, Fly, Fujitsu, Garmin-Asus, Gateway, Gemini, Gionee, Gigabyte, Gigaset, Google, Gradiente, Grundig, Haier, Hisense, Hi-Level, HP, HTC, Huawei, Humax, Hyrican, Hyundai, Ikea, iBall, i-Joy, iBerry, iKoMo, i-mate, Infinix, Innostream, Inkti, Intex, i-mobile, INQ, Intek, Inverto, iTel, Jiayu, Jolla, Karbonn, KDDI, Kingsun, Konka, Komu, K-Touch, KT-Tech, Kyocera, Kazam, Lava, Lanix, LCT, Lenovo, Lenco, Le Pan, LG, Loewe, Logicom, Lexibook, Manta Multimedia, Mobistel, Medion, Meizu, Metz, MEU, MicroMax, Mediacom, MediaTek, Mio, Mpman, Motorola, Microsoft, MSI, Memup, Mitsubishi, MLLED, M.T.T., MyPhone, NEC, Netgear, NGM, Nintendo, Nokia, Nikon, Newgen, Nexian, Onda, OnePlus, OPPO, Orange, O2, OUYA, Opsson, Panasonic, PEAQ, Philips, Polaroid, Palm, phoneOne, Pantech, Point of View, PolyPad, Positivo, Prestigio, ProScan, PULID, Qilive, Qtek, Quechua, Overmax, Oysters, Ramos, RCA Tablets, Rikomagic, RIM, Roku, Rover, Samsung, Sega, Sony Ericsson, Sencor, Softbank, SFR, Sagem, Sharp, Siemens, Sendo, Skyworth, Smartfren, Sony, Spice, SuperSonic, Selevision, Sanyo, Symphony, Smart, Storex, Stonex, Sumvision, Tesla, TCL, Telit, TiPhone, Tecno Mobile, Tesco, TIANYU, Telefunken, Telenor, T-Mobile, Thomson, Tolino, Toplux, Toshiba, TechnoTrend, Trevi, Tunisie Telecom, Turbo-X, TVC, TechniSat, teXet, Unowhy, UTStarcom, Videocon, Vertu, Vitelcom, VK Mobile, ViewSonic, Vestel, Vivo, Voxtel, Vodafone, Vizio, Videoweb, Walton, Web TV, WellcoM, Wexler, Wiko, Wolder, Wonu, Woxter, Xiaomi, Xolo, Unknown, Yarvik, Yuandao, Yusun, Zonda, Zopo, ZTE</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
 		<name>Device type</name>
 		<segment>deviceType</segment>
 		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser, smart display, camera, portable media player, phablet</acceptedValues>
