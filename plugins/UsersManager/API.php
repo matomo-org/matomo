@@ -788,7 +788,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getTokenAuth($userLogin, $passwordHash)
     {
-        UsersManager::checkPasswordHash($passwordHash, Piwik::translate('UsersManager_ExceptionPasswordMD5HashExpected'))
+        UsersManager::checkPasswordHash($passwordHash, Piwik::translate('UsersManager_ExceptionPasswordMD5HashExpected'));
 
         return md5($userLogin . $passwordHash);
     }

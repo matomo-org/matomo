@@ -173,7 +173,7 @@ class Auth implements \Piwik\Auth
         }
 
         // check that the password hash is valid (sanity check)
-        UsersManager::checkPasswordHash($passwordHash, Piwik::translate('Login_ExceptionPasswordMD5HashExpected'))
+        UsersManager::checkPasswordHash($passwordHash, Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
 
         $this->hashedPassword = $passwordHash;
     }
