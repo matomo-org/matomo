@@ -310,7 +310,7 @@ class PasswordResetter
     }
 
     /**
-     * Hashes a string. By default generates an MD5 hash.
+     * Hashes a string.
      *
      * Derived classes can override this to provide a different hashing implementation.
      *
