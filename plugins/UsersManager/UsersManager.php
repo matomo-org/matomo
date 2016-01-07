@@ -157,6 +157,20 @@ class UsersManager extends \Piwik\Plugin
         return md5($password);
     }
 
+    /**
+     * Checks the password hash length. Used as a sanity check.
+     *
+     * @param string $passwordHash The password hash to check.
+     * @param string $exceptionMessage Message of the exception thrown.
+     * @throws Exception if the password hash length is incorrect.
+     */
+    public static function checkPasswordHash($passwordHash, $exceptionMessage)
+    {
+        if (strlen($passwordHash) !== strlen(static::getPasswordHash('teststring'))) {
+            throw new Exception($exceptionMessage);
+        }
+    }
+
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = "General_OrCancel";
