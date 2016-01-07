@@ -166,7 +166,7 @@ class UsersManager extends \Piwik\Plugin
      */
     public static function checkPasswordHash($passwordHash, $exceptionMessage)
     {
-        if (strlen($passwordHash) !== strlen(static::getPasswordHash('teststring'))) {
+        if (strlen($passwordHash) != 32) {  // MD5 hash length
             throw new Exception($exceptionMessage);
         }
     }
