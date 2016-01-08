@@ -383,7 +383,7 @@ class PasswordResetter
      */
     protected function checkPasswordHash($passwordHash)
     {
-        UsersManager::checkPasswordHash($passwordHash, Piwik::translate('Login_ExceptionPasswordMD5HashExpected'))
+        UsersManager::checkPasswordHash($passwordHash, Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
     }
 
     /**
