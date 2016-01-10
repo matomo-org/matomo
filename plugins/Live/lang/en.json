@@ -36,6 +36,7 @@
         "VisitorsLastVisit": "This visitor's last visit was %s days ago.",
         "VisitsFrom": "%1$s%2$s visits%3$s from",
         "VisitSummary": "Spent a total of %1$s%2$s on the website%3$s, and %4$sviewed %5$s pages in %6$s visits.%7$s",
+        "VisitSummaryWithActionDetails": "Spent a total of %1$s%2$s on the website%3$s, and %4$sperformed %5$s actions (%6$s) in %7$s visits.%8$s",
         "RowActionTooltipDefault": "Show Visitor Log segmented by this row",
         "RowActionTooltipWithDimension": "Show Visitor Log segmented by this %s",
         "RowActionTooltipTitle": "Open segmented Visitor Log",
