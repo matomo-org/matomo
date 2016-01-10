@@ -55,7 +55,7 @@ class SetNumberOfCustomVariables extends ConsoleCommand
             $this->printChanges($scope, $numVarsToSet, $output);
         }
 
-        if (!$this->confirmChange($output)) {
+        if ($input->isInteractive() && !$this->confirmChange($output)) {
             return;
         }
 
