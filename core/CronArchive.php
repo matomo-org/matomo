@@ -969,14 +969,6 @@ class CronArchive
     {
         $url = $this->makeRequestUrl($url);
 
-        if ($this->shouldStartProfiler) {
-            $url .= "&xhprof=2";
-        }
-
-        if ($this->testmode) {
-            $url .= "&testmode=1";
-        }
-
         try {
             $cliMulti  = $this->makeCliMulti();
             $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
@@ -1603,7 +1595,17 @@ class CronArchive
      */
     private function makeRequestUrl($url)
     {
-        return $url . self::APPEND_TO_API_REQUEST;
+        $url = $url . self::APPEND_TO_API_REQUEST;
+
+        if ($this->shouldStartProfiler) {
+            $url .= "&xhprof=2";
+        }
+
+        if ($this->testmode) {
+            $url .= "&testmode=1";
+        }
+
+        return $url;
     }
 
     /**
