@@ -3,7 +3,11 @@
 	<totalVisits>2</totalVisits>
 	<totalVisitDuration>361</totalVisitDuration>
 	<totalActions>2</totalActions>
+	<totalEvents>0</totalEvents>
+	<totalOutlinks>1</totalOutlinks>
+	<totalDownloads>0</totalDownloads>
 	<totalSearches>0</totalSearches>
+	<totalPageViews>1</totalPageViews>
 	<totalPageViewsWithTiming>0</totalPageViewsWithTiming>
 	<totalGoalConversions>1</totalGoalConversions>
 	<totalConversionsByGoal>
