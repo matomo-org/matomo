@@ -11,14 +11,16 @@ namespace Piwik\Plugins\Login;
 use Exception;
 use Piwik\AuthResult;
 use Piwik\Db;
+use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Session;
 
 class Auth implements \Piwik\Auth
 {
     protected $login;
     protected $token_auth;
-    protected $md5Password;
+    protected $hashedPassword;
 
     /**
      * @var Model
@@ -47,7 +49,7 @@ class Auth implements \Piwik\Auth
      */
     public function authenticate()
     {
-        if (!empty($this->md5Password)) { // favor authenticating by password
+        if (!empty($this->hashedPassword)) { // favor authenticating by password
             return $this->authenticateWithPassword($this->login, $this->getTokenAuthSecret());
         } elseif (is_null($this->login)) {
             return $this->authenticateWithToken($this->token_auth);
@@ -132,7 +134,7 @@ class Auth implements \Piwik\Auth
      */
     public function getTokenAuthSecret()
     {
-        return $this->md5Password;
+        return $this->hashedPassword;
     }
 
     /**
@@ -153,9 +155,9 @@ class Auth implements \Piwik\Auth
     public function setPassword($password)
     {
         if (empty($password)) {
-            $this->md5Password = null;
+            $this->hashedPassword = null;
         } else {
-            $this->md5Password = md5($password);
+            $this->hashedPassword = UsersManager::getPasswordHash($password);
         }
     }
 
@@ -163,19 +165,17 @@ class Auth implements \Piwik\Auth
      * Sets the password hash to use when authentication.
      *
      * @param string $passwordHash The password hash.
-     * @throws Exception if $passwordHash does not have 32 characters in it.
      */
     public function setPasswordHash($passwordHash)
     {
         if ($passwordHash === null) {
-            $this->md5Password = null;
+            $this->hashedPassword = null;
             return;
         }
 
-        if (strlen($passwordHash) != 32) {
-            throw new Exception("Invalid hash: incorrect length " . strlen($passwordHash));
-        }
+        // check that the password hash is valid (sanity check)
+        UsersManager::checkPasswordHash($passwordHash, Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
 
-        $this->md5Password = $passwordHash;
+        $this->hashedPassword = $passwordHash;
     }
 }
