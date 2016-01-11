@@ -113,6 +113,7 @@ $(document).ready(function () {
 
     $("#logoUploadForm").submit(function (data) {
         var submittingForm = $(this);
+        $('.uploaderror').fadeOut();
         var frameName = "upload" + (new Date()).getTime();
         var uploadFrame = $("<iframe name=\"" + frameName + "\" />");
         uploadFrame.css("display", "none");
@@ -125,9 +126,6 @@ $(document).ready(function () {
 
                 if ('0' === frameContent) {
                     $('.uploaderror').show();
-                    setTimeout(function(){
-                        $('.uploaderror').fadeOut();
-                    }, 5000);
                 }
 
                 if ('1' === frameContent || '0' === frameContent) {
