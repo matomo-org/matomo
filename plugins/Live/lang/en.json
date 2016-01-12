@@ -1,11 +1,11 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s%2$s abandoned carts%3$s and %4$s abandoned items %5$sworth a total of %6$s%7$s.",
+        "AbandonedCartSummary": "%1$s abandoned carts%2$s and %3$s abandoned items%4$s worth a total of %5$s%6$s.",
         "AveragePageGenerationTime": "Each page took on average %1$s to load for this visitor.",
         "CalculatedOverNPageViews": "Calculated using this visitor's last %1$s page views.",
         "ClickToViewMoreAboutVisit": "Click to view more information about this visit",
         "ConvertedNGoals": "Converted %s Goals",
-        "EcommerceSummaryConversions": "%1$s%2$s orders for a total of %3$s%4$s, purchased %5$s items.",
+        "EcommerceSummaryConversions": "%1$s orders%2$s for a total of %3$s%4$s, purchased %5$s items%6$s.",
         "FirstVisit": "First visit",
         "GoalType": "Type",
         "HideMap": "hide map",
