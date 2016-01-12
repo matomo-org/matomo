@@ -252,7 +252,7 @@ var Piwik_Overlay = (function () {
 
             // handle segmented visitor log link
             $visitorLogLink.click(function () {
-                DataTable_RowActions_Registry.getActionByName('SegmentVisitorLog').createInstance({}).showVisitorLog('Actions.getPageUrls', $('#segment').val(), {});
+                SegmentedVisitorLog.show('Actions.getPageUrls', $('#segment').val(), {});
                 return false;
             });
 
