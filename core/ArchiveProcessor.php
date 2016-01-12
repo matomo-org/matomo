@@ -442,6 +442,16 @@ class ArchiveProcessor
         $metrics[] = $uniqueVisitorsMetric;
 
         $uniques = $this->computeNbUniques($metrics);
+
+        // see edge case as described in https://github.com/piwik/piwik/issues/9357 where uniq_visitors might be higher
+        // than visits because we archive / process it after nb_visits. Between archiving nb_visits and nb_uniq_visitors
+        // there could have been a new visit leading to a higher nb_unique_visitors than nb_visits which is not possible
+        // by definition. In this case we simply use the visits metric instead of unique visitors metric.
+        $visits = $row->getColumn('nb_visits');
+        if ($visits !== false && $uniques[$uniqueVisitorsMetric] !== false) {
+            $uniques[$uniqueVisitorsMetric] = min($uniques[$uniqueVisitorsMetric], $visits);
+        }
+
         $row->setColumn('nb_uniq_visitors', $uniques[$uniqueVisitorsMetric]);
         $row->setColumn('nb_users', $uniques[Metrics::INDEX_NB_USERS]);
     }
