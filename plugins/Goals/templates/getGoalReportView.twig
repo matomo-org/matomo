@@ -37,6 +37,10 @@
             </li>
         {% endif %}
     </ul>
+
+    <a href="javascript:;" class="segmentedlog" onclick="SegmentedVisitorLog.show('Goals.getMetrics', 'visitConvertedGoalId=={{ idGoal }}', {})">
+        {{ 'Live_RowActionTooltipWithDimension'|translate('General_Goal'|translate) }}
+    </a>
 {% endif %}
 
 <script type="text/javascript">
