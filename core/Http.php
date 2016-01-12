@@ -839,9 +839,8 @@ class Http
     private static function getProxyConfiguration($url)
     {
         $hostname = UrlHelper::getHostFromUrl($url);
-        $localHostnames = Url::getLocalHostnames();
 
-        if(in_array($hostname, $localHostnames)) {
+        if (Url::isLocalHost($hostname)) {
             return array(null, null, null, null);
         }
 

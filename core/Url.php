@@ -551,6 +551,21 @@ class Url
         && in_array($parsedUrl['scheme'], array('http', 'https'));
     }
 
+    /**
+     * Checks whether the given host is a local host like `127.0.0.1` or `localhost`.
+     *
+     * @param string $host
+     * @return bool
+     */
+    public static function isLocalHost($host)
+    {
+        if (empty($host)) {
+            return false;
+        }
+
+        return in_array($host, Url::getLocalHostnames(), true);
+    }
+
     public static function getTrustedHostsFromConfig()
     {
         $hosts = self::getHostsFromConfig('General', 'trusted_hosts');
@@ -676,7 +691,6 @@ class Url
     {
         return array('localhost', '127.0.0.1', '::1', '[::1]');
     }
-
 
     /**
      * @return bool
