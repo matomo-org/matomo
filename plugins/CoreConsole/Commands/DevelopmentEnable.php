@@ -25,6 +25,7 @@ class DevelopmentEnable extends ConsoleCommand
         $this->setName('development:enable');
         $this->setAliases(array('development:disable'));
         $this->setDescription('Enable or disable development mode. See config/global.ini.php in section [Development] for more information');
+        $this->addOption('piwikpro', null, InputOption::VALUE_NONE, 'Enabled the Piwik PRO developer mode');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -43,6 +44,10 @@ class DevelopmentEnable extends ConsoleCommand
             $development['enabled'] = 0;
             $development['disable_merged_assets'] = 0;
             $message = 'Development mode disabled';
+        }
+
+        if ($input->hasOption('piwikpro')) {
+            $development['piwikpro_developer'] = 1;
         }
 
         $config->Development = $development;

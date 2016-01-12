@@ -132,7 +132,7 @@ enabled = 0
 disable_merged_assets = 0
 
 ; Set to 1 if you are a Piwik Pro Developer.
-piwikpro_developer = 1
+piwikpro_developer = 0
 
 [General]
 
