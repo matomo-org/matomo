@@ -22,6 +22,7 @@ use Exception;
 class Development
 {
     private static $isEnabled = null;
+    private static $isPiwikProDeveloper = null;
 
     /**
      * Returns `true` if development mode is enabled and `false` otherwise.
@@ -35,6 +36,20 @@ class Development
         }
 
         return self::$isEnabled;
+    }
+
+    /**
+     * Returns `true` if the developer is a piwik pro developer.
+     *
+     * @return bool
+     */
+    public static function isPiwikProDeveloper()
+    {
+        if (is_null(self::$isPiwikProDeveloper)) {
+            self::$isPiwikProDeveloper = (bool) Config::getInstance()->Development['piwikpro_developer'];
+        }
+
+        return self::$isPiwikProDeveloper;
     }
 
     /**

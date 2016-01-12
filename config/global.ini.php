@@ -131,6 +131,9 @@ enabled = 0
 ; Note that for quick debugging, instead of using below setting, you can add `&disable_merged_assets=1` to the Piwik URL
 disable_merged_assets = 0
 
+; Set to 1 if you are a Piwik Pro Developer.
+piwikpro_developer = 1
+
 [General]
 
 ; the following settings control whether Unique Visitors `nb_uniq_visitors` and Unique users `nb_users` will be processed for different period types.
