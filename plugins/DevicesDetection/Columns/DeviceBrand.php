@@ -8,7 +8,9 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use DeviceDetector\Parser\Device\DeviceParserAbstract;
 use Piwik\Piwik;
+use Piwik\Plugins\DevicesDetection\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -21,6 +23,28 @@ class DeviceBrand extends Base
     public function getName()
     {
         return Piwik::translate('DevicesDetection_DeviceBrand');
+    }
+
+    protected function configureSegments()
+    {
+        $brands = DeviceParserAbstract::$deviceBrands;
+        $brandList = implode(", ", $brands);
+
+        $segment = new Segment();
+        $segment->setSegment('deviceBrand');
+        $segment->setName('DevicesDetection_DeviceBrand');
+        $segment->setAcceptedValues($brandList);
+        $segment->setSqlFilter(function ($brand) use ($brandList, $brands) {
+            if ($brand == Piwik::translate('General_Unknown')) {
+                return '';
+            }
+            $index = array_search(trim(urldecode($brand)), $brands);
+            if ($index === false) {
+                throw new \Exception("deviceBrand segment must be one of: $brandList");
+            }
+            return $index;
+        });
+        $this->addSegment($segment);
     }
 
     /**

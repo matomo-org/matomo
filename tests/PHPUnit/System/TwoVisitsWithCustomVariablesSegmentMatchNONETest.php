@@ -73,6 +73,11 @@ class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends SystemTestCase
             if ($segment == 'deviceType') {
                 $matchNone = $segment . '==car%20browser';
             }
+
+            if ($segment == 'deviceBrand') {
+                $matchNone = $segment . '==Yarvik';
+            }
+
             $segmentExpression[] = $matchNone;
         }
 

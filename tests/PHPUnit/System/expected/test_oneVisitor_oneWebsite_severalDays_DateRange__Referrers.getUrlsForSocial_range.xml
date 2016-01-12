@@ -10,6 +10,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerUrl==http%3A%2F%2Ffacebook.com%2Fwhatever</segment>
 		<url>http://facebook.com/whatever</url>
 	</row>
 	<row>
@@ -22,6 +23,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerUrl==http%3A%2F%2Ffb.me%2F%3Fq%3Dsdlfjs%26n%3Dslfjsd</segment>
 		<url>http://fb.me/?q=sdlfjs&amp;n=slfjsd</url>
 	</row>
 	<row>
@@ -34,6 +36,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerUrl==http%3A%2F%2Fwww.facebook.com%2Fanother%2Fpath</segment>
 		<url>http://www.facebook.com/another/path</url>
 	</row>
 </result>
