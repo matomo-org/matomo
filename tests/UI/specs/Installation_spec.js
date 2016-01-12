@@ -88,7 +88,7 @@ describe("Installation", function () {
 
     var pageUrl, pageUrlDe;
 
-    it("should fail when incorrect information is entered in the superuser configuration page", function (done) {
+    it("should show Piwik PRO GmbH when language is German", function (done) {
         expect.screenshot("superuser_de").to.be.capture(function (page) {
             pageUrl = page.getCurrentUrl();
             pageUrlDe = pageUrl + '&language=de'
