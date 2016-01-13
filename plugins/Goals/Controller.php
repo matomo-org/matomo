@@ -122,6 +122,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->showHeadline = false;
         $view->idGoal = $idGoal;
         $view->goalName = $goalDefinition['name'];
+        $view->goalDescription = $goalDefinition['description'];
         $view->goalAllowMultipleConversionsPerVisit = $goalDefinition['allow_multiple'];
         $view->graphEvolution = $this->getEvolutionGraph(array(), $idGoal, array('nb_conversions'));
         $view->nameGraphEvolution = 'Goals.getEvolutionGraph' . $idGoal;
@@ -197,6 +198,7 @@ class Controller extends \Piwik\Plugin\Controller
         foreach ($this->goals as $idGoal => $goal) {
             $goalMetrics[$idGoal] = $this->getMetricsForGoal($idGoal);
             $goalMetrics[$idGoal]['name'] = $goal['name'];
+            $goalMetrics[$idGoal]['description'] = $goal['description'];
             $goalMetrics[$idGoal]['goalAllowMultipleConversionsPerVisit'] = $goal['allow_multiple'];
         }
 

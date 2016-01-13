@@ -64,8 +64,9 @@ function updateMatchAttribute () {
 }
 
 // init the goal form with existing goal value, if any
-function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, pattern, patternType, caseSensitive, revenue, allowMultiple, goalId) {
+function initGoalForm(goalMethodAPI, submitText, goalName, description, matchAttribute, pattern, patternType, caseSensitive, revenue, allowMultiple, goalId) {
     $('#goal_name').val(goalName);
+    $('#goal_description').val(description);
     if (matchAttribute == 'manually') {
         $('select[name=trigger_type] option[value=manually]').prop('selected', true);
         $('input[name=match_attribute]').prop('disabled', true);
@@ -161,6 +162,7 @@ function ajaxAddGoal() {
 
     var parameters = {};
     parameters.name = encodeURIComponent($('#goal_name').val());
+    parameters.description = encodeURIComponent($('#goal_description').val());
 
     if ($('[name=trigger_type]').val() == 'manually') {
         parameters.matchAttribute = 'manually';
@@ -198,7 +200,7 @@ function ajaxAddGoal() {
 function editGoal(goalId)
 {
     var goal = piwik.goals[goalId];
-    initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal'), goal.name, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive != '0'), goal.revenue, goal.allow_multiple, goalId);
+    initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal'), goal.name, goal.description, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive != '0'), goal.revenue, goal.allow_multiple, goalId);
     showAddNewGoal();
 }
 
@@ -226,6 +228,6 @@ function bindListGoalEdit() {
 }
 
 function initAndShowAddGoalForm() {
-    initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal'), '', 'url', '', 'contains', /*caseSensitive = */false, /*allowMultiple = */'0', '0');
+    initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal'), '', '', 'url', '', 'contains', /*caseSensitive = */false, /*allowMultiple = */'0', '0');
     return showAddNewGoal();
 }
