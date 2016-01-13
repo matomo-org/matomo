@@ -13,7 +13,7 @@
         "FromWebsites": "From Websites",
         "IncomingTraffic": "Incoming traffic",
         "LoopsInline": "%s page reloads",
-        "NoDataForAction": "There's no data for %s",
+        "NoDataForAction": "There's no data for %s or it has not been processed yet",
         "NoDataForActionDetails": "Either the action had no pageviews during the period %s or it is invalid.",
         "OutgoingTraffic": "Outgoing traffic",
         "PluginDescription": "Reports previous and following actions for each page URL in a new Transitions report, available in the Actions reports via a new icon.",
