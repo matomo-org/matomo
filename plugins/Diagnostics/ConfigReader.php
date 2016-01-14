@@ -10,7 +10,8 @@ namespace Piwik\Plugins\Diagnostics;
 use Piwik\Development;
 use Piwik\Ini\IniReader;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
-use Piwik\Settings;
+use Piwik\Settings as PiwikSettings;
+use Piwik\Plugin\Settings as PluginSettings;
 
 /**
  * A diagnostic report contains all the results of all the diagnostics.
@@ -58,8 +59,8 @@ class ConfigReader
             foreach ($values as $key => $value) {
 
                 $newValue = $value;
-                if (strpos(strtolower($key), 'password') !== false) {
-                    $newValue = str_pad('', strlen($value), '*');
+                if ($this->isKeyAPassword($key)) {
+                    $newValue = $this->maskPassword($value);
                 }
 
                 $defaultValue = null;
@@ -106,6 +107,38 @@ class ConfigReader
         return $this->settings->getIniFileChain()->getFrom($this->settings->getPathLocal(), $name);
     }
 
+    private function maskPassword($password)
+    {
+        return str_pad('', strlen($password), '*');
+    }
+
+    private function isKeyAPassword($key)
+    {
+        $key = strtolower($key);
+
+        if (strpos($key, 'password') !== false) {
+            return true;
+        }
+
+        if (strpos($key, 'secret') !== false) {
+            return true;
+        }
+
+        if (strpos($key, 'apikey') !== false) {
+            return true;
+        }
+
+        if (strpos($key, 'privatekey') !== false) {
+            return true;
+        }
+
+        if ($key === 'salt') {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Adds config values that can be used to overwrite a plugin system setting and adds a description + default value
      * for already existing configured config values that overwrite a plugin system setting.
@@ -118,10 +151,16 @@ class ConfigReader
     {
         foreach ($pluginSettings as $pluginSetting) {
             $pluginName = $pluginSetting->getPluginName();
+
+            if (empty($pluginName)) {
+                continue;
+            }
+
             $configs[$pluginName] = array();
 
             foreach ($pluginSetting->getSettings() as $setting) {
-                if ($setting instanceof Settings\SystemSetting && $setting->isReadableByCurrentUser()) {
+                if ($setting instanceof PiwikSettings\SystemSetting && $setting->isReadableByCurrentUser()) {
+                    $name = $setting->getName();
 
                     $description = '';
                     if (!empty($setting->description)) {
@@ -132,12 +171,17 @@ class ConfigReader
                         $description .= $setting->inlineHelp;
                     }
 
-                    if (isset($configValues[$pluginName][$setting->getName()])) {
-                        $configValues[$pluginName][$setting->getName()]['defaultValue'] = $setting->defaultValue;
-                        $configValues[$pluginName][$setting->getName()]['description']  = trim($description);
+                    if (isset($configValues[$pluginName][$name])) {
+                        $configValues[$pluginName][$name]['defaultValue'] = $setting->defaultValue;
+                        $configValues[$pluginName][$name]['description']  = trim($description);
+
+                        if ($setting->uiControlType === PluginSettings::CONTROL_PASSWORD) {
+                            $value = $configValues[$pluginName][$name]['value'];
+                            $configValues[$pluginName][$name]['value'] = $this->maskPassword($value);
+                        }
                     } else {
                         $defaultValue = $setting->getValue();
-                        $configValues[$pluginName][$setting->getName()] = array(
+                        $configValues[$pluginName][$name] = array(
                             'value' => null,
                             'description' => trim($description),
                             'isCustomValue' => false,

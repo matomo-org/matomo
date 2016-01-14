@@ -191,7 +191,7 @@ with multiple lines',
                             'value' => NULL,
                             'description' => 'This description will be displayed next to the value',
                             'isCustomValue' => false,
-                            'defaultValue' => 'This is the value:
+                            'defaultValue' => 'This is the value: 
 Another line',
                         ),
                     'password' =>
@@ -227,6 +227,29 @@ Another line',
 
         $this->assertSame('Choose the metric that should be displayed in the browser tab', $configValues['ExampleSettingsPlugin']['metric']['description']);
         $this->assertSame('nb_visits', $configValues['ExampleSettingsPlugin']['metric']['defaultValue']);
+    }
+
+    public function test_addConfigValuesFromPluginSettings_shouldMaskValueIfTypeIsPassword()
+    {
+        $settings = new Settings();
+        $settings->metric->uiControlType = Settings::CONTROL_PASSWORD;
+
+        $existing = array(
+            'ExampleSettingsPlugin' =>
+                array (
+                    'metric' =>
+                        array (
+                            'value' => 'test',
+                            'description' => '',
+                            'isCustomValue' => false,
+                            'defaultValue' => null,
+                        ),
+                    )
+        );
+
+        $configValues = $this->configReader->addConfigValuesFromPluginSettings($existing, array($settings));
+
+        $this->assertSame('****', $configValues['ExampleSettingsPlugin']['metric']['value']);
     }
 
     private function configPath($file)
