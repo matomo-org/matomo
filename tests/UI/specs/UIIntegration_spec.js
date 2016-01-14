@@ -498,6 +498,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should load the config file page correctly', function (done) {
+        expect.screenshot('admin_diagnostics_configfile').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + generalParams + "&module=Diagnostics&action=configfile");
+        }, done);
+    });
+
     it('should load the Settings > Visitor Generator admin page correctly', function (done) {
         expect.screenshot('admin_visitor_generator').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=VisitorGenerator&action=index");

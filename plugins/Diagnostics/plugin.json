@@ -1,3 +1,6 @@
 {
-  "description": "Performs diagnostics to check that Piwik is installed and runs correctly."
+    "description": "Performs diagnostics to check that Piwik is installed and runs correctly.",
+    "require": {
+        "piwik": ">=2.16.0-b2"
+    }
 }
