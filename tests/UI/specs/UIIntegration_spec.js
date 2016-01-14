@@ -164,6 +164,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.load("?" + urlBase + "#" + generalParams + "&module=Actions&action=menuGetPageUrls");
             page.mouseMove('h2[piwik-enriched-headline]');
             page.click(".helpIcon");
+            page.evaluate(function () {
+                $('.helpDate:visible').hide();
+            });
         }, done);
     });
 

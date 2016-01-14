@@ -13,6 +13,7 @@ use Piwik\Config;
 use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 use Exception;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 /**
  * Reusable fixture. Loads a SQL dump into the DB.
@@ -74,12 +75,13 @@ class SqlDump extends Fixture
         // reload access
         Access::getInstance()->reloadAccess();
 
-        $this->getTestEnvironment()->configOverride = array(
+        $testVars = new TestingEnvironmentVariables();
+        $testVars->configOverride = array(
             'database' => array(
                 'tables_prefix' => $this->tablesPrefix
             )
         );
-        $this->getTestEnvironment()->save();
+        $testVars->save();
     }
 
     /**
