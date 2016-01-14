@@ -74,10 +74,9 @@ class BatchInsert
                     'null'             => 'NULL',
                 );
 
-                // hack for charset mismatch
-                if (!DbHelper::isDatabaseConnectionUTF8() && !isset(Config::getInstance()->database['charset'])) {
-                    $fileSpec['charset'] = 'latin1';
-                }
+                // see https://github.com/piwik/piwik/issues/9419#issuecomment-170851440
+                // if charset is utf8 we get this error: Invalid utf8 character string: '"x':
+                $fileSpec['charset'] = 'latin1';
 
                 self::createCSVFile($filePath, $fileSpec, $values);
 
