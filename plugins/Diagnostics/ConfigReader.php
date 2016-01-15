@@ -115,21 +115,13 @@ class ConfigReader
     private function isKeyAPassword($key)
     {
         $key = strtolower($key);
-
-        if (strpos($key, 'password') !== false) {
-            return true;
-        }
-
-        if (strpos($key, 'secret') !== false) {
-            return true;
-        }
-
-        if (strpos($key, 'apikey') !== false) {
-            return true;
-        }
-
-        if (strpos($key, 'privatekey') !== false) {
-            return true;
+        $passwordFields = array(
+            'password', 'secret', 'apikey', 'privatekey', 'admin_pass'
+        );
+        foreach ($passwordFields as $value) {
+            if (strpos($key, $value) !== false) {
+                return true;
+            }
         }
 
         if ($key === 'salt') {
