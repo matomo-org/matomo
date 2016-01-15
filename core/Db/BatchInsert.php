@@ -51,6 +51,7 @@ class BatchInsert
      * @param array $values array of data to be inserted
      * @param bool $throwException Whether to throw an exception that was caught while trying
      *                                LOAD DATA INFILE, or not.
+     * @param string $charset The charset to use, defaults to utf8
      * @throws Exception
      * @return bool  True if the bulk LOAD was used, false if we fallback to plain INSERTs
      */
