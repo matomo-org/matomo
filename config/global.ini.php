@@ -36,6 +36,7 @@ port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
+charset = utf8
 
 [tests]
 ; needed in order to run tests.

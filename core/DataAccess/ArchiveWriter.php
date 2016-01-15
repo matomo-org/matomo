@@ -212,7 +212,7 @@ class ArchiveWriter
         $tableName = $this->getTableNameToInsert($valueSeen);
         $fields    = $this->getInsertFields();
 
-        BatchInsert::tableInsertBatch($tableName, $fields, $values);
+        BatchInsert::tableInsertBatch($tableName, $fields, $values, $throwException = false, $charset = 'latin1');
 
         return true;
     }
