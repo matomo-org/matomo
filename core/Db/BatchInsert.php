@@ -54,7 +54,7 @@ class BatchInsert
      * @throws Exception
      * @return bool  True if the bulk LOAD was used, false if we fallback to plain INSERTs
      */
-    public static function tableInsertBatch($tableName, $fields, $values, $throwException = false)
+    public static function tableInsertBatch($tableName, $fields, $values, $throwException = false, $charset = 'utf8')
     {
         $filePath = StaticContainer::get('path.tmp') . '/assets/' . $tableName . '-' . Common::generateUniqId() . '.csv';
 
@@ -72,11 +72,8 @@ class BatchInsert
                         },
                     'eol'              => "\r\n",
                     'null'             => 'NULL',
+                    'charset'          => $charset
                 );
-
-                // see https://github.com/piwik/piwik/issues/9419#issuecomment-170851440
-                // if charset is utf8 we get this error: Invalid utf8 character string: '"x':
-                $fileSpec['charset'] = 'latin1';
 
                 self::createCSVFile($filePath, $fileSpec, $values);
 
