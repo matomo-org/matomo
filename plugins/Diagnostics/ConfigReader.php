@@ -60,7 +60,7 @@ class ConfigReader
 
                 $newValue = $value;
                 if ($this->isKeyAPassword($key)) {
-                    $newValue = $this->maskPassword($value);
+                    $newValue = $this->getMaskedPassword();
                 }
 
                 $defaultValue = null;
@@ -107,9 +107,9 @@ class ConfigReader
         return $this->settings->getIniFileChain()->getFrom($this->settings->getPathLocal(), $name);
     }
 
-    private function maskPassword($password)
+    private function getMaskedPassword()
     {
-        return str_pad('', strlen($password), '*');
+        return '******';
     }
 
     private function isKeyAPassword($key)
@@ -169,7 +169,7 @@ class ConfigReader
 
                         if ($setting->uiControlType === PluginSettings::CONTROL_PASSWORD) {
                             $value = $configValues[$pluginName][$name]['value'];
-                            $configValues[$pluginName][$name]['value'] = $this->maskPassword($value);
+                            $configValues[$pluginName][$name]['value'] = $this->getMaskedPassword();
                         }
                     } else {
                         $defaultValue = $setting->getValue();

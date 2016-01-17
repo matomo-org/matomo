@@ -121,7 +121,7 @@ with multiple lines',
                 array (
                     'password' =>
                         array (
-                            'value' => '****',
+                            'value' => '******',
                             'description' => '',
                             'isCustomValue' => true,
                             'defaultValue' => NULL,
@@ -249,7 +249,7 @@ Another line',
 
         $configValues = $this->configReader->addConfigValuesFromPluginSettings($existing, array($settings));
 
-        $this->assertSame('****', $configValues['ExampleSettingsPlugin']['metric']['value']);
+        $this->assertSame('******', $configValues['ExampleSettingsPlugin']['metric']['value']);
     }
 
     private function configPath($file)
