@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "09112ef01f28686b387148c407503c7c",
-    "content-hash": "ff9b83524f413ac80daad8eb47099042",
+    "hash": "de61be52972a0fe8fe751306c271f4b8",
+    "content-hash": "68130b067cdceef8346b47d858b763a3",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -300,7 +300,6 @@
                 "phpdoc",
                 "reflection"
             ],
-            "abandoned": "php-di/phpdoc-reader",
             "time": "2014-08-21 08:20:45"
         },
         {
@@ -875,16 +874,16 @@
         },
         {
             "name": "piwik/ini",
-            "version": "1.0.4",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/component-ini.git",
-                "reference": "9269255fd187e5bda2e5778041c8d143eb615b0a"
+                "reference": "bd2711ba4d5e20e4ca09b6829dc2831576b59dc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-ini/zipball/9269255fd187e5bda2e5778041c8d143eb615b0a",
-                "reference": "9269255fd187e5bda2e5778041c8d143eb615b0a",
+                "url": "https://api.github.com/repos/piwik/component-ini/zipball/bd2711ba4d5e20e4ca09b6829dc2831576b59dc3",
+                "reference": "bd2711ba4d5e20e4ca09b6829dc2831576b59dc3",
                 "shasum": ""
             },
             "require": {
@@ -904,7 +903,7 @@
             "license": [
                 "LGPL-3.0"
             ],
-            "time": "2015-04-21 04:59:09"
+            "time": "2016-01-14 21:13:33"
         },
         {
             "name": "piwik/network",
@@ -1551,7 +1550,7 @@
                 "performance",
                 "profiling"
             ],
-            "time": "2015-02-26 14:37:51"
+            "time": "2014-08-28 17:34:52"
         },
         {
             "name": "guzzle/guzzle",

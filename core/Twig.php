@@ -104,6 +104,8 @@ class Twig
         $this->twig->addTokenParser(new RenderTokenParser());
 
         $this->addTest_false();
+        $this->addTest_true();
+        $this->addTest_emptyString();
     }
 
     private function addTest_false()
@@ -112,6 +114,28 @@ class Twig
             'false',
             function ($value) {
                 return false === $value;
+            }
+        );
+        $this->twig->addTest($test);
+    }
+
+    private function addTest_true()
+    {
+        $test = new Twig_SimpleTest(
+            'true',
+            function ($value) {
+                return true === $value;
+            }
+        );
+        $this->twig->addTest($test);
+    }
+
+    private function addTest_emptyString()
+    {
+        $test = new Twig_SimpleTest(
+            'emptyString',
+            function ($value) {
+                return '' === $value;
             }
         );
         $this->twig->addTest($test);
