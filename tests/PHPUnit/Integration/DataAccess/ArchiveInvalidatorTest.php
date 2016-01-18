@@ -284,8 +284,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForMarkArchivesAsInvalidated
      */
-    public function test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown,
-                                                                                     $expectedIdArchives)
+    public function test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown, $expectedIdArchives)
     {
         $dates = array_map(array('Piwik\Date', 'factory'), $dates);
 
@@ -302,11 +301,17 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($dates, $result->processedDates);
 
         $idArchives = $this->getInvalidatedArchives();
+
+        // Remove empty values (some new empty entries may be added each month)
+        $idArchives = array_filter($idArchives);
+        $expectedIdArchives = array_filter($expectedIdArchives);
+
         $this->assertEquals($expectedIdArchives, $idArchives);
     }
 
     public function getTestDataForMarkArchivesAsInvalidated()
     {
+        // $idSites, $dates, $period, $segment, $cascadeDown, $expectedIdArchives
         return array(
             // day period, multiple sites, multiple dates across tables, cascade = true
             array(
@@ -316,8 +321,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 null,
                 true,
                 array(
-                    '2014_01' => array(),
-                    '2015_03' => array(),
                     '2015_04' => array(
                         '1.2015-04-30.2015-04-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                         '2.2015-04-30.2015-04-30.1.done5447835b0a861475918e79e932abdfd8',
@@ -326,7 +329,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-04-01.2015-04-30.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                         '2.2015-04-01.2015-04-30.3.done5447835b0a861475918e79e932abdfd8',
                     ),
-                    '2014_12' => array(),
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
                         '2.2015-01-01.2015-01-01.1.done.VisitsSummary',
@@ -344,9 +346,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
                         '2.2015-02-01.2015-02-28.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                     ),
-                    '2015_05' => array(),
-                    '2015_06' => array(),
-                    '2015_07' => array(),
                 ),
             ),
 
@@ -358,18 +357,10 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 null,
                 false,
                 array(
-                    '2014_01' => array(),
-                    '2014_12' => array(),
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
                     ),
-                    '2015_02' => array(),
-                    '2015_03' => array(),
-                    '2015_04' => array(),
-                    '2015_05' => array(),
-                    '2015_06' => array(),
-                    '2015_07' => array(),
                 ),
             ),
 
@@ -381,7 +372,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 null,
                 true,
                 array(
-                    '2014_01' => array(),
                     '2014_12' => array(
                         '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
 
@@ -429,12 +419,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
                         '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
                     ),
-                    '2015_02' => array(),
-                    '2015_03' => array(),
-                    '2015_04' => array(),
-                    '2015_05' => array(),
-                    '2015_06' => array(),
-                    '2015_07' => array(),
                 ),
             ),
 
@@ -446,7 +430,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 null,
                 true,
                 array(
-                    '2014_01' => array(),
                     '2014_12' => array(
                         '1.2014-12-29.2014-12-29.1.done',
                         '1.2014-12-30.2014-12-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
@@ -475,11 +458,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-02-01.2015-02-01.1.done3736b708e4d20cfc10610e816a1b2341',
                         '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
                     ),
-                    '2015_03' => array(),
-                    '2015_04' => array(),
-                    '2015_05' => array(),
-                    '2015_06' => array(),
-                    '2015_07' => array(),
                 ),
             ),
 
@@ -491,20 +469,13 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 null,
                 true,
                 array(
-                    '2014_01' => array(),
-                    '2014_12' => array(),
                     '2015_01' => array(
                         '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
                     ),
-                    '2015_02' => array(),
                     '2015_03' => array(
                         '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
                         '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                     ),
-                    '2015_04' => array(),
-                    '2015_05' => array(),
-                    '2015_06' => array(),
-                    '2015_07' => array(),
                 ),
             ),
 
@@ -516,7 +487,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 self::TEST_SEGMENT_1,
                 true,
                 array(
-                    '2014_01' => array(),
                     '2014_12' => array(
                         '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
                     ),
@@ -537,12 +507,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                         '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
                     ),
-                    '2015_02' => array(),
-                    '2015_03' => array(),
-                    '2015_04' => array(),
-                    '2015_05' => array(),
-                    '2015_06' => array(),
-                    '2015_07' => array(),
                 ),
             ),
 
@@ -554,21 +518,14 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 null,
                 false,
                 array(
-                    '2014_01' => array(),
-                    '2014_12' => array(),
                     '2015_01' => array(
                         '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
                     ),
-                    '2015_02' => array(),
-                    '2015_03' => array(),
-                    '2015_04' => array(),
                     '2015_05' => array(
                         '1.2015-05-05.2015-05-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                         '1.2015-05-04.2015-05-10.2.done5447835b0a861475918e79e932abdfd8',
                         '1.2015-05-01.2015-05-31.3.done3736b708e4d20cfc10610e816a1b2341',
                     ),
-                    '2015_06' => array(),
-                    '2015_07' => array(),
                 ),
             ),
         );
