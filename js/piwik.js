@@ -3228,6 +3228,14 @@ if (typeof Piwik !== 'object') {
 
                 heartBeatTimeout = setTimeout(function heartBeat() {
                     heartBeatTimeout = null;
+
+                    if (documentAlias.hasFocus && !documentAlias.hasFocus()) {
+                        // only send a ping if the tab actually has focus. For example do not send a ping if
+                        // window was opened via "right click => open in new window" and never had focus see #9504
+                        heartBeatUp(configHeartBeatDelay);
+                        return;
+                    }
+
                     if (heartBeatPingIfActivityAlias()) {
                         return;
                     }
