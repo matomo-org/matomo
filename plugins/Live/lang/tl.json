@@ -1,6 +1,5 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s%2$s inabandunang mga cart%3$s at %4$s inabandunang mga item %5$sna may halagang aabot sa total na %6$s%7$s.",
         "AveragePageGenerationTime": "Bawat pahina ay umaabot ng %1$s upang mag-load para sa bisita.",
         "CalculatedOverNPageViews": "Kinakalkula gamit ang huling %1$s page view ng bisita na ito.",
         "ClickToViewMoreAboutVisit": "Pindutin dito upang makita ang marami pang impormasyon tungkol sa pagbisita.",

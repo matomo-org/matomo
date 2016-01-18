@@ -1,11 +1,9 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s%2$s carrinhos abandonados%3$s e %4$s itens abandonados %5$svalem um total de %6$s%7$s.",
         "AveragePageGenerationTime": "Cada página levou em média %1$s para carregar para este visitante.",
         "CalculatedOverNPageViews": "Calculado usando as últimas %1$s exibições de página deste visitante.",
         "ClickToViewMoreAboutVisit": "Clique para ver mais informações sobre esta visita",
         "ConvertedNGoals": "%s Metas convertidas",
-        "EcommerceSummaryConversions": "%1$s%2$s pedidos de um total de %3$s%4$s, comprados %5$s itens.",
         "FirstVisit": "Primeiro visitante",
         "GoalType": "Tipo",
         "HideMap": "esconder mapa",
@@ -35,7 +33,6 @@
         "VisitorsInRealTime": "Visitantes em tempo real",
         "VisitorsLastVisit": "A última visita deste visitante foi a %s dias atrás.",
         "VisitsFrom": "%1$s%2$s visitas%3$s de",
-        "VisitSummary": "Passou um total de %1$s%2$s no site%3$s, e %4$spáginas %5$s vistas em %6$s visitas.%7$s",
         "RowActionTooltipDefault": "Mostrar Log de Visitantes segmentado por esta linha",
         "RowActionTooltipWithDimension": "Mostrar Log de Visitantes segmentado por este %s",
         "RowActionTooltipTitle": "Abrir Log de Visitantes segmentado",

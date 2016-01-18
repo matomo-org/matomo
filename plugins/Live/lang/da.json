@@ -1,11 +1,9 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s%2$s afbrudte ordrer%3$s og %4$s usolgte varer %5$stil en samlet værdi af %6$s%7$s.",
         "AveragePageGenerationTime": "Det tog gennemsnitligt %1$s at indlæse hver side for denne besøgende.",
         "CalculatedOverNPageViews": "Beregnet på baggrund af denne besøgendes seneste %1$s sidevisninger.",
         "ClickToViewMoreAboutVisit": "Klik for at se mere information om dette besøg",
         "ConvertedNGoals": "Omregnet %s mål",
-        "EcommerceSummaryConversions": "%1$s%2$s ordrer til en værdi af %3$s%4$s, købte %5$s varer.",
         "FirstVisit": "Første besøg",
         "GoalType": "Type",
         "HideMap": "skjul kort",
@@ -34,7 +32,6 @@
         "VisitorsInRealTime": "Besøgende her og nu",
         "VisitorsLastVisit": "Besøgendes seneste besøg var for %s dage siden.",
         "VisitsFrom": "%1$s%2$s besøg %3$s fra",
-        "VisitSummary": "Brugte i alt %1$s%2$s på hjemmesiden %3$s og %4$sså %5$s sider på %6$s besøg. %7$s",
         "RowActionTooltipDefault": "Vis besøgslog opdelt efter denne række",
         "RowActionTooltipWithDimension": "Vis besøgslog opdelt efter %s",
         "RowActionTooltipTitle": "Åben segmenteret besøgslog",
