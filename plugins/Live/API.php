@@ -262,12 +262,21 @@ class API extends \Piwik\Plugin\API
 
         // for faster performance search for a visitor within the last 7 days first
         $minTimestamp = Date::now()->subDay(7)->getTimestamp();
+
         $dataTable = $this->loadLastVisitorDetailsFromDatabase(
             $idSite, $period = false, $date = false, $segment, $offset = 0, $limit = 1, $minTimestamp
         );
 
         if (0 >= $dataTable->getRowsCount()) {
-            // no visitor found in last 7 days, look further back. This query might be quite slow
+            $minTimestamp = Date::now()->subYear(1)->getTimestamp();
+            // no visitor found in last 7 days, look further back for up to 1 year. This query will be slower
+            $dataTable = $this->loadLastVisitorDetailsFromDatabase(
+                $idSite, $period = false, $date = false, $segment, $offset = 0, $limit = 1, $minTimestamp
+            );
+        }
+
+        if (0 >= $dataTable->getRowsCount()) {
+            // no visitor found in last year, look over all logs. This query might be quite slow
             $dataTable = $this->loadLastVisitorDetailsFromDatabase(
                 $idSite, $period = false, $date = false, $segment, $offset = 0, $limit = 1
             );
