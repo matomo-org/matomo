@@ -1,11 +1,9 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s%2$s napuštenih koripi%3$s i %4$s napuštenih artikala %5$sukupne vrednosti %6$s%7$s.",
         "AveragePageGenerationTime": "Ovom korisniku je za svaku stranicu u proseku potrebno %1$s kako bi se učitala.",
         "CalculatedOverNPageViews": "Izračunato na osnovu poslednjih %1$s prikaza stranica ovog korisnika",
         "ClickToViewMoreAboutVisit": "Kliknite kako biste videli više informacija o ovoj poseti.",
         "ConvertedNGoals": "Ispunjeno ciljeva: %s",
-        "EcommerceSummaryConversions": "%1$s%2$s narudžbina od ukupno %3$s%4$s, naručeno %5$s artikala.",
         "FirstVisit": "Prva poseta",
         "GoalType": "Tip",
         "HideMap": "sakrij mapu",
@@ -35,7 +33,6 @@
         "VisitorsInRealTime": "Posetioci u realnom vremenu",
         "VisitorsLastVisit": "Poslednja poseta je bila pre %s dana.",
         "VisitsFrom": "%1$s%2$s poseta%3$s sa",
-        "VisitSummary": "Utrošeno ukupno %1$s%2$s na sajtu%3$s, %4$sprikazano %5$s stranica u %6$s poseta.%7$s",
         "RowActionTooltipDefault": "Prikaži zapis poseta podeljen ovim redom",
         "RowActionTooltipWithDimension": "Prikaži zapis poseta podeljen %s",
         "RowActionTooltipTitle": "Otvori podeljeni zapis psoeta",

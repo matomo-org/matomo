@@ -23,6 +23,7 @@
         "Pagination": "Sida %s av %s",
         "PiwikReports": "Piwik Rapporter",
         "PleaseFindAttachedFile": "Du finner din rapport %1$s i den bifogade filen för %2$s.",
+        "SentFromX": "Skickat från %s.",
         "PleaseFindBelow": "Nedan hittar du din %1$s rapport för %2$s.",
         "ReportFormat": "Rapportformat",
         "ReportIncludeNWebsites": "Rapporten kommer att innehålla viktiga mättal för alla webbplatser som har minst ett besök (från %s webbsidorna som för tillfället är tillgängliga).",

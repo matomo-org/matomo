@@ -1,5 +1,6 @@
 {
     "CoreAdminHome": {
+        "AddNewTrustedHost": "Lägg till en ny betrodd värd",
         "Administration": "Administration",
         "ArchivingSettings": "Inställningar för arkivering",
         "BrandingSettings": "Varumärkesinställningar",

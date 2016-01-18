@@ -1,11 +1,9 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s%2$s giỏ hàng bị quên %3$s và %4$s mặt hàng bị quên %5$s trị giá tổng cộng của %6$s%7$s.",
         "AveragePageGenerationTime": "Mỗi trang mất trung bình %1$s để nạp cho khách truy cập này.",
         "CalculatedOverNPageViews": "Việc tính toán sử dụng lượt xem trang %1$s cuối cùng của khách truy cập này.",
         "ClickToViewMoreAboutVisit": "Click để xem thêm thông tin về lượt truy cập này",
         "ConvertedNGoals": "%s Mục tiêu đã được chuyển đổi",
-        "EcommerceSummaryConversions": "%1$s%2$s đơn đặt hàng với tổng số %3$s%4$s, %5$s các mặt hàng đã mua.",
         "FirstVisit": "Lượt truy cập đầu tiên",
         "GoalType": "Kiểu",
         "HideMap": "Ẩn bản đồ",
@@ -33,7 +31,6 @@
         "VisitorProfile": "Hồ sơ cá nhân của khách",
         "VisitorsInRealTime": "Các khách truy cập trong thời gian thực",
         "VisitorsLastVisit": "Lần truy cập trước của khách truy cập này là %s ngày trước.",
-        "VisitsFrom": "%1$s%2$s lượt truy cập %3$s từ",
-        "VisitSummary": "Đã dành tổng cộng %1$s%2$s trên website %3$s, và %4$s đã xem %5$s trang trong %6$s lượt truy cập.%7$s"
+        "VisitsFrom": "%1$s%2$s lượt truy cập %3$s từ"
     }
 }

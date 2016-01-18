@@ -25,6 +25,8 @@
         "HighTrafficPiwikServerEnableMaintenance": "Om du hanterar en Piwik server med mycket trafik rekommenderar vi att du tillfälligt %sinaktiverar spårning av besökare och sätter Piwik's användargränssnitt i underhållsläge%s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Obs: vissa tillägg är inte kompatibla med Piwik %s. De kommer att inaktiveras när du uppgraderar:",
         "InstallingTheLatestVersion": "Installerar den senaste versionen",
+        "LatestBetaRelease": "Senaste betaversion",
+        "Latest2XBetaRelease": "Senaste beta 2.X",
         "MajorUpdateWarning1": "Det här är en stor uppdatering! Den kommer att ta längre tid än vanligt.",
         "MajorUpdateWarning2": "Följande råd är extra viktiga för stora installationer.",
         "NoteForLargePiwikInstances": "Viktig notering för stora Piwik-installationer",

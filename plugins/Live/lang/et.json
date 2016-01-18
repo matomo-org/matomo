@@ -29,7 +29,6 @@
         "VisitorProfile": "Külastaja profiil",
         "VisitorsInRealTime": "Reaalajas külastused",
         "VisitorsLastVisit": "Antud külastaja viimane külastus lehel oli %s päeva tagasi.",
-        "VisitsFrom": "%1$s%2$s külastust %3$s pärineb",
-        "VisitSummary": "Viibis kokku %1$s%2$s veebilehel%3$s ja %4$svaatas %5$s lehte %6$s külastuse jooksul.%7$s"
+        "VisitsFrom": "%1$s%2$s külastust %3$s pärineb"
     }
 }

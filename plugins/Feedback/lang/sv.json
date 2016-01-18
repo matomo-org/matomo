@@ -16,6 +16,11 @@
         "TopLinkTooltip": "Tala om för oss vad du tycker, eller fråga efter professionell support.",
         "ViewAnswersToFAQ": "Se svar på %svanliga frågor%s",
         "ViewUserGuides": "Lär dig att konfigurera Piwik och hur man på ett effektivt sätt analyserar data med våra %1$sanvändarguider%2$s",
+        "ProfessionalHelp": "Professionell hjälp",
+        "PiwikProOfferIntro": "Vårt erbjudande inkluderar",
+        "PiwikProPhoneEmailSupport": "Telefon och e-postsupport",
+        "PiwikProPremiumFeatures": "Premium-funktioner",
+        "ContactUs": "Kontakta oss",
         "VisitTheForums": "Besök %s Forumet%s"
     }
 }

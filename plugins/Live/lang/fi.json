@@ -1,11 +1,9 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s%2$s hylätyt ostoskorit%3$s ja %4$s hylätyt tuotteet %5$s,joiden arvo on yhteensä %6$s%7$s.",
         "AveragePageGenerationTime": "Jokainen sivun lataaminen kesti keskimäärin %1$s tälle käyttäjälle.",
         "CalculatedOverNPageViews": "Laskettu käyttämällä tämän kävijän %1$s viimeisintä nähtyä sivua.",
         "ClickToViewMoreAboutVisit": "Klikkaa saadaksesi lisätietoa tästä käynnistä",
         "ConvertedNGoals": "Konvertoidut %s tavoitteet",
-        "EcommerceSummaryConversions": "%1$s%2$s tilausta, yhteensä %3$s%4$s, ostettuja tuotteita %5$s.",
         "FirstVisit": "Ensimmäinen käynti",
         "GoalType": "Tyyppi",
         "HideMap": "piilota kartta",
@@ -33,7 +31,6 @@
         "VisitorProfile": "Kävijäprofiili",
         "VisitorsInRealTime": "Reaaliaikaiset kävijätiedot",
         "VisitorsLastVisit": "Tämän kävijän edellinen käynti oli %s päivää sitten.",
-        "VisitsFrom": "%1$s%2$s käyntiä%3$s lähteestä",
-        "VisitSummary": "Viipyi yhteensä %1$s%2$s verkkosivulla%3$s, ja %4$skatsoi %5$s sivua %6$s käynnillä.%7$s"
+        "VisitsFrom": "%1$s%2$s käyntiä%3$s lähteestä"
     }
 }
