@@ -181,5 +181,16 @@
             ajaxRequest.send(false);
         });
     });
+    
+
+
 
 }(jQuery));
+
+$( document ).ready(function() {
+   $('.accessibility-skip-to-content').click(function(e){
+    e.preventDefault();
+        $('a[name="main"]').attr('tabindex', -1).focus();
+        $(window).scrollTo($('a[name="main"]'));
+    });
+});
