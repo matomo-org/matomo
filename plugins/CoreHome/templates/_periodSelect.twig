@@ -1,5 +1,5 @@
 <div id="periodString" piwik-expand-on-click class="piwikTopControl piwikSelector borderedControl periodSelector">
-    <a id="date" class="title" title="{{ 'General_ChooseDate'|translate(prettyDateLong)|e('html_attr') }}">
+    <a id="date" class="title" title="{{ 'General_ChooseDate'|translate(prettyDateLong|default(''))|e('html_attr') }}">
         <span class="icon icon-calendar"></span>
         {{ prettyDate }}
     </a>
