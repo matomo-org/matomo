@@ -262,3 +262,22 @@ body .ui-tooltip.small {
 .ui-dialog ~ .ui-dialog {
   border: 1px solid #aaa;
 }
+
+.ui-dialog-titlebar .ui-icon-closethick {
+  font-family: 'piwik';
+  font-weight: bold;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-size:8px;
+  background-image: none !important;
+  text-indent: 0px !important;
+  opacity: 1 !important;
+  color:@theme-color-brand-contrast;
+
+  &:before{
+    content:"\e60a";
+  }
+}
