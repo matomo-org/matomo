@@ -86,6 +86,7 @@
         "ConfigFileIsNotWritable": "The Piwik configuration file %s is not writable, some of your changes might not be saved. %s Please change permissions of the config file to make it writable.",
         "Continue": "Continue",
         "ContinueToPiwik": "Continue to Piwik",
+        "CurrentlyUsingUnsecureHttp": "You are currently using Piwik over unsecure HTTP, which can be risky. We recommend you set up Piwik to use SSL (HTTPS) for improved security.",
         "CurrentMonth": "Current Month",
         "CurrentWeek": "Current Week",
         "CurrentYear": "Current Year",
