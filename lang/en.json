@@ -27,7 +27,7 @@
         "CannotUnzipFile": "Cannot unzip file %1$s: %2$s",
         "ChangePassword": "Change password",
         "ChangeTagCloudView": "Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.",
-        "ChooseDate": "Choose date",
+        "ChooseDate": "Choose date, currently selected date is: %s",
         "ChooseLanguage": "Choose language",
         "ChoosePeriod": "Choose period",
         "ChooseWebsite": "Choose website",
