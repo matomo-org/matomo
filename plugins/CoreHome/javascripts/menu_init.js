@@ -26,4 +26,15 @@ $(function () {
     } else {
         broadcast.init(true);
     }
+
+    $('.menuTab').keydown(function(e){
+        if(e.which==27){
+            var isFocusedInSubmenu = !$(':focus').parent().hasClass('menuTab')
+            if(isFocusedInSubmenu){
+                $(this).closest('.menuTab').attr('tabindex', -1).focus();
+                $('body').scrollTop(0);
+            }
+            $('.sfActive').removeClass('sfActive');
+        }
+    })
 });
