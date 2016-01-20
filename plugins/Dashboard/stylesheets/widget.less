@@ -1,7 +1,7 @@
 .widget {
     .font-default(13px, 18px);
-    background: @theme-color-background-base;
-    border: 1px solid @color-silver-l85;
+    background: @theme-color-widget-background;
+    border: 1px solid @theme-color-widget-border;
     box-shadow: 0 1px 1px rgba(204,204,204,.5);
     overflow: hidden;
     z-index: 1;
@@ -54,6 +54,7 @@
             padding-left: 50px;
             right: 8px;
             display: none;
+            color: @theme-color-widget-title-text;
             background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
             background: -webkit-linear-gradient(left,rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
             background: linear-gradient(to right, rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
@@ -114,4 +115,16 @@
     .button#minimise,.button#refresh {
         display:none;
     }
+}
+
+.widget table.dataTable tr td {
+  background-color: @theme-color-widget-background;
+}
+
+.dataTable table.dataTable tr td {
+  background-color: @theme-color-widget-background;
+}
+
+.bar-graph-colors[data-name=grid-background] {
+    color: @theme-color-widget-background !important;
 }
