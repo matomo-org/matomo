@@ -66,12 +66,14 @@ function initTopControls() {
     }
 }
 
+//Tab controls for Top Controls calendar. 
 $( document ).ready(function() {
     $('.periodSelector').keydown(function(e){
-        $('.periodSelector .ui-datepicker-month, .periodSelector .ui-datepicker-year, .periodSelector .form-radio, .periodSelector td a').attr('tabindex','4');
-        // $('.periodSelector td a').attr('tabindex','4');
-        // $('.periodSelector .ui-datepicker-year').attr('tabindex','4');
-        // $('.periodSelector .form-radio').attr('tabindex','4');
+
+        $('.periodSelector .ui-datepicker-month').attr('tabindex','4');
+        $('.periodSelector td a').attr('tabindex','4');
+        $('.periodSelector .ui-datepicker-year').attr('tabindex','4');
+        $('.periodSelector .form-radio').attr('tabindex','4');
 
         var calendarOpen = $(this).hasClass('expanded');
 
