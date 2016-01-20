@@ -56,6 +56,8 @@ class CliMulti
      */
     private $urlToPiwik = null;
 
+    private $phpCliOptions = '';
+
     public function __construct()
     {
         $this->supportsAsync = $this->supportsAsync();
@@ -87,6 +89,15 @@ class CliMulti
         }
 
         return $results;
+    }
+
+    /**
+     * Forwards the given configuration options to the PHP cli command.
+     * @param string $phpCliOptions  eg "-d memory_limit=8G -c=path/to/php.ini"
+     */
+    public function setPhpCliConfigurationOptions($phpCliOptions)
+    {
+        $this->phpCliOptions = (string) $phpCliOptions;
     }
 
     /**
@@ -142,8 +153,8 @@ class CliMulti
         $bin = $this->findPhpBinary();
         $superuserCommand = $this->runAsSuperUser ? "--superuser" : "";
 
-        return sprintf('%s %s/console climulti:request -q --piwik-domain=%s %s %s > %s 2>&1 &',
-                       $bin, PIWIK_INCLUDE_PATH, escapeshellarg($hostname), $superuserCommand, escapeshellarg($query), $outputFile);
+        return sprintf('%s %s %s/console climulti:request -q --piwik-domain=%s %s %s > %s 2>&1 &',
+                       $bin, $this->phpCliOptions, PIWIK_INCLUDE_PATH, escapeshellarg($hostname), $superuserCommand, escapeshellarg($query), $outputFile);
     }
 
     private function getResponse()
