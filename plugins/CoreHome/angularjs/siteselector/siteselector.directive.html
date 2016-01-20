@@ -7,7 +7,7 @@
              class="custom_select_all">
             <a href="{{ getUrlAllSites() }}"
                piwik-ignore-click
-               ng-bind-html="allSitesText"></a>
+               ng-bind-html="allSitesText" tabindex="4"></a>
         </div>
     </script>
 
@@ -38,7 +38,7 @@
                     <a piwik-ignore-click href="{{ getUrlForSiteId(site.idsite) }}"
                        piwik-autocomplete-matched="view.searchTerm"
                        title="{{ site.name|htmldecode }}"
-                       ng-bind-html="site.name"></a>
+                       ng-bind-html="site.name" tabindex="4"></a>
                 </li>
             </ul>
             <ul ng-show="!model.sites.length && view.searchTerm" class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect">
