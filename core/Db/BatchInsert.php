@@ -57,12 +57,14 @@ class BatchInsert
      */
     public static function tableInsertBatch($tableName, $fields, $values, $throwException = false, $charset = 'utf8')
     {
-        $filePath = StaticContainer::get('path.tmp') . '/assets/' . $tableName . '-' . Common::generateUniqId() . '.csv';
-
         $loadDataInfileEnabled = Config::getInstance()->General['enable_load_data_infile'];
 
         if ($loadDataInfileEnabled
             && Db::get()->hasBulkLoader()) {
+
+            $path = self::getBestPathForLoadData();
+            $filePath = $path . $tableName . '-' . Common::generateUniqId() . '.csv';
+
             try {
                 $fileSpec = array(
                     'delim'            => "\t",
@@ -92,15 +94,34 @@ class BatchInsert
                     throw $e;
                 }
             }
+
+            // if all else fails, fallback to a series of INSERTs
+            if (file_exists($filePath)) {
+                @unlink($filePath);
+            }
         }
 
-        // if all else fails, fallback to a series of INSERTs
-        if(file_exists($filePath)){
-            @unlink($filePath);
-        }
-        
         self::tableInsertBatchIterate($tableName, $fields, $values);
+
         return false;
+    }
+
+    private static function getBestPathForLoadData()
+    {
+        try {
+            $path = Db::fetchOne('SELECT @@secure_file_priv'); // was introduced in 5.0.38
+        } catch (Exception $e) {
+            // we do not rethrow exception as an error is expected if MySQL is < 5.0.38
+            // in this case tableInsertBatch might still work
+        }
+
+        if (empty($path) || !is_dir($path) || !is_writable($path)) {
+            $path = StaticContainer::get('path.tmp') . '/assets/';
+        } elseif (!Common::stringEndsWith($path, '/')) {
+            $path .= '/';
+        }
+
+        return $path;
     }
 
     /**
