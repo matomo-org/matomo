@@ -1,9 +1,9 @@
 <div class="enrichedHeadline"
     ng-mouseenter="view.showIcons=true" ng-mouseleave="view.showIcons=false">
-    <div ng-show="!editUrl" class="title" ng-transclude></div>
+    <div ng-show="!editUrl" class="title" ng-transclude tabindex="6"></div>
     <a ng-show="editUrl" class="title" href="{{ editUrl }}"
        title="{{ 'CoreHome_ClickToEditX'|translate:featureName }}"
-       ng-transclude></a>
+       ng-transclude ></a>
 
     <span ng-show="view.showIcons">
         <a ng-if="helpUrl && !inlineHelp"

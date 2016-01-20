@@ -1,5 +1,5 @@
 <span id="logo">
-    <a href="index.php" title="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik # {{ 'General_OpenSourceWebAnalytics'|translate }}">
+    <a href="index.php" title="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik # {{ 'General_OpenSourceWebAnalytics'|translate }}" tabindex="3">
     {% if hasSVGLogo %}
         <img src='{{ logoSVG }}' alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik" class="ie-hide {% if not isCustomLogo %}default-piwik-logo{% endif %}" />
         <!--[if lt IE 9]>

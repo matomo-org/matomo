@@ -7,7 +7,7 @@
            ng-change="view.searchActive=true;quickAccess.searchMenu(search.term)"
            ng-focus="view.searchActive=true"
            ng-model="search.term" piwik-focus-if="view.searchActive"
-           type="text"/>
+           type="text" tabindex="2"/>
     <ul ng-hide="!search.term || !view.searchActive || (quickAccess.numMenuItems > 0) || (quickAccess.sitesModel.sites | length)">
         <li class="no-result">{{ 'General_SearchNoResults' | translate }}</li>
     </ul>

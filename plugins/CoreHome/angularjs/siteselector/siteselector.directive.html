@@ -7,7 +7,7 @@
              class="custom_select_all">
             <a href="{{ getUrlAllSites() }}"
                piwik-ignore-click
-               ng-bind-html="allSitesText"></a>
+               ng-bind-html="allSitesText" tabindex="4"></a>
         </div>
     </script>
 
@@ -18,7 +18,7 @@
        href="javascript:void(0)"
        title="{{ 'CoreHome_ChangeCurrentWebsite'|translate:((selectedSite.name || model.firstSiteName)|htmldecode) }}"
        ng-class="{'loading': model.isLoading}"
-       class="title">
+       class="title" tabindex="4">
         <span class="icon icon-arrow-bottom"
               ng-class="{'iconHidden': model.isLoading, 'collapsed': !view.showSitesList}"></span>
         <span>{{ 'General_Website'| translate }}:
@@ -38,7 +38,7 @@
                     <a piwik-ignore-click href="{{ getUrlForSiteId(site.idsite) }}"
                        piwik-autocomplete-matched="view.searchTerm"
                        title="{{ site.name|htmldecode }}"
-                       ng-bind-html="site.name"></a>
+                       ng-bind-html="site.name" tabindex="4"></a>
                 </li>
             </ul>
             <ul ng-show="!model.sites.length && view.searchTerm" class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect">
