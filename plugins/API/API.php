@@ -11,6 +11,7 @@ namespace Piwik\Plugins\API;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Columns\Dimension;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
@@ -484,7 +485,21 @@ class API extends \Piwik\Plugin\API
 
         $result = array();
         foreach ($urls as $url) {
-            $req = new Request($url . '&format=php&serialize=0');
+            $params = Request::getRequestArrayFromString($url . '&format=php&serialize=0');
+
+            if (isset($params['urls']) && $params['urls'] == $urls) {
+                // by default 'urls' is added to $params as Request::getRequestArrayFromString adds all $_GET/$_POST
+                // default parameters
+                unset($params['urls']);
+            }
+
+            if (!empty($params['segment']) && strpos($url, 'segment=') > -1) {
+                // only unsanitize input when segment is actually present in URL, not when it was used from
+                // $defaultRequest in Request::getRequestArrayFromString from $_GET/$_POST
+                $params['segment'] = urlencode(Common::unsanitizeInputValue($params['segment']));
+            }
+
+            $req = new Request($params);
             $result[] = $req->process();
         }
         return $result;
