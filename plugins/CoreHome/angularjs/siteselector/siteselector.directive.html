@@ -18,7 +18,7 @@
        href="javascript:void(0)"
        title="{{ 'CoreHome_ChangeCurrentWebsite'|translate:((selectedSite.name || model.firstSiteName)|htmldecode) }}"
        ng-class="{'loading': model.isLoading}"
-       class="title">
+       class="title" tabindex="4">
         <span class="icon icon-arrow-bottom"
               ng-class="{'iconHidden': model.isLoading, 'collapsed': !view.showSitesList}"></span>
         <span>{{ 'General_Website'| translate }}:
