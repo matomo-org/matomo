@@ -65,3 +65,40 @@ function initTopControls() {
 
     }
 }
+
+$( document ).ready(function() {
+    $('.periodSelector').keydown(function(e){
+        $('.periodSelector .ui-datepicker-month, .periodSelector .ui-datepicker-year, .periodSelector .form-radio, .periodSelector td a').attr('tabindex','4');
+        // $('.periodSelector td a').attr('tabindex','4');
+        // $('.periodSelector .ui-datepicker-year').attr('tabindex','4');
+        // $('.periodSelector .form-radio').attr('tabindex','4');
+
+        var calendarOpen = $(this).hasClass('expanded');
+
+        if(e.which==13){
+            if(calendarOpen){
+                $(this).removeClass('expanded');
+            }else{
+                $(this).addClass('expanded');
+            }
+        }
+    })
+
+    $('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a').keydown(function(e){
+        e.stopPropagation();
+    })
+
+    $('.periodSelector .form-radio').keydown(function(e){
+        e.stopPropagation();
+        if(e.which==13){
+            $('.periodSelector .form-radio').removeClass('checked')
+            $(this).addClass('checked')
+            $(this).find('input').click()
+
+            $('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a').keydown(function(e){
+                e.stopPropagation();
+            })
+        }
+    })
+});
+
