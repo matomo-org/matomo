@@ -552,8 +552,8 @@
 }(jQuery));
 
 
+//Applying keyboard control 
 $( document ).ready(function() {
-    //Keyboard controls for Top Controls. 
     var calendarElementsToIndex = ['.periodSelector .ui-datepicker-month',
                                     '.periodSelector td a',
                                     '.periodSelector .ui-datepicker-year',

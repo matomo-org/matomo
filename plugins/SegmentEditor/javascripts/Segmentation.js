@@ -1303,7 +1303,7 @@ $(document).ready(function() {
 
     exports.SegmentSelectorControl = SegmentSelectorControl;
 
-    //Setting keyboard controls
+    //Applying keyboard controls
     var segmentElementsToIndex = ['.segmentEditorPanel .segmentFilter',
                                     '.segmentEditorPanel .segname',
                                     '.segmentEditorPanel .add_new_segment'];
