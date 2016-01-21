@@ -66,7 +66,7 @@ function initTopControls() {
     }
 }
 
-//Keyboard controls for Top Controls Calendar. 
+//Keyboard controls for Top Controls Calendar through tab and enter. 
 $( document ).ready(function() {
     $('.periodSelector').keydown(function(e){
         toggleCalendar(e);
