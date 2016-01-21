@@ -66,24 +66,10 @@ function initTopControls() {
     }
 }
 
-//Tab controls for Top Controls calendar. 
+//Keyboard controls for Top Controls Calendar. 
 $( document ).ready(function() {
     $('.periodSelector').keydown(function(e){
-
-        $('.periodSelector .ui-datepicker-month').attr('tabindex','4');
-        $('.periodSelector td a').attr('tabindex','4');
-        $('.periodSelector .ui-datepicker-year').attr('tabindex','4');
-        $('.periodSelector .form-radio').attr('tabindex','4');
-
-        var calendarOpen = $(this).hasClass('expanded');
-
-        if(e.which==13){
-            if(calendarOpen){
-                $(this).removeClass('expanded');
-            }else{
-                $(this).addClass('expanded');
-            }
-        }
+        toggleCalendar(e);
     })
 
     $('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a').keydown(function(e){
@@ -93,14 +79,34 @@ $( document ).ready(function() {
     $('.periodSelector .form-radio').keydown(function(e){
         e.stopPropagation();
         if(e.which==13){
-            $('.periodSelector .form-radio').removeClass('checked')
-            $(this).addClass('checked')
-            $(this).find('input').click()
-
-            $('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a').keydown(function(e){
-                e.stopPropagation();
-            })
+            selectPeriodRadioButton($(this));
         }
     })
 });
 
+function toggleCalendar(e){
+    var calendarOpen = $('.periodSelector').hasClass('expanded');
+    
+    $('.periodSelector .ui-datepicker-month').attr('tabindex','4');
+    $('.periodSelector td a').attr('tabindex','4');
+    $('.periodSelector .ui-datepicker-year').attr('tabindex','4');
+    $('.periodSelector .form-radio').attr('tabindex','4');
+
+    if(e.which==13){
+        if(calendarOpen){
+            $('.periodSelector').removeClass('expanded');
+        }else{
+            $('.periodSelector').addClass('expanded');
+        }
+    }
+}
+
+function selectPeriodRadioButton(button){
+    $('.periodSelector .form-radio').removeClass('checked')
+    button.addClass('checked')
+    button.find('input').click()
+
+    $('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a').keydown(function(e){
+        e.stopPropagation();
+    })
+}
