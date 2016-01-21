@@ -72,9 +72,7 @@ $( document ).ready(function() {
         toggleCalendar(e);
     })
 
-    $('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a').keydown(function(e){
-        e.stopPropagation();
-    })
+    blockPropegation();
 
     $('.periodSelector .form-radio').keydown(function(e){
         e.stopPropagation();
@@ -102,10 +100,14 @@ function toggleCalendar(e){
 }
 
 function selectPeriodRadioButton(button){
-    $('.periodSelector .form-radio').removeClass('checked')
-    button.addClass('checked')
-    button.find('input').click()
+    $('.periodSelector .form-radio').removeClass('checked');
+    button.addClass('checked');
+    button.find('input').click();
 
+    blockPropegation();
+}
+
+function blockPropegation(){
     $('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a').keydown(function(e){
         e.stopPropagation();
     })
