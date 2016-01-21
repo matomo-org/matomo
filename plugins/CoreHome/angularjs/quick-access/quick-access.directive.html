@@ -1,9 +1,13 @@
-<div class="quick-access" title="{{ quickAccessTitle }}"
+<div class="quick-access"
      ng-class="{active: view.searchActive, expanded: view.searchActive}"
      piwik-focus-anywhere-but-here="view.searchActive = false;">
+    <!--Testing-->
+    <label for="s" style="display:none"></label>
     <span class="icon-search" ng-hide="search.term || view.searchActive"
           ng-mouseenter="view.searchActive=true"></span>
-    <input ng-keydown="quickAccess.onKeypress($event)"
+    <input class="s"
+           title="{{ quickAccessTitle }}"
+           ng-keydown="quickAccess.onKeypress($event)"
            ng-change="view.searchActive=true;quickAccess.searchMenu(search.term)"
            ng-focus="view.searchActive=true"
            ng-model="search.term" piwik-focus-if="view.searchActive"
