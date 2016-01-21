@@ -28,8 +28,6 @@ class PingRequestProcessor extends RequestProcessor
             $request->setMetadata('Goals', 'goalsConverted', array());
             $request->setMetadata('Goals', 'visitIsConverted', false);
 
-            $request->setParam('cdt', $visitProperties->getProperty('visit_last_action_time'));
-
             // When a ping request is received more than 30 min after the last request/ping,
             // we choose not to create a new visit.
             if ($request->getMetadata('CoreHome', 'isNewVisit')) {
