@@ -1,12 +1,15 @@
- body, img {
+ body {
      :focus {
-         outline: #444 solid 2px;
-
+         outline: 0;
+         -moz-box-shadow: inset 0 0 0 2px @theme-color-background-highContrast;
+         -webkit-box-shadow: inset 0 0 0 2px @theme-color-background-highContrast;
+         box-shadow: inset 0 0 0 2px @theme-color-background-highContrast;
+         border-radius: 2px;
+         -moz-border-radius:2px;
+         -webkit-border-radius:2px;
          }
  }
- #logo {
-  width: auto;
- }
+
  #header {
   padding: 0 15px;
   background-color: @theme-color-background-base;
@@ -274,7 +277,6 @@
 
             &.sfActive {
               .item {
-                color: @theme-color-menu-contrast-textSelected;
                 background-color: @theme-color-background-base;
                 decoration: none;
               }
