@@ -1,8 +1,6 @@
 <div class="quick-access"
      ng-class="{active: view.searchActive, expanded: view.searchActive}"
      piwik-focus-anywhere-but-here="view.searchActive = false;">
-    <!--Testing-->
-    <label for="s" style="display:none"></label>
     <span class="icon-search" ng-hide="search.term || view.searchActive"
           ng-mouseenter="view.searchActive=true"></span>
     <input class="s"
