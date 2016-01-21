@@ -550,3 +550,24 @@
     });
 
 }(jQuery));
+
+
+$( document ).ready(function() {
+    //Keyboard controls for Top Controls. 
+    var calendarElementsToIndex = ['.periodSelector .ui-datepicker-month',
+                                    '.periodSelector td a',
+                                    '.periodSelector .ui-datepicker-year',
+                                    '.periodSelector .form-radio'];
+    $('.periodSelector').keydown(function(e){
+        toggleTopControlsMenu(e, '.periodSelector', calendarElementsToIndex);
+    });
+
+    blockPropegation('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a');
+
+    $('.periodSelector .form-radio').keydown(function(e){
+        e.stopPropagation();
+        if(e.which==13){
+            selectPeriodRadioButton($(this));
+        }
+    });
+});

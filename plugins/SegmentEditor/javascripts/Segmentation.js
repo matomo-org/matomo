@@ -1302,4 +1302,12 @@ $(document).ready(function() {
     });
 
     exports.SegmentSelectorControl = SegmentSelectorControl;
+
+    //Setting keyboard controls
+    var segmentElementsToIndex = ['.segmentEditorPanel .segmentFilter',
+                                    '.segmentEditorPanel .segname',
+                                    '.segmentEditorPanel .add_new_segment'];
+    $('.segmentEditorPanel').keydown(function(e){
+        toggleTopControlsMenu(e, '.segmentEditorPanel', segmentElementsToIndex)
+    });
 });
