@@ -66,35 +66,48 @@ function initTopControls() {
     }
 }
 
-//Keyboard controls for Top Controls Calendar through tab and enter. 
 $( document ).ready(function() {
+    //Keyboard controls for Top Controls. 
+    var calendarElementsToIndex = ['.periodSelector .ui-datepicker-month',
+                                    '.periodSelector td a',
+                                    '.periodSelector .ui-datepicker-year',
+                                    '.periodSelector .form-radio'];
     $('.periodSelector').keydown(function(e){
-        toggleCalendar(e);
+        toggleTopControlsMenu(e, '.periodSelector', calendarElementsToIndex);
     })
 
-    blockPropegation();
+    blockPropegation('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a');
 
     $('.periodSelector .form-radio').keydown(function(e){
         e.stopPropagation();
         if(e.which==13){
             selectPeriodRadioButton($(this));
         }
-    })
+    });
+
+    var segmentElementsToIndex = ['.segmentEditorPanel .segmentFilter',
+                                    '.segmentEditorPanel .segname',
+                                    '.segmentEditorPanel .add_new_segment'];
+    $('.segmentEditorPanel').keydown(function(e){
+        toggleTopControlsMenu(e, '.segmentEditorPanel', segmentElementsToIndex)
+    });
+
+    $('.dashboard-manager').keydown(function(e){
+        toggleTopControlsMenu(e, '.dashboard-manager', []);
+    });
+
 });
 
-function toggleCalendar(e){
-    var calendarOpen = $('.periodSelector').hasClass('expanded');
-    
-    $('.periodSelector .ui-datepicker-month').attr('tabindex','4');
-    $('.periodSelector td a').attr('tabindex','4');
-    $('.periodSelector .ui-datepicker-year').attr('tabindex','4');
-    $('.periodSelector .form-radio').attr('tabindex','4');
+function toggleTopControlsMenu(e, element, itemsToIndex){
+    var elementOpen = $(element).hasClass('expanded');
+
+    applyTabIndexs(itemsToIndex, '4');
 
     if(e.which==13){
-        if(calendarOpen){
-            $('.periodSelector').removeClass('expanded');
+        if(elementOpen){
+            $(element).removeClass('expanded')
         }else{
-            $('.periodSelector').addClass('expanded');
+            $(element).addClass('expanded')
         }
     }
 }
@@ -104,11 +117,17 @@ function selectPeriodRadioButton(button){
     button.addClass('checked');
     button.find('input').click();
 
-    blockPropegation();
+    blockPropegation('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a');
 }
 
-function blockPropegation(){
-    $('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a').keydown(function(e){
+function blockPropegation(elements){
+    $(elements).keydown(function(e){
         e.stopPropagation();
     })
+}
+
+function applyTabIndexs(elementsArray, indexAsString){
+    for (var i = 0; i < elementsArray.length; i++) {
+        $(elementsArray[i]).attr('tabindex', indexAsString)
+    };
 }

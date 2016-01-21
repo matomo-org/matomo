@@ -641,6 +641,13 @@ Segmentation = (function($) {
                     }
                 }
             });
+
+            self.target.on("keydown",'.segmentFilter, .segname, .add_new_segment',function(e){
+                if (e.which == 13){
+                    e.stopPropagation();
+                    $(this).click();
+                }
+            })
         };
 
         // Request auto-suggest values
