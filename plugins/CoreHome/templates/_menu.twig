@@ -1,7 +1,7 @@
 {% macro submenuItem(name, url, anchorlink, tooltip) %}
     {% if name|slice(0,1) != '_' %}
         <li role="menuitem" title="{{ tooltip|default(name)|translate|e('html_attr') }}">
-            <a class="item" href="{% if anchorlink %}#{% else %}index.php?{% endif %}{{ url|urlRewriteWithParameters|slice(1) }}">
+            <a class="item" href="{% if anchorlink %}#{% else %}index.php?{% endif %}{{ url|urlRewriteWithParameters|slice(1) }}" tabindex="5">
                 {{ name|translate }}
             </a>
         </li>
@@ -33,7 +33,7 @@
         <div id="search" ng-cloak>
             <div piwik-quick-access class="borderedControl"></div>
         </div>
-        <ul role="menu" class="navbar">
+        <ul role="menu" aria-label="{{ 'CoreHome_MainNavigation'|translate|e('html_attr') }}" class="navbar">
             {% for level1,level2 in menu %}
                 {% set hasSubmenuItem = false %}
                 {% for name,urlParameters in level2 %}
@@ -46,7 +46,7 @@
 
                 {% if hasSubmenuItem %}
                     <li role="menuitem" class="menuTab" title="{{ level1|translate|e('html_attr') }}" id="{% if level2._url is defined and level2._url is not empty %}{{ _self.getId(level2._url) }}{% endif %}">
-                        <a class="item" href="">
+                        <a class="item" href="" tabindex="5">
                             <span class="menu-icon {{ level2._icon|default('icon-arrow-right') }}"></span>{{ level1|translate }}
                         </a>
 

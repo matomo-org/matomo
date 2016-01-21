@@ -16,7 +16,7 @@
             <a {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}
                class="topBarElem {% if (menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}active{% endif %}"
                id="topmenu-{{ menu._url.module|lower }}"
-               href="index.php{{ menu._url|urlRewriteWithParameters }}">{{ _self.menuItemLabel(label, menu._icon) }}</a>
+               href="index.php{{ menu._url|urlRewriteWithParameters }}" tabindex="3">{{ _self.menuItemLabel(label, menu._icon) }}</a>
         {% endif %}
     {% endmacro %}
 

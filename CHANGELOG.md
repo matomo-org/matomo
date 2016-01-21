@@ -2,11 +2,13 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
-## Piwik 2.15.1
+## Piwik 2.16.0
 
 ### New features
  * New segment `actionType` lets you segment all actions of a given type, eg. `actionType==events` or `actionType==downloads`. Action types values are: `pageviews`, `contents`, `sitesearches`, `events`, `outlinks`, `downloads`
  * The JavaScript Tracker method `PiwikTracker.setDomains()` can now handle paths. This means when setting eg `_paq.push(['setDomains, '*.piwik.org/website1'])` all link that goes to the same domain `piwik.org` but to any other path than `website1/*` will be treated as outlink.
+ * It is now possible to pass an option `php-cli-options` to the `core:archive` command. The given cli options will be forwarded to the actual PHP command. This allows to for example specifiy a different memory limit for the archiving process like this: `./console core:archive --php-cli-options="-d memory_limit=8G"`
+ * New less variable `@theme-color-menu-contrast-textSelected` that lets you specify the color of a selected menu item.
 
 ### Internal change
  * When generating a new plugin skeleton via `generate:plugin` command, plugin name must now contain only letters and numbers.
