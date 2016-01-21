@@ -192,4 +192,13 @@ $( document ).ready(function() {
         $('a[name="main"]').attr('tabindex', -1).focus();
         $(window).scrollTo($('a[name="main"]'));
     });
+
+    // Only use the "outline" CSS property on focus, when the keyboard is being used (do not show the outline when clicking with the mouse)
+    $("body").on("mousedown", "*", function(e) {
+        if (($(this).is(":focus") || $(this).is(e.target)) && $(this).css("outline-style") == "none") {
+            $(this).css("outline", "none").on("blur", function() {
+                $(this).off("blur").css("outline", "");
+            });
+        }
+    });
 });
