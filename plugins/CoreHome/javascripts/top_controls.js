@@ -85,10 +85,10 @@ function selectPeriodRadioButton(button){
     button.addClass('checked');
     button.find('input').click();
 
-    blockPropegation('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a');
+    blockPropagation('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a');
 }
 
-function blockPropegation(elements){
+function blockPropagation(elements){
     $(elements).keydown(function(e){
         e.stopPropagation();
     })

@@ -562,7 +562,7 @@ $( document ).ready(function() {
         toggleTopControlsMenu(e, '.periodSelector', calendarElementsToIndex);
     });
 
-    blockPropegation('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a');
+    blockPropagation('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a');
 
     $('.periodSelector .form-radio').keydown(function(e){
         e.stopPropagation();
