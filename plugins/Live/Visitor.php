@@ -359,6 +359,8 @@ class Visitor implements VisitorInterface
             $ecommerceConversion['itemDetails'] = $itemsDetails;
         }
 
+        $actionDetails = array_values($actionDetails);
+
         // Enrich with time spent per action
         foreach($actionDetails as $actionIdx => &$actionDetail) {
 
