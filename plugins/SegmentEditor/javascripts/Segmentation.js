@@ -423,6 +423,12 @@ Segmentation = (function($) {
             doDragDropBindings();
         };
 
+        var displayFormAddNewSegment = function (e) {
+            closeAllOpenLists();
+            addForm("new");
+            doDragDropBindings();
+        };
+
         var filterSegmentList = function (keyword) {
             var curTitle;
             clearFilterSegmentList();
@@ -508,9 +514,7 @@ Segmentation = (function($) {
 
             self.target.on('click', '.add_new_segment', function (e) {
                 e.stopPropagation();
-                closeAllOpenLists();
-                addForm("new");
-                doDragDropBindings();
+                displayFormAddNewSegment(e);
             });
 
             self.target.on('change', "select.metricList", function (e, persist) {
@@ -837,11 +841,13 @@ Segmentation = (function($) {
         function openEditFormGivenSegment(option) {
             var idsegment = option.attr("data-idsegment");
 
-            var segment = getSegmentFromId(idsegment);
-
-            segment.definition = option.data("definition");
-
-            openEditForm(segment);
+            if(idsegment.length == 0) {
+                displayFormAddNewSegment();
+            } else {
+                var segment = getSegmentFromId(idsegment);
+                segment.definition = option.data("definition");
+                openEditForm(segment);
+            }
         }
 
         var doDragDropBindings = function(){
