@@ -113,7 +113,7 @@ Page URLs
 label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate,avg_time_generation
 /index.htm,9,9,11%,00:05:20,11%,0.3s
 Page URL not defined,9,17,0%,00:00:00,0%,0.22s
-/thankyou,8,16,0%,00:06:00,100%,0.31s
+/thankyou,8,16,0%,00:03:00,100%,0.31s
 /products,1,1,100%,00:00:00,100%,0.15s
 
 Entry pages
