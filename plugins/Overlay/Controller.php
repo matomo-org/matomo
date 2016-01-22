@@ -85,7 +85,6 @@ class Controller extends \Piwik\Plugin\Controller
             'label' => $label,
             'format' => 'original',
             'format_metrics' => 0,
-            'serialize' => '0'
         );
 
         if (!empty($segment)) {

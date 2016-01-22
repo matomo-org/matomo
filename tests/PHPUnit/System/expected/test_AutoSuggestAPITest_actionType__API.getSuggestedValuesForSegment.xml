@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>pageviews</row>
+	<row>contents</row>
+	<row>sitesearches</row>
+	<row>events</row>
+	<row>outlinks</row>
+	<row>downloads</row>
+</result>

@@ -23,7 +23,7 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
     public $keywords = array(
         'free > proprietary', // testing a keyword containing >
         'peace "," not war', // testing a keyword containing ,
-        'justice )(&^#%$ NOT corruption!',
+        'justice )(&^#%$ NOT \'" corruption!',
     );
 
     public function setUp()

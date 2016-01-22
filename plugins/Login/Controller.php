@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
-use Piwik\Auth as AuthInterface;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -49,7 +48,7 @@ class Controller extends \Piwik\Plugin\Controller
      * @param PasswordResetter $passwordResetter
      * @param AuthInterface $auth
      * @param SessionInitializer $authenticatedSessionFactory
-\     */
+     */
     public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null)
     {
         parent::__construct();
@@ -185,9 +184,10 @@ class Controller extends \Piwik\Plugin\Controller
      * Authenticate user and password.  Redirect if successful.
      *
      * @param string $login user name
-     * @param string $password md5 password
+     * @param string $password plain-text or hashed password
      * @param bool $rememberMe Remember me?
      * @param string $urlToRedirect URL to redirect to, if successfully authenticated
+     * @param bool $passwordHashed indicates if $password is hashed
      * @return string failure message if unable to authenticate
      */
     protected function authenticateAndRedirect($login, $password, $rememberMe, $urlToRedirect = false, $passwordHashed = false)
@@ -216,7 +216,32 @@ class Controller extends \Piwik\Plugin\Controller
     protected function getMessageExceptionNoAccess()
     {
         $message = Piwik::translate('Login_InvalidNonceOrHeadersOrReferrer', array('<a href="?module=Proxy&action=redirect&url=' . urlencode('http://piwik.org/faq/how-to-install/#faq_98') . '" target="_blank">', '</a>'));
-        // Should mention trusted_hosts or link to FAQ
+
+        $message .= $this->getMessageExceptionNoAccessWhenInsecureConnectionMayBeUsed();
+
+        return $message;
+    }
+
+    /**
+     * The Session cookie is set to a secure cookie, when SSL is mis-configured, it can cause the PHP session cookie ID to change on each page view.
+     * Indicate to user how to solve this particular use case by forcing secure connections.
+     *
+     * @return string
+     */
+    protected function getMessageExceptionNoAccessWhenInsecureConnectionMayBeUsed()
+    {
+        $message = '';
+        if(Url::isSecureConnectionAssumedByPiwikButNotForcedYet()) {
+            $message = '<br/><br/>' . Piwik::translate('Login_InvalidNonceSSLMisconfigured',
+                    array(
+                        '<a href="?module=Proxy&action=redirect&url=' . urlencode('<a href="http://piwik.org/faq/how-to/faq_91/">') . '">',
+                        '</a>',
+                        'config/config.ini.php',
+                        '<pre>force_ssl=1</pre>',
+                        '<pre>[General]</pre>',
+                    )
+                );
+        }
         return $message;
     }
 
@@ -224,7 +249,6 @@ class Controller extends \Piwik\Plugin\Controller
      * Reset password action. Stores new password as hash and sends email
      * to confirm use.
      *
-     * @param none
      */
     function resetPassword()
     {

@@ -1,5 +1,6 @@
 {
     "CoreAdminHome": {
+        "AddNewTrustedHost": "Lägg till en ny betrodd värd",
         "Administration": "Administration",
         "ArchivingSettings": "Inställningar för arkivering",
         "BrandingSettings": "Varumärkesinställningar",
@@ -22,7 +23,6 @@
         "JavaScriptTracking": "Spårning med JavaScript",
         "JSTracking_CampaignKwdParam": "Parameter för nyckelorden i kampanjen",
         "JSTracking_CampaignNameParam": "villkor för kampanjnamn",
-        "JSTracking_CodeNote": "Se till att denna kod finns på varje sida av din hemsida före %1$s taggen.",
         "JSTracking_CustomCampaignQueryParam": "Använd den egna förfrågan för parameterns namn för kampanjnamn och nyckelord",
         "JSTracking_CustomCampaignQueryParamDesc": "Observera: %1$sPiwik kommer automatiskt upptäcka parametrar för Google Analytics. %2$s",
         "JSTracking_DisableCookies": "Inaktivera spårnings cookies",

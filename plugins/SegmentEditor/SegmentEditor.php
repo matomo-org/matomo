@@ -10,8 +10,6 @@ namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\Config;
 use Piwik\Db;
-use Piwik\DbHelper;
-use Piwik\Version;
 
 /**
  */

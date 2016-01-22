@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\ProxyHttp;
 use Piwik\Settings\UserSetting;
 
 /**
@@ -26,7 +27,9 @@ class CoreAdminHome extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'UsersManager.deleteUser'         => 'cleanupUser',
-            'API.DocumentationGenerator.@hideExceptForSuperUser' => 'displayOnlyForSuperUser'
+            'API.DocumentationGenerator.@hideExceptForSuperUser' => 'displayOnlyForSuperUser',
+            'Template.jsGlobalVariables' => 'addJsGlobalVariables',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
 
@@ -57,10 +60,28 @@ class CoreAdminHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreAdminHome/javascripts/generalSettings.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/donate.js";
         $jsFiles[] = "plugins/CoreAdminHome/javascripts/pluginSettings.js";
+        $jsFiles[] = "plugins/CoreAdminHome/javascripts/protocolCheck.js";
     }
 
     public function displayOnlyForSuperUser(&$hide)
     {
         $hide = !Piwik::hasUserSuperUserAccess();
+    }
+
+    public function addJsGlobalVariables(&$out)
+    {
+        if (ProxyHttp::isHttps()) {
+            $isHttps = 'true';
+        } else {
+            $isHttps = 'false';
+        }
+
+        $out .= "piwik.hasServerDetectedHttps = $isHttps;\n";
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'CoreAdminHome_ProtocolNotDetectedCorrectly';
+        $translationKeys[] = 'CoreAdminHome_ProtocolNotDetectedCorrectlySolution';
     }
 }

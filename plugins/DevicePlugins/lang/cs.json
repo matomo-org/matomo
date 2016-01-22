@@ -3,7 +3,7 @@
         "BrowserWithNoPluginsEnabled": "%1$s bez povolených zásuvných modulů",
         "BrowserWithPluginsEnabled": "%1$s s povolenými zásuvnými moduly %2$s",
         "PluginDescription": "Hlásí podporované zásuvné moduly v prohlížečích návštěvníků.",
-        "PluginDetectionDoesNotWorkInIE": "Poznámka: Detekce zásuvných modulů nepracuje v prohlížeči Interet Explorer. Toto hlášení je založeno na ostatních prohlížečích",
+        "PluginDetectionDoesNotWorkInIE": "Poznámka: Detekce zásuvných modulů nepracuje v prohlížeči Interet Explorer před verzí 11. Toto hlášení je založeno na datech z ostatních prohlížečů a novějších verzích IE.",
         "WidgetPlugins": "Seznam zásuvných modulů",
         "WidgetPluginsDocumentation": "Toto hlášení zobrazuje zásuvné moduly, které měli vaši návštěvníci povoleny. Tato informace může být důležitá při rozhodování o tom, jakým způsobem prezentovat obsah."
     }

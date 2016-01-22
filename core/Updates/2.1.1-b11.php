@@ -94,7 +94,7 @@ class Updates_2_1_1_b11 extends Updates
                     foreach ($missingIdArchives as $missingIdArchive) {
                         $params[] = array_values($missingIdArchive);
                     }
-                    BatchInsert::tableInsertBatch($table, array_keys(reset($missingIdArchives)), $params, $throwException = false);
+                    BatchInsert::tableInsertBatch($table, array_keys(reset($missingIdArchives)), $params, $throwException = false, $charset = 'latin1');
                 } catch (\Exception $ex) {
                     Updater::handleQueryError($ex, "<batch insert>", false, __FILE__);
                 }

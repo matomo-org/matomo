@@ -14,7 +14,6 @@
         "InvalidPluginsWarning": "Os seguintes plugins não são compatíveis com %1$s e não puderam ser carregados: %2$s.",
         "JavaScriptTracking": "Monitorização por JavaScript",
         "JSTracking_CampaignKwdParam": "Parâmetro da Palavra Chave da Campanha",
-        "JSTracking_CodeNote": "Certifique-se que este código se encontra em todas as páginas do seu sítio de internet antes da etiqueta %1$s.",
         "JSTracking_DisableCookies": "Desabilitar todos os cookies de rastreio.",
         "JSTracking_EnableDoNotTrack": "Ativar deteção NãoSeguir do lado do cliente",
         "JSTracking_MergeSubdomains": "Seguir visitantes através todos os subdomínios de",

@@ -197,7 +197,7 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it("should not fail when default widget selection changed", function (done) {
+    it.skip("should not fail when default widget selection changed", function (done) {
         expect.screenshot("default_widget_selection_changed").to.be.capture(function (page) {
             page.load(url);
             page.click('.dashboard-manager .title');
@@ -206,7 +206,7 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it("should create new dashboard with new default widget selection when create dashboard process completed", function (done) {
+    it.skip("should create new dashboard with new default widget selection when create dashboard process completed", function (done) {
         expect.screenshot("create_new").to.be.capture(function (page) {
             page.click('.dashboard-manager .title');
             page.click('li[data-action=createDashboard]');

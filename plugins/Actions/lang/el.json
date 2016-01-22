@@ -1,7 +1,8 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Μέσος όρος βάσει των %s επισκέψεων %s μεταξύ %s και %s",
+        "AvgGenerationTimeTooltip": "Μέσος όρος βάσει %1$s επισκέψεων %2$s μεταξύ %3$s και %4$s",
         "ColumnClickedURL": "URL επιλογής",
+        "ColumnActionURL": "Διεύθυνση URL ενέργειας",
         "ColumnClicks": "Κλικ",
         "ColumnClicksDocumentation": "Οι φορές που πατήθηκε αυτός ο σύνδεσμος.",
         "ColumnDownloadURL": "URL λήψης",
@@ -60,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Σελίδες που Ακολουθούν μια Αναζήτηση Ιστοσελίδας",
         "WidgetSearchCategories": "Κατηγορίες Αναζήτησης",
         "WidgetSearchKeywords": "Λέξεις-κλειδιά Αναζήτησης Ιστοσελίδας",
-        "WidgetSearchNoResultKeywords": "Λέξεις-κλειδιά Χωρίς Αποτελέσματα"
+        "WidgetSearchNoResultKeywords": "Λέξεις-κλειδιά Χωρίς Αποτελέσματα",
+        "ActionType": "Τύπος Ενέργειας"
     }
 }

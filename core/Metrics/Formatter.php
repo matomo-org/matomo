@@ -8,9 +8,7 @@
 namespace Piwik\Metrics;
 
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
-use Piwik\Intl\Data\Provider\CurrencyDataProvider;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Metric;

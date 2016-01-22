@@ -11,7 +11,6 @@ namespace Piwik\Plugins\SegmentEditor\tests\Integration;
 use Piwik\Plugins\SegmentEditor\SegmentFormatter;
 use Piwik\Plugins\SegmentEditor\SegmentList;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Translate;
 use Exception;
@@ -86,6 +85,12 @@ class SegmentFormatterTest extends IntegrationTestCase
 
         $readable = $this->formatter->getHumanReadable($segment = 'browserVersion!=', $this->idSite);
         $this->assertSame('Browser version is not null nor empty', $readable);
+    }
+
+    public function test_getHumanReadable_ShouldHandleAUrlDecodedSegment()
+    {
+        $readable = $this->formatter->getHumanReadable($segment = 'pageUrl%3D%40piwik%2CvisitId!%3D1', $this->idSite);
+        $this->assertSame('Page URL contains "piwik" or Visit ID is not "1"', $readable);
     }
 
     /**

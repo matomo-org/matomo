@@ -1,6 +1,8 @@
 {
     "Provider": {
         "ColumnProvider": "Ponudnik",
+        "PluginDescription": "Poročilo o obiskovalčevem ponudniku dostopa do internetnih storitev.",
+        "ProviderReportDocumentation": "To poročilo prikazuje ponudnike dostopa do internetnih storitve prek katerih so obiskovalci dostopali do vaše spletne strani. Za podrobnosti lahko kliknete na ime posameznega ponudnika. %s Če Piwik ne more določiti obiskovalčevega ponudnika, je le-ta naveden kot IP naslov.",
         "WidgetProviders": "Ponudniki",
         "ProviderReportFooter": "Neznan ponudnik pomeni, da IP številke ni bilo mogoče povezati s ponudnikom."
     }

@@ -10,7 +10,6 @@ namespace Piwik\Plugin;
 
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
-use Piwik\Date;
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
@@ -22,6 +21,7 @@ use Piwik\Tracker\TrackerConfig;
 use Piwik\Url;
 use Piwik\Version;
 use Piwik\View;
+use Piwik\ProxyHttp;
 
 /**
  * Base class of plugin controllers that provide administrative functionality.
@@ -87,6 +87,31 @@ abstract class ControllerAdmin extends Controller
         self::setBasicVariablesAdminView($view);
     }
 
+    private static function notifyIfURLIsNotSecure()
+    {
+        $isURLSecure = ProxyHttp::isHttps();
+        if ($isURLSecure) {
+            return;
+        }
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            return;
+        }
+
+        $message = Piwik::translate('General_CurrentlyUsingUnsecureHttp');
+
+        $message .= " ";
+
+        $message .= Piwik::translate('General_ReadThisToLearnMore',
+            array('<a rel="noreferrer" target="_blank" href="https://piwik.org/faq/how-to/faq_91/">', '</a>')
+          );
+
+        $notification = new Notification($message);
+        $notification->context = Notification::CONTEXT_WARNING;
+        $notification->raw     = true;
+        Notification\Manager::notify('ControllerAdmin_HttpIsUsed', $notification);
+    }
+
     /**
      * @ignore
      */
@@ -104,6 +129,7 @@ abstract class ControllerAdmin extends Controller
             Notification\Manager::notify('ControllerAdmin_ConfigNotWriteable', $notification);
         }
     }
+
 
     private static function notifyIfEAcceleratorIsUsed()
     {
@@ -196,6 +222,7 @@ abstract class ControllerAdmin extends Controller
     {
         self::notifyWhenTrackingStatisticsDisabled();
         self::notifyIfEAcceleratorIsUsed();
+        self::notifyIfURLIsNotSecure();
 
         $view->topMenu  = MenuTop::getInstance()->getMenu();
         $view->userMenu = MenuUser::getInstance()->getMenu();

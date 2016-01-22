@@ -198,11 +198,18 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite Site ID
      * @param bool|false|string $visitorId The ID of the visitor whose profile to retrieve.
      * @param bool|false|string $segment
+     * @param bool|false|int $limitVisits
      * @return array
      */
-    public function getVisitorProfile($idSite, $visitorId = false, $segment = false)
+    public function getVisitorProfile($idSite, $visitorId = false, $segment = false, $limitVisits = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
+
+        if ($limitVisits === false) {
+            $limitVisits = VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW;
+        } else {
+            $limitVisits = (int) $limitVisits;
+        }
 
         if ($visitorId === false) {
             $visitorId = $this->getMostRecentVisitorId($idSite, $segment);
@@ -220,7 +227,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $profile = new VisitorProfile($idSite);
-        $result = $profile->makeVisitorProfile($visits, $visitorId, $segment);
+        $result = $profile->makeVisitorProfile($visits, $visitorId, $segment, $limitVisits);
 
         /**
          * Triggered in the Live.getVisitorProfile API method. Plugins can use this event
@@ -253,9 +260,27 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
+        // for faster performance search for a visitor within the last 7 days first
+        $minTimestamp = Date::now()->subDay(7)->getTimestamp();
+
         $dataTable = $this->loadLastVisitorDetailsFromDatabase(
-            $idSite, $period = false, $date = false, $segment, $offset = 0, $limit = 1
+            $idSite, $period = false, $date = false, $segment, $offset = 0, $limit = 1, $minTimestamp
         );
+
+        if (0 >= $dataTable->getRowsCount()) {
+            $minTimestamp = Date::now()->subYear(1)->getTimestamp();
+            // no visitor found in last 7 days, look further back for up to 1 year. This query will be slower
+            $dataTable = $this->loadLastVisitorDetailsFromDatabase(
+                $idSite, $period = false, $date = false, $segment, $offset = 0, $limit = 1, $minTimestamp
+            );
+        }
+
+        if (0 >= $dataTable->getRowsCount()) {
+            // no visitor found in last year, look over all logs. This query might be quite slow
+            $dataTable = $this->loadLastVisitorDetailsFromDatabase(
+                $idSite, $period = false, $date = false, $segment, $offset = 0, $limit = 1
+            );
+        }
 
         if (0 >= $dataTable->getRowsCount()) {
             return false;

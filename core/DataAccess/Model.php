@@ -281,7 +281,14 @@ class Model
 
     public function deletePreviousArchiveStatus($numericTable, $archiveId, $doneFlag)
     {
-        $dbLockName = "deletePreviousArchiveStatus.$numericTable.$archiveId";
+        $tableWithoutLeadingPrefix = $numericTable;
+        $lenNumericTableWithoutPrefix = strlen('archive_numeric_MM_YYYY');
+
+        if (strlen($numericTable) >= $lenNumericTableWithoutPrefix) {
+            $tableWithoutLeadingPrefix = substr($numericTable, strlen($numericTable) - $lenNumericTableWithoutPrefix);
+            // we need to make sure lock name is less than 64 characters see https://github.com/piwik/piwik/issues/9131
+        }
+        $dbLockName = "rmPrevArchiveStatus.$tableWithoutLeadingPrefix.$archiveId";
 
         // without advisory lock here, the DELETE would acquire Exclusive Lock
         $this->acquireArchiveTableLock($dbLockName);

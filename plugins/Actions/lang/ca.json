@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Promig basat en %s accessos %s entre %s i %s",
+        "AvgGenerationTimeTooltip": "Promig basat en %1$s accessos %2$s entre %3$s i %4$s",
         "ColumnClickedURL": "URL picada",
         "ColumnClicks": "Clics",
         "ColumnClicksDocumentation": "Nombre de vegades que s'ha fet clic en aquest enllaç",

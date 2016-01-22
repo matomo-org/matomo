@@ -23,7 +23,6 @@
         "JavaScriptTracking": "Praćenje pomoću JavaScript-a",
         "JSTracking_CampaignKwdParam": "Parametar ključne reči kampanje",
         "JSTracking_CampaignNameParam": "Parametar naziva kampanje",
-        "JSTracking_CodeNote": "Proverite da li se ovaj kod nalazi na svakoj stranici vašeg sajta pre %1$s taga.",
         "JSTracking_CustomCampaignQueryParam": "Korišćenje korisnički definisanih parametara za nazive i ključne reči kampanje",
         "JSTracking_CustomCampaignQueryParamDesc": "%1$sPiwik će automatski prepoznati Google Analytics parametre.%2$s",
         "JSTracking_DisableCookies": "Isključi sve kolačiće koji služe za praćenje",

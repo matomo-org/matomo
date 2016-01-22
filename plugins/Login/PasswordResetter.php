@@ -310,7 +310,7 @@ class PasswordResetter
     }
 
     /**
-     * Hashes a string. By default generates an MD5 hash.
+     * Hashes a string.
      *
      * Derived classes can override this to provide a different hashing implementation.
      *
@@ -378,14 +378,12 @@ class PasswordResetter
      *
      * Derived classes can override this method to provide fewer or more checks.
      *
-     * @param string $password The password to check.
-     * @throws Exception if the password is not 32 bytes long.
+     * @param string $passwordHash The password hash to check.
+     * @throws Exception if the password hash length is incorrect.
      */
-    protected function checkPasswordHash($password)
+    protected function checkPasswordHash($passwordHash)
     {
-        if (strlen($password) != 32) {
-            throw new Exception(Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
-        }
+        UsersManager::checkPasswordHash($passwordHash, Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
     }
 
     /**

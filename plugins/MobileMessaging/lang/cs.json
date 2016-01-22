@@ -35,7 +35,7 @@
         "SettingsMenu": "Mobilní zprávy",
         "SMS_Content_Too_Long": "[příliš dlouhé]",
         "TopLinkTooltip": "Nechte si webové analýzy zasílat na email nebo na svůj mobilní telefon.",
-        "TopMenu": "Email & SMS Reporty",
+        "TopMenu": "Email a SMS reporty",
         "VerificationText": "Kód je %s. Pro ověření vašeh otelefonního čísla tento kód zkopírujte do formuláře přístupného na Piwik > %s > %s."
     }
 }

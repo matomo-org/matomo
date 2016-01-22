@@ -149,7 +149,9 @@
             var widgetUniqueId = widgetParams.module + widgetParams.action;
             currentWidgetLoading = widgetUniqueId;
 
-            widgetsHelper.loadWidgetAjax(widgetUniqueId, widgetParams, function (response) {
+            var ajaxRequest = new ajaxHelper();
+            ajaxRequest.addParams(widgetParams, 'get');
+            ajaxRequest.setCallback(function (response) {
                 // if the widget that was loaded was not for the latest clicked link, do nothing w/ the response
                 if (widgetUniqueId != currentWidgetLoading) {
                     return;
@@ -160,7 +162,8 @@
 
                 // scroll to report
                 piwikHelper.lazyScrollTo(report, 400);
-            }, function (deferred, status) {
+            });
+            ajaxRequest.setErrorCallback(function (deferred, status) {
                 if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
                     return;
                 }
@@ -174,7 +177,20 @@
 
                 report.css('display', 'inline-block').html('<div class="dimensionLoadingError">' + errorMessage + '</div>');
             });
+            ajaxRequest.setFormat('html');
+            ajaxRequest.send(false);
         });
     });
+    
+
+
 
 }(jQuery));
+
+$( document ).ready(function() {
+   $('.accessibility-skip-to-content').click(function(e){
+        $('a[name="main"]').attr('tabindex', -1).focus();
+        $(window).scrollTo($('a[name="main"]'));
+    });
+
+});

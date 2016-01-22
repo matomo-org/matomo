@@ -86,7 +86,7 @@ class Model
 						'goal' as type,
 						goal.name as goalName,
 						goal.idgoal as goalId,
-						goal.revenue as revenue,
+						log_conversion.revenue as revenue,
 						log_conversion.idlink_va,
 						log_conversion.idlink_va as goalPageId,
 						log_conversion.server_time as serverTimePretty,

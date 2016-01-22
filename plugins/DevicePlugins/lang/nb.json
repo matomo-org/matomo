@@ -1,6 +1,9 @@
 {
     "DevicePlugins": {
-        "BrowserWithPluginsEnabled": "%1$s med tillegg %2$s aktivert",
-        "WidgetPlugins": "Liste over tillegg"
+        "BrowserWithNoPluginsEnabled": "%1$s uten noen aktiverte utvidelser",
+        "BrowserWithPluginsEnabled": "%1$s med utvidelsene %2$s aktivert",
+        "PluginDescription": "Rapporter med lister av utvidelser som er støttet i besøkeres nettlesere.",
+        "WidgetPlugins": "Liste over utvidelser",
+        "WidgetPluginsDocumentation": "Denne rapporten viser hvilke utvidelser som dine besøkere har aktivert. Denne informasjonen kan være nyttig for velge riktig måte å presentere ditt innhold."
     }
 }

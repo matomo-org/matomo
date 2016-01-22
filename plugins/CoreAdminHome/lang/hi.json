@@ -20,7 +20,6 @@
         "JavaScriptTracking": "जावास्क्रिप्ट ट्रैकिंग",
         "JSTracking_CampaignKwdParam": "अभियान खोजशब्द प्राचल",
         "JSTracking_CampaignNameParam": "अभियान का नाम प्राचल",
-        "JSTracking_CodeNote": "इस कोड %1$s टैग से पहले अपनी वेबसाइट के हर पृष्ठ पर है सुनिश्चित करें.",
         "JSTracking_CustomCampaignQueryParam": "अभियान का नाम और कीवर्ड के लिए कस्टम क्वेरी प्राचल नाम का प्रयोग करें",
         "JSTracking_CustomCampaignQueryParamDesc": "नोट: %1$s Piwik स्वतः गूगल एनालिटिक्स मापदंडों की पहचान करेगा.%2$s",
         "JSTracking_EnableDoNotTrack": "ग्राहक की ओर \"ट्रैक नहीं\" का पता लगाना सक्षम",

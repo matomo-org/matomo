@@ -11,7 +11,6 @@ namespace Piwik\Plugins\ScheduledReports\tests;
 use Piwik\API\Proxy;
 use Piwik\DataTable;
 use Piwik\Date;
-use Piwik\Plugins\API\API;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;

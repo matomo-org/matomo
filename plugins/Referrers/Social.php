@@ -8,11 +8,9 @@
  */
 namespace Piwik\Plugins\Referrers;
 use Piwik\Cache;
-use Piwik\Common;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Singleton;
-use Piwik\UrlHelper;
 
 /**
  * Contains methods to access search engine definition data.

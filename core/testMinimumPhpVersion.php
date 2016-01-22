@@ -127,7 +127,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         }
 
         if (empty($faviconUrl)) {
-            $faviconUrl = "plugins/CoreHome/images/favicon.ico";
+            $faviconUrl = "plugins/CoreHome/images/favicon.png";
         }
 
         if ($optionalTrace) {

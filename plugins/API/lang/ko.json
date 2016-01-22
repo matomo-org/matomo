@@ -4,6 +4,8 @@
         "KeepTokenSecret": "token_auth는 외부 로그인을 위한 비밀키입니다. %s 절대로 공유하지 마세요 %s!",
         "LoadedAPIs": "성공적으로 %s API를 불러옴",
         "MoreInformation": "Piwik API에 대한 자세한 내용은 %sIntroduction to Piwik API %s 문서와 %sPiwik API Reference%s 문서를 참조하세요.",
+        "PluginDescription": "Piwik 내 모든 데이터는 간단한 API를 통해서 접근할 수 있습니다. 이 플러그인은 웹 분석 데이터를 xml, json, php, csv 등의 형태로 받을 수 있는 웹 서비스 진입로입니다.",
+        "ReportingApiReference": "API 레퍼런스 보고",
         "TopLinkTooltip": "JSON, XML 등의 간단한 API를 통해 프로그래밍 방식으로 웹 로그 분석 데이터에 접근할 수 있습니다.",
         "UserAuthentication": "사용자 인증",
         "UsingTokenAuth": "%s 스크립트 (crontab 등)에서 요청 데이터를 얻고 싶다면 %s는 API를 호출하는 URL (인증 필요)에 매개 변수 %s를 추가해야합니다.",

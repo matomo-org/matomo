@@ -1,7 +1,8 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Média baseada em %s visita(s) %s entre %s e %s",
+        "AvgGenerationTimeTooltip": "Média baseada em %1$s visita(s) %2$s entre %3$s e %4$s",
         "ColumnClickedURL": "URL clicado",
+        "ColumnActionURL": "URL Ação",
         "ColumnClicks": "Cliques",
         "ColumnClicksDocumentation": "O número de vezes que link foi clicado.",
         "ColumnDownloadURL": "URL do Download",
@@ -60,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Seguintes páginas contêm uma pesquisa no site",
         "WidgetSearchCategories": "Categorias de busca",
         "WidgetSearchKeywords": "Busca local por Palavras-Chave",
-        "WidgetSearchNoResultKeywords": "Palavras-Chave de Pesquisas Sem Resultados"
+        "WidgetSearchNoResultKeywords": "Palavras-Chave de Pesquisas Sem Resultados",
+        "ActionType": "Tipo de Ação"
     }
 }

@@ -94,6 +94,7 @@ class UsersManager extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/UsersManager/javascripts/usersManager.js";
         $jsFiles[] = "plugins/UsersManager/javascripts/usersSettings.js";
+        $jsFiles[] = "plugins/UsersManager/javascripts/giveViewAccess.js";
     }
 
     /**
@@ -156,6 +157,20 @@ class UsersManager extends \Piwik\Plugin
         return md5($password);
     }
 
+    /**
+     * Checks the password hash length. Used as a sanity check.
+     *
+     * @param string $passwordHash The password hash to check.
+     * @param string $exceptionMessage Message of the exception thrown.
+     * @throws Exception if the password hash length is incorrect.
+     */
+    public static function checkPasswordHash($passwordHash, $exceptionMessage)
+    {
+        if (strlen($passwordHash) != 32) {  // MD5 hash length
+            throw new Exception($exceptionMessage);
+        }
+    }
+
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = "General_OrCancel";
@@ -165,5 +180,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "UsersManager_ConfirmGrantSuperUserAccess";
         $translationKeys[] = "UsersManager_ConfirmProhibitOtherUsersSuperUserAccess";
         $translationKeys[] = "UsersManager_ConfirmProhibitMySuperUserAccess";
+        $translationKeys[] = "UsersManager_ExceptionUserHasViewAccessAlready";
+        $translationKeys[] = "UsersManager_ExceptionNoValueForUsernameOrEmail";
     }
 }

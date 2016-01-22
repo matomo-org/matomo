@@ -41,7 +41,7 @@ class Website extends Base
             return false;
         }
 
-        $information = $this->getReferrerInformationFromRequest($request);
+        $information = $this->getReferrerInformationFromRequest($request, $visitor);
 
         if ($information['referer_type'] == Common::REFERRER_TYPE_WEBSITE
             && $this->isReferrerInformationNew($visitor, $information)

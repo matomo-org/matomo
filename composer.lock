@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ab862f8d87513f76161fb7aed61b226a",
+    "hash": "de61be52972a0fe8fe751306c271f4b8",
+    "content-hash": "68130b067cdceef8346b47d858b763a3",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -822,16 +823,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.4.2",
+            "version": "3.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "fcb61cc9e669653febdce2cd1a1f0833b569fbb6"
+                "reference": "367970e87a1b6a8feb30d339621af357dc8ab898"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/fcb61cc9e669653febdce2cd1a1f0833b569fbb6",
-                "reference": "fcb61cc9e669653febdce2cd1a1f0833b569fbb6",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/367970e87a1b6a8feb30d339621af357dc8ab898",
+                "reference": "367970e87a1b6a8feb30d339621af357dc8ab898",
                 "shasum": ""
             },
             "require": {
@@ -869,20 +870,20 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2015-09-09 20:28:18"
+            "time": "2015-12-17 22:27:21"
         },
         {
             "name": "piwik/ini",
-            "version": "1.0.4",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/component-ini.git",
-                "reference": "9269255fd187e5bda2e5778041c8d143eb615b0a"
+                "reference": "bd2711ba4d5e20e4ca09b6829dc2831576b59dc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-ini/zipball/9269255fd187e5bda2e5778041c8d143eb615b0a",
-                "reference": "9269255fd187e5bda2e5778041c8d143eb615b0a",
+                "url": "https://api.github.com/repos/piwik/component-ini/zipball/bd2711ba4d5e20e4ca09b6829dc2831576b59dc3",
+                "reference": "bd2711ba4d5e20e4ca09b6829dc2831576b59dc3",
                 "shasum": ""
             },
             "require": {
@@ -902,7 +903,7 @@
             "license": [
                 "LGPL-3.0"
             ],
-            "time": "2015-04-21 04:59:09"
+            "time": "2016-01-14 21:13:33"
         },
         {
             "name": "piwik/network",
@@ -935,6 +936,46 @@
                 "LGPL-3.0"
             ],
             "time": "2014-10-23 03:30:23"
+        },
+        {
+            "name": "piwik/piwik-php-tracker",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/piwik/piwik-php-tracker.git",
+                "reference": "ac3e26bb3e2c8a428ccbf6ca663c2ef37fa47a5e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/piwik/piwik-php-tracker/zipball/ac3e26bb3e2c8a428ccbf6ca663c2ef37fa47a5e",
+                "reference": "ac3e26bb3e2c8a428ccbf6ca663c2ef37fa47a5e",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "."
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "The Piwik Team",
+                    "email": "hello@piwik.org",
+                    "homepage": "http://piwik.org/the-piwik-team/"
+                }
+            ],
+            "description": "PHP Client for Piwik Analytics Tracking API",
+            "homepage": "http://piwik.org",
+            "keywords": [
+                "analytics",
+                "piwik",
+                "tracker"
+            ],
+            "time": "2015-11-11 02:55:37"
         },
         {
             "name": "piwik/referrer-spam-blacklist",

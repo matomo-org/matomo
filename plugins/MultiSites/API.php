@@ -19,7 +19,6 @@ use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Plugins\SitesManager\Model as ModelSitesManager;
 use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -147,7 +146,6 @@ class API extends \Piwik\Plugin\API
                       'limit'       => SettingsPiwik::getWebsitesCountToDisplay(),
                       'showColumns' => '',
                       'hideColumns' => '',
-                      'serialize'   => 0,
                       'format'      => 'original'));
 
             if (!empty($sites)) {

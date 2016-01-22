@@ -8,7 +8,7 @@
     <![endif]-->
 {% endblock %}
 
-{% set title %}{{ siteName|raw }} - {{ 'CoreHome_WebAnalyticsReports'|translate }}{% endset %}
+{% set title %}{{ siteName|raw }}{% if prettyDateLong is defined %} - {{ prettyDateLong }}{% endif %} - {{ 'CoreHome_WebAnalyticsReports'|translate }}{% endset %}
 
 {% block pageDescription %}Web Analytics report for {{ siteName|escape("html_attr") }} - Piwik{% endblock %}
 
@@ -39,13 +39,13 @@
 
         <div class="pageWrap">
 
-            <a name="main"></a>
 
             <div class="top_controls">
                 {% block topcontrols %}
                 {% endblock %}
             </div>
 
+            <a name="main"></a>
             {% block notification %}
                 {% include "@CoreHome/_notifications.twig" %}
             {% endblock %}

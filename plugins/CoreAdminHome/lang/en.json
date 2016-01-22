@@ -24,7 +24,7 @@
         "JavaScriptTracking": "JavaScript Tracking",
         "JSTracking_CampaignKwdParam": "Campaign Keyword parameter",
         "JSTracking_CampaignNameParam": "Campaign Name parameter",
-        "JSTracking_CodeNote": "Make sure this code is on every page of your website before the %1$s tag.",
+        "JSTracking_CodeNoteBeforeClosingHead": "Make sure this code is on every page of your website. We recommend to paste it immediately before the closing %1$s tag.",
         "JSTracking_CustomCampaignQueryParam": "Use custom query parameter names for the campaign name & keyword",
         "JSTracking_CustomCampaignQueryParamDesc": "Note: %1$sPiwik will automatically detect Google Analytics parameters.%2$s",
         "JSTracking_DisableCookies": "Disable all tracking cookies",
@@ -49,6 +49,7 @@
         "JSTrackingIntro5": "If you want to do more than track page views, please check out the %1$sPiwik Javascript Tracking documentation%2$s for the list of available functions. Using these functions you can track goals, custom variables, ecommerce orders, abandoned carts and more.",
         "LogoNotWriteableInstruction": "To use your custom logo instead of the default Piwik logo, give write permission to this directory: %1$s Piwik needs write access for your logos stored in the files %2$s.",
         "FileUploadDisabled": "Uploading files is not enabled in your PHP configuration. To upload your custom logo please set %s in php.ini and restart your webserver.",
+        "LogoUploadFailed": "The uploaded file couldn't be processed. Please check if the file has a valid format.",
         "LogoUpload": "Select a Logo to upload",
         "FaviconUpload": "Select a Favicon to upload",
         "LogoUploadHelp": "Please upload a file in %s formats with a minimum height of %s pixels.",
@@ -87,6 +88,8 @@
         "YouAreOptedOut": "You are currently opted out.",
         "YouMayOptOut": "You may choose not to have a unique web analytics cookie identification number assigned to your computer to avoid the aggregation and analysis of data collected on this website.",
         "YouMayOptOutBis": "To make that choice, please click below to receive an opt-out cookie.",
-        "OptingYouOut": "Opting you out, please wait..."
+        "OptingYouOut": "Opting you out, please wait...",
+        "ProtocolNotDetectedCorrectly": "You are currently viewing Piwik over a secure SSL connection (using https), but Piwik could only detect a non secure connection on the server. ",
+        "ProtocolNotDetectedCorrectlySolution": "To make sure Piwik securely requests and serves your content over HTTPS, you may edit your %s file and either configure your proxy settings, or you may add the line %s below the %s section. %sLearn more%s"
     }
 }

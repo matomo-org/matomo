@@ -245,6 +245,19 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
+    /**
+     * Delete Visit, Unique Visitor and Users metric from 'page' scope custom variables.
+     *
+     * - Custom variables of 'visit' scope: it is expected that these ones have the "visit" column set.
+     * - Custom variables of 'page' scope: we cannot process "Visits" count for these.
+     *   Why?
+     *     "Actions" column is processed with a SELECT count(*).
+     *     A same visit can set the same custom variable of 'page' scope multiple times.
+     *     We cannot sum the values of count(*) as it would be incorrect.
+     *     The way we could process "Visits" Metric for 'page' scope variable is to issue a count(Distinct *) or so,
+     *     but it is no implemented yet (this would likely be very slow for high traffic sites).
+     *
+     */
     protected function removeVisitsMetricsFromActionsAggregate()
     {
         $dataArray = & $this->dataArray->getDataArray();

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<error message="The user has to be either a Super User or the user 'login2' itself." />
+</result>

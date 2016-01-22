@@ -7,13 +7,12 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\API\Request;
 use Piwik\Date;
-use Piwik\Access;
 use Piwik\Option;
 use ReflectionClass;
-use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\OverrideLogin;
 
 /**
  * This fixture is the combination of every other fixture defined by Piwik. Should be used
@@ -21,15 +20,24 @@ use Piwik\Tests\Framework\OverrideLogin;
  */
 class OmniFixture extends Fixture
 {
+    const DEFAULT_SEGMENT = "browserCode==FF";
+
     public $month = '2012-01';
     public $idSite = 'all';
     public $dateTime = '2012-02-01';
+
+    /**
+     * @var Date
+     */
     public $now = null;
-    public $segment = "browserCode==FF";
+    public $segment = self::DEFAULT_SEGMENT;
 
     // Visitor profile screenshot test needs visitor id
     public $visitorIdDeterministic = null;
 
+    /**
+     * @var Fixture[]
+     */
     public $fixtures = array();
 
     private function requireAllFixtures()
@@ -111,18 +119,18 @@ class OmniFixture extends Fixture
 
     public function setUp()
     {
-        foreach ($this->fixtures as $fixture) {
-            echo "Setting up " . get_class($fixture) . "...\n";
+        $firstFixture = array_shift($this->fixtures);
+        $this->setUpFixture($firstFixture);
 
-            $fixture->setUp();
+        $initialSitesProperties = SitesManagerAPI::getInstance()->getAllSites();
+
+        foreach ($this->fixtures as $fixture) {
+            $this->restoreSitesProperties($initialSitesProperties);
+
+            $this->setUpFixture($fixture);
         }
 
         Option::set("Tests.forcedNowTimestamp", $this->now->getTimestamp());
-
-        // launch archiving so tests don't run out of time
-        $date = Date::factory($this->dateTime)->toString();
-        VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date);
-        VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date, urlencode($this->segment));
     }
 
     public function tearDown()
@@ -131,6 +139,36 @@ class OmniFixture extends Fixture
             echo "Tearing down " . get_class($fixture) . "...\n";
 
             $fixture->tearDown();
+        }
+    }
+
+    private function setUpFixture(Fixture $fixture)
+    {
+        echo "Setting up " . get_class($fixture) . "...\n";
+        $fixture->setUp();
+    }
+
+    private function restoreSitesProperties($initialSitesProperties)
+    {
+        foreach ($initialSitesProperties as $idSite => $properties) {
+            Request::processRequest('SitesManager.updateSite', array(
+                'idSite' => $idSite,
+                'siteName' => $properties['name'],
+                'ecommerce' => $properties['ecommerce'],
+                'siteSearch' => $properties['sitesearch'],
+                'searchKeywordParameters' => $properties['sitesearch_keyword_parameters'],
+                'searchCategoryParameters' => $properties['sitesearch_category_parameters'],
+                'excludedIps' => $properties['excluded_ips'],
+                'excludedQueryParameters' => $properties['excluded_parameters'],
+                'timezone' => $properties['timezone'],
+                'currency' => $properties['currency'],
+                'group' => $properties['group'],
+                'startDate' => $properties['ts_created'],
+                'excludedUserAgents' => $properties['excluded_user_agents'],
+                'keepURLFragments' => $properties['keep_url_fragment'],
+                'type' => $properties['type'],
+                'excludeUnknownUrls' => $properties['exclude_unknown_urls']
+            ));
         }
     }
 }

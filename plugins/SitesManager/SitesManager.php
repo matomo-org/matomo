@@ -114,8 +114,11 @@ class SitesManager extends \Piwik\Plugin
     {
         $idSite = (int) $idSite;
 
+        $urls = API::getInstance()->getSiteUrlsFromId($idSite);
+
         // add the 'hosts' entry in the website array
-        $array['hosts'] = $this->getTrackerHosts($idSite);
+        $array['urls']  = $urls;
+        $array['hosts'] = $this->getTrackerHosts($urls);
 
         $website = API::getInstance()->getSiteFromId($idSite);
         $array['exclude_unknown_urls'] = $website['exclude_unknown_urls'];
@@ -252,9 +255,8 @@ class SitesManager extends \Piwik\Plugin
      * @param int $idSite
      * @return array
      */
-    private function getTrackerHosts($idSite)
+    private function getTrackerHosts($urls)
     {
-        $urls = API::getInstance()->getSiteUrlsFromId($idSite);
         $hosts = array();
         foreach ($urls as $url) {
             $url = parse_url($url);
@@ -291,6 +293,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_AliasUrlHelp";
         $translationKeys[] = "SitesManager_OnlyMatchedUrlsAllowed";
         $translationKeys[] = "SitesManager_OnlyMatchedUrlsAllowedHelp";
+        $translationKeys[] = "SitesManager_OnlyMatchedUrlsAllowedHelpExamples";
         $translationKeys[] = "SitesManager_KeepURLFragmentsLong";
         $translationKeys[] = "SitesManager_HelpExcludedIps";
         $translationKeys[] = "SitesManager_ListOfQueryParametersToExclude";

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<nb_visits>27</nb_visits>
+	<nb_actions>76</nb_actions>
+	<nb_visits_converted>27</nb_visits_converted>
+	<bounce_count>13</bounce_count>
+	<sum_visit_length>22694</sum_visit_length>
+	<max_actions>5</max_actions>
+	<bounce_rate>48%</bounce_rate>
+	<nb_actions_per_visit>2.8</nb_actions_per_visit>
+	<avg_time_on_site>841</avg_time_on_site>
+</result>

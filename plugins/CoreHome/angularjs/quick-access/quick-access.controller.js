@@ -16,6 +16,10 @@
         this.sitesModel = siteSelectorModel;
 
         this.onKeypress = function (event) {
+            var areSearchResultsDisplayed = $scope.search && $scope.search.term && $scope.view && $scope.view.searchActive;
+            var isTabKey = 9 == event.which
+            var isEscKey = 27 == event.which
+
             if (38 == event.which) {
                 $scope.highlightPreviousItem();
                 event.preventDefault();
@@ -24,6 +28,10 @@
                 event.preventDefault();
             } else if (13 == event.which) {
                 $scope.clickQuickAccessMenuItem();
+            } else if (isTabKey && areSearchResultsDisplayed) {
+                $scope.deactivateSearch();
+            } else if (isEscKey && areSearchResultsDisplayed) {
+                $scope.deactivateSearch();
             }
         };
 

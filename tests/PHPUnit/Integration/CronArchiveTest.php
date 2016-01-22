@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration;
 
-use Piwik\Archiver\Request;
 use Piwik\CliMulti;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;

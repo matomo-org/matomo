@@ -152,6 +152,6 @@ class Mail extends Zend_Mail
      */
     protected function isHostDefinedAndNotLocal($url)
     {
-        return isset($url['host']) && !in_array($url['host'], Url::getLocalHostnames(), true);
+        return isset($url['host']) && !Url::isLocalHost($url['host']);
     }
 }

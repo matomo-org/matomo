@@ -1,6 +1,7 @@
 {
     "DevicesDetection": {
-        "BrowserEngine": "Nettleser",
+        "BrowserEngine": "Nettlesermotor",
+        "BrowserEngineDocumentation": "Denne rapporten viser dine besøkeres nettlesere brutt ned etter nettlesermotorer. %s den viktigste informasjonen for web-utviklere er hva slags rendering-motor som besøkere bruker. Oppføringen inneholder navnene til motoren fulgt av den mest kjente nettleseren som bruker den motoren.",
         "BrowserEngines": "Nettlesermotorer",
         "BrowserFamily": "Nettleserfamilie",
         "Browsers": "Nettlesere",
@@ -11,7 +12,9 @@
         "Software": "Programvare",
         "ColumnBrowser": "Nettleser",
         "ColumnOperatingSystem": "Operativsystem",
+        "ColumnOperatingSystemVersion": "Operativsystemversjon",
         "Console": "Konsoll",
+        "dataTableLabelBrands": "Merke",
         "dataTableLabelModels": "Modell",
         "dataTableLabelSystemVersion": "Operativsystem-versjon",
         "dataTableLabelTypes": "Type",
@@ -21,16 +24,21 @@
         "DeviceModel": "Enhetsmodell",
         "DevicesDetection": "Besøkendes enheter",
         "DeviceType": "Enhetstype",
+        "FeaturePhone": "Smarttelefon",
         "OperatingSystemFamilies": "Operativsystem-familier",
         "OperatingSystemFamily": "Operativsystemfamilie",
         "OperatingSystems": "Operativsystem",
         "OperatingSystemVersions": "Operativsystem-versjoner",
         "PluginDescription": "Gir utvidet informasjon om brukers enheter, som merke (produsent), modell (enhetsversjon), enhetstype (TV, konsoll, smarttelefon, osv) og mer.",
+        "SmartDisplay": "Smart display",
         "Smartphone": "Smarttelefon",
         "PortableMediaPlayer": "Bærbar mediespiller",
         "Devices": "Enheter",
         "Tablet": "Nettbrett",
+        "Phablet": "Phablet",
         "TV": "TV",
-        "WidgetBrowsers": "Besøkendes nettlesere"
+        "UserAgent": "Bruker-agent",
+        "WidgetBrowsers": "Besøkendes nettlesere",
+        "WidgetBrowsersDocumentation": "Denne rapporten inneholder informasjon om hva slags nettleser som dine besøkere bruker. Alle nettleserversjoner er opplistet separat."
     }
 }

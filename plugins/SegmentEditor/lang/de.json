@@ -7,6 +7,7 @@
         "AutoArchivePreProcessed": "Segmentierte Berichte werden im Voraus verarbeitet (schneller, benötigt archive.php Cron)",
         "AutoArchiveRealTime": "Segmentierte Berichte werden in Echtzeit verarbeitet.",
         "ChooseASegment": "Segment auswählen",
+        "CurrentlySelectedSegment": "Aktuell ausgewähltes Segment: %s",
         "DataAvailableAtLaterDate": "Ihre segmentierten Analytik-Berichte stehen später zur Verfügung. Wir entschuldigen uns für die Unannehmlichkeit.",
         "DefaultAllVisits": "Alle Besuche",
         "DragDropCondition": "Bedingung durch Drag & Drop hinzufügen",
@@ -26,6 +27,9 @@
         "YouMayChangeSetting": "Alternativ können Sie die Einstellung in der Konfigurationsdatei (%s) ändern, oder ändern Sie dieses Segment und wählen '%s'.",
         "YouMustBeLoggedInToCreateSegments": "Sie müssen sich anmelden um eigene Besuchersegmente anzulegen oder zu bearbeiten.",
         "YouDontHaveAccessToCreateSegments": "Sie haben nicht die benötigten Berechtigungen um Segmente anzulegen und zu bearbeiten.",
-        "AddingSegmentForAllWebsitesDisabled": "Das Hinzufügen von Segmenten wurde für alle Websites deaktiviert."
+        "AddingSegmentForAllWebsitesDisabled": "Das Hinzufügen von Segmenten wurde für alle Websites deaktiviert.",
+        "CustomSegment": "Benutzerdefiniertes Segment",
+        "SegmentOperatorIsNullOrEmpty": "Ist NULL oder leer",
+        "SegmentOperatorIsNotNullNorEmpty": "Ist weder NULL noch leer"
     }
 }

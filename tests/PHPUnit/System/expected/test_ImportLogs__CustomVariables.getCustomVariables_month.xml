@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<label>HTTP-code</label>
-		<nb_actions>43</nb_actions>
+		<nb_actions>45</nb_actions>
 		<slots>
 			<row>
 				<scope>page</scope>
@@ -17,9 +17,9 @@
 		<subtable>
 			<row>
 				<label>200</label>
-				<nb_visits>32</nb_visits>
-				<nb_actions>34</nb_actions>
-				<sum_daily_nb_uniq_visitors>32</sum_daily_nb_uniq_visitors>
+				<nb_visits>34</nb_visits>
+				<nb_actions>36</nb_actions>
+				<sum_daily_nb_uniq_visitors>34</sum_daily_nb_uniq_visitors>
 			</row>
 			<row>
 				<label>301</label>
@@ -55,21 +55,21 @@
 	</row>
 	<row>
 		<label>Not-Bot</label>
-		<nb_visits>7</nb_visits>
-		<nb_actions>10</nb_actions>
+		<nb_visits>8</nb_visits>
+		<nb_actions>11</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>5</bounce_count>
+		<bounce_count>6</bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>5</nb_conversions>
-				<nb_visits_converted>5</nb_visits_converted>
-				<revenue>25</revenue>
+				<nb_conversions>6</nb_conversions>
+				<nb_visits_converted>6</nb_visits_converted>
+				<revenue>30</revenue>
 			</row>
 		</goals>
-		<nb_conversions>5</nb_conversions>
-		<revenue>25</revenue>
-		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
+		<nb_conversions>6</nb_conversions>
+		<revenue>30</revenue>
+		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<slots>
 			<row>
@@ -81,21 +81,21 @@
 		<subtable>
 			<row>
 				<label>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24</label>
-				<nb_visits>4</nb_visits>
-				<nb_actions>7</nb_actions>
+				<nb_visits>5</nb_visits>
+				<nb_actions>8</nb_actions>
 				<max_actions>3</max_actions>
 				<sum_visit_length>305</sum_visit_length>
-				<bounce_count>2</bounce_count>
+				<bounce_count>3</bounce_count>
 				<goals>
 					<row idgoal='1'>
-						<nb_conversions>3</nb_conversions>
-						<nb_visits_converted>3</nb_visits_converted>
-						<revenue>15</revenue>
+						<nb_conversions>4</nb_conversions>
+						<nb_visits_converted>4</nb_visits_converted>
+						<revenue>20</revenue>
 					</row>
 				</goals>
-				<nb_conversions>3</nb_conversions>
-				<revenue>15</revenue>
-				<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+				<nb_conversions>4</nb_conversions>
+				<revenue>20</revenue>
+				<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
 			</row>
 			<row>

@@ -56,6 +56,35 @@ class DbTest extends IntegrationTestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessagelock name has to be 64 characters or less
+     */
+    public function test_getDbLock_shouldThrowAnException_IfDbLockNameIsTooLong()
+    {
+        Db::getDbLock(str_pad('test', 65, '1'));
+    }
+
+    public function test_getDbLock_shouldGetLock()
+    {
+        $db = Db::get();
+        $this->assertTrue(Db::getDbLock('MyLock'));
+        // same session still has lock
+        $this->assertTrue(Db::getDbLock('MyLock'));
+
+        Db::setDatabaseObject(null);
+        // different session, should not be able to acquire lock
+        $this->assertFalse(Db::getDbLock('MyLock', 1));
+        // different session cannot release lock
+        $this->assertFalse(Db::releaseDbLock('MyLock'));
+        Db::destroyDatabaseObject();
+
+        // release lock again by using previous session
+        Db::setDatabaseObject($db);
+        $this->assertTrue(Db::releaseDbLock('MyLock'));
+        Db::destroyDatabaseObject();
+    }
+
     public function getDbAdapter()
     {
         return array(

@@ -7,6 +7,7 @@
         "AutoArchivePreProcessed": "Relatórios segmentados são pré-processados ​​(Para agilizar, é necessário usar o cron em: archive.php)",
         "AutoArchiveRealTime": "Relatórios segmentados são processados em tempo real",
         "ChooseASegment": "Escolha um segmento",
+        "CurrentlySelectedSegment": "Segmento atualmente selecionado: %s",
         "DataAvailableAtLaterDate": "Os seus relatórios de análise segmentados estarão disponíveis mais tarde. Pedimos desculpas pela inconveniência.",
         "DefaultAllVisits": "Todas as visitas",
         "DragDropCondition": "Condição Drag & Drop",
@@ -23,8 +24,13 @@
         "ThisSegmentIsVisibleTo": "Este segmento é visível para:",
         "VisibleToAllUsers": "Todos os Usuários",
         "VisibleToMe": "mim",
+        "YouMayChangeSetting": "Alternativamente, você pode alterar a configuração no arquivo de configuração (%s), ou editar este Segmento e escolher %s.",
         "YouMustBeLoggedInToCreateSegments": "Você precisa estar logado para criar e editar segmentos personalizados de visitantes.",
         "YouDontHaveAccessToCreateSegments": "Você não tem o nível de acesso necessário para criar e editar segmentos.",
-        "AddingSegmentForAllWebsitesDisabled": "Adicionar segmentos para todos os sites foi desativado."
+        "AddingSegmentForAllWebsitesDisabled": "Adicionar segmentos para todos os sites foi desativado.",
+        "SegmentXIsAUnionOf": "%s é uma união destes segmentos:",
+        "CustomSegment": "Segmento Personalizado",
+        "SegmentOperatorIsNullOrEmpty": "está nulo ou vazio",
+        "SegmentOperatorIsNotNullNorEmpty": "não está nulo nem vazio"
     }
 }

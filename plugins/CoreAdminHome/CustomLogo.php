@@ -196,16 +196,20 @@ class CustomLogo
         list($width, $height) = getimagesize($file);
         switch ($_FILES[$uploadFieldName]['type']) {
             case 'image/jpeg':
-                $image = imagecreatefromjpeg($file);
+                $image = @imagecreatefromjpeg($file);
                 break;
             case 'image/png':
-                $image = imagecreatefrompng($file);
+                $image = @imagecreatefrompng($file);
                 break;
             case 'image/gif':
-                $image = imagecreatefromgif ($file);
+                $image = @imagecreatefromgif ($file);
                 break;
             default:
                 return false;
+        }
+
+        if (!is_resource($image)) {
+            return false;
         }
 
         $targetWidth = round($width * $targetHeight / $height);

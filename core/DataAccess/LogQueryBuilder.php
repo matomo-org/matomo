@@ -22,6 +22,8 @@ class LogQueryBuilder
             $from = array($from);
         }
 
+        $fromInitially = $from;
+
         if (!$segmentExpression->isEmpty()) {
             $segmentExpression->parseSubExpressionsIntoSqlExpressions($from);
             $segmentSql = $segmentExpression->getSql();
@@ -33,7 +35,16 @@ class LogQueryBuilder
         $joinWithSubSelect = $joins['joinWithSubSelect'];
         $from = $joins['sql'];
 
-        if ($joinWithSubSelect) {
+        // hack for https://github.com/piwik/piwik/issues/9194#issuecomment-164321612
+        $useSpecialConversionGroupBy = (!empty($segmentSql)
+            && strpos($groupBy, 'log_conversion.idgoal') !== false
+            && $fromInitially == array('log_conversion')
+            && strpos($from, 'log_link_visit_action') !== false);
+
+        if ($useSpecialConversionGroupBy) {
+            $innerGroupBy = "CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)";
+            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit, $innerGroupBy);
+        } elseif ($joinWithSubSelect) {
             $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit);
         } else {
             $sql = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit);
@@ -44,6 +55,39 @@ class LogQueryBuilder
         );
     }
 
+    private function hasJoinedTableAlreadyManually($tableToFind, $joinToFind, $tables)
+    {
+        foreach ($tables as $index => $table) {
+            if (is_array($table)
+                && !empty($table['table'])
+                && $table['table'] === $tableToFind
+                && (!isset($table['tableAlias']) || $table['tableAlias'] === $tableToFind)
+                && isset($table['joinOn']) && $table['joinOn'] === $joinToFind) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function findIndexOfManuallyAddedTable($tableToFind, $tables)
+    {
+        foreach ($tables as $index => $table) {
+            if (is_array($table)
+                && !empty($table['table'])
+                && $table['table'] === $tableToFind
+                && (!isset($table['tableAlias']) || $table['tableAlias'] === $tableToFind)) {
+                return $index;
+            }
+        }
+    }
+
+    private function hasTableAddedManually($tableToFind, $tables)
+    {
+        $table = $this->findIndexOfManuallyAddedTable($tableToFind, $tables);
+
+        return isset($table);
+    }
 
     /**
      * Generate the join sql based on the needed tables
@@ -51,10 +95,12 @@ class LogQueryBuilder
      * @throws Exception if tables can't be joined
      * @return array
      */
-    private function generateJoinsString($tables)
+    private function generateJoinsString(&$tables)
     {
-        $knownTables = array("log_visit", "log_link_visit_action", "log_conversion", "log_conversion_item");
-        $visitsAvailable = $actionsAvailable = $conversionsAvailable = $conversionItemAvailable = false;
+        $knownTables = array("log_action", "log_visit", "log_link_visit_action", "log_conversion", "log_conversion_item");
+        $visitsAvailable = $linkVisitActionsTableAvailable = $conversionsAvailable = $conversionItemAvailable = $actionsTableAvailable = false;
+        $defaultLogActionJoin = "log_link_visit_action.idaction_url = log_action.idaction";
+
         $joinWithSubSelect = false;
         $sql = '';
 
@@ -67,13 +113,35 @@ class LogQueryBuilder
             $tables[$actionIndex] = "log_conversion";
             $tables[$conversionIndex] = "log_link_visit_action";
         }
-
         // same as above: action before visit
         $actionIndex = array_search("log_link_visit_action", $tables);
         $visitIndex = array_search("log_visit", $tables);
         if ($actionIndex > 0 && $visitIndex > 0 && $actionIndex > $visitIndex) {
             $tables[$actionIndex] = "log_visit";
             $tables[$visitIndex] = "log_link_visit_action";
+        }
+
+        // we need to add log_link_visit_action dynamically to join eg visit with action
+        $linkVisitAction = array_search("log_link_visit_action", $tables);
+        $actionIndex     = array_search("log_action", $tables);
+        if ($linkVisitAction === false && $actionIndex > 0) {
+            $tables[] = "log_link_visit_action";
+        }
+
+        if ($actionIndex > 0
+            && $this->hasTableAddedManually('log_action', $tables)
+            && !$this->hasJoinedTableAlreadyManually('log_action', $defaultLogActionJoin, $tables)) {
+            // we cannot join the same table with same alias twice, therefore we need to combine the join via AND
+            $tableIndex = $this->findIndexOfManuallyAddedTable('log_action', $tables);
+            $defaultLogActionJoin = '(' . $tables[$tableIndex]['joinOn'] . ' AND ' . $defaultLogActionJoin . ')';
+            unset($tables[$tableIndex]);
+        }
+
+        $linkVisitAction = array_search("log_link_visit_action", $tables);
+        $actionIndex     = array_search("log_action", $tables);
+        if ($linkVisitAction > 0 && $actionIndex > 0 && $linkVisitAction > $actionIndex) {
+            $tables[$actionIndex] = "log_link_visit_action";
+            $tables[$linkVisitAction] = "log_action";
         }
 
         foreach ($tables as $i => $table) {
@@ -96,17 +164,38 @@ class LogQueryBuilder
                 // first table
                 $sql .= $tableSql;
             } else {
-                if ($actionsAvailable && $table == "log_conversion") {
+
+                if ($linkVisitActionsTableAvailable && $table === 'log_action') {
+                    $join = $defaultLogActionJoin;
+
+                    if ($this->hasJoinedTableAlreadyManually($table, $join, $tables)) {
+                        $actionsTableAvailable = true;
+                        continue;
+                    }
+
+                } elseif ($linkVisitActionsTableAvailable && $table == "log_conversion") {
                     // have actions, need conversions => join on idvisit
                     $join = "log_conversion.idvisit = log_link_visit_action.idvisit";
-                } elseif ($actionsAvailable && $table == "log_visit") {
+                } elseif ($linkVisitActionsTableAvailable && $table == "log_visit") {
                     // have actions, need visits => join on idvisit
                     $join = "log_visit.idvisit = log_link_visit_action.idvisit";
+
+                    if ($this->hasJoinedTableAlreadyManually($table, $join, $tables)) {
+                        $visitsAvailable = true;
+                        continue;
+                    }
+
                 } elseif ($visitsAvailable && $table == "log_link_visit_action") {
                     // have visits, need actions => we have to use a more complex join
                     // we don't hande this here, we just return joinWithSubSelect=true in this case
                     $joinWithSubSelect = true;
                     $join = "log_link_visit_action.idvisit = log_visit.idvisit";
+
+                    if ($this->hasJoinedTableAlreadyManually($table, $join, $tables)) {
+                        $linkVisitActionsTableAvailable = true;
+                        continue;
+                    }
+
                 } elseif ($conversionsAvailable && $table == "log_link_visit_action") {
                     // have conversions, need actions => join on idvisit
                     $join = "log_conversion.idvisit = log_link_visit_action.idvisit";
@@ -138,7 +227,8 @@ class LogQueryBuilder
 
             // remember which tables are available
             $visitsAvailable = ($visitsAvailable || $table == "log_visit");
-            $actionsAvailable = ($actionsAvailable || $table == "log_link_visit_action");
+            $linkVisitActionsTableAvailable = ($linkVisitActionsTableAvailable || $table == "log_link_visit_action");
+            $actionsTableAvailable = ($actionsTableAvailable || $table == "log_action");
             $conversionsAvailable = ($conversionsAvailable || $table == "log_conversion");
             $conversionItemAvailable = ($conversionItemAvailable || $table == "log_conversion_item");
         }
@@ -160,10 +250,11 @@ class LogQueryBuilder
      * @param string $groupBy
      * @param string $orderBy
      * @param string $limit
+     * @param null|string $innerGroupBy  If given, this inner group by will be used. If not, we try to detect one
      * @throws Exception
      * @return string
      */
-    private function buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit)
+    private function buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit, $innerGroupBy = null)
     {
         $matchTables = "(log_visit|log_conversion_item|log_conversion|log_action)";
         preg_match_all("/". $matchTables ."\.[a-z0-9_\*]+/", $select, $matches);
@@ -174,12 +265,20 @@ class LogQueryBuilder
                 . "Please use a table prefix.");
         }
 
+        preg_match_all("/". $matchTables . "/", $from, $matchesFrom);
+
         $innerSelect = implode(", \n", $neededFields);
         $innerFrom = $from;
         $innerWhere = $where;
 
         $innerLimit = $limit;
-        $innerGroupBy = "log_visit.idvisit";
+
+        if (!isset($innerGroupBy) && in_array('log_visit', $matchesFrom[1])) {
+            $innerGroupBy = "log_visit.idvisit";
+        } elseif (!isset($innerGroupBy)) {
+            throw new Exception('Cannot use subselect for join as no group by rule is specified');
+        }
+
         $innerOrderBy = "NULL";
         if ($innerLimit && $orderBy) {
             // only When LIMITing we can apply to the inner query the same ORDER BY as the parent query

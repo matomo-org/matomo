@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<login>login1</login>
+		<password>5f4dcc3b5aa765d61d8327deb882cf99</password>
+		<alias>login1</alias>
+		<email>login1@example.com</email>
+		<token_auth>367ea0b18ee1e641089e5d0a4d5f276d</token_auth>
+		<superuser_access>1</superuser_access>
+		
+	</row>
+</result>

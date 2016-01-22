@@ -1,7 +1,8 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Medel baseras på %s träff(ar) %s mellan %s och %s",
+        "AvgGenerationTimeTooltip": "Medel baseras på %1$s träff(ar) %2$s mellan %3$s och %4$s",
         "ColumnClickedURL": "Klickad URL",
+        "ColumnActionURL": "Åtgärds-URL",
         "ColumnClicks": "Klick",
         "ColumnClicksDocumentation": "Antalet gånger som denna länk klickades på.",
         "ColumnDownloadURL": "Nedladdningens URL",
@@ -60,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Sidor från en webbplatssökning",
         "WidgetSearchCategories": "Sök kategorier",
         "WidgetSearchKeywords": "Nyckelord från webbplatssökningar",
-        "WidgetSearchNoResultKeywords": "Nyckelord utan resultat"
+        "WidgetSearchNoResultKeywords": "Nyckelord utan resultat",
+        "ActionType": "Åtgärdstyp"
     }
 }

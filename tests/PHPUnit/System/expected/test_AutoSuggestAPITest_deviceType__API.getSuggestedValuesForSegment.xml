@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>Desktop</row>
+	<row>Smartphone</row>
+	<row>Phablet</row>
+	<row>Tablet</row>
 </result>

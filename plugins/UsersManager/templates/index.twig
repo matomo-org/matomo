@@ -15,6 +15,8 @@
         {% endset %}
 
         <div piwik-siteselector
+             show-selected-site="true"
+             only-sites-with-admin-access="true"
              class="sites_autocomplete"
              siteid="{{ idSiteSelected }}"
              sitename="{{ defaultReportSiteName }}"
@@ -54,6 +56,7 @@
         {% set accesInvalid %}<img src='plugins/UsersManager/images/no-access.png' class='updateAccess' />{% endset %}
         {% set superUserAccess %}<span title="{{ 'UsersManager_ExceptionSuperUserAccess'|translate }}">N/A</span>{% endset %}
         {% for login,access in usersAccessByWebsite %}
+            {% if userIsSuperUser or (hasOnlyAdminAccess and (access!='noaccess' or idSiteSelected == 'all'))  %}
             <tr>
                 <td id='login'>{{ login }}</td>
                 <td>{{ usersAliasByLogin[login]|raw }}</td>
@@ -83,11 +86,33 @@
                     {% endif %}
                 </td>
             </tr>
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>
     <div id="accessUpdated" style="vertical-align:top;"></div>
 </div>
+
+{% if hasOnlyAdminAccess %}
+    <p>
+        <button id="showGiveViewAccessForm" class="add-user btn btn-lg btn-flat">
+            <span class="icon-add"></span>
+            {{ 'UsersManager_GiveViewAccessTitle'|translate('"' ~ defaultReportSiteName ~ '"')|raw }}
+        </button>
+    </p>
+    <form id="giveViewAccessForm">
+        <div class="form-group">
+            <input type="text" name="user_invite"
+                   id="user_invite"
+                   placeholder="{{ 'UsersManager_EnterUsernameOrEmail'|translate|e('html_attr') }}"
+                   title="{{ 'UsersManager_GiveViewAccessInstructions'|translate("'" ~ defaultReportSiteName ~ "'")|e('html_attr') }}">
+        </div>
+
+         <input class="btn" type="button" id="giveUserAccessToViewReports" value="{{ 'UsersManager_GiveViewAccess'|translate|e('html_attr') }}">
+    </form>
+    {{ ajax.errorDiv('ajaxErrorGiveViewAccess') }}
+    {{ ajax.loadingDiv('ajaxLoadingGiveViewAccess') }}
+{% endif %}
 
 <div class="ui-confirm" id="confirm">
     <h2>{{ 'UsersManager_ChangeAllConfirm'|translate("<span id='login'></span>")|raw }}</h2>

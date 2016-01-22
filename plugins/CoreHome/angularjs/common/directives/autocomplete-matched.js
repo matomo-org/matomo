@@ -37,7 +37,7 @@
                         return;
                     }
 
-                    var content = element.text();
+                    var content = piwik.helper.htmlEntities(element.text());
                     var startTerm = content.toLowerCase().indexOf(searchTerm.toLowerCase());
 
                     if (-1 !== startTerm) {

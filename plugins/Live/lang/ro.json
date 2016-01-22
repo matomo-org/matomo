@@ -1,11 +1,9 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s%2$s casute abandonate%3$s si %4$s obiective abandonte %5$svaloare total de %6$s%7$s.",
         "AveragePageGenerationTime": "Fiecare pagină a avut, în medie %1$s pentru a încărca pentru acest vizitator.",
         "CalculatedOverNPageViews": "Calculat folosind aceast vizitator trecut %1$s pagini văzute.",
         "ClickToViewMoreAboutVisit": "Click pentru a vedea mai multe informații despre această vizită",
         "ConvertedNGoals": "Convertit %s Goluri",
-        "EcommerceSummaryConversions": "%1$s%2$s comenzi pentru un total de %3$s%4$s, produse achizitionate %5$s .",
         "FirstVisit": "Prima vizita",
         "GoalType": "Tip",
         "HideMap": "ascunde hartă",
@@ -33,7 +31,6 @@
         "VisitorProfile": "Profilul vizitator",
         "VisitorsInRealTime": "Vizitatori în timp real",
         "VisitorsLastVisit": "Ultima vizită a acestui vizitator a avut loc cu %s zile în urmă.",
-        "VisitsFrom": "%1$s%2$s vizite%3$s de la",
-        "VisitSummary": "A petrecut un total de %1$s%2$s pe site-ul%3$s și%4$s vizionari %5$s paginile %6$s în vizite de .%7$s"
+        "VisitsFrom": "%1$s%2$s vizite%3$s de la"
     }
 }

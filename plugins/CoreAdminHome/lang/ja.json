@@ -24,7 +24,6 @@
         "JavaScriptTracking": "JavaScriptトラッキング",
         "JSTracking_CampaignKwdParam": "キャンペーン用キーワードのパラメーター",
         "JSTracking_CampaignNameParam": "キャンペーン名のパラメーター",
-        "JSTracking_CodeNote": "あなたのウェブサイトのすべてのページの%1$s タグの前に、このコードがあることを確認してください。",
         "JSTracking_CustomCampaignQueryParam": "キャンペーン名とキーワード用のカスタムクエリパラメータ名を使用",
         "JSTracking_CustomCampaignQueryParamDesc": "注： %1$sPiwikは自動的にGoogle Analyticsのパラメータを検出します。%2$s",
         "JSTracking_DisableCookies": "すべてのトラッキングクッキーを無効にする",

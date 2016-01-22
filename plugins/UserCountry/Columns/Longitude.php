@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\UserCountry\Columns;
 
-use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\Segment;

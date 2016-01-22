@@ -65,3 +65,50 @@ function initTopControls() {
 
     }
 }
+
+//Keyboard controls for Top Controls Calendar through tab and enter. 
+$( document ).ready(function() {
+    $('.periodSelector').keydown(function(e){
+        toggleCalendar(e);
+    })
+
+    blockPropegation();
+
+    $('.periodSelector .form-radio').keydown(function(e){
+        e.stopPropagation();
+        if(e.which==13){
+            selectPeriodRadioButton($(this));
+        }
+    })
+});
+
+function toggleCalendar(e){
+    var calendarOpen = $('.periodSelector').hasClass('expanded');
+    
+    $('.periodSelector .ui-datepicker-month').attr('tabindex','4');
+    $('.periodSelector td a').attr('tabindex','4');
+    $('.periodSelector .ui-datepicker-year').attr('tabindex','4');
+    $('.periodSelector .form-radio').attr('tabindex','4');
+
+    if(e.which==13){
+        if(calendarOpen){
+            $('.periodSelector').removeClass('expanded');
+        }else{
+            $('.periodSelector').addClass('expanded');
+        }
+    }
+}
+
+function selectPeriodRadioButton(button){
+    $('.periodSelector .form-radio').removeClass('checked');
+    button.addClass('checked');
+    button.find('input').click();
+
+    blockPropegation();
+}
+
+function blockPropegation(){
+    $('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a').keydown(function(e){
+        e.stopPropagation();
+    })
+}

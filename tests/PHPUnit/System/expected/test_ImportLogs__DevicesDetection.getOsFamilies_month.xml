@@ -2,13 +2,13 @@
 <result>
 	<row>
 		<label>Mac</label>
-		<nb_visits>11</nb_visits>
-		<nb_actions>15</nb_actions>
+		<nb_visits>12</nb_visits>
+		<nb_actions>16</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>307</sum_visit_length>
-		<bounce_count>8</bounce_count>
-		<nb_visits_converted>10</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
+		<bounce_count>9</bounce_count>
+		<nb_visits_converted>11</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/os/MAC.gif</logo>
 	</row>
@@ -71,5 +71,17 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/os/UNK.gif</logo>
+	</row>
+	<row>
+		<label>iOS</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<logo>plugins/DevicesDetection/images/os/IOS.gif</logo>
 	</row>
 </result>

@@ -24,7 +24,6 @@
         "JavaScriptTracking": "Tracciamento JavaScript",
         "JSTracking_CampaignKwdParam": "Parametro Keyword Campagna",
         "JSTracking_CampaignNameParam": "Parametro Nome Campagna",
-        "JSTracking_CodeNote": "Assicurati che questo codice si trovi in ognuna delle pagine del tuo sito prima del tag %1$s.",
         "JSTracking_CustomCampaignQueryParam": "Utilizza i nomi dei parametri di query personalizzati per il nome della campagna e parola chiave",
         "JSTracking_CustomCampaignQueryParamDesc": "Nota: %1$sPiwik rivelerà automaticamente i parametri di Google Analytics.%2$s",
         "JSTracking_DisableCookies": "Disabilita tutti i cookies di tracking",
@@ -87,6 +86,8 @@
         "YouAreOptedOut": "Al momento non hai accettato il programma (opt-out).",
         "YouMayOptOut": "Puoi scegliere di non avere un cookie univoco di identificazione per web analytics assegnato al tuo computer al fine di evitare l'aggregazione e l'analisi dei dati raccolti su questo sito web.",
         "YouMayOptOutBis": "Per fare questa scelta, clicca qui di seguito per ricevere un cookie di opt-out.",
-        "OptingYouOut": "Sto acquisendo la tua rinuncia, attendi..."
+        "OptingYouOut": "Sto acquisendo la tua rinuncia, attendi...",
+        "ProtocolNotDetectedCorrectly": "Al momento stai guardando Piwik tramite una connessione sicura SSL (uso di https) ma Piwik ha potuto rilevare sul server solo una connessione non protetta.",
+        "ProtocolNotDetectedCorrectlySolution": "Per assicurarti che Piwik richieda e offra con sicurezza il tuo contenuto tramite HTTPS, puoi modificare il file %s e configurare le impostazioni del proxy, o puoi aggiungere la riga %s sotto la sezione %s. %sLeggi di più%s"
     }
 }

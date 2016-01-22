@@ -28,13 +28,13 @@
 	</row>
 	<row>
 		<label>Mac 10.6</label>
-		<nb_visits>5</nb_visits>
-		<nb_actions>8</nb_actions>
+		<nb_visits>6</nb_visits>
+		<nb_actions>9</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>3</bounce_count>
-		<nb_visits_converted>4</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<bounce_count>4</bounce_count>
+		<nb_visits_converted>5</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>operatingSystemCode==MAC;operatingSystemVersion==10.6</segment>
 		<logo>plugins/DevicesDetection/images/os/MAC.gif</logo>
@@ -116,6 +116,19 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>operatingSystemCode==BOT;operatingSystemVersion==UNK</segment>
 		<logo>plugins/DevicesDetection/images/os/UNK.gif</logo>
+	</row>
+	<row>
+		<label>iOS 7.1</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>operatingSystemCode==IOS;operatingSystemVersion==7.1</segment>
+		<logo>plugins/DevicesDetection/images/os/IOS.gif</logo>
 	</row>
 	<row>
 		<label>Mac</label>

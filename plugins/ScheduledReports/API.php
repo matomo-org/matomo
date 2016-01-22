@@ -27,7 +27,6 @@ use Piwik\Tracker;
 use Piwik\Translate;
 use Piwik\Translation\Translator;
 use Piwik\Url;
-use Piwik\UrlHelper;
 use Psr\Log\LoggerInterface;
 
 /**

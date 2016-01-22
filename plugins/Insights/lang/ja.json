@@ -1,5 +1,6 @@
 {
     "Insights": {
+        "PluginDescription": "トラフィックについてのインサイトを提供しています。インサイトは、ダッシュボードウィジェットだけでなく、データの中で最も重要なトレンドを見るためのレポートで新しいアイコンとして使用できます。",
         "ControlComparedToDescription": "比較する実績値は",
         "ControlFilterByDescription": "すべて、変動のみ、新規のみ、削除のみを表示",
         "DatePeriodCombinationNotSupported": "この日付と期間の組み合わせに対するインサイトは作成できません。",

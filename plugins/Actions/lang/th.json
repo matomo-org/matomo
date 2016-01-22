@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "ค่าเฉลี่ยของจำนวน %s ครั้ง %s ระหว่าง %s และ %s",
+        "AvgGenerationTimeTooltip": "ค่าเฉลี่ยของจำนวน %1$s ครั้ง %2$s ระหว่าง %3$s และ %4$s",
         "ColumnClickedURL": "URL ที่ถูกคลิก",
         "ColumnClicks": "คลิก",
         "ColumnClicksDocumentation": "จำนวนครั้งที่ link นี้ถูกคลิก",

@@ -3,7 +3,6 @@
         "BrowserWithNoPluginsEnabled": "%1$s med inga plugins är aktiverad",
         "BrowserWithPluginsEnabled": "%1$s med plugins %2$s är aktiverad",
         "PluginDescription": "Visar en lista av plugins som stöds i besökarnas webbläsare.",
-        "PluginDetectionDoesNotWorkInIE": "Notering: Plugins upptäckt fungerar inte i Internet Explorer. Denna rapport är endast baserad på icke-IE webbläsare.",
         "WidgetPlugins": "Lista över plugins",
         "WidgetPluginsDocumentation": "Denna rapport visar vilka plugins i webbläsaren som besökarna hade aktiverat. Denna information kan vara viktig för att välja rätt sätt att leverera ditt innehåll."
     }

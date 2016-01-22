@@ -35,12 +35,13 @@ class Menu extends \Piwik\Plugin\Menu
 
         if (Piwik::isUserIsAnonymous()) {
             if (Plugin\Manager::getInstance()->isPluginActivated('ScheduledReports')) {
-                $menu->addItem($login, null, array('module' => 'ScheduledReports', 'action' => 'index'), 970, $login);
+                $menu->addItem($login, null, array('module' => 'ScheduledReports', 'action' => 'index'), 970, Piwik::translate('UsersManager_PersonalSettings'));
             } else {
-                $menu->addItem($login, null, array('module' => 'API', 'action' => 'listAllAPI'), 970, $login);
+                $menu->addItem($login, null, array('module' => 'API', 'action' => 'listAllAPI'), 970, Piwik::translate('API_ReportingApiReference'));
             }
         } else {
-            $menu->addItem($login, null, array('module' => 'UsersManager', 'action' => 'userSettings'), 970, $login);
+            $tooltip = sprintf('%s: %s', Piwik::translate('UsersManager_PersonalSettings'), $login);
+            $menu->addItem($login, null, array('module' => 'UsersManager', 'action' => 'userSettings'), 970, $tooltip);
         }
 
         $module = $this->getLoginModule();

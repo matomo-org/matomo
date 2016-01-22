@@ -29,7 +29,7 @@ class Updates_0_2_10 extends Updates
 			)'                                                                               => 1050,
 
             // 0.1.7 [463]
-            'ALTER IGNORE TABLE `' . Common::prefixTable('log_visit') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 				 CHANGE `location_provider` `location_provider` VARCHAR( 100 ) DEFAULT NULL' => 1054,
 
             // 0.1.7 [470]
@@ -45,7 +45,7 @@ class Updates_0_2_10 extends Updates
 				CHANGE `message` `message` TEXT'                                             => 1054,
 
             // 0.2.2 [489]
-            'ALTER IGNORE TABLE `' . Common::prefixTable('site') . '`
+            'ALTER TABLE `' . Common::prefixTable('site') . '`
 				 CHANGE `feedburnerName` `feedburnerName` VARCHAR( 100 ) DEFAULT NULL'       => 1054,
         );
     }

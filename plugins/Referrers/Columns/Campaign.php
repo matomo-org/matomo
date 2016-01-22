@@ -37,7 +37,7 @@ class Campaign extends Base
 
     /**
      * If we should create a new visit when the campaign changes, check if the campaign info changed and if so
-     * force the tracker to create a new visit.
+     * force the tracker to create a new visit.i
      *
      * @param Request $request
      * @param Visitor $visitor
@@ -50,7 +50,7 @@ class Campaign extends Base
             return false;
         }
 
-        $information = $this->getReferrerInformationFromRequest($request);
+        $information = $this->getReferrerInformationFromRequest($request, $visitor);
 
         if ($information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
             && $this->isReferrerInformationNew($visitor, $information)

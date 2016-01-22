@@ -53,7 +53,7 @@ class ArchivingHelper
                 unset($row[PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT]);
             }
 
-            if ($row['type'] == Action::TYPE_CONTENT) {
+            if (in_array($row['type'], array(Action::TYPE_CONTENT, Action::TYPE_EVENT))) {
                 continue;
             }
 

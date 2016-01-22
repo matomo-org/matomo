@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Trung bình dựa trên %s lần(s) %s giữa %s và %s",
+        "AvgGenerationTimeTooltip": "Trung bình dựa trên %1$s lần(s) %2$s giữa %3$s và %4$s",
         "ColumnClickedURL": "URL đã truy cập",
         "ColumnClicks": "Clicks",
         "ColumnClicksDocumentation": "Số lần đường dẫn này đã được click",

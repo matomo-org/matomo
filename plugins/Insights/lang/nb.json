@@ -1,16 +1,16 @@
 {
     "Insights": {
         "ControlComparedToDescription": "Vekst sammenlignet med",
-        "DayComparedToPreviousDay": "forrige dag",
+        "DayComparedToPreviousDay": "dagen før",
         "DayComparedToPreviousWeek": "samme dag i forrige uke",
-        "DayComparedToPreviousYear": "samme dag i foregående år",
+        "DayComparedToPreviousYear": "samme dag året før",
         "Filter": "Filter",
         "FilterOnlyNew": "Bare nye",
-        "MonthComparedToPreviousMonth": "forrige måned",
+        "MonthComparedToPreviousMonth": "måneden før",
         "MonthComparedToPreviousYear": "samme måned året før",
-        "TitleRowChangeDetails": "'%1$s' endret fra %2$s (%3$s) til %4$s (%5$s) %6$s.",
-        "WeekComparedToPreviousWeek": "forrige uke",
+        "TitleRowChangeDetails": "«%1$s» endret fra %2$s (%3$s) til %4$s (%5$s) %6$s.",
+        "WeekComparedToPreviousWeek": "uken før",
         "WidgetCategory": "Innsikt",
-        "YearComparedToPreviousYear": "forrige år"
+        "YearComparedToPreviousYear": "året før"
     }
 }

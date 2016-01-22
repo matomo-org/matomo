@@ -10,6 +10,7 @@
 		<sum_visit_length>1441</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerName==Google;referrerType==search;referrerKeyword==%3C%3E%26%5C%22the+pdo+extension+is+required+for+this+adapter+but+the+extension+is+not+loaded</segment>
 		<url>http://google.com/search?q=%3C%3E%26%5C%22the+pdo+extension+is+required+for+this+adapter+but+the+extension+is+not+loaded</url>
 	</row>
 </result>

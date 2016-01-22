@@ -1,6 +1,5 @@
 {
     "DevicePlugins": {
-        "PluginDetectionDoesNotWorkInIE": "Poznámka: Plugin detekcia nefunguje v Internet Exploreri. Táto správa je založená len na non-IE prehliadačov.",
         "WidgetPlugins": "Zoznam modulov"
     }
 }

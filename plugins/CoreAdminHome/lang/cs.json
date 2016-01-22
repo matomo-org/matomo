@@ -24,7 +24,7 @@
         "JavaScriptTracking": "Sledování javascriptem",
         "JSTracking_CampaignKwdParam": "Klíčové slovo kampaně",
         "JSTracking_CampaignNameParam": "Název kampaně",
-        "JSTracking_CodeNote": "Ujistěte se, že je následující kód na každé stránce před tagem %1$s.",
+        "JSTracking_CodeNoteBeforeClosingHead": "Ujistěte se, že je následující kód na každé stránce vašeho webu. Doporučujeme ho vložit před uzavírací tag %1$s.",
         "JSTracking_CustomCampaignQueryParam": "Pro jméno kampaně a klíčové slovo použít vlastní parametry dotazu",
         "JSTracking_CustomCampaignQueryParamDesc": "Poznámka: %1$sPiwik automaticky detekuje parametry pro Google analitics.%2$s",
         "JSTracking_DisableCookies": "Zakázat všechny sledovací cookies",
@@ -49,6 +49,7 @@
         "JSTrackingIntro5": "Pokud chcete ne jen sledovat zobrazení stránek, podívejte se na %1$sdokumentaci javascriptového sledování%2$s, kde naleznete seznam dostupných funkcí. S použitím těchto funkcí můžete sledovat cíle, vlastní proměnné, objednávky v e-obchodech, opuštěné košíky a mnoho dalšího.",
         "LogoNotWriteableInstruction": "Pokud chcete místo výcchozího loga použít vlastní, je nutné, abyste měli práva k zápisu adresáře %1$s. Piwik potřebuje práva k zápisu log umístěných v souborech %2$s.",
         "FileUploadDisabled": "Nahrávání souborů je zakázáno v konfiguraci PHP. Pokud chcete nahrát svoje vlastní logo, nastavte %s v souboru php.ini a restartujte webový server.",
+        "LogoUploadFailed": "Nahraný soubor nemohl být zpracován. Ověřte prosím, že má nahraný soubor správný formát.",
         "LogoUpload": "Vyberte logo, které chcete nahrát",
         "FaviconUpload": "Vyberte favicon, kterou chcete nahrát",
         "LogoUploadHelp": "Prosím, nahrajte soubor v jednom z následujících formátů: %s, s minimální výškou %s pixelů.",
@@ -85,8 +86,10 @@
         "WithOptionalRevenue": "s volitelným příjmem",
         "YouAreOptedIn": "Aktuálně nejste vyloučen.",
         "YouAreOptedOut": "Aktuálně jste vyloučeni.",
-        "YouMayOptOut": "Zde se můžete rozhodnout, zda se smí ve Vašem prohlížeči ukládat jedinečná analytická data “cookies”, a zda umožníte provozovateli webové stránky shromažďovat a analyzovat různé statistické údaje.",
+        "YouMayOptOut": "Zde se můžete zakázat uložení cookie s identifikačním číslem přiděleným vašemu počítači a tím zamezit provozovateli této webové stránky shromažďovat a analyzovat statistické údaje.",
         "YouMayOptOutBis": "Pokud jste se rozhodli že ne, klikněte na přiložený odkaz pro uložení deaktivačního cookie ve svém prohlížeči.",
-        "OptingYouOut": "Vylučování, prosím čekejte..."
+        "OptingYouOut": "Vylučování, prosím čekejte...",
+        "ProtocolNotDetectedCorrectly": "Nyní si prohlížíte Piwik zabezpečeným SSL spojením za použití HTTPS, ale Piwik na serveru detekoval pouze nezabezpečené připojení.",
+        "ProtocolNotDetectedCorrectlySolution": "Abyste zajistili, že bude Piwik získávat a poskytovat obsah přes bezpečné HTTPS spojení, můžete upravit váš soubor %s a buď nastavit proxy, nebo přidat řádek %s pod sekci %s. %sDozvědět se více%s"
     }
 }

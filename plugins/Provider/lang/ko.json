@@ -1,7 +1,9 @@
 {
     "Provider": {
         "ColumnProvider": "공급자",
+        "PluginDescription": "방문자의 인터넷 서비스 공급자 확인",
         "ProviderReportDocumentation": "이 보고서는 웹사이트를 방문하는 방문자가 사용하고있는 인터넷 서비스 공급자를 보여줍니다. 자세한 내용은 공급자 이름을 클릭하세요. %s Piwik가 방문자의 공급자를 확인할 수없는 경우는 IP로 표시됩니다.",
-        "WidgetProviders": "공급자"
+        "WidgetProviders": "공급자",
+        "ProviderReportFooter": "알 수 없는 공급자는 해당 IP 주소가 검색되지 않았음을 의미합니다."
     }
 }

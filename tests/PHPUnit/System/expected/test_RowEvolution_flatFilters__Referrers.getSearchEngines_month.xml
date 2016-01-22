@@ -14,7 +14,7 @@
 		<logo>plugins/Referrers/images/searchEngines/google.com.png</logo>
 	</row>
 	<row>
-		<label>Google - justice )(&amp;^#%$ not corruption!</label>
+		<label>Google - justice )(&amp;^#%$ not &amp;#039;" corruption!</label>
 		<nb_visits>8</nb_visits>
 		<nb_actions>8</nb_actions>
 		<max_actions>1</max_actions>
@@ -23,7 +23,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<url>http://google.com/search?q=justice+%29%28%26%5E%23%25%24+not+corruption%21</url>
+		<url>http://google.com/search?q=justice+%29%28%26%5E%23%25%24+not+%27%22+corruption%21</url>
 		<logo>plugins/Referrers/images/searchEngines/google.com.png</logo>
 	</row>
 	<row>

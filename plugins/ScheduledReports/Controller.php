@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\ScheduledReports;
 
-use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;

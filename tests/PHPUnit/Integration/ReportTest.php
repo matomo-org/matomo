@@ -474,7 +474,8 @@ class ReportTest extends IntegrationTestCase
                 'format' => 'original',
                 'module' => 'API',
                 'method' => 'ExampleReport.getExampleReport',
-                'format_metrics' => 'bc'
+                'format_metrics' => 'bc',
+                'serialize' => '0'
             )
         )->willReturn("result");
         Proxy::setSingletonInstance($proxyMock);
@@ -497,7 +498,8 @@ class ReportTest extends IntegrationTestCase
                 'format' => 'original',
                 'module' => 'API',
                 'method' => 'Referrers.getSearchEnginesFromKeywordId',
-                'format_metrics' => 'bc'
+                'format_metrics' => 'bc',
+                'serialize' => '0'
             )
         )->willReturn("result");
         Proxy::setSingletonInstance($proxyMock);
