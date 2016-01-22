@@ -51,6 +51,10 @@ class VisitLastActionTime extends VisitDimension
      */
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
+        if ($request->getParam('ping') == 1) {
+            return false;
+        }
+        
         return $this->onNewVisit($request, $visitor, $action);
     }
 }
