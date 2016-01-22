@@ -400,13 +400,13 @@ Segmentation = (function($) {
             addForm("edit", segment);
 
             $(self.form).find(".segment-content > h3 > span")
-                .text( getSegmentName(segment) )
+                .html( getSegmentName(segment) )
                 .prop('title', getSegmentTooltipEnrichedWithUsername(segment));
 
             $(self.form).find('.available_segments_select > option[data-idsegment="'+segment.idsegment+'"]').prop("selected",true);
 
             $(self.form).find('.available_segments a.dropList')
-                .text( getSegmentName(segment) )
+                .html( getSegmentName(segment) )
                 .prop( 'title', getSegmentTooltipEnrichedWithUsername(segment));
 
             if(segment.definition != ""){
