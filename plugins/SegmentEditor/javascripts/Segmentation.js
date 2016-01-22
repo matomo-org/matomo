@@ -80,15 +80,14 @@ Segmentation = (function($) {
                 var currentDecoded = piwikHelper.htmlDecode(current);
                 var selector = 'div.segmentList ul li[data-definition="'+currentDecoded+'"]';
                 var foundItems = $(selector, this.target);
-                var title = $('<strong></strong>');
+
                 if( foundItems.length > 0) {
                     var idSegment = $(foundItems).first().attr('data-idsegment');
-                    var name = getSegmentNameEnrichedWithUsername( getSegmentFromId(idSegment));
-                    title.text(name);
+                    var title = getSegmentName( getSegmentFromId(idSegment));
                 } else {
-                    title.text(_pk_translate('SegmentEditor_CustomSegment'));
+                    title = _pk_translate('SegmentEditor_CustomSegment');
                 }
-                segmentationTitle.html(title);
+                segmentationTitle.html( "<strong>" + title + "</strong>");
             }
             else {
                 $(this.content).find(".segmentationTitle").text(this.translations['SegmentEditor_DefaultAllVisits']);
@@ -246,7 +245,7 @@ Segmentation = (function($) {
                         injClass = 'class="segmentSelected"';
                     }
                     listHtml += '<li data-idsegment="'+segment.idsegment+'" data-definition="'+ (segment.definition).replace(/"/g, '&quot;') +'" '
-                                +injClass+' title="'+ getSegmentTooltipEnrichedWithUsername(segment) +'"><span class="segname">'+getSegmentNameEnrichedWithUsername(segment)+'</span>';
+                                +injClass+' title="'+ getSegmentTooltipEnrichedWithUsername(segment) +'"><span class="segname">'+getSegmentName(segment)+'</span>';
                     if(self.segmentAccess == "write") {
                         listHtml += '<span class="editSegment" title="'+ self.translations['General_Edit'].toLocaleLowerCase() +'"></span>';
                     }
@@ -302,16 +301,17 @@ Segmentation = (function($) {
 
                 segmentName += ')';
             }
-            return segmentName;
+            return sanitiseSegmentName(segmentName);
         };
 
-        var getSegmentNameEnrichedWithUsername = function(segment) {
-            var segmentName = segment.name;
-            if(hasSuperUserAccessAndSegmentCreatedByAnotherUser(segment)) {
-                segmentName += ' ('  + _pk_translate('General_CreatedByUser', [segment.login]) + ')';
-            }
-            return segmentName;
+        var getSegmentName = function(segment) {
+            return sanitiseSegmentName(segment.name);
         };
+
+        var sanitiseSegmentName = function(segment) {
+            segment = piwikHelper.escape(segment);
+            return segment;
+        }
 
         var getFormHtml = function() {
             var html = self.editorTemplate.find("> .segment-element").clone();
@@ -326,7 +326,7 @@ Segmentation = (function($) {
             for(var i = 0; i < self.availableSegments.length; i++)
             {
                 segment = self.availableSegments[i];
-                newOption = '<option data-idsegment="'+segment.idsegment+'" data-definition="'+(segment.definition).replace(/"/g, '&quot;')+'" title="'+getSegmentTooltipEnrichedWithUsername(segment)+'">'+getSegmentNameEnrichedWithUsername(segment)+'</option>';
+                newOption = '<option data-idsegment="'+segment.idsegment+'" data-definition="'+(segment.definition).replace(/"/g, '&quot;')+'" title="'+getSegmentTooltipEnrichedWithUsername(segment)+'">'+getSegmentName(segment)+'</option>';
                 segmentsDropdown.append(newOption);
             }
             $(html).find(".segment-content > h3").after(getInitialStateRowsHtml()).show();
@@ -399,10 +399,12 @@ Segmentation = (function($) {
         var openEditForm = function(segment){
             addForm("edit", segment);
 
-            $(self.form).find(".segment-content > h3 > span").text(segment.name);
+            $(self.form).find(".segment-content > h3 > span").text( segment.name );
             $(self.form).find('.available_segments_select > option[data-idsegment="'+segment.idsegment+'"]').prop("selected",true);
 
-            $(self.form).find('.available_segments a.dropList').text(getSegmentNameEnrichedWithUsername(segment));
+            $(self.form).find('.available_segments a.dropList')
+                .text( getSegmentName(segment) )
+                .prop( 'title', getSegmentTooltipEnrichedWithUsername(segment));
 
             if(segment.definition != ""){
                 revokeInitialStateRows();
@@ -832,13 +834,12 @@ Segmentation = (function($) {
         function openEditFormGivenSegment(option) {
             var idsegment = option.attr("data-idsegment");
 
-            var segmentExtra = getSegmentFromId(idsegment);
+            var segment = getSegmentFromId(idsegment);
 
-            // this is important
-            segmentExtra.name = option.attr("title");
-            segmentExtra.definition = option.data("definition");
+            segment.name = getSegmentName(segment);
+            segment.definition = option.data("definition");
 
-            openEditForm(segmentExtra);
+            openEditForm(segment);
         }
 
         var doDragDropBindings = function(){
