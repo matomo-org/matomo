@@ -374,16 +374,19 @@ class Visitor implements VisitorInterface
                 // By default, Piwik does not know how long the user stayed on the page
                 // If enableHeartBeatTimer() is used in piwik.js then we can find the accurate time on page for the last pageview
                 $visitTotalTime = $visitorDetailsArray['visitDuration'];
-                $timeSpentOnAllActionsApartFromLastOne = ($visitorDetailsArray['lastActionTimestamp'] - $visitorDetailsArray['firstActionTimestamp']);
+                $timeOfLastAction = Date::factory($actionDetail['serverTimePretty'])->getTimestamp();
+
+                $timeSpentOnAllActionsApartFromLastOne = ($timeOfLastAction - $visitorDetailsArray['firstActionTimestamp']);
                 $timeSpentOnPage = $visitTotalTime - $timeSpentOnAllActionsApartFromLastOne;
 
                 // Safe net, we assume the time is correct when it's more than 10 seconds
                 if ($timeSpentOnPage > 10) {
                     $actionDetail['timeSpent'] = $timeSpentOnPage;
                 }
+
             }
 
-            if(isset($actionDetail['timeSpent'])) {
+            if (isset($actionDetail['timeSpent'])) {
                 $actionDetail['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($actionDetail['timeSpent'], true);
             }
 
