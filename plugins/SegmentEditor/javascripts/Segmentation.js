@@ -399,7 +399,10 @@ Segmentation = (function($) {
         var openEditForm = function(segment){
             addForm("edit", segment);
 
-            $(self.form).find(".segment-content > h3 > span").text( segment.name );
+            $(self.form).find(".segment-content > h3 > span")
+                .text( getSegmentName(segment) )
+                .prop('title', getSegmentTooltipEnrichedWithUsername(segment));
+
             $(self.form).find('.available_segments_select > option[data-idsegment="'+segment.idsegment+'"]').prop("selected",true);
 
             $(self.form).find('.available_segments a.dropList')
@@ -836,7 +839,6 @@ Segmentation = (function($) {
 
             var segment = getSegmentFromId(idsegment);
 
-            segment.name = getSegmentName(segment);
             segment.definition = option.data("definition");
 
             openEditForm(segment);
