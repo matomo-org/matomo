@@ -87,6 +87,7 @@
         "Continue": "Continue",
         "ContinueToPiwik": "Continue to Piwik",
         "CurrentlyUsingUnsecureHttp": "You are currently using Piwik over unsecure HTTP, which can be risky. We recommend you set up Piwik to use SSL (HTTPS) for improved security.",
+        "CreatedByUser": "created by %s",
         "CurrentMonth": "Current Month",
         "CurrentWeek": "Current Week",
         "CurrentYear": "Current Year",
