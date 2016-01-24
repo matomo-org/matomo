@@ -1,15 +1,15 @@
 {
     "API": {
-        "GenerateVisits": "If you don't have data for today you can first generate some data using the %s plugin. You can enable the %s plugin, then click on the 'Visitor Generator' menu in the Piwik Admin area.",
-        "KeepTokenSecret": "This token_auth is as secret as your login and password, %s do not share it%s!",
+        "GenerateVisits": "If you don't have data for today you can first generate some data using the %1$s plugin. You can enable the %2$s plugin, then click on the 'Visitor Generator' menu in the Piwik Admin area.",
+        "KeepTokenSecret": "This token_auth is as secret as your login and password, %1$s do not share it%2$s!",
         "LoadedAPIs": "Successfully loaded %s APIs",
-        "MoreInformation": "For more information about the Piwik APIs, please have a look at the %s Introduction to Piwik API %s and the %s Piwik API Reference %s.",
+        "MoreInformation": "For more information about the Piwik APIs, please have a look at the %1$s Introduction to Piwik API %2$s and the %3$s Piwik API Reference %4$s.",
         "PluginDescription": "All the data in Piwik is available through simple APIs. This plugin is the web service entry point, that you can call to get your Web Analytics data in xml, json, php, csv, etc.",
         "ReportingApiReference": "Reporting API Reference",
         "TopLinkTooltip": "Access your Web Analytics data programmatically through a simple API in json, xml, etc.",
         "UserAuthentication": "User authentication",
-        "UsingTokenAuth": "If you want to %s request data within a script, a crontab, etc. %s you need to add the parameter %s to the API calls URLs that require authentication.",
+        "UsingTokenAuth": "If you want to %1$s request data within a script, a crontab, etc. %2$s you need to add the parameter %3$s to the API calls URLs that require authentication.",
         "Glossary": "Glossary",
-        "LearnAboutCommonlyUsedTerms": "Learn about the commonly used terms to make the most of Piwik Analytics: %s and %s."
+        "LearnAboutCommonlyUsedTerms": "Learn about the commonly used terms to make the most of Piwik Analytics: %1$s and %2$s."
     }
 }
