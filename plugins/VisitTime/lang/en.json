@@ -11,8 +11,8 @@
         "VisitsByDayOfWeek": "Visits by Day of Week",
         "WidgetByDayOfWeekDocumentation": "This graph shows the number of visits your website received on each day of the week.",
         "WidgetLocalTime": "Visits by Local Time",
-        "WidgetLocalTimeDocumentation": "This graph shows what time it was in the %s visitors' time zones %s during their visits.",
+        "WidgetLocalTimeDocumentation": "This graph shows what time it was in the %1$s visitors' time zones %2$s during their visits.",
         "WidgetServerTime": "Visits by Server Time",
-        "WidgetServerTimeDocumentation": "This graph shows what time it was in the %s server's time zone %s during the visits."
+        "WidgetServerTimeDocumentation": "This graph shows what time it was in the %1$s server's time zone %2$s during the visits."
     }
 }
