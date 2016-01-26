@@ -11,8 +11,8 @@
         "VisitsByDayOfWeek": "Posete po danu u nedelji",
         "WidgetByDayOfWeekDocumentation": "Ovaj grafikon prikazuje broj poseta po danu u nedelji",
         "WidgetLocalTime": "Broj poseta po lokalnom vremenu",
-        "WidgetLocalTimeDocumentation": "Ovaj grafikon prikazuje vreme u %s vremenskoj zoni posetilaca %s za vreme njihovih poseta",
+        "WidgetLocalTimeDocumentation": "Ovaj grafikon prikazuje vreme u %1$s vremenskoj zoni posetilaca %2$s za vreme njihovih poseta",
         "WidgetServerTime": "Broj poseta po serverskom vremenu",
-        "WidgetServerTimeDocumentation": "Ovaj grafikon prikazuje vreme u %s vremenskoj zoni servera %s za vreme poseta"
+        "WidgetServerTimeDocumentation": "Ovaj grafikon prikazuje vreme u %1$s vremenskoj zoni servera %2$s za vreme poseta"
     }
 }

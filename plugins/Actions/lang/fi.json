@@ -37,7 +37,7 @@
         "OutlinkDocumentation": "Lähtevä linkki on linkki, joka vie kävijän pois sinun sivultasi (eri verkkotunnukseen).",
         "OutlinksReportDocumentation": "Tämä raportti näyttää hierarkisen listan lähtevistä osoitteista, joita kävijät ovat seuranneet.",
         "PagesReportDocumentation": "Tämä raportti sisältää tietoa sivuista, joilla on käyty. %s Taulukko on organisoitu hierarkisesti, URL:t näytetään puurakenteena.",
-        "PageTitlesReportDocumentation": "Tämä raportti sisältää tietoa käytyjen sivujen otsikoista. %s Sivun otsikko on HTML:n %s-tagi, jonka useimmat selaimet näyttävät ikkunan otsikossa.",
+        "PageTitlesReportDocumentation": "Tämä raportti sisältää tietoa käytyjen sivujen otsikoista. %1$s Sivun otsikko on HTML:n %2$s-tagi, jonka useimmat selaimet näyttävät ikkunan otsikossa.",
         "PageUrls": "Sivujen URL:t",
         "SiteSearchCategories1": "Tämä raportti listaa kategoriat jotka kävijät valitsivat.",
         "SiteSearchCategories2": "Esimerkiksi e-kauppojen sivuilla on tyypillisesti \"Kategoria\"-valitsin, jolla käyttäjät voivat rajoittaa hakutuloksia.",

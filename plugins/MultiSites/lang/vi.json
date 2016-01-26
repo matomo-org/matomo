@@ -4,6 +4,6 @@
         "LoadingWebsites": "Đang tải website",
         "PluginDescription": "Xem và so sánh toàn bộ các website bạn quản lý",
         "TopLinkTooltip": "So sánh các số liệu thống kê Web Analytics cho tất cả các trang web của bạn.",
-        "Pagination": "%s - %s trên %s"
+        "Pagination": "%1$s - %2$s trên %3$s"
     }
 }

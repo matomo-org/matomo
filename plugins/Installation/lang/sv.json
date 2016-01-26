@@ -73,6 +73,7 @@
         "SystemCheckExtensions": "Övriga nödvändiga tillägg",
         "SystemCheckFileIntegrity": "Filintegritet",
         "SystemCheckFunctions": "Funktioner som krävs",
+        "SystemCheckFunctionHelp": "Du måste aktivera denna inbyggda funktion.",
         "SystemCheckGDFreeType": "GD > 2.x + Fristil (grafik)",
         "SystemCheckGDHelp": "Graflinjerna kommer inte fungera.",
         "SystemCheckGlobHelp": "Denna inbyggda funktionen har inaktiverats på din värd. Piwik försöker emulera denna funktion men kan stöta på ytterligare säkerhetsrestriktioner. Funktionalitet kan påverkas.",

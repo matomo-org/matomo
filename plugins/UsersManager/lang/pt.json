@@ -6,7 +6,6 @@
         "AnonymousUser": "Utilizador anónimo",
         "AnonymousUserHasViewAccess": "Nota: o utilizador %1$s tem %2$s acessos a este website.",
         "ApplyToAllWebsites": "Aplicar a todos os websites",
-        "ChangeAllConfirm": "Tem a certeza que deseja alterar '%s' permissões em todos os websites?",
         "ChangePasswordConfirm": "Alterar a senha também mudará o token_auth do utilizador. Você deseja continuar?",
         "ClickHereToDeleteTheCookie": "Clique aqui para eliminar o cookie e permitir a Piwik monitorizar as suas visitas.",
         "ClickHereToSetTheCookieOnDomain": "Clique aqui para definir um cookie que excluirá todas as suas visitas de serem monitorizadas por Piwik em %s",
@@ -18,16 +17,13 @@
         "ExceptionEditAnonymous": "O utilizador anónimo não pode ser editado ou apagado. Ele é usado pelo sistema para definir um utilizador que ainda não entrou. Por examplo, pode tornar as suas estatísticas públicas concedendo acesso 'ver' ao utilizador 'anónimo'.",
         "ExceptionEmailExists": "Um utilizador com o e-mail '%s' já existe.",
         "ExceptionInvalidEmail": "O e-mail não tem um formato válido.",
-        "ExceptionInvalidLoginFormat": "O nome de utilizador deve conter entre %1$s e %2$s caracteres e conter apenas letras, números ou os caracteres '_' ou '-' ou '.'",
         "ExceptionInvalidPassword": "O senha deve ter entre %1$s e %2$s caracteres.",
-        "ExceptionLoginExists": "O nome de utilizador '%s' já existe.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth está à espera de uma palavra-passe codificada em MD5 (cadeia de 32 caracteres). Por favor chame a função md5() sobre a palavra-passe antes de chamar este método.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "A remoção do acesso Super Utilizador do utilizador '%s' não é possível.",
         "ExceptionUserDoesNotExist": "Utilizador '%s' não existe.",
         "ExcludeVisitsViaCookie": "Exclua as suas visitas com um cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Para utilizadores anónimos, data de relatório pré-definida para carregar",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Se deseja alterar a sua palavra-passe, introduza uma nova. Caso contrário deixe isto em branco.",
-        "MainDescription": "Decidir quais utilizadores têm acesso a Piwik nos seus Websites. Também pode definir permissões para todos os Websites duma só vez.",
         "ManageAccess": "Gerir acesso",
         "MenuAnonymousUserSettings": "Definições de utilizadores anónimos",
         "MenuUsers": "Utilizadores",
@@ -46,7 +42,7 @@
         "UsersManagementMainDescription": "Criar novos utilizadores ou actualizar utilizadores existentes. Depois pode definir as permissões deles acima.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Quando utilizadores não entraram e visitam Piwik, devem poder aceder a",
         "YourUsernameCannotBeChanged": "O seu nome de utilizador não pode ser alterado.",
-        "YourVisitsAreIgnoredOnDomain": "%sAs suas visitas são ignoradas por Piwik em %s %s (o cookie Piwik de ignorar foi encontrado no seu navegador).",
-        "YourVisitsAreNotIgnored": "%sAs suas visitas não são ignoradas por Piwik%s (o cookie Piwik de ignorar não foi encontrado no seu navegador)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sAs suas visitas são ignoradas por Piwik em %2$s %3$s (o cookie Piwik de ignorar foi encontrado no seu navegador).",
+        "YourVisitsAreNotIgnored": "%1$sAs suas visitas não são ignoradas por Piwik%2$s (o cookie Piwik de ignorar não foi encontrado no seu navegador)."
     }
 }

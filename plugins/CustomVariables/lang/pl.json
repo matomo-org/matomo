@@ -3,7 +3,7 @@
         "ColumnCustomVariableName": "Nazwa zmiennej niestandardowej",
         "ColumnCustomVariableValue": "Wartość zmiennej niestandardowej",
         "CustomVariables": "Zmienne niestandardowe",
-        "CustomVariablesReportDocumentation": "Raport ten zawiera informacje na temat niestandardowych zmiennych. Kliknij na nazwę zmiennej, aby zobaczyć rozkład wartości. %sAby uzyskać więcej informacji na temat niestandardowych zmiennych, przeczytaj dokumentację Zmienne %sCustom na piwik.org%s",
+        "CustomVariablesReportDocumentation": "Raport ten zawiera informacje na temat niestandardowych zmiennych. Kliknij na nazwę zmiennej, aby zobaczyć rozkład wartości. %1$sAby uzyskać więcej informacji na temat niestandardowych zmiennych, przeczytaj dokumentację Zmienne %2$sCustom na piwik.org%3$s",
         "ScopePage": "strona zakresu",
         "ScopeVisit": "zakres wizyt"
     }

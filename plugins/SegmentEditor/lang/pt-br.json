@@ -24,7 +24,7 @@
         "ThisSegmentIsVisibleTo": "Este segmento é visível para:",
         "VisibleToAllUsers": "Todos os Usuários",
         "VisibleToMe": "mim",
-        "YouMayChangeSetting": "Alternativamente, você pode alterar a configuração no arquivo de configuração (%s), ou editar este Segmento e escolher %s.",
+        "YouMayChangeSetting": "Alternativamente, você pode alterar a configuração no arquivo de configuração (%1$s), ou editar este Segmento e escolher %2$s.",
         "YouMustBeLoggedInToCreateSegments": "Você precisa estar logado para criar e editar segmentos personalizados de visitantes.",
         "YouDontHaveAccessToCreateSegments": "Você não tem o nível de acesso necessário para criar e editar segmentos.",
         "AddingSegmentForAllWebsitesDisabled": "Adicionar segmentos para todos os sites foi desativado.",

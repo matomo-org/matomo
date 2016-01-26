@@ -15,7 +15,7 @@
         "EventsWithValue": "Ereignisse mit einem Wert",
         "EventsWithValueDocumentation": "Anzahl der Ereignisse bei denen ein Ereigniswert gesetzt war",
         "EventValue": "Ereigniswert",
-        "EventValueTooltip": "Der Gesamtereigniswert ist die Summe von %s Ereigniswerten %s zwischen dem Minimum von %s und dem Maximum von %s.",
+        "EventValueTooltip": "Der Gesamtereigniswert ist die Summe von %1$s Ereigniswerten %2$s zwischen dem Minimum von %3$s und dem Maximum von %4$s.",
         "MaxValue": "Maximaler Wert",
         "MaxValueDocumentation": "Maximaler Wert für dieses Ereignis",
         "MinValue": "Minimaler Wert",

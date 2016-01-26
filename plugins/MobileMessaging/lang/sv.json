@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Användarnamn '%s' är okänt. Försök med något av följande istället: %s.",
+        "Exception_UnknownProvider": "Användarnamn '%1$s' är okänt. Försök med något av följande istället: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Du kan lägga till flera telefonnummer genom att ge dem tillgång",
         "MobileReport_MobileMessagingSettingsLink": "Sidan för Mobila meddelanden",
         "MobileReport_NoPhoneNumbers": "Aktivera minst ett telefonnummer genom att ge åtkomst",
@@ -29,13 +29,13 @@
         "Settings_SMSProvider": "SMS Leverantör",
         "Settings_SuperAdmin": "Administratörsinställningar",
         "Settings_SuspiciousPhoneNumber": "Om du inte får något meddelande, pröva att ta bort första nollan i numret %s",
-        "Settings_UpdateOrDeleteAccount": "Du kan också %suppdatera%s eller %sradera%s det här kontot.",
+        "Settings_UpdateOrDeleteAccount": "Du kan också %1$suppdatera%2$s eller %3$sradera%4$s det här kontot.",
         "Settings_ValidatePhoneNumber": "Bekräfta",
         "Settings_VerificationCodeJustSent": "Vi har precis skickat ett SMS till det här numret med en kod: var snäll och skriv in den här koden ovan och klicka på \"verifiera\"",
         "SettingsMenu": "Mobila meddelanden",
         "SMS_Content_Too_Long": "[för långt]",
         "TopLinkTooltip": "Få Webb Analysrapporter levererade till din mail inkorg eller din mobiltelefon",
         "TopMenu": "E-post och SMS-rapporter",
-        "VerificationText": "Koden är %s. För att verifiera ditt telefonnummer och få Piwiks SMS rapporter ber vi dig kopiera den här koden i formuläret för åtkomlighet via Piwik > %s > %s."
+        "VerificationText": "Koden är %1$s. För att verifiera ditt telefonnummer och få Piwiks SMS rapporter ber vi dig kopiera den här koden i formuläret för åtkomlighet via Piwik > %2$s > %3$s."
     }
 }

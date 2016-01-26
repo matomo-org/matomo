@@ -13,8 +13,8 @@
         "OneClick": "1 klik",
         "OpenFullScreen": "Vis fuldskærm (ingen sidebjælke)",
         "Overlay": "Side overlejring",
-        "RedirectUrlError": "Du forsøger at åbne sideoverlejring for URL \"%s\". %s Ingen af ​​domæner fra Piwiks indstillinger matcher linket.",
-        "RedirectUrlErrorAdmin": "Du kan tilføje domænet som en yderligere URL %si indstillingerne%s.",
+        "RedirectUrlError": "Du forsøger at åbne sideoverlejring for URL \"%1$s\". %2$s Ingen af ​​domæner fra Piwiks indstillinger matcher linket.",
+        "RedirectUrlErrorAdmin": "Du kan tilføje domænet som en yderligere URL %1$si indstillingerne%2$s.",
         "RedirectUrlErrorUser": "Spørg administratoren om at tilføje domænet som en yderligere URL."
     }
 }

@@ -14,7 +14,7 @@
         "EventsWithValue": "Evenimente cu valoare",
         "EventsWithValueDocumentation": "Numărul de evenimente în care a fost stabilit o valoare Eveniment",
         "EventValue": "Valoarea Evenimentului",
-        "EventValueTooltip": "Valoarea totală Eveniment este suma de %s valoare evenimente %s între minim %s și maxim de %s.",
+        "EventValueTooltip": "Valoarea totală Eveniment este suma de %1$s valoare evenimente %2$s între minim %3$s și maxim de %4$s.",
         "MaxValue": "Valoarea maxima",
         "MaxValueDocumentation": "Valoarea maxima pentru acest eveniment",
         "MinValue": "Valoarea minima",

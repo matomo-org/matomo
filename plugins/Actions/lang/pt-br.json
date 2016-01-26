@@ -38,7 +38,7 @@
         "OutlinkDocumentation": "Um outlink é um link que leva o visitante para fora do seu website (para outro domínio)",
         "OutlinksReportDocumentation": "Este relatório mostra uma lista hierárquica de URLs outlinks clicadas pelos seus visitantes",
         "PagesReportDocumentation": "Este relatório contém informações sobre URL de páginas as quais foram visitadas. %s A tabela está organizada hierarquicamente, as URLs estão apresentadas como estrutura de pastas",
-        "PageTitlesReportDocumentation": "Este relatório contém informações sobre títulos de páginas as quais foram visitadas. %s O título da página é um HTML %s Tag a qual é mais visualizada nos títulos do browser.",
+        "PageTitlesReportDocumentation": "Este relatório contém informações sobre títulos de páginas as quais foram visitadas. %1$s O título da página é um HTML %2$s Tag a qual é mais visualizada nos títulos do browser.",
         "PageUrls": "URLs de Página(s)",
         "PluginDescription": "Relatórios sobre visualizações de páginas e títulos de página. Permite que você mensure o sistema de busca interno do seu website. Registra automaticamente cliques em links externos e downloads de arquivos.",
         "SiteSearchCategories1": "Este relatório lista as categorias que os visitantes selecionaram, quando eles fizeram uma pesquisa em seu site.",

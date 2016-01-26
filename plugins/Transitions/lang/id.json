@@ -16,12 +16,12 @@
         "NoDataForAction": "Tidak tersedia data untuk %s",
         "NoDataForActionDetails": "Tidak ada tindakan memiliki tampilan halaman selama periode %s atau ini tidak sahih.",
         "OutgoingTraffic": "Lalu lintas keluar",
-        "ShareOfAllPageviews": "Halaman ini memiliki %s tampilan halaman (%s dari semua tampilan halaman)",
+        "ShareOfAllPageviews": "Halaman ini memiliki %1$s tampilan halaman (%2$s dari semua tampilan halaman)",
         "ToFollowingPages": "Menuju Halaman Dalam",
         "ToFollowingPagesInline": "%s menuju halaman dalam",
         "ToFollowingSiteSearches": "Pencarian Dalam",
         "ToFollowingSiteSearchesInline": "%s pencarian dalam",
         "XOfAllPageviews": "%s dari selruh tanpilan dari halaman ini",
-        "XOutOfYVisits": "%s (di luar dari %s)"
+        "XOutOfYVisits": "%1$s (di luar dari %2$s)"
     }
 }

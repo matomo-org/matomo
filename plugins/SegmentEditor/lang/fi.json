@@ -21,7 +21,7 @@
         "ThisSegmentIsVisibleTo": "Tämä segmentti näytetään seuraaville:",
         "VisibleToAllUsers": "kaikki käyttäjät",
         "VisibleToMe": "minä",
-        "YouMayChangeSetting": "Vaihtoehtoisesti voit vaihtaa asetuksen tiedostosta %s, tai muuttaa tätä segmenttiä ja valita '%s'.",
+        "YouMayChangeSetting": "Vaihtoehtoisesti voit vaihtaa asetuksen tiedostosta %1$s, tai muuttaa tätä segmenttiä ja valita '%2$s'.",
         "YouMustBeLoggedInToCreateSegments": "Sinun täytyy olla sisäänkirjautuneena voidaksesi luoda tai muokata kävijäsegmenttejä."
     }
 }

@@ -1,5 +1,6 @@
 {
     "Live": {
+        "AbandonedCartSummary": "%1$s övergivna varukorgar%2$s och %3$s övergivna varor%4$s värda totalt %5$s%6$s.",
         "AveragePageGenerationTime": "Varje sida tog i genomsnitt %1$s att ladda för besökaren.",
         "CalculatedOverNPageViews": "Beräknat på denna besöakrens senaste %1$s sidvisningar.",
         "ClickToViewMoreAboutVisit": "Klicka för mer information om det här besöket",

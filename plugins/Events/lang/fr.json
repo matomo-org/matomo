@@ -15,7 +15,7 @@
         "EventsWithValue": "Evènements avec une valeur",
         "EventsWithValueDocumentation": "Nombre d'évènements qui ont une valeur de définie",
         "EventValue": "Valeur d'évènement",
-        "EventValueTooltip": "La valeur totale de l'évènement est la somme des %s valeurs d'évènements %s entre un minimum de %s et un maximum de %s.",
+        "EventValueTooltip": "La valeur totale de l'évènement est la somme des %1$s valeurs d'évènements %2$s entre un minimum de %3$s et un maximum de %4$s.",
         "MaxValue": "Valeur maximum",
         "MaxValueDocumentation": "Valeur maximale pour cet évènement",
         "MinValue": "Valeur minimum",

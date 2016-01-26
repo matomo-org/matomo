@@ -1,12 +1,12 @@
 {
     "API": {
-        "GenerateVisits": "如果你今天還沒有任何資料，你可以先使用 %s 外掛來產生一些數據。你可以啟用 %s 外掛，然後點擊在 Piwik 管理員區域裡的'產生訪客'選單。",
-        "KeepTokenSecret": "token_auth 如你的帳號和密碼般重要，%s請不要公開它%s！",
+        "GenerateVisits": "如果你今天還沒有任何資料，你可以先使用 %1$s 外掛來產生一些數據。你可以啟用 %2$s 外掛，然後點擊在 Piwik 管理員區域裡的'產生訪客'選單。",
+        "KeepTokenSecret": "token_auth 如你的帳號和密碼般重要，%1$s請不要公開它%2$s！",
         "LoadedAPIs": "已成功載入 %s 個 APIs",
-        "MoreInformation": "取得更多關於 Piwik APIs 的資訊，請前往 %sPiwik API 指引%s 與 %s Piwik API 參考資料%s。",
+        "MoreInformation": "取得更多關於 Piwik APIs 的資訊，請前往 %1$sPiwik API 指引%2$s 與 %3$s Piwik API 參考資料%4$s。",
         "PluginDescription": "所有在Piwik內透過簡單的API所取得資料都是可用的，這個外掛是網站服務的入口點，因此，你可以透過下列網路分析的資料：xml、json、php、csv，諸如此類的方式來加以呼叫。",
         "TopLinkTooltip": "透過API可以取得網站流量統計分析json與xml格式的數據。",
         "UserAuthentication": "使用者驗證",
-        "UsingTokenAuth": "如果你想從程式、工作排程在 %s 請求資料。%s 你需要新增一個 %s 字串至 API 呼叫網址來進行驗證。"
+        "UsingTokenAuth": "如果你想從程式、工作排程在 %1$s 請求資料。%2$s 你需要新增一個 %3$s 字串至 API 呼叫網址來進行驗證。"
     }
 }

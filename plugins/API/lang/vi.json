@@ -1,13 +1,13 @@
 {
     "API": {
-        "GenerateVisits": "Nếu bạn không có dữ liệu cho ngày hôm nay, bạn có thể sinh một số dữ liệu (về người thăm website) bằng cách sử dụng plugin %s. Bạn có thể khởi động plugin %s, sau đó click vào menu \"Visitor Generator\" trên khu vực quản trị Piwik.",
-        "KeepTokenSecret": "token_auth này chặt chẽ như mật khẩu đăng nhập của bạn, %s không thể chia sẻ nó %s!",
+        "GenerateVisits": "Nếu bạn không có dữ liệu cho ngày hôm nay, bạn có thể sinh một số dữ liệu (về người thăm website) bằng cách sử dụng plugin %1$s. Bạn có thể khởi động plugin %2$s, sau đó click vào menu \"Visitor Generator\" trên khu vực quản trị Piwik.",
+        "KeepTokenSecret": "token_auth này chặt chẽ như mật khẩu đăng nhập của bạn, %1$s không thể chia sẻ nó %2$s!",
         "LoadedAPIs": "Nạp thành công API %s",
-        "MoreInformation": "Để biết thêm thông tin về các API của Piwik, vui lòng xem ở Giới thiệu %s về %s API Piwik và API %s Piwik Reference %s",
+        "MoreInformation": "Để biết thêm thông tin về các API của Piwik, vui lòng xem ở Giới thiệu %1$s về %2$s API Piwik và API %3$s Piwik Reference %4$s",
         "PluginDescription": "Tất cả dữ liệu của Piwik đều tủy cập được thông qua API. Plugin này là 1 web service, từ đó bạn có thể gọi để truy cập dữ liệu dưới dạng xml, json, csv,...",
         "ReportingApiReference": "Tham chiếu API báo cáo",
         "TopLinkTooltip": "Truy cập dữ liệu lập trình Web Analytics của bạn thông qua một API đơn giản trong JSON, xml, vv",
         "UserAuthentication": "Xác thực người dùng",
-        "UsingTokenAuth": "Nếu bạn muốn %s truy vấn dữ liệu trong script hoặc crontab, ... %s bạn cần phải thêm tham số %s vào các API call URL yêu cầu xác thực."
+        "UsingTokenAuth": "Nếu bạn muốn %1$s truy vấn dữ liệu trong script hoặc crontab, ... %2$s bạn cần phải thêm tham số %3$s vào các API call URL yêu cầu xác thực."
     }
 }

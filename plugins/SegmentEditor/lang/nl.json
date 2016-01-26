@@ -23,7 +23,7 @@
         "ThisSegmentIsVisibleTo": "Dit segment is zichtbaar voor:",
         "VisibleToAllUsers": "alle gebruikers",
         "VisibleToMe": "mij",
-        "YouMayChangeSetting": "Als alternatief kun je er voor kiezen om de instelling binnen het configuratie bestand (%s) aan te passen, of wijzig dit Segment en kies '%s'.",
+        "YouMayChangeSetting": "Als alternatief kun je er voor kiezen om de instelling binnen het configuratie bestand (%1$s) aan te passen, of wijzig dit Segment en kies '%2$s'.",
         "YouMustBeLoggedInToCreateSegments": "Je moet ingelogd zijn om Bezoekers segmenten te bewerken of aan te maken.",
         "YouDontHaveAccessToCreateSegments": "U heeft niet het benodigde toegangsniveau om segmenten te maken en bewerken.",
         "AddingSegmentForAllWebsitesDisabled": "Het toevoegen van segmenten voor alle websites is uitgeschakeld."

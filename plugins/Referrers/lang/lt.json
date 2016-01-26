@@ -24,6 +24,7 @@
         "TypeWebsites": "%s iš svetainių",
         "UsingNDistinctUrls": "(naudojant %s skirtingus URL)",
         "Websites": "Svetainės",
-        "WidgetExternalWebsites": "Išorinių svetainių sąrašas"
+        "WidgetExternalWebsites": "Išorinių svetainių sąrašas",
+        "WidgetSocials": "Socialinių tinklų sąrašas"
     }
 }

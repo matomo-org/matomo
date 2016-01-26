@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Provider naam '%s' is onbekend. Probeer één van de volgende in de plaats: %s.",
+        "Exception_UnknownProvider": "Provider naam '%1$s' is onbekend. Probeer één van de volgende in de plaats: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Je kunt meer telefoon nummers toevoegen via",
         "MobileReport_MobileMessagingSettingsLink": "De Mobiele Messaging instellingen pagina",
         "MobileReport_NoPhoneNumbers": "Gelieve ten minste één telefoonnummer te activeren door",
@@ -29,13 +29,13 @@
         "Settings_SMSProvider": "SMS provider",
         "Settings_SuperAdmin": "Super User instellingen",
         "Settings_SuspiciousPhoneNumber": "Indien je geen SMS bericht ontvangt, kun je proberen zonder de 0 vooraf te gaan. bijv. %s",
-        "Settings_UpdateOrDeleteAccount": "Je kunt dit account ook %supdaten%s of %sverwijderen%s",
+        "Settings_UpdateOrDeleteAccount": "Je kunt dit account ook %1$supdaten%2$s of %3$sverwijderen%4$s",
         "Settings_ValidatePhoneNumber": "Valideer",
         "Settings_VerificationCodeJustSent": "We hebben net een SMS met een code naar dit nummer verstuurd: Gelieve de code hierboven in te vullen en klik op \"Valideer\".",
         "SettingsMenu": "Mobiele berichten",
         "SMS_Content_Too_Long": "[te lang]",
         "TopLinkTooltip": "Krijg je Web Analyse rapporten toegestuurd naar je mailbox of je mobiele telefoon!",
         "TopMenu": "Email & SMS Rapporten",
-        "VerificationText": "Code %s. Kopieer deze code naar Piwik > %s > %s om je telefoonnummer te valideren en sms rapporten te ontvangen."
+        "VerificationText": "Code %1$s. Kopieer deze code naar Piwik > %2$s > %3$s om je telefoonnummer te valideren en sms rapporten te ontvangen."
     }
 }

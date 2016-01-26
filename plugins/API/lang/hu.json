@@ -1,10 +1,10 @@
 {
     "API": {
-        "GenerateVisits": "Ha nem volt még ma látogató, automatikusan generálhatsz mintaadatokat a %s kiegészítő segítségével. A %s kiegészítőt a Piwik adminisztrációs felületén megjelenő Látogatógenerálás menüpontra kattintva engedélyezheted.",
-        "KeepTokenSecret": "Ez a token_auth nevű kód pontosan annyira érzékeny adat mint a felhasználói neved és jelszavad, ezért %s ne oszd meg mindenkivel%s!",
+        "GenerateVisits": "Ha nem volt még ma látogató, automatikusan generálhatsz mintaadatokat a %1$s kiegészítő segítségével. A %2$s kiegészítőt a Piwik adminisztrációs felületén megjelenő Látogatógenerálás menüpontra kattintva engedélyezheted.",
+        "KeepTokenSecret": "Ez a token_auth nevű kód pontosan annyira érzékeny adat mint a felhasználói neved és jelszavad, ezért %1$s ne oszd meg mindenkivel%2$s!",
         "LoadedAPIs": "A(z) %s API sikeresen betöltődött.",
-        "MoreInformation": "További információkért a Piwik API-kkal kapcsolatban kérjük, tekintse meg a %s Introduction to Piwik API %s és a %s Piwik API Reference %s című leírásokat.",
+        "MoreInformation": "További információkért a Piwik API-kkal kapcsolatban kérjük, tekintse meg a %1$s Introduction to Piwik API %2$s és a %3$s Piwik API Reference %4$s című leírásokat.",
         "UserAuthentication": "Felhasználó autentikációja",
-        "UsingTokenAuth": "Ha azt szeretné, hogy a %s külső alkalmazás adatot kérjen a szkripten belül, a crontab segítségével, stb. %s hozzá kell adnia a %s paramétert az API hívásoknál használt URL-ekhez, ha autentikáció szükséges számukra."
+        "UsingTokenAuth": "Ha azt szeretné, hogy a %1$s külső alkalmazás adatot kérjen a szkripten belül, a crontab segítségével, stb. %2$s hozzá kell adnia a %3$s paramétert az API hívásoknál használt URL-ekhez, ha autentikáció szükséges számukra."
     }
 }

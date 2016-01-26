@@ -11,8 +11,8 @@
         "VisitsByDayOfWeek": "Visites par Jour de la Semaine",
         "WidgetByDayOfWeekDocumentation": "Ce graphique affiche le nombre de visites que votre site web a reçu durant chaque jour de la semaine.",
         "WidgetLocalTime": "Visites par fuseau horaire local",
-        "WidgetLocalTimeDocumentation": "Ce graphique affiche la répartition horaire basée sur le %s fuseau horaire du visiteur %s.",
+        "WidgetLocalTimeDocumentation": "Ce graphique affiche la répartition horaire basée sur le %1$s fuseau horaire du visiteur %2$s.",
         "WidgetServerTime": "Visites par fuseau horaire du serveur",
-        "WidgetServerTimeDocumentation": "Ce graphique affiche la répartition horaire basée sur le %s fuseau horaire du serveur %s."
+        "WidgetServerTimeDocumentation": "Ce graphique affiche la répartition horaire basée sur le %1$s fuseau horaire du serveur %2$s."
     }
 }

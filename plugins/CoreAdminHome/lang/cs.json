@@ -72,7 +72,7 @@
         "PluginSettingsValueNotAllowed": "Hodnota pro pole \"%s\" zásuvného modulu \"%s\" není povolena",
         "PluginSettingsSaveFailed": "Nepodařilo se uložit nastavení zásuvného modulu",
         "SendPluginUpdateCommunication": "Pokud bude k dispozici aktualizace pluginu, odeslat email.",
-        "SendPluginUpdateCommunicationHelp": "Super uživatelům bude odeslán email, pokud bude k dispozici aktualizace zásuvného modulu.",
+        "SendPluginUpdateCommunicationHelp": "Super-uživatelům bude odeslán email, pokud bude k dispozici aktualizace zásuvného modulu.",
         "StableReleases": "Piwik je důležitý nástroj pro měření, doporučujeme vždy používat nejnovější vydání. Pokud používáte nejnovější beta verzi a našli jste chyby, prosíme o jejich nahlášení %spřímo zde %s.",
         "LtsReleases": "LTS (verze s dlouhodobou podporou) dostávají pouze bezpečnostní a jiné opravy chyb.",
         "SystemPluginSettings": "Systémová nastavení zásuvných modulů",

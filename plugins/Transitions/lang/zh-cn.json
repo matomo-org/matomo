@@ -17,12 +17,12 @@
         "NoDataForActionDetails": "本活动在 %s 期间没有被访问过或者不正确。",
         "OutgoingTraffic": "出口流量",
         "PluginDescription": "以前的报告并为每个页面的URL在一个新的过渡报告，在操作报告中提供一个新的图标来通过操作。",
-        "ShareOfAllPageviews": "本页面被访问 %s 次 (总访问量的 %s)",
+        "ShareOfAllPageviews": "本页面被访问 %1$s 次 (总访问量的 %2$s)",
         "ToFollowingPages": "转向站内页面",
         "ToFollowingPagesInline": "%s 次转向站内页面",
         "ToFollowingSiteSearches": "站内搜索",
         "ToFollowingSiteSearchesInline": "%s 次站内搜索",
         "XOfAllPageviews": "%s 的本页浏览量",
-        "XOutOfYVisits": "%s (共 %s)"
+        "XOutOfYVisits": "%1$s (共 %2$s)"
     }
 }

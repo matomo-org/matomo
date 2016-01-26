@@ -14,8 +14,8 @@
         "OpenFullScreen": "Ir para tela cheia (sem barra lateral)",
         "Overlay": "Sobreposição de Página",
         "PluginDescription": "Veja os dados das suas análises como uma sobreposição em seu site real. Veja quantas vezes os usuários clicaram em cada link. Nota: Requer o plugin Transições ativado.",
-        "RedirectUrlError": "Você está tentando abrir sobreposição de página para a URL \"%s\". %s Nenhum dos domínios configurados no Piwik corresponde ao link.",
-        "RedirectUrlErrorAdmin": "Você pode adicionar um domínio como uma URL adicional %sem definições%s.",
+        "RedirectUrlError": "Você está tentando abrir sobreposição de página para a URL \"%1$s\". %2$s Nenhum dos domínios configurados no Piwik corresponde ao link.",
+        "RedirectUrlErrorAdmin": "Você pode adicionar um domínio como uma URL adicional %1$sem definições%2$s.",
         "RedirectUrlErrorUser": "Solicite ao seu administrador para adicionar o domínio como uma URL adicional."
     }
 }

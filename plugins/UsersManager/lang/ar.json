@@ -4,7 +4,6 @@
         "Alias": "اللقب",
         "AllWebsites": "كافة المواقع",
         "ApplyToAllWebsites": "تطبيق على كافة المواقع",
-        "ChangeAllConfirm": "هل ترغب حقاً في تعديل صلاحيات '%s' في كافة المواقع؟",
         "ClickHereToDeleteTheCookie": "انقر هنا لحذف الكوكيز وليتتبع Piwik زياراتك",
         "DeleteConfirm": "هل ترغب حقاً في حذف المستخدم %s؟",
         "Email": "البريد الإلكتروني",
@@ -14,15 +13,12 @@
         "ExceptionEditAnonymous": "لا يمكن تحرير أو حذف المستخدم \"مجهول\"، فهو يستخدم من قبل Piwik لتعريف المستخدم الذي لم يقم بتسجيل الدخول بعد. على سبيل المثال، يمكنك جعل صفحة الإحصائيات عامة من خلال منح المستخدم \"مجهول\" صلاحيات \"المشاهدة\".",
         "ExceptionEmailExists": "المستخدم بعنوان البريد '%s' موجود مسبقاً.",
         "ExceptionInvalidEmail": "صيغة البريد الإلكتروني غير صحيحة",
-        "ExceptionInvalidLoginFormat": "اسم المستخدم يجب أن يكون بين %1$s و %2$s رمزاً ويتضمن الحروف، الأرقام والرموز \"_\" أو \"-\" أو \".\" أو \"@\" أو \"+\" فقط.",
         "ExceptionInvalidPassword": "يجب أن يكون طول كلمة المرور بين %1$s و %2$s رمزاً.",
-        "ExceptionLoginExists": "اسم المستخدم '%s' موجود مسبقاً.",
         "ExceptionPasswordMD5HashExpected": "يتوقع UsersManager.getTokenAuth كلمة مرور مشفرة باستخدام MD5 (طولها 32 رمزاً). الرجاء استدعاء الدالة md5() لكلمة المرور قبل استدعاء هذه الدالة.",
         "ExceptionUserDoesNotExist": "المستخدم '%s' غير موجود.",
         "ExcludeVisitsViaCookie": "استثني زياراتك باستخدام Cookies",
         "ForAnonymousUsersReportDateToLoadByDefault": "للمستخدمين المجهولين، حدد تاريخ التقرير",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "إذا كنت ترغب في تغيير كلمة المرور، اكتب واحدة جديدة، أو اتركها فارغة لعدم تغييرها.",
-        "MainDescription": "قرر أي المستخدمين لديه أي صلاحيات في Piwik. يمكنك أيضاً إعداد الصلاحيات لكل موقع على حدة أو لكل المواقع دفعة واحدة.",
         "ManageAccess": "إدارة صلاحيات الوصول",
         "MenuAnonymousUserSettings": "إعدادات المستخدمين المجهولين",
         "MenuUsers": "المستخدمون",
@@ -40,7 +36,7 @@
         "UsersManagementMainDescription": "أنشئ متسخدم جديد أو قم بتحديث مستخدم قائم. يمكنك أن تضبط صلاحياتهم بالأعلى.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "عندما لا يسجل المستخدمون دخولهم ويزورون Piwik،فسيمكنهم الوصول إلى",
         "YourUsernameCannotBeChanged": "لا يمكن تغيير اسم المستخدم الخاص بك.",
-        "YourVisitsAreIgnoredOnDomain": "%s زياراتك يتم تجاهلها في Piwik%s %s(تم العثور على كوكيز التجاهل في متصفحك).",
-        "YourVisitsAreNotIgnored": "%s لا يتم تجاهل زياراتك في Piwik%s (كوكيز التجاهل غير موجودة في متصفحك)."
+        "YourVisitsAreIgnoredOnDomain": "%1$s زياراتك يتم تجاهلها في Piwik%2$s %3$s(تم العثور على كوكيز التجاهل في متصفحك).",
+        "YourVisitsAreNotIgnored": "%1$s لا يتم تجاهل زياراتك في Piwik%2$s (كوكيز التجاهل غير موجودة في متصفحك)."
     }
 }

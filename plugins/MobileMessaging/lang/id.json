@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Nama penyedia '%s' tidak dikenal. Coba salah satu berikut ini sebagai pengganti: %s.",
+        "Exception_UnknownProvider": "Nama penyedia '%1$s' tidak dikenal. Coba salah satu berikut ini sebagai pengganti: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Anda dapat menambah nomor telepon dengan mengakses",
         "MobileReport_MobileMessagingSettingsLink": "halaman pengaturan Pesan Bergerak",
         "MobileReport_NoPhoneNumbers": "Harap aktifkan sekurangnya satu nomor telepon dengan mengakses",
@@ -29,13 +29,13 @@
         "Settings_SMSProvider": "Penyedia SMS",
         "Settings_SuperAdmin": "Pengaturan Pengguna Super",
         "Settings_SuspiciousPhoneNumber": "Bila Anda tidak menerima pesan teks, silakan coba tanpa awalan nol. Misal, %s",
-        "Settings_UpdateOrDeleteAccount": "Anda juga dapat %smemperbarui%s atau %smenghapus%s akun ini.",
+        "Settings_UpdateOrDeleteAccount": "Anda juga dapat %1$smemperbarui%2$s atau %3$smenghapus%4$s akun ini.",
         "Settings_ValidatePhoneNumber": "Sahkan",
         "Settings_VerificationCodeJustSent": "Kami baru saja mengirim sebuah SMS kepada nomor ini dengan kode: harap masukkan kode di atas dan klik \"Sahkan\".",
         "SettingsMenu": "Pesan Bergerak",
         "SMS_Content_Too_Long": "[terlalu panjang]",
         "TopLinkTooltip": "Dapatkan Laporan Analitis Ramatraya dikirim ke kotak masuk surel atau telepon seluler Anda!",
         "TopMenu": "Laporan Surel & SMS",
-        "VerificationText": "Kode adalah %s. Untuk mengesahkan nomor telepon Anda dan memperoleh laporan SMS Piwik, harap menyalin kode ini di borang yang daoat diraih melalui Piwik > %s > %s."
+        "VerificationText": "Kode adalah %1$s. Untuk mengesahkan nomor telepon Anda dan memperoleh laporan SMS Piwik, harap menyalin kode ini di borang yang daoat diraih melalui Piwik > %2$s > %3$s."
     }
 }

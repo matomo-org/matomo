@@ -37,7 +37,7 @@
         "OutlinkDocumentation": "Një lidhje e jashtme është një lidhje që e shpie përdoruesin diku jashtë sajtit tuaj (te një tjetër përkatësi).",
         "OutlinksReportDocumentation": "Ky raport shfaq një listë hierarkike URL-sh të jashtme që janë klikuar nga vizitorët tuaj.",
         "PagesReportDocumentation": "Ky raport përmban të dhëna rreth URL faqesh që janë vizituar. %s Tabela është e sistemuar në mënyrë hierarkike, URL-të tregohen si strukturë dosjeje.",
-        "PageTitlesReportDocumentation": "Ky raport përmban të dhëna rreth titujve të faqeve që janë vizituar. %s Titulli i faqes është Etiketa HTML %s që shfaqin shumica e shfletuesve te titulli i dritares.",
+        "PageTitlesReportDocumentation": "Ky raport përmban të dhëna rreth titujve të faqeve që janë vizituar. %1$s Titulli i faqes është Etiketa HTML %2$s që shfaqin shumica e shfletuesve te titulli i dritares.",
         "PageUrls": "URL faqesh",
         "PluginDescription": "Raporte rreth parjes së faqeve dhe titujve të tyre. Ju lejon të matni motorin e brendshëm të kërkimeve të sajtit tuaj. Gjurmon vetvetiu klikimet drejt lidhjesh të jashtme dhe shkarkime kartelash.",
         "SiteSearchCategories1": "Ky raport paraqet kategoritë që vizitorët kanë përzgjedhur kur bënë një Kërkim te sajti juaj.",

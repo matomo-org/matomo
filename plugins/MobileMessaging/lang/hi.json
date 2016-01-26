@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "प्रदाता का नाम '%s' अज्ञात है. बजाय निम्न में से किसी का प्रयास करें:%s.",
+        "Exception_UnknownProvider": "प्रदाता का नाम '%1$s' अज्ञात है. बजाय निम्न में से किसी का प्रयास करें:%2$s.",
         "MobileReport_AdditionalPhoneNumbers": "तुम अभिगम के द्वारा अधिक फोन नंबर जोड़ सकते हैं",
         "MobileReport_MobileMessagingSettingsLink": "मोबाइल संदेश सेटिंग पेज",
         "MobileReport_NoPhoneNumbers": "अभिगम के द्वारा कम से कम एक फोन नंबर को सक्रिय करें",
@@ -29,13 +29,13 @@
         "Settings_SMSProvider": "एसएमएस प्रदाता",
         "Settings_SuperAdmin": "सुपर प्रयोक्ता सेटिंग्स",
         "Settings_SuspiciousPhoneNumber": "आपको टेक्स्ट संदेश नहीं मिलता, तो आप अग्रणी शून्य के बिना कोशिश कर सकते हैं. अर्थात्. %s",
-        "Settings_UpdateOrDeleteAccount": "आप भी %sअपडेट%s करने या इस खाते को %sहटा%s सकते हैं.",
+        "Settings_UpdateOrDeleteAccount": "आप भी %1$sअपडेट%2$s करने या इस खाते को %3$sहटा%4$s सकते हैं.",
         "Settings_ValidatePhoneNumber": "मान्य करें",
         "Settings_VerificationCodeJustSent": "हम सिर्फ एक कोड के साथ इस संख्या के लिए एक एसएमएस भेजा: ऊपर यह कोड दर्ज करें और \"मान्य\" पर क्लिक करें.",
         "SettingsMenu": "मोबाइल संदेश",
         "SMS_Content_Too_Long": "[बहुत लंबा]",
         "TopLinkTooltip": "आपके ईमेल इनबॉक्स या आपके मोबाइल फोन के लिए वेब विश्लेषिकी रिपोर्ट प्राप्त करें!",
         "TopMenu": "ईमेल और एसएमएस रिपोर्टें",
-        "VerificationText": "प्रविष्ट कोड %s है. अपना फोन नंबर मान्य है और Piwik एसएमएस रिपोर्ट प्राप्त करने के लिए. Piwik के माध्यम से सुलभ रूप से यह कोड की नकल बनाये कृपया > %s > %s."
+        "VerificationText": "प्रविष्ट कोड %1$s है. अपना फोन नंबर मान्य है और Piwik एसएमएस रिपोर्ट प्राप्त करने के लिए. Piwik के माध्यम से सुलभ रूप से यह कोड की नकल बनाये कृपया > %2$s > %3$s."
     }
 }

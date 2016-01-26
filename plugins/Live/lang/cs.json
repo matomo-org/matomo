@@ -1,9 +1,11 @@
 {
     "Live": {
+        "AbandonedCartSummary": "%1$s opuštěných košíků%2$s a %3$s opuštěných položek%4$s celkem za %5$s%6$s.",
         "AveragePageGenerationTime": "Pro tohoto návštěvníka se každá stránka načetla v průměru za %1$s.",
         "CalculatedOverNPageViews": "Vypočítáno na základě %1$s posledních zobrazení stránek tohoto návštěvníka.",
         "ClickToViewMoreAboutVisit": "Klikněte pro zobrazení více informací o této návštěvě",
         "ConvertedNGoals": "Proměněno %s cílů",
+        "EcommerceSummaryConversions": "%1$s objednávek%2$s celkem za %3$s%4$s, zakoupeno %5$s položek%6$s.",
         "FirstVisit": "První návštěva",
         "GoalType": "Typ",
         "HideMap": "skrýt mapu",
@@ -33,6 +35,8 @@
         "VisitorsInRealTime": "Návštěvníci v reálném čase",
         "VisitorsLastVisit": "K poslední návštěvě tohoto návštěvníka došlo před %s dny.",
         "VisitsFrom": "%1$s%2$s návštěv%3$s z",
+        "VisitSummary": "Strávil celkem %1$s%2$s na stránkách%3$s, a zobrazil %4$s stránek%5$s při %6$s návštěvách%7$s.",
+        "VisitSummaryWithActionDetails": "Strávil celkem %1$s%2$s na stránkách%3$s, a provedl %4$s akcí%5$s (%6$s) při %7$s návštěvách%8$s.",
         "RowActionTooltipDefault": "Zobrazit záznam návštěvníků rozdělený podle tohoto řádku",
         "RowActionTooltipWithDimension": "Zobrazit záznam návštěvníků rozdělený podle %s",
         "RowActionTooltipTitle": "Otevřít rozdělený záznam návštěvníků",

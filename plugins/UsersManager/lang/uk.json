@@ -4,7 +4,6 @@
         "Alias": "Псевдонім",
         "AllWebsites": "Всі веб-сайти",
         "ApplyToAllWebsites": "Застосувати до всіх веб-сайтів",
-        "ChangeAllConfirm": "Змінити права \"%s\" для всіх вебсайтів?",
         "ClickHereToDeleteTheCookie": "Клацніть щоб видалити cookie та дозволити Piwik відслідковувати ваші візити",
         "ClickHereToSetTheCookieOnDomain": "Клацніть щоб встановити cookie який слугуватиме вказівкою для ігнорування ваших візитів при відслідковуванні на веб-сайті %s",
         "DeleteConfirm": "Видалити користувача %s?",
@@ -15,14 +14,11 @@
         "ExceptionEditAnonymous": "Анонімний користувач не може бути відредагований або видалений. Цей тип користувачів Piwik застосовує для користувачів, які не представились системі. Наприклад, Ви можете зробити Вашу статистику публічною надаючи права \"перегляду\" анонімномим користувачам.",
         "ExceptionEmailExists": "Користувач з адресою e-mail \"%s\" вже існує.",
         "ExceptionInvalidEmail": "Невірний e-mail.",
-        "ExceptionInvalidLoginFormat": "Ім’я користувача повинно бути довжиною від %1$s до %2$s символів та містити тільки букви, цифри, символи \"_\", \"-\" та \".\"",
-        "ExceptionLoginExists": "Ім'я користувача \"%s\" вже існує.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth приймає на вхід пароль хешований MD5 (стрічку довжиною в 32 символи). Викличте функцію md5() перед визовом даного методу.",
         "ExceptionUserDoesNotExist": "Користувач \"%s\" не існує.",
         "ExcludeVisitsViaCookie": "Виключити ваші відвідування використовуючи cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Для анонімних користувачів повідомляти дату завантаження за замовчування",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Якщо необхідно змінити пароль, введіть новий сюди. В іншому випадку залиште поле незаповненим.",
-        "MainDescription": "Встановіть який рівень Piwik доступу має кожен користувач на ваших веб-сайтах.",
         "ManageAccess": "Управління доступом",
         "MenuAnonymousUserSettings": "Налаштування анонімного користувача",
         "MenuUsers": "Користувачі",
@@ -39,7 +35,7 @@
         "UsersManagementMainDescription": "Створіть нових користувачів або редагуйте існуючих. Також нижче можна задати права доступу для них.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Якщо користувачі не увійшли в систему і відвідують Piwik, то овни повинні мати можливість отримати доступ",
         "YourUsernameCannotBeChanged": "Ім’я користувача не можу бути змінене.",
-        "YourVisitsAreIgnoredOnDomain": "%sВаші відвідування ігноруються системою Piwik в %s %s (Piwik знашов cookie у вашому браузері з вказівкою ігнорувати).",
-        "YourVisitsAreNotIgnored": "%sВаші відвідування відслідковуються системою Piwik %s (Piwik не знашов cookie у вашому браузері)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sВаші відвідування ігноруються системою Piwik в %2$s %3$s (Piwik знашов cookie у вашому браузері з вказівкою ігнорувати).",
+        "YourVisitsAreNotIgnored": "%1$sВаші відвідування відслідковуються системою Piwik %2$s (Piwik не знашов cookie у вашому браузері)."
     }
 }

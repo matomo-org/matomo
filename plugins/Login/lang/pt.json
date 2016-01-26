@@ -2,7 +2,7 @@
     "Login": {
         "ContactAdmin": "Razão possível: o seu administrador desactivou a função mail(). <br \/>Por favor contacte o seu administrador Piwik.",
         "ExceptionPasswordMD5HashExpected": "Espera-se que o parâmetro da palavra-passe seja uma hash MD5 da palavra-passe.",
-        "InvalidNonceOrHeadersOrReferrer": "Erro de Segurança do formulário. Por favor, recarregar o formulário e verificar se os cookies estão activos. Se você usar um servidor proxy, você deve configurar %s Piwik para aceitar os cabeçalhos proxy %s que encaminha o cabeçalho do Host. Além disso, verifique se o cabeçalho Referer é enviado corretamente.",
+        "InvalidNonceOrHeadersOrReferrer": "Erro de Segurança do formulário. Por favor, recarregar o formulário e verificar se os cookies estão activos. Se você usar um servidor proxy, você deve configurar %1$s Piwik para aceitar os cabeçalhos proxy %2$s que encaminha o cabeçalho do Host. Além disso, verifique se o cabeçalho Referer é enviado corretamente.",
         "InvalidOrExpiredToken": "A chave é inválida ou expirou.",
         "InvalidUsernameEmail": "Nome de utilizador e\/ou endereço de e-mail inválido",
         "LogIn": "Entrar",

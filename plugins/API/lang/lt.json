@@ -1,10 +1,10 @@
 {
     "API": {
-        "GenerateVisits": "Jei neturite duomenų šiandienai , galite sugeneruoti jų pasinaudoję %s papildiniu. Įjunkite šį %s papildinį, tada spauskite ant 'Apsilankymų generatorius' meniu Piwik administratoriaus srityje.",
-        "KeepTokenSecret": "Šis token_auth yra slaptas kaip ir naudotojo vardas bei slaptažodis, %s neviešinkite jo%s!",
+        "GenerateVisits": "Jei neturite duomenų šiandienai , galite sugeneruoti jų pasinaudoję %1$s papildiniu. Įjunkite šį %2$s papildinį, tada spauskite ant 'Apsilankymų generatorius' meniu Piwik administratoriaus srityje.",
+        "KeepTokenSecret": "Šis token_auth yra slaptas kaip ir naudotojo vardas bei slaptažodis, %1$s neviešinkite jo%2$s!",
         "LoadedAPIs": "Sėkmingai įkrautos API sąsajos (%s).",
-        "MoreInformation": "Norinčius gauti daugiau informacijos apie Piwik API sąsajas, prašome žvilgtelėti į %s Įvadas į Piwik API %s ir %s Piwik API informacija %s.",
+        "MoreInformation": "Norinčius gauti daugiau informacijos apie Piwik API sąsajas, prašome žvilgtelėti į %1$s Įvadas į Piwik API %2$s ir %3$s Piwik API informacija %4$s.",
         "UserAuthentication": "Naudotojo autentifikavimas",
-        "UsingTokenAuth": "Jei norite %s gauti duomenis scenarijų, crontab ir pan. įrankių pagalba, %s turite pridėti parametrus %s į API užklausų URLs, kurios reikalauja autentifikacijos."
+        "UsingTokenAuth": "Jei norite %1$s gauti duomenis scenarijų, crontab ir pan. įrankių pagalba, %2$s turite pridėti parametrus %3$s į API užklausų URLs, kurios reikalauja autentifikacijos."
     }
 }

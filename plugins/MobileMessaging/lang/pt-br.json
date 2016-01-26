@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Nome do provedor '%s' desconhecido. Tente um dos seguintes: %s.",
+        "Exception_UnknownProvider": "Provedor '%1$s' desconhecido. Tente um dos seguintes em vez: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Você pode adicionar mais números de telefone, acessando",
         "MobileReport_MobileMessagingSettingsLink": "Página de configurações de Mensagens móveis",
         "MobileReport_NoPhoneNumbers": "Por favor ative pelo menos um número de telefone acessando",
@@ -29,13 +29,13 @@
         "Settings_SMSProvider": "Provedor SMS",
         "Settings_SuperAdmin": "Configurações de super usuário",
         "Settings_SuspiciousPhoneNumber": "Se você não receber a mensagem de texto, você pode experimentar sem o zero à esquerda. ou seja. %s",
-        "Settings_UpdateOrDeleteAccount": "Você também pode %satualizar%s ou %sapagar%s esta conta.",
+        "Settings_UpdateOrDeleteAccount": "Você também pode %1$satualizar%2$s ou %3$sapagar%4$s esta conta.",
         "Settings_ValidatePhoneNumber": "Validar",
         "Settings_VerificationCodeJustSent": "Acabamos de enviar um SMS para este número com um código: por favor digite o código acima e clique em \"Validar\".",
         "SettingsMenu": "Mensagem móvel",
         "SMS_Content_Too_Long": "[muito longo]",
         "TopLinkTooltip": "Obter relatórios analíticos da Web em seu e-mail ou telefone móvel!",
         "TopMenu": "Relatórios de e-mail e SMS",
-        "VerificationText": "O código é %s. Para validar o seu número de telefone e receber relatórios Piwik de SMS, copie este código no formulário acessível no Piwik em > %s > %s."
+        "VerificationText": "O código é %1$s. Para validar o seu número de telefone e receber relatórios Piwik de SMS, copie este código no formulário acessível no Piwik em > %2$s > %3$s."
     }
 }

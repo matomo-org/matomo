@@ -37,7 +37,7 @@
         "OutlinkDocumentation": "Een outlink is een link die de bezoeker leidt uit de buurt van uw website (naar een ander domein).",
         "OutlinksReportDocumentation": "Dit rapport geeft een hiërarchische lijst van outlink URL's die zijn aangeklikt door uw bezoekers.",
         "PagesReportDocumentation": "Dit rapport bevat informatie over de pagina-URL's die zijn bezocht. %s De tabel is hiërarchisch georganiseerd. De URL's worden weergegeven in een map structuur.",
-        "PageTitlesReportDocumentation": "Dit rapport bevat informatie over de titels van de pagina's die zijn bezocht. %s De paginatitel is de HTML %s Tag dat de meeste browsers laten zien in hun window titel.",
+        "PageTitlesReportDocumentation": "Dit rapport bevat informatie over de titels van de pagina's die zijn bezocht. %1$s De paginatitel is de HTML %2$s Tag dat de meeste browsers laten zien in hun window titel.",
         "PageUrls": "pagina-URL's",
         "PluginDescription": "Rapporteert over pagina weergaven en pagina titels. Het maakt het zoekgedrag op je website inzichtelijk, geeft rapporten weer over outlinks en downloads.",
         "SiteSearchCategories1": "Dit rapport toont de categorieën die bezoekers hebben geselecteerd bij het zoeken op uw website.",

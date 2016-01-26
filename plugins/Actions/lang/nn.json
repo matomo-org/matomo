@@ -24,7 +24,7 @@
         "OutlinkDocumentation": "Ein utpeikar er ein peikar som leier vitjarane dine vekk frå nettsida di (til eit anna domene).",
         "OutlinksReportDocumentation": "Denne rapporten viser ei hierarkisk liste av utpeikarar som vitjarane dine klikka på.",
         "PagesReportDocumentation": "Denne rapporten inneheld informasjon om side-URLar som er vitja. %s Tabellen er organisert hierarkisk, URLane er vist som ein mappestruktur.",
-        "PageTitlesReportDocumentation": "Denne rapporten inneheld informasjon om titlane til sidene som er vitja. %s Sidetittelen er HTML-entiteten %s som dei fleste nettlesarane viser som tittel på vindauget sitt.",
+        "PageTitlesReportDocumentation": "Denne rapporten inneheld informasjon om titlane til sidene som er vitja. %1$s Sidetittelen er HTML-entiteten %2$s som dei fleste nettlesarane viser som tittel på vindauget sitt.",
         "PageUrls": "Side-URLar",
         "SubmenuPagesEntry": "Inngangssider",
         "SubmenuPagesExit": "Utgangssider",

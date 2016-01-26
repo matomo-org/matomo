@@ -1,6 +1,6 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "De kolom '%s' is niet gevonden in dit rapport. Probeer één van %s",
+        "ColumnOrdinateMissing": "De kolom '%1$s' is niet gevonden in dit rapport. Probeer één van %2$s",
         "PluginDescription": "Genereer mooie statische PNG Grafiek afbeeldingen voor elk van uw data rapporten."
     }
 }

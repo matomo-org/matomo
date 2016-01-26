@@ -14,12 +14,12 @@
         "LoopsInline": "%s lehe korduvat laadimist",
         "NoDataForAction": "Tegevuse %s kohta puuduvad andmed",
         "OutgoingTraffic": "Väljuv liiklus",
-        "ShareOfAllPageviews": "See leht sai %s vaatamist (%s kõigist vaatamistest)",
+        "ShareOfAllPageviews": "See leht sai %1$s vaatamist (%2$s kõigist vaatamistest)",
         "ToFollowingPages": "Sisemistele lehtedele",
         "ToFollowingPagesInline": "%s läks sisemistele lehtedele",
         "ToFollowingSiteSearches": "Sisemised otsingud",
         "ToFollowingSiteSearchesInline": "%s sisemist otsingut",
         "XOfAllPageviews": "%s kõigist antud lehe vaatamistest",
-        "XOutOfYVisits": "%s (%s kõigist)"
+        "XOutOfYVisits": "%1$s (%2$s kõigist)"
     }
 }

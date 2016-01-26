@@ -15,12 +15,12 @@
         "LoopsInline": "%s بارگذاری مجدد صفحه",
         "NoDataForAction": "هیچ داده ای وجود ندارد برای %s",
         "OutgoingTraffic": "ترافیک خروجی",
-        "ShareOfAllPageviews": "این صفحه %s بازدیدازصفحه دارد(%s از تمام بازدیدازصفحه ها)",
+        "ShareOfAllPageviews": "این صفحه %1$s بازدیدازصفحه دارد(%2$s از تمام بازدیدازصفحه ها)",
         "ToFollowingPages": "به صفحه های داخلی",
         "ToFollowingPagesInline": "%s به صفحه های داخلی",
         "ToFollowingSiteSearches": "جستجوهای داخلی",
         "ToFollowingSiteSearchesInline": "%s جستجوهای داخلی",
         "XOfAllPageviews": "%s از همه ی بازدیدهای این صفحه",
-        "XOutOfYVisits": "%s (از %s)"
+        "XOutOfYVisits": "%1$s (از %2$s)"
     }
 }

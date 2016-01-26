@@ -1,6 +1,6 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "Die Spalte '%s' wurde in diesem Bericht nicht gefunden. Probieren Sie es mit einer hiervon: %s",
+        "ColumnOrdinateMissing": "Die Spalte '%1$s' wurde in diesem Bericht nicht gefunden. Probieren Sie es mit einer hiervon: %2$s",
         "PluginDescription": "Generieren Sie schöne statische PNG Graph Bilder für Ihre Datenberichte."
     }
 }

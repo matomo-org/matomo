@@ -22,7 +22,7 @@
         "HelpMessageContent": "Verifique o %1$s Piwik FAQ %2$s que explica os erros mais comuns durante a atualização. %3$s Pergunte ao seu administrador do sistema - Ele pode ser capaz de lhe ajudar com o erro que muito provavelmente é relacionado com o seu servidor ou o setup do MySQL.",
         "HelpMessageIntroductionWhenError": "Acima está a mensagem de erro principal. Ela deve ajudar a explicar a causa, mas se você precisar de mais ajuda por favor:",
         "HelpMessageIntroductionWhenWarning": "A atualização se completou com sucesso, contudo houve alguns problemas durante o processo. Por favor leia a descrição acima para os detalhes. Para mais ajuda:",
-        "HighTrafficPiwikServerEnableMaintenance": "Se você gerencia um servidor Piwik com alto tráfego, recomendamos %sdesativar momentaneamente o Rastreamento de visitantes e colocar a interface de usuário do servidor Piwik no modo de manutenção%s.",
+        "HighTrafficPiwikServerEnableMaintenance": "Se você gerencia um servidor Piwik com alto tráfego, recomendamos %1$sdesativar momentaneamente o Rastreamento de visitantes e colocar a interface de usuário do servidor Piwik no modo de manutenção%2$s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Nota: alguns plugins não são compatíveis com Piwik %s. Eles serão desativados quando você atualizar:",
         "InstallingTheLatestVersion": "Instalando a versão mais recente",
         "LatestBetaRelease": "Último lançamento beta",

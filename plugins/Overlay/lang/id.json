@@ -13,8 +13,8 @@
         "OneClick": "1 kilik",
         "OpenFullScreen": "Menuju halaman penuh (tanpa batang sisi)",
         "Overlay": "Penghampar Halaman",
-        "RedirectUrlError": "Anda mencoba membuka Penghampar Halaman dari URL \"%s\". %s Tidak ada ranah dari pengaturan Piwik sesuai dengan tautan.",
-        "RedirectUrlErrorAdmin": "Anda dapat menambah ranah sebagai URL tambahan di %spengaturan%s.",
+        "RedirectUrlError": "Anda mencoba membuka Penghampar Halaman dari URL \"%1$s\". %2$s Tidak ada ranah dari pengaturan Piwik sesuai dengan tautan.",
+        "RedirectUrlErrorAdmin": "Anda dapat menambah ranah sebagai URL tambahan di %1$spengaturan%2$s.",
         "RedirectUrlErrorUser": "Silakan bertanya kepada pengelola Anda untuk menambah ranah sebagai URL tambahan."
     }
 }

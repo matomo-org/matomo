@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "ارائه کننده خدمات با نام '%s' ناشناخته است. یکی از این ها را امتحان کنید: %s",
+        "Exception_UnknownProvider": "ارائه کننده خدمات با نام '%1$s' ناشناخته است. یکی از این ها را امتحان کنید: %2$s",
         "MobileReport_AdditionalPhoneNumbers": "پس از دسترسی می توانید شماره موبایل های بیشتری اضافه کنید",
         "MobileReport_MobileMessagingSettingsLink": "صفحه تنظیمات پیام رسانی با موبایل",
         "MobileReport_NoPhoneNumbers": "لطفا پس از دسترسی حداقل یک شماره موبایل را فعال کنید",
@@ -25,7 +25,7 @@
         "Settings_SMSAPIAccount": "تنظیم اکانت SMS API",
         "Settings_SMSProvider": "ارائه دهنده خدمات پیامک",
         "Settings_SuperAdmin": "تنظیمات ابر کاربر",
-        "Settings_UpdateOrDeleteAccount": "شما می توانید این اکانت را %supdate%s یا %sdelete%s نمایید.",
+        "Settings_UpdateOrDeleteAccount": "شما می توانید این اکانت را %1$supdate%2$s یا %3$sdelete%4$s نمایید.",
         "Settings_ValidatePhoneNumber": "تایید",
         "Settings_VerificationCodeJustSent": "ما همین الان یک پیامک به همراه یک کد به این شماره فرستادیم: لطفا آن کد را بالا وارد کنید و بر روی \"تایید\" کلیک کنید.",
         "SettingsMenu": "پیام رسانی با موبایل",

@@ -11,8 +11,8 @@
         "VisitsByDayOfWeek": "曜日別訪問数",
         "WidgetByDayOfWeekDocumentation": "このグラフは、曜日ごとのウェブサイト訪問数を表示します",
         "WidgetLocalTime": "ローカルタイム単位のビジット",
-        "WidgetLocalTimeDocumentation": "このグラフは、訪問中の %s ビジターの時間帯 %s を表示します。",
+        "WidgetLocalTimeDocumentation": "このグラフは、訪問中の %1$s ビジターの時間帯 %2$s を表示します。",
         "WidgetServerTime": "サーバタイム単位のビジット",
-        "WidgetServerTimeDocumentation": "このグラフは、訪問中の %s サーバー時間帯 %s を表示します。"
+        "WidgetServerTimeDocumentation": "このグラフは、訪問中の %1$s サーバー時間帯 %2$s を表示します。"
     }
 }

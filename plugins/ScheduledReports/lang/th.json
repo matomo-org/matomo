@@ -6,7 +6,7 @@
         "EmailReports": "รายงานอีเมล์",
         "EmailSchedule": "ตารางการทำงานของอีเมล์",
         "MonthlyScheduleHelp": "ตารางเวลารายเดือน: รายงานจะถูกส่งไปวันแรกของแต่ละเดือน",
-        "Pagination": "หน้า %s จาก %s",
+        "Pagination": "หน้า %1$s จาก %2$s",
         "PiwikReports": "รายงาน Piwik",
         "PleaseFindAttachedFile": "กรุณาหาในไฟล์แนบของคุณ %1$s รายงานสำหรับ %2$s",
         "ReportFormat": "รูปแบบรายงาน",
