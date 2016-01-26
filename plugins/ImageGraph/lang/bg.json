@@ -1,5 +1,5 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "Колоната '%s' не е намерена в този доклад. Опитайте с %s"
+        "ColumnOrdinateMissing": "Колоната '%1$s' не е намерена в този доклад. Опитайте с %2$s"
     }
 }

@@ -7,13 +7,11 @@
         "AnonymousUserHasViewAccess": "Opmerking: de %1$s gebruiker heeft %2$s toegang tot deze website.",
         "AnonymousUserHasViewAccess2": "Je Analyse rapporten en je bezoekers informatie zijn publiek beschikbaar.",
         "ApplyToAllWebsites": "Pas toe op elke website",
-        "ChangeAllConfirm": "Weet u zeker dat u de rechten van '%s' voor alle websites wilt wijzigen?",
         "ChangePasswordConfirm": "Als het wachtwoord wordt gewijzigd, zal ook de gebruikers token_auth wijzigen. Wilt u echt doorgaan?",
         "ClickHereToDeleteTheCookie": "Klik hier om de cookie te verwijderen en laat Piwik uw bezoeken volgen.",
         "ClickHereToSetTheCookieOnDomain": "Klik hier om een cookie te plaatsen dat uw bezoeken uitsluit van Piwik op %s",
         "ConfirmGrantSuperUserAccess": "Weet u zeker dat u '%s' Super Gebruiker toegang wilt geven? Waarschuwing: deze gebruiker heeft toegang tot alle websites en kan administratieve taken uitvoeren.",
         "ConfirmProhibitMySuperUserAccess": "%s, wilt u echt uw eigen Super gebruiker rechten wegnemen? U verliest alle rechten en toegang tot alle websites en wordt bij Piwik uitgelogd.",
-        "ConfirmProhibitOtherUsersSuperUserAccess": "Wilt u echt alle Super Gebruiker rechten voor %s wegnemen? Deze gebruiker zal alle rechten en toegang tot alle websites verliezen. U dient achteraf, rechten voor benodigde websites toe te kennen.",
         "DeleteConfirm": "Weet u zeker dat u de volgende gebruiker wilt verwijderen: %s?",
         "Email": "E-mail",
         "EmailYourAdministrator": "%1$sE-mail de beheerder over dit probleem%2$s.",
@@ -24,9 +22,7 @@
         "ExceptionEditAnonymous": "De anonieme gebruiker kan niet gewijzigd of verwijderd worden. Deze wordt door Piwik gebruikt voor gebruikers die nog niet zijn ingelogd. U kunt bijvoorbeeld uw statistieken publiekelijk maken door de 'anonieme' gebruiker 'kijkers rechten' te geven.",
         "ExceptionEmailExists": "Er is reeds een gebruiker met '%s' als e-mail adres.",
         "ExceptionInvalidEmail": "Het e-mail adres is ongeldig.",
-        "ExceptionInvalidLoginFormat": "De gebruikersnaam moet tussen de %1$s en %2$s karakters lang zijn en mag alleen letters, cijfers of de karaketers _ , - , . bevatten",
         "ExceptionInvalidPassword": "De lengte van het wachtwoord moet tussen %1$s en %2$s tekens lang zijn.",
-        "ExceptionLoginExists": "Login '%s' bestaat reeds.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth verwacht een MD5-hash wachtwoord (32 tekens lange reeks). Vraag de md5()functie op het wachtwoord op alvorens deze methode aan te roepen.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Het verwijderen van de Super User rechten van gebruiker '%s' is niet toegestaan.",
         "ExceptionUserDoesNotExist": "Gebruiker '%s' bestaat niet.",
@@ -35,7 +31,6 @@
         "ForAnonymousUsersReportDateToLoadByDefault": "Voor anonieme gebruikers, Standaard rapport datum bij laden pagina.",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Als u het wachtwoord wilt wijzigen, geef dan een nieuwe op. Laat het anders leeg.",
         "LastSeen": "Laatst gezien",
-        "MainDescription": "Stel in welke gebruikers toegang hebben tot de Piwik rapporten van deze website. U kan de toegangsrechten voor alle websites tegelijk bepalen door deze optie te kiezen in de dropdown.",
         "ManageAccess": "Toegangsbeheer",
         "MenuAnonymousUserSettings": "Anonieme gebruikers instellingen",
         "MenuUsers": "Gebruikers",
@@ -57,7 +52,7 @@
         "UsersManagementMainDescription": "Creëer nieuwe of actualiseer bestaande gebruikers",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Wanneer gebruikers niet ingelogd zijn en Piwik bezoeken, moeten ze toegang krijgen",
         "YourUsernameCannotBeChanged": "Uw gebruikersnaam kan niet worden gewijzigd.",
-        "YourVisitsAreIgnoredOnDomain": "%s Uw Piwik bezoeken worden genegeerd door Piwik op %s %s (Piwik negeer cookie is gevonden in uw browser).",
-        "YourVisitsAreNotIgnored": "%sUw bezoeken worden niet genegeerd door Piwik%s (de Piwik negeer cookie is niet gevonden in uw browser)."
+        "YourVisitsAreIgnoredOnDomain": "%1$s Uw Piwik bezoeken worden genegeerd door Piwik op %2$s %3$s (Piwik negeer cookie is gevonden in uw browser).",
+        "YourVisitsAreNotIgnored": "%1$sUw bezoeken worden niet genegeerd door Piwik%2$s (de Piwik negeer cookie is niet gevonden in uw browser)."
     }
 }

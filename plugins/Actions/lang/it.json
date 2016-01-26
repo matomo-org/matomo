@@ -38,7 +38,7 @@
         "OutlinkDocumentation": "Un link esterno è un link che conduce il visitatore lontano dal tuo sito web (in un altro dominio)",
         "OutlinksReportDocumentation": "Questo report mostra un elenco gerarchico di link esterni che sono stati cliccati dai visitatori.",
         "PagesReportDocumentation": "Questo report contiene informazioni riguardo gli URL delle pagine che sono state viste. %s La tabella è organizzata gerarchicamente, gli URL vengono visualizzati come una struttura di cartelle.",
-        "PageTitlesReportDocumentation": "Questo report contiene informazioni sui titoli delle pagine che sono state visitate. %s Il titolo della pagina è il tag HTML %s che la maggior parte dei browser mostrano nel titolo della loro finestra.",
+        "PageTitlesReportDocumentation": "Questo report contiene informazioni sui titoli delle pagine che sono state visitate. %1$s Il titolo della pagina è il tag HTML %2$s che la maggior parte dei browser mostrano nel titolo della loro finestra.",
         "PageUrls": "URL delle pagine",
         "PluginDescription": "Riporta le viste e i titoli pagina. Ti consente di misurare il motore di ricerca interno al tuo sito. Traccia in automatico i click sui link esterni e i download dei files.",
         "SiteSearchCategories1": "Questo report elenca le Categorie che i visitatori hanno selezionato nel fare una ricerca sul vostro sito.",

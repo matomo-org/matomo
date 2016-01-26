@@ -22,7 +22,7 @@
         "HelpMessageContent": "Lesen Sie die %1$sPiwik-FAQ%2$s. Dort werden die meisten Fehler, die während einer Aktualisierung auftreten können, erklärt. %3$sFragen Sie Ihren Systemadministrator - dieser kann Ihnen mit diesem Fehler helfen, da er am wahrscheinlichsten mit Ihrem Server oder dem MySQL-Server zusammenhängt.",
         "HelpMessageIntroductionWhenError": "Dies ist die Kernfehlermeldung. Sie sollte helfen, die Ursache zu erklären, aber wenn Sie weitere Hilfe benötigen, bitte:",
         "HelpMessageIntroductionWhenWarning": "Die Aktualisierung konnte erfolgreich abgeschlossen werden, obwohl es währenddessen zu Problemen kam. Für nähere Details lesen Sie bitte die Beschreibung. Für weitere Hilfe:",
-        "HighTrafficPiwikServerEnableMaintenance": "Wenn Sie eine Website mit hohem Verkehrsaufkommen verwalten, empfehlen wir, das %sBesuchertracking vorübergehend zu deaktivieren und die Benutzeroberfläche in den Wartungsmodus zu versetzen%s.",
+        "HighTrafficPiwikServerEnableMaintenance": "Wenn Sie eine Website mit hohem Verkehrsaufkommen verwalten, empfehlen wir, das %1$sBesuchertracking vorübergehend zu deaktivieren und die Benutzeroberfläche in den Wartungsmodus zu versetzen%2$s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Hinweis: Einige Plugins sind nicht kompatibel mit Piwik %s. Diese werden beim Upgrade deaktiviert:",
         "InstallingTheLatestVersion": "Die neueste Version wird installiert",
         "LatestBetaRelease": "Das aktuelle beta Release",

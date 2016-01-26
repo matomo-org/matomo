@@ -14,8 +14,8 @@
         "OpenFullScreen": "Vai a schermo intero (niente barra laterale)",
         "Overlay": "Overlay di Pagina",
         "PluginDescription": "Vedi i tuoi dati statistici in sovrapposizione al tuo sito web. Guarda quante volte i tuoi utenti hanno cliccato su ciascun link. Nota: Richiede che sia abilitato il plugin Transitions.",
-        "RedirectUrlError": "Si sta tentando di aprire la Pagina Overlay per l'URL \"%s\". %s Nessuno dei domini dalle impostazioni di Piwik corrisponde al link.",
-        "RedirectUrlErrorAdmin": "È possibile aggiungere il dominio come un ulteriore URL %snelle impostazioni%s.",
+        "RedirectUrlError": "Si sta tentando di aprire la Pagina Overlay per l'URL \"%1$s\". %2$s Nessuno dei domini dalle impostazioni di Piwik corrisponde al link.",
+        "RedirectUrlErrorAdmin": "È possibile aggiungere il dominio come un ulteriore URL %1$snelle impostazioni%2$s.",
         "RedirectUrlErrorUser": "Chiedi all'amministratore di aggiungere il dominio come un URL aggiuntivo."
     }
 }

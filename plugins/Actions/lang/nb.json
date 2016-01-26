@@ -38,7 +38,7 @@
         "OutlinkDocumentation": "En utlenke er en lenke som leder besøkeren bort fra ditt nettsted (til et annet domene).",
         "OutlinksReportDocumentation": "Denne rapporten viser en hierarkisk liste av utlenkers URL-er som ble klikket av dine besøkere.",
         "PagesReportDocumentation": "Denne rapporten inneholder informasjon om side-URLer som har blitt besøkt. %s Tabellen er organisert hierarkisk, URL-ene vises som en mappestruktur.",
-        "PageTitlesReportDocumentation": "Denne rapporten inneholder informasjon om titler på sider som har blitt besøkt. %s Sidetittelen er HTML-taggen %s som de fleste nettlesere viser i vindustittelen.",
+        "PageTitlesReportDocumentation": "Denne rapporten inneholder informasjon om titler på sider som har blitt besøkt. %1$s Sidetittelen er HTML-taggen %2$s som de fleste nettlesere viser i vindustittelen.",
         "PageUrls": "Side-URLer",
         "PluginDescription": "Rapporter om sidevisninger org sidetitler. Lar deg måle ditt nettsteds interne søkemotor. Sporer klikk på eksterne lenker og nedlastinger automatisk.",
         "SiteSearchCategories1": "Denne rapporten viser kategorier som besøkere velger når de søker på ditt nettsted.",

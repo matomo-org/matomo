@@ -11,8 +11,8 @@
         "VisitsByDayOfWeek": "Visite per giorno della settimana",
         "WidgetByDayOfWeekDocumentation": "Il grafico mostra il numero di visite che il tuo sito ha ricevuto in ciascun giorno della settimana.",
         "WidgetLocalTime": "Visite per ora locale",
-        "WidgetLocalTimeDocumentation": "Questo grafico mostra che ora era nei %sfusi orari dei visitatori%s durante le loro visite.",
+        "WidgetLocalTimeDocumentation": "Questo grafico mostra che ora era nei %1$sfusi orari dei visitatori%2$s durante le loro visite.",
         "WidgetServerTime": "Visite per ora del server",
-        "WidgetServerTimeDocumentation": "Questo grafico mostra che ora era nel %sfuso orario del server%s durante le visite."
+        "WidgetServerTimeDocumentation": "Questo grafico mostra che ora era nel %1$s fuso orario del server %2$s durante le visite."
     }
 }

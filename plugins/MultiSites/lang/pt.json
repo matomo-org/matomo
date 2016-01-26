@@ -4,6 +4,6 @@
         "LoadingWebsites": "A carregar websites",
         "PluginDescription": "Veja e compare todos os seus websites e aplicações no painel \"Todos os Websites\".",
         "TopLinkTooltip": "Compare as estatísticas de todos os seus websites.",
-        "Pagination": "%s - %s de %s"
+        "Pagination": "%1$s - %2$s de %3$s"
     }
 }

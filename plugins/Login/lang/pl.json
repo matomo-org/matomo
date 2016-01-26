@@ -3,7 +3,7 @@
         "ConfirmationLinkSent": "Potwierdzenie zostało wysłane na skrzynkę odbiorczą. Sprawdź swój e-mail i odwiedzić link do autoryzacji żądania zmiany hasła.",
         "ContactAdmin": "Prawdopodobny powód: twój host mógł wyłączyć działanie funkcji mail(). <br \/>Skontaktuj się w tej sprawie ze swoim administratorem statystyk Piwik.",
         "ExceptionPasswordMD5HashExpected": "Oczekiwanym parametrem hasła jest hash z MD5 uzyskany z hasła.",
-        "InvalidNonceOrHeadersOrReferrer": "Błąd zabezpieczeń formularza. Proszę przeładować stronę z formularzem i upewnić się, że obsługa ciasteczek jest włączona. Jeśli korzystasz z serwera proxy, należy %s skonfigurować Piwik, tak aby akceptował nagłówek serwera proxy%s, który przekazuje nagłówek serwera docelowego. Ponadto sprawdź, czy naglówek Referrer jest poprawnie wysyłany.",
+        "InvalidNonceOrHeadersOrReferrer": "Błąd zabezpieczeń formularza. Proszę przeładować stronę z formularzem i upewnić się, że obsługa ciasteczek jest włączona. Jeśli korzystasz z serwera proxy, należy %1$s skonfigurować Piwik, tak aby akceptował nagłówek serwera proxy%2$s, który przekazuje nagłówek serwera docelowego. Ponadto sprawdź, czy naglówek Referrer jest poprawnie wysyłany.",
         "InvalidOrExpiredToken": "Token jest błędny lub już wygasł.",
         "InvalidUsernameEmail": "Błędna nazwa użytkownika i\/lub adres e-mail",
         "LogIn": "Zaloguj się",

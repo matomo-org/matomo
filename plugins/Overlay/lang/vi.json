@@ -13,8 +13,8 @@
         "OneClick": "1 click",
         "OpenFullScreen": "Toàn màn hình (không có sidebar)",
         "Overlay": "Trang Overlay",
-        "RedirectUrlError": "Bạn đang cố mở trang Overlay cho URL \"%s\". Không có %s của các tên miền từ các thiết lập Piwik phù hợp với liên kết này.",
-        "RedirectUrlErrorAdmin": "Bạn có thể thêm các tên miền như một URL bổ sung %s trong cài đặt %s.",
+        "RedirectUrlError": "Bạn đang cố mở trang Overlay cho URL \"%1$s\". Không có %2$s của các tên miền từ các thiết lập Piwik phù hợp với liên kết này.",
+        "RedirectUrlErrorAdmin": "Bạn có thể thêm các tên miền như một URL bổ sung %1$s trong cài đặt %2$s.",
         "RedirectUrlErrorUser": "Yêu cầu quản trị của bạn thêm các tên miền như một URL bổ sung"
     }
 }

@@ -17,12 +17,12 @@
         "NoDataForActionDetails": "L'action n'a eu aucune visite de page durant la période %s ou bien elle est invalide.",
         "OutgoingTraffic": "Trafic sortant",
         "PluginDescription": "Rapporte les actions précédentes et suivantes pour chacune des URL's de page dans un nouveau rapport de Transitions, disponible depuis le rapports des Actions via un nouvel icône.",
-        "ShareOfAllPageviews": "Cette page a eu %s affichages (%s de tous les affichages)",
+        "ShareOfAllPageviews": "Cette page a eu %1$s affichages (%2$s de tous les affichages)",
         "ToFollowingPages": "Vers des pages internes",
         "ToFollowingPagesInline": "%s vers des pages internes",
         "ToFollowingSiteSearches": "Recherches internes",
         "ToFollowingSiteSearchesInline": "%s recherches internes",
         "XOfAllPageviews": "%s de toutes les pages vues",
-        "XOutOfYVisits": "%s (de %s)"
+        "XOutOfYVisits": "%1$s (de %2$s)"
     }
 }

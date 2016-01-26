@@ -4,6 +4,6 @@
         "LoadingWebsites": "Laddar webbplatser",
         "PluginDescription": "Visa och jämför alla dina webbplatser i panelen 'All Websites'.",
         "TopLinkTooltip": "Jämför statistik för alla dina webbplatser.",
-        "Pagination": "%s - %s av %s"
+        "Pagination": "%1$s - %2$s av %3$s"
     }
 }

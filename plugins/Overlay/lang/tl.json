@@ -12,8 +12,8 @@
         "NoData": "Walang datos para sa pahinang ito sa napiling panahon.",
         "OpenFullScreen": "Mag full screen (walang sidebar)",
         "Overlay": "Page Overlay",
-        "RedirectUrlError": "Sinusubukan mo upang buksan ang Overlay ng Pahina para sa URL na \"%s\". %s Wala sa mga domains ng Piwik settings ang tugma sa link",
-        "RedirectUrlErrorAdmin": "Maaari mong idagdag ang domain na karagdagang URL %s sa mga setting ng %s.",
+        "RedirectUrlError": "Sinusubukan mo upang buksan ang Overlay ng Pahina para sa URL na \"%1$s\". %2$s Wala sa mga domains ng Piwik settings ang tugma sa link",
+        "RedirectUrlErrorAdmin": "Maaari mong idagdag ang domain na karagdagang URL %1$s sa mga setting ng %2$s.",
         "RedirectUrlErrorUser": "Tanungin ang iyong administrator upang idagdag ang domain bilang isang karagdagang URL."
     }
 }

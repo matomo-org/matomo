@@ -10,8 +10,8 @@
         "VisitsByDayOfWeek": "Vizite ordonate după ziua săptămânii",
         "WidgetByDayOfWeekDocumentation": "Acest grafic arată numărul de vizite primite de site-ul dvs. în fiecare zi a săptămânii.",
         "WidgetLocalTime": "Vizite dupa timpul local",
-        "WidgetLocalTimeDocumentation": "Acest grafic arată ce timp a fost în zonele %s vizitatorilor' \"fus orar %s în timpul vizitei lor.",
+        "WidgetLocalTimeDocumentation": "Acest grafic arată ce timp a fost în zonele %1$s vizitatorilor' \"fus orar %2$s în timpul vizitei lor.",
         "WidgetServerTime": "Vizite dupa timpul serverului",
-        "WidgetServerTimeDocumentation": "Acest grafic arată ce ora a fost în zona de %s server %s în timpul vizitelor."
+        "WidgetServerTimeDocumentation": "Acest grafic arată ce ora a fost în zona de %1$s server %2$s în timpul vizitelor."
     }
 }

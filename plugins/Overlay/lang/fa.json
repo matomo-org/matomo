@@ -11,7 +11,7 @@
         "OneClick": "1 کلیک",
         "OpenFullScreen": "به حالت تمام صفحه برو (بدون ستون کناری)",
         "Overlay": "صفحه از دسترس خارج شد",
-        "RedirectUrlErrorAdmin": "شما توانید آدرس های جدیدی را اضافه نمایید URL %sin the settings%s.",
+        "RedirectUrlErrorAdmin": "شما توانید آدرس های جدیدی را اضافه نمایید URL %1$sin the settings%2$s.",
         "RedirectUrlErrorUser": "از مدیریت بخواهید که این دامنه را به عنوان دامنه اضافی بیافزاید."
     }
 }

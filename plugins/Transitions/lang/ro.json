@@ -16,12 +16,12 @@
         "NoDataForAction": "Nu este nici o data pentru %s",
         "NoDataForActionDetails": "Fie acțiunea nu a avut nici o afișări de pagină în timpul perioadei%s sau este invalida.",
         "OutgoingTraffic": "traficul de ieșire",
-        "ShareOfAllPageviews": "Această pagină a avut vizualizări de %s pagini (%s din toate vizualizări de pagini)",
+        "ShareOfAllPageviews": "Această pagină a avut vizualizări de %1$s pagini (%2$s din toate vizualizări de pagini)",
         "ToFollowingPages": "Catre paginile interne",
         "ToFollowingPagesInline": "%s la pagini interne",
         "ToFollowingSiteSearches": "Cautari interne",
         "ToFollowingSiteSearchesInline": "%s căutări interne",
         "XOfAllPageviews": "%s toate vizualizarile de pe aceasta pagina",
-        "XOutOfYVisits": "%s (din %s)"
+        "XOutOfYVisits": "%1$s (din %2$s)"
     }
 }

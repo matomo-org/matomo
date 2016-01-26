@@ -4,6 +4,6 @@
         "LoadingWebsites": "Lade Websites",
         "PluginDescription": "Zeige und vergleiche alle Websites und Apps im hilfreichen 'Alle Websites' Dashboard.",
         "TopLinkTooltip": "Vergleichen Sie Webanalytikstatistiken für alle Ihre Websites.",
-        "Pagination": "%s - %s von %s"
+        "Pagination": "%1$s - %2$s von %3$s"
     }
 }

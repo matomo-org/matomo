@@ -49,7 +49,6 @@
         "ClickRowToExpandOrContract": "サブテーブルを拡大または縮小するには、この列をクリックしてください。",
         "UndoPivotBySubtable": "このレポートは、%s 元に戻すピボットを旋回しました。",
         "PivotBySubtable": "このレポートは、%s が %s ピボット を旋回していません。",
-        "QuickAccessTitle": "%s を検索。ショートカット: ' f' キーを押して検索します。",
         "MenuEntries": "メニュー エントリー",
         "Segments": "セグメント",
         "AdblockIsMaybeUsed": "広告ブロッカーを使用している場合には、Piwik が問題なく動作することを確認するために、このサイトでそれを無効にしてください。",

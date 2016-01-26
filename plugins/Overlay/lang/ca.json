@@ -13,8 +13,8 @@
         "OneClick": "1 click",
         "OpenFullScreen": "Mostra a pantalla complerta (sense barra lateral)",
         "Overlay": "Overlay de pàgina",
-        "RedirectUrlError": "Esteu intentant obrir un pàgina Overlay per la URL \"%s\". %s Cap dels dominis configurats al Piwik concòrda amb l'enllaç.",
-        "RedirectUrlErrorAdmin": "Podeu afegir una URL addicional per un domini a %s les preferències%s.",
+        "RedirectUrlError": "Esteu intentant obrir un pàgina Overlay per la URL \"%1$s\". %2$s Cap dels dominis configurats al Piwik concòrda amb l'enllaç.",
+        "RedirectUrlErrorAdmin": "Podeu afegir una URL addicional per un domini a %1$s les preferències%2$s.",
         "RedirectUrlErrorUser": "Contacteu amb el vostre administrador per afegir el domini com una URL adicional."
     }
 }

@@ -1,7 +1,7 @@
 {
     "API": {
-        "GenerateVisits": "Ako nemate podataka za danas onda možete prvo generisati neke podatke sa dodatkom %s. Ovo možete uraditi ako uključite dodatak %s i zatim kliknete na 'Proizvođač posjetilaca' u meniju koja se nalazi u Piwik adminskom prostoru.",
-        "KeepTokenSecret": "Ovaj token_auth je povjerljiv podatak poput vašeg korisničkog imena i lozine. %s Nemojte ga dijeliti sa drugima%s!",
+        "GenerateVisits": "Ako nemate podataka za danas onda možete prvo generisati neke podatke sa dodatkom %1$s. Ovo možete uraditi ako uključite dodatak %2$s i zatim kliknete na 'Proizvođač posjetilaca' u meniju koja se nalazi u Piwik adminskom prostoru.",
+        "KeepTokenSecret": "Ovaj token_auth je povjerljiv podatak poput vašeg korisničkog imena i lozine. %1$s Nemojte ga dijeliti sa drugima%2$s!",
         "LoadedAPIs": "Uspješno učitani %s API(-ovi)"
     }
 }

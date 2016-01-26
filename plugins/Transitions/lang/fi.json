@@ -16,12 +16,12 @@
         "NoDataForAction": "%s:lle ei ole tietoja",
         "NoDataForActionDetails": "Joko toiminnolle ei ole tietoja aikavälille %s tai toiminto on virheellinen.",
         "OutgoingTraffic": "Lähtevä liikenne",
-        "ShareOfAllPageviews": "Tällä sivulla on %s sivunavausta (%s kaikista)",
+        "ShareOfAllPageviews": "Tällä sivulla on %1$s sivunavausta (%2$s kaikista)",
         "ToFollowingPages": "Sisäisille sivuille",
         "ToFollowingPagesInline": "%s sisäisille sivuille",
         "ToFollowingSiteSearches": "Sisäisiä hakuja",
         "ToFollowingSiteSearchesInline": "%s sisäistä hakua",
         "XOfAllPageviews": "%s kaikista tämän sivun katseluista",
-        "XOutOfYVisits": "%s (%s:stä)"
+        "XOutOfYVisits": "%1$s (%2$s:stä)"
     }
 }

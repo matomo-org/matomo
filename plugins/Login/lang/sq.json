@@ -2,7 +2,7 @@
     "Login": {
         "ContactAdmin": "Arsye e mundshme: streha juaj mund të ketë çaktivizuar funksionin mail(). <br \/>Ju lutem, lidhuni me përgjegjësin e Piwik-ut tuaj.",
         "ExceptionPasswordMD5HashExpected": "Parametri i fjalëkalimit pritet të jetë një hash MD5 fjalëkalimi.",
-        "InvalidNonceOrHeadersOrReferrer": "Siguria e formularit dështoi. Ju lutem, ringarkoni formularin dhe kontrolloni nëse janë të aktivizuara \"cookie\"-et tuaja. Nëse përdorni një shërbyes ndërmjetës, duhet ta formësoni %s Piwik-un që të pranojë titull ndërmjetësi%s i cili përcjell titull Strehe. Kontrolloni gjithashtu që titulli i Referuesit dërgohet saktë.",
+        "InvalidNonceOrHeadersOrReferrer": "Siguria e formularit dështoi. Ju lutem, ringarkoni formularin dhe kontrolloni nëse janë të aktivizuara \"cookie\"-et tuaja. Nëse përdorni një shërbyes ndërmjetës, duhet ta formësoni %1$s Piwik-un që të pranojë titull ndërmjetësi%2$s i cili përcjell titull Strehe. Kontrolloni gjithashtu që titulli i Referuesit dërgohet saktë.",
         "InvalidOrExpiredToken": "Elementi është i pavlefshëm ose ka skaduar",
         "InvalidUsernameEmail": "Emër përdoruesi dhe\/ose vendndodhje e-mail e pavlefshme",
         "LogIn": "Hyni",

@@ -1,11 +1,11 @@
 {
     "API": {
-        "GenerateVisits": "Jos sinulla ei ole yhtään tietoja tälle päivälle, voit generoida satunnaisia tietoja käyttämällä lisäosaa %s. Voit ottaa käyttöön %s-lisäosan ja painaa 'Vierailijoiden luominen'-linkkiä Piwikin ylläpitosivulla.",
-        "KeepTokenSecret": "Tämä token_auth on yhtä salainen kuin salasanasi, %s älä jaa sitä%s!",
+        "GenerateVisits": "Jos sinulla ei ole yhtään tietoja tälle päivälle, voit generoida satunnaisia tietoja käyttämällä lisäosaa %1$s. Voit ottaa käyttöön %2$s-lisäosan ja painaa 'Vierailijoiden luominen'-linkkiä Piwikin ylläpitosivulla.",
+        "KeepTokenSecret": "Tämä token_auth on yhtä salainen kuin salasanasi, %1$s älä jaa sitä%2$s!",
         "LoadedAPIs": "Ladattiin %s APIa",
-        "MoreInformation": "Lisätietoa Piwikin APIsta löytyy sivulta %sJohdatus Piwikin APIin%s ja %sPiwikin API%s.",
+        "MoreInformation": "Lisätietoa Piwikin APIsta löytyy sivulta %1$sJohdatus Piwikin APIin%2$s ja %3$sPiwikin API%4$s.",
         "TopLinkTooltip": "Hae analytiikkatietoja automaattisesti yksinkertaisella API:lla JSON:lla, XML:llä jne.",
         "UserAuthentication": "Käyttäjän autentikointi",
-        "UsingTokenAuth": "Jos haluat %s hakea tietoja skriptillä, crontabista jne. %s sinun täytyy lisätä parametri %s API-kutsujen osoitteisiin, jos kutsu vaatii autentikoinnin."
+        "UsingTokenAuth": "Jos haluat %1$s hakea tietoja skriptillä, crontabista jne. %2$s sinun täytyy lisätä parametri %3$s API-kutsujen osoitteisiin, jos kutsu vaatii autentikoinnin."
     }
 }

@@ -37,7 +37,7 @@
         "OutlinkDocumentation": "외부 링크는 사이트 내에서 외부 사이트(다른 도메인)로의 링크입니다.",
         "OutlinksReportDocumentation": "이 보고서는 방문자가 클릭 한 외부 링크의 URL을 계층 구조 목록으로 표시합니다.",
         "PagesReportDocumentation": "이 보고서는 방문한 페이지 URL에 대한 정보입니다. %s 테이블은 계층 구조로 되어 있으며, URL은 폴더 구조로 표시됩니다.",
-        "PageTitlesReportDocumentation": "이 보고서는 방문한 페이지 제목에 대한 정보입니다. %s 페이지 제목은 대부분의 브라우저 윈도우의 제목에 표시되는 HTML %s 태그입니다.",
+        "PageTitlesReportDocumentation": "이 보고서는 방문한 페이지 제목에 대한 정보입니다. %1$s 페이지 제목은 대부분의 브라우저 윈도우의 제목에 표시되는 HTML %2$s 태그입니다.",
         "PageUrls": "페이지 URL",
         "PluginDescription": "페이지 뷰와 제목에 대한 보고서. 내부 웹사이트 검색 엔진을 측정할 수 있습니다. 외부 링크 클릭 및 파일 다운로드에 대해서도 자동으로 추적합니다.",
         "SiteSearchCategories1": "이 보고서는 웹사이트에서 검색했을 때 방문자가 선택한 카테고리를 나열합니다.",

@@ -1,11 +1,11 @@
 {
     "API": {
-        "GenerateVisits": "Se não tiver dados para hoje pode gerar alguns através do plugin %s. Pode activar o plugin %s, e depois clicar no menu 'Gerador de Visitantes' na área de Administração do Piwik.",
-        "KeepTokenSecret": "Este token_auth é tão secreto como o seu nome de utilizador e palavra-passe. %s não o partilhe%s!",
+        "GenerateVisits": "Se não tiver dados para hoje pode gerar alguns através do plugin %1$s. Pode activar o plugin %2$s, e depois clicar no menu 'Gerador de Visitantes' na área de Administração do Piwik.",
+        "KeepTokenSecret": "Este token_auth é tão secreto como o seu nome de utilizador e palavra-passe. %1$s não o partilhe%2$s!",
         "LoadedAPIs": "%s APIs carregadas com sucesso",
-        "MoreInformation": "Para mais informação sobre os APIs de Piwik, por favor dê uma vista de olhos na %s Introdução ao API Piwik %s e a %s Referência do API Piwik %s.",
+        "MoreInformation": "Para mais informação sobre os APIs de Piwik, por favor dê uma vista de olhos na %1$s Introdução ao API Piwik %2$s e a %3$s Referência do API Piwik %4$s.",
         "TopLinkTooltip": "Aceda programaticamente à sua informação através de uma simples API em json, xml, etc.",
         "UserAuthentication": "Autenticação do utilizador",
-        "UsingTokenAuth": "Se quer %s pedir dados através de um script, crontab, etc. %s tem que adicionar o parâmetro %s aos URLs das chamadas do API que necessitam de autenticação."
+        "UsingTokenAuth": "Se quer %1$s pedir dados através de um script, crontab, etc. %2$s tem que adicionar o parâmetro %3$s aos URLs das chamadas do API que necessitam de autenticação."
     }
 }

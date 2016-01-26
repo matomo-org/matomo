@@ -1,5 +1,5 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "报表中没有 '%s' 栏，请试试 %s"
+        "ColumnOrdinateMissing": "报表中没有 '%1$s' 栏，请试试 %2$s"
     }
 }

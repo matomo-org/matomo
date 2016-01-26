@@ -16,12 +16,12 @@
         "NoDataForAction": "%s के लिए कोई डेटा नहीं है",
         "NoDataForActionDetails": "या तो कार्रवाई की अवधि %s के दौरान कोई पेज देखा गया था या यह अवैध है.",
         "OutgoingTraffic": "निवर्तमान यातायात",
-        "ShareOfAllPageviews": "यह पृष्ठ का %s पृष्ठ दृश्य (सभी पृष्ठ दृश्य का %s)किया था",
+        "ShareOfAllPageviews": "यह पृष्ठ का %1$s पृष्ठ दृश्य (सभी पृष्ठ दृश्य का %2$s)किया था",
         "ToFollowingPages": "आंतरिक पृष्ठ",
         "ToFollowingPagesInline": "%s आंतरिक पृष्ठ",
         "ToFollowingSiteSearches": "आंतरिक खोजें",
         "ToFollowingSiteSearchesInline": "%s आंतरिक खोजें",
         "XOfAllPageviews": "इस पृष्ठ के सभी दृश्यों का %s",
-        "XOutOfYVisits": "%s (बाहर %s)"
+        "XOutOfYVisits": "%1$s (बाहर %2$s)"
     }
 }

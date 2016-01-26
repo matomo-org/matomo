@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "Denna plugin ger dig widgetarna besökskarta och realtidskarta. Notera: Kräver aktiverad UserCountry-plugin.",
         "AndNOthers": "och %s andra",
         "Cities": "Städer",
         "Countries": "Länder",

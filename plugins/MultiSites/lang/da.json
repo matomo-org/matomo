@@ -3,6 +3,6 @@
         "Evolution": "Udvikling",
         "LoadingWebsites": "Loading websites",
         "TopLinkTooltip": "Sammenlign analyse statistik for alle hjemmesider.",
-        "Pagination": "%s - %s af %s"
+        "Pagination": "%1$s - %2$s af %3$s"
     }
 }

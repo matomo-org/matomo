@@ -12,7 +12,6 @@
         "Settings_SMSAPIAccount": "Behandle SMS API-konto",
         "Settings_SMSProvider": "SMS-leverandør",
         "Settings_SuperAdmin": "Superbruker-instillinger",
-        "Settings_UpdateOrDeleteAccount": "Du kan også %soppdatere%s eller %sslette%s denne kontoen.",
         "Settings_ValidatePhoneNumber": "Valider",
         "Settings_VerificationCodeJustSent": "Vi har nettopp sendt en SMS til dette nummeret med en kode: Skriv inn denne koden ovenfor og klikk \"Valider\".",
         "SettingsMenu": "Meldingstjenester",

@@ -1,6 +1,6 @@
 {
     "MultiSites": {
         "Evolution": "Evolution",
-        "Pagination": "%s - %s of %s"
+        "Pagination": "%1$s - %2$s of %3$s"
     }
 }

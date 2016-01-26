@@ -4,7 +4,7 @@
         "ContactAdmin": "Posible razón: su servicio de alojamiento puede tener deshabilitado la función mail(). <br \/>Por favor contáctese con su administrador de Piwik.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un usuario con acceso Super Usuario no puede ser autenticado usando el mecanismo '%s'.",
         "ExceptionPasswordMD5HashExpected": "Se espera que el parámetro contraseña sea un hash MD5 de la contraseña.",
-        "InvalidNonceOrHeadersOrReferrer": "La seguridad del formulario falló. Por favor cargue nuevamente el formulario y compruebe que sus cookies están habilitadas. Si usa un proxy, debe %s configurar Piwik para aceptar la cabecera proxy%s que precede a la cabecera Host. Compruebe también que su cabecera Referrer se envía correctamente.",
+        "InvalidNonceOrHeadersOrReferrer": "La seguridad del formulario falló. Por favor cargue nuevamente el formulario y compruebe que sus cookies están habilitadas. Si usa un proxy, debe %1$s configurar Piwik para aceptar la cabecera proxy%2$s que precede a la cabecera Host. Compruebe también que su cabecera Referrer se envía correctamente.",
         "InvalidOrExpiredToken": "El Token no es válido o ha caducado",
         "InvalidUsernameEmail": "Nombre de usuario y\/o correo electrónico incorrectos.",
         "LogIn": "Iniciar sesión",

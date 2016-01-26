@@ -14,8 +14,8 @@
         "OpenFullScreen": "Přejít na celou obrazovku (bez postranní lišty)",
         "Overlay": "Překryv stránky",
         "PluginDescription": "Podívejte se na vaše analytická data jako na překryv na vašich stránkách. Zjistěte, kolik uživatelů kliklo na kterýkoliv odkaz. Poznámka: vyžaduje povolený zásuvný modul přechodů.",
-        "RedirectUrlError": "Pokoušíte se spustit překryv pro stránku s url \"%s\". %s Žádná doména z nastavení Piwiku ale neodpovídá odkazu.",
-        "RedirectUrlErrorAdmin": "Doménu můžete jako další URL přidat v %snastavení%s.",
+        "RedirectUrlError": "Pokoušíte se spustit překryv pro stránku s url \"%1$s\". %2$s Žádná doména z nastavení Piwiku ale neodpovídá odkazu.",
+        "RedirectUrlErrorAdmin": "Doménu můžete jako další URL přidat v %1$snastavení%2$s.",
         "RedirectUrlErrorUser": "Požádejte svého administrátora o přidání stránky jako další URL:."
     }
 }

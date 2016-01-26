@@ -4,7 +4,6 @@
         "Alias": "Alias",
         "AllWebsites": "Wszystkie strony",
         "ApplyToAllWebsites": "Zastosuj dla wszystkich stron",
-        "ChangeAllConfirm": "Czy masz pewność, że chcesz zmienić '%s' prawa dostępu do wszystkich stron?",
         "ClickHereToDeleteTheCookie": "kliknij tutaj by skasować ciasteczko cookie i umożliwić dla Piwik śledzenie twoich wizyt na stronie",
         "ClickHereToSetTheCookieOnDomain": "Kliknij tutaj by ustawić ciasteczko cookie, które będzie wykluczało zliczanie twoich wizyt na stronie, gdy Piwik będzie je śledził na %s",
         "DeleteConfirm": "Czy masz pewność, że chcesz skasować konto użytkownika %s?",
@@ -16,16 +15,13 @@
         "ExceptionEditAnonymous": "Konto użytkownika anonimowego nie może być zmienione czy skasowane. Jest stosowane przez Piwik by zdefiniować użytkownika, który się nie loguje. Dla przykładu, możesz uczynić swoje statystyki powszechnie publiczne, udzielając prawa 'podglądu' dla 'anonimowego' użytkownika.",
         "ExceptionEmailExists": "Użytkownik z takim adresem e-mail '%s' już istnieje.",
         "ExceptionInvalidEmail": "Adres e-mail nie posiada poprawnego formatu.",
-        "ExceptionInvalidLoginFormat": "Login powinien zawierać od %1$s do %2$s znaków długości i składać się wyłącznie z liter, numerów liczb, lub znaków: '_' '-' '.' '@' '+'",
         "ExceptionInvalidPassword": "Długość hasła powinien zawierać od %1$s do %2$s znaków.",
-        "ExceptionLoginExists": "Podany login '%s' już istnieje.",
         "ExceptionPasswordMD5HashExpected": "Metoda UsersManager.getTokenAuth oczekuje hasła z hashem MD5 (łańcuch o długości 32 znaków). Wywołaj funkcję md5() z parametrem hasła, by wygenerować hash przed wywołaniem tej metody.",
         "ExceptionUserDoesNotExist": "Użytkownik '%s' nie istnieje.",
         "ExcludeVisitsViaCookie": "Wyklucz swoje wizyty stosując ciasteczka cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Dla użytkowników anonimowych, data raportu jako domyślna do wczytania",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Jeśli chcesz zmienić hasło, wpisz nowe. W innym przypadku pozostaw puste pole.",
         "LastSeen": "Ostatnio widziany",
-        "MainDescription": "Możesz zadecydować, którzy użytkownicy będą mieć dostęp do Piwik w twoim serwisie internetowym. Możesz także ustawić prawa dostępu do całości serwisu od razu.",
         "ManageAccess": "Zarządzanie uprawnieniami dostępu",
         "MenuAnonymousUserSettings": "Konfiguracja użytkownika anonimowego",
         "MenuUsers": "Użytkownicy",
@@ -47,7 +43,7 @@
         "UsersManagementMainDescription": "Utworzenie nowych użytkowników lub aktualizacja istniejących. Ponadto możesz ustawić im poziom uprawnień.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kiedy użytkownicy nie są zalogowani i odwiedzają Piwik, powinny wyświetlić się",
         "YourUsernameCannotBeChanged": "Twoja nazwa użytkownika nie może być zmieniona.",
-        "YourVisitsAreIgnoredOnDomain": "%sTwoje odwiedziny są ignorowane przez Piwik na %s %s (Piwik zignoruje ciasteczka cookie które znajdzie w twojej przeglądarce).",
-        "YourVisitsAreNotIgnored": "%sTwoje odwiedziny nie będą ignorowane przez Piwik%s (Piwik nie odnalazł właściwego dla wykluczenia ciasteczka cookie w twojej przeglądarce)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sTwoje odwiedziny są ignorowane przez Piwik na %2$s %3$s (Piwik zignoruje ciasteczka cookie które znajdzie w twojej przeglądarce).",
+        "YourVisitsAreNotIgnored": "%1$sTwoje odwiedziny nie będą ignorowane przez Piwik%2$s (Piwik nie odnalazł właściwego dla wykluczenia ciasteczka cookie w twojej przeglądarce)."
     }
 }

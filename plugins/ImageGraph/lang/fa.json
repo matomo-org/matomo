@@ -1,5 +1,5 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "ستون '%s' در این گزارش پیدا نشد. تلاش کنید برای %s"
+        "ColumnOrdinateMissing": "ستون '%1$s' در این گزارش پیدا نشد. تلاش کنید برای %2$s"
     }
 }

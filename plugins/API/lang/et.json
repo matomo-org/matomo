@@ -1,7 +1,7 @@
 {
     "API": {
         "LoadedAPIs": "Edukalt laetud %s API-id",
-        "MoreInformation": "Et saada rohkem infot Piwiku API-st, vaata %sPiwiku API tutvustus%s ja %sPiwiku API juhend%s.",
+        "MoreInformation": "Et saada rohkem infot Piwiku API-st, vaata %1$sPiwiku API tutvustus%2$s ja %3$sPiwiku API juhend%4$s.",
         "UserAuthentication": "Kasutaja autentimine"
     }
 }

@@ -1,6 +1,6 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "La colonne '%s' n'a pas été trouvée dans ce rapport. Essayez parmi %s",
+        "ColumnOrdinateMissing": "La colonne '%1$s' n'a pas été trouvée dans ce rapport. Essayez parmi %2$s",
         "PluginDescription": "Générez de magnifiques images statiques PNG de graphiques de vos données de n'importe quelle donnée de votre rapport."
     }
 }
