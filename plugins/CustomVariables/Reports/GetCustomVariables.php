@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CustomVariables\Reports;
 
+use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableName;
@@ -35,10 +36,12 @@ class GetCustomVariables extends Base
         $view->requestConfig->filter_sort_column = 'nb_actions';
         $view->requestConfig->filter_sort_order  = 'desc';
 
-        if($this->isReportContainsUnsetVisitsColumns()) {
-            $message = $this->getFooterMessageExplanationMissingMetrics();
-            $view->config->show_footer_message = $message;
-        }
+        $view->config->filters[] = function (DataTable $table) use ($view) {
+            if($this->isReportContainsUnsetVisitsColumns($table)) {
+                $message = $this->getFooterMessageExplanationMissingMetrics();
+                $view->config->show_footer_message = $message;
+            }
+        };
     }
 
     /**
@@ -52,9 +55,9 @@ class GetCustomVariables extends Base
             Piwik::translate('General_And'),
             Piwik::translate('General_ColumnNbUsers')
         );
-        $messageStart = Piwik::translate('Note: %s metrics are available for Custom Variables of scope \'visit\' only.', $metrics);
+        $messageStart = Piwik::translate('CustomVariables_MetricsAreOnlyAvailableForVisitScope', array($metrics, "'visit'"));
 
-        $messageEnd = Piwik::translate('For Custom Variables of scope \'page\', the column value for these metrics is %s', array('\'-\''));
+        $messageEnd = Piwik::translate('CustomVariables_MetricsNotAvailableForPageScope', array("'page'", '\'-\''));
 
         return $messageStart . ' ' . $messageEnd;
     }
@@ -62,9 +65,8 @@ class GetCustomVariables extends Base
     /**
      * @return bool
      */
-    protected function isReportContainsUnsetVisitsColumns()
+    protected function isReportContainsUnsetVisitsColumns(DataTable $report)
     {
-        $report = $this->fetch();
         $visits = $report->getColumn('nb_visits');
         $isVisitsMetricsSometimesUnset = in_array(false, $visits);
         return $isVisitsMetricsSometimesUnset;
