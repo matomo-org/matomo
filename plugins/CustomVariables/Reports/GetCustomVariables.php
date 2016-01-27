@@ -34,5 +34,39 @@ class GetCustomVariables extends Base
         $view->config->addTranslation('label', Piwik::translate('CustomVariables_ColumnCustomVariableName'));
         $view->requestConfig->filter_sort_column = 'nb_actions';
         $view->requestConfig->filter_sort_order  = 'desc';
+
+        if($this->isReportContainsUnsetVisitsColumns()) {
+            $message = $this->getFooterMessageExplanationMissingMetrics();
+            $view->config->show_footer_message = $message;
+        }
+    }
+
+    /**
+     * @return array
+     */
+    protected function getFooterMessageExplanationMissingMetrics()
+    {
+        $metrics = sprintf("'%s', '%s' %s '%s'",
+            Piwik::translate('General_ColumnNbVisits'),
+            Piwik::translate('General_ColumnNbUniqVisitors'),
+            Piwik::translate('General_And'),
+            Piwik::translate('General_ColumnNbUsers')
+        );
+        $messageStart = Piwik::translate('Note: %s metrics are available for Custom Variables of scope \'visit\' only.', $metrics);
+
+        $messageEnd = Piwik::translate('For Custom Variables of scope \'page\', the column value for these metrics is %s', array('\'-\''));
+
+        return $messageStart . ' ' . $messageEnd;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isReportContainsUnsetVisitsColumns()
+    {
+        $report = $this->fetch();
+        $visits = $report->getColumn('nb_visits');
+        $isVisitsMetricsSometimesUnset = in_array(false, $visits);
+        return $isVisitsMetricsSometimesUnset;
     }
 }
