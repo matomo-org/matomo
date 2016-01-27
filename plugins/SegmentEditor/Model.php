@@ -98,6 +98,27 @@ class Model
         return $segments;
     }
 
+    /**
+     * This should be used _only_ by Super Users
+     * @param $idSite
+     * @return array
+     */
+    public function getAllSegmentsForAllUsers($idSite = false)
+    {
+        $bind = array();
+        $sqlWhereCondition = '';
+
+        if(!empty($idSite)) {
+            $bind = array($idSite);
+            $sqlWhereCondition = '(enable_only_idsite = ? OR enable_only_idsite = 0) AND';
+        }
+
+        $sqlWhereCondition  = $this->buildQuerySortedByName($sqlWhereCondition . ' deleted = 0');
+        $segments = $this->getDb()->fetchAll($sqlWhereCondition, $bind);
+
+        return $segments;
+    }
+
     public function deleteSegment($idSegment)
     {
         $db = $this->getDb();

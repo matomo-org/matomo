@@ -612,6 +612,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         self::assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n"
             . var_export($response, true)
             . "\n If you are stuck, you can enable [Tracker] debug=1; in config.ini.php to get more debug info."
+            . "\n\n Also, please try to restart your webserver, and run the test again, this may help!"
             . base64_encode($response)
             . $url
         );
