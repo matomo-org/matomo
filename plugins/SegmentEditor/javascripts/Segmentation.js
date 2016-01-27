@@ -87,7 +87,7 @@ Segmentation = (function($) {
                 } else {
                     title = _pk_translate('SegmentEditor_CustomSegment');
                 }
-                segmentationTitle.html( "<strong>" + title + "</strong>");
+                segmentationTitle.addClass('segment-clicked').html( title );
             }
             else {
                 $(this.content).find(".segmentationTitle").text(this.translations['SegmentEditor_DefaultAllVisits']);
