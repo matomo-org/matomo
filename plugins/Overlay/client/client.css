@@ -36,7 +36,7 @@
 .PIS_LinkTag {
     position: absolute;
     z-index: 9999;
-    width: 36px;
+    width: 50px;
     height: 21px;
     text-align: left;
     background: url(./linktags_lessshadow.png) no-repeat 0 -21px;
@@ -45,7 +45,7 @@
 
 .PIS_LinkTag span {
     position: absolute;
-    width: 31px;
+    width: 35px;
     height: 14px;
     font-size: 10px;
     text-align: center;
