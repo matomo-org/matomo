@@ -129,13 +129,13 @@ class Mail extends Zend_Mail
 
     public function createAttachment($body, $mimeType = null, $disposition = null, $encoding = null, $filename = null)
     {
-        $filename = self::sanitiseString($filename);
+        $filename = $this->sanitiseString($filename);
         return parent::createAttachment($body, $mimeType, $disposition, $encoding, $filename);
     }
 
     public function setSubject($subject)
     {
-        $subject = self::sanitiseString($subject);
+        $subject = $this->sanitiseString($subject);
         return parent::setSubject($subject);
     }
 
@@ -173,7 +173,7 @@ class Mail extends Zend_Mail
      * @param $string
      * @return mixed
      */
-    static public function sanitiseString($string)
+    function sanitiseString($string)
     {
         $search = array('–', '’');
         $replace = array('-', '\'');
