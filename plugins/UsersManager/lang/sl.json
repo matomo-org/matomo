@@ -11,7 +11,6 @@
         "ExceptionEmailExists": "Uporabnik z emailom \"%s\" že obstaja.",
         "ExceptionInvalidEmail": "Email ni veljavnega formata.",
         "ExceptionInvalidPassword": "Dolžina gesla mora biti med %1$s in %2$s znaki.",
-        "ExceptionLoginExists": "Vpis '%s' že obstaja.",
         "ExceptionUserDoesNotExist": "Uporabnik \"%s\" ne obstaja.",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Če bi radi spremenili geslo, vpišite novega. Če ne, to pustite prazno.",
         "ManageAccess": "Upravljaj dostop",

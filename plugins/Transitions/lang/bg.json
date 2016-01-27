@@ -15,12 +15,12 @@
         "LoopsInline": "%s страница се презарежда",
         "NoDataForAction": "Няма информация за %s",
         "OutgoingTraffic": "Изходящ трафик",
-        "ShareOfAllPageviews": "Тази страница има %s разглеждания (от всички %s разглеждания)",
+        "ShareOfAllPageviews": "Тази страница има %1$s разглеждания (от всички %2$s разглеждания)",
         "ToFollowingPages": "Към вътрешни страници",
         "ToFollowingPagesInline": "%s за вътрешни страници",
         "ToFollowingSiteSearches": "Външни търсения",
         "ToFollowingSiteSearchesInline": "%s вътрешни търсения",
         "XOfAllPageviews": "%s на всички показания за тази страница",
-        "XOutOfYVisits": "%s (от %s)"
+        "XOutOfYVisits": "%1$s (от %2$s)"
     }
 }

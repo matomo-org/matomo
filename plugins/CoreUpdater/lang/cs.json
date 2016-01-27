@@ -22,7 +22,7 @@
         "HelpMessageContent": "Zkontrolujte %1$s Piwik FAQ %2$s , kde jsou vysvětleny nejčastější chybi při aktualizaci. %3$s Požádejte svéo systémového administrátora - může vám pomoci s chybou, která je nejčastěji způsobena nastavením serveru MySQL.",
         "HelpMessageIntroductionWhenError": "Níže je hlavní chybová hláška. Pomůže vám zjistit příčinu, ale pokud budete potřebovat další pomoc:",
         "HelpMessageIntroductionWhenWarning": "Aktualizace proběhla v pořádku, ale byly zaznamenány problémy. Prosím přečtěte si jejich popis výše. Pro další pomoc:",
-        "HighTrafficPiwikServerEnableMaintenance": "Pokud provozujete Piwik server s velkým provozem, doporučujeme %sna chvíli zakázat sledování návštěvníků a přepnout uživatelské rozhraní do režimu údržby%s.",
+        "HighTrafficPiwikServerEnableMaintenance": "Pokud provozujete Piwik server s velkým provozem, doporučujeme %1$sna chvíli zakázat sledování návštěvníků a přepnout uživatelské rozhraní do režimu údržby%2$s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Poznámka: Některé zásuvné moduly nejsou kompatibilní s Piwikem %s. Budou zakázány při aktualizaci:",
         "InstallingTheLatestVersion": "Instaluji poslední verzi",
         "LatestBetaRelease": "Poslední beta vydání",

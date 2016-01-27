@@ -17,12 +17,12 @@
         "NoDataForActionDetails": "Ili akcija nema nijedan pregled stranica za dati period %s ili ona nije validna.",
         "OutgoingTraffic": "Odlazni saobraćaj",
         "PluginDescription": "Izveštaj o prethodnoj i sledećoj akciji za svaki URL",
-        "ShareOfAllPageviews": "Ova stranica ima %s pregleda (%s od svih pregleda)",
+        "ShareOfAllPageviews": "Ova stranica ima %1$s pregleda (%2$s od svih pregleda)",
         "ToFollowingPages": "Ka internim stranicama",
         "ToFollowingPagesInline": "%s ka drugim stranicama",
         "ToFollowingSiteSearches": "Pretraživanja sajta",
         "ToFollowingSiteSearchesInline": "%s pretraživanja sajta",
         "XOfAllPageviews": "%s od svih pregleda ove strane",
-        "XOutOfYVisits": "%s (od %s)"
+        "XOutOfYVisits": "%1$s (od %2$s)"
     }
 }

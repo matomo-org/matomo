@@ -14,8 +14,8 @@
         "OpenFullScreen": "Ouvrir en plein écran",
         "Overlay": "Analyse des pages web",
         "PluginDescription": "Visualisez vos données d'analyse comme une Superposition de votre site web. Voyez combien de fois vos utilisateurs ont cliqué sur chaque lien. Remarque : Nécessite que le composant Transitions soit activé.",
-        "RedirectUrlError": "Vous tentez d'ouvrir l'analyse des pages web pour l'URL \"%s\". %s Aucun des domaines configurés dans Piwik ne correspond à cette URL.",
-        "RedirectUrlErrorAdmin": "Vous pouvez ajouter le domaine en tant qu'URL additionnelle %sdans les paramètres%s.",
+        "RedirectUrlError": "Vous tentez d'ouvrir l'analyse des pages web pour l'URL \"%1$s\". %2$s Aucun des domaines configurés dans Piwik ne correspond à cette URL.",
+        "RedirectUrlErrorAdmin": "Vous pouvez ajouter le domaine en tant qu'URL additionnelle %1$sdans les paramètres%2$s.",
         "RedirectUrlErrorUser": "Demandez à votre administrateur d'ajouter le domaine en tant qu'URL additionnelle."
     }
 }

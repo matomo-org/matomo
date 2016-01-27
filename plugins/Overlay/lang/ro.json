@@ -13,8 +13,8 @@
         "OneClick": "1 click",
         "OpenFullScreen": "Tot ecranul (fără bara laterală)",
         "Overlay": "Acoperire Pagina",
-        "RedirectUrlError": "Încercați să deschideți Acoperire Pagina pentru URL-ul \"%s\". %s Niciunul dintre domeniile de setările Piwik nu se potrivește lcu acest link.",
-        "RedirectUrlErrorAdmin": "Puteți adăuga domeniul ca o suplimentare de URL-ul %s in setarile%s.",
+        "RedirectUrlError": "Încercați să deschideți Acoperire Pagina pentru URL-ul \"%1$s\". %2$s Niciunul dintre domeniile de setările Piwik nu se potrivește lcu acest link.",
+        "RedirectUrlErrorAdmin": "Puteți adăuga domeniul ca o suplimentare de URL-ul %1$s in setarile%2$s.",
         "RedirectUrlErrorUser": "Adresați-vă administratorului pentru a adăuga un domeniu ca un URL suplimentar."
     }
 }

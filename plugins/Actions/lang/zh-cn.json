@@ -37,7 +37,7 @@
         "OutlinkDocumentation": "离站链接指导致访客离开您的网站或域名的链接。",
         "OutlinksReportDocumentation": "本报表显示访客点击的离站链接网址的的分级列表。",
         "PagesReportDocumentation": "本报表显示被访问的网页地址。%s 表格分级归类，网址按照目录结构显示。",
-        "PageTitlesReportDocumentation": "本报表显示被访问页面的标题。%s 网页标题为 HTML %s 标签，多数浏览器显示为窗口的标题。",
+        "PageTitlesReportDocumentation": "本报表显示被访问页面的标题。%1$s 网页标题为 HTML %2$s 标签，多数浏览器显示为窗口的标题。",
         "PageUrls": "页面地址",
         "PluginDescription": "有关页面访问量和页面标题的报告。让你衡量你的内部网站的搜索引擎。自动跟踪外部链接和文件下载点击。",
         "SiteSearchCategories1": "本报表显示访客使用站内搜索时选择的分类。",

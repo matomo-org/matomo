@@ -10,8 +10,8 @@
         "VisitsByDayOfWeek": "Besøg efter ugedag",
         "WidgetByDayOfWeekDocumentation": "Denne graf viser antallet af besøg hjemmesiden har modtaget på hver dag i ugen.",
         "WidgetLocalTime": "Besøg (lokaltid)",
-        "WidgetLocalTimeDocumentation": "Diagrammet viser, hvad klokken var i %s besøgendes tidszone %s under deres besøg.",
+        "WidgetLocalTimeDocumentation": "Diagrammet viser, hvad klokken var i %1$s besøgendes tidszone %2$s under deres besøg.",
         "WidgetServerTime": "Besøg (servertid)",
-        "WidgetServerTimeDocumentation": "Diagrammet viser, hvad klokken var i %s serverens tidszone %s under besøgene."
+        "WidgetServerTimeDocumentation": "Diagrammet viser, hvad klokken var i %1$s serverens tidszone %2$s under besøgene."
     }
 }

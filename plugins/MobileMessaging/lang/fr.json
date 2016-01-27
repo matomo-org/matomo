@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Le fournisseur avec le nom '%s' est inconnu. Essayez un de ceux-ci à la place : %s.",
+        "Exception_UnknownProvider": "Le fournisseur avec le nom '%1$s' est inconnu. Essayez un de ceux-ci à la place : %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Vous pouvez ajouter plus de numéro de téléphone en accédant à",
         "MobileReport_MobileMessagingSettingsLink": "la page des paramètres mobiles",
         "MobileReport_NoPhoneNumbers": "Veuillez activer au moins un des numéros de téléphone en accédant à",
@@ -29,13 +29,13 @@
         "Settings_SMSProvider": "Fournisseur SMS",
         "Settings_SuperAdmin": "Paramètres Super Utilisateur",
         "Settings_SuspiciousPhoneNumber": "Si vous ne recevez pas de SMS, vous devriez essayer sans le zéro initial. ie. %s",
-        "Settings_UpdateOrDeleteAccount": "Vous pouvez aussi %smettre à jour%s ou %ssupprimer%s ce compte.",
+        "Settings_UpdateOrDeleteAccount": "Vous pouvez aussi %1$smettre à jour%2$s ou %3$ssupprimer%4$s ce compte.",
         "Settings_ValidatePhoneNumber": "Valider",
         "Settings_VerificationCodeJustSent": "Nous venons juste de vous envoyer un SMS à ce numéro avec un code : veuillez entrer ce code ci-dessus et cliquer sur \"Valider\".",
         "SettingsMenu": "Messagerie Mobile",
         "SMS_Content_Too_Long": "[trop long]",
         "TopLinkTooltip": "Recevez vos rapports d'analyse web dans votre boite de courriels ou sur votre téléphone mobile!",
         "TopMenu": "Rapports Email & SMS",
-        "VerificationText": "Le code est %s. Pour valider votre numéro de téléphone et recevoir les rapports SMS de Piwik veuillez copier ce code dans le formulaire accessible via Piwik > %s > %s."
+        "VerificationText": "Le code est %1$s. Pour valider votre numéro de téléphone et recevoir les rapports SMS de Piwik veuillez copier ce code dans le formulaire accessible via Piwik > %2$s > %3$s."
     }
 }

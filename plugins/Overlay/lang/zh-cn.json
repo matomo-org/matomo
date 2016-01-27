@@ -14,8 +14,8 @@
         "OpenFullScreen": "全屏(无边框)",
         "Overlay": "页面叠加",
         "PluginDescription": "请参阅您的分析数据为您的实际网站的叠加。查看有多少次你的用户点击每一个环节上。注：需要在转换插件启用。",
-        "RedirectUrlError": "您正在打开网址 \"%s\" 的页面叠加。%s 没有 Piwik 设置的域名匹配这个链接。",
-        "RedirectUrlErrorAdmin": "您可以在 %s管理设置%s 中以附加网址添加域名。",
+        "RedirectUrlError": "您正在打开网址 \"%1$s\" 的页面叠加。%2$s 没有 Piwik 设置的域名匹配这个链接。",
+        "RedirectUrlErrorAdmin": "您可以在 %1$s管理设置%2$s 中以附加网址添加域名。",
         "RedirectUrlErrorUser": "请管理员以附加网址来添加域名。"
     }
 }

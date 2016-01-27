@@ -15,7 +15,7 @@
         "EventsWithValue": "Gebeurtenissen met een waarde",
         "EventsWithValueDocumentation": "Aantal events waar een Event waarde is bepaald",
         "EventValue": "Gebeurtenis Waarde",
-        "EventValueTooltip": "Totale gebeurtenis waarde is de som van %s gebeurtenis waarden %s tussen minima van %s en maxima van %s.",
+        "EventValueTooltip": "Totale gebeurtenis waarde is de som van %1$s gebeurtenis waarden %2$s tussen minima van %3$s en maxima van %4$s.",
         "MaxValue": "Maximale waarde",
         "MaxValueDocumentation": "De maximale waarde voor deze gebeurtenis",
         "MinValue": "Minimale waarde",

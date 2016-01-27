@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Провайдер с именем '%s' неизвестен. Попробуйте один из предложенных вариантов: %s.",
+        "Exception_UnknownProvider": "Провайдер с именем '%1$s' неизвестен. Попробуйте один из предложенных вариантов: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Вы можете добавить несколько телефонных номеров получив доступ",
         "MobileReport_MobileMessagingSettingsLink": "Страница настроек Mobile Messaging",
         "MobileReport_NoPhoneNumbers": "Пожалуйста, включите хотя бы один номер телефона получив доступ",
@@ -28,12 +28,12 @@
         "Settings_SMSAPIAccount": "Управление API SMS аккаунтом",
         "Settings_SMSProvider": "SMS-гейт",
         "Settings_SuperAdmin": "Настройки суперпользователя",
-        "Settings_UpdateOrDeleteAccount": "Так же вы можете %sобновить%s или %sудалить%s этот аккаунт.",
+        "Settings_UpdateOrDeleteAccount": "Так же вы можете %1$sобновить%2$s или %3$sудалить%4$s этот аккаунт.",
         "Settings_ValidatePhoneNumber": "Проверить",
         "Settings_VerificationCodeJustSent": "Мы только что отправили SMS с кодом на ваш номер: введите его ниже и нажмите \"Подтвердить\"",
         "SettingsMenu": "СМС сообщения",
         "SMS_Content_Too_Long": "[слишком длинно]",
         "TopMenu": "Email и SMS отчёты",
-        "VerificationText": "Код %s. Для проверки номера Вашего телефона и получения SMS-отчетов Piwik, пожалуйста, скопируйте этот код в форму > %s > %s."
+        "VerificationText": "\"Код %1$s. Для проверки номера Вашего телефона и получения SMS-отчетов Piwik, пожалуйста, скопируйте этот код в форму > %2$s > %3$s."
     }
 }

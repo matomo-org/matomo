@@ -11,8 +11,8 @@
         "VisitsByDayOfWeek": "Bezoeken per dag van de week",
         "WidgetByDayOfWeekDocumentation": "Deze grafiek toont het aantal bezoeken op elke dag van de week.",
         "WidgetLocalTime": "Uur van de dag (tijdzone bezoeker)",
-        "WidgetLocalTimeDocumentation": "Deze grafiek laat zien hoe laat het was in bezoekers 'de %s tijdzones%s tijdens hun bezoeken.",
+        "WidgetLocalTimeDocumentation": "Deze grafiek laat zien hoe laat het was in bezoekers 'de %1$s tijdzones%2$s tijdens hun bezoeken.",
         "WidgetServerTime": "Uur van de dag (tijdzone server)",
-        "WidgetServerTimeDocumentation": "Deze grafiek laat zien hoe laat het was in de tijd van de%s server zone%s tijdens de bezoeken."
+        "WidgetServerTimeDocumentation": "Deze grafiek laat zien hoe laat het was in de tijd van de%1$s server zone%2$s tijdens de bezoeken."
     }
 }

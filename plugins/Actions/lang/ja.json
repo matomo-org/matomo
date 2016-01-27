@@ -38,7 +38,7 @@
         "OutlinkDocumentation": "外部リンクとはサイト内から外部のサイトへ（他のドメインへ）のリンクです。",
         "OutlinksReportDocumentation": "訪問者がクリックした外部リンクのURLを階層構造のリストで表示したリポートです。",
         "PagesReportDocumentation": "これは訪問されたページURLについてのリポートです。%s 表は階層構造になっており、URLはフォルダーの階層で表示されています。",
-        "PageTitlesReportDocumentation": "これは訪問されたページタイトルについてのリポートです。%s ページタイトルは多くのブラウザでウインドウのタイトルに表示されるHTMLの %s タグです。",
+        "PageTitlesReportDocumentation": "これは訪問されたページタイトルについてのリポートです。%1$s ページタイトルは多くのブラウザでウインドウのタイトルに表示されるHTMLの %2$s タグです。",
         "PageUrls": "ページURL",
         "PluginDescription": "ページ ビューとページのタイトルについてレポートします。内部のウェブサイトの検索エンジンを測定できます。自動的に外部リンクとファイルのダウンロードのクリックを追跡します。",
         "SiteSearchCategories1": "このレポートは、訪問者がサイトで検索した時に選択したカテゴリの一覧です。",

@@ -1,10 +1,10 @@
 {
     "API": {
-        "GenerateVisits": "Če nimate današnjih podatkov, potem lahko najprej ustvarite nekaj podatkov s %s vtičnikom. Vtičnik %s lahko omogočite in nato kliknete na 'Visitor Generator' meni v Piwik administraciji.",
-        "KeepTokenSecret": "Ta žeton je skriven, kot vaše uporabniško ime in geslo, %s ne delite ga z drugimi %s!",
+        "GenerateVisits": "Če nimate današnjih podatkov, potem lahko najprej ustvarite nekaj podatkov s %1$s vtičnikom. Vtičnik %2$s lahko omogočite in nato kliknete na 'Visitor Generator' meni v Piwik administraciji.",
+        "KeepTokenSecret": "Ta žeton je skriven, kot vaše uporabniško ime in geslo, %1$s ne delite ga z drugimi %2$s!",
         "LoadedAPIs": "Uspešno naloženih %s API-jev",
-        "MoreInformation": "Za več informacij o Piwik API-ju, si oglejte %sNavodila za uporabo Piwik API-ja %s in %s Piwik API Reference %s.",
+        "MoreInformation": "Za več informacij o Piwik API-ju, si oglejte %1$sNavodila za uporabo Piwik API-ja %2$s in %3$s Piwik API Reference %4$s.",
         "UserAuthentication": "Overitev uporabnika",
-        "UsingTokenAuth": "Če želite %s zahtevati podatke preko skripte, crontaba, itd. %s potem morate dodati parameter %s v URL API klica za overitev."
+        "UsingTokenAuth": "Če želite %1$s zahtevati podatke preko skripte, crontaba, itd. %2$s potem morate dodati parameter %3$s v URL API klica za overitev."
     }
 }

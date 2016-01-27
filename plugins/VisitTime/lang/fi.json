@@ -10,8 +10,8 @@
         "VisitsByDayOfWeek": "Käynnit viikonpäivän mukaan",
         "WidgetByDayOfWeekDocumentation": "Tämä kuvaaja näyttää käyntien määrän sivuilla viikonpäivien mukaan",
         "WidgetLocalTime": "Käyntejä (paikallinen aika)",
-        "WidgetLocalTimeDocumentation": "Tämä kuvaaja näyttää, mikä aika oli %s kävijöiden aikavyöhykkeellä %s käyntien aikana.",
+        "WidgetLocalTimeDocumentation": "Tämä kuvaaja näyttää, mikä aika oli %1$s kävijöiden aikavyöhykkeellä %2$s käyntien aikana.",
         "WidgetServerTime": "Käyntejä (palvelimen aika)",
-        "WidgetServerTimeDocumentation": "Tämä kuvaaja näyttää, mikä aika oli %s palvelimen aikavyöhykkeellä %s käyntien aikana."
+        "WidgetServerTimeDocumentation": "Tämä kuvaaja näyttää, mikä aika oli %1$s palvelimen aikavyöhykkeellä %2$s käyntien aikana."
     }
 }

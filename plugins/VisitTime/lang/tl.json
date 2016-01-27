@@ -10,8 +10,8 @@
         "VisitsByDayOfWeek": "Mga pagbisita araw-araw",
         "WidgetByDayOfWeekDocumentation": "Ipinapakita ng graph na ito ang bilang ng mga pagbisita na natanggap ng iyong website sa bawat araw sa loob ng isang linggo.",
         "WidgetLocalTime": "Mga pagbisita sa pamamagitan ng Lokal na Oras",
-        "WidgetLocalTimeDocumentation": "Ang graph na ito ay nagpapakita kung anong oras sa lugar ng iyong %s bisita %s habang sila ay nasa iyong website.",
+        "WidgetLocalTimeDocumentation": "Ang graph na ito ay nagpapakita kung anong oras sa lugar ng iyong %1$s bisita %2$s habang sila ay nasa iyong website.",
         "WidgetServerTime": "Mga pagbisita ng may oras na mula sa Server",
-        "WidgetServerTimeDocumentation": "Ang graph na ito ay nagpapakita kung anong oras ito sa %s server time zone %s habang bumibisita."
+        "WidgetServerTimeDocumentation": "Ang graph na ito ay nagpapakita kung anong oras ito sa %1$s server time zone %2$s habang bumibisita."
     }
 }

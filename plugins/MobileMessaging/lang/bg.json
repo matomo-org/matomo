@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Името на доставчика '%s' е неизвестно. Пробвайте друго име вместо: %s.",
+        "Exception_UnknownProvider": "Името на доставчика '%1$s' е неизвестно. Пробвайте друго име вместо: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Могат да бъдат добавени повече телефонни номера достъпвайки",
         "MobileReport_MobileMessagingSettingsLink": "Страницата за настройка на мобилните съобщения",
         "MobileReport_NoPhoneNumbers": "Моля, активирайте поне един телефонен номер, достъпвайки",
@@ -23,12 +23,12 @@
         "Settings_SMSProvider": "SMS провайдър",
         "Settings_SuperAdmin": "Настройки на супер потребителя",
         "Settings_SuspiciousPhoneNumber": "Ако не получите текстовото съобщение, може да опитате без водещата нула. т.е. %s",
-        "Settings_UpdateOrDeleteAccount": "%sОбновяване%s или %sизтриване%s на този профил.",
+        "Settings_UpdateOrDeleteAccount": "%1$sОбновяване%2$s или %3$sизтриване%4$s на този профил.",
         "Settings_ValidatePhoneNumber": "Валидиране",
         "Settings_VerificationCodeJustSent": "Туко-що беше изпратено кратко съобщение (SMS) до този номер с код: моля, въведете този код в горното поле и натиснете „Потвърди“.",
         "SettingsMenu": "Мобилни съобщения",
         "TopLinkTooltip": "Вземете Web Analytics Reports доставен във вашата пощенска кутия или във вашия мобилен телефон!",
         "TopMenu": "Email & SMS Доклади",
-        "VerificationText": "Кодът е %s. За да потвърдите вашия телефонен номер и да получите Piwik SMS отчети, моля, копирайте този код във формата достъпна чрез Piwik > %s > %s."
+        "VerificationText": "Кодът е %1$s. За да потвърдите вашия телефонен номер и да получите Piwik SMS отчети, моля, копирайте този код във формата достъпна чрез Piwik > %2$s > %3$s."
     }
 }

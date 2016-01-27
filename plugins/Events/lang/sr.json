@@ -15,7 +15,7 @@
         "EventsWithValue": "Događaji sa vrednošću",
         "EventsWithValueDocumentation": "Broj događaja u kojima je vrednost postavljena",
         "EventValue": "Vrednost događaja",
-        "EventValueTooltip": "Ukupna vrednost događaja je suma %s događaja sa vrednošću %s između minimum od %s i maksimum od %s",
+        "EventValueTooltip": "Ukupna vrednost događaja je suma %1$s događaja sa vrednošću %2$s između minimum od %3$s i maksimum od %4$s",
         "MaxValue": "Maksimalna vrednost",
         "MaxValueDocumentation": "Maksimalna vrednost za ovaj događaj",
         "MinValue": "Minimalna vrednost",

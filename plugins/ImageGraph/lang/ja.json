@@ -1,6 +1,6 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "列 '%s' は、このレポートで見つかりませんでした。%s のいずれかをお試しください。",
+        "ColumnOrdinateMissing": "列 '%1$s' は、このレポートで見つかりませんでした。%2$s のいずれかをお試しください。",
         "PluginDescription": "データ報告のいずれかのための美しい静的なPNGグラフの画像を生成します。"
     }
 }

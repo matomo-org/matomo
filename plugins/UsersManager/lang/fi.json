@@ -6,13 +6,11 @@
         "AnonymousUserHasViewAccess": "Huom: käyttäjällä %1$s on %2$s pääsy tälle verkkosivulle.",
         "AnonymousUserHasViewAccess2": "Analyysiraporttisi ja kävijätietosi ovat julkisia.",
         "ApplyToAllWebsites": "Päivitä kaikille sivuille",
-        "ChangeAllConfirm": "Haluatko varmasti vaihtaa käyttäjän \"%s\" oikeudet kaikille sivuille?",
         "ChangePasswordConfirm": "Salasanan vaihtaminen vaihtaa myös käyttäjän token_auth:n. Haluatko varmasti jatkaa?",
         "ClickHereToDeleteTheCookie": "Paina tästä poistaaksesi cookie",
         "ClickHereToSetTheCookieOnDomain": "Paina tästä luodaksesi cookie sivulle %s",
         "ConfirmGrantSuperUserAccess": "Haluatko varmasti antaa käyttäjälle '%s' Superkäyttäjäoikeudet? Varoitus: käyttäjä saa pääsyn kaikille verkkosivuille ja voi suorittaa hallinnollisia toimenpiteitä.",
         "ConfirmProhibitMySuperUserAccess": "%s, haluatko varmasti poistaa omat Superkäyttäjäoikeutesi? Menetät kaikki oikeudet ja pääsyn kaikille verkkosivuille sekä kirjaudut ulos Piwikistä.",
-        "ConfirmProhibitOtherUsersSuperUserAccess": "Haluatko varmasti poistaa Superkäyttäjäoikeudet käyttäjältä '%s'? Käyttäjä menettää kaikki oikeudet ja pääsyn kaikille verkkosivuille. Muista asettaa oikeudet tarvittaville verkkosivuille jälkikäteen, mikäli tarpeellista.",
         "DeleteConfirm": "Haluatko varmasti poistaa käyttäjän %s?",
         "Email": "Sähköposti",
         "EmailYourAdministrator": "%1$sLähetä ylläpitäjällesi sähköpostia ongelmasta%2$s.",
@@ -23,9 +21,7 @@
         "ExceptionEditAnonymous": "Anonyymikäyttäjää ei voi muokata tai poistaa. Se on Piwikin sisäinen tunnus käyttäjälle, joka ei ole kirjautunut sisään. Voit esimerkiksi julkaista tilastoja kaikille sallimalla anonyymikäyttäjälle katsomisoikeuden.",
         "ExceptionEmailExists": "Käyttäjä sähköpostilla '%s' on jo olemassa.",
         "ExceptionInvalidEmail": "Sähköposti ei ole kelvollinen.",
-        "ExceptionInvalidLoginFormat": "Tunnus täytyy olla %1$s-%2$s merkkiä pitkä ja saa siältää vain kirjaimia, numeroita ja merkkejä '_', '-' ja '.'",
         "ExceptionInvalidPassword": "Salasanan pituuden täytyy olla %1$s ja %2$s välillä.",
-        "ExceptionLoginExists": "Tunnus '%s' on jo olemassa.",
         "ExceptionPasswordMD5HashExpected": "UserManager.getTokenAuth haluaa MD5-tiivisteen salasanastasi (32 merkkiä pitkä merkkijono). Kutsu md5()-funktiota salasanallesi ennen kutsumista.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Superkäyttäjäoikeuksien poistaminen käyttäjältä '%s' ei ole mahdollista.",
         "ExceptionSuperUserAccess": "Tällä käyttäjällä on jo Superkäyttäjäoikeudet ja oikeudet muokata kaikkia verkkosivuja Piwikissä. Voit poistaa Superkäyttäjäoikeudet tältä käyttäjältä ja yrittää uudelleen.",
@@ -36,7 +32,6 @@
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Jos haluat vaihtaa salasanan, kirjoita uusi. Muuten jätä tyhjäksi.",
         "InjectedHostCannotChangePwd": "Olet sivulla tällä hetkellä tuntemattoman isännän kautta (%1$s). Et voi vaihtaa salasanaasi ennen kuin tämä ongelma on korjattu.",
         "LastSeen": "Nähty viimeeksi",
-        "MainDescription": "Määrittele, millä käyttäjillä on oikeus verkkosivulle. Voit asettaa oikeuksia kaikille sivuille yhdellä kertaa.",
         "ManageAccess": "Hallitse oikeuksia",
         "MenuAnonymousUserSettings": "Anonyymin käyttäjän asetukset",
         "MenuUsers": "Käyttäjät",
@@ -59,7 +54,7 @@
         "UsersManagementMainDescription": "Lisää uusia käyttäjiä tai päivitä olemassaolevia. Voit asettaa oikeudet alla.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kun käyttäjä ei ole kirjautunut sisään ja käy Piwikissä, heillä on pääsy",
         "YourUsernameCannotBeChanged": "Käyttäjätunnusta ei voi vaihtaa.",
-        "YourVisitsAreIgnoredOnDomain": "%sPiwik ei seuraa käyntejäsi sivulla %s %s (Piwikin cookie löytyi selaimestasi).",
-        "YourVisitsAreNotIgnored": "%sPiwik seuraa käyntejäsi%s (Piwikin cookieta ei löytynyt selaimestasi)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sPiwik ei seuraa käyntejäsi sivulla %2$s %3$s (Piwikin cookie löytyi selaimestasi).",
+        "YourVisitsAreNotIgnored": "%1$sPiwik seuraa käyntejäsi%2$s (Piwikin cookieta ei löytynyt selaimestasi)."
     }
 }

@@ -15,7 +15,7 @@
         "EventsWithValue": "値を持つイベント",
         "EventsWithValueDocumentation": "イベントの値が設定されたイベント数",
         "EventValue": "イベントの値",
-        "EventValueTooltip": "総イベント値は %s 件のイベント値の合計です。 %s 最小値は %s 、最大値は %s です 。",
+        "EventValueTooltip": "総イベント値は %1$s 件のイベント値の合計です。 %2$s 最小値は %3$s 、最大値は %4$s です 。",
         "MaxValue": "最大値",
         "MaxValueDocumentation": "このイベントの最大値",
         "MinValue": "最小値",

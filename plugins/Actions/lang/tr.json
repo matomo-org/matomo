@@ -37,7 +37,7 @@
         "OutlinkDocumentation": "Bu dış bağlantı linki ziyaretçilerinizin sitenizden uzaklaştığı diğer alan adlarını kapsar.",
         "OutlinksReportDocumentation": "Bu rapor, ziyaretçilerin tıkladıkları dış linklerin hiyerarşik listesini gösterir.",
         "PagesReportDocumentation": "Bu rapor ziyaret edilen sayfa URL'leri hakkında bilgi içerir. %s Tablo hiyerarşik olarak düzenlenmiştir, URL'ler klasör yapısı ile görüntülenmektedir.",
-        "PageTitlesReportDocumentation": "Bu rapor ziyaret edilen sayfaların başlıkları ile ilgili bilgi içerir. %s Sayfa başlığı, birçok tarayıcının pencere başlığında gösterdiği HTML %s imidir.",
+        "PageTitlesReportDocumentation": "Bu rapor ziyaret edilen sayfaların başlıkları ile ilgili bilgi içerir. %1$s Sayfa başlığı, birçok tarayıcının pencere başlığında gösterdiği HTML %2$s imidir.",
         "PageUrls": "Sayfa Adresleri",
         "SiteSearchCategories1": "Bu rapor, ziyaretçilerin sitenizde arama yaptıklarında seçtikleri kategorileri listelemektedir.",
         "SiteSearchCategories2": "Örnek olarak, E-Ticaret websitelerinde tipik bir \"Kategori\" seçimi vardır böylece ziyaretçiler aramalarını belirli bir kategori içindeki tüm ürünler ile kısıtlayabilirler.",

@@ -1,12 +1,12 @@
 {
     "API": {
-        "GenerateVisits": "Ukoliko nema podataka za danas, onda ih prvo generišite pomoću dodatka %s. Aktivirajte dodatak %s a onda kliknite na 'Generator posetilaca' na stranici za Piwik administraciju.",
-        "KeepTokenSecret": "token_auth je poverljivi podatak poput vašeg korisničkog imena i lozinke, stoga ga %s nemojte nikome pokazivati%s!",
+        "GenerateVisits": "Ukoliko nema podataka za danas, onda ih prvo generišite pomoću dodatka %1$s. Aktivirajte dodatak %2$s a onda kliknite na 'Generator posetilaca' na stranici za Piwik administraciju.",
+        "KeepTokenSecret": "token_auth je poverljivi podatak poput vašeg korisničkog imena i lozinke, stoga ga %1$s nemojte nikome pokazivati%2$s!",
         "LoadedAPIs": "Uspešno učitano API-ja: %s",
-        "MoreInformation": "Za više informacija o Piwik API-ju molimo vas da pogledate %s uvod u Piwik API %s i %s Piwik API referenc listu %s.",
+        "MoreInformation": "Za više informacija o Piwik API-ju molimo vas da pogledate %1$s uvod u Piwik API %2$s i %3$s Piwik API referenc listu %4$s.",
         "PluginDescription": "Svi podaci su u Piwik-u dostupni preko jednostavnih API-ja. Ovaj dodatak je ulazna tačka za veb servis koji možete pozivati kako biste dobili vaše analitičke podatke u XML, JSON, PHP, CSV i drugim formatima.",
         "TopLinkTooltip": "Pristupite analitičkim podacima iz vašeg programa pomoću jednostavnog API-ja u json-u, xml-u itd.",
         "UserAuthentication": "Autentifikacija korisnika",
-        "UsingTokenAuth": "Ukoliko želite da %s dođete do podataka putem skripta, crontaba i slično %s potrebno je da dodate parametar %s API pozivima."
+        "UsingTokenAuth": "Ukoliko želite da %1$s dođete do podataka putem skripta, crontaba i slično %2$s potrebno je da dodate parametar %3$s API pozivima."
     }
 }

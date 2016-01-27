@@ -6,13 +6,11 @@
         "AnonymousUserHasViewAccess": "Tandaan: ang %1$s user ay may %2$s na access sa website na ito",
         "AnonymousUserHasViewAccess2": "Ang iyong ulat na pang analytics at ang mga impormasyon ng iyong mga bisita ay makikita ng publiko.",
         "ApplyToAllWebsites": "Mai-aapply sa lahat ng mga website",
-        "ChangeAllConfirm": "Sigurado ka bang gusto mong baguhin ang mga permission sa '%s' sa lahat ng website?",
         "ChangePasswordConfirm": "Kasamang ring mapapalitan ang user's token_auth kapag ikaw ay nagpalita ng password. Gusto mo ba talang ituloy ito?",
         "ClickHereToDeleteTheCookie": "Pindutin dito upang burahin ang cookie at matala ng Piwik ang iyong pagbisita.",
         "ClickHereToSetTheCookieOnDomain": "I-click dito upang magtakda ng cookie na mag buibukod sa iyong mga pagbisita sa mga website na sinusubaybayan ng Piwik sa %s.",
         "ConfirmGrantSuperUserAccess": "Nais mo bang bigyan '%s' Super User access? Babala: ang user ay mag kakaroon ng access sa lahat ng websites at makakagawa ng pang administratibong gawain.",
         "ConfirmProhibitMySuperUserAccess": "%s gusto mo bang alisin ang iyong Super User access? Maaring mawala lahat ang iyong permiso at access sa lahat ng websites at ikaw ay malala log-out sa Piwik.",
-        "ConfirmProhibitOtherUsersSuperUserAccess": "Gusto mo ba talagang alisin ang Super User access mula kay '%s'? Ang user na ito ay mawawala ang lahat ng permiso at access sa lahat ng websites. Tiyakin na i-set ang mga permiso sa mga website na kailagan at kung itoy kinakailangan.",
         "DeleteConfirm": "Sigurado ka bang gusto mong tanggalin ang user %s?",
         "Email": "Email",
         "EmailYourAdministrator": "%1$s I-e-mail sa iyong administrator tungkol sa problemang ito %2$s.",
@@ -24,7 +22,6 @@
         "ExceptionEmailExists": "Ang email na '%s' para sa user na ito ay may iba nang gumagamit.",
         "ExceptionInvalidEmail": "Ang e-mail ay walang wastong format.",
         "ExceptionInvalidPassword": "Ang haba ng password ay dapat nasa pagitan ng %1$s at %2$s na character.",
-        "ExceptionLoginExists": "Meron ng tulad nitong login '%s'.",
         "ExceptionPasswordMD5HashExpected": "Ang UserManager.get Token Auth ay kinikilala lamang ang MD5-hashed password (32 chars long string). Mangyaring gamitin ang md5() function sa password bago gamitin ang method na ito.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Ang pag-alis sa Super User access mula sa user '%s' ay hindi posible.",
         "ExceptionSuperUserAccess": "Ang user na ito ay mayroong Super User access at meroong permiso na e-access at magbago sa lahat ng website na nasa Piwik. Maari mong alisin ang Super User access mula sa user na ito at subukang muli.",
@@ -35,7 +32,6 @@
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Kung nais mong baguhin ang iyong passoword mag type ng bago. Kung hindi man iwan itong blangko.",
         "InjectedHostCannotChangePwd": "Ikaw ay kasalukuyang bumibisita sa isang hindi kilalang host (%1$s). Hindi mo maaaring baguhin ang iyong password hanggat hindi naayos ang problemang ito.",
         "LastSeen": "Huling nakita",
-        "MainDescription": "Magpasya kung aling mga gumagamit ay may na Piwik access sa iyong mga website. Maaari mong e-set ang mga permiso sa lahat ng website ng sabay-sabay.",
         "ManageAccess": "Pamahalaan ang access",
         "MenuAnonymousUserSettings": "Mga settings ng anonymous na user",
         "MenuUsers": "Users",
@@ -58,7 +54,7 @@
         "UsersManagementMainDescription": "Lumikha ng mga bagong user o i-update ang mga mayroon nang user. Pagkatapos ay maaari mong itakda ang kanilang mga permiso sa itaas.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kung ang gumagamit ay hindi naka log-in at bumisita sa Piwik kailangan nilang mag-access",
         "YourUsernameCannotBeChanged": "Hindi maaaring mabago ang iyong username.",
-        "YourVisitsAreIgnoredOnDomain": "%s Ang iyong bisita ay hindi na-ignore ng Piwik %s %s (ang Piwik ignore cookie ay hindi nakita sa iyong browser).",
-        "YourVisitsAreNotIgnored": "%s Ang iyong bisita ay hindi na-ignore ng Piwik%s (ang Piwik ignore cookie ay hindi nakita sa iyong browser)."
+        "YourVisitsAreIgnoredOnDomain": "%1$s Ang iyong bisita ay hindi na-ignore ng Piwik %2$s %3$s (ang Piwik ignore cookie ay hindi nakita sa iyong browser).",
+        "YourVisitsAreNotIgnored": "%1$s Ang iyong bisita ay hindi na-ignore ng Piwik%2$s (ang Piwik ignore cookie ay hindi nakita sa iyong browser)."
     }
 }

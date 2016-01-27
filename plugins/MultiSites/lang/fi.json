@@ -3,6 +3,6 @@
         "Evolution": "Kehitys",
         "LoadingWebsites": "Lataa verkkosivuja",
         "TopLinkTooltip": "Vertaile eri sivujen tilastoja.",
-        "Pagination": "%s - %s %s:sta."
+        "Pagination": "%1$s - %2$s %3$s:sta."
     }
 }

@@ -4,6 +4,6 @@
         "LoadingWebsites": "ウェブサイトをロード中",
         "PluginDescription": "この便利な「すべてのウェブサイト」ダッシュボードで、すべてのウェブサイトとアプリケーションを見て、比較してください。",
         "TopLinkTooltip": "あなたの全ウェブサイトに対するウェブ解析統計情報を比較してください。",
-        "Pagination": "%s の %s - %s"
+        "Pagination": "%1$s の %2$s - %3$s"
     }
 }

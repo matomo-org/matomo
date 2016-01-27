@@ -23,6 +23,7 @@
         "JavaScriptTracking": "Spårning med JavaScript",
         "JSTracking_CampaignKwdParam": "Parameter för nyckelorden i kampanjen",
         "JSTracking_CampaignNameParam": "villkor för kampanjnamn",
+        "JSTracking_CodeNoteBeforeClosingHead": "Säkerställ att denna kod finns på varje sida på din webbplats. Vi rekommenderar att klistra in koden alldeles innan den stängande %1$s-taggen.",
         "JSTracking_CustomCampaignQueryParam": "Använd den egna förfrågan för parameterns namn för kampanjnamn och nyckelord",
         "JSTracking_CustomCampaignQueryParamDesc": "Observera: %1$sPiwik kommer automatiskt upptäcka parametrar för Google Analytics. %2$s",
         "JSTracking_DisableCookies": "Inaktivera spårnings cookies",
@@ -71,6 +72,7 @@
         "SendPluginUpdateCommunication": "Skicka e-post när pluginuppdateringar finns tillgängliga",
         "SendPluginUpdateCommunicationHelp": "Ett e-postmeddelande kommer att skickas till Administratörerna när det finns en ny uppdatering för ett tillägg",
         "StableReleases": "Om Piwik är en viktig del av dina affärer, rekommenderar vi dig att använda den senaste versionen. Om du använder den senaste beta versionen och hittar en bugg eller har ett förslag, var vänlig att gå in %shär%s.",
+        "LtsReleases": "LTS-versioner (långtidstöd) får endast säkerhet- och buggfixar.",
         "SystemPluginSettings": "Plugininställningar",
         "TrackAGoal": "Monitorera ett mål",
         "TrackingCode": "Spårningskod",
@@ -84,6 +86,7 @@
         "YouAreOptedOut": "Du är just nu exkluderad.",
         "YouMayOptOut": "Du kan välja att inte ha ett unikt identifieringsnummer i en cookie tilldelad till din dator för att undvika analys av uppgifter som samlats in på denna webbplats.",
         "YouMayOptOutBis": "För att göra det valet, vänligen klicka nedan för att lagra en cookie för exkludering.",
-        "OptingYouOut": "Undantar dig, vänligen vänta..."
+        "OptingYouOut": "Undantar dig, vänligen vänta...",
+        "ProtocolNotDetectedCorrectly": "Du använder just nu Piwik över en säker SSL-anslutning (via HTTPS), men Piwik kan bara upptäcka en osäker anslutning på servern."
     }
 }

@@ -22,7 +22,7 @@
         "HelpMessageContent": "Sjekk %1$s Piwik FAQ-en %2$s som prøver å forklare de mest vanlige feilene under oppdatering. %3$s Spør din systemadministrator – vedkommende kan kanskje hjelpe deg med feilen som antakelig har sammenheng med din tjener eller MySQL-installasjon.",
         "HelpMessageIntroductionWhenError": "Over vises feilmeldingen. Den bør hjelpe deg med å forklare årsaken, men hvis du trenger mer hjelp, vennligst:",
         "HelpMessageIntroductionWhenWarning": "Oppdateringen er fullført, men det var noen småproblemer under prossessen. Les beskrivelsene over for mer informasjon. For videre hjelp:",
-        "HighTrafficPiwikServerEnableMaintenance": "Hvis du administrerer en Piwik-tjener for et nettsted med høy trafikk, anbefaler vi at du %smidlertidig slår av sporing av besøkende og setter Piwik-brukergrensesnittet i vedlikeholdsmodus%s.",
+        "HighTrafficPiwikServerEnableMaintenance": "Hvis du administrerer en Piwik-tjener for et nettsted med høy trafikk, anbefaler vi at du %1$smidlertidig slår av sporing av besøkende og setter Piwik-brukergrensesnittet i vedlikeholdsmodus%2$s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Merk: Noen tillegg er ikke kompatible med Piwik %s. De blir deaktivert når du oppgraderer:",
         "InstallingTheLatestVersion": "Installerer siste versjon.",
         "LatestBetaRelease": "Siste beta-versjon",

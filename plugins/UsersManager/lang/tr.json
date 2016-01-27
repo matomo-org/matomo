@@ -4,7 +4,6 @@
         "Alias": "Diğer Ad",
         "AllWebsites": "Tüm Websiteler",
         "ApplyToAllWebsites": "Tüm websitelere uygula",
-        "ChangeAllConfirm": "Tüm websitelerin '%s' izinlerini değiştirmektesiniz, emin misiniz?",
         "ClickHereToDeleteTheCookie": "Çerezleri silmek ve sizin ziyaretlerinizi takip etmek için burayi tıklayınız",
         "DeleteConfirm": "%s kullanıcısını silmekten emin misiniz?",
         "Email": "Eposta",
@@ -30,7 +29,7 @@
         "UsersManagement": "Kullanıcı Yönetimleri",
         "UsersManagementMainDescription": "Yeni kullanıcı yaratın yada var olan kullanıcıyı güncelleyin. Yukaridaki izinleri ayarlayabilirsiniz.",
         "YourUsernameCannotBeChanged": "Kullanıcı adınız değiştirilemez.",
-        "YourVisitsAreIgnoredOnDomain": "%sSizin ziyaretleriniz Piwik tarafından %s hariç tutulmuyor%s (Piwik tarayınızdaki çerezleri bulamamiştir. O nedenle hariç tutulmuyorsunuz).",
-        "YourVisitsAreNotIgnored": "%sSizin ziyaretleriniz Piwik tarafından hariç tutulmuyor%s (Piwik tarayınızdaki çerezleri bulamamiştir. O nedenle hariç tutulmuyorsunuz)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sSizin ziyaretleriniz Piwik tarafından %2$s hariç tutulmuyor%3$s (Piwik tarayınızdaki çerezleri bulamamiştir. O nedenle hariç tutulmuyorsunuz).",
+        "YourVisitsAreNotIgnored": "%1$sSizin ziyaretleriniz Piwik tarafından hariç tutulmuyor%2$s (Piwik tarayınızdaki çerezleri bulamamiştir. O nedenle hariç tutulmuyorsunuz)."
     }
 }

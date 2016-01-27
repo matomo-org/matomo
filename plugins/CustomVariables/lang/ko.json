@@ -3,7 +3,7 @@
         "ColumnCustomVariableName": "맞춤 변수 이름",
         "ColumnCustomVariableValue": "맞춤 변수 값",
         "CustomVariables": "맞춤 변수",
-        "CustomVariablesReportDocumentation": "이 보고서는 맞춤 변수에 대한 정보를 포함합니다. 변수 이름을 클릭하여 값의 분포를 확인할 수 있습니다. %s 맞춤 변수에 대한 자세한 내용은 %spiwik.org의 맞춤 변수 설명서%s를 참조하세요.",
+        "CustomVariablesReportDocumentation": "이 보고서는 맞춤 변수에 대한 정보를 포함합니다. 변수 이름을 클릭하여 값의 분포를 확인할 수 있습니다. %1$s 맞춤 변수에 대한 자세한 내용은 %2$spiwik.org의 맞춤 변수 설명서%3$s를 참조하세요.",
         "ScopePage": "페이지 범위",
         "ScopeVisit": "방문 범위"
     }

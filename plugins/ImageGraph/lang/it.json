@@ -1,6 +1,6 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "La colonna '%s' non è stato trovata in questo report. Prova una di queste %s",
+        "ColumnOrdinateMissing": "La colonna '%1$s' non è stato trovata in questo report. Prova una di queste %2$s",
         "PluginDescription": "Genera delle belle immagini statiche PNG di grafici per ognuno dei tuoi report dati."
     }
 }

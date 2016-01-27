@@ -15,7 +15,7 @@
         "EventsWithValue": "Händelser med ett värde",
         "EventsWithValueDocumentation": "Antal händelser där en händelses värde fastställdes",
         "EventValue": "Händelse Värde",
-        "EventValueTooltip": "Totalt händelsevärde är summan av %shändelsevärden%s mellan minst %s och högst %s.",
+        "EventValueTooltip": "Totalt händelsevärde är summan av %1$shändelsevärden%2$s mellan minst %3$s och högst %4$s.",
         "MaxValue": "Högsta värde",
         "MaxValueDocumentation": "Det maximala värdet för denna händelse",
         "MinValue": "Minsta värde",

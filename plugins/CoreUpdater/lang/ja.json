@@ -22,7 +22,6 @@
         "HelpMessageContent": "アップグレードの間、最も一般的なエラーを説明している %1$s Piwik FAQ %2$sをチェックしてください。%3$s システム管理者にお尋ねください － 彼らはたいていの場合、サーバや MySQL のセットアップに関係するエラーについて、あなたの手助けができるでしょう。",
         "HelpMessageIntroductionWhenError": "上記はコアのエラーメッセージです。 原因の説明に役立つはずですが、さらなるヘルプが必要であればこちらをどうぞ：",
         "HelpMessageIntroductionWhenWarning": "アップグレードは正常に完了しましたが、処理中に問題がありました。 詳細は上記の説明をお読みください。 さらなるヘルプ：",
-        "HighTrafficPiwikServerEnableMaintenance": "高トラフィックの Piwik サーバーを管理する場合、 %smomentarily disable visitor Tracking and put the Piwik User Interface in maintenance mode%s をお勧めします。",
         "IncompatbilePluginsWillBeDisabledInfo": "注 : 一部のプラグインは、Piwik %s に互換性がありません。アップグレード時に、これらのプラグインは無効になります。",
         "InstallingTheLatestVersion": "最新バージョンをインストール中",
         "LatestBetaRelease": "最新のベータ版 リリース",

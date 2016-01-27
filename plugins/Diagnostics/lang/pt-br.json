@@ -1,0 +1,8 @@
+{
+    "Diagnostics": {
+        "ConfigFileTitle": "Arquivo de configuração",
+        "ConfigFileIntroduction": "Aqui você pode ver a configuração do Piwik. Se você estiver executando Piwik em um ambiente de balanceamento de carga a página pode ser diferente, dependendo de qual servidor esta página é carregada. Linhas com uma cor de fundo diferente são alterados os valores de configuração que são especificadas por exemplo, no arquivo %1$s.",
+        "HideUnchanged": "Se você quiser ver apenas valores alterados você pode %1$socultar todos os valores inalterados%2$s.",
+        "Sections": "Seções"
+    }
+}

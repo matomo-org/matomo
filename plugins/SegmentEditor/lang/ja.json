@@ -23,7 +23,7 @@
         "ThisSegmentIsVisibleTo": "このセグメント設定の表示：",
         "VisibleToAllUsers": "すべてのユーザー",
         "VisibleToMe": "自分",
-        "YouMayChangeSetting": "別の方法としては設定ファイル (%s) で設定を変更するか、このセグメント '%s' を選択し編集することができます。",
+        "YouMayChangeSetting": "別の方法としては設定ファイル (%1$s) で設定を変更するか、このセグメント '%2$s' を選択し編集することができます。",
         "YouMustBeLoggedInToCreateSegments": "ビジターのカスタムセグメントの作成と編集にはログインが必要です。",
         "YouDontHaveAccessToCreateSegments": "セグメントの作成および編集に必要なレベルのアクセス権限を持っていません。",
         "AddingSegmentForAllWebsitesDisabled": "全ウェブサイトに対するセグメントは追加できませんでした。",
