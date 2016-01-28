@@ -15,6 +15,7 @@ use Piwik\Config;
  * links for differnt landing pages etc.
  *
  * @api
+ * @since 2.16.0
  */
 class Advertising
 {

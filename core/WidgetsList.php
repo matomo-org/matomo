@@ -147,7 +147,7 @@ class WidgetsList extends Singleton
             'Goals_Goals',
             'Goals_Ecommerce',
             '_others_',
-            'Example Widgets',
+            'About Piwik',
             'ExamplePlugin_exampleWidgets',
         );
 

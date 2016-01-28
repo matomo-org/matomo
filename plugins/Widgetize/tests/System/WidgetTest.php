@@ -13,6 +13,7 @@ use Piwik\Http\ControllerResolver;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals;
 use Piwik\Plugins\Widgetize\tests\Fixtures\WidgetizeFixture;
+use Piwik\Tests\Framework\Mock\PiwikPro\Advertising;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\WidgetsList;
 
@@ -835,9 +836,30 @@ class WidgetTest extends SystemTestCase
                             'action' => 'rssChangelog',
                         ),
                 ),
+                array (
+                    'name' => 'Piwik PRO Blog',
+                    'uniqueId' => 'widgetPiwikProrssPiwikPro',
+                    'parameters' =>
+                        array (
+                            'module' => 'PiwikPro',
+                            'action' => 'rssPiwikPro',
+                        ),
+                )
         );
     }
 
+    /**
+     * Use this method to return custom container configuration that you want to apply for the tests.
+     * This configuration will override Fixture config.
+     *
+     * @return array
+     */
+    public static function provideContainerConfigBeforeClass()
+    {
+        return array(
+            'Piwik\PiwikPro\Advertising' => new Advertising()
+        );
+    }
 }
 
 
