@@ -562,6 +562,10 @@ pivot_by_filter_enable_fetch_by_segment = 0
 ; on a per-request basis;
 pivot_by_filter_default_column_limit = 10
 
+; If set to 0 it will disable Piwik Pro advertisements in some places. For example in the installation screen, the
+; Piwik Pro Ad widget will be removed etc.
+piwik_pro_ads_enabled = 1
+
 [Tracker]
 
 ; Piwik uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Piwik,
