@@ -67,7 +67,7 @@
                         "7"=>array("R"=>224,"G"=>176,"B"=>46,"Alpha"=>100));
 
    /* Class creator */
-   function pData()
+   function __construct()
     {
      $this->Data = "";
      $this->Data["XAxisDisplay"]	= AXIS_FORMAT_DEFAULT;
