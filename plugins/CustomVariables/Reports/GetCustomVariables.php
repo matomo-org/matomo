@@ -36,9 +36,10 @@ class GetCustomVariables extends Base
         $view->requestConfig->filter_sort_column = 'nb_actions';
         $view->requestConfig->filter_sort_order  = 'desc';
 
-        $view->config->filters[] = function (DataTable $table) use ($view) {
+        $that = $this;
+        $view->config->filters[] = function (DataTable $table) use ($view, $that) {
             if($this->isReportContainsUnsetVisitsColumns($table)) {
-                $message = $this->getFooterMessageExplanationMissingMetrics();
+                $message = $that->getFooterMessageExplanationMissingMetrics();
                 $view->config->show_footer_message = $message;
             }
         };
