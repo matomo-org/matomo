@@ -10,7 +10,7 @@
 		<entry_sum_visit_length>2161</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<avg_time_on_page>420</avg_time_on_page>
+		<avg_time_on_page>630</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>25%</exit_rate>
 		<subtable>
@@ -25,7 +25,7 @@
 				<entry_nb_actions>8</entry_nb_actions>
 				<entry_sum_visit_length>2161</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
-				<avg_time_on_page>540</avg_time_on_page>
+				<avg_time_on_page>1080</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>http://example.org/foo/bar.html</url>
@@ -36,7 +36,7 @@
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>720</sum_time_spent>
-				<avg_time_on_page>360</avg_time_on_page>
+				<avg_time_on_page>720</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>https://www.example.org/foo/bar2.html</url>
