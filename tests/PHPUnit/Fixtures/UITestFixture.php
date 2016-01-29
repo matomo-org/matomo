@@ -254,6 +254,7 @@ class UITestFixture extends SqlDump
                 || $widget['uniqueId'] == 'widgetReferrersgetKeywordsForPage'
                 || $widget['uniqueId'] == 'widgetLivegetVisitorProfilePopup'
                 || $widget['uniqueId'] == 'widgetActionsgetPageTitles'
+                || $widget['uniqueId'] == 'widgetPiwikProrssPiwikPro'
                 || strpos($widget['uniqueId'], 'widgetExample') === 0
             ) {
                 continue;

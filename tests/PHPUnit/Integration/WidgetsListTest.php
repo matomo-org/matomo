@@ -46,7 +46,7 @@ class WidgetsListTest extends IntegrationTestCase
             'Referrers_Referrers'          => 7,
             'Goals_Goals'                  => 1,
             'SEO'                          => 2,
-            'About Piwik'                  => 5,
+            'About Piwik'                  => 6,
             'DevicesDetection_DevicesDetection' => 8,
             'Insights_WidgetCategory' => 2
         );

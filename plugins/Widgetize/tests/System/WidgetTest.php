@@ -843,6 +843,15 @@ class WidgetTest extends SystemTestCase
                             'module' => 'PiwikPro',
                             'action' => 'rssPiwikPro',
                         ),
+                ),
+                array (
+                    'name' => 'Piwik PRO: Advanced Analytics & Services',
+                    'uniqueId' => 'widgetPiwikPropromoPiwikProPiwikPro',
+                    'parameters' =>
+                        array (
+                            'module' => 'PiwikPro',
+                            'action' => 'promoPiwikPro',
+                        ),
                 )
         );
     }

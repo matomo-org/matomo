@@ -6,12 +6,12 @@
                    <div class="columnDocumentation">
                        <div class="columnDocumentationTitle">
                            <span class="icon-help"></span>
-                           {{ properties.translations[column]|default(column)|raw }}
+                           {{ properties.translations[column]|default(column)|rawSafeDecoded }}
                        </div>
                        {{ properties.metrics_documentation[column]|raw }}
                    </div>
                {% endif %}
-               <div id="thDIV" class="thDIV">{{ properties.translations[column]|default(column)|raw }}</div>
+               <div id="thDIV" class="thDIV">{{ properties.translations[column]|default(column)|rawSafeDecoded }}</div>
            </th>
        {% endfor %}
    </tr>
